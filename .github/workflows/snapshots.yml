@@ -1,0 +1,23 @@
+name: Snapshot freshness
+
+# Rebuilds the bundled data snapshots from their sources every week and fails
+# (with a diff report in the log) when an upstream source changed, so changes
+# to MassGIS layers are noticed quickly.
+
+on:
+  schedule:
+    - cron: "23 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo xtask build-snapshots --check
+      - run: cargo xtask validate-content

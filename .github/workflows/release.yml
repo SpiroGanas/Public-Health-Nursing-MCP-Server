@@ -1,0 +1,78 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  image:
+    name: Multi-architecture image, SBOM, scan, signature
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Image name (lowercase)
+        run: echo "IMAGE=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      - id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: VERSION=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: SBOM (CycloneDX)
+        uses: anchore/sbom-action@v0
+        with:
+          image: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+      - name: Vulnerability scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+      - uses: sigstore/cosign-installer@v3
+      - name: Sign image (keyless)
+        run: cosign sign --yes "${IMAGE}@${{ steps.build.outputs.digest }}"
+      - name: Offline image tarballs for networks that block GHCR
+        run: |
+          for arch in amd64 arm64; do
+            docker pull --platform "linux/${arch}" "${IMAGE}@${{ steps.build.outputs.digest }}"
+            docker tag "${IMAGE}@${{ steps.build.outputs.digest }}" "phn-mcp-server:${GITHUB_REF_NAME}-${arch}"
+            docker save "phn-mcp-server:${GITHUB_REF_NAME}-${arch}" | gzip > "phn-mcp-server-${GITHUB_REF_NAME}-${arch}.tar.gz"
+          done
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            sbom.cdx.json
+            phn-mcp-server-*.tar.gz
+          generate_release_notes: true

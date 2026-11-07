@@ -91,3 +91,26 @@ pub const TOOLS: &[ToolMeta] = &[
 pub fn tool(name: &str) -> Option<&'static ToolMeta> {
     TOOLS.iter().find(|t| t.name == name)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn every_tool_is_documented() {
+        let docs = include_str!("../../../docs/tools.md");
+        let readme = include_str!("../../../README.md");
+        for t in TOOLS {
+            assert!(
+                docs.contains(&format!("### `{}` ({}", t.name, t.plan_id)),
+                "{} missing from docs/tools.md",
+                t.name
+            );
+            assert!(
+                readme.contains(&format!("`{}`", t.name)),
+                "{} missing from README",
+                t.name
+            );
+        }
+    }
+}

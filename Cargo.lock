@@ -4858,6 +4858,7 @@ dependencies = [
  "geo",
  "hex",
  "jsonschema",
+ "phn-content",
  "phn-core",
  "reqwest",
  "serde",

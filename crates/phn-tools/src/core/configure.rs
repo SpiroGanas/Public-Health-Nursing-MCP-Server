@@ -29,7 +29,7 @@ pub struct ConfigureJurisdictionArgs {
     pub preferred_languages: Option<Vec<String>>,
     /// Role profile: school_nurse, cd_nurse, phn_leader, preparedness, or "none".
     pub profile: Option<String>,
-    /// Toolsets to enable (overrides the profile). An empty list clears it.
+    /// Toolsets to enable (overrides the profile), or ["all"]. An empty list clears it.
     pub toolsets: Option<Vec<String>>,
     /// Letterhead for exported documents. `logo_path` is relative to /data.
     pub letterhead: Option<Letterhead>,
@@ -174,11 +174,9 @@ pub fn configure_jurisdiction(
         changed.push("profile".into());
     }
     if let Some(list) = &args.toolsets {
-        let parsed = list
-            .iter()
-            .map(|t| t.parse::<Toolset>().map_err(PhnError::InvalidInput))
-            .collect::<Result<Vec<_>>>()?;
-        s.toolsets = (!parsed.is_empty()).then_some(parsed);
+        let parsed = phn_core::toolsets::parse_toolset_list(&list.join(","))
+            .map_err(PhnError::InvalidInput)?;
+        s.toolsets = (!parsed.is_empty()).then(|| parsed.into_iter().collect());
         changed.push("toolsets".into());
     }
     if let Some(lh) = &args.letterhead {
