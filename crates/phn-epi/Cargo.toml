@@ -1,0 +1,16 @@
+[package]
+name = "phn-epi"
+description = "Epidemiology and biostatistics engine: rates with exact confidence intervals and small-cell suppression."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+schemars.workspace = true
+serde.workspace = true
+statrs.workspace = true
+
+[dev-dependencies]
+serde_json.workspace = true

@@ -1,0 +1,379 @@
+//! Configuration.
+//!
+//! Two layers:
+//!
+//! 1. **Environment variables**, set in the MCP client configuration
+//!    (`docker run -e ...`). They describe the deployment: folders, offline
+//!    mode, proxy CA bundle, and optionally the profile, toolsets, and
+//!    suppression threshold.
+//! 2. **The settings file** (`/cache/phn-settings.toml` by default), written by
+//!    the `configure_jurisdiction` tool. It holds the nurse's town, school
+//!    district, preferred languages, letterhead, and the same optional
+//!    profile/toolset/threshold choices.
+//!
+//! Environment variables win over the settings file so an administrator can
+//! pin a value in the client configuration.
+
+use std::collections::BTreeSet;
+use std::path::{Path, PathBuf};
+use std::time::Duration;
+
+use schemars::JsonSchema;
+use serde::{Deserialize, Serialize};
+
+use crate::error::{PhnError, Result};
+use crate::toolsets::{self, Profile, Toolset};
+
+/// Default small-cell suppression threshold: counts from 1 to 4 are suppressed.
+pub const DEFAULT_SUPPRESSION_THRESHOLD: u32 = 5;
+
+/// Lowest threshold accepted (suppress only counts of 1).
+pub const MIN_SUPPRESSION_THRESHOLD: u32 = 2;
+
+/// Highest threshold accepted.
+pub const MAX_SUPPRESSION_THRESHOLD: u32 = 30;
+
+/// Folders the server may use.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Paths {
+    /// The nurse's mounted folder (`/data`). Tools read only inside it.
+    pub data_dir: PathBuf,
+    /// Writable cache volume (`/cache`): settings, HTTP cache, indexes.
+    pub cache_dir: PathBuf,
+    /// Where generated files are written (`/data/output`).
+    pub output_dir: PathBuf,
+    /// Where agency policies live for `search_agency_policies` (`/data/policies`).
+    pub policy_dir: PathBuf,
+}
+
+impl Paths {
+    /// Paths rooted at `data_dir` and `cache_dir` with the default subfolders.
+    pub fn new(data_dir: impl Into<PathBuf>, cache_dir: impl Into<PathBuf>) -> Self {
+        let data_dir = data_dir.into();
+        Self {
+            output_dir: data_dir.join("output"),
+            policy_dir: data_dir.join("policies"),
+            cache_dir: cache_dir.into(),
+            data_dir,
+        }
+    }
+}
+
+/// The nurse's jurisdiction.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(default)]
+pub struct Jurisdiction {
+    /// Massachusetts city or town (one of the 351 municipalities).
+    pub town: Option<String>,
+    /// County, derived from the town.
+    pub county: Option<String>,
+    /// Health and Medical Coordinating Coalition (HMCC) region, e.g. `"4AB"`.
+    pub hmcc_region: Option<String>,
+    /// School district name, for school nurses.
+    pub school_district: Option<String>,
+    /// DESE organization code of the school district.
+    pub school_district_code: Option<String>,
+    /// Board of health or health department phone number shown in outputs.
+    pub board_of_health_phone: Option<String>,
+}
+
+/// Agency letterhead used by document exports.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(default)]
+pub struct Letterhead {
+    /// Agency name, e.g. "Town of Amherst Health Department".
+    pub agency_name: String,
+    /// Optional division or program name.
+    pub department: Option<String>,
+    /// Street address lines.
+    pub address_lines: Vec<String>,
+    /// Main phone number.
+    pub phone: Option<String>,
+    /// Fax number.
+    pub fax: Option<String>,
+    /// Public email address.
+    pub email: Option<String>,
+    /// Website.
+    pub website: Option<String>,
+    /// Logo image (PNG or JPEG), relative to the data folder.
+    pub logo_path: Option<String>,
+    /// Footer text, such as a confidentiality statement.
+    pub footer_text: Option<String>,
+}
+
+/// Settings persisted by `configure_jurisdiction`.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(default)]
+pub struct Settings {
+    /// Town, county, HMCC region, and school district.
+    pub jurisdiction: Jurisdiction,
+    /// Small-cell suppression threshold.
+    pub suppression_threshold: Option<u32>,
+    /// Preferred languages for materials, in priority order (e.g. "English", "Spanish").
+    pub preferred_languages: Vec<String>,
+    /// Role profile.
+    pub profile: Option<Profile>,
+    /// Explicitly enabled toolsets (overrides the profile).
+    pub toolsets: Option<Vec<Toolset>>,
+    /// Letterhead for exported documents.
+    pub letterhead: Option<Letterhead>,
+}
+
+/// Deployment configuration read from environment variables.
+#[derive(Debug, Clone)]
+pub struct Config {
+    /// Folders.
+    pub paths: Paths,
+    /// Where the settings file lives.
+    pub settings_path: PathBuf,
+    /// Never make network calls (`PHN_OFFLINE=1`).
+    pub offline: bool,
+    /// Extra PEM CA bundle for agency TLS inspection (`PHN_CA_BUNDLE`).
+    pub ca_bundle: Option<PathBuf>,
+    /// Timeout for outbound HTTP requests.
+    pub http_timeout: Duration,
+    /// Profile pinned by `PHN_PROFILE`.
+    pub env_profile: Option<Profile>,
+    /// Toolsets pinned by `PHN_TOOLSETS`.
+    pub env_toolsets: Option<BTreeSet<Toolset>>,
+    /// Suppression threshold pinned by `PHN_SUPPRESSION_THRESHOLD`.
+    pub env_suppression_threshold: Option<u32>,
+}
+
+impl Config {
+    /// Read configuration from the process environment.
+    pub fn from_env() -> Result<Self> {
+        Self::from_lookup(|k| std::env::var(k).ok())
+    }
+
+    /// Read configuration through a lookup function (testable).
+    pub fn from_lookup(lookup: impl Fn(&str) -> Option<String>) -> Result<Self> {
+        let get = |k: &str| {
+            lookup(k)
+                .map(|v| v.trim().to_string())
+                .filter(|v| !v.is_empty())
+        };
+
+        let data_dir = get("PHN_DATA_DIR").unwrap_or_else(|| "/data".into());
+        let cache_dir = get("PHN_CACHE_DIR").unwrap_or_else(|| "/cache".into());
+        let mut paths = Paths::new(data_dir, cache_dir);
+        if let Some(o) = get("PHN_OUTPUT_DIR") {
+            paths.output_dir = PathBuf::from(o);
+        }
+        if let Some(p) = get("PHN_POLICY_DIR") {
+            paths.policy_dir = PathBuf::from(p);
+        }
+        let settings_path = get("PHN_SETTINGS_FILE")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| paths.cache_dir.join("phn-settings.toml"));
+
+        let offline = get("PHN_OFFLINE").is_some_and(|v| parse_bool(&v));
+        let ca_bundle = get("PHN_CA_BUNDLE").map(PathBuf::from);
+        let http_timeout = match get("PHN_HTTP_TIMEOUT_SECS") {
+            Some(v) => Duration::from_secs(v.parse::<u64>().map_err(|_| {
+                PhnError::Config(format!(
+                    "PHN_HTTP_TIMEOUT_SECS must be a whole number, got '{v}'"
+                ))
+            })?),
+            None => Duration::from_secs(20),
+        };
+
+        let env_profile = get("PHN_PROFILE")
+            .map(|p| p.parse::<Profile>().map_err(PhnError::Config))
+            .transpose()?;
+        let env_toolsets = get("PHN_TOOLSETS")
+            .map(|t| toolsets::parse_toolset_list(&t).map_err(PhnError::Config))
+            .transpose()?;
+        let env_suppression_threshold = get("PHN_SUPPRESSION_THRESHOLD")
+            .map(|v| {
+                v.parse::<u32>()
+                    .map_err(|_| {
+                        PhnError::Config(format!(
+                            "PHN_SUPPRESSION_THRESHOLD must be a whole number, got '{v}'"
+                        ))
+                    })
+                    .and_then(validate_threshold)
+            })
+            .transpose()?;
+
+        Ok(Self {
+            paths,
+            settings_path,
+            offline,
+            ca_bundle,
+            http_timeout,
+            env_profile,
+            env_toolsets,
+            env_suppression_threshold,
+        })
+    }
+
+    /// Configuration rooted in a temporary directory, for tests.
+    pub fn for_root(root: &Path) -> Self {
+        let paths = Paths::new(root.join("data"), root.join("cache"));
+        Self {
+            settings_path: paths.cache_dir.join("phn-settings.toml"),
+            paths,
+            offline: true,
+            ca_bundle: None,
+            http_timeout: Duration::from_secs(5),
+            env_profile: None,
+            env_toolsets: None,
+            env_suppression_threshold: None,
+        }
+    }
+
+    /// Load the settings file; a missing file yields default settings.
+    pub fn load_settings(&self) -> Result<Settings> {
+        match std::fs::read_to_string(&self.settings_path) {
+            Ok(text) => toml::from_str(&text).map_err(|e| {
+                PhnError::Config(format!(
+                    "settings file {} is not valid: {e}",
+                    self.settings_path.display()
+                ))
+            }),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => Ok(Settings::default()),
+            Err(e) => Err(e.into()),
+        }
+    }
+
+    /// Write the settings file atomically.
+    pub fn save_settings(&self, settings: &Settings) -> Result<()> {
+        let text = toml::to_string_pretty(settings)
+            .map_err(|e| PhnError::Internal(format!("could not serialize settings: {e}")))?;
+        if let Some(parent) = self.settings_path.parent() {
+            std::fs::create_dir_all(parent).map_err(|e| {
+                PhnError::Config(format!(
+                    "cannot create {} (is the /cache volume mounted and writable?): {e}",
+                    parent.display()
+                ))
+            })?;
+        }
+        let tmp = self.settings_path.with_extension("toml.tmp");
+        std::fs::write(&tmp, text)?;
+        std::fs::rename(&tmp, &self.settings_path)?;
+        Ok(())
+    }
+
+    /// The suppression threshold in force.
+    pub fn suppression_threshold(&self, settings: &Settings) -> u32 {
+        self.env_suppression_threshold
+            .or(settings.suppression_threshold)
+            .unwrap_or(DEFAULT_SUPPRESSION_THRESHOLD)
+    }
+
+    /// The toolsets in force.
+    pub fn enabled_toolsets(&self, settings: &Settings) -> BTreeSet<Toolset> {
+        if self.env_toolsets.is_some() || self.env_profile.is_some() {
+            return toolsets::resolve_enabled(self.env_profile, self.env_toolsets.as_ref());
+        }
+        let from_settings: Option<BTreeSet<Toolset>> = settings
+            .toolsets
+            .as_ref()
+            .map(|t| t.iter().copied().collect());
+        toolsets::resolve_enabled(settings.profile, from_settings.as_ref())
+    }
+
+    /// Names of environment variables that override settings-file values.
+    pub fn env_overrides(&self) -> Vec<&'static str> {
+        let mut v = Vec::new();
+        if self.env_profile.is_some() {
+            v.push("PHN_PROFILE");
+        }
+        if self.env_toolsets.is_some() {
+            v.push("PHN_TOOLSETS");
+        }
+        if self.env_suppression_threshold.is_some() {
+            v.push("PHN_SUPPRESSION_THRESHOLD");
+        }
+        v
+    }
+}
+
+/// Check a suppression threshold is within the accepted range.
+pub fn validate_threshold(t: u32) -> Result<u32> {
+    if (MIN_SUPPRESSION_THRESHOLD..=MAX_SUPPRESSION_THRESHOLD).contains(&t) {
+        Ok(t)
+    } else {
+        Err(PhnError::InvalidInput(format!(
+            "suppression threshold must be between {MIN_SUPPRESSION_THRESHOLD} and \
+             {MAX_SUPPRESSION_THRESHOLD}, got {t}"
+        )))
+    }
+}
+
+fn parse_bool(v: &str) -> bool {
+    matches!(v.to_ascii_lowercase().as_str(), "1" | "true" | "yes" | "on")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    fn lookup(pairs: &[(&str, &str)]) -> impl Fn(&str) -> Option<String> {
+        let m: HashMap<String, String> = pairs
+            .iter()
+            .map(|(k, v)| (k.to_string(), v.to_string()))
+            .collect();
+        move |k| m.get(k).cloned()
+    }
+
+    #[test]
+    fn defaults_follow_container_layout() {
+        let c = Config::from_lookup(lookup(&[])).unwrap();
+        assert_eq!(c.paths.data_dir, PathBuf::from("/data"));
+        assert_eq!(c.paths.output_dir, PathBuf::from("/data/output"));
+        assert_eq!(c.settings_path, PathBuf::from("/cache/phn-settings.toml"));
+        assert!(!c.offline);
+        assert_eq!(c.suppression_threshold(&Settings::default()), 5);
+    }
+
+    #[test]
+    fn env_overrides_settings() {
+        let c = Config::from_lookup(lookup(&[
+            ("PHN_PROFILE", "school_nurse"),
+            ("PHN_SUPPRESSION_THRESHOLD", "11"),
+            ("PHN_OFFLINE", "true"),
+        ]))
+        .unwrap();
+        let s = Settings {
+            suppression_threshold: Some(5),
+            profile: Some(Profile::CdNurse),
+            ..Settings::default()
+        };
+        assert_eq!(c.suppression_threshold(&s), 11);
+        assert!(c.enabled_toolsets(&s).contains(&Toolset::School));
+        assert!(c.offline);
+        assert_eq!(
+            c.env_overrides(),
+            vec!["PHN_PROFILE", "PHN_SUPPRESSION_THRESHOLD"]
+        );
+    }
+
+    #[test]
+    fn rejects_bad_values() {
+        assert!(Config::from_lookup(lookup(&[("PHN_PROFILE", "wizard")])).is_err());
+        assert!(Config::from_lookup(lookup(&[("PHN_SUPPRESSION_THRESHOLD", "1")])).is_err());
+        assert!(Config::from_lookup(lookup(&[("PHN_TOOLSETS", "cd,nope")])).is_err());
+    }
+
+    #[test]
+    fn settings_round_trip() {
+        let dir = tempfile::tempdir().unwrap();
+        let c = Config::for_root(dir.path());
+        assert_eq!(c.load_settings().unwrap(), Settings::default());
+        let s = Settings {
+            jurisdiction: Jurisdiction {
+                town: Some("Amherst".into()),
+                ..Jurisdiction::default()
+            },
+            toolsets: Some(vec![Toolset::Cd]),
+            ..Settings::default()
+        };
+        c.save_settings(&s).unwrap();
+        assert_eq!(c.load_settings().unwrap(), s);
+        let enabled = c.enabled_toolsets(&s);
+        assert_eq!(enabled, [Toolset::Core, Toolset::Cd].into());
+    }
+}

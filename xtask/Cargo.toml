@@ -1,0 +1,26 @@
+[package]
+name = "xtask"
+description = "Developer tooling: snapshot builder, name-list builder, and content validator."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+phn-core.workspace = true
+# phn-content.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde-saphyr.workspace = true
+chrono.workspace = true
+sha2.workspace = true
+hex.workspace = true
+csv.workspace = true
+zip.workspace = true
+jsonschema.workspace = true
+tempfile.workspace = true
+reqwest = { workspace = true, features = ["blocking", "rustls"] }
+shapefile = { version = "0.9", features = ["geo-types"] }
+geo = "0.33"

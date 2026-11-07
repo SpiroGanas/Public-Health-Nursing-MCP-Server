@@ -1,0 +1,59 @@
+{
+  "format_version": 1,
+  "snapshots": [
+    {
+      "id": "ma-municipalities",
+      "title": "Massachusetts cities and towns with county and DPH preparedness region",
+      "publisher": "MassGIS (Bureau of Geographic Information); region assignment derived by this project",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/townssurvey_shp.zip",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/regdphep_poly.zip"
+      ],
+      "source_sha256": {
+        "regdphep_poly.zip": "e008b26e121891b5b4d67a364bf6954b6a6737e35f788065677283009b4ccb5e",
+        "townssurvey_shp.zip": "fa28c827471a88698ec0bfc7ce11b6957cfbf93f4e1e15c980e8d04410a9537d"
+      },
+      "source_vintage": "towns 2024-04-15; DPH regions 2022-04-27",
+      "retrieved": "2026-11-07",
+      "license": "MassGIS data are free public records of the Commonwealth of Massachusetts.",
+      "derivation": "Town, type, county, and county FIPS come from the MassGIS municipal boundary layer (TOWNSSURVEY_POLY). Each town's DPH Emergency Preparedness Region is the region polygon (REGDPHEP_POLY) that contains an interior point of the town's largest land part. The HMCC region merges DPH Regions 4A and 4B into 4AB.",
+      "caveats": [
+        "The DPH Emergency Preparedness Region layer dates from 2005. HMCC membership is derived from it (Regions 4A and 4B merged into 4AB) and has not been checked against DPH's current HMCC municipality list; confirm with your HMCC."
+      ],
+      "files": [
+        {
+          "path": "ma_municipalities.csv",
+          "sha256": "e0695f5f24f45cb2b253bda3becf022a2d8fe0e75e643b271907bbe19f5945b6",
+          "bytes": 13505,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "ma-school-districts",
+      "title": "Massachusetts public school districts (academic, charter, and vocational)",
+      "publisher": "MassGIS, from Massachusetts DESE district data",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip"
+      ],
+      "source_sha256": {
+        "schooldistricts.zip": "df72e8891cb3569322d7efe5f8dd1a00f55acae4c06389c5335d3328c6054c0e"
+      },
+      "source_vintage": "2019-06-04",
+      "retrieved": "2026-11-07",
+      "license": "MassGIS data are free public records of the Commonwealth of Massachusetts.",
+      "derivation": "Districts from SCHOOLDISTRICTS_POLY (municipal and regional academic) plus charter and vocational-technical districts from SCHOOLDISTRICTS_CCUV_POLY, keyed by DESE 8-digit organization code.",
+      "caveats": [
+        "District boundaries and membership reflect the MassGIS layer's vintage; districts formed, merged, or renamed since then are missing. Confirm with DESE School and District Profiles."
+      ],
+      "files": [
+        {
+          "path": "ma_school_districts.csv",
+          "sha256": "f226cc8707550691926347f76c140f5443e5576a8c8c72c13bcea43e2a4ddd8c",
+          "bytes": 31319,
+          "rows": 402
+        }
+      ]
+    }
+  ]
+}

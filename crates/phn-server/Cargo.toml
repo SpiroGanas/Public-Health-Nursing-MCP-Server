@@ -1,0 +1,34 @@
+[package]
+name = "phn-server"
+description = "Public Health Nursing MCP server (stdio)."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "phn-mcp-server"
+path = "src/main.rs"
+
+[lib]
+path = "src/lib.rs"
+
+[dependencies]
+phn-core.workspace = true
+phn-content.workspace = true
+phn-data.workspace = true
+phn-tools.workspace = true
+rmcp = { workspace = true, features = ["server", "macros", "transport-io", "schemars"] }
+schemars.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+rmcp = { workspace = true, features = ["client", "transport-child-process"] }
+tempfile.workspace = true
+tokio = { workspace = true, features = ["process"] }

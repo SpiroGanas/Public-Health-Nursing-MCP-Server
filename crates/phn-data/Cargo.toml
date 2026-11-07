@@ -1,0 +1,27 @@
+[package]
+name = "phn-data"
+description = "HTTP client (proxy + custom CA), SQLite cache, snapshot store, and Massachusetts reference data."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+phn-core.workspace = true
+schemars.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+tokio.workspace = true
+reqwest = { workspace = true, features = ["rustls", "http2"] }
+rusqlite.workspace = true
+chrono.workspace = true
+sha2.workspace = true
+hex.workspace = true
+csv.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["net", "io-util"] }
