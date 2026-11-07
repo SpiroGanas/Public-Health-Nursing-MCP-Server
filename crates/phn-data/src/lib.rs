@@ -8,12 +8,21 @@
 //! * [`fetch`]: the live → cache → snapshot fallback chain.
 //! * [`ma`]: Massachusetts reference lists (351 municipalities, counties,
 //!   HMCC regions, school districts).
+//! * [`socrata`]: SoQL client for data.cdc.gov (NNDSS, PLACES, respiratory,
+//!   and wastewater data).
 
 pub mod cache;
 pub mod fetch;
 pub mod http;
 pub mod ma;
 pub mod snapshots;
+pub mod socrata;
+
+// Phase 4 adapters (Census ACS, SVI, NCBI E-utilities, CDC feeds) go below this line.
+
+// Phase 5 adapters (openFDA, DailyMed, RxNorm, CVX/MVX) go below this line.
+
+// Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 
 pub use cache::Cache;
 pub use http::HttpClient;

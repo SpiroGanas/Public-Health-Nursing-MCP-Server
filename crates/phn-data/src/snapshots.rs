@@ -81,6 +81,11 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_school_districts.csv",
         include_str!("../../../snapshots/ma_school_districts.csv"),
     ),
+    // Phase 4 snapshot files go below this line.
+
+    // Phase 5 snapshot files go below this line.
+
+    // Phase 6 snapshot files go below this line.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

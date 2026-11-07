@@ -1,6 +1,4 @@
-//! Communicable disease tools.
-//!
-//! * CD-01 `lookup_reportable_condition`
+//! CD-01 `lookup_reportable_condition`.
 
 use phn_content::reportable::{
     self, CONFIDENT_MATCH, Confidence, Contact, ReportTo, Reporter, Timeframe,

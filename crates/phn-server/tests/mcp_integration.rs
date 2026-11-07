@@ -13,26 +13,20 @@ use std::collections::BTreeSet;
 use common::{everything, leaks, start, summary};
 use serde_json::json;
 
-const ALL_TOOLS: [&str; 11] = [
-    "get_data_source_status",
-    "configure_jurisdiction",
-    "calculate_rates",
-    "lookup_reportable_condition",
-    "read_local_file",
-    "search_agency_policies",
-    "export_document",
-    "apply_small_cell_suppression",
-    "profile_local_dataset",
-    "deidentify_dataset",
-    "check_document_accessibility",
-];
+/// Every tool in the registry (the server must list exactly these).
+fn all_tools() -> BTreeSet<String> {
+    phn_tools::registry::tools()
+        .map(|t| t.name.to_string())
+        .collect()
+}
 
 #[tokio::test]
 async fn every_tool_has_schemas_annotations_and_a_description() {
     let h = start(|_| {}).await;
     let tools = h.client.list_all_tools().await.unwrap();
     let names: BTreeSet<String> = tools.iter().map(|t| t.name.to_string()).collect();
-    assert_eq!(names, ALL_TOOLS.iter().map(|s| s.to_string()).collect());
+    assert_eq!(names, all_tools());
+    assert!(names.len() >= 11);
     for t in &tools {
         let desc = t.description.as_deref().unwrap_or("");
         assert!(
@@ -239,7 +233,10 @@ async fn toolsets_limit_which_tools_are_listed_and_callable() {
 #[tokio::test]
 async fn configuring_toolsets_refreshes_the_tool_list() {
     let h = start(|_| {}).await;
-    assert_eq!(h.client.list_all_tools().await.unwrap().len(), 11);
+    assert_eq!(
+        h.client.list_all_tools().await.unwrap().len(),
+        all_tools().len()
+    );
     let r = h
         .call(
             "configure_jurisdiction",
@@ -420,6 +417,15 @@ async fn no_row_level_data_is_returned_by_default() {
             }),
             "data/exclusion_letters.csv",
         ),
+        // ---- Phase 2 data tools (EPI-10 run_statistical_test, EBP-06 create_spc_chart, ...)
+
+        // ---- Phase 3 data tools (CD-04 analyze_outbreak_line_list, CD-05, CD-06, ...)
+
+        // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
+
+        // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)
+
+        // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)
     ];
     for (name, args, file) in checks {
         let r = h.call(name, args.clone()).await;

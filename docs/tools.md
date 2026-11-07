@@ -213,3 +213,33 @@ paragraphs and typed bullets, form labels (HTML, 3.3.2), tagging, title display,
 figure alt text, and embedded fonts (PDF). Lists failures with how to fix them in Word or
 Acrobat, plus the manual checks automation cannot do (reading order, use of color, alt-text
 quality).
+
+---
+
+## Phase 2: Epidemiology and biostatistics engine
+
+<!-- Phase 2 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+---
+
+## Phase 3: Communicable disease I
+
+<!-- Phase 3 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+---
+
+## Phase 4: Public data and evidence platform
+
+<!-- Phase 4 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+---
+
+## Phase 5: Immunizations I
+
+<!-- Phase 5 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+---
+
+## Phase 6: Immunization forecasting and surveillance feeds
+
+<!-- Phase 6 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->

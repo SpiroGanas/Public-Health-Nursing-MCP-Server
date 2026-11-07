@@ -84,6 +84,11 @@ impl PhnServer {
     pub fn new(ctx: Arc<Context>) -> Self {
         let mut tool_router = Self::tool_router();
         tool_router.merge(Self::phase1_router());
+        tool_router.merge(Self::phase2_router());
+        tool_router.merge(Self::phase3_router());
+        tool_router.merge(Self::phase4_router());
+        tool_router.merge(Self::phase5_router());
+        tool_router.merge(Self::phase6_router());
         Self { ctx, tool_router }
     }
 

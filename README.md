@@ -17,6 +17,8 @@ output folder instead of being sent to the AI model.
 
 ## Tools
 
+### Phases 0 and 1: foundation, local data, and documents
+
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 | `get_data_source_status` | CORE-08 | core | Lists every data source with its data date, review status, live reachability, and caveats. |
@@ -30,6 +32,36 @@ output folder instead of being sent to the AI model.
 | `deidentify_dataset` | EPI-08 | epi | Writes a HIPAA Safe Harbor de-identified copy (or a limited data set) and reports what changed. |
 | `lookup_reportable_condition` | CD-01 | cd | Whether a disease or lab result is reportable in Massachusetts, by whom, how fast, and to whom. |
 | `check_document_accessibility` | COMM-05 | comms | Checks DOCX, HTML, and PDF files against Section 508 / WCAG 2.1 AA. |
+
+### Phase 2: epidemiology and biostatistics engine
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 2 rows go above this line. -->
+
+### Phase 3: communicable disease I
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 3 rows go above this line. -->
+
+### Phase 4: public data and evidence platform
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 4 rows go above this line. -->
+
+### Phase 5: immunizations I
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 5 rows go above this line. -->
+
+### Phase 6: immunization forecasting and surveillance feeds
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 6 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 Reference content and data snapshots are also exposed as MCP resources (`phn://content/…`,

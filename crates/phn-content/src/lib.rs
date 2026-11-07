@@ -46,6 +46,15 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/data_sources.yaml"),
         schema: include_str!("../../../content/schemas/data_sources.schema.json"),
     },
+    // Phase 2 content items go below this line.
+
+    // Phase 3 content items go below this line.
+
+    // Phase 4 content items go below this line.
+
+    // Phase 5 content items go below this line.
+
+    // Phase 6 content items go below this line.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

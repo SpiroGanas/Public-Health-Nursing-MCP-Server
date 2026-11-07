@@ -5,6 +5,28 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
+## [Unreleased]
+
+### Added — Phase 2: epidemiology and biostatistics engine
+
+<!-- Phase 2 entries go above this line. -->
+
+### Added — Phase 3: communicable disease I
+
+<!-- Phase 3 entries go above this line. -->
+
+### Added — Phase 4: public data and evidence platform
+
+<!-- Phase 4 entries go above this line. -->
+
+### Added — Phase 5: immunizations I
+
+<!-- Phase 5 entries go above this line. -->
+
+### Added — Phase 6: immunization forecasting and surveillance feeds
+
+<!-- Phase 6 entries go above this line. -->
+
 ## [0.2.0] — Phase 1: local data, privacy guardrails, and documents
 
 ### Added
