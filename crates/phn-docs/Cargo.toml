@@ -1,0 +1,31 @@
+[package]
+name = "phn-docs"
+description = "Document output (DOCX, PDF, XLSX, CSV, SVG, PNG), letterhead, local mail-merge, and accessibility checks."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+phn-core.workspace = true
+phn-local.workspace = true
+schemars.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+zip.workspace = true
+lopdf.workspace = true
+rust_xlsxwriter.workspace = true
+csv.workspace = true
+pulldown-cmark.workspace = true
+skrifa.workspace = true
+subsetter.workspace = true
+resvg.workspace = true
+chrono.workspace = true
+regex.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

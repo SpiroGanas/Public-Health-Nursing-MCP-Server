@@ -1,0 +1,780 @@
+# Diseases and conditions reportable in Massachusetts (105 CMR 300.000).
+#
+# REVIEW STATUS: pending. This is a developer draft. See meta.verification_note.
+# Schema: content/schemas/reportable_conditions.schema.json
+meta:
+  id: ma-reportable-conditions
+  title: Diseases and conditions reportable in Massachusetts (105 CMR 300.000)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: "105 CMR 300.000: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+  related_sources:
+    - title: Guide to Surveillance, Reporting and Control
+      publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+      url: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted by the developer from general knowledge of 105 CMR 300.100 (diseases reportable to
+    local boards of health), 300.140 (reportable directly to DPH), and 300.170 (laboratory
+    findings). The current regulation text could not be retrieved while drafting. Each entry
+    carries a developer confidence level. Before this item is marked reviewed, the product owner
+    must check every entry, especially the reporting timeframe and who reports, against the
+    current regulation and DPH's current reportable disease list.
+
+contacts:
+  dph_epidemiology:
+    name: MDPH Division of Epidemiology (24/7 epidemiologist on call)
+    phone: "617-983-6800"
+    note: Use when the local board of health cannot be reached, for immediately reportable conditions, and for consultation.
+
+timeframes:
+  immediate: >-
+    Report immediately by telephone, on suspicion of the diagnosis, without waiting for laboratory
+    confirmation. Follow up with a written or electronic (MAVEN) report.
+  within_24_hours: >-
+    Report within 24 hours of diagnosis or identification, by telephone, fax, or electronic
+    report as directed by DPH.
+  other: >-
+    Reported on a schedule or through a channel set by a specific DPH program (for example HIV,
+    sexually transmitted infections, or lead). See the entry notes.
+
+reporters:
+  health_care_provider: >-
+    Health care providers (physicians, nurses, and other clinicians) who suspect or diagnose the
+    condition report to the local board of health of the town where the patient lives, or to DPH
+    when instructed.
+  laboratory: >-
+    Clinical laboratories report the listed findings to DPH, normally by electronic laboratory
+    reporting. DPH makes laboratory reports available to the local board of health through MAVEN.
+  local_board_of_health: >-
+    The local board of health investigates, enters or completes the case in MAVEN, and notifies DPH
+    of immediately reportable conditions by telephone.
+
+conditions:
+  # --- Immediately reportable: possible bioterrorism agents -----------------
+  - id: anthrax
+    name: Anthrax
+    aliases: [Bacillus anthracis, inhalation anthrax, cutaneous anthrax]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Anthrax
+    confidence: high
+  - id: botulism
+    name: Botulism (foodborne, infant, wound, and other)
+    aliases: [Clostridium botulinum, botulinum toxin, infant botulism, wound botulism]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Botulism
+    notes: Antitoxin is released through DPH and CDC; call DPH immediately for clinical consultation.
+    confidence: high
+  - id: brucellosis
+    name: Brucellosis
+    aliases: [Brucella, undulant fever]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Brucellosis
+    notes: Laboratory staff may have been exposed when the organism was not suspected; notify the laboratory.
+    confidence: medium
+  - id: glanders
+    name: Glanders
+    aliases: [Burkholderia mallei]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Glanders
+    confidence: medium
+  - id: melioidosis
+    name: Melioidosis
+    aliases: [Burkholderia pseudomallei]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Melioidosis
+    confidence: medium
+  - id: plague
+    name: Plague
+    aliases: [Yersinia pestis, bubonic plague, pneumonic plague]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Plague
+    confidence: high
+  - id: q-fever
+    name: Q fever
+    aliases: [Coxiella burnetii]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Q Fever
+    confidence: medium
+  - id: smallpox
+    name: Smallpox
+    aliases: [variola, variola virus]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Smallpox
+    confidence: high
+  - id: tularemia
+    name: Tularemia
+    aliases: [Francisella tularensis, rabbit fever]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Tularemia
+    confidence: high
+  - id: viral-hemorrhagic-fever
+    name: Viral hemorrhagic fever
+    aliases: [Ebola, Marburg, Lassa fever, Crimean-Congo hemorrhagic fever, VHF]
+    category: select_agent
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Viral Hemorrhagic Fevers
+    confidence: high
+
+  # --- Immediately reportable: vaccine-preventable --------------------------
+  - id: diphtheria
+    name: Diphtheria
+    aliases: [Corynebacterium diphtheriae]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Diphtheria
+    confidence: high
+  - id: haemophilus-influenzae-invasive
+    name: Haemophilus influenzae, invasive disease
+    aliases: [H. influenzae, Hib, Haemophilus influenzae type b, H flu]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Haemophilus influenzae Invasive Disease
+    notes: Invasive means isolation from a normally sterile site (for example blood or cerebrospinal fluid).
+    confidence: medium
+  - id: hepatitis-a
+    name: Hepatitis A
+    aliases: [HAV, hepatitis A virus, anti-HAV IgM]
+    lab_terms: [hepatitis A IgM positive]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Hepatitis A
+    notes: Ask about food handling, child care, and health care work; these trigger exclusion and post-exposure prophylaxis decisions.
+    confidence: high
+  - id: measles
+    name: Measles
+    aliases: [rubeola, measles virus]
+    lab_terms: [measles IgM positive, measles PCR positive]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Measles
+    notes: Report on clinical suspicion. Post-exposure prophylaxis windows are short (MMR within 72 hours, immune globulin within 6 days of exposure).
+    confidence: high
+  - id: mumps
+    name: Mumps
+    aliases: [mumps virus, parotitis]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Mumps
+    confidence: medium
+  - id: pertussis
+    name: Pertussis
+    aliases: [whooping cough, Bordetella pertussis]
+    lab_terms: [Bordetella pertussis PCR positive]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Pertussis
+    confidence: medium
+  - id: poliomyelitis
+    name: Poliomyelitis
+    aliases: [polio, poliovirus, acute flaccid paralysis due to poliovirus]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Poliomyelitis
+    confidence: high
+  - id: rubella
+    name: Rubella, including congenital rubella syndrome
+    aliases: [German measles, rubella virus, congenital rubella syndrome, CRS]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Rubella
+    confidence: high
+  - id: meningococcal-disease
+    name: Meningococcal disease, invasive
+    aliases: [Neisseria meningitidis, meningococcemia, meningococcal meningitis]
+    category: invasive_bacterial
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Meningococcal Disease
+    notes: Close contacts need prompt chemoprophylaxis; identify contacts while the report is being made.
+    confidence: high
+
+  # --- Immediately reportable: other ----------------------------------------
+  - id: cholera
+    name: Cholera
+    aliases: [Vibrio cholerae O1, Vibrio cholerae O139, toxigenic Vibrio cholerae]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Cholera
+    confidence: high
+  - id: typhoid-fever
+    name: Typhoid fever
+    aliases: [Salmonella Typhi, Salmonella enterica serotype Typhi, enteric fever]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Typhoid Fever
+    confidence: medium
+  - id: rabies-human
+    name: Rabies in humans
+    aliases: [rabies, human rabies, rabies virus infection]
+    category: zoonotic
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Rabies
+    notes: Animal bites and rabies post-exposure prophylaxis decisions are handled with the local animal control officer and DPH; call DPH for consultation.
+    confidence: high
+  - id: hantavirus
+    name: Hantavirus infection
+    aliases: [hantavirus pulmonary syndrome, Sin Nombre virus, HPS]
+    category: zoonotic
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Hantavirus
+    confidence: low
+  - id: novel-influenza
+    name: Influenza A, novel strain
+    aliases: [novel influenza A, avian influenza, H5N1, H7N9, variant influenza, bird flu]
+    category: respiratory
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Influenza
+    confidence: high
+  - id: influenza-pediatric-death
+    name: Influenza-associated pediatric death
+    aliases: [pediatric influenza death, child death influenza]
+    category: respiratory
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Influenza
+    confidence: medium
+  - id: severe-acute-respiratory-syndrome
+    name: Severe acute respiratory syndrome (SARS) and other novel coronavirus infections
+    aliases: [SARS, SARS-CoV, MERS, MERS-CoV, novel coronavirus]
+    category: respiratory
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Severe Acute Respiratory Syndrome
+    confidence: medium
+  - id: foodborne-toxin-illness
+    name: Foodborne illness due to toxins
+    aliases: [ciguatera, scombroid, scombrotoxin, mushroom poisoning, paralytic shellfish poisoning, tetrodotoxin]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Foodborne Illness
+    confidence: medium
+  - id: candida-auris
+    name: Candida auris
+    aliases: [C. auris, Candida auris colonization, Candida auris infection]
+    category: healthcare_associated
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Candida auris
+    notes: Includes colonization. Infection-control follow-up in the reporting facility is coordinated with DPH.
+    confidence: low
+  - id: mpox
+    name: Mpox
+    aliases: [monkeypox, monkeypox virus, orthopoxvirus]
+    category: zoonotic
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Mpox
+    confidence: low
+  - id: cluster-or-outbreak
+    name: Any cluster or outbreak of illness, including foodborne illness
+    aliases: [outbreak, cluster, foodborne outbreak, two or more cases, food poisoning outbreak, gastrointestinal outbreak, norovirus outbreak, school outbreak]
+    category: other
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Outbreak Investigation
+    notes: Applies whether or not the illness is otherwise reportable, including outbreaks in schools, child care, long-term care, and food establishments.
+    confidence: high
+  - id: unusual-illness
+    name: Any case of an unusual illness thought to have public health implications
+    aliases: [unusual illness, unexplained illness, emerging infection, unknown agent, rare disease]
+    category: other
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    notes: Use this catch-all when a condition is not on the list but could threaten the public's health.
+    confidence: high
+
+  # --- Reportable within 24 hours --------------------------------------------
+  - id: amebiasis
+    name: Amebiasis
+    aliases: [Entamoeba histolytica, amoebiasis]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Amebiasis
+    confidence: medium
+  - id: anaplasmosis
+    name: Anaplasmosis
+    aliases: [Anaplasma phagocytophilum, human granulocytic anaplasmosis, HGA]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Anaplasmosis
+    confidence: medium
+  - id: arboviral-infection
+    name: Arbovirus infection (including Eastern equine encephalitis, West Nile, Powassan, Jamestown Canyon, St. Louis encephalitis)
+    aliases: [arbovirus, Eastern equine encephalitis, EEE, West Nile virus, WNV, Powassan virus, Jamestown Canyon virus, St. Louis encephalitis, mosquito-borne virus]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Arbovirus
+    notes: DPH asks clinicians to call promptly about suspected EEE or West Nile neuroinvasive disease because cases change mosquito-control and risk decisions.
+    confidence: low
+  - id: travel-arboviral-infection
+    name: Travel-associated arbovirus infection (dengue, chikungunya, Zika, yellow fever)
+    aliases: [dengue, chikungunya, Zika virus, yellow fever]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Arbovirus
+    notes: Zika in pregnancy needs coordination with DPH for infant follow-up.
+    confidence: low
+  - id: babesiosis
+    name: Babesiosis
+    aliases: [Babesia microti, Babesia]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Babesiosis
+    notes: Transfusion-associated cases need coordination with the blood supplier through DPH.
+    confidence: medium
+  - id: campylobacteriosis
+    name: Campylobacteriosis
+    aliases: [Campylobacter, Campylobacter jejuni]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Campylobacteriosis
+    confidence: high
+  - id: cryptosporidiosis
+    name: Cryptosporidiosis
+    aliases: [Cryptosporidium, crypto]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Cryptosporidiosis
+    confidence: medium
+  - id: cyclosporiasis
+    name: Cyclosporiasis
+    aliases: [Cyclospora cayetanensis, Cyclospora]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Cyclosporiasis
+    confidence: medium
+  - id: ehrlichiosis
+    name: Ehrlichiosis
+    aliases: [Ehrlichia chaffeensis, Ehrlichia, human monocytic ehrlichiosis]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Ehrlichiosis
+    confidence: medium
+  - id: encephalitis
+    name: Encephalitis, any cause
+    aliases: [encephalitis, viral encephalitis]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: low
+  - id: stec
+    name: Shiga toxin-producing Escherichia coli (STEC), including E. coli O157:H7
+    aliases: [E. coli O157:H7, E coli O157, STEC, Shiga toxin, enterohemorrhagic E. coli, EHEC]
+    lab_terms: [Shiga toxin positive, stx1, stx2]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Shiga Toxin-Producing E. coli
+    notes: Ask about child care attendance and food handling; both trigger exclusion rules.
+    confidence: medium
+  - id: hemolytic-uremic-syndrome
+    name: Hemolytic uremic syndrome (HUS)
+    aliases: [HUS, hemolytic uremic syndrome]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Shiga Toxin-Producing E. coli
+    confidence: medium
+  - id: giardiasis
+    name: Giardiasis
+    aliases: [Giardia, Giardia lamblia, Giardia duodenalis]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Giardiasis
+    confidence: medium
+  - id: group-a-streptococcus-invasive
+    name: Group A streptococcal infection, invasive
+    aliases: [invasive group A strep, iGAS, Streptococcus pyogenes, necrotizing fasciitis, streptococcal toxic shock syndrome]
+    category: invasive_bacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Group A Streptococcus
+    confidence: medium
+  - id: group-b-streptococcus-invasive
+    name: Group B streptococcal infection, invasive
+    aliases: [group B strep, GBS, Streptococcus agalactiae]
+    category: invasive_bacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Group B Streptococcus
+    notes: Check whether the current regulation limits reporting to infants.
+    confidence: low
+  - id: hansens-disease
+    name: Hansen's disease (leprosy)
+    aliases: [leprosy, Mycobacterium leprae]
+    category: mycobacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Hansen's Disease
+    confidence: medium
+  - id: hepatitis-b
+    name: Hepatitis B (acute, chronic, and perinatal)
+    aliases: [HBV, hepatitis B virus, HBsAg, hepatitis B surface antigen, perinatal hepatitis B]
+    lab_terms: [HBsAg positive, hepatitis B surface antigen positive, HBV DNA detected]
+    category: bloodborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Hepatitis B
+    notes: An HBsAg-positive pregnant person needs perinatal hepatitis B case management so the infant receives HBIG and vaccine at birth.
+    confidence: medium
+  - id: hepatitis-c
+    name: Hepatitis C
+    aliases: [HCV, hepatitis C virus, HCV antibody, HCV RNA]
+    category: bloodborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Hepatitis C
+    confidence: medium
+  - id: hepatitis-d-e
+    name: Hepatitis D and hepatitis E
+    aliases: [hepatitis D, hepatitis delta, HDV, hepatitis E, HEV]
+    category: bloodborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: low
+  - id: legionellosis
+    name: Legionellosis
+    aliases: [Legionella, Legionnaires' disease, Pontiac fever, Legionella pneumophila]
+    category: respiratory
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Legionellosis
+    notes: Two or more cases linked to one facility or water system is a cluster and is immediately reportable.
+    confidence: medium
+  - id: leptospirosis
+    name: Leptospirosis
+    aliases: [Leptospira]
+    category: zoonotic
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Leptospirosis
+    confidence: medium
+  - id: listeriosis
+    name: Listeriosis
+    aliases: [Listeria, Listeria monocytogenes]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Listeriosis
+    confidence: medium
+  - id: lyme-disease
+    name: Lyme disease
+    aliases: [Borrelia burgdorferi, Lyme]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: Lyme Disease
+    notes: Massachusetts conducts laboratory-based Lyme disease surveillance; confirm with DPH whether clinician case reports are currently required.
+    confidence: low
+  - id: malaria
+    name: Malaria
+    aliases: [Plasmodium, Plasmodium falciparum, Plasmodium vivax]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Malaria
+    confidence: medium
+  - id: psittacosis
+    name: Psittacosis
+    aliases: [Chlamydia psittaci, Chlamydophila psittaci, parrot fever, ornithosis]
+    category: zoonotic
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Psittacosis
+    confidence: medium
+  - id: spotted-fever-rickettsiosis
+    name: Spotted fever rickettsiosis, including Rocky Mountain spotted fever
+    aliases: [Rocky Mountain spotted fever, RMSF, Rickettsia rickettsii]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: medium
+  - id: salmonellosis
+    name: Salmonellosis (non-typhoidal)
+    aliases: [Salmonella, non-typhoidal Salmonella, Salmonella enteritidis, Salmonella Typhimurium]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Salmonellosis
+    notes: Salmonella Typhi is typhoid fever and is immediately reportable. Ask about food handling and child care.
+    confidence: high
+  - id: shigellosis
+    name: Shigellosis
+    aliases: [Shigella, Shigella sonnei, Shigella flexneri]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Shigellosis
+    confidence: high
+  - id: streptococcus-pneumoniae-invasive
+    name: Streptococcus pneumoniae, invasive disease
+    aliases: [invasive pneumococcal disease, IPD, pneumococcus, Streptococcus pneumoniae]
+    category: invasive_bacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    notes: Check whether the current regulation limits reporting by age.
+    confidence: low
+  - id: tetanus
+    name: Tetanus
+    aliases: [Clostridium tetani, lockjaw]
+    category: vaccine_preventable
+    timeframe: within_24_hours
+    reporters: [health_care_provider]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Tetanus
+    confidence: medium
+  - id: toxic-shock-syndrome
+    name: Toxic shock syndrome
+    aliases: [TSS, staphylococcal toxic shock syndrome]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: medium
+  - id: trichinellosis
+    name: Trichinellosis (trichinosis)
+    aliases: [trichinosis, Trichinella]
+    category: zoonotic
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: medium
+  - id: tuberculosis
+    name: Tuberculosis disease (confirmed or suspected)
+    aliases: [TB, active TB, Mycobacterium tuberculosis, pulmonary tuberculosis]
+    lab_terms: [AFB smear positive, Mycobacterium tuberculosis complex, MTB PCR positive]
+    category: mycobacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Tuberculosis
+    notes: Report suspected disease without waiting for culture confirmation. The local board of health manages directly observed therapy and contact investigation with the DPH TB program.
+    confidence: medium
+  - id: latent-tuberculosis-infection
+    name: Latent tuberculosis infection (LTBI)
+    aliases: [LTBI, latent TB, positive IGRA, positive tuberculin skin test, QuantiFERON positive]
+    category: mycobacterial
+    timeframe: other
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Tuberculosis
+    notes: Confirm with DPH whether and how latent TB infection is currently reportable.
+    confidence: low
+  - id: typhus
+    name: Typhus
+    aliases: [murine typhus, epidemic typhus, Rickettsia typhi, Rickettsia prowazekii]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    confidence: low
+  - id: varicella
+    name: Varicella (chickenpox)
+    aliases: [chickenpox, chicken pox, varicella-zoster virus, VZV]
+    category: vaccine_preventable
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Varicella
+    notes: Herpes zoster (shingles) reporting rules differ; confirm with DPH.
+    confidence: medium
+  - id: vibriosis
+    name: Vibriosis (non-cholera Vibrio)
+    aliases: [Vibrio, Vibrio parahaemolyticus, Vibrio vulnificus, non-cholera Vibrio]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Vibriosis
+    confidence: medium
+  - id: yersiniosis
+    name: Yersiniosis
+    aliases: [Yersinia enterocolitica, Yersinia]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Yersiniosis
+    confidence: medium
+  - id: carbapenemase-producing-organisms
+    name: Carbapenemase-producing or carbapenem-resistant organisms
+    aliases: [CRE, CP-CRE, carbapenem-resistant Enterobacterales, carbapenemase, KPC, NDM, CRAB, CRPA]
+    category: healthcare_associated
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    notes: Confirm with DPH which organisms and mechanisms are currently reportable and on what timeline.
+    confidence: low
+  - id: covid-19
+    name: COVID-19 (SARS-CoV-2)
+    aliases: [COVID, COVID-19, SARS-CoV-2, coronavirus disease 2019]
+    category: respiratory
+    timeframe: other
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    notes: Reporting and case-investigation expectations changed several times after the public health emergency ended; follow DPH's current guidance. Clusters in congregate settings are immediately reportable as outbreaks.
+    confidence: low
+  - id: influenza-laboratory-confirmed
+    name: Influenza, laboratory-confirmed
+    aliases: [influenza, flu, influenza A, influenza B]
+    category: respiratory
+    timeframe: other
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: Influenza
+    notes: Individual laboratory-confirmed cases are reported by laboratories for surveillance. Novel strains and pediatric deaths are immediately reportable; see those entries.
+    confidence: low
+
+  # --- Reportable directly to DPH programs (not to the local board of health)
+  - id: hiv
+    name: HIV infection
+    aliases: [HIV, human immunodeficiency virus, AIDS, HIV viral load, HIV antibody]
+    category: sexually_transmitted
+    timeframe: other
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    notes: Reported confidentially to DPH's HIV surveillance program, not to the local board of health.
+    confidence: medium
+  - id: sexually-transmitted-infections
+    name: Sexually transmitted infections (syphilis, gonorrhea, chlamydia, and others)
+    aliases: [STI, STD, syphilis, congenital syphilis, gonorrhea, chlamydia, Chlamydia trachomatis, Neisseria gonorrhoeae, Treponema pallidum, chancroid, lymphogranuloma venereum]
+    category: sexually_transmitted
+    timeframe: other
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    notes: Reported to DPH's Division of STD Prevention, not to the local board of health. Syphilis in pregnancy and congenital syphilis are priorities for prompt follow-up.
+    confidence: medium
+  - id: blood-lead
+    name: Blood lead test results
+    aliases: [lead poisoning, elevated blood lead, blood lead level, lead]
+    category: environmental
+    timeframe: other
+    reporters: [laboratory, health_care_provider]
+    report_to: [dph]
+    guide_chapter: null
+    notes: Childhood blood lead results are reported to DPH's Childhood Lead Poisoning Prevention Program under 105 CMR 460.000, not under 105 CMR 300.000. Adult results go to DPH occupational health surveillance.
+    confidence: low

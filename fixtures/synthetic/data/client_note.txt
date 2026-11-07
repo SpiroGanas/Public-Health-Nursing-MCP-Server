@@ -1,0 +1,4 @@
+Home visit note (SYNTHETIC TEST DATA)
+Client: Mrs. Rosa Delgado, DOB: 04/17/1958, MRN 00451234.
+Lives at 48 Chestnut Street, Amherst MA 01002. Phone 413-555-0177, email rosa.delgado@example.com.
+SSN 921-55-0193 noted on the intake form. Daughter Carmen Delgado will assist with medications.

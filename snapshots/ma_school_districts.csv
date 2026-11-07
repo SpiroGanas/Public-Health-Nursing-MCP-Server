@@ -1,0 +1,403 @@
+org_code,name,type,member_towns,grades
+00010000,Abington,Municipal (K-12),Abington,PK-12
+00030000,Acushnet,Municipal (elementary),Acushnet,PK-08
+00050000,Agawam,Municipal (K-12),Agawam,PK-12
+00070000,Amesbury,Municipal (K-12),Amesbury,PK-12
+00080000,Amherst,Municipal (elementary),Amherst,PK-06
+00090000,Andover,Municipal (K-12),Andover,PK-12
+00100000,Arlington,Municipal (K-12),Arlington,PK-12
+00140000,Ashland,Municipal (K-12),Ashland,PK-12
+00160000,Attleboro,Municipal (K-12),Attleboro,PK-12
+00170000,Auburn,Municipal (K-12),Auburn,PK-12
+00180000,Avon,Municipal (K-12),Avon,PK-12
+00200000,Barnstable,Municipal (K-12),Barnstable,PK-12
+00230000,Bedford,Municipal (K-12),Bedford,PK-12
+00240000,Belchertown,Municipal (K-12),Belchertown,PK-12
+00250000,Bellingham,Municipal (K-12),Bellingham,PK-12
+00260000,Belmont,Municipal (K-12),Belmont,PK-12
+00270000,Berkley,Municipal (elementary),Berkley,PK-08
+00300000,Beverly,Municipal (K-12),Beverly,PK-12
+00310000,Billerica,Municipal (K-12),Billerica,PK-12
+00350000,Boston,Municipal (K-12),Boston,PK-12
+00360000,Bourne,Municipal (K-12),Bourne,PK-12
+00380000,Boxford,Municipal (elementary),Boxford,PK-06
+00400000,Braintree,Municipal (K-12),Braintree,PK-12
+00410000,Brewster,Municipal (elementary),Brewster,PK-05
+00430000,Brimfield,Municipal (elementary),Brimfield,PK-06
+00440000,Brockton,Municipal (K-12),Brockton,PK-12
+00450000,Brookfield,Municipal (elementary),Brookfield,PK-06
+00460000,Brookline,Municipal (K-12),Brookline,PK-12
+00480000,Burlington,Municipal (K-12),Burlington,K-12
+00490000,Cambridge,Municipal (K-12),Cambridge,PK-12
+00500000,Canton,Municipal (K-12),Canton,PK-12
+00510000,Carlisle,Municipal (elementary),Carlisle,PK-08
+00520000,Carver,Municipal (K-12),Carver,PK-12
+00560000,Chelmsford,Municipal (K-12),Chelmsford,PK-12
+00570000,Chelsea,Municipal (K-12),Chelsea,PK-12
+00610000,Chicopee,Municipal (K-12),Chicopee,PK-12
+00630000,Clarksburg,Municipal (elementary),Clarksburg,K-08
+00640000,Clinton,Municipal (K-12),Clinton,PK-12
+00650000,Cohasset,Municipal (K-12),Cohasset,PK-12
+00670000,Concord,Municipal (elementary),Concord,PK-08
+00680000,Conway,Municipal (elementary),Conway,PK-06
+00710000,Danvers,Municipal (K-12),Danvers,PK-12
+00720000,Dartmouth,Municipal (K-12),Dartmouth,PK-12
+00730000,Dedham,Municipal (K-12),Dedham,PK-12
+00740000,Deerfield,Municipal (elementary),Deerfield,PK-06
+00770000,Douglas,Municipal (K-12),Douglas,PK-12
+00780000,Dover,Municipal (elementary),Dover,PK-05
+00790000,Dracut,Municipal (K-12),Dracut,PK-12
+00820000,Duxbury,Municipal (K-12),Duxbury,PK-12
+00830000,East Bridgewater,Municipal (K-12),East Bridgewater,PK-12
+00850000,Eastham,Municipal (elementary),Eastham,K-05
+00860000,Easthampton,Municipal (K-12),Easthampton,PK-12
+00870000,East Longmeadow,Municipal (K-12),East Longmeadow,PK-12
+00880000,Easton,Municipal (K-12),Easton,PK-12
+00890000,Edgartown,Municipal (elementary),Edgartown,PK-08
+00910000,Erving,Municipal (elementary),Erving,PK-06
+00930000,Everett,Municipal (K-12),Everett,PK-12
+00940000,Fairhaven,Municipal (K-12),Fairhaven,PK-12
+00950000,Fall River,Municipal (K-12),Fall River,PK-12
+00960000,Falmouth,Municipal (K-12),Falmouth,PK-12
+00970000,Fitchburg,Municipal (K-12),Fitchburg,PK-12
+00980000,Florida,Municipal (elementary),Florida,PK-08
+00990000,Foxborough,Municipal (K-12),Foxborough,PK-12
+01000000,Framingham,Municipal (K-12),Framingham,PK-12
+01010000,Franklin,Municipal (K-12),Franklin,PK-12
+01030000,Gardner,Municipal (K-12),Gardner,PK-12
+01050000,Georgetown,Municipal (K-12),Georgetown,PK-12
+01070000,Gloucester,Municipal (K-12),Gloucester,PK-12
+01090000,Gosnold,Municipal (elementary),Gosnold,PK-06
+01100000,Grafton,Municipal (K-12),Grafton,PK-12
+01110000,Granby,Municipal (K-12),Granby,PK-12
+01140000,Greenfield,Municipal (K-12),Greenfield,PK-12
+01170000,Hadley,Municipal (K-12),Hadley,PK-12
+01180000,Halifax,Municipal (elementary),Halifax,K-06
+01210000,Hancock,Municipal (elementary),Hancock,PK-06
+01220000,Hanover,Municipal (K-12),Hanover,PK-12
+01250000,Harvard,Municipal (K-12),Harvard,PK-12
+01270000,Hatfield,Municipal (K-12),Hatfield,PK-12
+01280000,Haverhill,Municipal (K-12),Haverhill,PK-12
+01310000,Hingham,Municipal (K-12),Hingham,PK-12
+01330000,Holbrook,Municipal (K-12),Holbrook,PK-12
+01350000,Holland,Municipal (elementary),Holland,PK-06
+01360000,Holliston,Municipal (K-12),Holliston,PK-12
+01370000,Holyoke,Municipal (K-12),Holyoke,PK-12
+01380000,Hopedale,Municipal (K-12),Hopedale,PK-12
+01390000,Hopkinton,Municipal (K-12),Hopkinton,PK-12
+01410000,Hudson,Municipal (K-12),Hudson,PK-12
+01420000,Hull,Municipal (K-12),Hull,PK-12
+01440000,Ipswich,Municipal (K-12),Ipswich,PK-12
+01450000,Kingston,Municipal (elementary),Kingston,K-06
+01490000,Lawrence,Municipal (K-12),Lawrence,PK-12
+01500000,Lee,Municipal (K-12),Lee,PK-12
+01510000,Leicester,Municipal (K-12),Leicester,PK-12
+01520000,Lenox,Municipal (K-12),Lenox,PK-12
+01530000,Leominster,Municipal (K-12),Leominster,PK-12
+01540000,Leverett,Municipal (elementary),Leverett,PK-06
+01550000,Lexington,Municipal (K-12),Lexington,PK-12
+01570000,Lincoln,Municipal (elementary),Lincoln,PK-08
+01580000,Littleton,Municipal (K-12),Littleton,PK-12
+01590000,Longmeadow,Municipal (K-12),Longmeadow,PK-12
+01600000,Lowell,Municipal (K-12),Lowell,PK-12
+01610000,Ludlow,Municipal (K-12),Ludlow,PK-12
+01620000,Lunenburg,Municipal (K-12),Lunenburg,PK-12
+01630000,Lynn,Municipal (K-12),Lynn,PK-12
+01640000,Lynnfield,Municipal (K-12),Lynnfield,PK-12
+01650000,Malden,Municipal (K-12),Malden,PK-12
+01670000,Mansfield,Municipal (K-12),Mansfield,PK-12
+01680000,Marblehead,Municipal (K-12),Marblehead,PK-12
+01690000,Marion,Municipal (elementary),Marion,PK-06
+01700000,Marlborough,Municipal (K-12),Marlborough,PK-12
+01710000,Marshfield,Municipal (K-12),Marshfield,PK-12
+01720000,Mashpee,Municipal (K-12),Mashpee,PK-12
+01730000,Mattapoisett,Municipal (elementary),Mattapoisett,PK-06
+01740000,Maynard,Municipal (K-12),Maynard,PK-12
+01750000,Medfield,Municipal (K-12),Medfield,PK-12
+01760000,Medford,Municipal (K-12),Medford,PK-12
+01770000,Medway,Municipal (K-12),Medway,PK-12
+01780000,Melrose,Municipal (K-12),Melrose,PK-12
+01810000,Methuen,Municipal (K-12),Methuen,PK-12
+01820000,Middleborough,Municipal (K-12),Middleborough,PK-12
+01840000,Middleton,Municipal (elementary),Middleton,PK-06
+01850000,Milford,Municipal (K-12),Milford,PK-12
+01860000,Millbury,Municipal (K-12),Millbury,PK-12
+01870000,Millis,Municipal (K-12),Millis,PK-12
+01890000,Milton,Municipal (K-12),Milton,PK-12
+01900000,Monroe,Municipal (tuitions students to other districts),Monroe,
+01910000,Monson,Municipal (K-12),Monson,PK-12
+01950000,Mount Washington,Municipal (tuitions students to other districts),Mount Washington,
+01960000,Nahant,Municipal (elementary),Nahant,PK-06
+01970000,Nantucket,Municipal (K-12),Nantucket,PK-12
+01980000,Natick,Municipal (K-12),Natick,PK-12
+01990000,Needham,Municipal (K-12),Needham,PK-12
+02000000,New Ashford,Municipal (tuitions students to other districts),New Ashford,
+02010000,New Bedford,Municipal (K-12),New Bedford,PK-12
+02040000,Newburyport,Municipal (K-12),Newburyport,PK-12
+02070000,Newton,Municipal (K-12),Newton,PK-12
+02080000,Norfolk,Municipal (elementary),Norfolk,PK-06
+02090000,North Adams,Municipal (K-12),North Adams,PK-12
+02100000,Northampton,Municipal (K-12),Northampton,PK-12
+02110000,North Andover,Municipal (K-12),North Andover,PK-12
+02120000,North Attleborough,Municipal (K-12),North Attleborough,PK-12
+02130000,Northborough,Municipal (elementary),Northborough,PK-08
+02140000,Northbridge,Municipal (K-12),Northbridge,PK-12
+02150000,North Brookfield,Municipal (K-12),North Brookfield,K-12
+02170000,North Reading,Municipal (K-12),North Reading,PK-12
+02180000,Norton,Municipal (K-12),Norton,PK-12
+02190000,Norwell,Municipal (K-12),Norwell,PK-12
+02200000,Norwood,Municipal (K-12),Norwood,PK-12
+02210000,Oak Bluffs,Municipal (elementary),Oak Bluffs,PK-08
+02230000,Orange,Municipal (elementary),Orange,PK-06
+02240000,Orleans,Municipal (elementary),Orleans,PK-05
+02260000,Oxford,Municipal (K-12),Oxford,PK-12
+02270000,Palmer,Municipal (K-12),Palmer,PK-12
+02290000,Peabody,Municipal (K-12),Peabody,PK-12
+02300000,Pelham,Municipal (elementary),Pelham,K-06
+02310000,Pembroke,Municipal (K-12),Pembroke,PK-12
+02340000,Petersham,Municipal (elementary),Petersham,K-06
+02360000,Pittsfield,Municipal (K-12),Pittsfield,PK-12
+02380000,Plainville,Municipal (elementary),Plainville,PK-06
+02390000,Plymouth,Municipal (K-12),Plymouth,PK-12
+02400000,Plympton,Municipal (elementary),Plympton,K-06
+02420000,Provincetown,Municipal (elementary),Provincetown,PK-08
+02430000,Quincy,Municipal (K-12),Quincy,PK-12
+02440000,Randolph,Municipal (K-12),Randolph,PK-12
+02460000,Reading,Municipal (K-12),Reading,PK-12
+02480000,Revere,Municipal (K-12),Revere,PK-12
+02490000,Richmond,Municipal (elementary),Richmond,PK-08
+02500000,Rochester,Municipal (elementary),Rochester,PK-06
+02510000,Rockland,Municipal (K-12),Rockland,PK-12
+02520000,Rockport,Municipal (K-12),Rockport,PK-12
+02530000,Rowe,Municipal (elementary),Rowe,PK-06
+02580000,Salem,Municipal (K-12),Salem,PK-12
+02610000,Sandwich,Municipal (K-12),Sandwich,PK-12
+02620000,Saugus,Municipal (K-12),Saugus,PK-12
+02630000,Savoy,Municipal (elementary),Savoy,PK-05
+02640000,Scituate,Municipal (K-12),Scituate,PK-12
+02650000,Seekonk,Municipal (K-12),Seekonk,PK-12
+02660000,Sharon,Municipal (K-12),Sharon,PK-12
+02690000,Sherborn,Municipal (elementary),Sherborn,PK-05
+02710000,Shrewsbury,Municipal (K-12),Shrewsbury,PK-12
+02720000,Shutesbury,Municipal (elementary),Shutesbury,PK-06
+02730000,Somerset,Municipal (elementary),Somerset,PK-08
+02740000,Somerville,Municipal (K-12),Somerville,PK-12
+02750000,Southampton,Municipal (elementary),Southampton,PK-06
+02760000,Southborough,Municipal (elementary),Southborough,PK-08
+02770000,Southbridge,Municipal (K-12),Southbridge,PK-12
+02780000,South Hadley,Municipal (K-12),South Hadley,PK-12
+02810000,Springfield,Municipal (K-12),Springfield,PK-12
+02840000,Stoneham,Municipal (K-12),Stoneham,PK-12
+02850000,Stoughton,Municipal (K-12),Stoughton,PK-12
+02870000,Sturbridge,Municipal (elementary),Sturbridge,PK-06
+02880000,Sudbury,Municipal (elementary),Sudbury,PK-08
+02890000,Sunderland,Municipal (elementary),Sunderland,PK-06
+02900000,Sutton,Municipal (K-12),Sutton,PK-12
+02910000,Swampscott,Municipal (K-12),Swampscott,PK-12
+02920000,Swansea,Municipal (K-12),Swansea,PK-12
+02930000,Taunton,Municipal (K-12),Taunton,PK-12
+02950000,Tewksbury,Municipal (K-12),Tewksbury,PK-12
+02960000,Tisbury,Municipal (elementary),Tisbury,PK-08
+02980000,Topsfield,Municipal (elementary),Topsfield,PK-06
+03000000,Truro,Municipal (elementary),Truro,PK-05
+03010000,Tyngsborough,Municipal (K-12),Tyngsborough,PK-12
+03020000,Tyringham,Municipal (tuitions students to other districts),Tyringham,
+03040000,Uxbridge,Municipal (K-12),Uxbridge,PK-12
+03050000,Wakefield,Municipal (K-12),Wakefield,PK-12
+03060000,Wales,Municipal (elementary),Wales,PK-06
+03070000,Walpole,Municipal (K-12),Walpole,PK-12
+03080000,Waltham,Municipal (K-12),Waltham,PK-12
+03090000,Ware,Municipal (K-12),Ware,PK-12
+03100000,Wareham,Municipal (K-12),Wareham,PK-12
+03140000,Watertown,Municipal (K-12),Watertown,PK-12
+03150000,Wayland,Municipal (K-12),Wayland,PK-12
+03160000,Webster,Municipal (K-12),Webster,PK-12
+03170000,Wellesley,Municipal (K-12),Wellesley,PK-12
+03180000,Wellfleet,Municipal (elementary),Wellfleet,PK-05
+03210000,Westborough,Municipal (K-12),Westborough,PK-12
+03220000,West Boylston,Municipal (K-12),West Boylston,PK-12
+03230000,West Bridgewater,Municipal (K-12),West Bridgewater,PK-12
+03250000,Westfield,Municipal (K-12),Westfield,PK-12
+03260000,Westford,Municipal (K-12),Westford,PK-12
+03270000,Westhampton,Municipal (elementary),Westhampton,PK-06
+03300000,Weston,Municipal (K-12),Weston,PK-12
+03310000,Westport,Municipal (K-12),Westport,PK-12
+03320000,West Springfield,Municipal (K-12),West Springfield,PK-12
+03350000,Westwood,Municipal (K-12),Westwood,PK-12
+03360000,Weymouth,Municipal (K-12),Weymouth,PK-12
+03370000,Whately,Municipal (elementary),Whately,PK-06
+03400000,Williamsburg,Municipal (elementary),Williamsburg,PK-06
+03420000,Wilmington,Municipal (K-12),Wilmington,PK-12
+03430000,Winchendon,Municipal (K-12),Winchendon,PK-12
+03440000,Winchester,Municipal (K-12),Winchester,PK-12
+03460000,Winthrop,Municipal (K-12),Winthrop,PK-12
+03470000,Woburn,Municipal (K-12),Woburn,PK-12
+03480000,Worcester,Municipal (K-12),Worcester,PK-12
+03490000,Worthington,Municipal (elementary),Worthington,PK-06
+03500000,Wrentham,Municipal (elementary),Wrentham,PK-06
+04070000,Dudley Street Neighborhod Public Charter School,Charter school district,Boston,
+04090000,Alma del Mar Charter School,Charter school district,New Bedford,
+04100000,Excel Academy Charter School,Charter school district,"Boston, Chelsea",
+04110000,Boston Green Academy Horace Mann Charter School,Charter school district,Boston,
+04120000,Academy of the Pacific Rim Charter Public School,Charter school district,Boston,
+04130000,Four Rivers Charter Public School,Charter school district,"Greenfield, Frontier, Gill-Montague, Mohawk Trail, Pioneer Valley, Ralph C. Mahar",
+04140000,Berkshire Arts and Technology Charter Public School,Charter school district,"Clarksburg, Florida, Hancock, Lanesborough, North Adams, Pittsfield, Savoy, Williamstown, Adams-Cheshire, Mount Greylock",
+04160000,Boston Preparatory Charter Public School,Charter school district,Boston,
+04170000,Bridge Boston Charter School,Charter school district,Boston,
+04180000,Christa McAuliffe Charter School,Charter school district,"Ashland, Framingham, Holliston, Hopkinton, Marlborough, Natick, Southborough, Sudbury",
+04190000,Helen Y. Davis Leadership Academy Charter Public School,Charter school district,Boston,
+04200000,Benjamin Banneker Charter Public School,Charter school district,Cambridge,
+04240000,Boston Day and Evening Academy Charter School,Charter school district,Boston,
+04260000,Community Day Charter Public School-Gateway,Charter school district,Lawrence,
+04270000,Barnstable Community Horace Mann Charter Public School,Charter school district,Barnstable,
+04280000,Brooke Charter School,Charter school district,"Boston, Chelsea",
+04290000,KIPP Academy Lynn Charter School,Charter school district,Lynn,
+04300000,Advanced Math and Science Academy Charter School,Charter school district,"Clinton, Hudson, Marlborough, Maynard",
+04310000,Community Day Charter Public School-R. Kingman Webster,Charter school district,Lawrence,
+04320000,Cape Cod Lighthouse Charter School,Charter school district,"Barnstable, Bourne, Falmouth, Mashpee, Provincetown, Sandwich, Truto, Dennis-Yarmouth, Nauset, Monomoy Regional",
+04350000,Innovation Academy Charter School,Charter school district,"Billerica, Chelmsford, Dracut, Littleton, Lowell, Tewksbury, Tyngsborough, Westford, Groton-Dunstable",
+04360000,Community Charter School of Cambridge,Charter school district,Cambridge,
+04370000,City on a Hill Charter Public School Circuit Street,Charter school district,Boston,
+04380000,Codman Academy Charter Public School,Charter school district,Boston,
+04390000,Conservatory Lab Charter School,Charter school district,Boston,
+04400000,Community Day Charter Public School-Prospect,Charter school district,Lawrence,
+04410000,Sabis International Charter School,Charter school district,Springfield,
+04440000,Neighborhood House Charter School,Charter school district,Boston,
+04450000,Abby Kelley Foster Charter Public School,Charter school district,"Auburn, Leicester, Millbury, Oxford, Shrewsbury, Sutton, West Boylston, Worcester, Wachusett",
+04460000,Foxborough Regional Charter School,Charter school district,"Attleboro, Avon, Brockton, Canton, Easton, Foxborough, Mansfield, Medfield, Medway, Millis, Norfolk, North Attleboro, Norton, Norwood, Plainville, Sharon, Stoughton, Walpole, West Bridgewater, Wrentham",
+04470000,Benjamin Franklin Classical Charter Public School,Charter school district,"Bellingham, Franklin, Holliston, Hopedale, Medway, Milford, Millis, Norfol, Plainville, Walpole, Wrentham, Blackstone-Millville, Mendon-Upton",
+04490000,Boston Collegiate Charter School,Charter school district,Boston,
+04500000,Hilltown Cooperative Charter Public School,Charter school district,"Amherst, Belchertown, Conway, Deerfield, Easthampton, Erving, Granby, Greenfield, Hadley, Hatfield, Leverett, Northampton, Orange, Pelham, Rowe, Shutesbury, Southampton, South Hadley, Sunderland, Ware, Westhampton, Whately, Williamsburg, Amherst, Leveret",
+04520000,Edward M. Kennedy Academy for Health Careers (Horace Mann Charter),Charter school district,Boston,
+04530000,Holyoke Community Charter School,Charter school district,Holyoke,
+04540000,Lawrence Family Development Charter School,Charter school district,Lawrence,
+04550000,Hill View Montessori Charter Public School,Charter school district,Haverhill,
+04560000,Lowell Community Charter Public School,Charter school district,Lowell,
+04580000,Lowell Middlesex Academy Charter School,Charter school district,Lowell,
+04630000,KIPP Academy Boston Charter School,Charter school district,Boston,
+04640000,Marblehead Community Charter Public School,Charter school district,Marblehead,
+04660000,Martha's Vineyard Public Charter School,Charter school district,"Edgartown, Oak Bluffs, Tisbury, Martha's Vineyard, Up-Island Regional",
+04690000,MATCH Charter Public School,Charter school district,Boston,
+04700000,Mystic Valley Regional Charter School,Charter school district,"Everett, Maldem, Medford, Melrose, Stoneham, Wakefield",
+04740000,The Sizer School: A North Central Charter Essential School,Charter school district,"Clinton, Fitchburg, Gardner, Leominster, Lunenburg, Ashburnham-Westminster, Nashoba, North Middlesex, Wachusett",
+04780000,Francis W. Parker Charter Essential School,Charter school district,"Bedford, Carlisle, Chelmsford, Clinton, Concord, Fitchburg, Gardner, Grafton, Harvard, Hudson, Leominster, Lincoln, Littleton, Lowell, Lunenburg, Marlborough, Maynard, Newton, Orange, Oxford, Shrewsbury, Southborough, Sudbury, Tyngsborough, Wayland, West",
+04790000,Pioneer Valley Performing Arts Charter Public School,Charter school district,"Agawam, Amherst, Belchertown, Brimfield, Brookfield, Chicopee, Conway, Easthampton, East Longmeadow, Granby, Greenfield, Hadley, Hatfield, Holyoke, Leverett, Longmeadow, Ludlow, Monson, Northampton, Palmer, Pelham, Petersham, Savoy, Shutesbury, Southampt",
+04800000,UP Academy Charter School of Boston,Charter school district,Boston,
+04810000,Boston Renaissance Charter Public School,Charter school district,Boston,
+04820000,River Valley Charter School,Charter school district,"Amesbury, Newburyport, Pentucket, Triton",
+04830000,Rising Tide Charter Public School,Charter school district,"Barnstable, Bourne, Carver, Duxbury, Falmouth, Lakeville, Marshfield, Mashpee, Middleborough, Pembroke, Plymouth, Sandwich, Wareham, Old Rochester, Silver Lake",
+04840000,Roxbury Preparatory Charter School,Charter school district,Boston,
+04850000,Salem Academy Charter School,Charter school district,Salem,
+04860000,Seven Hills Charter Public School,Charter school district,Worcester,
+04870000,Prospect Hill Academy Charter School,Charter school district,"Cambridge, Somerville",
+04880000,South Shore Charter Public School,Charter school district,"Abington, Braintree, Brockton, Cohasset, Duxbury, East Bridgewater, Halifax, Hanover, Hingham, Holbrook, Hull, Kingston, Marshfield, Norwell, Pembroke, Plymouth, Plympton, Quincy, Randolph, Rockland, Scituate, Weymouth, Whitman-Hanson",
+04890000,Sturgis Charter Public School,Charter school district,"Barnstable, Bourne, Carver, Falmouth, Mashpee, Plymouth, Provincetown, Sandwich, Wareham, Dennis-Yarmouth, Nauset, Monomoy Regional",
+04910000,Atlantis Charter School,Charter school district,Fall River,
+04920000,Martin Luther King Junior Charter School of Excellence,Charter school district,Springfield,
+04930000,Phoenix Charter Academy Chelsea,Charter school district,"Chelsea, Everett, Lynn, Revere",
+04940000,Pioneer Charter School of Science,Charter school district,"Chelsea, Everett, Revere",
+04960000,Global Learning Charter Public School,Charter school district,New Bedford,
+04970000,Pioneer Valley Chinese Immersion Charter School,Charter school district,"Agawam, Amherst, Belchertown, Chicopee, Conway, Deerfield, Easthampton, East Longmeadow, Granby, Greenfield, Hadley, Hatfield, Holyoke, Leverett, Longmeadow, Ludlow, Northampton, Pelham, Shutesbury, Southampton, South Hadley, Springfield, Sunderland, Wes",
+04980000,Veritas Preparatory Charter School,Charter school district,Springfield,
+04990000,Hampden Charter School of Science - East,Charter school district,"Chicopee, Ludlow, Springfield, West Springfield",
+06000000,Acton-Boxborough,Regional academic (K-12),"Acton, Boxborough",PK-12
+06030000,Adams-Cheshire,Regional academic (K-12),"Adams, Cheshire",PK-12
+06050000,Amherst-Pelham,Regional academic (secondary),"Amherst, Pelham, Leverett, Shutesbury",07-12
+06100000,Ashburnham-Westminster,Regional academic (K-12),"Ashburnham, Westminster",PK-12
+06150000,Athol-Royalston,Regional academic (K-12),"Athol, Royalston",PK-12
+06160000,Ayer Shirley,Regional academic (K-12),"Ayer, Shirley",PK-12
+06180000,Berkshire Hills,Regional academic (K-12),"Great Barrington, Stockbridge, West Stockbridge",PK-12
+06200000,Berlin-Boylston,Regional academic (K-12),"Berlin, Boylston",PK-12
+06220000,Blackstone-Millville,Regional academic (K-12),"Blackstone, Millville",PK-12
+06250000,Bridgewater-Raynham,Regional academic (K-12),"Bridgewater, Raynham",PK-12
+06320000,Chesterfield-Goshen,Regional academic (elementary),"Chesterfield, Goshen",PK-06
+06350000,Central Berkshire,Regional academic (K-12),"Becket, Cummington, Dalton, Hinsdale, Peru, Washington, Windsor",PK-12
+06400000,Concord-Carlisle,Regional academic (secondary),"Concord, Carlisle",09-12
+06450000,Dennis-Yarmouth,Regional academic (K-12),"Dennis, Yarmouth",PK-12
+06500000,Dighton-Rehoboth,Regional academic (K-12),"Dighton, Rehoboth",PK-12
+06550000,Dover-Sherborn,Regional academic (secondary),"Dover, Sherborn",06-12
+06580000,Dudley-Charlton,Regional academic (K-12),"Dudley, Charlton",PK-12
+06600000,Nauset,Regional academic (secondary),"Brewster, Eastham, Orleans, Wellfleet",06-12
+06620000,Farmington River,Regional academic (elementary),"Otis, Sandisfield",PK-06
+06650000,Freetown-Lakeville,Regional academic (K-12),"Freetown, Lakeville",PK-12
+06700000,Frontier,Regional academic (secondary),"Conway, Deerfield, Sunderland, Whately",07-12
+06720000,Gateway,Regional academic (K-12),"Blandford, Chester, Huntington, Middlefield, Montgomery, Russell",PK-12
+06730000,Groton-Dunstable,Regional academic (K-12),"Groton, Dunstable",PK-12
+06740000,Gill-Montague,Regional academic (K-12),"Gill, Montague",PK-12
+06750000,Hamilton-Wenham,Regional academic (K-12),"Hamilton, Wenham",PK-12
+06800000,Hampden-Wilbraham,Regional academic (K-12),"Hampden, Wilbraham",PK-12
+06830000,Hampshire,Regional academic (secondary),"Chesterfield, Goshen, Southampton, Westhampton, Williamsburg",07-12
+06850000,Hawlemont,Regional academic (elementary),"Charlemont, Hawley",PK-06
+06900000,King Philip,Regional academic (secondary),"Norfolk, Plainville, Wrentham",07-12
+06950000,Lincoln-Sudbury,Regional academic (secondary),"Lincoln, Sudbury",09-12
+06980000,Manchester Essex,Regional academic (K-12),"Essex, Manchester",PK-12
+07000000,Marthas Vineyard,Regional academic (secondary),"Aquinnah, Chilmark, Edgartown, Oak Bluffs, Tisbury, West Tisbury",09-12
+07050000,Masconomet,Regional academic (secondary),"Boxford, Middleton, Topsfield",07-12
+07100000,Mendon-Upton,Regional academic (K-12),"Mendon, Upton",PK-12
+07120000,Monomoy,Regional academic (K-12),"Chatham, Harwich",PK-12
+07150000,Mount Greylock,Regional academic (K-12),"Lanesborough, Williamstown",PK-12
+07170000,Mohawk Trail,Regional academic (K-12),"Ashfield, Buckland, Charlemont, Colrain, Hawley, Heath, Plainfield, Shelburne",PK-12
+07200000,Narragansett,Regional academic (K-12),"Phillipston, Templeton",PK-12
+07250000,Nashoba,Regional academic (K-12),"Bolton, Lancaster, Stow",PK-12
+07280000,New Salem-Wendell,Regional academic (elementary),"New Salem, Wendell",PK-06
+07300000,Northboro-Southboro,Regional academic (secondary),"Northborough, Southborough",09-12
+07350000,North Middlesex,Regional academic (K-12),"Ashby, Pepperell, Townsend",PK-12
+07400000,Old Rochester,Regional academic (secondary),"Marion, Mattapoisett, Rochester",07-12
+07450000,Pentucket,Regional academic (K-12),"Groveland, Merrimac, West Newbury",PK-12
+07500000,Pioneer Valley,Regional academic (K-12),"Bernardston, Leyden, Northfield, Warwick",PK-12
+07530000,Quabbin,Regional academic (K-12),"Barre, Hardwick, Hubbardston, New Braintree, Oakham",PK-12
+07550000,Ralph C Mahar,Regional academic (secondary),"New Salem-Wendell, Orange, Petersham",07-12
+07600000,Silver Lake,Regional academic (secondary),"Halifax, Kingston, Plympton",07-12
+07630000,Somerset Berkley,Regional academic (secondary),"Berkley, Somerset",09-12
+07650000,Southern Berkshire,Regional academic (K-12),"Alford, Egremont, Monterey, New Marlborough, Sheffield",PK-12
+07660000,Southwick-Tolland-Granville,Regional academic (K-12),"Granville, Southwick, Tolland",PK-12
+07670000,Spencer-E Brookfield,Regional academic (K-12),"East Brookfield, Spencer",PK-12
+07700000,Tantasqua,Regional academic (secondary),"Brimfield, Brookfield, Holland, Sturbridge, Wales",07-12
+07730000,Triton,Regional academic (K-12),"Newbury, Rowley, Salisbury",PK-12
+07740000,Up-Island,Regional academic (elementary),"Aquinnah, Chilmark, West Tisbury",PK-08
+07750000,Wachusett,Regional academic (K-12),"Holden, Paxton, Princeton, Rutland, Sterling",PK-12
+07780000,Quaboag,Regional academic (K-12),"Warren, West Brookfield",PK-12
+07800000,Whitman-Hanson,Regional academic (K-12),"Hanson, Whitman",PK-12
+08010000,Assabet Valley RVT,Regional vocational-technical,"Berlin, Hudson, Marlborough, Maynard, Northborough, Southborough, Westborough",
+08050000,Blackstone Valley RVT,Regional vocational-technical,"Bellingham, Blackstone, Douglas, Grafton, Hopedale, Mendon, Milford, Millbury, Millville, Northbridge, Sutton, Upton, Uxbridge",
+08060000,Blue Hills RVT,Regional vocational-technical,"Avon, Braintree, Canton, Dedham, Holbrook, Milton, Norwood, Randolph, Westwood",
+08100000,Bristol Plymouth RVT,Regional vocational-technical,"Berkley, Bridgewater, Dighton, Middleborough, Raynham, Rehoboth, Taunton",
+08150000,Cape Cod RVT,Regional vocational-technical,"Barnstable, Brewster, Chatham, Dennis, Eastham, Harwich, Mashpee, Orleans, Provincetown, Truro, Wellfleet, Yarmouth",
+08170000,Essex North Shore Ag Tech,Regional vocational-technical,"Beverly Boxford, Danvers, Essex, Gloucester, Hamilton, Lynnfield, Manchester, Marblehead, Middleton, Nahant, Peabody, Rockport, Salem, Swampscott, Topsfield, Wenham",
+08180000,Franklin County RVT,Regional vocational-technical,"Bernardston, Buckland, Colrain, Conway, Deerfield, Erving, Gill, Greenfield, Heath, Leyden, Montague, New Salem, Northfield, Orange, Shelburne, Sunderland, Warwick, Wendell, Whately",
+08210000,Greater Fall River RVT,Regional vocational-technical,"Fall River, Somerset, Swansea, Westport",
+08230000,Greater Lawrence RVT,Regional vocational-technical,"Andover, Lawrence, Methuen, North Andover",
+08250000,Greater New Bedford RVT,Regional vocational-technical,"Dartmouth, Fairhaven, New Bedford",
+08280000,Greater Lowell RVT,Regional vocational-technical,"Dracut, Dunstable, Lowell, Tyngsborough",
+08290000,South Middlesex RVT,Regional vocational-technical,"Ashland, Framingham, Holliston, Hopkinton, Natick",
+08300000,Minuteman RVT,Regional vocational-technical,"Acton, Arlington, Belmont, Bolton, Concord, Dover, Lancaster, Lexington, Needham, Stow, Wayland, Weston",
+08320000,Montachusett RVT,Regional vocational-technical,"Ashburnham, Ashby, Athol, Barre, Fitchburg, Gardner, Harvard, Holden, Hubbardston, Lunenburg, Petersham, Phillipston, Princeton, Royalston, Sterling, Templeton, Westminster, Winchendon",
+08510000,Northern Berkshire RVT,Regional vocational-technical,"Adams, Cheshire, Clarksburg, Florida, Lanesboro, Monroe, North Adams, Savoy, Williamstown",
+08520000,Nashoba Valley RVT,Regional vocational-technical,"Ayer, Chelmsford, Groton, Littleton, Pepperell, Shirley, Townsend, Westford",
+08530000,Northeast Metropolitan RVT,Regional vocational-technical,"Chelsea, Malden, Melrose, North Reading, Reading, Revere, Saugus, Stoneham, Wakefield, Winchester, Winthrop, Woburn",
+08550000,Old Colony RVT,Regional vocational-technical,"Acushnet, Carver, Lakeville, Mattapoisett, Rochester",
+08600000,Pathfinder RVT,Regional vocational-technical,"Hardwick, Belchertown, Granby, Monson, New Braintree, Oakham, Palmer, Ware, Warren",
+08710000,Shawsheen Valley RVT,Regional vocational-technical,"Bedford, Billerica, Burlingon, Tewksbury, Wilmington",
+08720000,Southeastern RVT,Regional vocational-technical,"Brockton, East Bridgewater, Easton, Foxborough, Mansfield, Norton, Sharon, Stoughton, West Bridgewater",
+08730000,South Shore RVT,Regional vocational-technical,"Abington, Cohasset, Hanover, Hanson, Norwell, Rockland, Scituate, Whitman",
+08760000,Southern Worcester County RVT,Regional vocational-technical,"Auburn, Charlton, Dudley, North Brookfield, Oxford, Paxton, Rutland, Southbridge, Spencer, Webster",
+08780000,Tri County RVT,Regional vocational-technical,"Franklin, Medfield, Medway, Millis, Norfolk, North Attleborough, Plainville, Seekonk, Sherborn, Walpole, Wrentham",
+08790000,Upper Cape Cod RVT,Regional vocational-technical,"Bourne, Falmouth, Marion, Sandwich, Wareham",
+08850000,Whittier RVT,Regional vocational-technical,"Amesbury, Georgetown, Groveland, Haverhill, Ipswich, Merrimac, Newbury, Newburyport, Rowley, Salisbury, West Newbury",
+35010000,Paulo Freire Social Justice Charter School,Charter school district,"Chicopee, Holyoke, South Hadley, West Springfield",
+35020000,Baystate Academy Public Charter School,Charter school district,Springfield,
+35030000,Collegiate Charter School of Lowell,Charter school district,Lowell,
+35040000,City On A Hill Charter Public School Dudley Square,Charter school district,Boston,
+35050000,UP Academy Charter School of Dorchester,Charter school district,Boston,
+35060000,Pioneer Charter School of Science II,Charter school district,"Danvers, Lynn, Peabody, Salem, Saugus",
+35070000,City On A Hill Charter Public School New Bedford,Charter school district,New Bedford,
+35080000,Phoenix Charter Academy Springfield,Charter school district,"Chicopee, Holyoke, Springfield",
+35090000,Argosy Collegiate Charter School,Charter school district,Fall River,
+35100000,Springfield Preparatory Charter School,Charter school district,Springfield,
+35110000,Bentley Academy Charter School,Charter school district,Salem,
+35130000,New Heights Charter School of Brockton,Charter school district,"Brockton, Randolph, Taunton",
+35140000,Libertas Academy Charter School,Charter school district,Springfield,
+35150000,Old Sturbridge Academy Charter Public School,Charter school district,"Brimfield, Brookfield, Holland, Monson, North Brookfield, Palmer, Southbridge, Spencer-East Brookfield, Sturbridge, Tantasqua, Wales, Webster",
+35160000,Hampden Charter School of Science - West,Charter school district,"Agawam, Holyoke, West Springfield, Westfield",
+35170000,Map Academy Charter School,Charter school district,"Carver, Plymouth, Wareham",
+35180000,Phoenix Charter Academy Lawrence,Charter school district,"Haverhill, Lawrence, Methuen",

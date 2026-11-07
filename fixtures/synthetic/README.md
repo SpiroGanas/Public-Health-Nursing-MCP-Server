@@ -1,0 +1,19 @@
+# Synthetic test corpus
+
+Everything in this folder is **fictional**. It exists so tests can prove that the privacy
+guardrails work: the PHI detector must flag every identifier listed in
+`seeded_identifiers.json`, and no tool may return any of those values unless the caller
+explicitly asks for row-level data (and even then identifiers are masked).
+
+| File | What it is |
+|---|---|
+| `data/line_list.csv` | 25-row outbreak line list with names, dates of birth, addresses, ZIP codes, phone numbers, email, SSNs, MRNs, MassHealth IDs, case IDs, and free-text notes. Two people are over 89. |
+| `data/counts_by_town.csv` | Aggregate counts by town and year, with totals, for suppression tests. |
+| `data/exclusion_letters.csv` | Mail-merge data (parent and student names). |
+| `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
+| `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
+| `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
+
+Values were chosen so they cannot belong to real people: phone numbers use the 555-01xx range
+reserved for fiction, email addresses use `example.org`/`example.com`, and SSNs start with 9,
+which the Social Security Administration never assigns.

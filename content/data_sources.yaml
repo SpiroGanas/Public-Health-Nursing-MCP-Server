@@ -1,0 +1,151 @@
+# Registry of every data source the server uses or plans to use.
+# Read by the get_data_source_status tool (CORE-08).
+# Schema: content/schemas/data_sources.schema.json
+meta:
+  id: data-source-registry
+  title: Data source registry
+  version: 0.2.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: Public Health Nursing MCP Server project plan
+    publisher: Public Health Nursing MCP Server project
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/project_plan.md
+  related_sources: []
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Lists the sources used through Phase 1 and the main sources planned for later phases. The
+    product owner should confirm the caveats when each source is first used.
+
+general_caveats:
+  - >-
+    Several federal public health web pages and datasets were taken offline or modified for a
+    time in 2025, and some were later restored. The server keeps dated snapshots so answers stay
+    reproducible, and each answer states whether live or snapshot data was used.
+
+sources:
+  - id: ma-reportable-conditions
+    name: Massachusetts reportable diseases and conditions (105 CMR 300.000)
+    publisher: Massachusetts Department of Public Health
+    kind: content
+    status: active
+    content_id: ma-reportable-conditions
+    homepage: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    used_by: [lookup_reportable_condition]
+    caveats:
+      - Reviewed content bundled with the server. Changes to the regulation require a content update.
+
+  - id: ma-municipalities
+    name: Massachusetts cities and towns, counties, and DPH preparedness regions
+    publisher: MassGIS
+    kind: snapshot
+    status: active
+    snapshot_id: ma-municipalities
+    homepage: https://www.mass.gov/info-details/massgis-data-municipalities
+    probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/townssurvey_shp.zip
+    used_by: [configure_jurisdiction, lookup_reportable_condition]
+    caveats:
+      - HMCC regions are derived from the 2005 DPH Emergency Preparedness Region layer; confirm with your HMCC.
+
+  - id: ma-school-districts
+    name: Massachusetts public school districts
+    publisher: MassGIS, from DESE data
+    kind: snapshot
+    status: active
+    snapshot_id: ma-school-districts
+    homepage: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
+    probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
+    used_by: [configure_jurisdiction]
+    caveats:
+      - District list reflects the layer's vintage; newer regionalizations may be missing.
+
+  - id: local-files
+    name: Your files in the mounted /data folder
+    publisher: Your agency
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [read_local_file, search_agency_policies, profile_local_dataset, deidentify_dataset, apply_small_cell_suppression, check_document_accessibility, export_document]
+    caveats:
+      - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
+
+  # --- Planned sources (later phases) ----------------------------------------
+  - id: census-acs
+    name: American Community Survey 5-year estimates
+    publisher: U.S. Census Bureau
+    kind: live
+    status: planned
+    planned_phase: 4
+    homepage: https://www.census.gov/programs-surveys/acs
+    probe_url: https://api.census.gov/data.html
+    used_by: []
+    caveats:
+      - Requires a free Census API key for heavy use.
+  - id: cdc-socrata
+    name: CDC open data portal (data.cdc.gov)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: planned
+    planned_phase: 4
+    homepage: https://data.cdc.gov
+    probe_url: https://data.cdc.gov
+    used_by: []
+    caveats:
+      - Some datasets were removed or changed in 2025; snapshots are kept for reproducibility.
+  - id: cdc-svi
+    name: CDC/ATSDR Social Vulnerability Index
+    publisher: Centers for Disease Control and Prevention / ATSDR
+    kind: snapshot
+    status: planned
+    planned_phase: 4
+    homepage: https://www.atsdr.cdc.gov/place-health/php/svi/index.html
+    probe_url: https://www.atsdr.cdc.gov
+    used_by: []
+    caveats:
+      - Released about every two years.
+  - id: ncbi-eutils
+    name: NCBI E-utilities (PubMed)
+    publisher: National Library of Medicine
+    kind: live
+    status: planned
+    planned_phase: 4
+    homepage: https://www.ncbi.nlm.nih.gov/books/NBK25501/
+    probe_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi
+    used_by: []
+    caveats: []
+  - id: openfda
+    name: openFDA, DailyMed, and RxNorm
+    publisher: U.S. Food and Drug Administration; National Library of Medicine
+    kind: live
+    status: planned
+    planned_phase: 5
+    homepage: https://open.fda.gov
+    probe_url: https://api.fda.gov
+    used_by: []
+    caveats: []
+  - id: cdc-cdsi
+    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data
+    publisher: Centers for Disease Control and Prevention
+    kind: snapshot
+    status: planned
+    planned_phase: 6
+    homepage: https://www.cdc.gov/iis/cdsi/index.html
+    probe_url: https://www.cdc.gov
+    used_by: []
+    caveats: []
+  - id: nws-alerts
+    name: National Weather Service alerts API
+    publisher: National Weather Service
+    kind: live
+    status: planned
+    planned_phase: 12
+    homepage: https://www.weather.gov/documentation/services-web-api
+    probe_url: https://api.weather.gov/alerts/active?area=MA
+    used_by: []
+    caveats: []

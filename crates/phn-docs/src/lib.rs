@@ -1,0 +1,23 @@
+//! Document output.
+//!
+//! * [`model`]: a small document model, built from Markdown.
+//! * [`docx`], [`pdf`], [`xlsx`], [`csv_out`], [`svg`]: writers. DOCX and PDF
+//!   carry the agency letterhead and are built to pass the server's own
+//!   accessibility checks (title, language, real headings, table header rows,
+//!   alt text, tagged PDF).
+//! * [`mailmerge`]: the local mail-merge pattern: identifiable letters are
+//!   written to the output folder and never returned to the model.
+//! * [`accessibility`]: Section 508 / WCAG 2.1 AA checks for DOCX, HTML, PDF.
+
+pub mod accessibility;
+pub mod csv_out;
+pub mod docx;
+pub mod fonts;
+pub mod image;
+pub mod mailmerge;
+pub mod model;
+pub mod pdf;
+pub mod svg;
+pub mod xlsx;
+
+pub use model::{Block, Document, Inline, TableBlock};

@@ -1,0 +1,365 @@
+{
+ "generator": "scipy.stats.chi2.ppf (SciPy) \u2014 Garwood exact Poisson interval: lower = chi2.ppf(alpha/2, 2x)/2, upper = chi2.ppf(1-alpha/2, 2(x+1))/2",
+ "cases": [
+  {
+   "count": 0,
+   "confidence": 0.9,
+   "lower": 0.0,
+   "upper": 2.995732274
+  },
+  {
+   "count": 1,
+   "confidence": 0.9,
+   "lower": 0.05129329439,
+   "upper": 4.743864518
+  },
+  {
+   "count": 2,
+   "confidence": 0.9,
+   "lower": 0.3553615107,
+   "upper": 6.295793622
+  },
+  {
+   "count": 3,
+   "confidence": 0.9,
+   "lower": 0.8176914472,
+   "upper": 7.753656528
+  },
+  {
+   "count": 4,
+   "confidence": 0.9,
+   "lower": 1.366318397,
+   "upper": 9.153519027
+  },
+  {
+   "count": 5,
+   "confidence": 0.9,
+   "lower": 1.970149568,
+   "upper": 10.51303491
+  },
+  {
+   "count": 7,
+   "confidence": 0.9,
+   "lower": 3.285315692,
+   "upper": 13.1481138
+  },
+  {
+   "count": 10,
+   "confidence": 0.9,
+   "lower": 5.425405697,
+   "upper": 16.96221924
+  },
+  {
+   "count": 15,
+   "confidence": 0.9,
+   "lower": 9.246330491,
+   "upper": 23.09712976
+  },
+  {
+   "count": 19,
+   "confidence": 0.9,
+   "lower": 12.44195219,
+   "upper": 27.87923964
+  },
+  {
+   "count": 20,
+   "confidence": 0.9,
+   "lower": 13.2546516,
+   "upper": 29.06201884
+  },
+  {
+   "count": 25,
+   "confidence": 0.9,
+   "lower": 17.38212584,
+   "upper": 34.91608017
+  },
+  {
+   "count": 50,
+   "confidence": 0.9,
+   "lower": 38.96473258,
+   "upper": 63.2870741
+  },
+  {
+   "count": 100,
+   "confidence": 0.9,
+   "lower": 84.13927722,
+   "upper": 118.0792728
+  },
+  {
+   "count": 250,
+   "confidence": 0.9,
+   "lower": 224.5733782,
+   "upper": 277.6153926
+  },
+  {
+   "count": 1000,
+   "confidence": 0.9,
+   "lower": 948.5598494,
+   "upper": 1053.603122
+  },
+  {
+   "count": 5000,
+   "confidence": 0.9,
+   "lower": 4884.262568,
+   "upper": 5117.886079
+  },
+  {
+   "count": 25000,
+   "confidence": 0.9,
+   "lower": 24740.49556,
+   "upper": 25261.64667
+  },
+  {
+   "count": 100000,
+   "confidence": 0.9,
+   "lower": 99480.42075,
+   "upper": 100521.7189
+  },
+  {
+   "count": 1000000,
+   "confidence": 0.9,
+   "lower": 998355.7151,
+   "upper": 1001646.423
+  },
+  {
+   "count": 0,
+   "confidence": 0.95,
+   "lower": 0.0,
+   "upper": 3.688879454
+  },
+  {
+   "count": 1,
+   "confidence": 0.95,
+   "lower": 0.02531780798,
+   "upper": 5.571643391
+  },
+  {
+   "count": 2,
+   "confidence": 0.95,
+   "lower": 0.2422092785,
+   "upper": 7.224687668
+  },
+  {
+   "count": 3,
+   "confidence": 0.95,
+   "lower": 0.6186721229,
+   "upper": 8.76727307
+  },
+  {
+   "count": 4,
+   "confidence": 0.95,
+   "lower": 1.089865374,
+   "upper": 10.24158868
+  },
+  {
+   "count": 5,
+   "confidence": 0.95,
+   "lower": 1.62348639,
+   "upper": 11.66833208
+  },
+  {
+   "count": 7,
+   "confidence": 0.95,
+   "lower": 2.814363052,
+   "upper": 14.42267536
+  },
+  {
+   "count": 10,
+   "confidence": 0.95,
+   "lower": 4.795388696,
+   "upper": 18.39035604
+  },
+  {
+   "count": 15,
+   "confidence": 0.95,
+   "lower": 8.395386133,
+   "upper": 24.74021887
+  },
+  {
+   "count": 19,
+   "confidence": 0.95,
+   "lower": 11.43924116,
+   "upper": 29.67085357
+  },
+  {
+   "count": 20,
+   "confidence": 0.95,
+   "lower": 12.21651959,
+   "upper": 30.8883779
+  },
+  {
+   "count": 25,
+   "confidence": 0.95,
+   "lower": 16.17868185,
+   "upper": 36.9049317
+  },
+  {
+   "count": 50,
+   "confidence": 0.95,
+   "lower": 37.11096374,
+   "upper": 65.91876666
+  },
+  {
+   "count": 100,
+   "confidence": 0.95,
+   "lower": 81.36399125,
+   "upper": 121.6267938
+  },
+  {
+   "count": 250,
+   "confidence": 0.95,
+   "lower": 219.9679956,
+   "upper": 282.987705
+  },
+  {
+   "count": 1000,
+   "confidence": 0.95,
+   "lower": 938.9730184,
+   "upper": 1063.952136
+  },
+  {
+   "count": 5000,
+   "confidence": 0.95,
+   "lower": 4862.359189,
+   "upper": 5140.548949
+  },
+  {
+   "count": 25000,
+   "confidence": 0.95,
+   "lower": 24691.05072,
+   "upper": 25311.84978
+  },
+  {
+   "count": 100000,
+   "confidence": 0.95,
+   "lower": 99381.15266,
+   "upper": 100621.7447
+  },
+  {
+   "count": 1000000,
+   "confidence": 0.95,
+   "lower": 998040.9833,
+   "upper": 1001961.912
+  },
+  {
+   "count": 0,
+   "confidence": 0.99,
+   "lower": 0.0,
+   "upper": 5.298317367
+  },
+  {
+   "count": 1,
+   "confidence": 0.99,
+   "lower": 0.005012541824,
+   "upper": 7.4301295
+  },
+  {
+   "count": 2,
+   "confidence": 0.99,
+   "lower": 0.1034945467,
+   "upper": 9.273792089
+  },
+  {
+   "count": 3,
+   "confidence": 0.99,
+   "lower": 0.3378633887,
+   "upper": 10.9774775
+  },
+  {
+   "count": 4,
+   "confidence": 0.99,
+   "lower": 0.6722065435,
+   "upper": 12.59408979
+  },
+  {
+   "count": 5,
+   "confidence": 0.99,
+   "lower": 1.077928241,
+   "upper": 14.14975941
+  },
+  {
+   "count": 7,
+   "confidence": 0.99,
+   "lower": 2.037337479,
+   "upper": 17.13359327
+  },
+  {
+   "count": 10,
+   "confidence": 0.99,
+   "lower": 3.716922131,
+   "upper": 21.3978275
+  },
+  {
+   "count": 15,
+   "confidence": 0.99,
+   "lower": 6.89335993,
+   "upper": 28.16405748
+  },
+  {
+   "count": 19,
+   "confidence": 0.99,
+   "lower": 9.644455779,
+   "upper": 33.38298092
+  },
+  {
+   "count": 20,
+   "confidence": 0.99,
+   "lower": 10.35326766,
+   "upper": 34.66799873
+  },
+  {
+   "count": 25,
+   "confidence": 0.99,
+   "lower": 13.99537443,
+   "upper": 41.00041285
+  },
+  {
+   "count": 50,
+   "confidence": 0.99,
+   "lower": 33.66378165,
+   "upper": 71.26608848
+  },
+  {
+   "count": 100,
+   "confidence": 0.99,
+   "lower": 76.12049584,
+   "upper": 128.7605801
+  },
+  {
+   "count": 250,
+   "confidence": 0.99,
+   "lower": 211.1516824,
+   "upper": 293.6846883
+  },
+  {
+   "count": 1000,
+   "confidence": 0.99,
+   "lower": 920.4240462,
+   "upper": 1084.372868
+  },
+  {
+   "count": 5000,
+   "confidence": 0.99,
+   "lower": 4819.739991,
+   "upper": 5185.034739
+  },
+  {
+   "count": 25000,
+   "confidence": 0.99,
+   "lower": 24594.60408,
+   "upper": 25410.16064
+  },
+  {
+   "count": 100000,
+   "confidence": 0.99,
+   "lower": 99187.32963,
+   "upper": 100817.431
+  },
+  {
+   "count": 1000000,
+   "confidence": 0.99,
+   "lower": 997426.049,
+   "upper": 1002578.709
+  }
+ ]
+}

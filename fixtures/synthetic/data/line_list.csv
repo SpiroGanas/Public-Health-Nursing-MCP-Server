@@ -1,0 +1,26 @@
+Case ID,Last Name,First Name,DOB,Age,Sex,Street Address,Town,ZIP,Phone,Email,SSN,MRN,MassHealth ID,Onset Date,Diagnosis,Hospitalized,Notes
+C-20260001,Garcia,Maria,1953-04-11,73,F,837 Elm Street,Pelham,01002,413-555-0100,maria.garcia@example.org,929-87-6117,MRN400000,MH361827247,2026-09-14,Pertussis,N,SSN on intake form 929-87-6117.
+C-20260002,Smith,James,1986-09-19,40,F,228 Pleasant Street,Amherst,01003,413-555-0101,james.smith@example.org,919-46-4062,MRN400037,MH455659260,2026-09-11,Pertussis,N,Household contacts identified.
+C-20260003,Nguyen,Linda,2003-03-19,23,F,680 Summer Street,Amherst,01002,413-555-0102,linda.nguyen@example.org,913-19-9423,MRN400074,MH772632802,2026-10-04,Pertussis,Y,
+C-20260004,Johnson,Robert,1932-03-18,94,M,59 Union Avenue,Northampton,01060,413-555-0103,robert.johnson@example.org,976-29-3224,MRN400111,MH240229794,2026-10-04,Salmonellosis,N,
+C-20260005,Williams,Patricia,1973-01-25,53,M,968 Union Avenue,Amherst,01002,413-555-0104,patricia.williams@example.org,988-65-4375,MRN400148,MH243806196,2026-09-05,Campylobacteriosis,Y,Household contacts identified.
+C-20260006,Brown,Michael,2012-10-17,14,M,367 Main Street,Hadley,01035,413-555-0105,michael.brown@example.org,956-83-8635,MRN400185,MH856091131,2026-09-02,Pertussis,N,Mother reached at 413-555-0105.
+C-20260007,Jones,Jennifer,2024-10-20,2,F,206 Pine Lane,Amherst,01003,413-555-0106,jennifer.jones@example.org,993-30-8416,MRN400222,MH968170221,2026-09-28,Pertussis,N,SSN on intake form 993-30-8416.
+C-20260008,Miller,William,1996-03-08,30,F,113 Elm Street,Amherst,01002,413-555-0107,william.miller@example.org,985-48-6499,MRN400259,MH974800940,2026-09-17,Pertussis,N,Household contacts identified.
+C-20260009,Davis,Elizabeth,1969-04-27,57,F,589 Summer Street,Amherst,01003,413-555-0108,elizabeth.davis@example.org,920-11-4507,MRN400296,MH563132678,2026-10-07,Salmonellosis,N,Mother reached at 413-555-0108.
+C-20260010,Rodriguez,David,1986-01-24,40,M,23 Cedar Drive,Northampton,01060,413-555-0109,david.rodriguez@example.org,950-96-1570,MRN400333,MH549911259,2026-10-14,Campylobacteriosis,N,Spoke with David Rodriguez at home.
+C-20260011,Martinez,Susan,1948-09-28,78,F,561 Elm Street,Amherst,01002,413-555-0110,susan.martinez@example.org,934-76-3099,MRN400370,MH756529971,2026-10-20,Pertussis,N,Household contacts identified.
+C-20260012,Hernandez,Joseph,1952-03-07,74,M,672 Cedar Drive,Hadley,01035,413-555-0111,joseph.hernandez@example.org,939-18-5877,MRN400407,MH548667880,2026-10-14,Pertussis,Y,
+C-20260013,Lopez,Jessica,1957-07-10,69,F,371 Main Street,Amherst,01003,413-555-0112,jessica.lopez@example.org,972-30-5283,MRN400444,MH664160395,2026-09-14,Pertussis,N,Mother reached at 413-555-0112.
+C-20260014,Gonzalez,Thomas,2023-04-09,3,M,314 Pine Lane,Amherst,01003,413-555-0113,thomas.gonzalez@example.org,977-64-2803,MRN400481,MH552381282,2026-09-25,Salmonellosis,Y,Spoke with Thomas Gonzalez at home.
+C-20260015,Wilson,Sarah,1978-05-26,48,M,719 Main Street,Hadley,01035,413-555-0114,sarah.wilson@example.org,931-99-2086,MRN400518,MH880545428,2026-09-22,Campylobacteriosis,N,Mother reached at 413-555-0114.
+C-20260016,Anderson,Charles,1964-06-21,62,F,287 Oak Road,Amherst,01002,413-555-0115,charles.anderson@example.org,960-92-1559,MRN400555,MH947269648,2026-10-11,Pertussis,Y,Spoke with Charles Anderson at home.
+C-20260017,Thomas,Karen,1985-05-30,41,M,199 Pine Lane,Amherst,01002,413-555-0116,karen.thomas@example.org,936-92-8785,MRN400592,MH839696672,2026-09-17,Pertussis,N,SSN on intake form 936-92-8785.
+C-20260018,Taylor,Christopher,1933-06-15,93,F,866 Maple Avenue,Hadley,01035,413-555-0117,christopher.taylor@example.org,969-82-5515,MRN400629,MH843460685,2026-09-10,Pertussis,Y,
+C-20260019,Moore,Nancy,1970-07-18,56,M,81 Union Avenue,Amherst,01002,413-555-0118,nancy.moore@example.org,969-13-2365,MRN400666,MH975205319,2026-09-06,Salmonellosis,Y,
+C-20260020,Jackson,Daniel,1949-01-16,77,M,307 Maple Avenue,Northampton,01060,413-555-0119,daniel.jackson@example.org,921-79-3606,MRN400703,MH275370220,2026-09-06,Campylobacteriosis,Y,
+C-20260021,Martin,Lisa,1956-04-20,70,M,712 High Street,Amherst,01002,413-555-0120,lisa.martin@example.org,930-84-8846,MRN400740,MH166030693,2026-10-04,Pertussis,N,Spoke with Lisa Martin at home.
+C-20260022,Lee,Matthew,2002-03-31,24,F,949 High Street,Pelham,01002,413-555-0121,matthew.lee@example.org,958-92-6628,MRN400777,MH731250405,2026-10-12,Pertussis,Y,Household contacts identified.
+C-20260023,Perez,Betty,1997-04-17,29,F,255 High Street,Pelham,01002,413-555-0122,betty.perez@example.org,997-86-4389,MRN400814,MH632115206,2026-10-19,Pertussis,Y,
+C-20260024,Thompson,Anthony,2022-02-10,4,F,622 Pleasant Street,Amherst,01002,413-555-0123,anthony.thompson@example.org,993-61-6659,MRN400851,MH557488189,2026-09-27,Salmonellosis,N,
+C-20260025,White,Sandra,2013-01-25,13,M,935 Pine Lane,Northampton,01060,413-555-0124,sandra.white@example.org,932-59-5239,MRN400888,MH510825851,2026-10-11,Campylobacteriosis,N,Mother reached at 413-555-0124.

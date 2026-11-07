@@ -1,0 +1,1591 @@
+{
+ "description": "Every identifier seeded into the synthetic corpus. All values are fictional (555 phone numbers, example.org emails, SSNs in the 900 range, which are never issued as SSNs).",
+ "identifiers": [
+  {
+   "value": "Garcia",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Maria",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1953-04-11",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "837 Elm Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0100",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "maria.garcia@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "929-87-6117",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400000",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH361827247",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260001",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Smith",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "James",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1986-09-19",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "228 Pleasant Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0101",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "james.smith@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "919-46-4062",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400037",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH455659260",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260002",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Nguyen",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Linda",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2003-03-19",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "680 Summer Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0102",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "linda.nguyen@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "913-19-9423",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400074",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH772632802",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260003",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Johnson",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Robert",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1932-03-18",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "59 Union Avenue",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0103",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "robert.johnson@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "976-29-3224",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400111",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH240229794",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260004",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Williams",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Patricia",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1973-01-25",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "968 Union Avenue",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0104",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "patricia.williams@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "988-65-4375",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400148",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH243806196",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260005",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Brown",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Michael",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2012-10-17",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "367 Main Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0105",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "michael.brown@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "956-83-8635",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400185",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH856091131",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260006",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Jones",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jennifer",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2024-10-20",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "206 Pine Lane",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0106",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "jennifer.jones@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "993-30-8416",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400222",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH968170221",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260007",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Miller",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "William",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1996-03-08",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "113 Elm Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0107",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "william.miller@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "985-48-6499",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400259",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH974800940",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260008",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Davis",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Elizabeth",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1969-04-27",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "589 Summer Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0108",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "elizabeth.davis@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "920-11-4507",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400296",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH563132678",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260009",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Rodriguez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "David",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1986-01-24",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "23 Cedar Drive",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0109",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "david.rodriguez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "950-96-1570",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400333",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH549911259",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260010",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Martinez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Susan",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1948-09-28",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "561 Elm Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0110",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "susan.martinez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "934-76-3099",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400370",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH756529971",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260011",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Hernandez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Joseph",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1952-03-07",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "672 Cedar Drive",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0111",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "joseph.hernandez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "939-18-5877",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400407",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH548667880",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260012",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Lopez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jessica",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1957-07-10",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "371 Main Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0112",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "jessica.lopez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "972-30-5283",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400444",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH664160395",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260013",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Gonzalez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thomas",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2023-04-09",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "314 Pine Lane",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0113",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "thomas.gonzalez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "977-64-2803",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400481",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH552381282",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260014",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Wilson",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Sarah",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1978-05-26",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "719 Main Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0114",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "sarah.wilson@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "931-99-2086",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400518",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH880545428",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260015",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Anderson",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Charles",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1964-06-21",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "287 Oak Road",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0115",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "charles.anderson@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "960-92-1559",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400555",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH947269648",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260016",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Thomas",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Karen",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1985-05-30",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "199 Pine Lane",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0116",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "karen.thomas@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "936-92-8785",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400592",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH839696672",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260017",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Taylor",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Christopher",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1933-06-15",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "866 Maple Avenue",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0117",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "christopher.taylor@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "969-82-5515",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400629",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH843460685",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260018",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Moore",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nancy",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1970-07-18",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "81 Union Avenue",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0118",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "nancy.moore@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "969-13-2365",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400666",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH975205319",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260019",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Jackson",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Daniel",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1949-01-16",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "307 Maple Avenue",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0119",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "daniel.jackson@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "921-79-3606",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400703",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH275370220",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260020",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Martin",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Lisa",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1956-04-20",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "712 High Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0120",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "lisa.martin@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "930-84-8846",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400740",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH166030693",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260021",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Lee",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Matthew",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2002-03-31",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "949 High Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0121",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "matthew.lee@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "958-92-6628",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400777",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH731250405",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260022",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Perez",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Betty",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1997-04-17",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "255 High Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0122",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "betty.perez@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "997-86-4389",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400814",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH632115206",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260023",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Thompson",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Anthony",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2022-02-10",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "622 Pleasant Street",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0123",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "anthony.thompson@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "993-61-6659",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400851",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH557488189",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260024",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "White",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Sandra",
+   "kind": "name",
+   "file": "data/line_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-01-25",
+   "kind": "birth_date",
+   "file": "data/line_list.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "935 Pine Lane",
+   "kind": "street_address",
+   "file": "data/line_list.csv",
+   "column": "Street Address"
+  },
+  {
+   "value": "413-555-0124",
+   "kind": "phone",
+   "file": "data/line_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "sandra.white@example.org",
+   "kind": "email",
+   "file": "data/line_list.csv",
+   "column": "Email"
+  },
+  {
+   "value": "932-59-5239",
+   "kind": "ssn",
+   "file": "data/line_list.csv",
+   "column": "SSN"
+  },
+  {
+   "value": "MRN400888",
+   "kind": "medical_record_number",
+   "file": "data/line_list.csv",
+   "column": "MRN"
+  },
+  {
+   "value": "MH510825851",
+   "kind": "health_plan_number",
+   "file": "data/line_list.csv",
+   "column": "MassHealth ID"
+  },
+  {
+   "value": "C-20260025",
+   "kind": "other_id_number",
+   "file": "data/line_list.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ana Lima",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "Lucas Lima",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Student"
+  },
+  {
+   "value": "Jorge Silva",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "Sofia Silva",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Student"
+  },
+  {
+   "value": "Mei Chen",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "Kevin Chen",
+   "kind": "name",
+   "file": "data/exclusion_letters.csv",
+   "column": "Student"
+  },
+  {
+   "value": "Delgado",
+   "kind": "name",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "04/17/1958",
+   "kind": "birth_date",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "00451234",
+   "kind": "medical_record_number",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "48 Chestnut Street",
+   "kind": "street_address",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "01002",
+   "kind": "zip_code",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "413-555-0177",
+   "kind": "phone",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "rosa.delgado@example.com",
+   "kind": "email",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "921-55-0193",
+   "kind": "ssn",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "Carmen Delgado",
+   "kind": "name",
+   "file": "data/client_note.txt"
+  },
+  {
+   "value": "900-12-3456",
+   "kind": "ssn",
+   "file": "data/policies/needlestick_exposure.md"
+  }
+ ]
+}
