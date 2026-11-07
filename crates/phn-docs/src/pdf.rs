@@ -50,11 +50,7 @@ impl FontRes {
         let face = fonts::face(self.bold);
         let mut hex = String::with_capacity(s.len() * 4);
         for c in s.chars() {
-            let gid = face
-                .glyph_index(c)
-                .or_else(|| face.glyph_index('?'))
-                .map(|g| g.0)
-                .unwrap_or(0);
+            let gid = face.glyph(c).or_else(|| face.glyph('?')).unwrap_or(0);
             let new = self.remap.remap(gid);
             self.used.entry(new).or_insert((gid, c));
             hex.push_str(&format!("{new:04X}"));
@@ -661,8 +657,9 @@ impl<'a> Writer<'a> {
         let bold = self.fonts[idx].bold;
         let data = if bold { fonts::BOLD } else { fonts::REGULAR };
         let face = fonts::face(bold);
-        let upem = f32::from(face.units_per_em());
-        let scale = |v: i16| (f32::from(v) * 1000.0 / upem).round() as i64;
+        let upem = face.units_per_em();
+        let scale = |v: f32| (v * 1000.0 / upem).round() as i64;
+        let m = &face.metrics;
         let subset = subsetter::subset(data, 0, &self.fonts[idx].remap)
             .map_err(|e| PhnError::Internal(format!("font subsetting failed: {e}")))?;
         let len1 = subset.len() as i64;
@@ -674,32 +671,30 @@ impl<'a> Writer<'a> {
         } else {
             "PHNAAA+DejaVuSans"
         };
-        let bbox = face.global_bounding_box();
+        let bbox = m.bounds.unwrap_or(skrifa::metrics::BoundingBox {
+            x_min: 0.0,
+            y_min: m.descent,
+            x_max: upem,
+            y_max: m.ascent,
+        });
         let descriptor = self.pdf.add_object(dictionary! {
             "Type" => "FontDescriptor",
             "FontName" => Object::Name(base.as_bytes().to_vec()),
             "Flags" => 32,
             "FontBBox" => vec![scale(bbox.x_min).into(), scale(bbox.y_min).into(), scale(bbox.x_max).into(), scale(bbox.y_max).into()],
             "ItalicAngle" => 0,
-            "Ascent" => scale(face.ascender()),
-            "Descent" => scale(face.descender()),
-            "CapHeight" => scale(face.capital_height().unwrap_or(face.ascender())),
+            "Ascent" => scale(m.ascent),
+            "Descent" => scale(m.descent),
+            "CapHeight" => scale(m.cap_height.unwrap_or(m.ascent)),
             "StemV" => if bold { 120 } else { 80 },
             "FontFile2" => file_id,
         });
         // Widths by new glyph id.
         let mut w_array: Vec<Object> = Vec::new();
         for (&new, &(old, _)) in &self.fonts[idx].used {
-            let adv = face
-                .glyph_hor_advance(ttf_parser::GlyphId(old))
-                .unwrap_or(0);
+            let adv = face.advance(old);
             w_array.push(i64::from(new).into());
-            w_array.push(
-                vec![Object::Integer(
-                    (f32::from(adv) * 1000.0 / upem).round() as i64
-                )]
-                .into(),
-            );
+            w_array.push(vec![Object::Integer((adv * 1000.0 / upem).round() as i64)].into());
         }
         let cid = self.pdf.add_object(dictionary! {
             "Type" => "Font",

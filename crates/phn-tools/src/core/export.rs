@@ -338,7 +338,7 @@ pub fn export_document(ctx: &Context, args: ExportDocumentArgs) -> Result<Envelo
         && !doc
             .all_text()
             .chars()
-            .all(|c| phn_docs::fonts::FACES.regular.glyph_index(c).is_some() || c.is_whitespace())
+            .all(|c| phn_docs::fonts::has_glyph(c) || c.is_whitespace())
     {
         caveats.push(
             "Some characters are not in the bundled font (for example Chinese, Khmer, or Arabic \

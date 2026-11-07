@@ -2,43 +2,88 @@
 
 use std::sync::LazyLock;
 
+use skrifa::charmap::Charmap;
+use skrifa::instance::{LocationRef, Size};
+use skrifa::metrics::{GlyphMetrics, Metrics};
+use skrifa::{FontRef, GlyphId, MetadataProvider};
+
 /// DejaVu Sans.
 pub static REGULAR: &[u8] = include_bytes!("../fonts/DejaVuSans.ttf");
 /// DejaVu Sans Bold.
 pub static BOLD: &[u8] = include_bytes!("../fonts/DejaVuSans-Bold.ttf");
 
-/// Parsed font faces (parsing is cheap but done once).
+/// A bundled font with its character map and metrics.
+pub struct Face {
+    charmap: Charmap<'static>,
+    glyphs: GlyphMetrics<'static>,
+    /// Font-wide metrics in font units.
+    pub metrics: Metrics,
+}
+
+impl Face {
+    fn load(data: &'static [u8]) -> Self {
+        let font = FontRef::new(data).expect("bundled font parses");
+        Self {
+            charmap: font.charmap(),
+            glyphs: font.glyph_metrics(Size::unscaled(), LocationRef::default()),
+            metrics: font.metrics(Size::unscaled(), LocationRef::default()),
+        }
+    }
+
+    /// Glyph id for a character, if the font has one.
+    pub fn glyph(&self, c: char) -> Option<u16> {
+        self.charmap
+            .map(c)
+            .and_then(|g| u16::try_from(g.to_u32()).ok())
+            .filter(|&g| g != 0)
+    }
+
+    /// Advance width of a glyph in font units.
+    pub fn advance(&self, glyph: u16) -> f32 {
+        self.glyphs
+            .advance_width(GlyphId::new(u32::from(glyph)))
+            .unwrap_or_else(|| self.units_per_em() / 2.0)
+    }
+
+    /// Units per em.
+    pub fn units_per_em(&self) -> f32 {
+        f32::from(self.metrics.units_per_em)
+    }
+}
+
+/// Regular and bold faces.
 pub struct Faces {
-    pub regular: ttf_parser::Face<'static>,
-    pub bold: ttf_parser::Face<'static>,
+    pub regular: Face,
+    pub bold: Face,
 }
 
 pub static FACES: LazyLock<Faces> = LazyLock::new(|| Faces {
-    regular: ttf_parser::Face::parse(REGULAR, 0).expect("bundled regular font"),
-    bold: ttf_parser::Face::parse(BOLD, 0).expect("bundled bold font"),
+    regular: Face::load(REGULAR),
+    bold: Face::load(BOLD),
 });
 
 /// The face for a weight.
-pub fn face(bold: bool) -> &'static ttf_parser::Face<'static> {
+pub fn face(bold: bool) -> &'static Face {
     if bold { &FACES.bold } else { &FACES.regular }
 }
 
+/// True when the bundled fonts can draw `c`.
+pub fn has_glyph(c: char) -> bool {
+    FACES.regular.glyph(c).is_some()
+}
+
 /// Advance width of a character in font units, with a fallback for missing glyphs.
-pub fn char_advance(face: &ttf_parser::Face<'_>, c: char) -> u16 {
-    face.glyph_index(c)
-        .and_then(|g| face.glyph_hor_advance(g))
-        .unwrap_or_else(|| face.units_per_em() / 2)
+pub fn char_advance(face: &Face, c: char) -> f32 {
+    match face.glyph(c) {
+        Some(g) => face.advance(g),
+        None => face.units_per_em() / 2.0,
+    }
 }
 
 /// Width of `text` in points at `size`.
 pub fn text_width(text: &str, bold: bool, size: f32) -> f32 {
     let f = face(bold);
-    let upem = f32::from(f.units_per_em());
-    text.chars()
-        .map(|c| f32::from(char_advance(f, c)))
-        .sum::<f32>()
-        * size
-        / upem
+    text.chars().map(|c| char_advance(f, c)).sum::<f32>() * size / f.units_per_em()
 }
 
 /// Greedy word wrap to `max_width` points. Very long words are broken.
@@ -92,7 +137,8 @@ mod tests {
         );
         assert!(lines.len() > 1);
         assert!(lines.iter().all(|l| text_width(l, false, 12.0) <= 100.0));
-        assert!(FACES.regular.glyph_index('ñ').is_some());
-        assert!(FACES.regular.glyph_index('ệ').is_some()); // Vietnamese
+        assert!(has_glyph('ñ'));
+        assert!(has_glyph('ệ')); // Vietnamese
+        assert!(!has_glyph('中'));
     }
 }
