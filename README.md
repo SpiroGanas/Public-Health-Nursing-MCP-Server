@@ -218,7 +218,9 @@ xtask/         # snapshot builder, name-list builder, content validator
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add a tool and how content review works, and
-[CHANGELOG.md](CHANGELOG.md) for release notes.
+[CHANGELOG.md](CHANGELOG.md) for release notes. [STATUS.md](STATUS.md) is the handoff document
+(what is done, what is open, lessons learned), and [CLAUDE.md](CLAUDE.md) holds the standing
+instructions for AI coding agents.
 
 ## License
 
