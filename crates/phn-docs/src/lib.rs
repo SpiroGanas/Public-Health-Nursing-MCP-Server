@@ -8,6 +8,8 @@
 //! * [`mailmerge`]: the local mail-merge pattern: identifiable letters are
 //!   written to the output folder and never returned to the model.
 //! * [`accessibility`]: Section 508 / WCAG 2.1 AA checks for DOCX, HTML, PDF.
+//! * [`palette`]: validated, color-vision-safe colors for charts and maps;
+//!   [`svg::svg_to_png`] rasterizes any SVG with the bundled fonts.
 
 pub mod accessibility;
 pub mod csv_out;
@@ -16,6 +18,7 @@ pub mod fonts;
 pub mod image;
 pub mod mailmerge;
 pub mod model;
+pub mod palette;
 pub mod pdf;
 pub mod svg;
 pub mod xlsx;
