@@ -181,10 +181,8 @@ fn pdf_string(doc: &Document, obj: &Object) -> Option<String> {
 /// Decode a PDF text string: UTF-16BE with BOM, UTF-8 with BOM, else Latin-1.
 pub fn decode_pdf_text(bytes: &[u8]) -> String {
     if let Some(rest) = bytes.strip_prefix(&[0xFE, 0xFF]) {
-        let units: Vec<u16> = rest
-            .chunks_exact(2)
-            .map(|c| u16::from_be_bytes([c[0], c[1]]))
-            .collect();
+        let (pairs, _odd_byte) = rest.as_chunks::<2>();
+        let units: Vec<u16> = pairs.iter().map(|&p| u16::from_be_bytes(p)).collect();
         return String::from_utf16_lossy(&units);
     }
     if let Some(rest) = bytes.strip_prefix(&[0xEF, 0xBB, 0xBF]) {
