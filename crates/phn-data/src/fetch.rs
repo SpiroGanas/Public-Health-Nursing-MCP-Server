@@ -39,23 +39,23 @@ pub async fn fetch_with_fallback(
         Some(c) => c.get(url)?,
         None => None,
     };
-    if let Some(hit) = &cached {
-        if hit.fresh {
-            return Ok(Fetched {
-                body: hit.body.clone(),
-                mode: SourceMode::Cache,
-                as_of: hit.fetched_at.to_rfc3339(),
-                fallback_reason: None,
-            });
-        }
+    if let Some(hit) = &cached
+        && hit.fresh
+    {
+        return Ok(Fetched {
+            body: hit.body.clone(),
+            mode: SourceMode::Cache,
+            as_of: hit.fetched_at.to_rfc3339(),
+            fallback_reason: None,
+        });
     }
 
     let live_error = match http.get_bytes(url).await {
         Ok(body) => {
-            if let Some(c) = cache {
-                if let Err(e) = c.put(url, &body, ttl_secs) {
-                    tracing::warn!(error = %e, "could not write HTTP cache");
-                }
+            if let Some(c) = cache
+                && let Err(e) = c.put(url, &body, ttl_secs)
+            {
+                tracing::warn!(error = %e, "could not write HTTP cache");
             }
             return Ok(Fetched {
                 body,

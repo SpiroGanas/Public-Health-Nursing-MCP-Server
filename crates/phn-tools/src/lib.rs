@@ -5,6 +5,7 @@
 //! `rmcp` tool definitions, so the logic can be tested without a transport.
 
 pub mod cd;
+pub mod comms;
 pub mod context;
 pub mod core;
 pub mod epi;

@@ -69,6 +69,13 @@ tempfile = "3"
 jsonschema = { version = "0.60", default-features = false }
 base64 = "0.23"
 
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+# Matrix code (tables, suppression, layout) reads more clearly with indices.
+needless_range_loop = "allow"
+
 [profile.release]
 lto = "thin"
 codegen-units = 4

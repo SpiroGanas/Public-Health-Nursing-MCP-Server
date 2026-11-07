@@ -31,4 +31,12 @@ anyhow.workspace = true
 [dev-dependencies]
 rmcp = { workspace = true, features = ["client", "transport-child-process"] }
 tempfile.workspace = true
+jsonschema.workspace = true
+phn-local.workspace = true
+walkdir.workspace = true
+regex.workspace = true
+phn-docs.workspace = true
 tokio = { workspace = true, features = ["process"] }
+
+[lints]
+workspace = true

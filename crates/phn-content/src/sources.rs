@@ -83,7 +83,7 @@ mod tests {
         for s in &r.sources {
             if let Some(cid) = &s.content_id {
                 assert!(
-                    crate::ITEMS.iter().any(|i| &i.id == cid),
+                    crate::ITEMS.iter().any(|i| i.id == cid),
                     "unknown content {cid}"
                 );
             }

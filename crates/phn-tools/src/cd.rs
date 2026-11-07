@@ -242,17 +242,16 @@ pub fn lookup_reportable_condition(
     if condition
         .as_ref()
         .is_some_and(|c| c.guide_chapter.is_some())
+        && let Some(rel) = content.meta.related_sources.first()
     {
-        if let Some(rel) = content.meta.related_sources.first() {
-            sources.push(Source {
-                title: rel.title.clone(),
-                publisher: rel.publisher.clone(),
-                url: rel.url.clone(),
-                effective_date: None,
-                retrieved: None,
-                mode: SourceMode::Snapshot,
-            });
-        }
+        sources.push(Source {
+            title: rel.title.clone(),
+            publisher: rel.publisher.clone(),
+            url: rel.url.clone(),
+            effective_date: None,
+            retrieved: None,
+            mode: SourceMode::Snapshot,
+        });
     }
 
     Ok(Envelope::new(

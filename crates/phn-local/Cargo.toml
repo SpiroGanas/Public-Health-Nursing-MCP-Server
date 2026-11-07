@@ -22,6 +22,12 @@ lopdf.workspace = true
 scraper.workspace = true
 chrono.workspace = true
 walkdir.workspace = true
+tantivy.workspace = true
+phn-epi.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true
+rust_xlsxwriter.workspace = true
+
+[lints]
+workspace = true

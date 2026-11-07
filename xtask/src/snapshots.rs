@@ -118,11 +118,9 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
             None => entry_changed = true,
             _ => {}
         }
-        if !entry_changed {
-            if let Some(o) = old_entry {
-                // Keep the original retrieval date when nothing changed.
-                entry.retrieved = o.retrieved.clone();
-            }
+        if !entry_changed && let Some(o) = old_entry {
+            // Keep the original retrieval date when nothing changed.
+            entry.retrieved = o.retrieved.clone();
         }
         changed |= entry_changed;
         if !check {

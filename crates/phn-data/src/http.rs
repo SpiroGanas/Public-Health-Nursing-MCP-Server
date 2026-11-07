@@ -115,10 +115,10 @@ impl HttpClient {
         }
         let start = Instant::now();
         let mut result = self.inner.head(url).send().await;
-        if let Ok(r) = &result {
-            if matches!(r.status().as_u16(), 403 | 405 | 501) {
-                result = self.inner.get(url).send().await;
-            }
+        if let Ok(r) = &result
+            && matches!(r.status().as_u16(), 403 | 405 | 501)
+        {
+            result = self.inner.get(url).send().await;
         }
         let latency_ms = Some(start.elapsed().as_millis() as u64);
         match result {

@@ -143,10 +143,10 @@ impl PhnServer {
         peer: Peer<RoleServer>,
     ) -> CallToolResult {
         let result = phn_tools::core::configure_jurisdiction(&self.ctx, args);
-        if result.as_ref().is_ok_and(|e| e.data.toolsets_changed) {
-            if let Err(e) = peer.notify_tool_list_changed().await {
-                tracing::warn!(error = ?e, "could not send tools/list_changed");
-            }
+        if result.as_ref().is_ok_and(|e| e.data.toolsets_changed)
+            && let Err(e) = peer.notify_tool_list_changed().await
+        {
+            tracing::warn!(error = ?e, "could not send tools/list_changed");
         }
         respond(result)
     }
@@ -228,15 +228,15 @@ impl ServerHandler for PhnServer {
         context: RequestContext<RoleServer>,
     ) -> Result<CallToolResponse, ErrorData> {
         let name = request.name.to_string();
-        if let Some(meta) = phn_tools::registry::tool(&name) {
-            if !self.ctx.enabled_toolsets().contains(&meta.toolset) {
-                return Ok(CallToolResult::error(vec![ContentBlock::text(format!(
-                    "The tool '{name}' belongs to the '{}' toolset, which is not enabled. \
+        if let Some(meta) = phn_tools::registry::tool(&name)
+            && !self.ctx.enabled_toolsets().contains(&meta.toolset)
+        {
+            return Ok(CallToolResult::error(vec![ContentBlock::text(format!(
+                "The tool '{name}' belongs to the '{}' toolset, which is not enabled. \
                      Enable it with configure_jurisdiction (toolsets) or PHN_TOOLSETS.",
-                    meta.toolset
-                ))])
-                .into());
-            }
+                meta.toolset
+            ))])
+            .into());
         }
         let tcc = ToolCallContext::new(self, request, context);
         self.tool_router.call(tcc).await

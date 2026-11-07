@@ -78,18 +78,18 @@ pub async fn get_data_source_status(
         .filter(|s| args.include_planned || s.status != SourceStatus::Planned)
         .filter(|s| args.source_id.as_ref().is_none_or(|id| &s.id == id))
         .collect();
-    if let Some(id) = &args.source_id {
-        if selected.is_empty() {
-            return Err(phn_core::PhnError::NotFound(format!(
-                "data source '{id}'. Known sources: {}",
-                registry
-                    .sources
-                    .iter()
-                    .map(|s| s.id.as_str())
-                    .collect::<Vec<_>>()
-                    .join(", ")
-            )));
-        }
+    if let Some(id) = &args.source_id
+        && selected.is_empty()
+    {
+        return Err(phn_core::PhnError::NotFound(format!(
+            "data source '{id}'. Known sources: {}",
+            registry
+                .sources
+                .iter()
+                .map(|s| s.id.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
+        )));
     }
 
     // Run live checks concurrently.
@@ -97,20 +97,20 @@ pub async fn get_data_source_status(
     if args.check_live {
         let mut set = tokio::task::JoinSet::new();
         for s in &selected {
-            if s.status == SourceStatus::Active {
-                if let Some(url) = s.probe_url.clone() {
-                    let http = ctx.http.clone();
-                    let id = s.id.clone();
-                    set.spawn(async move { (id, http.probe(&url).await) });
-                }
+            if s.status == SourceStatus::Active
+                && let Some(url) = s.probe_url.clone()
+            {
+                let http = ctx.http.clone();
+                let id = s.id.clone();
+                set.spawn(async move { (id, http.probe(&url).await) });
             }
         }
         while let Some(joined) = set.join_next().await {
             if let Ok((id, probe)) = joined {
-                if let Some(cache) = &ctx.cache {
-                    if let Err(e) = cache.record_probe(&id, &probe) {
-                        tracing::warn!(error = %e, "could not record probe");
-                    }
+                if let Some(cache) = &ctx.cache
+                    && let Err(e) = cache.record_probe(&id, &probe)
+                {
+                    tracing::warn!(error = %e, "could not record probe");
                 }
                 live_checks.insert(id, probe);
             }
@@ -136,32 +136,31 @@ pub async fn get_data_source_status(
             checked_now: false,
             caveats: s.caveats.clone(),
         };
-        if let Some(sid) = &s.snapshot_id {
-            if let Some((entry, origin)) = ctx.snapshots.entry(sid) {
-                row.data_date = Some(entry.source_vintage.clone());
-                row.retrieved = Some(entry.retrieved.clone());
-                row.snapshot_origin = Some(origin);
-                for c in &entry.caveats {
-                    if !row.caveats.contains(c) {
-                        row.caveats.push(c.clone());
-                    }
+        if let Some(sid) = &s.snapshot_id
+            && let Some((entry, origin)) = ctx.snapshots.entry(sid)
+        {
+            row.data_date = Some(entry.source_vintage.clone());
+            row.retrieved = Some(entry.retrieved.clone());
+            row.snapshot_origin = Some(origin);
+            for c in &entry.caveats {
+                if !row.caveats.contains(c) {
+                    row.caveats.push(c.clone());
                 }
             }
         }
-        if let Some(cid) = &s.content_id {
-            if let Some(item) = phn_content::ITEMS.iter().find(|i| &i.id == cid) {
-                if let Ok(meta) = phn_content::item_meta(item) {
-                    row.data_date = Some(meta.effective_date.clone().unwrap_or(meta.prepared));
-                    row.review_status = Some(
-                        match meta.review.status {
-                            phn_content::ReviewStatus::Pending => "pending review",
-                            phn_content::ReviewStatus::Reviewed => "reviewed",
-                        }
-                        .into(),
-                    );
-                    row.review_due = Some(meta.review.review_due.clone());
+        if let Some(cid) = &s.content_id
+            && let Some(item) = phn_content::ITEMS.iter().find(|i| i.id == cid)
+            && let Ok(meta) = phn_content::item_meta(item)
+        {
+            row.data_date = Some(meta.effective_date.clone().unwrap_or(meta.prepared));
+            row.review_status = Some(
+                match meta.review.status {
+                    phn_content::ReviewStatus::Pending => "pending review",
+                    phn_content::ReviewStatus::Reviewed => "reviewed",
                 }
-            }
+                .into(),
+            );
+            row.review_due = Some(meta.review.review_due.clone());
         }
         if s.kind == SourceKind::Local {
             row.data_date = None;

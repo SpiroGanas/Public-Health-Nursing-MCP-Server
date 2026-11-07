@@ -13,6 +13,7 @@ phn-content.workspace = true
 phn-data.workspace = true
 phn-epi.workspace = true
 phn-local.workspace = true
+phn-docs.workspace = true
 schemars.workspace = true
 serde.workspace = true
 serde_json.workspace = true
@@ -22,3 +23,6 @@ chrono.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true
+
+[lints]
+workspace = true

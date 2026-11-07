@@ -24,3 +24,6 @@ tempfile.workspace = true
 reqwest = { workspace = true, features = ["blocking", "rustls"] }
 shapefile = { version = "0.9", features = ["geo-types"] }
 geo = "0.33"
+
+[lints]
+workspace = true
