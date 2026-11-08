@@ -37,8 +37,10 @@ A tool is done when it meets the plan's definition of done:
 5. **Tests:** unit tests, golden tests for calculations (reference values from R, Epi Info, or
    SciPy committed as fixtures), and MCP integration tests (the schema test covers new tools
    automatically).
-6. **Docs:** a section in [`docs/tools.md`](docs/tools.md) (a test checks every tool is listed)
-   and a line in [`CHANGELOG.md`](CHANGELOG.md).
+6. **Docs:** a section in [`docs/tools.md`](docs/tools.md) (a test checks every tool is listed),
+   an entry in the user guide's [`guide-content.js`](docs/user-guide/guide-content.js) with the
+   guide rebuilt (see [`docs/user-guide/README.md`](docs/user-guide/README.md); a test checks
+   this too), and a line in [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Reference content and review
 

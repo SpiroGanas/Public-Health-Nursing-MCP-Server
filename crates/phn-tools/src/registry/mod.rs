@@ -139,6 +139,51 @@ mod tests {
         }
     }
 
+    /// The user guide (docs/user-guide) describes exactly the implemented tools, each in
+    /// its own toolset, so it never documents a planned tool or misses a new one.
+    #[test]
+    fn user_guide_lists_exactly_the_implemented_tools() {
+        let guide = include_str!("../../../../docs/user-guide/guide-content.js");
+        let mut described = std::collections::BTreeMap::new();
+        for (pos, _) in guide.match_indices("\n        id: '") {
+            let rest = &guide[pos + "\n        id: '".len()..];
+            let name = &rest[..rest.find('\'').expect("closing quote after id")];
+            let ts = rest
+                .find("toolset: '")
+                .map(|i| &rest[i + "toolset: '".len()..])
+                .and_then(|s| s.find('\'').map(|j| &s[..j]))
+                .unwrap_or_else(|| panic!("{name} has no toolset in the user guide"));
+            assert!(
+                described.insert(name, ts).is_none(),
+                "{name} is described twice in the user guide"
+            );
+        }
+        for t in tools() {
+            let ts = described.remove(t.name).unwrap_or_else(|| {
+                panic!(
+                    "{} missing from docs/user-guide/guide-content.js (add it and rebuild the guide)",
+                    t.name
+                )
+            });
+            assert_eq!(
+                ts,
+                t.toolset.as_str(),
+                "{} has the wrong toolset in the user guide",
+                t.name
+            );
+        }
+        assert!(
+            described.is_empty(),
+            "the user guide describes tools that are not implemented: {:?}",
+            described.keys().collect::<Vec<_>>()
+        );
+        let count = tools().count();
+        assert!(
+            guide.contains(&format!("const TOOL_COUNT = {count};")),
+            "TOOL_COUNT in the user guide should be {count}"
+        );
+    }
+
     #[test]
     fn names_and_plan_ids_are_unique() {
         let mut names = BTreeSet::new();

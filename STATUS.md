@@ -14,16 +14,17 @@ starting work, and **update it before you finish** (see [Keeping this file curre
 |---|---|---|---|
 | — | Tool brainstorm and project plan | Merged | PR #1 |
 | 0–1 | Foundation; local data, privacy guardrails, documents (11 tools) | Merged; awaiting acceptance | PR #2 |
-| 2 | Epidemiology and biostatistics engine (8 tools) | Code complete; awaiting acceptance | PR #3 |
-| 3 | Communicable disease I (8 tools + outbreak prompt) | Code complete; content review needed before Pilot 1 | PR #3 |
-| 4 | Public data and evidence platform (8 tools) | Code complete; awaiting acceptance | PR #3 |
-| 5 | Immunizations I (9 tools) | Code complete; content review needed | PR #3 |
-| 6 | Immunization forecasting and surveillance feeds (3 tools) | Code complete; CDSi exceptions to review | PR #3 |
+| 2 | Epidemiology and biostatistics engine (8 tools) | Merged; awaiting acceptance | PR #3 |
+| 3 | Communicable disease I (8 tools + outbreak prompt) | Merged; content review needed before Pilot 1 | PR #3 |
+| 4 | Public data and evidence platform (8 tools) | Merged; awaiting acceptance | PR #3 |
+| 5 | Immunizations I (9 tools) | Merged; content review needed | PR #3 |
+| 6 | Immunization forecasting and surveillance feeds (3 tools) | Merged; CDSi exceptions to review | PR #3 |
+| — | User guide for nurses (Word), covering the 47 implemented tools | Open for review | PR #4 |
 | 7–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
 
-PR #3 (branch `ccr-58e7099a-2x8idl`) holds Phases 2–6 plus a re-check of the Phase 0–1 content.
-If it has been merged, start new work on a fresh branch from `main`. Phases 3–6 were built in
-parallel by helper agents on per-phase branches and merged into that branch.
+PR #3 (branch `ccr-58e7099a-2x8idl`), which holds Phases 2–6 plus a re-check of the Phase 0–1
+content, has been merged into `main`; start new work on a fresh branch from `main`. Phases 3–6
+were built in parallel by helper agents on per-phase branches and merged into that branch.
 
 ### Tools implemented (47 of 148)
 
@@ -133,7 +134,9 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
      whether DPH has a machine-readable town-level births and deaths source.
    - Review the 36 documented CDSi exceptions.
 3. **Run the acceptance scripts** for Phases 0–6 on Windows and macOS and send the IT request.
-4. **Publish a release:** after PR #3 merges, tag `v0.7.0` to run `.github/workflows/release.yml`
+   **Read the user guide** (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`) for accuracy and
+   tone before sharing it with other nurses; send corrections as edits to `guide-content.js`.
+4. **Publish a release:** PR #3 has merged; tag `v0.7.0` to run `.github/workflows/release.yml`
    (GHCR image, SBOM, Trivy scan, cosign signature, offline tarballs). No release has ever been
    tagged; the workflow has never run, so watch it closely the first time.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
@@ -168,6 +171,11 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
   (Brown–Forsythe) matches a seeded surname in the leak tests. Avoid common surnames in fixed
   output text.
 - GitHub warns that `actions/checkout@v4` runs on a deprecated Node.js version; bump to v5.
+- **User guide upkeep:** the `.docx` is built by `docs/user-guide/build-user-guide.js` (Node.js
+  with the `docx` package, plus LibreOffice and `pdftotext` for contents page numbers); it is not
+  part of the Rust build or CI. Every new tool needs an entry in `guide-content.js` (a registry
+  test enforces this) and a rebuild. Contents page numbers come from LibreOffice's layout; Word
+  may paginate slightly differently (right-click the contents, then Update Field).
 
 ## 3. How the code is organized
 
@@ -189,7 +197,8 @@ crates/
 content/       reference content (YAML) with review metadata; schemas in content/schemas/
 snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 6 MB, 15 snapshots)
 fixtures/      synthetic test corpus, all fictional; seeded_identifiers.json lists every planted identifier
-docs/          tools.md, adr/ (0001–0007), acceptance/ (per phase), cdsi-test-results.md
+docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0007),
+               acceptance/ (per phase), cdsi-test-results.md
 xtask/         build-snapshots, build-public-snapshots, build-surveillance-snapshots,
                build-guide-corpus, build-name-lists, validate-content; scripts/ (Python builders)
 ```
@@ -221,7 +230,8 @@ Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`�
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 337 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # 338 tests: unit, golden, CDSi cases, MCP integration
+node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
 cargo xtask validate-content                             # schemas, review dates, snapshot checksums
@@ -294,6 +304,7 @@ From `project_plan.md`: SCH-01 `get_ma_school_screening_requirements`, SCH-02
 | 2026-11-07 | Phases 0 and 1: workspace, 11 tools, privacy guardrails, Docker, CI, docs | #2 |
 | 2026-11-07 | Fixed CI clippy failure on Rust 1.99 (`as_chunks`); added STATUS.md and CLAUDE.md | #2 |
 | 2026-11-08 | Phases 2–6: 36 tools, `phn-epi` engines, `phn-cdsi`, data adapters and snapshots; Phase 0–1 content re-checked against mass.gov | #3 |
+| 2026-11-08 | User guide for public health nurses (Word) and a test that keeps it in step with the tools | #4 |
 
 ## Keeping this file current
 
