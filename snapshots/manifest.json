@@ -77,7 +77,7 @@
       "source_vintage": "code sets as published 2026-11-07 (NDC page last reviewed 2026-09-18)",
       "retrieved": "2026-11-07",
       "license": "U.S. federal government work (public domain).",
-      "derivation": "Pipe-delimited flat files converted to CSV with headers; whitespace trimmed; numeric CVX codes zero-padded to two digits; dates normalized to YYYY-MM-DD. NDC tables keep the NDC11 (dashed), level (unit of sale or unit of use), proprietary name, labeler, start and end dates, packaging, route, and CVX; generic names and GTINs were dropped to keep the file small. Rebuild with the same conversion from the source URLs.",
+      "derivation": "Pipe-delimited flat files converted to CSV with headers; whitespace trimmed; numeric CVX codes zero-padded to two digits; dates normalized to YYYY-MM-DD. NDC tables keep the NDC11 (dashed), level (unit of sale or unit of use), proprietary name, labeler, start and end dates, packaging, route, and CVX; generic names and GTINs were dropped to keep the file small. Rebuild with the same conversion from the source URLs. Builder: xtask/scripts/build_cvx.py (run with Python 3 on the downloaded flat files).",
       "caveats": [
         "CDC updates these code sets whenever products are licensed, renamed, or discontinued; the tool tries the live CVX file first and falls back to this snapshot.",
         "CDC notes that some GTINs in its NDC tables were inaccurate; GTINs are not included here."
@@ -126,7 +126,7 @@
       "source_vintage": "2025-2026 school year (data current as of April 5, 2026 per DPH)",
       "retrieved": "2026-11-07",
       "license": "Public records of the Commonwealth of Massachusetts.",
-      "derivation": "The 'Rates by School' sheet of each DPH workbook, one row per school. Rates published as fractions (0.91) are stored as whole percents (91). DPH's markers become a status column: dagger (fewer than 30 students; DPH does not release rates) -> suppressed_lt30, asterisk (no survey returned) -> no_response, pilcrow (unresolved discrepancy) -> discrepancy. Kindergarten columns: 5 DTaP, 4 polio, 2 MMR, 3 HepB, 2 varicella, series complete, exemption, unimmunized (exemption with no vaccines), no record, non-compliance. Grade 7 columns: 2 MMR, 3 HepB, 2 varicella, 1 Tdap, 1 MenACWY, series, exemption, unimmunized, no record, non-compliance.",
+      "derivation": "The 'Rates by School' sheet of each DPH workbook, one row per school. Rates published as fractions (0.91) are stored as whole percents (91). DPH's markers become a status column: dagger (fewer than 30 students; DPH does not release rates) -> suppressed_lt30, asterisk (no survey returned) -> no_response, pilcrow (unresolved discrepancy) -> discrepancy. Kindergarten columns: 5 DTaP, 4 polio, 2 MMR, 3 HepB, 2 varicella, series complete, exemption, unimmunized (exemption with no vaccines), no record, non-compliance. Grade 7 columns: 2 MMR, 3 HepB, 2 varicella, 1 Tdap, 1 MenACWY, series, exemption, unimmunized, no record, non-compliance. Builder: xtask/scripts/build_school_survey.py (Python 3 with openpyxl).",
       "caveats": [
         "Self-reported by schools; DPH notes discrepancies may exist and rates can change during the year.",
         "DPH publishes rates only (no enrollment counts) and withholds schools with fewer than 30 students; the 3-year combined kindergarten file releases schools whose pooled count reaches 30.",
@@ -155,7 +155,7 @@
       "source_vintage": "NIS-Child birth years 2018-2022 (rows updated 2026-04-02); NIS-Teen 2020-2025 (2026-09-03); influenza seasons 2021-22 to 2025-26, May estimates (2026-10-08); kindergarten 2021-22 to 2025-26 (2026-08-28)",
       "retrieved": "2026-11-07",
       "license": "U.S. federal government work (public domain).",
-      "derivation": "SoQL queries for geography in ('Massachusetts','United States'): NIS-Child dimension_type 'Age' and dimension '24 Months' or '35 Months'; NIS-Teen dimension '13-17 Years'; influenza dimension_type 'Age', month 5 (end-of-season cumulative estimate); kindergarten all vaccines and exemptions. Columns kept: survey, dataset, vaccine, dose, geography, period, group, coverage_pct, ci_95, sample_size, exemptions. Script: tools/build_nis.py in the development notes (queries are reproduced here).",
+      "derivation": "SoQL queries for geography in ('Massachusetts','United States'): NIS-Child dimension_type 'Age' and dimension '24 Months' or '35 Months'; NIS-Teen dimension '13-17 Years'; influenza dimension_type 'Age', month 5 (end-of-season cumulative estimate); kindergarten all vaccines and exemptions. Columns kept: survey, dataset, vaccine, dose, geography, period, group, coverage_pct, ci_95, sample_size, exemptions. Builder: xtask/scripts/build_nis.py (Python 3 standard library; prints each query URL).",
       "caveats": [
         "Survey estimates have sampling error; compare confidence intervals, not point estimates alone. State estimates with small samples are flagged by CDC.",
         "NIS-Child reports by birth year, so the most recent cohort lags several years behind the calendar.",

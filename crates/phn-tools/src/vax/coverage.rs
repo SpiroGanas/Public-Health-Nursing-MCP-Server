@@ -362,7 +362,15 @@ pub fn analyze_vaccination_coverage(
         None => "K".to_string(),
         Some(g) if g == "K" || g == "KINDERGARTEN" => "K".into(),
         Some(g) if g == "7" || g == "GRADE 7" || g == "7TH" => "7".into(),
-        Some(g) if g == "K3" || g.contains("COMBINED") || g.contains("3") => "K3".into(),
+        Some(g)
+            if ["K3", "K-3", "K 3"].contains(&g.as_str())
+                || g.contains("COMBINED")
+                || g.contains("3-YEAR")
+                || g.contains("3 YEAR")
+                || g.contains("THREE") =>
+        {
+            "K3".into()
+        }
         Some(g) => {
             return Err(PhnError::InvalidInput(format!(
                 "grade '{g}' is not available; DPH publishes school-level data for kindergarten (K, or K3 for 2023-2026 combined) and grade 7"

@@ -1191,7 +1191,11 @@ fn batch(
         .iter()
         .enumerate()
         .filter(|(i, h)| {
-            *i != dob_col
+            let input_col = *i == dob_col
+                || *i == grade_col
+                || vaccine_cols.iter().any(|(v, _)| v == i)
+                || [lab_col, hist_col, ex_col, hs_col, ft_col, us_col, res_col].contains(&Some(*i));
+            !input_col
                 && (findings.iter().any(|f| &f.column == *h && f.kind.is_direct())
                     || {
                         let n = phn_core::text::normalize(h);
