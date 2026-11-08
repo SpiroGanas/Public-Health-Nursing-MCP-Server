@@ -2,13 +2,16 @@
 //!
 //! ```text
 //! cargo xtask build-snapshots [--check] [--source-dir DIR]
+//! cargo xtask build-guide-corpus [--check] [--source-dir DIR]
 //! cargo xtask build-name-lists
 //! cargo xtask validate-content [--today YYYY-MM-DD]
 //! ```
 
 mod content;
 mod download;
+mod guide_corpus;
 mod names;
+mod rtf;
 mod snapshots;
 
 use std::path::PathBuf;
@@ -25,6 +28,11 @@ fn main() -> Result<()> {
             snapshots::run(&root, check, source_dir)
         }
         Some("build-name-lists") => names::run(&root),
+        Some("build-guide-corpus") => {
+            let check = args.iter().any(|a| a == "--check");
+            let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
+            guide_corpus::run(&root, check, source_dir)
+        }
         Some("validate-content") => {
             let today = match flag_value(&args, "--today") {
                 Some(d) => chrono::NaiveDate::parse_from_str(&d, "%Y-%m-%d")?,
@@ -35,7 +43,8 @@ fn main() -> Result<()> {
         _ => {
             eprintln!(
                 "usage: cargo xtask <build-snapshots [--check] [--source-dir DIR] | \
-                 build-name-lists | validate-content [--today YYYY-MM-DD]>"
+                 build-guide-corpus [--check] [--source-dir DIR] | build-name-lists | \
+                 validate-content [--today YYYY-MM-DD]>"
             );
             bail!("unknown or missing command")
         }

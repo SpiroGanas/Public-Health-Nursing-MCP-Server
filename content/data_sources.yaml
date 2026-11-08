@@ -91,6 +91,68 @@ sources:
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
+  # --- Phase 3: communicable disease I ---------------------------------------
+  - id: ma-dph-guide-corpus
+    name: DPH Guide to Surveillance, Reporting and Control (disease chapters) and DPH fact sheets
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-dph-guide-corpus
+    homepage: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    probe_url: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    used_by: [search_ma_disease_control_guide]
+    caveats:
+      - >-
+        Text corpus built on 2026-11-08 by `cargo xtask build-guide-corpus` from 25 guide
+        chapters (DOCX and RTF; most dated 2016-2018, a few 2022-2023) and 66 DPH fact sheet and
+        guidance pages. The Streptococcus pneumoniae chapter (a legacy .doc file) is not included.
+        Tables are flattened and images (flowcharts) are omitted. Some chapters predate current
+        DPH guidance; answers show each passage's document and date.
+
+  - id: ma-disease-rules
+    name: Isolation, quarantine, and exclusion rules, incubation and infectious periods (105 CMR 300.200 and DPH guidance)
+    publisher: Massachusetts Department of Public Health; CDC
+    kind: content
+    status: active
+    content_id: ma-disease-rules
+    homepage: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    used_by: [calculate_isolation_and_exclusion, plan_contact_tracing, assess_measles_exposure, analyze_outbreak_line_list, generate_epi_curve]
+    caveats:
+      - >-
+        Drafted on 2026-11-07 from 105 CMR 300.200 (Mass. Register #1470, 5/27/22), DPH guide
+        chapters, fact sheets, and respiratory guidance, and CDC pages. Pending review by the
+        subject matter expert before Pilot 1; every rule has a citation and a confidence level.
+
+  - id: ma-measles-exposure
+    name: Measles evidence of immunity, post-exposure prophylaxis, and priority groups
+    publisher: Massachusetts Department of Public Health; CDC (ACIP)
+    kind: content
+    status: active
+    content_id: ma-measles-exposure
+    homepage: https://www.mass.gov/doc/measles-2022/download
+    probe_url: https://www.mass.gov/doc/measles-2022/download
+    used_by: [assess_measles_exposure]
+    caveats:
+      - >-
+        From DPH's 2022 measles guide chapter and the 2013 ACIP MMR statement (MMWR
+        2013;62(RR-4)). Pending review; confirm that no later ACIP or DPH change applies.
+
+  - id: ma-infection-control
+    name: Infection control for congregate settings (CDC/HICPAC Appendix A, 105 CMR 300.020, EPA disinfectant lists)
+    publisher: CDC/HICPAC; Massachusetts Department of Public Health; U.S. EPA
+    kind: content
+    status: active
+    content_id: ma-infection-control
+    homepage: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+    probe_url: https://www.epa.gov/pesticide-registration/selected-epa-registered-disinfectants
+    used_by: [infection_control_for_congregate_settings]
+    caveats:
+      - >-
+        Precautions and durations transcribed from Appendix A (page updated 2026-09-11); setting
+        notes summarized from DPH guidance. EPA product lists change often: the tool links to the
+        lists instead of naming products. Pending review.
+
   # --- Planned sources (later phases) ----------------------------------------
   - id: census-acs
     name: American Community Survey 5-year estimates

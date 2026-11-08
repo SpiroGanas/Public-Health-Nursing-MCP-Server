@@ -16,6 +16,7 @@ pub mod aberrations;
 pub mod contact_tracing;
 pub mod engine;
 pub mod epicurve;
+pub mod guide;
 pub mod infection_control;
 pub mod isolation;
 pub mod line_list;
@@ -24,6 +25,7 @@ pub mod outbreak;
 
 pub use aberrations::{AberrationArgs, AberrationResult, detect_aberrations};
 pub use epicurve::{EpiCurveArgs, EpiCurveResult, generate_epi_curve};
+pub use guide::{GuideSearchArgs, GuideSearchResult, search_ma_disease_control_guide};
 pub use contact_tracing::{ContactTracingArgs, ContactTracingResult, plan_contact_tracing};
 pub use infection_control::{
     InfectionControlArgs, InfectionControlResult, infection_control_for_congregate_settings,
