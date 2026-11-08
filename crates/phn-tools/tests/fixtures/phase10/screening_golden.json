@@ -1,0 +1,869 @@
+{
+ "description": "Golden cases for score_mental_health_screen. Expected values were computed by hand from the published rules cited in content/bh/mental_health_screening.yaml: PHQ-9 bands 0-4/5-9/10-14/15-19/20-27 and positive at 10 (Kroenke 2001); PHQ-2 and GAD-2 positive at 3 (Kroenke 2003; Kroenke 2010); GAD-7 bands 0-4/5-9/10-14/15-21 and positive at 10 (Kroenke 2010); EPDS 9/10 and 12/13 cut-points (Martin and Redshaw 2018) with items 1, 2, 4 scored 0-3 and items 3, 5-10 reverse-scored (Korlakunta 2025); NIMH ASQ result rules (screening tool, 9/29/25); C-SSRS screener risk levels (Wright-Berryman 2023). Safety alerts: any non-zero PHQ-9 item 9 or EPDS item 10.",
+ "cases": [
+  {
+   "instrument": "phq9",
+   "responses": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "total": 0,
+   "severity": "none to minimal",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "total": 4,
+   "severity": "none to minimal",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0
+   ],
+   "total": 5,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "total": 8,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "total": 9,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "total": 10,
+   "severity": "moderate",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    0
+   ],
+   "total": 14,
+   "severity": "moderate",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    1,
+    0
+   ],
+   "total": 15,
+   "severity": "moderately severe",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    3,
+    3,
+    3,
+    2,
+    2,
+    2,
+    2,
+    2,
+    0
+   ],
+   "total": 19,
+   "severity": "moderately severe",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    3,
+    3,
+    3,
+    3,
+    2,
+    2,
+    2,
+    2,
+    0
+   ],
+   "total": 20,
+   "severity": "severe",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "total": 27,
+   "severity": "severe",
+   "outcome": "positive",
+   "alerts": [
+    "suicide_item_positive"
+   ],
+   "note": ""
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2
+   ],
+   "total": 2,
+   "severity": "none to minimal",
+   "outcome": "negative",
+   "alerts": [
+    "suicide_item_positive"
+   ],
+   "note": "item 9 alert regardless of total"
+  },
+  {
+   "instrument": "phq9",
+   "responses": [
+    "nearly every day",
+    "several days",
+    "not at all",
+    "more than half the days",
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "total": 6,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": "text answers"
+  },
+  {
+   "instrument": "phq2",
+   "responses": [
+    1,
+    1
+   ],
+   "total": 2,
+   "severity": null,
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq2",
+   "responses": [
+    2,
+    1
+   ],
+   "total": 3,
+   "severity": null,
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "phq2",
+   "responses": [
+    3,
+    3
+   ],
+   "total": 6,
+   "severity": null,
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad2",
+   "responses": [
+    1,
+    1
+   ],
+   "total": 2,
+   "severity": null,
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad2",
+   "responses": [
+    0,
+    3
+   ],
+   "total": 3,
+   "severity": null,
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    0,
+    0,
+    0
+   ],
+   "total": 4,
+   "severity": "none to minimal",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    0,
+    0
+   ],
+   "total": 5,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    0
+   ],
+   "total": 9,
+   "severity": "mild",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    2,
+    2,
+    2,
+    2,
+    1,
+    1,
+    0
+   ],
+   "total": 10,
+   "severity": "moderate",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+   ],
+   "total": 14,
+   "severity": "moderate",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    3,
+    3,
+    3,
+    2,
+    2,
+    1,
+    1
+   ],
+   "total": 15,
+   "severity": "severe",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "gad7",
+   "responses": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "total": 21,
+   "severity": "severe",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    0
+   ],
+   "total": 9,
+   "severity": "below the screening cut-point",
+   "outcome": "negative",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    0
+   ],
+   "total": 10,
+   "severity": "possible depression (at or above the 9/10 screening cut-point)",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    2,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    0
+   ],
+   "total": 12,
+   "severity": "possible depression (at or above the 9/10 screening cut-point)",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    2,
+    2,
+    2,
+    1,
+    1,
+    1,
+    1,
+    1,
+    2,
+    0
+   ],
+   "total": 13,
+   "severity": "probable depression (at or above the classic 12/13 cut-point)",
+   "outcome": "positive",
+   "alerts": [],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "total": 1,
+   "severity": "below the screening cut-point",
+   "outcome": "negative",
+   "alerts": [
+    "suicide_item_positive"
+   ],
+   "note": ""
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "epds_entered_as": "option_positions",
+   "total": 21,
+   "severity": "probable depression (at or above the classic 12/13 cut-point)",
+   "outcome": "positive",
+   "alerts": [
+    "suicide_item_positive"
+   ],
+   "note": "first answer everywhere: items 1,2,4 score 0; items 3,5-10 score 3"
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    3,
+    3,
+    0,
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3
+   ],
+   "epds_entered_as": "option_positions",
+   "total": 27,
+   "severity": "probable depression (at or above the classic 12/13 cut-point)",
+   "outcome": "positive",
+   "alerts": [],
+   "note": "last answer on items 1, 2, 4 (3 each) and first answer on items 3, 5-9 (3 each, reversed); last answer on item 10 (0)"
+  },
+  {
+   "instrument": "epds",
+   "responses": [
+    0,
+    0,
+    3,
+    0,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+   ],
+   "epds_entered_as": "option_positions",
+   "total": 0,
+   "severity": "below the screening cut-point",
+   "outcome": "negative",
+   "alerts": [],
+   "note": "lowest-scoring answer on every item"
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "no",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "negative",
+   "alerts": []
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "yes",
+    "no",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "non_acute_positive",
+   "alerts": [
+    "asq_nonacute_positive"
+   ]
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "no",
+    "yes",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "non_acute_positive",
+   "alerts": [
+    "asq_nonacute_positive"
+   ]
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "no",
+    "no",
+    "yes",
+    "no",
+    "yes"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "acute_positive",
+   "alerts": [
+    "asq_acute_positive"
+   ]
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "no",
+    "no",
+    "no",
+    "yes",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "non_acute_positive",
+   "alerts": [
+    "asq_nonacute_positive"
+   ],
+   "asq_attempt_within_12_months": false,
+   "age_years": 40
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "yes",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "positive_acuity_unknown",
+   "alerts": [
+    "asq_nonacute_positive"
+   ]
+  },
+  {
+   "instrument": "asq",
+   "responses": [],
+   "total": null,
+   "severity": null,
+   "outcome": "incomplete",
+   "alerts": [],
+   "refused": true,
+   "age_years": 35,
+   "note": "adult refusal is not a positive screen"
+  },
+  {
+   "instrument": "asq",
+   "responses": [],
+   "total": null,
+   "severity": null,
+   "outcome": "non_acute_positive",
+   "alerts": [
+    "asq_nonacute_positive"
+   ],
+   "refused": true,
+   "age_years": 15,
+   "note": "youth refusal is a non-acute positive screen"
+  },
+  {
+   "instrument": "asq",
+   "responses": [
+    "no",
+    "no",
+    null,
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "incomplete",
+   "alerts": []
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "no",
+    "no",
+    null,
+    null,
+    null,
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "no_risk",
+   "alerts": []
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "yes",
+    "no",
+    null,
+    null,
+    null,
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "low_risk",
+   "alerts": [
+    "cssrs_low"
+   ]
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "yes",
+    "yes",
+    "no",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "low_risk",
+   "alerts": [
+    "cssrs_low"
+   ]
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "yes",
+    "yes",
+    "yes",
+    "no",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "moderate_risk",
+   "alerts": [
+    "cssrs_moderate"
+   ]
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "no",
+    "no",
+    null,
+    null,
+    null,
+    "yes"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "moderate_risk",
+   "alerts": [
+    "cssrs_moderate"
+   ],
+   "cssrs_behavior_past_3_months": false
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "yes",
+    "yes",
+    "no",
+    "yes",
+    "no",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "high_risk",
+   "alerts": [
+    "cssrs_high"
+   ]
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "yes",
+    "yes",
+    "yes",
+    "yes",
+    "yes",
+    "no"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "high_risk",
+   "alerts": [
+    "cssrs_high"
+   ]
+  },
+  {
+   "instrument": "cssrs_screener",
+   "responses": [
+    "no",
+    "no",
+    null,
+    null,
+    null,
+    "yes"
+   ],
+   "total": null,
+   "severity": null,
+   "outcome": "high_risk",
+   "alerts": [
+    "cssrs_high"
+   ],
+   "cssrs_behavior_past_3_months": true
+  }
+ ]
+}

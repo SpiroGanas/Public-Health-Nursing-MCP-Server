@@ -166,6 +166,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/bh/crisis_resources.yaml"),
         schema: include_str!("../../../content/schemas/bh_crisis_resources.schema.json"),
     },
+    ContentItem {
+        id: "aging-steadi-falls",
+        path: "content/aging/steadi_falls.yaml",
+        resource_uri: "phn://content/aging-steadi-falls",
+        yaml: include_str!("../../../content/aging/steadi_falls.yaml"),
+        schema: include_str!("../../../content/schemas/aging_steadi_falls.schema.json"),
+    },
     // End of Phase 10 content items.
     // Phase 11 content items go below this line.
     // End of Phase 11 content items.
