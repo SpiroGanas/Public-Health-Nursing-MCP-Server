@@ -84,10 +84,10 @@ pub async fn fetch_validated(
                     fallback_reason: None,
                 });
             }
-            Err(e) => e.to_string(),
+            Err(e) => reason(&e),
         },
         // Never echo a URL that carries the key.
-        Err(e) => scrub(&e.to_string(), key.map(|k| k.1)),
+        Err(e) => scrub(&reason(&e), key.map(|k| k.1)),
     };
 
     if let Some(hit) = cached
@@ -102,6 +102,7 @@ pub async fn fetch_validated(
             )),
         });
     }
+    let had_snapshot = snapshot.is_some();
     if let Some((body, date)) = snapshot.and_then(|f| f()) {
         return Ok(Fetched {
             body,
@@ -113,8 +114,18 @@ pub async fn fetch_validated(
         });
     }
     Err(PhnError::Network(format!(
-        "{live_error}; no cached copy or snapshot is available"
+        "{live_error}; no cached copy{} is available",
+        if had_snapshot { " or snapshot" } else { "" }
     )))
+}
+
+/// The message of an error without its "network error:" prefix, for nesting
+/// in another message.
+pub fn reason(e: &PhnError) -> String {
+    match e {
+        PhnError::Network(m) => m.clone(),
+        other => other.to_string(),
+    }
 }
 
 /// Remove a secret from a message.

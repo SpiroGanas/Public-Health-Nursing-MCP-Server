@@ -26,6 +26,7 @@ use serde::{Deserialize, Serialize};
 use statrs::distribution::{Beta, ContinuousCDF, Normal};
 
 use crate::context::Context;
+use crate::localdata::{self, LocalTable};
 use crate::md;
 
 /// One group.
@@ -280,18 +281,12 @@ fn compute(
     }
 }
 
-fn find_col(headers: &[String], given: &Option<String>, names: &[&str], what: &str) -> Result<usize> {
+fn find_col(lt: &LocalTable, given: &Option<String>, names: &[&str], what: &str) -> Result<usize> {
     if let Some(g) = given {
-        return headers
-            .iter()
-            .position(|h| h.trim().eq_ignore_ascii_case(g.trim()))
-            .ok_or_else(|| {
-                PhnError::InvalidInput(format!(
-                    "{what} column '{g}' not found; columns are: {}",
-                    headers.join(", ")
-                ))
-            });
+        // Finds the column by name and refuses identifier columns.
+        return lt.column(g.trim());
     }
+    let headers = &lt.table.headers;
     headers
         .iter()
         .position(|h| names.contains(&h.trim().to_ascii_lowercase().as_str()))
@@ -305,7 +300,8 @@ fn find_col(headers: &[String], given: &Option<String>, names: &[&str], what: &s
 
 fn load_groups(ctx: &Context, args: &DisparityArgs) -> Result<(Vec<G>, String)> {
     let path = args.path.as_deref().unwrap_or_default();
-    let (table, label) = crate::core::files::load_table(ctx, path, args.sheet.as_deref())?;
+    let lt = localdata::load(ctx, path, args.sheet.as_deref())?;
+    let table = &lt.table;
     if table.rows.len() > 200 {
         return Err(PhnError::Privacy(
             "this looks like record-level data (over 200 rows). Give one row per group with a \
@@ -313,8 +309,9 @@ fn load_groups(ctx: &Context, args: &DisparityArgs) -> Result<(Vec<G>, String)> 
                 .into(),
         ));
     }
-    let direct: Vec<String> = phi::scan_table(&table)
-        .into_iter()
+    let direct: Vec<String> = lt
+        .findings
+        .iter()
         .filter(|f| f.kind.is_direct() && f.kind != phi::Identifier::FreeText)
         .map(|f| format!("{} ({})", f.column, f.kind.label()))
         .collect();
@@ -326,17 +323,17 @@ fn load_groups(ctx: &Context, args: &DisparityArgs) -> Result<(Vec<G>, String)> 
         )));
     }
     let gcol = match &args.group_column {
-        Some(_) => find_col(&table.headers, &args.group_column, &[], "group")?,
+        Some(_) => find_col(&lt, &args.group_column, &[], "group")?,
         None => 0,
     };
     let ccol = find_col(
-        &table.headers,
+        &lt,
         &args.count_column,
         &["count", "counts", "cases", "events", "deaths", "n", "numerator"],
         "count",
     )?;
     let pcol = find_col(
-        &table.headers,
+        &lt,
         &args.population_column,
         &["population", "pop", "denominator", "person-years", "person years", "persons"],
         "population",
@@ -377,7 +374,7 @@ fn load_groups(ctx: &Context, args: &DisparityArgs) -> Result<(Vec<G>, String)> 
             n,
         });
     }
-    Ok((out, label))
+    Ok((out, lt.label.clone()))
 }
 
 /// Disparity measures across groups.

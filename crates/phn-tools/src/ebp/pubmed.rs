@@ -256,13 +256,18 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
             "give at least one PICO element (population, intervention, outcome) or a query".into(),
         ));
     }
-    if ctx.http.is_offline() {
-        return Err(PhnError::Network(
-            "PubMed searches need network access, and offline mode is on (PHN_OFFLINE). Run the \
-             search at https://pubmed.ncbi.nlm.nih.gov/ instead."
+    // Offline, searches cached in the last day still work; anything else
+    // gets a clear message.
+    let offline = ctx.http.is_offline();
+    let net = |e: PhnError| match e {
+        PhnError::Network(_) if offline => PhnError::Network(
+            "PubMed searches need network access, and offline mode is on (PHN_OFFLINE); this \
+             search is not in the one-day cache. Run it at https://pubmed.ncbi.nlm.nih.gov/ \
+             instead."
                 .into(),
-        ));
-    }
+        ),
+        other => other,
+    };
     let eu = Eutils::new();
     let cache = ctx.cache.as_ref();
     let mut concepts = Vec::new();
@@ -272,14 +277,18 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
         let mut mesh_used = Vec::new();
         let mut mesh_rejected = Vec::new();
         for m in &e.mesh {
-            if eu.valid_mesh(&ctx.http, cache, m).await? {
+            if eu.valid_mesh(&ctx.http, cache, m).await.map_err(net)? {
                 mesh_used.push(m.trim().to_string());
             } else {
                 mesh_rejected.push(m.trim().to_string());
             }
         }
         if !e.phrase.trim().is_empty() {
-            for m in eu.mesh_for_phrase(&ctx.http, cache, e.phrase.trim()).await? {
+            for m in eu
+                .mesh_for_phrase(&ctx.http, cache, e.phrase.trim())
+                .await
+                .map_err(net)?
+            {
                 if !mesh_used.iter().any(|x: &String| x.eq_ignore_ascii_case(&m)) {
                     mesh_used.push(m);
                 }
@@ -322,9 +331,12 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
         SortOrder::Relevance => "relevance",
         SortOrder::Newest => "pub_date",
     };
-    let (found, prov, _) = eu.search(&ctx.http, cache, &query, max, sort).await?;
+    let (found, prov, _) = eu
+        .search(&ctx.http, cache, &query, max, sort)
+        .await
+        .map_err(net)?;
     warnings.extend(found.warnings.iter().cloned());
-    let (articles, _) = eu.fetch(&ctx.http, cache, &found.ids).await?;
+    let (articles, _) = eu.fetch(&ctx.http, cache, &found.ids).await.map_err(net)?;
     let articles: Vec<ArticleSummary> = articles.iter().map(summarize).collect();
     let pubmed_url = format!("https://pubmed.ncbi.nlm.nih.gov/?term={}", encode(&query));
 
@@ -353,7 +365,7 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
             "{}. **{}** {}. *{}* {}. PMID [{}]({}){}{}\n",
             i + 1,
             a.title,
-            a.authors,
+            a.authors.trim_end_matches('.'),
             a.journal,
             a.year.clone().unwrap_or_default(),
             a.pmid,

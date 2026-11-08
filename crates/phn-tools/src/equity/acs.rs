@@ -90,8 +90,9 @@ pub(crate) async fn figures(ctx: &Context, geo: &Geography) -> Result<AcsFigures
             }
             Err(e) => {
                 caveats.push(format!(
-                    "The live Census API could not be used ({e}); figures are from the bundled \
+                    "The live Census API could not be used ({}); figures are from the bundled \
                      ACS {}–{} snapshot{}.",
+                    phn_data::apifetch::reason(&e),
                     snap.vintage - 4,
                     snap.vintage,
                     if vintage > snap.vintage {

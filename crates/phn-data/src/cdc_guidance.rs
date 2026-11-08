@@ -16,8 +16,10 @@
 //!   missing, reading each page's title, "Distributed via the CDC Health Alert
 //!   Network" date, and message type. Notices from 2023 and earlier come from
 //!   the retired HAN feed collection (media 320567).
-//! * **CDC Stacks**: its search, OAI, and record pages refused automated
-//!   requests (HTTP 403) from the development network, so the server returns a
+//! * **CDC Stacks**: its search page refuses automated requests (HTTP 403).
+//!   Its OAI-PMH interface (`stacks.cdc.gov/fedora/oai`) answers but has no
+//!   topic search, only harvesting by modification date (about 500 records a
+//!   week, many of them old items re-indexed), so the server returns a
 //!   ready-made Stacks search link instead of results.
 
 use phn_core::{PhnError, Result, SourceMode};
@@ -245,6 +247,7 @@ pub fn parse_han_archive(v: &Value) -> Vec<GuidanceItem> {
                     .get("excerpt_txt")
                     .and_then(Value::as_str)
                     .map(strip_tags)
+                    .map(drop_boilerplate)
                     .unwrap_or_default(),
                 url,
                 message_type,
@@ -324,6 +327,19 @@ pub fn strip_tags(s: &str) -> String {
     decoded.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
+/// CDC's generic page description for emergency-preparedness pages, which
+/// some HAN pages carry instead of a summary of the notice.
+const BOILERPLATE: [&str; 1] = ["Information on terrorism and public health"];
+
+/// An empty summary instead of a generic site description.
+pub fn drop_boilerplate(s: String) -> String {
+    if BOILERPLATE.iter().any(|b| s.starts_with(b)) {
+        String::new()
+    } else {
+        s
+    }
+}
+
 fn meta(html: &str, attr: &str, key: &str) -> Option<String> {
     let needle = format!("{attr}=\"{key}\"");
     let i = html.find(&needle)?;
@@ -362,7 +378,9 @@ pub fn parse_han_page(html: &str, url: &str) -> Option<GuidanceItem> {
         .iter()
         .find(|t| text.contains(&format!("(HAN) {t}")))
         .map(|t| t.to_string());
-    let summary = meta(html, "name", "description").unwrap_or_default();
+    let summary = meta(html, "name", "description")
+        .map(drop_boilerplate)
+        .unwrap_or_default();
     Some(GuidanceItem {
         series: Series::Han,
         title,

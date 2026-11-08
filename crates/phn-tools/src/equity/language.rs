@@ -401,9 +401,13 @@ pub async fn language_access_profile(
     }
     if !puma_languages.is_empty() {
         summary.push_str(&format!(
-            "**Detailed languages (B16001) for the surrounding PUMA{} {}** — about 100,000+ residents, larger than {}:\n\n",
+            "**Detailed languages (B16001) for PUMA{} {}** — the Public Use Microdata Area{} \
+             (each at least 100,000 residents) containing {}; figures cover the whole PUMA, \
+             which can be larger than {}:\n\n",
             if pumas.len() > 1 { "s" } else { "" },
             pumas.iter().cloned().collect::<Vec<_>>().join(", "),
+            if pumas.len() > 1 { "s" } else { "" },
+            geo.name,
             geo.name
         ));
         let d: Vec<Vec<String>> = puma_languages

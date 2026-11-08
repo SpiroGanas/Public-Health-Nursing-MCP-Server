@@ -223,8 +223,9 @@ pub async fn search_cdc_guidance(
             method: "search link only".into(),
             status: "link_only".into(),
             detail: Some(
-                "CDC Stacks refuses automated searches (HTTP 403), so the server cannot list its \
-                 results; open the link to search Stacks, newest first."
+                "CDC Stacks refuses automated searches (HTTP 403) and its OAI-PMH interface has \
+                 no topic search, so the server cannot list its results; open the link to search \
+                 Stacks, newest first."
                     .into(),
             ),
             results: 0,

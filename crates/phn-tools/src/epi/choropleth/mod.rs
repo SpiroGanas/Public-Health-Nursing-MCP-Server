@@ -284,10 +284,9 @@ fn load_file(
     geos: &MaGeographies,
 ) -> Result<(Vec<Row>, String)> {
     let path = args.path.as_deref().unwrap_or_default();
-    let (table, label) = crate::core::files::load_table(ctx, path, args.sheet.as_deref())?;
-    if table.rows.is_empty() {
-        return Err(PhnError::InvalidInput("the table has no rows".into()));
-    }
+    let lt = crate::localdata::load(ctx, path, args.sheet.as_deref())?;
+    let table = &lt.table;
+    let label = lt.label.clone();
     if table.rows.len() > 5_000 {
         return Err(PhnError::Privacy(
             "this looks like record-level data (over 5,000 rows). Maps need one row per area; \
@@ -295,20 +294,20 @@ fn load_file(
                 .into(),
         ));
     }
-    let col = |name: &Option<String>, what: &str| -> Result<Option<usize>> {
-        match name {
-            Some(n) => table.column_index(n).map(Some).ok_or_else(|| {
-                PhnError::InvalidInput(format!(
-                    "{what} column '{n}' not found; columns are: {}",
-                    table.headers.join(", ")
-                ))
-            }),
-            None => Ok(None),
-        }
+    // The area column may hold town names that look like surnames, so it is
+    // found by name here and checked below; value and count columns go
+    // through the shared guardrail, which refuses identifier columns.
+    let area_col = match &args.area_column {
+        Some(n) => table.column_index(n).ok_or_else(|| {
+            PhnError::InvalidInput(format!(
+                "area column '{n}' not found; columns are: {}",
+                table.headers.join(", ")
+            ))
+        })?,
+        None => detect_area_column(table),
     };
-    let area_col = match col(&args.area_column, "area")? {
-        Some(c) => c,
-        None => detect_area_column(&table),
+    let col = |name: &Option<String>| -> Result<Option<usize>> {
+        name.as_deref().map(|n| lt.column(n)).transpose()
     };
     // Privacy guard: refuse record-level files. The area column is exempt when
     // its values are recognized geographies (town names can look like surnames).
@@ -320,10 +319,11 @@ fn load_file(
             .count();
         !vals.is_empty() && known * 10 >= vals.len() * 9
     };
-    let direct: Vec<String> = phi::scan_table(&table)
-        .into_iter()
+    let direct: Vec<String> = lt
+        .findings
+        .iter()
         .filter(|f| f.kind.is_direct() && f.kind != phi::Identifier::FreeText)
-        .filter(|f| !(area_values_known && table.column_index(&f.column) == Some(area_col)))
+        .filter(|f| !(area_values_known && f.index == area_col))
         .map(|f| format!("{} ({})", f.column, f.kind.label()))
         .collect();
     if !direct.is_empty() {
@@ -333,7 +333,7 @@ fn load_file(
             direct.join(", ")
         )));
     }
-    let value_col = match col(&args.value_column, "value")? {
+    let value_col = match col(&args.value_column)? {
         Some(c) => c,
         None => (0..table.headers.len())
             .filter(|c| *c != area_col)
@@ -350,7 +350,7 @@ fn load_file(
                 )
             })?,
     };
-    let count_col = col(&args.count_column, "count")?;
+    let count_col = col(&args.count_column)?;
     let mut rows = Vec::new();
     let mut bad = Vec::new();
     for (i, r) in table.rows.iter().enumerate() {
@@ -828,7 +828,11 @@ pub fn create_choropleth_map(
         .map(|c| {
             vec![
                 c.class.to_string(),
-                format!("{} – {}", fmt(c.lower), fmt(c.upper)),
+                if (c.upper - c.lower).abs() < 1e-12 {
+                    fmt(c.lower)
+                } else {
+                    format!("{} – {}", fmt(c.lower), fmt(c.upper))
+                },
                 c.areas.to_string(),
                 c.color.clone(),
             ]

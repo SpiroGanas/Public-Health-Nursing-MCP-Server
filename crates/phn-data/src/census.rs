@@ -869,8 +869,9 @@ fn census_error(e: PhnError, has_key: bool) -> PhnError {
         e
     } else {
         PhnError::Network(format!(
-            "{e}. The Census API may require a free key from this network; set {KEY_ENV} \
-             (sign up at {KEY_SIGNUP})"
+            "{}. The Census API may require a free key from this network; set {KEY_ENV} \
+             (sign up at {KEY_SIGNUP})",
+            apifetch::reason(&e)
         ))
     }
 }
