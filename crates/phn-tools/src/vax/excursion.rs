@@ -6,7 +6,6 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::context::Context;
-use crate::md;
 use crate::vax::content::{self, STORE, ThresholdKind};
 
 /// A vaccine in the affected unit (no patient information).

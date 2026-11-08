@@ -137,7 +137,7 @@ pub async fn lookup_with(
         };
         sections.push(SectionStatus { section: section.into(), status: st, total_matches: total, data_date: date, note });
     };
-    let mut add_source = |sources: &mut Vec<Source>, title: &str, publisher: &str, url: &str, mode: SourceMode, as_of: &str, eff: Option<String>| {
+    let add_source = |sources: &mut Vec<Source>, title: &str, publisher: &str, url: &str, mode: SourceMode, as_of: &str, eff: Option<String>| {
         if !sources.iter().any(|s| s.title == title) {
             sources.push(Source {
                 title: title.into(),
