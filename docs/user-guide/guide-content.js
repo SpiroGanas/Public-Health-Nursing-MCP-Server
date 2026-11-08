@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 48;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,6 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language.', '1'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1728,6 +1729,42 @@ const toolChapters = [
   // Phase 10 chapter goes below this line.
   // End of Phase 10 chapter.
   // Phase 11 chapter goes below this line.
+  {
+    title: 'Substance use, crisis resources, and health communication',
+    intro: 'These tools support overdose prevention, youth mental health, school crisis response, and the materials you write for the public. The substance use and postvention tools are in the bh group (the school_nurse profile includes it; turn it on for other profiles); the communication tools are in the comms group, which every profile includes. Resource lists, safe-messaging rules, and templates were drafted from DPH, CDC, SAMHSA, AFSP, and SPRC documents retrieved in November 2026 and are pending review by the subject matter expert; every answer says so. None of these tools replaces a crisis line: in an emergency, call 911, and for a mental health or substance use crisis, call or text 988.',
+    tools: [
+      {
+        id: 'check_readability',
+        title: 'Check the reading level and plain language of a draft',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: a Word, HTML, PDF, text, or Markdown file in your data folder',
+        does: 'Scores a draft with four reading-level formulas (Flesch Reading Ease, Flesch-Kincaid, SMOG, and Gunning Fog), flags long sentences, public health jargon (with CDC’s *Everyday Words* alternatives), possible passive voice, acronyms that are not spelled out, and long paragraphs and lists, and walks you through the CDC Clear Communication Index.',
+        when: [
+          'Before you publish a fact sheet, flyer, letter, web page, or social media post.',
+          'Revising a material that families or clients find hard to read.',
+          'Scoring a material with the CDC Clear Communication Index for a grant or quality project.',
+        ],
+        provide: [
+          'The text, pasted into the chat, or the name of the file in your data folder.',
+          'Optionally the grade level you aim for (the tool uses grade 8 unless you say otherwise) and your yes or no answers to the 20 Clear Communication Index questions.',
+        ],
+        examples: [
+          'Check the reading level of this flyer and suggest plainer words: [paste text].',
+          'Check lead_poisoning_factsheet.docx against a 6th-grade target.',
+          'Score this material with the CDC Clear Communication Index. Here are my answers: 1 yes, 2 yes, 3 no ...',
+        ],
+        returns: [
+          'The grade level by each formula and the median compared with your target; counts of words, sentences, and syllables; the flags with suggested fixes; and the Clear Communication Index items with the tool’s suggestions, or your score (90 or higher passes) once you have answered every item that applies.',
+        ],
+        notes: [
+          'Reading-level formulas only count syllables and sentence length. They cannot tell whether your audience will understand or act on a material; test drafts with members of your audience.',
+          'The formulas and word list are for English. For other languages, rely on a qualified translator.',
+          'When you check a file, quoted sentences are passed through the redactor, but remove client details before publishing anything.',
+        ],
+      },
+    ],
+  },
   // End of Phase 11 chapter.
   // Phase 12 chapter goes below this line.
   // End of Phase 12 chapter.

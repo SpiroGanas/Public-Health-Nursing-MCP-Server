@@ -1060,6 +1060,29 @@ data at all is left out with a caveat.
 ## Phase 11: Substance use, crisis resources, and health communication
 
 <!-- Phase 11 tools go below this line. -->
+
+### `check_readability` (COMM-01, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` or `path` | required | The draft as plain text or Markdown, or a DOCX, HTML, PDF, TXT, or Markdown file in `/data`. |
+| `target_grade` | 8 | Reading grade to aim for (a tool default; set your agency's standard). |
+| `cci_answers` | | Your CDC Clear Communication Index answers: `"1"`–`"20"` → `yes`/`no` (`na` for 19 and 20), plus `"C"` and `"D"` → `yes`/`no` for whether Parts C (numbers) and D (risk) apply. |
+| `max_flags` | 10 | Most flags listed per kind (max 50). |
+
+Counts words, sentences, and syllables (headings excluded; each list item is a sentence;
+hyphenated words count once) and reports Flesch Reading Ease, Flesch-Kincaid, SMOG (formula and
+CDC's conversion table), and Gunning Fog, with the median grade against the target and Fry's
+per-100-word averages. Flags sentences over 20 words (CDC plain language checklist; ODPHP Health
+Literacy Online), jargon from CDC's *Everyday Words for Public Health Communication* (124 terms,
+with CDC's alternatives and before/after examples), possible passive voice, acronyms not spelled
+out at first use, paragraphs over 5 sentences, lists over 7 items, negative instructions, and
+numbers. The Clear Communication Index is scored from the nurse's answers following CDC's score
+sheet (90 or higher passes); until every applicable item is answered, the tool shows its own
+suggestions for the items it can judge (lists, headings, jargon, numbers). Excerpts quoted from a
+file pass through the identifier redactor, and words that could be names are never listed.
+Golden tests: CDC *Simply Put*'s SMOG table and hepatitis A Fry example, and the score sheet's
+arithmetic (`crates/phn-tools/tests/readability_golden.rs`).
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

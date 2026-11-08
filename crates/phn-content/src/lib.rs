@@ -146,17 +146,24 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/vax/cdsi_supporting_data.yaml"),
         schema: include_str!("../../../content/schemas/cdsi_supporting_data.schema.json"),
     }, // Phase 7 content items go below this line.
-       // End of Phase 7 content items.
-       // Phase 8 content items go below this line.
-       // End of Phase 8 content items.
-       // Phase 9 content items go below this line.
-       // End of Phase 9 content items.
-       // Phase 10 content items go below this line.
-       // End of Phase 10 content items.
-       // Phase 11 content items go below this line.
-       // End of Phase 11 content items.
-       // Phase 12 content items go below this line.
-       // End of Phase 12 content items.
+    // End of Phase 7 content items.
+    // Phase 8 content items go below this line.
+    // End of Phase 8 content items.
+    // Phase 9 content items go below this line.
+    // End of Phase 9 content items.
+    // Phase 10 content items go below this line.
+    // End of Phase 10 content items.
+    // Phase 11 content items go below this line.
+    ContentItem {
+        id: "comms-readability",
+        path: "content/comms/readability.yaml",
+        resource_uri: "phn://content/comms-readability",
+        yaml: include_str!("../../../content/comms/readability.yaml"),
+        schema: include_str!("../../../content/schemas/comms_readability.schema.json"),
+    },
+    // End of Phase 11 content items.
+    // Phase 12 content items go below this line.
+    // End of Phase 12 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

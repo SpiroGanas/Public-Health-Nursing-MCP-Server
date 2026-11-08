@@ -1,20 +1,35 @@
 //! Phase 11 tools: substance use, crisis resources, and health communication.
 
-#[allow(unused_imports)]
 use phn_core::Envelope;
-#[allow(unused_imports)]
+use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
-#[allow(unused_imports)]
 use rmcp::handler::server::wrapper::Parameters;
-#[allow(unused_imports)]
 use rmcp::model::CallToolResult;
-#[allow(unused_imports)]
-use rmcp::tool;
-use rmcp::tool_router;
+use rmcp::{tool, tool_router};
 
-#[allow(unused_imports)]
-use crate::server::{PhnServer, blocking, respond};
+use crate::server::{PhnServer, blocking};
 
-// Remove `allow_empty` once this phase has tools.
-#[tool_router(router = phase11_router, vis = "pub(crate)", allow_empty)]
-impl PhnServer {}
+#[tool_router(router = phase11_router, vis = "pub(crate)")]
+impl PhnServer {
+    #[tool(
+        name = "check_readability",
+        description = "Check the reading level and plain language of a draft (pasted text or a \
+            DOCX, HTML, PDF, TXT, or Markdown file in /data): Flesch Reading Ease, \
+            Flesch-Kincaid, SMOG, and Gunning Fog grades against a target; long sentences, \
+            jargon with CDC Everyday Words alternatives, possible passive voice, acronyms not \
+            spelled out, and long paragraphs or lists; and the CDC Clear Communication Index \
+            (scored from the nurse's yes/no answers, with the tool's suggestions). Use it before \
+            publishing any material for the public.",
+        annotations(title = "Check readability", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<ReadabilityResult>>()
+    )]
+    async fn check_readability(
+        &self,
+        Parameters(args): Parameters<ReadabilityArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::comms::check_readability(ctx, args)
+        })
+        .await
+    }
+}

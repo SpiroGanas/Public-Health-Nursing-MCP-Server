@@ -1,0 +1,1289 @@
+# Readability formulas, plain-language thresholds, the CDC Clear Communication Index rubric, and
+# CDC's Everyday Words jargon list, for check_readability (COMM-01) and the other comms tools.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/comms_readability.schema.json
+meta:
+  id: comms-readability
+  title: Readability, plain language, and the CDC Clear Communication Index
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: CDC Clear Communication Index Score Sheet (full Index, revised July 2014)
+    publisher: Centers for Disease Control and Prevention, Office of the Associate Director for Communication
+    url: https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf
+  related_sources:
+    - title: "CDC Clear Communication Index: User Guide (August 2019)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/ccindex/pdf/clear-communication-user-guide.pdf
+    - title: Everyday Words for Public Health Communication
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/ccindex/everydaywords/index.html
+    - title: "Simply Put: A Guide for Creating Easy-to-Understand Materials (3rd edition, July 2010)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://stacks.cdc.gov/view/cdc/11938
+    - title: "Health Literacy Online (3rd edition), 4.3 Write in plain language"
+      publisher: Office of Disease Prevention and Health Promotion, HHS
+      url: https://odphp.health.gov/healthliteracyonline/create-actionable-content/write-plain-language
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-08. The Clear Communication Index questions, scoring rules, and the 90-point
+    passing mark are transcribed from CDC's full Index score sheet (revised July 2014) and the
+    User Guide (August 2019), both fetched from cdc.gov (high confidence). The jargon list is every
+    active entry in CDC's Everyday Words tool (124 terms, read from the tool's public data service
+    at tools.cdc.gov/ewapi on 2026-11-08); the 'match' forms and the check_context flag were added
+    by the developer. Sentence, paragraph, and list thresholds come from CDC's plain language
+    checklist, Simply Put, ODPHP Health Literacy Online, and the Index (high confidence). The SMOG
+    conversion table is transcribed from Simply Put Appendix C (which misprints the 31-42 row as
+    "61-42"). The formula coefficients are the standard published ones; the original articles
+    (Flesch 1948, Kincaid et al. 1975, McLaughlin 1969, Gunning 1952) could not be fetched in this
+    environment, so they are cited but not re-read (high confidence for the coefficients, medium
+    for the Flesch interpretation bands and the Gunning complex-word rules). The default target of
+    grade 8 is a tool default, not taken from a cited source (low confidence): set it to your
+    agency's standard.
+
+sources:
+  cci_score_sheet:
+    title: CDC Clear Communication Index Score Sheet (revised July 2014)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf
+    date: null
+  cci_user_guide:
+    title: "CDC Clear Communication Index: User Guide"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/ccindex/pdf/clear-communication-user-guide.pdf
+    date: 2019-08-01
+  everyday_words:
+    title: Everyday Words for Public Health Communication
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/ccindex/everydaywords/index.html
+    date: 2022-05-09
+  simply_put:
+    title: "Simply Put: A Guide for Creating Easy-to-Understand Materials (3rd edition)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://stacks.cdc.gov/view/cdc/11938
+    date: 2010-07-01
+  cdc_plain_language:
+    title: Plain Language Materials & Resources
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/health-literacy/php/develop-materials/plain-language.html
+    date: 2025-07-21
+  health_literacy_online:
+    title: "Health Literacy Online, 3rd edition: 4.3 Write in plain language"
+    publisher: Office of Disease Prevention and Health Promotion, HHS
+    url: https://odphp.health.gov/healthliteracyonline/create-actionable-content/write-plain-language
+    date: null
+  flesch_1948:
+    title: "Flesch R. A new readability yardstick. Journal of Applied Psychology 1948;32(3):221-233"
+    publisher: American Psychological Association
+    url: null
+    date: 1948-06-01
+  kincaid_1975:
+    title: "Kincaid JP, Fishburne RP, Rogers RL, Chissom BS. Derivation of new readability formulas for Navy enlisted personnel. Research Branch Report 8-75"
+    publisher: Naval Technical Training Command
+    url: null
+    date: 1975-02-01
+  mclaughlin_1969:
+    title: "McLaughlin GH. SMOG grading: a new readability formula. Journal of Reading 1969;12(8):639-646"
+    publisher: International Reading Association
+    url: null
+    date: 1969-05-01
+  gunning_1952:
+    title: "Gunning R. The Technique of Clear Writing"
+    publisher: McGraw-Hill
+    url: null
+    date: 1952-01-01
+
+formulas:
+  - id: flesch_reading_ease
+    name: Flesch Reading Ease
+    formula: "206.835 - 1.015 x (words / sentences) - 84.6 x (syllables / words)"
+    scale: "0 to 100; higher is easier"
+    source: flesch_1948
+    confidence: high
+  - id: flesch_kincaid_grade
+    name: Flesch-Kincaid Grade Level
+    formula: "0.39 x (words / sentences) + 11.8 x (syllables / words) - 15.59"
+    scale: U.S. school grade
+    source: kincaid_1975
+    confidence: high
+  - id: smog
+    name: SMOG (Simple Measure of Gobbledygook)
+    formula: "1.0430 x sqrt(polysyllabic words x 30 / sentences) + 3.1291; polysyllabic words have 3 or more syllables"
+    scale: "U.S. school grade (years of education needed to understand the text)"
+    source: mclaughlin_1969
+    confidence: high
+  - id: gunning_fog
+    name: Gunning Fog Index
+    formula: "0.4 x ((words / sentences) + 100 x (complex words / words)); complex words have 3 or more syllables, not counting proper nouns, hyphenated compounds, or words that reach 3 syllables only with -es, -ed, or -ing"
+    scale: U.S. school grade
+    source: gunning_1952
+    confidence: medium
+
+# Flesch's interpretation of Reading Ease scores.
+flesch_bands:
+  confidence: medium
+  source: flesch_1948
+  bands:
+    - {min: 90, label: very easy}
+    - {min: 80, label: easy}
+    - {min: 70, label: fairly easy}
+    - {min: 60, label: standard}
+    - {min: 50, label: fairly difficult}
+    - {min: 30, label: difficult}
+    - {min: -1000, label: very difficult}
+
+# SMOG conversion table: total polysyllabic words in 30 sentences -> approximate grade.
+smog_table:
+  source: simply_put
+  section: "Appendix C: Formulas for Calculating Readability, Using SMOG (p. 31); table developed by Harold C. McGraw, Baltimore County Schools"
+  note: "Simply Put prints the sixth row as 61-42; it is 31-42 (the rows are contiguous)."
+  accuracy: "The SMOG formula can predict the grade level difficulty within 1.5 grades in 68 percent of passages."
+  rows:
+    - {min: 0, max: 2, grade: 4}
+    - {min: 3, max: 6, grade: 5}
+    - {min: 7, max: 12, grade: 6}
+    - {min: 13, max: 20, grade: 7}
+    - {min: 21, max: 30, grade: 8}
+    - {min: 31, max: 42, grade: 9}
+    - {min: 43, max: 56, grade: 10}
+    - {min: 57, max: 72, grade: 11}
+    - {min: 73, max: 90, grade: 12}
+    - {min: 91, max: 110, grade: 13}
+
+thresholds:
+  default_target_grade: 8
+  default_target_grade_note: "Tool default (not from a cited source). Many health-literacy programs aim lower; set target_grade to your agency's standard."
+  long_sentence_words: 20
+  long_sentence_source: "CDC plain language checklist ('Strive for an average of 20 words per sentence. Limit each sentence to 1 idea.'); Health Literacy Online 4.3 ('Try to keep sentences to 20 words and under')."
+  typical_sentence_words: "8 to 10"
+  typical_sentence_source: "Simply Put p. 6: 'Keep most sentences, if possible, between eight to ten words and limit paragraphs to three to five sentences.'"
+  paragraph_max_sentences: 5
+  paragraph_source: "CDC plain language checklist ('Limit paragraphs to 1 topic and 5 sentences'); Simply Put p. 6 (three to five sentences)."
+  list_max_items: 7
+  list_source: "CDC Clear Communication Index item 8 (a list of more than 7 items not broken into sub-lists scores 0); Simply Put p. 5 ('Create short lists (3-7 items)')."
+  main_ideas_max: 4
+  main_ideas_source: "Simply Put p. 5: 'Give your audience no more than three or four main ideas per document or section of your document.'"
+
+guidance:
+  - text: "Readability formulas are a mechanical count of syllables and sentences; they don't consider audience, purpose, or most of what makes a material clear. Use them with the Clear Communication Index and testing with your audience."
+    source: cci_user_guide
+    section: "What Makes the Index Different from Other Communication Guidelines and Readability Formulas? (p. 2)"
+  - text: "Comprehension levels are often two or more grades below reading or education level, and drop further when a person is under stress."
+    source: simply_put
+    section: "Testing for Readability (p. 27)"
+  - text: "If long names of organizations, diseases, or other proper nouns raise the grade level, check the score without those words; if it is still too high, use everyday words."
+    source: simply_put
+    section: "Testing for Readability (p. 27)"
+  - text: "Write in the active voice: the subject of the sentence performs the action (for example, 'You may need a test to find out what's wrong,' not 'Tests may be needed to find out what's wrong')."
+    source: health_literacy_online
+    section: "4.3 Write in plain language"
+  - text: "Define a necessary medical term the first time you use it, in the sentence or in parentheses (for example, 'vomiting (throwing up)')."
+    source: health_literacy_online
+    section: "4.3 Write in plain language"
+  - text: "Tell the audience what to do rather than what not to do (for example, 'Wear your helmet every time you ride your bicycle')."
+    source: simply_put
+    section: "Tell audiences what they need to do (p. 5)"
+
+cci:
+  passing_score: 90
+  passing_source: "User Guide p. 1: 'Although 100 is an ideal score, 90 or higher is passing.'"
+  rules:
+    - "Choose one answer for each item you score."
+    - "Only score a point when all instances of an item in the material meet the criteria."
+    - "If you answered No to item 1, score 0 for items 2-4."
+    - "Score = points earned / points possible x 100. Part A (items 1-11) always counts (11 points); Parts B, C, and D count only when they apply; items 19 and 20 can be not applicable, which removes them from the points possible."
+    - "If the audiences for English and non-English versions differ, score the materials separately."
+  intro_questions:
+    - "Who is your primary audience?"
+    - "What do you know about the health literacy skills of your audience? (If you have no information, assume average to low health literacy skills.)"
+    - "What is your primary communication objective (what you want the audience to think, feel, or do)?"
+    - "What is the main message statement in the material (the one thing the audience must remember, 1-3 short sentences)?"
+  parts:
+    - id: A
+      name: Core
+      applies_question: null
+    - id: B
+      name: Behavioral recommendations
+      applies_question: "Does the material include one or more behavioral recommendations for the primary audience?"
+    - id: C
+      name: Numbers
+      applies_question: "Does the material include one or more numbers related to the topic?"
+    - id: D
+      name: Risk
+      applies_question: "Does the material present information, including numbers, about risk?"
+  items:
+    - {number: 1, part: A, area: Main message and call to action, guide_page: 5, na_allowed: false, yes_scores: 1,
+       question: "Does the material contain one main message statement?",
+       guidance: "A main message is the one thing you want the audience to remember. A topic, such as heart disease or seasonal flu, isn't a main message statement. If the material contains several messages and no main message, answer no."}
+    - {number: 2, part: A, area: Main message and call to action, guide_page: 6, na_allowed: false, yes_scores: 1,
+       question: "Is the main message at the top, beginning, or front of the material?",
+       guidance: "The main message must be in the first paragraph or section (a block of text between headings). For a Web material, the first section must be fully visible without scrolling."}
+    - {number: 3, part: A, area: Main message and call to action, guide_page: 7, na_allowed: false, yes_scores: 1,
+       question: "Is the main message emphasized with visual cues?",
+       guidance: "Font, color, shapes, lines, arrows, or headings such as 'What you need to know' count."}
+    - {number: 4, part: A, area: Main message and call to action, guide_page: 8, na_allowed: false, yes_scores: 1,
+       question: "Does the material contain at least one visual that conveys or supports the main message?",
+       guidance: "Photographs, line drawings, graphs, and infographics count. A visual without a caption or labels, or with people who aren't performing the recommended behaviors, does not."}
+    - {number: 5, part: A, area: Main message and call to action, guide_page: 10, na_allowed: false, yes_scores: 1,
+       question: "Does the material include one or more calls to action for the primary audience?",
+       guidance: "A specific behavioral recommendation, a prompt to get more information, a request to share information, or a broad call for change counts, if it is for the primary audience."}
+    - {number: 6, part: A, area: Language, guide_page: 11, na_allowed: false, yes_scores: 1,
+       question: "Do both the main message and the call to action use the active voice?",
+       guidance: "If only one of them uses the active voice, or you answered no to item 1 or 5, answer no."}
+    - {number: 7, part: A, area: Language, guide_page: 12, na_allowed: false, yes_scores: 1,
+       question: "Does the material always use words the primary audience uses?",
+       guidance: "All specialized or unfamiliar terms must be explained or described (not just defined) the first time they are used; acronyms and abbreviations must be spelled out and explained if unfamiliar."}
+    - {number: 8, part: A, area: Information design, guide_page: 14, na_allowed: false, yes_scores: 1,
+       question: "Does the material use bulleted or numbered lists?",
+       guidance: "A list with more than 7 items not broken into sub-lists, or a list only for additional information or references at the end, scores no."}
+    - {number: 9, part: A, area: Information design, guide_page: 15, na_allowed: false, yes_scores: 1,
+       question: "Is the material organized in chunks with headings?",
+       guidance: "Applies to prose and lists. Chunks with more than one idea, or headings that don't match their chunks, score no."}
+    - {number: 10, part: A, area: Information design, guide_page: 17, na_allowed: false, yes_scores: 1,
+       question: "Is the most important information the primary audience needs summarized in the first paragraph or section?",
+       guidance: "The most important information must include the main message."}
+    - {number: 11, part: A, area: State of the science, guide_page: 18, na_allowed: false, yes_scores: 1,
+       question: "Does the material explain what authoritative sources, such as subject matter experts and agency spokespersons, know and don't know about the topic?",
+       guidance: "Both what is known and what is not known must be addressed."}
+    - {number: 12, part: B, area: Behavioral recommendations, guide_page: 19, na_allowed: false, yes_scores: 1,
+       question: "Does the material include one or more behavioral recommendations for the primary audience?",
+       guidance: "If no, stop and don't score Part B."}
+    - {number: 13, part: B, area: Behavioral recommendations, guide_page: 20, na_allowed: false, yes_scores: 1,
+       question: "Does the material explain why the behavioral recommendation(s) is important to the primary audience?",
+       guidance: "Numbers alone, with no other relevant information for the audience, score no."}
+    - {number: 14, part: B, area: Behavioral recommendations, guide_page: 21, na_allowed: false, yes_scores: 1,
+       question: "Does the behavioral recommendation(s) include specific directions about how to perform the behavior?",
+       guidance: "Step-by-step directions, a simple description, when and how to contact a provider or health official, or when and how often to do the behavior count."}
+    - {number: 15, part: C, area: Numbers, guide_page: 22, na_allowed: false, yes_scores: 1,
+       question: "Does the material always present numbers the primary audience uses?",
+       guidance: "Numbers should be familiar and necessary to support the main message; delete the rest. Most audiences use whole numbers."}
+    - {number: 16, part: C, area: Numbers, guide_page: 23, na_allowed: false, yes_scores: 1,
+       question: "Does the material always explain what the numbers mean?",
+       guidance: "For example, '3 to 4 ounces of meat - about the size of a deck of cards.'"}
+    - {number: 17, part: C, area: Numbers, guide_page: 24, na_allowed: false, yes_scores: 0,
+       question: "Does the audience have to conduct mathematical calculations?",
+       guidance: "Adding, subtracting, multiplying, dividing, or finding a common denominator are calculations. Use the same denominator throughout (for example, 1 out of 3). For this item, Yes scores 0 and No scores 1."}
+    - {number: 18, part: D, area: Risk, guide_page: 26, na_allowed: false, yes_scores: 1,
+       question: "Does the material explain the nature of the risk?",
+       guidance: "State the threat or harm and how and why people may be affected; the threat alone scores no."}
+    - {number: 19, part: D, area: Risk, guide_page: 27, na_allowed: true, yes_scores: 1,
+       question: "Does the material address both the risks and benefits of the recommended behaviors?",
+       guidance: "Actual and perceived risks and benefits; only one of the two scores no. Not applicable when there is no behavioral recommendation."}
+    - {number: 20, part: D, area: Risk, guide_page: 28, na_allowed: true, yes_scores: 1,
+       question: "If the material uses numeric probability to describe risk, is the probability also explained with words or a visual?",
+       guidance: "Numeric risk (such as 1 in 5 or 20%) must also be explained in words or a visual. Not applicable when there is no numeric probability."}
+
+# Extra plain-language swaps given as examples in CDC's Simply Put (pp. 6-7).
+extra_terms:
+  - term: Contraception
+    match: ["contraception", "contraceptive"]
+    plain: birth control
+    note: null
+    check_context: false
+    source: simply_put
+  - term: Adverse health effects
+    match: ["adverse health effect"]
+    plain: "say what could happen, for example 'you could get sick'"
+    note: "Simply Put p. 6: 'Say: You could get sick if you are near the chemical. Not: Exposure to the chemical could cause adverse health effects.'"
+    check_context: false
+    source: simply_put
+
+# Every active entry in CDC's Everyday Words for Public Health Communication (retrieved 2026-11-08).
+# 'plain' is CDC's everyday alternative; 'note' is CDC's note; examples are CDC's before/after.
+jargon:
+  - term: "Accessible"
+    match: ["accessible"]
+    plain: "able to get or reach; usable; findable"
+    note: null
+    example_before: "Ensure that your facility is fully accessible (e.g., parking, exam tables, restrooms, etc.)."
+    example_after: "Make sure people with disabilities can get to and use every part of your facility. Examples include the parking lot, patient exam tables, and restrooms."
+    check_context: false
+    source: everyday_words
+  - term: "Acquire"
+    match: ["acquire"]
+    plain: "get"
+    note: null
+    example_before: "Almost every sexually active person will acquire HPV at some point in their lives."
+    example_after: "If they don't get the shot to protect against it, almost everyone who is sexually active will get human papillomavirus, or HPV, at some time in their lives."
+    check_context: false
+    source: everyday_words
+  - term: "Activate"
+    match: ["activate"]
+    plain: "begin, start, turn on, act"
+    note: null
+    example_before: "If the worker does not exit or enter properly, a foot or hand control may be activated and may cause movement of the lift arms, bucket, or other attachment."
+    example_after: "You must get in or out in a safe manner, or you may accidentally start a foot or hand control that moves the lift arms, bucket, or other attachment."
+    check_context: false
+    source: everyday_words
+  - term: "Acute"
+    match: ["acute"]
+    plain: "sudden; happen without warning; sickness that lasts a short time and goes away"
+    note: null
+    example_before: "Mumps is an acute viral illness."
+    example_after: "Mumps usually causes the following symptoms for about 7 to 10 days: * Fever * Headache * Muscle aches * Tiredness * Loss of appetite (not wanting to eat) * Swollen glands under the ears or jaw"
+    check_context: false
+    source: everyday_words
+  - term: "address"
+    match: ["address"]
+    plain: "fix, improve, increase, or decrease"
+    note: "Address is vague. Using a more specific term that helps your readers understand the goal of addressing the issue. Note: This does not apply to using \"address\" in terms of a location or speaking directly to someone."
+    example_before: "This solution will address the dangers of the problem."
+    example_after: "This solution will reduce the dangers of the problem. This solution will fix the dangers of the problem."
+    check_context: true
+    source: everyday_words
+  - term: "Adhere and Adherence"
+    match: ["adhere", "adherence"]
+    plain: "Sticks To"
+    note: "Sticks to"
+    check_context: false
+    source: everyday_words
+  - term: "Adverse Event"
+    match: ["adverse event", "adverse reaction", "adverse effect"]
+    plain: "possible side effect or reaction after getting a shot or taking medicine"
+    note: null
+    example_before: "Adverse events following smallpox vaccination should be reported to state public health authorities and to the national Vaccine Adverse Events Reporting System (VAERS)."
+    example_after: "You should report any reactions that happen after getting the smallpox shot to state public health authorities and the national Vaccine Adverse Events Reporting System (VAERS)."
+    check_context: false
+    source: everyday_words
+  - term: "Agent (biological)"
+    match: ["biological agent", "biologic agent"]
+    plain: "natural or living thing that can cause an event or result"
+    note: "Instead of chemical agent, use chemical."
+    example_before: "The U.S. public health system and primary health care providers must be prepared to address various biological agents, including pathogens that are rarely seen in the United States."
+    example_after: "The U.S. public health system and primary care providers must be ready to identify and protect against diseases caused by many different germs. Even if they aren't common, we must be ready just in case."
+    check_context: false
+    source: everyday_words
+  - term: "Angina"
+    match: ["angina"]
+    plain: "Pain in the chest related to the heart that comes and goes; chest pain caused by reduced blood flow to the heart; occasional chest pain"
+    note: null
+    example_before: "Angina is a symptom of coronary artery disease."
+    example_after: "Angina, chest pain caused by reduced blood flow to the heart, is a symptom of the most common type of heart disease."
+    check_context: false
+    source: everyday_words
+  - term: "Anxiety"
+    match: ["anxiety"]
+    plain: "worry, fear"
+    note: null
+    example_before: "Someone who is depressed has feelings of sadness or anxiety that last for weeks at a time."
+    example_after: "Someone who is depressed feels sad, worried, or fearful for weeks at a time."
+    check_context: false
+    source: everyday_words
+  - term: "Assess or assessment"
+    match: ["assess", "assessment"]
+    plain: "act or process for collecting and analyzing information about a topic, group of people, or a place; information about size, quality, or value; frequently used for school health assessment, community (needs) assessment, workplace health assessment, health impact assessment, public health assessment; see also evaluate"
+    note: null
+    example_before: "The last step in the assessment process is to present and report what was learned during the workplace health assessment to key organizational stakeholders and decision makers."
+    example_after: "After you have collected and analyzed the workplace information, write a report about what you learned and share the report with the people interested in the results."
+    check_context: false
+    source: everyday_words
+  - term: "Associated with"
+    match: ["associated with"]
+    plain: "linked to, related to, goes along with, is part of, happens with"
+    note: null
+    example_before: "This study demonstrates that autism spectrum disorder is not associated with immunological stimulation from vaccines during the first 2 years of life."
+    example_after: "This study shows that autism spectrum disorder is not related to shots given to children 2 years old and younger."
+    check_context: false
+    source: everyday_words
+  - term: "Attain"
+    match: ["attain"]
+    plain: "meet a goal, get, reach, receive"
+    note: null
+    example_before: "The CDC believes every person should have the opportunity to attain his or her full health potential."
+    example_after: "CDC believes everyone should have the chance to be as healthy as possible."
+    check_context: false
+    source: everyday_words
+  - term: "Bacteria"
+    match: ["bacteria"]
+    plain: "germs or \"bugs\" that can infect people, animals, plants, other living things, soil, water, and other parts of the environment; germs that grow and can cause sickness; we can treat these sicknesses with medicines called antibiotics."
+    note: "Depending on the audience, \"bacteria\" may be a familiar term. When the communication objective includes explaining the difference between bacteria and viruses, you may need to use \"bacteria\" and \"virus\" rather than \"germs\". You can use the plain language explanations to help readers understand the differences. (Also see: Virus)"
+    example_before: "The bacteria known as Bacillus anthracis produce dormant spores (not active) that can live in the environment, like soil, for a long time, even decades. Contact with anthrax can cause severe illness in both humans and animals."
+    example_after: "Anthrax germs can live in soil for decades. When people or animals breathe in anthrax germs, they can get very sick and even die."
+    check_context: true
+    source: everyday_words
+  - term: "biweekly"
+    match: ["biweekly"]
+    plain: "every other week, every two weeks, or twice per week"
+    note: "Biweekly can mean two different things. Be specific to avoid confusion."
+    example_before: "Resistance training biweekly can improve your health."
+    example_after: "Resistance training twice per week can improve your health."
+    check_context: false
+    source: everyday_words
+  - term: "Capacity"
+    match: ["capacity"]
+    plain: "what a person, group, or organization can achieve or do; size or what a physical space or thing, such as a program, can hold or manage"
+    note: null
+    example_before: "A successful program assessment will highlight capacities within and surrounding the participating organization, target population, and problem."
+    example_after: "Information about how a program works and what it achieves will be useful if it includes what organizations and people can do about a problem."
+    check_context: true
+    source: everyday_words
+  - term: "Carcinogen"
+    match: ["carcinogen"]
+    plain: "substance that causes cancer"
+    note: null
+    example_before: "Wood dust, associated with cancers of the nasal cavities and sinuses, is a known carcinogen for unprotected workers exposed regularly from sanding operations and furniture manufacturing."
+    example_after: "Workers who breathe wood dust from sanding operations and furniture manufacturing can develop cancers in their noses and sinuses."
+    check_context: false
+    source: everyday_words
+  - term: "Carcinoma"
+    match: ["carcinoma"]
+    plain: "cancer"
+    note: null
+    example_before: "Common kinds of breast cancer are ductal carcinoma, the most common kind of breast cancer. It begins in the cells that line the milk ducts in the breast, also called the lining of the breast ducts."
+    example_after: "A common kind of breast cancer is ductal carcinoma, or cancer in the milk \"tubes\" or ducts in the breast. Carcinoma is the medical term for cancer. Cancer of the milk ducts begins in the cells inside the ducts."
+    check_context: false
+    source: everyday_words
+  - term: "Case report"
+    match: ["case report"]
+    plain: "description of a patient's illness including symptoms, diagnosis, treatment, and follow-up"
+    note: null
+    example_before: "They work with a variety of health care providers, including laboratories, hospitals, and private providers, to obtain case reports on many infectious and some non-infectious diseases."
+    example_after: "They work with different health care providers, including labs, hospitals, and private providers, to get descriptions of patients' sicknesses."
+    check_context: false
+    source: everyday_words
+  - term: "Case-control study"
+    match: ["case-control study", "case-control studies", "case control study"]
+    plain: "a study that compares people who have a sickness, medical or health condition, or injury to a group of people without the sickness, medical or health condition, or injury"
+    note: null
+    example_before: "A recent case-control study published in the Journal of 21st Century Medicine reported that 80 out of 100 patients with rheumatoid arthritis seen at a university rheumatology referral center were found to carry the common variant C707T of the rheumatoid arthritis (RA) gene (point mutation at position at 707)."
+    example_after: "A recent study published in the Journal of 21st Century Medicine compared people with rheumatoid arthritis to people without it. The results show that 4 of 5 people with the sickness had a particular gene with a common and important difference-variant C707T of the rheumatoid arthritis gene."
+    check_context: false
+    source: everyday_words
+  - term: "Cessation"
+    match: ["cessation"]
+    plain: "quitting or stopping"
+    note: null
+    example_before: "Smoking cessation has immediate as well as long-term benefits for you and your loved ones."
+    example_after: "Quitting smoking has immediate as well as long-term benefits for you and your loved ones."
+    check_context: false
+    source: everyday_words
+  - term: "Chronic disease, illness, or condition"
+    match: ["chronic disease", "chronic illness", "chronic condition"]
+    plain: "a type of sickness that goes on for a long time and often doesn't go away completely. People's symptoms may be better or worse over time, and they may use treatments to control symptoms and feel better."
+    note: null
+    example_before: "Chronic diseases and conditions - such as heart disease, stroke, cancer, diabetes, obesity, and arthritis - are among the most common, costly, and preventable of all health problems. Half of all American adults have at least one chronic condition, and almost one in three have multiple chronic conditions."
+    example_after: "Chronic diseases-those that go on for a long time and often don't go away completely-are among the most common and costly health problems, and we often know how to prevent them. Examples of diseases that people live with for long periods, possibly a lifetime, are heart disease, stroke, cancer, diabetes, obesity, and arthritis. Three in six American adults have at least one chronic disease. Almost two in six adults have more than one chronic disease."
+    check_context: false
+    source: everyday_words
+  - term: "Contact"
+    match: ["contact"]
+    plain: "touch; get close to; be near; in the same area as; communicate with; a person who was close to someone who is or was sick"
+    note: null
+    example_before: "Scabies usually is spread by direct, prolonged, skin-to-skin contact with a person who has scabies."
+    example_after: "You can get scabies when your skin touches the skin of a person with scabies."
+    check_context: true
+    source: everyday_words
+  - term: "Contagious"
+    match: ["contagious"]
+    plain: "when germs have the ability to spread from a person or animal to another person or animal"
+    note: null
+    example_before: "Mumps is a contagious disease caused by a virus. It spreads through saliva or mucus from the mouth, nose, and throat."
+    example_after: "Mumps is a sickness that can spread from one person to another. This can happen when spit or mucus from the sick person's mouth, nose, or throat gets into another person's body through their mouth, nose, or eyes."
+    check_context: false
+    source: everyday_words
+  - term: "Contaminated"
+    match: ["contaminated"]
+    plain: "dirty, unsafe, not clean"
+    note: null
+    example_before: "When two or more people get the same illness from the same contaminated food or drink, the event is called a foodborne outbreak."
+    example_after: "A foodborne outbreak is when people get food poisoning after eating the same unsafe food."
+    check_context: false
+    source: everyday_words
+  - term: "Cumulative"
+    match: ["cumulative"]
+    plain: "combined or added over time"
+    note: null
+    example_before: "The cumulative estimated number of persons with diagnosed HIV infection ever classified as stage 3 (AIDS) through 2012 in the United States was 1,194,039."
+    example_after: "CDC data shows that approximately 1,194,039 people in the U.S. ever diagnosed with HIV developed AIDS by the end of 2012."
+    check_context: false
+    source: everyday_words
+  - term: "Data"
+    match: ["data"]
+    plain: "information, facts, numbers"
+    note: null
+    example_before: "This report series provides data on older adult health at the national and state levels, as well as calls to action, state success stories, and other resources."
+    example_after: "This report provides information about older adults' health in each state and across the country. It also suggests actions to improve older adults' health."
+    check_context: true
+    source: everyday_words
+  - term: "Detect"
+    match: ["detect"]
+    plain: "find, identify"
+    note: null
+    example_before: "The sooner public health professionals can detect the source and spread of diseases or other health threats and investigate their effects in the community; the more quickly they can protect the public."
+    example_after: "The sooner public health professionals find and check into the causes and results of sicknesses and other health threats in a community, the more quickly they can protect the public's health."
+    check_context: false
+    source: everyday_words
+  - term: "Disease"
+    match: ["disease"]
+    plain: "sickness (more common); illness (less common)"
+    note: null
+    example_before: "Screening for cervical, colorectal, and breast cancers also helps find these diseases at an early stage when treatment works best."
+    example_after: "Checking your body for cancer, even if you don't have symptoms, helps find sicknesses early when treatment often works best."
+    check_context: true
+    source: everyday_words
+  - term: "Disease registry or registry"
+    match: ["disease registry", "registry"]
+    plain: "a collection of information or list about a group of people with a specific sickness; system for recording or tracking specific sicknesses"
+    note: null
+    example_before: "The national registry of recognized diabetes prevention programs lists contact information for type 2 diabetes prevention programs in communities across the United States."
+    example_after: "The list includes contact information for CDC-approved type 2 diabetes prevention programs in communities across the United States."
+    check_context: false
+    source: everyday_words
+  - term: "Disproportionate"
+    match: ["disproportionate"]
+    plain: "uneven, affecting one or more groups more or less than others"
+    note: null
+    example_before: "MSM continue to bear the greatest burden of HIV infection, and among races/ethnicities, African Americans continue to be disproportionately affected."
+    example_after: "Some groups are affected by HIV more than others. Men who have sex with men are most affected. African Americans are strongly affected, too."
+    check_context: false
+    source: everyday_words
+  - term: "disseminate"
+    match: ["disseminate", "dissemination"]
+    plain: "share, communicate, publish"
+    note: null
+    example_before: "We disseminated this information to our partners."
+    example_after: "We shared this information with our partners."
+    check_context: false
+    source: everyday_words
+  - term: "Distribution"
+    match: ["distribution"]
+    plain: "where something is located; how something is provided or handed out; how often something, such as a characteristic or event, appears in a group or the pattern of the characteristic or event"
+    note: null
+    example_before: "The distribution, range and abundance of the lone star tick have increased over the past 20-30 years, and lone star ticks have been recorded in large numbers as far north as Maine and as far west as central Texas and Oklahoma."
+    example_after: "In the past 20 to 30 years, lone star ticks have increased and spread into new areas in the country. Lone star ticks are found in large numbers as far north as Maine and as far west as central Texas and Oklahoma."
+    check_context: true
+    source: everyday_words
+  - term: "Dose"
+    match: ["dose"]
+    plain: "amount, number of times"
+    note: null
+    example_before: "Some children 6 months through 8 years of age require two doses of influenza vaccine. Children in this age group who are getting vaccinated for the first time, as well as some who have been vaccinated previously, will need two doses."
+    example_after: "Some children 6 months through 8 years of age need the flu shot or nasal spray two times if they: * Are getting vaccinated for the first time * Have been vaccinated before"
+    check_context: true
+    source: everyday_words
+  - term: "Effect, effectiveness"
+    match: ["effectiveness"]
+    plain: "result, success, consequence, how something works"
+    note: null
+    example_before: "The effectiveness of birth control methods is critically important for reducing the risk of unintended pregnancy."
+    example_after: "Birth control methods work by lowering the chances a woman will get pregnant when she isn't planning to. Some birth control methods work better than others in preventing pregnancy."
+    check_context: false
+    source: everyday_words
+  - term: "End-stage renal disease (ESRD)"
+    match: ["end-stage renal disease", "end stage renal disease", "esrd"]
+    plain: "Kidney failure; Kidney failure is present when less than 15 percent of the kidney is working normally. Symptoms may then happen from the buildup of waste products and extra water in the body."
+    note: null
+    example_before: "Chronic kidney disease can get worse over time and may lead to end-stage renal disease."
+    example_after: "Kidney disease can get worse over time and may lead to kidney failure."
+    check_context: false
+    source: everyday_words
+  - term: "Ensure"
+    match: ["ensure"]
+    plain: "make sure, make certain"
+    note: "Rewrite sentence to make ensure unnecessary, when possible."
+    example_before: "Facilities need to ensure all healthcare providers practice numerous times to make sure they understand how to appropriately use the equipment, especially in the step by step putting on and taking off of PPE."
+    example_after: "Facilities should make certain all their doctors and other staff practice using their protective equipment the right way. Staff should practice until they are sure they can do it correctly. This is especially true for putting on and taking off their personal protective equipment (PPE)."
+    check_context: false
+    source: everyday_words
+  - term: "Enumerate"
+    match: ["enumerate"]
+    plain: "count or list"
+    note: null
+    example_before: "Although difficult to enumerate, annually about 49,000 deaths are attributed to work-related illnesses."
+    example_after: "NIOSH estimates that about 49,000 people die each year because of work-related sicknesses, although it is difficult to count everyone and know for sure."
+    check_context: false
+    source: everyday_words
+  - term: "Epidemiology, epidemiologic"
+    match: ["epidemiology", "epidemiologic", "epidemiological"]
+    plain: "the study of the spread or pattern of sickness in a group of people"
+    note: null
+    example_before: "EIS officers are on the public health frontlines, conducting epidemiologic investigations, research and public health surveillance both nationally and internationally."
+    example_after: "CDC's public health workers, such as doctors, nurses, and epidemiologists (provide pronunciation), study health problems that affect groups of people and communities. They ask questions and gather and review information about who is getting sick or hurt or is dying because of a health problem and why the problem is happening. They track health problems in the United States and other countries to see if the problems get better or worse over time."
+    check_context: false
+    source: everyday_words
+  - term: "Evaluate"
+    match: ["evaluate"]
+    plain: "determine, work out, study, test"
+    note: null
+    example_before: "The following tools can be used to evaluate the costs and burden of various health problems and the effectiveness and efficiency of health programs."
+    example_after: "You can use the tools to determine the costs, number of people affected, and consequences of different health problems, as well as the success of health programs."
+    check_context: false
+    source: everyday_words
+  - term: "Evidence-based"
+    match: ["evidence-based", "evidence based"]
+    plain: "uses facts, data, evidence, scientific studies, and other objective or scientifically derived information; tested; shown to work; proven to work"
+    note: null
+    example_before: "[The organization] works with multiple clinical and program sites to increase agencies' capacity to provide evidence-based interventions and connect youth to clinic services."
+    example_after: "[The organization] helps clinics and community groups provide programs shown to work to prevent teen pregnancies and connect youth to clinic services."
+    check_context: false
+    source: everyday_words
+  - term: "Exposure, exposed"
+    match: ["exposure", "exposed"]
+    plain: "openness or closeness to or not protected from something that can cause harm or sickness; chance of getting sick or being harmed; contact with a chemical by swallowing, breathing, or touching."
+    note: "When possible, use words or phrases that indicate how the exposure happens or will affect someone or something."
+    example_before: "Any penetration of the skin by teeth constitutes a bite exposure."
+    example_after: "When an animal sick with rabies bites you and breaks the skin, there is a chance you can get sick with rabies."
+    check_context: false
+    source: everyday_words
+  - term: "Facilitate"
+    match: ["facilitate"]
+    plain: "make a process easier, help, guide"
+    note: null
+    example_before: "The role of the mediator, or neutral, is to facilitate a mutually acceptable resolution to the dispute."
+    example_after: "Mediators, or neutrals, help create a solution that everyone is willing to accept."
+    check_context: false
+    source: everyday_words
+  - term: "Feasible"
+    match: ["feasible"]
+    plain: "can be done, workable, will work, possible, can do, doable"
+    note: null
+    example_before: "Evaluation involves procedures that are useful, feasible, ethical, and accurate."
+    example_after: "Evaluation involves a process with steps that are useful, doable, ethical, and accurate."
+    check_context: false
+    source: everyday_words
+  - term: "Global, globally"
+    match: ["global", "globally"]
+    plain: "around the world, in the world, in counties other than the U.S."
+    note: "If the material refers to specific regions or countries, use the region or country names."
+    example_before: "The World Health Organization reports that without immediate action, the global number of deaths from cancer will increase by about 80% by 2030, with most occurring in low- and middle-income countries."
+    example_after: "The World Health Organization reports that immediate action could help prevent a projected 80% increase in cancer deaths by 2030 around the world, mainly in low- and middle-income countries."
+    check_context: true
+    source: everyday_words
+  - term: "Glucose"
+    match: ["glucose"]
+    plain: "sugar, energy"
+    note: null
+    example_before: "What is your blood glucose level?"
+    example_after: "What is your blood sugar level?"
+    check_context: false
+    source: everyday_words
+  - term: "Guidelines"
+    match: ["guidelines"]
+    plain: "rules, steps to follow, directions, recommendations"
+    note: "Even when the official title uses \"guidelines,\" \"recommendations\" is more likely the common word."
+    example_before: "Current dietary guidelines for Americans recommend that adults in general should consume no more than 2,300 mg of sodium per day."
+    example_after: "The current recommendations say that American adults shouldn't eat more than 2,300 milligrams (mg) of sodium per day. Salt is a type of sodium."
+    check_context: false
+    source: everyday_words
+  - term: "Hazardous"
+    match: ["hazardous"]
+    plain: "not safe, dangerous, harmful, bad, risky"
+    note: null
+    example_before: "Health care workers who prepare, administer, or transport hazardous drugs or dispose of hazardous drug waste may face risks to their own health such as skin disorders, reproductive disorders, and possibly cancer."
+    example_after: "Health care workers who handle or throw away dangerous drugs, such as antiviral or cancer treatment drugs, could get skin and reproductive problems, and possibly cancer."
+    check_context: false
+    source: everyday_words
+  - term: "Health care provider"
+    match: ["health care provider", "healthcare provider"]
+    plain: "health care professional; health professional; doctor; nurse; dentist; pharmacist; people who take care of you or provide health care"
+    note: "Whenever possible, be specific about the type of care professional"
+    example_before: "Women and their doctors or other health care professionals need to understand the risks and benefits associated with prescription painkillers and understand that there are solutions to prevent misuse, abuse, and even death."
+    example_after: "Health care professionals need to understand the risks and benefits of prescription painkillers and how their patients can avoid misuse, abuse, and even death from these medicines. Professionals can also educate their patients about these topics."
+    check_context: false
+    source: everyday_words
+  - term: "Health care setting"
+    match: ["health care setting", "healthcare setting"]
+    plain: "doctor's office, hospital, clinic, place for tests, lab (patient testing and procedures)"
+    note: null
+    example_before: "Health care-associated influenza infections can occur in any health care setting and are most common when influenza is also circulating in the community."
+    example_after: "You can get the flu in the doctor's office, hospital, or clinic, especially when the flu is spreading in the community."
+    check_context: false
+    source: everyday_words
+  - term: "Health disparities"
+    match: ["health disparities", "health disparity"]
+    plain: "differences in health among groups of people"
+    note: null
+    example_before: "CDC and its partners work to identify and address the factors that lead to health disparities among racial, ethnic, geographic, socioeconomic, and other groups so that barriers to health equity can be removed."
+    example_after: "CDC and its partners work to understand why some groups are less healthy than others, so that all people have the same chance to be healthy. Reasons some groups aren't as healthy include where they live, how much money or education they have, and how they are treated because of their racial or ethnic backgrounds."
+    check_context: false
+    source: everyday_words
+  - term: "Host"
+    match: ["host"]
+    plain: "person, animal, or plant that another living thing lives off or benefits from"
+    note: null
+    example_before: "Ticks find their hosts by detecting animals´ breath and body odors, or by sensing body heat, moisture, and vibrations."
+    example_after: "Ticks find animals to feed off by sensing approaching animals' breath, body smells and heat, sweat, and even vibrations from footsteps."
+    check_context: true
+    source: everyday_words
+  - term: "Hyperglycemia"
+    match: ["hyperglycemia"]
+    plain: "High blood sugar; the technical term for high blood glucose (blood sugar). High blood sugar happens when the body has too little insulin or when the body can't use insulin properly."
+    note: "According to Google Trends, over the past 12 months, the term “high blood sugar” averaged 88 searches each week, as compared to “hyperglycemia,” which averaged 42. Per the findings for “blood glucose” versus “blood sugar,” because many more people are searching for “blood sugar,” we should consistently use that term when referring to highs and lows."
+    example_before: "Many things can cause hyperglycemia, including being sick, being stressed, eating more than planned, and not giving yourself enough insulin."
+    example_after: "Many things can cause high blood sugar, including being sick, being stressed, eating more than planned, and not giving yourself enough insulin."
+    check_context: false
+    source: everyday_words
+  - term: "Hypertension"
+    match: ["hypertension"]
+    plain: "High blood pressure"
+    note: null
+    example_before: "Hypertension is a primary or contributing cause of cardiovascular disease and premature deaths."
+    example_after: "High blood pressure is one of the leading risk factors for heart attack and stroke."
+    check_context: false
+    source: everyday_words
+  - term: "Hypoglycemia"
+    match: ["hypoglycemia"]
+    plain: "Low blood sugar; also called low blood glucose, a condition that occurs when one’s blood glucose is lower than normal, usually below 70 mg/dL."
+    note: "According to Google Trends, over the past 12 months, the term “low blood sugar” averaged 85 searches each week; “hypoglycemia” averaged 82. Per the findings for “blood glucose” versus “blood sugar,” because many more people are searching for “blood sugar,” we should consistently use that term when referring to highs and lows."
+    example_before: "If your child has type 1 diabetes, you’ll be involved in diabetes care on a day-to-day basis, from serving healthy foods to giving insulin injections to watching for and treating hypoglycemia (low blood sugar)."
+    example_after: "If your child has type 1 diabetes, you’ll need to watch for low blood sugar every day and treat it. You should also serve healthy foods and will need to give insulin shots if your child cannot."
+    check_context: false
+    source: everyday_words
+  - term: "Hypotension"
+    match: ["hypotension"]
+    plain: "Low blood pressure"
+    note: null
+    example_before: "Patients who develop hypotension can exhibit symptoms such as blurred vision, vertigo, nausea, confusion, and fainting. Severe hypotension can be critical."
+    example_after: "Patients who develop low blood pressure, or hypotension, may have symptoms such as blurred vision, dizziness, and other symptoms. Sever low pressure can be dangerous."
+    check_context: false
+    source: everyday_words
+  - term: "Ideate"
+    match: ["ideate"]
+    plain: "think of; come up with"
+    note: null
+    example_before: "Do you need to ideate ways to build new and leverage existing partnerships?"
+    example_after: "Do you need to think of ways to build new partnerships and use existing ones?"
+    check_context: false
+    source: everyday_words
+  - term: "Immune system"
+    match: ["immune system"]
+    plain: "body's natural defenses against germs and sickness, body's ability to fight germs and sickness"
+    note: null
+    example_before: "Overall, most serious fungal infections are rare, but they do happen. They are most common among people with weak immune systems. People with certain health conditions may need to take medications with side effects that can weaken your immune system and put you at risk for fungal infections."
+    example_after: "It's not very often that fungi-living things in soil, on plants and trees, and even in homes and on human skin-make people really sick. But, some people have health problems or take medicines that lower the body's ability to fight germs and sickness. These people are more likely to get sick from fungi."
+    check_context: false
+    source: everyday_words
+  - term: "Immunization"
+    match: ["immunization"]
+    plain: "Process of protecting (a person or animal) from a disease, usually by an action like giving a vaccine. (See Vaccine)"
+    note: "Consumer research shows many people know \"vaccine\" but prefer \"shots.\" Not all vaccines are given as shots."
+    example_before: "Keeping up-to-date immunization records for your family, especially your children, is important."
+    example_after: "Keeping up-to-date shot and vaccine records for your family, especially your children, is important because you will need those records to register them for school, child care, athletic teams, and summer camps or to travel."
+    check_context: false
+    source: everyday_words
+  - term: "Impact"
+    match: ["impact"]
+    plain: "effect, influence, result"
+    note: "Try to use \"impact\" as a noun, not a verb. Use \"affect\" for consequences. When possible, use words like \"improve\" and \"harm,\" or other words or phrases that provide clear direction and show how something or someone has been affected. For example, \"Antibiotic resistance has limited doctors' ability (rather than \"affected doctors' ability\") to treat certain illnesses.\""
+    example_before: "This model can serve as a framework for focusing and monitoring broader impact of CDC science, not just for monitoring the impact of individual/single publications/products."
+    example_after: "This model helps focus and track the broad influence of CDC science, not just those of one publication or product."
+    check_context: false
+    source: everyday_words
+  - term: "Impaired"
+    match: ["impaired"]
+    plain: "driving while influenced by alcohol or drugs; drunk driving; not able to operate fully or properly; disabled; weakened because of other health problems"
+    note: null
+    example_before: "Every day, almost 30 people in the United States die in motor vehicle crashes that involve an alcohol-impaired driver."
+    example_after: "Every day, almost 30 people in the United States die in motor vehicle crashes that involve a driver who drank too much alcohol to drive safely."
+    check_context: false
+    source: everyday_words
+  - term: "Implement"
+    match: ["implement"]
+    plain: "apply, set up, put into action, do, carry out, start"
+    note: null
+    example_before: "Search or browse through the Community Health Resources Database to plan, implement, and evaluate community health interventions and programs that address chronic diseases."
+    example_after: "Search or browse the Community Health Resources Database to plan, carry out, and test the results of community health programs that apply to chronic diseases, meaning those that are long-lasting and usually don't have a cure."
+    check_context: false
+    source: everyday_words
+  - term: "Incidence rate"
+    match: ["incidence rate", "incidence"]
+    plain: "how often an event happens in a group of people in a certain period of time."
+    note: "If you are calculating the incidence rate, the denominator is the population at risk and the numerator is the number of new cases in the time period."
+    example_before: "This fact sheet gives an overview of HIV incidence in the United States."
+    example_after: "This fact sheet gives an overview of how many people in the United States were newly infected with HIV during (insert time period)."
+    check_context: false
+    source: everyday_words
+  - term: "Include"
+    match: ["include"]
+    plain: null
+    note: "Try not to use this term because \"include\" often creates a hidden or extra verb. Notice how the plain language sentences use action verbs instead of \"include.\""
+    example_before: "Included in these reports are assessments of how well the response operations met objectives, recommendations for correcting gaps or weaknesses, and plans for improving response operations."
+    example_after: "These reports summarize how well the response met goals and how to improve future responses."
+    check_context: true
+    source: everyday_words
+  - term: "Incubation period"
+    match: ["incubation period"]
+    plain: "time elapsed between a person being infected (when the germ enters the person's body) and the first signs of sickness"
+    note: null
+    example_before: "Based on information we have to date, the incubation period for MERS (time between when a person is exposed to MERS-CoV and when they start to have symptoms) is 2-14 days."
+    example_after: "After MERS enters a person's body, it takes from 2 to 14 days for that person to show the first signs of being sick, based on what we know so far about MERS."
+    check_context: false
+    source: everyday_words
+  - term: "Individuals"
+    match: ["individuals"]
+    plain: "people, you"
+    note: null
+    example_before: "Individuals who are infected with STDs are at least two to five times more likely than uninfected individuals to acquire HIV infection if they are exposed to the virus through sexual contact."
+    example_after: "Having a sexually transmitted disease (STD) makes it more likely you will get HIV when you have sex with someone who has HIV. You are at least two to five times more likely than someone without an STD to get HIV when you have sex with someone with HIV."
+    check_context: true
+    source: everyday_words
+  - term: "Infection"
+    match: ["infection"]
+    plain: "when germs get in the body"
+    note: null
+    example_before: "Most infections with CMV are \"silent,\" meaning most people who are infected with CMV have no signs or symptoms."
+    example_after: "Most of the time, when CMV gets in your body, you may not even know because you may not feel sick."
+    check_context: true
+    source: everyday_words
+  - term: "Infectious diseases"
+    match: ["infectious disease"]
+    plain: "sicknesses caused by germs, such as bacteria, viruses, and fungi, that enter the body and grow in number; some of these germs spread from one person to another, and some spread in air, water, food, soil, insects or animals."
+    note: null
+    example_before: "Infectious diseases account for millions of school days lost each year for kindergarten through 12-grade public school students in the United States."
+    example_after: "Kids in public schools in the United States miss millions of school days each year because of sicknesses caused by germs."
+    check_context: false
+    source: everyday_words
+  - term: "Inform"
+    match: ["inform"]
+    plain: "tell, share, educate, show, give or provide information for"
+    note: null
+    example_before: "These investigations inform improvements in industry practices and regulatory changes that make our food safer."
+    example_after: "These investigations provide information about how to improve the way we make food and control the quality so food is safer to eat."
+    check_context: false
+    source: everyday_words
+  - term: "Ingest"
+    match: ["ingest"]
+    plain: "swallow; take into the body"
+    note: "According to Google Trends, over the past 12 months, the term “swallow” averaged 77 searches per week. Searches for “ingest” averaged 29 per week."
+    example_before: "Many native and exotic plants are poisonous to humans when ingested or if there is skin contact with plant chemicals."
+    example_after: "People can get sick if they swallow poisonous plants or if a poisonous plant touches their skin."
+    check_context: false
+    source: everyday_words
+  - term: "Initiative"
+    match: ["initiative"]
+    plain: "program, project"
+    note: null
+    example_before: "To address the gaps, CDC has developed \"Dating Matters\", a comprehensive teen dating violence prevention initiative based on the current evidence about what works in prevention."
+    example_after: "CDC developed \"Dating Matters\", a complete program to stop teen dating violence before it happens. The program uses what's proven to work and new information about teen dating."
+    check_context: false
+    source: everyday_words
+  - term: "Intake"
+    match: ["intake"]
+    plain: "take in, eat, put in your body"
+    note: null
+    example_before: "In addition to excess sodium intake, other factors also influence blood pressure and the risk for heart disease and stroke."
+    example_after: "Your blood pressure and the chances you will have heart disease or a stroke depend on how much sodium is in the foods you eat and other reasons. Salt is a type of sodium."
+    check_context: false
+    source: everyday_words
+  - term: "Integrate"
+    match: ["integrate"]
+    plain: "combine with, make part of, bring together, join"
+    note: null
+    example_before: "A growing body of science supports the effectiveness of combining these efforts through workplace interventions that integrate health protection and health promotion programs."
+    example_after: "Scientific studies show that workplace programs that bring together activities that protect workers' health and encourage healthy attitudes and actions have better results."
+    check_context: false
+    source: everyday_words
+  - term: "Intervention"
+    match: ["intervention"]
+    plain: "action, treatment, program"
+    note: null
+    example_before: "Currently, most interventions for children with Fetal Alcohol Spectrum Disorders (FASDs) are often non-specific, unsystematic, and/or lack scientific evaluation or validation."
+    example_after: "Most programs to help children with fetal alcohol spectrum disorders (FASDs) don't have enough solid results to show they work."
+    check_context: false
+    source: everyday_words
+  - term: "Ischemic heart disease"
+    match: ["ischemic heart disease"]
+    plain: "Coronary artery disease (narrowing of the heart's blood vessels)"
+    note: null
+    example_before: "Cardiovascular disease (CVD), principally ischemic heart disease and stroke, remains the leading cause of U.S. deaths for men and women and all races and ethnicities in spite of major progress in its prevention and treatment."
+    example_after: "Cardiovascular disease (CVD), especially coronary artery disease (narrowing of the heart’s blood vessels), is the leading cause of death for US adults."
+    check_context: false
+    source: everyday_words
+  - term: "Leverage"
+    match: ["leverage"]
+    plain: "use, take advantage of in a positive way"
+    note: null
+    example_before: "Therefore, it is important for the organization to leverage diversity by strategically capitalizing on the variant knowledge, skills, abilities, talents, perspectives, experiences, working styles, etc. of a diverse workforce and empowering of all employees to use their human differences (physical, social, cultural, cognitive, philosophical) to produce better outcomes in furtherance of the organization's mission (process-oriented)."
+    example_after: "Organizations should use all employees' different knowledge, skills, abilities, talents, perspectives, experiences, and working styles to accomplish the organization's mission. Organizations should also help employees take advantage of their differences to get better results for the organization."
+    check_context: false
+    source: everyday_words
+  - term: "Limited number"
+    match: ["limited number"]
+    plain: "few, not many, small number"
+    note: null
+    example_before: "A limited number of time slots are available and will be assigned on a first come-first served basis."
+    example_after: "The people who arrive first will get the few available time slots."
+    check_context: false
+    source: everyday_words
+  - term: "Localized"
+    match: ["localized"]
+    plain: "in a small area, in one place, spot"
+    note: null
+    example_before: "If there is a cut or scratch in the skin, a localized infection with ulceration may develop within 1 to 5 days at the site where the bacteria entered the body."
+    example_after: "Your skin may get red and swollen or get an open sore and pus at the spot where germs got into a cut or scratch. This reaction may happen as soon as 1 day or as long as 5 days after you get the cut or scratch."
+    check_context: false
+    source: everyday_words
+  - term: "Long-term"
+    match: ["long-term"]
+    plain: "for a long time, over a long period, specific amount of time"
+    note: null
+    example_before: "The risk of illness or injury increases with duration of travel, so special consideration should be given to travelers who are planning long-term visits (>= 6 months is a common definition) to low- or middle-income countries."
+    example_after: "Travelers who visit low- to middle-income countries for 6 months or longer are more likely to get sick or hurt in an accident."
+    check_context: true
+    source: everyday_words
+  - term: "Maintain"
+    match: ["maintain"]
+    plain: "keep, keep up, care for, look after, save, support, take care of"
+    note: null
+    example_before: "If you live alone, maintain social ties with coworkers, friends, and family members."
+    example_after: "Keep in touch with coworkers, friends, and family members if you live alone."
+    check_context: true
+    source: everyday_words
+  - term: "Malignant"
+    match: ["malignant"]
+    plain: "Cancerous, cancer"
+    note: null
+    example_before: "Smoking or use of tobacco products has been proven to increase the likelihood of malignant tumor growth throughout the body."
+    example_after: "Tobacco use can cause cancer almost anywhere in your body."
+    check_context: false
+    source: everyday_words
+  - term: "Manage"
+    match: ["manage"]
+    plain: "control, direct, be in charge of, take care of, watch, pay attention to"
+    note: null
+    example_before: "Teach your child to manage diabetes at school by encouraging physical activity and healthy eating as well as medication and testing routines."
+    example_after: "Encourage your child to be active and eat foods that keep diabetes under control while at school. Also, teach your child about the right way to test blood sugar and take medicines."
+    check_context: true
+    source: everyday_words
+  - term: "Medical facilities"
+    match: ["medical facility", "medical facilities"]
+    plain: "doctor's office; doctors' offices; hospitals; clinics; nursing homes; places for tests; labs (patient testing and procedures)"
+    note: null
+    example_before: "Infections from Clostridium difficile (C. difficile), a bacteria that causes diarrhea and other health issues, is a patient safety concern in all types of medical facilities, not just hospitals as traditionally thought, according to a new Vital Signs report today from the Centers for Disease Control and Prevention."
+    example_after: "Hospitals aren't the only places where patients can get sick with Clostridium difficile (C. diff), a germ that can cause diarrhea and other health problems. People can also get sick with this dangerous germ in doctors' offices, clinics, nursing homes, and labs, according to a Vital Signs report from the Centers for Disease Control and Prevention."
+    check_context: false
+    source: everyday_words
+  - term: "Medication"
+    match: ["medication"]
+    plain: "medicine"
+    note: null
+    example_before: "If you are pregnant or thinking about becoming pregnant, talk with your doctor about any medications you are taking or thinking about taking."
+    example_after: "If you are pregnant or thinking about becoming pregnant, talk with your doctor about any medicine you are taking or thinking about taking."
+    check_context: true
+    source: everyday_words
+  - term: "Methods"
+    match: ["methods"]
+    plain: "how the study was done or carried out"
+    note: null
+    example_before: "Major changes to BRFSS survey methods began in 2011."
+    example_after: "Major changes to the way researchers carry out the BRFSS survey began in 2011."
+    check_context: false
+    source: everyday_words
+  - term: "mitigate"
+    match: ["mitigate"]
+    plain: "prevent, reduce, decrease, lessen"
+    note: null
+    example_before: "We designed a plan to mitigate the effects of the hazard."
+    example_after: "We designed a plan to reduce the effects of the hazard."
+    check_context: false
+    source: everyday_words
+  - term: "Modify"
+    match: ["modify"]
+    plain: "change, fix"
+    note: null
+    example_before: "Modify recipes to reduce the amount of fat and calories."
+    example_after: "Change recipes so they have less fat and fewer calories."
+    check_context: false
+    source: everyday_words
+  - term: "Monitor"
+    match: ["monitor"]
+    plain: "check, watch"
+    note: null
+    example_before: "You will only know the success of the plan if you monitor your progress."
+    example_after: "You will only know the success of the plan if you check your progress from time to time."
+    check_context: false
+    source: everyday_words
+  - term: "Morbidity"
+    match: ["morbidity"]
+    plain: "sick, sickness"
+    note: null
+    example_before: "Maternal morbidity includes physical and psychologic conditions that result from or are aggravated by pregnancy and have an adverse effect on a woman's health."
+    example_after: "Women who've given birth can get sick because of physical and psychological reasons that pregnancy causes or makes worse."
+    check_context: false
+    source: everyday_words
+  - term: "Mortality rate"
+    match: ["mortality rate", "mortality"]
+    plain: "Death rate; a measure of the frequency of occurrence of death in a defined population during a specified time."
+    note: null
+    example_before: "The mortality rate for COVID-19 is higher in men than in women."
+    example_after: "The death rate from COVID-19 is higher in men than in women."
+    check_context: false
+    source: everyday_words
+  - term: "Numerous"
+    match: ["numerous"]
+    plain: "many, list a specific number"
+    note: null
+    example_before: "From the moment babies are born, they are exposed to numerous bacteria and viruses on a daily basis."
+    example_after: "From the moment babies are born, they come in contact with many germs-both bacteria and viruses-every day."
+    check_context: false
+    source: everyday_words
+  - term: "operationalize"
+    match: ["operationalize"]
+    plain: "carry out, handle, put in place, set up, start, begin, do"
+    note: null
+    example_before: "We will operationalize our public health work in two phases."
+    example_after: "We will begin our public health work in two phases."
+    check_context: false
+    source: everyday_words
+  - term: "Optimal"
+    match: ["optimal"]
+    plain: "best, ideal, best way"
+    note: null
+    example_before: "It is estimated that only about 17% of U.S. adults are considered to be in a state of optimal mental health."
+    example_after: "Mental health experts estimate that only about 1 in 5 U.S. adults has the best possible mental health."
+    check_context: false
+    source: everyday_words
+  - term: "Outcome"
+    match: ["outcome"]
+    plain: "result"
+    note: null
+    example_before: "Well-being is a positive outcome that is meaningful for people and for many sectors of society, because it tells us that people perceive that their lives are going well."
+    example_after: "People, groups, and organizations care about well-being as a positive result. We know that people think their lives are going well when they report high levels of well-being."
+    check_context: true
+    source: everyday_words
+  - term: "Permissible"
+    match: ["permissible"]
+    plain: "allowed, allowable, you can"
+    note: null
+    example_before: "NIOSH engineers designed and evaluated a local exhaust ventilation (LEV) system that effectively reduces embalmer's exposure to formaldehyde below the OSHA permissible limit of 0.75 ppm, as an 8-hr time-weighted average exposure."
+    example_after: "NIOSH engineers designed and tested a local exhaust ventilation (LEV) system that successfully lowers embalmers' contact with formaldehyde, a possibly harmful chemical. The lower level is below the OSHA allowed maximum of 0.75 parts per million. The maximum is based on average contact with formaldehyde during an 8-hour period."
+    check_context: false
+    source: everyday_words
+  - term: "Persons"
+    match: ["persons"]
+    plain: "people, individuals"
+    note: null
+    example_before: "Advances in the early diagnosis, treatment, and care of HIV+ persons have helped many people enjoy increased health and longer life."
+    example_after: "People who are HIV-positive have better health and longer life because HIV diagnosis, treatment, and care have improved."
+    check_context: true
+    source: everyday_words
+  - term: "Pertinent"
+    match: ["pertinent"]
+    plain: "relevant, important"
+    note: null
+    example_before: "Segue: Brief summaries of articles on pertinent emerging issues published elsewhere."
+    example_after: "Segue: Article summaries on new issues published elsewhere."
+    check_context: false
+    source: everyday_words
+  - term: "Population"
+    match: ["population"]
+    plain: "group, everyone in a group or a select group of people specific to a place, trade, condition"
+    note: "You can use number of people affected."
+    example_before: "The future health of the nation will be determined to a large extent by how effectively we work with communities to eliminate health disparities among those populations experiencing a disproportionate burden of disease, disability, and death."
+    example_after: "How healthy we are as a country depends on getting rid of differences that cause millions of people to be less healthy, have more disabilities, and die earlier than expected."
+    check_context: true
+    source: everyday_words
+  - term: "Prevalence"
+    match: ["prevalence"]
+    plain: "number or percentage of people with a sickness or condition"
+    note: "Specify the time period."
+    example_before: "Studies in Asia, Europe, and North America have identified individuals with ASD with an average prevalence of about 1%."
+    example_after: "About 1 in 100 people in Asia, Europe, and North America have autism spectrum disorder (ASD)."
+    check_context: false
+    source: everyday_words
+  - term: "Prevalent"
+    match: ["prevalent"]
+    plain: "widespread, common, everywhere, many people or places"
+    note: null
+    example_before: "In the United States, arthritis, falls, and fall injuries are highly prevalent conditions among middle-aged (aged 45-64 years) and older (aged >=65 years) adults."
+    example_after: "Adults 45 years and older in the United States commonly have arthritis and fall injuries."
+    check_context: false
+    source: everyday_words
+  - term: "Preventable"
+    match: ["preventable"]
+    plain: "can keep from happening"
+    note: null
+    example_before: "A mother's alcohol use during pregnancy is one of the top preventable causes of birth defects and developmental disabilities."
+    example_after: "If a mother drinks during pregnancy, it can often cause birth defects and problems with her child's growth and abilities. The good news is there are ways to keep a baby from being born with these problems."
+    check_context: false
+    source: everyday_words
+  - term: "Prolonged"
+    match: ["prolonged"]
+    plain: "State the period of time, when possible; if not, \"lengthy\" or \"a long time\" is a more common term."
+    note: null
+    example_before: "Untreated heavy or prolonged bleeding can stop you from living your life to the fullest. It also can cause anemia."
+    example_after: "Heavy or long-lasting bleeding that goes without treatment can cause anemia and stop you from enjoying life."
+    check_context: false
+    source: everyday_words
+  - term: "Public health"
+    match: ["public health"]
+    plain: "the public's health; the health of groups or many people"
+    note: null
+    example_before: "The Office of Public Health Genomics developed, maintains and updates the Genomic Applications in Practice and Prevention Knowledge Database, an online database that captures emerging genomic tests with the potential to impact public health, which currently includes over 540 genomic tests."
+    example_after: "The Office of Public Health Genomics developed, maintains, and updates the Genomic Applications in Practice and Prevention Knowledge Database, an online database with over 540 genomic tests. The tests may be important for understanding, protecting, and improving the health of many people whose genes help cause health problems."
+    check_context: true
+    source: everyday_words
+  - term: "Range"
+    match: ["range"]
+    plain: "go from, include, space between two points"
+    note: null
+    example_before: "ASDs are \"spectrum disorders\" that means ASDs affect each person in different ways, and can range from very mild to severe."
+    example_after: "Autism spectrum disorders (ASDs) affect each person in different ways. ASDs are called \"spectrum disorders\" because the symptoms can be anywhere between mild and strong."
+    check_context: true
+    source: everyday_words
+  - term: "Reduce"
+    match: ["reduce"]
+    plain: "lower"
+    note: null
+    example_before: "There are many ways parents can reduce a child's exposure to lead."
+    example_after: "Parents can do several things to protect their children from lead."
+    check_context: true
+    source: everyday_words
+  - term: "Referral"
+    match: ["referral"]
+    plain: "ask to see another health professional, when a health professional sends a patient somewhere else for care, get a second opinion, ask or send information"
+    note: null
+    example_before: "Such individuals can be identified by partner services programs through a variety of methods, such as disease reporting systems, referrals from STD clinics or counseling and testing sites, and referrals from private sector health-care providers."
+    example_after: "Partner service programs can find people who need help by: * Using disease reporting systems. * Asking other STD clinics, counseling, and testing sites. * Asking doctors, nurses, clinics, and hospitals."
+    check_context: false
+    source: everyday_words
+  - term: "Renal, nephro-"
+    match: ["renal"]
+    plain: "Renal refers to the kidneys. The kidneys are two bean-shaped organs, each about the size of a fist. They are located just below the rib cage, one on each side of your spine. Your kidneys remove wastes and extra fluid from your body."
+    note: null
+    example_before: "A nephrologist can help ensure good renal health."
+    example_after: "A kidney doctor can help you take care of your kidney health."
+    check_context: false
+    source: everyday_words
+  - term: "Respiratory"
+    match: ["respiratory"]
+    plain: "breathing; related to the nose, breathing tubes, and lungs"
+    note: null
+    example_before: "Influenza (also known as the flu) is a contagious respiratory illness caused by flu viruses."
+    example_after: "The flu, also known as influenza, usually affects a person's nose and throat, causing a runny nose, sore throat, and cough. In severe cases, flu can also affect a person's lungs and ability to breathe normally. The flu is caused by germs that pass easily from one person to another."
+    check_context: false
+    source: everyday_words
+  - term: "Response"
+    match: ["response"]
+    plain: "what people, groups, or organizations do after something else happens"
+    note: null
+    example_before: "CDC uses the Incident Management System (IMS) to manage responses."
+    example_after: "CDC uses the Incident Management System (IMS) to organize activities to protect people's health after an emergency."
+    check_context: true
+    source: everyday_words
+  - term: "Risk"
+    match: ["risk"]
+    plain: "chance, likelihood, reason for a health problem"
+    note: null
+    example_before: "You can reduce your risk of getting cancer in a variety of ways, including keeping a healthy weight, avoiding tobacco, limiting the amount of alcohol you drink, and protecting your skin."
+    example_after: "You can lower your chances of getting cancer by keeping a healthy weight, not using tobacco or drinking too much alcohol, and protecting your skin from too much sun."
+    check_context: true
+    source: everyday_words
+  - term: "Risk assessment"
+    match: ["risk assessment"]
+    plain: "quiz, questionnaire, or other method to find out a person's or group's chances of having a health problem"
+    note: null
+    example_before: "The online Hepatitis Risk Assessment is designed to determine an individual's risk for viral hepatitis and asks questions based upon CDC's guidelines for testing and vaccination."
+    example_after: "The online hepatitis quiz can help you find out if you are more likely to have a viral hepatitis infection."
+    check_context: false
+    source: everyday_words
+  - term: "Risk factor"
+    match: ["risk factor"]
+    plain: "anything that makes it more likely, is the reason for, or increases the chance a person or group of people will get sick, hurt, or die. People's beliefs and attitudes, what they do and don't do, where they live and work, their age, and family health"
+    note: null
+    example_before: "Cigarette smoking is the number one risk factor for lung cancer."
+    example_after: "Cigarette smoking is the number one reason people get lung cancer."
+    check_context: false
+    source: everyday_words
+  - term: "Screening"
+    match: ["screening"]
+    plain: "testing or checking to see if a person is healthy or sick"
+    note: null
+    example_before: "Cervical cancer is the easiest female cancer to prevent, with regular screening tests and follow-up."
+    example_after: "Regular tests to find cervical cancer make it the easiest female cancer to catch early."
+    check_context: true
+    source: everyday_words
+  - term: "Seek"
+    match: ["seek"]
+    plain: "get, ask for, see, look for"
+    note: null
+    example_before: "Travelers who become ill with a fever or flu-like illness either while traveling in a malaria-risk area or after returning home (for up to 1 year) should seek immediate medical attention and should tell the physician their travel history."
+    example_after: "Travelers who get a fever or flu-like sickness while in an area with malaria or within a year after returning should see a doctor immediately. They should tell the doctor they were in an area with malaria."
+    check_context: false
+    source: everyday_words
+  - term: "Severe"
+    match: ["severe"]
+    plain: "strong, serious, harmful, dangerous, very bad"
+    note: null
+    example_before: "It can cause mild to severe illness, and at times can lead to death."
+    example_after: "The flu can make you a little sick or very sick. For example, you may only have a cough and runny nose, or you may get something like a lung infection. The flu can even kill you."
+    check_context: true
+    source: everyday_words
+  - term: "Stakeholders"
+    match: ["stakeholders"]
+    plain: "a person or group with an interest or concern in something"
+    note: "It's better to be specific about the groups you mean."
+    example_before: "If you've followed the social marketing process thus far, you should have a good idea of who your stakeholders are."
+    example_after: "If you've followed the social marketing process so far, you should have a good idea of the groups interested in your organization."
+    check_context: false
+    source: everyday_words
+  - term: "Surveillance"
+    match: ["surveillance"]
+    plain: "collecting or gathering of information"
+    note: null
+    example_before: "Occupational surveillance data are used to guide efforts to improve worker safety and health, and to monitor trends and progress over time."
+    example_after: "We gather information from places where people work so we can improve worker safety and health."
+    check_context: false
+    source: everyday_words
+  - term: "Sustain"
+    match: ["sustain"]
+    plain: "keep going over time, support, encourage"
+    note: null
+    example_before: "Mobilize and sustain support for TB elimination by engaging policy and opinion leaders, health care providers, affected communities, and the public."
+    example_after: "We need policy and opinion leaders, health care providers, and communities that have suffered because of tuberculosis to keep working together to get rid of TB."
+    check_context: false
+    source: everyday_words
+  - term: "Toxic, toxigenic"
+    match: ["toxic", "toxigenic"]
+    plain: "poisonous"
+    note: null
+    example_before: "While certain molds are toxigenic, meaning they can produce toxins (specifically mycotoxins), the molds themselves are not toxic, or poisonous."
+    example_after: "Some molds can create poisons, which can make you sick, but the molds themselves aren't poisonous."
+    check_context: false
+    source: everyday_words
+  - term: "Transmit, transmission"
+    match: ["transmit", "transmitted", "transmission"]
+    plain: "spread, pass to others"
+    note: null
+    example_before: "Although each can cause similar symptoms, they have different modes of transmission and can affect the liver differently."
+    example_after: "The three types of hepatitis can cause similar symptoms, but they don't spread from person to person the same way. The three types also can hurt your liver in different ways."
+    check_context: false
+    source: everyday_words
+  - term: "Utilize"
+    match: ["utilize"]
+    plain: "use"
+    note: null
+    example_before: "Both Charter and non-Charter counties have the legal option of utilizing a county administrator position to perform administrative affairs of the board."
+    example_after: "Counties can legally use a county administrator position to handle administrative work for the board."
+    check_context: false
+    source: everyday_words
+  - term: "Vaccine"
+    match: ["vaccine"]
+    plain: "shot, protection against a disease"
+    note: null
+    example_before: "Flu vaccines cause antibodies to develop in the body about two weeks after vaccination."
+    example_after: "Your body needs about two weeks to build protection against the flu after you get a shot or spray in your nose to prevent the flu."
+    check_context: true
+    source: everyday_words
+  - term: "Valid"
+    match: ["valid"]
+    plain: "good for, lasts"
+    note: null
+    example_before: "The certificate of yellow fever vaccination is valid for 10 years, beginning 10 days after the date of primary vaccination."
+    example_after: "The yellow fever certificate lasts for 10 years, beginning 10 days after you got the shot."
+    check_context: true
+    source: everyday_words
+  - term: "Virus"
+    match: ["virus"]
+    plain: "germs that need a living thing, such as people, animals, or plants, to survive. The germs get into a cell, take it over, and force it to copy the germs so they increase in number and spread through the body."
+    note: "Depending on the audience, \"virus\" may be a familiar term. When the communication objective includes explaining the difference between bacteria and viruses, you may need to use \"bacteria\" and \"virus\" rather than \"germs.\" You can use the plain language explanations to help readers understand the differences. (Also see: Bacteria)"
+    example_before: "The rabies virus is transmitted through saliva or brain/nervous system tissue."
+    example_after: "You get rabies germs from the spit, brain, or nervous system tissue of an animal that is sick with rabies."
+    check_context: true
+    source: everyday_words

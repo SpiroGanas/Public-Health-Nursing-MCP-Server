@@ -39,6 +39,12 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 11: substance use, crisis resources, and health communication
 
 <!-- Phase 11 entries go below this line. -->
+- `check_readability` (COMM-01): reading-level formulas (Flesch Reading Ease, Flesch-Kincaid,
+  SMOG with CDC's conversion table, Gunning Fog), plain-language flags with CDC Everyday Words
+  alternatives, and the CDC Clear Communication Index scored from the nurse's answers. The text
+  statistics moved to `phn_tools::comms::textstats` (VAX-09 now uses them) with better sentence
+  splitting and syllable counting. Content: `content/comms/readability.yaml`. `comms.rs` became
+  the `comms/` folder.
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

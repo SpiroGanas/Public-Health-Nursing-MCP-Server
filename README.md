@@ -123,6 +123,7 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `check_readability` | COMM-01 | comms | Flesch Reading Ease, Flesch-Kincaid, SMOG, and Fog grades; long sentences, CDC Everyday Words jargon, passive voice, and acronyms flagged; CDC Clear Communication Index scored. |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

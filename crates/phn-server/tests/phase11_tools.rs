@@ -1,0 +1,229 @@
+//! MCP integration tests for the Phase 11 tools (substance use, crisis
+//! resources, and health communication): successful calls validate against
+//! each tool's output schema, problems the nurse can fix are tool-level
+//! errors, clinical answers carry the decision-support notice and review
+//! caveats, files land in the output folder, and identifiers in local files
+//! never come back.
+
+mod common;
+
+use common::{everything, leaks, start, summary};
+use serde_json::{Value, json};
+
+const DECISION_SUPPORT: &str = "Decision support only";
+
+async fn call_ok(h: &common::Harness, name: &str, args: Value) -> Value {
+    let tools = h.client.list_all_tools().await.unwrap();
+    let r = h.call(name, args.clone()).await;
+    assert_eq!(r.is_error, Some(false), "{name} {args}: {}", everything(&r));
+    let md = summary(&r);
+    assert!(
+        !md.trim_start().starts_with('{'),
+        "{name}: first block should be markdown"
+    );
+    let structured = r.structured_content.clone().expect("structured content");
+    let tool = tools.iter().find(|t| t.name == name).unwrap();
+    let schema = Value::Object((**tool.output_schema.as_ref().unwrap()).clone());
+    let v = jsonschema::validator_for(&schema).unwrap();
+    let errors: Vec<String> = v
+        .iter_errors(&structured)
+        .map(|e| format!("{e} at {}", e.instance_path()))
+        .take(5)
+        .collect();
+    assert!(
+        errors.is_empty(),
+        "{name} output does not match its schema: {errors:#?}"
+    );
+    structured
+}
+
+async fn call_err(h: &common::Harness, name: &str, args: Value) -> String {
+    let r = h.call(name, args.clone()).await;
+    assert_eq!(
+        r.is_error,
+        Some(true),
+        "{name} {args} should fail: {}",
+        summary(&r)
+    );
+    everything(&r)
+}
+
+fn md(s: &Value) -> &str {
+    s["summary"].as_str().unwrap()
+}
+
+fn caveats(s: &Value) -> String {
+    s["caveats"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c.as_str().unwrap().to_string())
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+fn has_pending_review_caveat(s: &Value) -> bool {
+    caveats(s).contains("has not yet been reviewed by the subject matter expert")
+}
+
+#[allow(dead_code)]
+fn decision_support(s: &Value) -> bool {
+    s["notice"]
+        .as_str()
+        .is_some_and(|d| d.contains(DECISION_SUPPORT))
+}
+
+// ------------------------------------------------------------------ COMM-01
+
+const FLYER: &str = "# Protect your family from the flu\n\n\
+Get a flu shot every year. It is the best way to protect yourself and the people around you.\n\n\
+## What you need to know\n\n\
+Influenza surveillance data are utilized by the Department to monitor the prevalence of \
+respiratory illness, and individuals with chronic conditions are at elevated risk of \
+complications that may necessitate hospitalization, so vaccination is recommended by CDC \
+for all persons aged 6 months and older without contraindications.\n\n\
+- Wash your hands often.\n- Stay home when you are sick.\n- Cover your cough.\n\n\
+About 1 in 5 people get the flu each year. Call your doctor if you have a fever over 100.4 F.";
+
+#[tokio::test]
+async fn readability_scores_flags_and_clear_communication_index() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(&h, "check_readability", json!({"text": FLYER})).await;
+    let d = &s["data"];
+    assert_eq!(d["checked"], "pasted text");
+    assert_eq!(d["counts"]["headings"], 2);
+    assert_eq!(d["counts"]["lists"], 1);
+    assert_eq!(d["counts"]["list_items"], 3);
+    let ids: Vec<&str> = d["scores"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|s| s["id"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        ids,
+        vec![
+            "flesch_reading_ease",
+            "flesch_kincaid_grade",
+            "smog",
+            "gunning_fog"
+        ]
+    );
+    // The long jargon-filled sentence is flagged with CDC alternatives.
+    assert_eq!(d["flags"]["long_sentence_count"], 1);
+    let jargon: Vec<&str> = d["flags"]["jargon"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|j| j["term"].as_str().unwrap())
+        .collect();
+    for t in ["Surveillance", "Utilize", "Prevalence"] {
+        assert!(jargon.contains(&t), "{t} missing from {jargon:?}");
+    }
+    assert!(d["flags"]["passive_voice_count"].as_u64().unwrap() >= 1);
+    assert!(d["flags"]["numbers"]["ratios"].as_u64().unwrap() >= 1);
+    // The Clear Communication Index needs the nurse's answers; suggestions are offered.
+    let cci = &d["clear_communication_index"];
+    assert!(cci["score"].is_null());
+    assert_eq!(cci["before_you_begin"].as_array().unwrap().len(), 4);
+    let item8 = &cci["items"][7];
+    assert_eq!(item8["number"], 8);
+    assert_eq!(item8["suggestion"], "check");
+    assert!(md(&s).contains("Estimated reading level"));
+    assert!(md(&s).contains("Clear Communication Index"));
+    assert!(has_pending_review_caveat(&s));
+    assert!(s["notice"].is_null(), "not a clinical answer");
+    assert!(
+        s["sources"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|x| x["url"] == "https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf")
+    );
+
+    // With every answer, the Index is scored (hand-computed: 15 of 19 = 78.9).
+    let answers = json!({"1": "yes", "2": "yes", "3": "yes", "4": "no", "5": "yes", "6": "yes",
+        "7": "no", "8": "yes", "9": "yes", "10": "yes", "11": "yes", "12": "yes", "13": "yes",
+        "14": "yes", "C": "yes", "15": "yes", "16": "no", "17": "yes", "D": "yes", "18": "yes",
+        "19": "na", "20": "yes"});
+    let s = call_ok(
+        &h,
+        "check_readability",
+        json!({"text": FLYER, "cci_answers": answers, "target_grade": 6}),
+    )
+    .await;
+    let cci = &s["data"]["clear_communication_index"];
+    assert_eq!(cci["score"], 78.9);
+    assert_eq!(cci["passing"], false);
+    assert_eq!(s["data"]["grade_estimate"]["target_grade"], 6.0);
+    assert!(md(&s).contains("Score **79**"));
+}
+
+#[tokio::test]
+async fn readability_reads_files_and_never_echoes_identifiers() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(&h, "check_readability", json!({"path": "client_note.txt"})).await;
+    assert_eq!(s["data"]["checked"], "client_note.txt");
+    assert!(
+        !s["privacy"]["identifiers_detected"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    let r = h
+        .call("check_readability", json!({"path": "client_note.txt"}))
+        .await;
+    let found = leaks(&everything(&r), "data/client_note.txt", None);
+    assert!(found.is_empty(), "leaked: {found:?}");
+
+    // A DOCX with real headings and a bulleted list.
+    let doc = phn_docs::model::Document {
+        title: "Lead".into(),
+        subtitle: None,
+        language: "en-US".into(),
+        author: None,
+        letterhead: None,
+        logo: None,
+        blocks: phn_docs::model::from_markdown(
+            "# Lead and your child\n\nLead can hurt your child's brain. Test your child at ages 1 and 2.\n\n- Wash hands.\n- Wipe floors.",
+        ),
+    };
+    std::fs::write(
+        h.data().join("lead.docx"),
+        phn_docs::docx::to_docx(&doc).unwrap(),
+    )
+    .unwrap();
+    let s = call_ok(&h, "check_readability", json!({"path": "lead.docx"})).await;
+    assert!(s["data"]["counts"]["headings"].as_u64().unwrap() >= 1);
+    assert_eq!(s["data"]["counts"]["list_items"], 2);
+}
+
+#[tokio::test]
+async fn readability_rejects_bad_input() {
+    let h = start(|c| c.offline = true).await;
+    let e = call_err(&h, "check_readability", json!({})).await;
+    assert!(e.contains("give the draft"), "{e}");
+    let e = call_err(
+        &h,
+        "check_readability",
+        json!({"text": "Hi.", "path": "x.txt"}),
+    )
+    .await;
+    assert!(e.contains("not both"), "{e}");
+    let e = call_err(
+        &h,
+        "check_readability",
+        json!({"text": "Get a shot.", "cci_answers": {"3": "maybe"}}),
+    )
+    .await;
+    assert!(e.contains("not yes, no, or na"), "{e}");
+    let e = call_err(
+        &h,
+        "check_readability",
+        json!({"text": "Get a shot.", "cci_answers": {"5": "na"}}),
+    )
+    .await;
+    assert!(e.contains("cannot be 'na'"), "{e}");
+    let e = call_err(&h, "check_readability", json!({"path": "line_list.csv"})).await;
+    assert!(e.contains("reads DOCX"), "{e}");
+}
