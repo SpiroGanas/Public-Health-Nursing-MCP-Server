@@ -2,7 +2,7 @@
 
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_data::census::GeoLevel;
-use phn_data::geography::MaGeographies;
+use phn_data::geography::{Geography, MaGeographies};
 use phn_data::svi::{self, Ranks, SviSnapshot, SviTract};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -111,6 +111,41 @@ pub struct SviResult {
     pub variables: Vec<(String, f64)>,
 }
 
+/// The census tracts used for a town's tract-based summaries: tracts with
+/// land assigned to the town (the town holds the largest share of their
+/// census blocks), or, for small towns without one, every tract with land
+/// that overlaps the town. The flag is true in the second case. Water-only
+/// tracts (no land, no residents) are left out.
+pub(crate) fn town_tracts(geos: &MaGeographies, town: &str) -> (Vec<String>, bool) {
+    let land = |t: &Geography| t.aland_sqmi.is_none_or(|a| a > 0.0);
+    let main: Vec<String> = geos
+        .tracts_in_town(town)
+        .into_iter()
+        .filter(|t| land(t))
+        .map(|t| t.geoid.clone())
+        .collect();
+    if !main.is_empty() {
+        return (main, false);
+    }
+    (
+        geos.tracts_overlapping_town(town)
+            .into_iter()
+            .filter(|(t, _)| land(t))
+            .map(|(t, _)| t.geoid.clone())
+            .collect(),
+        true,
+    )
+}
+
+/// Caveat for a town whose tracts all belong mainly to other towns.
+pub(crate) fn shared_tracts_caveat(town: &str, n: usize) -> String {
+    format!(
+        "No census tract lies mainly in {town}; tract-based figures are for the {n} tract{} that \
+         overlap it, which also cover neighboring towns.",
+        if n == 1 { "" } else { "s" }
+    )
+}
+
 /// SVI percentile ranks by tract for a town, county, or tract.
 pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<Envelope<SviResult>> {
     let geos = MaGeographies::shared(&ctx.snapshots)?;
@@ -130,14 +165,14 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
         ProfileLevel::Tract => GeoLevel::Tract,
     });
     let geo = geos.resolve(&query, level)?;
+    let mut shared_tracts = false;
     let fips: Vec<String> = match geo.level {
         GeoLevel::Tract => vec![geo.geoid.clone()],
-        GeoLevel::Town => geos
-            .tracts_overlapping_town(&geo.name)
-            .into_iter()
-            .filter(|(_, s)| *s >= 0.5)
-            .map(|(t, _)| t.geoid.clone())
-            .collect(),
+        GeoLevel::Town => {
+            let (t, shared) = town_tracts(geos, &geo.name);
+            shared_tracts = shared;
+            t
+        }
         GeoLevel::County => geos
             .at_level(GeoLevel::Tract)
             .filter(|t| t.county_geoid == geo.geoid)
@@ -257,11 +292,14 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
     summary.push_str(
         "\nTo map these ranks, pass the tract GEOIDs and ranks to create_choropleth_map (geography tract).\n",
     );
-    let caveats = vec![
+    let mut caveats = vec![
         "SVI ranks are relative percentiles, not measures of absolute need, and are not comparable across SVI releases or between the state and national rankings.".to_string(),
         "SVI 2022 is built from ACS 2018–2022 tract estimates, which have sampling error; flags count variables at or above the 90th percentile within Massachusetts.".to_string(),
         "Tracts with no residents have no ranks.".to_string(),
     ];
+    if shared_tracts {
+        caveats.push(shared_tracts_caveat(&geo.name, total));
+    }
     Ok(Envelope::new(
         summary,
         SviResult {
@@ -324,5 +362,34 @@ mod tests {
         )
         .unwrap();
         assert!(env.data.tracts_total >= 4);
+    }
+
+    /// Every town gets an answer, including the small towns whose tracts
+    /// belong mainly to a neighbor (they get the overlapping tracts).
+    #[test]
+    fn every_town_has_tracts() {
+        let dir = tempfile::tempdir().unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        for m in &ctx.ma.municipalities {
+            let env = get_social_vulnerability_index(
+                &ctx,
+                SviArgs {
+                    area: Some(m.name.clone()),
+                    level: Some(ProfileLevel::Town),
+                    ..SviArgs::default()
+                },
+            )
+            .unwrap_or_else(|e| panic!("{}: {e}", m.name));
+            assert!(env.data.tracts_total > 0, "{}", m.name);
+        }
+        let env = get_social_vulnerability_index(
+            &ctx,
+            SviArgs {
+                area: Some("Alford".into()),
+                ..SviArgs::default()
+            },
+        )
+        .unwrap();
+        assert!(env.caveats.iter().any(|c| c.contains("No census tract lies mainly in Alford")));
     }
 }

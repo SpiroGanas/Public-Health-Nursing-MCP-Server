@@ -261,15 +261,30 @@ pub async fn build_community_health_profile(
                 "{} (town estimate derived from census tracts)",
                 PlacesLevel::Tract.dataset_title()
             );
+            s.url = Some(format!(
+                "https://data.cdc.gov/d/{}",
+                PlacesLevel::Tract.dataset_id()
+            ));
             sources.push(s);
             caveats.push(format!(
-                "Chronic disease figures for {} are the adult-population-weighted average of {n} \
-                 census-tract PLACES estimates, derived by this server (no confidence interval).",
-                geo.name
+                "Chronic disease figures for {} are {}, derived by this server (no confidence \
+                 interval).",
+                geo.name,
+                if n == 1 {
+                    "the PLACES estimates for the one census tract that overlaps the town (it may also \
+                     cover neighboring towns)"
+                        .to_string()
+                } else {
+                    format!("the adult-population-weighted average of {n} census-tract PLACES estimates")
+                }
             ));
             section = Some(ChronicDiseaseSection {
                 release: places::RELEASE.into(),
-                method: format!("Population-weighted mean of {n} PLACES census-tract estimates"),
+                method: if n == 1 {
+                    "PLACES estimates for the one census tract that overlaps the town".to_string()
+                } else {
+                    format!("Population-weighted mean of {n} PLACES census-tract estimates")
+                },
                 rows: rows_for(&loc, &measures, false),
             });
         }
@@ -291,7 +306,13 @@ pub async fn build_community_health_profile(
         let s = SviSnapshot::shared(&ctx.snapshots)?;
         let fips: Vec<String> = match plevel {
             ProfileLevel::Tract => vec![geo.geoid.clone()],
-            ProfileLevel::Town => geos.tracts_in_town(&geo.name).iter().map(|t| t.geoid.clone()).collect(),
+            ProfileLevel::Town => {
+                let (t, shared) = super::svi::town_tracts(geos, &geo.name);
+                if shared {
+                    caveats.push(super::svi::shared_tracts_caveat(&geo.name, t.len()));
+                }
+                t
+            }
             ProfileLevel::County => geos
                 .at_level(GeoLevel::Tract)
                 .filter(|t| t.county_geoid == geo.geoid)
@@ -468,7 +489,7 @@ pub async fn build_community_health_profile(
     if plevel == ProfileLevel::Town {
         caveats.push(
             "Cities and towns are Census county subdivisions; tract-based summaries (SVI) use the \
-             tracts whose blocks are mostly in the town."
+             tracts that belong mainly to the town (largest share of their census blocks)."
                 .into(),
         );
     }
@@ -532,6 +553,7 @@ mod tests {
                 }
             }
             assert!(d.chronic_disease.as_ref().is_some_and(|c| !c.rows.is_empty()), "{t}");
+            assert!(d.svi.as_ref().is_some_and(|s| s.tracts > 0), "{t}");
             assert!(env.sources.iter().any(|s| s.title.contains("American Community Survey")));
             assert!(env.summary.contains("B01001") && env.summary.contains("C16001"));
         }

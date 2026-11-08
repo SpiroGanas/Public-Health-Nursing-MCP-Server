@@ -378,6 +378,191 @@ keeps them, locally). Golden tests: R `qcc` limits.
 
 <!-- Phase 4 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
+Phase 4 tools read public data through a live → cache → bundled-snapshot chain, so they work
+offline. Each answer says which was used (`mode` on every source). Bundled snapshots (see
+`snapshots/manifest.json` for URLs, checksums, and derivations): ACS 2020–2024 5-year
+indicators for the U.S., Massachusetts, 14 counties, 351 cities and towns, and 2020 census
+tracts; B16001 detailed languages for Massachusetts and its 2020 PUMAs; CDC/ATSDR SVI 2022 for
+Massachusetts tracts; CDC PLACES 2025 for Massachusetts counties, places, tracts, and ZCTAs;
+census geographies with tract-to-town and ZCTA-to-town crosswalks; and simplified map
+boundaries. Optional keys (`PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`) are read from the
+environment, never cached or cited; everything works without them.
+
+### `build_community_health_profile` (EQ-01, toolset `equity`)
+
+One-call profile of a city or town, county, or census tract.
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town | Town name ("Manchester-by-the-Sea"), "Hampden County", or an 11-digit tract GEOID. Misspellings get suggestions. |
+| `level` | detected | `town`, `county`, or `tract`. |
+| `include_chronic_disease` | `true` | Add CDC PLACES estimates (15 measures; all 40 are in `get_places_estimates`). |
+| `include_svi` | `true` | Add the Social Vulnerability Index summary. |
+
+Sections: population and age; race and ethnicity; nativity and language; income and poverty;
+health insurance and disability; housing (renters, cost burden, crowding), vehicles, and
+internet; education. Every figure names its ACS detailed table (B01001, C16001, C17002, …), the
+5-year period, and the 90% margin of error, with Massachusetts and U.S. values beside it.
+Derived percentages and their margins use the Census Bureau's approximation formulas
+(*Understanding and Using ACS Data*, 2020, ch. 8); figures with a coefficient of variation above
+30% are marked † and listed in a caveat. Live data come from `api.census.gov` (latest vintage
+from `data.json`); without a key the API may answer with a "missing key" page, and the tool then
+uses the bundled snapshot and says why. PLACES: the CDC place estimate when a city's census place
+matches the town, otherwise the adult-population-weighted mean of the town's tract estimates
+(derived by this server; no interval). SVI: tracts whose blocks are mostly in the town. Births
+and deaths are omitted: no machine-readable town-level vital statistics source was reachable;
+the result says so. Read-only; open-world.
+
+### `get_social_vulnerability_index` (EQ-02, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town | Town, county, or tract GEOID. |
+| `level` | detected | `town`, `county`, or `tract`. |
+| `ranking` | `massachusetts` | Percentile ranks among Massachusetts tracts, or `national`. |
+| `theme` | `overall` | Sort by `socioeconomic`, `household`, `minority_status`, or `housing_transportation`. |
+| `top` | 10 | Most vulnerable tracts to list (1–200). |
+
+Returns each tract's overall and four theme percentile ranks (0 least, 1 most vulnerable), the
+number of flagged variables (90th percentile or above), counts by quartile, and the median rank;
+for a single tract, its 16 SVI variables (percent estimates). Source: CDC/ATSDR SVI 2022 (ACS
+2018–2022), bundled. Caveats: ranks are relative, cannot be compared across releases, and the two
+rankings differ. Read-only; not open-world.
+
+### `language_access_profile` (EQ-03, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town | Town, county, or tract GEOID. |
+| `level` | detected | |
+| `eligible_population` | residents 5+ | Size of the population your program serves; group counts are scaled assuming the area's language mix. |
+
+For each of the 12 C16001 language groups: speakers age 5+, people who speak English less than
+"very well" (LEP) with the margin of error, and whether the group reaches the HHS LEP guidance
+safe harbor for written translation (5% of the eligible population or 1,000 persons, whichever is
+less): *meets even at the low end of the margin*, *meets*, *possibly* (within the margin), or
+*no*, plus the guidance's fewer-than-50-persons rule. Also limited-English households (C16002),
+detailed languages (B16001) for the PUMA(s) that contain the area, and Massachusetts's 15 most
+common LEP languages (the list 45 CFR 92.11(b) points to). The rules come from
+`content/equity/language_access.yaml` (pending review; the 2003 safe harbor entry is **low
+confidence** because the HHS guidance could not be retrieved, and the tool says so in every
+answer). Decision support, not legal advice. Read-only; open-world.
+
+### `measure_health_disparities` (EQ-04, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `groups` | | 2–50 groups, each `label`, `count`, `population`. Give `groups` or `path`. |
+| `path`, `sheet` | | An aggregated CSV/XLSX in `/data`, one row per group (record-level files are refused). |
+| `group_column`, `count_column`, `population_column` | detected | Columns in the file (count: count/cases/events/deaths; population: population/pop/denominator). |
+| `reference` | `most_favorable` | `largest` or `named` (with `reference_label`). |
+| `favorable_outcome` | `false` | `true` when higher is better (screening, vaccination). |
+| `per` | 100,000 | Rate base. |
+| `confidence` | 0.95 | 0.80–0.99. |
+| `event_description` | | |
+
+Methods: rates with exact Poisson intervals; rate ratios with the exact conditional (binomial)
+interval, as R `poisson.test`, and the log-scale Wald interval; rate differences with the
+Poisson variance; the index of disparity (Pearcy & Keppel, *Public Health Rep* 2002); the
+population-weighted between-group variance (Harper et al., *Am J Epidemiol* 2008; NCI HD*Calc)
+with a delta-method standard error; excess events and the population attributable fraction
+(share of events that would not occur if every group had the reference rate) with an interval on
+ln(1 − PAF). Golden tests: R (`poisson.test`, `binom.test`, closed forms; Monte Carlo check of
+the variance SE). From a file, groups with counts from 1 to the suppression threshold − 1 are
+left out of every measure so their counts cannot be recovered; identifier columns are refused.
+Crude rates only: age-adjust first (`age_adjust_rates`) when groups differ in age. Disparities
+between ACS survey estimates are not computed here (their sampling error is not Poisson); compare
+those with the margins of error in `build_community_health_profile`. Read-only; not open-world.
+
+### `get_places_estimates` (CHR-01, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | | Town or city, "X County", tract GEOID, 5-digit ZIP/ZCTA, or a census place name. |
+| `level` | detected | `county`, `town`, `place`, `tract`, or `zcta`. |
+| `measures` | all 40 | Measure IDs or names ("DIABETES", "Obesity"). |
+| `category` | all | "Health Outcomes", "Prevention", "Health Risk Behaviors", "Disability", "Health Status", "Health-Related Social Needs". |
+| `age_adjusted` | `false` | Age-adjusted prevalence (counties and places only). |
+
+CDC PLACES 2025 release (datasets on data.cdc.gov: county `swc5-untb`, place `eav7-hnsx`, tract
+`cwsq-ngmh`, ZCTA `qnzd-25i4`), fetched live through the Socrata API with the bundled snapshot as
+fallback. Each measure shows the estimate, its 95% confidence interval, the BRFSS data year
+(2023 for most measures, 2022 for five), the release year, and Massachusetts and U.S. reference
+values with "higher", "lower", or "similar" when the area's interval excludes the Massachusetts
+value. Towns: the CDC place estimate when the city's census place has the town's boundary;
+otherwise the adult-population-weighted mean of the tract estimates (no interval, derived by
+this server). Massachusetts and U.S. values are adult-population-weighted means of county
+estimates computed by this server, not official CDC state figures. Caveat in every answer:
+model-based small-area estimates, not local survey results. Read-only; open-world.
+
+### `create_choropleth_map` (EPI-12, toolset `epi`)
+
+| Argument | Default | |
+|---|---|---|
+| `geography` | | `town`, `tract` (11-digit GEOID), `zcta` (5-digit), or `school_district` (DESE code or name). |
+| `title` | | Map title. |
+| `values` | | Inline `{area, value, count}` list. Give `values` or `path`. |
+| `path`, `sheet` | | An aggregated CSV/XLSX in `/data`, one row per area. |
+| `area_column`, `value_column`, `count_column` | detected | Columns in the file. |
+| `value_is_count` | `false` | The mapped values are counts (small counts are suppressed). |
+| `method` | `natural_breaks` | Or `quantile`. |
+| `classes` | 5 | 3–7 (fewer when values are few). |
+| `extent` | `data` | Zoom to the mapped areas, or `state`. |
+| `subtitle`, `value_label`, `decimals`, `labels`, `source_note`, `file_name` | | Text and layout. |
+
+Writes an SVG (with `<title>` and `<desc>`) and a PNG to `/data/output/maps/`. Classes use the
+validated sequential blue ramp (`phn_docs::palette`); natural breaks are Fisher's exact optimal
+partition (the Jenks criterion) and the goodness of variance fit is reported. Areas with a count
+from 1 to the suppression threshold − 1 (or a suppression marker such as `*` or `<5` in the file)
+are hatched, as are areas without data; neighboring areas outside the data are drawn in outline,
+and town borders are overlaid on tract and ZCTA maps. Returns the file paths, alt text, and the
+class table; per-area values are returned only for inline input. Files with direct identifiers,
+repeated areas, or more than 5,000 rows are refused as record-level data. Boundaries: Census
+cartographic boundary files (2024 towns and tracts, 2020 ZCTAs), simplified; school districts are
+unions of member towns. Writes files; not open-world.
+
+### `search_pubmed` (EBP-01, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `population`, `intervention`, `outcome` (and `comparison`) | | PICO elements: `phrase`, optional `synonyms` (title/abstract; `*` truncates), optional `mesh` headings. |
+| `include_comparison` | `false` | Add the comparison to the query (usually left out). |
+| `query` | | A ready-made PubMed query, alone or with PICO elements. |
+| `filters` | | `systematic_review`, `meta_analysis`, `randomized_controlled_trial`, `guideline`, `humans` (study types are ORed). |
+| `from_year`, `to_year`, `languages` | | |
+| `max_results` | 10 | 1–50. |
+| `sort` | `relevance` | Or `newest`. |
+
+Each element becomes `("MeSH"[MeSH Terms] OR "phrase"[tiab] OR "synonym"[tiab])`: given MeSH
+headings are checked against the MeSH database (unknown ones are dropped and reported), and
+PubMed's automatic term mapping adds the heading for the whole phrase. Elements are ANDed with the
+filters. Returns the exact query (and PubMed's translation and a link to rerun it), the total
+count, and for each record the PMID, title, journal, year, first three authors, an abstract
+excerpt, DOI, publication types, and link. NCBI E-utilities (`esearch`, `efetch`) with
+`tool=public-health-nursing-mcp-server` and no email; requests are spaced to stay under NCBI's
+limit (3 per second, 10 with `PHN_NCBI_API_KEY`) and cached for a day, so a recent search also
+works offline. Read-only; open-world.
+
+### `search_cdc_guidance` (EBP-02, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | | E.g. "measles", "Candida auris". |
+| `series` | all | `mmwr`, `han`, `stacks`. |
+| `since` | | Only items on or after this date (YYYY-MM-DD). |
+| `max_results` | 10 | Per series, 1–30. |
+
+Newest first, with title, date, series, link, and CDC's summary. Methods (CDC reorganized its
+site in 2024–2025 and retired several feeds; checked November 2026): **MMWR** — the CDC Content
+Syndication API v2 (`tools.cdc.gov/api/v2/resources/media`, title search, MMWR pages only) plus a
+PubMed search of the MMWR journal, which also matches abstracts. **HAN** — the HAN archive's JSON
+module, then the next notice pages in sequence until one is missing (so new notices are found
+before the archive is refreshed), plus the retired HAN feed for 2023 and earlier; matched by
+words in the title and summary. **CDC Stacks** — its search refuses automated requests and its
+OAI-PMH interface has no topic search, so the tool returns a Stacks search link instead of
+results. Each series reports how it was searched and whether it could be reached. Decision
+support; follow DPH where state requirements differ. Read-only; open-world.
+
 ---
 
 ## Phase 5: Immunizations I

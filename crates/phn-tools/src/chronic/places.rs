@@ -355,18 +355,35 @@ pub async fn get_places_estimates(
                         "{} (town estimate derived from census tracts)",
                         PlacesLevel::Tract.dataset_title()
                     );
+                    s.url = Some(format!(
+                        "https://data.cdc.gov/d/{}",
+                        PlacesLevel::Tract.dataset_id()
+                    ));
                     sources.push(s);
                     caveats.push(format!(
-                        "Town values are the average of {n} census-tract estimates weighted by \
-                         adult population (and by each tract's share in the town). They are \
-                         derived by this server, are not published by CDC, and have no \
-                         confidence interval."
+                        "Town values are {}. They are derived by this server, are not \
+                         published by CDC, and have no confidence interval.",
+                        if n == 1 {
+                            "the estimates for the one census tract that overlaps the town (it may also \
+                             cover neighboring towns)"
+                                .to_string()
+                        } else {
+                            format!(
+                                "the average of {n} census-tract estimates weighted by adult \
+                                 population (and by each tract's share in the town)"
+                            )
+                        }
                     ));
                     (
                         loc,
-                        format!(
-                            "Population-weighted mean of {n} PLACES census-tract estimates (crude prevalence)"
-                        ),
+                        if n == 1 {
+                            "PLACES estimates for the one census tract that overlaps the town (crude prevalence)"
+                                .to_string()
+                        } else {
+                            format!(
+                                "Population-weighted mean of {n} PLACES census-tract estimates (crude prevalence)"
+                            )
+                        },
                     )
                 }
             }

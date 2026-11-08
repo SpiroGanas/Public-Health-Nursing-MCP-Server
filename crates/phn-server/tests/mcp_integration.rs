@@ -467,6 +467,36 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 3 data tools (CD-04 analyze_outbreak_line_list, CD-05, CD-06, ...)
 
         // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv", "group_column": "Diagnosis", "count_column": "Age", "population_column": "Age"}),
+            ll,
+        ),
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv", "group_column": "First Name", "count_column": "Age", "population_column": "Age"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "town", "title": "Cases"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "town", "title": "Cases", "area_column": "Last Name", "value_column": "Age"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "zcta", "title": "Cases", "area_column": "ZIP", "value_column": "Age", "value_is_count": true}),
+            ll,
+        ),
 
         // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)
 

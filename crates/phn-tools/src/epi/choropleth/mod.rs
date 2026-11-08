@@ -278,11 +278,13 @@ fn resolve_area(
     }
 }
 
+/// Rows from a local file, its label, and whether the area column was flagged
+/// as a possible identifier (then unmatched values are never echoed).
 fn load_file(
     ctx: &Context,
     args: &CreateChoroplethArgs,
     geos: &MaGeographies,
-) -> Result<(Vec<Row>, String)> {
+) -> Result<(Vec<Row>, String, bool)> {
     let path = args.path.as_deref().unwrap_or_default();
     let lt = crate::localdata::load(ctx, path, args.sheet.as_deref())?;
     let table = &lt.table;
@@ -319,6 +321,10 @@ fn load_file(
             .count();
         !vals.is_empty() && known * 10 >= vals.len() * 9
     };
+    let area_flagged = lt
+        .findings
+        .iter()
+        .any(|f| f.index == area_col && f.kind.is_direct());
     let direct: Vec<String> = lt
         .findings
         .iter()
@@ -389,7 +395,7 @@ fn load_file(
             bad.into_iter().take(5).collect::<Vec<_>>().join("; ")
         )));
     }
-    Ok((rows, label))
+    Ok((rows, label, area_flagged))
 }
 
 fn detect_area_column(table: &Table) -> usize {
@@ -470,6 +476,7 @@ pub fn create_choropleth_map(
     let geos = MaGeographies::shared(&ctx.snapshots)?;
     let layer = BoundaryLayer::shared(&ctx.snapshots, args.geography.layer())?;
 
+    let mut echo_unmatched = true;
     let (rows, local_label) = match (&args.values, &args.path) {
         (Some(v), None) => {
             if v.is_empty() {
@@ -491,7 +498,8 @@ pub fn create_choropleth_map(
             )
         }
         (None, Some(_)) => {
-            let (r, l) = load_file(ctx, &args, geos)?;
+            let (r, l, flagged) = load_file(ctx, &args, geos)?;
+            echo_unmatched = !flagged;
             (r, Some(l))
         }
         _ => {
@@ -540,12 +548,22 @@ pub fn create_choropleth_map(
         });
     }
     if !unmatched.is_empty() {
-        return Err(PhnError::InvalidInput(format!(
-            "{} area(s) are not Massachusetts {}: {}",
-            unmatched.len(),
-            args.geography.plural(),
-            unmatched.into_iter().take(8).collect::<Vec<_>>().join(", ")
-        )));
+        return Err(PhnError::InvalidInput(if echo_unmatched {
+            format!(
+                "{} area(s) are not Massachusetts {}: {}",
+                unmatched.len(),
+                args.geography.plural(),
+                unmatched.into_iter().take(8).collect::<Vec<_>>().join(", ")
+            )
+        } else {
+            // The area column looked like it might hold names, so its
+            // unmatched values are not repeated.
+            format!(
+                "{} value(s) in the area column are not Massachusetts {}; check the file",
+                unmatched.len(),
+                args.geography.plural()
+            )
+        }));
     }
     if by_id.is_empty() {
         return Err(PhnError::InvalidInput("no areas to map".into()));

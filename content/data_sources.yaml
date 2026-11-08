@@ -91,50 +91,111 @@ sources:
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
-  # --- Planned sources (later phases) ----------------------------------------
+  # --- Phase 4: public data and evidence ------------------------------------
   - id: census-acs
     name: American Community Survey 5-year estimates
     publisher: U.S. Census Bureau
     kind: live
-    status: planned
-    planned_phase: 4
+    status: active
+    snapshot_id: census-acs5-ma
     homepage: https://www.census.gov/programs-surveys/acs
-    probe_url: https://api.census.gov/data.html
-    used_by: []
+    probe_url: https://api.census.gov/data.json
+    used_by: [build_community_health_profile, language_access_profile]
     caveats:
-      - Requires a free Census API key for heavy use.
+      - >-
+        Live figures come from api.census.gov (latest 5-year vintage listed in data.json). From
+        some networks the API answers requests without a key with a "missing key" page; set
+        PHN_CENSUS_API_KEY (free) or rely on the bundled 2020–2024 snapshot, which was built
+        from the keyless summary files on www2.census.gov.
+      - >-
+        Estimates carry sampling error (90% margins of error are shown); derived percentages
+        use the Census Bureau's approximation formulas, and figures with a coefficient of
+        variation above 30% are flagged as unreliable.
+      - >-
+        Detailed languages (B16001) are published only for the state and PUMAs; towns and tracts
+        use the 12 language groups of C16001.
+  - id: census-geographies
+    name: Census geographies, crosswalks, and map boundaries for Massachusetts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: ma-boundaries
+    homepage: https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
+    probe_url: https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_25_cousub_500k.zip
+    used_by: [build_community_health_profile, get_social_vulnerability_index, language_access_profile, get_places_estimates, create_choropleth_map]
+    caveats:
+      - >-
+        Towns are Census county subdivisions (2024 Gazetteer); tract-to-town shares come from the
+        2020 block assignment file and count blocks, not people. ZCTAs approximate ZIP Codes and
+        cross town lines.
+      - >-
+        Map boundaries are simplified cartographic boundary files (2024 towns and tracts, 2020
+        ZCTAs), not survey-grade; school districts are unions of member towns from the 2019
+        MassGIS district list.
   - id: cdc-socrata
-    name: CDC open data portal (data.cdc.gov)
+    name: CDC open data portal (data.cdc.gov) — PLACES 2025 release
     publisher: Centers for Disease Control and Prevention
     kind: live
-    status: planned
-    planned_phase: 4
-    homepage: https://data.cdc.gov
-    probe_url: https://data.cdc.gov
-    used_by: []
+    status: active
+    snapshot_id: cdc-places-2025-ma
+    homepage: https://www.cdc.gov/places/index.html
+    probe_url: https://data.cdc.gov/resource/swc5-untb.json?$limit=1
+    used_by: [get_places_estimates, build_community_health_profile]
     caveats:
       - Some datasets were removed or changed in 2025; snapshots are kept for reproducibility.
+      - >-
+        PLACES 2025 datasets: county swc5-untb, place eav7-hnsx, tract cwsq-ngmh, ZCTA qnzd-25i4.
+        Most measures use BRFSS 2023 data (five use 2022); the data year differs from the release
+        year.
+      - >-
+        PLACES values are model-based small-area estimates, not local survey results.
+        Massachusetts and U.S. reference values are population-weighted means of county
+        estimates computed by this server, not official CDC state estimates.
   - id: cdc-svi
-    name: CDC/ATSDR Social Vulnerability Index
+    name: CDC/ATSDR Social Vulnerability Index 2022
     publisher: Centers for Disease Control and Prevention / ATSDR
     kind: snapshot
-    status: planned
-    planned_phase: 4
+    status: active
+    snapshot_id: cdc-svi-2022-ma
     homepage: https://www.atsdr.cdc.gov/place-health/php/svi/index.html
-    probe_url: https://www.atsdr.cdc.gov
-    used_by: []
+    probe_url: https://svi.cdc.gov/Documents/Data/2022/csv/states/Massachusetts.csv
+    used_by: [get_social_vulnerability_index, build_community_health_profile]
     caveats:
-      - Released about every two years.
+      - >-
+        Released about every two years; SVI 2022 (ACS 2018–2022, released May 2024, MOE
+        correction December 2024) is the latest. Ranks are relative percentiles and cannot be
+        compared across releases or between the Massachusetts and national rankings.
   - id: ncbi-eutils
     name: NCBI E-utilities (PubMed)
     publisher: National Library of Medicine
     kind: live
-    status: planned
-    planned_phase: 4
+    status: active
     homepage: https://www.ncbi.nlm.nih.gov/books/NBK25501/
     probe_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi
-    used_by: []
-    caveats: []
+    used_by: [search_pubmed, search_cdc_guidance]
+    caveats:
+      - >-
+        Requests identify the tool (tool=public-health-nursing-mcp-server) and never send an
+        email address; they are spaced to stay under 3 per second (10 with PHN_NCBI_API_KEY) and
+        cached for one day. No snapshot: searches need the network unless cached.
+  - id: cdc-guidance
+    name: CDC MMWR and Health Alert Network (HAN) notices
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    homepage: https://www.cdc.gov/mmwr/index.html
+    probe_url: https://tools.cdc.gov/api/v2/resources/media?max=1
+    used_by: [search_cdc_guidance]
+    caveats:
+      - >-
+        MMWR: CDC content syndication API v2 title search and a PubMed search of the MMWR journal.
+        HAN: the HAN archive's JSON module, the next notice pages in sequence, and the retired HAN
+        feed (2023 and earlier). CDC Stacks refuses automated searches, so only a search link is
+        given.
+      - >-
+        CDC reorganized its website in 2024–2025 and retired several RSS feeds; these methods were
+        checked in November 2026 and may need updating when CDC changes its site again.
+  # --- Planned sources (later phases) ----------------------------------------
   - id: openfda
     name: openFDA, DailyMed, and RxNorm
     publisher: U.S. Food and Drug Administration; National Library of Medicine
