@@ -2,7 +2,7 @@
 
 use phn_core::Envelope;
 use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan};
-use phn_tools::core::{OmahaArgs, OmahaResult};
+use phn_tools::core::{OmahaArgs, OmahaResult, WheelArgs, WheelResult};
 use phn_tools::equity::{HrsnArgs, HrsnResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -98,5 +98,30 @@ impl PhnServer {
         Parameters(args): Parameters<OmahaArgs>,
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| phn_tools::core::omaha_system_coder(ctx, args)).await
+    }
+
+    #[tool(
+        name = "classify_intervention_wheel",
+        description = "Classify public health nursing activities by the Public Health \
+            Intervention Wheel (Minnesota Department of Health): 17 interventions in 5 wedges \
+            (surveillance, disease investigation, outreach, screening, case-finding; referral and \
+            follow-up, case management, delegated functions; health teaching, counseling, \
+            consultation; collaboration, coalition building, community organizing; advocacy, \
+            social marketing, policy development and enforcement) and 3 levels of practice \
+            (individual/family, community, systems), with definitions. Classify a short list of \
+            activities (returned by number only) or an activity log in /data (results written to \
+            /data/output; counts and hours returned for workload reports). With no input, lists \
+            the Wheel.",
+        annotations(title = "Classify by the Intervention Wheel", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<WheelResult>>()
+    )]
+    async fn classify_intervention_wheel(
+        &self,
+        Parameters(args): Parameters<WheelArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::core::classify_intervention_wheel(ctx, args)
+        })
+        .await
     }
 }

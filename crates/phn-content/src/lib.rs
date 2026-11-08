@@ -171,6 +171,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/core/omaha_system.yaml"),
         schema: include_str!("../../../content/schemas/omaha_system.schema.json"),
     },
+    ContentItem {
+        id: "public-health-intervention-wheel",
+        path: "content/core/intervention_wheel.yaml",
+        resource_uri: "phn://content/public-health-intervention-wheel",
+        yaml: include_str!("../../../content/core/intervention_wheel.yaml"),
+        schema: include_str!("../../../content/schemas/intervention_wheel.schema.json"),
+    },
     // End of Phase 9 content items.
        // Phase 10 content items go below this line.
        // End of Phase 10 content items.

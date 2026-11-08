@@ -29,4 +29,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Core,
         phase: 9,
     },
+    ToolMeta {
+        name: "classify_intervention_wheel",
+        plan_id: "CORE-02",
+        toolset: Toolset::Core,
+        phase: 9,
+    },
 ];
