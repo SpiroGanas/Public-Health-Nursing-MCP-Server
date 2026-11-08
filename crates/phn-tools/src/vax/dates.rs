@@ -3,8 +3,10 @@
 //!
 //! Conventions follow CDC's General Best Practice Guidelines (Table 3-2):
 //! weeks are 7 days ("4 weeks = 28 days"); months and years are calendar
-//! months and years, so "12 months" after 2025-01-31 is 2026-01-31 and one
-//! month after January 31 is the last day of February. A dose given up to 4
+//! months and years, so "12 months" after 2025-01-31 is 2026-01-31. Dates are
+//! added as in the CDSi Logic Specification (v4.6, Table 3-6), so one month
+//! after January 31 is March 1 (a date that does not exist moves to the first
+//! of the next month), matching the Phase 6 forecaster. A dose given up to 4
 //! days before a minimum age or interval is valid when the grace period
 //! applies. This module is deliberately small and free of vaccine knowledge so
 //! it can later be shared with isolation-date rules (Phase 3) and the CDSi
@@ -109,13 +111,22 @@ impl Span {
     }
 }
 
-/// `date + span`: calendar years and months first (clamped to the month's
-/// last day), then weeks and days.
+/// `date + span`, following the CDC CDSi Logic Specification (v4.6, Table
+/// 3-6): years and months first, holding the day of the month constant
+/// (CALCDT-1, -2, -6); a date that does not exist moves forward to the first
+/// day of the next month (CALCDT-5: March 31 + 6 months = October 1); then
+/// weeks and days (CALCDT-3).
 pub fn add(date: NaiveDate, span: Span) -> NaiveDate {
     let months = span.years * 12 + span.months;
-    let d = date
-        .checked_add_months(Months::new(months))
-        .unwrap_or(NaiveDate::MAX);
+    let first = date.with_day(1).expect("day 1 exists");
+    let Some(target_month) = first.checked_add_months(Months::new(months)) else {
+        return NaiveDate::MAX;
+    };
+    let d = target_month.with_day(date.day()).unwrap_or_else(|| {
+        target_month
+            .checked_add_months(Months::new(1))
+            .unwrap_or(NaiveDate::MAX)
+    });
     d + Duration::days(i64::from(span.weeks) * 7 + i64::from(span.days))
 }
 
@@ -220,9 +231,25 @@ mod tests {
 
     #[test]
     fn calendar_arithmetic_follows_cdc_conventions() {
-        // Calendar months clamp to the last day of the month.
-        assert_eq!(add(d("2025-01-31"), Span::months(1)), d("2025-02-28"));
-        assert_eq!(add(d("2024-02-29"), Span::years(1)), d("2025-02-28"));
+        // CDSi CALCDT-5: a date that does not exist moves to the first of the
+        // next month (the specification's own examples).
+        assert_eq!(add(d("2000-03-31"), Span::months(6)), d("2000-10-01"));
+        assert_eq!(add(d("2000-08-31"), Span::months(6)), d("2001-03-01"));
+        assert_eq!(add(d("2025-01-31"), Span::months(1)), d("2025-03-01"));
+        assert_eq!(add(d("2024-02-29"), Span::years(1)), d("2025-03-01"));
+        assert_eq!(add(d("2024-02-29"), Span::years(4)), d("2028-02-29"));
+        // CALCDT-1 to -3 examples.
+        assert_eq!(add(d("2000-01-01"), Span::years(3)), d("2003-01-01"));
+        assert_eq!(add(d("2000-11-01"), Span::months(6)), d("2001-05-01"));
+        assert_eq!(add(d("2000-02-01"), Span::weeks(5)), d("2000-03-07"));
+        assert_eq!(add(d("2001-02-01"), Span::weeks(5)), d("2001-03-08"));
+        // Months before days: 2000-01-31 + 6 months + 3 days.
+        let span = Span {
+            months: 6,
+            days: 3,
+            ..Span::default()
+        };
+        assert_eq!(add(d("2000-01-31"), span), d("2000-08-03"));
         // 4 weeks = 28 days.
         assert_eq!(add(d("2025-03-01"), Span::weeks(4)), d("2025-03-29"));
         assert_eq!(
