@@ -475,6 +475,15 @@ fn comparison(ctx: &Context, grade: &str, measure: &str) -> Result<(Vec<SurveyEs
     Ok((out, entry.to_source()))
 }
 
+/// Title case for DPH's upper-case school names, also after "/"
+/// ("WILLISTON/NORTHAMPTON" -> "Williston/Northampton").
+fn name_case(s: &str) -> String {
+    s.split('/')
+        .map(text::title_case)
+        .collect::<Vec<_>>()
+        .join("/")
+}
+
 fn median(v: &mut [f64]) -> Option<f64> {
     if v.is_empty() {
         return None;
@@ -642,7 +651,7 @@ pub fn analyze_vaccination_coverage(
             t.0 += 1;
             t.3.push(pct);
             ranked.push(SchoolRate {
-                school: text::title_case(&r.school),
+                school: name_case(&r.school),
                 school_type: r.school_type.to_lowercase(),
                 municipality: text::title_case(&r.municipality),
                 county: text::title_case(&r.county),
@@ -1039,6 +1048,14 @@ mod tests {
             "set by you"
         );
         assert!(threshold_for("mmr", Some(0.5)).is_err());
+    }
+
+    #[test]
+    fn school_names_are_title_cased() {
+        assert_eq!(
+            name_case("WILLISTON/NORTHAMPTON SCHOOL"),
+            "Williston/Northampton School"
+        );
     }
 
     #[test]

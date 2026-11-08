@@ -65,6 +65,23 @@ pub enum ExcursionClass {
     Undetermined,
 }
 
+impl ExcursionClass {
+    /// Plain-language label for worksheets.
+    pub fn label(self) -> &'static str {
+        match self {
+            ExcursionClass::InRange => "within the normal operating range",
+            ExcursionClass::OutOfRangeBelowReportingThreshold => {
+                "out of range, below the reporting threshold"
+            }
+            ExcursionClass::ReportableCumulative => {
+                "reportable (30 cumulative minutes in 24 hours)"
+            }
+            ExcursionClass::ReportableImmediate => "reportable immediately",
+            ExcursionClass::Undetermined => "not enough information",
+        }
+    }
+}
+
 /// Result of `vaccine_temperature_excursion_helper`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct ExcursionResult {
@@ -321,7 +338,7 @@ pub fn vaccine_temperature_excursion_helper(
             ],
             vec![
                 "Classification against MA Vaccine Program thresholds".into(),
-                format!("{classification:?}"),
+                classification.label().to_string(),
             ],
         ];
         let mut extra: Vec<Vec<String>> = STORE
