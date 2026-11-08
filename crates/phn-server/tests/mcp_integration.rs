@@ -273,6 +273,11 @@ async fn jurisdiction_flows_into_reportable_lookup() {
     let data = r.structured_content.unwrap()["data"].clone();
     assert_eq!(data["settings"]["jurisdiction"]["county"], "Hampshire");
     assert_eq!(data["settings"]["jurisdiction"]["hmcc_region"], "1");
+    // The Phase 0 draft listed pertussis as immediately reportable by telephone.
+    // The 2026-11-07 re-check found that DPH's immediate-call list (provider list,
+    // June 2026; memo, May 20, 2026) does not include pertussis; it falls under
+    // 105 CMR 300.100's "immediately, but in no case more than 24 hours". The test
+    // still checks the alias match and the timeframe, now against the corrected content.
     let r = h
         .call(
             "lookup_reportable_condition",
@@ -280,9 +285,20 @@ async fn jurisdiction_flows_into_reportable_lookup() {
         )
         .await;
     let md = summary(&r);
-    assert!(md.contains("Pertussis") && md.contains("IMMEDIATELY"));
+    assert!(md.contains("Pertussis") && md.contains("within 24 hours"));
+    assert!(md.contains("105 CMR 300.100"));
     assert!(md.contains("Your board of health: Amherst, 413-259-3077"));
-    let s = r.structured_content.unwrap();
+    let s = r.structured_content.clone().unwrap();
+    assert_eq!(s["data"]["condition"]["timeframe"], "within_24_hours");
+    // An immediately reportable condition still says so.
+    let m = h
+        .call("lookup_reportable_condition", json!({"query": "measles"}))
+        .await;
+    assert!(summary(&m).contains("IMMEDIATELY"));
+    assert_eq!(
+        m.structured_content.unwrap()["data"]["condition"]["timeframe"],
+        "immediate"
+    );
     assert_eq!(
         s["notice"]
             .as_str()

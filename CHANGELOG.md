@@ -27,6 +27,24 @@ All notable changes are recorded here. The format follows
 
 <!-- Phase 6 entries go above this line. -->
 
+### Changed — reference content re-checked against live sources
+
+- Reportable conditions (`content/cd/reportable_conditions.yaml` 0.2.0) re-checked against the
+  text of 105 CMR 300.000 (Mass. Register #1470, 5/27/22) and DPH's current provider and
+  laboratory reporting lists: corrected timeframes, reporters, and recipients (for example,
+  pertussis, mumps, brucellosis, glanders, melioidosis, and Q fever are not on DPH's
+  immediate-call list; invasive group A strep, tetanus, HUS, and active TB are; TB, HIV, and
+  STIs go directly to DPH); added 35 conditions, including alpha-gal syndrome (temporary
+  declaration from April 1, 2026); removed leptospirosis and Candida auris, which the regulation
+  does not name. Every entry now has a `citation`, shown in `lookup_reportable_condition`
+  answers. Still pending subject-matter review.
+- `lookup_reportable_condition` now tells providers to call the DPH Epidemiology Line for
+  immediately reportable conditions and names the board of health where the case is diagnosed
+  (not the town of residence), as 105 CMR 300.100 says.
+- HMCC regions: Wilmington moved from 4AB to Region 3 to match DPH's HMCC Regional Boundaries
+  map; the snapshot builder applies an override table.
+- Data source registry: fixed the 105 CMR 300.000 address (the old mass.gov URL returns 404).
+
 ## [0.2.0] — Phase 1: local data, privacy guardrails, and documents
 
 ### Added

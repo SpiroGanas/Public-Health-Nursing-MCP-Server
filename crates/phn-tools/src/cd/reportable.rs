@@ -40,6 +40,9 @@ pub struct ConditionAnswer {
     pub guide_chapter: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub guide_url: Option<String>,
+    /// Sections of 105 CMR 300.000 (or other named source) the entry was
+    /// transcribed from.
+    pub citation: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub notes: Option<String>,
     /// Developer confidence in this draft entry.
@@ -127,6 +130,7 @@ pub fn lookup_reportable_condition(
             how_to_report: how,
             guide_chapter: c.guide_chapter.clone(),
             guide_url: c.guide_chapter.as_ref().and(guide_url.clone()),
+            citation: c.citation.clone(),
             notes: c.notes.clone(),
             content_confidence: c.confidence,
         }
@@ -151,7 +155,7 @@ pub fn lookup_reportable_condition(
     match &condition {
         Some(c) => {
             summary.push_str(&format!(
-                "**{}** is reportable in Massachusetts under 105 CMR 300.000.\n\n",
+                "**{}** is reportable in Massachusetts.\n\n",
                 c.name
             ));
             summary.push_str(&format!("- **How fast:** {}\n", c.timeframe.label()));
@@ -172,6 +176,7 @@ pub fn lookup_reportable_condition(
                     .join(" and ")
             ));
             summary.push_str(&format!("- **How:** {}\n", c.how_to_report));
+            summary.push_str(&format!("- **Basis:** {}\n", c.citation));
             if let Some(ch) = &c.guide_chapter {
                 summary.push_str(&format!(
                     "- **DPH guide chapter:** {ch} (Guide to Surveillance, Reporting and Control)\n"
@@ -270,25 +275,37 @@ pub fn lookup_reportable_condition(
     .decision_support())
 }
 
+/// Plain-language reporting steps. Wording follows 105 CMR 300.100, 300.110,
+/// 300.131-300.134, 300.170, and 300.180, and DPH's provider reporting list
+/// (call the Epidemiology Line for conditions designated immediate).
 fn how_to_report(t: Timeframe, to: &[ReportTo], dph: &Contact) -> String {
     let to_lboh = to.contains(&ReportTo::LocalBoardOfHealth);
     match (t, to_lboh) {
         (Timeframe::Immediate, true) => format!(
-            "Telephone the local board of health of the patient's town of residence now; if it \
-             cannot be reached, call DPH Epidemiology at {}. Follow up with a written or MAVEN report.",
+            "Call the DPH Epidemiology Line (24/7) at {} now, on suspicion; DPH shares the report \
+             with the local board of health. The regulation also requires a report to the local \
+             board of health (for most conditions, the board of health of the community where the \
+             case is diagnosed; for clusters and foodborne illness, the community where the \
+             facility is located). Follow up in writing or through MAVEN as DPH directs.",
             dph.phone
         ),
         (Timeframe::Immediate, false) => format!(
-            "Telephone DPH Epidemiology at {} now, then follow up in writing or in MAVEN.",
+            "Call the DPH Epidemiology Line (24/7) at {} now, then follow up in writing or \
+             electronically as DPH directs.",
             dph.phone
         ),
-        (Timeframe::Within24Hours, true) => "Report to the local board of health of the \
-             patient's town of residence (or to DPH) within 24 hours by phone, fax, or MAVEN. \
-             Laboratory results reach the board of health through MAVEN."
+        (Timeframe::Within24Hours, true) => "Report to the board of health of the community \
+             where the case is diagnosed or the suspect case is identified, immediately and no \
+             later than 24 hours, by telephone, in writing, by fax, or by secure electronic means. \
+             Laboratories report directly to DPH, which notifies the board of health of the town \
+             where the case lives through MAVEN; for diseases found mainly by laboratory testing, \
+             the laboratory report may serve in lieu of the provider report."
             .into(),
-        (Timeframe::Within24Hours, false) => {
-            "Report to DPH within 24 hours as directed by the DPH program.".into()
-        }
+        (Timeframe::Within24Hours, false) => "Report directly to DPH within 24 hours, by \
+             telephone, in writing, by fax, or electronically as DPH directs (see the notes for \
+             any online case report form). The regulation directs these reports to DPH rather \
+             than to the local board of health."
+            .into(),
         (Timeframe::Other, _) => {
             "Report through the DPH program named in the notes, following its current instructions."
                 .into()

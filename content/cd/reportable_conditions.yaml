@@ -1,65 +1,156 @@
 # Diseases and conditions reportable in Massachusetts (105 CMR 300.000).
 #
-# REVIEW STATUS: pending. This is a developer draft. See meta.verification_note.
+# REVIEW STATUS: pending. Re-checked against the regulation text and DPH's current reporting
+# lists on 2026-11-07 (see meta.verification_note), but not yet reviewed by the subject matter
+# expert. Only the subject matter expert may mark this file reviewed.
 # Schema: content/schemas/reportable_conditions.schema.json
+#
+# Field conventions
+#   timeframe  immediate       = report by telephone at once, on suspicion. Used where the
+#                                regulation says "immediately by telephone" (300.131-300.136,
+#                                300.175, 300.181) or where DPH's current provider list, May 20,
+#                                2026 memo, or laboratory list designates the condition for an
+#                                immediate call to the DPH Epidemiology Line.
+#              within_24_hours = the regulation's "immediately, but in no case more than 24 hours
+#                                after diagnosis or identification" (300.100), or "within 24
+#                                hours" (300.135, 300.170, 300.180(A) and (C)).
+#              other           = a different schedule or channel (see notes).
+#   citation   the sections of 105 CMR 300.000 (or other source) the entry was transcribed from.
+#   confidence high   = reportability, reporters, and recipients transcribed from the regulation
+#                       text; any stricter telephone timeframe transcribed from a current DPH list.
+#              medium = the regulation gives no timeframe (taken from a DPH list), or DPH sources
+#                       disagree, or part of the entry could not be verified.
+#              low    = could not be verified.
+#
+# Sources checked on 2026-11-07 (all retrieved that day from mass.gov)
+#   1. 105 CMR 300.000 text: PDF linked from the regulation page (Mass. Register #1470, dated
+#      5/27/22; the page gives the regulation date as 05/27/2022, and DPH's reporting page calls
+#      the 2022 amendments the most recent). Sections read: 300.020, 300.100, 300.110,
+#      300.131-300.136, 300.140, 300.150, 300.160, 300.170-300.175, 300.180, 300.181, 300.200.
+#      Note: 300.180 (not 300.140) lists the diseases reportable directly to DPH; 300.140 covers
+#      veterinarians.
+#   2. "Healthcare Provider Responsibilities for Reporting Designated Communicable and Other
+#      Infectious Diseases in Massachusetts" (DOCX last modified 2026-06-10): conditions to call the
+#      DPH Epidemiology Line about immediately, conditions needing an online case report form
+#      within 24 hours, and conditions to telephone within 24 hours.
+#   3. "List of Diseases Reportable by Laboratories" (DOCX last modified 2024-05-20): agents
+#      printed in red are reported immediately by phone; the rest within 24 hours electronically.
+#   4. DPH memo "Notification by Phone for Reporting Certain Infectious Conditions" (May 20, 2026).
+#   5. Commissioner's declaration making alpha-gal syndrome reportable under 105 CMR 300.150
+#      (March 19, 2026; effective April 1, 2026 for 12 months) and the clinical advisory of the
+#      same date.
+#   6. 105 CMR 460.040 (Mass. Register #1353, 12/1/17) for blood lead.
+#   7. Guide to Surveillance, Reporting and Control handbook page (26 chapters dated 2016-2023);
+#      the Botulism, Measles, Mumps, Pertussis, Shiga toxin-producing E. coli, Tetanus, and
+#      Chickenpox chapters were read for their reporting language. guide_chapter names a chapter
+#      only when the current handbook page lists one.
+# Changes from 0.1.0 (drafted from memory in Phase 0): corrected timeframes, reporters, and
+# recipients; added citations; added 35 conditions; removed leptospirosis and Candida auris, which
+# the regulation and DPH's lists do not name.
 meta:
   id: ma-reportable-conditions
   title: Diseases and conditions reportable in Massachusetts (105 CMR 300.000)
-  version: 0.1.0
+  version: 0.2.0
   prepared: 2026-11-07
-  effective_date: null
+  effective_date: 2022-05-27
   source:
     title: "105 CMR 300.000: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements"
     publisher: Massachusetts Department of Public Health
-    url: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
   related_sources:
+    # The tool links the first related source as the Guide; keep the Guide first.
     - title: Guide to Surveillance, Reporting and Control
       publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
       url: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    - title: Healthcare Provider Responsibilities for Reporting Designated Communicable and Other Infectious Diseases in Massachusetts (List of Diseases Reportable by Healthcare Providers)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/list-of-diseases-reportable-by-healthcare-providers/download
+    - title: List of Diseases Reportable by Laboratories
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/list-of-diseases-reportable-by-laboratories/download
+    - title: "Notification by Phone for Reporting Certain Infectious Conditions (DPH memo, May 20, 2026)"
+      publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+      url: https://www.mass.gov/doc/dph-world-cup-reporting-memo-may-20-2026/download
+    - title: Declaration of Confirmed and Suspected Cases of Alpha-gal Syndrome Reportable Pursuant to 105 CMR 300.150 (March 19, 2026)
+      publisher: Massachusetts Department of Public Health, Commissioner of Public Health
+      url: https://www.mass.gov/doc/alpha-gal-declaration-march-19-2026/download
+    - title: "105 CMR 460.000: Lead Poisoning Prevention and Control"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/regulations/105-CMR-46000-lead-poisoning-prevention-and-control
   review:
     status: pending
     reviewed_by: null
     reviewed_on: null
     review_due: 2027-02-01
   verification_note: >-
-    Drafted by the developer from general knowledge of 105 CMR 300.100 (diseases reportable to
-    local boards of health), 300.140 (reportable directly to DPH), and 300.170 (laboratory
-    findings). The current regulation text could not be retrieved while drafting. Each entry
-    carries a developer confidence level. Before this item is marked reviewed, the product owner
-    must check every entry, especially the reporting timeframe and who reports, against the
-    current regulation and DPH's current reportable disease list.
+    Re-checked on 2026-11-07 against the text of 105 CMR 300.000 (Mass. Register #1470, 5/27/22)
+    and DPH's provider reporting list (June 2026), laboratory reporting list (May 2024), phone
+    reporting memo (May 20, 2026), and alpha-gal declaration under 300.150 (March 19, 2026); each
+    entry cites its sections. "Immediately by telephone" follows DPH's lists; the regulation
+    allows up to 24 hours for diseases listed in 300.100. Confirm with DPH Epidemiology
+    (617-983-6800) before relying on an entry.
 
 contacts:
   dph_epidemiology:
-    name: MDPH Division of Epidemiology (24/7 epidemiologist on call)
+    name: MDPH Epidemiology Line (24/7)
     phone: "617-983-6800"
-    note: Use when the local board of health cannot be reached, for immediately reportable conditions, and for consultation.
+    note: >-
+      DPH's provider list and May 20, 2026 memo direct providers and laboratories to call this line
+      immediately for the conditions marked immediate, for any unusual illness, and for any
+      suspected cluster or outbreak. Also for consultation.
+  dph_24_hour_reporting:
+    name: MDPH infectious disease reporting line (reports due within 24 hours)
+    phone: "617-983-6801"
+    note: >-
+      DPH's laboratory list gives this number, and confidential fax 617-887-8789, for reports due
+      within 24 hours that are not sent electronically.
 
 timeframes:
   immediate: >-
-    Report immediately by telephone, on suspicion of the diagnosis, without waiting for laboratory
-    confirmation. Follow up with a written or electronic (MAVEN) report.
+    Report immediately by telephone, 24 hours a day, on suspicion of the diagnosis, without
+    waiting for laboratory confirmation. DPH asks health care providers and laboratories to call
+    the DPH Epidemiology Line (617-983-6800) for these conditions (DPH provider list, June 2026;
+    DPH memo, May 20, 2026). Clusters, outbreaks, unusual illness, and illness believed to be due
+    to food are reported immediately to the local board of health or to DPH (105 CMR
+    300.131-300.134). The written or electronic report the regulation requires still follows.
   within_24_hours: >-
-    Report within 24 hours of diagnosis or identification, by telephone, fax, or electronic
-    report as directed by DPH.
+    Report immediately, and in no case more than 24 hours after diagnosis or identification. For
+    diseases listed in 105 CMR 300.100, providers report to the board of health of the community
+    where the case is diagnosed or the suspect case is identified, by telephone, in writing, by
+    fax, or by secure electronic means (including from the electronic health record). A
+    laboratory report to DPH may serve in lieu of the provider's report for diseases found mainly
+    through laboratory testing. Laboratories report to DPH within 24 hours (300.170), and DPH
+    notifies the board of health of the town where the case lives through MAVEN. Conditions under
+    300.135 and 300.180 go directly to DPH within 24 hours.
   other: >-
-    Reported on a schedule or through a channel set by a specific DPH program (for example HIV,
-    sexually transmitted infections, or lead). See the entry notes.
+    Reported on a different schedule or through a specific DPH program, for example work-related
+    diseases (within ten days, 105 CMR 300.180(D)), antimicrobial resistance of a novel nature
+    (within five business days, 300.171), or childhood lead poisoning (within three working days,
+    105 CMR 460.040). See the entry notes.
 
 reporters:
   health_care_provider: >-
-    Health care providers (physicians, nurses, and other clinicians) who suspect or diagnose the
-    condition report to the local board of health of the town where the patient lives, or to DPH
-    when instructed.
+    Physicians and other health care providers as defined in M.G.L. c. 111, section 1 (including
+    registered nurses, hospitals, clinics, and nursing homes), household members, and other
+    officials designated by DPH (105 CMR 300.100). For clusters, outbreaks, unusual illness, and
+    illness believed to be due to food, anyone in a supervisory position at a school, child care
+    program, hospital, institution, clinic, medical practice, laboratory, or camp, and employers,
+    must also report (300.131-300.134).
   laboratory: >-
-    Clinical laboratories report the listed findings to DPH, normally by electronic laboratory
-    reporting. DPH makes laboratory reports available to the local board of health through MAVEN.
+    All laboratories, including out-of-state laboratories testing specimens from Massachusetts
+    residents, report the listed findings directly to DPH through secure electronic laboratory
+    reporting within 24 hours, with the patient's identifying and contact details and the
+    ordering provider (105 CMR 300.170). DPH notifies the board of health of the town where the
+    case lives within 24 hours through MAVEN. Some isolates and specimens must also be sent to the
+    State Public Health Laboratory (300.172).
   local_board_of_health: >-
-    The local board of health investigates, enters or completes the case in MAVEN, and notifies DPH
-    of immediately reportable conditions by telephone.
+    The local board of health reports every case or suspect case reported to it under 105 CMR
+    300.100 to DPH through MAVEN immediately, and no later than 24 hours after receipt (300.110),
+    and reports any cluster, outbreak, unusual illness, or suspected food poisoning to DPH
+    immediately (300.160).
 
 conditions:
-  # --- Immediately reportable: possible bioterrorism agents -----------------
+  # --- Immediately reportable by telephone -----------------------------------
   - id: anthrax
     name: Anthrax
     aliases: [Bacillus anthracis, inhalation anthrax, cutaneous anthrax]
@@ -67,7 +158,13 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Anthrax
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Bacillus anthracis); 300.172; 300.175; 300.140; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Laboratories send Bacillus anthracis isolates and suspect isolates to the State Public
+      Health Laboratory (300.172), and a laboratory worker's exposure is reportable to DPH
+      immediately by telephone (300.175). Veterinarians report animal anthrax to DPH within 24
+      hours (300.140).
     confidence: high
   - id: botulism
     name: Botulism (foodborne, infant, wound, and other)
@@ -76,37 +173,12 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Botulism
-    notes: Antitoxin is released through DPH and CDC; call DPH immediately for clinical consultation.
+    guide_chapter: Botulism (2018)
+    citation: "105 CMR 300.100; 300.170 (Clostridium botulinum); 300.172; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      The need for antitoxin is decided by the clinician with DPH Epidemiology and CDC, and CDC
+      releases it (Botulism chapter, 2018).
     confidence: high
-  - id: brucellosis
-    name: Brucellosis
-    aliases: [Brucella, undulant fever]
-    category: select_agent
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Brucellosis
-    notes: Laboratory staff may have been exposed when the organism was not suspected; notify the laboratory.
-    confidence: medium
-  - id: glanders
-    name: Glanders
-    aliases: [Burkholderia mallei]
-    category: select_agent
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Glanders
-    confidence: medium
-  - id: melioidosis
-    name: Melioidosis
-    aliases: [Burkholderia pseudomallei]
-    category: select_agent
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Melioidosis
-    confidence: medium
   - id: plague
     name: Plague
     aliases: [Yersinia pestis, bubonic plague, pneumonic plague]
@@ -114,25 +186,19 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Plague
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Yersinia pestis); 300.172; 300.175; 300.140; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: Veterinarians report animal plague to DPH within 24 hours (300.140).
     confidence: high
-  - id: q-fever
-    name: Q fever
-    aliases: [Coxiella burnetii]
-    category: select_agent
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Q Fever
-    confidence: medium
   - id: smallpox
-    name: Smallpox
-    aliases: [variola, variola virus]
+    name: Smallpox (variola)
+    aliases: [smallpox, variola, variola virus]
     category: select_agent
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Smallpox
+    guide_chapter: null
+    citation: "105 CMR 300.100 (pox virus infections, including variola); 300.170 (pox viruses); immediate call per DPH provider list (June 2026) and laboratory list"
     confidence: high
   - id: tularemia
     name: Tularemia
@@ -141,19 +207,22 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Tularemia
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Francisella tularensis); 300.172; 300.175; immediate call per DPH provider list (June 2026) and May 20, 2026 memo"
+    notes: >-
+      DPH's laboratory list (2024) does not mark Francisella tularensis for telephone reporting,
+      but the provider list and the May 2026 memo list tularemia for an immediate call.
     confidence: high
   - id: viral-hemorrhagic-fever
-    name: Viral hemorrhagic fever
-    aliases: [Ebola, Marburg, Lassa fever, Crimean-Congo hemorrhagic fever, VHF]
+    name: Viral hemorrhagic fever (Ebola, Marburg, other filoviruses, arenaviruses, bunyaviruses, and flaviviruses)
+    aliases: [viral hemorrhagic fever, Ebola, Marburg, Lassa fever, Crimean-Congo hemorrhagic fever, VHF, hemorrhagic fever virus]
     category: select_agent
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Viral Hemorrhagic Fevers
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (hemorrhagic fever viruses); immediate call per DPH provider list (June 2026) and laboratory list"
     confidence: high
-
-  # --- Immediately reportable: vaccine-preventable --------------------------
   - id: diphtheria
     name: Diphtheria
     aliases: [Corynebacterium diphtheriae]
@@ -161,28 +230,37 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Diphtheria
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Corynebacterium diphtheriae); immediate call per DPH provider list (June 2026) and laboratory list"
     confidence: high
   - id: haemophilus-influenzae-invasive
-    name: Haemophilus influenzae, invasive disease
-    aliases: [H. influenzae, Hib, Haemophilus influenzae type b, H flu]
+    name: Haemophilus influenzae, invasive infection
+    aliases: [H. influenzae, Hib, Haemophilus influenzae type b, H flu, invasive Haemophilus influenzae]
     category: vaccine_preventable
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Haemophilus influenzae Invasive Disease
-    notes: Invasive means isolation from a normally sterile site (for example blood or cerebrospinal fluid).
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (from a usually sterile site); 300.172; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Invasive infection involves the bloodstream or internal organs and is usually established by
+      recovering the organism from a usually sterile body fluid or tissue (300.020). Isolates from
+      sterile sites go to the State Public Health Laboratory (300.172).
+    confidence: high
   - id: hepatitis-a
-    name: Hepatitis A
-    aliases: [HAV, hepatitis A virus, anti-HAV IgM]
+    name: Hepatitis A (acute disease)
+    aliases: [hepatitis A, HAV, hepatitis A virus, anti-HAV IgM]
     lab_terms: [hepatitis A IgM positive]
     category: vaccine_preventable
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Hepatitis A
-    notes: Ask about food handling, child care, and health care work; these trigger exclusion and post-exposure prophylaxis decisions.
+    guide_chapter: Hepatitis A (2016)
+    citation: "105 CMR 300.100; 300.170 (hepatitis A virus); 300.200(A); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Ask about food handling. Susceptible food handlers who are contacts are excluded from work
+      for 28 days unless they receive immune globulin and/or hepatitis A vaccine within 14 days of
+      exposure, or as DPH currently recommends (300.200).
     confidence: high
   - id: measles
     name: Measles
@@ -192,28 +270,14 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Measles
-    notes: Report on clinical suspicion. Post-exposure prophylaxis windows are short (MMR within 72 hours, immune globulin within 6 days of exposure).
+    guide_chapter: Measles (2022)
+    citation: "105 CMR 300.100; 300.170 (measles virus); 300.172; immediate call per DPH provider list (June 2026), laboratory list, and Measles chapter (2022)"
+    notes: >-
+      Report on suspicion to the board of health and to DPH Epidemiology; in Boston, the Boston
+      Public Health Commission. Specimens go to the State Public Health Laboratory (300.172).
+      MMR within 72 hours of exposure may prevent illness; immune globulin within 6 days may
+      prevent or modify it (Measles chapter, 2022).
     confidence: high
-  - id: mumps
-    name: Mumps
-    aliases: [mumps virus, parotitis]
-    category: vaccine_preventable
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Mumps
-    confidence: medium
-  - id: pertussis
-    name: Pertussis
-    aliases: [whooping cough, Bordetella pertussis]
-    lab_terms: [Bordetella pertussis PCR positive]
-    category: vaccine_preventable
-    timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Pertussis
-    confidence: medium
   - id: poliomyelitis
     name: Poliomyelitis
     aliases: [polio, poliovirus, acute flaccid paralysis due to poliovirus]
@@ -221,7 +285,8 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Poliomyelitis
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (poliovirus); immediate call per DPH provider list (June 2026) and laboratory list"
     confidence: high
   - id: rubella
     name: Rubella, including congenital rubella syndrome
@@ -230,7 +295,18 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Rubella
+    guide_chapter: Rubella and CRS (2022)
+    citation: "105 CMR 300.100; 300.170 (rubella virus); immediate call per DPH provider list (June 2026) and laboratory list"
+    confidence: high
+  - id: tetanus
+    name: Tetanus
+    aliases: [Clostridium tetani, lockjaw]
+    category: vaccine_preventable
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Tetanus (2022)
+    citation: "105 CMR 300.100; 300.170 (Clostridium tetani); immediate call per DPH provider list (June 2026), laboratory list, and Tetanus chapter (2022)"
     confidence: high
   - id: meningococcal-disease
     name: Meningococcal disease, invasive
@@ -239,11 +315,22 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Meningococcal Disease
-    notes: Close contacts need prompt chemoprophylaxis; identify contacts while the report is being made.
+    guide_chapter: Invasive Meningococcal Disease (2018)
+    citation: "105 CMR 300.100; 300.170 (from a usually sterile site); 300.172; 300.175; 300.200(A); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Contacts need personal surveillance and antibiotic prophylaxis where appropriate (300.200);
+      identify contacts while the report is being made.
     confidence: high
-
-  # --- Immediately reportable: other ----------------------------------------
+  - id: group-a-streptococcus-invasive
+    name: Group A streptococcus, invasive infection
+    aliases: [invasive group A strep, iGAS, Streptococcus pyogenes, necrotizing fasciitis, streptococcal toxic shock syndrome]
+    category: invasive_bacterial
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Group A Streptococcus (Invasive) (2018)
+    citation: "105 CMR 300.100; 300.170 (from a usually sterile site); immediate call per DPH provider list (June 2026) and laboratory list"
+    confidence: high
   - id: cholera
     name: Cholera
     aliases: [Vibrio cholerae O1, Vibrio cholerae O139, toxigenic Vibrio cholerae]
@@ -251,7 +338,8 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Cholera
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Vibrio sp.); 300.172; immediate call per DPH provider list (June 2026) and May 20, 2026 memo"
     confidence: high
   - id: typhoid-fever
     name: Typhoid fever
@@ -260,17 +348,44 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Typhoid Fever
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Salmonella sp.); 300.172; immediate call per DPH provider list (June 2026) and laboratory list"
+    confidence: high
+  - id: hemolytic-uremic-syndrome
+    name: Hemolytic uremic syndrome (HUS)
+    aliases: [HUS, hemolytic uremic syndrome]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Shiga Toxin-Producing Escherichia coli (2018)
+    citation: "105 CMR 300.100; immediate call per DPH provider list (June 2026) and May 20, 2026 memo"
+    confidence: high
+  - id: foodborne-toxin-illness
+    name: Foodborne illness due to toxins
+    aliases: [ciguatera, scombroid, scombrotoxin, mushroom poisoning, paralytic shellfish poisoning, amnesic shellfish poisoning, tetrodotoxin, staphylococcal enterotoxin]
+    lab_terms: [Staphylococcus aureus enterotoxin producing]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; DPH laboratory list (Staphylococcus aureus, enterotoxin-producing); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      300.100 names mushroom, ciguatera, scombrotoxin, tetrodotoxin, paralytic and amnesic
+      shellfish toxins, staphylococcal enterotoxin, and others.
+    confidence: high
   - id: rabies-human
     name: Rabies in humans
     aliases: [rabies, human rabies, rabies virus infection]
+    lab_terms: [rabies virus]
     category: zoonotic
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Rabies
-    notes: Animal bites and rabies post-exposure prophylaxis decisions are handled with the local animal control officer and DPH; call DPH for consultation.
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (rabies virus); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: For questions about an animal exposure, call the DPH Epidemiology Line (24/7).
     confidence: high
   - id: hantavirus
     name: Hantavirus infection
@@ -279,8 +394,61 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Hantavirus
-    confidence: low
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (hantavirus); immediate call per DPH provider list (June 2026) and laboratory list"
+    confidence: high
+  - id: lymphocytic-choriomeningitis
+    name: Lymphocytic choriomeningitis (LCM) and lymphocytic choriomeningitis virus infection
+    aliases: [lymphocytic choriomeningitis, LCM, LCMV, lymphocytic choriomeningitis virus]
+    category: zoonotic
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (lymphocytic choriomeningitis virus); immediate call per DPH provider list (June 2026)"
+    notes: >-
+      DPH's June 2026 provider list asks for an immediate call; the May 20, 2026 memo and the
+      laboratory list (2024) do not list it for telephone reporting. Exclusion from organ and blood
+      donation applies (300.200).
+    confidence: medium
+  - id: mpox
+    name: Mpox and other pox virus infections (vaccinia, other orthopox and parapox viruses)
+    aliases: [mpox, monkeypox, mpox virus, vaccinia, orthopoxvirus, parapoxvirus]
+    category: zoonotic
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100 (pox virus infections in humans); 300.170 (pox viruses, excluding molluscum contagiosum); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: Molluscum contagiosum virus is excluded from laboratory reporting (300.170).
+    confidence: high
+  - id: eastern-equine-encephalitis
+    name: Eastern equine encephalitis virus infection
+    aliases: [EEE, eastern equine encephalitis, EEE virus]
+    category: vectorborne
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100 (arbovirus infection); 300.170; 300.172; 300.140; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Specimens from people with suspected EEE go to the State Public Health Laboratory (300.172).
+      Veterinarians report animal EEE to DPH within 24 hours (300.140).
+    confidence: high
+  - id: west-nile-virus
+    name: West Nile virus infection
+    aliases: [West Nile virus, WNV, West Nile neuroinvasive disease, West Nile fever]
+    category: vectorborne
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100 (arbovirus infection); 300.170; 300.172; 300.140; immediate call per DPH provider list (June 2026) and May 20, 2026 memo"
+    notes: >-
+      DPH's laboratory list (2024) does not mark West Nile virus for telephone reporting, but the
+      provider list and the May 2026 memo list it for an immediate call. Veterinarians report animal
+      West Nile virus infection to DPH within 24 hours (300.140).
+    confidence: high
   - id: novel-influenza
     name: Influenza A, novel strain
     aliases: [novel influenza A, avian influenza, H5N1, H7N9, variant influenza, bird flu]
@@ -288,493 +456,1041 @@ conditions:
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Influenza
+    guide_chapter: null
+    citation: "105 CMR 300.100 (influenza); 300.135(A)(4); 300.170 (novel influenza A viruses); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      300.135 covers influenza A viruses different from currently circulating human H1 and H3
+      viruses, including those subtyped as nonhuman in origin and those unsubtypable with
+      standard methods.
     confidence: high
   - id: influenza-pediatric-death
-    name: Influenza-associated pediatric death
-    aliases: [pediatric influenza death, child death influenza]
+    name: Influenza-associated death in a person younger than 18
+    aliases: [pediatric influenza death, child death influenza, influenza death in a child]
     category: respiratory
     timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Influenza
-    confidence: medium
+    reporters: [health_care_provider]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.135(A)(1) (to DPH within 24 hours); immediate call per DPH provider list (June 2026) and May 20, 2026 memo"
+    notes: >-
+      Influenza deaths in pregnant people are also reportable to DPH within 24 hours (see the entry
+      for severe or unusual influenza).
+    confidence: high
   - id: severe-acute-respiratory-syndrome
-    name: Severe acute respiratory syndrome (SARS) and other novel coronavirus infections
+    name: Respiratory infection due to a novel or unusual coronavirus causing severe disease (SARS, MERS)
     aliases: [SARS, SARS-CoV, MERS, MERS-CoV, novel coronavirus]
     category: respiratory
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Severe Acute Respiratory Syndrome
-    confidence: medium
-  - id: foodborne-toxin-illness
-    name: Foodborne illness due to toxins
-    aliases: [ciguatera, scombroid, scombrotoxin, mushroom poisoning, paralytic shellfish poisoning, tetrodotoxin]
-    category: enteric
-    timeframe: immediate
-    reporters: [health_care_provider, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Foodborne Illness
-    confidence: medium
-  - id: candida-auris
-    name: Candida auris
-    aliases: [C. auris, Candida auris colonization, Candida auris infection]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (novel or unusual coronaviruses causing severe disease); immediate call per DPH provider list (June 2026) and laboratory list"
+    confidence: high
+  - id: staphylococcus-aureus-visa-vrsa
+    name: Staphylococcus aureus, vancomycin-intermediate (VISA) or vancomycin-resistant (VRSA)
+    aliases: [VISA, VRSA, vancomycin-resistant Staphylococcus aureus, vancomycin-intermediate Staphylococcus aureus]
     category: healthcare_associated
     timeframe: immediate
-    reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Candida auris
-    notes: Includes colonization. Infection-control follow-up in the reporting facility is coordinated with DPH.
-    confidence: low
-  - id: mpox
-    name: Mpox
-    aliases: [monkeypox, monkeypox virus, orthopoxvirus]
-    category: zoonotic
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.171(A); 300.172; immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: Isolates go to the State Public Health Laboratory (300.172).
+    confidence: high
+  - id: hiv-acute
+    name: Acute HIV infection
+    aliases: [acute HIV, acute human immunodeficiency virus infection, acute retroviral syndrome]
+    category: sexually_transmitted
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(C); 300.170 (HIV); immediate call per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Reported to DPH, not to the local board of health. DPH may not disclose the identity of a
+      person with HIV to any political subdivision of the Commonwealth (300.120(B)).
+    confidence: high
+  - id: tuberculosis
+    name: Tuberculosis, active disease (confirmed or clinically suspected)
+    aliases: [tuberculosis, TB, active TB, Mycobacterium tuberculosis, pulmonary tuberculosis, tuberculosis disease]
+    lab_terms: [AFB smear positive, Mycobacterium tuberculosis complex, MTB PCR positive, Mycobacterium bovis, Mycobacterium africanum]
+    category: mycobacterial
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Mpox
-    confidence: low
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(A) (to DPH within 24 hours); 300.170; 300.172; immediate call and online case report form per DPH provider list (June 2026) and laboratory list"
+    notes: >-
+      Reported directly to DPH, which notifies the board of health where the case lives through
+      MAVEN (300.180(A)). Report clinically suspected disease without waiting for culture. DPH's
+      provider list also asks for an online case report form within 24 hours. Administrators of
+      city, state, and private institutions and hospitals must also report.
+    confidence: high
   - id: cluster-or-outbreak
-    name: Any cluster or outbreak of illness, including foodborne illness
+    name: Any suspected or confirmed cluster or outbreak of any illness, including foodborne illness
     aliases: [outbreak, cluster, foodborne outbreak, two or more cases, food poisoning outbreak, gastrointestinal outbreak, norovirus outbreak, school outbreak]
     category: other
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Outbreak Investigation
-    notes: Applies whether or not the illness is otherwise reportable, including outbreaks in schools, child care, long-term care, and food establishments.
+    guide_chapter: null
+    citation: "105 CMR 300.134; 300.160; DPH provider list (June 2026): call the Epidemiology Line and, for some clusters, an online case report form"
+    notes: >-
+      Applies whether or not the illness is otherwise reportable. Health care providers, anyone
+      in a supervisory position at a school, child care program, hospital, institution, clinic,
+      medical practice, laboratory, or camp, and employers report to the board of health of the
+      community where the facility is located, or to DPH. DPH also asks for an online case report
+      form for gastrointestinal clusters in health care settings, child care, or schools, and for
+      influenza or other respiratory illness or varicella in a facility. Work-related outbreaks:
+      see that entry.
     confidence: high
   - id: unusual-illness
-    name: Any case of an unusual illness thought to have public health implications
-    aliases: [unusual illness, unexplained illness, emerging infection, unknown agent, rare disease]
+    name: Any case of an unusual illness
+    aliases: [unusual illness, unexplained illness, emerging infection, unknown agent, rare disease, unusual disease]
     category: other
     timeframe: immediate
     reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    notes: Use this catch-all when a condition is not on the list but could threaten the public's health.
+    citation: "105 CMR 300.133; 300.160; DPH provider list (June 2026)"
+    notes: >-
+      An unusual illness occurs for the first time, or rarely, in an area or circumstance, or has
+      signs and symptoms not expected from its known or presumed cause (300.020). Use this
+      catch-all when a condition is not on the list but could threaten the public's health.
+    confidence: high
+  - id: foodborne-illness
+    name: Illness believed to be due to eating food (one case or more), or a food handler with a disease transmissible through food
+    aliases: [food poisoning, suspected food poisoning, foodborne illness, sick food handler, food handler illness]
+    category: enteric
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.131; 300.132; 300.160"
+    notes: >-
+      Report immediately by telephone, fax, or other electronic means to the board of health of
+      the community where the facility is located, or to DPH. The manager or supervisor of a food
+      handling facility must report an employee known or believed to have, or to carry, a disease
+      transmissible through food (300.132).
+    confidence: high
+  - id: transfusion-transplant-infection
+    name: Infection believed to be transmitted by a transfused blood product or a transplanted organ, tissue, or tissue product
+    aliases: [transfusion-transmitted infection, transplant-transmitted infection, transfusion-associated infection]
+    category: healthcare_associated
+    timeframe: immediate
+    reporters: [health_care_provider, laboratory]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.136"
+    notes: >-
+      Health care providers and supervisors at hospitals, institutions, clinics, medical practices,
+      and laboratories report suspected cases to the local board of health of the community where
+      the facility is located, or to DPH.
+    confidence: high
+  - id: laboratory-exposure
+    name: Laboratory exposure to certain infectious agents, or a macaque bite, scratch, or body-fluid exposure
+    aliases: [laboratory exposure, lab exposure, macaque bite, macaque scratch, B virus exposure]
+    category: other
+    timeframe: immediate
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.175"
+    notes: >-
+      Reported by a person in a supervisory position at a human or veterinary diagnostic or
+      research laboratory in Massachusetts. Agents include Bacillus anthracis (excluding Sterne
+      strains), Brucella suis, melitensis, abortus, canis, and vaccine strains, Burkholderia mallei
+      and pseudomallei, Francisella tularensis, Neisseria meningitidis, and Yersinia pestis.
+    confidence: high
+  - id: work-related-disease-outbreak
+    name: Work-related disease outbreak
+    aliases: [workplace outbreak, work-related outbreak, occupational outbreak]
+    category: other
+    timeframe: immediate
+    reporters: [health_care_provider]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.181"
+    notes: >-
+      Reportable whether or not the disease is on the reportable list, immediately by telephone,
+      in writing, by fax, or other electronic means to DPH.
     confidence: high
 
-  # --- Reportable within 24 hours --------------------------------------------
+  # --- Within 24 hours (to the local board of health; labs to DPH) ----------
+  - id: alpha-gal-syndrome
+    name: Alpha-gal syndrome (temporary reporting requirement)
+    aliases: [alpha-gal, AGS, alpha-gal allergy, mammalian meat allergy, red meat allergy, tick bite meat allergy]
+    lab_terms: [alpha-gal specific IgE]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.150 declaration of March 19, 2026 (effective April 1, 2026 for 12 months); online case report form within 24 hours per DPH provider list (June 2026)"
+    notes: >-
+      Temporary: reportable from April 1, 2026 for 12 months unless DPH extends it. Providers
+      report a new diagnosis on DPH's online case report form; laboratories report positive
+      alpha-gal specific IgE results (0.1 kU/L or higher). An allergic condition linked to lone
+      star tick bites, not an infection.
+    confidence: high
   - id: amebiasis
     name: Amebiasis
     aliases: [Entamoeba histolytica, amoebiasis]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Amebiasis
-    confidence: medium
+    guide_chapter: Amebiasis (2016)
+    citation: "105 CMR 300.100; 300.170 (Entamoeba histolytica)"
+    confidence: high
   - id: anaplasmosis
     name: Anaplasmosis
     aliases: [Anaplasma phagocytophilum, human granulocytic anaplasmosis, HGA]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Anaplasmosis
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Anaplasma sp.)"
+    confidence: high
   - id: arboviral-infection
-    name: Arbovirus infection (including Eastern equine encephalitis, West Nile, Powassan, Jamestown Canyon, St. Louis encephalitis)
-    aliases: [arbovirus, Eastern equine encephalitis, EEE, West Nile virus, WNV, Powassan virus, Jamestown Canyon virus, St. Louis encephalitis, mosquito-borne virus]
+    name: Arbovirus infection, other (including Jamestown Canyon virus)
+    aliases: [arbovirus, Jamestown Canyon virus, St. Louis encephalitis, mosquito-borne virus]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Arbovirus
-    notes: DPH asks clinicians to call promptly about suspected EEE or West Nile neuroinvasive disease because cases change mosquito-control and risk decisions.
-    confidence: low
+    guide_chapter: null
+    citation: "105 CMR 300.100 (arbovirus infection, including but not limited to the viruses named); 300.170 (arboviruses)"
+    notes: >-
+      Eastern equine encephalitis, West Nile virus, and Powassan virus have their own entries.
+      St. Louis encephalitis virus is not named in the regulation but falls under "arbovirus
+      infection, including, but not limited to".
+    confidence: high
   - id: travel-arboviral-infection
-    name: Travel-associated arbovirus infection (dengue, chikungunya, Zika, yellow fever)
+    name: Arbovirus infection usually acquired during travel (dengue, chikungunya, Zika, yellow fever)
     aliases: [dengue, chikungunya, Zika virus, yellow fever]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Arbovirus
-    notes: Zika in pregnancy needs coordination with DPH for infant follow-up.
-    confidence: low
+    guide_chapter: null
+    citation: "105 CMR 300.100 (arbovirus infection); 300.170 (chikungunya, dengue, yellow fever, and Zika viruses)"
+    confidence: high
+  - id: powassan
+    name: Powassan virus infection
+    aliases: [Powassan, Powassan virus, POWV, deer tick virus]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100 (Powassan); 300.170 (Powassan virus)"
+    confidence: high
   - id: babesiosis
     name: Babesiosis
     aliases: [Babesia microti, Babesia]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Babesiosis
-    notes: Transfusion-associated cases need coordination with the blood supplier through DPH.
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Babesia sp.); 300.200(A)"
+    notes: >-
+      Cases are excluded from blood donation (300.200). Suspected transfusion-transmitted infection
+      is reportable immediately (300.136; see that entry).
+    confidence: high
+  - id: borrelia-miyamotoi
+    name: Borrelia miyamotoi infection (laboratory finding)
+    aliases: [Borrelia miyamotoi, B. miyamotoi, hard tick relapsing fever]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (Borrelia miyamotoi)"
+    notes: >-
+      Listed for laboratory reporting only; it is not on the 300.100 list for provider reporting.
+      DPH notifies the board of health through MAVEN.
+    confidence: high
+  - id: brucellosis
+    name: Brucellosis
+    aliases: [Brucella, undulant fever]
+    category: select_agent
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Brucella sp.); 300.172; 300.175"
+    notes: >-
+      Not on DPH's immediate-telephone lists. A laboratory worker's exposure to Brucella is
+      reportable to DPH immediately by telephone (300.175), and isolates go to the State Public
+      Health Laboratory (300.172).
+    confidence: high
   - id: campylobacteriosis
     name: Campylobacteriosis
-    aliases: [Campylobacter, Campylobacter jejuni]
+    aliases: [Campylobacter, Campylobacter jejuni, Campylobacter enteritis]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Campylobacteriosis
+    guide_chapter: Campylobacter Enteritis (2016)
+    citation: "105 CMR 300.100; 300.170 (Campylobacter sp.); 300.172"
+    confidence: high
+  - id: clostridioides-difficile
+    name: Clostridioides (Clostridium) difficile (laboratory finding)
+    aliases: [C. difficile, C. diff, Clostridium difficile, Clostridioides difficile]
+    category: healthcare_associated
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (Clostridium difficile)"
+    notes: Listed for laboratory reporting only; it is not on the 300.100 list for provider reporting.
+    confidence: high
+  - id: clostridium-perfringens
+    name: Clostridium perfringens (laboratory finding)
+    aliases: [C. perfringens, Clostridium perfringens]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (Clostridium perfringens)"
+    notes: Listed for laboratory reporting only. Suspected foodborne illness is reportable immediately (300.131).
+    confidence: high
+  - id: covid-19
+    name: COVID-19 (SARS-CoV-2)
+    aliases: [COVID, COVID-19, SARS-CoV-2, coronavirus disease 2019]
+    category: respiratory
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (SARS-CoV-2); 300.172; 300.173(6)"
+    notes: >-
+      Laboratories also report negative SARS-CoV-2 results (300.173). Because COVID-19 is found
+      mainly through laboratory testing, the laboratory report may serve in lieu of the provider
+      report (300.100). DPH asks for an online case report form for clusters of respiratory
+      illness in a facility.
+    confidence: high
+  - id: creutzfeldt-jakob-disease
+    name: Creutzfeldt-Jakob disease or variant Creutzfeldt-Jakob disease
+    aliases: [Creutzfeldt-Jakob disease, CJD, vCJD, variant CJD, prion disease, human prion disease]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (evidence of human prion disease)"
     confidence: high
   - id: cryptosporidiosis
     name: Cryptosporidiosis
     aliases: [Cryptosporidium, crypto]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Cryptosporidiosis
-    confidence: medium
+    guide_chapter: Cryptosporidiosis (2016)
+    citation: "105 CMR 300.100; 300.170 (Cryptosporidium sp.)"
+    confidence: high
   - id: cyclosporiasis
     name: Cyclosporiasis
     aliases: [Cyclospora cayetanensis, Cyclospora]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Cyclosporiasis
-    confidence: medium
+    guide_chapter: Cyclosporiasis (2016)
+    citation: "105 CMR 300.100; 300.170 (Cyclospora cayetanensis)"
+    confidence: high
   - id: ehrlichiosis
     name: Ehrlichiosis
     aliases: [Ehrlichia chaffeensis, Ehrlichia, human monocytic ehrlichiosis]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Ehrlichiosis
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Ehrlichia sp.)"
+    confidence: high
   - id: encephalitis
     name: Encephalitis, any cause
     aliases: [encephalitis, viral encephalitis]
     category: other
     timeframe: within_24_hours
-    reporters: [health_care_provider]
+    reporters: [health_care_provider, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    confidence: low
+    citation: "105 CMR 300.100; DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: >-
+      DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line,
+      because it is unlikely to be reported through a laboratory result.
+    confidence: high
+  - id: enterovirus
+    name: Enterovirus infection (laboratory finding)
+    aliases: [enterovirus, enteroviruses]
+    category: other
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (enteroviruses); DPH laboratory list (from cerebrospinal fluid)"
+    notes: >-
+      Listed for laboratory reporting only; DPH's laboratory list specifies enteroviruses from
+      cerebrospinal fluid.
+    confidence: high
   - id: stec
-    name: Shiga toxin-producing Escherichia coli (STEC), including E. coli O157:H7
+    name: Shiga toxin-producing organisms, including Shiga toxin-producing E. coli (STEC) and E. coli O157:H7
     aliases: [E. coli O157:H7, E coli O157, STEC, Shiga toxin, enterohemorrhagic E. coli, EHEC]
     lab_terms: [Shiga toxin positive, stx1, stx2]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Shiga Toxin-Producing E. coli
-    notes: Ask about child care attendance and food handling; both trigger exclusion rules.
-    confidence: medium
-  - id: hemolytic-uremic-syndrome
-    name: Hemolytic uremic syndrome (HUS)
-    aliases: [HUS, hemolytic uremic syndrome]
-    category: enteric
-    timeframe: within_24_hours
-    reporters: [health_care_provider]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Shiga Toxin-Producing E. coli
-    confidence: medium
+    guide_chapter: Shiga Toxin-Producing Escherichia coli (2018)
+    citation: "105 CMR 300.100; 300.170 (Escherichia coli O157:H7; Shiga toxin-producing organisms); 300.172"
+    notes: >-
+      Isolates, and Shiga toxin-positive broths when no organism was isolated, go to the State
+      Public Health Laboratory (300.172). 300.200 sets food handler restrictions.
+    confidence: high
   - id: giardiasis
     name: Giardiasis
     aliases: [Giardia, Giardia lamblia, Giardia duodenalis]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Giardiasis
-    confidence: medium
-  - id: group-a-streptococcus-invasive
-    name: Group A streptococcal infection, invasive
-    aliases: [invasive group A strep, iGAS, Streptococcus pyogenes, necrotizing fasciitis, streptococcal toxic shock syndrome]
-    category: invasive_bacterial
+    guide_chapter: Giardiasis (2016)
+    citation: "105 CMR 300.100; 300.170 (Giardia sp.)"
+    confidence: high
+  - id: glanders
+    name: Glanders
+    aliases: [Burkholderia mallei]
+    category: select_agent
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Group A Streptococcus
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Burkholderia mallei); 300.172; 300.175"
+    notes: >-
+      Not on DPH's immediate-telephone lists. A laboratory worker's exposure is reportable
+      immediately (300.175).
+    confidence: high
   - id: group-b-streptococcus-invasive
-    name: Group B streptococcal infection, invasive
-    aliases: [group B strep, GBS, Streptococcus agalactiae]
+    name: Group B streptococcus, invasive infection in a child younger than one year
+    aliases: [group B strep, GBS, Streptococcus agalactiae, invasive group B strep]
     category: invasive_bacterial
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Group B Streptococcus
-    notes: Check whether the current regulation limits reporting to infants.
-    confidence: low
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (from a usually sterile site in children younger than one year)"
+    notes: Reportable only in children younger than one year.
+    confidence: high
   - id: hansens-disease
     name: Hansen's disease (leprosy)
     aliases: [leprosy, Mycobacterium leprae]
     category: mycobacterial
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Hansen's Disease
-    confidence: medium
+    guide_chapter: Hansen's Disease (2016)
+    citation: "105 CMR 300.100; 300.170 (Mycobacterium leprae); DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line.
+    confidence: high
   - id: hepatitis-b
     name: Hepatitis B (acute, chronic, and perinatal)
     aliases: [HBV, hepatitis B virus, HBsAg, hepatitis B surface antigen, perinatal hepatitis B]
     lab_terms: [HBsAg positive, hepatitis B surface antigen positive, HBV DNA detected]
     category: bloodborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Hepatitis B
-    notes: An HBsAg-positive pregnant person needs perinatal hepatitis B case management so the infant receives HBIG and vaccine at birth.
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (hepatitis B virus); 300.173(5); 300.200(A); online case report form per DPH provider list (June 2026)"
+    notes: >-
+      DPH asks providers to submit an online case report form within 24 hours for pregnant people
+      with laboratory evidence of hepatitis B and for infants born to people with hepatitis B.
+      Infants born to infected people should receive HBIG and vaccine (300.200).
+    confidence: high
   - id: hepatitis-c
     name: Hepatitis C
     aliases: [HCV, hepatitis C virus, HCV antibody, HCV RNA]
     category: bloodborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Hepatitis C
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (hepatitis C virus); 300.173(2)"
+    notes: Laboratories also report negative hepatitis C serologic and nucleic acid tests (300.173).
+    confidence: high
   - id: hepatitis-d-e
     name: Hepatitis D and hepatitis E
     aliases: [hepatitis D, hepatitis delta, HDV, hepatitis E, HEV]
     category: bloodborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    confidence: low
+    citation: "105 CMR 300.100; 300.170 (hepatitis D and E viruses); 300.200(A)"
+    confidence: high
+  - id: hepatitis-syndrome-acute
+    name: Hepatitis syndrome, acute (no identified cause, or an unexpected or unusual cause)
+    aliases: [acute hepatitis syndrome, acute hepatitis of unknown cause, unexplained hepatitis]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.020 (definition)"
+    notes: >-
+      Illness with symptoms such as jaundice, nausea, vomiting, or abdominal pain and laboratory
+      evidence of liver damage or dysfunction, without an identified cause or due to an unexpected
+      or unusual cause (300.020).
+    confidence: high
+  - id: influenza-laboratory-confirmed
+    name: Influenza
+    aliases: [influenza, flu, influenza A, influenza B]
+    category: respiratory
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100 (influenza); 300.170 (influenza A and B viruses)"
+    notes: >-
+      Found mainly through laboratory testing, so the laboratory report may serve in lieu of the
+      provider report (300.100). Novel influenza A and pediatric deaths are reported immediately;
+      deaths in pregnant people, severe or unusual illness, and antiviral resistance go to DPH
+      within 24 hours (see those entries). DPH asks for an online case report form for clusters of
+      influenza in a facility.
+    confidence: high
+  - id: influenza-severe-unusual
+    name: "Influenza: death in a pregnant person, unusual or unusually severe illness, or antiviral resistance"
+    aliases: [influenza death in pregnancy, severe influenza, influenza encephalopathy, influenza myocarditis, antiviral-resistant influenza, oseltamivir-resistant influenza]
+    category: respiratory
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.135(A)(1)-(3); 300.172; DPH laboratory list (influenza virus, if antiviral resistant)"
+    notes: >-
+      300.135 names encephalopathy, myocarditis, and pericarditis as examples of unusual or
+      unusually severe illness. Specimens with suspected antiviral resistance go to the State
+      Public Health Laboratory (300.172). DPH notifies the board of health through MAVEN (300.135(B)).
+    confidence: high
   - id: legionellosis
     name: Legionellosis
     aliases: [Legionella, Legionnaires' disease, Pontiac fever, Legionella pneumophila]
     category: respiratory
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Legionellosis
-    notes: Two or more cases linked to one facility or water system is a cluster and is immediately reportable.
-    confidence: medium
-  - id: leptospirosis
-    name: Leptospirosis
-    aliases: [Leptospira]
-    category: zoonotic
-    timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Leptospirosis
-    confidence: medium
+    guide_chapter: Legionellosis (2016)
+    citation: "105 CMR 300.100; 300.170 (Legionella sp.); 300.172"
+    notes: >-
+      A suspected cluster (for example, cases linked to one facility or water system) is reportable
+      immediately under 300.134.
+    confidence: high
   - id: listeriosis
     name: Listeriosis
     aliases: [Listeria, Listeria monocytogenes]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Listeriosis
-    confidence: medium
+    guide_chapter: Listeriosis (2018)
+    citation: "105 CMR 300.100; 300.170 (Listeria sp.); 300.172"
+    confidence: high
   - id: lyme-disease
     name: Lyme disease
     aliases: [Borrelia burgdorferi, Lyme]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [laboratory]
-    report_to: [dph]
-    guide_chapter: Lyme Disease
-    notes: Massachusetts conducts laboratory-based Lyme disease surveillance; confirm with DPH whether clinician case reports are currently required.
-    confidence: low
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Borrelia burgdorferi); 300.173(4)"
+    notes: >-
+      Listed in 300.100 for provider reporting; because Lyme disease is found mainly through
+      laboratory testing, the laboratory report may serve in lieu of the provider report.
+      Laboratories also report the other tests in a vector-borne panel when one is positive (300.173).
+    confidence: high
   - id: malaria
     name: Malaria
     aliases: [Plasmodium, Plasmodium falciparum, Plasmodium vivax]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Malaria
-    confidence: medium
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Plasmodium sp.)"
+    confidence: high
+  - id: melioidosis
+    name: Melioidosis
+    aliases: [Burkholderia pseudomallei]
+    category: select_agent
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Burkholderia pseudomallei); 300.172; 300.175"
+    notes: >-
+      Not on DPH's immediate-telephone lists. A laboratory worker's exposure is reportable
+      immediately (300.175).
+    confidence: high
+  - id: meningitis-bacterial
+    name: Meningitis, bacterial, community-acquired
+    aliases: [bacterial meningitis, community-acquired meningitis]
+    category: invasive_bacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: >-
+      DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line.
+      Meningococcal disease is reported immediately (see that entry).
+    confidence: high
+  - id: meningitis-viral
+    name: Meningitis, viral (aseptic) or other infectious (non-bacterial)
+    aliases: [viral meningitis, aseptic meningitis, non-bacterial meningitis]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line.
+    confidence: high
+  - id: mumps
+    name: Mumps
+    aliases: [mumps virus, parotitis]
+    category: vaccine_preventable
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Mumps (2022)
+    citation: "105 CMR 300.100; 300.170 (mumps virus); 300.172; Mumps chapter (2022)"
+    notes: >-
+      Not on DPH's immediate-telephone lists. The Mumps chapter (2022) asks providers to report
+      as soon as possible to the board of health where the case is diagnosed and also to call DPH
+      Epidemiology (617-983-6800). Specimens go to the State Public Health Laboratory (300.172).
+    confidence: high
+  - id: norovirus
+    name: Norovirus infection
+    aliases: [norovirus, noroviruses, Norwalk-like virus]
+    category: enteric
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (noroviruses); 300.200(A)"
+    notes: >-
+      Food handlers are excluded from food handling for 72 hours after symptoms resolve or after
+      the positive specimen was collected, whichever is later (300.200). Suspected outbreaks are
+      reportable immediately (300.134).
+    confidence: high
+  - id: pertussis
+    name: Pertussis
+    aliases: [whooping cough, Bordetella pertussis]
+    lab_terms: [Bordetella pertussis PCR positive]
+    category: vaccine_preventable
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: Pertussis (2022)
+    citation: "105 CMR 300.100; 300.170 (Bordetella pertussis); Pertussis chapter (2022)"
+    notes: >-
+      Not on DPH's immediate-telephone lists. The Pertussis chapter (2022) asks providers to
+      report immediately to the board of health where the case is diagnosed; any cluster is
+      reportable immediately to the board of health and DPH.
+    confidence: high
+  - id: bordetella-other
+    name: Other Bordetella species (B. parapertussis, B. holmesii, B. bronchiseptica) (laboratory finding)
+    aliases: [Bordetella parapertussis, Bordetella holmesii, Bordetella bronchiseptica, parapertussis]
+    category: respiratory
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (Bordetella bronchiseptica, holmesii, parapertussis)"
+    notes: Listed for laboratory reporting only (the regulation spells B. holmesii as "holmseii").
+    confidence: high
   - id: psittacosis
     name: Psittacosis
     aliases: [Chlamydia psittaci, Chlamydophila psittaci, parrot fever, ornithosis]
     category: zoonotic
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Psittacosis
-    confidence: medium
-  - id: spotted-fever-rickettsiosis
-    name: Spotted fever rickettsiosis, including Rocky Mountain spotted fever
-    aliases: [Rocky Mountain spotted fever, RMSF, Rickettsia rickettsii]
-    category: vectorborne
-    timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    confidence: medium
+    citation: "105 CMR 300.100; 300.170 (Chlamydophila psittaci)"
+    confidence: high
+  - id: q-fever
+    name: Q fever
+    aliases: [Coxiella burnetii]
+    category: select_agent
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Coxiella burnetii)"
+    notes: Not on DPH's immediate-telephone lists.
+    confidence: high
+  - id: reye-syndrome
+    name: Reye syndrome
+    aliases: [Reye's syndrome]
+    category: other
+    timeframe: within_24_hours
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line.
+    confidence: high
+  - id: rickettsialpox
+    name: Rickettsialpox
+    aliases: [Rickettsia akari]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Rickettsia akari)"
+    confidence: high
+  - id: spotted-fever-rickettsiosis
+    name: Rocky Mountain spotted fever
+    aliases: [Rocky Mountain spotted fever, RMSF, Rickettsia rickettsii, spotted fever rickettsiosis]
+    category: vectorborne
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [local_board_of_health, dph]
+    guide_chapter: null
+    citation: "105 CMR 300.100; 300.170 (Rickettsia rickettsii)"
+    notes: The regulation names Rocky Mountain spotted fever, not spotted fever rickettsioses as a group.
+    confidence: high
   - id: salmonellosis
     name: Salmonellosis (non-typhoidal)
     aliases: [Salmonella, non-typhoidal Salmonella, Salmonella enteritidis, Salmonella Typhimurium]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Salmonellosis
-    notes: Salmonella Typhi is typhoid fever and is immediately reportable. Ask about food handling and child care.
+    guide_chapter: Salmonellosis (Non-Typhoid)
+    citation: "105 CMR 300.100; 300.170 (Salmonella sp.); 300.172"
+    notes: >-
+      Salmonella Typhi causes typhoid fever, which is reported immediately (see that entry).
+      Isolates go to the State Public Health Laboratory (300.172).
     confidence: high
   - id: shigellosis
     name: Shigellosis
     aliases: [Shigella, Shigella sonnei, Shigella flexneri]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Shigellosis
+    guide_chapter: Shigellosis (2018)
+    citation: "105 CMR 300.100; 300.170 (Shigella sp.); 300.172"
+    confidence: high
+  - id: simian-herpes-b-virus
+    name: Simian herpes B virus infection (laboratory finding)
+    aliases: [simian herpes virus, herpes B virus, B virus, Macacine alphaherpesvirus 1]
+    category: zoonotic
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.170 (simian herpes virus); 300.175"
+    notes: >-
+      Laboratory finding reportable within 24 hours. A macaque bite, scratch, or body-fluid exposure
+      in a laboratory or research setting is reportable immediately by telephone (300.175; see the
+      laboratory exposure entry).
     confidence: high
   - id: streptococcus-pneumoniae-invasive
-    name: Streptococcus pneumoniae, invasive disease
+    name: Streptococcus pneumoniae, invasive infection in a person younger than 18
     aliases: [invasive pneumococcal disease, IPD, pneumococcus, Streptococcus pneumoniae]
     category: invasive_bacterial
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: null
-    notes: Check whether the current regulation limits reporting by age.
-    confidence: low
-  - id: tetanus
-    name: Tetanus
-    aliases: [Clostridium tetani, lockjaw]
-    category: vaccine_preventable
-    timeframe: within_24_hours
-    reporters: [health_care_provider]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Tetanus
-    confidence: medium
+    guide_chapter: Streptococcus pneumoniae - Invasive Disease (2016)
+    citation: "105 CMR 300.100; 300.170 (from a usually sterile site in people younger than 18); 300.172"
+    notes: >-
+      Reportable only in people younger than 18. Laboratories report invasive penicillin-resistant
+      S. pneumoniae at any age (300.171; see that entry).
+    confidence: high
   - id: toxic-shock-syndrome
     name: Toxic shock syndrome
     aliases: [TSS, staphylococcal toxic shock syndrome]
     category: other
     timeframe: within_24_hours
-    reporters: [health_care_provider]
+    reporters: [health_care_provider, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: null
-    confidence: medium
+    guide_chapter: Toxic Shock Syndrome (2018)
+    citation: "105 CMR 300.100; DPH provider list (June 2026): telephone the Epidemiology Line within 24 hours"
+    notes: DPH asks providers to report this within 24 hours by calling the DPH Epidemiology Line.
+    confidence: high
   - id: trichinellosis
-    name: Trichinellosis (trichinosis)
-    aliases: [trichinosis, Trichinella]
+    name: Trichinosis (trichinellosis)
+    aliases: [trichinosis, trichinellosis, Trichinella, Trichinella spiralis]
     category: zoonotic
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    confidence: medium
-  - id: tuberculosis
-    name: Tuberculosis disease (confirmed or suspected)
-    aliases: [TB, active TB, Mycobacterium tuberculosis, pulmonary tuberculosis]
-    lab_terms: [AFB smear positive, Mycobacterium tuberculosis complex, MTB PCR positive]
-    category: mycobacterial
-    timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Tuberculosis
-    notes: Report suspected disease without waiting for culture confirmation. The local board of health manages directly observed therapy and contact investigation with the DPH TB program.
-    confidence: medium
-  - id: latent-tuberculosis-infection
-    name: Latent tuberculosis infection (LTBI)
-    aliases: [LTBI, latent TB, positive IGRA, positive tuberculin skin test, QuantiFERON positive]
-    category: mycobacterial
-    timeframe: other
-    reporters: [health_care_provider, laboratory]
-    report_to: [local_board_of_health, dph]
-    guide_chapter: Tuberculosis
-    notes: Confirm with DPH whether and how latent TB infection is currently reportable.
-    confidence: low
+    citation: "105 CMR 300.100 (trichinosis); 300.170 (Trichinella spiralis)"
+    confidence: high
   - id: typhus
     name: Typhus
-    aliases: [murine typhus, epidemic typhus, Rickettsia typhi, Rickettsia prowazekii]
+    aliases: [typhus, murine typhus, epidemic typhus, Rickettsia typhi, Rickettsia prowazekii]
     category: vectorborne
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
     guide_chapter: null
-    confidence: low
+    citation: "105 CMR 300.100 (typhus); 300.170 (Rickettsia prowazekii)"
+    notes: >-
+      Providers report any typhus; the laboratory list names Rickettsia prowazekii but not
+      Rickettsia typhi.
+    confidence: high
   - id: varicella
     name: Varicella (chickenpox)
     aliases: [chickenpox, chicken pox, varicella-zoster virus, VZV]
     category: vaccine_preventable
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Varicella
-    notes: Herpes zoster (shingles) reporting rules differ; confirm with DPH.
-    confidence: medium
+    guide_chapter: Chickenpox (2023)
+    citation: "105 CMR 300.100; 300.170 (varicella zoster virus); online case report form per DPH provider list (June 2026)"
+    notes: >-
+      DPH asks providers to submit an online case report form within 24 hours; this does not
+      include shingles. Laboratories report varicella-zoster virus findings (300.170). Clusters in
+      a facility also need an online form.
+    confidence: high
   - id: vibriosis
     name: Vibriosis (non-cholera Vibrio)
     aliases: [Vibrio, Vibrio parahaemolyticus, Vibrio vulnificus, non-cholera Vibrio]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Vibriosis
-    confidence: medium
+    guide_chapter: Vibriosis (2018)
+    citation: "105 CMR 300.100; 300.170 (Vibrio sp.); 300.172"
+    confidence: high
   - id: yersiniosis
     name: Yersiniosis
     aliases: [Yersinia enterocolitica, Yersinia]
     category: enteric
     timeframe: within_24_hours
-    reporters: [health_care_provider, laboratory]
+    reporters: [health_care_provider, laboratory, local_board_of_health]
     report_to: [local_board_of_health, dph]
-    guide_chapter: Yersiniosis
+    guide_chapter: Yersiniosis (2016)
+    citation: "105 CMR 300.100; 300.170 (Yersinia sp.); 300.172"
+    confidence: high
+
+  # --- Within 24 hours, directly to DPH (105 CMR 300.180) -------------------
+  - id: latent-tuberculosis-infection
+    name: Tuberculosis infection (latent TB infection, LTBI)
+    aliases: [LTBI, latent TB, positive IGRA, positive tuberculin skin test, QuantiFERON positive]
+    category: mycobacterial
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(B) (written or electronic format, no timeframe stated); 300.170 (laboratory evidence of tuberculosis infection); online case report form within 24 hours per DPH provider list (June 2026)"
+    notes: >-
+      A tuberculin skin test meeting CDC or DPH criteria for infection is itself reportable
+      (300.180(B)). The regulation sets no timeframe for provider reports of TB infection; the 24
+      hours comes from DPH's provider list.
     confidence: medium
+  - id: hiv
+    name: HIV infection and AIDS
+    aliases: [HIV, human immunodeficiency virus, AIDS, HIV viral load, HIV antibody, acquired immunodeficiency syndrome]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(C); 300.170 (HIV); 300.173(3); 300.120(B); online case report form per DPH provider list (June 2026)"
+    notes: >-
+      Reported confidentially to DPH, not to the local board of health; DPH may not disclose the
+      identity of a person with HIV or AIDS to any political subdivision of the Commonwealth
+      (300.120(B)). Acute HIV is reported immediately by telephone (see that entry).
+    confidence: high
+  - id: syphilis
+    name: Syphilis, including congenital syphilis
+    aliases: [syphilis, congenital syphilis, Treponema pallidum]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: Sexually Transmitted Infections (2018)
+    citation: "105 CMR 300.180(C); 300.170 (Treponema pallidum); 300.173(1); online case report form per DPH provider list (June 2026)"
+    notes: >-
+      Reported to DPH, not to the local board of health. DPH asks providers to submit an online
+      case report form within 24 hours.
+    confidence: high
+  - id: gonorrhea
+    name: Gonorrhea
+    aliases: [gonorrhea, Neisseria gonorrhoeae, GC]
+    lab_terms: [ceftriaxone-resistant Neisseria gonorrhoeae]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: Sexually Transmitted Infections (2018)
+    citation: "105 CMR 300.180(C); 300.170 (Neisseria gonorrhoeae); 300.171(A) (ceftriaxone resistance); 300.172; online case report form per DPH provider list (June 2026)"
+    notes: >-
+      Reported to DPH, not to the local board of health. DPH asks providers to submit an online
+      case report form within 24 hours. Laboratories report ceftriaxone resistance (300.171) and
+      send isolates to the State Public Health Laboratory (300.172).
+    confidence: high
+  - id: chlamydia
+    name: Chlamydial infection
+    aliases: [chlamydia, Chlamydia trachomatis, CT]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: Sexually Transmitted Infections (2018)
+    citation: "105 CMR 300.180(C); 300.170 (Chlamydia trachomatis)"
+    notes: Reported to DPH, not to the local board of health.
+    confidence: high
+  - id: sexually-transmitted-infections
+    name: Other sexually transmitted infections (chancroid, granuloma inguinale, lymphogranuloma venereum) and pelvic inflammatory disease
+    aliases: [chancroid, granuloma inguinale, donovanosis, lymphogranuloma venereum, LGV, pelvic inflammatory disease, PID, Haemophilus ducreyi, Klebsiella granulomatis]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: Sexually Transmitted Infections (2018)
+    citation: "105 CMR 300.180(C); 300.170 (Haemophilus ducreyi; Klebsiella granulomatis)"
+    notes: >-
+      Reported to DPH, not to the local board of health. Pelvic inflammatory disease of any
+      etiology is reportable. Syphilis, gonorrhea, chlamydia, and HIV have their own entries.
+    confidence: high
+  - id: herpes-simplex-neonatal
+    name: Herpes simplex infection, neonatal (onset within 60 days after birth)
+    aliases: [neonatal herpes, neonatal HSV, neonatal herpes simplex]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, laboratory, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(C); 300.170 (herpes simplex virus, neonatal infection in a child younger than 60 days)"
+    notes: Reported to DPH, not to the local board of health.
+    confidence: high
+  - id: ophthalmia-neonatorum
+    name: Ophthalmia neonatorum, any cause
+    aliases: [ophthalmia neonatorum, neonatal conjunctivitis]
+    category: sexually_transmitted
+    timeframe: within_24_hours
+    reporters: [health_care_provider, local_board_of_health]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(C)"
+    notes: Reported to DPH, not to the local board of health.
+    confidence: high
+
+  # --- Antimicrobial resistance (laboratories, 105 CMR 300.171) -------------
   - id: carbapenemase-producing-organisms
-    name: Carbapenemase-producing or carbapenem-resistant organisms
-    aliases: [CRE, CP-CRE, carbapenem-resistant Enterobacterales, carbapenemase, KPC, NDM, CRAB, CRPA]
+    name: Carbapenemase-producing or carbapenem-resistant Enterobacterales (CRE)
+    aliases: [CRE, CP-CRE, carbapenem-resistant Enterobacteriaceae, carbapenem-resistant Enterobacterales, carbapenemase-producing Enterobacterales, KPC, NDM]
     category: healthcare_associated
     timeframe: within_24_hours
     reporters: [laboratory]
     report_to: [dph]
     guide_chapter: null
-    notes: Confirm with DPH which organisms and mechanisms are currently reportable and on what timeline.
-    confidence: low
-  - id: covid-19
-    name: COVID-19 (SARS-CoV-2)
-    aliases: [COVID, COVID-19, SARS-CoV-2, coronavirus disease 2019]
-    category: respiratory
+    citation: "105 CMR 300.171(A) (no timeframe stated); 300.172; DPH laboratory list (within 24 hours)"
+    notes: >-
+      300.171 names Enterobacteriaceae only; the laboratory list gives E. coli, Klebsiella
+      pneumoniae and oxytoca, and Enterobacter aerogenes and cloacae as examples. Carbapenem-resistant
+      Acinetobacter and Pseudomonas are not named; unexplained or novel resistance in any organism
+      goes to DPH within five business days (see that entry). Isolates go to the State Public
+      Health Laboratory (300.172).
+    confidence: medium
+  - id: mrsa-invasive
+    name: Methicillin-resistant Staphylococcus aureus (MRSA), invasive
+    aliases: [invasive MRSA, MRSA bacteremia, methicillin-resistant Staphylococcus aureus]
+    category: healthcare_associated
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.171(A) (no timeframe stated); DPH laboratory list (within 24 hours)"
+    notes: Laboratory reporting of invasive isolates only.
+    confidence: medium
+  - id: streptococcus-pneumoniae-penicillin-resistant
+    name: Streptococcus pneumoniae, invasive, penicillin-resistant (any age)
+    aliases: [penicillin-resistant Streptococcus pneumoniae, PRSP, penicillin-resistant pneumococcus]
+    category: healthcare_associated
+    timeframe: within_24_hours
+    reporters: [laboratory]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.171(A) (no timeframe stated); DPH laboratory list (within 24 hours)"
+    confidence: medium
+  - id: novel-antimicrobial-resistance
+    name: Antimicrobial resistance of an unexplained or novel nature, in any organism
+    aliases: [novel antimicrobial resistance, unexplained antimicrobial resistance, novel resistance mechanism]
+    category: healthcare_associated
     timeframe: other
     reporters: [laboratory]
     report_to: [dph]
     guide_chapter: null
-    notes: Reporting and case-investigation expectations changed several times after the public health emergency ended; follow DPH's current guidance. Clusters in congregate settings are immediately reportable as outbreaks.
-    confidence: low
-  - id: influenza-laboratory-confirmed
-    name: Influenza, laboratory-confirmed
-    aliases: [influenza, flu, influenza A, influenza B]
-    category: respiratory
-    timeframe: other
-    reporters: [laboratory]
-    report_to: [dph]
-    guide_chapter: Influenza
-    notes: Individual laboratory-confirmed cases are reported by laboratories for surveillance. Novel strains and pediatric deaths are immediately reportable; see those entries.
-    confidence: low
+    citation: "105 CMR 300.171(A); 300.172"
+    notes: >-
+      The laboratory must contact DPH within five business days. Organisms with antimicrobial
+      resistance of a novel nature go to the State Public Health Laboratory (300.172).
+    confidence: high
 
-  # --- Reportable directly to DPH programs (not to the local board of health)
-  - id: hiv
-    name: HIV infection
-    aliases: [HIV, human immunodeficiency virus, AIDS, HIV viral load, HIV antibody]
-    category: sexually_transmitted
-    timeframe: other
-    reporters: [health_care_provider, laboratory]
-    report_to: [dph]
-    guide_chapter: null
-    notes: Reported confidentially to DPH's HIV surveillance program, not to the local board of health.
-    confidence: medium
-  - id: sexually-transmitted-infections
-    name: Sexually transmitted infections (syphilis, gonorrhea, chlamydia, and others)
-    aliases: [STI, STD, syphilis, congenital syphilis, gonorrhea, chlamydia, Chlamydia trachomatis, Neisseria gonorrhoeae, Treponema pallidum, chancroid, lymphogranuloma venereum]
-    category: sexually_transmitted
-    timeframe: other
-    reporters: [health_care_provider, laboratory]
-    report_to: [dph]
-    guide_chapter: null
-    notes: Reported to DPH's Division of STD Prevention, not to the local board of health. Syphilis in pregnancy and congenital syphilis are priorities for prompt follow-up.
-    confidence: medium
+  # --- Other schedules ---------------------------------------------------------
   - id: blood-lead
-    name: Blood lead test results
-    aliases: [lead poisoning, elevated blood lead, blood lead level, lead]
+    name: Childhood lead poisoning and blood lead test results (105 CMR 460.000)
+    aliases: [lead poisoning, elevated blood lead, blood lead level, lead, childhood lead poisoning]
     category: environmental
     timeframe: other
-    reporters: [laboratory, health_care_provider]
+    reporters: [health_care_provider, laboratory]
     report_to: [dph]
     guide_chapter: null
-    notes: Childhood blood lead results are reported to DPH's Childhood Lead Poisoning Prevention Program under 105 CMR 460.000, not under 105 CMR 300.000. Adult results go to DPH occupational health surveillance.
-    confidence: low
+    citation: "105 CMR 460.040 (Mass. Register #1353, 12/1/17); 105 CMR 300.180(D)(2) for work-related heavy metal absorption"
+    notes: >-
+      Under 105 CMR 460.040, providers and laboratories report childhood lead poisoning (a venous
+      blood lead of 10 micrograms per deciliter or more in a child younger than six) to DPH's
+      Childhood Lead Poisoning Prevention Program within three working days, and laboratories and
+      provider practices that analyze blood lead specimens report all results electronically
+      within one week. Work-related heavy metal absorption ("other" metals) is reportable by
+      providers within ten days under 105 CMR 300.180(D). Adult laboratory reporting was not
+      verified.
+    confidence: medium
+  - id: occupational-disease
+    name: Work-related diseases (occupational lung disease, heavy metal absorption, acute chemical poisoning, carpal tunnel syndrome)
+    aliases: [occupational disease, work-related disease, occupational lung disease, asbestosis, silicosis, beryllium disease, chemical pneumonitis, work-related lung disease, mercury absorption, cadmium absorption, work-related carbon monoxide poisoning, work-related pesticide poisoning, work-related chemical poisoning, work-related carpal tunnel syndrome]
+    category: environmental
+    timeframe: other
+    reporters: [health_care_provider]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(D); 300.182"
+    notes: >-
+      Physicians and other health care providers report to DPH no later than ten days after
+      diagnosis. Includes asthma caused or aggravated by workplace exposures, mercury (blood over
+      15 mcg/L or urine over 35 mcg/g creatinine), cadmium (blood over 5 mcg/L or urine over 5
+      mcg/g creatinine), and other metals, carbon monoxide, pesticide, and other acute chemical
+      poisoning, and work-related carpal tunnel syndrome.
+    confidence: high
+  - id: work-related-injury-minor
+    name: Work-related traumatic injury to a person younger than 18
+    aliases: [work-related injury in a minor, teen work injury, working teen injury, child labor injury]
+    category: other
+    timeframe: other
+    reporters: [health_care_provider]
+    report_to: [dph]
+    guide_chapter: null
+    citation: "105 CMR 300.180(E); 300.020 (definition of serious injury)"
+    notes: >-
+      The treating provider reports a serious work-related injury in a minor within ten days of
+      first treating it; health care facilities report all such injuries they treat at least
+      every six months.
+    confidence: high

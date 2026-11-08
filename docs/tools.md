@@ -55,7 +55,8 @@ current settings.
 
 Environment variables in the client configuration override saved values; the result says when
 that happens. HMCC regions are derived from the 2005 DPH preparedness-region layer (4A and 4B
-merged into 4AB) and carry that caveat.
+merged into 4AB), corrected where DPH's HMCC Regional Boundaries map (December 2019) differs
+(Wilmington, Region 3), and carry that caveat.
 
 ### `calculate_rates` (EPI-01, toolset `epi`)
 
@@ -79,13 +80,16 @@ Each rate has an exact (Garwood) Poisson interval, the relative standard error, 
 | `max_alternatives` | Other candidates to list (default 3). |
 
 Returns whether the condition is reportable under 105 CMR 300.000, the timeframe (immediately
-by phone, within 24 hours, or a program-specific channel), who reports, to whom, how, and the
-chapter of DPH's *Guide to Surveillance, Reporting and Control*. Includes the nurse's own board
-of health when configured and the DPH Epidemiology line. When nothing matches, it says that this
-does **not** mean the condition is not reportable: clusters and unusual illnesses always are.
+by phone, within 24 hours, or a program-specific channel), who reports, to whom, how, the
+regulation sections the entry was transcribed from, and the chapter of DPH's *Guide to
+Surveillance, Reporting and Control* when the current handbook has one. Includes the nurse's own
+board of health when configured and the DPH Epidemiology line. When nothing matches, it says that
+this does **not** mean the condition is not reportable: clusters and unusual illnesses always are.
 
-The content is a draft pending subject-matter review; each entry has a developer confidence
-level, and low-confidence entries carry an extra caveat.
+The content was re-checked on 2026-11-07 against the regulation text (Mass. Register #1470,
+5/27/22) and DPH's current provider and laboratory reporting lists, and it remains pending
+subject-matter review. Each entry cites its sections and has a confidence level; low-confidence
+entries carry an extra caveat.
 
 ## Phase 1
 

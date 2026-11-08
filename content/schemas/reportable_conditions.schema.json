@@ -93,6 +93,7 @@
           "reporters",
           "report_to",
           "guide_chapter",
+          "citation",
           "confidence"
         ],
         "properties": {
@@ -170,6 +171,11 @@
               "string",
               "null"
             ]
+          },
+          "citation": {
+            "description": "Sections of 105 CMR 300.000 (or other named source) the entry was transcribed from.",
+            "type": "string",
+            "minLength": 1
           },
           "notes": {
             "type": "string"

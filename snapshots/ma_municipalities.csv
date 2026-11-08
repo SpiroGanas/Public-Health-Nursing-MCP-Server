@@ -340,7 +340,7 @@ town_id,name,type,county,county_fips,dph_ep_region,hmcc_region
 339,Wilbraham,town,Hampden,25013,1,1
 340,Williamsburg,town,Hampshire,25015,1,1
 341,Williamstown,town,Berkshire,25003,1,1
-342,Wilmington,town,Middlesex,25017,4A,4AB
+342,Wilmington,town,Middlesex,25017,4A,3
 343,Winchendon,town,Worcester,25027,2,2
 344,Winchester,town,Middlesex,25017,4A,4AB
 345,Windsor,town,Berkshire,25003,1,1
