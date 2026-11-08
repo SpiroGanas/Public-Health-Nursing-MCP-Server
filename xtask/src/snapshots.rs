@@ -24,6 +24,26 @@ const TOWNS_ZIP: &str = "townssurvey_shp.zip";
 const REGIONS_ZIP: &str = "regdphep_poly.zip";
 const DISTRICTS_ZIP: &str = "schooldistricts.zip";
 
+/// DPH's "HMCC Regional Boundaries Map with communities labeled" (MDPH Office
+/// of Preparedness and Emergency Management, dated 2019-12-09), linked from
+/// <https://www.mass.gov/info-details/learn-about-the-health-and-medical-coordinating-coalitions>.
+/// Retrieved 2026-11-07; PDF SHA-256
+/// 2836a3264d837061ed8cffa837aa284c198bb673215b311ac6cae09c7db58dd7.
+const HMCC_MAP_URL: &str =
+    "https://www.mass.gov/doc/hmcc-regional-boundaries-map-with-communities-labeled/download";
+
+/// Towns whose HMCC region on DPH's map ([`HMCC_MAP_URL`]) differs from the
+/// region derived from the 2005 DPH Emergency Preparedness Region layer.
+/// Keys are MassGIS `TOWN` names (upper case).
+///
+/// Found on 2026-11-07 by projecting every MassGIS town polygon onto the
+/// rasterized map and reading the region fill color inside it (350 towns
+/// classified that way, every one with a single color; Nahant, too small for
+/// the sampler, checked by eye). Only Wilmington differed (2005 Region 4A, so
+/// 4AB; DPH map Region 3). When DPH publishes a new map, repeat the comparison and
+/// update this table. The build fails if an entry no longer changes anything.
+const HMCC_OVERRIDES: &[(&str, &str)] = &[("WILMINGTON", "3")];
+
 /// `snapshots/manifest.json`.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Manifest {
@@ -235,6 +255,7 @@ fn build_municipalities(towns_zip: &[u8], regions_zip: &[u8], today: &str) -> Re
     }
 
     let mut out = String::from("town_id,name,type,county,county_fips,dph_ep_region,hmcc_region\n");
+    let mut overridden: BTreeSet<&str> = BTreeSet::new();
     let mut sorted: Vec<&Town> = towns.values().collect();
     sorted.sort_by_key(|t| t.id);
     let mut rows = 0;
@@ -252,9 +273,19 @@ fn build_municipalities(towns_zip: &[u8], regions_zip: &[u8], today: &str) -> Re
             [one] => (*one).clone(),
             other => bail!("{} falls in {} DPH regions", t.name, other.len()),
         };
-        let hmcc = match region.as_str() {
-            "4A" | "4B" => "4AB".to_string(),
-            r => r.to_string(),
+        let derived = match region.as_str() {
+            "4A" | "4B" => "4AB",
+            r => r,
+        };
+        let hmcc = match HMCC_OVERRIDES.iter().find(|(town, _)| *town == t.name) {
+            Some(&(town, r)) => {
+                if r == derived {
+                    bail!("HMCC override for {town} matches the derived region {r}; remove it");
+                }
+                overridden.insert(town);
+                r.to_string()
+            }
+            None => derived.to_string(),
         };
         out.push_str(&format!(
             "{},{},{},{},{},{},{}\n",
@@ -268,6 +299,17 @@ fn build_municipalities(towns_zip: &[u8], regions_zip: &[u8], today: &str) -> Re
         ));
         rows += 1;
     }
+    if let Some((town, _)) = HMCC_OVERRIDES
+        .iter()
+        .find(|(town, _)| !overridden.contains(town))
+    {
+        bail!("HMCC override names {town}, which is not a MassGIS town");
+    }
+    let override_text = HMCC_OVERRIDES
+        .iter()
+        .map(|(town, r)| format!("{} (Region {r})", phn_core::text::title_case(town)))
+        .collect::<Vec<_>>()
+        .join(", ");
 
     let file = SnapshotFile {
         path: "ma_municipalities.csv".into(),
@@ -278,10 +320,13 @@ fn build_municipalities(towns_zip: &[u8], regions_zip: &[u8], today: &str) -> Re
     let entry = SnapshotEntry {
         id: "ma-municipalities".into(),
         title: "Massachusetts cities and towns with county and DPH preparedness region".into(),
-        publisher: "MassGIS (Bureau of Geographic Information); region assignment derived by this project".into(),
+        publisher:
+            "MassGIS (Bureau of Geographic Information); region assignment derived by this project"
+                .into(),
         source_urls: vec![
             format!("{MASSGIS_BASE}/{TOWNS_ZIP}"),
             format!("{MASSGIS_BASE}/{REGIONS_ZIP}"),
+            HMCC_MAP_URL.to_string(),
         ],
         source_sha256: BTreeMap::from([
             (TOWNS_ZIP.to_string(), sha256(towns_zip)),
@@ -289,18 +334,23 @@ fn build_municipalities(towns_zip: &[u8], regions_zip: &[u8], today: &str) -> Re
         ]),
         source_vintage: format!("towns {towns_vintage}; DPH regions {regions_vintage}"),
         retrieved: today.into(),
-        license: "MassGIS data are free public records of the Commonwealth of Massachusetts.".into(),
-        derivation: "Town, type, county, and county FIPS come from the MassGIS municipal boundary \
-            layer (TOWNSSURVEY_POLY). Each town's DPH Emergency Preparedness Region is the region \
-            polygon (REGDPHEP_POLY) that contains an interior point of the town's largest land part. \
-            The HMCC region merges DPH Regions 4A and 4B into 4AB."
+        license: "MassGIS data are free public records of the Commonwealth of Massachusetts."
             .into(),
-        caveats: vec![
-            "The DPH Emergency Preparedness Region layer dates from 2005. HMCC membership is derived \
-             from it (Regions 4A and 4B merged into 4AB) and has not been checked against DPH's \
-             current HMCC municipality list; confirm with your HMCC."
-                .into(),
-        ],
+        derivation: format!(
+            "Town, type, county, and county FIPS come from the MassGIS municipal boundary \
+             layer (TOWNSSURVEY_POLY). Each town's DPH Emergency Preparedness Region is the region \
+             polygon (REGDPHEP_POLY) that contains an interior point of the town's largest land \
+             part. The HMCC region merges DPH Regions 4A and 4B into 4AB, then applies the towns \
+             whose region differs on DPH's HMCC Regional Boundaries map (MDPH OPEM, 2019-12-09; \
+             PDF retrieved 2026-11-07, not re-downloaded by the build): {override_text}."
+        ),
+        caveats: vec![format!(
+            "The DPH Emergency Preparedness Region layer dates from 2005. HMCC membership is \
+             derived from it (Regions 4A and 4B merged into 4AB) and was compared town by town \
+             with DPH's HMCC Regional Boundaries map (December 2019) on 2026-11-07; the towns that \
+             differ are set to the map's region: {override_text}. DPH's interactive HMCC locator \
+             could not be checked. Confirm with your HMCC."
+        )],
         files: vec![file],
     };
     Ok(Built {

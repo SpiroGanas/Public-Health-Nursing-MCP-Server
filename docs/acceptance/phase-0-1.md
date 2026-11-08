@@ -16,7 +16,7 @@ Desktop on a **Windows** computer and a **Mac**, using the synthetic corpus in
 |---|---|---|---|
 | 1 | "Set my town to Amherst and our board of health number to 413-555-0100." | `configure_jurisdiction` | County Hampshire, HMCC Region 1, districts listed. |
 | 2 | "Set my town to Worchester." | `configure_jurisdiction` | Suggests Worcester; nothing saved. |
-| 3 | "Is whooping cough reportable? How fast?" | `lookup_reportable_condition` | Immediate by phone; DPH line; draft caveat. |
+| 3 | "Is whooping cough reportable? How fast?" | `lookup_reportable_condition` | Within 24 hours under 105 CMR 300.100 (not a "call immediately" condition on DPH's list); draft caveat. |
 | 4 | "A lab called about Salmonella Typhi in a blood culture." | `lookup_reportable_condition` | Typhoid fever (not salmonellosis). |
 | 5 | "Do I need to report head lice?" | `lookup_reportable_condition` | Not on the list, but clusters/unusual illness reminder. |
 | 6 | "Calculate pertussis rates per 100,000: Amherst 12 cases of 39,263; Hadley 3 of 5,325." | `calculate_rates` | Exact CIs; Hadley flagged unreliable and suppressible. |
