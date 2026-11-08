@@ -38,6 +38,15 @@ pub mod vaccine_codes;
 
 // Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 
+// Phase 12 adapters (NWS, OpenFEMA, emPOWER, AirNow, HeatRisk, projection) go below this line.
+pub mod airnow;
+pub mod empower;
+pub mod heatrisk;
+pub mod nws;
+pub mod openfema;
+pub mod projection;
+// End of Phase 12 adapters.
+
 pub use cache::Cache;
 pub use http::HttpClient;
 pub use snapshots::SnapshotStore;
