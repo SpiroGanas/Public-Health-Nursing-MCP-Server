@@ -1,0 +1,3 @@
+level,overall_rating,health_inspection_rating,quality_measure_rating,staffing_rating,total_nurse_hours_per_resident_day,rn_hours_per_resident_day,nursing_staff_turnover_pct,rn_turnover_pct
+NATION,3.0,2.8,3.7,3.0,3.90085,0.69164,45.3,42.5
+MA,3.1,3.0,3.3,3.1,3.93743,0.65518,37.6,42.7

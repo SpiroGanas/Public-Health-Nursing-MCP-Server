@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
+use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -143,5 +143,24 @@ impl PhnServer {
         Parameters(args): Parameters<CoverageArgs>,
     ) -> CallToolResult {
         respond(phn_tools::aging::explain_older_adult_coverage_options(&self.ctx, args))
+    }
+
+    #[tool(
+        name = "nursing_home_quality_lookup",
+        description = "CMS Care Compare data for Massachusetts nursing homes by name, CMS Certification Number, \
+            town, or county (or a statewide summary): overall, health inspection, staffing, and \
+            quality star ratings; nurse staffing hours and turnover; infection control citations \
+            from the last three years with F-tags and scope/severity; fines and penalties; Special \
+            Focus and abuse flags; and staff and resident COVID-19, flu, and pneumococcal \
+            vaccination, with Massachusetts and U.S. averages. Live from the CMS Provider Data \
+            Catalog with a dated snapshot when offline.",
+        annotations(title = "Nursing home quality lookup", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<NursingHomeResult>>()
+    )]
+    async fn nursing_home_quality_lookup(
+        &self,
+        Parameters(args): Parameters<NursingHomeArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::nursing_home_quality_lookup(&self.ctx, args).await)
     }
 }

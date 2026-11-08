@@ -38,6 +38,9 @@ pub mod vaccine_codes;
 
 // Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 
+// Phase 10 adapters (CMS Provider Data Catalog) go below this line.
+pub mod cms_provider;
+
 pub use cache::Cache;
 pub use http::HttpClient;
 pub use snapshots::SnapshotStore;

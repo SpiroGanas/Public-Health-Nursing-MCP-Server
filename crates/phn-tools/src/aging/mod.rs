@@ -8,10 +8,12 @@ pub mod coverage;
 pub mod directory;
 pub mod falls;
 pub mod localfill;
+pub mod nursing_homes;
 pub mod protective;
 pub mod services;
 pub use coverage::{CoverageArgs, CoverageResult, explain_older_adult_coverage_options};
 pub use falls::{FallRiskArgs, FallRiskResult, steadi_fall_risk_assessment};
+pub use nursing_homes::{NursingHomeArgs, NursingHomeResult, nursing_home_quality_lookup};
 pub use protective::{ProtectiveArgs, ProtectiveResult, elder_protective_services_guide};
 pub use services::{AgingServicesArgs, AgingServicesResult, find_ma_aging_services};
 // End of Phase 10 modules.

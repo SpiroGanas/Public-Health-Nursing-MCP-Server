@@ -194,6 +194,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/aging/coverage_options.yaml"),
         schema: include_str!("../../../content/schemas/aging_coverage_options.schema.json"),
     },
+    ContentItem {
+        id: "aging-nursing-home-guide",
+        path: "content/aging/nursing_home_guide.yaml",
+        resource_uri: "phn://content/aging-nursing-home-guide",
+        yaml: include_str!("../../../content/aging/nursing_home_guide.yaml"),
+        schema: include_str!("../../../content/schemas/aging_nursing_home_guide.schema.json"),
+    },
     // End of Phase 10 content items.
     // Phase 11 content items go below this line.
     // End of Phase 11 content items.

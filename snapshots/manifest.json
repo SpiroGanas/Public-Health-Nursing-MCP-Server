@@ -833,6 +833,47 @@
           "rows": 31
         }
       ]
+    },
+    {
+      "id": "cms-ma-nursing-homes",
+      "title": "Massachusetts nursing homes: CMS star ratings, staffing, infection control citations, and vaccination",
+      "publisher": "Centers for Medicare & Medicaid Services, Provider Data Catalog (Care Compare)",
+      "source_urls": [
+        "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/fykj-qjee/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/djen-97ju/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/r5ix-sfxw/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/xcdc-v8bm/0"
+      ],
+      "source_sha256": {},
+      "source_vintage": "2026-10-01",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CMS Provider Data Catalog); public domain in the United States.",
+      "derivation": "Massachusetts rows from Provider Information (4pq5-n9py; selected columns), SNF Quality Reporting Program measures S_040_02 (staff COVID-19 up to date), S_041_01 (staff flu), and S_045_01 (residents COVID-19 up to date) (fykj-qjee), MDS quality measures 415, 454, 430, and 472 (resident pneumococcal and flu) (djen-97ju), Health Deficiencies in the 'Infection Control Deficiencies' category (r5ix-sfxw), and State/US Averages (xcdc-v8bm), joined by CMS Certification Number (xtask/src/nursing_homes.rs, phn_data::cms_provider).",
+      "caveats": [
+        "CMS processing date 2026-10-01; CMS refreshes Care Compare monthly. Star ratings and citations change after each inspection.",
+        "Vaccination measures cover different periods (SNF QRP quarters; MDS four-quarter averages); CMS removed its separate COVID-19 vaccination datasets in July 2025."
+      ],
+      "files": [
+        {
+          "path": "cms_ma_nursing_homes.csv",
+          "sha256": "6b14548a36f205655edab9ee2f62de2fcfe9598a5e1d32d068a812a676efda95",
+          "bytes": 147265,
+          "rows": 341
+        },
+        {
+          "path": "cms_ma_nh_infection_citations.csv",
+          "sha256": "4eba387bde36dbeaf1d7ac5b306921bba4562d85507cc9c3c2eaa059f96d54d4",
+          "bytes": 129649,
+          "rows": 781
+        },
+        {
+          "path": "cms_ma_nh_averages.csv",
+          "sha256": "640238956a3d243e60fc0544389a3484d1b77cc3c30376e55c71f48c178eadd2",
+          "bytes": 283,
+          "rows": 2
+        }
+      ]
     }
   ]
 }

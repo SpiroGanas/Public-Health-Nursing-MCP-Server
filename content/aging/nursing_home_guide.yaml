@@ -1,0 +1,97 @@
+# How to read CMS nursing home data (star ratings, icons, scope and severity, infection control
+# F-tags, vaccination measures) and whom to contact, for nursing_home_quality_lookup (AGE-06).
+#
+# REVIEW STATUS: pending. Definitions transcribed from the CMS Nursing Home Data Dictionary
+# (updated October 2026) and the CMS Health Deficiencies dataset, retrieved 2026-11-08.
+# Schema: content/schemas/aging_nursing_home_guide.schema.json
+meta:
+  id: aging-nursing-home-guide
+  title: Reading CMS nursing home quality data (Care Compare) for Massachusetts
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2026-10-01
+  source:
+    title: Nursing Home Care Compare and Provider Data Catalog Consolidated Data Dictionary (updated October 2026)
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://data.cms.gov/provider-data/sites/default/files/data_dictionaries/nursing_home/NH_Data_Dictionary.pdf
+  related_sources:
+    - title: Health Deficiencies (Provider Data Catalog dataset r5ix-sfxw)
+      publisher: Centers for Medicare & Medicaid Services
+      url: https://data.cms.gov/provider-data/dataset/r5ix-sfxw
+    - title: Provider Information (Provider Data Catalog dataset 4pq5-n9py)
+      publisher: Centers for Medicare & Medicaid Services
+      url: https://data.cms.gov/provider-data/dataset/4pq5-n9py
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Icon, measure, and column definitions are transcribed from the CMS data dictionary (October
+    2026) and F-tag descriptions from the CMS Health Deficiencies data (high confidence). The
+    scope and severity grid (A-L) is the standard CMS grid from the State Operations Manual,
+    which was not retrieved; the dictionary confirms only that G and above is harm and D and above
+    potential harm (medium confidence). Contacts are from mass.gov (high confidence).
+
+sources:
+  cms-dictionary:
+    title: Nursing Home Care Compare and Provider Data Catalog Consolidated Data Dictionary (October 2026)
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://data.cms.gov/provider-data/sites/default/files/data_dictionaries/nursing_home/NH_Data_Dictionary.pdf
+    effective_date: 2026-10-01
+    retrieved: 2026-11-08
+  cms-deficiencies:
+    title: Health Deficiencies (dataset r5ix-sfxw)
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://data.cms.gov/provider-data/dataset/r5ix-sfxw
+    effective_date: 2026-10-01
+    retrieved: 2026-11-08
+  age-ombudsman:
+    title: Massachusetts Long-Term Care Ombudsman Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/orgs/massachusetts-long-term-care-ombudsman-program
+    effective_date: null
+    retrieved: 2026-11-08
+  eoai-report:
+    title: Report Abuse of Adults Aged 60+
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/report-abuse-of-adults-aged-60
+    effective_date: null
+    retrieved: 2026-11-08
+
+notes:
+  - {text: "Star ratings (1 to 5) come from CMS's Five-Star Quality Rating System: an overall rating built from health inspection, staffing, and quality measure ratings.", source: cms-dictionary, section: "Provider Information"}
+  - {text: "Abuse icon: cited for abuse or neglect at harm level or above on the most recent survey cycle (scope/severity G or greater), or at potential harm level (D or above) on both of the last two cycles.", source: cms-dictionary, section: "Provider Information: Abuse Icon"}
+  - {text: "Special Focus Status: SFF (a Special Focus Facility, under more frequent inspection for persistent poor performance) or SFF Candidate.", source: cms-dictionary, section: "Provider Information: Special Focus Status"}
+  - {text: "Inspection cycle 1 is the most recent; complaint inspection cycles are counted by year. Infection control citations can come from standard, complaint, or focused infection control inspections.", source: cms-dictionary, section: "Health Deficiencies: Inspection Cycle"}
+  - {text: "Staff vaccination (SNF Quality Reporting Program): S_040_02, percentage of health care personnel up to date with COVID-19 vaccines; S_041_01, percentage who got a flu shot for the current season. Resident COVID-19: S_045_01, percentage of residents up to date.", source: cms-dictionary, section: "SNF QRP measure codes"}
+  - {text: "Resident flu and pneumococcal vaccination (MDS quality measures 454, 472, 415, 430): percentage of long-stay and short-stay residents assessed and appropriately given the vaccine, as four-quarter averages.", source: cms-dictionary, section: "MDS Quality Measures"}
+  - {text: "CMS removed its separate nursing home COVID-19 vaccination datasets in July 2025; the SNF QRP measures above replace them.", source: cms-dictionary, section: "Revisions, 202507"}
+
+scope_severity:
+  confidence: medium
+  text: >-
+    Each citation has a letter A to L. A-C: no actual harm, potential for minimal harm. D-F: no
+    actual harm, potential for more than minimal harm. G-I: actual harm that is not immediate
+    jeopardy. J-L: immediate jeopardy to resident health or safety. Within each group the letters
+    go from isolated, to pattern, to widespread (for example J isolated, K pattern, L widespread).
+  harm_letters: [G, H, I, J, K, L]
+  immediate_jeopardy_letters: [J, K, L]
+  source: cms-dictionary
+  section: "Abuse Icon definition (G = harm, D = potential harm); full grid from the CMS State Operations Manual (not retrieved)"
+
+infection_control_tags:
+  - {tag: F0880, text: "Provide and implement an infection prevention and control program."}
+  - {tag: F0881, text: "Implement a program that monitors antibiotic use."}
+  - {tag: F0882, text: "Designate a qualified infection preventionist to be responsible for the infection prevent and control program in the nursing home."}
+  - {tag: F0883, text: "Develop and implement policies and procedures for flu and pneumonia vaccinations."}
+  - {tag: F0885, text: "Report COVID19 data to residents and families."}
+  - {tag: F0886, text: "Perform COVID19 testing on residents and staff."}
+  - {tag: F0887, text: "Educate residents and staff on COVID-19 vaccination, offer the COVID-19 vaccine to eligible residents and staff after education, and properly document each resident and staff member's vaccination status."}
+  - {tag: F0888, text: "Ensure staff are vaccinated for COVID-19"}
+  - {tag: F0945, text: "Include as part of its infection prevention and control program, mandatory training that includes written standards, policies, and procedures for the program."}
+infection_control_tags_source: cms-deficiencies
+
+contacts:
+  - {text: "Long-Term Care Ombudsman Program (residents of nursing homes, rest homes, and assisted living): 617-222-7495.", source: age-ombudsman, section: "Contact Us"}
+  - {text: "Abuse of a patient by nursing home or hospital staff: Massachusetts Department of Public Health, (800) 462-5540.", source: eoai-report, section: "Who can receive adult protective services?"}
