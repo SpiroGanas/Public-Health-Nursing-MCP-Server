@@ -23,4 +23,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Equity,
         phase: 9,
     },
+    ToolMeta {
+        name: "omaha_system_coder",
+        plan_id: "CORE-01",
+        toolset: Toolset::Core,
+        phase: 9,
+    },
 ];

@@ -1,0 +1,1746 @@
+# The Omaha System (2005 version) for omaha_system_coder (CORE-01): domains, 42 problems with
+# signs/symptoms, modifiers, intervention categories and targets, and the Problem Rating Scale
+# for Outcomes (Knowledge, Behavior, Status).
+#
+# REVIEW STATUS: pending. Generated from omahasystem.org (retrieved 2026-11-08); see
+# meta.verification_note. The Omaha System is in the public domain (omahasystem.org FAQ 1).
+# 'cues' are this tool's matching keywords, not Omaha System terms.
+# Schema: content/schemas/omaha_system.schema.json
+meta:
+  id: omaha-system
+  title: 'The Omaha System (2005 version): Problem Classification Scheme, Intervention Scheme, Problem
+    Rating Scale for Outcomes'
+  version: 0.1.0
+  prepared: '2026-11-08'
+  effective_date: '2005'
+  source:
+    title: The Omaha System (website)
+    publisher: The Omaha System (Karen S. Martin and Board of Directors)
+    url: https://www.omahasystem.org/overview
+  related_sources:
+  - title: 'Martin KS. The Omaha System: A Key to Practice, Documentation, and Information Management
+      (reprinted 2nd ed.). Omaha, NE: Health Connections Press; 2005'
+    publisher: Health Connections Press
+    url: null
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: '2027-02-01'
+  verification_note: 'Drafted on 2026-11-08 from omahasystem.org: the overview and FAQ (public domain;
+    terms must be used as published and cited), the four domains with definitions and 42 problems, the
+    problem modifiers, the four intervention categories with definitions and the 75 targets plus ''other'',
+    the Knowledge-Behavior-Status concept definitions, and nine case studies (signs/symptoms and rating
+    labels seen in them are marked verified). Problem codes 01-42 and target codes 01-76 follow the order
+    on the website; confirm them against Appendix A of the 2005 book (medium confidence). Ratings 4 and
+    5 and the signs/symptoms marked draft are the developer''s recollection of the 2005 book (low confidence).
+    ''cues'' are this tool''s matching keywords, not Omaha System terms. The subject matter expert must
+    review before use.'
+sources:
+  omaha-overview:
+    title: Omaha System Overview
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/overview
+    effective_date: null
+    retrieved: '2026-11-08'
+  omaha-pcs:
+    title: Problem Classification Scheme
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/problemclassificationscheme
+    effective_date: null
+    retrieved: '2026-11-08'
+  omaha-is:
+    title: Intervention Scheme
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/interventionscheme
+    effective_date: null
+    retrieved: '2026-11-08'
+  omaha-prso:
+    title: Problem Rating Scale for Outcomes
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/problemratingscaleforoutcomes
+    effective_date: null
+    retrieved: '2026-11-08'
+  omaha-faq:
+    title: Frequently Asked Questions (public domain status and use)
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/faq
+    effective_date: null
+    retrieved: '2026-11-08'
+  omaha-cases:
+    title: Omaha System case studies (Emma B., Janice A., Influenza, Francis R., Bill T., John C., Julie
+      B., Tamika J., Joe G.)
+    publisher: The Omaha System
+    url: https://www.omahasystem.org/case-studies
+    effective_date: null
+    retrieved: '2026-11-08'
+license:
+  text: The Omaha System has existed in the public domain since 1975 and is not held under copyright.
+    The terms, definitions, and codes may be used without permission or fee, but the terms and structure
+    must be used as described in the 2005 book and referenced (the 2005 book or the website).
+  source: omaha-faq
+  section: FAQ 1
+domains:
+- id: environmental
+  label: Environmental
+  definition: Material resources and physical surroundings both inside and outside the living area, neighborhood,
+    and broader community.
+- id: psychosocial
+  label: Psychosocial
+  definition: Patterns of behavior, emotion, communication, relationships, and development.
+- id: physiological
+  label: Physiological
+  definition: Functions and processes that maintain life.
+- id: health_related_behaviors
+  label: Health-related Behaviors
+  definition: Patterns of activity that maintain or promote wellness, promote recovery, and decrease the
+    risk of disease.
+modifiers:
+  scope:
+  - id: individual
+    label: Individual
+  - id: family
+    label: Family
+  - id: community
+    label: Community
+  type:
+  - id: health_promotion
+    label: Health promotion
+  - id: potential
+    label: Potential
+  - id: actual
+    label: Actual
+  note:
+    text: 'The third level of the Problem Classification Scheme consists of two sets of problem modifiers:
+      health promotion, potential, and actual, as well as individual, family, and community. Signs and
+      symptoms describe actual problems; problems are neutral, not negative.'
+    source: omaha-pcs
+    section: Problem Classification Scheme
+problems:
+- code: '01'
+  name: Income
+  domain: environmental
+  signs_symptoms_verified:
+  - low/no income
+  - uninsured medical expenses
+  - difficulty buying necessities
+  signs_symptoms_draft:
+  - inadequate money management
+  - able to buy only necessities
+  cues:
+  - income
+  - money
+  - afford
+  - cannot pay
+  - can't pay
+  - bills
+  - uninsured
+  - no insurance
+  - unemployed
+  - lost job
+  - laid off
+  - financial
+  - rent arrears
+  - behind on rent
+  - benefits
+- code: '02'
+  name: Sanitation
+  domain: environmental
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - soiled living area
+  - inadequate food storage/disposal
+  - insects/rodents
+  - foul odor
+  - inadequate water supply
+  - inadequate sewage disposal
+  - inadequate laundry facilities
+  - presence of mold
+  - excessive pets
+  cues:
+  - sanitation
+  - soiled
+  - garbage
+  - trash
+  - roaches
+  - cockroaches
+  - bedbugs
+  - bed bugs
+  - rodents
+  - mice
+  - rats
+  - mold
+  - odor
+  - sewage
+  - no running water
+  - hoarding
+  - unsanitary
+- code: '03'
+  name: Residence
+  domain: environmental
+  signs_symptoms_verified:
+  - homeless
+  - unsafe storage of dangerous objects/substances
+  - inadequate safety devices
+  signs_symptoms_draft:
+  - structurally unsound
+  - inadequate heating/cooling
+  - steep/unsafe stairs
+  - cluttered living space
+  - unsafe mats/throw rugs
+  - presence of lead-based paint
+  - inadequate/crowded living space
+  - exposed wiring
+  cues:
+  - homeless
+  - shelter
+  - eviction
+  - evicted
+  - housing
+  - apartment
+  - stairs
+  - clutter
+  - cluttered
+  - no heat
+  - lead paint
+  - smoke detector
+  - overcrowded
+  - unsafe home
+  - doubled up
+  - couch surfing
+  - motel
+- code: '04'
+  name: Neighborhood/workplace safety
+  domain: environmental
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - high crime rate
+  - high pollution level
+  - uncontrolled/dangerous/infected animals
+  - inadequate/unsafe play/exercise areas
+  - threats/reports of violence
+  - physical hazards
+  - vehicle/traffic hazards
+  - chemical hazards
+  cues:
+  - neighborhood
+  - crime
+  - violence in the area
+  - unsafe neighborhood
+  - workplace
+  - pollution
+  - traffic
+  - stray dogs
+  - shootings
+- code: '05'
+  name: Communication with community resources
+  domain: psychosocial
+  signs_symptoms_verified:
+  - unfamiliar with options/procedures for obtaining services
+  - difficulty understanding roles/regulations of service providers
+  - inadequate/unavailable resources
+  - educational barrier
+  - transportation barrier
+  - limited access to care/services/goods
+  signs_symptoms_draft:
+  - language barrier
+  - cultural barrier
+  - dissatisfaction with services
+  cues:
+  - community resources
+  - resources
+  - services
+  - appointment access
+  - language barrier
+  - interpreter
+  - does not know how to apply
+  - unfamiliar with
+  - transportation barrier
+  - no transportation
+  - access to care
+  - navigate
+- code: '06'
+  name: Social contact
+  domain: psychosocial
+  signs_symptoms_verified:
+  - limited social contact
+  - minimal outside stimulation/leisure time activities
+  signs_symptoms_draft:
+  - uses health care provider for social contact
+  cues:
+  - isolated
+  - isolation
+  - lonely
+  - loneliness
+  - no friends
+  - lives alone
+  - social contact
+  - withdrawn
+- code: '07'
+  name: Role change
+  domain: psychosocial
+  signs_symptoms_verified:
+  - involuntary role reversal
+  signs_symptoms_draft:
+  - assumes new role
+  - loses previous role
+  cues:
+  - new role
+  - caregiver role
+  - role reversal
+  - became caregiver
+  - retired
+  - widowed
+  - lost role
+- code: '08'
+  name: Interpersonal relationship
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty establishing/maintaining relationships
+  - minimal shared activities
+  - inadequate interpersonal communication skills
+  - prolonged, unrelieved tension
+  - difficulty problem solving without conflict
+  cues:
+  - relationship
+  - conflict
+  - arguing
+  - arguments
+  - partner
+  - spouse
+  - tension
+  - separated
+  - divorce
+- code: '09'
+  name: Spirituality
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - expresses spiritual concerns
+  - disrupted spiritual rituals
+  - conflicting spiritual beliefs and medical/health care regimen
+  cues:
+  - spiritual
+  - faith
+  - religious
+  - church
+  - mosque
+  - temple
+  - prayer
+  - clergy
+- code: '10'
+  name: Grief
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty coping with grief responses
+  - difficulty expressing grief responses
+  - conflicting stages of grief process among individuals/family members
+  cues:
+  - grief
+  - grieving
+  - bereaved
+  - bereavement
+  - died
+  - death of
+  - loss of
+  - mourning
+  - passed away
+- code: '11'
+  name: Mental health
+  domain: psychosocial
+  signs_symptoms_verified:
+  - loss of interest/involvement in activities/self-care
+  - narrowed to scattered attention/focus
+  - irritable/agitated/aggressive
+  - purposeless/compulsive activity
+  - difficulty managing stress
+  - delusions
+  - hallucinations/illusions
+  - mood swings
+  signs_symptoms_draft:
+  - sadness/hopelessness/decreased self-esteem
+  - apprehension/undefined fear
+  - expresses suicidal/homicidal thoughts
+  - attempts suicide/homicide
+  - self-mutilation
+  - flat affect
+  - somatic complaints/fatigue
+  cues:
+  - depressed
+  - depression
+  - anxious
+  - anxiety
+  - sad
+  - hopeless
+  - suicidal
+  - suicide
+  - hallucinations
+  - delusions
+  - mood
+  - stress
+  - stressed
+  - psychiatric
+  - phq
+  - edinburgh
+  - epds
+  - tearful
+  - panic
+  - ptsd
+  - trauma
+- code: '12'
+  name: Sexuality
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty recognizing consequences of sexual behavior
+  - unsafe sexual practices
+  - dissatisfied with sexual relationships
+  - sexual identity confusion
+  cues:
+  - sexual
+  - sexually
+  - condom
+  - sti
+  - std
+  - intimacy
+  - sexual orientation
+- code: '13'
+  name: Caretaking/parenting
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty providing physical care/safety
+  - difficulty providing emotional nurturance
+  - difficulty promoting growth and development
+  - expectations incongruent with stage of growth and development
+  - neglectful
+  - abusive
+  cues:
+  - parenting
+  - caregiver
+  - caretaking
+  - bonding
+  - infant care
+  - child care
+  - discipline
+  - attachment
+  - newborn care
+  - feeding the baby
+- code: '14'
+  name: Neglect
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - lacks adequate physical care
+  - lacks emotional nurturance/support
+  - inappropriately left alone
+  - lacks necessary supervision
+  - inadequate/delayed medical care
+  cues:
+  - neglect
+  - neglected
+  - left alone
+  - unsupervised
+  - lack of supervision
+  - missed medical care
+- code: '15'
+  name: Abuse
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - harsh/excessive discipline
+  - welts/bruises/burns/other injuries
+  - questionable explanation of injury
+  - attacked verbally
+  - fearful/hypervigilant behavior
+  - violent environment
+  - assaulted sexually
+  cues:
+  - abuse
+  - abused
+  - bruises
+  - domestic violence
+  - hit
+  - threatened
+  - assault
+  - assaulted
+  - 51a
+  - dcf
+  - intimate partner violence
+  - ipv
+- code: '16'
+  name: Growth and development
+  domain: psychosocial
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - abnormal results of developmental screening tests
+  - abnormal weight/height/head circumference in relation to growth/age standards
+  - age-inappropriate behavior
+  - inadequate achievement/maintenance of developmental tasks
+  cues:
+  - growth
+  - development
+  - developmental
+  - milestones
+  - asq
+  - weight percentile
+  - head circumference
+  - early intervention
+  - delay
+  - delayed
+- code: '17'
+  name: Hearing
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty hearing normal speech tones
+  - absent/abnormal response to sound
+  - abnormal results of hearing screening test
+  cues:
+  - hearing
+  - hard of hearing
+  - deaf
+  - hearing aid
+  - hearing screen
+  - audiology
+- code: '18'
+  name: Vision
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty seeing small print/calibrations
+  - difficulty seeing distant objects
+  - abnormal results of vision screening test
+  - squinting/blinking/tearing/blurring
+  cues:
+  - vision
+  - eyesight
+  - glasses
+  - blurred vision
+  - vision screen
+  - eye exam
+- code: '19'
+  name: Speech and language
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - absent/abnormal ability to speak/vocalize
+  - absent/abnormal ability to understand
+  - limited enunciation/clarity
+  - inappropriate word usage
+  cues:
+  - speech
+  - language delay
+  - stutter
+  - articulation
+  - nonverbal
+  - speech therapy
+- code: '20'
+  name: Oral health
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - missing/broken/malformed teeth
+  - caries
+  - sore/swollen/bleeding gums
+  - ill-fitting/missing dentures
+  - toothache
+  cues:
+  - dental
+  - teeth
+  - tooth
+  - caries
+  - cavities
+  - dentist
+  - gums
+  - dentures
+  - oral health
+  - fluoride varnish
+- code: '21'
+  name: Cognition
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - diminished judgment
+  - disoriented to time/place/person
+  - limited recall of recent events
+  - limited recall of long past events
+  - limited concentration
+  - wanders
+  cues:
+  - confused
+  - confusion
+  - memory
+  - forgetful
+  - dementia
+  - alzheimer
+  - disoriented
+  - judgment
+  - cognitive
+- code: '22'
+  name: Pain
+  domain: physiological
+  signs_symptoms_verified:
+  - expresses discomfort/pain
+  - elevated pulse/respirations/blood pressure
+  - compensated movement/guarding
+  - facial grimaces
+  signs_symptoms_draft:
+  - restless behavior
+  - pallor/perspiration
+  cues:
+  - pain
+  - painful
+  - aches
+  - hurts
+  - discomfort
+  - pain scale
+  - grimacing
+- code: '23'
+  name: Consciousness
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - lethargic
+  - stuporous
+  - unresponsive
+  - comatose
+  cues:
+  - lethargic
+  - unresponsive
+  - drowsy
+  - stupor
+  - loss of consciousness
+  - passed out
+- code: '24'
+  name: Skin
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - lesion/pressure ulcer
+  - rash
+  - excessively dry
+  - inflammation
+  - pruritus
+  - drainage
+  - bruising
+  - delayed incisional healing
+  cues:
+  - skin
+  - rash
+  - wound
+  - pressure ulcer
+  - pressure injury
+  - bruising
+  - itching
+  - lesion
+  - incision
+  - eczema
+  - scabies
+- code: '25'
+  name: Neuro-musculo-skeletal function
+  domain: physiological
+  signs_symptoms_verified:
+  - limited range of motion
+  - decreased muscle strength
+  signs_symptoms_draft:
+  - decreased coordination
+  - decreased balance
+  - gait/ambulation disturbance
+  - difficulty transferring
+  - fractures
+  - tremors/seizures
+  cues:
+  - mobility
+  - gait
+  - walker
+  - cane
+  - falls
+  - fall
+  - weakness
+  - range of motion
+  - balance
+  - seizure
+  - seizures
+  - transfer
+  - paralysis
+  - stroke
+- code: '26'
+  name: Respiration
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - abnormal breath patterns
+  - cough
+  - unable to cough/expectorate independently
+  - cyanosis
+  - abnormal sputum
+  - noisy respirations
+  - abnormal breath sounds
+  cues:
+  - cough
+  - coughing
+  - shortness of breath
+  - short of breath
+  - wheezing
+  - asthma
+  - copd
+  - inhaler
+  - oxygen
+  - breathing
+  - sputum
+  - respiratory
+- code: '27'
+  name: Circulation
+  domain: physiological
+  signs_symptoms_verified:
+  - edema
+  - abnormal blood pressure reading
+  - irregular heart rate
+  - excessively rapid heart rate
+  - abnormal cardiac laboratory results
+  signs_symptoms_draft:
+  - cramping/pain of extremities
+  - decreased pulses
+  - syncopal episodes
+  - excessively slow heart rate
+  - anginal pain
+  cues:
+  - blood pressure
+  - hypertension
+  - edema
+  - swelling
+  - heart rate
+  - pulse
+  - chest pain
+  - heart failure
+  - anticoagulant
+  - palpitations
+- code: '28'
+  name: Digestion-hydration
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - nausea/vomiting
+  - difficulty/inability to chew/swallow/digest
+  - indigestion
+  - reflux
+  - anorexia
+  - jaundice/liver enlargement
+  - decreased skin turgor
+  - cracked lips/dry mouth
+  cues:
+  - nausea
+  - vomiting
+  - dehydrated
+  - dehydration
+  - swallowing
+  - reflux
+  - appetite
+  - diarrhea and vomiting
+  - jaundice
+- code: '29'
+  name: Bowel function
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - abnormal frequency/consistency of stool
+  - painful defecation
+  - blood in stools
+  - cramping/abdominal discomfort
+  - incontinent of stool
+  cues:
+  - constipation
+  - constipated
+  - diarrhea
+  - bowel
+  - stool
+  - incontinent of stool
+- code: '30'
+  name: Urinary function
+  domain: physiological
+  signs_symptoms_verified:
+  - burning/painful urination
+  - hematuria/abnormal color
+  - abnormal urinary laboratory results
+  signs_symptoms_draft:
+  - incontinent of urine
+  - urgency/frequency
+  - difficulty emptying bladder
+  - nocturia
+  cues:
+  - urinary
+  - urine
+  - urination
+  - incontinence
+  - dysuria
+  - uti
+  - bladder
+- code: '31'
+  name: Reproductive function
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - abnormal discharge
+  - abnormal menstrual pattern
+  - difficulty managing menopause/andropause
+  - abnormal lumps/swelling/tenderness of genital organs or breasts
+  - infertility
+  cues:
+  - menstrual
+  - period
+  - menopause
+  - vaginal discharge
+  - breast lump
+  - infertility
+- code: '32'
+  name: Pregnancy
+  domain: physiological
+  signs_symptoms_verified:
+  - difficulty with prenatal exercise/rest/diet/behaviors
+  - prenatal complications/preterm labor
+  - inadequate social support
+  signs_symptoms_draft:
+  - difficulty bonding with unborn baby
+  - difficulty coping with body changes
+  - fears delivery procedure
+  cues:
+  - pregnant
+  - pregnancy
+  - prenatal
+  - gestation
+  - weeks gestation
+  - trimester
+  - due date
+  - edd
+  - preterm labor
+- code: '33'
+  name: Postpartum
+  domain: physiological
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - difficulty breastfeeding
+  - difficulty coping with postpartum changes
+  - difficulty with postpartum exercise/rest/diet/behaviors
+  - abnormal bleeding/vaginal discharge
+  - postpartum complications
+  - abnormal depressed feelings
+  cues:
+  - postpartum
+  - post-partum
+  - delivered
+  - delivery
+  - breastfeeding
+  - lactation
+  - after birth
+  - newborn
+  - c-section
+  - cesarean
+- code: '34'
+  name: Communicable/infectious condition
+  domain: physiological
+  signs_symptoms_verified:
+  - infection
+  - fever
+  - positive screening/culture/laboratory results
+  - inadequate supplies/equipment/policies to prevent transmission
+  - does not follow infection control regimen
+  - inadequate immunity
+  signs_symptoms_draft:
+  - infestation
+  - biological hazards
+  cues:
+  - infection
+  - infectious
+  - fever
+  - tb
+  - tuberculosis
+  - ltbi
+  - positive test
+  - culture
+  - exposure
+  - exposed
+  - contact of
+  - isolation
+  - quarantine
+  - hepatitis
+  - measles
+  - pertussis
+  - covid
+  - influenza
+  - immunization
+  - immunity
+  - vaccine
+  - vaccines
+  - ppd
+  - igra
+  - tst
+  - sti
+  - hiv
+  - syphilis
+- code: '35'
+  name: Nutrition
+  domain: health_related_behaviors
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - overweight
+  - underweight
+  - unbalanced diet
+  - improper feeding schedule for age
+  - does not follow recommended nutrition plan
+  - unexplained/progressive weight loss
+  - unable to obtain/prepare food
+  - hypoglycemia
+  - hyperglycemia
+  cues:
+  - nutrition
+  - diet
+  - weight
+  - bmi
+  - overweight
+  - obese
+  - obesity
+  - underweight
+  - weight loss
+  - food
+  - eating
+  - feeding
+  - formula
+  - wic
+  - snap
+  - hungry
+  - meals
+- code: '36'
+  name: Sleep and rest patterns
+  domain: health_related_behaviors
+  signs_symptoms_verified:
+  - frequently wakes during night
+  - insufficient sleep/rest for age/physical condition
+  signs_symptoms_draft:
+  - sleep/rest pattern disrupts family
+  - insomnia
+  - nightmares
+  - sleep apnea
+  - snoring
+  cues:
+  - sleep
+  - sleeping
+  - insomnia
+  - nightmares
+  - wakes at night
+  - tired
+  - fatigue
+  - nap
+  - safe sleep
+- code: '37'
+  name: Physical activity
+  domain: health_related_behaviors
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - sedentary life style
+  - inadequate/inconsistent exercise routine
+  - inappropriate type/amount of exercise for age/physical condition
+  cues:
+  - exercise
+  - physical activity
+  - sedentary
+  - walking
+  - activity level
+- code: '38'
+  name: Personal care
+  domain: health_related_behaviors
+  signs_symptoms_verified:
+  - difficulty laundering clothing
+  - difficulty bathing
+  - foul body odor
+  - difficulty shampooing/combing hair
+  - difficulty brushing/flossing/mouth care
+  - unwilling/unable/forgets to complete personal care activities
+  signs_symptoms_draft:
+  - difficulty with grooming
+  - difficulty dressing lower body
+  - difficulty dressing upper body
+  - difficulty toileting activities
+  cues:
+  - bathing
+  - hygiene
+  - grooming
+  - dressing
+  - toileting
+  - personal care
+  - shower
+- code: '39'
+  name: Substance use
+  domain: health_related_behaviors
+  signs_symptoms_verified:
+  - smokes/uses tobacco products
+  signs_symptoms_draft:
+  - abuses over-the-counter/prescription medications
+  - uses street/recreational drugs
+  - abuses alcohol
+  - difficulty performing normal routines
+  - behavior change
+  - exposure to cigarette/cigar smoke
+  cues:
+  - alcohol
+  - drinking
+  - drinks
+  - smokes
+  - smoking
+  - tobacco
+  - cigarettes
+  - vaping
+  - marijuana
+  - cannabis
+  - opioid
+  - opioids
+  - heroin
+  - fentanyl
+  - cocaine
+  - substance use
+  - narcan
+  - naloxone
+  - overdose
+  - methadone
+  - buprenorphine
+- code: '40'
+  name: Family planning
+  domain: health_related_behaviors
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - inappropriate/insufficient knowledge about family planning methods
+  - inconsistent use of family planning method
+  - dissatisfied with present family planning method
+  - difficulty obtaining family planning methods
+  cues:
+  - family planning
+  - contraception
+  - birth control
+  - contraceptive
+  - iud
+  - condoms
+  - pregnancy spacing
+- code: '41'
+  name: Health care supervision
+  domain: health_related_behaviors
+  signs_symptoms_verified: []
+  signs_symptoms_draft:
+  - fails to obtain routine/preventive health care
+  - fails to seek care for symptoms requiring evaluation/treatment
+  - fails to return as requested to health care provider
+  - inability to coordinate multiple appointments/treatment plans
+  - inconsistent source of health care
+  - inadequate source of health care
+  - inadequate treatment plan
+  cues:
+  - primary care
+  - pcp
+  - no doctor
+  - missed appointment
+  - missed appointments
+  - no-show
+  - follow-up appointment
+  - well child
+  - annual physical
+  - health insurance
+  - specialist
+  - appointments
+- code: '42'
+  name: Medication regimen
+  domain: health_related_behaviors
+  signs_symptoms_verified:
+  - inadequate system for taking medication
+  - inadequate medication regimen
+  - unable to take medications without help
+  signs_symptoms_draft:
+  - does not follow recommended dosage/schedule
+  - evidence of side effects/adverse reactions
+  - improper storage of medication
+  - fails to obtain refills appropriately
+  - fails to obtain immunizations
+  cues:
+  - medication
+  - medications
+  - meds
+  - pill
+  - pills
+  - pillbox
+  - pill box
+  - dose
+  - doses
+  - missed doses
+  - refill
+  - refills
+  - prescription
+  - side effects
+  - adherence
+  - dot
+  - directly observed
+  - rifampin
+  - isoniazid
+  - rifapentine
+  - insulin
+intervention_categories:
+- code: '01'
+  name: Teaching, Guidance, and Counseling
+  definition: Activities designed to provide information and materials, encourage action and responsibility
+    for self-care and coping, and assist the individual/family/community to make decisions and solve problems.
+  cues:
+  - taught
+  - teach
+  - teaching
+  - educated
+  - education
+  - instructed
+  - instruction
+  - explained
+  - explain
+  - discussed
+  - counseled
+  - counseling
+  - encouraged
+  - advised
+  - demonstrated
+  - reviewed with
+  - reinforced
+  - provided information
+  - gave information
+  - handout
+  - teach-back
+  - teach back
+  - guidance
+- code: '02'
+  name: Treatments and Procedures
+  definition: Technical activities such as wound care, specimen collection, resistive exercises, and medication
+    prescriptions that are designed to prevent, decrease, or alleviate signs and symptoms of the individual/family/community.
+  cues:
+  - administered
+  - gave the dose
+  - given
+  - applied
+  - dressing
+  - wound care
+  - collected
+  - drew blood
+  - injection
+  - injected
+  - vaccinated
+  - immunized
+  - placed ppd
+  - placed tst
+  - planted
+  - observed dose
+  - directly observed
+  - dot
+  - fluoride varnish
+  - specimen
+- code: '03'
+  name: Case Management
+  definition: Activities such as coordination, advocacy, and referral that facilitate service delivery,
+    improve communication among health and human service providers, promote assertiveness, and guide the
+    individual/family/community toward use of appropriate resources.
+  cues:
+  - referred
+  - referral
+  - refer
+  - coordinated
+  - coordinate
+  - arranged
+  - scheduled
+  - called
+  - contacted
+  - faxed
+  - advocated
+  - advocacy
+  - linked
+  - connected
+  - case conference
+  - enrolled
+  - applied for
+  - notified
+  - consulted
+- code: '04'
+  name: Surveillance
+  definition: Activities such as detection, measurement, critical analysis, and monitoring intended to
+    identify the individual/family/community's status in relation to a given condition or phenomenon.
+  cues:
+  - monitored
+  - monitor
+  - monitoring
+  - assessed
+  - assessment
+  - checked
+  - measured
+  - weighed
+  - observed
+  - screened
+  - screening
+  - evaluated
+  - followed up
+  - follow-up visit
+  - tracked
+  - vital signs
+  - inspected
+  - reassessed
+targets:
+- code: '01'
+  name: anatomy/physiology
+  cues:
+  - anatomy
+  - how the body
+- code: '02'
+  name: anger management
+  cues:
+  - anger
+- code: '03'
+  name: behavior modification
+  cues:
+  - behavior plan
+  - behavior modification
+  - reward chart
+- code: '04'
+  name: bladder care
+  cues: []
+- code: '05'
+  name: bonding/attachment
+  cues:
+  - bonding
+  - attachment
+  - skin to skin
+  - skin-to-skin
+- code: '06'
+  name: bowel care
+  cues: []
+- code: '07'
+  name: cardiac care
+  cues: []
+- code: '08'
+  name: caretaking/parenting skills
+  cues:
+  - parenting
+  - infant care
+  - newborn care
+  - baby care
+  - car seat
+- code: '09'
+  name: cast care
+  cues: []
+- code: '10'
+  name: communication
+  cues:
+  - communication
+- code: '11'
+  name: community outreach worker services
+  cues: []
+- code: '12'
+  name: continuity of care
+  cues:
+  - continuity
+  - follow-up
+  - follow up
+  - next visit
+  - discharge
+- code: '13'
+  name: coping skills
+  cues:
+  - coping
+  - cope
+- code: '14'
+  name: day care/respite
+  cues:
+  - respite
+  - day care
+  - daycare
+  - adult day
+- code: '15'
+  name: dietary management
+  cues:
+  - diet
+  - nutrition
+  - meal plan
+  - feeding
+  - formula
+  - breastfeeding
+  - food
+- code: '16'
+  name: discipline
+  cues: []
+- code: '17'
+  name: dressing change/wound care
+  cues: []
+- code: '18'
+  name: durable medical equipment
+  cues:
+  - walker
+  - wheelchair
+  - commode
+  - hospital bed
+  - glucometer
+  - nebulizer
+  - dme
+- code: '19'
+  name: education
+  cues:
+  - school
+  - ged
+  - esol
+  - esl
+  - education
+- code: '20'
+  name: employment
+  cues:
+  - job
+  - employment
+  - work
+- code: '21'
+  name: end-of-life care
+  cues:
+  - hospice
+  - end of life
+  - palliative
+- code: '22'
+  name: environment
+  cues:
+  - environment
+  - home safety
+  - lead
+  - mold
+  - pests
+  - heat
+- code: '23'
+  name: exercises
+  cues:
+  - exercise
+  - exercises
+- code: '24'
+  name: family planning care
+  cues:
+  - contraception
+  - birth control
+  - family planning
+- code: '25'
+  name: feeding procedures
+  cues:
+  - tube feeding
+  - g-tube
+  - feeding tube
+- code: '26'
+  name: finances
+  cues:
+  - finances
+  - budget
+  - money
+  - benefits
+  - snap
+  - wic
+  - bills
+- code: '27'
+  name: gait training
+  cues: []
+- code: '28'
+  name: genetics
+  cues: []
+- code: '29'
+  name: growth/development care
+  cues:
+  - development
+  - milestones
+  - growth
+  - asq
+  - early intervention
+- code: '30'
+  name: home
+  cues:
+  - home
+  - housing
+  - shelter
+- code: '31'
+  name: homemaking/housekeeping
+  cues: []
+- code: '32'
+  name: infection precautions
+  cues:
+  - infection control
+  - isolation
+  - quarantine
+  - mask
+  - hand hygiene
+  - handwashing
+  - precautions
+- code: '33'
+  name: interaction
+  cues:
+  - rapport
+  - therapeutic relationship
+- code: '34'
+  name: interpreter/translator services
+  cues:
+  - interpreter
+  - translator
+  - translated
+  - language line
+- code: '35'
+  name: laboratory findings
+  cues:
+  - lab
+  - labs
+  - laboratory
+  - test result
+  - results
+  - igra
+  - quantiferon
+  - culture
+  - blood test
+- code: '36'
+  name: legal system
+  cues:
+  - legal
+  - court
+  - lawyer
+  - attorney
+  - immigration
+- code: '37'
+  name: medical/dental care
+  cues:
+  - provider
+  - physician
+  - doctor
+  - pcp
+  - clinic
+  - dentist
+  - dental
+  - appointment
+  - medical care
+  - primary care
+- code: '38'
+  name: medication action/side effects
+  cues:
+  - side effects
+  - side effect
+  - adverse
+  - how the medication works
+  - orange urine
+- code: '39'
+  name: medication administration
+  cues:
+  - administered
+  - dot
+  - directly observed
+  - took medication
+  - dose
+  - doses
+  - injection
+- code: '40'
+  name: medication coordination/ordering
+  cues:
+  - refill
+  - refills
+  - pharmacy
+  - prior authorization
+- code: '41'
+  name: medication prescription
+  cues:
+  - prescribed
+  - prescription
+- code: '42'
+  name: medication set-up
+  cues:
+  - pillbox
+  - pill box
+  - pill organizer
+  - blister pack
+  - set up medications
+- code: '43'
+  name: mobility/transfers
+  cues:
+  - mobility
+  - transfer
+  - transfers
+  - ambulation
+  - walking
+- code: '44'
+  name: nursing care
+  cues:
+  - nursing care
+  - nursing visit
+- code: '45'
+  name: nutritionist care
+  cues:
+  - nutritionist
+  - dietitian
+  - dietician
+- code: '46'
+  name: occupational therapy care
+  cues: []
+- code: '47'
+  name: ostomy care
+  cues: []
+- code: '48'
+  name: other community resources
+  cues:
+  - food pantry
+  - mass 211
+  - community resource
+  - community resources
+  - shelter
+  - fuel assistance
+  - heap
+  - resource list
+  - community health worker
+- code: '49'
+  name: paraprofessional/aide care
+  cues:
+  - home health aide
+  - aide
+  - personal care attendant
+  - pca
+- code: '50'
+  name: personal hygiene
+  cues:
+  - hygiene
+  - bathing
+  - shower
+- code: '51'
+  name: physical therapy care
+  cues: []
+- code: '52'
+  name: positioning
+  cues: []
+- code: '53'
+  name: recreational therapy care
+  cues: []
+- code: '54'
+  name: relaxation/breathing techniques
+  cues:
+  - relaxation
+  - breathing techniques
+  - deep breathing
+- code: '55'
+  name: respiratory care
+  cues:
+  - inhaler
+  - spacer
+  - nebulizer
+  - oxygen
+- code: '56'
+  name: respiratory therapy care
+  cues: []
+- code: '57'
+  name: rest/sleep
+  cues:
+  - sleep
+  - rest
+  - safe sleep
+  - nap
+- code: '58'
+  name: safety
+  cues:
+  - safety
+  - safe sleep
+  - fall prevention
+  - car seat
+  - smoke detector
+  - safety plan
+  - firearm
+- code: '59'
+  name: screening procedures
+  cues:
+  - screening
+  - screened
+  - screen
+  - ppd
+  - tst
+  - edinburgh
+  - phq
+  - asq
+  - hearing screen
+  - vision screen
+  - blood lead
+- code: '60'
+  name: sickness/injury care
+  cues:
+  - first aid
+  - sick child
+  - injury care
+  - fever management
+- code: '61'
+  name: signs/symptoms-mental/emotional
+  cues:
+  - mood
+  - depression
+  - anxiety
+  - stress
+  - emotional
+  - suicidal
+- code: '62'
+  name: signs/symptoms-physical
+  cues:
+  - symptoms
+  - vital signs
+  - blood pressure
+  - temperature
+  - weight
+  - cough
+  - rash
+  - jaundice
+  - fever
+  - pain
+- code: '63'
+  name: skin care
+  cues:
+  - skin care
+  - lotion
+  - pressure relief
+- code: '64'
+  name: social work/counseling care
+  cues:
+  - social worker
+  - counselor
+  - counseling
+  - therapist
+  - mental health provider
+  - behavioral health
+- code: '65'
+  name: specimen collection
+  cues:
+  - specimen
+  - sputum
+  - stool sample
+  - urine sample
+  - blood draw
+  - drew blood
+  - swab
+- code: '66'
+  name: speech and language pathology care
+  cues: []
+- code: '67'
+  name: spiritual care
+  cues:
+  - chaplain
+  - clergy
+  - spiritual
+- code: '68'
+  name: stimulation/nurturance
+  cues:
+  - tummy time
+  - reading to
+  - play
+  - stimulation
+- code: '69'
+  name: stress management
+  cues:
+  - stress management
+  - stress reduction
+- code: '70'
+  name: substance use cessation
+  cues:
+  - quit smoking
+  - cessation
+  - quitline
+  - treatment program
+  - recovery
+  - narcan
+  - naloxone
+- code: '71'
+  name: supplies
+  cues:
+  - supplies
+  - diapers
+  - test strips
+  - syringes
+- code: '72'
+  name: support group
+  cues:
+  - support group
+- code: '73'
+  name: support system
+  cues:
+  - family support
+  - support system
+  - partner support
+  - friends
+- code: '74'
+  name: transportation
+  cues:
+  - transportation
+  - ride
+  - bus
+  - taxi
+  - pt-1
+  - pt1
+- code: '75'
+  name: wellness
+  cues:
+  - wellness
+  - healthy lifestyle
+  - health promotion
+- code: '76'
+  name: other
+  cues: []
+rating_scale:
+  concepts:
+  - id: knowledge
+    label: Knowledge
+    definition: What the client knows.
+    ratings:
+    - value: 1
+      label: No knowledge
+      verified: true
+    - value: 2
+      label: Minimal knowledge
+      verified: true
+    - value: 3
+      label: Basic knowledge
+      verified: true
+    - value: 4
+      label: Adequate knowledge
+      verified: false
+    - value: 5
+      label: Superior knowledge
+      verified: false
+  - id: behavior
+    label: Behavior
+    definition: What the client does.
+    ratings:
+    - value: 1
+      label: Not appropriate behavior
+      verified: true
+    - value: 2
+      label: Rarely appropriate behavior
+      verified: true
+    - value: 3
+      label: Inconsistently appropriate behavior
+      verified: true
+    - value: 4
+      label: Usually appropriate behavior
+      verified: false
+    - value: 5
+      label: Consistently appropriate behavior
+      verified: false
+  - id: status
+    label: Status
+    definition: The number and severity of the client's signs and symptoms or predicament.
+    ratings:
+    - value: 1
+      label: Extreme signs/symptoms
+      verified: true
+    - value: 2
+      label: Severe signs/symptoms
+      verified: true
+    - value: 3
+      label: Moderate signs/symptoms
+      verified: true
+    - value: 4
+      label: Minimal signs/symptoms
+      verified: false
+    - value: 5
+      label: No signs/symptoms
+      verified: false
+  note:
+    text: Three five-point, Likert-type scales measure Knowledge, Behavior, and Status for each problem
+      at regular or predictable times; suggested times include admission, specific interim points, and
+      dismissal.
+    source: omaha-prso
+    section: Problem Rating Scale for Outcomes

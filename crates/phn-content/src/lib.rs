@@ -164,6 +164,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/equity/ahc_hrsn.yaml"),
         schema: include_str!("../../../content/schemas/ahc_hrsn.schema.json"),
     },
+    ContentItem {
+        id: "omaha-system",
+        path: "content/core/omaha_system.yaml",
+        resource_uri: "phn://content/omaha-system",
+        yaml: include_str!("../../../content/core/omaha_system.yaml"),
+        schema: include_str!("../../../content/schemas/omaha_system.schema.json"),
+    },
     // End of Phase 9 content items.
        // Phase 10 content items go below this line.
        // End of Phase 10 content items.

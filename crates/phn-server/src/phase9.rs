@@ -2,6 +2,7 @@
 
 use phn_core::Envelope;
 use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan};
+use phn_tools::core::{OmahaArgs, OmahaResult};
 use phn_tools::equity::{HrsnArgs, HrsnResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -77,5 +78,25 @@ impl PhnServer {
             phn_tools::equity::screen_health_related_social_needs(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "omaha_system_coder",
+        description = "Code a home visit narrative or care plan with the Omaha System (public \
+            domain): suggested problems (42 problems in 4 domains) with codes, modifiers, and \
+            signs/symptoms; interventions as category (Teaching, Guidance, and Counseling; \
+            Treatments and Procedures; Case Management; Surveillance) plus target; and the \
+            Knowledge-Behavior-Status rating scale. The narrative (text, or a note file in /data \
+            via path) is analyzed locally and never returned: only codes and matched vocabulary \
+            terms. Also looks up a problem or target, labels KBS ratings with change from \
+            baseline, and can write a blank care plan (DOCX) to /data/output.",
+        annotations(title = "Omaha System coder", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<OmahaResult>>()
+    )]
+    async fn omaha_system_coder(
+        &self,
+        Parameters(args): Parameters<OmahaArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| phn_tools::core::omaha_system_coder(ctx, args)).await
     }
 }

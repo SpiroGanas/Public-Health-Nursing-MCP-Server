@@ -17,5 +17,8 @@ pub mod medication;
 pub use medication::{MedicationArgs, MedicationResult, lookup_medication_information};
 
 // Phase 9 modules go below this line.
+pub mod omaha;
 pub mod practice;
+
+pub use omaha::{OmahaArgs, OmahaResult, omaha_system_coder};
 // End of Phase 9 modules.
