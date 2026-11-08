@@ -81,6 +81,114 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_school_districts.csv",
         include_str!("../../../snapshots/ma_school_districts.csv"),
     ),
+    // Phase 3 snapshot files go below this line.
+    (
+        "ma_dph_guide_corpus.txt",
+        include_str!("../../../snapshots/ma_dph_guide_corpus.txt"),
+    ),
+    // Phase 4 snapshot files go below this line.
+    (
+        "ma_census_geographies.csv",
+        include_str!("../../../snapshots/ma_census_geographies.csv"),
+    ),
+    (
+        "ma_acs5_indicators.csv",
+        include_str!("../../../snapshots/ma_acs5_indicators.csv"),
+    ),
+    (
+        "ma_acs5_languages_detailed.csv",
+        include_str!("../../../snapshots/ma_acs5_languages_detailed.csv"),
+    ),
+    (
+        "ma_svi_2022.csv",
+        include_str!("../../../snapshots/ma_svi_2022.csv"),
+    ),
+    (
+        "ma_places_2025.csv",
+        include_str!("../../../snapshots/ma_places_2025.csv"),
+    ),
+    (
+        "ma_places_2025_measures.csv",
+        include_str!("../../../snapshots/ma_places_2025_measures.csv"),
+    ),
+    (
+        "ma_boundaries_towns.csv",
+        include_str!("../../../snapshots/ma_boundaries_towns.csv"),
+    ),
+    (
+        "ma_boundaries_tracts.csv",
+        include_str!("../../../snapshots/ma_boundaries_tracts.csv"),
+    ),
+    (
+        "ma_boundaries_zctas.csv",
+        include_str!("../../../snapshots/ma_boundaries_zctas.csv"),
+    ),
+    (
+        "ma_boundaries_school_districts.csv",
+        include_str!("../../../snapshots/ma_boundaries_school_districts.csv"),
+    ),
+    // Phase 5 snapshot files go below this line.
+    (
+        "cdc_cvx.csv",
+        include_str!("../../../snapshots/cdc_cvx.csv"),
+    ),
+    (
+        "cdc_mvx.csv",
+        include_str!("../../../snapshots/cdc_mvx.csv"),
+    ),
+    (
+        "cdc_vaccine_tradenames.csv",
+        include_str!("../../../snapshots/cdc_vaccine_tradenames.csv"),
+    ),
+    (
+        "cdc_vaccine_ndc.csv",
+        include_str!("../../../snapshots/cdc_vaccine_ndc.csv"),
+    ),
+    (
+        "ma_school_immunization_survey.csv",
+        include_str!("../../../snapshots/ma_school_immunization_survey.csv"),
+    ),
+    (
+        "nis_coverage_ma_us.csv",
+        include_str!("../../../snapshots/nis_coverage_ma_us.csv"),
+    ),
+    // Phase 6 snapshot files go below this line.
+    (
+        "nndss_weekly.json",
+        include_str!("../../../snapshots/nndss_weekly.json"),
+    ),
+    (
+        "resp_nhsn.json",
+        include_str!("../../../snapshots/resp_nhsn.json"),
+    ),
+    (
+        "resp_nssp.json",
+        include_str!("../../../snapshots/resp_nssp.json"),
+    ),
+    (
+        "resp_nrevss_covid.json",
+        include_str!("../../../snapshots/resp_nrevss_covid.json"),
+    ),
+    (
+        "resp_nrevss_rsv.json",
+        include_str!("../../../snapshots/resp_nrevss_rsv.json"),
+    ),
+    (
+        "resp_nrevss_national.json",
+        include_str!("../../../snapshots/resp_nrevss_national.json"),
+    ),
+    (
+        "resp_ari.json",
+        include_str!("../../../snapshots/resp_ari.json"),
+    ),
+    (
+        "resp_wval.json",
+        include_str!("../../../snapshots/resp_wval.json"),
+    ),
+    (
+        "mwra_biobot.csv",
+        include_str!("../../../snapshots/mwra_biobot.csv"),
+    ),
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

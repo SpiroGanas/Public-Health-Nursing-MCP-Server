@@ -5,6 +5,7 @@ members = [
     "crates/phn-content",
     "crates/phn-data",
     "crates/phn-epi",
+    "crates/phn-cdsi",
     "crates/phn-local",
     "crates/phn-docs",
     "crates/phn-tools",
@@ -14,7 +15,7 @@ members = [
 default-members = ["crates/*"]
 
 [workspace.package]
-version = "0.2.0"
+version = "0.7.0"
 edition = "2024"
 rust-version = "1.88"
 license = "MIT"
@@ -27,6 +28,7 @@ phn-core = { path = "crates/phn-core" }
 phn-content = { path = "crates/phn-content" }
 phn-data = { path = "crates/phn-data" }
 phn-epi = { path = "crates/phn-epi" }
+phn-cdsi = { path = "crates/phn-cdsi" }
 phn-local = { path = "crates/phn-local" }
 phn-docs = { path = "crates/phn-docs" }
 phn-tools = { path = "crates/phn-tools" }

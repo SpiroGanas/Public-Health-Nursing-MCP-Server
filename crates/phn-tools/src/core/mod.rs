@@ -11,3 +11,7 @@ pub use export::{ExportDocumentArgs, ExportResult, export_document};
 pub use files::{LocalFileResult, ReadLocalFileArgs, read_local_file};
 pub use policies::{PolicySearchResult, SearchPoliciesArgs, search_agency_policies};
 pub use status::{DataSourceStatus, DataSourceStatusArgs, get_data_source_status};
+
+// Phase 5 modules (CORE-07) go below this line.
+pub mod medication;
+pub use medication::{MedicationArgs, MedicationResult, lookup_medication_information};

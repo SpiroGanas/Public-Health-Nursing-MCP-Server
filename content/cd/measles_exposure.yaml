@@ -1,0 +1,181 @@
+# Measles exposure assessment: evidence of immunity, post-exposure prophylaxis, and priority
+# groups, for assess_measles_exposure (CD-07). Exclusion periods come from
+# content/cd/disease_rules.yaml (105 CMR 300.200, measles).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-07).
+# Schema: content/schemas/measles_exposure.schema.json
+meta:
+  id: ma-measles-exposure
+  title: Measles exposure - evidence of immunity, post-exposure prophylaxis, and priority groups
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: "2022"
+  source:
+    title: "Guide to Surveillance, Reporting and Control: Measles (2022), Section 4"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/measles-2022/download
+  related_sources:
+    - title: "Prevention of Measles, Rubella, Congenital Rubella Syndrome, and Mumps, 2013: Summary Recommendations of the ACIP (MMWR 2013;62(RR-4))"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr6204a1.htm
+    - title: "105 CMR 300.200: Isolation and Quarantine Requirements (Mass. Register #1470, 5/27/22)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Transcribed on 2026-11-07 from DPH's measles guide chapter (2022, Section 4B-4C) and the 2013
+    ACIP MMR statement (the IG doses and the 72-hour and 6-day windows appear in both). CDC's
+    measles pages were also fetched (clinical overview updated 2026-08-05). The ACIP statement is
+    from 2013: the subject matter expert must confirm that no later ACIP or DPH change applies,
+    including IG product availability, before Pilot 1.
+
+sources:
+  guide-measles-2022:
+    title: "Guide to Surveillance, Reporting and Control: Measles (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/measles-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  acip-mmr-2013:
+    title: "Prevention of Measles, Rubella, Congenital Rubella Syndrome, and Mumps, 2013 (MMWR 2013;62(RR-4))"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr6204a1.htm
+    effective_date: 2013-06-14
+    retrieved: 2026-11-07
+  cmr300:
+    title: "105 CMR 300.200 (Mass. Register #1470, 5/27/22)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    effective_date: 2022-05-27
+    retrieved: 2026-11-07
+
+evidence_of_immunity:
+  - id: general
+    applies_to: Preschool-aged children (12 months and older) and adults not at high risk for exposure or transmission
+    doses_required: 1
+    born_before_1957_counts: true
+    criteria:
+      - Documentation of at least 1 dose of live measles virus-containing vaccine at age 12 months or older
+      - Laboratory evidence of immunity (positive measles IgG)
+      - Laboratory confirmation of disease
+      - Born before 1957 (in the U.S.)
+    source: acip-mmr-2013
+    section: Evidence of Immunity (Table 3)
+    quote: "Adequate vaccination for measles for preschool-aged children (i.e., aged ≥12 months) and adults not at high risk for exposure or transmission is documentation of vaccination with at least 1 dose of live measles virus-containing vaccine."
+  - id: school_college_travel
+    applies_to: Children in kindergarten through grade 12, students at post-high school institutions, and international travelers
+    doses_required: 2
+    born_before_1957_counts: true
+    criteria:
+      - Documentation of 2 doses of live measles virus-containing vaccine, the first at age 12 months or older, separated by at least 28 days
+      - Laboratory evidence of immunity
+      - Laboratory confirmation of disease
+      - Born before 1957 (in the U.S.)
+    source: acip-mmr-2013
+    section: Evidence of Immunity (Table 3)
+    quote: "For school-aged children in kindergarten through grade 12, students at post-high school educational institutions, health-care personnel, and international travelers, adequate vaccination for measles is documentation of vaccination with 2 doses of live measles virus-containing vaccine separated by at least 28 days."
+  - id: health_care_personnel
+    applies_to: Health care personnel (paid, unpaid, and volunteer)
+    doses_required: 2
+    born_before_1957_counts: false
+    criteria:
+      - Written documentation of 2 doses of MMR vaccine administered at least 28 days apart
+      - Serologic evidence of measles immunity
+      - Laboratory confirmation of disease
+    source: guide-measles-2022
+    section: Section 4C, Health Care Settings, Evidence of Immunity
+    quote: "Acceptable presumptive evidence of immunity in healthcare personnel includes: Written documentation of vaccination with two doses of MMR vaccine administered at least 28 days apart; serologic evidence of measles immunity; or laboratory confirmation of disease."
+
+immunity_notes:
+  - text: Physician-diagnosed disease alone is NOT acceptable evidence of immunity.
+    source: guide-measles-2022
+    section: Section 4B, Presumptive Evidence of Immunity
+  - text: Year of birth does NOT constitute acceptable evidence of immunity for health care workers, and may not constitute acceptable evidence of immunity in foreign-born individuals.
+    source: guide-measles-2022
+    section: Section 4B, Presumptive Evidence of Immunity
+  - text: Susceptibles include those with medical and religious exemptions to immunization.
+    source: guide-measles-2022
+    section: Section 4B, Presumptive Evidence of Immunity
+  - text: In the DPH guide, the second dose must be given prior to or within 72 hours of exposure; in most low-risk situations, people receiving their first dose within 72 hours of exposure will also be considered immune.
+    source: guide-measles-2022
+    section: Section 4B, Presumptive Evidence of Immunity (b)
+  - text: After an exposure, people who get a blood test for immunity should be vaccinated immediately after the blood draw (if not contraindicated) so that vaccination is not delayed if the titer is negative.
+    source: guide-measles-2022
+    section: Section 4B, step 5a note
+
+pep:
+  mmr:
+    within_hours: 72
+    anchor: first_exposure
+    min_age_months: 6
+    text: >-
+      For vaccine-eligible persons aged 12 months or older exposed to measles, MMR vaccine is
+      preferable to IG if administered within 72 hours of initial exposure. For infants aged 6
+      through 11 months, MMR vaccine can be administered in place of IG if administered within 72
+      hours of exposure. Vaccinate susceptibles even if more than 72 hours have passed - it
+      protects against the next generation of cases.
+    source: acip-mmr-2013
+    section: Postexposure Prophylaxis, MMR vaccine
+  immune_globulin:
+    within_days: 6
+    anchor: first_exposure
+    igim_ml_per_kg: 0.5
+    igim_max_ml: 15
+    igiv_mg_per_kg: 400
+    text: >-
+      If administered within 6 days of exposure, IG can prevent or modify measles in persons who
+      are nonimmune. The recommended dose of IGIM is 0.5 mL/kg of body weight (maximum dose =
+      15 mL) and the recommended dose of IGIV is 400 mg/kg. IG is not indicated for persons who
+      have received 1 dose of measles-containing vaccine at age 12 months or older, unless they
+      are severely immunocompromised. IG should not be used to control measles outbreaks.
+    source: acip-mmr-2013
+    section: Postexposure Prophylaxis, Immune globulin
+  mmr_after_ig:
+    months_after_igim: 6
+    months_after_igiv: 8
+    text: Any nonimmune person exposed to measles who received IG should subsequently receive MMR vaccine no earlier than 6 months after IGIM or 8 months after IGIV, provided the person is then aged 12 months or older and the vaccine is not otherwise contraindicated.
+    source: acip-mmr-2013
+    section: Postexposure Prophylaxis, Immune globulin
+
+priority_groups:
+  - id: infant_under_12_months
+    label: Infants under 12 months
+    recommendation: IGIM (0.5 mL/kg) for all exposed infants under 12 months; infants 6 through 11 months may receive MMR instead if within 72 hours of exposure. Infants vaccinated before 12 months need 2 more doses at 12-15 months and 4-6 years.
+    source: acip-mmr-2013
+    section: Infants aged <12 months
+  - id: pregnant_without_immunity
+    label: Pregnant people without evidence of measles immunity
+    recommendation: IGIV (400 mg/kg) within 6 days of exposure. MMR vaccine is contraindicated in pregnancy. Refer to their obstetric provider.
+    source: acip-mmr-2013
+    section: Pregnant women without evidence of measles immunity
+  - id: severely_immunocompromised
+    label: Severely immunocompromised people
+    recommendation: IGIV (400 mg/kg) regardless of immunologic or vaccination status, because they may not be protected by the vaccine. Refer to their provider.
+    source: acip-mmr-2013
+    section: Severely immunocompromised patients
+  - id: adults_over_20
+    label: Adults older than 20 years (CDC - more likely to suffer complications)
+    recommendation: Prioritize follow-up; MMR within 72 hours if susceptible and eligible.
+    source: guide-measles-2022
+    section: Section 4B, step 4
+
+exclusion_summary:
+  - text: "Case and symptomatic contacts: exclude through the 4th day after rash onset (rash onset = day 0); return on the 5th day."
+    source: guide-measles-2022
+    section: Summary of Measles Exclusion Requirements
+  - text: "Discrete exposure: exclude susceptibles on days 5-21 after exposure; return on day 22. Exclusion is enforced even if the person received IG."
+    source: guide-measles-2022
+    section: Summary of Measles Exclusion Requirements
+  - text: "Continuous exposure or multiple cases: exclude susceptibles through day 21 after rash onset in the last case; return on day 22."
+    source: guide-measles-2022
+    section: Summary of Measles Exclusion Requirements
+  - text: "Health care workers and inpatients without evidence of immunity (regardless of year of birth): exclude from day 5 after first exposure through day 21 after last exposure, even if they received IG or post-exposure vaccine."
+    source: cmr300
+    section: 105 CMR 300.200(A), Measles
+  - text: "Schools: susceptible contacts who already had one dose of MMR and received a second dose within 72 hours of exposure can be readmitted; DPH and the board of health decide other exceptions."
+    source: guide-measles-2022
+    section: Section 4C, Schools, Exclusion Criteria

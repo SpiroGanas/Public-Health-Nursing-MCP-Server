@@ -1,0 +1,41 @@
+measureid,short_name,measure,category,data_year,us_crude,us_ageadj,ma_crude,ma_ageadj
+ACCESS2,Health Insurance,Current lack of health insurance among adults aged 18-64 years,Prevention,2023,11.0,11.4,5.2,5.4
+ARTHRITIS,Arthritis,Arthritis among adults,Health Outcomes,2023,25.3,22.1,25.4,22.2
+BINGE,Binge Drinking,Binge drinking among adults,Health Risk Behaviors,2023,15.6,16.9,17.0,18.3
+BPHIGH,High Blood Pressure,High blood pressure among adults,Health Outcomes,2023,34.4,31.0,30.9,27.9
+BPMED,High Blood Pressure Medication,Taking medicine to control high blood pressure among adults with high blood pressure,Prevention,2023,76.3,57.3,75.4,55.6
+CANCER,Cancer (non-skin) or Melanoma,Cancer (non-skin) or melanoma among adults,Health Outcomes,2023,7.8,6.6,8.5,7.1
+CASTHMA,Current Asthma,Current asthma among adults,Health Outcomes,2023,10.0,10.0,11.6,11.7
+CHD,Coronary Heart Disease,Coronary heart disease among adults,Health Outcomes,2023,6.3,5.3,5.8,4.9
+CHECKUP,Annual Checkup,Visits to doctor for routine checkup within the past year among adults,Prevention,2023,77.3,75.5,80.9,79.4
+CHOLSCREEN,Cholesterol Screening,Cholesterol screening among adults,Prevention,2023,86.9,85.3,89.7,88.7
+COGNITION,Cognitive Disability,Cognitive disability among adults,Disability,2023,14.0,14.4,13.7,14.1
+COLON_SCREEN,Colorectal Cancer Screening,Colorectal cancer screening among adults aged 45–75 years,Prevention,2022,65.1,56.5,68.4,63.1
+COPD,COPD,Chronic obstructive pulmonary disease among adults,Health Outcomes,2023,6.3,5.5,5.9,5.1
+CSMOKING,Current Cigarette Smoking,Current cigarette smoking among adults,Health Risk Behaviors,2023,12.1,12.3,11.3,11.6
+DENTAL,Dental Visit,Visited dentist or dental clinic in the past year among adults,Prevention,2022,62.9,62.3,69.8,69.2
+DEPRESSION,Depression,Depression among adults,Health Outcomes,2023,20.9,21.4,23.8,24.4
+DIABETES,Diabetes,Diagnosed diabetes among adults,Health Outcomes,2023,12.0,10.5,9.8,8.6
+DISABILITY,Any Disability,Any disability among adults,Disability,2023,30.2,28.7,27.3,26.0
+EMOTIONSPT,Lack of Social/Emotional Support,Lack of social and emotional support among adults,Health-Related Social Needs,2023,23.8,24.5,23.4,24.0
+FOODINSECU,Food Insecurity,Food insecurity in the past 12 months among adults,Health-Related Social Needs,2023,15.2,15.9,12.4,13.0
+FOODSTAMP,Food Stamps,Received food stamps in the past 12 months among adults,Health-Related Social Needs,2023,11.8,12.4,14.1,14.7
+GHLTH,General Health,Fair or poor self-rated health status among adults,Health Status,2023,19.5,18.6,16.3,15.6
+HEARING,Hearing Disability,Hearing disability among adults,Disability,2023,6.7,5.9,6.0,5.2
+HIGHCHOL,High Cholesterol,High cholesterol among adults who have ever been screened,Health Outcomes,2023,36.9,32.2,35.4,31.3
+HOUSINSECU,Housing Insecurity,Housing insecurity in the past 12 months among adults,Health-Related Social Needs,2023,12.2,13.3,11.1,12.0
+INDEPLIVE,Independent Living Disability,Independent living disability among adults,Disability,2023,8.0,7.8,7.2,7.1
+LACKTRPT,Transportation Barriers,Lack of reliable transportation in the past 12 months among adults,Health-Related Social Needs,2023,8.0,8.5,7.6,7.9
+LONELINESS,Loneliness,Loneliness among adults,Health-Related Social Needs,2023,32.9,33.9,34.2,35.0
+LPA,Physical Inactivity,No leisure-time physical activity among adults,Health Risk Behaviors,2023,24.8,24.0,21.7,21.1
+MAMMOUSE,Mammography,Mammography use among women aged 50-74 years,Prevention,2022,76.3,75.8,83.7,83.4
+MHLTH,Frequent Mental Distress,Frequent mental distress among adults,Health Status,2023,16.0,16.8,16.2,17.0
+MOBILITY,Mobility Disability,Mobility disability among adults,Disability,2023,13.6,12.0,11.6,10.2
+OBESITY,Obesity,Obesity among adults,Health Outcomes,2023,33.0,33.1,27.7,27.8
+PHLTH,Frequent Physical Distress,Frequent physical distress among adults,Health Status,2023,13.0,12.4,12.3,11.6
+SELFCARE,Self-care Disability,Self-care disability among adults,Disability,2023,3.8,3.5,3.1,2.9
+SHUTUTILITY,Utility Services Threat,Utility services shut-off threat in the past 12 months among adults,Health-Related Social Needs,2023,7.7,8.3,7.0,7.7
+SLEEP,Short Sleep Duration,Short sleep duration among adults,Health Risk Behaviors,2022,36.1,36.9,33.6,34.5
+STROKE,Stroke,Stroke among adults,Health Outcomes,2023,3.4,2.9,3.0,2.6
+TEETHLOST,All Teeth Lost,All teeth lost among adults aged >=65 years,Health Outcomes,2022,12.4,12.7,11.9,12.0
+VISION,Vision Disability,Vision disability among adults,Disability,2023,5.4,5.1,4.1,3.9

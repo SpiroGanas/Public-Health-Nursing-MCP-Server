@@ -163,25 +163,34 @@ pub fn to_svg(doc: &Document) -> String {
 
 /// Render the document as PNG at 2x scale using the bundled fonts.
 pub fn to_png(doc: &Document) -> Result<Vec<u8>> {
+    svg_to_png(&to_svg(doc), 2.0).map_err(|e| match e {
+        PhnError::InvalidInput(_) => PhnError::InvalidInput(
+            "the document is too long to render as one image; export to PDF instead".into(),
+        ),
+        other => other,
+    })
+}
+
+/// Rasterize any SVG (charts, maps, documents) to PNG at `scale`, using the
+/// bundled DejaVu Sans fonts so text renders the same on every machine.
+pub fn svg_to_png(svg: &str, scale: f32) -> Result<Vec<u8>> {
     use resvg::{tiny_skia, usvg};
-    let svg = to_svg(doc);
     let mut opt = usvg::Options {
         font_family: "DejaVu Sans".into(),
         ..usvg::Options::default()
     };
     opt.fontdb_mut().load_font_data(fonts::REGULAR.to_vec());
     opt.fontdb_mut().load_font_data(fonts::BOLD.to_vec());
-    let tree = usvg::Tree::from_str(&svg, &opt)
+    let tree = usvg::Tree::from_str(svg, &opt)
         .map_err(|e| PhnError::Internal(format!("SVG render: {e}")))?;
     let size = tree.size();
-    let scale = 2.0;
     let (w, h) = (
         (size.width() * scale).ceil() as u32,
         (size.height() * scale).ceil() as u32,
     );
     if w.saturating_mul(h) > 60_000_000 {
         return Err(PhnError::InvalidInput(
-            "the document is too long to render as one image; export to PDF instead".into(),
+            "the image is too large to render".into(),
         ));
     }
     let mut pixmap = tiny_skia::Pixmap::new(w, h)

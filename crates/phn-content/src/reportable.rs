@@ -13,9 +13,11 @@ use crate::ContentMeta;
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum Timeframe {
-    /// Immediately by telephone, on suspicion.
+    /// Immediately by telephone, on suspicion (105 CMR 300.131-300.136, 300.175,
+    /// 300.181, or a DPH designation for an immediate call).
     Immediate,
-    /// Within 24 hours.
+    /// Immediately, and in no case more than 24 hours after diagnosis
+    /// (105 CMR 300.100), or within 24 hours (300.135, 300.170, 300.180).
     #[serde(rename = "within_24_hours")]
     Within24Hours,
     /// A program-specific channel or schedule (see notes).
@@ -27,7 +29,7 @@ impl Timeframe {
     pub fn label(self) -> &'static str {
         match self {
             Timeframe::Immediate => "IMMEDIATELY by telephone (on suspicion)",
-            Timeframe::Within24Hours => "within 24 hours",
+            Timeframe::Within24Hours => "as soon as possible, and within 24 hours",
             Timeframe::Other => "per the DPH program's requirements (see notes)",
         }
     }
@@ -112,6 +114,9 @@ pub struct Condition {
     pub reporters: Vec<Reporter>,
     pub report_to: Vec<ReportTo>,
     pub guide_chapter: Option<String>,
+    /// Sections of 105 CMR 300.000 (or other named source) the entry was
+    /// transcribed from, e.g. "105 CMR 300.100; 300.170".
+    pub citation: String,
     #[serde(default)]
     pub notes: Option<String>,
     pub confidence: Confidence,
@@ -251,6 +256,85 @@ mod tests {
         assert_eq!(top("pertusis"), "pertussis");
         assert_eq!(top("Neisseria meningitidis"), "meningococcal-disease");
         assert_eq!(top("rabies"), "rabies-human");
+        // Conditions added in the 2026-11-07 re-check.
+        assert_eq!(top("West Nile virus"), "west-nile-virus");
+        assert_eq!(top("aseptic meningitis"), "meningitis-viral");
+        assert_eq!(top("Reye syndrome"), "reye-syndrome");
+        assert_eq!(top("C. diff"), "clostridioides-difficile");
+        assert_eq!(top("alpha-gal syndrome"), "alpha-gal-syndrome");
+        assert_eq!(top("norovirus"), "norovirus");
+        assert_eq!(top("syphilis"), "syphilis");
+    }
+
+    #[test]
+    fn every_name_and_alias_finds_its_own_entry() {
+        for c in &content().conditions {
+            for key in std::iter::once(&c.name).chain(&c.aliases) {
+                let hits = lookup(key);
+                assert_eq!(
+                    hits.first().map(|h| h.condition.id.as_str()),
+                    Some(c.id.as_str()),
+                    "\"{key}\" should find {}",
+                    c.id
+                );
+            }
+        }
+    }
+
+    /// Facts transcribed from 105 CMR 300.000 (Mass. Register #1470, 5/27/22)
+    /// and DPH's provider reporting list (June 2026) in the 2026-11-07 re-check.
+    /// If one fails, the content changed: confirm the change against the
+    /// regulation and DPH's current lists before updating this test.
+    #[test]
+    fn entries_match_the_regulation_text() {
+        let by_id = |id: &str| {
+            content()
+                .conditions
+                .iter()
+                .find(|c| c.id == id)
+                .unwrap_or_else(|| panic!("{id} missing"))
+        };
+        // DPH's immediate-call list includes these ...
+        for id in [
+            "measles",
+            "tetanus",
+            "group-a-streptococcus-invasive",
+            "hemolytic-uremic-syndrome",
+            "tuberculosis",
+        ] {
+            assert_eq!(by_id(id).timeframe, Timeframe::Immediate, "{id}");
+        }
+        // ... but not these, which fall under 300.100's 24-hour limit.
+        for id in ["pertussis", "mumps", "brucellosis", "q-fever"] {
+            assert_eq!(by_id(id).timeframe, Timeframe::Within24Hours, "{id}");
+        }
+        // 300.180: tuberculosis, HIV, and sexually transmitted infections go
+        // directly to DPH, not to the local board of health.
+        for id in ["tuberculosis", "hiv", "syphilis", "gonorrhea", "chlamydia"] {
+            assert_eq!(by_id(id).report_to, vec![ReportTo::Dph], "{id}");
+        }
+        // 300.100 age limits.
+        assert!(
+            by_id("group-b-streptococcus-invasive")
+                .name
+                .contains("younger than one year")
+        );
+        assert!(
+            by_id("streptococcus-pneumoniae-invasive")
+                .name
+                .contains("younger than 18")
+        );
+        // Every entry cites its source.
+        assert!(
+            content()
+                .conditions
+                .iter()
+                .all(|c| !c.citation.trim().is_empty())
+        );
+        // Not named in the regulation or in DPH's lists.
+        for id in ["leptospirosis", "candida-auris"] {
+            assert!(content().conditions.iter().all(|c| c.id != id), "{id}");
+        }
     }
 
     #[test]

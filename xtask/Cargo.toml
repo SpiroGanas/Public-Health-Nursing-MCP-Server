@@ -10,6 +10,9 @@ publish.workspace = true
 [dependencies]
 phn-core.workspace = true
 phn-content.workspace = true
+phn-data.workspace = true
+phn-local.workspace = true
+scraper.workspace = true
 anyhow.workspace = true
 serde.workspace = true
 serde_json.workspace = true

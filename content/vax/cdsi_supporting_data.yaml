@@ -1,0 +1,114 @@
+# CDC Clinical Decision Support for Immunization (CDSi): the supporting data and logic
+# specification behind forecast_immunizations_due (VAX-03), the CDC test cases it is checked
+# against, and the interpretation choices the engine makes where the specification is open.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/cdsi_supporting_data.schema.json
+meta:
+  id: cdsi-supporting-data
+  title: CDC CDSi supporting data, logic specification, and test cases used by the immunization forecaster
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: 2026-08-01
+  source:
+    title: Clinical Decision Support for Immunization (CDSi)
+    publisher: Centers for Disease Control and Prevention, National Center for Immunization and Respiratory Diseases
+    url: https://www.cdc.gov/iis/cdsi/index.html
+  related_sources:
+    - title: "CDSi: Logic Specification for ACIP Recommendations, Version 4.6 (December 13, 2024)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/iis/downloads/logic-spec-acip-rec-4.6.pdf
+    - title: CDSi Supporting Data, Version 4.65 (August 2026)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/iis/downloads/supporting-data-4.65-508.zip
+    - title: CDSi Test Cases, Healthy Childhood and Adult, version 4.46 (August 2026)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/iis/downloads/cdsi-healthy-childhood-and-adult-test-cases-v4.46.xlsx
+    - title: CDSi Test Cases, Underlying Conditions, version 4.6 (September 2025)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/iis/downloads/CDSi-underlying-conditions-test-cases-v4.6.xlsx
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The supporting data are CDC's XML files copied byte for byte (checksums in
+    crates/phn-cdsi/data/manifest.json and tested); the version, dates, URLs, and checksums below
+    were taken from the CDC CDSi page and the downloads on 2026-11-07. The engine was written from
+    the Logic Specification and checked against all of CDC's published test cases; the results
+    and every exception are in docs/cdsi-test-results.md. The interpretation choices listed under
+    engine_choices are the developer's reading of places where the specification leaves room;
+    the subject matter expert should confirm them, review the documented exceptions, and confirm
+    that ACIP-based forecasts are acceptable for agency use alongside DPH and AAP/ACOG positions.
+    CDSi is refreshed with each schedule change; check https://www.cdc.gov/iis/cdsi/index.html
+    for a newer supporting-data version at every review.
+
+supporting_data:
+  version: "4.65"
+  published: 2026-08
+  page_updated: 2026-08-14
+  download_url: https://www.cdc.gov/iis/downloads/supporting-data-4.65-508.zip
+  download_sha256: 741b8fd21c77887c4d2dc9ce1119a58d2659152007bda6791ffc57fdc098ce3d
+  retrieved: 2026-11-07
+  embedded_files: 31
+  manifest: crates/phn-cdsi/data/manifest.json
+  license: U.S. federal government work (CDC); public domain.
+  confidence: high
+
+logic_specification:
+  version: "4.6"
+  date: 2024-12-13
+  url: https://www.cdc.gov/iis/downloads/logic-spec-acip-rec-4.6.pdf
+  sha256: 9b00d92d90629832d82fc41855847b03c8548d9564480cab68cc391a7b824a9e
+
+test_cases:
+  - suite: healthy childhood and adult
+    version: "4.46"
+    published: 2026-08
+    sha256: 350c172a98b2ef28c6bd13215321178721769176bf48c63e190b2dd13ec25835
+    cases: 1064
+    passed: 1064
+  - suite: underlying conditions
+    version: "4.6"
+    published: 2025-09
+    sha256: 6f3939432ff6a2a7bcbcdbf9d834fd62380e62f1422adba976770c87892afc96
+    cases: 337
+    passed: 301
+results_report: docs/cdsi-test-results.md
+known_exceptions: crates/phn-cdsi/tests/fixtures/cdsi_known_exceptions.json
+
+engine_choices:
+  - topic: Interval reference dose (CALCDTINT-1)
+    choice: Intervals from the previous dose are measured from the most recent earlier dose that was evaluated Valid or Not Valid and was not an inadvertent administration; extraneous and sub-standard doses are skipped.
+    confidence: medium
+  - topic: Live virus conflict with a dose of another antigen (CALCDTCONFLICT-2)
+    choice: An earlier live vaccine of another antigen (for example varicella before MMR) has no evaluation status in the series being evaluated, so the minimum conflict end interval (with the 4-day grace period) applies. An earlier dose of the same antigen that was not valid uses the full conflict end interval.
+    confidence: medium
+  - topic: Completed-series conditional skips (Table 6-7)
+    choice: During evaluation a series in the referenced series group counts as complete only if it was completed before the dose being evaluated; during forecasting, if it was completed on or before the reference date.
+    confidence: medium
+  - topic: Vaccine-count conditional skips (CONDSKIP-1)
+    choice: During evaluation only doses before the dose being evaluated are counted; during forecasting, doses on or before the reference date.
+    confidence: medium
+  - topic: Equivalent series groups (Table 8-14)
+    choice: A series group's equivalents are the groups its own prioritized series lists; the relation is not assumed to be symmetric.
+    confidence: medium
+  - topic: Forecast finish date (SELECTB-12)
+    choice: The earliest date plus the minimum intervals (and minimum ages) of the remaining target doses.
+    confidence: medium
+  - topic: Trade names and manufacturers (Table 6-26)
+    choice: Compared only when both the supporting data and the dose record give one; the tool resolves trade names to CVX codes and does not pass them on.
+    confidence: medium
+  - topic: Several vaccine group forecasts for one vaccine group
+    choice: CDSi can select more than one best series (for example a risk series and the standard series, or the childhood and age-50+ pneumococcal series). The tool lists every forecast; forecasts first due more than a year away are summarized on one line.
+    confidence: medium
+  - topic: Country of birth (Table 7-3)
+    choice: Not assumed. Birth-date evidence of immunity that requires U.S. birth (varicella, before 1980) is applied only when the nurse says the person was born in the United States. The test harness assumes U.S. birth.
+    confidence: high
+
+limitations:
+  - Seasonal series (influenza, COVID-19, RSV) follow the season dates in Supporting Data 4.65 (the 2025-26 season). After the season's end date they show "not recommended now" until CDC publishes supporting data with new season dates.
+  - Dose conditions (expired, sub-potent, recalled) and lot expiration dates are supported by the engine but not yet exposed as tool arguments.
+  - Observations are CDSi coded observations (three-digit codes). SNOMED and other codes mapped in the supporting data are not yet accepted.
+  - CDSi encodes CDC/ACIP recommendations only. Massachusetts DPH and AAP/ACOG positions issued since 2025 may differ; compare_vaccine_recommendations covers those.

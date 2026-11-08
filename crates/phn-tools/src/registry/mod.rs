@@ -1,6 +1,15 @@
 //! Tool registry: plan IDs, toolsets, and phases.
+//!
+//! Each phase keeps its tools in its own file (`phase2.rs`, ...) so work on
+//! different phases does not collide. [`tools`] lists every implemented tool.
 
 use phn_core::Toolset;
+
+mod phase2;
+mod phase3;
+mod phase4;
+mod phase5;
+mod phase6;
 
 /// Metadata about one tool.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -15,8 +24,8 @@ pub struct ToolMeta {
     pub phase: u8,
 }
 
-/// Every implemented tool.
-pub const TOOLS: &[ToolMeta] = &[
+/// Tools delivered in Phases 0 and 1.
+const PHASE_0_1: &[ToolMeta] = &[
     // Phase 0
     ToolMeta {
         name: "get_data_source_status",
@@ -87,20 +96,36 @@ pub const TOOLS: &[ToolMeta] = &[
     },
 ];
 
+/// Every phase's tool list, in phase order.
+const PHASES: &[&[ToolMeta]] = &[
+    PHASE_0_1,
+    phase2::TOOLS,
+    phase3::TOOLS,
+    phase4::TOOLS,
+    phase5::TOOLS,
+    phase6::TOOLS,
+];
+
+/// Every implemented tool, in phase order.
+pub fn tools() -> impl Iterator<Item = &'static ToolMeta> {
+    PHASES.iter().flat_map(|p| p.iter())
+}
+
 /// Look up a tool by MCP name.
 pub fn tool(name: &str) -> Option<&'static ToolMeta> {
-    TOOLS.iter().find(|t| t.name == name)
+    tools().find(|t| t.name == name)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::BTreeSet;
 
     #[test]
     fn every_tool_is_documented() {
-        let docs = include_str!("../../../docs/tools.md");
-        let readme = include_str!("../../../README.md");
-        for t in TOOLS {
+        let docs = include_str!("../../../../docs/tools.md");
+        let readme = include_str!("../../../../README.md");
+        for t in tools() {
             assert!(
                 docs.contains(&format!("### `{}` ({}", t.name, t.plan_id)),
                 "{} missing from docs/tools.md",
@@ -111,6 +136,30 @@ mod tests {
                 "{} missing from README",
                 t.name
             );
+        }
+    }
+
+    #[test]
+    fn names_and_plan_ids_are_unique() {
+        let mut names = BTreeSet::new();
+        let mut ids = BTreeSet::new();
+        for t in tools() {
+            assert!(names.insert(t.name), "duplicate tool name {}", t.name);
+            assert!(ids.insert(t.plan_id), "duplicate plan ID {}", t.plan_id);
+        }
+    }
+
+    #[test]
+    fn each_phase_file_lists_only_its_own_phase() {
+        for (i, list) in PHASES.iter().enumerate().skip(1) {
+            for t in *list {
+                assert_eq!(
+                    usize::from(t.phase),
+                    i + 1,
+                    "{} is in the wrong phase file",
+                    t.name
+                );
+            }
         }
     }
 }

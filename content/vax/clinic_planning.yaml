@@ -1,0 +1,256 @@
+# Vaccination clinic planning: assumptions, anaphylaxis kit, epinephrine and diphenhydramine
+# dosing, layout, supplies, and the post-clinic dose reconciliation sheet (VAX-08
+# plan_vaccination_clinic).
+#
+# REVIEW STATUS: pending. HIGH STAKES: the dosing tables are transcribed from the DPH standing
+# orders and Immunize.org; see meta.verification_note.
+# Schema: content/schemas/vax_clinic_planning.schema.json
+meta:
+  id: vax-clinic-planning
+  title: Vaccination clinic planning, anaphylaxis preparedness, and dose reconciliation
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: 2026-09-24
+  source:
+    title: "Standing Order 2026-03: Local Board of Health Administration of Medication for Managing Anaphylaxis in Children and Adolescents to Support Administration of Vaccines, 2026-2027 (signed September 24, 2026)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-medication-for-managing-anaphylaxis-in-children-and-adolescents-to-support-administration-of-vaccines-2026-2027/download
+  related_sources:
+    - title: "Standing Order 2026-04: Local Board of Health Administration of Medication for Managing Anaphylaxis in Adults to Support Administration of Vaccines, 2026-2027 (signed September 24, 2026)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/standing-order-for-local-board-of-health-administration-of-medication-for-managing-anaphylaxis-in-adults-to-support-administration-of-vaccines-2026-2027/download
+    - title: Medical Management of Vaccine Reactions in Children and Teens in a Community Setting (Item P3082a, 4/19/23)
+      publisher: Immunize.org
+      url: https://www.immunize.org/wp-content/uploads/catg.d/p3082a.pdf
+    - title: Medical Management of Vaccine Reactions in Adults in a Community Setting (Item P3082, 4/19/2023)
+      publisher: Immunize.org
+      url: https://www.immunize.org/wp-content/uploads/catg.d/p3082.pdf
+    - title: Vaccine Storage and Handling Toolkit (July 2026), predrawing guidance
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/vaccines/hcp/downloads/storage-handling-toolkit.pdf
+    - title: General Best Practice Guidelines - Preventing and Managing Adverse Reactions
+      publisher: Centers for Disease Control and Prevention / ACIP
+      url: https://www.cdc.gov/vaccines/hcp/imz-best-practices/preventing-managing-adverse-reactions.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The anaphylaxis procedure and the epinephrine and diphenhydramine tables are transcribed from
+    DPH Standing Orders 2026-03 (children and adolescents) and 2026-04 (adults), signed September
+    24, 2026, and from Immunize.org P3082a/P3082 (4/19/2023), all retrieved 2026-11-07. The DPH
+    standing orders authorize qualified local board of health personnel only, and only when the
+    vaccine itself was given under a DPH standing order; other settings need their own medical
+    director's order. Every throughput, staffing, and waste figure marked basis tool_default is the
+    developer's planning assumption with no published source; the nurse should override them with
+    local experience. The subject matter expert must check every dose against the signed standing
+    order before this item is marked reviewed.
+
+assumptions:
+  - id: doses_per_vaccinator_per_hour
+    label: Doses one vaccinator gives per hour
+    value: 12
+    unit: doses/hour
+    basis: tool_default
+    note: Planning default only. Adjust for the population (young children and people with many questions take longer).
+  - id: registrations_per_hour
+    label: Check-ins one registration staff member completes per hour
+    value: 20
+    unit: people/hour
+    basis: tool_default
+    note: Planning default only. Pre-registration and pre-filled screening forms raise throughput.
+  - id: screenings_per_hour
+    label: Screening (contraindication review) per screener per hour
+    value: 15
+    unit: people/hour
+    basis: tool_default
+    note: Planning default only.
+  - id: observation_minutes
+    label: Post-vaccination observation time
+    value: 15
+    unit: minutes
+    basis: source
+    source: General Best Practice Guidelines - Preventing and Managing Adverse Reactions (CDC/ACIP)
+    note: >-
+      CDC - providers, particularly when vaccinating adolescents, should consider observing patients
+      (seated or lying down) for 15 minutes after vaccination; 80% of reported syncope occurs within
+      15 minutes. Some settings use 30 minutes for people with a history of severe allergic
+      reactions (set by your medical director; not specified in the sources used here).
+  - id: waste_factor_pct
+    label: Extra vaccine and supplies for waste and spoilage
+    value: 10
+    unit: percent
+    basis: tool_default
+    note: Planning default only. Multidose vials need more allowance because unused doses are discarded at the beyond-use time.
+  - id: max_predrawn_per_vaccinator
+    label: Most doses predrawn (or manufacturer-filled syringes activated) per vaccinator at a time
+    value: 10
+    unit: doses
+    basis: source
+    source: CDC Vaccine Storage and Handling Toolkit (July 2026)
+    note: >-
+      Predraw only in rare circumstances such as large off-site clinics; draw up only after arriving
+      at the clinic; one multidose vial per vaccinator at a time; set up a separate station for each
+      vaccine type; label each syringe with vaccine, dose, beyond-use date and time, lot, and initials.
+  - id: epinephrine_doses_on_site
+    label: Minimum epinephrine doses on site
+    value: 3
+    unit: doses
+    basis: source
+    source: Immunize.org P3082a/P3082
+    note: At least three epinephrine doses should be available on site, in doses appropriate for the population served.
+  - id: observation_seats_per_monitor
+    label: Observation seats one staff member can watch
+    value: 20
+    unit: seats
+    basis: tool_default
+    note: Planning default only. The observer must be able to see everyone and reach the anaphylaxis kit.
+  - id: observation_chairs_factor
+    label: Observation seats per expected arrival per hour
+    value: 0.25
+    unit: seats per person/hour
+    basis: computed
+    note: Little's law - seats needed = arrivals per hour x observation minutes / 60, plus a margin (tool default margin 25 percent).
+  - id: clinical_lead
+    label: Clinical lead on site (not counted as a vaccinator)
+    value: 1
+    unit: person
+    basis: tool_default
+    note: The standing orders refer to alerting "the lead clinical healthcare professional on-site"; one dedicated lead is the tool's default.
+
+stations:
+  - id: check_in
+    label: Check-in and registration
+    text: Verify identity and eligibility, insurance or VFC eligibility screening, consent.
+  - id: screening
+    label: Screening
+    text: Contraindication and precaution screening; give the current Vaccine Information Statement for each vaccine.
+  - id: vaccination
+    label: Vaccination
+    text: >-
+      One station per vaccinator. Adolescents and adults should be seated or lying down during
+      vaccination (CDC). If predrawing, a separate station for each vaccine type (CDC toolkit).
+  - id: observation
+    label: Observation
+    text: Seated observation area within sight of clinical staff, with the anaphylaxis kit and a clear path for EMS.
+  - id: documentation
+    label: Documentation and exit
+    text: Record doses (lot, site, route, VIS edition) and report to the MIIS; give a vaccination record.
+
+layout_guidance:
+  - One-way flow from entry to check-in, screening, vaccination, observation, and exit, so people do not cross paths.
+  - Keep the anaphylaxis kit, a phone, and a cot or mat at the observation area; mark an EMS access route.
+  - Place vaccine storage (with a data logger) away from heat sources and out of public reach; keep it at the correct temperature throughout the clinic.
+  - Provide privacy screens at vaccination stations and seating for people waiting.
+  - Plan accessible routes and interpreter access (in-person or phone) at check-in and screening.
+layout_basis: tool_default
+
+anaphylaxis_kit:
+  first_line:
+    - Epinephrine 1 mg/mL aqueous solution (1:1000) in prefilled autoinjectors (0.1 mg, 0.15 mg, 0.3 mg as appropriate for the population) or vials/ampules - at least three doses on site.
+    - Epinephrine intranasal spray (DPH standing orders list 1 mg/0.1 mL for 15-30 kg and 2 mg/0.1 mL for 30 kg or heavier; adults 2 mg/0.1 mL).
+  optional:
+    - Diphenhydramine oral - 12.5 mg/5 mL liquid; 25 mg or 50 mg capsules or tablets.
+  supplies:
+    - Syringes (1 and 3 mL) and needles (22 and 25 g; 1", 1 1/4", 1 1/2", and 2") if needed for epinephrine.
+    - Alcohol wipes.
+    - Stethoscope.
+    - Blood pressure measuring device with a variety of cuff sizes.
+    - Light with extra batteries (to examine the mouth and throat).
+    - A timing device, such as a wristwatch, to measure pulse.
+    - Cell phone or access to an on-site phone.
+    - CPR rescue mask with one-way valve.
+    - Oxygen (if available).
+
+anaphylaxis_protocol:
+  - order: 1
+    text: If itching and swelling are limited to the injection site, observe closely for generalized symptoms.
+  - order: 2
+    text: >-
+      If symptoms of anaphylaxis develop, alert the lead clinical healthcare professional on site and
+      call 911. Assess airway, breathing, circulation, and level of consciousness; monitor vital signs
+      every 5 minutes.
+  - order: 3
+    text: >-
+      Give epinephrine - the first-line and most important treatment; there are no absolute
+      contraindications to epinephrine in anaphylaxis. Intramuscular in the anterolateral (mid-outer)
+      thigh. If EMS has not arrived and there is no improvement, or symptoms persist or worsen, repeat
+      up to 2 more times at 5-15 minute intervals (intranasal - may repeat 1 time in the same
+      nostril).
+  - order: 4
+    text: >-
+      Optional - an antihistamine (diphenhydramine) for itching and hives only. It does not relieve
+      airway obstruction, hypotension, or shock and is never given instead of epinephrine.
+  - order: 5
+    text: >-
+      Monitor blood pressure and pulse every 5 minutes; CPR if needed; keep the person flat on the
+      back unless breathing is difficult (head may be raised if blood pressure allows); elevate legs if
+      blood pressure is low.
+  - order: 6
+    text: Record the reaction, all vital signs, medications given (time, dose, response, who gave them), and other clinical information.
+  - order: 7
+    text: Notify the patient's primary care provider, if able.
+  - order: 8
+    text: Report the event to the Vaccine Adverse Event Reporting System (VAERS).
+
+epinephrine:
+  im_dose_rule:
+    children: 0.01 mg/kg per dose of 1 mg/mL (1:1000) solution, up to a maximum single dose of 0.5 mg, IM in the anterolateral thigh.
+    adults: 0.01 mg/kg, ranging for adults from 0.3 mg to a maximum of 0.5 mg; autoinjector 0.3 mg IM in the mid-outer thigh.
+    repeat: May repeat 2 more times at 5-15 minute intervals while waiting for EMS.
+  weight_preferred_note: If body weight is known, dosing by weight is preferred. If weight is not known or not readily available, dosing by age is appropriate.
+  # Age/weight bands: DPH Standing Order 2026-03 (autoinjector column) and Immunize.org P3082a
+  # (1 mg/mL volume column). Weights are rounded 50th-percentile weights for each age range.
+  bands:
+    - {age_group: 1-6 months, weight_lb: 9-19, min_kg: 4, max_kg: 8.5, solution_dose: 0.05 mL (or mg), autoinjector: off label}
+    - {age_group: 7-36 months, weight_lb: 20-32, min_kg: 9, max_kg: 14.5, solution_dose: 0.1 mL (or mg), autoinjector: 0.1 mg (approved for 7.5 to 14 kg)}
+    - {age_group: 37-59 months, weight_lb: 33-39, min_kg: 15, max_kg: 17.5, solution_dose: 0.15 mL (or mg), autoinjector: 0.15 mg/dose}
+    - {age_group: 5-7 years, weight_lb: 40-56, min_kg: 18, max_kg: 25.5, solution_dose: 0.2-0.25 mL (or mg), autoinjector: 0.15 mg/dose}
+    - {age_group: 8-10 years, weight_lb: 57-76, min_kg: 26, max_kg: 34.5, solution_dose: 0.25-0.3 mL (or mg), autoinjector: 0.15 mg or 0.3 mg/dose}
+    - {age_group: 11-12 years, weight_lb: 77-99, min_kg: 35, max_kg: 45, solution_dose: 0.35-0.4 mL (or mg), autoinjector: 0.3 mg/dose}
+    - {age_group: 13 years and older, weight_lb: 100+, min_kg: 46, max_kg: null, solution_dose: 0.5 mL (or mg) - maximum dose, autoinjector: 0.3 mg/dose}
+  minimum_solution_dose_ml: 0.05
+  intranasal:
+    - DPH Standing Order 2026-03 (18 and younger) - epinephrine intranasal 1 mg/0.1 mL for 15-30 kg, 2 mg/0.1 mL for 30 kg or heavier; one spray in one nostril; may repeat 1 time in the same nostril.
+    - DPH Standing Order 2026-04 (19 and older) - epinephrine intranasal 2 mg/0.1 mL; one spray in one nostril; may repeat 1 time in the same nostril.
+
+diphenhydramine:
+  rule: 1-2 mg/kg by mouth every 4 hours (DPH standing orders; Immunize.org says every 4-6 hours), up to a maximum single dose of 100 mg for adults.
+  max_single_dose_note: AAP Red Book 2021-2024 (cited by DPH and Immunize.org) - maximum single dose 40 mg under age 12 and 100 mg at 12 and older.
+  bands:
+    - {age_group: 7-36 months, weight_lb: 20-32, min_kg: 9, max_kg: 14.5, dose: 10-15 mg/dose}
+    - {age_group: 37-59 months, weight_lb: 33-39, min_kg: 15, max_kg: 17.5, dose: 15-20 mg/dose}
+    - {age_group: 5-7 years, weight_lb: 40-56, min_kg: 18, max_kg: 25.5, dose: 20-25 mg/dose}
+    - {age_group: 8-12 years, weight_lb: 57-99, min_kg: 26, max_kg: 45, dose: 25-50 mg/dose}
+    - {age_group: 13 years and older, weight_lb: 100+, min_kg: 46, max_kg: null, dose: 50 mg/dose (up to 50 mg or 100 mg single dose)}
+
+supplies_per_dose:
+  - {item: Syringe and needle (or manufacturer-filled syringe needle), per_dose: 1, basis: tool_default}
+  - {item: Alcohol prep pad, per_dose: 1, basis: tool_default}
+  - {item: Adhesive bandage, per_dose: 1, basis: tool_default}
+  - {item: Gauze pad, per_dose: 1, basis: tool_default}
+  - {item: Pair of gloves (if your policy uses gloves), per_dose: 1, basis: tool_default}
+  - {item: Vaccine Information Statement copy (or electronic access), per_dose: 1, basis: tool_default}
+  - {item: Screening and consent form, per_dose: 1, basis: tool_default}
+  - {item: Vaccination record card, per_dose: 1, basis: tool_default}
+sharps_container_doses: 100
+sharps_container_basis: tool_default
+
+reconciliation_columns:
+  - Vaccine
+  - Manufacturer
+  - Lot number
+  - Expiration date
+  - Funding source (state-supplied/VFC or private)
+  - Doses on hand at start
+  - Doses received during clinic
+  - Doses administered (from records)
+  - Doses wasted (drawn up not given, dropped, beyond-use)
+  - Doses expired
+  - Doses returned to storage
+  - Expected remaining (start + received - administered - wasted - expired)
+  - Counted remaining
+  - Difference (counted - expected)
+  - Explanation of any difference
+  - Reconciled by (name, date)

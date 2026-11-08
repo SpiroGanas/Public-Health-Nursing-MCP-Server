@@ -2,14 +2,21 @@
 //!
 //! ```text
 //! cargo xtask build-snapshots [--check] [--source-dir DIR]
+//! cargo xtask build-public-snapshots [--check] [--source-dir DIR] [--only ID]
+//! cargo xtask build-surveillance-snapshots
+//! cargo xtask build-guide-corpus [--check] [--source-dir DIR]
 //! cargo xtask build-name-lists
 //! cargo xtask validate-content [--today YYYY-MM-DD]
 //! ```
 
 mod content;
 mod download;
+mod guide_corpus;
 mod names;
+mod public_data;
+mod rtf;
 mod snapshots;
+mod surveillance;
 
 use std::path::PathBuf;
 
@@ -24,7 +31,19 @@ fn main() -> Result<()> {
             let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
             snapshots::run(&root, check, source_dir)
         }
+        Some("build-public-snapshots") => {
+            let check = args.iter().any(|a| a == "--check");
+            let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
+            let only = flag_value(&args, "--only");
+            public_data::run(&root, check, source_dir, only)
+        }
+        Some("build-surveillance-snapshots") => surveillance::run(&root),
         Some("build-name-lists") => names::run(&root),
+        Some("build-guide-corpus") => {
+            let check = args.iter().any(|a| a == "--check");
+            let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
+            guide_corpus::run(&root, check, source_dir)
+        }
         Some("validate-content") => {
             let today = match flag_value(&args, "--today") {
                 Some(d) => chrono::NaiveDate::parse_from_str(&d, "%Y-%m-%d")?,
@@ -35,7 +54,10 @@ fn main() -> Result<()> {
         _ => {
             eprintln!(
                 "usage: cargo xtask <build-snapshots [--check] [--source-dir DIR] | \
-                 build-name-lists | validate-content [--today YYYY-MM-DD]>"
+                 build-public-snapshots [--check] [--source-dir DIR] [--only ID] | \
+                 build-surveillance-snapshots | build-guide-corpus [--check] [--source-dir DIR] | \
+                 build-name-lists | \
+                 validate-content [--today YYYY-MM-DD]>"
             );
             bail!("unknown or missing command")
         }

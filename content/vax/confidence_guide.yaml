@@ -1,0 +1,324 @@
+# Motivational-interviewing conversation guide for vaccine questions (VAX-09
+# vaccine_confidence_conversation_guide).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/vax_confidence_guide.schema.json
+meta:
+  id: vax-confidence-guide
+  title: Vaccine confidence conversation guide (motivational interviewing)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: Vaccine Confidence and Addressing Concerns (clinical resources by topic)
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/vaccine-confidence/
+  related_sources:
+    - title: Clinician-Family Immunization Communications FAQs (last updated 01/20/2026)
+      publisher: American Academy of Pediatrics
+      url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+    - title: "Fact Checked: Vaccines: Safe and Effective, No Link to Autism (last updated 12/04/2025)"
+      publisher: American Academy of Pediatrics
+      url: https://www.aap.org/en/news-room/fact-checked/fact-checked-vaccines-safe-and-effect-no-link-to-autism/
+    - title: "Fact Checked: Receiving Multiple Vaccines Does Not Overwhelm a Child's Immune System (last updated 10/10/2025)"
+      publisher: American Academy of Pediatrics
+      url: https://www.aap.org/en/news-room/fact-checked/fact-checked-receiving-multiple-vaccines-does-not-overwhelm-a-childs-immune-system/
+    - title: Autism and Vaccines (page dated July 22, 2026)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/vaccine-safety/about/autism.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The conversation steps follow the general motivational-interviewing pattern (open question,
+    reflection, asking permission, offering information, summarizing); the wording is the
+    developer's draft. Every factual statement is taken from the source cited beside it, retrieved
+    2026-11-07. Where federal pages now differ from AAP, Immunize.org, and DPH (notably CDC's autism
+    page, revised in 2025-2026 to say the claim that vaccines do not cause autism is "not an
+    evidence-based claim"), the divergence is stated. The subject matter expert should review the
+    wording for tone and accuracy, and check reading level with families, before use.
+
+sources:
+  aap_faq:
+    title: Clinician-Family Immunization Communications FAQs
+    publisher: American Academy of Pediatrics
+    url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+    date: 2026-01-20
+  aap_autism:
+    title: "Fact Checked: Vaccines: Safe and Effective, No Link to Autism"
+    publisher: American Academy of Pediatrics
+    url: https://www.aap.org/en/news-room/fact-checked/fact-checked-vaccines-safe-and-effect-no-link-to-autism/
+    date: 2025-12-04
+  aap_overwhelm:
+    title: "Fact Checked: Receiving Multiple Vaccines Does Not Overwhelm a Child's Immune System"
+    publisher: American Academy of Pediatrics
+    url: https://www.aap.org/en/news-room/fact-checked/fact-checked-receiving-multiple-vaccines-does-not-overwhelm-a-childs-immune-system/
+    date: 2025-10-10
+  aap_hpv:
+    title: Human Papillomavirus (HPV) Vaccines
+    publisher: American Academy of Pediatrics
+    url: https://www.aap.org/en/patient-care/immunizations/human-papillomavirus-vaccines/
+    date: null
+  immunize_autism:
+    title: "Autism: Resources & Information"
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/vaccine-confidence/topic/autism/
+    date: 2025-11-20
+  immunize_adjuvants:
+    title: Adjuvants and Other Vaccine Ingredients
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/vaccine-confidence/topic/adjuvants/
+    date: 2025-11-04
+  immunize_altsched:
+    title: Alternative Schedules
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/vaccine-confidence/topic/alt-schedules/
+    date: 2026-07-09
+  immunize_responding:
+    title: "Responding to Parents: Resources & Information"
+    publisher: Immunize.org
+    url: https://www.immunize.org/clinical/vaccine-confidence/topic/responding-parents/
+    date: 2025-11-03
+  cdc_autism:
+    title: Autism and Vaccines
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/vaccine-safety/about/autism.html
+    date: 2026-07-22
+  cdc_adverse:
+    title: General Best Practice Guidelines - Preventing and Managing Adverse Reactions
+    publisher: Centers for Disease Control and Prevention / ACIP
+    url: https://www.cdc.gov/vaccines/hcp/imz-best-practices/preventing-managing-adverse-reactions.html
+    date: null
+  dph_covid:
+    title: Recommendations for the Use of COVID-19 Vaccines for the 2026-2027 Respiratory Season
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download
+    date: 2026-09-18
+  dph_flu:
+    title: Recommendations for the Use of Seasonal Influenza Vaccines for the 2026-2027 Respiratory Season
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/dph-2026-27-influenza-vaccine-recommendations/download
+    date: 2026-09-09
+  dph_rsv_peds:
+    title: Recommendations for the Use of RSV Vaccines to Protect Infants and Young Children, 2026-2027
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/dph-2026-27-pediatric-vaccination-rsv/download
+    date: 2026-10-05
+  dph_pediatric_reference:
+    title: Guidance on Recommended Reference Materials for Pediatric Immunization Schedules (January 2026)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/dph-guidance-on-recommended-reference-materials-for-pediatric-immunization/download
+    date: 2026-01-05
+
+mi_principles:
+  - Ask open questions and listen before giving information.
+  - Reflect what you heard, including the feeling behind it, and affirm the parent's goal of protecting their child.
+  - Ask permission before sharing information ("Would it help if I shared what we know?").
+  - Offer a small amount of clear information, then check understanding.
+  - Summarize, respect autonomy, and agree on a next step (even a partial one); keep the door open.
+
+translated_resources:
+  - language: Spanish
+    title: "AAP fact checks (\"View in Spanish\") and DPH school requirement documents in Spanish"
+    url: https://www.mass.gov/info-details/school-immunizations
+  - language: Portuguese (Brazilian)
+    title: DPH school immunization requirements and MenACWY flyer in Brazilian Portuguese
+    url: https://www.mass.gov/info-details/school-immunizations
+  - language: Haitian Creole
+    title: DPH school immunization requirements and MenACWY flyer in Haitian Creole
+    url: https://www.mass.gov/info-details/school-immunizations
+  - language: many
+    title: Vaccine Information Statement translations (about 48 languages; give the current English VIS too)
+    url: https://www.immunize.org/vaccines/vis-translations/
+
+concerns:
+  - id: safety
+    title: General vaccine safety
+    aliases: [is it safe, side effects, vaccine injury, dangerous, long term effects, safety]
+    open_question: What have you heard about vaccine safety that worries you most?
+    reflection: >-
+      It sounds like you want to be sure anything you give your child is safe. That is exactly what
+      a careful parent would want.
+    permission: Would it help if I shared how vaccines are checked for safety and what side effects to expect?
+    facts:
+      - text: >-
+          Most side effects are minor, like redness and soreness where the shot was given, muscle
+          aches, fever, and tiredness. In rare cases vaccines have caused fainting or allergic
+          reactions.
+        source: aap_faq
+      - text: >-
+          Rumors about long-term effects on development are not true. When two things happen around
+          the same time, it can look like one caused the other; research does not support these
+          claims.
+        source: aap_faq
+      - text: Vaccines are tested in clinical trials before licensure and are monitored for safety after.
+        source: immunize_adjuvants
+      - text: >-
+          Fainting can happen after shots, mostly in teens. Sitting or lying down during the shot and
+          for 15 minutes after helps prevent injury.
+        source: cdc_adverse
+    next_step: Offer the Vaccine Information Statement for each vaccine and invite questions after the family reads it.
+  - id: ingredients
+    title: Vaccine ingredients (adjuvants, preservatives, aluminum)
+    aliases: [ingredients, aluminum, adjuvant, preservative, thimerosal, toxins, formaldehyde, whats in it]
+    open_question: Which ingredients are you wondering about?
+    reflection: You want to know exactly what goes into your child's body. That makes sense.
+    permission: Can I tell you what those ingredients do and how they are tested?
+    facts:
+      - text: >-
+          Adjuvants are added to some vaccines to help the body build a stronger immune response.
+          Other ingredients inactivate viruses or bacteria, preserve the vaccine, or keep it from
+          losing strength over time.
+        source: immunize_adjuvants
+      - text: Adjuvants and other ingredients are tested for safety in clinical trials before a vaccine is licensed in the United States.
+        source: immunize_adjuvants
+    divergence: >-
+      ACIP (June 2025) recommended only single-dose, thimerosal-free influenza vaccines for children,
+      pregnant women, and adults; single-dose syringes are widely used for children.
+    next_step: Offer the package insert or the Immunize.org ingredients handout for the specific vaccine.
+  - id: autism
+    title: Vaccines and autism
+    aliases: [autism, mmr autism, asd, causes autism, wakefield]
+    open_question: What have you heard about vaccines and autism?
+    reflection: >-
+      You love your child and you want to do everything you can to support their development. It is
+      hard when you hear different things from different places.
+    permission: May I share what the research shows?
+    facts:
+      - text: >-
+          Studies in many countries, involving thousands of children over several decades, have found
+          no credible link between childhood vaccines and autism.
+        source: aap_autism
+      - text: >-
+          The original report claiming the MMR vaccine causes autism was retracted because of
+          fraudulent data, and its author lost his license to practice medicine.
+        source: aap_autism
+      - text: >-
+          Autism is often first noticed between 12 and 24 months, the same age many vaccines are
+          given, which can give a false impression of a link.
+        source: aap_autism
+      - text: Many scientific studies have tested the MMR, thimerosal, and "too many vaccines" claims; none has shown any correlation between vaccines and autism.
+        source: immunize_autism
+    divergence: >-
+      CDC's "Autism and Vaccines" page (dated July 22, 2026) now says the claim "vaccines do not cause
+      autism" is "not an evidence-based claim" and describes an HHS assessment of autism causes. AAP
+      and Immunize.org continue to state that research shows no link. Families may have seen the CDC
+      page; acknowledge it calmly and explain what the body of research shows.
+    next_step: Offer to talk about autism screening and early support, which help children most when started early.
+  - id: too_many_too_soon
+    title: Too many vaccines too soon, or spacing them out
+    aliases: [too many shots, too soon, overwhelm immune system, spread out, alternative schedule, delay, one at a time]
+    open_question: What worries you about the number of shots?
+    reflection: Seeing several shots at one visit can feel like a lot for a small baby.
+    permission: Would it help to hear how the schedule was designed?
+    facts:
+      - text: >-
+          Babies meet about 2,000 to 6,000 immune-triggering substances (antigens) every day. The
+          entire childhood schedule contains about 165 antigens.
+        source: aap_overwhelm
+      - text: Research shows getting several vaccines at the same visit is safe; there is no medical reason to delay or space out childhood vaccines.
+        source: aap_overwhelm
+      - text: >-
+          Alternative schedules have not been tested, reviewed, or approved by any medical authority
+          or public health group; they delay immunity and leave children unprotected longer.
+        source: immunize_altsched
+      - text: The time a child goes without a recommended vaccine is time they stay vulnerable to infections, some of them severe.
+        source: aap_faq
+    next_step: If the family will accept only some shots today, discuss which diseases are most likely right now and book the next visit before they leave.
+  - id: cdc_changes
+    title: '"The CDC changed the schedule - which do I follow?"'
+    aliases: [cdc changed, new schedule, denmark, shared clinical decision making, optional vaccines, which schedule]
+    open_question: What have you heard about the changes?
+    reflection: It is confusing when the advice you hear in the news is different from what your child's doctor says.
+    permission: Can I explain what changed and what Massachusetts recommends?
+    facts:
+      - text: >-
+          In January 2026 the CDC stopped routinely recommending vaccines against hepatitis A,
+          hepatitis B, rotavirus, RSV, flu, and meningococcal disease for all children; they are now
+          based on risk or a discussion with a clinician.
+        source: aap_faq
+      - text: There was no new information showing these vaccines are unsafe or do not work.
+        source: aap_faq
+      - text: >-
+          The Massachusetts Department of Public Health recommends that families and clinicians use
+          the American Academy of Pediatrics schedule.
+        source: dph_pediatric_reference
+      - text: Public and private insurers should continue to cover vaccines that have been on the childhood schedule.
+        source: aap_faq
+    next_step: Review the child's record against the AAP schedule and the Massachusetts school requirements together.
+  - id: hpv
+    title: HPV vaccine
+    aliases: [hpv, gardasil, cervical cancer, too young for hpv, sexual activity]
+    open_question: What questions do you have about the HPV vaccine?
+    reflection: You want to make the right choice for your child at the right time.
+    permission: May I tell you why it is given at this age?
+    facts:
+      - text: >-
+          Almost all adults get some type of HPV during their lives. HPV is the leading cause of at
+          least six types of cancer.
+        source: aap_hpv
+      - text: HPV vaccination during adolescence protects against over 90% of the cancers caused by the virus.
+        source: aap_hpv
+      - text: AAP recommends routine HPV vaccination for all adolescents starting between ages 9 and 12.
+        source: aap_hpv
+    next_step: Offer the first dose today with the other adolescent vaccines, and schedule the second dose 6 to 12 months later.
+  - id: covid19
+    title: COVID-19 vaccine
+    aliases: [covid, covid shot, booster, mrna, myocarditis]
+    open_question: What is on your mind about the COVID-19 vaccine?
+    reflection: You have heard a lot of different advice about COVID-19 shots, and you want to know what makes sense now.
+    permission: Can I share what the Massachusetts Department of Public Health recommends this season?
+    facts:
+      - text: >-
+          Babies 6 to 23 months have COVID-19 hospitalization rates similar to adults 50 to 64, and
+          most hospitalized babies had no underlying conditions. DPH recommends vaccination for this
+          age group.
+        source: dph_covid
+      - text: >-
+          COVID-19 vaccines are effective in children; one CDC analysis found 76% effectiveness against
+          emergency or urgent care visits in children 9 months to 4 years in the first months after
+          vaccination.
+        source: dph_covid
+      - text: Healthy children 2 to 18 years who are not in a higher-risk group may receive one dose.
+        source: dph_covid
+    divergence: Federal guidance (ACIP, September 2025) makes COVID-19 vaccination an individual decision for everyone 6 months and older.
+    next_step: Check whether the child or a household member is at higher risk, which makes the recommendation stronger.
+  - id: influenza
+    title: Flu vaccine
+    aliases: [flu, flu shot, influenza, never get the flu, flu shot gave me flu]
+    open_question: How have flu shots gone for your family in the past?
+    reflection: It makes sense to wonder whether a yearly shot is worth it.
+    permission: Would it help to hear what we know about flu in children?
+    facts:
+      - text: >-
+          During the 2025-2026 season, nine children died of flu in Massachusetts and 191 nationwide.
+          In one study, flu vaccination reduced the risk of dying from flu by 80% in children with or
+          without underlying conditions.
+        source: dph_flu
+      - text: DPH recommends that everyone 6 months and older get a flu vaccine every year unless there is a contraindication.
+        source: dph_flu
+    divergence: The January 2026 federal change no longer routinely recommends flu vaccine for all children; DPH and AAP still do.
+    next_step: Offer the vaccine today; children under 9 who have not had 2 doses before need 2 doses 4 weeks apart.
+  - id: pregnancy
+    title: Vaccines during pregnancy
+    aliases: [pregnant, pregnancy, expecting, breastfeeding, lactation, tdap pregnancy, rsv pregnancy]
+    open_question: What are you weighing as you think about vaccines during your pregnancy?
+    reflection: You are thinking about protecting both yourself and your baby. That matters a lot.
+    permission: May I share how vaccines during pregnancy protect newborns?
+    facts:
+      - text: >-
+          COVID-19 vaccination during pregnancy can cut the risk of COVID-19 hospitalization for
+          infants by more than half in the first three months of life; there is no evidence of harm to
+          the pregnant person or fetus.
+        source: dph_covid
+      - text: >-
+          Maternal RSV vaccine (Abrysvo) given at 32 to 36 weeks protects the baby through antibodies
+          passed before birth; in a recent review, it lowered RSV hospitalization of infants by 51% to
+          74% across studies.
+        source: dph_rsv_peds
+      - text: Flu vaccine during pregnancy has been linked in multiple studies to less flu in babies during their first months, before they can be vaccinated.
+        source: dph_flu
+    divergence: Federal guidance no longer routinely recommends COVID-19 vaccination in pregnancy; DPH and ACOG (as adopted by DPH) do.
+    next_step: Coordinate timing with the prenatal care provider (Tdap at 27-36 weeks; RSV vaccine at 32-36 weeks in season).

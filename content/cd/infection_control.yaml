@@ -1,0 +1,473 @@
+# Infection control for congregate settings: transmission-based precautions, PPE, cohorting,
+# and EPA-registered disinfectant lists by pathogen, for infection_control_for_congregate_settings
+# (CD-13).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-07).
+# Schema: content/schemas/infection_control.schema.json
+meta:
+  id: ma-infection-control
+  title: Infection control for congregate settings (precautions, PPE, cohorting, disinfectants)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: "Guideline for Isolation Precautions: Preventing Transmission of Infectious Agents in Healthcare Settings (2007), Appendix A"
+    publisher: CDC and the Healthcare Infection Control Practices Advisory Committee (HICPAC)
+    url: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+  related_sources:
+    - title: Selected EPA-Registered Disinfectants
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/pesticide-registration/selected-epa-registered-disinfectants
+    - title: "105 CMR 300.020 (definitions of precautions) and 300.200(C) (standard precautions)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    - title: Norovirus information for health care facilities, and for child care programs and K-12 schools
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/norovirus-information-for-health-care-facilities
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-07 from CDC/HICPAC Appendix A (page updated 2026-09-11), EPA's Selected
+    EPA-Registered Disinfectants page (updated 2026-08-24), the precaution definitions in
+    105 CMR 300.020, and DPH norovirus and respiratory virus guidance. Precaution types and
+    durations are transcribed (high confidence); setting notes are summaries (medium). EPA
+    product lists change often: the tool links to each list rather than naming products. The
+    subject matter expert must review before Pilot 1.
+
+sources:
+  cdc-appendix-a:
+    title: "Guideline for Isolation Precautions (2007), Appendix A: Type and Duration of Precautions"
+    publisher: CDC / HICPAC
+    url: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+    effective_date: 2026-09-11
+    retrieved: 2026-11-07
+  epa-disinfectants:
+    title: Selected EPA-Registered Disinfectants
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/pesticide-registration/selected-epa-registered-disinfectants
+    effective_date: 2026-08-24
+    retrieved: 2026-11-07
+  cmr300:
+    title: "105 CMR 300.000 (Mass. Register #1470, 5/27/22)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    effective_date: 2022-05-27
+    retrieved: 2026-11-07
+  dph-norovirus-hcf:
+    title: Norovirus information for health care facilities
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/norovirus-information-for-health-care-facilities
+    effective_date: null
+    retrieved: 2026-11-07
+  dph-norovirus-schools:
+    title: Norovirus information for child care programs and K-12 schools
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    effective_date: null
+    retrieved: 2026-11-07
+  dph-respiratory-public:
+    title: Staying home to prevent the spread of respiratory viruses
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/staying-home-to-prevent-the-spread-of-respiratory-viruses
+    effective_date: null
+    retrieved: 2026-11-07
+  dph-respiratory-hcp:
+    title: Guidance for Health Care Personnel with a Respiratory Viral Pathogen Infection or Exposure
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/guidance/guidance-for-health-care-personnel-with-a-respiratory-viral-pathogen-infection-or-exposure
+    effective_date: 2025-09-01
+    retrieved: 2026-11-07
+  guide-salmonellosis-non-typhoid:
+    title: "Guide to Surveillance, Reporting and Control: Salmonellosis (Non-Typhoid)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/salmonellosis-non-typhoid/download
+    effective_date: null
+    retrieved: 2026-11-07
+  guide-measles-2022:
+    title: "Guide to Surveillance, Reporting and Control: Measles (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/measles-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  factsheet-scabies:
+    title: Scabies (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/scabies
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-head-lice:
+    title: Head Lice (Pediculosis) (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/head-lice-pediculosis
+    effective_date: null
+    retrieved: 2026-11-07
+
+precaution_types:
+  - id: standard
+    label: Standard precautions
+    definition: Refers to consistent and prudent preventive measures to be used at all times regardless of patient's infection status. The Department adopts, by reference, as standard precautions for infection control, the 2007 Guideline for Isolation Precautions.
+    ppe: [Hand hygiene, Gloves for contact with blood and body fluids, Gown and eye or face protection when splashes are likely, Respiratory hygiene and cough etiquette]
+    source: cmr300
+    section: 105 CMR 300.020, Standard Precautions
+  - id: contact
+    label: Contact precautions
+    definition: Measures designed to reduce the risk of transmission of infectious agents that can be spread through direct contact with the patient or indirect contact with potentially infectious items or surfaces. Gloves and gowns are required for all patient contact and contact with the patient's environment; strict hand hygiene practices must also be applied.
+    ppe: [Gown, Gloves, Strict hand hygiene]
+    source: cmr300
+    section: 105 CMR 300.020, Contact Precautions
+  - id: droplet
+    label: Droplet precautions
+    definition: Measures designed to reduce the risk of transmission of infectious agents via large particle droplets that do not remain suspended in air, usually generated by coughing, sneezing or talking. Masks must be used, but gowns, gloves and special air handling are not generally needed.
+    ppe: [Facemask (surgical or procedure mask)]
+    source: cmr300
+    section: 105 CMR 300.020, Droplet Precautions
+  - id: airborne
+    label: Airborne precautions
+    definition: Measures designed to reduce the risk of transmission of infectious agents that may be suspended in the air in either small particle aerosols or dust particles (i.e. droplet nuclei <= 5 microns). Patients in health care facilities must be given a private room with special air handling and ventilation (negative pressure with respect to the rest of the facility), and an appropriate level of respiratory protection is necessary when entering the patient's room.
+    ppe: [Fit-tested N95 or higher respirator, Airborne infection isolation room (negative pressure)]
+    source: cmr300
+    section: 105 CMR 300.020, Airborne Precautions
+  - id: enteric
+    label: Enteric precautions
+    definition: Measures designed to prevent direct or indirect fecal-oral transmission of disease. Gowns must be worn if soiling is likely, and gloves must be worn for touching contaminated materials; strict hand hygiene practices must also be applied. Masks are not indicated.
+    ppe: [Gloves for contaminated materials, Gown if soiling is likely, Strict hand hygiene]
+    source: cmr300
+    section: 105 CMR 300.020, Enteric Precautions
+
+epa_lists:
+  - id: "B"
+    title: "EPA's Registered Antimicrobial Products Effective Against Mycobacterium tuberculosis (TB) [List B]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-mycobacterium
+  - id: "G"
+    title: "EPA's Registered Antimicrobial Products Effective Against Norovirus (Feline calicivirus) [List G]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-norovirus-feline
+  - id: "H"
+    title: "EPA's Registered Antimicrobial Products Effective Against MRSA and/or VRE [List H]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-methicillin
+  - id: "K"
+    title: "EPA's Registered Antimicrobial Products Effective Against Clostridium difficile Spores [List K]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-clostridioides
+  - id: "L"
+    title: "EPA's Registered Antimicrobial Products Effective Against Ebola Virus [List L]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-ebola-virus-list-l
+  - id: "M"
+    title: "EPA's Registered Antimicrobial Products Effective Against Avian Influenza [List M]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-avian-influenza
+  - id: "N"
+    title: "Disinfectants for Use Against SARS-CoV-2 [List N]"
+    url: https://www.epa.gov/coronavirus-and-disinfectants/about-list-n-disinfectants-coronavirus-covid-19
+  - id: "P"
+    title: "EPA's Registered Antimicrobial Products Effective Against Candida auris [List P]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-candida-auris-list
+  - id: "Q"
+    title: "Disinfectants for Emerging Viral Pathogens (EVPs) [List Q]"
+    url: https://www.epa.gov/pesticide-registration/disinfectants-emerging-viral-pathogens-evps-list-q
+  - id: "S"
+    title: "EPA's Registered Antimicrobial Products Effective Against Bloodborne Pathogens (HIV, Hepatitis B and Hepatitis C) [List S]"
+    url: https://www.epa.gov/pesticide-registration/epas-registered-antimicrobial-products-effective-against-bloodborne
+
+disinfectant_basics:
+  - text: The only way to accurately identify a product is by the EPA registration number. A two-part number (e.g., 1234-12) is a primary registration; a three-part number (e.g., 1234-12-123) is a supplemental distributor product with the same composition and efficacy as the primary product, and supplemental products are not shown on the lists.
+    source: epa-disinfectants
+    section: How to Read Registration Numbers
+  - text: The contact time is the time the product must remain on the surface for it to be effective. The surface should be visibly wet for the entire contact time, which may mean reapplying the product.
+    source: epa-disinfectants
+    section: Directions for Use
+  - text: Before applying any EPA-registered disinfectant, read and understand the label to determine if the product is approved for the intended use site and pathogen. The lists are not all-inclusive and are updated periodically.
+    source: epa-disinfectants
+    section: Antimicrobial Products Registered with EPA for Claims Against Common Pathogens
+
+settings:
+  - id: long_term_care
+    label: Long-term care, assisted living, and other health care settings
+    health_care_setting: true
+    notes:
+      - text: Health care settings include nursing homes and assisted living facilities, home health care, and outpatient facilities; DPH treats school health offices as health care settings.
+        source: dph-respiratory-hcp
+        section: Definitions
+      - text: Long-term care facilities must also report norovirus outbreaks to the DPH Bureau of Health Care Safety and Quality through the Health Care Facility Reporting System (HCFRS); assisted living residences report to the Executive Office of Aging and Independence.
+        source: dph-norovirus-hcf
+        section: Reporting norovirus outbreaks
+  - id: school
+    label: K-12 schools
+    health_care_setting: false
+    notes:
+      - text: Schools and childcare settings should follow the recommendations for the general population (respiratory viruses). School health offices are health care settings; school nurses and other health office staff should follow the guidance for health care settings.
+        source: dph-respiratory-public
+        section: Schools and childcare settings
+  - id: child_care
+    label: Child care programs
+    health_care_setting: false
+    notes:
+      - text: Licensed child care programs must notify all parents/guardians in accordance with DPH recommendations when any communicable disease or condition has been introduced into the program (606 CMR 7.11).
+        source: dph-norovirus-schools
+        section: Notify
+      - text: Young children may not always be able to wear a mask effectively; children under 2 years are not asked to mask.
+        source: dph-respiratory-public
+        section: Schools and childcare settings
+  - id: shelter
+    label: Shelters, group homes, and residential programs
+    health_care_setting: false
+    notes:
+      - text: Group homes and residential treatment programs funded, operated, licensed, or regulated by EEC, DCF, DYS, DMH, DPH, DDS, EOVS, MCB, or MRC, and emergency shelter programs (individual and family homeless shelters, domestic violence and sexual assault shelters, Veterans' shelters) are not considered health care settings and follow the recommendations for the general population.
+        source: dph-respiratory-hcp
+        section: PLEASE NOTE
+  - id: day_program
+    label: Adult and youth day programs
+    health_care_setting: false
+    notes:
+      - text: Programs that are not licensed health care settings follow general population guidance; staff who feed clients, give oral medications, or provide mouth care are food handlers under 105 CMR 300.020 and follow the food handler restrictions.
+        source: cmr300
+        section: 105 CMR 300.020, Food Handler
+        confidence: medium
+
+pathogens:
+  - id: norovirus
+    name: Norovirus
+    aliases: [norovirus, stomach bug, viral gastroenteritis, Norwalk]
+    precautions: Contact + Standard
+    duration: Use Contact Precautions for a minimum of 48 hours after the resolution of symptoms or to control institutional outbreaks.
+    appendix_a_comment: Persons who clean areas heavily contaminated with feces or vomitus may benefit from wearing masks since virus can be aerosolized; ensure consistent environmental cleaning and disinfection with focus on restrooms even when apparently unsoiled. Hypochlorite solutions may be required when there is continued transmission. Cohorting of affected patients to separate airspaces and toilet facilities may help interrupt transmission during outbreaks.
+    epa_lists: ["G"]
+    hand_hygiene: Handwashing with soap and water is the most effective way to prevent norovirus during an outbreak; hand sanitizer does not work well against norovirus and should only supplement handwashing.
+    source: cdc-appendix-a
+    section: Gastroenteritis, Noroviruses
+    setting_notes:
+      long_term_care:
+        - text: Cohort symptomatic patients/residents and minimize staff floating. Place symptomatic patients/residents on Standard plus Contact precautions for the duration of their illness; during norovirus outbreaks they should remain on precautions for 72 hours past the resolution of their symptoms.
+          source: dph-norovirus-hcf
+          section: Prevention and control recommendations
+        - text: Don gowns and gloves upon room entry; use a surgical or procedure mask and eye protection or a full-face shield if splashes to the face are anticipated, particularly with residents who are vomiting. Dedicate or use disposable equipment.
+          source: dph-norovirus-hcf
+          section: Prevention and control recommendations
+        - text: Consider temporarily pausing new admissions to affected units, pausing group activities and group dining, and notifying families and visitors. Exclude staff and volunteers with norovirus from food, dish, feeding, oral medication, and mouth care duties until 72 hours after symptoms resolve or the positive specimen date, whichever is later (105 CMR 300.200).
+          source: dph-norovirus-hcf
+          section: Prevention and control recommendations
+      child_care:
+        - text: Monitor young children's handwashing; group staff who worked with sick children in the same classroom; limit sharing of toys and books within and across classrooms; don't share food; clean and disinfect diapering areas and potty chairs after each use.
+          source: dph-norovirus-schools
+          section: Prevention and control recommendations
+      school:
+        - text: Supervise handwashing of younger students; stop self-service in cafeterias and consider single-use dining materials; keep leak-proof containers available for sudden vomiting; consider cancelling or delaying group activities; limit contact across classrooms.
+          source: dph-norovirus-schools
+          section: Prevention and control recommendations
+      all:
+        - text: Clean and disinfect areas immediately after someone vomits or has diarrhea, and frequently touched surfaces at least daily, with products effective against norovirus (EPA List G) or a bleach solution.
+          source: dph-norovirus-schools
+          section: Environmental cleaning
+  - id: c_difficile
+    name: Clostridioides difficile infection
+    aliases: [C. diff, C. difficile, Clostridium difficile, CDI]
+    precautions: Contact + Standard
+    duration: Duration of illness.
+    appendix_a_comment: Discontinue antibiotics if appropriate. Do not share electronic thermometers; ensure consistent environmental cleaning and disinfection. Hypochlorite solutions may be required for cleaning if transmission continues. Handwashing with soap and water preferred because of the absence of sporicidal activity of alcohol in waterless antiseptic handrubs.
+    epa_lists: ["K"]
+    hand_hygiene: Soap and water is preferred because alcohol-based hand rubs do not kill spores.
+    source: cdc-appendix-a
+    section: Gastroenteritis, C. difficile
+  - id: enteric_bacteria
+    name: Bacterial enteric infections (Salmonella, Shigella, Campylobacter, STEC, Giardia, Cryptosporidium, Yersinia)
+    aliases: [salmonella, salmonellosis, shigella, shigellosis, campylobacter, STEC, E. coli O157, giardia, cryptosporidium, yersinia, diarrhea]
+    precautions: Standard
+    duration: Use Contact Precautions for diapered or incontinent persons for the duration of illness or to control institutional outbreaks.
+    appendix_a_comment: Applies to gastroenteritis caused by Campylobacter, Cryptosporidium, E. coli O157:H7 and other Shiga toxin-producing strains, Giardia, Salmonella, Shigella, Vibrio parahaemolyticus, and Yersinia enterocolitica.
+    epa_lists: []
+    hand_hygiene: Strict hand hygiene with soap and water after toileting and diapering and before food handling.
+    source: cdc-appendix-a
+    section: Gastroenteritis
+    setting_notes:
+      long_term_care:
+        - text: In long-term care facilities, residents with salmonellosis should be placed on standard (including enteric) precautions until their symptoms subside and they test negative for Salmonella. Staff who feed patients, give mouth or denture care, or give medications are food handlers under 105 CMR 300.200.
+          source: guide-salmonellosis-non-typhoid
+          section: Section 4C, Community Residential Programs
+  - id: influenza
+    name: Influenza and other respiratory viruses (including COVID-19 and RSV in the community)
+    aliases: [flu, influenza, respiratory virus, COVID-19, SARS-CoV-2, RSV]
+    precautions: Droplet + Standard (pandemic influenza); see current CDC seasonal influenza and COVID-19 guidance for health care
+    duration: For seasonal influenza, Appendix A defers to CDC's current Prevention Strategies for Seasonal Influenza in Healthcare Settings.
+    appendix_a_comment: Appendix A refers to separate current CDC guidance for seasonal influenza, novel influenza A, and COVID-19 in health care settings.
+    epa_lists: ["N", "M"]
+    hand_hygiene: Hand hygiene with soap and water or alcohol-based hand sanitizer (at least 60% alcohol).
+    source: cdc-appendix-a
+    section: Influenza
+    setting_notes:
+      all:
+        - text: People with new respiratory symptoms stay home until fever-free for 24 hours without fever-reducing medicine and symptoms are improving, then take extra precautions for 5 days (mask indoors, avoid crowded indoor spaces, hand hygiene, avoid people at increased risk).
+          source: dph-respiratory-public
+          section: If you have symptoms of a respiratory virus
+        - text: Increase fresh air; avoid crowded areas; wear a mask around others; use hand and respiratory hygiene.
+          source: dph-respiratory-public
+          section: Overview
+      long_term_care:
+        - text: Health care personnel with respiratory viral symptoms or a positive test isolate and may return after day 3 (day 0 = onset or positive test) if improving and fever-free 24 hours; mask through day 7. Exposed asymptomatic personnel keep working with a facemask and self-monitor for 5 days.
+          source: dph-respiratory-hcp
+          section: Guidance
+  - id: rsv_healthcare
+    name: RSV in infants, young children, and immunocompromised adults (health care settings)
+    aliases: [RSV, respiratory syncytial virus]
+    precautions: Contact + Standard
+    duration: Duration of illness.
+    appendix_a_comment: Wear mask according to Standard Precautions. In immunocompromised patients, extend the duration of Contact Precautions due to prolonged shedding.
+    epa_lists: []
+    hand_hygiene: Hand hygiene before and after contact.
+    source: cdc-appendix-a
+    section: Respiratory syncytial virus infection
+  - id: measles
+    name: Measles
+    aliases: [measles, rubeola]
+    precautions: Airborne + Standard
+    duration: 4 days after onset of rash; duration of illness in immune compromised.
+    appendix_a_comment: Susceptible health care personnel should not enter the room if immune care providers are available; regardless of presumptive evidence of immunity, personnel should use respiratory protection at least as protective as a fit-tested N95 respirator. Place exposed susceptible patients on Airborne Precautions and exclude susceptible health care personnel.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Measles (rubeola)
+    setting_notes:
+      all:
+        - text: Individuals present in a room at the same time as a case, as well as for 2 hours after the case has left the room, are considered exposed. Measles is so contagious that everyone at an entire institution may be considered exposed. Cases are reported immediately by telephone to DPH (617-983-6800).
+          source: guide-measles-2022
+          section: Section 3C and Section 4B, step 3
+  - id: varicella
+    name: Varicella (chickenpox) and disseminated zoster
+    aliases: [chickenpox, varicella, shingles, zoster]
+    precautions: Airborne + Contact + Standard
+    duration: Until lesions dry and crusted (localized zoster in an immunocompetent person with lesions that can be covered - Standard precautions until lesions dry and crusted).
+    appendix_a_comment: Susceptible health care workers should not enter the room if immune caregivers are available. Exclude exposed susceptible health care workers beginning 8 days after first exposure until 21 days after last exposure, or 28 if they received varicella zoster immune globulin.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Varicella Zoster; Herpes zoster
+  - id: pertussis
+    name: Pertussis
+    aliases: [pertussis, whooping cough]
+    precautions: Droplet + Standard
+    duration: Until 5 days after initiation of effective antibiotic therapy.
+    appendix_a_comment: Single patient room preferred; cohorting an option. Postexposure chemoprophylaxis for household contacts and health care workers with prolonged exposure to respiratory secretions.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Pertussis (whooping cough)
+  - id: mumps
+    name: Mumps
+    aliases: [mumps]
+    precautions: Droplet + Standard
+    duration: Until 5 days after the onset of swelling.
+    appendix_a_comment: Susceptible health care workers should not provide care if immune caregivers are available.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Mumps (infectious parotitis)
+  - id: meningococcal
+    name: Meningococcal disease
+    aliases: [meningococcal, Neisseria meningitidis, meningitis]
+    precautions: Droplet + Standard
+    duration: Until 24 hours after initiation of effective therapy.
+    appendix_a_comment: Postexposure chemoprophylaxis for household contacts and health care workers exposed to respiratory secretions; postexposure vaccine only to control outbreaks.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Meningococcal disease
+  - id: group_a_strep
+    name: Group A streptococcal disease
+    aliases: [group A strep, GAS, strep throat, scarlet fever, invasive GAS]
+    precautions: Droplet + Standard (pharyngitis in young children, pneumonia, scarlet fever, serious invasive disease); Contact + Droplet + Standard for major skin, wound, or burn infection
+    duration: Until 24 hours after initiation of effective therapy.
+    appendix_a_comment: Outbreaks of serious invasive disease have occurred secondary to transmission among patients and health care personnel. Use Contact Precautions for draining wounds.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Streptococcal disease (group A Streptococcus)
+  - id: mrsa
+    name: MRSA and other multidrug-resistant organisms (MDROs)
+    aliases: [MRSA, VRE, MDRO, ESBL, multidrug-resistant]
+    precautions: Contact + Standard
+    duration: As judged by the infection control program.
+    appendix_a_comment: Contact Precautions recommended in settings with evidence of ongoing transmission, acute care settings with increased risk for transmission, or wounds that cannot be contained by dressings. Contact the state health department for guidance regarding new or emerging MDROs.
+    epa_lists: ["H"]
+    hand_hygiene: Hand hygiene before and after contact; keep wounds covered.
+    source: cdc-appendix-a
+    section: Multidrug-resistant organisms (MDROs)
+  - id: candida_auris
+    name: Candida auris
+    aliases: [C. auris, Candida auris]
+    precautions: Contact + Standard (as an emerging multidrug-resistant organism; follow DPH guidance)
+    duration: As directed by DPH and the infection control program.
+    appendix_a_comment: Appendix A directs facilities to contact the state health department for guidance regarding new or emerging MDROs; C. auris is immediately reportable in Massachusetts.
+    epa_lists: ["P"]
+    hand_hygiene: Hand hygiene before and after contact.
+    source: cdc-appendix-a
+    section: Multidrug-resistant organisms (MDROs)
+    confidence: medium
+  - id: scabies
+    name: Scabies
+    aliases: [scabies, crusted scabies]
+    precautions: Contact + Standard
+    duration: Until 24 hours after initiation of effective therapy.
+    appendix_a_comment: No additional comment in Appendix A.
+    epa_lists: []
+    hand_hygiene: Hand hygiene after contact; gloves and gown for direct care (Contact precautions).
+    source: cdc-appendix-a
+    section: Scabies
+    setting_notes:
+      all:
+        - text: All clothing, bedding and towels that touched the infested person's skin in the three days before treatment should be machine washed in hot water and dried with heat; items that cannot be washed should be sealed in plastic bags for at least 72 hours. Household members and people with skin-to-skin contact should be checked and treated. Crusted (Norwegian) scabies spreads more easily.
+          source: factsheet-scabies
+          section: How is scabies treated?
+  - id: head_lice
+    name: Head lice
+    aliases: [lice, head lice, pediculosis]
+    precautions: Contact + Standard
+    duration: Until 24 hours after initiation of effective therapy.
+    appendix_a_comment: Refers to CDC's Parasites - Lice pages.
+    epa_lists: []
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Lice, Head (pediculosis)
+    setting_notes:
+      all:
+        - text: No healthy child should be excluded from school because of head lice. Machine wash and dry items used in the 2 days before treatment (hot water and high heat), or seal non-washable items in a plastic bag for 2 weeks; soak combs and brushes in hot water; vacuum. Do not use insecticide sprays.
+          source: factsheet-head-lice
+          section: Additional precautions; What is a no nits policy?
+  - id: tuberculosis
+    name: Tuberculosis (pulmonary or laryngeal, suspected or confirmed)
+    aliases: [TB, tuberculosis]
+    precautions: Airborne + Standard
+    duration: Discontinue only when the patient on effective therapy is improving clinically and has 3 consecutive sputum smears negative for acid-fast bacilli collected on separate days (confirmed), or when infectious TB is deemed negligible (suspected).
+    appendix_a_comment: Refer to the TB program; shelters and congregate settings need DPH TB program guidance for contact investigation.
+    epa_lists: ["B"]
+    hand_hygiene: Standard hand hygiene.
+    source: cdc-appendix-a
+    section: Tuberculosis (M. tuberculosis)
+  - id: hepatitis_a
+    name: Hepatitis A
+    aliases: [hepatitis A, HAV]
+    precautions: Standard (Contact + Standard for diapered or incontinent patients)
+    duration: For diapered or incontinent patients, maintain Contact Precautions in infants and children under 3 years for the duration of hospitalization; children 3-14 years for 2 weeks after onset of symptoms; over 14 years for 1 week after onset of symptoms.
+    appendix_a_comment: Provide hepatitis A vaccine postexposure as recommended.
+    epa_lists: []
+    hand_hygiene: Handwashing with soap and water after toileting and diapering and before food handling.
+    source: cdc-appendix-a
+    section: Hepatitis, viral, Type A
+  - id: bloodborne
+    name: Bloodborne pathogens (hepatitis B, hepatitis C, HIV)
+    aliases: [hepatitis B, hepatitis C, HIV, HBV, HCV, bloodborne]
+    precautions: Standard
+    duration: Not applicable.
+    appendix_a_comment: See specific recommendations for hemodialysis centers.
+    epa_lists: ["S"]
+    hand_hygiene: Standard precautions with all blood and body fluids.
+    source: cdc-appendix-a
+    section: Hepatitis, viral, Type B and C; HIV
+  - id: conjunctivitis
+    name: Conjunctivitis (acute viral)
+    aliases: [pink eye, conjunctivitis, adenovirus]
+    precautions: Contact + Standard (acute viral); Standard (acute bacterial)
+    duration: Duration of illness.
+    appendix_a_comment: Highly contagious; outbreaks in eye clinics, pediatric and neonatal settings, and institutional settings have been reported.
+    epa_lists: []
+    hand_hygiene: Hand hygiene; do not share towels or eye products.
+    source: cdc-appendix-a
+    section: Conjunctivitis

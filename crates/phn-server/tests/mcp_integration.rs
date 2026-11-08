@@ -13,26 +13,20 @@ use std::collections::BTreeSet;
 use common::{everything, leaks, start, summary};
 use serde_json::json;
 
-const ALL_TOOLS: [&str; 11] = [
-    "get_data_source_status",
-    "configure_jurisdiction",
-    "calculate_rates",
-    "lookup_reportable_condition",
-    "read_local_file",
-    "search_agency_policies",
-    "export_document",
-    "apply_small_cell_suppression",
-    "profile_local_dataset",
-    "deidentify_dataset",
-    "check_document_accessibility",
-];
+/// Every tool in the registry (the server must list exactly these).
+fn all_tools() -> BTreeSet<String> {
+    phn_tools::registry::tools()
+        .map(|t| t.name.to_string())
+        .collect()
+}
 
 #[tokio::test]
 async fn every_tool_has_schemas_annotations_and_a_description() {
     let h = start(|_| {}).await;
     let tools = h.client.list_all_tools().await.unwrap();
     let names: BTreeSet<String> = tools.iter().map(|t| t.name.to_string()).collect();
-    assert_eq!(names, ALL_TOOLS.iter().map(|s| s.to_string()).collect());
+    assert_eq!(names, all_tools());
+    assert!(names.len() >= 11);
     for t in &tools {
         let desc = t.description.as_deref().unwrap_or("");
         assert!(
@@ -239,7 +233,10 @@ async fn toolsets_limit_which_tools_are_listed_and_callable() {
 #[tokio::test]
 async fn configuring_toolsets_refreshes_the_tool_list() {
     let h = start(|_| {}).await;
-    assert_eq!(h.client.list_all_tools().await.unwrap().len(), 11);
+    assert_eq!(
+        h.client.list_all_tools().await.unwrap().len(),
+        all_tools().len()
+    );
     let r = h
         .call(
             "configure_jurisdiction",
@@ -276,6 +273,11 @@ async fn jurisdiction_flows_into_reportable_lookup() {
     let data = r.structured_content.unwrap()["data"].clone();
     assert_eq!(data["settings"]["jurisdiction"]["county"], "Hampshire");
     assert_eq!(data["settings"]["jurisdiction"]["hmcc_region"], "1");
+    // The Phase 0 draft listed pertussis as immediately reportable by telephone.
+    // The 2026-11-07 re-check found that DPH's immediate-call list (provider list,
+    // June 2026; memo, May 20, 2026) does not include pertussis; it falls under
+    // 105 CMR 300.100's "immediately, but in no case more than 24 hours". The test
+    // still checks the alias match and the timeframe, now against the corrected content.
     let r = h
         .call(
             "lookup_reportable_condition",
@@ -283,9 +285,20 @@ async fn jurisdiction_flows_into_reportable_lookup() {
         )
         .await;
     let md = summary(&r);
-    assert!(md.contains("Pertussis") && md.contains("IMMEDIATELY"));
+    assert!(md.contains("Pertussis") && md.contains("within 24 hours"));
+    assert!(md.contains("105 CMR 300.100"));
     assert!(md.contains("Your board of health: Amherst, 413-259-3077"));
-    let s = r.structured_content.unwrap();
+    let s = r.structured_content.clone().unwrap();
+    assert_eq!(s["data"]["condition"]["timeframe"], "within_24_hours");
+    // An immediately reportable condition still says so.
+    let m = h
+        .call("lookup_reportable_condition", json!({"query": "measles"}))
+        .await;
+    assert!(summary(&m).contains("IMMEDIATELY"));
+    assert_eq!(
+        m.structured_content.unwrap()["data"]["condition"]["timeframe"],
+        "immediate"
+    );
     assert_eq!(
         s["notice"]
             .as_str()
@@ -329,7 +342,11 @@ async fn rates_match_the_exact_poisson_interval() {
 async fn phi_detector_flags_every_seeded_identifier() {
     let data = common::corpus().join("data");
     // Tables: every seeded column is flagged.
-    for file in ["line_list.csv", "exclusion_letters.csv"] {
+    for file in [
+        "line_list.csv",
+        "exclusion_letters.csv",
+        "church_supper_outbreak.csv",
+    ] {
         let t = phn_local::table::read_table(&data.join(file), None).unwrap();
         let flagged: BTreeSet<String> = phn_local::phi::scan_table(&t)
             .into_iter()
@@ -419,6 +436,159 @@ async fn no_row_level_data_is_returned_by_default() {
                 "merge_mode": "one_file_per_record"
             }),
             "data/exclusion_letters.csv",
+        ),
+        // ---- Phase 2 data tools (EPI-10 run_statistical_test, EBP-06 create_spc_chart, ...)
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Hospitalized", "group": "Sex"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Last Name"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Street Address"}),
+            ll,
+        ),
+        (
+            "create_spc_chart",
+            json!({"path": "line_list.csv", "date_column": "Onset Date", "period": "week"}),
+            ll,
+        ),
+        (
+            "create_spc_chart",
+            json!({"path": "line_list.csv", "date_column": "Onset Date", "measure": "mean", "value_column": "Age"}),
+            ll,
+        ),
+        // ---- Phase 3 data tools (CD-04 analyze_outbreak_line_list, CD-05, CD-06, ...)
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "disease": "pertussis", "town_column": "Town"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "town_column": "Street Address"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "case_column": "Last Name"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "church_supper_outbreak.csv", "disease": "salmonellosis"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "church_supper_outbreak.csv", "exposure_columns": ["First Name"]}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "line_list.csv", "stratify_by": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "line_list.csv", "stratify_by": "Last Name"}),
+            ll,
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "church_supper_outbreak.csv", "disease": "salmonellosis",
+                   "stratify_by": "Town", "exposure_datetime": "2026-05-02 18:00"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "church_supper_outbreak.csv", "stratify_by": "Phone"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv", "group_column": "Diagnosis", "count_column": "Age", "population_column": "Age"}),
+            ll,
+        ),
+        (
+            "measure_health_disparities",
+            json!({"path": "line_list.csv", "group_column": "First Name", "count_column": "Age", "population_column": "Age"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "town", "title": "Cases"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "town", "title": "Cases", "area_column": "Last Name", "value_column": "Age"}),
+            ll,
+        ),
+        (
+            "create_choropleth_map",
+            json!({"path": "line_list.csv", "geography": "zcta", "title": "Cases", "area_column": "ZIP", "value_column": "Age", "value_is_count": true}),
+            ll,
+        ),
+        // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)
+        (
+            "check_ma_school_immunization_requirements",
+            json!({"roster_path": "school_roster.csv", "as_of": "2026-09-02"}),
+            "data/school_roster.csv",
+        ),
+        (
+            "check_ma_school_immunization_requirements",
+            json!({"roster_path": "line_list.csv", "as_of": "2026-09-02"}),
+            ll,
+        ),
+        (
+            "analyze_vaccination_coverage",
+            json!({"statewide": true, "local_path": "school_roster.csv"}),
+            "data/school_roster.csv",
+        ),
+        (
+            "analyze_vaccination_coverage",
+            json!({"statewide": true, "local_path": "line_list.csv"}),
+            ll,
+        ),
+        // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)
+        (
+            "forecast_immunizations_due",
+            json!({"file": "immunization_history.csv"}),
+            "data/immunization_history.csv",
+        ),
+        (
+            "forecast_immunizations_due",
+            json!({"file": "immunization_history.csv", "vaccine_groups": ["MMR"], "assessment_date": "2026-11-07"}),
+            "data/immunization_history.csv",
+        ),
+        // Pointed at the outbreak line list (wrong columns): the tool error
+        // must not echo identifiers either.
+        (
+            "forecast_immunizations_due",
+            json!({"file": "line_list.csv", "id_column": "Case ID", "dob_column": "DOB", "date_column": "Onset Date", "vaccine_column": "Diagnosis"}),
+            ll,
         ),
     ];
     for (name, args, file) in checks {

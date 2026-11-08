@@ -1,0 +1,463 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_school_requirements.schema.json",
+  "title": "Massachusetts school immunization requirements",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "school_year",
+    "general",
+    "proof_of_immunity",
+    "exemptions",
+    "enrollment_rules",
+    "grace_period",
+    "flags",
+    "settings"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "school_year": {
+      "type": "string"
+    },
+    "general": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "proof_of_immunity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text",
+          "applies_to"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "applies_to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "exemptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "medical",
+        "religious",
+        "meningococcal_waiver",
+        "outbreak_exclusion"
+      ],
+      "properties": {
+        "medical": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "renewal"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "renewal": {
+              "type": "string"
+            }
+          }
+        },
+        "religious": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "renewal"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "renewal": {
+              "type": "string"
+            }
+          }
+        },
+        "meningococcal_waiver": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          }
+        },
+        "outbreak_exclusion": {
+          "type": "string"
+        }
+      }
+    },
+    "enrollment_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "grace_period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "default_applies",
+        "text",
+        "confidence"
+      ],
+      "properties": {
+        "default_applies": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "flags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "settings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "grades",
+          "applies",
+          "requirements"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "childcare_preschool",
+              "k_6",
+              "grades_7_12",
+              "college"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "applies": {
+            "type": "string"
+          },
+          "min_age_years": {
+            "type": "integer"
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "vaccine",
+                "label",
+                "text",
+                "rule"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "vaccine": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "grades": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "text": {
+                  "type": "string"
+                },
+                "rule": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [],
+                  "properties": {
+                    "series": {
+                      "type": "string"
+                    },
+                    "special": {
+                      "enum": [
+                        "hib",
+                        "tdap",
+                        "men_7_10",
+                        "men_11_12",
+                        "men_college",
+                        "residential_meningococcal"
+                      ]
+                    },
+                    "max_age_years": {
+                      "type": "integer"
+                    },
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "min_doses"
+                        ],
+                        "properties": {
+                          "min_doses": {
+                            "type": "integer",
+                            "minimum": 1
+                          },
+                          "last_dose_min_age": {
+                            "type": "string",
+                            "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                          },
+                          "last_dose_min_interval": {
+                            "type": "string",
+                            "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                          }
+                        }
+                      },
+                      "minItems": 1
+                    },
+                    "lab_evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "history": {
+                      "type": "boolean"
+                    },
+                    "heplisav_two_dose": {
+                      "type": "boolean"
+                    },
+                    "us_born_before_year": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 4
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+ "meta": {
+  "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+  "terms": "https://open.fda.gov/terms/",
+  "license": "https://open.fda.gov/license/",
+  "last_updated": "2026-11-06",
+  "results": {
+   "skip": 0,
+   "limit": 1,
+   "total": 366
+  }
+ },
+ "results": [
+  {
+   "effective_time": "20260723",
+   "set_id": "00b86913-50c8-443f-8467-f4f499d358af",
+   "version": "2",
+   "id": "57477f96-ff03-67dc-e063-6294a90ad89d",
+   "indications_and_usage": [
+    "1 INDICATIONS AND USAGE Amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is indicated for the treatment of pediatric patients aged 3 months to 12 years weighing less than or equal to 40 kg with: Recurrent or persistent acute otitis media due to S. pneumoniae (penicillin MICs less than or equal to 2 mcg/mL), H. influenzae (including beta-lactamase-producing strains), or M. catarrhalis (including beta-lactamase-producing strains) characterized by the following risk factors: Antibacterial drug exposure for acute otitis media within the preceding 3 months, and either of the following: 1) age 2 years, or younger or 2) day care attendance [see Microbiology (12.4) ] . Limitations of Use Amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is not indicated for the treatment of acute otitis media due to S. pneumoniae with penicillin MIC greater than or equal to 4 mcg/mL. Acute otitis media due to S. pneumoniae alone can be treated with amoxicillin. Therapy may be instituted prior to obtaining the results from bacteriological studies when there is reason to believe the infection may involve both S . pneumoniae (penicillin MIC less than or equal to 2 mcg/mL) and the beta-lactamase-producing organisms listed above. Usage To reduce the development of drug-resistant bacteria and maintain the effectiveness of amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL and other antibacterial drugs, amoxic"
+   ],
+   "dosage_and_administration": [
+    "2 DOSAGE AND ADMINISTRATION Pediatric Patients aged 3 months to 12 years weighing less than or equal to 40 kg: 90 mg/kg/day divided every 12 hours, administered for 10 days. ( 2 ) 2.1 Important Administration Instructions To minimize the potential for gastrointestinal intolerance, amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL should be taken at the start of a meal. Absorption of clavulanate potassium may be enhanced when amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is administered at the start of a meal. 2.2 Dosage in Pediatric Patients Pediatric patients aged 3 months to 12 years weighing less than or equal to 40 kg : Based on the amoxicillin component (600 mg/5 mL), the recommended dose of amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is 90 mg/kg/day divided every 12 hours, administered for 10 days (see Table 1 as a general example guideline for attainment of this dosage). This dose provides 6.4 mg/kg/day of the clavulanic acid component. Table 1: General Dosage Guidelines for Amoxicillin and Clavulanate Potassium for Oral Suspension, 600 mg/42.9 mg per 5 mL in Pediatric Patients Body Weight (kg) Volume of Amoxicillin and Clavulanate Potassium for Oral Suspension, ​​​​​​​600 mg/42.9 mg per 5 mL providing 90 mg/kg/day 8 3 mL twice daily 12 4.5 mL twice daily 16 6 mL twice daily 20 7.5 mL twice daily 24 9 mL twice daily 28 10.5 mL twice daily 32 12 mL twice daily 36"
+   ],
+   "contraindications": [
+    "4 CONTRAINDICATIONS History of a serious hypersensitivity reaction (e.g., anaphylaxis or Stevens-Johnson syndrome) to amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL or any other beta-lactams (e.g., penicillins or cephalosporins). ( 4.1 ) History of cholestatic jaundice/hepatic dysfunction associated with amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL. ( 4.2 ) 4.1 Serious Hypersensitivity Reactions Amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is contraindicated in patients with a history of serious hypersensitivity reactions (e.g., anaphylaxis or Stevens-Johnson syndrome) to amoxicillin, clavulanate, or to other beta-lactam antibacterial drugs (e.g., penicillins and cephalosporins). 4.2 Cholestatic Jaundice/Hepatic Dysfunction Amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL is contraindicated in patients with a previous history of cholestatic jaundice/hepatic dysfunction associated with treatment with amoxicillin and clavulanate potassium."
+   ],
+   "warnings_and_cautions": [
+    "5 WARNINGS AND PRECAUTIONS Serious (including fatal) hypersensitivity reactions: Discontinue amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL if a reaction occurs and institute appropriate therapy. ( 5.1 ) Severe cutaneous adverse reactions (SCAR): Monitor closely. Discontinue if rash progresses. ( 5.2 ) Drug-induced enterocolitis syndrome (DIES) has been reported with use of amoxicillin, a component of amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL. If this occurs, discontinue amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL and institute appropriate therapy. ( 5.3 ) Hepatic dysfunction and cholestatic jaundice: Discontinue if signs/symptoms of hepatitis occur. Monitor liver function tests in patients with hepatic impairment. ( 5.4 ) Clostridioides difficile - associated diarrhea (CDAD) (ranging from mild diarrhea to fatal colitis): Evaluate patients if diarrhea occurs. ( 5.5 ) Patients with mononucleosis who receive amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL develop skin rash. Avoid amoxicillin and clavulanate potassium for oral suspension, 600 mg/42.9 mg per 5 mL use in these patients. ( 5.6 ) 5.1 Serious Allergic Reactions, including Anaphylaxis Serious and occasionally fatal hypersensitivity (anaphylactic) reactions have been reported in patients receiving beta-lactam antibacterials, including amoxicillin and clavulanate potassiu"
+   ],
+   "how_supplied": [
+    "16 HOW SUPPLIED/STORAGE AND HANDLING How Supplied The color of the dry powder for Amoxicillin and clavulanate potassium for oral suspension, USP, 600 mg/42.9 mg per 5 mL is white to off-white powder. Each 5 mL of reconstituted orange-flavored suspension contains 600 mg amoxicillin trihydrate and 42.9 mg clavulanic acid as the potassium salt. It is available in bottles of 75 mL (NDC 62135-095-75), 125 mL (NDC 62135-095-13), and 200 mL (NDC 62135-095-22). Storage Store dry powder at 20° to 25°C (68° to 77°F) [See USP Controlled Room Temperature]. Dispense in original container. Keep tightly closed. Store reconstituted suspension under refrigeration. Discard unused suspension after 10 days. Keep this and all medications out of the reach of children."
+   ],
+   "openfda": {
+    "brand_name": [
+     "amoxicillin and clavulanate potassium"
+    ],
+    "generic_name": [
+     "AMOXICILLIN AND CLAVULANATE POTASSIUM"
+    ],
+    "manufacturer_name": [
+     "Chartwell RX, LLC"
+    ],
+    "product_type": [
+     "HUMAN PRESCRIPTION DRUG"
+    ],
+    "route": [
+     "ORAL"
+    ],
+    "rxcui": [
+     "617993"
+    ],
+    "spl_set_id": [
+     "00b86913-50c8-443f-8467-f4f499d358af"
+    ]
+   }
+  }
+ ]
+}

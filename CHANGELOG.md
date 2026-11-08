@@ -5,6 +5,134 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
+## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
+
+### Added — Phase 2: epidemiology and biostatistics engine
+
+- `age_adjust_rates` (EPI-02): direct age adjustment to the 2000 U.S. standard population using
+  NCHS Master List weights, Fay–Feuer gamma intervals, and comparisons with a reference group.
+- `analyze_two_by_two` (EPI-03): risk and odds ratios with Katz, Woolf, Fisher exact, and mid-p
+  intervals; attributable fractions; chi-square and exact tests; Mantel–Haenszel and Breslow–Day.
+- `calculate_sample_size` (EPI-04): surveys (finite population correction, design effect),
+  two proportions (Fleiss with continuity correction), case-control, two means, power, clusters.
+- `compute_standardized_ratio` (EPI-05): SIR/SMR with exact Poisson intervals and p-values.
+- `analyze_trends` (EPI-09): APC, joinpoint-style segments and AAPC (BIC), interrupted time
+  series, seasonality, Mann–Kendall, Durbin–Watson, and a trend chart.
+- `run_statistical_test` (EPI-10): automatic test selection with assumption checks and
+  sensitivity tests, on inline data or local files (aggregates only).
+- `create_chart` (EPI-11): accessible SVG/PNG charts with a validated color-vision-safe palette,
+  generated alt text, and a data table.
+- `create_spc_chart` (EBP-06): run charts (Anhøj rules) and XmR, p, u, c control charts.
+- `phn-epi` engine: GLMs by IRLS (Gaussian, Poisson, binomial, negative binomial), standardization,
+  2×2 and stratified analysis, trend models, hypothesis tests (including Shapiro–Wilk), SPC, and
+  sample size, with golden tests against R, SciPy, statsmodels, NCHS, and published tables. The
+  R and Python scripts that produced each fixture are committed next to it.
+- `phn-docs` chart renderer and accessible palette; `phn_data::socrata` client for data.cdc.gov.
+### Added — Phase 3: communicable disease I
+
+- `search_ma_disease_control_guide` (CD-02): offline tantivy search of a 1.1 MB plain-text corpus
+  of 25 DPH guide chapters and 66 DPH fact sheet and guidance pages, built reproducibly by
+  `cargo xtask build-guide-corpus` (URLs, file dates, and checksums in the snapshot manifest).
+- `calculate_isolation_and_exclusion` (CD-03): a date-rule engine over a pending-review table of
+  37 diseases (105 CMR 300.200, DPH guidance), with explicit day counting, settings, facts, and
+  citations per rule.
+- `analyze_outbreak_line_list` (CD-04): line-list column mapping, case definitions, suppressed
+  person/place/time tables, exposure-specific attack rates, likely vehicles, exposure window.
+- `generate_epi_curve` (CD-05): epidemic curves with incubation-based intervals, strata, exposure
+  markers, and a described pattern; returned counts are suppressed.
+- `plan_contact_tracing` (CD-06): infectious period, elicitation window, per-contact dates, and an
+  XLSX contact-tracking template with date formulas.
+- `assess_measles_exposure` (CD-07): evidence of immunity, PEP windows and IG doses, exclusion,
+  priority groups.
+- `detect_aberrations` (CD-10): EARS C1–C3, CUSUM, and Farrington-type (Noufaily) detection in
+  `phn_epi::aberration`, golden-tested against R `surveillance`.
+- `infection_control_for_congregate_settings` (CD-13): precautions, PPE, cohorting, and EPA
+  disinfectant lists for congregate settings.
+- The server's first MCP prompt, `investigate_outbreak`.
+- Content (all pending review): `content/cd/disease_rules.yaml`, `measles_exposure.yaml`,
+  `infection_control.yaml`; a fictional church-supper outbreak fixture for tests.
+### Added — Phase 4: public data and evidence platform
+
+- `build_community_health_profile` (EQ-01): ACS 5-year indicators (each cited by table ID, with
+  margins of error and CV > 30% flagged), PLACES, and SVI for any Massachusetts town, county, or
+  tract, compared with Massachusetts and the U.S.; works offline for all 351 towns.
+- `get_social_vulnerability_index` (EQ-02): SVI 2022 tract ranks within Massachusetts or
+  nationally, by theme.
+- `language_access_profile` (EQ-03): LEP by language group (C16001, C16002, B16001) against the
+  HHS safe harbor threshold, with margin-of-error-aware status. Content pending review; the
+  safe harbor entry is low confidence.
+- `measure_health_disparities` (EQ-04): rate ratios (exact conditional and log intervals), rate
+  differences, index of disparity, between-group variance, excess events, and PAF; golden tests
+  against R.
+- `get_places_estimates` (CHR-01): CDC PLACES 2025 estimates with intervals and data years for
+  counties, towns, places, tracts, and ZCTAs.
+- `create_choropleth_map` (EPI-12): SVG/PNG choropleth maps with Fisher–Jenks or quantile
+  classes, the accessible sequential palette, hatched suppressed areas, and alt text.
+- `search_pubmed` (EBP-01) and `search_cdc_guidance` (EBP-02): NCBI E-utilities (no email,
+  rate-limited, cached a day), the CDC content syndication API, and HAN notice pages.
+- Data adapters (`phn_data::census`, `geography`, `boundaries`, `svi`, `places`, `eutils`,
+  `cdc_guidance`, `apifetch`) with live → cache → snapshot fallback, and about 4 MB of new
+  snapshots: ACS 2020–2024 indicators and detailed languages, SVI 2022, PLACES 2025, census
+  geographies and crosswalks, and simplified town, tract, ZCTA, and school district boundaries,
+  built reproducibly by `cargo xtask build-public-snapshots`.
+### Added — Phase 5: immunizations I
+
+- `get_immunization_schedule` (VAX-01) and `compare_vaccine_recommendations` (VAX-02): schedules
+  and 17 recommendation topics with DPH, AAP, ACOG, AAFP, NEPHC, and CDC/ACIP positions, dates,
+  and sources side by side; CDC minimum ages and intervals and contraindications.
+- `check_ma_school_immunization_requirements` (VAX-04): a rule engine for the 2026–2027
+  Massachusetts school requirements (child care/preschool, K–12, college) with dose validation,
+  the 4-day grace period, live-vaccine spacing, proof of immunity, exemptions, earliest valid
+  dates, and a roster mode that writes student results to `/data/output` and returns suppressed
+  counts.
+- `analyze_vaccination_coverage` (VAX-05): DPH school survey and CDC NIS/VaxView snapshots,
+  herd-immunity thresholds with citations, school and town rankings, and local school counts.
+- `vaccine_temperature_excursion_helper` (VAX-06), `lookup_vaccine_product` (VAX-07),
+  `plan_vaccination_clinic` (VAX-08), and `vaccine_confidence_conversation_guide` (VAX-09).
+- `lookup_medication_information` (CORE-07): RxNorm, openFDA (labels, recalls, shortages), and
+  DailyMed; optional `PHN_OPENFDA_API_KEY`.
+- New setting `vaccine_recommendation_basis` (in `configure_jurisdiction`), defaulting to DPH,
+  then the professional societies, then CDC/ACIP.
+- Immunization content under `content/vax/` (pending review), CDC CVX/MVX/trade name/NDC, DPH
+  school survey, and NIS snapshots with their builder scripts in `xtask/scripts/`, and a
+  fictional school roster in the synthetic corpus.
+### Added — Phase 6: immunization forecasting and surveillance feeds
+
+- `phn-cdsi` crate: CDC Clinical Decision Support for Immunization engine (Logic Specification
+  v4.6) with the CDSi Supporting Data v4.65 embedded and checksummed; runs all 1,401 CDC test
+  cases (all 1,064 healthy childhood and adult cases pass; 36 older underlying-condition cases
+  are documented exceptions). Results: `docs/cdsi-test-results.md`.
+- `forecast_immunizations_due` (VAX-03): dose evaluation, forecast dates, and a projected
+  catch-up schedule for one person, or suppressed counts with per-person files written to
+  `/data/output` for a file of many people.
+- `get_notifiable_disease_trends` (CD-08): NNDSS weekly counts (data.cdc.gov `x9gk-5huc`)
+  for Massachusetts, New England, and the U.S. compared with the five previous MMWR years (year
+  to date and last 4 weeks), provisional year-end totals, and an all-conditions overview.
+- `get_respiratory_and_wastewater_surveillance` (CD-09): weekly COVID-19, influenza, and RSV
+  briefing from NHSN, NSSP, NREVSS, the ARI activity level, and NWSS wastewater levels by
+  Massachusetts site, with data dates and lag, MWRA's final Deer Island values, and DPH's
+  dashboard link.
+- Bundled snapshots for both (about 260 KB), built by the new
+  `cargo xtask build-surveillance-snapshots`; `cargo xtask build-snapshots` now keeps manifest
+  entries it does not build.
+### Changed — reference content re-checked against live sources
+
+- Reportable conditions (`content/cd/reportable_conditions.yaml` 0.2.0) re-checked against the
+  text of 105 CMR 300.000 (Mass. Register #1470, 5/27/22) and DPH's current provider and
+  laboratory reporting lists: corrected timeframes, reporters, and recipients (for example,
+  pertussis, mumps, brucellosis, glanders, melioidosis, and Q fever are not on DPH's
+  immediate-call list; invasive group A strep, tetanus, HUS, and active TB are; TB, HIV, and
+  STIs go directly to DPH); added 35 conditions, including alpha-gal syndrome (temporary
+  declaration from April 1, 2026); removed leptospirosis and Candida auris, which the regulation
+  does not name. Every entry now has a `citation`, shown in `lookup_reportable_condition`
+  answers. Still pending subject-matter review.
+- `lookup_reportable_condition` now tells providers to call the DPH Epidemiology Line for
+  immediately reportable conditions and names the board of health where the case is diagnosed
+  (not the town of residence), as 105 CMR 300.100 says.
+- HMCC regions: Wilmington moved from 4AB to Region 3 to match DPH's HMCC Regional Boundaries
+  map; the snapshot builder applies an override table.
+- Data source registry: fixed the 105 CMR 300.000 address (the old mass.gov URL returns 404).
+
 ## [0.2.0] — Phase 1: local data, privacy guardrails, and documents
 
 ### Added

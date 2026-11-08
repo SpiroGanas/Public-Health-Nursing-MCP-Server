@@ -14,10 +14,10 @@ use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::tool::ToolCallContext;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{
-    CallToolRequestParams, CallToolResponse, CallToolResult, ContentBlock, Implementation,
-    ListResourcesResult, ListToolsResult, PaginatedRequestParams, ReadResourceRequestParams,
-    ReadResourceResponse, ReadResourceResult, Resource, ResourceContents, ServerCapabilities,
-    ServerConfig, Tool,
+    CallToolRequestParams, CallToolResponse, CallToolResult, ContentBlock, GetPromptRequestParams,
+    GetPromptResponse, Implementation, ListPromptsResult, ListResourcesResult, ListToolsResult,
+    PaginatedRequestParams, ReadResourceRequestParams, ReadResourceResponse, ReadResourceResult,
+    Resource, ResourceContents, ServerCapabilities, ServerConfig, Tool,
 };
 use rmcp::service::RequestContext;
 use rmcp::{ErrorData, Peer, RoleServer, ServerHandler, tool, tool_router};
@@ -84,6 +84,11 @@ impl PhnServer {
     pub fn new(ctx: Arc<Context>) -> Self {
         let mut tool_router = Self::tool_router();
         tool_router.merge(Self::phase1_router());
+        tool_router.merge(Self::phase2_router());
+        tool_router.merge(Self::phase3_router());
+        tool_router.merge(Self::phase4_router());
+        tool_router.merge(Self::phase5_router());
+        tool_router.merge(Self::phase6_router());
         Self { ctx, tool_router }
     }
 
@@ -126,7 +131,8 @@ impl PhnServer {
         name = "configure_jurisdiction",
         description = "View or set the nurse's Massachusetts town (county and HMCC region are \
             derived), school district, board of health phone, small-cell suppression threshold, \
-            preferred languages, role profile or toolsets, and document letterhead. Call with no \
+            preferred languages, role profile or toolsets, document letterhead, and the vaccine \
+            recommendation basis (DPH, professional societies, or CDC/ACIP first). Call with no \
             arguments to show current settings. Settings persist in /cache.",
         annotations(
             title = "Configure jurisdiction",
@@ -200,6 +206,7 @@ impl ServerHandler for PhnServer {
                 .enable_tools()
                 .enable_tool_list_changed()
                 .enable_resources()
+                .enable_prompts()
                 .build(),
         )
         .with_server_info(
@@ -240,6 +247,22 @@ impl ServerHandler for PhnServer {
         }
         let tcc = ToolCallContext::new(self, request, context);
         self.tool_router.call(tcc).await
+    }
+
+    async fn list_prompts(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ListPromptsResult, ErrorData> {
+        Ok(ListPromptsResult::with_all_items(crate::prompts::list()))
+    }
+
+    async fn get_prompt(
+        &self,
+        request: GetPromptRequestParams,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<GetPromptResponse, ErrorData> {
+        crate::prompts::get(&request.name, &request.arguments).map(Into::into)
     }
 
     async fn list_resources(

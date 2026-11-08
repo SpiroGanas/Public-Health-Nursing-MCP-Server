@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE eSearchResult PUBLIC "-//NLM//DTD esearch 20060628//EN" "https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20060628/esearch.dtd">
+<eSearchResult><Count>11247</Count><RetMax>0</RetMax><RetStart>0</RetStart><IdList/><TranslationSet><Translation>     <From>whooping cough</From>     <To>"whooping cough"[MeSH Terms] OR ("whooping"[All Fields] AND "cough"[All Fields]) OR "whooping cough"[All Fields]</To>    </Translation></TranslationSet><QueryTranslation>"whooping cough"[MeSH Terms] OR ("whooping"[All Fields] AND "cough"[All Fields]) OR "whooping cough"[All Fields]</QueryTranslation></eSearchResult>

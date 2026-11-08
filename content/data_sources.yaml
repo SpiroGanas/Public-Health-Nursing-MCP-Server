@@ -26,6 +26,10 @@ general_caveats:
     Several federal public health web pages and datasets were taken offline or modified for a
     time in 2025, and some were later restored. The server keeps dated snapshots so answers stay
     reproducible, and each answer states whether live or snapshot data was used.
+  - >-
+    Web addresses change. The mass.gov address recorded for 105 CMR 300.000 in Phase 0 no longer
+    worked when it was checked on 2026-11-07; get_data_source_status probes each address so a
+    broken link shows up.
 
 sources:
   - id: ma-reportable-conditions
@@ -34,11 +38,18 @@ sources:
     kind: content
     status: active
     content_id: ma-reportable-conditions
-    homepage: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
-    probe_url: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    homepage: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
     used_by: [lookup_reportable_condition]
     caveats:
-      - Reviewed content bundled with the server. Changes to the regulation require a content update.
+      - >-
+        Content bundled with the server, transcribed on 2026-11-07 from 105 CMR 300.000 (Mass.
+        Register #1470, 5/27/22) and DPH's current reporting lists. It is pending review by the
+        subject matter expert. Changes to the regulation or to DPH's lists require a content update.
+      - >-
+        The Commissioner can add conditions for up to 12 months at a time by declaration under
+        105 CMR 300.150 (for example alpha-gal syndrome from April 1, 2026). Check DPH's current
+        reporting page for declarations newer than the bundled content.
 
   - id: ma-municipalities
     name: Massachusetts cities and towns, counties, and DPH preparedness regions
@@ -50,7 +61,10 @@ sources:
     probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/townssurvey_shp.zip
     used_by: [configure_jurisdiction, lookup_reportable_condition]
     caveats:
-      - HMCC regions are derived from the 2005 DPH Emergency Preparedness Region layer; confirm with your HMCC.
+      - >-
+        HMCC regions are derived from the 2005 DPH Emergency Preparedness Region layer (Regions 4A
+        and 4B merged into 4AB), corrected for one town (Wilmington, Region 3) to match DPH's HMCC
+        Regional Boundaries map (December 2019). Confirm with your HMCC.
 
   - id: ma-school-districts
     name: Massachusetts public school districts
@@ -58,11 +72,13 @@ sources:
     kind: snapshot
     status: active
     snapshot_id: ma-school-districts
-    homepage: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
+    homepage: https://www.mass.gov/info-details/massgis-data-public-school-districts
     probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
     used_by: [configure_jurisdiction]
     caveats:
-      - District list reflects the layer's vintage; newer regionalizations may be missing.
+      - >-
+        District list reflects the MassGIS layer's vintage (June 2019); districts formed, merged,
+        or renamed since then may be missing. Confirm with DESE School and District Profiles.
 
   - id: local-files
     name: Your files in the mounted /data folder
@@ -71,74 +87,343 @@ sources:
     status: active
     homepage: null
     probe_url: null
-    used_by: [read_local_file, search_agency_policies, profile_local_dataset, deidentify_dataset, apply_small_cell_suppression, check_document_accessibility, export_document]
+    used_by:
+      - read_local_file
+      - search_agency_policies
+      - profile_local_dataset
+      - deidentify_dataset
+      - apply_small_cell_suppression
+      - check_document_accessibility
+      - export_document
+      - run_statistical_test
+      - create_spc_chart
+      - analyze_outbreak_line_list
+      - generate_epi_curve
+      - measure_health_disparities
+      - create_choropleth_map
+      - check_ma_school_immunization_requirements
+      - analyze_vaccination_coverage
+      - forecast_immunizations_due
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
+  # --- Phase 3: communicable disease I ---------------------------------------
+  - id: ma-dph-guide-corpus
+    name: DPH Guide to Surveillance, Reporting and Control (disease chapters) and DPH fact sheets
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-dph-guide-corpus
+    homepage: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    probe_url: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    used_by: [search_ma_disease_control_guide]
+    caveats:
+      - >-
+        Text corpus built on 2026-11-08 by `cargo xtask build-guide-corpus` from 25 guide
+        chapters (DOCX and RTF; most dated 2016-2018, a few 2022-2023) and 66 DPH fact sheet and
+        guidance pages. The Streptococcus pneumoniae chapter (a legacy .doc file) is not included.
+        Tables are flattened and images (flowcharts) are omitted. Some chapters predate current
+        DPH guidance; answers show each passage's document and date.
+
+  - id: ma-disease-rules
+    name: Isolation, quarantine, and exclusion rules, incubation and infectious periods (105 CMR 300.200 and DPH guidance)
+    publisher: Massachusetts Department of Public Health; CDC
+    kind: content
+    status: active
+    content_id: ma-disease-rules
+    homepage: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    used_by: [calculate_isolation_and_exclusion, plan_contact_tracing, assess_measles_exposure, analyze_outbreak_line_list, generate_epi_curve]
+    caveats:
+      - >-
+        Drafted on 2026-11-07 from 105 CMR 300.200 (Mass. Register #1470, 5/27/22), DPH guide
+        chapters, fact sheets, and respiratory guidance, and CDC pages. Pending review by the
+        subject matter expert before Pilot 1; every rule has a citation and a confidence level.
+
+  - id: ma-measles-exposure
+    name: Measles evidence of immunity, post-exposure prophylaxis, and priority groups
+    publisher: Massachusetts Department of Public Health; CDC (ACIP)
+    kind: content
+    status: active
+    content_id: ma-measles-exposure
+    homepage: https://www.mass.gov/doc/measles-2022/download
+    probe_url: https://www.mass.gov/doc/measles-2022/download
+    used_by: [assess_measles_exposure]
+    caveats:
+      - >-
+        From DPH's 2022 measles guide chapter and the 2013 ACIP MMR statement (MMWR
+        2013;62(RR-4)). Pending review; confirm that no later ACIP or DPH change applies.
+
+  - id: ma-infection-control
+    name: Infection control for congregate settings (CDC/HICPAC Appendix A, 105 CMR 300.020, EPA disinfectant lists)
+    publisher: CDC/HICPAC; Massachusetts Department of Public Health; U.S. EPA
+    kind: content
+    status: active
+    content_id: ma-infection-control
+    homepage: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+    probe_url: https://www.epa.gov/pesticide-registration/selected-epa-registered-disinfectants
+    used_by: [infection_control_for_congregate_settings]
+    caveats:
+      - >-
+        Precautions and durations transcribed from Appendix A (page updated 2026-09-11); setting
+        notes summarized from DPH guidance. EPA product lists change often: the tool links to the
+        lists instead of naming products. Pending review.
+
   # --- Planned sources (later phases) ----------------------------------------
+  # --- Phase 4: public data and evidence ------------------------------------
   - id: census-acs
     name: American Community Survey 5-year estimates
     publisher: U.S. Census Bureau
     kind: live
-    status: planned
-    planned_phase: 4
+    status: active
+    snapshot_id: census-acs5-ma
     homepage: https://www.census.gov/programs-surveys/acs
-    probe_url: https://api.census.gov/data.html
-    used_by: []
+    probe_url: https://api.census.gov/data/2024/acs/acs5/variables/B01003_001E.json
+    used_by: [build_community_health_profile, language_access_profile]
     caveats:
-      - Requires a free Census API key for heavy use.
+      - >-
+        Live figures come from api.census.gov (the newest published 5-year vintage). From
+        some networks the API answers requests without a key with a "missing key" page; set
+        PHN_CENSUS_API_KEY (free) or rely on the bundled 2020–2024 snapshot, which was built
+        from the keyless summary files on www2.census.gov.
+      - >-
+        Estimates carry sampling error (90% margins of error are shown); derived percentages
+        use the Census Bureau's approximation formulas, and figures with a coefficient of
+        variation above 30% are flagged as unreliable.
+      - >-
+        Detailed languages (B16001) are published only for the state and PUMAs; towns and tracts
+        use the 12 language groups of C16001.
+  - id: census-geographies
+    name: Census geographies, crosswalks, and map boundaries for Massachusetts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: ma-boundaries
+    homepage: https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
+    probe_url: https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_25_cousub_500k.zip
+    used_by: [build_community_health_profile, get_social_vulnerability_index, language_access_profile, get_places_estimates, create_choropleth_map]
+    caveats:
+      - >-
+        Towns are Census county subdivisions (2024 Gazetteer); tract-to-town shares come from the
+        2020 block assignment file and count blocks, not people. ZCTAs approximate ZIP Codes and
+        cross town lines.
+      - >-
+        Map boundaries are simplified cartographic boundary files (2024 towns and tracts, 2020
+        ZCTAs), not survey-grade; school districts are unions of member towns from the 2019
+        MassGIS district list.
   - id: cdc-socrata
-    name: CDC open data portal (data.cdc.gov)
+    name: CDC open data portal (data.cdc.gov) — PLACES 2025 release
     publisher: Centers for Disease Control and Prevention
     kind: live
-    status: planned
-    planned_phase: 4
-    homepage: https://data.cdc.gov
-    probe_url: https://data.cdc.gov
-    used_by: []
+    status: active
+    snapshot_id: cdc-places-2025-ma
+    homepage: https://www.cdc.gov/places/index.html
+    probe_url: https://data.cdc.gov/resource/swc5-untb.json?$limit=1
+    used_by: [get_places_estimates, build_community_health_profile]
     caveats:
       - Some datasets were removed or changed in 2025; snapshots are kept for reproducibility.
+      - >-
+        PLACES 2025 datasets: county swc5-untb, place eav7-hnsx, tract cwsq-ngmh, ZCTA qnzd-25i4.
+        Most measures use BRFSS 2023 data (five use 2022); the data year differs from the release
+        year.
+      - >-
+        PLACES values are model-based small-area estimates, not local survey results.
+        Massachusetts and U.S. reference values are population-weighted means of county
+        estimates computed by this server, not official CDC state estimates.
   - id: cdc-svi
-    name: CDC/ATSDR Social Vulnerability Index
+    name: CDC/ATSDR Social Vulnerability Index 2022
     publisher: Centers for Disease Control and Prevention / ATSDR
     kind: snapshot
-    status: planned
-    planned_phase: 4
+    status: active
+    snapshot_id: cdc-svi-2022-ma
     homepage: https://www.atsdr.cdc.gov/place-health/php/svi/index.html
-    probe_url: https://www.atsdr.cdc.gov
-    used_by: []
+    probe_url: https://svi.cdc.gov/Documents/Data/2022/csv/states/Massachusetts.csv
+    used_by: [get_social_vulnerability_index, build_community_health_profile]
     caveats:
-      - Released about every two years.
+      - >-
+        Released about every two years; SVI 2022 (ACS 2018–2022, released May 2024, MOE
+        correction December 2024) is the latest. Ranks are relative percentiles and cannot be
+        compared across releases or between the Massachusetts and national rankings.
   - id: ncbi-eutils
     name: NCBI E-utilities (PubMed)
     publisher: National Library of Medicine
     kind: live
-    status: planned
-    planned_phase: 4
+    status: active
     homepage: https://www.ncbi.nlm.nih.gov/books/NBK25501/
     probe_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi
-    used_by: []
-    caveats: []
+    used_by: [search_pubmed, search_cdc_guidance]
+    caveats:
+      - >-
+        Requests identify the tool (tool=public-health-nursing-mcp-server) and never send an
+        email address; they are spaced to stay under 3 per second (10 with PHN_NCBI_API_KEY) and
+        cached for one day. No snapshot: searches need the network unless cached.
+  - id: cdc-guidance
+    name: CDC MMWR and Health Alert Network (HAN) notices
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    homepage: https://www.cdc.gov/mmwr/index.html
+    probe_url: https://tools.cdc.gov/api/v2/resources/media?max=1
+    used_by: [search_cdc_guidance]
+    caveats:
+      - >-
+        MMWR: CDC content syndication API v2 title search and a PubMed search of the MMWR journal.
+        HAN: the HAN archive's JSON module, the next notice pages in sequence, and the retired HAN
+        feed (2023 and earlier). CDC Stacks refuses automated searches, so only a search link is
+        given.
+      - >-
+        CDC reorganized its website in 2024–2025 and retired several RSS feeds; these methods were
+        checked in November 2026 and may need updating when CDC changes its site again.
+  # --- Planned sources (later phases) ----------------------------------------
   - id: openfda
     name: openFDA, DailyMed, and RxNorm
     publisher: U.S. Food and Drug Administration; National Library of Medicine
     kind: live
-    status: planned
-    planned_phase: 5
+    status: active
     homepage: https://open.fda.gov
-    probe_url: https://api.fda.gov
-    used_by: []
-    caveats: []
-  - id: cdc-cdsi
-    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data
+    probe_url: https://api.fda.gov/drug/label.json?limit=1
+    used_by: [lookup_medication_information, lookup_vaccine_product]
+    caveats:
+      - Live only (answers are cached for a day); there is no offline snapshot, so offline answers say what could not be checked.
+      - openFDA states its data are unvalidated and must not be relied on for medical decisions; the package insert on DailyMed is the label of record.
+      - An optional free openFDA key (PHN_OPENFDA_API_KEY) raises the rate limit; it is never shown in answers.
+  # --- Phase 5: immunization content and snapshots ---------------------------
+  - id: cdc-iis-vaccine-codes
+    name: CDC IIS vaccine code sets (CVX, MVX, trade names, NDC)
     publisher: Centers for Disease Control and Prevention
     kind: snapshot
-    status: planned
-    planned_phase: 6
+    status: active
+    snapshot_id: cdc-iis-vaccine-codes
+    homepage: https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx
+    probe_url: https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/cvx.txt
+    used_by: [lookup_vaccine_product]
+    caveats:
+      - The CVX table is refreshed live when reachable; MVX, trade names, and NDCs come from the bundled snapshot.
+  - id: ma-school-immunization-survey
+    name: Massachusetts school immunization survey results by school
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-school-immunization-survey
+    homepage: https://www.mass.gov/info-details/school-immunizations
+    probe_url: https://www.mass.gov/info-details/school-immunizations
+    used_by: [analyze_vaccination_coverage]
+    caveats:
+      - Self-reported by schools; DPH withholds schools with fewer than 30 students and publishes rates without enrollment counts.
+  - id: nis-coverage-ma-us
+    name: National Immunization Survey and VaxView coverage, Massachusetts and United States
+    publisher: Centers for Disease Control and Prevention
+    kind: snapshot
+    status: active
+    snapshot_id: nis-coverage-ma-us
+    homepage: https://www.cdc.gov/vaxview/index.html
+    probe_url: https://data.cdc.gov/resource/fhky-rtsk.json?$limit=1
+    used_by: [analyze_vaccination_coverage]
+    caveats:
+      - Survey estimates with sampling error; NIS-Child is reported by birth year and lags the calendar.
+  - id: vax-reference-content
+    name: Immunization reference content (schedules, recommendations by body, school requirements, storage and handling, products, clinic planning, conversation guide, thresholds)
+    publisher: DPH, CDC/ACIP, AAP, AAFP, ACOG, Immunize.org (drafted by this project)
+    kind: content
+    status: active
+    content_id: vax-recommendations
+    homepage: https://www.mass.gov/info-details/dph-recommended-vaccines
+    probe_url: https://www.mass.gov/info-details/dph-recommended-vaccines
+    used_by: [get_immunization_schedule, compare_vaccine_recommendations, check_ma_school_immunization_requirements, analyze_vaccination_coverage, vaccine_temperature_excursion_helper, lookup_vaccine_product, plan_vaccination_clinic, vaccine_confidence_conversation_guide]
+    caveats:
+      - Drafted from documents retrieved 2026-11-07 and pending subject-matter review. Federal and Massachusetts guidance have diverged since 2025; refresh whenever any body issues new guidance.
+  - id: cdc-cdsi
+    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data v4.65 and logic specification v4.6
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: cdsi-supporting-data
     homepage: https://www.cdc.gov/iis/cdsi/index.html
-    probe_url: https://www.cdc.gov
-    used_by: []
-    caveats: []
+    probe_url: https://www.cdc.gov/iis/cdsi/index.html
+    used_by: [forecast_immunizations_due]
+    caveats:
+      - Supporting data v4.65 (August 2026) is embedded with checksums; CDC updates it with each schedule change, so check the CDSi page for a newer version at each review.
+      - Encodes CDC/ACIP recommendations only; Massachusetts DPH and AAP/ACOG positions issued since 2025 may differ.
+      - Seasonal series (influenza, COVID-19, RSV) use the 2025-26 season dates in this version.
+      - The engine passes all 1,064 healthy childhood and adult CDC test cases and 301 of 337 underlying-condition cases; exceptions are documented in docs/cdsi-test-results.md.
+  - id: cdc-nndss-weekly
+    name: NNDSS Weekly Data (National Notifiable Diseases Surveillance System)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-nndss-weekly
+    homepage: https://data.cdc.gov/d/x9gk-5huc
+    probe_url: https://data.cdc.gov/resource/x9gk-5huc.json?$limit=1
+    used_by: [get_notifiable_disease_trends]
+    caveats:
+      - >-
+        Provisional weekly counts (MMWR years 2022 onward) as published each week by reporting
+        jurisdiction; CDC revises them, and finalized annual tables (CDC Stacks) can differ.
+        Massachusetts DPH (MAVEN) counts can differ.
+      - >-
+        Condition rows change names and case definitions between years; rows are not combined,
+        so some have fewer than five baseline years.
+      - >-
+        The bundled snapshot covers only the latest published week for Massachusetts, New England,
+        and U.S. residents.
+  - id: cdc-respiratory-surveillance
+    name: CDC respiratory virus surveillance (NHSN admissions, NSSP ED visits, NREVSS test positivity, ARI activity level)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-respiratory-ma
+    homepage: https://www.cdc.gov/respiratory-viruses/data/index.html
+    probe_url: https://data.cdc.gov/resource/vdzy-6i9v.json?$limit=1
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Datasets vdzy-6i9v (NHSN), rdmq-nq56 (NSSP), gvsb-yw6g and 3cxc-4k8q (NREVSS, HHS Region
+        1), seuz-s2cv (national percent positive), and f3zz-zga5 (ARI level), checked 2026-11-08.
+        CDC renames and replaces respiratory datasets between seasons; check the IDs each season.
+      - >-
+        Provisional and revised weekly; the latest week is often incomplete. NHSN depends on
+        hospital reporting, NSSP on participating emergency departments, NREVSS on participating
+        laboratories.
+  - id: cdc-nwss
+    name: CDC National Wastewater Surveillance System (NWSS) viral activity levels
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-nwss-ma
+    homepage: https://www.cdc.gov/wastewater/respiratory-viruses/state.html
+    probe_url: https://data.cdc.gov/resource/atcp-73re.json?$limit=1
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Site-level wastewater viral activity levels (dataset atcp-73re) for SARS-CoV-2, influenza
+        A, and RSV. Sites are identified only by an arbitrary number, counties served, and
+        population served; on 2026-11-08 six Massachusetts sites reported.
+  - id: mwra-deer-island-biobot
+    name: MWRA Deer Island wastewater SARS-CoV-2 (Biobot), final series
+    publisher: Massachusetts Water Resources Authority
+    kind: snapshot
+    status: active
+    snapshot_id: mwra-deer-island-biobot
+    homepage: https://www.mwra.com/biobot/biobotdata.htm
+    probe_url: https://www.mwra.com/biobot/biobotdata.htm
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        MWRA's Biobot testing ended with samples collected through 2026-07-27; MWRA reports that
+        DPH is replacing it with its own program and plans a dashboard. Check the MWRA page for
+        the new link.
+  - id: ma-dph-respiratory-dashboard
+    name: DPH respiratory illness reporting dashboard
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    kind: live
+    status: active
+    homepage: https://www.mass.gov/info-details/respiratory-illness-reporting
+    probe_url: https://www.mass.gov/info-details/respiratory-illness-reporting
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Linked, not read: the briefing points to this dashboard (hospital admissions and ED
+        visits for COVID-19, influenza, and RSV) as the Massachusetts source of record.
   - id: nws-alerts
     name: National Weather Service alerts API
     publisher: National Weather Service

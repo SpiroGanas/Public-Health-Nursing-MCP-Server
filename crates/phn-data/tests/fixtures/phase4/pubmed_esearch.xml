@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE eSearchResult PUBLIC "-//NLM//DTD esearch 20060628//EN" "https://eutils.ncbi.nlm.nih.gov/eutils/dtd/20060628/esearch.dtd">
+<eSearchResult><Count>69</Count><RetMax>3</RetMax><RetStart>0</RetStart><IdList>
+<Id>42309234</Id>
+<Id>42317980</Id>
+<Id>41759747</Id>
+</IdList><TranslationSet><Translation>     <From>pertussis[MeSH Terms]</From>     <To>"whooping cough"[MeSH Terms]</To>    </Translation></TranslationSet><QueryTranslation>"whooping cough"[MeSH Terms] AND "vaccin*"[Title/Abstract] AND "systematic"[Filter]</QueryTranslation></eSearchResult>

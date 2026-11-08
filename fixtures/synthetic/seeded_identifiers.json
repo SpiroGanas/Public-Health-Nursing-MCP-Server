@@ -1586,6 +1586,2178 @@
    "value": "900-12-3456",
    "kind": "ssn",
    "file": "data/policies/needlestick_exposure.md"
+  },
+  {
+   "value": "1047203961",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Okafor",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Amara",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-10-07",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203978",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Haddad",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tobias",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-11-23",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203985",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Kowalczyk",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ingrid",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-01-19",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203992",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Vasquez",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Mateo",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-02-27",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204008",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Tremblay",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Priya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-03-09",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204015",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nakamura",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Kenji",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-04-13",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204022",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oyelaran",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Yusuf",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-05-29",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204039",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Delacroix",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Elodie",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-06-17",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204046",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Petrakis",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dimitri",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-07-21",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204053",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lindqvist",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Saoirse",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1047204060",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Abernathy",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bodhi",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-10-11",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204077",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Castellanos",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Leilani",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-12-03",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204084",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Mbeki",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thiago",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-01-25",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204091",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Sorensen",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Anouk",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-03-14",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204107",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintero",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rafferty",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-05-06",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204114",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Iwasaki",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zainab",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-06-30",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204121",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Bergstrom",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Esme",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-08-18",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204138",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Achebe",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Callum",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-09-26",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204145",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Montoya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ximena",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2009-11-01",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204152",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Kaczmarek",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Oskar",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-01-15",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204169",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ferreira",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nadia",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-03-22",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204176",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Halvorsen",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Idris",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-06-04",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204183",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oduya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Paloma",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-08-09",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204190",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ruiz-Takeda",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Soren",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2022-02-16",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "IZ-80101",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Thornbury",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2025-02-14",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80102",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Okonkwo-Larsen",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bartholomew",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2024-09-03",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80103",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Quintanilla",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Esperanza",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-05-20",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80104",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Vandermeer",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1958-11-30",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80105",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Abernathy",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Clementine",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-07-07",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80106",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Szczepanski",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-01-10",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80107",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Featherstonehaugh",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Persephone",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "Abernathy",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ardith",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0140",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-001",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Kowalczyk",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bexley",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0141",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-002",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Okonkwo",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Calloway",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0142",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-003",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Lindqvist",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Delphine",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0143",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-004",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ferreira",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Evander",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0144",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-005",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Haddad",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Fenwick",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0145",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-006",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Novak",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Galen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0146",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-007",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Takahashi",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Henrike",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0147",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-008",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Oyelaran",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Isidore",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0148",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-009",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Brennan",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Juniper",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0149",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-010",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Szymanski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Kestrel",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0150",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-011",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Achterberg",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Lorcan",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0151",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-012",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Valdivia",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Marisol",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0152",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-013",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Quarshie",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Niamh",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0153",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-014",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Rasmussen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Osric",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0154",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-015",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Dellacroce",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Philippa",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0155",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-016",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ekwueme",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Quillon",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0156",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-017",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Fairweather",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rosalind",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0157",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-018",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Gallardo",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Soren",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0158",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-019",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Horvath",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0159",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-020",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Iannucci",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ulrika",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0160",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-021",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Jaroszewski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Viggo",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0161",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-022",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Kavanagh",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0162",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-023",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Lachance",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Xanthe",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0163",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-024",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Mbeki",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Yorick",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0164",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-025",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Nakamura",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zuleika",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0165",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-026",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ostrowski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Anselm",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0166",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-027",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Pellegrino",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Briallen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0167",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-028",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Quintanilla",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Cosima",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0168",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-029",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Radovic",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dashiell",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0169",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-030",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Sorensen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Elowen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0170",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-031",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Tremblay",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Florian",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0171",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-032",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Underhill",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Giselle",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0172",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-033",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Vasquez-Ortega",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Hollis",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0173",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-034",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Wojcik",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0174",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-035",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Xiong",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jessamy",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0175",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-036",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Yamamoto",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Kasimir",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0176",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-037",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Zielinski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Leocadia",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0177",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-038",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Archambault",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Mattias",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0178",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-039",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Bergstrom",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nerissa",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0179",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-040",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Castellano",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ottoline",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0180",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-041",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Dabrowski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Peregrine",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0181",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-042",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Esposito",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rafferty",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0182",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-043",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Fitzgerald",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Saoirse",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0183",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-044",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Grabowski",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tamsin",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0184",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-045",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Halvorsen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ulysses",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0185",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-046",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ishikawa",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Valentina",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0186",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-047",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Janssen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wendeline",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0187",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-048",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Kirkpatrick",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ysolde",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0188",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-049",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Lombardi",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zebulon",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0189",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-050",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Moreau",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Alaric",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0190",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-051",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Nikolaidis",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bronwen",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0191",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-052",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Oduya",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Cyprian",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0192",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-053",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Petrakis",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Damaris",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0193",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-054",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Rosenthal",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Emrys",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0194",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-055",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Sundqvist",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Fiammetta",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0195",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-056",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Thibodeau",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Gwenllian",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0196",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-057",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Ulrich",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Hesper",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0197",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-058",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Villanueva",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ingram",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0198",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-059",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
+  },
+  {
+   "value": "Whitfield",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jolyon",
+   "kind": "name",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0199",
+   "kind": "phone",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "CS-2026-060",
+   "kind": "other_id_number",
+   "file": "data/church_supper_outbreak.csv",
+   "column": "Case ID"
   }
  ]
 }

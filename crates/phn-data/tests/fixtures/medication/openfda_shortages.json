@@ -1,0 +1,33 @@
+{
+ "meta": {
+  "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+  "terms": "https://open.fda.gov/terms/",
+  "license": "https://open.fda.gov/license/",
+  "last_updated": "2026-11-06",
+  "results": {
+   "skip": 0,
+   "limit": 1,
+   "total": 1598
+  }
+ },
+ "results": [
+  {
+   "discontinued_date": "08/13/2026",
+   "update_type": "New",
+   "initial_posting_date": "08/13/2026",
+   "package_ndc": "0228-2551-06",
+   "generic_name": "Diclofenac Sodium Tablet, Delayed Release",
+   "contact_info": "800-545-8800",
+   "related_info": "A business decision was made to discontinue manufacture of the drug.",
+   "update_date": "08/13/2026",
+   "therapeutic_category": [
+    "Musculoskeletal",
+    "Rheumatology"
+   ],
+   "dosage_form": "Tablet",
+   "presentation": "Diclofenac Sodium, Tablet, Delayed Release, 75 mg (NDC 0228-2551-06)",
+   "company_name": "Teva Pharmaceuticals USA, Inc.",
+   "status": "To Be Discontinued"
+  }
+ ]
+}

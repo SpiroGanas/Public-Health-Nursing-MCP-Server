@@ -1,0 +1,29 @@
+Client ID,Last Name,First Name,DOB,Sex,Vaccine,CVX,Date Given
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Pediarix,110,2025-04-15
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,ActHIB,48,2025-04-15
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Prevnar 20,216,2025-04-15
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Rotarix,119,2025-04-15
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Pediarix,110,2025-06-16
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,ActHIB,48,2025-06-16
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Prevnar 20,216,2025-06-16
+IZ-80101,Thornbury,Wilhelmina,2025-02-14,F,Rotarix,119,2025-06-16
+IZ-80102,Okonkwo-Larsen,Bartholomew,2024-09-03,M,Engerix B-Peds,08,2024-09-04
+IZ-80102,Okonkwo-Larsen,Bartholomew,2024-09-03,M,Pentacel,120,2024-11-05
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,DTaP,107,2013-07-22
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,DTaP,107,2013-09-23
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,DTaP,107,2013-11-25
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,DTaP,107,2014-08-25
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,Kinrix,130,2017-06-12
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,M-M-R II,03,2014-05-27
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,ProQuad,94,2017-06-12
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,Varivax,21,2014-05-27
+IZ-80103,Quintanilla,Esperanza,2013-05-20,F,Gardasil 9,165,2025-06-02
+IZ-80104,Vandermeer,Thaddeus,1958-11-30,M,Shingrix,187,2026-03-09
+IZ-80105,Abernathy,Clementine,2021-07-07,F,Pediarix,110,2021-09-08
+IZ-80105,Abernathy,Clementine,2021-07-07,F,Pediarix,110,2021-11-09
+IZ-80105,Abernathy,Clementine,2021-07-07,F,Pediarix,110,2022-01-11
+IZ-80105,Abernathy,Clementine,2021-07-07,F,M-M-R II,03,2022-07-12
+IZ-80105,Abernathy,Clementine,2021-07-07,F,Varivax,21,2022-07-12
+IZ-80105,Abernathy,Clementine,2021-07-07,F,Unknown product,999,2022-08-01
+IZ-80106,Szczepanski,Ignatius,2026-01-10,M,Engerix B-Peds,08,2026-01-11
+IZ-80107,Featherstonehaugh,Persephone,,F,Vaxelis,146,2026-02-02

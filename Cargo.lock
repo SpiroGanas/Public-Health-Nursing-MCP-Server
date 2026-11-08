@@ -2342,8 +2342,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "phn-cdsi"
+version = "0.7.0"
+dependencies = [
+ "calamine",
+ "chrono",
+ "hex",
+ "quick-xml",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "phn-content"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "chrono",
  "jsonschema",
@@ -2356,7 +2369,7 @@ dependencies = [
 
 [[package]]
 name = "phn-core"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "chrono",
  "schemars",
@@ -2371,12 +2384,13 @@ dependencies = [
 
 [[package]]
 name = "phn-data"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "chrono",
  "csv",
  "hex",
  "phn-core",
+ "quick-xml",
  "reqwest",
  "rusqlite",
  "schemars",
@@ -2391,7 +2405,7 @@ dependencies = [
 
 [[package]]
 name = "phn-docs"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "chrono",
  "csv",
@@ -2413,7 +2427,7 @@ dependencies = [
 
 [[package]]
 name = "phn-epi"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "schemars",
  "serde",
@@ -2423,7 +2437,7 @@ dependencies = [
 
 [[package]]
 name = "phn-local"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "calamine",
  "chrono",
@@ -2447,7 +2461,7 @@ dependencies = [
 
 [[package]]
 name = "phn-server"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "jsonschema",
@@ -2471,18 +2485,23 @@ dependencies = [
 
 [[package]]
 name = "phn-tools"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "chrono",
+ "csv",
+ "phn-cdsi",
  "phn-content",
  "phn-core",
  "phn-data",
  "phn-docs",
  "phn-epi",
  "phn-local",
+ "rust_xlsxwriter",
  "schemars",
  "serde",
  "serde_json",
+ "statrs",
+ "tantivy",
  "tempfile",
  "tokio",
  "tracing",
@@ -4844,7 +4863,7 @@ checksum = "ec7a2a501ed189703dba8b08142f057e887dfc4b2cc4db2d343ac6376ba3e0b9"
 
 [[package]]
 name = "xtask"
-version = "0.2.0"
+version = "0.7.0"
 dependencies = [
  "anyhow",
  "chrono",
@@ -4854,7 +4873,10 @@ dependencies = [
  "jsonschema",
  "phn-content",
  "phn-core",
+ "phn-data",
+ "phn-local",
  "reqwest",
+ "scraper",
  "serde",
  "serde-saphyr",
  "serde_json",

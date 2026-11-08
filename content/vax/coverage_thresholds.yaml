@@ -1,0 +1,123 @@
+# Population immunity thresholds and coverage targets used to flag schools and towns
+# (VAX-05 analyze_vaccination_coverage).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/vax_coverage_thresholds.schema.json
+meta:
+  id: vax-coverage-thresholds
+  title: Herd immunity thresholds and vaccination coverage targets
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: '"Herd immunity": a rough guide. Fine P, Eames K, Heymann DL. Clin Infect Dis 2011;52(7):911-916 (PMID 21427399)'
+    publisher: Clinical Infectious Diseases (Infectious Diseases Society of America)
+    url: https://pubmed.ncbi.nlm.nih.gov/21427399/
+  related_sources:
+    - title: School Immunizations (DPH school survey data and notes)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/school-immunizations
+    - title: Healthy People 2030 objective IID-04 (MMR coverage among kindergartners)
+      publisher: U.S. Department of Health and Human Services, Office of Disease Prevention and Health Promotion
+      url: https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives/vaccination/maintain-vaccination-coverage-level-1-dose-mmr-vaccine-children-kindergarten-iid-04
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The citation for Fine, Eames, and Heymann (2011) was verified through NCBI E-utilities, but the
+    full text could not be retrieved; the threshold ranges below are the developer's transcription
+    of that paper's widely reproduced table and are marked confidence medium. The Healthy People
+    2030 page could not be retrieved (blocked host); the 95% kindergarten MMR target is marked
+    medium. Thresholds are approximate population-level estimates (1 - 1/R0) that assume random
+    mixing; clustered undervaccination (a school or town) can sustain outbreaks even when a larger
+    area is above the threshold. The subject matter expert should confirm the values and choose
+    the default flag thresholds.
+
+thresholds:
+  - id: measles
+    disease: Measles
+    vaccines: [mmr]
+    r0: 12-18
+    threshold_pct_low: 92
+    threshold_pct_high: 94
+    flag_default_pct: 95
+    flag_basis: >-
+      95% is the commonly used target for 2-dose MMR coverage (Healthy People 2030 kindergarten MMR
+      target) and sits above the 92-94% herd immunity range because measles vaccine is not 100%
+      effective.
+    confidence: medium
+  - id: pertussis
+    disease: Pertussis
+    vaccines: [dtap, tdap]
+    r0: 12-17
+    threshold_pct_low: 92
+    threshold_pct_high: 94
+    flag_default_pct: 92
+    flag_basis: Lower bound of the herd immunity range (pertussis immunity wanes, so high coverage does not prevent all outbreaks).
+    confidence: medium
+  - id: diphtheria
+    disease: Diphtheria
+    vaccines: [dtap, tdap]
+    r0: 6-7
+    threshold_pct_low: 83
+    threshold_pct_high: 85
+    flag_default_pct: 85
+    flag_basis: Upper bound of the herd immunity range.
+    confidence: medium
+  - id: rubella
+    disease: Rubella
+    vaccines: [mmr]
+    r0: 6-7
+    threshold_pct_low: 83
+    threshold_pct_high: 85
+    flag_default_pct: 85
+    flag_basis: Upper bound of the herd immunity range.
+    confidence: medium
+  - id: mumps
+    disease: Mumps
+    vaccines: [mmr]
+    r0: 4-7
+    threshold_pct_low: 75
+    threshold_pct_high: 86
+    flag_default_pct: 86
+    flag_basis: Upper bound of the herd immunity range.
+    confidence: medium
+  - id: polio
+    disease: Polio
+    vaccines: [polio]
+    r0: 5-7
+    threshold_pct_low: 80
+    threshold_pct_high: 86
+    flag_default_pct: 86
+    flag_basis: Upper bound of the herd immunity range.
+    confidence: medium
+  - id: varicella
+    disease: Varicella
+    vaccines: [varicella]
+    r0: null
+    threshold_pct_low: null
+    threshold_pct_high: null
+    flag_default_pct: 90
+    flag_basis: >-
+      Tool default (no herd immunity threshold was verified for varicella in the sources used); set
+      your own threshold.
+    confidence: low
+
+measure_map:
+  # DPH survey column -> diseases whose threshold applies.
+  mmr: [measles, mumps, rubella]
+  dtap: [pertussis, diphtheria]
+  tdap: [pertussis, diphtheria]
+  polio: [polio]
+  var: [varicella]
+  hepb: []
+  men: []
+  series: [measles]
+
+dph_small_school_rule: >-
+  DPH does not release single-year rates for schools reporting fewer than 30 students (marked with a
+  dagger); its 3-year combined kindergarten file releases rates when the pooled count reaches 30.
+  Schools that did not return a survey are marked with an asterisk; schools with unresolved
+  discrepancies are marked with a pilcrow.

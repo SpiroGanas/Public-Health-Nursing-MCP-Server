@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_products.schema.json",
+  "title": "Vaccine products, storage notes, BUD guidance, and VIS editions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "beyond_use",
+    "storage_classes",
+    "products",
+    "vis",
+    "vis_keywords"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "beyond_use": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "definition",
+        "calculation",
+        "examples",
+        "note"
+      ],
+      "properties": {
+        "definition": {
+          "type": "string"
+        },
+        "calculation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "storage_classes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "trade_name",
+          "manufacturer",
+          "vaccine",
+          "licensed_ages",
+          "storage",
+          "ages_source"
+        ],
+        "properties": {
+          "trade_name": {
+            "type": "string"
+          },
+          "manufacturer": {
+            "type": "string"
+          },
+          "vaccine": {
+            "type": "string"
+          },
+          "licensed_ages": {
+            "type": "string"
+          },
+          "storage": {
+            "type": "string"
+          },
+          "ages_source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "vis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_date",
+        "translations_url",
+        "translation_note",
+        "editions"
+      ],
+      "properties": {
+        "page_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "translations_url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "translation_note": {
+          "type": "string"
+        },
+        "editions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "vaccine",
+              "title",
+              "date",
+              "interim"
+            ],
+            "properties": {
+              "vaccine": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              },
+              "date": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "interim": {
+                "type": "boolean"
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "vis_keywords": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "vaccine",
+          "keywords"
+        ],
+        "properties": {
+          "vaccine": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

@@ -10,12 +10,15 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.2.0 — Phases 0 and 1 of the [project plan](project_plan.md).** 11 of the 148
-> planned tools are available. The bundled 105 CMR 300.000 reportable-condition list is a
-> **draft pending review** by the subject matter expert; every answer from it says so.
-> All clinical and legal output is decision support only.
+> **Status: v0.7.0 — Phases 0 to 6 of the [project plan](project_plan.md).** 47 of the 148
+> planned tools are available. Bundled reference content (reportable conditions, disease rules,
+> immunization schedules, recommendations, and school requirements, and the other items listed by
+> `get_data_source_status`) is a **draft pending review** by the subject matter expert; every
+> answer from it says so. All clinical and legal output is decision support only.
 
 ## Tools
+
+### Phases 0 and 1: foundation, local data, and documents
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
@@ -30,6 +33,67 @@ output folder instead of being sent to the AI model.
 | `deidentify_dataset` | EPI-08 | epi | Writes a HIPAA Safe Harbor de-identified copy (or a limited data set) and reports what changed. |
 | `lookup_reportable_condition` | CD-01 | cd | Whether a disease or lab result is reportable in Massachusetts, by whom, how fast, and to whom. |
 | `check_document_accessibility` | COMM-05 | comms | Checks DOCX, HTML, and PDF files against Section 508 / WCAG 2.1 AA. |
+
+### Phase 2: epidemiology and biostatistics engine
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `age_adjust_rates` | EPI-02 | epi | Direct age adjustment to the 2000 U.S. standard population (NCHS weights) with gamma-method intervals and comparisons. |
+| `analyze_two_by_two` | EPI-03 | epi | Risk and odds ratios, attributable fractions, chi-square and exact tests, and Mantel–Haenszel stratified analysis. |
+| `calculate_sample_size` | EPI-04 | epi | Sample size and power for surveys, two-group comparisons, case-control studies, and cluster samples. |
+| `compute_standardized_ratio` | EPI-05 | epi | Standardized incidence or mortality ratios (SIR/SMR) with exact intervals. |
+| `analyze_trends` | EPI-09 | epi | Annual percent change, joinpoint segments, interrupted time series, seasonality, and a trend chart. |
+| `run_statistical_test` | EPI-10 | epi | Chooses and runs the right test (t, rank, ANOVA, chi-square, correlation, regression), checks assumptions, and explains the result. |
+| `create_chart` | EPI-11 | epi | Accessible bar, line, dot, and histogram charts (PNG/SVG) with alt text and a data table. |
+| `create_spc_chart` | EBP-06 | ebp | Run charts and XmR, p, u, and c control charts with special-cause rules, baselines, and phases. |
+
+### Phase 3: communicable disease I
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `search_ma_disease_control_guide` | CD-02 | cd | Offline search of DPH's Guide to Surveillance, Reporting and Control and DPH fact sheets, with quoted passages, sections, dates, and URLs. |
+| `calculate_isolation_and_exclusion` | CD-03 | cd | Isolation, quarantine, and exclusion dates by setting under 105 CMR 300.200 and DPH guidance, with wording and citations. |
+| `analyze_outbreak_line_list` | CD-04 | cd | Person/place/time tables, food-specific attack rates with risk ratios, likely vehicles, and the exposure window from a local line list (aggregates only). |
+| `generate_epi_curve` | CD-05 | cd | Epidemic curves sized to the incubation period, with strata, exposure markers, and the likely pattern of spread. |
+| `plan_contact_tracing` | CD-06 | cd | Infectious period, elicitation window, per-contact dates, and a blank contact-tracking workbook in the output folder. |
+| `assess_measles_exposure` | CD-07 | cd | Evidence of immunity, MMR and immune globulin deadlines and doses, exclusion days 5–21, and priority groups. |
+| `detect_aberrations` | CD-10 | cd | EARS C1–C3, CUSUM, and Farrington (Noufaily) signals on a count series, with trade-offs explained. |
+| `infection_control_for_congregate_settings` | CD-13 | cd | Precautions, PPE, cohorting, and EPA disinfectant lists by pathogen for shelters, schools, child care, long-term care, and day programs. |
+
+### Phase 4: public data and evidence platform
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `build_community_health_profile` | EQ-01 | equity | One-call profile of a town, county, or tract: ACS demographics, language, income, insurance, disability, housing, and education with margins of error, PLACES, and SVI, compared with MA and the U.S. |
+| `get_social_vulnerability_index` | EQ-02 | equity | CDC/ATSDR SVI 2022 tract percentile ranks (overall and four themes) for a town, county, or tract. |
+| `language_access_profile` | EQ-03 | equity | Limited English proficiency by language with margins of error, checked against the HHS safe harbor (5% or 1,000 persons). |
+| `measure_health_disparities` | EQ-04 | equity | Rate ratios and differences with exact intervals, index of disparity, between-group variance, and attributable fraction. |
+| `get_places_estimates` | CHR-01 | chronic | CDC PLACES chronic disease and social-needs estimates with 95% intervals for a county, town, tract, or ZCTA. |
+| `create_choropleth_map` | EPI-12 | epi | Accessible SVG/PNG maps of towns, tracts, ZCTAs, or school districts with natural-breaks or quantile classes and hatched suppressed areas. |
+| `search_pubmed` | EBP-01 | ebp | PICO-based PubMed search (MeSH plus free text, study-type filters) with abstracts, DOIs, and the exact query. |
+| `search_cdc_guidance` | EBP-02 | ebp | Newest MMWR reports and HAN notices on a topic, with a CDC Stacks search link. |
+
+### Phase 5: immunizations I
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `get_immunization_schedule` | VAX-01 | vax | Routine schedules with DPH, AAP/ACOG/AAFP, and CDC/ACIP positions side by side, minimum ages and intervals, and contraindications. |
+| `compare_vaccine_recommendations` | VAX-02 | vax | Each body's recommendation with dates and sources, highlighting where federal guidance now differs. |
+| `check_ma_school_immunization_requirements` | VAX-04 | vax | Massachusetts school requirements for one student or a roster: met, not met, or not yet due, with the earliest valid date. |
+| `analyze_vaccination_coverage` | VAX-05 | vax | Ranks schools and towns from DPH's school survey, flags those below herd-immunity thresholds, and compares MA with the U.S. |
+| `vaccine_temperature_excursion_helper` | VAX-06 | vax | Steps, reporting thresholds, and contacts for a cold-chain excursion, with an optional worksheet. |
+| `lookup_vaccine_product` | VAX-07 | vax | Vaccine products by name, CVX, MVX, or NDC, with VIS editions and storage notes. |
+| `plan_vaccination_clinic` | VAX-08 | vax | Staffing, throughput, supplies, anaphylaxis kit and epinephrine dosing, layout, and a reconciliation sheet. |
+| `vaccine_confidence_conversation_guide` | VAX-09 | vax | Motivational-interviewing responses to vaccine concerns with cited facts and a reading-level check. |
+| `lookup_medication_information` | CORE-07 | core | RxNorm names, FDA label highlights, recalls, shortages, and DailyMed package inserts (reference only). |
+
+### Phase 6: immunization forecasting and surveillance feeds
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `forecast_immunizations_due` | VAX-03 | vax | Evaluates a dose history and forecasts doses due (CDC CDSi engine, ACIP schedule) for one person or, with aggregates only, a file of many people |
+| `get_notifiable_disease_trends` | CD-08 | cd | NNDSS weekly counts for Massachusetts, New England, and the U.S. compared with the five previous years (year to date, last 4 weeks, year-end totals) |
+| `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 Reference content and data snapshots are also exposed as MCP resources (`phn://content/…`,
@@ -50,7 +114,7 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0
 ```
 
 On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
@@ -59,7 +123,7 @@ Apple silicon) from the GitHub release and run `docker load -i <file>`.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 .
 ```
 
 ### 3. Create your data folder
@@ -84,7 +148,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
       ]
     }
   }
@@ -103,7 +167,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
       ]
     }
   }
@@ -125,7 +189,7 @@ Then try, for example:
 > Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

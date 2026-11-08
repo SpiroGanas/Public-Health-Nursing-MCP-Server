@@ -1,0 +1,2021 @@
+geoid,language,speakers,speakers_moe,lep,lep_moe
+25,Spanish,646141,5977,283213,5095
+25,French (incl. Cajun),45396,2671,8807,943
+25,Haitian,84163,4109,36914,2395
+25,Italian,26270,1570,6366,724
+25,Portuguese,228351,5536,106878,3737
+25,German,16379,1203,1125,267
+25,"Yiddish, Pennsylvania Dutch or other West Germanic languages",3661,932,484,272
+25,Greek,19743,1660,4954,655
+25,Russian,36221,2566,13911,1789
+25,Polish,13769,1407,4447,682
+25,Serbo-Croatian,5046,963,1642,527
+25,Ukrainian or other Slavic languages,9755,1165,3154,594
+25,Armenian,6253,1165,1966,760
+25,"Persian (incl. Farsi, Dari)",8895,1058,2783,630
+25,Gujarati,12762,1443,3755,696
+25,Hindi,32437,1824,4379,739
+25,Urdu,9080,1361,2090,431
+25,Punjabi,3772,859,1135,386
+25,Bengali,10104,1486,3121,786
+25,"Nepali, Marathi, or other Indic languages",16767,1639,5055,738
+25,Other Indo-European languages,31185,2409,10787,1196
+25,Telugu,12507,1284,2589,631
+25,Tamil,11025,1347,1565,369
+25,"Malayalam, Kannada, or other Dravidian languages",6905,1131,849,291
+25,"Chinese (incl. Mandarin, Cantonese)",145199,3459,68564,2027
+25,Japanese,8608,887,2472,419
+25,Korean,18654,1421,6955,786
+25,Hmong,918,282,393,167
+25,Vietnamese,45786,2933,26602,2065
+25,Khmer,22795,1720,11999,1096
+25,"Thai, Lao, or other Tai-Kadai languages",7357,872,3738,575
+25,Other languages of Asia,10514,1344,3394,808
+25,Tagalog (incl. Filipino),7961,808,1725,322
+25,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",3724,714,969,349
+25,Arabic,41753,2963,14664,1404
+25,Hebrew,9500,1039,1267,349
+25,"Amharic, Somali, or other Afro-Asiatic languages",10075,1554,4161,808
+25,"Yoruba, Twi, Igbo, or other languages of Western Africa",19831,1565,4557,749
+25,"Swahili or other languages of Central, Eastern, and Southern Africa",19199,1749,4178,745
+25,Navajo,13,20,13,20
+25,Other Native languages of North America,701,242,100,90
+25,Other and unspecified languages,9925,1452,2028,493
+2500100,Spanish,4606,488,1919,415
+2500100,French (incl. Cajun),510,199,70,60
+2500100,Haitian,99,132,93,133
+2500100,Italian,277,136,137,104
+2500100,Portuguese,310,192,125,88
+2500100,German,478,210,104,111
+2500100,"Yiddish, Pennsylvania Dutch or other West Germanic languages",60,55,19,24
+2500100,Greek,67,54,34,37
+2500100,Russian,322,203,54,63
+2500100,Polish,357,168,78,51
+2500100,Ukrainian or other Slavic languages,143,87,86,70
+2500100,Hindi,172,168,5,9
+2500100,Urdu,37,38,0,32
+2500100,Bengali,112,81,20,30
+2500100,"Nepali, Marathi, or other Indic languages",224,135,110,88
+2500100,Other Indo-European languages,342,252,108,102
+2500100,Tamil,14,24,0,32
+2500100,"Malayalam, Kannada, or other Dravidian languages",13,20,7,11
+2500100,"Chinese (incl. Mandarin, Cantonese)",568,213,219,156
+2500100,Japanese,94,81,1,2
+2500100,Korean,169,88,30,42
+2500100,Vietnamese,131,96,24,30
+2500100,Khmer,38,43,16,19
+2500100,"Thai, Lao, or other Tai-Kadai languages",46,74,1,3
+2500100,Other languages of Asia,98,94,65,52
+2500100,Tagalog (incl. Filipino),55,41,17,29
+2500100,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",105,122,0,32
+2500100,Arabic,97,54,17,3
+2500100,Hebrew,37,43,0,32
+2500100,"Yoruba, Twi, Igbo, or other languages of Western Africa",356,144,141,88
+2500100,"Swahili or other languages of Central, Eastern, and Southern Africa",85,52,2,6
+2500100,Other Native languages of North America,6,8,0,32
+2500100,Other and unspecified languages,110,87,38,63
+2500201,Spanish,3517,564,717,233
+2500201,French (incl. Cajun),602,201,64,45
+2500201,Haitian,70,58,39,39
+2500201,Italian,100,67,9,15
+2500201,Portuguese,335,174,150,106
+2500201,German,194,71,5,5
+2500201,"Yiddish, Pennsylvania Dutch or other West Germanic languages",32,23,0,32
+2500201,Greek,40,34,10,13
+2500201,Russian,208,130,83,69
+2500201,Polish,646,286,115,82
+2500201,Serbo-Croatian,3,5,0,32
+2500201,Ukrainian or other Slavic languages,3,4,0,32
+2500201,Armenian,2,4,0,32
+2500201,"Persian (incl. Farsi, Dari)",126,111,62,62
+2500201,Gujarati,63,75,0,32
+2500201,Hindi,80,57,4,7
+2500201,Urdu,205,114,183,104
+2500201,Punjabi,96,131,45,64
+2500201,"Nepali, Marathi, or other Indic languages",33,60,24,49
+2500201,Other Indo-European languages,289,162,162,146
+2500201,Telugu,17,31,0,32
+2500201,Tamil,15,24,0,32
+2500201,"Chinese (incl. Mandarin, Cantonese)",666,188,436,163
+2500201,Japanese,57,30,24,24
+2500201,Korean,69,55,44,37
+2500201,Vietnamese,77,63,33,37
+2500201,Khmer,205,148,161,115
+2500201,"Thai, Lao, or other Tai-Kadai languages",44,53,19,20
+2500201,Other languages of Asia,61,71,49,70
+2500201,Tagalog (incl. Filipino),163,89,30,23
+2500201,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",26,29,18,26
+2500201,Arabic,73,41,31,19
+2500201,"Yoruba, Twi, Igbo, or other languages of Western Africa",54,50,46,48
+2500201,"Swahili or other languages of Central, Eastern, and Southern Africa",30,51,0,32
+2500201,Other Native languages of North America,7,6,0,32
+2500201,Other and unspecified languages,45,43,3,5
+2500301,Spanish,5383,688,1573,402
+2500301,French (incl. Cajun),772,242,56,47
+2500301,Haitian,115,125,8,21
+2500301,Italian,259,163,52,58
+2500301,Portuguese,710,236,190,119
+2500301,German,548,288,80,82
+2500301,"Yiddish, Pennsylvania Dutch or other West Germanic languages",39,40,0,32
+2500301,Greek,159,113,54,75
+2500301,Russian,657,227,185,104
+2500301,Polish,218,126,103,103
+2500301,Serbo-Croatian,161,215,0,32
+2500301,Ukrainian or other Slavic languages,106,104,16,24
+2500301,Armenian,90,90,0,32
+2500301,"Persian (incl. Farsi, Dari)",311,164,20,32
+2500301,Gujarati,108,95,77,89
+2500301,Hindi,435,154,52,62
+2500301,Urdu,111,59,13,23
+2500301,Punjabi,70,49,6,11
+2500301,Bengali,248,115,60,38
+2500301,"Nepali, Marathi, or other Indic languages",210,108,22,20
+2500301,Other Indo-European languages,128,75,0,32
+2500301,Telugu,194,103,13,18
+2500301,Tamil,187,121,7,11
+2500301,"Malayalam, Kannada, or other Dravidian languages",40,45,10,19
+2500301,"Chinese (incl. Mandarin, Cantonese)",2498,305,1037,228
+2500301,Japanese,86,55,3,7
+2500301,Korean,528,178,129,78
+2500301,Hmong,30,32,0,32
+2500301,Vietnamese,531,172,48,96
+2500301,Khmer,51,56,34,52
+2500301,"Thai, Lao, or other Tai-Kadai languages",39,45,19,32
+2500301,Other languages of Asia,249,125,36,29
+2500301,Tagalog (incl. Filipino),87,73,9,16
+2500301,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",103,92,33,46
+2500301,Arabic,431,183,101,76
+2500301,Hebrew,121,73,12,19
+2500301,"Amharic, Somali, or other Afro-Asiatic languages",128,84,3,5
+2500301,"Yoruba, Twi, Igbo, or other languages of Western Africa",191,106,47,62
+2500301,"Swahili or other languages of Central, Eastern, and Southern Africa",102,109,0,32
+2500301,Other and unspecified languages,134,81,0,32
+2500401,Spanish,18614,1326,8166,896
+2500401,French (incl. Cajun),799,263,255,149
+2500401,Haitian,70,83,11,15
+2500401,Italian,283,127,70,45
+2500401,Portuguese,400,223,63,72
+2500401,German,505,272,49,46
+2500401,Greek,252,199,66,85
+2500401,Russian,2776,914,1693,764
+2500401,Polish,493,202,179,102
+2500401,Serbo-Croatian,123,129,75,76
+2500401,Ukrainian or other Slavic languages,1557,635,686,305
+2500401,Armenian,18,28,0,32
+2500401,"Persian (incl. Farsi, Dari)",86,108,0,32
+2500401,Gujarati,333,270,92,86
+2500401,Hindi,123,189,6,13
+2500401,Urdu,281,228,97,79
+2500401,Bengali,66,111,14,27
+2500401,"Nepali, Marathi, or other Indic languages",918,436,591,319
+2500401,Other Indo-European languages,822,400,397,236
+2500401,Tamil,122,139,114,137
+2500401,"Malayalam, Kannada, or other Dravidian languages",24,30,0,32
+2500401,"Chinese (incl. Mandarin, Cantonese)",228,112,104,72
+2500401,Japanese,14,27,14,27
+2500401,Korean,139,86,20,31
+2500401,Vietnamese,199,130,163,126
+2500401,Khmer,163,150,84,95
+2500401,"Thai, Lao, or other Tai-Kadai languages",175,163,66,56
+2500401,Other languages of Asia,821,551,343,275
+2500401,Tagalog (incl. Filipino),76,106,0,32
+2500401,Arabic,1078,872,364,247
+2500401,Hebrew,28,44,14,22
+2500401,"Amharic, Somali, or other Afro-Asiatic languages",63,89,21,47
+2500401,"Yoruba, Twi, Igbo, or other languages of Western Africa",298,218,53,67
+2500401,"Swahili or other languages of Central, Eastern, and Southern Africa",96,84,2,4
+2500401,Other and unspecified languages,61,96,61,96
+2500402,Spanish,47587,1984,20853,1795
+2500402,French (incl. Cajun),298,201,96,106
+2500402,Haitian,454,246,118,93
+2500402,Italian,206,113,48,46
+2500402,Portuguese,467,210,295,183
+2500402,German,80,96,0,32
+2500402,Greek,326,238,101,92
+2500402,Russian,384,225,243,156
+2500402,Polish,242,106,111,61
+2500402,Serbo-Croatian,5,8,5,8
+2500402,Ukrainian or other Slavic languages,38,38,32,37
+2500402,"Persian (incl. Farsi, Dari)",139,156,47,57
+2500402,Gujarati,55,70,0,32
+2500402,Hindi,133,121,66,65
+2500402,Urdu,223,218,97,119
+2500402,"Nepali, Marathi, or other Indic languages",812,514,501,289
+2500402,Other Indo-European languages,120,112,30,36
+2500402,Telugu,6,12,0,32
+2500402,"Chinese (incl. Mandarin, Cantonese)",493,232,209,110
+2500402,Japanese,39,47,11,21
+2500402,Korean,15,21,3,7
+2500402,Vietnamese,1217,389,790,289
+2500402,Khmer,107,84,25,40
+2500402,"Thai, Lao, or other Tai-Kadai languages",231,154,129,86
+2500402,Other languages of Asia,47,46,19,30
+2500402,Tagalog (incl. Filipino),88,59,23,29
+2500402,Arabic,653,252,253,130
+2500402,"Amharic, Somali, or other Afro-Asiatic languages",710,619,427,455
+2500402,"Yoruba, Twi, Igbo, or other languages of Western Africa",197,125,96,110
+2500402,"Swahili or other languages of Central, Eastern, and Southern Africa",728,394,240,234
+2500402,Other and unspecified languages,531,375,174,142
+2500403,Spanish,10232,1085,3396,693
+2500403,French (incl. Cajun),1076,345,197,135
+2500403,Haitian,76,71,0,32
+2500403,Italian,526,233,104,72
+2500403,Portuguese,3442,675,1630,454
+2500403,German,263,114,20,22
+2500403,"Yiddish, Pennsylvania Dutch or other West Germanic languages",50,45,17,29
+2500403,Greek,345,175,124,93
+2500403,Russian,904,342,348,251
+2500403,Polish,1756,483,996,358
+2500403,Serbo-Croatian,29,48,29,48
+2500403,Ukrainian or other Slavic languages,126,95,59,64
+2500403,Armenian,12,20,0,32
+2500403,"Persian (incl. Farsi, Dari)",110,87,23,27
+2500403,Gujarati,61,62,8,12
+2500403,Hindi,88,81,11,17
+2500403,Urdu,300,244,125,103
+2500403,Bengali,124,180,23,34
+2500403,"Nepali, Marathi, or other Indic languages",25,31,18,30
+2500403,Other Indo-European languages,160,150,50,77
+2500403,Telugu,31,51,0,32
+2500403,Tamil,145,144,36,49
+2500403,"Malayalam, Kannada, or other Dravidian languages",44,52,0,32
+2500403,"Chinese (incl. Mandarin, Cantonese)",611,228,306,159
+2500403,Japanese,118,125,0,32
+2500403,Korean,66,59,51,56
+2500403,Vietnamese,151,120,95,94
+2500403,Khmer,232,194,67,107
+2500403,"Thai, Lao, or other Tai-Kadai languages",68,61,42,48
+2500403,Other languages of Asia,946,575,733,488
+2500403,Tagalog (incl. Filipino),123,109,39,47
+2500403,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",55,82,47,66
+2500403,Arabic,361,210,161,115
+2500403,Hebrew,237,198,84,122
+2500403,"Yoruba, Twi, Igbo, or other languages of Western Africa",333,280,200,258
+2500403,"Swahili or other languages of Central, Eastern, and Southern Africa",153,126,19,32
+2500403,Other Native languages of North America,17,26,0,32
+2500403,Other and unspecified languages,3,5,3,5
+2500501,Spanish,4344,692,1525,350
+2500501,French (incl. Cajun),1040,310,124,75
+2500501,Haitian,185,121,125,96
+2500501,Italian,105,60,17,20
+2500501,Portuguese,1092,433,468,208
+2500501,German,243,121,23,22
+2500501,"Yiddish, Pennsylvania Dutch or other West Germanic languages",18,30,0,32
+2500501,Greek,46,49,0,32
+2500501,Russian,9,14,9,14
+2500501,Polish,98,91,9,23
+2500501,Ukrainian or other Slavic languages,98,101,14,23
+2500501,Armenian,54,52,0,32
+2500501,"Persian (incl. Farsi, Dari)",11,17,4,6
+2500501,Hindi,63,71,0,32
+2500501,Other Indo-European languages,183,133,26,32
+2500501,Telugu,18,26,0,32
+2500501,"Chinese (incl. Mandarin, Cantonese)",278,196,65,58
+2500501,Japanese,13,22,0,32
+2500501,Korean,181,131,96,70
+2500501,Vietnamese,107,68,38,34
+2500501,Khmer,9,15,0,32
+2500501,"Thai, Lao, or other Tai-Kadai languages",180,155,58,65
+2500501,Tagalog (incl. Filipino),17,21,13,19
+2500501,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",4,11,0,32
+2500501,Arabic,235,188,140,106
+2500501,"Amharic, Somali, or other Afro-Asiatic languages",76,117,22,35
+2500501,"Yoruba, Twi, Igbo, or other languages of Western Africa",231,176,0,32
+2500501,"Swahili or other languages of Central, Eastern, and Southern Africa",58,56,5,9
+2500501,Other Native languages of North America,10,17,0,32
+2500501,Other and unspecified languages,83,71,21,28
+2500502,Spanish,15494,1502,5900,833
+2500502,French (incl. Cajun),1206,399,253,187
+2500502,Haitian,508,198,189,90
+2500502,Italian,221,146,28,26
+2500502,Portuguese,3315,1078,1067,378
+2500502,German,195,110,7,13
+2500502,"Yiddish, Pennsylvania Dutch or other West Germanic languages",70,44,12,18
+2500502,Greek,326,201,29,27
+2500502,Russian,279,352,243,347
+2500502,Polish,71,78,8,13
+2500502,Serbo-Croatian,13,20,0,32
+2500502,Ukrainian or other Slavic languages,33,32,5,9
+2500502,Armenian,71,54,24,38
+2500502,Gujarati,276,227,153,129
+2500502,Hindi,20,22,0,32
+2500502,Urdu,15,25,0,32
+2500502,Bengali,59,67,10,18
+2500502,"Nepali, Marathi, or other Indic languages",148,102,31,39
+2500502,Other Indo-European languages,63,57,24,28
+2500502,Telugu,92,129,0,32
+2500502,"Chinese (incl. Mandarin, Cantonese)",566,301,238,151
+2500502,Japanese,31,45,16,29
+2500502,Korean,253,251,172,157
+2500502,Hmong,349,242,161,114
+2500502,Vietnamese,228,158,131,91
+2500502,Khmer,66,75,7,13
+2500502,"Thai, Lao, or other Tai-Kadai languages",176,95,142,88
+2500502,Other languages of Asia,22,48,11,24
+2500502,Tagalog (incl. Filipino),85,77,29,31
+2500502,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",34,41,11,19
+2500502,Arabic,310,184,162,156
+2500502,Hebrew,14,24,0,32
+2500502,"Amharic, Somali, or other Afro-Asiatic languages",8,16,8,16
+2500502,"Yoruba, Twi, Igbo, or other languages of Western Africa",725,334,110,86
+2500502,"Swahili or other languages of Central, Eastern, and Southern Africa",462,268,57,49
+2500502,Navajo,13,20,13,20
+2500502,Other and unspecified languages,181,104,61,47
+2500503,Spanish,7572,1305,3446,946
+2500503,French (incl. Cajun),700,279,121,126
+2500503,Haitian,292,199,150,176
+2500503,Italian,313,166,75,64
+2500503,Portuguese,8651,1184,4670,800
+2500503,German,270,153,0,32
+2500503,"Yiddish, Pennsylvania Dutch or other West Germanic languages",586,672,178,229
+2500503,Greek,566,262,236,181
+2500503,Russian,508,169,193,86
+2500503,Polish,333,249,49,46
+2500503,Serbo-Croatian,120,126,0,32
+2500503,Ukrainian or other Slavic languages,60,99,14,24
+2500503,Armenian,146,144,83,114
+2500503,"Persian (incl. Farsi, Dari)",447,267,105,94
+2500503,Gujarati,850,358,223,138
+2500503,Hindi,3259,696,274,133
+2500503,Urdu,782,275,49,55
+2500503,Punjabi,222,142,37,39
+2500503,Bengali,616,545,32,47
+2500503,"Nepali, Marathi, or other Indic languages",1085,364,252,146
+2500503,Other Indo-European languages,575,213,51,52
+2500503,Telugu,2307,539,408,181
+2500503,Tamil,1459,453,98,70
+2500503,"Malayalam, Kannada, or other Dravidian languages",1240,569,74,54
+2500503,"Chinese (incl. Mandarin, Cantonese)",3016,511,1283,319
+2500503,Japanese,221,179,57,55
+2500503,Korean,367,183,175,119
+2500503,Hmong,1,5,0,32
+2500503,Vietnamese,287,150,139,90
+2500503,Khmer,81,81,36,38
+2500503,"Thai, Lao, or other Tai-Kadai languages",78,75,11,16
+2500503,Other languages of Asia,143,105,43,39
+2500503,Tagalog (incl. Filipino),141,75,0,32
+2500503,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",81,89,26,41
+2500503,Arabic,1916,630,644,247
+2500503,Hebrew,160,140,17,28
+2500503,"Yoruba, Twi, Igbo, or other languages of Western Africa",366,181,47,47
+2500503,"Swahili or other languages of Central, Eastern, and Southern Africa",790,400,228,188
+2500503,Other Native languages of North America,85,86,8,15
+2500503,Other and unspecified languages,190,196,24,37
+2500504,Spanish,19118,1686,8009,1134
+2500504,French (incl. Cajun),599,232,259,207
+2500504,Haitian,515,347,242,180
+2500504,Italian,241,133,60,55
+2500504,Portuguese,4427,1212,2790,989
+2500504,German,311,243,30,30
+2500504,"Yiddish, Pennsylvania Dutch or other West Germanic languages",19,25,0,32
+2500504,Greek,120,89,63,54
+2500504,Russian,415,217,191,109
+2500504,Polish,569,310,326,222
+2500504,Serbo-Croatian,20,33,0,32
+2500504,Ukrainian or other Slavic languages,6,13,0,32
+2500504,Armenian,119,88,7,16
+2500504,"Persian (incl. Farsi, Dari)",58,67,22,29
+2500504,Gujarati,77,122,0,32
+2500504,Hindi,241,151,60,70
+2500504,Urdu,225,168,114,105
+2500504,Punjabi,43,41,0,32
+2500504,Bengali,49,42,7,12
+2500504,"Nepali, Marathi, or other Indic languages",313,308,117,145
+2500504,Other Indo-European languages,516,223,233,110
+2500504,Telugu,40,38,10,16
+2500504,Tamil,101,99,0,32
+2500504,"Malayalam, Kannada, or other Dravidian languages",36,60,20,34
+2500504,"Chinese (incl. Mandarin, Cantonese)",1075,337,609,248
+2500504,Japanese,27,31,12,20
+2500504,Korean,52,38,46,35
+2500504,Vietnamese,2436,626,1335,444
+2500504,Khmer,5,8,5,8
+2500504,"Thai, Lao, or other Tai-Kadai languages",72,83,50,58
+2500504,Tagalog (incl. Filipino),46,51,0,32
+2500504,Arabic,1633,735,866,434
+2500504,Hebrew,14,22,0,32
+2500504,"Amharic, Somali, or other Afro-Asiatic languages",114,158,0,32
+2500504,"Yoruba, Twi, Igbo, or other languages of Western Africa",4351,815,1060,396
+2500504,"Swahili or other languages of Central, Eastern, and Southern Africa",1489,436,323,224
+2500504,Other and unspecified languages,80,103,26,34
+2500505,Spanish,17861,1515,8638,1137
+2500505,French (incl. Cajun),567,245,48,47
+2500505,Haitian,415,253,318,242
+2500505,Italian,191,120,38,42
+2500505,Portuguese,2379,633,1314,468
+2500505,German,72,59,8,12
+2500505,"Yiddish, Pennsylvania Dutch or other West Germanic languages",18,31,0,32
+2500505,Greek,357,178,135,79
+2500505,Russian,664,411,464,316
+2500505,Polish,292,203,110,95
+2500505,Serbo-Croatian,319,226,138,122
+2500505,Ukrainian or other Slavic languages,31,43,11,17
+2500505,Armenian,92,63,19,24
+2500505,"Persian (incl. Farsi, Dari)",494,292,209,156
+2500505,Gujarati,28,24,10,9
+2500505,Hindi,745,420,327,316
+2500505,Urdu,100,72,0,32
+2500505,Punjabi,17,23,0,32
+2500505,Bengali,153,116,75,76
+2500505,"Nepali, Marathi, or other Indic languages",321,242,226,223
+2500505,Other Indo-European languages,3888,768,1907,445
+2500505,Telugu,104,97,5,10
+2500505,Tamil,33,39,13,20
+2500505,"Malayalam, Kannada, or other Dravidian languages",28,45,4,7
+2500505,"Chinese (incl. Mandarin, Cantonese)",1035,330,434,173
+2500505,Japanese,56,45,41,41
+2500505,Korean,178,91,76,57
+2500505,Hmong,40,80,0,32
+2500505,Vietnamese,2752,657,1581,459
+2500505,Khmer,577,331,187,140
+2500505,"Thai, Lao, or other Tai-Kadai languages",224,127,86,73
+2500505,Other languages of Asia,29,28,21,25
+2500505,Tagalog (incl. Filipino),65,52,4,7
+2500505,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",28,27,0,32
+2500505,Arabic,1090,530,533,316
+2500505,Hebrew,40,33,0,32
+2500505,"Amharic, Somali, or other Afro-Asiatic languages",117,92,0,32
+2500505,"Yoruba, Twi, Igbo, or other languages of Western Africa",1478,429,427,196
+2500505,"Swahili or other languages of Central, Eastern, and Southern Africa",525,222,141,104
+2500505,Other Native languages of North America,14,22,0,32
+2500505,Other and unspecified languages,147,99,24,37
+2500506,Spanish,3252,540,800,222
+2500506,French (incl. Cajun),422,183,79,98
+2500506,Haitian,126,72,21,22
+2500506,Italian,229,129,79,90
+2500506,Portuguese,1055,429,509,280
+2500506,German,203,119,7,12
+2500506,"Yiddish, Pennsylvania Dutch or other West Germanic languages",12,20,0,32
+2500506,Greek,447,311,108,94
+2500506,Russian,140,116,39,47
+2500506,Polish,672,360,266,191
+2500506,Serbo-Croatian,29,33,0,32
+2500506,Ukrainian or other Slavic languages,62,65,10,15
+2500506,Armenian,28,34,0,32
+2500506,"Persian (incl. Farsi, Dari)",90,97,60,66
+2500506,Gujarati,111,101,58,56
+2500506,Hindi,121,95,8,13
+2500506,Urdu,143,126,29,43
+2500506,Bengali,73,104,0,32
+2500506,"Nepali, Marathi, or other Indic languages",92,144,0,32
+2500506,Other Indo-European languages,507,194,83,55
+2500506,Telugu,13,28,13,28
+2500506,"Malayalam, Kannada, or other Dravidian languages",62,103,0,32
+2500506,"Chinese (incl. Mandarin, Cantonese)",375,232,164,130
+2500506,Japanese,72,65,16,25
+2500506,Korean,58,53,50,52
+2500506,Vietnamese,256,179,176,139
+2500506,"Thai, Lao, or other Tai-Kadai languages",230,210,152,179
+2500506,Other languages of Asia,16,18,0,32
+2500506,Tagalog (incl. Filipino),101,80,26,33
+2500506,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",5,11,0,32
+2500506,Arabic,473,257,115,78
+2500506,Hebrew,17,21,0,32
+2500506,"Yoruba, Twi, Igbo, or other languages of Western Africa",567,352,110,86
+2500506,"Swahili or other languages of Central, Eastern, and Southern Africa",105,89,40,50
+2500506,Other and unspecified languages,43,49,38,49
+2500507,Spanish,10674,1132,3338,506
+2500507,French (incl. Cajun),1409,441,127,72
+2500507,Haitian,98,75,5,11
+2500507,Italian,144,82,5,16
+2500507,Portuguese,1658,601,757,383
+2500507,German,383,216,0,32
+2500507,Greek,75,81,0,32
+2500507,Russian,191,111,92,88
+2500507,Polish,1107,335,274,143
+2500507,Serbo-Croatian,72,114,37,59
+2500507,Ukrainian or other Slavic languages,37,30,20,31
+2500507,Armenian,140,177,0,32
+2500507,"Persian (incl. Farsi, Dari)",9,19,0,32
+2500507,Gujarati,392,416,154,126
+2500507,Hindi,108,123,26,23
+2500507,"Nepali, Marathi, or other Indic languages",98,103,36,56
+2500507,Other Indo-European languages,563,378,155,148
+2500507,"Malayalam, Kannada, or other Dravidian languages",11,21,0,32
+2500507,"Chinese (incl. Mandarin, Cantonese)",449,203,284,171
+2500507,Japanese,10,16,0,32
+2500507,Korean,52,59,0,32
+2500507,Hmong,13,19,7,14
+2500507,Vietnamese,259,161,84,58
+2500507,Khmer,44,65,0,32
+2500507,"Thai, Lao, or other Tai-Kadai languages",221,152,181,143
+2500507,Other languages of Asia,9,15,0,32
+2500507,Tagalog (incl. Filipino),244,191,152,136
+2500507,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",280,359,12,20
+2500507,Arabic,906,451,248,154
+2500507,Hebrew,10,15,0,32
+2500507,"Yoruba, Twi, Igbo, or other languages of Western Africa",321,255,113,105
+2500507,"Swahili or other languages of Central, Eastern, and Southern Africa",335,207,0,32
+2500507,Other and unspecified languages,81,57,39,41
+2500601,Spanish,3297,752,759,270
+2500601,French (incl. Cajun),559,157,48,47
+2500601,Haitian,184,162,56,50
+2500601,Italian,312,164,29,35
+2500601,Portuguese,724,232,260,125
+2500601,German,271,131,30,37
+2500601,"Yiddish, Pennsylvania Dutch or other West Germanic languages",54,64,3,6
+2500601,Greek,504,327,20,31
+2500601,Russian,824,397,179,183
+2500601,Polish,234,171,105,127
+2500601,Serbo-Croatian,21,25,8,12
+2500601,Ukrainian or other Slavic languages,249,170,54,43
+2500601,Armenian,186,126,117,94
+2500601,"Persian (incl. Farsi, Dari)",75,77,8,14
+2500601,Gujarati,691,328,205,162
+2500601,Hindi,1305,436,206,129
+2500601,Urdu,68,93,10,15
+2500601,Punjabi,35,58,35,58
+2500601,Bengali,142,126,10,16
+2500601,"Nepali, Marathi, or other Indic languages",361,159,58,60
+2500601,Other Indo-European languages,169,99,33,48
+2500601,Telugu,1217,405,83,67
+2500601,Tamil,1015,415,87,71
+2500601,"Malayalam, Kannada, or other Dravidian languages",418,243,52,64
+2500601,"Chinese (incl. Mandarin, Cantonese)",1788,470,693,213
+2500601,Japanese,58,41,13,18
+2500601,Korean,654,517,338,235
+2500601,Vietnamese,640,333,355,202
+2500601,Khmer,738,312,388,176
+2500601,"Thai, Lao, or other Tai-Kadai languages",68,79,24,47
+2500601,Other languages of Asia,166,117,49,57
+2500601,Tagalog (incl. Filipino),23,26,0,32
+2500601,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",28,43,0,32
+2500601,Arabic,773,426,242,160
+2500601,Hebrew,60,61,0,32
+2500601,"Yoruba, Twi, Igbo, or other languages of Western Africa",129,87,7,13
+2500601,"Swahili or other languages of Central, Eastern, and Southern Africa",428,275,0,32
+2500601,Other and unspecified languages,73,64,10,15
+2500602,Spanish,15116,1315,7052,964
+2500602,French (incl. Cajun),849,230,186,114
+2500602,Haitian,1282,434,354,209
+2500602,Italian,162,124,37,47
+2500602,Portuguese,6382,1260,3903,1035
+2500602,German,72,57,16,25
+2500602,"Yiddish, Pennsylvania Dutch or other West Germanic languages",16,31,16,31
+2500602,Greek,413,194,214,157
+2500602,Russian,126,108,41,51
+2500602,Polish,95,66,8,12
+2500602,Ukrainian or other Slavic languages,12,21,0,32
+2500602,"Persian (incl. Farsi, Dari)",65,81,47,76
+2500602,Gujarati,798,379,199,137
+2500602,Hindi,878,622,102,82
+2500602,Urdu,355,193,223,137
+2500602,Punjabi,10,16,0,32
+2500602,Bengali,271,222,65,83
+2500602,"Nepali, Marathi, or other Indic languages",84,109,23,35
+2500602,Other Indo-European languages,298,286,111,104
+2500602,Telugu,124,114,92,94
+2500602,Tamil,102,85,20,28
+2500602,"Malayalam, Kannada, or other Dravidian languages",115,150,10,22
+2500602,"Chinese (incl. Mandarin, Cantonese)",572,231,282,159
+2500602,Japanese,38,38,11,19
+2500602,Korean,224,171,141,109
+2500602,Vietnamese,2304,682,1472,513
+2500602,Khmer,11574,1271,6318,888
+2500602,"Thai, Lao, or other Tai-Kadai languages",1228,410,663,273
+2500602,Other languages of Asia,485,308,227,241
+2500602,Tagalog (incl. Filipino),95,130,34,61
+2500602,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",22,30,12,24
+2500602,Arabic,673,565,235,247
+2500602,Hebrew,55,46,11,19
+2500602,"Amharic, Somali, or other Afro-Asiatic languages",8,16,8,16
+2500602,"Yoruba, Twi, Igbo, or other languages of Western Africa",732,274,230,123
+2500602,"Swahili or other languages of Central, Eastern, and Southern Africa",2559,742,731,327
+2500602,Other and unspecified languages,72,51,0,32
+2500603,Spanish,3832,814,1129,408
+2500603,French (incl. Cajun),361,174,32,32
+2500603,Haitian,328,229,157,113
+2500603,Italian,246,111,19,21
+2500603,Portuguese,3395,892,1291,423
+2500603,German,243,159,0,32
+2500603,"Yiddish, Pennsylvania Dutch or other West Germanic languages",26,49,0,32
+2500603,Greek,706,311,222,139
+2500603,Russian,569,535,325,383
+2500603,Polish,235,121,37,63
+2500603,Ukrainian or other Slavic languages,108,87,82,83
+2500603,Armenian,140,107,39,67
+2500603,"Persian (incl. Farsi, Dari)",91,83,0,32
+2500603,Gujarati,911,538,246,206
+2500603,Hindi,376,180,71,76
+2500603,Punjabi,185,206,83,121
+2500603,Bengali,80,97,0,32
+2500603,"Nepali, Marathi, or other Indic languages",406,243,22,36
+2500603,Other Indo-European languages,167,103,33,36
+2500603,Telugu,524,365,400,355
+2500603,Tamil,174,138,0,32
+2500603,"Malayalam, Kannada, or other Dravidian languages",270,230,0,32
+2500603,"Chinese (incl. Mandarin, Cantonese)",627,221,251,148
+2500603,Japanese,46,51,0,32
+2500603,Korean,186,177,67,66
+2500603,Vietnamese,376,246,103,110
+2500603,Khmer,555,270,299,200
+2500603,"Thai, Lao, or other Tai-Kadai languages",234,179,78,80
+2500603,Other languages of Asia,38,43,26,27
+2500603,Tagalog (incl. Filipino),187,165,36,43
+2500603,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",11,17,11,17
+2500603,Arabic,967,433,439,288
+2500603,Hebrew,53,51,0,32
+2500603,"Yoruba, Twi, Igbo, or other languages of Western Africa",358,367,3,13
+2500603,"Swahili or other languages of Central, Eastern, and Southern Africa",815,417,139,114
+2500603,Other and unspecified languages,31,60,0,32
+2500604,Spanish,2854,562,865,374
+2500604,French (incl. Cajun),1320,538,332,229
+2500604,Haitian,268,193,91,94
+2500604,Italian,325,147,63,64
+2500604,Portuguese,3253,795,1618,596
+2500604,German,297,140,0,32
+2500604,"Yiddish, Pennsylvania Dutch or other West Germanic languages",89,84,0,32
+2500604,Greek,268,202,56,67
+2500604,Russian,806,286,237,130
+2500604,Polish,72,61,13,21
+2500604,Serbo-Croatian,13,25,0,32
+2500604,Ukrainian or other Slavic languages,312,170,25,43
+2500604,Armenian,34,31,15,23
+2500604,"Persian (incl. Farsi, Dari)",377,176,99,54
+2500604,Gujarati,214,130,45,60
+2500604,Hindi,1459,410,106,84
+2500604,Urdu,135,201,0,32
+2500604,Punjabi,533,593,189,216
+2500604,Bengali,332,192,63,59
+2500604,"Nepali, Marathi, or other Indic languages",454,201,86,69
+2500604,Other Indo-European languages,201,108,57,63
+2500604,Telugu,487,254,118,132
+2500604,Tamil,601,235,30,37
+2500604,"Malayalam, Kannada, or other Dravidian languages",554,229,105,77
+2500604,"Chinese (incl. Mandarin, Cantonese)",4407,615,1693,362
+2500604,Japanese,281,172,90,76
+2500604,Korean,471,202,214,124
+2500604,Hmong,32,39,7,12
+2500604,Vietnamese,376,363,140,145
+2500604,Khmer,6,10,0,32
+2500604,"Thai, Lao, or other Tai-Kadai languages",100,112,0,32
+2500604,Other languages of Asia,248,166,4,7
+2500604,Tagalog (incl. Filipino),97,90,20,34
+2500604,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",119,127,36,43
+2500604,Arabic,326,230,138,93
+2500604,Hebrew,56,44,13,21
+2500604,"Amharic, Somali, or other Afro-Asiatic languages",26,32,0,32
+2500604,"Yoruba, Twi, Igbo, or other languages of Western Africa",78,106,0,32
+2500604,"Swahili or other languages of Central, Eastern, and Southern Africa",830,867,46,60
+2500604,Other Native languages of North America,68,108,0,32
+2500604,Other and unspecified languages,114,136,33,51
+2500605,Spanish,16455,1622,8091,1097
+2500605,French (incl. Cajun),1056,393,337,156
+2500605,Haitian,520,269,153,120
+2500605,Italian,585,405,81,110
+2500605,Portuguese,17411,1831,10824,1485
+2500605,German,161,121,0,32
+2500605,"Yiddish, Pennsylvania Dutch or other West Germanic languages",33,41,0,32
+2500605,Greek,265,180,42,48
+2500605,Russian,1139,418,186,91
+2500605,Polish,42,64,2,4
+2500605,Ukrainian or other Slavic languages,89,67,59,53
+2500605,Armenian,332,373,38,51
+2500605,"Persian (incl. Farsi, Dari)",371,227,133,89
+2500605,Gujarati,541,478,145,181
+2500605,Hindi,709,284,157,122
+2500605,Urdu,677,556,82,106
+2500605,Bengali,150,94,0,32
+2500605,"Nepali, Marathi, or other Indic languages",94,81,2,6
+2500605,Other Indo-European languages,325,294,106,93
+2500605,Telugu,354,231,21,28
+2500605,Tamil,191,195,0,32
+2500605,"Malayalam, Kannada, or other Dravidian languages",394,233,16,17
+2500605,"Chinese (incl. Mandarin, Cantonese)",1991,568,896,447
+2500605,Japanese,105,87,10,17
+2500605,Korean,100,90,86,87
+2500605,Vietnamese,490,332,83,85
+2500605,Khmer,102,114,59,66
+2500605,"Thai, Lao, or other Tai-Kadai languages",152,78,58,59
+2500605,Other languages of Asia,153,124,45,48
+2500605,Tagalog (incl. Filipino),116,83,0,32
+2500605,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",33,82,0,32
+2500605,Arabic,217,143,70,75
+2500605,Hebrew,237,166,46,69
+2500605,"Amharic, Somali, or other Afro-Asiatic languages",25,43,0,32
+2500605,"Yoruba, Twi, Igbo, or other languages of Western Africa",410,244,83,94
+2500605,"Swahili or other languages of Central, Eastern, and Southern Africa",516,332,233,204
+2500605,Other and unspecified languages,145,134,0,32
+2500606,Spanish,3746,755,1214,380
+2500606,French (incl. Cajun),898,378,271,174
+2500606,Haitian,91,81,60,74
+2500606,Italian,192,98,17,24
+2500606,Portuguese,3196,806,1263,422
+2500606,German,244,147,0,32
+2500606,"Yiddish, Pennsylvania Dutch or other West Germanic languages",268,143,22,25
+2500606,Greek,463,256,118,139
+2500606,Russian,2179,545,705,281
+2500606,Polish,93,80,10,26
+2500606,Serbo-Croatian,31,35,0,32
+2500606,Ukrainian or other Slavic languages,128,98,12,19
+2500606,Armenian,70,71,0,32
+2500606,"Persian (incl. Farsi, Dari)",176,140,79,76
+2500606,Gujarati,369,257,51,77
+2500606,Hindi,2156,523,100,81
+2500606,Urdu,125,105,22,26
+2500606,Punjabi,71,69,6,8
+2500606,Bengali,181,108,0,32
+2500606,"Nepali, Marathi, or other Indic languages",1217,604,43,52
+2500606,Other Indo-European languages,182,94,40,38
+2500606,Telugu,1387,477,166,162
+2500606,Tamil,813,479,223,184
+2500606,"Malayalam, Kannada, or other Dravidian languages",571,274,111,105
+2500606,"Chinese (incl. Mandarin, Cantonese)",2985,542,1108,358
+2500606,Japanese,181,117,33,33
+2500606,Korean,233,153,56,60
+2500606,Vietnamese,156,109,82,73
+2500606,Khmer,40,55,40,55
+2500606,"Thai, Lao, or other Tai-Kadai languages",15,19,0,32
+2500606,Other languages of Asia,55,47,4,11
+2500606,Tagalog (incl. Filipino),168,147,19,32
+2500606,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",4,7,0,32
+2500606,Arabic,529,253,154,143
+2500606,Hebrew,237,210,0,32
+2500606,"Yoruba, Twi, Igbo, or other languages of Western Africa",10,15,0,32
+2500606,"Swahili or other languages of Central, Eastern, and Southern Africa",42,41,0,32
+2500606,Other Native languages of North America,17,28,0,32
+2500606,Other and unspecified languages,126,92,61,67
+2500607,Spanish,3288,717,710,272
+2500607,French (incl. Cajun),975,305,81,51
+2500607,Haitian,286,231,88,99
+2500607,Italian,540,211,74,40
+2500607,Portuguese,2027,539,813,373
+2500607,German,551,204,8,13
+2500607,"Yiddish, Pennsylvania Dutch or other West Germanic languages",153,101,4,7
+2500607,Greek,1039,298,116,80
+2500607,Russian,1117,349,302,156
+2500607,Polish,424,220,33,41
+2500607,Serbo-Croatian,73,82,0,32
+2500607,Ukrainian or other Slavic languages,487,277,105,76
+2500607,Armenian,348,266,62,73
+2500607,"Persian (incl. Farsi, Dari)",332,185,21,23
+2500607,Gujarati,749,278,136,62
+2500607,Hindi,2402,705,235,123
+2500607,Urdu,310,151,68,53
+2500607,Punjabi,291,256,8,13
+2500607,Bengali,677,341,186,94
+2500607,"Nepali, Marathi, or other Indic languages",510,233,45,45
+2500607,Other Indo-European languages,595,270,102,87
+2500607,Telugu,731,271,177,167
+2500607,Tamil,952,365,65,66
+2500607,"Malayalam, Kannada, or other Dravidian languages",679,296,144,107
+2500607,"Chinese (incl. Mandarin, Cantonese)",9332,1219,3426,724
+2500607,Japanese,306,163,26,30
+2500607,Korean,1429,441,723,287
+2500607,Vietnamese,235,143,69,74
+2500607,Khmer,71,80,41,48
+2500607,"Thai, Lao, or other Tai-Kadai languages",173,108,75,60
+2500607,Other languages of Asia,292,134,44,40
+2500607,Tagalog (incl. Filipino),135,81,0,32
+2500607,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",88,96,26,51
+2500607,Arabic,894,479,404,413
+2500607,Hebrew,481,251,3,6
+2500607,"Amharic, Somali, or other Afro-Asiatic languages",115,154,16,26
+2500607,"Yoruba, Twi, Igbo, or other languages of Western Africa",70,72,0,32
+2500607,"Swahili or other languages of Central, Eastern, and Southern Africa",300,198,109,120
+2500607,Other Native languages of North America,6,9,0,32
+2500607,Other and unspecified languages,282,282,12,23
+2500608,Spanish,5077,1146,1961,745
+2500608,French (incl. Cajun),1104,376,176,93
+2500608,Haitian,636,355,211,136
+2500608,Italian,1571,419,280,148
+2500608,Portuguese,4681,1058,1956,690
+2500608,German,173,102,0,32
+2500608,"Yiddish, Pennsylvania Dutch or other West Germanic languages",9,20,4,16
+2500608,Greek,741,424,140,100
+2500608,Russian,789,471,291,176
+2500608,Polish,162,96,16,25
+2500608,Serbo-Croatian,99,77,0,32
+2500608,Ukrainian or other Slavic languages,389,210,110,92
+2500608,Armenian,163,139,47,54
+2500608,"Persian (incl. Farsi, Dari)",216,136,124,108
+2500608,Gujarati,684,331,393,289
+2500608,Hindi,1049,325,101,68
+2500608,Urdu,43,67,0,32
+2500608,Punjabi,328,266,137,112
+2500608,Bengali,163,125,35,34
+2500608,"Nepali, Marathi, or other Indic languages",519,206,130,80
+2500608,Other Indo-European languages,541,279,228,168
+2500608,Telugu,116,110,27,41
+2500608,Tamil,142,134,76,119
+2500608,"Malayalam, Kannada, or other Dravidian languages",40,39,0,32
+2500608,"Chinese (incl. Mandarin, Cantonese)",3640,1097,1464,467
+2500608,Japanese,112,98,22,29
+2500608,Korean,499,262,227,151
+2500608,Vietnamese,1137,798,524,429
+2500608,Khmer,133,136,1,2
+2500608,"Thai, Lao, or other Tai-Kadai languages",195,126,95,99
+2500608,Other languages of Asia,45,52,28,30
+2500608,Tagalog (incl. Filipino),184,117,74,62
+2500608,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",56,60,22,35
+2500608,Arabic,1711,616,497,300
+2500608,Hebrew,105,107,26,40
+2500608,"Amharic, Somali, or other Afro-Asiatic languages",84,103,27,46
+2500608,"Yoruba, Twi, Igbo, or other languages of Western Africa",64,75,42,67
+2500608,"Swahili or other languages of Central, Eastern, and Southern Africa",511,277,20,30
+2500608,Other and unspecified languages,33,43,0,32
+2500609,Spanish,7993,1432,2516,921
+2500609,French (incl. Cajun),913,318,282,155
+2500609,Haitian,4667,922,2671,611
+2500609,Italian,1337,383,449,176
+2500609,Portuguese,7825,1273,4315,1022
+2500609,German,149,104,25,39
+2500609,"Yiddish, Pennsylvania Dutch or other West Germanic languages",15,26,0,32
+2500609,Greek,254,149,102,146
+2500609,Russian,576,399,245,182
+2500609,Polish,167,150,22,27
+2500609,Serbo-Croatian,764,597,439,406
+2500609,Ukrainian or other Slavic languages,250,195,37,43
+2500609,Armenian,150,102,0,32
+2500609,"Persian (incl. Farsi, Dari)",338,178,42,56
+2500609,Gujarati,398,214,74,84
+2500609,Hindi,690,276,57,49
+2500609,Urdu,709,492,135,186
+2500609,Punjabi,291,216,173,201
+2500609,Bengali,490,333,152,131
+2500609,"Nepali, Marathi, or other Indic languages",1389,710,442,277
+2500609,Other Indo-European languages,780,327,270,124
+2500609,Telugu,372,186,80,70
+2500609,Tamil,317,228,48,48
+2500609,"Malayalam, Kannada, or other Dravidian languages",293,344,0,32
+2500609,"Chinese (incl. Mandarin, Cantonese)",10758,1241,6646,909
+2500609,Japanese,123,81,44,32
+2500609,Korean,483,284,285,235
+2500609,Vietnamese,2250,553,1555,465
+2500609,Khmer,129,126,52,61
+2500609,"Thai, Lao, or other Tai-Kadai languages",87,74,43,46
+2500609,Other languages of Asia,794,398,232,178
+2500609,Tagalog (incl. Filipino),124,87,0,32
+2500609,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",321,378,116,182
+2500609,Arabic,1029,392,526,280
+2500609,Hebrew,153,109,0,32
+2500609,"Amharic, Somali, or other Afro-Asiatic languages",563,300,261,188
+2500609,"Yoruba, Twi, Igbo, or other languages of Western Africa",92,71,18,32
+2500609,"Swahili or other languages of Central, Eastern, and Southern Africa",177,161,7,11
+2500609,Other Native languages of North America,80,67,0,32
+2500609,Other and unspecified languages,65,70,0,32
+2500610,Spanish,19332,1861,8709,1248
+2500610,French (incl. Cajun),811,252,92,87
+2500610,Haitian,3881,1127,1406,431
+2500610,Italian,1128,271,483,184
+2500610,Portuguese,12656,1769,6930,1160
+2500610,German,435,164,0,32
+2500610,"Yiddish, Pennsylvania Dutch or other West Germanic languages",277,173,44,58
+2500610,Greek,184,79,52,34
+2500610,Russian,521,241,95,105
+2500610,Polish,105,53,0,32
+2500610,Serbo-Croatian,90,72,20,27
+2500610,Ukrainian or other Slavic languages,218,159,37,44
+2500610,Armenian,16,27,8,14
+2500610,"Persian (incl. Farsi, Dari)",89,66,7,17
+2500610,Gujarati,441,195,147,141
+2500610,Hindi,647,262,58,78
+2500610,Urdu,92,96,38,54
+2500610,Punjabi,254,215,152,135
+2500610,Bengali,191,128,60,69
+2500610,"Nepali, Marathi, or other Indic languages",1441,623,498,290
+2500610,Other Indo-European languages,445,304,56,51
+2500610,Telugu,104,75,0,32
+2500610,Tamil,182,105,0,32
+2500610,"Malayalam, Kannada, or other Dravidian languages",70,47,0,32
+2500610,"Chinese (incl. Mandarin, Cantonese)",2605,476,743,224
+2500610,Japanese,139,85,64,65
+2500610,Korean,470,150,117,63
+2500610,Vietnamese,1543,462,975,354
+2500610,Khmer,136,116,80,88
+2500610,"Thai, Lao, or other Tai-Kadai languages",160,116,59,71
+2500610,Other languages of Asia,379,187,173,111
+2500610,Tagalog (incl. Filipino),213,121,36,40
+2500610,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",92,50,0,32
+2500610,Arabic,1306,483,566,300
+2500610,Hebrew,65,46,4,10
+2500610,"Amharic, Somali, or other Afro-Asiatic languages",640,325,156,93
+2500610,"Yoruba, Twi, Igbo, or other languages of Western Africa",215,129,117,105
+2500610,"Swahili or other languages of Central, Eastern, and Southern Africa",96,62,14,15
+2500610,Other and unspecified languages,362,366,64,78
+2500611,Spanish,7571,890,1548,449
+2500611,French (incl. Cajun),1857,341,247,123
+2500611,Haitian,1390,417,481,210
+2500611,Italian,1017,290,126,72
+2500611,Portuguese,2157,442,794,261
+2500611,German,1115,274,31,22
+2500611,"Yiddish, Pennsylvania Dutch or other West Germanic languages",141,95,0,32
+2500611,Greek,206,100,0,32
+2500611,Russian,647,184,153,100
+2500611,Polish,120,73,11,22
+2500611,Serbo-Croatian,38,35,0,32
+2500611,Ukrainian or other Slavic languages,364,150,59,53
+2500611,Armenian,75,64,11,14
+2500611,"Persian (incl. Farsi, Dari)",404,196,63,62
+2500611,Gujarati,552,348,174,183
+2500611,Hindi,1726,558,175,201
+2500611,Urdu,337,176,53,59
+2500611,Punjabi,154,96,0,32
+2500611,Bengali,946,426,436,311
+2500611,"Nepali, Marathi, or other Indic languages",318,166,48,64
+2500611,Other Indo-European languages,749,203,72,57
+2500611,Telugu,248,133,14,16
+2500611,Tamil,402,156,3,7
+2500611,"Malayalam, Kannada, or other Dravidian languages",49,36,0,32
+2500611,"Chinese (incl. Mandarin, Cantonese)",8260,894,1958,466
+2500611,Japanese,1036,296,302,131
+2500611,Korean,1848,404,412,155
+2500611,Hmong,20,31,0,32
+2500611,Vietnamese,449,152,138,88
+2500611,Khmer,72,75,0,32
+2500611,"Thai, Lao, or other Tai-Kadai languages",104,70,40,43
+2500611,Other languages of Asia,507,141,115,64
+2500611,Tagalog (incl. Filipino),125,74,0,32
+2500611,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",314,151,39,31
+2500611,Arabic,940,337,216,146
+2500611,Hebrew,886,463,52,59
+2500611,"Amharic, Somali, or other Afro-Asiatic languages",2209,520,1188,376
+2500611,"Yoruba, Twi, Igbo, or other languages of Western Africa",220,143,0,32
+2500611,"Swahili or other languages of Central, Eastern, and Southern Africa",318,125,105,79
+2500611,Other Native languages of North America,1,3,1,3
+2500611,Other and unspecified languages,153,97,28,35
+2500612,Spanish,3827,681,899,312
+2500612,French (incl. Cajun),1189,268,119,58
+2500612,Haitian,214,164,81,107
+2500612,Italian,1222,456,386,245
+2500612,Portuguese,1668,635,478,333
+2500612,German,559,188,55,53
+2500612,"Yiddish, Pennsylvania Dutch or other West Germanic languages",59,50,10,16
+2500612,Greek,1181,368,400,223
+2500612,Russian,915,269,294,131
+2500612,Polish,210,140,63,72
+2500612,Serbo-Croatian,120,92,2,3
+2500612,Ukrainian or other Slavic languages,396,219,111,117
+2500612,Armenian,1647,454,470,189
+2500612,"Persian (incl. Farsi, Dari)",556,243,165,94
+2500612,Gujarati,291,141,73,46
+2500612,Hindi,980,352,186,168
+2500612,Urdu,319,308,17,22
+2500612,Punjabi,192,166,76,68
+2500612,Bengali,505,297,170,163
+2500612,"Nepali, Marathi, or other Indic languages",722,256,362,174
+2500612,Other Indo-European languages,759,285,169,102
+2500612,Telugu,174,134,41,49
+2500612,Tamil,134,87,21,33
+2500612,"Malayalam, Kannada, or other Dravidian languages",286,204,0,32
+2500612,"Chinese (incl. Mandarin, Cantonese)",5251,645,1708,319
+2500612,Japanese,541,250,326,175
+2500612,Korean,791,242,218,96
+2500612,Vietnamese,153,119,13,21
+2500612,Khmer,128,121,52,57
+2500612,"Thai, Lao, or other Tai-Kadai languages",197,152,85,83
+2500612,Other languages of Asia,602,246,143,90
+2500612,Tagalog (incl. Filipino),376,264,157,142
+2500612,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",59,72,0,32
+2500612,Arabic,1124,569,572,368
+2500612,Hebrew,263,184,23,36
+2500612,"Amharic, Somali, or other Afro-Asiatic languages",106,90,0,32
+2500612,"Yoruba, Twi, Igbo, or other languages of Western Africa",21,37,0,32
+2500612,"Swahili or other languages of Central, Eastern, and Southern Africa",314,285,35,50
+2500612,Other Native languages of North America,12,18,0,32
+2500612,Other and unspecified languages,235,176,0,32
+2500613,Spanish,9910,1327,3473,776
+2500613,French (incl. Cajun),1319,302,153,77
+2500613,Haitian,1266,444,318,161
+2500613,Italian,1151,373,248,114
+2500613,Portuguese,1440,601,676,492
+2500613,German,677,264,34,42
+2500613,"Yiddish, Pennsylvania Dutch or other West Germanic languages",121,72,48,51
+2500613,Greek,505,264,15,22
+2500613,Russian,3635,677,1224,329
+2500613,Polish,357,352,0,32
+2500613,Serbo-Croatian,175,184,42,55
+2500613,Ukrainian or other Slavic languages,501,235,249,136
+2500613,Armenian,983,421,295,212
+2500613,"Persian (incl. Farsi, Dari)",757,391,360,318
+2500613,Gujarati,232,119,58,50
+2500613,Hindi,1531,581,60,59
+2500613,Urdu,256,184,109,97
+2500613,Punjabi,74,103,0,32
+2500613,Bengali,244,128,39,53
+2500613,"Nepali, Marathi, or other Indic languages",467,212,47,71
+2500613,Other Indo-European languages,1034,436,150,160
+2500613,Telugu,185,214,0,32
+2500613,Tamil,347,162,74,60
+2500613,"Malayalam, Kannada, or other Dravidian languages",333,349,91,118
+2500613,"Chinese (incl. Mandarin, Cantonese)",9374,1067,3554,604
+2500613,Japanese,469,224,141,135
+2500613,Korean,1159,335,310,148
+2500613,Hmong,21,30,0,32
+2500613,Vietnamese,589,319,143,92
+2500613,Khmer,37,37,0,32
+2500613,"Thai, Lao, or other Tai-Kadai languages",270,135,106,80
+2500613,Other languages of Asia,437,201,61,68
+2500613,Tagalog (incl. Filipino),43,40,0,32
+2500613,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",202,144,53,64
+2500613,Arabic,515,256,119,81
+2500613,Hebrew,2183,672,458,258
+2500613,"Amharic, Somali, or other Afro-Asiatic languages",138,86,24,30
+2500613,"Yoruba, Twi, Igbo, or other languages of Western Africa",265,135,40,38
+2500613,"Swahili or other languages of Central, Eastern, and Southern Africa",766,335,53,46
+2500613,Other Native languages of North America,37,31,0,32
+2500613,Other and unspecified languages,125,81,0,32
+2500701,Spanish,26012,1758,9380,1020
+2500701,French (incl. Cajun),506,229,126,74
+2500701,Haitian,1277,680,691,553
+2500701,Italian,392,153,73,48
+2500701,Portuguese,1338,452,579,242
+2500701,German,87,63,0,32
+2500701,Greek,652,306,175,124
+2500701,Russian,393,238,7,11
+2500701,Polish,195,194,100,116
+2500701,Serbo-Croatian,50,81,50,81
+2500701,Ukrainian or other Slavic languages,60,62,26,40
+2500701,Armenian,17,27,17,27
+2500701,"Persian (incl. Farsi, Dari)",17,28,0,32
+2500701,Gujarati,389,289,162,105
+2500701,Urdu,416,558,0,32
+2500701,Punjabi,73,116,19,30
+2500701,Bengali,154,124,90,101
+2500701,"Nepali, Marathi, or other Indic languages",12,22,12,22
+2500701,Other Indo-European languages,342,230,140,115
+2500701,Telugu,22,37,0,32
+2500701,"Chinese (incl. Mandarin, Cantonese)",340,181,143,108
+2500701,Japanese,29,46,15,24
+2500701,Korean,34,31,12,19
+2500701,Vietnamese,991,485,462,254
+2500701,Khmer,246,166,43,34
+2500701,"Thai, Lao, or other Tai-Kadai languages",62,59,49,58
+2500701,Tagalog (incl. Filipino),105,89,22,33
+2500701,Arabic,1560,495,411,184
+2500701,"Amharic, Somali, or other Afro-Asiatic languages",9,16,0,32
+2500701,"Yoruba, Twi, Igbo, or other languages of Western Africa",78,79,50,62
+2500701,"Swahili or other languages of Central, Eastern, and Southern Africa",488,245,137,94
+2500701,Other Native languages of North America,10,16,10,16
+2500701,Other and unspecified languages,104,111,10,25
+2500702,Spanish,61749,1714,33197,1694
+2500702,French (incl. Cajun),437,223,59,56
+2500702,Haitian,115,90,19,36
+2500702,Italian,298,174,113,77
+2500702,Portuguese,1409,649,436,261
+2500702,German,18,22,0,32
+2500702,Greek,69,48,0,32
+2500702,Russian,127,114,7,11
+2500702,Polish,58,69,17,28
+2500702,"Persian (incl. Farsi, Dari)",61,64,0,32
+2500702,Gujarati,75,67,0,32
+2500702,Hindi,540,260,41,70
+2500702,Urdu,61,105,0,32
+2500702,Punjabi,84,102,25,30
+2500702,Bengali,73,104,0,32
+2500702,"Nepali, Marathi, or other Indic languages",98,97,0,32
+2500702,Other Indo-European languages,151,181,35,59
+2500702,Telugu,99,73,57,63
+2500702,Tamil,285,170,53,59
+2500702,"Malayalam, Kannada, or other Dravidian languages",109,99,0,32
+2500702,"Chinese (incl. Mandarin, Cantonese)",1851,364,833,269
+2500702,Japanese,172,148,4,9
+2500702,Korean,329,171,122,90
+2500702,Vietnamese,421,286,374,266
+2500702,Khmer,368,262,111,87
+2500702,"Thai, Lao, or other Tai-Kadai languages",7,19,0,32
+2500702,Other languages of Asia,121,133,13,21
+2500702,Tagalog (incl. Filipino),129,170,1,2
+2500702,Arabic,561,369,278,222
+2500702,Hebrew,88,100,0,32
+2500702,"Amharic, Somali, or other Afro-Asiatic languages",46,72,0,32
+2500702,"Yoruba, Twi, Igbo, or other languages of Western Africa",88,87,0,32
+2500702,"Swahili or other languages of Central, Eastern, and Southern Africa",276,306,3,7
+2500702,Other and unspecified languages,64,100,64,100
+2500703,Spanish,2964,564,799,282
+2500703,French (incl. Cajun),522,221,67,52
+2500703,Haitian,92,77,25,28
+2500703,Italian,498,239,108,78
+2500703,Portuguese,1096,476,521,294
+2500703,German,244,119,26,28
+2500703,"Yiddish, Pennsylvania Dutch or other West Germanic languages",42,44,0,32
+2500703,Greek,433,291,23,25
+2500703,Russian,382,274,127,86
+2500703,Polish,49,46,3,10
+2500703,Serbo-Croatian,26,30,0,32
+2500703,Ukrainian or other Slavic languages,174,155,43,51
+2500703,Armenian,49,77,0,32
+2500703,"Persian (incl. Farsi, Dari)",59,70,0,32
+2500703,Gujarati,30,41,7,13
+2500703,Hindi,146,109,6,10
+2500703,Urdu,6,34,0,32
+2500703,Punjabi,38,43,14,16
+2500703,Bengali,366,383,253,313
+2500703,"Nepali, Marathi, or other Indic languages",106,118,60,74
+2500703,Other Indo-European languages,291,294,219,280
+2500703,Telugu,38,72,0,32
+2500703,Tamil,72,70,9,15
+2500703,"Malayalam, Kannada, or other Dravidian languages",13,22,0,32
+2500703,"Chinese (incl. Mandarin, Cantonese)",563,260,331,209
+2500703,Japanese,186,124,37,41
+2500703,Korean,226,143,54,69
+2500703,Vietnamese,202,125,135,88
+2500703,Khmer,38,38,6,11
+2500703,"Thai, Lao, or other Tai-Kadai languages",98,123,44,55
+2500703,Other languages of Asia,80,102,0,32
+2500703,Tagalog (incl. Filipino),90,65,25,25
+2500703,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",25,26,0,32
+2500703,Arabic,444,265,150,115
+2500703,Hebrew,95,100,6,10
+2500703,"Yoruba, Twi, Igbo, or other languages of Western Africa",20,32,0,32
+2500703,"Swahili or other languages of Central, Eastern, and Southern Africa",409,326,14,25
+2500704,Spanish,9724,1262,3939,835
+2500704,French (incl. Cajun),927,345,245,104
+2500704,Haitian,1341,479,237,112
+2500704,Italian,1145,274,249,125
+2500704,Portuguese,5937,969,2502,576
+2500704,German,297,131,36,44
+2500704,"Yiddish, Pennsylvania Dutch or other West Germanic languages",12,16,6,12
+2500704,Greek,1023,404,189,130
+2500704,Russian,334,180,65,58
+2500704,Polish,200,115,20,23
+2500704,Serbo-Croatian,143,171,16,25
+2500704,Ukrainian or other Slavic languages,191,125,91,91
+2500704,Armenian,67,59,0,32
+2500704,"Persian (incl. Farsi, Dari)",193,200,125,151
+2500704,Gujarati,80,78,35,57
+2500704,Hindi,175,140,38,51
+2500704,Urdu,186,107,97,67
+2500704,Bengali,67,77,15,23
+2500704,"Nepali, Marathi, or other Indic languages",176,136,39,48
+2500704,Other Indo-European languages,1394,605,610,291
+2500704,Telugu,45,64,0,32
+2500704,"Malayalam, Kannada, or other Dravidian languages",59,94,21,35
+2500704,"Chinese (incl. Mandarin, Cantonese)",1453,467,470,216
+2500704,Japanese,163,111,95,72
+2500704,Korean,544,384,303,245
+2500704,Vietnamese,169,147,103,96
+2500704,Khmer,505,239,327,183
+2500704,"Thai, Lao, or other Tai-Kadai languages",98,78,43,65
+2500704,Other languages of Asia,190,144,20,19
+2500704,Tagalog (incl. Filipino),114,85,26,47
+2500704,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",67,73,10,16
+2500704,Arabic,820,358,410,280
+2500704,Hebrew,12,19,0,32
+2500704,"Amharic, Somali, or other Afro-Asiatic languages",198,175,61,84
+2500704,"Yoruba, Twi, Igbo, or other languages of Western Africa",173,116,68,50
+2500704,"Swahili or other languages of Central, Eastern, and Southern Africa",139,115,28,35
+2500704,Other and unspecified languages,85,52,42,35
+2500705,Spanish,37118,1878,19354,1586
+2500705,French (incl. Cajun),828,430,126,87
+2500705,Haitian,1875,633,703,297
+2500705,Italian,103,57,18,29
+2500705,Portuguese,1819,721,859,398
+2500705,German,139,174,0,32
+2500705,"Yiddish, Pennsylvania Dutch or other West Germanic languages",40,40,8,13
+2500705,Greek,640,205,155,85
+2500705,Russian,882,376,710,319
+2500705,Polish,52,54,42,52
+2500705,Serbo-Croatian,163,121,39,48
+2500705,Ukrainian or other Slavic languages,113,90,113,90
+2500705,Armenian,65,64,15,28
+2500705,"Persian (incl. Farsi, Dari)",77,120,77,120
+2500705,Gujarati,18,29,0,32
+2500705,Hindi,72,138,0,32
+2500705,Punjabi,19,37,19,37
+2500705,Bengali,218,177,149,147
+2500705,"Nepali, Marathi, or other Indic languages",338,305,175,180
+2500705,Other Indo-European languages,428,268,149,95
+2500705,Tamil,127,145,86,98
+2500705,"Chinese (incl. Mandarin, Cantonese)",63,54,36,48
+2500705,Japanese,80,112,0,32
+2500705,Korean,4,8,2,4
+2500705,Hmong,2,6,0,32
+2500705,Vietnamese,478,224,228,134
+2500705,Khmer,2646,728,1478,470
+2500705,"Thai, Lao, or other Tai-Kadai languages",566,317,411,256
+2500705,Other languages of Asia,39,46,25,29
+2500705,Tagalog (incl. Filipino),6,11,6,11
+2500705,Arabic,528,281,240,163
+2500705,Hebrew,8,13,0,32
+2500705,"Amharic, Somali, or other Afro-Asiatic languages",172,162,90,109
+2500705,"Yoruba, Twi, Igbo, or other languages of Western Africa",576,355,55,55
+2500705,"Swahili or other languages of Central, Eastern, and Southern Africa",509,219,187,129
+2500705,Other and unspecified languages,120,141,74,95
+2500706,Spanish,9494,1426,3861,834
+2500706,French (incl. Cajun),1003,327,265,175
+2500706,Haitian,309,236,72,86
+2500706,Italian,1045,360,206,111
+2500706,Portuguese,3214,608,1589,427
+2500706,German,215,102,16,25
+2500706,"Yiddish, Pennsylvania Dutch or other West Germanic languages",34,32,0,32
+2500706,Greek,493,206,100,81
+2500706,Russian,1523,395,435,196
+2500706,Polish,237,118,20,23
+2500706,Serbo-Croatian,233,154,72,68
+2500706,Ukrainian or other Slavic languages,253,177,73,82
+2500706,Armenian,469,681,448,681
+2500706,"Persian (incl. Farsi, Dari)",117,95,0,32
+2500706,Gujarati,9,17,0,32
+2500706,Hindi,184,140,0,32
+2500706,Urdu,44,35,0,32
+2500706,Bengali,356,380,243,313
+2500706,"Nepali, Marathi, or other Indic languages",192,195,132,143
+2500706,Other Indo-European languages,1120,459,432,264
+2500706,Telugu,41,43,0,32
+2500706,"Malayalam, Kannada, or other Dravidian languages",10,16,0,32
+2500706,"Chinese (incl. Mandarin, Cantonese)",324,196,146,143
+2500706,Japanese,352,241,68,80
+2500706,Korean,190,148,84,68
+2500706,Vietnamese,139,136,65,73
+2500706,Khmer,34,30,0,32
+2500706,"Thai, Lao, or other Tai-Kadai languages",79,75,0,32
+2500706,Other languages of Asia,45,81,0,32
+2500706,Tagalog (incl. Filipino),152,104,6,9
+2500706,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",60,94,54,93
+2500706,Arabic,838,426,419,274
+2500706,Hebrew,240,173,21,28
+2500706,"Amharic, Somali, or other Afro-Asiatic languages",91,139,0,32
+2500706,"Yoruba, Twi, Igbo, or other languages of Western Africa",168,161,94,126
+2500706,"Swahili or other languages of Central, Eastern, and Southern Africa",574,327,492,318
+2500706,Other and unspecified languages,85,64,8,13
+2500801,Spanish,10051,1272,3305,801
+2500801,French (incl. Cajun),1099,307,146,98
+2500801,Haitian,316,172,55,46
+2500801,Italian,517,260,115,144
+2500801,Portuguese,1761,464,474,212
+2500801,German,517,260,0,32
+2500801,"Yiddish, Pennsylvania Dutch or other West Germanic languages",167,96,37,44
+2500801,Greek,291,118,52,57
+2500801,Russian,1824,455,1124,381
+2500801,Polish,180,64,43,18
+2500801,Serbo-Croatian,29,28,9,18
+2500801,Ukrainian or other Slavic languages,329,154,137,118
+2500801,Armenian,16,22,0,32
+2500801,"Persian (incl. Farsi, Dari)",454,184,111,90
+2500801,Gujarati,407,120,86,94
+2500801,Hindi,1474,356,231,113
+2500801,Urdu,161,92,0,32
+2500801,Punjabi,70,48,0,32
+2500801,Bengali,305,140,59,66
+2500801,"Nepali, Marathi, or other Indic languages",322,217,133,85
+2500801,Other Indo-European languages,426,158,84,91
+2500801,Telugu,201,85,23,30
+2500801,Tamil,342,107,15,21
+2500801,"Malayalam, Kannada, or other Dravidian languages",153,81,0,32
+2500801,"Chinese (incl. Mandarin, Cantonese)",9453,753,4627,532
+2500801,Japanese,529,351,128,75
+2500801,Korean,1658,285,460,170
+2500801,Hmong,6,13,0,32
+2500801,Vietnamese,1030,328,603,292
+2500801,Khmer,430,232,383,227
+2500801,"Thai, Lao, or other Tai-Kadai languages",310,212,225,165
+2500801,Other languages of Asia,689,274,89,86
+2500801,Tagalog (incl. Filipino),367,185,35,37
+2500801,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",198,96,53,57
+2500801,Arabic,1570,619,397,461
+2500801,Hebrew,299,118,45,59
+2500801,"Amharic, Somali, or other Afro-Asiatic languages",110,95,17,22
+2500801,"Yoruba, Twi, Igbo, or other languages of Western Africa",220,138,21,33
+2500801,"Swahili or other languages of Central, Eastern, and Southern Africa",213,118,34,40
+2500801,Other Native languages of North America,47,43,0,32
+2500801,Other and unspecified languages,170,119,0,32
+2500802,Spanish,27853,1832,15269,1451
+2500802,French (incl. Cajun),2032,574,472,312
+2500802,Haitian,767,362,395,233
+2500802,Italian,1206,405,282,176
+2500802,Portuguese,1535,413,456,222
+2500802,German,804,325,109,93
+2500802,"Yiddish, Pennsylvania Dutch or other West Germanic languages",129,106,0,32
+2500802,Greek,463,185,78,66
+2500802,Russian,551,174,179,101
+2500802,Polish,169,120,61,65
+2500802,Serbo-Croatian,98,77,40,51
+2500802,Ukrainian or other Slavic languages,232,133,76,101
+2500802,Armenian,92,67,31,46
+2500802,"Persian (incl. Farsi, Dari)",451,210,14,16
+2500802,Gujarati,206,100,14,22
+2500802,Hindi,619,191,13,15
+2500802,Urdu,166,128,23,34
+2500802,Punjabi,125,100,37,44
+2500802,Bengali,45,45,7,11
+2500802,"Nepali, Marathi, or other Indic languages",47,49,0,32
+2500802,Other Indo-European languages,744,251,274,160
+2500802,Telugu,90,86,12,18
+2500802,Tamil,205,124,0,32
+2500802,"Malayalam, Kannada, or other Dravidian languages",23,29,0,32
+2500802,"Chinese (incl. Mandarin, Cantonese)",10300,986,7120,867
+2500802,Japanese,226,110,59,50
+2500802,Korean,727,265,202,125
+2500802,Hmong,2,4,0,32
+2500802,Vietnamese,645,263,388,181
+2500802,Khmer,25,36,7,23
+2500802,"Thai, Lao, or other Tai-Kadai languages",61,49,32,27
+2500802,Other languages of Asia,453,171,54,48
+2500802,Tagalog (incl. Filipino),134,77,45,53
+2500802,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",112,55,15,25
+2500802,Arabic,1594,385,531,212
+2500802,Hebrew,248,150,22,33
+2500802,"Amharic, Somali, or other Afro-Asiatic languages",568,306,246,141
+2500802,"Yoruba, Twi, Igbo, or other languages of Western Africa",90,58,6,13
+2500802,"Swahili or other languages of Central, Eastern, and Southern Africa",335,289,52,87
+2500802,Other Native languages of North America,11,23,0,32
+2500802,Other and unspecified languages,146,99,16,26
+2500803,Spanish,12000,1338,5578,1003
+2500803,French (incl. Cajun),493,177,76,111
+2500803,Haitian,3258,955,1479,514
+2500803,Italian,248,164,13,19
+2500803,Portuguese,2866,871,1618,578
+2500803,German,530,294,28,27
+2500803,"Yiddish, Pennsylvania Dutch or other West Germanic languages",138,110,0,32
+2500803,Greek,56,41,0,32
+2500803,Russian,308,156,121,93
+2500803,Polish,353,233,197,188
+2500803,Serbo-Croatian,14,21,0,32
+2500803,Ukrainian or other Slavic languages,145,110,13,34
+2500803,Armenian,83,86,0,32
+2500803,"Persian (incl. Farsi, Dari)",268,131,121,73
+2500803,Gujarati,51,45,0,32
+2500803,Hindi,671,272,323,224
+2500803,Urdu,75,82,14,22
+2500803,Punjabi,15,23,0,32
+2500803,Bengali,299,248,208,216
+2500803,"Nepali, Marathi, or other Indic languages",78,87,28,33
+2500803,Other Indo-European languages,644,294,269,145
+2500803,Telugu,74,60,0,32
+2500803,Tamil,90,77,25,36
+2500803,"Malayalam, Kannada, or other Dravidian languages",55,57,1,2
+2500803,"Chinese (incl. Mandarin, Cantonese)",2195,468,1057,336
+2500803,Japanese,51,57,0,32
+2500803,Korean,110,80,49,62
+2500803,Vietnamese,7440,1205,5188,1055
+2500803,Khmer,23,37,23,37
+2500803,"Thai, Lao, or other Tai-Kadai languages",22,35,19,31
+2500803,Other languages of Asia,73,83,37,42
+2500803,Tagalog (incl. Filipino),70,46,16,24
+2500803,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",178,238,108,176
+2500803,Arabic,296,199,37,44
+2500803,Hebrew,56,61,0,32
+2500803,"Amharic, Somali, or other Afro-Asiatic languages",244,184,33,31
+2500803,"Yoruba, Twi, Igbo, or other languages of Western Africa",460,277,106,90
+2500803,"Swahili or other languages of Central, Eastern, and Southern Africa",130,89,37,37
+2500803,Other Native languages of North America,13,20,13,20
+2500803,Other and unspecified languages,551,317,71,68
+2500804,Spanish,30117,1913,14850,1167
+2500804,French (incl. Cajun),866,310,257,159
+2500804,Haitian,10155,1452,5694,988
+2500804,Italian,123,84,0,32
+2500804,Portuguese,5986,1132,2338,504
+2500804,German,233,136,14,15
+2500804,"Yiddish, Pennsylvania Dutch or other West Germanic languages",32,32,0,32
+2500804,Greek,12,13,0,32
+2500804,Russian,259,164,189,163
+2500804,Polish,22,25,0,32
+2500804,Serbo-Croatian,78,80,0,32
+2500804,Ukrainian or other Slavic languages,94,81,1,5
+2500804,Armenian,31,35,0,32
+2500804,"Persian (incl. Farsi, Dari)",139,101,43,73
+2500804,Gujarati,207,211,78,111
+2500804,Hindi,979,431,561,405
+2500804,Urdu,104,81,14,22
+2500804,Bengali,220,134,61,51
+2500804,"Nepali, Marathi, or other Indic languages",229,155,43,46
+2500804,Other Indo-European languages,205,183,92,111
+2500804,Telugu,177,144,18,38
+2500804,Tamil,104,94,0,32
+2500804,"Malayalam, Kannada, or other Dravidian languages",76,72,8,32
+2500804,"Chinese (incl. Mandarin, Cantonese)",2108,477,1114,279
+2500804,Japanese,98,108,44,59
+2500804,Korean,238,95,49,44
+2500804,Vietnamese,1011,464,808,426
+2500804,Khmer,79,89,50,81
+2500804,"Thai, Lao, or other Tai-Kadai languages",19,27,6,12
+2500804,Other languages of Asia,69,66,46,56
+2500804,Tagalog (incl. Filipino),65,42,5,9
+2500804,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",126,112,97,107
+2500804,Arabic,459,293,76,111
+2500804,Hebrew,61,50,16,24
+2500804,"Amharic, Somali, or other Afro-Asiatic languages",2287,779,1048,363
+2500804,"Yoruba, Twi, Igbo, or other languages of Western Africa",1235,482,412,264
+2500804,"Swahili or other languages of Central, Eastern, and Southern Africa",457,433,132,152
+2500804,Other and unspecified languages,1549,759,124,122
+2500805,Spanish,18148,1626,7584,876
+2500805,French (incl. Cajun),918,336,415,248
+2500805,Haitian,6960,1400,3327,866
+2500805,Italian,512,231,152,103
+2500805,Portuguese,1099,368,347,210
+2500805,German,491,180,71,63
+2500805,"Yiddish, Pennsylvania Dutch or other West Germanic languages",97,77,0,32
+2500805,Greek,754,323,207,113
+2500805,Russian,582,217,198,108
+2500805,Polish,168,115,0,32
+2500805,Serbo-Croatian,32,39,0,32
+2500805,Ukrainian or other Slavic languages,242,159,84,77
+2500805,Armenian,43,49,38,47
+2500805,"Persian (incl. Farsi, Dari)",182,129,45,51
+2500805,Gujarati,4,7,0,32
+2500805,Hindi,230,92,52,44
+2500805,Urdu,125,130,17,27
+2500805,Punjabi,13,18,0,32
+2500805,Bengali,154,115,22,39
+2500805,"Nepali, Marathi, or other Indic languages",215,130,71,70
+2500805,Other Indo-European languages,1207,549,530,423
+2500805,Telugu,22,27,14,22
+2500805,Tamil,25,24,0,32
+2500805,"Malayalam, Kannada, or other Dravidian languages",51,50,0,32
+2500805,"Chinese (incl. Mandarin, Cantonese)",2089,495,1010,354
+2500805,Japanese,133,79,50,61
+2500805,Korean,509,288,173,128
+2500805,Hmong,17,25,0,32
+2500805,Vietnamese,220,147,137,136
+2500805,Khmer,211,174,14,22
+2500805,"Thai, Lao, or other Tai-Kadai languages",111,144,62,73
+2500805,Other languages of Asia,130,89,28,43
+2500805,Tagalog (incl. Filipino),337,262,68,58
+2500805,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",86,99,0,32
+2500805,Arabic,416,254,186,100
+2500805,Hebrew,97,77,0,32
+2500805,"Amharic, Somali, or other Afro-Asiatic languages",101,87,59,89
+2500805,"Yoruba, Twi, Igbo, or other languages of Western Africa",1120,479,299,171
+2500805,"Swahili or other languages of Central, Eastern, and Southern Africa",392,289,45,65
+2500805,Other and unspecified languages,147,85,10,16
+2500806,Spanish,45037,2130,27809,1784
+2500806,French (incl. Cajun),648,396,124,87
+2500806,Haitian,1045,505,592,373
+2500806,Italian,1910,738,795,371
+2500806,Portuguese,4246,1095,2556,897
+2500806,German,70,54,0,32
+2500806,"Yiddish, Pennsylvania Dutch or other West Germanic languages",14,23,0,32
+2500806,Greek,188,124,20,27
+2500806,Russian,357,159,181,84
+2500806,Polish,167,151,92,122
+2500806,Serbo-Croatian,667,379,315,177
+2500806,Ukrainian or other Slavic languages,43,46,13,22
+2500806,"Persian (incl. Farsi, Dari)",98,119,15,24
+2500806,Gujarati,92,82,0,32
+2500806,Hindi,117,82,43,51
+2500806,Urdu,244,275,70,102
+2500806,Punjabi,12,148,1,17
+2500806,Bengali,147,218,80,119
+2500806,"Nepali, Marathi, or other Indic languages",113,99,43,60
+2500806,Other Indo-European languages,1000,515,263,203
+2500806,Telugu,64,78,0,32
+2500806,Tamil,22,41,0,32
+2500806,"Malayalam, Kannada, or other Dravidian languages",23,30,0,32
+2500806,"Chinese (incl. Mandarin, Cantonese)",814,246,456,179
+2500806,Japanese,103,111,34,45
+2500806,Korean,112,69,38,40
+2500806,Hmong,6,10,0,32
+2500806,Vietnamese,488,274,306,181
+2500806,Khmer,320,198,247,170
+2500806,"Thai, Lao, or other Tai-Kadai languages",28,34,18,30
+2500806,Other languages of Asia,215,159,154,149
+2500806,Tagalog (incl. Filipino),91,116,39,42
+2500806,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",32,36,15,26
+2500806,Arabic,3595,1235,1687,607
+2500806,Hebrew,42,54,22,35
+2500806,"Amharic, Somali, or other Afro-Asiatic languages",530,286,269,164
+2500806,"Yoruba, Twi, Igbo, or other languages of Western Africa",22,27,0,32
+2500806,"Swahili or other languages of Central, Eastern, and Southern Africa",378,283,172,193
+2500806,Other and unspecified languages,124,119,54,101
+2500901,Spanish,3366,602,542,159
+2500901,French (incl. Cajun),704,306,93,61
+2500901,Haitian,121,76,50,54
+2500901,Italian,486,271,80,71
+2500901,Portuguese,644,235,214,159
+2500901,German,616,291,35,39
+2500901,"Yiddish, Pennsylvania Dutch or other West Germanic languages",177,124,0,32
+2500901,Greek,623,349,263,293
+2500901,Russian,1564,459,373,197
+2500901,Polish,174,101,0,32
+2500901,Ukrainian or other Slavic languages,419,309,80,73
+2500901,Armenian,32,40,0,32
+2500901,"Persian (incl. Farsi, Dari)",222,120,50,51
+2500901,Gujarati,240,225,46,51
+2500901,Hindi,815,278,65,62
+2500901,Urdu,162,132,21,30
+2500901,Bengali,119,77,0,32
+2500901,"Nepali, Marathi, or other Indic languages",59,70,17,28
+2500901,Other Indo-European languages,580,255,115,98
+2500901,Telugu,160,97,35,30
+2500901,Tamil,236,170,0,32
+2500901,"Malayalam, Kannada, or other Dravidian languages",24,39,13,21
+2500901,"Chinese (incl. Mandarin, Cantonese)",4810,629,1711,386
+2500901,Japanese,128,85,67,76
+2500901,Korean,480,214,193,138
+2500901,Hmong,11,20,0,32
+2500901,Vietnamese,149,98,1,6
+2500901,Khmer,11,17,0,32
+2500901,"Thai, Lao, or other Tai-Kadai languages",173,173,89,99
+2500901,Other languages of Asia,269,256,0,32
+2500901,Tagalog (incl. Filipino),76,64,0,32
+2500901,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",99,79,0,32
+2500901,Arabic,640,259,94,90
+2500901,Hebrew,672,333,60,91
+2500901,"Amharic, Somali, or other Afro-Asiatic languages",46,70,46,70
+2500901,"Yoruba, Twi, Igbo, or other languages of Western Africa",256,224,69,77
+2500901,"Swahili or other languages of Central, Eastern, and Southern Africa",135,160,58,79
+2500901,Other and unspecified languages,39,40,0,32
+2500902,Spanish,4226,544,1033,296
+2500902,French (incl. Cajun),1543,384,182,98
+2500902,Haitian,1563,726,682,349
+2500902,Italian,920,283,151,91
+2500902,Portuguese,845,328,221,164
+2500902,German,658,383,5,9
+2500902,"Yiddish, Pennsylvania Dutch or other West Germanic languages",265,165,18,24
+2500902,Greek,528,193,179,77
+2500902,Russian,1900,474,781,199
+2500902,Polish,377,202,53,50
+2500902,Serbo-Croatian,228,145,0,32
+2500902,Ukrainian or other Slavic languages,344,180,100,78
+2500902,"Persian (incl. Farsi, Dari)",321,270,211,257
+2500902,Gujarati,60,68,18,31
+2500902,Hindi,829,407,21,25
+2500902,Urdu,283,192,47,41
+2500902,Punjabi,7,13,0,32
+2500902,Bengali,111,84,3,7
+2500902,"Nepali, Marathi, or other Indic languages",351,295,11,17
+2500902,Other Indo-European languages,1007,410,341,216
+2500902,Telugu,181,211,0,32
+2500902,Tamil,189,153,55,84
+2500902,"Malayalam, Kannada, or other Dravidian languages",80,74,0,32
+2500902,"Chinese (incl. Mandarin, Cantonese)",4736,630,1738,360
+2500902,Japanese,937,378,250,142
+2500902,Korean,1199,340,446,156
+2500902,Vietnamese,333,178,137,120
+2500902,Khmer,28,36,9,16
+2500902,"Thai, Lao, or other Tai-Kadai languages",106,84,43,50
+2500902,Other languages of Asia,389,205,55,44
+2500902,Tagalog (incl. Filipino),248,149,17,28
+2500902,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",70,63,11,17
+2500902,Arabic,868,343,96,72
+2500902,Hebrew,1046,308,166,85
+2500902,"Amharic, Somali, or other Afro-Asiatic languages",79,130,0,32
+2500902,"Yoruba, Twi, Igbo, or other languages of Western Africa",254,164,52,61
+2500902,"Swahili or other languages of Central, Eastern, and Southern Africa",388,347,73,105
+2500902,Other and unspecified languages,293,164,82,92
+2500903,Spanish,4081,707,1191,330
+2500903,French (incl. Cajun),507,247,23,31
+2500903,Haitian,660,345,284,198
+2500903,Italian,261,149,55,44
+2500903,Portuguese,1975,779,1088,542
+2500903,German,312,214,134,196
+2500903,Greek,318,225,0,32
+2500903,Russian,480,221,129,93
+2500903,Polish,141,107,120,94
+2500903,Serbo-Croatian,13,22,0,32
+2500903,Ukrainian or other Slavic languages,291,161,127,118
+2500903,Armenian,15,25,0,32
+2500903,"Persian (incl. Farsi, Dari)",53,51,0,32
+2500903,Gujarati,65,81,20,27
+2500903,Hindi,819,362,192,155
+2500903,Urdu,244,187,75,87
+2500903,Punjabi,188,169,0,32
+2500903,Bengali,381,288,238,214
+2500903,"Nepali, Marathi, or other Indic languages",293,202,74,75
+2500903,Other Indo-European languages,2095,826,883,336
+2500903,Telugu,906,483,534,428
+2500903,Tamil,597,415,177,148
+2500903,"Malayalam, Kannada, or other Dravidian languages",68,76,15,24
+2500903,"Chinese (incl. Mandarin, Cantonese)",15100,1438,9817,1122
+2500903,Japanese,250,158,46,50
+2500903,Korean,239,165,97,108
+2500903,Vietnamese,3885,1246,2615,972
+2500903,Khmer,170,152,74,89
+2500903,"Thai, Lao, or other Tai-Kadai languages",188,133,104,106
+2500903,Other languages of Asia,417,224,208,127
+2500903,Tagalog (incl. Filipino),696,332,145,99
+2500903,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",136,110,23,37
+2500903,Arabic,1177,577,362,210
+2500903,Hebrew,41,51,0,32
+2500903,"Amharic, Somali, or other Afro-Asiatic languages",110,110,0,32
+2500903,"Yoruba, Twi, Igbo, or other languages of Western Africa",518,264,196,267
+2500903,"Swahili or other languages of Central, Eastern, and Southern Africa",6,40,0,32
+2500903,Other Native languages of North America,48,79,48,79
+2500903,Other and unspecified languages,80,78,0,32
+2500904,Spanish,6328,989,1542,371
+2500904,French (incl. Cajun),837,311,257,161
+2500904,Haitian,5308,985,1837,463
+2500904,Italian,420,177,148,83
+2500904,Portuguese,2135,631,654,249
+2500904,German,177,138,0,32
+2500904,Greek,294,153,116,108
+2500904,Russian,208,114,38,32
+2500904,Polish,221,143,130,105
+2500904,Serbo-Croatian,61,91,33,49
+2500904,Ukrainian or other Slavic languages,129,87,20,32
+2500904,"Persian (incl. Farsi, Dari)",124,114,63,89
+2500904,Gujarati,356,342,214,324
+2500904,Hindi,432,271,34,38
+2500904,Urdu,116,118,0,32
+2500904,Punjabi,46,74,21,34
+2500904,Bengali,362,286,30,47
+2500904,"Nepali, Marathi, or other Indic languages",195,194,26,33
+2500904,Other Indo-European languages,1155,387,500,249
+2500904,Telugu,127,120,14,23
+2500904,Tamil,46,44,0,32
+2500904,"Malayalam, Kannada, or other Dravidian languages",135,146,82,125
+2500904,"Chinese (incl. Mandarin, Cantonese)",7300,1052,4447,873
+2500904,Japanese,203,164,80,75
+2500904,Korean,79,70,29,33
+2500904,Vietnamese,4475,820,2476,571
+2500904,"Thai, Lao, or other Tai-Kadai languages",88,65,17,21
+2500904,Other languages of Asia,145,138,49,54
+2500904,Tagalog (incl. Filipino),506,241,144,114
+2500904,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",107,94,0,32
+2500904,Arabic,671,368,121,105
+2500904,Hebrew,32,28,0,32
+2500904,"Amharic, Somali, or other Afro-Asiatic languages",25,37,13,20
+2500904,"Yoruba, Twi, Igbo, or other languages of Western Africa",589,310,5,9
+2500904,"Swahili or other languages of Central, Eastern, and Southern Africa",400,323,0,32
+2500904,Other and unspecified languages,62,54,14,17
+2500905,Spanish,4450,879,1594,478
+2500905,French (incl. Cajun),935,370,170,111
+2500905,Haitian,3418,1001,1197,488
+2500905,Italian,615,207,202,116
+2500905,Portuguese,5103,918,2520,703
+2500905,German,142,107,9,14
+2500905,"Yiddish, Pennsylvania Dutch or other West Germanic languages",20,26,0,32
+2500905,Greek,367,201,89,67
+2500905,Russian,1196,363,532,202
+2500905,Polish,211,162,65,63
+2500905,Serbo-Croatian,83,80,0,32
+2500905,Ukrainian or other Slavic languages,137,98,8,13
+2500905,Armenian,114,128,114,128
+2500905,"Persian (incl. Farsi, Dari)",238,167,146,139
+2500905,Gujarati,179,189,26,34
+2500905,Hindi,878,277,142,112
+2500905,Urdu,87,104,30,37
+2500905,Punjabi,89,84,21,35
+2500905,Bengali,192,169,20,26
+2500905,"Nepali, Marathi, or other Indic languages",225,136,32,56
+2500905,Other Indo-European languages,555,271,155,98
+2500905,Telugu,591,238,49,40
+2500905,Tamil,262,171,109,151
+2500905,"Malayalam, Kannada, or other Dravidian languages",128,122,1,3
+2500905,"Chinese (incl. Mandarin, Cantonese)",3135,705,1504,458
+2500905,Japanese,226,214,45,66
+2500905,Korean,609,372,235,159
+2500905,Vietnamese,768,323,422,195
+2500905,Khmer,159,152,119,114
+2500905,"Thai, Lao, or other Tai-Kadai languages",226,146,96,79
+2500905,Other languages of Asia,104,97,0,32
+2500905,Tagalog (incl. Filipino),296,176,63,75
+2500905,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",256,328,110,149
+2500905,Arabic,1005,341,274,157
+2500905,Hebrew,509,285,41,48
+2500905,"Amharic, Somali, or other Afro-Asiatic languages",68,95,0,32
+2500905,"Yoruba, Twi, Igbo, or other languages of Western Africa",489,248,64,84
+2500905,"Swahili or other languages of Central, Eastern, and Southern Africa",92,85,0,32
+2500905,Other Native languages of North America,43,53,0,32
+2500905,Other and unspecified languages,107,70,6,10
+2500906,Spanish,3237,752,996,470
+2500906,French (incl. Cajun),721,254,137,74
+2500906,Haitian,684,406,45,50
+2500906,Italian,558,231,113,144
+2500906,Portuguese,1144,361,383,170
+2500906,German,119,77,7,10
+2500906,"Yiddish, Pennsylvania Dutch or other West Germanic languages",19,23,0,32
+2500906,Greek,278,159,117,97
+2500906,Russian,412,219,143,98
+2500906,Polish,61,51,25,30
+2500906,Serbo-Croatian,31,48,0,32
+2500906,Ukrainian or other Slavic languages,88,77,44,48
+2500906,Armenian,9,15,0,32
+2500906,Gujarati,256,189,64,60
+2500906,Hindi,592,290,14,23
+2500906,Urdu,140,157,78,101
+2500906,Bengali,89,115,30,49
+2500906,"Nepali, Marathi, or other Indic languages",253,117,11,14
+2500906,Other Indo-European languages,982,764,128,95
+2500906,Telugu,635,329,135,135
+2500906,Tamil,345,211,73,58
+2500906,"Malayalam, Kannada, or other Dravidian languages",125,84,64,81
+2500906,"Chinese (incl. Mandarin, Cantonese)",461,173,218,147
+2500906,Japanese,58,42,0,32
+2500906,Korean,94,104,49,54
+2500906,Hmong,1,4,0,32
+2500906,Vietnamese,430,490,214,309
+2500906,"Thai, Lao, or other Tai-Kadai languages",47,56,46,56
+2500906,Other languages of Asia,41,53,0,32
+2500906,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",22,37,11,18
+2500906,Arabic,867,275,137,83
+2500906,Hebrew,93,60,23,31
+2500906,"Amharic, Somali, or other Afro-Asiatic languages",62,85,62,85
+2500906,"Yoruba, Twi, Igbo, or other languages of Western Africa",597,431,14,24
+2500906,"Swahili or other languages of Central, Eastern, and Southern Africa",309,338,0,32
+2500906,Other and unspecified languages,224,342,50,76
+2501001,Spanish,4346,1075,1737,500
+2501001,French (incl. Cajun),527,192,177,117
+2501001,Haitian,1055,529,354,279
+2501001,Italian,6,10,6,10
+2501001,Portuguese,4568,924,1573,372
+2501001,German,127,78,46,59
+2501001,"Yiddish, Pennsylvania Dutch or other West Germanic languages",31,49,0,32
+2501001,Greek,53,58,28,49
+2501001,Russian,65,55,23,30
+2501001,Polish,211,135,55,68
+2501001,Armenian,62,104,22,37
+2501001,Gujarati,161,160,0,32
+2501001,Hindi,365,206,6,17
+2501001,Urdu,129,152,24,37
+2501001,Bengali,85,95,35,52
+2501001,"Nepali, Marathi, or other Indic languages",225,153,78,75
+2501001,Other Indo-European languages,147,129,85,117
+2501001,Telugu,42,63,12,18
+2501001,Tamil,350,249,10,16
+2501001,"Malayalam, Kannada, or other Dravidian languages",14,23,0,32
+2501001,"Chinese (incl. Mandarin, Cantonese)",372,202,190,120
+2501001,Japanese,16,25,0,32
+2501001,Korean,83,75,34,38
+2501001,Hmong,22,35,22,35
+2501001,Vietnamese,183,179,125,151
+2501001,Khmer,555,242,487,213
+2501001,"Thai, Lao, or other Tai-Kadai languages",48,61,36,49
+2501001,Other languages of Asia,152,154,104,162
+2501001,Tagalog (incl. Filipino),109,109,40,49
+2501001,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",12,18,0,32
+2501001,Arabic,842,342,227,134
+2501001,Hebrew,9,14,0,32
+2501001,"Yoruba, Twi, Igbo, or other languages of Western Africa",98,94,31,39
+2501001,"Swahili or other languages of Central, Eastern, and Southern Africa",43,66,6,28
+2501001,Other and unspecified languages,77,80,51,72
+2501002,Spanish,5124,955,1377,363
+2501002,French (incl. Cajun),899,359,320,210
+2501002,Haitian,2220,581,588,205
+2501002,Italian,332,181,19,21
+2501002,Portuguese,7344,901,2605,452
+2501002,German,170,92,18,27
+2501002,"Yiddish, Pennsylvania Dutch or other West Germanic languages",34,43,29,41
+2501002,Greek,434,214,176,167
+2501002,Russian,186,146,53,59
+2501002,Polish,202,100,86,68
+2501002,Serbo-Croatian,67,85,45,65
+2501002,Ukrainian or other Slavic languages,114,134,79,94
+2501002,Gujarati,252,232,69,71
+2501002,Hindi,244,193,48,57
+2501002,Punjabi,47,53,0,32
+2501002,Bengali,173,123,10,15
+2501002,"Nepali, Marathi, or other Indic languages",155,134,33,58
+2501002,Other Indo-European languages,537,361,184,192
+2501002,Telugu,49,45,12,19
+2501002,Tamil,89,81,38,36
+2501002,"Malayalam, Kannada, or other Dravidian languages",95,128,0,32
+2501002,"Chinese (incl. Mandarin, Cantonese)",528,238,202,116
+2501002,Japanese,61,57,11,19
+2501002,Korean,193,135,113,86
+2501002,Hmong,182,231,102,129
+2501002,Vietnamese,667,408,367,219
+2501002,Khmer,143,164,36,61
+2501002,"Thai, Lao, or other Tai-Kadai languages",26,40,0,32
+2501002,Other languages of Asia,29,34,0,32
+2501002,Tagalog (incl. Filipino),252,155,44,60
+2501002,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",10,17,0,32
+2501002,Arabic,353,177,138,118
+2501002,Hebrew,44,52,26,41
+2501002,"Yoruba, Twi, Igbo, or other languages of Western Africa",90,66,0,32
+2501002,"Swahili or other languages of Central, Eastern, and Southern Africa",222,158,51,40
+2501002,Other Native languages of North America,67,65,0,32
+2501002,Other and unspecified languages,200,164,0,32
+2501003,Spanish,9358,1425,4712,1110
+2501003,French (incl. Cajun),617,187,129,77
+2501003,Haitian,1012,430,424,216
+2501003,Italian,52,53,25,31
+2501003,Portuguese,23609,1725,9819,1045
+2501003,German,53,44,10,16
+2501003,"Yiddish, Pennsylvania Dutch or other West Germanic languages",25,40,0,32
+2501003,Greek,290,192,39,50
+2501003,Russian,30,44,0,32
+2501003,Polish,30,24,0,32
+2501003,Ukrainian or other Slavic languages,11,18,0,32
+2501003,"Persian (incl. Farsi, Dari)",13,20,13,20
+2501003,Gujarati,125,141,64,74
+2501003,Hindi,143,125,0,32
+2501003,Urdu,113,118,23,37
+2501003,Punjabi,26,43,11,18
+2501003,Bengali,71,78,47,52
+2501003,"Nepali, Marathi, or other Indic languages",29,41,16,19
+2501003,Other Indo-European languages,18,22,0,32
+2501003,"Chinese (incl. Mandarin, Cantonese)",361,254,210,165
+2501003,Japanese,6,10,6,10
+2501003,Vietnamese,176,109,134,97
+2501003,Khmer,1143,493,394,294
+2501003,Tagalog (incl. Filipino),69,60,10,17
+2501003,Arabic,426,236,206,117
+2501003,"Yoruba, Twi, Igbo, or other languages of Western Africa",54,70,0,32
+2501003,"Swahili or other languages of Central, Eastern, and Southern Africa",13,24,0,32
+2501003,Other Native languages of North America,9,13,0,32
+2501004,Spanish,17395,1540,7752,1041
+2501004,French (incl. Cajun),830,303,139,88
+2501004,Haitian,1621,542,799,269
+2501004,Italian,95,55,18,23
+2501004,Portuguese,21969,1788,8371,920
+2501004,German,103,66,0,32
+2501004,"Yiddish, Pennsylvania Dutch or other West Germanic languages",14,22,0,32
+2501004,Greek,157,107,71,74
+2501004,Russian,29,35,0,32
+2501004,Polish,36,41,0,32
+2501004,Armenian,46,75,46,75
+2501004,"Persian (incl. Farsi, Dari)",34,38,12,19
+2501004,Gujarati,5,10,0,32
+2501004,Hindi,179,131,9,14
+2501004,Urdu,104,125,12,21
+2501004,Punjabi,15,30,0,32
+2501004,Bengali,24,35,9,13
+2501004,"Nepali, Marathi, or other Indic languages",88,124,53,76
+2501004,Other Indo-European languages,27,24,9,14
+2501004,Telugu,45,56,0,32
+2501004,"Malayalam, Kannada, or other Dravidian languages",15,19,0,32
+2501004,"Chinese (incl. Mandarin, Cantonese)",566,219,212,121
+2501004,Japanese,54,60,19,31
+2501004,Korean,50,45,39,34
+2501004,Vietnamese,269,185,116,86
+2501004,Khmer,33,40,17,32
+2501004,"Thai, Lao, or other Tai-Kadai languages",8,13,0,32
+2501004,Tagalog (incl. Filipino),191,119,45,50
+2501004,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",14,22,0,32
+2501004,Arabic,201,155,60,71
+2501004,Hebrew,86,114,0,32
+2501004,"Amharic, Somali, or other Afro-Asiatic languages",112,151,56,76
+2501004,"Yoruba, Twi, Igbo, or other languages of Western Africa",20,18,5,10
+2501004,"Swahili or other languages of Central, Eastern, and Southern Africa",218,163,20,25
+2501004,Other Native languages of North America,24,26,0,32
+2501004,Other and unspecified languages,535,330,447,288
+2501101,Spanish,8897,1017,3823,658
+2501101,French (incl. Cajun),959,391,348,157
+2501101,Haitian,19489,1820,9682,1241
+2501101,Italian,96,111,12,20
+2501101,Portuguese,12934,1479,6356,823
+2501101,German,103,96,8,14
+2501101,Greek,323,176,146,103
+2501101,Russian,25,27,3,11
+2501101,Polish,1,2,1,2
+2501101,Armenian,15,26,0,32
+2501101,"Persian (incl. Farsi, Dari)",9,15,0,32
+2501101,Hindi,56,91,19,32
+2501101,Urdu,51,84,0,32
+2501101,Bengali,40,70,0,32
+2501101,Other Indo-European languages,61,67,4,9
+2501101,"Chinese (incl. Mandarin, Cantonese)",466,333,251,191
+2501101,Japanese,54,57,54,57
+2501101,Korean,55,73,30,53
+2501101,Hmong,104,58,62,30
+2501101,Vietnamese,903,382,509,215
+2501101,Khmer,98,76,17,29
+2501101,Tagalog (incl. Filipino),195,159,90,79
+2501101,Arabic,68,64,6,10
+2501101,"Amharic, Somali, or other Afro-Asiatic languages",49,70,0,32
+2501101,"Yoruba, Twi, Igbo, or other languages of Western Africa",362,207,20,29
+2501101,"Swahili or other languages of Central, Eastern, and Southern Africa",302,212,30,38
+2501101,Other and unspecified languages,114,81,6,16
+2501102,Spanish,2634,668,638,337
+2501102,French (incl. Cajun),194,114,35,40
+2501102,Haitian,605,358,66,67
+2501102,Italian,526,320,85,65
+2501102,Portuguese,3261,1055,1465,570
+2501102,German,46,33,0,32
+2501102,"Yiddish, Pennsylvania Dutch or other West Germanic languages",11,12,0,32
+2501102,Greek,206,160,80,79
+2501102,Russian,133,108,38,57
+2501102,Polish,246,164,67,59
+2501102,Ukrainian or other Slavic languages,7,11,7,11
+2501102,Armenian,76,102,0,32
+2501102,Gujarati,238,264,124,157
+2501102,Hindi,105,105,0,32
+2501102,Urdu,21,32,9,15
+2501102,Punjabi,20,32,20,32
+2501102,"Nepali, Marathi, or other Indic languages",76,123,12,23
+2501102,Other Indo-European languages,656,490,360,289
+2501102,Telugu,16,23,0,32
+2501102,Tamil,185,182,0,32
+2501102,"Malayalam, Kannada, or other Dravidian languages",8,12,0,32
+2501102,"Chinese (incl. Mandarin, Cantonese)",458,266,293,185
+2501102,Japanese,37,44,32,44
+2501102,Korean,43,43,28,38
+2501102,Hmong,13,21,13,21
+2501102,Vietnamese,371,209,163,137
+2501102,"Thai, Lao, or other Tai-Kadai languages",22,34,0,32
+2501102,Tagalog (incl. Filipino),47,47,1,2
+2501102,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",22,23,0,32
+2501102,Arabic,490,261,135,142
+2501102,Hebrew,22,25,13,21
+2501102,"Yoruba, Twi, Igbo, or other languages of Western Africa",80,94,0,32
+2501102,"Swahili or other languages of Central, Eastern, and Southern Africa",91,90,34,53
+2501102,Other Native languages of North America,6,10,0,32
+2501102,Other and unspecified languages,527,517,85,79
+2501103,Spanish,2627,657,866,324
+2501103,French (incl. Cajun),433,150,66,63
+2501103,Haitian,209,265,2,5
+2501103,Italian,314,132,59,37
+2501103,Portuguese,1021,476,513,370
+2501103,German,306,123,0,32
+2501103,"Yiddish, Pennsylvania Dutch or other West Germanic languages",56,55,0,32
+2501103,Greek,250,152,48,47
+2501103,Russian,256,194,114,119
+2501103,Polish,134,85,69,63
+2501103,Ukrainian or other Slavic languages,103,102,0,32
+2501103,"Persian (incl. Farsi, Dari)",37,44,37,44
+2501103,Gujarati,8,13,0,32
+2501103,Hindi,231,216,68,70
+2501103,Punjabi,11,19,0,32
+2501103,"Nepali, Marathi, or other Indic languages",12,19,0,32
+2501103,Other Indo-European languages,296,129,17,20
+2501103,Telugu,3,26,0,32
+2501103,"Malayalam, Kannada, or other Dravidian languages",71,78,0,32
+2501103,"Chinese (incl. Mandarin, Cantonese)",555,280,265,224
+2501103,Japanese,31,27,10,16
+2501103,Korean,27,30,0,32
+2501103,Hmong,16,30,0,32
+2501103,Vietnamese,294,174,34,45
+2501103,Other languages of Asia,35,52,0,32
+2501103,Tagalog (incl. Filipino),12,22,12,22
+2501103,Arabic,623,573,68,74
+2501103,Hebrew,36,49,0,32
+2501103,"Yoruba, Twi, Igbo, or other languages of Western Africa",27,63,0,32
+2501103,Other and unspecified languages,34,43,0,32
+2501104,Spanish,1659,486,380,265
+2501104,French (incl. Cajun),430,230,166,183
+2501104,Haitian,235,279,77,79
+2501104,Italian,186,127,65,66
+2501104,Portuguese,4218,928,1995,696
+2501104,German,190,128,21,35
+2501104,"Yiddish, Pennsylvania Dutch or other West Germanic languages",11,18,0,32
+2501104,Greek,154,101,73,60
+2501104,Russian,124,85,42,50
+2501104,Polish,346,220,157,167
+2501104,Serbo-Croatian,9,16,0,32
+2501104,Ukrainian or other Slavic languages,7,12,0,32
+2501104,Hindi,29,40,0,32
+2501104,Urdu,31,32,0,32
+2501104,Bengali,118,118,55,101
+2501104,Other Indo-European languages,225,146,39,46
+2501104,"Chinese (incl. Mandarin, Cantonese)",167,145,66,91
+2501104,Japanese,9,17,9,17
+2501104,Korean,10,18,10,18
+2501104,Hmong,19,33,19,33
+2501104,Vietnamese,198,183,164,172
+2501104,Khmer,37,59,37,59
+2501104,"Thai, Lao, or other Tai-Kadai languages",59,57,30,33
+2501104,Other languages of Asia,74,94,0,32
+2501104,Tagalog (incl. Filipino),195,183,45,54
+2501104,"Ilocano, Samoan, Hawaiian, or other Austronesian languages",22,25,0,32
+2501104,Arabic,227,156,84,68
+2501104,Hebrew,86,81,31,35
+2501104,"Amharic, Somali, or other Afro-Asiatic languages",14,22,0,32
+2501104,"Swahili or other languages of Central, Eastern, and Southern Africa",50,72,24,35
+2501104,Other and unspecified languages,44,57,11,17
+2501201,Spanish,3092,564,1078,376
+2501201,French (incl. Cajun),971,213,57,56
+2501201,Haitian,98,64,35,37
+2501201,Italian,245,161,160,153
+2501201,Portuguese,6298,1425,3482,1048
+2501201,German,529,223,0,32
+2501201,"Yiddish, Pennsylvania Dutch or other West Germanic languages",66,68,9,15
+2501201,Greek,349,183,33,31
+2501201,Russian,237,120,83,71
+2501201,Polish,14,16,0,32
+2501201,Serbo-Croatian,590,506,163,200
+2501201,Ukrainian or other Slavic languages,90,64,24,38
+2501201,Armenian,36,43,0,32
+2501201,Urdu,161,175,71,87
+2501201,Bengali,12,19,0,32
+2501201,"Nepali, Marathi, or other Indic languages",148,153,0,32
+2501201,Other Indo-European languages,346,187,154,124
+2501201,Tamil,6,11,0,32
+2501201,"Chinese (incl. Mandarin, Cantonese)",769,287,189,112
+2501201,Japanese,90,90,32,43
+2501201,Korean,8,15,0,32
+2501201,Hmong,11,18,0,32
+2501201,Vietnamese,27,48,1,3
+2501201,Khmer,66,105,40,63
+2501201,"Thai, Lao, or other Tai-Kadai languages",86,118,86,118
+2501201,Other languages of Asia,38,35,18,21
+2501201,Tagalog (incl. Filipino),73,89,1,2
+2501201,Arabic,315,231,21,56
+2501201,Hebrew,29,46,12,21
+2501201,"Amharic, Somali, or other Afro-Asiatic languages",24,39,0,32
+2501201,"Yoruba, Twi, Igbo, or other languages of Western Africa",15,41,0,32
+2501201,Other Native languages of North America,40,33,20,30
+2501201,Other and unspecified languages,642,423,11,14
+2501301,Spanish,4502,763,1821,605
+2501301,French (incl. Cajun),799,393,25,38
+2501301,Haitian,319,308,57,82
+2501301,Italian,278,173,30,48
+2501301,Portuguese,3921,1230,2195,889
+2501301,German,391,231,0,32
+2501301,"Yiddish, Pennsylvania Dutch or other West Germanic languages",62,69,0,32
+2501301,Greek,190,93,40,37
+2501301,Russian,554,301,102,67
+2501301,Polish,344,173,80,99
+2501301,Serbo-Croatian,113,136,65,105
+2501301,Ukrainian or other Slavic languages,336,273,102,103
+2501301,Gujarati,24,40,7,12
+2501301,Hindi,17,21,0,32
+2501301,Urdu,2,7,1,3
+2501301,Punjabi,8,14,0,32
+2501301,Bengali,51,77,0,32
+2501301,"Nepali, Marathi, or other Indic languages",471,254,222,152
+2501301,Other Indo-European languages,145,88,63,58
+2501301,Telugu,34,47,6,10
+2501301,"Chinese (incl. Mandarin, Cantonese)",414,178,98,103
+2501301,Japanese,53,72,0,32
+2501301,Korean,130,81,18,18
+2501301,Vietnamese,95,122,38,55
+2501301,Khmer,128,110,128,110
+2501301,"Thai, Lao, or other Tai-Kadai languages",52,45,0,32
+2501301,Other languages of Asia,75,92,23,42
+2501301,Tagalog (incl. Filipino),159,121,56,65
+2501301,Arabic,39,34,0,32
+2501301,Hebrew,37,49,0,32
+2501301,Other Native languages of North America,23,32,0,32
+2501301,Other and unspecified languages,297,177,72,87
