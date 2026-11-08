@@ -96,6 +96,8 @@ output folder instead of being sent to the AI model.
 | `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
+For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
+what each tool is for, when to use it, and how to ask for it.
 Reference content and data snapshots are also exposed as MCP resources (`phn://content/…`,
 `phn://snapshots/…`).
 
@@ -277,7 +279,7 @@ crates/
 content/       # reference content with citations and review metadata
 snapshots/     # dated data snapshots + manifest (built by xtask)
 fixtures/      # synthetic test corpus (all fictional)
-docs/          # tool reference, architecture decisions, acceptance script
+docs/          # tool reference, user guide (Word), architecture decisions, acceptance script
 xtask/         # snapshot builder, name-list builder, content validator
 ```
 

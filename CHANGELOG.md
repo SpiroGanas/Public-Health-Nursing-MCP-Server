@@ -5,6 +5,17 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
+## [Unreleased]
+
+### Added
+
+- User guide for public health nurses (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`): an
+  executive summary of the server's benefits, how it works and protects privacy, getting
+  started, and for each of the 47 implemented tools what it does, when to use it, how to ask for
+  it, what it returns, and what to keep in mind; plus a tool index, glossary, and
+  troubleshooting. Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
+  registry test keeps the guide's tool list in step with the implemented tools.
+
 ## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
 ### Added — Phase 2: epidemiology and biostatistics engine
