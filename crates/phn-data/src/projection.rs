@@ -146,7 +146,10 @@ mod tests {
         ] {
             let (x, y) = to_mass_mainland(lat, lon);
             let (la, lo) = from_mass_mainland(x, y);
-            assert!((la - lat).abs() < 1e-9 && (lo - lon).abs() < 1e-9, "{lat},{lon}");
+            assert!(
+                (la - lat).abs() < 1e-9 && (lo - lon).abs() < 1e-9,
+                "{lat},{lon}"
+            );
         }
     }
 

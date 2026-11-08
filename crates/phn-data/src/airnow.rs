@@ -158,7 +158,11 @@ pub fn parse_api(body: &[u8], kind: RecordKind) -> Result<Vec<AqiRecord>> {
     let arr = v
         .as_array()
         .ok_or_else(|| PhnError::Network("AirNow API response is not a list".into()))?;
-    let s = |r: &Value, k: &str| r.get(k).and_then(Value::as_str).map(|x| x.trim().to_string());
+    let s = |r: &Value, k: &str| {
+        r.get(k)
+            .and_then(Value::as_str)
+            .map(|x| x.trim().to_string())
+    };
     let mut out: Vec<AqiRecord> = arr
         .iter()
         .filter_map(|r| {
@@ -183,8 +187,14 @@ pub fn parse_api(body: &[u8], kind: RecordKind) -> Result<Vec<AqiRecord>> {
                 primary: false,
                 reporting_area: s(r, "ReportingArea")?,
                 state: s(r, "StateCode").unwrap_or_default(),
-                latitude: r.get("Latitude").and_then(Value::as_f64).unwrap_or_default(),
-                longitude: r.get("Longitude").and_then(Value::as_f64).unwrap_or_default(),
+                latitude: r
+                    .get("Latitude")
+                    .and_then(Value::as_f64)
+                    .unwrap_or_default(),
+                longitude: r
+                    .get("Longitude")
+                    .and_then(Value::as_f64)
+                    .unwrap_or_default(),
                 parameter: s(r, "ParameterName")?.to_ascii_uppercase(),
                 aqi,
                 category: r
@@ -355,7 +365,9 @@ mod tests {
         assert_eq!(areas.len(), 11);
         let obs = recs
             .iter()
-            .find(|r| r.reporting_area == "Boston Metro" && r.kind == RecordKind::Observed && r.primary)
+            .find(|r| {
+                r.reporting_area == "Boston Metro" && r.kind == RecordKind::Observed && r.primary
+            })
             .unwrap();
         assert!(obs.aqi.is_some());
         assert_eq!(obs.time_zone.as_deref(), Some("EST"));

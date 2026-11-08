@@ -253,7 +253,10 @@ mod tests {
         let (text, entry, _) = store.file_text(SNAPSHOT_ID, SNAPSHOT_FILE).unwrap();
         let rows = parse_snapshot(&text).unwrap();
         assert_eq!(rows.len() as u64, entry.files[0].rows);
-        let counties: Vec<_> = rows.iter().filter(|r| r.level == EmpowerLevel::County).collect();
+        let counties: Vec<_> = rows
+            .iter()
+            .filter(|r| r.level == EmpowerLevel::County)
+            .collect();
         assert_eq!(counties.len(), 14);
         let back = parse_counties(&snapshot_rows(&text, EmpowerLevel::County).unwrap()).unwrap();
         assert_eq!(back.len(), 14);

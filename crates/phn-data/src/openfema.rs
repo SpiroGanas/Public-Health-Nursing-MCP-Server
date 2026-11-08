@@ -77,7 +77,12 @@ pub fn parse_json(body: &[u8]) -> Result<(Vec<Declaration>, Option<String>)> {
     let mut out = Vec::with_capacity(rows.len());
     let mut refreshed: Option<String> = None;
     for r in rows {
-        let get = |k: &str| r.get(k).and_then(Value::as_str).unwrap_or_default().to_string();
+        let get = |k: &str| {
+            r.get(k)
+                .and_then(Value::as_str)
+                .unwrap_or_default()
+                .to_string()
+        };
         let flag = |k: &str| r.get(k).and_then(Value::as_bool).unwrap_or(false);
         let Some(number) = r.get("disasterNumber").and_then(Value::as_u64) else {
             continue;

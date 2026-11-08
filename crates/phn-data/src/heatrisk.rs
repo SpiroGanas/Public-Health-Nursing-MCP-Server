@@ -77,7 +77,10 @@ impl HeatRiskGrid {
         let mut out = Vec::new();
         for y in y0..y1 {
             for x in x0..x1 {
-                out.push((b.north - (y as f64 + 0.5) * dy, b.west + (x as f64 + 0.5) * dx));
+                out.push((
+                    b.north - (y as f64 + 0.5) * dy,
+                    b.west + (x as f64 + 0.5) * dx,
+                ));
             }
         }
         out
@@ -236,7 +239,10 @@ pub async fn fetch(http: &HttpClient, cache: Option<&Cache>, days: u8) -> Result
         let (width, height, cells) = decode_png(&png.body)?;
         grids.push(HeatRiskGrid {
             day,
-            date: dates.iter().find(|(d, _)| *d == day).map(|(_, s)| s.clone()),
+            date: dates
+                .iter()
+                .find(|(d, _)| *d == day)
+                .map(|(_, s)| s.clone()),
             bbox,
             width,
             height,

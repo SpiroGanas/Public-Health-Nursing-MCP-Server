@@ -1,0 +1,555 @@
+# Likely health effects and suggested public health actions for National Weather Service alert
+# types and FEMA incident types, for get_active_hazard_alerts (EPR-05) and
+# hazard_vulnerability_assessment (EPR-06).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_hazard_health_actions.schema.json
+meta:
+  id: epr-hazard-health-actions
+  title: Hazard alerts, likely health effects, and suggested public health actions
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: Natural Disasters and Severe Weather (topic pages on heat, winter weather, floods, hurricanes, tornadoes, lightning, wildfires, carbon monoxide, and drought)
+    publisher: Centers for Disease Control and Prevention, National Center for Environmental Health
+    url: https://www.cdc.gov/natural-disasters/about/index.html
+  related_sources:
+    - title: Safety tips (extreme heat, extreme cold, power outages, winter storms, hurricanes)
+      publisher: Massachusetts Emergency Management Agency
+      url: https://www.mass.gov/info-details/extreme-heat-safety-tips
+    - title: NWS API alert types
+      publisher: National Weather Service
+      url: https://api.weather.gov/alerts/types
+    - title: "Public Health Emergency Preparedness and Response Capabilities: National Standards for State, Local, Tribal, and Territorial Public Health (October 2018, updated January 2019)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08 from CDC topic pages (each with its page date), MEMA safety-tip pages,
+    the NWS alert type list (api.weather.gov/alerts/types), and the CDC PHEP capabilities. Health
+    effects and public messages are summaries of the cited pages (high or medium confidence).
+    Public health actions marked medium confidence are this project's planning suggestions
+    derived from the cited text, not instructions from DPH. MEMA's pages still name NWS products
+    retired in 2024-2025 (Excessive Heat and Wind Chill products); both old and new names are
+    mapped. DPH and MEMA guidance should take precedence where it differs.
+
+sources:
+  nws-alert-types:
+    title: NWS API alert event types
+    publisher: National Weather Service
+    url: https://api.weather.gov/alerts/types
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-heat:
+    title: About Heat and Your Health
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/about/index.html
+    effective_date: 2026-07-20
+    retrieved: 2026-11-08
+  cdc-heat-clinical:
+    title: Clinical Overview of Heat
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/hcp/clinical-overview/index.html
+    effective_date: 2025-09-18
+    retrieved: 2026-11-08
+  mema-heat:
+    title: Extreme Heat Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/extreme-heat-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+  mema-cold:
+    title: Extreme Cold Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/extreme-cold-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+  mema-power:
+    title: Power Outage Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/power-outage-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-winter:
+    title: "Safety Guidelines: During & After a Winter Storm"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/winter-weather/safety/stay-safe-during-after-a-winter-storm-safety.html
+    effective_date: 2026-08-25
+    retrieved: 2026-11-08
+  cdc-co:
+    title: Carbon Monoxide (CO) Poisoning Basics
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    effective_date: 2026-10-26
+    retrieved: 2026-11-08
+  cdc-floods:
+    title: Floods and Your Safety
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/floods/about/index.html
+    effective_date: 2026-03-16
+    retrieved: 2026-11-08
+  cdc-floods-prep:
+    title: Preparing for Floods
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/floods/safety/index.html
+    effective_date: 2026-08-24
+    retrieved: 2026-11-08
+  cdc-hurricane-after:
+    title: "Safety Guidelines: After a Hurricane or Other Tropical Storm"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/hurricanes/safety/how-to-safely-stay-safe-after-a-hurricane-or-other-tropical-storm.html
+    effective_date: 2026-08-26
+    retrieved: 2026-11-08
+  cdc-tornado:
+    title: "Safety Guidelines: During a Tornado"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/tornadoes/safety/stay-safe-during-a-tornado-safety.html
+    effective_date: 2024-02-07
+    retrieved: 2026-11-08
+  cdc-lightning:
+    title: "Safety Guidelines: Lightning"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/lightning/safety/index.html
+    effective_date: 2026-06-16
+    retrieved: 2026-11-08
+  cdc-wildfire-smoke:
+    title: "Safety Guidelines: Wildfires and Wildfire Smoke"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/wildfires/safety/how-to-safely-stay-safe-during-a-wildfire.html
+    effective_date: 2026-08-24
+    retrieved: 2026-11-08
+  cdc-drought:
+    title: Drought and Your Health
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/drought-health/about/index.html
+    effective_date: 2024-03-19
+    retrieved: 2026-11-08
+  cdc-phep:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+
+# Actions that apply to any active alert.
+general_actions:
+  - text: Confirm the alert's area, timing, and instructions on the NWS alert itself; NWS alerts change and are updated or cancelled as conditions change.
+    source: nws-alert-types
+    section: CAP fields (messageType Alert, Update, Cancel; onset, expires, ends)
+    confidence: high
+  - text: Identify people in the affected area who may be disproportionately impacted (access and functional needs across communication, maintaining health, independence, support and safety, and transportation) and how partners will reach them.
+    source: cdc-phep
+    section: Capability 1, Function 1, P1 (at-risk populations and the CMIST framework)
+    confidence: high
+  - text: Share public health risk information and protective actions with partners and the public in accessible formats and the languages your community speaks.
+    source: cdc-phep
+    section: Capability 4 (Emergency Public Information and Warning)
+    confidence: medium
+
+hazards:
+  - id: extreme_heat
+    label: Extreme heat
+    nws_events: [Heat Advisory, Extreme Heat Watch, Extreme Heat Warning, Excessive Heat Watch, Excessive Heat Warning]
+    fema_incident_types: []
+    health_effects:
+      - text: Heat-related illness, from heat cramps (muscle pains and spasms) to heat exhaustion (cool, moist, pale or flushed skin, nausea, dizziness, headache, weakness) to heat stroke (very high body temperature, hot red skin, confusion, seizures, loss of consciousness), which is life-threatening.
+        source: mema-heat
+        section: Types of Heat-related Illnesses
+        confidence: high
+      - text: Hot days are associated with more emergency department visits and hospitalizations for heat illness, cardiovascular and respiratory disease, asthma, diabetes, kidney disease, mental health conditions, and injuries, and with worse pregnancy and birth outcomes.
+        source: cdc-heat-clinical
+        section: Background
+        confidence: high
+      - text: Many medicines impair heat tolerance or cause dehydration, and heat can cause power outages that affect refrigerated medicines and electric medical devices.
+        source: cdc-heat
+        section: Have a plan for your medicine
+        confidence: high
+    at_risk:
+      - text: Infants and young children, pregnant women, adults 65 and older, people with chronic conditions (heart disease, asthma), disabilities, mental health or substance use conditions, people without cooling or housing, socially isolated people, and outdoor and indoor heat workers and athletes.
+        source: cdc-heat-clinical
+        section: Background
+        confidence: high
+    public_health_actions:
+      - text: Activate cooling centers and publicize them (2-1-1 lists cooling centers and shelters in Massachusetts).
+        source: mema-heat
+        section: What to do During Extreme Heat
+        confidence: medium
+      - text: Arrange checks on older adults, people who live alone, people with medical conditions, and people without air conditioning.
+        source: mema-heat
+        section: What to do During Extreme Heat (be a good neighbor)
+        confidence: high
+      - text: Reach residents who rely on electricity-dependent medical equipment in case heat causes power outages (see get_electricity_dependent_population).
+        source: cdc-heat
+        section: Have a plan for your medicine
+        confidence: medium
+      - text: Build a full heat response with heat_health_action_planner (HeatRisk, vulnerable populations, school and outdoor worker guidance).
+        source: cdc-heat
+        section: Check your local HeatRisk and Air Quality
+        confidence: medium
+    public_messages:
+      - Stay in air conditioning when you can; fans do not prevent heat illness in temperatures above 90°F (CDC) or in the high 90s (MEMA).
+      - Drink water before you are thirsty; limit alcohol and drinks high in sugar or caffeine.
+      - Never leave children or pets in a parked car.
+      - Know the signs of heat exhaustion and heat stroke; call 9-1-1 for heat stroke.
+    message_sources: [cdc-heat, mema-heat]
+    related_tools: [heat_health_action_planner, air_quality_protective_guidance, get_electricity_dependent_population]
+
+  - id: extreme_cold
+    label: Extreme cold
+    nws_events: [Cold Weather Advisory, Extreme Cold Watch, Extreme Cold Warning, Wind Chill Advisory, Wind Chill Watch, Wind Chill Warning]
+    fema_incident_types: []
+    health_effects:
+      - text: Frostbite (loss of feeling and white or pale skin on fingers, toes, earlobes, face, nose) and hypothermia (shivering, exhaustion, confusion, memory loss, slurred speech), which is life-threatening.
+        source: mema-cold
+        section: What to look for in cold-related illnesses
+        confidence: high
+      - text: Fires and carbon monoxide poisoning from space heaters, fireplaces, generators, and other fuel-burning heat sources.
+        source: cdc-winter
+        section: Heat your home safely; Use generators and other appliances safely
+        confidence: high
+    at_risk:
+      - text: Older adults, young children, people who are sick, and people without adequate shelter.
+        source: mema-cold
+        section: Why Prepare?
+        confidence: high
+    public_health_actions:
+      - text: Open warming centers and shelters and publicize them through 2-1-1 and local channels.
+        source: mema-cold
+        section: What you can do during extreme cold weather
+        confidence: medium
+      - text: Coordinate outreach to people experiencing homelessness and checks on older adults and people who live alone.
+        source: mema-cold
+        section: Why Prepare?; be a good neighbor
+        confidence: medium
+      - text: Repeat carbon monoxide and space heater safety messages.
+        source: cdc-co
+        section: Reducing risk
+        confidence: high
+    public_messages:
+      - Limit time outdoors and dress in layers, with a hat, mittens, and waterproof boots.
+      - Use space heaters with automatic shut-off, at least 3 feet from anything that can burn; never heat the home with a gas oven.
+      - Know the signs of hypothermia and frostbite and get medical care.
+    message_sources: [mema-cold, cdc-winter, cdc-co]
+    related_tools: [get_electricity_dependent_population]
+    secondary: [carbon_monoxide, power_outage]
+
+  - id: winter_storm
+    label: Winter storm, blizzard, or ice storm
+    nws_events: [Winter Storm Watch, Winter Storm Warning, Blizzard Warning, Winter Weather Advisory, Ice Storm Warning, Snow Squall Warning, Lake Effect Snow Warning, Freezing Fog Advisory]
+    fema_incident_types: [Snowstorm, Severe Ice Storm, Winter Storm]
+    health_effects:
+      - text: Cold exposure, falls on ice, car crashes, power failures, loss of communication services, and carbon monoxide poisoning and fires from heating and generators.
+        source: cdc-winter
+        section: Protect yourself during and after winter storms
+        confidence: high
+    at_risk:
+      - text: Older adults, young children, people who are sick, people without adequate shelter, and people who rely on electricity for medical equipment.
+        source: mema-power
+        section: Why Prepare? / What to do Before a Power Outage
+        confidence: medium
+    public_health_actions:
+      - text: Prepare warming centers and shelters and plan for residents who rely on electricity-dependent medical equipment if power fails.
+        source: mema-power
+        section: What to do Before a Power Outage (life-support devices)
+        confidence: medium
+      - text: Issue carbon monoxide, generator, and space heater safety messages before and during the storm.
+        source: cdc-winter
+        section: Use generators and other appliances safely
+        confidence: high
+    public_messages:
+      - Run generators only outdoors, at least 20 feet from windows, doors, and vents, and use a battery-operated CO detector.
+      - Use flashlights rather than candles if the power goes out.
+      - Avoid travel; if you must drive, carry a winter emergency car kit.
+    message_sources: [cdc-winter, mema-cold]
+    related_tools: [get_electricity_dependent_population]
+    secondary: [carbon_monoxide, power_outage]
+
+  - id: flood
+    label: Inland and flash flooding
+    nws_events: [Flood Watch, Flood Warning, Flood Advisory, Flood Statement, Flash Flood Watch, Flash Flood Warning, Flash Flood Statement, Hydrologic Outlook]
+    fema_incident_types: [Flood]
+    health_effects:
+      - text: Drowning and injury, especially in vehicles driven into flooded roads; floodwater can carry infectious agents, chemicals, sewage, and debris.
+        source: cdc-floods
+        section: Stay safe after a flood
+        confidence: high
+      - text: Mold and sewage contamination in flooded homes; electrical hazards and carbon monoxide from generators and pumps during cleanup.
+        source: cdc-floods
+        section: Reenter your flooded home
+        confidence: high
+    at_risk:
+      - text: Older adults, bedridden people, and people with disabilities who may need help to evacuate (residents should tell local authorities about special needs).
+        source: cdc-floods-prep
+        section: Plan ahead
+        confidence: high
+    public_health_actions:
+      - text: Coordinate drinking water advisories with water suppliers and MassDEP, and food safety guidance for homes and food establishments that lost power or were flooded.
+        source: cdc-floods-prep
+        section: Practice safe hygiene (listen for information from local officials on how to safely use water)
+        confidence: medium
+      - text: Provide guidance on safe cleanup (boots, gloves, discarding porous items, drying, bleach disinfection) and on mold.
+        source: cdc-floods-prep
+        section: After
+        confidence: high
+      - text: Check private wells and septic systems in flooded areas.
+        source: cdc-floods
+        section: Prepare for a flood (septic and onsite wastewater systems)
+        confidence: medium
+    public_messages:
+      - Turn around, don't drown; never drive or walk through flooded roads.
+      - Wash hands after contact with floodwater; follow local water advisories.
+      - Throw away items that cannot be disinfected; clean hard surfaces with 1 cup of bleach in 1 gallon of water.
+    message_sources: [cdc-floods, cdc-floods-prep]
+    related_tools: []
+    secondary: [carbon_monoxide, power_outage]
+
+  - id: coastal_flood
+    label: Coastal flooding, storm surge, and dangerous surf
+    nws_events: [Coastal Flood Watch, Coastal Flood Warning, Coastal Flood Advisory, Coastal Flood Statement, Storm Surge Watch, Storm Surge Warning, High Surf Advisory, High Surf Warning, Beach Hazards Statement, Rip Current Statement]
+    fema_incident_types: [Coastal Storm]
+    health_effects:
+      - text: Drowning and injury from surge, waves, and flooded roads; floodwater contamination and damage to homes as with inland floods.
+        source: cdc-floods
+        section: Stay safe after a flood
+        confidence: medium
+    at_risk:
+      - text: Residents of low-lying coastal neighborhoods who may need help to evacuate, including older adults and people with disabilities.
+        source: cdc-floods-prep
+        section: Plan ahead
+        confidence: medium
+    public_health_actions:
+      - text: Support evacuation and sheltering of residents with access and functional needs; plan shelter health screening (see functional_needs_shelter_intake).
+        source: cdc-phep
+        section: Capability 7, Function 2, Task 4
+        confidence: medium
+    public_messages:
+      - Follow evacuation orders; stay off flooded roads, seawalls, and jetties.
+    message_sources: [cdc-floods-prep]
+    related_tools: [functional_needs_shelter_intake]
+    secondary: [power_outage]
+
+  - id: tropical_cyclone
+    label: Hurricane or tropical storm
+    nws_events: [Hurricane Watch, Hurricane Warning, Tropical Storm Watch, Tropical Storm Warning, Tropical Cyclone Local Statement, Extreme Wind Warning, Hurricane Force Wind Warning, Hurricane Force Wind Watch, Typhoon Watch, Typhoon Warning]
+    fema_incident_types: [Hurricane]
+    health_effects:
+      - text: Drowning and injury from floodwater, damaged buildings, and fallen power lines; carbon monoxide poisoning from generators, pressure washers, and grills used after the storm; mosquito bites and animal exposures.
+        source: cdc-hurricane-after
+        section: Protect yourself from hazards outside; Prevent carbon monoxide poisoning
+        confidence: high
+    at_risk:
+      - text: People who rely on electricity-dependent medical equipment or home health care, people with access and functional needs, and residents of evacuation zones.
+        source: cdc-phep
+        section: Capability 1, Function 1, P1
+        confidence: medium
+    public_health_actions:
+      - text: Before landfall, contact or share lists of electricity-dependent residents with emergency partners as your agency's policy allows (see get_electricity_dependent_population), and prepare shelters with functional needs support.
+        source: mema-power
+        section: What to do Before a Power Outage
+        confidence: medium
+      - text: After the storm, issue CO, floodwater, food, and water safety messages, and inspect shelters within 48 hours of opening.
+        source: cdc-phep
+        section: Capability 7, Function 2, P1 (initial shelter assessment within 48 hours)
+        confidence: high
+      - text: Consider a CASPER rapid needs assessment to measure household needs (see plan_casper_assessment).
+        source: cdc-phep
+        section: Glossary (CASPER)
+        confidence: medium
+    public_messages:
+      - Stay out of floodwater and away from fallen power lines.
+      - Never use generators, grills, or camp stoves indoors; keep them 20 feet from windows, doors, and vents.
+      - Do not enter a damaged building until authorities say it is safe.
+    message_sources: [cdc-hurricane-after]
+    related_tools: [get_electricity_dependent_population, functional_needs_shelter_intake, plan_casper_assessment]
+    secondary: [carbon_monoxide, power_outage]
+
+  - id: severe_storm_wind
+    label: Severe thunderstorm, lightning, or high wind
+    nws_events: [Severe Thunderstorm Watch, Severe Thunderstorm Warning, Severe Weather Statement, High Wind Watch, High Wind Warning, Wind Advisory, Special Weather Statement]
+    fema_incident_types: [Severe Storm]
+    health_effects:
+      - text: Lightning injuries (outdoors, and indoors through plumbing, wiring, and corded phones), injuries from falling trees and debris, and power outages.
+        source: cdc-lightning
+        section: Indoors; Outdoors
+        confidence: high
+    at_risk:
+      - text: People outdoors (workers, athletes, beachgoers, boaters) and people who rely on electricity for medical equipment.
+        source: cdc-lightning
+        section: Outdoors
+        confidence: medium
+    public_health_actions:
+      - text: Advise schools, camps, and event organizers to move people indoors when thunder is heard and to delay outdoor activities.
+        source: cdc-lightning
+        section: Outdoors (When thunder roars, go indoors)
+        confidence: high
+    public_messages:
+      - When thunder roars, go indoors; lightning can strike more than 10 miles from a storm.
+      - Avoid water, corded phones, and plugged-in electronics during a thunderstorm.
+    message_sources: [cdc-lightning]
+    related_tools: []
+    secondary: [power_outage, carbon_monoxide]
+
+  - id: tornado
+    label: Tornado
+    nws_events: [Tornado Watch, Tornado Warning]
+    fema_incident_types: [Tornado]
+    health_effects:
+      - text: Injuries and deaths from extremely high winds and flying and falling objects; mobile homes and long-span buildings (gyms, malls, theaters) are especially dangerous.
+        source: cdc-tornado
+        section: Key points; Know where to take shelter
+        confidence: high
+    at_risk:
+      - text: People in mobile homes, vehicles, and large open buildings, and people who cannot move quickly to shelter.
+        source: cdc-tornado
+        section: Know where to take shelter
+        confidence: medium
+    public_health_actions:
+      - text: Remind schools and congregate settings to follow tornado drills (interior rooms on the lowest floor, away from windows and large open rooms).
+        source: cdc-tornado
+        section: If you're at work or school, follow your tornado drill
+        confidence: high
+      - text: After a tornado, plan for injury surveillance, shelter health needs, and CO and debris-cleanup safety messages.
+        source: cdc-hurricane-after
+        section: Prevent carbon monoxide poisoning
+        confidence: medium
+    public_messages:
+      - During a warning, go to a basement or an interior room without windows on the lowest floor.
+      - Do not try to outrun a tornado in a vehicle.
+    message_sources: [cdc-tornado]
+    related_tools: [plan_casper_assessment]
+    secondary: [power_outage, carbon_monoxide]
+
+  - id: wildfire_smoke_air
+    label: Wildfire, wildfire smoke, or poor air quality
+    nws_events: [Red Flag Warning, Fire Weather Watch, Fire Warning, Extreme Fire Danger, Air Quality Alert, Dense Smoke Advisory, Air Stagnation Advisory]
+    fema_incident_types: [Fire]
+    health_effects:
+      - text: Smoke irritates the eyes, nose, throat, and lungs, causes coughing and wheezing, and can worsen asthma, COPD, heart disease, and diabetes.
+        source: cdc-wildfire-smoke
+        section: Protect yourself from smoke
+        confidence: high
+    at_risk:
+      - text: Children, pregnant people, and people with asthma, COPD, heart disease, diabetes, or chronic kidney disease.
+        source: cdc-wildfire-smoke
+        section: Protect yourself from smoke
+        confidence: high
+    public_health_actions:
+      - text: Check current and forecast AQI and share protective actions for sensitive groups, schools, and outdoor events (see air_quality_protective_guidance).
+        source: cdc-wildfire-smoke
+        section: Check the air quality in your community
+        confidence: high
+      - text: Advise residents to create a clean room with a portable air cleaner or MERV 13 filtration and to wear a NIOSH Approved respirator if they must go outside.
+        source: cdc-wildfire-smoke
+        section: Keep smoke outside; If you have to go outside, wear a respirator
+        confidence: high
+    public_messages:
+      - Stay inside with windows closed; use a portable air cleaner or MERV 13 filter.
+      - If you must go outside, wear a well-fitting NIOSH Approved respirator.
+      - Get medical help for new or worsening symptoms.
+    message_sources: [cdc-wildfire-smoke]
+    related_tools: [air_quality_protective_guidance]
+
+  - id: hazmat_civil
+    label: Hazardous materials, shelter-in-place, or civil emergency
+    nws_events: [Hazardous Materials Warning, Shelter In Place Warning, Evacuation Immediate, Civil Danger Warning, Civil Emergency Message, Local Area Emergency, Radiological Hazard Warning, Nuclear Power Plant Warning, Law Enforcement Warning, 911 Telephone Outage]
+    fema_incident_types: [Terrorist]
+    health_effects:
+      - text: Effects depend on the agent; follow the instructions in the alert from the issuing authority.
+        source: nws-alert-types
+        section: CAP instruction field
+        confidence: medium
+    at_risk:
+      - text: People who cannot receive or act on warnings without help (communication, mobility, or transportation needs).
+        source: cdc-phep
+        section: Capability 1, Function 1, P1
+        confidence: medium
+    public_health_actions:
+      - text: Coordinate with the incident's lead agency on protective action messages, and with hospitals on surge; for radiological or chemical incidents, plan for decontamination needs at dispensing and shelter sites.
+        source: cdc-phep
+        section: Capability 8, P3 (protocols when decontamination is needed)
+        confidence: medium
+    public_messages:
+      - Follow the instructions in the official alert (shelter in place or evacuate).
+    message_sources: [nws-alert-types]
+    related_tools: []
+
+  - id: drought
+    label: Drought
+    nws_events: []
+    fema_incident_types: []
+    health_effects:
+      - text: Compromised quantity and quality of drinking water, worse air quality (dust and wildfire), recreational risks, sanitation and hygiene problems, mental health effects from economic losses, and increased illness.
+        source: cdc-drought
+        section: Health impacts
+        confidence: high
+    at_risk:
+      - text: Households on private wells, people with chronic respiratory disease, and agricultural workers and communities.
+        source: cdc-drought
+        section: Health impacts
+        confidence: medium
+    public_health_actions:
+      - text: Monitor private well and public water supply advisories and coordinate water-use messaging with water suppliers.
+        source: cdc-drought
+        section: Health impacts
+        confidence: medium
+    public_messages:
+      - Follow local water-use restrictions; test private wells if water quality changes.
+    message_sources: [cdc-drought]
+    related_tools: [air_quality_protective_guidance]
+
+# Hazards that follow others (listed under a hazard's `secondary`).
+secondary_hazards:
+  - id: power_outage
+    label: Power outage
+    health_effects:
+      - text: Outages are dangerous in extreme heat or cold and for people who rely on electricity-dependent medical equipment, refrigerated medicines, or electric well pumps.
+        source: mema-power
+        section: Why Prepare?
+        confidence: high
+    public_health_actions:
+      - text: Identify residents who rely on electricity-dependent medical equipment (emPOWER counts by ZIP code; your agency's own registry) and coordinate checks and transport to shelters or charging sites with emergency management, utilities, and EMS.
+        source: mema-power
+        section: What to do Before a Power Outage (life-support devices; priority reconnection lists)
+        confidence: medium
+    public_messages:
+      - If you depend on powered medical equipment, tell your utility and fire department and have a backup plan; call 9-1-1 if you need medical help.
+      - Call 2-1-1 for shelter locations; report outages to your utility, not 9-1-1.
+      - A closed refrigerator keeps food cold for about 4 hours; a full freezer for about 48 hours.
+    message_sources: [mema-power]
+  - id: carbon_monoxide
+    label: Carbon monoxide poisoning
+    health_effects:
+      - text: Headache, dizziness, weakness, upset stomach, vomiting, chest pain, and confusion ("flu-like"); people who are asleep or intoxicated can die before they have symptoms.
+        source: cdc-co
+        section: Symptoms
+        confidence: high
+    public_health_actions:
+      - text: Issue generator and CO detector messages in every language your community uses before and after storms, and alert emergency departments to watch for CO poisoning.
+        source: cdc-co
+        section: Reducing risk
+        confidence: medium
+    public_messages:
+      - Never use a generator inside a home or garage, even with doors and windows open; keep it more than 20 feet from windows, doors, and vents.
+      - Install battery-operated or battery back-up CO detectors near every sleeping area.
+    message_sources: [cdc-co]
+
+# Labels for FEMA incident types (OpenFEMA incidentType values).
+fema_incident_labels:
+  Biological: Biological (pandemic or other disease)
+  Coastal Storm: Coastal storm
+  Fire: Fire
+  Fishing Losses: Fishing losses
+  Flood: Flood
+  Hurricane: Hurricane or tropical storm
+  Other: Other
+  Severe Ice Storm: Severe ice storm
+  Severe Storm: Severe storm
+  Snowstorm: Snowstorm
+  Terrorist: Terrorism
+  Tornado: Tornado
+  Winter Storm: Winter storm

@@ -328,7 +328,10 @@ mod tests {
         assert_eq!(ffw.county_fips, vec!["25005", "25023"]);
         assert!(ffw.zones.contains(&"MAC005".to_string()));
         assert_eq!(ffw.severity, "Severe");
-        assert!(ffw.url().starts_with("https://api.weather.gov/alerts/urn:oid:"));
+        assert!(
+            ffw.url()
+                .starts_with("https://api.weather.gov/alerts/urn:oid:")
+        );
         let watch = feed
             .alerts
             .iter()
@@ -355,6 +358,9 @@ mod tests {
         assert!(f.periods.len() >= 10);
         assert!(f.periods[0].temperature_f.is_some());
         assert!(f.updated.is_some());
-        assert_eq!(points_url(42.36012, -71.05891), "https://api.weather.gov/points/42.3601,-71.0589");
+        assert_eq!(
+            points_url(42.36012, -71.05891),
+            "https://api.weather.gov/points/42.3601,-71.0589"
+        );
     }
 }
