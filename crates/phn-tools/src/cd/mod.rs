@@ -13,10 +13,18 @@ pub use reportable::*;
 
 // Phase 3 modules (CD-02 to CD-07, CD-10, CD-13) go below this line.
 pub mod aberrations;
+pub mod contact_tracing;
 pub mod engine;
+pub mod infection_control;
 pub mod isolation;
+pub mod measles;
 
 pub use aberrations::{AberrationArgs, AberrationResult, detect_aberrations};
+pub use contact_tracing::{ContactTracingArgs, ContactTracingResult, plan_contact_tracing};
+pub use infection_control::{
+    InfectionControlArgs, InfectionControlResult, infection_control_for_congregate_settings,
+};
+pub use measles::{MeaslesExposureArgs, MeaslesExposureResult, assess_measles_exposure};
 pub use isolation::{IsolationArgs, IsolationResult, calculate_isolation_and_exclusion};
 
 // Phase 6 modules (CD-08, CD-09) go below this line.
