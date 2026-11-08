@@ -16,7 +16,9 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use tantivy::collector::TopDocs;
 use tantivy::query::QueryParser;
-use tantivy::schema::{Field, STORED, STRING, Schema, TEXT, Value};
+use tantivy::schema::{
+    Field, IndexRecordOption, STORED, STRING, Schema, TextFieldIndexing, TextOptions, Value,
+};
 use tantivy::snippet::SnippetGenerator;
 use tantivy::{Index, IndexReader, TantivyDocument, doc};
 
@@ -25,7 +27,7 @@ use crate::md;
 
 const SNAPSHOT_ID: &str = "ma-dph-guide-corpus";
 const FILE: &str = "ma_dph_guide_corpus.txt";
-const INDEX_FORMAT: u32 = 1;
+const INDEX_FORMAT: u32 = 2;
 const CHUNK_CHARS: usize = 2_500;
 
 /// Kind of document.
@@ -220,12 +222,20 @@ fn idx_err(e: impl std::fmt::Display) -> PhnError {
 }
 
 fn schema() -> (Schema, Fields) {
+    // English stemming so "handler" also finds "handlers", "exclude" finds "excluded".
+    let stemmed = || {
+        TextOptions::default().set_indexing_options(
+            TextFieldIndexing::default()
+                .set_tokenizer("en_stem")
+                .set_index_option(IndexRecordOption::WithFreqsAndPositions),
+        )
+    };
     let mut b = Schema::builder();
     let sec = b.add_u64_field("sec", STORED);
     let doc = b.add_text_field("doc", STRING | STORED);
-    let title = b.add_text_field("title", TEXT);
-    let section = b.add_text_field("section", TEXT | STORED);
-    let body = b.add_text_field("body", TEXT | STORED);
+    let title = b.add_text_field("title", stemmed());
+    let section = b.add_text_field("section", stemmed().set_stored());
+    let body = b.add_text_field("body", stemmed().set_stored());
     (
         b.build(),
         Fields {

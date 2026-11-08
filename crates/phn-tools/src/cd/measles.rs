@@ -373,7 +373,7 @@ pub fn assess_measles_exposure(
     } else if pregnant || immunocomp {
         "IGIV"
     } else {
-        "IGIM (or IGIV)"
+        "IGIM or IGIV"
     };
     let ig = &pep_c.immune_globulin;
     let dose = args.weight_kg.map(|w| {
