@@ -604,7 +604,9 @@ pub fn brown_forsythe(groups: &[Vec<f64>]) -> Test {
         })
         .collect();
     let mut t = anova(&dev);
-    t.name = "Brown–Forsythe (median-centered Levene) test of equal variances".into();
+    // Named "Levene (median-centered)" in output, as R car::leveneTest and
+    // SciPy do; the eponym "Brown" collides with surname detection.
+    t.name = "Levene's test (median-centered) of equal variances".into();
     t.effect_size = None;
     t.effect_size_name = None;
     t

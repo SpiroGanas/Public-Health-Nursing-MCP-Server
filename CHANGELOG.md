@@ -9,6 +9,25 @@ All notable changes are recorded here. The format follows
 
 ### Added — Phase 2: epidemiology and biostatistics engine
 
+- `age_adjust_rates` (EPI-02): direct age adjustment to the 2000 U.S. standard population using
+  NCHS Master List weights, Fay–Feuer gamma intervals, and comparisons with a reference group.
+- `analyze_two_by_two` (EPI-03): risk and odds ratios with Katz, Woolf, Fisher exact, and mid-p
+  intervals; attributable fractions; chi-square and exact tests; Mantel–Haenszel and Breslow–Day.
+- `calculate_sample_size` (EPI-04): surveys (finite population correction, design effect),
+  two proportions (Fleiss with continuity correction), case-control, two means, power, clusters.
+- `compute_standardized_ratio` (EPI-05): SIR/SMR with exact Poisson intervals and p-values.
+- `analyze_trends` (EPI-09): APC, joinpoint-style segments and AAPC (BIC), interrupted time
+  series, seasonality, Mann–Kendall, Durbin–Watson, and a trend chart.
+- `run_statistical_test` (EPI-10): automatic test selection with assumption checks and
+  sensitivity tests, on inline data or local files (aggregates only).
+- `create_chart` (EPI-11): accessible SVG/PNG charts with a validated color-vision-safe palette,
+  generated alt text, and a data table.
+- `create_spc_chart` (EBP-06): run charts (Anhøj rules) and XmR, p, u, c control charts.
+- `phn-epi` engine: GLMs by IRLS (Gaussian, Poisson, binomial, negative binomial), standardization,
+  2×2 and stratified analysis, trend models, hypothesis tests (including Shapiro–Wilk), SPC, and
+  sample size, with golden tests against R, SciPy, statsmodels, NCHS, and published tables. The
+  R and Python scripts that produced each fixture are committed next to it.
+- `phn-docs` chart renderer and accessible palette; `phn_data::socrata` client for data.cdc.gov.
 <!-- Phase 2 entries go above this line. -->
 
 ### Added — Phase 3: communicable disease I

@@ -224,6 +224,148 @@ quality).
 
 <!-- Phase 2 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
+### `age_adjust_rates` (EPI-02, toolset `epi`)
+
+Directly age-adjusts rates for one or more groups (towns, years, counties).
+
+| Argument | Default | |
+|---|---|---|
+| `groups` | | Each with a `label` and `strata`: `age_group` ("<1", "1-4", "45–54", "85+", "65 and over"), `count`, `population`. |
+| `custom_standard` | 2000 U.S. standard | `age_group` and `population` pairs. |
+| `per` | 100,000 | Rate base. |
+| `confidence` | 0.95 | |
+| `reference_group` | | Compare every other group with this one (rate ratio and difference, z-test). |
+| `event_description` | | |
+
+Method: Σ wᵢ·(countᵢ/populationᵢ) with the 2000 U.S. standard population. Weights come from the
+NCHS Master List (Healthy People 2010 Statistical Notes No. 20) when the age groups line up with
+it — reproducing NCHS weights exactly — and from the single-year P25-1130 population (NCI SEER)
+otherwise. Confidence intervals use the gamma method of Fay and Feuer (1997); crude rates use
+exact Poisson intervals. Flags rates from fewer than 20 events and totals below the suppression
+threshold. Golden tests: R `epitools::ageadjust.direct`.
+
+### `analyze_two_by_two` (EPI-03, toolset `epi`)
+
+| Argument | Default | |
+|---|---|---|
+| `tables` | | One table, or one per stratum: `exposed_cases`, `exposed_noncases`, `unexposed_cases`, `unexposed_noncases`, optional `label`. |
+| `design` | `cohort` | `cohort`, `case_control`, or `cross_sectional`. |
+| `confidence` | 0.95 | |
+| `exposure`, `outcome` | | Labels for the interpretation. |
+
+Returns attack rates (or prevalence), risk ratio (Katz interval), risk difference (Wald), odds
+ratio (Woolf), conditional MLE odds ratio with Fisher exact and mid-p intervals, attributable and
+preventable fractions (Levin; Miettinen for case-control), Pearson, Yates, and Mantel–Haenszel
+chi-square, Fisher's exact (two- and one-sided), and the mid-p. With two or more strata: crude and
+Mantel–Haenszel odds and risk ratios (Robins–Breslow–Greenland and Greenland–Robins intervals),
+the MH test, the Breslow–Day test with Tarone's correction, and the crude-versus-adjusted change
+(a confounding screen). Golden tests: R `fisher.test`, `chisq.test`, `mantelhaen.test`,
+`epitools`; SciPy; statsmodels.
+
+### `calculate_sample_size` (EPI-04, toolset `epi`)
+
+| `study_type` | Required arguments |
+|---|---|
+| `survey_proportion` | `expected_proportion` (default 0.5), `margin_of_error`; optional `population_size` |
+| `survey_mean` | `standard_deviation`, `margin_of_error`; optional `population_size` |
+| `two_proportions` | `p1` and `p2`, or `relative_risk` and `p2` |
+| `case_control` | `odds_ratio`, `control_exposure` |
+| `two_means` | `difference`, `standard_deviation` |
+| `power_two_proportions` | `p1`, `p2`, `n1` (`n2`) |
+| `power_two_means` | `difference`, `standard_deviation`, `n1` (`n2`) |
+
+Common options: `confidence` (surveys, 0.95), `alpha` (0.05), `power` (0.80), `ratio` (group 2 ÷
+group 1), `one_sided`, `continuity_correction` (true), `design_effect` or `cluster_size` + `icc`,
+`response_rate`. Proportions may be given as 0–1 or percentages. Formulas: CDC Epi Info StatCalc
+population survey (reproduces Krejcie & Morgan's table); Fleiss, Levin & Paik (2003) for two
+proportions with unequal groups and the continuity correction; normal approximation plus
+Guenther's correction for two means. Golden tests: R `power.prop.test`, `power.t.test`.
+
+### `compute_standardized_ratio` (EPI-05, toolset `epi`)
+
+| Argument | |
+|---|---|
+| `areas` | Each with `label`, `observed_total` (or per-stratum `observed`), and `strata`: `stratum`, local `population`, and `reference_rate` (per `per`) or `reference_count` + `reference_population`. |
+| `per` | Rate base of `reference_rate` (default 100,000). |
+| `measure` | `incidence` (SIR, default) or `mortality` (SMR). |
+| `reference_name`, `event_description`, `confidence` | |
+
+Expected = Σ population × reference rate; ratio = observed ÷ expected with the exact Poisson
+interval and the exact two-sided p-value of R `poisson.test`. Notes that ratios compare each area
+with the reference, not areas with each other, and points to CDC/CSTE cluster guidance.
+
+### `analyze_trends` (EPI-09, toolset `epi`)
+
+| Argument | Default | |
+|---|---|---|
+| `periods` | | In order: `label`, `count`, optional `population`. |
+| `time_unit` | `year` | `quarter`, `month`, `week`. |
+| `model` | `auto` | Poisson, switching to negative binomial when Pearson dispersion > 1.5. |
+| `seasonal` | true for months and weeks | One annual harmonic, tested by likelihood ratio. |
+| `max_joinpoints` | 3 | Limited to ⌊(n − 2)/5⌋ as in NCI Joinpoint guidance. |
+| `interruptions` | | Labels of the first period after a known change (interrupted time series). |
+| `per`, `confidence`, `event_description`, `chart` (true) | | |
+
+Reports the percent change per year from one log-linear trend; the BIC-selected joinpoint model
+(segment APCs and the AAPC; intervals conditional on joinpoint locations); level and slope changes
+at interruptions; seasonality; Mann–Kendall τ; and Durbin–Watson autocorrelation warnings. Saves a
+line chart of observed and modeled values. Golden tests: R `glm`, `MASS::glm.nb`,
+`trend::mk.test`, `trend::sens.slope`.
+
+### `run_statistical_test` (EPI-10, toolset `epi`)
+
+Give one kind of data: `groups` (name + values), `paired` (`before`, `after`), `table`
+(`row_labels`, `column_labels`, `counts`), `x` and `y`, or a local file: `path` (+ `sheet`) with
+`outcome` and `group`, `paired_with`, or `predictors` (regression; `outcome_event` for logistic).
+`test` defaults to `auto`; `confidence` 0.95.
+
+Automatic choice: two groups → Welch t (or Mann–Whitney if not normal: Shapiro–Wilk p < 0.05
+with n < 30); 3+ groups → ANOVA, Welch ANOVA (unequal variances by the median-centered Levene
+(Brown–Forsythe) test), or
+Kruskal–Wallis; paired → paired t or Wilcoxon signed-rank; counts → chi-square or Fisher's exact
+(2×2 with an expected count < 5); two measurements → Pearson or Spearman; predictors → linear or
+logistic regression. Alternatives run as sensitivity checks. Local files: only aggregates (n,
+mean, SD, median, IQR — never minimum, maximum, or rows); identifier columns are refused; groups
+smaller than the suppression threshold are refused; table cells are suppressed with complementary
+suppression. Golden tests: R `t.test`, `wilcox.test`, `oneway.test`, `kruskal.test`,
+`chisq.test`, `cor.test`, `shapiro.test`, `glm`; SciPy for the median-centered Levene test (tool output calls it "Levene" because the
+eponym "Brown" collides with the surname detector in the leak tests).
+
+### `create_chart` (EPI-11, toolset `epi`)
+
+| Argument | |
+|---|---|
+| `chart_type` | `bar`, `stacked_bar`, `line`, `dot`, `histogram`. |
+| `title` (required), `subtitle`, `x_label`, `y_label`, `source_note` | |
+| `categories`, `series` | Up to 8 series: `name`, `values` (null = missing), optional `lower`, `upper`, `suppressed`. |
+| `reference_lines`, `markers` | Horizontal lines (`label`, `value`) and vertical markers (`at_category`, `label`). |
+| `log_scale`, `include_zero`, `decimals`, `width`, `height` | Bars always start at zero. |
+| `suppress_small_counts` | Hide counts from 1 to threshold − 1 (hatched). |
+| `file_name`, `format` | `png`, `svg`, or `both` (default). |
+
+Writes to `/data/output/charts/`. Colors follow a fixed order validated for color-vision
+deficiency on white; series also get marker shapes and direct labels, suppressed values are
+hatched, and the SVG has a title and generated description. Returns the alt text, the data table,
+and markdown to embed the image with `export_document`.
+
+### `create_spc_chart` (EBP-06, toolset `ebp`)
+
+| Argument | |
+|---|---|
+| `chart_type` | `run` (default for inline data), `xmr`, `p`, `u`, `c`. |
+| `labels`, `values`, `denominators` | Inline data (`denominators` for p and u charts). |
+| `path`, `sheet`, `date_column`, `period` (`week`, `month`, `quarter`), `measure` (`count`, `proportion` + `flag_column`, `mean` + `value_column`) | A local line list aggregated by period. |
+| `baseline_points`, `phase_starts` | Limits from the first k points; recompute after a change. |
+| `title`, `measure_name`, `display_scale` (100 for percent), `format` | |
+
+Run charts use the median and the Anhøj rules (longest run > round(log₂ n + 3); crossings below
+the 5th percentile of Binomial(n − 1, ½)). Control charts use 3-sigma limits (XmR: 2.66 × average
+moving range) and the *Health Care Data Guide* rules: a point outside the limits, 8 in a row on
+one side, 6 increasing or decreasing, 2 of 3 beyond 2σ, 15 within 1σ. For local files, values
+from fewer records than the suppression threshold are hidden in the response (the saved chart
+keeps them, locally). Golden tests: R `qcc` limits.
+
+
 ---
 
 ## Phase 3: Communicable disease I

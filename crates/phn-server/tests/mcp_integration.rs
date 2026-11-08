@@ -434,7 +434,36 @@ async fn no_row_level_data_is_returned_by_default() {
             "data/exclusion_letters.csv",
         ),
         // ---- Phase 2 data tools (EPI-10 run_statistical_test, EBP-06 create_spc_chart, ...)
-
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Hospitalized", "group": "Sex"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Last Name"}),
+            ll,
+        ),
+        (
+            "run_statistical_test",
+            json!({"path": "line_list.csv", "outcome": "Age", "group": "Street Address"}),
+            ll,
+        ),
+        (
+            "create_spc_chart",
+            json!({"path": "line_list.csv", "date_column": "Onset Date", "period": "week"}),
+            ll,
+        ),
+        (
+            "create_spc_chart",
+            json!({"path": "line_list.csv", "date_column": "Onset Date", "measure": "mean", "value_column": "Age"}),
+            ll,
+        ),
         // ---- Phase 3 data tools (CD-04 analyze_outbreak_line_list, CD-05, CD-06, ...)
 
         // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
