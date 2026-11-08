@@ -28,3 +28,5 @@ pub use trends::{TrendArgs, TrendToolResult, analyze_trends};
 pub use two_by_two::{TwoByTwoArgs, TwoByTwoResult, analyze_two_by_two};
 
 // Phase 4 modules (EPI-12) go below this line.
+pub mod choropleth;
+pub use choropleth::{ChoroplethResult, CreateChoroplethArgs, create_choropleth_map};

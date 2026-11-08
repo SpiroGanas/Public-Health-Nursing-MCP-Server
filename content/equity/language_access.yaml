@@ -1,0 +1,126 @@
+# Language access thresholds and rules used by language_access_profile (EQ-03).
+#
+# REVIEW STATUS: pending. See meta.verification_note and each entry's confidence.
+# Schema: content/schemas/language_access.schema.json
+meta:
+  id: language-access-rules
+  title: Language access thresholds for written translation (HHS LEP guidance safe harbor and Section 1557)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2024-07-05
+  source:
+    title: "Guidance to Federal Financial Assistance Recipients Regarding Title VI Prohibition Against National Origin Discrimination Affecting Limited English Proficient Persons (68 FR 47311, August 8, 2003)"
+    publisher: U.S. Department of Health and Human Services, Office for Civil Rights
+    url: https://www.hhs.gov/civil-rights/for-individuals/special-topics/limited-english-proficiency/guidance-federal-financial-assistance-recipients-title-vi/index.html
+  related_sources:
+    - title: "45 CFR 92.201 Meaningful access for individuals with limited English proficiency"
+      publisher: U.S. Department of Health and Human Services (Electronic Code of Federal Regulations)
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-92/subpart-C/section-92.201
+    - title: "45 CFR 92.11 Notice of availability of language assistance services and auxiliary aids and services"
+      publisher: U.S. Department of Health and Human Services (Electronic Code of Federal Regulations)
+      url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-92/subpart-B/section-92.11
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The two 45 CFR part 92 entries were transcribed on 2026-11-08 from the eCFR versioner API
+    (text in force on 2026-11-01; both sections last amended 2024-07-05) and are high confidence.
+    The HHS 2003 LEP guidance safe harbor could NOT be retrieved: hhs.gov answered HTTP 403 and
+    federalregister.gov and govinfo.gov were blocked from the development network, so that entry
+    was written from the developer's knowledge of the guidance and is marked low confidence. The
+    subject matter expert must check it against the safe harbor provision of 68 FR 47311 before
+    relying on it.
+
+safe_harbor:
+  id: hhs-lep-safe-harbor-2003
+  citation: "HHS LEP Guidance, 68 FR 47311 (Aug. 8, 2003), safe harbor provision for written translations"
+  confidence: low
+  threshold_percent: 5
+  threshold_count: 1000
+  rule: >-
+    Written translation of vital documents is a "safe harbor" (strong evidence of compliance with
+    written-translation obligations) when it is provided for each eligible limited English
+    proficient (LEP) language group that makes up 5 percent or 1,000 persons, whichever is less,
+    of the population eligible to be served or likely to be affected or encountered. Translation
+    of other documents, if needed, can be provided orally.
+  small_group_rule: >-
+    If fewer than 50 persons are in a language group that reaches the 5 percent trigger, the
+    recipient does not translate vital written materials but provides written notice in the
+    group's primary language of the right to receive competent oral interpretation of those
+    materials, free of cost.
+  limits: >-
+    The safe harbor applies only to written translation. It does not reduce the duty to provide
+    competent oral interpretation to any LEP person, and failing to meet it does not by itself
+    mean noncompliance; the guidance's four-factor assessment (number or proportion of LEP
+    persons, frequency of contact, importance of the program, and resources) still applies.
+
+regulations:
+  - id: 45-cfr-92-201-a
+    citation: "45 CFR 92.201(a)"
+    effective_date: 2024-07-05
+    confidence: high
+    text: >-
+      A covered entity must take reasonable steps to provide meaningful access to each individual
+      with limited English proficiency (including companions with limited English proficiency)
+      eligible to be served or likely to be directly affected by its health programs and
+      activities.
+  - id: 45-cfr-92-201-b
+    citation: "45 CFR 92.201(b)"
+    effective_date: 2024-07-05
+    confidence: high
+    text: >-
+      Language assistance services required under paragraph (a) of this section must be provided
+      free of charge, be accurate and timely, and protect the privacy and the independent
+      decision-making ability of the individual with limited English proficiency.
+  - id: 45-cfr-92-201-c-3
+    citation: "45 CFR 92.201(c)(3)"
+    effective_date: 2024-07-05
+    confidence: high
+    text: >-
+      If a covered entity uses machine translation when the underlying text is critical to the
+      rights, benefits, or meaningful access of an individual with limited English proficiency,
+      when accuracy is essential, or when the source documents or materials contain complex,
+      non-literal or technical language, the translation must be reviewed by a qualified human
+      translator.
+  - id: 45-cfr-92-11-b
+    citation: "45 CFR 92.11(b)"
+    effective_date: 2024-07-05
+    confidence: high
+    text: >-
+      The notice required under paragraph (a) of this section must be provided in English and at
+      least the 15 languages most commonly spoken by individuals with limited English proficiency
+      of the relevant State or States in which a covered entity operates and must be provided in
+      alternate formats for individuals with disabilities who require auxiliary aids and services
+      to ensure effective communication.
+
+data_limits:
+  - id: acs-lep-definition
+    confidence: medium
+    text: >-
+      The American Community Survey counts people age 5 and older who speak a language other than
+      English at home and speak English less than "very well"; this is the usual working
+      definition of limited English proficiency, but it is self-reported (or reported by a
+      household member) and is not a language assessment.
+  - id: acs-language-groups
+    confidence: medium
+    text: >-
+      For towns and tracts, ACS table C16001 reports 12 language groups. Several groups combine
+      languages; Portuguese and Cape Verdean Creole, important in Massachusetts, fall in "Other
+      Indo-European languages", and Khmer in "Other Asian and Pacific Island languages". Detailed
+      languages (table B16001) are published only for the state and Public Use Microdata Areas
+      (PUMAs, about 100,000 people each).
+  - id: acs-sampling-error
+    confidence: medium
+    text: >-
+      Language counts for small towns and tracts have large margins of error. A group whose
+      estimate is just below or above the threshold may be on either side of it; the margin of
+      error shows how sure the comparison is.
+  - id: eligible-population
+    confidence: medium
+    text: >-
+      The safe harbor is measured against the population eligible to be served or likely to be
+      encountered. Residents age 5 and older of the town are a reasonable starting point for a
+      town-wide service; a program that serves a narrower population (for example a clinic's
+      caseload or a school's families) should use its own counts where it has them.

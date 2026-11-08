@@ -36,6 +36,28 @@ All notable changes are recorded here. The format follows
 
 ### Added — Phase 4: public data and evidence platform
 
+- `build_community_health_profile` (EQ-01): ACS 5-year indicators (each cited by table ID, with
+  margins of error and CV > 30% flagged), PLACES, and SVI for any Massachusetts town, county, or
+  tract, compared with Massachusetts and the U.S.; works offline for all 351 towns.
+- `get_social_vulnerability_index` (EQ-02): SVI 2022 tract ranks within Massachusetts or
+  nationally, by theme.
+- `language_access_profile` (EQ-03): LEP by language group (C16001, C16002, B16001) against the
+  HHS safe harbor threshold, with margin-of-error-aware status. Content pending review; the
+  safe harbor entry is low confidence.
+- `measure_health_disparities` (EQ-04): rate ratios (exact conditional and log intervals), rate
+  differences, index of disparity, between-group variance, excess events, and PAF; golden tests
+  against R.
+- `get_places_estimates` (CHR-01): CDC PLACES 2025 estimates with intervals and data years for
+  counties, towns, places, tracts, and ZCTAs.
+- `create_choropleth_map` (EPI-12): SVG/PNG choropleth maps with Fisher–Jenks or quantile
+  classes, the accessible sequential palette, hatched suppressed areas, and alt text.
+- `search_pubmed` (EBP-01) and `search_cdc_guidance` (EBP-02): NCBI E-utilities (no email,
+  rate-limited, cached a day), the CDC content syndication API, and HAN notice pages.
+- Data adapters (`phn_data::census`, `geography`, `boundaries`, `svi`, `places`, `eutils`,
+  `cdc_guidance`, `apifetch`) with live → cache → snapshot fallback, and about 4 MB of new
+  snapshots: ACS 2020–2024 indicators and detailed languages, SVI 2022, PLACES 2025, census
+  geographies and crosswalks, and simplified town, tract, ZCTA, and school district boundaries,
+  built reproducibly by `cargo xtask build-public-snapshots`.
 <!-- Phase 4 entries go above this line. -->
 
 ### Added — Phase 5: immunizations I

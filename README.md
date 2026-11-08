@@ -57,6 +57,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `build_community_health_profile` | EQ-01 | equity | One-call profile of a town, county, or tract: ACS demographics, language, income, insurance, disability, housing, and education with margins of error, PLACES, and SVI, compared with MA and the U.S. |
+| `get_social_vulnerability_index` | EQ-02 | equity | CDC/ATSDR SVI 2022 tract percentile ranks (overall and four themes) for a town, county, or tract. |
+| `language_access_profile` | EQ-03 | equity | Limited English proficiency by language with margins of error, checked against the HHS safe harbor (5% or 1,000 persons). |
+| `measure_health_disparities` | EQ-04 | equity | Rate ratios and differences with exact intervals, index of disparity, between-group variance, and attributable fraction. |
+| `get_places_estimates` | CHR-01 | chronic | CDC PLACES chronic disease and social-needs estimates with 95% intervals for a county, town, tract, or ZCTA. |
+| `create_choropleth_map` | EPI-12 | epi | Accessible SVG/PNG maps of towns, tracts, ZCTAs, or school districts with natural-breaks or quantile classes and hatched suppressed areas. |
+| `search_pubmed` | EBP-01 | ebp | PICO-based PubMed search (MeSH plus free text, study-type filters) with abstracts, DOIs, and the exact query. |
+| `search_cdc_guidance` | EBP-02 | ebp | Newest MMWR reports and HAN notices on a topic, with a CDC Stacks search link. |
 <!-- Phase 4 rows go above this line. -->
 
 ### Phase 5: immunizations I

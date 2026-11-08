@@ -150,8 +150,9 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         }
         new_manifest.snapshots.push(entry);
     }
-    // Keep entries this command does not build (snapshots added by later phases),
-    // so rebuilding the MassGIS files never drops them from the manifest.
+    // Keep entries this command does not build (snapshots added by later phases or
+    // built by other commands such as build-public-snapshots), so rebuilding the
+    // MassGIS files never drops them from the manifest.
     if let Some(o) = &old {
         for e in &o.snapshots {
             if !new_manifest.snapshots.iter().any(|n| n.id == e.id) {

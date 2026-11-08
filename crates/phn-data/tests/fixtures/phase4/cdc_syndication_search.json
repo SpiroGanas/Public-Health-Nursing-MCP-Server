@@ -1,0 +1,107 @@
+{
+ "meta": {
+  "status": 200,
+  "message": [],
+  "resultSet": {
+   "id": "4d2e8b28-7b0b-4e9b-b098-6fdabe457bea"
+  },
+  "pagination": {
+   "total": 72,
+   "count": 6,
+   "max": 6,
+   "offset": 0,
+   "pageNum": 1,
+   "totalPages": 12,
+   "sort": "-datepublished",
+   "previousUrl": "",
+   "currentUrl": "https://tools.cdc.gov/api/v2/resources/media?max=6&sort=-datepublished&title=measles",
+   "nextUrl": "https://tools.cdc.gov/api/v2/resources/media?max=6&pagenum=2&sort=-datepublished&title=measles"
+  }
+ },
+ "results": [
+  {
+   "id": 131274,
+   "name": "Measles Cases and Outbreaks",
+   "description": "Find the latest numbers of confirmed U.S. measles cases. CDC updates this page weekly.",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/measles/data-research/index.html",
+   "datePublished": "2026-11-06T05:00:00Z",
+   "dateModified": "2026-11-06T15:09:05Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  },
+  {
+   "id": 766327,
+   "name": "Use of Nowcasting to Estimate Real-Time Transmission Trends During a Measles Outbreak \u2014 South Carolina, October 2025\u2013March 2026",
+   "description": "This report describes CDC\u2019s nowcast model that provided real-time estimates of measles case counts during outbreaks in South Carolina.",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/mmwr/volumes/75/wr/mm7533a1.htm",
+   "datePublished": "2026-08-27T17:00:00Z",
+   "dateModified": "2026-08-27T19:25:02Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  },
+  {
+   "id": 128645,
+   "name": "Clinical Overview of Measles",
+   "description": "Learn about clinical diagnosing and treating measles cases.",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/measles/hcp/clinical-overview/index.html",
+   "datePublished": "2026-08-05T04:00:00Z",
+   "dateModified": "2026-10-06T18:20:04Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  },
+  {
+   "id": 131306,
+   "name": "Measles Symptoms and Complications",
+   "description": "First signs of measles are fever, cough, & runny nose 7\u201314 days after infection.",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/measles/signs-symptoms/index.html",
+   "datePublished": "2026-08-05T04:00:00Z",
+   "dateModified": "2026-08-28T20:43:59Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  },
+  {
+   "id": 766017,
+   "name": "Genotype-Specific Detection of Measles Virus Using Wastewater Surveillance \u2014 Wisconsin, February 2026",
+   "description": "This report describes how wastewater surveillance identified one of two unrelated measles cases reported to the Wisconsin Department of Health Services in February 2026.",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/mmwr/volumes/75/wr/mm7527a1.htm",
+   "datePublished": "2026-07-16T17:00:00Z",
+   "dateModified": "2026-07-16T18:54:26Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  },
+  {
+   "id": 765865,
+   "name": "Notes from the Field: Initial Public Health Response to a Measles Outbreak in a Close-Knit West Texas Community \u2014 January\u2212February 2025",
+   "description": "This report describes the public health response to a measles outbreak in a Texas community ",
+   "mediaType": "HTML",
+   "sourceUrl": "https://www.cdc.gov/mmwr/volumes/75/wr/mm7523a2.htm",
+   "datePublished": "2026-06-18T17:00:00Z",
+   "dateModified": "2026-06-18T16:58:02Z",
+   "language": {
+    "name": "English",
+    "isoCode": "eng",
+    "isoCode2": "en"
+   }
+  }
+ ]
+}

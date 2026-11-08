@@ -51,7 +51,13 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 3 content items go below this line.
 
     // Phase 4 content items go below this line.
-
+    ContentItem {
+        id: "language-access-rules",
+        path: "content/equity/language_access.yaml",
+        resource_uri: "phn://content/language-access-rules",
+        yaml: include_str!("../../../content/equity/language_access.yaml"),
+        schema: include_str!("../../../content/schemas/language_access.schema.json"),
+    },
     // Phase 5 content items go below this line.
     ContentItem {
         id: "vax-schedule",

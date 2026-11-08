@@ -82,7 +82,46 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/ma_school_districts.csv"),
     ),
     // Phase 4 snapshot files go below this line.
-
+    (
+        "ma_census_geographies.csv",
+        include_str!("../../../snapshots/ma_census_geographies.csv"),
+    ),
+    (
+        "ma_acs5_indicators.csv",
+        include_str!("../../../snapshots/ma_acs5_indicators.csv"),
+    ),
+    (
+        "ma_acs5_languages_detailed.csv",
+        include_str!("../../../snapshots/ma_acs5_languages_detailed.csv"),
+    ),
+    (
+        "ma_svi_2022.csv",
+        include_str!("../../../snapshots/ma_svi_2022.csv"),
+    ),
+    (
+        "ma_places_2025.csv",
+        include_str!("../../../snapshots/ma_places_2025.csv"),
+    ),
+    (
+        "ma_places_2025_measures.csv",
+        include_str!("../../../snapshots/ma_places_2025_measures.csv"),
+    ),
+    (
+        "ma_boundaries_towns.csv",
+        include_str!("../../../snapshots/ma_boundaries_towns.csv"),
+    ),
+    (
+        "ma_boundaries_tracts.csv",
+        include_str!("../../../snapshots/ma_boundaries_tracts.csv"),
+    ),
+    (
+        "ma_boundaries_zctas.csv",
+        include_str!("../../../snapshots/ma_boundaries_zctas.csv"),
+    ),
+    (
+        "ma_boundaries_school_districts.csv",
+        include_str!("../../../snapshots/ma_boundaries_school_districts.csv"),
+    ),
     // Phase 5 snapshot files go below this line.
     (
         "cdc_cvx.csv",
