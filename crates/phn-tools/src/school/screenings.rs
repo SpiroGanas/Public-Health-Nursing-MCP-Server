@@ -506,7 +506,6 @@ pub(crate) struct StudentEval {
 pub(crate) struct RosterAnalysis {
     pub lt: LocalTable,
     pub cols: RosterCols,
-    pub screening_cols: BTreeMap<&'static str, ScreeningCols>,
     pub sbirt_cols: Vec<usize>,
     pub id_cols: Vec<usize>,
     pub students: Vec<StudentEval>,
@@ -802,7 +801,6 @@ pub(crate) fn analyze(
     Ok(RosterAnalysis {
         lt,
         cols,
-        screening_cols,
         sbirt_cols,
         id_cols,
         students,

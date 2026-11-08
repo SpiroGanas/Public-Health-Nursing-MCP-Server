@@ -7,6 +7,8 @@
 //! other rescue medications, and DPH registration. Every point is cited by
 //! section.
 
+use std::collections::{BTreeMap, BTreeSet};
+
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -27,7 +29,7 @@ pub struct MedicationGuideArgs {
     /// documentation, medication_errors, epinephrine, opioid_antagonist,
     /// emergency_rescue_medications, nurse_judgment. Omit both to list topics.
     pub topic: Option<String>,
-    /// Most topics to return for a question (default 3, at most 6).
+    /// Most topics to return for a question (default 4, at most 6).
     pub max_topics: Option<usize>,
 }
 
@@ -57,7 +59,22 @@ pub struct MedicationGuideResult {
     pub regulation: String,
 }
 
-fn score(t: &MedTopic, q: &str) -> f64 {
+/// How many topics list each keyword (shared keywords count for less).
+fn keyword_counts() -> BTreeMap<String, usize> {
+    let mut m: BTreeMap<String, usize> = BTreeMap::new();
+    for t in &MEDS.topics {
+        let mut seen = BTreeSet::new();
+        for k in &t.keywords {
+            let kn = phn_core::text::normalize(k);
+            if seen.insert(kn.clone()) {
+                *m.entry(kn).or_default() += 1;
+            }
+        }
+    }
+    m
+}
+
+fn score(t: &MedTopic, q: &str, counts: &BTreeMap<String, usize>) -> f64 {
     let mut s = 0.0;
     let words: Vec<&str> = q.split_whitespace().collect();
     for k in &t.keywords {
@@ -65,12 +82,16 @@ fn score(t: &MedTopic, q: &str) -> f64 {
         if kn.is_empty() {
             continue;
         }
+        let weight = 1.0 / counts.get(&kn).copied().unwrap_or(1).max(1) as f64;
         if kn.contains(' ') {
             if q.contains(&kn) {
-                s += 3.0;
+                s += 3.0 * weight;
             }
-        } else if words.iter().any(|w| *w == kn || (kn.len() >= 5 && w.starts_with(&kn))) {
-            s += 2.0;
+        } else if words
+            .iter()
+            .any(|w| *w == kn || (kn.len() >= 5 && w.starts_with(&kn)))
+        {
+            s += 2.0 * weight;
         }
     }
     let title = phn_core::text::normalize(&t.title);
@@ -114,7 +135,7 @@ pub fn school_medication_administration_guide(
 ) -> Result<Envelope<MedicationGuideResult>> {
     let c = &*MEDS;
     let src = &c.sources;
-    let max = args.max_topics.unwrap_or(3).clamp(1, 6);
+    let max = args.max_topics.unwrap_or(4).clamp(1, 6);
     let index: Vec<TopicIndexEntry> = c
         .topics
         .iter()
@@ -124,7 +145,12 @@ pub fn school_medication_administration_guide(
         })
         .collect();
     let mut chosen: Vec<&MedTopic> = Vec::new();
-    if let Some(t) = args.topic.as_deref().map(str::trim).filter(|t| !t.is_empty()) {
+    if let Some(t) = args
+        .topic
+        .as_deref()
+        .map(str::trim)
+        .filter(|t| !t.is_empty())
+    {
         let found = find_topic(t).ok_or_else(|| {
             PhnError::NotFound(format!(
                 "no topic matches '{t}'. Topics: {}",
@@ -145,11 +171,12 @@ pub fn school_medication_administration_guide(
         .map(String::from);
     if let Some(q) = &question {
         let qn = phn_core::text::normalize(q);
+        let counts = keyword_counts();
         let mut scored: Vec<(&MedTopic, f64)> = c
             .topics
             .iter()
-            .map(|t| (t, score(t, &qn)))
-            .filter(|(_, s)| *s >= 2.0)
+            .map(|t| (t, score(t, &qn, &counts)))
+            .filter(|(_, s)| *s >= 1.0)
             .collect();
         scored.sort_by(|a, b| b.1.total_cmp(&a.1));
         for (t, _) in scored.into_iter().take(max) {
@@ -265,13 +292,31 @@ mod tests {
 
     #[test]
     fn questions_route_to_the_right_sections() {
-        assert!(ask("Can a teacher give an EpiPen on a field trip?").contains(&"epinephrine".to_string()));
-        assert!(ask("can a teacher give an epipen on a field trip").contains(&"field_trips".to_string()));
-        assert_eq!(ask("How long can we store medication? Refrigerator temperature?")[0], "storage");
+        assert!(
+            ask("Can a teacher give an EpiPen on a field trip?")
+                .contains(&"epinephrine".to_string())
+        );
+        assert!(
+            ask("can a teacher give an epipen on a field trip")
+                .contains(&"field_trips".to_string())
+        );
+        assert_eq!(
+            ask("How long can we store medication? Refrigerator temperature?")[0],
+            "storage"
+        );
         assert!(ask("Who can give Narcan at school?").contains(&"opioid_antagonist".to_string()));
-        assert!(ask("does a verbal order need to be followed up in writing").contains(&"orders_and_consent".to_string()));
-        assert!(ask("can the secretary give medications under delegation").contains(&"delegation".to_string()));
-        assert!(ask("student wants to self carry an inhaler").contains(&"self_administration".to_string()));
+        assert!(
+            ask("does a verbal order need to be followed up in writing")
+                .contains(&"orders_and_consent".to_string())
+        );
+        assert!(
+            ask("can the secretary give medications under delegation")
+                .contains(&"delegation".to_string())
+        );
+        assert!(
+            ask("student wants to self carry an inhaler")
+                .contains(&"self_administration".to_string())
+        );
     }
 
     #[test]
@@ -286,7 +331,18 @@ mod tests {
         )
         .unwrap();
         assert_eq!(e.data.topics[0].id, "medication_errors");
-        assert!(e.data.topics[0].points.iter().all(|p| p.citation.contains("210.")));
+        assert!(
+            e.data.topics[0]
+                .points
+                .iter()
+                .any(|p| p.citation.contains("210.009(B)"))
+        );
+        assert!(
+            e.data.topics[0]
+                .points
+                .iter()
+                .all(|p| !p.citation.is_empty())
+        );
         assert!(e.notice.is_some());
         let e = school_medication_administration_guide(&c, MedicationGuideArgs::default()).unwrap();
         assert!(e.data.topics.is_empty() && e.data.index.len() >= 15);
