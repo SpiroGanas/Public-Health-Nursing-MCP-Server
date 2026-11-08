@@ -17,4 +17,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Epr,
         phase: 12,
     },
+    ToolMeta {
+        name: "air_quality_protective_guidance",
+        plan_id: "ENV-02",
+        toolset: Toolset::Env,
+        phase: 12,
+    },
 ];

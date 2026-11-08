@@ -36,3 +36,23 @@ async fn hazard_alerts_are_live() {
             .any(|s| s.mode == SourceMode::Live && s.publisher.contains("Federal Emergency"))
     );
 }
+
+#[tokio::test]
+#[ignore = "needs network"]
+async fn air_quality_is_live() {
+    let (_d, ctx) = online();
+    for area in ["Massachusetts", "Pittsfield", "Middlesex County"] {
+        let env = phn_tools::env::air_quality_protective_guidance(
+            &ctx,
+            phn_tools::env::AirQualityArgs {
+                area: Some(area.into()),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+        println!("{}", env.summary);
+        assert_ne!(env.data.airnow_status, "unavailable");
+        assert!(!env.data.reporting_areas.is_empty());
+    }
+}

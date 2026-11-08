@@ -1,6 +1,7 @@
 //! Phase 12 tools: emergency preparedness I: situational awareness and planning.
 
 use phn_core::Envelope;
+use phn_tools::env::{AirQualityArgs, AirQualityResult};
 use phn_tools::epr::{DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -65,5 +66,29 @@ impl PhnServer {
             phn_tools::epr::model_dispensing_site_throughput(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "air_quality_protective_guidance",
+        description = "Current and forecast Air Quality Index (AQI) from EPA AirNow for the \
+            Massachusetts reporting area nearest a town (or every area statewide), with the \
+            AQI category, sensitive groups for the pollutant (ozone or particle pollution), and \
+            protective actions for sensitive groups, the public, schools (EPA's outdoor activity \
+            guidance), and outdoor events. Also converts a pollutant concentration to an AQI with \
+            the 2024 EPA breakpoints, or gives guidance for an AQI value you supply. When AirNow \
+            cannot be reached it says so and lists actions for every category.",
+        annotations(
+            title = "Air quality protective guidance",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = true
+        ),
+        output_schema = schema_for_output::<Envelope<AirQualityResult>>()
+    )]
+    async fn air_quality_protective_guidance(
+        &self,
+        Parameters(args): Parameters<AirQualityArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::env::air_quality_protective_guidance(&self.ctx, args).await)
     }
 }

@@ -296,6 +296,86 @@ impl Dispensing {
     }
 }
 
+// ---------------------------------------------------------------- air quality (ENV-02)
+
+/// An AQI category.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AqiCategoryDef {
+    pub id: String,
+    pub name: String,
+    pub min: u32,
+    pub max: u32,
+    pub color: String,
+    pub rgb: Vec<u8>,
+    pub health_concern: Cited,
+}
+
+/// Breakpoints for one pollutant and averaging time.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct BreakpointTable {
+    pub pollutant: String,
+    pub averaging: String,
+    pub unit: String,
+    pub truncate_decimals: u32,
+    /// [concentration low, concentration high, AQI low, AQI high]
+    pub rows: Vec<[f64; 4]>,
+    #[serde(default)]
+    pub note: Option<String>,
+}
+
+/// Sensitive groups for a pollutant.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SensitiveGroup {
+    pub pollutant: String,
+    pub groups: String,
+    pub source: String,
+    pub section: String,
+}
+
+/// A protective action for an audience at a category.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AqAction {
+    pub audience: String,
+    pub category: String,
+    pub text: String,
+    pub source: String,
+    pub section: String,
+    pub confidence: Confidence,
+}
+
+/// `content/env/air_quality.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct AirQuality {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub categories: Vec<AqiCategoryDef>,
+    pub breakpoints: Vec<BreakpointTable>,
+    pub breakpoint_source: String,
+    pub breakpoint_section: String,
+    pub pm25_change: Cited,
+    pub sensitive_groups: Vec<SensitiveGroup>,
+    pub actions: Vec<AqAction>,
+    pub tips: Vec<Cited>,
+}
+
+impl AirQuality {
+    /// The category for an AQI value (values above 500 are Hazardous).
+    pub fn category_for(&self, aqi: u32) -> &AqiCategoryDef {
+        self.categories
+            .iter()
+            .find(|c| aqi >= c.min && aqi <= c.max)
+            .unwrap_or_else(|| self.categories.last().expect("categories"))
+    }
+
+    /// A category by AirNow name ("Unhealthy for Sensitive Groups") or id.
+    pub fn category_named(&self, name: &str) -> Option<&AqiCategoryDef> {
+        let n = phn_core::text::normalize(name);
+        self.categories.iter().find(|c| {
+            phn_core::text::normalize(&c.name) == n || phn_core::text::normalize(&c.id) == n
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
