@@ -342,7 +342,11 @@ async fn rates_match_the_exact_poisson_interval() {
 async fn phi_detector_flags_every_seeded_identifier() {
     let data = common::corpus().join("data");
     // Tables: every seeded column is flagged.
-    for file in ["line_list.csv", "exclusion_letters.csv"] {
+    for file in [
+        "line_list.csv",
+        "exclusion_letters.csv",
+        "church_supper_outbreak.csv",
+    ] {
         let t = phn_local::table::read_table(&data.join(file), None).unwrap();
         let flagged: BTreeSet<String> = phn_local::phi::scan_table(&t)
             .into_iter()
@@ -465,6 +469,57 @@ async fn no_row_level_data_is_returned_by_default() {
             ll,
         ),
         // ---- Phase 3 data tools (CD-04 analyze_outbreak_line_list, CD-05, CD-06, ...)
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "disease": "pertussis", "town_column": "Town"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "town_column": "Street Address"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "line_list.csv", "case_column": "Last Name"}),
+            ll,
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "church_supper_outbreak.csv", "disease": "salmonellosis"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "analyze_outbreak_line_list",
+            json!({"path": "church_supper_outbreak.csv", "exposure_columns": ["First Name"]}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "line_list.csv", "stratify_by": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "line_list.csv", "stratify_by": "Last Name"}),
+            ll,
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "church_supper_outbreak.csv", "disease": "salmonellosis",
+                   "stratify_by": "Town", "exposure_datetime": "2026-05-02 18:00"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "generate_epi_curve",
+            json!({"path": "church_supper_outbreak.csv", "stratify_by": "Phone"}),
+            "data/church_supper_outbreak.csv",
+        ),
 
         // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
 

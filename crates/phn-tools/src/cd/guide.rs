@@ -209,7 +209,6 @@ struct Fields {
 struct GuideIndex {
     /// Corpus checksum and index directory.
     key: String,
-    sha: String,
     corpus: Corpus,
     index: Index,
     reader: IndexReader,
@@ -290,7 +289,6 @@ fn open_or_build(dir: Option<&Path>, sha: &str, corpus: Corpus) -> Result<GuideI
         {
             return Ok(GuideIndex {
                 key: String::new(),
-                sha: sha.to_string(),
                 corpus,
                 index,
                 reader,
@@ -312,7 +310,6 @@ fn open_or_build(dir: Option<&Path>, sha: &str, corpus: Corpus) -> Result<GuideI
                 let reader = index.reader().map_err(idx_err)?;
                 return Ok(GuideIndex {
                     key: String::new(),
-                    sha: sha.to_string(),
                     corpus,
                     index,
                     reader,
@@ -327,7 +324,6 @@ fn open_or_build(dir: Option<&Path>, sha: &str, corpus: Corpus) -> Result<GuideI
     let reader = index.reader().map_err(idx_err)?;
     Ok(GuideIndex {
         key: String::new(),
-        sha: sha.to_string(),
         corpus,
         index,
         reader,
@@ -737,6 +733,6 @@ mod tests {
         assert!(search_ma_disease_control_guide(&c, GuideSearchArgs::default()).is_err());
         // Reuses the on-disk index.
         let (gi, _) = load(&c).unwrap();
-        assert!(!gi.sha.is_empty());
+        assert!(!gi.key.is_empty());
     }
 }

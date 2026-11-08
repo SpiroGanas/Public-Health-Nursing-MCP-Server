@@ -30,7 +30,9 @@ pub struct ColumnOptions {
     #[serde(default)]
     pub case_column: Option<String>,
     /// Values of the case column that count as cases (default: confirmed and
-    /// probable for a status column; yes for an ill column). Matching ignores case.
+    /// probable for a status column; yes for an ill column). Matching ignores
+    /// case. In a status column, values such as "not a case", "well", or
+    /// "ruled out" are non-cases; other values (e.g. suspect) are left out.
     #[serde(default)]
     pub case_values: Option<Vec<String>>,
     /// Case definition: also require at least one of these yes/no symptom
@@ -160,6 +162,16 @@ fn words(h: &str) -> Vec<String> {
 
 fn has_word(h: &str, list: &[&str]) -> bool {
     words(h).iter().any(|w| list.contains(&w.as_str()))
+}
+
+/// Status values that mean "not a case" (well attendees, ruled out, controls).
+fn is_non_case(v: &str) -> bool {
+    let w: Vec<&str> = v.split_whitespace().collect();
+    matches!(
+        v,
+        "no" | "n" | "well" | "healthy" | "negative" | "control" | "ruled out" | "not ill"
+    ) || w.first().is_some_and(|f| matches!(*f, "not" | "non" | "noncase"))
+        || v.contains("ruled out")
 }
 
 /// Parse a date or date-time cell.
@@ -489,7 +501,15 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
                     let want_yes = wanted.iter().any(|w| matches!(w.as_str(), "yes" | "y" | "true" | "1"));
                     t.map(|b| b == want_yes)
                 } else {
-                    Some(wanted.contains(&normalize(v)))
+                    let nv = normalize(v);
+                    if wanted.contains(&nv) {
+                        Some(true)
+                    } else if is_non_case(&nv) {
+                        Some(false)
+                    } else {
+                        // Probable or suspect when only confirmed counts: left out.
+                        None
+                    }
                 }
             }
         };

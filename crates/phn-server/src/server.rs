@@ -14,8 +14,9 @@ use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::tool::ToolCallContext;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{
-    CallToolRequestParams, CallToolResponse, CallToolResult, ContentBlock, Implementation,
-    ListResourcesResult, ListToolsResult, PaginatedRequestParams, ReadResourceRequestParams,
+    CallToolRequestParams, CallToolResponse, CallToolResult, ContentBlock, GetPromptRequestParams,
+    GetPromptResponse, Implementation, ListPromptsResult, ListResourcesResult, ListToolsResult,
+    PaginatedRequestParams, ReadResourceRequestParams,
     ReadResourceResponse, ReadResourceResult, Resource, ResourceContents, ServerCapabilities,
     ServerConfig, Tool,
 };
@@ -205,6 +206,7 @@ impl ServerHandler for PhnServer {
                 .enable_tools()
                 .enable_tool_list_changed()
                 .enable_resources()
+                .enable_prompts()
                 .build(),
         )
         .with_server_info(
@@ -245,6 +247,22 @@ impl ServerHandler for PhnServer {
         }
         let tcc = ToolCallContext::new(self, request, context);
         self.tool_router.call(tcc).await
+    }
+
+    async fn list_prompts(
+        &self,
+        _request: Option<PaginatedRequestParams>,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<ListPromptsResult, ErrorData> {
+        Ok(ListPromptsResult::with_all_items(crate::prompts::list()))
+    }
+
+    async fn get_prompt(
+        &self,
+        request: GetPromptRequestParams,
+        _context: RequestContext<RoleServer>,
+    ) -> Result<GetPromptResponse, ErrorData> {
+        crate::prompts::get(&request.name, &request.arguments).map(Into::into)
     }
 
     async fn list_resources(

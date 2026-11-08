@@ -51,6 +51,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `search_ma_disease_control_guide` | CD-02 | cd | Offline search of DPH's Guide to Surveillance, Reporting and Control and DPH fact sheets, with quoted passages, sections, dates, and URLs. |
+| `calculate_isolation_and_exclusion` | CD-03 | cd | Isolation, quarantine, and exclusion dates by setting under 105 CMR 300.200 and DPH guidance, with wording and citations. |
+| `analyze_outbreak_line_list` | CD-04 | cd | Person/place/time tables, food-specific attack rates with risk ratios, likely vehicles, and the exposure window from a local line list (aggregates only). |
+| `generate_epi_curve` | CD-05 | cd | Epidemic curves sized to the incubation period, with strata, exposure markers, and the likely pattern of spread. |
+| `plan_contact_tracing` | CD-06 | cd | Infectious period, elicitation window, per-contact dates, and a blank contact-tracking workbook in the output folder. |
+| `assess_measles_exposure` | CD-07 | cd | Evidence of immunity, MMR and immune globulin deadlines and doses, exclusion days 5–21, and priority groups. |
+| `detect_aberrations` | CD-10 | cd | EARS C1–C3, CUSUM, and Farrington (Noufaily) signals on a count series, with trade-offs explained. |
+| `infection_control_for_congregate_settings` | CD-13 | cd | Precautions, PPE, cohorting, and EPA disinfectant lists by pathogen for shelters, schools, child care, long-term care, and day programs. |
 <!-- Phase 3 rows go above this line. -->
 
 ### Phase 4: public data and evidence platform
