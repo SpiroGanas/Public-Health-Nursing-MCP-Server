@@ -32,6 +32,27 @@ All notable changes are recorded here. The format follows
 
 ### Added — Phase 3: communicable disease I
 
+- `search_ma_disease_control_guide` (CD-02): offline tantivy search of a 1.1 MB plain-text corpus
+  of 25 DPH guide chapters and 66 DPH fact sheet and guidance pages, built reproducibly by
+  `cargo xtask build-guide-corpus` (URLs, file dates, and checksums in the snapshot manifest).
+- `calculate_isolation_and_exclusion` (CD-03): a date-rule engine over a pending-review table of
+  37 diseases (105 CMR 300.200, DPH guidance), with explicit day counting, settings, facts, and
+  citations per rule.
+- `analyze_outbreak_line_list` (CD-04): line-list column mapping, case definitions, suppressed
+  person/place/time tables, exposure-specific attack rates, likely vehicles, exposure window.
+- `generate_epi_curve` (CD-05): epidemic curves with incubation-based intervals, strata, exposure
+  markers, and a described pattern; returned counts are suppressed.
+- `plan_contact_tracing` (CD-06): infectious period, elicitation window, per-contact dates, and an
+  XLSX contact-tracking template with date formulas.
+- `assess_measles_exposure` (CD-07): evidence of immunity, PEP windows and IG doses, exclusion,
+  priority groups.
+- `detect_aberrations` (CD-10): EARS C1–C3, CUSUM, and Farrington-type (Noufaily) detection in
+  `phn_epi::aberration`, golden-tested against R `surveillance`.
+- `infection_control_for_congregate_settings` (CD-13): precautions, PPE, cohorting, and EPA
+  disinfectant lists for congregate settings.
+- The server's first MCP prompt, `investigate_outbreak`.
+- Content (all pending review): `content/cd/disease_rules.yaml`, `measles_exposure.yaml`,
+  `infection_control.yaml`; a fictional church-supper outbreak fixture for tests.
 <!-- Phase 3 entries go above this line. -->
 
 ### Added — Phase 4: public data and evidence platform

@@ -7,6 +7,7 @@ mod phase3;
 mod phase4;
 mod phase5;
 mod phase6;
+mod prompts;
 mod resources;
 mod server;
 

@@ -1,0 +1,97 @@
+# Golden values for phn-epi aberration.rs (CD-10 detect_aberrations).
+#
+# Run with R 4.3 and surveillance 1.26.1 (CRAN):
+#   Rscript aberration.R > ../aberration.json
+#
+# * EARS C1 and C2: surveillance::earsC with alpha = 1 - pnorm(3), i.e. the
+#   classic threshold of 3 standard deviations.
+# * EARS C3: the published definition, C3_t = sum over t-2..t of max(0, C2 - 1),
+#   computed here from the C2 statistics (surveillance::earsC's C3 bound uses
+#   only t-2 and t-1, so it is not used as the reference).
+# * CUSUM: surveillance::algo.cusum, trans = "standard", m = mean of the
+#   observations before the monitored range.
+# * Farrington-type: surveillance::farringtonFlexible with integer time
+#   (epochAsDate = FALSE) in four configurations.
+suppressPackageStartupMessages({library(surveillance); library(jsonlite)})
+
+# ---- EARS: 70 days of syndrome counts with a spike near the end
+set.seed(20261107)
+daily <- rpois(70, lambda = 6)
+daily[c(62, 63, 64)] <- daily[c(62, 63, 64)] + c(9, 12, 7)
+daily[30:36] <- c(4, 4, 4, 4, 4, 4, 4) # a flat stretch (sd = 0 for one window)
+s_daily <- sts(observed = daily, frequency = 365)
+ears_out <- list()
+for (m in c("C1", "C2")) {
+  r <- earsC(s_daily, control = list(method = m, baseline = 7, alpha = 1 - pnorm(3)))
+  first <- if (m == "C1") 8 else 10
+  idx <- first:length(daily)
+  ears_out[[m]] <- list(first_index0 = first - 1, upperbound = as.numeric(upperbound(r)[, 1]),
+                        alarm = as.logical(alarms(r)[, 1]))
+}
+# C2 statistics for C3, by hand from the same baseline (t-9 ... t-3).
+c2stat <- rep(NA_real_, length(daily))
+for (t in 10:length(daily)) {
+  base <- daily[(t - 9):(t - 3)]
+  s <- sd(base); mu <- mean(base)
+  c2stat[t] <- if (s > 0) (daily[t] - mu) / s else if (daily[t] > mu) Inf else 0
+}
+c3 <- rep(NA_real_, length(daily))
+for (t in 12:length(daily)) c3[t] <- sum(pmax(0, c2stat[(t - 2):t] - 1))
+ears_out[["C3"]] <- list(first_index0 = 11, statistic = ifelse(is.finite(c3[12:length(daily)]), c3[12:length(daily)], 1e300),
+                         alarm = c3[12:length(daily)] > 2)
+
+# ---- CUSUM: weekly counts, baseline = first 20 weeks
+wk <- c(rpois(20, 8), rpois(16, 8) + c(0, 0, 0, 0, 0, 0, 0, 0, 2, 4, 5, 6, 6, 7, 3, 1))
+dp <- sts2disProg(sts(observed = wk, frequency = 52))
+cus <- list()
+for (cfg in list(list(k = 0.5, h = 4, reset = FALSE), list(k = 1.04, h = 2.26, reset = TRUE))) {
+  r <- algo.cusum(dp, control = list(range = 21:length(wk), k = cfg$k, h = cfg$h, trans = "standard", reset = cfg$reset))
+  cus[[length(cus) + 1]] <- list(k = cfg$k, h = cfg$h, reset = cfg$reset, baseline_periods = 20,
+                                 mean = r$control$m, cusum = as.numeric(r$cusum),
+                                 upperbound = as.numeric(r$upperbound), alarm = as.logical(r$alarm))
+}
+
+# ---- Farrington-type: 7 years of weekly counts with seasonality, a trend, and outbreaks
+set.seed(42)
+n <- 52 * 6 + 40
+t <- 1:n
+mu <- exp(1.6 + 0.002 * t + 0.5 * sin(2 * pi * t / 52))
+y <- rnbinom(n, mu = mu, size = 8)
+y[c(100:104, 210:212)] <- y[c(100:104, 210:212)] + c(10, 18, 12, 6, 3, 8, 9, 5)
+y[(n - 6):(n - 3)] <- y[(n - 6):(n - 3)] + c(9, 15, 11, 6)
+y[290:293] <- 0
+s_wk <- sts(observed = y, frequency = 52)
+range <- (n - 39):n
+configs <- list(
+  noufaily_nb = list(noPeriods = 10, w = 3, b = 5, weightsThreshold = 2.58, pastWeeksNotIncluded = 26,
+                     trend = TRUE, pThresholdTrend = 0.05, alpha = 0.05, reweight = TRUE,
+                     thresholdMethod = "nbPlugin", limit54 = c(5, 4)),
+  noufaily_muan = list(noPeriods = 10, w = 3, b = 5, weightsThreshold = 2.58, pastWeeksNotIncluded = 26,
+                       trend = TRUE, pThresholdTrend = 1, alpha = 0.01, reweight = TRUE,
+                       thresholdMethod = "muan", limit54 = c(5, 4)),
+  original_delta = list(noPeriods = 1, w = 3, b = 5, weightsThreshold = 1, pastWeeksNotIncluded = 3,
+                        trend = TRUE, pThresholdTrend = 0.05, alpha = 0.05, reweight = TRUE,
+                        thresholdMethod = "delta", powertrans = "2/3", limit54 = c(5, 4)),
+  noufaily_b3 = list(noPeriods = 10, w = 2, b = 3, weightsThreshold = 2.58, pastWeeksNotIncluded = 26,
+                     trend = TRUE, pThresholdTrend = 0.05, alpha = 0.05, reweight = TRUE,
+                     thresholdMethod = "nbPlugin", limit54 = c(5, 4))
+)
+far <- list()
+for (nm in names(configs)) {
+  cfg <- configs[[nm]]
+  cfg$range <- range
+  r <- suppressWarnings(farringtonFlexible(s_wk, control = cfg))
+  far[[nm]] <- list(params = configs[[nm]], range_first_index0 = min(range) - 1,
+                    upperbound = as.numeric(upperbound(r)[, 1]), alarm = as.logical(alarms(r)[, 1]),
+                    expected = as.numeric(r@control$expected[, 1]), pvalue = as.numeric(r@control$pvalue[, 1]),
+                    trend = as.numeric(r@control$trend[, 1]), phi = as.numeric(r@control$phiVector[, 1]))
+}
+
+out <- list(
+  note = paste("Generated by tests/fixtures/generators/aberration.R with R", getRversion(),
+               "and surveillance", as.character(packageVersion("surveillance"))),
+  ears = list(counts = daily, methods = ears_out),
+  cusum = list(counts = wk, configs = cus),
+  farrington = list(counts = y, freq = 52, configs = far)
+)
+cat(toJSON(out, auto_unbox = TRUE, digits = NA, na = "null", null = "null", pretty = FALSE))

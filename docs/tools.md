@@ -373,6 +373,172 @@ keeps them, locally). Golden tests: R `qcc` limits.
 
 <!-- Phase 3 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
+All Phase 3 reference content (disease rules, measles exposure, infection control, and the DPH
+guide corpus) is **pending review** by the nurse; answers built on it say so. The rules cover 37
+diseases with a citation and a confidence level per rule (`docs/acceptance/phase-3.md` has the
+review checklist). The `investigate_outbreak` MCP prompt walks through an outbreak investigation
+with these tools (see the end of this section).
+
+### `search_ma_disease_control_guide` (CD-02, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `query` | | Words, "quoted phrases", AND/OR/NOT. |
+| `disease` | | Limit to documents about one disease (aliases work: "whooping cough"). With no query, returns the chapter outline. |
+| `kind` | all | `guide_chapter`, `fact_sheet`, or `guidance`. |
+| `limit` | 5 | Passages, at most 20. |
+| `full_sections` | false | Return the whole section (about 2,500 characters at most) instead of an excerpt. |
+| `list_documents` | false | List the corpus (titles, kinds, file dates, URLs). |
+
+Searches a bundled plain-text corpus (`snapshots/ma_dph_guide_corpus.txt`, 1.1 MB) of 25
+chapters of DPH's *Guide to Surveillance, Reporting and Control* and 66 DPH fact sheet and
+guidance pages, built by `cargo xtask build-guide-corpus` from mass.gov (each document's URL,
+file date, and SHA-256 are in `snapshots/manifest.json`). The tantivy index is built at first use
+in `/cache/index/dph-guide` (or in memory) and is not committed. Passages are quoted verbatim with
+the section path ("Section 4: Controlling Further Spread › A. Isolation and Quarantine
+Requirements"), the document's file date, and its URL. The Streptococcus pneumoniae chapter (a
+legacy .doc file) is not included. Decision support.
+
+### `calculate_isolation_and_exclusion` (CD-03, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `disease` | (required) | Name or alias, e.g. "pertussis", "E. coli O157", "norovirus". |
+| `role` | `case` | `case` or `contact`. |
+| `settings` | all five | `child_care`, `school`, `food_handler`, `health_care_worker`, `other`. |
+| `onset_date`, `positive_specimen_date` | | The person's onset (rash, cough, gland swelling, symptoms) and specimen dates. |
+| `first_exposure_date`, `last_exposure_date` | | For contacts (one date alone means a single exposure). |
+| `case_onset_date`, `last_case_onset_date` | | The index case's onset; the last case's onset (continuous exposure). |
+| `treatment_start_date`, `symptom_resolution_date` | | |
+| `symptomatic`, `susceptible`, `received_prophylaxis`, `received_immune_globulin`, `outbreak`, `exposure_continuous`, `lesions_present`, `diarrhea` | unknown | Facts that decide which rules apply; unknown facts show the dependent rules as "only if". |
+| `as_of` | | Report whether the person is still excluded that day. |
+
+Rules come from `content/cd/disease_rules.yaml` (105 CMR 300.200 quoted verbatim where
+possible, DPH guide chapters, DPH respiratory and GI guidance, CDC). Day counting: day 0 is the
+anchor date; "through day N" means back on day N + 1; for N days of treatment the first full day
+is day 1, so back on start + N; "H hours after" with dates only gives the earliest calendar date.
+A more specific rule that fully applies replaces a general one (for example continuous measles
+exposure). Tuberculosis is not computed (refer). Decision support.
+
+### `analyze_outbreak_line_list` (CD-04, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | (required) | Line list in `/data`: ill and, for attack rates, well people. |
+| `onset_date_column`, `onset_time_column`, `case_column`, `age_column`, `sex_column`, `town_column` | found by name | |
+| `case_values` | confirmed, probable (or yes) | Values of the case column that count as cases. |
+| `require_any_symptom`, `onset_from`, `onset_to` | | Case definition filters. |
+| `exposure_columns` | every yes/no column that is not a symptom or outcome | |
+| `disease` or `incubation_min_hours` / `incubation_typical_hours` / `incubation_max_hours` | | For the exposure window. |
+| `exposure_datetime` | | A known meal or event, checked against the window. |
+| `design` | `cohort` | `case_control` gives odds ratios only. |
+
+Returns counts of cases, non-cases, and records excluded by the case definition; person (age
+group, sex), place (town), time (onset date), and symptom tables with small-cell suppression
+(`*`, including complementary cells); exposure-specific attack rates with risk ratios (Katz),
+odds ratios (Woolf), and Fisher exact p-values from `phn_epi::two_by_two`; likely vehicles (p <
+0.05 and lower confidence limit above 1); and the probable exposure window (last onset − maximum
+incubation to first onset − minimum incubation; median onset − typical incubation). Identifier
+columns are never used, and no row-level values are returned. In the exposure table, small counts
+are masked as `<5`, but the ratios are computed from all records (the summary says so).
+
+### `generate_epi_curve` (CD-05, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `path` (+ column options as above) or `onset_counts` | | A line list, or `[{onset, count, stratum}]`. |
+| `stratify_by` | | A category column; at most 8 strata (the rest become "Other"). |
+| `disease` or incubation hours | | Sets the interval and markers. |
+| `interval_hours` | about 1/4 of the typical incubation | From 1 hour (with onset times) to weeks. |
+| `exposure_datetime` | | Marks the exposure, the expected onset range, and the typical incubation. |
+| `title`, `format` | | `png`, `svg`, or `both`. |
+
+Writes the chart to `/data/output/charts/` (exact counts, alt text, data table) and returns the
+counts per interval with suppression. Describes the pattern — point source (onsets within about
+1.5 × the incubation range, one peak), continuous common source, intermittent common source, or
+propagated (peaks about one incubation period apart) — with its reasoning and uncertainty (CDC
+Field Epidemiology Manual, chapter 6; CDC Quick-Learn "Create an Epi Curve").
+
+### `plan_contact_tracing` (CD-06, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `disease` | (required) | |
+| `onset_date`, `positive_specimen_date`, `treatment_start_date` | | Index case dates. |
+| `isolation_start_date` | | Ends the contact elicitation window early. |
+| `write_template`, `template_rows` | true, 50 | |
+
+Returns the infectious period, the contact elicitation window, the contact definition, testing
+and monitoring guidance, and per-contact date rules (symptoms possible from/through from the
+incubation period, monitoring end, PEP deadlines, susceptible-contact exclusion). Writes a blank
+`contact_tracking_<disease>.xlsx` to `/data/output` whose date columns are Excel formulas from
+each contact's first and last exposure dates, plus a sheet of the rules and sources. No
+identifiers pass through the chat. Decision support.
+
+### `assess_measles_exposure` (CD-07, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `first_exposure_date`, `last_exposure_date` | (one required) | |
+| `case_rash_onset_date` | | Checks the exposure fell within 4 days before to 4 days after rash onset. |
+| `exposure_continuous`, `last_case_onset_date` | | |
+| `setting`, `immunity_group` | `other`, from the setting | `general` (1 dose), `school_college_travel` (2 doses), `health_care_personnel` (2 doses; birth year does not count). |
+| `birth_year`, `age_months`, `documented_mmr_doses`, `positive_measles_igg`, `lab_confirmed_measles` | | Evidence of immunity. |
+| `pregnant`, `severely_immunocompromised`, `weight_kg`, `received_immune_globulin` | | PEP choice and IG dose. |
+| `as_of` | today | Whether each PEP window is still open. |
+
+Returns the immunity assessment with reasoning, MMR (72 hours) and IG (6 days) deadlines with
+the IG dose (IGIM 0.5 mL/kg, maximum 15 mL; IGIV 400 mg/kg), exclusion dates from the disease
+rules (day 5 after first exposure through day 21 after last exposure), priority groups, the
+symptom-monitoring end date, and DPH program notes (`content/cd/measles_exposure.yaml`, from the
+DPH 2022 measles chapter and the 2013 ACIP statement). Decision support.
+
+### `detect_aberrations` (CD-10, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `counts` | (required) | At least 8 periods, oldest first. |
+| `frequency` | `weekly` | `daily`, `weekly`, or `monthly`. |
+| `period_labels` or `start_date` | | Labels for the periods. |
+| `methods` | all | `ears_c1`, `ears_c2`, `ears_c3`, `cusum`, `farrington`. |
+| `ears_min_sigma` | 0.5 when counts are sparse | Floor for the baseline SD. |
+| `cusum_k`, `cusum_h`, `cusum_baseline_periods` | 0.5, 4, first half (≤ 52) | |
+| `farrington_alpha` | 0.05 | |
+| `report_last`, `chart` | 12, false | |
+
+EARS C1/C2/C3 (7-period baseline; thresholds 3, 3, 2), a Poisson-standardized CUSUM (reset after
+a signal), and the Farrington-type algorithm with the Noufaily (2013) improvements (up to five
+years of history, ±3-week window, 10 seasonal levels, outbreak down-weighting, negative-binomial
+threshold, at least 5 cases in the last 4 periods). Farrington needs at least one year of history
+and is skipped for daily counts. Golden tests: R `surveillance` 1.26.1 (`earsC`, `algo.cusum`,
+`farringtonFlexible`). Returns signals per method, thresholds for the most recent periods, an
+interpretation, and the trade-offs between methods.
+
+### `infection_control_for_congregate_settings` (CD-13, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `pathogen` | (required) | Name or alias: "norovirus", "C. diff", "flu", "scabies", "MRSA", … |
+| `setting` | all | `long_term_care`, `school`, `child_care`, `shelter`, `day_program`. |
+
+Returns transmission-based precautions and their duration (CDC/HICPAC Appendix A), what each
+precaution means and its PPE (105 CMR 300.020), cohorting and hand hygiene notes, the EPA lists
+of registered disinfectants with claims against the pathogen (with links; products are matched by
+EPA registration number), and DPH notes for the setting (for example, shelters and day programs
+follow general-population guidance). Decision support.
+
+### MCP prompt: `investigate_outbreak`
+
+Arguments (all optional): `disease`, `setting`, `line_list_path`, `exposure_datetime`. Returns
+one message that walks the model through the ten steps of a field investigation (CDC Field
+Epidemiology Manual, chapter 3) adapted to a Massachusetts board of health — notify DPH
+Epidemiology (617-983-6800), confirm the diagnosis and the outbreak (`detect_aberrations`), define
+and count cases (`analyze_outbreak_line_list`), describe time, place, and person
+(`generate_epi_curve`), start control measures (`calculate_isolation_and_exclusion`,
+`infection_control_for_congregate_settings`, `plan_contact_tracing`, `assess_measles_exposure`),
+test hypotheses (`analyze_two_by_two`), and communicate (`export_document`, MAVEN as DPH
+directs) — with privacy rules for the whole investigation.
+
 ---
 
 ## Phase 4: Public data and evidence platform

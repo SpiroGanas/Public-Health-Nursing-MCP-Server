@@ -5,6 +5,8 @@
 //! * [`suppression`]: small-cell suppression with complementary suppression
 //!   (EPI-06), used automatically by tools that summarize local data.
 //! * [`two_by_two`]: 2×2 tables, exact tests, and Mantel–Haenszel analysis (EPI-03).
+//! * [`aberration`]: EARS C1–C3, CUSUM, and Farrington-type (Noufaily)
+//!   aberration detection for count series (CD-10).
 //! * [`standardize`]: direct age adjustment (2000 U.S. standard, gamma CIs)
 //!   and indirect standardization (SIR/SMR) (EPI-02, EPI-05).
 //! * [`glm`]: Gaussian, Poisson, binomial, and negative binomial GLMs (IRLS),
@@ -20,6 +22,7 @@
 //! Every calculation is checked against reference values from R or SciPy in
 //! `tests/golden.rs`.
 
+pub mod aberration;
 pub mod dist;
 pub mod glm;
 pub mod hypothesis;

@@ -1,0 +1,2608 @@
+# Isolation, quarantine, and exclusion rules for communicable diseases in Massachusetts,
+# with incubation and infectious periods, for calculate_isolation_and_exclusion (CD-03),
+# plan_contact_tracing (CD-06), assess_measles_exposure (CD-07), and the outbreak tools.
+#
+# REVIEW STATUS: pending. Drafted by the developer FROM the fetched source documents listed
+# under `sources` (retrieved 2026-11-07). Rules marked `verbatim: true` quote the source; the
+# others are close paraphrases. Every rule has a citation and a confidence level. The nurse must
+# verify every rule before Pilot 1 (see docs/acceptance/phase-3.md).
+# Schema: content/schemas/disease_rules.schema.json
+meta:
+  id: ma-disease-rules
+  title: Communicable disease isolation, quarantine, and exclusion rules (Massachusetts)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: 2022-05-27
+  source:
+    title: "105 CMR 300.200: Isolation and Quarantine Requirements (105 CMR 300.000, Mass. Register #1470, 5/27/22)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+  related_sources:
+    - title: Guide to Surveillance, Reporting and Control (disease chapters)
+      publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+      url: https://www.mass.gov/handbook/guide-to-surveillance-reporting-and-control
+    - title: Infectious disease fact sheets
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/fact-sheets-on-infectious-diseases
+    - title: "Guideline for Isolation Precautions (2007), Appendix A: Type and Duration of Precautions"
+      publisher: CDC and the Healthcare Infection Control Practices Advisory Committee (HICPAC)
+      url: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-07 from the documents listed under `sources`, each fetched from mass.gov
+    or cdc.gov that day: the text of 105 CMR 300.200 (the Trial Court Law Libraries copy dated
+    Mass. Register #1470, 5/27/22), DPH Guide to Surveillance, Reporting and Control chapters,
+    DPH fact sheets and guidance, and CDC pages. Rules quoted from the regulation are marked
+    verbatim and are high confidence; paraphrases of guide chapters are medium; anything not
+    found in a fetched source is low. Some guide chapters are several years old and DPH guidance
+    for respiratory viruses changed in 2024-2025. The subject matter expert must verify every
+    disease (docs/acceptance/phase-3.md has a checklist), confirm that 105 CMR 300.000 has not
+    been amended since 5/27/22, and confirm the current DPH guidance before Pilot 1.
+
+conventions:
+  day_counting: >-
+    Day 0 is the anchor date named by the rule (for example the day of rash onset, counted as day
+    zero as in 105 CMR 300.200). "Through day N" means the person is excluded on day N and may
+    return on day N + 1. "From day A through day B after exposure" means excluded on days A to B
+    inclusive. For "N days of treatment", the first full day of appropriate treatment is day 1,
+    so the person may return on the day after day N (treatment start + N). "H hours after" is
+    measured in clock hours; when only dates are known, the server reports the earliest calendar
+    date on which the hours could have passed and says so. Stool specimens are counted from the
+    date they were produced (collected).
+  anchors:
+    onset: The disease's onset event (see onset_event) for the case.
+    positive_specimen: The date the positive specimen was collected.
+    first_exposure: The first day the contact was exposed during the case's infectious period.
+    last_exposure: The last day the contact was exposed during the case's infectious period.
+    case_onset: The onset date of the case the contact was exposed to.
+    last_case_onset: The onset date of the last case in the setting (continuous exposure or several cases).
+    treatment_start: The first full day of appropriate antimicrobial treatment.
+    symptom_resolution: The date symptoms (for gastrointestinal illness, diarrhea and vomiting) resolved.
+  settings:
+    child_care: Children (and staff) in child care programs. Staff who prepare food, feed children, or give oral medications are also food handlers under 105 CMR 300.020.
+    school: Students and staff in K-12 schools. Students or staff who handle food are also food handlers.
+    food_handler: >-
+      Anyone who meets the 105 CMR 300.020 definition of Food Handler - directly preparing or
+      handling food or clean dishes or utensils, and also anyone who dispenses medications by
+      hand, assists in feeding, or provides mouth care (in health care facilities, child care,
+      schools, and community residential programs).
+    health_care_worker: Health care personnel in health care settings (DPH treats school health offices as health care settings).
+    other: Everyone else (work, classes, and other public activities in the community).
+
+sources:
+  cmr300:
+    title: "105 CMR 300.000: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements (Mass. Register #1470, 5/27/22)"
+    publisher: Massachusetts Department of Public Health (copy published by the Trial Court Law Libraries)
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    effective_date: 2022-05-27
+    retrieved: 2026-11-07
+  guide-pertussis-2022:
+    title: "Guide to Surveillance, Reporting and Control: Pertussis (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/pertussis-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  guide-measles-2022:
+    title: "Guide to Surveillance, Reporting and Control: Measles (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/measles-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  guide-mumps-2022:
+    title: "Guide to Surveillance, Reporting and Control: Mumps (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/mumps-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  guide-rubella-and-crs-2022:
+    title: "Guide to Surveillance, Reporting and Control: Rubella and CRS (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/rubella-and-crs-2022/download
+    effective_date: "2022"
+    retrieved: 2026-11-07
+  guide-chickenpox-2023:
+    title: "Guide to Surveillance, Reporting and Control: Chickenpox (2023)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/chickenpox-2023/download
+    effective_date: "2023"
+    retrieved: 2026-11-07
+  guide-salmonellosis-non-typhoid:
+    title: "Guide to Surveillance, Reporting and Control: Salmonellosis (Non-Typhoid)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/salmonellosis-non-typhoid/download
+    effective_date: null
+    retrieved: 2026-11-07
+  guide-shigellosis-2018:
+    title: "Guide to Surveillance, Reporting and Control: Shigellosis (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/shigellosis-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  guide-shiga-toxin-producing-escherichia-coli-2018:
+    title: "Guide to Surveillance, Reporting and Control: Shiga Toxin-Producing Escherichia coli (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/shiga-toxin-producing-escherichia-coli-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  guide-campylobacter-enteritis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Campylobacter Enteritis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/campylobacter-enteritis-2016-0/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-giardiasis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Giardiasis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/giardiasis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-cryptosporidiosis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Cryptosporidiosis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/cryptosporidiosis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-cyclosporiasis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Cyclosporiasis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/cyclosporiasis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-yersiniosis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Yersiniosis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/yersiniosis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-vibriosis-2018:
+    title: "Guide to Surveillance, Reporting and Control: Vibriosis (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/vibriosis-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  guide-amebiasis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Amebiasis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/amebiasis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-hepatitis-a-2016:
+    title: "Guide to Surveillance, Reporting and Control: Hepatitis A (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/hepatitis-a-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-group-a-streptococcus-invasive-2018:
+    title: "Guide to Surveillance, Reporting and Control: Group A Streptococcus (Invasive) (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/group-a-streptococcus-invasive-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  guide-invasive-meningococcal-disease-2018:
+    title: "Guide to Surveillance, Reporting and Control: Invasive Meningococcal Disease (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/invasive-meningococcal-disease-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  guide-legionellosis-2016:
+    title: "Guide to Surveillance, Reporting and Control: Legionellosis (2016)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/legionellosis-2016/download
+    effective_date: "2016"
+    retrieved: 2026-11-07
+  guide-listeriosis-2018:
+    title: "Guide to Surveillance, Reporting and Control: Listeriosis (2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/listeriosis-2018/download
+    effective_date: "2018"
+    retrieved: 2026-11-07
+  factsheet-norovirus:
+    title: Norovirus (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/norovirus
+    effective_date: null
+    retrieved: 2026-11-07
+  dph-gi-checklist:
+    title: Gastrointestinal Illness Symptom Checklist for Children and Staff in Child Care Programs and K-12 Schools
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/gastrointestinal-symptom-checklist-for-children-and-staff-in-child-care-programs-and-k-12-schools/download
+    effective_date: 2025-12-16
+    retrieved: 2026-11-07
+  dph-respiratory-public:
+    title: Staying home to prevent the spread of respiratory viruses
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/staying-home-to-prevent-the-spread-of-respiratory-viruses
+    effective_date: null
+    retrieved: 2026-11-07
+  dph-respiratory-hcp:
+    title: Guidance for Health Care Personnel with a Respiratory Viral Pathogen Infection or Exposure
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/guidance/guidance-for-health-care-personnel-with-a-respiratory-viral-pathogen-infection-or-exposure
+    effective_date: 2025-09-01
+    retrieved: 2026-11-07
+  factsheet-covid-19:
+    title: About COVID-19 symptoms and spread
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/about-covid-19-symptoms-and-spread
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-flu:
+    title: What should I know about flu?
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/what-should-i-know-about-flu
+    effective_date: null
+    retrieved: 2026-11-07
+  cdc-flu-about:
+    title: About Influenza
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/flu/about/index.html
+    effective_date: 2026-02-26
+    retrieved: 2026-11-07
+  factsheet-group-a-strep:
+    title: Group A Streptococcal Disease (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/group-a-streptococcal-disease
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-scabies:
+    title: Scabies (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/scabies
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-head-lice:
+    title: Head Lice (Pediculosis) (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/head-lice-pediculosis
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-mrsa:
+    title: Methicillin-resistant Staphylococcus aureus (MRSA) (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/methicillin-resistant-staphylococcus-aureus-mrsa
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-fifth-disease:
+    title: Fifth Disease (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/fifth-disease
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-lyme-disease:
+    title: Lyme disease (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/lyme-disease
+    effective_date: null
+    retrieved: 2026-11-07
+  factsheet-hepatitis-c:
+    title: Hepatitis C (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/hepatitis-c
+    effective_date: null
+    retrieved: 2026-11-07
+  cdc-appendix-a:
+    title: "Guideline for Isolation Precautions (2007), Appendix A: Type and Duration of Precautions Recommended for Selected Infections and Conditions"
+    publisher: CDC / HICPAC
+    url: https://www.cdc.gov/infection-control/hcp/isolation-precautions/appendix-a-type-duration.html
+    effective_date: 2026-09-11
+    retrieved: 2026-11-07
+  cdc-impetigo:
+    title: "Impetigo: All You Need to Know"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/group-a-strep/about/impetigo.html
+    effective_date: 2025-08-06
+    retrieved: 2026-11-07
+  cdc-impetigo-hcp:
+    title: Clinical Guidance for Impetigo
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/group-a-strep/hcp/clinical-guidance/impetigo.html
+    effective_date: 2025-08-05
+    retrieved: 2026-11-07
+  cdc-conjunctivitis:
+    title: About Pink Eye (Conjunctivitis)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/conjunctivitis/about/index.html
+    effective_date: 2024-04-15
+    retrieved: 2026-11-07
+  cdc-hfmd:
+    title: About Hand, Foot, and Mouth Disease
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/hand-foot-mouth/about/index.html
+    effective_date: 2024-05-07
+    retrieved: 2026-11-07
+  cdc-hepatitis-b-hcp:
+    title: Clinical Overview of Hepatitis B
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/hepatitis-b/hcp/clinical-overview/index.html
+    effective_date: 2025-08-29
+    retrieved: 2026-11-07
+  cdc-typhoid-hcp:
+    title: Clinical Overview of Typhoid Fever
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/typhoid-fever/hcp/clinical-overview/index.html
+    effective_date: 2024-05-14
+    retrieved: 2026-11-07
+  acip-mmr-2013:
+    title: "Prevention of Measles, Rubella, Congenital Rubella Syndrome, and Mumps, 2013: Summary Recommendations of the ACIP (MMWR 2013;62(RR-4))"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr6204a1.htm
+    effective_date: 2013-06-14
+    retrieved: 2026-11-07
+
+diseases:
+  # =====================================================================================
+  # Vaccine-preventable diseases
+  # =====================================================================================
+  - id: pertussis
+    name: Pertussis
+    aliases: [whooping cough, Bordetella pertussis]
+    reportable_condition_id: pertussis
+    guide_document: guide-pertussis-2022
+    onset_event: cough onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 5
+      usual_low: 7
+      usual_high: 10
+      max: 21
+      note: Rarely may be as long as 42 days.
+      source: {source: guide-pertussis-2022, section: "Section 1E, Incubation Period", quote: "The incubation period is usually 7–10 days, with a range of 5–21 days, and rarely may be as long as 42 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -7
+      end_day: 21
+      ends_after_treatment_days: 5
+      text: From one week before to three weeks after cough onset if not treated; if treated, through the fifth day of appropriate antibiotic treatment. Untreated infants (<1 year) can be infectious up to 42 days from cough onset.
+      source: {source: guide-pertussis-2022, section: "Section 1F, Period of Communicability"}
+    contact_monitoring:
+      days_after_last_exposure: 21
+      text: Refer asymptomatic close contacts for post-exposure prophylaxis if fewer than 21 days have passed since last exposure (within 42 days for infants under 1 year, in consultation with DPH); conduct surveillance for cough illness for two incubation periods (42 days).
+      source: {source: guide-pertussis-2022, section: "Section 4D, General Control Measures for Close Contacts"}
+    contact_definition: All household contacts are usually close contacts; in child care, entire classrooms (including staff) are usually considered close contacts. Prioritize contacts at high risk of severe disease (infants, especially under 6 months) and those who could transmit to them.
+    contact_testing: Symptomatic close contacts are treated as suspect cases and referred for evaluation, testing, and treatment.
+    pep:
+      - name: Antibiotic post-exposure prophylaxis (azithromycin is generally first line)
+        anchor: last_exposure
+        within_hours: 504
+        text: Initiate antibiotic prophylaxis within 21 days of exposure; consider within 42 days for infants under 12 months (particularly under 6 months), in consultation with DPH.
+        source: guide-pertussis-2022
+        section: "Section 4B, Antibiotics for Treatment and Prophylaxis"
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases (and symptomatic contacts treated as suspect cases)
+        settings: [all]
+        action: exclude
+        end: {through: {anchor: onset, day: 21}, or_treatment_days: 5}
+        wording: Until 21 days from onset of cough or five days after initiation of appropriate antibiotic therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Pertussis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: DPH guide Section 4A - the first full day of antibiotics is day 1; neither treatment nor exclusion is required for cases beyond 21 days after cough onset.
+      - id: contact_symptomatic
+        role: contact
+        applies_to: Symptomatic contacts
+        settings: [all]
+        when: {symptomatic: true}
+        action: exclude
+        end: {through: {anchor: onset, day: 21}, or_treatment_days: 5}
+        wording: If the contact is symptomatic, use same restrictions as for cases.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Pertussis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: Day 0 is the contact's own cough onset.
+      - id: contact_hcw_no_pep
+        role: contact
+        applies_to: Asymptomatic health care worker contacts not receiving antibiotic prophylaxis
+        settings: [health_care_worker]
+        when: {symptomatic: false, received_prophylaxis: false}
+        action: exclude
+        start: {anchor: last_exposure, day: 0}
+        end: {through: {anchor: last_exposure, day: 21}}
+        wording: If the contact is an asymptomatic healthcare worker not receiving antibiotic prophylaxis, exclude from the workplace for 21 days after last exposure or, if unknown, for 21 days after the onset of the last case in the setting.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Pertussis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_hcw_pep
+        role: contact
+        applies_to: Asymptomatic health care worker contacts receiving post-exposure prophylaxis
+        settings: [health_care_worker]
+        when: {symptomatic: false, received_prophylaxis: true}
+        action: no_restriction
+        end: {}
+        wording: Asymptomatic healthcare worker contacts who are receiving post-exposure prophylaxis do not need to be excluded.
+        verbatim: true
+        citation: DPH Guide, Pertussis (2022), Section 4A
+        source: guide-pertussis-2022
+        confidence: high
+      - id: contact_asymptomatic_other
+        role: contact
+        applies_to: Asymptomatic contacts who are not health care workers
+        settings: [child_care, school, food_handler, other]
+        when: {symptomatic: false}
+        action: prophylaxis_only
+        end: {}
+        wording: If the contact is asymptomatic, not a healthcare worker, and exposed within the last 21 days, s/he should receive antibiotic prophylaxis but no exclusion is generally required. In certain situations deemed to be high-risk, the public health authority may require exclusion of asymptomatic contacts not receiving antibiotic prophylaxis and/or other contacts, and/or may extend the exclusion period beyond 21 days up to a maximum of 42 days.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Pertussis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: DPH guide Section 4E - exclusion of unvaccinated or under-vaccinated students is usually not indicated.
+
+  - id: measles
+    name: Measles (rubeola)
+    aliases: [rubeola, measles virus]
+    reportable_condition_id: measles
+    guide_document: guide-measles-2022
+    onset_event: rash onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 7
+      usual_low: 11
+      usual_high: 14
+      max: 21
+      note: Average 11-12 days from exposure to prodrome and 14 days from exposure to rash onset.
+      source: {source: guide-measles-2022, section: "Section 1E, Incubation Period", quote: "The incubation period of measles ranges from 7 to 21 days. From exposure to prodrome the average is 11–12 days. From exposure to rash onset the average is 14 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -4
+      end_day: 4
+      text: From four days before to four days after the day of rash onset (rash onset is day zero). Immunocompromised patients may be infectious for the duration of illness.
+      source: {source: guide-measles-2022, section: "Section 1F, Period of Communicability"}
+    contact_monitoring:
+      days_after_last_exposure: 21
+      text: Exclusion of susceptible contacts runs through day 21 after exposure; all exposed in a health care setting, even with two doses of MMR, should self-monitor for 21 days; conduct surveillance for 2 incubation periods (42 days) after rash onset in the last case or the last exposure in the setting, whichever is later.
+      source: {source: guide-measles-2022, section: "Section 4B and 4C"}
+    contact_definition: Anyone who shared airspace with the case during the infectious period (4 days before through 4 days after rash onset), including anyone in a room at the same time as the case and for 2 hours after the case left the room. Measles is so contagious that everyone at an entire institution may be considered exposed.
+    contact_testing: Contacts who develop symptoms should call ahead before seeking care and be evaluated and tested; consider serology for immunity (vaccinate right after the blood draw if not contraindicated).
+    pep:
+      - name: MMR vaccine
+        anchor: first_exposure
+        within_hours: 72
+        text: Measles vaccine given within 72 hours of exposure can prevent disease. Vaccinate susceptibles even after 72 hours to protect against later exposures.
+        source: guide-measles-2022
+        section: "Section 4B, step 5a"
+      - name: Immune globulin (IGIM 0.5 mL/kg, max 15 mL; IGIV 400 mg/kg)
+        anchor: first_exposure
+        within_hours: 144
+        text: IG can prevent or modify measles in nonimmune persons if given within 6 days of exposure (infants under 12 months, pregnant people without evidence of immunity, severely immunocompromised people).
+        source: guide-measles-2022
+        section: "Section 4B, step 4a"
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases (and symptomatic contacts)
+        settings: [all]
+        action: exclude
+        end: {through: {anchor: onset, day: 4}}
+        wording: Through four days after onset of rash (counting the day of rash onset as day zero).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Measles, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: DPH guide Section 4B - may return to normal activities on the 5th day; criteria are more rigorous for immunocompromised people and in health care settings.
+      - id: contact_susceptible
+        role: contact
+        applies_to: Contacts born in or after 1957 who are not appropriately immunized or do not have laboratory evidence of immunity
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 5}
+        end: {through: {anchor: last_exposure, day: 21}}
+        wording: Contacts born in or after 1957, who are not appropriately immunized or do not have laboratory evidence of immunity, will be excluded from work, classes or other public activities from the fifth through the 21st day after their exposure even if they receive immune globulin.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Measles, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: DPH guide - susceptible contacts with one prior dose who receive a second dose within 72 hours of exposure can be readmitted; DPH and the board of health decide other exceptions.
+      - id: contact_susceptible_continuous
+        role: contact
+        applies_to: Susceptible contacts with continuous exposure or when multiple cases occur
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true, exposure_continuous: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 5}
+        end: {through: {anchor: last_case_onset, day: 21}}
+        wording: If exposure was continuous and/or if multiple cases occur, susceptibles will be excluded through the 21st day after rash onset in the last case.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Measles, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_hcw
+        role: contact
+        applies_to: Health care workers (regardless of year of birth) who are not appropriately immunized or do not have laboratory evidence of immunity
+        settings: [health_care_worker]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 5}
+        end: {through: {anchor: last_exposure, day: 21}}
+        wording: Health care workers and inpatients, regardless of year of birth, who are not appropriately immunized or do not have laboratory evidence of immunity, will be excluded from work (health care workers) or isolated with airborne precautions (inpatients) from the fifth day after their first exposure through the 21st day after their last exposure. These restrictions for health care workers and inpatients remain even if the contact received IG or was vaccinated post-exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Measles, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_immune
+        role: contact
+        applies_to: Contacts with presumptive evidence of immunity
+        settings: [all]
+        when: {susceptible: false}
+        action: no_restriction
+        end: {}
+        wording: Contacts with presumptive evidence of immunity are not excluded. All exposed in a health care setting, even those with two doses of MMR, should monitor themselves for measles symptoms for 21 days following an exposure.
+        verbatim: false
+        citation: DPH Guide, Measles (2022), Section 4B-4C
+        source: guide-measles-2022
+        confidence: high
+
+  - id: mumps
+    name: Mumps
+    aliases: [infectious parotitis, mumps virus]
+    reportable_condition_id: mumps
+    guide_document: guide-mumps-2022
+    onset_event: parotid (gland) swelling onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 12
+      usual_low: 16
+      usual_high: 18
+      max: 25
+      source: {source: guide-mumps-2022, section: "Section 1E, Incubation Period", quote: "The incubation period is usually 16–18 days, with a range of 12–25 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -2
+      end_day: 5
+      text: From 2 days before through 5 days after onset of parotid swelling (the initial day of swelling is day zero).
+      source: {source: guide-mumps-2022, section: "Section 1F, Period of Communicability"}
+    contact_monitoring:
+      days_after_last_exposure: 25
+      text: Susceptible contacts are excluded days 12-25 after exposure; exposed health care workers watch for symptoms for 25 days; conduct active surveillance for 2 incubation periods (50 days) after the end of the last case's infectious period.
+      source: {source: guide-mumps-2022, section: "Section 4B-4C"}
+    contact_definition: Close contact (within six feet) with the case during the infectious period, or direct contact with respiratory secretions.
+    notes:
+      - Post-exposure MMR is not expected to prevent illness from this exposure but protects against later exposures; immune globulin is of no value for mumps (DPH guide Section 4B).
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases
+        settings: [all]
+        action: exclude
+        end: {through: {anchor: onset, day: 5}}
+        wording: Through five days after onset of gland swelling (counting the initial day of gland swelling as day zero).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Mumps, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_susceptible
+        role: contact
+        applies_to: Contacts born in or after 1957 who are not appropriately immunized or do not have laboratory evidence of immunity
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 12}
+        end: {through: {anchor: last_exposure, day: 25}}
+        wording: Contacts born in or after 1957, who are not appropriately immunized or do not have laboratory evidence of immunity, will be excluded from work, classes or other public activities from the 12th through the 25th day after their exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Mumps, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: DPH guide Section 4B - in most low-risk settings, contacts with zero doses are usually readmitted immediately after vaccination; contacts with one dose get a second dose and may remain.
+      - id: contact_susceptible_multiple
+        role: contact
+        applies_to: Susceptible contacts when multiple cases occur
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true, exposure_continuous: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 12}
+        end: {through: {anchor: last_case_onset, day: 25}}
+        wording: When multiple cases occur, susceptibles need to be excluded through 25 days after the onset of the last case.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Mumps, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_hcw
+        role: contact
+        applies_to: Health care workers (regardless of year of birth) without appropriate immunization or laboratory evidence of immunity
+        settings: [health_care_worker]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 12}
+        end: {through: {anchor: last_exposure, day: 25}}
+        wording: Health care workers, and inpatients, regardless of year of birth, who are not appropriately immunized or do not have laboratory evidence of immunity will be excluded from work (health care workers) or isolated with droplet precautions (inpatients) from the 12th through the 25th date after their exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Mumps, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: The DPH guide (Section 4C) applies this from the 12th day after the first exposure through the 25th day after the last exposure.
+
+  - id: rubella
+    name: Rubella (non-congenital)
+    aliases: [German measles, rubella virus]
+    reportable_condition_id: rubella
+    guide_document: guide-rubella-and-crs-2022
+    onset_event: rash onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 12
+      usual_low: 17
+      usual_high: 17
+      max: 23
+      source: {source: guide-rubella-and-crs-2022, section: "Section 1E, Incubation Period", quote: "The average incubation period is 17 days, with a range of 12–23 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -7
+      end_day: 7
+      text: Seven days before to seven days after rash onset (rash onset is day 0).
+      source: {source: guide-rubella-and-crs-2022, section: "Section 1F, Period of Communicability"}
+    contact_monitoring:
+      days_after_last_exposure: 23
+      text: Susceptible contacts are excluded from day 7 through day 23 after exposure.
+      source: {source: cmr300, section: "105 CMR 300.200(A), Rubella"}
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases of non-congenital rubella
+        settings: [all]
+        action: exclude
+        end: {through: {anchor: onset, day: 7}}
+        wording: Until seven days after onset of rash (counting the day of rash onset as day zero).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Rubella (b) Non-Congenital, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: The DPH guide (Section 4C) says precautions may be discontinued on the 8th day after rash onset.
+      - id: contact_susceptible
+        role: contact
+        applies_to: Contacts born in or after 1957 who are not appropriately immunized or do not have laboratory evidence of immunity
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: last_exposure, day: 7}
+        end: {through: {anchor: last_exposure, day: 23}}
+        wording: Contacts born in or after 1957, who are not appropriately immunized or do not have laboratory evidence of immunity, will be excluded from work, classes or other public activities from the seventh through the 23rd day after their last exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Rubella (b) Non-Congenital, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_susceptible_multiple
+        role: contact
+        applies_to: Susceptible contacts when multiple cases occur
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true, exposure_continuous: true}
+        action: exclude
+        start: {anchor: last_exposure, day: 7}
+        end: {through: {anchor: last_case_onset, day: 23}}
+        wording: When multiple cases occur, susceptibles need to be excluded until 23 days after the onset of the last case.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Rubella (b) Non-Congenital, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_hcw
+        role: contact
+        applies_to: Health care workers (regardless of year of birth) without appropriate immunization or laboratory evidence of immunity
+        settings: [health_care_worker]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 7}
+        end: {through: {anchor: last_exposure, day: 23}}
+        wording: Health care workers inpatients, regardless of year of birth, who are not appropriately immunized or do not have laboratory evidence of immunity, will be excluded from work (health care workers) or isolated with droplet precautions (inpatients) from the seventh day after first exposure through the 23rd day after their last exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Rubella (b) Non-Congenital, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: CDC/HICPAC Appendix A states day 5 after first exposure to day 21 after last exposure for susceptible health care personnel; the Massachusetts regulation (days 7-23) is used here. Confirm with DPH.
+
+  - id: varicella
+    name: Varicella (chickenpox)
+    aliases: [chickenpox, chicken pox, varicella zoster virus, VZV]
+    reportable_condition_id: varicella
+    guide_document: guide-chickenpox-2023
+    onset_event: rash onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 10
+      usual_low: 14
+      usual_high: 16
+      max: 21
+      note: May be prolonged to 28 days by VariZIG or IGIV after exposure; may be shorter in immunocompromised patients.
+      source: {source: guide-chickenpox-2023, section: "Section 1E, Incubation Period", quote: "The incubation period for chickenpox is usually 14–16 days, with a range of 10–21 days after exposure to rash."}
+    infectious_period:
+      anchor: onset
+      start_day: -2
+      end_day: 5
+      text: From 1-2 days before the rash appears until all vesicles have formed scabs, usually within 5 days of rash onset; breakthrough cases without crusting lesions are no longer contagious once lesions fade or no new lesions appear within 24 hours. End date here is the usual day 5; confirm crusting.
+      source: {source: guide-chickenpox-2023, section: "Section 1F, Period of Communicability"}
+    contact_monitoring:
+      days_after_last_exposure: 21
+      text: Susceptible contacts are excluded days 8-21 after exposure (to day 28 if they received VZIG or IVIG).
+      source: {source: cmr300, section: "105 CMR 300.200(A), Varicella"}
+    contact_definition: Contact with nasopharyngeal secretions or lesions, face-to-face interaction, or sharing indoor airspace with an infectious person during the infectious period (2 days before rash onset until lesions have crusted over).
+    pep:
+      - name: Varicella vaccine
+        anchor: first_exposure
+        within_hours: 120
+        text: Varicella vaccination within 3-5 days after exposure may prevent or modify disease; within 3 days in most health care and other high-risk settings (infant child care, shelters, group homes), within 5 days is acceptable in many non-health care settings including schools.
+        source: guide-chickenpox-2023
+        section: "Section 4B, step 6"
+      - name: VariZIG (varicella zoster immune globulin) for high-risk susceptibles who cannot be vaccinated
+        anchor: first_exposure
+        within_hours: 240
+        text: For susceptible exposed persons for whom vaccine is contraindicated, provide varicella zoster immune globulin as soon as possible after exposure and within 10 days.
+        source: cdc-appendix-a
+        section: Varicella Zoster, Post-exposure Prophylaxis Update (April 2019)
+    rules:
+      - id: case_vesicles
+        role: case
+        applies_to: Cases with vesicles
+        settings: [all]
+        when: {lesions_present: true}
+        action: exclude
+        end: {criteria: ["All lesions have dried and crusted, or no new lesions appear"], typical_through: {anchor: onset, day: 5}}
+        wording: If vesicles are present, until lesions have dried and crusted, or until no new lesions appear, usually by the fifth day (counting the day of rash onset as day zero).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_no_vesicles
+        role: case
+        applies_to: Cases without vesicles (for example breakthrough disease)
+        settings: [all]
+        when: {lesions_present: false}
+        action: exclude
+        end: {criteria: ["Lesions have faded (are resolving), or no new lesions appear within a 24-hour period, whichever is later"]}
+        wording: If no vesicles are present, until the lesions have faded (i.e. the skin lesions are in the process of resolving; lesions do not need to be completely resolved) or no new lesions appear within a 24-hour period, whichever is later.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_susceptible
+        role: contact
+        applies_to: Contacts in non-health care settings who are not appropriately immunized and lack laboratory evidence of immunity or a reliable history of chickenpox
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 8}
+        end: {through: {anchor: last_exposure, day: 21}}
+        wording: Contacts in non-health care settings, who are not appropriately immunized or are without laboratory evidence of immunity or a reliable history of chickenpox, shall be excluded from school, work or other public activities from the eighth through the 21st days after their exposure to the case during the case's infectious period.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: Anyone receiving VZIG or IVIG extends exclusion to 28 days post-exposure. The DPH guide recommends vaccinating eligible susceptible contacts; one post-exposure dose allows return in lower-risk settings.
+      - id: contact_susceptible_continuous
+        role: contact
+        applies_to: Susceptible contacts with continuous exposure
+        settings: [child_care, school, food_handler, other]
+        when: {susceptible: true, exposure_continuous: true}
+        action: exclude
+        start: {anchor: case_onset, day: 8}
+        end: {through: {anchor: case_onset, day: 21}}
+        wording: If the exposure was continuous, contacts shall be excluded from the eighth through the 21st days after the case's rash onset.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_hcw
+        role: contact
+        applies_to: Health care workers who are not appropriately immunized or are without laboratory evidence of immunity
+        settings: [health_care_worker]
+        when: {susceptible: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 8}
+        end: {through: {anchor: last_exposure, day: 21}}
+        wording: Health care workers who are not appropriately immunized or are without laboratory evidence of immunity shall be excluded from work (health care workers) or isolated with airborne precautions (inpatients) from the eighth day after their first exposure through the 21st day after the last exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_ig
+        role: contact
+        applies_to: Susceptible contacts in any setting who received VZIG or IVIG
+        settings: [all]
+        when: {susceptible: true, received_immune_globulin: true}
+        action: exclude
+        start: {anchor: first_exposure, day: 8}
+        end: {through: {anchor: last_exposure, day: 28}}
+        wording: In all settings, anyone receiving varicella zoster immune globulin (VZIG) or intravenous immune globulin (IVIG) shall extend their exclusion to 28 days post-exposure.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Varicella (chickenpox), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+    notes:
+      - Neonates born to mothers with active varicella shall be isolated from susceptibles until 21 days of age (105 CMR 300.200).
+
+  - id: haemophilus_influenzae_type_b
+    name: Haemophilus influenzae type b (Hib), invasive
+    aliases: [Hib, Haemophilus influenzae type B, H. influenzae type b]
+    reportable_condition_id: haemophilus-influenzae-invasive
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation: null
+    infectious_period: null
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases of invasive Hib disease
+        settings: [all]
+        action: exclude
+        end: {hours_after_treatment_start: 24}
+        wording: Until 24 hours after initiating antimicrobial treatment.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Haemophilus influenzae, invasive infection (a) type B, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Contacts
+        settings: [all]
+        action: prophylaxis_only
+        end: {}
+        wording: Personal surveillance and prophylaxis with an appropriate antimicrobial when indicated by clinical situation of the contact or by potential for transmission. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Haemophilus influenzae, invasive infection (a) type B, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+    notes:
+      - Incubation and infectious periods and the prophylaxis window for Hib were not in the sources fetched for this draft; they are left blank rather than guessed. Non-type b invasive H. influenzae has no restrictions under 105 CMR 300.200.
+
+  - id: meningococcal_disease
+    name: Meningococcal disease, invasive
+    aliases: [Neisseria meningitidis, meningococcemia, meningococcal meningitis]
+    reportable_condition_id: meningococcal-disease
+    guide_document: guide-invasive-meningococcal-disease-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 1
+      usual_high: 4
+      max: 10
+      note: Usually less than 4 days.
+      source: {source: guide-invasive-meningococcal-disease-2018, section: "Section 1E, Incubation Period", quote: "The incubation period is 1–10 days but is usually < 4 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -7
+      ends_hours_after_treatment: 24
+      text: Infectious as long as meningococci are in oral secretions; they usually disappear within 24 hours after effective antibiotic treatment begins. Close contacts are those with contact with oral or nasal secretions in the 7 days before onset.
+      source: {source: guide-invasive-meningococcal-disease-2018, section: "Sections 1F and 4B"}
+    contact_monitoring:
+      days_after_last_exposure: 14
+      text: Surveillance for new cases at the facility should continue for at least two weeks after the onset of the first case (two weeks after the last case if several).
+      source: {source: guide-invasive-meningococcal-disease-2018, section: "Section 4C, Daycare and School"}
+    contact_definition: Anyone who may have had contact with the case's saliva or oral/nasal secretions within the seven days before the case's onset (for example household members, child care classmates, and health care workers with unprotected mouth-to-mouth resuscitation, intubation, or suctioning).
+    notes:
+      - Close contacts are referred for antibiotic prophylaxis as soon as possible; child care attendees identified as close contacts should receive prophylaxis before returning (DPH guide Section 4B-4C). The guide chapter does not state a prophylaxis deadline, so none is computed.
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases
+        settings: [all]
+        action: isolate_precautions
+        end: {hours_after_treatment_start: 24}
+        wording: Droplet precautions until 24 hours after initiation of appropriate antibiotic therapy. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Meningococcal disease, invasive infection, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Contacts
+        settings: [all]
+        action: prophylaxis_only
+        end: {}
+        wording: Personal surveillance and antibiotic prophylaxis, where appropriate. Otherwise no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Meningococcal disease, invasive infection, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: DPH guide - child care attendees identified as close contacts should receive prophylaxis before returning to child care.
+
+  # =====================================================================================
+  # Enteric diseases
+  # =====================================================================================
+  - id: salmonellosis
+    name: Salmonellosis (non-typhoidal)
+    aliases: [Salmonella, non-typhoidal Salmonella, Salmonella enteritis]
+    reportable_condition_id: salmonellosis
+    guide_document: guide-salmonellosis-non-typhoid
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: hours
+      min: 6
+      usual_low: 12
+      usual_high: 36
+      max: 72
+      note: Incubation periods longer than three days have been documented.
+      source: {source: guide-salmonellosis-non-typhoid, section: "Section 1E, Incubation Period", quote: "The incubation period for salmonellosis ranges from 6–72 hours, but is usually about 12–36 hours. However, incubation periods longer than three days have been documented."}
+    infectious_period:
+      text: Communicable for as long as the infected person excretes Salmonella in stool - days to months, rarely more than a year.
+      source: {source: guide-salmonellosis-non-typhoid, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case was treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (a) Not including typhoid fever, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (a) Not including typhoid fever, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_child_care
+        role: case
+        applies_to: Children in child care with Salmonella infection who have diarrhea
+        settings: [child_care]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Children with Salmonella infection who have diarrhea should be excluded until their diarrhea is resolved. Children with Salmonella infection who have no diarrhea and are not otherwise ill may be excluded or may remain in the program if special precautions are taken. Most staff in childcare programs are considered food handlers.
+        verbatim: true
+        citation: DPH Guide, Salmonellosis (Non-Typhoid), Section 4C, Daycare
+        source: guide-salmonellosis-non-typhoid
+        confidence: medium
+      - id: case_school
+        role: case
+        applies_to: Students or staff with Salmonella infection who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Students or staff with Salmonella infection who have diarrhea should be excluded until their diarrhea is resolved. Students or staff with Salmonella who do not handle food, have no diarrhea or have mild diarrhea, and are not otherwise sick may remain in school if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Salmonellosis (Non-Typhoid), Section 4C, School
+        source: guide-salmonellosis-non-typhoid
+        confidence: medium
+      - id: case_hcw
+        role: case
+        applies_to: Health care staff (direct care staff who feed, give mouth or denture care, or give medications are food handlers)
+        settings: [health_care_worker]
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Staff members who give direct patient care (e.g., feed patients, give mouth or denture care, or give medications) are considered food handlers and are subject to food handler restrictions under 105 CMR 300.200. In addition, staff members with Salmonella infection who are not food handlers should consider not working until their diarrhea is resolved.
+        verbatim: true
+        citation: DPH Guide, Salmonellosis (Non-Typhoid), Section 4C, Community Residential Programs
+        source: guide-salmonellosis-non-typhoid
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for salmonellosis; it sets no isolation for other cases.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Salmonellosis (a)
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case: diarrhea resolved and negative stool specimen(s)"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (a), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (a), Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: typhoid_fever
+    name: Typhoid fever (Salmonella Typhi)
+    aliases: [typhoid, Salmonella Typhi, S. typhi, enteric fever]
+    reportable_condition_id: typhoid-fever
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 6
+      max: 30
+      note: 1 to 10 days for paratyphoid fever.
+      source: {source: cdc-typhoid-hcp, section: Incubation, quote: "The incubation period for typhoid fever is typically 6 to 30 days, and 1 to 10 days for paratyphoid fever."}
+    infectious_period: null
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler]
+        action: restrict_duties
+        end: {stool_specimens: {count: 3, hours_apart: 48, hours_after_antimicrobial: 48, min_days_after_onset: 30}}
+        wording: Food handlers may only return to food handling duties after producing three consecutive negative stool specimens each produced no less than 48 hours apart and one month after onset of first symptoms. If one culture is positive, repeat cultures shall be collected at one month intervals until three consecutive negative cultures are obtained. If the case has been treated with an antimicrobial, the first stool specimen shall not be collected until 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (b) S. typhi (typhoid fever), Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler
+        role: contact
+        applies_to: Food handlers (symptomatic or asymptomatic) who are contacts of a typhoid case
+        settings: [food_handler]
+        action: restrict_duties
+        end: {stool_specimens: {count: 3, hours_apart: 48, hours_after_antimicrobial: 48}}
+        wording: All food handlers, symptomatic or asymptomatic, who are contacts of a typhoid case shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Salmonellosis (b) S. typhi, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers
+        settings: [child_care, school, health_care_worker, other]
+        action: refer
+        end: {}
+        wording: 105 CMR 300.200 states food handler requirements for typhoid; for children in child care, school settings, and direct-care staff, consult DPH Epidemiology (617-983-6800). No DPH guide chapter for typhoid was available in the fetched handbook.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Salmonellosis (b)
+        source: cmr300
+        confidence: medium
+
+  - id: shigellosis
+    name: Shigellosis
+    aliases: [Shigella, bacillary dysentery]
+    reportable_condition_id: shigellosis
+    guide_document: guide-shigellosis-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: hours
+      min: 12
+      usual_low: 24
+      usual_high: 72
+      max: 96
+      note: Can be up to one week for S. dysenteriae.
+      source: {source: guide-shigellosis-2018, section: "Section 1E, Incubation Period", quote: "The incubation period can vary from 12–96 hours, but is usually about 1–3 days. It can be up to one week for S. dysenteriae."}
+    infectious_period:
+      text: Communicable as long as Shigella is excreted in stool, usually about four weeks from onset; effective antibiotic treatment decreases shedding to a few days.
+      source: {source: guide-shigellosis-2018, section: "Section 1F, Period of Communicability"}
+    contact_testing: Test the stools of any symptomatic contacts in child care; in outbreaks consider testing asymptomatic contacts and closing to new admissions.
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing two negative stool specimens produced at least 24 hours apart. If a case was treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shigellosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: Direct-care health care staff who feed patients, give mouth care, or give medications are food handlers (DPH guide Section 4C); staff who are not food handlers should not work until diarrhea resolves.
+      - id: case_child_care
+        role: case
+        applies_to: Children in child care with Shigella infection (with or without diarrhea)
+        settings: [child_care]
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Children with Shigella infection who have diarrhea should be excluded and not permitted to re-enter until their diarrhea is resolved and two stool specimens (taken at least 24 hours apart and 48 hours after antimicrobial therapy has been discontinued) are negative for Shigella. Children with Shigella infection who have no diarrhea should still be excluded and not permitted to re-enter the daycare until two stool specimens (taken at least 24 hours apart and 48 hours after antimicrobial therapy has been discontinued) are negative for Shigella.
+        verbatim: true
+        citation: DPH Guide, Shigellosis (2018), Section 4C, Daycare
+        source: guide-shigellosis-2018
+        confidence: medium
+        note: Staff with Shigella infection who have diarrhea are excluded until diarrhea resolves; staff without diarrhea may remain on site but must not prepare food or feed children until two negative stools (food handler rule).
+      - id: case_school
+        role: case
+        applies_to: Students or staff with Shigella infection who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Students or staff with Shigella infection who have diarrhea should be excluded until their diarrhea is resolved. Students or staff with Shigella who do not handle food, have no diarrhea or mild diarrhea, and are not otherwise sick may remain in school if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Shigellosis (2018), Section 4C, School
+        source: guide-shigellosis-2018
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for shigellosis; it sets no isolation for other cases.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Shigellosis
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shigellosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shigellosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: stec
+    name: Shiga toxin-producing E. coli (STEC), including E. coli O157:H7
+    aliases: [STEC, E. coli O157, E. coli O157:H7, EHEC, Shiga toxin, enterohemorrhagic E. coli]
+    reportable_condition_id: stec
+    guide_document: guide-shiga-toxin-producing-escherichia-coli-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 1
+      usual_low: 3
+      usual_high: 4
+      max: 10
+      source: {source: guide-shiga-toxin-producing-escherichia-coli-2018, section: "Section 1E, Incubation Period", quote: "An average of 3-4 days, with a range of 1-10 days."}
+    infectious_period:
+      text: Infectious as long as STEC is excreted in stool - typically one week or less in adults, but up to three weeks in one third of children.
+      source: {source: guide-shiga-toxin-producing-escherichia-coli-2018, section: "Section 1F, Period of Communicability"}
+    contact_testing: Test the stools of any symptomatic contacts in child care; in outbreaks consider testing asymptomatic contacts and closing to new admissions.
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing two negative stool specimens, produced at least 24 hours apart. If a case was treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shiga toxin-producing organisms, including E. coli O157:H7, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: The same requirements apply to hemolytic uremic syndrome under 105 CMR 300.200.
+      - id: case_child_care
+        role: case
+        applies_to: Children in child care with STEC infection (with or without diarrhea)
+        settings: [child_care]
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Children with STEC infection who have diarrhea should be excluded and not permitted to re-enter until their diarrhea is resolved and two stool specimens (taken at least 24 hours apart and 48 hours after antimicrobial therapy has been discontinued) are negative for STEC. Children with STEC infection who have no diarrhea should still be excluded and not permitted to re-enter the daycare until two stool specimens (taken at least 24 hours apart and 48 hours after antimicrobial therapy has been discontinued) are negative for STEC.
+        verbatim: true
+        citation: DPH Guide, Shiga Toxin-Producing E. coli (2018), Section 4C, Daycare
+        source: guide-shiga-toxin-producing-escherichia-coli-2018
+        confidence: medium
+      - id: case_school
+        role: case
+        applies_to: Students or staff with STEC infection who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Students or staff with STEC infection who have diarrhea should be excluded until their diarrhea is resolved. Students or staff with STEC who do not handle food, have no diarrhea or mild diarrhea, and are not otherwise sick may remain in school if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Shiga Toxin-Producing E. coli (2018), Section 4C, School
+        source: guide-shiga-toxin-producing-escherichia-coli-2018
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for STEC; it sets no isolation for other cases.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Shiga toxin-producing organisms
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shiga toxin-producing organisms, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Shiga toxin-producing organisms, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: campylobacteriosis
+    name: Campylobacteriosis
+    aliases: [Campylobacter, Campylobacter jejuni, Campylobacter enteritis]
+    reportable_condition_id: campylobacteriosis
+    guide_document: guide-campylobacter-enteritis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 1
+      usual_low: 2
+      usual_high: 5
+      max: 10
+      source: {source: guide-campylobacter-enteritis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period can vary from 1–10 days but is usually about 2–5 days, with shorter incubation periods probably associated with a larger infecting dose of bacteria."}
+    infectious_period:
+      text: Communicable as long as Campylobacter is excreted in stool - days to several weeks; untreated people have shed for as long as seven weeks.
+      source: {source: guide-campylobacter-enteritis-2016, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case has been treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Campylobacteriosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Campylobacteriosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_child_care
+        role: case
+        applies_to: Children in child care with Campylobacter infection who have diarrhea
+        settings: [child_care]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Children with Campylobacter infection who have diarrhea should be excluded until their diarrhea has resolved. Children with Campylobacter infection who have no diarrhea and are not otherwise ill may be excluded or may remain in the program if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Campylobacter Enteritis (2016), Section 4C, Daycare
+        source: guide-campylobacter-enteritis-2016
+        confidence: medium
+      - id: case_school
+        role: case
+        applies_to: Students or staff with Campylobacter infection who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Students or staff with Campylobacter infection who have diarrhea should be excluded until their diarrhea has resolved.
+        verbatim: true
+        citation: DPH Guide, Campylobacter Enteritis (2016), Section 4C, School
+        source: guide-campylobacter-enteritis-2016
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for campylobacteriosis; it sets no isolation for other cases.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Campylobacteriosis
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Campylobacteriosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Campylobacteriosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: giardiasis
+    name: Giardiasis
+    aliases: [Giardia, Giardia lamblia, Giardia duodenalis]
+    reportable_condition_id: giardiasis
+    guide_document: guide-giardiasis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 3
+      usual_low: 7
+      usual_high: 10
+      max: 25
+      note: Can be longer than 25 days.
+      source: {source: guide-giardiasis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period can vary from 3–25 days (or longer); the median is 7–10 days."}
+    infectious_period:
+      text: Communicable as long as the organism is excreted, which may be many months.
+      source: {source: guide-giardiasis-2016, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case has been treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Giardiasis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Giardiasis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_child_care
+        role: case
+        applies_to: Children in child care with giardiasis who have diarrhea
+        settings: [child_care]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Children with giardiasis who have diarrhea should be excluded until their diarrhea is resolved. Children with giardiasis who have no diarrhea and are otherwise not ill may be excluded or they may remain in the program, if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Giardiasis (2016), Section 4C, Daycare
+        source: guide-giardiasis-2016
+        confidence: medium
+      - id: case_school
+        role: case
+        applies_to: Students or staff with giardiasis who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Students or staff with giardiasis who have diarrhea should be excluded until their diarrhea is resolved.
+        verbatim: true
+        citation: DPH Guide, Giardiasis (2016), Section 4C, School
+        source: guide-giardiasis-2016
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for giardiasis; it sets no isolation for other cases.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Giardiasis
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Giardiasis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Giardiasis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: cryptosporidiosis
+    name: Cryptosporidiosis
+    aliases: [Cryptosporidium, crypto]
+    reportable_condition_id: cryptosporidiosis
+    guide_document: guide-cryptosporidiosis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 2
+      usual_low: 7
+      usual_high: 7
+      max: 10
+      source: {source: guide-cryptosporidiosis-2016, section: "Section 1E, Incubation Period", quote: "Symptoms of cryptosporidiosis generally begin 2-10 days, with an average of about 7 days, after becoming infected with the parasite."}
+    infectious_period:
+      text: Communicable as long as oocysts are excreted, generally from symptom onset until several weeks after symptoms subside; oocysts may remain infective in a moist environment for 2-6 months.
+      source: {source: guide-cryptosporidiosis-2016, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case has been treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cryptosporidiosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cryptosporidiosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_child_care
+        role: case
+        applies_to: Infected children in child care who have diarrhea
+        settings: [child_care]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Infected children who have diarrhea should be excluded until their diarrhea has resolved. Infected children who have no diarrhea and are not otherwise ill may be excluded or may remain in the program, if special precautions are taken.
+        verbatim: true
+        citation: DPH Guide, Cryptosporidiosis (2016), Section 4C, Daycare
+        source: guide-cryptosporidiosis-2016
+        confidence: medium
+      - id: case_school
+        role: case
+        applies_to: Infected students who have diarrhea
+        settings: [school]
+        when: {diarrhea: true}
+        action: exclude
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Infected students who have diarrhea should be excluded until their diarrhea has resolved.
+        verbatim: true
+        citation: DPH Guide, Cryptosporidiosis (2016), Section 4C, School
+        source: guide-cryptosporidiosis-2016
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers, outside child care and school
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for cryptosporidiosis; it sets no isolation for other cases. Advise no swimming in recreational water while ill with diarrhea.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Cryptosporidiosis
+        source: cmr300
+        confidence: medium
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cryptosporidiosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cryptosporidiosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: cyclosporiasis
+    name: Cyclosporiasis
+    aliases: [Cyclospora, Cyclospora cayetanensis]
+    reportable_condition_id: cyclosporiasis
+    guide_document: guide-cyclosporiasis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 2
+      usual_low: 7
+      usual_high: 7
+      max: 14
+      source: {source: guide-cyclosporiasis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period for cyclosporiasis is typically one week but can range from 2 days to 2 weeks."}
+    infectious_period:
+      text: Not transmitted directly person to person; the parasite needs days to weeks outside the body to become infectious.
+      source: {source: guide-cyclosporiasis-2016, section: "Section 4C"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved", "In certain situations, one or two negative stool specimens"]}
+        wording: Food handlers may return to food handling duties after diarrhea has resolved. In certain situations however, food handlers may be required to produce one or two negative stool specimens before returning to food handling duties. If a case has been treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cyclosporiasis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_child_care_school
+        role: case
+        applies_to: Students, teachers, and child care attendees
+        settings: [child_care, school]
+        action: exclude
+        end: {criteria: ["No diarrhea and feels well enough to attend"]}
+        wording: Students, teachers, and daycare attendees without diarrhea can continue to attend their programs as long as they feel well enough to do so.
+        verbatim: true
+        citation: DPH Guide, Cyclosporiasis (2016), Section 4C, Daycare and Schools
+        source: guide-cyclosporiasis-2016
+        confidence: medium
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for cyclosporiasis.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Cyclosporiasis
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"]}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion. In certain outbreak situations, asymptomatic contacts who are food handlers may be required to produce one or two negative stool specimens prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Cyclosporiasis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: yersiniosis
+    name: Yersiniosis
+    aliases: [Yersinia, Yersinia enterocolitica]
+    reportable_condition_id: yersiniosis
+    guide_document: guide-yersiniosis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      usual_low: 3
+      usual_high: 7
+      max: 10
+      note: Generally less than 10 days.
+      source: {source: guide-yersiniosis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period is generally less than 10 days, and averages 3–7 days."}
+    infectious_period:
+      text: Communicable as long as Yersinia is excreted in stool - at least as long as symptoms (about 2-3 weeks); untreated cases may shed up to three months.
+      source: {source: guide-yersiniosis-2016, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case was treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Yersiniosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Yersiniosis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers
+        settings: [child_care, school, other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for yersiniosis. The fetched DPH guide chapter does not give separate child care or school rules; many programs exclude children with diarrhea until it resolves - confirm with DPH.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Yersiniosis
+        source: cmr300
+        confidence: medium
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Yersiniosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Yersiniosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: vibriosis
+    name: Vibriosis (non-cholera)
+    aliases: [Vibrio, Vibrio parahaemolyticus, Vibrio vulnificus, non-cholera Vibrio]
+    reportable_condition_id: vibriosis
+    guide_document: guide-vibriosis-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: hours
+      min: 5
+      usual_low: 24
+      usual_high: 24
+      max: 92
+      note: For gastroenteritis.
+      source: {source: guide-vibriosis-2018, section: "Section 1E, Incubation Period", quote: "For gastroenteritis, the incubation period is usually about 24 hours but can range from five to 92 hours."}
+    infectious_period:
+      text: Not considered to be transmitted person to person.
+      source: {source: guide-vibriosis-2018, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Food handlers with diarrhea
+        settings: [food_handler]
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"]}
+        wording: Food handlers with diarrhea may return to work after diarrhea has resolved.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Vibriosis (non-Cholera), Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: DPH guide - food handlers with Vibrio skin infections can work if the lesion is covered by a dry, durable, tight-fitting bandage (and a single-use glove for lesions on hands or wrists).
+      - id: case_other
+        role: case
+        applies_to: Others
+        settings: [child_care, school, health_care_worker, other]
+        action: no_restriction
+        end: {}
+        wording: No restrictions beyond food handlers with diarrhea; contacts have no restrictions.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Vibriosis (non-Cholera)
+        source: cmr300
+        confidence: high
+
+  - id: amebiasis
+    name: Amebiasis
+    aliases: [Entamoeba histolytica, amoebic dysentery]
+    reportable_condition_id: amebiasis
+    guide_document: guide-amebiasis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 2
+      usual_low: 14
+      usual_high: 28
+      note: Commonly 2-4 weeks, but it can vary from a few days to several months or years (the minimum of 2 days is an assumption for "a few days").
+      source: {source: guide-amebiasis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period is commonly from 2–4 weeks, but it can vary from a few days to several months or years."}
+    infectious_period:
+      text: Communicable as long as cysts are excreted, which can continue for years.
+      source: {source: guide-amebiasis-2016, section: "Section 1F, Period of Communicability"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Cases who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: false}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: After diarrhea has resolved, food handlers may only return to food handling duties after producing one negative stool specimen. If a case has been treated with an antimicrobial, the stool specimen shall not be collected until at least 48 hours after cessation of therapy.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Amebiasis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_food_handler_outbreak
+        role: case
+        applies_to: Cases who are food handlers, in outbreak circumstances
+        settings: [food_handler, health_care_worker]
+        when: {outbreak: true}
+        action: restrict_duties
+        end: {criteria: ["Diarrhea has resolved"], stool_specimens: {count: 2, hours_apart: 24, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: In outbreak circumstances, two negative stool specimens produced at least 24 hours apart will be required prior to returning to food handling duties.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Amebiasis, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_other
+        role: case
+        applies_to: Cases who are not food handlers
+        settings: [child_care, school, other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 restricts only food handling duties for amebiasis. Child care and school exclusion for diarrhea follows general program policy - confirm with DPH.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Amebiasis
+        source: cmr300
+        confidence: medium
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea who are food handlers
+        settings: [food_handler]
+        when: {diarrhea: true}
+        action: restrict_duties
+        end: {criteria: ["Same as a case"], stool_specimens: {count: 1, hours_after_antimicrobial: 48, after_symptom_resolution: true}}
+        wording: Contacts with diarrhea, who are food handlers, shall be considered the same as a case and handled in the same fashion.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Amebiasis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+      - id: contact_food_handler_outbreak
+        role: contact
+        applies_to: Asymptomatic contacts who are food handlers, in outbreak circumstances
+        settings: [food_handler]
+        when: {diarrhea: false, outbreak: true}
+        action: restrict_duties
+        end: {stool_specimens: {count: 2, hours_apart: 24}}
+        wording: In outbreak circumstances, asymptomatic contacts who are food handlers shall be required to produce two negative stool specimens produced at least 24 hours apart prior to returning to food handling duties. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Amebiasis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: hepatitis_a
+    name: Hepatitis A
+    aliases: [hepatitis A virus, HAV, hep A]
+    reportable_condition_id: hepatitis-a
+    guide_document: guide-hepatitis-a-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 15
+      usual_low: 28
+      usual_high: 28
+      max: 50
+      source: {source: guide-hepatitis-a-2016, section: "Section 1E, Incubation Period", quote: "The incubation period for hepatitis A ranges from 15–50 days, with an average of 28 days."}
+    infectious_period:
+      anchor: onset
+      start_day: -14
+      end_day: 7
+      text: For public health intervention, a case is considered infectious from 14 days before to seven days after onset of symptoms.
+      source: {source: guide-hepatitis-a-2016, section: "Section 4B, Protection of Contacts of a Case"}
+    contact_monitoring:
+      days_after_last_exposure: 50
+      text: Monitor contacts for one maximum incubation period (50 days) after last exposure (derived from the incubation period; not stated as a monitoring period in the source).
+      source: {source: guide-hepatitis-a-2016, section: "Section 1E (derived)"}
+    contact_definition: Household members; sexual contacts; anyone who shared food or eating or drinking utensils with a case; anyone consuming ready-to-eat foods prepared by an infectious food worker with diarrhea or poor hygienic practices.
+    pep:
+      - name: Hepatitis A vaccine or immune globulin (IGIM 0.02 mL/kg), by age and risk
+        anchor: last_exposure
+        within_hours: 336
+        text: HAV vaccine or IGIM given within 14 days of exposure is 80-90% effective; vaccine for ages 12 months-40 years, IGIM for those under 12 months, 41 years or older (vaccine if IGIM unavailable), and anyone immunocompromised, with chronic liver disease, or with a vaccine contraindication.
+        source: guide-hepatitis-a-2016
+        section: "Section 4B-4C, Table 1"
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases
+        settings: [all]
+        action: exclude
+        end: {through: {anchor: onset, day: 7}}
+        wording: Isolation until one week after onset of symptoms or for cases where the onset date is not known, one week past the date the specimen positive for IgM antibody to HAV was provided.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis A, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: medium
+        note: Day counting is the developer's reading ("until one week after onset" = through day 7, return day 8), consistent with the regulation's other "until N days after" rules; confirm. If onset is unknown, use the IgM-positive specimen date as day 0. The DPH guide says children and adults in child care are excluded until one week after onset of illness.
+      - id: contact_food_handler
+        role: contact
+        applies_to: Susceptible contacts who are food handlers
+        settings: [food_handler]
+        when: {susceptible: true, received_prophylaxis: false}
+        action: restrict_duties
+        start: {anchor: last_exposure, day: 0}
+        end: {through: {anchor: last_exposure, day: 28}}
+        wording: No restrictions except for susceptible food handlers, who shall be excluded from their occupations for 28 days unless they receive a prophylactic dose of immune globulin (IG) and/or hepatitis A vaccine within 14 days of exposure, or in accordance with the latest recommendations from the Department.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis A, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: The regulation does not say which exposure day starts the 28 days; the last exposure is used here. Confirm with DPH.
+      - id: contact_child_care
+        role: contact
+        applies_to: Unimmunized exposed children and adults at a child care center
+        settings: [child_care]
+        action: prophylaxis_only
+        end: {}
+        wording: Unimmunized exposed children and adults at the center may return immediately after receiving prophylaxis.
+        verbatim: true
+        citation: DPH Guide, Hepatitis A (2016), Section 4D, Daycare
+        source: guide-hepatitis-a-2016
+        confidence: medium
+      - id: contact_other
+        role: contact
+        applies_to: Other contacts
+        settings: [school, health_care_worker, other]
+        action: prophylaxis_only
+        end: {}
+        wording: No restrictions except for susceptible food handlers; offer post-exposure prophylaxis to contacts within 14 days of exposure.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Hepatitis A; DPH Guide Section 4B
+        source: cmr300
+        confidence: high
+
+  - id: norovirus
+    name: Norovirus
+    aliases: [norovirus gastroenteritis, Norwalk-like virus, stomach bug, viral gastroenteritis]
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: hours
+      min: 12
+      max: 48
+      source: {source: factsheet-norovirus, section: "What are the symptoms of norovirus infection?", quote: "Symptoms usually begin 12 to 48 hours after exposure to the virus and last about 1 to 3 days in most people"}
+    infectious_period:
+      anchor: onset
+      start_day: 0
+      text: Most contagious while symptomatic, especially with vomiting, and during the first few days after feeling better; virus may still spread for two weeks or more after recovery.
+      source: {source: factsheet-norovirus, section: "When is someone with norovirus contagious?"}
+    rules:
+      - id: case_food_handler
+        role: case
+        applies_to: Food handlers with norovirus
+        settings: [food_handler, health_care_worker]
+        action: restrict_duties
+        end: {hours_after_symptom_resolution: 72, hours_after_specimen: 72}
+        wording: Food handlers must be excluded from food handing duties for either 72 hours past the resolution of symptoms or 72 hours past the date the specimen positive for norovirus was produced, which ever occurs last.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Noroviruses, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+        note: Health care, school, child care, and residential staff who feed, give mouth care, or give oral medications are food handlers (105 CMR 300.020).
+      - id: case_child_care_school_children
+        role: case
+        applies_to: Children in child care or K-12 school with GI illness (norovirus)
+        settings: [child_care, school]
+        action: exclude
+        end: {hours_after_symptom_resolution: 24, criteria: ["24 hours since the last vomiting episode", "24 hours with improvement in diarrhea (no more than 2 stools above the child's normal; stools contained in the diaper or no toileting accidents); if baseline is unknown, 24 hours after diarrhea resolved", "Well enough to participate"]}
+        wording: Keep your child at home until the criteria below are met - 24 hours with improvement in diarrhea; 24 hours since their last vomiting episode; well enough to participate in child care or school. Students with GI illness who have food handling duties at school cannot perform food handling duties until 72 hours past the resolution of their symptoms, per regulation 105 CMR 300.200.
+        verbatim: false
+        citation: DPH Gastrointestinal Illness Symptom Checklist for Children and Staff in Child Care Programs and K-12 Schools (V3)
+        source: dph-gi-checklist
+        confidence: high
+        note: The 24-hour date computed here uses the symptom-resolution date; the checklist counts 24 hours from the last vomiting episode and from improvement in diarrhea.
+      - id: case_child_care_school_staff
+        role: case
+        applies_to: Staff in child care or K-12 school with GI illness (norovirus) who do not handle food
+        settings: [child_care, school]
+        action: exclude
+        end: {hours_after_symptom_resolution: 24, criteria: ["24 hours since the last vomiting episode and diarrhea has improved"]}
+        wording: If you answered YES to either question above, stay home until 24 hours have passed since your last vomiting episode and your diarrhea has improved. Staff who handle or prepare food, handle clean dishes or utensils, give children oral medications, or assist children with feeding are food handlers and cannot perform those duties until 72 hours past the resolution of symptoms.
+        verbatim: false
+        citation: DPH Gastrointestinal Illness Symptom Checklist, For Staff with GI Illness
+        source: dph-gi-checklist
+        confidence: high
+      - id: case_other
+        role: case
+        applies_to: Others with norovirus
+        settings: [other]
+        action: exclude
+        end: {hours_after_symptom_resolution: 24, criteria: ["24 hours since the last vomiting episode and diarrhea has improved"]}
+        wording: Stay home when you're sick and until 24 hours have passed since your last vomiting episode, and your diarrhea has improved. Do not prepare or handle food, or care for others while you are sick and for at least 48 hours after symptoms stop.
+        verbatim: true
+        citation: DPH Norovirus fact sheet, I have norovirus. How do I avoid spreading it to others?
+        source: factsheet-norovirus
+        confidence: high
+        note: This is DPH guidance for the public, not a regulatory requirement.
+      - id: contact_food_handler_symptomatic
+        role: contact
+        applies_to: Contacts with diarrhea or vomiting who are food handlers
+        settings: [food_handler, health_care_worker]
+        when: {symptomatic: true}
+        action: restrict_duties
+        end: {hours_after_symptom_resolution: 72}
+        wording: Contacts with diarrhea or vomiting who are food handlers shall be excluded from food handling duties for 72 hours past the resolution of symptoms.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Noroviruses, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: influenza
+    name: Influenza (seasonal)
+    aliases: [flu, influenza A, influenza B]
+    reportable_condition_id: influenza-laboratory-confirmed
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 1
+      usual_low: 2
+      usual_high: 2
+      max: 4
+      source: {source: cdc-flu-about, section: Period of Contagiousness, quote: "The time from when a person is exposed and infected with influenza virus to when symptoms begin is about two days but can range from about one to four days."}
+    infectious_period:
+      anchor: onset
+      start_day: -1
+      end_day: 7
+      text: Adults can spread flu from about one day before symptoms appear to about one week after; children can spread it longer.
+      source: {source: factsheet-flu, section: "How is flu spread?"}
+    rules: &respiratory_rules
+      - id: case_community
+        role: case
+        applies_to: People with symptoms of a respiratory virus (including in schools and child care)
+        settings: [child_care, school, food_handler, other]
+        action: exclude
+        end: {criteria: ["No fever for at least 24 hours without fever-reducing medicines", "Other symptoms are improving", "Then take extra precautions (mask indoors, avoid crowds, hand hygiene) for the next 5 days"]}
+        wording: You may begin to resume normal activities with precautions if you have not had a fever for at least 24 hours without the use of fever reducing medicines; AND your other symptoms are improving. Schools and childcare settings should follow the recommendations for the general population.
+        verbatim: true
+        citation: DPH, Staying home to prevent the spread of respiratory viruses (If you have symptoms; Schools and childcare settings)
+        source: dph-respiratory-public
+        confidence: high
+        note: This is DPH guidance, not a regulatory exclusion (105 CMR 300.200 lists no restrictions for influenza). People who test positive without symptoms do not need to stay home but should take extra precautions for 5 days.
+      - id: case_hcw_symptomatic
+        role: case
+        applies_to: Health care personnel with respiratory viral symptoms (positive test, or two or more symptoms)
+        settings: [health_care_worker]
+        when: {symptomatic: true}
+        action: exclude
+        end: {through: {anchor: onset, day: 3}, criteria: ["Symptoms improving, including fever-free 24 hours without antipyretics", "Feels well enough to work", "Wear a facemask until day 8 (masks may be removed on day 8)"]}
+        wording: An isolating HCP who had respiratory viral symptoms may return to work after 3 days have passed since symptom onset (Day 0 represents symptom onset, with return on Day 4) AND if symptoms are improving, including being fever-free without the use of antipyretics for 24 hours; AND if they feel well enough to work. Any HCP who returns to work prior to 7 days since their symptom onset or first positive test was taken must wear a facemask until after 7 days have passed (Day 8 represents the first day masks may be removed).
+        verbatim: false
+        citation: DPH, Guidance for Health Care Personnel with a Respiratory Viral Pathogen Infection or Exposure (effective 9/1/2025)
+        source: dph-respiratory-hcp
+        confidence: high
+      - id: case_hcw_asymptomatic
+        role: case
+        applies_to: Health care personnel who tested positive without symptoms
+        settings: [health_care_worker]
+        when: {symptomatic: false}
+        action: exclude
+        end: {through: {anchor: positive_specimen, day: 3}, criteria: ["Wear a facemask until day 8 after the positive test"]}
+        wording: A HCP who has been asymptomatic but tested positive for a viral respiratory pathogen may return to work after 3 days (Day 0 represents positive test date, with return on Day 4).
+        verbatim: false
+        citation: DPH, Guidance for Health Care Personnel with a Respiratory Viral Pathogen Infection or Exposure (effective 9/1/2025)
+        source: dph-respiratory-hcp
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Exposed people without symptoms (including health care personnel)
+        settings: [all]
+        when: {symptomatic: false}
+        action: no_restriction
+        end: {}
+        wording: If you have been exposed to someone with a respiratory virus, you do not need to stay home as long as you remain asymptomatic. HCP may continue to work after being exposed, provided they remain asymptomatic, must at least wear a facemask, and self-monitor for symptoms for 5 days after exposure.
+        verbatim: false
+        citation: DPH respiratory virus guidance for the public and for health care personnel
+        source: dph-respiratory-public
+        confidence: high
+    notes:
+      - 105 CMR 300.200 lists no isolation or quarantine requirements for influenza; the rules above are current DPH guidance (public guidance undated on the page; HCP guidance effective 9/1/2025).
+
+  - id: covid_19
+    name: COVID-19
+    aliases: [SARS-CoV-2, coronavirus disease 2019, coronavirus]
+    reportable_condition_id: covid-19
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 2
+      max: 14
+      source: {source: factsheet-covid-19, section: About COVID-19 symptoms and spread, quote: "Symptoms of infection may appear 2-14 days after exposure to the virus"}
+    infectious_period:
+      anchor: onset
+      start_day: -2
+      end_day: 10
+      text: People can spread the virus up to 48 hours before symptoms; DPH notes people may spread respiratory viruses for about 10 days after symptoms start or after a positive test.
+      source: {source: dph-respiratory-public, section: Protecting people with risk factors for severe illness}
+    rules: *respiratory_rules
+    notes:
+      - 105 CMR 300.200 defers coronavirus isolation and quarantine to DPH recommendations based on current CDC recommendations; the rules above are DPH's 2024-2025 respiratory virus guidance.
+
+  - id: rsv
+    name: Respiratory syncytial virus (RSV)
+    aliases: [RSV, respiratory syncytial virus]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation: null
+    infectious_period: null
+    rules: *respiratory_rules
+    notes:
+      - RSV is covered by DPH's general respiratory virus guidance. The incubation and infectious periods were not stated in the sources fetched for this draft and are left blank rather than guessed.
+
+  - id: group_a_streptococcus
+    name: Group A streptococcal infection (pharyngitis, skin infection, invasive disease)
+    aliases: [GAS, strep throat, streptococcal pharyngitis, scarlet fever, invasive group A strep, iGAS, Streptococcus pyogenes]
+    reportable_condition_id: group-a-streptococcus-invasive
+    guide_document: guide-group-a-streptococcus-invasive-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 1
+      max: 5
+      note: For pharyngitis; the incubation period of invasive disease varies with the type of infection.
+      source: {source: guide-group-a-streptococcus-invasive-2018, section: "Section 1E, Incubation Period", quote: "The incubation period for GAS pharyngitis is usually short: 1–5 days and rarely longer."}
+    infectious_period:
+      anchor: onset
+      ends_hours_after_treatment: 24
+      text: In untreated, uncomplicated GAS disease the infectious period starts several days before symptoms and lasts 10-21 days; a person is not infectious after at least 24 hours of antibiotics.
+      source: {source: guide-group-a-streptococcus-invasive-2018, section: "Section 1F; DPH fact sheet"}
+    rules:
+      - id: case_school_child_care
+        role: case
+        applies_to: Persons with streptococcal pharyngitis or skin infections, with or without invasive disease
+        settings: [child_care, school]
+        action: exclude
+        end: {hours_after_treatment_start: 24}
+        wording: Persons with streptococcal pharyngitis or skin infections, with or without invasive disease, shall not return to school or child care until at least 24 hours after initiating antimicrobial treatment.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Group A streptococcus, invasive infection, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: case_hcw_food_handler
+        role: case
+        applies_to: Health care workers and food handlers with GAS infection
+        settings: [health_care_worker, food_handler]
+        action: exclude
+        end: {hours_after_treatment_start: 24}
+        wording: Anyone diagnosed with GAS infection should not go to school, daycare, or work, if they are a health care worker or foodhandler, until antibiotics have been taken for at least 24 hours.
+        verbatim: true
+        citation: DPH Group A Streptococcal Disease fact sheet
+        source: factsheet-group-a-strep
+        confidence: high
+      - id: case_other
+        role: case
+        applies_to: Others
+        settings: [other]
+        action: no_restriction
+        end: {}
+        wording: 105 CMR 300.200 sets school and child care exclusion only; contacts receive personal surveillance and antimicrobial prophylaxis when appropriate.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Group A streptococcus, invasive infection
+        source: cmr300
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Contacts
+        settings: [all]
+        action: prophylaxis_only
+        end: {}
+        wording: Personal surveillance and prophylaxis with an antimicrobial when appropriate. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Group A streptococcus, invasive infection, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: impetigo
+    name: Impetigo
+    aliases: [impetigo contagiosa, school sores]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation:
+      unit: days
+      usual_low: 10
+      usual_high: 10
+      note: About 10 days.
+      source: {source: cdc-impetigo-hcp, section: Incubation, quote: "The incubation period of impetigo is about 10 days"}
+    infectious_period: null
+    rules:
+      - id: case_school_child_care
+        role: case
+        applies_to: Children and staff with impetigo
+        settings: [child_care, school, other]
+        action: exclude
+        end: {hours_after_treatment_start: 24, criteria: ["Cover all sores on exposed skin"]}
+        wording: Persons with streptococcal pharyngitis or skin infections ... shall not return to school or child care until at least 24 hours after initiating antimicrobial treatment (105 CMR 300.200, group A streptococcus). CDC says people with impetigo can return to work, school, or daycare if they have started antibiotic treatment and should cover all sores on exposed skin.
+        verbatim: false
+        citation: 105 CMR 300.200(A), Group A streptococcus (skin infections); CDC Impetigo (2025)
+        source: cmr300
+        confidence: medium
+        note: The regulation's 24-hour rule applies to streptococcal skin infections; impetigo may also be caused by Staphylococcus aureus. CDC's "started antibiotic treatment" wording is less specific. The 24-hour rule is used as the conservative choice; confirm.
+      - id: case_hcw
+        role: case
+        applies_to: Health care settings
+        settings: [health_care_worker, food_handler]
+        action: isolate_precautions
+        end: {hours_after_treatment_start: 24}
+        wording: Contact + Standard precautions until 24 hours after initiation of effective therapy.
+        verbatim: true
+        citation: CDC/HICPAC Isolation Precautions, Appendix A, Impetigo
+        source: cdc-appendix-a
+        confidence: high
+
+  - id: conjunctivitis
+    name: Conjunctivitis (pink eye), viral or bacterial
+    aliases: [pink eye, pinkeye, conjunctivitis]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation: null
+    infectious_period: null
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Children, students, and staff
+        settings: [child_care, school, other]
+        action: exclude
+        end: {criteria: ["No fever or other symptoms, with the doctor's approval", "Not attending while symptomatic if activities involve close contact with others"]}
+        wording: If you don't have fever or other symptoms, you may be allowed to return with your doctor's approval. You should not attend if you still have symptoms, and if your work or school activities involve close contact with others.
+        verbatim: true
+        citation: CDC, About Pink Eye (Conjunctivitis), When to return to school or work
+        source: cdc-conjunctivitis
+        confidence: medium
+        note: No Massachusetts regulation or DPH fact sheet for conjunctivitis was found in the fetched sources; this is CDC guidance.
+      - id: case_hcw
+        role: case
+        applies_to: Health care settings, acute viral conjunctivitis
+        settings: [health_care_worker]
+        action: isolate_precautions
+        end: {criteria: ["Contact + Standard precautions for the duration of illness (acute viral); Standard precautions for acute bacterial"]}
+        wording: Conjunctivitis, acute viral (acute hemorrhagic) - Contact + Standard, duration of illness. Acute bacterial - Standard.
+        verbatim: false
+        citation: CDC/HICPAC Isolation Precautions, Appendix A, Conjunctivitis
+        source: cdc-appendix-a
+        confidence: high
+
+  - id: scabies
+    name: Scabies
+    aliases: [Sarcoptes scabiei, crusted scabies, Norwegian scabies]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation:
+      unit: days
+      min: 14
+      max: 42
+      note: Two to six weeks after first contact; a person who has had scabies before may have symptoms within several days.
+      source: {source: factsheet-scabies, section: "What are the symptoms of scabies?", quote: "Symptoms may occur two to six weeks after coming in contact with the skin of an infested person or their personal items. However, a person who has previously had scabies may have symptoms within several days."}
+    infectious_period:
+      text: Spread can occur until all of the mites and eggs are destroyed by treatment.
+      source: {source: factsheet-scabies, section: "How is scabies spread?"}
+    rules:
+      - id: case_school
+        role: case
+        applies_to: Children diagnosed with scabies
+        settings: [child_care, school]
+        action: exclude
+        end: {criteria: ["Has been treated"]}
+        wording: Children who have been diagnosed with scabies should not return to school until treated.
+        verbatim: true
+        citation: DPH Scabies fact sheet, How can scabies be prevented?
+        source: factsheet-scabies
+        confidence: medium
+      - id: case_hcw
+        role: case
+        applies_to: Health care settings
+        settings: [health_care_worker]
+        action: isolate_precautions
+        end: {hours_after_treatment_start: 24}
+        wording: Scabies - Contact + Standard precautions until 24 hours after initiation of effective therapy.
+        verbatim: false
+        citation: CDC/HICPAC Isolation Precautions, Appendix A, Scabies
+        source: cdc-appendix-a
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Household members and people with skin-to-skin contact
+        settings: [all]
+        action: prophylaxis_only
+        end: {}
+        wording: Check companions, household members and sexual partners for evidence of infestations. Those with skin-to-skin contact should be treated to prevent scabies.
+        verbatim: true
+        citation: DPH Scabies fact sheet
+        source: factsheet-scabies
+        confidence: medium
+
+  - id: head_lice
+    name: Head lice (pediculosis)
+    aliases: [lice, head lice, pediculosis, nits, Pediculus humanus capitis]
+    onset_event: identification of live lice
+    confidence: high
+    compute: true
+    incubation: null
+    infectious_period:
+      text: People with head lice can continue to spread them until they complete a course of treatment that kills all lice and eggs.
+      source: {source: factsheet-head-lice, section: "How are head lice spread?"}
+    rules:
+      - id: case_school
+        role: case
+        applies_to: Children with head lice
+        settings: [child_care, school, other]
+        action: no_restriction
+        end: {}
+        wording: Head lice are not a health hazard or a sign of poor hygiene and are not responsible for the spread of any disease. No healthy child should be excluded from school because of head lice.
+        verbatim: true
+        citation: DPH Head Lice (Pediculosis) fact sheet, What is a "no nits" policy?
+        source: factsheet-head-lice
+        confidence: high
+        note: DPH notes that the American Academy of Pediatrics and the National Association of School Nurses advocate abandoning no-nit policies; local school or child care policies may still require nit removal. In health care settings CDC/HICPAC recommends Contact precautions until 24 hours after effective therapy.
+
+  - id: mrsa
+    name: MRSA skin infection (methicillin-resistant Staphylococcus aureus)
+    aliases: [MRSA, staph infection, methicillin-resistant Staphylococcus aureus, boils]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation: null
+    infectious_period: null
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Students, staff, and others with MRSA skin infections
+        settings: [child_care, school, food_handler, other]
+        action: no_restriction
+        end: {criteria: ["Keep wounds clean and covered with a bandage until healed", "Do not share towels, razors, or athletic equipment"]}
+        wording: Keep cuts and scrapes clean and covered with a bandage until they have healed. Avoid contact with other people's wounds or bandages. Avoid sharing personal items such as towels, washcloths, toothbrushes and razors.
+        verbatim: true
+        citation: DPH MRSA fact sheet, How can I prevent a staph infection?
+        source: factsheet-mrsa
+        confidence: medium
+        note: No Massachusetts regulation excludes people with MRSA; the fetched DPH fact sheet gives prevention steps but no exclusion criteria. Many programs restrict contact sports or activities when drainage cannot be contained - confirm local policy.
+      - id: case_hcw
+        role: case
+        applies_to: Health care settings
+        settings: [health_care_worker]
+        action: isolate_precautions
+        end: {criteria: ["Contact + Standard precautions as judged by the infection control program (ongoing transmission, acute care, or wounds that cannot be contained)"]}
+        wording: Multidrug-resistant organisms (e.g., MRSA) - Contact + Standard; Contact Precautions recommended in settings with evidence of ongoing transmission, acute care settings with increased risk for transmission or wounds that cannot be contained by dressings.
+        verbatim: false
+        citation: CDC/HICPAC Isolation Precautions, Appendix A, Multidrug-resistant organisms
+        source: cdc-appendix-a
+        confidence: high
+
+  - id: hand_foot_mouth_disease
+    name: Hand, foot, and mouth disease
+    aliases: [HFMD, hand foot and mouth, coxsackievirus, enterovirus A71]
+    onset_event: symptom onset
+    confidence: medium
+    compute: true
+    incubation: null
+    infectious_period: null
+    rules:
+      - id: case_school
+        role: case
+        applies_to: Children in child care and school
+        settings: [child_care, school]
+        action: exclude
+        end: {criteria: ["No fever", "Feels well enough to participate in class"]}
+        wording: Because HFMD is normally mild, children can continue to go to child care and schools as long as they have no fever and feel well enough to participate in class. Sometimes, the local health department may require children with HFMD to stay home to control an outbreak.
+        verbatim: false
+        citation: CDC, About Hand, Foot, and Mouth Disease, When to return to school
+        source: cdc-hfmd
+        confidence: medium
+        note: No Massachusetts regulation or DPH fact sheet for HFMD was found in the fetched sources; this is CDC guidance.
+
+  - id: fifth_disease
+    name: Fifth disease (parvovirus B19)
+    aliases: [erythema infectiosum, parvovirus B19, slapped cheek]
+    onset_event: rash onset
+    confidence: high
+    compute: true
+    incubation: null
+    infectious_period:
+      text: Most contagious before symptoms start; by the time of rash or joint pain, no longer contagious.
+      source: {source: factsheet-fifth-disease, section: "How long is someone with fifth disease contagious?"}
+    rules:
+      - id: case_school
+        role: case
+        applies_to: Children with fifth disease
+        settings: [child_care, school, other]
+        action: no_restriction
+        end: {}
+        wording: Most children are no longer contagious by the time they are diagnosed, so there is no reason to keep them home from school or day care.
+        verbatim: true
+        citation: DPH Fifth Disease fact sheet, Should children with fifth disease be kept home?
+        source: factsheet-fifth-disease
+        confidence: high
+        note: DPH does not recommend routinely keeping pregnant workers out during an outbreak; the worker decides with their clinician.
+
+  # =====================================================================================
+  # Diseases with no isolation requirement under 105 CMR 300.200, and tuberculosis
+  # =====================================================================================
+  - id: hepatitis_b
+    name: Hepatitis B
+    aliases: [HBV, hep B, hepatitis B virus, HBsAg]
+    reportable_condition_id: hepatitis-b
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 60
+      usual_low: 90
+      usual_high: 90
+      max: 150
+      note: To onset of signs and symptoms (average 60 days, range 40-90, to abnormal ALT).
+      source: {source: cdc-hepatitis-b-hcp, section: Incubation period, quote: "90 days (range: 60–150 days) from exposure to onset of signs and symptoms."}
+    infectious_period: null
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: No restrictions except for exclusion from organ and blood donation. Case shall receive counseling to modify activities in order to prevent transmission.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis B, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Contacts
+        settings: [all]
+        action: prophylaxis_only
+        end: {}
+        wording: Personal surveillance for high-risk contacts who should receive hepatitis B immune globulin (HBIG) and vaccine. Infants born to infected women should also receive HBIG and vaccine. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis B, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: hepatitis_c
+    name: Hepatitis C
+    aliases: [HCV, hep C, hepatitis C virus]
+    reportable_condition_id: hepatitis-c
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 42
+      max: 180
+      note: When symptoms occur they usually appear six weeks to six months after infection; most people have none.
+      source: {source: factsheet-hepatitis-c, section: Symptoms, quote: "For those who do develop symptoms, the symptoms usually appear six weeks to six months after infection."}
+    infectious_period: null
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: No restrictions except for exclusion from organ and blood donation. Case shall receive counseling to modify activities in order to prevent transmission.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis C, Minimum Period of Isolation of Patient
+        source: cmr300
+        confidence: high
+      - id: contact_all
+        role: contact
+        applies_to: Contacts
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: Personal surveillance for high-risk contacts. Otherwise, no restrictions.
+        verbatim: true
+        citation: 105 CMR 300.200(A), Hepatitis C, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+
+  - id: legionellosis
+    name: Legionellosis (Legionnaires' disease, Pontiac fever)
+    aliases: [Legionnaires disease, Legionella, Pontiac fever]
+    reportable_condition_id: legionellosis
+    guide_document: guide-legionellosis-2016
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 2
+      usual_low: 5
+      usual_high: 6
+      max: 10
+      note: For Legionnaires' disease; Pontiac fever 5-72 hours (usually 24-48 hours).
+      source: {source: guide-legionellosis-2016, section: "Section 1E, Incubation Period", quote: "The incubation period for Legionnaires’ disease ranges from 2–10 days, but is most commonly 5–6 days."}
+    infectious_period:
+      text: Not considered communicable from person to person, although this may rarely occur.
+      source: {source: guide-legionellosis-2016, section: "Section 1F"}
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases and contacts
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: No restrictions (isolation of patient and quarantine of contacts).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Legionellosis
+        source: cmr300
+        confidence: high
+
+  - id: listeriosis
+    name: Listeriosis
+    aliases: [Listeria, Listeria monocytogenes]
+    reportable_condition_id: listeriosis
+    guide_document: guide-listeriosis-2018
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 3
+      usual_low: 21
+      usual_high: 21
+      max: 70
+      note: Median about 21 days.
+      source: {source: guide-listeriosis-2018, section: "Section 1E, Incubation Period", quote: "A range of 3–70 days has been reported, with a median incubation period of about 21 days."}
+    infectious_period:
+      text: May be shed in stool for months; secondary infections among household contacts have not been identified.
+      source: {source: guide-listeriosis-2018, section: "Section 1F"}
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases and contacts
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: No restrictions (isolation of patient and quarantine of contacts).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Listeriosis
+        source: cmr300
+        confidence: high
+
+  - id: lyme_disease
+    name: Lyme disease
+    aliases: [Lyme, Borrelia burgdorferi, tick-borne]
+    reportable_condition_id: lyme-disease
+    onset_event: symptom onset
+    confidence: high
+    compute: true
+    incubation:
+      unit: days
+      min: 3
+      max: 30
+      note: From the tick bite to early symptoms.
+      source: {source: factsheet-lyme-disease, section: "How is Lyme disease spread?", quote: "Symptoms of early Lyme disease, described below, usually begin to appear from 3 to 30 days after being bitten by an infected tick."}
+    infectious_period:
+      text: Not spread from person to person; spread by the bite of an infected black-legged tick.
+      source: {source: factsheet-lyme-disease, section: "How is Lyme disease spread?"}
+    rules:
+      - id: case_all
+        role: case
+        applies_to: Cases and contacts
+        settings: [all]
+        action: no_restriction
+        end: {}
+        wording: No restrictions (isolation of patient and quarantine of contacts).
+        verbatim: true
+        citation: 105 CMR 300.200(A), Lyme disease
+        source: cmr300
+        confidence: high
+
+  - id: tuberculosis
+    name: Tuberculosis (active)
+    aliases: [TB, active TB, pulmonary tuberculosis, Mycobacterium tuberculosis]
+    reportable_condition_id: tuberculosis
+    onset_event: diagnosis
+    confidence: high
+    compute: false
+    incubation: null
+    infectious_period: null
+    rules:
+      - id: case_pulmonary
+        role: case
+        applies_to: Active pulmonary tuberculosis (also mediastinal, laryngeal, pleural, or miliary)
+        settings: [all]
+        action: refer
+        end: {criteria: ["Clearance requires one or more of - three appropriately collected sputum smears 8-24 hours apart (one early morning); other accepted tests indicating TB or infectiousness is unlikely; or effective chemotherapy per current standards with clinical improvement"]}
+        wording: Clearance from isolation in the community requires one or more of the following - three appropriately collected and processed sputum smears that are collected in eight-24 hour intervals (one of which should be an early morning specimen); or other FDA cleared/approved or generally accepted laboratory tests indicating tuberculosis is unlikely or infectiousness is unlikely, as per guidelines such as those of the CDC, ACET or ATS; or until the patient has undergone a period of effective chemotherapy in accordance with current treatment standards, such as those of CDC, ACET or ATS, and there is demonstration of clinical improvement.
+        verbatim: false
+        citation: 105 CMR 300.200(B), Tuberculosis (a) Active tuberculosis - Pulmonary
+        source: cmr300
+        confidence: high
+        note: This server does not compute TB isolation or contact investigation dates. Refer to the TB clinician and DPH's Division of Global Populations and Infectious Disease Prevention (TB program); M.G.L. c. 111, sections 94A-94H apply to unwilling or unable patients.
+      - id: contact_all
+        role: contact
+        applies_to: Asymptomatic contacts
+        settings: [all]
+        action: refer
+        end: {}
+        wording: No restrictions of asymptomatic contacts required.
+        verbatim: true
+        citation: 105 CMR 300.200(B), Tuberculosis, Minimum Period of Quarantine of Contacts
+        source: cmr300
+        confidence: high
+        note: Contact investigation (testing windows, window prophylaxis) is clinical and is referred to the TB program; this tool does not compute it.

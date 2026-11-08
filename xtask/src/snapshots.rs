@@ -171,6 +171,15 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         }
     }
 
+    // Keep snapshots built by other commands (e.g. `build-guide-corpus`).
+    if let Some(o) = &old {
+        for e in &o.snapshots {
+            if !new_manifest.snapshots.iter().any(|n| n.id == e.id) {
+                new_manifest.snapshots.push(e.clone());
+            }
+        }
+    }
+
     if check {
         if changed {
             println!("Snapshot differences found:\n{report}");

@@ -23,6 +23,8 @@ tracing.workspace = true
 chrono.workspace = true
 csv.workspace = true
 statrs.workspace = true
+rust_xlsxwriter.workspace = true
+tantivy.workspace = true
 
 [dev-dependencies]
 tempfile.workspace = true

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/measles_exposure.schema.json",
+  "title": "Measles exposure assessment content",
+  "type": "object",
+  "required": ["meta", "sources", "evidence_of_immunity", "immunity_notes", "pep", "priority_groups", "exclusion_summary"],
+  "additionalProperties": false,
+  "$defs": {
+    "cited_text": {
+      "type": "object",
+      "required": ["text", "source", "section"],
+      "additionalProperties": false,
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "source": {"type": "string"},
+        "section": {"type": "string"}
+      }
+    },
+    "citation": {
+      "type": "object",
+      "required": ["title", "publisher", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {"type": "string"},
+        "publisher": {"type": "string"},
+        "url": {"type": ["string", "null"]}
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "version", "prepared", "effective_date", "source", "related_sources", "review", "verification_note"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"const": "ma-measles-exposure"},
+        "title": {"type": "string"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "prepared": {"type": "string"},
+        "effective_date": {"type": ["string", "null"]},
+        "source": {"$ref": "#/$defs/citation"},
+        "related_sources": {"type": "array", "items": {"$ref": "#/$defs/citation"}},
+        "review": {
+          "type": "object",
+          "required": ["status", "reviewed_by", "reviewed_on", "review_due"],
+          "additionalProperties": false,
+          "properties": {
+            "status": {"enum": ["pending", "reviewed"]},
+            "reviewed_by": {"type": ["string", "null"]},
+            "reviewed_on": {"type": ["string", "null"]},
+            "review_due": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+          }
+        },
+        "verification_note": {"type": "string", "minLength": 20}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "publisher", "url", "effective_date", "retrieved"],
+        "additionalProperties": false,
+        "properties": {
+          "title": {"type": "string"},
+          "publisher": {"type": "string"},
+          "url": {"type": "string"},
+          "effective_date": {"type": ["string", "null"]},
+          "retrieved": {"type": "string"}
+        }
+      }
+    },
+    "evidence_of_immunity": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "applies_to", "doses_required", "born_before_1957_counts", "criteria", "source", "section", "quote"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"enum": ["general", "school_college_travel", "health_care_personnel"]},
+          "applies_to": {"type": "string"},
+          "doses_required": {"type": "integer", "minimum": 1, "maximum": 2},
+          "born_before_1957_counts": {"type": "boolean"},
+          "criteria": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+          "source": {"type": "string"},
+          "section": {"type": "string"},
+          "quote": {"type": "string"}
+        }
+      }
+    },
+    "immunity_notes": {"type": "array", "items": {"$ref": "#/$defs/cited_text"}},
+    "pep": {
+      "type": "object",
+      "required": ["mmr", "immune_globulin", "mmr_after_ig"],
+      "additionalProperties": false,
+      "properties": {
+        "mmr": {
+          "type": "object",
+          "required": ["within_hours", "anchor", "min_age_months", "text", "source", "section"],
+          "additionalProperties": false,
+          "properties": {
+            "within_hours": {"const": 72},
+            "anchor": {"const": "first_exposure"},
+            "min_age_months": {"type": "integer"},
+            "text": {"type": "string"},
+            "source": {"type": "string"},
+            "section": {"type": "string"}
+          }
+        },
+        "immune_globulin": {
+          "type": "object",
+          "required": ["within_days", "anchor", "igim_ml_per_kg", "igim_max_ml", "igiv_mg_per_kg", "text", "source", "section"],
+          "additionalProperties": false,
+          "properties": {
+            "within_days": {"const": 6},
+            "anchor": {"const": "first_exposure"},
+            "igim_ml_per_kg": {"type": "number"},
+            "igim_max_ml": {"type": "number"},
+            "igiv_mg_per_kg": {"type": "number"},
+            "text": {"type": "string"},
+            "source": {"type": "string"},
+            "section": {"type": "string"}
+          }
+        },
+        "mmr_after_ig": {
+          "type": "object",
+          "required": ["months_after_igim", "months_after_igiv", "text", "source", "section"],
+          "additionalProperties": false,
+          "properties": {
+            "months_after_igim": {"type": "integer"},
+            "months_after_igiv": {"type": "integer"},
+            "text": {"type": "string"},
+            "source": {"type": "string"},
+            "section": {"type": "string"}
+          }
+        }
+      }
+    },
+    "priority_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "recommendation", "source", "section"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string"},
+          "label": {"type": "string"},
+          "recommendation": {"type": "string"},
+          "source": {"type": "string"},
+          "section": {"type": "string"}
+        }
+      }
+    },
+    "exclusion_summary": {"type": "array", "items": {"$ref": "#/$defs/cited_text"}}
+  }
+}
