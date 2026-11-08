@@ -1936,12 +1936,12 @@ diseases:
       unit: hours
       min: 12
       max: 48
-      source: {source: factsheet-norovirus, section: What are the symptoms of norovirus infection?, quote: "Symptoms usually begin 12 to 48 hours after exposure to the virus and last about 1 to 3 days in most people"}
+      source: {source: factsheet-norovirus, section: "What are the symptoms of norovirus infection?", quote: "Symptoms usually begin 12 to 48 hours after exposure to the virus and last about 1 to 3 days in most people"}
     infectious_period:
       anchor: onset
       start_day: 0
       text: Most contagious while symptomatic, especially with vomiting, and during the first few days after feeling better; virus may still spread for two weeks or more after recovery.
-      source: {source: factsheet-norovirus, section: When is someone with norovirus contagious?}
+      source: {source: factsheet-norovirus, section: "When is someone with norovirus contagious?"}
     rules:
       - id: case_food_handler
         role: case
@@ -2022,7 +2022,7 @@ diseases:
       start_day: -1
       end_day: 7
       text: Adults can spread flu from about one day before symptoms appear to about one week after; children can spread it longer.
-      source: {source: factsheet-flu, section: How is flu spread?}
+      source: {source: factsheet-flu, section: "How is flu spread?"}
     rules: &respiratory_rules
       - id: case_community
         role: case
@@ -2256,10 +2256,10 @@ diseases:
       min: 14
       max: 42
       note: Two to six weeks after first contact; a person who has had scabies before may have symptoms within several days.
-      source: {source: factsheet-scabies, section: What are the symptoms of scabies?, quote: "Symptoms may occur two to six weeks after coming in contact with the skin of an infested person or their personal items. However, a person who has previously had scabies may have symptoms within several days."}
+      source: {source: factsheet-scabies, section: "What are the symptoms of scabies?", quote: "Symptoms may occur two to six weeks after coming in contact with the skin of an infested person or their personal items. However, a person who has previously had scabies may have symptoms within several days."}
     infectious_period:
       text: Spread can occur until all of the mites and eggs are destroyed by treatment.
-      source: {source: factsheet-scabies, section: How is scabies spread?}
+      source: {source: factsheet-scabies, section: "How is scabies spread?"}
     rules:
       - id: case_school
         role: case
@@ -2304,7 +2304,7 @@ diseases:
     incubation: null
     infectious_period:
       text: People with head lice can continue to spread them until they complete a course of treatment that kills all lice and eggs.
-      source: {source: factsheet-head-lice, section: How are head lice spread?}
+      source: {source: factsheet-head-lice, section: "How are head lice spread?"}
     rules:
       - id: case_school
         role: case
@@ -2383,7 +2383,7 @@ diseases:
     incubation: null
     infectious_period:
       text: Most contagious before symptoms start; by the time of rash or joint pain, no longer contagious.
-      source: {source: factsheet-fifth-disease, section: How long is someone with fifth disease contagious?}
+      source: {source: factsheet-fifth-disease, section: "How long is someone with fifth disease contagious?"}
     rules:
       - id: case_school
         role: case
@@ -2555,10 +2555,10 @@ diseases:
       min: 3
       max: 30
       note: From the tick bite to early symptoms.
-      source: {source: factsheet-lyme-disease, section: How is Lyme disease spread?, quote: "Symptoms of early Lyme disease, described below, usually begin to appear from 3 to 30 days after being bitten by an infected tick."}
+      source: {source: factsheet-lyme-disease, section: "How is Lyme disease spread?", quote: "Symptoms of early Lyme disease, described below, usually begin to appear from 3 to 30 days after being bitten by an infected tick."}
     infectious_period:
       text: Not spread from person to person; spread by the bite of an infected black-legged tick.
-      source: {source: factsheet-lyme-disease, section: How is Lyme disease spread?}
+      source: {source: factsheet-lyme-disease, section: "How is Lyme disease spread?"}
     rules:
       - id: case_all
         role: case
