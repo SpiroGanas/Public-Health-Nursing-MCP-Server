@@ -248,10 +248,14 @@ pub fn vaccine_temperature_excursion_helper(
     for t in &triggered {
         summary.push_str(&format!("- {t}\n"));
     }
-    if unit_key == "refrigerator" && args.open_multidose_vials && out_of_range {
-        if let Some(n) = &thresholds.note {
-            summary.push_str(&format!("\nOpen multidose vials — DPH's guideline: {n} Confirm with the manufacturer and the Vaccine Program.\n"));
-        }
+    if unit_key == "refrigerator"
+        && args.open_multidose_vials
+        && out_of_range
+        && let Some(n) = &thresholds.note
+    {
+        summary.push_str(&format!(
+            "\nOpen multidose vials — DPH's guideline: {n} Confirm with the manufacturer and the Vaccine Program.\n"
+        ));
     }
     if classification != ExcursionClass::InRange {
         summary.push_str("\n**Do now (CDC Vaccine Storage and Handling Toolkit)**\n");
