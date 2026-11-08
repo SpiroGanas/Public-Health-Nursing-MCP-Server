@@ -8,6 +8,7 @@ pub mod bmi;
 pub mod calendar;
 pub mod concussion;
 pub mod content;
+pub mod health_plans;
 pub mod medication;
 pub mod screening_requirements;
 pub mod screenings;
@@ -15,6 +16,7 @@ pub mod templates;
 
 pub use absenteeism::{AbsenteeismArgs, AbsenteeismResult, monitor_school_absenteeism};
 pub use concussion::{ConcussionArgs, ConcussionResult, concussion_return_to_learn_tracker};
+pub use health_plans::{HealthPlanArgs, HealthPlanResult, build_individualized_health_plan};
 pub use medication::{
     MedicationGuideArgs, MedicationGuideResult, school_medication_administration_guide,
 };
