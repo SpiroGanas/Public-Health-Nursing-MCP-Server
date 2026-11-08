@@ -126,7 +126,7 @@
       "source_vintage": "2025-2026 school year (data current as of April 5, 2026 per DPH)",
       "retrieved": "2026-11-07",
       "license": "Public records of the Commonwealth of Massachusetts.",
-      "derivation": "The 'Rates by School' sheet of each DPH workbook, one row per school. Rates published as fractions (0.91) are stored as whole percents (91). DPH's markers become a status column: dagger (fewer than 30 students; DPH does not release rates) -> suppressed_lt30, asterisk (no survey returned) -> no_response, pilcrow (unresolved discrepancy) -> discrepancy. Kindergarten columns: 5 DTaP, 4 polio, 2 MMR, 3 HepB, 2 varicella, series complete, exemption, unimmunized (exemption with no vaccines), no record, non-compliance. Grade 7 columns: 2 MMR, 3 HepB, 2 varicella, 1 Tdap, 1 MenACWY, series, exemption, unimmunized, no record, non-compliance. Builder: xtask/scripts/build_school_survey.py (Python 3 with openpyxl).",
+      "derivation": "The 'Rates by School' sheet of each DPH workbook, one row per school. Rates published as fractions (0.91) are stored as whole percents (91). DPH's markers become a status column: dagger (fewer than 30 students; DPH does not release rates) -> suppressed_lt30, asterisk (no survey returned) -> no_response, pilcrow (unresolved discrepancy) -> discrepancy, N/A (survey returned with zero students) -> no_students. Kindergarten columns: 5 DTaP, 4 polio, 2 MMR, 3 HepB, 2 varicella, series complete, exemption, unimmunized (exemption with no vaccines), no record, non-compliance. Grade 7 columns: 2 MMR, 3 HepB, 2 varicella, 1 Tdap, 1 MenACWY, series, exemption, unimmunized, no record, non-compliance. Builder: xtask/scripts/build_school_survey.py (Python 3 with openpyxl).",
       "caveats": [
         "Self-reported by schools; DPH notes discrepancies may exist and rates can change during the year.",
         "DPH publishes rates only (no enrollment counts) and withholds schools with fewer than 30 students; the 3-year combined kindergarten file releases schools whose pooled count reaches 30.",
@@ -135,8 +135,8 @@
       "files": [
         {
           "path": "ma_school_immunization_survey.csv",
-          "sha256": "c727f1d43d99e2c7ff4ca8f04e4634822310d06a7fe6318b2943bd2dd180be6c",
-          "bytes": 348163,
+          "sha256": "77b66e86d3f8bda0b2a64da2b22e4d7e85b7fe941c036dc208826ff9d6243c35",
+          "bytes": 348406,
           "rows": 3592
         }
       ]

@@ -40,6 +40,25 @@ All notable changes are recorded here. The format follows
 
 ### Added — Phase 5: immunizations I
 
+- `get_immunization_schedule` (VAX-01) and `compare_vaccine_recommendations` (VAX-02): schedules
+  and 17 recommendation topics with DPH, AAP, ACOG, AAFP, NEPHC, and CDC/ACIP positions, dates,
+  and sources side by side; CDC minimum ages and intervals and contraindications.
+- `check_ma_school_immunization_requirements` (VAX-04): a rule engine for the 2026–2027
+  Massachusetts school requirements (child care/preschool, K–12, college) with dose validation,
+  the 4-day grace period, live-vaccine spacing, proof of immunity, exemptions, earliest valid
+  dates, and a roster mode that writes student results to `/data/output` and returns suppressed
+  counts.
+- `analyze_vaccination_coverage` (VAX-05): DPH school survey and CDC NIS/VaxView snapshots,
+  herd-immunity thresholds with citations, school and town rankings, and local school counts.
+- `vaccine_temperature_excursion_helper` (VAX-06), `lookup_vaccine_product` (VAX-07),
+  `plan_vaccination_clinic` (VAX-08), and `vaccine_confidence_conversation_guide` (VAX-09).
+- `lookup_medication_information` (CORE-07): RxNorm, openFDA (labels, recalls, shortages), and
+  DailyMed; optional `PHN_OPENFDA_API_KEY`.
+- New setting `vaccine_recommendation_basis` (in `configure_jurisdiction`), defaulting to DPH,
+  then the professional societies, then CDC/ACIP.
+- Immunization content under `content/vax/` (pending review), CDC CVX/MVX/trade name/NDC, DPH
+  school survey, and NIS snapshots with their builder scripts in `xtask/scripts/`, and a
+  fictional school roster in the synthetic corpus.
 <!-- Phase 5 entries go above this line. -->
 
 ### Added — Phase 6: immunization forecasting and surveillance feeds

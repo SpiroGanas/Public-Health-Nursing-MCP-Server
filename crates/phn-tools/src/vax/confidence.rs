@@ -229,3 +229,53 @@ pub fn vaccine_confidence_conversation_guide(
     .privacy(Privacy::none())
     .decision_support())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn guide(ctx: &Context, concern: &str) -> ConfidenceGuideResult {
+        vaccine_confidence_conversation_guide(
+            ctx,
+            ConfidenceArgs {
+                concern: concern.into(),
+                ..Default::default()
+            },
+        )
+        .unwrap()
+        .data
+    }
+
+    #[test]
+    fn concerns_match_in_everyday_words() {
+        let (_d, ctx) = ctx();
+        assert_eq!(guide(&ctx, "too many shots at once").concern_id, "too_many_too_soon");
+        assert_eq!(guide(&ctx, "what's in vaccines, aluminum?").concern_id, "ingredients");
+        assert_eq!(guide(&ctx, "vaccines during pregnancy").concern_id, "pregnancy");
+        assert_eq!(guide(&ctx, "flu shot").concern_id, "influenza");
+        let g = guide(&ctx, "autism");
+        assert!(g.talking_points.len() <= 3);
+        assert!(g.talking_points.iter().all(|p| !p.source_url.is_empty()));
+        assert!(!g.translator_needed);
+    }
+
+    #[test]
+    fn every_fact_is_cited_and_every_script_is_scored() {
+        let (_d, ctx) = ctx();
+        for c in &GUIDE.concerns {
+            for f in &c.facts {
+                assert!(GUIDE.sources.contains_key(&f.source), "{}: unknown source {}", c.id, f.source);
+            }
+            let g = guide(&ctx, &c.title);
+            assert_eq!(g.concern_id, c.id);
+            assert!(g.reading_level.flesch_kincaid_grade > 0.0);
+        }
+    }
+}

@@ -432,3 +432,34 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
     .privacy(Privacy::none())
     .decision_support())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ndc_shapes_are_recognized() {
+        assert!(looks_like_ndc("00006-4681-00"));
+        assert!(looks_like_ndc("0006468100"));
+        assert!(looks_like_ndc("58160 0823 11"));
+        assert!(!looks_like_ndc("187"));
+        assert!(!looks_like_ndc("CVX 03"));
+        assert!(!looks_like_ndc("123-456"));
+    }
+
+    #[test]
+    fn vis_editions_follow_the_product() {
+        let codes = VaccineCodes::load(&phn_data::snapshots::SnapshotStore::bundled()).unwrap();
+        let vis = |cvx: &str| {
+            let c = codes.cvx_code(cvx).unwrap();
+            let m = build_match(&codes, c, String::new(), false);
+            m.vis.into_iter().map(|v| v.vaccine).collect::<Vec<_>>()
+        };
+        assert_eq!(vis("03"), vec!["mmr".to_string()]);
+        // MMRV gets its own VIS, not the MMR and varicella ones.
+        let mmrv = vis("94");
+        assert!(mmrv.contains(&"mmrv".to_string()), "{mmrv:?}");
+        assert!(!mmrv.contains(&"mmr".to_string()));
+        assert_eq!(vis("187"), vec!["zoster".to_string()]);
+    }
+}

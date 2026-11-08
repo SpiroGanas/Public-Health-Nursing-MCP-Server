@@ -349,3 +349,59 @@ pub fn vaccine_temperature_excursion_helper(
     })
     .decision_support())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn classify(ctx: &Context, unit: &str, min: Option<f64>, max: Option<f64>, minutes: Option<u32>) -> ExcursionClass {
+        vaccine_temperature_excursion_helper(
+            ctx,
+            ExcursionArgs {
+                unit_type: unit.into(),
+                min_temp: min,
+                max_temp: max,
+                minutes_out_of_range: minutes,
+                ..Default::default()
+            },
+        )
+        .unwrap()
+        .data
+        .classification
+    }
+
+    #[test]
+    fn thresholds_follow_the_ma_vaccine_program_guidelines() {
+        let (_d, ctx) = ctx();
+        use ExcursionClass::*;
+        // Refrigerator: 0 C or 25 C and above are immediate; otherwise 30 cumulative minutes.
+        assert_eq!(classify(&ctx, "refrigerator", Some(0.0), Some(5.0), None), ReportableImmediate);
+        assert_eq!(classify(&ctx, "refrigerator", Some(3.0), Some(25.0), Some(1)), ReportableImmediate);
+        assert_eq!(classify(&ctx, "refrigerator", Some(3.0), Some(12.0), Some(30)), ReportableCumulative);
+        assert_eq!(classify(&ctx, "refrigerator", Some(3.0), Some(12.0), Some(29)), OutOfRangeBelowReportingThreshold);
+        assert_eq!(classify(&ctx, "refrigerator", Some(1.5), Some(8.0), None), Undetermined);
+        assert_eq!(classify(&ctx, "refrigerator", Some(2.0), Some(8.0), None), InRange);
+        // Freezer: 0 C and above, or below -50 C, are immediate.
+        assert_eq!(classify(&ctx, "freezer", Some(-20.0), Some(0.0), None), ReportableImmediate);
+        assert_eq!(classify(&ctx, "freezer", Some(-51.0), Some(-20.0), None), ReportableImmediate);
+        assert_eq!(classify(&ctx, "freezer", Some(-50.0), Some(-12.0), Some(45)), ReportableCumulative);
+        // Ultra-cold: -50 C or above is immediate.
+        assert_eq!(classify(&ctx, "ultra_cold", Some(-80.0), Some(-50.0), None), ReportableImmediate);
+        assert_eq!(classify(&ctx, "ultra_cold", Some(-80.0), Some(-60.0), None), InRange);
+        assert_eq!(classify(&ctx, "freezer", None, None, None), Undetermined);
+    }
+
+    #[test]
+    fn fahrenheit_is_converted() {
+        assert!((to_c(46.0, "F") - 7.777_777).abs() < 1e-4);
+        assert!((to_c(-58.0, "F") + 50.0).abs() < 1e-9);
+        assert_eq!(to_c(5.0, "C"), 5.0);
+    }
+}

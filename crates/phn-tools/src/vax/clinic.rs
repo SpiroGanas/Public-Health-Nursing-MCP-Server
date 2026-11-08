@@ -36,6 +36,8 @@ pub struct ClinicArgs {
     pub observation_minutes: Option<f64>,
     /// Override: extra vaccine and supplies for waste, in percent.
     pub waste_factor_pct: Option<f64>,
+    /// Override: margin added to observation seats, in percent (default 25).
+    pub observation_seat_margin_pct: Option<f64>,
     /// Look up the epinephrine dose for a person of this weight (kg).
     pub epinephrine_weight_kg: Option<f64>,
     /// Write the dose reconciliation sheet (XLSX) to /data/output (default true).
@@ -176,7 +178,16 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
     let vaccinators = ceil(doses_per_hour / vacc_rate.value);
     let registrars = ceil(arrivals / reg_rate.value);
     let screeners = ceil(arrivals / scr_rate.value);
-    let seats = ceil(arrivals * obs_min.value / 60.0 * 1.25);
+    let margin = match args.observation_seat_margin_pct {
+        Some(m) if !(m.is_finite() && (0.0..=200.0).contains(&m)) => {
+            return Err(PhnError::InvalidInput(
+                "observation_seat_margin_pct must be between 0 and 200".into(),
+            ));
+        }
+        Some(m) => (m, true),
+        None => (25.0, false),
+    };
+    let seats = ceil(arrivals * obs_min.value / 60.0 * (1.0 + margin.0 / 100.0));
     let monitors = ceil(seats as f64 / per_monitor.value);
     let staffing = vec![
         StaffLine { station: "Check-in and registration".into(), people: registrars, how: format!("{arrivals:.1} arrivals/hour ÷ {} per person", reg_rate.value) },
@@ -246,11 +257,15 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
     assumptions.push(AssumptionUsed {
         id: "observation_seat_margin".into(),
         label: "Margin added to observation seats".into(),
-        value: 25.0,
+        value: margin.0,
         unit: "percent".into(),
-        basis: "tool_default".into(),
+        basis: if margin.1 { "your_override" } else { "tool_default" }.into(),
         source: None,
-        note: "Seats = arrivals per hour × observation minutes ÷ 60 × 1.25.".into(),
+        note: format!(
+            "Seats = arrivals per hour × observation minutes ÷ 60, plus {}% (Little's law with a margin){}.",
+            margin.0,
+            if margin.1 { "; the tool default is 25%" } else { "" }
+        ),
     });
 
     // Reconciliation sheet.
@@ -404,4 +419,100 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
         ..Privacy::none()
     })
     .decision_support())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn plan(ctx: &Context, args: ClinicArgs) -> ClinicPlan {
+        plan_vaccination_clinic(
+            ctx,
+            ClinicArgs {
+                reconciliation_sheet: Some(false),
+                ..args
+            },
+        )
+        .unwrap()
+        .data
+    }
+
+    #[test]
+    fn staffing_and_supplies_follow_the_stated_arithmetic() {
+        let (_d, ctx) = ctx();
+        let p = plan(
+            &ctx,
+            ClinicArgs {
+                expected_turnout: 240,
+                clinic_hours: 4.0,
+                doses_per_vaccinator_per_hour: Some(12.0),
+                registrations_per_hour: Some(20.0),
+                screenings_per_hour: Some(15.0),
+                observation_minutes: Some(15.0),
+                waste_factor_pct: Some(10.0),
+                doses_per_vial: Some(10),
+                ..Default::default()
+            },
+        );
+        // 60 arrivals/hour: 60/20 = 3 registrars, 60/15 = 4 screeners,
+        // 60/12 = 5 vaccinators; seats = 60 x 15/60 x 1.25 = 18.75 -> 19.
+        let people = |s: &str| p.staffing.iter().find(|l| l.station.starts_with(s)).unwrap().people;
+        assert_eq!(p.arrivals_per_hour, 60.0);
+        assert_eq!(people("Check-in"), 3);
+        assert_eq!(people("Screening"), 4);
+        assert_eq!(people("Vaccination"), 5);
+        assert_eq!(p.observation_seats, 19);
+        // 240 doses + 10% waste = 264 doses = 27 vials of 10.
+        assert_eq!(p.vaccine_doses_to_bring, 264);
+        assert_eq!(p.vials_to_bring, Some(27));
+        assert_eq!(p.total_staff, p.staffing.iter().map(|s| s.people).sum::<u32>());
+        let margin = p.assumptions.iter().find(|a| a.id == "observation_seat_margin").unwrap();
+        assert_eq!(margin.basis, "tool_default");
+
+        let p = plan(
+            &ctx,
+            ClinicArgs {
+                expected_turnout: 240,
+                clinic_hours: 4.0,
+                observation_minutes: Some(15.0),
+                observation_seat_margin_pct: Some(0.0),
+                ..Default::default()
+            },
+        );
+        assert_eq!(p.observation_seats, 15);
+    }
+
+    #[test]
+    fn epinephrine_is_weight_based_with_a_half_milligram_cap() {
+        let (_d, ctx) = ctx();
+        let lookup = |kg: f64| {
+            plan(
+                &ctx,
+                ClinicArgs {
+                    expected_turnout: 10,
+                    clinic_hours: 1.0,
+                    epinephrine_weight_kg: Some(kg),
+                    ..Default::default()
+                },
+            )
+            .epinephrine_lookup
+            .unwrap()
+        };
+        let e = lookup(12.0);
+        assert!((e.calculated_mg - 0.12).abs() < 1e-12);
+        assert_eq!(e.band.unwrap().age_group, "7-36 months");
+        let e = lookup(30.0);
+        assert!((e.calculated_mg - 0.3).abs() < 1e-12);
+        assert_eq!(e.band.unwrap().age_group, "8-10 years");
+        let e = lookup(80.0);
+        assert!((e.calculated_mg - 0.5).abs() < 1e-12);
+        assert_eq!(e.band.unwrap().age_group, "13 years and older");
+    }
 }

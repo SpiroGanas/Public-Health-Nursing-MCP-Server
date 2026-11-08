@@ -261,3 +261,62 @@ pub fn compare_vaccine_recommendations(
     .privacy(Privacy::none())
     .decision_support())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn topic(ctx: &Context, query: &str, basis: Option<&str>) -> TopicComparison {
+        compare_vaccine_recommendations(
+            ctx,
+            CompareArgs {
+                query: Some(query.into()),
+                population: None,
+                basis: basis.map(String::from),
+            },
+        )
+        .unwrap()
+        .data
+        .topics
+        .remove(0)
+    }
+
+    #[test]
+    fn basis_orders_positions_by_population() {
+        let (_d, ctx) = ctx();
+        // Pregnancy: DPH first, then ACOG ahead of the other societies.
+        let t = topic(&ctx, "COVID-19 vaccine during pregnancy", None);
+        assert_eq!(t.id, "covid19_pregnancy");
+        let order: Vec<Body> = t.positions.iter().map(|p| p.body).collect();
+        let pos = |b: Body| order.iter().position(|x| *x == b);
+        assert_eq!(order[0], Body::Dph);
+        if let (Some(acog), Some(aap)) = (pos(Body::Acog), pos(Body::Aap)) {
+            assert!(acog < aap, "{order:?}");
+        }
+        assert_eq!(order.last(), Some(&Body::CdcAcip));
+        // CDC/ACIP first when chosen.
+        let t = topic(&ctx, "hepatitis B birth dose", Some("cdc_acip"));
+        assert_eq!(t.basis_body, Some(Body::CdcAcip));
+        // Professional societies first: AAP for an infant topic.
+        let t = topic(&ctx, "hepatitis B birth dose", Some("professional_societies"));
+        assert_eq!(t.basis_body, Some(Body::Aap));
+    }
+
+    #[test]
+    fn every_topic_has_dated_cited_positions() {
+        for t in &RECS.topics {
+            assert!(!t.positions.is_empty(), "{} has no positions", t.id);
+            for p in &t.positions {
+                assert!(p.source.url.starts_with("https://"), "{}: {:?}", t.id, p.body);
+                assert!(!p.summary.trim().is_empty());
+            }
+        }
+    }
+}

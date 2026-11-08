@@ -114,6 +114,10 @@ pub struct CoverageResult {
     pub schools_with_rates: usize,
     pub schools_not_released: usize,
     pub schools_no_response: usize,
+    /// Schools that reported but have no rate for this measure.
+    pub schools_without_rate: usize,
+    /// Schools that returned a survey with zero students (left out of scope).
+    pub schools_zero_students: usize,
     pub schools_below_threshold: usize,
     /// Lowest first for coverage measures; highest first for exemption and
     /// noncompliance measures.
@@ -416,6 +420,7 @@ pub fn analyze_vaccination_coverage(
     let mut ranked = Vec::new();
     let mut towns = Vec::new();
     let (mut in_scope, mut with_rates, mut not_released, mut no_response, mut below) = (0, 0, 0, 0, 0);
+    let (mut without_rate, mut zero_students) = (0, 0);
     let mut period = String::new();
     if measure != "influenza" {
         let (text, entry, _) = ctx.snapshots.file_text(SURVEY_ID, SURVEY_FILE)?;
@@ -429,13 +434,19 @@ pub fn analyze_vaccination_coverage(
         period = want_period.to_string();
         let town_key = town.as_ref().map(|t| text::normalize(t));
         let school_q = args.school.as_ref().map(|s| text::normalize(s));
-        let selected: Vec<&SurveyRow> = rows
+        let mut selected: Vec<&SurveyRow> = rows
             .iter()
             .filter(|r| r.grade == want_grade && r.period == want_period)
             .filter(|r| town_key.as_ref().is_none_or(|t| text::normalize(&r.municipality) == *t))
             .filter(|r| county.as_ref().is_none_or(|c| r.county.eq_ignore_ascii_case(c)))
             .filter(|r| school_q.as_ref().is_none_or(|q| text::normalize(&r.school).contains(q.as_str())))
             .collect();
+        // DPH marks schools that returned a survey with zero students "N/A".
+        selected.retain(|r| {
+            let zero = r.status == "no_students";
+            zero_students += usize::from(zero);
+            !zero
+        });
         if selected.is_empty() {
             return Err(PhnError::NotFound(format!(
                 "no schools found for {scope} in DPH's {} file",
@@ -459,6 +470,7 @@ pub fn analyze_vaccination_coverage(
                 }
             }
             let Some(pct) = r.values.get(&measure).and_then(|v| v.parse::<f64>().ok()) else {
+                without_rate += 1;
                 continue;
             };
             with_rates += 1;
@@ -546,7 +558,17 @@ pub fn analyze_vaccination_coverage(
     );
     if measure != "influenza" {
         summary.push_str(&format!(
-            "{in_scope} school(s) in scope: {with_rates} with published rates, {not_released} not released by DPH (fewer than 30 students or unresolved discrepancies), {no_response} did not return a survey.\n",
+            "{in_scope} school(s) in scope: {with_rates} with published rates, {not_released} not released by DPH (fewer than 30 students or unresolved discrepancies), {no_response} did not return a survey{}.{}\n",
+            if without_rate > 0 {
+                format!(", {without_rate} reported without a rate for this measure")
+            } else {
+                String::new()
+            },
+            if zero_students > 0 {
+                format!(" {zero_students} school(s) that reported no students are left out.")
+            } else {
+                String::new()
+            },
         ));
         if let Some(th) = threshold.pct
             && !burden
@@ -671,6 +693,8 @@ pub fn analyze_vaccination_coverage(
             schools_with_rates: with_rates,
             schools_not_released: not_released,
             schools_no_response: no_response,
+            schools_without_rate: without_rate,
+            schools_zero_students: zero_students,
             schools_below_threshold: below,
             ranked: ranked.into_iter().take(limit).collect(),
             towns,
@@ -772,4 +796,95 @@ fn local_coverage(
         overall_pct: (tot_n >= DPH_MIN_STUDENTS).then(|| (tot_c as f64 * 1000.0 / tot_n as f64).round() / 10.0),
         ranked,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = true;
+        let ctx = Context::new(config).unwrap();
+        (dir, ctx)
+    }
+
+    #[test]
+    fn measures_and_thresholds() {
+        assert_eq!(measure_arg(None).unwrap(), "mmr");
+        assert_eq!(measure_arg(Some("Measles")).unwrap(), "mmr");
+        assert_eq!(measure_arg(Some("chickenpox")).unwrap(), "var");
+        assert_eq!(measure_arg(Some("MCV4")).unwrap(), "men");
+        assert!(measure_arg(Some("smallpox")).is_err());
+        // MMR is flagged at the highest threshold of measles, mumps, and rubella.
+        let t = threshold_for("mmr", None).unwrap();
+        assert_eq!(t.pct, Some(95.0));
+        assert!(t.diseases.iter().any(|d| d.contains("Measles")));
+        // Burden measures have no threshold; overrides are validated.
+        assert_eq!(threshold_for("exemption", None).unwrap().pct, None);
+        assert_eq!(threshold_for("men", Some(90.0)).unwrap().basis, "set by you");
+        assert!(threshold_for("mmr", Some(0.5)).is_err());
+    }
+
+    #[test]
+    fn median_of_school_rates() {
+        assert_eq!(median(&mut []), None);
+        assert_eq!(median(&mut [97.0, 90.0, 99.0]), Some(97.0));
+        assert_eq!(median(&mut [90.0, 100.0, 94.0, 96.0]), Some(95.0));
+    }
+
+    #[test]
+    fn survey_snapshot_ranks_and_counts_schools() {
+        let (_d, ctx) = ctx();
+        let env = analyze_vaccination_coverage(
+            &ctx,
+            CoverageArgs {
+                statewide: true,
+                limit: Some(200),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let d = &env.data;
+        assert_eq!(d.period, "2025-26");
+        assert_eq!(
+            d.schools_in_scope,
+            d.schools_with_rates
+                + d.schools_not_released
+                + d.schools_no_response
+                + d.schools_without_rate
+        );
+        assert!(d.schools_zero_students > 0);
+        assert_eq!(d.ranked.len(), 200);
+        assert!(d.ranked.windows(2).all(|w| w[0].pct <= w[1].pct));
+        assert_eq!(
+            d.schools_below_threshold,
+            d.towns.iter().map(|t| t.schools_below_threshold).sum::<usize>()
+        );
+        // The 3-year combined file releases more schools than one year.
+        let k3 = analyze_vaccination_coverage(
+            &ctx,
+            CoverageArgs {
+                statewide: true,
+                grade: Some("K3".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(k3.data.period, "2023-26 combined");
+        assert!(k3.data.schools_not_released <= d.schools_not_released);
+        // "Grade 3" is not the combined kindergarten file.
+        assert!(
+            analyze_vaccination_coverage(
+                &ctx,
+                CoverageArgs {
+                    grade: Some("3".into()),
+                    ..Default::default()
+                },
+            )
+            .is_err()
+        );
+    }
 }

@@ -2,7 +2,8 @@
 
 usage: build_school_survey.py OUT.csv K.xlsx G7.xlsx K3YR.xlsx
 Rates are converted from fractions (0.91) to whole percents (91). DPH's markers are kept as
-status codes: '†' -> suppressed_lt30, '*' -> no_response, '¶' -> discrepancy.
+status codes: '†' -> suppressed_lt30, '*' -> no_response, '¶' -> discrepancy, 'N/A' (survey
+returned with zero students) -> no_students.
 """
 import csv, sys, openpyxl
 
@@ -14,7 +15,7 @@ MEASURES = {
 }
 COLS = ["dtap", "polio", "mmr", "hepb", "var", "tdap", "men", "series", "exemption",
         "unimmunized", "no_record", "noncompliance"]
-MARK = {"†": "suppressed_lt30", "*": "no_response", "¶": "discrepancy"}
+MARK = {"†": "suppressed_lt30", "*": "no_response", "¶": "discrepancy", "N/A": "no_students"}
 
 rows = []
 for path, grade, period in [(K, "K", "2025-26"), (G7, "7", "2025-26"), (K3, "K", "2023-26 combined")]:
