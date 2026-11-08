@@ -16,4 +16,7 @@ pub use svi::{SviArgs, SviResult, get_social_vulnerability_index};
 // End of Phase 8 modules.
 
 // Phase 9 modules go below this line.
+pub mod hrsn;
+
+pub use hrsn::{HrsnArgs, HrsnResult, screen_health_related_social_needs};
 // End of Phase 9 modules.

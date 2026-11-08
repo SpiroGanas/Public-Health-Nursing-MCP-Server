@@ -2,6 +2,7 @@
 
 use phn_core::Envelope;
 use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan};
+use phn_tools::equity::{HrsnArgs, HrsnResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -52,5 +53,29 @@ impl PhnServer {
         Parameters(args): Parameters<LtbiCalendarArgs>,
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| phn_tools::cd::ltbi_treatment_calendar(ctx, args)).await
+    }
+
+    #[tool(
+        name = "screen_health_related_social_needs",
+        description = "Score the CMS Accountable Health Communities health-related social needs \
+            (HRSN) screening tool: living situation, food, transportation, utilities, and \
+            interpersonal safety (HITS score 11 or more), plus supplemental domains (financial \
+            strain, employment, family support, education, physical activity, substance use, \
+            PHQ-2 and stress, disabilities). Positive domains map to Massachusetts referral \
+            categories (EA shelter, Mass 211, SNAP, WIC, HEAP, MassHealth ACO HRSN services). Give \
+            answer codes only (no names). With path, scores a local file of many screenings, \
+            writes per-person results to /data/output, and returns suppressed counts by domain. \
+            Call with no answers to list item ids and answer keys.",
+        annotations(title = "Screen health-related social needs", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<HrsnResult>>()
+    )]
+    async fn screen_health_related_social_needs(
+        &self,
+        Parameters(args): Parameters<HrsnArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::equity::screen_health_related_social_needs(ctx, args)
+        })
+        .await
     }
 }

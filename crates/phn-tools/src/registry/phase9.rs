@@ -17,4 +17,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Cd,
         phase: 9,
     },
+    ToolMeta {
+        name: "screen_health_related_social_needs",
+        plan_id: "EQ-05",
+        toolset: Toolset::Equity,
+        phase: 9,
+    },
 ];

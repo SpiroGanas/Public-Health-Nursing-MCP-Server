@@ -157,6 +157,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/cd/tuberculosis.yaml"),
         schema: include_str!("../../../content/schemas/tuberculosis.schema.json"),
     },
+    ContentItem {
+        id: "ahc-hrsn-screening",
+        path: "content/equity/ahc_hrsn.yaml",
+        resource_uri: "phn://content/ahc-hrsn-screening",
+        yaml: include_str!("../../../content/equity/ahc_hrsn.yaml"),
+        schema: include_str!("../../../content/schemas/ahc_hrsn.schema.json"),
+    },
     // End of Phase 9 content items.
        // Phase 10 content items go below this line.
        // End of Phase 10 content items.
