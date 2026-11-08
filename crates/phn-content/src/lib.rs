@@ -163,6 +163,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/hazard_health_actions.yaml"),
         schema: include_str!("../../../content/schemas/epr_hazard_health_actions.schema.json"),
     },
+    ContentItem {
+        id: "epr-dispensing-site",
+        path: "content/epr/dispensing.yaml",
+        resource_uri: "phn://content/epr-dispensing-site",
+        yaml: include_str!("../../../content/epr/dispensing.yaml"),
+        schema: include_str!("../../../content/schemas/epr_dispensing.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

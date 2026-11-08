@@ -105,10 +105,22 @@ fn casper_proportions_match_samplics_taylor_estimates() {
     let t = weighted_proportions(&f.cluster, &f.weight, &f.answer, &f.labels, 0.95).unwrap();
     assert_eq!(t.categories.len(), f.estimates.len());
     for e in &f.estimates {
-        let got = t.categories.iter().find(|c| c.category == e.category).unwrap();
+        let got = t
+            .categories
+            .iter()
+            .find(|c| c.category == e.category)
+            .unwrap();
         assert_eq!(got.n, e.n, "{}", e.category);
-        assert!(rel(got.weighted_count, e.weighted_count) < 1e-9, "{}", e.category);
-        assert!(rel(got.percent / 100.0, e.proportion) < 1e-9, "{}", e.category);
+        assert!(
+            rel(got.weighted_count, e.weighted_count) < 1e-9,
+            "{}",
+            e.category
+        );
+        assert!(
+            rel(got.percent / 100.0, e.proportion) < 1e-9,
+            "{}",
+            e.category
+        );
         assert!(
             rel(got.se_percent / 100.0, e.stderror) < 1e-6,
             "{}: SE {} vs {}",

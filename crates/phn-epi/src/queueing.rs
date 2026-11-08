@@ -88,7 +88,10 @@ pub fn mmc(servers: u32, arrival_rate: f64, service_rate: f64) -> Option<MmcMeas
     let (lq, wq) = if arrival_rate == 0.0 {
         (0.0, 0.0)
     } else {
-        (pw * rho / (1.0 - rho), pw / (c * service_rate - arrival_rate))
+        (
+            pw * rho / (1.0 - rho),
+            pw / (c * service_rate - arrival_rate),
+        )
     };
     let w = wq + 1.0 / service_rate;
     Some(MmcMeasures {

@@ -6,6 +6,10 @@
 pub mod alerts;
 pub mod area;
 pub mod content;
+pub mod dispensing;
 
 pub use alerts::{HazardAlertsArgs, HazardAlertsResult, get_active_hazard_alerts};
+pub use dispensing::{
+    DispensingArgs, DispensingResult, StationInput, model_dispensing_site_throughput,
+};
 // End of Phase 12 modules.

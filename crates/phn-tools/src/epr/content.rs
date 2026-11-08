@@ -225,6 +225,77 @@ impl HazardActions {
     }
 }
 
+// ---------------------------------------------------------------- shared shapes
+
+/// A planning assumption with its basis.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct Assumption {
+    pub id: String,
+    pub label: String,
+    pub value: f64,
+    pub unit: String,
+    /// "tool_default" (no published source), "source" (cited), or "computed".
+    pub basis: String,
+    #[serde(default)]
+    pub source: Option<String>,
+    pub note: String,
+}
+
+/// A cited list of short items.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CitedList {
+    pub source: String,
+    pub section: String,
+    pub items: Vec<String>,
+}
+
+// ---------------------------------------------------------------- dispensing (EPR-02)
+
+/// A station in a dispensing model.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct StationDef {
+    pub id: String,
+    pub label: String,
+    pub minutes_per_client: f64,
+    pub fraction_of_clients: f64,
+    pub basis: String,
+    pub note: String,
+}
+
+/// A dispensing model (oral prophylaxis or vaccination).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DispensingModel {
+    pub id: String,
+    pub label: String,
+    pub stations: Vec<StationDef>,
+    pub observation_minutes: f64,
+    #[serde(default)]
+    pub observation_note: Option<String>,
+}
+
+/// `content/epr/dispensing.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Dispensing {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub definitions: Vec<Cited>,
+    pub activation_elements: CitedList,
+    pub access_considerations: Vec<Cited>,
+    pub planning_defaults: Vec<Assumption>,
+    pub models: Vec<DispensingModel>,
+    pub support_roles: CitedList,
+}
+
+impl Dispensing {
+    /// A planning default by id.
+    pub fn default_value(&self, id: &str) -> Result<&Assumption> {
+        self.planning_defaults
+            .iter()
+            .find(|a| a.id == id)
+            .ok_or_else(|| PhnError::Internal(format!("planning default {id} missing")))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

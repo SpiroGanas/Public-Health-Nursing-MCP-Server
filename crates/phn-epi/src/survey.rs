@@ -128,7 +128,11 @@ pub fn weighted_proportions(
 /// (interviews completed in the cluster × clusters selected). For a cluster
 /// selected more than once, `completed` is the interviews divided by the
 /// number of times it was selected (CDC CASPER Toolkit, 3rd ed., sec. 4.2).
-pub fn casper_weight(frame_households: f64, completed_in_cluster: f64, clusters_selected: f64) -> f64 {
+pub fn casper_weight(
+    frame_households: f64,
+    completed_in_cluster: f64,
+    clusters_selected: f64,
+) -> f64 {
     frame_households / (completed_in_cluster * clusters_selected)
 }
 
@@ -164,7 +168,9 @@ mod tests {
     #[test]
     fn missing_answers_and_too_few_clusters() {
         let labels = vec!["a".to_string()];
-        assert!(weighted_proportions(&[1, 1], &[1.0, 1.0], &[Some(0), None], &labels, 0.95).is_none());
+        assert!(
+            weighted_proportions(&[1, 1], &[1.0, 1.0], &[Some(0), None], &labels, 0.95).is_none()
+        );
         assert!(
             weighted_proportions(&[1, 2], &[1.0, -1.0], &[Some(0), Some(0)], &labels, 0.95)
                 .is_none()
