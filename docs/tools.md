@@ -1045,6 +1045,89 @@ data at all is left out with a caveat.
 ## Phase 8: Maternal, child, and family health
 
 <!-- Phase 8 tools go below this line. -->
+
+### `calculate_growth_percentiles` (MCH-03, toolset `mch`)
+
+Percentiles and z-scores for a child's weight, length or height, BMI, and head circumference,
+using the charts CDC recommends: the **WHO 2006 growth standards from birth to 24 months** and
+the **CDC 2000 growth charts from 2 to 20 years**, with CDC's **2022 extended BMI-for-age**
+method above the 95th percentile.
+
+| Argument | |
+|---|---|
+| `sex` | `male` or `female` (required for one child). |
+| `measurements` | One or more visits, oldest first. Each visit gives an age (`age_days`, `age_months`, `age_years`, or `measurement_date` with `birth_date`) and at least one of `weight_kg` (or `weight_lb` + `weight_oz`), `length_or_height_cm` (or `_in`), `head_circumference_cm` (or `_in`); optional `position` (`recumbent` or `standing`). At most 60 visits. |
+| `birth_date` | Only needed with `measurement_date`. Dates are used to compute age and are not returned. |
+| `gestational_age_weeks`, `gestational_age_days` | Gestational age at birth. Under 37 weeks, corrected age is used until 24 months of chronological age (`correct_for_prematurity: false` turns this off). |
+| `measurements_path`, `sheet` | Batch mode: a CSV/XLSX in `/data` with one row per child-visit (`sex`; `age_months`/`age_days`/`age_years` or `date_of_birth` + `measurement_date`; `weight_kg`/`weight_lb`; `height_cm`/`height_in`; `head_circumference_cm`; `gestational_age_weeks`). |
+
+**Method** (CDC's SAS programs and data-file pages):
+
+- z = ((X/M)^L − 1)/(L·S); percentile = Φ(z). L, M, S are interpolated linearly: WHO by day of
+  age (CDC's daily WHO file) and by 0.1 cm of length; CDC between the half-month rows.
+- WHO weight, BMI, and weight-for-length z-scores beyond ±3 use the distance between the 2 and
+  3 SD values (WHO's restricted method). CDC uses ln(X/M)/S when |L| < 0.01.
+- Extended BMI (from 2 years): above the 95th percentile, percentile = 90 + 10·Φ((BMI − P95)/σ),
+  with σ = 0.3728 + 0.5196·age − 0.0091·age² (boys) or 0.8334 + 0.3712·age − 0.0011·age² (girls),
+  age in years; z = Φ⁻¹(percentile/100). The 2000-chart LMS z-score is also returned.
+- Flags: WHO values at or below the 2.3rd or at or above the 97.7th percentile (±2 SD, MMWR
+  2010); CDC values at or below the 5th or at or above the 95th; CDC BMI categories (underweight,
+  healthy weight, overweight, obesity, severe obesity class 2 at ≥120% of the 95th percentile or
+  BMI ≥35, class 3 at ≥140% or BMI ≥40); extreme values to re-measure (WHO z cut points and CDC
+  modified z-scores from CDC's SAS programs).
+- Several visits show the change in z-score and in the measurement since the previous visit.
+- Age 20 or older, length outside 45–110 cm for weight-for-length, head circumference after 36
+  months, and a corrected age before term are reported as "not scored" with the reason.
+
+**Batch mode** writes `growth_percentiles.xlsx` (per-row percentiles, z-scores, BMI, weight
+status, flags, and rows not scored, with any name and ID columns copied from the file) to the
+output folder and returns only weight-status counts by age group (WHO weight-for-length under 2;
+CDC BMI category from 2), with small-cell suppression.
+
+**Golden tests** (`crates/phn-tools/tests/growth_golden.rs`) reproduce every published percentile
+in CDC's 2000 data files (weight, stature, head circumference; relative error < 1e-7), all
+percentiles and z-score values in CDC's extended BMI file (to its 4 decimals), CDC's four worked
+extended-BMI examples, and WHO's published monthly L, M, S and ±3 SD values from the daily file.
+
+Sources: snapshots `who-growth-standards` (CDC's `WHOref_d.csv`) and `cdc-growth-charts` (CDC
+data files, verbatim); content `mch-growth-interpretation` (pending review). The corrected-age
+rule is **low confidence** (no CDC source states it; confirm the agency's rule).
+### `childhood_lead_screening_guide` (MCH-04, toolset `mch`)
+
+Massachusetts childhood lead screening and follow-up from **105 CMR 460.000** (Mass. Register
+#1353, 12/1/17) and DPH's Childhood Lead Poisoning Prevention Program (CLPPP) pages.
+
+| Argument | |
+|---|---|
+| `child_age_months` | Child's age: each required screening is shown as due now, upcoming, or past. |
+| `town` | Where the child lives: DPH's current high-risk list (rank) and the town's published screening rate and blood lead prevalence with state values. |
+| `blood_lead_level`, `sample_type` | A result in µg/dL and `capillary` or `venous` (required with a level). |
+| `risk_factors` | `household_poisoned`, `renovation`, `deteriorated_paint`, `clinical_judgment` (105 CMR 460.050(D)). |
+| `teaching_sheet`, `language` | Write a family teaching sheet (DOCX) to the output folder; see translations below. |
+
+**What it returns:** definitions (lead poisoning ≥10 µg/dL venous; blood lead level of concern
+5–<10; CDC reference value 3.5); the routine schedule (9–12 months, 2, 3, and 4 in a high-risk
+community; entry to child care, pre-K, or kindergarten); high-risk schedules; venous
+confirmation timing for capillary results (3.5–4.9 and 5–9: 3 months; 10–14: 1 month; 15–19:
+2 weeks; 20–44: 1 week; 45–69: 48 hours; ≥70: emergency care); provider, environmental, case
+management, and re-test actions by venous level (DPH's table); reporting (lead poisoning within
+3 working days; every result electronically within one week; confidentiality); the Lead Law;
+family teaching; CLPPP contacts and pediatric environmental health clinics.
+
+**High-risk communities:** the 17 communities on DPH's 2024 list (2020–2024 data, from the 2024
+Annual Childhood Lead Poisoning Surveillance Report), checked against snapshot
+`ma-lead-screening`. Update `content/mch/lead_screening.yaml` and the snapshot each year
+(`xtask/scripts/build_lead_snapshot.py`).
+
+**Translations:** the server ships an English teaching sheet only. For another language, put
+the agency's approved translation at `/data/templates/<language>/lead_family_teaching.docx` (used
+as is) or `.md` (rendered with your letterhead). `<language>` is the folder name you choose, for
+example `spanish` or `es` (common codes and names are both tried). If none is found, the
+English sheet is written and the result says so; the server does not machine-translate.
+
+Content: `mch-lead-screening` (pending review). DPH's follow-up table combines Massachusetts
+requirements with CDC's 2021 reference value and CDC's schedules; the tool says so.
+
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

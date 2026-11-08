@@ -758,6 +758,126 @@
           "rows": 1173
         }
       ]
+    },
+    {
+      "id": "cdc-growth-charts",
+      "title": "CDC 2000 growth charts (2 to 20 years), CDC infant head circumference (to 36 months), and the 2022 CDC extended BMI-for-age charts: LMS parameters and published percentiles",
+      "publisher": "Centers for Disease Control and Prevention, National Center for Health Statistics",
+      "source_urls": [
+        "https://www.cdc.gov/growthcharts/data/zscore/wtage.csv",
+        "https://www.cdc.gov/growthcharts/data/zscore/statage.csv",
+        "https://www.cdc.gov/growthcharts/data/zscore/hcageinf.csv",
+        "https://www.cdc.gov/growthcharts/data/extended-bmi/bmi-age-2022.csv",
+        "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
+        "https://www.cdc.gov/growthcharts/extended-bmi-data-files.htm"
+      ],
+      "source_sha256": {
+        "wtage.csv": "3406c9d125bcb69c062a9e84eb8c0209bfe9346542bdc1d308643750dcc241b7",
+        "statage.csv": "45130d2a9d7c50c54a47e7ba626b66c61d4554bc2d901198cedd9419a53f7251",
+        "hcageinf.csv": "bf7e2d7af8fdb336f0b159e480414842136da960ea6a730b7e73d1060b4549e9",
+        "bmi-age-2022.csv": "7f416a213157a5209bb6cbfd1b19292510248f3f31fe43c9ff63f6d8e39f7890"
+      },
+      "source_vintage": "2000 CDC growth charts (data files last reviewed 2024-09-02); extended BMI-for-age 2022",
+      "retrieved": "2026-11-08",
+      "license": "U.S. government work (CDC/NCHS); public domain.",
+      "derivation": "Files copied verbatim by xtask/scripts/build_growth_charts.py. Each row gives L, M, S by sex (1 = male, 2 = female) and age in months at the half-month point, plus CDC's smoothed percentiles; bmi-age-2022.csv adds sigma for the extended method above the 95th percentile.",
+      "caveats": [
+        "CDC recommends the WHO standards from birth to 24 months and the CDC 2000 charts from 2 to 20 years. The CDC infant head circumference chart is used only from 24 to 36 months.",
+        "The 2000 charts are a historical reference (NHANES 1963-1994); CDC has no plans to update them."
+      ],
+      "files": [
+        {
+          "path": "cdc_growth_wtage.csv",
+          "sha256": "3406c9d125bcb69c062a9e84eb8c0209bfe9346542bdc1d308643750dcc241b7",
+          "bytes": 66456,
+          "rows": 436
+        },
+        {
+          "path": "cdc_growth_statage.csv",
+          "sha256": "45130d2a9d7c50c54a47e7ba626b66c61d4554bc2d901198cedd9419a53f7251",
+          "bytes": 66087,
+          "rows": 436
+        },
+        {
+          "path": "cdc_growth_hcageinf.csv",
+          "sha256": "bf7e2d7af8fdb336f0b159e480414842136da960ea6a730b7e73d1060b4549e9",
+          "bytes": 11486,
+          "rows": 76
+        },
+        {
+          "path": "cdc_growth_bmi_age_2022.csv",
+          "sha256": "7f416a213157a5209bb6cbfd1b19292510248f3f31fe43c9ff63f6d8e39f7890",
+          "bytes": 124895,
+          "rows": 438
+        }
+      ]
+    },
+    {
+      "id": "who-growth-standards",
+      "title": "WHO Child Growth Standards (2006), birth to 24 months: LMS parameters by day of age and by length (CDC's copy)",
+      "publisher": "World Health Organization; file distributed by CDC (Division of Nutrition, Physical Activity, and Obesity) with its SAS program for the WHO growth charts",
+      "source_urls": [
+        "https://www.cdc.gov/growth-chart-training/media/files/WHOref_d.csv",
+        "https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas-who.html",
+        "https://www.cdc.gov/growthcharts/who-data-files.htm"
+      ],
+      "source_sha256": {
+        "WHOref_d.csv": "709d04e07de554b6e379aa21ede29b14e41946943f62b9fadea9f80c56f1c4d3"
+      },
+      "source_vintage": "WHO Child Growth Standards 2006 (CDC pages last reviewed 2024-09-02)",
+      "retrieved": "2026-11-08",
+      "license": "WHO Child Growth Standards tables are published by WHO for public use; CDC distributes this copy for its public SAS program.",
+      "derivation": "xtask/scripts/build_growth_charts.py keeps the 'forage' rows for ages 0 to 730 days (L, M, S for weight, length, head circumference, and BMI) and the 'forlen' rows at every 0.1 cm from 45 to 110 cm (weight-for-length). Values are copied as text. The source's 0.01 cm grid is linear between 0.1 cm points (largest relative difference 7e-9), and interpolating the daily values at 30.4375 x month days reproduces WHO's published monthly L, M, S.",
+      "caveats": [
+        "CDC's monthly WHO data files are on ftp.cdc.gov, which was not reachable from the build environment; this daily file is the one CDC's own SAS program uses.",
+        "WHO length-for-age and weight-for-length assume recumbent length (birth to 24 months).",
+        "WHO length becomes standing height from 731 days (24 months); the snapshot stops at 730 days, and the tool uses the WHO tables only before 24 months."
+      ],
+      "files": [
+        {
+          "path": "who_growth_by_age.csv",
+          "sha256": "3561bbce90d25a6d94801e8094bbd160c0b738925776516b4bc18abdbbad5efc",
+          "bytes": 201130,
+          "rows": 1462
+        },
+        {
+          "path": "who_growth_wfl.csv",
+          "sha256": "31f6eed1dd3f95c7735efc959ffb75481960d462f831bba53a3f206d91ae4561",
+          "bytes": 59733,
+          "rows": 1302
+        }
+      ]
+    },
+    {
+      "id": "ma-lead-screening",
+      "title": "Childhood blood lead screening and blood lead levels by community (children 9 to 47 months, calendar year 2024) and DPH high-risk communities for childhood lead poisoning (2020-2024)",
+      "publisher": "Massachusetts Department of Public Health, Childhood Lead Poisoning Prevention Program",
+      "source_urls": [
+        "https://www.mass.gov/doc/2024-annual-childhood-lead-poisoning-surveillance-report/download",
+        "https://www.mass.gov/doc/2023-annual-childhood-lead-poisoning-surveillance-report/download",
+        "https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists"
+      ],
+      "source_sha256": {
+        "2024-annual-childhood-lead-poisoning-surveillance-report.pdf": "300d9e4cf24fa0d7611973af0a1be55335f061507808c7f5ba758611166ad9d3",
+        "2023-annual-childhood-lead-poisoning-surveillance-report.docx": "9cc4e58791710fcdaef43d33d502538faf8f6b0c66787ae953b86ad6fad5d3d0"
+      },
+      "source_vintage": "Calendar year 2024 (2023 for 24 communities); high-risk list 2020-2024; report published 2026-08-05",
+      "retrieved": "2026-11-08",
+      "license": "Massachusetts DPH public report.",
+      "derivation": "xtask/scripts/build_lead_snapshot.py reads Appendix I (high-risk communities) and Appendix II (screening and blood lead levels by community) from pdftotext output of the 2024 report. DPH's 2024 PDF has no Appendix II page for Monson through Northampton (24 communities, including New Bedford); their rows come from the 2023 report (DOCX) and are marked data_year 2023. Values are copied as printed: NS = not shown (1-5 children where fewer than 1,200 were screened), >99 = more children screened than the population estimate, NA = no children. Town names follow MassGIS (Manchester = Manchester-by-the-Sea).",
+      "caveats": [
+        "Blood lead level counts include confirmed and unconfirmed tests; 'estimated confirmed' adds a share of unconfirmed capillary tests. Lead poisoning is a confirmed level of 10 ug/dL or more.",
+        "Populations are UMass Donahue Institute 2020 interim estimates; percent of pre-1978 housing and poverty are ACS 2022 5-year (as reported by DPH).",
+        "24 communities (Monson to Northampton, including New Bedford) show 2023 values because the 2024 report omitted their page."
+      ],
+      "files": [
+        {
+          "path": "ma_lead_screening_2024.csv",
+          "sha256": "773e14e148a11a874a1ae1d974978cbf7cff0d8877181ac780708b3a57527cb7",
+          "bytes": 25754,
+          "rows": 352
+        }
+      ]
     }
   ]
 }

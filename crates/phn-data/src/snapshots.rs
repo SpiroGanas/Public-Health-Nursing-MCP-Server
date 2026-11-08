@@ -189,6 +189,36 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "mwra_biobot.csv",
         include_str!("../../../snapshots/mwra_biobot.csv"),
     ),
+    // Phase 8 snapshot files go below this line.
+    (
+        "cdc_growth_wtage.csv",
+        include_str!("../../../snapshots/cdc_growth_wtage.csv"),
+    ),
+    (
+        "cdc_growth_statage.csv",
+        include_str!("../../../snapshots/cdc_growth_statage.csv"),
+    ),
+    (
+        "cdc_growth_hcageinf.csv",
+        include_str!("../../../snapshots/cdc_growth_hcageinf.csv"),
+    ),
+    (
+        "cdc_growth_bmi_age_2022.csv",
+        include_str!("../../../snapshots/cdc_growth_bmi_age_2022.csv"),
+    ),
+    (
+        "who_growth_by_age.csv",
+        include_str!("../../../snapshots/who_growth_by_age.csv"),
+    ),
+    (
+        "who_growth_wfl.csv",
+        include_str!("../../../snapshots/who_growth_wfl.csv"),
+    ),
+    (
+        "ma_lead_screening_2024.csv",
+        include_str!("../../../snapshots/ma_lead_screening_2024.csv"),
+    ),
+    // End of Phase 8 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

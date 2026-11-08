@@ -146,17 +146,31 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/vax/cdsi_supporting_data.yaml"),
         schema: include_str!("../../../content/schemas/cdsi_supporting_data.schema.json"),
     }, // Phase 7 content items go below this line.
-       // End of Phase 7 content items.
-       // Phase 8 content items go below this line.
-       // End of Phase 8 content items.
-       // Phase 9 content items go below this line.
-       // End of Phase 9 content items.
-       // Phase 10 content items go below this line.
-       // End of Phase 10 content items.
-       // Phase 11 content items go below this line.
-       // End of Phase 11 content items.
-       // Phase 12 content items go below this line.
-       // End of Phase 12 content items.
+    // End of Phase 7 content items.
+    // Phase 8 content items go below this line.
+    ContentItem {
+        id: "mch-growth-interpretation",
+        path: "content/mch/growth_interpretation.yaml",
+        resource_uri: "phn://content/mch-growth-interpretation",
+        yaml: include_str!("../../../content/mch/growth_interpretation.yaml"),
+        schema: include_str!("../../../content/schemas/mch_growth.schema.json"),
+    },
+    ContentItem {
+        id: "mch-lead-screening",
+        path: "content/mch/lead_screening.yaml",
+        resource_uri: "phn://content/mch-lead-screening",
+        yaml: include_str!("../../../content/mch/lead_screening.yaml"),
+        schema: include_str!("../../../content/schemas/mch_lead.schema.json"),
+    },
+    // End of Phase 8 content items.
+    // Phase 9 content items go below this line.
+    // End of Phase 9 content items.
+    // Phase 10 content items go below this line.
+    // End of Phase 10 content items.
+    // Phase 11 content items go below this line.
+    // End of Phase 11 content items.
+    // Phase 12 content items go below this line.
+    // End of Phase 12 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

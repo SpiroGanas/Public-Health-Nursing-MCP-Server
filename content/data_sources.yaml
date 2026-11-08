@@ -437,6 +437,73 @@ sources:
   # Phase 7 sources go below this line.
   # End of Phase 7 sources.
   # Phase 8 sources go below this line.
+  - id: mch-growth-interpretation
+    name: Growth chart selection and interpretation (MMWR 2010, CDC BMI categories, CDC SAS programs)
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: mch-growth-interpretation
+    homepage: https://www.cdc.gov/growthcharts/index.htm
+    probe_url: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        Draft pending review. The corrected-age rule (until 24 months) is low confidence: no CDC
+        page states it.
+  - id: cdc-growth-charts
+    name: CDC 2000 growth charts and 2022 extended BMI-for-age charts (LMS data files)
+    publisher: CDC National Center for Health Statistics
+    kind: snapshot
+    status: active
+    snapshot_id: cdc-growth-charts
+    homepage: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    probe_url: https://www.cdc.gov/growthcharts/data/zscore/wtage.csv
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        Historical reference (NHANES 1963-1994) that CDC does not plan to update; the extended
+        BMI curves above the 95th percentile use data through 2016.
+  - id: who-growth-standards
+    name: WHO Child Growth Standards, birth to 24 months (CDC's daily LMS file)
+    publisher: World Health Organization (file distributed by CDC)
+    kind: snapshot
+    status: active
+    snapshot_id: who-growth-standards
+    homepage: https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas-who.html
+    probe_url: https://www.cdc.gov/growth-chart-training/media/files/WHOref_d.csv
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        CDC's monthly WHO data files on ftp.cdc.gov and who.int were not reachable from the
+        build environment; the daily file used by CDC's SAS program reproduces WHO's monthly
+        tables.
+  - id: mch-lead-screening
+    name: Massachusetts childhood lead screening and case management (105 CMR 460.000, DPH CLPPP)
+    publisher: Massachusetts Department of Public Health
+    kind: content
+    status: active
+    content_id: mch-lead-screening
+    homepage: https://www.mass.gov/orgs/childhood-lead-poisoning-prevention-program
+    probe_url: https://www.mass.gov/info-details/learn-about-lead-testing-in-massachusetts-and-what-a-result-means-for-your-child
+    used_by: [childhood_lead_screening_guide, map_lead_risk]
+    caveats:
+      - >-
+        Draft pending review. The high-risk community list is updated each year in DPH's annual
+        surveillance report.
+  - id: ma-lead-screening
+    name: DPH childhood blood lead screening and prevalence by community, and high-risk communities
+    publisher: Massachusetts Department of Public Health, Childhood Lead Poisoning Prevention Program
+    kind: snapshot
+    status: active
+    snapshot_id: ma-lead-screening
+    homepage: https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists
+    probe_url: https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists
+    used_by: [childhood_lead_screening_guide, map_lead_risk]
+    caveats:
+      - >-
+        Calendar year 2024, except 24 communities (Monson to Northampton) whose page is missing
+        from DPH's 2024 PDF and which show 2023 values. Rebuild each year with
+        xtask/scripts/build_lead_snapshot.py.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

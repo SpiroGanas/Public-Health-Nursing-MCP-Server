@@ -24,6 +24,20 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 8: maternal, child, and family health
 
 <!-- Phase 8 entries go below this line. -->
+- `calculate_growth_percentiles` (MCH-03): WHO 2006 (birth to 24 months) and CDC 2000 (2 to 20
+  years) percentiles and z-scores with CDC's 2022 extended BMI-for-age method, BMI categories,
+  corrected age for prematurity, extreme-value flags, visit-to-visit change, and a batch mode
+  that writes per-row results to the output folder. Snapshots `who-growth-standards` and
+  `cdc-growth-charts` (`xtask/scripts/build_growth_charts.py`); content
+  `content/mch/growth_interpretation.yaml` (pending review); golden tests against CDC's and
+  WHO's published tables.
+- `childhood_lead_screening_guide` (MCH-04): screening schedule and high-risk schedules from
+  105 CMR 460.050, DPH's 2024 high-risk community list with each town's screening rate, venous
+  confirmation and follow-up by blood lead level from DPH CLPPP, reporting, the Lead Law, family
+  teaching, and an optional teaching sheet (English or an agency translation in
+  `/data/templates/<language>/`). Content `content/mch/lead_screening.yaml` (pending review);
+  snapshot `ma-lead-screening` from DPH's 2024 surveillance report
+  (`xtask/scripts/build_lead_snapshot.py`).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

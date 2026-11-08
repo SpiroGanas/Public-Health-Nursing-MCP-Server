@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 49;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,6 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching.', '2'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1722,6 +1723,78 @@ const toolChapters = [
   // Phase 7 chapter goes below this line.
   // End of Phase 7 chapter.
   // Phase 8 chapter goes below this line.
+  {
+    title: 'Maternal, child, and family health',
+    intro: 'These tools support home visiting, early childhood, and lead poisoning prevention work: growth charts, lead screening and case management, mandated reporting, developmental milestones, newborn and postpartum visits, benefit eligibility screening, lead risk maps, and maternal and infant health data. They are in the mch group (benefit eligibility is in the equity group). Clinical and legal content is a draft until you review it.',
+    tools: [
+      {
+        id: 'calculate_growth_percentiles',
+        title: 'Calculate growth percentiles',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when scoring a file of many children',
+        does: 'Calculates percentiles and z-scores for weight, length or height, BMI, and head circumference using the WHO standards from birth to 24 months and the CDC charts from 2 to 20 years, including CDC’s 2022 extended BMI-for-age method for children above the 95th percentile, the BMI category, and corrected age for babies born early. It compares visits and flags values to re-measure.',
+        when: [
+          'A home visit or clinic weight check for an infant or child.',
+          'Following a baby’s weight gain over several visits.',
+          'Scoring a file of measurements from a screening event or a WIC or school list.',
+        ],
+        provide: [
+          'The child’s sex and, for each visit, the age (days, months, or years, or the measurement date with the birth date) and the measurements in kilograms or pounds and centimeters or inches.',
+          'Optionally: gestational age at birth (for corrected age), or the name of a CSV or Excel file in your data folder for many children.',
+        ],
+        examples: [
+          'A 9-month-old boy weighs 9.7 kg and is 72 cm long. What are his percentiles?',
+          'Plot this baby girl’s weights: 2 weeks 3.4 kg, 1 month 4.0 kg, 2 months 4.9 kg. She was born at 34 weeks.',
+          'A 10-year-old girl is 55 inches tall and weighs 110 pounds. What is her BMI percentile and category?',
+          'Score the measurements in growth_screening.xlsx and give me the weight-status counts.',
+        ],
+        returns: [
+          'For each visit: each measurement’s percentile, z-score, the chart used (WHO or CDC), the median, flags (for example below the 2.3rd percentile on the WHO chart, or the BMI category), and the change since the last visit.',
+          'For a file: a spreadsheet in your output folder with each row’s results, and only counts by age group and weight status in the chat.',
+        ],
+        notes: [
+          'Percentiles are screening information, not a diagnosis. Look at the pattern over time and refer to the child’s health care provider for concerns.',
+          'The WHO charts flag growth at ±2 SD (the 2.3rd and 97.7th percentiles); the CDC charts traditionally use the 5th and 95th.',
+          'Corrected age is used until 24 months for babies born before 37 weeks. This rule is a draft: confirm your agency’s practice.',
+          'Birth and measurement dates are used only to calculate age; they are not shown in the answer.',
+        ],
+      },
+      {
+        id: 'childhood_lead_screening_guide',
+        title: 'Childhood lead screening guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for a teaching sheet',
+        does: 'Explains the Massachusetts lead screening schedule (105 CMR 460.000), whether a town is on DPH’s high-risk community list, when to confirm a fingerstick result with a venous test, what to do at each blood lead level (follow-up testing, medical, environmental, and case management steps from DPH’s Childhood Lead Poisoning Prevention Program), reporting rules, the Lead Law, and what to teach families. It can write a family teaching sheet.',
+        when: [
+          'A home visit to a family with a young child in older housing.',
+          'A child has a capillary (fingerstick) result and you need to know how soon to confirm it.',
+          'Case management for a child with an elevated or poisoned blood lead level.',
+          'Checking whether a 4-year-old in your town still needs a lead test.',
+        ],
+        provide: [
+          'Any of: the child’s age in months, the town, a blood lead level with “capillary” or “venous”, and risk factors (a lead-poisoned sibling, renovation, or peeling paint in a pre-1978 home).',
+          'Optionally: ask for a teaching sheet and the family’s language.',
+        ],
+        examples: [
+          'An 18-month-old in Lowell had a fingerstick lead level of 7. What happens next?',
+          'What are the follow-up steps for a venous blood lead level of 16 in a 2-year-old?',
+          'Is Fitchburg a high-risk community for lead, and what is its screening rate?',
+          'Write a lead teaching sheet for a Spanish-speaking family.',
+        ],
+        returns: [
+          'The screenings the child needs and whether each is due, the town’s high-risk status and screening figures, the confirmation timing and actions for the result, reporting duties, Lead Law points, family teaching points, and contacts.',
+          'If you asked for one, a teaching sheet in your output folder.',
+        ],
+        notes: [
+          'The high-risk list changes every year; this version uses DPH’s 2024 list (17 communities).',
+          'DPH’s follow-up table mixes Massachusetts rules (lead poisoning at 10 µg/dL, level of concern 5 to 9) with CDC’s 3.5 µg/dL reference value. Follow the child’s provider and CLPPP.',
+          'The server ships an English teaching sheet. To give families your agency’s translation, save it as templates/<language>/lead_family_teaching.docx in your data folder; otherwise the English sheet is used and the answer says so.',
+        ],
+      },
+    ],
+  },
   // End of Phase 8 chapter.
   // Phase 9 chapter goes below this line.
   // End of Phase 9 chapter.
