@@ -752,3 +752,131 @@ reported as not checked. Reference only; it gives no patient-specific dosing.
 ## Phase 6: Immunization forecasting and surveillance feeds
 
 <!-- Phase 6 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+### `forecast_immunizations_due` (VAX-03, toolset `vax`)
+
+Evaluates a dose history and forecasts the doses due with CDC's Clinical Decision Support for
+Immunization (CDSi): the *Logic Specification for ACIP Recommendations* v4.6 (December 2024)
+implemented in the `phn-cdsi` crate over CDC's *Supporting Data* v4.65 (August 2026), which is
+embedded byte for byte with SHA-256 checksums (`crates/phn-cdsi/data/manifest.json`).
+
+| Argument | |
+|---|---|
+| `date_of_birth` | YYYY-MM-DD (one-person mode). Used for the calculation only; the answer shows ages. |
+| `sex` | `female`, `male`, or `unknown` (default). The HPV series differ by sex. |
+| `assessment_date` | YYYY-MM-DD (default today). |
+| `doses` | `[{vaccine, date}]`: CVX code, vaccine type (`DTaP-HepB-IPV`), or trade name (`Pediarix`), resolved to CVX from the supporting data and the names in CDC's test cases. Ambiguous or unknown names are a tool error with suggestions. |
+| `conditions` | `[{condition, date?}]`: CDSi observation codes or titles (`007` / `Pregnant`, `Anatomical or functional asplenia`, `Health care personnel`). They select risk series, contraindications, and evidence of immunity. |
+| `born_in_us` | Needed for birth-date evidence of immunity that applies only to U.S. births (varicella before 1980). |
+| `vaccine_groups` | Limit to groups (`DTaP`, `MMR`, `HPV`, `pneumococcal`, `flu`, ...). |
+| `file`, `sheet` | File mode: a CSV/XLSX in `/data`, one row per dose. |
+| `id_column`, `dob_column`, `date_column`, `vaccine_column`, `sex_column` | File-mode column names (detected when omitted). |
+
+**One person.** Returns a status per vaccine group (overdue, due now, can give now, due later,
+complete, immune, contraindicated, aged out, not recommended now) with the next dose number and
+the earliest, recommended, and past-due dates; each dose's evaluation (valid, not valid,
+extraneous) with reasons (too young, too soon, grace period, live virus conflict, not a
+preferable or allowable vaccine); contraindications and evidence of immunity found; and a
+projected catch-up schedule. The projection re-runs the engine as if each remaining dose were
+given on its earliest date, so doses that become unnecessary with age drop out; it stops at
+routine doses more than two years away. When CDSi produces more than one forecast for a vaccine
+group (one per series group, such as a risk series and the standard series, or the childhood and
+age-50+ pneumococcal series), all are listed; forecasts first due more than a year away are
+summarized on one line.
+
+**File mode.** Each person is evaluated and forecast; the per-person forecasts and dose
+evaluations (with person IDs) are written to `/data/output/<file>_forecast_<date>.csv` and
+`<file>_dose_evaluations_<date>.csv`. The response holds only the number of people by vaccine
+group and status, with small-cell suppression. Rows with a missing ID, date of birth, date, or
+vaccine are skipped and counted; unrecognized vaccines are counted and listed in the output file.
+
+**Validation.** `crates/phn-cdsi/tests/cdsi_test_cases.rs` runs all 1,401 CDC test cases (healthy
+childhood and adult v4.46; underlying conditions v4.6). All 1,064 healthy cases pass; 36 older
+underlying-condition cases are documented exceptions with reasons
+([`docs/cdsi-test-results.md`](cdsi-test-results.md)). The test fails on any new failure and on
+any exception that starts passing.
+
+Every answer is decision support: verify against the MIIS record before acting. CDSi encodes
+CDC/ACIP recommendations only; the answer says that DPH and AAP/ACOG positions may differ since
+2025 and points to `compare_vaccine_recommendations`. Massachusetts school requirements are a
+separate tool (`check_ma_school_immunization_requirements`). Seasonal series (influenza,
+COVID-19, RSV) follow the season dates in the embedded supporting data; after that season ends
+they show "not recommended now" until CDC publishes new supporting data.
+
+### `get_notifiable_disease_trends` (CD-08, toolset `cd`)
+
+Weekly National Notifiable Diseases Surveillance System (NNDSS) counts from CDC's *NNDSS Weekly
+Data* (data.cdc.gov `x9gk-5huc`, MMWR years 2022 onward) for Massachusetts, New England, and
+U.S. residents, compared with the same point in the five previous MMWR years.
+
+| Argument | |
+|---|---|
+| `condition` | NNDSS condition name or part of it (`pertussis`, `measles`, `hepatitis A`, `whooping cough`). Every NNDSS row that matches is shown (up to 12; for example measles indigenous and imported). Omit for an overview. |
+| `areas` | Reporting areas (default Massachusetts, New England, United States): a state, an NNDSS region, or `United States`. At most 6. |
+| `year`, `week` | MMWR year and week (default the latest published). |
+| `limit` | Overview rows (default 25, at most 150). |
+
+**Method** (also returned in `data.method`):
+
+- *Year to date (YTD)*: the cumulative count through MMWR week *w* as published that week (NNDSS
+  column m3; `-` counts as 0). For 2021, the year before the dataset starts, the previous-year
+  column (m4) of the 2022 rows is used. Week 53 is read as week 52 in 52-week years.
+- *Last 4 weeks*: YTD(*w*) − YTD(*w* − 4), the cases added to the cumulative total in the four
+  weeks ending week *w* (net of revisions, so it can be negative).
+- *Baseline*: the same quantity in each of the five previous MMWR years: mean, minimum, maximum,
+  and ratio (current / mean). It needs at least 3 of the 5 years; NNDSS rows that CDC renamed or
+  redefined have shorter histories and are not combined with similarly named rows. "Above" or
+  "below the 5-year range" means outside the baseline minimum–maximum.
+- Baseline years use counts as published at the same week, so they carry reporting delays like
+  the current year's. CDC's revised previous-year figure (m4) is shown alongside.
+- *Year-end totals*: YTD at the last week of each previous year (provisional, as published at
+  year end). Finalized annual tables are on CDC Stacks
+  (<https://www.cdc.gov/nndss/infectious-disease/weekly-and-annual-disease-data-tables.html>);
+  CDC WONDER's annual query could not be reached from the development environment.
+
+**Condition mode** returns, per area: this week's count, YTD with the baseline, the last 4 weeks
+with the baseline, provisional year-end totals for the previous five years, and the first area's
+weekly counts for the last 8 weeks. **Overview mode** (no condition) lists every condition with
+cases this year or in the baseline for the first area, those above their 5-year range first.
+
+Conditions not in the weekly tables (for example Lyme disease) are a tool error that points to
+CDC's annual tables and `lookup_reportable_condition`. Data come through the live → cache →
+snapshot chain; the bundled snapshot (`cdc-nndss-weekly`) holds the latest week only (that week
+and the 7 before it, plus weeks 52–53) for Massachusetts, New England, and U.S. residents, and
+omits series with no reported cases. Counts are provisional; DPH (MAVEN) counts can differ.
+
+### `get_respiratory_and_wastewater_surveillance` (CD-09, toolset `cd`)
+
+A weekly briefing on COVID-19, influenza, and RSV in Massachusetts from CDC data on
+data.cdc.gov.
+
+| Argument | |
+|---|---|
+| `pathogens` | `COVID-19`, `influenza`, `RSV` (default all three). |
+| `weeks` | Weeks of history per measure (default 4, 2–12). |
+
+| Measure | Source (dataset) | Geography |
+|---|---|---|
+| Hospital admissions per 100,000 and CDC level | NHSN Weekly Hospital Respiratory Admission Levels and Rates (`vdzy-6i9v`) | Massachusetts, with the U.S. for context |
+| Percent of emergency department visits and CDC trend | NSSP ED Visit Trajectories (`rdmq-nq56`), state level | Massachusetts, with the U.S. |
+| Test positivity | NREVSS SARS-CoV-2 (`gvsb-yw6g`) and RSV (`3cxc-4k8q`) | HHS Region 1 (New England), with national |
+| Influenza test positivity | Percent of Tests Positive for Viral Respiratory Pathogens (`seuz-s2cv`) | National |
+| Acute respiratory illness activity level | Level of ARI Activity by State (`f3zz-zga5`) | Massachusetts |
+| Wastewater viral activity level (WVAL) | CDC Wastewater Viral Activity Level (`atcp-73re`) | Each Massachusetts sampling site |
+| Deer Island SARS-CoV-2 (final) | MWRA Biobot data PDF (bundled; samples through 2026-07-27) | MWRA Southern and Northern systems |
+
+For each measure the latest week is compared with the week before: *up* when at least 10%
+higher, *down* when at least 10% lower, otherwise *stable* (this server's rule, stated in
+`data.method`). CDC's own categories are reported as given: NHSN admission levels, NSSP trends,
+the ARI level, and WVAL categories. The wastewater summary counts sites that reported in the
+latest week, by category, with the median WVAL across them (CDC computes state values as the
+median across treatment plants). A data-freshness table gives each source's latest week and its
+lag in days. DPH's respiratory illness dashboard
+(<https://www.mass.gov/info-details/respiratory-illness-reporting>) is linked as the
+Massachusetts source of record and is not scraped.
+
+MWRA's Biobot testing at Deer Island ended with samples collected through 2026-07-27 (MWRA
+reports DPH is replacing it with its own program); the final values come from a bundled snapshot
+read from MWRA's data PDF. If a source cannot be reached, the briefing uses the bundled
+snapshots (`cdc-respiratory-ma`, `cdc-nwss-ma`; the last 13 weeks) and says so; a source with no
+data at all is left out with a caveat.

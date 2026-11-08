@@ -25,3 +25,7 @@ pub use schedule::{ScheduleArgs, ScheduleResult, get_immunization_schedule};
 pub use school::{SchoolCheckArgs, SchoolCheckResult, check_ma_school_immunization_requirements};
 
 // Phase 6 modules (VAX-03, the CDSi forecaster) go below this line.
+pub mod forecast;
+pub use forecast::{
+    ForecastImmunizationsArgs, ForecastImmunizationsResult, forecast_immunizations_due,
+};

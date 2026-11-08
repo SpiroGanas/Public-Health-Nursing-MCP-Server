@@ -161,6 +161,16 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         }
     }
 
+    // Keep entries this command does not build (for example the surveillance
+    // snapshots from `cargo xtask build-surveillance-snapshots`).
+    if let Some(old) = &old {
+        for e in &old.snapshots {
+            if !new_manifest.snapshots.iter().any(|n| n.id == e.id) {
+                new_manifest.snapshots.push(e.clone());
+            }
+        }
+    }
+
     if check {
         if changed {
             println!("Snapshot differences found:\n{report}");

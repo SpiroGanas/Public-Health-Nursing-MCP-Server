@@ -519,6 +519,23 @@ async fn no_row_level_data_is_returned_by_default() {
             ll,
         ),
         // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)
+        (
+            "forecast_immunizations_due",
+            json!({"file": "immunization_history.csv"}),
+            "data/immunization_history.csv",
+        ),
+        (
+            "forecast_immunizations_due",
+            json!({"file": "immunization_history.csv", "vaccine_groups": ["MMR"], "assessment_date": "2026-11-07"}),
+            "data/immunization_history.csv",
+        ),
+        // Pointed at the outbreak line list (wrong columns): the tool error
+        // must not echo identifiers either.
+        (
+            "forecast_immunizations_due",
+            json!({"file": "line_list.csv", "id_column": "Case ID", "dob_column": "DOB", "date_column": "Onset Date", "vaccine_column": "Diagnosis"}),
+            ll,
+        ),
     ];
     for (name, args, file) in checks {
         let r = h.call(name, args.clone()).await;

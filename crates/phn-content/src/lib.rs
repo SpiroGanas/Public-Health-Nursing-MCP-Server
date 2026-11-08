@@ -116,6 +116,13 @@ pub const ITEMS: &[ContentItem] = &[
         schema: include_str!("../../../content/schemas/vax_coverage_thresholds.schema.json"),
     },
     // Phase 6 content items go below this line.
+    ContentItem {
+        id: "cdsi-supporting-data",
+        path: "content/vax/cdsi_supporting_data.yaml",
+        resource_uri: "phn://content/cdsi-supporting-data",
+        yaml: include_str!("../../../content/vax/cdsi_supporting_data.yaml"),
+        schema: include_str!("../../../content/schemas/cdsi_supporting_data.schema.json"),
+    },
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

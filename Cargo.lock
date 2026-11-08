@@ -2342,6 +2342,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "phn-cdsi"
+version = "0.2.0"
+dependencies = [
+ "calamine",
+ "chrono",
+ "hex",
+ "quick-xml",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "phn-content"
 version = "0.2.0"
 dependencies = [
@@ -2476,6 +2489,7 @@ version = "0.2.0"
 dependencies = [
  "chrono",
  "csv",
+ "phn-cdsi",
  "phn-content",
  "phn-core",
  "phn-data",

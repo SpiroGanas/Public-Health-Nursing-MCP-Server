@@ -254,15 +254,97 @@ sources:
     caveats:
       - Drafted from documents retrieved 2026-11-07 and pending subject-matter review. Federal and Massachusetts guidance have diverged since 2025; refresh whenever any body issues new guidance.
   - id: cdc-cdsi
-    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data
+    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data v4.65 and logic specification v4.6
     publisher: Centers for Disease Control and Prevention
-    kind: snapshot
-    status: planned
-    planned_phase: 6
+    kind: content
+    status: active
+    content_id: cdsi-supporting-data
     homepage: https://www.cdc.gov/iis/cdsi/index.html
-    probe_url: https://www.cdc.gov
-    used_by: []
-    caveats: []
+    probe_url: https://www.cdc.gov/iis/cdsi/index.html
+    used_by: [forecast_immunizations_due]
+    caveats:
+      - Supporting data v4.65 (August 2026) is embedded with checksums; CDC updates it with each schedule change, so check the CDSi page for a newer version at each review.
+      - Encodes CDC/ACIP recommendations only; Massachusetts DPH and AAP/ACOG positions issued since 2025 may differ.
+      - Seasonal series (influenza, COVID-19, RSV) use the 2025-26 season dates in this version.
+      - The engine passes all 1,064 healthy childhood and adult CDC test cases and 301 of 337 underlying-condition cases; exceptions are documented in docs/cdsi-test-results.md.
+  - id: cdc-nndss-weekly
+    name: NNDSS Weekly Data (National Notifiable Diseases Surveillance System)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-nndss-weekly
+    homepage: https://data.cdc.gov/d/x9gk-5huc
+    probe_url: https://data.cdc.gov/resource/x9gk-5huc.json?$limit=1
+    used_by: [get_notifiable_disease_trends]
+    caveats:
+      - >-
+        Provisional weekly counts (MMWR years 2022 onward) as published each week by reporting
+        jurisdiction; CDC revises them, and finalized annual tables (CDC Stacks) can differ.
+        Massachusetts DPH (MAVEN) counts can differ.
+      - >-
+        Condition rows change names and case definitions between years; rows are not combined,
+        so some have fewer than five baseline years.
+      - >-
+        The bundled snapshot covers only the latest published week for Massachusetts, New England,
+        and U.S. residents.
+  - id: cdc-respiratory-surveillance
+    name: CDC respiratory virus surveillance (NHSN admissions, NSSP ED visits, NREVSS test positivity, ARI activity level)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-respiratory-ma
+    homepage: https://www.cdc.gov/respiratory-viruses/data/index.html
+    probe_url: https://data.cdc.gov/resource/vdzy-6i9v.json?$limit=1
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Datasets vdzy-6i9v (NHSN), rdmq-nq56 (NSSP), gvsb-yw6g and 3cxc-4k8q (NREVSS, HHS Region
+        1), seuz-s2cv (national percent positive), and f3zz-zga5 (ARI level), checked 2026-11-08.
+        CDC renames and replaces respiratory datasets between seasons; check the IDs each season.
+      - >-
+        Provisional and revised weekly; the latest week is often incomplete. NHSN depends on
+        hospital reporting, NSSP on participating emergency departments, NREVSS on participating
+        laboratories.
+  - id: cdc-nwss
+    name: CDC National Wastewater Surveillance System (NWSS) viral activity levels
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-nwss-ma
+    homepage: https://www.cdc.gov/wastewater/respiratory-viruses/state.html
+    probe_url: https://data.cdc.gov/resource/atcp-73re.json?$limit=1
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Site-level wastewater viral activity levels (dataset atcp-73re) for SARS-CoV-2, influenza
+        A, and RSV. Sites are identified only by an arbitrary number, counties served, and
+        population served; on 2026-11-08 six Massachusetts sites reported.
+  - id: mwra-deer-island-biobot
+    name: MWRA Deer Island wastewater SARS-CoV-2 (Biobot), final series
+    publisher: Massachusetts Water Resources Authority
+    kind: snapshot
+    status: active
+    snapshot_id: mwra-deer-island-biobot
+    homepage: https://www.mwra.com/biobot/biobotdata.htm
+    probe_url: https://www.mwra.com/biobot/biobotdata.htm
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        MWRA's Biobot testing ended with samples collected through 2026-07-27; MWRA reports that
+        DPH is replacing it with its own program and plans a dashboard. Check the MWRA page for
+        the new link.
+  - id: ma-dph-respiratory-dashboard
+    name: DPH respiratory illness reporting dashboard
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    kind: live
+    status: active
+    homepage: https://www.mass.gov/info-details/respiratory-illness-reporting
+    probe_url: https://www.mass.gov/info-details/respiratory-illness-reporting
+    used_by: [get_respiratory_and_wastewater_surveillance]
+    caveats:
+      - >-
+        Linked, not read: the briefing points to this dashboard (hospital admissions and ED
+        visits for COVID-19, influenza, and RSV) as the Massachusetts source of record.
   - id: nws-alerts
     name: National Weather Service alerts API
     publisher: National Weather Service

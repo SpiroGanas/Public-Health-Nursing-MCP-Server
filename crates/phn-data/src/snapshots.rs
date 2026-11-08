@@ -148,6 +148,42 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/nis_coverage_ma_us.csv"),
     ),
     // Phase 6 snapshot files go below this line.
+    (
+        "nndss_weekly.json",
+        include_str!("../../../snapshots/nndss_weekly.json"),
+    ),
+    (
+        "resp_nhsn.json",
+        include_str!("../../../snapshots/resp_nhsn.json"),
+    ),
+    (
+        "resp_nssp.json",
+        include_str!("../../../snapshots/resp_nssp.json"),
+    ),
+    (
+        "resp_nrevss_covid.json",
+        include_str!("../../../snapshots/resp_nrevss_covid.json"),
+    ),
+    (
+        "resp_nrevss_rsv.json",
+        include_str!("../../../snapshots/resp_nrevss_rsv.json"),
+    ),
+    (
+        "resp_nrevss_national.json",
+        include_str!("../../../snapshots/resp_nrevss_national.json"),
+    ),
+    (
+        "resp_ari.json",
+        include_str!("../../../snapshots/resp_ari.json"),
+    ),
+    (
+        "resp_wval.json",
+        include_str!("../../../snapshots/resp_wval.json"),
+    ),
+    (
+        "mwra_biobot.csv",
+        include_str!("../../../snapshots/mwra_biobot.csv"),
+    ),
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

@@ -12,6 +12,7 @@ phn-core.workspace = true
 phn-content.workspace = true
 phn-data.workspace = true
 phn-epi.workspace = true
+phn-cdsi.workspace = true
 phn-local.workspace = true
 phn-docs.workspace = true
 schemars.workspace = true
