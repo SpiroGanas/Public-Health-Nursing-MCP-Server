@@ -381,7 +381,11 @@ fn docs_for_disease(c: &Corpus, q: &str) -> Vec<usize> {
         .iter()
         .enumerate()
         .filter(|(_, d)| {
-            let hay = format!("{} {}", normalize(&d.title), normalize(&d.id.replace('-', " ")));
+            let hay = format!(
+                "{} {}",
+                normalize(&d.title),
+                normalize(&d.id.replace('-', " "))
+            );
             guide_doc.as_deref() == Some(d.id.as_str())
                 || terms.iter().any(|t| hay.contains(t.as_str()))
         })
@@ -512,7 +516,9 @@ pub fn search_ma_disease_control_guide(
             s.push('\n');
             sources.push(doc_source(d, &entry.retrieved));
         }
-        s.push_str("Search within these with a query (for example \"exclusion\" or \"contacts\").\n");
+        s.push_str(
+            "Search within these with a query (for example \"exclusion\" or \"contacts\").\n",
+        );
         return Ok(Envelope::new(
             s,
             GuideSearchResult {
@@ -580,7 +586,14 @@ pub fn search_ma_disease_control_guide(
         } else {
             let snip = snippets.snippet_from_doc(&d);
             if snip.fragment().is_empty() {
-                (body.chars().take(400).collect::<String>().trim().to_string(), true)
+                (
+                    body.chars()
+                        .take(400)
+                        .collect::<String>()
+                        .trim()
+                        .to_string(),
+                    true,
+                )
             } else {
                 let frag = snip.fragment();
                 let mut s = String::new();
@@ -637,7 +650,11 @@ pub fn search_ma_disease_control_guide(
                 .unwrap_or_default()
         ));
         for line in p.text.lines() {
-            s.push_str(&format!("   > {}{line}{}\n", if p.excerpt { "…" } else { "" }, if p.excerpt { "…" } else { "" }));
+            s.push_str(&format!(
+                "   > {}{line}{}\n",
+                if p.excerpt { "…" } else { "" },
+                if p.excerpt { "…" } else { "" }
+            ));
         }
         s.push_str(&format!("\n   Source: {}\n\n", p.url));
     }
@@ -704,7 +721,10 @@ mod tests {
         assert_eq!(p.document_id, "guide-salmonellosis-non-typhoid");
         assert!(p.section.contains("Incubation Period"), "{}", p.section);
         assert!(p.text.contains("6–72 hours"), "{}", p.text);
-        assert!(p.citation.contains("mass.gov/doc/salmonellosis-non-typhoid"));
+        assert!(
+            p.citation
+                .contains("mass.gov/doc/salmonellosis-non-typhoid")
+        );
         assert!(env.notice.is_some());
     }
 

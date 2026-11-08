@@ -107,10 +107,7 @@ fn per_contact_rules(d: &Disease) -> Vec<ContactDateRule> {
                 days: min.floor() as i64,
                 anchor: "first_exposure".into(),
                 example_if_exposed_last_infectious_day: None,
-                explanation: format!(
-                    "First exposure + minimum incubation ({}).",
-                    i.describe()
-                ),
+                explanation: format!("First exposure + minimum incubation ({}).", i.describe()),
                 citation: rule_cite(&i.source.source, &i.source.section),
             });
         }
@@ -120,10 +117,7 @@ fn per_contact_rules(d: &Disease) -> Vec<ContactDateRule> {
                 days: max.ceil() as i64,
                 anchor: "last_exposure".into(),
                 example_if_exposed_last_infectious_day: None,
-                explanation: format!(
-                    "Last exposure + maximum incubation ({}).",
-                    i.describe()
-                ),
+                explanation: format!("Last exposure + maximum incubation ({}).", i.describe()),
                 citation: rule_cite(&i.source.source, &i.source.section),
             });
         }
@@ -362,9 +356,7 @@ pub fn plan_contact_tracing(
     let mut caveats = vec![engine::pending_caveat(content)];
     let mut used_specimen = false;
     let dates = DateFacts {
-        onset: onset.or_else(|| {
-            specimen.inspect(|_| used_specimen = true)
-        }),
+        onset: onset.or_else(|| specimen.inspect(|_| used_specimen = true)),
         positive_specimen: specimen,
         treatment_start: treatment,
         ..DateFacts::default()
@@ -471,10 +463,7 @@ pub fn plan_contact_tracing(
                     review: engine::pending_caveat(content),
                 })
                 .map_err(xerr)?;
-                let path = sb.new_output_file(&format!(
-                    "contact_tracking_{}.xlsx",
-                    disease.id
-                ))?;
+                let path = sb.new_output_file(&format!("contact_tracking_{}.xlsx", disease.id))?;
                 std::fs::write(&path, bytes)?;
                 let shown = sb.display_path(&path);
                 files_written.push(shown.clone());
@@ -632,7 +621,12 @@ mod tests {
         let t = d.template.as_ref().unwrap();
         let tables = phn_local::table::read_tables(&dir.path().join("data").join(t)).unwrap();
         assert!(tables[0].headers.iter().any(|h| h == "Monitoring ends"));
-        assert!(tables[0].headers.iter().any(|h| h.starts_with("PEP deadline")));
+        assert!(
+            tables[0]
+                .headers
+                .iter()
+                .any(|h| h.starts_with("PEP deadline"))
+        );
         assert_eq!(env.privacy.files_written.len(), 1);
     }
 

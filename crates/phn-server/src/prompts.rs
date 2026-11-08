@@ -174,10 +174,11 @@ directs, and record the sources and dates of every rule used.
 
 Begin with step 1 and ask me for what you need."
     );
-    Ok(GetPromptResult::new(vec![PromptMessage::new_text(Role::User, text)])
-        .with_description(format!(
-            "Outbreak investigation steps for {d} in setting: {s}."
-        )))
+    Ok(
+        GetPromptResult::new(vec![PromptMessage::new_text(Role::User, text)]).with_description(
+            format!("Outbreak investigation steps for {d} in setting: {s}."),
+        ),
+    )
 }
 
 #[cfg(test)]

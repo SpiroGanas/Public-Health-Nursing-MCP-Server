@@ -86,7 +86,6 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_dph_guide_corpus.txt",
         include_str!("../../../snapshots/ma_dph_guide_corpus.txt"),
     ),
-
     // Phase 4 snapshot files go below this line.
 
     // Phase 5 snapshot files go below this line.

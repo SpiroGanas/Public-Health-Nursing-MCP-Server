@@ -29,7 +29,10 @@ const HANDBOOK: &str = "https://www.mass.gov/handbook/guide-to-surveillance-repo
 const CHAPTERS: &[(&str, &str)] = &[
     ("amebiasis-2016", "Amebiasis (2016)"),
     ("botulism-2018", "Botulism (2018)"),
-    ("campylobacter-enteritis-2016-0", "Campylobacter Enteritis (2016)"),
+    (
+        "campylobacter-enteritis-2016-0",
+        "Campylobacter Enteritis (2016)",
+    ),
     ("chickenpox-2023", "Chickenpox (2023)"),
     ("cryptosporidiosis-2016", "Cryptosporidiosis (2016)"),
     ("cyclosporiasis-2016", "Cyclosporiasis (2016)"),
@@ -140,6 +143,9 @@ const PAGES: &[&str] = &[
     "guidance/guidance-for-health-care-personnel-with-a-respiratory-viral-pathogen-infection-or-exposure",
 ];
 
+/// A section heading and its lines.
+type SectionText = (String, Vec<String>);
+
 struct Doc {
     id: String,
     title: String,
@@ -147,7 +153,7 @@ struct Doc {
     url: String,
     date: Option<String>,
     sha256: String,
-    sections: Vec<(String, Vec<String>)>,
+    sections: Vec<SectionText>,
 }
 
 struct Fetched {
@@ -224,15 +230,17 @@ fn clean(s: &str) -> String {
 }
 
 const ACRONYMS: &[&str] = &[
-    "MDPH", "DPH", "CDC", "MA", "HIV", "STI", "STD", "TB", "HCW", "HCP", "US", "U.S.", "PEP",
-    "IG", "MAVEN", "SPHL", "LBOH", "CRS", "STEC", "HUS", "ACIP",
+    "MDPH", "DPH", "CDC", "MA", "HIV", "STI", "STD", "TB", "HCW", "HCP", "US", "U.S.", "PEP", "IG",
+    "MAVEN", "SPHL", "LBOH", "CRS", "STEC", "HUS", "ACIP",
 ];
 
 fn title_case(s: &str) -> String {
     if s.chars().any(|c| c.is_lowercase()) {
         return s.to_string();
     }
-    let small = ["and", "or", "of", "the", "in", "for", "to", "a", "an", "on", "by"];
+    let small = [
+        "and", "or", "of", "the", "in", "for", "to", "a", "an", "on", "by",
+    ];
     s.split_whitespace()
         .enumerate()
         .map(|(i, w)| {
@@ -277,8 +285,9 @@ fn sectionize_chapter(lines: &[String]) -> Vec<(String, Vec<String>)> {
         let num = lower
             .strip_prefix("section ")
             .map(|r| r.trim().trim_end_matches(':').trim());
-        let is_section =
-            num.is_some_and(|n| !n.is_empty() && n.len() <= 2 && n.chars().all(|c| c.is_ascii_digit()));
+        let is_section = num.is_some_and(|n| {
+            !n.is_empty() && n.len() <= 2 && n.chars().all(|c| c.is_ascii_digit())
+        });
         if is_section {
             let title = lines
                 .get(i + 1)
@@ -336,7 +345,7 @@ fn chapter_lines(bytes: &[u8]) -> Result<Vec<String>> {
 }
 
 /// Text of a mass.gov page: (title, sections by h2/h3 heading).
-fn page_sections(html: &str) -> Result<(String, Vec<(String, Vec<String>)>)> {
+fn page_sections(html: &str) -> Result<(String, Vec<SectionText>)> {
     let doc = Html::parse_document(html);
     let sel = |s: &str| Selector::parse(s).expect("static selector");
     let title = doc
@@ -402,8 +411,17 @@ fn walk(el: ElementRef<'_>, sections: &mut Vec<(String, Vec<String>)>, cur: &mut
                 }
                 let block = matches!(
                     name,
-                    "p" | "li" | "div" | "ul" | "ol" | "table" | "tr" | "section" | "br" | "dd"
-                        | "dt" | "blockquote"
+                    "p" | "li"
+                        | "div"
+                        | "ul"
+                        | "ol"
+                        | "table"
+                        | "tr"
+                        | "section"
+                        | "br"
+                        | "dd"
+                        | "dt"
+                        | "blockquote"
                 );
                 if block {
                     flush(sections, cur);
@@ -434,7 +452,10 @@ fn render(docs: &[Doc], built: &str) -> String {
          see snapshots/manifest.json for checksums.\n"
     ));
     for d in docs {
-        out.push_str(&format!("@doc {}\n@title {}\n@kind {}\n@url {}\n", d.id, d.title, d.kind, d.url));
+        out.push_str(&format!(
+            "@doc {}\n@title {}\n@kind {}\n@url {}\n",
+            d.id, d.title, d.kind, d.url
+        ));
         if let Some(date) = &d.date {
             out.push_str(&format!("@date {date}\n"));
         }
@@ -535,7 +556,11 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
     let body = |s: &str| s.lines().skip(2).collect::<Vec<_>>().join("\n");
     let changed = body(&committed) != body(&text);
     let sections: usize = docs.iter().map(|d| d.sections.len()).sum();
-    let old_entry = manifest.snapshots.iter().find(|e| e.id == SNAPSHOT_ID).cloned();
+    let old_entry = manifest
+        .snapshots
+        .iter()
+        .find(|e| e.id == SNAPSHOT_ID)
+        .cloned();
     let retrieved = match &old_entry {
         Some(o) if !changed && o.source_sha256 == source_sha => o.retrieved.clone(),
         _ => today.clone(),
@@ -553,7 +578,11 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
     if !skipped.is_empty() {
         caveats.push(format!("Not included: {}.", skipped.join("; ")));
     }
-    let final_text = if changed { text.clone() } else { committed.clone() };
+    let final_text = if changed {
+        text.clone()
+    } else {
+        committed.clone()
+    };
     let entry = SnapshotEntry {
         id: SNAPSHOT_ID.into(),
         title: "DPH Guide to Surveillance, Reporting and Control (disease chapters) and DPH \
@@ -610,7 +639,11 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         "Guide corpus: {} documents ({chapters} chapters), {sections} sections, {} bytes{}.",
         docs.len(),
         final_text.len(),
-        if changed { " (updated)" } else { " (unchanged)" }
+        if changed {
+            " (updated)"
+        } else {
+            " (unchanged)"
+        }
     );
     for s in &skipped {
         println!("skipped: {s}");
@@ -662,7 +695,10 @@ mod tests {
         let (t, s) = page_sections(html).unwrap();
         assert_eq!(t, "Norovirus");
         assert_eq!(s[0].0, "What is norovirus?");
-        assert_eq!(s[0].1, vec!["A very contagious virus.", "- Wash hands.", "A | B"]);
+        assert_eq!(
+            s[0].1,
+            vec!["A very contagious virus.", "- Wash hands.", "A | B"]
+        );
         assert_eq!(s.len(), 1);
     }
 }

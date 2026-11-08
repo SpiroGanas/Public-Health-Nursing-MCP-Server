@@ -27,7 +27,9 @@ pub enum Frequency {
 }
 
 /// An aberration-detection method.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Method {
     /// EARS C1: today versus the mean and SD of the previous 7 periods.
@@ -214,7 +216,7 @@ fn median(v: &[f64]) -> f64 {
         return 0.0;
     }
     let m = s.len() / 2;
-    if s.len() % 2 == 0 {
+    if s.len().is_multiple_of(2) {
         (s[m - 1] + s[m]) / 2.0
     } else {
         s[m]
@@ -253,9 +255,7 @@ pub fn detect_aberrations(
         )));
     }
     if n > 5_000 {
-        return Err(PhnError::InvalidInput(
-            "at most 5,000 periods".into(),
-        ));
+        return Err(PhnError::InvalidInput("at most 5,000 periods".into()));
     }
     if counts.iter().any(|c| !c.is_finite() || *c < 0.0) {
         return Err(PhnError::InvalidInput(
@@ -640,7 +640,10 @@ pub fn detect_aberrations(
         });
         // The threshold of the first method with thresholds, as a stepped line.
         if let Some(r) = ran.iter().find(|r| {
-            matches!(r.method, Method::Farrington | Method::EarsC2 | Method::EarsC1)
+            matches!(
+                r.method,
+                Method::Farrington | Method::EarsC2 | Method::EarsC1
+            )
         }) {
             let pts = recent_thresholds(&results, r.method);
             let mut v = vec![None; n];
@@ -668,7 +671,8 @@ pub fn detect_aberrations(
         }
         spec.flag_legend = Some("Signal (recent periods)".into());
         spec.y_label = Some("Count".into());
-        spec.note = Some("Aberration detection by the PHN MCP server (phn_epi::aberration).".into());
+        spec.note =
+            Some("Aberration detection by the PHN MCP server (phn_epi::aberration).".into());
         let (files, _) = write_chart(ctx, &spec, "aberrations", ChartFormat::Both)?;
         summary.push_str(&format!(
             "\nChart saved: {}\n",
@@ -744,12 +748,7 @@ fn recent_thresholds(results: &[MethodResult], m: Method) -> Vec<(usize, f64)> {
 }
 
 fn interpret(latest: &[Method], ran: &[&MethodResult], last_label: &str) -> String {
-    let names = |ms: &[Method]| {
-        ms.iter()
-            .map(|m| m.label())
-            .collect::<Vec<_>>()
-            .join(", ")
-    };
+    let names = |ms: &[Method]| ms.iter().map(|m| m.label()).collect::<Vec<_>>().join(", ");
     if latest.is_empty() {
         let recent_any: Vec<&str> = ran
             .iter()
@@ -777,7 +776,9 @@ fn interpret(latest: &[Method], ran: &[&MethodResult], last_label: &str) -> Stri
         } else if latest == [Method::Cusum] || latest == [Method::EarsC3] {
             "Only a method that accumulates evidence signals: this suggests a sustained moderate \
              rise rather than a single spike."
-        } else if latest.iter().all(|m| matches!(m, Method::EarsC1 | Method::EarsC2))
+        } else if latest
+            .iter()
+            .all(|m| matches!(m, Method::EarsC1 | Method::EarsC2))
             && ran.iter().any(|r| r.method == Method::Farrington)
         {
             "Only short-baseline EARS methods signal; the seasonal Farrington model does not. The \

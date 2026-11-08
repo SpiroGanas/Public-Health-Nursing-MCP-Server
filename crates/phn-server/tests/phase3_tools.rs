@@ -65,7 +65,12 @@ async fn guide_search_quotes_passages_with_citations() {
     .await;
     let p = &s["data"]["passages"][0];
     assert_eq!(p["document_id"], "guide-salmonellosis-non-typhoid");
-    assert!(p["url"].as_str().unwrap().starts_with("https://www.mass.gov/doc/"));
+    assert!(
+        p["url"]
+            .as_str()
+            .unwrap()
+            .starts_with("https://www.mass.gov/doc/")
+    );
     assert!(p["citation"].as_str().unwrap().contains("Section"));
     assert!(has_notice(&s));
     let s = call_ok(
@@ -114,12 +119,7 @@ async fn isolation_and_exclusion_dates() {
     assert_eq!(r["verbatim"], true);
     assert!(r["citation"].as_str().unwrap().contains("105 CMR 300.200"));
     assert!(has_notice(&s));
-    assert!(
-        s["caveats"][0]
-            .as_str()
-            .unwrap()
-            .contains("PENDING-REVIEW")
-    );
+    assert!(s["caveats"][0].as_str().unwrap().contains("PENDING-REVIEW"));
     // A susceptible measles contact in child care.
     let s = call_ok(
         &h,
@@ -161,7 +161,10 @@ async fn outbreak_line_list_finds_the_vehicle_without_leaking() {
     assert_eq!(s["data"]["likely_vehicles"][0], "Stuffing");
     assert_eq!(s["data"]["cases"], 34);
     assert_eq!(s["privacy"]["row_level_data"], false);
-    assert_eq!(s["data"]["exposure_window"]["known_exposure_in_window"], true);
+    assert_eq!(
+        s["data"]["exposure_window"]["known_exposure_in_window"],
+        true
+    );
     let r = h
         .call(
             "analyze_outbreak_line_list",
@@ -343,7 +346,13 @@ async fn investigate_outbreak_prompt_lists_and_renders() {
         .iter()
         .find(|p| p.name == "investigate_outbreak")
         .expect("prompt listed");
-    assert!(p.arguments.as_ref().unwrap().iter().any(|a| a.name == "disease"));
+    assert!(
+        p.arguments
+            .as_ref()
+            .unwrap()
+            .iter()
+            .any(|a| a.name == "disease")
+    );
     let mut args = serde_json::Map::new();
     args.insert("disease".into(), json!("norovirus"));
     args.insert("setting".into(), json!("long-term care"));

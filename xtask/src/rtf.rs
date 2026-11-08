@@ -179,7 +179,8 @@ pub fn to_text(input: &[u8]) -> String {
                                 pending_skip -= 1;
                                 continue;
                             }
-                            if let Ok(b) = u8::from_str_radix(std::str::from_utf8(hex).unwrap_or("3f"), 16)
+                            if let Ok(b) =
+                                u8::from_str_radix(std::str::from_utf8(hex).unwrap_or("3f"), 16)
                             {
                                 out.push(cp1252(b));
                             }

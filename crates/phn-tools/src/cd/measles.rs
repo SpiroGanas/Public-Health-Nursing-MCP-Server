@@ -269,8 +269,8 @@ pub fn assess_measles_exposure(
     }
     let case_onset = parse_date_arg("case_rash_onset_date", &args.case_rash_onset_date)?;
     let last_case = parse_date_arg("last_case_onset_date", &args.last_case_onset_date)?;
-    let as_of = parse_date_arg("as_of", &args.as_of)?
-        .unwrap_or_else(|| chrono::Local::now().date_naive());
+    let as_of =
+        parse_date_arg("as_of", &args.as_of)?.unwrap_or_else(|| chrono::Local::now().date_naive());
     if let Some(w) = args.weight_kg
         && !(0.5..=400.0).contains(&w)
     {
@@ -312,12 +312,12 @@ pub fn assess_measles_exposure(
     let mmr_deadline = add(first_exp, i64::from(pep_c.mmr.within_hours / 24));
     let ig_deadline = add(first_exp, i64::from(pep_c.immune_globulin.within_days));
     let infant = args.age_months.is_some_and(|m| m < 12);
-    let under_6m = args.age_months.is_some_and(|m| m < pep_c.mmr.min_age_months);
+    let under_6m = args
+        .age_months
+        .is_some_and(|m| m < pep_c.mmr.min_age_months);
     let pregnant = args.pregnant == Some(true);
     let immunocomp = args.severely_immunocompromised == Some(true);
-    let mmr_indicated = if !susceptible {
-        Some(false)
-    } else if pregnant || immunocomp || under_6m {
+    let mmr_indicated = if !susceptible || pregnant || immunocomp || under_6m {
         Some(false)
     } else if args.pregnant.is_none() && args.severely_immunocompromised.is_none() {
         None
@@ -429,7 +429,11 @@ pub fn assess_measles_exposure(
         open: as_of <= ig_deadline,
         indicated: ig_indicated,
         explanation: ig_expl,
-        dose: if ig_indicated == Some(false) { None } else { dose },
+        dose: if ig_indicated == Some(false) {
+            None
+        } else {
+            dose
+        },
         citation: citation(&ig.source, &ig.section),
     });
 
@@ -551,7 +555,10 @@ pub fn assess_measles_exposure(
     }
     for r in &exclusion {
         let when = match (&r.start_date, &r.last_excluded_date) {
-            (Some(a), Some(b)) => format!("exclude {a} through {b}; may return {}", r.earliest_return_date.clone().unwrap_or_default()),
+            (Some(a), Some(b)) => format!(
+                "exclude {a} through {b}; may return {}",
+                r.earliest_return_date.clone().unwrap_or_default()
+            ),
             (None, Some(b)) => format!("exclude through {b}"),
             _ if !r.missing_dates.is_empty() => {
                 format!("dates need {}", r.missing_dates.join(", "))
@@ -576,7 +583,10 @@ pub fn assess_measles_exposure(
     if !groups.is_empty() {
         s.push_str("\n**Priority group(s)**\n\n");
         for g in &groups {
-            s.push_str(&format!("- {}: {} ({})\n", g.label, g.recommendation, g.citation));
+            s.push_str(&format!(
+                "- {}: {} ({})\n",
+                g.label, g.recommendation, g.citation
+            ));
         }
     }
     if let Some(m) = &monitor {
@@ -708,7 +718,11 @@ mod tests {
         .unwrap();
         let ig = &env.data.pep[1];
         assert_eq!(ig.indicated, Some(true));
-        assert!(ig.dose.as_ref().unwrap().contains("3.0 mL"), "{:?}", ig.dose);
+        assert!(
+            ig.dose.as_ref().unwrap().contains("3.0 mL"),
+            "{:?}",
+            ig.dose
+        );
         assert_eq!(env.data.pep[0].indicated, Some(false));
         assert!(!env.data.pep[0].open);
         assert!(!env.data.priority_groups.is_empty());
@@ -760,7 +774,12 @@ mod tests {
         )
         .unwrap();
         assert_eq!(env.data.immunity.status, ImmunityStatus::EvidenceOfImmunity);
-        assert!(env.data.exclusion.iter().all(|r| r.action != phn_content::disease_rules::Action::Exclude));
+        assert!(
+            env.data
+                .exclusion
+                .iter()
+                .all(|r| r.action != phn_content::disease_rules::Action::Exclude)
+        );
         assert!(assess_measles_exposure(&c, MeaslesExposureArgs::default()).is_err());
     }
 }

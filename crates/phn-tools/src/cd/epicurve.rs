@@ -491,12 +491,7 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
         names.truncate(7);
         names.push("Other".into());
     }
-    let col_of = |s: &str| {
-        names
-            .iter()
-            .position(|n| n == s)
-            .unwrap_or(names.len() - 1)
-    };
+    let col_of = |s: &str| names.iter().position(|n| n == s).unwrap_or(names.len() - 1);
     let mut grid = vec![vec![0u64; names.len()]; nbins];
     for p in &points {
         let b = ((p.0 - start).num_minutes() / step.num_minutes()) as usize;
@@ -504,7 +499,9 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
     }
     let totals: Vec<u64> = grid.iter().map(|r| r.iter().sum()).collect();
     let bin_start = |i: usize| start + step * i as i32;
-    let categories: Vec<String> = (0..nbins).map(|i| label(bin_start(i), interval_h)).collect();
+    let categories: Vec<String> = (0..nbins)
+        .map(|i| label(bin_start(i), interval_h))
+        .collect();
 
     // Chart.
     let title = args.title.clone().unwrap_or_else(|| {
@@ -561,7 +558,8 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
             "counts supplied"
         }
     ));
-    let (mut files, _rendered) = write_chart(ctx, &spec, "epi_curve", args.format.unwrap_or_default())?;
+    let (mut files, _rendered) =
+        write_chart(ctx, &spec, "epi_curve", args.format.unwrap_or_default())?;
 
     // Suppressed table (only intervals from the first to the last case).
     let first_bin = totals.iter().position(|c| *c > 0).unwrap_or(0);
@@ -663,7 +661,10 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
         s.push_str(&md::table(&h, &rows));
     } else {
         s.push_str(&md::table(&h, &rows[..60]));
-        s.push_str(&format!("\n_{} more intervals in the structured data._\n", rows.len() - 60));
+        s.push_str(&format!(
+            "\n_{} more intervals in the structured data._\n",
+            rows.len() - 60
+        ));
     }
 
     let mut caveats = Vec::new();
@@ -703,7 +704,9 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
         suppression_threshold: Some(t),
         identifiers_detected: identifiers,
         files_written,
-        notes: vec!["Only counts per interval are returned; the chart file keeps exact counts.".into()],
+        notes: vec![
+            "Only counts per interval are returned; the chart file keeps exact counts.".into(),
+        ],
     };
     let data = EpiCurveResult {
         cases: total,

@@ -520,7 +520,6 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"path": "church_supper_outbreak.csv", "stratify_by": "Phone"}),
             "data/church_supper_outbreak.csv",
         ),
-
         // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
 
         // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)

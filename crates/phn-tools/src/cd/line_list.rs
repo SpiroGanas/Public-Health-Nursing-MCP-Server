@@ -170,7 +170,9 @@ fn is_non_case(v: &str) -> bool {
     matches!(
         v,
         "no" | "n" | "well" | "healthy" | "negative" | "control" | "ruled out" | "not ill"
-    ) || w.first().is_some_and(|f| matches!(*f, "not" | "non" | "noncase"))
+    ) || w
+        .first()
+        .is_some_and(|f| matches!(*f, "not" | "non" | "noncase"))
         || v.contains("ruled out")
 }
 
@@ -208,13 +210,9 @@ pub fn parse_time(s: &str) -> Option<NaiveTime> {
 
 fn is_identifier(lt: &LocalTable, idx: usize) -> bool {
     use phi::Identifier as I;
-    lt.findings.iter().any(|f| {
-        f.index == idx
-            && !matches!(
-                f.kind,
-                I::Age | I::Date | I::Geography | I::ZipCode
-            )
-    })
+    lt.findings
+        .iter()
+        .any(|f| f.index == idx && !matches!(f.kind, I::Age | I::Date | I::Geography | I::ZipCode))
 }
 
 fn find_by_words(lt: &LocalTable, want: &[&[&str]], skip: &[usize]) -> Option<usize> {
@@ -498,7 +496,9 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
             (Some(v), Some(_)) => {
                 if case_is_yes_no {
                     let t = localdata::truthy(v);
-                    let want_yes = wanted.iter().any(|w| matches!(w.as_str(), "yes" | "y" | "true" | "1"));
+                    let want_yes = wanted
+                        .iter()
+                        .any(|w| matches!(w.as_str(), "yes" | "y" | "true" | "1"));
                     t.map(|b| b == want_yes)
                 } else {
                     let nv = normalize(v);
@@ -570,7 +570,10 @@ mod tests {
         assert_eq!(d.format("%H").to_string(), "14");
         let (_, t) = parse_datetime("05/03/2026").unwrap();
         assert!(!t);
-        assert_eq!(parse_time("2:30 pm").unwrap().format("%H:%M").to_string(), "14:30");
+        assert_eq!(
+            parse_time("2:30 pm").unwrap().format("%H:%M").to_string(),
+            "14:30"
+        );
         assert!(parse_time("later").is_none());
         assert!(has_word("Abdominal Cramps", SYMPTOM_WORDS));
         assert!(!has_word("Roast Turkey", SYMPTOM_WORDS));

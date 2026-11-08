@@ -10,8 +10,7 @@
 
 use chrono::{Days, NaiveDate};
 use phn_content::disease_rules::{
-    self, Action, Anchor, DayRef, Disease, DiseaseRules, Role, Rule, Setting, StoolSpecimens,
-    When,
+    self, Action, Anchor, DayRef, Disease, DiseaseRules, Role, Rule, Setting, StoolSpecimens, When,
 };
 use phn_content::reportable::Confidence;
 use phn_core::{PhnError, Result, Source, SourceMode};
@@ -37,7 +36,9 @@ pub fn parse_date_arg(name: &str, v: &Option<String>) -> Result<Option<NaiveDate
         None => Ok(None),
         Some(s) => NaiveDate::parse_from_str(s, "%Y-%m-%d")
             .map(Some)
-            .map_err(|_| PhnError::InvalidInput(format!("{name} '{s}' is not a date (YYYY-MM-DD)"))),
+            .map_err(|_| {
+                PhnError::InvalidInput(format!("{name} '{s}' is not a date (YYYY-MM-DD)"))
+            }),
     }
 }
 
@@ -153,7 +154,10 @@ fn condition_label(name: &str, value: bool) -> String {
         "symptomatic" => ("has symptoms", "has no symptoms"),
         "susceptible" => ("lacks evidence of immunity", "has evidence of immunity"),
         "received_prophylaxis" => ("is taking prophylaxis", "is not taking prophylaxis"),
-        "received_immune_globulin" => ("received immune globulin", "did not receive immune globulin"),
+        "received_immune_globulin" => (
+            "received immune globulin",
+            "did not receive immune globulin",
+        ),
         "outbreak" => ("outbreak circumstances", "not an outbreak"),
         "exposure_continuous" => (
             "continuous exposure or several cases",
@@ -263,7 +267,12 @@ fn specimens_text(s: &StoolSpecimens) -> String {
 }
 
 /// Evaluate one rule.
-pub fn evaluate(rule: &Rule, settings: Vec<Setting>, facts: &Facts, dates: &DateFacts) -> RuleResult {
+pub fn evaluate(
+    rule: &Rule,
+    settings: Vec<Setting>,
+    facts: &Facts,
+    dates: &DateFacts,
+) -> RuleResult {
     let mut conditions_unknown = Vec::new();
     for (name, value) in rule.when.conditions() {
         if facts.get(name).is_none() {
@@ -287,19 +296,19 @@ pub fn evaluate(rule: &Rule, settings: Vec<Setting>, facts: &Facts, dates: &Date
     let end = &rule.end;
     let mut last_excluded: Option<NaiveDate> = None;
     let mut earliest_return: Option<NaiveDate> = None;
-    if let Some(t) = &end.through {
-        if let Some(d) = day_ref(t, dates, &mut missing) {
-            last_excluded = Some(d);
-            earliest_return = Some(add(d, 1));
-            computation.push(format!(
-                "Excluded through day {} after {} (day 0 = {}): last day {}, back on {}.",
-                t.day,
-                t.anchor.label(),
-                fmt(facts_anchor(dates, t.anchor)),
-                fmt(d),
-                fmt(add(d, 1))
-            ));
-        }
+    if let Some(t) = &end.through
+        && let Some(d) = day_ref(t, dates, &mut missing)
+    {
+        last_excluded = Some(d);
+        earliest_return = Some(add(d, 1));
+        computation.push(format!(
+            "Excluded through day {} after {} (day 0 = {}): last day {}, back on {}.",
+            t.day,
+            t.anchor.label(),
+            fmt(facts_anchor(dates, t.anchor)),
+            fmt(d),
+            fmt(add(d, 1))
+        ));
     }
     if let Some(n) = end.or_treatment_days {
         match dates.treatment_start {
@@ -401,8 +410,10 @@ pub fn evaluate(rule: &Rule, settings: Vec<Setting>, facts: &Facts, dates: &Date
                 .into(),
         );
     }
-    if matches!(rule.action, Action::NoRestriction | Action::ProphylaxisOnly | Action::Refer)
-        && computation.is_empty()
+    if matches!(
+        rule.action,
+        Action::NoRestriction | Action::ProphylaxisOnly | Action::Refer
+    ) && computation.is_empty()
     {
         computation.push(match rule.action {
             Action::Refer => "Not computed: refer (see wording and note).".to_string(),
@@ -697,7 +708,12 @@ mod tests {
         let s = find_disease("salmonella").unwrap();
         let rules = applicable_rules(s, Role::Case, &[Setting::FoodHandler], &Facts::default());
         assert!(rules.len() >= 2);
-        let res = evaluate(rules[0].0, rules[0].1.clone(), &Facts::default(), &DateFacts::default());
+        let res = evaluate(
+            rules[0].0,
+            rules[0].1.clone(),
+            &Facts::default(),
+            &DateFacts::default(),
+        );
         assert!(!res.definite);
         assert!(res.specimens.is_some());
     }

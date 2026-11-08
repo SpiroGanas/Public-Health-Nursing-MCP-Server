@@ -258,8 +258,7 @@ fn hidden(x: u64, t: u32) -> bool {
 }
 
 fn show(x: Option<u64>, t: u32) -> String {
-    x.map(|v| v.to_string())
-        .unwrap_or_else(|| format!("<{t}"))
+    x.map(|v| v.to_string()).unwrap_or_else(|| format!("<{t}"))
 }
 
 pub(crate) fn fmt_dt(d: NaiveDateTime, times: bool) -> String {
@@ -431,19 +430,19 @@ pub fn analyze_outbreak_line_list(
     )?;
     let known = match args.exposure_datetime.as_deref().map(str::trim) {
         None | Some("") => None,
-        Some(s) => Some(
-            line_list::parse_datetime(s)
-                .map(|x| x.0)
-                .ok_or_else(|| {
-                    PhnError::InvalidInput(format!(
-                        "exposure_datetime '{s}' is not a date or date-time (YYYY-MM-DD HH:MM)"
-                    ))
-                })?,
-        ),
+        Some(s) => Some(line_list::parse_datetime(s).map(|x| x.0).ok_or_else(|| {
+            PhnError::InvalidInput(format!(
+                "exposure_datetime '{s}' is not a date or date-time (YYYY-MM-DD HH:MM)"
+            ))
+        })?),
     };
     let ll: LineList = line_list::load(ctx, &args.path, args.sheet.as_deref(), &args.columns)?;
     let recs: Vec<&Rec> = ll.recs.iter().filter(|r| r.case.is_some()).collect();
-    let cases: Vec<&Rec> = recs.iter().copied().filter(|r| r.case == Some(true)).collect();
+    let cases: Vec<&Rec> = recs
+        .iter()
+        .copied()
+        .filter(|r| r.case == Some(true))
+        .collect();
     let n_cases = cases.len();
     let n_non = recs.len() - n_cases;
     let excluded = ll.recs.len() - recs.len();
@@ -474,7 +473,9 @@ pub fn analyze_outbreak_line_list(
         }
         let keep: Vec<usize> = (0..6).filter(|&i| i < 5 || cc[i] + nn[i] > 0).collect();
         (
-            keep.iter().map(|&i| AGE_LABELS[i].to_string()).collect::<Vec<_>>(),
+            keep.iter()
+                .map(|&i| AGE_LABELS[i].to_string())
+                .collect::<Vec<_>>(),
             keep.iter().map(|&i| cc[i]).collect::<Vec<_>>(),
             keep.iter().map(|&i| nn[i]).collect::<Vec<_>>(),
         )
@@ -559,7 +560,8 @@ pub fn analyze_outbreak_line_list(
                 exposure: name.clone(),
                 exposed_ill: (!ha).then_some(a),
                 exposed_total: a + b,
-                exposed_attack_rate_pct: (!ha && show_ar).then(|| 100.0 * a as f64 / (a + b) as f64),
+                exposed_attack_rate_pct: (!ha && show_ar)
+                    .then(|| 100.0 * a as f64 / (a + b) as f64),
                 unexposed_ill: (!hc).then_some(cc),
                 unexposed_total: cc + d,
                 unexposed_attack_rate_pct: (!hc && show_ar)
@@ -619,7 +621,10 @@ pub fn analyze_outbreak_line_list(
     );
     let overall_ar = show_ar.then(|| 100.0 * n_cases as f64 / recs.len() as f64);
     if let Some(ar) = overall_ar {
-        s.push_str(&format!("Overall attack rate: {ar:.0}% ({n_cases}/{}).\n\n", recs.len()));
+        s.push_str(&format!(
+            "Overall attack rate: {ar:.0}% ({n_cases}/{}).\n\n",
+            recs.len()
+        ));
     }
     s.push_str(&format!(
         "Columns used: onset {}{}, case {} (case = {}), age {}, sex {}, town {}.\n\n",
@@ -756,15 +761,24 @@ pub fn analyze_outbreak_line_list(
             "Give a disease (or incubation hours) to estimate the probable exposure window.\n\n",
         );
     }
-    s.push_str(&format!("**Person — age group**\n\n{}", count_table(&age_groups, show_ar)));
+    s.push_str(&format!(
+        "**Person — age group**\n\n{}",
+        count_table(&age_groups, show_ar)
+    ));
     if let Some(m) = median_age {
         s.push_str(&format!("\nMedian age of cases: {}.\n", md::num(m, 0)));
     }
     if ll.map.sex.is_some() {
-        s.push_str(&format!("\n**Person — sex**\n\n{}", count_table(&sex, show_ar)));
+        s.push_str(&format!(
+            "\n**Person — sex**\n\n{}",
+            count_table(&sex, show_ar)
+        ));
     }
     if !towns.is_empty() {
-        s.push_str(&format!("\n**Place — town**\n\n{}", count_table(&towns, show_ar)));
+        s.push_str(&format!(
+            "\n**Place — town**\n\n{}",
+            count_table(&towns, show_ar)
+        ));
     }
     s.push_str(&format!(
         "\n**Time — cases by onset date**{}\n\n{}",
@@ -842,7 +856,9 @@ pub fn analyze_outbreak_line_list(
             .into(),
     );
     if inc.is_some() && args.disease.is_some() {
-        caveats.push(super::engine::pending_caveat(phn_content::disease_rules::content()));
+        caveats.push(super::engine::pending_caveat(
+            phn_content::disease_rules::content(),
+        ));
     }
     let mut sources = vec![
         ll.table.source(),
@@ -972,10 +988,12 @@ mod tests {
 
     #[test]
     fn window_arithmetic() {
-        let d = |s: &str| {
-            NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M").unwrap()
-        };
-        let onsets = vec![d("2026-05-03 06:00"), d("2026-05-03 18:00"), d("2026-05-04 12:00")];
+        let d = |s: &str| NaiveDateTime::parse_from_str(s, "%Y-%m-%d %H:%M").unwrap();
+        let onsets = vec![
+            d("2026-05-03 06:00"),
+            d("2026-05-03 18:00"),
+            d("2026-05-04 12:00"),
+        ];
         let inc = Incubation {
             min_h: 6.0,
             typical_h: Some(24.0),
@@ -1016,7 +1034,10 @@ mod tests {
         println!("{}", env.to_markdown());
         assert_eq!(d.cases, 34);
         assert_eq!(d.non_cases, 26);
-        assert_eq!(d.likely_vehicles.first().map(String::as_str), Some("Stuffing"));
+        assert_eq!(
+            d.likely_vehicles.first().map(String::as_str),
+            Some("Stuffing")
+        );
         assert!(d.columns.symptoms.contains(&"Diarrhea".to_string()));
         assert!(!d.columns.exposures.contains(&"Hospitalized".to_string()));
         assert!(!d.columns.exposures.contains(&"Ill".to_string()));

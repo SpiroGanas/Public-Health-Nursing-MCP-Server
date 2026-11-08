@@ -102,7 +102,9 @@ pub fn infection_control_for_congregate_settings(
     let c = infection_control::content();
     let q = args.pathogen.trim();
     if q.is_empty() {
-        return Err(PhnError::InvalidInput("give a pathogen or condition".into()));
+        return Err(PhnError::InvalidInput(
+            "give a pathogen or condition".into(),
+        ));
     }
     let matches = infection_control::find(q);
     let best = matches.first().copied().filter(|(_, score)| *score >= 0.6);
@@ -147,7 +149,11 @@ pub fn infection_control_for_congregate_settings(
             url: l.url.clone(),
         })
         .collect();
-    let general_notes = p.setting_notes.get("all").map(|v| notes(v)).unwrap_or_default();
+    let general_notes = p
+        .setting_notes
+        .get("all")
+        .map(|v| notes(v))
+        .unwrap_or_default();
     let wanted: Vec<CongregateSetting> = match args.setting {
         Some(s) => vec![s],
         None => c.settings.iter().map(|s| s.id).collect(),
@@ -186,7 +192,10 @@ pub fn infection_control_for_congregate_settings(
             vec!["Precautions".into(), p.precautions.clone()],
             vec!["Duration".into(), p.duration.clone()],
             vec!["Hand hygiene".into(), p.hand_hygiene.clone()],
-            vec!["Comments (incl. cohorting)".into(), p.appendix_a_comment.clone()],
+            vec![
+                "Comments (incl. cohorting)".into(),
+                p.appendix_a_comment.clone(),
+            ],
         ],
     ));
     s.push_str(&format!("\n_Source: {citation}_\n"));
@@ -342,9 +351,18 @@ mod tests {
         .unwrap();
         let d = &env.data;
         assert_eq!(d.epa_lists[0].list, "G");
-        assert!(d.precaution_types.iter().any(|t| t.label.contains("Contact")));
+        assert!(
+            d.precaution_types
+                .iter()
+                .any(|t| t.label.contains("Contact"))
+        );
         assert_eq!(d.settings.len(), 1);
-        assert!(d.settings[0].notes.iter().any(|n| n.text.contains("Cohort")));
+        assert!(
+            d.settings[0]
+                .notes
+                .iter()
+                .any(|n| n.text.contains("Cohort"))
+        );
         assert!(env.summary.contains("List G"));
         assert!(env.notice.is_some());
     }

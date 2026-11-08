@@ -243,7 +243,11 @@ pub fn calculate_isolation_and_exclusion(
         let applies = if r.definite {
             r.applies_to.clone()
         } else {
-            format!("{} — only if {}", r.applies_to, r.conditions_unknown.join(" and "))
+            format!(
+                "{} — only if {}",
+                r.applies_to,
+                r.conditions_unknown.join(" and ")
+            )
         };
         rows.push(vec![
             settings_l.join(", "),
@@ -251,7 +255,11 @@ pub fn calculate_isolation_and_exclusion(
             r.action.label().to_string(),
             when,
             back,
-            format!("{} ({} confidence)", r.citation, engine::confidence_label(r.confidence)),
+            format!(
+                "{} ({} confidence)",
+                r.citation,
+                engine::confidence_label(r.confidence)
+            ),
         ]);
     }
     if rows.is_empty() {
@@ -444,7 +452,10 @@ mod tests {
         .unwrap();
         let r = &env.data.rules[0];
         assert_eq!(r.earliest_return_date.as_deref(), Some("2026-02-16"));
-        assert_eq!(env.data.disease.infectious_from.as_deref(), Some("2026-02-08"));
+        assert_eq!(
+            env.data.disease.infectious_from.as_deref(),
+            Some("2026-02-08")
+        );
         assert!(!env.data.as_of.unwrap().excluded_under.is_empty());
         assert!(env.notice.is_some());
         assert!(env.caveats[0].contains("PENDING-REVIEW"));
