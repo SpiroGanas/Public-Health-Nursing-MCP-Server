@@ -758,6 +758,69 @@
           "rows": 1173
         }
       ]
+    },
+    {
+      "id": "ma-dph-opioid-deaths-town",
+      "title": "Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022",
+      "publisher": "Massachusetts Department of Public Health (Registry of Vital Records and Statistics)",
+      "source_urls": [
+        "https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download",
+        "https://www.mass.gov/lists/substance-use-and-overdose-data"
+      ],
+      "source_sha256": {
+        "opioid-related-overdose-deaths-by-citytown-june-2023.pdf": "9ec3bbd8d6879ccd95950db97b51b1ad864923276ac7edda46a36f4bd58b8f13"
+      },
+      "source_vintage": "deaths 2015-2022 (posted June 2023; data updated 2023-04-25)",
+      "retrieved": "2026-11-08",
+      "license": "Public report of the Massachusetts Department of Public Health.",
+      "derivation": "Table 1 (city/town of residence, Massachusetts residents) and Table 2 (city/town of death occurrence) transcribed from `pdftotext -layout` output: one row per basis and town with yearly counts 2015-2022, plus the Unknown, Out of Massachusetts, and Total rows. The builder checks that each table's rows sum to the published totals and that 351 towns are present. DPH spellings are kept (Manchester, North Attleboro). Builder: xtask/scripts/build_overdose_towns.py.",
+      "caveats": [
+        "This June 2023 table is the latest town-level table DPH published as a document; later town data (through 2025) are only on DPH's BSAS dashboard (Community Profile).",
+        "2020-2022 counts were preliminary when posted; DPH's later reports use an updated 'opioid-involved' method, so their counts differ slightly from this table. Do not mix the two series.",
+        "Counts are as published by DPH, including small numbers."
+      ],
+      "files": [
+        {
+          "path": "ma_opioid_deaths_town.csv",
+          "sha256": "f9c88f6181856cba5c4fe381cf3528819bce1c7c0bd976d96c8422f57acacab8",
+          "bytes": 26164,
+          "rows": 706
+        }
+      ]
+    },
+    {
+      "id": "cdc-vsrr-overdose-ma",
+      "title": "VSRR provisional drug overdose death counts: Massachusetts, U.S., and Massachusetts counties",
+      "publisher": "CDC, National Center for Health Statistics (National Vital Statistics System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/xkb8-kh2a",
+        "https://data.cdc.gov/d/gb4e-yj24",
+        "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"
+      ],
+      "source_sha256": {},
+      "source_vintage": "12 month-ending periods through May 2026 (state, rows updated 2026-10-14) and March 2026 (counties, data as of 2026-10-04)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "State file: rows of xkb8-kh2a for state MA and US from January 2019 for nine indicators (all drug overdose deaths; opioids; synthetic opioids other than methadone; heroin; natural and semi-synthetic opioids; methadone; cocaine; psychostimulants; percent with drugs specified), keeping reported and predicted values, percent complete, percent pending investigation, and the footnote symbol. County file: rows of gb4e-yj24 for the 14 Massachusetts counties from January 2020, keeping the 12 month-ending count (blank when NCHS suppressed a count of 1-9), footnote, urban-rural code, percent pending, and data date. Builder: xtask/scripts/build_overdose_vsrr.py (Python 3 and curl).",
+      "caveats": [
+        "Provisional counts are incomplete and are revised monthly; predicted values adjust for reporting delays.",
+        "State counts are by the jurisdiction where the death occurred; county counts are by county of residence.",
+        "County counts of 1-9 are suppressed by NCHS."
+      ],
+      "files": [
+        {
+          "path": "cdc_vsrr_overdose_ma_us.csv",
+          "sha256": "218ed817185e211be4c75d48c95f0e8196ef9df612a55781a819514d81779786",
+          "bytes": 119025,
+          "rows": 1602
+        },
+        {
+          "path": "cdc_vsrr_overdose_ma_counties.csv",
+          "sha256": "6bc951452692aba6ccdb2396ed8157b6c832d4b7935878a8fe51e53e0dc62708",
+          "bytes": 69136,
+          "rows": 1050
+        }
+      ]
     }
   ]
 }

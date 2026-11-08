@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 48;
+const TOOL_COUNT = 49;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language.', '1'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths.', '2'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1761,6 +1761,36 @@ const toolChapters = [
           'Reading-level formulas only count syllables and sentence length. They cannot tell whether your audience will understand or act on a material; test drafts with members of your audience.',
           'The formulas and word list are for English. For other languages, rely on a qualified translator.',
           'When you check a file, quoted sentences are passed through the redactor, but remove client details before publishing anything.',
+        ],
+      },
+      {
+        id: 'get_overdose_data',
+        title: 'Look up overdose deaths for your community',
+        toolset: 'bh',
+        internet: 'optional (works offline from bundled data)',
+        files: 'no',
+        does: 'Shows overdose deaths for a city or town, county, or the state: DPH’s yearly counts of opioid-related overdose deaths by town (2015 to 2022) with a 5-year rate compared with the state; CDC’s provisional counts for the latest 12 months for counties, Massachusetts, and the United States, with the change from a year earlier and a breakdown by drug (fentanyl, heroin, cocaine, stimulants); and DPH’s statewide findings for 2024.',
+        when: [
+          'Preparing a board of health update, a grant application, or a community health assessment.',
+          'Planning naloxone distribution or outreach and deciding where to focus.',
+          'Answering a reporter’s or official’s question about local overdose trends.',
+        ],
+        provide: [
+          'The town, county, or “Massachusetts” (your saved town is used if you do not say), and optionally other places to compare and a drug class.',
+          'Whether you want deaths of residents (the default) or deaths that happened in the town.',
+        ],
+        examples: [
+          'How many opioid overdose deaths has Pittsfield had, and how does its rate compare with the state?',
+          'Compare overdose deaths in Fall River and New Bedford and their county.',
+          'What is the latest CDC count of fentanyl deaths in Massachusetts, and is it going down?',
+        ],
+        returns: [
+          'Yearly town counts, the 2018–2022 rate with its 95% confidence interval and how it compares with the state, county and state trends with the percent change, counts by drug, DPH’s 2024 findings with page numbers, and a link to DPH’s dashboard for newer town data.',
+        ],
+        notes: [
+          'DPH last published town counts as a document for 2015–2022. Newer town numbers (through 2025) are on DPH’s BSAS dashboard; the tool gives the link.',
+          'No rate is shown for fewer than 5 deaths, and rates based on fewer than 20 deaths are marked unstable. CDC hides county counts of 1 to 9.',
+          'DPH, CDC state, and CDC county numbers use different definitions (opioid-related deaths by residence; all overdose deaths by place of death; all overdose deaths by county of residence), so they do not add up to each other.',
         ],
       },
     ],

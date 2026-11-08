@@ -45,6 +45,11 @@ All notable changes are recorded here. The format follows
   statistics moved to `phn_tools::comms::textstats` (VAX-09 now uses them) with better sentence
   splitting and syllable counting. Content: `content/comms/readability.yaml`. `comms.rs` became
   the `comms/` folder.
+- `get_overdose_data` (MH-03): DPH town-level opioid-related overdose deaths (2015-2022 table,
+  bundled), 5-year rates with exact intervals compared with the state, CDC/NCHS provisional county,
+  state, and U.S. counts by drug class (live → cache → snapshot), and DPH's 2024 findings.
+  Snapshots `ma-dph-opioid-deaths-town` and `cdc-vsrr-overdose-ma` (builders in `xtask/scripts/`);
+  content `content/bh/overdose_data.yaml`.
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

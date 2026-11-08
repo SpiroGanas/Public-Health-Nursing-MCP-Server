@@ -6,4 +6,6 @@
 // End of Phase 10 modules.
 
 // Phase 11 modules go below this line.
+pub mod overdose;
+pub use overdose::{OverdoseArgs, OverdoseResult, get_overdose_data};
 // End of Phase 11 modules.

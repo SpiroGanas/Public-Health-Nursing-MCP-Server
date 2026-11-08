@@ -1083,6 +1083,27 @@ suggestions for the items it can judge (lists, headings, jargon, numbers). Excer
 file pass through the identifier redactor, and words that could be names are never listed.
 Golden tests: CDC *Simply Put*'s SMOG table and hepatitis A Fry example, and the score sheet's
 arithmetic (`crates/phn-tools/tests/readability_golden.rs`).
+### `get_overdose_data` (MH-03, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town, else Massachusetts | A city or town, a county, or `Massachusetts`. |
+| `compare_with` | | Up to 5 other towns or counties. |
+| `basis` | `residence` | Town counts by `residence` (DPH Table 1) or `occurrence` (Table 2). |
+| `drug` | `all` | State and U.S. drug class: `all`, `opioids`, `synthetic_opioids` (fentanyl), `heroin`, `prescription_opioids`, `methadone`, `cocaine`, `stimulants`. |
+| `months` | 13 | 12 month-ending CDC periods to list (max 60). |
+
+Towns: DPH's *Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022*
+(posted June 2023, the latest town table DPH published as a document; bundled snapshot), with a
+2018-2022 average annual rate per 100,000 (ACS 2020-2024 population, exact Poisson interval),
+compared with the state. No rate is given for fewer than 5 deaths (DPH's rule in its 2024
+report); rates on fewer than 20 deaths are flagged unstable. Counties: CDC/NCHS provisional 12
+month-ending drug overdose deaths by county of residence (`gb4e-yj24`; counts of 1-9 suppressed
+by NCHS). State and U.S.: CDC/NCHS provisional counts by drug class (`xkb8-kh2a`, by state of
+occurrence), with the change from a year earlier. Both CDC datasets are live → cache → snapshot.
+Adds DPH's statewide findings for 2024 (March 2026 report, with pages) and a link to the BSAS
+dashboard for newer town data.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

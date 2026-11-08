@@ -1,13 +1,14 @@
 //! Phase 11 tools: substance use, crisis resources, and health communication.
 
 use phn_core::Envelope;
+use phn_tools::bh::{OverdoseArgs, OverdoseResult};
 use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
 use rmcp::{tool, tool_router};
 
-use crate::server::{PhnServer, blocking};
+use crate::server::{PhnServer, blocking, respond};
 
 #[tool_router(router = phase11_router, vis = "pub(crate)")]
 impl PhnServer {
@@ -31,5 +32,24 @@ impl PhnServer {
             phn_tools::comms::check_readability(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "get_overdose_data",
+        description = "Overdose deaths for a Massachusetts city or town, county, or the state: \
+            DPH's opioid-related overdose deaths by town of residence or occurrence for \
+            2015-2022 with a 5-year rate compared with the state (no rate under 5 deaths); \
+            CDC's provisional 12 month-ending drug overdose deaths for counties (counts of 1-9 \
+            suppressed), Massachusetts, and the U.S. with the change from a year earlier and by \
+            drug class (fentanyl, heroin, cocaine, stimulants); and DPH's statewide 2024 \
+            findings. Says where newer town data are.",
+        annotations(title = "Overdose death data", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<OverdoseResult>>()
+    )]
+    async fn get_overdose_data(
+        &self,
+        Parameters(args): Parameters<OverdoseArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::bh::get_overdose_data(&self.ctx, args).await)
     }
 }

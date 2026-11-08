@@ -227,3 +227,103 @@ async fn readability_rejects_bad_input() {
     let e = call_err(&h, "check_readability", json!({"path": "line_list.csv"})).await;
     assert!(e.contains("reads DOCX"), "{e}");
 }
+
+// ------------------------------------------------------------------ MH-03
+
+#[tokio::test]
+async fn overdose_data_for_a_town_its_county_and_the_state_offline() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "get_overdose_data",
+        json!({"area": "Worcester", "compare_with": ["Pittsfield"]}),
+    )
+    .await;
+    let d = &s["data"];
+    assert_eq!(d["level"], "town");
+    let towns = d["towns"].as_array().unwrap();
+    assert_eq!(towns.len(), 2);
+    let w = &towns[0];
+    assert_eq!(w["town"], "Worcester");
+    assert_eq!(w["years"].as_array().unwrap().len(), 8);
+    // DPH June 2023 table, Table 1: Worcester residents, 2022 = 140.
+    assert_eq!(w["years"][7]["deaths"], 140);
+    assert!(w["rate_2018_2022"]["rate_per_100k"].as_f64().unwrap() > 0.0);
+    assert!(w["compared_with_state"].as_str().is_some());
+    // CDC county counts come from the bundled snapshot when offline.
+    let counties: Vec<&str> = d["counties"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["area"].as_str().unwrap())
+        .collect();
+    assert!(
+        counties.iter().any(|c| c.starts_with("Worcester")),
+        "{counties:?}"
+    );
+    assert!(
+        counties.iter().any(|c| c.starts_with("Berkshire")),
+        "{counties:?}"
+    );
+    assert_eq!(d["state_and_us"].as_array().unwrap().len(), 2);
+    assert!(
+        s["sources"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|x| x["mode"] == "snapshot"
+                && x["url"].as_str().unwrap_or("").contains("gb4e-yj24"))
+    );
+    assert!(caveats(&s).contains("bundled snapshot"));
+    assert!(has_pending_review_caveat(&s));
+    assert!(md(&s).contains("DPH statewide findings for 2024"));
+    assert!(md(&s).contains("BSAS dashboard"));
+
+    // Statewide by drug class.
+    let s = call_ok(
+        &h,
+        "get_overdose_data",
+        json!({"area": "Massachusetts", "drug": "fentanyl"}),
+    )
+    .await;
+    assert_eq!(s["data"]["level"], "state");
+    assert_eq!(s["data"]["by_drug"].as_array().unwrap().len(), 8);
+    assert!(
+        s["data"]["state_and_us"][0]["measure"]
+            .as_str()
+            .unwrap()
+            .contains("fentanyl")
+    );
+
+    // A small town: no rate under 5 deaths; occurrence basis.
+    let s = call_ok(
+        &h,
+        "get_overdose_data",
+        json!({"area": "Mount Washington", "basis": "occurrence"}),
+    )
+    .await;
+    assert_eq!(s["data"]["towns"][0]["basis"], "occurrence");
+    assert!(s["data"]["towns"][0]["rate_2018_2022"].is_null());
+    let s = call_ok(&h, "get_overdose_data", json!({"area": "Alford"})).await;
+    let r = &s["data"]["towns"][0]["rate_2018_2022"];
+    assert!(r["rate_per_100k"].is_null());
+    assert!(r["flags"][0].as_str().unwrap().contains("fewer than 5"));
+    // DPH spells it "North Attleboro".
+    call_ok(
+        &h,
+        "get_overdose_data",
+        json!({"area": "North Attleborough"}),
+    )
+    .await;
+}
+
+#[tokio::test]
+async fn overdose_data_rejects_bad_input() {
+    let h = start(|c| c.offline = true).await;
+    let e = call_err(&h, "get_overdose_data", json!({"area": "Springfeld Ohio"})).await;
+    assert!(e.contains("not a Massachusetts"), "{e}");
+    let e = call_err(&h, "get_overdose_data", json!({"drug": "kratom"})).await;
+    assert!(e.contains("not recognized"), "{e}");
+    let e = call_err(&h, "get_overdose_data", json!({"basis": "work"})).await;
+    assert!(e.contains("residence or occurrence"), "{e}");
+}

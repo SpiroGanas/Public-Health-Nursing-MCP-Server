@@ -21,6 +21,8 @@ pub const SAFE_MESSAGING: &str = "comms-safe-messaging";
 pub const CAMPAIGNS: &str = "comms-campaigns";
 /// Content id: translation workflow guidance.
 pub const TRANSLATION: &str = "comms-translation";
+/// Content id: overdose death data notes (MH-03).
+pub const OVERDOSE_DATA: &str = "bh-overdose-data";
 /// Content id: naloxone, harm reduction, and treatment resources.
 pub const SUBSTANCE_USE: &str = "bh-substance-use-resources";
 /// Content id: school postvention (After a Suicide toolkit).
