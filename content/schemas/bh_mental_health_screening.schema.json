@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/bh_mental_health_screening.schema.json",
+  "title": "Mental health screening instruments",
+  "type": "object",
+  "required": ["meta", "sources", "not_a_diagnosis", "instruments", "safety_alerts", "resources_for_all"],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": ["title", "publisher", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {"type": "string"},
+        "publisher": {"type": "string"},
+        "url": {"type": ["string", "null"]}
+      }
+    },
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "cited_text": {
+      "type": "object",
+      "required": ["text", "source", "section"],
+      "additionalProperties": false,
+      "properties": {
+        "text": {"type": "string", "minLength": 10},
+        "source": {"type": "string"},
+        "section": {"type": "string"},
+        "confidence": {"$ref": "#/$defs/confidence"}
+      }
+    },
+    "instrument_id": {"enum": ["phq2", "phq9", "gad2", "gad7", "epds", "asq", "cssrs_screener"]}
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "version", "prepared", "effective_date", "source", "related_sources", "review", "verification_note"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"const": "bh-mental-health-screening"},
+        "title": {"type": "string"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "prepared": {"type": "string"},
+        "effective_date": {"type": ["string", "null"]},
+        "source": {"$ref": "#/$defs/citation"},
+        "related_sources": {"type": "array", "items": {"$ref": "#/$defs/citation"}},
+        "review": {
+          "type": "object",
+          "required": ["status", "reviewed_by", "reviewed_on", "review_due"],
+          "additionalProperties": false,
+          "properties": {
+            "status": {"enum": ["pending", "reviewed"]},
+            "reviewed_by": {"type": ["string", "null"]},
+            "reviewed_on": {"type": ["string", "null"]},
+            "review_due": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+          }
+        },
+        "verification_note": {"type": "string", "minLength": 20}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "publisher", "url", "effective_date", "retrieved"],
+        "additionalProperties": false,
+        "properties": {
+          "title": {"type": "string"},
+          "publisher": {"type": "string"},
+          "url": {"type": "string", "pattern": "^https://"},
+          "effective_date": {"type": ["string", "null"]},
+          "retrieved": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+        }
+      }
+    },
+    "not_a_diagnosis": {"type": "string", "minLength": 20},
+    "instruments": {
+      "type": "array",
+      "minItems": 7,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "aliases", "purpose", "response", "item_count", "item_min", "item_max", "response_options", "lookback", "items", "bands", "positive_at", "positive_text", "positive_source", "safety_items", "reverse_scored_items", "source", "section", "confidence", "license", "notes"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"$ref": "#/$defs/instrument_id"},
+          "name": {"type": "string"},
+          "aliases": {"type": "array", "items": {"type": "string"}},
+          "purpose": {"type": "string"},
+          "response": {"enum": ["frequency", "options", "yes_no"]},
+          "item_count": {"type": "integer", "minimum": 1, "maximum": 30},
+          "item_min": {"type": "integer", "minimum": 0},
+          "item_max": {"type": "integer", "minimum": 1},
+          "response_options": {"type": "array", "items": {"type": "string"}},
+          "lookback": {"type": "string"},
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["n", "topic"],
+              "additionalProperties": false,
+              "properties": {
+                "n": {"type": "integer", "minimum": 1},
+                "topic": {"type": "string"},
+                "wording": {"type": "string"}
+              }
+            }
+          },
+          "bands": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["min", "max", "label"],
+              "additionalProperties": false,
+              "properties": {
+                "min": {"type": "integer", "minimum": 0},
+                "max": {"type": "integer", "minimum": 0},
+                "label": {"type": "string"}
+              }
+            }
+          },
+          "positive_at": {"type": ["integer", "null"], "minimum": 0},
+          "positive_text": {"type": "string", "minLength": 20},
+          "positive_source": {"type": "string"},
+          "safety_items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["item", "at_or_above", "alert"],
+              "additionalProperties": false,
+              "properties": {
+                "item": {"type": "integer", "minimum": 1},
+                "at_or_above": {"type": "integer", "minimum": 1},
+                "alert": {"type": "string"}
+              }
+            }
+          },
+          "reverse_scored_items": {"type": "array", "items": {"type": "integer", "minimum": 1}},
+          "source": {"type": "string"},
+          "section": {"type": "string"},
+          "confidence": {"$ref": "#/$defs/confidence"},
+          "license": {
+            "type": "object",
+            "required": ["reuse", "terms", "wording_bundled", "source", "confidence"],
+            "additionalProperties": false,
+            "properties": {
+              "reuse": {"enum": ["public_domain", "free", "cite_required", "permission_terms_unverified"]},
+              "terms": {"type": "string", "minLength": 20},
+              "wording_bundled": {"type": "boolean"},
+              "source": {"type": "string"},
+              "confidence": {"$ref": "#/$defs/confidence"}
+            }
+          },
+          "notes": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "safety_alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "urgency", "applies_to", "trigger_text", "steps"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "title": {"type": "string"},
+          "urgency": {"enum": ["immediate", "same_day", "routine"]},
+          "applies_to": {"type": "array", "items": {"$ref": "#/$defs/instrument_id"}},
+          "trigger_text": {"type": "string"},
+          "steps": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/cited_text"}}
+        }
+      }
+    },
+    "resources_for_all": {"type": "array", "items": {"$ref": "#/$defs/cited_text"}}
+  }
+}

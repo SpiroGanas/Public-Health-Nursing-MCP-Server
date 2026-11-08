@@ -189,6 +189,20 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "mwra_biobot.csv",
         include_str!("../../../snapshots/mwra_biobot.csv"),
     ),
+    // Phase 10 snapshot files go below this line.
+    (
+        "ma_asap_directory.csv",
+        include_str!("../../../snapshots/ma_asap_directory.csv"),
+    ),
+    (
+        "ma_shine_directory.csv",
+        include_str!("../../../snapshots/ma_shine_directory.csv"),
+    ),
+    (
+        "ma_cbhc_directory.csv",
+        include_str!("../../../snapshots/ma_cbhc_directory.csv"),
+    ),
+    // End of Phase 10 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

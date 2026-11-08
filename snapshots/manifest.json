@@ -68,11 +68,11 @@
         "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/NDC/NDC_Unit_use.txt"
       ],
       "source_sha256": {
-        "cvx.txt": "efd2a6770f0f648ce76e10ac2889602b2ea8fa8ca4b63deb33ca883e7d0d7413",
-        "mvx.txt": "4c0c145b4609d0c687e51987effbe808af4e55b7dcebdaf947660d3915600ed8",
-        "TRADENAME.txt": "71828ea5df7203106f7bed0c23b17f7cae1ceeea7d931bae75fba594f9a18cf9",
         "NDC_Unit_sale.txt": "01b76bb2d4bfe4215fa37056474d6fe109e5a7f23fba471fba2ec68b6b61d506",
-        "NDC_Unit_use.txt": "abff7414446ff11a864ce917bad3c50e150327abb20eefd511573a83dd3bd0d7"
+        "NDC_Unit_use.txt": "abff7414446ff11a864ce917bad3c50e150327abb20eefd511573a83dd3bd0d7",
+        "TRADENAME.txt": "71828ea5df7203106f7bed0c23b17f7cae1ceeea7d931bae75fba594f9a18cf9",
+        "cvx.txt": "efd2a6770f0f648ce76e10ac2889602b2ea8fa8ca4b63deb33ca883e7d0d7413",
+        "mvx.txt": "4c0c145b4609d0c687e51987effbe808af4e55b7dcebdaf947660d3915600ed8"
       },
       "source_vintage": "code sets as published 2026-11-07 (NDC page last reviewed 2026-09-18)",
       "retrieved": "2026-11-07",
@@ -119,8 +119,8 @@
         "https://www.mass.gov/doc/kindergarten-three-year-combined-by-school-2023-2026/download"
       ],
       "source_sha256": {
-        "Kindergarten Immunization Data by School 2025-2026.xlsx": "3c037b30141cc74a206a7a68fb077a74066794485bc52184428579d55a75e697",
         "Grade 7 Immunization Data by School 2025-2026.xlsx": "81af7fd76153e8efb92d7daba8292c59f3a1daaafd4c2738e997ec2872954000",
+        "Kindergarten Immunization Data by School 2025-2026.xlsx": "3c037b30141cc74a206a7a68fb077a74066794485bc52184428579d55a75e697",
         "Kindergarten-Three-Year-Combined-by-School-2023-2026.xlsx": "c3e76ee45bce9f1fb3a67943b70f5a0a99a4333089fa02c0ab2693a327dd8522"
       },
       "source_vintage": "2025-2026 school year (data current as of April 5, 2026 per DPH)",
@@ -756,6 +756,73 @@
           "sha256": "f59ff2cea5ea1a8107f4dc27f832fad716db9b19cb529cf5a1e880c2dfa130eb",
           "bytes": 1123828,
           "rows": 1173
+        }
+      ]
+    },
+    {
+      "id": "ma-aging-service-directory",
+      "title": "Massachusetts Aging Services Access Points and SHINE offices by town",
+      "publisher": "Massachusetts Executive Office of Aging & Independence (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap",
+        "https://www.mass.gov/info-details/find-a-shine-counselor-near-you",
+        "https://www.mass.gov/files/csv/2026-10/towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv"
+      ],
+      "source_sha256": {
+        "find-your-regional-aging-services-access-point-asap.html": "ec9b65ac890a1d311edce82f3d4974d1cc3b7cc8b6f5ab30fc0eba6093f8f4c0",
+        "towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv": "11356772d5b81adacd06ad08988ddf7f89adc168dabee6c7f8f41368e4ffff4f"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).",
+      "caveats": [
+        "Service areas are as published on mass.gov; AGE notes that the areas served by an ASAP's protective services may differ. Confirm with the ASAP or call MassOptions at (800) 243-4636.",
+        "Boston is served by several ASAPs by neighborhood; the neighborhoods are listed for each.",
+        "The SHINE town list has no row for: Groton. Use MassOptions (800) 243-4636 to find a SHINE counselor there."
+      ],
+      "files": [
+        {
+          "path": "ma_asap_directory.csv",
+          "sha256": "8fedd54d08f1329746349b87683f9004b6ff12dfcb72fc086eebf149a707e808",
+          "bytes": 10703,
+          "rows": 23
+        },
+        {
+          "path": "ma_shine_directory.csv",
+          "sha256": "bd728914a472bc1c5ab07af1dfe6756240f14ea759db0e0a92fca05e4b611fc9",
+          "bytes": 20255,
+          "rows": 350
+        }
+      ]
+    },
+    {
+      "id": "ma-cbhc-directory",
+      "title": "Massachusetts Community Behavioral Health Centers (CBHCs) and the towns they list",
+      "publisher": "Massachusetts Executive Office of Health and Human Services (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/find-a-cbhc/locations"
+      ],
+      "source_sha256": {
+        "cbhc_locations_0.html": "c68df90ac4daef7805f54d157230b6216e4b9c08595309fffb2bdd1f07a9d8db",
+        "cbhc_locations_1.html": "2560486c5757e396bec84337b53aca12565e052a270b1f55e85ceee30dbd16a8",
+        "cbhc_locations_2.html": "e5f20bf54dfc9b62ff13b1f4cc937d1ef4144b7dc499f7f8f76e24118129ae7c",
+        "cbhc_locations_3.html": "315f7eb447e5afb623c2047890e13830b055d099c3b9bedb89686b8dd9a42c77"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "Every location in the paged 'Find a CBHC Locations' listing: name, address, phone, and the 'Serving' town list; coordinates from the page's map data. Place names are matched to MassGIS municipalities as for the ASAP directory.",
+      "caveats": [
+        "63 of 351 towns are not named in any CBHC's 'Serving' list (some CBHC listings, for example in the Framingham, Waltham, Quincy, Hyannis, and Martha's Vineyard areas, publish no town list); for those towns the tool lists the CBHCs in the same county and the statewide numbers that route to the nearest CBHC.",
+        "mass.gov's listing is the source of record; CBHC catchment areas can change. Confirm with the Behavioral Health Help Line, (833) 773-2445."
+      ],
+      "files": [
+        {
+          "path": "ma_cbhc_directory.csv",
+          "sha256": "a4023c2ac7f0bbb12d6fe5e7d93144769f058bba418b6b99ba0e93e8acc59fbf",
+          "bytes": 11767,
+          "rows": 31
         }
       ]
     }

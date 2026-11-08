@@ -6,6 +6,9 @@
 //! cargo xtask build-surveillance-snapshots
 //! cargo xtask build-guide-corpus [--check] [--source-dir DIR]
 //! cargo xtask build-name-lists
+//! cargo xtask build-service-directories [--check] [--source-dir DIR]
+//! cargo xtask build-older-adult-snapshots [--source-dir DIR]
+//! cargo xtask build-nursing-home-snapshot
 //! cargo xtask validate-content [--today YYYY-MM-DD]
 //! ```
 
@@ -15,6 +18,7 @@ mod guide_corpus;
 mod names;
 mod public_data;
 mod rtf;
+mod service_directories;
 mod snapshots;
 mod surveillance;
 
@@ -39,6 +43,11 @@ fn main() -> Result<()> {
         }
         Some("build-surveillance-snapshots") => surveillance::run(&root),
         Some("build-name-lists") => names::run(&root),
+        Some("build-service-directories") => {
+            let check = args.iter().any(|a| a == "--check");
+            let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
+            service_directories::run(&root, check, source_dir.as_deref())
+        }
         Some("build-guide-corpus") => {
             let check = args.iter().any(|a| a == "--check");
             let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
@@ -56,7 +65,7 @@ fn main() -> Result<()> {
                 "usage: cargo xtask <build-snapshots [--check] [--source-dir DIR] | \
                  build-public-snapshots [--check] [--source-dir DIR] [--only ID] | \
                  build-surveillance-snapshots | build-guide-corpus [--check] [--source-dir DIR] | \
-                 build-name-lists | \
+                 build-name-lists | build-service-directories [--check] [--source-dir DIR] | \
                  validate-content [--today YYYY-MM-DD]>"
             );
             bail!("unknown or missing command")

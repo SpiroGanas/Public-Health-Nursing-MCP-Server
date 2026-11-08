@@ -1,0 +1,554 @@
+# Mental health screening instruments: scoring rules, published cutoffs, safety-alert rules,
+# and license terms, for score_mental_health_screen (MH-02).
+#
+# REVIEW STATUS: pending. See meta.verification_note. The subject matter expert must check the
+# cutoffs, the safety-alert rules and steps, and each instrument's license terms before use.
+# Schema: content/schemas/bh_mental_health_screening.schema.json
+meta:
+  id: bh-mental-health-screening
+  title: Mental health screening instruments (PHQ-2, PHQ-9, GAD-2, GAD-7, EPDS, NIMH ASQ, C-SSRS screener)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: Ask Suicide-Screening Questions (ASQ) Toolkit
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+  related_sources:
+    - title: "Kroenke K, Spitzer RL, Williams JB. The PHQ-9: validity of a brief depression severity measure. J Gen Intern Med. 2001;16(9):606-13"
+      publisher: PubMed (National Library of Medicine)
+      url: https://pubmed.ncbi.nlm.nih.gov/11556941/
+    - title: "Kroenke K, Spitzer RL, Williams JB, Löwe B. The PHQ somatic, anxiety, and depressive symptom scales: a systematic review. Gen Hosp Psychiatry. 2010;32(4):345-59"
+      publisher: PubMed (National Library of Medicine)
+      url: https://pubmed.ncbi.nlm.nih.gov/20633738/
+    - title: "Cox JL, Holden JM, Sagovsky R. Detection of postnatal depression: development of the 10-item Edinburgh Postnatal Depression Scale. Br J Psychiatry. 1987;150:782-6"
+      publisher: PubMed (National Library of Medicine)
+      url: https://pubmed.ncbi.nlm.nih.gov/3651732/
+    - title: The Columbia Protocol (C-SSRS)
+      publisher: Suicide Prevention Resource Center
+      url: https://sprc.org/resources/c-ssrs-columbia-suicide-severity-rating-scale-screener-training/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-08. NIMH ASQ items, scoring, result categories, and next steps are transcribed
+    from the NIMH screening tool (dated 9/29/25), information sheet (7/1/2020), adult outpatient
+    Brief Suicide Safety Assessment (12/8/2025), and youth outpatient pathway (11/10/2021) (high
+    confidence). PHQ-9, PHQ-2, GAD-7, and GAD-2 cutoffs come from the developers' published
+    abstracts (PubMed; high confidence). The PHQ publisher's site (phqscreeners.com) could not be
+    reached, so PHQ and GAD item wording is NOT bundled; items are listed by topic only, and the
+    PHQ license statement is recorded from the forms with medium confidence. EPDS scoring and
+    cut-points come from secondary sources in PubMed Central (medium confidence); EPDS wording is
+    not bundled. The Columbia Lighthouse Project's site (cssrs.columbia.edu) could not be reached:
+    C-SSRS screener wording is not bundled, and its risk levels come from a peer-reviewed
+    description (PMC10291825, medium confidence). Safety-alert rules for PHQ-9 item 9 and EPDS
+    item 10 (any non-zero response) follow the product owner's brief and common practice (medium
+    confidence). Not a diagnosis tool.
+
+sources:
+  nimh-asq-tool:
+    title: "NIMH Toolkit: Suicide Risk Screening Tool (Ask Suicide-Screening Questions), youth and adults"
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/sites/default/files/documents/research/research-conducted-at-nimh/asq-toolkit-materials/asq-tool/screening-tool-asq-nimh-toolkit.pdf
+    effective_date: 2025-09-29
+    retrieved: 2026-11-08
+  nimh-asq-info:
+    title: "ASQ Information Sheet: Screening Patients for Suicide Risk in Medical Settings"
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/sites/default/files/documents/research/research-conducted-at-nimh/asq-toolkit-materials/asq-tool/information_sheet_asq_nimh_toolkit.pdf
+    effective_date: 2020-07-01
+    retrieved: 2026-11-08
+  nimh-asq-toolkit:
+    title: Ask Suicide-Screening Questions (ASQ) Toolkit (web page, translations, clinical pathways)
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+    effective_date: null
+    retrieved: 2026-11-08
+  nimh-bssa-adult-outpatient:
+    title: "NIMH Toolkit, Adult Outpatient: Brief Suicide Safety Assessment"
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/sites/default/files/documents/research/research-conducted-at-nimh/asq-toolkit-materials/adult-outpatient/bssa-outpatient-adult-asq-nimh-toolkit.pdf
+    effective_date: 2025-12-08
+    retrieved: 2026-11-08
+  nimh-youth-outpatient-pathway:
+    title: "Youth Suicide Risk Screening Pathway: Outpatient Primary Care and Specialty Clinics"
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/sites/default/files/documents/research/research-conducted-at-nimh/asq-toolkit-materials/youth-outpatient/Suicide_Risk_Screening_Pathway_Outpatient_Youth_Nov_10_2021.pdf
+    effective_date: 2021-11-10
+    retrieved: 2026-11-08
+  kroenke2001:
+    title: "Kroenke K, Spitzer RL, Williams JB. The PHQ-9: validity of a brief depression severity measure. J Gen Intern Med. 2001;16(9):606-13 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/11556941/
+    effective_date: 2001-09-01
+    retrieved: 2026-11-08
+  kroenke2003:
+    title: "Kroenke K, Spitzer RL, Williams JB. The Patient Health Questionnaire-2: validity of a two-item depression screener. Med Care. 2003;41(11):1284-92 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/14583691/
+    effective_date: 2003-11-01
+    retrieved: 2026-11-08
+  spitzer2006:
+    title: "Spitzer RL, Kroenke K, Williams JB, Löwe B. A brief measure for assessing generalized anxiety disorder: the GAD-7. Arch Intern Med. 2006;166(10):1092-7 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/16717171/
+    effective_date: 2006-05-22
+    retrieved: 2026-11-08
+  kroenke2010:
+    title: "Kroenke K, Spitzer RL, Williams JB, Löwe B. The Patient Health Questionnaire somatic, anxiety, and depressive symptom scales: a systematic review. Gen Hosp Psychiatry. 2010;32(4):345-59 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/20633738/
+    effective_date: 2010-07-01
+    retrieved: 2026-11-08
+  cox1987:
+    title: "Cox JL, Holden JM, Sagovsky R. Detection of postnatal depression: development of the 10-item Edinburgh Postnatal Depression Scale. Br J Psychiatry. 1987;150:782-6 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/3651732/
+    effective_date: 1987-06-01
+    retrieved: 2026-11-08
+  martin2018:
+    title: "Martin CR, Redshaw M. Establishing a coherent and replicable measurement model of the Edinburgh Postnatal Depression Scale. Psychiatry Res. 2018 (PMC6008486), methods section"
+    publisher: PubMed Central (National Library of Medicine)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6008486/
+    effective_date: 2018-06-01
+    retrieved: 2026-11-08
+  korlakunta2025:
+    title: "Korlakunta A, et al. Relationship between levels of postnatal depression and its correlates. J Family Med Prim Care. 2025 (PMC12488178), data collection section"
+    publisher: PubMed Central (National Library of Medicine)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12488178/
+    effective_date: 2025-08-01
+    retrieved: 2026-11-08
+  bryant2023:
+    title: "Bryant AS, et al. The Power and Promise of Postpartum Self Care. Matern Child Health J. 2023 (PMC9894665), measures section"
+    publisher: PubMed Central (National Library of Medicine)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9894665/
+    effective_date: 2023-03-01
+    retrieved: 2026-11-08
+  columbia-cssrs:
+    title: "Columbia-Suicide Severity Rating Scale (C-SSRS) Screener, Lifetime/Recent (not reachable from the build environment on 2026-11-08)"
+    publisher: The Columbia Lighthouse Project
+    url: https://cssrs.columbia.edu/documents/c-ssrs-screener-lifetimerecent/
+    effective_date: null
+    retrieved: 2026-11-08
+  sprc-cssrs:
+    title: The Columbia Protocol (C-SSRS)
+    publisher: Suicide Prevention Resource Center
+    url: https://sprc.org/resources/c-ssrs-columbia-suicide-severity-rating-scale-screener-training/
+    effective_date: null
+    retrieved: 2026-11-08
+  posner2011:
+    title: "Posner K, et al. The Columbia-Suicide Severity Rating Scale: initial validity and internal consistency findings. Am J Psychiatry. 2011;168(12):1266-77 (abstract)"
+    publisher: PubMed (National Library of Medicine)
+    url: https://pubmed.ncbi.nlm.nih.gov/22193671/
+    effective_date: 2011-12-01
+    retrieved: 2026-11-08
+  wright2023:
+    title: "Wright-Berryman J, et al. Virtually screening adults for depression, anxiety, and suicide risk. Front Psychiatry. 2023 (PMC10291825), assessments section"
+    publisher: PubMed Central (National Library of Medicine)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC10291825/
+    effective_date: 2023-06-01
+    retrieved: 2026-11-08
+  scudder2022:
+    title: "Scudder A, et al. Suicide Screening Tools for Pediatric Emergency Department Patients: A Systematic Review. Front Psychiatry. 2022 (PMC9314735)"
+    publisher: PubMed Central (National Library of Medicine)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC9314735/
+    effective_date: 2022-07-01
+    retrieved: 2026-11-08
+  sprc-safety-plan:
+    title: Patient Safety Plan Template (linked from the NIMH youth outpatient pathway)
+    publisher: Suicide Prevention Resource Center
+    url: https://www.sprc.org/resources-programs/patient-safety-plan-template
+    effective_date: null
+    retrieved: 2026-11-08
+
+not_a_diagnosis: >-
+  Screening scores show whether symptoms are present and how severe they are; they are not a
+  diagnosis. A positive screen means a qualified clinician should evaluate the person. Use
+  clinical judgment: a clinician can always override a negative screen.
+
+instruments:
+  - id: phq2
+    name: Patient Health Questionnaire-2 (PHQ-2)
+    aliases: [phq-2, phq 2, phq2 depression screen]
+    purpose: Depression screen (first two PHQ-9 items, depressed mood and loss of interest)
+    response: frequency
+    item_count: 2
+    item_min: 0
+    item_max: 3
+    response_options: ["0 = not at all", "1 = several days", "2 = more than half the days", "3 = nearly every day"]
+    lookback: the past 2 weeks
+    items:
+      - {n: 1, topic: "Little interest or pleasure in doing things (anhedonia)"}
+      - {n: 2, topic: "Feeling down, depressed, or hopeless (depressed mood)"}
+    bands: []
+    positive_at: 3
+    positive_text: >-
+      A PHQ-2 score of 3 or more is a positive screen (the developers' optimal cutpoint:
+      sensitivity 83%, specificity 92% for major depression). Follow with the full PHQ-9 and a
+      clinical evaluation.
+    positive_source: kroenke2003
+    safety_items: []
+    reverse_scored_items: []
+    source: kroenke2003
+    section: Abstract (methods and results)
+    confidence: high
+    license:
+      reuse: free
+      terms: >-
+        PHQ forms carry the statement "Developed by Drs. Robert L. Spitzer, Janet B.W. Williams,
+        Kurt Kroenke and colleagues, with an educational grant from Pfizer Inc. No permission
+        required to reproduce, translate, display or distribute." Recorded from the forms; the
+        publisher's site (phqscreeners.com) could not be reached to confirm.
+      wording_bundled: false
+      source: kroenke2003
+      confidence: medium
+    notes:
+      - The PHQ-2 is the first two items of the PHQ-9; a PHQ-9 can be scored from the same answers plus items 3 to 9.
+
+  - id: phq9
+    name: Patient Health Questionnaire-9 (PHQ-9)
+    aliases: [phq-9, phq 9, phq9 depression]
+    purpose: Depression severity
+    response: frequency
+    item_count: 9
+    item_min: 0
+    item_max: 3
+    response_options: ["0 = not at all", "1 = several days", "2 = more than half the days", "3 = nearly every day"]
+    lookback: the past 2 weeks
+    items:
+      - {n: 1, topic: "Little interest or pleasure in doing things"}
+      - {n: 2, topic: "Feeling down, depressed, or hopeless"}
+      - {n: 3, topic: "Trouble falling or staying asleep, or sleeping too much"}
+      - {n: 4, topic: "Feeling tired or having little energy"}
+      - {n: 5, topic: "Poor appetite or overeating"}
+      - {n: 6, topic: "Feeling bad about yourself, or that you are a failure or have let yourself or your family down"}
+      - {n: 7, topic: "Trouble concentrating"}
+      - {n: 8, topic: "Moving or speaking slowly, or being fidgety or restless"}
+      - {n: 9, topic: "Thoughts of being better off dead or of hurting yourself (suicide risk item)"}
+    bands:
+      - {min: 0, max: 4, label: "none to minimal"}
+      - {min: 5, max: 9, label: mild}
+      - {min: 10, max: 14, label: moderate}
+      - {min: 15, max: 19, label: "moderately severe"}
+      - {min: 20, max: 27, label: severe}
+    positive_at: 10
+    positive_text: >-
+      A PHQ-9 score of 10 or more had 88% sensitivity and 88% specificity for major depression in
+      the validation study; scores of 5, 10, 15, and 20 represent mild, moderate, moderately
+      severe, and severe depression.
+    positive_source: kroenke2001
+    safety_items:
+      - {item: 9, at_or_above: 1, alert: suicide_item_positive}
+    reverse_scored_items: []
+    source: kroenke2001
+    section: Abstract (results)
+    confidence: high
+    license:
+      reuse: free
+      terms: >-
+        PHQ forms carry the statement "Developed by Drs. Robert L. Spitzer, Janet B.W. Williams,
+        Kurt Kroenke and colleagues, with an educational grant from Pfizer Inc. No permission
+        required to reproduce, translate, display or distribute." Recorded from the forms; the
+        publisher's site (phqscreeners.com) could not be reached to confirm, so item wording is
+        not bundled.
+      wording_bundled: false
+      source: kroenke2001
+      confidence: medium
+    notes:
+      - Item topics are summaries, not the questionnaire wording. Use the official form.
+      - The PHQ-9 also asks how difficult the problems have made work, home, or getting along with others; that answer is recorded but not scored.
+      - NIMH's ASQ toolkit offers a combined PHQ-A (adolescent) and ASQ form; NIMH recommends a dedicated suicide risk screen such as the ASQ rather than relying on one depression item.
+
+  - id: gad2
+    name: Generalized Anxiety Disorder-2 (GAD-2)
+    aliases: [gad-2, gad 2]
+    purpose: Anxiety screen (first two GAD-7 items)
+    response: frequency
+    item_count: 2
+    item_min: 0
+    item_max: 3
+    response_options: ["0 = not at all", "1 = several days", "2 = more than half the days", "3 = nearly every day"]
+    lookback: the past 2 weeks
+    items:
+      - {n: 1, topic: "Feeling nervous, anxious, or on edge"}
+      - {n: 2, topic: "Not being able to stop or control worrying"}
+    bands: []
+    positive_at: 3
+    positive_text: >-
+      The developers' systematic review gives an optimal cutpoint of 3 or more on the ultra-brief
+      scales (PHQ-2 and GAD-2). Follow a positive GAD-2 with the GAD-7 and a clinical evaluation.
+    positive_source: kroenke2010
+    safety_items: []
+    reverse_scored_items: []
+    source: kroenke2010
+    section: Abstract (results)
+    confidence: high
+    license:
+      reuse: free
+      terms: >-
+        Part of the PHQ family; the same "No permission required to reproduce, translate, display
+        or distribute" statement is printed on the forms (not confirmed with the publisher's
+        site, which could not be reached).
+      wording_bundled: false
+      source: kroenke2010
+      confidence: medium
+    notes:
+      - Item topics are summaries, not the questionnaire wording.
+
+  - id: gad7
+    name: Generalized Anxiety Disorder-7 (GAD-7)
+    aliases: [gad-7, gad 7, gad7 anxiety]
+    purpose: Anxiety severity
+    response: frequency
+    item_count: 7
+    item_min: 0
+    item_max: 3
+    response_options: ["0 = not at all", "1 = several days", "2 = more than half the days", "3 = nearly every day"]
+    lookback: the past 2 weeks
+    items:
+      - {n: 1, topic: "Feeling nervous, anxious, or on edge"}
+      - {n: 2, topic: "Not being able to stop or control worrying"}
+      - {n: 3, topic: "Worrying too much about different things"}
+      - {n: 4, topic: "Trouble relaxing"}
+      - {n: 5, topic: "Being so restless that it is hard to sit still"}
+      - {n: 6, topic: "Becoming easily annoyed or irritable"}
+      - {n: 7, topic: "Feeling afraid, as if something awful might happen"}
+    bands:
+      - {min: 0, max: 4, label: "none to minimal"}
+      - {min: 5, max: 9, label: mild}
+      - {min: 10, max: 14, label: moderate}
+      - {min: 15, max: 21, label: severe}
+    positive_at: 10
+    positive_text: >-
+      The optimal cutpoint is 10 or more on the GAD-7 (developers' systematic review); cutpoints of
+      5, 10, and 15 represent mild, moderate, and severe anxiety. The GAD-7 also performs
+      reasonably for panic, social anxiety, and post-traumatic stress disorder.
+    positive_source: kroenke2010
+    safety_items: []
+    reverse_scored_items: []
+    source: kroenke2010
+    section: Abstract (results); GAD-7 development in Spitzer 2006
+    confidence: high
+    license:
+      reuse: free
+      terms: >-
+        Part of the PHQ family; the same "No permission required to reproduce, translate, display
+        or distribute" statement is printed on the forms (not confirmed with the publisher's
+        site, which could not be reached).
+      wording_bundled: false
+      source: spitzer2006
+      confidence: medium
+    notes:
+      - Item topics are summaries, not the questionnaire wording. The GAD-7 has no suicide risk item; screen for suicide risk separately when indicated.
+
+  - id: epds
+    name: Edinburgh Postnatal Depression Scale (EPDS)
+    aliases: [edinburgh, epds postnatal, epds postpartum, edinburgh postnatal depression scale]
+    purpose: Perinatal (pregnancy and postpartum) depression screen
+    response: options
+    item_count: 10
+    item_min: 0
+    item_max: 3
+    response_options: ["Each item has four answers scored 0 to 3; items 3 and 5 to 10 are reverse-scored (the first answer scores 3)"]
+    lookback: the past 7 days
+    items:
+      - {n: 1, topic: "Able to laugh and see the funny side of things"}
+      - {n: 2, topic: "Looked forward with enjoyment to things"}
+      - {n: 3, topic: "Blamed myself unnecessarily when things went wrong"}
+      - {n: 4, topic: "Anxious or worried for no good reason"}
+      - {n: 5, topic: "Felt scared or panicky for no very good reason"}
+      - {n: 6, topic: "Things have been getting on top of me"}
+      - {n: 7, topic: "So unhappy that I have had difficulty sleeping"}
+      - {n: 8, topic: "Felt sad or miserable"}
+      - {n: 9, topic: "So unhappy that I have been crying"}
+      - {n: 10, topic: "The thought of harming myself has occurred to me (self-harm item)"}
+    bands:
+      - {min: 0, max: 9, label: "below the screening cut-point"}
+      - {min: 10, max: 12, label: "possible depression (at or above the 9/10 screening cut-point)"}
+      - {min: 13, max: 30, label: "probable depression (at or above the classic 12/13 cut-point)"}
+    positive_at: 10
+    positive_text: >-
+      The classic EPDS cut-point is 12/13 for probable postnatal depression (Cox 1987); a 9/10
+      cut-point has been suggested for screening (Cox and Holden 2003). Cut-points vary between
+      studies, languages, and populations; use the one your program has adopted.
+    positive_source: martin2018
+    safety_items:
+      - {item: 10, at_or_above: 1, alert: suicide_item_positive}
+    reverse_scored_items: [3, 5, 6, 7, 8, 9, 10]
+    source: martin2018
+    section: "Methods, 2.4 Measures"
+    confidence: medium
+    license:
+      reuse: cite_required
+      terms: >-
+        Cox, Holden and Sagovsky, British Journal of Psychiatry (1987), Royal College of
+        Psychiatrists. The scale is commonly reproduced with the note that users may reproduce it
+        without further permission provided they respect copyright by quoting the names of the
+        authors, the title, and the source of the paper in all reproduced copies. Not confirmed
+        against the journal; the nurse should confirm the terms. Item wording is not bundled.
+      wording_bundled: false
+      source: cox1987
+      confidence: low
+    notes:
+      - "Enter each answer as its scored value (0 to 3) from the scoring key, or set epds_entered_as to option_positions to enter the position of the answer chosen (0 = first answer) and let the tool apply the reverse scoring (items 1, 2, and 4 are scored 0 to 3 top to bottom; the other seven are scored 3 to 0, per Korlakunta 2025)."
+      - Item 10 asks about thoughts of self-harm and is read on its own, whatever the total.
+      - Validated in pregnancy and postpartum, and also used with fathers and partners; cut-points differ by population.
+
+  - id: asq
+    name: Ask Suicide-Screening Questions (ASQ), NIMH
+    aliases: [ask suicide screening questions, nimh asq, suicide screen asq]
+    purpose: Suicide risk screen for youth (10 and older) and adults in medical settings
+    response: yes_no
+    item_count: 5
+    item_min: 0
+    item_max: 1
+    response_options: ["yes", "no"]
+    lookback: "Items 1 and 2: the past few weeks; item 3: the past week; item 4: ever; item 5: right now"
+    items:
+      - {n: 1, topic: "Wished you were dead", wording: "In the past few weeks, have you wished you were dead?"}
+      - {n: 2, topic: "Felt you or your family would be better off if you were dead", wording: "In the past few weeks, have you felt that you or your family would be better off if you were dead?"}
+      - {n: 3, topic: "Thoughts about killing yourself in the past week", wording: "In the past week, have you been having thoughts about killing yourself?"}
+      - {n: 4, topic: "Ever tried to kill yourself", wording: "Have you ever tried to kill yourself? If yes, when was the most recent attempt? (within the last 12 months / over 1 year ago)"}
+      - {n: 5, topic: "Acuity question: thoughts of killing yourself right now", wording: "Are you having thoughts of killing yourself right now? (Ask only if the patient answers yes to any of questions 1 through 4.)"}
+    bands: []
+    positive_at: null
+    positive_text: >-
+      Yes to any of questions 1 to 4 is a positive screen; then ask question 5. Yes to question 5
+      is an acute positive screen (imminent risk); no to question 5 is a non-acute positive
+      screen (potential risk). No to all of questions 1 to 4 is a negative screen, and clinical
+      judgment can always override a negative screen. If a youth refuses to answer, treat it as a
+      non-acute positive screen; an adult's refusal is not a positive screen (document it).
+    positive_source: nimh-asq-tool
+    safety_items: []
+    reverse_scored_items: []
+    source: nimh-asq-tool
+    section: "Screening result and next steps"
+    confidence: high
+    license:
+      reuse: public_domain
+      terms: "Public domain tool, free of charge, available in multiple languages (NIMH ASQ information sheet)."
+      wording_bundled: true
+      source: nimh-asq-info
+      confidence: high
+    notes:
+      - NIMH publishes the ASQ in more than 20 languages on the toolkit page; use those translations rather than translating the questions yourself.
+      - "Exception: when the only yes is question 4 (a past attempt), a brief suicide safety assessment may not be needed for adults whose most recent attempt was more than a year ago, or for youth and young adults (under about 25) whose attempt was more than a year ago and who have had a documented brief suicide safety assessment since."
+      - Screen youth separately from parents when possible (NIMH youth pathway).
+
+  - id: cssrs_screener
+    name: Columbia-Suicide Severity Rating Scale (C-SSRS) screener, recent
+    aliases: [c-ssrs, cssrs, columbia, columbia protocol, columbia screener]
+    purpose: Suicide risk screen and triage (ideation in the past month, behavior lifetime and past 3 months)
+    response: yes_no
+    item_count: 6
+    item_min: 0
+    item_max: 1
+    response_options: ["yes", "no"]
+    lookback: "Items 1 to 5: the past month; item 6: lifetime, with a follow-up on whether it was in the past 3 months"
+    items:
+      - {n: 1, topic: "Wish to be dead"}
+      - {n: 2, topic: "Non-specific active suicidal thoughts"}
+      - {n: 3, topic: "Suicidal thoughts with a method (no plan or intent)"}
+      - {n: 4, topic: "Suicidal intent without a specific plan"}
+      - {n: 5, topic: "Suicidal intent with a specific plan"}
+      - {n: 6, topic: "Suicidal behavior (ever done, started, or prepared to do anything to end your life); if yes, ask whether it was in the past 3 months"}
+    bands: []
+    positive_at: null
+    positive_text: >-
+      As described by Wright-Berryman et al. (2023): no risk if every answer is no; low risk with
+      passive or non-specific suicidal ideation (items 1 or 2); moderate risk with ideation and a
+      method (item 3) or suicidal behavior more than 3 months ago; high risk with intent with or
+      without a plan (items 4 or 5) or suicidal behavior in the past 3 months. If item 2 is no,
+      items 3 to 5 are skipped and item 6 is still asked (Scudder 2022). Columbia's own triage
+      protocol could not be retrieved; confirm with the current Columbia form and your agency.
+    positive_source: wright2023
+    safety_items: []
+    reverse_scored_items: []
+    source: wright2023
+    section: "2.2 Assessments and case definitions, and 2.4 severity levels"
+    confidence: medium
+    license:
+      reuse: permission_terms_unverified
+      terms: >-
+        Owned by The Columbia Lighthouse Project (Posner et al.). Columbia's site, which states
+        the terms of use and offers training, could not be reached from the build environment on
+        2026-11-08. SPRC describes it as plain-language questions that anyone can ask and links
+        Columbia's training. Item wording is not bundled; the nurse should confirm the terms of
+        use and complete Columbia's training.
+      wording_bundled: false
+      source: columbia-cssrs
+      confidence: low
+    notes:
+      - Item topics follow the C-SSRS categories (Posner 2011) and are not the screener's wording.
+      - Use the Columbia form version your agency has adopted (there are versions for different settings and for youth).
+
+safety_alerts:
+  - id: suicide_item_positive
+    title: Suicide risk item answered positively
+    urgency: same_day
+    applies_to: [phq9, epds]
+    trigger_text: >-
+      Any answer other than the lowest on PHQ-9 item 9 or EPDS item 10 means the person reported
+      thoughts of death or self-harm. This needs follow-up today, before the person leaves, whatever
+      the total score.
+    steps:
+      - {text: "Do not leave the person alone if you are worried about their immediate safety; follow your agency's suicide risk protocol.", source: nimh-asq-tool, section: "Acute positive screen", confidence: medium}
+      - {text: "Ask the NIMH ASQ questions (or your agency's screen, such as the C-SSRS screener) now to judge acuity, and score them with this tool.", source: nimh-asq-toolkit, section: "Toolkit overview", confidence: medium}
+      - {text: "Arrange a brief suicide safety assessment by a trained clinician (NIMH BSSA) to decide whether a full mental health evaluation is needed and how soon.", source: nimh-bssa-adult-outpatient, section: "Use after a patient screens positive", confidence: high}
+      - {text: "Give every person the 988 Suicide and Crisis Lifeline (call or text 988, or chat at 988lifeline.org) and the Crisis Text Line (text HOME or HOLA to 741741).", source: nimh-asq-tool, section: "Provide resources to all patients", confidence: high}
+      - {text: "Alert the clinician responsible for the person's care and document what was done.", source: nimh-asq-tool, section: "Screening result and next steps", confidence: high}
+  - id: asq_acute_positive
+    title: "ASQ acute positive screen (imminent risk)"
+    urgency: immediate
+    applies_to: [asq]
+    trigger_text: Yes to question 5 (thoughts of killing yourself right now).
+    steps:
+      - {text: "The person requires a STAT (urgent) safety and full mental health evaluation and cannot leave until evaluated for safety.", source: nimh-asq-tool, section: "Acute positive screen", confidence: high}
+      - {text: "Keep the person in sight and remove dangerous objects from the room if possible.", source: nimh-asq-tool, section: "Acute positive screen", confidence: high}
+      - {text: "Alert the clinician responsible for the person's care.", source: nimh-asq-tool, section: "Acute positive screen", confidence: high}
+      - {text: "Outside a medical setting (home visit, school, community clinic), follow your agency protocol: call 911 for immediate danger, or call 988 or your local Community Behavioral Health Center mobile crisis team (find_crisis_resources) and stay with the person until help arrives.", source: nimh-youth-outpatient-pathway, section: "Imminent risk: initiate safety precautions per institution protocol; send to emergency department", confidence: medium}
+      - {text: "Give 988 (call or text) and the Crisis Text Line (text HOME or HOLA to 741741).", source: nimh-asq-tool, section: "Provide resources to all patients", confidence: high}
+  - id: asq_nonacute_positive
+    title: "ASQ non-acute positive screen (potential risk)"
+    urgency: same_day
+    applies_to: [asq]
+    trigger_text: Yes to any of questions 1 to 4 and no to question 5 (or, for a youth, refusal to answer).
+    steps:
+      - {text: "The person needs a brief suicide safety assessment (BSSA) to determine whether a full mental health evaluation is needed, and when.", source: nimh-asq-tool, section: "Non-acute positive screen", confidence: high}
+      - {text: "A non-acute positive screen does not require 1-to-1 observation while the person waits for further assessment, unless there are other safety concerns.", source: nimh-asq-tool, section: "Non-acute positive screen", confidence: high}
+      - {text: "If an adult (or a youth's parent or guardian) refuses the BSSA, document the refusal; the person can be permitted to leave unless there are other safety concerns, and a follow-up call is recommended.", source: nimh-asq-tool, section: "Non-acute positive screen", confidence: high}
+      - {text: "Make a safety plan with the person (warning signs, coping strategies, people and places for support, emergency contacts) and discuss safe storage or removal of lethal means such as firearms and medications.", source: nimh-youth-outpatient-pathway, section: "Safety planning", confidence: high}
+      - {text: "When a mental health referral is needed, schedule a follow-up within 72 hours to check safety and whether the person got an appointment.", source: nimh-youth-outpatient-pathway, section: "Further evaluation needed", confidence: high}
+      - {text: "Alert the clinician responsible for the person's care, and give 988 and the Crisis Text Line.", source: nimh-asq-tool, section: "Non-acute positive screen; provide resources", confidence: high}
+  - id: cssrs_high
+    title: C-SSRS screener high risk
+    urgency: immediate
+    applies_to: [cssrs_screener]
+    trigger_text: Yes to item 4 or 5 (intent, with or without a plan), or suicidal behavior in the past 3 months.
+    steps:
+      - {text: "Treat as imminent risk: do not leave the person alone, remove means if possible, and arrange an immediate safety and mental health evaluation per your agency protocol (emergency department, 911, 988, or a mobile crisis team).", source: nimh-youth-outpatient-pathway, section: "Imminent risk", confidence: medium}
+      - {text: "Alert the clinician responsible for the person's care.", source: nimh-asq-tool, section: "Acute positive screen", confidence: high}
+      - {text: "Give 988 (call or text) and the Crisis Text Line.", source: nimh-asq-tool, section: "Provide resources to all patients", confidence: high}
+  - id: cssrs_moderate
+    title: C-SSRS screener moderate risk
+    urgency: same_day
+    applies_to: [cssrs_screener]
+    trigger_text: Yes to item 3 (thoughts with a method), or suicidal behavior more than 3 months ago.
+    steps:
+      - {text: "Arrange a suicide safety assessment by a trained clinician today (for example the NIMH BSSA) and a behavioral health referral per your agency protocol.", source: nimh-bssa-adult-outpatient, section: "Determine disposition", confidence: medium}
+      - {text: "Make a safety plan and discuss safe storage or removal of lethal means.", source: nimh-bssa-adult-outpatient, section: "Make a safety plan with the patient", confidence: high}
+      - {text: "Give 988 (call or text) and the Crisis Text Line.", source: nimh-asq-tool, section: "Provide resources to all patients", confidence: high}
+  - id: cssrs_low
+    title: C-SSRS screener low risk
+    urgency: routine
+    applies_to: [cssrs_screener]
+    trigger_text: Yes to item 1 or 2 only (passive or non-specific thoughts).
+    steps:
+      - {text: "Discuss with the clinician responsible for the person's care and consider a behavioral health referral per your agency protocol.", source: nimh-bssa-adult-outpatient, section: "Determine disposition", confidence: medium}
+      - {text: "Give 988 (call or text) and the Crisis Text Line, and review warning signs and who to contact.", source: nimh-asq-tool, section: "Provide resources to all patients", confidence: high}
+
+resources_for_all:
+  - {text: "988 Suicide and Crisis Lifeline: call or text 988, or chat at 988lifeline.org.", source: nimh-asq-tool, section: "Provide resources to all patients"}
+  - {text: "Crisis Text Line: text HOME or HOLA to 741741 (www.crisistextline.org).", source: nimh-asq-tool, section: "Provide resources to all patients"}
