@@ -46,7 +46,10 @@ fn index() -> &'static Index {
             if k.is_empty() || cvx.is_empty() {
                 return;
             }
-            by_name.entry(k.clone()).or_default().insert(normalize_cvx(cvx));
+            by_name
+                .entry(k.clone())
+                .or_default()
+                .insert(normalize_cvx(cvx));
             display.entry(k).or_insert_with(|| name.trim().to_string());
         };
         for (cvx, e) in &sd.schedule.cvx_map {
@@ -200,7 +203,11 @@ mod tests {
         assert!(matches!(resolve("9999"), Resolved::Unknown { .. }));
         match resolve("Pedarix") {
             Resolved::Unknown { suggestions } => {
-                assert!(suggestions.iter().any(|s| s.eq_ignore_ascii_case("PEDIARIX")))
+                assert!(
+                    suggestions
+                        .iter()
+                        .any(|s| s.eq_ignore_ascii_case("PEDIARIX"))
+                )
             }
             other => panic!("{other:?}"),
         }

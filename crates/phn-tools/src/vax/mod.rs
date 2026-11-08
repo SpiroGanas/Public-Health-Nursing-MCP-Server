@@ -4,4 +4,6 @@
 
 // Phase 6 modules (VAX-03, the CDSi forecaster) go below this line.
 pub mod forecast;
-pub use forecast::{ForecastImmunizationsArgs, ForecastImmunizationsResult, forecast_immunizations_due};
+pub use forecast::{
+    ForecastImmunizationsArgs, ForecastImmunizationsResult, forecast_immunizations_due,
+};

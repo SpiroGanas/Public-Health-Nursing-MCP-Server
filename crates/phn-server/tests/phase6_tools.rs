@@ -241,8 +241,11 @@ async fn forecast_file_mode_returns_suppressed_counts_and_writes_per_person_file
 #[tokio::test]
 async fn forecast_file_counts_are_shown_with_a_low_threshold() {
     let h = start(|_| {}).await;
-    h.call("configure_jurisdiction", json!({"suppression_threshold": 2}))
-        .await;
+    h.call(
+        "configure_jurisdiction",
+        json!({"suppression_threshold": 2}),
+    )
+    .await;
     let r = h
         .call(
             "forecast_immunizations_due",
@@ -288,6 +291,9 @@ fn phi_detector_flags_the_immunization_fixture_identifiers() {
         .filter(|s| s.file == "data/immunization_history.csv")
     {
         let col = s.column.as_ref().unwrap();
-        assert!(flagged.contains(col), "column '{col}' not flagged: {flagged:?}");
+        assert!(
+            flagged.contains(col),
+            "column '{col}' not flagged: {flagged:?}"
+        );
     }
 }

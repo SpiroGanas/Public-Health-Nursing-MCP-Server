@@ -2,6 +2,7 @@
 //!
 //! ```text
 //! cargo xtask build-snapshots [--check] [--source-dir DIR]
+//! cargo xtask build-surveillance-snapshots
 //! cargo xtask build-name-lists
 //! cargo xtask validate-content [--today YYYY-MM-DD]
 //! ```
@@ -10,6 +11,7 @@ mod content;
 mod download;
 mod names;
 mod snapshots;
+mod surveillance;
 
 use std::path::PathBuf;
 
@@ -24,6 +26,7 @@ fn main() -> Result<()> {
             let source_dir = flag_value(&args, "--source-dir").map(PathBuf::from);
             snapshots::run(&root, check, source_dir)
         }
+        Some("build-surveillance-snapshots") => surveillance::run(&root),
         Some("build-name-lists") => names::run(&root),
         Some("validate-content") => {
             let today = match flag_value(&args, "--today") {
@@ -35,7 +38,7 @@ fn main() -> Result<()> {
         _ => {
             eprintln!(
                 "usage: cargo xtask <build-snapshots [--check] [--source-dir DIR] | \
-                 build-name-lists | validate-content [--today YYYY-MM-DD]>"
+                 build-surveillance-snapshots | build-name-lists | validate-content [--today YYYY-MM-DD]>"
             );
             bail!("unknown or missing command")
         }

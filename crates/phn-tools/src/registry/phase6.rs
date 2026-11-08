@@ -12,4 +12,16 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Vax,
         phase: 6,
     },
+    ToolMeta {
+        name: "get_notifiable_disease_trends",
+        plan_id: "CD-08",
+        toolset: Toolset::Cd,
+        phase: 6,
+    },
+    ToolMeta {
+        name: "get_respiratory_and_wastewater_surveillance",
+        plan_id: "CD-09",
+        toolset: Toolset::Cd,
+        phase: 6,
+    },
 ];

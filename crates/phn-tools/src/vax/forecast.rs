@@ -90,7 +90,9 @@ pub struct ForecastImmunizationsArgs {
 }
 
 /// Where the patient stands for a vaccine group on the assessment date.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum DueStatus {
     /// Past the past-due date.
@@ -382,11 +384,16 @@ pub struct ForecastImmunizationsResult {
 
 fn parse_date(field: &str, s: &str) -> Result<NaiveDate> {
     let t = s.trim();
-    let t = t.get(..10).filter(|p| p.len() == 10 && p.as_bytes()[4] == b'-').unwrap_or(t);
+    let t = t
+        .get(..10)
+        .filter(|p| p.len() == 10 && p.as_bytes()[4] == b'-')
+        .unwrap_or(t);
     NaiveDate::parse_from_str(t, "%Y-%m-%d")
         .or_else(|_| NaiveDate::parse_from_str(t, "%m/%d/%Y"))
         .or_else(|_| NaiveDate::parse_from_str(t, "%m-%d-%Y"))
-        .map_err(|_| PhnError::InvalidInput(format!("{field} must be a date (YYYY-MM-DD), got '{s}'")))
+        .map_err(|_| {
+            PhnError::InvalidInput(format!("{field} must be a date (YYYY-MM-DD), got '{s}'"))
+        })
 }
 
 fn parse_sex(s: Option<&str>) -> Gender {
@@ -595,7 +602,11 @@ fn valid_doses(r: &EngineResult, f: &VaccineGroupForecast) -> usize {
 /// The forecast that best describes a vaccine group for this patient: the
 /// one whose series counted the most valid doses, that the patient is old
 /// enough to start, that still needs a dose, with the lowest series group.
-fn primary<'a>(r: &'a EngineResult, group: &str, dob: NaiveDate) -> Option<&'a VaccineGroupForecast> {
+fn primary<'a>(
+    r: &'a EngineResult,
+    group: &str,
+    dob: NaiveDate,
+) -> Option<&'a VaccineGroupForecast> {
     r.group_forecasts(group).into_iter().min_by_key(|f| {
         (
             std::cmp::Reverse(valid_doses(r, f)),
@@ -701,15 +712,11 @@ fn standard_caveats(r: Option<&EngineResult>) -> Vec<String> {
             .to_string(),
     ];
     if let Some(r) = r {
-        let seasonal = r
-            .patient_series
-            .iter()
-            .filter(|p| p.best)
-            .any(|p| {
-                p.forecast_reasons
-                    .iter()
-                    .any(|x| x.contains("seasonal recommendation end"))
-            });
+        let seasonal = r.patient_series.iter().filter(|p| p.best).any(|p| {
+            p.forecast_reasons
+                .iter()
+                .any(|x| x.contains("seasonal recommendation end"))
+        });
         if seasonal {
             c.push(
                 "A seasonal series (influenza, COVID-19, or RSV) shows 'not recommended now' \
@@ -782,7 +789,13 @@ pub fn forecast_immunizations_due(
             }
             file_mode(ctx, &args, file, assess, &groups_filter, observations)
         }
-        None => patient_mode(&args, assess, &groups_filter, observations, condition_labels),
+        None => patient_mode(
+            &args,
+            assess,
+            &groups_filter,
+            observations,
+            condition_labels,
+        ),
     }
 }
 
@@ -867,16 +880,22 @@ fn patient_mode(
                 );
                 let others_active = all.iter().any(|o| {
                     !std::ptr::eq(*o, *f)
-                        && !matches!(o.status, SeriesStatus::AgedOut | SeriesStatus::NotRecommended)
+                        && !matches!(
+                            o.status,
+                            SeriesStatus::AgedOut | SeriesStatus::NotRecommended
+                        )
                 });
                 // Hide inactive and not-yet-startable series groups when
                 // another forecast for the group applies.
                 !((inactive || too_young_to_start(&r, f, dob)) && others_active)
             })
             .collect();
-        let all_inactive = shown
-            .iter()
-            .all(|f| matches!(f.status, SeriesStatus::AgedOut | SeriesStatus::NotRecommended));
+        let all_inactive = shown.iter().all(|f| {
+            matches!(
+                f.status,
+                SeriesStatus::AgedOut | SeriesStatus::NotRecommended
+            )
+        });
         if all_inactive {
             let why = shown
                 .iter()
@@ -1056,7 +1075,9 @@ fn patient_mode(
                     f.vaccine_group.clone()
                 },
                 f.due_status.label().into(),
-                f.next_dose_number.map(|n| n.to_string()).unwrap_or_default(),
+                f.next_dose_number
+                    .map(|n| n.to_string())
+                    .unwrap_or_default(),
                 f.earliest.clone().unwrap_or_default(),
                 f.recommended.clone().unwrap_or_default(),
                 f.past_due.clone().unwrap_or_default(),
@@ -1067,12 +1088,22 @@ fn patient_mode(
         s.push_str("No vaccine group forecasts for the groups requested.\n");
     } else {
         s.push_str(&md::table(
-            &["Vaccine group", "Status", "Next dose", "Earliest", "Recommended", "Past due"],
+            &[
+                "Vaccine group",
+                "Status",
+                "Next dose",
+                "Earliest",
+                "Recommended",
+                "Past due",
+            ],
             &rows,
         ));
     }
     if !later.is_empty() {
-        s.push_str(&format!("\nDue later (more than a year away): {}.\n", later.join(", ")));
+        s.push_str(&format!(
+            "\nDue later (more than a year away): {}.\n",
+            later.join(", ")
+        ));
     }
     if !not_applicable.is_empty() {
         s.push_str(&format!(
@@ -1122,7 +1153,13 @@ fn patient_mode(
             })
             .collect();
         s.push_str(&md::table(
-            &["Vaccine group", "Dose", "Earliest", "Recommended", "Vaccine assumed"],
+            &[
+                "Vaccine group",
+                "Dose",
+                "Earliest",
+                "Recommended",
+                "Vaccine assumed",
+            ],
             &rows,
         ));
         s.push_str(
@@ -1205,20 +1242,55 @@ fn patient_mode(
 // -------------------------------------------------------------- file mode
 
 const ID_COLUMNS: &[&str] = &[
-    "person id", "person_id", "client id", "client_id", "patient id", "patient_id", "id",
-    "mrn", "record id", "record_id", "student id", "student_id", "case id", "case_id",
+    "person id",
+    "person_id",
+    "client id",
+    "client_id",
+    "patient id",
+    "patient_id",
+    "id",
+    "mrn",
+    "record id",
+    "record_id",
+    "student id",
+    "student_id",
+    "case id",
+    "case_id",
 ];
 const DOB_COLUMNS: &[&str] = &[
-    "dob", "date of birth", "date_of_birth", "birth date", "birthdate", "birth_date",
+    "dob",
+    "date of birth",
+    "date_of_birth",
+    "birth date",
+    "birthdate",
+    "birth_date",
 ];
 const DATE_COLUMNS: &[&str] = &[
-    "date given", "date_given", "date administered", "date_administered", "administered",
-    "vaccination date", "vaccination_date", "admin date", "admin_date", "dose date",
-    "dose_date", "date",
+    "date given",
+    "date_given",
+    "date administered",
+    "date_administered",
+    "administered",
+    "vaccination date",
+    "vaccination_date",
+    "admin date",
+    "admin_date",
+    "dose date",
+    "dose_date",
+    "date",
 ];
 const VACCINE_COLUMNS: &[&str] = &[
-    "cvx", "cvx code", "cvx_code", "vaccine code", "vaccine_code", "vaccine", "vaccine name",
-    "vaccine_name", "product", "trade name", "trade_name",
+    "cvx",
+    "cvx code",
+    "cvx_code",
+    "vaccine code",
+    "vaccine_code",
+    "vaccine",
+    "vaccine name",
+    "vaccine_name",
+    "product",
+    "trade name",
+    "trade_name",
 ];
 const SEX_COLUMNS: &[&str] = &["sex", "gender"];
 
@@ -1306,22 +1378,58 @@ fn file_mode(
     let local = crate::localdata::load(ctx, file, args.sheet.as_deref())?;
     let identifier_categories = local.identifier_categories();
     let crate::localdata::LocalTable { table, label, .. } = local;
-    let id_col = find_column(&table, args.id_column.as_deref(), ID_COLUMNS, "person ID", true)?
-        .unwrap_or_default();
-    let dob_col = find_column(&table, args.dob_column.as_deref(), DOB_COLUMNS, "date of birth", true)?
-        .unwrap_or_default();
-    let date_col = find_column(&table, args.date_column.as_deref(), DATE_COLUMNS, "date given", true)?
-        .unwrap_or_default();
-    let vac_col = find_column(&table, args.vaccine_column.as_deref(), VACCINE_COLUMNS, "vaccine", true)?
-        .unwrap_or_default();
-    let sex_col = find_column(&table, args.sex_column.as_deref(), SEX_COLUMNS, "sex", false)?;
-    if [id_col, dob_col, date_col, vac_col].iter().collect::<BTreeSet<_>>().len() < 4 {
+    let id_col = find_column(
+        &table,
+        args.id_column.as_deref(),
+        ID_COLUMNS,
+        "person ID",
+        true,
+    )?
+    .unwrap_or_default();
+    let dob_col = find_column(
+        &table,
+        args.dob_column.as_deref(),
+        DOB_COLUMNS,
+        "date of birth",
+        true,
+    )?
+    .unwrap_or_default();
+    let date_col = find_column(
+        &table,
+        args.date_column.as_deref(),
+        DATE_COLUMNS,
+        "date given",
+        true,
+    )?
+    .unwrap_or_default();
+    let vac_col = find_column(
+        &table,
+        args.vaccine_column.as_deref(),
+        VACCINE_COLUMNS,
+        "vaccine",
+        true,
+    )?
+    .unwrap_or_default();
+    let sex_col = find_column(
+        &table,
+        args.sex_column.as_deref(),
+        SEX_COLUMNS,
+        "sex",
+        false,
+    )?;
+    if [id_col, dob_col, date_col, vac_col]
+        .iter()
+        .collect::<BTreeSet<_>>()
+        .len()
+        < 4
+    {
         return Err(PhnError::InvalidInput(
             "the person ID, date of birth, date given, and vaccine columns must be different"
                 .into(),
         ));
     }
-    let cell = |r: &Vec<String>, c: usize| r.get(c).map(|s| s.trim().to_string()).unwrap_or_default();
+    let cell =
+        |r: &Vec<String>, c: usize| r.get(c).map(|s| s.trim().to_string()).unwrap_or_default();
 
     struct Person {
         dob: Option<NaiveDate>,
@@ -1420,14 +1528,19 @@ fn file_mode(
                 g.clone(),
                 f.status.label().into(),
                 ds.label().into(),
-                f.forecast_dose_number.map(|n| n.to_string()).unwrap_or_default(),
+                f.forecast_dose_number
+                    .map(|n| n.to_string())
+                    .unwrap_or_default(),
                 d(f.dates.earliest),
                 d(f.dates.recommended),
                 d(f.dates.past_due),
             ]);
             for &s in &f.patient_series {
                 for e in &r.patient_series[s].evaluations {
-                    let entered = kept.get(e.dose_index).map(|k| k.2.clone()).unwrap_or_default();
+                    let entered = kept
+                        .get(e.dose_index)
+                        .map(|k| k.2.clone())
+                        .unwrap_or_default();
                     dose_rows.push(vec![
                         id.clone(),
                         g.clone(),
@@ -1647,11 +1760,23 @@ mod tests {
     fn ages_and_aliases() {
         let d = |s: &str| NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap();
         assert_eq!(age_text(d("2026-01-15"), d("2026-01-25")), "10 days");
-        assert_eq!(age_text(d("2026-01-15"), d("2026-03-29")), "2 months 2 weeks");
-        assert_eq!(age_text(d("2020-01-15"), d("2026-03-29")), "6 years 2 months");
+        assert_eq!(
+            age_text(d("2026-01-15"), d("2026-03-29")),
+            "2 months 2 weeks"
+        );
+        assert_eq!(
+            age_text(d("2020-01-15"), d("2026-03-29")),
+            "6 years 2 months"
+        );
         assert_eq!(vaccine_group_name("tdap").as_deref(), Some("DTaP/Tdap/Td"));
-        assert_eq!(vaccine_group_name("Chickenpox").as_deref(), Some("Varicella"));
-        assert_eq!(vaccine_group_name("Yellow Fever").as_deref(), Some("Yellow Fever"));
+        assert_eq!(
+            vaccine_group_name("Chickenpox").as_deref(),
+            Some("Varicella")
+        );
+        assert_eq!(
+            vaccine_group_name("Yellow Fever").as_deref(),
+            Some("Yellow Fever")
+        );
         assert!(vaccine_group_name("nonsense").is_none());
         assert_eq!(resolve_condition("007").unwrap().0, "007");
         assert_eq!(resolve_condition("7").unwrap().0, "007");

@@ -55,6 +55,154 @@
           "rows": 402
         }
       ]
+    },
+    {
+      "id": "cdc-nndss-weekly",
+      "title": "NNDSS Weekly Data: Massachusetts, New England, and U.S. residents",
+      "publisher": "CDC, Office of Public Health Data, Surveillance, and Technology",
+      "source_urls": [
+        "https://data.cdc.gov/d/x9gk-5huc",
+        "https://www.cdc.gov/nndss/infectious-disease/weekly-and-annual-disease-data-tables.html"
+      ],
+      "source_sha256": {
+        "x9gk-5huc.json (offset 0)": "06c647bd6e4700207452b48d214c5819e4a89ce289b5a28c505e97c3bc060198"
+      },
+      "source_vintage": "MMWR 2026 week 43 (provisional)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "Rows of NNDSS Weekly Data for Massachusetts, New England, and U.S. residents (reporting-area names in either letter case), MMWR years 2022-2026, weeks 36, 37, 38, 39, 40, 41, 42, 43, 52, 53 (the latest published week for Massachusetts, the 7 weeks before it, and year-end weeks 52 and 53). Kept: current-week count (m1) and cumulative year-to-date count (m3) for every row, and the previous year's cumulative count (m4) for 2022 rows only. Counts are stored as published; CDC flags are kept as codes. Built by `cargo xtask build-surveillance-snapshots`.",
+      "caveats": [
+        "Provisional counts as published each week; CDC revises them, and finalized annual counts (CDC Stacks annual tables) can differ.",
+        "Covers only the latest week in the snapshot; other weeks need the live dataset."
+      ],
+      "files": [
+        {
+          "path": "nndss_weekly.json",
+          "sha256": "9cc5923f42fbea5f58fe66d92d3aef0b70bf61394a54cd816a890c3e74f1eeab",
+          "bytes": 163318,
+          "rows": 5504
+        }
+      ]
+    },
+    {
+      "id": "cdc-respiratory-ma",
+      "title": "CDC respiratory virus surveillance for Massachusetts (NHSN, NSSP, NREVSS, ARI level)",
+      "publisher": "Centers for Disease Control and Prevention",
+      "source_urls": [
+        "https://data.cdc.gov/d/vdzy-6i9v",
+        "https://data.cdc.gov/d/rdmq-nq56",
+        "https://data.cdc.gov/d/gvsb-yw6g",
+        "https://data.cdc.gov/d/3cxc-4k8q",
+        "https://data.cdc.gov/d/seuz-s2cv",
+        "https://data.cdc.gov/d/f3zz-zga5"
+      ],
+      "source_sha256": {
+        "3cxc-4k8q.json": "d6ad695ace558fafde94472cc759f92579f815870f7e236009966e470133ce0d",
+        "f3zz-zga5.json": "d8dbe731013ec8ff79f8310b7cbf9c0b323457da0b48935042aa350672b01411",
+        "gvsb-yw6g.json": "a17ec84c3ab84812387b05d1d341fa14580bceb02720271c25352b3173073b21",
+        "rdmq-nq56.json": "5629ada875e33ffb4d145bb32dffc97e76e32a6cbac2d34f53a26bc169a1bdeb",
+        "seuz-s2cv.json": "f4e84ab11c5be567e44a274efd6c19b032155863e6866fe0f71b6eb72576edec",
+        "vdzy-6i9v.json": "0ffc446017112504856601a70f9a441fe6bbbd25f8817e8bc5e5837ce0dc974e"
+      },
+      "source_vintage": "weeks ending through 2026-10-31",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "The last 13 weeks of rows returned by data.cdc.gov for NHSN Weekly Hospital Respiratory Admission Levels and Rates (vdzy-6i9v; MA and USA), NSSP ED visit trajectories (rdmq-nq56; Massachusetts and United States, state level), NREVSS percent positivity for SARS-CoV-2 (gvsb-yw6g) and RSV (3cxc-4k8q) for HHS Region 1 and the nation, national percent of tests positive (seuz-s2cv), and the acute respiratory illness activity level by state (f3zz-zga5), with the columns the tool uses. Built by `cargo xtask build-surveillance-snapshots`.",
+      "caveats": [
+        "Snapshot of recent weeks only; data are provisional and CDC revises them."
+      ],
+      "files": [
+        {
+          "path": "resp_nhsn.json",
+          "sha256": "92c679adb2f05854ba71dc4e2dd3d085c85f3fa02ac85f12868ab0d3cb531f29",
+          "bytes": 9971,
+          "rows": 24
+        },
+        {
+          "path": "resp_nssp.json",
+          "sha256": "ed3117e4a81a51f2ed3e75a08b27adb69ce85bd5ac54f5625ff4e122aea3a237",
+          "bytes": 6746,
+          "rows": 24
+        },
+        {
+          "path": "resp_nrevss_covid.json",
+          "sha256": "e31f6c51a6703798c5598e2484bb3b4b1560fac83c7b7d3a6c5f692c42acd57e",
+          "bytes": 3419,
+          "rows": 24
+        },
+        {
+          "path": "resp_nrevss_rsv.json",
+          "sha256": "f6acb37b8f3dc5d9b5020b373be2f546c08b9398bccf1d04412524d64097fbd7",
+          "bytes": 3293,
+          "rows": 24
+        },
+        {
+          "path": "resp_nrevss_national.json",
+          "sha256": "05545672247bdfc76a276801420ed40b46c69592d79f4ca991d274ae07638754",
+          "bytes": 3339,
+          "rows": 36
+        },
+        {
+          "path": "resp_ari.json",
+          "sha256": "fe66821cde4142c133662038dc245545e9355c3ae9a7b0244a1048e5da72ccd6",
+          "bytes": 90,
+          "rows": 1
+        }
+      ]
+    },
+    {
+      "id": "cdc-nwss-ma",
+      "title": "CDC wastewater viral activity levels for Massachusetts sampling sites (NWSS)",
+      "publisher": "CDC National Wastewater Surveillance System",
+      "source_urls": [
+        "https://data.cdc.gov/d/atcp-73re"
+      ],
+      "source_sha256": {
+        "atcp-73re.json": "15757c338bba39ef44db68fbe7a53f4570a92c8df8eb496d353ed4ed168a495f"
+      },
+      "source_vintage": "weeks ending through 2026-10-31",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "The last 13 weeks of site-level wastewater viral activity levels (WVAL) for SARS-CoV-2, influenza A, and RSV at Massachusetts sites (atcp-73re), as returned by data.cdc.gov. Built by `cargo xtask build-surveillance-snapshots`.",
+      "caveats": [
+        "CDC identifies sites only by an arbitrary number, counties served, and population served."
+      ],
+      "files": [
+        {
+          "path": "resp_wval.json",
+          "sha256": "5a99ee24bfd51de73849790ede3e734f12fda2cdd2894cba1e84e18fdcc7f982",
+          "bytes": 61901,
+          "rows": 213
+        }
+      ]
+    },
+    {
+      "id": "mwra-deer-island-biobot",
+      "title": "MWRA Deer Island wastewater SARS-CoV-2 (Biobot), final 12 months",
+      "publisher": "Massachusetts Water Resources Authority (MWRA); testing by Biobot Analytics",
+      "source_urls": [
+        "https://www.mwra.com/biobot/biobotdata.htm",
+        "https://www.mwra.com/media/file/mwradata20260730-datapdf"
+      ],
+      "source_sha256": {
+        "mwradata20260730-data.pdf": "53128672f21006b60a6a7e6c279be2cc8dc486261d1757f22037091004996154"
+      },
+      "source_vintage": "samples collected through 2026-07-27 (final)",
+      "retrieved": "2026-11-08",
+      "license": "Public data published by MWRA, a Massachusetts public authority.",
+      "derivation": "Sample date, Southern and Northern system SARS-CoV-2 RNA (copies/mL), and their 7-day averages for 2025-07-27 to 2026-07-27, read from MWRA's data PDF with `pdftotext -tsv` and assigned to columns by x position (boundaries [89.0, 138.5, 187.1, 235.7, 284.3] points, checked against the page-1 header). The codes 'nd' (also printed 'ND') and 'NS' are kept as printed; the PDF has no legend for them. Confidence intervals and variant results are not kept. Built by `cargo xtask build-surveillance-snapshots`.",
+      "caveats": [
+        "MWRA's Biobot testing ended with samples collected through 2026-07-27; DPH is moving Deer Island testing to its own program and dashboard.",
+        "Values are as transcribed from a PDF table; check the PDF before quoting a single value."
+      ],
+      "files": [
+        {
+          "path": "mwra_biobot.csv",
+          "sha256": "7cf3f94f6e86923811a84d84670c86ec4aedfd21e3e7e968db8e12a026cea060",
+          "bytes": 9035,
+          "rows": 349
+        }
+      ]
     }
   ]
 }
