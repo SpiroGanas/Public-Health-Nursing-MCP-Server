@@ -1036,3 +1036,33 @@ reports DPH is replacing it with its own program); the final values come from a 
 read from MWRA's data PDF. If a source cannot be reached, the briefing uses the bundled
 snapshots (`cdc-respiratory-ma`, `cdc-nwss-ma`; the last 13 weeks) and says so; a source with no
 data at all is left out with a caveat.
+
+## Phase 7: School health
+
+<!-- Phase 7 tools go below this line. -->
+<!-- End of Phase 7 tools. -->
+
+## Phase 8: Maternal, child, and family health
+
+<!-- Phase 8 tools go below this line. -->
+<!-- End of Phase 8 tools. -->
+
+## Phase 9: PHN practice toolkit and case management
+
+<!-- Phase 9 tools go below this line. -->
+<!-- End of Phase 9 tools. -->
+
+## Phase 10: Healthy aging and mental health screening
+
+<!-- Phase 10 tools go below this line. -->
+<!-- End of Phase 10 tools. -->
+
+## Phase 11: Substance use, crisis resources, and health communication
+
+<!-- Phase 11 tools go below this line. -->
+<!-- End of Phase 11 tools. -->
+
+## Phase 12: Emergency preparedness I: situational awareness and planning
+
+<!-- Phase 12 tools go below this line. -->
+<!-- End of Phase 12 tools. -->

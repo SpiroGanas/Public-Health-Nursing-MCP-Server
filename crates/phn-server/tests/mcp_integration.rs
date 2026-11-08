@@ -590,6 +590,18 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"file": "line_list.csv", "id_column": "Case ID", "dob_column": "DOB", "date_column": "Onset Date", "vaccine_column": "Diagnosis"}),
             ll,
         ),
+        // ---- Phase 7 data tools go below this line.
+        // ---- End of Phase 7 data tools.
+        // ---- Phase 8 data tools go below this line.
+        // ---- End of Phase 8 data tools.
+        // ---- Phase 9 data tools go below this line.
+        // ---- End of Phase 9 data tools.
+        // ---- Phase 10 data tools go below this line.
+        // ---- End of Phase 10 data tools.
+        // ---- Phase 11 data tools go below this line.
+        // ---- End of Phase 11 data tools.
+        // ---- Phase 12 data tools go below this line.
+        // ---- End of Phase 12 data tools.
     ];
     for (name, args, file) in checks {
         let r = h.call(name, args.clone()).await;

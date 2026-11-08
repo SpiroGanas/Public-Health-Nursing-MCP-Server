@@ -16,6 +16,36 @@ All notable changes are recorded here. The format follows
   troubleshooting. Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
   registry test keeps the guide's tool list in step with the implemented tools.
 
+### Added — Phase 7: school health
+
+<!-- Phase 7 entries go below this line. -->
+<!-- End of Phase 7 entries. -->
+
+### Added — Phase 8: maternal, child, and family health
+
+<!-- Phase 8 entries go below this line. -->
+<!-- End of Phase 8 entries. -->
+
+### Added — Phase 9: PHN practice toolkit and case management
+
+<!-- Phase 9 entries go below this line. -->
+<!-- End of Phase 9 entries. -->
+
+### Added — Phase 10: healthy aging and mental health screening
+
+<!-- Phase 10 entries go below this line. -->
+<!-- End of Phase 10 entries. -->
+
+### Added — Phase 11: substance use, crisis resources, and health communication
+
+<!-- Phase 11 entries go below this line. -->
+<!-- End of Phase 11 entries. -->
+
+### Added — Phase 12: emergency preparedness I: situational awareness and planning
+
+<!-- Phase 12 entries go below this line. -->
+<!-- End of Phase 12 entries. -->
+
 ## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
 ### Added — Phase 2: epidemiology and biostatistics engine

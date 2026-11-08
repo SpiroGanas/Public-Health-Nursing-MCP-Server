@@ -5,11 +5,17 @@
 
 use phn_core::Toolset;
 
+mod phase10;
+mod phase11;
+mod phase12;
 mod phase2;
 mod phase3;
 mod phase4;
 mod phase5;
 mod phase6;
+mod phase7;
+mod phase8;
+mod phase9;
 
 /// Metadata about one tool.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -104,6 +110,12 @@ const PHASES: &[&[ToolMeta]] = &[
     phase4::TOOLS,
     phase5::TOOLS,
     phase6::TOOLS,
+    phase7::TOOLS,
+    phase8::TOOLS,
+    phase9::TOOLS,
+    phase10::TOOLS,
+    phase11::TOOLS,
+    phase12::TOOLS,
 ];
 
 /// Every implemented tool, in phase order.

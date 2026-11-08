@@ -95,6 +95,42 @@ output folder instead of being sent to the AI model.
 | `get_notifiable_disease_trends` | CD-08 | cd | NNDSS weekly counts for Massachusetts, New England, and the U.S. compared with the five previous years (year to date, last 4 weeks, year-end totals) |
 | `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
 
+### Phase 7: school health
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 7 rows go above this line. -->
+
+### Phase 8: maternal, child, and family health
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 8 rows go above this line. -->
+
+### Phase 9: PHN practice toolkit and case management
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 9 rows go above this line. -->
+
+### Phase 10: healthy aging and mental health screening
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 10 rows go above this line. -->
+
+### Phase 11: substance use, crisis resources, and health communication
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 11 rows go above this line. -->
+
+### Phase 12: emergency preparedness I: situational awareness and planning
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 12 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.

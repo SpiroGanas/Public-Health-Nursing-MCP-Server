@@ -2,11 +2,17 @@
 //! used by the `phn-mcp-server` binary and the integration tests.
 
 mod phase1;
+mod phase10;
+mod phase11;
+mod phase12;
 mod phase2;
 mod phase3;
 mod phase4;
 mod phase5;
 mod phase6;
+mod phase7;
+mod phase8;
+mod phase9;
 mod prompts;
 mod resources;
 mod server;

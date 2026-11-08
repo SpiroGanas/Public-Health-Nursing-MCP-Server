@@ -222,3 +222,6 @@ __marimo__/
 # Rust
 /target/
 **/*.rs.bk
+
+# Project source folders that the Python template above would otherwise ignore
+!crates/phn-tools/src/env/

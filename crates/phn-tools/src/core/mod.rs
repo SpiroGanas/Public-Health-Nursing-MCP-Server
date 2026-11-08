@@ -15,3 +15,6 @@ pub use status::{DataSourceStatus, DataSourceStatusArgs, get_data_source_status}
 // Phase 5 modules (CORE-07) go below this line.
 pub mod medication;
 pub use medication::{MedicationArgs, MedicationResult, lookup_medication_information};
+
+// Phase 9 modules go below this line.
+// End of Phase 9 modules.

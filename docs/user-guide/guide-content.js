@@ -22,6 +22,12 @@ const TOOLSETS = {
   chronic: 'chronic (chronic disease)',
   ebp: 'ebp (evidence-based practice and quality improvement)',
   comms: 'comms (communications)',
+  school: 'school (school health)',
+  mch: 'mch (maternal, child, and family health)',
+  aging: 'aging (healthy aging and older adults)',
+  bh: 'bh (mental health and substance use)',
+  epr: 'epr (emergency preparedness)',
+  env: 'env (environmental health and climate)',
 };
 
 const INTERNET = {
@@ -80,6 +86,18 @@ const frontChapters = [
                 ['Epidemiology and statistics (chapter 8)', 'Rates with confidence intervals, age adjustment, SIR and SMR, 2×2 tables, statistical tests, sample size, trends, charts, control charts, and maps.', '10'],
                 ['Community health and equity (chapter 9)', 'One-request community health profiles, Social Vulnerability Index, language access, disparity measures, and CDC PLACES chronic disease estimates.', '5'],
                 ['Evidence-based practice (chapter 10)', 'PICO-based PubMed searches and the newest MMWR reports and Health Alert Network notices.', '2'],
+                // Phase 7 work-area rows go below this line.
+                // End of Phase 7 work-area rows.
+                // Phase 8 work-area rows go below this line.
+                // End of Phase 8 work-area rows.
+                // Phase 9 work-area rows go below this line.
+                // End of Phase 9 work-area rows.
+                // Phase 10 work-area rows go below this line.
+                // End of Phase 10 work-area rows.
+                // Phase 11 work-area rows go below this line.
+                // End of Phase 11 work-area rows.
+                // Phase 12 work-area rows go below this line.
+                // End of Phase 12 work-area rows.
               ],
             },
           },
@@ -1701,6 +1719,18 @@ const toolChapters = [
       },
     ],
   },
+  // Phase 7 chapter goes below this line.
+  // End of Phase 7 chapter.
+  // Phase 8 chapter goes below this line.
+  // End of Phase 8 chapter.
+  // Phase 9 chapter goes below this line.
+  // End of Phase 9 chapter.
+  // Phase 10 chapter goes below this line.
+  // End of Phase 10 chapter.
+  // Phase 11 chapter goes below this line.
+  // End of Phase 11 chapter.
+  // Phase 12 chapter goes below this line.
+  // End of Phase 12 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------
