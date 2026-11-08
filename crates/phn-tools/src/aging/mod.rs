@@ -6,5 +6,8 @@
 pub mod content;
 pub mod directory;
 pub mod falls;
+pub mod localfill;
+pub mod protective;
 pub use falls::{FallRiskArgs, FallRiskResult, steadi_fall_risk_assessment};
+pub use protective::{ProtectiveArgs, ProtectiveResult, elder_protective_services_guide};
 // End of Phase 10 modules.

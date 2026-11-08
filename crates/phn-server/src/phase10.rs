@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{FallRiskArgs, FallRiskResult};
+use phn_tools::aging::{FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -76,6 +76,29 @@ impl PhnServer {
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| {
             phn_tools::aging::steadi_fall_risk_assessment(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "elder_protective_services_guide",
+        description = "Massachusetts reporting rules for abuse, neglect, financial exploitation, and \
+            self-neglect of adults 60 and older (Adult Protective Services, M.G.L. c.19A; hotline \
+            800-922-2275) and adults 18-59 with disabilities (DPPC, c.19C), and abuse by nursing \
+            home or hospital staff (DPH): who must report, how and how fast (verbal now, written \
+            within 48 hours), what a report contains, timelines, signs, self-neglect, and \
+            protections. Returns a report-narrative template; with details_file (a CSV/XLSX in \
+            /data) it fills the narratives and writes them to /data/output without returning the \
+            details. Never pass names or addresses as arguments.",
+        annotations(title = "Elder and disabled adult protective services guide", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<ProtectiveResult>>()
+    )]
+    async fn elder_protective_services_guide(
+        &self,
+        Parameters(args): Parameters<ProtectiveArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::elder_protective_services_guide(ctx, args)
         })
         .await
     }
