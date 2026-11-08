@@ -4,6 +4,7 @@
 
 // Phase 7 modules go below this line.
 pub mod absenteeism;
+pub mod annual_report;
 pub mod bmi;
 pub mod calendar;
 pub mod concussion;
@@ -15,6 +16,7 @@ pub mod screenings;
 pub mod templates;
 
 pub use absenteeism::{AbsenteeismArgs, AbsenteeismResult, monitor_school_absenteeism};
+pub use annual_report::{AnnualReportArgs, AnnualReportResult, build_school_health_annual_report};
 pub use concussion::{ConcussionArgs, ConcussionResult, concussion_return_to_learn_tracker};
 pub use health_plans::{HealthPlanArgs, HealthPlanResult, build_individualized_health_plan};
 pub use medication::{
