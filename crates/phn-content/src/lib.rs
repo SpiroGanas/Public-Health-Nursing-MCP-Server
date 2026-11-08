@@ -9,6 +9,9 @@
 //! Files are embedded in the binary at build time, so the server works
 //! offline and the content shipped is exactly the content that was tested.
 
+pub mod disease_rules;
+pub mod infection_control;
+pub mod measles;
 pub mod meta;
 pub mod reportable;
 pub mod sources;
@@ -49,7 +52,27 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 2 content items go below this line.
 
     // Phase 3 content items go below this line.
-
+    ContentItem {
+        id: "ma-disease-rules",
+        path: "content/cd/disease_rules.yaml",
+        resource_uri: "phn://content/ma-disease-rules",
+        yaml: include_str!("../../../content/cd/disease_rules.yaml"),
+        schema: include_str!("../../../content/schemas/disease_rules.schema.json"),
+    },
+    ContentItem {
+        id: "ma-measles-exposure",
+        path: "content/cd/measles_exposure.yaml",
+        resource_uri: "phn://content/ma-measles-exposure",
+        yaml: include_str!("../../../content/cd/measles_exposure.yaml"),
+        schema: include_str!("../../../content/schemas/measles_exposure.schema.json"),
+    },
+    ContentItem {
+        id: "ma-infection-control",
+        path: "content/cd/infection_control.yaml",
+        resource_uri: "phn://content/ma-infection-control",
+        yaml: include_str!("../../../content/cd/infection_control.yaml"),
+        schema: include_str!("../../../content/schemas/infection_control.schema.json"),
+    },
     // Phase 4 content items go below this line.
 
     // Phase 5 content items go below this line.

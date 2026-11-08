@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/disease_rules.schema.json",
+  "title": "Communicable disease isolation, quarantine, and exclusion rules (Massachusetts)",
+  "type": "object",
+  "required": ["meta", "conventions", "sources", "diseases"],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": ["title", "publisher", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {"type": "string", "minLength": 3},
+        "publisher": {"type": "string", "minLength": 2},
+        "url": {"type": ["string", "null"]}
+      }
+    },
+    "confidence": {"enum": ["high", "medium", "low"]},
+    "anchor": {
+      "enum": ["onset", "positive_specimen", "first_exposure", "last_exposure", "last_case_onset",
+               "treatment_start", "symptom_resolution", "case_onset"]
+    },
+    "dayref": {
+      "type": "object",
+      "required": ["anchor", "day"],
+      "additionalProperties": false,
+      "properties": {
+        "anchor": {"$ref": "#/$defs/anchor"},
+        "day": {"type": "integer", "minimum": -60, "maximum": 400}
+      }
+    },
+    "source_ref": {
+      "type": "object",
+      "required": ["source", "section"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string"},
+        "section": {"type": "string"},
+        "quote": {"type": "string"}
+      }
+    },
+    "setting": {"enum": ["all", "child_care", "school", "food_handler", "health_care_worker", "other"]},
+    "stool": {
+      "type": "object",
+      "required": ["count"],
+      "additionalProperties": false,
+      "properties": {
+        "count": {"type": "integer", "minimum": 1, "maximum": 3},
+        "hours_apart": {"type": "integer", "minimum": 0},
+        "hours_after_antimicrobial": {"type": "integer", "minimum": 0},
+        "after_symptom_resolution": {"type": "boolean"},
+        "min_days_after_onset": {"type": "integer", "minimum": 0}
+      }
+    },
+    "rule": {
+      "type": "object",
+      "required": ["id", "role", "applies_to", "settings", "action", "end", "wording", "verbatim",
+                   "citation", "source", "confidence"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "role": {"enum": ["case", "contact"]},
+        "applies_to": {"type": "string", "minLength": 3},
+        "settings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/setting"}},
+        "when": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "symptomatic": {"type": "boolean"},
+            "susceptible": {"type": "boolean"},
+            "received_prophylaxis": {"type": "boolean"},
+            "received_immune_globulin": {"type": "boolean"},
+            "outbreak": {"type": "boolean"},
+            "exposure_continuous": {"type": "boolean"},
+            "lesions_present": {"type": "boolean"},
+            "diarrhea": {"type": "boolean"}
+          }
+        },
+        "action": {"enum": ["exclude", "restrict_duties", "isolate_precautions", "no_restriction", "refer", "prophylaxis_only"]},
+        "start": {"$ref": "#/$defs/dayref"},
+        "end": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "through": {"$ref": "#/$defs/dayref"},
+            "or_treatment_days": {"type": "integer", "minimum": 1},
+            "hours_after_treatment_start": {"type": "integer", "minimum": 1},
+            "hours_after_symptom_resolution": {"type": "integer", "minimum": 0},
+            "hours_after_specimen": {"type": "integer", "minimum": 1},
+            "stool_specimens": {"$ref": "#/$defs/stool"},
+            "typical_through": {"$ref": "#/$defs/dayref"},
+            "criteria": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "wording": {"type": "string", "minLength": 10},
+        "verbatim": {"type": "boolean"},
+        "citation": {"type": "string", "minLength": 5},
+        "source": {"type": "string"},
+        "confidence": {"$ref": "#/$defs/confidence"},
+        "note": {"type": "string"}
+      }
+    },
+    "pep": {
+      "type": "object",
+      "required": ["name", "anchor", "within_hours", "text", "source", "section"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "anchor": {"$ref": "#/$defs/anchor"},
+        "within_hours": {"type": "integer", "minimum": 1},
+        "text": {"type": "string"},
+        "source": {"type": "string"},
+        "section": {"type": "string"}
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["id", "title", "version", "prepared", "effective_date", "source", "related_sources", "review", "verification_note"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"const": "ma-disease-rules"},
+        "title": {"type": "string"},
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "prepared": {"type": "string", "format": "date"},
+        "effective_date": {"type": ["string", "null"]},
+        "source": {"$ref": "#/$defs/citation"},
+        "related_sources": {"type": "array", "items": {"$ref": "#/$defs/citation"}},
+        "review": {
+          "type": "object",
+          "required": ["status", "reviewed_by", "reviewed_on", "review_due"],
+          "additionalProperties": false,
+          "properties": {
+            "status": {"enum": ["pending", "reviewed"]},
+            "reviewed_by": {"type": ["string", "null"]},
+            "reviewed_on": {"type": ["string", "null"]},
+            "review_due": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+          }
+        },
+        "verification_note": {"type": "string", "minLength": 20}
+      }
+    },
+    "conventions": {
+      "type": "object",
+      "required": ["day_counting", "anchors", "settings"],
+      "additionalProperties": false,
+      "properties": {
+        "day_counting": {"type": "string"},
+        "anchors": {"type": "object", "additionalProperties": {"type": "string"}},
+        "settings": {"type": "object", "additionalProperties": {"type": "string"}}
+      }
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "publisher", "url", "effective_date", "retrieved"],
+        "additionalProperties": false,
+        "properties": {
+          "title": {"type": "string"},
+          "publisher": {"type": "string"},
+          "url": {"type": "string"},
+          "effective_date": {"type": ["string", "null"]},
+          "retrieved": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"}
+        }
+      }
+    },
+    "diseases": {
+      "type": "array",
+      "minItems": 30,
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "aliases", "onset_event", "confidence", "compute", "incubation",
+                     "infectious_period", "rules"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+          "name": {"type": "string"},
+          "aliases": {"type": "array", "items": {"type": "string"}},
+          "reportable_condition_id": {"type": "string"},
+          "guide_document": {"type": "string"},
+          "onset_event": {"type": "string"},
+          "confidence": {"$ref": "#/$defs/confidence"},
+          "compute": {"type": "boolean"},
+          "incubation": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "required": ["unit", "source"],
+                "additionalProperties": false,
+                "properties": {
+                  "unit": {"enum": ["hours", "days"]},
+                  "min": {"type": "number", "minimum": 0},
+                  "usual_low": {"type": "number", "minimum": 0},
+                  "usual_high": {"type": "number", "minimum": 0},
+                  "max": {"type": "number", "minimum": 0},
+                  "note": {"type": "string"},
+                  "source": {"$ref": "#/$defs/source_ref"}
+                }
+              }
+            ]
+          },
+          "infectious_period": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "required": ["text", "source"],
+                "additionalProperties": false,
+                "properties": {
+                  "anchor": {"$ref": "#/$defs/anchor"},
+                  "start_day": {"type": "integer"},
+                  "end_day": {"type": "integer"},
+                  "ends_after_treatment_days": {"type": "integer", "minimum": 1},
+                  "ends_hours_after_treatment": {"type": "integer", "minimum": 1},
+                  "text": {"type": "string"},
+                  "source": {"$ref": "#/$defs/source_ref"}
+                }
+              }
+            ]
+          },
+          "contact_monitoring": {
+            "type": "object",
+            "required": ["days_after_last_exposure", "text", "source"],
+            "additionalProperties": false,
+            "properties": {
+              "days_after_last_exposure": {"type": "integer", "minimum": 1},
+              "text": {"type": "string"},
+              "source": {"$ref": "#/$defs/source_ref"}
+            }
+          },
+          "contact_definition": {"type": "string"},
+          "contact_testing": {"type": "string"},
+          "pep": {"type": "array", "items": {"$ref": "#/$defs/pep"}},
+          "rules": {"type": "array", "items": {"$ref": "#/$defs/rule"}},
+          "notes": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}
