@@ -790,7 +790,7 @@ pub fn build_school_health_annual_report(
                 review: hp > 1.0 || wp > 1.0,
             });
         }
-        if a.problems.len() > 0 {
+        if !a.problems.is_empty() {
             notes.push(format!(
                 "{} roster row(s) could not be evaluated.",
                 a.problems.len()
@@ -957,27 +957,27 @@ pub fn build_school_health_annual_report(
         "# School health services: year in review\n\n{school}, {} school year.\n\n",
         year.label()
     );
-    if let Some(t) = &totals {
-        if t.student_encounters > 0 {
+    if let Some(t) = &totals
+        && t.student_encounters > 0
+    {
+        cs.push_str(&format!(
+            "School nurses had {} student health encounters{}. ",
+            t.student_encounters,
+            t.encounters_per_student_month
+                .map(|x| format!(" (about {x:.2} per enrolled student per month)"))
+                .unwrap_or_default()
+        ));
+        if let Some(p) = t.returned_to_class_pct {
             cs.push_str(&format!(
-                "School nurses had {} student health encounters{}. ",
-                t.student_encounters,
-                t.encounters_per_student_month
-                    .map(|x| format!(" (about {x:.2} per enrolled student per month)"))
-                    .unwrap_or_default()
+                "After assessment, {p:.1}% of students returned to class, so most visits kept students learning without a trip home. "
             ));
-            if let Some(p) = t.returned_to_class_pct {
-                cs.push_str(&format!(
-                    "After assessment, {p:.1}% of students returned to class, so most visits kept students learning without a trip home. "
-                ));
-            }
-            if let Some(p) = t.students_visiting_pct {
-                cs.push_str(&format!(
-                    "{p:.1}% of enrolled students visited the health office at least once. "
-                ));
-            }
-            cs.push_str("\n\n");
         }
+        if let Some(p) = t.students_visiting_pct {
+            cs.push_str(&format!(
+                "{p:.1}% of enrolled students visited the health office at least once. "
+            ));
+        }
+        cs.push_str("\n\n");
     }
     if !months.is_empty() {
         cs.push_str("| Month | Encounters | Returned to class | Dismissed | 911 calls | Head injuries |\n|---|---|---|---|---|---|\n");

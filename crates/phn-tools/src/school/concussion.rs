@@ -175,6 +175,8 @@ pub struct PlansWritten {
     pub files: Vec<String>,
     pub by_language: Vec<LanguageCount>,
     pub english_fallback: usize,
+    /// Placeholders in an agency template that the tool does not fill.
+    pub unknown_placeholders: Vec<String>,
 }
 
 /// Result of `concussion_return_to_learn_tracker`.
@@ -414,7 +416,7 @@ We ask that you:
 - Send us any notes from medical appointments so we can adjust the accommodations.
 - Call the school if your child will be late, dismissed early, or absent because of the concussion.
 
-Massachusetts rules (105 CMR 201.000) require that a student be cleared by a medical provider before returning to physical activity and athletics, and athletes must complete a gradual return to play. We will use the Medical Clearance and Authorization Form for this.
+Massachusetts rules (105 CMR 201.000) require written medical clearance before a student returns to extracurricular athletics, and athletes complete a gradual return to play; we use DPH's Medical Clearance and Authorization Form for this. Please also ask your child's provider when your child may return to physical education and a full academic workload.
 
 If you have questions, please contact me.
 
@@ -425,10 +427,19 @@ If you have questions, please contact me.
 
 // ------------------------------------------------------------------ single student
 
-fn single(
-    args: &ConcussionArgs,
-    as_of: NaiveDate,
-) -> Result<(Vec<TimelineItem>, Vec<String>, Vec<StageOut>, Vec<String>)> {
+/// Timeline, flags, return-to-play stages, and symptom-check dates.
+type SingleOut = (Vec<TimelineItem>, Vec<String>, Vec<StageOut>, Vec<String>);
+
+/// Log summary, plans, files written, file label, and identifier categories.
+type LogOut = (
+    LogSummary,
+    Option<PlansWritten>,
+    Vec<String>,
+    String,
+    Vec<String>,
+);
+
+fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
     let c = &*CONCUSSION_INFO;
     let injury = date_arg("injury_date", &args.injury_date)?;
     let diagnosis = date_arg("diagnosis_date", &args.diagnosis_date)?;
@@ -761,17 +772,7 @@ const CHECKS: [&str; 7] = [
 ];
 
 #[allow(clippy::too_many_lines)]
-fn log_mode(
-    ctx: &Context,
-    args: &ConcussionArgs,
-    as_of: NaiveDate,
-) -> Result<(
-    LogSummary,
-    Option<PlansWritten>,
-    Vec<String>,
-    String,
-    Vec<String>,
-)> {
+fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<LogOut> {
     let path = args.tracker_path.as_deref().unwrap_or_default();
     let lt = localdata::load(ctx, path, args.sheet.as_deref())?;
     let h = lt.table.headers.clone();
@@ -1053,6 +1054,8 @@ fn log_mode(
         let mut plan_docs = Vec::new();
         let mut letters: BTreeMap<String, (String, bool, Vec<Document>)> = BTreeMap::new();
         let mut fallback = 0usize;
+        let mut unknown_placeholders: std::collections::BTreeSet<String> =
+            std::collections::BTreeSet::new();
         for ri in &diagnosed_rows {
             let row = &lt.table.rows[*ri];
             let name = match lc.student_name {
@@ -1108,7 +1111,8 @@ fn log_mode(
             if !chosen.translated && !templates::is_english(&lang) {
                 fallback += 1;
             }
-            let (filled, _) = templates::fill(&chosen.markdown, &v, "________");
+            let (filled, unk) = templates::fill(&chosen.markdown, &v, "________");
+            unknown_placeholders.extend(unk);
             let d = templates::document(ctx, &filled, &chosen.tag, "Concussion letter");
             letters
                 .entry(chosen.language.clone())
@@ -1158,6 +1162,7 @@ fn log_mode(
             files: files[1..].to_vec(),
             by_language,
             english_fallback: fallback,
+            unknown_placeholders: unknown_placeholders.into_iter().collect(),
         })
     } else {
         None
@@ -1347,6 +1352,14 @@ pub fn concussion_return_to_learn_tracker(
         ));
     }
 
+    if let Some(p) = &plans
+        && !p.unknown_placeholders.is_empty()
+    {
+        s.push_str(&format!(
+            "Your agency template uses placeholder(s) the tool does not fill (left as [name]): {}.\n",
+            p.unknown_placeholders.join(", ")
+        ));
+    }
     let mut caveats = content::review(&[content::CONCUSSION]);
     caveats.push(
         "105 CMR 201.000 covers extracurricular athletic activities in public middle and high \

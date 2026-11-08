@@ -148,10 +148,17 @@ pub fn band_for(sc: &Screening, grade: Grade, age: Option<i32>) -> Option<&Sched
     match grade {
         Grade::Ungraded => {
             let a = age?;
-            sc.schedule.iter().find(|b| {
-                b.ages
-                    .is_some_and(|[lo, hi]| a >= lo as i32 && a <= hi as i32)
-            })
+            sc.schedule
+                .iter()
+                .find(|b| {
+                    b.ages
+                        .is_some_and(|[lo, hi]| a >= lo as i32 && a <= hi as i32)
+                })
+                .or_else(|| {
+                    sc.schedule
+                        .iter()
+                        .find(|b| b.frequency == Frequency::EntryAndInterval)
+                })
         }
         g => {
             let label = g.label();
@@ -199,6 +206,31 @@ fn requirement_for(
             }
         }
         None => {
+            if grade == Grade::Ungraded && sc.schedule.iter().all(|b| b.ages.is_none()) {
+                // Rules stated as birthdays (BMI) or grades only (postural).
+                let ungraded: Vec<&ScheduleBand> = sc
+                    .schedule
+                    .iter()
+                    .filter(|b| b.text.contains("ungraded"))
+                    .collect();
+                return match ungraded.first() {
+                    Some(b) => GradeRequirement {
+                        grade: label,
+                        status: "check the ungraded rule".into(),
+                        detail: b.text.trim().to_string(),
+                        citation: Some(content::citation(src, &b.source, &b.section)),
+                    },
+                    None => GradeRequirement {
+                        grade: label,
+                        status: "grades only".into(),
+                        detail: "The rule is stated by grade only; apply it by the student's age-equivalent grade under your district's policy.".into(),
+                        citation: sc
+                            .schedule
+                            .first()
+                            .map(|b| content::citation(src, &b.source, &b.section)),
+                    },
+                };
+            }
             if new_student && let Some(n) = &sc.new_students {
                 return GradeRequirement {
                     grade: label,
@@ -570,6 +602,13 @@ mod tests {
         // Ungraded by age: vision annually through 11, hearing through 9.
         assert!(band_for(sc("vision"), Grade::Ungraded, Some(11)).is_some());
         assert!(band_for(sc("hearing"), Grade::Ungraded, Some(10)).is_none());
+        let bmi_ungraded =
+            requirement_for(sc("height_weight_bmi"), Grade::Ungraded, Some(10), false);
+        assert_eq!(bmi_ungraded.status, "check the ungraded rule");
+        assert_eq!(
+            requirement_for(sc("hearing"), Grade::Ungraded, Some(10), false).status,
+            "not required in this grade"
+        );
         assert_eq!(
             band_for(sc("hearing"), Grade::Ungraded, Some(13))
                 .unwrap()

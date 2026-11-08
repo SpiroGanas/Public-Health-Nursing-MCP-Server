@@ -70,6 +70,8 @@ pub struct PlansWritten {
     pub files: Vec<String>,
     pub by_language: Vec<LanguageCount>,
     pub english_fallback: usize,
+    /// Placeholders in an agency template that the tool does not fill.
+    pub unknown_placeholders: Vec<String>,
     /// Placeholder -> number of students for whom it was blank.
     pub blank_fields: BTreeMap<String, usize>,
     /// Rows skipped because their Condition column named another condition.
@@ -498,6 +500,8 @@ pub fn build_individualized_health_plan(
             let mut resolver = TemplateResolver::new(ctx, &kind, eap.clone());
             let mut blank_fields: BTreeMap<String, usize> = BTreeMap::new();
             let mut fallback = 0usize;
+            let mut unknown_placeholders: std::collections::BTreeSet<String> =
+                std::collections::BTreeSet::new();
             let mut by_lang: BTreeMap<(String, bool), usize> = BTreeMap::new();
             let mut files = Vec::new();
             let mut n = 0usize;
@@ -556,7 +560,8 @@ pub fn build_individualized_health_plan(
                 *by_lang
                     .entry((chosen.language.clone(), chosen.translated))
                     .or_default() += 1;
-                let (eap_filled, _) = templates::fill(&chosen.markdown, &values, "________");
+                let (eap_filled, unk) = templates::fill(&chosen.markdown, &values, "________");
+                unknown_placeholders.extend(unk);
                 let d1 =
                     templates::document(ctx, &ihp_filled, "en-US", "Individualized health plan");
                 let d2 =
@@ -597,6 +602,7 @@ pub fn build_individualized_health_plan(
                     )
                     .collect(),
                 english_fallback: fallback,
+                unknown_placeholders: unknown_placeholders.into_iter().collect(),
                 blank_fields,
                 rows_skipped: skipped,
             })
@@ -642,6 +648,12 @@ pub fn build_individualized_health_plan(
                         .map(|(k, v)| format!("{k} ({v})"))
                         .collect::<Vec<_>>()
                         .join(", ")
+                ));
+            }
+            if !d.unknown_placeholders.is_empty() {
+                s.push_str(&format!(
+                    "Your agency template uses placeholder(s) the tool does not fill (left as [name]): {}.\n",
+                    d.unknown_placeholders.join(", ")
                 ));
             }
             if d.english_fallback > 0 {
