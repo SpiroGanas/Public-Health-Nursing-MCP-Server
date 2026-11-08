@@ -192,11 +192,15 @@ struct NisRow {
     ci_95: String,
 }
 
-const COVERAGE_MEASURES: [&str; 8] = ["mmr", "dtap", "polio", "hepb", "var", "tdap", "men", "series"];
+const COVERAGE_MEASURES: [&str; 8] = [
+    "mmr", "dtap", "polio", "hepb", "var", "tdap", "men", "series",
+];
 const BURDEN_MEASURES: [&str; 4] = ["exemption", "unimmunized", "no_record", "noncompliance"];
 
 fn measure_arg(m: Option<&str>) -> Result<String> {
-    let t = m.map(|s| text::normalize(s).replace(' ', "_")).unwrap_or_else(|| "mmr".into());
+    let t = m
+        .map(|s| text::normalize(s).replace(' ', "_"))
+        .unwrap_or_else(|| "mmr".into());
     let t = match t.as_str() {
         "varicella" | "chickenpox" => "var".to_string(),
         "menacwy" | "meningococcal" | "mcv4" => "men".to_string(),
@@ -208,7 +212,10 @@ fn measure_arg(m: Option<&str>) -> Result<String> {
         "measles" => "mmr".to_string(),
         other => other.to_string(),
     };
-    if COVERAGE_MEASURES.contains(&t.as_str()) || BURDEN_MEASURES.contains(&t.as_str()) || t == "influenza" {
+    if COVERAGE_MEASURES.contains(&t.as_str())
+        || BURDEN_MEASURES.contains(&t.as_str())
+        || t == "influenza"
+    {
         Ok(t)
     } else {
         Err(PhnError::InvalidInput(format!(
@@ -222,7 +229,9 @@ fn measure_arg(m: Option<&str>) -> Result<String> {
 fn threshold_for(measure: &str, override_pct: Option<f64>) -> Result<ThresholdUsed> {
     if let Some(p) = override_pct {
         if !(1.0..=100.0).contains(&p) {
-            return Err(PhnError::InvalidInput("threshold_pct must be between 1 and 100".into()));
+            return Err(PhnError::InvalidInput(
+                "threshold_pct must be between 1 and 100".into(),
+            ));
         }
         return Ok(ThresholdUsed {
             pct: Some(p),
@@ -282,37 +291,149 @@ fn comparison(ctx: &Context, grade: &str, measure: &str) -> Result<(Vec<SurveyEs
         .map_err(|e| PhnError::Internal(format!("NIS snapshot: {e}")))?;
     let wants: Vec<(&str, &str, &str, &str, &str)> = match (grade, measure) {
         (_, "influenza") => vec![
-            ("flu", "Seasonal Influenza", "", "6 Months - 17 Years", "Influenza, 6 months-17 years (FluVaxView, May estimate)"),
-            ("flu", "Seasonal Influenza", "", ">=18 Years", "Influenza, adults 18+ (FluVaxView, May estimate)"),
-            ("flu", "Seasonal Influenza", "", ">=65 Years", "Influenza, adults 65+ (FluVaxView, May estimate)"),
+            (
+                "flu",
+                "Seasonal Influenza",
+                "",
+                "6 Months - 17 Years",
+                "Influenza, 6 months-17 years (FluVaxView, May estimate)",
+            ),
+            (
+                "flu",
+                "Seasonal Influenza",
+                "",
+                ">=18 Years",
+                "Influenza, adults 18+ (FluVaxView, May estimate)",
+            ),
+            (
+                "flu",
+                "Seasonal Influenza",
+                "",
+                ">=65 Years",
+                "Influenza, adults 65+ (FluVaxView, May estimate)",
+            ),
         ],
-        ("7", "mmr") => vec![("nis_teen", "≥2 Doses MMR", "", "13-17 Years", "2+ doses MMR, ages 13-17 (NIS-Teen)")],
-        ("7", "hepb") => vec![("nis_teen", "≥3 Doses HepB", "", "13-17 Years", "3+ doses HepB, ages 13-17 (NIS-Teen)")],
-        ("7", "var") => vec![("nis_teen", "Varicella", "≥2 Doses or history of disease", "13-17 Years", "2+ varicella doses or history, ages 13-17 (NIS-Teen)")],
-        ("7", "tdap") => vec![("nis_teen", "Tetanus", "≥1 Dose Tdap", "13-17 Years", "1+ dose Tdap, ages 13-17 (NIS-Teen)")],
-        ("7", "men") => vec![("nis_teen", "≥1 Dose MenACWY", "", "13-17 Years", "1+ dose MenACWY, ages 13-17 (NIS-Teen)")],
+        ("7", "mmr") => vec![(
+            "nis_teen",
+            "≥2 Doses MMR",
+            "",
+            "13-17 Years",
+            "2+ doses MMR, ages 13-17 (NIS-Teen)",
+        )],
+        ("7", "hepb") => vec![(
+            "nis_teen",
+            "≥3 Doses HepB",
+            "",
+            "13-17 Years",
+            "3+ doses HepB, ages 13-17 (NIS-Teen)",
+        )],
+        ("7", "var") => vec![(
+            "nis_teen",
+            "Varicella",
+            "≥2 Doses or history of disease",
+            "13-17 Years",
+            "2+ varicella doses or history, ages 13-17 (NIS-Teen)",
+        )],
+        ("7", "tdap") => vec![(
+            "nis_teen",
+            "Tetanus",
+            "≥1 Dose Tdap",
+            "13-17 Years",
+            "1+ dose Tdap, ages 13-17 (NIS-Teen)",
+        )],
+        ("7", "men") => vec![(
+            "nis_teen",
+            "≥1 Dose MenACWY",
+            "",
+            "13-17 Years",
+            "1+ dose MenACWY, ages 13-17 (NIS-Teen)",
+        )],
         (_, "mmr") => vec![
-            ("kindergarten", "MMR", "", "Kindergarten", "MMR, kindergarten (SchoolVaxView)"),
-            ("nis_child", "≥1 Dose MMR", "", "24 Months", "1+ dose MMR by 24 months (NIS-Child, birth year)"),
+            (
+                "kindergarten",
+                "MMR",
+                "",
+                "Kindergarten",
+                "MMR, kindergarten (SchoolVaxView)",
+            ),
+            (
+                "nis_child",
+                "≥1 Dose MMR",
+                "",
+                "24 Months",
+                "1+ dose MMR by 24 months (NIS-Child, birth year)",
+            ),
         ],
         (_, "dtap") => vec![
-            ("kindergarten", "DTP, DTaP, or DT", "", "Kindergarten", "DTaP, kindergarten (SchoolVaxView)"),
-            ("nis_child", "DTaP", "≥4 Doses", "24 Months", "4+ doses DTaP by 24 months (NIS-Child)"),
+            (
+                "kindergarten",
+                "DTP, DTaP, or DT",
+                "",
+                "Kindergarten",
+                "DTaP, kindergarten (SchoolVaxView)",
+            ),
+            (
+                "nis_child",
+                "DTaP",
+                "≥4 Doses",
+                "24 Months",
+                "4+ doses DTaP by 24 months (NIS-Child)",
+            ),
         ],
         (_, "polio") => vec![
-            ("kindergarten", "Polio", "", "Kindergarten", "Polio, kindergarten (SchoolVaxView)"),
-            ("nis_child", "Polio", "≥3 Doses", "24 Months", "3+ doses polio by 24 months (NIS-Child)"),
+            (
+                "kindergarten",
+                "Polio",
+                "",
+                "Kindergarten",
+                "Polio, kindergarten (SchoolVaxView)",
+            ),
+            (
+                "nis_child",
+                "Polio",
+                "≥3 Doses",
+                "24 Months",
+                "3+ doses polio by 24 months (NIS-Child)",
+            ),
         ],
         (_, "hepb") => vec![
-            ("kindergarten", "Hepatitis B", "", "Kindergarten", "Hepatitis B, kindergarten (SchoolVaxView)"),
-            ("nis_child", "Hep B", "≥3 Doses", "24 Months", "3+ doses HepB by 24 months (NIS-Child)"),
+            (
+                "kindergarten",
+                "Hepatitis B",
+                "",
+                "Kindergarten",
+                "Hepatitis B, kindergarten (SchoolVaxView)",
+            ),
+            (
+                "nis_child",
+                "Hep B",
+                "≥3 Doses",
+                "24 Months",
+                "3+ doses HepB by 24 months (NIS-Child)",
+            ),
         ],
-        (_, "var") => vec![
-            ("kindergarten", "Varicella", "2 Doses (or disease history)", "Kindergarten", "2 doses varicella or history, kindergarten (SchoolVaxView)"),
-        ],
+        (_, "var") => vec![(
+            "kindergarten",
+            "Varicella",
+            "2 Doses (or disease history)",
+            "Kindergarten",
+            "2 doses varicella or history, kindergarten (SchoolVaxView)",
+        )],
         (_, "exemption") => vec![
-            ("kindergarten", "Exemption", "Any Exemption", "Kindergarten", "Any exemption, kindergarten (SchoolVaxView)"),
-            ("kindergarten", "Exemption", "Non-Medical Exemption", "Kindergarten", "Non-medical exemption, kindergarten (SchoolVaxView)"),
+            (
+                "kindergarten",
+                "Exemption",
+                "Any Exemption",
+                "Kindergarten",
+                "Any exemption, kindergarten (SchoolVaxView)",
+            ),
+            (
+                "kindergarten",
+                "Exemption",
+                "Non-Medical Exemption",
+                "Kindergarten",
+                "Non-medical exemption, kindergarten (SchoolVaxView)",
+            ),
         ],
         _ => Vec::new(),
     };
@@ -320,7 +441,9 @@ fn comparison(ctx: &Context, grade: &str, measure: &str) -> Result<(Vec<SurveyEs
     for (survey, vaccine, dose, group, desc) in wants {
         let matching: Vec<&NisRow> = rows
             .iter()
-            .filter(|r| r.survey == survey && r.vaccine == vaccine && r.dose == dose && r.group == group)
+            .filter(|r| {
+                r.survey == survey && r.vaccine == vaccine && r.dose == dose && r.group == group
+            })
             .collect();
         let Some(period) = matching
             .iter()
@@ -330,7 +453,12 @@ fn comparison(ctx: &Context, grade: &str, measure: &str) -> Result<(Vec<SurveyEs
         else {
             continue;
         };
-        let get = |geo: &str| matching.iter().find(|r| r.geography == geo && r.period == period).copied();
+        let get = |geo: &str| {
+            matching
+                .iter()
+                .find(|r| r.geography == geo && r.period == period)
+                .copied()
+        };
         let ma = get("Massachusetts");
         let us = get("United States");
         let clean = |s: &str| (!s.is_empty()).then(|| s.to_string());
@@ -353,7 +481,11 @@ fn median(v: &mut [f64]) -> Option<f64> {
     }
     v.sort_by(|a, b| a.total_cmp(b));
     let n = v.len();
-    Some(if n % 2 == 1 { v[n / 2] } else { (v[n / 2 - 1] + v[n / 2]) / 2.0 })
+    Some(if n % 2 == 1 {
+        v[n / 2]
+    } else {
+        (v[n / 2 - 1] + v[n / 2]) / 2.0
+    })
 }
 
 /// Rank schools and towns and compare Massachusetts with the U.S.
@@ -400,14 +532,23 @@ pub fn analyze_vaccination_coverage(
         (Some(t), _) => Some(
             ctx.ma
                 .town(t)
-                .ok_or_else(|| PhnError::InvalidInput(format!("'{t}' is not one of the 351 Massachusetts cities and towns")))?
+                .ok_or_else(|| {
+                    PhnError::InvalidInput(format!(
+                        "'{t}' is not one of the 351 Massachusetts cities and towns"
+                    ))
+                })?
                 .name
                 .clone(),
         ),
-        (None, false) if args.county.is_none() && args.school.is_none() => ctx.settings().jurisdiction.town,
+        (None, false) if args.county.is_none() && args.school.is_none() => {
+            ctx.settings().jurisdiction.town
+        }
         _ => None,
     };
-    let county = args.county.as_ref().map(|c| c.trim().trim_end_matches(" County").to_ascii_uppercase());
+    let county = args
+        .county
+        .as_ref()
+        .map(|c| c.trim().trim_end_matches(" County").to_ascii_uppercase());
     let scope = match (&town, &county, &args.school) {
         (Some(t), _, _) => t.clone(),
         (None, Some(c), _) => format!("{} County", text::title_case(c)),
@@ -419,7 +560,8 @@ pub fn analyze_vaccination_coverage(
     let mut caveats: Vec<String> = Vec::new();
     let mut ranked = Vec::new();
     let mut towns = Vec::new();
-    let (mut in_scope, mut with_rates, mut not_released, mut no_response, mut below) = (0, 0, 0, 0, 0);
+    let (mut in_scope, mut with_rates, mut not_released, mut no_response, mut below) =
+        (0, 0, 0, 0, 0);
     let (mut without_rate, mut zero_students) = (0, 0);
     let mut period = String::new();
     if measure != "influenza" {
@@ -437,9 +579,21 @@ pub fn analyze_vaccination_coverage(
         let mut selected: Vec<&SurveyRow> = rows
             .iter()
             .filter(|r| r.grade == want_grade && r.period == want_period)
-            .filter(|r| town_key.as_ref().is_none_or(|t| text::normalize(&r.municipality) == *t))
-            .filter(|r| county.as_ref().is_none_or(|c| r.county.eq_ignore_ascii_case(c)))
-            .filter(|r| school_q.as_ref().is_none_or(|q| text::normalize(&r.school).contains(q.as_str())))
+            .filter(|r| {
+                town_key
+                    .as_ref()
+                    .is_none_or(|t| text::normalize(&r.municipality) == *t)
+            })
+            .filter(|r| {
+                county
+                    .as_ref()
+                    .is_none_or(|c| r.county.eq_ignore_ascii_case(c))
+            })
+            .filter(|r| {
+                school_q
+                    .as_ref()
+                    .is_none_or(|q| text::normalize(&r.school).contains(q.as_str()))
+            })
             .collect();
         // DPH marks schools that returned a survey with zero students "N/A".
         selected.retain(|r| {
@@ -450,13 +604,19 @@ pub fn analyze_vaccination_coverage(
         if selected.is_empty() {
             return Err(PhnError::NotFound(format!(
                 "no schools found for {scope} in DPH's {} file",
-                if grade == "7" { "grade 7" } else { "kindergarten" }
+                if grade == "7" {
+                    "grade 7"
+                } else {
+                    "kindergarten"
+                }
             )));
         }
         in_scope = selected.len();
         let mut by_town: BTreeMap<String, (usize, usize, usize, Vec<f64>)> = BTreeMap::new();
         for r in &selected {
-            let t = by_town.entry(text::title_case(&r.municipality)).or_default();
+            let t = by_town
+                .entry(text::title_case(&r.municipality))
+                .or_default();
             match r.status.as_str() {
                 "reported" => {}
                 "no_response" => {
@@ -513,9 +673,16 @@ pub fn analyze_vaccination_coverage(
         towns.sort_by(|a, b| {
             b.schools_below_threshold
                 .cmp(&a.schools_below_threshold)
-                .then(a.min_pct.unwrap_or(101.0).total_cmp(&b.min_pct.unwrap_or(101.0)))
+                .then(
+                    a.min_pct
+                        .unwrap_or(101.0)
+                        .total_cmp(&b.min_pct.unwrap_or(101.0)),
+                )
         });
-        caveats.push(format!("{} Rates are self-reported by schools and can change during the year.", THRESH.dph_small_school_rule));
+        caveats.push(format!(
+            "{} Rates are self-reported by schools and can change during the year.",
+            THRESH.dph_small_school_rule
+        ));
         caveats.push(
             "Town figures summarize school rates without weighting by enrollment, because DPH's files \
              publish rates but not counts. Use them to find places to look, not as town coverage estimates."
@@ -536,7 +703,15 @@ pub fn analyze_vaccination_coverage(
 
     // Optional local file.
     let local = match &args.local_path {
-        Some(p) => Some(local_coverage(ctx, p, args.sheet.as_deref(), &measure, threshold.pct, burden, &mut sources)?),
+        Some(p) => Some(local_coverage(
+            ctx,
+            p,
+            args.sheet.as_deref(),
+            &measure,
+            threshold.pct,
+            burden,
+            &mut sources,
+        )?),
         None => None,
     };
 
@@ -554,7 +729,11 @@ pub fn analyze_vaccination_coverage(
             "K3" => "kindergarten (2023-2026 combined)",
             _ => "kindergarten",
         },
-        if period.is_empty() { String::new() } else { format!(" ({period})") }
+        if period.is_empty() {
+            String::new()
+        } else {
+            format!(" ({period})")
+        }
     );
     if measure != "influenza" {
         summary.push_str(&format!(
@@ -573,7 +752,10 @@ pub fn analyze_vaccination_coverage(
         if let Some(th) = threshold.pct
             && !burden
         {
-            summary.push_str(&format!("**{below} school(s) below {th}%.** {}\n\n", threshold.basis));
+            summary.push_str(&format!(
+                "**{below} school(s) below {th}%.** {}\n\n",
+                threshold.basis
+            ));
         } else {
             summary.push_str(&format!("{}\n\n", threshold.basis));
         }
@@ -590,9 +772,15 @@ pub fn analyze_vaccination_coverage(
                 ]
             })
             .collect();
-        summary.push_str(&md::table(&["School", "Town", "Type", &measure_label, "Exemption"], &rows));
+        summary.push_str(&md::table(
+            &["School", "Town", "Type", &measure_label, "Exemption"],
+            &rows,
+        ));
         if ranked.len() > limit {
-            summary.push_str(&format!("\n…and {} more (raise limit to see them).\n", ranked.len() - limit));
+            summary.push_str(&format!(
+                "\n…and {} more (raise limit to see them).\n",
+                ranked.len() - limit
+            ));
         }
         if town.is_none() && towns.len() > 1 {
             if burden {
@@ -645,10 +833,23 @@ pub fn analyze_vaccination_coverage(
                     (Some(p), None) => format!("{p}%"),
                     _ => "—".into(),
                 };
-                vec![c.description.clone(), c.period.clone(), f(&c.massachusetts_pct, &c.massachusetts_ci), f(&c.us_pct, &c.us_ci)]
+                vec![
+                    c.description.clone(),
+                    c.period.clone(),
+                    f(&c.massachusetts_pct, &c.massachusetts_ci),
+                    f(&c.us_pct, &c.us_ci),
+                ]
             })
             .collect();
-        summary.push_str(&md::table(&["Measure", "Period", "Massachusetts (95% CI)", "United States (95% CI)"], &rows));
+        summary.push_str(&md::table(
+            &[
+                "Measure",
+                "Period",
+                "Massachusetts (95% CI)",
+                "United States (95% CI)",
+            ],
+            &rows,
+        ));
     }
     if let Some(l) = &local {
         summary.push_str(&format!(
@@ -663,7 +864,12 @@ pub fn analyze_vaccination_coverage(
             .ranked
             .iter()
             .take(limit)
-            .map(|r| vec![r.school.clone(), format!("{}%{}", r.pct, if r.below_threshold { " ⚠" } else { "" })])
+            .map(|r| {
+                vec![
+                    r.school.clone(),
+                    format!("{}%{}", r.pct, if r.below_threshold { " ⚠" } else { "" }),
+                ]
+            })
             .collect();
         summary.push_str(&md::table(&["School", &measure_label], &rows));
     }
@@ -753,7 +959,10 @@ fn local_coverage(
     let (mut withheld, mut tot_n, mut tot_c) = (0usize, 0u64, 0u64);
     for row in &table.rows {
         let get = |i: usize| row.get(i).map(|s| s.trim()).unwrap_or("");
-        let (Ok(n), Ok(c)) = (get(ec).replace(',', "").parse::<u64>(), get(cc).replace(',', "").parse::<u64>()) else {
+        let (Ok(n), Ok(c)) = (
+            get(ec).replace(',', "").parse::<u64>(),
+            get(cc).replace(',', "").parse::<u64>(),
+        ) else {
             continue;
         };
         if n == 0 || c > n {
@@ -793,7 +1002,8 @@ fn local_coverage(
         schools: ranked.len() + withheld,
         schools_released: ranked.len(),
         schools_withheld_under_30: withheld,
-        overall_pct: (tot_n >= DPH_MIN_STUDENTS).then(|| (tot_c as f64 * 1000.0 / tot_n as f64).round() / 10.0),
+        overall_pct: (tot_n >= DPH_MIN_STUDENTS)
+            .then(|| (tot_c as f64 * 1000.0 / tot_n as f64).round() / 10.0),
         ranked,
     })
 }
@@ -824,7 +1034,10 @@ mod tests {
         assert!(t.diseases.iter().any(|d| d.contains("Measles")));
         // Burden measures have no threshold; overrides are validated.
         assert_eq!(threshold_for("exemption", None).unwrap().pct, None);
-        assert_eq!(threshold_for("men", Some(90.0)).unwrap().basis, "set by you");
+        assert_eq!(
+            threshold_for("men", Some(90.0)).unwrap().basis,
+            "set by you"
+        );
         assert!(threshold_for("mmr", Some(0.5)).is_err());
     }
 
@@ -861,7 +1074,10 @@ mod tests {
         assert!(d.ranked.windows(2).all(|w| w[0].pct <= w[1].pct));
         assert_eq!(
             d.schools_below_threshold,
-            d.towns.iter().map(|t| t.schools_below_threshold).sum::<usize>()
+            d.towns
+                .iter()
+                .map(|t| t.schools_below_threshold)
+                .sum::<usize>()
         );
         // The 3-year combined file releases more schools than one year.
         let k3 = analyze_vaccination_coverage(

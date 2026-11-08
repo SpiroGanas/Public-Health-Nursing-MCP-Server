@@ -15,7 +15,9 @@ pub mod school;
 
 pub use clinic::{ClinicArgs, ClinicPlan, plan_vaccination_clinic};
 pub use compare::{CompareArgs, CompareResult, compare_vaccine_recommendations};
-pub use confidence::{ConfidenceArgs, ConfidenceGuideResult, vaccine_confidence_conversation_guide};
+pub use confidence::{
+    ConfidenceArgs, ConfidenceGuideResult, vaccine_confidence_conversation_guide,
+};
 pub use coverage::{CoverageArgs, CoverageResult, analyze_vaccination_coverage};
 pub use excursion::{ExcursionArgs, ExcursionResult, vaccine_temperature_excursion_helper};
 pub use products::{ProductArgs, ProductLookup, lookup_vaccine_product};

@@ -75,7 +75,9 @@ pub struct ScheduleResult {
 fn population_arg(p: Option<&str>) -> Result<Population> {
     match p.map(|s| s.trim().to_ascii_lowercase()) {
         None => Ok(Population::ChildrenAdolescents),
-        Some(s) if s.is_empty() || s.starts_with("child") || s.starts_with("ped") || s == "kids" => {
+        Some(s)
+            if s.is_empty() || s.starts_with("child") || s.starts_with("ped") || s == "kids" =>
+        {
             Ok(Population::ChildrenAdolescents)
         }
         Some(s) if s.starts_with("adult") => Ok(Population::Adults),
@@ -87,7 +89,12 @@ fn population_arg(p: Option<&str>) -> Result<Population> {
 
 fn order_routine(routine: &[Routine], order: &[Body]) -> Vec<Routine> {
     let mut r = routine.to_vec();
-    r.sort_by_key(|x| order.iter().position(|b| *b == x.body).unwrap_or(usize::MAX));
+    r.sort_by_key(|x| {
+        order
+            .iter()
+            .position(|b| *b == x.body)
+            .unwrap_or(usize::MAX)
+    });
     r
 }
 
@@ -119,9 +126,16 @@ pub fn get_immunization_schedule(
     args: ScheduleArgs,
 ) -> Result<Envelope<ScheduleResult>> {
     let population = population_arg(args.population.as_deref())?;
-    let basis = ctx.settings().vaccine_recommendation_basis.unwrap_or_default();
+    let basis = ctx
+        .settings()
+        .vaccine_recommendation_basis
+        .unwrap_or_default();
     let order = basis_order(basis, population);
-    let named = args.vaccine.as_deref().map(str::trim).filter(|s| !s.is_empty());
+    let named = args
+        .vaccine
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
     let entries: Vec<&content::VaccineEntry> = match named {
         Some(q) => {
             let found = find_vaccine(q);
@@ -161,13 +175,25 @@ pub fn get_immunization_schedule(
             } else {
                 Vec::new()
             },
-            contraindications: if include_contra { v.contraindications.clone() } else { Vec::new() },
-            precautions: if include_contra { v.precautions.clone() } else { Vec::new() },
+            contraindications: if include_contra {
+                v.contraindications.clone()
+            } else {
+                Vec::new()
+            },
+            precautions: if include_contra {
+                v.precautions.clone()
+            } else {
+                Vec::new()
+            },
             confidence: v.confidence,
         })
         .collect();
 
-    let pop_key = if population == Population::Adults { "adults" } else { "children_adolescents" };
+    let pop_key = if population == Population::Adults {
+        "adults"
+    } else {
+        "children_adolescents"
+    };
     let mut editions: Vec<EditionInfo> = SCHED
         .editions
         .iter()
@@ -180,7 +206,12 @@ pub fn get_immunization_schedule(
             note: e.note.clone(),
         })
         .collect();
-    editions.sort_by_key(|e| order.iter().position(|b| *b == e.body).unwrap_or(usize::MAX));
+    editions.sort_by_key(|e| {
+        order
+            .iter()
+            .position(|b| *b == e.body)
+            .unwrap_or(usize::MAX)
+    });
 
     let mut summary = format!(
         "**Immunization schedule — {}** (basis: {})\n\n",
@@ -222,7 +253,12 @@ pub fn get_immunization_schedule(
                 })
                 .collect();
             summary.push_str(&md::table(
-                &["Dose", "Recommended age", "Minimum age", "Minimum interval from previous dose"],
+                &[
+                    "Dose",
+                    "Recommended age",
+                    "Minimum age",
+                    "Minimum interval from previous dose",
+                ],
                 &rows,
             ));
             for n in &t.notes {
@@ -260,7 +296,10 @@ pub fn get_immunization_schedule(
          forecast_immunizations_due (when available) or the MIIS forecaster for catch-up schedules."
             .to_string(),
     ];
-    if vaccines.iter().any(|v| v.confidence != content::Confidence::High) {
+    if vaccines
+        .iter()
+        .any(|v| v.confidence != content::Confidence::High)
+    {
         caveats.push(
             "Some entries are marked medium confidence because they were drafted from secondary \
              sources (the AAP schedule PDF could not be downloaded)."

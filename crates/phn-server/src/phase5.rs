@@ -47,7 +47,9 @@ impl PhnServer {
         &self,
         Parameters(args): Parameters<CompareArgs>,
     ) -> CallToolResult {
-        respond(phn_tools::vax::compare_vaccine_recommendations(&self.ctx, args))
+        respond(phn_tools::vax::compare_vaccine_recommendations(
+            &self.ctx, args,
+        ))
     }
 
     #[tool(
@@ -164,7 +166,9 @@ impl PhnServer {
         &self,
         Parameters(args): Parameters<ConfidenceArgs>,
     ) -> CallToolResult {
-        respond(phn_tools::vax::vaccine_confidence_conversation_guide(&self.ctx, args))
+        respond(phn_tools::vax::vaccine_confidence_conversation_guide(
+            &self.ctx, args,
+        ))
     }
 
     #[tool(

@@ -183,7 +183,10 @@ impl VaccineCodes {
 
 /// Normalize a CVX code to CDC's zero-padded form; `None` when it is not numeric.
 pub fn normalize_cvx(code: &str) -> Option<String> {
-    let t = code.trim().trim_start_matches(['C', 'c']).trim_start_matches(['V', 'v']);
+    let t = code
+        .trim()
+        .trim_start_matches(['C', 'c'])
+        .trim_start_matches(['V', 'v']);
     let t = t.trim_start_matches(['X', 'x']).trim();
     if t.is_empty() || !t.chars().all(|c| c.is_ascii_digit()) {
         return None;
@@ -204,9 +207,9 @@ pub fn ndc11_candidates(code: &str) -> Vec<String> {
     match digits.len() {
         11 => vec![digits],
         10 => vec![
-            format!("0{digits}"),                                  // 4-4-2
-            format!("{}0{}", &digits[..5], &digits[5..]),          // 5-3-2
-            format!("{}0{}", &digits[..9], &digits[9..]),          // 5-4-1
+            format!("0{digits}"),                         // 4-4-2
+            format!("{}0{}", &digits[..5], &digits[5..]), // 5-3-2
+            format!("{}0{}", &digits[..9], &digits[9..]), // 5-4-1
         ],
         _ => Vec::new(),
     }

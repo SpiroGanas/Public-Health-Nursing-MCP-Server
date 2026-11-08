@@ -83,11 +83,15 @@ pub fn vaccine_confidence_conversation_guide(
 ) -> Result<Envelope<ConfidenceGuideResult>> {
     let q = args.concern.trim();
     if q.is_empty() {
-        return Err(PhnError::InvalidInput("concern is empty; describe the question or worry in a few words".into()));
+        return Err(PhnError::InvalidInput(
+            "concern is empty; describe the question or worry in a few words".into(),
+        ));
     }
     let target = args.target_grade.unwrap_or(8.0);
     if !(3.0..=16.0).contains(&target) {
-        return Err(PhnError::InvalidInput("target_grade must be between 3 and 16".into()));
+        return Err(PhnError::InvalidInput(
+            "target_grade must be between 3 and 16".into(),
+        ));
     }
     let max_facts = args.max_facts.unwrap_or(3).clamp(1, 6);
     let ranked = text::rank(
@@ -103,7 +107,12 @@ pub fn vaccine_confidence_conversation_guide(
     let Some(best) = ranked.first() else {
         return Err(PhnError::NotFound(format!(
             "no conversation guide matches '{q}'. Topics: {}",
-            GUIDE.concerns.iter().map(|c| c.title.clone()).collect::<Vec<_>>().join("; ")
+            GUIDE
+                .concerns
+                .iter()
+                .map(|c| c.title.clone())
+                .collect::<Vec<_>>()
+                .join("; ")
         )));
     };
     let c = &GUIDE.concerns[best.index];
@@ -127,7 +136,11 @@ pub fn vaccine_confidence_conversation_guide(
         c.open_question,
         c.reflection,
         c.permission,
-        points.iter().map(|p| p.text.as_str()).collect::<Vec<_>>().join("\n"),
+        points
+            .iter()
+            .map(|p| p.text.as_str())
+            .collect::<Vec<_>>()
+            .join("\n"),
         c.next_step
     );
     let r = flesch_kincaid(&spoken);
@@ -140,7 +153,13 @@ pub fn vaccine_confidence_conversation_guide(
         method: "Flesch-Kincaid grade = 0.39 × words/sentence + 11.8 × syllables/word − 15.59, syllables estimated by vowel groups (about ±1 grade).".into(),
     };
 
-    let language = args.language.as_deref().map(str::trim).filter(|l| !l.is_empty()).unwrap_or("English").to_string();
+    let language = args
+        .language
+        .as_deref()
+        .map(str::trim)
+        .filter(|l| !l.is_empty())
+        .unwrap_or("English")
+        .to_string();
     let english = language.eq_ignore_ascii_case("english") || language.eq_ignore_ascii_case("en");
     let lang_norm = text::normalize(&language);
     let translated_resources: Vec<TranslatedLink> = if english {
@@ -153,26 +172,52 @@ pub fn vaccine_confidence_conversation_guide(
                 let l = text::normalize(&t.language);
                 l == "many" || l.contains(&lang_norm) || lang_norm.contains(&l)
             })
-            .map(|t| TranslatedLink { language: t.language.clone(), title: t.title.clone(), url: t.url.clone() })
+            .map(|t| TranslatedLink {
+                language: t.language.clone(),
+                title: t.title.clone(),
+                url: t.url.clone(),
+            })
             .collect()
     };
 
     let mut summary = format!("**Conversation guide: {}**\n\n", c.title);
-    summary.push_str(&format!("1. **Ask (open question):** \"{}\"\n", c.open_question));
-    summary.push_str(&format!("2. **Reflect and affirm:** \"{}\"\n", c.reflection.trim()));
+    summary.push_str(&format!(
+        "1. **Ask (open question):** \"{}\"\n",
+        c.open_question
+    ));
+    summary.push_str(&format!(
+        "2. **Reflect and affirm:** \"{}\"\n",
+        c.reflection.trim()
+    ));
     summary.push_str(&format!("3. **Ask permission:** \"{}\"\n", c.permission));
     summary.push_str("4. **Offer information** (one or two points, then check understanding):\n");
     for p in &points {
-        summary.push_str(&format!("   - {} — _{} ({}{})_\n", p.text.trim(), p.source_publisher, p.source_title, p.source_date.as_ref().map(|d| format!(", {d}")).unwrap_or_default()));
+        summary.push_str(&format!(
+            "   - {} — _{} ({}{})_\n",
+            p.text.trim(),
+            p.source_publisher,
+            p.source_title,
+            p.source_date
+                .as_ref()
+                .map(|d| format!(", {d}"))
+                .unwrap_or_default()
+        ));
     }
-    summary.push_str(&format!("5. **Summarize and agree on a next step:** {}\n", c.next_step));
+    summary.push_str(&format!(
+        "5. **Summarize and agree on a next step:** {}\n",
+        c.next_step
+    ));
     if let Some(d) = &c.divergence {
         summary.push_str(&format!("\n⚠ **Where guidance differs:** {}\n", d.trim()));
     }
     summary.push_str(&format!(
         "\nReading level of the script: Flesch-Kincaid grade {:.1} (target {target}){}.\n",
         r.fk_grade,
-        if reading_level.meets_target { "" } else { " — above target; use shorter sentences and everyday words" }
+        if reading_level.meets_target {
+            ""
+        } else {
+            " — above target; use shorter sentences and everyday words"
+        }
     ));
     if !english {
         summary.push_str(&format!(
@@ -185,7 +230,10 @@ pub fn vaccine_confidence_conversation_guide(
 
     let mut sources: Vec<Source> = Vec::new();
     for p in &points {
-        if sources.iter().any(|s| s.url.as_deref() == Some(p.source_url.as_str())) {
+        if sources
+            .iter()
+            .any(|s| s.url.as_deref() == Some(p.source_url.as_str()))
+        {
             continue;
         }
         sources.push(Source {
@@ -202,7 +250,10 @@ pub fn vaccine_confidence_conversation_guide(
         "The conversation wording is a draft for a clinician to adapt; facts come from the cited sources. Respect the person's autonomy and document the discussion per your agency's policy.".to_string(),
     ];
     if !english {
-        caveats.push("A qualified interpreter or translator is needed; translated text was not generated.".into());
+        caveats.push(
+            "A qualified interpreter or translator is needed; translated text was not generated."
+                .into(),
+        );
     }
     caveats.extend(content::review_caveats(&[content::CONFIDENCE]));
     Ok(Envelope::new(
@@ -221,7 +272,12 @@ pub fn vaccine_confidence_conversation_guide(
             language,
             translator_needed: !english,
             translated_resources,
-            other_topics: GUIDE.concerns.iter().filter(|o| o.id != c.id).map(|o| o.title.clone()).collect(),
+            other_topics: GUIDE
+                .concerns
+                .iter()
+                .filter(|o| o.id != c.id)
+                .map(|o| o.title.clone())
+                .collect(),
         },
     )
     .sources(sources)
@@ -256,9 +312,18 @@ mod tests {
     #[test]
     fn concerns_match_in_everyday_words() {
         let (_d, ctx) = ctx();
-        assert_eq!(guide(&ctx, "too many shots at once").concern_id, "too_many_too_soon");
-        assert_eq!(guide(&ctx, "what's in vaccines, aluminum?").concern_id, "ingredients");
-        assert_eq!(guide(&ctx, "vaccines during pregnancy").concern_id, "pregnancy");
+        assert_eq!(
+            guide(&ctx, "too many shots at once").concern_id,
+            "too_many_too_soon"
+        );
+        assert_eq!(
+            guide(&ctx, "what's in vaccines, aluminum?").concern_id,
+            "ingredients"
+        );
+        assert_eq!(
+            guide(&ctx, "vaccines during pregnancy").concern_id,
+            "pregnancy"
+        );
         assert_eq!(guide(&ctx, "flu shot").concern_id, "influenza");
         let g = guide(&ctx, "autism");
         assert!(g.talking_points.len() <= 3);
@@ -271,7 +336,12 @@ mod tests {
         let (_d, ctx) = ctx();
         for c in &GUIDE.concerns {
             for f in &c.facts {
-                assert!(GUIDE.sources.contains_key(&f.source), "{}: unknown source {}", c.id, f.source);
+                assert!(
+                    GUIDE.sources.contains_key(&f.source),
+                    "{}: unknown source {}",
+                    c.id,
+                    f.source
+                );
             }
             let g = guide(&ctx, &c.title);
             assert_eq!(g.concern_id, c.id);

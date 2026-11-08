@@ -106,10 +106,14 @@ pub async fn lookup_with(
 ) -> Result<Envelope<MedicationResult>> {
     let q = args.query.trim().to_string();
     if q.is_empty() {
-        return Err(PhnError::InvalidInput("query is empty; give a drug name".into()));
+        return Err(PhnError::InvalidInput(
+            "query is empty; give a drug name".into(),
+        ));
     }
     if q.len() > 100 {
-        return Err(PhnError::InvalidInput("query is too long; give a drug name".into()));
+        return Err(PhnError::InvalidInput(
+            "query is too long; give a drug name".into(),
+        ));
     }
     let limit = args.limit.unwrap_or(3).clamp(1, 10);
     let all = ["rxnorm", "label", "recalls", "shortages", "dailymed"];
@@ -135,9 +139,21 @@ pub async fn lookup_with(
             Got::NoResults => ("no_results".to_string(), None),
             Got::Unavailable(m) => ("unavailable".to_string(), Some(m.clone())),
         };
-        sections.push(SectionStatus { section: section.into(), status: st, total_matches: total, data_date: date, note });
+        sections.push(SectionStatus {
+            section: section.into(),
+            status: st,
+            total_matches: total,
+            data_date: date,
+            note,
+        });
     };
-    let add_source = |sources: &mut Vec<Source>, title: &str, publisher: &str, url: &str, mode: SourceMode, as_of: &str, eff: Option<String>| {
+    let add_source = |sources: &mut Vec<Source>,
+                      title: &str,
+                      publisher: &str,
+                      url: &str,
+                      mode: SourceMode,
+                      as_of: &str,
+                      eff: Option<String>| {
         if !sources.iter().any(|s| s.title == title) {
             sources.push(Source {
                 title: title.into(),
@@ -157,7 +173,15 @@ pub async fn lookup_with(
     if want("rxnorm") {
         let got = get_json(ctx, &ep.rxnav_approximate(&q, 5)).await;
         if let Got::Json(v, mode, as_of) = &got {
-            add_source(&mut sources, "RxNorm (RxNav API)", "National Library of Medicine", "https://lhncbc.nlm.nih.gov/RxNav/", *mode, as_of, None);
+            add_source(
+                &mut sources,
+                "RxNorm (RxNav API)",
+                "National Library of Medicine",
+                "https://lhncbc.nlm.nih.gov/RxNav/",
+                *mode,
+                as_of,
+                None,
+            );
             if let Some((rxcui, _)) = medication::parse_approximate(v).into_iter().next() {
                 if let Got::Json(p, _, _) = get_json(ctx, &ep.rxnav_properties(&rxcui)).await {
                     rxnorm = medication::parse_properties(&p);
@@ -187,7 +211,15 @@ pub async fn lookup_with(
             labels = medication::parse_labels(v);
             total = Some(medication::openfda_total(v));
             date = medication::openfda_last_updated(v);
-            add_source(&mut sources, "openFDA drug labeling (drug/label)", "U.S. Food and Drug Administration", "https://open.fda.gov/apis/drug/label/", *mode, as_of, date.clone());
+            add_source(
+                &mut sources,
+                "openFDA drug labeling (drug/label)",
+                "U.S. Food and Drug Administration",
+                "https://open.fda.gov/apis/drug/label/",
+                *mode,
+                as_of,
+                date.clone(),
+            );
         }
         status("label", &got, total, date);
     }
@@ -200,7 +232,15 @@ pub async fn lookup_with(
             recalls = medication::parse_recalls(v);
             total = Some(medication::openfda_total(v));
             date = medication::openfda_last_updated(v);
-            add_source(&mut sources, "openFDA drug enforcement reports (recalls)", "U.S. Food and Drug Administration", "https://open.fda.gov/apis/drug/enforcement/", *mode, as_of, date.clone());
+            add_source(
+                &mut sources,
+                "openFDA drug enforcement reports (recalls)",
+                "U.S. Food and Drug Administration",
+                "https://open.fda.gov/apis/drug/enforcement/",
+                *mode,
+                as_of,
+                date.clone(),
+            );
         }
         status("recalls", &got, total, date);
     }
@@ -213,7 +253,15 @@ pub async fn lookup_with(
             shortages = medication::parse_shortages(v);
             total = Some(medication::openfda_total(v));
             date = medication::openfda_last_updated(v);
-            add_source(&mut sources, "openFDA drug shortages", "U.S. Food and Drug Administration", "https://open.fda.gov/apis/drug/drugshortages/", *mode, as_of, date.clone());
+            add_source(
+                &mut sources,
+                "openFDA drug shortages",
+                "U.S. Food and Drug Administration",
+                "https://open.fda.gov/apis/drug/drugshortages/",
+                *mode,
+                as_of,
+                date.clone(),
+            );
         }
         status("shortages", &got, total, date);
     }
@@ -224,7 +272,15 @@ pub async fn lookup_with(
         if let Got::Json(v, mode, as_of) = &got {
             dailymed = medication::parse_spls(v);
             total = Some(medication::dailymed_total(v));
-            add_source(&mut sources, "DailyMed Structured Product Labeling", "National Library of Medicine", "https://dailymed.nlm.nih.gov/dailymed/", *mode, as_of, None);
+            add_source(
+                &mut sources,
+                "DailyMed Structured Product Labeling",
+                "National Library of Medicine",
+                "https://dailymed.nlm.nih.gov/dailymed/",
+                *mode,
+                as_of,
+                None,
+            );
         }
         status("dailymed", &got, total, None);
     }
@@ -232,8 +288,16 @@ pub async fn lookup_with(
     // Summary.
     let mut summary = format!("**Medication reference: {q}** (reference only)\n\n");
     if let Some(c) = &rxnorm {
-        summary.push_str(&format!("RxNorm: **{}** (RxCUI {}, {})", c.name, c.rxcui, c.tty));
-        let brands: Vec<&str> = related.iter().filter(|r| r.tty == "BN").map(|r| r.name.as_str()).take(8).collect();
+        summary.push_str(&format!(
+            "RxNorm: **{}** (RxCUI {}, {})",
+            c.name, c.rxcui, c.tty
+        ));
+        let brands: Vec<&str> = related
+            .iter()
+            .filter(|r| r.tty == "BN")
+            .map(|r| r.name.as_str())
+            .take(8)
+            .collect();
         if !brands.is_empty() {
             summary.push_str(&format!("; brand names: {}", brands.join(", ")));
         }
@@ -242,10 +306,18 @@ pub async fn lookup_with(
     for l in &labels {
         summary.push_str(&format!(
             "**Label: {}** ({}){} — effective {}, set ID {}, version {}\n",
-            l.brand_names.first().cloned().unwrap_or_else(|| l.generic_names.join(", ")),
+            l.brand_names
+                .first()
+                .cloned()
+                .unwrap_or_else(|| l.generic_names.join(", ")),
             l.generic_names.join(", "),
-            l.manufacturer.as_ref().map(|m| format!(", {m}")).unwrap_or_default(),
-            l.effective_date.clone().unwrap_or_else(|| "not stated".into()),
+            l.manufacturer
+                .as_ref()
+                .map(|m| format!(", {m}"))
+                .unwrap_or_default(),
+            l.effective_date
+                .clone()
+                .unwrap_or_else(|| "not stated".into()),
             l.set_id.clone().unwrap_or_default(),
             l.version.clone().unwrap_or_default()
         ));
@@ -259,7 +331,10 @@ pub async fn lookup_with(
             summary.push_str(&format!("- Contraindications: {c}\n"));
         }
         if let Some(set) = &l.set_id {
-            summary.push_str(&format!("- Full label: {}\n", medication::dailymed_setid_url(set)));
+            summary.push_str(&format!(
+                "- Full label: {}\n",
+                medication::dailymed_setid_url(set)
+            ));
         }
         summary.push('\n');
     }
@@ -270,27 +345,52 @@ pub async fn lookup_with(
     };
     if checked("recalls") {
         if recalls.is_empty() {
-            summary.push_str("**Recalls:** none found in openFDA enforcement reports for this name.\n\n");
+            summary.push_str(
+                "**Recalls:** none found in openFDA enforcement reports for this name.\n\n",
+            );
         } else {
             let rows: Vec<Vec<String>> = recalls
                 .iter()
-                .map(|r| vec![r.recall_number.clone(), r.classification.clone(), r.status.clone(), r.report_date.clone().unwrap_or_default(), r.reason_for_recall.clone()])
+                .map(|r| {
+                    vec![
+                        r.recall_number.clone(),
+                        r.classification.clone(),
+                        r.status.clone(),
+                        r.report_date.clone().unwrap_or_default(),
+                        r.reason_for_recall.clone(),
+                    ]
+                })
                 .collect();
             summary.push_str("**Recalls (newest first)**\n\n");
-            summary.push_str(&md::table(&["Recall", "Class", "Status", "Reported", "Reason"], &rows));
+            summary.push_str(&md::table(
+                &["Recall", "Class", "Status", "Reported", "Reason"],
+                &rows,
+            ));
             summary.push('\n');
         }
     }
     if checked("shortages") {
         if shortages.is_empty() {
-            summary.push_str("**Shortages:** none listed in openFDA's drug shortage data for this name.\n\n");
+            summary.push_str(
+                "**Shortages:** none listed in openFDA's drug shortage data for this name.\n\n",
+            );
         } else {
             let rows: Vec<Vec<String>> = shortages
                 .iter()
-                .map(|s| vec![s.generic_name.clone(), s.status.clone(), s.presentation.clone().unwrap_or_default(), s.update_date.clone().unwrap_or_default()])
+                .map(|s| {
+                    vec![
+                        s.generic_name.clone(),
+                        s.status.clone(),
+                        s.presentation.clone().unwrap_or_default(),
+                        s.update_date.clone().unwrap_or_default(),
+                    ]
+                })
                 .collect();
             summary.push_str("**Shortages**\n\n");
-            summary.push_str(&md::table(&["Drug", "Status", "Presentation", "Updated"], &rows));
+            summary.push_str(&md::table(
+                &["Drug", "Status", "Presentation", "Updated"],
+                &rows,
+            ));
             summary.push('\n');
         }
     }
@@ -306,19 +406,34 @@ pub async fn lookup_with(
             ));
         }
     }
-    let unavailable: Vec<&SectionStatus> = sections.iter().filter(|s| s.status == "unavailable").collect();
+    let unavailable: Vec<&SectionStatus> = sections
+        .iter()
+        .filter(|s| s.status == "unavailable")
+        .collect();
     if !unavailable.is_empty() {
         summary.push_str(&format!(
             "\nNot checked ({}): {}. Search dailymed.nlm.nih.gov or open.fda.gov directly.\n",
-            unavailable.first().and_then(|s| s.note.clone()).unwrap_or_default(),
-            unavailable.iter().map(|s| s.section.as_str()).collect::<Vec<_>>().join(", ")
+            unavailable
+                .first()
+                .and_then(|s| s.note.clone())
+                .unwrap_or_default(),
+            unavailable
+                .iter()
+                .map(|s| s.section.as_str())
+                .collect::<Vec<_>>()
+                .join(", ")
         ));
     }
     let mut caveats = vec![
         "Reference only. openFDA states its data are unvalidated and must not be relied on for medical decisions; the FDA-approved label (package insert) is the authority. Check your agency's protocols and a pharmacist before acting.".to_string(),
         "Label excerpts are shortened; read the full label (DailyMed link) before use.".to_string(),
     ];
-    if labels.is_empty() && want("label") && !sections.iter().any(|s| s.section == "label" && s.status == "unavailable") {
+    if labels.is_empty()
+        && want("label")
+        && !sections
+            .iter()
+            .any(|s| s.section == "label" && s.status == "unavailable")
+    {
         caveats.push("No openFDA label matched this name; vaccines and some biologics are often missing from openFDA labeling. Try DailyMed or lookup_vaccine_product.".into());
     }
     if sections.iter().all(|s| s.status == "unavailable") {
@@ -374,7 +489,9 @@ mod tests {
         let addr = listener.local_addr().unwrap();
         tokio::spawn(async move {
             loop {
-                let Ok((mut sock, _)) = listener.accept().await else { break };
+                let Ok((mut sock, _)) = listener.accept().await else {
+                    break;
+                };
                 tokio::spawn(async move {
                     let mut buf = vec![0u8; 8192];
                     let n = sock.read(&mut buf).await.unwrap_or(0);
@@ -382,9 +499,13 @@ mod tests {
                     let path = req.split_whitespace().nth(1).unwrap_or("").to_string();
                     let body = fixture(&path);
                     let resp = if body.is_empty() {
-                        "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n".to_string()
+                        "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+                            .to_string()
                     } else {
-                        format!("HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}", body.len())
+                        format!(
+                            "HTTP/1.1 200 OK\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
+                            body.len()
+                        )
                     };
                     let _ = sock.write_all(resp.as_bytes()).await;
                 });
@@ -401,16 +522,35 @@ mod tests {
         std::fs::create_dir_all(dir.path().join("data")).unwrap();
         let ctx = Arc::new(Context::new(config).unwrap());
         let base = serve().await;
-        let ep = Endpoints { openfda: base.clone(), dailymed: base.clone(), rxnav: base };
-        let env = lookup_with(&ctx, MedicationArgs { query: "amoxicilin".into(), ..Default::default() }, &ep, Some("secret-key"))
-            .await
-            .unwrap();
+        let ep = Endpoints {
+            openfda: base.clone(),
+            dailymed: base.clone(),
+            rxnav: base,
+        };
+        let env = lookup_with(
+            &ctx,
+            MedicationArgs {
+                query: "amoxicilin".into(),
+                ..Default::default()
+            },
+            &ep,
+            Some("secret-key"),
+        )
+        .await
+        .unwrap();
         let d = &env.data;
         assert_eq!(d.rxnorm.as_ref().unwrap().name, "amoxicillin");
         assert_eq!(d.labels.len(), 1);
         assert_eq!(d.recalls[0].recall_number, "D-0151-2026");
         assert!(d.shortages.is_empty());
-        assert_eq!(d.sections.iter().find(|s| s.section == "shortages").unwrap().status, "no_results");
+        assert_eq!(
+            d.sections
+                .iter()
+                .find(|s| s.section == "shortages")
+                .unwrap()
+                .status,
+            "no_results"
+        );
         assert!(!d.dailymed.is_empty());
         let md = env.to_markdown();
         assert!(md.contains("set ID 00b86913-50c8-443f-8467-f4f499d358af"));
@@ -424,12 +564,29 @@ mod tests {
         let config = phn_core::Config::for_root(dir.path());
         std::fs::create_dir_all(dir.path().join("data")).unwrap();
         let ctx = Context::new(config).unwrap();
-        let env = lookup_medication_information(&ctx, MedicationArgs { query: "oseltamivir".into(), ..Default::default() })
-            .await
-            .unwrap();
+        let env = lookup_medication_information(
+            &ctx,
+            MedicationArgs {
+                query: "oseltamivir".into(),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
         assert!(env.data.sections.iter().all(|s| s.status == "unavailable"));
-        assert!(env.caveats.iter().any(|c| c.contains("nothing was checked")));
-        let bad = lookup_medication_information(&ctx, MedicationArgs { query: " ".into(), ..Default::default() }).await;
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("nothing was checked"))
+        );
+        let bad = lookup_medication_information(
+            &ctx,
+            MedicationArgs {
+                query: " ".into(),
+                ..Default::default()
+            },
+        )
+        .await;
         assert!(bad.is_err());
     }
 }

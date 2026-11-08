@@ -108,7 +108,6 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "nis_coverage_ma_us.csv",
         include_str!("../../../snapshots/nis_coverage_ma_us.csv"),
     ),
-
     // Phase 6 snapshot files go below this line.
 ];
 

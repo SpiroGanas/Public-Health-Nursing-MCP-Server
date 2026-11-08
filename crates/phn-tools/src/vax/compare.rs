@@ -1,7 +1,9 @@
 //! VAX-02 `compare_vaccine_recommendations`.
 
 use phn_core::text;
-use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode, VaccineRecommendationBasis};
+use phn_core::{
+    Envelope, PhnError, Privacy, Result, Source, SourceMode, VaccineRecommendationBasis,
+};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -55,9 +57,19 @@ pub struct CompareResult {
 fn population_filter(p: &str) -> Result<Vec<Population>> {
     let t = p.trim().to_ascii_lowercase();
     Ok(match t.as_str() {
-        "infant" | "infants" | "newborn" | "newborns" => vec![Population::Infants, Population::Children, Population::ChildrenAdolescents],
-        "child" | "children" | "kids" | "pediatric" => vec![Population::Infants, Population::Children, Population::ChildrenAdolescents],
-        "adolescent" | "adolescents" | "teen" | "teens" => vec![Population::Adolescents, Population::ChildrenAdolescents],
+        "infant" | "infants" | "newborn" | "newborns" => vec![
+            Population::Infants,
+            Population::Children,
+            Population::ChildrenAdolescents,
+        ],
+        "child" | "children" | "kids" | "pediatric" => vec![
+            Population::Infants,
+            Population::Children,
+            Population::ChildrenAdolescents,
+        ],
+        "adolescent" | "adolescents" | "teen" | "teens" => {
+            vec![Population::Adolescents, Population::ChildrenAdolescents]
+        }
         "adult" | "adults" | "older adults" => vec![Population::Adults],
         "pregnancy" | "pregnant" | "prenatal" => vec![Population::Pregnancy],
         _ => {
@@ -74,11 +86,24 @@ pub fn compare_vaccine_recommendations(
     args: CompareArgs,
 ) -> Result<Envelope<CompareResult>> {
     let basis = match &args.basis {
-        Some(b) => b.parse::<VaccineRecommendationBasis>().map_err(PhnError::InvalidInput)?,
-        None => ctx.settings().vaccine_recommendation_basis.unwrap_or_default(),
+        Some(b) => b
+            .parse::<VaccineRecommendationBasis>()
+            .map_err(PhnError::InvalidInput)?,
+        None => ctx
+            .settings()
+            .vaccine_recommendation_basis
+            .unwrap_or_default(),
     };
-    let pops = args.population.as_deref().map(population_filter).transpose()?;
-    let query = args.query.as_deref().map(str::trim).filter(|q| !q.is_empty());
+    let pops = args
+        .population
+        .as_deref()
+        .map(population_filter)
+        .transpose()?;
+    let query = args
+        .query
+        .as_deref()
+        .map(str::trim)
+        .filter(|q| !q.is_empty());
 
     let mut indices: Vec<usize> = match query {
         Some(q) => {
@@ -102,7 +127,9 @@ pub fn compare_vaccine_recommendations(
         None => (0..RECS.topics.len()).collect(),
     };
     if let Some(p) = &pops {
-        indices.retain(|&i| p.contains(&RECS.topics[i].population) || RECS.topics[i].population == Population::All);
+        indices.retain(|&i| {
+            p.contains(&RECS.topics[i].population) || RECS.topics[i].population == Population::All
+        });
     }
     if indices.is_empty() {
         let list: Vec<String> = RECS.topics.iter().map(|t| t.title.clone()).collect();
@@ -120,7 +147,12 @@ pub fn compare_vaccine_recommendations(
             let t = &RECS.topics[i];
             let order = basis_order(basis, t.population);
             let mut positions = t.positions.clone();
-            positions.sort_by_key(|p| order.iter().position(|b| *b == p.body).unwrap_or(usize::MAX));
+            positions.sort_by_key(|p| {
+                order
+                    .iter()
+                    .position(|b| *b == p.body)
+                    .unwrap_or(usize::MAX)
+            });
             let basis_body = (basis != VaccineRecommendationBasis::ShowAll)
                 .then(|| positions.first().map(|p| p.body))
                 .flatten();
@@ -130,8 +162,13 @@ pub fn compare_vaccine_recommendations(
                 .copied()
                 .filter(|b| match b {
                     Body::Acog => t.population == Population::Pregnancy,
-                    Body::Aafp => matches!(t.population, Population::Adults | Population::Pregnancy | Population::All),
-                    Body::Aap => !matches!(t.population, Population::Adults | Population::Pregnancy),
+                    Body::Aafp => matches!(
+                        t.population,
+                        Population::Adults | Population::Pregnancy | Population::All
+                    ),
+                    Body::Aap => {
+                        !matches!(t.population, Population::Adults | Population::Pregnancy)
+                    }
                     _ => true,
                 })
                 .collect();
@@ -140,7 +177,10 @@ pub fn compare_vaccine_recommendations(
                 title: t.title.clone(),
                 vaccine: t.vaccine.clone(),
                 population: t.population,
-                bodies_without_position: relevant.into_iter().filter(|b| !present.contains(b)).collect(),
+                bodies_without_position: relevant
+                    .into_iter()
+                    .filter(|b| !present.contains(b))
+                    .collect(),
                 positions,
                 basis_body,
                 differs: t.differs,
@@ -160,11 +200,7 @@ pub fn compare_vaccine_recommendations(
             if let Some(b) = t.basis_body
                 && let Some(p) = t.positions.first()
             {
-                summary.push_str(&format!(
-                    "**Basis ({}):** {}\n\n",
-                    b.short(),
-                    p.summary
-                ));
+                summary.push_str(&format!("**Basis ({}):** {}\n\n", b.short(), p.summary));
             }
             let rows: Vec<Vec<String>> = t
                 .positions
@@ -178,16 +214,27 @@ pub fn compare_vaccine_recommendations(
                     ]
                 })
                 .collect();
-            summary.push_str(&md::table(&["Body", "Position", "Date", "Confidence"], &rows));
+            summary.push_str(&md::table(
+                &["Body", "Position", "Date", "Confidence"],
+                &rows,
+            ));
             summary.push_str(&format!(
                 "\n{} {}\n",
-                if t.differs { "⚠ **The bodies differ.**" } else { "The bodies agree." },
+                if t.differs {
+                    "⚠ **The bodies differ.**"
+                } else {
+                    "The bodies agree."
+                },
                 t.difference
             ));
             if !t.bodies_without_position.is_empty() {
                 summary.push_str(&format!(
                     "No position found in the reviewed documents for: {}.\n",
-                    t.bodies_without_position.iter().map(|b| b.short()).collect::<Vec<_>>().join(", ")
+                    t.bodies_without_position
+                        .iter()
+                        .map(|b| b.short())
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 ));
             }
             summary.push('\n');
@@ -199,20 +246,34 @@ pub fn compare_vaccine_recommendations(
                 vec![
                     t.title.clone(),
                     t.population.label().to_string(),
-                    if t.differs { "differ".into() } else { "agree".into() },
-                    t.basis_body.map(|b| b.short().to_string()).unwrap_or_else(|| "—".into()),
+                    if t.differs {
+                        "differ".into()
+                    } else {
+                        "agree".into()
+                    },
+                    t.basis_body
+                        .map(|b| b.short().to_string())
+                        .unwrap_or_else(|| "—".into()),
                 ]
             })
             .collect();
-        summary.push_str(&md::table(&["Topic", "Population", "Bodies", "Basis"], &rows));
+        summary.push_str(&md::table(
+            &["Topic", "Population", "Bodies", "Basis"],
+            &rows,
+        ));
         summary.push_str("\nAsk about one topic for each body's position, date, and source.\n");
     }
 
     let mut sources: Vec<Source> = vec![content::content_source(content::RECOMMENDATIONS)?];
-    let retrieved = content::meta(content::RECOMMENDATIONS).ok().map(|m| m.prepared);
+    let retrieved = content::meta(content::RECOMMENDATIONS)
+        .ok()
+        .map(|m| m.prepared);
     for t in &topics {
         for p in &t.positions {
-            if sources.iter().any(|s| s.url.as_deref() == Some(p.source.url.as_str())) {
+            if sources
+                .iter()
+                .any(|s| s.url.as_deref() == Some(p.source.url.as_str()))
+            {
                 continue;
             }
             sources.push(Source {
@@ -234,7 +295,11 @@ pub fn compare_vaccine_recommendations(
                 .into(),
         );
     }
-    if topics.iter().flat_map(|t| &t.positions).any(|p| p.confidence != content::Confidence::High) {
+    if topics
+        .iter()
+        .flat_map(|t| &t.positions)
+        .any(|p| p.confidence != content::Confidence::High)
+    {
         caveats.push(
             "Positions marked medium confidence come from a document that describes the body's \
              position rather than the body's own document; check the original before relying on it."
@@ -305,7 +370,11 @@ mod tests {
         let t = topic(&ctx, "hepatitis B birth dose", Some("cdc_acip"));
         assert_eq!(t.basis_body, Some(Body::CdcAcip));
         // Professional societies first: AAP for an infant topic.
-        let t = topic(&ctx, "hepatitis B birth dose", Some("professional_societies"));
+        let t = topic(
+            &ctx,
+            "hepatitis B birth dose",
+            Some("professional_societies"),
+        );
         assert_eq!(t.basis_body, Some(Body::Aap));
     }
 
@@ -314,7 +383,12 @@ mod tests {
         for t in &RECS.topics {
             assert!(!t.positions.is_empty(), "{} has no positions", t.id);
             for p in &t.positions {
-                assert!(p.source.url.starts_with("https://"), "{}: {:?}", t.id, p.body);
+                assert!(
+                    p.source.url.starts_with("https://"),
+                    "{}: {:?}",
+                    t.id,
+                    p.body
+                );
                 assert!(!p.summary.trim().is_empty());
             }
         }

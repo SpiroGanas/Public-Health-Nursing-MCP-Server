@@ -87,7 +87,8 @@ impl Span {
     /// Plain-language label ("4 years", "6 months", "28 days").
     pub fn label(&self) -> String {
         let mut parts = Vec::new();
-        let unit = |n: u32, one: &str, many: &str| format!("{n} {}", if n == 1 { one } else { many });
+        let unit =
+            |n: u32, one: &str, many: &str| format!("{n} {}", if n == 1 { one } else { many });
         if self.years > 0 {
             parts.push(unit(self.years, "year", "years"));
         }
@@ -165,13 +166,19 @@ pub fn parse_date(s: &str) -> Option<NaiveDate> {
         }
     }
     // ISO date-time ("2024-03-05T00:00:00" or "2024-03-05 00:00:00").
-    if t.len() > 10 && let Ok(d) = NaiveDate::parse_from_str(&t[..10], "%Y-%m-%d") {
+    if t.len() > 10
+        && let Ok(d) = NaiveDate::parse_from_str(&t[..10], "%Y-%m-%d")
+    {
         return Some(d);
     }
     if let Ok(serial) = t.parse::<f64>()
         && (20_000.0..80_000.0).contains(&serial)
     {
-        return NaiveDate::parse_from_str(&phn_local::table::excel_serial_to_iso(serial), "%Y-%m-%d").ok();
+        return NaiveDate::parse_from_str(
+            &phn_local::table::excel_serial_to_iso(serial),
+            "%Y-%m-%d",
+        )
+        .ok();
     }
     None
 }
@@ -218,7 +225,10 @@ mod tests {
         assert_eq!(add(d("2024-02-29"), Span::years(1)), d("2025-02-28"));
         // 4 weeks = 28 days.
         assert_eq!(add(d("2025-03-01"), Span::weeks(4)), d("2025-03-29"));
-        assert_eq!(date_at_age(d("2020-06-15"), Span::years(4)), d("2024-06-15"));
+        assert_eq!(
+            date_at_age(d("2020-06-15"), Span::years(4)),
+            d("2024-06-15")
+        );
     }
 
     #[test]

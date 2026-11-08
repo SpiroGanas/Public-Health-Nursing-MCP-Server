@@ -10,8 +10,8 @@ use std::sync::LazyLock;
 use phn_content::{ContentMeta, ReviewStatus};
 use phn_core::{PhnError, Result, Source, SourceMode, VaccineRecommendationBasis};
 use schemars::JsonSchema;
-use serde::{Deserialize, Serialize};
 use serde::de::DeserializeOwned;
+use serde::{Deserialize, Serialize};
 
 /// Content ids.
 pub const SCHEDULE: &str = "vax-schedule";
@@ -81,7 +81,9 @@ pub enum Confidence {
 }
 
 /// An issuing body.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Body {
     /// Massachusetts DPH.
@@ -159,7 +161,8 @@ pub fn basis_order(basis: VaccineRecommendationBasis, population: Population) ->
         }
     }
     match basis {
-        VaccineRecommendationBasis::DphThenProfessionalThenCdc | VaccineRecommendationBasis::ShowAll => {
+        VaccineRecommendationBasis::DphThenProfessionalThenCdc
+        | VaccineRecommendationBasis::ShowAll => {
             let mut v = vec![Body::Dph];
             v.extend(societies);
             v.push(Body::CdcAcip);
@@ -751,27 +754,53 @@ mod tests {
         // Every fact cites a known source.
         for c in &GUIDE.concerns {
             for f in &c.facts {
-                assert!(GUIDE.sources.contains_key(&f.source), "{} cites {}", c.id, f.source);
+                assert!(
+                    GUIDE.sources.contains_key(&f.source),
+                    "{} cites {}",
+                    c.id,
+                    f.source
+                );
             }
         }
         // Every series named by a vaccine or requirement exists.
         for v in &SCHED.vaccines {
             for s in &v.series {
-                assert!(SCHED.series(s).is_some(), "{} names unknown series {s}", v.id);
+                assert!(
+                    SCHED.series(s).is_some(),
+                    "{} names unknown series {s}",
+                    v.id
+                );
             }
         }
         for st in &SCHOOL_REQS.settings {
             for r in &st.requirements {
                 if let Some(s) = &r.rule.series {
-                    assert!(SCHED.series(s).is_some(), "{} names unknown series {s}", r.id);
+                    assert!(
+                        SCHED.series(s).is_some(),
+                        "{} names unknown series {s}",
+                        r.id
+                    );
                 }
-                assert!(r.rule.series.is_some() || r.rule.special.is_some(), "{}", r.id);
+                assert!(
+                    r.rule.series.is_some() || r.rule.special.is_some(),
+                    "{}",
+                    r.id
+                );
             }
         }
         // Every duration string parses.
         for s in &SCHED.series {
             for d in &s.doses {
-                for v in [Some(&d.min_age), d.min_interval.as_ref(), d.plan_min_age.as_ref(), d.plan_min_interval.as_ref(), d.min_interval_from_first.as_ref()].into_iter().flatten() {
+                for v in [
+                    Some(&d.min_age),
+                    d.min_interval.as_ref(),
+                    d.plan_min_age.as_ref(),
+                    d.plan_min_interval.as_ref(),
+                    d.min_interval_from_first.as_ref(),
+                ]
+                .into_iter()
+                .flatten()
+                {
                     assert!(crate::vax::dates::Span::parse(v).is_some(), "{}: {v}", s.id);
                 }
             }
@@ -781,9 +810,23 @@ mod tests {
     #[test]
     fn basis_order_follows_the_setting() {
         use VaccineRecommendationBasis as B;
-        assert_eq!(basis_order(B::DphThenProfessionalThenCdc, Population::Pregnancy)[..2], [Body::Dph, Body::Acog]);
-        assert_eq!(basis_order(B::CdcAcip, Population::Children)[0], Body::CdcAcip);
-        assert_eq!(basis_order(B::ProfessionalSocieties, Population::Adults)[0], Body::Aafp);
-        assert_eq!(*basis_order(B::DphThenProfessionalThenCdc, Population::Infants).last().unwrap(), Body::CdcAcip);
+        assert_eq!(
+            basis_order(B::DphThenProfessionalThenCdc, Population::Pregnancy)[..2],
+            [Body::Dph, Body::Acog]
+        );
+        assert_eq!(
+            basis_order(B::CdcAcip, Population::Children)[0],
+            Body::CdcAcip
+        );
+        assert_eq!(
+            basis_order(B::ProfessionalSocieties, Population::Adults)[0],
+            Body::Aafp
+        );
+        assert_eq!(
+            *basis_order(B::DphThenProfessionalThenCdc, Population::Infants)
+                .last()
+                .unwrap(),
+            Body::CdcAcip
+        );
     }
 }

@@ -90,10 +90,13 @@ fn vis_for(cvx: &Cvx, trade: &[TradeNameInfo]) -> Vec<VisEdition> {
     let mut keys: Vec<&str> = PRODUCT_INFO
         .vis_keywords
         .iter()
-        .filter(|k| k.keywords.iter().any(|w| {
-            let w = text::normalize(w);
-            !w.is_empty() && format!(" {hay} ").contains(&format!(" {w} ")) || hay.contains(&w) && w.len() > 4
-        }))
+        .filter(|k| {
+            k.keywords.iter().any(|w| {
+                let w = text::normalize(w);
+                !w.is_empty() && format!(" {hay} ").contains(&format!(" {w} "))
+                    || hay.contains(&w) && w.len() > 4
+            })
+        })
         .map(|k| k.vaccine.as_str())
         .collect();
     // MMRV is more specific than MMR; influenza live vs inactivated handled by title.
@@ -118,7 +121,12 @@ fn vis_for(cvx: &Cvx, trade: &[TradeNameInfo]) -> Vec<VisEdition> {
     out
 }
 
-fn build_match(codes: &VaccineCodes, cvx: &Cvx, matched_on: String, include_inactive: bool) -> ProductMatch {
+fn build_match(
+    codes: &VaccineCodes,
+    cvx: &Cvx,
+    matched_on: String,
+    include_inactive: bool,
+) -> ProductMatch {
     let trade: Vec<TradeNameInfo> = codes
         .trade_names_for_cvx(&cvx.cvx)
         .into_iter()
@@ -135,7 +143,9 @@ fn build_match(codes: &VaccineCodes, cvx: &Cvx, matched_on: String, include_inac
     let today = chrono::Local::now().date_naive().to_string();
     let active: Vec<&&phn_data::vaccine_codes::VaccineNdc> = all_ndc
         .iter()
-        .filter(|n| include_inactive || n.end_date.is_empty() || n.end_date.as_str() > today.as_str())
+        .filter(|n| {
+            include_inactive || n.end_date.is_empty() || n.end_date.as_str() > today.as_str()
+        })
         .collect();
     let ndcs = active
         .iter()
@@ -177,21 +187,36 @@ fn build_match(codes: &VaccineCodes, cvx: &Cvx, matched_on: String, include_inac
 
 fn looks_like_ndc(q: &str) -> bool {
     let digits = q.chars().filter(char::is_ascii_digit).count();
-    q.chars().all(|c| c.is_ascii_digit() || c == '-' || c == ' ') && (10..=11).contains(&digits)
+    q.chars()
+        .all(|c| c.is_ascii_digit() || c == '-' || c == ' ')
+        && (10..=11).contains(&digits)
 }
 
 /// Product reference by name, trade name, CVX, MVX, or NDC.
-pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<Envelope<ProductLookup>> {
+pub async fn lookup_vaccine_product(
+    ctx: &Context,
+    args: ProductArgs,
+) -> Result<Envelope<ProductLookup>> {
     let q = args.query.trim().to_string();
     if q.is_empty() {
-        return Err(PhnError::InvalidInput("query is empty; give a vaccine or product name, CVX, MVX, or NDC".into()));
+        return Err(PhnError::InvalidInput(
+            "query is empty; give a vaccine or product name, CVX, MVX, or NDC".into(),
+        ));
     }
     let limit = args.limit.unwrap_or(5).clamp(1, 25);
     let mut codes = VaccineCodes::load(&ctx.snapshots)?;
     let mut sources: Vec<Source> = Vec::new();
     let mut caveats: Vec<String> = Vec::new();
     let mut cvx_mode = "snapshot".to_string();
-    match fetch_with_fallback(&ctx.http, ctx.cache.as_ref(), vaccine_codes::CVX_LIVE_URL, 7 * 86_400, None).await {
+    match fetch_with_fallback(
+        &ctx.http,
+        ctx.cache.as_ref(),
+        vaccine_codes::CVX_LIVE_URL,
+        7 * 86_400,
+        None,
+    )
+    .await
+    {
         Ok(f) => {
             let parsed = vaccine_codes::parse_cvx_flat(&String::from_utf8_lossy(&f.body));
             if parsed.len() > 100 {
@@ -247,7 +272,12 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
             )));
         }
     } else if let Some(c) = vaccine_codes::normalize_cvx(&q).and_then(|n| codes.cvx_code(&n)) {
-        matches.push(build_match(&codes, c, format!("CVX {}", c.cvx), args.include_inactive));
+        matches.push(build_match(
+            &codes,
+            c,
+            format!("CVX {}", c.cvx),
+            args.include_inactive,
+        ));
     } else if upper.len() <= 4
         && upper.chars().all(|c| c.is_ascii_alphabetic())
         && let Some(m) = codes.mvx_code(&upper)
@@ -263,7 +293,12 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
         cvxs.dedup();
         for cv in cvxs.iter().take(limit) {
             if let Some(c) = codes.cvx_code(cv) {
-                matches.push(build_match(&codes, c, format!("MVX {}", m.mvx), args.include_inactive));
+                matches.push(build_match(
+                    &codes,
+                    c,
+                    format!("MVX {}", m.mvx),
+                    args.include_inactive,
+                ));
             }
         }
     } else {
@@ -293,9 +328,18 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
         }
         let ranked = text::rank(&q, &cands, |c| c.keys.clone(), 0.80);
         let top = ranked.first().map(|r| r.score).unwrap_or(0.0);
-        for r in ranked.into_iter().filter(|r| r.score >= top - 0.08).take(limit) {
+        for r in ranked
+            .into_iter()
+            .filter(|r| r.score >= top - 0.08)
+            .take(limit)
+        {
             if let Some(c) = codes.cvx_code(&cands[r.index].cvx) {
-                matches.push(build_match(&codes, c, r.matched_on.clone(), args.include_inactive));
+                matches.push(build_match(
+                    &codes,
+                    c,
+                    r.matched_on.clone(),
+                    args.include_inactive,
+                ));
             }
         }
         if matches.is_empty() {
@@ -362,7 +406,11 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
                 "- {}: licensed/minimum ages — {}; storage — {} (source: {})\n",
                 p.trade_name,
                 p.licensed_ages,
-                PRODUCT_INFO.storage_classes.get(&p.storage).cloned().unwrap_or_else(|| p.storage.clone()),
+                PRODUCT_INFO
+                    .storage_classes
+                    .get(&p.storage)
+                    .cloned()
+                    .unwrap_or_else(|| p.storage.clone()),
                 p.ages_source
             ));
         }
@@ -371,7 +419,12 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
                 "- Current VIS: {}\n",
                 m.vis
                     .iter()
-                    .map(|v| format!("{} ({}{})", v.title, v.date.clone().unwrap_or_default(), if v.interim { ", interim" } else { "" }))
+                    .map(|v| format!(
+                        "{} ({}{})",
+                        v.title,
+                        v.date.clone().unwrap_or_default(),
+                        if v.interim { ", interim" } else { "" }
+                    ))
                     .collect::<Vec<_>>()
                     .join("; ")
             ));
@@ -381,9 +434,20 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
             let rows: Vec<Vec<String>> = m
                 .ndcs
                 .iter()
-                .map(|n| vec![n.ndc.clone(), n.level.clone(), n.proprietary_name.clone(), n.packaging.clone(), n.end_date.clone().unwrap_or_default()])
+                .map(|n| {
+                    vec![
+                        n.ndc.clone(),
+                        n.level.clone(),
+                        n.proprietary_name.clone(),
+                        n.packaging.clone(),
+                        n.end_date.clone().unwrap_or_default(),
+                    ]
+                })
                 .collect();
-            summary.push_str(&md::table(&["NDC", "Unit", "Product", "Packaging", "End date"], &rows));
+            summary.push_str(&md::table(
+                &["NDC", "Unit", "Product", "Packaging", "End date"],
+                &rows,
+            ));
             if m.ndc_total > m.ndcs.len() {
                 summary.push_str(&format!("…{} NDCs in all.\n", m.ndc_total));
             }

@@ -306,7 +306,12 @@ async fn school_check_one_student() {
         "2021-06-15",
         "2024-03-11",
     ]);
-    let s = call_ok(&h, "check_ma_school_immunization_requirements", early.clone()).await;
+    let s = call_ok(
+        &h,
+        "check_ma_school_immunization_requirements",
+        early.clone(),
+    )
+    .await;
     assert_eq!(status_of(&s, "DTaP")["status"], "met");
     let mut strict = early;
     strict["apply_grace_period"] = json!(false);
@@ -451,8 +456,16 @@ async fn coverage_ranks_schools_and_compares_with_the_us() {
     assert!(!d["comparison"].as_array().unwrap().is_empty());
     assert!(caveats(&s).contains("fewer than 30"));
     let sources = s["sources"].as_array().unwrap();
-    assert!(sources.iter().any(|x| x["url"].as_str().unwrap_or("").contains("mass.gov")));
-    assert!(sources.iter().any(|x| x["url"].as_str().unwrap_or("").contains("data.cdc.gov")));
+    assert!(
+        sources
+            .iter()
+            .any(|x| x["url"].as_str().unwrap_or("").contains("mass.gov"))
+    );
+    assert!(
+        sources
+            .iter()
+            .any(|x| x["url"].as_str().unwrap_or("").contains("data.cdc.gov"))
+    );
 
     // Statewide exemptions, highest first.
     let s = call_ok(
@@ -638,8 +651,7 @@ async fn product_lookup_by_name_code_manufacturer_and_ndc() {
     )
     .await;
     assert!(
-        s2["data"]["matches"][0]["ndc_total"].as_u64().unwrap()
-            > m["ndc_total"].as_u64().unwrap()
+        s2["data"]["matches"][0]["ndc_total"].as_u64().unwrap() > m["ndc_total"].as_u64().unwrap()
     );
 
     // MVX code.

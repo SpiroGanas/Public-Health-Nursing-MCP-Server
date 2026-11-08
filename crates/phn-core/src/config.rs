@@ -127,9 +127,7 @@ pub struct Settings {
 /// Order of precedence used to pick the "basis" recommendation when federal
 /// (CDC/ACIP) vaccine guidance differs from Massachusetts DPH and the
 /// professional societies (AAP, ACOG, AAFP).
-#[derive(
-    Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize, JsonSchema,
-)]
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum VaccineRecommendationBasis {
     /// DPH's position where it has one; otherwise the professional society for

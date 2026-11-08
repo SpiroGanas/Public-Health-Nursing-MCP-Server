@@ -489,7 +489,6 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"statewide": true, "local_path": "line_list.csv"}),
             ll,
         ),
-
         // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)
     ];
     for (name, args, file) in checks {

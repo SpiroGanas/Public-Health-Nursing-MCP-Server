@@ -43,10 +43,17 @@ pub fn syllables(word: &str) -> usize {
         prev = v;
     }
     let n = chars.len();
-    if chars[n - 1] == 'e' && !(n >= 3 && chars[n - 2] == 'l' && !is_vowel(chars[n - 3])) && count > 1 {
+    if chars[n - 1] == 'e'
+        && !(n >= 3 && chars[n - 2] == 'l' && !is_vowel(chars[n - 3]))
+        && count > 1
+    {
         count -= 1;
     }
-    if (w.ends_with("ed") || w.ends_with("es")) && n > 4 && !matches!(chars[n - 3], 't' | 'd' | 's' | 'x' | 'z' | 'c' | 'g') && count > 1 {
+    if (w.ends_with("ed") || w.ends_with("es"))
+        && n > 4
+        && !matches!(chars[n - 3], 't' | 'd' | 's' | 'x' | 'z' | 'c' | 'g')
+        && count > 1
+    {
         count -= 1;
     }
     count.max(1)
@@ -56,7 +63,10 @@ pub fn syllables(word: &str) -> usize {
 pub fn flesch_kincaid(text: &str) -> Readability {
     let sentences = text
         .split(['.', '!', '?', ';', ':', '\n'])
-        .filter(|s| s.split_whitespace().any(|w| w.chars().any(char::is_alphanumeric)))
+        .filter(|s| {
+            s.split_whitespace()
+                .any(|w| w.chars().any(char::is_alphanumeric))
+        })
         .count()
         .max(1);
     let words: Vec<&str> = text
@@ -66,9 +76,16 @@ pub fn flesch_kincaid(text: &str) -> Readability {
     let n_words = words.len().max(1);
     let syl: usize = words
         .iter()
-        .map(|w| if w.chars().any(|c| c.is_ascii_alphabetic()) { syllables(w) } else { 1 })
+        .map(|w| {
+            if w.chars().any(|c| c.is_ascii_alphabetic()) {
+                syllables(w)
+            } else {
+                1
+            }
+        })
         .sum();
-    let grade = 0.39 * (n_words as f64 / sentences as f64) + 11.8 * (syl as f64 / n_words as f64) - 15.59;
+    let grade =
+        0.39 * (n_words as f64 / sentences as f64) + 11.8 * (syl as f64 / n_words as f64) - 15.59;
     Readability {
         words: words.len(),
         sentences,
@@ -83,7 +100,15 @@ mod tests {
 
     #[test]
     fn counts_syllables_reasonably() {
-        for (w, n) in [("cat", 1), ("vaccine", 2), ("immunization", 5), ("table", 2), ("made", 1), ("protected", 3), ("baby", 2)] {
+        for (w, n) in [
+            ("cat", 1),
+            ("vaccine", 2),
+            ("immunization", 5),
+            ("table", 2),
+            ("made", 1),
+            ("protected", 3),
+            ("baby", 2),
+        ] {
             assert_eq!(syllables(w), n, "{w}");
         }
     }
@@ -95,7 +120,9 @@ mod tests {
         let r = flesch_kincaid("The cat sat on the mat. The dog ran.");
         assert_eq!((r.words, r.sentences, r.syllables), (9, 2, 9));
         assert!((r.fk_grade - (-2.0)).abs() < 0.11, "{}", r.fk_grade);
-        let hard = flesch_kincaid("Immunization recommendations necessitate comprehensive individualized consideration.");
+        let hard = flesch_kincaid(
+            "Immunization recommendations necessitate comprehensive individualized consideration.",
+        );
         assert!(hard.fk_grade > 16.0, "{}", hard.fk_grade);
     }
 }

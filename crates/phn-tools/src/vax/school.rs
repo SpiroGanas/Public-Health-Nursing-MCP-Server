@@ -88,7 +88,9 @@ pub struct SchoolCheckArgs {
 }
 
 /// Status of one requirement.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum ReqStatus {
     /// Requirement satisfied by doses or proof of immunity.
@@ -208,7 +210,8 @@ fn antigens_for_key(key: &str) -> Option<&'static [&'static str]> {
         "dtap_ipv_hib" | "pentacel" => &["dtap", "polio", "hib"],
         "dtap_ipv_hib_hepb" | "vaxelis" => &["dtap", "polio", "hib", "hepb"],
         "ipv" | "polio" | "opv" | "ipol" => &["polio"],
-        "hepb" | "hep_b" | "hepatitis_b" | "engerix" | "engerix_b" | "recombivax" | "recombivax_hb" => &["hepb"],
+        "hepb" | "hep_b" | "hepatitis_b" | "engerix" | "engerix_b" | "recombivax"
+        | "recombivax_hb" => &["hepb"],
         "heplisav" | "heplisav_b" | "hepb_cpg" => &["heplisav"],
         "hib" | "acthib" | "hiberix" | "pedvaxhib" => &["hib"],
         "mmr" | "m_m_r_ii" | "mmr_ii" | "priorix" => &["mmr"],
@@ -390,7 +393,10 @@ fn next_dose_date(
         span(rule.plan_min_age.as_deref().unwrap_or(&rule.min_age)),
     );
     if let Some(prev) = valid.last()
-        && let Some(iv) = rule.plan_min_interval.as_ref().or(rule.min_interval.as_ref())
+        && let Some(iv) = rule
+            .plan_min_interval
+            .as_ref()
+            .or(rule.min_interval.as_ref())
     {
         earliest = earliest.max(dates::add(*prev, span(iv)));
     }
@@ -431,14 +437,15 @@ pub fn setting_for(grade: &str, age_years: i32) -> Result<(&'static str, String)
     let g = g.trim_start_matches("GRADE").trim().to_string();
     let label = |s: &str| s.to_string();
     Ok(match g.as_str() {
-        "PK" | "PRE-K" | "PREK" | "K0" | "K1" | "PRESCHOOL" | "CHILDCARE" | "CHILD CARE" | "DAYCARE" => {
-            ("childcare_preschool", label("PK"))
-        }
+        "PK" | "PRE-K" | "PREK" | "K0" | "K1" | "PRESCHOOL" | "CHILDCARE" | "CHILD CARE"
+        | "DAYCARE" => ("childcare_preschool", label("PK")),
         "K" | "K2" | "KG" | "KINDERGARTEN" => ("k_6", label("K")),
         "1" | "2" | "3" | "4" | "5" | "6" | "01" | "02" | "03" | "04" | "05" | "06" => {
             ("k_6", g.trim_start_matches('0').to_string())
         }
-        "7" | "8" | "9" | "10" | "11" | "12" | "07" | "08" | "09" => ("grades_7_12", g.trim_start_matches('0').to_string()),
+        "7" | "8" | "9" | "10" | "11" | "12" | "07" | "08" | "09" => {
+            ("grades_7_12", g.trim_start_matches('0').to_string())
+        }
         "COLLEGE" | "UNIVERSITY" | "POSTSECONDARY" | "13" => ("college", label("college")),
         "UNGRADED" | "U" | "SP" | "SPED" => {
             if age_years >= 16 {
@@ -495,9 +502,17 @@ impl Eval<'_> {
 
     fn validated(&self, antigen: &str, series_id: &str) -> Option<(Validated, &'static Series)> {
         let series = SCHED.series(series_id)?;
-        let doses = self.hist.by_antigen.get(antigen).cloned().unwrap_or_default();
+        let doses = self
+            .hist
+            .by_antigen
+            .get(antigen)
+            .cloned()
+            .unwrap_or_default();
         let conflict = self.live_conflict_for(antigen);
-        Some((validate(self.st.dob, &doses, series, self.grace, conflict), series))
+        Some((
+            validate(self.st.dob, &doses, series, self.grace, conflict),
+            series,
+        ))
     }
 
     fn result(&self, req: &Requirement, status: ReqStatus, reason: String) -> RequirementResult {
@@ -557,7 +572,10 @@ impl Eval<'_> {
                 r.reason = format!(
                     "{}; laboratory evidence is on file only for {} (evidence for {} is needed)",
                     r.reason,
-                    have.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", "),
+                    have.iter()
+                        .map(|s| s.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", "),
                     rule.lab_evidence.join(", ")
                 );
                 return r;
@@ -574,7 +592,9 @@ impl Eval<'_> {
             use chrono::Datelike;
             if !c.health_science && c.born_in_us == Some(true) && self.st.dob.year() < year {
                 r.status = ReqStatus::Met;
-                r.reason = format!("born in the U.S. before {year} (acceptable for non-health-science students)");
+                r.reason = format!(
+                    "born in the U.S. before {year} (acceptable for non-health-science students)"
+                );
                 r.earliest_next_dose = None;
                 r.eligible_now = false;
                 return r;
@@ -609,7 +629,11 @@ impl Eval<'_> {
         {
             let hv = validate(self.st.dob, hep, hs, self.grace, |_| None);
             if hv.valid.len() >= 2 {
-                let mut r = self.result(req, ReqStatus::Met, "2 valid doses of Heplisav-B given at 18 or older".into());
+                let mut r = self.result(
+                    req,
+                    ReqStatus::Met,
+                    "2 valid doses of Heplisav-B given at 18 or older".into(),
+                );
                 r.valid_doses = 2;
                 r.invalid_doses = hv.invalid;
                 return r;
@@ -633,7 +657,9 @@ impl Eval<'_> {
                     let prev = v.valid[v.valid.len() - 2];
                     let due = dates::add(prev, span(iv));
                     if !dates::meets(last, due, self.grace) {
-                        fail.push(format!("the last dose was less than {iv} after the previous dose"));
+                        fail.push(format!(
+                            "the last dose was less than {iv} after the previous dose"
+                        ));
                     }
                 }
                 if fail.is_empty() {
@@ -697,7 +723,11 @@ impl Eval<'_> {
                     return self.result(req, ReqStatus::NeedsReview, "rule not available".into());
                 };
                 let tenth = dates::date_at_age(dob, Span::years(10));
-                let ok: Vec<&NaiveDate> = v.valid.iter().filter(|d| dates::meets(**d, tenth, self.grace)).collect();
+                let ok: Vec<&NaiveDate> = v
+                    .valid
+                    .iter()
+                    .filter(|d| dates::meets(**d, tenth, self.grace))
+                    .collect();
                 let mut r = if ok.is_empty() {
                     let mut r = self.result(
                         req,
@@ -708,10 +738,22 @@ impl Eval<'_> {
                             "no MenACWY dose on or after the 10th birthday".into()
                         },
                     );
-                    r = self.with_next(r, tenth.max(v.valid.last().map(|d| dates::add(*d, Span::weeks(8))).unwrap_or(tenth)));
+                    r = self.with_next(
+                        r,
+                        tenth.max(
+                            v.valid
+                                .last()
+                                .map(|d| dates::add(*d, Span::weeks(8)))
+                                .unwrap_or(tenth),
+                        ),
+                    );
                     r
                 } else {
-                    self.result(req, ReqStatus::Met, "a MenACWY dose was given on or after the 10th birthday".into())
+                    self.result(
+                        req,
+                        ReqStatus::Met,
+                        "a MenACWY dose was given on or after the 10th birthday".into(),
+                    )
                 };
                 r.valid_doses = ok.len();
                 r.invalid_doses = v.invalid;
@@ -725,9 +767,17 @@ impl Eval<'_> {
                     return self.result(req, ReqStatus::NeedsReview, "rule not available".into());
                 };
                 let sixteenth = dates::date_at_age(dob, Span::years(16));
-                let ok = v.valid.iter().filter(|d| dates::meets(**d, sixteenth, self.grace)).count();
+                let ok = v
+                    .valid
+                    .iter()
+                    .filter(|d| dates::meets(**d, sixteenth, self.grace))
+                    .count();
                 let mut r = if ok > 0 {
-                    self.result(req, ReqStatus::Met, "a MenACWY dose was given on or after the 16th birthday".into())
+                    self.result(
+                        req,
+                        ReqStatus::Met,
+                        "a MenACWY dose was given on or after the 16th birthday".into(),
+                    )
                 } else if self.age() < 16 {
                     let mut r = self.result(
                         req,
@@ -736,7 +786,12 @@ impl Eval<'_> {
                     );
                     r.earliest_next_dose = Some(
                         sixteenth
-                            .max(v.valid.last().map(|d| dates::add(*d, Span::weeks(8))).unwrap_or(sixteenth))
+                            .max(
+                                v.valid
+                                    .last()
+                                    .map(|d| dates::add(*d, Span::weeks(8)))
+                                    .unwrap_or(sixteenth),
+                            )
                             .to_string(),
                     );
                     r
@@ -746,35 +801,65 @@ impl Eval<'_> {
                         ReqStatus::NotMet,
                         "no valid MenACWY dose on or after the 16th birthday".into(),
                     );
-                    self.with_next(r, sixteenth.max(v.valid.last().map(|d| dates::add(*d, Span::weeks(8))).unwrap_or(sixteenth)))
+                    self.with_next(
+                        r,
+                        sixteenth.max(
+                            v.valid
+                                .last()
+                                .map(|d| dates::add(*d, Span::weeks(8)))
+                                .unwrap_or(sixteenth),
+                        ),
+                    )
                 };
                 r.valid_doses = v.valid.len();
                 r.invalid_doses = v.invalid;
                 r
             }
             Special::MenCollege => {
-                let full_time = self.st.college.as_ref().and_then(|c| c.full_time).unwrap_or(true);
+                let full_time = self
+                    .st
+                    .college
+                    .as_ref()
+                    .and_then(|c| c.full_time)
+                    .unwrap_or(true);
                 if !full_time || self.age() > 21 {
                     return self.result(
                         req,
                         ReqStatus::NotApplicable,
-                        "the MenACWY requirement applies to full-time students 21 or younger".into(),
+                        "the MenACWY requirement applies to full-time students 21 or younger"
+                            .into(),
                     );
                 }
                 let Some((v, _)) = self.men_doses() else {
                     return self.result(req, ReqStatus::NeedsReview, "rule not available".into());
                 };
                 let sixteenth = dates::date_at_age(dob, Span::years(16));
-                let ok = v.valid.iter().filter(|d| dates::meets(**d, sixteenth, self.grace)).count();
+                let ok = v
+                    .valid
+                    .iter()
+                    .filter(|d| dates::meets(**d, sixteenth, self.grace))
+                    .count();
                 let mut r = if ok > 0 {
-                    self.result(req, ReqStatus::Met, "a MenACWY dose was given on or after the 16th birthday".into())
+                    self.result(
+                        req,
+                        ReqStatus::Met,
+                        "a MenACWY dose was given on or after the 16th birthday".into(),
+                    )
                 } else {
                     let r = self.result(
                         req,
                         ReqStatus::NotMet,
                         "no MenACWY dose on or after the 16th birthday (the student may instead sign the MDPH meningococcal information and waiver form)".into(),
                     );
-                    self.with_next(r, sixteenth.max(v.valid.last().map(|d| dates::add(*d, Span::weeks(8))).unwrap_or(sixteenth)))
+                    self.with_next(
+                        r,
+                        sixteenth.max(
+                            v.valid
+                                .last()
+                                .map(|d| dates::add(*d, Span::weeks(8)))
+                                .unwrap_or(sixteenth),
+                        ),
+                    )
                 };
                 r.valid_doses = ok;
                 r.invalid_doses = v.invalid;
@@ -804,21 +889,39 @@ impl Eval<'_> {
         };
         let at = |m: u32| dates::date_at_age(dob, Span::months(m));
         let after_15m = v.valid.iter().any(|d| dates::meets(*d, at(15), self.grace));
-        let after_12m: Vec<&NaiveDate> = v.valid.iter().filter(|d| dates::meets(**d, at(12), self.grace)).collect();
+        let after_12m: Vec<&NaiveDate> = v
+            .valid
+            .iter()
+            .filter(|d| dates::meets(**d, at(12), self.grace))
+            .collect();
         let n = v.valid.len();
         let (status, reason) = if after_15m {
-            (ReqStatus::Met, "a valid Hib dose was given at 15 months or older".to_string())
+            (
+                ReqStatus::Met,
+                "a valid Hib dose was given at 15 months or older".to_string(),
+            )
         } else if after_12m.len() >= 2 {
-            (ReqStatus::Met, "two valid Hib doses at 12 months or older".to_string())
+            (
+                ReqStatus::Met,
+                "two valid Hib doses at 12 months or older".to_string(),
+            )
         } else if n >= 4 && !after_12m.is_empty() {
-            (ReqStatus::Met, "4-dose series with a booster at 12 months or older".to_string())
+            (
+                ReqStatus::Met,
+                "4-dose series with a booster at 12 months or older".to_string(),
+            )
         } else if n >= 3 && !after_12m.is_empty() {
             (
                 ReqStatus::NeedsReview,
                 "3 doses with a booster at 12 months or older: complete if PedvaxHIB (PRP-OMP) was used for the primary doses; a 4th dose is needed for other products".to_string(),
             )
         } else {
-            (ReqStatus::NotMet, format!("{n} valid Hib dose(s); a dose at 12 months or older is needed (number of doses depends on product and age at start)"))
+            (
+                ReqStatus::NotMet,
+                format!(
+                    "{n} valid Hib dose(s); a dose at 12 months or older is needed (number of doses depends on product and age at start)"
+                ),
+            )
         };
         let mut r = self.result(req, status, reason);
         r.valid_doses = n;
@@ -847,7 +950,11 @@ impl Eval<'_> {
             .map(|a| self.hist.by_antigen.get(a).map(Vec::len).unwrap_or(0))
             .sum();
         if v.valid.is_empty() {
-            let r = self.result(req, ReqStatus::NotMet, "no Tdap dose at 7 years or older on record".into());
+            let r = self.result(
+                req,
+                ReqStatus::NotMet,
+                "no Tdap dose at 7 years or older on record".into(),
+            );
             return self.with_next(r, next_dose_date(dob, &[], v.last_invalid, series));
         }
         let mut r = if tetanus_doses < 3 {
@@ -859,14 +966,20 @@ impl Eval<'_> {
                 ),
             )
         } else {
-            self.result(req, ReqStatus::Met, "a Tdap dose at 7 years or older and a primary series on record".into())
+            self.result(
+                req,
+                ReqStatus::Met,
+                "a Tdap dose at 7 years or older and a primary series on record".into(),
+            )
         };
         r.valid_doses = v.valid.len();
         r.invalid_doses = v.invalid;
         if let Some(last) = v.valid.last()
             && dates::add(*last, Span::years(10)) <= self.as_of
         {
-            r.reason.push_str("; it has been 10 or more years since the last Tdap: Td or Tdap should be given");
+            r.reason.push_str(
+                "; it has been 10 or more years since the last Tdap: Td or Tdap should be given",
+            );
         }
         r
     }
@@ -880,7 +993,9 @@ pub fn evaluate_student(
 ) -> Result<(&'static str, String, Vec<RequirementResult>, Vec<String>)> {
     let age = dates::age_years(st.dob, as_of);
     if st.dob > as_of {
-        return Err(PhnError::InvalidInput("date of birth is after the evaluation date".into()));
+        return Err(PhnError::InvalidInput(
+            "date of birth is after the evaluation date".into(),
+        ));
     }
     let (setting_id, grade) = setting_for(&st.grade, age)?;
     let setting = SCHOOL_REQS
@@ -899,16 +1014,21 @@ pub fn evaluate_student(
     if hist.menb_given {
         notes.push("MenB (Bexsero, Trumenba) does not meet the meningococcal requirement.".into());
     }
-    let ev = Eval { st, hist, as_of, grace };
-    let under_min_age = setting
-        .min_age_years
-        .is_some_and(|m| age < m as i32);
+    let ev = Eval {
+        st,
+        hist,
+        as_of,
+        grace,
+    };
+    let under_min_age = setting.min_age_years.is_some_and(|m| age < m as i32);
     let mut out = Vec::new();
     for req in &setting.requirements {
         if !req.grades.is_empty() && !req.grades.iter().any(|g| g.eq_ignore_ascii_case(&grade)) {
             continue;
         }
-        if req.rule.special == Some(Special::ResidentialMeningococcal) && !st.residential_combined_school {
+        if req.rule.special == Some(Special::ResidentialMeningococcal)
+            && !st.residential_combined_school
+        {
             continue;
         }
         if under_min_age {
@@ -922,7 +1042,9 @@ pub fn evaluate_student(
             continue;
         }
         let r = ev.evaluate(req);
-        if r.status == ReqStatus::NotApplicable && req.rule.special == Some(Special::ResidentialMeningococcal) {
+        if r.status == ReqStatus::NotApplicable
+            && req.rule.special == Some(Special::ResidentialMeningococcal)
+        {
             continue;
         }
         out.push(r);
@@ -973,7 +1095,10 @@ fn base_caveats(grace: bool) -> Vec<String> {
     for f in &SCHOOL_REQS.flags {
         c.push(f.text.clone());
     }
-    c.extend(content::review_caveats(&[content::SCHOOL, content::SCHEDULE]));
+    c.extend(content::review_caveats(&[
+        content::SCHOOL,
+        content::SCHEDULE,
+    ]));
     c
 }
 
@@ -1023,12 +1148,21 @@ pub fn check_ma_school_immunization_requirements(
         grade,
         dob,
         doses: args.doses.clone(),
-        lab_immunity: args.lab_immunity.iter().map(|s| s.trim().to_ascii_lowercase()).collect(),
+        lab_immunity: args
+            .lab_immunity
+            .iter()
+            .map(|s| s.trim().to_ascii_lowercase())
+            .collect(),
         varicella_history: args.varicella_history,
         exemptions: args
             .exemptions
             .iter()
-            .map(|e| (normalize_vaccine_key(&e.vaccine), e.kind.trim().to_ascii_lowercase()))
+            .map(|e| {
+                (
+                    normalize_vaccine_key(&e.vaccine),
+                    e.kind.trim().to_ascii_lowercase(),
+                )
+            })
             .collect(),
         college: args.college.clone(),
         residential_combined_school: args.residential_combined_school,
@@ -1044,7 +1178,14 @@ pub fn check_ma_school_immunization_requirements(
     }
     let (setting_id, grade_label, results, mut notes) = evaluate_student(&st, as_of, grace)?;
     if st.exemptions.values().any(|k| k.starts_with("med")) {
-        notes.push(SCHOOL_REQS.exemptions.medical.renewal.clone().replace("must", "Medical exemptions must"));
+        notes.push(
+            SCHOOL_REQS
+                .exemptions
+                .medical
+                .renewal
+                .clone()
+                .replace("must", "Medical exemptions must"),
+        );
     }
 
     let mut summary = format!(
@@ -1067,10 +1208,17 @@ pub fn check_ma_school_immunization_requirements(
             ]
         })
         .collect();
-    summary.push_str(&md::table(&["Requirement", "Status", "Why", "Earliest next dose"], &rows));
+    summary.push_str(&md::table(
+        &["Requirement", "Status", "Why", "Earliest next dose"],
+        &rows,
+    ));
     let invalid: Vec<String> = results
         .iter()
-        .flat_map(|r| r.invalid_doses.iter().map(move |d| format!("{} {}: {}", r.label, d.date, d.reason)))
+        .flat_map(|r| {
+            r.invalid_doses
+                .iter()
+                .map(move |d| format!("{} {}: {}", r.label, d.date, d.reason))
+        })
         .collect();
     if !invalid.is_empty() {
         summary.push_str("\n**Doses that do not count**\n");
@@ -1155,7 +1303,16 @@ fn batch(
         label,
         findings,
     } = lt;
-    let dob_col = find_col(&table, &["date_of_birth", "dob", "birth_date", "birthdate", "date_birth"]);
+    let dob_col = find_col(
+        &table,
+        &[
+            "date_of_birth",
+            "dob",
+            "birth_date",
+            "birthdate",
+            "date_birth",
+        ],
+    );
     let grade_col = find_col(&table, &["grade", "grade_level", "grade_entering"]);
     let (Some(dob_col), Some(grade_col)) = (dob_col, grade_col) else {
         return Err(PhnError::InvalidInput(format!(
@@ -1178,8 +1335,18 @@ fn batch(
                 .into(),
         ));
     }
-    let lab_col = find_col(&table, &["lab_immunity", "laboratory_evidence", "titers", "serology"]);
-    let hist_col = find_col(&table, &["varicella_history", "chickenpox_history", "history_of_chickenpox"]);
+    let lab_col = find_col(
+        &table,
+        &["lab_immunity", "laboratory_evidence", "titers", "serology"],
+    );
+    let hist_col = find_col(
+        &table,
+        &[
+            "varicella_history",
+            "chickenpox_history",
+            "history_of_chickenpox",
+        ],
+    );
     let ex_col = find_col(&table, &["exemptions", "exemption"]);
     let hs_col = find_col(&table, &["health_science"]);
     let ft_col = find_col(&table, &["full_time"]);
@@ -1196,10 +1363,15 @@ fn batch(
                 || vaccine_cols.iter().any(|(v, _)| v == i)
                 || [lab_col, hist_col, ex_col, hs_col, ft_col, us_col, res_col].contains(&Some(*i));
             !input_col
-                && (findings.iter().any(|f| &f.column == *h && f.kind.is_direct())
+                && (findings
+                    .iter()
+                    .any(|f| &f.column == *h && f.kind.is_direct())
                     || {
                         let n = phn_core::text::normalize(h);
-                        n.contains("name") || n.contains("student id") || n == "id" || n.contains("sasid")
+                        n.contains("name")
+                            || n.contains("student id")
+                            || n == "id"
+                            || n.contains("sasid")
                     })
         })
         .map(|(i, _)| i)
@@ -1225,7 +1397,10 @@ fn batch(
             continue;
         }
         let Some(dob) = dates::parse_date(cell(dob_col)) else {
-            fail("date of birth is missing or not a date".into(), &mut problems);
+            fail(
+                "date of birth is missing or not a date".into(),
+                &mut problems,
+            );
             continue;
         };
         let mut doses: BTreeMap<String, Vec<String>> = BTreeMap::new();
@@ -1251,7 +1426,13 @@ fn batch(
             dob,
             doses,
             lab_immunity: lab_col
-                .map(|c| cell(c).split([';', ',']).map(|s| s.trim().to_ascii_lowercase()).filter(|s| !s.is_empty()).collect())
+                .map(|c| {
+                    cell(c)
+                        .split([';', ','])
+                        .map(|s| s.trim().to_ascii_lowercase())
+                        .filter(|s| !s.is_empty())
+                        .collect()
+                })
                 .unwrap_or_default(),
             varicella_history: hist_col.is_some_and(|c| truthy(cell(c))),
             exemptions,
@@ -1268,7 +1449,12 @@ fn batch(
                 let mut line = vec![(ri + 2).to_string()];
                 line.extend(ids.clone());
                 line.push(grade.clone());
-                let all_met = results.iter().all(|r| matches!(r.status, ReqStatus::Met | ReqStatus::NotApplicable | ReqStatus::NotYetDue));
+                let all_met = results.iter().all(|r| {
+                    matches!(
+                        r.status,
+                        ReqStatus::Met | ReqStatus::NotApplicable | ReqStatus::NotYetDue
+                    )
+                });
                 line.push(if all_met { "yes".into() } else { "no".into() });
                 let mut statuses = Vec::new();
                 for r in &results {
@@ -1289,7 +1475,11 @@ fn batch(
                         r.status.label().to_string(),
                         r.reason.clone(),
                         r.earliest_next_dose.clone().unwrap_or_default(),
-                        r.invalid_doses.iter().map(|x| format!("{} ({})", x.date, x.reason)).collect::<Vec<_>>().join("; "),
+                        r.invalid_doses
+                            .iter()
+                            .map(|x| format!("{} ({})", x.date, x.reason))
+                            .collect::<Vec<_>>()
+                            .join("; "),
                     ]);
                     detail_rows.push(d);
                 }
@@ -1304,10 +1494,24 @@ fn batch(
     let id_headers: Vec<String> = id_cols.iter().map(|&i| table.headers[i].clone()).collect();
     let mut h1 = vec!["Row".to_string()];
     h1.extend(id_headers.clone());
-    h1.extend(["Grade".into(), "All requirements met or not yet due".into(), "Requirement statuses".into()]);
+    h1.extend([
+        "Grade".into(),
+        "All requirements met or not yet due".into(),
+        "Requirement statuses".into(),
+    ]);
     let mut h2 = vec!["Row".to_string()];
     h2.extend(id_headers.clone());
-    h2.extend(["Grade", "Requirement", "Status", "Why", "Earliest next dose", "Doses that do not count"].map(String::from));
+    h2.extend(
+        [
+            "Grade",
+            "Requirement",
+            "Status",
+            "Why",
+            "Earliest next dose",
+            "Doses that do not count",
+        ]
+        .map(String::from),
+    );
     let mut h3 = vec!["Row".to_string()];
     h3.extend(id_headers);
     h3.push("Problem".into());
@@ -1362,12 +1566,18 @@ fn batch(
     let mut count_rows = Vec::new();
     let mut any_suppressed = false;
     for g in &grades {
-        let reqs: Vec<&String> = req_order.iter().filter(|r| counts.contains_key(&(g.clone(), (*r).clone()))).collect();
+        let reqs: Vec<&String> = req_order
+            .iter()
+            .filter(|r| counts.contains_key(&(g.clone(), (*r).clone())))
+            .collect();
         let matrix: Vec<Vec<Option<u64>>> = reqs
             .iter()
             .map(|r| {
                 let m = &counts[&(g.clone(), (*r).clone())];
-                statuses.iter().map(|s| Some(*m.get(s).unwrap_or(&0))).collect()
+                statuses
+                    .iter()
+                    .map(|s| Some(*m.get(s).unwrap_or(&0)))
+                    .collect()
             })
             .collect();
         let sup = suppress(
@@ -1384,7 +1594,11 @@ fn batch(
                 let v = matrix[ri][ci].unwrap_or(0);
                 m.insert(
                     s.label().to_string(),
-                    if sup.is_hidden(ri, ci) { "*".to_string() } else { v.to_string() },
+                    if sup.is_hidden(ri, ci) {
+                        "*".to_string()
+                    } else {
+                        v.to_string()
+                    },
                 );
             }
             count_rows.push(CountRow {
@@ -1399,7 +1613,14 @@ fn batch(
         "**School immunization requirements — roster check ({} school year)**\n\n{evaluated} of {} student row(s) evaluated on {as_of}{}. Per-student results were written to `{out_display}` (not shown here).\n\n",
         SCHOOL_REQS.school_year,
         evaluated + problems.len(),
-        if problems.is_empty() { String::new() } else { format!("; {} row(s) could not be evaluated (listed in the output file)", problems.len()) },
+        if problems.is_empty() {
+            String::new()
+        } else {
+            format!(
+                "; {} row(s) could not be evaluated (listed in the output file)",
+                problems.len()
+            )
+        },
     );
     let mut headers = vec!["Grade", "Requirement"];
     let labels: Vec<&str> = statuses.iter().map(|s| s.label()).collect();
@@ -1408,7 +1629,11 @@ fn batch(
         .iter()
         .map(|r| {
             let mut v = vec![r.grade.clone(), r.requirement.clone()];
-            v.extend(labels.iter().map(|l| r.counts.get(*l).cloned().unwrap_or_default()));
+            v.extend(
+                labels
+                    .iter()
+                    .map(|l| r.counts.get(*l).cloned().unwrap_or_default()),
+            );
             v
         })
         .collect();
@@ -1471,7 +1696,10 @@ fn grade_rank(g: &str) -> (u32, String) {
         "PK" => (0, String::new()),
         "K" => (1, String::new()),
         "college" => (20, String::new()),
-        other => (other.parse::<u32>().map(|n| n + 1).unwrap_or(30), other.to_string()),
+        other => (
+            other.parse::<u32>().map(|n| n + 1).unwrap_or(30),
+            other.to_string(),
+        ),
     }
 }
 
@@ -1500,7 +1728,11 @@ mod tests {
     }
 
     fn status(results: &[RequirementResult], id: &str) -> ReqStatus {
-        results.iter().find(|r| r.requirement_id == id).unwrap().status
+        results
+            .iter()
+            .find(|r| r.requirement_id == id)
+            .unwrap()
+            .status
     }
 
     /// A kindergartner who received every dose on the routine schedule.
@@ -1510,8 +1742,20 @@ mod tests {
             "K",
             "2021-03-10",
             &[
-                ("dtap", &["2021-05-10", "2021-07-12", "2021-09-10", "2022-06-10", "2025-03-12"]),
-                ("polio", &["2021-05-10", "2021-07-12", "2021-09-10", "2025-03-12"]),
+                (
+                    "dtap",
+                    &[
+                        "2021-05-10",
+                        "2021-07-12",
+                        "2021-09-10",
+                        "2022-06-10",
+                        "2025-03-12",
+                    ],
+                ),
+                (
+                    "polio",
+                    &["2021-05-10", "2021-07-12", "2021-09-10", "2025-03-12"],
+                ),
                 ("hepb", &["2021-03-11", "2021-05-10", "2021-09-10"]),
                 ("mmr", &["2022-03-15", "2025-03-12"]),
                 ("varicella", &["2022-03-15", "2025-03-12"]),
@@ -1526,10 +1770,24 @@ mod tests {
 
     #[test]
     fn four_dtap_doses_count_only_when_the_fourth_is_after_the_4th_birthday() {
-        let ok = student("K", "2020-01-01", &[("dtap", &["2020-03-01", "2020-05-01", "2020-07-01", "2024-01-03"])]);
+        let ok = student(
+            "K",
+            "2020-01-01",
+            &[(
+                "dtap",
+                &["2020-03-01", "2020-05-01", "2020-07-01", "2024-01-03"],
+            )],
+        );
         let (_, _, r, _) = evaluate_student(&ok, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "dtap"), ReqStatus::Met);
-        let short = student("K", "2020-01-01", &[("dtap", &["2020-03-01", "2020-05-01", "2020-07-01", "2021-03-01"])]);
+        let short = student(
+            "K",
+            "2020-01-01",
+            &[(
+                "dtap",
+                &["2020-03-01", "2020-05-01", "2020-07-01", "2021-03-01"],
+            )],
+        );
         let (_, _, r, _) = evaluate_student(&short, d("2026-09-01"), true).unwrap();
         let x = r.iter().find(|x| x.requirement_id == "dtap").unwrap();
         assert_eq!(x.status, ReqStatus::NotMet);
@@ -1548,7 +1806,11 @@ mod tests {
         let (_, _, r, _) = evaluate_student(&four, d("2026-09-01"), false).unwrap();
         let x = r.iter().find(|x| x.requirement_id == "mmr").unwrap();
         assert_eq!(x.status, ReqStatus::NotMet);
-        assert!(x.invalid_doses[0].reason.contains("4 day(s) before the minimum age"));
+        assert!(
+            x.invalid_doses[0]
+                .reason
+                .contains("4 day(s) before the minimum age")
+        );
         let five = student("K", "2020-06-15", &[("mmr", &["2021-06-10", "2024-07-01"])]);
         let (_, _, r, _) = evaluate_student(&five, d("2026-09-01"), true).unwrap();
         let x = r.iter().find(|x| x.requirement_id == "mmr").unwrap();
@@ -1560,13 +1822,24 @@ mod tests {
 
     #[test]
     fn live_vaccines_given_less_than_28_days_apart_invalidate_the_second() {
-        let s = student("K", "2020-01-01", &[("mmr", &["2021-01-05", "2024-02-01"]), ("varicella", &["2021-01-20", "2024-02-01"])]);
+        let s = student(
+            "K",
+            "2020-01-01",
+            &[
+                ("mmr", &["2021-01-05", "2024-02-01"]),
+                ("varicella", &["2021-01-20", "2024-02-01"]),
+            ],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         let v = r.iter().find(|x| x.requirement_id == "varicella").unwrap();
         assert_eq!(v.status, ReqStatus::NotMet);
         assert!(v.invalid_doses[0].reason.contains("different live vaccine"));
         // MMRV counts for both on the same day without conflict.
-        let s = student("K", "2020-01-01", &[("mmrv", &["2021-01-05", "2024-02-01"])]);
+        let s = student(
+            "K",
+            "2020-01-01",
+            &[("mmrv", &["2021-01-05", "2024-02-01"])],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "mmr"), ReqStatus::Met);
         assert_eq!(status(&r, "varicella"), ReqStatus::Met);
@@ -1593,7 +1866,15 @@ mod tests {
     #[test]
     fn meningococcal_rules_by_grade() {
         // Grade 7: one dose on or after the 10th birthday.
-        let s = student("7", "2014-05-01", &[("menacwy", &["2025-06-01"]), ("tdap", &["2025-06-01"]), ("dtap", &["2014-07-01", "2014-09-01", "2014-11-01"])]);
+        let s = student(
+            "7",
+            "2014-05-01",
+            &[
+                ("menacwy", &["2025-06-01"]),
+                ("tdap", &["2025-06-01"]),
+                ("dtap", &["2014-07-01", "2014-09-01", "2014-11-01"]),
+            ],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "men_7_10"), ReqStatus::Met);
         assert_eq!(status(&r, "tdap"), ReqStatus::Met);
@@ -1605,7 +1886,11 @@ mod tests {
         assert_eq!(m.status, ReqStatus::NotYetDue);
         assert_eq!(m.earliest_next_dose.as_deref(), Some("2027-01-15"));
         // Grade 12, 17 years old, dose only at 12: not met, eligible now.
-        let s = student("12", "2009-03-01", &[("menacwy", &["2021-04-01"]), ("menb", &["2025-04-01"])]);
+        let s = student(
+            "12",
+            "2009-03-01",
+            &[("menacwy", &["2021-04-01"]), ("menb", &["2025-04-01"])],
+        );
         let (_, _, r, notes) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         let m = r.iter().find(|x| x.requirement_id == "men_11_12").unwrap();
         assert_eq!(m.status, ReqStatus::NotMet);
@@ -1616,11 +1901,22 @@ mod tests {
     #[test]
     fn polio_final_dose_rules() {
         // 3 doses with the third after 4 years and 6 months after the second: met.
-        let s = student("1", "2019-01-01", &[("polio", &["2019-03-01", "2019-05-01", "2023-02-01"])]);
+        let s = student(
+            "1",
+            "2019-01-01",
+            &[("polio", &["2019-03-01", "2019-05-01", "2023-02-01"])],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "polio"), ReqStatus::Met);
         // 4th dose after 4th birthday but only 5 months after the 3rd: a 5th is required.
-        let s = student("1", "2019-01-01", &[("polio", &["2019-03-01", "2019-05-01", "2022-09-01", "2023-02-01"])]);
+        let s = student(
+            "1",
+            "2019-01-01",
+            &[(
+                "polio",
+                &["2019-03-01", "2019-05-01", "2022-09-01", "2023-02-01"],
+            )],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         let p = r.iter().find(|x| x.requirement_id == "polio").unwrap();
         assert_eq!(p.status, ReqStatus::NotMet);
@@ -1632,17 +1928,29 @@ mod tests {
         let s = student("PK", "2025-03-01", &[("hib", &["2025-05-01"])]);
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert!(r.iter().all(|x| x.status == ReqStatus::NotYetDue));
-        let s = student("PK", "2023-03-01", &[("hib", &["2023-05-01", "2023-07-01", "2024-07-01"])]);
+        let s = student(
+            "PK",
+            "2023-03-01",
+            &[("hib", &["2023-05-01", "2023-07-01", "2024-07-01"])],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "hib"), ReqStatus::Met);
-        let s = student("PK", "2023-03-01", &[("hib", &["2023-05-01", "2023-07-01", "2024-03-05"])]);
+        let s = student(
+            "PK",
+            "2023-03-01",
+            &[("hib", &["2023-05-01", "2023-07-01", "2024-03-05"])],
+        );
         let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
         assert_eq!(status(&r, "hib"), ReqStatus::NeedsReview);
     }
 
     #[test]
     fn college_birth_year_and_heplisav() {
-        let mut s = student("college", "1955-05-01", &[("heplisav_b", &["2024-01-01", "2024-02-15"])]);
+        let mut s = student(
+            "college",
+            "1955-05-01",
+            &[("heplisav_b", &["2024-01-01", "2024-02-15"])],
+        );
         s.college = Some(CollegeInput {
             health_science: false,
             full_time: Some(true),

@@ -434,7 +434,10 @@ mod tests {
         let k = e.openfda_recalls("amoxicillin", 3, Some("abc 123"));
         assert!(k.ends_with("&api_key=abc%20123"));
         assert!(e.rxnav_related("723").contains("/rxcui/723/related.json"));
-        assert!(e.dailymed_spls("fluzone high-dose", 5).contains("drug_name=fluzone%20high-dose"));
+        assert!(
+            e.dailymed_spls("fluzone high-dose", 5)
+                .contains("drug_name=fluzone%20high-dose")
+        );
     }
 
     #[test]
@@ -461,7 +464,11 @@ mod tests {
         assert_eq!(approx[0].0, "723");
         assert_eq!(approx.len(), 1);
         assert_eq!(parse_properties(&fixture("props")).unwrap().tty, "IN");
-        assert!(parse_related(&fixture("related")).iter().any(|c| c.tty == "BN"));
+        assert!(
+            parse_related(&fixture("related"))
+                .iter()
+                .any(|c| c.tty == "BN")
+        );
     }
 
     #[test]

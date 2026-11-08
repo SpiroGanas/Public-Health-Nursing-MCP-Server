@@ -109,7 +109,6 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/vax/coverage_thresholds.yaml"),
         schema: include_str!("../../../content/schemas/vax_coverage_thresholds.schema.json"),
     },
-
     // Phase 6 content items go below this line.
 ];
 

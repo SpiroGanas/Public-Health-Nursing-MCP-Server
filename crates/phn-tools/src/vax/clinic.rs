@@ -141,7 +141,9 @@ fn assumption(id: &str, over: Option<f64>) -> Result<AssumptionUsed> {
 
 fn positive(name: &str, v: Option<f64>) -> Result<Option<f64>> {
     match v {
-        Some(x) if !(x.is_finite() && x > 0.0) => Err(PhnError::InvalidInput(format!("{name} must be a positive number"))),
+        Some(x) if !(x.is_finite() && x > 0.0) => Err(PhnError::InvalidInput(format!(
+            "{name} must be a positive number"
+        ))),
         other => Ok(other),
     }
 }
@@ -149,19 +151,40 @@ fn positive(name: &str, v: Option<f64>) -> Result<Option<f64>> {
 /// Plan a clinic from expected turnout.
 pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelope<ClinicPlan>> {
     if args.expected_turnout == 0 {
-        return Err(PhnError::InvalidInput("expected_turnout must be at least 1".into()));
+        return Err(PhnError::InvalidInput(
+            "expected_turnout must be at least 1".into(),
+        ));
     }
     if !(args.clinic_hours.is_finite() && args.clinic_hours > 0.0 && args.clinic_hours <= 24.0) {
-        return Err(PhnError::InvalidInput("clinic_hours must be more than 0 and at most 24".into()));
+        return Err(PhnError::InvalidInput(
+            "clinic_hours must be more than 0 and at most 24".into(),
+        ));
     }
     let per_person = positive("doses_per_person", args.doses_per_person)?.unwrap_or(1.0);
-    let vacc_rate = assumption("doses_per_vaccinator_per_hour", positive("doses_per_vaccinator_per_hour", args.doses_per_vaccinator_per_hour)?)?;
-    let reg_rate = assumption("registrations_per_hour", positive("registrations_per_hour", args.registrations_per_hour)?)?;
-    let scr_rate = assumption("screenings_per_hour", positive("screenings_per_hour", args.screenings_per_hour)?)?;
-    let obs_min = assumption("observation_minutes", positive("observation_minutes", args.observation_minutes)?)?;
+    let vacc_rate = assumption(
+        "doses_per_vaccinator_per_hour",
+        positive(
+            "doses_per_vaccinator_per_hour",
+            args.doses_per_vaccinator_per_hour,
+        )?,
+    )?;
+    let reg_rate = assumption(
+        "registrations_per_hour",
+        positive("registrations_per_hour", args.registrations_per_hour)?,
+    )?;
+    let scr_rate = assumption(
+        "screenings_per_hour",
+        positive("screenings_per_hour", args.screenings_per_hour)?,
+    )?;
+    let obs_min = assumption(
+        "observation_minutes",
+        positive("observation_minutes", args.observation_minutes)?,
+    )?;
     let waste = match args.waste_factor_pct {
         Some(w) if !(0.0..=100.0).contains(&w) => {
-            return Err(PhnError::InvalidInput("waste_factor_pct must be between 0 and 100".into()));
+            return Err(PhnError::InvalidInput(
+                "waste_factor_pct must be between 0 and 100".into(),
+            ));
         }
         other => assumption("waste_factor_pct", other)?,
     };
@@ -190,34 +213,97 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
     let seats = ceil(arrivals * obs_min.value / 60.0 * (1.0 + margin.0 / 100.0));
     let monitors = ceil(seats as f64 / per_monitor.value);
     let staffing = vec![
-        StaffLine { station: "Check-in and registration".into(), people: registrars, how: format!("{arrivals:.1} arrivals/hour ÷ {} per person", reg_rate.value) },
-        StaffLine { station: "Screening".into(), people: screeners, how: format!("{arrivals:.1} arrivals/hour ÷ {} per screener", scr_rate.value) },
-        StaffLine { station: "Vaccination".into(), people: vaccinators, how: format!("{doses_per_hour:.1} doses/hour ÷ {} per vaccinator", vacc_rate.value) },
-        StaffLine { station: "Observation".into(), people: monitors, how: format!("{seats} seats ÷ {} per observer", per_monitor.value) },
-        StaffLine { station: "Clinical lead (anaphylaxis response, not vaccinating)".into(), people: lead.value as u32, how: "tool default".into() },
+        StaffLine {
+            station: "Check-in and registration".into(),
+            people: registrars,
+            how: format!(
+                "{arrivals:.1} arrivals/hour ÷ {} per person",
+                reg_rate.value
+            ),
+        },
+        StaffLine {
+            station: "Screening".into(),
+            people: screeners,
+            how: format!(
+                "{arrivals:.1} arrivals/hour ÷ {} per screener",
+                scr_rate.value
+            ),
+        },
+        StaffLine {
+            station: "Vaccination".into(),
+            people: vaccinators,
+            how: format!(
+                "{doses_per_hour:.1} doses/hour ÷ {} per vaccinator",
+                vacc_rate.value
+            ),
+        },
+        StaffLine {
+            station: "Observation".into(),
+            people: monitors,
+            how: format!("{seats} seats ÷ {} per observer", per_monitor.value),
+        },
+        StaffLine {
+            station: "Clinical lead (anaphylaxis response, not vaccinating)".into(),
+            people: lead.value as u32,
+            how: "tool default".into(),
+        },
     ];
     let total_staff = staffing.iter().map(|s| s.people).sum();
     let doses_bring = (doses_total as f64 * (1.0 + waste.value / 100.0)).ceil() as u32;
     let vials = match args.doses_per_vial {
-        Some(0) => return Err(PhnError::InvalidInput("doses_per_vial must be at least 1".into())),
+        Some(0) => {
+            return Err(PhnError::InvalidInput(
+                "doses_per_vial must be at least 1".into(),
+            ));
+        }
         Some(n) => Some(doses_bring.div_ceil(n)),
         None => None,
     };
     let mut supplies: Vec<SupplyLine> = CLINIC_INFO
         .supplies_per_dose
         .iter()
-        .map(|s| SupplyLine { item: s.item.clone(), quantity: (s.per_dose * doses_bring as f64).ceil() as u32, basis: s.basis })
+        .map(|s| SupplyLine {
+            item: s.item.clone(),
+            quantity: (s.per_dose * doses_bring as f64).ceil() as u32,
+            basis: s.basis,
+        })
         .collect();
     supplies.push(SupplyLine {
-        item: format!("Sharps containers (about {} doses each)", CLINIC_INFO.sharps_container_doses),
-        quantity: doses_bring.div_ceil(CLINIC_INFO.sharps_container_doses).max(vaccinators),
+        item: format!(
+            "Sharps containers (about {} doses each)",
+            CLINIC_INFO.sharps_container_doses
+        ),
+        quantity: doses_bring
+            .div_ceil(CLINIC_INFO.sharps_container_doses)
+            .max(vaccinators),
         basis: CLINIC_INFO.sharps_container_basis,
     });
-    supplies.push(SupplyLine { item: "Epinephrine doses (at least, per site)".into(), quantity: epi_min.value as u32, basis: Basis::Source });
+    supplies.push(SupplyLine {
+        item: "Epinephrine doses (at least, per site)".into(),
+        quantity: epi_min.value as u32,
+        basis: Basis::Source,
+    });
 
-    let pop = args.population.as_deref().unwrap_or("mixed").trim().to_ascii_lowercase();
-    if !["children", "adolescents", "adults", "mixed", "child", "adult", "teens"].contains(&pop.as_str()) {
-        return Err(PhnError::InvalidInput("population must be children, adolescents, adults, or mixed".into()));
+    let pop = args
+        .population
+        .as_deref()
+        .unwrap_or("mixed")
+        .trim()
+        .to_ascii_lowercase();
+    if ![
+        "children",
+        "adolescents",
+        "adults",
+        "mixed",
+        "child",
+        "adult",
+        "teens",
+    ]
+    .contains(&pop.as_str())
+    {
+        return Err(PhnError::InvalidInput(
+            "population must be children, adolescents, adults, or mixed".into(),
+        ));
     }
     let mut kit: Vec<String> = CLINIC_INFO.anaphylaxis_kit.first_line.clone();
     if pop.starts_with("adult") {
@@ -225,12 +311,20 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
     } else {
         kit.push("Children: stock autoinjector strengths for the ages served (0.1 mg for 7.5-14 kg, 0.15 mg, 0.3 mg) or 1 mg/mL vials with 1 mL syringes for weight-based dosing (see table).".into());
     }
-    kit.extend(CLINIC_INFO.anaphylaxis_kit.optional.iter().map(|s| format!("Optional: {s}")));
+    kit.extend(
+        CLINIC_INFO
+            .anaphylaxis_kit
+            .optional
+            .iter()
+            .map(|s| format!("Optional: {s}")),
+    );
     kit.extend(CLINIC_INFO.anaphylaxis_kit.supplies.iter().cloned());
 
     let epinephrine_lookup = match args.epinephrine_weight_kg {
         Some(w) if !(w.is_finite() && w > 0.0 && w < 300.0) => {
-            return Err(PhnError::InvalidInput("epinephrine_weight_kg must be a weight in kilograms".into()));
+            return Err(PhnError::InvalidInput(
+                "epinephrine_weight_kg must be a weight in kilograms".into(),
+            ));
         }
         Some(w) => {
             let mg = (w * 0.01).min(0.5);
@@ -253,7 +347,17 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
         None => None,
     };
 
-    let mut assumptions = vec![vacc_rate, reg_rate, scr_rate, obs_min, waste, per_monitor, predraw, epi_min, lead];
+    let mut assumptions = vec![
+        vacc_rate,
+        reg_rate,
+        scr_rate,
+        obs_min,
+        waste,
+        per_monitor,
+        predraw,
+        epi_min,
+        lead,
+    ];
     assumptions.push(AssumptionUsed {
         id: "observation_seat_margin".into(),
         label: "Margin added to observation seats".into(),
@@ -272,7 +376,11 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
     let mut files_written = Vec::new();
     let mut reconciliation_file = None;
     if args.reconciliation_sheet.unwrap_or(true) {
-        let names: Vec<String> = if args.vaccines.is_empty() { vec![String::new(); 3] } else { args.vaccines.clone() };
+        let names: Vec<String> = if args.vaccines.is_empty() {
+            vec![String::new(); 3]
+        } else {
+            args.vaccines.clone()
+        };
         let rows: Vec<Vec<String>> = names
             .iter()
             .map(|v| {
@@ -285,8 +393,16 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
             .iter()
             .map(|s| vec![s.station.clone(), s.people.to_string(), s.how.clone()])
             .chain([
-                vec!["Vaccine doses to bring".into(), doses_bring.to_string(), format!("{doses_total} doses + {}% waste", assumptions[4].value)],
-                vec!["Observation seats".into(), seats.to_string(), "see assumptions".into()],
+                vec![
+                    "Vaccine doses to bring".into(),
+                    doses_bring.to_string(),
+                    format!("{doses_total} doses + {}% waste", assumptions[4].value),
+                ],
+                vec![
+                    "Observation seats".into(),
+                    seats.to_string(),
+                    "see assumptions".into(),
+                ],
             ])
             .collect();
         let doc = Document {
@@ -297,9 +413,19 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
             letterhead: ctx.settings().letterhead,
             logo: None,
             blocks: vec![
-                Block::Paragraph(vec![Inline::plain("Count every vial and syringe at the start and end of the clinic. Report doses to the MIIS. Explain any difference before closing the clinic.")]),
-                Block::Table(TableBlock { caption: Some("Dose reconciliation".into()), headers: CLINIC_INFO.reconciliation_columns.clone(), rows }),
-                Block::Table(TableBlock { caption: Some("Clinic plan".into()), headers: vec!["Item".into(), "Number".into(), "How".into()], rows: plan_rows }),
+                Block::Paragraph(vec![Inline::plain(
+                    "Count every vial and syringe at the start and end of the clinic. Report doses to the MIIS. Explain any difference before closing the clinic.",
+                )]),
+                Block::Table(TableBlock {
+                    caption: Some("Dose reconciliation".into()),
+                    headers: CLINIC_INFO.reconciliation_columns.clone(),
+                    rows,
+                }),
+                Block::Table(TableBlock {
+                    caption: Some("Clinic plan".into()),
+                    headers: vec!["Item".into(), "Number".into(), "How".into()],
+                    rows: plan_rows,
+                }),
             ],
         };
         let bytes = phn_docs::xlsx::to_xlsx(&doc)?;
@@ -316,21 +442,43 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
         "**Vaccination clinic plan** — {} people over {hours} hour(s) ({arrivals:.1} arrivals/hour), {doses_total} doses ({doses_per_hour:.1}/hour)\n\n",
         args.expected_turnout
     );
-    let rows: Vec<Vec<String>> = staffing.iter().map(|s| vec![s.station.clone(), s.people.to_string(), s.how.clone()]).collect();
+    let rows: Vec<Vec<String>> = staffing
+        .iter()
+        .map(|s| vec![s.station.clone(), s.people.to_string(), s.how.clone()])
+        .collect();
     summary.push_str(&md::table(&["Station", "Staff", "Calculation"], &rows));
     summary.push_str(&format!(
         "\n**Total staff on the floor: {total_staff}** (add relief for breaks on clinics over 4 hours). Observation seats: {seats}.\n\nBring **{doses_bring} doses**{} and:\n",
         vials.map(|v| format!(" ({v} vials of {})", args.doses_per_vial.unwrap_or(1))).unwrap_or_default()
     ));
     for s in &supplies {
-        summary.push_str(&format!("- {} × {}{}\n", s.quantity, s.item, if s.basis == Basis::ToolDefault { " (tool default)" } else { "" }));
+        summary.push_str(&format!(
+            "- {} × {}{}\n",
+            s.quantity,
+            s.item,
+            if s.basis == Basis::ToolDefault {
+                " (tool default)"
+            } else {
+                ""
+            }
+        ));
     }
     summary.push_str("\n**Assumptions** (override any of them)\n\n");
     let rows: Vec<Vec<String>> = assumptions
         .iter()
-        .map(|a| vec![a.label.clone(), format!("{} {}", a.value, a.unit), a.basis.replace('_', " "), a.source.clone().unwrap_or_default()])
+        .map(|a| {
+            vec![
+                a.label.clone(),
+                format!("{} {}", a.value, a.unit),
+                a.basis.replace('_', " "),
+                a.source.clone().unwrap_or_default(),
+            ]
+        })
         .collect();
-    summary.push_str(&md::table(&["Assumption", "Value", "Basis", "Source"], &rows));
+    summary.push_str(&md::table(
+        &["Assumption", "Value", "Basis", "Source"],
+        &rows,
+    ));
     summary.push_str("\n**Anaphylaxis kit** (DPH standing orders 2026-03/2026-04; Immunize.org)\n");
     for k in &kit {
         summary.push_str(&format!("- {k}\n"));
@@ -340,10 +488,36 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
         .epinephrine
         .bands
         .iter()
-        .map(|b| vec![b.age_group.clone(), format!("{} lb", b.weight_lb), format!("{}{} kg", b.min_kg, b.max_kg.map(|m| format!("-{m}")).unwrap_or_else(|| "+".into())), b.solution_dose.clone().unwrap_or_default(), b.autoinjector.clone().unwrap_or_default()])
+        .map(|b| {
+            vec![
+                b.age_group.clone(),
+                format!("{} lb", b.weight_lb),
+                format!(
+                    "{}{} kg",
+                    b.min_kg,
+                    b.max_kg
+                        .map(|m| format!("-{m}"))
+                        .unwrap_or_else(|| "+".into())
+                ),
+                b.solution_dose.clone().unwrap_or_default(),
+                b.autoinjector.clone().unwrap_or_default(),
+            ]
+        })
         .collect();
-    summary.push_str(&md::table(&["Age", "Weight (lb)", "Weight (kg)", "1 mg/mL dose", "Autoinjector"], &rows));
-    summary.push_str(&format!("{}\n", CLINIC_INFO.epinephrine.weight_preferred_note));
+    summary.push_str(&md::table(
+        &[
+            "Age",
+            "Weight (lb)",
+            "Weight (kg)",
+            "1 mg/mL dose",
+            "Autoinjector",
+        ],
+        &rows,
+    ));
+    summary.push_str(&format!(
+        "{}\n",
+        CLINIC_INFO.epinephrine.weight_preferred_note
+    ));
     for n in &CLINIC_INFO.epinephrine.intranasal {
         summary.push_str(&format!("- {n}\n"));
     }
@@ -353,11 +527,21 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
             e.weight_kg,
             e.calculated_mg,
             e.calculated_mg,
-            e.band.as_ref().map(|b| format!("; chart band {} — autoinjector {}", b.age_group, b.autoinjector.clone().unwrap_or_default())).unwrap_or_default(),
+            e.band
+                .as_ref()
+                .map(|b| format!(
+                    "; chart band {} — autoinjector {}",
+                    b.age_group,
+                    b.autoinjector.clone().unwrap_or_default()
+                ))
+                .unwrap_or_default(),
             e.note
         ));
     }
-    summary.push_str(&format!("\nDiphenhydramine (optional, for itching and hives only): {}\n", CLINIC_INFO.diphenhydramine.rule));
+    summary.push_str(&format!(
+        "\nDiphenhydramine (optional, for itching and hives only): {}\n",
+        CLINIC_INFO.diphenhydramine.rule
+    ));
     summary.push_str("\n**Emergency protocol**\n");
     for s in &CLINIC_INFO.anaphylaxis_protocol {
         summary.push_str(&format!("{}. {}\n", s.order, s.text));
@@ -402,10 +586,18 @@ pub fn plan_vaccination_clinic(ctx: &Context, args: ClinicArgs) -> Result<Envelo
             vials_to_bring: vials,
             supplies,
             assumptions,
-            stations: CLINIC_INFO.stations.iter().map(|s| format!("{}: {}", s.label, s.text)).collect(),
+            stations: CLINIC_INFO
+                .stations
+                .iter()
+                .map(|s| format!("{}: {}", s.label, s.text))
+                .collect(),
             layout: CLINIC_INFO.layout_guidance.clone(),
             anaphylaxis_kit: kit,
-            anaphylaxis_protocol: CLINIC_INFO.anaphylaxis_protocol.iter().map(|s| s.text.clone()).collect(),
+            anaphylaxis_protocol: CLINIC_INFO
+                .anaphylaxis_protocol
+                .iter()
+                .map(|s| s.text.clone())
+                .collect(),
             epinephrine_table: CLINIC_INFO.epinephrine.bands.clone(),
             diphenhydramine_table: CLINIC_INFO.diphenhydramine.bands.clone(),
             epinephrine_lookup,
@@ -463,7 +655,13 @@ mod tests {
         );
         // 60 arrivals/hour: 60/20 = 3 registrars, 60/15 = 4 screeners,
         // 60/12 = 5 vaccinators; seats = 60 x 15/60 x 1.25 = 18.75 -> 19.
-        let people = |s: &str| p.staffing.iter().find(|l| l.station.starts_with(s)).unwrap().people;
+        let people = |s: &str| {
+            p.staffing
+                .iter()
+                .find(|l| l.station.starts_with(s))
+                .unwrap()
+                .people
+        };
         assert_eq!(p.arrivals_per_hour, 60.0);
         assert_eq!(people("Check-in"), 3);
         assert_eq!(people("Screening"), 4);
@@ -472,8 +670,15 @@ mod tests {
         // 240 doses + 10% waste = 264 doses = 27 vials of 10.
         assert_eq!(p.vaccine_doses_to_bring, 264);
         assert_eq!(p.vials_to_bring, Some(27));
-        assert_eq!(p.total_staff, p.staffing.iter().map(|s| s.people).sum::<u32>());
-        let margin = p.assumptions.iter().find(|a| a.id == "observation_seat_margin").unwrap();
+        assert_eq!(
+            p.total_staff,
+            p.staffing.iter().map(|s| s.people).sum::<u32>()
+        );
+        let margin = p
+            .assumptions
+            .iter()
+            .find(|a| a.id == "observation_seat_margin")
+            .unwrap();
         assert_eq!(margin.basis, "tool_default");
 
         let p = plan(
