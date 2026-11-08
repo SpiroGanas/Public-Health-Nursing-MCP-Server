@@ -253,7 +253,7 @@ fn date10(s: &str) -> String {
 fn direction(latest: f64, prev: Option<f64>) -> (Option<f64>, String) {
     match prev {
         None => (None, "no previous week".into()),
-        Some(p) if p == 0.0 => (None, if latest > 0.0 { "up" } else { "stable" }.into()),
+        Some(p) if p <= 0.0 => (None, if latest > p { "up" } else { "stable" }.into()),
         Some(p) => {
             let ch = (latest - p) / p * 100.0;
             let d = if ch >= 10.0 {
