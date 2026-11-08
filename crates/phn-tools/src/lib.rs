@@ -13,6 +13,7 @@ pub mod core;
 pub mod ebp;
 pub mod epi;
 pub mod equity;
+pub mod localdata;
 pub mod md;
 pub mod registry;
 pub mod vax;
