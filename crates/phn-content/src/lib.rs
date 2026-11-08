@@ -150,7 +150,14 @@ pub const ITEMS: &[ContentItem] = &[
        // Phase 8 content items go below this line.
        // End of Phase 8 content items.
        // Phase 9 content items go below this line.
-       // End of Phase 9 content items.
+    ContentItem {
+        id: "tb-investigation-and-ltbi",
+        path: "content/cd/tuberculosis.yaml",
+        resource_uri: "phn://content/tb-investigation-and-ltbi",
+        yaml: include_str!("../../../content/cd/tuberculosis.yaml"),
+        schema: include_str!("../../../content/schemas/tuberculosis.schema.json"),
+    },
+    // End of Phase 9 content items.
        // Phase 10 content items go below this line.
        // End of Phase 10 content items.
        // Phase 11 content items go below this line.

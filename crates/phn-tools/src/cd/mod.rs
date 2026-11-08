@@ -45,4 +45,8 @@ pub use respiratory::{
 };
 
 // Phase 9 modules go below this line.
+pub mod tb_contacts;
+pub mod tb_content;
+
+pub use tb_contacts::{TbContactArgs, TbContactPlan, plan_tb_contact_investigation};
 // End of Phase 9 modules.

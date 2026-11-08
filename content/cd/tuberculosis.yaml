@@ -1,0 +1,624 @@
+# Tuberculosis contact investigation and latent TB infection (LTBI) treatment, for
+# plan_tb_contact_investigation (CD-11) and ltbi_treatment_calendar (CD-12).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/tuberculosis.schema.json
+#
+# The contact-priority rules transcribe Figures 2-4 of the 2005 NTCA/CDC guidelines in order:
+# the first rule whose condition is true gives the priority; `otherwise` applies when none is.
+# This file never holds medication doses: dose calculation is out of scope (plan item CD-16).
+meta:
+  id: tb-investigation-and-ltbi
+  title: Tuberculosis contact investigation and latent TB infection treatment (CDC/NTCA and Massachusetts DPH)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2020-02-14
+  source:
+    title: "Guidelines for the Investigation of Contacts of Persons with Infectious Tuberculosis: Recommendations from the National Tuberculosis Controllers Association and CDC (MMWR 2005;54(No. RR-15))"
+    publisher: Centers for Disease Control and Prevention and the National Tuberculosis Controllers Association
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5415a1.htm
+  related_sources:
+    - title: "Guidelines for the Treatment of Latent Tuberculosis Infection: Recommendations from the National Tuberculosis Controllers Association and CDC, 2020 (MMWR Recomm Rep 2020;69(No. RR-1))"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/mmwr/volumes/69/rr/rr6901a1.htm
+    - title: Treatment Regimens for Latent Tuberculosis Infection in Massachusetts
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/treatment-regimens-for-latent-tuberculosis-infection-in-massachusetts
+    - title: Report a case of Tuberculosis Disease or Latent TB Infection
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/how-to/report-a-case-of-tuberculosis-disease-or-latent-tb-infection
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08 from the 2005 NTCA/CDC contact investigation guidelines (text and
+    Tables 1-4, Figures 2-5 and 7, read from cdc.gov; CDC's TB guidelines page still lists them as
+    current), the 2020 NTCA/CDC LTBI treatment guidelines, CDC's LTBI treatment page (updated
+    2025-04-17) and regimen table, the 2000 ATS/CDC LTBI statement (completion criteria), the 2011
+    and 2018 MMWR reports on 3HP, and DPH's LTBI regimen, reporting, contact, and outpatient
+    clinic pages. Priority rules, time frames, the 8-10 week retest, and completion criteria are
+    transcribed (high confidence). The 3HR completion window is not stated in any source found
+    (left empty). The 3HP completion definition comes from the trial cited by CDC in 2011
+    (medium). Clinic contacts come from DPH's 2025 list and change often. The subject matter
+    expert must review before use.
+
+sources:
+  cdc-ci-2005:
+    title: "Guidelines for the Investigation of Contacts of Persons with Infectious Tuberculosis (MMWR 2005;54(No. RR-15))"
+    publisher: CDC and the National Tuberculosis Controllers Association
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5415a1.htm
+    effective_date: 2005-12-16
+    retrieved: 2026-11-08
+  cdc-ltbi-2020:
+    title: "Guidelines for the Treatment of Latent Tuberculosis Infection: Recommendations from the NTCA and CDC, 2020 (MMWR Recomm Rep 2020;69(No. RR-1))"
+    publisher: CDC and the National Tuberculosis Controllers Association
+    url: https://www.cdc.gov/mmwr/volumes/69/rr/rr6901a1.htm
+    effective_date: 2020-02-14
+    retrieved: 2026-11-08
+  cdc-ltbi-page:
+    title: Clinical Treatment of Latent Tuberculosis Infection
+    publisher: Centers for Disease Control and Prevention, Division of Tuberculosis Elimination
+    url: https://www.cdc.gov/tb/hcp/treatment/latent-tuberculosis-infection.html
+    effective_date: 2025-04-17
+    retrieved: 2026-11-08
+  cdc-ltbi-guide-2020:
+    title: "Latent Tuberculosis Infection: A Guide for Primary Health Care Providers (2020)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/tb/media/pdfs/Latent-TB-Infection-A-Guide-for-Primary-Health-Care-Providers.pdf
+    effective_date: "2020"
+    retrieved: 2026-11-08
+  cdc-ltbi-2000:
+    title: "Targeted Tuberculin Testing and Treatment of Latent Tuberculosis Infection (MMWR 2000;49(No. RR-6))"
+    publisher: American Thoracic Society and CDC
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr4906a1.htm
+    effective_date: 2000-06-09
+    retrieved: 2026-11-08
+  cdc-3hp-2011:
+    title: "Recommendations for Use of an Isoniazid-Rifapentine Regimen with Direct Observation to Treat Latent Mycobacterium tuberculosis Infection (MMWR 2011;60(48):1650-3)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/mm6048a3.htm
+    effective_date: 2011-12-09
+    retrieved: 2026-11-08
+  cdc-3hp-2018:
+    title: "Update of Recommendations for Use of Once-Weekly Isoniazid-Rifapentine Regimen to Treat Latent Mycobacterium tuberculosis Infection (MMWR 2018;67:723-6)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/67/wr/mm6725a5.htm
+    effective_date: 2018-06-29
+    retrieved: 2026-11-08
+  dph-ltbi-regimens:
+    title: Treatment Regimens for Latent Tuberculosis Infection in Massachusetts
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/treatment-regimens-for-latent-tuberculosis-infection-in-massachusetts
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-tb:
+    title: Tuberculosis (DPH program page and contacts)
+    publisher: Massachusetts Department of Public Health, Division of Global Populations and Infectious Disease Prevention
+    url: https://www.mass.gov/tuberculosis
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-tb-report:
+    title: Report a case of Tuberculosis Disease or Latent TB Infection
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/how-to/report-a-case-of-tuberculosis-disease-or-latent-tb-infection
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-tb-outpatient:
+    title: TB Outpatient Services 2025 (state-supported TB clinics)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/massachusetts-tb-outpatient-services
+    effective_date: "2025"
+    retrieved: 2026-11-08
+
+contact_investigation:
+  transmission_factors:
+    - text: "Characteristics of the index patient associated with increased risk of transmission: pulmonary, laryngeal, or pleural TB; AFB-positive sputum smear; cavitation on chest radiograph; adolescent or adult patient; no or ineffective treatment. Behaviors: frequent coughing, sneezing, singing, close social network."
+      source: cdc-ci-2005
+      section: Table 1
+    - text: "With limited exceptions, only patients with pulmonary or laryngeal TB can transmit infection; pleural disease is grouped with pulmonary disease for contact investigations. Rarely, extrapulmonary TB causes transmission during aerosol-generating procedures (autopsy, embalming, irrigation of a draining abscess)."
+      source: cdc-ci-2005
+      section: Decisions to Initiate a Contact Investigation, Anatomical Site of Disease
+    - text: "Transmission from children aged under 10 years is unusual; investigations around pediatric cases are usually source-case investigations."
+      source: cdc-ci-2005
+      section: Decisions to Initiate a Contact Investigation, Age
+  initiate:
+    - text: "Consider a contact investigation if the index patient has confirmed or suspected pulmonary, laryngeal, or pleural TB. An investigation is recommended if the sputum smear has AFB on microscopy (unless an approved NAA test is negative), and when three smears are negative but the plain chest radiograph shows cavities."
+      source: cdc-ci-2005
+      section: Initiating a Contact Investigation
+    - text: "Investigations for AFB smear- or culture-positive and cavitary TB have the highest priority. Even without these, consider an investigation if the chest radiograph is consistent with pulmonary TB; a positive NAA test supports starting one. Do not wait for culture results if any contact is especially susceptible or vulnerable."
+      source: cdc-ci-2005
+      section: Initiating a Contact Investigation
+    - text: "Investigations typically should not be started for suspected TB with minimal findings supporting pulmonary TB, except in outbreaks, when vulnerable or susceptible contacts are identified, or in source-case investigations."
+      source: cdc-ci-2005
+      section: Initiating a Contact Investigation
+  infectious_period:
+    start_rules:
+      - id: symptomatic
+        when: "TB symptoms present (any smear or radiograph result)"
+        start: "3 months before symptom onset or first positive finding (e.g., abnormal chest radiograph) consistent with TB disease, whichever is longer"
+        months_before: 3
+        weeks_before: null
+        anchor: earlier_of_onset_and_first_finding
+        source: cdc-ci-2005
+        section: Table 2, rows 1-2
+      - id: asymptomatic_smear_or_cavity
+        when: "No TB symptoms, but AFB smear positive or cavitary chest radiograph"
+        start: "3 months before the first positive finding consistent with TB"
+        months_before: 3
+        weeks_before: null
+        anchor: first_finding
+        source: cdc-ci-2005
+        section: Table 2, row 4 (the table lists AFB-positive and cavitary together; the tool applies the row when either is present)
+        confidence: medium
+      - id: asymptomatic_other
+        when: "No TB symptoms, AFB smear negative, no cavity"
+        start: "4 weeks before the date of suspected diagnosis"
+        months_before: null
+        weeks_before: 4
+        anchor: suspected_diagnosis
+        source: cdc-ci-2005
+        section: Table 2, row 3
+    earlier_start_note:
+      text: "These are minimum starting points from expert opinion. Use an earlier start when the patient or associates describe protracted illness (in extreme cases more than a year), or with large cavities, which imply prolonged illness."
+      source: cdc-ci-2005
+      section: Determining the Infectious Period
+    end_criteria:
+      - text: "Effective treatment (as shown by M. tuberculosis susceptibility results) for more than 2 weeks."
+        source: cdc-ci-2005
+        section: Determining the Infectious Period
+      - text: "Diminished symptoms."
+        source: cdc-ci-2005
+        section: Determining the Infectious Period
+      - text: "Mycobacteriologic response (for example, a decrease in the grade of sputum smear positivity)."
+        source: cdc-ci-2005
+        section: Determining the Infectious Period
+    stricter_end:
+      text: "A patient returning to a congregate setting, or any setting with susceptible persons, should have at least three consecutive negative sputum AFB smears from sputum collected more than 8 hours apart (one early morning) before being considered noninfectious. Multidrug-resistant TB can extend infectiousness."
+      source: cdc-ci-2005
+      section: Determining the Infectious Period
+  priority_trees:
+    - case_type: smear_positive_or_cavitary
+      label: "Pulmonary, laryngeal, or pleural TB with a cavity on chest radiograph or an AFB-positive sputum smear"
+      source: cdc-ci-2005
+      section: Figure 2
+      rules:
+        - {condition: household, priority: high}
+        - {condition: age_under_5, priority: high}
+        - {condition: medical_risk, priority: high}
+        - {condition: medical_procedure, priority: high}
+        - {condition: congregate_setting, priority: high}
+        - {condition: exceeds_high_priority_limits, priority: high}
+        - {condition: age_5_to_15, priority: medium}
+        - {condition: exceeds_medium_priority_limits, priority: medium}
+      otherwise: low
+    - case_type: smear_negative_cxr_consistent
+      label: "Suspected or confirmed pulmonary or pleural TB, AFB smear negative, abnormal chest radiograph consistent with TB (may be NAA- or culture-positive)"
+      source: cdc-ci-2005
+      section: Figure 3
+      rules:
+        - {condition: age_under_5, priority: high}
+        - {condition: medical_risk, priority: high}
+        - {condition: medical_procedure, priority: high}
+        - {condition: household, priority: medium}
+        - {condition: congregate_setting, priority: medium}
+        - {condition: exceeds_medium_priority_limits, priority: medium}
+      otherwise: low
+    - case_type: abnormal_cxr_not_consistent
+      label: "Suspected pulmonary TB, AFB smear negative, NAA and culture negative, abnormal chest radiograph not consistent with TB"
+      source: cdc-ci-2005
+      section: Figure 4
+      rules:
+        - {condition: household, priority: medium}
+        - {condition: age_under_5, priority: medium}
+        - {condition: medical_risk, priority: medium}
+        - {condition: medical_procedure, priority: medium}
+      otherwise: low
+  conditions:
+    - id: household
+      label: Household contact
+      definition: "Lived in the same household as the index patient during the infectious period."
+    - id: age_under_5
+      label: Aged under 5 years
+      definition: "Children aged under 5 are more likely to progress to disease and to have severe forms."
+    - id: medical_risk
+      label: Medical risk factor
+      definition: "HIV infection or another medical risk factor; also more than 15 mg/day of prednisone (or equivalent) for more than 4 weeks, cancer chemotherapy, antirejection drugs, or TNF-alpha antagonists. Silicosis, diabetes, and gastrectomy or jejunoileal bypass may be considered."
+    - id: medical_procedure
+      label: Exposed during a medical procedure
+      definition: "Present during bronchoscopy, sputum induction, or autopsy."
+    - id: congregate_setting
+      label: Exposed in a congregate setting
+      definition: "Exposure in a congregate setting (for example correctional facility, shelter, nursing home)."
+    - id: exceeds_high_priority_limits
+      label: Exceeds duration/environment limits for high priority
+      definition: "Exposure exceeds the duration and environment limits per unit time that the health department sets for high-priority contacts (no national cut-off; one published criterion for noncavitary disease is 120 hours per month)."
+    - id: age_5_to_15
+      label: Aged 5 to 15 years
+      definition: "Children aged 5 to 15 years."
+    - id: exceeds_medium_priority_limits
+      label: Exceeds duration/environment limits for medium priority
+      definition: "Exposure exceeds the limits the health department sets for medium-priority contacts."
+  exposure_notes:
+    - text: "Grade exposure settings by size: 1 = vehicle, 2 = bedroom, 3 = house, 4 = larger than a house. The likelihood of infection depends on the intensity, frequency, and duration of exposure; airline passengers seated more than 8 hours in the same or adjoining row are at higher risk. The optimal duration cut-off is undetermined; set administrative limits from local experience and reassess."
+      source: cdc-ci-2005
+      section: Factors for Assigning Contact Priorities, Exposure
+    - text: "Priority classifications are practical approximations and should be reconsidered throughout the investigation as findings are analyzed."
+      source: cdc-ci-2005
+      section: Classification of Contacts
+  timeframes:
+    - case_type: smear_positive_or_cavitary
+      priority: high
+      encounter_business_days: 7
+      evaluation_business_days: 5
+      source: cdc-ci-2005
+      section: Table 3
+    - case_type: smear_negative_cxr_consistent
+      priority: high
+      encounter_business_days: 7
+      evaluation_business_days: 10
+      source: cdc-ci-2005
+      section: Table 3
+    - case_type: any
+      priority: medium
+      encounter_business_days: 14
+      evaluation_business_days: 10
+      source: cdc-ci-2005
+      section: Table 3
+  timeframe_note:
+    text: "Initial encounter = a face-to-face meeting to assess the contact's health, give a skin test, and schedule further evaluation; counted in business days from listing the contact. Medical evaluation is complete when the contact's status for M. tuberculosis infection or TB disease is determined (waiting for final mycobacteriologic results is a normal exception)."
+    source: cdc-ci-2005
+    section: Table 3, footnotes
+  testing:
+    window_weeks_min: 8
+    window_weeks_max: 10
+    positive_tst_mm: 5
+    notes:
+      - text: "High- and medium-priority contacts without a documented previous positive TST or TB disease should be tested at the initial encounter (or within 7 working days of listing high-priority and 14 days of listing medium-priority contacts). An induration of 5 mm or more is positive for any contact."
+        source: cdc-ci-2005
+        section: Tuberculin Skin Testing
+      - text: "The window period between infection and a detectable test is 8-10 weeks after exposure ends. A negative result obtained less than 8 weeks after exposure is unreliable; repeat the test 8-10 weeks after the most recent exposure. A contact whose second test is positive after a negative first test is classified as recently infected. Two-step testing should not be used for contacts."
+        source: cdc-ci-2005
+        section: Tuberculin Skin Testing; Assigning Priorities to Contacts
+      - text: "IGRA can be used in place of (not in addition to) the TST, including in contact investigations. For recent contacts, negative IGRA results typically should be confirmed with a repeat test 8-10 weeks after the end of exposure; time the IGRA as for the TST."
+        source: cdc-ci-2005
+        section: QuantiFERON-TB Gold (QFT-G) test
+      - text: "Low-priority contacts: a single test, probably at the end of the window period, is preferred; the test may be delayed until after the window period so a second test is not needed. Any contact with TB symptoms needs immediate diagnostic evaluation regardless of test results."
+        source: cdc-ci-2005
+        section: Tuberculin Skin Testing; Figure 8
+      - text: "All contacts with induration of 5 mm or more or symptoms consistent with TB should be examined, starting with a chest radiograph. Contacts assigned high priority because of susceptibility or vulnerability should be examined regardless of the test result."
+        source: cdc-ci-2005
+        section: Medical Evaluation
+  special_groups:
+    - id: age_under_5
+      text: "Children aged under 5: full evaluation including chest radiograph. If the first test is negative and fewer than 8 weeks have passed since last exposure, begin treatment for presumed infection (window prophylaxis) after TB disease is excluded; repeat the test 8-10 weeks after exposure; stop treatment if the second test is negative (and the child is well), complete the full course if it is positive."
+      source: cdc-ci-2005
+      section: Evaluation and Follow-Up of Specific Groups of Contacts; Figure 5
+    - id: immunocompromised
+      text: "Contacts with HIV or other immunocompromising conditions: evaluate as for young children; even if a test 8 or more weeks after exposure is negative, a full course of LTBI treatment is recommended after TB disease is excluded."
+      source: cdc-ci-2005
+      section: Evaluation and Follow-Up of Specific Groups of Contacts; Figure 6
+    - id: immunocompetent_5_plus
+      text: "Immunocompetent adults and children aged 5 or older (high or medium priority): symptoms lead to full evaluation; a positive test (5 mm or more) leads to examination and chest radiograph and, if normal, a full course of LTBI treatment; a negative test before 8-10 weeks is repeated 8-10 weeks after exposure."
+      source: cdc-ci-2005
+      section: Figure 7
+    - id: prior_positive
+      text: "Contacts with a documented previous positive test or TB disease: risk is undetermined; obtain documentation before relying on a verbal report. Immunocompromised or otherwise susceptible contacts need testing to exclude disease and a full course of LTBI treatment regardless of history; anyone to be treated needs a chest radiograph first."
+      source: cdc-ci-2005
+      section: Evaluation and Follow-Up of Specific Groups of Contacts; Figure 9
+  expansion:
+    intro: "Expand beyond high- and medium-priority contacts only when objectives for them are being met and there is evidence of recent transmission. Review results at least weekly."
+    triggers:
+      - "An unexpectedly high rate of infection or TB disease among high-priority contacts (for example 10%, or at least twice the rate of a similar population without recent exposure, whichever is greater)"
+      - "Evidence of secondary transmission (cases infected after exposure to the source patient)"
+      - "TB disease in any contact assigned low priority"
+      - "Infection in contacts aged under 5 years"
+      - "Contacts whose test changed from negative to positive between the first and second test"
+    source: cdc-ci-2005
+    section: When to Expand a Contact Investigation
+  index_case_data:
+    source: cdc-ci-2005
+    section: Table 4 (minimal recommended data concerning the index patient)
+    groups:
+      - heading: Identifiers and demographics (keep in local files only)
+        items: [Case manager, Name and aliases, Guardian (for minors and dependents), Date of birth, Locating information and emergency contacts, Residences during the infectious period if unstably housed, RVCT number and local case number, Sex, Race, Ethnicity, Country of birth, Time in the United States if foreign born, Primary and preferred language, Translation or interpretation methods]
+      - heading: Settings and time frames where transmission may have occurred
+        items: [Living situation(s), Employment or school, Social and recreational activities, "Congregate settings (e.g., jail or homeless shelter)", Substance use with social implications]
+      - heading: TB information
+        items: [TB health care provider, Anatomic site of disease, Symptoms and their dates, "Chest radiograph results, including cavity", TB medications with start and stop dates, "Bacteriologic results (smear, culture, susceptibility) with dates", Previous TB disease and treatment, Previous exposure to persons with TB, Infectious period (updated as information arrives), HIV status]
+      - heading: Contact investigation
+        items: [Date of initial interview, Dates of follow-up interviews]
+  interview_settings:
+    text: "Ask where the patient spent nights, met friends, worked, ate, visited, and sought health care; ask specifically about congregate settings (high school, university, correctional facility, homeless shelter, nursing home) and about routine and nonroutine travel, including carpools."
+    source: cdc-ci-2005
+    section: Index Patient Interview, Transmission settings
+
+ma_program:
+  division: Division of Global Populations and Infectious Disease Prevention, Bureau of Infectious Disease and Laboratory Sciences, Massachusetts DPH
+  address: 305 South St., Jamaica Plain, MA 02130
+  phone_business_hours: (617) 983-6970
+  phone_after_hours: 617-983-6800
+  fax: 617-887-8791
+  reporting:
+    - text: "Active TB disease: a provider who strongly suspects active TB or has laboratory confirmation must report to DPH immediately, by the electronic Case Reporting Form (Active Tuberculosis option) or by faxing the Active TB Case Report Form to (617) 887-8789. Questions: (617) 983-6800."
+      source: dph-tb-report
+      section: What you need; How to report
+    - text: "Latent TB infection: a provider who gave a TST or IGRA with a positive result must complete the Latent Tuberculosis Infection reporting form, which is online only (electronic Case Reporting Form, Latent Tuberculosis option)."
+      source: dph-tb-report
+      section: What you need; How to report
+  source: dph-tb
+  clinics_source: dph-tb-outpatient
+  clinics:
+    - {name: Baystate Regional TB Clinic, organization: Baystate Medical Center, address: "11 Wilbraham Road, Springfield, MA 01109", town: Springfield, phone: 413-794-5435, referrals: "413-794-4144 (fax)"}
+    - {name: Pulmonary Professional Services of Berkshire Medical Center, organization: Berkshire Medical Center, address: "725 North Street, Pittsfield, MA 01201", town: Pittsfield, phone: 413-447-2695, referrals: "413-447-3111 (fax)"}
+    - {name: Boston Children's Hospital Pulmonary Clinic, organization: Boston Children's Hospital, address: "300 Longwood Avenue, Boston, MA 02115", town: Boston, phone: 617-355-4355, referrals: "617-730-0774 (fax)"}
+    - {name: Boston Medical Center TB Clinic, organization: Boston Medical Center, address: "732 Harrison Ave, 5th Floor, Boston, MA 02118", town: Boston, phone: "617-534-4967 (appointments); 617-534-5611 (case management); 617-534-4875 (provider triage nurse)", referrals: "781-559-4354 (fax)"}
+    - {name: Brigham Medical Specialties, organization: Brigham and Women's Hospital, address: "45 Francis Street, ASB 2-2, Boston, MA 02115", town: Boston, phone: 617-732-8881, referrals: "617-732-9535 (fax)"}
+    - {name: Schipellite Chest Center, CHA Medical Specialties, organization: Cambridge Hospital, address: "1493 Cambridge Street, Healy Building 3rd Floor, Cambridge, MA 02139", town: Cambridge, phone: 617-665-1291, referrals: "617-665-1291 (phone)"}
+    - {name: "Infectious Disease Clinical Services (Hyannis)", organization: Cape Cod Hospital, address: "34 Park Street, Hyannis, MA 02601", town: Barnstable, phone: 508-862-5650, referrals: "508-778-4753 (fax)"}
+    - {name: "Infectious Disease Clinical Services (Falmouth)", organization: Cape Cod Hospital, address: "100 Ter Heun Drive, Falmouth, MA 02540", town: Falmouth, phone: 508-495-7190, referrals: "508-495-7191 (fax)"}
+    - {name: "Fitchburg Family Practice Chest Clinic (temporarily inactive)", organization: HealthAlliance, address: "326 Nichols Road, Fitchburg, MA 01420", town: Fitchburg, phone: 978-343-5270, referrals: "978-343-5390 (fax)", note: "Listed as temporarily inactive"}
+    - {name: Lahey Clinic and Medical Center (Pulmonary Department), organization: "Lahey Clinic, Inc.", address: "41 Mall Road, Burlington, MA 01805", town: Burlington, phone: 781-744-1823, referrals: "781-744-3171 (fax)"}
+    - {name: Outpatient Tuberculosis Clinic, organization: Lemuel Shattuck Hospital, address: "170 Morton Street, Jamaica Plain, MA 02130", town: Boston, phone: "617-971-3594 (appointments); 617-971-3354 (clinic)", referrals: "781-828-1901 (fax)"}
+    - {name: Tufts Medicine TB Clinic - Lowell, organization: Lowell General Hospital, address: "One Hospital Drive, Lowell, MA 01854", town: Lowell, phone: 978-934-8260, referrals: "978-446-2729 (fax)", note: "Accepting limited referrals"}
+    - {name: Lynn Community Health Center, organization: Lynn Community Health Center, address: "269 Union Street (Pearl Team), Lynn, MA 01901", town: Lynn, phone: 781-691-9464, referrals: "781-691-9464"}
+    - {name: North Shore Pulmonary Health Clinic, organization: North Shore Medical Center, address: "81 Highland Avenue, Wheelock 4, Salem, MA 01970", town: Salem, phone: 978-354-4455, referrals: "978-354-4455"}
+    - {name: Pulmonary Care Chest Clinic, organization: Southcoast Physicians Group, address: "1030 President Ave. Suite 210, Fall River, MA 02720", town: Fall River, phone: 508-973-1780, referrals: "508-973-1780 (phone)"}
+    - {name: Sturdy Health Medical Group, organization: Sturdy Health, address: "170 Draper Avenue, North Attleboro, MA 02760 (also Sturdy Memorial Hospital OHS Clinic, 211 Park Street, Attleboro)", town: North Attleborough, phone: "508-699-6165 (clinic); 508-236-7898 (referrals)", referrals: "508-342-1956 (fax)"}
+    - {name: Getchell Ward Tuberculosis Program, organization: UMass Memorial Medical Center, address: "119 Belmont Street, Worcester, MA 01605", town: Worcester, phone: 774-443-8605, referrals: "508-334-8428 (fax)"}
+
+ltbi:
+  before_starting:
+    - text: "Do not start LTBI treatment until TB disease is excluded."
+      source: cdc-ltbi-page
+      section: Treatment Considerations for Latent TB Infection
+    - text: "Rifampin and rifapentine are not interchangeable; make sure the patient receives the medication for the intended regimen."
+      source: cdc-ltbi-2020
+      section: Summary
+    - text: "Rifamycins interact with many medications (for example hormonal contraceptives, methadone, warfarin, anticonvulsants, some antiretrovirals); people using hormonal birth control should add or switch to a barrier method."
+      source: cdc-ltbi-page
+      section: Short-course rifamycin-based regimens
+  regimens:
+    - id: 3HP
+      name: Isoniazid plus rifapentine, once weekly for 3 months
+      drugs: [isoniazid, rifapentine]
+      frequency: once_weekly
+      interval_days: 7
+      total_doses: 12
+      duration_text: 3 months
+      cdc_rank: preferred
+      dph_listed: true
+      dph_administration: "Directly observed: DPH recommends all doses under direct observation (DOT) by a trained worker or medical care provider."
+      allowed_administration: [dot, vdot, sat]
+      completion:
+        doses_required: 11
+        within_days: 112
+        min_days_between_doses: 3
+        text: "In the trial CDC cited, completion of 3HP was defined as 11 or 12 doses within 16 weeks, with doses more than 72 hours apart to count."
+        source: cdc-3hp-2011
+        section: Rationale and evidence
+        confidence: medium
+      recommended_for:
+        - "People aged 2 years and older, including people with HIV taking antiretrovirals with acceptable interactions with rifapentine (CDC); DPH: healthy patients aged 2 and older."
+      not_recommended_for:
+        - Children younger than 2 years
+        - People with HIV on antiretroviral therapy with clinically significant or unknown interactions with rifapentine (DPH lists persons with HIV on antiretroviral therapy)
+        - People presumed infected with isoniazid- or rifampin-resistant M. tuberculosis
+        - Pregnant people or those expecting to become pregnant during the regimen
+      monitoring:
+        - text: "At each DOT encounter ask in detail about side effects; hold the next dose pending clinical evaluation after fever, yellow eyes or skin, abdominal pain, syncope, rash, or prodromal symptoms (nausea, dizziness, weakness, near-syncope, headache) following the previous dose."
+          source: dph-ltbi-regimens
+          section: "Isoniazid + Rifapentine: Monitoring"
+        - text: "Clinical assessment by a health care provider at least monthly; DPH's schedule shows medical evaluation in weeks 1, 5, and 9 and DOT in weeks 1-12. Baseline CBC/platelets and liver enzymes for HIV, liver disease or regular alcohol use, and age over 35."
+          source: dph-ltbi-regimens
+          section: "Isoniazid + Rifapentine: Monitoring"
+      monitoring_visit_weeks: [1, 5, 9]
+      sources: [cdc-ltbi-2020, cdc-ltbi-page, dph-ltbi-regimens, cdc-3hp-2018]
+    - id: 4R
+      name: Rifampin daily for 4 months
+      drugs: [rifampin]
+      frequency: daily
+      interval_days: 1
+      total_doses: 120
+      duration_text: 4 months
+      cdc_rank: preferred
+      dph_listed: true
+      dph_administration: "Once daily, self-administered."
+      allowed_administration: [sat, dot, vdot]
+      completion:
+        doses_required: 120
+        within_days: 183
+        min_days_between_doses: null
+        text: "The regimen of daily rifampin should consist of at least 120 doses administered within 6 months."
+        source: cdc-ltbi-2000
+        section: Completion of treatment
+        confidence: high
+      recommended_for:
+        - "HIV-negative adults and children of all ages; people who cannot tolerate isoniazid or were exposed to isoniazid-resistant TB (CDC). DPH: may be used in pregnancy and in children."
+      not_recommended_for:
+        - People with HIV taking some antiretroviral combinations
+      monitoring:
+        - text: "Clinical assessment at least monthly (side effects and physical examination). Baseline CBC/platelets and liver enzymes for HIV, liver disease, regular alcohol use, or pregnancy; repeat if abnormal, pregnant or postpartum, high risk, or symptomatic. Warn about orange body fluids and stained soft contact lenses."
+          source: dph-ltbi-regimens
+          section: "Rifampin: Monitoring and special precautions"
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-2020, cdc-ltbi-page, dph-ltbi-regimens, cdc-ltbi-2000]
+    - id: 3HR
+      name: Isoniazid plus rifampin daily for 3 months
+      drugs: [isoniazid, rifampin]
+      frequency: daily
+      interval_days: 1
+      total_doses: 90
+      duration_text: 3 months
+      cdc_rank: preferred
+      dph_listed: false
+      dph_administration: null
+      allowed_administration: [sat, dot, vdot]
+      completion:
+        doses_required: 90
+        within_days: null
+        min_days_between_doses: null
+        text: "CDC lists 90 total doses; no completion window was found in the CDC/NTCA 2020 guidelines, the CDC regimen table, or DPH's page (DPH does not list 3HR). Agree a window with the TB program."
+        source: cdc-ltbi-page
+        section: Summary of latent TB infection treatment regimens
+        confidence: low
+      recommended_for:
+        - "Adults and children of all ages who are HIV-negative, and people with HIV taking antiretrovirals with acceptable interactions (CDC)."
+      not_recommended_for:
+        - People with HIV taking some antiretroviral combinations
+      monitoring:
+        - text: "Assess at least monthly for adherence, symptoms of TB disease, and adverse reactions."
+          source: cdc-ltbi-page
+          section: Patient monitoring and education
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-2020, cdc-ltbi-page]
+    - id: 6H
+      name: Isoniazid daily for 6 months
+      drugs: [isoniazid]
+      frequency: daily
+      interval_days: 1
+      total_doses: 180
+      duration_text: 6 months
+      cdc_rank: alternative
+      dph_listed: false
+      dph_administration: null
+      allowed_administration: [sat, dot, vdot]
+      completion:
+        doses_required: 180
+        within_days: 274
+        min_days_between_doses: null
+        text: "The 6-month regimen of isoniazid should consist of at least 180 doses administered within 9 months."
+        source: cdc-ltbi-2000
+        section: Completion of treatment
+        confidence: high
+      recommended_for:
+        - "Alternative when a short-course regimen is not an option (for example rifamycin interactions); strongly recommended for HIV-negative adults and children, an option with HIV (CDC)."
+      not_recommended_for: []
+      monitoring:
+        - text: "Assess at least monthly; isoniazid has higher hepatotoxicity risk and lower completion than short-course regimens. Pyridoxine (vitamin B6) for persons at risk of neuropathy."
+          source: cdc-ltbi-page
+          section: Isoniazid monotherapy regimens; Patient monitoring
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-2020, cdc-ltbi-page, cdc-ltbi-2000]
+    - id: 6H_twice_weekly
+      name: Isoniazid twice weekly for 6 months (DOT)
+      drugs: [isoniazid]
+      frequency: twice_weekly
+      interval_days: null
+      total_doses: 52
+      duration_text: 6 months
+      cdc_rank: alternative
+      dph_listed: false
+      dph_administration: null
+      allowed_administration: [dot, vdot]
+      completion:
+        doses_required: 52
+        within_days: 274
+        min_days_between_doses: null
+        text: "Twice-weekly isoniazid regimens should consist of at least 52 doses within 9 months for the 6-month regimen. Twice-weekly regimens must be given by directly observed therapy."
+        source: cdc-ltbi-2000
+        section: Completion of treatment
+        confidence: high
+      recommended_for:
+        - Alternative regimen; twice-weekly dosing requires DOT.
+      not_recommended_for: []
+      monitoring:
+        - text: "Directly observed therapy for every dose; assess at least monthly."
+          source: cdc-ltbi-page
+          section: Isoniazid monotherapy regimens
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-page, cdc-ltbi-2000]
+    - id: 9H
+      name: Isoniazid daily for 9 months
+      drugs: [isoniazid]
+      frequency: daily
+      interval_days: 1
+      total_doses: 270
+      duration_text: 9 months
+      cdc_rank: alternative
+      dph_listed: true
+      dph_administration: "Once daily, self-administered."
+      allowed_administration: [sat, dot, vdot]
+      completion:
+        doses_required: 270
+        within_days: 365
+        min_days_between_doses: null
+        text: "The 9-month regimen of daily isoniazid should consist of 270 doses, at minimum, administered within 12 months, allowing for minor interruptions."
+        source: cdc-ltbi-2000
+        section: Completion of treatment
+        confidence: high
+      recommended_for:
+        - "Adults and children with LTBI who can reliably take daily self-administered therapy and have no contraindication to isoniazid (DPH); option for HIV-negative and HIV-positive people (CDC)."
+      not_recommended_for: []
+      monitoring:
+        - text: "Clinical assessment at least monthly. Blood tests generally not recommended; baseline tests for HIV, liver disease, regular alcohol use, pregnancy or 3-4 months postpartum, or age over 35. Pyridoxine may prevent neuropathy (children, nutritionally deficient persons)."
+          source: dph-ltbi-regimens
+          section: "Isoniazid: Monitoring"
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-2020, cdc-ltbi-page, dph-ltbi-regimens, cdc-ltbi-2000]
+    - id: 9H_twice_weekly
+      name: Isoniazid twice weekly for 9 months (DOT)
+      drugs: [isoniazid]
+      frequency: twice_weekly
+      interval_days: null
+      total_doses: 76
+      duration_text: 9 months
+      cdc_rank: alternative
+      dph_listed: false
+      dph_administration: null
+      allowed_administration: [dot, vdot]
+      completion:
+        doses_required: 76
+        within_days: 365
+        min_days_between_doses: null
+        text: "Twice-weekly isoniazid regimens should consist of at least 76 doses administered within 12 months for the 9-month regimen. Twice-weekly regimens must be given by directly observed therapy."
+        source: cdc-ltbi-2000
+        section: Completion of treatment
+        confidence: high
+      recommended_for:
+        - Alternative regimen; twice-weekly dosing requires DOT.
+      not_recommended_for: []
+      monitoring:
+        - text: "Directly observed therapy for every dose; assess at least monthly."
+          source: cdc-ltbi-page
+          section: Isoniazid monotherapy regimens
+      monitoring_visit_weeks: null
+      sources: [cdc-ltbi-page, cdc-ltbi-2000]
+  monitoring:
+    - text: "Evaluate every patient at least monthly for adherence, signs and symptoms of TB disease, and adverse reactions."
+      source: cdc-ltbi-page
+      section: Clinical monitoring
+    - text: "Baseline AST, ALT, and bilirubin are not routine; test at baseline for liver disorders or history of liver disease, regular alcohol or injection drug use, risk for chronic liver disease, HIV, pregnancy or within 3 months postpartum. Retest periodically if baseline is abnormal or hepatic risk is present, and at any time for symptoms of hepatitis or jaundice."
+      source: cdc-ltbi-page
+      section: Laboratory testing
+    - text: "Medication is generally withheld if transaminases exceed 3 times the upper limit of normal with symptoms, or 5 times without symptoms."
+      source: cdc-ltbi-page
+      section: Laboratory testing
+  stop_and_call:
+    text: "Tell patients to stop the medication and seek care immediately for: unexplained anorexia, nausea or vomiting, dark urine, or jaundice; persistent numbness, tingling, or burning in hands or feet; persistent weakness, fatigue, fever, or abdominal pain; easy bruising or bleeding; blurred or changed vision; rash."
+    source: cdc-ltbi-page
+    section: Patient education
+  education:
+    - text: "Explain TB infection and why to take medication without symptoms; the importance of completing treatment; possible side effects."
+      source: cdc-ltbi-page
+      section: Patient education
+    - text: "Rifampin and rifapentine can turn urine and other body fluids orange; this is harmless; soft contact lenses can be stained permanently."
+      source: cdc-ltbi-page
+      section: Patient education
+  adherence:
+    - text: "Prefer shorter regimens; recognize and address non-adherence as soon as possible."
+      source: cdc-ltbi-page
+      section: Helping patients complete treatment
+    - text: "Techniques: collaborate with the health department; DOT for patients at high risk of progression (HIV, young children, contacts of active TB); case management; free or low-cost medication; incentives and enablers such as transportation vouchers; education in the patient's primary language at every visit; confidentiality; reminders such as a medication tracker, pill box, calendar, or timer."
+      source: cdc-ltbi-page
+      section: Techniques to improve adherence
+  interruption:
+    text: "Completion is based on the total number of doses, not duration alone. After missed doses, continue the original regimen as long as needed to complete it, or restart if interruptions were frequent or prolonged. When therapy resumes after an interruption of more than 2 months, a medical examination to rule out TB disease is indicated."
+    source: cdc-ltbi-2000
+    section: Completion of treatment
+    interruption_days: 60
+  post_treatment:
+    text: "Give the patient documentation of the TB test and chest radiograph results, medication names and dosages, and duration of treatment, to present when future TB testing is required. Re-educate about TB symptoms. Most people will keep a positive test after treatment; repeat tests and serial chest radiographs are not advised unless symptoms develop."
+    source: cdc-ltbi-page
+    section: Post-treatment follow-up

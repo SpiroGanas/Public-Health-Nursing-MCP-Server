@@ -17,4 +17,5 @@ pub mod medication;
 pub use medication::{MedicationArgs, MedicationResult, lookup_medication_information};
 
 // Phase 9 modules go below this line.
+pub mod practice;
 // End of Phase 9 modules.
