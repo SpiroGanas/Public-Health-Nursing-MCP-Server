@@ -10,10 +10,11 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.2.0 — Phases 0 and 1 of the [project plan](project_plan.md).** 11 of the 148
-> planned tools are available. The bundled 105 CMR 300.000 reportable-condition list is a
-> **draft pending review** by the subject matter expert; every answer from it says so.
-> All clinical and legal output is decision support only.
+> **Status: v0.7.0 — Phases 0 to 6 of the [project plan](project_plan.md).** 47 of the 148
+> planned tools are available. Bundled reference content (reportable conditions, disease rules,
+> immunization schedules, recommendations, and school requirements, and the other items listed by
+> `get_data_source_status`) is a **draft pending review** by the subject matter expert; every
+> answer from it says so. All clinical and legal output is decision support only.
 
 ## Tools
 
@@ -45,7 +46,6 @@ output folder instead of being sent to the AI model.
 | `run_statistical_test` | EPI-10 | epi | Chooses and runs the right test (t, rank, ANOVA, chi-square, correlation, regression), checks assumptions, and explains the result. |
 | `create_chart` | EPI-11 | epi | Accessible bar, line, dot, and histogram charts (PNG/SVG) with alt text and a data table. |
 | `create_spc_chart` | EBP-06 | ebp | Run charts and XmR, p, u, and c control charts with special-cause rules, baselines, and phases. |
-<!-- Phase 2 rows go above this line. -->
 
 ### Phase 3: communicable disease I
 
@@ -59,7 +59,6 @@ output folder instead of being sent to the AI model.
 | `assess_measles_exposure` | CD-07 | cd | Evidence of immunity, MMR and immune globulin deadlines and doses, exclusion days 5–21, and priority groups. |
 | `detect_aberrations` | CD-10 | cd | EARS C1–C3, CUSUM, and Farrington (Noufaily) signals on a count series, with trade-offs explained. |
 | `infection_control_for_congregate_settings` | CD-13 | cd | Precautions, PPE, cohorting, and EPA disinfectant lists by pathogen for shelters, schools, child care, long-term care, and day programs. |
-<!-- Phase 3 rows go above this line. -->
 
 ### Phase 4: public data and evidence platform
 
@@ -73,7 +72,6 @@ output folder instead of being sent to the AI model.
 | `create_choropleth_map` | EPI-12 | epi | Accessible SVG/PNG maps of towns, tracts, ZCTAs, or school districts with natural-breaks or quantile classes and hatched suppressed areas. |
 | `search_pubmed` | EBP-01 | ebp | PICO-based PubMed search (MeSH plus free text, study-type filters) with abstracts, DOIs, and the exact query. |
 | `search_cdc_guidance` | EBP-02 | ebp | Newest MMWR reports and HAN notices on a topic, with a CDC Stacks search link. |
-<!-- Phase 4 rows go above this line. -->
 
 ### Phase 5: immunizations I
 
@@ -88,7 +86,6 @@ output folder instead of being sent to the AI model.
 | `plan_vaccination_clinic` | VAX-08 | vax | Staffing, throughput, supplies, anaphylaxis kit and epinephrine dosing, layout, and a reconciliation sheet. |
 | `vaccine_confidence_conversation_guide` | VAX-09 | vax | Motivational-interviewing responses to vaccine concerns with cited facts and a reading-level check. |
 | `lookup_medication_information` | CORE-07 | core | RxNorm names, FDA label highlights, recalls, shortages, and DailyMed package inserts (reference only). |
-<!-- Phase 5 rows go above this line. -->
 
 ### Phase 6: immunization forecasting and surveillance feeds
 
@@ -97,7 +94,6 @@ output folder instead of being sent to the AI model.
 | `forecast_immunizations_due` | VAX-03 | vax | Evaluates a dose history and forecasts doses due (CDC CDSi engine, ACIP schedule) for one person or, with aggregates only, a file of many people |
 | `get_notifiable_disease_trends` | CD-08 | cd | NNDSS weekly counts for Massachusetts, New England, and the U.S. compared with the five previous years (year to date, last 4 weeks, year-end totals) |
 | `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
-<!-- Phase 6 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 Reference content and data snapshots are also exposed as MCP resources (`phn://content/…`,
@@ -118,7 +114,7 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0
 ```
 
 On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
@@ -127,7 +123,7 @@ Apple silicon) from the GitHub release and run `docker load -i <file>`.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 .
 ```
 
 ### 3. Create your data folder
@@ -152,7 +148,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
       ]
     }
   }
@@ -171,7 +167,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
       ]
     }
   }
@@ -193,7 +189,7 @@ Then try, for example:
 > Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.2.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

@@ -223,8 +223,6 @@ quality).
 
 ## Phase 2: Epidemiology and biostatistics engine
 
-<!-- Phase 2 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
-
 ### `age_adjust_rates` (EPI-02, toolset `epi`)
 
 Directly age-adjusts rates for one or more groups (towns, years, counties).
@@ -370,8 +368,6 @@ keeps them, locally). Golden tests: R `qcc` limits.
 ---
 
 ## Phase 3: Communicable disease I
-
-<!-- Phase 3 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
 All Phase 3 reference content (disease rules, measles exposure, infection control, and the DPH
 guide corpus) is **pending review** by the nurse; answers built on it say so. The rules cover 37
@@ -542,8 +538,6 @@ directs) — with privacy rules for the whole investigation.
 ---
 
 ## Phase 4: Public data and evidence platform
-
-<!-- Phase 4 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
 Phase 4 tools read public data through a live → cache → bundled-snapshot chain, so they work
 offline. Each answer says which was used (`mode` on every source). Bundled snapshots (see
@@ -736,8 +730,6 @@ support; follow DPH where state requirements differ. Read-only; open-world.
 
 ## Phase 5: Immunizations I
 
-<!-- Phase 5 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
-
 Immunization content is drafted from documents retrieved 2026-11-07 (DPH, CDC/ACIP, AAP, ACOG,
 AAFP, the Northeast Public Health Collaborative, Immunize.org) and is **pending review** by the
 subject matter expert; every answer built on it says so. Since 2025 federal CDC/ACIP guidance has
@@ -916,8 +908,6 @@ reported as not checked. Reference only; it gives no patient-specific dosing.
 ---
 
 ## Phase 6: Immunization forecasting and surveillance feeds
-
-<!-- Phase 6 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
 
 ### `forecast_immunizations_due` (VAX-03, toolset `vax`)
 

@@ -5,7 +5,7 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
-## [Unreleased]
+## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
 ### Added — Phase 2: epidemiology and biostatistics engine
 
@@ -28,8 +28,6 @@ All notable changes are recorded here. The format follows
   sample size, with golden tests against R, SciPy, statsmodels, NCHS, and published tables. The
   R and Python scripts that produced each fixture are committed next to it.
 - `phn-docs` chart renderer and accessible palette; `phn_data::socrata` client for data.cdc.gov.
-<!-- Phase 2 entries go above this line. -->
-
 ### Added — Phase 3: communicable disease I
 
 - `search_ma_disease_control_guide` (CD-02): offline tantivy search of a 1.1 MB plain-text corpus
@@ -53,8 +51,6 @@ All notable changes are recorded here. The format follows
 - The server's first MCP prompt, `investigate_outbreak`.
 - Content (all pending review): `content/cd/disease_rules.yaml`, `measles_exposure.yaml`,
   `infection_control.yaml`; a fictional church-supper outbreak fixture for tests.
-<!-- Phase 3 entries go above this line. -->
-
 ### Added — Phase 4: public data and evidence platform
 
 - `build_community_health_profile` (EQ-01): ACS 5-year indicators (each cited by table ID, with
@@ -79,8 +75,6 @@ All notable changes are recorded here. The format follows
   snapshots: ACS 2020–2024 indicators and detailed languages, SVI 2022, PLACES 2025, census
   geographies and crosswalks, and simplified town, tract, ZCTA, and school district boundaries,
   built reproducibly by `cargo xtask build-public-snapshots`.
-<!-- Phase 4 entries go above this line. -->
-
 ### Added — Phase 5: immunizations I
 
 - `get_immunization_schedule` (VAX-01) and `compare_vaccine_recommendations` (VAX-02): schedules
@@ -102,8 +96,6 @@ All notable changes are recorded here. The format follows
 - Immunization content under `content/vax/` (pending review), CDC CVX/MVX/trade name/NDC, DPH
   school survey, and NIS snapshots with their builder scripts in `xtask/scripts/`, and a
   fictional school roster in the synthetic corpus.
-<!-- Phase 5 entries go above this line. -->
-
 ### Added — Phase 6: immunization forecasting and surveillance feeds
 
 - `phn-cdsi` crate: CDC Clinical Decision Support for Immunization engine (Logic Specification
@@ -123,8 +115,6 @@ All notable changes are recorded here. The format follows
 - Bundled snapshots for both (about 260 KB), built by the new
   `cargo xtask build-surveillance-snapshots`; `cargo xtask build-snapshots` now keeps manifest
   entries it does not build.
-<!-- Phase 6 entries go above this line. -->
-
 ### Changed — reference content re-checked against live sources
 
 - Reportable conditions (`content/cd/reportable_conditions.yaml` 0.2.0) re-checked against the

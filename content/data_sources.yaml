@@ -87,7 +87,23 @@ sources:
     status: active
     homepage: null
     probe_url: null
-    used_by: [read_local_file, search_agency_policies, profile_local_dataset, deidentify_dataset, apply_small_cell_suppression, check_document_accessibility, export_document]
+    used_by:
+      - read_local_file
+      - search_agency_policies
+      - profile_local_dataset
+      - deidentify_dataset
+      - apply_small_cell_suppression
+      - check_document_accessibility
+      - export_document
+      - run_statistical_test
+      - create_spc_chart
+      - analyze_outbreak_line_list
+      - generate_epi_curve
+      - measure_health_disparities
+      - create_choropleth_map
+      - check_ma_school_immunization_requirements
+      - analyze_vaccination_coverage
+      - forecast_immunizations_due
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
