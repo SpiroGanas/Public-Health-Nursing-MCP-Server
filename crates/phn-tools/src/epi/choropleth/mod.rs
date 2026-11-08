@@ -197,8 +197,10 @@ struct Row {
 
 fn is_total(s: &str) -> bool {
     let n = s.trim().to_ascii_lowercase();
-    matches!(n.as_str(), "total" | "totals" | "all" | "massachusetts" | "state" | "statewide")
-        || n.starts_with("total ")
+    matches!(
+        n.as_str(),
+        "total" | "totals" | "all" | "massachusetts" | "state" | "statewide"
+    ) || n.starts_with("total ")
 }
 
 fn parse_value(s: &str) -> std::result::Result<Option<f64>, ()> {
@@ -244,7 +246,11 @@ fn resolve_area(
             .map(|g| (g.geoid.clone(), g.census_name.clone()))
             .ok_or_else(|| format!("'{l}' (use the 11-digit tract GEOID)")),
         MapGeography::Zcta => {
-            let digits: String = l.chars().take_while(|c| *c != '-').filter(|c| c.is_ascii_digit()).collect();
+            let digits: String = l
+                .chars()
+                .take_while(|c| *c != '-')
+                .filter(|c| c.is_ascii_digit())
+                .collect();
             let code = format!("{digits:0>5}");
             geos.get(&code)
                 .filter(|g| g.level == GeoLevel::Zcta)
@@ -314,7 +320,10 @@ fn load_file(
     // Privacy guard: refuse record-level files. The area column is exempt when
     // its values are recognized geographies (town names can look like surnames).
     let area_values_known = {
-        let vals: Vec<&str> = table.column(area_col).filter(|v| !v.trim().is_empty()).collect();
+        let vals: Vec<&str> = table
+            .column(area_col)
+            .filter(|v| !v.trim().is_empty())
+            .collect();
         let known = vals
             .iter()
             .filter(|v| is_total(v) || resolve_area(ctx, geos, args.geography, v).is_ok())
@@ -400,8 +409,18 @@ fn load_file(
 
 fn detect_area_column(table: &Table) -> usize {
     const NAMES: [&str; 12] = [
-        "town", "city", "municipality", "community", "tract", "geoid", "zcta", "zip", "zip code",
-        "district", "school district", "area",
+        "town",
+        "city",
+        "municipality",
+        "community",
+        "tract",
+        "geoid",
+        "zcta",
+        "zip",
+        "zip code",
+        "district",
+        "school district",
+        "area",
     ];
     table
         .headers
@@ -469,7 +488,9 @@ pub fn create_choropleth_map(
     }
     let k = usize::from(args.classes.unwrap_or(5));
     if !(3..=7).contains(&k) {
-        return Err(PhnError::InvalidInput("classes must be between 3 and 7".into()));
+        return Err(PhnError::InvalidInput(
+            "classes must be between 3 and 7".into(),
+        ));
     }
     let method = args.method.unwrap_or_default();
     let threshold = ctx.suppression_threshold();
@@ -528,7 +549,10 @@ pub fn create_choropleth_map(
                     || (value_is_count
                         && r.value.is_some_and(|v| v > 0.0 && v < f64::from(threshold)));
                 let value = r.value.filter(|v| v.is_finite());
-                if by_id.insert(id.clone(), (name, value, suppressed)).is_some() {
+                if by_id
+                    .insert(id.clone(), (name, value, suppressed))
+                    .is_some()
+                {
                     duplicates.insert(id);
                 }
             }
@@ -656,7 +680,12 @@ pub fn create_choropleth_map(
     };
     let (w, h) = (extent.2 - extent.0, extent.3 - extent.1);
     let pad = (w.max(h) * 0.04).max(500.0);
-    let extent = (extent.0 - pad, extent.1 - pad, extent.2 + pad, extent.3 + pad);
+    let extent = (
+        extent.0 - pad,
+        extent.1 - pad,
+        extent.2 + pad,
+        extent.3 + pad,
+    );
 
     let mut features: Vec<(&Feature, Fill)> = Vec::new();
     let mut context_n = 0;
@@ -770,7 +799,10 @@ pub fn create_choropleth_map(
         }
     };
     let min = mapped_values.iter().copied().fold(f64::INFINITY, f64::min);
-    let max = mapped_values.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    let max = mapped_values
+        .iter()
+        .copied()
+        .fold(f64::NEG_INFINITY, f64::max);
     let top = classes.last().expect("one class");
     let bottom = classes.first().expect("one class");
     let mut alt = format!(
@@ -823,7 +855,11 @@ pub fn create_choropleth_map(
     let stem = args
         .file_name
         .as_deref()
-        .map(|f| f.trim_end_matches(".svg").trim_end_matches(".png").to_string())
+        .map(|f| {
+            f.trim_end_matches(".svg")
+                .trim_end_matches(".png")
+                .to_string()
+        })
         .unwrap_or_else(|| slug(&title));
     let svg_path = unique_path(&dir, &stem, "svg");
     let final_stem = svg_path
@@ -833,7 +869,10 @@ pub fn create_choropleth_map(
     let png_path = dir.join(format!("{final_stem}.png"));
     std::fs::write(&svg_path, svg.as_bytes())?;
     std::fs::write(&png_path, &png)?;
-    let files = vec![sandbox.display_path(&svg_path), sandbox.display_path(&png_path)];
+    let files = vec![
+        sandbox.display_path(&svg_path),
+        sandbox.display_path(&png_path),
+    ];
 
     // Summary.
     let mut summary = format!(
@@ -977,7 +1016,10 @@ mod tests {
         (dir, ctx)
     }
 
-    fn args(geography: MapGeography, values: Vec<(&str, Option<f64>, Option<u64>)>) -> CreateChoroplethArgs {
+    fn args(
+        geography: MapGeography,
+        values: Vec<(&str, Option<f64>, Option<u64>)>,
+    ) -> CreateChoroplethArgs {
         CreateChoroplethArgs {
             geography,
             title: "Test map".into(),
@@ -1086,7 +1128,11 @@ mod tests {
             &ctx,
             args(
                 MapGeography::Zcta,
-                vec![("01002", Some(1.0), None), ("1003", Some(2.0), None), ("01007-1234", Some(3.0), None)],
+                vec![
+                    ("01002", Some(1.0), None),
+                    ("1003", Some(2.0), None),
+                    ("01007-1234", Some(3.0), None),
+                ],
             ),
         )
         .unwrap();

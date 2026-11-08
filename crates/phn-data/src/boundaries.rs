@@ -149,7 +149,7 @@ pub fn decode_geometry(s: &str) -> Result<Vec<Vec<Ring>>> {
                 .map(|n| n.parse::<i64>())
                 .collect::<std::result::Result<_, _>>()
                 .map_err(|e| PhnError::Internal(format!("boundary geometry: {e}")))?;
-            if nums.len() < 6 || nums.len() % 2 != 0 {
+            if nums.len() < 6 || !nums.len().is_multiple_of(2) {
                 continue;
             }
             let (mut x, mut y) = (0i64, 0i64);
@@ -210,8 +210,12 @@ impl BoundaryLayer {
 
     /// The shared, lazily parsed layer.
     pub fn shared(store: &SnapshotStore, layer: Layer) -> Result<&'static BoundaryLayer> {
-        static CELLS: [OnceLock<std::result::Result<BoundaryLayer, String>>; 4] =
-            [OnceLock::new(), OnceLock::new(), OnceLock::new(), OnceLock::new()];
+        static CELLS: [OnceLock<std::result::Result<BoundaryLayer, String>>; 4] = [
+            OnceLock::new(),
+            OnceLock::new(),
+            OnceLock::new(),
+            OnceLock::new(),
+        ];
         let i = match layer {
             Layer::Town => 0,
             Layer::Tract => 1,
@@ -238,7 +242,10 @@ mod tests {
     fn decodes_delta_geometry() {
         let p = decode_geometry("10 10 2 0 0 3|1 1 1 0 0 1;5 5 1 0 0 1").unwrap();
         assert_eq!(p.len(), 2);
-        assert_eq!(p[0][0], vec![(100.0, 100.0), (120.0, 100.0), (120.0, 130.0)]);
+        assert_eq!(
+            p[0][0],
+            vec![(100.0, 100.0), (120.0, 100.0), (120.0, 130.0)]
+        );
         assert_eq!(p[1].len(), 2);
     }
 

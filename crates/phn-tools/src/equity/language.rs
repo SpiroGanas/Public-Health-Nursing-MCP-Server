@@ -148,7 +148,8 @@ fn rules() -> Result<Rules> {
         .find(|i| i.id == "language-access-rules")
         .ok_or_else(|| PhnError::Internal("language access content missing".into()))?;
     let v = phn_content::yaml_to_json(item.yaml).map_err(PhnError::Internal)?;
-    serde_json::from_value(v).map_err(|e| PhnError::Internal(format!("language access content: {e}")))
+    serde_json::from_value(v)
+        .map_err(|e| PhnError::Internal(format!("language access content: {e}")))
 }
 
 fn sum_detail(rows: &[&census::DetailedLanguage]) -> Vec<DetailedRow> {
@@ -290,7 +291,12 @@ pub async fn language_access_profile(
     // Summary.
     let qualifying: Vec<&LanguageGroupRow> = groups
         .iter()
-        .filter(|g| matches!(g.threshold_status, ThresholdStatus::ClearlyMeets | ThresholdStatus::Meets))
+        .filter(|g| {
+            matches!(
+                g.threshold_status,
+                ThresholdStatus::ClearlyMeets | ThresholdStatus::Meets
+            )
+        })
         .collect();
     let possible: Vec<&LanguageGroupRow> = groups
         .iter()
@@ -342,13 +348,21 @@ pub async fn language_access_profile(
                     md::num(g.lep.value, 0),
                     md::num(g.lep.moe.unwrap_or(0.0), 0)
                 ),
-                g.lep_percent.map(|p| format!("{p:.1}%")).unwrap_or("—".into()),
+                g.lep_percent
+                    .map(|p| format!("{p:.1}%"))
+                    .unwrap_or("—".into()),
                 g.threshold_status.label().into(),
             ]
         })
         .collect();
     summary.push_str(&md::table(
-        &["Language group (C16001)", "Speakers 5+", "LEP (±90% MOE)", "LEP % of 5+", "Meets threshold"],
+        &[
+            "Language group (C16001)",
+            "Speakers 5+",
+            "LEP (±90% MOE)",
+            "LEP % of 5+",
+            "Meets threshold",
+        ],
         &rows,
     ));
     summary.push_str(&format!(
@@ -415,7 +429,11 @@ pub async fn language_access_profile(
             .map(|r| {
                 vec![
                     r.language.clone(),
-                    format!("{} ±{}", md::num(r.lep.value, 0), md::num(r.lep.moe.unwrap_or(0.0), 0)),
+                    format!(
+                        "{} ±{}",
+                        md::num(r.lep.value, 0),
+                        md::num(r.lep.moe.unwrap_or(0.0), 0)
+                    ),
                     md::num(r.speakers.value, 0),
                 ]
             })
@@ -469,7 +487,11 @@ pub async fn language_access_profile(
     for r in &rules.regulations {
         if r.citation.contains("92.201(a)") || r.citation.contains("92.11(b)") {
             sources.push(Source {
-                title: format!("{}: {}", r.citation, r.text.chars().take(90).collect::<String>() + "…"),
+                title: format!(
+                    "{}: {}",
+                    r.citation,
+                    r.text.chars().take(90).collect::<String>() + "…"
+                ),
                 publisher: "U.S. Department of Health and Human Services (eCFR)".into(),
                 url: rules
                     .meta
@@ -534,7 +556,11 @@ mod tests {
         assert_eq!(spanish.threshold_status, ThresholdStatus::ClearlyMeets);
         assert!(!d.pumas.is_empty() && !d.puma_languages.is_empty());
         assert_eq!(d.massachusetts_top_15.len(), 15);
-        assert!(d.massachusetts_top_15.iter().any(|l| l.language == "Portuguese"));
+        assert!(
+            d.massachusetts_top_15
+                .iter()
+                .any(|l| l.language == "Portuguese")
+        );
         assert!(env.notice.is_some());
         assert!(env.caveats.iter().any(|c| c.contains("low confidence")));
         let env = language_access_profile(

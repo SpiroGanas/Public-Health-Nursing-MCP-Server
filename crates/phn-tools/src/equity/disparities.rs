@@ -251,7 +251,10 @@ fn compute(
         let l = (1.0 - paf).ln();
         (
             Some(paf),
-            Some((1.0 - (l + zc * v.sqrt()).exp(), 1.0 - (l - zc * v.sqrt()).exp())),
+            Some((
+                1.0 - (l + zc * v.sqrt()).exp(),
+                1.0 - (l - zc * v.sqrt()).exp(),
+            )),
         )
     } else {
         (None, None)
@@ -329,13 +332,28 @@ fn load_groups(ctx: &Context, args: &DisparityArgs) -> Result<(Vec<G>, String)> 
     let ccol = find_col(
         &lt,
         &args.count_column,
-        &["count", "counts", "cases", "events", "deaths", "n", "numerator"],
+        &[
+            "count",
+            "counts",
+            "cases",
+            "events",
+            "deaths",
+            "n",
+            "numerator",
+        ],
         "count",
     )?;
     let pcol = find_col(
         &lt,
         &args.population_column,
-        &["population", "pop", "denominator", "person-years", "person years", "persons"],
+        &[
+            "population",
+            "pop",
+            "denominator",
+            "person-years",
+            "person years",
+            "persons",
+        ],
         "population",
     )?;
     let mut out = Vec::new();
@@ -384,7 +402,9 @@ pub fn measure_health_disparities(
 ) -> Result<Envelope<DisparityResult>> {
     let per = args.per.unwrap_or(100_000.0);
     if !(per.is_finite() && per > 0.0) {
-        return Err(PhnError::InvalidInput("per must be a positive number".into()));
+        return Err(PhnError::InvalidInput(
+            "per must be a positive number".into(),
+        ));
     }
     let confidence = args.confidence.unwrap_or(0.95);
     if !(0.80..=0.99).contains(&confidence) {
@@ -481,7 +501,10 @@ pub fn measure_health_disparities(
                 .iter()
                 .position(|g| g.label.trim().eq_ignore_ascii_case(name.trim()))
                 .ok_or_else(|| {
-                    if suppressed.iter().any(|g| g.label.eq_ignore_ascii_case(name.trim())) {
+                    if suppressed
+                        .iter()
+                        .any(|g| g.label.eq_ignore_ascii_case(name.trim()))
+                    {
                         PhnError::InvalidInput(format!(
                             "the reference group '{name}' has a count below the suppression \
                              threshold; choose another reference"
@@ -548,7 +571,9 @@ pub fn measure_health_disparities(
             match cmp {
                 Some(c) => format!(
                     "{} ({})",
-                    c.rate_ratio.map(|x| format!("{x:.2}")).unwrap_or("—".into()),
+                    c.rate_ratio
+                        .map(|x| format!("{x:.2}"))
+                        .unwrap_or("—".into()),
                     fmt_ci(c.rate_ratio_exact_ci)
                 ),
                 None => "1 (reference)".into(),
@@ -592,14 +617,22 @@ pub fn measure_health_disparities(
             result.between_group_variance, result.between_group_variance_se
         ),
     ]);
-    if let (Some(p), Some((l, u))) = (result.attributable_fraction, result.attributable_fraction_ci) {
+    if let (Some(p), Some((l, u))) = (
+        result.attributable_fraction,
+        result.attributable_fraction_ci,
+    ) {
         srows.push(vec![
             "Excess events if every group had the reference rate".into(),
             md::num(result.excess_events, 1),
         ]);
         srows.push(vec![
             "Population attributable fraction".into(),
-            format!("{:.1}% ({pct}% CI {:.1}% – {:.1}%)", p * 100.0, l * 100.0, u * 100.0),
+            format!(
+                "{:.1}% ({pct}% CI {:.1}% – {:.1}%)",
+                p * 100.0,
+                l * 100.0,
+                u * 100.0
+            ),
         ]);
     }
     summary.push_str(&md::table(&["Measure", "Value"], &srows));
@@ -692,18 +725,26 @@ mod tests {
     use serde_json::Value;
 
     fn golden() -> Value {
-        serde_json::from_str(include_str!("../../tests/fixtures/phase4/disparity_golden.json")).unwrap()
+        serde_json::from_str(include_str!(
+            "../../tests/fixtures/phase4/disparity_golden.json"
+        ))
+        .unwrap()
     }
 
     fn groups() -> Vec<G> {
-        [("A", 45, 120_000.0), ("B", 30, 50_000.0), ("C", 12, 15_000.0), ("D", 20, 80_000.0)]
-            .into_iter()
-            .map(|(l, a, n)| G {
-                label: l.into(),
-                a,
-                n,
-            })
-            .collect()
+        [
+            ("A", 45, 120_000.0),
+            ("B", 30, 50_000.0),
+            ("C", 12, 15_000.0),
+            ("D", 20, 80_000.0),
+        ]
+        .into_iter()
+        .map(|(l, a, n)| G {
+            label: l.into(),
+            a,
+            n,
+        })
+        .collect()
     }
 
     fn close(a: f64, b: f64, tol: f64) -> bool {
@@ -718,7 +759,11 @@ mod tests {
         for c in &r.comparisons {
             let e = &g["comparisons"][&c.label];
             let f = |k: &str| e[k].as_f64().unwrap();
-            assert!(close(c.rate_ratio.unwrap(), f("rate_ratio"), 1e-9), "{}", c.label);
+            assert!(
+                close(c.rate_ratio.unwrap(), f("rate_ratio"), 1e-9),
+                "{}",
+                c.label
+            );
             let (lo, hi) = c.rate_ratio_exact_ci.unwrap();
             assert!(close(lo, f("exact_lower"), 1e-6), "{} {lo}", c.label);
             assert!(close(hi, f("exact_upper"), 1e-6), "{} {hi}", c.label);
@@ -729,11 +774,23 @@ mod tests {
             assert!(close(c.rate_difference_ci.1, f("rd_upper"), 1e-6));
         }
         let gf = |k: &str| g[k].as_f64().unwrap();
-        assert!(close(r.index_of_disparity.unwrap(), gf("index_of_disparity"), 1e-9));
-        assert!(close(r.between_group_variance, gf("between_group_variance"), 1e-9));
+        assert!(close(
+            r.index_of_disparity.unwrap(),
+            gf("index_of_disparity"),
+            1e-9
+        ));
+        assert!(close(
+            r.between_group_variance,
+            gf("between_group_variance"),
+            1e-9
+        ));
         assert!(close(r.between_group_variance_se, gf("bgv_se_delta"), 1e-9));
         // The delta-method SE is within 15% of the Monte Carlo SD.
-        assert!(close(r.between_group_variance_se, gf("bgv_sd_monte_carlo"), 0.15));
+        assert!(close(
+            r.between_group_variance_se,
+            gf("bgv_sd_monte_carlo"),
+            0.15
+        ));
         assert!(close(r.total_rate, gf("total_rate"), 1e-9));
         assert!(close(r.excess_events, gf("excess_cases"), 1e-9));
         assert!(close(r.attributable_fraction.unwrap(), gf("paf"), 1e-9));
@@ -768,7 +825,8 @@ mod tests {
             confidence: None,
             event_description: None,
         };
-        let env = measure_health_disparities(&ctx, mk(ReferenceChoice::MostFavorable, None)).unwrap();
+        let env =
+            measure_health_disparities(&ctx, mk(ReferenceChoice::MostFavorable, None)).unwrap();
         assert_eq!(env.data.reference_group, "D");
         assert!(env.summary.contains("Index of disparity"));
         let env = measure_health_disparities(&ctx, mk(ReferenceChoice::Largest, None)).unwrap();

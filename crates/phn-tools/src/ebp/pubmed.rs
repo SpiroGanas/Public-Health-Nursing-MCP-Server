@@ -223,10 +223,15 @@ fn summarize(a: &Article) -> ArticleSummary {
 }
 
 /// PICO-based PubMed search.
-pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Envelope<PubmedResult>> {
+pub async fn search_pubmed(
+    ctx: &Context,
+    args: SearchPubmedArgs,
+) -> Result<Envelope<PubmedResult>> {
     let max = args.max_results.unwrap_or(10);
     if !(1..=50).contains(&max) {
-        return Err(PhnError::InvalidInput("max_results must be between 1 and 50".into()));
+        return Err(PhnError::InvalidInput(
+            "max_results must be between 1 and 50".into(),
+        ));
     }
     if let (Some(a), Some(b)) = (args.from_year, args.to_year)
         && a > b
@@ -250,7 +255,11 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
             elements.push((name, e));
         }
     }
-    let raw = args.query.as_deref().map(str::trim).filter(|q| !q.is_empty());
+    let raw = args
+        .query
+        .as_deref()
+        .map(str::trim)
+        .filter(|q| !q.is_empty());
     if elements.is_empty() && raw.is_none() {
         return Err(PhnError::InvalidInput(
             "give at least one PICO element (population, intervention, outcome) or a query".into(),
@@ -289,7 +298,10 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
                 .await
                 .map_err(net)?
             {
-                if !mesh_used.iter().any(|x: &String| x.eq_ignore_ascii_case(&m)) {
+                if !mesh_used
+                    .iter()
+                    .any(|x: &String| x.eq_ignore_ascii_case(&m))
+                {
                     mesh_used.push(m);
                 }
             }
@@ -322,7 +334,12 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
     }
     let filters = args.filters.clone().unwrap_or_default();
     let languages = args.languages.clone().unwrap_or_default();
-    clauses.extend(filter_clauses(&filters, &languages, args.from_year, args.to_year));
+    clauses.extend(filter_clauses(
+        &filters,
+        &languages,
+        args.from_year,
+        args.to_year,
+    ));
     let mut query = clauses.join(" AND ");
     if filters.contains(&PubmedFilter::Humans) {
         query = format!("({query}) NOT (\"animals\"[MeSH Terms] NOT \"humans\"[MeSH Terms])");
@@ -344,7 +361,11 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
         "**PubMed search** — {} record(s) found; showing {} ({}).\n\nQuery (paste into PubMed to rerun):\n\n```\n{query}\n```\n\n",
         md::num(found.count as f64, 0),
         articles.len(),
-        if sort == "pub_date" { "newest first" } else { "best match" }
+        if sort == "pub_date" {
+            "newest first"
+        } else {
+            "best match"
+        }
     );
     if !concepts.is_empty() {
         let rows: Vec<Vec<String>> = concepts
@@ -352,12 +373,19 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
             .map(|c| {
                 vec![
                     c.element.clone(),
-                    if c.mesh_used.is_empty() { "—".into() } else { c.mesh_used.join("; ") },
+                    if c.mesh_used.is_empty() {
+                        "—".into()
+                    } else {
+                        c.mesh_used.join("; ")
+                    },
                     c.free_text.join("; "),
                 ]
             })
             .collect();
-        summary.push_str(&md::table(&["PICO element", "MeSH headings", "Title/abstract terms"], &rows));
+        summary.push_str(&md::table(
+            &["PICO element", "MeSH headings", "Title/abstract terms"],
+            &rows,
+        ));
         summary.push('\n');
     }
     for (i, a) in articles.iter().enumerate() {
@@ -370,7 +398,10 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
             a.year.clone().unwrap_or_default(),
             a.pmid,
             a.url,
-            a.doi.as_ref().map(|d| format!("; doi:{d}")).unwrap_or_default(),
+            a.doi
+                .as_ref()
+                .map(|d| format!("; doi:{d}"))
+                .unwrap_or_default(),
             {
                 let types: Vec<&str> = a
                     .publication_types
@@ -378,7 +409,11 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
                     .map(String::as_str)
                     .filter(|t| *t != "Journal Article" && !t.starts_with("Research Support"))
                     .collect();
-                if types.is_empty() { String::new() } else { format!(" — {}", types.join(", ")) }
+                if types.is_empty() {
+                    String::new()
+                } else {
+                    format!(" — {}", types.join(", "))
+                }
             }
         ));
         if !a.abstract_excerpt.is_empty() {
@@ -398,7 +433,8 @@ pub async fn search_pubmed(ctx: &Context, args: SearchPubmedArgs) -> Result<Enve
     }
     let source = Source {
         title: "PubMed (NCBI E-utilities esearch and efetch)".into(),
-        publisher: "National Library of Medicine, National Center for Biotechnology Information".into(),
+        publisher: "National Library of Medicine, National Center for Biotechnology Information"
+            .into(),
         url: Some(pubmed_url.clone()),
         effective_date: None,
         retrieved: Some(prov.as_of.chars().take(10).collect()),
@@ -469,7 +505,10 @@ mod tests {
         .unwrap_err()
         .to_string();
         assert!(err.contains("offline"), "{err}");
-        let err = search_pubmed(&ctx, SearchPubmedArgs::default()).await.unwrap_err().to_string();
+        let err = search_pubmed(&ctx, SearchPubmedArgs::default())
+            .await
+            .unwrap_err()
+            .to_string();
         assert!(err.contains("PICO"), "{err}");
     }
 }

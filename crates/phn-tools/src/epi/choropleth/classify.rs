@@ -157,7 +157,10 @@ mod tests {
     #[test]
     fn quantiles_split_evenly() {
         let v: Vec<f64> = (1..=10).map(f64::from).collect();
-        assert_eq!(breaks(&v, 5, Method::Quantile), vec![2.0, 4.0, 6.0, 8.0, 10.0]);
+        assert_eq!(
+            breaks(&v, 5, Method::Quantile),
+            vec![2.0, 4.0, 6.0, 8.0, 10.0]
+        );
         assert_eq!(breaks(&v, 3, Method::Quantile), vec![4.0, 7.0, 10.0]);
     }
 

@@ -148,7 +148,9 @@ pub fn expect_json(body: &[u8]) -> Result<()> {
         Some(b'<') => Err(PhnError::Network(
             "the server returned a web page instead of data".into(),
         )),
-        _ => Err(PhnError::Network("the response was empty or not JSON".into())),
+        _ => Err(PhnError::Network(
+            "the response was empty or not JSON".into(),
+        )),
     }
 }
 
@@ -169,8 +171,14 @@ mod tests {
 
     #[test]
     fn params_and_scrubbing() {
-        assert_eq!(with_param("https://x/a", "key", "k 1"), "https://x/a?key=k%201");
-        assert_eq!(with_param("https://x/a?b=1", "key", "k"), "https://x/a?b=1&key=k");
+        assert_eq!(
+            with_param("https://x/a", "key", "k 1"),
+            "https://x/a?key=k%201"
+        );
+        assert_eq!(
+            with_param("https://x/a?b=1", "key", "k"),
+            "https://x/a?b=1&key=k"
+        );
         assert_eq!(
             scrub("GET https://x/a?key=SECRET1: 403", Some("SECRET1")),
             "GET https://x/a?key=[key]: 403"
@@ -187,7 +195,9 @@ mod tests {
         let config = Config::for_root(dir.path());
         let http = HttpClient::new(&config).unwrap();
         let cache = Cache::in_memory().unwrap();
-        cache.put("https://x/a", b"<html>error</html>", 3600).unwrap();
+        cache
+            .put("https://x/a", b"<html>error</html>", 3600)
+            .unwrap();
         let snap: SnapshotFallback = Box::new(|| Some((b"[]".to_vec(), "2026-01-01".into())));
         let r = fetch_validated(
             &http,

@@ -497,7 +497,6 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"path": "line_list.csv", "geography": "zcta", "title": "Cases", "area_column": "ZIP", "value_column": "Age", "value_is_count": true}),
             ll,
         ),
-
         // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)
 
         // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)

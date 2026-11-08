@@ -428,7 +428,8 @@ pub fn parse_efetch(body: &[u8]) -> Result<Vec<Article>> {
                             cur.abstract_text.push(' ');
                         }
                         if let Some(l) = abstract_label.take() {
-                            cur.abstract_text.push_str(&format!("{}: ", l.to_uppercase()));
+                            cur.abstract_text
+                                .push_str(&format!("{}: ", l.to_uppercase()));
                         }
                         cur.abstract_text.push_str(&t);
                     }
@@ -482,13 +483,24 @@ mod tests {
 
     #[test]
     fn parses_esearch_and_term_mapping() {
-        let r = parse_esearch(include_bytes!("../tests/fixtures/phase4/pubmed_esearch.xml")).unwrap();
+        let r = parse_esearch(include_bytes!(
+            "../tests/fixtures/phase4/pubmed_esearch.xml"
+        ))
+        .unwrap();
         assert_eq!(r.count, 69);
         assert_eq!(r.ids, vec!["42309234", "42317980", "41759747"]);
-        assert!(r.query_translation.contains("\"whooping cough\"[MeSH Terms]"));
-        let atm =
-            parse_esearch(include_bytes!("../tests/fixtures/phase4/pubmed_esearch_atm.xml")).unwrap();
-        assert_eq!(whole_phrase_mesh(&atm, "Whooping cough"), vec!["whooping cough"]);
+        assert!(
+            r.query_translation
+                .contains("\"whooping cough\"[MeSH Terms]")
+        );
+        let atm = parse_esearch(include_bytes!(
+            "../tests/fixtures/phase4/pubmed_esearch_atm.xml"
+        ))
+        .unwrap();
+        assert_eq!(
+            whole_phrase_mesh(&atm, "Whooping cough"),
+            vec!["whooping cough"]
+        );
         assert!(whole_phrase_mesh(&atm, "school nurse").is_empty());
     }
 
@@ -498,7 +510,11 @@ mod tests {
         assert_eq!(a.len(), 2);
         let first = &a[0];
         assert_eq!(first.pmid, "42309234");
-        assert!(first.title.starts_with("Association of asthma and COPD with pertussis risk"));
+        assert!(
+            first
+                .title
+                .starts_with("Association of asthma and COPD with pertussis risk")
+        );
         assert_eq!(first.journal_abbreviation, "Respir Med");
         assert_eq!(first.year.as_deref(), Some("2026"));
         assert_eq!(first.doi.as_deref(), Some("10.1016/j.rmed.2026.108968"));

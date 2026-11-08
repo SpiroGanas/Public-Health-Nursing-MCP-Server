@@ -47,8 +47,12 @@ async fn call_err(h: &common::Harness, name: &str, args: Value) -> String {
 }
 
 fn fixture(name: &str) -> Vec<u8> {
-    std::fs::read(common::repo_root().join("crates/phn-data/tests/fixtures/phase4").join(name))
-        .unwrap()
+    std::fs::read(
+        common::repo_root()
+            .join("crates/phn-data/tests/fixtures/phase4")
+            .join(name),
+    )
+    .unwrap()
 }
 
 fn modes(s: &Value) -> Vec<String> {
@@ -89,7 +93,12 @@ async fn community_profile_offline_cites_every_figure() {
     .await;
     assert_eq!(s["data"]["area"]["level"], "county");
     assert!(s["data"].get("chronic_disease").is_none());
-    let e = call_err(&h, "build_community_health_profile", json!({"area": "Worchester"})).await;
+    let e = call_err(
+        &h,
+        "build_community_health_profile",
+        json!({"area": "Worchester"}),
+    )
+    .await;
     assert!(e.contains("Worcester"), "{e}");
     let e = call_err(&h, "build_community_health_profile", json!({})).await;
     assert!(e.contains("configure_jurisdiction"), "{e}");
@@ -115,9 +124,23 @@ async fn svi_ranks_tracts() {
         .sum();
     assert_eq!(q, d["tracts_ranked"].as_u64().unwrap());
     // A small town whose tracts belong mainly to neighbors still answers.
-    let s = call_ok(&h, "get_social_vulnerability_index", json!({"area": "Gosnold"})).await;
-    assert!(s["caveats"].to_string().contains("No census tract lies mainly in Gosnold"));
-    let e = call_err(&h, "get_social_vulnerability_index", json!({"area": "02543"})).await;
+    let s = call_ok(
+        &h,
+        "get_social_vulnerability_index",
+        json!({"area": "Gosnold"}),
+    )
+    .await;
+    assert!(
+        s["caveats"]
+            .to_string()
+            .contains("No census tract lies mainly in Gosnold")
+    );
+    let e = call_err(
+        &h,
+        "get_social_vulnerability_index",
+        json!({"area": "02543"}),
+    )
+    .await;
     assert!(e.to_lowercase().contains("tract"), "{e}");
 }
 
@@ -135,7 +158,10 @@ async fn language_access_applies_the_safe_harbor_with_a_notice() {
         .unwrap();
     assert_eq!(spanish["threshold_status"], "clearly_meets");
     assert_eq!(d["massachusetts_top_15"].as_array().unwrap().len(), 15);
-    assert!(s["notice"].is_string(), "legal decision support needs the notice");
+    assert!(
+        s["notice"].is_string(),
+        "legal decision support needs the notice"
+    );
     let caveats = s["caveats"].to_string();
     assert!(caveats.contains("low confidence") && caveats.contains("not yet been reviewed"));
     // A program serving fewer people gets a lower threshold.
@@ -189,7 +215,12 @@ async fn disparities_inline_and_from_an_aggregated_file() {
     )
     .await;
     assert!(e.contains("at least two"), "{e}");
-    let e = call_err(&h, "measure_health_disparities", json!({"path": "line_list.csv"})).await;
+    let e = call_err(
+        &h,
+        "measure_health_disparities",
+        json!({"path": "line_list.csv"}),
+    )
+    .await;
     assert!(e.contains("record-level"), "{e}");
 }
 
@@ -313,8 +344,12 @@ async fn pubmed_uses_the_cache_offline_and_never_sends_an_email() {
         ],
     );
     let cache = h.ctx.cache.as_ref().expect("cache");
-    cache.put(&search, &fixture("pubmed_esearch.xml"), 3600).unwrap();
-    cache.put(&fetch, &fixture("pubmed_efetch.xml"), 3600).unwrap();
+    cache
+        .put(&search, &fixture("pubmed_esearch.xml"), 3600)
+        .unwrap();
+    cache
+        .put(&fetch, &fixture("pubmed_efetch.xml"), 3600)
+        .unwrap();
     let s = call_ok(
         &h,
         "search_pubmed",
@@ -328,7 +363,12 @@ async fn pubmed_uses_the_cache_offline_and_never_sends_an_email() {
     assert_eq!(arts.len(), 2);
     assert_eq!(arts[0]["pmid"], "42309234");
     assert!(arts[0]["doi"].as_str().unwrap().starts_with("10."));
-    assert!(arts[0]["url"].as_str().unwrap().contains("pubmed.ncbi.nlm.nih.gov/42309234"));
+    assert!(
+        arts[0]["url"]
+            .as_str()
+            .unwrap()
+            .contains("pubmed.ncbi.nlm.nih.gov/42309234")
+    );
     assert_eq!(modes(&s), vec!["cache"]);
     // Not cached and offline: a clear tool error.
     let e = call_err(
@@ -367,13 +407,28 @@ async fn cdc_guidance_from_cached_feeds() {
     )
     .await;
     let items = s["data"]["items"].as_array().unwrap();
-    assert!(items.iter().any(|i| i["series"] == "mmwr"
-        && i["url"].as_str().unwrap().contains("/mmwr/")));
-    assert!(items.iter().any(|i| i["series"] == "han"
-        && i["number"].as_str() == Some("00522")));
+    assert!(
+        items
+            .iter()
+            .any(|i| i["series"] == "mmwr" && i["url"].as_str().unwrap().contains("/mmwr/"))
+    );
+    assert!(
+        items
+            .iter()
+            .any(|i| i["series"] == "han" && i["number"].as_str() == Some("00522"))
+    );
     let searched = s["data"]["searched"].as_array().unwrap();
-    assert!(searched.iter().any(|x| x["series"] == "stacks" && x["status"] == "link_only"));
-    assert!(s["data"]["stacks_search_url"].as_str().unwrap().contains("stacks.cdc.gov"));
+    assert!(
+        searched
+            .iter()
+            .any(|x| x["series"] == "stacks" && x["status"] == "link_only")
+    );
+    assert!(
+        s["data"]["stacks_search_url"]
+            .as_str()
+            .unwrap()
+            .contains("stacks.cdc.gov")
+    );
     assert!(s["notice"].is_string());
     let e = call_err(&h, "search_cdc_guidance", json!({"topic": "  "})).await;
     assert!(e.contains("topic"), "{e}");

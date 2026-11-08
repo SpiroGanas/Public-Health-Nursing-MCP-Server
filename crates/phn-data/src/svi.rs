@@ -27,14 +27,30 @@ pub const THEMES: [(&str, &str, &[&str]); 4] = [
     (
         "theme1",
         "Socioeconomic status",
-        &["ep_pov150", "ep_unemp", "ep_hburd", "ep_nohsdp", "ep_uninsur"],
+        &[
+            "ep_pov150",
+            "ep_unemp",
+            "ep_hburd",
+            "ep_nohsdp",
+            "ep_uninsur",
+        ],
     ),
     (
         "theme2",
         "Household characteristics",
-        &["ep_age65", "ep_age17", "ep_disabl", "ep_sngpnt", "ep_limeng"],
+        &[
+            "ep_age65",
+            "ep_age17",
+            "ep_disabl",
+            "ep_sngpnt",
+            "ep_limeng",
+        ],
     ),
-    ("theme3", "Racial and ethnic minority status", &["ep_minrty"]),
+    (
+        "theme3",
+        "Racial and ethnic minority status",
+        &["ep_minrty"],
+    ),
     (
         "theme4",
         "Housing type and transportation",
@@ -46,15 +62,24 @@ pub const THEMES: [(&str, &str, &[&str]); 4] = [
 pub const VARIABLES: [(&str, &str); 16] = [
     ("ep_pov150", "Below 150% of the poverty level"),
     ("ep_unemp", "Unemployed (civilian, age 16+)"),
-    ("ep_hburd", "Housing cost burden (30%+ of income, households under $75,000)"),
+    (
+        "ep_hburd",
+        "Housing cost burden (30%+ of income, households under $75,000)",
+    ),
     ("ep_nohsdp", "No high school diploma (age 25+)"),
     ("ep_uninsur", "No health insurance"),
     ("ep_age65", "Aged 65 and older"),
     ("ep_age17", "Aged 17 and younger"),
     ("ep_disabl", "Civilian with a disability"),
-    ("ep_sngpnt", "Single-parent households with children under 18"),
+    (
+        "ep_sngpnt",
+        "Single-parent households with children under 18",
+    ),
     ("ep_limeng", "Speak English \"less than well\" (age 5+)"),
-    ("ep_minrty", "Racial and ethnic minority (all except non-Hispanic White)"),
+    (
+        "ep_minrty",
+        "Racial and ethnic minority (all except non-Hispanic White)",
+    ),
     ("ep_munit", "Housing in structures with 10+ units"),
     ("ep_mobile", "Mobile homes"),
     ("ep_crowd", "Crowding (more people than rooms)"),
@@ -181,10 +206,17 @@ mod tests {
         assert!(s.tracts.len() > 1600, "{}", s.tracts.len());
         let ranked: Vec<&SviTract> = s.tracts.iter().filter(|t| t.ma.overall.is_some()).collect();
         assert!(ranked.len() > 1550);
-        assert!(ranked.iter().all(|t| (0.0..=1.0).contains(&t.ma.overall.unwrap())));
+        assert!(
+            ranked
+                .iter()
+                .all(|t| (0.0..=1.0).contains(&t.ma.overall.unwrap()))
+        );
         assert!(ranked.iter().filter(|t| t.us.overall.is_some()).count() > 1550);
         // State percentile ranks span the full range.
-        let max = ranked.iter().map(|t| t.ma.overall.unwrap()).fold(0.0, f64::max);
+        let max = ranked
+            .iter()
+            .map(|t| t.ma.overall.unwrap())
+            .fold(0.0, f64::max);
         assert!(max > 0.99);
     }
 }

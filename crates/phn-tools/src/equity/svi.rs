@@ -190,7 +190,10 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
     let top = args.top.unwrap_or(10).clamp(1, 200);
     let tracts: Vec<&SviTract> = fips.iter().filter_map(|f| snap.tract(f)).collect();
     if tracts.is_empty() {
-        return Err(PhnError::NotFound(format!("no SVI 2022 tracts found for {}", geo.name)));
+        return Err(PhnError::NotFound(format!(
+            "no SVI 2022 tracts found for {}",
+            geo.name
+        )));
     }
     let ranks_of = |t: &SviTract| match ranking {
         Ranking::Massachusetts => t.ma,
@@ -202,7 +205,9 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
             let g = geos.get(&t.fips);
             SviRow {
                 fips: t.fips.clone(),
-                name: g.map(|g| g.name.clone()).unwrap_or_else(|| t.location.clone()),
+                name: g
+                    .map(|g| g.name.clone())
+                    .unwrap_or_else(|| t.location.clone()),
                 town: g.and_then(|g| g.town.clone()),
                 population: t.population,
                 ranks: ranks_of(t),
@@ -216,7 +221,10 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
             .unwrap_or(-1.0)
             .total_cmp(&a.ranks.get(theme.id()).unwrap_or(-1.0))
     });
-    let ranked: Vec<f64> = rows.iter().filter_map(|r| r.ranks.get(theme.id())).collect();
+    let ranked: Vec<f64> = rows
+        .iter()
+        .filter_map(|r| r.ranks.get(theme.id()))
+        .collect();
     let mut q = [0usize; 4];
     for r in &ranked {
         q[((r * 4.0).floor() as usize).min(3)] += 1;
@@ -226,7 +234,11 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
         v.sort_by(f64::total_cmp);
         (!v.is_empty()).then(|| {
             let n = v.len();
-            if n % 2 == 1 { v[n / 2] } else { (v[n / 2 - 1] + v[n / 2]) / 2.0 }
+            if n % 2 == 1 {
+                v[n / 2]
+            } else {
+                (v[n / 2 - 1] + v[n / 2]) / 2.0
+            }
         })
     };
     let total = rows.len();
@@ -275,11 +287,24 @@ pub fn get_social_vulnerability_index(ctx: &Context, args: SviArgs) -> Result<En
         })
         .collect();
     summary.push_str(&md::table(
-        &["Tract", "Town", "Population", "Overall", "Socioeconomic", "Household", "Minority status", "Housing/transport", "Flags"],
+        &[
+            "Tract",
+            "Town",
+            "Population",
+            "Overall",
+            "Socioeconomic",
+            "Household",
+            "Minority status",
+            "Housing/transport",
+            "Flags",
+        ],
         &t,
     ));
     if total > rows.len() {
-        summary.push_str(&format!("\nShowing the {} most vulnerable of {total} tracts.\n", rows.len()));
+        summary.push_str(&format!(
+            "\nShowing the {} most vulnerable of {total} tracts.\n",
+            rows.len()
+        ));
     }
     if !variables.is_empty() {
         summary.push_str("\n**Tract variables (percent, ACS 2018–2022)**\n\n");
@@ -338,7 +363,12 @@ mod tests {
         .unwrap();
         assert!(env.data.tracts_total > 30);
         assert_eq!(env.data.tracts.len(), 10);
-        let r: Vec<f64> = env.data.tracts.iter().filter_map(|t| t.ranks.overall).collect();
+        let r: Vec<f64> = env
+            .data
+            .tracts
+            .iter()
+            .filter_map(|t| t.ranks.overall)
+            .collect();
         assert!(r.windows(2).all(|w| w[0] >= w[1]));
         let fips = env.data.tracts[0].fips.clone();
         let env = get_social_vulnerability_index(
@@ -390,6 +420,10 @@ mod tests {
             },
         )
         .unwrap();
-        assert!(env.caveats.iter().any(|c| c.contains("No census tract lies mainly in Alford")));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("No census tract lies mainly in Alford"))
+        );
     }
 }

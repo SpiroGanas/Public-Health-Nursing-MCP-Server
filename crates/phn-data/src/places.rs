@@ -35,7 +35,9 @@ pub const DEFINITIONS_URL: &str = "https://www.cdc.gov/places/measure-definition
 pub const TTL_SECS: u64 = 7 * 24 * 3600;
 
 /// PLACES geographic level.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum PlacesLevel {
     County,
@@ -214,9 +216,9 @@ impl PlacesSnapshot {
     /// A measure definition (id or short name, case-insensitive).
     pub fn measure(&self, q: &str) -> Option<&Measure> {
         let q = q.trim();
-        self.measures.iter().find(|m| {
-            m.id.eq_ignore_ascii_case(q) || m.short_name.eq_ignore_ascii_case(q)
-        })
+        self.measures
+            .iter()
+            .find(|m| m.id.eq_ignore_ascii_case(q) || m.short_name.eq_ignore_ascii_case(q))
     }
 
     /// The location as Socrata JSON rows (the live response shape), for the
@@ -305,7 +307,8 @@ pub fn location_from_rows(
         if loc.population_18plus.is_none() {
             loc.population_18plus = socrata::num(r, "totalpop18plus");
         }
-        let (Some(m), Some(v)) = (socrata::text(r, "measureid"), socrata::num(r, "data_value")) else {
+        let (Some(m), Some(v)) = (socrata::text(r, "measureid"), socrata::num(r, "data_value"))
+        else {
             continue;
         };
         let pv = PlacesValue {
@@ -371,7 +374,11 @@ mod tests {
     fn snapshot_loads_every_level_and_round_trips_rows() {
         let s = PlacesSnapshot::load(&SnapshotStore::bundled()).unwrap();
         assert_eq!(s.measures.len(), 40);
-        let counties = s.locations.keys().filter(|k| k.0 == PlacesLevel::County).count();
+        let counties = s
+            .locations
+            .keys()
+            .filter(|k| k.0 == PlacesLevel::County)
+            .count();
         assert_eq!(counties, 14);
         let hampden = s.location(PlacesLevel::County, "25013").unwrap();
         assert!(hampden.crude.contains_key("DIABETES"));
@@ -383,8 +390,20 @@ mod tests {
         let back = location_from_rows(PlacesLevel::County, "25013", &rows).unwrap();
         assert_eq!(back.crude, hampden.crude);
         assert_eq!(back.name, "Hampden County");
-        assert!(s.locations.keys().filter(|k| k.0 == PlacesLevel::Tract).count() > 1500);
-        assert!(s.locations.keys().filter(|k| k.0 == PlacesLevel::Zcta).count() > 500);
+        assert!(
+            s.locations
+                .keys()
+                .filter(|k| k.0 == PlacesLevel::Tract)
+                .count()
+                > 1500
+        );
+        assert!(
+            s.locations
+                .keys()
+                .filter(|k| k.0 == PlacesLevel::Zcta)
+                .count()
+                > 500
+        );
     }
 
     #[tokio::test]

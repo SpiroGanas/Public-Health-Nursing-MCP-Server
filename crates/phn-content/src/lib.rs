@@ -58,7 +58,6 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/equity/language_access.yaml"),
         schema: include_str!("../../../content/schemas/language_access.schema.json"),
     },
-
     // Phase 5 content items go below this line.
 
     // Phase 6 content items go below this line.

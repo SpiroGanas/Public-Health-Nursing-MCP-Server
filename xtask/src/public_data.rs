@@ -42,8 +42,7 @@ const GAZ2020_BASE: &str =
 const CB_BASE: &str = "https://www2.census.gov/geo/tiger/GENZ2024/shp";
 const ZCTA_CB: &str = "https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_zcta520_500k.zip";
 const BAF: &str = "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST25_MA.zip";
-const ZCTA_REL: &str =
-    "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_cousub20_natl.txt";
+const ZCTA_REL: &str = "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_cousub20_natl.txt";
 const PUMA_REL: &str =
     "https://www2.census.gov/geo/docs/maps-data/data/rel2020/2020_Census_Tract_to_2020_PUMA.txt";
 const SVI_MA: &str = "https://svi.cdc.gov/Documents/Data/2022/csv/states/Massachusetts.csv";
@@ -77,10 +76,7 @@ impl Downloader {
         Ok(Self {
             dir,
             client: reqwest::blocking::Client::builder()
-                .user_agent(concat!(
-                    "phn-mcp-server-xtask/",
-                    env!("CARGO_PKG_VERSION")
-                ))
+                .user_agent(concat!("phn-mcp-server-xtask/", env!("CARGO_PKG_VERSION")))
                 .timeout(Duration::from_secs(900))
                 .build()?,
             hashes: Default::default(),
@@ -119,7 +115,12 @@ impl Downloader {
     }
 }
 
-pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>, only: Option<String>) -> Result<()> {
+pub fn run(
+    root: &Path,
+    check: bool,
+    source_dir: Option<PathBuf>,
+    only: Option<String>,
+) -> Result<()> {
     let snap_dir = root.join("snapshots");
     let manifest_path = snap_dir.join("manifest.json");
     let old: Manifest = serde_json::from_str(&std::fs::read_to_string(&manifest_path)?)
@@ -160,12 +161,7 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>, only: Option<S
             let committed = std::fs::read_to_string(snap_dir.join(path)).unwrap_or_default();
             if committed != *text {
                 entry_changed = true;
-                let _ = writeln!(
-                    report,
-                    "{path}: {} → {} bytes",
-                    committed.len(),
-                    text.len()
-                );
+                let _ = writeln!(report, "{path}: {} → {} bytes", committed.len(), text.len());
             }
         }
         if let Some(o) = old_entry
@@ -191,7 +187,9 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>, only: Option<S
     if check {
         if changed {
             println!("Public-data snapshot differences found:\n{report}");
-            bail!("public-data snapshots are out of date; run `cargo xtask build-public-snapshots`");
+            bail!(
+                "public-data snapshots are out of date; run `cargo xtask build-public-snapshots`"
+            );
         }
         println!("Public-data snapshots are up to date.");
         return Ok(());
@@ -435,7 +433,10 @@ fn build_geographies(root: &Path, dl: &Downloader) -> Result<Geos> {
             .cloned()
             .ok_or_else(|| anyhow!("Census county subdivision '{cname}' has no MassGIS town"))?;
         if county != geoid[..5] {
-            bail!("{cname}: county {} differs from MassGIS {county}", &geoid[..5]);
+            bail!(
+                "{cname}: county {} differs from MassGIS {county}",
+                &geoid[..5]
+            );
         }
         town_by_geoid.insert(geoid.clone(), town.clone());
         geoid_by_town.insert(town.clone(), geoid.clone());
@@ -482,7 +483,10 @@ fn build_geographies(root: &Path, dl: &Downloader) -> Result<Geos> {
         town_by_geoid_2020.insert(g["GEOID"].clone(), town);
     }
     if town_by_geoid_2020.len() != 351 {
-        bail!("matched {} 2020 towns, expected 351", town_by_geoid_2020.len());
+        bail!(
+            "matched {} 2020 towns, expected 351",
+            town_by_geoid_2020.len()
+        );
     }
 
     // Tract → town shares from the block assignment file.
@@ -496,7 +500,11 @@ fn build_geographies(root: &Path, dl: &Downloader) -> Result<Geos> {
         let tract = f[0][..11].to_string();
         let cousub = format!("25{}{}", f[1], f[2]);
         if let Some(town) = town_by_geoid_2020.get(&cousub) {
-            *blocks.entry(tract).or_default().entry(town.clone()).or_default() += 1;
+            *blocks
+                .entry(tract)
+                .or_default()
+                .entry(town.clone())
+                .or_default() += 1;
         }
     }
     let puma_rel = String::from_utf8(dl.get(PUMA_REL, "2020_Census_Tract_to_2020_PUMA.txt")?)?;
@@ -530,7 +538,11 @@ fn build_geographies(root: &Path, dl: &Downloader) -> Result<Geos> {
         } else {
             format!("{}.{}", code[..4].trim_start_matches('0'), &code[4..])
         };
-        let num = if num.starts_with('.') { format!("0{num}") } else { num };
+        let num = if num.starts_with('.') {
+            format!("0{num}")
+        } else {
+            num
+        };
         let county_name = county_names.get(&county).cloned().unwrap_or_default();
         tracts.insert(geoid.clone());
         rows.push(GeoRow {
@@ -645,7 +657,10 @@ pub fn to_ma_state_plane(lon: f64, lat: f64) -> (f64, f64) {
     let rho0 = rho(phi0);
     let r = rho(rad(lat));
     let theta = n * (rad(lon) - lam0);
-    (200_000.0 + r * theta.sin(), 750_000.0 + rho0 - r * theta.cos())
+    (
+        200_000.0 + r * theta.sin(),
+        750_000.0 + rho0 - r * theta.cos(),
+    )
 }
 
 /// Read polygons from a shapefile: (key field value, projected multipolygon).
@@ -676,10 +691,7 @@ fn read_shapes(
                                 .collect(),
                         )
                     };
-                    Polygon::new(
-                        proj(p.exterior()),
-                        p.interiors().iter().map(proj).collect(),
-                    )
+                    Polygon::new(proj(p.exterior()), p.interiors().iter().map(proj).collect())
                 })
                 .collect(),
         );
@@ -688,11 +700,18 @@ fn read_shapes(
     Ok(out)
 }
 
+/// Integer coordinates (10 m units after quantization).
+type Pt = (i64, i64);
+/// Rings of a polygon, polygons of a feature, features of a layer.
+type QuantizedLayer = Vec<Vec<Vec<Vec<Pt>>>>;
+/// A named multipolygon.
+type NamedShape = (String, MultiPolygon<f64>);
+
 /// Simplify a set of features with Douglas–Peucker while keeping shared
 /// borders identical: vertices where the set of features using a point
 /// changes ("junctions") are fixed, and each run between junctions is
 /// simplified on its own, so neighbors get the same simplified border.
-fn simplify_coverage(features: &[(String, MultiPolygon<f64>)], tol: f64) -> Vec<Vec<Vec<Vec<(i64, i64)>>>> {
+fn simplify_coverage(features: &[(String, MultiPolygon<f64>)], tol: f64) -> QuantizedLayer {
     let key = |c: &Coord<f64>| ((c.x * 100.0).round() as i64, (c.y * 100.0).round() as i64);
     let mut users: HashMap<(i64, i64), Vec<usize>> = HashMap::new();
     for (fi, (_, mp)) in features.iter().enumerate() {
@@ -714,7 +733,10 @@ fn simplify_coverage(features: &[(String, MultiPolygon<f64>)], tol: f64) -> Vec<
             let mut polys = Vec::new();
             for p in &mp.0 {
                 let mut rings = Vec::new();
-                for (ri, ring) in std::iter::once(p.exterior()).chain(p.interiors()).enumerate() {
+                for (ri, ring) in std::iter::once(p.exterior())
+                    .chain(p.interiors())
+                    .enumerate()
+                {
                     let pts: Vec<Coord<f64>> = ring.0.clone();
                     if pts.len() < 4 {
                         continue;
@@ -821,8 +843,14 @@ fn encode_geometry(polys: &[Vec<Vec<(i64, i64)>>]) -> String {
 }
 
 fn build_boundaries(root: &Path, dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
-    let towns_zip = dl.get(&format!("{CB_BASE}/cb_2024_25_cousub_500k.zip"), "cb_2024_25_cousub_500k.zip")?;
-    let tracts_zip = dl.get(&format!("{CB_BASE}/cb_2024_25_tract_500k.zip"), "cb_2024_25_tract_500k.zip")?;
+    let towns_zip = dl.get(
+        &format!("{CB_BASE}/cb_2024_25_cousub_500k.zip"),
+        "cb_2024_25_cousub_500k.zip",
+    )?;
+    let tracts_zip = dl.get(
+        &format!("{CB_BASE}/cb_2024_25_tract_500k.zip"),
+        "cb_2024_25_tract_500k.zip",
+    )?;
     let zcta_zip = dl.get(ZCTA_CB, "cb_2020_us_zcta520_500k.zip")?;
 
     let mut towns = read_shapes(&towns_zip, &|r| {
@@ -850,10 +878,8 @@ fn build_boundaries(root: &Path, dl: &Downloader, geos: &Geos, today: &str) -> R
         .iter()
         .map(|(g, mp)| (geos.town_by_geoid[g].clone(), mp))
         .collect();
-    let norm_town: HashMap<String, String> = town_shape
-        .keys()
-        .map(|t| (norm(t), t.clone()))
-        .collect();
+    let norm_town: HashMap<String, String> =
+        town_shape.keys().map(|t| (norm(t), t.clone())).collect();
     let mut districts = Vec::new();
     let mut district_names = HashMap::new();
     for rec in csv::Reader::from_reader(districts_csv.as_bytes()).records() {
@@ -877,11 +903,16 @@ fn build_boundaries(root: &Path, dl: &Downloader, geos: &Geos, today: &str) -> R
         districts.push((code.to_string(), union));
     }
 
-    let layers: Vec<(&str, &str, f64, Vec<(String, MultiPolygon<f64>)>)> = vec![
+    let layers: Vec<(&str, &str, f64, Vec<NamedShape>)> = vec![
         ("ma_boundaries_towns.csv", "town", 60.0, towns),
         ("ma_boundaries_tracts.csv", "tract", 25.0, tracts),
         ("ma_boundaries_zctas.csv", "zcta", 50.0, zctas),
-        ("ma_boundaries_school_districts.csv", "district", 60.0, districts),
+        (
+            "ma_boundaries_school_districts.csv",
+            "district",
+            60.0,
+            districts,
+        ),
     ];
     let names: HashMap<&str, String> = geos
         .rows
@@ -899,11 +930,23 @@ fn build_boundaries(root: &Path, dl: &Downloader, geos: &Geos, today: &str) -> R
                 continue;
             }
             let (out_id, name) = match level {
-                "town" => (geos.town_by_geoid[id].clone(), geos.town_by_geoid[id].clone()),
+                "town" => (
+                    geos.town_by_geoid[id].clone(),
+                    geos.town_by_geoid[id].clone(),
+                ),
                 "district" => (id.clone(), district_names[id].clone()),
-                _ => (id.clone(), names.get(id.as_str()).cloned().unwrap_or_default()),
+                _ => (
+                    id.clone(),
+                    names.get(id.as_str()).cloned().unwrap_or_default(),
+                ),
             };
-            let _ = writeln!(out, "{},{},{}", csv_field(&out_id), csv_field(&name), encode_geometry(&polys));
+            let _ = writeln!(
+                out,
+                "{},{},{}",
+                csv_field(&out_id),
+                csv_field(&name),
+                encode_geometry(&polys)
+            );
         }
         eprintln!("{path}: {} bytes", out.len());
         files.push(file_entry(path, &out));
@@ -974,22 +1017,32 @@ fn build_acs(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
             })
             .collect();
         for line in lines {
-            let Some((geo, _)) = line.split_once('|') else { continue };
+            let Some((geo, _)) = line.split_once('|') else {
+                continue;
+            };
             let geoid = if geo == "0100000US" {
                 "US".to_string()
             } else if geo == "0400000US25" {
                 "25".to_string()
             } else if let Some(c) = geo.strip_prefix("0500000US") {
-                if !c.starts_with("25") { continue; }
+                if !c.starts_with("25") {
+                    continue;
+                }
                 c.to_string()
             } else if let Some(c) = geo.strip_prefix("0600000US") {
-                if !geos.town_by_geoid.contains_key(c) { continue; }
+                if !geos.town_by_geoid.contains_key(c) {
+                    continue;
+                }
                 c.to_string()
             } else if let Some(c) = geo.strip_prefix("1400000US") {
-                if !geos.tracts.contains(c) { continue; }
+                if !geos.tracts.contains(c) {
+                    continue;
+                }
                 c.to_string()
             } else if let Some(c) = geo.strip_prefix("795P200US") {
-                if t != "B16001" || !geos.pumas.contains(c) { continue; }
+                if t != "B16001" || !geos.pumas.contains(c) {
+                    continue;
+                }
                 c.to_string()
             } else {
                 continue;
@@ -998,8 +1051,12 @@ fn build_acs(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
             let mut est: HashMap<String, f64> = HashMap::new();
             let mut moe: HashMap<String, f64> = HashMap::new();
             for (i, v) in line.split('|').enumerate().skip(1) {
-                let Some(Some((cell, is_moe))) = cols.get(i) else { continue };
-                let Ok(x) = v.trim().parse::<f64>() else { continue };
+                let Some(Some((cell, is_moe))) = cols.get(i) else {
+                    continue;
+                };
+                let Ok(x) = v.trim().parse::<f64>() else {
+                    continue;
+                };
                 if *is_moe {
                     moe.insert(cell.clone(), x);
                 } else {
@@ -1023,7 +1080,10 @@ fn build_acs(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
 
     // Wide indicator file.
     let lang_cols = census::language_count_columns();
-    let mut ids: Vec<String> = census::INDICATORS.iter().map(|d| d.id.to_string()).collect();
+    let mut ids: Vec<String> = census::INDICATORS
+        .iter()
+        .map(|d| d.id.to_string())
+        .collect();
     ids.extend(lang_cols.iter().map(|(c, _)| c.clone()));
     let mut out = String::from("geoid,level,name");
     for id in &ids {
@@ -1105,7 +1165,7 @@ fn build_acs(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
             title: census::acs_title(ACS_VINTAGE),
             publisher: "U.S. Census Bureau".into(),
             source_urls: std::iter::once(format!("{SF_BASE}/"))
-                .chain(urls.into_iter())
+                .chain(urls)
                 .collect(),
             source_sha256: dl.take_hashes(),
             source_vintage: format!("{}–{ACS_VINTAGE} (released December {})", ACS_VINTAGE - 4, ACS_VINTAGE + 1),
@@ -1132,11 +1192,30 @@ fn build_acs(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
 
 /// SVI columns kept (percent estimates of the 16 variables and flags).
 const SVI_EP: [&str; 16] = [
-    "EP_POV150", "EP_UNEMP", "EP_HBURD", "EP_NOHSDP", "EP_UNINSUR", "EP_AGE65", "EP_AGE17",
-    "EP_DISABL", "EP_SNGPNT", "EP_LIMENG", "EP_MINRTY", "EP_MUNIT", "EP_MOBILE", "EP_CROWD",
-    "EP_NOVEH", "EP_GROUPQ",
+    "EP_POV150",
+    "EP_UNEMP",
+    "EP_HBURD",
+    "EP_NOHSDP",
+    "EP_UNINSUR",
+    "EP_AGE65",
+    "EP_AGE17",
+    "EP_DISABL",
+    "EP_SNGPNT",
+    "EP_LIMENG",
+    "EP_MINRTY",
+    "EP_MUNIT",
+    "EP_MOBILE",
+    "EP_CROWD",
+    "EP_NOVEH",
+    "EP_GROUPQ",
 ];
-const SVI_RPL: [&str; 5] = ["RPL_THEME1", "RPL_THEME2", "RPL_THEME3", "RPL_THEME4", "RPL_THEMES"];
+const SVI_RPL: [&str; 5] = [
+    "RPL_THEME1",
+    "RPL_THEME2",
+    "RPL_THEME3",
+    "RPL_THEME4",
+    "RPL_THEMES",
+];
 
 fn read_svi(bytes: &[u8]) -> Result<Vec<HashMap<String, String>>> {
     let text = String::from_utf8_lossy(bytes);
@@ -1242,7 +1321,13 @@ fn build_svi(dl: &Downloader, today: &str) -> Result<Built> {
 // PLACES 2025
 // ---------------------------------------------------------------------------
 
-fn socrata_all(dl: &Downloader, dataset: &str, select: &str, where_: &str, tag: &str) -> Result<Vec<serde_json::Map<String, serde_json::Value>>> {
+fn socrata_all(
+    dl: &Downloader,
+    dataset: &str,
+    select: &str,
+    where_: &str,
+    tag: &str,
+) -> Result<Vec<serde_json::Map<String, serde_json::Value>>> {
     let mut out = Vec::new();
     let mut offset = 0u32;
     loop {
@@ -1271,18 +1356,27 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
         ("county", PLACES_COUNTY, "stateabbr = 'MA'".to_string()),
         ("place", PLACES_PLACE, "stateabbr = 'MA'".to_string()),
         ("tract", PLACES_TRACT, "stateabbr = 'MA'".to_string()),
-        ("zcta", PLACES_ZCTA, "locationid >= '01000' AND locationid < '02800'".to_string()),
+        (
+            "zcta",
+            PLACES_ZCTA,
+            "locationid >= '01000' AND locationid < '02800'".to_string(),
+        ),
     ];
     // measure id → (short name, measure, category, data year)
     let mut measures: BTreeMap<String, (String, String, String, String)> = BTreeMap::new();
     // (level, locationid, type) → (name, pop18, measure → (value, lo, hi))
     type Key = (String, String, String);
-    let mut table: BTreeMap<Key, (String, Option<f64>, BTreeMap<String, (f64, Option<f64>, Option<f64>)>)> = BTreeMap::new();
+    type Estimates = BTreeMap<String, (f64, Option<f64>, Option<f64>)>;
+    let mut table: BTreeMap<Key, (String, Option<f64>, Estimates)> = BTreeMap::new();
     for (level, id, where_) in &sets {
         let rows = socrata_all(dl, id, select, where_, level)?;
         eprintln!("PLACES {level}: {} rows", rows.len());
         for r in rows {
-            let (Some(loc), Some(m), Some(t)) = (text(&r, "locationid"), text(&r, "measureid"), text(&r, "datavaluetypeid")) else {
+            let (Some(loc), Some(m), Some(t)) = (
+                text(&r, "locationid"),
+                text(&r, "measureid"),
+                text(&r, "datavaluetypeid"),
+            ) else {
                 continue;
             };
             if *level == "zcta" && !geos.zctas.contains(loc) {
@@ -1291,10 +1385,14 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
             if *level == "tract" && !geos.tracts.contains(loc) {
                 continue;
             }
-            let Some(v) = num(&r, "data_value") else { continue };
+            let Some(v) = num(&r, "data_value") else {
+                continue;
+            };
             measures.entry(m.to_string()).or_insert_with(|| {
                 (
-                    text(&r, "short_question_text").unwrap_or_default().to_string(),
+                    text(&r, "short_question_text")
+                        .unwrap_or_default()
+                        .to_string(),
                     text(&r, "measure").unwrap_or_default().to_string(),
                     text(&r, "category").unwrap_or_default().to_string(),
                     text(&r, "year").unwrap_or_default().to_string(),
@@ -1311,7 +1409,11 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
                 .or_insert_with(|| (name, num(&r, "totalpop18plus"), BTreeMap::new()));
             e.2.insert(
                 m.to_string(),
-                (v, num(&r, "low_confidence_limit"), num(&r, "high_confidence_limit")),
+                (
+                    v,
+                    num(&r, "low_confidence_limit"),
+                    num(&r, "high_confidence_limit"),
+                ),
             );
         }
     }
@@ -1319,15 +1421,23 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
     // means of county estimates, computed by Socrata.
     let agg = "measureid,datavaluetypeid,sum(data_value*totalpop18plus)/sum(totalpop18plus) as w";
     let mut reference: BTreeMap<(String, String, String), f64> = BTreeMap::new();
-    for (scope, where_) in [("us", "data_value IS NOT NULL"), ("ma", "stateabbr = 'MA' AND data_value IS NOT NULL")] {
+    for (scope, where_) in [
+        ("us", "data_value IS NOT NULL"),
+        ("ma", "stateabbr = 'MA' AND data_value IS NOT NULL"),
+    ] {
         let q = phn_data::socrata::SocrataQuery::cdc(PLACES_COUNTY)
             .select(agg)
             .and_where(where_)
             .group("measureid,datavaluetypeid")
             .limit(1000);
-        let rows = phn_data::socrata::parse_rows(&dl.get(&q.url(), &format!("places_ref_{scope}.json"))?)?;
+        let rows =
+            phn_data::socrata::parse_rows(&dl.get(&q.url(), &format!("places_ref_{scope}.json"))?)?;
         for r in rows {
-            if let (Some(m), Some(t), Some(w)) = (text(&r, "measureid"), text(&r, "datavaluetypeid"), num(&r, "w")) {
+            if let (Some(m), Some(t), Some(w)) = (
+                text(&r, "measureid"),
+                text(&r, "datavaluetypeid"),
+                num(&r, "w"),
+            ) {
                 let kind = if t == "AgeAdjPrv" { "ageadj" } else { "crude" };
                 reference.insert((scope.into(), m.into(), kind.into()), w);
             }
@@ -1370,7 +1480,9 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
         }
         out.push('\n');
     }
-    let mut mfile = String::from("measureid,short_name,measure,category,data_year,us_crude,us_ageadj,ma_crude,ma_ageadj\n");
+    let mut mfile = String::from(
+        "measureid,short_name,measure,category,data_year,us_crude,us_ageadj,ma_crude,ma_ageadj\n",
+    );
     for (m, (short, full, cat, year)) in &measures {
         let r = |s: &str, t: &str| {
             reference
@@ -1390,7 +1502,11 @@ fn build_places(dl: &Downloader, geos: &Geos, today: &str) -> Result<Built> {
             r("ma", "ageadj")
         );
     }
-    eprintln!("PLACES: {} bytes, measures {} bytes", out.len(), mfile.len());
+    eprintln!(
+        "PLACES: {} bytes, measures {} bytes",
+        out.len(),
+        mfile.len()
+    );
     let files = vec![
         file_entry("ma_places_2025.csv", &out),
         file_entry("ma_places_2025_measures.csv", &mfile),
@@ -1444,7 +1560,10 @@ mod tests {
     fn strips_census_town_suffixes() {
         assert_eq!(census_town_base("Barnstable Town city"), "Barnstable");
         assert_eq!(census_town_base("Boston city"), "Boston");
-        assert_eq!(census_town_base("Manchester-by-the-Sea town"), "Manchester-by-the-Sea");
+        assert_eq!(
+            census_town_base("Manchester-by-the-Sea town"),
+            "Manchester-by-the-Sea"
+        );
     }
 
     #[test]

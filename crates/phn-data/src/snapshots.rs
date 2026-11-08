@@ -122,7 +122,6 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_boundaries_school_districts.csv",
         include_str!("../../../snapshots/ma_boundaries_school_districts.csv"),
     ),
-
     // Phase 5 snapshot files go below this line.
 
     // Phase 6 snapshot files go below this line.

@@ -148,15 +148,50 @@ macro_rules! ind {
 /// C16001 language groups: (id, label, total line, "less than very well" line).
 pub const LANGUAGE_GROUPS: [(&str, &str, &str, &str); 11] = [
     ("spanish", "Spanish", "C16001_003", "C16001_005"),
-    ("french_haitian_cajun", "French, Haitian, or Cajun", "C16001_006", "C16001_008"),
-    ("german_west_germanic", "German or other West Germanic languages", "C16001_009", "C16001_011"),
-    ("russian_polish_slavic", "Russian, Polish, or other Slavic languages", "C16001_012", "C16001_014"),
-    ("other_indo_european", "Other Indo-European languages (includes Portuguese, Cape Verdean Creole, Italian, Greek, Hindi, and others)", "C16001_015", "C16001_017"),
+    (
+        "french_haitian_cajun",
+        "French, Haitian, or Cajun",
+        "C16001_006",
+        "C16001_008",
+    ),
+    (
+        "german_west_germanic",
+        "German or other West Germanic languages",
+        "C16001_009",
+        "C16001_011",
+    ),
+    (
+        "russian_polish_slavic",
+        "Russian, Polish, or other Slavic languages",
+        "C16001_012",
+        "C16001_014",
+    ),
+    (
+        "other_indo_european",
+        "Other Indo-European languages (includes Portuguese, Cape Verdean Creole, Italian, Greek, Hindi, and others)",
+        "C16001_015",
+        "C16001_017",
+    ),
     ("korean", "Korean", "C16001_018", "C16001_020"),
-    ("chinese", "Chinese (incl. Mandarin, Cantonese)", "C16001_021", "C16001_023"),
+    (
+        "chinese",
+        "Chinese (incl. Mandarin, Cantonese)",
+        "C16001_021",
+        "C16001_023",
+    ),
     ("vietnamese", "Vietnamese", "C16001_024", "C16001_026"),
-    ("tagalog", "Tagalog (incl. Filipino)", "C16001_027", "C16001_029"),
-    ("other_asian_pacific", "Other Asian and Pacific Island languages (includes Khmer and others)", "C16001_030", "C16001_032"),
+    (
+        "tagalog",
+        "Tagalog (incl. Filipino)",
+        "C16001_027",
+        "C16001_029",
+    ),
+    (
+        "other_asian_pacific",
+        "Other Asian and Pacific Island languages (includes Khmer and others)",
+        "C16001_030",
+        "C16001_032",
+    ),
     ("arabic", "Arabic", "C16001_033", "C16001_035"),
 ];
 
@@ -171,105 +206,578 @@ pub const LANGUAGE_OTHER: (&str, &str, &str, &str) = (
 /// C16002 household language groups: (id, label, total line, limited-English line).
 pub const HOUSEHOLD_LANGUAGE_GROUPS: [(&str, &str, &str, &str); 4] = [
     ("spanish", "Spanish", "C16002_003", "C16002_004"),
-    ("other_indo_european", "Other Indo-European languages", "C16002_006", "C16002_007"),
-    ("asian_pacific", "Asian and Pacific Island languages", "C16002_009", "C16002_010"),
+    (
+        "other_indo_european",
+        "Other Indo-European languages",
+        "C16002_006",
+        "C16002_007",
+    ),
+    (
+        "asian_pacific",
+        "Asian and Pacific Island languages",
+        "C16002_009",
+        "C16002_010",
+    ),
     ("other", "Other languages", "C16002_012", "C16002_013"),
 ];
 
 /// Every "speak English less than very well" line in C16001.
 pub const LEP_LINES: [&str; 12] = [
-    "C16001_005", "C16001_008", "C16001_011", "C16001_014", "C16001_017", "C16001_020",
-    "C16001_023", "C16001_026", "C16001_029", "C16001_032", "C16001_035", "C16001_038",
+    "C16001_005",
+    "C16001_008",
+    "C16001_011",
+    "C16001_014",
+    "C16001_017",
+    "C16001_020",
+    "C16001_023",
+    "C16001_026",
+    "C16001_029",
+    "C16001_032",
+    "C16001_035",
+    "C16001_038",
 ];
 
 /// Community-profile indicators.
 pub const INDICATORS: &[IndicatorDef] = &[
     // Population and age
-    ind!("pop_total", "Population and age", "Total population", "B01003", Count, ["B01003_001"], [], "Total population"),
-    ind!("median_age", "Population and age", "Median age (years)", "B01002", Median, ["B01002_001"], [], "Total population"),
-    ind!("age_under5_pct", "Population and age", "Children under 5 (%)", "B01001", Percent, ["B01001_003", "B01001_027"], ["B01001_001"], "Total population"),
-    ind!("age_under18_pct", "Population and age", "Children under 18 (%)", "B01001", Percent,
-        ["B01001_003", "B01001_004", "B01001_005", "B01001_006", "B01001_027", "B01001_028", "B01001_029", "B01001_030"],
-        ["B01001_001"], "Total population"),
-    ind!("age_65plus_pct", "Population and age", "Adults 65 and older (%)", "B01001", Percent,
-        ["B01001_020", "B01001_021", "B01001_022", "B01001_023", "B01001_024", "B01001_025",
-         "B01001_044", "B01001_045", "B01001_046", "B01001_047", "B01001_048", "B01001_049"],
-        ["B01001_001"], "Total population"),
-    ind!("age_85plus_pct", "Population and age", "Adults 85 and older (%)", "B01001", Percent, ["B01001_025", "B01001_049"], ["B01001_001"], "Total population"),
+    ind!(
+        "pop_total",
+        "Population and age",
+        "Total population",
+        "B01003",
+        Count,
+        ["B01003_001"],
+        [],
+        "Total population"
+    ),
+    ind!(
+        "median_age",
+        "Population and age",
+        "Median age (years)",
+        "B01002",
+        Median,
+        ["B01002_001"],
+        [],
+        "Total population"
+    ),
+    ind!(
+        "age_under5_pct",
+        "Population and age",
+        "Children under 5 (%)",
+        "B01001",
+        Percent,
+        ["B01001_003", "B01001_027"],
+        ["B01001_001"],
+        "Total population"
+    ),
+    ind!(
+        "age_under18_pct",
+        "Population and age",
+        "Children under 18 (%)",
+        "B01001",
+        Percent,
+        [
+            "B01001_003",
+            "B01001_004",
+            "B01001_005",
+            "B01001_006",
+            "B01001_027",
+            "B01001_028",
+            "B01001_029",
+            "B01001_030"
+        ],
+        ["B01001_001"],
+        "Total population"
+    ),
+    ind!(
+        "age_65plus_pct",
+        "Population and age",
+        "Adults 65 and older (%)",
+        "B01001",
+        Percent,
+        [
+            "B01001_020",
+            "B01001_021",
+            "B01001_022",
+            "B01001_023",
+            "B01001_024",
+            "B01001_025",
+            "B01001_044",
+            "B01001_045",
+            "B01001_046",
+            "B01001_047",
+            "B01001_048",
+            "B01001_049"
+        ],
+        ["B01001_001"],
+        "Total population"
+    ),
+    ind!(
+        "age_85plus_pct",
+        "Population and age",
+        "Adults 85 and older (%)",
+        "B01001",
+        Percent,
+        ["B01001_025", "B01001_049"],
+        ["B01001_001"],
+        "Total population"
+    ),
     // Race and ethnicity
-    ind!("re_hispanic_pct", "Race and ethnicity", "Hispanic or Latino, any race (%)", "B03002", Percent, ["B03002_012"], ["B03002_001"], "Total population"),
-    ind!("re_nh_white_pct", "Race and ethnicity", "White alone, not Hispanic (%)", "B03002", Percent, ["B03002_003"], ["B03002_001"], "Total population"),
-    ind!("re_nh_black_pct", "Race and ethnicity", "Black or African American alone, not Hispanic (%)", "B03002", Percent, ["B03002_004"], ["B03002_001"], "Total population"),
-    ind!("re_nh_asian_pct", "Race and ethnicity", "Asian alone, not Hispanic (%)", "B03002", Percent, ["B03002_006"], ["B03002_001"], "Total population"),
-    ind!("re_nh_aian_pct", "Race and ethnicity", "American Indian and Alaska Native alone, not Hispanic (%)", "B03002", Percent, ["B03002_005"], ["B03002_001"], "Total population"),
-    ind!("re_nh_nhpi_pct", "Race and ethnicity", "Native Hawaiian and Other Pacific Islander alone, not Hispanic (%)", "B03002", Percent, ["B03002_007"], ["B03002_001"], "Total population"),
-    ind!("re_nh_other_pct", "Race and ethnicity", "Some other race alone, not Hispanic (%)", "B03002", Percent, ["B03002_008"], ["B03002_001"], "Total population"),
-    ind!("re_nh_multi_pct", "Race and ethnicity", "Two or more races, not Hispanic (%)", "B03002", Percent, ["B03002_009"], ["B03002_001"], "Total population"),
+    ind!(
+        "re_hispanic_pct",
+        "Race and ethnicity",
+        "Hispanic or Latino, any race (%)",
+        "B03002",
+        Percent,
+        ["B03002_012"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_white_pct",
+        "Race and ethnicity",
+        "White alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_003"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_black_pct",
+        "Race and ethnicity",
+        "Black or African American alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_004"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_asian_pct",
+        "Race and ethnicity",
+        "Asian alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_006"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_aian_pct",
+        "Race and ethnicity",
+        "American Indian and Alaska Native alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_005"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_nhpi_pct",
+        "Race and ethnicity",
+        "Native Hawaiian and Other Pacific Islander alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_007"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_other_pct",
+        "Race and ethnicity",
+        "Some other race alone, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_008"],
+        ["B03002_001"],
+        "Total population"
+    ),
+    ind!(
+        "re_nh_multi_pct",
+        "Race and ethnicity",
+        "Two or more races, not Hispanic (%)",
+        "B03002",
+        Percent,
+        ["B03002_009"],
+        ["B03002_001"],
+        "Total population"
+    ),
     // Nativity and language
-    ind!("foreign_born_pct", "Nativity and language", "Born outside the United States (%)", "B05002", Percent, ["B05002_013"], ["B05002_001"], "Total population"),
-    ind!("other_language_pct", "Nativity and language", "Speak a language other than English at home (%, age 5+)", "C16001", Percent,
-        ["C16001_003", "C16001_006", "C16001_009", "C16001_012", "C16001_015", "C16001_018",
-         "C16001_021", "C16001_024", "C16001_027", "C16001_030", "C16001_033", "C16001_036"],
-        ["C16001_001"], "Population 5 years and over"),
-    ind!("lep_pct", "Nativity and language", "Speak English less than \"very well\" (%, age 5+)", "C16001", Percent,
-        ["C16001_005", "C16001_008", "C16001_011", "C16001_014", "C16001_017", "C16001_020",
-         "C16001_023", "C16001_026", "C16001_029", "C16001_032", "C16001_035", "C16001_038"],
-        ["C16001_001"], "Population 5 years and over"),
-    ind!("lep_households_pct", "Nativity and language", "Limited English speaking households (%)", "C16002", Percent,
-        ["C16002_004", "C16002_007", "C16002_010", "C16002_013"], ["C16002_001"], "Households"),
+    ind!(
+        "foreign_born_pct",
+        "Nativity and language",
+        "Born outside the United States (%)",
+        "B05002",
+        Percent,
+        ["B05002_013"],
+        ["B05002_001"],
+        "Total population"
+    ),
+    ind!(
+        "other_language_pct",
+        "Nativity and language",
+        "Speak a language other than English at home (%, age 5+)",
+        "C16001",
+        Percent,
+        [
+            "C16001_003",
+            "C16001_006",
+            "C16001_009",
+            "C16001_012",
+            "C16001_015",
+            "C16001_018",
+            "C16001_021",
+            "C16001_024",
+            "C16001_027",
+            "C16001_030",
+            "C16001_033",
+            "C16001_036"
+        ],
+        ["C16001_001"],
+        "Population 5 years and over"
+    ),
+    ind!(
+        "lep_pct",
+        "Nativity and language",
+        "Speak English less than \"very well\" (%, age 5+)",
+        "C16001",
+        Percent,
+        [
+            "C16001_005",
+            "C16001_008",
+            "C16001_011",
+            "C16001_014",
+            "C16001_017",
+            "C16001_020",
+            "C16001_023",
+            "C16001_026",
+            "C16001_029",
+            "C16001_032",
+            "C16001_035",
+            "C16001_038"
+        ],
+        ["C16001_001"],
+        "Population 5 years and over"
+    ),
+    ind!(
+        "lep_households_pct",
+        "Nativity and language",
+        "Limited English speaking households (%)",
+        "C16002",
+        Percent,
+        ["C16002_004", "C16002_007", "C16002_010", "C16002_013"],
+        ["C16002_001"],
+        "Households"
+    ),
     // Income and poverty
-    ind!("median_household_income", "Income and poverty", "Median household income (dollars, inflation-adjusted to the last survey year)", "B19013", Dollars, ["B19013_001"], [], "Households"),
-    ind!("poverty_pct", "Income and poverty", "Income below the federal poverty level (%)", "C17002", Percent, ["C17002_002", "C17002_003"], ["C17002_001"], "Population for whom poverty status is determined"),
-    ind!("poverty200_pct", "Income and poverty", "Income below 200% of the poverty level (%)", "C17002", Percent,
-        ["C17002_002", "C17002_003", "C17002_004", "C17002_005", "C17002_006", "C17002_007"],
-        ["C17002_001"], "Population for whom poverty status is determined"),
-    ind!("unemployment_pct", "Income and poverty", "Unemployment rate (% of civilian labor force, age 16+)", "B23025", Percent, ["B23025_005"], ["B23025_003"], "Civilian labor force 16 years and over"),
+    ind!(
+        "median_household_income",
+        "Income and poverty",
+        "Median household income (dollars, inflation-adjusted to the last survey year)",
+        "B19013",
+        Dollars,
+        ["B19013_001"],
+        [],
+        "Households"
+    ),
+    ind!(
+        "poverty_pct",
+        "Income and poverty",
+        "Income below the federal poverty level (%)",
+        "C17002",
+        Percent,
+        ["C17002_002", "C17002_003"],
+        ["C17002_001"],
+        "Population for whom poverty status is determined"
+    ),
+    ind!(
+        "poverty200_pct",
+        "Income and poverty",
+        "Income below 200% of the poverty level (%)",
+        "C17002",
+        Percent,
+        [
+            "C17002_002",
+            "C17002_003",
+            "C17002_004",
+            "C17002_005",
+            "C17002_006",
+            "C17002_007"
+        ],
+        ["C17002_001"],
+        "Population for whom poverty status is determined"
+    ),
+    ind!(
+        "unemployment_pct",
+        "Income and poverty",
+        "Unemployment rate (% of civilian labor force, age 16+)",
+        "B23025",
+        Percent,
+        ["B23025_005"],
+        ["B23025_003"],
+        "Civilian labor force 16 years and over"
+    ),
     // Health insurance and disability
-    ind!("uninsured_pct", "Health insurance and disability", "No health insurance (%)", "B27001", Percent,
-        ["B27001_005", "B27001_008", "B27001_011", "B27001_014", "B27001_017", "B27001_020", "B27001_023", "B27001_026", "B27001_029",
-         "B27001_033", "B27001_036", "B27001_039", "B27001_042", "B27001_045", "B27001_048", "B27001_051", "B27001_054", "B27001_057"],
-        ["B27001_001"], "Civilian noninstitutionalized population"),
-    ind!("uninsured_child_pct", "Health insurance and disability", "Children under 19 with no health insurance (%)", "B27001", Percent,
+    ind!(
+        "uninsured_pct",
+        "Health insurance and disability",
+        "No health insurance (%)",
+        "B27001",
+        Percent,
+        [
+            "B27001_005",
+            "B27001_008",
+            "B27001_011",
+            "B27001_014",
+            "B27001_017",
+            "B27001_020",
+            "B27001_023",
+            "B27001_026",
+            "B27001_029",
+            "B27001_033",
+            "B27001_036",
+            "B27001_039",
+            "B27001_042",
+            "B27001_045",
+            "B27001_048",
+            "B27001_051",
+            "B27001_054",
+            "B27001_057"
+        ],
+        ["B27001_001"],
+        "Civilian noninstitutionalized population"
+    ),
+    ind!(
+        "uninsured_child_pct",
+        "Health insurance and disability",
+        "Children under 19 with no health insurance (%)",
+        "B27001",
+        Percent,
         ["B27001_005", "B27001_008", "B27001_033", "B27001_036"],
-        ["B27001_003", "B27001_006", "B27001_031", "B27001_034"], "Civilian noninstitutionalized population under 19 years"),
-    ind!("disability_pct", "Health insurance and disability", "With a disability (%)", "C18108", Percent,
-        ["C18108_003", "C18108_004", "C18108_007", "C18108_008", "C18108_011", "C18108_012"],
-        ["C18108_001"], "Civilian noninstitutionalized population"),
-    ind!("disability_65plus_pct", "Health insurance and disability", "Adults 65+ with a disability (%)", "C18108", Percent,
-        ["C18108_011", "C18108_012"], ["C18108_010"], "Civilian noninstitutionalized population 65 years and over"),
+        ["B27001_003", "B27001_006", "B27001_031", "B27001_034"],
+        "Civilian noninstitutionalized population under 19 years"
+    ),
+    ind!(
+        "disability_pct",
+        "Health insurance and disability",
+        "With a disability (%)",
+        "C18108",
+        Percent,
+        [
+            "C18108_003",
+            "C18108_004",
+            "C18108_007",
+            "C18108_008",
+            "C18108_011",
+            "C18108_012"
+        ],
+        ["C18108_001"],
+        "Civilian noninstitutionalized population"
+    ),
+    ind!(
+        "disability_65plus_pct",
+        "Health insurance and disability",
+        "Adults 65+ with a disability (%)",
+        "C18108",
+        Percent,
+        ["C18108_011", "C18108_012"],
+        ["C18108_010"],
+        "Civilian noninstitutionalized population 65 years and over"
+    ),
     // Housing and transportation
-    ind!("renter_pct", "Housing and transportation", "Renter-occupied households (%)", "B25003", Percent, ["B25003_003"], ["B25003_001"], "Occupied housing units"),
-    ind!("cost_burden_pct", "Housing and transportation", "Households spending 30% or more of income on housing (%)", "B25106", Percent,
-        ["B25106_006", "B25106_010", "B25106_014", "B25106_018", "B25106_022",
-         "B25106_028", "B25106_032", "B25106_036", "B25106_040", "B25106_044"],
-        ["B25106_003", "B25106_007", "B25106_011", "B25106_015", "B25106_019",
-         "B25106_025", "B25106_029", "B25106_033", "B25106_037", "B25106_041"],
-        "Occupied housing units with a computed housing cost burden (excludes zero or negative income and no cash rent)"),
-    ind!("renter_cost_burden_pct", "Housing and transportation", "Renter households spending 30% or more of income on rent (%)", "B25106", Percent,
-        ["B25106_028", "B25106_032", "B25106_036", "B25106_040", "B25106_044"],
-        ["B25106_025", "B25106_029", "B25106_033", "B25106_037", "B25106_041"],
-        "Renter-occupied units with a computed cost burden"),
-    ind!("crowding_pct", "Housing and transportation", "Crowded housing: more than 1 occupant per room (%)", "B25014", Percent,
-        ["B25014_005", "B25014_006", "B25014_007", "B25014_011", "B25014_012", "B25014_013"],
-        ["B25014_001"], "Occupied housing units"),
-    ind!("no_vehicle_pct", "Housing and transportation", "Households with no vehicle (%)", "B25044", Percent, ["B25044_003", "B25044_010"], ["B25044_001"], "Occupied housing units"),
-    ind!("no_internet_pct", "Housing and transportation", "Households with no internet access (%)", "B28002", Percent, ["B28002_013"], ["B28002_001"], "Households"),
+    ind!(
+        "renter_pct",
+        "Housing and transportation",
+        "Renter-occupied households (%)",
+        "B25003",
+        Percent,
+        ["B25003_003"],
+        ["B25003_001"],
+        "Occupied housing units"
+    ),
+    ind!(
+        "cost_burden_pct",
+        "Housing and transportation",
+        "Households spending 30% or more of income on housing (%)",
+        "B25106",
+        Percent,
+        [
+            "B25106_006",
+            "B25106_010",
+            "B25106_014",
+            "B25106_018",
+            "B25106_022",
+            "B25106_028",
+            "B25106_032",
+            "B25106_036",
+            "B25106_040",
+            "B25106_044"
+        ],
+        [
+            "B25106_003",
+            "B25106_007",
+            "B25106_011",
+            "B25106_015",
+            "B25106_019",
+            "B25106_025",
+            "B25106_029",
+            "B25106_033",
+            "B25106_037",
+            "B25106_041"
+        ],
+        "Occupied housing units with a computed housing cost burden (excludes zero or negative income and no cash rent)"
+    ),
+    ind!(
+        "renter_cost_burden_pct",
+        "Housing and transportation",
+        "Renter households spending 30% or more of income on rent (%)",
+        "B25106",
+        Percent,
+        [
+            "B25106_028",
+            "B25106_032",
+            "B25106_036",
+            "B25106_040",
+            "B25106_044"
+        ],
+        [
+            "B25106_025",
+            "B25106_029",
+            "B25106_033",
+            "B25106_037",
+            "B25106_041"
+        ],
+        "Renter-occupied units with a computed cost burden"
+    ),
+    ind!(
+        "crowding_pct",
+        "Housing and transportation",
+        "Crowded housing: more than 1 occupant per room (%)",
+        "B25014",
+        Percent,
+        [
+            "B25014_005",
+            "B25014_006",
+            "B25014_007",
+            "B25014_011",
+            "B25014_012",
+            "B25014_013"
+        ],
+        ["B25014_001"],
+        "Occupied housing units"
+    ),
+    ind!(
+        "no_vehicle_pct",
+        "Housing and transportation",
+        "Households with no vehicle (%)",
+        "B25044",
+        Percent,
+        ["B25044_003", "B25044_010"],
+        ["B25044_001"],
+        "Occupied housing units"
+    ),
+    ind!(
+        "no_internet_pct",
+        "Housing and transportation",
+        "Households with no internet access (%)",
+        "B28002",
+        Percent,
+        ["B28002_013"],
+        ["B28002_001"],
+        "Households"
+    ),
     // Education
-    ind!("less_than_hs_pct", "Education", "Adults 25+ without a high school diploma (%)", "B15003", Percent,
-        ["B15003_002", "B15003_003", "B15003_004", "B15003_005", "B15003_006", "B15003_007", "B15003_008",
-         "B15003_009", "B15003_010", "B15003_011", "B15003_012", "B15003_013", "B15003_014", "B15003_015", "B15003_016"],
-        ["B15003_001"], "Population 25 years and over"),
-    ind!("bachelors_plus_pct", "Education", "Adults 25+ with a bachelor's degree or higher (%)", "B15003", Percent,
-        ["B15003_022", "B15003_023", "B15003_024", "B15003_025"], ["B15003_001"], "Population 25 years and over"),
+    ind!(
+        "less_than_hs_pct",
+        "Education",
+        "Adults 25+ without a high school diploma (%)",
+        "B15003",
+        Percent,
+        [
+            "B15003_002",
+            "B15003_003",
+            "B15003_004",
+            "B15003_005",
+            "B15003_006",
+            "B15003_007",
+            "B15003_008",
+            "B15003_009",
+            "B15003_010",
+            "B15003_011",
+            "B15003_012",
+            "B15003_013",
+            "B15003_014",
+            "B15003_015",
+            "B15003_016"
+        ],
+        ["B15003_001"],
+        "Population 25 years and over"
+    ),
+    ind!(
+        "bachelors_plus_pct",
+        "Education",
+        "Adults 25+ with a bachelor's degree or higher (%)",
+        "B15003",
+        Percent,
+        ["B15003_022", "B15003_023", "B15003_024", "B15003_025"],
+        ["B15003_001"],
+        "Population 25 years and over"
+    ),
     // Counts used by the language access profile
-    ind!("pop5plus", "Language counts", "Population 5 years and over", "C16001", Count, ["C16001_001"], [], "Population 5 years and over"),
-    ind!("lep_count", "Language counts", "Persons who speak English less than \"very well\" (age 5+)", "C16001", Count,
-        ["C16001_005", "C16001_008", "C16001_011", "C16001_014", "C16001_017", "C16001_020",
-         "C16001_023", "C16001_026", "C16001_029", "C16001_032", "C16001_035", "C16001_038"],
-        [], "Population 5 years and over"),
-    ind!("households", "Language counts", "Households", "C16002", Count, ["C16002_001"], [], "Households"),
-    ind!("lep_households", "Language counts", "Limited English speaking households", "C16002", Count,
-        ["C16002_004", "C16002_007", "C16002_010", "C16002_013"], [], "Households"),
+    ind!(
+        "pop5plus",
+        "Language counts",
+        "Population 5 years and over",
+        "C16001",
+        Count,
+        ["C16001_001"],
+        [],
+        "Population 5 years and over"
+    ),
+    ind!(
+        "lep_count",
+        "Language counts",
+        "Persons who speak English less than \"very well\" (age 5+)",
+        "C16001",
+        Count,
+        [
+            "C16001_005",
+            "C16001_008",
+            "C16001_011",
+            "C16001_014",
+            "C16001_017",
+            "C16001_020",
+            "C16001_023",
+            "C16001_026",
+            "C16001_029",
+            "C16001_032",
+            "C16001_035",
+            "C16001_038"
+        ],
+        [],
+        "Population 5 years and over"
+    ),
+    ind!(
+        "households",
+        "Language counts",
+        "Households",
+        "C16002",
+        Count,
+        ["C16002_001"],
+        [],
+        "Households"
+    ),
+    ind!(
+        "lep_households",
+        "Language counts",
+        "Limited English speaking households",
+        "C16002",
+        Count,
+        ["C16002_004", "C16002_007", "C16002_010", "C16002_013"],
+        [],
+        "Households"
+    ),
 ];
 
 /// Ids of the language-group count columns: `lang_<group>_total` and
@@ -277,7 +785,10 @@ pub const INDICATORS: &[IndicatorDef] = &[
 /// `hh_<group>_lep` for every C16002 group.
 pub fn language_count_columns() -> Vec<(String, &'static str)> {
     let mut out = Vec::new();
-    for (id, _, total, lep) in LANGUAGE_GROUPS.iter().chain(std::iter::once(&LANGUAGE_OTHER)) {
+    for (id, _, total, lep) in LANGUAGE_GROUPS
+        .iter()
+        .chain(std::iter::once(&LANGUAGE_OTHER))
+    {
         out.push((format!("lang_{id}_total"), *total));
         out.push((format!("lang_{id}_lep"), *lep));
     }
@@ -450,7 +961,8 @@ pub fn compute_all(cells: &Cells) -> BTreeMap<String, Estimate> {
 pub fn round_for_storage(id: &str, v: f64) -> f64 {
     let whole = id.starts_with("lang_")
         || id.starts_with("hh_")
-        || indicator(id).is_some_and(|d| matches!(d.kind, IndicatorKind::Count | IndicatorKind::Dollars));
+        || indicator(id)
+            .is_some_and(|d| matches!(d.kind, IndicatorKind::Count | IndicatorKind::Dollars));
     if whole {
         v.round()
     } else {
@@ -605,8 +1117,14 @@ pub fn parse_language_detail(text: &str) -> Result<Vec<DetailedLanguage>> {
         out.push(DetailedLanguage {
             geoid: rec.get(0).unwrap_or_default().to_string(),
             language: rec.get(1).unwrap_or_default().to_string(),
-            speakers: Estimate { value: s, moe: f(3) },
-            lep: Estimate { value: l, moe: f(5) },
+            speakers: Estimate {
+                value: s,
+                moe: f(3),
+            },
+            lep: Estimate {
+                value: l,
+                moe: f(5),
+            },
         });
     }
     Ok(out)
@@ -621,7 +1139,10 @@ pub const DETAILED_LANGUAGES: [(&str, &str); 42] = [
     ("B16001_012", "Italian"),
     ("B16001_015", "Portuguese"),
     ("B16001_018", "German"),
-    ("B16001_021", "Yiddish, Pennsylvania Dutch or other West Germanic languages"),
+    (
+        "B16001_021",
+        "Yiddish, Pennsylvania Dutch or other West Germanic languages",
+    ),
     ("B16001_024", "Greek"),
     ("B16001_027", "Russian"),
     ("B16001_030", "Polish"),
@@ -638,7 +1159,10 @@ pub const DETAILED_LANGUAGES: [(&str, &str); 42] = [
     ("B16001_063", "Other Indo-European languages"),
     ("B16001_066", "Telugu"),
     ("B16001_069", "Tamil"),
-    ("B16001_072", "Malayalam, Kannada, or other Dravidian languages"),
+    (
+        "B16001_072",
+        "Malayalam, Kannada, or other Dravidian languages",
+    ),
     ("B16001_075", "Chinese (incl. Mandarin, Cantonese)"),
     ("B16001_078", "Japanese"),
     ("B16001_081", "Korean"),
@@ -648,12 +1172,24 @@ pub const DETAILED_LANGUAGES: [(&str, &str); 42] = [
     ("B16001_093", "Thai, Lao, or other Tai-Kadai languages"),
     ("B16001_096", "Other languages of Asia"),
     ("B16001_099", "Tagalog (incl. Filipino)"),
-    ("B16001_102", "Ilocano, Samoan, Hawaiian, or other Austronesian languages"),
+    (
+        "B16001_102",
+        "Ilocano, Samoan, Hawaiian, or other Austronesian languages",
+    ),
     ("B16001_105", "Arabic"),
     ("B16001_108", "Hebrew"),
-    ("B16001_111", "Amharic, Somali, or other Afro-Asiatic languages"),
-    ("B16001_114", "Yoruba, Twi, Igbo, or other languages of Western Africa"),
-    ("B16001_117", "Swahili or other languages of Central, Eastern, and Southern Africa"),
+    (
+        "B16001_111",
+        "Amharic, Somali, or other Afro-Asiatic languages",
+    ),
+    (
+        "B16001_114",
+        "Yoruba, Twi, Igbo, or other languages of Western Africa",
+    ),
+    (
+        "B16001_117",
+        "Swahili or other languages of Central, Eastern, and Southern Africa",
+    ),
     ("B16001_120", "Navajo"),
     ("B16001_123", "Other Native languages of North America"),
     ("B16001_126", "Other and unspecified languages"),
@@ -675,9 +1211,20 @@ pub fn detailed_lep_line(total_line: &str) -> String {
 pub enum ApiGeo {
     Nation,
     State(String),
-    County { state: String, county: String },
-    CountySubdivision { state: String, county: String, cousub: String },
-    Tract { state: String, county: String, tract: String },
+    County {
+        state: String,
+        county: String,
+    },
+    CountySubdivision {
+        state: String,
+        county: String,
+        cousub: String,
+    },
+    Tract {
+        state: String,
+        county: String,
+        tract: String,
+    },
 }
 
 impl ApiGeo {
@@ -709,7 +1256,9 @@ impl ApiGeo {
         match self {
             Self::Nation => ("us:1".into(), None),
             Self::State(s) => (format!("state:{s}"), None),
-            Self::County { state, county } => (format!("county:{county}"), Some(format!("state:{state}"))),
+            Self::County { state, county } => {
+                (format!("county:{county}"), Some(format!("state:{state}")))
+            }
             Self::CountySubdivision {
                 state,
                 county,
@@ -879,8 +1428,8 @@ fn census_error(e: PhnError, has_key: bool) -> PhnError {
 /// Validator for API bodies: JSON array of arrays with a header row.
 pub fn validate_census_body(body: &[u8]) -> Result<()> {
     expect_json(body)?;
-    let v: serde_json::Value = serde_json::from_slice(body)
-        .map_err(|e| PhnError::Network(format!("Census API: {e}")))?;
+    let v: serde_json::Value =
+        serde_json::from_slice(body).map_err(|e| PhnError::Network(format!("Census API: {e}")))?;
     match v.as_array() {
         Some(rows) if rows.len() >= 2 && rows[0].is_array() => Ok(()),
         _ => Err(PhnError::Network(
@@ -945,9 +1494,10 @@ pub async fn latest_vintage(http: &HttpClient, cache: Option<&Cache>) -> u32 {
     let mut best = SNAPSHOT_VINTAGE;
     for v in [SNAPSHOT_VINTAGE + 1, SNAPSHOT_VINTAGE + 2] {
         let url = format!("{API_BASE}/{v}/acs/acs5/variables/B01003_001E.json");
-        let ok = apifetch::fetch_validated(http, cache, &url, None, 7 * 24 * 3600, &expect_json, None)
-            .await
-            .is_ok();
+        let ok =
+            apifetch::fetch_validated(http, cache, &url, None, 7 * 24 * 3600, &expect_json, None)
+                .await
+                .is_ok();
         if ok {
             best = v;
         } else {
@@ -1050,13 +1600,25 @@ mod tests {
     #[test]
     fn bundled_snapshot_has_every_town_and_county() {
         let snap = AcsSnapshot::load(&SnapshotStore::bundled()).unwrap();
-        let towns = snap.rows.values().filter(|r| r.level == GeoLevel::Town).count();
-        let counties = snap.rows.values().filter(|r| r.level == GeoLevel::County).count();
+        let towns = snap
+            .rows
+            .values()
+            .filter(|r| r.level == GeoLevel::Town)
+            .count();
+        let counties = snap
+            .rows
+            .values()
+            .filter(|r| r.level == GeoLevel::County)
+            .count();
         assert_eq!(towns, 351);
         assert_eq!(counties, 14);
         let ma = snap.state().unwrap();
         assert!(ma.values["pop_total"].value > 6_500_000.0);
         assert!(snap.nation().unwrap().values["pop_total"].value > 300_000_000.0);
-        assert!(snap.detailed_languages.iter().any(|d| d.language == "Portuguese" && d.geoid == "25"));
+        assert!(
+            snap.detailed_languages
+                .iter()
+                .any(|d| d.language == "Portuguese" && d.geoid == "25")
+        );
     }
 }

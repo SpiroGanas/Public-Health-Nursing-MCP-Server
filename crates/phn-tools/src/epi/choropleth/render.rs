@@ -113,7 +113,11 @@ pub fn render(spec: &MapSpec<'_>) -> String {
     let drawn_w = w_m * scale;
 
     let title_lines = wrap(&spec.title, 62);
-    let sub_lines = spec.subtitle.as_deref().map(|s| wrap(s, 90)).unwrap_or_default();
+    let sub_lines = spec
+        .subtitle
+        .as_deref()
+        .map(|s| wrap(s, 90))
+        .unwrap_or_default();
     let mut y = PAD;
     let mut head = String::new();
     for l in &title_lines {
@@ -216,9 +220,15 @@ pub fn render(spec: &MapSpec<'_>) -> String {
         let fill = if row.hatched {
             "url(#hatch)".to_string()
         } else {
-            row.color.clone().unwrap_or_else(|| palette::SURFACE.to_string())
+            row.color
+                .clone()
+                .unwrap_or_else(|| palette::SURFACE.to_string())
         };
-        let stroke = if row.outline_only { palette::AXIS } else { palette::INK_MUTED };
+        let stroke = if row.outline_only {
+            palette::AXIS
+        } else {
+            palette::INK_MUTED
+        };
         let _ = write!(
             body,
             r#"<rect x="{lx:.1}" y="{ly:.1}" width="22" height="14" fill="{fill}" stroke="{stroke}" stroke-width="0.6"/>"#

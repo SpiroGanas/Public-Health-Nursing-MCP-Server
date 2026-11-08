@@ -67,8 +67,9 @@ impl MaGeographies {
         for rec in rdr.records() {
             let r = rec.map_err(|e| PhnError::Internal(format!("geography snapshot: {e}")))?;
             let get = |i: usize| r.get(i).unwrap_or_default().to_string();
-            let level = GeoLevel::parse(&get(1))
-                .ok_or_else(|| PhnError::Internal(format!("geography snapshot: level {}", get(1))))?;
+            let level = GeoLevel::parse(&get(1)).ok_or_else(|| {
+                PhnError::Internal(format!("geography snapshot: level {}", get(1)))
+            })?;
             let town_shares = get(6)
                 .split(';')
                 .filter_map(|p| {
@@ -137,7 +138,11 @@ impl MaGeographies {
         let q = query.trim();
         let digits = q.chars().all(|c| c.is_ascii_digit());
         if digits {
-            let fips = if q.len() == 3 { format!("25{q}") } else { q.to_string() };
+            let fips = if q.len() == 3 {
+                format!("25{q}")
+            } else {
+                q.to_string()
+            };
             return self.get(&fips).filter(|g| g.level == GeoLevel::County);
         }
         let n = text::normalize(q);
@@ -199,7 +204,9 @@ impl MaGeographies {
             return Err(PhnError::InvalidInput("give a place name or code".into()));
         }
         let digits: String = q.chars().filter(|c| c.is_ascii_digit()).collect();
-        let all_digits = !digits.is_empty() && q.chars().all(|c| c.is_ascii_digit() || c == '.' || c == ' ');
+        let all_digits = !digits.is_empty()
+            && q.chars()
+                .all(|c| c.is_ascii_digit() || c == '.' || c == ' ');
         let found = match level {
             Some(GeoLevel::Tract) => self.tract(q),
             Some(GeoLevel::Zcta) => self.get(&digits).filter(|g| g.level == GeoLevel::Zcta),
@@ -258,7 +265,9 @@ mod tests {
         let ma = crate::ma::MaReference::load(&SnapshotStore::bundled()).unwrap();
         assert_eq!(g.at_level(GeoLevel::Town).count(), 351);
         for m in &ma.municipalities {
-            let t = g.town(&m.name).unwrap_or_else(|| panic!("{} missing", m.name));
+            let t = g
+                .town(&m.name)
+                .unwrap_or_else(|| panic!("{} missing", m.name));
             assert_eq!(t.county_geoid, m.county_fips, "{}", m.name);
         }
         assert_eq!(g.town("Boston").unwrap().census_name, "Boston city");

@@ -155,9 +155,9 @@ pub(crate) fn place_for_town<'a>(
         return None;
     }
     let want = [m.name.clone(), format!("{} Town", m.name)];
-    snap.locations
-        .values()
-        .find(|l| l.level == PlacesLevel::Place && want.iter().any(|w| l.name.eq_ignore_ascii_case(w)))
+    snap.locations.values().find(|l| {
+        l.level == PlacesLevel::Place && want.iter().any(|w| l.name.eq_ignore_ascii_case(w))
+    })
 }
 
 fn compare(v: &PlacesValue, reference: Option<f64>) -> Option<String> {
@@ -190,7 +190,11 @@ pub(crate) fn select_measures<'a>(
                 return Err(PhnError::InvalidInput(format!(
                     "unknown PLACES measure(s): {}. Known ids: {}",
                     unknown.join(", "),
-                    snap.measures.iter().map(|m| m.id.as_str()).collect::<Vec<_>>().join(", ")
+                    snap.measures
+                        .iter()
+                        .map(|m| m.id.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 )));
             }
         }
@@ -280,7 +284,11 @@ fn resolve(
                 GeoLevel::Tract => PlacesArea::Tract,
                 _ => PlacesArea::Zcta,
             };
-            let id = if lvl == PlacesArea::Town { g.name.clone() } else { g.geoid.clone() };
+            let id = if lvl == PlacesArea::Town {
+                g.name.clone()
+            } else {
+                g.geoid.clone()
+            };
             let name = match lvl {
                 PlacesArea::Tract => g.name.clone(),
                 PlacesArea::Zcta => format!("ZCTA {}", g.geoid),
@@ -395,14 +403,21 @@ pub async fn get_places_estimates(
                 PlacesArea::Tract => PlacesLevel::Tract,
                 _ => PlacesLevel::Zcta,
             };
-            let f = places::fetch_location(&ctx.http, ctx.cache.as_ref(), Some(snap), pl, &id).await?;
+            let f =
+                places::fetch_location(&ctx.http, ctx.cache.as_ref(), Some(snap), pl, &id).await?;
             if let Some(r) = &f.fallback_reason
                 && f.mode == SourceMode::Snapshot
             {
-                caveats.push(format!("Live PLACES data unavailable ({r}); the bundled {} release snapshot was used.", places::RELEASE));
+                caveats.push(format!(
+                    "Live PLACES data unavailable ({r}); the bundled {} release snapshot was used.",
+                    places::RELEASE
+                ));
             }
             sources.push(f.source());
-            (f.location, format!("{} (published by CDC)", pl.dataset_title()))
+            (
+                f.location,
+                format!("{} (published by CDC)", pl.dataset_title()),
+            )
         }
     };
     let rows = rows_for(&loc, &measures, age_adjusted);
@@ -444,15 +459,26 @@ pub async fn get_places_estimates(
                         (Some(l), Some(h)) => format!("{:.1}% ({l:.1}–{h:.1})", r.value),
                         _ => format!("{:.1}%", r.value),
                     },
-                    r.massachusetts.map(|v| format!("{v:.1}%")).unwrap_or("—".into()),
-                    r.united_states.map(|v| format!("{v:.1}%")).unwrap_or("—".into()),
+                    r.massachusetts
+                        .map(|v| format!("{v:.1}%"))
+                        .unwrap_or("—".into()),
+                    r.united_states
+                        .map(|v| format!("{v:.1}%"))
+                        .unwrap_or("—".into()),
                     r.data_year.clone(),
                     r.vs_massachusetts.clone().unwrap_or_default(),
                 ]
             })
             .collect();
         summary.push_str(&md::table(
-            &["Measure", "Estimate (95% CI)", "MA", "US", "Data year", "vs MA"],
+            &[
+                "Measure",
+                "Estimate (95% CI)",
+                "MA",
+                "US",
+                "Data year",
+                "vs MA",
+            ],
             &t,
         ));
         summary.push('\n');
@@ -468,7 +494,10 @@ pub async fn get_places_estimates(
         "Release {} uses BRFSS {} data for most measures; the data year is shown for each \
          measure.",
         places::RELEASE,
-        rows.iter().map(|r| r.data_year.as_str()).max().unwrap_or("")
+        rows.iter()
+            .map(|r| r.data_year.as_str())
+            .max()
+            .unwrap_or("")
     ));
     caveats.push(
         "Massachusetts and U.S. columns are adult-population-weighted means of county estimates \

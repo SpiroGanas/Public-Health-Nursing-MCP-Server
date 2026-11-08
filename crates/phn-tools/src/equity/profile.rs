@@ -9,7 +9,9 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use super::acs;
-use crate::chronic::places::{PlacesRow, place_for_town, rows_for, select_measures, town_from_tracts};
+use crate::chronic::places::{
+    PlacesRow, place_for_town, rows_for, select_measures, town_from_tracts,
+};
 use crate::context::Context;
 use crate::md;
 
@@ -124,8 +126,21 @@ pub struct ProfileResult {
 
 /// PLACES measures shown in the profile (the full set is in get_places_estimates).
 pub const PROFILE_MEASURES: [&str; 15] = [
-    "DIABETES", "OBESITY", "BPHIGH", "CHD", "CASTHMA", "COPD", "DEPRESSION", "MHLTH", "CSMOKING",
-    "ACCESS2", "CHECKUP", "DISABILITY", "FOODINSECU", "HOUSINSECU", "LACKTRPT",
+    "DIABETES",
+    "OBESITY",
+    "BPHIGH",
+    "CHD",
+    "CASTHMA",
+    "COPD",
+    "DEPRESSION",
+    "MHLTH",
+    "CSMOKING",
+    "ACCESS2",
+    "CHECKUP",
+    "DISABILITY",
+    "FOODINSECU",
+    "HOUSINSECU",
+    "LACKTRPT",
 ];
 
 const VITAL_STATISTICS: &str = "Births and deaths are not included: no machine-readable source of \
@@ -179,7 +194,10 @@ pub async fn build_community_health_profile(
 
     // ACS indicators.
     let mut indicators = Vec::new();
-    for def in census::INDICATORS.iter().filter(|d| d.section != "Language counts") {
+    for def in census::INDICATORS
+        .iter()
+        .filter(|d| d.section != "Language counts")
+    {
         let e = fig.values.get(def.id);
         indicators.push(ProfileIndicator {
             id: def.id.into(),
@@ -336,10 +354,7 @@ pub async fn build_community_health_profile(
                 tract_ranks_national: single.map(|t| t.us),
                 median_overall_massachusetts: median(ranked.iter().map(|r| r.1).collect()),
                 tracts_high_vulnerability: ranked.iter().filter(|r| r.1 >= 0.75).count(),
-                most_vulnerable_tract: ranked
-                    .iter()
-                    .max_by(|a, b| a.1.total_cmp(&b.1))
-                    .cloned(),
+                most_vulnerable_tract: ranked.iter().max_by(|a, b| a.1.total_cmp(&b.1)).cloned(),
             })
         }
     } else {
@@ -428,8 +443,12 @@ pub async fn build_community_health_profile(
                         (Some(l), Some(h)) => format!("{:.1}% ({l:.1}–{h:.1})", r.value),
                         _ => format!("{:.1}%", r.value),
                     },
-                    r.massachusetts.map(|v| format!("{v:.1}%")).unwrap_or("—".into()),
-                    r.united_states.map(|v| format!("{v:.1}%")).unwrap_or("—".into()),
+                    r.massachusetts
+                        .map(|v| format!("{v:.1}%"))
+                        .unwrap_or("—".into()),
+                    r.united_states
+                        .map(|v| format!("{v:.1}%"))
+                        .unwrap_or("—".into()),
                     r.data_year.clone(),
                 ]
             })
@@ -528,7 +547,12 @@ mod tests {
         let dir = tempfile::tempdir().unwrap();
         let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
         assert!(ctx.http.is_offline());
-        let towns: Vec<String> = ctx.ma.municipalities.iter().map(|m| m.name.clone()).collect();
+        let towns: Vec<String> = ctx
+            .ma
+            .municipalities
+            .iter()
+            .map(|m| m.name.clone())
+            .collect();
         assert_eq!(towns.len(), 351);
         for t in towns {
             let env = build_community_health_profile(
@@ -552,9 +576,18 @@ mod tests {
                     assert!(i.moe.is_some() || i.massachusetts.is_some(), "{t} {}", i.id);
                 }
             }
-            assert!(d.chronic_disease.as_ref().is_some_and(|c| !c.rows.is_empty()), "{t}");
+            assert!(
+                d.chronic_disease
+                    .as_ref()
+                    .is_some_and(|c| !c.rows.is_empty()),
+                "{t}"
+            );
             assert!(d.svi.as_ref().is_some_and(|s| s.tracts > 0), "{t}");
-            assert!(env.sources.iter().any(|s| s.title.contains("American Community Survey")));
+            assert!(
+                env.sources
+                    .iter()
+                    .any(|s| s.title.contains("American Community Survey"))
+            );
             assert!(env.summary.contains("B01001") && env.summary.contains("C16001"));
         }
     }
@@ -586,7 +619,14 @@ mod tests {
         .await
         .unwrap();
         assert_eq!(env.data.area.level, ProfileLevel::Tract);
-        assert!(env.data.svi.as_ref().unwrap().tract_ranks_massachusetts.is_some());
+        assert!(
+            env.data
+                .svi
+                .as_ref()
+                .unwrap()
+                .tract_ranks_massachusetts
+                .is_some()
+        );
         let err = build_community_health_profile(
             &ctx,
             ProfileArgs {
@@ -596,6 +636,9 @@ mod tests {
         )
         .await
         .unwrap_err();
-        assert!(err.to_string().contains("ZCTA") || err.to_string().contains("zcta"), "{err}");
+        assert!(
+            err.to_string().contains("ZCTA") || err.to_string().contains("zcta"),
+            "{err}"
+        );
     }
 }

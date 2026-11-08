@@ -133,14 +133,21 @@ pub fn parse_syndication_items(items: &[Value], mmwr_only: bool) -> Vec<Guidance
         if out.iter().any(|i| i.url == url) {
             continue;
         }
-        let title = r.get("name").and_then(Value::as_str).unwrap_or("").trim().to_string();
+        let title = r
+            .get("name")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .trim()
+            .to_string();
         let mut summary = r
             .get("description")
             .and_then(Value::as_str)
             .unwrap_or("")
             .trim()
             .to_string();
-        if summary.starts_with("The Morbidity and Mortality Weekly Report (MMWR) Series is prepared") {
+        if summary
+            .starts_with("The Morbidity and Mortality Weekly Report (MMWR) Series is prepared")
+        {
             summary.clear();
         }
         out.push(GuidanceItem {
@@ -265,7 +272,9 @@ pub fn parse_han_legacy(v: &Value) -> Vec<GuidanceItem> {
         .iter()
         .filter_map(|c| {
             let name = c.get("name").and_then(Value::as_str)?;
-            let (title, rest) = name.split_once(" - Health Alert Network (HAN)").unwrap_or((name, ""));
+            let (title, rest) = name
+                .split_once(" - Health Alert Network (HAN)")
+                .unwrap_or((name, ""));
             let url = c.get("sourceUrl").and_then(Value::as_str)?.to_string();
             if !url.contains("/han/") {
                 return None;
@@ -278,7 +287,10 @@ pub fn parse_han_legacy(v: &Value) -> Vec<GuidanceItem> {
             Some(GuidanceItem {
                 series: Series::Han,
                 title: title.trim_start_matches('c').trim().to_string(),
-                date: c.get("datePublished").and_then(Value::as_str).and_then(date_part),
+                date: c
+                    .get("datePublished")
+                    .and_then(Value::as_str)
+                    .and_then(date_part),
                 url,
                 summary: c
                     .get("description")
@@ -296,7 +308,10 @@ pub fn parse_han_legacy(v: &Value) -> Vec<GuidanceItem> {
 pub fn han_number(url: &str) -> Option<String> {
     let lower = url.to_ascii_lowercase();
     let i = lower.rfind("han")?;
-    let digits: String = lower[i + 3..].chars().take_while(char::is_ascii_digit).collect();
+    let digits: String = lower[i + 3..]
+        .chars()
+        .take_while(char::is_ascii_digit)
+        .collect();
     (digits.len() == 5).then_some(digits)
 }
 
@@ -431,12 +446,17 @@ pub async fn han_notices(
     match get_json(http, cache, &legacy_url, 7 * 24 * 3600).await {
         Ok((v, _, _, _)) => {
             for i in parse_han_legacy(&v) {
-                if !items.iter().any(|x| x.number.is_some() && x.number == i.number) {
+                if !items
+                    .iter()
+                    .any(|x| x.number.is_some() && x.number == i.number)
+                {
                     items.push(i);
                 }
             }
         }
-        Err(e) => notes.push(format!("retired HAN feed (2023 and earlier) unavailable: {e}")),
+        Err(e) => notes.push(format!(
+            "retired HAN feed (2023 and earlier) unavailable: {e}"
+        )),
     }
     let highest = items
         .iter()
@@ -478,7 +498,9 @@ pub async fn han_notices(
             probe_error.as_deref().unwrap_or("probe limit reached")
         ));
     } else if n == first_probe && probe_error.is_some() && highest < HAN_KNOWN_LATEST {
-        notes.push(format!("Newer HAN pages could not be reached; see {HAN_INDEX}."));
+        notes.push(format!(
+            "Newer HAN pages could not be reached; see {HAN_INDEX}."
+        ));
     }
     items.sort_by(|a, b| b.date.cmp(&a.date).then(b.number.cmp(&a.number)));
     Ok((
@@ -512,7 +534,18 @@ pub fn match_score(item: &GuidanceItem, words: &[String]) -> usize {
 /// Query words worth matching (lower case, 3+ characters, no stop words).
 pub fn query_words(query: &str) -> Vec<String> {
     const STOP: [&str; 12] = [
-        "the", "and", "for", "with", "from", "about", "guidance", "cdc", "new", "latest", "recommendations", "what",
+        "the",
+        "and",
+        "for",
+        "with",
+        "from",
+        "about",
+        "guidance",
+        "cdc",
+        "new",
+        "latest",
+        "recommendations",
+        "what",
     ];
     let mut out: Vec<String> = query
         .to_lowercase()
@@ -530,22 +563,30 @@ mod tests {
 
     #[test]
     fn parses_syndication_search_and_keeps_only_mmwr() {
-        let v: Value =
-            serde_json::from_str(include_str!("../tests/fixtures/phase4/cdc_syndication_search.json"))
-                .unwrap();
+        let v: Value = serde_json::from_str(include_str!(
+            "../tests/fixtures/phase4/cdc_syndication_search.json"
+        ))
+        .unwrap();
         let items = v["results"].as_array().unwrap();
         let all = parse_syndication_items(items, false);
         let mmwr = parse_syndication_items(items, true);
         assert!(all.len() > mmwr.len());
-        assert!(mmwr.iter().all(|i| i.url.contains("/mmwr/") && !i.url.contains('?')));
-        assert!(mmwr.iter().all(|i| i.date.as_deref().is_some_and(|d| d.len() == 10)));
+        assert!(
+            mmwr.iter()
+                .all(|i| i.url.contains("/mmwr/") && !i.url.contains('?'))
+        );
+        assert!(
+            mmwr.iter()
+                .all(|i| i.date.as_deref().is_some_and(|d| d.len() == 10))
+        );
     }
 
     #[test]
     fn parses_han_archive_and_pages() {
-        let v: Value =
-            serde_json::from_str(include_str!("../tests/fixtures/phase4/han_archive_static.json"))
-                .unwrap();
+        let v: Value = serde_json::from_str(include_str!(
+            "../tests/fixtures/phase4/han_archive_static.json"
+        ))
+        .unwrap();
         let items = parse_han_archive(&v);
         assert_eq!(items.len(), 3);
         assert_eq!(items[0].number.as_deref(), Some("00523"));
@@ -556,7 +597,10 @@ mod tests {
             &han_url(533),
         )
         .unwrap();
-        assert!(page.title.starts_with("Nationwide Increase in Reported Human Rabies Exposures"));
+        assert!(
+            page.title
+                .starts_with("Nationwide Increase in Reported Human Rabies Exposures")
+        );
         assert_eq!(page.date.as_deref(), Some("2026-09-10"));
         assert_eq!(page.number.as_deref(), Some("00533"));
         assert_eq!(page.message_type.as_deref(), Some("Health Advisory"));
@@ -564,10 +608,22 @@ mod tests {
 
     #[test]
     fn helpers() {
-        assert_eq!(han_number("https://www.cdc.gov/han/2023/han00497.asp").as_deref(), Some("00497"));
-        assert_eq!(parse_long_date("January 16, 2025").as_deref(), Some("2025-01-16"));
-        assert_eq!(strip_tags("Mpox <em>Monkeypox Virus</em> &amp; more"), "Mpox Monkeypox Virus & more");
-        assert_eq!(query_words("CDC guidance on measles exposure"), vec!["measles", "exposure"]);
+        assert_eq!(
+            han_number("https://www.cdc.gov/han/2023/han00497.asp").as_deref(),
+            Some("00497")
+        );
+        assert_eq!(
+            parse_long_date("January 16, 2025").as_deref(),
+            Some("2025-01-16")
+        );
+        assert_eq!(
+            strip_tags("Mpox <em>Monkeypox Virus</em> &amp; more"),
+            "Mpox Monkeypox Virus & more"
+        );
+        assert_eq!(
+            query_words("CDC guidance on measles exposure"),
+            vec!["measles", "exposure"]
+        );
         assert!(stacks_search_url("lead poisoning").contains("terms=lead%20poisoning"));
     }
 
@@ -575,7 +631,7 @@ mod tests {
     async fn offline_han_lookup_reports_coverage_gaps() {
         let dir = tempfile::tempdir().unwrap();
         let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
-        let (items, _, notes) = han_notices(&http, None, ).await.unwrap();
+        let (items, _, notes) = han_notices(&http, None).await.unwrap();
         assert!(items.is_empty());
         assert!(!notes.is_empty());
     }

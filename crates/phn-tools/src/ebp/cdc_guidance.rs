@@ -66,7 +66,9 @@ pub async fn search_cdc_guidance(
     }
     let max = args.max_results.unwrap_or(10);
     if !(1..=30).contains(&max) {
-        return Err(PhnError::InvalidInput("max_results must be between 1 and 30".into()));
+        return Err(PhnError::InvalidInput(
+            "max_results must be between 1 and 30".into(),
+        ));
     }
     let since = match &args.since {
         Some(s) => Some(
@@ -83,9 +85,11 @@ pub async fn search_cdc_guidance(
         .unwrap_or_else(|| vec![Series::Mmwr, Series::Han, Series::Stacks]);
     let words = cdc_guidance::query_words(&topic);
     let keep = |i: &GuidanceItem| {
-        since
-            .as_deref()
-            .is_none_or(|s| i.date.as_deref().is_some_and(|d| d >= s || (d.len() == 4 && d >= &s[..4])))
+        since.as_deref().is_none_or(|s| {
+            i.date
+                .as_deref()
+                .is_some_and(|d| d >= s || (d.len() == 4 && d >= &s[..4]))
+        })
     };
     let cache = ctx.cache.as_ref();
     let mut items: Vec<GuidanceItem> = Vec::new();
@@ -116,10 +120,15 @@ pub async fn search_cdc_guidance(
         if !ctx.http.is_offline() {
             let eu = Eutils::new();
             let q = format!("\"MMWR Morb Mortal Wkly Rep\"[ta] AND ({topic})");
-            match eu.search(&ctx.http, cache, &q, max as u32, "pub_date").await {
+            match eu
+                .search(&ctx.http, cache, &q, max as u32, "pub_date")
+                .await
+            {
                 Ok((found, prov, _)) => match eu.fetch(&ctx.http, cache, &found.ids).await {
                     Ok((arts, _)) => {
-                        methods.push("PubMed search of the MMWR journal (titles and abstracts)".into());
+                        methods.push(
+                            "PubMed search of the MMWR journal (titles and abstracts)".into(),
+                        );
                         sources.push(Source {
                             title: "PubMed: MMWR Morbidity and Mortality Weekly Report".into(),
                             publisher: "National Library of Medicine".into(),
@@ -132,7 +141,10 @@ pub async fn search_cdc_guidance(
                             mode: prov.mode,
                         });
                         for a in arts {
-                            if mmwr.iter().any(|m| norm_title(&m.title) == norm_title(&a.title)) {
+                            if mmwr
+                                .iter()
+                                .any(|m| norm_title(&m.title) == norm_title(&a.title))
+                            {
                                 continue;
                             }
                             let summary: String = a.abstract_text.chars().take(300).collect();
@@ -179,7 +191,8 @@ pub async fn search_cdc_guidance(
                     .collect();
                 // Best match first, then newest.
                 scored.sort_by(|a, b| b.0.cmp(&a.0).then(b.1.date.cmp(&a.1.date)));
-                let mut han: Vec<GuidanceItem> = scored.into_iter().map(|x| x.1).take(max).collect();
+                let mut han: Vec<GuidanceItem> =
+                    scored.into_iter().map(|x| x.1).take(max).collect();
                 han.sort_by(|a, b| b.date.cmp(&a.date));
                 sources.push(Source {
                     title: "CDC Health Alert Network (HAN) notices".into(),
@@ -231,11 +244,7 @@ pub async fn search_cdc_guidance(
             results: 0,
         });
     }
-    if searched
-        .iter()
-        .all(|s| s.status != "ok")
-        && searched.iter().any(|s| s.status == "failed")
-    {
+    if searched.iter().all(|s| s.status != "ok") && searched.iter().any(|s| s.status == "failed") {
         return Err(PhnError::Network(format!(
             "CDC sources could not be reached ({}). Search CDC Stacks at {stacks_search_url} or \
              MMWR at https://www.cdc.gov/mmwr/.",
@@ -362,7 +371,9 @@ mod tests {
         .await
         .unwrap();
         assert!(env.data.stacks_search_url.contains("lead%20poisoning"));
-        let err = search_cdc_guidance(&ctx, CdcGuidanceArgs::default()).await.unwrap_err();
+        let err = search_cdc_guidance(&ctx, CdcGuidanceArgs::default())
+            .await
+            .unwrap_err();
         assert!(err.to_string().contains("topic"));
     }
 }
