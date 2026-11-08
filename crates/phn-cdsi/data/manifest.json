@@ -1,0 +1,208 @@
+{
+  "title": "CDSi Supporting Data (antigen series and schedule supporting data, XML)",
+  "publisher": "Centers for Disease Control and Prevention, National Center for Immunization and Respiratory Diseases",
+  "version": "4.65",
+  "published": "2026-08",
+  "source_page": "https://www.cdc.gov/iis/cdsi/index.html",
+  "download_url": "https://www.cdc.gov/iis/downloads/supporting-data-4.65-508.zip",
+  "download_sha256": "741b8fd21c77887c4d2dc9ce1119a58d2659152007bda6791ffc57fdc098ce3d",
+  "download_bytes": 2592660,
+  "retrieved": "2026-11-07",
+  "license": "U.S. federal government work (CDC); public domain.",
+  "logic_specification": {
+    "title": "Clinical Decision Support for Immunization (CDSi): Logic Specification for ACIP Recommendations",
+    "version": "4.6",
+    "date": "2024-12-13",
+    "url": "https://www.cdc.gov/iis/downloads/logic-spec-acip-rec-4.6.pdf",
+    "sha256": "9b00d92d90629832d82fc41855847b03c8548d9564480cab68cc391a7b824a9e"
+  },
+  "derivation": "The XML files from the ZIP folder \"Version 4.65 - 508/XML\" copied byte for byte and renamed (antigen-<Antigen>.xml, schedule.xml). The XSD schemas, Excel copies, and Word documents in the ZIP are not included.",
+  "files": [
+    {
+      "path": "antigen-COVID-19.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- COVID-19-508.xml",
+      "sha256": "6da31f5809f39471c46574fa68da3906dae47622479d49df594dd9485df0fe4e",
+      "bytes": 305404
+    },
+    {
+      "path": "antigen-Chikungunya.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Chikungunya-508.xml",
+      "sha256": "275539b3afb6f53be86c23cfc2e1a2d0452a1744c2c8349e85d3ee26a23224c0",
+      "bytes": 4800
+    },
+    {
+      "path": "antigen-Cholera.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Cholera-508.xml",
+      "sha256": "c0f5efe40cd59da90b271196d0d9fd7ef4ed8c9b1a59c59472005be3cc55372f",
+      "bytes": 3488
+    },
+    {
+      "path": "antigen-Dengue.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Dengue-508.xml",
+      "sha256": "55f7326f1f14c41a80dbb5819d6060a5aa81103849a49e22494977d232428710",
+      "bytes": 10976
+    },
+    {
+      "path": "antigen-Diphtheria.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Diphtheria-508.xml",
+      "sha256": "9293bbe9b5d7136a239af7f896f7799494c9990dec03b8d9dc3e920d43e2077f",
+      "bytes": 149647
+    },
+    {
+      "path": "antigen-Ebola.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Ebola-508.xml",
+      "sha256": "37a64f8e49ab038ffa2773ac025d5b68ad91f88fa46bac41658ddd06f09ca45b",
+      "bytes": 4711
+    },
+    {
+      "path": "antigen-HPV.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- HPV-508.xml",
+      "sha256": "6d6f228da290f280ea11daf1694e406ff2444fce947827a6ee787ca10a71e4b7",
+      "bytes": 72632
+    },
+    {
+      "path": "antigen-HepA.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- HepA-508.xml",
+      "sha256": "012ea4470e3d529e30ce899d34f5774a8f3aa69175383e01dfe9527fa2cbe746",
+      "bytes": 82825
+    },
+    {
+      "path": "antigen-HepB.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- HepB-508.xml",
+      "sha256": "4fa30b136ff995c1293922f22455dae81f5b5dbbc63feb90301adb4530973e62",
+      "bytes": 215003
+    },
+    {
+      "path": "antigen-Hib.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Hib-508.xml",
+      "sha256": "eae3f5260dc19e6b513e6483da4cdca05c6cde3404ba93882025e3c039e8e27b",
+      "bytes": 86471
+    },
+    {
+      "path": "antigen-Influenza.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Influenza-508.xml",
+      "sha256": "44778baeeb2acb9009d643118ea846e3f3ddaac225b8b954d645dab7c8fa4b2e",
+      "bytes": 46286
+    },
+    {
+      "path": "antigen-JE.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- JE-508.xml",
+      "sha256": "9c9eba4a34fd247b83f6a6b49dcc2b9c0651e23d712f27e10f475fc676795677",
+      "bytes": 13292
+    },
+    {
+      "path": "antigen-Measles.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Measles-508.xml",
+      "sha256": "f0d3b64e4f0e747d253d86d3ec264c72e36f4ad400eab02eb4b69464f3df19cc",
+      "bytes": 32126
+    },
+    {
+      "path": "antigen-Meningococcal-B.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Meningococcal B-508.xml",
+      "sha256": "bc23f0329ad749b5e51057b5991c2b4c301d0d81e7cc54a6daf523a50f0d3e56",
+      "bytes": 52078
+    },
+    {
+      "path": "antigen-Meningococcal.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Meningococcal-508.xml",
+      "sha256": "fc156e29c2f3a42b4f8cf6c1a2bb1d86da553c7b8d15174f8753a37749ef18a3",
+      "bytes": 74449
+    },
+    {
+      "path": "antigen-Mumps.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Mumps-508.xml",
+      "sha256": "dfb06010218bc9d065753485ea6aee533698e1dffb6c9794f6210dda5d6d2fce",
+      "bytes": 32390
+    },
+    {
+      "path": "antigen-Orthopoxvirus.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Orthopoxvirus-508.xml",
+      "sha256": "313e61c5703f4966a431d745a49d15deb859cad82b2023fc6cc1a81d88ccdf32",
+      "bytes": 40377
+    },
+    {
+      "path": "antigen-Pertussis.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Pertussis-508.xml",
+      "sha256": "5dd7e766ee8f586606bee0e324f2cc27fa5d0d754396ab779255f18282f91ff7",
+      "bytes": 130861
+    },
+    {
+      "path": "antigen-Pneumococcal.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Pneumococcal-508.xml",
+      "sha256": "b4eedd7d55d36f6d0664d4dcb51f752f9ae3b08325d02d4b9bfa7e4f91930b6a",
+      "bytes": 304674
+    },
+    {
+      "path": "antigen-Polio.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Polio-508.xml",
+      "sha256": "ed506456bdde1f51d9a340c507dc6b36b50304828b25516b16a8abe16134ac03",
+      "bytes": 128874
+    },
+    {
+      "path": "antigen-RSV.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- RSV-508.xml",
+      "sha256": "fe00bef329774cc92916b0ab51a2e164a71ca699d7d4f4bce7c9c6888365ef45",
+      "bytes": 46071
+    },
+    {
+      "path": "antigen-Rabies.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Rabies-508.xml",
+      "sha256": "501f7d4dcf023a13bdb2aae47e7b8f281f4e5c456c87d415b7e6f4f9904fceb7",
+      "bytes": 31800
+    },
+    {
+      "path": "antigen-Rotavirus.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Rotavirus-508.xml",
+      "sha256": "eb1e1502674a83336c0cc49631e4c2befa46b38d355e7be87dc8940be7a1cd17",
+      "bytes": 21471
+    },
+    {
+      "path": "antigen-Rubella.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Rubella-508.xml",
+      "sha256": "55079f7d5ed60e6036247f2210099949d8354d35d0165d906ff602f4aebf23ba",
+      "bytes": 33490
+    },
+    {
+      "path": "antigen-TBE.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- TBE-508.xml",
+      "sha256": "208b8956911456fb89b89b7cd0c1e077ad4555cfaa2d858956dc7b095a0b61f6",
+      "bytes": 16966
+    },
+    {
+      "path": "antigen-Tetanus.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Tetanus-508.xml",
+      "sha256": "da7416e6adc709a3e605318f83f25957759d5b1c9d1bf7edbccad63e5996a772",
+      "bytes": 151745
+    },
+    {
+      "path": "antigen-Typhoid.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Typhoid-508.xml",
+      "sha256": "d3d7811e8e285aeaf724f5981272183dd5c5f497a0469d0e44a878f4edac54cd",
+      "bytes": 14314
+    },
+    {
+      "path": "antigen-Varicella.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Varicella-508.xml",
+      "sha256": "ecb2fb03157783cffa04ad812b6217327f3e07f78dab7fd5147ef4f650c736b0",
+      "bytes": 24332
+    },
+    {
+      "path": "antigen-YF.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- YF-508.xml",
+      "sha256": "2ad3e6a026c5caa5aa965e6711d15d00ddbf0664eb2715ad7e1b314ea2c93655",
+      "bytes": 11633
+    },
+    {
+      "path": "antigen-Zoster.xml",
+      "original_name": "Version 4.65 - 508/XML/AntigenSupportingData- Zoster-508.xml",
+      "sha256": "a337d607b90be16cdff138c669156bb0ccd05dbe881270535d239243bbbf7861",
+      "bytes": 16527
+    },
+    {
+      "path": "schedule.xml",
+      "original_name": "Version 4.65 - 508/XML/ScheduleSupportingData.xml",
+      "sha256": "4db27c14003b789d34fa8b812d42926205f4ae2f63b169f04729ae80c7f2a398",
+      "bytes": 476910
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[package]
+name = "phn-cdsi"
+description = "CDC Clinical Decision Support for Immunization (CDSi) evaluation and forecasting engine, with the CDC supporting data embedded."
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+chrono.workspace = true
+quick-xml.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+calamine.workspace = true
+hex.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+
+[lints]
+workspace = true

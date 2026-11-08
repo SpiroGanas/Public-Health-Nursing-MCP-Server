@@ -1,0 +1,2 @@
+# Keep the CDC files byte for byte (CRLF line endings) so checksums match the source.
+* -text
