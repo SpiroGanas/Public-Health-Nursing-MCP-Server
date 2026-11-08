@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
+use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -99,6 +99,28 @@ impl PhnServer {
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| {
             phn_tools::aging::elder_protective_services_guide(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "find_ma_aging_services",
+        description = "For a Massachusetts city or town: the Aging Services Access Point (Boston: by \
+            neighborhood) with address and phone, the Council on Aging and how to reach it, the \
+            SHINE Medicare counseling office, the senior nutrition project for home-delivered and \
+            community meals, caregiver and dementia supports, the elder abuse hotline, the Long-Term \
+            Care Ombudsman, and MassOptions, with what each program offers. Filter by needs \
+            (home_care, meals, insurance, caregiver, dementia, protective, long_term_care, \
+            community, information).",
+        annotations(title = "Find Massachusetts aging services", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<AgingServicesResult>>()
+    )]
+    async fn find_ma_aging_services(
+        &self,
+        Parameters(args): Parameters<AgingServicesArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::find_ma_aging_services(ctx, args)
         })
         .await
     }

@@ -33,6 +33,7 @@ const ASAP_URL: &str =
     "https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap";
 const SHINE_PAGE: &str = "https://www.mass.gov/info-details/find-a-shine-counselor-near-you";
 const CBHC_URL: &str = "https://www.mass.gov/find-a-cbhc/locations";
+const NUTRITION_URL: &str = "https://www.mass.gov/info-details/nutrition-program-sites";
 const LICENSE: &str = "Public information published by the Commonwealth of Massachusetts on mass.gov.";
 
 /// Published spellings that differ from the MassGIS town name.
@@ -54,6 +55,7 @@ const SPELLINGS: &[(&str, &str)] = &[
     ("lunenberg", "Lunenburg"),
     ("north attleboro", "North Attleborough"),
     ("manchester by the sea", "Manchester-by-the-Sea"),
+    ("manchester", "Manchester-by-the-Sea"),
 ];
 
 /// Villages and neighborhoods: (published name, towns it is part of).
@@ -78,6 +80,8 @@ const VILLAGES: &[(&str, &[&str])] = &[
     ("west roxbury", &["Boston"]),
     ("buzzards bay", &["Bourne"]),
     ("hyannis", &["Barnstable"]),
+    ("vineyard haven", &["Tisbury"]),
+    ("southwest boston", &["Boston"]),
     ("chestnut hill", &["Newton", "Brookline", "Boston"]),
     ("shelburne falls", &["Shelburne", "Buckland"]),
     ("turner falls", &["Montague"]),
@@ -153,6 +157,8 @@ impl Towns {
 /// Split "A, B, C, and D" into names.
 fn split_list(s: &str) -> Vec<String> {
     s.replace(" and ", ", ")
+        .replace(" & ", ", ")
+        .replace('&', ",")
         .split(',')
         .map(|x| x.trim().trim_end_matches('.').trim().to_string())
         .filter(|x| !x.is_empty() && x != "and")
@@ -178,7 +184,7 @@ fn sel(s: &str) -> Selector {
 
 fn looks_like_phone(s: &str) -> bool {
     let digits = s.chars().filter(char::is_ascii_digit).count();
-    (10..=11).contains(&digits) && !s.contains(", MA") && !s.contains(" MA ")
+    digits >= 10 && !s.contains(", MA") && !s.contains(" MA ")
 }
 
 fn csv_field(s: &str) -> String {
@@ -401,6 +407,116 @@ fn build_shine_csv(bytes: &[u8], towns: &Towns) -> Result<(String, Vec<String>)>
     Ok((s, missing))
 }
 
+// ------------------------------------------------------------------ Nutrition
+
+struct Nutrition {
+    name: String,
+    address: String,
+    phone: String,
+    web: String,
+    towns: Vec<String>,
+    served: String,
+}
+
+fn parse_nutrition(html: &str, towns: &Towns) -> Result<Vec<Nutrition>> {
+    let doc = Html::parse_document(html);
+    let mut out = Vec::new();
+    for tr in doc.select(&sel("table.ma__table tbody tr")) {
+        let tds: Vec<ElementRef> = tr.select(&sel("td")).collect();
+        if tds.len() < 2 {
+            continue;
+        }
+        let web = tds[0]
+            .select(&sel("a"))
+            .next()
+            .and_then(|a| a.value().attr("href"))
+            .unwrap_or_default()
+            .to_string();
+        let mut lines: Vec<String> = Vec::new();
+        let mut cur = String::new();
+        for node in tds[0].descendants() {
+            match node.value() {
+                scraper::Node::Text(t) => cur.push_str(t),
+                scraper::Node::Element(e) if e.name() == "br" => {
+                    lines.push(std::mem::take(&mut cur));
+                }
+                _ => {}
+            }
+        }
+        lines.push(cur);
+        let lines: Vec<String> = lines
+            .into_iter()
+            .map(|l| l.replace('\u{a0}', " ").split_whitespace().collect::<Vec<_>>().join(" "))
+            .filter(|l| !l.is_empty())
+            .collect();
+        let Some(mut name) = lines.first().cloned() else {
+            continue;
+        };
+        let mut rest = 1;
+        // "Health & Social Services Consortium" / "Inc. (HESSCO)"
+        if let Some(next) = lines.get(1)
+            && next.starts_with("Inc.")
+        {
+            name = format!("{name}, {next}");
+            rest = 2;
+        }
+        let mut address = Vec::new();
+        let mut phone = String::new();
+        for l in lines.iter().skip(rest) {
+            let lower = l.to_ascii_lowercase();
+            if lower.starts_with("fax") || lower.starts_with("tty") || lower.starts_with("tdd") {
+                continue;
+            }
+            if looks_like_phone(l) || lower.starts_with("toll free") {
+                if phone.is_empty() {
+                    phone = l.clone();
+                }
+            } else {
+                address.push(l.clone());
+            }
+        }
+        let served = tds[1].text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ");
+        let mut t = BTreeSet::new();
+        for n in split_list(&served.replace(['(', ')'], ",")) {
+            if n.to_ascii_lowercase().starts_with("boston neighborhoods") || n.is_empty() {
+                continue;
+            }
+            let (ts, _) = towns.resolve(&n)?;
+            t.extend(ts);
+        }
+        out.push(Nutrition {
+            name,
+            address: address.join(", "),
+            phone,
+            web,
+            towns: t.into_iter().collect(),
+            served,
+        });
+    }
+    if out.len() < 15 {
+        bail!("only {} nutrition projects parsed from {NUTRITION_URL}", out.len());
+    }
+    Ok(out)
+}
+
+fn nutrition_csv(items: &[Nutrition]) -> String {
+    let mut s = String::from("id,name,address,phone,web,towns,served_as_published\n");
+    for (i, n) in items.iter().enumerate() {
+        let row = [
+            format!("meals-{:02}", i + 1),
+            n.name.clone(),
+            n.address.clone(),
+            n.phone.clone(),
+            n.web.clone(),
+            n.towns.join(";"),
+            n.served.clone(),
+        ];
+        s.push_str(&row.iter().map(|f| csv_field(f)).collect::<Vec<_>>().join(","));
+        s.push('\n');
+    }
+    s
+}
+
 // ------------------------------------------------------------------ CBHCs
 
 struct Cbhc {
@@ -570,6 +686,12 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
     );
     let (shine_text, shine_missing) = build_shine_csv(&shine_bytes, &towns)?;
 
+    // Senior nutrition projects (home-delivered and community meals)
+    let nut_html = fetch(NUTRITION_URL, source_dir)?;
+    hashes.insert("nutrition-program-sites.html".to_string(), sha256(&nut_html));
+    let nutrition = parse_nutrition(&String::from_utf8_lossy(&nut_html), &towns)?;
+    let nutrition_text = nutrition_csv(&nutrition);
+
     // CBHCs (paged listing)
     let mut cbhcs: Vec<Cbhc> = Vec::new();
     let mut cbhc_hashes = BTreeMap::new();
@@ -627,18 +749,24 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
     };
     let aging_entry = SnapshotEntry {
         id: "ma-aging-service-directory".into(),
-        title: "Massachusetts Aging Services Access Points and SHINE offices by town".into(),
+        title: "Massachusetts Aging Services Access Points, SHINE offices, and senior nutrition projects by town".into(),
         publisher: "Massachusetts Executive Office of Aging & Independence (mass.gov)".into(),
-        source_urls: vec![ASAP_URL.into(), SHINE_PAGE.into(), shine_url.clone()],
+        source_urls: vec![
+            ASAP_URL.into(),
+            SHINE_PAGE.into(),
+            shine_url.clone(),
+            NUTRITION_URL.into(),
+        ],
         source_sha256: hashes,
         source_vintage: today.clone(),
         retrieved: today.clone(),
         license: LICENSE.into(),
-        derivation: "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).".into(),
+        derivation: "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV; senior nutrition projects and the communities they serve from the 'Nutrition Program Sites' table. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).".into(),
         caveats: aging_caveats,
         files: vec![
             file_entry("ma_asap_directory.csv", &asap_text),
             file_entry("ma_shine_directory.csv", &shine_text),
+            file_entry("ma_nutrition_directory.csv", &nutrition_text),
         ],
     };
     let cbhc_entry = SnapshotEntry {
@@ -664,6 +792,7 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
     let outputs = [
         ("ma_asap_directory.csv", &asap_text),
         ("ma_shine_directory.csv", &shine_text),
+        ("ma_nutrition_directory.csv", &nutrition_text),
         ("ma_cbhc_directory.csv", &cbhc_text),
     ];
     println!(

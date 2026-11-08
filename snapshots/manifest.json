@@ -761,21 +761,23 @@
     },
     {
       "id": "ma-aging-service-directory",
-      "title": "Massachusetts Aging Services Access Points and SHINE offices by town",
+      "title": "Massachusetts Aging Services Access Points, SHINE offices, and senior nutrition projects by town",
       "publisher": "Massachusetts Executive Office of Aging & Independence (mass.gov)",
       "source_urls": [
         "https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap",
         "https://www.mass.gov/info-details/find-a-shine-counselor-near-you",
-        "https://www.mass.gov/files/csv/2026-10/towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv"
+        "https://www.mass.gov/files/csv/2026-10/towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv",
+        "https://www.mass.gov/info-details/nutrition-program-sites"
       ],
       "source_sha256": {
         "find-your-regional-aging-services-access-point-asap.html": "ec9b65ac890a1d311edce82f3d4974d1cc3b7cc8b6f5ab30fc0eba6093f8f4c0",
+        "nutrition-program-sites.html": "9a22d4594b66e016f314a88dc8552b4a73d073bf2352b8cba3d1ec29eee18678",
         "towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv": "11356772d5b81adacd06ad08988ddf7f89adc168dabee6c7f8f41368e4ffff4f"
       },
       "source_vintage": "2026-11-08",
       "retrieved": "2026-11-08",
       "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
-      "derivation": "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).",
+      "derivation": "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV; senior nutrition projects and the communities they serve from the 'Nutrition Program Sites' table. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).",
       "caveats": [
         "Service areas are as published on mass.gov; AGE notes that the areas served by an ASAP's protective services may differ. Confirm with the ASAP or call MassOptions at (800) 243-4636.",
         "Boston is served by several ASAPs by neighborhood; the neighborhoods are listed for each.",
@@ -793,6 +795,12 @@
           "sha256": "bd728914a472bc1c5ab07af1dfe6756240f14ea759db0e0a92fca05e4b611fc9",
           "bytes": 20255,
           "rows": 350
+        },
+        {
+          "path": "ma_nutrition_directory.csv",
+          "sha256": "235e19348dbac035de2e30594ae894de17e209017a3ee4792ef8e3b106a29035",
+          "bytes": 10585,
+          "rows": 23
         }
       ]
     },

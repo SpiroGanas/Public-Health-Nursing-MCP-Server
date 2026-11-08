@@ -199,6 +199,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/ma_shine_directory.csv"),
     ),
     (
+        "ma_nutrition_directory.csv",
+        include_str!("../../../snapshots/ma_nutrition_directory.csv"),
+    ),
+    (
         "ma_cbhc_directory.csv",
         include_str!("../../../snapshots/ma_cbhc_directory.csv"),
     ),

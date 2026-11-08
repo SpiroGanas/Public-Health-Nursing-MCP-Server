@@ -41,6 +41,18 @@ pub struct ShineOffice {
     pub office: String,
 }
 
+/// A senior nutrition project (home-delivered and community meals).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct NutritionProject {
+    pub id: String,
+    pub name: String,
+    pub address: String,
+    pub phone: String,
+    pub web: Option<String>,
+    pub towns: Vec<String>,
+    pub served_as_published: String,
+}
+
 /// A Community Behavioral Health Center location.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct Cbhc {
@@ -76,6 +88,7 @@ pub enum CbhcMatch {
 pub struct Directory {
     pub asaps: Vec<Asap>,
     pub shine: Vec<ShineOffice>,
+    pub nutrition: Vec<NutritionProject>,
     pub cbhcs: Vec<Cbhc>,
     pub aging_source: Source,
     pub cbhc_source: Source,
@@ -126,6 +139,8 @@ impl Directory {
     pub fn load(store: &SnapshotStore) -> Result<Self> {
         let (asap_text, aging_entry, o1) = store.file_text(AGING_SNAPSHOT, "ma_asap_directory.csv")?;
         let (shine_text, _, _) = store.file_text(AGING_SNAPSHOT, "ma_shine_directory.csv")?;
+        let (nutrition_text, _, _) =
+            store.file_text(AGING_SNAPSHOT, "ma_nutrition_directory.csv")?;
         let (cbhc_text, cbhc_entry, o2) = store.file_text(CBHC_SNAPSHOT, "ma_cbhc_directory.csv")?;
         let (h, rows) = records(&asap_text)?;
         let asaps = rows
@@ -151,6 +166,19 @@ impl Directory {
                 office: get(&h, r, "office").into(),
             })
             .collect();
+        let (h, rows) = records(&nutrition_text)?;
+        let nutrition = rows
+            .iter()
+            .map(|r| NutritionProject {
+                id: get(&h, r, "id").into(),
+                name: get(&h, r, "name").into(),
+                address: get(&h, r, "address").into(),
+                phone: get(&h, r, "phone").into(),
+                web: opt(get(&h, r, "web")),
+                towns: split(get(&h, r, "towns")),
+                served_as_published: get(&h, r, "served_as_published").into(),
+            })
+            .collect();
         let (h, rows) = records(&cbhc_text)?;
         let cbhcs = rows
             .iter()
@@ -171,6 +199,7 @@ impl Directory {
         Ok(Self {
             asaps,
             shine,
+            nutrition,
             cbhcs,
             aging_source: aging_entry.to_source(),
             cbhc_source: cbhc_entry.to_source(),
@@ -192,6 +221,14 @@ impl Directory {
     /// The town's SHINE regional office.
     pub fn shine_for(&self, town: &str) -> Option<&ShineOffice> {
         self.shine.iter().find(|s| s.town == town)
+    }
+
+    /// Senior nutrition projects serving a town.
+    pub fn nutrition_for(&self, town: &str) -> Vec<&NutritionProject> {
+        self.nutrition
+            .iter()
+            .filter(|n| n.towns.iter().any(|t| t == town))
+            .collect()
     }
 
     /// CBHCs for a town: those that list it, else those in its county.
@@ -240,5 +277,12 @@ mod tests {
         assert!(d.asaps_for("Boston").len() >= 3);
         assert_eq!(d.cbhcs_for("Worcester", "Worcester").1, CbhcMatch::Listed);
         assert!(d.shine_for("Amherst").is_some());
+        assert!(!d.nutrition_for("Amherst").is_empty());
+        let without_meals = ma
+            .municipalities
+            .iter()
+            .filter(|m| d.nutrition_for(&m.name).is_empty())
+            .count();
+        assert!(without_meals < 10, "{without_meals} towns without a nutrition project");
     }
 }
