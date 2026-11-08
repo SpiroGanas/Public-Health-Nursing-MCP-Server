@@ -44,6 +44,11 @@ All notable changes are recorded here. The format follows
   `notes_path` it fills a draft from the nurse's local notes into `/data/output` and returns
   only file names and field counts. Content `content/mch/mandated_reporting.yaml` (pending
   review).
+- `check_developmental_milestones` (MCH-02): CDC "Learn the Signs. Act Early." checklists
+  (2 months to 5 years) with milestone IDs, act-early steps, AAP screening ages, the
+  corrected-age checklist for preterm infants, Massachusetts Early Intervention referral, and
+  the EI programs serving a town. Content `content/mch/developmental_milestones.yaml` (pending
+  review); snapshot `ma-ei-programs` (DPH's EI program directory).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

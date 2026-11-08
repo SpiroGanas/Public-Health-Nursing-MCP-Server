@@ -1,0 +1,386 @@
+# CDC "Learn the Signs. Act Early." developmental milestones (2022 revision, as published on
+# cdc.gov) and Massachusetts Early Intervention referral steps, for
+# check_developmental_milestones (MCH-02).
+#
+# REVIEW STATUS: pending. Milestones transcribed 2026-11-08 from CDC's milestone pages (updated
+# 2026-05-16). Schema: content/schemas/mch_milestones.schema.json
+meta:
+  id: mch-developmental-milestones
+  title: "CDC developmental milestones (Learn the Signs. Act Early.) and Massachusetts Early Intervention referral"
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2022-02-08
+  source:
+    title: "CDC's Developmental Milestones (Learn the Signs. Act Early.)"
+    publisher: CDC National Center on Birth Defects and Developmental Disabilities
+    url: https://www.cdc.gov/act-early/milestones/index.html
+  related_sources:
+    - title: "Concerned About Your Child's Development?"
+      publisher: CDC National Center on Birth Defects and Developmental Disabilities
+      url: https://www.cdc.gov/act-early/families/concerned.html
+    - title: About Massachusetts Early Intervention (EI)
+      publisher: Massachusetts Department of Public Health, Early Intervention Division
+      url: https://www.mass.gov/info-details/about-massachusetts-early-intervention-ei
+    - title: EI Program Contact Information (CSV, 2026-09-24)
+      publisher: Massachusetts Department of Public Health, Early Intervention Division
+      url: https://www.mass.gov/info-details/ei-program-contact-information
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The milestones are transcribed word for word from CDC's twelve age pages (each page updated
+    2026-05-16; CDC and AAP revised the checklists in February 2022: milestones most children,
+    75% or more, reach by each age). The act-early steps, screening ages (AAP, as stated by
+    CDC), and preschool special education steps come from CDC's "Concerned About Your Child's
+    Development?" page (updated 2026-02-17). Massachusetts EI eligibility, cost, and referral
+    come from DPH's EI pages; the program directory is DPH's CSV (snapshot ma-ei-programs).
+    CDC does not say how to adjust milestones for prematurity; the tool shows both ages and
+    defers to the child's provider.
+
+sources:
+  cdc-milestones:
+    title: "CDC's Developmental Milestones (Learn the Signs. Act Early.)"
+    publisher: CDC National Center on Birth Defects and Developmental Disabilities
+    url: https://www.cdc.gov/act-early/milestones/index.html
+    effective_date: 2026-05-16
+    retrieved: 2026-11-08
+  cdc-concerned:
+    title: "Concerned About Your Child's Development?"
+    publisher: CDC National Center on Birth Defects and Developmental Disabilities
+    url: https://www.cdc.gov/act-early/families/concerned.html
+    effective_date: 2026-02-17
+    retrieved: 2026-11-08
+  ma-ei-about:
+    title: About Massachusetts Early Intervention (EI)
+    publisher: Massachusetts Department of Public Health, Early Intervention Division
+    url: https://www.mass.gov/info-details/about-massachusetts-early-intervention-ei
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-ei-programs:
+    title: EI Program Contact Information
+    publisher: Massachusetts Department of Public Health, Early Intervention Division
+    url: https://www.mass.gov/info-details/ei-program-contact-information
+    effective_date: 2026-09-24
+    retrieved: 2026-11-08
+
+definition:
+  text: "Developmental milestones are things most children (75% or more) can do by a certain age. CDC's checklists are not a substitute for standardized, validated developmental screening tools."
+  source: cdc-milestones
+  section: "Ways to monitor milestones; Keep in mind"
+
+share_with_doctor:
+  - "What are some things you and your child do together?"
+  - "What are some things your child likes to do?"
+  - "Is there anything your child does or does not do that concerns you?"
+  - "Has your child lost any skills he/she once had?"
+  - "Does your child have any special healthcare needs or was he/she born prematurely?"
+
+act_early:
+  - text: "If the child is not meeting one or more milestones, has lost skills once had, or the family has other concerns, act early: talk with the child's doctor, share the concerns, and ask about developmental screening. Don't wait."
+    source: cdc-concerned
+    section: "Talk to Your Child's Doctor; milestone pages, 'Share with your child's doctor'"
+  - text: "If the family or doctor is still concerned, ask for a referral to a specialist for an in-depth evaluation (developmental pediatrician, child neurologist, or child psychologist or psychiatrist)."
+    source: cdc-concerned
+    section: "Ask For a Referral"
+  - text: "At the same time, request a free evaluation from the public early childhood system; no doctor's referral or diagnosis is needed. Under 3 years: the local Early Intervention program. Age 3 or older: call any local public elementary school and ask for an evaluation for preschool special education services (ask for the district's special education director if needed)."
+    source: cdc-concerned
+    section: "Get an Evaluation"
+
+screening:
+  general_months: [9, 18, 30]
+  autism_months: [18, 24]
+  text: "The American Academy of Pediatrics recommends screening for general development with standardized, validated tools at 9, 18, and 30 months, and for autism at 18 and 24 months, or whenever a parent or provider has a concern."
+  source: cdc-concerned
+  section: "Ask About Developmental Screening"
+
+early_intervention:
+  - text: "Massachusetts Early Intervention (EI) serves children from birth to 3 who are not reaching age-appropriate milestones, are diagnosed with certain conditions, or have a medical or social history that puts them at risk for a developmental delay."
+    source: ma-ei-about
+    section: "Who is eligible?"
+  - text: "Anyone can refer a child to Early Intervention by contacting the program that serves the family's city or town. There are no out-of-pocket costs for families."
+    source: ma-ei-about
+    section: "Make a referral; Is there a cost?"
+  - text: "EI works with the family in everyday routines (usually home visits) on outcomes in an Individualized Family Service Plan (IFSP). Children diagnosed with autism spectrum disorder are eligible based on the diagnosis, with specialty services available."
+    source: ma-ei-about
+    section: "What do services look like?; EI Services Program Information"
+
+# Spellings in DPH's EI program directory that differ from MassGIS town names.
+ei_town_aliases:
+  Aquinnah: Gay Head
+  Bernardston: Bernardson
+  Blandford: Blanford
+  Foxborough: Foxboro
+  Manchester-by-the-Sea: Manchester
+  Middleborough: Middleboro
+  North Attleborough: North Attleboro
+
+ages:
+  - age_months: 2
+    label: "2 months"
+    url: https://www.cdc.gov/act-early/milestones/2-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Calms down when spoken to or picked up"
+        - "Looks at your face"
+        - "Seems happy to see you when you walk up to her"
+        - "Smiles when you talk to or smile at her"
+      language_communication:
+        - "Makes sounds other than crying"
+        - "Reacts to loud sounds"
+      cognitive:
+        - "Watches you as you move"
+        - "Looks at a toy for several seconds"
+      movement_physical:
+        - "Holds head up when on tummy"
+        - "Moves both arms and both legs"
+        - "Opens hands briefly"
+  - age_months: 4
+    label: "4 months"
+    url: https://www.cdc.gov/act-early/milestones/4-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Smiles on his own to get your attention"
+        - "Chuckles (not yet a full laugh) when you try to make him laugh"
+        - "Looks at you, moves, or makes sounds to get or keep your attention"
+      language_communication:
+        - "Makes sounds like “oooo”, “aahh” (cooing)"
+        - "Makes sounds back when you talk to him"
+        - "Turns head towards the sound of your voice"
+      cognitive:
+        - "If hungry, opens mouth when he sees breast or bottle"
+        - "Looks at her hands with interest"
+      movement_physical:
+        - "Holds head steady without support when you are holding him"
+        - "Holds a toy when you put it in his hand"
+        - "Uses his arm to swing at toys"
+        - "Brings hands to mouth"
+        - "Pushes up onto elbows/forearms when on tummy"
+  - age_months: 6
+    label: "6 months"
+    url: https://www.cdc.gov/act-early/milestones/6-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Knows familiar people"
+        - "Likes to look at self in a mirror"
+        - "Laughs"
+      language_communication:
+        - "Takes turns making sounds with you"
+        - "Blows “raspberries” (sticks tongue out and blows)"
+        - "Makes squealing noises"
+      cognitive:
+        - "Puts things in her mouth to explore them"
+        - "Reaches to grab a toy she wants"
+        - "Closes lips to show she doesn’t want more food"
+      movement_physical:
+        - "Rolls from tummy to back"
+        - "Pushes up with straight arms when on tummy"
+        - "Leans on hands to support herself when sitting"
+  - age_months: 9
+    label: "9 months"
+    url: https://www.cdc.gov/act-early/milestones/9-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Is shy, clingy, or fearful around strangers"
+        - "Shows several facial expressions, like happy, sad, angry, and surprised"
+        - "Looks when you call her name"
+        - "Reacts when you leave (looks, reaches for you, or cries)"
+        - "Smiles or laughs when you play peek-a-boo"
+      language_communication:
+        - "Makes a lot of different sounds like “mamamama” and “bababababa”"
+        - "Lifts arms up to be picked up"
+      cognitive:
+        - "Looks for objects when dropped out of sight (like his spoon or toy)"
+        - "Bangs two things together"
+      movement_physical:
+        - "Gets to a sitting position by herself"
+        - "Moves things from one hand to her other hand"
+        - "Uses fingers to “rake” food towards himself"
+        - "Sits without support"
+  - age_months: 12
+    label: "1 year"
+    url: https://www.cdc.gov/act-early/milestones/1-year.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Plays games with you, like pat-a-cake"
+      language_communication:
+        - "Waves “bye-bye”"
+        - "Calls a parent “mama” or “dada” or another special name"
+        - "Understands “no” (pauses briefly or stops when you say it)"
+      cognitive:
+        - "Puts something in a container, like a block in a cup"
+        - "Looks for things he sees you hide, like a toy under a blanket"
+      movement_physical:
+        - "Pulls up to stand"
+        - "Walks, holding on to furniture"
+        - "Drinks from a cup without a lid, as you hold it"
+        - "Picks things up between thumb and pointer finger, like small bits of food"
+  - age_months: 15
+    label: "15 months"
+    url: https://www.cdc.gov/act-early/milestones/15-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Copies other children while playing, like taking toys out of a container when another child does"
+        - "Shows you an object she likes"
+        - "Claps when excited"
+        - "Hugs stuffed doll or other toy"
+        - "Shows you affection (hugs, cuddles, or kisses you)"
+      language_communication:
+        - "Tries to say one or two words besides “mama” or “dada,” like “ba” for ball or “da” for dog"
+        - "Looks at a familiar object when you name it"
+        - "Follows directions given with both a gesture and words. For example, he gives you a toy when you hold out your hand and say, “Give me the toy.”"
+        - "Points to ask for something or to get help"
+      cognitive:
+        - "Tries to use things the right way, like a phone, cup, or book"
+        - "Stacks at least two small objects, like blocks"
+      movement_physical:
+        - "Takes a few steps on his own"
+        - "Uses fingers to feed herself some food"
+  - age_months: 18
+    label: "18 months"
+    url: https://www.cdc.gov/act-early/milestones/18-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Moves away from you, but looks to make sure you are close by"
+        - "Points to show you something interesting"
+        - "Puts hands out for you to wash them"
+        - "Looks at a few pages in a book with you"
+        - "Helps you dress him by pushing arm through sleeve or lifting up foot"
+      language_communication:
+        - "Tries to say three or more words besides “mama” or “dada”"
+        - "Follows one-step directions without any gestures, like giving you the toy when you say, “Give it to me.”"
+      cognitive:
+        - "Copies you doing chores, like sweeping with a broom"
+        - "Plays with toys in a simple way, like pushing a toy car"
+      movement_physical:
+        - "Walks without holding on to anyone or anything"
+        - "Scribbles"
+        - "Drinks from a cup without a lid and may spill sometimes"
+        - "Feeds himself with his fingers"
+        - "Tries to use a spoon"
+        - "Climbs on and off a couch or chair without help"
+  - age_months: 24
+    label: "2 years"
+    url: https://www.cdc.gov/act-early/milestones/2-years.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Notices when others are hurt or upset, like pausing or looking sad when someone is crying"
+        - "Looks at your face to see how to react in a new situation"
+      language_communication:
+        - "Points to things in a book when you ask, like “Where is the bear?”"
+        - "Says at least two words together, like “More milk.”"
+        - "Points to at least two body parts when you ask him to show you"
+        - "Uses more gestures than just waving and pointing, like blowing a kiss or nodding yes"
+      cognitive:
+        - "Holds something in one hand while using the other hand; for example, holding a container and taking the lid off"
+        - "Tries to use switches, knobs, or buttons on a toy"
+        - "Plays with more than one toy at the same time, like putting toy food on a toy plate"
+      movement_physical:
+        - "Kicks a ball"
+        - "Runs"
+        - "Walks (not climbs) up a few stairs with or without help"
+        - "Eats with a spoon"
+  - age_months: 30
+    label: "30 months"
+    url: https://www.cdc.gov/act-early/milestones/30-months.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Plays next to other children and sometimes plays with them"
+        - "Shows you what she can do by saying, “Look at me!”"
+        - "Follows simple routines when told, like helping to pick up toys when you say, “It’s clean-up time.”"
+      language_communication:
+        - "Says about 50 words"
+        - "Says two or more words together, with one action word, like “Doggie run”"
+        - "Names things in a book when you point and ask, “What is this?”"
+        - "Says words like “I,” “me,” or “we”"
+      cognitive:
+        - "Uses things to pretend, like feeding a block to a doll as if it were food"
+        - "Shows simple problem-solving skills, like standing on a small stool to reach something"
+        - "Follows two-step instructions like “Put the toy down and close the door.”"
+        - "Shows he knows at least one color, like pointing to a red crayon when you ask, “Which one is red?”"
+      movement_physical:
+        - "Uses hands to twist things, like turning doorknobs or unscrewing lids"
+        - "Takes some clothes off by himself, like loose pants or an open jacket"
+        - "Jumps off the ground with both feet"
+        - "Turns book pages, one at a time, when you read to her"
+  - age_months: 36
+    label: "3 years"
+    url: https://www.cdc.gov/act-early/milestones/3-years.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Calms down within 10 minutes after you leave her, like at a childcare drop off"
+        - "Notices other children and joins them to play"
+      language_communication:
+        - "Talks with you in conversation using at least two back-and-forth exchanges"
+        - "Asks “who,” “what,” “where,” or “why” questions, like “Where is mommy/daddy?”"
+        - "Says what action is happening in a picture or book when asked, like “running,” “eating,” or “playing”"
+        - "Says first name, when asked"
+        - "Talks well enough for others to understand, most of the time"
+      cognitive:
+        - "Draws a circle, when you show him how"
+        - "Avoids touching hot objects, like a stove, when you warn her"
+      movement_physical:
+        - "Strings items together, like large beads or macaroni"
+        - "Puts on some clothes by himself, like loose pants or a jacket"
+        - "Uses a fork"
+  - age_months: 48
+    label: "4 years"
+    url: https://www.cdc.gov/act-early/milestones/4-years.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Pretends to be something else during play (teacher, superhero, dog)"
+        - "Asks to go play with children if none are around, like “Can I play with Alex?”"
+        - "Comforts others who are hurt or sad, like hugging a crying friend"
+        - "Avoids danger, like not jumping from tall heights at the playground"
+        - "Likes to be a “helper”"
+        - "Changes behavior based on where she is (place of worship, library, playground)"
+      language_communication:
+        - "Says sentences with four or more words"
+        - "Says some words from a song, story, or nursery rhyme"
+        - "Talks about at least one thing that happened during her day, like “I played soccer.”"
+        - "Answers simple questions like “What is a coat for?” or “What is a crayon for?”"
+      cognitive:
+        - "Names a few colors of items"
+        - "Tells what comes next in a well-known story"
+        - "Draws a person with three or more body parts"
+      movement_physical:
+        - "Catches a large ball most of the time"
+        - "Serves herself food or pours water, with adult supervision"
+        - "Unbuttons some buttons"
+        - "Holds crayon or pencil between fingers and thumb (not a fist)"
+  - age_months: 60
+    label: "5 years"
+    url: https://www.cdc.gov/act-early/milestones/5-years.html
+    updated: 2026-05-16
+    domains:
+      social_emotional:
+        - "Follows rules or takes turns when playing games with other children"
+        - "Sings, dances, or acts for you"
+        - "Does simple chores at home, like matching socks or clearing the table after eating"
+      language_communication:
+        - "Tells a story she heard or made up with at least two events. For example, a cat was stuck in a tree and a firefighter saved it"
+        - "Answers simple questions about a book or story after you read or tell it to him"
+        - "Keeps a conversation going with more than three back-and-forth exchanges"
+        - "Uses or recognizes simple rhymes (bat-cat, ball-tall)"
+      cognitive:
+        - "Counts to 10"
+        - "Names some numbers between 1 and 5 when you point to them"
+        - "Uses words about time, like “yesterday,” “tomorrow,” “morning,” or “night”"
+        - "Pays attention for 5 to 10 minutes during activities. For example, during story time or making arts and crafts (screen time does not count)"
+        - "Writes some letters in her name"
+        - "Names some letters when you point to them"
+      movement_physical:
+        - "Buttons some buttons"
+        - "Hops on one foot"

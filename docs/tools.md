@@ -1159,6 +1159,31 @@ the facility designee option; police, Child Advocate, and DA/medical examiner fo
 report contents (s. 51A(d) and DCF's additions); penalties and good-faith protections; DCF's
 definitions (110 CMR 2.00); domestic violence guidance; DCF's screening and response timelines;
 warning signs; and documentation tips.
+### `check_developmental_milestones` (MCH-02, toolset `mch`)
+
+CDC's "Learn the Signs. Act Early." milestones (the 2022 CDC/AAP revision, as published on
+cdc.gov, pages updated 2026-05-16) and Massachusetts Early Intervention referral.
+
+| Argument | |
+|---|---|
+| `age_months` | Child's age (2 months to 5 years; the checklist for the most recent age reached is used: 2, 4, 6, 9, 12, 15, 18, 24, 30, 36, 48, 60 months). |
+| `gestational_age_weeks` | Born before 37 weeks and under 24 months: the corrected-age checklist is shown too. |
+| `not_yet` | IDs of milestones the child does not yet do, from the checklist (`18m-language-1`). |
+| `lost_skills`, `concern` | Lost skills or other concerns (act early either way). |
+| `town` | The EI programs that serve the town (snapshot `ma-ei-programs`, DPH's directory of 2026-09-24). |
+
+**Returns** the checklist (ID, area, milestone, status) with CDC's source page and date; whether
+to act early and CDC's steps (talk with the doctor and ask about screening; ask for a specialist
+referral; request a free evaluation from EI under 3 or the public school district at 3 or older,
+with no doctor's referral needed); screening due (AAP: general at 9, 18, 30 months; autism at 18
+and 24 months, within 1.5 months of those ages, or now when there is a concern); Massachusetts EI
+eligibility, referral (anyone can refer), and cost (none to families); EI programs for the town
+with phone and website; CDC's questions to share with the doctor; and the next checklist age.
+
+Milestones are what 75% or more of children do by an age; the checklists are not a substitute
+for standardized screening. CDC does not say how to adjust for prematurity; the tool shows both
+checklists and defers to the child's provider. Content: `mch-developmental-milestones` (pending
+review; milestones transcribed word for word).
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

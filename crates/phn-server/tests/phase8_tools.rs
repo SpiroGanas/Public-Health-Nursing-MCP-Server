@@ -224,3 +224,28 @@ async fn mandated_reporter_guide_and_local_fill() {
     .await;
     assert!(e.contains("field names"));
 }
+
+// ------------------------------------------------------------------ MCH-02
+
+#[tokio::test]
+async fn developmental_milestones_checklist_and_referral() {
+    let h = start(|_| {}).await;
+    let s = call_ok(
+        &h,
+        "check_developmental_milestones",
+        json!({"age_months": 24, "not_yet": ["24m-language-1"], "town": "Brockton"}),
+    )
+    .await;
+    assert_eq!(s["data"]["checklist"]["age_months"], 24);
+    assert_eq!(s["data"]["act_early"], true);
+    assert!(!s["data"]["ei_programs"].as_array().unwrap().is_empty());
+    assert!(md(&s).contains("Early Intervention"));
+    assert!(notice(&s).contains(DECISION_SUPPORT));
+    let e = call_err(
+        &h,
+        "check_developmental_milestones",
+        json!({"age_months": 80}),
+    )
+    .await;
+    assert!(e.contains("between 0 and 72"));
+}

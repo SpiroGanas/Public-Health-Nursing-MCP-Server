@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 50;
+const TOOL_COUNT = 51;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft.', '3'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral.', '4'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1824,6 +1824,35 @@ const toolChapters = [
           'Unknown entries are marked “?” in the draft, as DCF’s form asks. Review the draft, then submit it through DCF’s online form or DCF’s reporting form.',
           'The statute says prenatal substance exposure alone does not require a report, but DCF’s guide still lists newborn drug dependence; check current DCF practice.',
           'This is guidance, not legal advice. When unsure, call DCF.',
+        ],
+      },
+      {
+        id: 'check_developmental_milestones',
+        title: 'Check developmental milestones',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists CDC’s “Learn the Signs. Act Early.” milestones for a child’s age (2 months to 5 years), lets you mark the ones the child does not yet do, and, if any are missed or skills were lost, gives the act-early steps: talk with the doctor, developmental screening, and a Massachusetts Early Intervention referral (or preschool special education from age 3), with the EI programs that serve the family’s town.',
+        when: [
+          'A home visit or well-child check where you go over development with the family.',
+          'A parent is worried about speech, movement, or behavior.',
+          'You need the Early Intervention program for a family’s town.',
+        ],
+        provide: [
+          'The child’s age in months. Optionally: weeks of gestation if born early, the IDs of milestones not yet seen (from the checklist the tool gives you), lost skills or other concerns, and the town.',
+        ],
+        examples: [
+          'Show the milestones for a 15-month-old.',
+          'This 18-month-old does not say three or more words (18m-language-1). What next? The family lives in Brockton.',
+          'A 6-month-old born at 30 weeks: which milestones should we look for?',
+        ],
+        returns: [
+          'The checklist with an ID for each milestone, whether to act early and how, screening that is due, Early Intervention eligibility and referral, the EI programs for the town with phone numbers, and questions to share with the doctor.',
+        ],
+        notes: [
+          'Milestones are what most children (75% or more) do by an age. The checklists do not replace standardized developmental screening.',
+          'For babies born early, the tool also shows the corrected-age checklist; decide with the child’s provider which to use.',
+          'Anyone can refer a child to Early Intervention, at no cost to families.',
         ],
       },
     ],

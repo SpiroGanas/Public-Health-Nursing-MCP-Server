@@ -23,4 +23,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Mch,
         phase: 8,
     },
+    ToolMeta {
+        name: "check_developmental_milestones",
+        plan_id: "MCH-02",
+        toolset: Toolset::Mch,
+        phase: 8,
+    },
 ];

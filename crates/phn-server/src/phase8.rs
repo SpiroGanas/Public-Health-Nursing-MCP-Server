@@ -3,7 +3,7 @@
 use phn_core::Envelope;
 use phn_tools::mch::{
     GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, MandatedReporterArgs,
-    MandatedReporterResult,
+    MandatedReporterResult, MilestoneArgs, MilestoneResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -81,5 +81,26 @@ impl PhnServer {
             phn_tools::mch::mandated_reporter_51a_guide(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "check_developmental_milestones",
+        description = "CDC \"Learn the Signs. Act Early.\" developmental milestones (2022 revision) \
+            for a child's age from 2 months to 5 years, with IDs to mark milestones the child \
+            does not yet do; flags missed milestones or lost skills with the act-early steps, \
+            AAP screening ages (general at 9, 18, 30 months; autism at 18 and 24), Massachusetts \
+            Early Intervention eligibility and referral (birth to 3) or preschool special \
+            education (3 and older), and the EI programs that serve the family's town. Shows \
+            the corrected-age checklist for babies born early.",
+        annotations(title = "Developmental milestones", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<MilestoneResult>>()
+    )]
+    async fn check_developmental_milestones(
+        &self,
+        Parameters(args): Parameters<MilestoneArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::mch::check_developmental_milestones(
+            &self.ctx, args,
+        ))
     }
 }

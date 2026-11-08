@@ -8,10 +8,12 @@ pub mod growth;
 pub mod lead;
 pub(crate) mod lead_data;
 pub mod mandated_reporter;
+pub mod milestones;
 
 pub use growth::{GrowthArgs, GrowthResult, calculate_growth_percentiles};
 pub use lead::{LeadGuideArgs, LeadGuideResult, childhood_lead_screening_guide};
 pub use mandated_reporter::{
     MandatedReporterArgs, MandatedReporterResult, mandated_reporter_51a_guide,
 };
+pub use milestones::{MilestoneArgs, MilestoneResult, check_developmental_milestones};
 // End of Phase 8 modules.

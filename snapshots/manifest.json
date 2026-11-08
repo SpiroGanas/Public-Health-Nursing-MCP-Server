@@ -878,6 +878,34 @@
           "rows": 352
         }
       ]
+    },
+    {
+      "id": "ma-ei-programs",
+      "title": "Massachusetts Early Intervention programs and the cities and towns they serve",
+      "publisher": "Massachusetts Department of Public Health, Early Intervention Division",
+      "source_urls": [
+        "https://www.mass.gov/files/csv/2026-09/ei-program-contact-information-09-24-26.csv",
+        "https://www.mass.gov/info-details/ei-program-contact-information"
+      ],
+      "source_sha256": {
+        "ei-program-contact-information-09-24-26.csv": "a54e400dc61bc5757329ea77e2d60d30293c1e461a71fb83978a52b46bbc44da"
+      },
+      "source_vintage": "2026-09-24",
+      "retrieved": "2026-11-08",
+      "license": "Massachusetts DPH public directory.",
+      "derivation": "DPH's 'Download table data as CSV' file, copied verbatim (UTF-8 with byte-order mark; addresses span lines inside quotes). Program name, website, phone, address, catchment area (cities and towns, with Boston neighborhood exceptions in parentheses), and programs in the catchment area.",
+      "caveats": [
+        "Seven towns are spelled differently in DPH's file (Bernardson, Blanford, Foxboro, Gay Head, Manchester, Middleboro, North Attleboro); the tool maps them (content mch-developmental-milestones, ei_town_aliases).",
+        "Program contacts change; confirm with DPH's EI directory."
+      ],
+      "files": [
+        {
+          "path": "ma_ei_programs.csv",
+          "sha256": "a54e400dc61bc5757329ea77e2d60d30293c1e461a71fb83978a52b46bbc44da",
+          "bytes": 19534,
+          "rows": 62
+        }
+      ]
     }
   ]
 }

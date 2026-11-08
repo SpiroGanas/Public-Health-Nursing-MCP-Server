@@ -218,6 +218,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_lead_screening_2024.csv",
         include_str!("../../../snapshots/ma_lead_screening_2024.csv"),
     ),
+    (
+        "ma_ei_programs.csv",
+        include_str!("../../../snapshots/ma_ei_programs.csv"),
+    ),
     // End of Phase 8 snapshot files.
 ];
 

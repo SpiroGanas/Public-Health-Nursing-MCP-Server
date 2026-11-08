@@ -517,6 +517,32 @@ sources:
       - >-
         Draft pending review. DCF's Mandated Reporter Guide and s. 51A(a) differ on prenatal
         substance exposure; the tool flags this.
+  - id: mch-developmental-milestones
+    name: CDC developmental milestones (Learn the Signs. Act Early.) and Massachusetts Early Intervention
+    publisher: Centers for Disease Control and Prevention; Massachusetts DPH Early Intervention Division
+    kind: content
+    status: active
+    content_id: mch-developmental-milestones
+    homepage: https://www.cdc.gov/act-early/milestones/index.html
+    probe_url: https://www.cdc.gov/act-early/milestones/index.html
+    used_by: [check_developmental_milestones]
+    caveats:
+      - >-
+        Draft pending review; milestones transcribed word for word from CDC's pages (updated
+        2026-05-16).
+  - id: ma-ei-programs
+    name: Massachusetts Early Intervention program directory
+    publisher: Massachusetts Department of Public Health, Early Intervention Division
+    kind: snapshot
+    status: active
+    snapshot_id: ma-ei-programs
+    homepage: https://www.mass.gov/info-details/ei-program-contact-information
+    probe_url: https://www.mass.gov/info-details/ei-program-contact-information
+    used_by: [check_developmental_milestones]
+    caveats:
+      - >-
+        DPH's CSV of 2026-09-24. The CSV address on mass.gov changes with each update; download
+        the current one from the directory page when refreshing.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.
