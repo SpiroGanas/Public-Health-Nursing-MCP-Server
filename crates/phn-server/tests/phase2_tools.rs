@@ -230,6 +230,15 @@ async fn statistical_tests_inline_and_local() {
             .iter()
             .all(|g| g.get("min").is_none())
     );
+    // Logistic regression on a local file (schema-checked; aggregates only).
+    let s = call_ok(
+        &h,
+        "run_statistical_test",
+        json!({"path": "line_list.csv", "outcome": "Hospitalized", "predictors": ["Age"]}),
+    )
+    .await;
+    assert_eq!(s["data"]["selected_test"], "LogisticRegression");
+    assert!(s["data"]["regression"]["terms"].as_array().unwrap().len() == 2);
     // Identifier columns are refused.
     let e = call_err(
         &h,
