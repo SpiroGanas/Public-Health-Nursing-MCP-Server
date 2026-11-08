@@ -788,6 +788,7 @@
                 "required": [
                   "doses_required",
                   "within_days",
+                  "within_months",
                   "min_days_between_doses",
                   "text",
                   "source",
@@ -824,6 +825,12 @@
                       "high",
                       "medium",
                       "low"
+                    ]
+                  },
+                  "within_months": {
+                    "type": [
+                      "integer",
+                      "null"
                     ]
                   }
                 }

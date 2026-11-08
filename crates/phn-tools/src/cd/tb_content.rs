@@ -315,6 +315,7 @@ impl Administration {
 pub struct Completion {
     pub doses_required: u32,
     pub within_days: Option<i64>,
+    pub within_months: Option<u32>,
     pub min_days_between_doses: Option<i64>,
     pub text: String,
     pub source: String,

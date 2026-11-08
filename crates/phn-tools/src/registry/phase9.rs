@@ -11,4 +11,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Cd,
         phase: 9,
     },
+    ToolMeta {
+        name: "ltbi_treatment_calendar",
+        plan_id: "CD-12",
+        toolset: Toolset::Cd,
+        phase: 9,
+    },
 ];

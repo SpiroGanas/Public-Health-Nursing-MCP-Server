@@ -1,7 +1,7 @@
 //! Phase 9 tools: PHN practice toolkit and case management.
 
 use phn_core::Envelope;
-use phn_tools::cd::{TbContactArgs, TbContactPlan};
+use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -32,5 +32,25 @@ impl PhnServer {
             phn_tools::cd::plan_tb_contact_investigation(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "ltbi_treatment_calendar",
+        description = "Build a dose calendar and adherence tracker for a latent TB infection \
+            regimen (3HP weekly x12, 4R daily x120, 3HR daily x90, 6H/9H daily, or twice-weekly \
+            6H/9H by DOT): every dose date, monitoring visits (DPH's week 1/5/9 schedule for 3HP, \
+            monthly otherwise), the completion window (e.g., 11 of 12 3HP doses within 16 weeks, \
+            120 4R doses within 6 months), and, from dose dates taken, doses counted, gaps over 2 \
+            months, and whether completion is still possible. Shows CDC/NTCA 2020 and DPH \
+            positions. Writes an XLSX tracker and a DOCX patient calendar (agency translations from \
+            /data/templates/<language>/). Does not calculate doses.",
+        annotations(title = "LTBI treatment calendar", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<LtbiCalendar>>()
+    )]
+    async fn ltbi_treatment_calendar(
+        &self,
+        Parameters(args): Parameters<LtbiCalendarArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| phn_tools::cd::ltbi_treatment_calendar(ctx, args)).await
     }
 }

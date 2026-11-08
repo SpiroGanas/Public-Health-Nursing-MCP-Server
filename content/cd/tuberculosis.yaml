@@ -394,6 +394,7 @@ ltbi:
       completion:
         doses_required: 11
         within_days: 112
+        within_months: null
         min_days_between_doses: 3
         text: "In the trial CDC cited, completion of 3HP was defined as 11 or 12 doses within 16 weeks, with doses more than 72 hours apart to count."
         source: cdc-3hp-2011
@@ -428,7 +429,8 @@ ltbi:
       allowed_administration: [sat, dot, vdot]
       completion:
         doses_required: 120
-        within_days: 183
+        within_days: null
+        within_months: 6
         min_days_between_doses: null
         text: "The regimen of daily rifampin should consist of at least 120 doses administered within 6 months."
         source: cdc-ltbi-2000
@@ -458,6 +460,7 @@ ltbi:
       completion:
         doses_required: 90
         within_days: null
+        within_months: null
         min_days_between_doses: null
         text: "CDC lists 90 total doses; no completion window was found in the CDC/NTCA 2020 guidelines, the CDC regimen table, or DPH's page (DPH does not list 3HR). Agree a window with the TB program."
         source: cdc-ltbi-page
@@ -486,7 +489,8 @@ ltbi:
       allowed_administration: [sat, dot, vdot]
       completion:
         doses_required: 180
-        within_days: 274
+        within_days: null
+        within_months: 9
         min_days_between_doses: null
         text: "The 6-month regimen of isoniazid should consist of at least 180 doses administered within 9 months."
         source: cdc-ltbi-2000
@@ -514,7 +518,8 @@ ltbi:
       allowed_administration: [dot, vdot]
       completion:
         doses_required: 52
-        within_days: 274
+        within_days: null
+        within_months: 9
         min_days_between_doses: null
         text: "Twice-weekly isoniazid regimens should consist of at least 52 doses within 9 months for the 6-month regimen. Twice-weekly regimens must be given by directly observed therapy."
         source: cdc-ltbi-2000
@@ -542,7 +547,8 @@ ltbi:
       allowed_administration: [sat, dot, vdot]
       completion:
         doses_required: 270
-        within_days: 365
+        within_days: null
+        within_months: 12
         min_days_between_doses: null
         text: "The 9-month regimen of daily isoniazid should consist of 270 doses, at minimum, administered within 12 months, allowing for minor interruptions."
         source: cdc-ltbi-2000
@@ -570,7 +576,8 @@ ltbi:
       allowed_administration: [dot, vdot]
       completion:
         doses_required: 76
-        within_days: 365
+        within_days: null
+        within_months: 12
         min_days_between_doses: null
         text: "Twice-weekly isoniazid regimens should consist of at least 76 doses administered within 12 months for the 9-month regimen. Twice-weekly regimens must be given by directly observed therapy."
         source: cdc-ltbi-2000
