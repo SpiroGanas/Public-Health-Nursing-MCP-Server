@@ -1,0 +1,266 @@
+# Vaccine product reference: licensed ages and storage notes for common products, beyond-use
+# date guidance, and current Vaccine Information Statement (VIS) editions (VAX-07
+# lookup_vaccine_product). CVX, MVX, trade-name, and NDC codes come from the
+# cdc-iis-vaccine-codes snapshot.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/vax_products.schema.json
+meta:
+  id: vax-products
+  title: Vaccine products, storage notes, beyond-use dates, and VIS editions
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: Current Vaccine Information Statements (VIS) - dates of current editions
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/vaccines/hcp/current-vis/index.html
+  related_sources:
+    - title: VIS Translations
+      publisher: Immunize.org
+      url: https://www.immunize.org/vaccines/vis-translations/
+    - title: Vaccine Storage and Handling Toolkit (July 2026), Understanding Beyond-Use Dates
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/vaccines/hcp/downloads/storage-handling-toolkit.pdf
+    - title: Vaccine Management SOP 2026 (frozen storage)
+      publisher: Massachusetts Department of Public Health, Vaccine Program
+      url: https://www.mass.gov/doc/vaccine-management-sop-2026/download
+    - title: Recommendations for the Use of COVID-19 Vaccines, 2026-2027 (licensed ages)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download
+    - title: Birth through age 18 immunization schedules (minimum ages by product)
+      publisher: American Academy of Family Physicians
+      url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    VIS edition dates were transcribed from CDC's current VIS page (page dated May 29, 2025;
+    retrieved 2026-11-07). Licensed or minimum ages come from the source named on each product
+    (DPH's 2026-27 COVID-19 recommendations, DPH's 2026-27 influenza and adult RSV tables, and the
+    2026 schedule notes as published by AAFP); they are not taken from FDA package inserts, which
+    remain the authority. Storage notes come from the DPH Vaccine Management SOP 2026 and CDC's
+    toolkit. Products not listed here still appear through the CDC code sets; for their licensed
+    ages, storage, and beyond-use dates use the package insert (lookup_medication_information or
+    DailyMed). The subject matter expert should check each product against its current package
+    insert.
+
+beyond_use:
+  definition: >-
+    The beyond-use date (BUD) is the last date or time a vaccine can be used after it is moved from
+    one storage state to another (e.g., frozen to refrigerated), prepared for administration (e.g.,
+    reconstituted), or first punctured (multidose vials). The provider calculates it from the
+    manufacturer's guidance; it replaces but never extends the expiration date.
+  calculation:
+    - Begin counting with day 0, the date the vaccine was transitioned.
+    - Calculate the number of days or hours allowed from the manufacturer's guidance.
+    - Write the BUD on the label and initial it.
+    - Always use the earlier of the BUD and the expiration date.
+  examples:
+    - Previously frozen lyophilized varicella vaccine may be stored in the refrigerator up to 72 hours before reconstitution (BUD 72 hours).
+    - Moderna mResvia may be stored refrigerated up to 90 days or at room temperature up to 24 hours.
+    - Varicella-containing vaccines must be given within 30 minutes of reconstitution.
+    - MMR vaccines (except MMRV) must be given within 8 hours of reconstitution.
+  note: Not all vaccines have a BUD; the package insert or EUA fact sheet says when one applies. Manufacturers may extend expiration dates after the insert is printed (FDA expiration dating extensions or a "Dear Health Care Provider" letter).
+
+storage_classes:
+  refrigerated: Store at 2-8 C (36-46 F).
+  frozen: Store in a stand-alone freezer at -50 to -15 C (-58 to +5 F).
+  frozen_or_refrigerated: Merck MMR may be stored in the freezer or refrigerator; DPH advises the freezer to reduce losses from excursions.
+
+products:
+  - trade_name: Spikevax
+    manufacturer: Moderna
+    vaccine: covid19
+    licensed_ages: 65 years and older, or 6 months through 64 years at high risk for severe COVID-19 (2026-27)
+    storage: frozen
+    ages_source: DPH 2026-27 COVID-19 recommendations
+  - trade_name: mNEXSPIKE
+    manufacturer: Moderna
+    vaccine: covid19
+    licensed_ages: 65 years and older, or 12 through 64 years at high risk for severe COVID-19 (2026-27)
+    storage: see package insert
+    ages_source: DPH 2026-27 COVID-19 recommendations
+  - trade_name: Comirnaty
+    manufacturer: Pfizer
+    vaccine: covid19
+    licensed_ages: 65 years and older, or 5 through 64 years at high risk for severe COVID-19 (2026-27)
+    storage: see package insert
+    ages_source: DPH 2026-27 COVID-19 recommendations
+  - trade_name: Nuvaxovid
+    manufacturer: Novavax
+    vaccine: covid19
+    licensed_ages: 65 years and older, or 12 through 64 years at high risk for severe COVID-19 (2026-27)
+    storage: see package insert
+    ages_source: DPH 2026-27 COVID-19 recommendations
+  - trade_name: ProQuad
+    manufacturer: Merck
+    vaccine: mmrv
+    licensed_ages: 12 months through 12 years
+    storage: frozen
+    ages_source: DPH MMRV guidance (October 2025)
+  - trade_name: Varivax
+    manufacturer: Merck
+    vaccine: varicella
+    licensed_ages: 12 months and older (minimum age in the 2026 schedule)
+    storage: frozen
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: M-M-R II
+    manufacturer: Merck
+    vaccine: mmr
+    licensed_ages: 12 months and older for routine vaccination (minimum age in the 2026 schedule)
+    storage: frozen_or_refrigerated
+    ages_source: 2026 schedule notes (AAFP); DPH Vaccine Management SOP 2026
+  - trade_name: Menveo
+    manufacturer: GSK
+    vaccine: menacwy
+    licensed_ages: Minimum age 2 months (MenACWY-CRM)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: MenQuadfi
+    manufacturer: Sanofi
+    vaccine: menacwy
+    licensed_ages: Minimum age 2 years (MenACWY-TT)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: Penbraya
+    manufacturer: Pfizer
+    vaccine: menabcwy
+    licensed_ages: Minimum age 10 years (MenACWY-TT/MenB-FHbp)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: Penmenvy
+    manufacturer: GSK
+    vaccine: menabcwy
+    licensed_ages: Minimum age 10 years (MenACWY-CRM/MenB-4C)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: Kinrix
+    manufacturer: GSK
+    vaccine: dtap_ipv
+    licensed_ages: Minimum age 4 years (DTaP-IPV)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: Quadracel
+    manufacturer: Sanofi
+    vaccine: dtap_ipv
+    licensed_ages: Minimum age 4 years (DTaP-IPV)
+    storage: see package insert
+    ages_source: 2026 schedule notes (AAFP)
+  - trade_name: Abrysvo
+    manufacturer: Pfizer
+    vaccine: rsv
+    licensed_ages: 60 years and older; 18-59 years at increased risk; pregnant people at 32-36 weeks
+    storage: see package insert
+    ages_source: DPH 2026-27 adult RSV recommendations (FDA indication column)
+  - trade_name: Arexvy
+    manufacturer: GSK
+    vaccine: rsv
+    licensed_ages: 60 years and older; 18-59 years at increased risk
+    storage: see package insert
+    ages_source: DPH 2026-27 adult RSV recommendations (FDA indication column)
+  - trade_name: mResvia
+    manufacturer: Moderna
+    vaccine: rsv
+    licensed_ages: 60 years and older; 18-59 years at increased risk
+    storage: "frozen at -40 to -15 C (narrower than other frozen vaccines); may be refrigerated up to 90 days or kept at room temperature up to 24 hours (CDC toolkit)"
+    ages_source: DPH 2026-27 adult RSV recommendations; CDC toolkit (BUD example)
+  - trade_name: Flublok
+    manufacturer: Sanofi
+    vaccine: influenza
+    licensed_ages: 9 years and older (RIV3)
+    storage: see package insert
+    ages_source: DPH 2026-27 influenza recommendations
+  - trade_name: FluMist
+    manufacturer: AstraZeneca
+    vaccine: influenza
+    licensed_ages: Non-pregnant people 2 through 49 years (LAIV3)
+    storage: see package insert
+    ages_source: DPH 2026-27 influenza recommendations
+  - trade_name: Heplisav-B
+    manufacturer: Dynavax
+    vaccine: hepb
+    licensed_ages: 18 years and older (2-dose series)
+    storage: see package insert
+    ages_source: CDC General Best Practice Guidelines Table 3-2 note; MA school requirements
+
+vis:
+  page_date: 2025-05-29
+  translations_url: https://www.immunize.org/vaccines/vis-translations/
+  translation_note: >-
+    Immunize.org posts VIS translations in about 48 languages (supported by a CDC cooperative
+    agreement); not every VIS is available in every language. CDC says a current English VIS should
+    always be provided along with a translation.
+  editions:
+    - {vaccine: multi, title: "Multiple Vaccines (DTaP, Hib, Hepatitis B, PCV, Polio)", date: 2023-07-24, interim: true}
+    - {vaccine: covid19, title: "COVID-19", date: 2025-01-31, interim: false}
+    - {vaccine: dengue, title: "Dengue", date: 2025-01-31, interim: false}
+    - {vaccine: dtap, title: "DTaP (Diphtheria, Tetanus, Pertussis)", date: 2021-08-06, interim: false}
+    - {vaccine: hepa, title: "Hepatitis A", date: 2025-01-31, interim: false}
+    - {vaccine: hepb, title: "Hepatitis B", date: 2025-01-31, interim: true}
+    - {vaccine: hib, title: "Hib (Haemophilus influenzae type b)", date: 2021-08-06, interim: false}
+    - {vaccine: hpv, title: "HPV (Human Papillomavirus)", date: 2021-08-06, interim: false}
+    - {vaccine: influenza, title: "Influenza - Live, Intranasal", date: 2025-01-31, interim: false}
+    - {vaccine: influenza, title: "Influenza - Inactivated", date: 2025-01-31, interim: false}
+    - {vaccine: mmr, title: "Measles/Mumps/Rubella (MMR)", date: 2025-01-31, interim: false}
+    - {vaccine: mmrv, title: "Measles/Mumps/Rubella & Varicella (MMRV)", date: 2025-01-31, interim: false}
+    - {vaccine: menacwy, title: "Meningococcal ACWY", date: 2025-01-31, interim: false}
+    - {vaccine: menb, title: "Meningococcal B", date: 2025-01-31, interim: false}
+    - {vaccine: pcv, title: "Pneumococcal Conjugate (PCV)", date: 2025-05-29, interim: true}
+    - {vaccine: ppsv23, title: "Pneumococcal Polysaccharide (PPSV23)", date: 2025-05-29, interim: false}
+    - {vaccine: polio, title: "Polio", date: 2025-01-31, interim: false}
+    - {vaccine: rotavirus, title: "Rotavirus", date: 2021-10-15, interim: false}
+    - {vaccine: rsv, title: "Respiratory Syncytial Virus (RSV) Vaccine", date: 2025-01-31, interim: false}
+    - {vaccine: rsv_mab, title: "RSV Preventive Antibody (nirsevimab) Immunization Information Statement", date: 2023-09-25, interim: false}
+    - {vaccine: tdap, title: "Tdap (Tetanus, Diphtheria, Pertussis)", date: 2025-01-31, interim: false}
+    - {vaccine: td, title: "Td (Tetanus, Diphtheria)", date: 2021-08-06, interim: false}
+    - {vaccine: varicella, title: "Varicella (Chickenpox)", date: 2025-01-31, interim: false}
+    - {vaccine: zoster, title: "Zoster / Shingles (Recombinant)", date: 2022-02-04, interim: false}
+    - {vaccine: adenovirus, title: "Adenovirus", date: 2020-01-08, interim: false}
+    - {vaccine: anthrax, title: "Anthrax", date: 2020-01-08, interim: false}
+    - {vaccine: cholera, title: "Cholera", date: 2025-01-31, interim: false}
+    - {vaccine: ebola, title: "Ebola", date: 2025-01-31, interim: false}
+    - {vaccine: japanese_encephalitis, title: "Japanese Encephalitis", date: 2019-08-15, interim: false}
+    - {vaccine: rabies, title: "Rabies", date: 2022-06-02, interim: false}
+    - {vaccine: mpox, title: "Smallpox/Monkeypox (JYNNEOS)", date: 2025-01-31, interim: false}
+    - {vaccine: smallpox_acam2000, title: "Smallpox (ACAM2000)", date: 2015-12-01, interim: false}
+    - {vaccine: tbe, title: "Tick-borne Encephalitis", date: 2023-12-07, interim: false}
+    - {vaccine: typhoid, title: "Typhoid", date: 2019-10-30, interim: false}
+    - {vaccine: yellow_fever, title: "Yellow Fever", date: 2020-04-01, interim: false}
+
+# Keywords that link a CVX description or trade name to a VIS edition (vaccine key above).
+vis_keywords:
+  - {vaccine: covid19, keywords: [covid, sars-cov-2]}
+  - {vaccine: dtap, keywords: [dtap, "dt,", pediatric dt]}
+  - {vaccine: hepa, keywords: [hep a, hepatitis a]}
+  - {vaccine: hepb, keywords: [hep b, hepatitis b]}
+  - {vaccine: hib, keywords: [hib, haemophilus]}
+  - {vaccine: hpv, keywords: [hpv, papillomavirus]}
+  - {vaccine: influenza, keywords: [influenza, flu]}
+  - {vaccine: mmrv, keywords: [mmrv]}
+  - {vaccine: mmr, keywords: [mmr, measles]}
+  - {vaccine: menacwy, keywords: [menacwy, meningococcal acwy, "meningococcal mcv4", "meningococcal conjugate", "meningococcal oligosaccharide", "meningococcal a,c,y,w", "meningococcal polysaccharide (groups a, c, y and w-135)", "meningococcal, mcv4"]}
+  - {vaccine: menb, keywords: [menb, meningococcal b]}
+  - {vaccine: pcv, keywords: [pneumococcal conjugate, pcv]}
+  - {vaccine: ppsv23, keywords: [pneumococcal polysaccharide, ppsv]}
+  - {vaccine: polio, keywords: [ipv, polio]}
+  - {vaccine: rotavirus, keywords: [rotavirus]}
+  - {vaccine: rsv, keywords: ["rsv, bivalent", "rsv, mrna", "rsv, recombinant", rsvpref]}
+  - {vaccine: rsv_mab, keywords: [nirsevimab, clesrovimab, "rsv, mab", monoclonal]}
+  - {vaccine: tdap, keywords: [tdap]}
+  - {vaccine: td, keywords: ["td (adult)", "td(adult)"]}
+  - {vaccine: varicella, keywords: [varicella]}
+  - {vaccine: zoster, keywords: [zoster]}
+  - {vaccine: rabies, keywords: [rabies]}
+  - {vaccine: mpox, keywords: [vaccinia, smallpox, monkeypox, mpox]}
+  - {vaccine: typhoid, keywords: [typhoid]}
+  - {vaccine: yellow_fever, keywords: [yellow fever]}
+  - {vaccine: japanese_encephalitis, keywords: [japanese encephalitis]}
+  - {vaccine: cholera, keywords: [cholera]}
+  - {vaccine: dengue, keywords: [dengue]}
+  - {vaccine: tbe, keywords: [tick-borne]}
+  - {vaccine: ebola, keywords: [ebola]}
+  - {vaccine: anthrax, keywords: [anthrax]}
+  - {vaccine: adenovirus, keywords: [adenovirus]}

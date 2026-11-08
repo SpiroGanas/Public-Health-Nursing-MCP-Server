@@ -1,0 +1,468 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_clinic_planning.schema.json",
+  "title": "Vaccination clinic planning and anaphylaxis preparedness",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "assumptions",
+    "stations",
+    "layout_guidance",
+    "layout_basis",
+    "anaphylaxis_kit",
+    "anaphylaxis_protocol",
+    "epinephrine",
+    "diphenhydramine",
+    "supplies_per_dose",
+    "sharps_container_doses",
+    "sharps_container_basis",
+    "reconciliation_columns"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "value",
+          "unit",
+          "basis",
+          "note"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "basis": {
+            "enum": [
+              "tool_default",
+              "source",
+              "computed"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "stations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "layout_guidance": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "layout_basis": {
+      "enum": [
+        "tool_default",
+        "source"
+      ]
+    },
+    "anaphylaxis_kit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "first_line",
+        "optional",
+        "supplies"
+      ],
+      "properties": {
+        "first_line": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "supplies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "anaphylaxis_protocol": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order",
+          "text"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "epinephrine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "im_dose_rule",
+        "weight_preferred_note",
+        "bands",
+        "minimum_solution_dose_ml",
+        "intranasal"
+      ],
+      "properties": {
+        "im_dose_rule": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "children",
+            "adults",
+            "repeat"
+          ],
+          "properties": {
+            "children": {
+              "type": "string"
+            },
+            "adults": {
+              "type": "string"
+            },
+            "repeat": {
+              "type": "string"
+            }
+          }
+        },
+        "weight_preferred_note": {
+          "type": "string"
+        },
+        "bands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "age_group",
+              "weight_lb",
+              "min_kg",
+              "max_kg"
+            ],
+            "properties": {
+              "age_group": {
+                "type": "string"
+              },
+              "weight_lb": {
+                "type": "string"
+              },
+              "min_kg": {
+                "type": "number"
+              },
+              "max_kg": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "solution_dose": {
+                "type": "string"
+              },
+              "autoinjector": {
+                "type": "string"
+              },
+              "dose": {
+                "type": "string"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "minimum_solution_dose_ml": {
+          "type": "number"
+        },
+        "intranasal": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "diphenhydramine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rule",
+        "max_single_dose_note",
+        "bands"
+      ],
+      "properties": {
+        "rule": {
+          "type": "string"
+        },
+        "max_single_dose_note": {
+          "type": "string"
+        },
+        "bands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "age_group",
+              "weight_lb",
+              "min_kg",
+              "max_kg"
+            ],
+            "properties": {
+              "age_group": {
+                "type": "string"
+              },
+              "weight_lb": {
+                "type": "string"
+              },
+              "min_kg": {
+                "type": "number"
+              },
+              "max_kg": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "solution_dose": {
+                "type": "string"
+              },
+              "autoinjector": {
+                "type": "string"
+              },
+              "dose": {
+                "type": "string"
+              }
+            }
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "supplies_per_dose": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "item",
+          "per_dose",
+          "basis"
+        ],
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "per_dose": {
+            "type": "number"
+          },
+          "basis": {
+            "enum": [
+              "tool_default",
+              "source"
+            ]
+          }
+        }
+      }
+    },
+    "sharps_container_doses": {
+      "type": "integer"
+    },
+    "sharps_container_basis": {
+      "enum": [
+        "tool_default",
+        "source"
+      ]
+    },
+    "reconciliation_columns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

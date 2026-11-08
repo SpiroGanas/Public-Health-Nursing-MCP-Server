@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_schedule.schema.json",
+  "title": "Immunization schedules, minimum ages and intervals, contraindications",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "editions",
+    "general_rules",
+    "series",
+    "vaccines"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "editions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "body",
+          "population",
+          "title",
+          "date",
+          "url",
+          "note"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "body": {
+            "enum": [
+              "dph",
+              "cdc_acip",
+              "aap",
+              "acog",
+              "aafp",
+              "nephc"
+            ]
+          },
+          "population": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "general_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "series": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "doses"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "doses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "dose",
+                "min_age"
+              ],
+              "properties": {
+                "dose": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "min_age": {
+                  "type": "string",
+                  "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                },
+                "min_interval": {
+                  "type": "string",
+                  "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                },
+                "min_interval_from_first": {
+                  "type": "string",
+                  "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                },
+                "plan_min_age": {
+                  "type": "string",
+                  "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                },
+                "plan_min_interval": {
+                  "type": "string",
+                  "pattern": "^(birth|\\d+ (day|days|week|weeks|month|months|year|years)( \\+ \\d+ (day|days|week|weeks|month|months|year|years))?)$"
+                },
+                "no_grace_interval": {
+                  "type": "boolean"
+                },
+                "recommended_age": {
+                  "type": "string"
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "vaccines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "abbreviations",
+          "aliases",
+          "series",
+          "routine",
+          "contraindications",
+          "precautions",
+          "confidence"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "abbreviations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "routine": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "body",
+                "text"
+              ],
+              "properties": {
+                "body": {
+                  "enum": [
+                    "dph",
+                    "cdc_acip",
+                    "aap",
+                    "acog",
+                    "aafp",
+                    "nephc"
+                  ]
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "contraindications": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "precautions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

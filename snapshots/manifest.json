@@ -55,6 +55,120 @@
           "rows": 402
         }
       ]
+    },
+    {
+      "id": "cdc-iis-vaccine-codes",
+      "title": "CDC IIS vaccine code sets: CVX, MVX, product trade names, and vaccine NDCs",
+      "publisher": "Centers for Disease Control and Prevention, National Center for Immunization and Respiratory Diseases",
+      "source_urls": [
+        "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/cvx.txt",
+        "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/mvx.txt",
+        "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/TRADENAME.txt",
+        "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/NDC/NDC_Unit_sale.txt",
+        "https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/NDC/NDC_Unit_use.txt"
+      ],
+      "source_sha256": {
+        "cvx.txt": "efd2a6770f0f648ce76e10ac2889602b2ea8fa8ca4b63deb33ca883e7d0d7413",
+        "mvx.txt": "4c0c145b4609d0c687e51987effbe808af4e55b7dcebdaf947660d3915600ed8",
+        "TRADENAME.txt": "71828ea5df7203106f7bed0c23b17f7cae1ceeea7d931bae75fba594f9a18cf9",
+        "NDC_Unit_sale.txt": "01b76bb2d4bfe4215fa37056474d6fe109e5a7f23fba471fba2ec68b6b61d506",
+        "NDC_Unit_use.txt": "abff7414446ff11a864ce917bad3c50e150327abb20eefd511573a83dd3bd0d7"
+      },
+      "source_vintage": "code sets as published 2026-11-07 (NDC page last reviewed 2026-09-18)",
+      "retrieved": "2026-11-07",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Pipe-delimited flat files converted to CSV with headers; whitespace trimmed; numeric CVX codes zero-padded to two digits; dates normalized to YYYY-MM-DD. NDC tables keep the NDC11 (dashed), level (unit of sale or unit of use), proprietary name, labeler, start and end dates, packaging, route, and CVX; generic names and GTINs were dropped to keep the file small. Rebuild with the same conversion from the source URLs. Builder: xtask/scripts/build_cvx.py (run with Python 3 on the downloaded flat files).",
+      "caveats": [
+        "CDC updates these code sets whenever products are licensed, renamed, or discontinued; the tool tries the live CVX file first and falls back to this snapshot.",
+        "CDC notes that some GTINs in its NDC tables were inaccurate; GTINs are not included here."
+      ],
+      "files": [
+        {
+          "path": "cdc_cvx.csv",
+          "sha256": "195b1dab900a36176348c96d5f9f2681d9b65f12ac22db101a18921c8eb1dc08",
+          "bytes": 53538,
+          "rows": 290
+        },
+        {
+          "path": "cdc_mvx.csv",
+          "sha256": "8713963818ae389f287aa2509e46167473e42ec62f0e5ad37039b05cef3af063",
+          "bytes": 7713,
+          "rows": 89
+        },
+        {
+          "path": "cdc_vaccine_tradenames.csv",
+          "sha256": "eb834be5359f33937366ca57c5198d08090b1c9d620c2b08220f3b8cd8300518",
+          "bytes": 25166,
+          "rows": 225
+        },
+        {
+          "path": "cdc_vaccine_ndc.csv",
+          "sha256": "f6f83ac138501bd243d0bb757f0939c613b0addc953e13eba1e27901d6014862",
+          "bytes": 120721,
+          "rows": 1117
+        }
+      ]
+    },
+    {
+      "id": "ma-school-immunization-survey",
+      "title": "Massachusetts school immunization survey results by school (kindergarten and grade 7, 2025-2026; kindergarten 2023-2026 combined)",
+      "publisher": "Massachusetts Department of Public Health, Immunization Division",
+      "source_urls": [
+        "https://www.mass.gov/doc/kindergarten-immunization-data-by-school-2025-2026/download",
+        "https://www.mass.gov/doc/grade-7-immunization-data-by-school-2025-2026/download",
+        "https://www.mass.gov/doc/kindergarten-three-year-combined-by-school-2023-2026/download"
+      ],
+      "source_sha256": {
+        "Kindergarten Immunization Data by School 2025-2026.xlsx": "3c037b30141cc74a206a7a68fb077a74066794485bc52184428579d55a75e697",
+        "Grade 7 Immunization Data by School 2025-2026.xlsx": "81af7fd76153e8efb92d7daba8292c59f3a1daaafd4c2738e997ec2872954000",
+        "Kindergarten-Three-Year-Combined-by-School-2023-2026.xlsx": "c3e76ee45bce9f1fb3a67943b70f5a0a99a4333089fa02c0ab2693a327dd8522"
+      },
+      "source_vintage": "2025-2026 school year (data current as of April 5, 2026 per DPH)",
+      "retrieved": "2026-11-07",
+      "license": "Public records of the Commonwealth of Massachusetts.",
+      "derivation": "The 'Rates by School' sheet of each DPH workbook, one row per school. Rates published as fractions (0.91) are stored as whole percents (91). DPH's markers become a status column: dagger (fewer than 30 students; DPH does not release rates) -> suppressed_lt30, asterisk (no survey returned) -> no_response, pilcrow (unresolved discrepancy) -> discrepancy, N/A (survey returned with zero students) -> no_students. Kindergarten columns: 5 DTaP, 4 polio, 2 MMR, 3 HepB, 2 varicella, series complete, exemption, unimmunized (exemption with no vaccines), no record, non-compliance. Grade 7 columns: 2 MMR, 3 HepB, 2 varicella, 1 Tdap, 1 MenACWY, series, exemption, unimmunized, no record, non-compliance. Builder: xtask/scripts/build_school_survey.py (Python 3 with openpyxl).",
+      "caveats": [
+        "Self-reported by schools; DPH notes discrepancies may exist and rates can change during the year.",
+        "DPH publishes rates only (no enrollment counts) and withholds schools with fewer than 30 students; the 3-year combined kindergarten file releases schools whose pooled count reaches 30.",
+        "Exemption rates combine medical and religious exemptions."
+      ],
+      "files": [
+        {
+          "path": "ma_school_immunization_survey.csv",
+          "sha256": "77b66e86d3f8bda0b2a64da2b22e4d7e85b7fe941c036dc208826ff9d6243c35",
+          "bytes": 348406,
+          "rows": 3592
+        }
+      ]
+    },
+    {
+      "id": "nis-coverage-ma-us",
+      "title": "Vaccination coverage for Massachusetts and the United States (NIS-Child, NIS-Teen, FluVaxView, SchoolVaxView kindergarten)",
+      "publisher": "Centers for Disease Control and Prevention (National Immunization Surveys; VaxView)",
+      "source_urls": [
+        "https://data.cdc.gov/d/fhky-rtsk",
+        "https://data.cdc.gov/d/ee48-w5t6",
+        "https://data.cdc.gov/d/vh55-3he6",
+        "https://data.cdc.gov/d/ijqb-a7ye"
+      ],
+      "source_sha256": {},
+      "source_vintage": "NIS-Child birth years 2018-2022 (rows updated 2026-04-02); NIS-Teen 2020-2025 (2026-09-03); influenza seasons 2021-22 to 2025-26, May estimates (2026-10-08); kindergarten 2021-22 to 2025-26 (2026-08-28)",
+      "retrieved": "2026-11-07",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "SoQL queries for geography in ('Massachusetts','United States'): NIS-Child dimension_type 'Age' and dimension '24 Months' or '35 Months'; NIS-Teen dimension '13-17 Years'; influenza dimension_type 'Age', month 5 (end-of-season cumulative estimate); kindergarten all vaccines and exemptions. Columns kept: survey, dataset, vaccine, dose, geography, period, group, coverage_pct, ci_95, sample_size, exemptions. Builder: xtask/scripts/build_nis.py (Python 3 standard library; prints each query URL).",
+      "caveats": [
+        "Survey estimates have sampling error; compare confidence intervals, not point estimates alone. State estimates with small samples are flagged by CDC.",
+        "NIS-Child reports by birth year, so the most recent cohort lags several years behind the calendar.",
+        "Federal datasets were modified or paused at times in 2025-2026; check the data date before citing."
+      ],
+      "files": [
+        {
+          "path": "nis_coverage_ma_us.csv",
+          "sha256": "60abbe8bf90b3786d0d851e3af0766811d5bdc296624aa5627f743b6bd1782ba",
+          "bytes": 69915,
+          "rows": 732
+        }
+      ]
     }
   ]
 }

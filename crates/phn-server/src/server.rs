@@ -131,7 +131,8 @@ impl PhnServer {
         name = "configure_jurisdiction",
         description = "View or set the nurse's Massachusetts town (county and HMCC region are \
             derived), school district, board of health phone, small-cell suppression threshold, \
-            preferred languages, role profile or toolsets, and document letterhead. Call with no \
+            preferred languages, role profile or toolsets, document letterhead, and the vaccine \
+            recommendation basis (DPH, professional societies, or CDC/ACIP first). Call with no \
             arguments to show current settings. Settings persist in /cache.",
         annotations(
             title = "Configure jurisdiction",

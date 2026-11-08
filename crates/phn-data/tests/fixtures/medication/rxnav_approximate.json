@@ -1,0 +1,75 @@
+{
+ "approximateGroup": {
+  "inputTerm": null,
+  "candidate": [
+   {
+    "rxcui": "723",
+    "rxaui": "10282462",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "name": "Amoxicillin",
+    "source": "USP"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "10328150",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "source": "GS"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "12252059",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "name": "amoxicillin",
+    "source": "RXNORM"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "2067793",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "name": "AMOXICILLIN",
+    "source": "VANDF"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "21853",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "source": "MMSL"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "21863",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "source": "MMSL"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "5478655",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "name": "amoxicillin",
+    "source": "ATC"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "6802293",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "source": "NDDF"
+   },
+   {
+    "rxcui": "723",
+    "rxaui": "8582363",
+    "score": "8.957927703857422",
+    "rank": "1",
+    "name": "Amoxicillin",
+    "source": "DRUGBANK"
+   }
+  ]
+ }
+}

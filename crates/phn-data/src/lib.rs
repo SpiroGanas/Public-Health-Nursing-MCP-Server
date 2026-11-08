@@ -21,6 +21,8 @@ pub mod socrata;
 // Phase 4 adapters (Census ACS, SVI, NCBI E-utilities, CDC feeds) go below this line.
 
 // Phase 5 adapters (openFDA, DailyMed, RxNorm, CVX/MVX) go below this line.
+pub mod medication;
+pub mod vaccine_codes;
 
 // Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 

@@ -1,0 +1,788 @@
+# Vaccine recommendations by issuing body, side by side (VAX-02 compare_vaccine_recommendations).
+#
+# REVIEW STATUS: pending. Drafted from the documents listed under each position (fetched
+# 2026-11-07). See meta.verification_note.
+# Schema: content/schemas/vax_recommendations.schema.json
+meta:
+  id: vax-recommendations
+  title: Vaccine recommendations by issuing body (DPH, CDC/ACIP, AAP, ACOG, AAFP, NEPHC)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: DPH Recommended Vaccines
+    publisher: Massachusetts Department of Public Health, Immunization Division
+    url: https://www.mass.gov/info-details/dph-recommended-vaccines
+  related_sources:
+    - title: ACIP Meeting Information (meeting summaries, September and December 2025)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/acip/meetings/index.html
+    - title: Clinician-Family Immunization Communications FAQs
+      publisher: American Academy of Pediatrics
+      url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+    - title: Birth through age 18 immunization schedules (adopted by AAFP)
+      publisher: American Academy of Family Physicians
+      url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+    - title: Adults 19 and older immunization schedules (adopted by AAFP)
+      publisher: American Academy of Family Physicians
+      url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Each position was drafted from the document cited with it, retrieved 2026-11-07. Positions
+    marked confidence high quote or closely paraphrase that document. Medium means the position is
+    taken from a second document that describes it (for example, the January 5, 2026 CDC decision
+    memorandum is described by AAP, DPH, and NEPHC; the memorandum itself could not be downloaded
+    from hhs.gov). ACOG's own web pages could not be retrieved; ACOG positions come from DPH
+    documents that state DPH adopted ACOG's respiratory virus recommendations, and from the AAFP
+    schedule, so they are marked medium. CDC's online schedule pages still showed the 2025
+    schedules with a July 2, 2025 addendum on the retrieval date. Each position's date is the
+    decision or publication date stated in its source; for undated DPH documents it is the date the
+    file was posted on mass.gov (its Last-Modified date on retrieval); null means no date could be
+    verified. The subject matter expert should
+    confirm every position against the current documents before relying on it, and refresh this
+    file whenever any body issues new guidance.
+
+bodies:
+  dph:
+    name: Massachusetts Department of Public Health
+    short: DPH
+    kind: state
+  cdc_acip:
+    name: CDC / Advisory Committee on Immunization Practices (federal)
+    short: CDC/ACIP
+    kind: federal
+  aap:
+    name: American Academy of Pediatrics
+    short: AAP
+    kind: professional_society
+  acog:
+    name: American College of Obstetricians and Gynecologists
+    short: ACOG
+    kind: professional_society
+  aafp:
+    name: American Academy of Family Physicians
+    short: AAFP
+    kind: professional_society
+  nephc:
+    name: Northeast Public Health Collaborative (regional coalition that includes DPH)
+    short: NEPHC
+    kind: regional
+
+context:
+  - >-
+    Since 2025, federal (CDC/ACIP) vaccine guidance has diverged from the AAP, ACOG, AAFP, and
+    Massachusetts DPH. On January 5, 2026, the CDC Acting Director signed a decision memorandum
+    that reduced the number of immunizations routinely recommended for all U.S. children; AAP
+    describes the change as no longer routinely recommending hepatitis A, hepatitis B, rotavirus,
+    RSV, influenza, and meningococcal immunization for all children, which are now recommended
+    based on risk or shared clinical decision-making.
+  - >-
+    The same day, DPH recommended that Massachusetts providers follow the AAP schedule instead.
+    DPH's January 2026 guidance makes the AAP Recommended Child and Adolescent Immunization
+    Schedule the primary reference for infants, children, and adolescents in Massachusetts. DPH
+    states there are no changes to Massachusetts school vaccination requirements.
+  - >-
+    For adults, DPH states the CDC Adult Immunization Schedule remains in place except where DPH
+    has issued its own recommendations (COVID-19, influenza, RSV). DPH's 2026-27 respiratory
+    recommendations adopt those of AAFP, AAP, ACOG, and IDSA.
+  - >-
+    The ACIP meetings scheduled for March, June, and October 2026 were cancelled "due to ongoing
+    litigation" according to CDC's ACIP meetings page (updated October 9, 2026).
+
+topics:
+  - id: childhood_schedule
+    title: Which childhood and adolescent schedule to follow
+    vaccine: all
+    population: children_adolescents
+    aliases: [pediatric schedule, childhood schedule, aap schedule, cdc schedule, which schedule]
+    positions:
+      - body: dph
+        summary: >-
+          Use the AAP Recommended Child and Adolescent Immunization Schedule as the primary
+          reference for routine immunization of infants, children, and adolescents in
+          Massachusetts. DPH endorses the 2026 AAP schedule. No change to school requirements.
+        date: 2026-01-05
+        source:
+          title: Guidance on Recommended Reference Materials for Pediatric Immunization Schedules (January 2026)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-guidance-on-recommended-reference-materials-for-pediatric-immunization/download
+        confidence: high
+      - body: aap
+        summary: >-
+          2026 AAP schedule (released January 26, 2026) continues routine immunization against 18
+          diseases, including RSV, hepatitis A, hepatitis B, rotavirus, influenza, COVID-19, and
+          meningococcal disease. It does not endorse the 2026 CDC changes.
+        date: 2026-01-26
+        source:
+          title: Recommended Childhood and Adolescent Immunization Schedule, United States, 2026 (Pediatrics 157(3):e2025075754), as summarized by DPH
+          publisher: American Academy of Pediatrics
+          url: https://www.mass.gov/doc/american-academy-of-pediatrics-2026-vaccine-schedule/download
+        confidence: high
+      - body: cdc_acip
+        summary: >-
+          CDC decision memorandum of January 5, 2026 reduced the immunizations routinely
+          recommended for all children; hepatitis A, hepatitis B, rotavirus, RSV, influenza, and
+          meningococcal immunization moved to risk-based or shared clinical decision-making. CDC's
+          online schedule page still displayed the 2025 schedule (addendum July 2, 2025) on
+          2026-11-07.
+        date: 2026-01-05
+        source:
+          title: Clinician-Family Immunization Communications FAQs (describes the CDC change)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+        confidence: medium
+      - body: aafp
+        summary: >-
+          AAFP adopted its own 2026 birth-through-18 schedule (aligned with AAP) and states the
+          CDC 2025 schedules are not endorsed by AAFP.
+        date: null
+        source:
+          title: Birth through age 18 immunization schedules
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+        confidence: high
+      - body: nephc
+        summary: >-
+          Continues to recommend the AAP schedule; states the January 5, 2026 federal change did
+          not follow established procedures for vaccine recommendations.
+        date: 2026-01-07
+        source:
+          title: Northeast Public Health Collaborative Recommends AAP's New Vaccine Schedule (January 7, 2026)
+          publisher: Northeast Public Health Collaborative (posted by DPH)
+          url: https://www.mass.gov/doc/nephc-recommends-aaps-new-vaccine-schedule-january-7-2026/download
+        confidence: high
+    differs: true
+    difference: >-
+      DPH, AAP, AAFP, and NEPHC follow the AAP 2026 schedule; the federal schedule no longer
+      routinely recommends six immunizations for all children.
+
+  - id: hepb_infant
+    title: Hepatitis B vaccine at birth and the infant series
+    vaccine: hepb
+    population: infants
+    aliases: [hepatitis b birth dose, hep b newborn, hbv vaccine, hepb birth dose, hepatitis b serology]
+    positions:
+      - body: dph
+        summary: >-
+          All newborns should receive a hepatitis B birth dose within 24 hours of delivery,
+          regardless of the birth parent's status; within 12 hours (plus HBIG when the parent is
+          infected) when the parent is HBsAg-positive or status is unknown. Complete the series by
+          18 months (0, 1-2, 6-18 months). DPH recommends against serology to guide dosing.
+        date: 2025-12-11
+        source:
+          title: Guidance on Use of the Hepatitis B Vaccine for Infants and Children (December 2025)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/massachusetts-clinical-guidance-on-use-of-the-hepatitis-b-vaccine-for-infants-and-children/download
+        confidence: high
+      - body: aap
+        summary: >-
+          Unchanged: birth dose within the first 24 hours of life, then doses at 1-2 months and
+          6-18 months. AAP does not recommend serologic testing of infants to decide on further
+          doses.
+        date: 2026-10-08
+        source:
+          title: AAP Immunization FAQs (Hepatitis B)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/aap-immunization-faq/
+        confidence: high
+      - body: cdc_acip
+        summary: >-
+          ACIP (December 5, 2025) voted 8-3: for infants of HBsAg-negative mothers, individual-based
+          decision-making on when or if to give hepatitis B vaccine, including the birth dose; if no
+          birth dose, the first dose is suggested no earlier than 2 months. A second vote (6-4-1)
+          said parents and providers may consider post-vaccination anti-HBs serology before later
+          doses. Infants of HBsAg-positive or unknown-status mothers still receive vaccine plus
+          HBIG at birth. The January 5, 2026 CDC memorandum also removed hepatitis B from the
+          vaccines routinely recommended for all children.
+        date: 2025-12-05
+        source:
+          title: ACIP December 4-5, 2025 Meeting Summary
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/downloads/minutes/December-2025-ACIP-Meeting-Summary.pdf
+        confidence: high
+      - body: nephc
+        summary: >-
+          All newborns should receive a birth dose within 24 hours (within 12 hours if the birth
+          parent is positive or status unknown); complete the series within 18 months.
+        date: 2025-10-31
+        source:
+          title: Recommendations Statement on Hepatitis B and Newborns
+          publisher: Northeast Public Health Collaborative (posted by DPH)
+          url: https://www.mass.gov/doc/download-northeast-public-health-collaborative-hepatitis-b-statement/download
+        confidence: high
+    differs: true
+    difference: >-
+      DPH, AAP, and NEPHC keep the universal birth dose and full series; federal guidance makes the
+      birth dose an individual decision for infants of HBsAg-negative mothers and allows serology
+      to guide later doses. Massachusetts school requirements still require 3 doses of hepatitis B
+      vaccine.
+
+  - id: mmrv_under_4
+    title: MMRV (combined measles, mumps, rubella, varicella) vaccine before age 4
+    vaccine: mmrv
+    population: children
+    aliases: [mmrv, proquad, mmr and varicella, febrile seizure mmrv, measles vaccine toddler]
+    positions:
+      - body: dph
+        summary: >-
+          2-dose series at 12-15 months and 4-6 years. Either MMR+varicella or MMRV may be used. For
+          dose 1 at 12-47 months, separate MMR and varicella are preferable; MMRV may be used if
+          parents prefer fewer injections (the 2009 ACIP approach).
+        date: 2025-11-10
+        source:
+          title: Guidance on Use of the MMRV Vaccine in Children Under the Age of Four Years (October 2025)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/measles-mumps-rubella-varicella-mmrv-guidance/download
+        confidence: high
+      - body: aap
+        summary: >-
+          For dose 1 at 12-47 months, separate MMR and varicella vaccines are recommended; MMRV
+          may be used if parents or caregivers express a preference (AAP 2026 schedule as adopted
+          by AAFP).
+        date: 2026-01-26
+        source:
+          title: Birth through age 18 immunization schedules (MMR and varicella notes)
+          publisher: American Academy of Family Physicians (adopting the AAP 2026 schedule)
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          ACIP (September 18, 2025) voted 8-3-1 that MMRV is not recommended before age 4; children
+          under 4 should receive separate MMR and varicella vaccines. CDC adopted the September
+          2025 votes on October 6, 2025 (adoption date as reported by NEPHC).
+        date: 2025-10-06
+        source:
+          title: ACIP September 18-19, 2025 Meeting Summary
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/downloads/minutes/summary-2025-9-18-19-508.pdf
+        confidence: high
+      - body: nephc
+        summary: >-
+          Continues prior recommendations; no new data were presented that would change them.
+        date: 2025-11-10
+        source:
+          title: Northeast Public Health Collaborative Response to the September ACIP Meeting
+          publisher: Northeast Public Health Collaborative (posted by DPH)
+          url: https://www.mass.gov/doc/northeast-public-health-collaborative-response-to-the-september-acip-meeting-0/download
+        confidence: medium
+    differs: true
+    difference: >-
+      DPH and AAP allow MMRV for dose 1 under age 4 when parents prefer it; federal guidance does
+      not recommend MMRV under age 4. All agree separate MMR+V is preferred for dose 1.
+
+  - id: covid19_children
+    title: COVID-19 vaccine for children and adolescents (2026-27 season)
+    vaccine: covid19
+    population: children_adolescents
+    aliases: [covid vaccine kids, covid-19 children, sars-cov-2 vaccine children, spikevax children]
+    positions:
+      - body: dph
+        summary: >-
+          Children 6-23 months should receive age-appropriate 2026-27 vaccination. Ages 2-18 with
+          higher-risk conditions (or high-risk household contacts), in congregate settings, or never
+          vaccinated should receive one dose; other healthy children 2-18 may receive one dose.
+        date: 2026-09-18
+        source:
+          title: Recommendations for the Use of COVID-19 Vaccines for the 2026-2027 Respiratory Season
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download
+        confidence: high
+      - body: aap
+        summary: >-
+          DPH states its 2026-27 COVID-19 recommendations adopt those of AAP, AAFP, ACOG, and IDSA;
+          see AAP's 2026-27 COVID-19 policy statement (released September 2, 2026).
+        date: 2026-09-02
+        source:
+          title: AAP Immunization Recommendations Process 2026 (respiratory guidance timeline)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/aap-immunization-recommendations-process-2026/
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          ACIP (September 19, 2025) voted 12-0 for individual-based decision-making (shared clinical
+          decision-making) for everyone 6 months to 64 years, emphasizing that benefit is greatest
+          for those at increased risk. CDC adopted it October 6, 2025.
+        date: 2025-10-06
+        source:
+          title: ACIP September 18-19, 2025 Meeting Summary
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/downloads/minutes/summary-2025-9-18-19-508.pdf
+        confidence: high
+    differs: true
+    difference: >-
+      DPH/AAP recommend vaccination for all children 6-23 months and for higher-risk or
+      never-vaccinated older children; federal guidance makes every pediatric dose an individual
+      decision.
+
+  - id: covid19_adults
+    title: COVID-19 vaccine for adults (2026-27 season)
+    vaccine: covid19
+    population: adults
+    aliases: [covid vaccine adults, covid booster, covid 65 and older]
+    positions:
+      - body: dph
+        summary: >-
+          Adults 19-64 should receive one 2026-27 dose (prioritize higher-risk conditions). Adults 65
+          and older should receive two doses, the second 6 months after the first. Immunocompromised
+          people: one dose, a second 2-6 months later by shared decision-making. All healthcare
+          personnel should receive one dose.
+        date: 2026-09-18
+        source:
+          title: Recommendations for the Use of COVID-19 Vaccines for the 2026-2027 Respiratory Season
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download
+        confidence: high
+      - body: aafp
+        summary: >-
+          Routine: 1 dose for ages 19-64; 65 and older receive dose 2 six months later (minimum
+          interval 2 months).
+        date: null
+        source:
+          title: Adults 19 and older immunization schedules (COVID-19 notes)
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+        confidence: high
+      - body: cdc_acip
+        summary: >-
+          ACIP (September 19, 2025): individual-based decision-making for adults 65 and older and for
+          ages 6 months to 64 years, with benefit greatest for those at increased risk. Adopted by
+          CDC October 6, 2025.
+        date: 2025-10-06
+        source:
+          title: ACIP September 18-19, 2025 Meeting Summary
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/downloads/minutes/summary-2025-9-18-19-508.pdf
+        confidence: high
+    differs: true
+    difference: >-
+      DPH and AAFP recommend vaccination for all adults (two doses at 65+); federal guidance is
+      individual decision-making for every age.
+
+  - id: covid19_pregnancy
+    title: COVID-19 vaccine during pregnancy and lactation
+    vaccine: covid19
+    population: pregnancy
+    aliases: [covid vaccine pregnant, covid pregnancy, covid lactation, covid postpartum]
+    positions:
+      - body: dph
+        summary: >-
+          People who are pregnant, contemplating pregnancy, recently pregnant, or lactating should
+          receive one dose of 2026-27 COVID-19 vaccine.
+        date: 2026-09-18
+        source:
+          title: Recommendations for the Use of COVID-19 Vaccines for the 2026-2027 Respiratory Season
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-covid-19-vaccine-recommendations/download
+        confidence: high
+      - body: acog
+        summary: >-
+          DPH states its COVID-19 recommendations adopt ACOG's; NEPHC (September 2025) describes ACOG
+          as advising vaccination of pregnant, postpartum, and lactating people. ACOG's own page
+          could not be retrieved.
+        date: 2025-11-10
+        source:
+          title: Northeast Public Health Collaborative Response to the September ACIP Meeting
+          publisher: Northeast Public Health Collaborative (posted by DPH)
+          url: https://www.mass.gov/doc/northeast-public-health-collaborative-response-to-the-september-acip-meeting-0/download
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          As of May 29, 2025, CDC's schedule incorporated an HHS directive that changed COVID-19
+          recommendations for pregnant women; ACIP's September 2025 vote made COVID-19 vaccination
+          an individual decision for everyone 6 months to 64 years.
+        date: 2025-10-06
+        source:
+          title: Child Immunization Schedule Addendum (July 2, 2025)
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-addendum.html
+        confidence: medium
+    differs: true
+    difference: DPH and ACOG recommend vaccination in pregnancy; federal guidance does not routinely recommend it.
+
+  - id: influenza_children
+    title: Annual influenza vaccine for children
+    vaccine: influenza
+    population: children_adolescents
+    aliases: [flu shot kids, flu vaccine children, flumist, influenza pediatric]
+    positions:
+      - body: dph
+        summary: >-
+          Everyone 6 months and older should receive influenza vaccine every year unless
+          contraindicated. Children 6 months-8 years who did not receive 2 or more doses before July
+          1, 2026 (or whose history is unknown) need 2 doses at least 4 weeks apart.
+        date: 2026-09-09
+        source:
+          title: Recommendations for the Use of Seasonal Influenza Vaccines for the 2026-2027 Respiratory Season
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-influenza-vaccine-recommendations/download
+        confidence: high
+      - body: aap
+        summary: >-
+          Routine annual influenza immunization for all children 6 months and older (AAP 2026
+          schedule; 2026-27 influenza policy statement released August 10, 2026).
+        date: 2026-08-10
+        source:
+          title: AAP Immunization Recommendations Process 2026
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/aap-immunization-recommendations-process-2026/
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          ACIP (June 2025) reaffirmed routine annual vaccination for everyone 6 months and older for
+          2025-26 and recommended only single-dose, thimerosal-free formulations for children,
+          pregnant women, and adults. The January 5, 2026 CDC memorandum then removed influenza from
+          the vaccines routinely recommended for all children.
+        date: 2026-01-05
+        source:
+          title: ACIP Recommendations (June 25-26, 2025 meeting) and AAP description of the January 2026 change
+          publisher: Centers for Disease Control and Prevention; American Academy of Pediatrics
+          url: https://www.cdc.gov/acip/vaccine-recommendations/index.html
+        confidence: medium
+    differs: true
+    difference: DPH and AAP recommend influenza vaccine for every child every year; federal guidance no longer routinely does.
+
+  - id: influenza_adults
+    title: Annual influenza vaccine for adults
+    vaccine: influenza
+    population: adults
+    aliases: [flu shot adults, high-dose flu, influenza older adults]
+    positions:
+      - body: dph
+        summary: >-
+          Everyone 6 months and older annually; all healthcare personnel should receive one 2026-27
+          dose. High-dose or adjuvanted vaccines are primarily for 65 and older.
+        date: 2026-09-09
+        source:
+          title: Recommendations for the Use of Seasonal Influenza Vaccines for the 2026-2027 Respiratory Season
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-influenza-vaccine-recommendations/download
+        confidence: high
+      - body: cdc_acip
+        summary: >-
+          Routine annual vaccination for persons 6 months and older reaffirmed for 2025-26 (June
+          2025); single-dose thimerosal-free formulations only.
+        date: 2025-07-22
+        source:
+          title: ACIP Recommendations (June 25-26, 2025 meeting)
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/vaccine-recommendations/index.html
+        confidence: high
+      - body: aafp
+        summary: Annual influenza vaccination for adults (AAFP 2026-27 respiratory guidance).
+        date: null
+        source:
+          title: Immunizations and vaccines for family physicians
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/family-physician/patient-care/prevention-wellness/immunizations-vaccines.html
+        confidence: medium
+    differs: false
+    difference: All bodies recommend annual influenza vaccination for adults.
+
+  - id: rsv_infants
+    title: RSV immunization for infants (maternal vaccine or monoclonal antibody)
+    vaccine: rsv
+    population: infants
+    aliases: [nirsevimab, beyfortus, clesrovimab, enflonsia, rsv baby, rsv antibody]
+    positions:
+      - body: dph
+        summary: >-
+          RSV immunization for all infants under 8 months born during or entering their first RSV
+          season (maternal vaccine or infant monoclonal antibody), and monoclonal antibody for
+          children 8-19 months at high risk entering their second season (eligibility expanded for
+          2026-27).
+        date: 2026-10-05
+        source:
+          title: Recommendations for the Use of RSV Vaccines to Protect Infants and Young Children, 2026-2027
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-pediatric-vaccination-rsv/download
+        confidence: high
+      - body: aap
+        summary: Routine RSV immunization of infants continues in the AAP 2026 schedule.
+        date: 2026-01-26
+        source:
+          title: DPH announcement of the AAP 2026 schedule
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/american-academy-of-pediatrics-2026-vaccine-schedule/download
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          ACIP (June 2025) added clesrovimab with no preference over nirsevimab for infants under 8
+          months not protected by maternal vaccination. The January 5, 2026 CDC memorandum removed
+          RSV immunization from the routine schedule for all children (now risk-based or shared
+          decision-making).
+        date: 2026-01-05
+        source:
+          title: Clinician-Family Immunization Communications FAQs (describes the CDC change)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+        confidence: medium
+    differs: true
+    difference: DPH and AAP recommend RSV protection for every infant entering the first season; federal guidance no longer routinely does.
+
+  - id: rsv_pregnancy
+    title: RSV vaccine during pregnancy (Abrysvo)
+    vaccine: rsv
+    population: pregnancy
+    aliases: [abrysvo pregnancy, maternal rsv vaccine, rsv pregnant]
+    positions:
+      - body: dph
+        summary: >-
+          Pregnant people may receive Abrysvo from September 1 through March 1 for 2026-27 (extended
+          from January 31) at 32 weeks 0 days through 36 weeks 6 days gestation.
+        date: 2026-10-05
+        source:
+          title: Recommendations for the Use of RSV Vaccines to Protect Infants and Young Children, 2026-2027
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-pediatric-vaccination-rsv/download
+        confidence: high
+      - body: aafp
+        summary: >-
+          1 dose of Abrysvo at 32 weeks 0 days through 36 weeks 6 days, September through January in
+          most of the continental U.S.; not in subsequent pregnancies.
+        date: null
+        source:
+          title: Adults 19 and older immunization schedules (RSV notes)
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+        confidence: high
+      - body: acog
+        summary: >-
+          DPH states its 2026-27 RSV recommendations adopt ACOG's. ACOG's own page could not be
+          retrieved.
+        date: 2026-10-05
+        source:
+          title: Recommendations for the Use of RSV Vaccines to Protect Infants and Young Children, 2026-2027
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-pediatric-vaccination-rsv/download
+        confidence: medium
+    differs: true
+    difference: DPH's 2026-27 window runs through March 1; the AAFP/CDC schedule window ends in January.
+
+  - id: rsv_older_adults
+    title: RSV vaccine for older adults
+    vaccine: rsv
+    population: adults
+    aliases: [arexvy, abrysvo older adults, mresvia, rsv adults 50]
+    positions:
+      - body: dph
+        summary: >-
+          One-time RSV vaccination for everyone 75 and older and for people 50-74 with conditions
+          that increase risk of severe RSV.
+        date: 2026-10-05
+        source:
+          title: Recommendations for the Use of RSV Vaccines to Protect Adults, 2026-2027
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-rsv-adult-vaccinations/download
+        confidence: high
+      - body: aafp
+        summary: 75 and older, and 50-74 at increased risk (as listed in DPH's 2026-27 adult RSV table).
+        date: 2026-10-05
+        source:
+          title: Recommendations for the Use of RSV Vaccines to Protect Adults, 2026-2027 (vaccine table)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-2026-27-rsv-adult-vaccinations/download
+        confidence: medium
+      - body: cdc_acip
+        summary: >-
+          ACIP (April 2025) added adults 50-59 at increased risk; a single dose only. Adopted June
+          25, 2025.
+        date: 2025-06-25
+        source:
+          title: ACIP Recommendations (April 15-16, 2025 meeting)
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/vaccine-recommendations/index.html
+        confidence: high
+    differs: false
+    difference: The bodies agree on single-dose RSV vaccination for 75+ and for 50-74 at increased risk.
+
+  - id: hepa_children
+    title: Hepatitis A vaccine for children
+    vaccine: hepa
+    population: children
+    aliases: [hep a vaccine, havrix, vaqta, hepatitis a toddler]
+    positions:
+      - body: dph
+        summary: DPH directs Massachusetts providers to the AAP 2026 schedule (routine 2-dose series at 12-23 months).
+        date: 2026-01-05
+        source:
+          title: Guidance on Recommended Reference Materials for Pediatric Immunization Schedules (January 2026)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-guidance-on-recommended-reference-materials-for-pediatric-immunization/download
+        confidence: medium
+      - body: aap
+        summary: Routine 2-dose series (minimum interval 6 months) at 12-23 months; catch-up through 18 years.
+        date: 2026-01-26
+        source:
+          title: Birth through age 18 immunization schedules (Hepatitis A notes)
+          publisher: American Academy of Family Physicians (adopting the AAP 2026 schedule)
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+        confidence: medium
+      - body: cdc_acip
+        summary: No longer routinely recommended for all children after January 5, 2026; based on risk or shared clinical decision-making.
+        date: 2026-01-05
+        source:
+          title: Clinician-Family Immunization Communications FAQs (describes the CDC change)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+        confidence: medium
+    differs: true
+    difference: DPH/AAP keep hepatitis A routine at 12-23 months; federal guidance does not.
+
+  - id: rotavirus
+    title: Rotavirus vaccine for infants
+    vaccine: rotavirus
+    population: infants
+    aliases: [rotateq, rotarix, rota vaccine]
+    positions:
+      - body: dph
+        summary: DPH directs Massachusetts providers to the AAP 2026 schedule (routine rotavirus series).
+        date: 2026-01-05
+        source:
+          title: Guidance on Recommended Reference Materials for Pediatric Immunization Schedules (January 2026)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/dph-guidance-on-recommended-reference-materials-for-pediatric-immunization/download
+        confidence: medium
+      - body: aap
+        summary: Routine; Rotarix 2 doses at 2 and 4 months or RotaTeq 3 doses at 2, 4, and 6 months; if any dose is RotaTeq or unknown, give 3 doses.
+        date: 2026-01-26
+        source:
+          title: Birth through age 18 immunization schedules (Rotavirus notes)
+          publisher: American Academy of Family Physicians (adopting the AAP 2026 schedule)
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+        confidence: medium
+      - body: cdc_acip
+        summary: No longer routinely recommended for all infants after January 5, 2026; shared clinical decision-making.
+        date: 2026-01-05
+        source:
+          title: Clinician-Family Immunization Communications FAQs (describes the CDC change)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+        confidence: medium
+    differs: true
+    difference: DPH/AAP keep rotavirus routine; federal guidance does not.
+
+  - id: menacwy_adolescents
+    title: Meningococcal ACWY vaccine for adolescents
+    vaccine: menacwy
+    population: adolescents
+    aliases: [menquadfi, menveo, mcv4, meningitis vaccine, menacwy booster, penbraya, penmenvy]
+    positions:
+      - body: dph
+        summary: >-
+          DPH follows the AAP schedule, and Massachusetts school requirements still require MenACWY
+          for grades 7-12 (1 dose on or after the 10th birthday for grades 7-10; a dose on or after
+          the 16th birthday for grades 11-12) and for full-time college students 21 and younger.
+        date: 2026-02-12
+        source:
+          title: 2026-2027 Massachusetts School Immunization Requirements
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/doc/immunization-requirements-for-school-entry-updated-21226/download
+        confidence: high
+      - body: aap
+        summary: Routine 2-dose series at 11-12 years and 16 years.
+        date: 2026-01-26
+        source:
+          title: Birth through age 18 immunization schedules (MenACWY notes)
+          publisher: American Academy of Family Physicians (adopting the AAP 2026 schedule)
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+        confidence: medium
+      - body: cdc_acip
+        summary: No longer routinely recommended for all adolescents after January 5, 2026; based on risk or shared clinical decision-making.
+        date: 2026-01-05
+        source:
+          title: Clinician-Family Immunization Communications FAQs (describes the CDC change)
+          publisher: American Academy of Pediatrics
+          url: https://www.aap.org/en/patient-care/immunizations/clinician-family-immunization-communications-faqs/
+        confidence: medium
+    differs: true
+    difference: Massachusetts requires MenACWY for school and AAP recommends it routinely; federal guidance no longer does.
+
+  - id: adult_schedule
+    title: Which adult schedule to follow
+    vaccine: all
+    population: adults
+    aliases: [adult immunization schedule, adult vaccines, aafp adult schedule]
+    positions:
+      - body: dph
+        summary: >-
+          The CDC Adult Immunization Schedule remains in place for adults, except where DPH has
+          issued specific recommendations (COVID-19, influenza, RSV).
+        date: null
+        source:
+          title: DPH Recommended Vaccines (adult immunization recommendations)
+          publisher: Massachusetts Department of Public Health
+          url: https://www.mass.gov/info-details/dph-recommended-vaccines
+        confidence: high
+      - body: aafp
+        summary: >-
+          AAFP adopted its own 2026 adult schedule and does not endorse the CDC 2025 schedules;
+          updated 2027 schedules expected spring 2027.
+        date: null
+        source:
+          title: Adults 19 and older immunization schedules
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+        confidence: high
+      - body: cdc_acip
+        summary: >-
+          CDC's online adult schedule page showed the 2025 schedule with a July 2, 2025 addendum on
+          2026-11-07.
+        date: 2025-07-02
+        source:
+          title: Adult Immunization Schedule by Age (Addendum updated July 2, 2025)
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html
+        confidence: high
+    differs: true
+    difference: DPH keeps the CDC adult schedule except for respiratory vaccines; AAFP uses its own 2026 adult schedule.
+
+  - id: tdap_pregnancy
+    title: Tdap during pregnancy
+    vaccine: tdap
+    population: pregnancy
+    aliases: [whooping cough vaccine pregnancy, tdap pregnant, pertussis pregnancy]
+    positions:
+      - body: aafp
+        summary: 1 dose of Tdap during each pregnancy, preferably early in gestational weeks 27-36.
+        date: null
+        source:
+          title: Adults 19 and older immunization schedules (Tdap notes)
+          publisher: American Academy of Family Physicians
+          url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+        confidence: high
+      - body: cdc_acip
+        summary: 1 dose of Tdap during each pregnancy, preferably early in gestational weeks 27-36 (2025 adult schedule).
+        date: 2025-07-02
+        source:
+          title: Adult Immunization Schedule Notes
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-notes.html
+        confidence: medium
+    differs: false
+    difference: No difference found. ACOG's and DPH's own statements were not retrieved.
+
+  - id: thimerosal_influenza
+    title: Thimerosal-containing (multidose vial) influenza vaccine
+    vaccine: influenza
+    population: all
+    aliases: [thimerosal, multidose flu vial, mercury flu vaccine, preservative]
+    positions:
+      - body: cdc_acip
+        summary: >-
+          ACIP (June 2025) recommends only single-dose, thimerosal-free influenza formulations for
+          children 18 and younger, pregnant women, and all adults; adopted July 22, 2025.
+        date: 2025-07-22
+        source:
+          title: ACIP Recommendations (June 25-26, 2025 meeting)
+          publisher: Centers for Disease Control and Prevention
+          url: https://www.cdc.gov/acip/vaccine-recommendations/index.html
+        confidence: high
+    differs: false
+    difference: >-
+      Only the federal position was found. DPH's 2026-27 influenza recommendations did not address
+      thimerosal in the sections reviewed; ask DPH's Immunization Division if this matters for a
+      clinic.

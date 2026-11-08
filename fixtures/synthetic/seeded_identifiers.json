@@ -1586,6 +1586,576 @@
    "value": "900-12-3456",
    "kind": "ssn",
    "file": "data/policies/needlestick_exposure.md"
+  },
+  {
+   "value": "1047203961",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Okafor",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Amara",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-10-07",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203978",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Haddad",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tobias",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-11-23",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203985",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Kowalczyk",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ingrid",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-01-19",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047203992",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Vasquez",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Mateo",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-02-27",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204008",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Tremblay",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Priya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-03-09",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204015",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nakamura",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Kenji",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-04-13",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204022",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oyelaran",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Yusuf",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-05-29",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204039",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Delacroix",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Elodie",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-06-17",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204046",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Petrakis",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dimitri",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-07-21",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204053",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lindqvist",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Saoirse",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1047204060",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Abernathy",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bodhi",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-10-11",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204077",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Castellanos",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Leilani",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-12-03",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204084",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Mbeki",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thiago",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-01-25",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204091",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Sorensen",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Anouk",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-03-14",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204107",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintero",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rafferty",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-05-06",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204114",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Iwasaki",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zainab",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-06-30",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204121",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Bergstrom",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Esme",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-08-18",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204138",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Achebe",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Callum",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-09-26",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204145",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Montoya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ximena",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2009-11-01",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204152",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Kaczmarek",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Oskar",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-01-15",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204169",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ferreira",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nadia",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-03-22",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204176",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Halvorsen",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Idris",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-06-04",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204183",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oduya",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Paloma",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-08-09",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "1047204190",
+   "kind": "other_id_number",
+   "file": "data/school_roster.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ruiz-Takeda",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Soren",
+   "kind": "name",
+   "file": "data/school_roster.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2022-02-16",
+   "kind": "birth_date",
+   "file": "data/school_roster.csv",
+   "column": "Date of Birth"
   }
  ]
 }

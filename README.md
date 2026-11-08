@@ -63,6 +63,15 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `get_immunization_schedule` | VAX-01 | vax | Routine schedules with DPH, AAP/ACOG/AAFP, and CDC/ACIP positions side by side, minimum ages and intervals, and contraindications. |
+| `compare_vaccine_recommendations` | VAX-02 | vax | Each body's recommendation with dates and sources, highlighting where federal guidance now differs. |
+| `check_ma_school_immunization_requirements` | VAX-04 | vax | Massachusetts school requirements for one student or a roster: met, not met, or not yet due, with the earliest valid date. |
+| `analyze_vaccination_coverage` | VAX-05 | vax | Ranks schools and towns from DPH's school survey, flags those below herd-immunity thresholds, and compares MA with the U.S. |
+| `vaccine_temperature_excursion_helper` | VAX-06 | vax | Steps, reporting thresholds, and contacts for a cold-chain excursion, with an optional worksheet. |
+| `lookup_vaccine_product` | VAX-07 | vax | Vaccine products by name, CVX, MVX, or NDC, with VIS editions and storage notes. |
+| `plan_vaccination_clinic` | VAX-08 | vax | Staffing, throughput, supplies, anaphylaxis kit and epinephrine dosing, layout, and a reconciliation sheet. |
+| `vaccine_confidence_conversation_guide` | VAX-09 | vax | Motivational-interviewing responses to vaccine concerns with cited facts and a reading-level check. |
+| `lookup_medication_information` | CORE-07 | core | RxNorm names, FDA label highlights, recalls, shortages, and DailyMed package inserts (reference only). |
 <!-- Phase 5 rows go above this line. -->
 
 ### Phase 6: immunization forecasting and surveillance feeds

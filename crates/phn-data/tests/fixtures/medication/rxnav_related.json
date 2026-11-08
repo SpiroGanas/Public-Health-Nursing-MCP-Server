@@ -1,0 +1,90 @@
+{
+ "relatedGroup": {
+  "rxcui": null,
+  "conceptGroup": [
+   {
+    "tty": "BN",
+    "conceptProperties": [
+     {
+      "rxcui": "1358969",
+      "name": "Amoxi-tabs",
+      "synonym": "",
+      "tty": "BN",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     },
+     {
+      "rxcui": "151392",
+      "name": "Augmentin",
+      "synonym": "",
+      "tty": "BN",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     }
+    ]
+   },
+   {
+    "tty": "IN",
+    "conceptProperties": [
+     {
+      "rxcui": "723",
+      "name": "amoxicillin",
+      "synonym": "",
+      "tty": "IN",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     }
+    ]
+   },
+   {
+    "tty": "SBD",
+    "conceptProperties": [
+     {
+      "rxcui": "1358974",
+      "name": "amoxicillin 400 MG Oral Tablet [Amoxi-tabs]",
+      "synonym": "Amoxi-tabs 400 MG Oral Tablet",
+      "tty": "SBD",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     },
+     {
+      "rxcui": "1359005",
+      "name": "amoxicillin 150 MG Oral Tablet [Amoxi-tabs]",
+      "synonym": "Amoxi-tabs 150 MG Oral Tablet",
+      "tty": "SBD",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     }
+    ]
+   },
+   {
+    "tty": "SCD",
+    "conceptProperties": [
+     {
+      "rxcui": "105152",
+      "name": "amoxicillin 60 MG/ML Oral Suspension",
+      "synonym": "",
+      "tty": "SCD",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     },
+     {
+      "rxcui": "1810268",
+      "name": "amoxicillin 50 MG / clavulanate 12.5 MG Oral Tablet",
+      "synonym": "amoxicillin (as amoxicillin trihydrate) 50 MG / clavulanic acid (as clavulanate potassium) 12.5 MG Oral Tablet",
+      "tty": "SCD",
+      "language": "ENG",
+      "suppress": "N",
+      "umlscui": ""
+     }
+    ]
+   }
+  ]
+ }
+}

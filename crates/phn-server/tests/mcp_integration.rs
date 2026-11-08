@@ -469,7 +469,26 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 4 data tools (EQ-04 measure_health_disparities, EPI-12, ...)
 
         // ---- Phase 5 data tools (VAX-05 analyze_vaccination_coverage, ...)
-
+        (
+            "check_ma_school_immunization_requirements",
+            json!({"roster_path": "school_roster.csv", "as_of": "2026-09-02"}),
+            "data/school_roster.csv",
+        ),
+        (
+            "check_ma_school_immunization_requirements",
+            json!({"roster_path": "line_list.csv", "as_of": "2026-09-02"}),
+            ll,
+        ),
+        (
+            "analyze_vaccination_coverage",
+            json!({"statewide": true, "local_path": "school_roster.csv"}),
+            "data/school_roster.csv",
+        ),
+        (
+            "analyze_vaccination_coverage",
+            json!({"statewide": true, "local_path": "line_list.csv"}),
+            ll,
+        ),
         // ---- Phase 6 data tools (VAX-03 forecast_immunizations_due from a local file, ...)
     ];
     for (name, args, file) in checks {

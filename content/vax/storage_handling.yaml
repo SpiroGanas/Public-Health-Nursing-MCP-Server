@@ -1,0 +1,203 @@
+# Vaccine storage, temperature excursions, and the DPH Vaccine Program reporting thresholds
+# (VAX-06 vaccine_temperature_excursion_helper).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/vax_storage_handling.schema.json
+meta:
+  id: vax-storage-handling
+  title: Vaccine storage and handling, temperature excursion response (CDC toolkit and MA Vaccine Program)
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: 2026-07-14
+  source:
+    title: Vaccine Storage and Handling Toolkit (July 2026)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/vaccines/hcp/downloads/storage-handling-toolkit.pdf
+  related_sources:
+    - title: MA Vaccine Program Guidelines for Reporting Out of Range Temperatures (January 2026)
+      publisher: Massachusetts Department of Public Health, Immunization Division, State Vaccine Program
+      url: https://www.mass.gov/doc/ma-vaccine-program-guidelines-for-reporting-out-of-range-temperatures/download
+    - title: Guide for Reporting Out of Range Temperatures (January 2026)
+      publisher: Massachusetts Department of Public Health, Vaccine Program
+      url: https://www.mass.gov/doc/guide-for-reporting-out-of-range-temperatures/download
+    - title: Vaccine Management SOP 2026
+      publisher: Massachusetts Department of Public Health, Vaccine Program
+      url: https://www.mass.gov/doc/vaccine-management-sop-2026/download
+    - title: Vaccine Management (DPH resource page and contacts)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/resource/vaccine-management
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Steps are transcribed from the CDC Vaccine Storage and Handling Toolkit (July 2026, page 16)
+    and the DPH Vaccine Management SOP 2026 (page 5). Reporting thresholds are transcribed from the
+    MA Vaccine Program Guidelines for Reporting Out of Range Temperatures (January 2026). The DPH
+    resource page lists the email dph-vaccine-management@massmail.state.ma.us, while the January
+    2026 reporting guide lists dph-vaccine-management@mass.gov; both are shown. Thresholds apply
+    to state-supplied vaccine; for privately purchased vaccine follow the manufacturer and your
+    SOP. The subject matter expert should confirm the thresholds each January when DPH updates its
+    Vaccine Program documents.
+
+contacts:
+  - id: dph_vaccine_program
+    name: MDPH Vaccine Program (Vaccine Management Unit)
+    phone: "617-983-6828"
+    email: dph-vaccine-management@mass.gov
+    alternate_email: dph-vaccine-management@massmail.state.ma.us
+    fax: "857-323-8320"
+    note: Report excursions of state-supplied vaccine through the MIIS (TempX form / Temperature Excursion Issue).
+
+operating_ranges:
+  - unit: refrigerator
+    range_c: [2, 8]
+    range_f: [36, 46]
+  - unit: freezer
+    range_c: [-50, -15]
+    range_f: [-58, 5]
+  - unit: ultra_cold
+    range_c: [null, -50]
+    range_f: [null, -58]
+    note: >-
+      DPH - ultra-cold freezers should maintain temperatures below -50 C (-58 F). CDC's toolkit
+      gives -90 C to -60 C (-130 F to -76 F) for ultra-cold freezers, and some products have
+      narrower ranges (for example, frozen mResvia must stay between -40 C and -15 C). Always check
+      the package insert.
+
+# MA Vaccine Program reporting thresholds (state-supplied vaccine).
+reporting_thresholds:
+  - unit: refrigerator
+    immediate:
+      - {kind: at_or_above_c, value: 25, text: "Temperature reaches +25 C or above, regardless of duration."}
+      - {kind: at_or_below_c, value: 0, text: "Temperature drops to 0 C, regardless of duration."}
+    cumulative:
+      minutes: 30
+      window_hours: 24
+      text: Temperature above +8 C or below +2 C for a cumulative 30 minutes or more within a 24-hour period.
+    note: Open multidose vials are non-viable after falling below +2 C for any duration or above +8 C for over 30 minutes cumulatively.
+  - unit: freezer
+    immediate:
+      - {kind: at_or_above_c, value: 0, text: "Temperature reaches 0 C or above, regardless of duration."}
+      - {kind: below_c, value: -50, text: "Temperature drops below -50 C, regardless of duration."}
+    cumulative:
+      minutes: 30
+      window_hours: 24
+      text: Temperature above -15 C for a cumulative 30 minutes or more within a 24-hour period.
+  - unit: ultra_cold
+    immediate:
+      - {kind: at_or_above_c, value: -50, text: "Temperature reaches -50 C or above, regardless of duration."}
+    cumulative: null
+
+definitions:
+  - term: Out of range (OOR) temperature
+    text: >-
+      Any instance where storage unit temperatures are outside the normal daily operating range.
+      Not all out-of-range temperatures are temperature excursions.
+  - term: Temperature excursion (MA Vaccine Program)
+    text: >-
+      Storage unit temperatures deviate outside the normal operating range to a point where vaccine
+      viability could be affected because of the temperature reached or the duration. An
+      out-of-range temperature lasting a cumulative 30 minutes within 24 hours must be reported
+      immediately through the MIIS.
+  - term: Temperature excursion (CDC toolkit)
+    text: >-
+      Any temperature reading outside the recommended range in the manufacturer's package insert or
+      EUA fact sheet. Manufacturers analyze the magnitude, total time out of range, and the product
+      to determine whether a vaccine is likely still viable.
+
+cdc_steps:
+  - order: 1
+    text: >-
+      Any staff member who hears an alarm or notices a temperature excursion on the temperature
+      monitoring device should immediately notify the primary or backup vaccine coordinator, or
+      report the problem to their supervisor.
+  - order: 2
+    text: >-
+      Label exposed vaccines "DO NOT USE - TEMPERATURE EXCURSION" and move them to the correct
+      storage conditions. Place them in a separate container apart from other vaccines in the unit.
+      Do not discard these vaccines.
+  - order: 3
+    text: >-
+      Begin documenting the event - date and time; storage unit temperature and room temperature if
+      available (including minimum and maximum temperatures during the event); name of the person
+      completing the report; and a description - what happened, how long vaccine may have been
+      affected (if using a digital data logger), inventory of affected vaccines with lot numbers and
+      whether purchased with public (e.g., VFC) or private funds, other items in the unit (such as
+      water bottles or frozen packs), any problems with the unit or vaccines before the event, and
+      other relevant information (such as a cracked door seal or extreme room temperatures).
+  - order: 4
+    text: >-
+      Follow the facility SOP to bring the unit back to the correct range. At a minimum, check that
+      the temperature monitoring device probe is placed in the center of the vaccines.
+  - order: 5
+    text: >-
+      Contact the state or local health department immunization program or the vaccine
+      manufacturers per your SOP to determine whether the vaccines are safe and effective to use. Be
+      ready to provide documentation (for example, temperature log data).
+  - order: 6
+    text: >-
+      Complete documentation - action taken (what happened to the vaccine and how long it took to
+      act; who was contacted and what instructions were received; prevention measures put in place)
+      and results (final disposition, e.g., shortened expiration date per manufacturer, discarded,
+      or returned). CDC's Vaccine Storage Troubleshooting Worksheet can be used.
+  - order: 7
+    text: >-
+      Vaccines stored at inappropriate temperatures should not be given unless the manufacturer
+      provides guidance that safety and effectiveness have not been compromised.
+
+dph_steps:
+  - order: 1
+    text: >-
+      Immediately suspend administration of state-supplied vaccines stored in the affected unit until
+      the vaccine manufacturer determines viability. Mark the vaccines "Do Not Use."
+  - order: 2
+    text: Upload temperature logs into the MIIS and select "Urgent Temperature Issue."
+  - order: 3
+    text: >-
+      After following up with the vaccine manufacturers for viability determinations for the affected
+      doses, submit a Temperature Excursion Issue (TempX form) in the MIIS.
+  - order: 4
+    text: >-
+      The Vaccine Program reviews the Temperature Excursion Issue and gives guidance and follow-up
+      action items for your site.
+  - order: 5
+    text: Never discard vaccine without contacting the Vaccine Program for guidance.
+
+power_failure: >-
+  In a power outage, do not move vaccines offsite or to a backup location; keep them in the unit with
+  the door closed, monitored by a digital data logger. Move vaccines only if the storage unit itself
+  is malfunctioning (DPH Vaccine Management SOP 2026).
+
+frozen_storage_note: >-
+  Varicella, MMRV, mpox, and Moderna COVID-19 vaccines must be stored in a stand-alone freezer that
+  maintains -50 C to -15 C; DPH advises storing Merck MMR in the freezer to reduce the chance of loss
+  from an excursion (DPH Vaccine Management SOP 2026).
+
+viability_statement: >-
+  This tool never decides whether a vaccine is viable. Only the manufacturer can determine
+  viability, and for state-supplied vaccine the MDPH Vaccine Program then gives instructions.
+
+worksheet_fields:
+  - Date and time excursion discovered
+  - Storage unit (type, location, identifier)
+  - Minimum temperature recorded
+  - Maximum temperature recorded
+  - Room temperature (if available)
+  - Cumulative time out of range (minutes, within 24 hours)
+  - Name of person completing report
+  - Description of event
+  - Other items in the unit (water bottles, frozen packs)
+  - Problems with the unit before the event
+  - Vaccine name
+  - Manufacturer
+  - Lot number
+  - Expiration date
+  - Number of doses
+  - Funding (state-supplied/VFC or private)
+  - Manufacturer contacted (name, date, time, case number)
+  - Manufacturer determination
+  - MDPH Vaccine Program contacted / TempX submitted (date)
+  - Final disposition
+  - Prevention measures taken

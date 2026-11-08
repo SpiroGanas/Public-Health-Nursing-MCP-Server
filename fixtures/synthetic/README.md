@@ -10,6 +10,7 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/line_list.csv` | 25-row outbreak line list with names, dates of birth, addresses, ZIP codes, phone numbers, email, SSNs, MRNs, MassHealth IDs, case IDs, and free-text notes. Two people are over 89. |
 | `data/counts_by_town.csv` | Aggregate counts by town and year, with totals, for suppression tests. |
 | `data/exclusion_letters.csv` | Mail-merge data (parent and student names). |
+| `data/school_roster.csv` | 24-student school immunization roster (student IDs, names, dates of birth, grade, dose dates by vaccine, exemptions) with complete, incomplete, exempt, and invalid-date records, for the school requirements check. |
 | `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
