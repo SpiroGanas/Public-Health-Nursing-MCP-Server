@@ -591,6 +591,56 @@ async fn no_row_level_data_is_returned_by_default() {
             ll,
         ),
         // ---- Phase 7 data tools go below this line.
+        (
+            "track_school_screenings",
+            json!({"path": "school_screenings.csv", "as_of": "2026-11-15", "write_letters": true}),
+            "data/school_screenings.csv",
+        ),
+        (
+            "track_school_screenings",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "school_absence_log.csv"}),
+            "data/school_absence_log.csv",
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "school_absence_log.csv", "group_column": "Student Name"}),
+            "data/school_absence_log.csv",
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "line_list.csv", "school_column": "Town", "reason_column": "Diagnosis", "date_column": "Onset Date"}),
+            ll,
+        ),
+        (
+            "build_school_health_annual_report",
+            json!({"visit_log_path": "health_office_visits.csv", "screening_path": "school_screenings.csv", "school_year": "2025-2026"}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "build_school_health_annual_report",
+            json!({"screening_path": "school_screenings.csv", "school_year": "2026-2027"}),
+            "data/school_screenings.csv",
+        ),
+        (
+            "concussion_return_to_learn_tracker",
+            json!({"tracker_path": "concussion_log.csv", "write_plans": true, "as_of": "2026-11-01"}),
+            "data/concussion_log.csv",
+        ),
+        (
+            "build_individualized_health_plan",
+            json!({"condition": "food allergy", "student_file": "health_plan_students.csv"}),
+            "data/health_plan_students.csv",
+        ),
+        (
+            "build_individualized_health_plan",
+            json!({"condition": "diabetes", "student_file": "health_plan_students.csv"}),
+            "data/health_plan_students.csv",
+        ),
         // ---- End of Phase 7 data tools.
         // ---- Phase 8 data tools go below this line.
         // ---- End of Phase 8 data tools.

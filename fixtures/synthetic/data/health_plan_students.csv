@@ -1,0 +1,6 @@
+Student Name,Student ID,Date of Birth,Grade,School,Parent Name,Parent Phone,Home Language,Condition,Provider Name,Provider Phone,Emergency Medication,Triggers,Allergens,Target Range,Low Threshold
+Peregrin Abelardo-Finch,9550001,2019-05-04,2,Example Elementary,Honorine Abelardo-Finch,508-555-0140,Spanish,diabetes,Dr. Provider Example,617-555-0199,Glucagon nasal 3 mg,,,80-180 mg/dL,70 mg/dL
+Quintessa Bergkvist,9550002,2017-11-18,4,Example Elementary,Isidore Bergkvist,508-555-0141,English,asthma,Dr. Provider Example,617-555-0199,Albuterol 2 puffs,"dust, cold air",,,
+Rhosyn Cieslak,9550003,2015-05-09,6,Example Elementary,Jessamyn Cieslak,508-555-0142,Portuguese,seizures,Dr. Provider Example,617-555-0199,Diazepam nasal 10 mg,,,,
+Seraphine Dziedzic,9550004,2013-05-18,8,Example Elementary,Kasimir Dziedzic,508-555-0143,English,food allergy,Dr. Provider Example,617-555-0199,Epinephrine 0.3 mg auto-injector,,"peanut, tree nuts",,
+Tadhg Engstrand,9550005,2011-06-17,10,Example Elementary,Leocadia Engstrand,508-555-0144,Haitian Creole,food allergy,Dr. Provider Example,617-555-0199,Epinephrine 0.15 mg auto-injector,,egg,,

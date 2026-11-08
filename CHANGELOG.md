@@ -19,6 +19,22 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 7: school health
 
 <!-- Phase 7 entries go below this line. -->
+
+- School health tools (toolset `school`): `get_ma_school_screening_requirements` (SCH-01),
+  `track_school_screenings` (SCH-02), `school_medication_administration_guide` (SCH-03),
+  `build_individualized_health_plan` (SCH-04), `concussion_return_to_learn_tracker` (SCH-05),
+  `monitor_school_absenteeism` (SCH-06), `build_school_health_annual_report` (SCH-07), and
+  `child_care_health_consultation_checklist` (SCH-08).
+- Content drafted from 105 CMR 200.000, 201.000, 210.000 (12/5/2025), 300.000, 606 CMR 7.00,
+  M.G.L. c. 71 sections 53-57, 54B, and 97, c. 111 section 222, DPH school health protocols and
+  guidance, and CDC pages, all pending review: `content/school/*.yaml` with schemas, and the CDC
+  BMI-for-age LMS reference copied from `bmiagerev.csv`.
+- School-year (July-June) and grade logic, BMI-for-age percentiles (golden test against CDC's
+  published percentiles), and letter and plan templates with local fill and agency translations
+  in `/data/templates/<language>/`.
+- Fictional fixtures (screening roster, absence log, health office visits, head injury log,
+  health plan students) with a seeded generator, added to the leak test.
+
 <!-- End of Phase 7 entries. -->
 
 ### Added — Phase 8: maternal, child, and family health

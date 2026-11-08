@@ -15,7 +15,7 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use chrono::{Datelike, NaiveDate};
+use chrono::Datelike;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use phn_epi::suppression::{SuppressionOptions, suppress};
@@ -1235,6 +1235,7 @@ fn sum_or_star(a: &str, b: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::NaiveDate;
     use std::fmt::Write as _;
 
     fn ctx() -> (tempfile::TempDir, Context) {

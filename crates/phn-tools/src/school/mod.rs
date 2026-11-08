@@ -7,6 +7,7 @@ pub mod absenteeism;
 pub mod annual_report;
 pub mod bmi;
 pub mod calendar;
+pub mod child_care;
 pub mod concussion;
 pub mod content;
 pub mod health_plans;
@@ -17,6 +18,9 @@ pub mod templates;
 
 pub use absenteeism::{AbsenteeismArgs, AbsenteeismResult, monitor_school_absenteeism};
 pub use annual_report::{AnnualReportArgs, AnnualReportResult, build_school_health_annual_report};
+pub use child_care::{
+    ChildCareChecklistArgs, ChildCareChecklistResult, child_care_health_consultation_checklist,
+};
 pub use concussion::{ConcussionArgs, ConcussionResult, concussion_return_to_learn_tracker};
 pub use health_plans::{HealthPlanArgs, HealthPlanResult, build_individualized_health_plan};
 pub use medication::{
