@@ -1586,6 +1586,168 @@
    "value": "900-12-3456",
    "kind": "ssn",
    "file": "data/policies/needlestick_exposure.md"
+  },
+  {
+   "value": "IZ-80101",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Thornbury",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2025-02-14",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80102",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Okonkwo-Larsen",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bartholomew",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2024-09-03",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80103",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Quintanilla",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Esperanza",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-05-20",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80104",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Vandermeer",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1958-11-30",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80105",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Abernathy",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Clementine",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-07-07",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80106",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Szczepanski",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-01-10",
+   "kind": "birth_date",
+   "file": "data/immunization_history.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "IZ-80107",
+   "kind": "record_number",
+   "file": "data/immunization_history.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Featherstonehaugh",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Persephone",
+   "kind": "name",
+   "file": "data/immunization_history.csv",
+   "column": "First Name"
   }
  ]
 }

@@ -61,6 +61,7 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `forecast_immunizations_due` | VAX-03 | vax | Evaluates a dose history and forecasts doses due (CDC CDSi engine, ACIP schedule) for one person or, with aggregates only, a file of many people |
 <!-- Phase 6 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

@@ -1459,8 +1459,33 @@ impl<'a> Ctx<'a> {
                     .collect();
                 !ivs.is_empty() && ivs.iter().all(|iv| iv.priority)
             };
+        // Preferable vaccines for the forecast target dose that fit the
+        // patient's age on the earliest date and are not contraindicated.
+        let candidate_vaccines = match (ps.status, ps.dates.earliest) {
+            (SeriesStatus::NotComplete, Some(earliest)) if ps.current < ps.targets.len() => {
+                let ci = self.contraindicated_cvx(ps.antigen);
+                let mut seen = BTreeSet::new();
+                ps.dose(ps.current)
+                    .preferable_vaccines
+                    .iter()
+                    .filter(|p| !ci.contains(&p.cvx))
+                    .filter(|p| {
+                        let begin = self.age_date(p.begin_age).unwrap_or_else(min_date);
+                        let end = self.age_date(p.end_age).unwrap_or_else(max_date);
+                        begin <= earliest && earliest < end
+                    })
+                    .filter(|p| seen.insert(p.cvx.clone()))
+                    .map(|p| RecommendedVaccine {
+                        cvx: p.cvx.clone(),
+                        vaccine_type: p.vaccine_type.clone(),
+                    })
+                    .collect()
+            }
+            _ => Vec::new(),
+        };
         PatientSeriesResult {
             priority_forecast,
+            candidate_vaccines,
             antigen: ps.antigen.name.clone(),
             series_name: ps.series.name.clone(),
             series_type: ps.series.series_type.label().to_string(),

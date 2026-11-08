@@ -25,6 +25,13 @@ All notable changes are recorded here. The format follows
 
 ### Added — Phase 6: immunization forecasting and surveillance feeds
 
+- `phn-cdsi` crate: CDC Clinical Decision Support for Immunization engine (Logic Specification
+  v4.6) with the CDSi Supporting Data v4.65 embedded and checksummed; runs all 1,401 CDC test
+  cases (all 1,064 healthy childhood and adult cases pass; 36 older underlying-condition cases
+  are documented exceptions). Results: `docs/cdsi-test-results.md`.
+- `forecast_immunizations_due` (VAX-03): dose evaluation, forecast dates, and a projected
+  catch-up schedule for one person, or suppressed counts with per-person files written to
+  `/data/output` for a file of many people.
 <!-- Phase 6 entries go above this line. -->
 
 ## [0.2.0] — Phase 1: local data, privacy guardrails, and documents

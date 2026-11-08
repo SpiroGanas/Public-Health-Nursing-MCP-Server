@@ -243,3 +243,53 @@ quality).
 ## Phase 6: Immunization forecasting and surveillance feeds
 
 <!-- Phase 6 tool sections go below this line, one `### \`tool_name\` (PLAN-ID, toolset \`x\`)` section per tool. -->
+
+### `forecast_immunizations_due` (VAX-03, toolset `vax`)
+
+Evaluates a dose history and forecasts the doses due with CDC's Clinical Decision Support for
+Immunization (CDSi): the *Logic Specification for ACIP Recommendations* v4.6 (December 2024)
+implemented in the `phn-cdsi` crate over CDC's *Supporting Data* v4.65 (August 2026), which is
+embedded byte for byte with SHA-256 checksums (`crates/phn-cdsi/data/manifest.json`).
+
+| Argument | |
+|---|---|
+| `date_of_birth` | YYYY-MM-DD (one-person mode). Used for the calculation only; the answer shows ages. |
+| `sex` | `female`, `male`, or `unknown` (default). The HPV series differ by sex. |
+| `assessment_date` | YYYY-MM-DD (default today). |
+| `doses` | `[{vaccine, date}]`: CVX code, vaccine type (`DTaP-HepB-IPV`), or trade name (`Pediarix`), resolved to CVX from the supporting data and the names in CDC's test cases. Ambiguous or unknown names are a tool error with suggestions. |
+| `conditions` | `[{condition, date?}]`: CDSi observation codes or titles (`007` / `Pregnant`, `Anatomical or functional asplenia`, `Health care personnel`). They select risk series, contraindications, and evidence of immunity. |
+| `born_in_us` | Needed for birth-date evidence of immunity that applies only to U.S. births (varicella before 1980). |
+| `vaccine_groups` | Limit to groups (`DTaP`, `MMR`, `HPV`, `pneumococcal`, `flu`, ...). |
+| `file`, `sheet` | File mode: a CSV/XLSX in `/data`, one row per dose. |
+| `id_column`, `dob_column`, `date_column`, `vaccine_column`, `sex_column` | File-mode column names (detected when omitted). |
+
+**One person.** Returns a status per vaccine group (overdue, due now, can give now, due later,
+complete, immune, contraindicated, aged out, not recommended now) with the next dose number and
+the earliest, recommended, and past-due dates; each dose's evaluation (valid, not valid,
+extraneous) with reasons (too young, too soon, grace period, live virus conflict, not a
+preferable or allowable vaccine); contraindications and evidence of immunity found; and a
+projected catch-up schedule. The projection re-runs the engine as if each remaining dose were
+given on its earliest date, so doses that become unnecessary with age drop out; it stops at
+routine doses more than two years away. When CDSi produces more than one forecast for a vaccine
+group (one per series group, such as a risk series and the standard series, or the childhood and
+age-50+ pneumococcal series), all are listed; forecasts first due more than a year away are
+summarized on one line.
+
+**File mode.** Each person is evaluated and forecast; the per-person forecasts and dose
+evaluations (with person IDs) are written to `/data/output/<file>_forecast_<date>.csv` and
+`<file>_dose_evaluations_<date>.csv`. The response holds only the number of people by vaccine
+group and status, with small-cell suppression. Rows with a missing ID, date of birth, date, or
+vaccine are skipped and counted; unrecognized vaccines are counted and listed in the output file.
+
+**Validation.** `crates/phn-cdsi/tests/cdsi_test_cases.rs` runs all 1,401 CDC test cases (healthy
+childhood and adult v4.46; underlying conditions v4.6). All 1,064 healthy cases pass; 36 older
+underlying-condition cases are documented exceptions with reasons
+([`docs/cdsi-test-results.md`](cdsi-test-results.md)). The test fails on any new failure and on
+any exception that starts passing.
+
+Every answer is decision support: verify against the MIIS record before acting. CDSi encodes
+CDC/ACIP recommendations only; the answer says that DPH and AAP/ACOG positions may differ since
+2025 and points to `compare_vaccine_recommendations`. Massachusetts school requirements are a
+separate tool (`check_ma_school_immunization_requirements`). Seasonal series (influenza,
+COVID-19, RSV) follow the season dates in the embedded supporting data; after that season ends
+they show "not recommended now" until CDC publishes new supporting data.

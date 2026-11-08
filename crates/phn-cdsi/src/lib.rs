@@ -10,6 +10,7 @@
 //! * [`engine`]: evaluation, forecasting, best-series selection, and
 //!   vaccine group forecasts.
 //! * [`model`]: inputs and results.
+//! * [`names`]: CVX codes, vaccine types, and trade names to CVX.
 //!
 //! The engine encodes CDC/ACIP recommendations only. Results are decision
 //! support: verify against the immunization registry and current guidance.
@@ -18,6 +19,7 @@ pub mod data;
 pub mod duration;
 pub mod engine;
 pub mod model;
+pub mod names;
 
 pub use data::SupportingData;
 pub use engine::run;

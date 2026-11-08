@@ -195,6 +195,9 @@ pub struct PatientSeriesResult {
     /// FORECASTPRIORITY-1: every preferable interval of the forecast target
     /// dose has the interval priority flag.
     pub priority_forecast: bool,
+    /// Preferable vaccines for the forecast target dose that fit the
+    /// patient's age on the earliest date (not contraindicated).
+    pub candidate_vaccines: Vec<RecommendedVaccine>,
 }
 
 /// A target dose still to be given.

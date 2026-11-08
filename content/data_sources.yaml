@@ -130,15 +130,19 @@ sources:
     used_by: []
     caveats: []
   - id: cdc-cdsi
-    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data
+    name: CDC Clinical Decision Support for Immunization (CDSi) supporting data v4.65 and logic specification v4.6
     publisher: Centers for Disease Control and Prevention
-    kind: snapshot
-    status: planned
-    planned_phase: 6
+    kind: content
+    status: active
+    content_id: cdsi-supporting-data
     homepage: https://www.cdc.gov/iis/cdsi/index.html
-    probe_url: https://www.cdc.gov
-    used_by: []
-    caveats: []
+    probe_url: https://www.cdc.gov/iis/cdsi/index.html
+    used_by: [forecast_immunizations_due]
+    caveats:
+      - Supporting data v4.65 (August 2026) is embedded with checksums; CDC updates it with each schedule change, so check the CDSi page for a newer version at each review.
+      - Encodes CDC/ACIP recommendations only; Massachusetts DPH and AAP/ACOG positions issued since 2025 may differ.
+      - Seasonal series (influenza, COVID-19, RSV) use the 2025-26 season dates in this version.
+      - The engine passes all 1,064 healthy childhood and adult CDC test cases and 301 of 337 underlying-condition cases; exceptions are documented in docs/cdsi-test-results.md.
   - id: nws-alerts
     name: National Weather Service alerts API
     publisher: National Weather Service
