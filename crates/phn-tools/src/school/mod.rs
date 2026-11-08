@@ -3,6 +3,7 @@
 //! Phase 7: SCH-01 to SCH-08.
 
 // Phase 7 modules go below this line.
+pub mod absenteeism;
 pub mod bmi;
 pub mod calendar;
 pub mod concussion;
@@ -12,6 +13,7 @@ pub mod screening_requirements;
 pub mod screenings;
 pub mod templates;
 
+pub use absenteeism::{AbsenteeismArgs, AbsenteeismResult, monitor_school_absenteeism};
 pub use concussion::{ConcussionArgs, ConcussionResult, concussion_return_to_learn_tracker};
 pub use medication::{
     MedicationGuideArgs, MedicationGuideResult, school_medication_administration_guide,
