@@ -12,7 +12,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use chrono::{Datelike, NaiveDate};
 use phn_cdsi::data::{
-    CDSI_URL, LOGIC_SPEC_DATE, LOGIC_SPEC_URL, LOGIC_SPEC_VERSION, SUPPORTING_DATA_PUBLISHED,
+    LOGIC_SPEC_DATE, LOGIC_SPEC_URL, LOGIC_SPEC_VERSION, SUPPORTING_DATA_PUBLISHED,
     SUPPORTING_DATA_URL, SUPPORTING_DATA_VERSION, SupportingData,
 };
 use phn_cdsi::names::{Resolved, resolve};
@@ -1299,7 +1299,13 @@ fn file_mode(
     groups_filter: &[String],
     observations: Vec<Observation>,
 ) -> Result<Envelope<ForecastImmunizationsResult>> {
-    let (table, label) = crate::core::files::load_table(ctx, file, args.sheet.as_deref())?;
+    // The shared loader scans every column for identifiers (reported in the
+    // privacy block). The person ID and date of birth are identifiers by
+    // design here: they are read to build each person's history and written
+    // only to the output folder, never returned.
+    let local = crate::localdata::load(ctx, file, args.sheet.as_deref())?;
+    let identifier_categories = local.identifier_categories();
+    let crate::localdata::LocalTable { table, label, .. } = local;
     let id_col = find_column(&table, args.id_column.as_deref(), ID_COLUMNS, "person ID", true)?
         .unwrap_or_default();
     let dob_col = find_column(&table, args.dob_column.as_deref(), DOB_COLUMNS, "date of birth", true)?
@@ -1616,7 +1622,13 @@ fn file_mode(
         row_level_data: false,
         suppression_applied: true,
         suppression_threshold: Some(threshold),
-        identifiers_detected: vec!["person identifier".into(), "date of birth".into()],
+        identifiers_detected: {
+            let mut v = vec!["person identifier".to_string(), "date of birth".to_string()];
+            v.extend(identifier_categories);
+            v.sort();
+            v.dedup();
+            v
+        },
         files_written: files,
         notes: vec![
             "Per-person forecasts and dose evaluations (with person IDs) were written to the \
