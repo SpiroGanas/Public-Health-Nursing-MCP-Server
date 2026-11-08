@@ -51,6 +51,16 @@ All notable changes are recorded here. The format follows
 - `forecast_immunizations_due` (VAX-03): dose evaluation, forecast dates, and a projected
   catch-up schedule for one person, or suppressed counts with per-person files written to
   `/data/output` for a file of many people.
+- `get_notifiable_disease_trends` (CD-08): NNDSS weekly counts (data.cdc.gov `x9gk-5huc`)
+  for Massachusetts, New England, and the U.S. compared with the five previous MMWR years (year
+  to date and last 4 weeks), provisional year-end totals, and an all-conditions overview.
+- `get_respiratory_and_wastewater_surveillance` (CD-09): weekly COVID-19, influenza, and RSV
+  briefing from NHSN, NSSP, NREVSS, the ARI activity level, and NWSS wastewater levels by
+  Massachusetts site, with data dates and lag, MWRA's final Deer Island values, and DPH's
+  dashboard link.
+- Bundled snapshots for both (about 260 KB), built by the new
+  `cargo xtask build-surveillance-snapshots`; `cargo xtask build-snapshots` now keeps manifest
+  entries it does not build.
 <!-- Phase 6 entries go above this line. -->
 
 ### Changed — reference content re-checked against live sources

@@ -297,3 +297,259 @@ fn phi_detector_flags_the_immunization_fixture_identifiers() {
         );
     }
 }
+
+// ------------------------------------------------- CD-08 and CD-09 (offline)
+
+/// The bundled NNDSS snapshot, read independently of the tool.
+fn nndss_snapshot() -> Value {
+    let text =
+        std::fs::read_to_string(common::repo_root().join("snapshots/nndss_weekly.json")).unwrap();
+    serde_json::from_str(&text).unwrap()
+}
+
+/// A compact snapshot value for (area, year, week, label), field 4 = m1, 5 = m3, 6 = m4.
+fn snap_value(
+    s: &Value,
+    area: u64,
+    year: i64,
+    week: i64,
+    label: &str,
+    field: usize,
+) -> Option<f64> {
+    let li = s["labels"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .position(|l| l == label)? as u64;
+    let row = s["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|r| r[0] == area && r[1] == year && r[2] == week && r[3] == li)?;
+    match row[field].as_str().unwrap() {
+        "" => Some(0.0),
+        v => v.parse().ok(),
+    }
+}
+
+fn assert_comparison_consistent(c: &Value) {
+    let vals: Vec<f64> = c["baseline"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter_map(|b| b["count"].as_f64())
+        .collect();
+    assert_eq!(c["baseline_years"].as_u64().unwrap() as usize, vals.len());
+    if vals.len() >= 3 {
+        let mean = vals.iter().sum::<f64>() / vals.len() as f64;
+        assert!(
+            (c["baseline_mean"].as_f64().unwrap() - mean).abs() < 1e-9,
+            "{c}"
+        );
+        let max = vals.iter().copied().fold(f64::MIN, f64::max);
+        let min = vals.iter().copied().fold(f64::MAX, f64::min);
+        let cur = c["current"].as_f64().unwrap();
+        let expect = if cur > max {
+            "above 5-year range"
+        } else if cur < min {
+            "below 5-year range"
+        } else {
+            "within 5-year range"
+        };
+        assert_eq!(c["assessment"], expect, "{c}");
+        if mean > 0.0 {
+            assert!((c["ratio_to_mean"].as_f64().unwrap() - cur / mean).abs() < 1e-9);
+        }
+    } else {
+        assert_eq!(c["assessment"], "no baseline");
+    }
+}
+
+#[tokio::test]
+async fn notifiable_trends_offline_match_the_bundled_snapshot() {
+    let h = start(|c| c.offline = true).await;
+    let r = h
+        .call(
+            "get_notifiable_disease_trends",
+            json!({"condition": "whooping cough"}),
+        )
+        .await;
+    assert_schema_valid(&h, "get_notifiable_disease_trends", &r).await;
+    let s = nndss_snapshot();
+    let (y, w) = (
+        s["latest"]["year"].as_i64().unwrap(),
+        s["latest"]["week"].as_i64().unwrap(),
+    );
+    let d = data(&r);
+    assert_eq!(d["mode"], "condition");
+    assert_eq!(d["mmwr_year"], y);
+    assert_eq!(d["mmwr_week"], w);
+    let trends = d["trends"].as_array().unwrap();
+    assert_eq!(trends.len(), 3, "MA, New England, United States");
+    let ma = &trends[0];
+    assert_eq!(ma["area"], "Massachusetts");
+    assert_eq!(ma["condition"], "Pertussis");
+    // YTD comes from m3 of the latest row; the fifth baseline year (y - 5)
+    // from m4 of the earliest year's row.
+    assert_eq!(
+        ma["year_to_date"]["current"].as_f64(),
+        snap_value(&s, 0, y, w, "Pertussis", 5)
+    );
+    assert_eq!(
+        ma["year_to_date"]["baseline"][0]["count"].as_f64(),
+        snap_value(&s, 0, y - 4, w, "Pertussis", 6)
+    );
+    assert_eq!(
+        ma["year_to_date"]["baseline"][4]["count"].as_f64(),
+        snap_value(&s, 0, y - 1, w, "Pertussis", 5)
+    );
+    let last4 = snap_value(&s, 0, y, w, "Pertussis", 5).unwrap()
+        - snap_value(&s, 0, y, w - 4, "Pertussis", 5).unwrap();
+    assert_eq!(ma["last_4_weeks"]["current"].as_f64(), Some(last4));
+    for t in trends {
+        assert_comparison_consistent(&t["year_to_date"]);
+        assert_comparison_consistent(&t["last_4_weeks"]);
+        assert_eq!(t["year_end_totals"].as_array().unwrap().len(), 5);
+        assert_eq!(t["recent_weeks"].as_array().unwrap().len(), 8);
+    }
+    let all = everything(&r);
+    assert!(all.contains("bundled snapshot"), "{all}");
+    assert!(all.contains("\"mode\":\"snapshot\""));
+    assert!(summary(&r).contains("MAVEN"));
+}
+
+#[tokio::test]
+async fn notifiable_overview_lists_conditions_above_their_range_first() {
+    let h = start(|c| c.offline = true).await;
+    let r = h
+        .call("get_notifiable_disease_trends", json!({"limit": 10}))
+        .await;
+    assert_schema_valid(&h, "get_notifiable_disease_trends", &r).await;
+    let d = data(&r);
+    assert_eq!(d["mode"], "overview");
+    let rows = d["overview"].as_array().unwrap();
+    assert!(!rows.is_empty() && rows.len() <= 10);
+    assert!(d["overview_conditions"].as_u64().unwrap() as usize >= rows.len());
+    let rank = |a: &Value| match a.as_str().unwrap() {
+        "above 5-year range" => 0,
+        "within 5-year range" => 1,
+        "below 5-year range" => 2,
+        _ => 3,
+    };
+    let ranks: Vec<i32> = rows
+        .iter()
+        .map(|r| rank(&r["year_to_date"]["assessment"]))
+        .collect();
+    assert!(ranks.windows(2).all(|p| p[0] <= p[1]), "{ranks:?}");
+    for row in rows {
+        assert_comparison_consistent(&row["year_to_date"]);
+    }
+}
+
+#[tokio::test]
+async fn notifiable_trends_bad_input_is_a_tool_error() {
+    let h = start(|c| c.offline = true).await;
+    let cases = vec![
+        (json!({"condition": "zzzz qqq"}), "annual tables"),
+        (json!({"condition": "lyme"}), "Lyme disease"),
+        (json!({"week": 10}), "give year with week"),
+        (json!({"year": 2019}), "starts in 2022"),
+        (json!({"year": 2024, "week": 60}), "week must be 1-53"),
+        (json!({"areas": ["x'); drop"]}), "not a reporting area"),
+        (json!({"year": 2024}), "bundled snapshot"),
+    ];
+    for (args, expect) in cases {
+        let r = h.call("get_notifiable_disease_trends", args.clone()).await;
+        assert_eq!(r.is_error, Some(true), "{args}: {}", summary(&r));
+        let msg = summary(&r);
+        assert!(msg.contains(expect), "{args}: {msg}");
+    }
+}
+
+#[tokio::test]
+async fn respiratory_briefing_offline_uses_snapshots_and_links_dph() {
+    let h = start(|c| c.offline = true).await;
+    let r = h
+        .call("get_respiratory_and_wastewater_surveillance", json!({}))
+        .await;
+    assert_schema_valid(&h, "get_respiratory_and_wastewater_surveillance", &r).await;
+    let d = data(&r);
+    let names: Vec<&str> = d["pathogens"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|p| p["pathogen"].as_str().unwrap())
+        .collect();
+    assert_eq!(names, vec!["COVID-19", "Influenza", "RSV"]);
+    for p in d["pathogens"].as_array().unwrap() {
+        let adm = &p["hospital_admissions"];
+        assert_eq!(adm["geography"], "Massachusetts");
+        assert!(adm["level"].is_string(), "{adm}");
+        assert!(p["ed_visits"]["cdc_trend"].is_string());
+        assert!(p["test_positivity"]["value"].is_number());
+        let ww = &p["wastewater"];
+        let by_cat: u64 = ww["by_category"]
+            .as_object()
+            .unwrap()
+            .values()
+            .map(|v| v.as_u64().unwrap())
+            .sum();
+        assert_eq!(by_cat, ww["sites"].as_u64().unwrap());
+        // Direction follows the documented 10% rule.
+        if let (Some(v), Some(prev)) = (adm["value"].as_f64(), adm["previous_week"].as_f64())
+            && prev > 0.0
+        {
+            let ch = (v - prev) / prev * 100.0;
+            let expect = if ch >= 10.0 {
+                "up"
+            } else if ch <= -10.0 {
+                "down"
+            } else {
+                "stable"
+            };
+            assert_eq!(adm["direction"], expect);
+        }
+    }
+    for f in d["freshness"].as_array().unwrap() {
+        assert_eq!(f["mode"], "snapshot", "{f}");
+        assert!(f["lag_days"].is_number());
+    }
+    assert_eq!(d["mwra_deer_island"]["last_sample_date"], "2026-07-27");
+    assert!(!d["wastewater_sites"].as_array().unwrap().is_empty());
+    let all = everything(&r);
+    assert!(all.contains("https://www.mass.gov/info-details/respiratory-illness-reporting"));
+    assert!(all.contains("bundled snapshots"), "{all}");
+
+    let only_rsv = h
+        .call(
+            "get_respiratory_and_wastewater_surveillance",
+            json!({"pathogens": ["rsv"], "weeks": 2}),
+        )
+        .await;
+    assert_schema_valid(&h, "get_respiratory_and_wastewater_surveillance", &only_rsv).await;
+    let d = data(&only_rsv);
+    assert_eq!(d["pathogens"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        d["pathogens"][0]["hospital_admissions"]["history"]
+            .as_array()
+            .unwrap()
+            .len(),
+        2
+    );
+}
+
+#[tokio::test]
+async fn respiratory_briefing_bad_input_is_a_tool_error() {
+    let h = start(|c| c.offline = true).await;
+    for (args, expect) in [
+        (json!({"pathogens": ["measles"]}), "unknown pathogen"),
+        (json!({"weeks": 1}), "weeks must be 2-12"),
+        (json!({"weeks": 13}), "weeks must be 2-12"),
+    ] {
+        let r = h
+            .call("get_respiratory_and_wastewater_surveillance", args.clone())
+            .await;
+        assert_eq!(r.is_error, Some(true), "{args}");
+        assert!(summary(&r).contains(expect), "{args}: {}", summary(&r));
+    }
+}

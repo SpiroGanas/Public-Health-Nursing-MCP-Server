@@ -439,3 +439,81 @@ CDC/ACIP recommendations only; the answer says that DPH and AAP/ACOG positions m
 separate tool (`check_ma_school_immunization_requirements`). Seasonal series (influenza,
 COVID-19, RSV) follow the season dates in the embedded supporting data; after that season ends
 they show "not recommended now" until CDC publishes new supporting data.
+
+### `get_notifiable_disease_trends` (CD-08, toolset `cd`)
+
+Weekly National Notifiable Diseases Surveillance System (NNDSS) counts from CDC's *NNDSS Weekly
+Data* (data.cdc.gov `x9gk-5huc`, MMWR years 2022 onward) for Massachusetts, New England, and
+U.S. residents, compared with the same point in the five previous MMWR years.
+
+| Argument | |
+|---|---|
+| `condition` | NNDSS condition name or part of it (`pertussis`, `measles`, `hepatitis A`, `whooping cough`). Every NNDSS row that matches is shown (up to 12; for example measles indigenous and imported). Omit for an overview. |
+| `areas` | Reporting areas (default Massachusetts, New England, United States): a state, an NNDSS region, or `United States`. At most 6. |
+| `year`, `week` | MMWR year and week (default the latest published). |
+| `limit` | Overview rows (default 25, at most 150). |
+
+**Method** (also returned in `data.method`):
+
+- *Year to date (YTD)*: the cumulative count through MMWR week *w* as published that week (NNDSS
+  column m3; `-` counts as 0). For 2021, the year before the dataset starts, the previous-year
+  column (m4) of the 2022 rows is used. Week 53 is read as week 52 in 52-week years.
+- *Last 4 weeks*: YTD(*w*) − YTD(*w* − 4), the cases added to the cumulative total in the four
+  weeks ending week *w* (net of revisions, so it can be negative).
+- *Baseline*: the same quantity in each of the five previous MMWR years: mean, minimum, maximum,
+  and ratio (current / mean). It needs at least 3 of the 5 years; NNDSS rows that CDC renamed or
+  redefined have shorter histories and are not combined with similarly named rows. "Above" or
+  "below the 5-year range" means outside the baseline minimum–maximum.
+- Baseline years use counts as published at the same week, so they carry reporting delays like
+  the current year's. CDC's revised previous-year figure (m4) is shown alongside.
+- *Year-end totals*: YTD at the last week of each previous year (provisional, as published at
+  year end). Finalized annual tables are on CDC Stacks
+  (<https://www.cdc.gov/nndss/infectious-disease/weekly-and-annual-disease-data-tables.html>);
+  CDC WONDER's annual query could not be reached from the development environment.
+
+**Condition mode** returns, per area: this week's count, YTD with the baseline, the last 4 weeks
+with the baseline, provisional year-end totals for the previous five years, and the first area's
+weekly counts for the last 8 weeks. **Overview mode** (no condition) lists every condition with
+cases this year or in the baseline for the first area, those above their 5-year range first.
+
+Conditions not in the weekly tables (for example Lyme disease) are a tool error that points to
+CDC's annual tables and `lookup_reportable_condition`. Data come through the live → cache →
+snapshot chain; the bundled snapshot (`cdc-nndss-weekly`) holds the latest week only (that week
+and the 7 before it, plus weeks 52–53) for Massachusetts, New England, and U.S. residents, and
+omits series with no reported cases. Counts are provisional; DPH (MAVEN) counts can differ.
+
+### `get_respiratory_and_wastewater_surveillance` (CD-09, toolset `cd`)
+
+A weekly briefing on COVID-19, influenza, and RSV in Massachusetts from CDC data on
+data.cdc.gov.
+
+| Argument | |
+|---|---|
+| `pathogens` | `COVID-19`, `influenza`, `RSV` (default all three). |
+| `weeks` | Weeks of history per measure (default 4, 2–12). |
+
+| Measure | Source (dataset) | Geography |
+|---|---|---|
+| Hospital admissions per 100,000 and CDC level | NHSN Weekly Hospital Respiratory Admission Levels and Rates (`vdzy-6i9v`) | Massachusetts, with the U.S. for context |
+| Percent of emergency department visits and CDC trend | NSSP ED Visit Trajectories (`rdmq-nq56`), state level | Massachusetts, with the U.S. |
+| Test positivity | NREVSS SARS-CoV-2 (`gvsb-yw6g`) and RSV (`3cxc-4k8q`) | HHS Region 1 (New England), with national |
+| Influenza test positivity | Percent of Tests Positive for Viral Respiratory Pathogens (`seuz-s2cv`) | National |
+| Acute respiratory illness activity level | Level of ARI Activity by State (`f3zz-zga5`) | Massachusetts |
+| Wastewater viral activity level (WVAL) | CDC Wastewater Viral Activity Level (`atcp-73re`) | Each Massachusetts sampling site |
+| Deer Island SARS-CoV-2 (final) | MWRA Biobot data PDF (bundled; samples through 2026-07-27) | MWRA Southern and Northern systems |
+
+For each measure the latest week is compared with the week before: *up* when at least 10%
+higher, *down* when at least 10% lower, otherwise *stable* (this server's rule, stated in
+`data.method`). CDC's own categories are reported as given: NHSN admission levels, NSSP trends,
+the ARI level, and WVAL categories. The wastewater summary counts sites that reported in the
+latest week, by category, with the median WVAL across them (CDC computes state values as the
+median across treatment plants). A data-freshness table gives each source's latest week and its
+lag in days. DPH's respiratory illness dashboard
+(<https://www.mass.gov/info-details/respiratory-illness-reporting>) is linked as the
+Massachusetts source of record and is not scraped.
+
+MWRA's Biobot testing at Deer Island ended with samples collected through 2026-07-27 (MWRA
+reports DPH is replacing it with its own program); the final values come from a bundled snapshot
+read from MWRA's data PDF. If a source cannot be reached, the briefing uses the bundled
+snapshots (`cdc-respiratory-ma`, `cdc-nwss-ma`; the last 13 weeks) and says so; a source with no
+data at all is left out with a caveat.

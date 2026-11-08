@@ -70,6 +70,8 @@ output folder instead of being sent to the AI model.
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 | `forecast_immunizations_due` | VAX-03 | vax | Evaluates a dose history and forecasts doses due (CDC CDSi engine, ACIP schedule) for one person or, with aggregates only, a file of many people |
+| `get_notifiable_disease_trends` | CD-08 | cd | NNDSS weekly counts for Massachusetts, New England, and the U.S. compared with the five previous years (year to date, last 4 weeks, year-end totals) |
+| `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
 <!-- Phase 6 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
