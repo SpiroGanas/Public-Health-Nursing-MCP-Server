@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
+use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, ProtectiveArgs, ProtectiveResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -123,5 +123,25 @@ impl PhnServer {
             phn_tools::aging::find_ma_aging_services(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "explain_older_adult_coverage_options",
+        description = "Plain-language comparison of coverage for older adults in Massachusetts: Medicare Parts \
+            A, B, D, Medigap, and Medicare Advantage with the current year's premiums, deductibles, \
+            and income-related Part B premiums (CMS), Medicare Savings Programs (QMB at or below \
+            190% FPL, SLMB/QI at or below 225%, no asset limit), MassHealth for people 65+, the \
+            Frail Elder Waiver, PACE (with county availability), Senior Care Options, and One Care, \
+            each with its rules and effective dates. Given age, income, assets, and coverage, \
+            screens each program (likely, maybe, probably not, need more information). Not an \
+            eligibility decision.",
+        annotations(title = "Explain older adult coverage options", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<CoverageResult>>()
+    )]
+    async fn explain_older_adult_coverage_options(
+        &self,
+        Parameters(args): Parameters<CoverageArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::explain_older_adult_coverage_options(&self.ctx, args))
     }
 }

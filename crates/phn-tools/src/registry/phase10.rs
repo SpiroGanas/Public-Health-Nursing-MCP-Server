@@ -35,4 +35,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Aging,
         phase: 10,
     },
+    ToolMeta {
+        name: "explain_older_adult_coverage_options",
+        plan_id: "AGE-04",
+        toolset: Toolset::Aging,
+        phase: 10,
+    },
 ];

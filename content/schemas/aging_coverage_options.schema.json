@@ -1,0 +1,457 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/aging_coverage_options.schema.json",
+  "title": "Older adult coverage options",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "medicare",
+    "fpl_monthly",
+    "programs",
+    "pace_counties",
+    "help"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "cited_text": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "aging-coverage-options"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "effective_date",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "effective_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      }
+    },
+    "medicare": {
+      "type": "object",
+      "required": [
+        "year",
+        "effective_date",
+        "next_update",
+        "parts",
+        "costs",
+        "irmaa"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "effective_date": {
+          "type": "string"
+        },
+        "next_update": {
+          "type": "string"
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "part",
+              "covers",
+              "source"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "part": {
+                "type": "string"
+              },
+              "covers": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "costs": {
+          "type": "array",
+          "minItems": 8,
+          "items": {
+            "type": "object",
+            "required": [
+              "item",
+              "amount",
+              "source"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "item": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "irmaa": {
+          "type": "object",
+          "required": [
+            "note",
+            "rows",
+            "source"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "note": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "rows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "individual",
+                  "joint",
+                  "total_premium"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "individual": {
+                    "type": "string"
+                  },
+                  "joint": {
+                    "type": "string"
+                  },
+                  "total_premium": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "fpl_monthly": {
+      "type": "object",
+      "required": [
+        "effective_date",
+        "note",
+        "rows",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "effective_date": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "household",
+              "pct100",
+              "pct190",
+              "pct225"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "household": {
+                "type": "integer"
+              },
+              "pct100": {
+                "type": "number"
+              },
+              "pct190": {
+                "type": "number"
+              },
+              "pct225": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "programs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "who",
+          "benefits",
+          "assets",
+          "apply",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "enum": [
+              "msp",
+              "masshealth_65",
+              "few",
+              "pace",
+              "sco",
+              "one_care"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "who": {
+            "type": "string"
+          },
+          "benefits": {
+            "$ref": "#/$defs/strings"
+          },
+          "assets": {
+            "type": "string"
+          },
+          "apply": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "pace_counties": {
+      "type": "object",
+      "required": [
+        "available",
+        "partial",
+        "not_available",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "$ref": "#/$defs/strings"
+        },
+        "not_available": {
+          "$ref": "#/$defs/strings"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "partial": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "county",
+              "note"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "county": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "help": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    }
+  }
+}
