@@ -107,6 +107,7 @@ output folder instead of being sent to the AI model.
 |---|---|---|---|
 | `calculate_growth_percentiles` | MCH-03 | mch | WHO (0-24 months) and CDC (2-20 years) percentiles and z-scores with extended BMI, corrected age, BMI category, and visit-to-visit change; batch files with suppressed counts |
 | `childhood_lead_screening_guide` | MCH-04 | mch | Massachusetts lead screening schedule (105 CMR 460.000), DPH high-risk communities, confirmation timing and follow-up by blood lead level, reporting, and a family teaching sheet |
+| `mandated_reporter_51a_guide` | MCH-07 | mch | Massachusetts 51A reporting: who, when (call now, written report in 48 hours), what to include, protections, DCF process; fills a written-report draft from local notes into /data/output |
 <!-- Phase 8 rows go above this line. -->
 
 ### Phase 9: PHN practice toolkit and case management

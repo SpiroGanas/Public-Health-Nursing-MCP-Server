@@ -504,6 +504,19 @@ sources:
         Calendar year 2024, except 24 communities (Monson to Northampton) whose page is missing
         from DPH's 2024 PDF and which show 2023 values. Rebuild each year with
         xtask/scripts/build_lead_snapshot.py.
+  - id: mch-mandated-reporting
+    name: Massachusetts mandated reporting of child abuse and neglect (M.G.L. c. 119, s. 51A; DCF)
+    publisher: Massachusetts General Court; Department of Children and Families
+    kind: content
+    status: active
+    content_id: mch-mandated-reporting
+    homepage: https://www.mass.gov/how-to/report-child-abuse-or-neglect-as-a-mandated-reporter
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section51A
+    used_by: [mandated_reporter_51a_guide]
+    caveats:
+      - >-
+        Draft pending review. DCF's Mandated Reporter Guide and s. 51A(a) differ on prenatal
+        substance exposure; the tool flags this.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

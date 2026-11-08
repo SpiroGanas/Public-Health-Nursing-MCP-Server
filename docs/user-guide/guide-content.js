@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 49;
+const TOOL_COUNT = 50;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching.', '2'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft.', '3'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1791,6 +1791,39 @@ const toolChapters = [
           'The high-risk list changes every year; this version uses DPH’s 2024 list (17 communities).',
           'DPH’s follow-up table mixes Massachusetts rules (lead poisoning at 10 µg/dL, level of concern 5 to 9) with CDC’s 3.5 µg/dL reference value. Follow the child’s provider and CLPPP.',
           'The server ships an English teaching sheet. To give families your agency’s translation, save it as templates/<language>/lead_family_teaching.docx in your data folder; otherwise the English sheet is used and the answer says so.',
+        ],
+      },
+      {
+        id: 'mandated_reporter_51a_guide',
+        title: 'Mandated reporter (51A) guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when drafting the written report from your notes',
+        does: 'Explains Massachusetts child abuse and neglect reporting under M.G.L. c. 119, §51A: who must report, the immediate call to DCF and the written report within 48 hours, what to include, protections and penalties, DCF’s definitions, domestic violence and substance-exposure questions, and what DCF does next. It gives you the written-report template and can fill a draft from notes you keep in your data folder, without sending those notes to the AI.',
+        when: [
+          'You are worried about a child after a home visit and want to know your duty and the steps.',
+          'You called DCF and need to file the written report within 48 hours.',
+          'Training new staff on mandated reporting.',
+        ],
+        provide: [
+          'Optionally: the kind of concern (for example neglect or domestic violence; no names), whether you work for an agency with a person in charge, and the time you called DCF.',
+          'To draft the written report: the name of a notes file in your data folder (a text file with “Field name: value” lines, or a spreadsheet with one row per report).',
+        ],
+        examples: [
+          'Am I required to report this, and how? I saw unexplained bruises on a toddler during a home visit.',
+          'I called DCF at 3:20 pm today. When is my written 51A report due, and what goes in it?',
+          'Give me the 51A written report template.',
+          'Draft the written report from 51a_notes.txt in my data folder.',
+        ],
+        returns: [
+          'The steps, the deadline for the written report, guidance on each topic with citations, notes for the kind of concern, and the template’s sections and field names.',
+          'When drafting: a Word draft in your output folder for each report, with only the file name and how many fields were filled shown in the chat.',
+        ],
+        notes: [
+          'Never type the family’s names or details into the chat; keep them in a notes file in your data folder.',
+          'Unknown entries are marked “?” in the draft, as DCF’s form asks. Review the draft, then submit it through DCF’s online form or DCF’s reporting form.',
+          'The statute says prenatal substance exposure alone does not require a report, but DCF’s guide still lists newborn drug dependence; check current DCF practice.',
+          'This is guidance, not legal advice. When unsure, call DCF.',
         ],
       },
     ],

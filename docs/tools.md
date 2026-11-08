@@ -1128,6 +1128,37 @@ English sheet is written and the result says so; the server does not machine-tra
 Content: `mch-lead-screening` (pending review). DPH's follow-up table combines Massachusetts
 requirements with CDC's 2021 reference value and CDC's schedules; the tool says so.
 
+### `mandated_reporter_51a_guide` (MCH-07, toolset `mch`)
+
+Massachusetts reporting of suspected child abuse and neglect under **M.G.L. c. 119, s. 51A**
+(and the s. 21 definition of mandated reporter), with DCF's guidance.
+
+| Argument | |
+|---|---|
+| `topics` | Any of `who`, `when`, `how`, `contents`, `protections`, `definitions`, `domestic_violence`, `process`, `warning_signs`, `documentation` (default all). |
+| `concerns` | Kinds of concern to tailor the guidance: `physical_abuse`, `sexual_abuse`, `emotional_abuse`, `neglect`, `sexual_exploitation`, `human_trafficking`, `prenatal_substance_exposure`, `domestic_violence`, `child_death`. No names or details. |
+| `works_for_facility` | Adds the option to notify the person in charge (s. 51A(a)). |
+| `oral_report_time` | When DCF was called (`2026-11-08 14:30`): the written report is due 48 hours later. |
+| `narrative_template` | Return the written-report template: sections and field names following DCF's Child Abuse Reporting Form. |
+| `notes_path`, `sheet` | The nurse's notes in `/data`: a `.txt`/`.md` file of `Field name: value` lines (a value may continue on following lines; lines that do not start with a field name stay with the previous field) or a CSV/XLSX with one row per report and field names as columns. |
+
+**Template + local fill.** The template (no identifiers) is returned to the model. With
+`notes_path`, the tool fills `51a_written_report_draft.docx` per report in the output folder:
+each template field, `?` for unknown entries (as DCF's form asks), DCF's related-concerns
+checklist with the named items checked, and a signature line. The response lists only file
+names, the number of fields filled, and the names of fields left blank; label and column
+mismatches are counted, never shown. The privacy block lists the files and the identifier
+categories detected in the notes.
+
+**Content** (`mch-mandated-reporting`, pending review): who must report (nurses included); the
+four reporting grounds; that prenatal substance exposure alone does not meet the requirement
+(s. 51A(a)) and that DCF's guide still lists newborn drug dependence (flagged low confidence for
+the nurse to reconcile); the steps (911 if in danger; call the DCF area office or the
+Child-At-Risk Hotline 1-800-792-5200; written report within 48 hours online, by fax, or by mail;
+the facility designee option; police, Child Advocate, and DA/medical examiner for deaths);
+report contents (s. 51A(d) and DCF's additions); penalties and good-faith protections; DCF's
+definitions (110 CMR 2.00); domestic violence guidance; DCF's screening and response timelines;
+warning signs; and documentation tips.
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

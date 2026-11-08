@@ -162,6 +162,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/mch/lead_screening.yaml"),
         schema: include_str!("../../../content/schemas/mch_lead.schema.json"),
     },
+    ContentItem {
+        id: "mch-mandated-reporting",
+        path: "content/mch/mandated_reporting.yaml",
+        resource_uri: "phn://content/mch-mandated-reporting",
+        yaml: include_str!("../../../content/mch/mandated_reporting.yaml"),
+        schema: include_str!("../../../content/schemas/mch_mandated_reporting.schema.json"),
+    },
     // End of Phase 8 content items.
     // Phase 9 content items go below this line.
     // End of Phase 9 content items.

@@ -1,0 +1,22 @@
+Notes for the 51A written report (fictional test data)
+
+Child Name: Thaddeus Wolverton-Achebe
+Child Current Location or Address: 64 Juniperhill Lane, Apt 3, Fitchburg MA 01420
+Child Age or Date of Birth: 2022-03-17
+Child Sex: male
+Child Language: English and Twi
+Emergency Contacts: Grandmother Ophelia Wolverton, 978-555-0171
+Other Children in the Home: Sister, age 7
+Caregiver 1 Name: Mireille Achebe
+Caregiver 1 Address: 64 Juniperhill Lane, Apt 3, Fitchburg MA 01420
+Caregiver 1 Phone: 978-555-0172
+Caregiver 1 Relationship: mother
+Reporter Name: Public health nurse, Town of Example
+Report Date: 2026-11-06
+Oral Report Date and Time: 2026-11-06 15:20
+Nature and Extent: On a home visit the child had three oval bruises on the left upper arm,
+each about 2 cm, purple-blue. The child said "he squeezed me".
+Mireille said: he bumped into the door.
+Circumstances: Observed during a scheduled newborn-sibling home visit.
+Actions Taken: Called the DCF area office screener; mother informed of referral.
+Related Concerns: Domestic Violence

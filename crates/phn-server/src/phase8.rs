@@ -1,7 +1,10 @@
 //! Phase 8 tools: maternal, child, and family health.
 
 use phn_core::Envelope;
-use phn_tools::mch::{GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult};
+use phn_tools::mch::{
+    GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, MandatedReporterArgs,
+    MandatedReporterResult,
+};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -53,6 +56,29 @@ impl PhnServer {
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| {
             phn_tools::mch::childhood_lead_screening_guide(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "mandated_reporter_51a_guide",
+        description = "Massachusetts child abuse and neglect reporting (M.G.L. c. 119, s. 51A) for \
+            nurses: who must report, the immediate call to DCF and the written report within 48 \
+            hours (with the deadline from the call time), what the report must contain, \
+            penalties and protections, DCF definitions, domestic violence and prenatal \
+            substance exposure guidance, and what DCF does next. Returns the written-report \
+            narrative template; with notes_path (the nurse's notes in /data) it fills a draft \
+            written to /data/output and returns only file names and field counts. Never send \
+            the family's names or details in the arguments.",
+        annotations(title = "Mandated reporter (51A) guide", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<MandatedReporterResult>>()
+    )]
+    async fn mandated_reporter_51a_guide(
+        &self,
+        Parameters(args): Parameters<MandatedReporterArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::mch::mandated_reporter_51a_guide(ctx, args)
         })
         .await
     }

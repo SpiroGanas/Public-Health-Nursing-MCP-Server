@@ -180,3 +180,47 @@ async fn lead_screening_guide_result_town_and_teaching_sheet() {
     .await;
     assert!(e.contains("sample_type"));
 }
+
+// ------------------------------------------------------------------ MCH-07
+
+#[tokio::test]
+async fn mandated_reporter_guide_and_local_fill() {
+    let h = start(|_| {}).await;
+    let s = call_ok(
+        &h,
+        "mandated_reporter_51a_guide",
+        json!({"oral_report_time": "2026-11-06 15:20", "concerns": ["neglect"], "narrative_template": true}),
+    )
+    .await;
+    assert!(md(&s).contains("48 hours"));
+    assert_eq!(s["data"]["written_report_due"], "2026-11-08 15:20");
+    assert!(notice(&s).contains(DECISION_SUPPORT));
+    assert!(caveats(&s).contains("PENDING-REVIEW"));
+    assert!(s["data"]["template"]["sections"].as_array().unwrap().len() >= 8);
+
+    // Local fill: a draft in the output folder, nothing from the notes in the response.
+    let r = h
+        .call(
+            "mandated_reporter_51a_guide",
+            json!({"notes_path": "51a_notes.txt"}),
+        )
+        .await;
+    assert_eq!(r.is_error, Some(false), "{}", everything(&r));
+    let all = everything(&r);
+    assert!(leaks(&all, "data/51a_notes.txt", None).is_empty(), "{all}");
+    assert!(!all.contains("oval bruises") && !all.contains("squeezed"));
+    let s = r.structured_content.unwrap();
+    let d = &s["data"]["drafts"][0];
+    let f = d["file"].as_str().unwrap();
+    assert!(h.data().join(f).exists());
+    assert!(d["fields_filled"].as_u64().unwrap() >= 14);
+    assert_eq!(s["privacy"]["files_written"][0], f);
+
+    let e = call_err(
+        &h,
+        "mandated_reporter_51a_guide",
+        json!({"notes_path": "counts_by_town.csv"}),
+    )
+    .await;
+    assert!(e.contains("field names"));
+}

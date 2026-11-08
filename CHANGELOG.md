@@ -38,6 +38,12 @@ All notable changes are recorded here. The format follows
   `/data/templates/<language>/`). Content `content/mch/lead_screening.yaml` (pending review);
   snapshot `ma-lead-screening` from DPH's 2024 surveillance report
   (`xtask/scripts/build_lead_snapshot.py`).
+- `mandated_reporter_51a_guide` (MCH-07): M.G.L. c. 119, s. 51A guidance (who, when, how,
+  contents, penalties and protections, DCF definitions, domestic violence, DCF process, warning
+  signs), the 48-hour written-report deadline, and the written-report narrative template; with
+  `notes_path` it fills a draft from the nurse's local notes into `/data/output` and returns
+  only file names and field counts. Content `content/mch/mandated_reporting.yaml` (pending
+  review).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

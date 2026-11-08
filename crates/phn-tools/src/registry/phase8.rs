@@ -17,4 +17,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Mch,
         phase: 8,
     },
+    ToolMeta {
+        name: "mandated_reporter_51a_guide",
+        plan_id: "MCH-07",
+        toolset: Toolset::Mch,
+        phase: 8,
+    },
 ];
