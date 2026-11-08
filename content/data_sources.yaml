@@ -543,6 +543,19 @@ sources:
       - >-
         DPH's CSV of 2026-09-24. The CSV address on mass.gov changes with each update; download
         the current one from the directory page when refreshing.
+  - id: mch-newborn-postpartum
+    name: Newborn and postpartum home visit guidance (CDC Hear Her, AAP 2022 safe sleep, 105 CMR 270.000, MA car seat law)
+    publisher: CDC; American Academy of Pediatrics; Massachusetts DPH; Massachusetts General Court
+    kind: content
+    status: active
+    content_id: mch-newborn-postpartum
+    homepage: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+    probe_url: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+    used_by: [plan_newborn_postpartum_visit]
+    caveats:
+      - >-
+        Draft pending review. The AAP 2022 policy texts (publications.aap.org) were blocked;
+        safe sleep uses CDC's page and the AAP abstract, and jaundice items are low confidence.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

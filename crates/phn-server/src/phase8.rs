@@ -3,7 +3,7 @@
 use phn_core::Envelope;
 use phn_tools::mch::{
     GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, MandatedReporterArgs,
-    MandatedReporterResult, MilestoneArgs, MilestoneResult,
+    MandatedReporterResult, MilestoneArgs, MilestoneResult, NewbornVisitArgs, NewbornVisitResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -102,5 +102,26 @@ impl PhnServer {
         respond(phn_tools::mch::check_developmental_milestones(
             &self.ctx, args,
         ))
+    }
+
+    #[tool(
+        name = "plan_newborn_postpartum_visit",
+        description = "Plan a newborn and postpartum home visit: what to check and teach on \
+            feeding and weight (percent change from birth weight), jaundice, safe sleep (AAP \
+            2022, as CDC supports it), car seats (Massachusetts law), Massachusetts newborn \
+            blood spot and hearing screening (with follow-up reminders), and CDC Hear Her urgent \
+            maternal warning signs. Optionally writes a visit plan and a family teaching sheet \
+            (DOCX, no identifiers; English or the agency's own translation) to /data/output.",
+        annotations(title = "Newborn and postpartum visit plan", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<NewbornVisitResult>>()
+    )]
+    async fn plan_newborn_postpartum_visit(
+        &self,
+        Parameters(args): Parameters<NewbornVisitArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::mch::plan_newborn_postpartum_visit(ctx, args)
+        })
+        .await
     }
 }

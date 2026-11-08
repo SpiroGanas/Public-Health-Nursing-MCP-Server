@@ -1184,6 +1184,32 @@ Milestones are what 75% or more of children do by an age; the checklists are not
 for standardized screening. CDC does not say how to adjust for prematurity; the tool shows both
 checklists and defers to the child's provider. Content: `mch-developmental-milestones` (pending
 review; milestones transcribed word for word).
+### `plan_newborn_postpartum_visit` (MCH-01, toolset `mch`)
+
+A newborn and postpartum home visit plan: what to check and what to teach.
+
+| Argument | |
+|---|---|
+| `baby_age_days` | Baby's age at the visit (0-365). |
+| `gestational_age_weeks` | For context (the AAP jaundice guideline covers 35 weeks or more). |
+| `feeding` | `breast`, `formula`, or `mixed` (tailors the feeding points). |
+| `birth_weight_g` (or `_lb` + `_oz`), `weight_g` (or `_lb` + `_oz`) | Percent change from birth weight (reported, not judged). |
+| `discharged_within_24_hours` | Reminder that a second blood spot is due within 48 hours of birth. |
+| `hearing_screen` | `passed`, `not_passed`, `not_done`, `unknown`: follow-up reminder. |
+| `documents`, `language` | Write a visit plan (with check boxes and citations) and a family teaching sheet (DOCX) to the output folder. |
+
+**Sections:** feeding and weight (CDC: 8-12 feeds a day, formula amounts in the first days,
+vitamin D, hunger and fullness cues); jaundice (**low confidence**: the AAP 2022 guideline text
+could not be retrieved, so only general points and the discharge plan); safe sleep (CDC's page
+supporting the AAP 2022 policy and the policy abstract); car seat (M.G.L. c. 90, s. 7AA);
+newborn screening (105 CMR 270.007: blood spot at 24-48 hours, second specimen after early
+discharge, refusal only on religious grounds; M.G.L. c. 111, s. 67F hearing screen); postpartum
+health with CDC Hear Her's urgent maternal warning signs (up to a year after delivery).
+
+The plan and teaching sheet contain no information about the family. Translations follow the
+same rule as the lead teaching sheet: `/data/templates/<language>/newborn_postpartum_teaching.docx`
+or `.md`; otherwise English, and the result says so. Content: `mch-newborn-postpartum` (pending
+review).
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

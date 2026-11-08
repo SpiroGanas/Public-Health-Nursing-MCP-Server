@@ -1,0 +1,216 @@
+# Newborn and postpartum home visit content for plan_newborn_postpartum_visit (MCH-01):
+# feeding, weight, jaundice, safe sleep, car seats, Massachusetts newborn screening, and
+# urgent maternal warning signs.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-08 from the sources below.
+# Schema: content/schemas/mch_newborn.schema.json
+meta:
+  id: mch-newborn-postpartum
+  title: Newborn and postpartum home visit guidance (feeding, jaundice, safe sleep, car seats, newborn screening, maternal warning signs)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "Urgent Maternal Warning Signs and Symptoms (Hear Her)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+  related_sources:
+    - title: "Sleep-Related Infant Deaths: Updated 2022 Recommendations for Reducing Infant Deaths in the Sleep Environment (Pediatrics 2022;150(1):e2022057990)"
+      publisher: American Academy of Pediatrics
+      url: https://pubmed.ncbi.nlm.nih.gov/35726558/
+    - title: "Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation (Pediatrics 2022;150(3):e2022058859)"
+      publisher: American Academy of Pediatrics
+      url: https://pubmed.ncbi.nlm.nih.gov/35927462/
+    - title: "105 CMR 270.000: Blood Screening of Newborns for Treatable Diseases and Disorders (Mass. Register #1575, 6/5/26)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-270-blood-screening-of-newborns-for-treatable-diseases-and-disorders/download
+    - title: "M.G.L. c. 90, s. 7AA (child passenger restraints)"
+      publisher: The General Court of the Commonwealth of Massachusetts
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXIV/Chapter90/Section7AA
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08. Maternal warning signs are transcribed from CDC Hear Her (page dated
+    2024-05-15; developed by the Alliance for Innovation on Maternal Health). Safe sleep comes
+    from CDC's page (2024-09-17), which states CDC supports the AAP 2022 policy, and the AAP
+    policy abstract (PubMed 35726558); the full AAP text (publications.aap.org) was blocked.
+    Feeding comes from CDC's infant nutrition pages (April 2026). Newborn blood spot and hearing
+    screening are transcribed from 105 CMR 270.007 (Mass. Register #1575, 6/5/26) and M.G.L.
+    c. 111, s. 67F; the car seat law from M.G.L. c. 90, s. 7AA. The jaundice items are LOW
+    confidence: only the citation of the AAP 2022 hyperbilirubinemia guideline could be
+    retrieved (no abstract; full text blocked), so they are limited to general points the nurse
+    must confirm against the guideline and the baby's discharge plan. No weight-loss threshold
+    is given: the tool reports the percent change for the baby's provider to interpret.
+
+sources:
+  cdc-hear-her:
+    title: "Urgent Maternal Warning Signs and Symptoms (Hear Her)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-08
+  cdc-safe-sleep:
+    title: Providing Care for Babies to Sleep Safely
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/sudden-infant-death/sleep-safely/index.html
+    effective_date: 2024-09-17
+    retrieved: 2026-11-08
+  aap-sleep-2022:
+    title: "Sleep-Related Infant Deaths: Updated 2022 Recommendations for Reducing Infant Deaths in the Sleep Environment. Pediatrics 2022;150(1):e2022057990 (abstract, PubMed 35726558)"
+    publisher: American Academy of Pediatrics
+    url: https://pubmed.ncbi.nlm.nih.gov/35726558/
+    effective_date: 2022-07-01
+    retrieved: 2026-11-08
+  aap-bili-2022:
+    title: "Clinical Practice Guideline Revision: Management of Hyperbilirubinemia in the Newborn Infant 35 or More Weeks of Gestation. Pediatrics 2022;150(3):e2022058859 (citation only, PubMed 35927462)"
+    publisher: American Academy of Pediatrics
+    url: https://pubmed.ncbi.nlm.nih.gov/35927462/
+    effective_date: 2022-09-01
+    retrieved: 2026-11-08
+  cdc-breastfeeding:
+    title: How Much and How Often to Breastfeed
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/infant-toddler-nutrition/breastfeeding/how-much-and-how-often.html
+    effective_date: 2026-04-16
+    retrieved: 2026-11-08
+  cdc-formula:
+    title: How Much and How Often to Feed Infant Formula
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/infant-toddler-nutrition/formula-feeding/how-much-and-how-often.html
+    effective_date: 2026-04-21
+    retrieved: 2026-11-08
+  cdc-milestones-2m:
+    title: Milestones by 2 Months (tips and activities)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/act-early/milestones/2-months.html
+    effective_date: 2026-05-16
+    retrieved: 2026-11-08
+  cmr270:
+    title: "105 CMR 270.000: Blood Screening of Newborns for Treatable Diseases and Disorders (Mass. Register #1575, 6/5/26)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-270-blood-screening-of-newborns-for-treatable-diseases-and-disorders/download
+    effective_date: 2026-06-05
+    retrieved: 2026-11-08
+  mgl-111-67f:
+    title: "M.G.L. c. 111, s. 67F: Newborn hearing screening tests"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section67F
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-90-7aa:
+    title: "M.G.L. c. 90, s. 7AA: Child passenger restraints"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXIV/Chapter90/Section7AA
+    effective_date: null
+    retrieved: 2026-11-08
+
+feeding:
+  breast:
+    - text: "In the first days a baby may want to feed as often as every 1 to 3 hours; frequent feeding builds the milk supply. Most babies getting breast milk should not be given formula in the first few days; if the family is worried about intake, connect them with a lactation consultant or the baby's nurse or doctor."
+      source: cdc-breastfeeding
+      section: "First days"
+    - text: "A breastfed baby feeds about 8 to 12 times in 24 hours; most exclusively breastfed babies feed every 2 to 4 hours (cluster feeding is common). Sleepy newborns may need waking to feed (patting, stroking, undressing, a diaper change). A baby who has had enough seems content and drowsy."
+      source: cdc-breastfeeding
+      section: "First weeks and months"
+  formula:
+    - text: "For a baby getting only formula, start with 1 to 2 ounces every 2 to 3 hours in the first days and give more with hunger cues; most formula-fed newborns feed 8 to 12 times in 24 hours, moving to about every 3 to 4 hours over the first weeks."
+      source: cdc-formula
+      section: "First days; First weeks and months"
+  all:
+    - text: "Babies fed only breast milk, or less than about 32 ounces of formula a day, need vitamin D drops starting shortly after birth; ask the baby's doctor or nurse."
+      source: cdc-breastfeeding
+      section: "Does your baby need additional vitamin D?"
+    - text: "Watch for hunger cues (hands to mouth, turning toward the breast or bottle, smacking or licking lips) and fullness cues (closing the mouth, turning away); it is fine to stop when the baby is full. Feed only breast milk or formula: no water, other drinks, or foods for about the first 6 months."
+      source: cdc-milestones-2m
+      section: "Tips and activities"
+
+weight:
+  text: "Weigh the baby (nude or in a dry diaper) and compare with the birth weight. Most newborns lose some weight in the first days; this tool reports the percent change and does not judge it: share it with the baby's provider or lactation consultant, and use calculate_growth_percentiles for WHO percentiles."
+  source: cdc-breastfeeding
+  section: "Have questions? (talk with the doctor or nurse about growth)"
+  confidence: medium
+
+jaundice:
+  - text: "Ask whether the baby's bilirubin was checked before discharge and what follow-up the discharge plan set; make sure that appointment happens."
+    source: aap-bili-2022
+    section: "AAP 2022 guideline (full text not retrieved: verify)"
+    confidence: low
+  - text: "Visual estimates of jaundice are unreliable: if the baby looks yellow, especially if it is spreading, appeared in the first 24 hours, or the baby is sleepy or feeding poorly, contact the baby's provider the same day for a bilirubin measurement."
+    source: aap-bili-2022
+    section: "AAP 2022 guideline (full text not retrieved: verify)"
+    confidence: low
+  - text: "Frequent, effective feeding (8 to 12 times a day) supports a healthy newborn; feeding problems should be addressed promptly."
+    source: cdc-breastfeeding
+    section: "First weeks and months"
+
+safe_sleep:
+  - text: "Place the baby on the back for every sleep, naps and night."
+    source: cdc-safe-sleep
+    section: "Creating a safe sleep area for babies"
+  - text: "Use a firm, flat (not inclined) sleep surface, such as a mattress in a safety-approved crib with a fitted sheet."
+    source: cdc-safe-sleep
+    section: "Creating a safe sleep area for babies"
+  - text: "Room-share without bed-sharing: keep the crib or bassinet in the parents' room, ideally until at least 6 months."
+    source: cdc-safe-sleep
+    section: "Creating a safe sleep area for babies; AAP 2022 (room sharing without bed sharing)"
+  - text: "Keep soft bedding out of the sleep area: no blankets, pillows, bumper pads, or soft toys. Do not cover the baby's head or let the baby get too hot (sweating, hot chest)."
+    source: cdc-safe-sleep
+    section: "Creating a safe sleep area for babies"
+  - text: "No smoking, nicotine, alcohol, marijuana, opioids, or illicit drugs in pregnancy or around the baby; feed breast milk; keep well-child visits and vaccines; offer a pacifier at sleep times (once breastfeeding is established)."
+    source: aap-sleep-2022
+    section: "Abstract: additional recommendations for SIDS risk reduction"
+  - text: "Families who cannot afford a safe sleep space can be referred to Cribs for Kids for a portable crib."
+    source: cdc-safe-sleep
+    section: "Safe sleep resources"
+    confidence: medium
+
+car_seat:
+  - text: "Massachusetts law: a child under 8 riding in a motor vehicle must be in a child passenger restraint (car seat or booster), properly fastened according to the manufacturer's instructions, unless the child is more than 57 inches tall; children under 13 not required to use a restraint must wear a properly adjusted safety belt. The newborn's car seat must be installed and used following the seat's and the vehicle's instructions."
+    source: mgl-90-7aa
+    section: "s. 7AA"
+
+newborn_screening:
+  - text: "Massachusetts requires a newborn blood spot specimen between 24 and 48 hours after birth. A baby discharged within 24 hours has a specimen before discharge and needs a second one within 48 hours of birth; the baby's provider must make sure any repeat specimen the Newborn Blood Screening Program requests is collected."
+    source: cmr270
+    section: "270.007(A)"
+  - text: "Parents receive the 'Newborn Screening in Massachusetts' brochure; a refusal is allowed only on religious grounds after the benefits and risks are explained, and is documented on the program's form."
+    source: cmr270
+    section: "270.007(C) and (D)"
+  - text: "Every newborn has a hearing screen before discharge (unless the parents object on religious grounds). If the baby did not pass or was not tested, the hospital tells the parents and the baby's provider (no later than 10 days after discharge) and gives follow-up information; a diagnostic hearing evaluation is offered at a DPH-approved center."
+    source: mgl-111-67f
+    section: "s. 67F"
+
+maternal_warning_signs:
+  intro: "Urgent maternal warning signs can happen during pregnancy and up to a year after delivery. Seek medical care immediately (call 911 for an emergency) and say you were pregnant within the last year."
+  source: cdc-hear-her
+  section: "Urgent Maternal Warning Signs and Symptoms"
+  signs:
+    - sign: Headache that won't go away or gets worse over time
+      detail: "The worst headache of your life; lasts after medicine and fluids; sudden severe 'thunderclap' pain; throbbing on one side; with blurred vision or dizziness."
+    - sign: Dizziness or fainting
+      detail: "Fainting, ongoing dizziness or lightheadedness, or a gap in time you can't remember."
+    - sign: Changes in vision
+      detail: "Flashes of light or bright spots, blind spots, blurry or double vision."
+    - sign: Fever of 100.4°F (38°C) or higher
+      detail: "A temperature of 100.4°F or higher."
+    - sign: Extreme swelling of hands or face
+      detail: "Swelling that makes it hard to bend fingers or open the eyes, or swollen lips or mouth or loss of feeling."
+    - sign: Thoughts about harming yourself or your baby
+      detail: "Feeling very sad, hopeless, out of control, or extremely worried, or scary thoughts that come when you don't want them."
+    - sign: Trouble breathing
+      detail: "Short of breath, tight throat or chest, or needing pillows to breathe lying down."
+    - sign: Chest pain or fast-beating heart
+      detail: "Chest tightness or pressure, pain spreading to the back, neck, or arm, a pounding or irregular heartbeat, feeling faint."
+    - sign: Severe nausea and throwing up
+      detail: "Can't keep fluids down, can't drink for 8 hours or eat for 24 hours, with dry mouth, headache, confusion, fever, or dizziness."
+    - sign: Severe belly pain that doesn't go away
+      detail: "Sharp, stabbing, or cramping belly pain that starts suddenly or gets worse, or severe chest, shoulder, or back pain."
+    - sign: Vaginal bleeding or discharge after pregnancy
+      detail: "Soaking one or more pads in an hour, clots bigger than an egg or passing tissue, or bad-smelling discharge."
+    - sign: Severe swelling, redness, or pain of a leg or arm
+      detail: "Swelling, pain, tenderness, redness, or warmth, usually in one calf or one arm (up to 6 weeks after birth)."
+    - sign: Overwhelming tiredness
+      detail: "Sudden exhaustion and weakness not relieved by sleep, too tired to care for the baby, or feeling sad after having the baby."

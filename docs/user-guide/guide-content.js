@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 51;
+const TOOL_COUNT = 52;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral.', '4'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans.', '5'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1853,6 +1853,35 @@ const toolChapters = [
           'Milestones are what most children (75% or more) do by an age. The checklists do not replace standardized developmental screening.',
           'For babies born early, the tool also shows the corrected-age checklist; decide with the child’s provider which to use.',
           'Anyone can refer a child to Early Intervention, at no cost to families.',
+        ],
+      },
+      {
+        id: 'plan_newborn_postpartum_visit',
+        title: 'Plan a newborn and postpartum visit',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for documents',
+        does: 'Builds a home visit plan for a newborn and the birthing parent: what to check and what to teach about feeding and weight, jaundice, safe sleep, car seats, Massachusetts newborn blood spot and hearing screening, and CDC’s urgent maternal warning signs. It can save a visit plan and a family teaching sheet as Word documents.',
+        when: [
+          'Preparing for a postpartum or newborn home visit.',
+          'You need a teaching sheet to leave with the family.',
+          'Checking that newborn screening follow-up is complete.',
+        ],
+        provide: [
+          'The baby’s age in days. Optionally: how the baby is fed, birth weight and today’s weight, whether the baby went home within 24 hours, the hearing screen result, and whether you want documents (and the family’s language).',
+        ],
+        examples: [
+          'Plan a home visit for a 5-day-old breastfed baby; birth weight 7 lb 8 oz, today 6 lb 15 oz.',
+          'The baby did not pass the hearing screen and went home at 20 hours. What should I follow up on?',
+          'Make a visit plan and a teaching sheet for a family that speaks Portuguese.',
+        ],
+        returns: [
+          'Follow-up items from what you entered, a checklist and teaching points for each topic with citations, the urgent maternal warning signs, and the documents written to your output folder.',
+        ],
+        notes: [
+          'The weight change is reported, not judged: share it with the baby’s provider.',
+          'The jaundice points are general (low confidence) because the full AAP guideline could not be retrieved; follow the baby’s discharge plan.',
+          'Documents contain no information about the family. Translations come from your agency’s own files (templates/<language>/newborn_postpartum_teaching.docx); otherwise the English sheet is used.',
         ],
       },
     ],

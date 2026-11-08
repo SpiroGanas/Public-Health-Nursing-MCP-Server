@@ -29,4 +29,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Mch,
         phase: 8,
     },
+    ToolMeta {
+        name: "plan_newborn_postpartum_visit",
+        plan_id: "MCH-01",
+        toolset: Toolset::Mch,
+        phase: 8,
+    },
 ];

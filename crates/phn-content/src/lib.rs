@@ -176,6 +176,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/mch/developmental_milestones.yaml"),
         schema: include_str!("../../../content/schemas/mch_milestones.schema.json"),
     },
+    ContentItem {
+        id: "mch-newborn-postpartum",
+        path: "content/mch/newborn_postpartum.yaml",
+        resource_uri: "phn://content/mch-newborn-postpartum",
+        yaml: include_str!("../../../content/mch/newborn_postpartum.yaml"),
+        schema: include_str!("../../../content/schemas/mch_newborn.schema.json"),
+    },
     // End of Phase 8 content items.
     // Phase 9 content items go below this line.
     // End of Phase 9 content items.

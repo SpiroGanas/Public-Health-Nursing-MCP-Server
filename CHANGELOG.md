@@ -49,6 +49,11 @@ All notable changes are recorded here. The format follows
   corrected-age checklist for preterm infants, Massachusetts Early Intervention referral, and
   the EI programs serving a town. Content `content/mch/developmental_milestones.yaml` (pending
   review); snapshot `ma-ei-programs` (DPH's EI program directory).
+- `plan_newborn_postpartum_visit` (MCH-01): newborn and postpartum home visit plan (feeding and
+  weight change, jaundice, AAP 2022 safe sleep, Massachusetts car seat law, newborn blood spot
+  and hearing screening under 105 CMR 270.000 and M.G.L. c. 111, s. 67F, CDC Hear Her urgent
+  maternal warning signs) with an optional DOCX visit plan and family teaching sheet. Content
+  `content/mch/newborn_postpartum.yaml` (pending review; jaundice items low confidence).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

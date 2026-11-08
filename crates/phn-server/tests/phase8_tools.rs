@@ -249,3 +249,33 @@ async fn developmental_milestones_checklist_and_referral() {
     .await;
     assert!(e.contains("between 0 and 72"));
 }
+
+// ------------------------------------------------------------------ MCH-01
+
+#[tokio::test]
+async fn newborn_postpartum_visit_plan_and_documents() {
+    let h = start(|_| {}).await;
+    let s = call_ok(
+        &h,
+        "plan_newborn_postpartum_visit",
+        json!({"baby_age_days": 5, "feeding": "breast", "birth_weight_g": 3400, "weight_g": 3150,
+               "hearing_screen": "not_passed", "documents": true}),
+    )
+    .await;
+    assert!(md(&s).contains("Safe sleep"));
+    assert!(md(&s).contains("Hear Her"));
+    assert!(s["data"]["weight_change_percent"].as_f64().unwrap() < 0.0);
+    assert!(notice(&s).contains(DECISION_SUPPORT));
+    let files = s["data"]["files"].as_array().unwrap();
+    assert_eq!(files.len(), 2);
+    for f in files {
+        assert!(h.data().join(f.as_str().unwrap()).exists());
+    }
+    let e = call_err(
+        &h,
+        "plan_newborn_postpartum_visit",
+        json!({"baby_age_days": 400}),
+    )
+    .await;
+    assert!(e.contains("0 to 365"));
+}
