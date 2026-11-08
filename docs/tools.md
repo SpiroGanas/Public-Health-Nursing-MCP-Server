@@ -405,13 +405,15 @@ internet; education. Every figure names its ACS detailed table (B01001, C16001, 
 5-year period, and the 90% margin of error, with Massachusetts and U.S. values beside it.
 Derived percentages and their margins use the Census Bureau's approximation formulas
 (*Understanding and Using ACS Data*, 2020, ch. 8); figures with a coefficient of variation above
-30% are marked † and listed in a caveat. Live data come from `api.census.gov` (latest vintage
-from `data.json`); without a key the API may answer with a "missing key" page, and the tool then
-uses the bundled snapshot and says why. PLACES: the CDC place estimate when a city's census place
-matches the town, otherwise the adult-population-weighted mean of the town's tract estimates
-(derived by this server; no interval). SVI: tracts whose blocks are mostly in the town. Births
-and deaths are omitted: no machine-readable town-level vital statistics source was reachable;
-the result says so. Read-only; open-world.
+30% are marked † and listed in a caveat. Live data come from `api.census.gov` (the newest
+5-year vintage, found by probing the API's variable list for the next years); without a key the
+API may answer with a "missing key" page, and the tool then uses the bundled snapshot and says
+why. PLACES: the CDC place estimate when a city's census place matches the town, otherwise the
+adult-population-weighted mean of the town's tract estimates (derived by this server; no
+interval). SVI: the tracts that belong mainly to the town (largest share of their census
+blocks); for the 37 small towns without one, the tracts that overlap the town, with a caveat.
+Births and deaths are omitted: no machine-readable town-level vital statistics source was
+reachable; the result says so. Read-only; open-world.
 
 ### `get_social_vulnerability_index` (EQ-02, toolset `equity`)
 

@@ -99,11 +99,11 @@ sources:
     status: active
     snapshot_id: census-acs5-ma
     homepage: https://www.census.gov/programs-surveys/acs
-    probe_url: https://api.census.gov/data.json
+    probe_url: https://api.census.gov/data/2024/acs/acs5/variables/B01003_001E.json
     used_by: [build_community_health_profile, language_access_profile]
     caveats:
       - >-
-        Live figures come from api.census.gov (latest 5-year vintage listed in data.json). From
+        Live figures come from api.census.gov (the newest published 5-year vintage). From
         some networks the API answers requests without a key with a "missing key" page; set
         PHN_CENSUS_API_KEY (free) or rely on the bundled 2020–2024 snapshot, which was built
         from the keyless summary files on www2.census.gov.
