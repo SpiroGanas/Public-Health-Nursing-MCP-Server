@@ -263,7 +263,12 @@ pub async fn lookup_with(
         }
         summary.push('\n');
     }
-    if want("recalls") {
+    let checked = |section: &str| {
+        sections
+            .iter()
+            .any(|s| s.section == section && s.status != "unavailable")
+    };
+    if checked("recalls") {
         if recalls.is_empty() {
             summary.push_str("**Recalls:** none found in openFDA enforcement reports for this name.\n\n");
         } else {
@@ -276,7 +281,7 @@ pub async fn lookup_with(
             summary.push('\n');
         }
     }
-    if want("shortages") {
+    if checked("shortages") {
         if shortages.is_empty() {
             summary.push_str("**Shortages:** none listed in openFDA's drug shortage data for this name.\n\n");
         } else {

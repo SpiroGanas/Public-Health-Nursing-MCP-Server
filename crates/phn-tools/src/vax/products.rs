@@ -131,9 +131,11 @@ fn build_match(codes: &VaccineCodes, cvx: &Cvx, matched_on: String, include_inac
         })
         .collect();
     let all_ndc = codes.ndcs_for_cvx(&cvx.cvx);
+    // NDCs with a future end date are still marketed.
+    let today = chrono::Local::now().date_naive().to_string();
     let active: Vec<&&phn_data::vaccine_codes::VaccineNdc> = all_ndc
         .iter()
-        .filter(|n| include_inactive || n.end_date.is_empty())
+        .filter(|n| include_inactive || n.end_date.is_empty() || n.end_date.as_str() > today.as_str())
         .collect();
     let ndcs = active
         .iter()
@@ -216,7 +218,27 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
             }
             seen.push(h.cvx.clone());
             if let Some(c) = codes.cvx_code(&h.cvx) {
-                matches.push(build_match(&codes, c, format!("NDC {} ({})", h.ndc, h.proprietary_name), true));
+                let mut m = build_match(
+                    &codes,
+                    c,
+                    format!("NDC {} ({})", h.ndc, h.proprietary_name),
+                    args.include_inactive,
+                );
+                // Always show the NDC that was asked about, even if it has ended.
+                if !m.ndcs.iter().any(|n| n.ndc == h.ndc) {
+                    m.ndcs.insert(
+                        0,
+                        NdcInfo {
+                            ndc: h.ndc.clone(),
+                            level: h.level.clone(),
+                            proprietary_name: h.proprietary_name.clone(),
+                            packaging: h.packaging.clone(),
+                            labeler: h.labeler.clone(),
+                            end_date: (!h.end_date.is_empty()).then(|| h.end_date.clone()),
+                        },
+                    );
+                }
+                matches.push(m);
             }
         }
         if matches.is_empty() {
@@ -225,7 +247,7 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
             )));
         }
     } else if let Some(c) = vaccine_codes::normalize_cvx(&q).and_then(|n| codes.cvx_code(&n)) {
-        matches.push(build_match(&codes, c, format!("CVX {}", c.cvx), true));
+        matches.push(build_match(&codes, c, format!("CVX {}", c.cvx), args.include_inactive));
     } else if upper.len() <= 4
         && upper.chars().all(|c| c.is_ascii_alphabetic())
         && let Some(m) = codes.mvx_code(&upper)
@@ -407,5 +429,6 @@ pub async fn lookup_vaccine_product(ctx: &Context, args: ProductArgs) -> Result<
     )
     .sources(sources)
     .caveats(caveats)
-    .privacy(Privacy::none()))
+    .privacy(Privacy::none())
+    .decision_support())
 }

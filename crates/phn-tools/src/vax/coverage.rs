@@ -477,7 +477,10 @@ pub fn analyze_vaccination_coverage(
             ranked.sort_by(|a, b| a.pct.total_cmp(&b.pct).then(a.school.cmp(&b.school)));
         }
         for (m, (n, b, nr, mut v)) in by_town {
-            let min = v.iter().copied().fold(None, |a: Option<f64>, x| Some(a.map_or(x, |y| y.min(x))));
+            // The extreme rate: the lowest for coverage, the highest for burden measures.
+            let min = v.iter().copied().fold(None, |a: Option<f64>, x| {
+                Some(a.map_or(x, |y| if burden { y.max(x) } else { y.min(x) }))
+            });
             towns.push(TownSummary {
                 municipality: m,
                 schools_reported: n,
@@ -562,7 +565,20 @@ pub fn analyze_vaccination_coverage(
             summary.push_str(&format!("\n…and {} more (raise limit to see them).\n", ranked.len() - limit));
         }
         if town.is_none() && towns.len() > 1 {
-            summary.push_str("\n**Towns with the most schools below the threshold**\n\n");
+            if burden {
+                // Highest rates first for exemptions and other burden measures.
+                towns.sort_by(|a, b| {
+                    b.min_pct
+                        .unwrap_or(-1.0)
+                        .total_cmp(&a.min_pct.unwrap_or(-1.0))
+                        .then(a.municipality.cmp(&b.municipality))
+                });
+            }
+            summary.push_str(match (threshold.pct.is_some() && !burden, burden) {
+                (true, _) => "\n**Towns with the most schools below the threshold**\n\n",
+                (false, true) => "\n**Towns by school rate (highest first)**\n\n",
+                (false, false) => "\n**Towns by lowest school rate**\n\n",
+            });
             let rows: Vec<Vec<String>> = towns
                 .iter()
                 .filter(|t| t.schools_reported > 0)
@@ -577,7 +593,16 @@ pub fn analyze_vaccination_coverage(
                     ]
                 })
                 .collect();
-            summary.push_str(&md::table(&["Town", "Schools with rates", "Below threshold", "Lowest", "Median (unweighted)"], &rows));
+            summary.push_str(&md::table(
+                &[
+                    "Town",
+                    "Schools with rates",
+                    "Below threshold",
+                    if burden { "Highest" } else { "Lowest" },
+                    "Median (unweighted)",
+                ],
+                &rows,
+            ));
         }
     }
     if !comparison.is_empty() {
@@ -659,8 +684,8 @@ fn local_coverage(
     burden: bool,
     sources: &mut Vec<Source>,
 ) -> Result<LocalCoverage> {
-    let (table, label) = crate::core::files::load_table(ctx, path, sheet)?;
-    let findings = phn_local::phi::scan_table(&table);
+    let lt = crate::localdata::load(ctx, path, sheet)?;
+    let (table, label, findings) = (&lt.table, lt.label.clone(), &lt.findings);
     if findings.iter().any(|f| f.kind.is_direct()) {
         return Err(PhnError::Privacy(format!(
             "'{label}' looks like a student-level file (it has identifier columns). This tool needs \
@@ -709,8 +734,14 @@ fn local_coverage(
             continue;
         }
         let pct = (c as f64 * 100.0 / n as f64).round();
+        let name = get(sc);
+        if !phn_local::phi::scan_text(name).is_empty() {
+            return Err(PhnError::Privacy(format!(
+                "values in the school column of '{label}' look like identifiers, so they cannot be shown"
+            )));
+        }
         ranked.push(SchoolRate {
-            school: get(sc).to_string(),
+            school: name.to_string(),
             school_type: String::new(),
             municipality: String::new(),
             county: String::new(),

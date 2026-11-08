@@ -1139,7 +1139,7 @@ fn split_dates(cell: &str) -> Vec<String> {
 }
 
 fn truthy(s: &str) -> bool {
-    matches!(s.trim().to_ascii_lowercase().as_str(), "y" | "yes" | "true" | "1" | "x")
+    crate::localdata::truthy(s) == Some(true)
 }
 
 fn batch(
@@ -1149,7 +1149,12 @@ fn batch(
     as_of: NaiveDate,
     grace: bool,
 ) -> Result<Envelope<SchoolCheckResult>> {
-    let (table, label) = crate::core::files::load_table(ctx, path, sheet)?;
+    let lt = crate::localdata::load(ctx, path, sheet)?;
+    let crate::localdata::LocalTable {
+        table,
+        label,
+        findings,
+    } = lt;
     let dob_col = find_col(&table, &["date_of_birth", "dob", "birth_date", "birthdate", "date_birth"]);
     let grade_col = find_col(&table, &["grade", "grade_level", "grade_entering"]);
     let (Some(dob_col), Some(grade_col)) = (dob_col, grade_col) else {
@@ -1181,7 +1186,6 @@ fn batch(
     let us_col = find_col(&table, &["born_in_us", "us_born"]);
     let res_col = find_col(&table, &["residential", "residential_combined_school"]);
     // Identifier columns are copied to the output file only.
-    let findings = phn_local::phi::scan_table(&table);
     let id_cols: Vec<usize> = table
         .headers
         .iter()
