@@ -146,17 +146,75 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/vax/cdsi_supporting_data.yaml"),
         schema: include_str!("../../../content/schemas/cdsi_supporting_data.schema.json"),
     }, // Phase 7 content items go below this line.
-       // End of Phase 7 content items.
-       // Phase 8 content items go below this line.
-       // End of Phase 8 content items.
-       // Phase 9 content items go below this line.
-       // End of Phase 9 content items.
-       // Phase 10 content items go below this line.
-       // End of Phase 10 content items.
-       // Phase 11 content items go below this line.
-       // End of Phase 11 content items.
-       // Phase 12 content items go below this line.
-       // End of Phase 12 content items.
+    ContentItem {
+        id: "ma-school-screening-requirements",
+        path: "content/school/screening_requirements.yaml",
+        resource_uri: "phn://content/ma-school-screening-requirements",
+        yaml: include_str!("../../../content/school/screening_requirements.yaml"),
+        schema: include_str!("../../../content/schemas/school_screening_requirements.schema.json"),
+    },
+    ContentItem {
+        id: "cdc-bmi-for-age",
+        path: "content/school/cdc_bmi_for_age.yaml",
+        resource_uri: "phn://content/cdc-bmi-for-age",
+        yaml: include_str!("../../../content/school/cdc_bmi_for_age.yaml"),
+        schema: include_str!("../../../content/schemas/cdc_bmi_for_age.schema.json"),
+    },
+    ContentItem {
+        id: "ma-school-medication-administration",
+        path: "content/school/medication_administration.yaml",
+        resource_uri: "phn://content/ma-school-medication-administration",
+        yaml: include_str!("../../../content/school/medication_administration.yaml"),
+        schema: include_str!(
+            "../../../content/schemas/school_medication_administration.schema.json"
+        ),
+    },
+    ContentItem {
+        id: "ma-school-concussion",
+        path: "content/school/concussion.yaml",
+        resource_uri: "phn://content/ma-school-concussion",
+        yaml: include_str!("../../../content/school/concussion.yaml"),
+        schema: include_str!("../../../content/schemas/school_concussion.schema.json"),
+    },
+    ContentItem {
+        id: "ma-school-absenteeism",
+        path: "content/school/absenteeism.yaml",
+        resource_uri: "phn://content/ma-school-absenteeism",
+        yaml: include_str!("../../../content/school/absenteeism.yaml"),
+        schema: include_str!("../../../content/schemas/school_absenteeism.schema.json"),
+    },
+    ContentItem {
+        id: "ma-school-health-plans",
+        path: "content/school/health_plans.yaml",
+        resource_uri: "phn://content/ma-school-health-plans",
+        yaml: include_str!("../../../content/school/health_plans.yaml"),
+        schema: include_str!("../../../content/schemas/school_health_plans.schema.json"),
+    },
+    ContentItem {
+        id: "ma-school-annual-report",
+        path: "content/school/annual_report.yaml",
+        resource_uri: "phn://content/ma-school-annual-report",
+        yaml: include_str!("../../../content/school/annual_report.yaml"),
+        schema: include_str!("../../../content/schemas/school_annual_report.schema.json"),
+    },
+    ContentItem {
+        id: "ma-child-care-health-checklist",
+        path: "content/school/child_care_checklist.yaml",
+        resource_uri: "phn://content/ma-child-care-health-checklist",
+        yaml: include_str!("../../../content/school/child_care_checklist.yaml"),
+        schema: include_str!("../../../content/schemas/child_care_health_checklist.schema.json"),
+    },
+    // End of Phase 7 content items.
+    // Phase 8 content items go below this line.
+    // End of Phase 8 content items.
+    // Phase 9 content items go below this line.
+    // End of Phase 9 content items.
+    // Phase 10 content items go below this line.
+    // End of Phase 10 content items.
+    // Phase 11 content items go below this line.
+    // End of Phase 11 content items.
+    // Phase 12 content items go below this line.
+    // End of Phase 12 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

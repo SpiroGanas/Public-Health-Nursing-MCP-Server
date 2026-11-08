@@ -435,6 +435,94 @@ sources:
     used_by: []
     caveats: []
   # Phase 7 sources go below this line.
+  - id: ma-school-screening-requirements
+    name: Massachusetts school health screening requirements (105 CMR 200.000, M.G.L. c. 71 sections 57 and 97, DPH protocols)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-screening-requirements
+    homepage: https://www.mass.gov/lists/school-health-screening
+    probe_url: https://www.mass.gov/regulations/105-CMR-20000-physical-examination-of-school-children
+    used_by: [get_ma_school_screening_requirements, track_school_screenings]
+    caveats:
+      - Drafted 2026-11-08 and pending subject-matter review. DPH's current hearing screening protocol could not be fetched; hearing details come from the 2007 manual (low to medium confidence).
+  - id: cdc-bmi-for-age
+    name: CDC BMI-for-age growth chart reference (LMS parameters, 2000 CDC growth charts)
+    publisher: Centers for Disease Control and Prevention, National Center for Health Statistics
+    kind: content
+    status: active
+    content_id: cdc-bmi-for-age
+    homepage: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    probe_url: https://www.cdc.gov/growthcharts/data/zscore/bmiagerev.csv
+    used_by: [track_school_screenings, build_school_health_annual_report]
+    caveats:
+      - Copied unchanged from bmiagerev.csv (retrieved 2026-11-08). Percentiles above the 95th are reported as "95th or above" because CDC's 2022 extended charts replace them.
+  - id: ma-school-medication-administration
+    name: Medication administration in Massachusetts schools (105 CMR 210.000, 12/5/2025)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-medication-administration
+    homepage: https://www.mass.gov/school-health-services-medication-administration
+    probe_url: https://www.mass.gov/regulations/105-CMR-21000-the-administration-of-prescription-medications-in-public-and-private-schools
+    used_by: [school_medication_administration_guide]
+    caveats:
+      - Paraphrases 105 CMR 210.000 as amended 12/5/2025; pending subject-matter review. Board of Registration in Nursing advisory rulings are cited by name only.
+  - id: ma-school-concussion
+    name: Head injuries and concussions in Massachusetts schools (105 CMR 201.000, DPH return-to-learn guidance, CDC HEADS UP)
+    publisher: Massachusetts Department of Public Health and CDC (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-concussion
+    homepage: https://www.mass.gov/sports-related-concussions-and-head-injuries
+    probe_url: https://www.mass.gov/sports-related-concussions-and-head-injuries
+    used_by: [concussion_return_to_learn_tracker]
+    caveats:
+      - DPH's 2018 return-to-learn guidance and CDC's 2025 advice differ on time out of school; both are shown. The year-end report deadline changes every year.
+  - id: ma-school-absenteeism
+    name: Illness absenteeism syndromes and board of health notification (105 CMR 300.000, DPH norovirus school guidance)
+    publisher: Massachusetts Department of Public Health and CDC (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-absenteeism
+    homepage: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    probe_url: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    used_by: [monitor_school_absenteeism]
+    caveats:
+      - DPH sets no numeric absence threshold; statistical signals prompt a call to the board of health but do not decide whether a cluster exists.
+  - id: ma-school-health-plans
+    name: Individualized health plan and emergency action plan content (diabetes, asthma, seizures, food allergy)
+    publisher: CDC and Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-health-plans
+    homepage: https://www.cdc.gov/school-health-conditions/food-allergies/index.html
+    probe_url: https://www.cdc.gov/school-health-conditions/chronic/diabetes.html
+    used_by: [build_individualized_health_plan]
+    caveats:
+      - Goals, interventions, and suggested Section 504 accommodations are a nursing template organized from cited CDC and DPH statements; pending subject-matter review.
+  - id: ma-school-annual-report
+    name: Massachusetts school health year-end reporting requirements (DPH data collection tools)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-annual-report
+    homepage: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    probe_url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    used_by: [build_school_health_annual_report]
+    caveats:
+      - DPH does not publish its current Status Report form; the workbook follows the categories DPH has published (2012 Essential School Health Services report, regulations) and must be matched to DPH's current forms.
+  - id: ma-child-care-health-checklist
+    name: Child care health consultation checklist (606 CMR 7.00, Mass. Register #1459)
+    publisher: Massachusetts Department of Early Education and Care (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-child-care-health-checklist
+    homepage: https://www.mass.gov/regulations/606-CMR-700-standards-for-the-licensure-or-approval-of-family-child-care-small-group-and-school-age-and-large-group-and-school-age-child-care-programs
+    probe_url: https://www.mass.gov/doc/family-group-school-age-child-care-programs-606-cmr-7-0/download
+    used_by: [child_care_health_consultation_checklist]
+    caveats:
+      - Paraphrases 606 CMR 7.00 as published 12/24/21; check EEC's regulations page for amendments at each review.
   # End of Phase 7 sources.
   # Phase 8 sources go below this line.
   # End of Phase 8 sources.

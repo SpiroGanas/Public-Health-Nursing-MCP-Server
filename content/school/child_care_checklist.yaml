@@ -1,0 +1,508 @@
+# Child care health consultation checklist against EEC licensing standards (606 CMR 7.00), for
+# child_care_health_consultation_checklist (SCH-08).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from 606 CMR 7.00 (Mass. Register #1459,
+# 12/24/21), fetched from mass.gov that day. Schema:
+# content/schemas/child_care_health_checklist.schema.json
+meta:
+  id: ma-child-care-health-checklist
+  title: Child care health consultation checklist (606 CMR 7.00)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2021-12-24
+  source:
+    title: "606 CMR 7.00: Standards for the Licensure or Approval of Family Child Care; Small Group and School Age and Large Group and School Age Child Care Programs (Mass. Register #1459, 12/24/21)"
+    publisher: Massachusetts Department of Early Education and Care
+    url: https://www.mass.gov/doc/family-group-school-age-child-care-programs-606-cmr-7-0/download
+  related_sources:
+    - title: EEC regulations (606 CMR) index
+      publisher: Massachusetts Department of Early Education and Care
+      url: https://www.mass.gov/regulations/606-CMR-700-standards-for-the-licensure-or-approval-of-family-child-care-small-group-and-school-age-and-large-group-and-school-age-child-care-programs
+    - title: "105 CMR 220.000 and DPH's school immunization requirements (child care/preschool)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/school-immunizations
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Each item paraphrases a numbered provision of 606 CMR 7.00 as published in Mass. Register
+    #1459 (12/24/21), the version linked from EEC's regulations page on 2026-11-08 (high
+    confidence for the requirement; the "evidence to look for" lines are the developer's
+    suggestions for a consultant's review, medium). The table in 606 CMR 7.11(2)(l) was flattened
+    in the PDF text; its rows were reconstructed and should be checked against the printed
+    regulation (medium). EEC policies and technical assistance documents that interpret these
+    rules (for example on medication training) were not reviewed. The subject matter expert must
+    review before use.
+
+sources:
+  cmr606-7:
+    title: "606 CMR 7.00 (Mass. Register #1459, 12/24/21)"
+    publisher: Massachusetts Department of Early Education and Care
+    url: https://www.mass.gov/doc/family-group-school-age-child-care-programs-606-cmr-7-0/download
+    effective_date: 2021-12-24
+    retrieved: 2026-11-08
+
+domains:
+  - id: health_policy
+    name: Health care policy
+    description: The written health care policy and the plans it must contain.
+  - id: consultant
+    name: Health care consultant
+    description: Access to, and approvals by, the program's health care consultant.
+  - id: medication
+    name: Medication administration
+    description: Medication policy, training, storage, consent, and logging.
+  - id: care_plans
+    name: Individual health care plans
+    description: Plans for children with chronic medical conditions, including self-carry.
+  - id: records
+    name: Children's health records
+    description: Immunization, physical examination, lead screening, allergy, and emergency information.
+  - id: illness
+    name: Illness and infectious disease
+    description: Exclusion, mildly ill children, and parent notification.
+  - id: infection_control
+    name: Infection control and hygiene
+    description: Handwashing, cleaning and disinfection, and blood and body fluid cleanup.
+  - id: first_aid
+    name: First aid, CPR, and emergencies
+    description: Certification, supplies, items that go with children, and emergency plans.
+  - id: safe_sleep
+    name: Safe sleep
+    description: Infant sleep position and sleeping equipment.
+  - id: nutrition
+    name: Nutrition, special diets, and food allergies
+    description: Following orders for special diets and allergies.
+  - id: staff_health
+    name: Educator health
+    description: Educator physical examinations and immunizations.
+  - id: safety
+    name: Abuse and neglect, injuries, and notifications
+    description: Mandated reporting, incident records, and notifying parents.
+
+items:
+  - id: policy_written
+    domain: health_policy
+    requirement: >-
+      A written health care policy that includes the names and phone numbers of the health care
+      consultant and local health authority; fire, police, ambulance, nearest emergency facility,
+      and Poison Control numbers; and the program's address and location.
+    evidence: [Written policy on site, Emergency numbers current and posted]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)1"
+  - id: policy_illness_injury
+    domain: health_policy
+    requirement: >-
+      Procedures for illness, injury, or emergency: transportation, notifying parents, what to do
+      when parents cannot be reached, including on field trips.
+    evidence: [Procedure in policy, Field trip procedure]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)2"
+  - id: policy_symptoms
+    domain: health_policy
+    requirement: >-
+      A list of mild symptoms with which ill children may remain in care, and more severe symptoms
+      that require the parent or back-up contact to pick up the child, plus a plan for caring for
+      mildly ill children who stay.
+    evidence: [Symptom list consistent with DPH exclusion guidance, Plan for mildly ill children]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)3-4"
+  - id: policy_medication_plan
+    domain: health_policy
+    requirement: >-
+      A plan for administering medication, including annual evaluation of staff authorized to give
+      medication, and written authorization by a licensed health care practitioner (valid one
+      year) for any non-topical, non-prescription medication.
+    evidence: [Annual staff evaluations documented, Practitioner authorizations on file]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)5"
+  - id: policy_special_needs
+    domain: health_policy
+    requirement: >-
+      Plans for meeting individual children's health care needs (including identifying children
+      with allergies and protecting them from allergens), for parents to train staff on their
+      child's individual health care plan with the practitioner's written permission, and for
+      meeting the health requirements of children with disabilities.
+    evidence: [Allergy identification procedure, Staff training records for individual plans]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)6-8"
+  - id: policy_safe_sleep_and_reporting
+    domain: health_policy
+    requirement: >-
+      A plan to place children 12 months or younger on their backs to sleep unless a health care
+      professional orders otherwise in writing, and notice to parents that educators are mandated
+      reporters of suspected abuse or neglect.
+    evidence: [Safe sleep plan in policy, Mandated reporter notice in parent materials]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(a)9-10"
+  - id: consultant_access
+    domain: consultant
+    requirement: >-
+      Access to a health care consultant (a Massachusetts licensed physician, registered nurse,
+      nurse practitioner, or physician assistant with pediatric or family health training or
+      experience) available as needed.
+    evidence: [Signed consultant agreement, Consultant credentials]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.02 (Health Care Consultant); 7.11(19)(b)1"
+  - id: consultant_approvals
+    domain: consultant
+    requirement: >-
+      The consultant approves the health care plan at initial licensure and each renewal, and
+      approves first aid training and medication administration training for staff.
+    evidence: [Dated consultant approval of the health care policy, Approved training curricula]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(b)2-3"
+  - id: consultant_posting
+    domain: consultant
+    requirement: >-
+      Post the location of the health care policy, the consultant's name, address, and phone, and
+      the location of the first aid kit.
+    evidence: [Postings in place]
+    applies_to: [small_group, large_group]
+    source: cmr606-7
+    section: "7.04(17)(p)"
+    confidence: medium
+  - id: med_policy
+    domain: medication
+    requirement: >-
+      A written policy on prescription and non-prescription medication that provides for giving
+      medications ordered by a child's health care practitioner, and a written policy on
+      medication disposal.
+    evidence: [Medication policy, Disposal policy]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(2)(a), (g)"
+  - id: med_training
+    domain: medication
+    requirement: >-
+      Everyone who gives medication is trained to verify and document the right child, dose,
+      medication, time, and method, and shows competency (except topical) before being
+      authorized; anyone giving medication other than oral, topical, or epinephrine
+      auto-injectors is trained by a licensed health care practitioner with annual competency;
+      at least one trained educator is present at all times; all educators learn general side
+      effects and those of the medications given.
+    evidence: [Training and competency records, Staffing shows a trained educator at all times]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(1)(b)1-3"
+  - id: med_containers_storage
+    domain: medication
+    requirement: >-
+      Medications come from the parent in original labeled containers (OTC in manufacturer's
+      packaging), are given only as labeled unless the practitioner authorizes otherwise in
+      writing, and are stored out of reach; Schedule II-V medications are locked; refrigerated
+      prescription medications are kept inaccessible to children at 38 to 42 F; emergency
+      medications such as epinephrine auto-injectors are immediately available.
+    evidence: [Inspection of storage, Refrigerator thermometer log, Locked storage for controlled substances]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(2)(b)-(f)"
+  - id: med_first_dose_and_disposal
+    domain: medication
+    requirement: >-
+      No first dose of any medication is given except in extraordinary circumstances with parent
+      consent; unused or outdated prescription medication is returned to the parent (documented)
+      or destroyed and recorded per policy and DPH's Drug Control Program.
+    evidence: [Return or destruction records]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(2)(h)-(i)"
+  - id: med_consent_logging
+    domain: medication
+    requirement: >-
+      Consent and logging follow the regulation's table: prescription medication needs written
+      parent consent, practitioner authorization (the labeled container), and a log with name,
+      dose, date, time, staff signature, and missed doses with reasons; oral non-prescription
+      medication needs consent renewed weekly and, in group programs, practitioner authorization;
+      unanticipated non-prescription medication for mild symptoms needs consent renewed annually;
+      topical medication on broken skin needs consent renewed annually; diaper rash application
+      is reported to parents daily.
+    evidence: [Consent forms dated within the required period, Medication logs complete]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(2)(j)-(l)"
+    confidence: medium
+  - id: ihcp_required
+    domain: care_plans
+    requirement: >-
+      An individual health care plan in the record of each child with a diagnosed chronic medical
+      condition, describing the condition, symptoms, treatment needed in care, side effects, and
+      the consequences if treatment is not given.
+    evidence: [Plan on file for each child with a chronic condition]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(3)"
+  - id: ihcp_training_consent
+    domain: care_plans
+    requirement: >-
+      Routine medication or treatment for a chronic condition follows written parent consent and
+      practitioner authorization (renewed annually); the educator is trained by the child's
+      practitioner, or with the practitioner's written consent by the parent or the health
+      consultant; parents are contacted before (or as soon as possible after) unanticipated
+      treatment; all doses are logged.
+    evidence: [Child-specific training records, Annual consent and authorization]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(3)(a)1-4"
+  - id: ihcp_self_carry
+    domain: care_plans
+    requirement: >-
+      Older school-age children may carry their own inhalers and epinephrine auto-injectors under
+      an individual health care plan with parent consent and practitioner authorization, kept
+      secure from other children; a back-up supply is kept on site.
+    evidence: [Self-carry plans, Back-up supply on site]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(3)(b)-(c)"
+  - id: records_immunization
+    domain: records
+    requirement: >-
+      At admission: a physician's, nurse practitioner's, or physician assistant's certification
+      that the child is immunized according to DPH's schedules (religious or medical exemptions
+      allowed in writing).
+    evidence: [Immunization certificates current, Exemption documentation where applicable]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(7)(a)13.a; 7.04(8)(a)"
+  - id: records_physical
+    domain: records
+    requirement: >-
+      Within one month of admission, a practitioner's statement that the child had a complete
+      physical examination within one year before admission; documentation of annual physical
+      examinations thereafter.
+    evidence: [Physical examination statements, Annual updates]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(7)(a)13.b; 7.04(7)(b)1"
+  - id: records_lead
+    domain: records
+    requirement: >-
+      Within one month of admission, a statement that the child was screened for lead poisoning;
+      DPH requires screening at 9 to 12 months and at ages 2 and 3 (and 4 in high-risk
+      communities) under 105 CMR 460.050.
+    evidence: [Lead screening statements by age]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(7)(a)13.c; 7.04(7)(b)1"
+  - id: records_health_info
+    domain: records
+    requirement: >-
+      The record holds the child's health care provider, allergies, special diets, chronic
+      conditions and limitations, medications and side effects, and permission for emergency
+      transport and treatment (including epinephrine for suspected exposure to a life-threatening
+      allergen) and for first aid and CPR.
+    evidence: [Face sheet complete, Emergency permissions signed]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(7)(a)1.f-g, 4-5"
+  - id: records_school_age
+    domain: records
+    requirement: >-
+      For school-age children the program may accept a parent's statement that the immunization,
+      physical examination, and lead screening records are on file at the child's school, or
+      copies of them.
+    evidence: [Parent statements or copies]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(8)(b)"
+  - id: records_review
+    domain: records
+    requirement: >-
+      Children's records are reviewed and updated at least once a year; screening results (vision,
+      hearing, dental) provided to the program are kept, and any screening the program conducts
+      needs prior parental permission, qualified personnel, and written results to parents.
+    evidence: [Annual review dates, Screening permissions]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.04(9); 7.04(7)(b)2"
+  - id: illness_exclusion
+    domain: illness
+    requirement: >-
+      Follow exclusion policies for serious illnesses, contagious diseases, and reportable diseases
+      that conform with DPH regulations and recommendations, and DPH guidance on preventing them.
+    evidence: [Exclusion policy cites DPH guidance (105 CMR 300.000 and DPH's Guide)]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(9)(a), (d)"
+  - id: illness_notify_parents
+    domain: illness
+    requirement: >-
+      Notify all parents, following DPH recommendations, when a communicable disease or condition
+      has been introduced into or identified in the program.
+    evidence: [Sample notification letters, Log of notifications]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(9)(b); 7.08(8)(g)"
+  - id: illness_mildly_ill
+    domain: illness
+    requirement: >-
+      Mildly ill children who remain in care get food, drink, rest, comfort, supervision, and
+      appropriate activity for their condition.
+    evidence: [Space and plan for mildly ill children]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(8)"
+  - id: ic_training_handwashing
+    domain: infection_control
+    requirement: >-
+      All educators are trained in infection control and standard precautions; educators and
+      children wash hands with liquid soap and running water (individual or disposable towels) at
+      the required times, including before and after eating, after toileting or diapering, after
+      contact with body fluids, after handling animals, and before and after giving medication.
+    evidence: [Training records, Handwashing observed, Sinks stocked]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(1); 7.11(10)(a)-(d)"
+  - id: ic_disinfection
+    domain: infection_control
+    requirement: >-
+      Surfaces and items are washed and disinfected on the required schedule (eating surfaces
+      before and after each use; diapering surfaces, potty chairs, thermometers, and water tables
+      after each use; toilets, sinks, fountains, and play tables daily; sleeping equipment and
+      linens weekly) with a bleach solution per EEC guidelines or an EPA-registered product used
+      as labeled and stored out of reach; mouthed toys are set aside until cleaned.
+    evidence: [Cleaning schedule, Product labels show EPA registration, Storage out of reach]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(10)(f)-(o)"
+  - id: ic_body_fluids
+    domain: infection_control
+    requirement: >-
+      Disposable non-latex gloves for blood and body fluid cleanup; the area is disinfected, waste
+      goes in a lined covered container, educators wash hands, and soiled clothing is bagged,
+      labeled, and returned to the parent.
+    evidence: [Gloves available, Spill procedure]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(10)(p)"
+  - id: ic_large_group_floors
+    domain: infection_control
+    requirement: >-
+      Smooth non-porous floors and mops are washed and disinfected at least daily.
+    evidence: [Cleaning log]
+    applies_to: [large_group]
+    source: cmr606-7
+    section: "7.11(19)(c)"
+  - id: fa_cpr_present
+    domain: first_aid
+    requirement: >-
+      At least one educator currently certified in first aid and age-appropriate CPR is present at
+      all times; CPR is renewed before it expires; only certified educators give first aid and
+      CPR. In group programs each educator is certified in first aid within six months of
+      employment.
+    evidence: [Certification cards, Staffing schedule]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(1)(a); 7.11(18)(d)"
+  - id: fa_supplies_and_travel
+    domain: first_aid
+    requirement: >-
+      Adequate first aid supplies (tape, bandages, gauze, non-latex gloves, cold pack, scissors,
+      tweezers, thermometer, CPR mouth guard); a first aid kit, family contacts, allergy and
+      medical information, emergency medications such as inhalers and epinephrine, emergency
+      numbers, and emergency care authorizations go with children whenever they leave the
+      facility.
+    evidence: [First aid kit contents, Travel bag checklist]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(5)(d)-(e)"
+  - id: fa_emergency_plan
+    domain: first_aid
+    requirement: >-
+      A written emergency plan (missing children, evacuation, shelter in place, meeting place,
+      contacting authorities and parents) that meets the needs of all children including those
+      with disabilities, with monthly evacuation drills documented.
+    evidence: [Emergency plan, Drill log]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(7)(f)-(h)"
+  - id: sleep_back
+    domain: safe_sleep
+    requirement: >-
+      Infants sleep on their backs unless a health care professional orders otherwise in writing,
+      in individual cribs or approved equipment with firm, fitted mattresses and no pillows,
+      comforters, stuffed animals, or soft materials for infants under 12 months.
+    evidence: [Sleep observed, Crib inspection]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(13)(e)"
+  - id: nutrition_allergies
+    domain: nutrition
+    requirement: >-
+      Educators follow parents' or physicians' orders for special diets and the directions of
+      parents or the child's physician about food allergies.
+    evidence: [Allergy and diet lists in food areas, Orders on file]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.12(3)-(4)"
+  - id: staff_health_exam
+    domain: staff_health
+    requirement: >-
+      Before licensure or employment, evidence from a licensed practitioner that each educator had
+      a physical examination within the past year, is immunized according to DPH
+      recommendations, and any limitations on working with children (religious or medical
+      exemptions in writing).
+    evidence: [Educator health files]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.09(11)-(12)"
+  - id: safety_mandated_reporting
+    domain: safety
+    requirement: >-
+      Every educator is a mandated reporter under M.G.L. c. 119, section 51A; the licensee notifies
+      EEC immediately after filing or learning of a 51A report about a child in care.
+    evidence: [Training on mandated reporting, Notification procedure]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(4)(d)-(f)"
+  - id: safety_incidents
+    domain: safety
+    requirement: >-
+      A record of unusual or serious incidents (injuries, behavior, emergencies), reviewed monthly
+      by the licensee or program administrator.
+    evidence: [Incident log with monthly review]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.11(5)(f)"
+  - id: safety_parent_notification
+    domain: safety
+    requirement: >-
+      Inform parents immediately of any injury needing more than minor first aid or any emergency
+      non-prescription medication, at the end of the day of minor first aid, and in writing
+      within 24 hours of these incidents.
+    evidence: [Notification records]
+    applies_to: [family, small_group, large_group]
+    source: cmr606-7
+    section: "7.08(8)(a), (d), (e)"
+
+consultant_role:
+  - text: >-
+      The health care consultant is available for consultation as needed, approves the program's
+      health care plan at initial licensure and at each renewal, and approves first aid and
+      medication administration training for staff.
+    source: cmr606-7
+    section: "7.11(19)(b)"
+  - text: >-
+      The consultant must be a Massachusetts licensed physician, registered nurse, nurse
+      practitioner, or physician assistant with pediatric or family health training or
+      experience.
+    source: cmr606-7
+    section: "7.02 (Health Care Consultant)"
+
+related:
+  - text: >-
+      606 CMR 7.00 applies to programs providing non-residential care to children younger than 14
+      outside their own homes; family child care, small group, and large group programs have
+      additional requirements in 7.11(17)-(19).
+    source: cmr606-7
+    section: "7.01; 7.11"
