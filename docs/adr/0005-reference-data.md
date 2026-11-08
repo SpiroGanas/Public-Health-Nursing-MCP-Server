@@ -24,6 +24,12 @@ from the build environment; the MassGIS download bucket was.
   300.140, and 300.170 because the regulation text could not be retrieved. The content is marked
   `status: pending`, each entry carries a confidence level, every answer states that the list is
   a draft, and the review is due before the first pilot.
+- **Update, 2026-11-07:** mass.gov became reachable. The reportable conditions were re-checked
+  against the regulation text (Mass. Register #1470, 5/27/22; 300.180, not 300.140, holds the
+  diseases reportable directly to DPH) and DPH's current reporting lists, and each entry now
+  cites its sections. The content stays `pending` until the subject matter expert reviews it.
+  The HMCC column was compared town by town with DPH's HMCC Regional Boundaries map (December
+  2019); the one difference (Wilmington, Region 3) is an override in the snapshot builder.
 
 ## Consequences
 
