@@ -2480,6 +2480,7 @@ dependencies = [
  "phn-docs",
  "phn-epi",
  "phn-local",
+ "rust_xlsxwriter",
  "schemars",
  "serde",
  "serde_json",

@@ -15,16 +15,21 @@ pub use reportable::*;
 pub mod aberrations;
 pub mod contact_tracing;
 pub mod engine;
+pub mod epicurve;
 pub mod infection_control;
 pub mod isolation;
+pub mod line_list;
 pub mod measles;
+pub mod outbreak;
 
 pub use aberrations::{AberrationArgs, AberrationResult, detect_aberrations};
+pub use epicurve::{EpiCurveArgs, EpiCurveResult, generate_epi_curve};
 pub use contact_tracing::{ContactTracingArgs, ContactTracingResult, plan_contact_tracing};
 pub use infection_control::{
     InfectionControlArgs, InfectionControlResult, infection_control_for_congregate_settings,
 };
 pub use measles::{MeaslesExposureArgs, MeaslesExposureResult, assess_measles_exposure};
+pub use outbreak::{OutbreakArgs, OutbreakResult, analyze_outbreak_line_list};
 pub use isolation::{IsolationArgs, IsolationResult, calculate_isolation_and_exclusion};
 
 // Phase 6 modules (CD-08, CD-09) go below this line.

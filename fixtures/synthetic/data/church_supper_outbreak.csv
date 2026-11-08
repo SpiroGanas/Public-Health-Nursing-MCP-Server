@@ -1,0 +1,61 @@
+Case ID,Last Name,First Name,Phone,Age,Sex,Town,Ill,Case Status,Onset Date,Onset Time,Diarrhea,Vomiting,Fever,Abdominal Cramps,Hospitalized,Roast Turkey,Stuffing,Mashed Potatoes,Gravy,Green Beans,Coleslaw,Dinner Rolls,Apple Pie,Chocolate Cake,Lemonade
+CS-2026-001,Abernathy,Ardith,508-555-0140,8,F,Pittsfield,Y,Confirmed,2026-05-03,14:00,Y,Y,Y,Y,N,N,Y,Y,Y,Y,Y,Y,N,N,N
+CS-2026-002,Kowalczyk,Bexley,508-555-0141,60,F,Lenox,Y,Probable,2026-05-03,16:00,Y,N,Y,Y,N,Y,Y,Y,N,Y,N,Y,N,Y,Y
+CS-2026-003,Okonkwo,Calloway,508-555-0142,34,M,Dalton,N,Not a case,,,N,N,N,N,N,Y,Y,Y,Y,N,Y,N,Y,Y,Y
+CS-2026-004,Lindqvist,Delphine,508-555-0143,54,F,Stockbridge,Y,Confirmed,2026-05-04,22:00,Y,Y,Y,Y,Y,Y,N,N,N,N,N,Y,Y,N,N
+CS-2026-005,Ferreira,Evander,508-555-0144,50,M,Pittsfield,Y,Confirmed,2026-05-03,19:00,Y,N,Y,N,N,Y,N,Y,Y,Y,Y,Y,Y,N,Y
+CS-2026-006,Haddad,Fenwick,508-555-0145,6,M,Pittsfield,Y,Probable,2026-05-05,07:00,Y,N,Y,Y,N,Y,Y,Y,Y,N,Y,Y,Y,N,N
+CS-2026-007,Novak,Galen,508-555-0146,68,F,Lenox,Y,Probable,2026-05-04,02:00,Y,N,Y,N,N,Y,Y,N,Y,Y,N,Y,Y,Y,N
+CS-2026-008,Takahashi,Henrike,508-555-0147,12,M,Dalton,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,,Y,N,N,N
+CS-2026-009,Oyelaran,Isidore,508-555-0148,50,M,Hinsdale,N,Not a case,,,N,N,N,N,N,Y,Y,Y,Y,Y,Y,N,N,N,N
+CS-2026-010,Brennan,Juniper,508-555-0149,59,M,Pittsfield,Y,Probable,2026-05-03,15:00,Y,Y,Y,N,Y,N,Y,Y,Y,N,Y,Y,Y,N,N
+CS-2026-011,Szymanski,Kestrel,508-555-0150,38,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,N,N,N,Y,Y,Y
+CS-2026-012,Achterberg,Lorcan,508-555-0151,4,M,Lenox,N,Not a case,,,N,N,N,N,N,N,Y,N,Y,N,Y,Y,Y,Y,Y
+CS-2026-013,Valdivia,Marisol,508-555-0152,34,M,Dalton,Y,Confirmed,2026-05-03,07:00,Y,Y,Y,N,Y,Y,Y,Y,N,Y,N,Y,Y,Y,N
+CS-2026-014,Quarshie,Niamh,508-555-0153,36,M,Stockbridge,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,Y,Y,N,Y,Y
+CS-2026-015,Rasmussen,Osric,508-555-0154,3,M,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,N,Y,N,Y,Y,Y
+CS-2026-016,Dellacroce,Philippa,508-555-0155,42,F,Pittsfield,Y,Confirmed,2026-05-04,16:00,Y,N,Y,Y,N,Y,Y,Y,Y,N,N,Y,N,N,Y
+CS-2026-017,Ekwueme,Quillon,508-555-0156,2,M,Lenox,Y,Confirmed,2026-05-04,05:00,Y,N,N,Y,N,Y,Y,Y,N,N,N,Y,Y,N,N
+CS-2026-018,Fairweather,Rosalind,508-555-0157,10,F,Dalton,Y,Confirmed,2026-05-05,00:00,Y,N,Y,N,N,Y,Y,Y,N,N,Y,Y,N,N,N
+CS-2026-019,Gallardo,Soren,508-555-0158,57,F,Hinsdale,Y,Probable,2026-05-03,23:00,Y,Y,N,Y,N,Y,Y,Y,Y,Y,N,Y,Y,Y,N
+CS-2026-020,Horvath,Thaddeus,508-555-0159,16,M,Pittsfield,Y,Confirmed,2026-05-03,21:00,Y,Y,Y,Y,N,N,Y,Y,N,Y,N,Y,,N,Y
+CS-2026-021,Iannucci,Ulrika,508-555-0160,51,M,Pittsfield,Y,Probable,2026-05-04,19:00,Y,Y,Y,Y,N,Y,Y,Y,N,Y,Y,Y,Y,Y,N
+CS-2026-022,Jaroszewski,Viggo,508-555-0161,13,F,Lenox,N,Not a case,,,N,N,N,N,N,Y,N,N,Y,Y,N,Y,N,N,N
+CS-2026-023,Kavanagh,Wilhelmina,508-555-0162,14,F,Dalton,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,N,Y,N,N,Y
+CS-2026-024,Lachance,Xanthe,508-555-0163,10,F,Stockbridge,Y,Probable,2026-05-05,12:00,Y,Y,Y,Y,N,Y,Y,N,N,Y,Y,Y,Y,Y,Y
+CS-2026-025,Mbeki,Yorick,508-555-0164,39,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,N,N,Y,N,Y,N
+CS-2026-026,Nakamura,Zuleika,508-555-0165,64,M,Pittsfield,Y,Confirmed,2026-05-03,16:00,Y,Y,N,Y,N,Y,Y,Y,N,Y,N,Y,Y,Y,N
+CS-2026-027,Ostrowski,Anselm,508-555-0166,60,M,Lenox,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,N,Y,N,N,Y
+CS-2026-028,Pellegrino,Briallen,508-555-0167,17,M,Dalton,Y,Probable,2026-05-03,11:00,Y,Y,N,Y,N,Y,Y,N,Y,N,N,Y,Y,Y,N
+CS-2026-029,Quintanilla,Cosima,508-555-0168,84,F,Hinsdale,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,N,N,Y,Y,Y
+CS-2026-030,Radovic,Dashiell,508-555-0169,16,M,Pittsfield,Y,Confirmed,2026-05-03,09:00,Y,N,Y,Y,N,Y,Y,Y,Y,Y,Y,Y,N,N,Y
+CS-2026-031,Sorensen,Elowen,508-555-0170,5,M,Pittsfield,Y,Probable,2026-05-04,00:00,Y,Y,Y,Y,N,Y,Y,Y,N,N,N,Y,Y,N,Y
+CS-2026-032,Tremblay,Florian,508-555-0171,15,F,Lenox,Y,Confirmed,2026-05-03,16:00,Y,Y,N,Y,N,Y,Y,Y,Y,N,N,N,N,Y,Y
+CS-2026-033,Underhill,Giselle,508-555-0172,32,M,Dalton,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,Y,N,Y,Y,N,Y
+CS-2026-034,Vasquez-Ortega,Hollis,508-555-0173,12,M,Stockbridge,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,Y,N,Y,N,N,N
+CS-2026-035,Wojcik,Ignatius,508-555-0174,80,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,N,N,Y,Y,Y,N,N,Y
+CS-2026-036,Xiong,Jessamy,508-555-0175,69,M,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,N,Y,Y,N,Y,N
+CS-2026-037,Yamamoto,Kasimir,508-555-0176,79,F,Lenox,Y,Confirmed,2026-05-04,17:00,Y,N,Y,Y,N,Y,Y,Y,Y,Y,N,Y,Y,N,N
+CS-2026-038,Zielinski,Leocadia,508-555-0177,4,F,Dalton,N,Not a case,,,N,N,N,N,N,Y,N,N,N,Y,Y,Y,Y,N,N
+CS-2026-039,Archambault,Mattias,508-555-0178,73,M,Hinsdale,Y,Probable,2026-05-03,17:00,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,Y,Y,Y,Y
+CS-2026-040,Bergstrom,Nerissa,508-555-0179,33,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,Y,Y,Y,Y,Y
+CS-2026-041,Castellano,Ottoline,508-555-0180,56,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,Y,N,Y,N,N,N
+CS-2026-042,Dabrowski,Peregrine,508-555-0181,81,M,Lenox,N,Not a case,,,N,N,N,N,N,Y,Y,Y,Y,N,,Y,Y,Y,N
+CS-2026-043,Esposito,Rafferty,508-555-0182,16,F,Dalton,Y,Confirmed,2026-05-04,01:00,Y,N,N,N,N,Y,Y,Y,Y,N,N,Y,Y,Y,N
+CS-2026-044,Fitzgerald,Saoirse,508-555-0183,15,F,Stockbridge,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,N,N,Y,Y,N,Y
+CS-2026-045,Grabowski,Tamsin,508-555-0184,88,F,Pittsfield,Y,Confirmed,2026-05-04,00:00,Y,N,N,Y,N,Y,Y,Y,Y,N,N,Y,Y,N,N
+CS-2026-046,Halvorsen,Ulysses,508-555-0185,14,F,Pittsfield,Y,Confirmed,2026-05-03,08:00,Y,Y,N,Y,N,Y,Y,Y,N,Y,N,Y,Y,Y,N
+CS-2026-047,Ishikawa,Valentina,508-555-0186,5,M,Lenox,Y,Confirmed,2026-05-04,07:00,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,Y,N,N,Y
+CS-2026-048,Janssen,Wendeline,508-555-0187,61,M,Dalton,Y,Probable,2026-05-03,10:00,Y,N,Y,Y,N,Y,Y,Y,Y,N,N,Y,Y,N,N
+CS-2026-049,Kirkpatrick,Ysolde,508-555-0188,81,M,Hinsdale,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,Y,N,N,N,Y,Y
+CS-2026-050,Lombardi,Zebulon,508-555-0189,5,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,N,Y,N,N,Y,Y,N,Y
+CS-2026-051,Moreau,Alaric,508-555-0190,17,M,Pittsfield,Y,Probable,2026-05-03,11:00,Y,N,Y,Y,Y,Y,Y,N,Y,N,Y,Y,N,Y,Y
+CS-2026-052,Nikolaidis,Bronwen,508-555-0191,3,M,Lenox,Y,Confirmed,2026-05-04,11:00,Y,N,N,N,N,Y,Y,Y,Y,Y,Y,N,N,N,Y
+CS-2026-053,Oduya,Cyprian,508-555-0192,17,M,Dalton,Y,Confirmed,2026-05-03,07:00,Y,Y,N,Y,N,N,Y,Y,N,Y,Y,Y,N,Y,Y
+CS-2026-054,Petrakis,Damaris,508-555-0193,17,F,Stockbridge,N,Not a case,,,N,N,N,N,N,Y,N,N,Y,Y,N,Y,Y,N,Y
+CS-2026-055,Rosenthal,Emrys,508-555-0194,74,F,Pittsfield,Y,Confirmed,2026-05-03,22:00,Y,Y,Y,Y,N,Y,Y,Y,Y,Y,N,Y,Y,N,Y
+CS-2026-056,Sundqvist,Fiammetta,508-555-0195,17,F,Pittsfield,N,Not a case,,,N,N,N,N,N,Y,N,Y,Y,Y,Y,N,N,Y,Y
+CS-2026-057,Thibodeau,Gwenllian,508-555-0196,56,M,Lenox,N,Not a case,,,N,N,N,N,N,Y,N,Y,N,Y,Y,Y,Y,Y,Y
+CS-2026-058,Ulrich,Hesper,508-555-0197,15,M,Dalton,Y,Probable,2026-05-04,10:00,Y,N,N,Y,N,Y,Y,Y,N,Y,N,Y,N,Y,N
+CS-2026-059,Villanueva,Ingram,508-555-0198,42,F,Hinsdale,Y,Probable,2026-05-03,22:00,Y,N,Y,N,N,Y,Y,Y,N,N,N,Y,Y,N,Y
+CS-2026-060,Whitfield,Jolyon,508-555-0199,72,M,Pittsfield,Y,Confirmed,2026-05-04,14:00,Y,Y,Y,Y,Y,N,Y,Y,Y,Y,N,Y,Y,Y,N
