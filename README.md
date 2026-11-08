@@ -37,6 +37,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `age_adjust_rates` | EPI-02 | epi | Direct age adjustment to the 2000 U.S. standard population (NCHS weights) with gamma-method intervals and comparisons. |
+| `analyze_two_by_two` | EPI-03 | epi | Risk and odds ratios, attributable fractions, chi-square and exact tests, and Mantel–Haenszel stratified analysis. |
+| `calculate_sample_size` | EPI-04 | epi | Sample size and power for surveys, two-group comparisons, case-control studies, and cluster samples. |
+| `compute_standardized_ratio` | EPI-05 | epi | Standardized incidence or mortality ratios (SIR/SMR) with exact intervals. |
+| `analyze_trends` | EPI-09 | epi | Annual percent change, joinpoint segments, interrupted time series, seasonality, and a trend chart. |
+| `run_statistical_test` | EPI-10 | epi | Chooses and runs the right test (t, rank, ANOVA, chi-square, correlation, regression), checks assumptions, and explains the result. |
+| `create_chart` | EPI-11 | epi | Accessible bar, line, dot, and histogram charts (PNG/SVG) with alt text and a data table. |
+| `create_spc_chart` | EBP-06 | ebp | Run charts and XmR, p, u, and c control charts with special-cause rules, baselines, and phases. |
 <!-- Phase 2 rows go above this line. -->
 
 ### Phase 3: communicable disease I

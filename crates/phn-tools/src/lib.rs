@@ -5,6 +5,7 @@
 //! `rmcp` tool definitions, so the logic can be tested without a transport.
 
 pub mod cd;
+pub mod charts;
 pub mod chronic;
 pub mod comms;
 pub mod context;
@@ -12,6 +13,7 @@ pub mod core;
 pub mod ebp;
 pub mod epi;
 pub mod equity;
+pub mod localdata;
 pub mod md;
 pub mod registry;
 pub mod vax;

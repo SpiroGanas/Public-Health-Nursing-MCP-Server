@@ -26,6 +26,10 @@ general_caveats:
     Several federal public health web pages and datasets were taken offline or modified for a
     time in 2025, and some were later restored. The server keeps dated snapshots so answers stay
     reproducible, and each answer states whether live or snapshot data was used.
+  - >-
+    Web addresses change. The mass.gov address recorded for 105 CMR 300.000 in Phase 0 no longer
+    worked when it was checked on 2026-11-07; get_data_source_status probes each address so a
+    broken link shows up.
 
 sources:
   - id: ma-reportable-conditions
@@ -34,11 +38,18 @@ sources:
     kind: content
     status: active
     content_id: ma-reportable-conditions
-    homepage: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
-    probe_url: https://www.mass.gov/regulations/105-CMR-300000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    homepage: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
     used_by: [lookup_reportable_condition]
     caveats:
-      - Reviewed content bundled with the server. Changes to the regulation require a content update.
+      - >-
+        Content bundled with the server, transcribed on 2026-11-07 from 105 CMR 300.000 (Mass.
+        Register #1470, 5/27/22) and DPH's current reporting lists. It is pending review by the
+        subject matter expert. Changes to the regulation or to DPH's lists require a content update.
+      - >-
+        The Commissioner can add conditions for up to 12 months at a time by declaration under
+        105 CMR 300.150 (for example alpha-gal syndrome from April 1, 2026). Check DPH's current
+        reporting page for declarations newer than the bundled content.
 
   - id: ma-municipalities
     name: Massachusetts cities and towns, counties, and DPH preparedness regions
@@ -50,7 +61,10 @@ sources:
     probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/townssurvey_shp.zip
     used_by: [configure_jurisdiction, lookup_reportable_condition]
     caveats:
-      - HMCC regions are derived from the 2005 DPH Emergency Preparedness Region layer; confirm with your HMCC.
+      - >-
+        HMCC regions are derived from the 2005 DPH Emergency Preparedness Region layer (Regions 4A
+        and 4B merged into 4AB), corrected for one town (Wilmington, Region 3) to match DPH's HMCC
+        Regional Boundaries map (December 2019). Confirm with your HMCC.
 
   - id: ma-school-districts
     name: Massachusetts public school districts
@@ -58,11 +72,13 @@ sources:
     kind: snapshot
     status: active
     snapshot_id: ma-school-districts
-    homepage: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
+    homepage: https://www.mass.gov/info-details/massgis-data-public-school-districts
     probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/schooldistricts.zip
     used_by: [configure_jurisdiction]
     caveats:
-      - District list reflects the layer's vintage; newer regionalizations may be missing.
+      - >-
+        District list reflects the MassGIS layer's vintage (June 2019); districts formed, merged,
+        or renamed since then may be missing. Confirm with DESE School and District Profiles.
 
   - id: local-files
     name: Your files in the mounted /data folder

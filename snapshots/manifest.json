@@ -7,24 +7,25 @@
       "publisher": "MassGIS (Bureau of Geographic Information); region assignment derived by this project",
       "source_urls": [
         "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/townssurvey_shp.zip",
-        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/regdphep_poly.zip"
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/state/regdphep_poly.zip",
+        "https://www.mass.gov/doc/hmcc-regional-boundaries-map-with-communities-labeled/download"
       ],
       "source_sha256": {
         "regdphep_poly.zip": "e008b26e121891b5b4d67a364bf6954b6a6737e35f788065677283009b4ccb5e",
         "townssurvey_shp.zip": "fa28c827471a88698ec0bfc7ce11b6957cfbf93f4e1e15c980e8d04410a9537d"
       },
       "source_vintage": "towns 2024-04-15; DPH regions 2022-04-27",
-      "retrieved": "2026-11-07",
+      "retrieved": "2026-11-08",
       "license": "MassGIS data are free public records of the Commonwealth of Massachusetts.",
-      "derivation": "Town, type, county, and county FIPS come from the MassGIS municipal boundary layer (TOWNSSURVEY_POLY). Each town's DPH Emergency Preparedness Region is the region polygon (REGDPHEP_POLY) that contains an interior point of the town's largest land part. The HMCC region merges DPH Regions 4A and 4B into 4AB.",
+      "derivation": "Town, type, county, and county FIPS come from the MassGIS municipal boundary layer (TOWNSSURVEY_POLY). Each town's DPH Emergency Preparedness Region is the region polygon (REGDPHEP_POLY) that contains an interior point of the town's largest land part. The HMCC region merges DPH Regions 4A and 4B into 4AB, then applies the towns whose region differs on DPH's HMCC Regional Boundaries map (MDPH OPEM, 2019-12-09; PDF retrieved 2026-11-07, not re-downloaded by the build): Wilmington (Region 3).",
       "caveats": [
-        "The DPH Emergency Preparedness Region layer dates from 2005. HMCC membership is derived from it (Regions 4A and 4B merged into 4AB) and has not been checked against DPH's current HMCC municipality list; confirm with your HMCC."
+        "The DPH Emergency Preparedness Region layer dates from 2005. HMCC membership is derived from it (Regions 4A and 4B merged into 4AB) and was compared town by town with DPH's HMCC Regional Boundaries map (December 2019) on 2026-11-07; the towns that differ are set to the map's region: Wilmington (Region 3). DPH's interactive HMCC locator could not be checked. Confirm with your HMCC."
       ],
       "files": [
         {
           "path": "ma_municipalities.csv",
-          "sha256": "e0695f5f24f45cb2b253bda3becf022a2d8fe0e75e643b271907bbe19f5945b6",
-          "bytes": 13505,
+          "sha256": "4d9247e357b322f1548d9c362e96cf8bcdeb1641fbc61f8a51f3c7399b0d5f9f",
+          "bytes": 13503,
           "rows": 351
         }
       ]
