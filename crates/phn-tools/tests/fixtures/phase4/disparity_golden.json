@@ -1,0 +1,45 @@
+{
+  "note": "Produced with R version 4.3.3 (2024-02-29) using base R only. Rate ratios: exact conditional CI from poisson.test(c(a_j, a_ref), c(n_j, n_ref)); log-scale (Wald) CI exp(log RR +/- z sqrt(1/a_j + 1/a_ref)). Rate difference: (r_j - r_ref) +/- z sqrt(a_j/n_j^2 + a_ref/n_ref^2), per 100,000. Index of disparity (Pearcy & Keppel 2002): mean over non-reference groups of |r_j - r_ref|, divided by r_ref, times 100. Between-group variance (Harper et al.): sum p_j (r_j - mu)^2 with p_j = n_j/N and mu = sum p_j r_j (rates per 100,000); SE by the delta method sqrt(sum (2 p_j (r_j - mu))^2 a_j/n_j^2) (per 100,000 squared), checked by Monte Carlo (200,000 Poisson draws, seed 20261107). PAF: excess = sum(a) - r_ref * sum(n); PAF = excess / sum(a); CI on log(1 - PAF) with variance B/(a_ref * O), O = sum(a), B = O - a_ref.",
+  "comparisons": {
+    "A": {
+      "rate_ratio":              1.5,
+      "exact_lower": 0.867759723319078,
+      "exact_upper":  2.6816185696484,
+      "log_lower": 0.885804164666164,
+      "log_upper":  2.5400648244276,
+      "rate_difference":             12.5,
+      "rd_lower": -2.99487580761403,
+      "rd_upper":  27.994875807614
+    },
+    "B": {
+      "rate_ratio":              2.4,
+      "exact_lower": 1.31861103876946,
+      "exact_upper": 4.45880689114011,
+      "log_lower": 1.36298325919354,
+      "log_upper": 4.22602402571555,
+      "rate_difference":               35,
+      "rd_lower":  10.895630134144,
+      "rd_upper":  59.104369865856
+    },
+    "C": {
+      "rate_ratio":              3.2,
+      "exact_lower": 1.42628069992065,
+      "exact_upper": 6.87325680896134,
+      "log_lower": 1.56435430207107,
+      "log_upper": 6.54583171244717,
+      "rate_difference":               55,
+      "rd_lower": 8.42936949267035,
+      "rd_upper":  101.57063050733
+    }
+  },
+  "index_of_disparity": 136.666666666667,
+  "between_group_variance": 236.650053399786,
+  "bgv_se_delta": 142.184980030692,
+  "bgv_sd_monte_carlo": 158.592010730409,
+  "total_rate":  40.377358490566,
+  "excess_cases":            40.75,
+  "paf": 0.380841121495327,
+  "paf_lower": 0.0807599885295449,
+  "paf_upper": 0.582962325347513,
+  "paf_sd_monte_carlo": 0.125218863234614
+} 

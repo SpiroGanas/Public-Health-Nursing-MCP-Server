@@ -54,6 +54,238 @@
           "rows": 402
         }
       ]
+    },
+    {
+      "id": "ma-census-geographies",
+      "title": "Massachusetts census geographies: counties, cities and towns (county subdivisions), 2020 census tracts, and ZCTAs, with crosswalks",
+      "publisher": "U.S. Census Bureau; crosswalk derived by this project",
+      "source_urls": [
+        "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_gaz_cousubs_25.txt",
+        "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2024_Gazetteer/2024_gaz_tracts_25.txt",
+        "https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2020_Gazetteer/2020_gaz_cousubs_25.txt",
+        "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST25_MA.zip",
+        "https://www2.census.gov/geo/docs/maps-data/data/rel2020/zcta520/tab20_zcta520_cousub20_natl.txt",
+        "https://www2.census.gov/geo/docs/maps-data/data/rel2020/2020_Census_Tract_to_2020_PUMA.txt"
+      ],
+      "source_sha256": {
+        "2020_Census_Tract_to_2020_PUMA.txt": "5262f460b2c8dbe86b00549e916317b1791fdc595c9af72ab18f6f6a67040531",
+        "2020_gaz_cousubs_25.txt": "aebca5cda51aa4835cb8bfe77e42130a4c17725a37d82d2292d6d85f6ef5d158",
+        "2024_gaz_cousubs_25.txt": "a35eab667d896dff9064aabafdaf6bf5768f1873cf14fd47afa3ab6aeb91397f",
+        "2024_gaz_tracts_25.txt": "69f6515738376ec50ebdc315f35248ba5448076c28e6aff8ad5e4710ae573115",
+        "BlockAssign_ST25_MA.zip": "6d77b72047fef535efe396b675d4ec8cedfbc975e4cab9460431b861353e4f18",
+        "tab20_zcta520_cousub20_natl.txt": "406d2f1b11692a185e930e53f63a68951e5b64dbb7b0cf201a934a8e54aee27b"
+      },
+      "source_vintage": "2024 Gazetteer; 2020 census geography",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Towns: the 351 Massachusetts county subdivisions in the 2024 Census Gazetteer, matched to MassGIS town names (Census suffixes such as 'city', 'town', and 'Town city' removed). Tracts: 2020 census tracts; the town of each tract and its share come from the 2020 block assignment file (share of the tract's census blocks in each town). ZCTAs: 2020 ZCTAs that overlap a Massachusetts town in the 2020 ZCTA-to-county-subdivision relationship file; town shares are shares of the ZCTA's land area. PUMAs: 2020 tract-to-PUMA relationship file. Land area in square miles from the Gazetteer.",
+      "caveats": [
+        "Tract-to-town shares count census blocks, not people; a few tracts cross town lines.",
+        "ZIP Code Tabulation Areas approximate USPS ZIP Codes and often cross town lines; town shares are by land area."
+      ],
+      "files": [
+        {
+          "path": "ma_census_geographies.csv",
+          "sha256": "dcd4eef78235c7d52fbb8bb5b1ea6ca39310a5312c7335faa26ac7304d4f5186",
+          "bytes": 256732,
+          "rows": 2523
+        }
+      ]
+    },
+    {
+      "id": "ma-boundaries",
+      "title": "Massachusetts map boundaries: cities and towns, 2020 census tracts, ZCTAs, and school districts",
+      "publisher": "U.S. Census Bureau cartographic boundary files; school districts derived by this project",
+      "source_urls": [
+        "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_25_cousub_500k.zip",
+        "https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_25_tract_500k.zip",
+        "https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_zcta520_500k.zip"
+      ],
+      "source_sha256": {
+        "cb_2020_us_zcta520_500k.zip": "c69a4ede8aebebfc7ed3a98a9075c6aaa1b75d514a129bc5c662fd806d2f3d17",
+        "cb_2024_25_cousub_500k.zip": "b6a8e288399d29b8b799841214e8126334e4bc3435dadc06a59a86ef525caad5",
+        "cb_2024_25_tract_500k.zip": "ce0ebf71c49a3804a1f16a2a6bfd14a0ee652e980979df5a43ffc1e65666521e"
+      },
+      "source_vintage": "Cartographic boundary files 2024 (towns, 2020 tracts) and 2020 (ZCTAs)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Polygons from the 1:500,000 cartographic boundary files (clipped to the shoreline), projected to NAD83 / Massachusetts Mainland (EPSG:26986), simplified with Douglas–Peucker (tolerance 60 m for towns and school districts, 25 m for tracts, 50 m for ZCTAs) with shared borders simplified identically, quantized to 10 m, and delta-encoded (polygons separated by '|', rings by ';', 'x y dx dy ...' in 10 m units). School districts (municipal, regional academic, and regional vocational-technical; DESE organization codes from the MassGIS district list) are the union of their member towns.",
+      "caveats": [
+        "Boundaries are simplified for maps at town to state scale and are not survey-grade.",
+        "Regional secondary and vocational districts overlap the elementary or municipal districts of their member towns.",
+        "School district membership follows the 2019 MassGIS district list; newer regionalizations are missing."
+      ],
+      "files": [
+        {
+          "path": "ma_boundaries_towns.csv",
+          "sha256": "685d6bdf845be5d0d83a680906acb92a7843cedb1ecb24e40b55fa534a24016c",
+          "bytes": 96644,
+          "rows": 351
+        },
+        {
+          "path": "ma_boundaries_tracts.csv",
+          "sha256": "26cf88d47b29917382d3c678127bebc7c24a0b0fa710b00fd60e2ef8531082f5",
+          "bytes": 376089,
+          "rows": 1613
+        },
+        {
+          "path": "ma_boundaries_zctas.csv",
+          "sha256": "54dbc174d528bce635ef422a0805c819acc342d79c9244200dc38c9225ab9ab0",
+          "bytes": 176906,
+          "rows": 539
+        },
+        {
+          "path": "ma_boundaries_school_districts.csv",
+          "sha256": "bed7c1d401c71183f214aa67d4fc324b3f3d329382027aa72694b897ea2de1dd",
+          "bytes": 150254,
+          "rows": 320
+        }
+      ]
+    },
+    {
+      "id": "census-acs5-ma",
+      "title": "U.S. Census Bureau, American Community Survey 2020–2024 5-year estimates (detailed tables)",
+      "publisher": "U.S. Census Bureau",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01001.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b01003.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b03002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b05002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b15003.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b16001.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b19013.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b23025.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25003.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25014.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25044.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25106.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b27001.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b28002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c16001.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c16002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c17002.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-c18108.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b01001.dat": "1637b18a96881b81e050df1cd3d5ac38a33208b9b69b40e1dbeb3c4e13718f0e",
+        "acsdt5y2024-b01002.dat": "04784637609550868d9da7321e7a947b34e0a10b654dbf6d344599f97f8de7f8",
+        "acsdt5y2024-b01003.dat": "38d1a992bb058d184009b10b9b34987279aee575e4323165cfb5706c69b6ca90",
+        "acsdt5y2024-b03002.dat": "ef1a9310905393bf477820de8edb2935c1e9bdb356be65b5ee5fb6fceda911c1",
+        "acsdt5y2024-b05002.dat": "7c97161f6a299ba213b54acad4fc869bd993f438ca70287a61d5b857d98ba295",
+        "acsdt5y2024-b15003.dat": "d0c8609e958022459215c8a31d7452ef7528ee8dd70fbb6f9a99de0f491f42d7",
+        "acsdt5y2024-b16001.dat": "6313fccfa33594fe860a6b0b4084ae721e95687ffe00dbeaeb2864d215a191ef",
+        "acsdt5y2024-b19013.dat": "b25a176b0e6c339b6f3a2a0d3d8446bf06f5f080b4395993ec9a8313efb1c229",
+        "acsdt5y2024-b23025.dat": "264a5bd9367c5f58d9773fa4966fa94fe1e02f9c7106bc2ab39168d6de7c3e4a",
+        "acsdt5y2024-b25003.dat": "68e963e1ed60fcf6b0658579cefc6498b7a9eb780b9f3e87fd1b9775c4d4ac6c",
+        "acsdt5y2024-b25014.dat": "020e9e669d5a49ce9f59dfff724ef1b13c5b64adc8c0959833cd32b111dcdf49",
+        "acsdt5y2024-b25044.dat": "db636e7d249d1f5c83aae67589b47f199827e2969ba6128cae101ac0d1c3e86e",
+        "acsdt5y2024-b25106.dat": "09a835b84b16180c345d6a18033dadb79bf28d5220828f480185c65c7684a8ce",
+        "acsdt5y2024-b27001.dat": "af9b1cad8178ebc85fa96a32b615a3f7a5f98ead7afabc68922614c68eb976ad",
+        "acsdt5y2024-b28002.dat": "12446ff0691b8818f5908cdc398817361772c5b3078c506d0409adc9c841840b",
+        "acsdt5y2024-c16001.dat": "dae7f251470e964510ce46eedb520b5609835a8244190a530638e022ecd1a84e",
+        "acsdt5y2024-c16002.dat": "00a4427940568a454995afb64aaf34a29156943d659453bf5b7e066299a7d1f0",
+        "acsdt5y2024-c17002.dat": "dc3dc675113683ec3ff2a0e29a840f43e03268151d7f14b922658d7306da5187",
+        "acsdt5y2024-c18108.dat": "8116247db31952c99ba053e6b0c767675a9674703b6b32e7705f1e4952f3b426"
+      },
+      "source_vintage": "2020–2024 (released December 2025)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "From the ACS 5-year table-based summary file: every cell an indicator needs, for the nation, Massachusetts, its 14 counties, 351 county subdivisions (cities and towns), and populated 2020 census tracts. Indicators are sums and percentages of detailed-table cells (definitions in phn_data::census::INDICATORS, with table IDs). Margins of error (90%) of sums use sqrt(sum of squared MOEs), counting only the largest MOE among zero estimates; percentages use the Census Bureau's derived-proportion formula (ratio formula when the radicand is negative). Counts and dollars are rounded to whole numbers, percentages to one decimal. ma_acs5_languages_detailed.csv holds B16001 detailed languages (speakers and those who speak English less than 'very well') for Massachusetts and its 2020 PUMAs, the smallest areas where B16001 is published.",
+      "caveats": [
+        "ACS 5-year estimates describe the five-year period, not a single year, and carry sampling error; check the margin of error and coefficient of variation before comparing areas.",
+        "Small towns and tracts have large margins of error; estimates with a coefficient of variation above 30% are flagged as unreliable.",
+        "Dollar amounts are in inflation-adjusted dollars of the last year of the period."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_indicators.csv",
+          "sha256": "d0ddabb075e2d4b078d196ad31d21722ea3b7e321e0b3a3cb9d929dd031e3fb4",
+          "bytes": 1074123,
+          "rows": 1969
+        },
+        {
+          "path": "ma_acs5_languages_detailed.csv",
+          "sha256": "797e8bb2c4a7cdc0774432e16d310325d2840e4bbefd0dd7ba9476fb077ae3a8",
+          "bytes": 88008,
+          "rows": 2020
+        }
+      ]
+    },
+    {
+      "id": "cdc-svi-2022-ma",
+      "title": "CDC/ATSDR Social Vulnerability Index 2022, Massachusetts census tracts",
+      "publisher": "Centers for Disease Control and Prevention / Agency for Toxic Substances and Disease Registry, Geospatial Research, Analysis, and Services Program",
+      "source_urls": [
+        "https://www.atsdr.cdc.gov/place-health/php/svi/svi-data-documentation-download.html",
+        "https://svi.cdc.gov/Documents/Data/2022/csv/states/Massachusetts.csv",
+        "https://svi.cdc.gov/Documents/Data/2022/csv/states/SVI_2022_US.csv"
+      ],
+      "source_sha256": {
+        "SVI_2022_Massachusetts.csv": "9e38e15b91041909fc58bdd56db677d9073598f9f8080048b71d16dd38f8b81e",
+        "SVI_2022_US.csv": "58df3dca3d4194879ffbd4b5e753eae48676ef691da1fa669f5fc40c3f79bc6a"
+      },
+      "source_vintage": "SVI 2022 (ACS 2018–2022), released 2024-05-21; MOE correction 2024-12-11",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Massachusetts tracts from the state-ranked file (percentile ranks within Massachusetts, columns ma_rpl_*) joined to the same tracts in the U.S.-ranked file (national percentile ranks, us_rpl_*). Kept: total population and MOE, overall and four theme percentile ranks, the count of flags (F_TOTAL, tracts at or above the 90th percentile on a variable), and the 16 percent estimates (EP_*). -999 (no data) is stored as blank.",
+      "caveats": [
+        "SVI ranks are relative (percentiles); they do not measure absolute need and cannot be compared across SVI releases.",
+        "Rankings within Massachusetts and nationally differ; say which one you use.",
+        "Built from ACS 2018–2022 5-year estimates, which have sampling error at the tract level."
+      ],
+      "files": [
+        {
+          "path": "ma_svi_2022.csv",
+          "sha256": "ccc3778c7097c13a38fc37558cd9ed5bcda0b4fafdfc86a36faf3faf5ded8cc3",
+          "bytes": 333205,
+          "rows": 1613
+        }
+      ]
+    },
+    {
+      "id": "cdc-places-2025-ma",
+      "title": "CDC PLACES: Local Data for Better Health, 2025 release (Massachusetts counties, places, census tracts, and ZCTAs)",
+      "publisher": "Centers for Disease Control and Prevention, Division of Population Health",
+      "source_urls": [
+        "https://data.cdc.gov/d/swc5-untb",
+        "https://data.cdc.gov/d/eav7-hnsx",
+        "https://data.cdc.gov/d/cwsq-ngmh",
+        "https://data.cdc.gov/d/qnzd-25i4"
+      ],
+      "source_sha256": {
+        "places_county_0.json": "20208d472ebd9cdf8ccc19cb8b65608d505904907aa31ba31001b016d43398e7",
+        "places_place_0.json": "167b6ecf0067930fe2bc736f31e3120790c499ff3629ae5bd4ea7a34303b9743",
+        "places_ref_ma.json": "1bfc9abf7a3e410bbbbddaad796abb40516f89b594b179f60593a5fea5fdc707",
+        "places_ref_us.json": "17f315af01d14abf621da6ac696b427954cdf20c7a61bb9bde8eeeaace7f4db6",
+        "places_tract_0.json": "7c8c5dd092ca9f109a1a3a680d6f9dd8c5ec7ec3ad9ea1fa9b0d3a5ddee4b88e",
+        "places_tract_50000.json": "856e551b005009aa4670dfa87dc7e1071c934ae5e505f2c906a2065afcc6476b",
+        "places_zcta_0.json": "88445f395c92c2ffd04ce09260d23632b9c2d38a8290e3f2ec357c21e418ac95"
+      },
+      "source_vintage": "PLACES 2025 release (BRFSS 2023 for 35 measures, 2022 for 5; ACS 2019–2023 or 2018–2022)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Rows for Massachusetts from the four PLACES 2025 datasets on data.cdc.gov (county swc5-untb, place eav7-hnsx, tract cwsq-ngmh, ZCTA qnzd-25i4), reshaped to one row per location and estimate type (crude, and for counties and places also age-adjusted) with each measure's estimate and 95% confidence limits. ZCTAs and tracts are limited to those in ma_census_geographies.csv. ma_places_2025_measures.csv lists each measure's name, category, and BRFSS data year, with U.S. and Massachusetts reference values computed by this project as adult-population-weighted means of county estimates (sum of estimate × population 18+ over sum of population 18+), which are not official CDC state estimates and have no confidence interval.",
+      "caveats": [
+        "PLACES estimates are model-based small-area estimates, not direct survey measurements; CDC cautions against using them to evaluate local programs or policies.",
+        "The data year (BRFSS survey year) differs from the release year.",
+        "U.S. and Massachusetts reference values are population-weighted means of county estimates computed by this server, not official CDC state estimates."
+      ],
+      "files": [
+        {
+          "path": "ma_places_2025.csv",
+          "sha256": "6dfdf94e341e6850808fd0e37cd99eea78133b9557066437bfc47078fdcf44de",
+          "bytes": 1582225,
+          "rows": 2650
+        },
+        {
+          "path": "ma_places_2025_measures.csv",
+          "sha256": "494fae1e60ebd690094a7b6ebb292f5e2e172cff4b7889260fcf807e37d8e6fc",
+          "bytes": 4510,
+          "rows": 40
+        }
+      ]
     }
   ]
 }

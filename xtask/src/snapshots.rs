@@ -130,6 +130,14 @@ pub fn run(root: &Path, check: bool, source_dir: Option<PathBuf>) -> Result<()> 
         }
         new_manifest.snapshots.push(entry);
     }
+    // Keep entries built by other commands (for example build-public-snapshots).
+    if let Some(o) = &old {
+        for e in &o.snapshots {
+            if !new_manifest.snapshots.iter().any(|n| n.id == e.id) {
+                new_manifest.snapshots.push(e.clone());
+            }
+        }
+    }
 
     if check {
         if changed {
