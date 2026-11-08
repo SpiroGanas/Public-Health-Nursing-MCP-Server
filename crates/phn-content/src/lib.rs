@@ -53,6 +53,62 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 4 content items go below this line.
 
     // Phase 5 content items go below this line.
+    ContentItem {
+        id: "vax-schedule",
+        path: "content/vax/immunization_schedule.yaml",
+        resource_uri: "phn://content/vax-schedule",
+        yaml: include_str!("../../../content/vax/immunization_schedule.yaml"),
+        schema: include_str!("../../../content/schemas/vax_schedule.schema.json"),
+    },
+    ContentItem {
+        id: "vax-recommendations",
+        path: "content/vax/recommendations.yaml",
+        resource_uri: "phn://content/vax-recommendations",
+        yaml: include_str!("../../../content/vax/recommendations.yaml"),
+        schema: include_str!("../../../content/schemas/vax_recommendations.schema.json"),
+    },
+    ContentItem {
+        id: "ma-school-immunization-requirements",
+        path: "content/vax/ma_school_requirements.yaml",
+        resource_uri: "phn://content/ma-school-immunization-requirements",
+        yaml: include_str!("../../../content/vax/ma_school_requirements.yaml"),
+        schema: include_str!("../../../content/schemas/vax_school_requirements.schema.json"),
+    },
+    ContentItem {
+        id: "vax-storage-handling",
+        path: "content/vax/storage_handling.yaml",
+        resource_uri: "phn://content/vax-storage-handling",
+        yaml: include_str!("../../../content/vax/storage_handling.yaml"),
+        schema: include_str!("../../../content/schemas/vax_storage_handling.schema.json"),
+    },
+    ContentItem {
+        id: "vax-products",
+        path: "content/vax/vaccine_products.yaml",
+        resource_uri: "phn://content/vax-products",
+        yaml: include_str!("../../../content/vax/vaccine_products.yaml"),
+        schema: include_str!("../../../content/schemas/vax_products.schema.json"),
+    },
+    ContentItem {
+        id: "vax-clinic-planning",
+        path: "content/vax/clinic_planning.yaml",
+        resource_uri: "phn://content/vax-clinic-planning",
+        yaml: include_str!("../../../content/vax/clinic_planning.yaml"),
+        schema: include_str!("../../../content/schemas/vax_clinic_planning.schema.json"),
+    },
+    ContentItem {
+        id: "vax-confidence-guide",
+        path: "content/vax/confidence_guide.yaml",
+        resource_uri: "phn://content/vax-confidence-guide",
+        yaml: include_str!("../../../content/vax/confidence_guide.yaml"),
+        schema: include_str!("../../../content/schemas/vax_confidence_guide.schema.json"),
+    },
+    ContentItem {
+        id: "vax-coverage-thresholds",
+        path: "content/vax/coverage_thresholds.yaml",
+        resource_uri: "phn://content/vax-coverage-thresholds",
+        yaml: include_str!("../../../content/vax/coverage_thresholds.yaml"),
+        schema: include_str!("../../../content/schemas/vax_coverage_thresholds.schema.json"),
+    },
 
     // Phase 6 content items go below this line.
 ];

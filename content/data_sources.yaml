@@ -123,12 +123,59 @@ sources:
     name: openFDA, DailyMed, and RxNorm
     publisher: U.S. Food and Drug Administration; National Library of Medicine
     kind: live
-    status: planned
-    planned_phase: 5
+    status: active
     homepage: https://open.fda.gov
-    probe_url: https://api.fda.gov
-    used_by: []
-    caveats: []
+    probe_url: https://api.fda.gov/drug/label.json?limit=1
+    used_by: [lookup_medication_information, lookup_vaccine_product]
+    caveats:
+      - Live only (answers are cached for a day); there is no offline snapshot, so offline answers say what could not be checked.
+      - openFDA states its data are unvalidated and must not be relied on for medical decisions; the package insert on DailyMed is the label of record.
+      - An optional free openFDA key (PHN_OPENFDA_API_KEY) raises the rate limit; it is never shown in answers.
+  # --- Phase 5: immunization content and snapshots ---------------------------
+  - id: cdc-iis-vaccine-codes
+    name: CDC IIS vaccine code sets (CVX, MVX, trade names, NDC)
+    publisher: Centers for Disease Control and Prevention
+    kind: snapshot
+    status: active
+    snapshot_id: cdc-iis-vaccine-codes
+    homepage: https://www2a.cdc.gov/vaccines/iis/iisstandards/vaccines.asp?rpt=cvx
+    probe_url: https://www2a.cdc.gov/vaccines/iis/iisstandards/downloads/cvx.txt
+    used_by: [lookup_vaccine_product]
+    caveats:
+      - The CVX table is refreshed live when reachable; MVX, trade names, and NDCs come from the bundled snapshot.
+  - id: ma-school-immunization-survey
+    name: Massachusetts school immunization survey results by school
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-school-immunization-survey
+    homepage: https://www.mass.gov/info-details/school-immunizations
+    probe_url: https://www.mass.gov/info-details/school-immunizations
+    used_by: [analyze_vaccination_coverage]
+    caveats:
+      - Self-reported by schools; DPH withholds schools with fewer than 30 students and publishes rates without enrollment counts.
+  - id: nis-coverage-ma-us
+    name: National Immunization Survey and VaxView coverage, Massachusetts and United States
+    publisher: Centers for Disease Control and Prevention
+    kind: snapshot
+    status: active
+    snapshot_id: nis-coverage-ma-us
+    homepage: https://www.cdc.gov/vaxview/index.html
+    probe_url: https://data.cdc.gov/resource/fhky-rtsk.json?$limit=1
+    used_by: [analyze_vaccination_coverage]
+    caveats:
+      - Survey estimates with sampling error; NIS-Child is reported by birth year and lags the calendar.
+  - id: vax-reference-content
+    name: Immunization reference content (schedules, recommendations by body, school requirements, storage and handling, products, clinic planning, conversation guide, thresholds)
+    publisher: DPH, CDC/ACIP, AAP, AAFP, ACOG, Immunize.org (drafted by this project)
+    kind: content
+    status: active
+    content_id: vax-recommendations
+    homepage: https://www.mass.gov/info-details/dph-recommended-vaccines
+    probe_url: https://www.mass.gov/info-details/dph-recommended-vaccines
+    used_by: [get_immunization_schedule, compare_vaccine_recommendations, check_ma_school_immunization_requirements, analyze_vaccination_coverage, vaccine_temperature_excursion_helper, lookup_vaccine_product, plan_vaccination_clinic, vaccine_confidence_conversation_guide]
+    caveats:
+      - Drafted from documents retrieved 2026-11-07 and pending subject-matter review. Federal and Massachusetts guidance have diverged since 2025; refresh whenever any body issues new guidance.
   - id: cdc-cdsi
     name: CDC Clinical Decision Support for Immunization (CDSi) supporting data
     publisher: Centers for Disease Control and Prevention

@@ -1,0 +1,40 @@
+{
+ "meta": {
+  "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+  "terms": "https://open.fda.gov/terms/",
+  "license": "https://open.fda.gov/license/",
+  "last_updated": "2026-10-28",
+  "results": {
+   "skip": 0,
+   "limit": 2,
+   "total": 20
+  }
+ },
+ "results": [
+  {
+   "status": "Ongoing",
+   "city": "Parsippany",
+   "state": "NJ",
+   "country": "United States",
+   "classification": "Class II",
+   "product_type": "Drugs",
+   "event_id": "97795",
+   "recalling_firm": "Teva Pharmaceuticals USA, Inc",
+   "address_1": "400 Interpace Pkwy Bldg A",
+   "address_2": "N/A",
+   "postal_code": "07054-1120",
+   "voluntary_mandated": "Voluntary: Firm initiated",
+   "initial_firm_notification": "Letter",
+   "distribution_pattern": "Distributed in three (3) States: MS, OH, CA.",
+   "recall_number": "D-0151-2026",
+   "product_description": "Amoxicillin and Clavulanate Potassium for Oral Suspension USP, 200 mg/28.5 mg per 5mL, 100 mL (when reconstituted), Rx only, manufactured in Canada by: Teva Canada Limited, Toronto, Canada M1B 2K9; Manufactured For: Teva Pharmaceuticals USA, Inc., Parsippany, NJ 07054 NDC 0093-2277-7.",
+   "product_quantity": "4680 cartons",
+   "reason_for_recall": "Subpotent drug; Clavulanate Potassium component",
+   "recall_initiation_date": "20251013",
+   "center_classification_date": "20251103",
+   "report_date": "20251112",
+   "code_info": "Lot # 100062316, Exp Date: 01/2026",
+   "more_code_info": ""
+  }
+ ]
+}

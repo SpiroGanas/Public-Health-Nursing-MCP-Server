@@ -1,0 +1,459 @@
+# Massachusetts school immunization requirements, 2026-2027 school year (VAX-04
+# check_ma_school_immunization_requirements).
+#
+# REVIEW STATUS: pending. Transcribed from DPH's 2026-2027 requirements document and
+# 105 CMR 220.000 (both fetched 2026-11-07). See meta.verification_note.
+# Schema: content/schemas/vax_school_requirements.schema.json
+meta:
+  id: ma-school-immunization-requirements
+  title: Massachusetts School Immunization Requirements, 2026-2027
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: 2026-02-12
+  source:
+    title: 2026-2027 Massachusetts School Immunization Requirements (Updated January 2026; posted as "updated 2.12.26")
+    publisher: Massachusetts Department of Public Health, Immunization Division
+    url: https://www.mass.gov/doc/immunization-requirements-for-school-entry-updated-21226/download
+  related_sources:
+    - title: "105 CMR 220.000: Immunization of Students Before Admission to School (MA Register #1329, dated 12-30-16)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-220000-immunization-of-students-before-admission-to-school-0/download
+    - title: M.G.L. c. 76, section 15 (Vaccination and immunization)
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter76/Section15
+    - title: Meningococcal Conjugate Vaccine (MenACWY) Requirement for School Entry (Updated May 2026)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/meningococcal-conjugate-vaccine-menacwy-requirement-for-school-entry-pdf/download
+    - title: How to Count Each Child Only Once (2026-2027 survey instructions)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/how-to-count-each-child-only-once-1/download
+    - title: General Best Practice Guidelines for Immunization, Timing and Spacing of Immunobiologics (Table 3-2)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/vaccines/hcp/imz-best-practices/timing-spacing-immunobiologics.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Requirement text is transcribed from DPH's 2026-2027 requirements PDF and 105 CMR 220.000
+    (Word file on mass.gov), both retrieved 2026-11-07. The machine-readable rules under each
+    requirement are the developer's encoding of that text and must be checked by the subject
+    matter expert. Two points need a decision: (1) DPH's MenACWY flyer (updated May 2026) says the
+    grade 7-10 dose must be given on or after the 11th birthday, while the requirements document
+    says the 10th birthday; the rules follow the requirements document and the tool reports the
+    discrepancy. (2) Neither DPH document states whether the 4-day grace period applies; DPH says
+    doses that satisfy the 2026 AAP schedule also satisfy school requirements, and that schedule
+    accepts doses given up to 4 days early, so the tool applies the grace period by default and
+    lets the nurse turn it off. Set the annual refresh date when DPH posts the 2027-2028
+    requirements.
+
+school_year: 2026-2027
+
+general:
+  - id: applies_to_all
+    text: >-
+      Requirements apply to all students, including individuals from other countries attending or
+      visiting classes as part of an academic visitation or exchange program, and to students in
+      every grade even if they are over 18 years of age.
+  - id: local_enforcement
+    text: >-
+      Address questions about enforcement with your legal counsel. School requirements are
+      enforced at the local level; local school districts are responsible for ensuring compliance.
+  - id: aap_equivalence
+    text: >-
+      Doses that satisfy the 2026 American Academy of Pediatrics (AAP) Recommended Child and
+      Adolescent Immunization Schedule also satisfy school requirements.
+  - id: certificate
+    text: >-
+      A certificate of immunization is a form or letter signed and dated by a physician, nurse
+      practitioner, physician assistant, or designee that gives the month and year of each dose
+      and the vaccine type, or a dated report from the Massachusetts Immunization Information
+      System (MIIS) with the same information (105 CMR 220.400).
+  - id: eec_programs
+    text: >-
+      Programs licensed by the Department of Early Education and Care (EEC) must comply with EEC
+      regulations on child and staff immunizations. 105 CMR 220.400 defines preschool as a program
+      not regulated by EEC.
+  - id: homeless_foster
+    text: >-
+      Unimmunized or partially immunized children experiencing homelessness and children in foster
+      care cannot be denied entry to public school for lack of immunization records (federal Every
+      Student Succeeds Act / McKinney-Vento). Refer the family to the district's homeless education
+      liaison or foster care point of contact; the student must be enrolled and attend while records
+      are obtained.
+  - id: ungraded
+    text: >-
+      In ungraded classrooms, kindergarten requirements apply to all students 5 years and older,
+      grade 7 requirements to all students 12 years and older, and (per the MenACWY flyer) grade 11
+      requirements to all students 16 years and older.
+
+proof_of_immunity:
+  - id: lab_evidence
+    text: Laboratory evidence of immunity is acceptable for hepatitis B, measles, mumps, rubella (MMR), and varicella.
+    applies_to: [hepb, mmr, varicella]
+  - id: varicella_history
+    text: >-
+      A reliable history of chickenpox is acceptable for varicella. It includes a diagnosis of
+      chickenpox, or interpretation of a parent or guardian's description of chickenpox by a
+      physician, nurse practitioner, physician assistant, or designee.
+    applies_to: [varicella]
+  - id: college_birth_year
+    text: >-
+      College only: birth in the U.S. before 1957 is acceptable for MMR, and birth in the U.S.
+      before 1980 is acceptable for varicella, for students who are not in a health science
+      program.
+    applies_to: [mmr, varicella]
+
+exemptions:
+  medical:
+    text: >-
+      A statement from a physician that a vaccine is medically contraindicated for the student.
+      Medical exemptions must be renewed annually at the start of the school year. Under M.G.L.
+      c. 76, section 15, the certificate goes to the physician in charge of the school health
+      program; if that physician disagrees, the matter is referred to DPH, whose decision is final.
+    renewal: must be renewed annually at the start of the school year
+  religious:
+    text: >-
+      A written statement from the student, or the parent or guardian if the student is under 18,
+      that a vaccine is against sincerely held religious beliefs. Religious exemptions should be
+      renewed annually at the start of the school year. Under M.G.L. c. 76, section 15 a religious
+      exemption applies "in the absence of an emergency or epidemic of disease declared by the
+      department of public health."
+    renewal: should be renewed annually at the start of the school year
+  meningococcal_waiver:
+    text: >-
+      Students may decline MenACWY after reading and signing the MDPH Meningococcal Information and
+      Waiver Form. Per DPH's MenACWY flyer, the waiver is for residential students only (secondary
+      school housing under 105 CMR 220.700 and college); it does not apply to the grade 7-12 school
+      requirement, which allows only medical or religious exemptions.
+  outbreak_exclusion: >-
+    Students with an exemption, and students who lack documentation, are subject to exclusion if a
+    vaccine-preventable disease occurs in the school (DPH school immunization data page).
+
+enrollment_rules:
+  - id: college_30_days
+    text: >-
+      Postsecondary students may be enrolled or registered if the required immunizations are
+      obtained within 30 days of registration, provided the institution has procedures to identify
+      and follow up on students who have not (105 CMR 220.600(E)).
+  - id: residential_meningococcal_30_days
+    text: >-
+      Newly enrolled full-time residential students at secondary schools and colleges may be
+      registered without a meningococcal certificate if they supply it within 30 days of
+      registration, with institutional follow-up procedures (105 CMR 220.700(D)).
+  - id: in_process
+    text: >-
+      DPH notes that many districts allow students on a catch-up schedule to attend while awaiting
+      doses or documentation; exclusion policies are set locally. Students without documentation
+      are counted as not meeting requirements in the DPH survey and are subject to exclusion during
+      an outbreak.
+
+grace_period:
+  default_applies: true
+  text: >-
+    Vaccine doses given 4 or fewer days before the minimum age or interval are considered valid;
+    doses given 5 or more days early are not and should be repeated (CDC General Best Practice
+    Guidelines; also stated in the AAFP/AAP 2026 schedule notes). Local or state mandates might
+    supersede the 4-day guideline. The grace period is not applied to the 4-week interval between
+    two different live vaccines, or to the 4-week minimum between varicella doses.
+  confidence: medium
+
+flags:
+  - id: menacwy_age_discrepancy
+    text: >-
+      DPH's MenACWY flyer (updated May 2026) says the grade 7-10 dose must be given on or after the
+      11th birthday; the 2026-2027 requirements document says the 10th birthday. This tool follows
+      the requirements document. Confirm with the DPH Immunization Division
+      (ImmAssessmentUnit@mass.gov) before excluding a student whose dose was given at age 10.
+
+settings:
+  - id: childcare_preschool
+    label: Child care and preschool (including K0 and K1)
+    grades: [PK, K0, K1, childcare, preschool]
+    applies: >-
+      Requirements apply to all attendees 2 years and older. Attendees under 2 years should be
+      immunized for their age according to the 2026 AAP schedule.
+    min_age_years: 2
+    requirements:
+      - id: hib
+        vaccine: hib
+        label: Hib
+        text: 1-4 doses; number of doses is determined by vaccine product and age the series begins.
+        rule:
+          special: hib
+          max_age_years: 5
+      - id: dtap
+        vaccine: dtap
+        label: DTaP
+        text: 4 doses.
+        rule:
+          series: dtap
+          options:
+            - min_doses: 4
+      - id: polio
+        vaccine: polio
+        label: Polio
+        text: 3 doses.
+        rule:
+          series: polio
+          options:
+            - min_doses: 3
+      - id: hepb
+        vaccine: hepb
+        label: Hepatitis B
+        text: 3 doses; laboratory evidence of immunity acceptable.
+        rule:
+          series: hepb
+          options:
+            - min_doses: 3
+          lab_evidence: [hepb]
+      - id: mmr
+        vaccine: mmr
+        label: MMR
+        text: 1 dose; must be given on or after the 1st birthday; laboratory evidence of immunity acceptable.
+        rule:
+          series: mmr
+          options:
+            - min_doses: 1
+          lab_evidence: [measles, mumps, rubella]
+      - id: varicella
+        vaccine: varicella
+        label: Varicella
+        text: 1 dose; must be given on or after the 1st birthday; a reliable history of chickenpox or laboratory evidence of immunity acceptable.
+        rule:
+          series: varicella
+          options:
+            - min_doses: 1
+          lab_evidence: [varicella]
+          history: true
+      - id: men_residential
+        vaccine: menacwy
+        label: Meningococcal (residential students in combined PK-12 schools only)
+        text: >-
+          Meningococcal requirements for grades 7-10 and 11-12 also apply to residential students in
+          preschool through grade 8 if the school combines these grades with grades 9-12.
+        rule:
+          special: residential_meningococcal
+  - id: k_6
+    label: Kindergarten through grade 6
+    grades: [K, "1", "2", "3", "4", "5", "6"]
+    applies: In ungraded classrooms, kindergarten requirements apply to all students 5 years and older.
+    requirements:
+      - id: dtap
+        vaccine: dtap
+        label: DTaP/Tdap
+        text: >-
+          5 doses; 4 doses are acceptable if the fourth dose is given on or after the 4th birthday;
+          DT is only acceptable with a letter stating a medical contraindication to DTaP.
+        rule:
+          series: dtap
+          options:
+            - min_doses: 5
+            - min_doses: 4
+              last_dose_min_age: 4 years
+      - id: polio
+        vaccine: polio
+        label: Polio
+        text: >-
+          4 doses; fourth dose must be given on or after the 4th birthday and 6 or more months after
+          the previous dose or a fifth dose is required; 3 doses are acceptable if the third dose is
+          given on or after the 4th birthday and 6 or more months after the previous dose.
+        rule:
+          series: polio
+          options:
+            - min_doses: 3
+              last_dose_min_age: 4 years
+              last_dose_min_interval: 6 months
+      - id: hepb
+        vaccine: hepb
+        label: Hepatitis B
+        text: 3 doses; laboratory evidence of immunity acceptable.
+        rule:
+          series: hepb
+          options:
+            - min_doses: 3
+          lab_evidence: [hepb]
+      - id: mmr
+        vaccine: mmr
+        label: MMR
+        text: >-
+          2 doses; first dose must be given on or after the 1st birthday, and second dose must be
+          given 28 or more days after first dose; laboratory evidence of immunity acceptable.
+        rule:
+          series: mmr
+          options:
+            - min_doses: 2
+          lab_evidence: [measles, mumps, rubella]
+      - id: varicella
+        vaccine: varicella
+        label: Varicella
+        text: >-
+          2 doses; first dose must be given on or after the 1st birthday and second dose must be
+          given 28 or more days after first dose; a reliable history of chickenpox or laboratory
+          evidence of immunity acceptable.
+        rule:
+          series: varicella
+          options:
+            - min_doses: 2
+          lab_evidence: [varicella]
+          history: true
+      - id: men_residential
+        vaccine: menacwy
+        label: Meningococcal (residential students in combined PK-12 schools only)
+        text: >-
+          Meningococcal requirements for grades 7-10 and 11-12 also apply to residential students in
+          preschool through grade 8 if the school combines these grades with grades 9-12.
+        rule:
+          special: residential_meningococcal
+  - id: grades_7_12
+    label: Grades 7 through 12
+    grades: ["7", "8", "9", "10", "11", "12"]
+    applies: In ungraded classrooms, grade 7 requirements apply to all students 12 years and older.
+    requirements:
+      - id: tdap
+        vaccine: tdap
+        label: Tdap
+        text: >-
+          1 dose; and history of DTaP primary series or age-appropriate catch-up vaccination; Tdap
+          given at 7 years or older may be counted, but a dose at age 11-12 is recommended if Tdap
+          was given earlier as part of a catch-up schedule; Td or Tdap should be given if it has
+          been 10 or more years since last Tdap.
+        rule:
+          special: tdap
+      - id: polio
+        vaccine: polio
+        label: Polio
+        text: >-
+          4 doses; fourth dose must be given on or after the 4th birthday and 6 or more months after
+          the previous dose or a fifth dose is required; 3 doses are acceptable if the third dose is
+          given on or after the 4th birthday and 6 or more months after the previous dose.
+        rule:
+          series: polio
+          options:
+            - min_doses: 3
+              last_dose_min_age: 4 years
+              last_dose_min_interval: 6 months
+      - id: hepb
+        vaccine: hepb
+        label: Hepatitis B
+        text: >-
+          3 doses; laboratory evidence of immunity acceptable; 2 doses of Heplisav-B given on or
+          after 18 years of age are acceptable.
+        rule:
+          series: hepb
+          options:
+            - min_doses: 3
+          heplisav_two_dose: true
+          lab_evidence: [hepb]
+      - id: mmr
+        vaccine: mmr
+        label: MMR
+        text: >-
+          2 doses; first dose must be given on or after the 1st birthday, and second dose must be
+          given 28 or more days after first dose; laboratory evidence of immunity acceptable.
+        rule:
+          series: mmr
+          options:
+            - min_doses: 2
+          lab_evidence: [measles, mumps, rubella]
+      - id: varicella
+        vaccine: varicella
+        label: Varicella
+        text: >-
+          2 doses; first dose must be given on or after the 1st birthday and second dose must be
+          given 28 or more days after first dose; a reliable history of chickenpox or laboratory
+          evidence of immunity acceptable.
+        rule:
+          series: varicella
+          options:
+            - min_doses: 2
+          lab_evidence: [varicella]
+          history: true
+      - id: men_7_10
+        vaccine: menacwy
+        label: Meningococcal (grades 7-10)
+        grades: ["7", "8", "9", "10"]
+        text: >-
+          1 dose; this dose must be given on or after the 10th birthday. MenACWY (formerly MCV4) and
+          MenABCWY fulfill this requirement; monovalent meningococcal B (MenB) vaccine is not
+          required and does not meet this requirement.
+        rule:
+          special: men_7_10
+      - id: men_11_12
+        vaccine: menacwy
+        label: Meningococcal (grades 11-12)
+        grades: ["11", "12"]
+        text: >-
+          2 doses; second dose MenACWY must be given on or after the 16th birthday and 8 or more
+          weeks after the previous dose; 1 dose is acceptable if it was given on or after the 16th
+          birthday. MenACWY and MenABCWY fulfill this requirement; MenB does not. Students who are 15
+          years old in grade 11 are in compliance until they turn 16.
+        rule:
+          special: men_11_12
+  - id: college
+    label: College (postsecondary institutions)
+    grades: [college]
+    applies: >-
+      All full-time undergraduate and graduate students under 30 years of age and all full- and
+      part-time health science students. Requirements apply to students who attend any classes or
+      activities on campus, even once; they do not apply while all instruction is remote.
+    requirements:
+      - id: tdap
+        vaccine: tdap
+        label: Tdap
+        text: >-
+          1 dose; and history of a DTaP primary series or age-appropriate catch-up vaccination;
+          Tdap given at 7 years or older may be counted; Td or Tdap should be given if it has been
+          10 or more years since Tdap.
+        rule:
+          special: tdap
+      - id: hepb
+        vaccine: hepb
+        label: Hepatitis B
+        text: >-
+          3 doses; laboratory evidence of immunity acceptable; 2 doses of Heplisav-B given on or
+          after 18 years of age are acceptable.
+        rule:
+          series: hepb
+          options:
+            - min_doses: 3
+          heplisav_two_dose: true
+          lab_evidence: [hepb]
+      - id: mmr
+        vaccine: mmr
+        label: MMR
+        text: >-
+          2 doses; first dose on or after the 1st birthday, second dose 28 or more days after the
+          first; laboratory evidence of immunity acceptable; birth in the U.S. before 1957
+          acceptable only for non-health science students.
+        rule:
+          series: mmr
+          options:
+            - min_doses: 2
+          lab_evidence: [measles, mumps, rubella]
+          us_born_before_year: 1957
+      - id: varicella
+        vaccine: varicella
+        label: Varicella
+        text: >-
+          2 doses; first dose on or after the 1st birthday, second dose 28 or more days after the
+          first; a reliable history of chickenpox or laboratory evidence of immunity acceptable;
+          birth in the U.S. before 1980 acceptable only for non-health science students.
+        rule:
+          series: varicella
+          options:
+            - min_doses: 2
+          lab_evidence: [varicella]
+          history: true
+          us_born_before_year: 1980
+      - id: men_college
+        vaccine: menacwy
+        label: Meningococcal (full-time students 21 or younger)
+        text: >-
+          1 dose MenACWY required for all full-time students 21 years of age or younger; the dose
+          must have been received on or after the student's 16th birthday. MenACWY and MenABCWY
+          fulfill this requirement; MenB does not. Students may decline after reading and signing
+          the MDPH Meningococcal Information and Waiver Form provided by their institution.
+        rule:
+          special: men_college

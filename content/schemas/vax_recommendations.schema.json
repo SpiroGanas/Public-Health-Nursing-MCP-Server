@@ -1,0 +1,303 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_recommendations.schema.json",
+  "title": "Vaccine recommendations by issuing body",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "bodies",
+    "context",
+    "topics"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "bodies": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "short",
+          "kind"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "short": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "state",
+              "federal",
+              "professional_society",
+              "regional"
+            ]
+          }
+        }
+      }
+    },
+    "context": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "vaccine",
+          "population",
+          "aliases",
+          "positions",
+          "differs",
+          "difference"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "vaccine": {
+            "type": "string"
+          },
+          "population": {
+            "enum": [
+              "infants",
+              "children",
+              "children_adolescents",
+              "adolescents",
+              "adults",
+              "pregnancy",
+              "all"
+            ]
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "positions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "body",
+                "summary",
+                "date",
+                "source",
+                "confidence"
+              ],
+              "properties": {
+                "body": {
+                  "enum": [
+                    "dph",
+                    "cdc_acip",
+                    "aap",
+                    "acog",
+                    "aafp",
+                    "nephc"
+                  ]
+                },
+                "summary": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "date"
+                },
+                "source": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "title",
+                    "publisher",
+                    "url"
+                  ],
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "publisher": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "pattern": "^https://"
+                    }
+                  }
+                },
+                "confidence": {
+                  "enum": [
+                    "high",
+                    "medium",
+                    "low"
+                  ]
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "differs": {
+            "type": "boolean"
+          },
+          "difference": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

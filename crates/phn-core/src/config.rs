@@ -117,6 +117,97 @@ pub struct Settings {
     pub toolsets: Option<Vec<Toolset>>,
     /// Letterhead for exported documents.
     pub letterhead: Option<Letterhead>,
+    /// Which body's vaccine recommendation the immunization tools treat as the
+    /// basis (default: DPH, then the professional societies, then CDC/ACIP).
+    /// Every answer still shows each body's position side by side.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vaccine_recommendation_basis: Option<VaccineRecommendationBasis>,
+}
+
+/// Order of precedence used to pick the "basis" recommendation when federal
+/// (CDC/ACIP) vaccine guidance differs from Massachusetts DPH and the
+/// professional societies (AAP, ACOG, AAFP).
+#[derive(
+    Debug, Clone, Copy, Default, PartialEq, Eq, Hash, Serialize, Deserialize, JsonSchema,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum VaccineRecommendationBasis {
+    /// DPH's position where it has one; otherwise the professional society for
+    /// the population (AAP for children and adolescents, ACOG for pregnancy,
+    /// AAFP for adults); otherwise CDC/ACIP. The default.
+    #[default]
+    DphThenProfessionalThenCdc,
+    /// CDC/ACIP (the federal schedule) first.
+    CdcAcip,
+    /// The professional societies first, then DPH, then CDC/ACIP.
+    ProfessionalSocieties,
+    /// Do not pick a basis: show every body's position without a headline.
+    ShowAll,
+}
+
+impl VaccineRecommendationBasis {
+    /// Every option.
+    pub const ALL: [VaccineRecommendationBasis; 4] = [
+        Self::DphThenProfessionalThenCdc,
+        Self::CdcAcip,
+        Self::ProfessionalSocieties,
+        Self::ShowAll,
+    ];
+
+    /// Identifier used in settings and tool arguments.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::DphThenProfessionalThenCdc => "dph_then_professional_then_cdc",
+            Self::CdcAcip => "cdc_acip",
+            Self::ProfessionalSocieties => "professional_societies",
+            Self::ShowAll => "show_all",
+        }
+    }
+
+    /// Plain-language description for summaries.
+    pub fn describe(self) -> &'static str {
+        match self {
+            Self::DphThenProfessionalThenCdc => {
+                "Massachusetts DPH where DPH has a position; otherwise the professional society \
+                 (AAP, ACOG, or AAFP); otherwise CDC/ACIP"
+            }
+            Self::CdcAcip => "CDC/ACIP (federal) first",
+            Self::ProfessionalSocieties => {
+                "professional societies (AAP, ACOG, AAFP) first, then DPH, then CDC/ACIP"
+            }
+            Self::ShowAll => "no single basis; every body's position is shown side by side",
+        }
+    }
+}
+
+impl std::fmt::Display for VaccineRecommendationBasis {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(self.as_str())
+    }
+}
+
+impl std::str::FromStr for VaccineRecommendationBasis {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let norm = s.trim().to_ascii_lowercase().replace(['-', ' '], "_");
+        Self::ALL
+            .into_iter()
+            .find(|b| b.as_str() == norm)
+            .or(match norm.as_str() {
+                "default" | "dph" => Some(Self::DphThenProfessionalThenCdc),
+                "cdc" | "acip" => Some(Self::CdcAcip),
+                "professional" | "aap" => Some(Self::ProfessionalSocieties),
+                "all" => Some(Self::ShowAll),
+                _ => None,
+            })
+            .ok_or_else(|| {
+                format!(
+                    "unknown vaccine recommendation basis '{s}'. Use one of: {}",
+                    Self::ALL.map(|b| b.as_str()).join(", ")
+                )
+            })
+    }
 }
 
 /// Deployment configuration read from environment variables.
@@ -375,5 +466,29 @@ mod tests {
         assert_eq!(c.load_settings().unwrap(), s);
         let enabled = c.enabled_toolsets(&s);
         assert_eq!(enabled, [Toolset::Core, Toolset::Cd].into());
+    }
+
+    #[test]
+    fn vaccine_basis_is_optional_and_round_trips() {
+        // Settings files written before the field existed still load.
+        let old: Settings = toml::from_str("suppression_threshold = 11\n").unwrap();
+        assert_eq!(old.vaccine_recommendation_basis, None);
+        let dir = tempfile::tempdir().unwrap();
+        let c = Config::for_root(dir.path());
+        let s = Settings {
+            vaccine_recommendation_basis: Some(VaccineRecommendationBasis::CdcAcip),
+            ..Settings::default()
+        };
+        c.save_settings(&s).unwrap();
+        assert_eq!(c.load_settings().unwrap(), s);
+        assert_eq!(
+            "show-all".parse::<VaccineRecommendationBasis>().unwrap(),
+            VaccineRecommendationBasis::ShowAll
+        );
+        assert!("federal".parse::<VaccineRecommendationBasis>().is_err());
+        assert_eq!(
+            VaccineRecommendationBasis::default().as_str(),
+            "dph_then_professional_then_cdc"
+        );
     }
 }

@@ -1,0 +1,28 @@
+{
+ "data": [
+  {
+   "spl_version": 28,
+   "published_date": "Nov 05, 2026",
+   "title": "AMOXICILLIN AND CLAVULANATE POTASSIUM TABLET, FILM COATED [PD-RX PHARMACEUTICALS, INC.]",
+   "setid": "0425932a-f6e1-49a6-8480-720f179ace14"
+  },
+  {
+   "spl_version": 1,
+   "published_date": "Nov 02, 2026",
+   "title": "AMOXICILLIN CAPSULE [PROFICIENT RX LP]",
+   "setid": "a5c323c8-ae13-4eda-a9bf-173a0676bf9d"
+  }
+ ],
+ "metadata": {
+  "db_published_date": "Nov 06, 2026 09:13:51PM EST",
+  "elements_per_page": 2,
+  "current_url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name=amoxicillin&pagesize=2",
+  "next_page_url": "https://dailymed.nlm.nih.gov/dailymed/services/v2/spls.json?drug_name=amoxicillin&pagesize=2&page=2",
+  "total_elements": 639,
+  "total_pages": 320,
+  "current_page": 1,
+  "previous_page": "null",
+  "previous_page_url": "null",
+  "next_page": 2
+ }
+}

@@ -1,0 +1,514 @@
+# Immunization schedules: editions, routine ages, minimum ages and intervals, contraindications
+# and precautions (VAX-01 get_immunization_schedule; minimum ages and intervals are also used by
+# VAX-04 check_ma_school_immunization_requirements).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/vax_schedule.schema.json
+meta:
+  id: vax-schedule
+  title: Immunization schedules, minimum ages and intervals, contraindications and precautions
+  version: 0.1.0
+  prepared: 2026-11-07
+  effective_date: null
+  source:
+    title: "General Best Practice Guidelines for Immunization: Timing and Spacing of Immunobiologics (Table 3-2) and Contraindications and Precautions (Table 4-1)"
+    publisher: Centers for Disease Control and Prevention / ACIP
+    url: https://www.cdc.gov/vaccines/hcp/imz-best-practices/timing-spacing-immunobiologics.html
+  related_sources:
+    - title: Contraindications and Precautions (General Best Practice Guidelines, Table 4-1)
+      publisher: Centers for Disease Control and Prevention / ACIP
+      url: https://www.cdc.gov/vaccines/hcp/imz-best-practices/contraindications-precautions.html
+    - title: Birth through age 18 immunization schedules (2026, adopted by AAFP; aligned with the AAP 2026 schedule)
+      publisher: American Academy of Family Physicians
+      url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+    - title: Adults 19 and older immunization schedules (2026, adopted by AAFP)
+      publisher: American Academy of Family Physicians
+      url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+    - title: Child and Adolescent Immunization Schedule by Age (Addendum updated July 2, 2025)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Minimum ages and intervals were transcribed from CDC Table 3-2 and contraindications and
+    precautions from CDC Table 4-1 (web pages retrieved 2026-11-07). Routine ages for children
+    come from the 2026 schedule as published by AAFP (which DPH and AAP describe as the AAP 2026
+    schedule; the AAP PDF itself could not be downloaded because downloads.aap.org and
+    publications.aap.org were blocked). CDC's own schedule pages still showed the 2025 schedules
+    with a July 2, 2025 addendum; the January 5, 2026 CDC change is described in
+    vax-recommendations. Duration strings ("6 weeks", "4 years", "9 years + 5 months") are
+    calendar-based: weeks are 7 days and months are calendar months. The subject matter expert
+    must check every number before this item is marked reviewed.
+
+editions:
+  - id: aap_2026
+    body: aap
+    population: children_adolescents
+    title: Recommended Child and Adolescent Immunization Schedule, United States, 2026 (Pediatrics 157(3):e2025075754)
+    date: 2026-01-26
+    url: https://publications.aap.org/pediatrics/article/157/3/e2025075754/206175/Recommended-Childhood-and-Adolescent-Immunization
+    note: DPH recommends this schedule as the primary pediatric reference in Massachusetts (January 2026).
+  - id: aafp_2026_child
+    body: aafp
+    population: children_adolescents
+    title: Birth through age 18 immunization schedules (2026)
+    date: null
+    url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/childhood-vaccine-schedules
+    note: Adopted by AAFP; states that CDC's 2025 schedules are not endorsed by AAFP.
+  - id: aafp_2026_adult
+    body: aafp
+    population: adults
+    title: Adults 19 and older immunization schedules (2026)
+    date: null
+    url: https://www.aafp.org/clinical-insights/immunizations-and-vaccines/immunizations-schedules-resources/adult-immunization-schedules
+    note: Updated 2027 schedules expected in spring 2027 (AAFP).
+  - id: cdc_2025_child
+    body: cdc_acip
+    population: children_adolescents
+    title: Child and Adolescent Immunization Schedule, United States, 2025 (addendum updated July 2, 2025)
+    date: 2025-07-02
+    url: https://www.cdc.gov/vaccines/hcp/imz-schedules/child-adolescent-age.html
+    note: >-
+      Still displayed on cdc.gov on 2026-11-07. A January 5, 2026 CDC decision memorandum reduced
+      the routinely recommended childhood immunizations (see compare_vaccine_recommendations).
+  - id: cdc_2025_adult
+    body: cdc_acip
+    population: adults
+    title: Adult Immunization Schedule, United States, 2025 (addendum updated July 2, 2025)
+    date: 2025-07-02
+    url: https://www.cdc.gov/vaccines/hcp/imz-schedules/adult-age.html
+    note: DPH states the CDC adult schedule remains in place in Massachusetts except for DPH's own COVID-19, influenza, and RSV recommendations.
+
+general_rules:
+  - id: grace_period
+    text: >-
+      Doses given 4 or fewer days before the minimum age or minimum interval are valid (the "grace
+      period"); doses given 5 or more days early are not valid and should be repeated, spaced from
+      the invalid dose by the minimum interval. Local or state mandates might supersede the 4-day
+      guideline. Day 1 is the day before the day that marks the minimum age or interval.
+  - id: grace_exceptions
+    text: >-
+      The grace period does not apply to rabies vaccine, the accelerated Twinrix schedule, or the
+      4-week interval between two different live vaccines not given on the same day.
+  - id: live_vaccines
+    text: >-
+      Two live injected or intranasal vaccines not given on the same day should be separated by at
+      least 4 weeks; if not, the second dose is invalid and is repeated at least 4 weeks after it.
+  - id: months_and_weeks
+    text: >-
+      For intervals, 4 weeks = 28 days; intervals of 4 months or more are calendar months. Within a
+      range, a hyphen means "through."
+  - id: combination_vaccines
+    text: >-
+      For combination vaccines the minimum age is the oldest minimum age of any component, and the
+      minimum interval is the greatest minimum interval of any component.
+  - id: precaution_meaning
+    text: >-
+      A contraindication means the vaccine should not be given. A precaution means weighing benefits
+      and risks for the person; vaccinate if benefit outweighs risk.
+
+# Minimum ages and intervals (CDC Table 3-2). min_age and min_interval validate doses already
+# given; plan_min_age and plan_min_interval are used when scheduling a future dose if they differ.
+series:
+  - id: dtap
+    label: DTaP (children under 7)
+    doses:
+      - {dose: 1, min_age: 6 weeks, recommended_age: 2 months}
+      - {dose: 2, min_age: 10 weeks, min_interval: 4 weeks, recommended_age: 4 months}
+      - {dose: 3, min_age: 14 weeks, min_interval: 4 weeks, recommended_age: 6 months}
+      - {dose: 4, min_age: 12 months, min_interval: 4 months, plan_min_age: 15 months, plan_min_interval: 6 months, recommended_age: 15-18 months}
+      - {dose: 5, min_age: 4 years, min_interval: 6 months, recommended_age: 4-6 years}
+    notes:
+      - DTaP-4 given at 12 months or older and at least 4 months after DTaP-3 need not be repeated; when planning, use 15 months and 6 months.
+      - If DTaP-4 is given on or after the 4th birthday and at least 6 months after DTaP-3, DTaP-5 is not needed.
+  - id: polio
+    label: IPV (polio)
+    doses:
+      - {dose: 1, min_age: 6 weeks, recommended_age: 2 months}
+      - {dose: 2, min_age: 10 weeks, min_interval: 4 weeks, recommended_age: 4 months}
+      - {dose: 3, min_age: 14 weeks, min_interval: 4 weeks, recommended_age: 6-18 months}
+      - {dose: 4, min_age: 4 years, min_interval: 6 months, recommended_age: 4-6 years}
+    notes:
+      - A fourth dose is not needed if the third dose was given at 4 years or older and at least 6 months after the previous dose.
+  - id: hepb
+    label: Hepatitis B
+    doses:
+      - {dose: 1, min_age: birth, recommended_age: birth}
+      - {dose: 2, min_age: 4 weeks, min_interval: 4 weeks, recommended_age: 1-2 months}
+      - {dose: 3, min_age: 24 weeks, min_interval: 8 weeks, min_interval_from_first: 16 weeks, recommended_age: 6-18 months}
+    notes:
+      - HepB-3 must be at least 8 weeks after HepB-2, at least 16 weeks after HepB-1, and not before age 24 weeks.
+      - Adjuvanted HepB-CpG (Heplisav-B) can be given to adults 18 and older as 2 doses at least 4 weeks apart.
+  - id: hepb_heplisav
+    label: Hepatitis B, adjuvanted (Heplisav-B), age 18 and older
+    doses:
+      - {dose: 1, min_age: 18 years}
+      - {dose: 2, min_age: 18 years, min_interval: 4 weeks}
+  - id: hib
+    label: Hib
+    doses:
+      - {dose: 1, min_age: 6 weeks, recommended_age: 2 months}
+      - {dose: 2, min_age: 10 weeks, min_interval: 4 weeks, recommended_age: 4 months}
+      - {dose: 3, min_age: 14 weeks, min_interval: 4 weeks, recommended_age: 6 months}
+      - {dose: 4, min_age: 12 months, min_interval: 8 weeks, recommended_age: 12-15 months}
+    notes:
+      - If PRP-OMP (PedvaxHIB) was given at 2 and 4 months, no 6-month dose is needed; the final dose has a minimum age of 12 months.
+      - Children who start at 7 months or older need fewer doses; catch-up depends on product and ages at each dose.
+  - id: mmr
+    label: MMR
+    doses:
+      - {dose: 1, min_age: 12 months, recommended_age: 12-15 months}
+      - {dose: 2, min_age: 13 months, min_interval: 4 weeks, recommended_age: 4-6 years}
+    notes:
+      - MMRV can be used for children 12 months through 12 years; see the MMRV topic in compare_vaccine_recommendations for the dose-1 preference.
+  - id: varicella
+    label: Varicella
+    doses:
+      - {dose: 1, min_age: 12 months, recommended_age: 12-15 months}
+      - {dose: 2, min_age: 15 months, min_interval: 4 weeks, plan_min_interval: 3 months, no_grace_interval: true, recommended_age: 4-6 years}
+    notes:
+      - The minimum interval for children 12 months through 12 years is 3 months, but a dose given at least 4 weeks after dose 1 can be counted when records are reviewed; no additional 4 days are added.
+  - id: tdap
+    label: Tdap (7 years and older)
+    doses:
+      - {dose: 1, min_age: 7 years, recommended_age: 11-12 years}
+  - id: menacwy
+    label: MenACWY
+    doses:
+      - {dose: 1, min_age: 2 months, recommended_age: 11-12 years}
+      - {dose: 2, min_age: 11 years, min_interval: 8 weeks, recommended_age: 16 years}
+    notes:
+      - Minimum age depends on product (MenACWY-CRM 2 months; MenACWY-TT 2 years; MenABCWY 10 years). For routine non-high-risk adolescents, the minimum age for the booster is 16 years.
+  - id: hepa
+    label: Hepatitis A
+    doses:
+      - {dose: 1, min_age: 12 months, recommended_age: 12-23 months}
+      - {dose: 2, min_age: 18 months, min_interval: 6 months}
+  - id: hpv_2dose
+    label: HPV (series started at 9-14 years)
+    doses:
+      - {dose: 1, min_age: 9 years, recommended_age: 11-12 years}
+      - {dose: 2, min_age: 9 years + 5 months, min_interval: 5 months}
+  - id: hpv_3dose
+    label: HPV (series started at 15 years or older, or immunocompromised)
+    doses:
+      - {dose: 1, min_age: 9 years}
+      - {dose: 2, min_age: 9 years + 4 weeks, min_interval: 4 weeks}
+      - {dose: 3, min_age: 9 years + 5 months, min_interval: 12 weeks, min_interval_from_first: 5 months}
+  - id: pcv
+    label: Pneumococcal conjugate (children)
+    doses:
+      - {dose: 1, min_age: 6 weeks, recommended_age: 2 months}
+      - {dose: 2, min_age: 10 weeks, min_interval: 4 weeks, recommended_age: 4 months}
+      - {dose: 3, min_age: 14 weeks, min_interval: 4 weeks, recommended_age: 6 months}
+      - {dose: 4, min_age: 12 months, min_interval: 8 weeks, recommended_age: 12-15 months}
+  - id: rotavirus
+    label: Rotavirus
+    doses:
+      - {dose: 1, min_age: 6 weeks, recommended_age: 2 months}
+      - {dose: 2, min_age: 10 weeks, min_interval: 4 weeks, recommended_age: 4 months}
+      - {dose: 3, min_age: 14 weeks, min_interval: 4 weeks, recommended_age: 6 months}
+    notes:
+      - Dose 1 must be given from 6 weeks through 14 weeks 6 days; do not start at 15 weeks or older; no dose after 8 months 0 days. Rotarix is a 2-dose series.
+  - id: zoster
+    label: Recombinant zoster (RZV)
+    doses:
+      - {dose: 1, min_age: 50 years}
+      - {dose: 2, min_age: 50 years, min_interval: 4 weeks}
+
+vaccines:
+  - id: hepb
+    name: Hepatitis B
+    abbreviations: [HepB]
+    aliases: [hep b, hepatitis b, engerix-b, recombivax hb, heplisav-b, prehevbrio, birth dose]
+    series: [hepb, hepb_heplisav]
+    routine:
+      - body: aap
+        text: 3-dose series at 0, 1-2, and 6-18 months; birth dose within 24 hours if medically stable and 2,000 g or more (monovalent HepB before 6 weeks).
+      - body: dph
+        text: Universal birth dose within 24 hours; complete the series by 18 months (DPH December 2025).
+      - body: cdc_acip
+        text: For infants of HBsAg-negative mothers, birth dose by individual decision-making; if not given at birth, first dose no earlier than 2 months (ACIP December 2025).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+    precautions:
+      - Hypersensitivity to yeast.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: rotavirus
+    name: Rotavirus
+    abbreviations: [RV, RV1, RV5]
+    aliases: [rotarix, rotateq, rota]
+    series: [rotavirus]
+    routine:
+      - body: aap
+        text: Rotarix 2 doses at 2 and 4 months, or RotaTeq 3 doses at 2, 4, and 6 months.
+      - body: cdc_acip
+        text: Shared clinical decision-making after January 5, 2026 (as described by AAP).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - Severe combined immunodeficiency (SCID).
+      - History of intussusception.
+    precautions:
+      - Altered immunocompetence other than SCID.
+      - Chronic gastrointestinal disease.
+      - Spina bifida or bladder exstrophy.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: dtap
+    name: Diphtheria, tetanus, and acellular pertussis (under 7 years)
+    abbreviations: [DTaP, DT]
+    aliases: [daptacel, infanrix, pediarix, pentacel, kinrix, quadracel, vaxelis, whooping cough vaccine]
+    series: [dtap]
+    routine:
+      - body: aap
+        text: 5 doses at 2, 4, and 6 months, 15-18 months, and 4-6 years. Dose 4 may be given as early as 12 months if at least 6 months after dose 3.
+      - body: cdc_acip
+        text: Same 5-dose series (2025 schedule).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - Encephalopathy (e.g., coma, decreased level of consciousness, prolonged seizures) not attributable to another identifiable cause within 7 days of a previous dose of DTP or DTaP.
+    precautions:
+      - Progressive neurologic disorder, including infantile spasms, uncontrolled epilepsy, progressive encephalopathy; defer DTaP until neurologic status is clarified and stabilized.
+      - Guillain-Barré syndrome (GBS) within 6 weeks after a previous dose of tetanus-toxoid-containing vaccine.
+      - History of Arthus-type hypersensitivity reactions after a previous dose of diphtheria- or tetanus-toxoid-containing vaccine; defer until at least 10 years since the last tetanus-toxoid-containing vaccine.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: tdap
+    name: Tetanus, diphtheria, and acellular pertussis (7 years and older)
+    abbreviations: [Tdap, Td]
+    aliases: [adacel, boostrix, tenivac, tdvax, tetanus booster]
+    series: [tdap]
+    routine:
+      - body: aap
+        text: 1 dose at 11-12 years; minimum age 7 years for catch-up.
+      - body: aafp
+        text: Adults - 1 dose Tdap if not previously received, then Td or Tdap every 10 years; 1 dose during each pregnancy, preferably early in weeks 27-36.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - For Tdap only - encephalopathy not attributable to another identifiable cause within 7 days of a previous dose of DTP, DTaP, or Tdap.
+    precautions:
+      - Guillain-Barré syndrome within 6 weeks after a previous dose of tetanus-toxoid-containing vaccine.
+      - For Tdap only - progressive or unstable neurological disorder, uncontrolled seizures, or progressive encephalopathy until a treatment regimen has been established and the condition has stabilized.
+      - History of Arthus-type hypersensitivity reactions; defer until at least 10 years since the last tetanus-toxoid-containing vaccine.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: hib
+    name: Haemophilus influenzae type b
+    abbreviations: [Hib]
+    aliases: [acthib, hiberix, pedvaxhib, pentacel, vaxelis]
+    series: [hib]
+    routine:
+      - body: aap
+        text: ActHIB, Hiberix, Pentacel, or Vaxelis - 3 primary doses at 2, 4, 6 months plus a booster at 12-15 months; PedvaxHIB - 2 primary doses at 2 and 4 months plus a booster at 12-15 months. Vaxelis is not recommended as the booster.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - Age younger than 6 weeks.
+    precautions:
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: pcv
+    name: Pneumococcal conjugate and polysaccharide
+    abbreviations: [PCV15, PCV20, PCV21, PPSV23]
+    aliases: [pneumococcal, prevnar 20, vaxneuvance, capvaxive, pneumovax 23, pneumonia vaccine]
+    series: [pcv]
+    routine:
+      - body: aap
+        text: Children - 4-dose PCV series at 2, 4, 6, and 12-15 months.
+      - body: aafp
+        text: Adults 50 and older without prior PCV - 1 dose PCV20 or PCV21, or PCV15 followed by PPSV23 one year later.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose of PCV or any diphtheria-toxoid-containing vaccine, or to a component of either (PCV).
+      - Severe allergic reaction after a previous dose or to a vaccine component (PPSV23).
+    precautions:
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: polio
+    name: Poliovirus (inactivated)
+    abbreviations: [IPV]
+    aliases: [polio, ipol, pediarix, pentacel, kinrix, quadracel, vaxelis]
+    series: [polio]
+    routine:
+      - body: aap
+        text: 4 doses at 2, 4, 6-18 months, and 4-6 years; give the final dose on or after the 4th birthday and at least 6 months after the previous dose.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+    precautions:
+      - Pregnancy.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: influenza
+    name: Influenza
+    abbreviations: [IIV3, ccIIV3, RIV3, LAIV3, HD-IIV3, aIIV3]
+    aliases: [flu, flu shot, flumist, fluzone, flucelvax, flublok, fluad, afluria, fluarix, flulaval]
+    series: []
+    routine:
+      - body: dph
+        text: Everyone 6 months and older every year; children 6 months-8 years without 2 prior doses before July 1, 2026 need 2 doses 4 weeks apart.
+      - body: aap
+        text: Annual vaccination for all children 6 months and older.
+      - body: cdc_acip
+        text: Not routinely recommended for all children after January 5, 2026 (shared clinical decision-making); adults - annual vaccination; single-dose thimerosal-free formulations only (June 2025).
+    contraindications:
+      - IIV - severe allergic reaction (e.g., anaphylaxis) after a previous dose of any influenza vaccine or to a vaccine component (egg allergy alone is not a contraindication in the current AAFP schedule appendix).
+      - LAIV - also concomitant aspirin or salicylate use in children and adolescents; pregnancy; altered immunocompetence; children 2-4 years with asthma or wheezing in the past 12 months; close contacts of severely immunosuppressed persons in a protected environment; cerebrospinal fluid leak or cochlear implant; recent influenza antivirals (oseltamivir or zanamivir within 48 hours, peramivir within 5 days, baloxavir within 17 days).
+    precautions:
+      - Guillain-Barré syndrome within 6 weeks after a previous influenza vaccine.
+      - LAIV - asthma at 5 years or older; other conditions that increase risk of influenza complications.
+      - Moderate or severe acute illness with or without fever.
+    confidence: medium
+  - id: covid19
+    name: COVID-19
+    abbreviations: [1vCOV-mRNA, 1vCOV-aPS]
+    aliases: [covid, sars-cov-2, spikevax, mnexspike, comirnaty, nuvaxovid, novavax]
+    series: []
+    routine:
+      - body: dph
+        text: 2026-27 - all children 6-23 months; ages 2-18 at higher risk, in congregate settings, or never vaccinated; adults 19-64 one dose; 65 and older two doses 6 months apart; pregnancy and healthcare personnel one dose.
+      - body: aap
+        text: Universal vaccination for ages 6-23 months; risk-based dose for ages 2-18 (with access on request) (2026 schedule as published by AAFP).
+      - body: cdc_acip
+        text: Individual-based decision-making for everyone 6 months and older (September 2025).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a component of the same type of COVID-19 vaccine.
+    precautions:
+      - Diagnosed non-severe allergy to a vaccine component, or a non-severe immediate (onset under 4 hours) allergic reaction after a previous dose.
+      - Myocarditis or pericarditis within 3 weeks after a dose of any COVID-19 vaccine.
+      - Moderate or severe acute illness with or without fever.
+    confidence: medium
+  - id: mmr
+    name: Measles, mumps, rubella
+    abbreviations: [MMR, MMRV]
+    aliases: [measles, mumps, rubella, m-m-r ii, priorix, proquad, mmrv]
+    series: [mmr]
+    routine:
+      - body: aap
+        text: 2 doses at 12-15 months and 4-6 years. For dose 1 at 12-47 months, separate MMR and varicella are recommended; MMRV if parents prefer.
+      - body: cdc_acip
+        text: 2 doses; MMRV not recommended before age 4 (September 2025).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - Pregnancy.
+      - Known severe immunodeficiency (e.g., hematologic and solid tumors, chemotherapy, congenital immunodeficiency, long-term immunosuppressive therapy, or HIV with severe immunocompromise).
+      - Family history of altered immunocompetence, unless verified clinically or by laboratory testing as immunocompetent.
+    precautions:
+      - Recent (11 months or less) receipt of an antibody-containing blood product (interval depends on product).
+      - History of thrombocytopenia or thrombocytopenic purpura.
+      - Need for tuberculin skin testing or IGRA testing.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: varicella
+    name: Varicella
+    abbreviations: [VAR, MMRV]
+    aliases: [chickenpox vaccine, varivax, proquad]
+    series: [varicella]
+    routine:
+      - body: aap
+        text: 2 doses at 12-15 months and 4-6 years; dose 2 may be given as early as 3 months after dose 1 (a dose given at least 4 weeks after dose 1 may be counted).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+      - Known severe immunodeficiency.
+      - Pregnancy.
+      - Family history of altered immunocompetence, unless verified as immunocompetent.
+    precautions:
+      - Recent (11 months or less) receipt of an antibody-containing blood product.
+      - Receipt of acyclovir, famciclovir, or valacyclovir 24 hours before vaccination (avoid for 14 days after).
+      - Use of aspirin or aspirin-containing products.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: hepa
+    name: Hepatitis A
+    abbreviations: [HepA]
+    aliases: [hep a, havrix, vaqta, twinrix]
+    series: [hepa]
+    routine:
+      - body: aap
+        text: 2 doses (minimum interval 6 months) at 12-23 months; catch-up through 18 years.
+      - body: cdc_acip
+        text: Risk-based or shared clinical decision-making after January 5, 2026 (as described by AAP).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component, including neomycin.
+    precautions:
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: hpv
+    name: Human papillomavirus
+    abbreviations: [HPV, 9vHPV]
+    aliases: [gardasil, gardasil 9, cervical cancer vaccine]
+    series: [hpv_2dose, hpv_3dose]
+    routine:
+      - body: aap
+        text: Routinely at 11-12 years (can start at 9); catch-up through 18. 2 doses (0, 6-12 months) if started at 9-14; 3 doses (0, 1-2, 6 months) if started at 15 or older.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component, including yeast.
+    precautions:
+      - Pregnancy - HPV vaccination is not recommended until after pregnancy.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: menacwy
+    name: Meningococcal ACWY
+    abbreviations: [MenACWY, MenACWY-CRM, MenACWY-TT, MenABCWY]
+    aliases: [menquadfi, menveo, mcv4, meningitis vaccine, penbraya, penmenvy]
+    series: [menacwy]
+    routine:
+      - body: aap
+        text: 2 doses at 11-12 years and 16 years. Minimum ages - MenACWY-CRM (Menveo) 2 months; MenACWY-TT (MenQuadfi) 2 years; MenABCWY (Penbraya, Penmenvy) 10 years.
+      - body: dph
+        text: Required for Massachusetts grades 7-12 and full-time college students 21 or younger (see check_ma_school_immunization_requirements).
+      - body: cdc_acip
+        text: Risk-based or shared clinical decision-making after January 5, 2026 (as described by AAP).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component; MenACWY-CRM also any diphtheria-toxoid- or CRM197-containing vaccine; MenACWY-TT also a tetanus-toxoid-containing vaccine.
+    precautions:
+      - MenACWY-CRM only - preterm birth if younger than 9 months.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: menb
+    name: Meningococcal B
+    abbreviations: [MenB, MenB-4C, MenB-FHbp]
+    aliases: [bexsero, trumenba]
+    series: []
+    routine:
+      - body: aap
+        text: Shared clinical decision-making at 16-23 years (preferred 16-18); Bexsero or Trumenba 2 doses at least 6 months apart (same brand for all doses).
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+    precautions:
+      - Pregnancy.
+      - Latex sensitivity (MenB-4C only).
+      - Moderate or severe acute illness with or without fever.
+    confidence: high
+  - id: rsv
+    name: Respiratory syncytial virus (infant antibody and maternal or adult vaccine)
+    abbreviations: [RSV-mAb, RSV]
+    aliases: [nirsevimab, beyfortus, clesrovimab, enflonsia, abrysvo, arexvy, mresvia]
+    series: []
+    routine:
+      - body: dph
+        text: All infants under 8 months entering their first season (maternal vaccine or infant antibody); high-risk children 8-19 months in their second season; adults 75+ and 50-74 at increased risk (one dose).
+      - body: aap
+        text: Infants under 8 months born during or entering their first season if the pregnant parent did not receive RSV vaccine, status is unknown, or the infant was born less than 14 days after maternal vaccination.
+      - body: cdc_acip
+        text: Infant RSV immunization not routinely recommended for all infants after January 5, 2026 (as described by AAP); adults 75+ and 50-74 at increased risk.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a component (check the product's package insert).
+    precautions:
+      - Moderate or severe acute illness with or without fever.
+    confidence: medium
+  - id: zoster
+    name: Recombinant zoster
+    abbreviations: [RZV]
+    aliases: [shingrix, shingles vaccine]
+    series: [zoster]
+    routine:
+      - body: aafp
+        text: Adults 50 and older - 2 doses 2-6 months apart (minimum interval 4 weeks), regardless of prior zoster or Zostavax; immunocompromised adults 19 and older - 2 doses.
+    contraindications:
+      - Severe allergic reaction (e.g., anaphylaxis) after a previous dose or to a vaccine component.
+    precautions:
+      - Current herpes zoster infection.
+      - Moderate or severe acute illness with or without fever.
+    confidence: high

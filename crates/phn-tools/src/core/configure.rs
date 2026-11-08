@@ -1,7 +1,10 @@
 //! CORE-09 `configure_jurisdiction`.
 
 use phn_core::config::validate_threshold;
-use phn_core::{Envelope, Letterhead, PhnError, Privacy, Profile, Result, Settings, Toolset};
+use phn_core::{
+    Envelope, Letterhead, PhnError, Privacy, Profile, Result, Settings, Toolset,
+    VaccineRecommendationBasis,
+};
 use phn_data::ma::hmcc_region;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -33,6 +36,12 @@ pub struct ConfigureJurisdictionArgs {
     pub toolsets: Option<Vec<String>>,
     /// Letterhead for exported documents. `logo_path` is relative to /data.
     pub letterhead: Option<Letterhead>,
+    /// Which body's vaccine recommendation the immunization tools treat as the
+    /// basis: "dph_then_professional_then_cdc" (default: DPH where it has a
+    /// position, else AAP/ACOG/AAFP, else CDC/ACIP), "cdc_acip",
+    /// "professional_societies", or "show_all". Use "default" to clear it.
+    /// Every answer still shows all bodies' positions side by side.
+    pub vaccine_recommendation_basis: Option<String>,
     /// Clear all settings before applying the other fields.
     pub reset: bool,
 }
@@ -202,6 +211,24 @@ pub fn configure_jurisdiction(
         changed.push("letterhead".into());
     }
 
+    if let Some(b) = &args.vaccine_recommendation_basis {
+        let parsed = b
+            .parse::<VaccineRecommendationBasis>()
+            .map_err(PhnError::InvalidInput)?;
+        s.vaccine_recommendation_basis =
+            (parsed != VaccineRecommendationBasis::default()).then_some(parsed);
+        changed.push("vaccine_recommendation_basis".into());
+        if parsed == VaccineRecommendationBasis::CdcAcip {
+            caveats.push(
+                "Since 2025 the federal CDC/ACIP schedule differs from Massachusetts DPH, AAP, \
+                 ACOG, and AAFP for several vaccines, and Massachusetts school requirements \
+                 follow DPH (aligned with AAP). Immunization answers will still show every \
+                 body's position."
+                    .into(),
+            );
+        }
+    }
+
     if s != before {
         ctx.save_settings(s.clone())?;
     }
@@ -282,7 +309,7 @@ pub fn configure_jurisdiction(
         or_unset(&j.board_of_health_phone),
     ));
     summary.push_str(&format!(
-        "- Suppression threshold: counts of 1–{} are suppressed\n- Preferred languages: {}\n- Profile: {}\n- Enabled toolsets: {}\n- Letterhead: {}\n",
+        "- Suppression threshold: counts of 1–{} are suppressed\n- Preferred languages: {}\n- Profile: {}\n- Enabled toolsets: {}\n- Letterhead: {}\n- Vaccine recommendation basis: {}\n",
         threshold - 1,
         if s.preferred_languages.is_empty() {
             "not set".into()
@@ -295,6 +322,18 @@ pub fn configure_jurisdiction(
             .as_ref()
             .map(|l| l.agency_name.clone())
             .unwrap_or_else(|| "not set".into()),
+        {
+            let b = s.vaccine_recommendation_basis.unwrap_or_default();
+            format!(
+                "{b} ({}){}",
+                b.describe(),
+                if s.vaccine_recommendation_basis.is_none() {
+                    ", the default"
+                } else {
+                    ""
+                }
+            )
+        },
     ));
     if j.town.is_some() && j.school_district.is_none() && !derived.districts_serving_town.is_empty()
     {

@@ -1,0 +1,390 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_storage_handling.schema.json",
+  "title": "Vaccine storage and temperature excursion response",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "contacts",
+    "operating_ranges",
+    "reporting_thresholds",
+    "definitions",
+    "cdc_steps",
+    "dph_steps",
+    "power_failure",
+    "frozen_storage_note",
+    "viability_statement",
+    "worksheet_fields"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "contacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "phone",
+          "email",
+          "alternate_email",
+          "fax",
+          "note"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string",
+            "pattern": "^\\d{3}-\\d{3}-\\d{4}$"
+          },
+          "email": {
+            "type": "string"
+          },
+          "alternate_email": {
+            "type": "string"
+          },
+          "fax": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "operating_ranges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit",
+          "range_c",
+          "range_f"
+        ],
+        "properties": {
+          "unit": {
+            "enum": [
+              "refrigerator",
+              "freezer",
+              "ultra_cold"
+            ]
+          },
+          "range_c": {
+            "type": "array",
+            "items": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "range_f": {
+            "type": "array",
+            "items": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reporting_thresholds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit",
+          "immediate",
+          "cumulative"
+        ],
+        "properties": {
+          "unit": {
+            "enum": [
+              "refrigerator",
+              "freezer",
+              "ultra_cold"
+            ]
+          },
+          "immediate": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "value",
+                "text"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "at_or_above_c",
+                    "at_or_below_c",
+                    "below_c"
+                  ]
+                },
+                "value": {
+                  "type": "number"
+                },
+                "text": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "cumulative": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "minutes",
+                  "window_hours",
+                  "text"
+                ],
+                "properties": {
+                  "minutes": {
+                    "type": "integer"
+                  },
+                  "window_hours": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "term",
+          "text"
+        ],
+        "properties": {
+          "term": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cdc_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order",
+          "text"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "dph_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "order",
+          "text"
+        ],
+        "properties": {
+          "order": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "power_failure": {
+      "type": "string"
+    },
+    "frozen_storage_note": {
+      "type": "string"
+    },
+    "viability_statement": {
+      "type": "string"
+    },
+    "worksheet_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

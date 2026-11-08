@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/vax_confidence_guide.schema.json",
+  "title": "Vaccine confidence conversation guide",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "sources",
+    "mi_principles",
+    "translated_resources",
+    "concerns"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "date"
+        ],
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          }
+        }
+      }
+    },
+    "mi_principles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "translated_resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "language",
+          "title",
+          "url"
+        ],
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          }
+        }
+      }
+    },
+    "concerns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "aliases",
+          "open_question",
+          "reflection",
+          "permission",
+          "facts",
+          "next_step"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "open_question": {
+            "type": "string"
+          },
+          "reflection": {
+            "type": "string"
+          },
+          "permission": {
+            "type": "string"
+          },
+          "facts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "text",
+                "source"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "divergence": {
+            "type": "string"
+          },
+          "next_step": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "review_due": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          "if": {
+            "properties": {
+              "status": {
+                "const": "reviewed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "reviewed_by": {
+                "type": "string",
+                "minLength": 1
+              },
+              "reviewed_on": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string"
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    }
+  }
+}

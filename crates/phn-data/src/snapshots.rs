@@ -84,6 +84,30 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // Phase 4 snapshot files go below this line.
 
     // Phase 5 snapshot files go below this line.
+    (
+        "cdc_cvx.csv",
+        include_str!("../../../snapshots/cdc_cvx.csv"),
+    ),
+    (
+        "cdc_mvx.csv",
+        include_str!("../../../snapshots/cdc_mvx.csv"),
+    ),
+    (
+        "cdc_vaccine_tradenames.csv",
+        include_str!("../../../snapshots/cdc_vaccine_tradenames.csv"),
+    ),
+    (
+        "cdc_vaccine_ndc.csv",
+        include_str!("../../../snapshots/cdc_vaccine_ndc.csv"),
+    ),
+    (
+        "ma_school_immunization_survey.csv",
+        include_str!("../../../snapshots/ma_school_immunization_survey.csv"),
+    ),
+    (
+        "nis_coverage_ma_us.csv",
+        include_str!("../../../snapshots/nis_coverage_ma_us.csv"),
+    ),
 
     // Phase 6 snapshot files go below this line.
 ];

@@ -14,7 +14,9 @@ pub mod error;
 pub mod text;
 pub mod toolsets;
 
-pub use config::{Config, Jurisdiction, Letterhead, Paths, Settings};
+pub use config::{
+    Config, Jurisdiction, Letterhead, Paths, Settings, VaccineRecommendationBasis,
+};
 pub use envelope::{DECISION_SUPPORT_NOTICE, Envelope, Privacy, Source, SourceMode};
 pub use error::{PhnError, Result};
 pub use toolsets::{Profile, Toolset};
