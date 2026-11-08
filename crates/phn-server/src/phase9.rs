@@ -2,7 +2,9 @@
 
 use phn_core::Envelope;
 use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan};
-use phn_tools::core::{OmahaArgs, OmahaResult, WheelArgs, WheelResult};
+use phn_tools::core::{
+    DocTemplateArgs, DocTemplateResult, OmahaArgs, OmahaResult, WheelArgs, WheelResult,
+};
 use phn_tools::equity::{HrsnArgs, HrsnResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -121,6 +123,29 @@ impl PhnServer {
     ) -> CallToolResult {
         blocking(&self.ctx, move |ctx| {
             phn_tools::core::classify_intervention_wheel(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "nursing_documentation_template",
+        description = "Documentation templates for public health nursing: SOAP, DAR (focus \
+            charting), or narrative, for a home visit, clinic visit, communicable disease case \
+            investigation, or DOT visit, with section prompts and the required elements (date and \
+            time, signature with credentials per 244 CMR 9.03(44), consent, language and \
+            interpreter, assessment, interventions, teaching with teach-back, response, \
+            follow-up, plus visit-specific items such as control measures or dose observed). \
+            With check_path, checks a note file in /data for those elements and returns only \
+            found/missing results, never the note's text. Can write a blank template (DOCX, MD).",
+        annotations(title = "Nursing documentation template", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<DocTemplateResult>>()
+    )]
+    async fn nursing_documentation_template(
+        &self,
+        Parameters(args): Parameters<DocTemplateArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::core::nursing_documentation_template(ctx, args)
         })
         .await
     }

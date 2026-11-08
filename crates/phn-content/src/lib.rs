@@ -178,6 +178,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/core/intervention_wheel.yaml"),
         schema: include_str!("../../../content/schemas/intervention_wheel.schema.json"),
     },
+    ContentItem {
+        id: "nursing-documentation-templates",
+        path: "content/core/documentation_templates.yaml",
+        resource_uri: "phn://content/nursing-documentation-templates",
+        yaml: include_str!("../../../content/core/documentation_templates.yaml"),
+        schema: include_str!("../../../content/schemas/documentation_templates.schema.json"),
+    },
     // End of Phase 9 content items.
        // Phase 10 content items go below this line.
        // End of Phase 10 content items.

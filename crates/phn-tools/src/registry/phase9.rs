@@ -35,4 +35,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Core,
         phase: 9,
     },
+    ToolMeta {
+        name: "nursing_documentation_template",
+        plan_id: "CORE-03",
+        toolset: Toolset::Core,
+        phase: 9,
+    },
 ];
