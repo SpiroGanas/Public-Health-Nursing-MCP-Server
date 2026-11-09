@@ -469,6 +469,14 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 12 content items.
     // Phase 13 content items go below this line (EPR-01, EPR-07, EPR-08/09, EPR-10).
+    // EPR-10 (CERC)
+    ContentItem {
+        id: "epr-cerc",
+        path: "content/epr/cerc.yaml",
+        resource_uri: "phn://content/epr-cerc",
+        yaml: include_str!("../../../content/epr/cerc.yaml"),
+        schema: include_str!("../../../content/schemas/epr_cerc.schema.json"),
+    },
     // End of Phase 13 content items.
 ];
 
