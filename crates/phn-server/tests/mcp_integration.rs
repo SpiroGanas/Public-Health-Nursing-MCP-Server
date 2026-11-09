@@ -601,6 +601,46 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 11 data tools go below this line.
         // ---- End of Phase 11 data tools.
         // ---- Phase 12 data tools go below this line.
+        (
+            "functional_needs_shelter_intake",
+            json!({"area": "Brockton", "expected_residents": 150, "intake_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "heat_health_action_planner",
+            json!({"area": "Springfield", "plan_for_level": 3, "cooling_centers_path": "cooling_centers.csv"}),
+            "data/cooling_centers.csv",
+        ),
+        (
+            "plan_casper_assessment",
+            json!({"area": "Fall River", "seed": 7, "results_path": "casper_results.csv",
+                   "times_selected_column": "times_selected",
+                   "questions": ["structure", "damage", "has_generator", "needs_medication"]}),
+            "data/casper_results.csv",
+        ),
+        // Identifier columns named as questions are refused without echoing values.
+        (
+            "plan_casper_assessment",
+            json!({"area": "Fall River", "seed": 7, "results_path": "casper_results.csv",
+                   "questions": ["Household Address", "Callback Phone"]}),
+            "data/casper_results.csv",
+        ),
+        // Individual-level files given to aggregate-only readers are refused.
+        (
+            "get_electricity_dependent_population",
+            json!({"area": "Brockton", "local_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "hazard_vulnerability_assessment",
+            json!({"area": "Plymouth County", "nri_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "plan_casper_assessment",
+            json!({"area": "Brockton", "results_path": "shelter_registrations.csv", "cluster_column": "Name"}),
+            "data/shelter_registrations.csv",
+        ),
         // ---- End of Phase 12 data tools.
     ];
     for (name, args, file) in checks {

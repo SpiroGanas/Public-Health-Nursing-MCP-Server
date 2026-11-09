@@ -129,6 +129,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `get_active_hazard_alerts` | EPR-05 | epr | Current NWS watches and warnings for a town, county, or the state with likely health effects and public health actions, plus FEMA declarations. |
+| `model_dispensing_site_throughput` | EPR-02 | epr | POD and mass vaccination site queues (M/M/c): staff per station, waits, bottleneck, capacity, and hours to reach a population. |
+| `air_quality_protective_guidance` | ENV-02 | env | Current and forecast AQI from AirNow with actions for sensitive groups, schools, and outdoor events; concentration-to-AQI conversion. |
+| `heat_health_action_planner` | ENV-01 | env | 7-day HeatRisk and forecast, heat-vulnerable population, activation steps, and a heat response checklist with cooling centers and outreach scripts. |
+| `hazard_vulnerability_assessment` | EPR-06 | epr | Facilitated HVA (probability × severity) seeded with ResilientMass ratings, FEMA declarations, and optional NRI scores, with a workbook. |
+| `functional_needs_shelter_intake` | EPR-03 | epr | CMIST shelter intake form, local fill to the output folder, and estimates of support needs and staff for a shelter population. |
+| `get_electricity_dependent_population` | EPR-04 | epr | HHS emPOWER counts of electricity-dependent Medicare beneficiaries by town, county, and ZIP code for outage planning. |
+| `plan_casper_assessment` | EPR-11 | epr | CDC CASPER cluster sample of census blocks, team materials, and weighted analysis with confidence intervals. |
 <!-- Phase 12 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

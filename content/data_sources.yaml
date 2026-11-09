@@ -425,15 +425,18 @@ sources:
         Linked, not read: the briefing points to this dashboard (hospital admissions and ED
         visits for COVID-19, influenza, and RSV) as the Massachusetts source of record.
   - id: nws-alerts
-    name: National Weather Service alerts API
+    name: National Weather Service API (active alerts and point forecasts)
     publisher: National Weather Service
     kind: live
-    status: planned
-    planned_phase: 12
+    status: active
     homepage: https://www.weather.gov/documentation/services-web-api
     probe_url: https://api.weather.gov/alerts/active?area=MA
-    used_by: []
-    caveats: []
+    used_by: [get_active_hazard_alerts, heat_health_action_planner]
+    caveats:
+      - >-
+        Alerts are cached for five minutes and never served from a snapshot; when the API cannot
+        be reached the tools say so. Requests send the server's User-Agent (name, version, and
+        project URL) as NWS asks.
   # Phase 7 sources go below this line.
   # End of Phase 7 sources.
   # Phase 8 sources go below this line.
@@ -445,4 +448,91 @@ sources:
   # Phase 11 sources go below this line.
   # End of Phase 11 sources.
   # Phase 12 sources go below this line.
+  - id: openfema-declarations
+    name: OpenFEMA Disaster Declarations Summaries (Massachusetts)
+    publisher: Federal Emergency Management Agency
+    kind: live
+    status: active
+    snapshot_id: fema-declarations-ma
+    homepage: https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2
+    probe_url: https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=state%20eq%20%27MA%27&$top=1
+    used_by: [get_active_hazard_alerts, hazard_vulnerability_assessment]
+    caveats:
+      - >-
+        Declarations record federal assistance, not every hazard event. www.fema.gov web pages
+        returned 403 from this project's build network while the OpenFEMA API worked.
+  - id: hhs-empower
+    name: HHS emPOWER Map data (electricity-dependent Medicare beneficiaries by county and ZIP code)
+    publisher: HHS Administration for Strategic Preparedness and Response (ASPR) and CMS
+    kind: live
+    status: active
+    snapshot_id: hhs-empower-ma
+    homepage: https://empowerprogram.hhs.gov/empowermap
+    probe_url: https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/counties.json
+    used_by: [get_electricity_dependent_population, heat_health_action_planner, functional_needs_shelter_intake]
+    caveats:
+      - >-
+        Read from the emPOWER Map's own JSON endpoints (the REST Service is on arcgis.com, which
+        some networks block). Values of 1-11 are published as 11; the data month is not stated.
+  - id: airnow-reporting-area
+    name: EPA AirNow reporting-area file (current and forecast AQI)
+    publisher: U.S. Environmental Protection Agency (AirNow); Massachusetts forecasts by MassDEP
+    kind: live
+    status: active
+    homepage: https://files.airnowtech.org/airnow/docs/ReportingAreaFactSheet.pdf
+    probe_url: https://files.airnowtech.org/airnow/today/reportingarea.dat
+    used_by: [air_quality_protective_guidance]
+    caveats:
+      - >-
+        Preliminary data, not for regulatory use. The optional AirNow API path
+        (PHN_AIRNOW_API_KEY, www.airnowapi.org) was not reachable from the build network and is
+        untested.
+  - id: nws-heatrisk
+    name: NWS HeatRisk (experimental), 7-day forecast grids
+    publisher: National Weather Service, Weather Prediction Center
+    kind: live
+    status: active
+    homepage: https://www.wpc.ncep.noaa.gov/heatrisk/
+    probe_url: https://www.wpc.ncep.noaa.gov/heatrisk/data/FileTimes.js
+    used_by: [heat_health_action_planner]
+    caveats:
+      - >-
+        Experimental product read from the KML ground-overlay images (palette index = HeatRisk
+        level); a change in WPC's file format would stop it, and the tool would say no data.
+  - id: census-pl2020-blocks
+    name: 2020 Census Redistricting Data (PL 94-171) housing units by census block, Massachusetts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: census-pl2020-blocks-ma
+    homepage: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/
+    probe_url: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/
+    used_by: [plan_casper_assessment]
+    caveats:
+      - Housing counts as of April 1, 2020.
+  - id: fema-nri
+    name: FEMA National Risk Index tables (downloaded by the nurse)
+    publisher: Federal Emergency Management Agency
+    kind: local
+    status: active
+    homepage: https://hazards.fema.gov/nri/
+    probe_url: https://hazards.fema.gov/nri/
+    used_by: [hazard_vulnerability_assessment]
+    caveats:
+      - >-
+        On 2026-11-08 every hazards.fema.gov/nri address redirected to FEMA's Resilience Analysis
+        and Planning Tool page, which was blocked from the build network, so no NRI snapshot is
+        bundled. A table the nurse downloads can be read from /data; its column names could not
+        be checked against FEMA's data dictionary.
+  - id: epr-env-reference-content
+    name: Preparedness and environmental health reference content (hazard actions, dispensing, AQI, heat, HVA, CMIST, emPOWER, CASPER)
+    publisher: CDC, EPA, NWS, MEMA, Commonwealth of Massachusetts, HHS ASPR (drafted by this project)
+    kind: content
+    status: active
+    content_id: epr-hazard-health-actions
+    homepage: https://www.cdc.gov/natural-disasters/about/index.html
+    probe_url: https://www.cdc.gov/natural-disasters/about/index.html
+    used_by: [get_active_hazard_alerts, model_dispensing_site_throughput, air_quality_protective_guidance, heat_health_action_planner, hazard_vulnerability_assessment, functional_needs_shelter_intake, get_electricity_dependent_population, plan_casper_assessment]
+    caveats:
+      - Drafted from sources retrieved 2026-11-08 and pending subject-matter review; tool defaults (dispensing station times, shelter staffing ratios) have no published source.
   # End of Phase 12 sources.

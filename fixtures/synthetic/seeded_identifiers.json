@@ -3758,6 +3758,558 @@
    "kind": "other_id_number",
    "file": "data/church_supper_outbreak.csv",
    "column": "Case ID"
+  },
+  {
+   "value": "Ottoline",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Quillfeather",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1940-01-10",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0120",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "14 Quarry Lane",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "ottoline.quillfeather@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Zebulon",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Marchbanks",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1943-02-11",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0121",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "221 Bramble Court",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "zebulon.marchbanks@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Philippa",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Ashdown",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1946-03-12",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0122",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "9 Osprey Way",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "philippa.ashdown@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Lazarus",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1949-04-13",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0123",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "77 Tamarack Road",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "lazarus.thistlewood@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Pennyworth",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1952-05-14",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0124",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "350 Juniper Terrace",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "wilhelmina.pennyworth@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Larkspur",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1955-06-15",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0125",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "18 Wren Hollow",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "thaddeus.larkspur@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Ermintrude",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Wolstenholme",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1958-07-16",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0126",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "402 Pickerel Drive",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "ermintrude.wolstenholme@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Cosimo",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Inglethorp",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1961-08-17",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0127",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "63 Sorrel Street",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "cosimo.inglethorp@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Henrietta",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Vexley",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1964-09-18",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0128",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "5 Tidewater Place",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "henrietta.vexley@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Bartholomew",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Dunmore",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1967-01-19",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0129",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "128 Ledgeview Avenue",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "bartholomew.dunmore@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Clementine",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Crabtree",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1970-02-20",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0130",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "31 Cobble Hill Road",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "clementine.crabtree@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Halloway",
+   "kind": "name",
+   "file": "data/shelter_registrations.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1973-03-21",
+   "kind": "birth_date",
+   "file": "data/shelter_registrations.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0131",
+   "kind": "phone",
+   "file": "data/shelter_registrations.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "890 Larch Circle",
+   "kind": "street_address",
+   "file": "data/shelter_registrations.csv",
+   "column": "Address"
+  },
+  {
+   "value": "ignatius.halloway@example.org",
+   "kind": "email",
+   "file": "data/shelter_registrations.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Marigold",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Featherby",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0161",
+   "kind": "phone",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "marigold.featherby@example.org",
+   "kind": "email",
+   "file": "data/cooling_centers.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Leopold",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Ravensworth",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0162",
+   "kind": "phone",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "leopold.ravensworth@example.org",
+   "kind": "email",
+   "file": "data/cooling_centers.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Seraphina",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Holloway-Pike",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0163",
+   "kind": "phone",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "seraphina.holloway-pike@example.org",
+   "kind": "email",
+   "file": "data/cooling_centers.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Augustin",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Mallowfield",
+   "kind": "name",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0164",
+   "kind": "phone",
+   "file": "data/cooling_centers.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "augustin.mallowfield@example.org",
+   "kind": "email",
+   "file": "data/cooling_centers.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "121 Kestrel Run",
+   "kind": "street_address",
+   "file": "data/casper_results.csv",
+   "column": "Household Address"
+  },
+  {
+   "value": "774-555-0121",
+   "kind": "phone",
+   "file": "data/casper_results.csv",
+   "column": "Callback Phone"
+  },
+  {
+   "value": "219 Kestrel Run",
+   "kind": "street_address",
+   "file": "data/casper_results.csv",
+   "column": "Household Address"
+  },
+  {
+   "value": "774-555-0119",
+   "kind": "phone",
+   "file": "data/casper_results.csv",
+   "column": "Callback Phone"
   }
  ]
 }

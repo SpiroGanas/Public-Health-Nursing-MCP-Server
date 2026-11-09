@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 55;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -97,6 +97,7 @@ const frontChapters = [
                 // Phase 11 work-area rows go below this line.
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
+                ['Emergency preparedness and environmental health (chapter 11)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
                 // End of Phase 12 work-area rows.
               ],
             },
@@ -1730,6 +1731,227 @@ const toolChapters = [
   // Phase 11 chapter goes below this line.
   // End of Phase 11 chapter.
   // Phase 12 chapter goes below this line.
+  {
+    title: 'Emergency preparedness and environmental health',
+    intro: 'These eight tools support situational awareness and planning before and during emergencies: hazard alerts, dispensing sites, air quality, heat, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, and CASPER rapid needs assessments. Six are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. The guidance they give is drafted from CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
+    tools: [
+      {
+        id: 'get_active_hazard_alerts',
+        title: 'Check active hazard alerts and what they mean for health',
+        toolset: 'epr',
+        internet: 'yes',
+        files: 'no',
+        does: 'Lists the current National Weather Service watches, warnings, and advisories for your town, county, or the whole state, and for each hazard gives the likely health effects, who is most at risk, suggested public health actions, and public messages, including the power outage and carbon monoxide risks that follow storms. It also lists FEMA disaster declarations that covered the area, with counts by type since 1953.',
+        when: [
+          'A storm, heat wave, flood, or other hazard is forecast or under way.',
+          'Briefing your board of health, partners, or staff.',
+          'Planning ahead for a season (ask for guidance for a hazard with no alert yet).',
+        ],
+        provide: [
+          'An area (your saved town by default), and optionally hazards to plan for, such as “winter storm” or “extreme heat”.',
+        ],
+        examples: [
+          'Are there any weather alerts for Fall River right now, and what should the health department do?',
+          'What are the health effects and public messages for a hurricane warning in Barnstable County?',
+          'How many FEMA disaster declarations has Bristol County had, and for what?',
+        ],
+        returns: [
+          'Each active alert with severity, urgency, certainty, counties, timing, and NWS instructions; guidance for each hazard with citations; FEMA declarations and counts by incident type.',
+        ],
+        notes: [
+          'NWS alerts are the official source; if the tool cannot reach them it says so plainly and shows no alerts. Never rely on an old copy for warnings.',
+          'FEMA declarations count only federally declared events.',
+        ],
+      },
+      {
+        id: 'model_dispensing_site_throughput',
+        title: 'Model a dispensing site (POD) or mass vaccination site',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'only if you ask for a worksheet',
+        does: 'Treats each station of a point of dispensing (greeting, forms and screening, medical consultation, dispensing, exit) or mass vaccination site (check-in, screening, vaccination) as a waiting line with several staff, and works out how many staff each station needs, how busy they are, how long people wait, where the bottleneck is, how many people the site can serve per hour, how many people are inside at once, and how many hours and days it takes to reach everyone.',
+        when: [
+          'Writing or updating a medical countermeasure dispensing plan.',
+          'Testing a staffing plan before an exercise, or after a drill using your own station times.',
+        ],
+        provide: [
+          'The population to reach and either the hours your sites will be open or the expected arrivals per hour, and the number of sites.',
+          'Optionally: your measured minutes per client at each station, your staffing, head-of-household pickup, shift length, and support staff.',
+        ],
+        examples: [
+          'We need to give antibiotics to 48,000 people with 2 PODs open 48 hours. How many staff per station?',
+          'Our flu clinic will have 8 check-in staff, 10 screeners, and 9 vaccinators with 120 arrivals an hour. Where is the bottleneck?',
+        ],
+        returns: [
+          'A table by station (staff, how busy, average wait, people in line, capacity), the bottleneck, site capacity, hours and days to reach everyone, staff per shift, a busiest-hour check, and CDC’s activation checklist.',
+        ],
+        notes: [
+          'Station times are tool defaults with no published source. Replace them with times measured in your drills.',
+          'The model assumes steady, random arrivals; real arrivals come in waves, so lines can be longer.',
+        ],
+      },
+      {
+        id: 'get_electricity_dependent_population',
+        title: 'Find people who rely on electricity-dependent medical equipment',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'no',
+        does: 'Reports HHS emPOWER counts of Medicare beneficiaries who use electricity-dependent medical equipment (ventilators, oxygen concentrators, BiPAP, feeding and infusion pumps, home dialysis, power wheelchairs, electric beds, cardiac assist devices) for your town, county, the state, or ZIP codes, with rates compared with Massachusetts and the U.S. and power outage planning actions.',
+        when: [
+          'Before a storm or heat wave that may cause power outages.',
+          'Planning shelters, charging sites, and outreach with emergency management and utilities.',
+        ],
+        provide: [
+          'An area or ZIP codes. Optionally, a ZIP-level count file from DPH (for example the emPOWER Emergency Planning Dataset).',
+        ],
+        examples: [
+          'How many people in Plymouth County rely on electricity-dependent medical equipment, by ZIP code?',
+          'What are the emPOWER counts for Amherst?',
+        ],
+        returns: [
+          'Totals, rates per 1,000 Medicare beneficiaries, a ZIP code table, planning actions, and utility phone numbers.',
+        ],
+        notes: [
+          'Counts cover Medicare only and do not identify anyone. HHS shows 1 to 11 as 11.',
+          'Files with names or addresses are refused; never put the restricted emPOWER outreach list into this tool.',
+        ],
+      },
+      {
+        id: 'hazard_vulnerability_assessment',
+        title: 'Run a hazard vulnerability assessment (HVA)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, a workbook in your output folder',
+        does: 'Helps a planning group score hazards for probability, impact on people, property, and health department operations, and preparedness gaps, and ranks them by relative risk. It starts the discussion with the statewide ratings in the 2023 ResilientMass Plan, FEMA declarations for your county, and, if you download one, FEMA National Risk Index scores.',
+        when: [
+          'Your annual or HMCC hazard vulnerability assessment.',
+          'Updating a preparedness or continuity plan.',
+        ],
+        provide: [
+          'A town or county and, as the group decides them, scores for each hazard. Optionally a National Risk Index table saved in your data folder.',
+        ],
+        examples: [
+          'Start a hazard vulnerability assessment for Worcester County.',
+          'Score winter storms 3, 2, 2, 2 with preparedness 1, 2, 2, and pandemic 2, 3, 1, 3 with 2, 2, 2. Rank them.',
+        ],
+        returns: [
+          'A ranked table, seeds for discussion for 21 hazards, the scoring scales, and an Excel facilitation workbook.',
+        ],
+        notes: [
+          'The scoring method is the tool’s own, modeled on common HVA worksheets. Use your HMCC’s method if it differs.',
+          'The National Risk Index could not be bundled because FEMA’s download site was unavailable.',
+        ],
+      },
+      {
+        id: 'functional_needs_shelter_intake',
+        title: 'Shelter health intake for access and functional needs (CMIST)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, to your output folder',
+        does: 'Provides a shelter health intake organized by the CMIST framework (communication, maintaining health, independence, support and safety, transportation) as a blank form, fills completed forms from your registration file without showing anyone’s details in the chat, and estimates how many residents of a shelter of a given size will need interpreters, accessible cots, personal assistance, power for medical equipment, and other support.',
+        when: [
+          'Preparing shelter health services or a shelter plan.',
+          'During sheltering, to turn registration data into forms and a count of needs.',
+        ],
+        provide: [
+          'The town or county the shelter serves and the expected number of residents.',
+          'Optionally, a registration file in your data folder with one row per person and columns named like the questions.',
+        ],
+        examples: [
+          'We expect 200 people at the Brockton shelter. What functional needs should we plan for, and how many staff?',
+          'Make the CMIST intake form for our shelter.',
+          'Fill intake forms from shelter_registrations.csv.',
+        ],
+        returns: [
+          'The intake questions, estimates by need with local rates, staff per shift, and, from a file, counts of needs and preferred languages (small numbers hidden).',
+        ],
+        notes: [
+          'Completed forms go only to your output folder. Agency translations in templates/<language>/cmist_intake.md are used when present; otherwise forms are in English and the tool says how many.',
+          'The questions are a draft and the staffing ratios are tool defaults; adapt them to your shelter plan.',
+        ],
+      },
+      {
+        id: 'plan_casper_assessment',
+        title: 'Plan and analyze a CASPER rapid needs assessment',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Plans a CDC Community Assessment for Public Health Emergency Response (CASPER): selects 30 census blocks with probability proportional to housing, gives each cluster’s households and sampling interval, and writes the cluster list, tracking forms, and a team packet. After fieldwork it weights the returned data as the CASPER Toolkit describes and reports estimated households, percentages, and 95% confidence intervals.',
+        when: [
+          'After a disaster, to measure household needs quickly.',
+          'For a preparedness survey of your community.',
+        ],
+        provide: [
+          'A town, several towns, or a county; optionally the number of clusters, total or occupied households, and a seed to reproduce a selection.',
+          'For analysis: a file of completed questionnaires with a cluster column, the questions to estimate, and tracking-form totals.',
+        ],
+        examples: [
+          'Plan a CASPER for Fall River.',
+          'Analyze casper_results.csv for the questions damage and generator, with 300 households attempted and 200 contacted.',
+        ],
+        returns: [
+          'The selected clusters, the seed, household selection steps, weights, response-rate formulas, and, from returned data, weighted results with confidence intervals and response rates.',
+        ],
+        notes: [
+          'Uses 2020 Census housing counts; homes built or lost since then are not reflected.',
+          'Results with fewer than 5 answers are not shown, as the toolkit advises.',
+        ],
+      },
+      {
+        id: 'air_quality_protective_guidance',
+        title: 'Check air quality and protective actions',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'no',
+        does: 'Shows the current and forecast Air Quality Index from EPA AirNow for the reporting area nearest your town (or every Massachusetts area), and the protective actions for sensitive groups, the public, schools, and outdoor events for that level. It can also convert a pollutant reading to an AQI.',
+        when: [
+          'Wildfire smoke or an ozone day.',
+          'Advising schools, camps, coaches, or event organizers.',
+        ],
+        provide: [
+          'An area, or an AQI value or pollutant reading you already have.',
+        ],
+        examples: [
+          'What is the air quality in Springfield today, and should schools hold recess outside?',
+          'The AQI is 135 for ozone. What should we tell outdoor event organizers?',
+          'Convert a 24-hour PM2.5 of 60 µg/m³ to an AQI.',
+        ],
+        returns: [
+          'Current, yesterday’s, and forecast AQI by pollutant, the category, sensitive groups, actions by audience, and tips.',
+        ],
+        notes: [
+          'AirNow data are preliminary. Without the internet, actions for every category are listed.',
+          'Some actions for the public and events are the project’s summaries of EPA and CDC guidance.',
+        ],
+      },
+      {
+        id: 'heat_health_action_planner',
+        title: 'Plan the heat response',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'yes, a checklist in your output folder',
+        does: 'Combines the National Weather Service 7-day HeatRisk and forecast for your town or county with your local heat-vulnerable population (older adults, young children, disability, poverty, no car, limited English, chronic disease, socially vulnerable areas, and people who rely on powered medical equipment) and gives public health steps for the expected heat level. It writes a Word checklist with cooling centers, outreach call and door-knock scripts, school and outdoor worker guidance, heat illness teaching, and medication and power outage planning.',
+        when: [
+          'Before a heat wave, or at the start of summer to prepare.',
+          'Exercising your heat plan (choose a HeatRisk level).',
+        ],
+        provide: [
+          'A town or county, and optionally your cooling center list (a CSV or Excel file in your data folder).',
+        ],
+        examples: [
+          'Make a heat response plan for Worcester for this week.',
+          'Plan for HeatRisk red (3) in Lowell using cooling_centers.xlsx.',
+        ],
+        returns: [
+          'HeatRisk by day, the forecast, heat alerts, the local population table, activation steps, and the checklist file name.',
+        ],
+        notes: [
+          'HeatRisk is experimental and does not replace NWS heat advisories and warnings.',
+          'Activation steps and scripts are drafts; adapt them to your heat plan. Cooling center rows go into the checklist only.',
+        ],
+      },
+    ],
+  },
   // End of Phase 12 chapter.
 ];
 

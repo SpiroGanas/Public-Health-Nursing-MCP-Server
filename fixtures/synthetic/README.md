@@ -13,6 +13,9 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/exclusion_letters.csv` | Mail-merge data (parent and student names). |
 | `data/school_roster.csv` | 24-student school immunization roster (student IDs, names, dates of birth, grade, dose dates by vaccine, exemptions) with complete, incomplete, exempt, and invalid-date records, for the school requirements check. |
 | `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
+| `data/shelter_registrations.csv` | 12 fictional shelter registrants (names, dates of birth, phones, addresses, emails, preferred language) with CMIST intake answers, for the Phase 12 shelter intake tool. |
+| `data/cooling_centers.csv` | Four cooling centers with a fictional after-hours contact person, cell phone, and email that must never be returned (Phase 12 heat planner). |
+| `data/casper_results.csv` | 198 fictional CASPER interviews in 30 clusters (7, or 5 in every fifth cluster) with structure, damage, generator, and medication answers, plus household addresses and callback phones that must never be returned. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
 
