@@ -547,13 +547,13 @@ pub fn elder_protective_services_guide(
         "\n**What a report contains:** {}\n",
         c.report_contents.text.trim()
     ));
-    if let Some(w) = wanted {
-        if let Some(sg) = signs.first() {
-            s.push_str(&format!(
-                "\n**Signs ({w}):** {}\n",
-                sg.text.split_once(": ").map(|x| x.1).unwrap_or_default()
-            ));
-        }
+    if let Some(w) = wanted
+        && let Some(sg) = signs.first()
+    {
+        s.push_str(&format!(
+            "\n**Signs ({w}):** {}\n",
+            sg.text.split_once(": ").map(|x| x.1).unwrap_or_default()
+        ));
     }
     if !self_neglect.is_empty() && wanted == Some("Self-neglect") {
         s.push_str("\n**Self-neglect**\n");

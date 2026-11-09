@@ -332,7 +332,7 @@ pub fn chair_stand_cutoff(age: u32, female: bool) -> Option<u32> {
 }
 
 fn parse_sex(s: Option<&str>) -> Result<Option<bool>> {
-    match s.map(|v| phn_core::text::normalize(v)) {
+    match s.map(phn_core::text::normalize) {
         None => Ok(None),
         Some(v) if v.is_empty() => Ok(None),
         Some(v) if matches!(v.as_str(), "f" | "female" | "woman" | "women") => Ok(Some(true)),
