@@ -145,14 +145,17 @@ fn parse(v: &str) -> Option<f64> {
 }
 
 /// ACS rows by GEOID: (poverty200, under5) from the indicator snapshot, and housing age.
-fn acs(ctx: &Context) -> Result<(BTreeMap<String, [Option<f64>; 4]>, Vec<Source>)> {
+/// ACS values by GEOID: [pre-1950 %, pre-1980 %, below 200% of poverty %, under 5 %].
+type AcsValues = BTreeMap<String, [Option<f64>; 4]>;
+
+fn acs(ctx: &Context) -> Result<(AcsValues, Vec<Source>)> {
     let (ind, ind_entry, _) = ctx
         .snapshots
         .file_text("census-acs5-ma", "ma_acs5_indicators.csv")?;
     let (hous, hous_entry, _) = ctx
         .snapshots
         .file_text("ma-acs5-housing-age", "ma_acs5_housing_age.csv")?;
-    let mut out: BTreeMap<String, [Option<f64>; 4]> = BTreeMap::new();
+    let mut out: AcsValues = BTreeMap::new();
     let mut rdr = csv::Reader::from_reader(ind.as_bytes());
     let h = rdr
         .headers()
@@ -360,7 +363,7 @@ pub fn map_lead_risk(ctx: &Context, args: LeadRiskArgs) -> Result<Envelope<LeadR
                     .enumerate()
                     .map(|(j, ind)| (ind.label().to_string(), matrix[j][*i]))
                     .collect(),
-                dph_high_risk: hr_towns.iter().any(|h| *h == t),
+                dph_high_risk: hr_towns.contains(&t) || lr.is_some_and(|r| r.high_risk()),
                 dph_high_risk_score: lr.and_then(|r| parse(&r.hr_score)),
                 screening_data_year: (args.geography == LeadGeography::Town)
                     .then(|| lr.map(|r| r.data_year.clone()))

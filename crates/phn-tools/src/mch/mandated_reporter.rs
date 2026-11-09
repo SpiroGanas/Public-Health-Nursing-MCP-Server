@@ -240,12 +240,11 @@ fn parse_notes(text: &str) -> (BTreeMap<String, String>, usize) {
     (rec, unmatched)
 }
 
+/// Records read from the notes, unmatched labels, the file label, and identifier categories.
+type NotesRead = (Vec<BTreeMap<String, String>>, usize, String, Vec<String>);
+
 /// Read the notes file: one record from a text file, one per row from a table.
-fn read_notes(
-    ctx: &Context,
-    path: &str,
-    sheet: Option<&str>,
-) -> Result<(Vec<BTreeMap<String, String>>, usize, String, Vec<String>)> {
+fn read_notes(ctx: &Context, path: &str, sheet: Option<&str>) -> Result<NotesRead> {
     let sandbox = ctx.sandbox()?;
     let p = sandbox.resolve_existing(path)?;
     let label = sandbox.display_path(&p);
