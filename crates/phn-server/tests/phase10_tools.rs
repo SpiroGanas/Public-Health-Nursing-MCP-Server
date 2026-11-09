@@ -109,9 +109,19 @@ async fn screening_scores_alerts_and_catalog() {
             .iter()
             .all(|i| i.get("wording").is_none())
     );
-    let e = call_err(&h, "score_mental_health_screen", json!({"instrument": "gad7", "responses": [4]})).await;
+    let e = call_err(
+        &h,
+        "score_mental_health_screen",
+        json!({"instrument": "gad7", "responses": [4]}),
+    )
+    .await;
     assert!(e.contains("out of range"), "{e}");
-    let e = call_err(&h, "score_mental_health_screen", json!({"instrument": "beck"})).await;
+    let e = call_err(
+        &h,
+        "score_mental_health_screen",
+        json!({"instrument": "beck"}),
+    )
+    .await;
     assert!(e.contains("not a supported instrument"), "{e}");
 }
 
@@ -131,12 +141,19 @@ async fn screening_file_returns_suppressed_counts_only() {
     let out = b["output_file"].as_str().unwrap();
     assert!(h.data().join(out).exists(), "{out}");
     let r = h
-        .call("score_mental_health_screen", json!({"instrument": "phq9", "file": "phq9_screens.csv"}))
+        .call(
+            "score_mental_health_screen",
+            json!({"instrument": "phq9", "file": "phq9_screens.csv"}),
+        )
         .await;
     assert!(leaks(&everything(&r), "data/phq9_screens.csv", None).is_empty());
     // The fixture's identifier columns are detected.
-    let t = phn_local::table::read_table(&common::corpus().join("data/phq9_screens.csv"), None).unwrap();
-    let flagged: BTreeSet<String> = phn_local::phi::scan_table(&t).into_iter().map(|f| f.column).collect();
+    let t = phn_local::table::read_table(&common::corpus().join("data/phq9_screens.csv"), None)
+        .unwrap();
+    let flagged: BTreeSet<String> = phn_local::phi::scan_table(&t)
+        .into_iter()
+        .map(|f| f.column)
+        .collect();
     for col in ["Last Name", "First Name", "DOB", "Phone"] {
         assert!(flagged.contains(col), "{col} not flagged: {flagged:?}");
     }
@@ -147,14 +164,41 @@ async fn screening_file_returns_suppressed_counts_only() {
 #[tokio::test]
 async fn crisis_resources_for_a_town() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "find_crisis_resources", json!({"town": "Worcester", "language": "Spanish"})).await;
+    let s = call_ok(
+        &h,
+        "find_crisis_resources",
+        json!({"town": "Worcester", "language": "Spanish"}),
+    )
+    .await;
     assert_eq!(s["data"]["cbhc_match"], "listed");
-    assert!(s["data"]["local_cbhcs"][0]["name"].as_str().unwrap().contains("Worcester"));
-    let lines: Vec<&str> = s["data"]["lines"].as_array().unwrap().iter().map(|l| l["id"].as_str().unwrap()).collect();
-    for id in ["lifeline_988", "bhhl", "mobile_crisis", "crisis_text_line", "emergency_911"] {
+    assert!(
+        s["data"]["local_cbhcs"][0]["name"]
+            .as_str()
+            .unwrap()
+            .contains("Worcester")
+    );
+    let lines: Vec<&str> = s["data"]["lines"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|l| l["id"].as_str().unwrap())
+        .collect();
+    for id in [
+        "lifeline_988",
+        "bhhl",
+        "mobile_crisis",
+        "crisis_text_line",
+        "emergency_911",
+    ] {
         assert!(lines.contains(&id), "{id}");
     }
-    assert!(s["data"]["language_options"].as_array().unwrap().iter().any(|o| o.as_str().unwrap().contains("press 2")));
+    assert!(
+        s["data"]["language_options"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|o| o.as_str().unwrap().contains("press 2"))
+    );
     // A town with no published CBHC list falls back to the county.
     let s = call_ok(&h, "find_crisis_resources", json!({"town": "Framingham"})).await;
     assert_eq!(s["data"]["cbhc_match"], "same_county");
@@ -206,7 +250,12 @@ async fn protective_services_routes_and_fills_locally() {
         )
         .await;
     assert!(leaks(&everything(&r), "data/protective_report_details.csv", None).is_empty());
-    let s = call_ok(&h, "elder_protective_services_guide", json!({"age_years": 35, "has_disability": true})).await;
+    let s = call_ok(
+        &h,
+        "elder_protective_services_guide",
+        json!({"age_years": 35, "has_disability": true}),
+    )
+    .await;
     assert_eq!(s["data"]["pathways"][0]["id"], "dppc");
 }
 
@@ -237,7 +286,12 @@ async fn coverage_options_screen() {
     .await;
     assert_eq!(s["data"]["msp_level"], "SLMB/QI");
     assert_eq!(s["data"]["medicare_year"], 2026);
-    assert!(s["data"]["pace_in_county"].as_str().unwrap().contains("not currently available"));
+    assert!(
+        s["data"]["pace_in_county"]
+            .as_str()
+            .unwrap()
+            .contains("not currently available")
+    );
     assert!(decision_support(&s));
 }
 
@@ -246,14 +300,31 @@ async fn coverage_options_screen() {
 #[tokio::test]
 async fn nursing_home_lookup_offline() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "nursing_home_quality_lookup", json!({"county": "Berkshire", "sort_by": "overall_rating"})).await;
+    let s = call_ok(
+        &h,
+        "nursing_home_quality_lookup",
+        json!({"county": "Berkshire", "sort_by": "overall_rating"}),
+    )
+    .await;
     assert_eq!(s["data"]["mode"], "snapshot");
     assert!(s["data"]["matched"].as_u64().unwrap() >= 5);
-    let ccn = s["data"]["facilities"][0]["ccn"].as_str().unwrap().to_string();
+    let ccn = s["data"]["facilities"][0]["ccn"]
+        .as_str()
+        .unwrap()
+        .to_string();
     let s = call_ok(&h, "nursing_home_quality_lookup", json!({"ccn": ccn})).await;
     assert_eq!(s["data"]["matched"], 1);
-    assert!(s["data"]["infection_control_tags"]["F0880"].as_str().is_some());
-    let e = call_err(&h, "nursing_home_quality_lookup", json!({"county": "Atlantis"})).await;
+    assert!(
+        s["data"]["infection_control_tags"]["F0880"]
+            .as_str()
+            .is_some()
+    );
+    let e = call_err(
+        &h,
+        "nursing_home_quality_lookup",
+        json!({"county": "Atlantis"}),
+    )
+    .await;
     assert!(e.contains("county"));
 }
 
@@ -289,7 +360,13 @@ async fn advance_care_planning_materials_and_local_fill() {
     assert_eq!(s["data"]["molst"]["status"], "not_verified");
     assert_eq!(s["data"]["local_fill"]["documents_written"], 3);
     assert!(decision_support(&s));
-    let text = everything(&h.call("advance_care_planning_toolkit", json!({"details_file": "proxy_details.csv"})).await);
+    let text = everything(
+        &h.call(
+            "advance_care_planning_toolkit",
+            json!({"details_file": "proxy_details.csv"}),
+        )
+        .await,
+    );
     assert!(leaks(&text, "data/proxy_details.csv", None).is_empty());
     assert!(!text.contains("https://www.molst-ma.org"));
 }

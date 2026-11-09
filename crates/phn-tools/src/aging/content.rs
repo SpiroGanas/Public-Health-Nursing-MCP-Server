@@ -147,10 +147,7 @@ pub fn cite_one(sources: &BTreeMap<String, SourceRef>, c: &CitedText) -> CitedOu
 
 /// "Title, section" for a source key.
 pub fn citation(sources: &BTreeMap<String, SourceRef>, key: &str, section: &str) -> String {
-    let title = sources
-        .get(key)
-        .map(|s| s.title.as_str())
-        .unwrap_or(key);
+    let title = sources.get(key).map(|s| s.title.as_str()).unwrap_or(key);
     if section.is_empty() {
         title.to_string()
     } else {
@@ -180,10 +177,7 @@ pub fn sources_for<'a>(
 /// Check that every source key used in a file exists (for unit tests).
 pub fn assert_keys_known(sources: &BTreeMap<String, SourceRef>, keys: &[&str], file: &str) {
     for k in keys {
-        assert!(
-            sources.contains_key(*k),
-            "{file}: unknown source key '{k}'"
-        );
+        assert!(sources.contains_key(*k), "{file}: unknown source key '{k}'");
     }
 }
 

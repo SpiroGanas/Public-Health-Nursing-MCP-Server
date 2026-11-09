@@ -137,10 +137,14 @@ fn agency_template(ctx: &Context, lang: &str, template_id: &str) -> Option<(Docu
 pub fn fill_local(ctx: &Context, spec: FillSpec<'_>) -> Result<FillOutcome> {
     let (table, label) = crate::core::files::load_table(ctx, spec.file, spec.sheet)?;
     if table.rows.is_empty() {
-        return Err(PhnError::InvalidInput(format!("'{label}' has no data rows")));
+        return Err(PhnError::InvalidInput(format!(
+            "'{label}' has no data rows"
+        )));
     }
     if spec.format != "docx" && spec.format != "pdf" {
-        return Err(PhnError::InvalidInput("format must be \"docx\" or \"pdf\"".into()));
+        return Err(PhnError::InvalidInput(
+            "format must be \"docx\" or \"pdf\"".into(),
+        ));
     }
     if table.rows.len() > 500 {
         return Err(PhnError::InvalidInput(format!(
@@ -149,7 +153,10 @@ pub fn fill_local(ctx: &Context, spec: FillSpec<'_>) -> Result<FillOutcome> {
         )));
     }
     let findings = phn_local::phi::scan_table(&table);
-    let mut identifiers: Vec<String> = findings.iter().map(|f| f.kind.label().to_string()).collect();
+    let mut identifiers: Vec<String> = findings
+        .iter()
+        .map(|f| f.kind.label().to_string())
+        .collect();
     identifiers.sort();
     identifiers.dedup();
     let lang_col = spec
@@ -175,7 +182,8 @@ pub fn fill_local(ctx: &Context, spec: FillSpec<'_>) -> Result<FillOutcome> {
             .map(|v| v.trim().to_string())
             .filter(|v| !v.is_empty())
             .unwrap_or_else(|| "English".to_string());
-        let english = phn_core::text::normalize(&lang) == "english" || phn_core::text::normalize(&lang) == "en";
+        let english = phn_core::text::normalize(&lang) == "english"
+            || phn_core::text::normalize(&lang) == "en";
         let (mut template, translated) = if english {
             (spec.english.clone(), false)
         } else {
@@ -220,10 +228,19 @@ pub fn fill_local(ctx: &Context, spec: FillSpec<'_>) -> Result<FillOutcome> {
         } else {
             phn_docs::pdf::to_pdf(&doc)?
         };
-        let path = sandbox.new_output_file(&format!("{}_{:03}.{}", spec.output_stem, i + 1, spec.format))?;
+        let path = sandbox.new_output_file(&format!(
+            "{}_{:03}.{}",
+            spec.output_stem,
+            i + 1,
+            spec.format
+        ))?;
         std::fs::write(&path, bytes)?;
         written.push(sandbox.display_path(&path));
-        let key = if english { "English".to_string() } else { phn_core::text::title_case(&lang) };
+        let key = if english {
+            "English".to_string()
+        } else {
+            phn_core::text::title_case(&lang)
+        };
         let e = by_lang.entry(key).or_insert((0, translated));
         e.0 += 1;
         e.1 &= translated;
@@ -271,7 +288,10 @@ pub fn outcome_markdown(o: &FillOutcome) -> String {
         s.push_str(&format!("- Empty cells used: {}\n", o.empty_cells));
     }
     for l in &o.languages {
-        s.push_str(&format!("- {}: {} document(s), {}\n", l.language, l.documents, l.template_used));
+        s.push_str(&format!(
+            "- {}: {} document(s), {}\n",
+            l.language, l.documents, l.template_used
+        ));
     }
     s
 }

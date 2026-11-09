@@ -17,7 +17,9 @@ use phn_docs::model::{Block, Document, Inline, TableBlock};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::aging::content::{self as c10, CitedOut, CitedText, Confidence, PROTECTIVE, SourceRef, cite_all, cite_one};
+use crate::aging::content::{
+    self as c10, CitedOut, CitedText, Confidence, PROTECTIVE, SourceRef, cite_all, cite_one,
+};
 use crate::aging::localfill::{self, FillOutcome, FillSpec};
 use crate::context::Context;
 use crate::md;
@@ -221,21 +223,29 @@ fn cite(key: &str, section: &str) -> String {
 fn concern_kind(s: &str) -> Option<&'static str> {
     let n = phn_core::text::normalize(s);
     let has = |k: &[&str]| k.iter().any(|w| n.contains(w));
-    Some(if has(&["self neglect", "self-neglect", "hoard", "cannot care", "can t care"]) {
-        "Self-neglect"
-    } else if has(&["financ", "money", "scam", "exploit", "theft", "stole"]) {
-        "Financial abuse"
-    } else if has(&["sexual", "rape", "assault sex"]) {
-        "Sexual abuse"
-    } else if has(&["caregiver neglect", "caretaker neglect", "neglect"]) {
-        "Caregiver neglect"
-    } else if has(&["emotional", "verbal", "threat", "intimidat", "humiliat"]) {
-        "Emotional abuse"
-    } else if has(&["physical", "hit", "bruise", "slap", "push", "restrain"]) {
-        "Physical abuse, neglect, or mistreatment"
-    } else {
-        return None;
-    })
+    Some(
+        if has(&[
+            "self neglect",
+            "self-neglect",
+            "hoard",
+            "cannot care",
+            "can t care",
+        ]) {
+            "Self-neglect"
+        } else if has(&["financ", "money", "scam", "exploit", "theft", "stole"]) {
+            "Financial abuse"
+        } else if has(&["sexual", "rape", "assault sex"]) {
+            "Sexual abuse"
+        } else if has(&["caregiver neglect", "caretaker neglect", "neglect"]) {
+            "Caregiver neglect"
+        } else if has(&["emotional", "verbal", "threat", "intimidat", "humiliat"]) {
+            "Emotional abuse"
+        } else if has(&["physical", "hit", "bruise", "slap", "push", "restrain"]) {
+            "Physical abuse, neglect, or mistreatment"
+        } else {
+            return None;
+        },
+    )
 }
 
 fn is_mandated(role: &str) -> Option<bool> {
@@ -244,11 +254,31 @@ fn is_mandated(role: &str) -> Option<bool> {
         return None;
     }
     let roles = [
-        "nurse", "physician", "doctor", "physician assistant", "social worker", "police",
-        "firefighter", "emt", "emergency medical", "psychologist", "dentist", "podiatrist",
-        "osteopath", "physical therapist", "occupational therapist", "coroner",
-        "council on aging", "outreach worker", "probation", "family counselor", "medical intern",
-        "home health", "homemaker", "assisted living", "animal control",
+        "nurse",
+        "physician",
+        "doctor",
+        "physician assistant",
+        "social worker",
+        "police",
+        "firefighter",
+        "emt",
+        "emergency medical",
+        "psychologist",
+        "dentist",
+        "podiatrist",
+        "osteopath",
+        "physical therapist",
+        "occupational therapist",
+        "coroner",
+        "council on aging",
+        "outreach worker",
+        "probation",
+        "family counselor",
+        "medical intern",
+        "home health",
+        "homemaker",
+        "assisted living",
+        "animal control",
     ];
     Some(roles.iter().any(|r| n.contains(r)))
 }
@@ -258,11 +288,18 @@ fn template_document(title: &str, sections: &[TemplateSection]) -> Document {
         "Prepared for a report under M.G.L. c.19A s.15 (adults 60+) or c.19C s.10 (adults 18-59 with disabilities). Keep with the verbal report record; the written report or EOAI mandated reporter form is due within 48 hours of a phone report.",
     )])];
     for s in sections {
-        blocks.push(Block::Heading { level: 2, text: s.heading.clone() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: s.heading.clone(),
+        });
         blocks.push(Block::Table(TableBlock {
             caption: Some(s.heading.clone()),
             headers: vec!["Item".into(), "Details".into()],
-            rows: s.fields.iter().map(|f| vec![f.clone(), format!("{{{{{f}}}}}")]).collect(),
+            rows: s
+                .fields
+                .iter()
+                .map(|f| vec![f.clone(), format!("{{{{{f}}}}}")])
+                .collect(),
         }));
         blocks.push(Block::Paragraph(vec![Inline {
             text: format!("Guidance: {}", s.guidance),
@@ -272,7 +309,9 @@ fn template_document(title: &str, sections: &[TemplateSection]) -> Document {
     }
     Document {
         title: title.into(),
-        subtitle: Some("Confidential: contains identifying information. Store per agency policy.".into()),
+        subtitle: Some(
+            "Confidential: contains identifying information. Store per agency policy.".into(),
+        ),
         language: "en-US".into(),
         author: None,
         letterhead: None,
@@ -346,15 +385,29 @@ pub fn elder_protective_services_guide(
     let mut lists = Vec::new();
     if elder || ids.len() > 1 {
         lists.push(CitedOut {
-            text: format!("Adults 60+: {} Duty: {}", c.mandated_reporters.elder.list.trim(), c.mandated_reporters.elder.trigger),
-            citation: cite(&c.mandated_reporters.elder.source, &c.mandated_reporters.elder.section),
+            text: format!(
+                "Adults 60+: {} Duty: {}",
+                c.mandated_reporters.elder.list.trim(),
+                c.mandated_reporters.elder.trigger
+            ),
+            citation: cite(
+                &c.mandated_reporters.elder.source,
+                &c.mandated_reporters.elder.section,
+            ),
             confidence: None,
         });
     }
     if dppc || ids.len() > 1 {
         lists.push(CitedOut {
-            text: format!("Adults 18-59 with disabilities: {} Duty: {}", c.mandated_reporters.disabled.list.trim(), c.mandated_reporters.disabled.trigger),
-            citation: cite(&c.mandated_reporters.disabled.source, &c.mandated_reporters.disabled.section),
+            text: format!(
+                "Adults 18-59 with disabilities: {} Duty: {}",
+                c.mandated_reporters.disabled.list.trim(),
+                c.mandated_reporters.disabled.trigger
+            ),
+            citation: cite(
+                &c.mandated_reporters.disabled.source,
+                &c.mandated_reporters.disabled.section,
+            ),
             confidence: None,
         });
     }
@@ -371,7 +424,9 @@ pub fn elder_protective_services_guide(
     let timelines: Vec<TimelineOut> = c
         .timelines
         .iter()
-        .filter(|t| elder || ids.len() > 1 || t.step.starts_with("Verbal") || t.step.starts_with("Written"))
+        .filter(|t| {
+            elder || ids.len() > 1 || t.step.starts_with("Verbal") || t.step.starts_with("Written")
+        })
         .map(|t| TimelineOut {
             step: t.step.clone(),
             when: t.when.clone(),
@@ -425,8 +480,17 @@ pub fn elder_protective_services_guide(
     let mut local_fill = None;
     let mut files_written = Vec::new();
     let mut identifiers = Vec::new();
-    if let Some(file) = args.details_file.as_deref().filter(|f| !f.trim().is_empty()) {
-        let fmt = args.format.as_deref().unwrap_or("docx").trim().to_ascii_lowercase();
+    if let Some(file) = args
+        .details_file
+        .as_deref()
+        .filter(|f| !f.trim().is_empty())
+    {
+        let fmt = args
+            .format
+            .as_deref()
+            .unwrap_or("docx")
+            .trim()
+            .to_ascii_lowercase();
         let outcome = localfill::fill_local(
             ctx,
             FillSpec {
@@ -445,15 +509,26 @@ pub fn elder_protective_services_guide(
     }
 
     // ---- markdown
-    let mut s = String::from("**Reporting suspected abuse, neglect, or self-neglect of an adult (Massachusetts)**\n\n");
+    let mut s = String::from(
+        "**Reporting suspected abuse, neglect, or self-neglect of an adult (Massachusetts)**\n\n",
+    );
     if args.emergency {
         s.push_str("**Emergency:** ");
-        s.push_str(&c.emergency.iter().map(|e| e.text.clone()).collect::<Vec<_>>().join(" "));
+        s.push_str(
+            &c.emergency
+                .iter()
+                .map(|e| e.text.clone())
+                .collect::<Vec<_>>()
+                .join(" "),
+        );
         s.push_str("\n\n");
     }
     s.push_str(&format!("{routing}\n\n"));
     for p in &pathways {
-        s.push_str(&format!("- **{}** — **{}** ({}). {}\n", p.name, p.hotline, p.hours, p.how));
+        s.push_str(&format!(
+            "- **{}** — **{}** ({}). {}\n",
+            p.name, p.hotline, p.hours, p.how
+        ));
     }
     match mandated {
         Some(true) => s.push_str(&format!("\nAs a {} you are a **mandated reporter**: report immediately by phone (or online for elder reports), and in writing within 48 hours.\n", args.reporter_role.as_deref().unwrap_or("professional"))),
@@ -463,12 +538,21 @@ pub fn elder_protective_services_guide(
     s.push('\n');
     s.push_str(&md::table(
         &["Step", "When"],
-        &timelines.iter().map(|t| vec![t.step.clone(), t.when.clone()]).collect::<Vec<_>>(),
+        &timelines
+            .iter()
+            .map(|t| vec![t.step.clone(), t.when.clone()])
+            .collect::<Vec<_>>(),
     ));
-    s.push_str(&format!("\n**What a report contains:** {}\n", c.report_contents.text.trim()));
+    s.push_str(&format!(
+        "\n**What a report contains:** {}\n",
+        c.report_contents.text.trim()
+    ));
     if let Some(w) = wanted {
         if let Some(sg) = signs.first() {
-            s.push_str(&format!("\n**Signs ({w}):** {}\n", sg.text.split_once(": ").map(|x| x.1).unwrap_or_default()));
+            s.push_str(&format!(
+                "\n**Signs ({w}):** {}\n",
+                sg.text.split_once(": ").map(|x| x.1).unwrap_or_default()
+            ));
         }
     }
     if !self_neglect.is_empty() && wanted == Some("Self-neglect") {
@@ -491,7 +575,14 @@ pub fn elder_protective_services_guide(
         .iter()
         .filter_map(|p| path(&p.id).map(|d| d.source.as_str()))
         .collect();
-    keys.extend(["mgl-19a-14", "mgl-19a-15", "mgl-19a-16", "mgl-19a-18", "eoai-mandated", "eoai-signs"]);
+    keys.extend([
+        "mgl-19a-14",
+        "mgl-19a-15",
+        "mgl-19a-16",
+        "mgl-19a-18",
+        "eoai-mandated",
+        "eoai-signs",
+    ]);
     if dppc {
         keys.extend(["mgl-19c-1", "mgl-19c-10", "mgl-19c-11"]);
     }
@@ -607,7 +698,14 @@ mod tests {
         keys.extend(c.definitions.iter().map(|d| d.source.as_str()));
         keys.extend(c.timelines.iter().map(|d| d.source.as_str()));
         keys.extend(c.signs.iter().map(|d| d.source.as_str()));
-        for v in [&c.duties, &c.protections, &c.penalties, &c.after_report, &c.self_neglect, &c.emergency] {
+        for v in [
+            &c.duties,
+            &c.protections,
+            &c.penalties,
+            &c.after_report,
+            &c.self_neglect,
+            &c.emergency,
+        ] {
             keys.extend(v.iter().map(|d| d.source.as_str()));
         }
         keys.push(&c.narrative_template.source);
@@ -626,24 +724,66 @@ mod tests {
                 .map(|p| p.id.clone())
                 .collect::<Vec<_>>()
         };
-        assert_eq!(ids(ProtectiveArgs { age_years: Some(72), ..Default::default() }), vec!["elder_aps"]);
-        assert_eq!(ids(ProtectiveArgs { age_years: Some(45), has_disability: Some(true), ..Default::default() }), vec!["dppc"]);
         assert_eq!(
-            ids(ProtectiveArgs { age_years: Some(84), setting: Some(CareSetting::Facility), ..Default::default() }),
+            ids(ProtectiveArgs {
+                age_years: Some(72),
+                ..Default::default()
+            }),
+            vec!["elder_aps"]
+        );
+        assert_eq!(
+            ids(ProtectiveArgs {
+                age_years: Some(45),
+                has_disability: Some(true),
+                ..Default::default()
+            }),
+            vec!["dppc"]
+        );
+        assert_eq!(
+            ids(ProtectiveArgs {
+                age_years: Some(84),
+                setting: Some(CareSetting::Facility),
+                ..Default::default()
+            }),
             vec!["dph_facility"]
         );
         assert_eq!(ids(ProtectiveArgs::default()).len(), 3);
-        assert!(ids(ProtectiveArgs { age_years: Some(40), has_disability: Some(false), ..Default::default() }).is_empty());
-        assert!(elder_protective_services_guide(&ctx, ProtectiveArgs { age_years: Some(12), ..Default::default() }).is_err());
+        assert!(
+            ids(ProtectiveArgs {
+                age_years: Some(40),
+                has_disability: Some(false),
+                ..Default::default()
+            })
+            .is_empty()
+        );
+        assert!(
+            elder_protective_services_guide(
+                &ctx,
+                ProtectiveArgs {
+                    age_years: Some(12),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
         let r = elder_protective_services_guide(
             &ctx,
-            ProtectiveArgs { age_years: Some(70), reporter_role: Some("public health nurse".into()), concern: Some("hoarding, not eating".into()), ..Default::default() },
+            ProtectiveArgs {
+                age_years: Some(70),
+                reporter_role: Some("public health nurse".into()),
+                concern: Some("hoarding, not eating".into()),
+                ..Default::default()
+            },
         )
         .unwrap();
         assert_eq!(r.data.mandated_reporter, Some(true));
         assert!(!r.data.self_neglect.is_empty());
         assert!(r.data.timelines.iter().any(|t| t.when.contains("48 hours")));
-        assert!(r.data.details_file_columns.contains(&"Approximate Age".to_string()));
+        assert!(
+            r.data
+                .details_file_columns
+                .contains(&"Approximate Age".to_string())
+        );
     }
 
     #[test]
@@ -656,7 +796,11 @@ mod tests {
         .unwrap();
         let r = elder_protective_services_guide(
             &ctx,
-            ProtectiveArgs { age_years: Some(81), details_file: Some("report.csv".into()), ..Default::default() },
+            ProtectiveArgs {
+                age_years: Some(81),
+                details_file: Some("report.csv".into()),
+                ..Default::default()
+            },
         )
         .unwrap();
         let json = serde_json::to_string(&r).unwrap();

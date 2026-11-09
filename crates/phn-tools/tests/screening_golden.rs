@@ -33,7 +33,12 @@ fn screening_scores_match_hand_computed_cases() {
     for (i, c) in cases.iter().enumerate() {
         let args = ScreenArgs {
             instrument: Some(c["instrument"].as_str().unwrap().to_string()),
-            responses: c["responses"].as_array().unwrap().iter().map(response).collect(),
+            responses: c["responses"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(response)
+                .collect(),
             epds_entered_as: c
                 .get("epds_entered_as")
                 .and_then(Value::as_str)

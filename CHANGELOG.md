@@ -34,6 +34,25 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 10: healthy aging and mental health screening
 
 <!-- Phase 10 entries go below this line. -->
+
+- `score_mental_health_screen` (MH-02): scoring engine for PHQ-2, PHQ-9, GAD-2, GAD-7, EPDS, the
+  NIMH ASQ, and the C-SSRS screener with range checks, published cutoffs, safety-alert rules and
+  cited steps, license terms per instrument, file mode with suppressed counts, and 50 golden cases.
+- `find_crisis_resources` (MH-01): 988, the Behavioral Health Help Line, mobile crisis, the Crisis
+  Text Line, and Community Behavioral Health Centers by town, with language access.
+- `steadi_fall_risk_assessment` (AGE-01), `elder_protective_services_guide` (AGE-03),
+  `find_ma_aging_services` (AGE-02), `explain_older_adult_coverage_options` (AGE-04),
+  `nursing_home_quality_lookup` (AGE-06), `map_older_adult_vulnerability` (AGE-05), and
+  `advance_care_planning_toolkit` (AGE-07).
+- Town-to-service directory framework and snapshots (ASAPs, SHINE offices, senior nutrition
+  projects, CBHCs) with `cargo xtask build-service-directories`; CMS Provider Data Catalog adapter
+  (`phn_data::cms_provider`) with `cargo xtask build-nursing-home-snapshot`; older-adult ACS
+  indicators (`phn_data::older_adults`) with `cargo xtask build-older-adult-snapshots`.
+- Template + local fill helper (`phn_tools::aging::localfill`) with agency translations from
+  `/data/templates/<language>/` and English fallback counted by language.
+- Content (all pending review): `content/bh/mental_health_screening.yaml`,
+  `content/bh/crisis_resources.yaml`, and `content/aging/*.yaml` (STEADI, protective services,
+  aging services, coverage options, nursing home guide, advance care planning).
 <!-- End of Phase 10 entries. -->
 
 ### Added — Phase 11: substance use, crisis resources, and health communication

@@ -15,7 +15,8 @@ use phn_data::cms_provider::{
 use crate::download::{fetch, sha256};
 use crate::snapshots::{Manifest, SnapshotEntry, SnapshotFile};
 
-const LICENSE: &str = "U.S. federal government work (CMS Provider Data Catalog); public domain in the United States.";
+const LICENSE: &str =
+    "U.S. federal government work (CMS Provider Data Catalog); public domain in the United States.";
 
 fn file_entry(path: &str, text: &str) -> SnapshotFile {
     SnapshotFile {
@@ -55,7 +56,10 @@ pub fn run(root: &Path) -> Result<()> {
     }
     let (facilities, citations, averages) = assemble(&sets);
     if facilities.len() < 300 {
-        bail!("only {} Massachusetts nursing homes returned", facilities.len());
+        bail!(
+            "only {} Massachusetts nursing homes returned",
+            facilities.len()
+        );
     }
     let processing = facilities
         .iter()
@@ -65,7 +69,11 @@ pub fn run(root: &Path) -> Result<()> {
     let f_text = cms_provider::to_csv(&facilities).map_err(|e| anyhow::anyhow!("{e}"))?;
     let c_text = cms_provider::to_csv(&citations).map_err(|e| anyhow::anyhow!("{e}"))?;
     let a_text = cms_provider::to_csv(&averages).map_err(|e| anyhow::anyhow!("{e}"))?;
-    for (p, t) in [(FACILITIES_FILE, &f_text), (CITATIONS_FILE, &c_text), (AVERAGES_FILE, &a_text)] {
+    for (p, t) in [
+        (FACILITIES_FILE, &f_text),
+        (CITATIONS_FILE, &c_text),
+        (AVERAGES_FILE, &a_text),
+    ] {
         std::fs::write(snap_dir.join(p), t)?;
         println!("wrote snapshots/{p} ({} bytes)", t.len());
     }
@@ -93,7 +101,10 @@ pub fn run(root: &Path) -> Result<()> {
         Some(e) => *e = entry,
         None => manifest.snapshots.push(entry),
     }
-    std::fs::write(&manifest_path, serde_json::to_string_pretty(&manifest)? + "\n")?;
+    std::fs::write(
+        &manifest_path,
+        serde_json::to_string_pretty(&manifest)? + "\n",
+    )?;
     println!("Updated snapshots/manifest.json.");
     Ok(())
 }

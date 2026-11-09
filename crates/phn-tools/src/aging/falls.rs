@@ -372,13 +372,26 @@ fn normalize_factor(s: &str) -> Option<&'static str> {
         "feet"
     } else if has(&["vitamin"]) {
         "vitamin_d"
-    } else if has(&["depress", "osteopor", "comorbid", "dementia", "parkinson", "stroke"]) {
+    } else if has(&[
+        "depress",
+        "osteopor",
+        "comorbid",
+        "dementia",
+        "parkinson",
+        "stroke",
+    ]) {
         "comorbidities"
     } else if has(&["home", "hazard", "rug", "stairs", "clutter"]) {
         "home_hazards"
     } else if has(&["urgen", "incontin", "toilet", "bathroom"]) {
         "urgency"
-    } else if has(&["orthostat", "postural", "dizz", "lighthead", "blood pressure"]) {
+    } else if has(&[
+        "orthostat",
+        "postural",
+        "dizz",
+        "lighthead",
+        "blood pressure",
+    ]) {
         "orthostatic"
     } else if has(&["fear", "worr"]) {
         "fear_of_falling"
@@ -421,11 +434,22 @@ pub fn steadi_fall_risk_assessment(
         let mut positive = Vec::new();
         let mut missing = 0;
         for item in &si.items {
-            match args.stay_independent.get(item.n as usize - 1).copied().flatten() {
+            match args
+                .stay_independent
+                .get(item.n as usize - 1)
+                .copied()
+                .flatten()
+            {
                 Some(true) => {
                     score += item.points;
-                    positive.push(format!("{} ({} pt) — {}", item.wording, item.points, item.why));
-                    add(&item.factor, format!("Stay Independent: \"{}\"", item.wording));
+                    positive.push(format!(
+                        "{} ({} pt) — {}",
+                        item.wording, item.points, item.why
+                    ));
+                    add(
+                        &item.factor,
+                        format!("Stay Independent: \"{}\"", item.wording),
+                    );
                 }
                 Some(false) => {}
                 None => missing += 1,
@@ -434,13 +458,31 @@ pub fn steadi_fall_risk_assessment(
         let fell = args.stay_independent.first().copied().flatten() == Some(true)
             || args.fell_past_year == Some(true);
         let (at_risk, reason) = if score >= si.at_risk_score {
-            (Some(true), format!("Score {score} is {} or more.", si.at_risk_score))
+            (
+                Some(true),
+                format!("Score {score} is {} or more.", si.at_risk_score),
+            )
         } else if fell {
-            (Some(true), format!("Score {score} is under {}, but the person fell in the past year, so they are at risk.", si.at_risk_score))
+            (
+                Some(true),
+                format!(
+                    "Score {score} is under {}, but the person fell in the past year, so they are at risk.",
+                    si.at_risk_score
+                ),
+            )
         } else if missing > 0 {
-            (None, format!("Score {score} with {missing} item(s) unanswered; complete the checklist."))
+            (
+                None,
+                format!("Score {score} with {missing} item(s) unanswered; complete the checklist."),
+            )
         } else {
-            (Some(false), format!("Score {score} is under {} and no fall in the past year.", si.at_risk_score))
+            (
+                Some(false),
+                format!(
+                    "Score {score} is under {} and no fall in the past year.",
+                    si.at_risk_score
+                ),
+            )
         };
         ScreenOut {
             method: "stay_independent".into(),
@@ -456,8 +498,15 @@ pub fn steadi_fall_risk_assessment(
                 si.attribution.trim()
             ),
         }
-    } else if args.unsteady.is_some() || args.worries_about_falling.is_some() || args.fell_past_year.is_some() {
-        let answers = [args.unsteady, args.worries_about_falling, args.fell_past_year];
+    } else if args.unsteady.is_some()
+        || args.worries_about_falling.is_some()
+        || args.fell_past_year.is_some()
+    {
+        let answers = [
+            args.unsteady,
+            args.worries_about_falling,
+            args.fell_past_year,
+        ];
         let mut positive = Vec::new();
         for (q, a) in c.key_questions.questions.iter().zip(answers) {
             if a == Some(true) {
@@ -465,7 +514,10 @@ pub fn steadi_fall_risk_assessment(
             }
         }
         if args.unsteady == Some(true) {
-            add("gait_balance", "Feels unsteady when standing or walking".into());
+            add(
+                "gait_balance",
+                "Feels unsteady when standing or walking".into(),
+            );
         }
         if args.worries_about_falling == Some(true) {
             add("fear_of_falling", "Worries about falling".into());
@@ -491,7 +543,11 @@ pub fn steadi_fall_risk_assessment(
                 None => "Not all three key questions were answered.".into(),
             },
             positive_items: positive,
-            citation: format!("{} ({})", cite(&c.key_questions.source, &c.key_questions.section), c.key_questions.rule),
+            citation: format!(
+                "{} ({})",
+                cite(&c.key_questions.source, &c.key_questions.section),
+                c.key_questions.rule
+            ),
         }
     } else {
         ScreenOut {
@@ -508,7 +564,17 @@ pub fn steadi_fall_risk_assessment(
         add("fall_history", "Fell in the past year".into());
     }
     if let Some(n) = args.falls_count {
-        add("fall_history", format!("{n} fall(s) in the past year{}", if args.fall_injury == Some(true) { ", with injury" } else { "" }));
+        add(
+            "fall_history",
+            format!(
+                "{n} fall(s) in the past year{}",
+                if args.fall_injury == Some(true) {
+                    ", with injury"
+                } else {
+                    ""
+                }
+            ),
+        );
     }
 
     // ---- 2. Tests
@@ -516,17 +582,29 @@ pub fn steadi_fall_risk_assessment(
     let mut any_test_risk = false;
     if let Some(t) = args.tug_seconds {
         if !(1.0..=600.0).contains(&t) {
-            return Err(PhnError::InvalidInput(format!("a TUG time of {t} seconds is not plausible; give the time in seconds")));
+            return Err(PhnError::InvalidInput(format!(
+                "a TUG time of {t} seconds is not plausible; give the time in seconds"
+            )));
         }
         let risk = t >= c.tug.at_risk_seconds;
         any_test_risk |= risk;
         if risk {
-            add("gait_balance", format!("Timed Up and Go {t:.1} s (12 s or more)"));
+            add(
+                "gait_balance",
+                format!("Timed Up and Go {t:.1} s (12 s or more)"),
+            );
         }
         let mut interp = c.tug.rule.clone();
         if !args.tug_observations.is_empty() {
-            interp.push_str(&format!(" Observed: {}. {}", args.tug_observations.join(", "), c.tug.observations_note));
-            add("gait_balance", format!("Gait observations: {}", args.tug_observations.join(", ")));
+            interp.push_str(&format!(
+                " Observed: {}. {}",
+                args.tug_observations.join(", "),
+                c.tug.observations_note
+            ));
+            add(
+                "gait_balance",
+                format!("Gait observations: {}", args.tug_observations.join(", ")),
+            );
         }
         tests.push(TestOut {
             test: "Timed Up and Go".into(),
@@ -538,9 +616,15 @@ pub fn steadi_fall_risk_assessment(
         });
     }
     if args.chair_stands.is_some() || args.chair_used_arms {
-        let stands = if args.chair_used_arms { 0 } else { args.chair_stands.unwrap_or(0) };
+        let stands = if args.chair_used_arms {
+            0
+        } else {
+            args.chair_stands.unwrap_or(0)
+        };
         if stands > 60 {
-            return Err(PhnError::InvalidInput(format!("{stands} chair stands in 30 seconds is not plausible")));
+            return Err(PhnError::InvalidInput(format!(
+                "{stands} chair stands in 30 seconds is not plausible"
+            )));
         }
         let cutoff = match (args.age_years, female) {
             (Some(a), Some(f)) => chair_stand_cutoff(a, f),
@@ -551,7 +635,10 @@ pub fn steadi_fall_risk_assessment(
                 let risk = stands < cut;
                 any_test_risk |= risk;
                 if risk {
-                    add("strength", format!("30-Second Chair Stand {stands} (below average: under {cut})"));
+                    add(
+                        "strength",
+                        format!("30-Second Chair Stand {stands} (below average: under {cut})"),
+                    );
                 }
                 (
                     if risk { "at_risk" } else { "not_at_risk" },
@@ -569,16 +656,27 @@ pub fn steadi_fall_risk_assessment(
                 if args.age_years.is_none() || female.is_none() {
                     "Give age and sex to compare with CDC's below-average scores.".to_string()
                 } else {
-                    "CDC publishes no chair-stand norm for this age; interpret clinically.".to_string()
+                    "CDC publishes no chair-stand norm for this age; interpret clinically."
+                        .to_string()
                 },
             ),
         };
         if args.chair_used_arms {
-            add("strength", "Needed arms to stand in the chair-stand test (score 0)".into());
+            add(
+                "strength",
+                "Needed arms to stand in the chair-stand test (score 0)".into(),
+            );
         }
         tests.push(TestOut {
             test: "30-Second Chair Stand".into(),
-            value: format!("{stands} stand(s){}", if args.chair_used_arms { " (used arms: recorded as 0)" } else { "" }),
+            value: format!(
+                "{stands} stand(s){}",
+                if args.chair_used_arms {
+                    " (used arms: recorded as 0)"
+                } else {
+                    ""
+                }
+            ),
             threshold,
             result: result.into(),
             interpretation: interp,
@@ -586,7 +684,12 @@ pub fn steadi_fall_risk_assessment(
         });
     }
     if !args.balance_seconds.is_empty() {
-        if args.balance_seconds.len() > 4 || args.balance_seconds.iter().any(|s| !(0.0..=600.0).contains(s)) {
+        if args.balance_seconds.len() > 4
+            || args
+                .balance_seconds
+                .iter()
+                .any(|s| !(0.0..=600.0).contains(s))
+        {
             return Err(PhnError::InvalidInput("balance_seconds takes up to 4 times in seconds (side by side, semi-tandem, tandem, one foot)".into()));
         }
         let hold = c.four_stage.hold_seconds;
@@ -595,11 +698,30 @@ pub fn steadi_fall_risk_assessment(
         let (result, interp) = match failed_at {
             Some(i) if i <= 2 => {
                 any_test_risk = true;
-                add("gait_balance", format!("4-Stage Balance: could not hold stage {} ({}) for 10 seconds", i + 1, c.four_stage.stages[i].name));
-                ("at_risk", format!("Could not hold the {} position for {hold} seconds, so cannot hold the tandem stand: increased risk of falling.", c.four_stage.stages[i].name))
+                add(
+                    "gait_balance",
+                    format!(
+                        "4-Stage Balance: could not hold stage {} ({}) for 10 seconds",
+                        i + 1,
+                        c.four_stage.stages[i].name
+                    ),
+                );
+                (
+                    "at_risk",
+                    format!(
+                        "Could not hold the {} position for {hold} seconds, so cannot hold the tandem stand: increased risk of falling.",
+                        c.four_stage.stages[i].name
+                    ),
+                )
             }
-            _ if tandem_ok => ("not_at_risk", "Held the tandem stand for at least 10 seconds.".to_string()),
-            _ => ("no_norm", "The tandem stand time was not given; the result depends on stage 3.".to_string()),
+            _ if tandem_ok => (
+                "not_at_risk",
+                "Held the tandem stand for at least 10 seconds.".to_string(),
+            ),
+            _ => (
+                "no_norm",
+                "The tandem stand time was not given; the result depends on stage 3.".to_string(),
+            ),
         };
         tests.push(TestOut {
             test: "4-Stage Balance Test".into(),
@@ -610,9 +732,13 @@ pub fn steadi_fall_risk_assessment(
                 .map(|(i, s)| format!("stage {}: {s:.0} s", i + 1))
                 .collect::<Vec<_>>()
                 .join("; "),
-            threshold: "cannot hold the tandem stand (stage 3) for 10 seconds = increased risk".into(),
+            threshold: "cannot hold the tandem stand (stage 3) for 10 seconds = increased risk"
+                .into(),
             result: result.into(),
-            interpretation: format!("{interp} {}", c.four_stage.rule.split(". ").last().unwrap_or_default()),
+            interpretation: format!(
+                "{interp} {}",
+                c.four_stage.rule.split(". ").last().unwrap_or_default()
+            ),
             citation: cite(&c.four_stage.source, &c.four_stage.section),
         });
     }
@@ -620,12 +746,22 @@ pub fn steadi_fall_risk_assessment(
         let mut drops = Vec::new();
         let mut abnormal = o.symptoms;
         for (label, s, d) in [
-            ("1 minute", o.standing_1min_systolic, o.standing_1min_diastolic),
-            ("3 minutes", o.standing_3min_systolic, o.standing_3min_diastolic),
+            (
+                "1 minute",
+                o.standing_1min_systolic,
+                o.standing_1min_diastolic,
+            ),
+            (
+                "3 minutes",
+                o.standing_3min_systolic,
+                o.standing_3min_diastolic,
+            ),
         ] {
             let sd = o.lying_systolic.zip(s).map(|(l, x)| l - x);
             let dd = o.lying_diastolic.zip(d).map(|(l, x)| l - x);
-            if sd.is_some_and(|v| v >= c.orthostatic.systolic_drop) || dd.is_some_and(|v| v >= c.orthostatic.diastolic_drop) {
+            if sd.is_some_and(|v| v >= c.orthostatic.systolic_drop)
+                || dd.is_some_and(|v| v >= c.orthostatic.diastolic_drop)
+            {
                 abnormal = true;
             }
             if sd.is_some() || dd.is_some() {
@@ -637,16 +773,36 @@ pub fn steadi_fall_risk_assessment(
             }
         }
         if drops.is_empty() && !o.symptoms {
-            return Err(PhnError::InvalidInput("give lying and standing blood pressures (or symptoms) for the orthostatic check".into()));
+            return Err(PhnError::InvalidInput(
+                "give lying and standing blood pressures (or symptoms) for the orthostatic check"
+                    .into(),
+            ));
         }
         if abnormal {
             any_test_risk = true;
-            add("orthostatic", format!("Orthostatic blood pressure abnormal ({})", if drops.is_empty() { "symptoms on standing".to_string() } else { drops.join("; ") }));
+            add(
+                "orthostatic",
+                format!(
+                    "Orthostatic blood pressure abnormal ({})",
+                    if drops.is_empty() {
+                        "symptoms on standing".to_string()
+                    } else {
+                        drops.join("; ")
+                    }
+                ),
+            );
         }
         tests.push(TestOut {
             test: "Orthostatic blood pressure".into(),
-            value: if drops.is_empty() { "symptoms only".into() } else { drops.join("; ") },
-            threshold: format!("systolic drop ≥{} or diastolic drop ≥{} mm Hg, or lightheadedness/dizziness", c.orthostatic.systolic_drop, c.orthostatic.diastolic_drop),
+            value: if drops.is_empty() {
+                "symptoms only".into()
+            } else {
+                drops.join("; ")
+            },
+            threshold: format!(
+                "systolic drop ≥{} or diastolic drop ≥{} mm Hg, or lightheadedness/dizziness",
+                c.orthostatic.systolic_drop, c.orthostatic.diastolic_drop
+            ),
             result: if abnormal { "at_risk" } else { "not_at_risk" }.into(),
             interpretation: c.orthostatic.rule.clone(),
             citation: cite(&c.orthostatic.source, &c.orthostatic.section),
@@ -663,10 +819,12 @@ pub fn steadi_fall_risk_assessment(
     // ---- home hazards
     let mut home_safety = Vec::new();
     let mut unmatched_hazards = Vec::new();
-    let want_all = args
-        .home_hazards
-        .iter()
-        .any(|h| matches!(phn_core::text::normalize(h).as_str(), "all" | "checklist" | "full checklist"));
+    let want_all = args.home_hazards.iter().any(|h| {
+        matches!(
+            phn_core::text::normalize(h).as_str(),
+            "all" | "checklist" | "full checklist"
+        )
+    });
     for area in &c.home_checklist.areas {
         for chk in &area.checks {
             if want_all {
@@ -691,8 +849,12 @@ pub fn steadi_fall_risk_assessment(
                     let key = phn_core::text::normalize(&k.hazard);
                     let words: Vec<&str> = q.split(' ').filter(|w| w.len() > 3).collect();
                     let hits = words.iter().filter(|w| key.contains(*w)).count();
-                    let score = if words.is_empty() { 0.0 } else { hits as f64 / words.len() as f64 }
-                        .max(phn_core::text::similarity(&q, &key));
+                    let score = if words.is_empty() {
+                        0.0
+                    } else {
+                        hits as f64 / words.len() as f64
+                    }
+                    .max(phn_core::text::similarity(&q, &key));
                     (a, k, score)
                 })
                 .max_by(|x, y| x.2.total_cmp(&y.2));
@@ -708,7 +870,10 @@ pub fn steadi_fall_risk_assessment(
         }
     }
     if !args.home_hazards.is_empty() && !want_all {
-        add("home_hazards", format!("Home hazards found: {}", args.home_hazards.join(", ")));
+        add(
+            "home_hazards",
+            format!("Home hazards found: {}", args.home_hazards.join(", ")),
+        );
     }
 
     if screen.at_risk.is_none() && tests.is_empty() && factors.is_empty() {
@@ -750,7 +915,11 @@ pub fn steadi_fall_risk_assessment(
     } else {
         Vec::new()
     };
-    let prevention = if at_risk { Vec::new() } else { c.not_at_risk.clone() };
+    let prevention = if at_risk {
+        Vec::new()
+    } else {
+        c.not_at_risk.clone()
+    };
     let follow_up = if at_risk {
         c.at_risk_follow_up.trim().to_string()
     } else {
@@ -784,21 +953,39 @@ pub fn steadi_fall_risk_assessment(
             "key_questions" => "three key questions",
             _ => "not done",
         },
-        screen.score.map(|v| format!("score {v} of {}. ", screen.max_score.unwrap_or(14))).unwrap_or_default(),
+        screen
+            .score
+            .map(|v| format!("score {v} of {}. ", screen.max_score.unwrap_or(14)))
+            .unwrap_or_default(),
         screen.reason
     ));
     if !tests.is_empty() {
         s.push('\n');
         let rows: Vec<Vec<String>> = tests
             .iter()
-            .map(|t| vec![t.test.clone(), t.value.clone(), t.threshold.clone(), t.result.replace('_', " ")])
+            .map(|t| {
+                vec![
+                    t.test.clone(),
+                    t.value.clone(),
+                    t.threshold.clone(),
+                    t.result.replace('_', " "),
+                ]
+            })
             .collect();
-        s.push_str(&md::table(&["Test", "Result", "CDC threshold", "Finding"], &rows));
+        s.push_str(&md::table(
+            &["Test", "Result", "CDC threshold", "Finding"],
+            &rows,
+        ));
     }
     if !intervention_plan.is_empty() {
         s.push_str("\n**Intervention plan (STEADI step 3)**\n");
         for i in &intervention_plan {
-            s.push_str(&format!("- **{}** ({}): {}\n", i.factor, i.finding, i.actions.join("; ")));
+            s.push_str(&format!(
+                "- **{}** ({}): {}\n",
+                i.factor,
+                i.finding,
+                i.actions.join("; ")
+            ));
         }
     }
     if !assessments_to_do.is_empty() {
@@ -832,15 +1019,32 @@ pub fn steadi_fall_risk_assessment(
         .filter(|f| !f.is_empty() && f != "none")
     {
         if fmt != "docx" && fmt != "pdf" {
-            return Err(PhnError::InvalidInput("plan_format must be \"docx\" or \"pdf\"".into()));
+            return Err(PhnError::InvalidInput(
+                "plan_format must be \"docx\" or \"pdf\"".into(),
+            ));
         }
-        let doc = plan_document(ctx, &screen, &tests, &intervention_plan, &assessments_to_do, &prevention, &follow_up, &home_safety);
-        let bytes = if fmt == "docx" { phn_docs::docx::to_docx(&doc)? } else { phn_docs::pdf::to_pdf(&doc)? };
+        let doc = plan_document(
+            ctx,
+            &screen,
+            &tests,
+            &intervention_plan,
+            &assessments_to_do,
+            &prevention,
+            &follow_up,
+            &home_safety,
+        );
+        let bytes = if fmt == "docx" {
+            phn_docs::docx::to_docx(&doc)?
+        } else {
+            phn_docs::pdf::to_pdf(&doc)?
+        };
         let sandbox = ctx.sandbox()?;
         let path = sandbox.new_output_file(&format!("fall_prevention_plan.{fmt}"))?;
         std::fs::write(&path, bytes)?;
         let disp = sandbox.display_path(&path);
-        s.push_str(&format!("\nPlan written to `{disp}` (add the person's name there, not here).\n"));
+        s.push_str(&format!(
+            "\nPlan written to `{disp}` (add the person's name there, not here).\n"
+        ));
         files_written.push(disp.clone());
         plan_file = Some(disp);
     }
@@ -863,16 +1067,25 @@ pub fn steadi_fall_risk_assessment(
     }
     keys.push(c.patient_actions_source.as_str());
     sources.extend(c10::sources_for(&c.sources, keys));
-    sources.push(Source::computed("Scores and comparisons calculated from the values given", "PHN MCP server"));
+    sources.push(Source::computed(
+        "Scores and comparisons calculated from the values given",
+        "PHN MCP server",
+    ));
     let mut caveats = vec![
         "STEADI's algorithm is written for community-dwelling adults 65 and older; use clinical judgment for younger adults and in facilities.".to_string(),
         "The tests support, but do not replace, a clinical fall risk evaluation; medication review needs a prescriber or pharmacist.".to_string(),
     ];
     if !unknown_factors.is_empty() {
-        caveats.push(format!("Risk factors not recognized (not used in the plan): {}.", unknown_factors.join(", ")));
+        caveats.push(format!(
+            "Risk factors not recognized (not used in the plan): {}.",
+            unknown_factors.join(", ")
+        ));
     }
     if !unmatched_hazards.is_empty() {
-        caveats.push(format!("Home hazards not matched to the CDC checklist: {}.", unmatched_hazards.join(", ")));
+        caveats.push(format!(
+            "Home hazards not matched to the CDC checklist: {}.",
+            unmatched_hazards.join(", ")
+        ));
     }
     caveats.extend(c10::review_caveats(&[FALLS]));
     Ok(Envelope::new(
@@ -897,7 +1110,9 @@ pub fn steadi_fall_risk_assessment(
     .caveats(caveats)
     .privacy(Privacy {
         files_written,
-        notes: vec!["Only answers and test values were used; no names or identifiers are accepted.".into()],
+        notes: vec![
+            "Only answers and test values were used; no names or identifiers are accepted.".into(),
+        ],
         ..Privacy::none()
     })
     .decision_support())
@@ -908,7 +1123,11 @@ fn procedures() -> Vec<ProcedureOut> {
     vec![
         ProcedureOut {
             test: "Timed Up and Go".into(),
-            procedure: format!("{} Watch for: {}.", c.tug.procedure.trim(), c.tug.observations.join(", ").to_lowercase()),
+            procedure: format!(
+                "{} Watch for: {}.",
+                c.tug.procedure.trim(),
+                c.tug.observations.join(", ").to_lowercase()
+            ),
             citation: cite(&c.tug.source, &c.tug.section),
         },
         ProcedureOut {
@@ -956,52 +1175,127 @@ fn plan_document(
         items: v.iter().map(|x| vec![Inline::plain(x.clone())]).collect(),
     };
     let mut blocks = vec![
-        p("Name: ______________________   Date: ____________   Completed by: ______________________"),
-        Block::Heading { level: 2, text: "Screening".into() },
+        p(
+            "Name: ______________________   Date: ____________   Completed by: ______________________",
+        ),
+        Block::Heading {
+            level: 2,
+            text: "Screening".into(),
+        },
         p(&format!("{} {}", screen.reason, screen.citation)),
     ];
     if !tests.is_empty() {
-        blocks.push(Block::Heading { level: 2, text: "Gait, strength, balance, and blood pressure".into() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: "Gait, strength, balance, and blood pressure".into(),
+        });
         blocks.push(Block::Table(TableBlock {
             caption: Some("Test results".into()),
-            headers: ["Test", "Result", "CDC threshold", "Finding"].map(String::from).to_vec(),
-            rows: tests.iter().map(|t| vec![t.test.clone(), t.value.clone(), t.threshold.clone(), t.result.replace('_', " ")]).collect(),
+            headers: ["Test", "Result", "CDC threshold", "Finding"]
+                .map(String::from)
+                .to_vec(),
+            rows: tests
+                .iter()
+                .map(|t| {
+                    vec![
+                        t.test.clone(),
+                        t.value.clone(),
+                        t.threshold.clone(),
+                        t.result.replace('_', " "),
+                    ]
+                })
+                .collect(),
         }));
     }
     if !plan.is_empty() {
-        blocks.push(Block::Heading { level: 2, text: "Plan".into() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: "Plan".into(),
+        });
         blocks.push(Block::Table(TableBlock {
             caption: Some("Risk factors and interventions".into()),
-            headers: ["Risk factor", "Finding", "Interventions", "Who / by when", "Done"].map(String::from).to_vec(),
-            rows: plan.iter().map(|i| vec![i.factor.clone(), i.finding.clone(), i.actions.join("; "), String::new(), String::new()]).collect(),
+            headers: [
+                "Risk factor",
+                "Finding",
+                "Interventions",
+                "Who / by when",
+                "Done",
+            ]
+            .map(String::from)
+            .to_vec(),
+            rows: plan
+                .iter()
+                .map(|i| {
+                    vec![
+                        i.factor.clone(),
+                        i.finding.clone(),
+                        i.actions.join("; "),
+                        String::new(),
+                        String::new(),
+                    ]
+                })
+                .collect(),
         }));
     }
     if !todo.is_empty() {
-        blocks.push(Block::Heading { level: 2, text: "Still to assess".into() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: "Still to assess".into(),
+        });
         blocks.push(list(todo));
     }
     if !prevention.is_empty() {
-        blocks.push(Block::Heading { level: 2, text: "Prevention".into() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: "Prevention".into(),
+        });
         blocks.push(list(prevention));
     }
-    blocks.push(Block::Heading { level: 2, text: "Home safety checklist".into() });
+    blocks.push(Block::Heading {
+        level: 2,
+        text: "Home safety checklist".into(),
+    });
     let rows: Vec<Vec<String>> = if home.is_empty() {
         c.home_checklist
             .areas
             .iter()
-            .flat_map(|a| a.checks.iter().map(move |k| vec![a.area.clone(), k.hazard.clone(), k.fix.clone(), String::new()]))
+            .flat_map(|a| {
+                a.checks.iter().map(move |k| {
+                    vec![
+                        a.area.clone(),
+                        k.hazard.clone(),
+                        k.fix.clone(),
+                        String::new(),
+                    ]
+                })
+            })
             .collect()
     } else {
-        home.iter().map(|h| vec![h.area.clone(), h.hazard.clone(), h.fix.clone(), String::new()]).collect()
+        home.iter()
+            .map(|h| {
+                vec![
+                    h.area.clone(),
+                    h.hazard.clone(),
+                    h.fix.clone(),
+                    String::new(),
+                ]
+            })
+            .collect()
     };
     blocks.push(Block::Table(TableBlock {
         caption: Some("Home hazards and fixes (CDC Check for Safety)".into()),
         headers: ["Area", "Hazard", "Fix", "Done"].map(String::from).to_vec(),
         rows,
     }));
-    blocks.push(Block::Heading { level: 2, text: "What you can do".into() });
+    blocks.push(Block::Heading {
+        level: 2,
+        text: "What you can do".into(),
+    });
     blocks.push(list(&c.patient_actions));
-    blocks.push(Block::Heading { level: 2, text: "Follow-up".into() });
+    blocks.push(Block::Heading {
+        level: 2,
+        text: "Follow-up".into(),
+    });
     blocks.push(p(follow_up));
     blocks.push(p("Based on CDC STEADI (Stopping Elderly Accidents, Deaths & Injuries) materials. Decision support only; the plan is the clinician's."));
     Document {
@@ -1043,7 +1337,14 @@ mod tests {
             ],
             "steadi",
         );
-        assert_eq!(c.stay_independent.items.iter().map(|i| i.points).sum::<u32>(), 14);
+        assert_eq!(
+            c.stay_independent
+                .items
+                .iter()
+                .map(|i| i.points)
+                .sum::<u32>(),
+            14
+        );
     }
 
     #[test]
@@ -1065,14 +1366,28 @@ mod tests {
         si[2] = Some(true);
         si[4] = Some(true);
         si[7] = Some(true);
-        let r = steadi_fall_risk_assessment(&ctx, FallRiskArgs { stay_independent: si.clone(), ..Default::default() }).unwrap();
+        let r = steadi_fall_risk_assessment(
+            &ctx,
+            FallRiskArgs {
+                stay_independent: si.clone(),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(r.data.screen.score, Some(3));
         assert_eq!(r.data.overall, "not_at_risk");
         assert!(!r.data.prevention.is_empty());
         // Item 1 (fell) alone scores 2 but means at risk.
         let mut fell = vec![Some(false); 12];
         fell[0] = Some(true);
-        let r = steadi_fall_risk_assessment(&ctx, FallRiskArgs { stay_independent: fell, ..Default::default() }).unwrap();
+        let r = steadi_fall_risk_assessment(
+            &ctx,
+            FallRiskArgs {
+                stay_independent: fell,
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(r.data.screen.score, Some(2));
         assert_eq!(r.data.overall, "at_risk");
         // Score 4 is at risk; tests add findings and a plan document is written.
@@ -1093,7 +1408,10 @@ mod tests {
                     standing_1min_diastolic: Some(78.0),
                     ..Default::default()
                 }),
-                home_hazards: vec!["throw rugs in the hallway".into(), "no grab bars by the toilet".into()],
+                home_hazards: vec![
+                    "throw rugs in the hallway".into(),
+                    "no grab bars by the toilet".into(),
+                ],
                 plan_format: Some("docx".into()),
                 ..Default::default()
             },
@@ -1101,9 +1419,24 @@ mod tests {
         .unwrap();
         assert_eq!(r.data.screen.score, Some(4));
         assert_eq!(r.data.overall, "at_risk");
-        assert!(r.data.tests.iter().all(|t| t.result == "at_risk"), "{:?}", r.data.tests);
-        let factors: Vec<&str> = r.data.intervention_plan.iter().map(|i| i.factor.as_str()).collect();
-        for f in ["gait and balance", "leg strength", "orthostatic hypotension", "medications", "home hazards"] {
+        assert!(
+            r.data.tests.iter().all(|t| t.result == "at_risk"),
+            "{:?}",
+            r.data.tests
+        );
+        let factors: Vec<&str> = r
+            .data
+            .intervention_plan
+            .iter()
+            .map(|i| i.factor.as_str())
+            .collect();
+        for f in [
+            "gait and balance",
+            "leg strength",
+            "orthostatic hypotension",
+            "medications",
+            "home hazards",
+        ] {
             assert!(factors.contains(&f), "{f} missing from {factors:?}");
         }
         assert_eq!(r.data.home_safety.len(), 2, "{:?}", r.data.home_safety);
@@ -1111,16 +1444,41 @@ mod tests {
         assert_eq!(r.privacy.files_written.len(), 1);
         // Nothing to score is a tool error.
         assert!(steadi_fall_risk_assessment(&ctx, FallRiskArgs::default()).is_err());
-        assert!(steadi_fall_risk_assessment(&ctx, FallRiskArgs { tug_seconds: Some(0.0), ..Default::default() }).is_err());
+        assert!(
+            steadi_fall_risk_assessment(
+                &ctx,
+                FallRiskArgs {
+                    tug_seconds: Some(0.0),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
     }
 
     #[test]
     fn tug_boundary_and_chair_stand_without_norms() {
         let (_d, ctx) = ctx();
-        let r = |t: f64| steadi_fall_risk_assessment(&ctx, FallRiskArgs { tug_seconds: Some(t), ..Default::default() }).unwrap();
+        let r = |t: f64| {
+            steadi_fall_risk_assessment(
+                &ctx,
+                FallRiskArgs {
+                    tug_seconds: Some(t),
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+        };
         assert_eq!(r(11.9).data.tests[0].result, "not_at_risk");
         assert_eq!(r(12.0).data.tests[0].result, "at_risk");
-        let x = steadi_fall_risk_assessment(&ctx, FallRiskArgs { chair_stands: Some(10), ..Default::default() }).unwrap();
+        let x = steadi_fall_risk_assessment(
+            &ctx,
+            FallRiskArgs {
+                chair_stands: Some(10),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(x.data.tests[0].result, "no_norm");
         assert_eq!(x.data.overall, "incomplete");
     }

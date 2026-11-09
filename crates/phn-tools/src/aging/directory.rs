@@ -137,11 +137,13 @@ fn get<'a>(headers: &[String], r: &'a csv::StringRecord, name: &str) -> &'a str 
 impl Directory {
     /// Load both directories from the snapshot store.
     pub fn load(store: &SnapshotStore) -> Result<Self> {
-        let (asap_text, aging_entry, o1) = store.file_text(AGING_SNAPSHOT, "ma_asap_directory.csv")?;
+        let (asap_text, aging_entry, o1) =
+            store.file_text(AGING_SNAPSHOT, "ma_asap_directory.csv")?;
         let (shine_text, _, _) = store.file_text(AGING_SNAPSHOT, "ma_shine_directory.csv")?;
         let (nutrition_text, _, _) =
             store.file_text(AGING_SNAPSHOT, "ma_nutrition_directory.csv")?;
-        let (cbhc_text, cbhc_entry, o2) = store.file_text(CBHC_SNAPSHOT, "ma_cbhc_directory.csv")?;
+        let (cbhc_text, cbhc_entry, o2) =
+            store.file_text(CBHC_SNAPSHOT, "ma_cbhc_directory.csv")?;
         let (h, rows) = records(&asap_text)?;
         let asaps = rows
             .iter()
@@ -283,6 +285,9 @@ mod tests {
             .iter()
             .filter(|m| d.nutrition_for(&m.name).is_empty())
             .count();
-        assert!(without_meals < 10, "{without_meals} towns without a nutrition project");
+        assert!(
+            without_meals < 10,
+            "{without_meals} towns without a nutrition project"
+        );
     }
 }

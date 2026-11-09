@@ -18,7 +18,9 @@ use phn_docs::model::{Block, Document, Inline, TableBlock};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::aging::content::{self as c10, ACP, CitedOut, CitedText, Confidence, SourceRef, cite_all};
+use crate::aging::content::{
+    self as c10, ACP, CitedOut, CitedText, Confidence, SourceRef, cite_all,
+};
 use crate::aging::localfill::{self, FillOutcome, FillSpec};
 use crate::context::Context;
 
@@ -148,11 +150,15 @@ pub struct AcpResult {
 fn proxy_document(title: &str, sections: &[ProxySectionOut]) -> Document {
     let mut blocks = Vec::new();
     for s in sections {
-        blocks.push(Block::Heading { level: 2, text: s.heading.clone() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: s.heading.clone(),
+        });
         blocks.push(Block::Paragraph(vec![Inline::plain(s.text.clone())]));
     }
     blocks.push(Block::Paragraph(vec![Inline {
-        text: "Drafted from M.G.L. c.201D, s.2. Use your agency's approved form if it has one.".into(),
+        text: "Drafted from M.G.L. c.201D, s.2. Use your agency's approved form if it has one."
+            .into(),
         italic: true,
         ..Inline::default()
     }]));
@@ -175,7 +181,9 @@ fn scaled(segments: &[Segment], minutes: u32) -> Vec<Segment> {
     let mut out: Vec<Segment> = segments
         .iter()
         .map(|s| Segment {
-            minutes: ((f64::from(s.minutes) * f64::from(minutes) / f64::from(total)).round() as u32).max(1),
+            minutes: ((f64::from(s.minutes) * f64::from(minutes) / f64::from(total)).round()
+                as u32)
+                .max(1),
             ..s.clone()
         })
         .collect();
@@ -193,7 +201,9 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
     let c = &*CONTENT;
     let minutes = args.session_minutes.unwrap_or(60);
     if !(20..=240).contains(&minutes) {
-        return Err(PhnError::InvalidInput("session_minutes must be between 20 and 240".into()));
+        return Err(PhnError::InvalidInput(
+            "session_minutes must be between 20 and 240".into(),
+        ));
     }
     let script = scaled(&c.facilitator_script.segments, minutes);
     let sections: Vec<ProxySectionOut> = c
@@ -219,7 +229,9 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
         .filter(|f| !f.is_empty() && f != "none")
     {
         if fmt != "docx" && fmt != "pdf" {
-            return Err(PhnError::InvalidInput("materials_format must be \"docx\" or \"pdf\"".into()));
+            return Err(PhnError::InvalidInput(
+                "materials_format must be \"docx\" or \"pdf\"".into(),
+            ));
         }
         let sandbox = ctx.sandbox()?;
         let letterhead = ctx.settings().letterhead;
@@ -232,7 +244,11 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
             logo: None,
             blocks: vec![Block::Table(TableBlock {
                 caption: Some("Agenda".into()),
-                headers: vec!["Segment".into(), "Minutes".into(), "What to say and do".into()],
+                headers: vec![
+                    "Segment".into(),
+                    "Minutes".into(),
+                    "What to say and do".into(),
+                ],
                 rows: script
                     .iter()
                     .map(|s| vec![s.title.clone(), s.minutes.to_string(), s.script.clone()])
@@ -249,12 +265,23 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
             blocks: vec![
                 Block::List {
                     ordered: false,
-                    items: c.handout_points.iter().map(|p| vec![Inline::plain(p.clone())]).collect(),
+                    items: c
+                        .handout_points
+                        .iter()
+                        .map(|p| vec![Inline::plain(p.clone())])
+                        .collect(),
                 },
-                Block::Heading { level: 2, text: "After you sign".into() },
+                Block::Heading {
+                    level: 2,
+                    text: "After you sign".into(),
+                },
                 Block::List {
                     ordered: false,
-                    items: c.after_signing.iter().map(|p| vec![Inline::plain(p.clone())]).collect(),
+                    items: c
+                        .after_signing
+                        .iter()
+                        .map(|p| vec![Inline::plain(p.clone())])
+                        .collect(),
                 },
                 Block::Paragraph(vec![Inline::plain(format!(
                     "Conversation starter guides: {}",
@@ -276,7 +303,11 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
             (handout, "acp_handout"),
             (blank, "health_care_proxy_blank"),
         ] {
-            let bytes = if fmt == "docx" { phn_docs::docx::to_docx(&doc)? } else { phn_docs::pdf::to_pdf(&doc)? };
+            let bytes = if fmt == "docx" {
+                phn_docs::docx::to_docx(&doc)?
+            } else {
+                phn_docs::pdf::to_pdf(&doc)?
+            };
             let p = sandbox.new_output_file(&format!("{stem}.{fmt}"))?;
             std::fs::write(&p, bytes)?;
             materials.push(sandbox.display_path(&p));
@@ -286,8 +317,17 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
 
     // ---- local fill
     let mut local_fill = None;
-    if let Some(file) = args.details_file.as_deref().filter(|f| !f.trim().is_empty()) {
-        let fmt = args.format.as_deref().unwrap_or("docx").trim().to_ascii_lowercase();
+    if let Some(file) = args
+        .details_file
+        .as_deref()
+        .filter(|f| !f.trim().is_empty())
+    {
+        let fmt = args
+            .format
+            .as_deref()
+            .unwrap_or("docx")
+            .trim()
+            .to_ascii_lowercase();
         let o = localfill::fill_local(
             ctx,
             FillSpec {
@@ -306,7 +346,9 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
     }
 
     // ---- markdown
-    let mut s = String::from("**Advance care planning in Massachusetts**\n\n**Health care proxy (M.G.L. c.201D)**\n");
+    let mut s = String::from(
+        "**Advance care planning in Massachusetts**\n\n**Health care proxy (M.G.L. c.201D)**\n",
+    );
     for r in &c.proxy_rules {
         s.push_str(&format!("- {}\n", r.text));
     }
@@ -315,14 +357,36 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
         sections.len(),
         columns.join(", ")
     ));
-    s.push_str(&format!("\n**MOLST:** {} **Warning:** {}\n", c.molst.text.split_whitespace().collect::<Vec<_>>().join(" "), c.molst.warning));
-    s.push_str(&format!("\n**Conversation guides:** {} ({})\n", c.conversation_project.url, c.conversation_project.text.split_whitespace().collect::<Vec<_>>().join(" ")));
+    s.push_str(&format!(
+        "\n**MOLST:** {} **Warning:** {}\n",
+        c.molst
+            .text
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+        c.molst.warning
+    ));
+    s.push_str(&format!(
+        "\n**Conversation guides:** {} ({})\n",
+        c.conversation_project.url,
+        c.conversation_project
+            .text
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    ));
     s.push_str(&format!("\n**Community session ({minutes} minutes)**\n"));
     for seg in &script {
-        s.push_str(&format!("- {} ({} min): {}\n", seg.title, seg.minutes, seg.script));
+        s.push_str(&format!(
+            "- {} ({} min): {}\n",
+            seg.title, seg.minutes, seg.script
+        ));
     }
     if !materials.is_empty() {
-        s.push_str(&format!("\nSession materials written: {}.\n", materials.join(", ")));
+        s.push_str(&format!(
+            "\nSession materials written: {}.\n",
+            materials.join(", ")
+        ));
     }
     if let Some(o) = &local_fill {
         s.push_str(&localfill::outcome_markdown(o));
@@ -332,10 +396,11 @@ pub fn advance_care_planning_toolkit(ctx: &Context, args: AcpArgs) -> Result<Env
     let mut sources = vec![c10::content_source(ACP)?];
     sources.extend(c10::sources_for(
         &c.sources,
-        c.proxy_rules
-            .iter()
-            .map(|r| r.source.as_str())
-            .chain([c.proxy_template.source.as_str(), "conversation-project", "mgl-201d-1"]),
+        c.proxy_rules.iter().map(|r| r.source.as_str()).chain([
+            c.proxy_template.source.as_str(),
+            "conversation-project",
+            "mgl-201d-1",
+        ]),
     ));
     if let Some(o) = &local_fill {
         sources.push(phn_core::Source::local_file(&o.file));
@@ -430,7 +495,11 @@ mod tests {
         .unwrap();
         let r = advance_care_planning_toolkit(
             &ctx,
-            AcpArgs { details_file: Some("proxies.csv".into()), materials_format: Some("docx".into()), ..Default::default() },
+            AcpArgs {
+                details_file: Some("proxies.csv".into()),
+                materials_format: Some("docx".into()),
+                ..Default::default()
+            },
         )
         .unwrap();
         let json = serde_json::to_string(&r).unwrap();
@@ -439,12 +508,25 @@ mod tests {
         }
         let o = r.data.local_fill.unwrap();
         assert_eq!(o.documents_written, 2);
-        let spanish = o.languages.iter().find(|l| l.language == "Spanish").unwrap();
+        let spanish = o
+            .languages
+            .iter()
+            .find(|l| l.language == "Spanish")
+            .unwrap();
         assert_eq!(spanish.template_used, "agency translation");
         let khmer = o.languages.iter().find(|l| l.language == "Khmer").unwrap();
         assert!(khmer.template_used.starts_with("English"));
         assert_eq!(r.data.materials_files.len(), 3);
         assert_eq!(r.privacy.files_written.len(), 5);
-        assert!(advance_care_planning_toolkit(&ctx, AcpArgs { session_minutes: Some(5), ..Default::default() }).is_err());
+        assert!(
+            advance_care_planning_toolkit(
+                &ctx,
+                AcpArgs {
+                    session_minutes: Some(5),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
     }
 }

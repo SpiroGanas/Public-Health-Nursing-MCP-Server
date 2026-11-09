@@ -117,6 +117,15 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `score_mental_health_screen` | MH-02 | bh | Scores PHQ-2/9, GAD-2/7, EPDS, NIMH ASQ, and the C-SSRS screener with published cutoffs and safety alerts (988, brief suicide safety assessment, agency protocol); never diagnoses. |
+| `find_crisis_resources` | MH-01 | bh | 988, the Behavioral Health Help Line, mobile crisis, Crisis Text Line, and the town's Community Behavioral Health Center, with language options. |
+| `steadi_fall_risk_assessment` | AGE-01 | aging | CDC STEADI screening, TUG, chair stand norms, 4-stage balance, orthostatic BP, and an intervention and home-safety plan. |
+| `elder_protective_services_guide` | AGE-03 | aging | Adult Protective Services (60+) and DPPC (18-59) reporting rules, timelines, and a report narrative filled locally. |
+| `find_ma_aging_services` | AGE-02 | aging | ASAP, Council on Aging, SHINE, meals, caregiver and dementia supports, and protective and ombudsman contacts for a town. |
+| `explain_older_adult_coverage_options` | AGE-04 | aging | Medicare 2026 costs, Medicare Savings Programs, MassHealth 65+, Frail Elder Waiver, PACE, SCO, and One Care with a screen. |
+| `nursing_home_quality_lookup` | AGE-06 | aging | CMS star ratings, staffing, infection control citations, and staff and resident vaccination for Massachusetts nursing homes. |
+| `map_older_adult_vulnerability` | AGE-05 | aging | Older adults living alone, with disabilities, without a vehicle, with limited English, or in poverty, by tract or town, with a map. |
+| `advance_care_planning_toolkit` | AGE-07 | aging | Health care proxy rules (c.201D) and template filled locally, MOLST status, and a community session script and handout. |
 <!-- Phase 10 rows go above this line. -->
 
 ### Phase 11: substance use, crisis resources, and health communication

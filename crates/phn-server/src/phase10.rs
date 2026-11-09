@@ -1,7 +1,11 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{AcpArgs, AcpResult, AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult, VulnerabilityArgs, VulnerabilityResult};
+use phn_tools::aging::{
+    AcpArgs, AcpResult, AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult,
+    FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs,
+    ProtectiveResult, VulnerabilityArgs, VulnerabilityResult,
+};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -142,7 +146,9 @@ impl PhnServer {
         &self,
         Parameters(args): Parameters<CoverageArgs>,
     ) -> CallToolResult {
-        respond(phn_tools::aging::explain_older_adult_coverage_options(&self.ctx, args))
+        respond(phn_tools::aging::explain_older_adult_coverage_options(
+            &self.ctx, args,
+        ))
     }
 
     #[tool(

@@ -140,7 +140,11 @@ fn median(mut v: Vec<f64>) -> Option<f64> {
     }
     v.sort_by(f64::total_cmp);
     let n = v.len();
-    Some(if n % 2 == 1 { v[n / 2] } else { (v[n / 2 - 1] + v[n / 2]) / 2.0 })
+    Some(if n % 2 == 1 {
+        v[n / 2]
+    } else {
+        (v[n / 2 - 1] + v[n / 2]) / 2.0
+    })
 }
 
 fn stars(v: Option<f64>) -> String {
@@ -171,7 +175,8 @@ pub async fn nursing_home_quality_lookup(
     args: NursingHomeArgs,
 ) -> Result<Envelope<NursingHomeResult>> {
     let c = &*CONTENT;
-    let any_filter = args.name.is_some() || args.ccn.is_some() || args.town.is_some() || args.county.is_some();
+    let any_filter =
+        args.name.is_some() || args.ccn.is_some() || args.town.is_some() || args.county.is_some();
     let town = if !any_filter && !args.statewide {
         ctx.settings().jurisdiction.town
     } else {
@@ -196,7 +201,9 @@ pub async fn nursing_home_quality_lookup(
                 .iter()
                 .map(|m| m.county.clone())
                 .find(|c| phn_core::text::normalize(c) == n)
-                .ok_or_else(|| PhnError::NotFound(format!("'{cn}' is not a Massachusetts county")))?;
+                .ok_or_else(|| {
+                    PhnError::NotFound(format!("'{cn}' is not a Massachusetts county"))
+                })?;
             Some(found)
         }
         None => None,
@@ -224,7 +231,11 @@ pub async fn nursing_home_quality_lookup(
             .iter()
             .map(|f| {
                 let n = phn_core::text::normalize(&f.name);
-                let sc = if n.contains(&q) { 1.0 } else { phn_core::text::similarity(&q, &n) };
+                let sc = if n.contains(&q) {
+                    1.0
+                } else {
+                    phn_core::text::similarity(&q, &n)
+                };
                 (*f, sc)
             })
             .filter(|(_, s)| *s >= 0.6)
@@ -248,13 +259,25 @@ pub async fn nursing_home_quality_lookup(
     if args.name.is_none() {
         match sort {
             SortBy::Name => matches.sort_by(|a, b| a.name.cmp(&b.name)),
-            SortBy::OverallRating => matches.sort_by(|a, b| a.overall_rating.unwrap_or(9.0).total_cmp(&b.overall_rating.unwrap_or(9.0))),
-            SortBy::Staffing => matches.sort_by(|a, b| a.staffing_rating.unwrap_or(9.0).total_cmp(&b.staffing_rating.unwrap_or(9.0))),
+            SortBy::OverallRating => matches.sort_by(|a, b| {
+                a.overall_rating
+                    .unwrap_or(9.0)
+                    .total_cmp(&b.overall_rating.unwrap_or(9.0))
+            }),
+            SortBy::Staffing => matches.sort_by(|a, b| {
+                a.staffing_rating
+                    .unwrap_or(9.0)
+                    .total_cmp(&b.staffing_rating.unwrap_or(9.0))
+            }),
             SortBy::InfectionControl => {
                 let n = |f: &NursingHome| data.citations.iter().filter(|c| c.ccn == f.ccn).count();
                 matches.sort_by_key(|f| std::cmp::Reverse(n(f)));
             }
-            SortBy::StaffFluVaccination => matches.sort_by(|a, b| a.staff_flu_pct.unwrap_or(999.0).total_cmp(&b.staff_flu_pct.unwrap_or(999.0))),
+            SortBy::StaffFluVaccination => matches.sort_by(|a, b| {
+                a.staff_flu_pct
+                    .unwrap_or(999.0)
+                    .total_cmp(&b.staff_flu_pct.unwrap_or(999.0))
+            }),
         }
     }
     let matched = matches.len();
@@ -265,12 +288,25 @@ pub async fn nursing_home_quality_lookup(
         matches.iter().take(limit).copied().collect()
     };
     let with_citations = args.include_citations.unwrap_or(shown.len() <= 5);
-    let harm: Vec<&str> = c.scope_severity.harm_letters.iter().map(String::as_str).collect();
+    let harm: Vec<&str> = c
+        .scope_severity
+        .harm_letters
+        .iter()
+        .map(String::as_str)
+        .collect();
     let facilities: Vec<FacilityOut> = shown
         .iter()
         .map(|f| {
-            let cits: Vec<InfectionCitation> = data.citations.iter().filter(|x| x.ccn == f.ccn).cloned().collect();
-            let harm_n = cits.iter().filter(|x| harm.contains(&x.scope_severity.as_str())).count();
+            let cits: Vec<InfectionCitation> = data
+                .citations
+                .iter()
+                .filter(|x| x.ccn == f.ccn)
+                .cloned()
+                .collect();
+            let harm_n = cits
+                .iter()
+                .filter(|x| harm.contains(&x.scope_severity.as_str()))
+                .count();
             let mut flags = Vec::new();
             if !f.special_focus_status.is_empty() {
                 flags.push(format!("Special Focus status: {}", f.special_focus_status));
@@ -282,11 +318,17 @@ pub async fn nursing_home_quality_lookup(
                 flags.push("1-star overall rating".into());
             }
             if harm_n > 0 {
-                flags.push(format!("{harm_n} infection control citation(s) at harm level or higher"));
+                flags.push(format!(
+                    "{harm_n} infection control citation(s) at harm level or higher"
+                ));
             }
             FacilityOut {
                 facility: (*f).clone(),
-                infection_control_citations: if with_citations { cits.clone() } else { Vec::new() },
+                infection_control_citations: if with_citations {
+                    cits.clone()
+                } else {
+                    Vec::new()
+                },
                 infection_control_harm_citations: harm_n,
                 flags,
             }
@@ -296,18 +338,35 @@ pub async fn nursing_home_quality_lookup(
         let all = &data.facilities;
         let mut by = BTreeMap::new();
         for f in all {
-            let k = f.overall_rating.map(|r| format!("{r:.0}")).unwrap_or_else(|| "not rated".into());
+            let k = f
+                .overall_rating
+                .map(|r| format!("{r:.0}"))
+                .unwrap_or_else(|| "not rated".into());
             *by.entry(k).or_insert(0) += 1;
         }
         StatewideSummary {
             facilities: all.len(),
             by_overall_rating: by,
-            special_focus: all.iter().filter(|f| !f.special_focus_status.is_empty()).count(),
+            special_focus: all
+                .iter()
+                .filter(|f| !f.special_focus_status.is_empty())
+                .count(),
             abuse_icon: all.iter().filter(|f| f.abuse_icon).count(),
-            with_infection_control_citations: all.iter().filter(|f| data.citations.iter().any(|x| x.ccn == f.ccn)).count(),
+            with_infection_control_citations: all
+                .iter()
+                .filter(|f| data.citations.iter().any(|x| x.ccn == f.ccn))
+                .count(),
             median_staff_flu_pct: median(all.iter().filter_map(|f| f.staff_flu_pct).collect()),
-            median_staff_covid_up_to_date_pct: median(all.iter().filter_map(|f| f.staff_covid_up_to_date_pct).collect()),
-            median_resident_covid_up_to_date_pct: median(all.iter().filter_map(|f| f.resident_covid_up_to_date_pct).collect()),
+            median_staff_covid_up_to_date_pct: median(
+                all.iter()
+                    .filter_map(|f| f.staff_covid_up_to_date_pct)
+                    .collect(),
+            ),
+            median_resident_covid_up_to_date_pct: median(
+                all.iter()
+                    .filter_map(|f| f.resident_covid_up_to_date_pct)
+                    .collect(),
+            ),
         }
     });
 
@@ -316,7 +375,11 @@ pub async fn nursing_home_quality_lookup(
         "**Nursing home quality (CMS Care Compare) — {}**\n\n{} facility(ies) matched{}. Data as of {} ({}).\n\n",
         query.join(", "),
         matched,
-        if matched > facilities.len() { format!("; showing {}", facilities.len()) } else { String::new() },
+        if matched > facilities.len() {
+            format!("; showing {}", facilities.len())
+        } else {
+            String::new()
+        },
         data.as_of,
         data.mode.label()
     );
@@ -339,17 +402,45 @@ pub async fn nursing_home_quality_lookup(
             let f = &o.facility;
             vec![
                 format!("{} ({})", f.name, f.city),
-                format!("{} / {} / {} / {}", stars(f.overall_rating), stars(f.health_inspection_rating), stars(f.staffing_rating), stars(f.quality_measure_rating)),
-                f.total_nurse_hours_per_resident_day.map(|v| format!("{v:.2}")).unwrap_or_else(|| "—".into()),
-                format!("{} ({} harm)", data.citations.iter().filter(|x| x.ccn == f.ccn).count(), o.infection_control_harm_citations),
-                format!("{} / {}", pct(f.staff_flu_pct), pct(f.staff_covid_up_to_date_pct)),
-                format!("{} / {}", pct(f.long_stay_flu_pct), pct(f.resident_covid_up_to_date_pct)),
+                format!(
+                    "{} / {} / {} / {}",
+                    stars(f.overall_rating),
+                    stars(f.health_inspection_rating),
+                    stars(f.staffing_rating),
+                    stars(f.quality_measure_rating)
+                ),
+                f.total_nurse_hours_per_resident_day
+                    .map(|v| format!("{v:.2}"))
+                    .unwrap_or_else(|| "—".into()),
+                format!(
+                    "{} ({} harm)",
+                    data.citations.iter().filter(|x| x.ccn == f.ccn).count(),
+                    o.infection_control_harm_citations
+                ),
+                format!(
+                    "{} / {}",
+                    pct(f.staff_flu_pct),
+                    pct(f.staff_covid_up_to_date_pct)
+                ),
+                format!(
+                    "{} / {}",
+                    pct(f.long_stay_flu_pct),
+                    pct(f.resident_covid_up_to_date_pct)
+                ),
                 o.flags.join("; "),
             ]
         })
         .collect();
     s.push_str(&md::table(
-        &["Nursing home", "Overall / inspection / staffing / quality", "Nurse hrs per resident-day", "Infection control citations (3 yrs)", "Staff flu / COVID-19 up to date", "Residents flu (long stay) / COVID-19", "Flags"],
+        &[
+            "Nursing home",
+            "Overall / inspection / staffing / quality",
+            "Nurse hrs per resident-day",
+            "Infection control citations (3 yrs)",
+            "Staff flu / COVID-19 up to date",
+            "Residents flu (long stay) / COVID-19",
+            "Flags",
+        ],
         &rows,
     ));
     for a in &data.averages {
@@ -366,23 +457,48 @@ pub async fn nursing_home_quality_lookup(
     }
     s.push('\n');
     if with_citations {
-        for o in facilities.iter().filter(|o| !o.infection_control_citations.is_empty()) {
-            s.push_str(&format!("\n**Infection control citations — {}**\n", o.facility.name));
+        for o in facilities
+            .iter()
+            .filter(|o| !o.infection_control_citations.is_empty())
+        {
+            s.push_str(&format!(
+                "\n**Infection control citations — {}**\n",
+                o.facility.name
+            ));
             for x in o.infection_control_citations.iter().take(10) {
                 s.push_str(&format!(
                     "- {} {} (scope/severity {}{}): {}\n",
                     x.survey_date,
                     x.tag,
                     x.scope_severity,
-                    if x.infection_control_inspection { ", infection control inspection" } else if x.complaint { ", complaint inspection" } else { "" },
+                    if x.infection_control_inspection {
+                        ", infection control inspection"
+                    } else if x.complaint {
+                        ", complaint inspection"
+                    } else {
+                        ""
+                    },
                     x.description
                 ));
             }
         }
     }
-    s.push_str(&format!("\n_Scope/severity: {}_\n", c.scope_severity.text.split_whitespace().collect::<Vec<_>>().join(" ")));
+    s.push_str(&format!(
+        "\n_Scope/severity: {}_\n",
+        c.scope_severity
+            .text
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    ));
     s.push_str("\nContacts: ");
-    s.push_str(&c.contacts.iter().map(|x| x.text.clone()).collect::<Vec<_>>().join(" "));
+    s.push_str(
+        &c.contacts
+            .iter()
+            .map(|x| x.text.clone())
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     s.push('\n');
 
     let mut sources = Vec::new();
@@ -397,13 +513,17 @@ pub async fn nursing_home_quality_lookup(
             for (id, title) in [
                 (cms_provider::PROVIDER_INFO, "Provider Information"),
                 (cms_provider::HEALTH_DEFICIENCIES, "Health Deficiencies"),
-                (cms_provider::SNF_QRP, "Skilled Nursing Facility Quality Reporting Program - Provider Data"),
+                (
+                    cms_provider::SNF_QRP,
+                    "Skilled Nursing Facility Quality Reporting Program - Provider Data",
+                ),
                 (cms_provider::MDS_QM, "MDS Quality Measures"),
                 (cms_provider::STATE_AVERAGES, "State US Averages"),
             ] {
                 sources.push(Source {
                     title: format!("{title} ({id})"),
-                    publisher: "Centers for Medicare & Medicaid Services, Provider Data Catalog".into(),
+                    publisher: "Centers for Medicare & Medicaid Services, Provider Data Catalog"
+                        .into(),
                     url: Some(format!("https://data.cms.gov/provider-data/dataset/{id}")),
                     effective_date: Some(data.as_of.clone()),
                     retrieved: Some(chrono::Local::now().date_naive().to_string()),
@@ -417,15 +537,34 @@ pub async fn nursing_home_quality_lookup(
     caveats.push(format!(
         "The scope/severity letter key is the standard CMS grid ({} confidence; {}).",
         c.scope_severity.confidence.label(),
-        c10::citation(&c.sources, &c.scope_severity.source, &c.scope_severity.section)
+        c10::citation(
+            &c.sources,
+            &c.scope_severity.source,
+            &c.scope_severity.section
+        )
     ));
-    if facilities.iter().any(|f| f.facility.staff_flu_pct.is_none()) {
+    if facilities
+        .iter()
+        .any(|f| f.facility.staff_flu_pct.is_none())
+    {
         caveats.push("Some facilities have no SNF QRP vaccination data (for example facilities without Medicare SNF beds, or too few staff or residents to report).".into());
     }
     caveats.extend(c10::review_caveats(&[NURSING_HOMES]));
-    let ij: Vec<&str> = c.scope_severity.immediate_jeopardy_letters.iter().map(String::as_str).collect();
-    if facilities.iter().any(|f| f.infection_control_citations.iter().any(|x| ij.contains(&x.scope_severity.as_str()))) {
-        caveats.push("At least one infection control citation is at the immediate jeopardy level (J-L).".into());
+    let ij: Vec<&str> = c
+        .scope_severity
+        .immediate_jeopardy_letters
+        .iter()
+        .map(String::as_str)
+        .collect();
+    if facilities.iter().any(|f| {
+        f.infection_control_citations
+            .iter()
+            .any(|x| ij.contains(&x.scope_severity.as_str()))
+    }) {
+        caveats.push(
+            "At least one infection control citation is at the immediate jeopardy level (J-L)."
+                .into(),
+        );
     }
     Ok(Envelope::new(
         s,
@@ -438,8 +577,17 @@ pub async fn nursing_home_quality_lookup(
             data_as_of: data.as_of.clone(),
             mode: data.mode,
             how_to_read: cite_all(&c.sources, &c.notes),
-            scope_severity_key: c.scope_severity.text.split_whitespace().collect::<Vec<_>>().join(" "),
-            infection_control_tags: c.infection_control_tags.iter().map(|t| (t.tag.clone(), t.text.clone())).collect(),
+            scope_severity_key: c
+                .scope_severity
+                .text
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
+            infection_control_tags: c
+                .infection_control_tags
+                .iter()
+                .map(|t| (t.tag.clone(), t.text.clone()))
+                .collect(),
             contacts: cite_all(&c.sources, &c.contacts),
             care_compare_url: "https://www.medicare.gov/care-compare/".into(),
         },
@@ -471,18 +619,62 @@ mod tests {
     #[tokio::test]
     async fn offline_lookup_uses_snapshot() {
         let (_d, ctx) = ctx();
-        let r = nursing_home_quality_lookup(&ctx, NursingHomeArgs { town: Some("Worcester".into()), ..Default::default() }).await.unwrap();
+        let r = nursing_home_quality_lookup(
+            &ctx,
+            NursingHomeArgs {
+                town: Some("Worcester".into()),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
         assert_eq!(r.data.mode, SourceMode::Snapshot);
         assert!(r.data.matched >= 5);
-        assert!(r.data.facilities.iter().all(|f| f.facility.city.eq_ignore_ascii_case("worcester")));
+        assert!(
+            r.data
+                .facilities
+                .iter()
+                .all(|f| f.facility.city.eq_ignore_ascii_case("worcester"))
+        );
         let one = &r.data.facilities[0].facility.ccn;
-        let r = nursing_home_quality_lookup(&ctx, NursingHomeArgs { ccn: Some(one.clone()), ..Default::default() }).await.unwrap();
+        let r = nursing_home_quality_lookup(
+            &ctx,
+            NursingHomeArgs {
+                ccn: Some(one.clone()),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
         assert_eq!(r.data.matched, 1);
-        let r = nursing_home_quality_lookup(&ctx, NursingHomeArgs { statewide: true, sort_by: Some(SortBy::InfectionControl), ..Default::default() }).await.unwrap();
+        let r = nursing_home_quality_lookup(
+            &ctx,
+            NursingHomeArgs {
+                statewide: true,
+                sort_by: Some(SortBy::InfectionControl),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
         let sw = r.data.statewide.unwrap();
         assert!(sw.facilities > 300);
         assert!(sw.with_infection_control_citations > 50);
-        assert!(nursing_home_quality_lookup(&ctx, NursingHomeArgs { name: Some("zzzz qqqq nonexistent".into()), ..Default::default() }).await.is_err());
-        assert!(nursing_home_quality_lookup(&ctx, NursingHomeArgs::default()).await.is_err());
+        assert!(
+            nursing_home_quality_lookup(
+                &ctx,
+                NursingHomeArgs {
+                    name: Some("zzzz qqqq nonexistent".into()),
+                    ..Default::default()
+                }
+            )
+            .await
+            .is_err()
+        );
+        assert!(
+            nursing_home_quality_lookup(&ctx, NursingHomeArgs::default())
+                .await
+                .is_err()
+        );
     }
 }

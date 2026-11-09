@@ -292,13 +292,19 @@ pub fn find_crisis_resources(ctx: &Context, args: CrisisArgs) -> Result<Envelope
             ]
         })
         .collect();
-    s.push_str(&md::table(&["Line", "How to reach", "Hours", "Languages and access"], &rows));
+    s.push_str(&md::table(
+        &["Line", "How to reach", "Hours", "Languages and access"],
+        &rows,
+    ));
     if let Some(m) = town {
         s.push_str(&format!(
             "\n**Community Behavioral Health Center(s) for {}**{}\n",
             m.name,
             match how {
-                Some(CbhcMatch::SameCounty) => format!(" (town not in a published list; CBHCs in {} County)", m.county),
+                Some(CbhcMatch::SameCounty) => format!(
+                    " (town not in a published list; CBHCs in {} County)",
+                    m.county
+                ),
                 _ => String::new(),
             }
         ));
@@ -366,7 +372,11 @@ mod tests {
             c10::assert_keys_known(&c.sources, &[&s.source], "cbhc_services");
         }
         let l988 = c.lines.iter().find(|l| l.id == "lifeline_988").unwrap();
-        assert!(l988.contacts.iter().any(|c| c.mode == "text" && c.value == "988"));
+        assert!(
+            l988.contacts
+                .iter()
+                .any(|c| c.mode == "text" && c.value == "988")
+        );
         let bhhl = c.lines.iter().find(|l| l.id == "bhhl").unwrap();
         assert_eq!(bhhl.contacts[0].value, "(833) 773-2445");
     }

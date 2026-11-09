@@ -215,7 +215,11 @@ pub struct CoverageResult {
 }
 
 fn fpl_row(household: u32) -> Option<&'static FplRow> {
-    CONTENT.fpl_monthly.rows.iter().find(|r| r.household == household)
+    CONTENT
+        .fpl_monthly
+        .rows
+        .iter()
+        .find(|r| r.household == household)
 }
 
 /// MSP level for a monthly income and household size (None when no row).
@@ -241,13 +245,19 @@ pub fn explain_older_adult_coverage_options(
 ) -> Result<Envelope<CoverageResult>> {
     let c = &*CONTENT;
     if let Some(v) = args.monthly_income.filter(|v| *v < 0.0 || !v.is_finite()) {
-        return Err(PhnError::InvalidInput(format!("monthly_income {v} must be zero or more")));
+        return Err(PhnError::InvalidInput(format!(
+            "monthly_income {v} must be zero or more"
+        )));
     }
     if args.monthly_income.is_some_and(|v| v > 100_000.0) {
-        return Err(PhnError::InvalidInput("monthly_income looks like an annual figure; give monthly income".into()));
+        return Err(PhnError::InvalidInput(
+            "monthly_income looks like an annual figure; give monthly income".into(),
+        ));
     }
     if args.age_years.is_some_and(|a| a > 120) {
-        return Err(PhnError::InvalidInput("age_years must be 120 or less".into()));
+        return Err(PhnError::InvalidInput(
+            "age_years must be 120 or less".into(),
+        ));
     }
     let household = args.household_size.unwrap_or(1).max(1);
     let couple = household >= 2;
@@ -283,7 +293,13 @@ pub fn explain_older_adult_coverage_options(
                     status = not("MSPs are for people with Medicare.".into(), &mut reasons);
                 } else if let Some(l) = level {
                     if l == "over the MSP income limit" {
-                        status = not(format!("Income {} is above 225% FPL for a household of {household}.", money(income.unwrap_or(0.0))), &mut reasons);
+                        status = not(
+                            format!(
+                                "Income {} is above 225% FPL for a household of {household}.",
+                                money(income.unwrap_or(0.0))
+                            ),
+                            &mut reasons,
+                        );
                     } else {
                         status = ScreenStatus::LikelyEligible;
                         reasons.push(format!("Income {} is within the {l} limit for a household of {household}; there is no asset limit.", money(income.unwrap_or(0.0))));
@@ -297,13 +313,24 @@ pub fn explain_older_adult_coverage_options(
                 }
             }
             "masshealth_65" => {
-                let limit = if couple { MASSHEALTH_ASSETS_COUPLE } else { MASSHEALTH_ASSETS_SINGLE };
+                let limit = if couple {
+                    MASSHEALTH_ASSETS_COUPLE
+                } else {
+                    MASSHEALTH_ASSETS_SINGLE
+                };
                 if age.is_some_and(|a| a < 65) {
                     status = not("This summary covers people 65 and older; younger adults have other MassHealth coverage types.".into(), &mut reasons);
                 } else if income.is_some_and(|i| fpl_row(household).is_some_and(|r| i > r.pct225)) {
                     status = not("Income is above 225% FPL.".into(), &mut reasons);
                 } else if assets.is_some_and(|a| a > limit) {
-                    status = not(format!("Countable assets {} are above the {} limit for certain MassHealth benefits (the MSP has no asset limit).", money(assets.unwrap_or(0.0)), money(limit)), &mut reasons);
+                    status = not(
+                        format!(
+                            "Countable assets {} are above the {} limit for certain MassHealth benefits (the MSP has no asset limit).",
+                            money(assets.unwrap_or(0.0)),
+                            money(limit)
+                        ),
+                        &mut reasons,
+                    );
                 } else if income.is_some() && assets.is_some() {
                     reasons.push(format!("Income at or below 225% FPL and assets at or below {}; MassHealth makes the determination.", money(limit)));
                 } else {
@@ -320,10 +347,19 @@ pub fn explain_older_adult_coverage_options(
                     (None, _) => None,
                 };
                 if age_ok == Some(false) {
-                    status = not("FEW is for people 65+, or 60-64 with a disability.".into(), &mut reasons);
+                    status = not(
+                        "FEW is for people 65+, or 60-64 with a disability.".into(),
+                        &mut reasons,
+                    );
                 } else if args.nursing_home_level_of_care == Some(false) {
-                    status = not("FEW requires a nursing facility level of care.".into(), &mut reasons);
-                } else if matches!(args.living, Some(Living::AssistedLiving | Living::NursingHome)) {
+                    status = not(
+                        "FEW requires a nursing facility level of care.".into(),
+                        &mut reasons,
+                    );
+                } else if matches!(
+                    args.living,
+                    Some(Living::AssistedLiving | Living::NursingHome)
+                ) {
                     status = not("FEW participants live in the community (own or family home, or congregate housing), not assisted living, rest homes, or nursing facilities.".into(), &mut reasons);
                 } else if age_ok == Some(true) && args.nursing_home_level_of_care == Some(true) {
                     reasons.push("Age and level of care fit; MassHealth Standard community financial rules (with special waiver rules) still apply.".into());
@@ -345,14 +381,30 @@ pub fn explain_older_adult_coverage_options(
                 if age.is_some_and(|a| a < 55) {
                     status = not("PACE is for people 55 and older.".into(), &mut reasons);
                 } else if age.is_some_and(|a| a < 65) && args.has_disability == Some(false) {
-                    status = not("At 55-64 PACE needs a disability determination.".into(), &mut reasons);
+                    status = not(
+                        "At 55-64 PACE needs a disability determination.".into(),
+                        &mut reasons,
+                    );
                 } else if args.nursing_home_level_of_care == Some(false) {
-                    status = not("PACE requires state certification of eligibility for nursing home care.".into(), &mut reasons);
+                    status = not(
+                        "PACE requires state certification of eligibility for nursing home care."
+                            .into(),
+                        &mut reasons,
+                    );
                 } else if county_ok == Some(Some(false)) {
-                    status = not(format!("PACE is not currently available in {} County.", county.clone().unwrap_or_default()), &mut reasons);
+                    status = not(
+                        format!(
+                            "PACE is not currently available in {} County.",
+                            county.clone().unwrap_or_default()
+                        ),
+                        &mut reasons,
+                    );
                 } else {
                     if county_ok == Some(None) {
-                        reasons.push(format!("PACE is available in part of {} County; check the service area.", county.clone().unwrap_or_default()));
+                        reasons.push(format!(
+                            "PACE is available in part of {} County; check the service area.",
+                            county.clone().unwrap_or_default()
+                        ));
                     }
                     match (income, assets) {
                         (Some(i), Some(a)) if !couple && i <= PACE_FBR_300 && a <= MASSHEALTH_ASSETS_SINGLE => {
@@ -363,7 +415,9 @@ pub fn explain_older_adult_coverage_options(
                     }
                     if args.nursing_home_level_of_care != Some(true) {
                         status = ScreenStatus::NeedMoreInformation;
-                        reasons.push("PACE requires certification of nursing home level of care.".into());
+                        reasons.push(
+                            "PACE requires certification of nursing home level of care.".into(),
+                        );
                     }
                 }
             }
@@ -371,26 +425,44 @@ pub fn explain_older_adult_coverage_options(
                 if age.is_some_and(|a| a < 65) {
                     status = not("SCO is for people 65 and older.".into(), &mut reasons);
                 } else if args.has_medicare_a_and_b == Some(false) {
-                    status = not("Since January 1, 2026, SCO members must have Medicare Parts A and B.".into(), &mut reasons);
+                    status = not(
+                        "Since January 1, 2026, SCO members must have Medicare Parts A and B."
+                            .into(),
+                        &mut reasons,
+                    );
                 } else if args.has_masshealth_standard == Some(false) {
                     status = not("SCO requires MassHealth Standard.".into(), &mut reasons);
-                } else if age.is_some() && args.has_medicare_a_and_b == Some(true) && args.has_masshealth_standard == Some(true) {
+                } else if age.is_some()
+                    && args.has_medicare_a_and_b == Some(true)
+                    && args.has_masshealth_standard == Some(true)
+                {
                     status = ScreenStatus::LikelyEligible;
                     reasons.push("65+, Medicare A and B, and MassHealth Standard: likely eligible if a SCO plan serves the area.".into());
                 } else {
                     status = ScreenStatus::NeedMoreInformation;
-                    reasons.push("Needs age 65+, Medicare Parts A and B, and MassHealth Standard.".into());
+                    reasons.push(
+                        "Needs age 65+, Medicare Parts A and B, and MassHealth Standard.".into(),
+                    );
                 }
             }
             "one_care" => {
                 if age.is_some_and(|a| !(21..=64).contains(&a)) {
                     status = not("One Care is for people 21 to 64.".into(), &mut reasons);
                 } else if args.has_disability == Some(false) {
-                    status = not("One Care is for people with a disability.".into(), &mut reasons);
+                    status = not(
+                        "One Care is for people with a disability.".into(),
+                        &mut reasons,
+                    );
                 } else if args.has_private_insurance == Some(true) {
-                    status = not("People with private health insurance cannot join One Care.".into(), &mut reasons);
+                    status = not(
+                        "People with private health insurance cannot join One Care.".into(),
+                        &mut reasons,
+                    );
                 } else if args.has_medicare_a_and_b == Some(false) {
-                    status = not("One Care requires Medicare Parts A and B.".into(), &mut reasons);
+                    status = not(
+                        "One Care requires Medicare Parts A and B.".into(),
+                        &mut reasons,
+                    );
                 } else {
                     status = ScreenStatus::NeedMoreInformation;
                     reasons.push("Needs age 21-64, a disability, Medicare A and B, MassHealth Standard or CommonHealth, and no HCBS waiver.".into());
@@ -414,7 +486,11 @@ pub fn explain_older_adult_coverage_options(
         if c.pace_counties.available.iter().any(|x| x == cn) {
             format!(
                 "PACE is available in {cn} County ({}).",
-                c10::citation(&c.sources, &c.pace_counties.source, &c.pace_counties.section)
+                c10::citation(
+                    &c.sources,
+                    &c.pace_counties.source,
+                    &c.pace_counties.section
+                )
             )
         } else if let Some(p) = c.pace_counties.partial.iter().find(|x| x.county == cn) {
             format!("{cn} County: {}", p.note)
@@ -451,32 +527,68 @@ pub fn explain_older_adult_coverage_options(
         "**Coverage options for older adults in Massachusetts**\n\n**Medicare {} costs** (effective {}):\n",
         c.medicare.year, c.medicare.effective_date
     );
-    s.push_str(&md::table(&["Item", "Amount"], &costs.iter().map(|x| vec![x.item.clone(), x.amount.clone()]).collect::<Vec<_>>()));
-    s.push_str(&format!("\n{} The highest total Part B premium is {}.\n", c.medicare.irmaa.note, c.medicare.irmaa.rows.last().map(|r| r.total_premium.clone()).unwrap_or_default()));
+    s.push_str(&md::table(
+        &["Item", "Amount"],
+        &costs
+            .iter()
+            .map(|x| vec![x.item.clone(), x.amount.clone()])
+            .collect::<Vec<_>>(),
+    ));
+    s.push_str(&format!(
+        "\n{} The highest total Part B premium is {}.\n",
+        c.medicare.irmaa.note,
+        c.medicare
+            .irmaa
+            .rows
+            .last()
+            .map(|r| r.total_premium.clone())
+            .unwrap_or_default()
+    ));
     if let (Some(l), Some(i)) = (level, income) {
         s.push_str(&format!("\n**Medicare Savings Program screen:** income {} for a household of {household} → **{l}**. {}\n", money(i), fpl_used.clone().unwrap_or_default()));
     }
     s.push_str("\n**Programs**\n");
     let rows: Vec<Vec<String>> = programs
         .iter()
-        .map(|p| vec![p.name.clone(), p.screen.label().to_string(), p.reasons.join(" ")])
+        .map(|p| {
+            vec![
+                p.name.clone(),
+                p.screen.label().to_string(),
+                p.reasons.join(" "),
+            ]
+        })
         .collect();
     s.push_str(&md::table(&["Program", "Screen", "Why"], &rows));
     if let Some(p) = &pace_in_county {
         s.push_str(&format!("\n{p}\n"));
     }
     s.push_str("\n**Help:** ");
-    s.push_str(&c.help.iter().map(|h| h.text.clone()).collect::<Vec<_>>().join(" "));
+    s.push_str(
+        &c.help
+            .iter()
+            .map(|h| h.text.clone())
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     s.push('\n');
 
     let mut sources = vec![c10::content_source(COVERAGE)?];
-    let mut keys: Vec<&str> = vec!["cms-2026-ab", "cms-2026-partd", "ma-what-is-medicare", c.fpl_monthly.source.as_str(), c.medicare.irmaa.source.as_str()];
+    let mut keys: Vec<&str> = vec![
+        "cms-2026-ab",
+        "cms-2026-partd",
+        "ma-what-is-medicare",
+        c.fpl_monthly.source.as_str(),
+        c.medicare.irmaa.source.as_str(),
+    ];
     keys.extend(c.programs.iter().map(|p| p.source.as_str()));
     keys.push(c.pace_counties.source.as_str());
     keys.push("ma-sco-2026");
     sources.extend(c10::sources_for(&c.sources, keys));
     if income.is_some() || assets.is_some() {
-        sources.push(Source::computed("Eligibility screen from the facts given", "PHN MCP server"));
+        sources.push(Source::computed(
+            "Eligibility screen from the facts given",
+            "PHN MCP server",
+        ));
     }
     let mut caveats = vec![
         "A screen, not an eligibility decision: MassHealth and Medicare decide, using countable income and assets under their own rules. SHINE counselors can help (free).".to_string(),
@@ -529,7 +641,11 @@ mod tests {
         keys.extend(c.medicare.parts.iter().map(|p| p.source.as_str()));
         keys.extend(c.medicare.costs.iter().map(|p| p.source.as_str()));
         keys.extend(c.help.iter().map(|p| p.source.as_str()));
-        keys.extend([c.fpl_monthly.source.as_str(), c.pace_counties.source.as_str(), c.medicare.irmaa.source.as_str()]);
+        keys.extend([
+            c.fpl_monthly.source.as_str(),
+            c.pace_counties.source.as_str(),
+            c.medicare.irmaa.source.as_str(),
+        ]);
         c10::assert_keys_known(&c.sources, &keys, "coverage");
     }
 
@@ -570,12 +686,49 @@ mod tests {
         assert_eq!(st("sco"), ScreenStatus::LikelyEligible);
         assert_eq!(st("one_care"), ScreenStatus::ProbablyNotEligible);
         assert_eq!(st("few"), ScreenStatus::MayBeEligible);
-        assert!(r.data.pace_in_county.as_deref().unwrap().contains("Hampden"));
-        assert!(r.data.medicare_costs.iter().any(|x| x.amount == "$202.90 per month"));
-        let r = explain_older_adult_coverage_options(&ctx, CoverageArgs { town: Some("Nantucket".into()), age_years: Some(70), ..Default::default() }).unwrap();
+        assert!(
+            r.data
+                .pace_in_county
+                .as_deref()
+                .unwrap()
+                .contains("Hampden")
+        );
+        assert!(
+            r.data
+                .medicare_costs
+                .iter()
+                .any(|x| x.amount == "$202.90 per month")
+        );
+        let r = explain_older_adult_coverage_options(
+            &ctx,
+            CoverageArgs {
+                town: Some("Nantucket".into()),
+                age_years: Some(70),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         let pace = r.data.programs.iter().find(|p| p.id == "pace").unwrap();
         assert_eq!(pace.screen, ScreenStatus::ProbablyNotEligible);
-        assert!(explain_older_adult_coverage_options(&ctx, CoverageArgs { monthly_income: Some(-5.0), ..Default::default() }).is_err());
-        assert!(explain_older_adult_coverage_options(&ctx, CoverageArgs { monthly_income: Some(240_000.0), ..Default::default() }).is_err());
+        assert!(
+            explain_older_adult_coverage_options(
+                &ctx,
+                CoverageArgs {
+                    monthly_income: Some(-5.0),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
+        assert!(
+            explain_older_adult_coverage_options(
+                &ctx,
+                CoverageArgs {
+                    monthly_income: Some(240_000.0),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
     }
 }

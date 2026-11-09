@@ -61,7 +61,9 @@ static CONTENT: LazyLock<ServicesContent> =
     LazyLock::new(|| c10::load(SERVICES).expect("aging services content parses"));
 
 /// What the person needs.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Need {
     /// Home care, personal care, homemaker, Frail Elder Waiver.
@@ -197,7 +199,12 @@ pub fn find_ma_aging_services(
         .collect();
     let coa = CoaOut {
         name: format!("{} Council on Aging", m.name),
-        how_to_reach: c.coa_lookup.text.split_whitespace().collect::<Vec<_>>().join(" "),
+        how_to_reach: c
+            .coa_lookup
+            .text
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
         map_url: c.coa_lookup.map_url.clone(),
     };
 
@@ -210,8 +217,14 @@ pub fn find_ma_aging_services(
             a.name,
             a.address,
             a.phone,
-            a.phone_toll_free.as_deref().map(|t| format!(", toll free {t}")).unwrap_or_default(),
-            a.web.as_deref().map(|w| format!(", {w}")).unwrap_or_default(),
+            a.phone_toll_free
+                .as_deref()
+                .map(|t| format!(", toll free {t}"))
+                .unwrap_or_default(),
+            a.web
+                .as_deref()
+                .map(|w| format!(", {w}"))
+                .unwrap_or_default(),
             if a.neighborhoods.is_empty() || m.name != "Boston" {
                 String::new()
             } else {
@@ -220,7 +233,10 @@ pub fn find_ma_aging_services(
         ));
     }
     if wants("community") || args.needs.is_empty() {
-        s.push_str(&format!("\n**{}:** {} Map: {}\n", coa.name, coa.how_to_reach, coa.map_url));
+        s.push_str(&format!(
+            "\n**{}:** {} Map: {}\n",
+            coa.name, coa.how_to_reach, coa.map_url
+        ));
     }
     if wants("insurance") {
         match &shine {
@@ -240,7 +256,11 @@ pub fn find_ma_aging_services(
             "- **{}**: {}{} — {}\n",
             l.name,
             l.phone,
-            if l.hours.is_empty() { String::new() } else { format!(" ({})", l.hours) },
+            if l.hours.is_empty() {
+                String::new()
+            } else {
+                format!(" ({})", l.hours)
+            },
             l.detail
         ));
     }
@@ -256,9 +276,19 @@ pub fn find_ma_aging_services(
         &c.sources,
         lines
             .iter()
-            .filter_map(|l| c.lines.iter().find(|d| d.name == l.name).map(|d| d.source.as_str()))
+            .filter_map(|l| {
+                c.lines
+                    .iter()
+                    .find(|d| d.name == l.name)
+                    .map(|d| d.source.as_str())
+            })
             .chain(c.programs.iter().map(|p| p.source.as_str()))
-            .chain(["age-asap", "age-nutrition-sites", "age-shine", c.coa_lookup.source.as_str()]),
+            .chain([
+                "age-asap",
+                "age-nutrition-sites",
+                "age-shine",
+                c.coa_lookup.source.as_str(),
+            ]),
     ));
     let mut caveats = dir.aging_caveats.clone();
     caveats.push(format!(
@@ -316,16 +346,47 @@ mod tests {
     #[test]
     fn lists_providers_for_a_town() {
         let (_d, ctx) = ctx();
-        let r = find_ma_aging_services(&ctx, AgingServicesArgs { town: Some("Amherst".into()), ..Default::default() }).unwrap();
+        let r = find_ma_aging_services(
+            &ctx,
+            AgingServicesArgs {
+                town: Some("Amherst".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(r.data.asaps.len(), 1);
         assert!(r.data.shine.is_some());
         assert!(!r.data.meals.is_empty());
-        assert!(r.data.statewide_lines.iter().any(|l| l.phone == "(800) 243-4636"));
-        let r = find_ma_aging_services(&ctx, AgingServicesArgs { town: Some("Boston".into()), needs: vec![Need::Insurance] }).unwrap();
+        assert!(
+            r.data
+                .statewide_lines
+                .iter()
+                .any(|l| l.phone == "(800) 243-4636")
+        );
+        let r = find_ma_aging_services(
+            &ctx,
+            AgingServicesArgs {
+                town: Some("Boston".into()),
+                needs: vec![Need::Insurance],
+            },
+        )
+        .unwrap();
         assert!(r.data.asaps.len() >= 3);
         assert!(r.data.meals.is_empty());
-        assert!(r.data.statewide_lines.iter().any(|l| l.phone == "617-357-0226"));
-        let e = find_ma_aging_services(&ctx, AgingServicesArgs { town: Some("Worchester".into()), ..Default::default() }).unwrap_err();
+        assert!(
+            r.data
+                .statewide_lines
+                .iter()
+                .any(|l| l.phone == "617-357-0226")
+        );
+        let e = find_ma_aging_services(
+            &ctx,
+            AgingServicesArgs {
+                town: Some("Worchester".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap_err();
         assert!(e.to_string().contains("Worcester"));
         assert!(find_ma_aging_services(&ctx, AgingServicesArgs::default()).is_err());
     }

@@ -34,7 +34,8 @@ const ASAP_URL: &str =
 const SHINE_PAGE: &str = "https://www.mass.gov/info-details/find-a-shine-counselor-near-you";
 const CBHC_URL: &str = "https://www.mass.gov/find-a-cbhc/locations";
 const NUTRITION_URL: &str = "https://www.mass.gov/info-details/nutrition-program-sites";
-const LICENSE: &str = "Public information published by the Commonwealth of Massachusetts on mass.gov.";
+const LICENSE: &str =
+    "Public information published by the Commonwealth of Massachusetts on mass.gov.";
 
 /// Published spellings that differ from the MassGIS town name.
 const SPELLINGS: &[(&str, &str)] = &[
@@ -95,7 +96,14 @@ const VILLAGES: &[(&str, &[&str])] = &[
     ("whitinsville", &["Northbridge"]),
     (
         "marthas vineyard",
-        &["Aquinnah", "Chilmark", "Edgartown", "Oak Bluffs", "Tisbury", "West Tisbury"],
+        &[
+            "Aquinnah",
+            "Chilmark",
+            "Edgartown",
+            "Oak Bluffs",
+            "Tisbury",
+            "West Tisbury",
+        ],
     ),
 ];
 
@@ -150,7 +158,9 @@ impl Towns {
                 Some(p.to_string()),
             ));
         }
-        bail!("'{published}' does not match a Massachusetts town, a known spelling variant, or a known village; add it to SPELLINGS or VILLAGES after checking")
+        bail!(
+            "'{published}' does not match a Massachusetts town, a known spelling variant, or a known village; add it to SPELLINGS or VILLAGES after checking"
+        )
     }
 }
 
@@ -302,7 +312,10 @@ fn parse_asaps(html: &str, towns: &Towns) -> Result<Vec<Asap>> {
         });
     }
     if out.len() < 20 {
-        bail!("only {} ASAPs parsed from {ASAP_URL}; the page layout may have changed", out.len());
+        bail!(
+            "only {} ASAPs parsed from {ASAP_URL}; the page layout may have changed",
+            out.len()
+        );
     }
     let covered: BTreeSet<&String> = out.iter().flat_map(|a| a.towns.iter()).collect();
     let missing: Vec<&String> = towns
@@ -332,7 +345,12 @@ fn asap_csv(asaps: &[Asap]) -> String {
             a.neighborhoods.join(";"),
             a.served.clone(),
         ];
-        s.push_str(&row.iter().map(|f| csv_field(f)).collect::<Vec<_>>().join(","));
+        s.push_str(
+            &row.iter()
+                .map(|f| csv_field(f))
+                .collect::<Vec<_>>()
+                .join(","),
+        );
         s.push('\n');
     }
     s
@@ -446,7 +464,12 @@ fn parse_nutrition(html: &str, towns: &Towns) -> Result<Vec<Nutrition>> {
         lines.push(cur);
         let lines: Vec<String> = lines
             .into_iter()
-            .map(|l| l.replace('\u{a0}', " ").split_whitespace().collect::<Vec<_>>().join(" "))
+            .map(|l| {
+                l.replace('\u{a0}', " ")
+                    .split_whitespace()
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            })
             .filter(|l| !l.is_empty())
             .collect();
         let Some(mut name) = lines.first().cloned() else {
@@ -475,7 +498,12 @@ fn parse_nutrition(html: &str, towns: &Towns) -> Result<Vec<Nutrition>> {
                 address.push(l.clone());
             }
         }
-        let served = tds[1].text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" ");
+        let served = tds[1]
+            .text()
+            .collect::<String>()
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ");
         let mut t = BTreeSet::new();
         for n in split_list(&served.replace(['(', ')'], ",")) {
             if n.to_ascii_lowercase().starts_with("boston neighborhoods") || n.is_empty() {
@@ -494,7 +522,10 @@ fn parse_nutrition(html: &str, towns: &Towns) -> Result<Vec<Nutrition>> {
         });
     }
     if out.len() < 15 {
-        bail!("only {} nutrition projects parsed from {NUTRITION_URL}", out.len());
+        bail!(
+            "only {} nutrition projects parsed from {NUTRITION_URL}",
+            out.len()
+        );
     }
     Ok(out)
 }
@@ -511,7 +542,12 @@ fn nutrition_csv(items: &[Nutrition]) -> String {
             n.towns.join(";"),
             n.served.clone(),
         ];
-        s.push_str(&row.iter().map(|f| csv_field(f)).collect::<Vec<_>>().join(","));
+        s.push_str(
+            &row.iter()
+                .map(|f| csv_field(f))
+                .collect::<Vec<_>>()
+                .join(","),
+        );
         s.push('\n');
     }
     s
@@ -583,7 +619,13 @@ fn parse_cbhc_page(html: &str, towns: &Towns) -> Result<Vec<Cbhc>> {
         let served = item
             .select(&sel(".ma__image-promo__description"))
             .next()
-            .map(|e| e.text().collect::<String>().split_whitespace().collect::<Vec<_>>().join(" "))
+            .map(|e| {
+                e.text()
+                    .collect::<String>()
+                    .split_whitespace()
+                    .collect::<Vec<_>>()
+                    .join(" ")
+            })
             .unwrap_or_default();
         let phone = item
             .select(&sel(".ma__image-promo__phone-link"))
@@ -652,7 +694,12 @@ fn cbhc_csv(items: &[Cbhc]) -> String {
             c.villages.join(";"),
             c.served.clone(),
         ];
-        s.push_str(&row.iter().map(|f| csv_field(f)).collect::<Vec<_>>().join(","));
+        s.push_str(
+            &row.iter()
+                .map(|f| csv_field(f))
+                .collect::<Vec<_>>()
+                .join(","),
+        );
         s.push('\n');
     }
     s
@@ -672,7 +719,10 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
 
     // ASAPs
     let asap_html = fetch(ASAP_URL, source_dir)?;
-    hashes.insert("find-your-regional-aging-services-access-point-asap.html".to_string(), sha256(&asap_html));
+    hashes.insert(
+        "find-your-regional-aging-services-access-point-asap.html".to_string(),
+        sha256(&asap_html),
+    );
     let asaps = parse_asaps(&String::from_utf8_lossy(&asap_html), &towns)?;
     let asap_text = asap_csv(&asaps);
 
@@ -681,14 +731,21 @@ pub fn run(root: &Path, check: bool, source_dir: Option<&Path>) -> Result<()> {
     let shine_url = shine_csv_url(&String::from_utf8_lossy(&shine_page))?;
     let shine_bytes = fetch(&shine_url, source_dir)?;
     hashes.insert(
-        shine_url.rsplit('/').next().unwrap_or("shine.csv").to_string(),
+        shine_url
+            .rsplit('/')
+            .next()
+            .unwrap_or("shine.csv")
+            .to_string(),
         sha256(&shine_bytes),
     );
     let (shine_text, shine_missing) = build_shine_csv(&shine_bytes, &towns)?;
 
     // Senior nutrition projects (home-delivered and community meals)
     let nut_html = fetch(NUTRITION_URL, source_dir)?;
-    hashes.insert("nutrition-program-sites.html".to_string(), sha256(&nut_html));
+    hashes.insert(
+        "nutrition-program-sites.html".to_string(),
+        sha256(&nut_html),
+    );
     let nutrition = parse_nutrition(&String::from_utf8_lossy(&nut_html), &towns)?;
     let nutrition_text = nutrition_csv(&nutrition);
 
@@ -851,7 +908,10 @@ mod tests {
         assert_eq!(t.resolve("Tyngsboro").unwrap().0, vec!["Tyngsborough"]);
         assert_eq!(t.resolve("Allston (Boston)").unwrap().0, vec!["Boston"]);
         assert_eq!(t.resolve("Turners Falls").unwrap().0, vec!["Montague"]);
-        assert_eq!(t.resolve("Manchester by the Sea").unwrap().0, vec!["Manchester-by-the-Sea"]);
+        assert_eq!(
+            t.resolve("Manchester by the Sea").unwrap().0,
+            vec!["Manchester-by-the-Sea"]
+        );
         assert!(t.resolve("Atlantis").is_err());
     }
 }

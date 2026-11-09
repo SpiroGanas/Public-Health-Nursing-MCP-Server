@@ -75,7 +75,8 @@ pub fn run(root: &Path, source_dir: Option<&Path>) -> Result<()> {
                 "0400000US25" => "25".to_string(),
                 g => match g.split_once("US") {
                     Some((p, id))
-                        if matches!(p, "0500000" | "0600000" | "1400000") && id.starts_with("25") =>
+                        if matches!(p, "0500000" | "0600000" | "1400000")
+                            && id.starts_with("25") =>
                     {
                         id.to_string()
                     }
@@ -146,7 +147,10 @@ pub fn run(root: &Path, source_dir: Option<&Path>) -> Result<()> {
         written += 1;
     }
     std::fs::write(snap_dir.join(SNAPSHOT_FILE), &out)?;
-    println!("wrote snapshots/{SNAPSHOT_FILE} ({written} rows, {} bytes)", out.len());
+    println!(
+        "wrote snapshots/{SNAPSHOT_FILE} ({written} rows, {} bytes)",
+        out.len()
+    );
     let today = chrono::Local::now().date_naive().to_string();
     let entry = SnapshotEntry {
         id: SNAPSHOT_ID.into(),
@@ -173,7 +177,10 @@ pub fn run(root: &Path, source_dir: Option<&Path>) -> Result<()> {
         Some(e) => *e = entry,
         None => manifest.snapshots.push(entry),
     }
-    std::fs::write(&manifest_path, serde_json::to_string_pretty(&manifest)? + "\n")?;
+    std::fs::write(
+        &manifest_path,
+        serde_json::to_string_pretty(&manifest)? + "\n",
+    )?;
     println!("Updated snapshots/manifest.json.");
     Ok(())
 }

@@ -38,7 +38,11 @@ pub const PAGE: usize = 500;
 pub const TTL_SECS: u64 = 24 * 3600;
 
 /// SNF QRP measure codes: staff COVID-19 up to date, staff flu, residents COVID-19 up to date.
-pub const QRP_VACCINATION: [&str; 3] = ["S_040_02_OBS_RATE", "S_041_01_OBS_RATE", "S_045_01_OBS_RATE"];
+pub const QRP_VACCINATION: [&str; 3] = [
+    "S_040_02_OBS_RATE",
+    "S_041_01_OBS_RATE",
+    "S_045_01_OBS_RATE",
+];
 /// MDS measure codes: long-stay pneumococcal (415), long-stay flu (454),
 /// short-stay pneumococcal (430), short-stay flu (472).
 pub const MDS_VACCINATION: [&str; 4] = ["415", "454", "430", "472"];
@@ -112,11 +116,23 @@ pub fn query_url(
 ) -> String {
     let mut q = vec![format!("limit={PAGE}"), format!("offset={offset}")];
     for (i, c) in conditions.iter().enumerate() {
-        q.push(format!("{}={}", encode(&format!("conditions[{i}][property]")), encode(c.property)));
-        q.push(format!("{}={}", encode(&format!("conditions[{i}][operator]")), encode(c.operator)));
+        q.push(format!(
+            "{}={}",
+            encode(&format!("conditions[{i}][property]")),
+            encode(c.property)
+        ));
+        q.push(format!(
+            "{}={}",
+            encode(&format!("conditions[{i}][operator]")),
+            encode(c.operator)
+        ));
         if c.operator == "in" {
             for (j, v) in c.values.iter().enumerate() {
-                q.push(format!("{}={}", encode(&format!("conditions[{i}][value][{j}]")), encode(v)));
+                q.push(format!(
+                    "{}={}",
+                    encode(&format!("conditions[{i}][value][{j}]")),
+                    encode(v)
+                ));
             }
         } else {
             q.push(format!(
@@ -127,7 +143,11 @@ pub fn query_url(
         }
     }
     for (i, p) in properties.iter().enumerate() {
-        q.push(format!("{}={}", encode(&format!("properties[{i}]")), encode(p)));
+        q.push(format!(
+            "{}={}",
+            encode(&format!("properties[{i}]")),
+            encode(p)
+        ));
     }
     format!("{API}/{dataset}/0?{}", q.join("&"))
 }
@@ -277,7 +297,9 @@ pub fn build_facilities(
                 .find(|e| !e.is_empty());
             let mut periods = Vec::new();
             if let Some(e) = q_end {
-                periods.push(format!("staff and resident COVID-19 and staff flu (SNF QRP) through {e}"));
+                periods.push(format!(
+                    "staff and resident COVID-19 and staff flu (SNF QRP) through {e}"
+                ));
             }
             if let Some(p) = m_period {
                 periods.push(format!("resident flu and pneumococcal (MDS) {p}"));
@@ -299,14 +321,29 @@ pub fn build_facilities(
                 health_inspection_rating: num(r, "health_inspection_rating"),
                 quality_measure_rating: num(r, "qm_rating"),
                 staffing_rating: num(r, "staffing_rating"),
-                rn_hours_per_resident_day: num(r, "reported_rn_staffing_hours_per_resident_per_day"),
-                total_nurse_hours_per_resident_day: num(r, "reported_total_nurse_staffing_hours_per_resident_per_day"),
-                weekend_nurse_hours_per_resident_day: num(r, "total_number_of_nurse_staff_hours_per_resident_per_day_on_t_4a14"),
+                rn_hours_per_resident_day: num(
+                    r,
+                    "reported_rn_staffing_hours_per_resident_per_day",
+                ),
+                total_nurse_hours_per_resident_day: num(
+                    r,
+                    "reported_total_nurse_staffing_hours_per_resident_per_day",
+                ),
+                weekend_nurse_hours_per_resident_day: num(
+                    r,
+                    "total_number_of_nurse_staff_hours_per_resident_per_day_on_t_4a14",
+                ),
                 nursing_staff_turnover_pct: num(r, "total_nursing_staff_turnover"),
                 rn_turnover_pct: num(r, "registered_nurse_turnover"),
                 last_standard_survey: s(r, "rating_cycle_1_standard_survey_health_date"),
-                health_deficiencies_last_survey: num(r, "rating_cycle_1_total_number_of_health_deficiencies"),
-                infection_control_inspection_citations: num(r, "number_of_citations_from_infection_control_inspections"),
+                health_deficiencies_last_survey: num(
+                    r,
+                    "rating_cycle_1_total_number_of_health_deficiencies",
+                ),
+                infection_control_inspection_citations: num(
+                    r,
+                    "number_of_citations_from_infection_control_inspections",
+                ),
                 fines: num(r, "number_of_fines"),
                 fines_total_dollars: num(r, "total_amount_of_fines_in_dollars"),
                 penalties: num(r, "total_number_of_penalties"),
@@ -334,7 +371,11 @@ pub fn build_citations(rows: &[Map<String, Value>]) -> Vec<InfectionCitation> {
         .map(|r| InfectionCitation {
             ccn: s(r, "cms_certification_number_ccn"),
             survey_date: s(r, "survey_date"),
-            tag: format!("{}{}", s(r, "deficiency_prefix"), s(r, "deficiency_tag_number")),
+            tag: format!(
+                "{}{}",
+                s(r, "deficiency_prefix"),
+                s(r, "deficiency_tag_number")
+            ),
             description: s(r, "deficiency_description"),
             scope_severity: s(r, "scope_severity_code"),
             corrected: s(r, "deficiency_corrected"),
@@ -361,7 +402,10 @@ pub fn build_averages(rows: &[Map<String, Value>]) -> Vec<Averages> {
             health_inspection_rating: num(r, "health_inspection_rating"),
             quality_measure_rating: num(r, "qm_rating"),
             staffing_rating: num(r, "staffing_rating"),
-            total_nurse_hours_per_resident_day: num(r, "reported_total_nurse_staffing_hours_per_resident_per_day"),
+            total_nurse_hours_per_resident_day: num(
+                r,
+                "reported_total_nurse_staffing_hours_per_resident_per_day",
+            ),
             rn_hours_per_resident_day: num(r, "reported_rn_staffing_hours_per_resident_per_day"),
             nursing_staff_turnover_pct: num(r, "total_nursing_staff_turnover"),
             rn_turnover_pct: num(r, "registered_nurse_turnover"),
@@ -405,14 +449,23 @@ pub struct NursingHomeData {
 /// The queries the server (and the snapshot builder) runs for Massachusetts.
 pub fn ma_queries() -> Vec<(&'static str, Vec<Condition>, Vec<&'static str>)> {
     vec![
-        (PROVIDER_INFO, vec![Condition::eq("state", "MA")], PROVIDER_PROPERTIES.to_vec()),
+        (
+            PROVIDER_INFO,
+            vec![Condition::eq("state", "MA")],
+            PROVIDER_PROPERTIES.to_vec(),
+        ),
         (
             SNF_QRP,
             vec![
                 Condition::eq("state", "MA"),
                 Condition::is_in("measure_code", &QRP_VACCINATION),
             ],
-            vec!["cms_certification_number_ccn", "measure_code", "score", "end_date"],
+            vec![
+                "cms_certification_number_ccn",
+                "measure_code",
+                "score",
+                "end_date",
+            ],
         ),
         (
             MDS_QM,
@@ -455,7 +508,9 @@ pub fn ma_queries() -> Vec<(&'static str, Vec<Condition>, Vec<&'static str>)> {
 }
 
 /// Assemble the result sets of [`ma_queries`] (in that order).
-pub fn assemble(rows: &[Vec<Map<String, Value>>]) -> (Vec<NursingHome>, Vec<InfectionCitation>, Vec<Averages>) {
+pub fn assemble(
+    rows: &[Vec<Map<String, Value>>],
+) -> (Vec<NursingHome>, Vec<InfectionCitation>, Vec<Averages>) {
     (
         build_facilities(&rows[0], &rows[1], &rows[2]),
         build_citations(&rows[3]),
@@ -503,7 +558,9 @@ pub async fn load_live(http: &HttpClient, cache: Option<&Cache>) -> Result<Nursi
         sets.push(rows);
     }
     if sets[0].is_empty() {
-        return Err(PhnError::Network("CMS Provider Information returned no Massachusetts rows".into()));
+        return Err(PhnError::Network(
+            "CMS Provider Information returned no Massachusetts rows".into(),
+        ));
     }
     let (facilities, citations, averages) = assemble(&sets);
     let as_of = facilities
@@ -544,7 +601,10 @@ mod tests {
     fn builds_query_urls() {
         let u = query_url(
             SNF_QRP,
-            &[Condition::eq("state", "MA"), Condition::is_in("measure_code", &["A", "B"])],
+            &[
+                Condition::eq("state", "MA"),
+                Condition::is_in("measure_code", &["A", "B"]),
+            ],
             &["score"],
             500,
         );
@@ -557,8 +617,20 @@ mod tests {
     fn snapshot_loads_and_joins_vaccination_measures() {
         let d = load_snapshot(&SnapshotStore::bundled()).unwrap();
         assert!(d.facilities.len() > 300, "{}", d.facilities.len());
-        assert!(d.facilities.iter().filter(|f| f.staff_flu_pct.is_some()).count() > 200);
-        assert!(d.facilities.iter().filter(|f| f.long_stay_flu_pct.is_some()).count() > 200);
+        assert!(
+            d.facilities
+                .iter()
+                .filter(|f| f.staff_flu_pct.is_some())
+                .count()
+                > 200
+        );
+        assert!(
+            d.facilities
+                .iter()
+                .filter(|f| f.long_stay_flu_pct.is_some())
+                .count()
+                > 200
+        );
         assert!(d.citations.iter().any(|c| c.tag == "F0880"));
         assert!(d.averages.iter().any(|a| a.level == "MA"));
         assert!(d.averages.iter().any(|a| a.level == "NATION"));

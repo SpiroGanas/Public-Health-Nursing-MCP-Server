@@ -209,7 +209,9 @@ pub struct ScreenArgs {
 // ------------------------------------------------------------------ results
 
 /// The overall screening outcome.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum ScreenOutcome {
     /// Below the positive cutoff.
@@ -380,11 +382,7 @@ enum Parsed {
     Missing,
 }
 
-fn parse_response(
-    inst: &Instrument,
-    item: u32,
-    r: Option<&ItemResponse>,
-) -> Result<Parsed> {
+fn parse_response(inst: &Instrument, item: u32, r: Option<&ItemResponse>) -> Result<Parsed> {
     let bad = |what: &str| {
         PhnError::InvalidInput(format!(
             "{} item {item}: '{what}' is not a valid answer; use {}",
@@ -533,8 +531,12 @@ pub fn score(
                 }
             }
         }
-        ResponseKind::YesNo if inst.id == "asq" => asq_outcome(&value, opts, &mut alert_ids, &mut notes, &mut flagged),
-        ResponseKind::YesNo => cssrs_outcome(&value, opts, &mut alert_ids, &mut notes, &mut flagged),
+        ResponseKind::YesNo if inst.id == "asq" => {
+            asq_outcome(&value, opts, &mut alert_ids, &mut notes, &mut flagged)
+        }
+        ResponseKind::YesNo => {
+            cssrs_outcome(&value, opts, &mut alert_ids, &mut notes, &mut flagged)
+        }
     };
     if inst.response != ResponseKind::YesNo {
         // nothing else
@@ -596,7 +598,9 @@ fn asq_outcome(
                 ScreenOutcome::Incomplete
             }
             Some(true) => {
-                notes.push("A youth's refusal to answer is treated as a non-acute positive screen.".into());
+                notes.push(
+                    "A youth's refusal to answer is treated as a non-acute positive screen.".into(),
+                );
                 push_alert(alerts, "asq_nonacute_positive");
                 ScreenOutcome::NonAcutePositive
             }
@@ -718,10 +722,7 @@ fn cssrs_outcome(
 }
 
 fn join_nums(v: &[u32]) -> String {
-    v.iter()
-        .map(u32::to_string)
-        .collect::<Vec<_>>()
-        .join(", ")
+    v.iter().map(u32::to_string).collect::<Vec<_>>().join(", ")
 }
 
 fn alerts_out(ids: &[String]) -> Vec<AlertOut> {
@@ -782,9 +783,10 @@ fn instrument_sources(inst: &Instrument, alerts: &[String]) -> Vec<Source> {
     if !alerts.is_empty() {
         keys.extend(c.resources_for_all.iter().map(|s| s.source.as_str()));
     }
-    let mut out = vec![c10::content_source(MH_SCREENING).unwrap_or_else(|_| {
-        Source::computed("Mental health screening content", "PHN MCP server")
-    })];
+    let mut out =
+        vec![c10::content_source(MH_SCREENING).unwrap_or_else(|_| {
+            Source::computed("Mental health screening content", "PHN MCP server")
+        })];
     out.extend(c10::sources_for(&c.sources, keys));
     out.push(Source::computed(
         "Screening score calculated from the item responses given",
@@ -828,8 +830,8 @@ pub fn score_mental_health_screen(
     let scored = score(inst, &args.responses, opts)?;
     let alerts = alerts_out(&scored.alert_ids);
     let resources = cite_all(&c.sources, &c.resources_for_all);
-    let max_score = (inst.response != ResponseKind::YesNo)
-        .then(|| inst.item_max * inst.item_count as i32);
+    let max_score =
+        (inst.response != ResponseKind::YesNo).then(|| inst.item_max * inst.item_count as i32);
 
     // ---- next steps
     let mut next_steps = Vec::new();
@@ -849,7 +851,10 @@ pub fn score_mental_health_screen(
         _ => {}
     }
     if matches!(inst.id.as_str(), "phq9" | "gad7" | "epds") && scored.alert_ids.is_empty() {
-        next_steps.push("Rescreen at the interval your program uses; scores can be tracked over time.".to_string());
+        next_steps.push(
+            "Rescreen at the interval your program uses; scores can be tracked over time."
+                .to_string(),
+        );
     }
     if !alerts.is_empty() {
         next_steps.insert(
@@ -912,12 +917,19 @@ pub fn score_mental_health_screen(
                     .filter(|_| inst.response != ResponseKind::YesNo)
                     .map(|v| v.to_string())
                     .unwrap_or_default(),
-                if i.safety_flag { "⚠".into() } else { String::new() },
+                if i.safety_flag {
+                    "⚠".into()
+                } else {
+                    String::new()
+                },
             ]
         })
         .collect();
     s.push('\n');
-    s.push_str(&md::table(&["Item", "Topic", "Answer", "Score", "Flag"], &rows));
+    s.push_str(&md::table(
+        &["Item", "Topic", "Answer", "Score", "Flag"],
+        &rows,
+    ));
     for n in &scored.notes {
         s.push_str(&format!("\n- {n}"));
     }
@@ -944,7 +956,11 @@ pub fn score_mental_health_screen(
     s.push_str(&format!(
         "\n_License: {} Item wording {}bundled._\n\n_{}_\n",
         inst.license.terms.trim(),
-        if inst.license.wording_bundled { "" } else { "not " },
+        if inst.license.wording_bundled {
+            ""
+        } else {
+            "not "
+        },
         c.not_a_diagnosis.trim()
     ));
 
@@ -970,7 +986,10 @@ pub fn score_mental_health_screen(
         "Only item answers were used; no names or identifiers are needed or kept.".to_string(),
     ];
     if let Some(d) = args.difficulty.as_deref().filter(|d| !d.trim().is_empty()) {
-        privacy_notes.push(format!("Functional difficulty recorded as given: {}.", md::cell(d.trim())));
+        privacy_notes.push(format!(
+            "Functional difficulty recorded as given: {}.",
+            md::cell(d.trim())
+        ));
     }
     let interpretation_citation = c10::citation(&c.sources, &inst.positive_source, &inst.section);
     Ok(Envelope::new(
@@ -1054,9 +1073,10 @@ fn catalog() -> Envelope<ScreenResult> {
         &rows,
     ));
     s.push_str(&format!("\n_{}_\n", c.not_a_diagnosis.trim()));
-    let mut sources = vec![c10::content_source(MH_SCREENING).unwrap_or_else(|_| {
-        Source::computed("Mental health screening content", "PHN MCP server")
-    })];
+    let mut sources =
+        vec![c10::content_source(MH_SCREENING).unwrap_or_else(|_| {
+            Source::computed("Mental health screening content", "PHN MCP server")
+        })];
     sources.extend(c10::sources_for(
         &c.sources,
         c.instruments.iter().map(|i| i.source.as_str()),
@@ -1107,9 +1127,9 @@ fn item_column(headers: &[String], inst: &Instrument, n: u32) -> Option<usize> {
     ];
     headers.iter().position(|h| {
         let hn = phn_core::text::normalize(h);
-        candidates
-            .iter()
-            .any(|c| phn_core::text::normalize(c) == hn || c.replace('_', "") == hn.replace(' ', ""))
+        candidates.iter().any(|c| {
+            phn_core::text::normalize(c) == hn || c.replace('_', "") == hn.replace(' ', "")
+        })
     })
 }
 
@@ -1133,7 +1153,9 @@ fn batch(
             id = inst.id
         )));
     }
-    let age_col = table.column_index("age").or_else(|| table.column_index("age_years"));
+    let age_col = table
+        .column_index("age")
+        .or_else(|| table.column_index("age_years"));
     let ref_col = table.column_index("refused");
     let recent_col = table
         .column_index("behavior_past_3_months")
@@ -1159,13 +1181,22 @@ fn batch(
             })
             .collect();
         let mut o = opts;
-        if let Some(a) = age_col.and_then(|i| row.get(i)).and_then(|v| v.trim().parse::<u32>().ok()) {
+        if let Some(a) = age_col
+            .and_then(|i| row.get(i))
+            .and_then(|v| v.trim().parse::<u32>().ok())
+        {
             o.age_years = Some(a);
         }
-        if let Some(r) = ref_col.and_then(|i| row.get(i)).and_then(|v| crate::localdata::truthy(v)) {
+        if let Some(r) = ref_col
+            .and_then(|i| row.get(i))
+            .and_then(|v| crate::localdata::truthy(v))
+        {
             o.refused = r;
         }
-        if let Some(r) = recent_col.and_then(|i| row.get(i)).and_then(|v| crate::localdata::truthy(v)) {
+        if let Some(r) = recent_col
+            .and_then(|i| row.get(i))
+            .and_then(|v| crate::localdata::truthy(v))
+        {
             o.cssrs_behavior_past_3_months = Some(r);
         }
         let row_no = (ri + 2).to_string(); // header is row 1
@@ -1347,9 +1378,7 @@ fn batch(
         suppression_threshold: Some(threshold),
         identifiers_detected: lt.identifier_categories(),
         files_written: vec![out_display],
-        notes: vec![
-            "Only counts are returned; row-level results are in the output file.".into(),
-        ],
+        notes: vec!["Only counts are returned; row-level results are in the output file.".into()],
     })
     .decision_support())
 }
@@ -1406,7 +1435,12 @@ mod tests {
 
     #[test]
     fn phq9_item9_alert_is_independent_of_total() {
-        let s = score(inst("phq9"), &n(&[0, 0, 0, 0, 0, 0, 0, 0, 1]), ScoreOptions::default()).unwrap();
+        let s = score(
+            inst("phq9"),
+            &n(&[0, 0, 0, 0, 0, 0, 0, 0, 1]),
+            ScoreOptions::default(),
+        )
+        .unwrap();
         assert_eq!(s.total_score, Some(1));
         assert_eq!(s.outcome, ScreenOutcome::Negative);
         assert_eq!(s.alert_ids, vec!["suicide_item_positive"]);
@@ -1431,7 +1465,14 @@ mod tests {
 
     #[test]
     fn out_of_range_and_extra_items_are_errors() {
-        assert!(score(inst("gad7"), &n(&[0, 1, 4, 0, 0, 0, 0]), ScoreOptions::default()).is_err());
+        assert!(
+            score(
+                inst("gad7"),
+                &n(&[0, 1, 4, 0, 0, 0, 0]),
+                ScoreOptions::default()
+            )
+            .is_err()
+        );
         assert!(score(inst("phq2"), &n(&[0, 1, 1]), ScoreOptions::default()).is_err());
         let e = score(
             inst("asq"),
@@ -1445,34 +1486,102 @@ mod tests {
 
     #[test]
     fn asq_and_cssrs_branches() {
-        let o = |r: &[Option<bool>], opts: ScoreOptions| score(inst("asq"), &yn(r), opts).unwrap().outcome;
+        let o = |r: &[Option<bool>], opts: ScoreOptions| {
+            score(inst("asq"), &yn(r), opts).unwrap().outcome
+        };
         let d = ScoreOptions::default();
         assert_eq!(o(&[Some(false); 4], d), ScreenOutcome::Negative);
-        assert_eq!(o(&[Some(true), Some(false), Some(false), Some(false), Some(false)], d), ScreenOutcome::NonAcutePositive);
-        assert_eq!(o(&[Some(false), Some(false), Some(true), Some(false), Some(true)], d), ScreenOutcome::AcutePositive);
-        assert_eq!(o(&[Some(true), Some(false), Some(false), Some(false)], d), ScreenOutcome::PositiveAcuityUnknown);
-        let refused_adult = ScoreOptions { refused: true, age_years: Some(40), ..d };
+        assert_eq!(
+            o(
+                &[
+                    Some(true),
+                    Some(false),
+                    Some(false),
+                    Some(false),
+                    Some(false)
+                ],
+                d
+            ),
+            ScreenOutcome::NonAcutePositive
+        );
+        assert_eq!(
+            o(
+                &[
+                    Some(false),
+                    Some(false),
+                    Some(true),
+                    Some(false),
+                    Some(true)
+                ],
+                d
+            ),
+            ScreenOutcome::AcutePositive
+        );
+        assert_eq!(
+            o(&[Some(true), Some(false), Some(false), Some(false)], d),
+            ScreenOutcome::PositiveAcuityUnknown
+        );
+        let refused_adult = ScoreOptions {
+            refused: true,
+            age_years: Some(40),
+            ..d
+        };
         let r = score(inst("asq"), &[], refused_adult).unwrap();
         assert_eq!(r.outcome, ScreenOutcome::Incomplete);
         assert!(r.alert_ids.is_empty());
-        let refused_youth = ScoreOptions { refused: true, age_years: Some(14), ..d };
-        assert_eq!(score(inst("asq"), &[], refused_youth).unwrap().outcome, ScreenOutcome::NonAcutePositive);
+        let refused_youth = ScoreOptions {
+            refused: true,
+            age_years: Some(14),
+            ..d
+        };
+        assert_eq!(
+            score(inst("asq"), &[], refused_youth).unwrap().outcome,
+            ScreenOutcome::NonAcutePositive
+        );
 
         let c = |r: &[Option<bool>], recent: Option<bool>| {
-            score(inst("cssrs_screener"), &yn(r), ScoreOptions { cssrs_behavior_past_3_months: recent, ..d })
-                .unwrap()
-                .outcome
+            score(
+                inst("cssrs_screener"),
+                &yn(r),
+                ScoreOptions {
+                    cssrs_behavior_past_3_months: recent,
+                    ..d
+                },
+            )
+            .unwrap()
+            .outcome
         };
         let no = Some(false);
         let yes = Some(true);
-        assert_eq!(c(&[no, no, None, None, None, no], None), ScreenOutcome::NoRisk);
-        assert_eq!(c(&[yes, no, None, None, None, no], None), ScreenOutcome::LowRisk);
-        assert_eq!(c(&[yes, yes, yes, no, no, no], None), ScreenOutcome::ModerateRisk);
-        assert_eq!(c(&[yes, yes, no, yes, no, no], None), ScreenOutcome::HighRisk);
-        assert_eq!(c(&[no, no, None, None, None, yes], Some(false)), ScreenOutcome::ModerateRisk);
-        assert_eq!(c(&[no, no, None, None, None, yes], Some(true)), ScreenOutcome::HighRisk);
+        assert_eq!(
+            c(&[no, no, None, None, None, no], None),
+            ScreenOutcome::NoRisk
+        );
+        assert_eq!(
+            c(&[yes, no, None, None, None, no], None),
+            ScreenOutcome::LowRisk
+        );
+        assert_eq!(
+            c(&[yes, yes, yes, no, no, no], None),
+            ScreenOutcome::ModerateRisk
+        );
+        assert_eq!(
+            c(&[yes, yes, no, yes, no, no], None),
+            ScreenOutcome::HighRisk
+        );
+        assert_eq!(
+            c(&[no, no, None, None, None, yes], Some(false)),
+            ScreenOutcome::ModerateRisk
+        );
+        assert_eq!(
+            c(&[no, no, None, None, None, yes], Some(true)),
+            ScreenOutcome::HighRisk
+        );
         // Unknown timing is treated as recent.
-        assert_eq!(c(&[no, no, None, None, None, yes], None), ScreenOutcome::HighRisk);
+        assert_eq!(
+            c(&[no, no, None, None, None, yes], None),
+            ScreenOutcome::HighRisk
+        );
         assert_eq!(c(&[no, no], None), ScreenOutcome::Incomplete);
     }
 }
