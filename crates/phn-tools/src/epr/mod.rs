@@ -1,6 +1,6 @@
 //! Emergency preparedness tools (toolset `epr`).
 //!
-//! Phase 12: EPR-02 to EPR-06, EPR-11.
+//! Phase 12: EPR-02 to EPR-06, EPR-11. Phase 13: EPR-01, EPR-07 to EPR-10.
 
 // Phase 12 modules go below this line.
 pub mod alerts;
@@ -22,3 +22,18 @@ pub use hva::{HazardScoreInput, HvaArgs, HvaResult, hazard_vulnerability_assessm
 pub use power::{ElectricityArgs, ElectricityResult, get_electricity_dependent_population};
 pub use shelter::{ShelterArgs, ShelterResult, functional_needs_shelter_intake};
 // End of Phase 12 modules.
+
+// Phase 13 shared modules.
+pub mod roster;
+
+// Phase 13 EPR-01 (ICS) modules go below this line.
+// End of Phase 13 EPR-01 modules.
+
+// Phase 13 EPR-07 (COOP) modules go below this line.
+// End of Phase 13 EPR-07 modules.
+
+// Phase 13 EPR-08/EPR-09 (HSEEP) modules go below this line.
+// End of Phase 13 EPR-08/EPR-09 modules.
+
+// Phase 13 EPR-10 (CERC) modules go below this line.
+// End of Phase 13 EPR-10 modules.

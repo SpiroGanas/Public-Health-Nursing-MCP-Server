@@ -3065,6 +3065,17 @@ const toolChapters = [
           'Results with fewer than 5 answers are not shown, as the toolkit advises.',
         ],
       },
+      // Phase 13 EPR-01 (ICS) entries go below this line.
+      // End of Phase 13 EPR-01 entries.
+
+      // Phase 13 EPR-07 (COOP) entries go below this line.
+      // End of Phase 13 EPR-07 entries.
+
+      // Phase 13 EPR-08/EPR-09 (HSEEP) entries go below this line.
+      // End of Phase 13 EPR-08/EPR-09 entries.
+
+      // Phase 13 EPR-10 (CERC) entries go below this line.
+      // End of Phase 13 EPR-10 entries.
       {
         id: 'air_quality_protective_guidance',
         title: 'Check air quality and protective actions',

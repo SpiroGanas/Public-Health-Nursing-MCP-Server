@@ -182,6 +182,18 @@ output folder instead of being sent to the AI model.
 | `plan_casper_assessment` | EPR-11 | epr | CDC CASPER cluster sample of census blocks, team materials, and weighted analysis with confidence intervals. |
 <!-- Phase 12 rows go above this line. -->
 
+### Phase 13: emergency preparedness II: ICS, plans, and exercises
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 13 EPR-01 (ICS) rows go above this line. -->
+
+<!-- Phase 13 EPR-07 (COOP) rows go above this line. -->
+
+<!-- Phase 13 EPR-08/EPR-09 (HSEEP) rows go above this line. -->
+
+<!-- Phase 13 EPR-10 (CERC) rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.

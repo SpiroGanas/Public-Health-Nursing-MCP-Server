@@ -8243,6 +8243,366 @@
    "kind": "phone",
    "file": "data/postvention_details.csv",
    "column": "Spokesperson Phone"
+  },
+  {
+   "value": "Peregrine Ashdown-Vell",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0110",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0130",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "peregrine.ashdownvell@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Ashdown-Vell",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Thessaly Brightwater",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0111",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0131",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "thessaly.brightwater@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Brightwater",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Cassius Oakenfold",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0112",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0132",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "cassius.oakenfold@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Oakenfold",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Marigold Fenwhistle",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0113",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0133",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "marigold.fenwhistle@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Fenwhistle",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Lysander Quillby",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0114",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0134",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "lysander.quillby@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Quillby",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Ophelia Thistlewick",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0115",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0135",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "ophelia.thistlewick@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Thistlewick",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Barnaby Cresswold",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0116",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0136",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "barnaby.cresswold@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Cresswold",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Wilhelmina Starbrook",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0117",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0137",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "wilhelmina.starbrook@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Starbrook",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Ignatius Hollowmere",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0118",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0138",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "ignatius.hollowmere@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Hollowmere",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Rosalind Pembertine",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0119",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0139",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "rosalind.pembertine@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Pembertine",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Evander Larkspurr",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0120",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0140",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "evander.larkspurr@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Larkspurr",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Clementine Ravensworth",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
+  },
+  {
+   "value": "781-555-0121",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Work Phone"
+  },
+  {
+   "value": "781-555-0141",
+   "kind": "phone",
+   "file": "data/staff_roster.csv",
+   "column": "Cell Phone"
+  },
+  {
+   "value": "clementine.ravensworth@example.org",
+   "kind": "email",
+   "file": "data/staff_roster.csv",
+   "column": "Email"
+  },
+  {
+   "value": "Ravensworth",
+   "kind": "name",
+   "file": "data/staff_roster.csv",
+   "column": "Name"
   }
  ]
 }

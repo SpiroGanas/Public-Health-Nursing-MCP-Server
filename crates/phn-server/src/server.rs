@@ -95,6 +95,10 @@ impl PhnServer {
         tool_router.merge(Self::phase10_router());
         tool_router.merge(Self::phase11_router());
         tool_router.merge(Self::phase12_router());
+        tool_router.merge(Self::phase13_ics_router());
+        tool_router.merge(Self::phase13_coop_router());
+        tool_router.merge(Self::phase13_hseep_router());
+        tool_router.merge(Self::phase13_cerc_router());
         Self { ctx, tool_router }
     }
 

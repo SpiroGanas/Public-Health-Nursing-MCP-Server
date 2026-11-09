@@ -2139,3 +2139,21 @@ completion rates, the 80% completion rule (otherwise unweighted), and no estimat
 under 5.
 
 <!-- End of Phase 12 tools. -->
+
+## Phase 13: Emergency preparedness II: ICS, plans, and exercises
+
+Staff names and positions may be passed in a request; phone numbers, email addresses, and radio
+call signs come only from a roster file in `/data` (`roster_path`) and go only into documents
+written to `/data/output` (product-owner decision, Phase 13).
+
+<!-- Phase 13 EPR-01 (ICS) sections go below this line. -->
+<!-- End of Phase 13 EPR-01 sections. -->
+
+<!-- Phase 13 EPR-07 (COOP) sections go below this line. -->
+<!-- End of Phase 13 EPR-07 sections. -->
+
+<!-- Phase 13 EPR-08/EPR-09 (HSEEP) sections go below this line. -->
+<!-- End of Phase 13 EPR-08/EPR-09 sections. -->
+
+<!-- Phase 13 EPR-10 (CERC) sections go below this line. -->
+<!-- End of Phase 13 EPR-10 sections. -->

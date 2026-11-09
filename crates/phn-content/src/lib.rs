@@ -468,6 +468,8 @@ pub const ITEMS: &[ContentItem] = &[
         schema: include_str!("../../../content/schemas/epr_casper.schema.json"),
     },
     // End of Phase 12 content items.
+    // Phase 13 content items go below this line (EPR-01, EPR-07, EPR-08/09, EPR-10).
+    // End of Phase 13 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).

@@ -8,6 +8,7 @@ use phn_core::Toolset;
 mod phase10;
 mod phase11;
 mod phase12;
+mod phase13;
 mod phase2;
 mod phase3;
 mod phase4;
@@ -116,6 +117,10 @@ const PHASES: &[&[ToolMeta]] = &[
     phase10::TOOLS,
     phase11::TOOLS,
     phase12::TOOLS,
+    phase13::ICS,
+    phase13::COOP,
+    phase13::HSEEP,
+    phase13::CERC,
 ];
 
 /// Every implemented tool, in phase order.
