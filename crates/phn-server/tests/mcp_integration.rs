@@ -595,6 +595,63 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 8 data tools go below this line.
         // ---- End of Phase 8 data tools.
         // ---- Phase 9 data tools go below this line.
+        (
+            "plan_tb_contact_investigation",
+            json!({"index_case": {"symptomatic": true, "afb_smear_positive": true, "symptom_onset_date": "2026-06-01"},
+                   "contact_file": "tb_contacts.csv", "listed_date": "2026-08-07"}),
+            "data/tb_contacts.csv",
+        ),
+        (
+            "plan_tb_contact_investigation",
+            json!({"index_case": {"symptomatic": true, "afb_smear_positive": true, "symptom_onset_date": "2026-06-01"},
+                   "contact_file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "hrsn_screenings.csv", "group_by": "Site"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "hrsn_screenings.csv", "group_by": "Client Name"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "omaha_system_coder",
+            json!({"path": "client_note.txt", "write_care_plan": true}),
+            "data/client_note.txt",
+        ),
+        (
+            "nursing_documentation_template",
+            json!({"check_path": "client_note.txt", "visit_type": "home_visit"}),
+            "data/client_note.txt",
+        ),
+        (
+            "classify_intervention_wheel",
+            json!({"path": "line_list.csv", "activity_column": "Notes", "group_by": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "classify_intervention_wheel",
+            json!({"path": "line_list.csv", "activity_column": "Notes", "group_by": "Last Name"}),
+            ll,
+        ),
+        (
+            "find_community_resources",
+            json!({"directory_path": "line_list.csv", "town": "Amherst"}),
+            ll,
+        ),
+        (
+            "find_community_resources",
+            json!({"directory_path": "tb_contacts.csv", "town": "Amherst"}),
+            "data/tb_contacts.csv",
+        ),
         // ---- End of Phase 9 data tools.
         // ---- Phase 10 data tools go below this line.
         // ---- End of Phase 10 data tools.

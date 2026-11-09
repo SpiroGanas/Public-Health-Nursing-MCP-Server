@@ -1,0 +1,13 @@
+Contact ID,First Name,Last Name,Phone,Age,Household,Setting,Medical Risk,Last Exposure,Test1 Result,Test2 Result
+TBC-7100,Ysolde,Quillfeather,413-555-0120,34,Y,household,N,2026-08-01,positive,
+TBC-7101,Thaddeus,Ostrowiak,413-555-0121,61,Y,household,N,2026-08-01,8 mm,
+TBC-7102,Philippa,Vantongeren,413-555-0122,3,Y,household,N,2026-08-01,negative,negative
+TBC-7103,Isadora,Pemberforth,413-555-0123,9,Y,household,N,2026-08-01,negative,positive
+TBC-7104,Leopoldine,Szalinski,413-555-0124,14,N,school,N,2026-08-01,0 mm,negative
+TBC-7105,Casimir,Marrowby,413-555-0125,42,N,workplace,N,2026-08-01,0 mm,negative
+TBC-7106,Ottoline,Fennimore,413-555-0126,27,N,workplace,N,2026-08-01,,
+TBC-7107,Barnaby,Haverbrook,413-555-0127,1,Y,household,N,2026-08-01,negative,positive
+TBC-7108,Wilhelmina,Lindqvist,413-555-0128,55,N,congregate living,N,2026-08-01,negative,negative
+TBC-7109,Evander,Corrigeaux,413-555-0129,38,N,workplace,Y,2026-08-01,8 mm,
+TBC-7110,Seraphine,Abernathy,413-555-0130,12,N,school,N,2026-08-01,positive,
+TBC-7111,Ignatius,Tolliver,413-555-0131,70,N,social,N,2026-08-01,8 mm,
