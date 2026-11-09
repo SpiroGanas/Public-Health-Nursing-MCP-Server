@@ -187,9 +187,9 @@ pub async fn get_electricity_dependent_population(
         match area.level {
             AreaLevel::State => {
                 counties = all_counties.iter().map(|r| out(r, None)).collect();
-                counties.sort_by(|a, b| b.electricity_dependent.cmp(&a.electricity_dependent));
+                counties.sort_by_key(|c| std::cmp::Reverse(c.electricity_dependent));
                 let mut z: Vec<&EmpowerRow> = zips_f.rows.iter().collect();
-                z.sort_by(|a, b| b.electricity_dependent.cmp(&a.electricity_dependent));
+                z.sort_by_key(|r| std::cmp::Reverse(r.electricity_dependent));
                 zips = z.into_iter().take(20).map(|r| out(r, None)).collect();
                 (
                     ma_dme,
@@ -211,7 +211,7 @@ pub async fn get_electricity_dependent_population(
                     .filter(|r| r.county.as_deref() == Some(cty.as_str()))
                     .map(|r| out(r, None))
                     .collect();
-                zips.sort_by(|a, b| b.electricity_dependent.cmp(&a.electricity_dependent));
+                zips.sort_by_key(|z| std::cmp::Reverse(z.electricity_dependent));
                 let c0 = counties.first();
                 (
                     c0.map(|c| c.electricity_dependent as f64).unwrap_or(0.0),

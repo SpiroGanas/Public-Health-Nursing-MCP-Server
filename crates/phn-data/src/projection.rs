@@ -121,7 +121,7 @@ pub fn distance_km(a: (f64, f64), b: (f64, f64)) -> f64 {
     let (la2, lo2) = (b.0.to_radians(), b.1.to_radians());
     let h = ((la2 - la1) / 2.0).sin().powi(2)
         + la1.cos() * la2.cos() * ((lo2 - lo1) / 2.0).sin().powi(2);
-    2.0 * 6_371.0088 * h.sqrt().asin()
+    2.0 * 6_371.008_8 * h.sqrt().asin()
 }
 
 #[cfg(test)]

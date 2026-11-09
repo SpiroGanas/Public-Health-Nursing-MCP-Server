@@ -168,13 +168,11 @@ fn find_hazard<'a>(c: &'a Hva, q: &str) -> Option<&'a HvaHazard> {
         })
 }
 
+/// NRI values by prefix, columns found, the file's citation, and caveats.
+type NriRead = (BTreeMap<String, NriValue>, Vec<String>, Source, Vec<String>);
+
 /// Read the county (or the area's tracts, averaged) from an NRI table.
-fn read_nri(
-    ctx: &Context,
-    c: &Hva,
-    path: &str,
-    area: &Area,
-) -> Result<(BTreeMap<String, NriValue>, Vec<String>, Source, Vec<String>)> {
+fn read_nri(ctx: &Context, c: &Hva, path: &str, area: &Area) -> Result<NriRead> {
     let lt = crate::localdata::load(ctx, path, None)?;
     let t = &lt.table;
     let up: Vec<String> = t

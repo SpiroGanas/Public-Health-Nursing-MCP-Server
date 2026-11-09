@@ -189,13 +189,15 @@ pub struct EmpowerFetch {
     pub fallback_reason: Option<String>,
 }
 
+type Parser = fn(&[u8]) -> Result<Vec<EmpowerRow>>;
+
 async fn fetch_level(
     http: &HttpClient,
     cache: Option<&Cache>,
     store: &SnapshotStore,
     level: EmpowerLevel,
 ) -> Result<EmpowerFetch> {
-    let (url, parse): (&str, fn(&[u8]) -> Result<Vec<EmpowerRow>>) = match level {
+    let (url, parse): (&str, Parser) = match level {
         EmpowerLevel::Zip => (ZIPS_URL, parse_zips),
         _ => (COUNTIES_URL, parse_counties),
     };
