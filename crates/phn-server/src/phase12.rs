@@ -2,7 +2,9 @@
 
 use phn_core::Envelope;
 use phn_tools::env::{AirQualityArgs, AirQualityResult, HeatPlanArgs, HeatPlanResult};
-use phn_tools::epr::{DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult};
+use phn_tools::epr::{
+    DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult, HvaArgs, HvaResult,
+};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -118,5 +120,32 @@ impl PhnServer {
         Parameters(args): Parameters<HeatPlanArgs>,
     ) -> CallToolResult {
         respond(phn_tools::env::heat_health_action_planner(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "hazard_vulnerability_assessment",
+        description = "Facilitate a hazard vulnerability assessment (HVA) for a Massachusetts \
+            town or county: 21 hazards (the 15 in the 2023 ResilientMass Plan plus pandemic, \
+            power outage, water, hazmat, mass casualty, and cyber) with seeds for discussion \
+            (ResilientMass statewide likelihood, human consequence, and warning time; FEMA \
+            declarations for the county since 1953; FEMA National Risk Index scores from a table \
+            you put in /data). Give the group's scores (probability 0-3; impacts on people, \
+            property, operations 0-3; preparedness, internal and external response gaps 1-3) to \
+            get severity, relative risk (0-100%), and a ranking. Writes an XLSX facilitation \
+            workbook with the scales to /data/output.",
+        annotations(
+            title = "Hazard vulnerability assessment",
+            read_only_hint = false,
+            destructive_hint = false,
+            idempotent_hint = false,
+            open_world_hint = true
+        ),
+        output_schema = schema_for_output::<Envelope<HvaResult>>()
+    )]
+    async fn hazard_vulnerability_assessment(
+        &self,
+        Parameters(args): Parameters<HvaArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::epr::hazard_vulnerability_assessment(&self.ctx, args).await)
     }
 }

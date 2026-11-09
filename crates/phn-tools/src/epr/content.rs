@@ -450,6 +450,93 @@ pub struct Heat {
     pub links: Vec<LinkDef>,
 }
 
+// ---------------------------------------------------------------- HVA (EPR-06)
+
+/// The HVA method.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HvaMethod {
+    pub summary: String,
+    pub formula: String,
+    pub basis: String,
+    pub note: String,
+    pub phep_link: Cited,
+}
+
+/// One point on a scale.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct ScalePoint {
+    pub score: u8,
+    pub label: String,
+    pub description: String,
+}
+
+/// Seed mappings.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SeedMapping {
+    pub likelihood: BTreeMap<String, u8>,
+    pub human_consequence: BTreeMap<String, u8>,
+    pub note: String,
+}
+
+/// HVA scales.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HvaScales {
+    pub probability: Vec<ScalePoint>,
+    pub impact: Vec<ScalePoint>,
+    pub preparedness_gap: Vec<ScalePoint>,
+    pub seed_mapping: SeedMapping,
+}
+
+/// ResilientMass statewide ratings.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct ResilientMassRatings {
+    pub likelihood: String,
+    pub human: String,
+    pub economic: String,
+    pub environment: String,
+    pub warning: String,
+    pub impact_scale: String,
+}
+
+/// A hazard in the HVA list.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HvaHazard {
+    pub id: String,
+    pub label: String,
+    pub category: String,
+    #[serde(default)]
+    pub resilientmass: Option<ResilientMassRatings>,
+    pub fema_incident_types: Vec<String>,
+    pub nws_hazards: Vec<String>,
+    pub nri_prefixes: Vec<String>,
+}
+
+/// Expected NRI columns.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct NriColumns {
+    pub county_id_columns: Vec<String>,
+    pub tract_id_columns: Vec<String>,
+    pub overall_score: String,
+    pub overall_rating: String,
+    pub hazard_score_suffix: String,
+    pub hazard_rating_suffix: String,
+    pub hazard_frequency_suffix: String,
+    pub note: String,
+}
+
+/// `content/epr/hva.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Hva {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub method: HvaMethod,
+    pub scales: HvaScales,
+    pub hazards: Vec<HvaHazard>,
+    pub hazard_source: String,
+    pub hazard_section: String,
+    pub nri: NriColumns,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

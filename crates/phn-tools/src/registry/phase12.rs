@@ -29,4 +29,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Env,
         phase: 12,
     },
+    ToolMeta {
+        name: "hazard_vulnerability_assessment",
+        plan_id: "EPR-06",
+        toolset: Toolset::Epr,
+        phase: 12,
+    },
 ];
