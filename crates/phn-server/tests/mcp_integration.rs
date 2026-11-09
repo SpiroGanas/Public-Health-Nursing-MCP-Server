@@ -837,6 +837,39 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 13 EPR-07 (COOP) data tools go below this line.
         // ---- End of Phase 13 EPR-07 data tools.
         // ---- Phase 13 EPR-08/EPR-09 (HSEEP) data tools go below this line.
+        // EPR-08 with a staff roster: contacts go only into the exercise documents.
+        (
+            "design_hseep_exercise",
+            json!({"scenario": "measles_outbreak", "area": "Amherst", "roster_path": "staff_roster.csv",
+                   "participants": [{"role": "Incident Commander"}, {"role": "Public Information Officer"},
+                                    {"role": "Medical Unit Leader", "exercise_role": "evaluator"}],
+                   "point_of_contact": {"role": "Incident Commander"}}),
+            "data/staff_roster.csv",
+        ),
+        // EPR-09 feedback forms: aggregates only; names, emails, and comments stay in the file.
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "objectives": [{"text": "Discuss notification within 2 hours per the plan.", "capabilities": ["4"]}],
+                   "observations": [{"kind": "strength", "capability": "4", "statement": "Messages were approved quickly."}],
+                   "feedback_path": "exercise_feedback.csv", "roster_path": "staff_roster.csv",
+                   "point_of_contact": {"position": "Incident Commander"}, "documents": "none"}),
+            "data/exercise_feedback.csv",
+        ),
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "objectives": [{"text": "Discuss notification within 2 hours per the plan.", "capabilities": ["4"]}],
+                   "corrective_actions": [{"action": "Update the call-down list for all 12 staff", "poc_position": "Public Information Officer"}],
+                   "observations": [{"kind": "area_for_improvement", "capability": "4", "statement": "The call-down list was out of date."}],
+                   "roster_path": "staff_roster.csv", "point_of_contact": {"position": "Incident Commander"}}),
+            "data/staff_roster.csv",
+        ),
+        // An identifiable line list given as feedback forms is never echoed.
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "observations": [{"kind": "strength", "capability": "13", "statement": "Good teamwork."}],
+                   "feedback_path": "line_list.csv", "documents": "none"}),
+            ll,
+        ),
         // ---- End of Phase 13 EPR-08/EPR-09 data tools.
         // ---- Phase 13 EPR-10 (CERC) data tools go below this line.
         // ---- End of Phase 13 EPR-10 data tools.

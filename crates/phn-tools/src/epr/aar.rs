@@ -471,8 +471,24 @@ fn summarize_feedback(
         if used.contains(&i) || ident.contains(&i) {
             continue;
         }
+        let lower = h.to_lowercase();
+        let free_text = [
+            "comment",
+            "recommend",
+            "suggest",
+            "how ",
+            "what ",
+            "which ",
+            "other",
+            "feedback",
+            "note",
+            "improve",
+            "?",
+        ]
+        .iter()
+        .any(|c| lower.contains(c));
         let present: Vec<&str> = t.column(i).filter(|c| !phi::is_missing(c)).collect();
-        if present.is_empty() || numeric_share(i) >= 0.6 {
+        if !free_text || present.is_empty() || numeric_share(i) >= 0.6 {
             continue;
         }
         comment_columns.push(h.clone());
