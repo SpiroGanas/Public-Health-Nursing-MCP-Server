@@ -90,18 +90,18 @@ const frontChapters = [
                 ['School health (chapter 11)', 'Screening requirements and tracking with referral letters; medication administration rules; individualized health plans; concussion return to learn; illness absenteeism; the year-end report; child care health consultation.', '8'],
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps; maternal and infant health profiles.', '8'],
+                ['Maternal, child, and family health (chapter 12)', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps; maternal and infant health profiles.', '8'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 ['Public health nursing practice (chapter 13)', 'Plan TB contact investigations and latent TB treatment; screen for social needs and find community resources; navigate newcomer health and coverage; code notes with the Omaha System and the Intervention Wheel; use documentation templates.', '8'],
                 // End of Phase 9 work-area rows.
                 // Phase 10 work-area rows go below this line.
-                ['Healthy aging and mental health screening', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
+                ['Healthy aging and mental health screening (chapter 14)', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
-                ['Emergency preparedness and environmental health (chapter 11)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
+                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
                 // End of Phase 12 work-area rows.
               ],
             },
