@@ -263,7 +263,7 @@ fn cue_hit(s: &str, cue: &str) -> Option<bool> {
 fn sentences(text: &str) -> Vec<String> {
     text.split(['.', '!', '?', ';', '\n'])
         .map(practice::padded_words)
-        .filter(|s| s.trim().split_whitespace().count() >= 2)
+        .filter(|s| s.split_whitespace().count() >= 2)
         .collect()
 }
 

@@ -201,7 +201,7 @@ fn classify(
         })
         .filter(|(n, _, _)| *n > 0)
         .collect();
-    scored.sort_by(|a, b| b.0.cmp(&a.0));
+    scored.sort_by_key(|a| std::cmp::Reverse(a.0));
     let level = {
         let has = |id: &str| {
             c.levels
@@ -434,6 +434,9 @@ pub fn classify_intervention_wheel(
     }))
 }
 
+/// (group, intervention name, level).
+type AggKey = (String, String, String);
+
 fn batch(
     ctx: &Context,
     args: &WheelArgs,
@@ -564,8 +567,7 @@ fn batch(
     group_names.retain(|g| g != "All");
     group_names.insert(0, "All".into());
     for g in &group_names {
-        let cells: Vec<(&(String, String, String), &(u64, f64))> =
-            agg.iter().filter(|(k, _)| &k.0 == g).collect();
+        let cells: Vec<(&AggKey, &(u64, f64))> = agg.iter().filter(|(k, _)| &k.0 == g).collect();
         let raw: Vec<(String, u64)> = cells
             .iter()
             .map(|(k, v)| (format!("{}|{}", k.1, k.2), v.0))

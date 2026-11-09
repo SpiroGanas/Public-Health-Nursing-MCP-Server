@@ -841,7 +841,7 @@ fn build_workbook(w: &WorkbookSpec<'_>) -> std::result::Result<Vec<u8>, XlsxErro
         row += 1;
     }
     row += 1;
-    ws.write_string_with_format(row, 0, &format!("Priority rules ({})", tree.section), &bold)?;
+    ws.write_string_with_format(row, 0, format!("Priority rules ({})", tree.section), &bold)?;
     ws.write_string_with_format(row, 1, &tree.label, &wrap)?;
     row += 1;
     for rule in &tree.rules {

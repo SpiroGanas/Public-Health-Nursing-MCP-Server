@@ -257,10 +257,7 @@ fn visits(r: &Regimen, start: NaiveDate, end: NaiveDate) -> Vec<Visit> {
         }
     } else {
         let mut m = 0u32;
-        loop {
-            let Some(d) = start.checked_add_months(Months::new(m)) else {
-                break;
-            };
+        while let Some(d) = start.checked_add_months(Months::new(m)) {
             if d > end {
                 break;
             }
