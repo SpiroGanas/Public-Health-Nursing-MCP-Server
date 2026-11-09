@@ -1,0 +1,219 @@
+# CDC CASPER (Community Assessment for Public Health Emergency Response) design, materials, and
+# analysis rules for plan_casper_assessment (EPR-11).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_casper.schema.json
+meta:
+  id: epr-casper
+  title: CASPER design, team materials, and weighted analysis (CDC CASPER Toolkit, 3rd edition)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: "2019"
+  source:
+    title: "Community Assessment for Public Health Emergency Response (CASPER) Toolkit: Third Edition"
+    publisher: Centers for Disease Control and Prevention, National Center for Environmental Health
+    url: https://www.cdc.gov/casper/media/pdfs/CASPER-toolkit-3_508.pdf
+  related_sources:
+    - title: CASPER (CDC topic page)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/casper/index.html
+    - title: 2020 Census Redistricting Data (PL 94-171), Massachusetts
+      publisher: U.S. Census Bureau
+      url: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Design parameters, the stage 1 and stage 2 sampling steps, the weight formula, the 80%
+    completion rule, the 5-observation presentation rule, response-rate formulas, team, supply,
+    headquarters, consent, tracking-form, referral-form, and interview-tip content are transcribed
+    or closely summarized from the CDC CASPER Toolkit, 3rd edition (PDF dated 2020; high
+    confidence). The tracking-form subcategories and the consent script wording are this
+    project's drafts built from the toolkit's elements (medium). The toolkit's appendix templates
+    (preparedness questionnaire, tracking form) are images in the PDF and were not transcribed;
+    their download links are given as printed in the toolkit and were not checked.
+
+sources:
+  casper-toolkit:
+    title: "CASPER Toolkit: Third Edition"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/casper/media/pdfs/CASPER-toolkit-3_508.pdf
+    effective_date: "2019"
+    retrieved: 2026-11-08
+  casper-page:
+    title: CASPER
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/casper/index.html
+    effective_date: null
+    retrieved: 2026-11-08
+  census-pl:
+    title: 2020 Census Redistricting Data (PL 94-171), Massachusetts
+    publisher: U.S. Census Bureau
+    url: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip
+    effective_date: 2021-08-12
+    retrieved: 2026-11-08
+
+design:
+  clusters: 30
+  interviews_per_cluster: 7
+  goal: 210
+  minimum_completion_rate: 0.8
+  minimum_cell_observations: 5
+  stage1:
+    - text: "CASPER uses two-stage cluster sampling: clusters (traditionally 30) are selected with probability proportional to the estimated number of households in them, and interview teams then select seven households in each cluster by systematic random sampling."
+      source: casper-toolkit
+      section: 2.4 First stage of sampling
+      confidence: high
+    - text: "Census blocks are the most commonly used clusters. List every cluster in the sampling frame with its number of households, add a cumulative sum, choose 30 random numbers between 1 and the total households, and select the cluster containing each number. A cluster can be chosen two or three times; teams then complete 14 (or 21) interviews there."
+      source: casper-toolkit
+      section: 2.4 First stage of sampling
+      confidence: high
+    - text: "Choose total or occupied households for the frame using local judgment; where there are many rental units or vacant homes, occupied households are recommended."
+      source: casper-toolkit
+      section: 2.4 First stage of sampling
+      confidence: high
+    - text: "If many blocks have fewer than 10-15 households, teams may not find seven to interview; check the frequency of small blocks first and consider block groups or joining adjacent blocks into larger clusters."
+      source: casper-toolkit
+      section: 2.4.1 Clusters with few households
+      confidence: high
+    - text: "Select clusters without substitution: the clusters originally selected are the clusters assessed. Excluding inaccessible areas from the frame, or selecting more than 30 clusters a priori (for example 35 x 7), is a modified CASPER and must be described as such."
+      source: casper-toolkit
+      section: 2.4.1; 2.5.1 Modification
+      confidence: high
+  stage2:
+    - "Before arriving, choose a random starting point for the first interview using the cluster map."
+    - "Count or estimate the total number of households in the cluster (ideally given on the cluster map)."
+    - "Divide the households by 7; this is your n (any reasonable estimate is fine if kept consistent)."
+    - "Travel through the cluster in a serpentine fashion so every house is passed."
+    - "Select every nth household until seven interviews are complete; if needed go around again, replacing only households that are clearly vacant, refused, or not answered after the third attempt."
+    - "Spread interviews across the cluster; treat apartments as separate households, and start among single-family homes when a cluster mixes them with an apartment complex."
+  stage2_source: casper-toolkit
+  stage2_section: 3.4 Stage II Sampling (steps 1-6)
+
+analysis:
+  weight_formula: "Weight = total households in the sampling frame / (households interviewed in the cluster x clusters selected)"
+  rules:
+    - text: "Every interviewed household in a cluster gets the same weight; if a cluster was selected more than once, divide its completed interviews by the times it was selected. Use 30 clusters selected unless more were chosen a priori."
+      source: casper-toolkit
+      section: 4.2 Weighted analysis
+      confidence: high
+    - text: "Weighted analysis requires at least an 80% completion rate (168 interviews in a 30 x 7 CASPER); otherwise return to the field or present unweighted results."
+      source: casper-toolkit
+      section: 4.2 Weighted analysis; 4.3 Response rates
+      confidence: high
+    - text: "Present weighted frequencies (estimated households), weighted percentages, and 95% confidence intervals; present weighted results only for cells with at least 5 observations. Non-overlapping 95% confidence intervals indicate significantly different estimates; further stratified analysis is likely unstable."
+      source: casper-toolkit
+      section: 4.2 Weighted analysis (Table 2)
+      confidence: high
+    - text: "Weights cannot account for changes in households since the census, so estimates may lack precision, especially after a disaster."
+      source: casper-toolkit
+      section: 4.2 Weighted analysis
+      confidence: high
+  response_rates:
+    - {name: Contact rate, formula: "completed interviews / all households where contact was attempted (completed, incomplete, refusals, non-respondents)"}
+    - {name: Cooperation rate, formula: "completed interviews / all households where contact was made (completed, incomplete, refusals)"}
+    - {name: Completion rate, formula: "completed interviews / interviews intended (usually 210)"}
+  response_source: casper-toolkit
+  response_section: 4.3 Response rates (Figure 8)
+
+consent_elements:
+  source: casper-toolkit
+  section: 2.6.1 Introduction letter and consent
+  items:
+    - An introduction of the interview team members and the agency responsible for the CASPER
+    - An explanation of the purpose of the CASPER and potential benefits to the community
+    - A description of the interview and the amount of time it will take
+    - An explanation that the survey is anonymous and will not be linked to personally identifying information
+    - A statement that taking part is voluntary, with no penalty or loss of benefits, and that the household can stop at any time
+    - Name and phone number or email of the person to contact with questions or to verify the team's identity
+    - A clear request that requires an explicit answer (for example, "Are you willing to participate in this survey?")
+consent_template:
+  - "Hello, my name is [name] and this is [name]. We are with the [agency] Health Department."
+  - "We are talking with households in [area] to learn about [purpose] so the health department can [benefit]."
+  - "The interview takes about [15-20] minutes. We ask about your whole household."
+  - "Your answers are anonymous: we do not write down your name or address on the questionnaire."
+  - "Taking part is voluntary. You can skip any question or stop at any time, and there is no penalty."
+  - "If you have questions or want to check who we are, call [name] at [phone]."
+  - "Are you willing to participate in this survey?"
+consent_template_note: Drafted by this project from the toolkit's consent elements; print on agency letterhead and give a copy to every selected household.
+
+questionnaire:
+  - text: "Ask every question at the household level (for example, 'Have you or any member of your household...'); avoid open-ended questions; use yes/no and multiple-choice items; always offer 'don't know' and 'refused'."
+    source: casper-toolkit
+    section: 2.6.2 Questionnaire
+    confidence: high
+  - text: "Keep the questionnaire to about two printed pages (15-20 minutes); place sensitive questions toward the end; run mock interviews to time it and fix confusing wording."
+    source: casper-toolkit
+    section: 2.6.2 Questionnaire; Appendix L
+    confidence: high
+  - text: "Sample questionnaires (flood, drought, Zika) are in Appendix C, a preparedness template (household plans, emergency supply kits, evacuation, communication, and 'greatest need') in Appendix D; CDC shares more on request (CASPER@cdc.gov)."
+    source: casper-toolkit
+    section: 2.6.2 Questionnaire; Appendices C, D, O
+    confidence: high
+  - text: "A limited number of individual-level questions is acceptable only with a question on the number of adults, random selection of one adult (for example next birthday), and an individual weight; this makes it a modified CASPER."
+    source: casper-toolkit
+    section: 2.5.4 Modification
+    confidence: high
+
+team:
+  - text: "About 20-30 people in 10-15 teams of two is ideal; up to one team per cluster. Mix teams (local and non-local, experienced and new, multilingual) and consider members' mobility and health."
+    source: casper-toolkit
+    section: 3.2 Interview teams and data collection time
+    confidence: high
+  - text: "Hold a 3-5 hour just-in-time training the day before or the morning of fieldwork covering objectives, roles, household selection, the tracking and referral forms, technology, safety (a police briefing can help), and logistics."
+    source: casper-toolkit
+    section: 3.1 Just-in-time training
+    confidence: high
+  - text: "About 15 teams can usually finish in two midweek afternoons (2 pm-7 pm), about 10 hours of field time per team; avoid mornings, holidays, and local events."
+    source: casper-toolkit
+    section: 3.2 Interview teams and data collection time
+    confidence: high
+  - text: "Headquarters should hold 30-40 people and be reserved until at least an hour after teams leave the field; one or two people stay to track teams, handle questions, and start data entry."
+    source: casper-toolkit
+    section: 3.2.2 Headquarters logistics
+    confidence: high
+  - text: "Teams use a confidential referral form (name, address, contact information, summary of need, referral made) for urgent needs when calling 9-1-1 is not appropriate; it is never linked to the questionnaire or tracking form and goes to headquarters immediately."
+    source: casper-toolkit
+    section: 3.7 Confidential referral form; Appendix K
+    confidence: high
+  - text: "Track every sampled household on a tracking form (one per cluster); after data entry and cleaning, destroy tracking forms so addresses cannot be linked to questionnaires."
+    source: casper-toolkit
+    section: 3.5 Tracking form
+    confidence: high
+
+supplies:
+  source: casper-toolkit
+  section: 3.2.1 Interview team supplies
+  items:
+    - Cluster maps
+    - "Questionnaires: eight paper copies per cluster, or one device per team plus paper backups"
+    - At least one tracking form per cluster
+    - About 15 consent forms per cluster
+    - About five referral forms per team
+    - Public health materials for every contacted household (resource lists, carbon monoxide, mold, cleanup, insect repellent, sunscreen)
+    - Bright official shirts, name tags, or health department badges
+    - Cell phones or radios, and helpful phone numbers including headquarters
+    - Pens and clipboards; ideally one vehicle per team
+    - Snacks, water, hand sanitizer, and first aid supplies
+
+interview_tips:
+  source: casper-toolkit
+  section: Appendix J (CASPER Interview Tips)
+  items:
+    - Practice with your partner and memorize your introduction.
+    - Remind respondents that answers are confidential and participation is voluntary; they can stop or skip questions.
+    - Ask questions in the same order with the exact wording; do not rephrase, pre-fill, or finish sentences.
+    - Check the whole questionnaire before leaving, thank the respondent, and leave information and referrals where needed.
+    - Stop an interview whenever the respondent asks or you feel unsafe.
+
+tracking_categories:
+  - {category: Access, outcomes: [Accessible, Inaccessible]}
+  - {category: Dwelling, outcomes: [Single family home, Multi-unit, Mobile home, Other]}
+  - {category: Answer, outcomes: [Door answered, No answer (1st visit), No answer (2nd visit), No answer (3rd visit), Clearly vacant]}
+  - {category: Interview, outcomes: [Completed, Incomplete, Refused, Language barrier, Come back later]}
+tracking_note: The four categories are from the toolkit's sample tracking form (Appendices I and O); the outcomes under each are this project's draft.
+
+team_tracking_columns: [Team name, Team members, Contact numbers, Clusters, Departure, Tablet number, Return, Comments]
+referral_fields: [Date, Time, Cluster number, Interviewer's initials, Name, Address, Home telephone, Cell phone, Email, Summary of need, Referral made (yes/no), Referred to]

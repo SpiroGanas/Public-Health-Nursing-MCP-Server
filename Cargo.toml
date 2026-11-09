@@ -70,6 +70,7 @@ walkdir = "2"
 tempfile = "3"
 jsonschema = { version = "0.60", default-features = false }
 base64 = "0.23"
+png = "0.18"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

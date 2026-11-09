@@ -1145,6 +1145,89 @@
           "rows": 255
         }
       ]
+    },
+    {
+      "id": "fema-declarations-ma",
+      "title": "FEMA disaster declarations for Massachusetts (Disaster Declarations Summaries v2)",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=state%20eq%20%27MA%27&$orderby=declarationDate%20desc,disasterNumber%20desc&$top=5000"
+      ],
+      "source_sha256": {
+        "fema_ma.json": "eecb2255c8f160001da004f4c8feccb2284a16a989e011bfc428935d74841acd"
+      },
+      "source_vintage": "OpenFEMA refresh 2026-11-06 (declarations 1953-06-11 to 2026-06-30)",
+      "retrieved": "2026-11-08",
+      "license": "OpenFEMA data are U.S. federal government works (public domain); FEMA's terms ask users not to imply endorsement.",
+      "derivation": "Every Massachusetts row of DisasterDeclarationsSummaries v2 (one per declaration and designated area), with the declaration and incident dates cut to YYYY-MM-DD and the four program flags (IH, IA, PA, HM) joined with semicolons. Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "Declarations record federal assistance, not every hazard event: many floods, heat waves, and storms never reach a declaration. Use the counts as a lower bound on how often a hazard has caused serious damage."
+      ],
+      "files": [
+        {
+          "path": "fema_declarations_ma.csv",
+          "sha256": "8a2bd70c3f92e774b71979a59053b646ebc15815fb2cb99eaa75b9315d21c2a2",
+          "bytes": 52492,
+          "rows": 415
+        }
+      ]
+    },
+    {
+      "id": "hhs-empower-ma",
+      "title": "HHS emPOWER Map: Medicare beneficiaries who rely on electricity-dependent medical equipment, Massachusetts counties and ZIP codes",
+      "publisher": "U.S. Department of Health and Human Services, Administration for Strategic Preparedness and Response (ASPR), with CMS",
+      "source_urls": [
+        "https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/counties.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/zipcodes.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/states.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/national.json"
+      ],
+      "source_sha256": {
+        "empower_counties.json": "bb7da171456c77715d55911e96df835f0e6b3639958997ed8e58279a9b05c50e",
+        "empower_zips.json": "1493d6db3dea4ccf7041a45f100bf7060e14de78593f58339bc4e524e7e2378b"
+      },
+      "source_vintage": "monthly emPOWER Map data as served on 2026-11-08 (the API does not state the data month)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain); de-identified under the CMS cell-size suppression policy.",
+      "derivation": "The emPOWER Map's JSON endpoints for the nation, Massachusetts, its 14 counties, and its ZIP codes (geometry dropped). Columns: level, GEOID or ZIP, name, county, Medicare beneficiaries, and beneficiaries with claims for electricity-dependent durable medical equipment (DME ALL). Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "HHS reports small values (1 to 11) as 11 to comply with the CMS cell-size suppression policy, so a ZIP code showing 11 may have fewer; sums across ZIP codes overstate the total slightly.",
+        "Counts cover Medicare fee-for-service and Medicare Advantage beneficiaries only; people with Medicaid only, private insurance, or no claims are not counted."
+      ],
+      "files": [
+        {
+          "path": "empower_ma.csv",
+          "sha256": "2bec50fb3e70be967b541fac96b9332c4bf0fa9ad4e2a0eecf1497e3fd8d4f36",
+          "bytes": 17618,
+          "rows": 526
+        }
+      ]
+    },
+    {
+      "id": "census-pl2020-blocks-ma",
+      "title": "2020 Census housing units by census block, Massachusetts (Redistricting Data, PL 94-171)",
+      "publisher": "U.S. Census Bureau",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip"
+      ],
+      "source_sha256": {
+        "ma2020.pl.zip": "9857362fbc1162d3943685134a77a91542a70eb667f3477559d07fd0a81e4889"
+      },
+      "source_vintage": "2020 Census (April 1, 2020); PL 94-171 file released 2021-08-12",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Every 2020 census block in Massachusetts with at least one housing unit (88,246 blocks, 2,998,537 housing units): county, county subdivision (city or town), tract, block, total housing units (H1_001N), and vacant units (H1_003N, omitted when zero), grouped one line per county, county subdivision, and tract. Block rows come from the geographic header (summary level 750) joined to segment 2 by LOGRECNO; the builder checks H1_001N = HU100 = H1_002N + H1_003N for every block. Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "Housing counts are as of April 1, 2020; new construction and demolition since then are not reflected, which CASPER's weights cannot correct (CDC CASPER Toolkit, 3rd edition, section 4.2)."
+      ],
+      "files": [
+        {
+          "path": "ma_pl2020_blocks.txt",
+          "sha256": "fe7646dcb168f5605a284b1fb362441fd4d495c1810c6cd55889fd5472a64f44",
+          "bytes": 787083,
+          "rows": 1650
+        }
+      ]
     }
   ]
 }

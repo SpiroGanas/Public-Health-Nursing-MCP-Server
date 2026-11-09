@@ -43,6 +43,15 @@ pub mod cms_provider;
 pub mod older_adults;
 // Phase 9 adapters (HRSA health centers) go below this line.
 pub mod hrsa;
+// Phase 12 adapters (NWS, OpenFEMA, emPOWER, AirNow, HeatRisk, projection) go below this line.
+pub mod airnow;
+pub mod census_blocks;
+pub mod empower;
+pub mod heatrisk;
+pub mod nws;
+pub mod openfema;
+pub mod projection;
+// End of Phase 12 adapters.
 
 pub use cache::Cache;
 pub use http::HttpClient;

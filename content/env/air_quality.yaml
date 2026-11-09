@@ -1,0 +1,407 @@
+# Air Quality Index categories, breakpoints, sensitive groups, and protective actions for
+# air_quality_protective_guidance (ENV-02).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/env_air_quality.schema.json
+meta:
+  id: env-air-quality
+  title: Air Quality Index categories, breakpoints, and protective actions
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2024-05-06
+  source:
+    title: "40 CFR Part 58, Appendix G: Uniform Air Quality Index (AQI) and Daily Reporting (89 FR 16403, March 6, 2024)"
+    publisher: U.S. Environmental Protection Agency (Electronic Code of Federal Regulations)
+    url: https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-58/appendix-Appendix%20G%20to%20Part%2058
+  related_sources:
+    - title: Air Quality and Outdoor Activity Guidance for Schools (EPA-456/F-14-003, August 2014)
+      publisher: U.S. EPA (hosted by CDC)
+      url: https://www.cdc.gov/air-quality/media/Air_Quality_and_Outdoor_Activity_Guidance.pdf
+    - title: "Particle Pollution and Your Patients' Health: Patient Exposure and the Air Quality Index"
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/pmcourse/patient-exposure-and-air-quality-index
+    - title: "Ozone and Your Patients' Health: Patient Exposure and the Air Quality Index"
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/ozone-pollution-and-your-patients-health/patient-exposure-and-air-quality-index
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Categories, colors, breakpoints, and truncation rules are transcribed from 40 CFR 58 Appendix
+    G as amended effective May 6, 2024 (eCFR text of 2026-11-01) and the AirNow Reporting Area
+    fact sheet (high confidence). Levels of health concern and sensitive groups are summaries of
+    EPA's particle pollution and ozone courses (high). School actions are transcribed from EPA's
+    school guidance (high). Actions for the general public at Unhealthy and above and for
+    outdoor events are this project's summaries of those sources (medium): AirNow's own Air
+    Quality Guides and activity guides could not be retrieved (airnow.gov was unreachable).
+
+sources:
+  ecfr-58g:
+    title: "40 CFR Part 58, Appendix G: Uniform Air Quality Index (AQI) and Daily Reporting"
+    publisher: U.S. Environmental Protection Agency (eCFR)
+    url: https://www.ecfr.gov/current/title-40/chapter-I/subchapter-C/part-58/appendix-Appendix%20G%20to%20Part%2058
+    effective_date: 2024-05-06
+    retrieved: 2026-11-08
+  epa-pm-aqi-2024:
+    title: Final Updates to the Air Quality Index (AQI) for Particulate Matter, Fact Sheet and Common Questions (February 2024)
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf
+    effective_date: 2024-02-07
+    retrieved: 2026-11-08
+  airnow-fact:
+    title: "Fact Sheet: Reporting Area File"
+    publisher: U.S. EPA AirNow
+    url: https://files.airnowtech.org/airnow/docs/ReportingAreaFactSheet.pdf
+    effective_date: 2026-07-02
+    retrieved: 2026-11-08
+  epa-pm-course:
+    title: "Particle Pollution and Your Patients' Health: Patient Exposure and the Air Quality Index"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/pmcourse/patient-exposure-and-air-quality-index
+    effective_date: 2026-05-21
+    retrieved: 2026-11-08
+  epa-ozone-course:
+    title: "Ozone and Your Patients' Health: Patient Exposure and the Air Quality Index"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/ozone-pollution-and-your-patients-health/patient-exposure-and-air-quality-index
+    effective_date: 2026-03-10
+    retrieved: 2026-11-08
+  epa-ozone-health:
+    title: Health Effects of Ozone Pollution
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/ground-level-ozone-pollution/health-effects-ozone-pollution
+    effective_date: 2026-02-24
+    retrieved: 2026-11-08
+  epa-school-guidance:
+    title: Air Quality and Outdoor Activity Guidance for Schools (EPA-456/F-14-003)
+    publisher: U.S. Environmental Protection Agency (hosted by CDC)
+    url: https://www.cdc.gov/air-quality/media/Air_Quality_and_Outdoor_Activity_Guidance.pdf
+    effective_date: 2014-08-01
+    retrieved: 2026-11-08
+  cdc-heat-clinical:
+    title: Clinical Overview of Heat (About the Air Quality Index and Actions to Consider at Each Level)
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/hcp/clinical-overview/index.html
+    effective_date: 2025-09-18
+    retrieved: 2026-11-08
+  cdc-wildfire-smoke:
+    title: "Safety Guidelines: Wildfires and Wildfire Smoke"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/wildfires/safety/how-to-safely-stay-safe-during-a-wildfire.html
+    effective_date: 2026-08-24
+    retrieved: 2026-11-08
+
+categories:
+  - id: good
+    name: Good
+    min: 0
+    max: 50
+    color: Green
+    rgb: [0, 228, 0]
+    health_concern:
+      text: Air quality is good and poses little or no risk.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+  - id: moderate
+    name: Moderate
+    min: 51
+    max: 100
+    color: Yellow
+    rgb: [255, 255, 0]
+    health_concern:
+      text: Air quality is acceptable; however, there may be some health concern for a small number of unusually sensitive people.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+  - id: usg
+    name: Unhealthy for Sensitive Groups
+    min: 101
+    max: 150
+    color: Orange
+    rgb: [255, 126, 0]
+    health_concern:
+      text: People in sensitive groups may experience health effects when active outdoors; the general population is not likely to be affected.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+  - id: unhealthy
+    name: Unhealthy
+    min: 151
+    max: 200
+    color: Red
+    rgb: [255, 0, 0]
+    health_concern:
+      text: Everyone who is active outdoors may experience effects; members of sensitive groups are likely to experience more serious effects.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+  - id: very_unhealthy
+    name: Very Unhealthy
+    min: 201
+    max: 300
+    color: Purple
+    rgb: [143, 63, 151]
+    health_concern:
+      text: Widespread effects are expected among the general population, with more serious effects in sensitive groups.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+  - id: hazardous
+    name: Hazardous
+    min: 301
+    max: 500
+    color: Maroon
+    rgb: [126, 0, 35]
+    health_concern:
+      text: Health warnings of emergency conditions; the entire population is more likely to be affected by serious health effects.
+      source: epa-pm-course
+      section: What is the Air Quality Index (AQI)?
+      confidence: high
+
+# Table 2 of Appendix G: concentration breakpoints [low, high] and the AQI range [low, high].
+breakpoints:
+  - pollutant: PM2.5
+    averaging: 24-hour
+    unit: µg/m³
+    truncate_decimals: 1
+    rows:
+      - [0.0, 9.0, 0, 50]
+      - [9.1, 35.4, 51, 100]
+      - [35.5, 55.4, 101, 150]
+      - [55.5, 125.4, 151, 200]
+      - [125.5, 225.4, 201, 300]
+      - [225.5, 325.4, 301, 500]
+  - pollutant: PM10
+    averaging: 24-hour
+    unit: µg/m³
+    truncate_decimals: 0
+    rows:
+      - [0, 54, 0, 50]
+      - [55, 154, 51, 100]
+      - [155, 254, 101, 150]
+      - [255, 354, 151, 200]
+      - [355, 424, 201, 300]
+      - [425, 604, 301, 500]
+  - pollutant: OZONE 8-hour
+    averaging: 8-hour
+    unit: ppm
+    truncate_decimals: 3
+    rows:
+      - [0.000, 0.054, 0, 50]
+      - [0.055, 0.070, 51, 100]
+      - [0.071, 0.085, 101, 150]
+      - [0.086, 0.105, 151, 200]
+      - [0.106, 0.200, 201, 300]
+    note: 8-hour ozone does not define AQI values above 300; use 1-hour ozone.
+  - pollutant: OZONE 1-hour
+    averaging: 1-hour
+    unit: ppm
+    truncate_decimals: 3
+    rows:
+      - [0.125, 0.164, 101, 150]
+      - [0.165, 0.204, 151, 200]
+      - [0.205, 0.404, 201, 300]
+      - [0.405, 0.604, 301, 500]
+    note: Used only where it is more protective than 8-hour ozone, and for AQI values above 300.
+  - pollutant: CO
+    averaging: 8-hour
+    unit: ppm
+    truncate_decimals: 1
+    rows:
+      - [0.0, 4.4, 0, 50]
+      - [4.5, 9.4, 51, 100]
+      - [9.5, 12.4, 101, 150]
+      - [12.5, 15.4, 151, 200]
+      - [15.5, 30.4, 201, 300]
+      - [30.5, 50.4, 301, 500]
+  - pollutant: SO2
+    averaging: 1-hour
+    unit: ppb
+    truncate_decimals: 0
+    rows:
+      - [0, 35, 0, 50]
+      - [36, 75, 51, 100]
+      - [76, 185, 101, 150]
+      - [186, 304, 151, 200]
+    note: 1-hour SO2 does not define AQI values of 200 or more; those use 24-hour SO2.
+  - pollutant: NO2
+    averaging: 1-hour
+    unit: ppb
+    truncate_decimals: 0
+    rows:
+      - [0, 53, 0, 50]
+      - [54, 100, 51, 100]
+      - [101, 360, 101, 150]
+      - [361, 649, 151, 200]
+      - [650, 1249, 201, 300]
+      - [1250, 2049, 301, 500]
+breakpoint_source: ecfr-58g
+breakpoint_section: Appendix G, section 3.4 and Table 2 (AQI 500 concentrations from footnote 4)
+pm25_change:
+  text: On May 6, 2024 EPA lowered the PM2.5 breakpoint between Good and Moderate from 12.0 to 9.0 µg/m³ and changed the upper breakpoints, so more days are Moderate than under the 2012 AQI.
+  source: epa-pm-aqi-2024
+  section: What's New in the AQI for PM; Common Questions
+  confidence: high
+
+sensitive_groups:
+  - pollutant: PM2.5
+    groups: People with heart or lung disease, older adults, children, people with diabetes, and people of lower socioeconomic status.
+    source: epa-pm-course
+    section: Unhealthy for Sensitive Groups
+  - pollutant: PM10
+    groups: People with heart or lung disease, older adults, children, people with diabetes, and people of lower socioeconomic status (particle pollution).
+    source: epa-pm-course
+    section: Unhealthy for Sensitive Groups
+  - pollutant: OZONE
+    groups: Children; people with lung diseases such as asthma, chronic bronchitis, and emphysema; older adults; and active people who work or exercise outdoors.
+    source: epa-ozone-course
+    section: What is the Air Quality Index? (Unhealthy for Sensitive Groups)
+
+# Protective actions by audience and category.
+actions:
+  - audience: sensitive_groups
+    category: moderate
+    text: People who are unusually sensitive may have symptoms; patients can use the AQI to learn whether they are sensitive at 51-100 and add those actions to their asthma or heat action plans.
+    source: cdc-heat-clinical
+    section: About the Air Quality Index and Actions to Consider at Each Level
+    confidence: high
+  - audience: sensitive_groups
+    category: usg
+    text: Reduce prolonged or heavy exertion outdoors; walk instead of run, shorten outdoor time, or move activities to when air quality is better. People with asthma should follow their asthma action plans.
+    source: epa-pm-course
+    section: What can I advise my patients to do when air quality is unhealthy? (Code Orange)
+    confidence: high
+  - audience: general_public
+    category: usg
+    text: It is okay to be outside, but taking more breaks and doing less intense activities helps.
+    source: cdc-heat-clinical
+    section: About the Air Quality Index and Actions to Consider at Each Level
+    confidence: high
+  - audience: sensitive_groups
+    category: unhealthy
+    text: Avoid prolonged or heavy exertion outdoors; move activities indoors or reschedule them, and watch for symptoms (cough, wheeze, chest tightness, shortness of breath, chest pain, palpitations, unusual fatigue).
+    source: epa-pm-course
+    section: What can I advise my patients to do when the air quality is unhealthy?
+    confidence: medium
+  - audience: general_public
+    category: unhealthy
+    text: Everyone should reduce prolonged or heavy exertion outdoors, take more breaks, and do less intense activities.
+    source: epa-pm-course
+    section: What is the Air Quality Index (AQI)? (Unhealthy)
+    confidence: medium
+  - audience: sensitive_groups
+    category: very_unhealthy
+    text: Stay indoors with windows closed and filtered air; avoid all physical activity outdoors; get medical help for new or worsening symptoms.
+    source: cdc-wildfire-smoke
+    section: Protect yourself from smoke; Pay attention to health symptoms
+    confidence: medium
+  - audience: general_public
+    category: very_unhealthy
+    text: Avoid prolonged or heavy exertion outdoors and move activities indoors; keep indoor air clean with a portable air cleaner or MERV 13 filter.
+    source: cdc-wildfire-smoke
+    section: Keep smoke outside
+    confidence: medium
+  - audience: sensitive_groups
+    category: hazardous
+    text: Remain indoors with clean air and keep activity levels low; follow local instructions, including evacuation or clean-air shelter guidance.
+    source: cdc-wildfire-smoke
+    section: Stay inside if authorities tell you to do so
+    confidence: medium
+  - audience: general_public
+    category: hazardous
+    text: Everyone should avoid all physical activity outdoors and stay inside with clean air; if you must go outside, wear a well-fitting NIOSH Approved respirator.
+    source: cdc-wildfire-smoke
+    section: If you have to go outside, wear a respirator
+    confidence: medium
+  - audience: schools
+    category: good
+    text: Great day to be active outside!
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Good)
+    confidence: high
+  - audience: schools
+    category: moderate
+    text: Good day to be active outside! Students who are unusually sensitive to air pollution could have symptoms.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Moderate)
+    confidence: high
+  - audience: schools
+    category: usg
+    text: It's OK to be active outside, especially for short activities such as recess and physical education (PE). For longer activities such as athletic practice, take more breaks and do less intense activities. Watch for symptoms and take action as needed. Students with asthma should follow their asthma action plans and keep their quick-relief medicine handy.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Unhealthy for Sensitive Groups)
+    confidence: high
+  - audience: schools
+    category: unhealthy
+    text: For all outdoor activities, take more breaks and do less intense activities. Consider moving longer or more intense activities indoors or rescheduling them to another day or time. Watch for symptoms and take action as needed. Students with asthma should follow their asthma action plans and keep their quick-relief medicine handy.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Unhealthy)
+    confidence: high
+  - audience: schools
+    category: very_unhealthy
+    text: Move all activities indoors or reschedule them to another day.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Very Unhealthy)
+    confidence: high
+  - audience: schools
+    category: hazardous
+    text: Move all activities indoors or reschedule them to another day (the school guidance's most protective level).
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Very Unhealthy; Hazardous not listed)
+    confidence: medium
+  - audience: outdoor_events
+    category: moderate
+    text: Proceed; tell participants who know they are sensitive to air pollution to watch for symptoms.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Moderate), applied to events
+    confidence: medium
+  - audience: outdoor_events
+    category: usg
+    text: Proceed with more rest breaks and less intense options; post the AQI and remind people with asthma, heart or lung disease, older adults, and children to reduce exertion and keep medicines handy; for ozone, schedule strenuous parts in the morning.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Unhealthy for Sensitive Groups); Plan Ahead for Ozone; applied to events
+    confidence: medium
+  - audience: outdoor_events
+    category: unhealthy
+    text: Consider moving longer or strenuous events indoors or rescheduling; if held, shorten them, add breaks, and advise sensitive groups not to take part in strenuous activities.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Unhealthy), applied to events
+    confidence: medium
+  - audience: outdoor_events
+    category: very_unhealthy
+    text: Move indoors or reschedule.
+    source: epa-school-guidance
+    section: Outdoor Activity Guidance table (Very Unhealthy), applied to events
+    confidence: medium
+  - audience: outdoor_events
+    category: hazardous
+    text: Cancel or move indoors to a building with filtered air.
+    source: cdc-wildfire-smoke
+    section: Keep smoke outside; applied to events
+    confidence: medium
+
+# Tips that apply whatever the category.
+tips:
+  - text: There is less ozone in the morning; on days when ozone is expected to be unhealthy, plan outdoor activities in the morning. Ozone is often worse on hot, sunny afternoons and early evenings.
+    source: epa-school-guidance
+    section: Plan Ahead for Ozone; Questions and Answers
+    confidence: high
+  - text: Particle pollution can be high any time of day; limit activity near idling cars and buses and busy roads, especially at rush hour, and when there is smoke in the air.
+    source: epa-school-guidance
+    section: Are there times when air pollution is expected to be worse?
+    confidence: high
+  - text: "Indoors: with windows closed, ozone is much lower; for particle pollution, a properly installed and maintained forced-air system that filters particles lowers indoor levels, so it is OK to keep students moving."
+    source: epa-school-guidance
+    section: If students stay inside because of unhealthy outdoor air quality, can they still be active?
+    confidence: high
+  - text: The AQI does not include pollen; air quality can be Good on days when pollen is high.
+    source: cdc-heat-clinical
+    section: About the Air Quality Index and Actions to Consider at Each Level
+    confidence: high
+  - text: Symptoms that mean exposure should be reduced include coughing, throat irritation, pain or discomfort when taking a deep breath, chest tightness, wheezing, or shortness of breath; children are less likely than adults to notice or report symptoms.
+    source: epa-ozone-course
+    section: What can I advise my patients to do when air quality is forecast to be unhealthy?
+    confidence: high

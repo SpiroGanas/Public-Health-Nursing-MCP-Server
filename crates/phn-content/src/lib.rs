@@ -355,6 +355,62 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 11 content items go below this line.
     // End of Phase 11 content items.
     // Phase 12 content items go below this line.
+    ContentItem {
+        id: "epr-hazard-health-actions",
+        path: "content/epr/hazard_health_actions.yaml",
+        resource_uri: "phn://content/epr-hazard-health-actions",
+        yaml: include_str!("../../../content/epr/hazard_health_actions.yaml"),
+        schema: include_str!("../../../content/schemas/epr_hazard_health_actions.schema.json"),
+    },
+    ContentItem {
+        id: "epr-dispensing-site",
+        path: "content/epr/dispensing.yaml",
+        resource_uri: "phn://content/epr-dispensing-site",
+        yaml: include_str!("../../../content/epr/dispensing.yaml"),
+        schema: include_str!("../../../content/schemas/epr_dispensing.schema.json"),
+    },
+    ContentItem {
+        id: "env-air-quality",
+        path: "content/env/air_quality.yaml",
+        resource_uri: "phn://content/env-air-quality",
+        yaml: include_str!("../../../content/env/air_quality.yaml"),
+        schema: include_str!("../../../content/schemas/env_air_quality.schema.json"),
+    },
+    ContentItem {
+        id: "env-heat-health",
+        path: "content/env/heat.yaml",
+        resource_uri: "phn://content/env-heat-health",
+        yaml: include_str!("../../../content/env/heat.yaml"),
+        schema: include_str!("../../../content/schemas/env_heat.schema.json"),
+    },
+    ContentItem {
+        id: "epr-hazard-vulnerability",
+        path: "content/epr/hva.yaml",
+        resource_uri: "phn://content/epr-hazard-vulnerability",
+        yaml: include_str!("../../../content/epr/hva.yaml"),
+        schema: include_str!("../../../content/schemas/epr_hva.schema.json"),
+    },
+    ContentItem {
+        id: "epr-functional-needs-shelter",
+        path: "content/epr/functional_needs_shelter.yaml",
+        resource_uri: "phn://content/epr-functional-needs-shelter",
+        yaml: include_str!("../../../content/epr/functional_needs_shelter.yaml"),
+        schema: include_str!("../../../content/schemas/epr_functional_needs_shelter.schema.json"),
+    },
+    ContentItem {
+        id: "epr-electricity-dependence",
+        path: "content/epr/electricity_dependence.yaml",
+        resource_uri: "phn://content/epr-electricity-dependence",
+        yaml: include_str!("../../../content/epr/electricity_dependence.yaml"),
+        schema: include_str!("../../../content/schemas/epr_electricity_dependence.schema.json"),
+    },
+    ContentItem {
+        id: "epr-casper",
+        path: "content/epr/casper.yaml",
+        resource_uri: "phn://content/epr-casper",
+        yaml: include_str!("../../../content/epr/casper.yaml"),
+        schema: include_str!("../../../content/schemas/epr_casper.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

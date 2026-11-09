@@ -1,0 +1,139 @@
+# HHS emPOWER definitions, data access, and power-outage planning actions for
+# get_electricity_dependent_population (EPR-04).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_electricity_dependence.schema.json
+meta:
+  id: epr-electricity-dependence
+  title: Electricity-dependent populations (HHS emPOWER) and power outage planning
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: HHS emPOWER Program (Map, REST Service, Emergency Planning Dataset, Emergency Response Outreach Dataset)
+    publisher: HHS Administration for Strategic Preparedness and Response (ASPR), with CMS
+    url: https://empowerprogram.hhs.gov/
+  related_sources:
+    - title: Power Outage Safety Tips
+      publisher: Massachusetts Emergency Management Agency
+      url: https://www.mass.gov/info-details/power-outage-safety-tips
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Equipment and service definitions, the cell-size rule (values from 1 to 11 shown as 11),
+    data coverage, and dataset access rules are transcribed from the emPOWER Map page, the Quick
+    Data Reference Guide, and the dataset pages (high confidence). Planning actions are
+    summaries of the emPOWER and MEMA pages (medium where they are this project's planning
+    suggestions). Utility phone numbers are from MEMA's page and change; confirm them.
+
+sources:
+  empower-map:
+    title: HHS emPOWER Map (Data Information)
+    publisher: HHS ASPR
+    url: https://empowerprogram.hhs.gov/empowermap
+    effective_date: null
+    retrieved: 2026-11-08
+  empower-quickref:
+    title: "HHS emPOWER Program Quick Reference: Medicare data in HHS emPOWER Program tools"
+    publisher: HHS ASPR
+    url: https://empowerprogram.hhs.gov/Quick-Data-Reference-Guide.pdf
+    effective_date: null
+    retrieved: 2026-11-08
+  empower-rest:
+    title: HHS emPOWER REST Service
+    publisher: HHS ASPR
+    url: https://empowerprogram.hhs.gov/empower-rest.html
+    effective_date: null
+    retrieved: 2026-11-08
+  empower-planning-dataset:
+    title: HHS emPOWER Emergency Planning Dataset
+    publisher: HHS ASPR
+    url: https://empowerprogram.hhs.gov/de-identified-dataset.html
+    effective_date: null
+    retrieved: 2026-11-08
+  empower-outreach-dataset:
+    title: HHS emPOWER Emergency Response Outreach Dataset
+    publisher: HHS ASPR
+    url: https://empowerprogram.hhs.gov/outreach-individual-dataset.html
+    effective_date: null
+    retrieved: 2026-11-08
+  mema-power:
+    title: Power Outage Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/power-outage-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+
+definition:
+  text: "'Electricity Dependent DME ALL' is the number of Medicare beneficiaries with claims for a ventilator, BiPAP, enteral feeding machine, IV infusion pump, suction pump, at-home dialysis machine, electric wheelchair, electric scooter, or electric bed in the past 13 months; an oxygen concentrator in the past 36 months; or an implanted cardiac device (LVAD, RVAD, BIVAD, or total artificial heart) in the past 5 years."
+  source: empower-map
+  section: Details on Medicare Data
+  confidence: high
+coverage:
+  text: The counts are de-identified administrative claims, updated monthly, for Medicare fee-for-service and Medicare Advantage (Parts A, B, and C) beneficiaries, which includes people 65 and over and people under 65 with disabilities. They may underestimate the at-risk Medicare population and do not include people who are not on Medicare.
+  source: empower-map
+  section: Details on Medicare Data
+  confidence: high
+suppression:
+  text: Under the CMS Cell Size Suppression Policy, no cell with a value of 1 to 10 may be reported or derived; emPOWER reports small values between 1 and 11 as 11.
+  source: empower-map
+  section: De-identification
+  confidence: high
+equipment:
+  source: empower-quickref
+  section: Electricity-dependent DME and certain cardiac implantable devices; Health care services
+  items:
+    - "Cardiac devices: left, right, and bi-ventricular assist devices and total artificial hearts (LVAD, RVAD, BIVAD, TAH)"
+    - "Oxygen concentrator"
+    - "Suction pump"
+    - "Bi-level positive airway pressure device (BiPAP)"
+    - "Ventilator"
+    - "Electric bed"
+    - "IV infusion pump"
+    - "At-home dialysis machine"
+    - "Enteral feeding tube (pump)"
+    - "Motorized wheelchair or scooter"
+    - "Health care services in the Emergency Planning Dataset: in-facility ESRD dialysis, oxygen tank services, home health care, at-home hospice"
+datasets:
+  - text: The public emPOWER Map and REST Service give monthly de-identified totals by state, county, and ZIP code (this tool uses the Map's data).
+    source: empower-rest
+    section: What the HHS emPOWER REST Service Offers
+    confidence: high
+  - text: The Emergency Planning Dataset (de-identified, with equipment types, health care services, and at-risk combinations) goes monthly to state, territorial, and certain major metropolitan public health preparedness programs, which may share it with local health departments and partners. In Massachusetts, ask DPH's Office of Preparedness and Emergency Management.
+    source: empower-planning-dataset
+    section: Who can access the HHS emPOWER Emergency Planning Dataset
+    confidence: medium
+  - text: The restricted Emergency Response Outreach Dataset (limited individual-level data) is released only to authorized state or territorial public health authorities after a disclosure request during an incident. It must never be put into this tool; use it only in your agency's secure systems.
+    source: empower-outreach-dataset
+    section: Who can access the emPOWER Emergency Response Outreach Dataset
+    confidence: high
+
+actions:
+  - text: Use the counts by ZIP code to plan shelter locations and power-capable cots, charging sites, resource allocation, and power restoration priorities with emergency management and utilities.
+    source: empower-rest
+    section: How the HHS emPOWER REST Service is Making an Impact
+    confidence: high
+  - text: Encourage residents who use life-support devices to talk with their health care provider about using them in an outage, contact their electric company about priority reconnection lists, and let the fire department know they depend on such devices.
+    source: mema-power
+    section: What to do Before a Power Outage
+    confidence: high
+  - text: Remind residents with medication that needs refrigeration to ask a pharmacist how to store it in an extended outage, and to call 9-1-1 if they depend on powered equipment and need medical help.
+    source: mema-power
+    section: What to do Before and During a Power Outage
+    confidence: high
+  - text: Before a forecast storm or heat wave, share ZIP-level counts with emergency management, EMS, home health and DME suppliers, and councils on aging so they can check on clients; agencies holding their own registries (for example a local special needs registry) can cross-check them.
+    source: empower-rest
+    section: How the HHS emPOWER REST Service is Making an Impact
+    confidence: medium
+utilities:
+  source: mema-power
+  section: What to do During a Power Outage (report outages to your utility, not 9-1-1)
+  items:
+    - "National Grid: 1-800-465-1212"
+    - "Eversource (formerly NSTAR): 1-800-592-2000"
+    - "Eversource (formerly WMECO): 877-659-6326"
+    - "Unitil (FG&E): 888-301-7700"
+    - "Municipal light plants: see your town's utility"

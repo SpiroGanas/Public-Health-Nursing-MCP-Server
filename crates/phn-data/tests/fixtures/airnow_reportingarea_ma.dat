@@ -1,0 +1,97 @@
+11/08/26|11/07/26||EST|-1|Y|Y|Berkshire|MA|42.3707|-73.2064|PM2.5|26|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Berkshire|MA|42.3707|-73.2064|OZONE|16|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Berkshire|MA|42.3707|-73.2064|OZONE|25|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Berkshire|MA|42.3707|-73.2064|PM2.5|11|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Berkshire|MA|42.3707|-73.2064|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Berkshire|MA|42.3707|-73.2064|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Berkshire|MA|42.3707|-73.2064|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Berkshire|MA|42.3707|-73.2064|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Boston Metro|MA|42.3892|-71.1317|PM2.5|17|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Boston Metro|MA|42.3892|-71.1317|PM10|4|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Boston Metro|MA|42.3892|-71.1317|OZONE|14|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Boston Metro|MA|42.3892|-71.1317|OZONE|15|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Boston Metro|MA|42.3892|-71.1317|PM2.5|14|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Boston Metro|MA|42.3892|-71.1317|PM10|2|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Boston Metro|MA|42.3892|-71.1317|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Boston Metro|MA|42.3892|-71.1317|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Boston Metro|MA|42.3892|-71.1317|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Boston Metro|MA|42.3892|-71.1317|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Cape Cod and Islands|MA|41.6268|-70.3472|OZONE|27|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Cape Cod and Islands|MA|41.6268|-70.3472|OZONE|14|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Cape Cod and Islands|MA|41.6268|-70.3472|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Cape Cod and Islands|MA|41.6268|-70.3472|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Cape Cod and Islands|MA|41.6268|-70.3472|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Cape Cod and Islands|MA|41.6268|-70.3472|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Essex|MA|42.6729|-70.9583|OZONE|16|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Essex|MA|42.6729|-70.9583|PM2.5|10|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Essex|MA|42.6729|-70.9583|PM10|4|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Essex|MA|42.6729|-70.9583|OZONE|14|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Essex|MA|42.6729|-70.9583|PM2.5|6|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Essex|MA|42.6729|-70.9583|PM10|2|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Essex|MA|42.6729|-70.9583|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Essex|MA|42.6729|-70.9583|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Essex|MA|42.6729|-70.9583|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Essex|MA|42.6729|-70.9583|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Franklin|MA|42.5831|-72.5919|PM2.5|24|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Franklin|MA|42.5831|-72.5919|OZONE|19|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Franklin|MA|42.5831|-72.5919|OZONE|25|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Franklin|MA|42.5831|-72.5919|PM2.5|6|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Franklin|MA|42.5831|-72.5919|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Franklin|MA|42.5831|-72.5919|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Franklin|MA|42.5831|-72.5919|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Franklin|MA|42.5831|-72.5919|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5|27|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Hampden-Hampshire|MA|42.2300|-72.6465|PM10|6|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Hampden-Hampshire|MA|42.2300|-72.6465|OZONE|21|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Hampden-Hampshire|MA|42.2300|-72.6465|OZONE|22|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5|5|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Hampden-Hampshire|MA|42.2300|-72.6465|PM10|2|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Hampden-Hampshire|MA|42.2300|-72.6465|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Norfolk|MA|42.1550|-71.2248|OZONE|18|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Norfolk|MA|42.1550|-71.2248|PM2.5|12|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Norfolk|MA|42.1550|-71.2248|OZONE|19|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Norfolk|MA|42.1550|-71.2248|PM2.5|3|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Norfolk|MA|42.1550|-71.2248|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Norfolk|MA|42.1550|-71.2248|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Norfolk|MA|42.1550|-71.2248|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Norfolk|MA|42.1550|-71.2248|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|OZONE|19|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5|13|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|OZONE|15|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5|6|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|North Bristol-Plymouth|MA|41.9673|-70.9418|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|OZONE|23|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5|12|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|OZONE|16|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5|5|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|South Bristol-Plymouth|MA|41.6937|-70.9646|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|West Middlesex|MA|42.4974|-71.4343|OZONE|16|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|West Middlesex|MA|42.4974|-71.4343|PM2.5|14|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|West Middlesex|MA|42.4974|-71.4343|OZONE|12|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|West Middlesex|MA|42.4974|-71.4343|PM2.5|8|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|West Middlesex|MA|42.4974|-71.4343|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|West Middlesex|MA|42.4974|-71.4343|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|West Middlesex|MA|42.4974|-71.4343|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|West Middlesex|MA|42.4974|-71.4343|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|Y|Worcester|MA|42.3514|-71.9077|OZONE|19|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Worcester|MA|42.3514|-71.9077|PM2.5|16|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||EST|-1|Y|N|Worcester|MA|42.3514|-71.9077|PM10|7|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|Y|Worcester|MA|42.3514|-71.9077|OZONE|22|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Worcester|MA|42.3514|-71.9077|PM2.5|5|Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/08/26|14:00|EST|0|O|N|Worcester|MA|42.3514|-71.9077|PM10|3|Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/08/26||EST|1|F|Y|Worcester|MA|42.3514|-71.9077|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/09/26||EST|2|F|Y|Worcester|MA|42.3514|-71.9077|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/10/26||EST|3|F|Y|Worcester|MA|42.3514|-71.9077|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/07/26|11/11/26||EST|4|F|Y|Worcester|MA|42.3514|-71.9077|PM2.5||Good|No||Massachusetts Dept. of Environmental Protection
+11/08/26|11/07/26||CST|-1|Y|Y|Aberdeen|SD|45.4680|-98.4940|PM10|10|Good|No||South Dakota Department of Agriculture and Natural Resources
+11/08/26|11/07/26||CST|-1|Y|N|Aberdeen|SD|45.4680|-98.4940|PM2.5|7|Good|No||South Dakota Department of Agriculture and Natural Resources
+11/08/26|11/08/26|13:00|CST|0|O|Y|Aberdeen|SD|45.4680|-98.4940|PM10|6|Good|No||South Dakota Department of Agriculture and Natural Resources

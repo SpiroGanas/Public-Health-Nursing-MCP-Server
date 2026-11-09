@@ -1802,4 +1802,157 @@ and the result counts them by language.
 ## Phase 12: Emergency preparedness I: situational awareness and planning
 
 <!-- Phase 12 tools go below this line. -->
+
+### `get_active_hazard_alerts` (EPR-05, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county ("Bristol County"), or "Massachusetts". |
+| `guidance_for` | | Hazards to plan for without an active alert (`extreme_heat`, "winter storm", "Hurricane Warning", ...). |
+| `include_marine` | false | List alerts for coastal waters only. |
+| `include_declarations` | true | FEMA disaster declarations. |
+| `declaration_years` | 10 | Years of declarations listed (1–75). |
+
+Live NWS alerts (`api.weather.gov/alerts/active?area=MA`, cached five minutes, never from a
+snapshot) are filtered to the area by county FIPS from each alert's SAME codes; cancelled, test,
+and marine-only alerts are left out. Each NWS event maps to a hazard in
+`content/epr/hazard_health_actions.yaml` with cited health effects, at-risk groups, public
+health actions, and public messages (CDC topic pages, MEMA safety tips, CDC PHEP capabilities),
+plus the follow-on power outage and carbon monoxide risks. FEMA declarations come from OpenFEMA
+(live, cached a day, bundled snapshot fallback), grouped by declaration, with counts by incident
+type since 1953. When alerts cannot be reached the first caveat says so in capitals.
+
+### `model_dispensing_site_throughput` (EPR-02, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `population` | required | People who need the countermeasure. |
+| `model` | `oral_prophylaxis` | Or `vaccination`. |
+| `sites` | 1 | Sites open at once. |
+| `operating_hours` or `arrivals_per_hour` | one required | Hours each site is open to reach everyone, or arrivals per site per hour. |
+| `regimens_per_visit` | 1 | Head-of-household pickup. |
+| `stations` | model defaults | Overrides per station: `minutes_per_client`, `fraction_of_clients`, `staff` (to evaluate a plan), or new stations. |
+| `max_utilization`, `target_wait_minutes` | 0.85, 10 | Sizing targets (tool defaults). |
+| `hours_open_per_day`, `shift_hours`, `support_staff_per_shift`, `surge_factor` | 12, 6, 0, 1.25 | Calendar, shifts, and surge check (tool defaults). |
+| `worksheet` | false | Staffing XLSX in `/data/output`. |
+
+Each station is an M/M/c queue (`phn_epi::queueing`): arrivals λ × share of clients, service
+rate 60 ÷ minutes, Erlang C probability of waiting through the Erlang B recursion, mean wait
+Wq = C/(cμ − λ), line length, P(wait > target), and capacity. Sizing picks the fewest staff with
+utilization ≤ the maximum and Wq ≤ the target. Site capacity is the bottleneck station's;
+hours needed = visits ÷ (sites × served per hour); people inside come from Little's law.
+Golden tests: exact rational values and the County Hospital example in Hillier and Lieberman.
+Definitions and activation elements are from CDC PHEP Capability 8; station times are tool
+defaults (the AHRQ and CDC planning guides with published times could not be retrieved).
+
+### `air_quality_protective_guidance` (ENV-02, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town (nearest reporting area), county (each town's nearest area), or the state (all 11 areas). |
+| `aqi`, `pollutant` | | Guidance for an AQI you already have. |
+| `concentration`, `pollutant`, `ozone_averaging` | | Convert a concentration to an AQI. |
+
+Current NowCast, yesterday's, and forecast AQI per pollutant come from AirNow's public
+reporting-area file (no key; Massachusetts forecasts by MassDEP); with `PHN_AIRNOW_API_KEY` the
+AirNow API is tried first (untested: the host was unreachable when built). Guidance is for the
+worst category among the current reading and the forecasts for today and tomorrow: EPA levels
+of health concern, pollutant-specific sensitive groups, and actions for sensitive groups, the
+public, schools (EPA-456/F-14-003, transcribed), and outdoor events (summaries, medium
+confidence). AQI conversion uses 40 CFR 58 Appendix G (2024 PM2.5 breakpoints), truncation, and
+Equation 1; tests reproduce the appendix's worked example. Offline, every category's actions
+are listed.
+
+### `heat_health_action_planner` (ENV-01, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | Town or county. |
+| `plan_for_level` | forecast peak | HeatRisk level 0–4 to plan for. |
+| `cooling_centers_path` | | CSV/XLSX in `/data` (name, address, town, hours, phone, accessible, pets, notes); rows go to the checklist only. |
+| `checklist` | true | DOCX checklist in `/data/output`. |
+
+The 7-day NWS HeatRisk is read from WPC's KML ground-overlay PNGs (palette index = level) and
+sampled over the town or county boundaries (EPSG:26986 ↔ latitude/longitude, point in polygon);
+the NWS point forecast is for the town (or the county's most populous town); heat alerts come
+from the NWS API. The heat-vulnerable population combines ACS (65+, 85+, under 5, disability,
+poverty, no vehicle, limited English, no internet, renters), CDC PLACES adult prevalence (town
+values are tract-weighted), SVI tracts in the top quarter, and HHS emPOWER. Activation steps are
+cumulative to the level; the checklist adds outreach scripts, schools and child care, outdoor
+workers (NIOSH), heat illness signs and response (MEMA), and medications and power outages (CDC).
+
+### `hazard_vulnerability_assessment` (EPR-06, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town or county. |
+| `scores` | | Per hazard: `probability` (0–3), `human`, `property`, `operations` (0–3), `preparedness`, `internal_response`, `external_response` (1–3, 3 = weak). |
+| `use_seeds` | true | Fill missing probability and human impact from ResilientMass ratings. |
+| `nri_path` | | A FEMA National Risk Index table downloaded into `/data`. |
+| `workbook` | true | XLSX facilitation workbook in `/data/output`. |
+
+Relative risk = (probability ÷ 3) × (sum of the six severity items ÷ 18) × 100, ranked. Seeds:
+the 2023 ResilientMass Plan's statewide likelihood, human consequence, warning time, and scale
+for its 15 hazards (Tables 5.1-1 to 5.1-5), FEMA declarations for the county since 1953, and NRI
+scores from the nurse's file (prefix + `_RISKS`, `_RISKR`, `_AFREQ`). Six local hazards are added
+(pandemic, power outage, water, hazmat, mass casualty, cyber). The scoring method is the tool's
+own, modeled on common HVA worksheets. The NRI could not be bundled: hazards.fema.gov/nri now
+redirects to FEMA's Resilience Analysis and Planning Tool, which was blocked.
+
+### `functional_needs_shelter_intake` (EPR-03, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Local rates for the estimates. |
+| `expected_residents` | | Planning estimates of needs and staff. |
+| `blank_form` | `docx` | `xlsx`, `both`, or `none`. |
+| `intake_path` | | CSV/XLSX of registrants in `/data` (question ids as columns). |
+| `residents_per_health_staff`, `fnss_residents_per_support_staff`, `lep_residents_per_interpreter` | 50, 10, 25 | Staffing ratios (tool defaults). |
+
+Returns the CMIST intake template (26 questions in five domains, dispositions) and the CDC PHEP
+mass care tasks. Estimates apply local rates (ACS limited English, disability, 65+, under 5, no
+vehicle; PLACES hearing, vision, cognition, mobility, self-care, independent living, COPD,
+diabetes; emPOWER electricity dependence) to the expected residents. With `intake_path` it
+writes one completed form per registrant to `/data/output` (in an agency translation from
+`/data/templates/<language>/cmist_intake.md` when present, otherwise English, counted) and
+returns only counts of "yes" by question and registrants by language, suppressed below the
+threshold. Identifying details are never returned.
+
+### `get_electricity_dependent_population` (EPR-04, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `zip_codes` | | Specific ZIP codes instead. |
+| `local_path` | | A ZIP-level aggregate file in `/data` (for example DPH's emPOWER Emergency Planning Dataset). |
+
+HHS emPOWER counts (Medicare beneficiaries with claims for electricity-dependent equipment) are
+read live from the emPOWER Map's JSON endpoints (the ArcGIS REST service is not needed), cached a
+week, with a bundled snapshot. Counties are HHS's totals; towns allocate ZIP codes by the ZCTA's
+land share in the town. Rates per 1,000 beneficiaries are compared with Massachusetts and the
+U.S. Values of 1–11 are published as 11 and flagged. Local files with direct identifiers are
+refused (the restricted outreach dataset must stay in secure agency systems); totals from
+aggregate files are suppressed below 11 (CMS cell-size policy) or the agency threshold.
+
+### `plan_casper_assessment` (EPR-11, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` or `towns` | saved town | The sampling frame (a town, several towns, or a county). |
+| `clusters`, `interviews_per_cluster` | 30, 7 | Other values make a modified CASPER. |
+| `household_measure` | `total` | Or `occupied`. |
+| `seed` | chosen and reported | Reproducible selection. |
+| `exclude_blocks_under` | | Leave out small blocks (modified frame). |
+| `materials` | true | Cluster list and tracking forms (XLSX) and team packet (DOCX) in `/data/output`. |
+| `results_path`, `cluster_column`, `times_selected_column`, `questions`, `frame_households`, `tracking` | | Weighted analysis of returned data. |
+
+Stage I follows the CASPER Toolkit (3rd ed., section 2.4): 30 random household numbers between 1
+and the frame total (SplitMix64 with rejection sampling) mapped to 2020 census blocks by
+cumulative households (PL 94-171 snapshot: 88,246 blocks with housing); blocks can be chosen
+more than once. Analysis uses the toolkit weight N ÷ (interviews in the cluster ÷ times selected
+× clusters selected), weighted proportions with Taylor-series variance (clusters as PSUs, t with
+clusters − 1 df; golden test against `samplics`), design effects, contact, cooperation, and
+completion rates, the 80% completion rule (otherwise unweighted), and no estimates for cells
+under 5.
+
 <!-- End of Phase 12 tools. -->

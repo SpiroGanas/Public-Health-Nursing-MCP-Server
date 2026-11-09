@@ -144,6 +144,29 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning
 
 <!-- Phase 12 entries go below this line. -->
+- `get_active_hazard_alerts` (EPR-05): live NWS alerts for a town, county, or the state with
+  cited health effects, at-risk groups, public health actions, and messages, and OpenFEMA
+  disaster declarations (snapshot fallback).
+- `model_dispensing_site_throughput` (EPR-02): M/M/c (Erlang C) model of POD and mass
+  vaccination stations with sizing, waits, bottleneck, capacity, hours to reach a population,
+  and an optional staffing workbook; `phn_epi::queueing` with golden tests.
+- `air_quality_protective_guidance` (ENV-02): AirNow current and forecast AQI by reporting area
+  with EPA and CDC protective actions, and 2024 Appendix G concentration-to-AQI conversion.
+- `heat_health_action_planner` (ENV-01): NWS HeatRisk and forecast, heat-vulnerable population
+  (ACS, PLACES, SVI, emPOWER), activation steps, and a DOCX heat response checklist.
+- `hazard_vulnerability_assessment` (EPR-06): facilitated HVA seeded with ResilientMass 2023,
+  FEMA declarations, and optional NRI tables, with an XLSX workbook.
+- `functional_needs_shelter_intake` (EPR-03): CMIST intake template and blank form, local fill
+  with agency translations, and shelter planning estimates.
+- `get_electricity_dependent_population` (EPR-04): HHS emPOWER counts by town, county, and ZIP
+  code from the emPOWER Map's JSON endpoints (snapshot fallback).
+- `plan_casper_assessment` (EPR-11): CASPER cluster selection from 2020 census blocks with a
+  reproducible seed, team materials, and weighted analysis (`phn_epi::survey`, golden test
+  against samplics).
+- Data adapters (`phn_data::nws`, `openfema`, `empower`, `airnow`, `heatrisk`,
+  `census_blocks`, `projection`) and snapshots (FEMA declarations, emPOWER, 2020 census block
+  housing units) built by `xtask/scripts/build_epr_snapshots.py`; eight content files in
+  `content/epr/` and `content/env/` (pending review).
 <!-- End of Phase 12 entries. -->
 
 ## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting

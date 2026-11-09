@@ -1,0 +1,199 @@
+cluster,times_selected,structure,damage,has_generator,needs_medication,Household Address,Callback Phone
+1,1,Single family home,Damaged,No,No,107 Kestrel Run,774-555-0107
+1,1,Single family home,None or minimal,No,No,108 Kestrel Run,774-555-0108
+1,1,Single family home,Damaged,Yes,No,109 Kestrel Run,774-555-0109
+1,1,Mobile home,None or minimal,No,No,110 Kestrel Run,774-555-0110
+1,1,Multiple unit,Damaged,No,No,111 Kestrel Run,774-555-0111
+1,1,Single family home,None or minimal,No,Yes,112 Kestrel Run,774-555-0112
+1,1,Single family home,None or minimal,No,No,113 Kestrel Run,774-555-0113
+2,1,Single family home,Destroyed,Yes,Don't know,114 Kestrel Run,774-555-0114
+2,1,Multiple unit,None or minimal,No,No,115 Kestrel Run,774-555-0115
+2,1,Mobile home,None or minimal,No,No,116 Kestrel Run,774-555-0116
+2,1,Mobile home,None or minimal,Yes,No,117 Kestrel Run,774-555-0117
+2,1,Multiple unit,Damaged,Yes,Don't know,118 Kestrel Run,774-555-0118
+2,1,Multiple unit,None or minimal,Yes,Don't know,119 Kestrel Run,774-555-0119
+2,1,Multiple unit,Damaged,No,Don't know,120 Kestrel Run,774-555-0120
+3,1,Mobile home,Damaged,No,Yes,121 Kestrel Run,774-555-0121
+3,1,Single family home,Damaged,No,No,122 Kestrel Run,774-555-0122
+3,1,Single family home,None or minimal,No,No,123 Kestrel Run,774-555-0123
+3,1,Single family home,Damaged,Yes,No,124 Kestrel Run,774-555-0124
+3,1,Single family home,Damaged,No,No,125 Kestrel Run,774-555-0125
+3,1,Single family home,Damaged,No,No,126 Kestrel Run,774-555-0126
+3,1,Single family home,Damaged,No,No,127 Kestrel Run,774-555-0127
+4,1,Mobile home,Destroyed,No,No,128 Kestrel Run,774-555-0128
+4,1,Mobile home,None or minimal,No,No,129 Kestrel Run,774-555-0129
+4,1,Mobile home,Destroyed,Yes,Yes,130 Kestrel Run,774-555-0130
+4,1,Multiple unit,Damaged,Yes,No,131 Kestrel Run,774-555-0131
+4,1,Mobile home,Damaged,No,No,132 Kestrel Run,774-555-0132
+4,1,Single family home,Destroyed,No,No,133 Kestrel Run,774-555-0133
+4,1,Single family home,Damaged,No,Yes,134 Kestrel Run,774-555-0134
+5,1,Mobile home,Damaged,No,No,135 Kestrel Run,774-555-0135
+5,1,Multiple unit,Destroyed,No,No,136 Kestrel Run,774-555-0136
+5,1,Single family home,Damaged,Yes,Don't know,137 Kestrel Run,774-555-0137
+5,1,Mobile home,Destroyed,No,No,138 Kestrel Run,774-555-0138
+5,1,Multiple unit,Damaged,No,No,139 Kestrel Run,774-555-0139
+6,1,Mobile home,Damaged,No,No,142 Kestrel Run,774-555-0142
+6,1,Single family home,None or minimal,No,Yes,143 Kestrel Run,774-555-0143
+6,1,Multiple unit,None or minimal,No,Don't know,144 Kestrel Run,774-555-0144
+6,1,Multiple unit,None or minimal,No,No,145 Kestrel Run,774-555-0145
+6,1,Single family home,Damaged,Yes,Yes,146 Kestrel Run,774-555-0146
+6,1,Single family home,None or minimal,No,No,147 Kestrel Run,774-555-0147
+6,1,Multiple unit,None or minimal,No,No,148 Kestrel Run,774-555-0148
+7,1,Single family home,None or minimal,No,Don't know,149 Kestrel Run,774-555-0149
+7,1,Mobile home,None or minimal,No,Yes,150 Kestrel Run,774-555-0150
+7,1,Single family home,None or minimal,No,No,151 Kestrel Run,774-555-0151
+7,1,Mobile home,Damaged,No,No,152 Kestrel Run,774-555-0152
+7,1,Mobile home,Destroyed,Yes,Don't know,153 Kestrel Run,774-555-0153
+7,1,Multiple unit,None or minimal,No,No,154 Kestrel Run,774-555-0154
+7,1,Multiple unit,None or minimal,No,No,155 Kestrel Run,774-555-0155
+8,1,Mobile home,Damaged,Yes,No,156 Kestrel Run,774-555-0156
+8,1,Multiple unit,None or minimal,No,Yes,157 Kestrel Run,774-555-0157
+8,1,Mobile home,None or minimal,Yes,Yes,158 Kestrel Run,774-555-0158
+8,1,Single family home,None or minimal,Yes,Don't know,159 Kestrel Run,774-555-0159
+8,1,Single family home,None or minimal,No,Don't know,160 Kestrel Run,774-555-0160
+8,1,Single family home,Destroyed,No,No,161 Kestrel Run,774-555-0161
+8,1,Multiple unit,None or minimal,No,Yes,162 Kestrel Run,774-555-0162
+9,1,Multiple unit,None or minimal,No,No,163 Kestrel Run,774-555-0163
+9,1,Multiple unit,None or minimal,No,No,164 Kestrel Run,774-555-0164
+9,1,Single family home,Damaged,Yes,No,165 Kestrel Run,774-555-0165
+9,1,Single family home,None or minimal,No,No,166 Kestrel Run,774-555-0166
+9,1,Multiple unit,Damaged,No,No,167 Kestrel Run,774-555-0167
+9,1,Mobile home,Damaged,No,No,168 Kestrel Run,774-555-0168
+9,1,Multiple unit,None or minimal,No,No,169 Kestrel Run,774-555-0169
+10,1,Mobile home,Damaged,No,No,170 Kestrel Run,774-555-0170
+10,1,Mobile home,Damaged,No,No,171 Kestrel Run,774-555-0171
+10,1,Mobile home,None or minimal,Yes,Don't know,172 Kestrel Run,774-555-0172
+10,1,Mobile home,None or minimal,No,No,173 Kestrel Run,774-555-0173
+10,1,Single family home,Damaged,No,No,174 Kestrel Run,774-555-0174
+11,1,Multiple unit,Damaged,No,No,177 Kestrel Run,774-555-0177
+11,1,Mobile home,None or minimal,No,No,178 Kestrel Run,774-555-0178
+11,1,Mobile home,None or minimal,No,No,179 Kestrel Run,774-555-0179
+11,1,Multiple unit,Damaged,No,No,180 Kestrel Run,774-555-0180
+11,1,Multiple unit,Damaged,No,Yes,181 Kestrel Run,774-555-0181
+11,1,Multiple unit,None or minimal,Yes,No,182 Kestrel Run,774-555-0182
+11,1,Single family home,Destroyed,Yes,Don't know,183 Kestrel Run,774-555-0183
+12,1,Multiple unit,None or minimal,No,No,184 Kestrel Run,774-555-0184
+12,1,Multiple unit,None or minimal,No,No,185 Kestrel Run,774-555-0185
+12,1,Single family home,Damaged,Yes,Don't know,186 Kestrel Run,774-555-0186
+12,1,Single family home,None or minimal,No,Don't know,187 Kestrel Run,774-555-0187
+12,1,Multiple unit,Damaged,No,No,188 Kestrel Run,774-555-0188
+12,1,Mobile home,Damaged,No,No,189 Kestrel Run,774-555-0189
+12,1,Multiple unit,Damaged,No,No,190 Kestrel Run,774-555-0190
+13,1,Mobile home,Damaged,No,No,191 Kestrel Run,774-555-0191
+13,1,Multiple unit,None or minimal,Yes,Yes,192 Kestrel Run,774-555-0192
+13,1,Multiple unit,Destroyed,No,No,193 Kestrel Run,774-555-0193
+13,1,Single family home,Destroyed,No,No,194 Kestrel Run,774-555-0194
+13,1,Multiple unit,Destroyed,No,Yes,195 Kestrel Run,774-555-0195
+13,1,Single family home,None or minimal,No,Yes,196 Kestrel Run,774-555-0196
+13,1,Multiple unit,None or minimal,No,No,197 Kestrel Run,774-555-0197
+14,1,Single family home,Destroyed,No,No,198 Kestrel Run,774-555-0198
+14,1,Single family home,None or minimal,No,No,199 Kestrel Run,774-555-0199
+14,1,Mobile home,Damaged,No,No,200 Kestrel Run,774-555-0100
+14,1,Single family home,None or minimal,Yes,No,201 Kestrel Run,774-555-0101
+14,1,Multiple unit,None or minimal,No,Yes,202 Kestrel Run,774-555-0102
+14,1,Mobile home,None or minimal,Yes,No,203 Kestrel Run,774-555-0103
+14,1,Multiple unit,None or minimal,No,No,204 Kestrel Run,774-555-0104
+15,1,Multiple unit,Damaged,Yes,Yes,205 Kestrel Run,774-555-0105
+15,1,Mobile home,Damaged,Yes,No,206 Kestrel Run,774-555-0106
+15,1,Multiple unit,Damaged,No,Yes,207 Kestrel Run,774-555-0107
+15,1,Multiple unit,None or minimal,No,No,208 Kestrel Run,774-555-0108
+15,1,Single family home,Damaged,No,No,209 Kestrel Run,774-555-0109
+16,1,Mobile home,None or minimal,Yes,No,212 Kestrel Run,774-555-0112
+16,1,Multiple unit,Damaged,No,Yes,213 Kestrel Run,774-555-0113
+16,1,Single family home,None or minimal,Yes,No,214 Kestrel Run,774-555-0114
+16,1,Single family home,None or minimal,No,No,215 Kestrel Run,774-555-0115
+16,1,Single family home,None or minimal,No,No,216 Kestrel Run,774-555-0116
+16,1,Mobile home,None or minimal,No,No,217 Kestrel Run,774-555-0117
+16,1,Mobile home,Destroyed,No,No,218 Kestrel Run,774-555-0118
+17,1,Multiple unit,None or minimal,No,No,219 Kestrel Run,774-555-0119
+17,1,Mobile home,None or minimal,No,Yes,220 Kestrel Run,774-555-0120
+17,1,Multiple unit,Damaged,No,Yes,221 Kestrel Run,774-555-0121
+17,1,Mobile home,Damaged,No,No,222 Kestrel Run,774-555-0122
+17,1,Multiple unit,None or minimal,No,No,223 Kestrel Run,774-555-0123
+17,1,Single family home,Damaged,No,No,224 Kestrel Run,774-555-0124
+17,1,Single family home,Damaged,No,No,225 Kestrel Run,774-555-0125
+18,1,Single family home,None or minimal,Yes,Yes,226 Kestrel Run,774-555-0126
+18,1,Single family home,Damaged,No,No,227 Kestrel Run,774-555-0127
+18,1,Single family home,Damaged,No,No,228 Kestrel Run,774-555-0128
+18,1,Multiple unit,Damaged,Yes,Don't know,229 Kestrel Run,774-555-0129
+18,1,Multiple unit,Damaged,No,No,230 Kestrel Run,774-555-0130
+18,1,Single family home,None or minimal,No,No,231 Kestrel Run,774-555-0131
+18,1,Single family home,None or minimal,No,No,232 Kestrel Run,774-555-0132
+19,1,Mobile home,Damaged,No,Don't know,233 Kestrel Run,774-555-0133
+19,1,Single family home,None or minimal,No,Don't know,234 Kestrel Run,774-555-0134
+19,1,Mobile home,None or minimal,Yes,No,235 Kestrel Run,774-555-0135
+19,1,Mobile home,None or minimal,No,No,236 Kestrel Run,774-555-0136
+19,1,Single family home,Damaged,No,Don't know,237 Kestrel Run,774-555-0137
+19,1,Mobile home,None or minimal,No,Don't know,238 Kestrel Run,774-555-0138
+19,1,Mobile home,None or minimal,No,No,239 Kestrel Run,774-555-0139
+20,1,Single family home,None or minimal,Yes,No,240 Kestrel Run,774-555-0140
+20,1,Single family home,Damaged,No,Yes,241 Kestrel Run,774-555-0141
+20,1,Single family home,Destroyed,No,Don't know,242 Kestrel Run,774-555-0142
+20,1,Single family home,None or minimal,Yes,No,243 Kestrel Run,774-555-0143
+20,1,Single family home,None or minimal,No,No,244 Kestrel Run,774-555-0144
+21,1,Multiple unit,None or minimal,No,No,247 Kestrel Run,774-555-0147
+21,1,Single family home,Damaged,No,No,248 Kestrel Run,774-555-0148
+21,1,Multiple unit,None or minimal,No,No,249 Kestrel Run,774-555-0149
+21,1,Single family home,Damaged,No,No,250 Kestrel Run,774-555-0150
+21,1,Mobile home,None or minimal,Yes,Don't know,251 Kestrel Run,774-555-0151
+21,1,Single family home,None or minimal,Yes,Don't know,252 Kestrel Run,774-555-0152
+21,1,Single family home,Damaged,No,No,253 Kestrel Run,774-555-0153
+22,1,Single family home,None or minimal,No,Don't know,254 Kestrel Run,774-555-0154
+22,1,Single family home,None or minimal,No,Yes,255 Kestrel Run,774-555-0155
+22,1,Single family home,Destroyed,Yes,No,256 Kestrel Run,774-555-0156
+22,1,Single family home,None or minimal,Yes,Yes,257 Kestrel Run,774-555-0157
+22,1,Single family home,Damaged,No,No,258 Kestrel Run,774-555-0158
+22,1,Multiple unit,Damaged,Yes,Don't know,259 Kestrel Run,774-555-0159
+22,1,Single family home,Destroyed,Yes,Don't know,260 Kestrel Run,774-555-0160
+23,1,Mobile home,Destroyed,No,No,261 Kestrel Run,774-555-0161
+23,1,Multiple unit,None or minimal,Yes,No,262 Kestrel Run,774-555-0162
+23,1,Multiple unit,None or minimal,No,No,263 Kestrel Run,774-555-0163
+23,1,Mobile home,Destroyed,No,Yes,264 Kestrel Run,774-555-0164
+23,1,Single family home,None or minimal,No,Yes,265 Kestrel Run,774-555-0165
+23,1,Single family home,None or minimal,No,No,266 Kestrel Run,774-555-0166
+23,1,Mobile home,Destroyed,Yes,Yes,267 Kestrel Run,774-555-0167
+24,1,Single family home,Damaged,No,Don't know,268 Kestrel Run,774-555-0168
+24,1,Mobile home,Damaged,No,Don't know,269 Kestrel Run,774-555-0169
+24,1,Single family home,None or minimal,Yes,No,270 Kestrel Run,774-555-0170
+24,1,Multiple unit,Damaged,No,No,271 Kestrel Run,774-555-0171
+24,1,Multiple unit,None or minimal,No,Yes,272 Kestrel Run,774-555-0172
+24,1,Mobile home,None or minimal,Yes,No,273 Kestrel Run,774-555-0173
+24,1,Multiple unit,Damaged,Yes,No,274 Kestrel Run,774-555-0174
+25,1,Mobile home,Damaged,No,Yes,275 Kestrel Run,774-555-0175
+25,1,Multiple unit,Damaged,No,Yes,276 Kestrel Run,774-555-0176
+25,1,Single family home,Damaged,No,No,277 Kestrel Run,774-555-0177
+25,1,Multiple unit,None or minimal,Yes,No,278 Kestrel Run,774-555-0178
+25,1,Single family home,None or minimal,Yes,Don't know,279 Kestrel Run,774-555-0179
+26,1,Single family home,Damaged,Yes,Yes,282 Kestrel Run,774-555-0182
+26,1,Single family home,None or minimal,No,No,283 Kestrel Run,774-555-0183
+26,1,Single family home,Damaged,No,No,284 Kestrel Run,774-555-0184
+26,1,Mobile home,None or minimal,Yes,Yes,285 Kestrel Run,774-555-0185
+26,1,Multiple unit,Destroyed,No,No,286 Kestrel Run,774-555-0186
+26,1,Single family home,Destroyed,No,No,287 Kestrel Run,774-555-0187
+26,1,Single family home,None or minimal,No,No,288 Kestrel Run,774-555-0188
+27,1,Mobile home,None or minimal,Yes,Yes,289 Kestrel Run,774-555-0189
+27,1,Mobile home,None or minimal,Yes,No,290 Kestrel Run,774-555-0190
+27,1,Single family home,Damaged,Yes,No,291 Kestrel Run,774-555-0191
+27,1,Single family home,Damaged,No,Yes,292 Kestrel Run,774-555-0192
+27,1,Multiple unit,None or minimal,Yes,No,293 Kestrel Run,774-555-0193
+27,1,Single family home,None or minimal,No,Don't know,294 Kestrel Run,774-555-0194
+27,1,Mobile home,Damaged,No,No,295 Kestrel Run,774-555-0195
+28,1,Mobile home,None or minimal,No,No,296 Kestrel Run,774-555-0196
+28,1,Single family home,None or minimal,Yes,No,297 Kestrel Run,774-555-0197
+28,1,Multiple unit,None or minimal,No,No,298 Kestrel Run,774-555-0198
+28,1,Multiple unit,None or minimal,No,No,299 Kestrel Run,774-555-0199
+28,1,Single family home,None or minimal,No,No,300 Kestrel Run,774-555-0100
+28,1,Mobile home,None or minimal,No,Don't know,301 Kestrel Run,774-555-0101
+28,1,Mobile home,None or minimal,No,Don't know,302 Kestrel Run,774-555-0102
+29,1,Multiple unit,Destroyed,No,Don't know,303 Kestrel Run,774-555-0103
+29,1,Single family home,Destroyed,No,Yes,304 Kestrel Run,774-555-0104
+29,1,Single family home,None or minimal,No,Don't know,305 Kestrel Run,774-555-0105
+29,1,Mobile home,Damaged,No,No,306 Kestrel Run,774-555-0106
+29,1,Mobile home,Destroyed,Yes,Don't know,307 Kestrel Run,774-555-0107
+29,1,Single family home,None or minimal,Yes,No,308 Kestrel Run,774-555-0108
+29,1,Single family home,None or minimal,No,No,309 Kestrel Run,774-555-0109
+30,1,Single family home,None or minimal,Yes,No,310 Kestrel Run,774-555-0110
+30,1,Mobile home,Damaged,Yes,No,311 Kestrel Run,774-555-0111
+30,1,Mobile home,Damaged,Yes,No,312 Kestrel Run,774-555-0112
+30,1,Multiple unit,None or minimal,No,No,313 Kestrel Run,774-555-0113
+30,1,Single family home,Damaged,No,No,314 Kestrel Run,774-555-0114

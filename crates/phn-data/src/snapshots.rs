@@ -271,6 +271,20 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/hrsa_health_centers_ma.csv"),
     ),
     // End of Phase 9 snapshot files.
+    // Phase 12 snapshot files go below this line.
+    (
+        "fema_declarations_ma.csv",
+        include_str!("../../../snapshots/fema_declarations_ma.csv"),
+    ),
+    (
+        "empower_ma.csv",
+        include_str!("../../../snapshots/empower_ma.csv"),
+    ),
+    (
+        "ma_pl2020_blocks.txt",
+        include_str!("../../../snapshots/ma_pl2020_blocks.txt"),
+    ),
+    // End of Phase 12 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

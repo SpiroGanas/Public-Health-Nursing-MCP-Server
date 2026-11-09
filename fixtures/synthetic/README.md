@@ -27,6 +27,9 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/hrsn_screenings.csv` | 15 fictional AHC health-related social needs screenings (client names, MRNs, dates of birth, site, answers to items 1-10), for the HRSN screening tool (Phase 9). |
 | `data/resources/community_resources.csv` | A fictional community resource directory (organizations only, 555-01xx phone numbers) for find_community_resources (Phase 9). |
 | `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
+| `data/shelter_registrations.csv` | 12 fictional shelter registrants (names, dates of birth, phones, addresses, emails, preferred language) with CMIST intake answers, for the Phase 12 shelter intake tool. |
+| `data/cooling_centers.csv` | Four cooling centers with a fictional after-hours contact person, cell phone, and email that must never be returned (Phase 12 heat planner). |
+| `data/casper_results.csv` | 198 fictional CASPER interviews in 30 clusters (7, or 5 in every fifth cluster) with structure, damage, generator, and medication answers, plus household addresses and callback phones that must never be returned. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
 

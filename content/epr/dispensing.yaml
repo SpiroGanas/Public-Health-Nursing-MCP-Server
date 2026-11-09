@@ -1,0 +1,203 @@
+# Dispensing-site (POD) models and planning defaults for model_dispensing_site_throughput (EPR-02).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_dispensing.schema.json
+meta:
+  id: epr-dispensing-site
+  title: Dispensing site (POD) station models and planning defaults
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019), Capability 8: Medical Countermeasure Dispensing and Administration"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  related_sources:
+    - title: Cities Readiness Initiative (CRI)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/php/cri/index.html
+    - title: Vaccination clinic planning content (plan_vaccination_clinic, VAX-08)
+      publisher: Public Health Nursing MCP Server project
+      url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/vax/clinic_planning.yaml
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The throughput definition, POD types, and activation elements are transcribed from CDC's
+    PHEP Capability 8 and glossary (high confidence). Station service times and the share of
+    clients who visit each station are TOOL DEFAULTS, not published standards: the AHRQ mass
+    prophylaxis planning guide and the CDC SNS guide that publish station times could not be
+    retrieved (archive.ahrq.gov was unreachable). The vaccination model reuses the VAX-08 clinic
+    planning defaults (also tool defaults) and CDC's 15-minute observation period. Replace every
+    tool default with times measured in your own POD exercises.
+
+sources:
+  cdc-phep:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+  cdc-cri:
+    title: Cities Readiness Initiative (CRI)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/php/cri/index.html
+    effective_date: 2024-08-08
+    retrieved: 2026-11-08
+  vax-clinic:
+    title: Vaccination clinic planning defaults (plan_vaccination_clinic)
+    publisher: Public Health Nursing MCP Server project (tool defaults; observation time from CDC/ACIP)
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/vax/clinic_planning.yaml
+    effective_date: 2026-11-07
+    retrieved: 2026-11-08
+
+definitions:
+  - text: "Throughput: the number of people receiving medical countermeasures at a POD during a certain period of time. For example, if 6,000 people visit a POD over a 12-hour operational period, then the throughput is 6,000 persons / 12 hours = 500 people/hour."
+    source: cdc-phep
+    section: Glossary, Throughput
+    confidence: high
+  - text: "Closed point of dispensing (closed POD or CPOD): a dispensing site that serves a defined population and is not open to the public."
+    source: cdc-phep
+    section: Glossary, Closed point of dispensing
+    confidence: high
+  - text: "Medical countermeasure dispensing and administration is the ability to provide medical countermeasures (such as vaccines, antiviral drugs, antibiotics, and antitoxins) to targeted population(s) to prevent, mitigate, or treat the adverse health effects of a public health incident."
+    source: cdc-phep
+    section: Capability 8, Definition
+    confidence: high
+  - text: "CDC funds the Cities Readiness Initiative through the PHEP cooperative agreement so state and large metropolitan health departments can plan to receive Strategic National Stockpile countermeasures and distribute them to local communities; Boston is a CRI city."
+    source: cdc-cri
+    section: Overview; Participating Cities and Metropolitan Areas
+    confidence: high
+
+# Elements a site activation procedure may specify (PHEP Capability 8, Function 3, P1).
+activation_elements:
+  source: cdc-phep
+  section: Capability 8, Function 3, P1
+  items:
+    - Site name or identifier
+    - Demand estimate (number of people planning to visit the site)
+    - Estimated throughput and vaccination capacity
+    - Personnel required to operate one shift
+    - Number of personnel and shifts required to operate the site throughout the incident
+    - Personnel availability
+    - Plan to accommodate access and functional needs of at-risk individuals
+
+# Considerations for reaching everyone (PHEP Capability 8, Function 1, P4).
+access_considerations:
+  - text: Alternate approaches for populations that may be difficult to reach, such as people who are undocumented, incarcerated, or experiencing homelessness, and people in long-term care or other congregate care facilities.
+    source: cdc-phep
+    section: Capability 8, Function 1, P4
+    confidence: high
+  - text: Effective communication in multiple formats for people with access and functional needs, including children, pregnant women, and older adults.
+    source: cdc-phep
+    section: Capability 8, Function 1, P4
+    confidence: high
+  - text: Alternate ways of providing countermeasures, such as direct-to-patient or home delivery, and closed PODs for defined populations.
+    source: cdc-phep
+    section: Capability 8, Function 1, P4; Glossary
+    confidence: high
+
+planning_defaults:
+  - id: max_utilization
+    label: Highest share of time staff at a station are busy
+    value: 0.85
+    unit: fraction
+    basis: tool_default
+    note: Queues grow quickly as utilization approaches 1; 0.85 leaves room for breaks and surges. Planning default only.
+  - id: target_wait_minutes
+    label: Longest acceptable average wait in line at any station
+    value: 10
+    unit: minutes
+    basis: tool_default
+    note: Planning default only; set your own service standard.
+  - id: hours_open_per_day
+    label: Hours a site is open each day
+    value: 12
+    unit: hours
+    basis: tool_default
+    note: CDC's throughput definition uses a 12-hour operational period as its example; it is not a requirement.
+  - id: shift_hours
+    label: Length of a staff shift
+    value: 6
+    unit: hours
+    basis: tool_default
+    note: Planning default only; follow your agency's and volunteers' shift policies.
+  - id: surge_factor
+    label: Arrivals in the busiest hour relative to the average hour
+    value: 1.25
+    unit: ratio
+    basis: tool_default
+    note: Arrivals are rarely even; the tool reports how each station copes with this surge. Planning default only.
+
+models:
+  - id: oral_prophylaxis
+    label: Oral medication dispensing (for example antibiotics after an anthrax release)
+    stations:
+      - id: greeting
+        label: Greeting and triage (symptomatic people directed to medical care)
+        minutes_per_client: 0.5
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Planning default only.
+      - id: forms
+        label: Forms review and screening (allergies, pregnancy, children's weights, drug interactions)
+        minutes_per_client: 2.0
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Pre-filled or online screening forms shorten this station. Planning default only.
+      - id: medical
+        label: Medical consultation (clients flagged at screening)
+        minutes_per_client: 5.0
+        fraction_of_clients: 0.15
+        basis: tool_default
+        note: Share of clients and time are planning defaults; both depend on the agent, the drug, and the population.
+      - id: dispensing
+        label: Dispensing (medication and drug information sheet)
+        minutes_per_client: 1.0
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: With head-of-household pickup, time rises with the number of regimens per visit. Planning default only.
+      - id: exit
+        label: Exit and education (questions, follow-up instructions)
+        minutes_per_client: 0.5
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Planning default only.
+    observation_minutes: 0
+  - id: vaccination
+    label: Mass vaccination
+    stations:
+      - id: check_in
+        label: Check-in and registration
+        minutes_per_client: 3.0
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Same as plan_vaccination_clinic (20 check-ins per staff member per hour). Planning default only.
+      - id: screening
+        label: Screening (contraindications and precautions; Vaccine Information Statement or EUA fact sheet)
+        minutes_per_client: 4.0
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Same as plan_vaccination_clinic (15 screenings per screener per hour). Planning default only.
+      - id: vaccination
+        label: Vaccination
+        minutes_per_client: 5.0
+        fraction_of_clients: 1.0
+        basis: tool_default
+        note: Same as plan_vaccination_clinic (12 doses per vaccinator per hour). Planning default only.
+    observation_minutes: 15
+    observation_note: CDC/ACIP suggest observing people (seated or lying down) for 15 minutes after vaccination; see plan_vaccination_clinic for observation seats and the anaphylaxis kit.
+
+support_roles:
+  source: cdc-phep
+  section: Capability 8 (security and crowd management, access and functional needs, documentation and inventory); not counted by the model
+  items:
+    - Site manager (incident command at the site)
+    - Safety officer
+    - Security and traffic or crowd management
+    - Flow monitors and greeters at the entrance and between stations
+    - Interpreters and staff to assist people with access and functional needs
+    - Inventory, documentation (MIIS or other system), and runners
+    - Behavioral health support for staff and clients
