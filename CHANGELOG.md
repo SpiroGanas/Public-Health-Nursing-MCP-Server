@@ -50,6 +50,11 @@ All notable changes are recorded here. The format follows
   state, and U.S. counts by drug class (live → cache → snapshot), and DPH's 2024 findings.
   Snapshots `ma-dph-opioid-deaths-town` and `cdc-vsrr-overdose-ma` (builders in `xtask/scripts/`);
   content `content/bh/overdose_data.yaml`.
+- `get_youth_risk_behavior_data` (MH-07): DPH Youth Health Survey (2023, 2025) and Massachusetts
+  YRBS (2023) report tables by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs and
+  differences by non-overlapping intervals, and CDC YRBS mental health indicators for
+  Massachusetts vs the U.S. Snapshots `ma-youth-health-survey` and `cdc-yrbs-mental-health-ma-us`;
+  content `content/bh/youth_survey.yaml` (also holds DPH's 988 Lifeline text).
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

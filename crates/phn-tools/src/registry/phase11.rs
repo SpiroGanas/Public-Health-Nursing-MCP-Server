@@ -17,4 +17,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Bh,
         phase: 11,
     },
+    ToolMeta {
+        name: "get_youth_risk_behavior_data",
+        plan_id: "MH-07",
+        toolset: Toolset::Bh,
+        phase: 11,
+    },
 ];

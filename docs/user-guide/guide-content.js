@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 49;
+const TOOL_COUNT = 50;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths.', '2'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data.', '3'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1791,6 +1791,36 @@ const toolChapters = [
           'DPH last published town counts as a document for 2015–2022. Newer town numbers (through 2025) are on DPH’s BSAS dashboard; the tool gives the link.',
           'No rate is shown for fewer than 5 deaths, and rates based on fewer than 20 deaths are marked unstable. CDC hides county counts of 1 to 9.',
           'DPH, CDC state, and CDC county numbers use different definitions (opioid-related deaths by residence; all overdose deaths by place of death; all overdose deaths by county of residence), so they do not add up to each other.',
+        ],
+      },
+      {
+        id: 'get_youth_risk_behavior_data',
+        title: 'Look up youth mental health and risk behavior data',
+        toolset: 'bh',
+        internet: 'optional (works offline from bundled data)',
+        files: 'no',
+        does: 'Shows how many Massachusetts middle and high school students report persistent sadness, thinking about suicide, self-injury, bullying, vaping, drinking, marijuana use, protective factors such as feeling they belong at school, and other topics, from DPH’s Youth Health Survey (2023 and 2025) and the Massachusetts Youth Risk Behavior Survey (2023), by sex, grade, race and ethnicity, and LGBTQ identity, with 95% confidence intervals. Compares Massachusetts with the United States using CDC’s Youth Risk Behavior Survey.',
+        when: [
+          'Making the case for a school-based mental health or substance use program.',
+          'A community health assessment or a grant application section on youth.',
+          'Preparing a presentation for a school committee or parent group.',
+        ],
+        provide: [
+          'The topic (for example “sad or hopeless”, “vaping”, or “bullied”), high school or middle school, and which groups you want to see.',
+        ],
+        examples: [
+          'What percentage of Massachusetts high school students felt sad or hopeless, by sex and race?',
+          'How common is vaping among Massachusetts middle school students, by grade?',
+          'How does Massachusetts compare with the U.S. on suicidal thoughts among high school students?',
+        ],
+        returns: [
+          'For each matching indicator: the statewide percentage and each group’s percentage with its 95% confidence interval, which groups differ from the comparison group, the change from two years earlier, and CDC figures for Massachusetts and the U.S.',
+        ],
+        notes: [
+          'These are statewide figures for public school students. There are no town or school figures.',
+          'A difference is reported only when the confidence intervals do not overlap, DPH’s rule. Estimates DPH or CDC did not publish (too few students) are shown as not presented.',
+          'The Youth Health Survey, the Massachusetts YRBS, and CDC’s figures are different surveys; compare years within one survey only.',
+          'When you share suicide-related numbers, follow safe-messaging guidance and include the 988 Lifeline.',
         ],
       },
     ],

@@ -1104,6 +1104,26 @@ occurrence), with the change from a year earlier. Both CDC datasets are live →
 Adds DPH's statewide findings for 2024 (March 2026 report, with pages) and a link to the BSAS
 dashboard for newer town data.
 
+### `get_youth_risk_behavior_data` (MH-07, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | mental health and suicide | Words such as `sad or hopeless`, `suicide`, `self-harm`, `bullied`, `vaping`, `alcohol`, `marijuana`, `belong at school`. |
+| `school_level` | `high` | `high`, `middle`, or `both`. |
+| `by` | all | Any of `sex`, `grade`, `race_ethnicity`, `lgbtq`. |
+| `survey` | both | `MYHS` or `MYRBS`. |
+| `compare_us` | true | Add CDC YRBS mental health estimates for Massachusetts and the U.S. |
+| `max_indicators` | 8 | Max 25. |
+
+Massachusetts indicators come from DPH's report tables (bundled): the Massachusetts Youth Health
+Survey 2025 (April 2026) and 2023, and the 2023 joint MYHS/YRBS report (305 indicators, 3,565
+estimates with 95% confidence intervals; `**` estimates DPH did not present stay suppressed).
+Groups are compared with male, White, and straight/cisgender students, and a difference is shown
+only when the 95% intervals do not overlap (DPH's rule); the same indicator two years earlier is
+compared the same way. CDC's YRBSS mental health indicators (`nu3s-3dwd`, 2019-2023, live → cache →
+snapshot) compare Massachusetts with the national YRBS. Suicide-related answers include DPH's 988
+Lifeline text and a safe-messaging reminder.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

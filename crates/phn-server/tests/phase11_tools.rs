@@ -327,3 +327,90 @@ async fn overdose_data_rejects_bad_input() {
     let e = call_err(&h, "get_overdose_data", json!({"basis": "work"})).await;
     assert!(e.contains("residence or occurrence"), "{e}");
 }
+
+// ------------------------------------------------------------------ MH-07
+
+#[tokio::test]
+async fn youth_survey_defaults_to_mental_health_with_us_comparison() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(&h, "get_youth_risk_behavior_data", json!({})).await;
+    let d = &s["data"];
+    let first = &d["indicators"][0];
+    assert_eq!(first["year"], 2025);
+    assert_eq!(first["school_level"], "high");
+    assert!(first["topic"].as_str().unwrap().contains("Mental health"));
+    // Female students: higher than male students (MYHS 2025 sadness: 36.2 vs 18.4).
+    let flagged = d["indicators"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .flat_map(|i| i["groups"].as_array().unwrap().iter())
+        .any(|g| {
+            g["group"] == "Female"
+                && g["versus_reference"]
+                    .as_str()
+                    .is_some_and(|v| v.contains("higher"))
+        });
+    assert!(flagged);
+    let cdc = d["cdc_comparison"].as_array().unwrap();
+    assert!(cdc.len() >= 4, "{cdc:?}");
+    assert!(cdc[0]["years"].as_array().unwrap().len() >= 2);
+    assert!(d["crisis_line"].as_str().unwrap().contains("988"));
+    assert!(caveats(&s).contains("bundled snapshot"));
+    assert!(has_pending_review_caveat(&s));
+    assert!(md(&s).contains("Massachusetts vs the U.S."));
+}
+
+#[tokio::test]
+async fn youth_survey_topics_levels_and_groups() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "get_youth_risk_behavior_data",
+        json!({"topic": "vaping", "school_level": "middle", "by": ["grade"]}),
+    )
+    .await;
+    let inds = s["data"]["indicators"].as_array().unwrap();
+    assert!(!inds.is_empty());
+    for i in inds {
+        assert_eq!(i["school_level"], "middle");
+        assert!(
+            i["indicator"]
+                .as_str()
+                .unwrap()
+                .to_lowercase()
+                .contains("vap")
+        );
+        for g in i["groups"].as_array().unwrap() {
+            assert_eq!(g["group_type"], "Grade");
+        }
+    }
+    assert!(s["data"]["cdc_comparison"].as_array().unwrap().is_empty());
+    let s = call_ok(
+        &h,
+        "get_youth_risk_behavior_data",
+        json!({"topic": "bullied", "survey": "MYRBS", "compare_us": false}),
+    )
+    .await;
+    assert!(
+        s["data"]["indicators"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|i| i["survey"] == "MYRBS")
+    );
+    let e = call_err(
+        &h,
+        "get_youth_risk_behavior_data",
+        json!({"topic": "skateboarding helmets"}),
+    )
+    .await;
+    assert!(e.contains("Topics:"), "{e}");
+    let e = call_err(
+        &h,
+        "get_youth_risk_behavior_data",
+        json!({"school_level": "college"}),
+    )
+    .await;
+    assert!(e.contains("high, middle, or both"), "{e}");
+}

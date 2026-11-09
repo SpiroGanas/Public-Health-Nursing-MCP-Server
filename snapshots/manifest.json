@@ -821,6 +821,69 @@
           "rows": 1050
         }
       ]
+    },
+    {
+      "id": "ma-youth-health-survey",
+      "title": "Massachusetts Youth Health Survey (2023, 2025) and Massachusetts YRBS (2023) report tables",
+      "publisher": "Massachusetts Department of Public Health, Health Survey Program (with DESE)",
+      "source_urls": [
+        "https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-yhs-and-yrbs-joint-report/download",
+        "https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs"
+      ],
+      "source_sha256": {
+        "2025-massachusetts-youth-health-survey-report.docx": "6005010ee51f9f2099ce6296603aa6b5070d1e8fd62a28545c3302d5ba60c909",
+        "2023-massachusetts-youth-health-survey-report.docx": "2c71012077b63bb53660a448d35f530c3d940bc5a0c827d093bec931ba3b6026",
+        "2023-massachusetts-yhs-and-yrbs-joint-report.docx": "7c4109223ceee8f74f0940bce206ab1f0f1f3c4c28246dbc8b949333f3a84a91"
+      },
+      "source_vintage": "MYHS 2025 (report dated 2026-04-14), MYHS 2023 (2024-05-23), joint MYHS/MYRBS 2023 report",
+      "retrieved": "2026-11-08",
+      "license": "Public reports of the Massachusetts Department of Public Health.",
+      "derivation": "Every table that starts 'Percentage of Massachusetts ... students who reported:' was read from the DOCX (header cells = indicators; each estimate row with its 95% confidence interval, from the next row or the same cell; blank rows start a group such as Grade, Gender, Race/Ethnicity). Indicators marked ^ in the joint report and all its middle school results are labeled MYHS; other joint-report high school results are MYRBS. '**' (not presented) is kept as suppressed. One published typo (91..0) was read as 91.0. Indicators are in ma_youth_survey_indicators.csv; estimates refer to them by id. Builder: xtask/scripts/build_youth_survey.py.",
+      "caveats": [
+        "DPH does not present estimates based on fewer than 100 respondents or with a relative standard error above 30%.",
+        "The MYHS and the MYRBS are different surveys of public school students; their estimates for similar questions differ and should not be mixed in a trend.",
+        "Students in private schools, state custody, or other settings are not represented; data are self-reported."
+      ],
+      "files": [
+        {
+          "path": "ma_youth_survey.csv",
+          "sha256": "085cbc3d61c965d02bc79fa826a7cc489e2feec8696bd44048fbf0c097eb244b",
+          "bytes": 134185,
+          "rows": 3565
+        },
+        {
+          "path": "ma_youth_survey_indicators.csv",
+          "sha256": "aba955561e5cc2c88356f9e661017bf51e6d8228243601239d91c42da8dddb9b",
+          "bytes": 29634,
+          "rows": 305
+        }
+      ]
+    },
+    {
+      "id": "cdc-yrbs-mental-health-ma-us",
+      "title": "YRBSS Mental Health Indicators: Massachusetts and the United States",
+      "publisher": "CDC, Division of Adolescent and School Health (Youth Risk Behavior Surveillance System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/nu3s-3dwd"
+      ],
+      "source_sha256": {},
+      "source_vintage": "YRBS 2019, 2021, and 2023 (rows updated 2026-05-27)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "All rows of nu3s-3dwd for area_abbr MA (Massachusetts YRBS) and XX (national YRBS): year, question, demographic type and value, percent, and 95% confidence limits. 'Suppressed' values are blank. Builder: xtask/scripts/build_yrbs_mental_health.py (Python 3 and curl).",
+      "caveats": [
+        "CDC suppresses estimates with too few respondents ('Suppressed')."
+      ],
+      "files": [
+        {
+          "path": "cdc_yrbs_mental_health_ma_us.csv",
+          "sha256": "eea231fc8aab3e761cb64cdfe145f717647a1a7f1e7fac03edb7f2c53cc22ff7",
+          "bytes": 48790,
+          "rows": 340
+        }
+      ]
     }
   ]
 }

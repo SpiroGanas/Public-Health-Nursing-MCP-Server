@@ -168,6 +168,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/bh/overdose_data.yaml"),
         schema: include_str!("../../../content/schemas/bh_overdose_data.schema.json"),
     },
+    ContentItem {
+        id: "bh-youth-survey",
+        path: "content/bh/youth_survey.yaml",
+        resource_uri: "phn://content/bh-youth-survey",
+        yaml: include_str!("../../../content/bh/youth_survey.yaml"),
+        schema: include_str!("../../../content/schemas/bh_youth_survey.schema.json"),
+    },
     // End of Phase 11 content items.
     // Phase 12 content items go below this line.
     // End of Phase 12 content items.

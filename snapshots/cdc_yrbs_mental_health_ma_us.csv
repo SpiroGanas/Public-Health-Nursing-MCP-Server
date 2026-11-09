@@ -1,0 +1,341 @@
+year,area_abbr,question,demographics_type,demographics_value,percent,low_confidence_interval,high_confidence_interval
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,33.8,27.0,41.4
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,27.9,18.6,39.5
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,40.9,33.8,48.5
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,30.5,18.8,45.5
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,32.8,29.5,36.3
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,41.1,36.3,46.1
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,26.4,23.7,29.2
+2019,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,33.8,30.8,37.0
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,19.1,12.8,27.7
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,22.0,17.9,26.8
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,17.8,14.2,22.0
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,14.9,8.7,24.3
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,16.7,13.8,20.1
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,19.2,16.4,22.2
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,15.4,13.1,18.1
+2019,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,17.5,15.6,19.6
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,15.0,8.8,24.3
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,11.6,6.9,18.9
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,16.7,13.0,21.3
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,17.8,9.1,31.9
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,14.2,12.0,16.7
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,15.0,12.9,17.4
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,13.5,11.4,16.0
+2019,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,14.8,13.5,16.2
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,10.9,6.4,18.0
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,6.3,2.6,14.7
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,10.8,8.1,14.3
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,5.0,2.0,11.8
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,5.7,4.2,7.8
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,7.8,6.1,10.1
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,6.5,4.7,8.9
+2019,MA,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,7.3,5.9,8.9
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,35.0,28.1,42.7
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,34.6,28.8,40.9
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,46.4,42.2,50.7
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,44.6,35.5,54.1
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,36.1,32.2,40.3
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,50.1,47.0,53.2
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,26.6,23.1,30.4
+2021,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,38.5,35.6,41.4
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,21.0,15.2,28.3
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,18.0,13.7,23.4
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,19.7,15.9,24.1
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,21.8,14.6,31.3
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,17.5,15.2,20.0
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,25.1,22.3,28.0
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,11.5,9.2,14.1
+2021,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,18.4,16.5,20.4
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,18.0,11.4,27.3
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,15.6,12.1,19.8
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,15.8,12.0,20.5
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,14.6,9.2,22.2
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,12.8,10.8,15.2
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,17.7,14.8,21.1
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,10.0,8.0,12.4
+2021,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,14.0,12.3,16.0
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,10.1,6.3,15.7
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,9.4,5.7,15.2
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,11.4,8.3,15.4
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,7.8,3.6,16.4
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,5.7,4.4,7.4
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,9.6,8.0,11.4
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,5.5,4.0,7.5
+2021,MA,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,7.6,6.4,8.9
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Asian,28.9,21.9,37.0
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Black,25.5,19.7,32.4
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Hispanic,35.4,30.9,40.2
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Multiple race,33.1,23.4,44.6
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,White,31.8,28.2,35.6
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Female,43.5,39.5,47.5
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Male,19.8,17.3,22.7
+2021,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Total,Total,31.8,29.0,34.8
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,38.5,27.9,50.3
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,44.7,38.8,50.8
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,33.1,28.8,37.7
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,41.4,30.5,53.2
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,31.5,28.4,34.7
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,45.3,41.8,48.7
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,23.4,20.3,26.8
+2023,MA,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,34.0,31.2,36.9
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,16.8,10.7,25.4
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,19.2,14.1,25.7
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,14.5,11.3,18.4
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,17.5,11.6,25.6
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,15.6,13.3,18.1
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,20.2,17.2,23.6
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,11.6,9.4,14.3
+2023,MA,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,15.8,13.7,18.1
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,12.6,7.3,21.0
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,18.0,13.7,23.2
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,11.1,8.5,14.4
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,13.0,8.4,19.5
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,11.7,9.8,14.0
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,15.6,12.9,18.7
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,9.1,7.8,10.7
+2023,MA,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,12.3,10.5,14.3
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,5.8,2.4,13.2
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,15.4,9.8,23.6
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,8.9,6.3,12.3
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,7.7,3.5,15.9
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,5.4,4.1,7.1
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,9.3,7.3,11.8
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,4.8,3.6,6.3
+2023,MA,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,7.2,5.7,8.9
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,AI/AN,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Asian,29.6,24.1,35.7
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Black,35.1,28.5,42.3
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Hispanic,25.5,21.4,30.1
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Multiple race,37.0,26.9,48.5
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,White,32.1,28.4,36.1
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Female,41.0,37.0,45.1
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Male,21.1,18.0,24.5
+2023,MA,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Total,Total,30.9,28.1,33.8
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,45.5,32.7,58.9
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,31.6,27.4,36.1
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,31.5,28.8,34.3
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,40.0,38.0,42.1
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,45.2,38.7,51.9
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,36.8,22.6,53.7
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,36.0,34.1,38.0
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,46.6,44.4,48.9
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,26.8,25.2,28.4
+2019,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,36.7,35.1,38.3
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,34.7,23.8,47.6
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,19.7,15.8,24.3
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,16.9,15.3,18.7
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,17.2,15.2,19.4
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,25.7,21.6,30.4
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,15.4,8.2,27.0
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,19.1,17.6,20.8
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,24.1,22.3,26.0
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,13.3,12.2,14.5
+2019,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,18.8,17.6,20.0
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,24.2,13.5,39.6
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,16.1,13.1,19.7
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,15.0,12.9,17.5
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,14.7,13.0,16.7
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,22.3,18.8,26.3
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,13.5,6.2,26.8
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,15.7,14.1,17.4
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,19.9,18.4,21.6
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,11.3,10.3,12.4
+2019,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,15.7,14.6,16.9
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,25.5,12.6,44.6
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,7.7,4.8,12.3
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,11.8,8.7,15.9
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,8.9,7.1,11.1
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,12.9,9.7,17.1
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,8.8,2.4,27.2
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,7.9,6.9,9.1
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,11.0,9.7,12.5
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,6.6,5.5,8.1
+2019,XX,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,8.9,7.9,10.0
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,AI/AN,28.7,18.8,41.2
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Asian,9.8,6.9,13.9
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Black,15.3,12.9,18.1
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Hispanic,16.0,13.5,18.8
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Multiple race,18.6,15.0,22.8
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,NHOPI,12.3,4.6,29.1
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,White,12.7,10.9,14.7
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Female,16.1,14.1,18.4
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Male,12.4,11.0,14.1
+2019,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Total,Total,14.3,12.8,15.9
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,AI/AN,31.7,18.0,49.4
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,Asian,6.3,4.2,9.4
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,Black,10.2,7.8,13.4
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,Hispanic,13.5,11.8,15.4
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,Multiple race,15.8,12.2,20.3
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,NHOPI,14.7,4.6,38.2
+2019,XX,Ever used select illicit drugs?,RaceEthnicity,White,13.3,11.5,15.4
+2019,XX,Ever used select illicit drugs?,Sex,Female,12.4,10.8,14.3
+2019,XX,Ever used select illicit drugs?,Sex,Male,13.2,11.8,14.8
+2019,XX,Ever used select illicit drugs?,Total,Total,12.9,11.6,14.4
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,40.5,31.5,50.2
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,35.1,30.4,40.2
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,39.3,36.3,42.5
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,46.4,43.9,49.0
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,48.8,44.8,52.8
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,39.2,29.1,50.3
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,41.1,39.0,43.3
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,56.6,54.6,58.5
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,28.6,27.1,30.0
+2021,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,42.3,41.0,43.7
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,27.3,19.6,36.6
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,17.7,15.5,20.2
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,21.6,18.4,25.2
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,22.0,20.8,23.3
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,24.1,20.0,28.7
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,21.4,8.7,43.7
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,22.7,20.9,24.6
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,30.0,28.5,31.4
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,14.3,13.3,15.4
+2021,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,22.2,21.1,23.3
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,21.9,14.3,31.9
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,16.5,13.4,20.3
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,17.7,15.0,20.8
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,18.7,17.1,20.5
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,20.5,16.5,25.1
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,20.2,13.2,29.7
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,16.9,15.2,18.8
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,23.6,22.1,25.1
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,11.6,10.5,12.8
+2021,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,17.6,16.4,19.0
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,16.0,10.5,23.7
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,6.4,4.3,9.4
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,14.5,11.9,17.5
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,10.7,9.5,12.0
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,11.7,9.1,14.9
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,9.7,4.2,20.8
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,9.0,7.8,10.5
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,13.3,12.0,14.7
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,6.6,5.8,7.5
+2021,XX,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,10.2,9.4,11.0
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,AI/AN,31.1,23.1,40.3
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Asian,22.8,18.3,28.2
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Black,26.5,24.0,29.1
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Hispanic,29.7,27.7,31.9
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Multiple race,33.0,29.4,36.8
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,NHOPI,20.1,7.8,42.8
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,White,30.2,27.8,32.7
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Female,40.8,38.6,43.0
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Male,18.1,17.0,19.2
+2021,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Total,Total,29.3,27.8,30.8
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,AI/AN,15.3,9.4,24.0
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Asian,10.6,8.6,13.1
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Black,13.6,11.2,16.4
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Hispanic,13.8,11.8,16.1
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Multiple race,12.3,9.6,15.6
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,NHOPI,12.4,7.4,20.0
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,White,11.2,10.0,12.7
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Female,14.8,13.5,16.1
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Male,9.5,8.7,10.4
+2021,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Total,Total,12.2,11.3,13.2
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,AI/AN,19.7,11.1,32.5
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,Asian,7.4,5.8,9.3
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,Black,9.4,7.8,11.3
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,Hispanic,13.8,11.5,16.5
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,Multiple race,17.7,13.3,23.0
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,NHOPI,Suppressed,Suppressed,Suppressed
+2021,XX,Ever used select illicit drugs?,RaceEthnicity,White,14.0,12.3,16.0
+2021,XX,Ever used select illicit drugs?,Sex,Female,14.5,12.9,16.3
+2021,XX,Ever used select illicit drugs?,Sex,Male,12.2,11.1,13.3
+2021,XX,Ever used select illicit drugs?,Total,Total,13.3,12.2,14.6
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,AI/AN,44.8,29.0,61.8
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Asian,32.1,28.3,36.2
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Black,39.6,37.1,42.2
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Hispanic,42.4,39.4,45.4
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,Multiple race,41.4,35.2,47.8
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,NHOPI,25.8,14.3,42.1
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",RaceEthnicity,White,38.9,36.4,41.4
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Female,52.6,50.1,55.0
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Sex,Male,27.7,25.9,29.6
+2023,XX,"During the past 12 months, did you ever feel so sad or hopeless almost every day for two weeks or more in a row that you stopped doing some usual activities?",Total,Total,39.7,37.7,41.7
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,AI/AN,24.5,14.7,38.1
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Asian,14.4,11.9,17.3
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Black,19.6,16.9,22.7
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Hispanic,18.2,16.2,20.3
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,Multiple race,21.6,17.3,26.7
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,NHOPI,16.1,4.3,45.0
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",RaceEthnicity,White,22.1,19.8,24.5
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Female,27.1,24.7,29.6
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Sex,Male,14.1,12.4,15.9
+2023,XX,"During the past 12 months, did you ever seriously consider attempting suicide?",Total,Total,20.4,18.7,22.3
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,AI/AN,25.7,16.6,37.5
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Asian,12.7,10.4,15.3
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Black,15.9,13.2,19.0
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Hispanic,15.6,13.5,17.9
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,Multiple race,19.8,15.3,25.3
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,NHOPI,10.9,2.3,38.8
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",RaceEthnicity,White,17.0,14.3,20.2
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Female,21.2,18.8,23.8
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Sex,Male,11.8,9.9,14.0
+2023,XX,"During the past 12 months, did you make a plan about how you would attempt suicide?",Total,Total,16.4,14.4,18.6
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,AI/AN,11.5,6.8,18.6
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Asian,8.0,5.3,11.7
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Black,10.3,8.5,12.5
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Hispanic,10.8,9.1,12.6
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,Multiple race,11.4,8.4,15.5
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,NHOPI,15.3,4.0,43.8
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",RaceEthnicity,White,8.3,7.0,9.9
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Female,12.6,11.2,14.2
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",Sex,Male,6.4,5.3,7.6
+2023,XX,"During the past 12 months, how many times did you actually attempt suicide?",Total,Total,9.5,8.4,10.7
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,AI/AN,42.3,23.9,63.2
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Asian,23.0,18.2,28.7
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Black,26.5,23.1,30.2
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Hispanic,26.1,23.2,29.2
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,Multiple race,28.9,24.1,34.2
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,NHOPI,14.9,4.5,39.6
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",RaceEthnicity,White,31.4,29.0,33.9
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Female,38.8,36.2,41.4
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Sex,Male,18.8,17.3,20.5
+2023,XX,"During the past 30 days, how often was your mental health not good? (Poor mental health includes stress, anxiety, and depression.)",Total,Total,28.5,26.7,30.4
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,AI/AN,10.9,6.3,18.3
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Asian,10.4,6.9,15.4
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Black,12.2,10.5,14.3
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Hispanic,13.2,11.1,15.6
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,Multiple race,14.4,10.9,18.8
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,NHOPI,8.5,2.4,26.0
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,RaceEthnicity,White,9.9,8.4,11.5
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Female,13.8,12.1,15.7
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Sex,Male,9.3,8.3,10.4
+2023,XX,Ever took prescription pain medicine without a doctor's prescription or differently than how a doctor told them to use it?,Total,Total,11.6,10.4,13.0
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,AI/AN,17.9,10.3,29.3
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,Asian,9.5,5.0,17.4
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,Black,6.8,5.0,9.0
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,Hispanic,9.6,7.5,12.2
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,Multiple race,13.5,10.0,18.0
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,NHOPI,6.2,1.4,23.6
+2023,XX,Ever used select illicit drugs?,RaceEthnicity,White,10.6,9.2,12.2
+2023,XX,Ever used select illicit drugs?,Sex,Female,9.9,8.4,11.6
+2023,XX,Ever used select illicit drugs?,Sex,Male,9.8,8.2,11.7
+2023,XX,Ever used select illicit drugs?,Total,Total,9.9,8.6,11.3

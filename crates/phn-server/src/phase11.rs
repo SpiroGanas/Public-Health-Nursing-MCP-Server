@@ -1,7 +1,7 @@
 //! Phase 11 tools: substance use, crisis resources, and health communication.
 
 use phn_core::Envelope;
-use phn_tools::bh::{OverdoseArgs, OverdoseResult};
+use phn_tools::bh::{OverdoseArgs, OverdoseResult, YouthSurveyArgs, YouthSurveyResult};
 use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -51,5 +51,23 @@ impl PhnServer {
         Parameters(args): Parameters<OverdoseArgs>,
     ) -> CallToolResult {
         respond(phn_tools::bh::get_overdose_data(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "get_youth_risk_behavior_data",
+        description = "Massachusetts youth survey indicators for high or middle school students: \
+            persistent sadness, suicidal ideation, self-injury, bullying, vaping, alcohol, \
+            marijuana, protective factors, and other topics from DPH's Youth Health Survey \
+            (2023, 2025) and the Massachusetts YRBS (2023), by sex, grade, race/ethnicity, and \
+            LGBTQ identity with 95% confidence intervals and differences flagged; plus CDC YRBS \
+            mental health estimates for Massachusetts compared with the U.S. (2019-2023).",
+        annotations(title = "Youth risk behavior data", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<YouthSurveyResult>>()
+    )]
+    async fn get_youth_risk_behavior_data(
+        &self,
+        Parameters(args): Parameters<YouthSurveyArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::bh::get_youth_risk_behavior_data(&self.ctx, args).await)
     }
 }

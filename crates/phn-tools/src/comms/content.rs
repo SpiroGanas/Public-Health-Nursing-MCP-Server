@@ -23,6 +23,8 @@ pub const CAMPAIGNS: &str = "comms-campaigns";
 pub const TRANSLATION: &str = "comms-translation";
 /// Content id: overdose death data notes (MH-03).
 pub const OVERDOSE_DATA: &str = "bh-overdose-data";
+/// Content id: youth survey notes and the 988 Lifeline (MH-07).
+pub const YOUTH_SURVEY: &str = "bh-youth-survey";
 /// Content id: naloxone, harm reduction, and treatment resources.
 pub const SUBSTANCE_USE: &str = "bh-substance-use-resources";
 /// Content id: school postvention (After a Suicide toolkit).
