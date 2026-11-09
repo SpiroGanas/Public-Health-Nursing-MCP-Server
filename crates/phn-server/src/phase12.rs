@@ -4,6 +4,7 @@ use phn_core::Envelope;
 use phn_tools::env::{AirQualityArgs, AirQualityResult, HeatPlanArgs, HeatPlanResult};
 use phn_tools::epr::{
     DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult, HvaArgs, HvaResult,
+    ShelterArgs, ShelterResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -147,5 +148,33 @@ impl PhnServer {
         Parameters(args): Parameters<HvaArgs>,
     ) -> CallToolResult {
         respond(phn_tools::epr::hazard_vulnerability_assessment(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "functional_needs_shelter_intake",
+        description = "Shelter health intake using the CMIST framework (communication, \
+            maintaining health, independence, support and safety, transportation): returns the \
+            intake questions and dispositions, writes a blank DOCX/XLSX form to /data/output, and \
+            estimates for an expected number of residents how many will need interpreters, \
+            hearing or vision support, accessible cots, personal assistance, power for medical \
+            equipment (HHS emPOWER), insulin refrigeration, or accessible transport, from local \
+            ACS, PLACES, and emPOWER rates, with staff per shift. With intake_path (a CSV/XLSX of \
+            registrants in /data) it fills one form per person into /data/output and returns \
+            only suppressed counts by need and language; agency translations in \
+            /data/templates/<language>/cmist_intake.md are used when present.",
+        annotations(
+            title = "Functional needs shelter intake (CMIST)",
+            read_only_hint = false,
+            destructive_hint = false,
+            idempotent_hint = false,
+            open_world_hint = false
+        ),
+        output_schema = schema_for_output::<Envelope<ShelterResult>>()
+    )]
+    async fn functional_needs_shelter_intake(
+        &self,
+        Parameters(args): Parameters<ShelterArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::epr::functional_needs_shelter_intake(&self.ctx, args).await)
     }
 }

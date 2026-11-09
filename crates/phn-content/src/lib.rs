@@ -191,6 +191,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/hva.yaml"),
         schema: include_str!("../../../content/schemas/epr_hva.schema.json"),
     },
+    ContentItem {
+        id: "epr-functional-needs-shelter",
+        path: "content/epr/functional_needs_shelter.yaml",
+        resource_uri: "phn://content/epr-functional-needs-shelter",
+        yaml: include_str!("../../../content/epr/functional_needs_shelter.yaml"),
+        schema: include_str!("../../../content/schemas/epr_functional_needs_shelter.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

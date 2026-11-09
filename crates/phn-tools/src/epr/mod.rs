@@ -9,10 +9,12 @@ pub mod content;
 pub mod dispensing;
 pub mod hva;
 pub mod population;
+pub mod shelter;
 
 pub use alerts::{HazardAlertsArgs, HazardAlertsResult, get_active_hazard_alerts};
 pub use dispensing::{
     DispensingArgs, DispensingResult, StationInput, model_dispensing_site_throughput,
 };
 pub use hva::{HazardScoreInput, HvaArgs, HvaResult, hazard_vulnerability_assessment};
+pub use shelter::{ShelterArgs, ShelterResult, functional_needs_shelter_intake};
 // End of Phase 12 modules.

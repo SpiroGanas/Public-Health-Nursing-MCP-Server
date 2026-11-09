@@ -35,4 +35,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Epr,
         phase: 12,
     },
+    ToolMeta {
+        name: "functional_needs_shelter_intake",
+        plan_id: "EPR-03",
+        toolset: Toolset::Epr,
+        phase: 12,
+    },
 ];

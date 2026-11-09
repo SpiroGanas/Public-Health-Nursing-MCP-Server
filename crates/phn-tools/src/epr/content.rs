@@ -537,6 +537,41 @@ pub struct Hva {
     pub nri: NriColumns,
 }
 
+// ---------------------------------------------------------------- shelter intake (EPR-03)
+
+/// An intake question.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct IntakeQuestion {
+    pub id: String,
+    pub text: String,
+    /// "yes_no" or "text".
+    pub kind: String,
+}
+
+/// A CMIST domain.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct CmistDomain {
+    pub id: String,
+    pub letter: String,
+    pub label: String,
+    pub questions: Vec<IntakeQuestion>,
+}
+
+/// `content/epr/functional_needs_shelter.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Shelter {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub cmist_definition: Cited,
+    pub mass_care_tasks: Vec<Cited>,
+    pub domains: Vec<CmistDomain>,
+    pub questions_source: String,
+    pub questions_section: String,
+    pub dispositions: Vec<String>,
+    pub electric_equipment: CitedList,
+    pub staffing_defaults: Vec<Assumption>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
