@@ -127,6 +127,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `plan_tb_contact_investigation` | CD-11 | cd | TB contact investigation per NTCA/CDC: infectious period, contact priorities, deadlines, the 8-10 week retest, DPH TB contacts, and a tracking workbook. |
+| `ltbi_treatment_calendar` | CD-12 | cd | Dose calendar, monitoring visits, completion window, and adherence check for 3HP, 4R, 3HR, 6H, and 9H (no dose calculation). |
+| `screen_health_related_social_needs` | EQ-05 | equity | Scores the CMS AHC HRSN screening tool by domain and maps positive domains to Massachusetts referral categories; batch mode returns suppressed counts. |
+| `omaha_system_coder` | CORE-01 | core | Codes a narrative to Omaha System problems, interventions, and KBS ratings without returning the text. |
+| `classify_intervention_wheel` | CORE-02 | core | Classifies activities by the Public Health Intervention Wheel's 17 interventions and 3 levels for workload reports. |
+| `nursing_documentation_template` | CORE-03 | core | SOAP, DAR, and narrative templates with required elements, and a check of a local note that never returns its text. |
+| `find_community_resources` | EQ-07 | equity | Searches the nurse's resource directory and HRSA health centers by town, service, language, and hours. |
+| `newcomer_health_navigator` | EQ-11 | equity | Refugee and immigrant health: CDC domestic screening, DPH/ORI programs, MassHealth coverage by status (October 2026 changes), and shelter resources. |
 <!-- Phase 9 rows go above this line. -->
 
 ### Phase 10: healthy aging and mental health screening

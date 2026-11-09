@@ -1,0 +1,509 @@
+# Public health nursing documentation templates (SOAP, DAR, narrative) by visit type, and the
+# required elements checked by nursing_documentation_template (CORE-03).
+#
+# REVIEW STATUS: pending. See meta.verification_note. Replace the tool-default structures with
+# your agency's documentation policy where they differ.
+# Schema: content/schemas/documentation_templates.schema.json
+meta:
+  id: nursing-documentation-templates
+  title: Public health nursing documentation templates (SOAP, DAR, narrative) and required elements
+  version: 0.1.0
+  prepared: '2026-11-08'
+  effective_date: null
+  source:
+    title: '244 CMR 9.00: Standards of Conduct for Nurses (9.03(44) Documentation; 9.03(16) Patient Confidential
+      Information)'
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+  related_sources:
+  - title: '42 CFR 484.110 Condition of participation: Clinical records (home health agencies)'
+    publisher: Centers for Medicare & Medicaid Services (eCFR)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-484/subpart-B/section-484.110
+  - title: '42 CFR 484.50 Condition of participation: Patient rights'
+    publisher: Centers for Medicare & Medicaid Services (eCFR)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-484/subpart-B/section-484.50
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: Drafted on 2026-11-08. Required elements cite 244 CMR 9.03(44) and (16) (Board of
+    Registration in Nursing, 06/11/2021) and, as a reference standard for home visits, 42 CFR 484.110
+    and 484.50 (Medicare home health conditions of participation, eCFR text as of 2026-11-01), which bind
+    only Medicare-certified home health agencies; case-investigation elements cite the 2005 NTCA/CDC TB
+    contact guidelines (Table 4) and DOT elements cite DPH's LTBI regimen page. The SOAP, DAR (focus charting),
+    and narrative structures and the section prompts are tool defaults drawn from common nursing practice,
+    not from a cited standard (medium confidence); replace them with your agency's documentation policy.
+    Detection cues are this tool's keywords. The subject matter expert must review before use.
+sources:
+  cmr244:
+    title: '244 CMR 9.00: Standards of conduct for nurses'
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/244-cmr-9-standards-of-conduct-for-nurses/download
+    effective_date: '2021-06-11'
+    retrieved: '2026-11-08'
+  cfr484-110:
+    title: '42 CFR 484.110, Condition of participation: Clinical records'
+    publisher: Centers for Medicare & Medicaid Services (eCFR)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-484/subpart-B/section-484.110
+    effective_date: '2020-11-04'
+    retrieved: '2026-11-08'
+  cfr484-50:
+    title: '42 CFR 484.50, Condition of participation: Patient rights'
+    publisher: Centers for Medicare & Medicaid Services (eCFR)
+    url: https://www.ecfr.gov/current/title-42/chapter-IV/subchapter-G/part-484/subpart-B/section-484.50
+    effective_date: null
+    retrieved: '2026-11-08'
+  cdc-ci-2005:
+    title: Guidelines for the Investigation of Contacts of Persons with Infectious Tuberculosis (MMWR
+      2005;54(No. RR-15)), Table 4
+    publisher: CDC and the National Tuberculosis Controllers Association
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5415a1.htm
+    effective_date: '2005-12-16'
+    retrieved: '2026-11-08'
+  dph-ltbi-regimens:
+    title: Treatment Regimens for Latent Tuberculosis Infection in Massachusetts
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/treatment-regimens-for-latent-tuberculosis-infection-in-massachusetts
+    effective_date: null
+    retrieved: '2026-11-08'
+  cdc-refugee-hp:
+    title: 'Domestic Refugee Screening: History and Physical (key points)'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/history-and-physical.html
+    effective_date: null
+    retrieved: '2026-11-08'
+standards:
+- text: A nurse licensed by the Board shall make complete, accurate, and legible entries in all records
+    required by federal and state laws and regulations and accepted standards of nursing practice. On
+    all documentation requiring a nurse's signature, the nurse shall sign his or her name as it appears
+    on his or her license.
+  source: cmr244
+  section: 244 CMR 9.03(44) Documentation
+- text: A nurse shall not inappropriately destroy or alter any record related to the practice of nursing
+    (late entries are added, dated, and labeled, never overwritten).
+  source: cmr244
+  section: 244 CMR 9.03(45) Alteration or Destruction of Records
+  confidence: medium
+- text: A nurse shall safeguard patient information from any person or entity not entitled to it, and
+    share appropriate information only as required by law or for the protection of the patient.
+  source: cmr244
+  section: 244 CMR 9.03(16) Patient Confidential Information
+- text: 'Reference standard for home visits (binding on Medicare-certified home health agencies): the
+    record includes assessments and clinical notes, all interventions and the patient''s responses, goals
+    and progress, and contact information for continuity; entries are legible, clear, complete, and authenticated,
+    dated, and timed with signature and title.'
+  source: cfr484-110
+  section: 42 CFR 484.110(a)-(b)
+formats:
+- id: soap
+  label: SOAP (Subjective, Objective, Assessment, Plan)
+  basis: Problem-oriented charting format in common nursing use; structure is a tool default.
+  confidence: medium
+  sections:
+  - id: subjective
+    heading: S - Subjective
+    aliases:
+    - s
+    - subjective
+    prompt: 'What the client or family reports, in their words where helpful: concerns, symptoms, adherence,
+      needs. Note the language used and interpreter.'
+  - id: objective
+    heading: O - Objective
+    aliases:
+    - o
+    - objective
+    prompt: 'What you observed and measured: vital signs, weight, findings, home environment, screening
+      results, documents reviewed.'
+  - id: assessment
+    heading: A - Assessment
+    aliases:
+    - a
+    - assessment
+    prompt: 'Your nursing judgment: problems (for example Omaha System problems with modifiers), risks,
+      progress toward goals, and Knowledge-Behavior-Status ratings.'
+  - id: plan
+    heading: P - Plan
+    aliases:
+    - p
+    - plan
+    prompt: Interventions done and planned (teaching, treatments, referrals, surveillance), client response,
+      follow-up date, and who will do what.
+- id: dar
+  label: DAR focus charting (Data, Action, Response)
+  basis: Focus charting format in common nursing use; structure is a tool default.
+  confidence: medium
+  sections:
+  - id: focus
+    heading: Focus
+    aliases:
+    - focus
+    - f
+    prompt: The concern, event, or problem this entry addresses (for example 'Medication adherence' or
+      'Food insecurity').
+  - id: data
+    heading: D - Data
+    aliases:
+    - d
+    - data
+    prompt: Subjective and objective information about the focus.
+  - id: action
+    heading: A - Action
+    aliases:
+    - a
+    - action
+    - actions
+    prompt: 'What you did: teaching (with teach-back), treatments, referrals, coordination, notifications.'
+  - id: response
+    heading: R - Response
+    aliases:
+    - r
+    - response
+    prompt: The client's response to each action and the follow-up plan.
+- id: narrative
+  label: Narrative note
+  basis: Chronological narrative; the prompts keep required elements visible. Structure is a tool default.
+  confidence: medium
+  sections:
+  - id: purpose
+    heading: Purpose of contact
+    aliases:
+    - purpose
+    - reason for visit
+    - reason
+    prompt: Why the contact happened, who was present, consent, and language/interpreter.
+  - id: findings
+    heading: Findings
+    aliases:
+    - findings
+    - assessment
+    - observations
+    prompt: What was reported and observed, with measurements.
+  - id: interventions
+    heading: Interventions and response
+    aliases:
+    - interventions
+    - intervention
+    - actions
+    - teaching
+    prompt: What you did and how the client responded (teach-back, return demonstration, agreement).
+  - id: plan
+    heading: Plan and follow-up
+    aliases:
+    - plan
+    - follow up
+    - follow-up
+    - next steps
+    prompt: Next contact date, referrals made, notifications, and responsibilities.
+visit_types:
+- id: home_visit
+  label: Home visit
+  prompts:
+  - Who was present; client's consent to the visit
+  - Home environment and safety (Omaha environmental domain)
+  - Caregiver and support system
+  - Medications reviewed (names only in the local record)
+  - Referrals and resources offered
+- id: clinic
+  label: Clinic visit (immunization, screening, TB testing)
+  prompts:
+  - Service provided under standing order (name and date of the order)
+  - Screening questions and contraindications reviewed
+  - Product, lot, site, route, and VIS edition given (vaccines)
+  - Observation period and any reaction
+  - Results and when to return (for example TST reading in 48-72 hours)
+- id: case_investigation
+  label: Communicable disease case investigation
+  prompts:
+  - Case status and the basis (laboratory result, clinical criteria)
+  - Onset date, symptoms, and infectious period
+  - Exposure settings and contacts elicited (lists kept in local files)
+  - Control measures given (isolation, exclusion, prophylaxis) with dates
+  - Notifications and reporting (MAVEN, DPH epidemiologist, school or facility)
+  - Dates of initial and follow-up interviews
+- id: dot_visit
+  label: Directly observed therapy (DOT) visit
+  prompts:
+  - Dose observed (medication, date and time) or missed dose and why
+  - Side-effect and symptom questions asked before the dose
+  - Next dose date and mode (in person or video)
+  - Doses completed to date toward the completion count
+elements:
+- id: date_time
+  label: Date and time of the entry
+  applies_to: &id001
+  - home_visit
+  - clinic
+  - case_investigation
+  - dot_visit
+  detector: date_time
+  cues: []
+  source: cfr484-110
+  section: 42 CFR 484.110(b) (dated and timed); 244 CMR 9.03(44)
+- id: signature
+  label: Signature with name as licensed and credentials
+  applies_to: *id001
+  detector: credential
+  cues:
+  - signed
+  - signature
+  - electronically signed
+  - e-signed
+  source: cmr244
+  section: 244 CMR 9.03(44)
+- id: consent
+  label: Consent to the visit or service (or refusal) documented
+  applies_to: *id001
+  detector: cues
+  cues:
+  - consent
+  - consented
+  - agreed
+  - agrees
+  - permission
+  - declined
+  - refused
+  - verbal consent
+  - written consent
+  source: cfr484-50
+  section: 42 CFR 484.50(c)(4) (reference standard)
+  confidence: medium
+- id: language
+  label: Language and interpreter use (or 'English, no interpreter needed')
+  applies_to: *id001
+  detector: cues
+  cues:
+  - interpreter
+  - interpreted
+  - language line
+  - translated
+  - preferred language
+  - speaks english
+  - in english
+  - in spanish
+  - in portuguese
+  - in haitian creole
+  - language
+  source: cdc-refugee-hp
+  section: Key points (work with a qualified medical interpreter); 42 CFR 484.50(c)(12)
+  confidence: medium
+- id: assessment
+  label: Assessment findings (reported and observed)
+  applies_to: *id001
+  detector: cues
+  cues:
+  - reports
+  - reported
+  - states
+  - observed
+  - assessed
+  - assessment
+  - vital signs
+  - blood pressure
+  - temperature
+  - weight
+  - pulse
+  - findings
+  - denies
+  - noted
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(1) (assessments and clinical notes)
+- id: interventions
+  label: Interventions performed
+  applies_to: *id001
+  detector: cues
+  cues:
+  - administered
+  - provided
+  - taught
+  - educated
+  - instructed
+  - referred
+  - performed
+  - gave
+  - placed
+  - collected
+  - coordinated
+  - arranged
+  - observed dose
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(2)
+- id: teaching
+  label: Teaching provided and understanding checked (teach-back)
+  applies_to: *id001
+  detector: cues
+  cues:
+  - taught
+  - teaching
+  - educated
+  - education
+  - instructed
+  - teach-back
+  - teach back
+  - verbalized understanding
+  - returned demonstration
+  - demonstrated understanding
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(2) (interventions and responses)
+  confidence: medium
+- id: response
+  label: Client response to interventions
+  applies_to: *id001
+  detector: cues
+  cues:
+  - verbalized
+  - demonstrated
+  - tolerated
+  - response
+  - responded
+  - agreed to
+  - teach-back
+  - understanding
+  - able to
+  - declined
+  - accepted
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(2)
+- id: plan_goals
+  label: Goals or plan of care and progress
+  applies_to:
+  - home_visit
+  - case_investigation
+  - dot_visit
+  detector: cues
+  cues:
+  - goal
+  - goals
+  - plan of care
+  - care plan
+  - 'plan:'
+  - progress
+  - plan
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(3)
+- id: follow_up
+  label: 'Follow-up: next contact date and who will do what'
+  applies_to: *id001
+  detector: cues
+  cues:
+  - follow up
+  - follow-up
+  - next visit
+  - return visit
+  - will call
+  - will return
+  - scheduled
+  - next dose
+  - recheck
+  - re-check
+  - return on
+  - return in
+  source: cfr484-110
+  section: 42 CFR 484.110(a)(5) (continuity) and agency policy
+  confidence: medium
+- id: safety
+  label: Safety concerns addressed (or none identified), with actions and notifications
+  applies_to:
+  - home_visit
+  detector: cues
+  cues:
+  - safety
+  - safe
+  - unsafe
+  - no safety concerns
+  - risk
+  - 51a
+  - dcf
+  - '911'
+  - suicid
+  - violence
+  - smoke detector
+  - fall
+  source: cmr244
+  section: Tool default (agency policy); 244 CMR 9.03(16) for sharing information to protect the patient
+  confidence: low
+- id: reporting
+  label: Reporting and notifications (MAVEN, DPH, school or facility)
+  applies_to:
+  - case_investigation
+  detector: cues
+  cues:
+  - maven
+  - reported
+  - report
+  - notified
+  - dph
+  - epidemiologist
+  - epi line
+  source: cdc-ci-2005
+  section: Tool default; reporting duties are set by 105 CMR 300.000
+  confidence: low
+- id: control_measures
+  label: Control measures given (isolation, exclusion, prophylaxis) with dates
+  applies_to:
+  - case_investigation
+  detector: cues
+  cues:
+  - isolation
+  - isolate
+  - exclusion
+  - excluded
+  - quarantine
+  - prophylaxis
+  - pep
+  - return to school
+  - return to work
+  - control measures
+  source: cdc-ci-2005
+  section: Tool default (DPH Guide to Surveillance control measures)
+  confidence: low
+- id: contacts
+  label: Exposure settings and contacts elicited (lists kept locally)
+  applies_to:
+  - case_investigation
+  detector: cues
+  cues:
+  - contacts
+  - contact list
+  - household contacts
+  - exposure
+  - exposures
+  - settings
+  - elicited
+  source: cdc-ci-2005
+  section: 'Table 4 (contact investigation: settings, dates of interviews)'
+- id: dose_observed
+  label: Dose observed (medication, date and time) or missed dose and reason
+  applies_to:
+  - dot_visit
+  detector: cues
+  cues:
+  - observed
+  - dot
+  - vdot
+  - dose
+  - doses
+  - swallowed
+  - took
+  - missed
+  source: dph-ltbi-regimens
+  section: 'Isoniazid + Rifapentine: Administration and Monitoring'
+- id: side_effect_screen
+  label: Side-effect and symptom questions before the dose
+  applies_to:
+  - dot_visit
+  detector: cues
+  cues:
+  - side effects
+  - side effect
+  - nausea
+  - jaundice
+  - yellow
+  - rash
+  - dizziness
+  - fever
+  - abdominal pain
+  - symptoms
+  - denies
+  source: dph-ltbi-regimens
+  section: 'Isoniazid + Rifapentine: Monitoring (questioned in detail at each DOT encounter)'

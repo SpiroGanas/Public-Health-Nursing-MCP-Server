@@ -1,0 +1,594 @@
+# Refugee and immigrant (newcomer) health for newcomer_health_navigator (EQ-11): CDC domestic
+# screening, Massachusetts refugee programs (DPH, ORI), MassHealth coverage by immigration status
+# (including the October 2026 federal changes), and family shelter resources.
+#
+# REVIEW STATUS: pending. See meta.verification_note. Schema: content/schemas/newcomer_health.schema.json
+meta:
+  id: newcomer-health
+  title: 'Refugee and immigrant (newcomer) health: CDC domestic screening, Massachusetts programs, MassHealth
+    coverage by immigration status, and shelter resources'
+  version: 0.1.0
+  prepared: '2026-11-08'
+  effective_date: '2026-10-08'
+  source:
+    title: Domestic Refugee Health Medical Screening
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/index.html
+  related_sources:
+  - title: MassHealth Information for Noncitizens
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/masshealth-information-for-noncitizens
+  - title: Office for Refugees and Immigrants
+    publisher: Massachusetts Executive Office of Health and Human Services
+    url: https://www.mass.gov/orgs/office-for-refugees-and-immigrants
+  - title: Refugee health information for health care and public health professionals
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/refugee-health-information-for-health-care-and-public-health-professionals
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: 'Drafted on 2026-11-08 from CDC''s domestic refugee screening guidance pages (overview
+    and 13 topics, page dates 2024-2025), DPH''s refugee health page and RHAP guide list, ORI''s program
+    pages, MassHealth''s noncitizen page (updated 2026-10-08), EOM 26-10 (September 2026), MassHealth''s
+    Overview of Noncitizen Groups (April 2022), and the EOHLC Emergency Assistance pages. Screening items
+    are summaries of CDC''s key points (high confidence for the cited thresholds). The status-to-group
+    table follows the 2022 Overview and EOM 26-10; statuses EOM 26-10 does not list are marked not_listed
+    (coverage depends on MassHealth''s determination). ORI''s RMA pages disagree on its length (low confidence).
+    Immigration rules are changing quickly: check the MassHealth page and EOMs before each use. The subject
+    matter expert must review before use.'
+sources:
+  cdc-domestic:
+    title: Domestic Refugee Health Medical Screening (overview)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/index.html
+    effective_date: '2024-05-15'
+    retrieved: '2026-11-08'
+  cdc-hp:
+    title: 'Domestic Refugee Health Guidance: History and Physical'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/history-and-physical.html
+    effective_date: null
+    retrieved: '2026-11-08'
+  cdc-tb:
+    title: 'Domestic Refugee Health Guidance: Tuberculosis'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/tuberculosis.html
+    effective_date: '2024-07-25'
+    retrieved: '2026-11-08'
+  cdc-imm:
+    title: 'Domestic Refugee Health Guidance: Immunizations'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/immunizations.html
+    effective_date: '2024-06-28'
+    retrieved: '2026-11-08'
+  cdc-lab:
+    title: 'Domestic Refugee Health Guidance: Laboratory Testing'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/laboratory-testing.html
+    effective_date: '2025-01-30'
+    retrieved: '2026-11-08'
+  cdc-lead:
+    title: 'Domestic Refugee Health Guidance: Lead'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/lead.html
+    effective_date: '2024-09-24'
+    retrieved: '2026-11-08'
+  cdc-hep:
+    title: 'Domestic Refugee Health Guidance: Viral Hepatitis'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/viral-hepatitis.html
+    effective_date: '2024-05-15'
+    retrieved: '2026-11-08'
+  cdc-mh:
+    title: 'Domestic Refugee Health Guidance: Mental Health'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/mental-health.html
+    effective_date: '2024-05-15'
+    retrieved: '2026-11-08'
+  cdc-parasites:
+    title: 'Domestic Refugee Health Guidance: Intestinal Parasites'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/intestinal-parasites.html
+    effective_date: null
+    retrieved: '2026-11-08'
+  cdc-hiv:
+    title: 'Domestic Refugee Health Guidance: HIV Infection'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/hiv-infection.html
+    effective_date: null
+    retrieved: '2026-11-08'
+  cdc-malaria:
+    title: 'Domestic Refugee Health Guidance: Malaria'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/malaria.html
+    effective_date: '2024-05-15'
+    retrieved: '2026-11-08'
+  cdc-nutrition:
+    title: 'Domestic Refugee Health Guidance: Nutrition and Growth'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/nutrition-and-growth.html
+    effective_date: '2025-05-20'
+    retrieved: '2026-11-08'
+  cdc-srh:
+    title: 'Domestic Refugee Health Guidance: Sexual and Reproductive Health'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/sexual-and-reproductive-health.html
+    effective_date: '2024-05-15'
+    retrieved: '2026-11-08'
+  cdc-cancer:
+    title: 'Domestic Refugee Health Guidance: Cancer Screening'
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/cancer-screening.html
+    effective_date: '2025-03-03'
+    retrieved: '2026-11-08'
+  dph-refugee-hcp:
+    title: Refugee health information for health care and public health professionals
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/refugee-health-information-for-health-care-and-public-health-professionals
+    effective_date: null
+    retrieved: '2026-11-08'
+  dph-rhap-guide:
+    title: 'Refugee Health Assessment: A Guide for Health Care Clinicians'
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/lists/refugee-health-assessment-a-guide-for-health-care-clinicians
+    effective_date: null
+    retrieved: '2026-11-08'
+  ori-rhap:
+    title: Refugee Health Assessment Program (RHAP)
+    publisher: Massachusetts Office for Refugees and Immigrants
+    url: https://www.mass.gov/info-details/refugee-health-assessment-program-rhap
+    effective_date: null
+    retrieved: '2026-11-08'
+  ori-rhpp:
+    title: Refugee Health Promotion Program (RHPP)
+    publisher: Massachusetts Office for Refugees and Immigrants
+    url: https://www.mass.gov/info-details/refugee-health-promotion-program-rhpp
+    effective_date: null
+    retrieved: '2026-11-08'
+  ori-rma:
+    title: Refugee Medical Assistance (RMA)
+    publisher: Massachusetts Office for Refugees and Immigrants
+    url: https://www.mass.gov/refugee-medical-assistance-rma
+    effective_date: null
+    retrieved: '2026-11-08'
+  ori-services:
+    title: Education, Youth, Health & Other Services (ORI)
+    publisher: Massachusetts Office for Refugees and Immigrants
+    url: https://www.mass.gov/info-details/education-youth-health-other-services-ori
+    effective_date: null
+    retrieved: '2026-11-08'
+  ori-eligible:
+    title: Office for Refugees and Immigrants (ORI) Eligible Populations
+    publisher: Massachusetts Office for Refugees and Immigrants
+    url: https://www.mass.gov/info-details/office-for-refugees-and-immigrants-ori-eligible-populations
+    effective_date: null
+    retrieved: '2026-11-08'
+  mh-noncitizens:
+    title: MassHealth Information for Noncitizens
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/masshealth-information-for-noncitizens
+    effective_date: '2026-10-08'
+    retrieved: '2026-11-08'
+  mh-eom-26-10:
+    title: 'Eligibility Operations Memo 26-10: Federal Coverage Changes for Certain Noncitizens'
+    publisher: MassHealth (EOHHS Office of Medicaid)
+    url: https://www.mass.gov/doc/eom-26-10-federal-coverage-changes-for-certain-noncitizens/download
+    effective_date: 2026-09
+    retrieved: '2026-11-08'
+  mh-groups:
+    title: Overview of Noncitizen Groups (MassHealth Eligibility Policy Unit)
+    publisher: MassHealth
+    url: https://www.mass.gov/doc/overview-of-noncitizen-groups-0/download
+    effective_date: 2022-04
+    retrieved: '2026-11-08'
+  ea-apply:
+    title: Review Eligibility & Apply for Emergency Assistance (EA) Family Shelter
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/how-to/apply-for-emergency-assistance-ea-family-shelter
+    effective_date: null
+    retrieved: '2026-11-08'
+  ea-resources:
+    title: Resources for EA Eligible Families
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/info-details/resources-for-ea-eligible-families
+    effective_date: null
+    retrieved: '2026-11-08'
+  ea-expect:
+    title: What to expect in Emergency Assistance (EA) Family Shelter
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/info-details/what-to-expect-in-emergency-assistance-ea-family-shelter
+    effective_date: null
+    retrieved: '2026-11-08'
+screening:
+- id: timing
+  label: Timing and visits
+  items:
+  - text: The domestic medical screening highlights screening during the first 90 days after arrival and
+      can include up to three clinical visits, because results must be reviewed with the patient; start
+      and finish it as soon as possible. Screenings usually occur 30-90 days after arrival.
+    source: cdc-domestic
+    section: Overview; At a glance
+  - text: All refugees should receive a comprehensive domestic medical screening within 90 days of arrival.
+    source: cdc-tb
+    section: Domestic Refugee Screening for Tuberculosis
+- id: history_physical
+  label: History and physical
+  items:
+  - text: Review overseas medical documents (DS-3025 vaccination worksheet, DS-3026 history and physical),
+      including vaccinations and screening for communicable conditions of public health importance.
+    source: cdc-hp
+    section: Key Points
+  - text: Work with a qualified medical interpreter who speaks the patient's preferred language. Reassure
+      the patient that the visit is confidential, for their health, and does not affect resettlement or
+      visa status.
+    source: cdc-hp
+    section: Key Points; Recommendations for New Arrival History and Physical Examination
+  - text: Address immediate health concerns, take a detailed history (including travel history), measure
+      blood pressure (age 3 and older), and screen vision (3 and older) and hearing (4 and older); complete
+      a head-to-toe examination as the patient permits.
+    source: cdc-hp
+    section: Key Points
+- id: tuberculosis
+  label: Tuberculosis
+  items:
+  - text: Anyone with signs or symptoms of TB, whatever the country of origin, needs clinical evaluation
+      for TB disease.
+    source: cdc-tb
+    section: Testing Newly Arrived Refugees for TB Infection and Disease
+  - text: 'Under 2 years (no TB signs, never treated): if no overseas test (or indeterminate), or a negative
+      overseas test 6 or more months before, give a TST; a negative overseas test within 6 months needs
+      no further domestic evaluation.'
+    source: cdc-tb
+    section: Testing Newly Arrived Refugees for TB Infection and Disease
+  - text: 'Age 2 and older (no TB signs, never treated): if no overseas test (or indeterminate), give
+      an IGRA; repeat the IGRA (or TST) if the negative overseas test was 6 or more months before; a negative
+      overseas test within 6 months needs no further evaluation.'
+    source: cdc-tb
+    section: Testing Newly Arrived Refugees for TB Infection and Disease
+  - text: 'Class B3 (recent contact of infectious TB): if the overseas test was within 8 weeks of the
+      end of contact and negative or indeterminate, test again at least 8-10 weeks after contact ended.'
+    source: cdc-tb
+    section: Additional Testing Considerations
+  - text: Offer LTBI treatment after TB disease is excluded for anyone with a positive IGRA or TST (see
+      ltbi_treatment_calendar). LTBI reactivation causes about 85% of U.S. TB cases.
+    source: cdc-tb
+    section: Testing; Background
+- id: immunizations
+  label: Immunizations
+  items:
+  - text: U.S.-bound refugees are not required to be vaccinated before arrival, though most receive some
+      vaccines through the overseas Vaccination Program for U.S.-bound Refugees. Review all records and
+      update or revaccinate per ACIP.
+    source: cdc-imm
+    section: At a glance; Overview
+  - text: Accept doses given outside the U.S. when schedules and doses are compatible with ACIP; serologic
+      evidence of immunity is an acceptable alternative when prior vaccination or disease is likely.
+    source: cdc-imm
+    section: Overview
+  - text: TST or IGRA may be given the same day as live vaccines or deferred 28 days after them; give
+      live injectable vaccines the same day or at least 28 days apart. Help schedule follow-up visits
+      to complete series.
+    source: cdc-imm
+    section: Evaluating Vaccination Records for Arriving Refugees; At a glance
+  - text: In Massachusetts, RHAP providers review overseas vaccines, determine dose validity per ACIP,
+      and start or continue catch-up. For refugees adjusting status, USCIS gives a blanket certification
+      for public health departments to complete the vaccination assessment and forms.
+    source: dph-refugee-hcp
+    section: Immunizations Provided During Refugee Health Assessment; Adjustment of Status
+- id: laboratory
+  label: Laboratory testing
+  items:
+  - text: All recently resettled refugees, regardless of age or ethnicity, should have a complete blood
+      count with red cell indices, white cell differential, and platelet count; infants should have the
+      state newborn screening panel.
+    source: cdc-lab
+    section: Key points
+- id: lead
+  label: Lead
+  items:
+  - text: Blood lead test at the first domestic visit for all refugee infants and children 16 and younger,
+      all pregnant or lactating women and girls, and refugees aged 17 with suspicion of exposure.
+    source: cdc-lead
+    section: Table 1
+  - text: 'Children 6 and younger: repeat the blood lead test 3-6 months after the first screen regardless
+      of the first result. The blood lead reference value is 3.5 micrograms per deciliter; confirm capillary
+      results at or above it by venous sample.'
+    source: cdc-lead
+    section: Key points; Table 1
+- id: hepatitis
+  label: Viral hepatitis
+  items:
+  - text: Screen all untested new arrivals for hepatitis B (HBsAg, anti-HBs, total anti-HBc), including
+      children and every pregnancy; test HBsAg-positive patients for hepatitis D.
+    source: cdc-hep
+    section: Overview
+  - text: Screen untested adults 18 and older, pregnant women each pregnancy, and children with risk factors
+      for hepatitis C. Do not routinely screen for hepatitis A or E.
+    source: cdc-hep
+    section: Overview
+- id: hiv
+  label: HIV
+  items:
+  - text: Refugees are no longer tested for HIV before arrival. Offer opt-out HIV screening to all refugees
+      aged 13-64 (screening all ages is encouraged); repeat 3-6 months after resettlement after recent
+      exposure; document a declined test.
+    source: cdc-hiv
+    section: 'Overview: Post-arrival screening'
+- id: parasites
+  label: Intestinal parasites
+  items:
+  - text: Most refugees receive presumptive ivermectin (Strongyloides) before departure unless contraindicated;
+      asymptomatic refugees who did not may be treated presumptively on arrival or tested and treated.
+      Refugees from Loa loa-endemic areas are not treated with ivermectin until high Loa loa microfilarial
+      load is ruled out.
+    source: cdc-parasites
+    section: 'Strongyloides: Presumptive Treatment'
+- id: malaria
+  label: Malaria
+  items:
+  - text: Refugees from sub-Saharan Africa who did not receive recommended pre-departure antimalarial
+      treatment should receive presumptive treatment or screening within 3 months of arrival (not in the
+      first trimester of pregnancy or under 5 kg). Evaluate anyone with symptoms who was in an endemic
+      area promptly.
+    source: cdc-malaria
+    section: Overview
+- id: mental_health
+  label: Mental health
+  items:
+  - text: Review overseas records for trauma, mental and physical disorders with harmful behavior, and
+      substance-related disorders; ask directly about symptoms, functioning, and suicidal ideation as
+      part of the overall health assessment.
+    source: cdc-mh
+    section: Quick Guide for Mental Health Screening, Steps 1-2
+  - text: Screen adults 18 and older with standardized tools; screen children and adolescents with a structured
+      or semi-structured assessment; screen for substance use; make an action plan with referral for those
+      who need support.
+    source: cdc-mh
+    section: Quick Guide for Mental Health Screening, Steps 3-5
+- id: nutrition
+  label: Nutrition and growth
+  items:
+  - text: Include a nutrition examination with anthropometrics and laboratory testing, nutrition counseling,
+      and referrals; refugees with evidence of poor nutrition may benefit from vitamin supplementation.
+    source: cdc-nutrition
+    section: At a glance
+- id: sexual_reproductive
+  label: Sexual and reproductive health
+  items:
+  - text: Explain confidentiality; urine pregnancy test for women of childbearing age and pubescent girls;
+      discuss family planning and offer condoms; evaluate for STIs; screen women and girls from countries
+      where FGM/C is practiced for complications and document findings.
+    source: cdc-srh
+    section: Overview
+- id: cancer
+  label: Cancer screening
+  items:
+  - text: Refugees often have little prior cancer screening; follow USPSTF recommendations and consider
+      infection-related cancer risks. Referral to primary care for cancer screening is acceptable.
+    source: cdc-cancer
+    section: Key points
+programs:
+- id: rhap
+  name: Refugee Health Assessment Program (RHAP)
+  description: In collaboration with DPH, makes sure newly arriving refugees receive an initial health
+    assessment (free medical screening, providers with refugee-care expertise, follow-up of overseas screening,
+    mental and physical health recommendations) and are linked to primary care. All refugees are eligible
+    for the initial domestic screening.
+  contact: Office for Refugees and Immigrants (617) 727-7888 (TTY (617) 727-8147), 9:00 a.m.-5:00 p.m.
+    M-F; 1 Ashburton Place, 5th floor, Boston, MA 02108
+  source: ori-rhap
+  section: Refugee Health Assessment Program (RHAP)
+- id: rhpp
+  name: Refugee Health Promotion Program (RHPP)
+  description: Ongoing help for the newest arrivals to obtain affordable health care and insurance; health
+    education (the Massachusetts health system, immunizations, choosing a primary care physician, mental
+    health, home safety); case management with interpretation, follow-up of conditions found in the health
+    assessment, referrals, and home visits.
+  contact: 'Providers listed by ORI: Congolese Development Center (Lynn); Edward M. Kennedy Community
+    Health Center (Worcester); Haitian American Public Health Initiatives (Mattapan); Immigrants'' Assistance
+    Center (New Bedford); International Institute of New England (Boston, Lowell); Jewish Family Services
+    of Western Massachusetts; New American Association of Massachusetts (Lynn); Somali Development Center
+    (Roxbury)'
+  source: ori-rhpp
+  section: Services Include; Find an ORI Service Provider Near You
+- id: rma
+  name: Refugee Medical Assistance (RMA)
+  description: 'Temporary medical coverage for refugees who are not eligible for MassHealth, through an
+    agreement between ORI and MassHealth. ORI''s pages state the length differently (up to 8 months on
+    the services page; both ''eight months or less'' and ''four months or less'' on the RMA page): confirm
+    the current limit with ORI.'
+  contact: Office for Refugees and Immigrants (617) 727-7888
+  source: ori-rma
+  section: Refugee Medical Assistance (RMA)
+  confidence: low
+- id: ori_services
+  name: Other ORI services
+  description: Refugee case management (resettlement benefits intake, orientation, employability assessment,
+    referrals), the Refugee School Impact program for school-aged children, youth mentoring, the Unaccompanied
+    Refugee Minors Program (with DCF), and citizenship and legal assistance programs.
+  contact: Office for Refugees and Immigrants (617) 727-7888
+  source: ori-services
+  section: Education, Youth, Health & Other Services
+- id: dph_arrivals
+  name: DPH arrival notifications and overseas records
+  description: CDC notifies DPH of all refugees arriving in Massachusetts from overseas, with pre-departure
+    examination forms, immunization records, and pre-departure treatments; RHAP providers follow up conditions
+    identified overseas. Providers who lack overseas results can ask the state refugee health coordinator
+    or CDC (MHINx@cdc.gov).
+  contact: DPH Bureau of Infectious Disease and Laboratory Sciences, Division of Global Populations and
+    Infectious Disease Prevention (617) 983-6970
+  source: dph-refugee-hcp
+  section: Arrival notifications; Refugee Health Assessment Program
+ori_eligibility:
+  text: ORI services are for refugees, asylees, Cuban/Haitian entrants, Amerasians from Vietnam, certified
+    victims of severe trafficking, and Special Immigrant Visa holders from Iraq and Afghanistan; legal
+    permanent residents can get citizenship assistance, and certain TAFDC clients employment services.
+    Eligibility also depends on residence, date of entry, and income.
+  source: ori-eligible
+  section: ORI Eligible Populations
+statuses:
+- id: refugee
+  label: Refugee
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_2
+  ori_eligible: true
+- id: asylee
+  label: Asylee (granted asylum)
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_2
+  ori_eligible: true
+- id: cuban_haitian_entrant
+  label: Cuban/Haitian entrant
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_1
+  ori_eligible: true
+- id: special_immigrant_visa
+  label: Iraqi or Afghan Special Immigrant (SIV)
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_2
+  ori_eligible: true
+- id: trafficking_victim
+  label: Certified victim of severe trafficking (and family)
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_2
+  ori_eligible: true
+- id: withholding_of_removal
+  label: Deportation withheld
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_2
+  ori_eligible: false
+- id: cofa_migrant
+  label: Compact of Free Association migrant (Micronesia, Marshall Islands, Palau)
+  masshealth_group: Qualified noncitizen (not subject to the five-year bar)
+  oct_2026_change: group_1
+  ori_eligible: false
+- id: lpr_5_years_or_more
+  label: Legal permanent resident (green card) 5 years or more
+  masshealth_group: Qualified noncitizen
+  oct_2026_change: group_1
+  ori_eligible: false
+- id: lpr_under_5_years
+  label: Legal permanent resident under 5 years
+  masshealth_group: Qualified noncitizen barred
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: parolee_1_year_plus
+  label: Paroled for at least 1 year (humanitarian parole)
+  masshealth_group: Qualified noncitizen barred until the five-year bar is met, then qualified noncitizen
+  oct_2026_change: group_2_after_5_years
+  ori_eligible: false
+- id: parolee_under_1_year
+  label: Paroled for less than 1 year
+  masshealth_group: Nonqualified individual lawfully present
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: temporary_protected_status
+  label: Temporary Protected Status (TPS)
+  masshealth_group: Nonqualified individual lawfully present
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: asylum_applicant_with_work_permit
+  label: Asylum applicant with employment authorization (or under 14, pending 180+ days)
+  masshealth_group: Nonqualified individual lawfully present
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: asylum_applicant_no_work_permit
+  label: Asylum applicant without employment authorization
+  masshealth_group: Nonqualified PRUCOL
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: daca
+  label: Deferred Action for Childhood Arrivals (DACA)
+  masshealth_group: Nonqualified PRUCOL
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: nonimmigrant_visa
+  label: Valid nonimmigrant visa (student, visitor, exchange) or work authorization
+  masshealth_group: Nonqualified individual lawfully present
+  oct_2026_change: not_listed
+  ori_eligible: false
+- id: undocumented
+  label: No documented immigration status
+  masshealth_group: Other noncitizen
+  oct_2026_change: not_listed
+  ori_eligible: false
+coverage_rules:
+- text: 'MassHealth coverage types for noncitizens: Standard (full range), CommonHealth (disabled adults
+    and children not eligible for Standard), CarePlus (adults not eligible for Standard), Family Assistance
+    (certain children and adults, including noncitizens), the Medicare Savings Program, Limited (emergency
+    services for people whose immigration status keeps them from more services), and the Health Safety
+    Net (certain hospital and community health center services for uninsured or underinsured Massachusetts
+    residents). The type depends on the noncitizen group, age, disability, and income; MassHealth decides.'
+  source: mh-noncitizens
+  section: General Information for Members and Applicants
+- text: Pregnant people in any noncitizen group may be eligible for full MassHealth benefits during pregnancy
+    and for 12 months postpartum, if otherwise eligible and within financial guidelines.
+  source: mh-noncitizens
+  section: General Information for Members and Applicants
+- text: Children under 21 who are lawfully present immigrants or nonqualified PRUCOL may be eligible for
+    comprehensive MassHealth benefits; children under 19 who are other noncitizens may be able to get
+    the Children's Medical Security Plan (CMSP).
+  source: mh-noncitizens
+  section: General Information for Members and Applicants
+- text: 'From October 1, 2026 (federal law), adults 21 and older who are refugees, asylees, persons with
+    deportation withheld, Iraqi or Afghan special immigrants, trafficking victims, certain veterans, Amerasians,
+    pre-1980 conditional entrants, certain Native Americans born outside the U.S., and parolees or battered
+    noncitizens who met the five-year bar (Group 2) lose comprehensive MassHealth: ages 21-64 without
+    a disability generally get MassHealth Limited and/or the Health Safety Net; those with a disability
+    or 65 and older generally get Family Assistance. Children under 21 and pregnant or postpartum people
+    keep their coverage. About 7,300 members are affected.'
+  source: mh-eom-26-10
+  section: 'Impacted Qualified Noncitizens: Group 2'
+- text: 'Not affected (Group 1): green card holders who met (or are exempt from) the five-year bar, Cuban
+    and Haitian entrants, and COFA migrants. Someone in a Group 2 category who also holds a Group 1 status
+    is not affected.'
+  source: mh-eom-26-10
+  section: 'Non-Impacted Qualified Noncitizens: Group 1'
+- text: The federal 'public charge' review changes as of September 18, 2026 (DHS); see ORI's resource
+    page. SNAP is not part of a public charge test, and it is safe to apply for an eligible family member
+    such as a U.S.-citizen child.
+  source: mh-noncitizens
+  section: The Federal Public Charge Rule; Resources for EA Eligible Families
+  confidence: medium
+- text: For questions about how status affects benefits, MassHealth recommends speaking with an immigration
+    expert; ORI lists trusted immigration legal services (beware of organizations not on the list).
+  source: mh-noncitizens
+  section: General Information for Members and Applicants
+shelter:
+- text: Emergency Assistance (EA) Family Shelter is for Massachusetts families who are pregnant or have
+    a child under 21, with gross income at or below 115% of the federal poverty guidelines, homeless for
+    a qualifying reason (no-fault fire, flood, disaster, condemnation, or foreclosure; risk of domestic
+    violence; no-fault eviction; or a substantial health and safety risk to the children). Each family
+    member must have a lawful immigration status, or a child with eligible status satisfies the requirement
+    for the family.
+  source: ea-apply
+  section: Eligibility; What documents do I need
+- text: Apply online through the Massachusetts Housing Help Hub, by phone at the Massachusetts Emergency
+    Family Shelter Contact Line (866) 584-0653 (M-F 8am-5pm), or at an area office (Boston, Brockton,
+    Chelsea, Hyannis, Lawrence, Lowell, New Bedford, Salem, Springfield, Worcester).
+  source: ea-apply
+  section: How to apply
+- text: Families can stay up to six months in Bridge Shelter (case management, employment help, and connection
+    to health resources) or up to 30 business days in Rapid Shelter; some families waiting for documents
+    may be placed in Clinical and Safety Risk Assessment sites with a temporary verification waiver.
+  source: ea-expect
+  section: How long can my family stay in shelter?; ea-apply Temporary Verification Waivers
+  confidence: medium
+- text: The Family Welcome Center in Mattapan (1626 Blue Hill Ave; Fridays 11am-7pm, Saturday and Sunday
+    9am-2pm) connects families to food and cash benefits and basic supplies and may help with work authorization
+    applications; it does not take EA applications.
+  source: ea-resources
+  section: Immediate Support
+- text: 'Other help for families in or near shelter: SNAP through DTA ((877) 382-2363; DTAConnect), Mass
+    211 ((877) 211-6277) for non-EA shelter and local resources, HomeBASE for EA-eligible families, MassHire
+    Career Centers, Family Resource Centers, and ORI''s list of trusted immigration legal services.'
+  source: ea-resources
+  section: Food Resources; Housing Resources; Meeting Basic Needs
+language_access:
+  text: Use a qualified medical interpreter in the patient's preferred language; provide HIV and other
+    health information in the languages of the populations served and make sure interpreters and bilingual
+    staff are competent.
+  source: cdc-hp
+  section: Key Points; HIV Infection Overview

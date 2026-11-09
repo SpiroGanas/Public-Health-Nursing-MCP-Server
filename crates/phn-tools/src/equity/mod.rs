@@ -19,4 +19,11 @@ pub use benefits::{BenefitArgs, BenefitResult, estimate_benefit_eligibility};
 // End of Phase 8 modules.
 
 // Phase 9 modules go below this line.
+pub mod hrsn;
+pub mod newcomer;
+pub mod resources;
+
+pub use hrsn::{HrsnArgs, HrsnResult, screen_health_related_social_needs};
+pub use newcomer::{NewcomerArgs, NewcomerResult, newcomer_health_navigator};
+pub use resources::{ResourceSearchArgs, ResourceSearchResult, find_community_resources};
 // End of Phase 9 modules.

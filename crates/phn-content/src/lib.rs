@@ -145,7 +145,8 @@ pub const ITEMS: &[ContentItem] = &[
         resource_uri: "phn://content/cdsi-supporting-data",
         yaml: include_str!("../../../content/vax/cdsi_supporting_data.yaml"),
         schema: include_str!("../../../content/schemas/cdsi_supporting_data.schema.json"),
-    }, // Phase 7 content items go below this line.
+    },
+    // Phase 7 content items go below this line.
     ContentItem {
         id: "ma-school-screening-requirements",
         path: "content/school/screening_requirements.yaml",
@@ -250,6 +251,48 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 8 content items.
     // Phase 9 content items go below this line.
+    ContentItem {
+        id: "tb-investigation-and-ltbi",
+        path: "content/cd/tuberculosis.yaml",
+        resource_uri: "phn://content/tb-investigation-and-ltbi",
+        yaml: include_str!("../../../content/cd/tuberculosis.yaml"),
+        schema: include_str!("../../../content/schemas/tuberculosis.schema.json"),
+    },
+    ContentItem {
+        id: "ahc-hrsn-screening",
+        path: "content/equity/ahc_hrsn.yaml",
+        resource_uri: "phn://content/ahc-hrsn-screening",
+        yaml: include_str!("../../../content/equity/ahc_hrsn.yaml"),
+        schema: include_str!("../../../content/schemas/ahc_hrsn.schema.json"),
+    },
+    ContentItem {
+        id: "omaha-system",
+        path: "content/core/omaha_system.yaml",
+        resource_uri: "phn://content/omaha-system",
+        yaml: include_str!("../../../content/core/omaha_system.yaml"),
+        schema: include_str!("../../../content/schemas/omaha_system.schema.json"),
+    },
+    ContentItem {
+        id: "public-health-intervention-wheel",
+        path: "content/core/intervention_wheel.yaml",
+        resource_uri: "phn://content/public-health-intervention-wheel",
+        yaml: include_str!("../../../content/core/intervention_wheel.yaml"),
+        schema: include_str!("../../../content/schemas/intervention_wheel.schema.json"),
+    },
+    ContentItem {
+        id: "nursing-documentation-templates",
+        path: "content/core/documentation_templates.yaml",
+        resource_uri: "phn://content/nursing-documentation-templates",
+        yaml: include_str!("../../../content/core/documentation_templates.yaml"),
+        schema: include_str!("../../../content/schemas/documentation_templates.schema.json"),
+    },
+    ContentItem {
+        id: "newcomer-health",
+        path: "content/equity/newcomer_health.yaml",
+        resource_uri: "phn://content/newcomer-health",
+        yaml: include_str!("../../../content/equity/newcomer_health.yaml"),
+        schema: include_str!("../../../content/schemas/newcomer_health.schema.json"),
+    },
     // End of Phase 9 content items.
     // Phase 10 content items go below this line.
     ContentItem {

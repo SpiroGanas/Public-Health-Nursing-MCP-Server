@@ -1,0 +1,594 @@
+# Public Health Intervention Wheel for classify_intervention_wheel (CORE-02): 17 interventions,
+# 5 wedges, and 3 levels of practice, with definitions and this tool's matching cues.
+#
+# REVIEW STATUS: pending. MDH's own page could not be retrieved; see meta.verification_note.
+# Schema: content/schemas/intervention_wheel.schema.json
+meta:
+  id: public-health-intervention-wheel
+  title: Public Health Intervention Wheel (17 interventions, 5 wedges, 3 levels of practice)
+  version: 0.1.0
+  prepared: '2026-11-08'
+  effective_date: '2019'
+  source:
+    title: Public Health Intervention Wheel
+    publisher: Minnesota Department of Health, Center for Public Health Practice
+    url: https://www.health.state.mn.us/communities/practice/research/phncouncil/wheel.html
+  related_sources:
+  - title: 'Keller LO, Strohschein S, Lia-Hoagberg B, Schaffer MA. Population-based public health interventions:
+      practice-based and evidence-supported. Part I. Public Health Nurs 2004;21(5):453-68'
+    publisher: Public Health Nursing (PubMed 15363026)
+    url: https://pubmed.ncbi.nlm.nih.gov/15363026/
+  - title: 'Schaffer MA, Strohschein S, Glavin K. Twenty years with the public health intervention wheel:
+      Evidence for practice. Public Health Nurs 2022;39(1):195-201'
+    publisher: Public Health Nursing (PubMed 34231267)
+    url: https://pubmed.ncbi.nlm.nih.gov/34231267/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: Drafted on 2026-11-08. The Minnesota Department of Health Wheel page could not be
+    retrieved (HTTP 403 to automated requests; the host is outside the session's web tool), so nothing
+    here was checked against MDH's own text. The 17 interventions and 3 levels are confirmed by the PubMed
+    abstracts of Keller et al. 2004 and Schaffer et al. 2022. Thirteen definitions are transcribed from
+    LeClair et al., J Adv Nurs 2024 (open access, PMC12623680), which quotes Schaffer and Strohschein
+    (2019, 2nd ed.) (medium confidence). The definitions of surveillance, screening, delegated functions,
+    and consultation, and the three level definitions, are the developer's recollection of MDH's text
+    (low confidence). Wedge groupings and colors follow Kovacevic et al., Int J Nurs Stud Adv 2024 (PMC11554674),
+    citing Schaffer et al. 2022; that source omits case-finding, which the tool places in the red wedge
+    with screening as on MDH's wheel, and another 2026 article assigns colors differently (medium). 'cues'
+    are this tool's matching keywords. The subject matter expert must review before use.
+sources:
+  mdh-wheel:
+    title: 'Public Health Intervention Wheel; Public Health Interventions: Applications for Public Health
+      Nursing Practice (2nd ed., 2019)'
+    publisher: Minnesota Department of Health
+    url: https://www.health.state.mn.us/communities/practice/research/phncouncil/wheel.html
+    effective_date: '2019'
+    retrieved: not retrieved (HTTP 403, 2026-11-08)
+  keller-2004:
+    title: 'Population-based public health interventions: practice-based and evidence-supported. Part
+      I (Public Health Nurs 2004;21(5):453-68)'
+    publisher: Keller LO, Strohschein S, Lia-Hoagberg B, Schaffer MA (abstract via PubMed)
+    url: https://pubmed.ncbi.nlm.nih.gov/15363026/
+    effective_date: '2004'
+    retrieved: '2026-11-08'
+  schaffer-2022:
+    title: 'Twenty years with the public health intervention wheel: Evidence for practice (Public Health
+      Nurs 2022;39(1):195-201)'
+    publisher: Schaffer MA, Strohschein S, Glavin K (abstract via PubMed)
+    url: https://pubmed.ncbi.nlm.nih.gov/34231267/
+    effective_date: '2021-07-07'
+    retrieved: '2026-11-08'
+  leclair-2024:
+    title: Climate Justice Strategies Implemented by Public Health Nurses and Their Community Partners
+      (J Adv Nurs; Tables 1-2 quote Schaffer and Strohschein 2019)
+    publisher: LeClair J, et al. (open access, PubMed Central PMC12623680)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12623680/
+    effective_date: '2024'
+    retrieved: '2026-11-08'
+  kovacevic-2024:
+    title: 'Nursing interventions in a newly established community health nursing system: A cross sectional
+      survey (Int J Nurs Stud Adv 2024;7:100258)'
+    publisher: Kovacevic P, et al. (open access, PubMed Central PMC11554674)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11554674/
+    effective_date: '2024'
+    retrieved: '2026-11-08'
+overview:
+  text: The Intervention Wheel is a population-based practice model that encompasses three levels of practice
+    (community, systems, and individual/family) and 17 public health interventions. Each intervention
+    and practice level contributes to improving population health.
+  source: keller-2004
+  section: Abstract
+wedges:
+- id: red
+  label: Red wedge
+  interventions:
+  - surveillance
+  - disease_investigation
+  - outreach
+  - screening
+  - case_finding
+  source: kovacevic-2024
+  section: Classification schemes (citing Schaffer et al. 2022)
+  confidence: medium
+- id: green
+  label: Green wedge
+  interventions:
+  - referral_follow_up
+  - case_management
+  - delegated_functions
+  source: kovacevic-2024
+  section: Classification schemes (citing Schaffer et al. 2022)
+  confidence: medium
+- id: blue
+  label: Blue wedge
+  interventions:
+  - health_teaching
+  - counseling
+  - consultation
+  source: kovacevic-2024
+  section: Classification schemes (citing Schaffer et al. 2022)
+  confidence: medium
+- id: orange
+  label: Orange wedge
+  interventions:
+  - collaboration
+  - coalition_building
+  - community_organizing
+  source: kovacevic-2024
+  section: Classification schemes (citing Schaffer et al. 2022)
+  confidence: medium
+- id: yellow
+  label: Yellow wedge
+  interventions:
+  - advocacy
+  - social_marketing
+  - policy_development_enforcement
+  source: kovacevic-2024
+  section: Classification schemes (citing Schaffer et al. 2022)
+  confidence: medium
+levels:
+- id: individual_family
+  label: Individual/family-focused
+  definition: Changes knowledge, attitudes, beliefs, practices, and behaviors of individuals, alone or
+    as part of a family, class, or group.
+  source: mdh-wheel
+  section: Levels of practice
+  confidence: low
+  cues:
+  - client
+  - clients
+  - patient
+  - patients
+  - family
+  - families
+  - mother
+  - father
+  - parent
+  - parents
+  - child
+  - infant
+  - student
+  - resident
+  - home visit
+  - individual
+  - one-on-one
+  - household
+  - caregiver
+- id: community
+  label: Community-focused
+  definition: Changes community norms, community attitudes, community awareness, community practices,
+    and community behaviors.
+  source: mdh-wheel
+  section: Levels of practice
+  confidence: low
+  cues:
+  - community
+  - communities
+  - population
+  - residents
+  - town
+  - neighborhood
+  - public
+  - school-wide
+  - schoolwide
+  - citywide
+  - campaign
+  - event
+  - fair
+  - clinic for
+  - congregation
+  - shelter guests
+- id: systems
+  label: Systems-focused
+  definition: Changes organizations, policies, laws, and power structures.
+  source: mdh-wheel
+  section: Levels of practice
+  confidence: low
+  cues:
+  - policy
+  - policies
+  - ordinance
+  - regulation
+  - law
+  - laws
+  - protocol
+  - procedure
+  - system
+  - systems
+  - organization
+  - organizational
+  - board of health
+  - legislat
+  - agency
+  - funding
+  - workflow
+  - standing order
+  - contract
+interventions:
+- id: surveillance
+  name: Surveillance
+  wedge: red
+  definition: Surveillance describes and monitors health events through ongoing and systematic collection,
+    analysis, and interpretation of health data for the purpose of planning, implementing, and evaluating
+    public health interventions.
+  source: mdh-wheel
+  section: Intervention definitions
+  confidence: low
+  cues:
+  - surveillance
+  - monitor trends
+  - monitored trends
+  - data review
+  - reviewed data
+  - maven
+  - syndromic
+  - weekly report
+  - dashboard
+  - tracked cases
+  - case counts
+  - wastewater
+  - absenteeism
+  - line list review
+  - epi curve
+  - trend
+  - trends
+  - rates
+- id: disease_investigation
+  name: Disease and health event investigation
+  wedge: red
+  definition: Systematically gathers and analyzes data regarding threats to the health of populations,
+    ascertains the source of the threat, identifies cases and others at risk, and determines control measures.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - investigation
+  - investigated
+  - investigate
+  - case investigation
+  - outbreak
+  - contact tracing
+  - contact investigation
+  - exposure
+  - exposures
+  - cluster
+  - interviewed the case
+  - case interview
+  - isolation
+  - quarantine
+  - reportable
+  - foodborne
+  - source of
+- id: outreach
+  name: Outreach
+  wedge: red
+  definition: Locates populations of interest or populations at risk and provides information about the
+    nature of the concern, what can be done about it, and how to obtain services.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - outreach
+  - door to door
+  - door-to-door
+  - canvass
+  - canvassing
+  - flyers
+  - flyering
+  - street outreach
+  - mobile van
+  - pop-up
+  - visited the shelter
+  - encampment
+  - community event
+  - health fair
+  - tabling
+- id: screening
+  name: Screening
+  wedge: red
+  definition: Screening identifies individuals with unrecognized health risk factors or asymptomatic disease
+    conditions in populations.
+  source: mdh-wheel
+  section: Intervention definitions
+  confidence: low
+  cues:
+  - screening
+  - screened
+  - screen
+  - blood pressure clinic
+  - bp clinic
+  - vision screening
+  - hearing screening
+  - scoliosis
+  - ppd
+  - tst
+  - igra
+  - lead screening
+  - depression screen
+  - phq
+  - edinburgh
+  - epds
+  - asq
+  - sbirt
+  - glucose
+  - cholesterol
+  - bmi screening
+  - postural
+- id: case_finding
+  name: Case-finding
+  wedge: red
+  definition: Locates individuals and families with identified risk factors and connects them to resources.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - case finding
+  - case-finding
+  - identified families
+  - identified individuals
+  - found clients
+  - located families
+  - at-risk families
+  - risk factors and connected
+  - linked to services after identification
+- id: referral_follow_up
+  name: Referral and follow-up
+  wedge: green
+  definition: Makes a connection to necessary resources to prevent or resolve problems or concerns.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - referral
+  - referred
+  - refer
+  - follow-up
+  - follow up
+  - followed up
+  - linked to
+  - connected to
+  - made appointment
+  - resource referral
+  - warm handoff
+- id: case_management
+  name: Case management
+  wedge: green
+  definition: A collaborative process of assessment, planning, facilitation, care coordination, evaluation
+    and advocacy for options and services to meet client needs. It uses communication and available resources
+    to promote safety, quality of care and cost-effective outcomes.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - case management
+  - case managed
+  - care coordination
+  - coordinated care
+  - care plan
+  - caseload
+  - dot
+  - directly observed therapy
+  - home visit
+  - home visits
+  - service plan
+  - monthly visit
+  - adherence
+- id: delegated_functions
+  name: Delegated functions
+  wedge: green
+  definition: Delegated functions are direct care tasks a registered professional nurse carries out under
+    the authority of a health care practitioner as allowed by law. Delegated functions also include any
+    direct care tasks a registered professional nurse entrusts to other appropriate personnel to perform.
+  source: mdh-wheel
+  section: Intervention definitions
+  confidence: low
+  cues:
+  - standing order
+  - standing orders
+  - administered
+  - vaccinated
+  - immunized
+  - flu shot
+  - flu shots
+  - vaccine clinic
+  - vaccination clinic
+  - injection
+  - medication administration
+  - delegated
+  - delegation
+  - unlicensed assistive personnel
+  - wound care
+- id: health_teaching
+  name: Health teaching
+  wedge: blue
+  definition: Sharing information and experiences through educational activities designed to improve health
+    knowledge, attitudes, behaviors and skills.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - taught
+  - teach
+  - teaching
+  - education
+  - educated
+  - class
+  - classes
+  - presentation
+  - presented
+  - training
+  - in-service
+  - inservice
+  - workshop
+  - curriculum
+  - health education
+  - handout
+  - teach-back
+- id: counseling
+  name: Counseling
+  wedge: blue
+  definition: Establishing an interpersonal relationship at an emotional level, with the goal of increased
+    or enhanced capacity for self-care and coping.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - counseling
+  - counseled
+  - counsel
+  - motivational interviewing
+  - emotional support
+  - coping
+  - grief support
+  - supportive conversation
+  - listened
+- id: consultation
+  name: Consultation
+  wedge: blue
+  definition: Consultation seeks information and generates optional solutions to perceived problems or
+    issues through interactive problem solving with a community, system, family, or individual. The community,
+    system, family, or individual selects and acts on the option best meeting the circumstances.
+  source: mdh-wheel
+  section: Intervention definitions
+  confidence: low
+  cues:
+  - consultation
+  - consulted
+  - consult
+  - advised the school
+  - advised the facility
+  - technical assistance
+  - guidance to
+  - answered questions from
+  - provided guidance
+  - problem solving with
+- id: collaboration
+  name: Collaboration
+  wedge: orange
+  definition: Enhances the capacity to promote and protect health for mutual benefit and a common purpose.
+    Collaboration involves exchanging information, harmonizing activities, and sharing resources.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - collaboration
+  - collaborated
+  - collaborate
+  - partnered
+  - partnership
+  - partners
+  - joint
+  - worked with
+  - met with
+  - shared resources
+  - interagency
+  - multidisciplinary
+- id: coalition_building
+  name: Coalition building
+  wedge: orange
+  definition: Helps promote and develop alliances among organizations or constituencies for a common purpose.
+    It builds links, solves problems, and/or enhances local leadership to address health concerns.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - coalition
+  - alliance
+  - task force
+  - taskforce
+  - working group
+  - convened
+  - steering committee
+  - network meeting
+- id: community_organizing
+  name: Community organizing
+  wedge: orange
+  definition: The process by which people come together to identify common problems or goals, mobilize
+    resources, and develop and implement strategies for reaching the objectives they want to accomplish.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - community organizing
+  - organized residents
+  - mobilized
+  - community members came together
+  - community meeting
+  - resident-led
+  - grassroots
+  - neighborhood association
+- id: advocacy
+  name: Advocacy
+  wedge: yellow
+  definition: The act of promoting and protecting the health of individuals and communities by collaborating
+    with relevant stakeholders, facilitating access to health and social services, and actively engaging
+    key decision-makers to support and enact policies to improve community health outcomes.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - advocacy
+  - advocated
+  - advocate
+  - testified
+  - testimony
+  - spoke on behalf
+  - letter to legislators
+  - lobbied
+  - championed
+- id: social_marketing
+  name: Social marketing
+  wedge: yellow
+  definition: A process that uses marketing principles and techniques to change target audience behaviors
+    to benefit society as well as the individual.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - social marketing
+  - campaign
+  - media campaign
+  - social media
+  - posters
+  - billboard
+  - messaging
+  - psa
+  - public service announcement
+  - newsletter
+  - press release
+  - radio
+  - facebook
+  - instagram
+- id: policy_development_enforcement
+  name: Policy development and enforcement
+  wedge: yellow
+  definition: Policy development places health issues on decision-makers' agendas, establishes a plan
+    of resolution, determines needed resources, and results in laws, rules and regulations, ordinances,
+    and policies. Policy enforcement compels others to comply with the laws, rules, regulations, ordinances,
+    and policies created in conjunction with policy development.
+  source: leclair-2024
+  section: Table 1 (Schaffer and Strohschein 2019)
+  confidence: medium
+  cues:
+  - policy
+  - policies
+  - ordinance
+  - regulation
+  - regulations
+  - bylaw
+  - board of health
+  - drafted
+  - enforce
+  - enforcement
+  - inspection
+  - inspected
+  - order
+  - orders
+  - compliance
+  - variance
+  - permit
+  - exclusion order
+  - isolation order
+  - tobacco regulation

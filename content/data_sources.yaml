@@ -686,6 +686,111 @@ sources:
         (DOCX tables); rebuild when DPH publishes new reports. CDC WONDER was blocked.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
+  - id: tb-investigation-and-ltbi
+    name: TB contact investigation and LTBI treatment content (NTCA/CDC 2005 and 2020 guidelines, DPH TB program)
+    publisher: CDC, National Tuberculosis Controllers Association, and Massachusetts DPH (drafted by this project)
+    kind: content
+    status: active
+    content_id: tb-investigation-and-ltbi
+    homepage: https://www.cdc.gov/tb/hcp/clinical-guidance/index.html
+    probe_url: https://www.mass.gov/info-details/treatment-regimens-for-latent-tuberculosis-infection-in-massachusetts
+    used_by: [plan_tb_contact_investigation, ltbi_treatment_calendar]
+    caveats:
+      - >-
+        Drafted 2026-11-08 and pending review. The 2005 contact investigation guidelines are still
+        CDC's current guidance; DPH lists 3HP, 4R, and 9H while CDC/NTCA 2020 also lists 3HR and
+        6H. State TB clinic contacts come from DPH's 2025 list and change often.
+  - id: ahc-hrsn-screening
+    name: CMS Accountable Health Communities health-related social needs screening tool (scoring and Massachusetts referrals)
+    publisher: Centers for Medicare & Medicaid Services; Massachusetts agencies for referral resources
+    kind: content
+    status: active
+    content_id: ahc-hrsn-screening
+    homepage: https://www.cms.gov/priorities/innovation/innovation-models/ahcm
+    probe_url: https://www.cms.gov/priorities/innovation/files/worksheets/ahcm-screeningtool.pdf
+    used_by: [screen_health_related_social_needs]
+    caveats:
+      - >-
+        Item wording is bundled only for public-domain items; CMS's permission from the original
+        item authors covers the AHC Model only. Referral resources were checked on mass.gov on
+        2026-11-08.
+  - id: omaha-system
+    name: The Omaha System (2005), Problem Classification Scheme, Intervention Scheme, Problem Rating Scale for Outcomes
+    publisher: The Omaha System
+    kind: content
+    status: active
+    content_id: omaha-system
+    homepage: https://www.omahasystem.org/
+    probe_url: https://www.omahasystem.org/overview
+    used_by: [omaha_system_coder]
+    caveats:
+      - >-
+        Public domain; terms must be used as published in the 2005 book. Signs/symptoms not seen on
+        omahasystem.org and the labels for ratings 4-5 are unverified drafts.
+  - id: public-health-intervention-wheel
+    name: Public Health Intervention Wheel (Minnesota Department of Health)
+    publisher: Minnesota Department of Health
+    kind: content
+    status: active
+    content_id: public-health-intervention-wheel
+    homepage: https://www.health.state.mn.us/communities/practice/research/phncouncil/wheel.html
+    probe_url: null
+    used_by: [classify_intervention_wheel]
+    caveats:
+      - >-
+        MDH's page returned HTTP 403 to automated requests on 2026-11-08; definitions were taken
+        from published articles quoting MDH (2019) and four are low confidence.
+  - id: nursing-documentation-templates
+    name: Nursing documentation templates and required elements (244 CMR 9.03; 42 CFR 484 as a reference standard)
+    publisher: Massachusetts Board of Registration in Nursing; CMS (eCFR); drafted by this project
+    kind: content
+    status: active
+    content_id: nursing-documentation-templates
+    homepage: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    probe_url: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    used_by: [nursing_documentation_template]
+    caveats:
+      - SOAP, DAR, and narrative structures are tool defaults; follow the agency's documentation policy.
+  - id: hrsa-health-centers
+    name: HRSA health center service delivery sites (Massachusetts)
+    publisher: Health Resources and Services Administration
+    kind: live
+    status: active
+    snapshot_id: hrsa-health-centers-ma
+    homepage: https://data.hrsa.gov/data/download
+    probe_url: https://data.hrsa.gov/data/download
+    used_by: [find_community_resources]
+    caveats:
+      - >-
+        The live download (about 14 MB, all states) is filtered to active Massachusetts service
+        sites and cached for a week; the bundled snapshot (255 sites, 2026-11-08) is the
+        fallback. HRSA lists sites, not services, languages, or daily hours.
+  - id: community-resource-directory
+    name: The nurse's community resource directory (CSV/XLSX in /data)
+    publisher: Your agency
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [find_community_resources]
+    caveats:
+      - >-
+        Maintained by the nurse at /data/resources/community_resources.csv (name, services, town,
+        address, phone, website, languages, hours, eligibility, cost, last_verified); entries
+        verified more than 12 months ago are flagged.
+  - id: newcomer-health
+    name: Refugee and immigrant health content (CDC domestic screening, DPH/ORI programs, MassHealth noncitizen coverage, EA shelter)
+    publisher: CDC, Massachusetts DPH, Office for Refugees and Immigrants, MassHealth, EOHLC (drafted by this project)
+    kind: content
+    status: active
+    content_id: newcomer-health
+    homepage: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/index.html
+    probe_url: https://www.mass.gov/info-details/masshealth-information-for-noncitizens
+    used_by: [newcomer_health_navigator]
+    caveats:
+      - >-
+        Includes the October 1, 2026 federal MassHealth changes (EOM 26-10); immigration-related
+        benefit rules are changing quickly, so check MassHealth's noncitizen page before each use.
   # End of Phase 9 sources.
   # Phase 10 sources go below this line.
   - id: bh-mental-health-screening

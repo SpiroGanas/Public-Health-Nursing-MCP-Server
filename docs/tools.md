@@ -1477,6 +1477,157 @@ town file). Community infant mortality and PRAMS are not published. No local dat
 ## Phase 9: PHN practice toolkit and case management
 
 <!-- Phase 9 tools go below this line. -->
+
+Phase 9 tools support everyday case management and documentation. Every content file they use is
+`status: pending` (review due 2027-02-01); see `docs/acceptance/phase-9.md` for the review
+checklist. Narrative notes and client lists are read locally and never returned.
+
+### `plan_tb_contact_investigation` (CD-11, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `index_case` | required | Clinical facts only: `site` (`pulmonary`, `laryngeal`, `pleural`, `extrapulmonary_only`), `symptomatic`, `afb_smear_positive`, `cavitary`, `chest_radiograph` (`consistent_with_tb`, `abnormal_not_consistent`, `normal`, `not_done`), `naa_positive`, `culture_positive`, `mdr_tb`, `age_years`, and dates: `symptom_onset_date`, `first_positive_finding_date`, `suspected_diagnosis_date`, `treatment_start_date`, `isolation_start_date`, `infectious_period_end_date`. |
+| `contact_groups` | | Counts and risk facts, never names: `setting` (`household`, `workplace`, `school`, `child_care`, `congregate_living`, `medical_procedure`, `health_care`, `social`, `travel`, `other`), `count`, `age_band` (`under_5`, `5_to_15`, `16_plus`), `medical_risk`, `exceeds_high_priority_limits`, `exceeds_medium_priority_limits`, `last_exposure_date`, `prior_positive_test`. |
+| `contact_file`, `sheet` | | A local contact list (columns such as Age or DOB, Household, Setting, Medical Risk, Last Exposure, Test1 Result, Test2 Result). |
+| `listed_date` | today | Starts the Table 3 time frames. |
+| `write_workbook`, `template_rows` | true, 50 | XLSX tracking workbook in `/data/output`. |
+
+Applies the 2005 NTCA/CDC guidelines (MMWR 54(RR-15)): whether to investigate; the infectious
+period (Table 2: 3 months before symptom onset or the first positive finding, whichever is
+earlier; 4 weeks before the suspected diagnosis for asymptomatic, smear-negative, noncavitary
+cases), the closing criteria, and the window to ask about; contact priority from the Figure 2-4
+decision trees; the initial-encounter and evaluation deadlines in business days (Table 3); and
+the testing schedule, including the retest 8-10 weeks after last exposure, window prophylaxis for
+children under 5, and full treatment for immunocompromised contacts. Adds DPH TB program phone
+numbers, reporting rules (TB disease immediately; positive LTBI tests online), and DPH's state TB
+clinics (those in the configured county first). The workbook has Y/N validation and formulas for
+priority, WORKDAY due dates, and the retest window. With `contact_file` the workbook is filled
+locally and the answer returns only suppressed counts by priority, tested/positive counts, and
+expansion signals (10% or more positive among high-priority contacts, infection under age 5,
+negative-to-positive changes, disease in a low-priority contact).
+
+### `ltbi_treatment_calendar` (CD-12, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `regimen` | required | `3HP`, `4R`, `3HR`, `6H`, `9H`, `6H_twice_weekly`, `9H_twice_weekly` (names such as "rifampin" also work). |
+| `start_date` | required | First dose, YYYY-MM-DD. |
+| `administration` | DPH's mode or self-administered | `dot`, `vdot`, or `sat` (twice-weekly regimens are DOT only). |
+| `twice_weekly_days` | Monday, Thursday | Dosing days for twice-weekly regimens. |
+| `doses_taken`, `as_of` | , today | Dose dates for the adherence check. |
+| `write_files` | true | XLSX adherence tracker and DOCX patient calendar in `/data/output`. |
+| `language` | English | Uses `/data/templates/<language>/ltbi_calendar.md` (placeholders `{{regimen}}`, `{{start_date}}`, `{{doses}}`, `{{completion_deadline}}`, `{{program_phone}}`) when present; otherwise English with a caveat. |
+
+Every dose date (weekly and twice-weekly regimens), monitoring visits (DPH's weeks 1, 5, and 9 for
+3HP; monthly otherwise), and the completion window: 11 of 12 3HP doses within 16 weeks with doses
+more than 72 hours apart; 120 4R doses within 6 months; 180 (6H) or 270 (9H) daily doses within 9
+or 12 months; 52 or 76 twice-weekly doses within 9 or 12 months (2000 ATS/CDC). No window is
+published for 3HR. The adherence check counts valid doses, finds gaps over 2 months (TB disease
+must be ruled out before resuming), and projects whether completion still fits the window. CDC
+(2020) and DPH positions are both shown; DPH's page lists 3HP, 4R, and 9H. Doses are never
+calculated (plan item CD-16).
+
+### `screen_health_related_social_needs` (EQ-05, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `answers` | list items | One person's answers by item id or question number (1-26, 23a, 23b): option keys or labels, numbers for items 7-10, 17, 18, 23a/b, a list for item 2. |
+| `age_years` | | Sets the physical activity threshold and the age limits of items 25-26. |
+| `path`, `sheet`, `group_by` | | Batch mode: a local file with one screening per row (columns by item id or q1-q26, optional Age); counts by an optional category column. |
+| `list_items` | false | Item ids, answer keys, sources, and reuse terms. |
+
+Scores the CMS AHC HRSN screening tool by domain using the answers CMS underlines: living
+situation, food, transportation, utilities, interpersonal safety (HITS items 7-10 summing to 11 or
+more), and the supplemental domains (financial strain, employment, family and community support,
+education, physical activity under 150 minutes a week for adults or 60 minutes a day for ages 6-17,
+substance use, mental health with PHQ-2 of 3 or more or any stress, disabilities). Positive
+domains map to Massachusetts referral categories (EA family shelter, Mass 211, HomeBASE, SNAP,
+WIC, HEAP, MassHealth ACO HRSN services, MassHire, 988). Item wording is returned only for
+public-domain items. Batch mode writes per-person results to
+`/data/output/hrsn_screening_results.xlsx` and returns suppressed counts by domain and group.
+
+### `omaha_system_coder` (CORE-01, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` or `path` | | A narrative to code (text, or a note file in `/data`: TXT, MD, DOCX, PDF, HTML). Never returned. |
+| `lookup` | | A problem, target, or intervention category by name or code. |
+| `ratings` | | Knowledge, Behavior, Status (1-5) per problem, with optional baseline ratings. |
+| `max_problems` | 8 | |
+| `write_care_plan` | false | Blank Omaha System care plan (DOCX) for the suggested problems. |
+
+Suggests Omaha System problems (42 in 4 domains, with codes, suggested modifiers, and
+signs/symptoms), intervention category and target pairs found in the same sentences, and the
+Knowledge-Behavior-Status scale. Negated phrases ("denies fever") are not counted. The result has
+codes and the vocabulary terms that matched, never the note's words. Signs/symptoms not seen on
+omahasystem.org are marked unverified.
+
+### `classify_intervention_wheel` (CORE-02, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `activities` | list the Wheel | Short activity descriptions (returned by number only). |
+| `path`, `sheet`, `activity_column`, `hours_column`, `group_by` | | Classify an activity log; per-activity results go to `/data/output`; counts and hours by intervention, level, and group are returned with suppression. |
+
+Classifies activities by the 17 interventions, 5 wedges, and 3 levels of practice of the Public
+Health Intervention Wheel, with definitions and confidence (MDH's own page could not be fetched;
+four definitions are low confidence).
+
+### `nursing_documentation_template` (CORE-03, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `format` | `soap` | `soap`, `dar`, or `narrative`. |
+| `visit_type` | `home_visit` | `home_visit`, `clinic`, `case_investigation`, or `dot_visit`. |
+| `check_path` | | A note in `/data` to check for the required elements (text never returned). |
+| `skip_elements` | | Element ids to leave out (for example `consent`). |
+| `write_template` | false | DOCX and Markdown template in `/data/output`. |
+
+Section prompts, visit-specific prompts, and required elements: date and time, signature with
+credentials (244 CMR 9.03(44)), consent, language and interpreter, assessment, interventions,
+teaching with teach-back, response, goals, follow-up, and visit-specific items (safety for home
+visits; reporting, control measures, and contacts for case investigations; dose observed and
+side-effect screen for DOT). 42 CFR 484.110 and 484.50 are cited as a reference standard. The
+note check returns found/missing per element, the section where each was found, and counts of
+identifier kinds.
+
+### `find_community_resources` (EQ-07, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Massachusetts city or town. |
+| `service` | | Category (food, housing, utilities, transportation, primary_care, dental, behavioral_health, substance_use, safety, legal_immigration, employment, education, child_family, older_adults, disability) or any words. |
+| `language`, `open_on`, `open_at` | | Language offered; weekday or "today"; HH:MM. |
+| `include_county`, `include_health_centers` | true, true | |
+| `directory_path`, `sheet` | `resources/community_resources.csv` | The nurse's directory. |
+| `max_results` | 15 | At most 50. |
+
+Searches the nurse's directory (columns: name, services, town, address, phone, website,
+languages, hours such as "Mon-Fri 9:00-17:00; Sat 10:00-14:00" or "24/7", eligibility, cost,
+last_verified) and HRSA-funded health center sites (data.hrsa.gov download filtered to
+Massachusetts, cached a week, snapshot `hrsa-health-centers-ma` offline). Ranks same town, then
+same county; flags entries verified more than 12 months ago. Files that look like client lists
+(names, dates of birth, record numbers) are refused.
+
+### `newcomer_health_navigator` (EQ-11, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `topics` | all | `screening`, `programs`, `coverage`, `shelter`, `all`. |
+| `status` | | Immigration status for coverage (refugee, asylee, cuban_haitian_entrant, special_immigrant_visa, trafficking_victim, withholding_of_removal, cofa_migrant, lpr_5_years_or_more, lpr_under_5_years, parolee_1_year_plus, parolee_under_1_year, temporary_protected_status, asylum_applicant_with_work_permit, asylum_applicant_no_work_permit, daca, nonimmigrant_visa, undocumented). |
+| `age_years`, `pregnant`, `disabled` | | Age rules for screening and coverage. |
+| `arrival_date`, `as_of` | , today | The 90-day screening window. |
+| `preferred_language` | | Interpreter reminder; agency checklist translation from `/data/templates/<language>/newcomer_checklist.md`. |
+| `write_checklist` | false | Blank screening checklist (DOCX). |
+
+CDC domestic refugee screening components with age rules (TST under 2, IGRA 2 and older; lead for
+16 and younger with a repeat at 3-6 months for 6 and younger; HIV 13-64; hepatitis B for all and C
+for adults), DPH and ORI programs (RHAP, RHPP, Refugee Medical Assistance), MassHealth coverage by
+immigration status including the October 1, 2026 federal changes (EOM 26-10: adult refugees,
+asylees, and several other statuses move to MassHealth Limited/Health Safety Net or Family
+Assistance; children under 21 and pregnant or postpartum people are protected), and Emergency
+Assistance family shelter and basic-needs resources.
+
 <!-- End of Phase 9 tools. -->
 
 ## Phase 10: Healthy aging and mental health screening

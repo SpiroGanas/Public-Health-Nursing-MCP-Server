@@ -1,0 +1,7 @@
+name,services,town,address,phone,website,languages,hours,eligibility,cost,last_verified,notes
+Pioneer Valley Example Food Pantry,food pantry; food,Amherst,10 Example Way,413-555-0140,https://pantry.example.org,English; Spanish,Tue 15:00-18:00; Sat 9:00-12:00,Residents of Hampshire County,free,2026-09-15,Bring a bag
+Example Community Meals,food; meals,Northampton,22 Sample Street,413-555-0141,,English,Mon-Fri 11:30-13:00,Anyone,free,2026-08-01,
+Hilltown Example Rides,transportation; rides to medical appointments,Amherst,5 Test Road,413-555-0142,https://rides.example.org,English; Portuguese,Mon-Fri 8:00-16:00,Adults 60+ and people with disabilities,sliding scale,2025-06-30,Call 48 hours ahead
+Valley Example Fuel Help,utilities; fuel assistance; heating,Northampton,300 Demo Avenue,413-555-0143,https://fuel.example.org,English; Spanish; Haitian Creole,Mon-Thu 9:00-16:00,Income-eligible households,free,2026-10-01,
+Example Family Shelter Line,housing; shelter; homelessness,Springfield,1 Placeholder Plaza,413-555-0144,,English; Spanish,24/7,Families with children,free,2026-07-20,
+Example Immigrant Legal Clinic,legal; immigration; ESOL,Amherst,77 Mock Lane,413-555-0145,https://legal.example.org,English; Spanish; Portuguese; Arabic; Dari,Wed 17:00-20:00,Immigrants and refugees,free,2026-10-12,By appointment

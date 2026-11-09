@@ -23,6 +23,9 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/proxy_details.csv` | 3 health care proxy rows (principal, agent, witnesses, phones, Spanish/Portuguese/blank language) for local fill (Phase 10). |
 | `data/growth_measurements.csv` | 20 child-visit rows for the growth calculator (record IDs, names, birth and measurement dates, sex, weight, height, head circumference, gestational age, parent phone), including a preterm infant, an extreme value, and two rows that cannot be scored (missing sex, invalid birth date). Generated from the WHO and CDC tables with a fixed seed (Phase 8). |
 | `data/51a_notes.txt` | A nurse's notes for a 51A written report in "Field name: value" lines (child, caregiver, address, phones, birth date, observations), for the local-fill draft test (Phase 8). |
+| `data/tb_contacts.csv` | 12 contacts of a fictional infectious TB case (contact IDs, names, phone numbers, age, household, setting, last exposure, test results), for the TB contact investigation planner (Phase 9). |
+| `data/hrsn_screenings.csv` | 15 fictional AHC health-related social needs screenings (client names, MRNs, dates of birth, site, answers to items 1-10), for the HRSN screening tool (Phase 9). |
+| `data/resources/community_resources.csv` | A fictional community resource directory (organizations only, 555-01xx phone numbers) for find_community_resources (Phase 9). |
 | `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |

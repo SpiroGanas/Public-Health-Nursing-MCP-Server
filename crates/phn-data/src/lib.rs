@@ -41,6 +41,8 @@ pub mod vaccine_codes;
 // Phase 10 adapters (CMS Provider Data Catalog) go below this line.
 pub mod cms_provider;
 pub mod older_adults;
+// Phase 9 adapters (HRSA health centers) go below this line.
+pub mod hrsa;
 
 pub use cache::Cache;
 pub use http::HttpClient;
