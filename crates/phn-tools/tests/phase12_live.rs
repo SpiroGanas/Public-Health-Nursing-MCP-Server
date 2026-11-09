@@ -77,3 +77,21 @@ async fn heat_plan_is_live() {
     assert!(env.data.heatrisk_days.iter().all(|d| d.max_level.is_some()));
     assert_ne!(env.data.forecast_status, "unavailable");
 }
+
+#[tokio::test]
+#[ignore = "needs network"]
+async fn empower_is_live() {
+    let (_d, ctx) = online();
+    let env = phn_tools::epr::get_electricity_dependent_population(
+        &ctx,
+        phn_tools::epr::ElectricityArgs {
+            area: Some("Plymouth County".into()),
+            ..Default::default()
+        },
+    )
+    .await
+    .unwrap();
+    println!("{}", env.summary);
+    assert_eq!(env.data.mode, "live");
+    assert!(env.data.electricity_dependent > 1000.0);
+}

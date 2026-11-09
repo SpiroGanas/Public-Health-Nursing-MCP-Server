@@ -572,6 +572,22 @@ pub struct Shelter {
     pub staffing_defaults: Vec<Assumption>,
 }
 
+// ---------------------------------------------------------------- emPOWER (EPR-04)
+
+/// `content/epr/electricity_dependence.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Power {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub definition: Cited,
+    pub coverage: Cited,
+    pub suppression: Cited,
+    pub equipment: CitedList,
+    pub datasets: Vec<Cited>,
+    pub actions: Vec<Cited>,
+    pub utilities: CitedList,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

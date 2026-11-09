@@ -198,6 +198,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/functional_needs_shelter.yaml"),
         schema: include_str!("../../../content/schemas/epr_functional_needs_shelter.schema.json"),
     },
+    ContentItem {
+        id: "epr-electricity-dependence",
+        path: "content/epr/electricity_dependence.yaml",
+        resource_uri: "phn://content/epr-electricity-dependence",
+        yaml: include_str!("../../../content/epr/electricity_dependence.yaml"),
+        schema: include_str!("../../../content/schemas/epr_electricity_dependence.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

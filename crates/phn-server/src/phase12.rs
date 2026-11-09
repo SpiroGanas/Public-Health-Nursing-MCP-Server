@@ -3,8 +3,8 @@
 use phn_core::Envelope;
 use phn_tools::env::{AirQualityArgs, AirQualityResult, HeatPlanArgs, HeatPlanResult};
 use phn_tools::epr::{
-    DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult, HvaArgs, HvaResult,
-    ShelterArgs, ShelterResult,
+    DispensingArgs, DispensingResult, ElectricityArgs, ElectricityResult, HazardAlertsArgs,
+    HazardAlertsResult, HvaArgs, HvaResult, ShelterArgs, ShelterResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -176,5 +176,30 @@ impl PhnServer {
         Parameters(args): Parameters<ShelterArgs>,
     ) -> CallToolResult {
         respond(phn_tools::epr::functional_needs_shelter_intake(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "get_electricity_dependent_population",
+        description = "HHS emPOWER counts of Medicare beneficiaries who rely on \
+            electricity-dependent medical equipment (ventilators, oxygen concentrators, BiPAP, \
+            feeding and infusion pumps, home dialysis, power wheelchairs, electric beds, cardiac \
+            assist devices) for a Massachusetts town, county, the state, or ZIP codes: totals \
+            and rates per 1,000 beneficiaries compared with Massachusetts and the U.S., ZIP-code \
+            lists for outreach and shelter planning, and power outage planning actions with \
+            utility numbers. Optionally totals a ZIP-level aggregate file in /data (for example \
+            DPH's emPOWER Emergency Planning Dataset); individual-level files are refused.",
+        annotations(
+            title = "Electricity-dependent population (emPOWER)",
+            read_only_hint = true,
+            idempotent_hint = true,
+            open_world_hint = true
+        ),
+        output_schema = schema_for_output::<Envelope<ElectricityResult>>()
+    )]
+    async fn get_electricity_dependent_population(
+        &self,
+        Parameters(args): Parameters<ElectricityArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::epr::get_electricity_dependent_population(&self.ctx, args).await)
     }
 }

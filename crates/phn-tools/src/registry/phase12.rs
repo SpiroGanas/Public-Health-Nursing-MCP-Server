@@ -41,4 +41,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Epr,
         phase: 12,
     },
+    ToolMeta {
+        name: "get_electricity_dependent_population",
+        plan_id: "EPR-04",
+        toolset: Toolset::Epr,
+        phase: 12,
+    },
 ];
