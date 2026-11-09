@@ -643,6 +643,27 @@ async fn no_row_level_data_is_returned_by_default() {
         ),
         // ---- End of Phase 7 data tools.
         // ---- Phase 8 data tools go below this line.
+        (
+            "calculate_growth_percentiles",
+            json!({"measurements_path": "growth_measurements.csv"}),
+            "data/growth_measurements.csv",
+        ),
+        // Pointed at the outbreak line list (no growth columns): the error must not leak.
+        (
+            "calculate_growth_percentiles",
+            json!({"measurements_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "mandated_reporter_51a_guide",
+            json!({"notes_path": "51a_notes.txt", "narrative_template": true}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "mandated_reporter_51a_guide",
+            json!({"notes_path": "line_list.csv"}),
+            ll,
+        ),
         // ---- End of Phase 8 data tools.
         // ---- Phase 9 data tools go below this line.
         // ---- End of Phase 9 data tools.

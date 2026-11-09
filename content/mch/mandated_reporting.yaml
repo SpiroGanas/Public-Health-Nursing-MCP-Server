@@ -1,0 +1,253 @@
+# Massachusetts mandated reporting of child abuse and neglect (M.G.L. c. 119, s. 51A) and the
+# written-report narrative template, for mandated_reporter_51a_guide (MCH-07).
+#
+# REVIEW STATUS: pending. Drafted 2026-11-08 from the statute (malegislature.gov) and DCF pages
+# and documents (mass.gov) fetched that day. Schema: content/schemas/mch_mandated_reporting.schema.json
+meta:
+  id: mch-mandated-reporting
+  title: Massachusetts mandated reporting of child abuse and neglect (M.G.L. c. 119, s. 51A)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "M.G.L. c. 119, s. 51A: Reporting of suspected abuse or neglect; mandated reporters"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section51A
+  related_sources:
+    - title: "M.G.L. c. 119, s. 21 (definitions, including mandated reporter)"
+      publisher: The General Court of the Commonwealth of Massachusetts
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section21
+    - title: DCF Mandated Reporter Guide
+      publisher: Massachusetts Department of Children and Families
+      url: https://www.mass.gov/doc/dcf-mandated-reporter-guide/download
+    - title: Report child abuse or neglect as a mandated reporter
+      publisher: Massachusetts Department of Children and Families
+      url: https://www.mass.gov/how-to/report-child-abuse-or-neglect-as-a-mandated-reporter
+    - title: "Report of Child(ren) Alleged to be Suffering from Abuse or Neglect (Child Abuse Reporting Form)"
+      publisher: Massachusetts Department of Children and Families
+      url: https://www.mass.gov/doc/child-abuse-reporting-form/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08. Who must report, when, what the report contains, penalties,
+    protections, and death reporting are transcribed from M.G.L. c. 119, ss. 21 and 51A as
+    shown on malegislature.gov that day (high confidence). How to report, definitions of abuse
+    and neglect (110 CMR 2.00), domestic violence guidance, and DCF's process and timelines come
+    from DCF's Mandated Reporter Guide (DOCX modified 2025-10-24) and mass.gov pages. The
+    narrative template follows the sections of DCF's Child Abuse Reporting Form (PDF dated
+    2016-10-25). DCF's guide still lists a newborn "physically dependent upon an addictive drug
+    at birth" as reportable, but s. 51A(a) now says prenatal substance exposure alone does not
+    meet the reporting requirement: the nurse must reconcile this with DCF and agency counsel
+    (low confidence on that item). The statute's effective dates of recent amendments were not
+    verified.
+
+sources:
+  mgl-51a:
+    title: "M.G.L. c. 119, s. 51A"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section51A
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-21:
+    title: "M.G.L. c. 119, s. 21 (definitions)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section21
+    effective_date: null
+    retrieved: 2026-11-08
+  dcf-guide:
+    title: DCF Mandated Reporter Guide
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/doc/dcf-mandated-reporter-guide/download
+    effective_date: 2025-10-24
+    retrieved: 2026-11-08
+  dcf-how-to:
+    title: Report child abuse or neglect as a mandated reporter
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/how-to/report-child-abuse-or-neglect-as-a-mandated-reporter
+    effective_date: null
+    retrieved: 2026-11-08
+  dcf-form:
+    title: "Report of Child(ren) Alleged to be Suffering from Abuse or Neglect (Child Abuse Reporting Form)"
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/doc/child-abuse-reporting-form/download
+    effective_date: 2016-10-25
+    retrieved: 2026-11-08
+  dcf-actions:
+    title: Actions DCF takes when child abuse or neglect is reported
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/info-details/actions-dcf-takes-when-child-abuse-or-neglect-is-reported
+    effective_date: null
+    retrieved: 2026-11-08
+  dcf-signs:
+    title: Warning signs of child abuse and neglect
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/info-details/warning-signs-of-child-abuse-and-neglect
+    effective_date: null
+    retrieved: 2026-11-08
+  dcf-offices:
+    title: DCF Area Offices by City/Town (interactive map)
+    publisher: Massachusetts Department of Children and Families
+    url: https://www.mass.gov/info-details/dcf-area-offices-by-citytown
+    effective_date: null
+    retrieved: 2026-11-08
+
+who_must_report:
+  - text: "Nurses are mandated reporters, along with physicians, hospital personnel, EMTs, dentists, psychologists, licensed mental health and human services professionals, drug and alcohol counselors, school staff, child care workers and anyone paid to care for or work with a child in a program funded or licensed by the Commonwealth, social workers, foster parents, police, firefighters, clergy, the Child Advocate, and the person in charge of a medical or other institution, school, or facility (or their designated agent)."
+    source: mgl-21
+    section: "s. 21, 'Mandated reporter' (i)-(vi)"
+  - text: "A child is a person under the age of 18."
+    source: mgl-21
+    section: "s. 21, 'Child'"
+  - text: "Anyone, mandated or not, may file a report if they have reasonable cause to believe a child is suffering from or has died as a result of abuse or neglect."
+    source: mgl-51a
+    section: "s. 51A(f)"
+  - text: "Mandated reporters licensed by the Commonwealth must complete training to recognize and report suspected child abuse or neglect."
+    source: mgl-51a
+    section: "s. 51A(k)"
+
+when_to_report:
+  - text: "Report when, in your professional capacity, you have reasonable cause to believe a child is (i) suffering physical or emotional injury from abuse that causes harm or substantial risk of harm, including sexual abuse; (ii) suffering physical or emotional injury from neglect, including malnutrition; (iii) a sexually exploited child; or (iv) a human trafficking victim."
+    source: mgl-51a
+    section: "s. 51A(a)"
+  - text: "An indication of prenatal substance exposure does not, by itself, meet the reporting requirement."
+    source: mgl-51a
+    section: "s. 51A(a), proviso"
+  - text: "DCF's Mandated Reporter Guide still lists 'any instance in which a child is determined to be physically dependent upon an addictive drug at birth' as reportable, and DCF's form has 'Substance Exposed Newborn' and 'Neonatal Abstinence Syndrome' boxes. Confirm current practice with DCF and the agency before relying on either."
+    source: dcf-guide
+    section: "As a mandated reporter, what are my responsibilities?"
+    confidence: low
+  - text: "'Reasonable cause to believe' means facts, knowledge, or observations that tend to support or are consistent with the concern and would lead a reasonable person to conclude a child has been abused or neglected. You do not need proof; DCF investigates."
+    source: dcf-guide
+    section: "What happens when DCF receives a report (step 2)"
+
+how_to_report:
+  - step: 1
+    text: "If a child is in immediate danger, call 911."
+    source: dcf-how-to
+    section: "How to report: by phone"
+  - step: 2
+    text: "Immediately make an oral report: during business hours call the DCF area office that serves the city or town where the child lives (find it on DCF's area office map); nights, weekends, and holidays call the Child-At-Risk Hotline, 1-800-792-5200."
+    source: mgl-51a
+    section: "s. 51A(a); DCF 'Report child abuse or neglect as a mandated reporter'"
+  - step: 3
+    text: "Within 48 hours of the call, file the written report: online through DCF Partner Services (MyMassGov account), or by fax or mail to the area office using DCF's Child Abuse Reporting Form. The written report does not replace the call."
+    source: dcf-how-to
+    section: "What you need; How to report"
+  - step: 4
+    text: "Staff of a medical or other institution, school, or facility may instead notify the person in charge or their designee, who becomes responsible for reporting; if that person advises against filing, the staff member may still report directly to DCF, police, or the Child Advocate."
+    source: mgl-51a
+    section: "s. 51A(a); DCF Mandated Reporter Guide"
+  - step: 5
+    text: "You may also contact local police or the Office of the Child Advocate. If a child has died from abuse or neglect, also report to the district attorney for the county and the Office of the Chief Medical Examiner."
+    source: mgl-51a
+    section: "s. 51A(a) and (e)"
+  - step: 6
+    text: "Answer DCF's questions during its response: every mandated reporter must assist DCF under s. 51B, even if not the filer. DCF recommends telling the family they were referred for help unless doing so would increase the risk to the child."
+    source: dcf-guide
+    section: "As a mandated reporter, what are my responsibilities?; How do I make a report?"
+
+report_contents:
+  - text: "Names and addresses of the child and the parents or other person responsible for care, if known; the child's age and sex."
+    source: mgl-51a
+    section: "s. 51A(d)(i)-(iii)"
+  - text: "The nature and extent of the injuries, abuse, maltreatment, or neglect, including evidence of prior injuries or neglect."
+    source: mgl-51a
+    section: "s. 51A(d)(iv)"
+  - text: "The circumstances in which you first became aware of the injuries or neglect, including dates or time frames."
+    source: mgl-51a
+    section: "s. 51A(d)(v); DCF guide"
+  - text: "Action taken to treat, shelter, or otherwise assist the child; your name; the identity of the person responsible, if known; and anything else that may help establish the cause."
+    source: mgl-51a
+    section: "s. 51A(d)(vi)-(x)"
+  - text: "DCF also asks for emergency contacts, languages spoken, other children in the home, concerns about caregiver alcohol or drug use, information for safe contact with an adult victim of domestic violence (work schedules, routines), concerns for social worker safety, and the family's strengths. Mark uncertain or unknown entries with a question mark."
+    source: dcf-form
+    section: "Form instructions and sections; DCF guide 'Your report should include'"
+
+penalties_and_protections:
+  - text: "Failing to report: fine of up to $1,000. Willfully failing to report abuse or neglect that caused serious bodily injury or death: fine up to $5,000 and/or up to 2.5 years in a house of correction, with notice to the licensing board. Knowingly filing a frivolous report: fines and possible jail for repeat offenses."
+    source: mgl-51a
+    section: "s. 51A(c)"
+  - text: "A good-faith reporter is not liable in any civil or criminal action for the report, unless the reporter caused the abuse or neglect; an employer may not discharge, discriminate, or retaliate against a mandated reporter (treble damages)."
+    source: mgl-51a
+    section: "s. 51A(g) and (h)"
+  - text: "Professional privileges (for example psychotherapist and social worker privileges) do not prevent filing; clergy need not report information gained solely in a confession."
+    source: mgl-51a
+    section: "s. 51A(j)"
+  - text: "DCF does not tell the family who filed the report unless a court orders it or a statute requires it; within 30 days DCF notifies the mandated reporter in writing of its determination and planned services."
+    source: dcf-guide
+    section: "Does DCF tell the family who made the 51A report?; s. 51A(i)"
+
+definitions:
+  - text: "Abuse: the non-accidental commission of any act by a caregiver that causes, or creates a substantial risk of, physical or emotional injury or sexual abuse to a child; or the victimization of a child through sexual abuse or human trafficking, whether or not by a caregiver."
+    source: dcf-guide
+    section: "How does DCF define abuse and neglect? (110 CMR 2.00)"
+  - text: "Neglect: failure by a caregiver, deliberately or through negligence or inability, to provide minimally adequate food, clothing, shelter, medical care, supervision, emotional stability and growth, or other essential care, including malnutrition or failure to thrive; not when due solely to inadequate economic resources or solely to a handicapping condition."
+    source: dcf-guide
+    section: "How does DCF define abuse and neglect? (110 CMR 2.00)"
+  - text: "Caregiver: a parent, step-parent, guardian, household member, or anyone else entrusted with the child's health or welfare in or out of the home (relatives, teachers, child care staff, babysitters, foster parents, group care staff)."
+    source: dcf-guide
+    section: "Who is a caregiver?"
+
+domestic_violence:
+  - text: "Not every situation involving domestic violence needs DCF; consider the specific impact on the child, and if possible discuss filing with the caregiver who is the victim first and address safety planning, because a report can add risk."
+    source: dcf-guide
+    section: "When should a report involving domestic violence be filed?"
+  - text: "A report is more likely necessary when the alleged perpetrator threatened to kill the caregiver, children, or self and the caregiver fears for safety; physically injured the child in an incident targeting the caregiver; coerced the child to take part in or witness the abuse; or used or threatened to use a weapon that the caregiver believes they intend or are able to use."
+    source: dcf-guide
+    section: "When should a report involving domestic violence be filed?"
+
+dcf_process:
+  - text: "DCF screens every report immediately (emergency screening within 2 hours; non-emergency within 1 business day, extendable 1 day). Emergency responses see the child within 2 hours and finish within 5 business days; non-emergency responses begin within 2-3 business days and finish within 15 business days."
+    source: dcf-actions
+    section: "DCF screening; investigation response timelines"
+  - text: "Outcomes are 'supported', 'substantiated concern', or 'unsupported'. The mandated reporter receives a copy of the decision letter; online filers can see the screening decision online."
+    source: dcf-guide
+    section: "What happens when DCF receives a report; Will I be informed?"
+
+warning_signs:
+  - text: "Physical abuse: unexplained bruises, welts, or burns (especially on an infant's face, lips, or mouth, or on several surfaces); patterned marks (belt, cord, hand, bite); injuries on the torso, back, buttocks, thighs, or neck; immersion ('stocking', 'glove') or contact burns; torn gum tissue; withdrawn, fearful, or extreme behavior."
+    source: dcf-signs
+    section: "Signs of physical abuse"
+  - text: "Neglect: sudden changes in behavior or school performance; frequent absences; untreated medical problems; begging or stealing food; lack of supervision, hygiene, or weather-appropriate clothing; a caregiver who shows little concern, blames the child, seems depressed, or misuses alcohol or drugs."
+    source: dcf-signs
+    section: "Signs of possible neglect"
+
+documentation_tips:
+  - text: "Write what you saw and heard, with dates and times, in plain words; quote the child's and caregiver's words exactly; describe injuries by size, color, shape, and location; separate what you observed from what others told you and name the source; avoid conclusions and labels."
+    source: dcf-form
+    section: "Form: 'Please cite the source of this information if not observed firsthand'"
+    confidence: medium
+
+hotline: "1-800-792-5200"
+
+# Narrative template for the written report. Each field becomes a {{placeholder}} filled from
+# the nurse's local file; unknown entries are marked "?" as DCF's form asks.
+template:
+  title: "Written report of suspected child abuse or neglect (M.G.L. c. 119, s. 51A): narrative draft"
+  sections:
+    - heading: Children reported
+      fields: [Child Name, Child Current Location or Address, Child Age or Date of Birth, Child Sex, Child Language, ICWA or Tribal Affiliation, Emergency Contacts, Other Children in the Home]
+    - heading: Parent, guardian, or caregiver 1
+      fields: [Caregiver 1 Name, Caregiver 1 Address, Caregiver 1 Phone, Caregiver 1 Age or Date of Birth, Caregiver 1 Language, Caregiver 1 Relationship]
+    - heading: Parent, guardian, or caregiver 2
+      fields: [Caregiver 2 Name, Caregiver 2 Address, Caregiver 2 Phone, Caregiver 2 Age or Date of Birth, Caregiver 2 Language, Caregiver 2 Relationship]
+    - heading: Reporter
+      fields: [Report Date, Oral Report Date and Time, DCF Office Called, Reporter Name, Reporter Agency, Reporter Address, Reporter Phone, Reporter Relationship to Child, Caregiver Informed of Report]
+    - heading: Nature and extent of injury, abuse, maltreatment, or neglect
+      fields: [Nature and Extent, Prior Injuries or Concerns, Source of Information]
+    - heading: Related concerns
+      fields: [Related Concerns, Description of Related Concerns]
+    - heading: Person or persons responsible
+      fields: [Person Responsible]
+    - heading: Circumstances
+      fields: [Circumstances, Incident Date]
+    - heading: Actions taken
+      fields: [Actions Taken]
+    - heading: Safety and strengths
+      fields: [Social Worker Safety Concerns, Family Strengths]
+  related_concerns: [Substance Use/Misuse, Substance Exposed Newborn, Neonatal Abstinence Syndrome, Domestic Violence, Mental/Behavioral Health Challenges, Acute/Chronic Medical Condition, Housing Instability/Homelessness, Human Trafficking/Labor, Human Trafficking/Sexually Exploited Child, Teen Parenting, Runaway, Gang Involvement, None Applies, Unknown, Other]
+  source: dcf-form
+  section: "All sections of the Child Abuse Reporting Form"

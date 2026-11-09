@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 64;
+const TOOL_COUNT = 72;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -90,6 +90,7 @@ const frontChapters = [
                 ['School health (chapter 11)', 'Screening requirements and tracking with referral letters; medication administration rules; individualized health plans; concussion return to learn; illness absenteeism; the year-end report; child care health consultation.', '8'],
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps; maternal and infant health profiles.', '8'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1980,6 +1981,254 @@ const toolChapters = [
   },
   // End of Phase 7 chapter.
   // Phase 8 chapter goes below this line.
+  {
+    title: 'Maternal, child, and family health',
+    intro: 'These tools support home visiting, early childhood, and lead poisoning prevention work: growth charts, lead screening and case management, mandated reporting, developmental milestones, newborn and postpartum visits, benefit eligibility screening, lead risk maps, and maternal and infant health data. They are in the mch group (benefit eligibility is in the equity group). Clinical and legal content is a draft until you review it.',
+    tools: [
+      {
+        id: 'calculate_growth_percentiles',
+        title: 'Calculate growth percentiles',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when scoring a file of many children',
+        does: 'Calculates percentiles and z-scores for weight, length or height, BMI, and head circumference using the WHO standards from birth to 24 months and the CDC charts from 2 to 20 years, including CDC’s 2022 extended BMI-for-age method for children above the 95th percentile, the BMI category, and corrected age for babies born early. It compares visits and flags values to re-measure.',
+        when: [
+          'A home visit or clinic weight check for an infant or child.',
+          'Following a baby’s weight gain over several visits.',
+          'Scoring a file of measurements from a screening event or a WIC or school list.',
+        ],
+        provide: [
+          'The child’s sex and, for each visit, the age (days, months, or years, or the measurement date with the birth date) and the measurements in kilograms or pounds and centimeters or inches.',
+          'Optionally: gestational age at birth (for corrected age), or the name of a CSV or Excel file in your data folder for many children.',
+        ],
+        examples: [
+          'A 9-month-old boy weighs 9.7 kg and is 72 cm long. What are his percentiles?',
+          'Plot this baby girl’s weights: 2 weeks 3.4 kg, 1 month 4.0 kg, 2 months 4.9 kg. She was born at 34 weeks.',
+          'A 10-year-old girl is 55 inches tall and weighs 110 pounds. What is her BMI percentile and category?',
+          'Score the measurements in growth_screening.xlsx and give me the weight-status counts.',
+        ],
+        returns: [
+          'For each visit: each measurement’s percentile, z-score, the chart used (WHO or CDC), the median, flags (for example below the 2.3rd percentile on the WHO chart, or the BMI category), and the change since the last visit.',
+          'For a file: a spreadsheet in your output folder with each row’s results, and only counts by age group and weight status in the chat.',
+        ],
+        notes: [
+          'Percentiles are screening information, not a diagnosis. Look at the pattern over time and refer to the child’s health care provider for concerns.',
+          'The WHO charts flag growth at ±2 SD (the 2.3rd and 97.7th percentiles); the CDC charts traditionally use the 5th and 95th.',
+          'Corrected age is used until 24 months for babies born before 37 weeks. This rule is a draft: confirm your agency’s practice.',
+          'Birth and measurement dates are used only to calculate age; they are not shown in the answer.',
+        ],
+      },
+      {
+        id: 'childhood_lead_screening_guide',
+        title: 'Childhood lead screening guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for a teaching sheet',
+        does: 'Explains the Massachusetts lead screening schedule (105 CMR 460.000), whether a town is on DPH’s high-risk community list, when to confirm a fingerstick result with a venous test, what to do at each blood lead level (follow-up testing, medical, environmental, and case management steps from DPH’s Childhood Lead Poisoning Prevention Program), reporting rules, the Lead Law, and what to teach families. It can write a family teaching sheet.',
+        when: [
+          'A home visit to a family with a young child in older housing.',
+          'A child has a capillary (fingerstick) result and you need to know how soon to confirm it.',
+          'Case management for a child with an elevated or poisoned blood lead level.',
+          'Checking whether a 4-year-old in your town still needs a lead test.',
+        ],
+        provide: [
+          'Any of: the child’s age in months, the town, a blood lead level with “capillary” or “venous”, and risk factors (a lead-poisoned sibling, renovation, or peeling paint in a pre-1978 home).',
+          'Optionally: ask for a teaching sheet and the family’s language.',
+        ],
+        examples: [
+          'An 18-month-old in Lowell had a fingerstick lead level of 7. What happens next?',
+          'What are the follow-up steps for a venous blood lead level of 16 in a 2-year-old?',
+          'Is Fitchburg a high-risk community for lead, and what is its screening rate?',
+          'Write a lead teaching sheet for a Spanish-speaking family.',
+        ],
+        returns: [
+          'The screenings the child needs and whether each is due, the town’s high-risk status and screening figures, the confirmation timing and actions for the result, reporting duties, Lead Law points, family teaching points, and contacts.',
+          'If you asked for one, a teaching sheet in your output folder.',
+        ],
+        notes: [
+          'The high-risk list changes every year; this version uses DPH’s 2024 list (17 communities).',
+          'DPH’s follow-up table mixes Massachusetts rules (lead poisoning at 10 µg/dL, level of concern 5 to 9) with CDC’s 3.5 µg/dL reference value. Follow the child’s provider and CLPPP.',
+          'The server ships an English teaching sheet. To give families your agency’s translation, save it as templates/<language>/lead_family_teaching.docx in your data folder; otherwise the English sheet is used and the answer says so.',
+        ],
+      },
+      {
+        id: 'mandated_reporter_51a_guide',
+        title: 'Mandated reporter (51A) guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when drafting the written report from your notes',
+        does: 'Explains Massachusetts child abuse and neglect reporting under M.G.L. c. 119, §51A: who must report, the immediate call to DCF and the written report within 48 hours, what to include, protections and penalties, DCF’s definitions, domestic violence and substance-exposure questions, and what DCF does next. It gives you the written-report template and can fill a draft from notes you keep in your data folder, without sending those notes to the AI.',
+        when: [
+          'You are worried about a child after a home visit and want to know your duty and the steps.',
+          'You called DCF and need to file the written report within 48 hours.',
+          'Training new staff on mandated reporting.',
+        ],
+        provide: [
+          'Optionally: the kind of concern (for example neglect or domestic violence; no names), whether you work for an agency with a person in charge, and the time you called DCF.',
+          'To draft the written report: the name of a notes file in your data folder (a text file with “Field name: value” lines, or a spreadsheet with one row per report).',
+        ],
+        examples: [
+          'Am I required to report this, and how? I saw unexplained bruises on a toddler during a home visit.',
+          'I called DCF at 3:20 pm today. When is my written 51A report due, and what goes in it?',
+          'Give me the 51A written report template.',
+          'Draft the written report from 51a_notes.txt in my data folder.',
+        ],
+        returns: [
+          'The steps, the deadline for the written report, guidance on each topic with citations, notes for the kind of concern, and the template’s sections and field names.',
+          'When drafting: a Word draft in your output folder for each report, with only the file name and how many fields were filled shown in the chat.',
+        ],
+        notes: [
+          'Never type the family’s names or details into the chat; keep them in a notes file in your data folder.',
+          'Unknown entries are marked “?” in the draft, as DCF’s form asks. Review the draft, then submit it through DCF’s online form or DCF’s reporting form.',
+          'The statute says prenatal substance exposure alone does not require a report, but DCF’s guide still lists newborn drug dependence; check current DCF practice.',
+          'This is guidance, not legal advice. When unsure, call DCF.',
+        ],
+      },
+      {
+        id: 'check_developmental_milestones',
+        title: 'Check developmental milestones',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists CDC’s “Learn the Signs. Act Early.” milestones for a child’s age (2 months to 5 years), lets you mark the ones the child does not yet do, and, if any are missed or skills were lost, gives the act-early steps: talk with the doctor, developmental screening, and a Massachusetts Early Intervention referral (or preschool special education from age 3), with the EI programs that serve the family’s town.',
+        when: [
+          'A home visit or well-child check where you go over development with the family.',
+          'A parent is worried about speech, movement, or behavior.',
+          'You need the Early Intervention program for a family’s town.',
+        ],
+        provide: [
+          'The child’s age in months. Optionally: weeks of gestation if born early, the IDs of milestones not yet seen (from the checklist the tool gives you), lost skills or other concerns, and the town.',
+        ],
+        examples: [
+          'Show the milestones for a 15-month-old.',
+          'This 18-month-old does not say three or more words (18m-language-1). What next? The family lives in Brockton.',
+          'A 6-month-old born at 30 weeks: which milestones should we look for?',
+        ],
+        returns: [
+          'The checklist with an ID for each milestone, whether to act early and how, screening that is due, Early Intervention eligibility and referral, the EI programs for the town with phone numbers, and questions to share with the doctor.',
+        ],
+        notes: [
+          'Milestones are what most children (75% or more) do by an age. The checklists do not replace standardized developmental screening.',
+          'For babies born early, the tool also shows the corrected-age checklist; decide with the child’s provider which to use.',
+          'Anyone can refer a child to Early Intervention, at no cost to families.',
+        ],
+      },
+      {
+        id: 'plan_newborn_postpartum_visit',
+        title: 'Plan a newborn and postpartum visit',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for documents',
+        does: 'Builds a home visit plan for a newborn and the birthing parent: what to check and what to teach about feeding and weight, jaundice, safe sleep, car seats, Massachusetts newborn blood spot and hearing screening, and CDC’s urgent maternal warning signs. It can save a visit plan and a family teaching sheet as Word documents.',
+        when: [
+          'Preparing for a postpartum or newborn home visit.',
+          'You need a teaching sheet to leave with the family.',
+          'Checking that newborn screening follow-up is complete.',
+        ],
+        provide: [
+          'The baby’s age in days. Optionally: how the baby is fed, birth weight and today’s weight, whether the baby went home within 24 hours, the hearing screen result, and whether you want documents (and the family’s language).',
+        ],
+        examples: [
+          'Plan a home visit for a 5-day-old breastfed baby; birth weight 7 lb 8 oz, today 6 lb 15 oz.',
+          'The baby did not pass the hearing screen and went home at 20 hours. What should I follow up on?',
+          'Make a visit plan and a teaching sheet for a family that speaks Portuguese.',
+        ],
+        returns: [
+          'Follow-up items from what you entered, a checklist and teaching points for each topic with citations, the urgent maternal warning signs, and the documents written to your output folder.',
+        ],
+        notes: [
+          'The weight change is reported, not judged: share it with the baby’s provider.',
+          'The jaundice points are general (low confidence) because the full AAP guideline could not be retrieved; follow the baby’s discharge plan.',
+          'Documents contain no information about the family. Translations come from your agency’s own files (templates/<language>/newborn_postpartum_teaching.docx); otherwise the English sheet is used.',
+        ],
+      },
+      {
+        id: 'estimate_benefit_eligibility',
+        title: 'Screen for benefit eligibility',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'no',
+        does: 'Compares a household’s size and income with the current income limits for WIC, SNAP, MassHealth, the Health Safety Net, and home heating assistance, and shows the percent of the federal poverty guideline. It is a screen to help you encourage families to apply, not an eligibility decision.',
+        when: [
+          'A home visit where the family is struggling with food, health coverage, or heating costs.',
+          'Deciding which applications to help a family start.',
+        ],
+        provide: [
+          'The number of people in the household and the gross income (yearly or monthly). Optionally: pregnancy, a baby or young children, children under 19, a young adult 19 or 20, whether the family already gets SNAP, MassHealth, or TAFDC, and whether they pay for heat.',
+        ],
+        examples: [
+          'A family of 3 with a newborn earns $3,500 a month. Which programs might they qualify for?',
+          'A pregnant woman living alone earns $40,000 a year. Is she under the MassHealth limit?',
+        ],
+        returns: [
+          'The percent of the poverty guideline and, for each program, the income limit for the household, whether the income is under it, the tier (for example the Health Safety Net with a deductible), SNAP’s maximum benefit, notes, how to apply, and the date the limits took effect.',
+        ],
+        notes: [
+          'Only income is checked. Programs also look at immigration status, residency, assets, and who counts in the household, so encourage families to apply.',
+          'Limits change every year (poverty guidelines in January, MassHealth in March, WIC in June or July, SNAP and heating assistance in October); the answer shows each date.',
+          'This tool is in the equity group.',
+        ],
+      },
+      {
+        id: 'map_lead_risk',
+        title: 'Map lead risk for outreach',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'yes, a map in output/maps',
+        does: 'Ranks cities and towns, or census tracts, for childhood lead outreach using old housing, low income, young children, DPH’s lead screening rates and blood lead levels, and DPH’s high-risk community list, and draws a map.',
+        when: [
+          'Planning lead outreach, screening events, or deleading promotion.',
+          'A grant application or board of health presentation on lead.',
+          'Finding the neighborhoods in your town with the oldest housing.',
+        ],
+        provide: [
+          'Optionally: towns or tracts, a county or list of towns, which measures to use, and how many areas to list.',
+        ],
+        examples: [
+          'Which towns in Bristol County should we prioritize for lead outreach?',
+          'Rank the census tracts in Lowell by pre-1950 housing and low income, and make a map.',
+          'Show the 30 Massachusetts towns with the lowest lead screening rates and old housing.',
+        ],
+        returns: [
+          'A ranked table with each measure, the outreach index, DPH’s high-risk status and score, statewide values for comparison, high-risk communities that did not make the list, and the map files.',
+        ],
+        notes: [
+          'The outreach index is the server’s planning ranking (the average of each measure’s percentile rank), not a DPH method.',
+          'Housing age comes from the Census Bureau’s survey, which groups homes as built before 1980, not 1978. Tract estimates are less precise.',
+          'Screening figures are from DPH’s 2024 report (2023 for 24 communities whose page was missing from it).',
+        ],
+      },
+      {
+        id: 'maternal_infant_health_profile',
+        title: 'Maternal and infant health profile',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Reports births, low birthweight, preterm birth, teen births, prenatal care, infant mortality, and PRAMS survey results (postpartum depression, breastfeeding, safe sleep, unintended pregnancy) for Massachusetts, a town, or a county, by race and Hispanic ethnicity where DPH publishes it, compared with the state and the U.S.',
+        when: [
+          'A community health assessment or MCH needs assessment.',
+          'Grant applications and presentations on maternal and infant health equity.',
+          'Checking how your town compares with the state on low birthweight or preterm birth.',
+        ],
+        provide: [
+          'Optionally: a town or county, and whether to include race and ethnicity and trends.',
+        ],
+        examples: [
+          'Give me a maternal and infant health profile for Springfield.',
+          'How does infant mortality in Massachusetts differ by race and ethnicity?',
+          'What do PRAMS data show about safe sleep and postpartum depression in Massachusetts?',
+        ],
+        returns: [
+          'For a town or county: births, low birthweight and preterm percentages with 95% confidence intervals and whether they differ from the state, and teen births. Statewide tables by race and ethnicity with ratios to White non-Hispanic, PRAMS results, trends, and U.S. comparisons.',
+        ],
+        notes: [
+          'Town figures come from DPH’s 2023 birth report; small counts are suppressed and percentages from fewer than 20 births are unstable.',
+          'Infant mortality and PRAMS are statewide only (DPH does not publish them by town).',
+          'U.S. figures are provisional CDC estimates for slightly different years.',
+        ],
+      },
+    ],
+  },
   // End of Phase 8 chapter.
   // Phase 9 chapter goes below this line.
   // End of Phase 9 chapter.

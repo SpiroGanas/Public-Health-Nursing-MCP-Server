@@ -21,6 +21,8 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/phq9_screens.csv` | 8 PHQ-9 screens (q1-q9) with client IDs, names, dates of birth, and phone numbers, two with item 9 above zero and one with a missing item, for `score_mental_health_screen` file mode (Phase 10). |
 | `data/protective_report_details.csv` | 2 elder protective services report rows (names, addresses, phones, caretaker, observations with an embedded phone) for local fill (Phase 10). |
 | `data/proxy_details.csv` | 3 health care proxy rows (principal, agent, witnesses, phones, Spanish/Portuguese/blank language) for local fill (Phase 10). |
+| `data/growth_measurements.csv` | 20 child-visit rows for the growth calculator (record IDs, names, birth and measurement dates, sex, weight, height, head circumference, gestational age, parent phone), including a preterm infant, an extreme value, and two rows that cannot be scored (missing sex, invalid birth date). Generated from the WHO and CDC tables with a fixed seed (Phase 8). |
+| `data/51a_notes.txt` | A nurse's notes for a 51A written report in "Field name: value" lines (child, caregiver, address, phones, birth date, observations), for the local-fill draft test (Phase 8). |
 | `data/client_note.txt` | A free-text home visit note with embedded identifiers. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |

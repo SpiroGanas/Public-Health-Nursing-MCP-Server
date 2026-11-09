@@ -6356,6 +6356,645 @@
    "kind": "name",
    "file": "data/proxy_details.csv",
    "column": "Witness 2 Name"
+  },
+  {
+   "value": "GR-2026011",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Quennell",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Odessa",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-02-15",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0110",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026018",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Halloway",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bartholomew",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-05-18",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0111",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026025",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Ravensworth",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ines",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-03-05",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0112",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026032",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Caspian",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2025-02-26",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0113",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026039",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Okonjo",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Adaeze",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-07-06",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0114",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026046",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Marchbanks",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Florian",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2025-06-07",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0115",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026053",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Lindqvist",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Saoirse",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2026-06-11",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0116",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026060",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Achterberg",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ptolemy",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2025-09-14",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0117",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026067",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Szczepanski",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2019-05-05",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0118",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026074",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Vantongeren",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ezekiel",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-01-03",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0119",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026081",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Pemberthy",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Leocadia",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-05-30",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0120",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026088",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Nakashima",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tadashi",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2023-10-05",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0121",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026095",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Abernethy",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Clementine",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2011-08-13",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0122",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026102",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Kowalewski",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Benedykt",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-08-13",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0123",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026109",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Delacroix",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Aurelie",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2015-01-16",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0124",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026116",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Fairweather",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2022-05-30",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0125",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026123",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Mbeki",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Thandiwe",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2016-08-04",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0126",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026130",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Rosenquist",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Evander",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-04-21",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0127",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026999",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Wexcombe",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Primrose",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2019-05-02",
+   "kind": "birth_date",
+   "file": "data/growth_measurements.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "508-555-0140",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "GR-2026998",
+   "kind": "other_id_number",
+   "file": "data/growth_measurements.csv",
+   "column": "Record ID"
+  },
+  {
+   "value": "Ollerenshaw",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Valentin",
+   "kind": "name",
+   "file": "data/growth_measurements.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "508-555-0141",
+   "kind": "phone",
+   "file": "data/growth_measurements.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "Wolverton-Achebe",
+   "kind": "name",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "Ophelia",
+   "kind": "name",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "Mireille",
+   "kind": "name",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "Achebe",
+   "kind": "name",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "64 Juniperhill Lane",
+   "kind": "street_address",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "2022-03-17",
+   "kind": "birth_date",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "978-555-0171",
+   "kind": "phone",
+   "file": "data/51a_notes.txt"
+  },
+  {
+   "value": "978-555-0172",
+   "kind": "phone",
+   "file": "data/51a_notes.txt"
   }
  ]
 }

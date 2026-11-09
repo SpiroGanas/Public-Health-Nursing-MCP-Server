@@ -223,6 +223,48 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/ma_acs5_older_adults.csv"),
     ),
     // End of Phase 10 snapshot files.
+    // Phase 8 snapshot files go below this line.
+    (
+        "cdc_growth_wtage.csv",
+        include_str!("../../../snapshots/cdc_growth_wtage.csv"),
+    ),
+    (
+        "cdc_growth_statage.csv",
+        include_str!("../../../snapshots/cdc_growth_statage.csv"),
+    ),
+    (
+        "cdc_growth_hcageinf.csv",
+        include_str!("../../../snapshots/cdc_growth_hcageinf.csv"),
+    ),
+    (
+        "cdc_growth_bmi_age_2022.csv",
+        include_str!("../../../snapshots/cdc_growth_bmi_age_2022.csv"),
+    ),
+    (
+        "who_growth_by_age.csv",
+        include_str!("../../../snapshots/who_growth_by_age.csv"),
+    ),
+    (
+        "who_growth_wfl.csv",
+        include_str!("../../../snapshots/who_growth_wfl.csv"),
+    ),
+    (
+        "ma_lead_screening_2024.csv",
+        include_str!("../../../snapshots/ma_lead_screening_2024.csv"),
+    ),
+    (
+        "ma_ei_programs.csv",
+        include_str!("../../../snapshots/ma_ei_programs.csv"),
+    ),
+    (
+        "ma_acs5_housing_age.csv",
+        include_str!("../../../snapshots/ma_acs5_housing_age.csv"),
+    ),
+    (
+        "ma_maternal_infant.csv",
+        include_str!("../../../snapshots/ma_maternal_infant.csv"),
+    ),
+    // End of Phase 8 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

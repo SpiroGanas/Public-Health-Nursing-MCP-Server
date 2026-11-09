@@ -206,6 +206,48 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 7 content items.
     // Phase 8 content items go below this line.
+    ContentItem {
+        id: "mch-growth-interpretation",
+        path: "content/mch/growth_interpretation.yaml",
+        resource_uri: "phn://content/mch-growth-interpretation",
+        yaml: include_str!("../../../content/mch/growth_interpretation.yaml"),
+        schema: include_str!("../../../content/schemas/mch_growth.schema.json"),
+    },
+    ContentItem {
+        id: "mch-lead-screening",
+        path: "content/mch/lead_screening.yaml",
+        resource_uri: "phn://content/mch-lead-screening",
+        yaml: include_str!("../../../content/mch/lead_screening.yaml"),
+        schema: include_str!("../../../content/schemas/mch_lead.schema.json"),
+    },
+    ContentItem {
+        id: "mch-mandated-reporting",
+        path: "content/mch/mandated_reporting.yaml",
+        resource_uri: "phn://content/mch-mandated-reporting",
+        yaml: include_str!("../../../content/mch/mandated_reporting.yaml"),
+        schema: include_str!("../../../content/schemas/mch_mandated_reporting.schema.json"),
+    },
+    ContentItem {
+        id: "mch-developmental-milestones",
+        path: "content/mch/developmental_milestones.yaml",
+        resource_uri: "phn://content/mch-developmental-milestones",
+        yaml: include_str!("../../../content/mch/developmental_milestones.yaml"),
+        schema: include_str!("../../../content/schemas/mch_milestones.schema.json"),
+    },
+    ContentItem {
+        id: "mch-newborn-postpartum",
+        path: "content/mch/newborn_postpartum.yaml",
+        resource_uri: "phn://content/mch-newborn-postpartum",
+        yaml: include_str!("../../../content/mch/newborn_postpartum.yaml"),
+        schema: include_str!("../../../content/schemas/mch_newborn.schema.json"),
+    },
+    ContentItem {
+        id: "equity-benefit-eligibility",
+        path: "content/equity/benefit_eligibility.yaml",
+        resource_uri: "phn://content/equity-benefit-eligibility",
+        yaml: include_str!("../../../content/equity/benefit_eligibility.yaml"),
+        schema: include_str!("../../../content/schemas/equity_benefits.schema.json"),
+    },
     // End of Phase 8 content items.
     // Phase 9 content items go below this line.
     // End of Phase 9 content items.

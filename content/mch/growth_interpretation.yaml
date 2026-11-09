@@ -1,0 +1,197 @@
+# Growth chart selection, screening cut points, BMI categories, extreme-value checks, and
+# corrected age for calculate_growth_percentiles (MCH-03). The LMS tables themselves are
+# snapshots (snapshots/manifest.json: cdc-growth-charts, who-growth-standards).
+#
+# REVIEW STATUS: pending. Drafted 2026-11-08 from the fetched CDC sources below.
+# Schema: content/schemas/mch_growth.schema.json
+meta:
+  id: mch-growth-interpretation
+  title: Growth chart selection and interpretation (WHO 0-24 months, CDC 2-20 years, extended BMI)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "Use of World Health Organization and CDC Growth Charts for Children Aged 0-59 Months in the United States (MMWR Recomm Rep 2010;59(RR-9):1-15)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5909a1.htm
+  related_sources:
+    - title: "Child and Teen BMI Categories"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/bmi/child-teen-calculator/bmi-categories.html
+    - title: "Data file for the Extended CDC BMI-for-age Growth Charts for Children and Adolescents"
+      publisher: CDC National Center for Health Statistics
+      url: https://www.cdc.gov/growthcharts/extended-bmi-data-files.htm
+    - title: "SAS Program for CDC Growth Charts (ages 0 to < 20 years) and SAS Program for WHO Growth Charts"
+      publisher: CDC Division of Nutrition, Physical Activity, and Obesity
+      url: https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08 from the MMWR 2010 recommendations, CDC's "Growth Charts: What to
+    know" page and data-file pages (last reviewed 2024-09-02), CDC's Child and Teen BMI
+    Categories page, and CDC's SAS programs (cdc-source-code.sas, revised 2022;
+    who-source-code.sas). Chart selection, the WHO +/-2 SD cut points, BMI categories, the
+    extended BMI method, and the extreme-value cut points are transcribed (high confidence).
+    The corrected-age rule for prematurity (until 24 months) is common practice but no CDC
+    source states it; AAP's parent page could not be reached (low confidence; the nurse should
+    confirm the agency's rule).
+
+sources:
+  mmwr-2010:
+    title: "Use of World Health Organization and CDC Growth Charts for Children Aged 0-59 Months in the United States. MMWR Recomm Rep 2010;59(RR-9):1-15"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/preview/mmwrhtml/rr5909a1.htm
+    effective_date: 2010-09-10
+    retrieved: 2026-11-08
+  cdc-what-to-know:
+    title: "Growth Charts: What to know"
+    publisher: CDC National Center for Health Statistics
+    url: https://www.cdc.gov/growthcharts/information-for-healthcare-professionals.htm
+    effective_date: 2024-09-02
+    retrieved: 2026-11-08
+  cdc-bmi-categories:
+    title: "Child and Teen BMI Categories"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/bmi/child-teen-calculator/bmi-categories.html
+    effective_date: 2024-07-16
+    retrieved: 2026-11-08
+  cdc-extended-bmi:
+    title: "Data file for the Extended CDC BMI-for-age Growth Charts for Children and Adolescents"
+    publisher: CDC National Center for Health Statistics
+    url: https://www.cdc.gov/growthcharts/extended-bmi-data-files.htm
+    effective_date: 2024-09-02
+    retrieved: 2026-11-08
+  cdc-lms-files:
+    title: "Percentile Data Files with LMS Values (CDC 2000 and WHO growth charts)"
+    publisher: CDC National Center for Health Statistics
+    url: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    effective_date: 2024-09-02
+    retrieved: 2026-11-08
+  cdc-sas:
+    title: "SAS Program for CDC Growth Charts (ages 0 to < 20 years), cdc-source-code.sas (revised 2022)"
+    publisher: CDC Division of Nutrition, Physical Activity, and Obesity
+    url: https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas.html
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-background:
+    title: "Growth Charts: Background"
+    publisher: CDC National Center for Health Statistics
+    url: https://www.cdc.gov/growthcharts/background.htm
+    effective_date: 2024-09-02
+    retrieved: 2026-11-08
+  cdc-sas-who:
+    title: "SAS Program for WHO Growth Charts, who-source-code.sas"
+    publisher: CDC Division of Nutrition, Physical Activity, and Obesity
+    url: https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas-who.html
+    effective_date: null
+    retrieved: 2026-11-08
+
+chart_selection:
+  - text: "Use the 2006 WHO growth standards for all children from birth to 24 months, regardless of type of feeding, and the 2000 CDC growth charts from 2 to 19 years (the CDC tables run to 20 years)."
+    source: mmwr-2010
+    section: "Recommendations; and 'Growth Charts: What to know', Birth-2 years and 2-19 years"
+  - text: "The WHO charts are standards (how healthy children should grow under optimal conditions, based on predominantly breastfed infants); the CDC charts are a reference (how U.S. children did grow, 1963-1994). Slower weight gain among breastfed infants from 3 to 18 months is normal on the WHO charts."
+    source: mmwr-2010
+    section: "Summary; Differences between the WHO and CDC charts"
+  - text: "The 2000 CDC BMI-for-age charts remain the tool for children at or below the 95th percentile. Above the 95th percentile, the 2022 extended BMI-for-age method gives percentiles up to the 99.99th and z-scores up to about 5, based on actual data; it does not change the definitions of overweight, obesity, or severe obesity."
+    source: cdc-what-to-know
+    section: "2-19 years: CDC Extended BMI-for-age Growth Charts"
+
+who_cut_points:
+  low_percentile: 2.3
+  high_percentile: 97.7
+  text: "With the WHO charts, use 2 standard deviations below and above the median (the 2.3rd and 97.7th percentiles, labeled 2nd and 98th on CDC's printed WHO charts), not the 5th and 95th, to identify children whose growth might indicate an adverse health condition."
+  source: mmwr-2010
+  section: "Recommendations"
+  confidence: high
+
+cdc_cut_points:
+  low_percentile: 5
+  high_percentile: 95
+  text: "With the CDC charts, the 5th and 95th percentiles have traditionally been used to identify children who might not be growing normally; they are statistical, not outcome-based, cut points."
+  source: mmwr-2010
+  section: "Use of cutoff values"
+  confidence: medium
+
+bmi_categories:
+  - category: underweight
+    label: Underweight
+    rule: "Less than the 5th percentile"
+    source: cdc-bmi-categories
+    section: "BMI categories table"
+  - category: healthy_weight
+    label: Healthy weight
+    rule: "5th percentile to less than the 85th percentile"
+    source: cdc-bmi-categories
+    section: "BMI categories table"
+  - category: overweight
+    label: Overweight
+    rule: "85th percentile to less than the 95th percentile"
+    source: cdc-bmi-categories
+    section: "BMI categories table"
+  - category: obesity
+    label: Obesity
+    rule: "95th percentile or greater"
+    source: cdc-bmi-categories
+    section: "BMI categories table"
+  - category: severe_obesity
+    label: Severe obesity (class 2)
+    rule: "120% of the 95th percentile or greater, or BMI 35 kg/m2 or greater (AAP class 2: 120% to less than 140% of the 95th percentile, or BMI 35 to less than 40)"
+    source: cdc-bmi-categories
+    section: "BMI categories table; AAP expanded definition"
+  - category: severe_obesity_class3
+    label: Severe obesity (class 3)
+    rule: "140% of the 95th percentile or greater, or BMI 40 kg/m2 or greater (AAP expanded definition)"
+    source: cdc-bmi-categories
+    section: "AAP expanded definition of severe obesity"
+
+extended_bmi:
+  sigma_male: "sigma = 0.3728 + 0.5196 x age_years - 0.0091 x age_years^2"
+  sigma_female: "sigma = 0.8334 + 0.3712 x age_years - 0.0011 x age_years^2"
+  text: "If BMI is above the 95th percentile: percentile = 90 + 10 x PHI((BMI - P95) / sigma) and z = PHI^-1(percentile / 100), where P95 is the 95th percentile from the LMS parameters and sigma the dispersion for sex and age. At or below the 95th percentile, the usual LMS z-score applies."
+  source: cdc-extended-bmi
+  section: "Calculate the z-score and corresponding percentile for a given BMI"
+  confidence: high
+
+extreme_values:
+  who:
+    text: "WHO z-scores for weight, BMI, and weight-for-length beyond +/-3 are computed with the distance between the 2 and 3 SD values (WHO's restricted method). Flag for review (possible error): length-for-age z below -6 or at or above 6; weight-for-age z below -6 or at or above 5; BMI, head circumference, and weight-for-length z below -5 or above 5."
+    source: cdc-sas-who
+    section: "who-source-code.sas: extreme z-score adjustment and _biv flags"
+    confidence: high
+  cdc:
+    text: "Modified z-scores extend half the distance between 0 and +/-2 z to the tails. Flag for review (possible error) when the modified z is below -5 or above 4 for height, below -5 or above 8 for weight, below -4 or above 8 for BMI, and below -5 or above 5 for head circumference. Flagged values may be correct; re-measure."
+    source: cdc-sas
+    section: "cdc-source-code.sas: %_zscore and %_cuts (cut points revised 2016); Extreme values, implausible values, and data errors"
+    confidence: high
+  cut_points:
+    who_length: [-6, 6]
+    who_weight: [-6, 5]
+    who_other: [-5, 5]
+    cdc_height: [-5, 4]
+    cdc_weight: [-5, 8]
+    cdc_bmi: [-4, 8]
+    cdc_head: [-5, 5]
+
+corrected_age:
+  preterm_below_weeks: 37
+  term_weeks: 40
+  correct_until_months: 24
+  text: "For a child born before 37 weeks, plot growth at corrected age (chronological age minus the weeks born early, counted from 40 weeks) until 24 months of chronological age; after that, use chronological age."
+  source: cdc-what-to-know
+  section: "Not stated by CDC; common clinical practice (verify against the agency's protocol)"
+  confidence: low
+
+measurement_notes:
+  - text: "WHO length-for-age and weight-for-length (birth to 24 months) assume recumbent length; the CDC 2-20 year charts assume standing height (stature). BMI before 24 months uses the WHO BMI-for-age standard."
+    source: cdc-sas
+    section: "cdc-source-code.sas (length before 24 months, stature from 24 months); who-source-code.sas"
+  - text: "Percentiles and z-scores are interchangeable: z-scores of -1.881, -1.645, -1.282, -0.674, 0, 0.674, 1.036, 1.282, 1.645, and 1.881 correspond to the 3rd, 5th, 10th, 25th, 50th, 75th, 85th, 90th, 95th, and 97th percentiles. Z = ((X/M)^L - 1)/(L x S); X = M (1 + L S Z)^(1/L)."
+    source: cdc-lms-files
+    section: "Percentile data files with LMS values: equations"
+  - text: "Growth charts are not intended to be used as a sole diagnostic instrument; they contribute to an overall clinical impression of the child."
+    source: cdc-background
+    section: "Background"

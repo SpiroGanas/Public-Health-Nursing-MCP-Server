@@ -1227,6 +1227,251 @@ and a gap list.
 ## Phase 8: Maternal, child, and family health
 
 <!-- Phase 8 tools go below this line. -->
+
+### `calculate_growth_percentiles` (MCH-03, toolset `mch`)
+
+Percentiles and z-scores for a child's weight, length or height, BMI, and head circumference,
+using the charts CDC recommends: the **WHO 2006 growth standards from birth to 24 months** and
+the **CDC 2000 growth charts from 2 to 20 years**, with CDC's **2022 extended BMI-for-age**
+method above the 95th percentile.
+
+| Argument | |
+|---|---|
+| `sex` | `male` or `female` (required for one child). |
+| `measurements` | One or more visits, oldest first. Each visit gives an age (`age_days`, `age_months`, `age_years`, or `measurement_date` with `birth_date`) and at least one of `weight_kg` (or `weight_lb` + `weight_oz`), `length_or_height_cm` (or `_in`), `head_circumference_cm` (or `_in`); optional `position` (`recumbent` or `standing`). At most 60 visits. |
+| `birth_date` | Only needed with `measurement_date`. Dates are used to compute age and are not returned. |
+| `gestational_age_weeks`, `gestational_age_days` | Gestational age at birth. Under 37 weeks, corrected age is used until 24 months of chronological age (`correct_for_prematurity: false` turns this off). |
+| `measurements_path`, `sheet` | Batch mode: a CSV/XLSX in `/data` with one row per child-visit (`sex`; `age_months`/`age_days`/`age_years` or `date_of_birth` + `measurement_date`; `weight_kg`/`weight_lb`; `height_cm`/`height_in`; `head_circumference_cm`; `gestational_age_weeks`). |
+
+**Method** (CDC's SAS programs and data-file pages):
+
+- z = ((X/M)^L − 1)/(L·S); percentile = Φ(z). L, M, S are interpolated linearly: WHO by day of
+  age (CDC's daily WHO file) and by 0.1 cm of length; CDC between the half-month rows.
+- WHO weight, BMI, and weight-for-length z-scores beyond ±3 use the distance between the 2 and
+  3 SD values (WHO's restricted method). CDC uses ln(X/M)/S when |L| < 0.01.
+- Extended BMI (from 2 years): above the 95th percentile, percentile = 90 + 10·Φ((BMI − P95)/σ),
+  with σ = 0.3728 + 0.5196·age − 0.0091·age² (boys) or 0.8334 + 0.3712·age − 0.0011·age² (girls),
+  age in years; z = Φ⁻¹(percentile/100). The 2000-chart LMS z-score is also returned.
+- Flags: WHO values at or below the 2.3rd or at or above the 97.7th percentile (±2 SD, MMWR
+  2010); CDC values at or below the 5th or at or above the 95th; CDC BMI categories (underweight,
+  healthy weight, overweight, obesity, severe obesity class 2 at ≥120% of the 95th percentile or
+  BMI ≥35, class 3 at ≥140% or BMI ≥40); extreme values to re-measure (WHO z cut points and CDC
+  modified z-scores from CDC's SAS programs).
+- Several visits show the change in z-score and in the measurement since the previous visit.
+- Age 20 or older, length outside 45–110 cm for weight-for-length, head circumference after 36
+  months, and a corrected age before term are reported as "not scored" with the reason.
+
+**Batch mode** writes `growth_percentiles.xlsx` (per-row percentiles, z-scores, BMI, weight
+status, flags, and rows not scored, with any name and ID columns copied from the file) to the
+output folder and returns only weight-status counts by age group (WHO weight-for-length under 2;
+CDC BMI category from 2), with small-cell suppression.
+
+**Golden tests** (`crates/phn-tools/tests/growth_golden.rs`) reproduce every published percentile
+in CDC's 2000 data files (weight, stature, head circumference; relative error < 1e-7), all
+percentiles and z-score values in CDC's extended BMI file (to its 4 decimals), CDC's four worked
+extended-BMI examples, and WHO's published monthly L, M, S and ±3 SD values from the daily file.
+
+Sources: snapshots `who-growth-standards` (CDC's `WHOref_d.csv`) and `cdc-growth-charts` (CDC
+data files, verbatim); content `mch-growth-interpretation` (pending review). The corrected-age
+rule is **low confidence** (no CDC source states it; confirm the agency's rule).
+### `childhood_lead_screening_guide` (MCH-04, toolset `mch`)
+
+Massachusetts childhood lead screening and follow-up from **105 CMR 460.000** (Mass. Register
+#1353, 12/1/17) and DPH's Childhood Lead Poisoning Prevention Program (CLPPP) pages.
+
+| Argument | |
+|---|---|
+| `child_age_months` | Child's age: each required screening is shown as due now, upcoming, or past. |
+| `town` | Where the child lives: DPH's current high-risk list (rank) and the town's published screening rate and blood lead prevalence with state values. |
+| `blood_lead_level`, `sample_type` | A result in µg/dL and `capillary` or `venous` (required with a level). |
+| `risk_factors` | `household_poisoned`, `renovation`, `deteriorated_paint`, `clinical_judgment` (105 CMR 460.050(D)). |
+| `teaching_sheet`, `language` | Write a family teaching sheet (DOCX) to the output folder; see translations below. |
+
+**What it returns:** definitions (lead poisoning ≥10 µg/dL venous; blood lead level of concern
+5–<10; CDC reference value 3.5); the routine schedule (9–12 months, 2, 3, and 4 in a high-risk
+community; entry to child care, pre-K, or kindergarten); high-risk schedules; venous
+confirmation timing for capillary results (3.5–4.9 and 5–9: 3 months; 10–14: 1 month; 15–19:
+2 weeks; 20–44: 1 week; 45–69: 48 hours; ≥70: emergency care); provider, environmental, case
+management, and re-test actions by venous level (DPH's table); reporting (lead poisoning within
+3 working days; every result electronically within one week; confidentiality); the Lead Law;
+family teaching; CLPPP contacts and pediatric environmental health clinics.
+
+**High-risk communities:** the 17 communities on DPH's 2024 list (2020–2024 data, from the 2024
+Annual Childhood Lead Poisoning Surveillance Report), checked against snapshot
+`ma-lead-screening`. Update `content/mch/lead_screening.yaml` and the snapshot each year
+(`xtask/scripts/build_lead_snapshot.py`).
+
+**Translations:** the server ships an English teaching sheet only. For another language, put
+the agency's approved translation at `/data/templates/<language>/lead_family_teaching.docx` (used
+as is) or `.md` (rendered with your letterhead). `<language>` is the folder name you choose, for
+example `spanish` or `es` (common codes and names are both tried). If none is found, the
+English sheet is written and the result says so; the server does not machine-translate.
+
+Content: `mch-lead-screening` (pending review). DPH's follow-up table combines Massachusetts
+requirements with CDC's 2021 reference value and CDC's schedules; the tool says so.
+
+### `mandated_reporter_51a_guide` (MCH-07, toolset `mch`)
+
+Massachusetts reporting of suspected child abuse and neglect under **M.G.L. c. 119, s. 51A**
+(and the s. 21 definition of mandated reporter), with DCF's guidance.
+
+| Argument | |
+|---|---|
+| `topics` | Any of `who`, `when`, `how`, `contents`, `protections`, `definitions`, `domestic_violence`, `process`, `warning_signs`, `documentation` (default all). |
+| `concerns` | Kinds of concern to tailor the guidance: `physical_abuse`, `sexual_abuse`, `emotional_abuse`, `neglect`, `sexual_exploitation`, `human_trafficking`, `prenatal_substance_exposure`, `domestic_violence`, `child_death`. No names or details. |
+| `works_for_facility` | Adds the option to notify the person in charge (s. 51A(a)). |
+| `oral_report_time` | When DCF was called (`2026-11-08 14:30`): the written report is due 48 hours later. |
+| `narrative_template` | Return the written-report template: sections and field names following DCF's Child Abuse Reporting Form. |
+| `notes_path`, `sheet` | The nurse's notes in `/data`: a `.txt`/`.md` file of `Field name: value` lines (a value may continue on following lines; lines that do not start with a field name stay with the previous field) or a CSV/XLSX with one row per report and field names as columns. |
+
+**Template + local fill.** The template (no identifiers) is returned to the model. With
+`notes_path`, the tool fills `51a_written_report_draft.docx` per report in the output folder:
+each template field, `?` for unknown entries (as DCF's form asks), DCF's related-concerns
+checklist with the named items checked, and a signature line. The response lists only file
+names, the number of fields filled, and the names of fields left blank; label and column
+mismatches are counted, never shown. The privacy block lists the files and the identifier
+categories detected in the notes.
+
+**Content** (`mch-mandated-reporting`, pending review): who must report (nurses included); the
+four reporting grounds; that prenatal substance exposure alone does not meet the requirement
+(s. 51A(a)) and that DCF's guide still lists newborn drug dependence (flagged low confidence for
+the nurse to reconcile); the steps (911 if in danger; call the DCF area office or the
+Child-At-Risk Hotline 1-800-792-5200; written report within 48 hours online, by fax, or by mail;
+the facility designee option; police, Child Advocate, and DA/medical examiner for deaths);
+report contents (s. 51A(d) and DCF's additions); penalties and good-faith protections; DCF's
+definitions (110 CMR 2.00); domestic violence guidance; DCF's screening and response timelines;
+warning signs; and documentation tips.
+### `check_developmental_milestones` (MCH-02, toolset `mch`)
+
+CDC's "Learn the Signs. Act Early." milestones (the 2022 CDC/AAP revision, as published on
+cdc.gov, pages updated 2026-05-16) and Massachusetts Early Intervention referral.
+
+| Argument | |
+|---|---|
+| `age_months` | Child's age (2 months to 5 years; the checklist for the most recent age reached is used: 2, 4, 6, 9, 12, 15, 18, 24, 30, 36, 48, 60 months). |
+| `gestational_age_weeks` | Born before 37 weeks and under 24 months: the corrected-age checklist is shown too. |
+| `not_yet` | IDs of milestones the child does not yet do, from the checklist (`18m-language-1`). |
+| `lost_skills`, `concern` | Lost skills or other concerns (act early either way). |
+| `town` | The EI programs that serve the town (snapshot `ma-ei-programs`, DPH's directory of 2026-09-24). |
+
+**Returns** the checklist (ID, area, milestone, status) with CDC's source page and date; whether
+to act early and CDC's steps (talk with the doctor and ask about screening; ask for a specialist
+referral; request a free evaluation from EI under 3 or the public school district at 3 or older,
+with no doctor's referral needed); screening due (AAP: general at 9, 18, 30 months; autism at 18
+and 24 months, within 1.5 months of those ages, or now when there is a concern); Massachusetts EI
+eligibility, referral (anyone can refer), and cost (none to families); EI programs for the town
+with phone and website; CDC's questions to share with the doctor; and the next checklist age.
+
+Milestones are what 75% or more of children do by an age; the checklists are not a substitute
+for standardized screening. CDC does not say how to adjust for prematurity; the tool shows both
+checklists and defers to the child's provider. Content: `mch-developmental-milestones` (pending
+review; milestones transcribed word for word).
+### `plan_newborn_postpartum_visit` (MCH-01, toolset `mch`)
+
+A newborn and postpartum home visit plan: what to check and what to teach.
+
+| Argument | |
+|---|---|
+| `baby_age_days` | Baby's age at the visit (0-365). |
+| `gestational_age_weeks` | For context (the AAP jaundice guideline covers 35 weeks or more). |
+| `feeding` | `breast`, `formula`, or `mixed` (tailors the feeding points). |
+| `birth_weight_g` (or `_lb` + `_oz`), `weight_g` (or `_lb` + `_oz`) | Percent change from birth weight (reported, not judged). |
+| `discharged_within_24_hours` | Reminder that a second blood spot is due within 48 hours of birth. |
+| `hearing_screen` | `passed`, `not_passed`, `not_done`, `unknown`: follow-up reminder. |
+| `documents`, `language` | Write a visit plan (with check boxes and citations) and a family teaching sheet (DOCX) to the output folder. |
+
+**Sections:** feeding and weight (CDC: 8-12 feeds a day, formula amounts in the first days,
+vitamin D, hunger and fullness cues); jaundice (**low confidence**: the AAP 2022 guideline text
+could not be retrieved, so only general points and the discharge plan); safe sleep (CDC's page
+supporting the AAP 2022 policy and the policy abstract); car seat (M.G.L. c. 90, s. 7AA);
+newborn screening (105 CMR 270.007: blood spot at 24-48 hours, second specimen after early
+discharge, refusal only on religious grounds; M.G.L. c. 111, s. 67F hearing screen); postpartum
+health with CDC Hear Her's urgent maternal warning signs (up to a year after delivery).
+
+The plan and teaching sheet contain no information about the family. Translations follow the
+same rule as the lead teaching sheet: `/data/templates/<language>/newborn_postpartum_teaching.docx`
+or `.md`; otherwise English, and the result says so. Content: `mch-newborn-postpartum` (pending
+review).
+### `estimate_benefit_eligibility` (EQ-06, toolset `equity`)
+
+An **income screen, not an eligibility determination**, for WIC, SNAP, MassHealth, the Health
+Safety Net, and home energy assistance, from household size and gross income.
+
+| Argument | |
+|---|---|
+| `household_size` | People in the household (1-20). |
+| `annual_income` or `monthly_income` | Gross household income before taxes. |
+| `pregnant`, `unborn_children` | MassHealth counts the unborn child or children in household size. |
+| `child_under_5`, `infant_under_1`, `children_under_19`, `young_adult_19_20`, `postpartum_or_breastfeeding` | Which programs apply. |
+| `receives_snap_masshealth_or_tafdc` | WIC automatic income eligibility. |
+| `pays_for_heat` | HEAP applies to households that pay for heat (including heat in rent). |
+
+**Limits** (content `equity-benefit-eligibility`, pending review): 2026 HHS poverty guidelines
+(48 states and DC: $15,960 for one person plus $5,680 per additional person); WIC 185% of FPL
+(DPH table, June 11, 2026 - June 30, 2027; automatic with certain MassHealth plans, SNAP, or
+TAFDC); SNAP gross monthly income 200% of FPL and maximum benefits (DTA chart; assumed effective
+October 1, 2026); MassHealth (Member Booklet, standards effective March 1, 2026): pregnant
+people and infants under 1 at 200% (unborn counted), children 1-18 Standard at 150% and Family
+Assistance under 19 at 300%, young adults 19-20 at 150%, parents and caretakers at 133%,
+CarePlus adults 21-64 at 133%; Health Safety Net at 300% (no deductible up to 150%); HEAP at 60%
+of state median income (FY 2027 table, households of 1-10).
+
+**Returns** the percent of FPL, each program's limit for the household (monthly and annual),
+the screen result (likely income-eligible, over the limit, automatically income-eligible, or
+does not apply from the facts given), the tier (Family Assistance; HSN with or without a
+deductible), SNAP's maximum benefit, notes, how to apply, and each program's effective date.
+A unit test checks that the WIC and SNAP tables equal 185% and 200% of the poverty guidelines.
+**Refresh annually:** FPL in January, MassHealth March 1, WIC June/July, SNAP and HEAP October 1.
+### `map_lead_risk` (MCH-05, toolset `mch`)
+
+Ranks cities and towns (or census tracts) for childhood lead outreach and draws a map.
+
+| Argument | |
+|---|---|
+| `geography` | `town` (default) or `tract`. |
+| `county`, `towns` | Limit the areas in scope (for tracts: tracts whose main town is listed). |
+| `indicators` | `pre1950_housing`, `pre1980_housing`, `low_income` (below 200% of poverty), `children_under5`, and for towns `screening_gap` (100 − % of children 9-47 months screened) and `elevated_bll` (% of screened children with an estimated confirmed level of 5 µg/dL or more). Default: pre-1950 housing and low income, plus the two DPH screening measures for towns. |
+| `top` | Areas to list (default 20, at most 100). |
+| `map` | Draw a choropleth of the index (default true; SVG and PNG in `output/maps/`). |
+
+**Method:** the outreach index is the mean of the indicators' percentile ranks (0-100, ties
+averaged) among the areas in scope; an area missing a value (DPH's "NS") is ranked on the
+others. It is this server's planning ranking, not a DPH method; DPH's high-risk designation and
+its high-risk score (5-year incidence adjusted for low income and pre-1978 housing) are shown
+next to it, and designated communities outside the top list are named.
+
+**Data** (bundled snapshots): `ma-acs5-housing-age` (ACS 2020-2024 5-year B25034, built with
+`xtask/scripts/build_housing_age.py` from the keyless summary file; pre-1950 and pre-1980 with
+MOEs), `census-acs5-ma` (below 200% of poverty, under 5), and `ma-lead-screening` (DPH 2024
+surveillance report: screening and prevalence by community, high-risk list). ACS bins do not
+split at 1978. Statewide values are returned for comparison. No local data is read.
+### `maternal_infant_health_profile` (MCH-06, toolset `mch`)
+
+Births and maternal and infant health indicators for Massachusetts and its communities.
+
+| Argument | |
+|---|---|
+| `town` or `county` | Community profile: 2023 resident births, low birthweight %, preterm %, teen births. |
+| `by_race` | Statewide figures by race and Hispanic ethnicity (default true). |
+| `trends` | State trends (default true). |
+
+**Community indicators** are computed from DPH's counts (2023 Birth Report, Table 17) with exact
+Poisson 95% intervals (`phn_epi::rates`), flagged as unstable below 20 events, suppressed for
+DPH's 1-4 counts and below the configured threshold, and compared with the state ("higher" or
+"lower" only when the interval excludes the state value) and the U.S. **Statewide by race and
+Hispanic ethnicity** (2023): low birthweight, preterm, adequate prenatal care (APNCU),
+first-trimester care, cesarean, in-hospital breastfeeding; infant, neonatal, and postneonatal
+mortality (2022 Death Report, Table 5), each with the ratio to White non-Hispanic. **PRAMS**
+(2019-2021 report, weighted % with 95% CIs): depression screening (prenatal, postpartum),
+postpartum depressive symptoms, breastfeeding initiation and 8 weeks, back to sleep, no
+bed-sharing, no soft bedding, unintended pregnancy. **Trends:** low birthweight, preterm, and
+adequate prenatal care 2013-2023; infant mortality 2012-2022. **U.S.:** CDC NCHS provisional
+estimates (data.cdc.gov `76vv-a7x8`, 12 months ending 2024 Q4; `jqwm-z2g9`, 12 months ending
+2023 Q4), labeled with their periods.
+
+Data: snapshot `ma-maternal-infant`, built from DPH's annual reports and CDC's datasets by
+`xtask/scripts/build_maternal_infant.py` (CDC WONDER was blocked; DPH publishes no machine-readable
+town file). Community infant mortality and PRAMS are not published. No local data is read.
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

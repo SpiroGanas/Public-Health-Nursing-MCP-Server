@@ -40,6 +40,49 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 8: maternal, child, and family health
 
 <!-- Phase 8 entries go below this line. -->
+- `calculate_growth_percentiles` (MCH-03): WHO 2006 (birth to 24 months) and CDC 2000 (2 to 20
+  years) percentiles and z-scores with CDC's 2022 extended BMI-for-age method, BMI categories,
+  corrected age for prematurity, extreme-value flags, visit-to-visit change, and a batch mode
+  that writes per-row results to the output folder. Snapshots `who-growth-standards` and
+  `cdc-growth-charts` (`xtask/scripts/build_growth_charts.py`); content
+  `content/mch/growth_interpretation.yaml` (pending review); golden tests against CDC's and
+  WHO's published tables.
+- `childhood_lead_screening_guide` (MCH-04): screening schedule and high-risk schedules from
+  105 CMR 460.050, DPH's 2024 high-risk community list with each town's screening rate, venous
+  confirmation and follow-up by blood lead level from DPH CLPPP, reporting, the Lead Law, family
+  teaching, and an optional teaching sheet (English or an agency translation in
+  `/data/templates/<language>/`). Content `content/mch/lead_screening.yaml` (pending review);
+  snapshot `ma-lead-screening` from DPH's 2024 surveillance report
+  (`xtask/scripts/build_lead_snapshot.py`).
+- `mandated_reporter_51a_guide` (MCH-07): M.G.L. c. 119, s. 51A guidance (who, when, how,
+  contents, penalties and protections, DCF definitions, domestic violence, DCF process, warning
+  signs), the 48-hour written-report deadline, and the written-report narrative template; with
+  `notes_path` it fills a draft from the nurse's local notes into `/data/output` and returns
+  only file names and field counts. Content `content/mch/mandated_reporting.yaml` (pending
+  review).
+- `check_developmental_milestones` (MCH-02): CDC "Learn the Signs. Act Early." checklists
+  (2 months to 5 years) with milestone IDs, act-early steps, AAP screening ages, the
+  corrected-age checklist for preterm infants, Massachusetts Early Intervention referral, and
+  the EI programs serving a town. Content `content/mch/developmental_milestones.yaml` (pending
+  review); snapshot `ma-ei-programs` (DPH's EI program directory).
+- `plan_newborn_postpartum_visit` (MCH-01): newborn and postpartum home visit plan (feeding and
+  weight change, jaundice, AAP 2022 safe sleep, Massachusetts car seat law, newborn blood spot
+  and hearing screening under 105 CMR 270.000 and M.G.L. c. 111, s. 67F, CDC Hear Her urgent
+  maternal warning signs) with an optional DOCX visit plan and family teaching sheet. Content
+  `content/mch/newborn_postpartum.yaml` (pending review; jaundice items low confidence).
+- `estimate_benefit_eligibility` (EQ-06): income screen for WIC, SNAP, MassHealth, the Health
+  Safety Net, and HEAP with the 2026 poverty guidelines and each program's current limits and
+  effective dates. Content `content/equity/benefit_eligibility.yaml` (pending review; refresh
+  annually).
+- `map_lead_risk` (MCH-05): outreach ranking of towns or tracts (mean percentile rank of
+  pre-1950/1980 housing, low income, young children, DPH screening gap and elevated blood lead
+  prevalence) with DPH's high-risk designation and a choropleth map. Snapshot
+  `ma-acs5-housing-age` (ACS B25034, `xtask/scripts/build_housing_age.py`).
+- `maternal_infant_health_profile` (MCH-06): community births, low birthweight, preterm, and
+  teen births with exact intervals and state/U.S. comparisons; statewide indicators and infant
+  mortality by race and Hispanic ethnicity; PRAMS indicators; trends. Snapshot
+  `ma-maternal-infant` (DPH birth, death, and PRAMS reports; CDC NCHS provisional estimates;
+  `xtask/scripts/build_maternal_infant.py`).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

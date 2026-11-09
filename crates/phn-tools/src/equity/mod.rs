@@ -13,6 +13,9 @@ pub use profile::{ProfileArgs, ProfileResult, build_community_health_profile};
 pub use svi::{SviArgs, SviResult, get_social_vulnerability_index};
 
 // Phase 8 modules go below this line.
+pub mod benefits;
+
+pub use benefits::{BenefitArgs, BenefitResult, estimate_benefit_eligibility};
 // End of Phase 8 modules.
 
 // Phase 9 modules go below this line.
