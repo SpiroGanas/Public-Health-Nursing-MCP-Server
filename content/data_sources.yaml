@@ -104,6 +104,32 @@ sources:
       - check_ma_school_immunization_requirements
       - analyze_vaccination_coverage
       - forecast_immunizations_due
+      - track_school_screenings
+      - build_individualized_health_plan
+      - concussion_return_to_learn_tracker
+      - monitor_school_absenteeism
+      - build_school_health_annual_report
+      - calculate_growth_percentiles
+      - mandated_reporter_51a_guide
+      - plan_tb_contact_investigation
+      - ltbi_treatment_calendar
+      - screen_health_related_social_needs
+      - omaha_system_coder
+      - classify_intervention_wheel
+      - nursing_documentation_template
+      - find_community_resources
+      - score_mental_health_screen
+      - elder_protective_services_guide
+      - advance_care_planning_toolkit
+      - check_readability
+      - plan_school_postvention
+      - translate_health_material
+      - create_social_media_campaign
+      - heat_health_action_planner
+      - hazard_vulnerability_assessment
+      - functional_needs_shelter_intake
+      - get_electricity_dependent_population
+      - plan_casper_assessment
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
@@ -179,7 +205,14 @@ sources:
     snapshot_id: census-acs5-ma
     homepage: https://www.census.gov/programs-surveys/acs
     probe_url: https://api.census.gov/data/2024/acs/acs5/variables/B01003_001E.json
-    used_by: [build_community_health_profile, language_access_profile]
+    used_by:
+      - build_community_health_profile
+      - language_access_profile
+      - map_older_adult_vulnerability
+      - get_overdose_data
+      - functional_needs_shelter_intake
+      - heat_health_action_planner
+      - translate_health_material
     caveats:
       - >-
         Live figures come from api.census.gov (the newest published 5-year vintage). From

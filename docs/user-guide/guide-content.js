@@ -9,7 +9,7 @@
 
 'use strict';
 
-const VERSION = '0.7.0';
+const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
 const TOOL_COUNT = 97;
 
@@ -72,7 +72,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into seven work areas. Chapters 4 to 10 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 13 work areas. Chapters 4 to 16 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -99,7 +99,7 @@ const frontChapters = [
                 ['Healthy aging and mental health screening (chapter 14)', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
+                ['Substance use, crisis resources, and health communication (chapter 15)', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
@@ -299,7 +299,7 @@ const frontChapters = [
 ];
 
 // ---------------------------------------------------------------------------------------
-// Tool chapters: chapters 4–10. One entry per implemented tool.
+// Tool chapters: chapters 4–16. One entry per implemented tool.
 // ---------------------------------------------------------------------------------------
 
 const toolChapters = [
@@ -2667,7 +2667,7 @@ const toolChapters = [
         id: 'get_overdose_data',
         title: 'Look up overdose deaths for your community',
         toolset: 'bh',
-        internet: 'optional (works offline from bundled data)',
+        internet: 'optional',
         files: 'no',
         does: 'Shows overdose deaths for a city or town, county, or the state: DPH’s yearly counts of opioid-related overdose deaths by town (2015 to 2022) with a 5-year rate compared with the state; CDC’s provisional counts for the latest 12 months for counties, Massachusetts, and the United States, with the change from a year earlier and a breakdown by drug (fentanyl, heroin, cocaine, stimulants); and DPH’s statewide findings for 2024.',
         when: [
@@ -2697,7 +2697,7 @@ const toolChapters = [
         id: 'get_youth_risk_behavior_data',
         title: 'Look up youth mental health and risk behavior data',
         toolset: 'bh',
-        internet: 'optional (works offline from bundled data)',
+        internet: 'optional',
         files: 'no',
         does: 'Shows how many Massachusetts middle and high school students report persistent sadness, thinking about suicide, self-injury, bullying, vaping, drinking, marijuana use, protective factors such as feeling they belong at school, and other topics, from DPH’s Youth Health Survey (2023 and 2025) and the Massachusetts Youth Risk Behavior Survey (2023), by sex, grade, race and ethnicity, and LGBTQ identity, with 95% confidence intervals. Compares Massachusetts with the United States using CDC’s Youth Risk Behavior Survey.',
         when: [
@@ -2756,7 +2756,7 @@ const toolChapters = [
         id: 'find_substance_use_treatment',
         title: 'Find substance use treatment',
         toolset: 'bh',
-        internet: 'optional (a bundled statewide list is used offline)',
+        internet: 'optional',
         files: 'no',
         does: 'Lists substance use treatment programs near a Massachusetts town from SAMHSA’s FindTreatment.gov: programs that offer methadone, buprenorphine, or naltrexone for opioid use disorder, withdrawal management (detox), residential or outpatient care, and recovery supports, and programs for teens, pregnant or postpartum women, veterans, or people with mental health conditions, filtered by insurance (including MassHealth) and language.',
         when: [
@@ -2816,7 +2816,7 @@ const toolChapters = [
         id: 'translate_health_material',
         title: 'Prepare and check a translation',
         toolset: 'comms',
-        internet: 'optional (language data work offline)',
+        internet: 'optional',
         files: 'optional: the English source, your glossary, a translated draft, a back-translation',
         does: 'Supports translating a health material without replacing a qualified translator: shows which languages are most needed in your town, finds your agency’s approved translations, prepares a brief for the translator (numbered sentences, your glossary’s approved terms, and numbers, phone numbers, and web addresses that must not change), checks a translated draft against your glossary, and compares a back-translation with the English to catch reversed instructions, changed numbers, and missing sentences.',
         when: [

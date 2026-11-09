@@ -783,6 +783,12 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"source_path": "client_note.txt", "language": "Spanish", "worksheet": "xlsx"}),
             "data/client_note.txt",
         ),
+        // COMM-03 pointed at the outbreak line list as its observance calendar.
+        (
+            "create_social_media_campaign",
+            json!({"topic": "flu vaccine", "platforms": ["facebook"], "observances_path": "line_list.csv"}),
+            ll,
+        ),
         // ---- End of Phase 11 data tools.
         // ---- Phase 12 data tools go below this line.
         (

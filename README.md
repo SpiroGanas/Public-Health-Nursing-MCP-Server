@@ -10,9 +10,10 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.7.0 — Phases 0 to 6 of the [project plan](project_plan.md).** 47 of the 148
+> **Status: v0.13.0 — Phases 0 to 12 of the [project plan](project_plan.md).** 97 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
-> immunization schedules, recommendations, and school requirements, and the other items listed by
+> immunization schedules and school requirements, school health and maternal-child health rules,
+> screening instruments, aging and preparedness guidance, and the other items listed by
 > `get_data_source_status`) is a **draft pending review** by the subject matter expert; every
 > answer from it says so. All clinical and legal output is decision support only.
 
@@ -202,7 +203,7 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0
 ```
 
 On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
@@ -211,7 +212,7 @@ Apple silicon) from the GitHub release and run `docker load -i <file>`.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 .
 ```
 
 ### 3. Create your data folder
@@ -236,7 +237,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
       ]
     }
   }
@@ -255,7 +256,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
       ]
     }
   }
@@ -277,7 +278,7 @@ Then try, for example:
 > Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

@@ -7,6 +7,8 @@ All notable changes are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.13.0] — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
+
 ### Added
 
 - User guide for public health nurses (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`): an
@@ -17,8 +19,6 @@ All notable changes are recorded here. The format follows
   registry test keeps the guide's tool list in step with the implemented tools.
 
 ### Added — Phase 7: school health
-
-<!-- Phase 7 entries go below this line. -->
 
 - School health tools (toolset `school`): `get_ma_school_screening_requirements` (SCH-01),
   `track_school_screenings` (SCH-02), `school_medication_administration_guide` (SCH-03),
@@ -35,11 +35,8 @@ All notable changes are recorded here. The format follows
 - Fictional fixtures (screening roster, absence log, health office visits, head injury log,
   health plan students) with a seeded generator, added to the leak test.
 
-<!-- End of Phase 7 entries. -->
-
 ### Added — Phase 8: maternal, child, and family health
 
-<!-- Phase 8 entries go below this line. -->
 - `calculate_growth_percentiles` (MCH-03): WHO 2006 (birth to 24 months) and CDC 2000 (2 to 20
   years) percentiles and z-scores with CDC's 2022 extended BMI-for-age method, BMI categories,
   corrected age for prematurity, extreme-value flags, visit-to-visit change, and a batch mode
@@ -83,11 +80,7 @@ All notable changes are recorded here. The format follows
   mortality by race and Hispanic ethnicity; PRAMS indicators; trends. Snapshot
   `ma-maternal-infant` (DPH birth, death, and PRAMS reports; CDC NCHS provisional estimates;
   `xtask/scripts/build_maternal_infant.py`).
-<!-- End of Phase 8 entries. -->
-
 ### Added — Phase 9: PHN practice toolkit and case management
-
-<!-- Phase 9 entries go below this line. -->
 
 - `plan_tb_contact_investigation` (CD-11) and `ltbi_treatment_calendar` (CD-12): the 2005
   NTCA/CDC contact investigation rules (infectious period, Figure 2-4 priorities, Table 3 time
@@ -110,11 +103,7 @@ All notable changes are recorded here. The format follows
   `content/core/intervention_wheel.yaml`, `content/core/documentation_templates.yaml`; agency
   translations are read from `/data/templates/<language>/`; fictional TB contact, HRSN screening,
   and resource directory fixtures.
-<!-- End of Phase 9 entries. -->
-
 ### Added — Phase 10: healthy aging and mental health screening
-
-<!-- Phase 10 entries go below this line. -->
 
 - `score_mental_health_screen` (MH-02): scoring engine for PHQ-2, PHQ-9, GAD-2, GAD-7, EPDS, the
   NIMH ASQ, and the C-SSRS screener with range checks, published cutoffs, safety-alert rules and
@@ -134,11 +123,8 @@ All notable changes are recorded here. The format follows
 - Content (all pending review): `content/bh/mental_health_screening.yaml`,
   `content/bh/crisis_resources.yaml`, and `content/aging/*.yaml` (STEADI, protective services,
   aging services, coverage options, nursing home guide, advance care planning).
-<!-- End of Phase 10 entries. -->
-
 ### Added — Phase 11: substance use, crisis resources, and health communication
 
-<!-- Phase 11 entries go below this line. -->
 - `check_readability` (COMM-01): reading-level formulas (Flesch Reading Ease, Flesch-Kincaid,
   SMOG with CDC's conversion table, Gunning Fog), plain-language flags with CDC Everyday Words
   alternatives, and the CDC Clear Communication Index scored from the nurse's answers. The text
@@ -176,11 +162,8 @@ All notable changes are recorded here. The format follows
   calendars tied to observances with post checks and an XLSX export; press materials built and
   checked against CDC CERC media guidance with a Word export. Content
   `content/comms/campaigns.yaml` (platform limits and observance dates marked unverified).
-<!-- End of Phase 11 entries. -->
-
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning
 
-<!-- Phase 12 entries go below this line. -->
 - `get_active_hazard_alerts` (EPR-05): live NWS alerts for a town, county, or the state with
   cited health effects, at-risk groups, public health actions, and messages, and OpenFEMA
   disaster declarations (snapshot fallback).
@@ -204,7 +187,20 @@ All notable changes are recorded here. The format follows
   `census_blocks`, `projection`) and snapshots (FEMA declarations, emPOWER, 2020 census block
   housing units) built by `xtask/scripts/build_epr_snapshots.py`; eight content files in
   `content/epr/` and `content/env/` (pending review).
-<!-- End of Phase 12 entries. -->
+### Changed and fixed during integration
+
+- The communication tools moved from `comms.rs` to `crates/phn-tools/src/comms/`; COMM-05 now
+  lives in `comms/accessibility.rs`, and VAX-09's readability check uses the shared COMM-01 engine.
+- Two user guide entries used an internet value the Word builder did not know, which broke
+  `build-user-guide.js`; a registry test now checks every entry's value.
+- The leak test also covers `create_social_media_campaign` pointed at an identifiable file.
+- The data source registry lists every Phase 7–12 tool that reads local files or ACS data.
+- `.gitignore` (a Python template) ignored every `env/` folder; exceptions keep
+  `crates/phn-tools/src/env/` and `content/env/` in the repository.
+- The former MOLST domain (molst-ma.org) no longer belongs to the program; the advance care
+  planning tool does not link to it and marks its MOLST content unverified.
+- The README documents the optional API keys (`PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`,
+  `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY`).
 
 ## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
