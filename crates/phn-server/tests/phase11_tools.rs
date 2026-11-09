@@ -712,3 +712,130 @@ async fn translation_workflow_brief_glossary_and_back_translation() {
     .await;
     assert!(e.contains("English source"), "{e}");
 }
+
+// ------------------------------------------------------------------ COMM-03
+
+#[tokio::test]
+async fn social_campaign_calendar_observances_checks_and_export() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "create_social_media_campaign",
+        json!({"topic": "flu vaccine", "start_date": "2026-11-30", "weeks": 2, "posts_per_week": 2,
+               "platforms": ["facebook", "x"], "export": "xlsx",
+               "posts": [
+                 {"platform": "x", "date": "2026-12-01", "text": "Get your flu shot this week. It is free at Town Hall. #FluShotsSaveLives https://www.mass.gov/flu", "has_image": true, "alt_text": "A nurse gives a flu shot to a smiling child."},
+                 {"platform": "facebook", "date": "2026-12-03", "text": "IMPORTANT!!! Immunization against influenza is recommended to mitigate morbidity. #getvaccinatedtoday", "has_image": true}
+               ]}),
+    )
+    .await;
+    let d = &s["data"];
+    let obs: Vec<&str> = d["observances"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|o| o["related_to_topic"] == true)
+        .map(|o| o["name"].as_str().unwrap())
+        .collect();
+    assert!(
+        obs.contains(&"National Influenza Vaccination Week"),
+        "{obs:?}"
+    );
+    let cal = d["calendar"].as_array().unwrap();
+    assert!(
+        cal.iter()
+            .any(|c| c["observance"] == "National Influenza Vaccination Week")
+    );
+    let checks = d["post_checks"].as_array().unwrap();
+    assert!(
+        checks[0]["problems"].as_array().unwrap().is_empty(),
+        "{}",
+        checks[0]
+    );
+    let p2 = checks[1]["problems"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|p| p.as_str().unwrap())
+        .collect::<Vec<_>>()
+        .join(" | ");
+    for want in ["alt text", "CamelCase", "all capitals", "jargon"] {
+        assert!(p2.contains(want), "{want}: {p2}");
+    }
+    let f = d["export_file"].as_str().unwrap();
+    assert!(h.data().join(f).exists());
+    assert!(caveats(&s).contains("could not be verified"));
+    assert!(has_pending_review_caveat(&s));
+    let e = call_err(
+        &h,
+        "create_social_media_campaign",
+        json!({"topic": "flu", "platforms": ["myspace"]}),
+    )
+    .await;
+    assert!(e.contains("not recognized"), "{e}");
+}
+
+// ------------------------------------------------------------------ COMM-04
+
+#[tokio::test]
+async fn press_materials_structure_checks_and_export() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "draft_press_materials",
+        json!({"kind": "media_advisory", "headline": "Naloxone training for residents",
+               "facts": {"what": "Press conference", "when": "Tuesday, December 1, 2026, 10 a.m.", "where": "Town Hall, Room 2", "who": "Health Director Alex Lee", "why": "Overdose deaths remain high"},
+               "key_messages": ["Anyone can carry naloxone", "Training is free"],
+               "contact": {"name": "Pat Kim", "phone": "413-555-0199", "email": "press@example.org"},
+               "release_date": "2026-11-25", "export": "docx"}),
+    )
+    .await;
+    let d = &s["data"];
+    assert_eq!(d["kind"], "media_advisory");
+    assert!(
+        d["missing"].as_array().unwrap().is_empty(),
+        "{}",
+        d["missing"]
+    );
+    assert!(
+        d["checks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|c| c["passed"] == true),
+        "{}",
+        d["checks"]
+    );
+    let f = d["export_file"].as_str().unwrap();
+    let a = call_ok(&h, "check_document_accessibility", json!({"path": f})).await;
+    assert_eq!(a["data"]["report"]["failed"], 0, "{}", md(&a));
+
+    // A draft about a suicide gets the safe-messaging check.
+    let s = call_ok(
+        &h,
+        "draft_press_materials",
+        json!({"draft_text": "FOR IMMEDIATE RELEASE. A student committed suicide after a breakup. Contact 413-555-0199, press@example.org."}),
+    )
+    .await;
+    assert!(
+        s["data"]["safe_messaging"]["findings"]
+            .as_array()
+            .unwrap()
+            .len()
+            >= 2
+    );
+    let q = call_ok(
+        &h,
+        "draft_press_materials",
+        json!({"kind": "qa", "headline": "Measles case"}),
+    )
+    .await;
+    assert!(
+        q["data"]["draft_markdown"]
+            .as_str()
+            .unwrap()
+            .contains("Are my family and I safe?")
+    );
+    let e = call_err(&h, "draft_press_materials", json!({"kind": "tweet"})).await;
+    assert!(e.contains("not recognized"), "{e}");
+}

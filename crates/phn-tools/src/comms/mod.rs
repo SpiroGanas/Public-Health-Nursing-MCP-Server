@@ -15,10 +15,14 @@ pub use accessibility::{AccessibilityArgs, AccessibilityResult, check_document_a
 
 // Phase 11 modules.
 pub mod content;
+pub mod press;
 pub mod readability;
 pub mod safe_messaging;
+pub mod social;
 pub mod textstats;
 pub mod translation;
 
+pub use press::{PressArgs, PressResult, draft_press_materials};
 pub use readability::{ReadabilityArgs, ReadabilityResult, check_readability};
+pub use social::{SocialCampaignArgs, SocialCampaignResult, create_social_media_campaign};
 pub use translation::{TranslationArgs, TranslationResult, translate_health_material};

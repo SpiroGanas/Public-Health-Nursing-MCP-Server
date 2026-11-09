@@ -47,4 +47,16 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Comms,
         phase: 11,
     },
+    ToolMeta {
+        name: "create_social_media_campaign",
+        plan_id: "COMM-03",
+        toolset: Toolset::Comms,
+        phase: 11,
+    },
+    ToolMeta {
+        name: "draft_press_materials",
+        plan_id: "COMM-04",
+        toolset: Toolset::Comms,
+        phase: 11,
+    },
 ];

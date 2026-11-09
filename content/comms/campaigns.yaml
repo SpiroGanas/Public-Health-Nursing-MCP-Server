@@ -1,0 +1,147 @@
+# Social media campaign and press materials guidance for create_social_media_campaign (COMM-03)
+# and draft_press_materials (COMM-04).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/comms_campaigns.schema.json
+meta:
+  id: comms-campaigns
+  title: Social media and press materials (platform limits, observances, CERC media guidance)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2018-01-01
+  source:
+    title: "Crisis and Emergency Risk Communication (CERC): Working with the Media (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Working_with_the_Media.pdf
+  related_sources:
+    - title: "CERC: Introduction (2018 update)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/cerc/media/pdfs/CERC_Introduction.pdf
+    - title: CERC wallet card
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/cerc/media/pdfs/cerc_wallet-card_english.pdf
+    - title: "Web Content Accessibility Guidelines (WCAG) 2.1, Success Criterion 1.1.1 Non-text Content"
+      publisher: W3C
+      url: https://www.w3.org/TR/WCAG21/#non-text-content
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The CERC principles, press release checklist, media advisory elements, and
+    spokesperson questions are paraphrased from CDC's CERC Introduction and Working with the Media
+    chapters (2018 update) and the CERC wallet card, fetched from cdc.gov (high confidence).
+    PLATFORM LIMITS COULD NOT BE VERIFIED: the platforms' help pages (x.com, facebook.com,
+    instagram.com, linkedin.com, bsky.app) are blocked from this environment, so each limit is the
+    developer's best knowledge (low confidence) and the tool lets the nurse override it. NATIONAL
+    HEALTH OBSERVANCES COULD NOT BE VERIFIED: ODPHP's National Health Observances pages returned
+    "not found" on 2026-11-09, so the dates below are the developer's knowledge of long-standing
+    observances (low confidence); confirm each with its sponsor before scheduling, or give the
+    tool your own observance calendar. The post accessibility rules other than alt text (WCAG
+    1.1.1) are tool defaults.
+
+sources:
+  cerc_media:
+    title: "CERC: Working with the Media (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Working_with_the_Media.pdf
+    date: 2018-01-01
+  cerc_intro:
+    title: "CERC: Introduction (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Introduction.pdf
+    date: 2018-01-01
+  cerc_card:
+    title: CERC wallet card
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/cerc_wallet-card_english.pdf
+    date: null
+  wcag:
+    title: "WCAG 2.1, Success Criterion 1.1.1 Non-text Content"
+    publisher: W3C
+    url: https://www.w3.org/TR/WCAG21/#non-text-content
+    date: 2018-06-05
+
+platforms:
+  - {id: x, name: X (Twitter), char_limit: 280, link_counts_as: 23, alt_text_limit: 1000, hashtag_limit: null, confidence: low}
+  - {id: facebook, name: Facebook, char_limit: 63206, link_counts_as: null, alt_text_limit: null, hashtag_limit: null, confidence: low}
+  - {id: instagram, name: Instagram, char_limit: 2200, link_counts_as: null, alt_text_limit: null, hashtag_limit: 30, confidence: low}
+  - {id: linkedin, name: LinkedIn, char_limit: 3000, link_counts_as: null, alt_text_limit: null, hashtag_limit: null, confidence: low}
+  - {id: bluesky, name: Bluesky, char_limit: 300, link_counts_as: null, alt_text_limit: 2000, hashtag_limit: null, confidence: low}
+  - {id: threads, name: Threads, char_limit: 500, link_counts_as: null, alt_text_limit: null, hashtag_limit: null, confidence: low}
+
+# kind: month (whole month), day (fixed date), first_full_week / last_full_week (of the month),
+# nth_weekday (n-th weekday of the month; weekday 1 = Monday ... 7 = Sunday).
+observances:
+  - {name: Cervical Health Awareness Month, kind: month, month: 1, keywords: [cervical, hpv, cancer screening], confidence: low}
+  - {name: American Heart Month, kind: month, month: 2, keywords: [heart, blood pressure, cardiovascular], confidence: low}
+  - {name: National Nutrition Month, kind: month, month: 3, keywords: [nutrition, food, healthy eating], confidence: low}
+  - {name: National Public Health Week, kind: first_full_week, month: 4, keywords: [public health], confidence: low}
+  - {name: STI Awareness Month, kind: month, month: 4, keywords: [sti, std, sexual health, syphilis, chlamydia, gonorrhea], confidence: low}
+  - {name: Alcohol Awareness Month, kind: month, month: 4, keywords: [alcohol, drinking], confidence: low}
+  - {name: Mental Health Awareness Month, kind: month, month: 5, keywords: [mental health, depression, anxiety, stress], confidence: low}
+  - {name: National HIV Testing Day, kind: day, month: 6, day: 27, keywords: [hiv, testing], confidence: low}
+  - {name: World Hepatitis Day, kind: day, month: 7, day: 28, keywords: [hepatitis], confidence: low}
+  - {name: National Immunization Awareness Month, kind: month, month: 8, keywords: [vaccine, vaccination, immunization, shots], confidence: low}
+  - {name: International Overdose Awareness Day, kind: day, month: 8, day: 31, keywords: [overdose, naloxone, narcan, opioid, fentanyl], confidence: low}
+  - {name: Suicide Prevention Awareness Month, kind: month, month: 9, keywords: [suicide, mental health, "988", crisis], confidence: low}
+  - {name: World Suicide Prevention Day, kind: day, month: 9, day: 10, keywords: [suicide, "988"], confidence: low}
+  - {name: National Preparedness Month, kind: month, month: 9, keywords: [preparedness, emergency, disaster, heat, storm], confidence: low}
+  - {name: Breast Cancer Awareness Month, kind: month, month: 10, keywords: [breast cancer, mammogram, cancer screening], confidence: low}
+  - {name: National Lead Poisoning Prevention Week, kind: last_full_week, month: 10, keywords: [lead, poisoning, housing], confidence: low}
+  - {name: National Diabetes Month, kind: month, month: 11, keywords: [diabetes, blood sugar], confidence: low}
+  - {name: Great American Smokeout, kind: nth_weekday, month: 11, nth: 3, weekday: 4, keywords: [smoking, tobacco, quit, vaping], confidence: low}
+  - {name: World AIDS Day, kind: day, month: 12, day: 1, keywords: [hiv, aids], confidence: low}
+  - {name: National Influenza Vaccination Week, kind: first_full_week, month: 12, keywords: [flu, influenza, vaccine], confidence: low}
+
+post_rules:
+  - {id: alt_text, text: "Every image needs alt text that conveys what the image shows and why it matters (WCAG 1.1.1).", source: wcag}
+  - {id: camel_case_hashtags, text: "Capitalize each word in multi-word hashtags (#FluShotsSaveLives) so screen readers read them correctly.", source: tool}
+  - {id: hashtags_at_end, text: "Put hashtags at the end and use few of them.", source: tool}
+  - {id: few_emoji, text: "Use few emoji and never in place of words; screen readers read each one aloud.", source: tool}
+  - {id: no_all_caps, text: "Avoid words in all capitals except acronyms; they are harder to read and may be read letter by letter.", source: tool}
+  - {id: plain_language, text: "Keep each post at your target reading grade and avoid jargon (check_readability).", source: tool}
+
+cerc_principles:
+  - {name: Be First, text: "Crises are time-sensitive; the first source of information often becomes the preferred source.", source: cerc_intro}
+  - {name: Be Right, text: "Accuracy establishes credibility: say what is known, what is not known, and what is being done to fill the gaps.", source: cerc_intro}
+  - {name: Be Credible, text: "Do not compromise honesty and truthfulness.", source: cerc_intro}
+  - {name: Express Empathy, text: "Acknowledge suffering and what people are feeling.", source: cerc_intro}
+  - {name: Promote Action, text: "Give people meaningful things to do.", source: cerc_intro}
+  - {name: Show Respect, text: "Communicate respectfully, especially when people feel vulnerable.", source: cerc_intro}
+
+press_release_checklist:
+  - {id: contact_block, text: "At the top: organization name, address, email, website, phone, and contact name(s); give the media a 24-hour contact number.", source: cerc_media, section: "What Should Your Media Release Include? (p. 20)"}
+  - {id: date, text: "Put the date on the release (date and time if more than one release in 24 hours).", source: cerc_media, section: "p. 20"}
+  - {id: headline, text: "Give it an active-voice headline that summarizes the core information; never reuse a headline.", source: cerc_media, section: "p. 20"}
+  - {id: release_time, text: "Put 'For immediate release' (or the embargo time) at the top under the contact information.", source: cerc_media, section: "p. 20"}
+  - {id: five_ws, text: "Answer who, what, when, where, why, and how; put background in an attached fact sheet.", source: cerc_media, section: "p. 19"}
+  - {id: inverted_pyramid, text: "Most important information first (inverted pyramid); new phone numbers or web addresses high up.", source: cerc_media, section: "p. 20"}
+  - {id: one_page, text: "Keep an emergency release to one page.", source: cerc_media, section: "p. 19"}
+  - {id: short_sentences, text: "Keep sentences and paragraphs short, rarely more than 20 words; explain technical terms.", source: cerc_media, section: "p. 20"}
+  - {id: no_loaded_words, text: "Remove adjectives and emotionally loaded words.", source: cerc_media, section: "p. 20"}
+  - {id: privacy_check, text: "Check facts, security, and privacy (HIPAA and agency policy) before release.", source: cerc_media, section: "pp. 20-21"}
+
+media_advisory_elements:
+  - {id: nature, text: "The nature of the event (media opportunity or press conference).", source: cerc_media, section: "p. 25"}
+  - {id: when_where, text: "Date, time, and place.", source: cerc_media, section: "p. 25"}
+  - {id: who, text: "Contact person and who will appear (name and title, or position and expertise).", source: cerc_media, section: "p. 25"}
+  - {id: topics, text: "The topics to be covered; keep it to about half a page.", source: cerc_media, section: "p. 25"}
+
+spokesperson_questions:
+  - "Are my family and I safe?"
+  - "What can I do to protect myself and my family?"
+  - "Who is in charge here?"
+  - "What can we expect?"
+  - "Why did this happen?"
+  - "Were you forewarned?"
+  - "Why wasn't this prevented?"
+  - "What else can go wrong?"
+  - "When did you begin working on this?"
+  - "What does this information mean?"
+
+spokesperson_tips:
+  - "Keep messages consistent; do not over-reassure; acknowledge uncertainty and people's fear."
+  - "Explain the process in place to find answers, and give people things to do."
+  - "Know your organization's policies, stay within your scope, tell the truth, and be transparent."

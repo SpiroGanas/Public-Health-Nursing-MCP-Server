@@ -1204,6 +1204,45 @@ coverage, negations, glossary terms). Every result carries the label "DRAFT TRAN
 review by a qualified translator" and CDC *Simply Put*'s translation steps and pitfalls. Script
 notes point to DOCX for scripts the PDF writer cannot render (ADR 0003).
 
+### `create_social_media_campaign` (COMM-03, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | required | e.g. `flu vaccine`, `naloxone`, `lead poisoning`. |
+| `platforms` | facebook, instagram, x | Also `linkedin`, `bluesky`, `threads`. |
+| `start_date`, `weeks`, `posts_per_week` | today, 4, 2 | Max 26 weeks and 7 posts a week. |
+| `posts` | | Draft posts to check: `platform`, `text`, `alt_text`, `has_image`, `date`. |
+| `observances_path` | | Your own observance calendar (CSV/XLSX: `name`, `start`, `end`). |
+| `char_limits` | | Override platform limits, e.g. `{"x": 280}`. |
+| `target_grade` | 8 | |
+| `export` | none | `xlsx` calendar with posts and issues in `/data/output`. |
+
+Plans posting slots (Tuesday and Thursday first) and ties them to related observances (20 bundled
+observances with date rules, marked unverified because ODPHP's National Health Observances pages
+were unavailable; or the agency's own calendar). Checks drafts for platform length (links on X
+counted as 23 characters), alt text (WCAG 1.1.1; no "image of"), CamelCase hashtags, hashtag
+count, emoji, words in capitals, reading grade and jargon (COMM-01 engine), and safe messaging when
+the post is about suicide. Platform limits could not be verified from this environment and are
+overridable.
+
+### `draft_press_materials` (COMM-04, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `kind` | `press_release` | `media_advisory`, `talking_points`, `qa`. |
+| `headline`, `facts` (`who`, `what`, `when`, `where`, `why`, `how`) | | |
+| `key_messages`, `call_to_action`, `quotes` (`speaker`, `text`) | | Quote officials only. |
+| `contact` (`name`, `phone`, `email`, `after_hours_phone`) | | |
+| `release_date`, `embargo_until` | today, none | No embargo gives "For immediate release". |
+| `draft_text` | | Check an existing draft instead of the built structure. |
+| `export` | none | `docx` in `/data/output`. |
+
+Builds the structure from the facts with `[BRACKETED]` gaps listed, then checks it (or a draft)
+against CDC's CERC *Working with the Media* (2018): contact block, date, release time or embargo,
+5 Ws, headline, one page, sentences of 20 words or fewer, no loaded words, and a privacy check for
+client identifiers; adds the reading grade, safe messaging for suicide topics, CERC's six
+principles, and the CERC wallet card's questions for a spokesperson Q&A.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 54;
+const TOOL_COUNT = 56;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations.', '7'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1939,6 +1939,60 @@ const toolChapters = [
         notes: [
           'The server does not include or produce translations. Every draft must be reviewed and approved by a qualified translator.',
           'The checks look at numbers, phone numbers, glossary terms, negations, and missing sentences; they cannot judge meaning or tone.',
+        ],
+      },
+      {
+        id: 'create_social_media_campaign',
+        title: 'Plan and check a social media campaign',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: your own observance calendar; an Excel calendar is saved if you ask',
+        does: 'Plans when to post on each platform over the weeks of a campaign, ties posts to related health observances (such as National Influenza Vaccination Week), and checks draft posts for length, alt text on images, readable hashtags, emoji, words in capitals, reading level, jargon, and safe messaging when the topic is suicide.',
+        when: [
+          'Planning a flu, naloxone, lead, or heat-safety campaign.',
+          'Checking posts before you schedule them.',
+        ],
+        provide: [
+          'The topic, platforms, start date, number of weeks and posts per week, and any draft posts with their alt text.',
+        ],
+        examples: [
+          'Plan a four-week flu shot campaign on Facebook and Instagram starting December 1, and write posts for the first week.',
+          'Check these three posts before I schedule them: [paste posts].',
+        ],
+        returns: [
+          'The observances in the campaign window, the posting calendar, problems in each draft post, and an Excel calendar if requested.',
+        ],
+        notes: [
+          'Platform character limits and observance dates could not be verified by the server; confirm them. You can give your own limits and observance calendar.',
+          'The assistant writes the posts; the tool plans and checks them.',
+        ],
+      },
+      {
+        id: 'draft_press_materials',
+        title: 'Draft a press release, media advisory, talking points, or Q&A',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'only if you ask for a Word document',
+        does: 'Builds a press release, media advisory, talking points, or spokesperson Q&A from the facts you give, marks what is missing, and checks it against CDC’s Crisis and Emergency Risk Communication (CERC) guidance: contact information, date, release time or embargo, who-what-when-where-why, one page, short sentences, no loaded words, and no client details. Adds the reading level, CERC principles, questions to prepare for, and safe messaging when the topic is suicide.',
+        when: [
+          'Announcing a clinic, an outbreak update, or a health advisory.',
+          'Preparing a spokesperson for interviews.',
+          'Reviewing a release before it goes through approval.',
+        ],
+        provide: [
+          'The kind of material, the facts (who, what, when, where, why), key messages, quotes from officials, and the media contact; or a draft to check.',
+        ],
+        examples: [
+          'Draft a press release announcing free flu clinics at Town Hall on Saturday.',
+          'Make a media advisory for Tuesday’s press conference on naloxone training.',
+          'Prepare a spokesperson Q&A for a measles case in town.',
+        ],
+        returns: [
+          'The draft with bracketed gaps, the CERC checks, the reading grade, questions to prepare for, and the Word file name if requested.',
+        ],
+        notes: [
+          'All facts, numbers, and quotes must come from you and go through your agency’s approval process.',
+          'Never include client names or details that could identify a person.',
         ],
       },
     ],

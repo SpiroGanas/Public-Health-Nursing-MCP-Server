@@ -130,6 +130,8 @@ output folder instead of being sent to the AI model.
 | `find_substance_use_treatment` | MH-05 | bh | FindTreatment.gov facilities near a town: methadone, buprenorphine, naltrexone, withdrawal management, recovery supports, filtered by MassHealth and language, plus the Substance Use Helpline. |
 | `plan_school_postvention` | MH-06 | bh | After a suicide affecting a school: toolkit steps, talking points, staff/student/parent/media templates filled locally, and a safe-messaging check of drafts. |
 | `translate_health_material` | COMM-02 | comms | Translation workflow (no bundled translations): language priorities, agency translations, translator brief, glossary and back-translation checks, review worksheet. |
+| `create_social_media_campaign` | COMM-03 | comms | Posting calendar tied to health observances, checks of draft posts (length, alt text, hashtags, readability, safe messaging), XLSX calendar. |
+| `draft_press_materials` | COMM-04 | comms | Press release, media advisory, talking points, or spokesperson Q&A with CDC CERC checks and a Word export. |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

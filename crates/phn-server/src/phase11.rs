@@ -5,7 +5,10 @@ use phn_tools::bh::{
     HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, PostventionArgs,
     PostventionResult, TreatmentArgs, TreatmentResult, YouthSurveyArgs, YouthSurveyResult,
 };
-use phn_tools::comms::{ReadabilityArgs, ReadabilityResult, TranslationArgs, TranslationResult};
+use phn_tools::comms::{
+    PressArgs, PressResult, ReadabilityArgs, ReadabilityResult, SocialCampaignArgs,
+    SocialCampaignResult, TranslationArgs, TranslationResult,
+};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -155,5 +158,48 @@ impl PhnServer {
         Parameters(args): Parameters<TranslationArgs>,
     ) -> CallToolResult {
         respond(phn_tools::comms::translate_health_material(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "create_social_media_campaign",
+        description = "Plan a social media campaign on a health topic: a posting calendar for \
+            the chosen platforms tied to related national health observances (bundled list or \
+            your own calendar), and checks of draft posts written by the assistant or the nurse: \
+            platform character limits (overridable), alt text, CamelCase hashtags, emoji, all \
+            capitals, reading grade and jargon (as in check_readability), and safe messaging for \
+            suicide topics; with an optional XLSX calendar in /data/output.",
+        annotations(title = "Create a social media campaign", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<SocialCampaignResult>>()
+    )]
+    async fn create_social_media_campaign(
+        &self,
+        Parameters(args): Parameters<SocialCampaignArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::comms::create_social_media_campaign(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "draft_press_materials",
+        description = "Draft and check a press release, media advisory, talking points, or \
+            spokesperson Q&A from the facts given (who, what, when, where, why, how; quotes; \
+            media contact; embargo), with missing parts marked, checks from CDC's CERC media \
+            guidance (contact block, date, release time, 5 Ws, one page, short sentences, no \
+            loaded words, privacy), reading grade, safe messaging for suicide topics, CERC \
+            principles and questions to prepare for, and an optional Word document in \
+            /data/output.",
+        annotations(title = "Draft press materials", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<PressResult>>()
+    )]
+    async fn draft_press_materials(
+        &self,
+        Parameters(args): Parameters<PressArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::comms::draft_press_materials(ctx, args)
+        })
+        .await
     }
 }

@@ -72,6 +72,10 @@ All notable changes are recorded here. The format follows
   agency translations in `/data/templates/<language>/`, a translator brief, glossary and
   back-translation checks, the qualified-translator draft label, and an XLSX review worksheet.
   Content `content/comms/translation.yaml`.
+- `create_social_media_campaign` (COMM-03) and `draft_press_materials` (COMM-04): campaign
+  calendars tied to observances with post checks and an XLSX export; press materials built and
+  checked against CDC CERC media guidance with a Word export. Content
+  `content/comms/campaigns.yaml` (platform limits and observance dates marked unverified).
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning
