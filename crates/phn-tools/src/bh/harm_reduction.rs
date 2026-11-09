@@ -90,6 +90,7 @@ pub(crate) struct ResourceContent {
     pub syringe_services: SyringeServices,
     pub fentanyl_test_strips: Vec<CitedText>,
     pub risk_factors: Vec<CitedText>,
+    pub treatment: Vec<CitedText>,
     pub teaching_script: Vec<ScriptStep>,
 }
 
@@ -490,6 +491,7 @@ mod tests {
             &r.legal,
             &r.fentanyl_test_strips,
             &r.risk_factors,
+            &r.treatment,
         ] {
             keys.extend(list.iter().map(|c| &c.source));
         }

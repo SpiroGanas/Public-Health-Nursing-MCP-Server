@@ -884,6 +884,32 @@
           "rows": 340
         }
       ]
+    },
+    {
+      "id": "samhsa-findtreatment-ma",
+      "title": "FindTreatment.gov substance use treatment facilities in Massachusetts",
+      "publisher": "Substance Abuse and Mental Health Services Administration (SAMHSA), Behavioral Health Services Information System",
+      "source_urls": [
+        "https://findtreatment.gov/locator/exportsAsJson/v2?sAddr=%2242.3601,-71.0589%22&limitType=0&limitValue=3&sType=sa&pageSize=2000&page=1&sort=0",
+        "https://findtreatment.gov/assets/FindTreatment-Developer-Guide.pdf"
+      ],
+      "source_sha256": {},
+      "source_vintage": "facility listings as served 2026-11-09 (341 Massachusetts substance use facilities)",
+      "retrieved": "2026-11-09",
+      "license": "U.S. federal government data (SAMHSA FindTreatment.gov public locator API).",
+      "derivation": "State search of the FindTreatment.gov locator API for Massachusetts (state ID 3) substance use facilities. Kept: names, address, phone, intake and hotline numbers, website, coordinates, and the service categories TC, SET, OT, OM, PAY, PYAS, SL, OL, AGE, SN, RSS, SG, EXCL, and DETOX as 'CODE=values' joined by '|'. Builder: xtask/scripts/build_findtreatment.py (Python 3 and curl).",
+      "caveats": [
+        "Facilities report their own services to SAMHSA; call ahead to confirm services, openings, insurance, and language.",
+        "Used only when the live locator cannot be reached; it is a statewide copy, so distances are computed from the town's center."
+      ],
+      "files": [
+        {
+          "path": "findtreatment_ma.csv",
+          "sha256": "71d7e58dfc78f518eb2cc8a6f960abf1cb664ac0eb8515a282a94ef36df7e20f",
+          "bytes": 427268,
+          "rows": 341
+        }
+      ]
     }
   ]
 }

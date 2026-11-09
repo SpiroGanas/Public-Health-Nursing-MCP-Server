@@ -2,8 +2,8 @@
 
 use phn_core::Envelope;
 use phn_tools::bh::{
-    HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, YouthSurveyArgs,
-    YouthSurveyResult,
+    HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, TreatmentArgs,
+    TreatmentResult, YouthSurveyArgs, YouthSurveyResult,
 };
 use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
@@ -94,5 +94,24 @@ impl PhnServer {
             phn_tools::bh::find_naloxone_and_harm_reduction(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "find_substance_use_treatment",
+        description = "Find substance use treatment near a Massachusetts town from SAMHSA's \
+            FindTreatment.gov (live, cached, or a bundled statewide copy): methadone at opioid \
+            treatment programs, buprenorphine, naltrexone, withdrawal management, residential or \
+            outpatient care, recovery supports, programs for adolescents, pregnant or postpartum \
+            women, veterans, or co-occurring disorders, filtered by payment (MassHealth/Medicaid, \
+            Medicare, private, sliding fee) and language, with the Massachusetts Substance Use \
+            Helpline and 988.",
+        annotations(title = "Find substance use treatment", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<TreatmentResult>>()
+    )]
+    async fn find_substance_use_treatment(
+        &self,
+        Parameters(args): Parameters<TreatmentArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::bh::find_substance_use_treatment(&self.ctx, args).await)
     }
 }

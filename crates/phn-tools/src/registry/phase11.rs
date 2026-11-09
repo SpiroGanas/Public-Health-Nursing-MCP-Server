@@ -29,4 +29,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Bh,
         phase: 11,
     },
+    ToolMeta {
+        name: "find_substance_use_treatment",
+        plan_id: "MH-05",
+        toolset: Toolset::Bh,
+        phase: 11,
+    },
 ];

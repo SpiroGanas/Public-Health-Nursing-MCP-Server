@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 51;
+const TOOL_COUNT = 52;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone and harm reduction resources.', '4'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment.', '5'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1850,6 +1850,35 @@ const toolChapters = [
           'DPH’s maps of naloxone programs and syringe service sites cannot be read by the server; open the links for current sites and hours.',
           'Whether fentanyl test strips are legal under Massachusetts law could not be confirmed; ask your agency’s counsel.',
           'Rescue breathing and CPR steps are for people trained to do them. Follow your agency’s protocols.',
+        ],
+      },
+      {
+        id: 'find_substance_use_treatment',
+        title: 'Find substance use treatment',
+        toolset: 'bh',
+        internet: 'optional (a bundled statewide list is used offline)',
+        files: 'no',
+        does: 'Lists substance use treatment programs near a Massachusetts town from SAMHSA’s FindTreatment.gov: programs that offer methadone, buprenorphine, or naltrexone for opioid use disorder, withdrawal management (detox), residential or outpatient care, and recovery supports, and programs for teens, pregnant or postpartum women, veterans, or people with mental health conditions, filtered by insurance (including MassHealth) and language.',
+        when: [
+          'Helping a client or family find treatment that takes MassHealth.',
+          'Finding a methadone or buprenorphine program after an overdose or a hospital stay.',
+          'Building a local referral list for staff.',
+        ],
+        provide: [
+          'The town (or use your saved town), how far the person can travel, the kind of treatment, the insurance, and the language needed.',
+        ],
+        examples: [
+          'Find buprenorphine treatment within 10 miles of Fall River that takes MassHealth.',
+          'Is there a methadone program near Springfield with Spanish-speaking staff?',
+          'List residential programs for pregnant women within 30 miles of Worcester.',
+        ],
+        returns: [
+          'Matching programs nearest first, with address, phone, website, distance, medications offered, settings, insurance accepted, and languages; and the Massachusetts Substance Use Helpline and 988.',
+        ],
+        notes: [
+          'Programs report their own services to SAMHSA. Call ahead to confirm openings, insurance, and language.',
+          'Distances are straight-line miles from the center of the town.',
+          'The Massachusetts Substance Use Helpline (800-327-5050) can also help find treatment and recovery services.',
         ],
       },
     ],

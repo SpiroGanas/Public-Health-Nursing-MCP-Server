@@ -214,6 +214,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "cdc_yrbs_mental_health_ma_us.csv",
         include_str!("../../../snapshots/cdc_yrbs_mental_health_ma_us.csv"),
     ),
+    (
+        "findtreatment_ma.csv",
+        include_str!("../../../snapshots/findtreatment_ma.csv"),
+    ),
     // End of Phase 11 snapshot files.
 ];
 

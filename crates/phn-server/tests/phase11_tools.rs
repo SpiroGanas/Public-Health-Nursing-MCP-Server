@@ -469,3 +469,64 @@ async fn naloxone_resources_town_status_script_and_handout() {
     .await;
     assert!(e.contains("Did you mean"), "{e}");
 }
+
+// ------------------------------------------------------------------ MH-05
+
+#[tokio::test]
+async fn treatment_search_filters_offline_snapshot() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "find_substance_use_treatment",
+        json!({"town": "Springfield", "services": ["buprenorphine"], "payment": "masshealth", "max_results": 50}),
+    )
+    .await;
+    let d = &s["data"];
+    assert_eq!(d["town"], "Springfield");
+    let n = d["matching"].as_u64().unwrap();
+    assert!(n >= 3, "{n}");
+    assert!(d["facilities_in_radius"].as_u64().unwrap() >= n);
+    for f in d["facilities"].as_array().unwrap() {
+        assert!(f["miles"].as_f64().unwrap() <= 15.0);
+        assert!(
+            f["moud"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|m| m == "buprenorphine")
+        );
+        assert!(
+            f["payment"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|p| p == "Medicaid")
+        );
+    }
+    assert!(caveats(&s).contains("bundled statewide copy"));
+    assert!(md(&s).contains("(800) 327-5050"));
+    assert!(s["sources"].as_array().unwrap().iter().any(|x| {
+        x["mode"] == "snapshot"
+            && x["url"]
+                .as_str()
+                .unwrap_or("")
+                .contains("findtreatment.gov/locator")
+    }));
+    // Methadone is offered only at a few sites; Spanish narrows further.
+    let s2 = call_ok(
+        &h,
+        "find_substance_use_treatment",
+        json!({"town": "Springfield", "services": ["methadone"], "language": "spanish"}),
+    )
+    .await;
+    assert!(s2["data"]["matching"].as_u64().unwrap() <= n);
+    let e = call_err(
+        &h,
+        "find_substance_use_treatment",
+        json!({"town": "Springfield", "services": ["acupuncture"]}),
+    )
+    .await;
+    assert!(e.contains("not recognized"), "{e}");
+    let e = call_err(&h, "find_substance_use_treatment", json!({})).await;
+    assert!(e.contains("give a town"), "{e}");
+}

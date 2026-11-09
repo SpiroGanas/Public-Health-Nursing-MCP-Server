@@ -37,7 +37,9 @@ meta:
     FAQs, facts and formulations, risk factors, programs and agencies), the OEND Program Core
     Competencies (updated 2019), the Syringe Service Program locator page's list of cities and
     towns with board of health approval, CDC's naloxone, overdose response, and fentanyl pages,
-    and M.G.L. c. 111, s. 215 and c. 94C, s. 1 on malegislature.gov. Statements are close
+    and M.G.L. c. 111, s. 215 and c. 94C, s. 1 on malegislature.gov; the treatment notes from
+    FDA's MOUD page (content current 2026-11-04) and SAMHSA's FindTreatment.gov API
+    documentation (v1.12, 2026-08-17). Statements are close
     paraphrases or quotes (high confidence) except where marked. DPH's naloxone program and
     syringe service program maps (Tableau Public and Google My Maps) could not be read, so the
     tool links to them instead of listing sites. Whether fentanyl test strips are exempt from the
@@ -137,6 +139,21 @@ sources:
     publisher: The General Court of the Commonwealth of Massachusetts
     url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94C/Section1
     date: null
+  findtreatment:
+    title: FindTreatment.gov (facility locator)
+    publisher: Substance Abuse and Mental Health Services Administration (SAMHSA)
+    url: https://findtreatment.gov/
+    date: null
+  findtreatment_api:
+    title: FindTreatment.gov API Documentation, version 1.12
+    publisher: SAMHSA, Behavioral Health Services Information System
+    url: https://findtreatment.gov/assets/FindTreatment-Developer-Guide.pdf
+    date: 2026-08-17
+  fda_moud:
+    title: Information about Medications for Opioid Use Disorder (MOUD)
+    publisher: U.S. Food and Drug Administration
+    url: https://www.fda.gov/drugs/information-drug-class/information-about-medications-opioid-use-disorder-moud
+    date: 2026-11-04
   ma_988:
     title: 988 Suicide and Crisis Lifeline
     publisher: Massachusetts Department of Public Health
@@ -263,6 +280,20 @@ risk_factors:
     source: risk_factors
     section: Risk factors
   - text: "Stopping methadone, buprenorphine, or naltrexone raises overdose risk for several weeks; taking them as prescribed is protective."
+    source: oend_competencies
+    section: Preventing Overdose
+
+treatment:
+  - text: "FDA-approved medications for opioid use disorder fall into three categories: an opioid agonist (methadone), a partial agonist (buprenorphine, in transmucosal and extended-release forms), and an antagonist (extended-release naltrexone)."
+    source: fda_moud
+    section: Medications for Opioid Use Disorder (MOUD)
+  - text: "FindTreatment.gov lists facilities by the services they report to SAMHSA, including federally certified opioid treatment programs (methadone), facilities that prescribe or use buprenorphine or naltrexone, withdrawal management (detoxification), residential and outpatient settings, recovery supports, payment accepted (including Medicaid), and language services."
+    source: findtreatment
+    section: Facility listings (service categories)
+  - text: "The Massachusetts Substance Use Helpline ((800) 327-5050; TTY (800) 720-3480) is DPH's statewide source for treatment and recovery services; its website is helplinema.org."
+    source: bsas_contacts
+    section: Contact Information
+  - text: "Stopping methadone, buprenorphine, or naltrexone raises the risk of overdose for several weeks; people leaving treatment, jail, or a hospital should carry naloxone."
     source: oend_competencies
     section: Preventing Overdose
 

@@ -1143,6 +1143,23 @@ test strip facts (CDC; the legal status is marked unverified), overdose risk fac
 OEND core competencies, the standing order, and CDC. DPH's site maps cannot be read, so they are
 linked. Decision support.
 
+### `find_substance_use_treatment` (MH-05, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Search center (the town's label point, converted from MassGIS state plane to latitude/longitude). |
+| `radius_miles` | 15 | 1 to 75. |
+| `services` | | All must match: `methadone` (opioid treatment program), `buprenorphine`, `naltrexone`, `withdrawal_management`, `residential`, `outpatient`, `intensive_outpatient`, `recovery_support`, `sober_housing`, `adolescents`, `pregnant_postpartum`, `co_occurring`, `veterans`. |
+| `payment` | | `masshealth` (Medicaid), `medicare`, `private`, `self_pay`, `sliding_fee`. |
+| `language` | | `spanish`, `asl`, or another language (`portuguese`, `creole`, `vietnamese`, ...). |
+| `max_results` | 15 | Max 50. |
+
+SAMHSA's FindTreatment.gov locator API (`phn_data::findtreatment`; distance search, substance
+use facilities) through live → cache → a bundled statewide copy (`samhsa-findtreatment-ma`, 341
+facilities; distances computed from the town center when it is used). Returns each facility's
+address, phones, website, miles, medications for opioid use disorder, settings, payment, and
+languages, plus the Massachusetts Substance Use Helpline, 988, and FDA's MOUD categories.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

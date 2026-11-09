@@ -38,6 +38,9 @@ pub mod vaccine_codes;
 
 // Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 
+// Phase 11 adapters (FindTreatment.gov) go below this line.
+pub mod findtreatment;
+
 pub use cache::Cache;
 pub use http::HttpClient;
 pub use snapshots::SnapshotStore;

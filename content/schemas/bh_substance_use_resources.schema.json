@@ -3,8 +3,8 @@
   "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/bh_substance_use_resources.schema.json",
   "title": "Naloxone, harm reduction, and substance use treatment resources",
   "type": "object",
-  "required": ["meta", "sources", "contacts", "standing_order", "access", "pharmacy_rules", "legal", "syringe_services", "fentanyl_test_strips", "risk_factors", "teaching_script"],
-  "additionalProperties": true,
+  "required": ["meta", "sources", "contacts", "standing_order", "access", "pharmacy_rules", "legal", "syringe_services", "fentanyl_test_strips", "risk_factors", "treatment", "teaching_script"],
+  "additionalProperties": false,
   "$defs": {
     "citation": {
       "type": "object",
@@ -115,6 +115,7 @@
     },
     "fentanyl_test_strips": {"type": "array", "items": {"$ref": "#/$defs/cited"}},
     "risk_factors": {"type": "array", "items": {"$ref": "#/$defs/cited"}},
+    "treatment": {"type": "array", "items": {"$ref": "#/$defs/cited"}},
     "teaching_script": {
       "type": "array",
       "minItems": 5,

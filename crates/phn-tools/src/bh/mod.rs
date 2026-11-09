@@ -12,6 +12,8 @@ pub mod harm_reduction;
 pub use harm_reduction::{
     HarmReductionArgs, HarmReductionResult, find_naloxone_and_harm_reduction,
 };
+pub mod treatment;
+pub use treatment::{TreatmentArgs, TreatmentResult, find_substance_use_treatment};
 pub mod youth_survey;
 pub use youth_survey::{YouthSurveyArgs, YouthSurveyResult, get_youth_risk_behavior_data};
 // End of Phase 11 modules.

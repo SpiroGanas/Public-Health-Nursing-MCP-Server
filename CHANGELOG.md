@@ -59,6 +59,10 @@ All notable changes are recorded here. The format follows
   13, 2026, pharmacy policy, programs), syringe service program approval by town, fentanyl test
   strip facts, help lines, and a cited teaching script with an optional Word handout. Content
   `content/bh/substance_use_resources.yaml` (shared with MH-05).
+- `find_substance_use_treatment` (MH-05): SAMHSA FindTreatment.gov adapter
+  (`phn_data::findtreatment`, live → cache → bundled statewide snapshot `samhsa-findtreatment-ma`)
+  with MOUD, setting, special-group, payment, and language filters, and the Massachusetts
+  Substance Use Helpline.
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning
