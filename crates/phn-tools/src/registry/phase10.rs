@@ -53,4 +53,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Aging,
         phase: 10,
     },
+    ToolMeta {
+        name: "advance_care_planning_toolkit",
+        plan_id: "AGE-07",
+        toolset: Toolset::Aging,
+        phase: 10,
+    },
 ];

@@ -23,7 +23,6 @@ pub const PROTECTIVE: &str = "aging-protective-services";
 pub const SERVICES: &str = "aging-services-guide";
 pub const COVERAGE: &str = "aging-coverage-options";
 pub const NURSING_HOMES: &str = "aging-nursing-home-guide";
-pub const VULNERABILITY: &str = "aging-older-adult-vulnerability";
 pub const ACP: &str = "aging-advance-care-planning";
 
 /// Parse a registered content item into `T`.

@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult, VulnerabilityArgs, VulnerabilityResult};
+use phn_tools::aging::{AcpArgs, AcpResult, AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult, VulnerabilityArgs, VulnerabilityResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -181,5 +181,28 @@ impl PhnServer {
         Parameters(args): Parameters<VulnerabilityArgs>,
     ) -> CallToolResult {
         respond(phn_tools::aging::map_older_adult_vulnerability(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "advance_care_planning_toolkit",
+        description = "Advance care planning in Massachusetts: health care proxy rules from M.G.L. c.201D (who \
+            can be an agent, two adult witnesses, when the agent's authority starts, revocation), a \
+            fillable proxy template, MOLST status (flagged as unverified; the old molst-ma.org \
+            domain is no longer the program's site), The Conversation Project's guides (link), and a \
+            facilitator script and handout for a community session scaled to its length. Writes \
+            session materials as DOCX or PDF; with details_file (a CSV/XLSX in /data) fills proxy \
+            forms locally, using agency translations from /data/templates/<language>/ and English \
+            otherwise, without returning any details.",
+        annotations(title = "Advance care planning toolkit", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<AcpResult>>()
+    )]
+    async fn advance_care_planning_toolkit(
+        &self,
+        Parameters(args): Parameters<AcpArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::advance_care_planning_toolkit(ctx, args)
+        })
+        .await
     }
 }
