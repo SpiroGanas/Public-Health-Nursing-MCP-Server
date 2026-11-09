@@ -493,6 +493,28 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/cerc.yaml"),
         schema: include_str!("../../../content/schemas/epr_cerc.schema.json"),
     },
+    // Phase 13 EPR-08/EPR-09 (HSEEP).
+    ContentItem {
+        id: "epr-capabilities",
+        path: "content/epr/capabilities.yaml",
+        resource_uri: "phn://content/epr-capabilities",
+        yaml: include_str!("../../../content/epr/capabilities.yaml"),
+        schema: include_str!("../../../content/schemas/epr_capabilities.schema.json"),
+    },
+    ContentItem {
+        id: "epr-hseep",
+        path: "content/epr/hseep.yaml",
+        resource_uri: "phn://content/epr-hseep",
+        yaml: include_str!("../../../content/epr/hseep.yaml"),
+        schema: include_str!("../../../content/schemas/epr_hseep.schema.json"),
+    },
+    ContentItem {
+        id: "epr-exercise-scenarios",
+        path: "content/epr/exercise_scenarios.yaml",
+        resource_uri: "phn://content/epr-exercise-scenarios",
+        yaml: include_str!("../../../content/epr/exercise_scenarios.yaml"),
+        schema: include_str!("../../../content/schemas/epr_exercise_scenarios.schema.json"),
+    },
     // End of Phase 13 content items.
 ];
 

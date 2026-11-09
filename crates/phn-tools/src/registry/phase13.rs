@@ -24,7 +24,20 @@ pub(super) const COOP: &[ToolMeta] = &[ToolMeta {
 }];
 
 /// EPR-08 and EPR-09 (HSEEP exercise design and after-action report).
-pub(super) const HSEEP: &[ToolMeta] = &[];
+pub(super) const HSEEP: &[ToolMeta] = &[
+    ToolMeta {
+        name: "design_hseep_exercise",
+        plan_id: "EPR-08",
+        toolset: Toolset::Epr,
+        phase: 13,
+    },
+    ToolMeta {
+        name: "build_after_action_report",
+        plan_id: "EPR-09",
+        toolset: Toolset::Epr,
+        phase: 13,
+    },
+];
 
 /// EPR-10 (crisis and emergency risk communication).
 pub(super) const CERC: &[ToolMeta] = &[ToolMeta {

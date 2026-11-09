@@ -1,0 +1,394 @@
+# Exercise scenarios for design_hseep_exercise (EPR-08): three fully developed tabletop scenarios
+# for Pilot 3 (measles outbreak, coastal storm with power outage, extreme heat) and scenario seeds
+# for other hazards. Written for a Massachusetts local health department.
+#
+# ALL SCENARIO EVENTS, PEOPLE, AND NUMBERS ARE FICTIONAL EXERCISE CONTENT. {{town}} and
+# {{agency}} are replaced with the exercise's town and sponsoring agency.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_exercise_scenarios.schema.json
+meta:
+  id: epr-exercise-scenarios
+  title: Tabletop exercise scenarios (measles outbreak, coastal storm and power outage, extreme heat) and scenario seeds
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: null
+  source:
+    title: Homeland Security Exercise and Evaluation Program (HSEEP), January 2020 (scenario elements)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/documents/1269813/1269861/HSEEP_Revision_Jan20_Final.pdf/65bc7843-1d10-47b7-bc0d-45118a4d21da
+  related_sources:
+    - title: "Measles: Clinical Overview"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/measles/hcp/clinical-overview/index.html
+    - title: "Guide to Surveillance, Reporting and Control: Measles (2022)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/measles-2022/download
+    - title: Carbon Monoxide Poisoning Basics
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    - title: NWS HeatRisk
+      publisher: NOAA National Weather Service, Weather Prediction Center
+      url: https://www.wpc.ncep.noaa.gov/heatrisk/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The scenario narratives, injects, numbers, key issues, discussion
+    questions, and suggested objectives are THIS PROJECT'S FICTIONAL EXERCISE CONTENT, written to
+    HSEEP's scenario guidance (plausible, realistic, challenging; conditions that let players meet
+    the objectives) and keyed to the PHEP capabilities (medium confidence that they fit a
+    Massachusetts local health department; have your planning team and DPH regional staff vet
+    them). The few clinical and safety facts the scenarios rely on are cited in each scenario's
+    facts list: the measles infectious period (CDC clinical overview, fetched 2026-11-09), the
+    72-hour MMR and 6-day immune globulin windows and days 5-21 exclusion (DPH 2022 measles guide,
+    as already used in content/cd/measles_exposure.yaml), generator carbon monoxide safety (CDC,
+    fetched 2026-11-09), and the NWS HeatRisk 0-4 scale (as used in content/env/heat.yaml). Seeds
+    are short summaries with suggested capabilities only.
+
+sources:
+  hseep-2020:
+    title: Homeland Security Exercise and Evaluation Program (HSEEP), January 2020
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/documents/1269813/1269861/HSEEP_Revision_Jan20_Final.pdf/65bc7843-1d10-47b7-bc0d-45118a4d21da
+    effective_date: 2020-01-01
+    retrieved: 2026-11-09
+  cdc-measles:
+    title: "Measles: Clinical Overview"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/measles/hcp/clinical-overview/index.html
+    effective_date: null
+    retrieved: 2026-11-09
+  dph-measles:
+    title: "Guide to Surveillance, Reporting and Control: Measles (2022)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/measles-2022/download
+    effective_date: 2022-01-01
+    retrieved: 2026-11-08
+  cdc-co:
+    title: Carbon Monoxide Poisoning Basics
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    effective_date: null
+    retrieved: 2026-11-09
+  nws-heatrisk:
+    title: NWS HeatRisk
+    publisher: NOAA National Weather Service, Weather Prediction Center
+    url: https://www.wpc.ncep.noaa.gov/heatrisk/
+    effective_date: null
+    retrieved: 2026-11-08
+
+scenarios:
+  - id: measles_outbreak
+    title: Measles exposure at an elementary school and an urgent care center
+    hazard: "Biological: measles (rubeola) outbreak"
+    mission_areas: [response, recovery]
+    summary: >-
+      A laboratory-confirmed measles case in an unvaccinated elementary school student in
+      {{town}} exposes classmates, school staff, and patients at an urgent care center. The
+      {{agency}} works with DPH to find exposed people, offer post-exposure prophylaxis within
+      its time windows, exclude susceptible contacts, and keep the public informed as
+      second-generation cases appear.
+    phep: [phep-13, phep-11, phep-8, phep-4, phep-3, phep-6, phep-15]
+    functional_groups:
+      - Board of health and public health nursing
+      - School nurses and school administration
+      - Health care partners
+      - Public information and emergency management
+    suggested_objectives:
+      - text: "Within 24 hours of DPH notification, discuss how the {{agency}} will identify exposed students, staff, and urgent care patients and begin notifying them, in accordance with the DPH measles guide and the agency's communicable disease procedures."
+        phep: [phep-13, phep-6]
+      - text: "Discuss how the {{agency}} would open a post-exposure MMR clinic for susceptible contacts within 72 hours of exposure, including staffing with Medical Reserve Corps volunteers, in accordance with the agency's mass dispensing plan."
+        phep: [phep-8, phep-15]
+      - text: "Discuss how susceptible students and staff will be excluded from day 5 through day 21 after exposure, and how families will be told in their preferred languages within 24 hours of the decision, in accordance with DPH guidance."
+        phep: [phep-11, phep-4]
+      - text: "Within 4 hours of case confirmation, discuss how an initial public message will be drafted, approved, and released through the agency's public information procedures."
+        phep: [phep-4]
+      - text: "Discuss activation of the incident command system and coordination with DPH, the school district, and health care partners during the first 2 operational periods, in accordance with the agency's emergency operations plan."
+        phep: [phep-3, phep-6]
+    facts:
+      - {text: "Measles patients are considered contagious from 4 days before to 4 days after the rash appears; the rash usually appears about 14 days after exposure.", source: cdc-measles, section: "Clinical overview"}
+      - {text: "MMR vaccine given within 72 hours of exposure, or immune globulin within 6 days, can prevent or modify measles in susceptible contacts.", source: dph-measles, section: "Section 4 (post-exposure prophylaxis)"}
+      - {text: "Susceptible contacts are excluded from day 5 through day 21 after exposure (through day 21 after the last case's rash onset when exposure continues).", source: dph-measles, section: "Section 4 (exclusion)"}
+    related_tools: [assess_measles_exposure, calculate_isolation_and_exclusion, plan_contact_tracing, plan_vaccination_clinic, model_dispensing_site_throughput, crisis_risk_communication_builder, generate_ics_forms]
+    modules:
+      - number: 1
+        title: Notification and initial investigation
+        timeframe: Days 1-2
+        injects:
+          - {time: "Day 1, 4:30 p.m.", text: "DPH's epidemiologist on call notifies the {{agency}}: a 9-year-old student at {{town}} Elementary School has laboratory-confirmed measles. Rash onset was yesterday. The child has no MMR doses on record."}
+          - {time: "Day 1, 5:15 p.m.", text: "The family reports the child attended school on the four school days before the rash and was seen at a {{town}} urgent care center yesterday at 6 p.m. for about 90 minutes."}
+          - {time: "Day 1, 7:00 p.m.", text: "The urgent care center reports that 41 patients, visitors, and staff were in the waiting area during that time, including two infants and a pregnant staff member."}
+          - {time: "Day 2, 7:30 a.m.", text: "The school principal calls: parents are posting about measles on social media and asking whether the school will close. The school nurse reports 26 students and 3 staff without documented evidence of immunity."}
+        key_issues:
+          - The exposure windows at the school and the urgent care center must be set from the infectious period.
+          - Post-exposure prophylaxis windows (72 hours for MMR, 6 days for immune globulin) are already running.
+          - Exposed people must be identified and reached quickly, including urgent care patients from other towns.
+          - Roles must be clear between the {{agency}}, DPH, the school, and the urgent care center.
+        questions:
+          - {group: Board of health and public health nursing, text: "Who leads the contact investigation, and how do you divide the work with DPH? Who enters cases and contacts in MAVEN?", phep: [phep-13, phep-6]}
+          - {group: Board of health and public health nursing, text: "What triggers activation of your incident command structure for this event, and who fills the first ICS positions tonight?", phep: [phep-3]}
+          - {group: Board of health and public health nursing, text: "How will you reach exposed urgent care patients who live in other towns, and who notifies their boards of health?", phep: [phep-6, phep-13]}
+          - {group: School nurses and school administration, text: "How will the school confirm immunity for the 26 students and 3 staff within 24 hours? What records are acceptable?", phep: [phep-13, phep-11]}
+          - {group: School nurses and school administration, text: "Who decides between excluding susceptible students and closing the school, and what is the basis for that decision?", phep: [phep-11, phep-3]}
+          - {group: Health care partners, text: "How will the urgent care center notify exposed patients, and how will clinics and the hospital screen and isolate people with fever and rash on arrival?", phep: [phep-10, phep-6]}
+          - {group: Public information and emergency management, text: "What is the first public message, who approves it, and when and in which languages will it go out?", phep: [phep-4]}
+      - number: 2
+        title: Post-exposure prophylaxis and exclusion
+        timeframe: Days 3-6
+        injects:
+          - {time: "Day 3, 8:00 a.m.", text: "DPH recommends an MMR clinic for susceptible contacts and can supply vaccine. The clinic must open tomorrow to stay within 72 hours for most school contacts."}
+          - {time: "Day 3, 11:00 a.m.", text: "The two exposed infants and the pregnant staff member need immune globulin within 6 days of exposure. The hospital pharmacy asks who will coordinate and where it will be given."}
+          - {time: "Day 4, 9:00 a.m.", text: "Exclusion letters must go to 22 families whose children remain susceptible. Several families speak Portuguese or Haitian Creole, and parents say they cannot miss work for three weeks."}
+          - {time: "Day 5, 1:00 p.m.", text: "A local television station asks for an on-camera interview. Posts claiming the MMR vaccine causes measles are being widely shared in a community group."}
+        key_issues:
+          - A dispensing clinic must be staffed, supplied, and opened in less than 24 hours.
+          - Immune globulin for high-risk contacts needs coordination with the hospital and their clinicians.
+          - Exclusion has real costs for families; messages must be clear, respectful, and in the right languages.
+          - Misinformation must be answered without amplifying it.
+        questions:
+          - {group: Board of health and public health nursing, text: "Walk through opening the MMR clinic: site, staffing, vaccine storage and handling, screening, documentation, and throughput. Where will the MRC fit?", phep: [phep-8, phep-15, phep-9]}
+          - {group: Board of health and public health nursing, text: "How will you track who received MMR or immune globulin, and who still needs exclusion?", phep: [phep-13, phep-11]}
+          - {group: School nurses and school administration, text: "How will exclusion be enforced and documented, and what support (school work, child care information) will families get?", phep: [phep-11, phep-1]}
+          - {group: Health care partners, text: "How will immune globulin be given to the infants and the pregnant staff member within the window, and who pays?", phep: [phep-8, phep-10]}
+          - {group: Public information and emergency management, text: "Who is the spokesperson, and what are the three key messages? How will you respond to the vaccine misinformation?", phep: [phep-4]}
+          - {group: Public information and emergency management, text: "How will translated letters and phone calls be produced and checked quickly?", phep: [phep-4, phep-1]}
+      - number: 3
+        title: Second-generation cases and sustaining the response
+        timeframe: Days 12-21
+        injects:
+          - {time: "Day 12, 10:00 a.m.", text: "Two new measles cases are reported in unvaccinated siblings of an excluded student. One child is hospitalized. Both attended a crowded indoor youth sports event while infectious."}
+          - {time: "Day 13, 8:00 a.m.", text: "The hospital reports that one of the children waited 3 hours in the emergency department before being isolated, and asks for help building a contact list."}
+          - {time: "Day 14, 3:00 p.m.", text: "The {{agency}}'s nurses have worked 12-hour days for two weeks; one nurse is out sick. The health director asks about mutual aid from neighboring boards of health."}
+          - {time: "Day 21, 9:00 a.m.", text: "School families ask when excluded children can return and when the outbreak will be declared over."}
+        key_issues:
+          - New exposure sites restart the exclusion clock and expand the contact investigation.
+          - Staff fatigue and limited nursing capacity threaten the response; responders' own immunity must be confirmed.
+          - Hospitals and the health department must share contact lists securely.
+          - The response needs a plan to demobilize and to capture lessons learned.
+        questions:
+          - {group: Board of health and public health nursing, text: "How do the new cases change exclusion dates and the contact investigation? What new exposure notifications are needed?", phep: [phep-13, phep-11]}
+          - {group: Board of health and public health nursing, text: "How will you request and use mutual aid or other staff, and how will you confirm every responder has evidence of measles immunity?", phep: [phep-3, phep-14, phep-15]}
+          - {group: Health care partners, text: "How will the hospital and the {{agency}} exchange contact information securely, and who notifies exposed patients?", phep: [phep-6, phep-10]}
+          - {group: Public information and emergency management, text: "How will you keep messages consistent as the outbreak grows, and how will you announce its end?", phep: [phep-4]}
+          - {group: Public information and emergency management, text: "What criteria and documentation (ICS 214 activity logs, cost tracking) will you need to demobilize and write the after-action report?", phep: [phep-3, phep-2]}
+
+  - id: coastal_storm_power_outage
+    title: Coastal storm with flooding and a multi-day power outage
+    hazard: "Natural: coastal storm (nor'easter or tropical storm) with coastal flooding and widespread power outage"
+    mission_areas: [response, recovery]
+    summary: >-
+      A strong coastal storm brings damaging winds and coastal flooding to {{town}}, leaving most
+      of the town without power for several days. The {{agency}} supports sheltering for residents
+      with access and functional needs, reaches people who rely on electricity-dependent medical
+      equipment, responds to carbon monoxide poisonings, and protects food and water safety into
+      recovery.
+    phep: [phep-1, phep-3, phep-4, phep-7, phep-10, phep-14, phep-15, phep-2]
+    functional_groups:
+      - Board of health, public health nursing, and environmental health
+      - Emergency management, fire, and public works
+      - Health care partners and the HMCC
+      - Human services and volunteers
+      - Public information
+    suggested_objectives:
+      - text: "Within 48 hours before expected landfall, discuss how the {{agency}} will identify and contact residents who rely on electricity-dependent medical equipment, using HHS emPOWER data and local registries, in accordance with the town's emergency operations plan."
+        phep: [phep-1, phep-6]
+      - text: "Discuss how health staff will screen and support shelter residents with access and functional needs within the first 12 hours of shelter opening, using the CMIST framework and the regional shelter plan."
+        phep: [phep-7, phep-15]
+      - text: "Within 2 hours of the first reported carbon monoxide poisoning, discuss how generator and heating safety messages will be issued in the town's priority languages through the agency's public information procedures."
+        phep: [phep-4]
+      - text: "Discuss how the {{agency}} will inspect or advise food establishments and private well owners during the first 72 hours after power is restored, in accordance with the agency's environmental health procedures."
+        phep: [phep-11, phep-2]
+      - text: "Discuss how the {{agency}} will keep all of its essential functions running during the outage, including staff safety and alternate work locations, in accordance with the agency's continuity of operations plan."
+        phep: [phep-3, phep-14]
+    facts:
+      - {text: "Never use a generator inside a home or garage, even with doors and windows open; use generators only outside, more than 20 feet from windows, doors, and vents.", source: cdc-co, section: "Prevention"}
+    related_tools: [get_active_hazard_alerts, get_electricity_dependent_population, functional_needs_shelter_intake, hazard_vulnerability_assessment, crisis_risk_communication_builder, continuity_of_operations_planner, generate_ics_forms]
+    modules:
+      - number: 1
+        title: Forecast and preparation
+        timeframe: 72 to 12 hours before impact
+        injects:
+          - {time: "Day -3, 10:00 a.m.", text: "The National Weather Service forecasts a strong coastal storm in 3 days with damaging winds, heavy rain, and moderate to major coastal flooding at two high tides. Utilities warn of outages that could last several days."}
+          - {time: "Day -2, 2:00 p.m.", text: "MEMA announces State Emergency Operations Center activation. Emergency management plans to open a regional shelter at {{town}} High School and asks the {{agency}} for health staff."}
+          - {time: "Day -2, 4:00 p.m.", text: "HHS emPOWER data show about 310 Medicare beneficiaries in {{town}} who rely on electricity-dependent medical equipment, about 40 of them in the flood zone. A dialysis center plans to close the day of the storm."}
+          - {time: "Day -1, 11:00 a.m.", text: "Home oxygen users and families of residents on home ventilators call the town hall asking what to do. A senior housing complex in the flood zone has not decided whether to evacuate."}
+        key_issues:
+          - Residents who rely on powered medical equipment must be reached before the storm.
+          - Shelter health staffing, supplies, and medications must be arranged.
+          - Dialysis and other time-critical care must be rescheduled.
+          - Evacuation decisions for congregate housing need health input.
+        questions:
+          - {group: "Board of health, public health nursing, and environmental health", text: "How will you use emPOWER and local lists to reach at-risk residents before the storm? Who calls, and what will they say?", phep: [phep-1, phep-6]}
+          - {group: "Board of health, public health nursing, and environmental health", text: "What does the {{agency}} activate before the storm, and when? Who represents public health in the town's emergency operations center?", phep: [phep-3]}
+          - {group: "Emergency management, fire, and public works", text: "How will evacuation of the senior housing complex be decided, and how will residents with mobility needs and medical equipment be moved?", phep: [phep-7, phep-1]}
+          - {group: Health care partners and the HMCC, text: "How will dialysis patients be rescheduled, and how will the hospital and the HMCC share bed and generator status?", phep: [phep-10, phep-6]}
+          - {group: Human services and volunteers, text: "Which volunteers and staff will work in the shelter health area, and what supplies (oxygen, refrigeration, charging) are needed?", phep: [phep-7, phep-15]}
+      - number: 2
+        title: Impact and the first 48 hours
+        timeframe: Day 0 to Day 2
+        injects:
+          - {time: "Day 0, 3:00 a.m.", text: "Peak winds and coastal flooding. About 70% of {{town}} is without power; utilities estimate restoration in 3 to 5 days. Several roads to the shelter are flooded."}
+          - {time: "Day 0, 9:00 a.m.", text: "The shelter has 85 residents, including 3 on home oxygen, 2 who use power wheelchairs, 1 who needs refrigerated insulin, and several who speak only Spanish or Portuguese."}
+          - {time: "Day 0, 7:00 p.m.", text: "The hospital reports a family of five treated for carbon monoxide poisoning from a generator running in an attached garage; two other households have similar symptoms."}
+          - {time: "Day 1, 10:00 a.m.", text: "Restaurants and markets are without power; some plan to reopen as soon as power returns. The water department reports a main break and issues a boil water order for one neighborhood."}
+        key_issues:
+          - Shelter residents with access and functional needs require health screening and support.
+          - Carbon monoxide poisoning signals an urgent need for safety messages in several languages.
+          - Food establishments and residents need guidance on food safety after the outage.
+          - A boil water order affects homes, the shelter, and food establishments.
+        questions:
+          - {group: "Board of health, public health nursing, and environmental health", text: "How will health staff screen and support shelter residents (CMIST), and what is the plan for oxygen, power, and medication needs?", phep: [phep-7]}
+          - {group: "Board of health, public health nursing, and environmental health", text: "What guidance will you give food establishments before they reopen, and how will you follow up?", phep: [phep-11, phep-2]}
+          - {group: "Emergency management, fire, and public works", text: "How will the boil water order be communicated to the affected neighborhood, the shelter, and businesses, and who decides when it ends?", phep: [phep-4, phep-6]}
+          - {group: Health care partners and the HMCC, text: "How will the hospital report carbon monoxide cases to the {{agency}}, and is the hospital at risk of surge?", phep: [phep-10, phep-13]}
+          - {group: Human services and volunteers, text: "How will you check on older adults who stayed home without power, and how will you protect staff working in flooded areas?", phep: [phep-1, phep-14]}
+          - {group: Public information, text: "What carbon monoxide and generator safety message goes out now, in which languages, and through which channels when many residents have no power or internet?", phep: [phep-4]}
+      - number: 3
+        title: Restoration and recovery
+        timeframe: Days 4-10
+        injects:
+          - {time: "Day 4, 9:00 a.m.", text: "Power is restored to most of {{town}}, but 600 homes near the coast remain without power. Residents are reporting mold in flooded basements and asking whether their private wells are safe."}
+          - {time: "Day 5, 2:00 p.m.", text: "Pharmacies report residents running out of medications; the shelter census is down to 20, most with nowhere safe to return."}
+          - {time: "Day 6, 10:00 a.m.", text: "The town learns it may qualify for a federal disaster declaration and needs damage and cost documentation, including staff hours and supplies used."}
+          - {time: "Day 8, 4:00 p.m.", text: "Behavioral health providers report increased calls from residents whose homes were damaged."}
+        key_issues:
+          - Health hazards after flooding (mold, well water, damaged septic systems) need inspection and guidance.
+          - Residents who cannot go home need a plan beyond the shelter.
+          - Cost documentation is needed for reimbursement.
+          - Recovery includes behavioral health and the return of normal health department services.
+        questions:
+          - {group: "Board of health, public health nursing, and environmental health", text: "How will you prioritize inspections and guidance for mold, wells, and septic systems after flooding?", phep: [phep-2, phep-11]}
+          - {group: "Board of health, public health nursing, and environmental health", text: "How will the {{agency}} return to normal operations, and which services were paused?", phep: [phep-2, phep-3]}
+          - {group: "Emergency management, fire, and public works", text: "What documentation (ICS 214 activity logs, timesheets, receipts) is needed for reimbursement, and who collects it?", phep: [phep-3]}
+          - {group: Human services and volunteers, text: "How will remaining shelter residents be transitioned, and how will behavioral health support be offered?", phep: [phep-7, phep-2]}
+          - {group: Public information, text: "What recovery messages (well testing, mold cleanup, food safety, medication refills, behavioral health) are needed, and how will you reach residents still without power?", phep: [phep-4]}
+
+  - id: extreme_heat
+    title: Multi-day extreme heat event
+    hazard: "Natural: extreme heat with high overnight temperatures and strain on the power grid"
+    mission_areas: [response, mitigation]
+    summary: >-
+      A four-day heat wave with high overnight temperatures reaches the highest NWS HeatRisk
+      levels in {{town}} while schools are in session. Cooling centers fill, a senior housing
+      building loses air conditioning, emergency calls for heat illness rise, and the {{agency}}
+      must reach people most at risk and track heat-related illness.
+    phep: [phep-1, phep-3, phep-4, phep-6, phep-7, phep-10, phep-13, phep-14, phep-15]
+    functional_groups:
+      - Board of health and public health nursing
+      - Emergency management, fire, and EMS
+      - Schools, recreation, and Council on Aging
+      - Housing, human services, and community partners
+      - Public information
+    suggested_objectives:
+      - text: "Within 24 hours of a forecast of HeatRisk level 3 or 4, discuss how the {{agency}} will activate its heat response and notify partners (schools, Council on Aging, housing authority, outdoor employers), in accordance with the town's heat plan."
+        phep: [phep-3, phep-6]
+      - text: "Discuss how the {{agency}} and partners will check on older adults who live alone and other heat-vulnerable residents within the first 48 hours of the heat event, using the agency's outreach scripts and local registries, in accordance with the town's heat plan."
+        phep: [phep-1, phep-15]
+      - text: "Discuss how cooling centers will be opened, staffed, and expanded within 12 hours when existing sites reach capacity, in accordance with the town's emergency operations plan."
+        phep: [phep-7]
+      - text: "Within 4 hours of activation, discuss how heat safety messages will be issued in the town's priority languages to residents, schools, and outdoor workers through the agency's public information procedures."
+        phep: [phep-4]
+      - text: "Discuss how the {{agency}} will monitor heat-related emergency visits and deaths each day of the event using DPH surveillance data and local EMS reports, in accordance with the town's heat plan."
+        phep: [phep-13]
+    facts:
+      - {text: "NWS HeatRisk rates heat-related health risk from 0 (little or no risk) to 4 (extreme) for each day of the forecast.", source: nws-heatrisk, section: "HeatRisk overview"}
+    related_tools: [heat_health_action_planner, get_active_hazard_alerts, air_quality_protective_guidance, get_electricity_dependent_population, crisis_risk_communication_builder, generate_ics_forms]
+    modules:
+      - number: 1
+        title: Forecast and activation
+        timeframe: 72 hours before to the first day of the heat
+        injects:
+          - {time: "Day -3, 3:00 p.m.", text: "The National Weather Service forecasts four days of heat starting Friday, with HeatRisk level 3 (major) rising to level 4 (extreme) and overnight lows staying in the upper 70s. A heat advisory is expected, possibly upgraded to a warning."}
+          - {time: "Day -2, 9:00 a.m.", text: "The school district asks whether to dismiss early; three school buildings have no air conditioning. A town festival with outdoor events is planned for Saturday."}
+          - {time: "Day -2, 1:00 p.m.", text: "The Council on Aging reports about 900 residents age 75 and older who live alone; its staff can make about 150 calls a day."}
+          - {time: "Day -1, 10:00 a.m.", text: "Landscaping and construction employers ask the {{agency}} for guidance for outdoor workers. The homeless outreach team asks where people can go overnight."}
+        key_issues:
+          - Activation triggers and roles in the heat plan must be clear.
+          - Outreach to heat-vulnerable residents is limited by staff capacity.
+          - Schools, events, and employers need consistent guidance.
+          - People experiencing homelessness need cooling options day and night.
+        questions:
+          - {group: Board of health and public health nursing, text: "What triggers activation of your heat plan, who decides, and who is notified?", phep: [phep-3, phep-6]}
+          - {group: Board of health and public health nursing, text: "How will you prioritize and expand calls and visits to heat-vulnerable residents? Can MRC volunteers help?", phep: [phep-1, phep-15]}
+          - {group: "Schools, recreation, and Council on Aging", text: "What guidance will schools and the festival organizers follow for outdoor activity, hydration, and early dismissal?", phep: [phep-4, phep-1]}
+          - {group: "Housing, human services, and community partners", text: "Where can people experiencing homelessness cool off during the day and overnight?", phep: [phep-7, phep-1]}
+          - {group: Public information, text: "What heat safety messages go out first, to whom, and in which languages?", phep: [phep-4]}
+      - number: 2
+        title: Peak heat
+        timeframe: Days 1-2
+        injects:
+          - {time: "Day 1, 2:00 p.m.", text: "The library cooling center reaches its capacity of 60 people by early afternoon; people are being turned away."}
+          - {time: "Day 1, 6:00 p.m.", text: "A 120-unit senior housing building loses air conditioning and one elevator. Building management says repairs will take two days."}
+          - {time: "Day 2, 11:00 a.m.", text: "EMS heat-related calls have tripled. The hospital emergency department is crowded, and a regional power outage affects 2,000 customers in one neighborhood."}
+          - {time: "Day 2, 4:00 p.m.", text: "A landscaping worker collapses on the job and is pronounced dead at the hospital; heat stroke is suspected. Reporters ask the town what it is doing."}
+        key_issues:
+          - Cooling capacity is not enough; additional sites, staff, and transportation are needed.
+          - A senior housing building without cooling puts many residents at high risk.
+          - Health care demand and the power outage compound each other.
+          - A heat death raises worker safety and communication issues.
+        questions:
+          - {group: "Emergency management, fire, and EMS", text: "How will you add cooling capacity quickly, and how will people get there?", phep: [phep-7, phep-3]}
+          - {group: Board of health and public health nursing, text: "What is the plan for the senior housing building: wellness checks, relocation, or cooling on site? Who does what?", phep: [phep-1, phep-7]}
+          - {group: "Emergency management, fire, and EMS", text: "How will EMS, the hospital, and the {{agency}} share information about heat illness and the power outage?", phep: [phep-10, phep-6]}
+          - {group: Board of health and public health nursing, text: "How will you protect responders, volunteers, and cooling center staff from heat illness?", phep: [phep-14, phep-15]}
+          - {group: Public information, text: "How will you respond to media questions after the worker's death, and what message will outdoor workers and employers receive?", phep: [phep-4]}
+      - number: 3
+        title: Prolonged heat and after the event
+        timeframe: Days 3-5 and the following weeks
+        injects:
+          - {time: "Day 3, 8:00 a.m.", text: "Heat continues with HeatRisk level 4, and an ozone air quality alert is issued for the region."}
+          - {time: "Day 3, 2:00 p.m.", text: "DPH shares syndromic surveillance data showing heat-related emergency visits in the region at more than double the usual level; the medical examiner is reviewing two deaths of older adults found at home."}
+          - {time: "Day 5, 10:00 a.m.", text: "Temperatures fall. The health director asks for a summary of what worked and what did not, and the select board asks what the town should change before next summer."}
+        key_issues:
+          - Overlapping heat and air quality alerts require combined guidance.
+          - Surveillance data and deaths inform response and recovery.
+          - Long-term risk reduction (cooling access, tree canopy, building standards) needs planning.
+        questions:
+          - {group: Board of health and public health nursing, text: "How will you use DPH and local data to track heat illness each day, and how will you report it to leadership?", phep: [phep-13, phep-6]}
+          - {group: Board of health and public health nursing, text: "How will deaths possibly related to heat be followed up and communicated, and what support will families receive?", phep: [phep-5, phep-4]}
+          - {group: Public information, text: "How will messages change for the combined heat and ozone alert, especially for people with asthma or heart disease?", phep: [phep-4]}
+          - {group: "Housing, human services, and community partners", text: "What should change in the heat plan and cooling center network before next summer?", phep: [phep-2, phep-1]}
+
+seeds:
+  - id: mass_dispensing_anthrax
+    title: Mass dispensing after an anthrax release
+    hazard: "Biological: aerosolized anthrax release requiring antibiotic prophylaxis for the population"
+    summary: "Environmental sampling confirms an aerosolized anthrax release affecting the region. The {{agency}} must open points of dispensing (PODs) to give antibiotics to the whole population within a short window, staffed largely by volunteers."
+    phep: [phep-8, phep-9, phep-15, phep-4, phep-3]
+    related_tools: [model_dispensing_site_throughput, generate_ics_forms, crisis_risk_communication_builder]
+  - id: pandemic_influenza
+    title: Novel influenza pandemic
+    hazard: "Biological: novel influenza virus with sustained community transmission"
+    summary: "A novel influenza virus spreads in Massachusetts with high absenteeism in schools and workplaces, strained hospitals, limited early vaccine supply, and the need for community mitigation measures."
+    phep: [phep-13, phep-11, phep-8, phep-10, phep-3, phep-4]
+    related_tools: [continuity_of_operations_planner, plan_vaccination_clinic, get_respiratory_and_wastewater_surveillance, crisis_risk_communication_builder]
+  - id: cyberattack
+    title: Ransomware attack on town systems
+    hazard: "Technological: ransomware attack on municipal networks"
+    summary: "Ransomware disables town email, phones, and file servers, including the {{agency}}'s records and electronic disease reporting access, during an active outbreak investigation."
+    phep: [phep-3, phep-6, phep-13]
+    fema: [cybersecurity, operational_coordination]
+    related_tools: [continuity_of_operations_planner, generate_ics_forms]
+  - id: water_contamination
+    title: Drinking water contamination
+    hazard: "Technological or natural: contamination of a public water supply"
+    summary: "Testing finds a contaminant in the public water supply; a do-not-drink order affects homes, schools, child care centers, and food establishments while the source is investigated."
+    phep: [phep-4, phep-11, phep-13, phep-12, phep-1]
+    fema: [environmental_response_health_and_safety, infrastructure_systems]
+    related_tools: [crisis_risk_communication_builder, generate_ics_forms]
+  - id: mass_casualty
+    title: Mass casualty incident at a public event
+    hazard: "Human-caused or accidental: mass casualty incident at a crowded public event"
+    summary: "A structural collapse or vehicle attack at a crowded event causes many injuries and deaths, overwhelming nearby hospitals and requiring family assistance and behavioral health support."
+    phep: [phep-10, phep-5, phep-3, phep-6, phep-4]
+    related_tools: [generate_ics_forms, crisis_risk_communication_builder]
+  - id: hazmat_release
+    title: Hazardous materials release
+    hazard: "Technological: chlorine or other chemical release from a rail car or facility"
+    summary: "A chemical release from a rail car leads to shelter-in-place orders, evacuation of a neighborhood, decontamination, and questions about long-term health effects."
+    phep: [phep-14, phep-11, phep-4, phep-7, phep-13]
+    fema: [environmental_response_health_and_safety]
+    related_tools: [get_active_hazard_alerts, functional_needs_shelter_intake, crisis_risk_communication_builder]

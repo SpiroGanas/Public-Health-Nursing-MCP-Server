@@ -2221,6 +2221,63 @@ privacy block with a request to use the roster instead. Decision support only.
 <!-- End of Phase 13 EPR-07 sections. -->
 
 <!-- Phase 13 EPR-08/EPR-09 (HSEEP) sections go below this line. -->
+
+### `design_hseep_exercise` (EPR-08, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `exercise_type` | `tabletop` | `seminar`, `workshop`, `tabletop`, `game`, `drill`, `functional`, or `full_scale` (HSEEP 2020, Tables 2.3-2.9). |
+| `scenario` | | Developed: `measles_outbreak`, `coastal_storm_power_outage`, `extreme_heat`. Seeds: `mass_dispensing_anthrax`, `pandemic_influenza`, `cyberattack`, `water_contamination`, `mass_casualty`, `hazmat_release`. Words such as "measles" or "hurricane" also work. Required except for seminars and workshops. |
+| `custom_scenario` | | Your own scenario (fictional); modules get placeholders for injects. |
+| `objectives` | the scenario's suggested objectives | Each `{text, capabilities}`; capabilities are PHEP numbers or names and/or FEMA core capabilities. |
+| `area`, `agency`, `sponsor`, `exercise_name` | saved town; letterhead agency or "<town> Board of Health" | Fill `{{town}}` and `{{agency}}` in the scenario. |
+| `date`, `start_time`, `duration_hours`, `location`, `scope` | 09:00; by type (tabletop 3.5 h) | Schedule and planning timeline. |
+| `participants`, `organizations`, `point_of_contact` | | Positions, optional names, exercise roles (player, facilitator, evaluator, controller, observer). |
+| `roster_path`, `roster_sheet` | | Staff roster (name, position, phone, email); contacts go only into the files. |
+| `documents` | `docx` | `pdf`, `both`, or `none`. |
+
+Objectives get a SMART check (word patterns for specific, measurable, relevant, and time-bound;
+achievable is left to the planning team) and are mapped to the 15 CDC PHEP capabilities (2018
+standards) and FEMA's 32 core capabilities; FEMA capabilities are added from this project's
+PHEP mapping (not an official crosswalk), and PHEP capabilities are suggested from the wording
+when none are given. Developed scenarios have three modules with injects, key issues, and
+discussion questions by functional group, keyed to PHEP capabilities; seed and custom scenarios
+get module questions built from the capabilities' functions. The schedule splits the time across
+modules with breaks, a hotwash, and closing; the planning timeline dates the C&O, Initial,
+Midterm, MSEL (operations only), and Final Planning Meetings (weeks are tool defaults) and the
+after-action steps. Files in `/data/output/exercise_<name>/`: Situation Manual and Facilitator
+Guide (discussion-based) or Exercise Plan (operations-based) plus an MSEL workbook (functional
+and full-scale), Exercise Evaluation Guides (one per objective and PHEP capability, with the
+capability's functions as critical tasks and the P/S/M/U ratings key), a Participant Feedback
+Form, and a sign-in sheet. Nothing read from the roster is returned; the result counts matches.
+
+### `build_after_action_report` (EPR-09, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `name`, `kind` | `exercise` | `incident` for a real response. |
+| `exercise_type`, `start_date`, `end_date`, `area`, `agency`, `location`, `scope`, `hazard`, `scenario_summary`, `sponsor` | | Overview fields (no client details). |
+| `objectives` | | Each `{text, capabilities, ratings: [{capability, rating: P/S/M/U}]}`. |
+| `observations` | | Each `{kind: strength or area_for_improvement, objective, capability, statement, reference, analysis, root_cause, recommendation}`. |
+| `corrective_actions` | | Each `{area_for_improvement, action, element (planning, organization, equipment, training, exercise), organization, poc_name, poc_position, start_date, completion_date}`. |
+| `participants`, `organizations`, `point_of_contact` | | Counts by level or organization; the POC's phone and email come from the roster. |
+| `feedback_path`, `feedback_sheet` | | Participant Feedback Forms (one row per form; rating columns named like the form's statements or `q1`-`q8`, values 1-5 or the scale labels). |
+| `roster_path`, `roster_sheet` | | Contacts for the POC and corrective-action owners (files only). |
+| `documents` | `docx` | `pdf`, `both`, or `none`; the XLSX improvement plan tracker is always written unless `none`. |
+
+Follows the HSEEP 2020 AAR/IP template: overview, Table 1 (capability ratings), strengths and
+areas for improvement (with reference and analysis) by objective and capability, the
+Improvement Plan (numbered by capability), participants, and a feedback summary. Checks: every
+area for improvement has a corrective action; each action has an element, organization, point
+of contact, and start and completion dates in order (after the exercise); capabilities resolve;
+each objective's PHEP capabilities are rated; areas for improvement state the gap rather than a
+recommendation; no person names (non-attribution) or client identifiers or contact details in
+the text. An area for improvement with a recommendation but no action gets a drafted action
+marked for the After-Action Meeting. Feedback forms are totaled locally: identifier columns
+(names, emails) are skipped, comments are counted but never read back, and each statement's
+counts are suppressed (with a complement) below the threshold; means and percent agreeing are
+hidden when fewer forms than the threshold answered. After-action dates (30, 45, 60 days) are
+tool defaults.
 <!-- End of Phase 13 EPR-08/EPR-09 sections. -->
 
 <!-- Phase 13 EPR-10 (CERC) sections go below this line. -->

@@ -11,7 +11,7 @@
 
 const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 100;
+const TOOL_COUNT = 102;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3135,6 +3135,64 @@ const toolChapters = [
       // End of Phase 13 EPR-07 entries.
 
       // Phase 13 EPR-08/EPR-09 (HSEEP) entries go below this line.
+      {
+        id: 'design_hseep_exercise',
+        title: 'Design a tabletop or other preparedness exercise (HSEEP)',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Designs an exercise that follows FEMA’s Homeland Security Exercise and Evaluation Program (HSEEP): checks that your objectives are SMART, links each one to the CDC public health preparedness (PHEP) capabilities and FEMA core capabilities, and builds the scenario, modules, discussion questions, schedule, and planning timeline. It writes the Situation Manual and Facilitator Guide (or the Exercise Plan and Master Scenario Events List for drills and functional exercises), Exercise Evaluation Guides, a participant feedback form, and a sign-in sheet. Three tabletop scenarios are ready to use: a measles outbreak, a coastal storm with a power outage, and extreme heat.',
+        when: [
+          'Planning a tabletop, drill, or functional exercise for your health department, school partners, or HMCC.',
+          'Turning an idea for an exercise into HSEEP documents with objectives that will hold up in the after-action report.',
+        ],
+        provide: [
+          'The scenario (measles, coastal storm, extreme heat, or another hazard) or your own scenario in a few sentences; your town; the date, place, and length.',
+          'Optionally: your own objectives, the people and organizations taking part (positions are enough), and a staff roster file in your data folder for contact details.',
+        ],
+        examples: [
+          'Design a measles tabletop exercise for Amherst on March 17, 2027, at Town Hall, for 3.5 hours.',
+          'Plan a functional exercise on extreme heat for Lowell, with an MSEL.',
+          'Check whether these exercise objectives are SMART and which capabilities they test.',
+        ],
+        returns: [
+          'The objectives with their capabilities and a SMART check, the scenario modules with injects and questions, the day’s schedule, planning meeting dates, and the list of documents written.',
+        ],
+        notes: [
+          'Scenario events are fictional and written by this project; have your planning team and DPH regional staff review them before use.',
+          'Links between PHEP and FEMA capabilities are this project’s mapping, not an official crosswalk. Planning meeting weeks are suggestions.',
+          'Staff phone numbers and emails from your roster appear only in the documents, never in the chat.',
+        ],
+      },
+      {
+        id: 'build_after_action_report',
+        title: 'Write the after-action report and improvement plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Turns the strengths and areas for improvement from your hotwash and evaluators into an HSEEP after-action report and improvement plan for an exercise or a real incident. It checks that every area for improvement has a corrective action with an owner and dates, that findings describe the problem rather than the fix, and that no names or client details slipped in. It totals participant feedback forms from your file and writes the report (Word or PDF) and an improvement plan tracker (Excel).',
+        when: [
+          'After an exercise hotwash, to draft the AAR/IP for the after-action meeting.',
+          'After a real response, such as an outbreak or a storm, to capture lessons learned.',
+        ],
+        provide: [
+          'The objectives with their capabilities and ratings (P, S, M, or U), the observations, and the corrective actions with the responsible organization, point of contact, and dates. Share notes without client names or details.',
+          'Optionally, a file of participant feedback forms and a staff roster in your data folder.',
+        ],
+        examples: [
+          'Write the after-action report for our measles tabletop from these hotwash notes.',
+          'Add the feedback forms in exercise_feedback.csv to the after-action report.',
+          'Check whether our improvement plan has an owner and a due date for every area for improvement.',
+        ],
+        returns: [
+          'The capability ratings, the numbered improvement plan with what is missing for each action, the HSEEP checks, feedback form averages (small numbers hidden), and next steps with suggested dates.',
+        ],
+        notes: [
+          'The report is a draft for the after-action meeting; leaders confirm findings, owners, and dates.',
+          'Written comments on feedback forms are counted but not shown in the chat; read them in your file.',
+          'The 30-, 45-, and 60-day after-action dates are suggestions; follow your grant or program deadlines.',
+        ],
+      },
       // End of Phase 13 EPR-08/EPR-09 entries.
 
       // Phase 13 EPR-10 (CERC) entries go below this line.

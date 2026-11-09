@@ -40,6 +40,11 @@ pub use coop::{
 // End of Phase 13 EPR-07 modules.
 
 // Phase 13 EPR-08/EPR-09 (HSEEP) modules go below this line.
+pub mod aar;
+pub mod exercise;
+pub mod hseep_content;
+pub use aar::{AarArgs, AarResult, build_after_action_report};
+pub use exercise::{ExerciseArgs, ExerciseResult, design_hseep_exercise};
 // End of Phase 13 EPR-08/EPR-09 modules.
 
 // Phase 13 EPR-10 (CERC) modules go below this line.
