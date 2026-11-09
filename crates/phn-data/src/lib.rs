@@ -38,6 +38,9 @@ pub mod vaccine_codes;
 
 // Phase 6 adapters (CDSi supporting data, NNDSS, respiratory, wastewater) go below this line.
 
+// Phase 9 adapters (HRSA health centers) go below this line.
+pub mod hrsa;
+
 pub use cache::Cache;
 pub use http::HttpClient;
 pub use snapshots::SnapshotStore;

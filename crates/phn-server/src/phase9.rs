@@ -5,13 +5,13 @@ use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan
 use phn_tools::core::{
     DocTemplateArgs, DocTemplateResult, OmahaArgs, OmahaResult, WheelArgs, WheelResult,
 };
-use phn_tools::equity::{HrsnArgs, HrsnResult};
+use phn_tools::equity::{HrsnArgs, HrsnResult, ResourceSearchArgs, ResourceSearchResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
 use rmcp::{tool, tool_router};
 
-use crate::server::{PhnServer, blocking};
+use crate::server::{PhnServer, blocking, respond};
 
 #[tool_router(router = phase9_router, vis = "pub(crate)")]
 impl PhnServer {
@@ -148,5 +148,24 @@ impl PhnServer {
             phn_tools::core::nursing_documentation_template(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "find_community_resources",
+        description = "Find community resources near a Massachusetts town: searches the nurse's own \
+            resource directory (CSV/XLSX in /data, default resources/community_resources.csv) by \
+            service (food, housing, utilities, transportation, primary care, dental, behavioral \
+            health, legal/immigration, ...), language, and opening day and time, plus HRSA-funded \
+            health center sites from data.hrsa.gov (live, cached, or bundled snapshot). Results \
+            are ranked same town first, then same county, with stale directory entries flagged. \
+            Files that look like client lists are refused.",
+        annotations(title = "Find community resources", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<ResourceSearchResult>>()
+    )]
+    async fn find_community_resources(
+        &self,
+        Parameters(args): Parameters<ResourceSearchArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::equity::find_community_resources(&self.ctx, args).await)
     }
 }

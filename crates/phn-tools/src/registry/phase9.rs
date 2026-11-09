@@ -41,4 +41,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Core,
         phase: 9,
     },
+    ToolMeta {
+        name: "find_community_resources",
+        plan_id: "EQ-07",
+        toolset: Toolset::Equity,
+        phase: 9,
+    },
 ];

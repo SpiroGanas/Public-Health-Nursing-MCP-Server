@@ -758,6 +758,33 @@
           "rows": 1173
         }
       ]
+    },
+    {
+      "id": "hrsa-health-centers-ma",
+      "title": "HRSA-funded health center service delivery sites in Massachusetts",
+      "publisher": "Health Resources and Services Administration (HRSA Data Warehouse)",
+      "source_urls": [
+        "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv"
+      ],
+      "source_sha256": {
+        "Health_Center_Service_Delivery_and_LookAlike_Sites.csv": "55156f392f5cf1b4182bd001aa4abd9b801c43c1f6929e2ac2f1f000e120494f"
+      },
+      "source_vintage": "2026-11-08 (HRSA data warehouse record date; file last modified 2026-11-08)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Active Massachusetts sites from HRSA's Health Center Service Delivery and Look-Alike Sites download, excluding administrative-only sites; columns kept: site name, health center (grantee) name, type, address, city, ZIP, phone, website, operating hours per week, location setting, location type, site type, operating schedule and calendar, county, and geocoded coordinates. Builder: xtask/scripts/build_hrsa_health_centers.py (Python 3 standard library).",
+      "caveats": [
+        "HRSA lists sites, not the services, languages, or hours of each site; call the site or use HRSA's Find a Health Center to confirm services and hours. Operating schedule and calendar are 'Unknown' for about half of Massachusetts sites.",
+        "Massachusetts had no FQHC look-alike sites in this download; only HRSA-funded FQHC sites are listed."
+      ],
+      "files": [
+        {
+          "path": "hrsa_health_centers_ma.csv",
+          "sha256": "3c050091ca263c9ba36f36cdecf7b7972fbf4e90778c90cd47a76052d493ed1b",
+          "bytes": 72117,
+          "rows": 255
+        }
+      ]
     }
   ]
 }
