@@ -196,6 +196,28 @@ mod tests {
         );
     }
 
+    /// Every user-guide entry uses an `internet` value the guide builder knows
+    /// (an unknown value makes `build-user-guide.js` fail).
+    #[test]
+    fn user_guide_internet_values_are_known() {
+        let guide = include_str!("../../../../docs/user-guide/guide-content.js");
+        let mut seen = 0;
+        for (pos, _) in guide.match_indices("\n        internet: '") {
+            let rest = &guide[pos + "\n        internet: '".len()..];
+            let value = &rest[..rest.find('\'').expect("closing quote after internet")];
+            assert!(
+                ["no", "optional", "yes"].contains(&value),
+                "unknown internet value '{value}' in the user guide (use no, optional, or yes)"
+            );
+            seen += 1;
+        }
+        assert_eq!(
+            seen,
+            tools().count(),
+            "every guide entry needs an internet value"
+        );
+    }
+
     #[test]
     fn names_and_plan_ids_are_unique() {
         let mut names = BTreeSet::new();
