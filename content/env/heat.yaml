@@ -1,0 +1,349 @@
+# Heat response planning: NWS HeatRisk levels, activation steps, outreach scripts, school and
+# outdoor worker guidance, and heat illness teaching, for heat_health_action_planner (ENV-01).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/env_heat.schema.json
+meta:
+  id: env-heat-health
+  title: Heat response planning (HeatRisk levels, activation, outreach, schools, workers, heat illness)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: NWS HeatRisk (experimental), Understanding HeatRisk
+    publisher: National Weather Service, Weather Prediction Center
+    url: https://www.wpc.ncep.noaa.gov/heatrisk/
+  related_sources:
+    - title: About Heat and Your Health; Clinical Overview of Heat; heat and older adults, children, athletes, outdoor workers; Heat and Medications
+      publisher: CDC National Center for Environmental Health
+      url: https://www.cdc.gov/heat-health/about/index.html
+    - title: "Heat Stress: Workplace Recommendations"
+      publisher: CDC National Institute for Occupational Safety and Health
+      url: https://www.cdc.gov/niosh/heat-stress/recommendations/index.html
+    - title: Extreme Heat Safety Tips
+      publisher: Massachusetts Emergency Management Agency
+      url: https://www.mass.gov/info-details/extreme-heat-safety-tips
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    HeatRisk levels, who is at risk, and actions are transcribed from the WPC HeatRisk pages
+    (high confidence). Heat illness signs and first aid are transcribed from MEMA; protective
+    steps for older adults, children, athletes, outdoor workers, and medications are summaries
+    of the CDC and NIOSH pages (high). The activation steps by HeatRisk level and the outreach
+    scripts are THIS PROJECT'S DRAFTS built from those sources (medium confidence); adapt them to
+    your agency's heat plan and DPH guidance. CDC's HeatRisk dashboard (ephtracking.cdc.gov)
+    could not be reached.
+
+sources:
+  wpc-heatrisk:
+    title: NWS HeatRisk (experimental)
+    publisher: National Weather Service, Weather Prediction Center
+    url: https://www.wpc.ncep.noaa.gov/heatrisk/
+    effective_date: null
+    retrieved: 2026-11-08
+  wpc-understanding:
+    title: Understanding HeatRisk
+    publisher: National Weather Service, Weather Prediction Center
+    url: https://www.wpc.ncep.noaa.gov/heatrisk/understanding.html
+    effective_date: null
+    retrieved: 2026-11-08
+  wpc-overview:
+    title: HeatRisk Overview (who is most susceptible to heat)
+    publisher: National Weather Service, Weather Prediction Center
+    url: https://www.wpc.ncep.noaa.gov/heatrisk/overview.html
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-heat:
+    title: About Heat and Your Health
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/about/index.html
+    effective_date: 2026-07-20
+    retrieved: 2026-11-08
+  cdc-heat-clinical:
+    title: Clinical Overview of Heat
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/hcp/clinical-overview/index.html
+    effective_date: 2025-09-18
+    retrieved: 2026-11-08
+  cdc-heat-meds:
+    title: Heat and Medications – Guidance for Clinicians
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/hcp/clinical-guidance/heat-and-medications-guidance-for-clinicians.html
+    effective_date: 2025-09-18
+    retrieved: 2026-11-08
+  cdc-older-adults:
+    title: Heat and Older Adults (Aged 65+)
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/risk-factors/heat-and-older-adults-aged-65.html
+    effective_date: 2024-06-25
+    retrieved: 2026-11-08
+  cdc-children:
+    title: Infants and Children and Heat
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/risk-factors/infants-and-children.html
+    effective_date: 2024-06-25
+    retrieved: 2026-11-08
+  cdc-athletes:
+    title: Heat and Athletes
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/risk-factors/heat-and-athletes.html
+    effective_date: 2024-06-25
+    retrieved: 2026-11-08
+  cdc-outdoor-workers:
+    title: Heat and Outdoor Workers
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/risk-factors/heat-and-outdoor-workers.html
+    effective_date: 2024-06-25
+    retrieved: 2026-11-08
+  niosh-heat:
+    title: "Heat Stress: Workplace Recommendations"
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/heat-stress/recommendations/index.html
+    effective_date: 2026-07-16
+    retrieved: 2026-11-08
+  mema-heat:
+    title: Extreme Heat Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/extreme-heat-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+
+heatrisk_levels:
+  - level: 0
+    name: Little to None
+    color: Green
+    meaning: [This level of heat poses little to no risk from expected heat.]
+    who_at_risk: [No elevated risk.]
+    actions: [No preventative actions necessary.]
+  - level: 1
+    name: Minor
+    color: Yellow
+    meaning: [Heat of this type is tolerated by most; however there is a minor risk for extremely heat-sensitive groups to experience negative heat-related health effects.]
+    who_at_risk: [Primarily those who are extremely sensitive to heat, especially when outdoors without effective cooling and/or adequate hydration.]
+    actions:
+      - Increase hydration.
+      - Reduce time spent outdoors or stay in the shade when the sun is strongest.
+      - Open windows at night and use fans to bring cooler air inside buildings.
+  - level: 2
+    name: Moderate
+    color: Orange
+    meaning:
+      - Heat of this type is tolerated by many; however there is a moderate risk for members of heat-sensitive groups to experience negative heat-related health effects, including heat illness.
+      - Some risk for the general population who are exposed to the sun for longer periods of time.
+    who_at_risk:
+      - Primarily heat-sensitive groups, especially those without effective cooling or hydration.
+      - Those not acclimated to this level of heat (i.e. visitors).
+      - Otherwise healthy individuals exposed to longer duration heat, without effective cooling or hydration, such as in the sun at an outdoor venue.
+      - Some health systems will see increased demand, with increases in ER visits.
+    actions:
+      - Reduce time in the sun during the warmest part of the day.
+      - Stay hydrated.
+      - Stay in a cool place during the heat of the day.
+      - Move outdoor activities to cooler times of the day.
+      - For those without a/c, use fans to keep air moving and open windows at night.
+  - level: 3
+    name: Major
+    color: Red
+    meaning:
+      - Heat of this type represents a major risk to all individuals who are exposed to the sun and active or are in a heat-sensitive group.
+      - Dangerous to anyone without proper hydration or adequate cooling; for those without air conditioning, living spaces can become deadly during the afternoon and evening.
+      - Poor air quality is possible; power interruptions may occur as electrical demands increase.
+    who_at_risk:
+      - Much of the population, especially anyone without effective cooling or hydration.
+      - Those exposed to the heat/sun at outdoor venues.
+      - Health systems likely to see increased demand with significant increases in ER visits.
+    actions:
+      - Consider canceling outdoor activities during the heat of the day, otherwise move activities to the coolest parts of the day.
+      - Stay hydrated.
+      - Stay in a cool place especially during the heat of the day and evening.
+      - If you have access to air conditioning, use it, or find a location that does. Even a few hours in a cool location can lower risk. Fans may not be adequate.
+  - level: 4
+    name: Extreme
+    color: Magenta
+    meaning:
+      - This is a rare level of heat leading to an extreme risk for the entire population; a multi-day excessive heat event.
+      - Poor air quality is likely; power outages are increasingly likely as electrical demands may reach critical levels.
+    who_at_risk:
+      - Entire population exposed to the heat is at risk; for people without effective cooling, especially heat-sensitive groups, this level of heat can be deadly.
+      - Health systems highly likely to see increased demand with significant increases in ER visits.
+    actions:
+      - Strongly consider canceling outdoor activities.
+      - Stay hydrated.
+      - Stay in a cool place, including overnight.
+      - If you have access to air conditioning, use it, or find a location that does. Fans will not be adequate.
+      - Check on your neighbors.
+heatrisk_source: wpc-understanding
+heatrisk_section: HeatRisk levels table (Meaning; Who/What is at Risk?; For those at risk, what actions can be taken?)
+
+heat_sensitive_groups:
+  - text: The elderly and the very young; people experiencing homelessness; people on certain medications or with pre-existing conditions; outdoor workers (especially new, temporary, or returning workers) and workers in non-cooled indoor spaces; people exercising outdoors; people without reliable cooling or hydration; people not acclimated; people sensitive to poor air quality; and people living in low-income communities.
+    source: wpc-overview
+    section: Who is most susceptible to heat?
+    confidence: high
+  - text: Infants and children, pregnant women, adults over 65, people with disabilities, mental health conditions, chronic health conditions, or substance use disorders, people who lack housing or cooling, and people who are socially isolated.
+    source: cdc-heat-clinical
+    section: Background
+    confidence: high
+
+# Public health activation steps by HeatRisk level (this project's drafts; adapt to your heat plan).
+activation:
+  - level: 1
+    actions:
+      - text: Watch the 7-day HeatRisk and NWS forecast daily; confirm cooling center sites, hours, and staffing are ready.
+        source: wpc-understanding
+        section: HeatRisk levels table (level 1)
+        confidence: medium
+  - level: 2
+    actions:
+      - text: Send heat messages to heat-sensitive groups and their caregivers (older adults, families with infants, people with chronic illness), and to schools, camps, child care, coaches, and employers of outdoor workers.
+        source: wpc-understanding
+        section: HeatRisk levels table (level 2, who is at risk and actions)
+        confidence: medium
+      - text: Ask clinicians, home care agencies, and councils on aging to review heat-sensitive medications and power outage plans with their patients and clients.
+        source: cdc-heat-meds
+        section: What Clinicians Can Do (plan for HeatRisk orange, red, and magenta days)
+        confidence: medium
+  - level: 3
+    actions:
+      - text: Open cooling centers (and publicize them through 2-1-1, local media, and translated messages); arrange transportation for people who cannot get there.
+        source: mema-heat
+        section: What to do During Extreme Heat
+        confidence: medium
+      - text: Start check-in calls or visits to older adults who live alone, people with medical conditions, and people without air conditioning, using the outreach scripts.
+        source: cdc-older-adults
+        section: Caretaker Checklist
+        confidence: medium
+      - text: Alert hospitals, EMS, and the HMCC to expected increases in emergency visits; prepare for power interruptions (electricity-dependent residents) and poor air quality.
+        source: wpc-understanding
+        section: HeatRisk levels table (level 3, who/what is at risk)
+        confidence: medium
+      - text: Advise schools, camps, and event organizers to move or cancel outdoor activities during the heat of the day.
+        source: wpc-understanding
+        section: HeatRisk levels table (level 3 actions)
+        confidence: high
+  - level: 4
+    actions:
+      - text: Extend cooling center hours, including overnight cooling options, and add door-to-door checks for people at highest risk; check on neighbors.
+        source: wpc-understanding
+        section: "HeatRisk levels table (level 4 actions: stay in a cool place including overnight; check on your neighbors)"
+        confidence: medium
+      - text: Strongly consider canceling outdoor public events; coordinate with emergency management on power outage and shelter plans.
+        source: wpc-understanding
+        section: HeatRisk levels table (level 4)
+        confidence: medium
+
+outreach_scripts:
+  - id: phone_check_in
+    title: Phone check-in (older adults and people at high risk)
+    lines:
+      - "Hello, this is [your name] from the [agency] Health Department. We are calling people in [town] because hot weather is expected [day(s)]. Do you have a minute?"
+      - "Are you able to stay cool at home? Do you have air conditioning that works, or a cool place to go?"
+      - "Are you drinking water through the day? (If your doctor limits fluids or you take water pills, ask your doctor how much to drink in hot weather.)"
+      - "Do you know how to keep cool: cool showers, light clothing, not using the stove or oven, resting in the cooler part of the day?"
+      - "Have you felt dizzy, weak, sick to your stomach, or had a headache or muscle cramps? (If yes, or if confused or very hot: call 9-1-1 / arrange medical care now.)"
+      - "Do any of your medicines need a refrigerator, or do you use medical equipment that needs electricity? Do you have a plan if the power goes out?"
+      - "Cooling centers are open at [locations and hours]; you can also call 2-1-1. Would you like help with a ride?"
+      - "Is there someone who can check on you twice a day while it is hot? May we call you again [day]?"
+    source: cdc-older-adults
+    section: Caretaker Checklist; Stay safe on hot days (drafted script)
+    confidence: medium
+  - id: door_knock
+    title: Door-to-door wellness check
+    lines:
+      - Introduce yourself and show your ID; explain you are checking on neighbors because of the heat.
+      - Look and ask - is the home very hot? Is the person drinking fluids? Are there signs of heat illness (confusion, very hot or red skin, heavy sweating, fainting, vomiting)?
+      - If there are signs of heat stroke, call 9-1-1 and start cooling the person while you wait.
+      - Leave a flyer with cooling center locations, 2-1-1, and heat illness warning signs in the person's language.
+      - Record the visit on the agency's outreach log (kept by the agency; not in this tool).
+    source: mema-heat
+    section: Types of Heat-related Illnesses; What to do During Extreme Heat (drafted script)
+    confidence: medium
+  - id: text_message
+    title: Text or automated call (short message)
+    lines:
+      - "[Town] Health: Dangerous heat [day(s)]. Stay cool, drink water, check on neighbors. Cooling centers: [locations/hours] or call 2-1-1. Heat stroke is an emergency: call 9-1-1."
+    source: mema-heat
+    section: What to do During Extreme Heat (drafted message)
+    confidence: medium
+
+schools_and_child_care:
+  - text: Never leave infants or children in a parked car, even with windows open; temperatures inside can rise almost 20°F in the first 10 minutes.
+    source: cdc-children
+    section: Never leave kids in a parked car
+    confidence: high
+  - text: Dress children in loose, lightweight, light-colored clothing and make sure they drink plenty of fluids; children with asthma should have a heat action plan with their doctor.
+    source: cdc-children
+    section: Protect kids on hot days
+    confidence: high
+  - text: For athletics, schedule practices earlier or later in the day, pace activity, drink more water than usual, and have teammates monitor each other; anyone who feels faint or weak should stop and get to a cool place.
+    source: cdc-athletes
+    section: Stay safe on hot days
+    confidence: high
+  - text: On HeatRisk red (3) or magenta (4) days, consider canceling or moving outdoor activities during the heat of the day.
+    source: wpc-understanding
+    section: HeatRisk levels table (levels 3 and 4)
+    confidence: high
+
+outdoor_workers:
+  - text: Employers should use engineering controls (air movement, shielding) and work practices - limit time in the heat, add recovery time in a cool area, reduce physical demands, add workers per task, and use a buddy system.
+    source: niosh-heat
+    section: Controls
+    confidence: high
+  - text: Provide cool, potable water near the work area and encourage frequent drinking; use a heat alert program when a heat wave is forecast; and have an acclimatization plan for new and returning workers.
+    source: niosh-heat
+    section: Controls (work practice recommendations)
+    confidence: high
+  - text: Train workers and supervisors before hot work to recognize heat illness, give first aid, and report symptoms immediately.
+    source: niosh-heat
+    section: Training
+    confidence: high
+  - text: Workers - drink water before you are thirsty, schedule tasks earlier or later in the day, wear a brimmed hat and light clothing, take breaks in air conditioning, and STOP and get to a cool place if you feel faint or weak.
+    source: cdc-outdoor-workers
+    section: Stay safe on hot days
+    confidence: high
+
+heat_illness:
+  - name: Heat cramps
+    signs: Muscular pains and spasms that usually occur in the legs or abdomen.
+    response: Rest in a cooler place; give water or fluids with electrolytes.
+  - name: Heat exhaustion
+    signs: Cool, moist, pale or flushed skin, nausea, dizziness, headache, weakness, exhaustion.
+    response: Rest in a cooler place; loosen clothing; apply cool, wet cloths; if conscious, give half a glass of cool water or electrolyte fluid every 15 minutes, sipped slowly; call 9-1-1 if it does not improve.
+  - name: Heat stroke (emergency)
+    signs: Extremely high body temperature, hot red skin (dry or moist), changes in responsiveness or loss of consciousness, rapid weak pulse, rapid shallow breathing, vomiting, confusion, seizures.
+    response: Call 9-1-1 and move the person to a cooler place; cool quickly with a cool bath, cold wet sheets, or ice bags.
+heat_illness_source: mema-heat
+heat_illness_section: Types of Heat-related Illnesses
+
+medications_and_power:
+  - text: Diuretics, anticholinergics, some psychotropic medications, ACE inhibitors and ARBs, beta blockers, and others can reduce thirst, impair sweating or temperature control, or cause dehydration and falls in heat; patients should not stop medicines without a plan with their clinician.
+    source: cdc-heat-meds
+    section: Heat and Medications; What Clinicians Can Do
+    confidence: high
+  - text: Heat can damage medicines and devices - insulin needs refrigeration, inhalers can burst, and epinephrine autoinjectors may malfunction; plan for refrigerated medicines and electric medical devices (nebulizers, ventilators, oxygen concentrators) during power outages.
+    source: cdc-heat-meds
+    section: Heat and Medications; What Clinicians Can Do
+    confidence: high
+  - text: Fans should be used only when indoor temperatures are below 90°F; above that a fan can raise body temperature.
+    source: cdc-heat
+    section: Stay Cool
+    confidence: high
+
+# Columns read from a local cooling-center file (any order; matched by name).
+cooling_center_columns:
+  - {field: name, aliases: [name, site, location, cooling center, facility]}
+  - {field: address, aliases: [address, street, street address]}
+  - {field: town, aliases: [town, city, municipality]}
+  - {field: hours, aliases: [hours, open hours, hours open, schedule]}
+  - {field: phone, aliases: [phone, telephone, public phone]}
+  - {field: accessible, aliases: [accessible, ada, wheelchair accessible, accessibility]}
+  - {field: pets, aliases: [pets, pets allowed, pet friendly]}
+  - {field: notes, aliases: [notes, comments]}
+
+links:
+  - {label: "NWS HeatRisk 7-day forecast", url: "https://www.wpc.ncep.noaa.gov/heatrisk/"}
+  - {label: "CDC Heat and Health", url: "https://www.cdc.gov/heat-health/about/index.html"}
+  - {label: "MEMA Extreme Heat Safety Tips", url: "https://www.mass.gov/info-details/extreme-heat-safety-tips"}
