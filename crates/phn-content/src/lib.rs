@@ -485,6 +485,14 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/continuity.yaml"),
         schema: include_str!("../../../content/schemas/epr_continuity.schema.json"),
     },
+    // Phase 13 EPR-10 (CERC).
+    ContentItem {
+        id: "epr-cerc",
+        path: "content/epr/cerc.yaml",
+        resource_uri: "phn://content/epr-cerc",
+        yaml: include_str!("../../../content/epr/cerc.yaml"),
+        schema: include_str!("../../../content/schemas/epr_cerc.schema.json"),
+    },
     // End of Phase 13 content items.
 ];
 

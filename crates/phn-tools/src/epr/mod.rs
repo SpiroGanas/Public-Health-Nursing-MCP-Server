@@ -43,4 +43,6 @@ pub use coop::{
 // End of Phase 13 EPR-08/EPR-09 modules.
 
 // Phase 13 EPR-10 (CERC) modules go below this line.
+pub mod cerc;
+pub use cerc::{CercArgs, CercResult, crisis_risk_communication_builder};
 // End of Phase 13 EPR-10 modules.

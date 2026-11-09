@@ -1,0 +1,671 @@
+# Crisis and emergency risk communication (CERC) content for crisis_risk_communication_builder
+# (EPR-10): the CERC rhythm by phase, message-map rules and limits, initial-statement elements,
+# spokesperson preparation, audiences, and pre-scripted messages for seven hazards.
+#
+# The six CERC principles and the media release checklist live in content/comms/campaigns.yaml
+# (shared with draft_press_materials); this file does not repeat them.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_cerc.schema.json
+meta:
+  id: epr-cerc
+  title: Crisis and emergency risk communication (CERC) phases, message maps, and pre-scripted messages
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2018-01-01
+  source:
+    title: Crisis and Emergency Risk Communication (CERC) Manual
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/php/cerc-manual/index.html
+  related_sources:
+    - title: "ATSDR Communication Toolkit: Message Mapping Template, Worksheet, and Checklist (February 2015)"
+      publisher: Agency for Toxic Substances and Disease Registry
+      url: https://www.atsdr.cdc.gov/communications-toolkit/documents/12_message-mapping-tool-final-111015_508.pdf
+    - title: "Effective Risk and Crisis Communication during Water Security Emergencies: Summary Report of EPA Sponsored Message Mapping Workshops (EPA/600/R-07/027)"
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/sites/default/files/2015-08/documents/effective_risk_and_crisis_communication_during_water_security_emergencies.pdf
+    - title: Public Health Emergency Preparedness and Response Capabilities (Capability 4, Emergency Public Information and Warning)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The CERC rhythm, phase tasks, five pitfalls, audience concerns, message
+    construction advice, initial-statement elements, media holding lines, first-48-hours steps,
+    and spokesperson tips are paraphrased from CDC's CERC manual chapters (Introduction 2018,
+    Psychology of a Crisis 2019, Messages and Audiences 2018, Crisis Communication Plans 2014,
+    Spokesperson 2014), fetched from cdc.gov on 2026-11-09 (high confidence). The message-map
+    structure (three key messages, three supporting facts each) and the 27 words / 9 seconds / 3
+    messages limits are from ATSDR's 2015 message mapping checklist and EPA's 2007 message
+    mapping report (high confidence); EPA notes these limits come from media sound-bite research,
+    not a federal standard. The 3 words per second speaking rate is derived from 27 words in 9
+    seconds (tool rule). PHEP Capability 4 functions were checked against the 2018 standards
+    (high confidence). PRE-SCRIPTED MESSAGES: each statement is paraphrased from the cited CDC or
+    DPH page (dates in sources) and marked high or medium confidence; medium means the wording
+    goes beyond the page or depends on local plans. The mass dispensing messages depend on your
+    POD plan (forms, who may pick up medicine) and are medium or low confidence. The boil water
+    messages follow CDC's drinking water advisory page; MassDEP's boil order pages could not be
+    found (404) on 2026-11-09, so coordinate wording with your water supplier and MassDEP.
+    Pet-related guidance on the CDC pages is intentionally left out.
+
+sources:
+  cerc_manual:
+    title: Crisis and Emergency Risk Communication (CERC) Manual (chapter list)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/php/cerc-manual/index.html
+    effective_date: null
+    retrieved: 2026-11-09
+  cerc_intro:
+    title: "CERC: Introduction (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Introduction.pdf
+    effective_date: 2018-01-01
+    retrieved: 2026-11-09
+  cerc_psychology:
+    title: "CERC: Psychology of a Crisis (2019 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Psychology_of_a_Crisis.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-09
+  cerc_messages:
+    title: "CERC: Messages and Audiences (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Messages_and_Audiences.pdf
+    effective_date: 2018-01-01
+    retrieved: 2026-11-09
+  cerc_community:
+    title: "CERC: Community Engagement (2018 update)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_CommunityEngagement.pdf
+    effective_date: 2018-01-01
+    retrieved: 2026-11-09
+  cerc_plans:
+    title: "CERC: Crisis Communication Plans (2014)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Crisis_Communication_Plans.pdf
+    effective_date: 2014-01-01
+    retrieved: 2026-11-09
+  cerc_spokesperson:
+    title: "CERC: Spokesperson (2014)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/cerc/media/pdfs/CERC_Spokesperson.pdf
+    effective_date: 2014-01-01
+    retrieved: 2026-11-09
+  atsdr_message_map:
+    title: "ATSDR Communication Toolkit: Message Mapping Template, Worksheet, and Checklist"
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://www.atsdr.cdc.gov/communications-toolkit/documents/12_message-mapping-tool-final-111015_508.pdf
+    effective_date: 2015-02-01
+    retrieved: 2026-11-09
+  epa_message_mapping:
+    title: "Effective Risk and Crisis Communication during Water Security Emergencies (EPA/600/R-07/027)"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sites/default/files/2015-08/documents/effective_risk_and_crisis_communication_during_water_security_emergencies.pdf
+    effective_date: 2007-03-01
+    retrieved: 2026-11-09
+  cdc_phep:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-09
+  cdc_measles_about:
+    title: About Measles
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/measles/about/index.html
+    effective_date: 2026-04-29
+    retrieved: 2026-11-09
+  cdc_measles_exposed:
+    title: "Measles: What to Do If You Get Sick or Exposed"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/measles/if-sick-exposed/index.html
+    effective_date: 2026-08-05
+    retrieved: 2026-11-09
+  dph_measles:
+    title: Measles (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/measles
+    effective_date: null
+    retrieved: 2026-11-09
+  cdc_water_advisories:
+    title: "Drinking Water Advisories: An Overview"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/water-emergency/about/drinking-water-advisories-an-overview.html
+    effective_date: 2024-03-04
+    retrieved: 2026-11-09
+  cdc_heat:
+    title: About Heat and Your Health
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/heat-health/about/index.html
+    effective_date: 2026-07-20
+    retrieved: 2026-11-08
+  mema_heat:
+    title: Extreme Heat Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/extreme-heat-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc_co:
+    title: Carbon Monoxide (CO) Poisoning Basics
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    effective_date: 2026-10-26
+    retrieved: 2026-11-08
+  mema_power:
+    title: Power Outage Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/power-outage-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc_floods_prep:
+    title: Preparing for Floods
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/floods/safety/index.html
+    effective_date: 2026-08-24
+    retrieved: 2026-11-08
+  cdc_hurricane_after:
+    title: "Safety Guidelines: After a Hurricane or Other Tropical Storm"
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/hurricanes/safety/how-to-safely-stay-safe-after-a-hurricane-or-other-tropical-storm.html
+    effective_date: 2026-08-26
+    retrieved: 2026-11-08
+  cdc_chem_shelter:
+    title: What to Do to Shelter in Place for a Chemical Emergency
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/chemical-emergencies/response/shelter-in-place.html
+    effective_date: 2026-06-17
+    retrieved: 2026-11-09
+  cdc_rad_get_inside:
+    title: "What to Do: Get Inside (radiation emergencies)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/radiation-emergencies/response/get-inside.html
+    effective_date: 2024-04-15
+    retrieved: 2026-11-09
+  cdc_rad_stay_inside:
+    title: "What to Do: Stay Inside (radiation emergencies)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/radiation-emergencies/response/stay-inside.html
+    effective_date: 2024-04-17
+    retrieved: 2026-11-09
+  cdc_resp_prevention:
+    title: Preventing Respiratory Illnesses
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/respiratory-viruses/prevention/index.html
+    effective_date: 2025-08-18
+    retrieved: 2026-11-09
+  cdc_resp_sick:
+    title: Preventing Spread of Respiratory Viruses When You're Sick
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/respiratory-viruses/prevention/precautions-when-sick.html
+    effective_date: 2025-08-18
+    retrieved: 2026-11-09
+  cdc_anthrax_prevention:
+    title: "Anthrax: Prevention"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/anthrax/prevention/index.html
+    effective_date: 2026-02-04
+    retrieved: 2026-11-09
+
+# ---------------------------------------------------------------- the CERC rhythm
+phases:
+  - id: preparation
+    label: Preparation (pre-crisis)
+    aliases: [pre_crisis, precrisis, pre-crisis, preparedness, before]
+    tasks:
+      - {text: "Draft and test messages with the audiences who will use them, including materials translated into other languages.", source: cerc_intro, section: "The Phases of a Crisis: Preparation", confidence: high}
+      - {text: "Develop partnerships with organizations that represent different parts of your community, and agree on roles for sharing information.", source: cerc_intro, section: "Preparation", confidence: high}
+      - {text: "Create a crisis communication plan and prepare for the hazards your community is most likely to face.", source: cerc_intro, section: "Preparation", confidence: high}
+      - {text: "Decide in advance who must approve public information and in what order.", source: cerc_intro, section: "Preparation", confidence: high}
+      - {text: "Select and train spokespersons; repeated practice is the best way to prepare for tough questions.", source: cerc_intro, section: "Preparation", confidence: high}
+      - {text: "Engage community representatives in planning and exercises, and keep social media active so you have a following before an emergency.", source: cerc_intro, section: "Preparation", confidence: high}
+  - id: initial
+    label: Initial
+    aliases: [response, onset, first, early, acute]
+    tasks:
+      - {text: "Express empathy right away and acknowledge what people are feeling.", source: cerc_intro, section: "Initial", confidence: high}
+      - {text: "Give simple explanations of who is at risk and what the risk is; be concise and direct.", source: cerc_intro, section: "Initial", confidence: high}
+      - {text: "Promote action: give people things they can do to reduce their risk and stay safe.", source: cerc_intro, section: "Initial", confidence: high}
+      - {text: "Establish credibility: explain what your organization is doing and when you will give updates.", source: cerc_intro, section: "Initial", confidence: high}
+      - {text: "Release lifesaving information as soon as it is confirmed, even before you have every detail; say what you know, what you do not know, and what you are doing to find out.", source: cerc_messages, section: "Building Credibility and Trust", confidence: high}
+  - id: maintenance
+    label: Maintenance
+    aliases: [ongoing, sustained]
+    tasks:
+      - {text: "Help people understand ongoing risks and the actions that reduce them; keep concern in proportion to the hazard.", source: cerc_intro, section: "Maintenance", confidence: high}
+      - {text: "Provide more background information and answer questions such as 'Has this happened before?' and 'How long will recovery take?'", source: cerc_intro, section: "Maintenance", confidence: high}
+      - {text: "Segment audiences: explain the different risks and actions for groups at higher risk or in different places.", source: cerc_intro, section: "Maintenance", confidence: high}
+      - {text: "Encourage support for the response, such as checking on neighbors and older adults.", source: cerc_intro, section: "Maintenance", confidence: high}
+      - {text: "Track news, social media, and public comments to find and correct rumors and misunderstandings.", source: cerc_intro, section: "Maintenance", confidence: high}
+  - id: resolution
+    label: Resolution (recovery)
+    aliases: [recovery, after, post_crisis, post-crisis, evaluation]
+    tasks:
+      - {text: "Motivate people to stay vigilant and keep reminding them of protective actions.", source: cerc_intro, section: "Resolution", confidence: high}
+      - {text: "Express empathy for people who are still suffering or have suffered a loss.", source: cerc_intro, section: "Resolution", confidence: high}
+      - {text: "Promote preparedness for future emergencies while people are still engaged.", source: cerc_intro, section: "Resolution", confidence: high}
+      - {text: "Discuss and document lessons learned from the communication response (see build_after_action_report), based on facts, not feelings.", source: cerc_intro, section: "Resolution", confidence: high}
+      - {text: "Evaluate the communication plan with the community and partners, and revise it.", source: cerc_intro, section: "Resolution", confidence: high}
+
+throughout:
+  - {text: "Engage the community: include community members and local leaders in planning and response, and keep two-way communication open.", source: cerc_intro, section: "The Phases of a Crisis and the Communication Rhythm", confidence: high}
+  - {text: "Empower decision-making: give people information and options so they can decide what is in their best interest.", source: cerc_intro, section: "The Phases of a Crisis and the Communication Rhythm", confidence: high}
+  - {text: "Evaluate throughout: gather feedback, test whether audiences understand your messages, and look for information gaps.", source: cerc_intro, section: "The Phases of a Crisis and the Communication Rhythm", confidence: high}
+  - {text: "PHEP Capability 4 (Emergency Public Information and Warning): activate the public information system, decide whether a Joint Information System is needed, run information operations, open avenues for public questions, and issue alerts, warnings, and notifications.", source: cdc_phep, section: "Capability 4, Functions 1-5", confidence: high}
+
+pitfalls:
+  - {text: "Mixed messages from multiple experts.", source: cerc_intro, section: "Five pitfalls to avoid", confidence: high}
+  - {text: "Information released late.", source: cerc_intro, section: "Five pitfalls to avoid", confidence: high}
+  - {text: "Paternalistic attitudes.", source: cerc_intro, section: "Five pitfalls to avoid", confidence: high}
+  - {text: "Not countering rumors and myths in real time.", source: cerc_intro, section: "Five pitfalls to avoid", confidence: high}
+  - {text: "Public power struggles and confusion.", source: cerc_intro, section: "Five pitfalls to avoid", confidence: high}
+
+psychology:
+  - {text: "People under stress simplify messages: keep first messages short, simple, and repeated.", source: cerc_psychology, section: "How We Process Information in a Crisis", confidence: high}
+  - {text: "People hold on to current beliefs: messages should come from a credible source.", source: cerc_psychology, section: "How We Process Information in a Crisis", confidence: high}
+  - {text: "People look for additional information and opinions before acting: use consistent messages across sources.", source: cerc_psychology, section: "How We Process Information in a Crisis", confidence: high}
+  - {text: "People believe the first message: release accurate messages as soon as possible.", source: cerc_psychology, section: "We believe the first message", confidence: high}
+
+# ---------------------------------------------------------------- message maps
+message_map:
+  key_messages: 3
+  supporting_per_key: 3
+  max_key_words_total: 27
+  max_seconds: 9
+  words_per_second: 3
+  max_average_sentence_words: 12
+  spokesperson_key_point_words: 90
+  spokesperson_key_point_seconds: 30
+  rules:
+    - {id: three_key_messages, text: "Develop three key messages for each question or concern; under stress people can take in about three messages instead of seven.", source: epa_message_mapping, section: "Step 4. Develop Key Messages (Rule of 3)", confidence: high}
+    - {id: three_supporting_facts, text: "Support each key message with three supporting facts.", source: atsdr_message_map, section: "Message Map Template", confidence: high}
+    - {id: twenty_seven_nine_three, text: "Keep the three key messages to 27 words in all, which can be spoken in about 9 seconds (27/9/3). The limits come from media sound-bite research.", source: epa_message_mapping, section: "Step 4. Develop Key Messages", confidence: high}
+    - {id: empathy_first, text: "Open with a brief statement of empathy and compassion; it does not count toward the 27 words. When responding to loss or stress, express caring first.", source: epa_message_mapping, section: "Step 4 (Compassion, Conviction, and Optimism template)", confidence: high}
+    - {id: grade_level, text: "Write at the audience's average grade level minus four (about 6th to 8th grade for adults).", source: epa_message_mapping, section: "Average Grade Level Minus 4", confidence: high}
+    - {id: short_sentences, text: "Keep sentences short, about 10 to 12 words on average.", source: atsdr_message_map, section: "Message Review Checklist", confidence: high}
+    - {id: primacy_recency, text: "Put the most important information first and last.", source: epa_message_mapping, section: "Primacy/Recency", confidence: high}
+    - {id: negative_dominance, text: "Balance each negative statement with about three positive, constructive, or solution-oriented statements (1N = 3P).", source: epa_message_mapping, section: "Negative Dominance (1N = 3P)", confidence: high}
+    - {id: no_absolutes, text: "Avoid absolutes such as always, never, and guarantee.", source: atsdr_message_map, section: "Message Review Checklist", confidence: high}
+    - {id: positive_actions, text: "Give action steps in positive terms when you can ('boil drinking water' rather than 'do not drink the water'); negatives are easily missed under stress.", source: cerc_messages, section: "Making Facts Work in Your Message", confidence: high}
+    - {id: actions_in_threes, text: "Give action steps in threes or fours; in an emergency people may remember only three simple directions.", source: cerc_messages, section: "Making Facts Work in Your Message", confidence: high}
+    - {id: personal_pronouns, text: "Use personal pronouns ('We are committed to...'), respect people's fears, give options, and avoid humor.", source: cerc_messages, section: "Making Facts Work in Your Message", confidence: high}
+    - {id: known_unknown_process, text: "Tell people what you know, what you do not know, and the process you are using to get answers.", source: cerc_psychology, section: "Mental States in a Crisis: Uncertainty", confidence: high}
+    - {id: test_and_practice, text: "Have subject matter experts check the map's accuracy, test it with people like your audience and with partners, then practice delivery.", source: epa_message_mapping, section: "Step 6. Test and Practice Messages", confidence: high}
+
+# Words checked by the tool (rule no_absolutes and positive_actions).
+absolutes: [always, never, guarantee, guaranteed, "completely safe", "100% safe", "no risk", "zero risk", "nothing to worry", certainly, definitely]
+negatives: ["do not", "don't", never, "can't", cannot, avoid, "no one", nobody, nothing, none]
+
+# ---------------------------------------------------------------- initial statement
+initial_statement:
+  elements:
+    - {text: "Express empathy and acknowledge public concern about the uncertainty.", source: cerc_plans, section: "Checklist 4-1: First 48 Hours (The public)", confidence: high}
+    - {text: "What happened, as far as it can be confirmed, and when.", source: cerc_plans, section: "Checklist 4-2 (response to inquiries)", confidence: high}
+    - {text: "What is not known yet (for example the number of people ill or exposed).", source: cerc_plans, section: "Checklist 4-2", confidence: high}
+    - {text: "That a plan is in place and who is helping carry it out.", source: cerc_plans, section: "Checklist 4-2", confidence: high}
+    - {text: "What people can do now.", source: cerc_intro, section: "Initial (promote action)", confidence: high}
+    - {text: "When the next update will come and where to get information; do not speculate.", source: cerc_plans, section: "Checklist 4-1 (Media) and 4-2", confidence: high}
+  media_holding_lines:
+    - {text: "\"We've just learned about the situation and are trying to get more complete information now. How can I reach you when I have more information?\"", source: cerc_plans, section: "Checklist 4-2: Immediate Response to Inquiries", confidence: high}
+    - {text: "\"All our efforts are directed at bringing the situation under control, so I'm not going to speculate about the cause. How can I reach you when I have more information?\"", source: cerc_plans, section: "Checklist 4-2", confidence: high}
+    - {text: "\"I'm not the authority on this subject. Let me have [name] call you right back.\"", source: cerc_plans, section: "Checklist 4-2", confidence: high}
+    - {text: "\"We're preparing a statement on that now. I will send it to you in about two hours.\"", source: cerc_plans, section: "Checklist 4-2 (adapted: fax replaced with send)", confidence: high}
+  first_48_hours:
+    - {text: "Notify your chain of command and leadership using the plan's notification list; give your first communication assessment.", source: cerc_plans, section: "Checklist 4-1: Notification", confidence: high}
+    - {text: "Contact local, state, and federal partners, secure the designated spokesperson, and call in extra communication staff.", source: cerc_plans, section: "Checklist 4-1: Coordination", confidence: high}
+    - {text: "Be first: issue a statement that your agency is aware of the emergency and involved in the response; tell media when and where updates will come.", source: cerc_plans, section: "Checklist 4-1: Media", confidence: high}
+    - {text: "Be right: start monitoring news and social media for misinformation to correct.", source: cerc_plans, section: "Checklist 4-1: Media", confidence: high}
+    - {text: "Open the public information line if people will call for reassurance or information, and start tracking calls for trends and rumors.", source: cerc_plans, section: "Checklist 4-1: The public", confidence: high}
+    - {text: "Send a basic statement to partners and stakeholders, and tell employees that their agency is responding and updates will follow.", source: cerc_plans, section: "Checklist 4-1: Partners and Stakeholders", confidence: high}
+    - {text: "Have three people clear a document before release (for example the subject matter expert, the communication lead, and the approving official).", source: cerc_plans, section: "Clearance (three people clear a document)", confidence: medium}
+
+# ---------------------------------------------------------------- spokesperson
+spokesperson:
+  tips:
+    - {text: "Anticipate questions and draft answers with the PIO; find the bottom line of each answer.", source: cerc_spokesperson, section: "Interview tips", confidence: high}
+    - {text: "Make the key point first, in about 30 seconds and fewer than 90 words, with prepared supporting points.", source: cerc_spokesperson, section: "Interview tips (p. 9)", confidence: high}
+    - {text: "Do not pretend to have answers: 'I don't know' is acceptable when followed by a commitment to find out.", source: cerc_spokesperson, section: "Interview tips (p. 9)", confidence: high}
+    - {text: "Do not speculate, assign blame, or criticize other agencies; avoid hypothetical questions.", source: cerc_spokesperson, section: "Interview tips (p. 9)", confidence: high}
+    - {text: "There is no such thing as 'off the record'; the microphone is always on.", source: cerc_spokesperson, section: "Interview tips", confidence: high}
+    - {text: "Answer sensational questions in as few words as possible without repeating the sensational words, then bridge back to the key message.", source: cerc_spokesperson, section: "Handling Techniques (p. 12)", confidence: high}
+    - {text: "Break multiple-part questions into parts and answer each separately; control the pace.", source: cerc_spokesperson, section: "Interview tips; Handling Techniques", confidence: high}
+  bridges:
+    - "What I think you are really asking is ..."
+    - "The overall issue is ..."
+    - "What's important to remember is ..."
+    - "What I can tell you is ..."
+    - "What people really need to know is ..."
+  bridges_source: cerc_spokesperson
+
+# The questions reporters ask most after a crisis (selected from EPA's list of 77).
+media_questions:
+  source: epa_message_mapping
+  section: "The 77 Most Frequently Asked Questions by Media Following Crisis Incidents"
+  questions:
+    - Can you tell us what happened?
+    - When did it happen?
+    - Where did it happen?
+    - Who was harmed? How many people were harmed?
+    - Are those who were harmed getting help?
+    - Is the situation under control?
+    - Is there any immediate danger?
+    - What is being done in response?
+    - Who is in charge?
+    - What can we expect next?
+    - What are you advising people to do? How can people protect themselves and their families?
+    - How long will it be before the situation returns to normal?
+    - Why did this happen? What was the cause?
+    - Did you have any warning that this might happen? Could this have been prevented?
+    - What else can go wrong? What is the worst-case scenario?
+    - How certain are you about this information?
+    - Have you told us everything you know? What are you not telling us?
+    - What are you telling your own family?
+    - Are people over-reacting?
+    - Has this ever happened before? Can it happen elsewhere?
+    - What lessons were learned?
+    - What would you like to say to those who have been harmed and to their families?
+    - Is there any continuing danger? Are people safe?
+    - How much will all this cost?
+
+# ---------------------------------------------------------------- audiences
+audiences:
+  - {id: directly_affected, label: Community directly affected, concerns: [personal and family safety, property damage, loss of livelihood, disruption of normal activities], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: nearby, label: Community just outside the affected area, concerns: [how to keep the emergency from affecting them, how to help, risks to self and family, disruption of normal activities], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: responders, label: Emergency responders and public health staff, concerns: [professional responsibilities, availability of resources, personal and family safety], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: civic_leaders, label: "Civic leaders (select board, mayor, board of health)", concerns: [responsibilities, liability and reputation, resource allocation, chances to express concern], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: partners, label: Response partners, concerns: [their role in the response, coordination with other organizations, involvement in decisions, access to information], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: community_leaders, label: "Community leaders (faith-based, cultural, and nonprofit organizations)", concerns: [safety of their communities, representing community needs, listening to members, taking part in decisions], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: media, label: Media, concerns: [getting information right away, meeting deadlines, keeping the public informed], source: cerc_messages, section: Table 1, confidence: high}
+  - {id: businesses, label: "Businesses, schools, and employers", concerns: [employee and student safety, interruptions, loss of revenue, liability], source: cerc_messages, section: "Table 1 (businesses, trade, and industry; schools added by this tool)", confidence: medium}
+audience_reminders:
+  - {text: "A person's ability to receive a message depends on language, literacy, education and vocabulary, and vision and hearing; adapt messages and use several channels (TV, radio, text, social media, print).", source: cerc_messages, section: "Understanding Your Audiences (accessibility)", confidence: high}
+  - {text: "Share messages through institutions each cultural group trusts (faith-based and community organizations, ethnic media), and do not assume one person speaks for a whole group.", source: cerc_messages, section: "Culture and Your Message", confidence: high}
+
+# ---------------------------------------------------------------- pre-scripted messages
+# Placeholders in {{double braces}} are filled from the tool's `details` (and organization,
+# info_source, next_update). Agencies may save approved translations of each message as
+# /data/templates/<language>/cerc_<id>.md using the same placeholders.
+library:
+  - id: measles_exposure
+    label: Measles exposure in a public place
+    aliases: [measles, rubeola]
+    hazard_refs: []
+    placeholders: [location, exposure_times]
+    question: "Was I exposed to measles at {{location}}, and what should I do?"
+    empathy: "We know it is worrying to hear that you or your child may have been exposed to measles."
+    key_messages:
+      - text: "Anyone at {{location}} may have been exposed."
+        supporting:
+          - {text: "The possible exposure was {{exposure_times}}.", source: local, confidence: high}
+          - {text: "Measles spreads through the air. It can stay in a room for 2 hours after a sick person leaves.", source: cdc_measles_exposed, confidence: high}
+          - {text: "Up to 9 in 10 unprotected people near someone with measles get sick.", source: cdc_measles_about, confidence: high}
+      - text: "Two MMR doses protect 97 of 100 people."
+        supporting:
+          - {text: "Check your vaccine record or ask your provider.", source: cdc_measles_exposed, confidence: high}
+          - {text: "If you are not protected, MMR vaccine within 3 days (72 hours) can help.", source: dph_measles, confidence: high}
+          - {text: "Immune globulin within 6 days can help people who cannot get the vaccine.", source: dph_measles, confidence: high}
+      - text: "If you feel sick, call before visiting a doctor."
+        supporting:
+          - {text: "Watch for fever, cough, runny nose, red eyes, and rash for 21 days.", source: cdc_measles_exposed, confidence: high}
+          - {text: "Calling first lets the office protect other patients and staff.", source: cdc_measles_exposed, confidence: high}
+          - {text: "For trouble breathing or confusion, go to the emergency room. Have someone call ahead.", source: cdc_measles_exposed, confidence: high}
+    actions:
+      - "Check whether you have had two doses of MMR vaccine."
+      - "Call your health care provider today if you are not sure you are protected."
+      - "Watch for fever, cough, runny nose, red eyes, and rash for 21 days."
+      - "If you get sick, stay home and call before you go to a doctor's office or hospital."
+    faqs:
+      - {question: "How do I know if I am protected?", answer: "You are likely protected if you have had two doses of MMR vaccine or a blood test that shows immunity, or if you were born before 1957. Ask your health care provider if you are not sure.", source: dph_measles, confidence: medium}
+      - {question: "Is measles serious?", answer: "Yes. Measles can cause pneumonia, swelling of the brain, and death. Children under 5, adults over 20, pregnant people, and people with weak immune systems are at highest risk.", source: cdc_measles_about, confidence: high}
+      - {question: "My baby is too young for the vaccine. What should I do?", answer: "Call your child's health care provider right away. Depending on age and timing, your baby may be able to get an early MMR dose or immune globulin.", source: dph_measles, confidence: medium}
+      - {question: "Do I need to stay home from work or school?", answer: "If you are not protected and do not get vaccine or immune globulin in time, you may need to stay away from schools, child care, and health care settings for up to 21 days. The health department will tell you your dates.", source: cdc_measles_exposed, confidence: medium}
+    audiences: ["People who were at the exposure location", "Parents of infants and young children", "Pregnant people", "Health care providers, urgent care centers, and emergency departments", "Schools and child care programs"]
+    phase_notes:
+      preparation: "Before measles appears, promote two doses of MMR vaccine, especially before international travel."
+      maintenance: "Update exposure locations and times, and tell people when the 21-day watch period ends."
+      resolution: "When no new cases occur for two incubation periods, thank the community and remind people to keep vaccinations up to date."
+    related_tools: [assess_measles_exposure, calculate_isolation_and_exclusion, plan_vaccination_clinic]
+    sources: [cdc_measles_about, cdc_measles_exposed, dph_measles]
+
+  - id: boil_water
+    label: Boil water order or advisory
+    aliases: [boil water, boil order, water advisory, drinking water]
+    hazard_refs: []
+    placeholders: [water_system]
+    question: "Is my tap water safe to drink?"
+    empathy: "We know it is hard to go without safe tap water, and we are working to fix this quickly."
+    key_messages:
+      - text: "Boil tap water 1 minute before drinking or cooking."
+        supporting:
+          - {text: "Bring water to a full rolling boil for 1 minute, then let it cool before you use it.", source: cdc_water_advisories, confidence: high}
+          - {text: "Or use bottled water for drinking, cooking, brushing teeth, and ice.", source: cdc_water_advisories, confidence: high}
+          - {text: "Boil water even if you use a home filter or filter pitcher.", source: cdc_water_advisories, confidence: high}
+      - text: "Use bottled or boiled water for babies."
+        supporting:
+          - {text: "If you feed your baby formula, ready-to-use formula is best.", source: cdc_water_advisories, confidence: high}
+          - {text: "Give babies and young children sponge baths so they do not swallow water.", source: cdc_water_advisories, confidence: high}
+          - {text: "Sanitize baby bottles before you use them.", source: cdc_water_advisories, confidence: high}
+      - text: "We will tell you when water is safe."
+        supporting:
+          - {text: "{{water_system}} is testing the water and fixing the problem.", source: local, confidence: high}
+          - {text: "Check {{info_source}} for updates.", source: local, confidence: high}
+          - {text: "You can wash clothes as usual.", source: cdc_water_advisories, confidence: high}
+    actions:
+      - "Boil tap water for 1 minute, or use bottled water."
+      - "Use boiled or bottled water for drinking, cooking, brushing teeth, ice, and baby formula."
+      - "Skip water and ice from refrigerator dispensers until the advisory ends."
+      - "Watch {{info_source}} for when the advisory ends."
+    faqs:
+      - {question: "Can I shower or bathe?", answer: "Yes, but be careful not to swallow the water. Give babies and young children sponge baths.", source: cdc_water_advisories, confidence: high}
+      - {question: "Can I wash dishes?", answer: "Use a dishwasher with a sanitizing cycle or a final rinse of at least 150°F. Or wash and rinse by hand, then soak the dishes for at least 1 minute in 1 teaspoon of unscented bleach per gallon of warm water and let them air dry.", source: cdc_water_advisories, confidence: high}
+      - {question: "Can I wash my hands with tap water?", answer: "In many cases, yes, with soap and water. Follow the advice in your local notice.", source: cdc_water_advisories, confidence: high}
+      - {question: "What if the problem is a chemical, not germs?", answer: "Boiling does not remove chemicals. If you are told not to drink the water, use bottled water for drinking, cooking, brushing teeth, ice, and baby formula.", source: cdc_water_advisories, confidence: high}
+    audiences: ["Households served by the water system", "Parents of infants", "Food establishments, schools, and child care programs", "Health care facilities", "Older adults and people with weakened immune systems"]
+    phase_notes:
+      preparation: "Agree with your water suppliers and MassDEP in advance on who issues boil orders and who announces them."
+      maintenance: "Repeat the message daily, and answer questions about dishes, bathing, and food service."
+      resolution: "Announce when the order is lifted and how to flush household pipes, ice makers, and filters, following the water supplier's instructions."
+    related_tools: [get_active_hazard_alerts]
+    sources: [cdc_water_advisories]
+
+  - id: extreme_heat
+    label: Extreme heat
+    aliases: [heat, heat wave, heatwave, hot weather]
+    hazard_refs: [extreme_heat]
+    placeholders: []
+    question: "How do I stay safe in this heat?"
+    empathy: "This heat is dangerous, and we know it is hard on everyone, especially people without air conditioning."
+    key_messages:
+      - text: "Stay cool indoors, in air conditioning if you can."
+        supporting:
+          - {text: "Call 2-1-1 or check {{info_source}} for cooling centers.", source: mema_heat, confidence: high}
+          - {text: "When it is above 90°F, fans alone cannot prevent heat illness.", source: cdc_heat, confidence: high}
+          - {text: "Plan your outdoor activities for the coolest parts of the day.", source: cdc_heat, confidence: medium}
+      - text: "Drink water before you feel thirsty."
+        supporting:
+          - {text: "Choose water over drinks with lots of sugar or caffeine.", source: mema_heat, confidence: medium}
+          - {text: "Ask your health care provider if your medicines raise your risk in the heat.", source: cdc_heat, confidence: medium}
+          - {text: "A parked car heats up fast; check the back seat before you lock it.", source: mema_heat, confidence: medium}
+      - text: "Check on neighbors, older adults, and people living alone."
+        supporting:
+          - {text: "Heat stroke is an emergency. Call 9-1-1.", source: cdc_heat, confidence: high}
+          - {text: "Signs include a very high body temperature, confusion, and hot, red skin.", source: cdc_heat, confidence: medium}
+          - {text: "Move anyone who feels faint or dizzy to a cool place and give sips of water.", source: cdc_heat, confidence: medium}
+    actions:
+      - "Stay in air conditioning, or go to a cooling center."
+      - "Drink water often."
+      - "Check on neighbors, older adults, and people who live alone."
+      - "Call 9-1-1 for signs of heat stroke."
+    faqs:
+      - {question: "Where can I go to cool off?", answer: "Call 2-1-1 or check {{info_source}} for cooling centers near you. Libraries and other air-conditioned public places can also help.", source: mema_heat, confidence: medium}
+      - {question: "Who is most at risk?", answer: "Babies and young children, adults 65 and older, pregnant people, people with heart or lung disease, people who work outdoors, and people without air conditioning or housing.", source: cdc_heat, confidence: high}
+      - {question: "I use powered medical equipment. What if the power goes out?", answer: "Tell your utility and fire department now, have a backup plan, and call 9-1-1 if you need medical help.", source: mema_power, confidence: high}
+    audiences: ["Older adults and people who live alone", "Parents of young children", "Outdoor workers and employers", "Schools, camps, and youth sports", "People experiencing homelessness and their service providers"]
+    phase_notes:
+      preparation: "Before summer, share how to find cooling centers and how to recognize heat illness."
+      maintenance: "Update cooling center hours each day the heat continues and repeat the neighbor-check message."
+      resolution: "When the heat ends, thank volunteers and partners, and remind people that more hot days may come."
+    related_tools: [heat_health_action_planner, get_active_hazard_alerts, air_quality_protective_guidance]
+    sources: [cdc_heat, mema_heat, mema_power]
+
+  - id: coastal_storm_power_outage
+    label: Coastal storm, power outage, and carbon monoxide
+    aliases: [hurricane, coastal storm, nor'easter, noreaster, power outage, carbon monoxide, storm, outage]
+    hazard_refs: [tropical_cyclone, coastal_flood, power_outage, carbon_monoxide]
+    placeholders: []
+    question: "How do I keep my family safe during the storm and power outage?"
+    empathy: "We know losing power or leaving home is stressful. Help is available."
+    key_messages:
+      - text: "Follow evacuation orders and stay off flooded roads."
+        supporting:
+          - {text: "Floodwater can hide hazards and sweep away cars and people.", source: cdc_floods_prep, confidence: medium}
+          - {text: "Stay away from fallen power lines.", source: cdc_hurricane_after, confidence: high}
+          - {text: "Call 2-1-1 or check {{info_source}} for open shelters.", source: mema_power, confidence: high}
+      - text: "Run generators only outside, far from windows and doors."
+        supporting:
+          - {text: "Keep them at least 20 feet from windows, doors, and vents.", source: cdc_co, confidence: high}
+          - {text: "Carbon monoxide (CO) has no smell. It can kill people in their sleep.", source: cdc_co, confidence: high}
+          - {text: "Put battery-powered CO alarms near every place people sleep.", source: cdc_co, confidence: high}
+      - text: "If your medical equipment needs power, plan for backup power."
+        supporting:
+          - {text: "Tell your power company and fire department. Know where to charge your equipment.", source: mema_power, confidence: high}
+          - {text: "Report outages to your power company, not 9-1-1.", source: mema_power, confidence: high}
+          - {text: "Call 9-1-1 if you need medical help.", source: mema_power, confidence: high}
+    actions:
+      - "Follow evacuation orders."
+      - "Run generators outside only, at least 20 feet from the house."
+      - "Use battery-powered carbon monoxide alarms."
+      - "Call 2-1-1 for shelters; call 9-1-1 for emergencies."
+    faqs:
+      - {question: "What are the signs of carbon monoxide poisoning?", answer: "Headache, dizziness, weakness, upset stomach, vomiting, chest pain, and confusion. Get to fresh air right away and call 9-1-1.", source: cdc_co, confidence: high}
+      - {question: "How long is food safe without power?", answer: "A closed refrigerator keeps food cold for about 4 hours, and a full freezer for about 48 hours. Keep the doors closed.", source: mema_power, confidence: high}
+      - {question: "Where can I go if I have to leave home?", answer: "Call 2-1-1 or check {{info_source}} for open shelters. Tell shelter staff about any medical, mobility, or communication needs.", source: mema_power, confidence: medium}
+    audiences: ["Residents of evacuation zones and low-lying coastal areas", "People who rely on electricity-dependent medical equipment", "Older adults and people with disabilities", "Shelter residents and staff", "Landlords, property managers, and housing authorities"]
+    phase_notes:
+      preparation: "Before storm season, ask residents who use powered medical equipment to register with their utility and make a backup power plan."
+      maintenance: "After the storm, repeat carbon monoxide, floodwater, and food safety messages every day while power is out."
+      resolution: "As power returns, share safe cleanup and mold guidance and thank partners and volunteers."
+    related_tools: [get_active_hazard_alerts, get_electricity_dependent_population, functional_needs_shelter_intake]
+    sources: [cdc_co, mema_power, cdc_floods_prep, cdc_hurricane_after]
+
+  - id: shelter_in_place
+    label: Shelter in place (chemical or radiation release)
+    aliases: [shelter in place, shelter-in-place, chemical release, hazmat, radiation, nuclear, stay inside]
+    hazard_refs: [hazmat_civil]
+    placeholders: []
+    question: "What should I do right now?"
+    empathy: "We know this is frightening. Going inside and staying inside is the safest thing to do right now."
+    key_messages:
+      - text: "Go inside now and stay inside."
+        supporting:
+          - {text: "Close and lock all windows and doors.", source: cdc_chem_shelter, confidence: high}
+          - {text: "Turn off fans, air conditioners, and heat that pull in outside air.", source: cdc_chem_shelter, confidence: high}
+          - {text: "For a chemical release, go to an inside room you can seal. For radiation, go to the basement or the middle of the building.", source: cdc_rad_get_inside, confidence: high}
+      - text: "Stay where you are until officials say it is safe."
+        supporting:
+          - {text: "Schools, child care centers, and nursing homes have plans to keep people safe inside.", source: cdc_rad_get_inside, confidence: high}
+          - {text: "Going outside to get family members can put you and them in danger.", source: cdc_rad_get_inside, confidence: high}
+          - {text: "After a radiation release, plan to stay inside at least 24 hours.", source: cdc_rad_stay_inside, confidence: high}
+      - text: "Stay tuned to radio, TV, phone alerts, and {{info_source}}."
+        supporting:
+          - {text: "Officials will tell you when it is safe to leave.", source: cdc_chem_shelter, confidence: high}
+          - {text: "Call or text family outside the area to say where you are.", source: cdc_chem_shelter, confidence: high}
+          - {text: "After a radiation release, take off outer clothes worn outside and wash your skin.", source: cdc_rad_get_inside, confidence: high}
+    actions:
+      - "Go inside and close all windows and doors."
+      - "Turn off fans, air conditioning, and heating."
+      - "Stay inside until officials say it is safe."
+      - "Listen to radio, TV, or phone alerts for updates."
+    faqs:
+      - {question: "Can I pick up my children from school?", answer: "Please stay where you are. Schools and child care centers have plans to keep children safe inside, and going outside can put you and them in danger. We will tell you when it is safe.", source: cdc_rad_get_inside, confidence: high}
+      - {question: "How long will I need to stay inside?", answer: "It may be a few hours or longer. After a radiation release, plan for at least 24 hours. Officials will give the all clear.", source: cdc_chem_shelter, confidence: high}
+      - {question: "Is my food and water safe?", answer: "Sealed food and drinks that were inside are safe. After a radiation release, officials will test drinking water; boiling does not remove radioactive material, but washing with tap water is still safe.", source: cdc_rad_stay_inside, confidence: high}
+    audiences: ["Everyone in the affected area", "Schools, child care centers, and nursing homes", "Employers and businesses in the area", "Drivers and people outdoors", "Residents who do not speak English"]
+    phase_notes:
+      preparation: "Before an emergency, teach residents how to shelter in place and how they will receive alerts."
+      maintenance: "Give the expected duration, repeat the stay-inside message, and answer questions about family members elsewhere."
+      resolution: "Announce the all clear clearly, with any cleanup or medical follow-up instructions."
+    related_tools: [get_active_hazard_alerts]
+    sources: [cdc_chem_shelter, cdc_rad_get_inside, cdc_rad_stay_inside]
+
+  - id: respiratory_pandemic
+    label: Respiratory illness or pandemic
+    aliases: [pandemic, respiratory, flu, influenza, covid, covid-19, rsv]
+    hazard_refs: []
+    placeholders: [illness]
+    question: "How can I protect myself and my family from {{illness}}?"
+    empathy: "Many people in our community are sick, and we know this is a worrying time."
+    key_messages:
+      - text: "Ask your provider which vaccines are right for you."
+        supporting:
+          - {text: "Staying up to date on recommended vaccines is a core way to prevent serious illness.", source: cdc_resp_prevention, confidence: high}
+          - {text: "Vaccines take time to work, so get them before illness spreads widely.", source: cdc_resp_prevention, confidence: high}
+          - {text: "Vaccine recommendations can differ between DPH, medical societies, and CDC; your provider can explain.", source: cdc_resp_prevention, confidence: medium}
+      - text: "If sick, stay home and away from others."
+        supporting:
+          - {text: "Return to normal activities when you are feeling better and have had no fever for 24 hours without medicine.", source: cdc_resp_sick, confidence: high}
+          - {text: "For the next 5 days, take extra steps such as masks, cleaner air, and distance.", source: cdc_resp_sick, confidence: high}
+          - {text: "Get care quickly if you are at higher risk; treatment may help.", source: cdc_resp_prevention, confidence: high}
+      - text: "Wash your hands often and bring in fresh air."
+        supporting:
+          - {text: "Clean surfaces that many people touch.", source: cdc_resp_prevention, confidence: high}
+          - {text: "Open windows or use air filters when people gather indoors.", source: cdc_resp_prevention, confidence: medium}
+          - {text: "Masks and distance add protection when illness is spreading.", source: cdc_resp_prevention, confidence: high}
+    actions:
+      - "Ask about the vaccines recommended for you."
+      - "Stay home when you are sick."
+      - "Wash your hands and bring in fresh air."
+      - "Seek care early if you are at higher risk."
+    faqs:
+      - {question: "When can I go back to work or school?", answer: "When your symptoms are getting better and you have had no fever for at least 24 hours without fever-reducing medicine. Take extra precautions for the next 5 days.", source: cdc_resp_sick, confidence: high}
+      - {question: "Should I wear a mask?", answer: "Masks add protection, especially when illness is spreading, when you are recovering, or when you are around people at higher risk.", source: cdc_resp_prevention, confidence: high}
+      - {question: "What if I get sicker?", answer: "If you have an emergency warning sign such as trouble breathing or chest pain, get emergency care right away.", source: cdc_resp_sick, confidence: high}
+    audiences: ["Older adults and people with chronic conditions", "Parents and caregivers", "Schools, child care programs, and employers", "Long-term care facilities", "Health care providers"]
+    phase_notes:
+      preparation: "Before the season, promote recommended vaccines and stay-home-when-sick policies with employers and schools."
+      maintenance: "Share local trends (see get_respiratory_and_wastewater_surveillance) and update guidance as it changes."
+      resolution: "As illness declines, thank the community and prepare messages for the next season."
+    related_tools: [get_respiratory_and_wastewater_surveillance, compare_vaccine_recommendations, plan_vaccination_clinic]
+    sources: [cdc_resp_prevention, cdc_resp_sick]
+
+  - id: mass_dispensing_pod
+    label: Mass dispensing (point of dispensing, POD)
+    aliases: [pod, dispensing, mass prophylaxis, anthrax, emergency dispensing site, eds]
+    hazard_refs: []
+    placeholders: [pod_locations, pod_hours, agent]
+    question: "Do I need medicine, and where do I get it?"
+    empathy: "We know this news is frightening. Free medicine is available, and we are here to help."
+    key_messages:
+      - text: "Free medicine is available at {{pod_locations}}."
+        supporting:
+          - {text: "Sites are open {{pod_hours}}.", source: local, confidence: high}
+          - {text: "The medicine can keep people exposed to {{agent}} from getting sick.", source: cdc_anthrax_prevention, confidence: high}
+          - {text: "Take the first dose as soon as you can.", source: cdc_anthrax_prevention, confidence: high}
+      - text: "Bring each family member's age, allergies, and medicines."
+        supporting:
+          - {text: "Fill out the form before you come. Forms are at {{info_source}}.", source: cdc_anthrax_prevention, confidence: low}
+          - {text: "Know each child's weight. Some children's doses depend on weight.", source: cdc_anthrax_prevention, confidence: low}
+          - {text: "Tell staff if you are pregnant, nursing, or allergic to any medicine.", source: cdc_anthrax_prevention, confidence: medium}
+      - text: "Take every dose for as long as you are told."
+        supporting:
+          - {text: "Most people get a 10-day supply to start.", source: cdc_anthrax_prevention, confidence: high}
+          - {text: "We will tell you if you need more and how to get it.", source: cdc_anthrax_prevention, confidence: high}
+          - {text: "Call your doctor or nurse with side effects or questions.", source: cdc_anthrax_prevention, confidence: high}
+    actions:
+      - "Go to the nearest dispensing site."
+      - "Bring each household member's age, allergies, and medicines."
+      - "Take the medicine as directed until it is gone."
+      - "Watch {{info_source}} for updates."
+    faqs:
+      - {question: "Is anthrax contagious?", answer: "No. Anthrax does not spread from person to person like a cold or flu.", source: cdc_anthrax_prevention, confidence: high}
+      - {question: "Which medicine will I get?", answer: "Usually doxycycline or ciprofloxacin, taken twice a day. Public health officials will say who should take which medicine.", source: cdc_anthrax_prevention, confidence: high}
+      - {question: "Can I pick up medicine for my family?", answer: "Your local plan decides this. [Agency: state whether one adult may pick up medicine for the household and what information to bring.]", source: cdc_anthrax_prevention, confidence: low}
+    audiences: ["Everyone in the affected area", "Heads of household and caregivers", "People with access and functional needs", "Employers and closed POD partners", "Health care providers and pharmacies"]
+    phase_notes:
+      preparation: "Before an emergency, explain what a POD is and recruit closed POD partners (employers and institutions that dispense to their own people)."
+      maintenance: "Update site locations, hours, and wait times often, and remind people to finish their medicine."
+      resolution: "Thank the community and volunteers, and remind people about follow-up doses or vaccine."
+    related_tools: [model_dispensing_site_throughput, plan_vaccination_clinic]
+    sources: [cdc_anthrax_prevention]

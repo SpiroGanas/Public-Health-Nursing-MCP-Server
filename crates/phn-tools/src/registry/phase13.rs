@@ -27,4 +27,9 @@ pub(super) const COOP: &[ToolMeta] = &[ToolMeta {
 pub(super) const HSEEP: &[ToolMeta] = &[];
 
 /// EPR-10 (crisis and emergency risk communication).
-pub(super) const CERC: &[ToolMeta] = &[];
+pub(super) const CERC: &[ToolMeta] = &[ToolMeta {
+    name: "crisis_risk_communication_builder",
+    plan_id: "EPR-10",
+    toolset: Toolset::Epr,
+    phase: 13,
+}];
