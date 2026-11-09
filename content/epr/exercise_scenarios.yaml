@@ -201,7 +201,7 @@ scenarios:
         phep: [phep-4]
       - text: "Discuss how the {{agency}} will inspect or advise food establishments and private well owners during the first 72 hours after power is restored, in accordance with the agency's environmental health procedures."
         phep: [phep-11, phep-2]
-      - text: "Discuss how the {{agency}} will keep its essential functions running during the outage, including staff safety and alternate work locations, in accordance with the agency's continuity of operations plan."
+      - text: "Discuss how the {{agency}} will keep all of its essential functions running during the outage, including staff safety and alternate work locations, in accordance with the agency's continuity of operations plan."
         phep: [phep-3, phep-14]
     facts:
       - {text: "Never use a generator inside a home or garage, even with doors and windows open; use generators only outside, more than 20 feet from windows, doors, and vents.", source: cdc-co, section: "Prevention"}
@@ -285,13 +285,13 @@ scenarios:
     suggested_objectives:
       - text: "Within 24 hours of a forecast of HeatRisk level 3 or 4, discuss how the {{agency}} will activate its heat response and notify partners (schools, Council on Aging, housing authority, outdoor employers), in accordance with the town's heat plan."
         phep: [phep-3, phep-6]
-      - text: "Discuss how the {{agency}} and partners will check on older adults who live alone and other heat-vulnerable residents within the first 48 hours of the heat event, using the agency's outreach scripts and local registries."
+      - text: "Discuss how the {{agency}} and partners will check on older adults who live alone and other heat-vulnerable residents within the first 48 hours of the heat event, using the agency's outreach scripts and local registries, in accordance with the town's heat plan."
         phep: [phep-1, phep-15]
       - text: "Discuss how cooling centers will be opened, staffed, and expanded within 12 hours when existing sites reach capacity, in accordance with the town's emergency operations plan."
         phep: [phep-7]
       - text: "Within 4 hours of activation, discuss how heat safety messages will be issued in the town's priority languages to residents, schools, and outdoor workers through the agency's public information procedures."
         phep: [phep-4]
-      - text: "Discuss how the {{agency}} will monitor heat-related emergency visits and deaths each day of the event using DPH surveillance data and local EMS reports."
+      - text: "Discuss how the {{agency}} will monitor heat-related emergency visits and deaths each day of the event using DPH surveillance data and local EMS reports, in accordance with the town's heat plan."
         phep: [phep-13]
     facts:
       - {text: "NWS HeatRisk rates heat-related health risk from 0 (little or no risk) to 4 (extreme) for each day of the forecast.", source: nws-heatrisk, section: "HeatRisk overview"}
