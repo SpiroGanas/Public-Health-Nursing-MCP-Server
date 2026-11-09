@@ -1,7 +1,7 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
 use phn_core::Envelope;
-use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult};
+use phn_tools::aging::{AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult, FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs, ProtectiveResult, VulnerabilityArgs, VulnerabilityResult};
 use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -162,5 +162,24 @@ impl PhnServer {
         Parameters(args): Parameters<NursingHomeArgs>,
     ) -> CallToolResult {
         respond(phn_tools::aging::nursing_home_quality_lookup(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "map_older_adult_vulnerability",
+        description = "Where older adults who live alone, have a disability, have no vehicle, speak English \
+            less than very well, or live in poverty are concentrated (American Community Survey \
+            5-year estimates with margins of error), for a Massachusetts city or town (by census \
+            tract), a county or the state (by city or town), compared with Massachusetts and the \
+            U.S. Ranks sub-areas by one indicator or by how many exceed the state value, flags \
+            unreliable estimates, and can draw a choropleth map (SVG and PNG in /data/output). For \
+            outreach, wellness checks, and emergency planning; area estimates only.",
+        annotations(title = "Map older adult vulnerability", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<VulnerabilityResult>>()
+    )]
+    async fn map_older_adult_vulnerability(
+        &self,
+        Parameters(args): Parameters<VulnerabilityArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::map_older_adult_vulnerability(&self.ctx, args).await)
     }
 }
