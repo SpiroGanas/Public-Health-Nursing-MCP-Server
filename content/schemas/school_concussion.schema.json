@@ -1,0 +1,574 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/school_concussion.schema.json",
+  "title": "Head injuries and concussions in Massachusetts schools",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "scope",
+    "forms",
+    "training",
+    "removal_from_play",
+    "notification",
+    "reentry_plan",
+    "clearance",
+    "return_to_learn",
+    "return_to_play_dph",
+    "return_to_play_cdc",
+    "accommodations",
+    "danger_signs",
+    "symptom_monitoring",
+    "persistent_symptoms",
+    "nurse_responsibilities",
+    "records_and_reporting",
+    "divergences"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ma-school-concussion"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "cited_text": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "forms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "who_completes",
+          "when",
+          "url",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "who_completes": {
+            "type": "string"
+          },
+          "when": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "training": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "removal_from_play": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "notification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "who",
+          "when",
+          "how",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "who": {
+            "type": "string"
+          },
+          "when": {
+            "type": "string"
+          },
+          "how": {
+            "type": "string"
+          },
+          "deadline_business_days": {
+            "type": "integer"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reentry_plan": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "clearance": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "return_to_learn": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "text",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "min_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 10
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "$ref": "#/$defs/confidence"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "return_to_play_dph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "text",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "min_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 10
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "$ref": "#/$defs/confidence"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "return_to_play_cdc": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "text",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "min_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "max_days": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "text": {
+            "type": "string",
+            "minLength": 10
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "$ref": "#/$defs/confidence"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "accommodations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "effect",
+          "problem",
+          "supports",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "effect": {
+            "type": "string"
+          },
+          "problem": {
+            "type": "string"
+          },
+          "supports": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "danger_signs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "symptom_monitoring": {
+      "type": "object",
+      "required": [
+        "symptoms",
+        "scale",
+        "frequency",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "symptoms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 5
+        },
+        "scale": {
+          "type": "string"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        }
+      }
+    },
+    "persistent_symptoms": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "nurse_responsibilities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "records_and_reporting": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    },
+    "divergences": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited_text"
+      }
+    }
+  }
+}

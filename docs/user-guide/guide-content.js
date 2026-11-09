@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 55;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -87,6 +87,7 @@ const frontChapters = [
                 ['Community health and equity (chapter 9)', 'One-request community health profiles, Social Vulnerability Index, language access, disparity measures, and CDC PLACES chronic disease estimates.', '5'],
                 ['Evidence-based practice (chapter 10)', 'PICO-based PubMed searches and the newest MMWR reports and Health Alert Network notices.', '2'],
                 // Phase 7 work-area rows go below this line.
+                ['School health (chapter 11)', 'Screening requirements and tracking with referral letters; medication administration rules; individualized health plans; concussion return to learn; illness absenteeism; the year-end report; child care health consultation.', '8'],
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
                 // End of Phase 8 work-area rows.
@@ -1720,6 +1721,262 @@ const toolChapters = [
     ],
   },
   // Phase 7 chapter goes below this line.
+  {
+    title: 'School health',
+    intro: 'These eight tools support school nurses and child care health consultants: what screenings Massachusetts requires and who is due, medication administration rules, health plans, concussion management, illness absenteeism, the year-end report, and child care licensing checks. They are in the school group, which the school_nurse profile includes. All of their reference content was drafted from the regulations and DPH guidance in November 2026 and is waiting for your review. Tools that write letters or plans for families use English templates; your agency can add its own approved translations in a templates folder (the notes for each tool say how).',
+    tools: [
+      {
+        id: 'get_ma_school_screening_requirements',
+        title: 'Look up school screening requirements',
+        toolset: 'school',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists the health screenings Massachusetts requires in schools (vision, hearing, height and weight for BMI, postural, SBIRT substance use screening, the kindergarten vision certificate, and physical examinations) by grade, with DPH protocols, referral rules, parent notification, exemptions, reporting to DPH, and confidentiality rules, each cited to 105 CMR 200.000, M.G.L. c. 71, or a DPH protocol.',
+        when: [
+          'Planning the screening calendar for the year.',
+          'A parent or principal asks which screenings a grade gets.',
+          'Checking the vision critical line or which charts DPH allows.',
+          'Answering questions about BMI confidentiality or SBIRT opt-out.',
+        ],
+        provide: [
+          'Optionally a grade (PK, K, 1–12, or ungraded with an age) and a screening name.',
+          'Whether the student is new to the district (school-entry rules).',
+        ],
+        examples: [
+          'Which screenings are required in grade 7?',
+          'What are the vision screening rules for kindergarten, and what is the critical line?',
+          'Show me the screening schedule for every grade.',
+          'What does the law say about SBIRT confidentiality?',
+        ],
+        returns: [
+          'For each screening: whether it is required in the grade and why, the schedule by grade band, who may screen, the protocol, referral and follow-up, parent notification, exemptions, reporting to DPH, and confidentiality, each with its citation.',
+          'Without a grade: a table of screenings by grade.',
+        ],
+        notes: [
+          'DPH’s current hearing protocol could not be retrieved, so hearing details come from DPH’s 2007 manual and are marked medium or low confidence.',
+          'These are state minimums; your school committee or board of health may require more.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'track_school_screenings',
+        title: 'Track screenings and send referral letters',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your roster with results)',
+        does: 'Reads your roster with screening results, works out which students are due for each required screening this school year, and computes completion, referral, and referral follow-up rates by grade, plus BMI categories for DPH’s BMI report. It writes an action list to your output folder and, if you ask, mail-merges referral letters in each family’s language.',
+        when: [
+          'Mid-year: who still needs vision or hearing screening?',
+          'Following up on referrals that have not come back.',
+          'Preparing BMI numbers for DPH.',
+          'Sending referral letters to families in their language.',
+        ],
+        provide: [
+          'A CSV or Excel file with a Grade column and, for each screening, a date, a result (pass, refer, absent, refused, exempt), and a follow-up column, for example Vision Date, Vision Result, Vision Referral Completed.',
+          'For BMI: Height and Weight (or BMI Percentile or Category), with Date of Birth and Sex so the percentile can be computed.',
+          'For letters: Student Name (or First and Last Name), Home Language, Parent Name, and your name and phone number.',
+        ],
+        examples: [
+          'Check screenings.xlsx as of today and tell me completion rates by grade.',
+          'Write referral letters for students whose vision referrals are still open.',
+          'How many grade 4 students still need BMI measurements?',
+        ],
+        returns: [
+          'Counts and rates by grade and screening (required, screened, referred, follow-up done, due, exempt), with small counts suppressed.',
+          'An action list and per-student results in school_screenings_<date>.xlsx, and letters grouped by language in a letters folder, all in your output folder.',
+          'How many letters used your agency’s translation and how many fell back to English.',
+        ],
+        notes: [
+          'Student names never reach the AI; they are only in the files written to your output folder.',
+          'Do not keep SBIRT results with names: the law forbids it, and the tool ignores such columns.',
+          'Add your agency’s translations as templates/<language>/vision_referral.md (also hearing_referral and postural_referral); the English template is written next to the letters.',
+        ],
+      },
+      {
+        id: 'school_medication_administration_guide',
+        title: 'Medication administration in schools',
+        toolset: 'school',
+        internet: 'no',
+        files: 'no',
+        does: 'Answers questions about giving medications in Massachusetts schools from 105 CMR 210.000 as amended in December 2025 and M.G.L. c. 71, section 54B, with each point cited by section: orders and parent consent, delegation to unlicensed staff, field trips, self-carry, storage, documentation, medication errors, epinephrine, naloxone, glucagon and other rescue medications, and DPH registration.',
+        when: [
+          'A principal asks whether a teacher can give medication on a field trip.',
+          'Setting up delegation or training for unlicensed staff.',
+          'A medication error happened and you need the reporting steps.',
+          'Reviewing your district’s medication policy.',
+        ],
+        provide: [
+          'A question in plain language, or a topic name. Ask with nothing to see the list of topics.',
+        ],
+        examples: [
+          'Can a trained secretary give an EpiPen on a field trip?',
+          'How long can we keep a student’s medication at school, and at what refrigerator temperature?',
+          'Who can carry naloxone at school?',
+          'What must a medication order contain?',
+        ],
+        returns: [
+          'The matching topics with a short summary and cited points from the regulation and statute.',
+        ],
+        notes: [
+          'Your school committee’s policy and nursing regulations also apply. Child care programs follow EEC’s rules instead (see the child care health consultation checklist in this chapter).',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'build_individualized_health_plan',
+        title: 'Build an individualized health plan',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only when filling plans from your student file',
+        does: 'Drafts an individualized health plan and an emergency action plan for a student with diabetes, asthma, seizures, or a food allergy, from cited CDC and DPH guidance: how to recognize an emergency, what to do, when to call 911, the nursing assessment, goals, interventions, what the medication plan must contain under 105 CMR 210.000, and suggested Section 504 accommodations. If you point it at a file with your students’ details, it fills one plan per student in your output folder.',
+        when: [
+          'A new student with a chronic condition is enrolling.',
+          'Annual plan renewal before school starts.',
+          'Preparing for a 504 meeting.',
+        ],
+        provide: [
+          'The condition.',
+          'To fill plans: a CSV or Excel file with one row per student (Student Name, Date of Birth, Grade, Parent Name and Phone, Provider, Emergency Medication, Home Language, and condition details such as Allergens or Target Range).',
+        ],
+        examples: [
+          'Give me an IHP template for a student with type 1 diabetes.',
+          'Fill food allergy plans for the students in ihp_students.xlsx.',
+          'What 504 accommodations are suggested for a student with asthma?',
+        ],
+        returns: [
+          'The plan sections with citations and the list of fields to fill.',
+          'When filling: one document per student (plan plus emergency action plan) in your output folder, with counts of blank fields; nothing about the students comes back to the chat.',
+        ],
+        notes: [
+          'Never type a student’s details into the chat; put them in a file and point the tool at it.',
+          'The provider’s orders govern treatment, you set the nursing goals, and the 504 team decides accommodations.',
+          'Add your agency’s translated emergency action plans as templates/<language>/<condition>_emergency_plan.md.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'concussion_return_to_learn_tracker',
+        title: 'Concussion: return to learn and return to play',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only when checking your head injury log',
+        does: 'Applies 105 CMR 201.000 and DPH and CDC guidance to a student’s head injury: removal from play, notification deadlines, forms, the graduated reentry plan, return-to-learn stages, accommodations for the student’s symptoms, a symptom-check schedule, and the gradual return to play. It flags problems such as clearance before the student is back in class full time. With your head injury log it checks every record, writes reentry plans and caregiver letters, and gives the counts DPH asks for each year.',
+        when: [
+          'A student was removed from a game with a suspected concussion.',
+          'Writing a graduated reentry plan.',
+          'Checking whether a clearance form can be accepted.',
+          'Preparing the year-end head injury report.',
+        ],
+        provide: [
+          'Dates only (no name): injury, diagnosis, return to school, symptom free, full-time classes, clearance, and the return-to-play stage completed; current symptoms if you want accommodations.',
+          'For the log: a CSV or Excel file with one row per injury (Injury Date, Extracurricular, Written Notice, AD Nurse Notified, Head Injury Form, Diagnosed Concussion, Reentry Plan, Full Academics, Clearance Date, Cleared By, Full Return).',
+        ],
+        examples: [
+          'A soccer player was hit on Friday, October 2, and diagnosed the next day. What is due and when?',
+          'She has headaches and light sensitivity. What accommodations should teachers use?',
+          'Check concussion_log.xlsx and write reentry plans for the diagnosed students.',
+        ],
+        returns: [
+          'A dated timeline with each requirement’s status, the stages, accommodations, forms with links and translations, danger signs, and flags.',
+          'Log mode: counts of records missing each requirement and the 105 CMR 201.017 statistics, with details, plans, and letters in your output folder.',
+        ],
+        notes: [
+          'DPH’s 2018 guidance and CDC’s 2025 advice differ on how many days a student should stay home; the tool shows both.',
+          'Business-day deadlines skip weekends but not holidays.',
+          'Return to play is a medical decision; the tool tracks steps and never clears a student.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'monitor_school_absenteeism',
+        title: 'Monitor illness absenteeism',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your absence records)',
+        does: 'Looks for unusual increases in influenza-like or stomach-illness absences by school, and optionally by grade, classroom, or team, using CDC’s EARS methods, and tells you when and how to notify your local board of health.',
+        when: [
+          'Daily or weekly surveillance during flu and norovirus season.',
+          'Several students went home vomiting today: is this unusual?',
+          'Checking whether one team or classroom has a cluster.',
+        ],
+        provide: [
+          'A file of absences: one row per absent student per day (Date, School, Reason), or daily counts by school (Date, School, Count, Reason or columns such as ILI and GI, and Enrollment).',
+          'Optionally a grade, classroom, or team column to check within groups.',
+        ],
+        examples: [
+          'Check absences.xlsx for unusual illness absences in the last week.',
+          'Is there a stomach bug cluster at the middle school? Look by grade.',
+        ],
+        returns: [
+          'Signals by school, syndrome, and day, recent counts (small counts shown as “<5”), how reasons were sorted, and the reporting rules: 105 CMR 300.134, DPH’s online cluster form for stomach illness, and child care parent notification.',
+          'Exact daily counts in an Excel file in your output folder.',
+        ],
+        notes: [
+          'A signal is a prompt to look closer and call the board of health, not a decision that there is an outbreak. DPH sets no numeric threshold.',
+          'Names and IDs in your file are never read.',
+          'Needs at least 8 school days of data.',
+        ],
+      },
+      {
+        id: 'build_school_health_annual_report',
+        title: 'Build the school health annual report',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your visit log, medication log, or screening roster)',
+        does: 'Compiles the school year’s statistics from your health office visit log, medication log, and screening roster: visits by type, the returned-to-class and dismissal rates, 911 calls, head injuries, medication doses, screenings and referrals, and BMI counts by grade, sex, and category. It writes a workbook laid out by DPH’s published reporting categories and a summary for the school committee, and lists the DPH reports you may owe.',
+        when: [
+          'End of the school year, before DPH’s reports are due.',
+          'Preparing a presentation for the school committee.',
+        ],
+        provide: [
+          'A visit log (Date, Reason, Disposition; optional Grade, Type, 911 Type, Head Injury, Student ID), and optionally a medication log and the screening roster.',
+          'The school year and enrollment.',
+        ],
+        examples: [
+          'Build the 2025–2026 annual report from visits.xlsx and screenings.xlsx; enrollment is 420.',
+          'What was our returned-to-class rate this year?',
+        ],
+        returns: [
+          'Monthly and yearly counts and rates with small counts suppressed, BMI data-quality checks, and the list of DPH reports with due dates.',
+          'A workbook and a school committee summary in your output folder.',
+        ],
+        notes: [
+          'DPH does not publish its current year-end Status Report form, so match the workbook to DPH’s form before submitting.',
+          'Reasons and dispositions are sorted by keywords; check the workbook.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'child_care_health_consultation_checklist',
+        title: 'Child care health consultation checklist',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only if you ask for a worksheet',
+        does: 'Gives a checklist of the health-related EEC licensing requirements (606 CMR 7.00) for family, small group, or large group child care: the health care policy, the consultant’s approvals, medication administration and consent, individual health care plans, immunization and health records, illness exclusion and notification, infection control, first aid and emergencies, safe sleep, food allergies, and educator health, each cited with the evidence to look for.',
+        when: [
+          'Preparing for or documenting a health consultant visit.',
+          'Reviewing a program’s health care policy for licensing renewal.',
+        ],
+        provide: [
+          'The program type and, optionally, the areas to cover.',
+          'Your findings (met, partly met, not met) if you want a gap list.',
+        ],
+        examples: [
+          'Give me the medication administration checklist for a large group program.',
+          'Record these findings and list the gaps: medication training not met, safe sleep met.',
+          'Write a visit worksheet for a family child care program.',
+        ],
+        returns: [
+          'The checklist items with citations and evidence to look for, counts by area, a gap list, and optionally a worksheet in your output folder.',
+        ],
+        notes: [
+          'Based on 606 CMR 7.00 as published in December 2021; check EEC’s site for amendments.',
+          'Do not record children’s names in findings.',
+          'Pending review.',
+        ],
+      },
+    ],
+  },
   // End of Phase 7 chapter.
   // Phase 8 chapter goes below this line.
   // End of Phase 8 chapter.

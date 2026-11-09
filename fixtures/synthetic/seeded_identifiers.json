@@ -3758,6 +3758,2220 @@
    "kind": "other_id_number",
    "file": "data/church_supper_outbreak.csv",
    "column": "Case ID"
+  },
+  {
+   "value": "9510001",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Brennecke",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Amaru",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2022-06-15",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Odalys Brennecke",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0110",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510002",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Castellucci",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bexley",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-09-25",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Benedek Castellucci",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0111",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510003",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dragomir",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Corisande",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-06-10",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Calloway Dragomir",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0112",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510004",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Esterhazy",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dariush",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-07-01",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Delphine Esterhazy",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0113",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510005",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Fennimore",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Elowen",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-03-01",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Evander Fennimore",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0114",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510006",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gaudreault",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Faustine",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2019-08-03",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Fenella Gaudreault",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0115",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510007",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Holmqvist",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Gethin",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2018-11-23",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Gaspard Holmqvist",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0116",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510008",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Iacobelli",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ilsabet",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2017-09-13",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Honorine Iacobelli",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0117",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510009",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Jaskolski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jorvik",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2017-09-12",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Isidore Jaskolski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0118",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510010",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Kowalewska",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Lysander",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2016-01-19",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Jessamyn Kowalewska",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0119",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510011",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Marisol",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2016-08-12",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Kasimir Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0120",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510012",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Mavromatis",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nikolai",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2015-01-07",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Leocadia Mavromatis",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0121",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510013",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nakashima-Roe",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Oriel",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-01-22",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Odalys Nakashima-Roe",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0122",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510014",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ostrowski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Peregrin",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-04-24",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Benedek Ostrowski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0123",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510015",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Pellegrino-Vance",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Quintessa",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2013-04-12",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Calloway Pellegrino-Vance",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0124",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510016",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quarshie",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rhosyn",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2012-06-16",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Delphine Quarshie",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0125",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510017",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Radovanovic",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Seraphine",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2011-05-16",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Evander Radovanovic",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0126",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510018",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Szczepanik",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tadhg",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2011-09-28",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Fenella Szczepanik",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0127",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510019",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Thorvaldsen",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ulyana",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2010-10-20",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Gaspard Thorvaldsen",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0128",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510020",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Uchendu",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Valdemar",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2009-04-19",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Honorine Uchendu",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0129",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510021",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Vukovich",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wenceslas",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2020-02-14",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Isidore Vukovich",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0130",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510022",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Wojciechowska",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Xiomara",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2017-10-25",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Jessamyn Wojciechowska",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0131",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510023",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Xanthopoulos",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Yevgenia",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2014-11-02",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Kasimir Xanthopoulos",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0132",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510024",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Yamamura-Kell",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zephyrine",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2011-03-14",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Leocadia Yamamura-Kell",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0133",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510025",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Zaborowski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Anselm",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2021-07-08",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Odalys Zaborowski",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0134",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510026",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Abelardo-Finch",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Brisa",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2018-03-20",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Benedek Abelardo-Finch",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0135",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510027",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Bergkvist",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Cosmin",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2015-11-04",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Calloway Bergkvist",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0136",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9510028",
+   "kind": "other_id_number",
+   "file": "data/school_screenings.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Cieslak",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dagny",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "2012-06-26",
+   "kind": "birth_date",
+   "file": "data/school_screenings.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Delphine Cieslak",
+   "kind": "name",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "617-555-0137",
+   "kind": "phone",
+   "file": "data/school_screenings.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9520001",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ilsabet Mavromatis",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520002",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Jorvik Nakashima-Roe",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520003",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lysander Ostrowski",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520004",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Marisol Pellegrino-Vance",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520005",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nikolai Quarshie",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520006",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oriel Radovanovic",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520007",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Peregrin Szczepanik",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520008",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintessa Thorvaldsen",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520009",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Rhosyn Uchendu",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520010",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Seraphine Vukovich",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520011",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Tadhg Wojciechowska",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520012",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ulyana Xanthopoulos",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520013",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Valdemar Yamamura-Kell",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520014",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Wenceslas Zaborowski",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520015",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Xiomara Abelardo-Finch",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520016",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Yevgenia Bergkvist",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520017",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Zephyrine Cieslak",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520018",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Anselm Dziedzic",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520019",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Brisa Engstrand",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520020",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Cosmin Fiorentino-Lake",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520021",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dagny Gruszka",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520022",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Eirlys Brennecke",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520023",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Florentyna Castellucci",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520024",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gwilym Dragomir",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520025",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Hesper Esterhazy",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520026",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Amaru Fennimore",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520027",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Bexley Gaudreault",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520028",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Corisande Holmqvist",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520029",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dariush Iacobelli",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520030",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Elowen Jaskolski",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520031",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Faustine Kowalewska",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520032",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gethin Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520033",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ilsabet Mavromatis",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520034",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Jorvik Nakashima-Roe",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520035",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lysander Ostrowski",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520036",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Marisol Pellegrino-Vance",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520037",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nikolai Quarshie",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520038",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oriel Radovanovic",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520039",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Peregrin Szczepanik",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9520040",
+   "kind": "other_id_number",
+   "file": "data/school_absence_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintessa Thorvaldsen",
+   "kind": "name",
+   "file": "data/school_absence_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530001",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dariush Uchendu",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530002",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Elowen Vukovich",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530003",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Faustine Wojciechowska",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530004",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gethin Xanthopoulos",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530005",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ilsabet Yamamura-Kell",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530006",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Jorvik Zaborowski",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530007",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Lysander Abelardo-Finch",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530008",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Marisol Bergkvist",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530009",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Nikolai Cieslak",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530010",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Oriel Dziedzic",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530011",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Peregrin Engstrand",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530012",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintessa Fiorentino-Lake",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530013",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Rhosyn Gruszka",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530014",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Seraphine Brennecke",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530015",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Tadhg Castellucci",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530016",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Ulyana Dragomir",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530017",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Valdemar Esterhazy",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530018",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Wenceslas Fennimore",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530019",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Xiomara Gaudreault",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530020",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Yevgenia Holmqvist",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530021",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Zephyrine Iacobelli",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530022",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Anselm Jaskolski",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530023",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Brisa Kowalewska",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530024",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Cosmin Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530025",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dagny Mavromatis",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530026",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Eirlys Nakashima-Roe",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530027",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Florentyna Ostrowski",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530028",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gwilym Pellegrino-Vance",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530029",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Hesper Quarshie",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530030",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Amaru Radovanovic",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530031",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Bexley Szczepanik",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530032",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Corisande Thorvaldsen",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530033",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Dariush Uchendu",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530034",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Elowen Vukovich",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530035",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Faustine Wojciechowska",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9530036",
+   "kind": "other_id_number",
+   "file": "data/health_office_visits.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Gethin Xanthopoulos",
+   "kind": "name",
+   "file": "data/health_office_visits.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "9540001",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Xiomara Gaudreault",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Evander Gaudreault",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "evander.family1@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9540002",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Yevgenia Holmqvist",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Fenella Holmqvist",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "fenella.family2@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9540003",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Zephyrine Iacobelli",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Gaspard Iacobelli",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "gaspard.family3@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9540004",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Anselm Jaskolski",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Honorine Jaskolski",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "honorine.family4@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9540005",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Brisa Kowalewska",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Isidore Kowalewska",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "isidore.family5@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9540006",
+   "kind": "other_id_number",
+   "file": "data/concussion_log.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Cosmin Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Jessamyn Lindqvist-Oyama",
+   "kind": "name",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "jessamyn.family6@example.org",
+   "kind": "email",
+   "file": "data/concussion_log.csv",
+   "column": "Parent Email"
+  },
+  {
+   "value": "9550001",
+   "kind": "other_id_number",
+   "file": "data/health_plan_students.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Peregrin Abelardo-Finch",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "2019-05-04",
+   "kind": "birth_date",
+   "file": "data/health_plan_students.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Honorine Abelardo-Finch",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "508-555-0140",
+   "kind": "phone",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9550002",
+   "kind": "other_id_number",
+   "file": "data/health_plan_students.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Quintessa Bergkvist",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "2017-11-18",
+   "kind": "birth_date",
+   "file": "data/health_plan_students.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Isidore Bergkvist",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "508-555-0141",
+   "kind": "phone",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9550003",
+   "kind": "other_id_number",
+   "file": "data/health_plan_students.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Rhosyn Cieslak",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "2015-05-09",
+   "kind": "birth_date",
+   "file": "data/health_plan_students.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Jessamyn Cieslak",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "508-555-0142",
+   "kind": "phone",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9550004",
+   "kind": "other_id_number",
+   "file": "data/health_plan_students.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Seraphine Dziedzic",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "2013-05-18",
+   "kind": "birth_date",
+   "file": "data/health_plan_students.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Kasimir Dziedzic",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "508-555-0143",
+   "kind": "phone",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Phone"
+  },
+  {
+   "value": "9550005",
+   "kind": "other_id_number",
+   "file": "data/health_plan_students.csv",
+   "column": "Student ID"
+  },
+  {
+   "value": "Tadhg Engstrand",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "2011-06-17",
+   "kind": "birth_date",
+   "file": "data/health_plan_students.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Leocadia Engstrand",
+   "kind": "name",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Name"
+  },
+  {
+   "value": "508-555-0144",
+   "kind": "phone",
+   "file": "data/health_plan_students.csv",
+   "column": "Parent Phone"
   }
  ]
 }

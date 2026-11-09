@@ -1040,6 +1040,188 @@ data at all is left out with a caveat.
 ## Phase 7: School health
 
 <!-- Phase 7 tools go below this line. -->
+
+School health tools are in the `school` toolset (on in the `school_nurse` profile). Their content
+is in `content/school/` (pending review, due 2027-02-01). The school year runs July 1 to June 30.
+
+**Templates and translations.** Tools that write letters or plans for families (SCH-02, SCH-04,
+SCH-05) ship English templates only. An agency adds its own approved translations as
+`/data/templates/<language>/<kind>.md`, where `<language>` is a language name or code found in the
+nurse's file (`spanish` or `es`, `portuguese` or `pt`, `haitian-creole` or `ht`, ...). Kinds:
+`vision_referral`, `hearing_referral`, `postural_referral`, `concussion_caregiver_letter`, and
+`<condition>_emergency_plan` (`diabetes`, `asthma`, `seizures`, `food_allergy`). Each English
+template is written next to the documents as `template_english_<kind>.md`; keep its
+`{{placeholders}}`. Letters for a language without an agency translation are written in English
+and counted in the answer. Nothing is machine-translated.
+
+### `get_ma_school_screening_requirements` (SCH-01, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `screening` | all | `vision`, `hearing`, `bmi` (height and weight), `postural` (scoliosis), `sbirt`, `kindergarten vision certificate`, or `physical exam` (aliases accepted). |
+| `grade` | all grades (table) | `PK`, `K`, `1`–`12`, or `ungraded` (then `age_years`). |
+| `age_years` | | Age for ungraded classrooms (105 CMR 200.000 gives age rules). |
+| `new_student` | false | New to the district: school-entry rules apply (DPH advises screening new students' vision). |
+| `include_details` | true | Protocol, referral, notification, exemptions, reporting, and confidentiality. |
+
+Rules come from 105 CMR 200.000 (vision 200.400(B), hearing 200.400(C), BMI 200.500, physical
+examinations 200.100), M.G.L. c. 71, section 57 (postural screening annually in grades 5–9; the
+kindergarten vision certificate) and section 97 (SBIRT), and DPH's 2022 vision protocol (critical
+lines, charts, near vision, stereoacuity, instrument screening; public preschool screened
+annually). Each band is `annual`, `once_in_band`, `school_entry`, `district_selected`, or
+`entry_and_interval`. Hearing protocol details come from DPH's 2007 manual because the current DPH
+hearing protocol could not be retrieved (marked medium or low confidence).
+
+### `track_school_screenings` (SCH-02, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | Roster with results (CSV/XLSX in `/data`), one row per student. |
+| `as_of` | today | Sets the school year. |
+| `screenings` | every one with columns | `vision`, `hearing`, `bmi`, `postural`, `kindergarten vision certificate`. SBIRT is refused. |
+| `write_letters` | false | Referral letters for students referred whose follow-up is not documented (vision, hearing, postural). |
+| `letter_format` | `docx` | `docx` or `pdf`. |
+| `school_name`, `nurse_name`, `nurse_phone` | | Letter fields (or a `School` column). |
+
+Columns: `Grade` (required); optional `Date of Birth`, `Sex`, `Home Language`, `New Student`,
+`Parent Name`, `Student Name` or `First Name`/`Last Name`; and per screening a date, a result
+(`pass`, `refer`, `absent`, `refused`, `exempt`), and a follow-up column, e.g. `Vision Date`,
+`Vision Result`, `Vision Referral Completed`. BMI uses `Height (in)` and `Weight (lb)` (or cm/kg),
+`BMI Percentile`, or `BMI Category`; with height, weight, date of birth, and sex the tool computes
+the CDC BMI-for-age percentile (LMS method, `content/school/cdc_bmi_for_age.yaml`). A screening
+counts toward this year when it falls in the window its band needs (this school year for annual
+bands; since the student entered the band for once-per-band screenings). Statuses: `passed`,
+`referred, follow-up pending`, `referred, follow-up done`, `incomplete`, `due`, `exempt or opted
+out`, `not required`. The answer has suppressed counts and completion, referral, and follow-up
+rates by grade (rates hidden when a count they use is hidden) and BMI category counts by grade
+and sex. Per-student results and an action list go to
+`/data/output/school_screenings_<date>.xlsx`; letters to
+`/data/output/school_screening_letters_<date>/`. Columns that look like SBIRT results are ignored
+and not copied (M.G.L. c. 71, section 97(c)).
+
+### `school_medication_administration_guide` (SCH-03, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | | A question in plain language. |
+| `topic` | | A topic id instead (listed when both are omitted). |
+| `max_topics` | 4 | Topics returned for a question (1–6). |
+
+Answers from 105 CMR 210.000 as amended 12/5/2025 (Mass. Register #1562) and M.G.L. c. 71,
+section 54B, each point cited by section. Topics: scope and definitions, policies, DPH
+registration (MCSR), delegation, orders and consent, the medication administration plan, field
+trips, self-administration and self-carry, training, storage, documentation, medication errors,
+epinephrine, opioid antagonists, other emergency rescue medications, and the nurse's judgment,
+waivers, and inspections. Topics are matched by keywords, with keywords shared by several topics
+counting less.
+
+### `build_individualized_health_plan` (SCH-04, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `condition` | required | `diabetes`, `asthma`, `seizures` (epilepsy), or `food allergy` (anaphylaxis). |
+| `student_file`, `sheet` | | Local fill: one row per student (CSV/XLSX in `/data`). |
+| `format` | `docx` | `docx` or `pdf`. |
+| `include_504` | true | Suggested Section 504 accommodations. |
+| `write_templates` | false | Write the blank English templates to `/data/output`. |
+| `school_name`, `nurse_name`, `nurse_phone` | | Fields for filled plans. |
+
+Returns the plan as cited sections (recognize, emergency steps, call 911, nursing assessment,
+goals, interventions, medications, required plan elements, suggested 504 accommodations, family
+resources) and the placeholders. With `student_file`, columns such as `Student Name`, `Date of
+Birth`, `Grade`, `Parent Name`, `Parent Phone`, `Emergency Contact`, `Provider Name`, `Provider
+Phone`, `Allergies`, `Medications`, `Emergency Medication`, `Home Language`, and condition fields
+(`Target Range`, `Low Threshold`, `Glucagon`, `Insulin`; `Peak Flow`, `Triggers`; `Seizure
+Description`, `Rescue Instructions`; `Allergens`, `Epinephrine`) fill one IHP plus emergency action
+plan per student in `/data/output/health_plans_<condition>/`; rows whose `Condition` names another
+condition are skipped. The answer has counts, blank-field counts, and languages only. Sources: CDC
+school health and clinical pages, CDC's 2013 food allergy guidelines, 105 CMR 210.000, M.G.L. c.
+71, section 54B, and DPH's 2007 manual (IHP process).
+
+### `concussion_return_to_learn_tracker` (SCH-05, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `injury_date`, `diagnosis_date`, `returned_to_school`, `symptom_free_date`, `full_academics_date`, `cleared_to_begin_rtp` | | Dates for one student (no name). |
+| `during_extracurricular` | true | Injury in an extracurricular athletic activity (105 CMR 201.000 applies). |
+| `rtp_stage_completed` | 0 | Highest gradual return-to-play stage completed (DPH clearance form, 1–6). |
+| `symptoms` | | Plain words, to pick accommodations from DPH's Table 1. |
+| `symptom_ratings` | | DPH Post-concussion Symptom Monitoring Tool ratings (0–6 for 22 symptoms). |
+| `rest_guidance` | `dph2018` | `dph2018` or `cdc2025` for time out of school. |
+| `as_of` | today | |
+| `tracker_path`, `sheet` | | Log mode: a head injury log in `/data`. |
+| `write_plans` | false | Log mode: filled reentry plans and caregiver letters. |
+| `format`, `school_name`, `nurse_name`, `nurse_phone` | | Document options. |
+
+One student: a timeline (removal from play, parent contact, written notice and athletic
+director/nurse notification by the end of the next business day, Report of Head Injury form,
+reentry plan, the 4-week mark), DPH's return-to-learn stages, the DPH clearance form's six
+return-to-play stages with status, accommodations, a symptom-check schedule (twice weekly for two
+weeks after return, then weekly), forms with links and translations, danger signs, and flags
+(clearance before full-time classes without accommodations, stages without a symptom-free date or
+clearance, 4 weeks without a full academic load). Log mode checks each record (written notice and
+AD/nurse notice on time, form on file, reentry plan, clearance before return and after full
+academics, clearing provider type) and returns suppressed counts, including the 105 CMR 201.017
+statistics; per-student checks go to `/data/output/concussion_log_check_<date>.xlsx`. Business
+days skip weekends, not holidays.
+
+### `monitor_school_absenteeism` (SCH-06, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | Absences in `/data`: one row per absent student-day (Date, School, Reason) or daily counts (Date, School, Count, Reason or syndrome columns such as `ILI` and `GI`, Enrollment). |
+| `date_column`, `school_column`, `reason_column`, `count_column`, `enrollment_column` | found by name | Overrides. |
+| `group_column` | | Also look within grades, classrooms, or teams (at most 20 values; identifier columns refused). |
+| `syndromes` | `ili`, `gi`, `all_illness` | Also `rash`, `other_illness`, `total`. |
+| `end_date` | last date in the file | |
+| `report_days` | 5 | School days shown and checked for signals. |
+
+Reasons are sorted into influenza-like illness (CDC ILINet definition), gastrointestinal illness
+(DPH: vomiting or diarrhea above what is normal for the facility), rash, and other illness by
+keywords. EARS C1, C2, and C3 (`phn_epi::aberration`, as in `detect_aberrations`) run on each
+school's (and group's) daily series over the school days in the file, with a baseline SD floor of
+0.5 when counts are sparse. The answer lists signals, recent days (counts from 1 to the threshold
+shown as `<n`), and the notification rules: 105 CMR 300.134 (report a suspected cluster to the
+local board of health immediately), DPH's online gastrointestinal cluster form for schools and
+child care, and 606 CMR 7.11(9) for child care. Exact counts go to
+`/data/output/school_absenteeism_<date>.xlsx`. Names and IDs in the file are never read.
+
+### `build_school_health_annual_report` (SCH-07, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `visit_log_path`, `visit_log_sheet` | | Health office visits: Date, Reason, Disposition; optional Grade, Type (student/staff), 911 Type, Injury, Head Injury, Student ID (used only to count distinct students). |
+| `medication_log_path`, `medication_log_sheet` | | Doses: Date and Type (scheduled or PRN). |
+| `screening_path`, `screening_sheet` | | The roster `track_school_screenings` reads. |
+| `school_year` | current | e.g. `2025-2026`. |
+| `enrollment` | | For per-student rates. |
+| `school_name`, `summary_format` | | Report title; `docx` or `pdf`. |
+
+Visits are sorted into DPH's published categories (health maintenance, injury/first aid,
+mental/behavioral health, miscellaneous) and dispositions (returned to class, dismissed for
+illness or injury, 911 medical or behavioral, other). The workbook
+`/data/output/school_health_annual_<year>.xlsx` has monthly activities, medication doses,
+screenings (screened, referred, completed referrals), the BMI report (grade × sex × category)
+with DPH's height and weight data-quality ranges, the DPH reports a school may owe, and
+definitions; a school committee summary (`docx` or `pdf`) has suppressed aggregates and DPH's
+2011–2012 statewide returned-to-class rate for comparison. DPH does not publish its current Status
+Report form, so field names follow DPH's published categories; match them to DPH's forms.
+
+### `child_care_health_consultation_checklist` (SCH-08, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_type` | `large_group` | `family`, `small_group`, or `large_group`. |
+| `domains` | all | `health_policy`, `consultant`, `medication`, `care_plans`, `records`, `illness`, `infection_control`, `first_aid`, `safe_sleep`, `nutrition`, `staff_health`, `safety`. |
+| `findings` | | `[{item, status, note}]`, status `met`, `partial`, `not_met`, or `not_applicable`. |
+| `write_worksheet`, `worksheet_format` | false, `xlsx` | A visit worksheet in `/data/output`. |
+| `program_name` | | Worksheet title. |
+
+Items paraphrase 606 CMR 7.00 (Mass. Register #1459, 12/24/21) with the section cited and the
+evidence to look for, filtered by program type (for example the health care policy and
+consultant approvals in 7.11(19) apply to large group programs). Findings give counts by domain
+and a gap list.
+
 <!-- End of Phase 7 tools. -->
 
 ## Phase 8: Maternal, child, and family health

@@ -1,0 +1,201 @@
+# Illness-related school absenteeism: syndrome definitions, when to notify the local board of
+# health, and control measures, for monitor_school_absenteeism (SCH-06).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from 105 CMR 300.000, DPH's norovirus guidance
+# for child care programs and K-12 schools, 606 CMR 7.11, and CDC FluView, fetched that day.
+# Schema: content/schemas/school_absenteeism.schema.json
+meta:
+  id: ma-school-absenteeism
+  title: "Illness absenteeism in schools and child care: syndromes and board of health notification"
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2022-05-27
+  source:
+    title: "105 CMR 300.000: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements (Mass. Register #1470, 5/27/22)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+  related_sources:
+    - title: Norovirus information for child care programs and K-12 schools
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    - title: "U.S. Influenza Surveillance: Purpose and Methods (ILINet case definition)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/fluview/overview/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The reporting duty (105 CMR 300.134 and related sections) and the outbreak definition are
+    transcribed from the regulation (high confidence). DPH's norovirus page gives the
+    gastrointestinal outbreak definition, three worked school and child care examples, and the
+    online cluster reporting form (high). The influenza-like illness definition is CDC's ILINet
+    definition (high). DPH publishes no numeric absence threshold for notifying the board of
+    health: the tool's statistical signals (EARS C1-C3 and a percent-absent check) are screening
+    aids that prompt a call, not a DPH rule. The keyword lists that sort absence reasons into
+    syndromes are tool defaults for the nurse to review (medium). No DPH page specific to
+    respiratory illness clusters in schools was found on 2026-11-08; the general cluster duty of
+    105 CMR 300.134 applies. The subject matter expert must review before Pilot 2.
+
+sources:
+  cmr300:
+    title: "105 CMR 300.000: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    effective_date: 2022-05-27
+    retrieved: 2026-11-08
+  dph-norovirus-schools:
+    title: Norovirus information for child care programs and K-12 schools
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-fluview:
+    title: "U.S. Influenza Surveillance: Purpose and Methods"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/fluview/overview/index.html
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-stay-home:
+    title: Staying home to prevent the spread of respiratory viruses
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/staying-home-to-prevent-the-spread-of-respiratory-viruses
+    effective_date: null
+    retrieved: 2026-11-08
+  cmr606-7:
+    title: "606 CMR 7.00: Standards for the Licensure or Approval of Family Child Care; Small Group and School Age and Large Group and School Age Child Care Programs (Mass. Register #1459, 12/24/21)"
+    publisher: Massachusetts Department of Early Education and Care
+    url: https://www.mass.gov/doc/family-group-school-age-child-care-programs-606-cmr-7-0/download
+    effective_date: 2021-12-24
+    retrieved: 2026-11-08
+  hutwagner-2003:
+    title: "Hutwagner L, et al. The bioterrorism preparedness and response Early Aberration Reporting System (EARS). J Urban Health. 2003;80(2 Suppl 1):i89-96"
+    publisher: Journal of Urban Health
+    url: https://pubmed.ncbi.nlm.nih.gov/12791783/
+    effective_date: 2003-06-01
+    retrieved: 2026-11-08
+
+syndromes:
+  - id: ili
+    name: Influenza-like illness (respiratory)
+    definition: >-
+      CDC's ILINet definition: fever (100 F [37.8 C] or greater) and a cough and/or a sore
+      throat. Absence reasons are coarser than a case definition, so the tool counts any
+      respiratory or fever reason here.
+    keywords: [ili, influenza, flu, fever, cough, sore throat, respiratory, cold, covid, rsv, congestion, strep, pneumonia, bronchitis]
+    source: cdc-fluview
+    section: "ILINet"
+  - id: gi
+    name: Gastrointestinal illness
+    definition: >-
+      Vomiting or diarrhea. DPH defines a norovirus outbreak in schools and child care as an
+      increase in people with diarrhea or vomiting above what is normal for the facility for the
+      time and place, among children and staff; no diagnosis or testing is needed.
+    keywords: [gi, gastrointestinal, vomit, vomiting, diarrhea, diarrhoea, stomach, stomach bug, nausea, norovirus, gastro]
+    source: dph-norovirus-schools
+    section: "Reporting norovirus outbreaks"
+  - id: rash
+    name: Rash illness
+    definition: >-
+      Absences reported with a rash or a rash illness (for example chickenpox, hand-foot-and-mouth
+      disease, or measles). Tool grouping for review; any suspected measles or other reportable
+      disease is reported under 105 CMR 300.100 regardless of numbers.
+    keywords: [rash, chickenpox, varicella, hand foot mouth, hfmd, measles, scarlet, fifth disease]
+    source: cmr300
+    section: "300.100"
+    confidence: medium
+  - id: other_illness
+    name: Other or unspecified illness
+    definition: >-
+      Illness absences whose reason does not match a syndrome above (for example "sick" or "ill"
+      with no detail).
+    keywords: [sick, ill, illness, unwell, medical, doctor, headache, ear, eye, pink eye, conjunctivitis]
+    source: cmr300
+    section: "300.020 (Outbreak or Cluster)"
+    confidence: medium
+
+notification:
+  - text: >-
+      Anyone in a supervisory position at a school or day care who knows of any suspected or
+      confirmed cluster or outbreak of any illness must report it immediately by telephone, fax,
+      or other electronic means to the local board of health where the facility is located, or to
+      DPH directly.
+    source: cmr300
+    section: "300.134"
+  - text: >-
+      An outbreak or cluster is cases of an illness clearly in excess of the number usually
+      expected for that population, place, and season; the number that signals an outbreak varies
+      with the agent, setting, population, and time, so the regulation sets no fixed threshold.
+    source: cmr300
+    section: "300.020 (Outbreak or Cluster)"
+  - text: >-
+      Illness believed to be due to food must be reported immediately to the local board of
+      health; an unusual illness must also be reported immediately.
+    source: cmr300
+    section: "300.131, 300.133"
+  - text: >-
+      The local board of health reports clusters, outbreaks, and increased incidence of diarrheal
+      or unexplained febrile illness to DPH immediately through MAVEN.
+    source: cmr300
+    section: "300.160"
+  - text: >-
+      Report suspected norovirus (gastrointestinal) outbreaks as soon as they are identified using
+      DPH's online Gastrointestinal Illness Child Care and K-12 School Cluster Reporting Form; the
+      local board of health or a DPH epidemiologist then calls with guidance. Questions: the local
+      board of health or the DPH Division of Epidemiology, (617) 983-6800.
+    source: dph-norovirus-schools
+    section: "Reporting norovirus outbreaks"
+  - text: >-
+      Licensed child care programs must notify all parents, following DPH recommendations, when
+      any communicable disease or condition has been introduced into the program, and must follow
+      DPH exclusion policies.
+    source: cmr606-7
+    section: "7.11(9)(a)-(b)"
+
+examples:
+  - text: >-
+      An elementary school of 250 students has 100 absent over a week, some with a "stomach bug",
+      and 15 seen by the nurse with sudden vomiting, against a typical week of 25 absences and 1
+      or 2 vomiting visits: report as an outbreak.
+    source: dph-norovirus-schools
+    section: "Reporting norovirus outbreaks (example 2)"
+  - text: >-
+      A high school of 800 has 50 absent in one day, which is not unusual for the school, but most
+      are on two soccer teams with vomiting and diarrhea that began after a game: report as an
+      outbreak. A total absence count alone can miss a cluster in one group.
+    source: dph-norovirus-schools
+    section: "Reporting norovirus outbreaks (example 3)"
+  - text: >-
+      A child care program of 30 children has 10 toddler and preschool children out with vomiting
+      and diarrhea over two days and two staff from the same rooms out sick: report as an
+      outbreak.
+    source: dph-norovirus-schools
+    section: "Reporting norovirus outbreaks (example 1)"
+
+control_measures:
+  - syndrome: gi
+    text: >-
+      Handwashing with soap and warm water for 20 seconds (hand sanitizer does not work well
+      against norovirus); clean and disinfect immediately after vomiting or diarrhea and
+      high-touch surfaces daily with products effective against norovirus; exclude ill children
+      and staff per DPH's Gastrointestinal Illness Symptom Checklist; limit mixing across
+      classrooms; stop food sharing and self-service; consider notifying parents with the board
+      of health's advice.
+    source: dph-norovirus-schools
+    section: "Prevention and control recommendations"
+  - syndrome: ili
+    text: >-
+      People with respiratory illness stay home while sick and may resume normal activities when
+      fever-free for 24 hours without fever-reducing medicine and symptoms are improving, with
+      extra precautions (masking, hand hygiene, avoiding crowds) for the next 5 days.
+    source: dph-stay-home
+    section: "Recommendations for the general public"
+
+method:
+  - text: >-
+      EARS C1, C2, and C3 compare each day's count with the mean and standard deviation of the
+      preceding 7 days (C1), the 7 days before a 2-day guard band (C2), or sum recent excesses
+      (C3); CDC designed them for daily syndromic counts with little history.
+    source: hutwagner-2003
+    section: "Methods"

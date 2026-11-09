@@ -99,6 +99,14 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `get_ma_school_screening_requirements` | SCH-01 | school | Required school screenings by grade (105 CMR 200.000, M.G.L. c. 71) with protocols, referral, notification, and reporting rules. |
+| `track_school_screenings` | SCH-02 | school | From a local roster: who is due, completion, referral, and follow-up rates by grade, BMI categories, and referral letters in each family's language (written locally). |
+| `school_medication_administration_guide` | SCH-03 | school | Cited answers on medication administration in schools (105 CMR 210.000, amended 12/5/2025). |
+| `build_individualized_health_plan` | SCH-04 | school | IHP and emergency action plan for diabetes, asthma, seizures, or food allergy, with suggested 504 accommodations; filled locally from a student file. |
+| `concussion_return_to_learn_tracker` | SCH-05 | school | 105 CMR 201.000 deadlines, reentry and return-to-play stages, accommodations, and head injury log checks with reentry plans written locally. |
+| `monitor_school_absenteeism` | SCH-06 | school | EARS signals for influenza-like or gastrointestinal absences by school, with when to call the board of health. |
+| `build_school_health_annual_report` | SCH-07 | school | Year-end statistics from local logs in DPH's published reporting categories, plus a school committee summary. |
+| `child_care_health_consultation_checklist` | SCH-08 | school | Health consultant checklist against EEC licensing rules (606 CMR 7.00). |
 <!-- Phase 7 rows go above this line. -->
 
 ### Phase 8: maternal, child, and family health
