@@ -2144,9 +2144,7 @@ under 5.
 
 Staff names and positions may be passed in a request; phone numbers, email addresses, and radio
 call signs come only from a roster file in `/data` (`roster_path`) and go only into documents
-written to `/data/output` (product-owner decision, Phase 13).
-
-<!-- Phase 13 EPR-01 (ICS) sections go below this line. -->
+written to `/data/output` (ADR 0009).
 
 ### `generate_ics_forms` (EPR-01, toolset `epr`)
 
@@ -2178,10 +2176,6 @@ catalog; and suggestions for the incident type, with citations and confidence. *
 written only to the documents (the ICS 205A is marked "not for public release"); the response
 contains counts (staff, matched, unmatched), never roster values. Contact details or client
 identifiers typed into the request are reported by category in the privacy block.
-<!-- End of Phase 13 EPR-01 sections. -->
-
-<!-- Phase 13 EPR-07 (COOP) sections go below this line. -->
-
 ### `continuity_of_operations_planner` (EPR-07, toolset `epr`)
 
 | Argument | Default | |
@@ -2218,10 +2212,6 @@ Privacy: roster contacts (and names read from the roster) are filled only into t
 succession table and call-down annex and the workbook in `/data/output`; the response reports
 counts only (`roster`). Phone numbers or emails typed into the request are reported in the
 privacy block with a request to use the roster instead. Decision support only.
-<!-- End of Phase 13 EPR-07 sections. -->
-
-<!-- Phase 13 EPR-08/EPR-09 (HSEEP) sections go below this line. -->
-
 ### `design_hseep_exercise` (EPR-08, toolset `epr`)
 
 | Argument | Default | |
@@ -2278,10 +2268,6 @@ marked for the After-Action Meeting. Feedback forms are totaled locally: identif
 counts are suppressed (with a complement) below the threshold; means and percent agreeing are
 hidden when fewer forms than the threshold answered. After-action dates (30, 45, 60 days) are
 tool defaults.
-<!-- End of Phase 13 EPR-08/EPR-09 sections. -->
-
-<!-- Phase 13 EPR-10 (CERC) sections go below this line. -->
-
 ### `crisis_risk_communication_builder` (EPR-10, toolset `epr`)
 
 | Argument | Default | |
@@ -2316,4 +2302,18 @@ COMM-04); client identifiers; safe messaging when suicide is mentioned. Agency t
 read from `/data/templates/<language>/cerc_<id>.md` (ACS names are matched to folder names, e.g.
 "Haitian" → `haitian-creole`); other languages get a COMM-02 translator brief. Nothing is
 machine-translated. Contact details found in the request are reported in the privacy block.
-<!-- End of Phase 13 EPR-10 sections. -->
+
+### MCP prompt: `plan_tabletop_exercise`
+
+Arguments (all optional): `scenario`, `area`, `exercise_date`, `roster_path`. Returns one message
+that walks the model through an HSEEP tabletop exercise cycle for a Massachusetts local health
+department: choose the hazard and describe the people most affected
+(`hazard_vulnerability_assessment`, `get_active_hazard_alerts`, `build_community_health_profile`,
+`language_access_profile`, and `get_electricity_dependent_population`, `heat_health_action_planner`,
+or `search_ma_disease_control_guide` by scenario), design the exercise with objectives mapped to
+PHEP and FEMA core capabilities (`design_hseep_exercise`), prepare player materials
+(`generate_ics_forms`, `crisis_risk_communication_builder`, `continuity_of_operations_planner`,
+`model_dispensing_site_throughput`, `plan_vaccination_clinic`, `functional_needs_shelter_intake`),
+run the hotwash, and write the after-action report and improvement plan
+(`build_after_action_report`). Staff contacts stay in the roster file; client details never go
+into the chat.

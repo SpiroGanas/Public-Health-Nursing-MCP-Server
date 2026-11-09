@@ -4,10 +4,9 @@ A handoff document for whoever picks up this project next, human or AI agent. Re
 starting work, and **update it before you finish** (see [Keeping this file current](#keeping-this-file-current)).
 
 - **Last updated:** 2026-11-09
-- **Current version:** 0.13.0 (Phases 0–12 of [`project_plan.md`](project_plan.md)); not yet released
-- **Next phase:** Phase 13, emergency preparedness II (ICS forms, COOP, HSEEP, after-action
-  reports, CERC), then Pilot 3. Pilot 1 (after Phase 3) and Pilot 2 (after Phase 7, school
-  health) wait on the nurse's content reviews.
+- **Current version:** 0.14.0 (Phases 0–13 of [`project_plan.md`](project_plan.md)); not yet released
+- **Next:** Pilot 3 (a tabletop exercise designed with `design_hseep_exercise`), then Phase 14,
+  environmental health and climate. Pilots 1, 2, and 3 wait on the nurse's content reviews.
 
 ## 1. Where things stand
 
@@ -26,15 +25,16 @@ starting work, and **update it before you finish** (see [Keeping this file curre
 | 9 | PHN practice toolkit and case management (8 tools) | Open; content review needed | PR #5 |
 | 10 | Healthy aging and mental health screening (9 tools) | Open; content review needed | PR #5 |
 | 11 | Substance use, crisis resources, and health communication (9 tools) | Open; content review needed | PR #5 |
-| 12 | Emergency preparedness I (8 tools) | Open; content review needed | PR #5 |
-| 13–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
+| 12 | Emergency preparedness I (8 tools) | Merged; content review needed | PR #5 |
+| 13 | Emergency preparedness II: ICS, plans, and exercises (5 tools + tabletop prompt) | Open; content review needed before Pilot 3 | PR #6 |
+| 14–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
 
-PR #5 (branch `claude/gallant-cray-nsc88i`) holds Phases 7–12. Each phase was built by a helper
-agent in its own git worktree (`phase-N-work` branches, based on a scaffolding commit with
-per-phase files and markers) and merged into that branch; see the lessons learned below. When it
-merges, start new work on a fresh branch from `main`.
+PR #5 (Phases 7–12) is merged. PR #6 (branch `claude/wizardly-fermat-c58t6h`) holds Phase 13,
+built by four helper agents in their own worktrees (`phase-13-ics`, `-coop`, `-hseep`, `-cerc`)
+from a scaffolding commit with per-package router files, registry lists, and markers; see the
+lessons learned below. When it merges, start new work on a fresh branch from `main`.
 
-### Tools implemented (97 of 148)
+### Tools implemented (102 of 148)
 
 | Tool | Plan ID | Toolset | Phase | Code |
 |---|---|---|---|---|
@@ -135,10 +135,18 @@ merges, start new work on a fresh branch from `main`.
 | `functional_needs_shelter_intake` | EPR-03 | epr | 12 | `crates/phn-tools/src/epr/shelter.rs` |
 | `get_electricity_dependent_population` | EPR-04 | epr | 12 | `crates/phn-tools/src/epr/power.rs` |
 | `plan_casper_assessment` | EPR-11 | epr | 12 | `crates/phn-tools/src/epr/casper.rs` |
+| `generate_ics_forms` | EPR-01 | epr | 13 | `crates/phn-tools/src/epr/ics.rs` |
+| `continuity_of_operations_planner` | EPR-07 | epr | 13 | `crates/phn-tools/src/epr/coop.rs` |
+| `design_hseep_exercise` | EPR-08 | epr | 13 | `crates/phn-tools/src/epr/exercise.rs` |
+| `build_after_action_report` | EPR-09 | epr | 13 | `crates/phn-tools/src/epr/aar.rs` |
+| `crisis_risk_communication_builder` | EPR-10 | epr | 13 | `crates/phn-tools/src/epr/cerc.rs` |
 
-MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0) and `phase1.rs`–`phase12.rs`;
-the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → toolset → phase) is
-`crates/phn-tools/src/registry/` with one file per phase.
+MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0), `phase1.rs`–`phase12.rs`, and
+`phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`; the
+`investigate_outbreak` and `plan_tabletop_exercise` MCP prompts are in `prompts.rs`. The registry
+(tool → plan ID → toolset → phase) is `crates/phn-tools/src/registry/` with one file per phase
+(Phase 13's file has four lists; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
+roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 
 ### Exit criteria
 
@@ -155,8 +163,9 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
 | Phase 7: Pilot 2 with school nurses, after the nurse reviews the school content | **Waiting on the nurse** (checklist in `docs/acceptance/phase-7.md`) |
 | Phase 8: the nurse reviews the milestone, lead, and mandated reporting content | **Waiting on the nurse** (`docs/acceptance/phase-8.md`) |
 | Phase 10: the nurse validates screening cutoffs, safety messages, and instrument license terms, and spot-checks the directories | **Waiting on the nurse** (`docs/acceptance/phase-10.md`) |
+| Phase 13: Pilot 3, a tabletop exercise designed with EPR-08, after the nurse reviews the Phase 13 content | **Waiting on the nurse** (`docs/acceptance/phase-13.md`) |
 | Phases 7–12: calculators match reference values | Done: CDC 2000 growth percentiles (relative error < 1e-7), CDC extended BMI, WHO monthly tables, screening scores (50 cases), readability formulas, Erlang C, 40 CFR 58 App. G AQI example, CASPER survey intervals (samplics) |
-| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–12) |
+| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–13) |
 
 ## 2. Open items
 
@@ -206,6 +215,22 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
        `functional_needs_shelter.yaml` (intake questions are drafts; staffing ratios 50/10/25 are
        tool defaults), `hva.yaml` (the scoring method is this project's own), `content/env/heat.yaml`
        (activation steps and outreach scripts are drafts).
+   - Phase 13 (`docs/acceptance/phase-13.md` lists each file's checks):
+     - `content/epr/ics_forms.yaml`: form titles, block numbers, and labels were checked against
+       FEMA's v3/v3.1 PDFs; the 213RR instructions and every incident suggestion are drafts.
+     - `content/epr/continuity.yaml`: **FEMA's Continuity Guidance Circular and plan template could
+       not be retrieved** (www.fema.gov returns 403), so the element checklists and phases are
+       medium confidence; tiers, recovery times, minimum staff, and TT&E frequencies are tool
+       defaults; town counsel must confirm the delegations.
+     - `content/epr/capabilities.yaml`: **the PHEP → FEMA core capability mapping is this project's
+       own** (no official crosswalk found); three FEMA names follow the National Preparedness Goal
+       (not retrievable). `hseep.yaml`: planning-meeting weeks, schedule lengths, the hotwash
+       agenda, and the 30/45/60-day after-action dates are tool defaults.
+       `exercise_scenarios.yaml`: **the Pilot 3 scenarios are fictional drafts** to vet with the
+       planning team and DPH.
+     - `content/epr/cerc.yaml`: the mass dispensing set (low confidence; depends on the POD plan);
+       the boil water set follows CDC only (MassDEP's boil order pages returned 404); measles FAQs
+       on infants and exclusion (medium).
 2. **Decisions the nurse asked to make** (collected from the phase work):
    - Reportable conditions: should "immediate" follow DPH's call lists or the regulation's
      "immediately, but in no case more than 24 hours"? DPH's lists disagree on LCM, West Nile,
@@ -255,14 +280,22 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
      add a dispensing time target; keep the HVA method or align with the HMCC's tool; shelter
      staffing ratios and intake questions against MEMA and Red Cross forms; heat activation steps
      and outreach scripts; the default CASPER household measure.
+   - Preparedness II (Phase 13): FEMA-layout ICS forms or FEMA's fillable PDFs; keep the ICS 207 in
+     the default IAP; more incident types (water contamination, cyberattack); COOP tiers, recovery
+     times, the 40% absenteeism assumption, a devolution partner, and who owns the yearly review;
+     keep the PHEP → FEMA mapping or use a DPH crosswalk; planning and after-action timelines
+     versus grant deadlines; EEGs per PHEP capability or per FEMA core capability; which scenario
+     Pilot 3 uses and who vets it; more CERC hazards, a lower reading grade for crisis messages,
+     and who approves translated pre-scripted messages.
    - Profiles: the `mch` and `aging` toolsets are in no role profile (they are on when no profile
      is set). Decide whether to add a profile for home visiting and community nursing.
-3. **Run the acceptance scripts** for Phases 0–12 on Windows and macOS and send the IT request.
+3. **Run the acceptance scripts** for Phases 0–13 on Windows and macOS and send the IT request.
    **Read the user guide** (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`) for accuracy and
    tone before sharing it with other nurses; send corrections as edits to `guide-content.js`.
-4. **Publish a release:** once PR #5 merges, tag `v0.13.0` to run `.github/workflows/release.yml`
+4. **Publish a release:** once PR #6 merges, tag `v0.14.0` to run `.github/workflows/release.yml`
    (GHCR image, SBOM, Trivy scan, cosign signature, offline tarballs). No release has ever been
-   tagged; the workflow has never run, so watch it closely the first time.
+   tagged (`v0.13.0` was not tagged after PR #5); the workflow has never run, so watch it closely
+   the first time.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
    from some networks), `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` (the
    AirNow API path is untested: its host was blocked here). Everything works without them
@@ -317,6 +350,15 @@ the outbreak MCP prompt is in `prompts.rs`. The registry (tool → plan ID → t
   month, and town totals are allocated from ZIP codes; NWS alerts are never served from a
   snapshot; the FindTreatment.gov API takes `sAddr` as "lat,lng" although its documentation says
   "lng,lat"; program and syringe-service maps are links only (Tableau and Google My Maps blocked).
+- **Phase 13 limits:** ICS forms are FEMA-layout facsimiles, not FEMA's fillable PDFs; the ICS
+  207 is an indented table, not a drawn chart; several people with the same position and no name
+  resolve to the first roster holder; facility phone numbers typed in a request are not flagged.
+  COOP minimum-staff sums overcount (one person can cover several functions) and the plan has no
+  PDF output. SMART-objective and finding-wording checks are word-pattern heuristics; seed and
+  custom scenarios have placeholder injects; `design_hseep_exercise` is one very long function
+  (refactor candidate). The CERC language plan matches ACS language groups ("Thai, Lao, or
+  other…") to a translations folder by the first language named; agency translations exist only
+  for the pre-scripted sets.
 - **User guide upkeep:** the `.docx` is built by `docs/user-guide/build-user-guide.js` (Node.js
   with the `docx` package, plus LibreOffice and `pdftotext` for contents page numbers); it is not
   part of the Rust build or CI. Every new tool needs an entry in `guide-content.js` (a registry
@@ -458,6 +500,20 @@ MSRV is 1.88.
   between full runs.
 - **Usage limits:** all six helpers stopped at once on a 5-hour usage limit; their work was
   saved, and a message to each after the reset resumed it.
+- **Phase 13 parallel work:** per-package router files (`phase13_<key>.rs`), registry lists, and
+  marker sections limited merge conflicts to `phn-content` `ITEMS`, the registry test, the
+  guide's `TOOL_COUNT`, and the acceptance doc; resolve them by union and set the count by hand.
+  The registry test assumed one list per phase; `PHASES` now holds (phase, tools) pairs. Markdown
+  tables break on marker comments and blank lines; remove markers from tables after merging.
+- **Disk for parallel builds:** a full debug `target/` is about 7.7 GB. A debug-free seed target
+  (`CARGO_PROFILE_DEV_DEBUG=0`, workspace crates and test executables deleted) is 1.4 GB; copying
+  it into each worktree and building with `CARGO_PROFILE_DEV_DEBUG=0 CARGO_INCREMENTAL=0
+  CARGO_BUILD_JOBS=2` let four builds run in about 25 GB.
+- **Toolchain:** static.rust-lang.org is reachable; `rustup update stable` brings the local
+  toolchain to CI's (1.99.1).
+- **Network (Phase 13):** training.fema.gov (ICS forms) and preptoolkit.fema.gov (HSEEP) were
+  added and work; www.fema.gov pages still return 403 (Continuity Guidance Circular, National
+  Preparedness Goal); MassDEP's boil order pages returned 404.
 - **Library APIs** (read the source in `~/.cargo/registry/src/` before guessing):
   - `rmcp` 3.9: `output_schema = schema_for_output::<Envelope<T>>()`; per-phase
     `#[tool_router(router = phaseN_router, vis = "pub(crate)")]` blocks merged in
@@ -467,17 +523,20 @@ MSRV is 1.88.
     `skrifa` as before. rustfmt removes the blank line before a comment marker in `vec!`/array
     literals.
 
-## 5. Suggested next steps (Phase 13: emergency preparedness II → Pilot 3)
+## 5. Suggested next steps (Pilot 3 → Phase 14: environmental health and climate)
 
-From `project_plan.md`: EPR-01 `generate_ics_forms`, EPR-07 `continuity_of_operations_planner`,
-EPR-08 `design_hseep_exercise`, EPR-09 `build_after_action_report`, EPR-10
-`crisis_risk_communication_builder`.
-
-- Reuse: the Phase 12 preparedness adapters and content (`crates/phn-tools/src/epr/`,
-  `content/epr/`), `phn-docs` DOCX/PDF writers and template + local fill (ADR 0008), the Phase 11
-  readability and safe-messaging checks for CERC messages, and EQ-03 language priorities.
-- Content: FEMA ICS forms, HSEEP, PHEP capabilities, and CDC CERC, all `pending`.
-- Pilot 3 is a tabletop exercise designed with EPR-08.
+- Pilot 3: the nurse reviews the Phase 13 content (section 2), picks the scenario, and runs the
+  tabletop with `plan_tabletop_exercise` / `design_hseep_exercise`; feed what the planning team
+  changes back into `content/epr/exercise_scenarios.yaml` and the after-action report into
+  `build_after_action_report`'s acceptance checks.
+- Tag `v0.14.0` after PR #6 merges and watch the first run of the release workflow.
+- Phase 14 (`project_plan.md`): ENV-03 `drinking_water_quality_lookup`, ENV-04
+  `environmental_justice_screen`, ENV-05 `climate_health_vulnerability_profile`, ENV-06
+  `vector_borne_disease_risk`, ENV-07 `housing_conditions_health_guide`, ENV-08
+  `chemical_exposure_reference`, CHR-06 `food_access_mapper`, CHR-07
+  `community_water_fluoridation_status`. Reuse the Phase 12 heat and air quality code
+  (`crates/phn-tools/src/env/`) and the CERC boil water set; check whether EPA Envirofacts,
+  MassDEP, and the Massachusetts EJ layer are reachable before planning snapshots.
 - Before Pilots 1 and 2, get the nurse's content reviews and decisions done (section 2). The
   nurse may also want a role profile for home visiting and community nursing (section 2).
 
@@ -491,6 +550,7 @@ EPR-08 `design_hseep_exercise`, EPR-09 `build_after_action_report`, EPR-10
 | 2026-11-08 | Phases 2–6: 36 tools, `phn-epi` engines, `phn-cdsi`, data adapters and snapshots; Phase 0–1 content re-checked against mass.gov | #3 |
 | 2026-11-08 | User guide for public health nurses (Word) and a test that keeps it in step with the tools | #4 |
 | 2026-11-09 | Phases 7–12: 50 tools (school health, maternal and child health, PHN practice, healthy aging and mental health screening, substance use and communication, preparedness I); version 0.13.0; user guide rebuilt (116 pages) | #5 |
+| 2026-11-09 | Phase 13: 5 tools (ICS forms and IAP, COOP, HSEEP exercise design, after-action report, CERC), `plan_tabletop_exercise` prompt, staff roster module and ADR 0009; version 0.14.0; user guide rebuilt (124 pages) | #6 |
 
 ## Keeping this file current
 

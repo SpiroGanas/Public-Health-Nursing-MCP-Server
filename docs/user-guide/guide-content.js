@@ -9,7 +9,7 @@
 
 'use strict';
 
-const VERSION = '0.13.0';
+const VERSION = '0.14.0';
 const GUIDE_DATE = 'November 2026';
 const TOOL_COUNT = 102;
 
@@ -102,7 +102,7 @@ const frontChapters = [
                 ['Substance use, crisis resources, and health communication (chapter 15)', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
-                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
+                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; fill ICS forms and Incident Action Plans; draft a continuity of operations plan; design exercises and write after-action reports; build crisis and emergency risk communication; check air quality; plan the heat response.', '13, plus a guided tabletop exercise'],
                 // End of Phase 12 work-area rows.
               ],
             },
@@ -2901,7 +2901,7 @@ const toolChapters = [
   // Phase 12 chapter goes below this line.
   {
     title: 'Emergency preparedness and environmental health',
-    intro: 'These eight tools support situational awareness and planning before and during emergencies: hazard alerts, dispensing sites, air quality, heat, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, and CASPER rapid needs assessments. Six are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. The guidance they give is drafted from CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
+    intro: 'These thirteen tools support preparedness before, during, and after emergencies: hazard alerts, dispensing sites, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, CASPER rapid needs assessments, ICS forms and Incident Action Plans, continuity of operations plans, HSEEP exercises and after-action reports, crisis and emergency risk communication, air quality, and heat. Eleven are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. Staff names and positions may be used in a request, but staff phone numbers and emails belong in a roster file in your data folder: the tools put them only into the documents they write to your output folder. The guidance is drafted from FEMA, CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
     tools: [
       {
         id: 'get_active_hazard_alerts',
@@ -3065,7 +3065,6 @@ const toolChapters = [
           'Results with fewer than 5 answers are not shown, as the toolkit advises.',
         ],
       },
-      // Phase 13 EPR-01 (ICS) entries go below this line.
       {
         id: 'generate_ics_forms',
         title: 'Fill ICS forms and assemble an Incident Action Plan',
@@ -3097,9 +3096,6 @@ const toolChapters = [
           'Suggested objectives and hazards are drafts for the Incident Commander and Safety Officer to review.',
         ],
       },
-      // End of Phase 13 EPR-01 entries.
-
-      // Phase 13 EPR-07 (COOP) entries go below this line.
       {
         id: 'continuity_of_operations_planner',
         title: 'Draft a continuity of operations (COOP) plan',
@@ -3132,9 +3128,6 @@ const toolChapters = [
           'FEMA’s continuity guidance could not be downloaded when this content was written; the statutes and CDC sources were checked. Pending review.',
         ],
       },
-      // End of Phase 13 EPR-07 entries.
-
-      // Phase 13 EPR-08/EPR-09 (HSEEP) entries go below this line.
       {
         id: 'design_hseep_exercise',
         title: 'Design a tabletop or other preparedness exercise (HSEEP)',
@@ -3193,9 +3186,6 @@ const toolChapters = [
           'The 30-, 45-, and 60-day after-action dates are suggestions; follow your grant or program deadlines.',
         ],
       },
-      // End of Phase 13 EPR-08/EPR-09 entries.
-
-      // Phase 13 EPR-10 (CERC) entries go below this line.
       {
         id: 'crisis_risk_communication_builder',
         title: 'Build crisis and emergency risk communication (CERC)',
@@ -3228,7 +3218,6 @@ const toolChapters = [
           'The mass dispensing messages depend on your POD plan; replace the low-confidence parts with your plan’s wording.',
         ],
       },
-      // End of Phase 13 EPR-10 entries.
       {
         id: 'air_quality_protective_guidance',
         title: 'Check air quality and protective actions',
@@ -3283,8 +3272,32 @@ const toolChapters = [
         ],
       },
     ],
+    extras: [
+      {
+        title: 'Guided workflow: plan a tabletop exercise',
+        blocks: [
+          {
+            p: 'The server also offers a ready-made **prompt** called “Plan a tabletop exercise.” It walks Claude through a full exercise cycle from FEMA’s Homeland Security Exercise and Evaluation Program (HSEEP), adapted to a Massachusetts local health department working with DPH, the HMCC, and MEMA, and has Claude use the tools in this chapter in order.',
+          },
+          {
+            p: 'In Claude Desktop, choose “Plan a tabletop exercise” from the same menu as the outbreak investigation prompt (chapter 6) and fill in whatever you know; every item is optional:',
+          },
+          {
+            bullets: [
+              'the scenario (for example a measles outbreak, a coastal storm with a power outage, or extreme heat);',
+              'the town or county;',
+              'the exercise date;',
+              'a staff roster file in your data folder, so contact details go only into the documents.',
+            ],
+          },
+          {
+            p: 'The workflow covers choosing the hazard and describing the people most affected; designing the exercise with objectives linked to CDC and FEMA capabilities; preparing player materials (an Incident Action Plan, crisis messages, and, when an inject calls for it, the continuity plan, a clinic or POD model, or shelter intake); the hotwash; and the after-action report and improvement plan.',
+          },
+        ],
+      },
+    ],
   },
-  // End of Phase 12 chapter.
+  // End of Phase 12 and 13 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------
