@@ -23,4 +23,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Env,
         phase: 12,
     },
+    ToolMeta {
+        name: "heat_health_action_planner",
+        plan_id: "ENV-01",
+        toolset: Toolset::Env,
+        phase: 12,
+    },
 ];

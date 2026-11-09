@@ -56,3 +56,24 @@ async fn air_quality_is_live() {
         assert!(!env.data.reporting_areas.is_empty());
     }
 }
+
+#[tokio::test]
+#[ignore = "needs network"]
+async fn heat_plan_is_live() {
+    let (_d, ctx) = online();
+    let env = phn_tools::env::heat_health_action_planner(
+        &ctx,
+        phn_tools::env::HeatPlanArgs {
+            area: Some("Worcester".into()),
+            checklist: Some(false),
+            ..Default::default()
+        },
+    )
+    .await
+    .unwrap();
+    println!("{}", env.to_markdown());
+    assert_ne!(env.data.heatrisk_status, "unavailable");
+    assert_eq!(env.data.heatrisk_days.len(), 7);
+    assert!(env.data.heatrisk_days.iter().all(|d| d.max_level.is_some()));
+    assert_ne!(env.data.forecast_status, "unavailable");
+}

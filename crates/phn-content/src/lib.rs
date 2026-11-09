@@ -177,6 +177,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/env/air_quality.yaml"),
         schema: include_str!("../../../content/schemas/env_air_quality.schema.json"),
     },
+    ContentItem {
+        id: "env-heat-health",
+        path: "content/env/heat.yaml",
+        resource_uri: "phn://content/env-heat-health",
+        yaml: include_str!("../../../content/env/heat.yaml"),
+        schema: include_str!("../../../content/schemas/env_heat.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

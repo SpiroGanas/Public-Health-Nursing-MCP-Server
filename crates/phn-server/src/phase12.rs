@@ -1,7 +1,7 @@
 //! Phase 12 tools: emergency preparedness I: situational awareness and planning.
 
 use phn_core::Envelope;
-use phn_tools::env::{AirQualityArgs, AirQualityResult};
+use phn_tools::env::{AirQualityArgs, AirQualityResult, HeatPlanArgs, HeatPlanResult};
 use phn_tools::epr::{DispensingArgs, DispensingResult, HazardAlertsArgs, HazardAlertsResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -90,5 +90,33 @@ impl PhnServer {
         Parameters(args): Parameters<AirQualityArgs>,
     ) -> CallToolResult {
         respond(phn_tools::env::air_quality_protective_guidance(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "heat_health_action_planner",
+        description = "Heat response plan for a Massachusetts town or county: the 7-day NWS \
+            HeatRisk (0-4) over the area and the NWS forecast, active heat alerts, the local \
+            heat-vulnerable population (older adults, young children, disability, poverty, no \
+            vehicle, limited English, chronic disease from CDC PLACES, socially vulnerable \
+            tracts, and electricity-dependent Medicare beneficiaries from HHS emPOWER), and \
+            public health activation steps for the forecast peak (or a level you choose). Writes \
+            a DOCX checklist to /data/output with cooling centers (from your CSV/XLSX file, \
+            which is not shown in chat), outreach call/door/text scripts, school and child care \
+            and outdoor worker guidance, heat illness teaching, and medication and power \
+            outage planning.",
+        annotations(
+            title = "Heat health action planner",
+            read_only_hint = false,
+            destructive_hint = false,
+            idempotent_hint = false,
+            open_world_hint = true
+        ),
+        output_schema = schema_for_output::<Envelope<HeatPlanResult>>()
+    )]
+    async fn heat_health_action_planner(
+        &self,
+        Parameters(args): Parameters<HeatPlanArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::env::heat_health_action_planner(&self.ctx, args).await)
     }
 }

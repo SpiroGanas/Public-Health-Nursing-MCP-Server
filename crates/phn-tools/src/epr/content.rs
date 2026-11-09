@@ -376,6 +376,80 @@ impl AirQuality {
     }
 }
 
+// ---------------------------------------------------------------- heat (ENV-01)
+
+/// A HeatRisk level.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct HeatRiskLevel {
+    pub level: u8,
+    pub name: String,
+    pub color: String,
+    pub meaning: Vec<String>,
+    pub who_at_risk: Vec<String>,
+    pub actions: Vec<String>,
+}
+
+/// Activation steps for a HeatRisk level.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Activation {
+    pub level: u8,
+    pub actions: Vec<Cited>,
+}
+
+/// An outreach script.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct OutreachScript {
+    pub id: String,
+    pub title: String,
+    pub lines: Vec<String>,
+    pub source: String,
+    pub section: String,
+    pub confidence: Confidence,
+}
+
+/// A heat illness and how to respond.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct HeatIllness {
+    pub name: String,
+    pub signs: String,
+    pub response: String,
+}
+
+/// A local-file column and the names it may have.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ColumnAlias {
+    pub field: String,
+    pub aliases: Vec<String>,
+}
+
+/// A labeled link.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct LinkDef {
+    pub label: String,
+    pub url: String,
+}
+
+/// `content/env/heat.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Heat {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub heatrisk_levels: Vec<HeatRiskLevel>,
+    pub heatrisk_source: String,
+    pub heatrisk_section: String,
+    pub heat_sensitive_groups: Vec<Cited>,
+    pub activation: Vec<Activation>,
+    pub outreach_scripts: Vec<OutreachScript>,
+    pub schools_and_child_care: Vec<Cited>,
+    pub outdoor_workers: Vec<Cited>,
+    pub heat_illness: Vec<HeatIllness>,
+    pub heat_illness_source: String,
+    pub heat_illness_section: String,
+    pub medications_and_power: Vec<Cited>,
+    pub cooling_center_columns: Vec<ColumnAlias>,
+    pub links: Vec<LinkDef>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

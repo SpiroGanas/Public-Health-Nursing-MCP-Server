@@ -7,6 +7,7 @@ pub mod alerts;
 pub mod area;
 pub mod content;
 pub mod dispensing;
+pub mod population;
 
 pub use alerts::{HazardAlertsArgs, HazardAlertsResult, get_active_hazard_alerts};
 pub use dispensing::{
