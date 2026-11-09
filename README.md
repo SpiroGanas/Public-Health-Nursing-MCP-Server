@@ -129,6 +129,7 @@ output folder instead of being sent to the AI model.
 | `find_naloxone_and_harm_reduction` | MH-04 | bh | Naloxone access under the statewide standing order, syringe service approval by town, fentanyl test strips, help lines, and a cited naloxone teaching script (Word handout). |
 | `find_substance_use_treatment` | MH-05 | bh | FindTreatment.gov facilities near a town: methadone, buprenorphine, naltrexone, withdrawal management, recovery supports, filtered by MassHealth and language, plus the Substance Use Helpline. |
 | `plan_school_postvention` | MH-06 | bh | After a suicide affecting a school: toolkit steps, talking points, staff/student/parent/media templates filled locally, and a safe-messaging check of drafts. |
+| `translate_health_material` | COMM-02 | comms | Translation workflow (no bundled translations): language priorities, agency translations, translator brief, glossary and back-translation checks, review worksheet. |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

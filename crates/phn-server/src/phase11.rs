@@ -5,7 +5,7 @@ use phn_tools::bh::{
     HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, PostventionArgs,
     PostventionResult, TreatmentArgs, TreatmentResult, YouthSurveyArgs, YouthSurveyResult,
 };
-use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
+use phn_tools::comms::{ReadabilityArgs, ReadabilityResult, TranslationArgs, TranslationResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -135,5 +135,25 @@ impl PhnServer {
             phn_tools::bh::plan_school_postvention(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "translate_health_material",
+        description = "Translation workflow for a health material (no translations are bundled): \
+            the town's language priorities (ACS limited English proficiency), agency translations \
+            already in /data/templates/<language>/, a translator brief (numbered segments, the \
+            agency glossary's approved terms, numbers, phones, and web addresses that must not \
+            change), a check of a translated draft against the glossary, a back-translation \
+            comparison (numbers, negations, glossary terms, missing sentences), CDC's translation \
+            steps, the required 'draft for qualified translator review' label, and an optional \
+            review worksheet (XLSX) in /data/output.",
+        annotations(title = "Translate health material (workflow)", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<TranslationResult>>()
+    )]
+    async fn translate_health_material(
+        &self,
+        Parameters(args): Parameters<TranslationArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::comms::translate_health_material(&self.ctx, args).await)
     }
 }

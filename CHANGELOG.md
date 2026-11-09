@@ -68,6 +68,10 @@ All notable changes are recorded here. The format follows
   safe-messaging check of drafts. Content `content/bh/postvention.yaml` and
   `content/comms/safe_messaging.yaml` (shared rules, `phn_tools::comms::safe_messaging`); fixture
   `fixtures/synthetic/data/postvention_details.csv`.
+- `translate_health_material` (COMM-02): translation workflow with language priorities from EQ-03,
+  agency translations in `/data/templates/<language>/`, a translator brief, glossary and
+  back-translation checks, the qualified-translator draft label, and an XLSX review worksheet.
+  Content `content/comms/translation.yaml`.
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

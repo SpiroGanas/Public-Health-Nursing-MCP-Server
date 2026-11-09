@@ -41,4 +41,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Bh,
         phase: 11,
     },
+    ToolMeta {
+        name: "translate_health_material",
+        plan_id: "COMM-02",
+        toolset: Toolset::Comms,
+        phase: 11,
+    },
 ];

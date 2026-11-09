@@ -196,6 +196,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/bh/postvention.yaml"),
         schema: include_str!("../../../content/schemas/bh_postvention.schema.json"),
     },
+    ContentItem {
+        id: "comms-translation",
+        path: "content/comms/translation.yaml",
+        resource_uri: "phn://content/comms-translation",
+        yaml: include_str!("../../../content/comms/translation.yaml"),
+        schema: include_str!("../../../content/schemas/comms_translation.schema.json"),
+    },
     // End of Phase 11 content items.
     // Phase 12 content items go below this line.
     // End of Phase 12 content items.

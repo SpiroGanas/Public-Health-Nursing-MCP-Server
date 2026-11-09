@@ -629,3 +629,86 @@ async fn postvention_steps_templates_check_and_local_fill() {
     .await;
     assert!(e.contains("do not match any column"), "{e}");
 }
+
+// ------------------------------------------------------------------ COMM-02
+
+const FLU_SOURCE: &str = "Get a flu vaccine every year. Do not wait until you are sick. Call 413-555-0142 to make an appointment. Clinics are open until 5:30 on Tuesdays.";
+
+#[tokio::test]
+async fn translation_workflow_brief_glossary_and_back_translation() {
+    let h = start(|c| c.offline = true).await;
+    std::fs::write(
+        h.data().join("glossary.csv"),
+        "english,spanish,portuguese\nflu vaccine,vacuna contra la gripe,vacina contra a gripe\nappointment,cita,consulta\n",
+    )
+    .unwrap();
+    std::fs::create_dir_all(h.data().join("templates/spanish")).unwrap();
+    std::fs::write(
+        h.data().join("templates/spanish/flu_flyer.docx"),
+        b"placeholder",
+    )
+    .unwrap();
+    // A draft that drops the negation, changes the phone number, and misses a glossary term.
+    let draft = "Póngase la vacuna contra la gripe cada año. Espere hasta que esté enfermo. Llame al 413-555-0143 para hacer una reserva. Las clínicas abren hasta las 5:30 los martes.";
+    let back = "Get the flu vaccine every year. Wait until you are sick. Call 413-555-0143 to make a reservation. Clinics are open until 5:30 on Tuesdays.";
+    let s = call_ok(
+        &h,
+        "translate_health_material",
+        json!({"source_text": FLU_SOURCE, "language": "Spanish", "glossary_path": "glossary.csv",
+               "translation_text": draft, "back_translation_text": back, "town": "Lawrence",
+               "material_name": "flu_flyer", "worksheet": "xlsx"}),
+    )
+    .await;
+    let d = &s["data"];
+    assert_eq!(d["language_tag"], "es-US");
+    assert_eq!(d["segments"].as_array().unwrap().len(), 4);
+    assert!(
+        d["draft_label"]
+            .as_str()
+            .unwrap()
+            .contains("qualified translator")
+    );
+    assert_eq!(
+        d["agency_translation_found"],
+        "templates/spanish/flu_flyer.docx"
+    );
+    assert_eq!(d["agency_translations"]["Spanish"], 1);
+    assert!(!d["language_priorities"].as_array().unwrap().is_empty());
+    let g = d["glossary_terms"].as_array().unwrap();
+    let appt = g.iter().find(|x| x["english"] == "appointment").unwrap();
+    assert_eq!(appt["missing_in_translation"], true);
+    let phone = d["invariants"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|i| i["kind"] == "phone")
+        .unwrap();
+    assert_eq!(phone["in_translation"], false);
+    let kinds: Vec<&str> = d["back_translation_issues"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|i| i["kind"].as_str().unwrap())
+        .collect();
+    assert!(kinds.contains(&"negation"), "{kinds:?}");
+    assert!(kinds.contains(&"glossary_term"), "{kinds:?}");
+    let ws = d["worksheet_file"].as_str().unwrap();
+    assert!(h.data().join(ws).exists());
+    assert!(caveats(&s).contains("No translation is bundled"));
+    assert!(has_pending_review_caveat(&s));
+
+    let e = call_err(
+        &h,
+        "translate_health_material",
+        json!({"language": "Klingon"}),
+    )
+    .await;
+    assert!(e.contains("not recognized"), "{e}");
+    let e = call_err(
+        &h,
+        "translate_health_material",
+        json!({"translation_text": "Hola", "language": "Spanish"}),
+    )
+    .await;
+    assert!(e.contains("English source"), "{e}");
+}

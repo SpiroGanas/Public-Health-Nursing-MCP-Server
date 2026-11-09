@@ -1181,6 +1181,29 @@ and missing help resources or hope; findings cite sentence numbers and never rep
 words. Local fill follows the template + local fill rule: names are never arguments and never
 returned. Decision support.
 
+### `translate_health_material` (COMM-02, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `source_text` or `source_path` | | The English source (excerpts from a file are redacted). |
+| `language` | | Target language (31 recognized, e.g. Spanish, Portuguese, Haitian Creole, Cape Verdean Creole, Vietnamese, Chinese (Simplified/Traditional), Arabic, Khmer). |
+| `glossary_path` | | Agency glossary CSV/XLSX in `/data`: `english` plus one column per language (name or code), or `english`, `language`, `translation`. |
+| `translation_text` or `translation_path` | | A translated draft to check. |
+| `back_translation_text` or `back_translation_path` | | An English back-translation by someone other than the translator. |
+| `town` | configured town | For language priorities (EQ-03, ACS limited English proficiency). |
+| `material_name` | | File stem to look for in `/data/templates/<language>/`. |
+| `worksheet` | none | `xlsx`: a review worksheet (segments, draft, back-translation, comments, approval) in `/data/output`. |
+
+No translations are bundled (product-owner decision). The tool reports agency-approved
+translations found in `/data/templates/<language>/` (expected layout: one folder per language,
+named by language or code, holding files named like the English material), builds a translator
+brief (numbered segments; approved glossary terms in the source; numbers, phone numbers, times,
+web and email addresses that must carry over), checks a draft for missing glossary terms and
+changed numbers or phones, and compares a back-translation with the source (sentence count and
+coverage, negations, glossary terms). Every result carries the label "DRAFT TRANSLATION - for
+review by a qualified translator" and CDC *Simply Put*'s translation steps and pitfalls. Script
+notes point to DOCX for scripts the PDF writer cannot render (ADR 0003).
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

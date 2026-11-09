@@ -620,6 +620,11 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"draft_path": "client_note.txt"}),
             "data/client_note.txt",
         ),
+        (
+            "translate_health_material",
+            json!({"source_path": "client_note.txt", "language": "Spanish", "worksheet": "xlsx"}),
+            "data/client_note.txt",
+        ),
         // ---- End of Phase 11 data tools.
         // ---- Phase 12 data tools go below this line.
         // ---- End of Phase 12 data tools.

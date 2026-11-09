@@ -18,5 +18,7 @@ pub mod content;
 pub mod readability;
 pub mod safe_messaging;
 pub mod textstats;
+pub mod translation;
 
 pub use readability::{ReadabilityArgs, ReadabilityResult, check_readability};
+pub use translation::{TranslationArgs, TranslationResult, translate_health_material};

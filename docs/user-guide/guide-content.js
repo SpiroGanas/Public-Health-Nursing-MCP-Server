@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 53;
+const TOOL_COUNT = 54;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide.', '6'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations.', '7'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1910,6 +1910,35 @@ const toolChapters = [
           'The family’s wishes and your crisis team decide what is shared. Confirm the cause of death before calling it a suicide.',
           'The tool never describes how a person died. The safe-messaging check uses word patterns; a person must still review every message.',
           'Anyone in crisis can call or text 988.',
+        ],
+      },
+      {
+        id: 'translate_health_material',
+        title: 'Prepare and check a translation',
+        toolset: 'comms',
+        internet: 'optional (language data work offline)',
+        files: 'optional: the English source, your glossary, a translated draft, a back-translation',
+        does: 'Supports translating a health material without replacing a qualified translator: shows which languages are most needed in your town, finds your agency’s approved translations, prepares a brief for the translator (numbered sentences, your glossary’s approved terms, and numbers, phone numbers, and web addresses that must not change), checks a translated draft against your glossary, and compares a back-translation with the English to catch reversed instructions, changed numbers, and missing sentences.',
+        when: [
+          'Before sending a flyer or letter to a translator.',
+          'Reviewing a draft translation (including one the AI assistant wrote) before a qualified translator approves it.',
+          'Deciding which languages to translate a material into.',
+        ],
+        provide: [
+          'The English text or file, the language, and optionally your glossary file, the translated draft, and a back-translation by a different person.',
+          'Keep approved translations in your data folder under templates/<language>/ (for example templates/spanish/flu_flyer.docx) so the tool can find them.',
+        ],
+        examples: [
+          'Which languages should our flu flyer be translated into for Lawrence?',
+          'Prepare a translator brief for this flyer in Portuguese using glossary.csv.',
+          'Compare this Spanish back-translation with the English and tell me what changed.',
+        ],
+        returns: [
+          'Language priorities, any existing agency translation, the numbered sentences, glossary terms, items that must not change, problems found in the draft and back-translation, CDC’s translation steps, the “draft for qualified translator review” label, and an optional review workbook.',
+        ],
+        notes: [
+          'The server does not include or produce translations. Every draft must be reviewed and approved by a qualified translator.',
+          'The checks look at numbers, phone numbers, glossary terms, negations, and missing sentences; they cannot judge meaning or tone.',
         ],
       },
     ],
