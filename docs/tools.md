@@ -2156,4 +2156,39 @@ written to `/data/output` (product-owner decision, Phase 13).
 <!-- End of Phase 13 EPR-08/EPR-09 sections. -->
 
 <!-- Phase 13 EPR-10 (CERC) sections go below this line. -->
+
+### `crisis_risk_communication_builder` (EPR-10, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `hazard` | (lists the library) | Pre-scripted set: `measles_exposure`, `boil_water`, `extreme_heat`, `coastal_storm_power_outage`, `shelter_in_place`, `respiratory_pandemic`, `mass_dispensing_pod` (aliases such as "measles", "hurricane", "POD" work). |
+| `hazard_description` | | Any other hazard; the map is built from your facts. |
+| `phase` | `initial` | `preparation`, `initial`, `maintenance`, `resolution`, or `all` (CERC rhythm). |
+| `details` | | Values for the set's `{{placeholders}}` (place, times, agent). Never client details. |
+| `what_happened`, `known`, `unknown`, `being_done`, `public_actions`, `next_update`, `info_source`, `organization` | | The holding statement; missing parts stay `[BRACKETED]` and are listed. |
+| `message_map`, `empathy`, `draft_text` | | Check your own map (up to 3 key messages) or a draft. |
+| `audiences`, `spokesperson` | the set's audiences | Audience concerns (CERC Table 1) and spokesperson preparation. |
+| `area` or `languages` | saved town | Language plan from ACS limited-English counts (offline from snapshots), plus saved preferred languages. |
+| `target_grade` | 8 | Reading grade for the checks. |
+| `export` | | `docx`: packet, English template, and per-language agency translations or translator briefs in `/data/output/cerc_<id>/`. |
+| `roster_path`, `media_contact_position` | , `Public Information Officer` | Media contact's name, phone, and email go into the packet only (ADR 0009). |
+
+Content: `content/epr/cerc.yaml` (pending review): the CERC rhythm and phase tasks (CDC CERC
+manual chapters 2014–2019), PHEP Capability 4 functions, message-map rules and limits (ATSDR
+2015 message mapping checklist; EPA/600/R-07/027: 3 key messages, 3 supporting facts, 27 words,
+9 seconds, grade level minus 4, 1N = 3P, no absolutes), initial-statement elements, media holding
+lines, first-48-hours steps, spokesperson tips and bridges, 24 of EPA's 77 reporters' questions,
+audience concerns, and seven pre-scripted sets with FAQs and phase notes, each fact cited with a
+confidence level. The CERC principles and press checklist are shared with `draft_press_materials`;
+the coastal storm, heat, and shelter sets add the matching public messages from
+`content/epr/hazard_health_actions.yaml`.
+
+Checks: three key messages; three supporting facts each; key messages ≤ 27 words and ≤ 9
+seconds at 3 words per second; empathy first; ≤ 12 words per sentence on average; reading grade
+(the COMM-01 engine); no absolutes; action steps stated positively; three or four actions;
+known/unknown/doing and next update in the holding statement; loaded words (shared with
+COMM-04); client identifiers; safe messaging when suicide is mentioned. Agency translations are
+read from `/data/templates/<language>/cerc_<id>.md` (ACS names are matched to folder names, e.g.
+"Haitian" → `haitian-creole`); other languages get a COMM-02 translator brief. Nothing is
+machine-translated. Contact details found in the request are reported in the privacy block.
 <!-- End of Phase 13 EPR-10 sections. -->

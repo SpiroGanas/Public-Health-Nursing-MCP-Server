@@ -192,6 +192,7 @@ output folder instead of being sent to the AI model.
 
 <!-- Phase 13 EPR-08/EPR-09 (HSEEP) rows go above this line. -->
 
+| `crisis_risk_communication_builder` | EPR-10 | epr | CDC CERC message maps (27/9/3 checks), holding statements, FAQs, spokesperson prep, and phase tasks for seven pre-scripted hazards or your own, with a language plan (agency translations or translator briefs). |
 <!-- Phase 13 EPR-10 (CERC) rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

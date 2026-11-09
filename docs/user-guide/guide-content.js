@@ -11,7 +11,7 @@
 
 const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 97;
+const TOOL_COUNT = 98;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3075,6 +3075,38 @@ const toolChapters = [
       // End of Phase 13 EPR-08/EPR-09 entries.
 
       // Phase 13 EPR-10 (CERC) entries go below this line.
+      {
+        id: 'crisis_risk_communication_builder',
+        title: 'Build crisis and emergency risk communication (CERC)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, to your output folder',
+        does: 'Uses CDC’s Crisis and Emergency Risk Communication (CERC) model to build a message map (three key messages with three supporting facts each), a holding statement, frequently asked questions, spokesperson preparation, and the communication tasks for each phase of a crisis. It has ready-made message sets for a measles exposure, a boil water order, extreme heat, a coastal storm with power outages and carbon monoxide, shelter in place, respiratory illness, and mass dispensing, and it checks every message against message-mapping rules: 27 words in about 9 seconds, empathy first, short sentences, your reading grade, no absolutes, and positive action steps. It lists your town’s priority languages and uses your agency’s approved translations when you have them; otherwise it writes a brief for a qualified translator.',
+        when: [
+          'In the first hours of an emergency, to get an accurate first statement out quickly.',
+          'Before an emergency, to prepare and test messages and have them translated.',
+          'To check a message someone has drafted before it is released.',
+        ],
+        provide: [
+          'The hazard (or a short description of another one) and the phase: preparation, initial, maintenance, or resolution.',
+          'What you know, what you do not know yet, what you are doing, when the next update will come, and where people can get information.',
+          'Details for the message, such as the place and times of a measles exposure. Never client names.',
+          'Optionally: your staff roster file, so the media contact’s phone and email go into the Word packet only.',
+        ],
+        examples: [
+          'We had a measles exposure at the Pollard Library on Tuesday from 2 to 5 p.m. Draft the first message for Lowell.',
+          'Check this boil water notice against CERC before we send it.',
+          'Prepare maintenance-phase messages for a coastal storm with power outages, in Word, with translator briefs.',
+        ],
+        returns: [
+          'A message map with its checks, a holding statement with any missing parts marked in brackets, FAQs, spokesperson tips and likely reporters’ questions, audience concerns, the CERC tasks for the phase, and a language plan; optionally a Word packet, the English template, and translations or translator briefs in your output folder.',
+        ],
+        notes: [
+          'Every message is a draft for your agency’s approval; check each fact with your subject matter experts.',
+          'Nothing is machine-translated. Save approved translations as templates/<language>/cerc_<message set>.md in your data folder to reuse them.',
+          'The mass dispensing messages depend on your POD plan; replace the low-confidence parts with your plan’s wording.',
+        ],
+      },
       // End of Phase 13 EPR-10 entries.
       {
         id: 'air_quality_protective_guidance',

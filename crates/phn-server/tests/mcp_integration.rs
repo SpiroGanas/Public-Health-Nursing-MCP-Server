@@ -839,6 +839,20 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 13 EPR-08/EPR-09 (HSEEP) data tools go below this line.
         // ---- End of Phase 13 EPR-08/EPR-09 data tools.
         // ---- Phase 13 EPR-10 (CERC) data tools go below this line.
+        // EPR-10 fills the PIO's contacts from the staff roster into the packet only.
+        (
+            "crisis_risk_communication_builder",
+            json!({"hazard": "measles", "languages": ["Spanish"], "roster_path": "staff_roster.csv",
+                   "details": {"location": "Town Hall", "exposure_times": "Monday 9 to 11 a.m."},
+                   "export": "docx"}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as the roster returns counts only.
+        (
+            "crisis_risk_communication_builder",
+            json!({"hazard": "heat", "roster_path": "line_list.csv", "media_contact_position": "Name"}),
+            ll,
+        ),
         // ---- End of Phase 13 EPR-10 data tools.
     ];
     for (name, args, file) in checks {

@@ -572,12 +572,15 @@ fn file_slug(s: &str) -> String {
     out.trim_matches('_').to_string()
 }
 
+/// A raw supporting fact: text, source key, confidence.
+type RawFact = (String, String, Confidence);
+
 /// Raw (unfilled) pieces of a message set.
 struct Raw {
     label: String,
     question: String,
     empathy: String,
-    key_messages: Vec<(String, Vec<(String, String, Confidence)>)>,
+    key_messages: Vec<(String, Vec<RawFact>)>,
     actions: Vec<String>,
     origin: &'static str,
 }
@@ -606,6 +609,12 @@ fn compose_public_message(r: &Raw) -> String {
     s
 }
 
+static DOUBLE_STOP: LazyLock<regex::Regex> =
+    LazyLock::new(|| regex::Regex::new(r"([[:alpha:]])\.\.(\s|$)").expect("valid regex"));
+
+/// Fill {{placeholders}}; unknown ones stay visible as `[name]` and are listed
+/// in `missing`. A value ending in a period ("p.m.") before a sentence's own
+/// period does not leave a double period.
 fn fill(text: &str, values: &BTreeMap<String, String>, missing: &mut Vec<String>) -> String {
     let (out, unknown) = templates::fill(text, values, "");
     for u in unknown {
@@ -613,7 +622,7 @@ fn fill(text: &str, values: &BTreeMap<String, String>, missing: &mut Vec<String>
             missing.push(u);
         }
     }
-    out
+    DOUBLE_STOP.replace_all(&out, "$1.$2").into_owned()
 }
 
 fn check(id: &str, passed: bool, detail: String, source: &str) -> CercCheck {
@@ -955,14 +964,14 @@ pub async fn crisis_risk_communication_builder(
         })
     } else {
         // Built from the nurse's facts.
-        let local = |v: &[String], n: usize| -> Vec<(String, String, Confidence)> {
+        let local = |v: &[String], n: usize| -> Vec<RawFact> {
             v.iter()
                 .skip(n)
                 .take(3)
                 .map(|s| (s.clone(), "local".to_string(), Confidence::High))
                 .collect()
         };
-        let pad = |mut v: Vec<(String, String, Confidence)>, label: &str| {
+        let pad = |mut v: Vec<RawFact>, label: &str| {
             while v.len() < 3 {
                 v.push((bracket(label), "local".to_string(), Confidence::High));
             }
@@ -2440,6 +2449,11 @@ mod tests {
         let m = d.message_map.as_ref().unwrap();
         assert!(m.key_messages[0].text.contains("Main Street Library"));
         assert!(m.key_messages[0].supporting[0].text.contains("November 2"));
+        assert!(
+            m.key_messages[0].supporting[0].text.ends_with("p.m."),
+            "{}",
+            m.key_messages[0].supporting[0].text
+        );
         assert!(d.missing.is_empty(), "{:?}", d.missing);
         assert!(
             d.map_checks.iter().all(|c| c.passed),
