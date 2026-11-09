@@ -1,0 +1,297 @@
+# Homeland Security Exercise and Evaluation Program (HSEEP) doctrine and templates for
+# design_hseep_exercise (EPR-08) and build_after_action_report (EPR-09).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_hseep.schema.json
+meta:
+  id: epr-hseep
+  title: HSEEP 2020 exercise types, documents, evaluation, and after-action report rules
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2020-01-01
+  source:
+    title: Homeland Security Exercise and Evaluation Program (HSEEP), January 2020
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/documents/1269813/1269861/HSEEP_Revision_Jan20_Final.pdf/65bc7843-1d10-47b7-bc0d-45118a4d21da
+  related_sources:
+    - title: HSEEP Resources (2020 templates)
+      publisher: Federal Emergency Management Agency
+      url: https://preptoolkit.fema.gov/web/hseep-resources
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09 from the HSEEP doctrine (January 2020, 79-page PDF on preptoolkit.fema.gov;
+    the www.fema.gov copy returned 403) and FEMA's 2020 HSEEP templates (Situation Manual,
+    Facilitator Guide, Exercise Plan, Exercise Evaluation Guide, Participant Feedback Form,
+    Master Scenario Events List, and After-Action Report/Improvement Plan), all fetched from
+    preptoolkit.fema.gov. Exercise types, document descriptions, planning meetings, SMART
+    guidance, evaluation and root cause questions, observation categories, capability elements,
+    ratings, feedback-form statements, and MSEL columns are transcribed or closely summarized
+    (high confidence). The planning-timeline weeks, the default schedule lengths, and the
+    after-action timeline are THIS TOOL'S DEFAULTS, not HSEEP requirements (marked
+    tool_default); replace them with your program's practice.
+
+sources:
+  hseep-2020:
+    title: Homeland Security Exercise and Evaluation Program (HSEEP), January 2020
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/documents/1269813/1269861/HSEEP_Revision_Jan20_Final.pdf/65bc7843-1d10-47b7-bc0d-45118a4d21da
+    effective_date: 2020-01-01
+    retrieved: 2026-11-09
+  hseep-templates:
+    title: HSEEP Resources (2020 templates)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+  aar-template:
+    title: After-Action Report/Improvement Plan template (HSEEP 2020)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources/improvement-planning
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+  sitman-template:
+    title: Situation Manual and Facilitator Guide templates (HSEEP 2020)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources/design-and-development
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+  eeg-template:
+    title: Exercise Evaluation Guide templates (HSEEP 2020)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources/eegs
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+  pff-template:
+    title: Participant Feedback Form template (HSEEP 2020)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources/conduct
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+
+exercise_types:
+  - id: seminar
+    name: Seminar
+    category: discussion
+    definition: "A discussion-based exercise that orients participants to or provides an overview of authorities, strategies, plans, policies, procedures, protocols, resources, concepts, and ideas."
+    purpose: "Provide a common framework of understanding; a good starting point for developing or making major changes to plans, policies, or procedures."
+    default_hours: 2
+    source: hseep-2020
+    section: "Table 2.3, p. 2-6"
+  - id: workshop
+    name: Workshop
+    category: discussion
+    definition: "A discussion-based exercise often employed to develop policy, plans, or procedures."
+    purpose: "Increased participant interaction focused on achieving or building a product (for example a plan annex, standard operating procedure, or continuity plan)."
+    default_hours: 4
+    source: hseep-2020
+    section: "Table 2.4, p. 2-7"
+  - id: tabletop
+    name: Tabletop exercise (TTX)
+    category: discussion
+    definition: "A discussion-based exercise in response to a scenario, intended to generate a dialogue of various issues to facilitate a conceptual understanding, identify strengths and areas for improvement, and/or achieve changes in perceptions about plans, policies, or procedures."
+    purpose: "Generate discussion of issues raised by a scenario; validate plans and procedures; clarify roles and responsibilities in a no-fault, problem-solving environment led by an experienced facilitator."
+    default_hours: 3.5
+    source: hseep-2020
+    section: "Table 2.5, pp. 2-7 to 2-8"
+  - id: game
+    name: Game
+    category: discussion
+    definition: "A discussion-based exercise that is a structured form of play designed for individuals or teams in a competitive or noncompetitive environment, guided by clear rules, data, and procedures."
+    purpose: "Explore decision-making processes and their consequences; conduct what-if analyses of plans; evaluate strategies. No actual resources are used."
+    default_hours: 4
+    source: hseep-2020
+    section: "Table 2.6, pp. 2-8 to 2-9"
+  - id: drill
+    name: Drill
+    category: operations
+    definition: "An operations-based exercise often employed to validate a single operation or function."
+    purpose: "Coordinated, supervised activity to validate a specific function in a single agency, train on new equipment, validate procedures, or practice and maintain skills; results are measured against established standards."
+    default_hours: 2
+    source: hseep-2020
+    section: "Table 2.7, pp. 2-9 to 2-10"
+  - id: functional
+    name: Functional exercise (FE)
+    category: operations
+    definition: "An operations-based exercise designed to test and evaluate capabilities and functions while in a realistic, real-time environment; however, movement of resources is usually simulated."
+    purpose: "Validate capabilities and the management, direction, command, and control functions of an emergency operations center, command post, or staff, driven by a Master Scenario Events List (MSEL) with controllers, a simulation cell, and evaluators."
+    default_hours: 4
+    source: hseep-2020
+    section: "Table 2.8, p. 2-10"
+  - id: full_scale
+    name: Full-scale exercise (FSE)
+    category: operations
+    definition: "An operations-based exercise that is typically the most complex and resource-intensive of the exercise types and often involves multiple agencies, jurisdictions/organizations, and real-time movement of resources."
+    purpose: "Implement and analyze plans, policies, and procedures with real mobilization of personnel and resources, often under ICS Unified Command, driven by a MSEL with simulation cell controllers."
+    default_hours: 6
+    source: hseep-2020
+    section: "Table 2.9, p. 2-11"
+
+documents:
+  - {id: sitman, name: Situation Manual (SitMan), categories: [discussion], distribution: All participants, description: "Background information and the primary reference material for exercise participants; the core document for discussion-based exercises.", source: hseep-2020, section: "Table 3.8, p. 3-13"}
+  - {id: facilitator_guide, name: Facilitator Guide, categories: [discussion], distribution: Exercise facilitators, description: "Instructions and key issues used by the facilitator to move participants through exercise play; not given to players.", source: hseep-2020, section: "Table 3.8, p. 3-13"}
+  - {id: explan, name: Exercise Plan (ExPlan), categories: [operations], distribution: Players and observers, description: "General information for participants, including exercise objectives and scope, not including the scenario information.", source: hseep-2020, section: "Table 3.9, p. 3-14"}
+  - {id: msel, name: Master Scenario Events List (MSEL), categories: [operations], distribution: "Controllers, evaluators, and simulators", description: "A chronological timeline of expected actions and scripted events to be injected into exercise play by controllers to generate or prompt player activity.", source: hseep-2020, section: "Table 3.9, p. 3-14"}
+  - {id: ce_handbook, name: Controller/Evaluator (C/E) Handbook, categories: [operations], distribution: Controllers and evaluators, description: "Specific exercise information and guidance for controllers and evaluators; a standalone document or a supplement to the Exercise Plan.", source: hseep-2020, section: "Table 3.9, p. 3-14"}
+  - {id: eeg, name: Exercise Evaluation Guide (EEG), categories: [discussion, operations], distribution: Evaluators, description: "Captures the evaluation requirements: a standardized tool to guide data collection and capture performance results against the jurisdiction's own capability targets and critical tasks.", source: hseep-2020, section: "Tables 3.8 and 3.9, pp. 3-13 to 3-14"}
+  - {id: feedback_form, name: Participant Feedback Form, categories: [discussion, operations], distribution: All participants, description: "Collects observed strengths, areas for improvement, and input about exercise conduct and logistics from participants; supports the AAR/IP.", source: hseep-2020, section: "Tables 3.8 and 3.9, pp. 3-13 to 3-15"}
+  - {id: sign_in, name: Sign-in sheet, categories: [discussion, operations], distribution: All participants, description: "Attendance list collected at the exercise and given to the planning team leader for the AAR/IP.", source: hseep-2020, section: "Wrap-up Activities, p. 4-7"}
+
+planning_meetings:
+  - {id: c_and_o, name: Concept and Objectives (C&O) Meeting, purpose: "Formal beginning of the planning process: scope, proposed objectives and aligned capabilities, date, location, participants, and planning team. May be combined with the IPM for less complex exercises.", operations_only: false, weeks_before_discussion: 10, weeks_before_operations: 24, source: hseep-2020, section: "Table 3.1, pp. 3-2 to 3-3"}
+  - {id: ipm, name: Initial Planning Meeting (IPM), purpose: "Refine scope and objectives; evaluation requirements (EEG capability targets and critical tasks); plans to be evaluated; scenario; extent of play; draft documentation.", operations_only: false, weeks_before_discussion: 8, weeks_before_operations: 16, source: hseep-2020, section: "Table 3.2, pp. 3-3 to 3-4"}
+  - {id: mpm, name: Midterm Planning Meeting (MPM), purpose: "Develop scenario details and timeline; review draft SitMan or ExPlan, Facilitator Guide or C/E Handbook, and EEGs; agree on site and logistics.", operations_only: false, weeks_before_discussion: 5, weeks_before_operations: 10, source: hseep-2020, section: "Table 3.3, pp. 3-4 to 3-5"}
+  - {id: msel_meeting, name: Master Scenario Events List (MSEL) Meeting, purpose: "Build the MSEL in detail for operations-based exercises.", operations_only: true, weeks_before_discussion: null, weeks_before_operations: 7, source: hseep-2020, section: "Table 3.4, pp. 3-5 to 3-6"}
+  - {id: fpm, name: Final Planning Meeting (FPM), purpose: "Formal end of the planning process: final review and approval of all documents and logistics; no major changes to design, scope, or documentation at or after this meeting.", operations_only: false, weeks_before_discussion: 2, weeks_before_operations: 3, source: hseep-2020, section: "Table 3.5, pp. 3-6 to 3-7"}
+
+planning_timeline_note: "Weeks before the exercise are tool defaults (HSEEP sets no fixed timeline); adjust to your program."
+
+smart_objective:
+  guidance:
+    - {letter: S, name: Specific, text: "Says who will do what: the actors and the action or discussion expected."}
+    - {letter: M, name: Measurable, text: "Includes a quantity, a standard, or a time that an evaluator can observe."}
+    - {letter: A, name: Achievable, text: "Can be met with the resources, players, and time available in this exercise."}
+    - {letter: R, name: Relevant, text: "Tied to program priorities and to the plan, policy, or procedure being tested."}
+    - {letter: T, name: Time-bound, text: "Gives a time frame (for example, within 2 hours of notification)."}
+  example: "Demonstrate the ability of Central City staff to receive, develop, and disseminate a public alert utilizing Central City's notification system regarding a HAZMAT spill within 15 minutes of initial notification, in accordance with the Communications Annex in the Emergency Operations Plan."
+  source: hseep-2020
+  section: "Figure 3.4, pp. 3-11 to 3-12"
+
+smart_corrective_action:
+  example: "Central City will hold a seminar to address the confusion that exists within the multiple organizations that respond to HAZMAT incidents within the city ... Final planning and details for the seminar should be completed by September 1, 2020 (90 days), with identification of all necessary players to be invited by September 15, 2020 (105 days)."
+  guiding_questions:
+    - What changes to plans and procedures will improve performance?
+    - What changes to organizational structures will improve performance?
+    - What changes to management processes will improve performance?
+    - What changes to equipment or resources will improve performance?
+    - Was training provided and did the training improve performance?
+  source: hseep-2020
+  section: "Figure 6.2 and p. 6-2"
+
+capability_elements:
+  - {id: planning, name: Planning, text: "Plans, policies, procedures, and agreements."}
+  - {id: organization, name: Organization, text: "Organizational structure, staffing, and leadership."}
+  - {id: equipment, name: Equipment, text: "Equipment, supplies, and systems."}
+  - {id: training, name: Training, text: "Training and education of staff and partners."}
+  - {id: exercise, name: Exercise, text: "Exercises and evaluation that validate the capability."}
+capability_elements_source: {source: pff-template, section: "Participant Feedback Form, Part III (Planning, Organization, Equipment, Training, Exercise)"}
+
+ratings:
+  - {code: P, label: Performed without Challenges, definition: "The targets and critical tasks associated with the capability were completed in a manner that achieved the objective(s) and did not negatively impact the performance of other activities. Performance did not contribute to additional health and/or safety risks for the public or for emergency workers, and it was conducted in accordance with applicable plans, policies, procedures, regulations, and laws."}
+  - {code: S, label: Performed with Some Challenges, definition: "The targets and critical tasks were completed in a manner that achieved the objective(s) and did not negatively impact other activities or add health or safety risks, and followed applicable plans, policies, procedures, regulations, and laws. However, opportunities to enhance effectiveness and/or efficiency were identified."}
+  - {code: M, label: Performed with Major Challenges, definition: "The targets and critical tasks were completed in a manner that achieved the objective(s), but some or all of the following were observed: performance had a negative impact on other activities; contributed to additional health and/or safety risks for the public or for emergency workers; and/or was not conducted in accordance with applicable plans, policies, procedures, regulations, and laws."}
+  - {code: U, label: Unable to be Performed, definition: "The targets and critical tasks associated with the capability were not performed in a manner that achieved the objective(s)."}
+ratings_source: {source: aar-template, section: "Analysis of Capabilities, Ratings Definitions"}
+
+participant_roles:
+  - {role: Players, text: "Personnel who have an active role in discussing or performing their regular roles and responsibilities during the exercise."}
+  - {role: Observers, text: "Do not directly participate in the exercise; they may support player discussion by asking relevant questions or providing subject matter expertise."}
+  - {role: Facilitators, text: "Provide situation updates and moderate discussions; provide additional information or resolve questions as required."}
+  - {role: Evaluators, text: "Assigned to observe and document certain objectives; they document player discussions, including how and if they conform to plans, policies, and procedures."}
+participant_roles_source: {source: sitman-template, section: "Participant Roles and Responsibilities"}
+
+exercise_guidelines:
+  - "This exercise will be held in an open, no-fault environment wherein capabilities, plans, systems, and processes will be evaluated. Varying viewpoints, even disagreements, are expected."
+  - "Respond to the scenario using your knowledge of current plans and capabilities (you may use only existing assets) and insights derived from your training."
+  - "Decisions are not precedent setting and may not reflect your organization's final position on a given issue. This exercise is an opportunity to discuss and present multiple options and possible solutions."
+  - "Issue identification is not as valuable as suggestions and recommended actions that could improve response efforts. Problem-solving efforts should be the focus."
+  - "The assumption is that the exercise scenario is plausible and events occur as they are presented. All players will receive information at the same time."
+exercise_guidelines_source: {source: sitman-template, section: "Exercise Guidelines"}
+
+facilitator_tips:
+  - Keeps discussions on track and drives play to meet exercise objectives.
+  - Controls group dynamics and manages strong personalities.
+  - Speaks competently and confidently without dominating the conversation.
+  - Has subject-matter expertise or experience and an awareness of local plans and procedures.
+  - Captures key findings and discussion points.
+  - Reminds participants that they are discussing hypothetical situations in a no-fault environment and encourages everyone to contribute.
+facilitator_tips_source: {source: sitman-template, section: "Facilitator Guide, Introduction"}
+
+evaluation_questions:
+  - What happened? What was supposed to happen based on current plans, policies, and procedures?
+  - Was there a difference? What was the impact?
+  - Were the consequences of the action (or inaction/decision) positive, negative, or neutral?
+  - Do plans, policies, and procedures support activities and associated tasks?
+  - Are players familiar with these documents?
+  - What are the strengths and areas of improvement to remedy deficiencies?
+root_cause_questions:
+  - Were the objectives for each critical task met? If not, what factors contributed to this result?
+  - Did discussions or activities suggest the critical tasks performed sufficiently to meet the capability targets? If not, what were the resulting impacts or consequences?
+  - What improvements are required? Are other resources needed? If so, how will they be obtained?
+  - What strengths are required to carry out those tasks? What decisions would need to be made, and who would make them?
+evaluation_source: {source: hseep-2020, section: "Data Analysis and Root Cause Analysis, pp. 5-7 to 5-8"}
+
+observation_categories:
+  - {id: strength, name: Strength, text: "Actions that went exceptionally well given the circumstances; the impact of positive performance on expected outcomes; activities that yielded better results than could have been expected."}
+  - {id: area_for_improvement, name: Area for improvement, text: "Outcomes did not meet expectations or intent; the negative impact of actual performance on expected outcomes; the factors that contributed to the inability to meet critical tasks, capability targets, or desired outcomes."}
+observation_categories_source: {source: hseep-2020, section: "Table 5.4, p. 5-9"}
+
+aar_rules:
+  - {id: observation_statement, text: "An area for improvement should clearly state the problem or gap; it should not include a recommendation or corrective action, which belong in the Improvement Plan.", source: aar-template, section: "Analysis of Capabilities (Area for Improvement guidance)", confidence: high}
+  - {id: reference_and_analysis, text: "Each area for improvement lists the relevant plans, policies, procedures, regulations, or laws (Reference) and a root cause analysis or summary of why the full capability level was not achieved (Analysis).", source: aar-template, section: "Analysis of Capabilities", confidence: high}
+  - {id: capability_ratings, text: "Table 1 rates each objective's aligned capabilities P, S, M, or U as determined by the evaluation team.", source: aar-template, section: "Table 1, Summary of Core Capability Performance", confidence: high}
+  - {id: improvement_plan_columns, text: "The Improvement Plan lists, for each area for improvement, the corrective action, capability element, primary responsible organization, organization point of contact, start date, and completion date.", source: aar-template, section: "Improvement Plan", confidence: high}
+  - {id: smart_corrective_actions, text: "Corrective actions should be specific, measurable, achievable, relevant, and time-bound (SMART); the organization's point of contact takes responsibility for each issue.", source: hseep-2020, section: "SMART Corrective Actions, pp. 6-1 to 6-2", confidence: high}
+  - {id: after_action_meeting, text: "At the After-Action Meeting, participants reach consensus on strengths, areas for improvement, corrective actions, concrete deadlines, and owners; the final AAR/IP is distributed and corrective actions are tracked to completion.", source: hseep-2020, section: "Table 5.5, p. 5-10, and pp. 6-2 to 6-3", confidence: high}
+  - {id: non_attribution, text: "Evaluators observe in a non-attribution environment: observations describe what happened and why, not who made a mistake.", source: hseep-2020, section: "Observation, p. 5-6", confidence: high}
+  - {id: focus, text: "Focus on issues that are critical to the success of a mission or represent a trend; include consequences and likelihood of recurrence when possible.", source: hseep-2020, section: "p. 5-9", confidence: high}
+
+after_action_timeline:
+  - {step: Player hotwash, when: "Immediately after the exercise", source: hseep-2020, section: "Player Hotwash, p. 4-7", tool_default: false}
+  - {step: Controller/evaluator debrief, when: "After the hotwash, the same day", source: hseep-2020, section: "Debrief, p. 4-7", tool_default: false}
+  - {step: Draft AAR/IP to participating organizations, when: "Within 30 days (tool default)", source: hseep-2020, section: "p. 5-9", tool_default: true}
+  - {step: After-Action Meeting, when: "Within 45 days (tool default)", source: hseep-2020, section: "Table 5.5, p. 5-10", tool_default: true}
+  - {step: Final AAR/IP distributed and corrective actions tracked, when: "Within 60 days (tool default); track until complete", source: hseep-2020, section: "pp. 5-10, 6-2", tool_default: true}
+
+feedback_form:
+  scale:
+    - {value: 1, label: Strongly disagree}
+    - {value: 2, label: Disagree}
+    - {value: 3, label: Neutral}
+    - {value: 4, label: Agree}
+    - {value: 5, label: Strongly agree}
+  factors:
+    - {id: briefings, text: "Pre-exercise briefings were informative and provided the necessary information for my role in the exercise.", keywords: [briefing]}
+    - {id: scenario_realistic, text: "The exercise scenario was plausible and realistic.", keywords: [scenario, plausible, realistic]}
+    - {id: right_participants, text: "Exercise participants included the right people in terms of level and mix of disciplines.", keywords: [right people, mix, participants included, disciplines]}
+    - {id: actively_involved, text: "Participants were actively involved in the exercise.", keywords: [actively, involved]}
+    - {id: appropriate_level, text: "Exercise participation was appropriate for someone in my field with my level of experience/training.", keywords: [appropriate, experience, my field]}
+    - {id: understanding_partners, text: "The exercise increased my understanding about and familiarity with the capabilities and resources of other participating organizations.", keywords: [understanding, familiarity, other participating, other organizations]}
+    - {id: significant_decisions, text: "The exercise provided the opportunity to address significant decisions in support of critical mission areas.", keywords: [significant decisions, decisions]}
+    - {id: better_prepared, text: "After this exercise, I am better prepared to deal with capabilities and hazards addressed.", keywords: [better prepared, prepared]}
+  open_questions:
+    - How could the exercise scenario have been more plausible/realistic?
+    - With regard to respective levels and mix of disciplines, what other exercise participants could/should have been included?
+    - What specific training opportunities helped you (or could have helped you) prepare for this exercise?
+    - Which exercise materials were most useful? Please identify any additional materials or resources that would be useful.
+    - Please provide any recommendations on how this exercise or future exercises could be improved or enhanced.
+  roles: [Player, Facilitator/Controller, Evaluator, Other]
+  source: pff-template
+  section: "Participant Feedback Form, Parts I to III"
+
+msel_columns:
+  - {name: Event, text: "Alphanumeric event number"}
+  - {name: Date, text: "Exercise date"}
+  - {name: Time, text: "Scenario or delivery time"}
+  - {name: Category, text: "Inject, expected action, or contingency inject"}
+  - {name: Inject Mode, text: "How it is delivered (phone, email, radio, in person, simulated media)"}
+  - {name: Synopsis, text: "20 words or less summary"}
+  - {name: From, text: "Simulated sender (agency name)"}
+  - {name: To, text: "Recipient (agency name or ICS position)"}
+  - {name: Message, text: "Text that serves as the implementer script for the inject"}
+  - {name: Expected Action, text: "What is expected to occur as a result of participant action"}
+  - {name: Responsible Organization, text: "Organization responsible for the event"}
+  - {name: POC/Author, text: "Author of the event (contact details stay in your local copy)"}
+  - {name: Comment, text: "Notes to support development of the event"}
+msel_source: {source: sitman-template, section: "Master Scenario Events List template (2020)"}
+
+hotwash_agenda:
+  - "Thank participants and restate the no-fault ground rules (2 minutes)."
+  - "Strengths: what went well, by objective (10 minutes)."
+  - "Areas for improvement: what did not go as planned and why (15 minutes)."
+  - "Plans, policies, procedures, or agreements that need review (5 minutes)."
+  - "Complete the Participant Feedback Form before leaving (5 minutes)."
+hotwash_note: "Agenda and times are tool defaults built from HSEEP's description of the player hotwash (p. 4-7)."

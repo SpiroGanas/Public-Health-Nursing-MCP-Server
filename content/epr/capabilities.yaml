@@ -1,0 +1,435 @@
+# Capability frameworks for design_hseep_exercise (EPR-08) and build_after_action_report (EPR-09):
+# the 15 CDC Public Health Emergency Preparedness and Response (PHEP) capabilities, FEMA's 32
+# core capabilities, and this project's PHEP -> FEMA mapping (ADR 0009: PHEP + FEMA, no HPP).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_capabilities.schema.json
+meta:
+  id: epr-capabilities
+  title: PHEP capabilities (CDC 2018) and FEMA core capabilities, with a PHEP to FEMA mapping
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2019-01-01
+  source:
+    title: "Public Health Emergency Preparedness and Response Capabilities: National Standards for State, Local, Tribal, and Territorial Public Health (October 2018, updated January 2019)"
+    publisher: Centers for Disease Control and Prevention, Center for Preparedness and Response
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  related_sources:
+    - title: Public Health Emergency Preparedness and Response Capabilities (CDC page, updated April 23, 2024)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/php/capabilities/index.html
+    - title: HSEEP Exercise Evaluation Guides (core capability EEG templates, 2020)
+      publisher: Federal Emergency Management Agency
+      url: https://preptoolkit.fema.gov/web/hseep-resources/eegs
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The 15 PHEP capabilities, their six domains and tiers, and functions are
+    transcribed from CDC's 2018 standards PDF; definitions are transcribed (3, 4, 5, 10, 13, 14)
+    or shortened from the standards' wording (1, 2, 6, 7, 8, 9, 11, 12, 15). The PDF was
+    updated January 2019 and fetched from cdc.gov (high confidence); page numbers are the
+    standards' detailed capability sections. FEMA's 32 core capabilities, their mission areas,
+    and descriptions are transcribed (two shortened: Intelligence and Information Sharing, Fatality
+    Management Services) from FEMA's 2020 HSEEP Exercise Evaluation Guide templates on
+    preptoolkit.fema.gov (high confidence). The EEG files name three capabilities slightly
+    differently from the National Preparedness Goal ("Fatality Management Systems",
+    "Operational Communication", "Risk Management for Protection and Activities"); the names here
+    follow the National Preparedness Goal, 2nd edition (2015), whose PDF on www.fema.gov returned
+    403 and was not read (names: medium-high confidence). The PHEP to FEMA mapping
+    (fema_core under each PHEP capability) is THIS PROJECT'S OWN: the 2018 standards say the
+    PHEP capabilities support the public health and medical parts of the 32 core capabilities
+    but give no crosswalk (medium confidence; confirm with DPH's Office of Preparedness and
+    Emergency Management or your HMCC before reporting).
+
+sources:
+  phep-2018:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-09
+  phep-page:
+    title: Public Health Emergency Preparedness and Response Capabilities
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/php/capabilities/index.html
+    effective_date: 2024-04-23
+    retrieved: 2026-11-09
+  fema-eegs:
+    title: HSEEP Exercise Evaluation Guides (2020 templates)
+    publisher: Federal Emergency Management Agency
+    url: https://preptoolkit.fema.gov/web/hseep-resources/eegs
+    effective_date: 2020-12-22
+    retrieved: 2026-11-09
+  npg-2015:
+    title: National Preparedness Goal, Second Edition
+    publisher: U.S. Department of Homeland Security
+    url: https://www.fema.gov/sites/default/files/2020-06/national_preparedness_goal_2nd_edition.pdf
+    effective_date: 2015-09-01
+    retrieved: 2026-11-09
+
+phep_domains:
+  - {id: community_resilience, name: Community Resilience}
+  - {id: incident_management, name: Incident Management}
+  - {id: information_management, name: Information Management}
+  - {id: countermeasures_and_mitigation, name: Countermeasures and Mitigation}
+  - {id: surge_management, name: Surge Management}
+  - {id: biosurveillance, name: Biosurveillance}
+
+phep:
+  - id: phep-1
+    number: 1
+    name: Community Preparedness
+    domain: community_resilience
+    tier: 1
+    definition: "The ability of communities to prepare for, withstand, and recover from public health incidents in both the short and long term, through engagement and coordination with state, local, tribal, and territorial partners."
+    functions:
+      - Determine risks to the health of the jurisdiction
+      - Strengthen community partnerships to support public health preparedness
+      - Coordinate with partners and share information through community social networks
+      - Coordinate training and provide guidance to support community involvement with preparedness efforts
+    fema_core: [community_resilience, threats_and_hazards_identification, risk_and_disaster_resilience_assessment, planning]
+    source: phep-2018
+    section: "Capability 1, pp. 11, 19"
+  - id: phep-2
+    number: 2
+    name: Community Recovery
+    domain: community_resilience
+    tier: 2
+    definition: "The ability of communities to identify critical assets, facilities, and other services within public health, emergency management, health care, human services, mental/behavioral health, and environmental health sectors that can guide and prioritize recovery operations, and to restore those sectors to at least a day-to-day level of functioning."
+    functions:
+      - Identify and monitor community recovery needs
+      - Support recovery operations for public health and related systems for the community
+      - Implement corrective actions to mitigate damage from future incidents
+    fema_core: [health_and_social_services, planning, infrastructure_systems]
+    source: phep-2018
+    section: "Capability 2, pp. 12, 27"
+  - id: phep-3
+    number: 3
+    name: Emergency Operations Coordination
+    domain: incident_management
+    tier: 1
+    definition: "The ability to coordinate with emergency management and to direct and support an incident or event with public health or health care implications by establishing a standardized, scalable system of oversight, organization, and supervision that is consistent with jurisdictional standards and practices and the National Incident Management System (NIMS)."
+    functions:
+      - Conduct preliminary assessment to determine the need for activation of public health emergency operations
+      - Activate public health emergency operations
+      - Develop and maintain an incident response strategy
+      - Manage and sustain the public health response
+      - Demobilize and evaluate public health emergency operations
+    fema_core: [operational_coordination, planning, situational_assessment]
+    source: phep-2018
+    section: "Capability 3, pp. 12, 34"
+  - id: phep-4
+    number: 4
+    name: Emergency Public Information and Warning
+    domain: information_management
+    tier: 1
+    definition: "The ability to develop, coordinate, and disseminate information, alerts, warnings, and notifications to the public and incident management personnel."
+    functions:
+      - Activate the emergency public information system
+      - Determine the need for a Joint Information System
+      - Establish and participate in information system operations
+      - Establish avenues for public interaction and information exchange
+      - Issue public information, alerts, warnings, and notifications
+    fema_core: [public_information_and_warning]
+    source: phep-2018
+    section: "Capability 4, pp. 13, 43"
+  - id: phep-5
+    number: 5
+    name: Fatality Management
+    domain: surge_management
+    tier: 2
+    definition: "The ability to coordinate with partner organizations and agencies to provide fatality management services."
+    functions:
+      - Determine the public health agency role in fatality management
+      - Identify and facilitate access to public health resources to support fatality management operations
+      - Assist in the collection and dissemination of antemortem data
+      - Support the provision of survivor mental/behavioral health services
+      - Support fatality processing and storage operations
+    fema_core: [fatality_management_services]
+    source: phep-2018
+    section: "Capability 5, pp. 13, 52"
+  - id: phep-6
+    number: 6
+    name: Information Sharing
+    domain: information_management
+    tier: 1
+    definition: "The ability to conduct multijurisdictional and multidisciplinary exchange of health-related information and situational awareness data among federal, state, local, tribal, and territorial levels of government and the private sector, including routine sharing and public health alerts."
+    functions:
+      - Identify stakeholders that should be incorporated into information flow and define information sharing needs
+      - Identify and develop guidance, standards, and systems for information exchange
+      - Exchange information to determine a common operating picture
+    fema_core: [intelligence_and_information_sharing, situational_assessment, operational_communications]
+    source: phep-2018
+    section: "Capability 6, pp. 14, 62"
+  - id: phep-7
+    number: 7
+    name: Mass Care
+    domain: surge_management
+    tier: 2
+    definition: "The ability of public health agencies to coordinate with and support partner agencies to address, within a congregate location (excluding shelter-in-place locations), the public health, health care, mental/behavioral health, and human services needs of those impacted by an incident."
+    functions:
+      - Determine public health role in mass care operations
+      - Determine mass care health needs of the impacted population
+      - Coordinate public health, health care, and mental/behavioral health services
+      - Monitor mass care population health
+    fema_core: [mass_care_services, public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 7, pp. 14, 70"
+  - id: phep-8
+    number: 8
+    name: Medical Countermeasure Dispensing and Administration
+    domain: countermeasures_and_mitigation
+    tier: 1
+    definition: "The ability to provide medical countermeasures (such as vaccines, antiviral drugs, antibiotics, and antitoxins) to targeted population(s) to prevent, mitigate, or treat the adverse health effects of a public health incident, according to public health guidelines."
+    functions:
+      - Determine medical countermeasure dispensing/administration strategies
+      - Receive medical countermeasures to be dispensed/administered
+      - Activate medical countermeasure dispensing/administration operations
+      - Dispense/administer medical countermeasures to targeted population(s)
+      - Report adverse events
+    fema_core: [public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 8, pp. 15, 80"
+  - id: phep-9
+    number: 9
+    name: Medical Materiel Management and Distribution
+    domain: countermeasures_and_mitigation
+    tier: 1
+    definition: "The ability to acquire, manage, transport, and track medical materiel during a public health incident or event and to recover and account for unused medical materiel after an incident."
+    functions:
+      - Direct and activate medical materiel management and distribution
+      - Acquire medical materiel from national stockpiles or other supply sources
+      - Distribute medical materiel
+      - Monitor medical materiel inventories and medical materiel distribution operations
+      - Recover medical materiel and demobilize distribution operations
+    fema_core: [logistics_and_supply_chain_management, public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 9, pp. 15, 92"
+  - id: phep-10
+    number: 10
+    name: Medical Surge
+    domain: surge_management
+    tier: 2
+    definition: "The ability to provide adequate medical evaluation and care during events that exceed the limits of the normal medical infrastructure of an affected community."
+    functions:
+      - Assess the nature and scope of the incident
+      - Support activation of medical surge
+      - Support jurisdictional medical surge operations
+      - Support demobilization of medical surge operations
+    fema_core: [public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 10, pp. 16, 103"
+  - id: phep-11
+    number: 11
+    name: Nonpharmaceutical Interventions
+    domain: countermeasures_and_mitigation
+    tier: 2
+    definition: "Actions that people and communities can take to help slow the spread of illness or reduce the adverse impact of public health emergencies, such as isolation, quarantine, restrictions on movement, social distancing, external decontamination, hygiene, and precautionary protective behaviors."
+    functions:
+      - Engage partners and identify factors that impact nonpharmaceutical interventions
+      - Determine nonpharmaceutical interventions
+      - Implement nonpharmaceutical interventions
+      - Monitor nonpharmaceutical interventions
+    fema_core: [public_health_healthcare_and_ems, environmental_response_health_and_safety]
+    source: phep-2018
+    section: "Capability 11, pp. 16, 112"
+  - id: phep-12
+    number: 12
+    name: Public Health Laboratory Testing
+    domain: biosurveillance
+    tier: 1
+    definition: "The ability to implement and perform methods to detect, characterize, and confirm public health threats, report timely data, provide investigative support, and use partnerships to address actual or potential exposure to threat agents."
+    functions:
+      - Conduct laboratory testing and report results
+      - Enhance laboratory communications and coordination
+      - Support training and outreach
+    fema_core: [screening_search_and_detection, public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 12, pp. 17, 120"
+  - id: phep-13
+    number: 13
+    name: Public Health Surveillance and Epidemiological Investigation
+    domain: biosurveillance
+    tier: 1
+    definition: "The ability to create, maintain, support, and strengthen routine surveillance and detection systems and epidemiological investigation processes, and to expand them in response to incidents of public health significance."
+    functions:
+      - Conduct or support public health surveillance
+      - Conduct public health and epidemiological investigations
+      - Recommend, monitor, and analyze mitigation actions
+      - Improve public health surveillance and epidemiological investigation systems
+    fema_core: [screening_search_and_detection, situational_assessment, public_health_healthcare_and_ems]
+    source: phep-2018
+    section: "Capability 13, pp. 17, 128"
+  - id: phep-14
+    number: 14
+    name: Responder Safety and Health
+    domain: countermeasures_and_mitigation
+    tier: 1
+    definition: "The ability to protect public health and other emergency responders during pre-deployment, deployment, and post-deployment."
+    functions:
+      - Identify responder safety and health risks
+      - Identify and support risk-specific responder safety and health training
+      - Monitor responder safety and health during and after incident response
+    fema_core: [environmental_response_health_and_safety]
+    source: phep-2018
+    section: "Capability 14, pp. 18, 138"
+  - id: phep-15
+    number: 15
+    name: Volunteer Management
+    domain: surge_management
+    tier: 2
+    definition: "The ability to coordinate with emergency management and partner agencies to identify, recruit, register, verify, train, and engage volunteers to support the jurisdictional public health agency's preparedness, response, and recovery activities."
+    functions:
+      - Recruit, coordinate, and train volunteers
+      - Notify, organize, assemble, and deploy volunteers
+      - Conduct or support volunteer safety and health monitoring and surveillance
+      - Demobilize volunteers
+    fema_core: [logistics_and_supply_chain_management, operational_coordination]
+    source: phep-2018
+    section: "Capability 15, pp. 18, 146"
+
+mission_areas:
+  - {id: prevention, name: Prevention}
+  - {id: protection, name: Protection}
+  - {id: mitigation, name: Mitigation}
+  - {id: response, name: Response}
+  - {id: recovery, name: Recovery}
+
+fema_core:
+  - id: planning
+    name: Planning
+    mission_areas: [prevention, protection, mitigation, response, recovery]
+    description: "Conduct a systematic process engaging the whole community as appropriate in the development of executable strategic, operational, and/or tactical-level approaches to meet defined objectives."
+  - id: public_information_and_warning
+    name: Public Information and Warning
+    mission_areas: [prevention, protection, mitigation, response, recovery]
+    description: "Deliver coordinated, prompt, reliable, and actionable information to the whole community through the use of clear, consistent, accessible, and culturally and linguistically appropriate methods to effectively relay information regarding any threat or hazard and, as appropriate, the actions being taken, and the assistance being made available."
+  - id: operational_coordination
+    name: Operational Coordination
+    mission_areas: [prevention, protection, mitigation, response, recovery]
+    description: "Establish and maintain a unified and coordinated operational structure and process that appropriately integrates all critical stakeholders and supports the execution of core capabilities."
+  - id: forensics_and_attribution
+    name: Forensics and Attribution
+    mission_areas: [prevention]
+    description: "Conduct forensic analysis and attribute terrorist acts (including the means and methods of terrorism) to their source, to include forensic analysis as well as attribution for an attack and for the preparation for an attack in an effort to prevent initial or follow-on acts and/or swiftly develop counter-options."
+  - id: intelligence_and_information_sharing
+    name: Intelligence and Information Sharing
+    mission_areas: [prevention, protection]
+    description: "Provide timely, accurate, and actionable information concerning threats to the United States, its people, property, or interests. Information sharing is the ability to exchange intelligence, information, data, or knowledge among government or private sector entities, as appropriate."
+  - id: interdiction_and_disruption
+    name: Interdiction and Disruption
+    mission_areas: [prevention, protection]
+    description: "Delay, divert, intercept, halt, apprehend, or secure threats and/or hazards."
+  - id: screening_search_and_detection
+    name: Screening, Search, and Detection
+    mission_areas: [prevention, protection]
+    description: "Identify, discover, or locate threats and/or hazards through active and passive surveillance and search procedures. This may include the use of systematic examinations and assessments, bio-surveillance, sensor technologies, or physical investigation and intelligence."
+  - id: access_control_and_identity_verification
+    name: Access Control and Identity Verification
+    mission_areas: [protection]
+    description: "Apply and support necessary physical, technological, and cyber measures to control admittance to critical locations and systems."
+  - id: cybersecurity
+    name: Cybersecurity
+    mission_areas: [protection]
+    description: "Protect and restore electronic communications systems, information and services from damage, unauthorized use, and exploitation."
+  - id: physical_protective_measures
+    name: Physical Protective Measures
+    mission_areas: [protection]
+    description: "Implement and maintain risk-informed countermeasures, and policies protecting people, borders, structures, materials, products, and systems associated with key operational activities and critical infrastructure sectors."
+  - id: risk_management_for_protection_programs_and_activities
+    name: Risk Management for Protection Programs and Activities
+    mission_areas: [protection]
+    description: "Identify, assess, and prioritize risks to inform Protection activities, countermeasures, and investments."
+  - id: supply_chain_integrity_and_security
+    name: Supply Chain Integrity and Security
+    mission_areas: [protection]
+    description: "Strengthen the security and resilience of the supply chain."
+  - id: community_resilience
+    name: Community Resilience
+    mission_areas: [mitigation]
+    description: "Enable the recognition, understanding, communication of, and planning for risk and empower individuals and communities to make informed risk management decisions necessary to adapt to, withstand, and quickly recover from future incidents."
+  - id: long_term_vulnerability_reduction
+    name: Long-term Vulnerability Reduction
+    mission_areas: [mitigation]
+    description: "Build and sustain resilient systems, communities, and critical infrastructure and key resources lifelines to reduce their vulnerability to natural, technological, and human-caused threats and hazards by lessening the likelihood, severity, and duration of the adverse consequences."
+  - id: risk_and_disaster_resilience_assessment
+    name: Risk and Disaster Resilience Assessment
+    mission_areas: [mitigation]
+    description: "Assess risk and disaster resilience so that decision makers, responders, and community members can take informed action to reduce their entity's risk and increase their resilience."
+  - id: threats_and_hazards_identification
+    name: Threats and Hazards Identification
+    mission_areas: [mitigation]
+    description: "Identify the threats and hazards that occur in the geographic area; determine the frequency and magnitude; and incorporate this into analysis and planning processes so as to clearly understand the needs of a community or entity."
+  - id: critical_transportation
+    name: Critical Transportation
+    mission_areas: [response]
+    description: "Provide transportation (including infrastructure access and accessible transportation services) for response priority objectives, including the evacuation of people and animals, and the delivery of vital response personnel, equipment, and services into the affected areas."
+  - id: environmental_response_health_and_safety
+    name: Environmental Response/Health and Safety
+    mission_areas: [response]
+    description: "Conduct appropriate measures to ensure the protection of the health and safety of the public and workers, as well as the environment, from all-hazards in support of responder operations and the affected communities."
+  - id: fatality_management_services
+    name: Fatality Management Services
+    mission_areas: [response]
+    description: "Provide fatality management services, including decedent remains recovery and victim identification, mortuary processes, temporary storage or permanent internment solutions, sharing information with mass care services to reunify family members and caregivers with missing persons/remains, and providing counseling to the bereaved."
+  - id: fire_management_and_suppression
+    name: Fire Management and Suppression
+    mission_areas: [response]
+    description: "Provide structural, wildland, and specialized firefighting capabilities to manage and suppress fires of all types, kinds, and complexities while protecting the lives, property, and the environment in the affected area."
+  - id: infrastructure_systems
+    name: Infrastructure Systems
+    mission_areas: [response, recovery]
+    description: "Stabilize critical infrastructure functions, minimize health and safety threats, and efficiently restore and revitalize systems and services to support a viable, resilient community."
+  - id: logistics_and_supply_chain_management
+    name: Logistics and Supply Chain Management
+    mission_areas: [response]
+    description: "Deliver essential commodities, equipment, and services in support of impacted communities and survivors, to include emergency power and fuel support, as well as the coordination of access to community staples. Synchronize logistics capabilities and enable the restoration of impacted supply chains."
+  - id: mass_care_services
+    name: Mass Care Services
+    mission_areas: [response]
+    description: "Provide life-sustaining and human services to the affected population, to include hydration, feeding, sheltering, temporary housing, evacuee support, reunification, and distribution of emergency supplies."
+  - id: mass_search_and_rescue_operations
+    name: Mass Search and Rescue Operations
+    mission_areas: [response]
+    description: "Deliver traditional and atypical search and rescue capabilities, including personnel, services, animals, and assets to survivors in need, with the goal of saving the greatest number of endangered lives in the shortest time possible."
+  - id: on_scene_security_protection_and_law_enforcement
+    name: On-scene Security, Protection, and Law Enforcement
+    mission_areas: [response]
+    description: "Ensure a safe and secure environment through law enforcement and related security and protection operations for people and communities located within affected areas and also response personnel engaged in lifesaving and life-sustaining operations."
+  - id: operational_communications
+    name: Operational Communications
+    mission_areas: [response]
+    description: "Ensure the capacity for timely communications in support of security, situational awareness, and operations by any and all means available, among and between affected communities in the impact area and all response forces."
+  - id: public_health_healthcare_and_ems
+    name: Public Health, Healthcare, and Emergency Medical Services
+    mission_areas: [response]
+    description: "Provide lifesaving medical treatment via Emergency Medical Services and related operations and avoid additional disease and injury by providing targeted public health, medical, and behavioral health support, and products to all affected populations."
+  - id: situational_assessment
+    name: Situational Assessment
+    mission_areas: [response]
+    description: "Provide all decision makers with decision-relevant information regarding the nature and extent of the hazard, any cascading effects, and the status of the response."
+  - id: economic_recovery
+    name: Economic Recovery
+    mission_areas: [recovery]
+    description: "Return economic and business activities (including food and agriculture) to a healthy state and develop new business and employment opportunities that result in a sustainable and economically viable community."
+  - id: health_and_social_services
+    name: Health and Social Services
+    mission_areas: [recovery]
+    description: "Restore and improve health and social services capabilities and networks to promote the resilience, independence, health (including behavioral health), and well-being of the whole community."
+  - id: housing
+    name: Housing
+    mission_areas: [recovery]
+    description: "Implement housing solutions that effectively support the needs of the whole community and contribute to its sustainability and resilience."
+  - id: natural_and_cultural_resources
+    name: Natural and Cultural Resources
+    mission_areas: [recovery]
+    description: "Protect natural and cultural resources and historic properties through appropriate planning, mitigation, response, and recovery actions to preserve, conserve, rehabilitate, and restore them consistent with post-disaster community priorities and best practices and in compliance with applicable environmental and historic preservation laws and executive orders."
+
+mapping_note: >-
+  The PHEP to FEMA core capability mapping (fema_core under each PHEP capability) is this
+  project's own draft. CDC's 2018 standards say the PHEP capabilities support the public health
+  and medical components of the 32 core capabilities but publish no crosswalk. Confirm the
+  mapping your agency reports with DPH or your HMCC.

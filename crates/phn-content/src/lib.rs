@@ -469,6 +469,28 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 12 content items.
     // Phase 13 content items go below this line (EPR-01, EPR-07, EPR-08/09, EPR-10).
+    // Phase 13 EPR-08/EPR-09 (HSEEP) content items.
+    ContentItem {
+        id: "epr-capabilities",
+        path: "content/epr/capabilities.yaml",
+        resource_uri: "phn://content/epr-capabilities",
+        yaml: include_str!("../../../content/epr/capabilities.yaml"),
+        schema: include_str!("../../../content/schemas/epr_capabilities.schema.json"),
+    },
+    ContentItem {
+        id: "epr-hseep",
+        path: "content/epr/hseep.yaml",
+        resource_uri: "phn://content/epr-hseep",
+        yaml: include_str!("../../../content/epr/hseep.yaml"),
+        schema: include_str!("../../../content/schemas/epr_hseep.schema.json"),
+    },
+    ContentItem {
+        id: "epr-exercise-scenarios",
+        path: "content/epr/exercise_scenarios.yaml",
+        resource_uri: "phn://content/epr-exercise-scenarios",
+        yaml: include_str!("../../../content/epr/exercise_scenarios.yaml"),
+        schema: include_str!("../../../content/schemas/epr_exercise_scenarios.schema.json"),
+    },
     // End of Phase 13 content items.
 ];
 
