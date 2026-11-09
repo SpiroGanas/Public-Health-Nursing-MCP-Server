@@ -530,3 +530,102 @@ async fn treatment_search_filters_offline_snapshot() {
     let e = call_err(&h, "find_substance_use_treatment", json!({})).await;
     assert!(e.contains("give a town"), "{e}");
 }
+
+// ------------------------------------------------------------------ MH-06
+
+#[tokio::test]
+async fn postvention_steps_templates_check_and_local_fill() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "plan_school_postvention",
+        json!({"cause_status": "unconfirmed", "phase": "first_24_hours", "messages": ["student_notification", "parent_letter", "media_statement"]}),
+    )
+    .await;
+    let d = &s["data"];
+    assert!(
+        d["steps"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|x| x["phase"] == "first_24_hours")
+    );
+    let t = d["templates"].as_array().unwrap();
+    assert_eq!(t.len(), 3);
+    assert_eq!(t[0]["cause_status"], "unconfirmed");
+    assert!(t.iter().all(|x| x["safe_messaging_problems"] == 0));
+    assert!(
+        t[0]["placeholders"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|p| p == "Student Name")
+    );
+    assert!(md(&s).contains("homerooms"));
+    assert!(decision_support(&s));
+    assert!(has_pending_review_caveat(&s));
+    assert!(d["crisis_line"].as_str().unwrap().contains("988"));
+
+    // A draft with problems: flagged by sentence, method words never echoed.
+    let s = call_ok(
+        &h,
+        "plan_school_postvention",
+        json!({"draft_text": "Our student committed suicide because of bullying. The body was found near the railroad bridge. He is at peace now."}),
+    )
+    .await;
+    let check = &s["data"]["draft_check"];
+    assert!(check["must_fix"].as_u64().unwrap() >= 1);
+    let rules: Vec<&str> = check["findings"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|f| f["rule"].as_str().unwrap())
+        .collect();
+    for r in [
+        "outdated_language",
+        "simple_cause",
+        "death_scene",
+        "glamorizing",
+        "help_resources",
+    ] {
+        assert!(rules.contains(&r), "{r} missing: {rules:?}");
+    }
+    assert!(
+        !md(&s).contains("railroad"),
+        "method details are never echoed"
+    );
+
+    // Local fill: documents written, details never returned.
+    let r = h
+        .call(
+            "plan_school_postvention",
+            json!({"cause_status": "ruled_suicide", "details_path": "postvention_details.csv", "messages": ["student_notification", "parent_letter", "staff_meeting"]}),
+        )
+        .await;
+    assert_eq!(r.is_error, Some(false), "{}", everything(&r));
+    let found = leaks(&everything(&r), "data/postvention_details.csv", None);
+    assert!(found.is_empty(), "leaked: {found:?}");
+    let s = r.structured_content.unwrap();
+    let files = s["data"]["files_written"].as_array().unwrap();
+    assert_eq!(files.len(), 3);
+    assert_eq!(s["data"]["records_filled"], 1);
+    let f = files[1].as_str().unwrap();
+    let docx = phn_local::docx::read_docx(&h.data().join(f)).unwrap();
+    assert!(docx.plain_text().contains("Thessaly Brandquist"));
+    assert!(docx.plain_text().contains("988"));
+
+    let e = call_err(
+        &h,
+        "plan_school_postvention",
+        json!({"cause_status": "maybe"}),
+    )
+    .await;
+    assert!(e.contains("not recognized"), "{e}");
+    let e = call_err(
+        &h,
+        "plan_school_postvention",
+        json!({"details_path": "exclusion_letters.csv", "messages": ["parent_letter"]}),
+    )
+    .await;
+    assert!(e.contains("do not match any column"), "{e}");
+}

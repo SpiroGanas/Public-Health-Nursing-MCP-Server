@@ -1160,6 +1160,27 @@ facilities; distances computed from the town center when it is used). Returns ea
 address, phones, website, miles, medications for opioid use disorder, settings, payment, and
 languages, plus the Massachusetts Substance Use Helpline, 988, and FDA's MOUD categories.
 
+### `plan_school_postvention` (MH-06, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `cause_status` | `unconfirmed` | `unconfirmed`, `ruled_suicide`, or `family_declined_disclosure`; chooses the student and parent templates. |
+| `phase` | `all` | `first_24_hours`, `first_week`, `ongoing`. |
+| `messages` | staff meeting, student notification, parent letter | Also `media_statement`, `social_media_post`. |
+| `draft_text` or `draft_path` | | A draft to check against the safe-messaging rules. |
+| `details_path` | | CSV/XLSX in `/data` whose columns match the placeholders; each row fills the templates as Word files in `/data/output`. |
+
+Steps (16, by phase, with page numbers) and talking points paraphrase AFSP/SPRC *After a
+Suicide: A Toolkit for Schools* (2nd ed., 2018). The templates are this project's own drafts that
+follow the toolkit's structure (the toolkit allows copying with credit, but adapting or
+excerpting needs EDC's permission; the license is recorded in the content), use 988, and pass the
+safe-messaging rules. The safe-messaging check (`content/comms/safe_messaging.yaml`, shared with
+the communication tools) flags method or scene details, outdated language, single causes,
+glamorizing, sensational words, PA or assembly announcements, and memorials on school grounds,
+and missing help resources or hope; findings cite sentence numbers and never repeat method
+words. Local fill follows the template + local fill rule: names are never arguments and never
+returned. Decision support.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

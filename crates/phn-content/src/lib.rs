@@ -182,6 +182,20 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/bh/substance_use_resources.yaml"),
         schema: include_str!("../../../content/schemas/bh_substance_use_resources.schema.json"),
     },
+    ContentItem {
+        id: "comms-safe-messaging",
+        path: "content/comms/safe_messaging.yaml",
+        resource_uri: "phn://content/comms-safe-messaging",
+        yaml: include_str!("../../../content/comms/safe_messaging.yaml"),
+        schema: include_str!("../../../content/schemas/comms_safe_messaging.schema.json"),
+    },
+    ContentItem {
+        id: "bh-school-postvention",
+        path: "content/bh/postvention.yaml",
+        resource_uri: "phn://content/bh-school-postvention",
+        yaml: include_str!("../../../content/bh/postvention.yaml"),
+        schema: include_str!("../../../content/schemas/bh_postvention.schema.json"),
+    },
     // End of Phase 11 content items.
     // Phase 12 content items go below this line.
     // End of Phase 12 content items.

@@ -609,6 +609,17 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"path": "policies/needlestick_exposure.md", "max_flags": 50}),
             "data/policies/needlestick_exposure.md",
         ),
+        (
+            "plan_school_postvention",
+            json!({"details_path": "postvention_details.csv", "cause_status": "ruled_suicide",
+                   "messages": ["staff_meeting", "student_notification", "parent_letter", "media_statement", "social_media_post"]}),
+            "data/postvention_details.csv",
+        ),
+        (
+            "plan_school_postvention",
+            json!({"draft_path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
         // ---- End of Phase 11 data tools.
         // ---- Phase 12 data tools go below this line.
         // ---- End of Phase 12 data tools.

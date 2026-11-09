@@ -128,6 +128,7 @@ output folder instead of being sent to the AI model.
 | `get_youth_risk_behavior_data` | MH-07 | bh | Massachusetts Youth Health Survey and YRBS indicators (sadness, suicide, bullying, substance use) by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs, vs the U.S. |
 | `find_naloxone_and_harm_reduction` | MH-04 | bh | Naloxone access under the statewide standing order, syringe service approval by town, fentanyl test strips, help lines, and a cited naloxone teaching script (Word handout). |
 | `find_substance_use_treatment` | MH-05 | bh | FindTreatment.gov facilities near a town: methadone, buprenorphine, naltrexone, withdrawal management, recovery supports, filtered by MassHealth and language, plus the Substance Use Helpline. |
+| `plan_school_postvention` | MH-06 | bh | After a suicide affecting a school: toolkit steps, talking points, staff/student/parent/media templates filled locally, and a safe-messaging check of drafts. |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

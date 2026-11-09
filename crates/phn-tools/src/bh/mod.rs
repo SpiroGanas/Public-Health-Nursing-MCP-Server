@@ -12,6 +12,8 @@ pub mod harm_reduction;
 pub use harm_reduction::{
     HarmReductionArgs, HarmReductionResult, find_naloxone_and_harm_reduction,
 };
+pub mod postvention;
+pub use postvention::{PostventionArgs, PostventionResult, plan_school_postvention};
 pub mod treatment;
 pub use treatment::{TreatmentArgs, TreatmentResult, find_substance_use_treatment};
 pub mod youth_survey;

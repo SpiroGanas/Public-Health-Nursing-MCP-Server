@@ -3758,6 +3758,54 @@
    "kind": "other_id_number",
    "file": "data/church_supper_outbreak.csv",
    "column": "Case ID"
+  },
+  {
+   "value": "Thessaly Brandquist",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Thessaly",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Brandquist",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "Student Name"
+  },
+  {
+   "value": "Ondine Marchetti",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "Principal Name"
+  },
+  {
+   "value": "Pell Arkwright",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "School Counselor Name"
+  },
+  {
+   "value": "413-555-0150",
+   "kind": "phone",
+   "file": "data/postvention_details.csv",
+   "column": "School Counselor Phone"
+  },
+  {
+   "value": "Corwin Halvorsen",
+   "kind": "name",
+   "file": "data/postvention_details.csv",
+   "column": "Media Spokesperson"
+  },
+  {
+   "value": "413-555-0151",
+   "kind": "phone",
+   "file": "data/postvention_details.csv",
+   "column": "Spokesperson Phone"
   }
  ]
 }

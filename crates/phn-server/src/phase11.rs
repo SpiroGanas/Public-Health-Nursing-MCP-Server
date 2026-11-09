@@ -2,8 +2,8 @@
 
 use phn_core::Envelope;
 use phn_tools::bh::{
-    HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, TreatmentArgs,
-    TreatmentResult, YouthSurveyArgs, YouthSurveyResult,
+    HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, PostventionArgs,
+    PostventionResult, TreatmentArgs, TreatmentResult, YouthSurveyArgs, YouthSurveyResult,
 };
 use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
@@ -113,5 +113,27 @@ impl PhnServer {
         Parameters(args): Parameters<TreatmentArgs>,
     ) -> CallToolResult {
         respond(phn_tools::bh::find_substance_use_treatment(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "plan_school_postvention",
+        description = "After a suicide affects a school: the AFSP/SPRC After a Suicide toolkit's \
+            steps for the first 24 hours, first week, and after (with page numbers), talking \
+            points, and message templates for the staff meeting, students, parents, the media, \
+            and social media chosen by whether the cause of death is confirmed; a safe-messaging \
+            check of a draft (method details, oversimplified causes, glamorizing, missing help \
+            resources); and local fill of the templates from a file in /data into Word documents \
+            in /data/output (names never returned). Never put names in arguments.",
+        annotations(title = "Plan school postvention", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<PostventionResult>>()
+    )]
+    async fn plan_school_postvention(
+        &self,
+        Parameters(args): Parameters<PostventionArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::bh::plan_school_postvention(ctx, args)
+        })
+        .await
     }
 }

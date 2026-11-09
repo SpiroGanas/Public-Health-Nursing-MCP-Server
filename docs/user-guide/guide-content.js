@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 52;
+const TOOL_COUNT = 53;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment.', '5'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide.', '6'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1879,6 +1879,37 @@ const toolChapters = [
           'Programs report their own services to SAMHSA. Call ahead to confirm openings, insurance, and language.',
           'Distances are straight-line miles from the center of the town.',
           'The Massachusetts Substance Use Helpline (800-327-5050) can also help find treatment and recovery services.',
+        ],
+      },
+      {
+        id: 'plan_school_postvention',
+        title: 'Plan a school’s response after a suicide',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'optional: a file with the school’s notice details, to fill the letters',
+        does: 'Walks a school crisis team through the steps in the AFSP and SPRC toolkit *After a Suicide: A Toolkit for Schools* for the first day, the first week, and after; gives talking points; provides draft messages for the staff meeting, students, parents, the media, and social media that fit what is known about the cause of death; checks your own drafts against safe-messaging rules; and fills the letters from a file in your data folder.',
+        when: [
+          'A student or staff member has died and suicide is suspected or confirmed.',
+          'Reviewing a letter, statement, or post about a suicide before it goes out.',
+          'Preparing a postvention plan before a crisis happens.',
+        ],
+        provide: [
+          'Whether the cause of death is confirmed, unconfirmed, or the family asked that it not be shared, and which messages you need.',
+          'Optionally a draft to check, and a spreadsheet in your data folder with columns such as School Name, Student Name, Principal Name, Date of Notice, and Counseling Location to fill the letters. Do not type names into the chat.',
+        ],
+        examples: [
+          'A student died over the weekend and the cause is not confirmed. What should our school do today, and what do we tell students?',
+          'Check this draft letter to parents for safe messaging: [paste text].',
+          'Fill the parent letter and student statement from school_notice.xlsx.',
+        ],
+        returns: [
+          'Steps by phase with toolkit page numbers, talking points, the message templates with their placeholders, any safe-messaging problems in your draft (by sentence number), and the names of the filled Word files in your output folder.',
+        ],
+        notes: [
+          'The templates are drafts written for this server. The toolkit’s own sample statements can be used directly from the PDF with its credit line.',
+          'The family’s wishes and your crisis team decide what is shared. Confirm the cause of death before calling it a suicide.',
+          'The tool never describes how a person died. The safe-messaging check uses word patterns; a person must still review every message.',
+          'Anyone in crisis can call or text 988.',
         ],
       },
     ],

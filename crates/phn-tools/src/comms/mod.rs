@@ -16,6 +16,7 @@ pub use accessibility::{AccessibilityArgs, AccessibilityResult, check_document_a
 // Phase 11 modules.
 pub mod content;
 pub mod readability;
+pub mod safe_messaging;
 pub mod textstats;
 
 pub use readability::{ReadabilityArgs, ReadabilityResult, check_readability};

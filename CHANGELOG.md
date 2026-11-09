@@ -63,6 +63,11 @@ All notable changes are recorded here. The format follows
   (`phn_data::findtreatment`, live → cache → bundled statewide snapshot `samhsa-findtreatment-ma`)
   with MOUD, setting, special-group, payment, and language filters, and the Massachusetts
   Substance Use Helpline.
+- `plan_school_postvention` (MH-06): After a Suicide toolkit steps and talking points (with
+  pages), message templates by cause-of-death status filled locally into Word files, and a
+  safe-messaging check of drafts. Content `content/bh/postvention.yaml` and
+  `content/comms/safe_messaging.yaml` (shared rules, `phn_tools::comms::safe_messaging`); fixture
+  `fixtures/synthetic/data/postvention_details.csv`.
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

@@ -35,4 +35,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Bh,
         phase: 11,
     },
+    ToolMeta {
+        name: "plan_school_postvention",
+        plan_id: "MH-06",
+        toolset: Toolset::Bh,
+        phase: 11,
+    },
 ];
