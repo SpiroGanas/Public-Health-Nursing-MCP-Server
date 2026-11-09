@@ -285,6 +285,36 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/ma_pl2020_blocks.txt"),
     ),
     // End of Phase 12 snapshot files.
+    // Phase 11 snapshot files go below this line.
+    (
+        "ma_opioid_deaths_town.csv",
+        include_str!("../../../snapshots/ma_opioid_deaths_town.csv"),
+    ),
+    (
+        "cdc_vsrr_overdose_ma_us.csv",
+        include_str!("../../../snapshots/cdc_vsrr_overdose_ma_us.csv"),
+    ),
+    (
+        "cdc_vsrr_overdose_ma_counties.csv",
+        include_str!("../../../snapshots/cdc_vsrr_overdose_ma_counties.csv"),
+    ),
+    (
+        "ma_youth_survey.csv",
+        include_str!("../../../snapshots/ma_youth_survey.csv"),
+    ),
+    (
+        "ma_youth_survey_indicators.csv",
+        include_str!("../../../snapshots/ma_youth_survey_indicators.csv"),
+    ),
+    (
+        "cdc_yrbs_mental_health_ma_us.csv",
+        include_str!("../../../snapshots/cdc_yrbs_mental_health_ma_us.csv"),
+    ),
+    (
+        "findtreatment_ma.csv",
+        include_str!("../../../snapshots/findtreatment_ma.csv"),
+    ),
+    // End of Phase 11 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

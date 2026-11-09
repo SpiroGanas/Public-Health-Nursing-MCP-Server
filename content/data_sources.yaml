@@ -921,6 +921,133 @@ sources:
         mass.gov MOLST page was found. Do not link to that domain.
   # End of Phase 10 sources.
   # Phase 11 sources go below this line.
+  - id: ma-dph-opioid-deaths-town
+    name: DPH opioid-related overdose deaths by city/town, 2015-2022
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-dph-opioid-deaths-town
+    homepage: https://www.mass.gov/lists/substance-use-and-overdose-data
+    probe_url: https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download
+    used_by: [get_overdose_data]
+    caveats:
+      - >-
+        The latest town-level table DPH published as a document (posted June 2023). Newer town data
+        (through 2025) are only on DPH's BSAS dashboard (Tableau), which the server cannot read.
+
+  - id: cdc-vsrr-overdose
+    name: CDC VSRR provisional drug overdose death counts (state and county)
+    publisher: CDC, National Center for Health Statistics
+    kind: live
+    status: active
+    snapshot_id: cdc-vsrr-overdose-ma
+    homepage: https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm
+    probe_url: https://data.cdc.gov/resource/xkb8-kh2a.json?$limit=1
+    used_by: [get_overdose_data]
+    caveats:
+      - >-
+        Provisional 12 month-ending counts, revised monthly. State counts are by state of
+        occurrence, county counts by county of residence; county counts of 1-9 are suppressed.
+
+  - id: ma-youth-health-survey
+    name: Massachusetts Youth Health Survey and YRBS report tables
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-youth-health-survey
+    homepage: https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs
+    probe_url: https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download
+    used_by: [get_youth_risk_behavior_data]
+    caveats:
+      - >-
+        Tables from the 2025 and 2023 MYHS reports and the 2023 joint MYHS/YRBS report. Statewide
+        public school estimates only; DPH does not present estimates from fewer than 100
+        respondents or with a relative standard error above 30%.
+
+  - id: cdc-yrbs-mental-health
+    name: CDC YRBSS mental health indicators (Massachusetts and national)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-yrbs-mental-health-ma-us
+    homepage: https://data.cdc.gov/d/nu3s-3dwd
+    probe_url: https://data.cdc.gov/resource/nu3s-3dwd.json?$limit=1
+    used_by: [get_youth_risk_behavior_data]
+    caveats:
+      - >-
+        High school estimates for 2019, 2021, and 2023 only; the Massachusetts YRBS and national
+        YRBS differ from DPH's Youth Health Survey.
+
+  - id: samhsa-findtreatment
+    name: SAMHSA FindTreatment.gov facility locator
+    publisher: Substance Abuse and Mental Health Services Administration
+    kind: live
+    status: active
+    snapshot_id: samhsa-findtreatment-ma
+    homepage: https://findtreatment.gov/
+    probe_url: https://findtreatment.gov/locator/exportsAsJson/v2?sAddr=%2242.3601,-71.0589%22&limitType=2&limitValue=1000&sType=sa&pageSize=1&page=1
+    used_by: [find_substance_use_treatment]
+    caveats:
+      - >-
+        Facilities report their own services. The bundled statewide copy (341 facilities, November
+        2026) is used when the locator cannot be reached. The Massachusetts Substance Use Helpline
+        site (helplinema.org) cannot be reached by the server and is given as a link only.
+
+  - id: bh-substance-use-resources
+    name: Naloxone, harm reduction, and treatment resources (DPH standing order, OEND, SSP list)
+    publisher: Massachusetts Department of Public Health; CDC; FDA
+    kind: content
+    status: active
+    content_id: bh-substance-use-resources
+    homepage: https://www.mass.gov/stop-an-overdose-with-naloxone
+    probe_url: https://www.mass.gov/doc/statewide-standing-order/download
+    used_by: [find_naloxone_and_harm_reduction, find_substance_use_treatment]
+    caveats:
+      - >-
+        DPH's naloxone program and syringe service program maps (Tableau Public and Google My
+        Maps) are not reachable by the server; the tool links to them.
+
+  - id: after-a-suicide-toolkit
+    name: "After a Suicide: A Toolkit for Schools (2nd edition) and safe-messaging rules"
+    publisher: AFSP and SPRC (Education Development Center)
+    kind: content
+    status: active
+    content_id: bh-school-postvention
+    homepage: https://sprc.org/resources/after-suicide-toolkit-schools
+    probe_url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+    used_by: [plan_school_postvention, create_social_media_campaign, draft_press_materials]
+    caveats:
+      - >-
+        Paraphrased with page numbers; the templates are the project's own drafts because adapting
+        the copyrighted toolkit needs permission from EDC.
+
+  - id: cdc-clear-communication-index
+    name: CDC Clear Communication Index, Everyday Words, and plain language guidance
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: comms-readability
+    homepage: https://www.cdc.gov/ccindex/index.html
+    probe_url: https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf
+    used_by: [check_readability, create_social_media_campaign, draft_press_materials, translate_health_material]
+    caveats:
+      - >-
+        The Everyday Words list was read from CDC's tool on 2026-11-08 (124 terms); CDC may add
+        terms.
+
+  - id: cdc-cerc
+    name: CDC Crisis and Emergency Risk Communication (CERC) media guidance
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: comms-campaigns
+    homepage: https://www.cdc.gov/cerc/php/cerc-manual/index.html
+    probe_url: https://www.cdc.gov/cerc/media/pdfs/CERC_Working_with_the_Media.pdf
+    used_by: [draft_press_materials, create_social_media_campaign]
+    caveats:
+      - >-
+        Social media platform limits and national health observance dates in the same content file
+        could not be verified from the build environment and are marked low confidence.
   # End of Phase 11 sources.
   # Phase 12 sources go below this line.
   - id: openfema-declarations

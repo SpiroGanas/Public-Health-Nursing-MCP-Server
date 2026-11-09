@@ -353,6 +353,62 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 10 content items.
     // Phase 11 content items go below this line.
+    ContentItem {
+        id: "comms-readability",
+        path: "content/comms/readability.yaml",
+        resource_uri: "phn://content/comms-readability",
+        yaml: include_str!("../../../content/comms/readability.yaml"),
+        schema: include_str!("../../../content/schemas/comms_readability.schema.json"),
+    },
+    ContentItem {
+        id: "bh-overdose-data",
+        path: "content/bh/overdose_data.yaml",
+        resource_uri: "phn://content/bh-overdose-data",
+        yaml: include_str!("../../../content/bh/overdose_data.yaml"),
+        schema: include_str!("../../../content/schemas/bh_overdose_data.schema.json"),
+    },
+    ContentItem {
+        id: "bh-youth-survey",
+        path: "content/bh/youth_survey.yaml",
+        resource_uri: "phn://content/bh-youth-survey",
+        yaml: include_str!("../../../content/bh/youth_survey.yaml"),
+        schema: include_str!("../../../content/schemas/bh_youth_survey.schema.json"),
+    },
+    ContentItem {
+        id: "bh-substance-use-resources",
+        path: "content/bh/substance_use_resources.yaml",
+        resource_uri: "phn://content/bh-substance-use-resources",
+        yaml: include_str!("../../../content/bh/substance_use_resources.yaml"),
+        schema: include_str!("../../../content/schemas/bh_substance_use_resources.schema.json"),
+    },
+    ContentItem {
+        id: "comms-safe-messaging",
+        path: "content/comms/safe_messaging.yaml",
+        resource_uri: "phn://content/comms-safe-messaging",
+        yaml: include_str!("../../../content/comms/safe_messaging.yaml"),
+        schema: include_str!("../../../content/schemas/comms_safe_messaging.schema.json"),
+    },
+    ContentItem {
+        id: "bh-school-postvention",
+        path: "content/bh/postvention.yaml",
+        resource_uri: "phn://content/bh-school-postvention",
+        yaml: include_str!("../../../content/bh/postvention.yaml"),
+        schema: include_str!("../../../content/schemas/bh_postvention.schema.json"),
+    },
+    ContentItem {
+        id: "comms-translation",
+        path: "content/comms/translation.yaml",
+        resource_uri: "phn://content/comms-translation",
+        yaml: include_str!("../../../content/comms/translation.yaml"),
+        schema: include_str!("../../../content/schemas/comms_translation.schema.json"),
+    },
+    ContentItem {
+        id: "comms-campaigns",
+        path: "content/comms/campaigns.yaml",
+        resource_uri: "phn://content/comms-campaigns",
+        yaml: include_str!("../../../content/comms/campaigns.yaml"),
+        schema: include_str!("../../../content/schemas/comms_campaigns.schema.json"),
+    },
     // End of Phase 11 content items.
     // Phase 12 content items go below this line.
     ContentItem {

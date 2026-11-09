@@ -1797,6 +1797,189 @@ and the result counts them by language.
 ## Phase 11: Substance use, crisis resources, and health communication
 
 <!-- Phase 11 tools go below this line. -->
+
+### `check_readability` (COMM-01, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` or `path` | required | The draft as plain text or Markdown, or a DOCX, HTML, PDF, TXT, or Markdown file in `/data`. |
+| `target_grade` | 8 | Reading grade to aim for (a tool default; set your agency's standard). |
+| `cci_answers` | | Your CDC Clear Communication Index answers: `"1"`–`"20"` → `yes`/`no` (`na` for 19 and 20), plus `"C"` and `"D"` → `yes`/`no` for whether Parts C (numbers) and D (risk) apply. |
+| `max_flags` | 10 | Most flags listed per kind (max 50). |
+
+Counts words, sentences, and syllables (headings excluded; each list item is a sentence;
+hyphenated words count once) and reports Flesch Reading Ease, Flesch-Kincaid, SMOG (formula and
+CDC's conversion table), and Gunning Fog, with the median grade against the target and Fry's
+per-100-word averages. Flags sentences over 20 words (CDC plain language checklist; ODPHP Health
+Literacy Online), jargon from CDC's *Everyday Words for Public Health Communication* (124 terms,
+with CDC's alternatives and before/after examples), possible passive voice, acronyms not spelled
+out at first use, paragraphs over 5 sentences, lists over 7 items, negative instructions, and
+numbers. The Clear Communication Index is scored from the nurse's answers following CDC's score
+sheet (90 or higher passes); until every applicable item is answered, the tool shows its own
+suggestions for the items it can judge (lists, headings, jargon, numbers). Excerpts quoted from a
+file pass through the identifier redactor, and words that could be names are never listed.
+Golden tests: CDC *Simply Put*'s SMOG table and hepatitis A Fry example, and the score sheet's
+arithmetic (`crates/phn-tools/tests/readability_golden.rs`).
+### `get_overdose_data` (MH-03, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town, else Massachusetts | A city or town, a county, or `Massachusetts`. |
+| `compare_with` | | Up to 5 other towns or counties. |
+| `basis` | `residence` | Town counts by `residence` (DPH Table 1) or `occurrence` (Table 2). |
+| `drug` | `all` | State and U.S. drug class: `all`, `opioids`, `synthetic_opioids` (fentanyl), `heroin`, `prescription_opioids`, `methadone`, `cocaine`, `stimulants`. |
+| `months` | 13 | 12 month-ending CDC periods to list (max 60). |
+
+Towns: DPH's *Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022*
+(posted June 2023, the latest town table DPH published as a document; bundled snapshot), with a
+2018-2022 average annual rate per 100,000 (ACS 2020-2024 population, exact Poisson interval),
+compared with the state. No rate is given for fewer than 5 deaths (DPH's rule in its 2024
+report); rates on fewer than 20 deaths are flagged unstable. Counties: CDC/NCHS provisional 12
+month-ending drug overdose deaths by county of residence (`gb4e-yj24`; counts of 1-9 suppressed
+by NCHS). State and U.S.: CDC/NCHS provisional counts by drug class (`xkb8-kh2a`, by state of
+occurrence), with the change from a year earlier. Both CDC datasets are live → cache → snapshot.
+Adds DPH's statewide findings for 2024 (March 2026 report, with pages) and a link to the BSAS
+dashboard for newer town data.
+
+### `get_youth_risk_behavior_data` (MH-07, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | mental health and suicide | Words such as `sad or hopeless`, `suicide`, `self-harm`, `bullied`, `vaping`, `alcohol`, `marijuana`, `belong at school`. |
+| `school_level` | `high` | `high`, `middle`, or `both`. |
+| `by` | all | Any of `sex`, `grade`, `race_ethnicity`, `lgbtq`. |
+| `survey` | both | `MYHS` or `MYRBS`. |
+| `compare_us` | true | Add CDC YRBS mental health estimates for Massachusetts and the U.S. |
+| `max_indicators` | 8 | Max 25. |
+
+Massachusetts indicators come from DPH's report tables (bundled): the Massachusetts Youth Health
+Survey 2025 (April 2026) and 2023, and the 2023 joint MYHS/YRBS report (305 indicators, 3,565
+estimates with 95% confidence intervals; `**` estimates DPH did not present stay suppressed).
+Groups are compared with male, White, and straight/cisgender students, and a difference is shown
+only when the 95% intervals do not overlap (DPH's rule); the same indicator two years earlier is
+compared the same way. CDC's YRBSS mental health indicators (`nu3s-3dwd`, 2019-2023, live → cache →
+snapshot) compare Massachusetts with the national YRBS. Suicide-related answers include DPH's 988
+Lifeline text and a safe-messaging reminder.
+
+### `find_naloxone_and_harm_reduction` (MH-04, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | For syringe service program approval and approved towns in the same county. |
+| `include_teaching_script` | true | |
+| `handout` | none | `docx`: an accessible Word handout of the script, access options, and help lines in `/data/output`. |
+
+From `content/bh/substance_use_resources.yaml`: ways to get naloxone (pharmacy counter under the
+statewide standing order with insurance including MassHealth and no MassHealth co-pay; BSAS
+distribution programs; home delivery through You Can Save a Life; agency purchasing), the
+standing order's five preferred formulations and directions (signed July 13, 2026), pharmacy
+duties (Board of Pharmacy Policy 2024-01), legal protections (c. 94C §§ 19B, 34A), whether the
+town's board of health approved a syringe services program (DPH's list; c. 111 § 215), fentanyl
+test strip facts (CDC; the legal status is marked unverified), overdose risk factors, contacts
+(Substance Use Helpline, Never Use Alone line, 988), and an 8-step teaching script citing DPH's
+OEND core competencies, the standing order, and CDC. DPH's site maps cannot be read, so they are
+linked. Decision support.
+
+### `find_substance_use_treatment` (MH-05, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Search center (the town's label point, converted from MassGIS state plane to latitude/longitude). |
+| `radius_miles` | 15 | 1 to 75. |
+| `services` | | All must match: `methadone` (opioid treatment program), `buprenorphine`, `naltrexone`, `withdrawal_management`, `residential`, `outpatient`, `intensive_outpatient`, `recovery_support`, `sober_housing`, `adolescents`, `pregnant_postpartum`, `co_occurring`, `veterans`. |
+| `payment` | | `masshealth` (Medicaid), `medicare`, `private`, `self_pay`, `sliding_fee`. |
+| `language` | | `spanish`, `asl`, or another language (`portuguese`, `creole`, `vietnamese`, ...). |
+| `max_results` | 15 | Max 50. |
+
+SAMHSA's FindTreatment.gov locator API (`phn_data::findtreatment`; distance search, substance
+use facilities) through live → cache → a bundled statewide copy (`samhsa-findtreatment-ma`, 341
+facilities; distances computed from the town center when it is used). Returns each facility's
+address, phones, website, miles, medications for opioid use disorder, settings, payment, and
+languages, plus the Massachusetts Substance Use Helpline, 988, and FDA's MOUD categories.
+
+### `plan_school_postvention` (MH-06, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `cause_status` | `unconfirmed` | `unconfirmed`, `ruled_suicide`, or `family_declined_disclosure`; chooses the student and parent templates. |
+| `phase` | `all` | `first_24_hours`, `first_week`, `ongoing`. |
+| `messages` | staff meeting, student notification, parent letter | Also `media_statement`, `social_media_post`. |
+| `draft_text` or `draft_path` | | A draft to check against the safe-messaging rules. |
+| `details_path` | | CSV/XLSX in `/data` whose columns match the placeholders; each row fills the templates as Word files in `/data/output`. |
+
+Steps (16, by phase, with page numbers) and talking points paraphrase AFSP/SPRC *After a
+Suicide: A Toolkit for Schools* (2nd ed., 2018). The templates are this project's own drafts that
+follow the toolkit's structure (the toolkit allows copying with credit, but adapting or
+excerpting needs EDC's permission; the license is recorded in the content), use 988, and pass the
+safe-messaging rules. The safe-messaging check (`content/comms/safe_messaging.yaml`, shared with
+the communication tools) flags method or scene details, outdated language, single causes,
+glamorizing, sensational words, PA or assembly announcements, and memorials on school grounds,
+and missing help resources or hope; findings cite sentence numbers and never repeat method
+words. Local fill follows the template + local fill rule: names are never arguments and never
+returned. Decision support.
+
+### `translate_health_material` (COMM-02, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `source_text` or `source_path` | | The English source (excerpts from a file are redacted). |
+| `language` | | Target language (31 recognized, e.g. Spanish, Portuguese, Haitian Creole, Cape Verdean Creole, Vietnamese, Chinese (Simplified/Traditional), Arabic, Khmer). |
+| `glossary_path` | | Agency glossary CSV/XLSX in `/data`: `english` plus one column per language (name or code), or `english`, `language`, `translation`. |
+| `translation_text` or `translation_path` | | A translated draft to check. |
+| `back_translation_text` or `back_translation_path` | | An English back-translation by someone other than the translator. |
+| `town` | configured town | For language priorities (EQ-03, ACS limited English proficiency). |
+| `material_name` | | File stem to look for in `/data/templates/<language>/`. |
+| `worksheet` | none | `xlsx`: a review worksheet (segments, draft, back-translation, comments, approval) in `/data/output`. |
+
+No translations are bundled (product-owner decision). The tool reports agency-approved
+translations found in `/data/templates/<language>/` (expected layout: one folder per language,
+named by language or code, holding files named like the English material), builds a translator
+brief (numbered segments; approved glossary terms in the source; numbers, phone numbers, times,
+web and email addresses that must carry over), checks a draft for missing glossary terms and
+changed numbers or phones, and compares a back-translation with the source (sentence count and
+coverage, negations, glossary terms). Every result carries the label "DRAFT TRANSLATION - for
+review by a qualified translator" and CDC *Simply Put*'s translation steps and pitfalls. Script
+notes point to DOCX for scripts the PDF writer cannot render (ADR 0003).
+
+### `create_social_media_campaign` (COMM-03, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | required | e.g. `flu vaccine`, `naloxone`, `lead poisoning`. |
+| `platforms` | facebook, instagram, x | Also `linkedin`, `bluesky`, `threads`. |
+| `start_date`, `weeks`, `posts_per_week` | today, 4, 2 | Max 26 weeks and 7 posts a week. |
+| `posts` | | Draft posts to check: `platform`, `text`, `alt_text`, `has_image`, `date`. |
+| `observances_path` | | Your own observance calendar (CSV/XLSX: `name`, `start`, `end`). |
+| `char_limits` | | Override platform limits, e.g. `{"x": 280}`. |
+| `target_grade` | 8 | |
+| `export` | none | `xlsx` calendar with posts and issues in `/data/output`. |
+
+Plans posting slots (Tuesday and Thursday first) and ties them to related observances (20 bundled
+observances with date rules, marked unverified because ODPHP's National Health Observances pages
+were unavailable; or the agency's own calendar). Checks drafts for platform length (links on X
+counted as 23 characters), alt text (WCAG 1.1.1; no "image of"), CamelCase hashtags, hashtag
+count, emoji, words in capitals, reading grade and jargon (COMM-01 engine), and safe messaging when
+the post is about suicide. Platform limits could not be verified from this environment and are
+overridable.
+
+### `draft_press_materials` (COMM-04, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `kind` | `press_release` | `media_advisory`, `talking_points`, `qa`. |
+| `headline`, `facts` (`who`, `what`, `when`, `where`, `why`, `how`) | | |
+| `key_messages`, `call_to_action`, `quotes` (`speaker`, `text`) | | Quote officials only. |
+| `contact` (`name`, `phone`, `email`, `after_hours_phone`) | | |
+| `release_date`, `embargo_until` | today, none | No embargo gives "For immediate release". |
+| `draft_text` | | Check an existing draft instead of the built structure. |
+| `export` | none | `docx` in `/data/output`. |
+
+Builds the structure from the facts with `[BRACKETED]` gaps listed, then checks it (or a draft)
+against CDC's CERC *Working with the Media* (2018): contact block, date, release time or embargo,
+5 Ws, headline, one page, sentences of 20 words or fewer, no loaded words, and a privacy check for
+client identifiers; adds the reading grade, safe messaging for suicide topics, CERC's six
+principles, and the CERC wallet card's questions for a spokesperson Q&A.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

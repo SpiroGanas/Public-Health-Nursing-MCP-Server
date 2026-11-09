@@ -52,6 +52,8 @@ pub mod nws;
 pub mod openfema;
 pub mod projection;
 // End of Phase 12 adapters.
+// Phase 11 adapters (FindTreatment.gov) go below this line.
+pub mod findtreatment;
 
 pub use cache::Cache;
 pub use http::HttpClient;

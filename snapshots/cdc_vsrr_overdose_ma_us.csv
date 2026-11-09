@@ -1,0 +1,1603 @@
+state,year,month,indicator,data_value,predicted_value,percent_complete,percent_pending_investigation,footnote_symbol
+MA,2019,January,Number of Drug Overdose Deaths,2212,2232,100,0.160664078,**
+MA,2019,January,"Opioids (T40.0-T40.4,T40.6)",1965,1982,100,0.160664078,**
+MA,2019,January,"Synthetic opioids, excl. methadone (T40.4)",1786,1801,100,0.160664078,**
+MA,2019,January,Heroin (T40.1),484,488,100,0.160664078,**
+MA,2019,January,Natural & semi-synthetic opioids (T40.2),249,252,100,0.160664078,**
+MA,2019,January,Methadone (T40.3),82,83,100,0.160664078,**
+MA,2019,January,Cocaine (T40.5),720,727,100,0.160664078,**
+MA,2019,January,Psychostimulants with abuse potential (T43.6),75,76,100,0.160664078,**
+MA,2019,January,Percent with drugs specified,98.55334539,,100,0.160664078,**
+MA,2019,February,Number of Drug Overdose Deaths,2198,2219,100,0.162558027,**
+MA,2019,February,"Opioids (T40.0-T40.4,T40.6)",1952,1970,100,0.162558027,**
+MA,2019,February,"Synthetic opioids, excl. methadone (T40.4)",1781,1797,100,0.162558027,**
+MA,2019,February,Heroin (T40.1),493,497,100,0.162558027,**
+MA,2019,February,Natural & semi-synthetic opioids (T40.2),246,249,100,0.162558027,**
+MA,2019,February,Methadone (T40.3),80,81,100,0.162558027,**
+MA,2019,February,Cocaine (T40.5),709,716,100,0.162558027,**
+MA,2019,February,Psychostimulants with abuse potential (T43.6),70,71,100,0.162558027,**
+MA,2019,February,Percent with drugs specified,98.58962693,,100,0.162558027,**
+MA,2019,March,Number of Drug Overdose Deaths,2220,2243,100,0.169298334,**
+MA,2019,March,"Opioids (T40.0-T40.4,T40.6)",1972,1991,100,0.169298334,**
+MA,2019,March,"Synthetic opioids, excl. methadone (T40.4)",1809,1826,100,0.169298334,**
+MA,2019,March,Heroin (T40.1),495,500,100,0.169298334,**
+MA,2019,March,Natural & semi-synthetic opioids (T40.2),238,241,100,0.169298334,**
+MA,2019,March,Methadone (T40.3),74,75,100,0.169298334,**
+MA,2019,March,Cocaine (T40.5),721,728,100,0.169298334,**
+MA,2019,March,Psychostimulants with abuse potential (T43.6),76,77,100,0.169298334,**
+MA,2019,March,Percent with drugs specified,98.69369369,,100,0.169298334,**
+MA,2019,April,Number of Drug Overdose Deaths,2217,2245,100,0.190842889,**
+MA,2019,April,"Opioids (T40.0-T40.4,T40.6)",1964,1988,100,0.190842889,**
+MA,2019,April,"Synthetic opioids, excl. methadone (T40.4)",1807,1829,100,0.190842889,**
+MA,2019,April,Heroin (T40.1),484,490,100,0.190842889,**
+MA,2019,April,Natural & semi-synthetic opioids (T40.2),234,238,100,0.190842889,**
+MA,2019,April,Methadone (T40.3),73,75,100,0.190842889,**
+MA,2019,April,Cocaine (T40.5),730,739,100,0.190842889,**
+MA,2019,April,Psychostimulants with abuse potential (T43.6),77,79,100,0.190842889,**
+MA,2019,April,Percent with drugs specified,98.64682003,,100,0.190842889,**
+MA,2019,May,Number of Drug Overdose Deaths,2190,2217,100,0.188146754,**
+MA,2019,May,"Opioids (T40.0-T40.4,T40.6)",1945,1968,100,0.188146754,**
+MA,2019,May,"Synthetic opioids, excl. methadone (T40.4)",1795,1816,100,0.188146754,**
+MA,2019,May,Heroin (T40.1),474,479,100,0.188146754,**
+MA,2019,May,Natural & semi-synthetic opioids (T40.2),227,231,100,0.188146754,**
+MA,2019,May,Methadone (T40.3),69,70,100,0.188146754,**
+MA,2019,May,Cocaine (T40.5),717,726,100,0.188146754,**
+MA,2019,May,Psychostimulants with abuse potential (T43.6),81,83,100,0.188146754,**
+MA,2019,May,Percent with drugs specified,98.67579909,,100,0.188146754,**
+MA,2019,June,Number of Drug Overdose Deaths,2170,2199,100,0.195020259,**
+MA,2019,June,"Opioids (T40.0-T40.4,T40.6)",1926,1951,100,0.195020259,**
+MA,2019,June,"Synthetic opioids, excl. methadone (T40.4)",1791,1813,100,0.195020259,**
+MA,2019,June,Heroin (T40.1),445,450,100,0.195020259,**
+MA,2019,June,Natural & semi-synthetic opioids (T40.2),214,218,100,0.195020259,**
+MA,2019,June,Methadone (T40.3),66,68,100,0.195020259,**
+MA,2019,June,Cocaine (T40.5),709,719,100,0.195020259,**
+MA,2019,June,Psychostimulants with abuse potential (T43.6),86,88,100,0.195020259,**
+MA,2019,June,Percent with drugs specified,98.80184332,,100,0.195020259,**
+MA,2019,July,Number of Drug Overdose Deaths,2153,2184,100,0.206736587,**
+MA,2019,July,"Opioids (T40.0-T40.4,T40.6)",1911,1938,100,0.206736587,**
+MA,2019,July,"Synthetic opioids, excl. methadone (T40.4)",1786,1811,100,0.206736587,**
+MA,2019,July,Heroin (T40.1),423,429,100,0.206736587,**
+MA,2019,July,Natural & semi-synthetic opioids (T40.2),212,216,100,0.206736587,**
+MA,2019,July,Methadone (T40.3),60,62,100,0.206736587,**
+MA,2019,July,Cocaine (T40.5),709,720,100,0.206736587,**
+MA,2019,July,Psychostimulants with abuse potential (T43.6),93,95,100,0.206736587,**
+MA,2019,July,Percent with drugs specified,98.83882954,,100,0.206736587,**
+MA,2019,August,Number of Drug Overdose Deaths,2150,2183,100,0.2148408,**
+MA,2019,August,"Opioids (T40.0-T40.4,T40.6)",1904,1933,100,0.2148408,**
+MA,2019,August,"Synthetic opioids, excl. methadone (T40.4)",1779,1805,100,0.2148408,**
+MA,2019,August,Heroin (T40.1),402,408,100,0.2148408,**
+MA,2019,August,Natural & semi-synthetic opioids (T40.2),206,210,100,0.2148408,**
+MA,2019,August,Methadone (T40.3),57,59,100,0.2148408,**
+MA,2019,August,Cocaine (T40.5),714,725,100,0.2148408,**
+MA,2019,August,Psychostimulants with abuse potential (T43.6),88,90,100,0.2148408,**
+MA,2019,August,Percent with drugs specified,98.8372093,,100,0.2148408,**
+MA,2019,September,Number of Drug Overdose Deaths,2153,2186,100,0.211562033,**
+MA,2019,September,"Opioids (T40.0-T40.4,T40.6)",1912,1940,100,0.211562033,**
+MA,2019,September,"Synthetic opioids, excl. methadone (T40.4)",1790,1816,100,0.211562033,**
+MA,2019,September,Heroin (T40.1),405,411,100,0.211562033,**
+MA,2019,September,Natural & semi-synthetic opioids (T40.2),205,209,100,0.211562033,**
+MA,2019,September,Methadone (T40.3),56,57,100,0.211562033,**
+MA,2019,September,Cocaine (T40.5),724,735,100,0.211562033,**
+MA,2019,September,Psychostimulants with abuse potential (T43.6),91,93,100,0.211562033,**
+MA,2019,September,Percent with drugs specified,98.83882954,,100,0.211562033,**
+MA,2019,October,Number of Drug Overdose Deaths,2191,2229,100,0.230124469,**
+MA,2019,October,"Opioids (T40.0-T40.4,T40.6)",1949,1982,100,0.230124469,**
+MA,2019,October,"Synthetic opioids, excl. methadone (T40.4)",1832,1862,100,0.230124469,**
+MA,2019,October,Heroin (T40.1),399,405,100,0.230124469,**
+MA,2019,October,Natural & semi-synthetic opioids (T40.2),206,211,100,0.230124469,**
+MA,2019,October,Methadone (T40.3),59,61,100,0.230124469,**
+MA,2019,October,Cocaine (T40.5),763,777,100,0.230124469,**
+MA,2019,October,Psychostimulants with abuse potential (T43.6),94,96,100,0.230124469,**
+MA,2019,October,Percent with drugs specified,98.90460977,,100,0.230124469,**
+MA,2019,November,Number of Drug Overdose Deaths,2211,2250,100,0.233076781,**
+MA,2019,November,"Opioids (T40.0-T40.4,T40.6)",1968,2002,100,0.233076781,**
+MA,2019,November,"Synthetic opioids, excl. methadone (T40.4)",1861,1892,100,0.233076781,**
+MA,2019,November,Heroin (T40.1),382,388,100,0.233076781,**
+MA,2019,November,Natural & semi-synthetic opioids (T40.2),217,222,100,0.233076781,**
+MA,2019,November,Methadone (T40.3),51,53,100,0.233076781,**
+MA,2019,November,Cocaine (T40.5),780,794,100,0.233076781,**
+MA,2019,November,Psychostimulants with abuse potential (T43.6),99,101,100,0.233076781,**
+MA,2019,November,Percent with drugs specified,99.00497512,,100,0.233076781,**
+MA,2019,December,Number of Drug Overdose Deaths,2215,2260,100,0.255003607,**
+MA,2019,December,"Opioids (T40.0-T40.4,T40.6)",1977,2016,100,0.255003607,**
+MA,2019,December,"Synthetic opioids, excl. methadone (T40.4)",1876,1912,100,0.255003607,**
+MA,2019,December,Heroin (T40.1),377,384,100,0.255003607,**
+MA,2019,December,Natural & semi-synthetic opioids (T40.2),232,238,100,0.255003607,**
+MA,2019,December,Methadone (T40.3),60,62,100,0.255003607,**
+MA,2019,December,Cocaine (T40.5),786,802,100,0.255003607,**
+MA,2019,December,Psychostimulants with abuse potential (T43.6),95,98,100,0.255003607,**
+MA,2019,December,Percent with drugs specified,98.96162528,,100,0.255003607,**
+MA,2020,January,Number of Drug Overdose Deaths,2197,2242,100,0.255638339,**
+MA,2020,January,"Opioids (T40.0-T40.4,T40.6)",1964,2003,100,0.255638339,**
+MA,2020,January,"Synthetic opioids, excl. methadone (T40.4)",1869,1905,100,0.255638339,**
+MA,2020,January,Heroin (T40.1),363,370,100,0.255638339,**
+MA,2020,January,Natural & semi-synthetic opioids (T40.2),239,245,100,0.255638339,**
+MA,2020,January,Methadone (T40.3),59,61,100,0.255638339,**
+MA,2020,January,Cocaine (T40.5),788,804,100,0.255638339,**
+MA,2020,January,Psychostimulants with abuse potential (T43.6),98,101,100,0.255638339,**
+MA,2020,January,Percent with drugs specified,99.13518434,,100,0.255638339,**
+MA,2020,February,Number of Drug Overdose Deaths,2221,2264,100,0.24661533,**
+MA,2020,February,"Opioids (T40.0-T40.4,T40.6)",1997,2034,100,0.24661533,**
+MA,2020,February,"Synthetic opioids, excl. methadone (T40.4)",1900,1935,100,0.24661533,**
+MA,2020,February,Heroin (T40.1),342,348,100,0.24661533,**
+MA,2020,February,Natural & semi-synthetic opioids (T40.2),252,258,100,0.24661533,**
+MA,2020,February,Methadone (T40.3),61,63,100,0.24661533,**
+MA,2020,February,Cocaine (T40.5),817,833,100,0.24661533,**
+MA,2020,February,Psychostimulants with abuse potential (T43.6),96,99,100,0.24661533,**
+MA,2020,February,Percent with drugs specified,99.14452949,,100,0.24661533,**
+MA,2020,March,Number of Drug Overdose Deaths,2214,2256,100,0.241981242,**
+MA,2020,March,"Opioids (T40.0-T40.4,T40.6)",1991,2027,100,0.241981242,**
+MA,2020,March,"Synthetic opioids, excl. methadone (T40.4)",1889,1922,100,0.241981242,**
+MA,2020,March,Heroin (T40.1),313,318,100,0.241981242,**
+MA,2020,March,Natural & semi-synthetic opioids (T40.2),257,263,100,0.241981242,**
+MA,2020,March,Methadone (T40.3),66,68,100,0.241981242,**
+MA,2020,March,Cocaine (T40.5),835,851,100,0.241981242,**
+MA,2020,March,Psychostimulants with abuse potential (T43.6),97,100,100,0.241981242,**
+MA,2020,March,Percent with drugs specified,99.09665763,,100,0.241981242,**
+MA,2020,April,Number of Drug Overdose Deaths,2244,2278,100,0.21040906,**
+MA,2020,April,"Opioids (T40.0-T40.4,T40.6)",2024,2053,100,0.21040906,**
+MA,2020,April,"Synthetic opioids, excl. methadone (T40.4)",1920,1947,100,0.21040906,**
+MA,2020,April,Heroin (T40.1),299,303,100,0.21040906,**
+MA,2020,April,Natural & semi-synthetic opioids (T40.2),265,270,100,0.21040906,**
+MA,2020,April,Methadone (T40.3),77,79,100,0.21040906,**
+MA,2020,April,Cocaine (T40.5),856,869,100,0.21040906,**
+MA,2020,April,Psychostimulants with abuse potential (T43.6),113,115,100,0.21040906,**
+MA,2020,April,Percent with drugs specified,99.06417112,,100,0.21040906,**
+MA,2020,May,Number of Drug Overdose Deaths,2284,2315,100,0.199721869,**
+MA,2020,May,"Opioids (T40.0-T40.4,T40.6)",2072,2099,100,0.199721869,**
+MA,2020,May,"Synthetic opioids, excl. methadone (T40.4)",1967,1992,100,0.199721869,**
+MA,2020,May,Heroin (T40.1),291,295,100,0.199721869,**
+MA,2020,May,Natural & semi-synthetic opioids (T40.2),271,276,100,0.199721869,**
+MA,2020,May,Methadone (T40.3),89,91,100,0.199721869,**
+MA,2020,May,Cocaine (T40.5),888,900,100,0.199721869,**
+MA,2020,May,Psychostimulants with abuse potential (T43.6),126,128,100,0.199721869,**
+MA,2020,May,Percent with drugs specified,99.21190893,,100,0.199721869,**
+MA,2020,June,Number of Drug Overdose Deaths,2298,2328,100,0.194650072,**
+MA,2020,June,"Opioids (T40.0-T40.4,T40.6)",2081,2107,100,0.194650072,**
+MA,2020,June,"Synthetic opioids, excl. methadone (T40.4)",1968,1992,100,0.194650072,**
+MA,2020,June,Heroin (T40.1),290,294,100,0.194650072,**
+MA,2020,June,Natural & semi-synthetic opioids (T40.2),286,291,100,0.194650072,**
+MA,2020,June,Methadone (T40.3),94,96,100,0.194650072,**
+MA,2020,June,Cocaine (T40.5),883,895,100,0.194650072,**
+MA,2020,June,Psychostimulants with abuse potential (T43.6),125,127,100,0.194650072,**
+MA,2020,June,Percent with drugs specified,99.12967798,,100,0.194650072,**
+MA,2020,July,Number of Drug Overdose Deaths,2321,2351,100,0.191853601,**
+MA,2020,July,"Opioids (T40.0-T40.4,T40.6)",2095,2121,100,0.191853601,**
+MA,2020,July,"Synthetic opioids, excl. methadone (T40.4)",1984,2008,100,0.191853601,**
+MA,2020,July,Heroin (T40.1),285,289,100,0.191853601,**
+MA,2020,July,Natural & semi-synthetic opioids (T40.2),277,282,100,0.191853601,**
+MA,2020,July,Methadone (T40.3),98,100,100,0.191853601,**
+MA,2020,July,Cocaine (T40.5),906,918,100,0.191853601,**
+MA,2020,July,Psychostimulants with abuse potential (T43.6),128,130,100,0.191853601,**
+MA,2020,July,Percent with drugs specified,99.13830246,,100,0.191853601,**
+MA,2020,August,Number of Drug Overdose Deaths,2310,2337,100,0.181890777,**
+MA,2020,August,"Opioids (T40.0-T40.4,T40.6)",2085,2108,100,0.181890777,**
+MA,2020,August,"Synthetic opioids, excl. methadone (T40.4)",1977,1999,100,0.181890777,**
+MA,2020,August,Heroin (T40.1),280,283,100,0.181890777,**
+MA,2020,August,Natural & semi-synthetic opioids (T40.2),274,278,100,0.181890777,**
+MA,2020,August,Methadone (T40.3),98,100,100,0.181890777,**
+MA,2020,August,Cocaine (T40.5),909,920,100,0.181890777,**
+MA,2020,August,Psychostimulants with abuse potential (T43.6),138,140,100,0.181890777,**
+MA,2020,August,Percent with drugs specified,99.22077922,,100,0.181890777,**
+MA,2020,September,Number of Drug Overdose Deaths,2314,2338,100,0.170133444,**
+MA,2020,September,"Opioids (T40.0-T40.4,T40.6)",2086,2107,100,0.170133444,**
+MA,2020,September,"Synthetic opioids, excl. methadone (T40.4)",1976,1995,100,0.170133444,**
+MA,2020,September,Heroin (T40.1),269,272,100,0.170133444,**
+MA,2020,September,Natural & semi-synthetic opioids (T40.2),280,284,100,0.170133444,**
+MA,2020,September,Methadone (T40.3),102,104,100,0.170133444,**
+MA,2020,September,Cocaine (T40.5),907,916,100,0.170133444,**
+MA,2020,September,Psychostimulants with abuse potential (T43.6),148,150,100,0.170133444,**
+MA,2020,September,Percent with drugs specified,99.22212619,,100,0.170133444,**
+MA,2020,October,Number of Drug Overdose Deaths,2308,2327,100,0.152393916,**
+MA,2020,October,"Opioids (T40.0-T40.4,T40.6)",2076,2092,100,0.152393916,**
+MA,2020,October,"Synthetic opioids, excl. methadone (T40.4)",1965,1980,100,0.152393916,**
+MA,2020,October,Heroin (T40.1),256,258,100,0.152393916,**
+MA,2020,October,Natural & semi-synthetic opioids (T40.2),284,287,100,0.152393916,**
+MA,2020,October,Methadone (T40.3),103,104,100,0.152393916,**
+MA,2020,October,Cocaine (T40.5),902,909,100,0.152393916,**
+MA,2020,October,Psychostimulants with abuse potential (T43.6),152,154,100,0.152393916,**
+MA,2020,October,Percent with drugs specified,99.3067591,,100,0.152393916,**
+MA,2020,November,Number of Drug Overdose Deaths,2298,2315,100,0.144340526,**
+MA,2020,November,"Opioids (T40.0-T40.4,T40.6)",2062,2076,100,0.144340526,**
+MA,2020,November,"Synthetic opioids, excl. methadone (T40.4)",1944,1957,100,0.144340526,**
+MA,2020,November,Heroin (T40.1),247,249,100,0.144340526,**
+MA,2020,November,Natural & semi-synthetic opioids (T40.2),283,286,100,0.144340526,**
+MA,2020,November,Methadone (T40.3),111,112,100,0.144340526,**
+MA,2020,November,Cocaine (T40.5),905,912,100,0.144340526,**
+MA,2020,November,Psychostimulants with abuse potential (T43.6),148,150,100,0.144340526,**
+MA,2020,November,Percent with drugs specified,99.21671018,,100,0.144340526,**
+MA,2020,December,Number of Drug Overdose Deaths,2296,2310,100,0.1334668,**
+MA,2020,December,"Opioids (T40.0-T40.4,T40.6)",2059,2071,100,0.1334668,**
+MA,2020,December,"Synthetic opioids, excl. methadone (T40.4)",1942,1953,100,0.1334668,**
+MA,2020,December,Heroin (T40.1),219,221,100,0.1334668,**
+MA,2020,December,Natural & semi-synthetic opioids (T40.2),266,268,100,0.1334668,**
+MA,2020,December,Methadone (T40.3),112,113,100,0.1334668,**
+MA,2020,December,Cocaine (T40.5),920,925,100,0.1334668,**
+MA,2020,December,Psychostimulants with abuse potential (T43.6),165,167,100,0.1334668,**
+MA,2020,December,Percent with drugs specified,99.21602787,,100,0.1334668,**
+MA,2021,January,Number of Drug Overdose Deaths,2332,2346,100,0.132258202,**
+MA,2021,January,"Opioids (T40.0-T40.4,T40.6)",2090,2102,100,0.132258202,**
+MA,2021,January,"Synthetic opioids, excl. methadone (T40.4)",1971,1982,100,0.132258202,**
+MA,2021,January,Heroin (T40.1),214,216,100,0.132258202,**
+MA,2021,January,Natural & semi-synthetic opioids (T40.2),255,257,100,0.132258202,**
+MA,2021,January,Methadone (T40.3),118,119,100,0.132258202,**
+MA,2021,January,Cocaine (T40.5),933,938,100,0.132258202,**
+MA,2021,January,Psychostimulants with abuse potential (T43.6),170,172,100,0.132258202,**
+MA,2021,January,Percent with drugs specified,99.22813036,,100,0.132258202,**
+MA,2021,February,Number of Drug Overdose Deaths,2337,2350,100,0.127397551,**
+MA,2021,February,"Opioids (T40.0-T40.4,T40.6)",2077,2088,100,0.127397551,**
+MA,2021,February,"Synthetic opioids, excl. methadone (T40.4)",1957,1967,100,0.127397551,**
+MA,2021,February,Heroin (T40.1),205,206,100,0.127397551,**
+MA,2021,February,Natural & semi-synthetic opioids (T40.2),241,243,100,0.127397551,**
+MA,2021,February,Methadone (T40.3),118,119,100,0.127397551,**
+MA,2021,February,Cocaine (T40.5),934,939,100,0.127397551,**
+MA,2021,February,Psychostimulants with abuse potential (T43.6),183,185,100,0.127397551,**
+MA,2021,February,Percent with drugs specified,99.27257167,,100,0.127397551,**
+MA,2021,March,Number of Drug Overdose Deaths,2383,2394,100,0.11946072,**
+MA,2021,March,"Opioids (T40.0-T40.4,T40.6)",2118,2127,100,0.11946072,**
+MA,2021,March,"Synthetic opioids, excl. methadone (T40.4)",2003,2011,100,0.11946072,**
+MA,2021,March,Heroin (T40.1),209,210,100,0.11946072,**
+MA,2021,March,Natural & semi-synthetic opioids (T40.2),233,235,100,0.11946072,**
+MA,2021,March,Methadone (T40.3),121,122,100,0.11946072,**
+MA,2021,March,Cocaine (T40.5),974,978,100,0.11946072,**
+MA,2021,March,Psychostimulants with abuse potential (T43.6),194,196,100,0.11946072,**
+MA,2021,March,Percent with drugs specified,99.41250525,,100,0.11946072,**
+MA,2021,April,Number of Drug Overdose Deaths,2402,2414,100,0.123715119,**
+MA,2021,April,"Opioids (T40.0-T40.4,T40.6)",2126,2136,100,0.123715119,**
+MA,2021,April,"Synthetic opioids, excl. methadone (T40.4)",2013,2022,100,0.123715119,**
+MA,2021,April,Heroin (T40.1),200,201,100,0.123715119,**
+MA,2021,April,Natural & semi-synthetic opioids (T40.2),218,220,100,0.123715119,**
+MA,2021,April,Methadone (T40.3),115,116,100,0.123715119,**
+MA,2021,April,Cocaine (T40.5),991,996,100,0.123715119,**
+MA,2021,April,Psychostimulants with abuse potential (T43.6),193,195,100,0.123715119,**
+MA,2021,April,Percent with drugs specified,99.3755204,,100,0.123715119,**
+MA,2021,May,Number of Drug Overdose Deaths,2373,2384,100,0.119764304,**
+MA,2021,May,"Opioids (T40.0-T40.4,T40.6)",2086,2095,100,0.119764304,**
+MA,2021,May,"Synthetic opioids, excl. methadone (T40.4)",1985,1993,100,0.119764304,**
+MA,2021,May,Heroin (T40.1),192,193,100,0.119764304,**
+MA,2021,May,Natural & semi-synthetic opioids (T40.2),203,204,100,0.119764304,**
+MA,2021,May,Methadone (T40.3),111,112,100,0.119764304,**
+MA,2021,May,Cocaine (T40.5),988,992,100,0.119764304,**
+MA,2021,May,Psychostimulants with abuse potential (T43.6),192,194,100,0.119764304,**
+MA,2021,May,Percent with drugs specified,99.157185,,100,0.119764304,**
+MA,2021,June,Number of Drug Overdose Deaths,2381,2390,100,0.113776581,**
+MA,2021,June,"Opioids (T40.0-T40.4,T40.6)",2096,2103,100,0.113776581,**
+MA,2021,June,"Synthetic opioids, excl. methadone (T40.4)",2000,2007,100,0.113776581,**
+MA,2021,June,Heroin (T40.1),179,180,100,0.113776581,**
+MA,2021,June,Natural & semi-synthetic opioids (T40.2),193,194,100,0.113776581,**
+MA,2021,June,Methadone (T40.3),107,108,100,0.113776581,**
+MA,2021,June,Cocaine (T40.5),1028,1032,100,0.113776581,**
+MA,2021,June,Psychostimulants with abuse potential (T43.6),192,193,100,0.113776581,**
+MA,2021,June,Percent with drugs specified,99.24401512,,100,0.113776581,**
+MA,2021,July,Number of Drug Overdose Deaths,2383,2391,100,0.110361153,**
+MA,2021,July,"Opioids (T40.0-T40.4,T40.6)",2102,2109,100,0.110361153,**
+MA,2021,July,"Synthetic opioids, excl. methadone (T40.4)",2003,2009,100,0.110361153,**
+MA,2021,July,Heroin (T40.1),169,170,100,0.110361153,**
+MA,2021,July,Natural & semi-synthetic opioids (T40.2),204,205,100,0.110361153,**
+MA,2021,July,Methadone (T40.3),104,105,100,0.110361153,**
+MA,2021,July,Cocaine (T40.5),1037,1040,100,0.110361153,**
+MA,2021,July,Psychostimulants with abuse potential (T43.6),194,195,100,0.110361153,**
+MA,2021,July,Percent with drugs specified,99.20268569,,100,0.110361153,**
+MA,2021,August,Number of Drug Overdose Deaths,2445,2456,100,0.119104335,**
+MA,2021,August,"Opioids (T40.0-T40.4,T40.6)",2152,2161,100,0.119104335,**
+MA,2021,August,"Synthetic opioids, excl. methadone (T40.4)",2053,2061,100,0.119104335,**
+MA,2021,August,Heroin (T40.1),161,162,100,0.119104335,**
+MA,2021,August,Natural & semi-synthetic opioids (T40.2),212,213,100,0.119104335,**
+MA,2021,August,Methadone (T40.3),109,110,100,0.119104335,**
+MA,2021,August,Cocaine (T40.5),1079,1083,100,0.119104335,**
+MA,2021,August,Psychostimulants with abuse potential (T43.6),206,208,100,0.119104335,**
+MA,2021,August,Percent with drugs specified,99.22290389,,100,0.119104335,**
+MA,2021,September,Number of Drug Overdose Deaths,2482,2498,100,0.137219646,**
+MA,2021,September,"Opioids (T40.0-T40.4,T40.6)",2182,2195,100,0.137219646,**
+MA,2021,September,"Synthetic opioids, excl. methadone (T40.4)",2087,2100,100,0.137219646,**
+MA,2021,September,Heroin (T40.1),153,154,100,0.137219646,**
+MA,2021,September,Natural & semi-synthetic opioids (T40.2),206,208,100,0.137219646,**
+MA,2021,September,Methadone (T40.3),109,110,100,0.137219646,**
+MA,2021,September,Cocaine (T40.5),1102,1109,100,0.137219646,**
+MA,2021,September,Psychostimulants with abuse potential (T43.6),206,208,100,0.137219646,**
+MA,2021,September,Percent with drugs specified,99.31506849,,100,0.137219646,**
+MA,2021,October,Number of Drug Overdose Deaths,2510,2527,100,0.141034883,**
+MA,2021,October,"Opioids (T40.0-T40.4,T40.6)",2208,2223,100,0.141034883,**
+MA,2021,October,"Synthetic opioids, excl. methadone (T40.4)",2114,2128,100,0.141034883,**
+MA,2021,October,Heroin (T40.1),148,149,100,0.141034883,**
+MA,2021,October,Natural & semi-synthetic opioids (T40.2),210,212,100,0.141034883,**
+MA,2021,October,Methadone (T40.3),111,112,100,0.141034883,**
+MA,2021,October,Cocaine (T40.5),1119,1127,100,0.141034883,**
+MA,2021,October,Psychostimulants with abuse potential (T43.6),212,214,100,0.141034883,**
+MA,2021,October,Percent with drugs specified,99.16334661,,100,0.141034883,**
+MA,2021,November,Number of Drug Overdose Deaths,2524,2540,100,0.137336912,**
+MA,2021,November,"Opioids (T40.0-T40.4,T40.6)",2217,2231,100,0.137336912,**
+MA,2021,November,"Synthetic opioids, excl. methadone (T40.4)",2125,2138,100,0.137336912,**
+MA,2021,November,Heroin (T40.1),138,139,100,0.137336912,**
+MA,2021,November,Natural & semi-synthetic opioids (T40.2),202,204,100,0.137336912,**
+MA,2021,November,Methadone (T40.3),110,111,100,0.137336912,**
+MA,2021,November,Cocaine (T40.5),1138,1145,100,0.137336912,**
+MA,2021,November,Psychostimulants with abuse potential (T43.6),223,225,100,0.137336912,**
+MA,2021,November,Percent with drugs specified,99.16798732,,100,0.137336912,**
+MA,2021,December,Number of Drug Overdose Deaths,2555,2571,100,0.136026768,**
+MA,2021,December,"Opioids (T40.0-T40.4,T40.6)",2238,2251,100,0.136026768,**
+MA,2021,December,"Synthetic opioids, excl. methadone (T40.4)",2150,2163,100,0.136026768,**
+MA,2021,December,Heroin (T40.1),147,148,100,0.136026768,**
+MA,2021,December,Natural & semi-synthetic opioids (T40.2),200,202,100,0.136026768,**
+MA,2021,December,Methadone (T40.3),111,112,100,0.136026768,**
+MA,2021,December,Cocaine (T40.5),1158,1165,100,0.136026768,**
+MA,2021,December,Psychostimulants with abuse potential (T43.6),213,215,100,0.136026768,**
+MA,2021,December,Percent with drugs specified,99.21722114,,100,0.136026768,**
+MA,2022,January,Number of Drug Overdose Deaths,2558,2573,100,0.132268957,**
+MA,2022,January,"Opioids (T40.0-T40.4,T40.6)",2229,2241,100,0.132268957,**
+MA,2022,January,"Synthetic opioids, excl. methadone (T40.4)",2146,2158,100,0.132268957,**
+MA,2022,January,Heroin (T40.1),143,144,100,0.132268957,**
+MA,2022,January,Natural & semi-synthetic opioids (T40.2),199,201,100,0.132268957,**
+MA,2022,January,Methadone (T40.3),109,110,100,0.132268957,**
+MA,2022,January,Cocaine (T40.5),1178,1185,100,0.132268957,**
+MA,2022,January,Psychostimulants with abuse potential (T43.6),213,215,100,0.132268957,**
+MA,2022,January,Percent with drugs specified,99.21813917,,100,0.132268957,**
+MA,2022,February,Number of Drug Overdose Deaths,2578,2592,100,0.126235078,**
+MA,2022,February,"Opioids (T40.0-T40.4,T40.6)",2255,2266,100,0.126235078,**
+MA,2022,February,"Synthetic opioids, excl. methadone (T40.4)",2173,2184,100,0.126235078,**
+MA,2022,February,Heroin (T40.1),141,142,100,0.126235078,**
+MA,2022,February,Natural & semi-synthetic opioids (T40.2),205,207,100,0.126235078,**
+MA,2022,February,Methadone (T40.3),108,109,100,0.126235078,**
+MA,2022,February,Cocaine (T40.5),1198,1204,100,0.126235078,**
+MA,2022,February,Psychostimulants with abuse potential (T43.6),210,212,100,0.126235078,**
+MA,2022,February,Percent with drugs specified,99.18541505,,100,0.126235078,**
+MA,2022,March,Number of Drug Overdose Deaths,2560,2575,100,0.131161876,**
+MA,2022,March,"Opioids (T40.0-T40.4,T40.6)",2244,2256,100,0.131161876,**
+MA,2022,March,"Synthetic opioids, excl. methadone (T40.4)",2162,2174,100,0.131161876,**
+MA,2022,March,Heroin (T40.1),131,132,100,0.131161876,**
+MA,2022,March,Natural & semi-synthetic opioids (T40.2),202,204,100,0.131161876,**
+MA,2022,March,Methadone (T40.3),105,106,100,0.131161876,**
+MA,2022,March,Cocaine (T40.5),1187,1194,100,0.131161876,**
+MA,2022,March,Psychostimulants with abuse potential (T43.6),199,201,100,0.131161876,**
+MA,2022,March,Percent with drugs specified,99.21875,,100,0.131161876,**
+MA,2022,April,Number of Drug Overdose Deaths,2562,2579,100,0.137504297,**
+MA,2022,April,"Opioids (T40.0-T40.4,T40.6)",2249,2263,100,0.137504297,**
+MA,2022,April,"Synthetic opioids, excl. methadone (T40.4)",2166,2179,100,0.137504297,**
+MA,2022,April,Heroin (T40.1),137,138,100,0.137504297,**
+MA,2022,April,Natural & semi-synthetic opioids (T40.2),205,207,100,0.137504297,**
+MA,2022,April,Methadone (T40.3),111,112,100,0.137504297,**
+MA,2022,April,Cocaine (T40.5),1194,1201,100,0.137504297,**
+MA,2022,April,Psychostimulants with abuse potential (T43.6),205,207,100,0.137504297,**
+MA,2022,April,Percent with drugs specified,99.25839188,,100,0.137504297,**
+MA,2022,May,Number of Drug Overdose Deaths,2580,2600,100,0.147669159,**
+MA,2022,May,"Opioids (T40.0-T40.4,T40.6)",2268,2285,100,0.147669159,**
+MA,2022,May,"Synthetic opioids, excl. methadone (T40.4)",2178,2194,100,0.147669159,**
+MA,2022,May,Heroin (T40.1),126,127,100,0.147669159,**
+MA,2022,May,Natural & semi-synthetic opioids (T40.2),213,215,100,0.147669159,**
+MA,2022,May,Methadone (T40.3),110,111,100,0.147669159,**
+MA,2022,May,Cocaine (T40.5),1199,1208,100,0.147669159,**
+MA,2022,May,Psychostimulants with abuse potential (T43.6),203,205,100,0.147669159,**
+MA,2022,May,Percent with drugs specified,99.49612403,,100,0.147669159,**
+MA,2022,June,Number of Drug Overdose Deaths,2598,2624,100,0.168722815,**
+MA,2022,June,"Opioids (T40.0-T40.4,T40.6)",2276,2298,100,0.168722815,**
+MA,2022,June,"Synthetic opioids, excl. methadone (T40.4)",2187,2208,100,0.168722815,**
+MA,2022,June,Heroin (T40.1),126,128,100,0.168722815,**
+MA,2022,June,Natural & semi-synthetic opioids (T40.2),212,215,100,0.168722815,**
+MA,2022,June,Methadone (T40.3),114,116,100,0.168722815,**
+MA,2022,June,Cocaine (T40.5),1200,1212,100,0.168722815,**
+MA,2022,June,Psychostimulants with abuse potential (T43.6),205,208,100,0.168722815,**
+MA,2022,June,Percent with drugs specified,99.46112394,,100,0.168722815,**
+MA,2022,July,Number of Drug Overdose Deaths,2626,2652,100,0.164978337,**
+MA,2022,July,"Opioids (T40.0-T40.4,T40.6)",2300,2321,100,0.164978337,**
+MA,2022,July,"Synthetic opioids, excl. methadone (T40.4)",2206,2226,100,0.164978337,**
+MA,2022,July,Heroin (T40.1),121,122,100,0.164978337,**
+MA,2022,July,Natural & semi-synthetic opioids (T40.2),211,214,100,0.164978337,**
+MA,2022,July,Methadone (T40.3),123,125,100,0.164978337,**
+MA,2022,July,Cocaine (T40.5),1213,1225,100,0.164978337,**
+MA,2022,July,Psychostimulants with abuse potential (T43.6),205,208,100,0.164978337,**
+MA,2022,July,Percent with drugs specified,99.54303123,,100,0.164978337,**
+MA,2022,August,Number of Drug Overdose Deaths,2606,2630,100,0.160039394,**
+MA,2022,August,"Opioids (T40.0-T40.4,T40.6)",2287,2307,100,0.160039394,**
+MA,2022,August,"Synthetic opioids, excl. methadone (T40.4)",2190,2209,100,0.160039394,**
+MA,2022,August,Heroin (T40.1),125,126,100,0.160039394,**
+MA,2022,August,Natural & semi-synthetic opioids (T40.2),223,226,100,0.160039394,**
+MA,2022,August,Methadone (T40.3),129,131,100,0.160039394,**
+MA,2022,August,Cocaine (T40.5),1197,1208,100,0.160039394,**
+MA,2022,August,Psychostimulants with abuse potential (T43.6),201,204,100,0.160039394,**
+MA,2022,August,Percent with drugs specified,99.57789716,,100,0.160039394,**
+MA,2022,September,Number of Drug Overdose Deaths,2607,2629,100,0.152664693,**
+MA,2022,September,"Opioids (T40.0-T40.4,T40.6)",2293,2311,100,0.152664693,**
+MA,2022,September,"Synthetic opioids, excl. methadone (T40.4)",2191,2208,100,0.152664693,**
+MA,2022,September,Heroin (T40.1),122,123,100,0.152664693,**
+MA,2022,September,Natural & semi-synthetic opioids (T40.2),224,227,100,0.152664693,**
+MA,2022,September,Methadone (T40.3),133,135,100,0.152664693,**
+MA,2022,September,Cocaine (T40.5),1195,1205,100,0.152664693,**
+MA,2022,September,Psychostimulants with abuse potential (T43.6),203,205,100,0.152664693,**
+MA,2022,September,Percent with drugs specified,99.53970081,,100,0.152664693,**
+MA,2022,October,Number of Drug Overdose Deaths,2635,2661,100,0.16634066,**
+MA,2022,October,"Opioids (T40.0-T40.4,T40.6)",2319,2341,100,0.16634066,**
+MA,2022,October,"Synthetic opioids, excl. methadone (T40.4)",2215,2235,100,0.16634066,**
+MA,2022,October,Heroin (T40.1),115,116,100,0.16634066,**
+MA,2022,October,Natural & semi-synthetic opioids (T40.2),228,231,100,0.16634066,**
+MA,2022,October,Methadone (T40.3),140,142,100,0.16634066,**
+MA,2022,October,Cocaine (T40.5),1225,1237,100,0.16634066,**
+MA,2022,October,Psychostimulants with abuse potential (T43.6),202,205,100,0.16634066,**
+MA,2022,October,Percent with drugs specified,99.65844402,,100,0.16634066,**
+MA,2022,November,Number of Drug Overdose Deaths,2650,2680,100,0.179638864,**
+MA,2022,November,"Opioids (T40.0-T40.4,T40.6)",2327,2352,100,0.179638864,**
+MA,2022,November,"Synthetic opioids, excl. methadone (T40.4)",2224,2248,100,0.179638864,**
+MA,2022,November,Heroin (T40.1),117,119,100,0.179638864,**
+MA,2022,November,Natural & semi-synthetic opioids (T40.2),230,233,100,0.179638864,**
+MA,2022,November,Methadone (T40.3),145,147,100,0.179638864,**
+MA,2022,November,Cocaine (T40.5),1231,1245,100,0.179638864,**
+MA,2022,November,Psychostimulants with abuse potential (T43.6),203,206,100,0.179638864,**
+MA,2022,November,Percent with drugs specified,99.77358491,,100,0.179638864,**
+MA,2022,December,Number of Drug Overdose Deaths,2647,2676,100,0.174389636,**
+MA,2022,December,"Opioids (T40.0-T40.4,T40.6)",2334,2358,100,0.174389636,**
+MA,2022,December,"Synthetic opioids, excl. methadone (T40.4)",2230,2253,100,0.174389636,**
+MA,2022,December,Heroin (T40.1),111,113,100,0.174389636,**
+MA,2022,December,Natural & semi-synthetic opioids (T40.2),226,229,100,0.174389636,**
+MA,2022,December,Methadone (T40.3),144,146,100,0.174389636,**
+MA,2022,December,Cocaine (T40.5),1236,1249,100,0.174389636,**
+MA,2022,December,Psychostimulants with abuse potential (T43.6),211,214,100,0.174389636,**
+MA,2022,December,Percent with drugs specified,99.73554968,,100,0.174389636,**
+MA,2023,January,Number of Drug Overdose Deaths,2673,2704,99.5,0.181050091,**
+MA,2023,January,"Opioids (T40.0-T40.4,T40.6)",2365,2391,99.5,0.181050091,**
+MA,2023,January,"Synthetic opioids, excl. methadone (T40.4)",2254,2278,99.5,0.181050091,**
+MA,2023,January,Heroin (T40.1),111,113,99.5,0.181050091,**
+MA,2023,January,Natural & semi-synthetic opioids (T40.2),225,228,99.5,0.181050091,**
+MA,2023,January,Methadone (T40.3),151,154,99.5,0.181050091,**
+MA,2023,January,Cocaine (T40.5),1260,1274,99.5,0.181050091,**
+MA,2023,January,Psychostimulants with abuse potential (T43.6),211,214,99.5,0.181050091,**
+MA,2023,January,Percent with drugs specified,99.66329966,,99.5,0.181050091,**
+MA,2023,February,Number of Drug Overdose Deaths,2641,2671,99.5,0.180292297,**
+MA,2023,February,"Opioids (T40.0-T40.4,T40.6)",2337,2363,99.5,0.180292297,**
+MA,2023,February,"Synthetic opioids, excl. methadone (T40.4)",2226,2250,99.5,0.180292297,**
+MA,2023,February,Heroin (T40.1),111,113,99.5,0.180292297,**
+MA,2023,February,Natural & semi-synthetic opioids (T40.2),220,223,99.5,0.180292297,**
+MA,2023,February,Methadone (T40.3),156,159,99.5,0.180292297,**
+MA,2023,February,Cocaine (T40.5),1263,1277,99.5,0.180292297,**
+MA,2023,February,Psychostimulants with abuse potential (T43.6),211,214,99.5,0.180292297,**
+MA,2023,February,Percent with drugs specified,99.69708444,,99.5,0.180292297,**
+MA,2023,March,Number of Drug Overdose Deaths,2625,2655,99.5,0.178318394,**
+MA,2023,March,"Opioids (T40.0-T40.4,T40.6)",2318,2343,99.5,0.178318394,**
+MA,2023,March,"Synthetic opioids, excl. methadone (T40.4)",2205,2228,99.5,0.178318394,**
+MA,2023,March,Heroin (T40.1),104,105,99.5,0.178318394,**
+MA,2023,March,Natural & semi-synthetic opioids (T40.2),227,230,99.5,0.178318394,**
+MA,2023,March,Methadone (T40.3),158,161,99.5,0.178318394,**
+MA,2023,March,Cocaine (T40.5),1262,1276,99.5,0.178318394,**
+MA,2023,March,Psychostimulants with abuse potential (T43.6),210,213,99.5,0.178318394,**
+MA,2023,March,Percent with drugs specified,99.6952381,,99.5,0.178318394,**
+MA,2023,April,Number of Drug Overdose Deaths,2584,2610,99.5,0.168430419,**
+MA,2023,April,"Opioids (T40.0-T40.4,T40.6)",2285,2307,99.5,0.168430419,**
+MA,2023,April,"Synthetic opioids, excl. methadone (T40.4)",2174,2195,99.5,0.168430419,**
+MA,2023,April,Heroin (T40.1),93,94,99.5,0.168430419,**
+MA,2023,April,Natural & semi-synthetic opioids (T40.2),217,220,99.5,0.168430419,**
+MA,2023,April,Methadone (T40.3),152,154,99.5,0.168430419,**
+MA,2023,April,Cocaine (T40.5),1253,1265,99.5,0.168430419,**
+MA,2023,April,Psychostimulants with abuse potential (T43.6),203,206,99.5,0.168430419,**
+MA,2023,April,Percent with drugs specified,99.76780186,,99.5,0.168430419,**
+MA,2023,May,Number of Drug Overdose Deaths,2613,2636,99.5,0.156439563,**
+MA,2023,May,"Opioids (T40.0-T40.4,T40.6)",2312,2331,99.5,0.156439563,**
+MA,2023,May,"Synthetic opioids, excl. methadone (T40.4)",2205,2223,99.5,0.156439563,**
+MA,2023,May,Heroin (T40.1),98,99,99.5,0.156439563,**
+MA,2023,May,Natural & semi-synthetic opioids (T40.2),208,210,99.5,0.156439563,**
+MA,2023,May,Methadone (T40.3),155,157,99.5,0.156439563,**
+MA,2023,May,Cocaine (T40.5),1278,1289,99.5,0.156439563,**
+MA,2023,May,Psychostimulants with abuse potential (T43.6),203,206,99.5,0.156439563,**
+MA,2023,May,Percent with drugs specified,99.73210869,,99.5,0.156439563,**
+MA,2023,June,Number of Drug Overdose Deaths,2600,2616,99.5,0.134228188,**
+MA,2023,June,"Opioids (T40.0-T40.4,T40.6)",2306,2319,99.5,0.134228188,**
+MA,2023,June,"Synthetic opioids, excl. methadone (T40.4)",2195,2208,99.5,0.134228188,**
+MA,2023,June,Heroin (T40.1),93,94,99.5,0.134228188,**
+MA,2023,June,Natural & semi-synthetic opioids (T40.2),198,200,99.5,0.134228188,**
+MA,2023,June,Methadone (T40.3),163,165,99.5,0.134228188,**
+MA,2023,June,Cocaine (T40.5),1294,1302,99.5,0.134228188,**
+MA,2023,June,Psychostimulants with abuse potential (T43.6),217,219,99.5,0.134228188,**
+MA,2023,June,Percent with drugs specified,99.57692308,,99.5,0.134228188,**
+MA,2023,July,Number of Drug Overdose Deaths,2552,2565,99.5,0.123462729,**
+MA,2023,July,"Opioids (T40.0-T40.4,T40.6)",2267,2277,99.5,0.123462729,**
+MA,2023,July,"Synthetic opioids, excl. methadone (T40.4)",2163,2173,99.5,0.123462729,**
+MA,2023,July,Heroin (T40.1),92,93,99.5,0.123462729,**
+MA,2023,July,Natural & semi-synthetic opioids (T40.2),190,191,99.5,0.123462729,**
+MA,2023,July,Methadone (T40.3),162,163,99.5,0.123462729,**
+MA,2023,July,Cocaine (T40.5),1275,1281,99.5,0.123462729,**
+MA,2023,July,Psychostimulants with abuse potential (T43.6),220,222,99.5,0.123462729,**
+MA,2023,July,Percent with drugs specified,99.52978056,,99.5,0.123462729,**
+MA,2023,August,Number of Drug Overdose Deaths,2543,2553,99.5,0.115664509,**
+MA,2023,August,"Opioids (T40.0-T40.4,T40.6)",2261,2269,99.5,0.115664509,**
+MA,2023,August,"Synthetic opioids, excl. methadone (T40.4)",2154,2162,99.5,0.115664509,**
+MA,2023,August,Heroin (T40.1),83,84,99.5,0.115664509,**
+MA,2023,August,Natural & semi-synthetic opioids (T40.2),176,177,99.5,0.115664509,**
+MA,2023,August,Methadone (T40.3),169,170,99.5,0.115664509,**
+MA,2023,August,Cocaine (T40.5),1284,1289,99.5,0.115664509,**
+MA,2023,August,Psychostimulants with abuse potential (T43.6),217,219,99.5,0.115664509,**
+MA,2023,August,Percent with drugs specified,99.5281164,,99.5,0.115664509,**
+MA,2023,September,Number of Drug Overdose Deaths,2525,2534,99.5,0.110845154,**
+MA,2023,September,"Opioids (T40.0-T40.4,T40.6)",2236,2243,99.5,0.110845154,**
+MA,2023,September,"Synthetic opioids, excl. methadone (T40.4)",2134,2141,99.5,0.110845154,**
+MA,2023,September,Heroin (T40.1),83,84,99.5,0.110845154,**
+MA,2023,September,Natural & semi-synthetic opioids (T40.2),173,174,99.5,0.110845154,**
+MA,2023,September,Methadone (T40.3),167,168,99.5,0.110845154,**
+MA,2023,September,Cocaine (T40.5),1290,1294,99.5,0.110845154,**
+MA,2023,September,Psychostimulants with abuse potential (T43.6),216,217,99.5,0.110845154,**
+MA,2023,September,Percent with drugs specified,99.56435644,,99.5,0.110845154,**
+MA,2023,October,Number of Drug Overdose Deaths,2444,2447,99.5,0.090280353,**
+MA,2023,October,"Opioids (T40.0-T40.4,T40.6)",2164,2166,99.5,0.090280353,**
+MA,2023,October,"Synthetic opioids, excl. methadone (T40.4)",2067,2069,99.5,0.090280353,**
+MA,2023,October,Heroin (T40.1),80,81,99.5,0.090280353,**
+MA,2023,October,Natural & semi-synthetic opioids (T40.2),156,157,99.5,0.090280353,**
+MA,2023,October,Methadone (T40.3),165,166,99.5,0.090280353,**
+MA,2023,October,Cocaine (T40.5),1245,1246,99.5,0.090280353,**
+MA,2023,October,Psychostimulants with abuse potential (T43.6),213,214,99.5,0.090280353,**
+MA,2023,October,Percent with drugs specified,99.54991817,,99.5,0.090280353,**
+MA,2023,November,Number of Drug Overdose Deaths,2408,2408,99.5,0.07730091,**
+MA,2023,November,"Opioids (T40.0-T40.4,T40.6)",2133,2133,99.5,0.07730091,**
+MA,2023,November,"Synthetic opioids, excl. methadone (T40.4)",2041,2041,99.5,0.07730091,**
+MA,2023,November,Heroin (T40.1),76,76,99.5,0.07730091,**
+MA,2023,November,Natural & semi-synthetic opioids (T40.2),151,151,99.5,0.07730091,**
+MA,2023,November,Methadone (T40.3),163,163,99.5,0.07730091,**
+MA,2023,November,Cocaine (T40.5),1241,1241,99.5,0.07730091,**
+MA,2023,November,Psychostimulants with abuse potential (T43.6),211,212,99.5,0.07730091,**
+MA,2023,November,Percent with drugs specified,99.46013289,,99.5,0.07730091,**
+MA,2023,December,Number of Drug Overdose Deaths,2380,2380,100,0.072646261,**
+MA,2023,December,"Opioids (T40.0-T40.4,T40.6)",2104,2104,100,0.072646261,**
+MA,2023,December,"Synthetic opioids, excl. methadone (T40.4)",2008,2008,100,0.072646261,**
+MA,2023,December,Heroin (T40.1),75,75,100,0.072646261,**
+MA,2023,December,Natural & semi-synthetic opioids (T40.2),152,152,100,0.072646261,**
+MA,2023,December,Methadone (T40.3),166,166,100,0.072646261,**
+MA,2023,December,Cocaine (T40.5),1245,1245,100,0.072646261,**
+MA,2023,December,Psychostimulants with abuse potential (T43.6),216,216,100,0.072646261,**
+MA,2023,December,Percent with drugs specified,99.45378151,,100,0.072646261,**
+MA,2024,January,Number of Drug Overdose Deaths,2314,2314,100,0.064617224,**
+MA,2024,January,"Opioids (T40.0-T40.4,T40.6)",2041,2041,100,0.064617224,**
+MA,2024,January,"Synthetic opioids, excl. methadone (T40.4)",1950,1950,100,0.064617224,**
+MA,2024,January,Heroin (T40.1),69,69,100,0.064617224,**
+MA,2024,January,Natural & semi-synthetic opioids (T40.2),152,152,100,0.064617224,**
+MA,2024,January,Methadone (T40.3),156,156,100,0.064617224,**
+MA,2024,January,Cocaine (T40.5),1217,1217,100,0.064617224,**
+MA,2024,January,Psychostimulants with abuse potential (T43.6),215,215,100,0.064617224,**
+MA,2024,January,Percent with drugs specified,99.52463267,,100,0.064617224,**
+MA,2024,February,Number of Drug Overdose Deaths,2270,2270,100,0.064606787,**
+MA,2024,February,"Opioids (T40.0-T40.4,T40.6)",1993,1993,100,0.064606787,**
+MA,2024,February,"Synthetic opioids, excl. methadone (T40.4)",1908,1908,100,0.064606787,**
+MA,2024,February,Heroin (T40.1),65,65,100,0.064606787,**
+MA,2024,February,Natural & semi-synthetic opioids (T40.2),145,145,100,0.064606787,**
+MA,2024,February,Methadone (T40.3),153,153,100,0.064606787,**
+MA,2024,February,Cocaine (T40.5),1183,1183,100,0.064606787,**
+MA,2024,February,Psychostimulants with abuse potential (T43.6),213,213,100,0.064606787,**
+MA,2024,February,Percent with drugs specified,99.5154185,,100,0.064606787,**
+MA,2024,March,Number of Drug Overdose Deaths,2227,2227,100,0.056481676,**
+MA,2024,March,"Opioids (T40.0-T40.4,T40.6)",1950,1950,100,0.056481676,**
+MA,2024,March,"Synthetic opioids, excl. methadone (T40.4)",1869,1869,100,0.056481676,**
+MA,2024,March,Heroin (T40.1),65,65,100,0.056481676,**
+MA,2024,March,Natural & semi-synthetic opioids (T40.2),136,136,100,0.056481676,**
+MA,2024,March,Methadone (T40.3),153,153,100,0.056481676,**
+MA,2024,March,Cocaine (T40.5),1163,1163,100,0.056481676,**
+MA,2024,March,Psychostimulants with abuse potential (T43.6),216,216,100,0.056481676,**
+MA,2024,March,Percent with drugs specified,99.50606197,,100,0.056481676,**
+MA,2024,April,Number of Drug Overdose Deaths,2197,2197,100,0.056346191,**
+MA,2024,April,"Opioids (T40.0-T40.4,T40.6)",1914,1914,100,0.056346191,**
+MA,2024,April,"Synthetic opioids, excl. methadone (T40.4)",1829,1829,100,0.056346191,**
+MA,2024,April,Heroin (T40.1),64,64,100,0.056346191,**
+MA,2024,April,Natural & semi-synthetic opioids (T40.2),142,142,100,0.056346191,**
+MA,2024,April,Methadone (T40.3),162,162,100,0.056346191,**
+MA,2024,April,Cocaine (T40.5),1155,1155,100,0.056346191,**
+MA,2024,April,Psychostimulants with abuse potential (T43.6),214,214,100,0.056346191,**
+MA,2024,April,Percent with drugs specified,99.49931725,,100,0.056346191,**
+MA,2024,May,Number of Drug Overdose Deaths,2108,2108,100,0.054734537,**
+MA,2024,May,"Opioids (T40.0-T40.4,T40.6)",1824,1824,100,0.054734537,**
+MA,2024,May,"Synthetic opioids, excl. methadone (T40.4)",1735,1735,100,0.054734537,**
+MA,2024,May,Heroin (T40.1),58,58,100,0.054734537,**
+MA,2024,May,Natural & semi-synthetic opioids (T40.2),145,145,100,0.054734537,**
+MA,2024,May,Methadone (T40.3),161,161,100,0.054734537,**
+MA,2024,May,Cocaine (T40.5),1114,1114,100,0.054734537,**
+MA,2024,May,Psychostimulants with abuse potential (T43.6),211,211,100,0.054734537,**
+MA,2024,May,Percent with drugs specified,99.47817837,,100,0.054734537,**
+MA,2024,June,Number of Drug Overdose Deaths,2023,2023,100,0.049938785,**
+MA,2024,June,"Opioids (T40.0-T40.4,T40.6)",1752,1752,100,0.049938785,**
+MA,2024,June,"Synthetic opioids, excl. methadone (T40.4)",1668,1668,100,0.049938785,**
+MA,2024,June,Heroin (T40.1),55,55,100,0.049938785,**
+MA,2024,June,Natural & semi-synthetic opioids (T40.2),140,140,100,0.049938785,**
+MA,2024,June,Methadone (T40.3),155,155,100,0.049938785,**
+MA,2024,June,Cocaine (T40.5),1060,1060,100,0.049938785,**
+MA,2024,June,Psychostimulants with abuse potential (T43.6),196,196,100,0.049938785,**
+MA,2024,June,Percent with drugs specified,99.65397924,,100,0.049938785,**
+MA,2024,July,Number of Drug Overdose Deaths,1981,1981,100,0.04675911,**
+MA,2024,July,"Opioids (T40.0-T40.4,T40.6)",1700,1700,100,0.04675911,**
+MA,2024,July,"Synthetic opioids, excl. methadone (T40.4)",1614,1614,100,0.04675911,**
+MA,2024,July,Heroin (T40.1),54,54,100,0.04675911,**
+MA,2024,July,Natural & semi-synthetic opioids (T40.2),132,132,100,0.04675911,**
+MA,2024,July,Methadone (T40.3),154,154,100,0.04675911,**
+MA,2024,July,Cocaine (T40.5),1049,1049,100,0.04675911,**
+MA,2024,July,Psychostimulants with abuse potential (T43.6),198,198,100,0.04675911,**
+MA,2024,July,Percent with drugs specified,99.64664311,,100,0.04675911,**
+MA,2024,August,Number of Drug Overdose Deaths,1904,1904,100,0.046883841,**
+MA,2024,August,"Opioids (T40.0-T40.4,T40.6)",1625,1625,100,0.046883841,**
+MA,2024,August,"Synthetic opioids, excl. methadone (T40.4)",1549,1549,100,0.046883841,**
+MA,2024,August,Heroin (T40.1),52,52,100,0.046883841,**
+MA,2024,August,Natural & semi-synthetic opioids (T40.2),129,129,100,0.046883841,**
+MA,2024,August,Methadone (T40.3),142,142,100,0.046883841,**
+MA,2024,August,Cocaine (T40.5),1019,1019,100,0.046883841,**
+MA,2024,August,Psychostimulants with abuse potential (T43.6),192,192,100,0.046883841,**
+MA,2024,August,Percent with drugs specified,99.63235294,,100,0.046883841,**
+MA,2024,September,Number of Drug Overdose Deaths,1802,1802,100,0.04699172,**
+MA,2024,September,"Opioids (T40.0-T40.4,T40.6)",1527,1527,100,0.04699172,**
+MA,2024,September,"Synthetic opioids, excl. methadone (T40.4)",1449,1449,100,0.04699172,**
+MA,2024,September,Heroin (T40.1),50,50,100,0.04699172,**
+MA,2024,September,Natural & semi-synthetic opioids (T40.2),124,124,100,0.04699172,**
+MA,2024,September,Methadone (T40.3),141,141,100,0.04699172,**
+MA,2024,September,Cocaine (T40.5),955,955,100,0.04699172,**
+MA,2024,September,Psychostimulants with abuse potential (T43.6),188,188,100,0.04699172,**
+MA,2024,September,Percent with drugs specified,99.61154273,,100,0.04699172,**
+MA,2024,October,Number of Drug Overdose Deaths,1757,1757,100,0.045581819,**
+MA,2024,October,"Opioids (T40.0-T40.4,T40.6)",1485,1485,100,0.045581819,**
+MA,2024,October,"Synthetic opioids, excl. methadone (T40.4)",1401,1401,100,0.045581819,**
+MA,2024,October,Heroin (T40.1),48,48,100,0.045581819,**
+MA,2024,October,Natural & semi-synthetic opioids (T40.2),123,123,100,0.045581819,**
+MA,2024,October,Methadone (T40.3),138,138,100,0.045581819,**
+MA,2024,October,Cocaine (T40.5),945,945,100,0.045581819,**
+MA,2024,October,Psychostimulants with abuse potential (T43.6),190,190,100,0.045581819,**
+MA,2024,October,Percent with drugs specified,99.65850882,,100,0.045581819,**
+MA,2024,November,Number of Drug Overdose Deaths,1700,1700,100,0.039238126,**
+MA,2024,November,"Opioids (T40.0-T40.4,T40.6)",1433,1433,100,0.039238126,**
+MA,2024,November,"Synthetic opioids, excl. methadone (T40.4)",1345,1345,100,0.039238126,**
+MA,2024,November,Heroin (T40.1),47,47,100,0.039238126,**
+MA,2024,November,Natural & semi-synthetic opioids (T40.2),122,122,100,0.039238126,**
+MA,2024,November,Methadone (T40.3),143,143,100,0.039238126,**
+MA,2024,November,Cocaine (T40.5),914,914,100,0.039238126,**
+MA,2024,November,Psychostimulants with abuse potential (T43.6),184,184,100,0.039238126,**
+MA,2024,November,Percent with drugs specified,99.76470588,,100,0.039238126,**
+MA,2024,December,Number of Drug Overdose Deaths,1598,1598,100,0.0362128,**
+MA,2024,December,"Opioids (T40.0-T40.4,T40.6)",1341,1341,100,0.0362128,**
+MA,2024,December,"Synthetic opioids, excl. methadone (T40.4)",1257,1257,100,0.0362128,**
+MA,2024,December,Heroin (T40.1),48,48,100,0.0362128,**
+MA,2024,December,Natural & semi-synthetic opioids (T40.2),122,122,100,0.0362128,**
+MA,2024,December,Methadone (T40.3),136,136,100,0.0362128,**
+MA,2024,December,Cocaine (T40.5),857,857,100,0.0362128,**
+MA,2024,December,Psychostimulants with abuse potential (T43.6),168,168,100,0.0362128,**
+MA,2024,December,Percent with drugs specified,99.74968711,,100,0.0362128,**
+MA,2025,January,Number of Drug Overdose Deaths,1560,1560,100,0.042719595,
+MA,2025,January,"Opioids (T40.0-T40.4,T40.6)",1296,1296,100,0.042719595,
+MA,2025,January,"Synthetic opioids, excl. methadone (T40.4)",1206,1206,100,0.042719595,
+MA,2025,January,Heroin (T40.1),47,47,100,0.042719595,
+MA,2025,January,Natural & semi-synthetic opioids (T40.2),125,125,100,0.042719595,
+MA,2025,January,Methadone (T40.3),137,137,100,0.042719595,
+MA,2025,January,Cocaine (T40.5),821,821,100,0.042719595,
+MA,2025,January,Psychostimulants with abuse potential (T43.6),175,175,100,0.042719595,
+MA,2025,January,Percent with drugs specified,99.55128205,,100,0.042719595,
+MA,2025,February,Number of Drug Overdose Deaths,1524,1524,100,0.045686687,
+MA,2025,February,"Opioids (T40.0-T40.4,T40.6)",1265,1265,100,0.045686687,
+MA,2025,February,"Synthetic opioids, excl. methadone (T40.4)",1168,1168,100,0.045686687,
+MA,2025,February,Heroin (T40.1),48,48,100,0.045686687,
+MA,2025,February,Natural & semi-synthetic opioids (T40.2),123,123,100,0.045686687,
+MA,2025,February,Methadone (T40.3),146,146,100,0.045686687,
+MA,2025,February,Cocaine (T40.5),810,810,100,0.045686687,
+MA,2025,February,Psychostimulants with abuse potential (T43.6),172,172,100,0.045686687,
+MA,2025,February,Percent with drugs specified,99.47506562,,100,0.045686687,
+MA,2025,March,Number of Drug Overdose Deaths,1489,1489,100,0.04899559,
+MA,2025,March,"Opioids (T40.0-T40.4,T40.6)",1228,1228,100,0.04899559,
+MA,2025,March,"Synthetic opioids, excl. methadone (T40.4)",1128,1128,100,0.04899559,
+MA,2025,March,Heroin (T40.1),49,49,100,0.04899559,
+MA,2025,March,Natural & semi-synthetic opioids (T40.2),120,120,100,0.04899559,
+MA,2025,March,Methadone (T40.3),154,154,100,0.04899559,
+MA,2025,March,Cocaine (T40.5),786,786,100,0.04899559,
+MA,2025,March,Psychostimulants with abuse potential (T43.6),174,174,100,0.04899559,
+MA,2025,March,Percent with drugs specified,99.39556749,,100,0.04899559,
+MA,2025,April,Number of Drug Overdose Deaths,1452,1452,100,0.050866369,
+MA,2025,April,"Opioids (T40.0-T40.4,T40.6)",1174,1174,100,0.050866369,
+MA,2025,April,"Synthetic opioids, excl. methadone (T40.4)",1079,1079,100,0.050866369,
+MA,2025,April,Heroin (T40.1),46,46,100,0.050866369,
+MA,2025,April,Natural & semi-synthetic opioids (T40.2),111,111,100,0.050866369,
+MA,2025,April,Methadone (T40.3),144,144,100,0.050866369,
+MA,2025,April,Cocaine (T40.5),771,771,100,0.050866369,
+MA,2025,April,Psychostimulants with abuse potential (T43.6),168,168,100,0.050866369,
+MA,2025,April,Percent with drugs specified,99.17355372,,100,0.050866369,
+MA,2025,May,Number of Drug Overdose Deaths,1404,1404,100,0.054320093,
+MA,2025,May,"Opioids (T40.0-T40.4,T40.6)",1120,1120,100,0.054320093,
+MA,2025,May,"Synthetic opioids, excl. methadone (T40.4)",1020,1020,100,0.054320093,
+MA,2025,May,Heroin (T40.1),50,50,100,0.054320093,
+MA,2025,May,Natural & semi-synthetic opioids (T40.2),106,106,100,0.054320093,
+MA,2025,May,Methadone (T40.3),147,147,100,0.054320093,
+MA,2025,May,Cocaine (T40.5),749,749,100,0.054320093,
+MA,2025,May,Psychostimulants with abuse potential (T43.6),161,161,100,0.054320093,
+MA,2025,May,Percent with drugs specified,99.14529915,,100,0.054320093,
+MA,2025,June,Number of Drug Overdose Deaths,1385,1385,100,0.059287561,
+MA,2025,June,"Opioids (T40.0-T40.4,T40.6)",1081,1081,100,0.059287561,
+MA,2025,June,"Synthetic opioids, excl. methadone (T40.4)",978,978,100,0.059287561,
+MA,2025,June,Heroin (T40.1),55,55,100,0.059287561,
+MA,2025,June,Natural & semi-synthetic opioids (T40.2),110,110,100,0.059287561,
+MA,2025,June,Methadone (T40.3),145,145,100,0.059287561,
+MA,2025,June,Cocaine (T40.5),749,749,100,0.059287561,
+MA,2025,June,Psychostimulants with abuse potential (T43.6),158,158,100,0.059287561,
+MA,2025,June,Percent with drugs specified,99.13357401,,100,0.059287561,
+MA,2025,July,Number of Drug Overdose Deaths,1355,1355,100,0.06260606,
+MA,2025,July,"Opioids (T40.0-T40.4,T40.6)",1056,1056,100,0.06260606,
+MA,2025,July,"Synthetic opioids, excl. methadone (T40.4)",954,954,100,0.06260606,
+MA,2025,July,Heroin (T40.1),58,58,100,0.06260606,
+MA,2025,July,Natural & semi-synthetic opioids (T40.2),112,112,100,0.06260606,
+MA,2025,July,Methadone (T40.3),142,142,100,0.06260606,
+MA,2025,July,Cocaine (T40.5),735,735,100,0.06260606,
+MA,2025,July,Psychostimulants with abuse potential (T43.6),151,151,100,0.06260606,
+MA,2025,July,Percent with drugs specified,99.18819188,,100,0.06260606,
+MA,2025,August,Number of Drug Overdose Deaths,1337,1339,100,0.057796786,
+MA,2025,August,"Opioids (T40.0-T40.4,T40.6)",1020,1021,100,0.057796786,
+MA,2025,August,"Synthetic opioids, excl. methadone (T40.4)",916,917,100,0.057796786,
+MA,2025,August,Heroin (T40.1),58,59,100,0.057796786,
+MA,2025,August,Natural & semi-synthetic opioids (T40.2),105,105,100,0.057796786,
+MA,2025,August,Methadone (T40.3),143,143,100,0.057796786,
+MA,2025,August,Cocaine (T40.5),723,724,100,0.057796786,
+MA,2025,August,Psychostimulants with abuse potential (T43.6),151,152,100,0.057796786,
+MA,2025,August,Percent with drugs specified,99.0276739,,100,0.057796786,
+MA,2025,September,Number of Drug Overdose Deaths,1335,1336,100,0.052869841,
+MA,2025,September,"Opioids (T40.0-T40.4,T40.6)",1018,1018,100,0.052869841,
+MA,2025,September,"Synthetic opioids, excl. methadone (T40.4)",915,915,100,0.052869841,
+MA,2025,September,Heroin (T40.1),57,57,100,0.052869841,
+MA,2025,September,Natural & semi-synthetic opioids (T40.2),104,104,100,0.052869841,
+MA,2025,September,Methadone (T40.3),146,147,100,0.052869841,
+MA,2025,September,Cocaine (T40.5),746,746,100,0.052869841,
+MA,2025,September,Psychostimulants with abuse potential (T43.6),147,148,100,0.052869841,
+MA,2025,September,Percent with drugs specified,99.02621723,,100,0.052869841,
+MA,2025,October,Number of Drug Overdose Deaths,1318,1318,100,0.052824458,
+MA,2025,October,"Opioids (T40.0-T40.4,T40.6)",985,985,100,0.052824458,
+MA,2025,October,"Synthetic opioids, excl. methadone (T40.4)",883,883,100,0.052824458,
+MA,2025,October,Heroin (T40.1),60,60,100,0.052824458,
+MA,2025,October,Natural & semi-synthetic opioids (T40.2),102,102,100,0.052824458,
+MA,2025,October,Methadone (T40.3),156,157,100,0.052824458,
+MA,2025,October,Cocaine (T40.5),739,739,100,0.052824458,
+MA,2025,October,Psychostimulants with abuse potential (T43.6),147,148,100,0.052824458,
+MA,2025,October,Percent with drugs specified,99.01365706,,100,0.052824458,
+MA,2025,November,Number of Drug Overdose Deaths,1298,1298,100,0.052842776,
+MA,2025,November,"Opioids (T40.0-T40.4,T40.6)",960,960,100,0.052842776,
+MA,2025,November,"Synthetic opioids, excl. methadone (T40.4)",863,863,100,0.052842776,
+MA,2025,November,Heroin (T40.1),57,57,100,0.052842776,
+MA,2025,November,Natural & semi-synthetic opioids (T40.2),99,99,100,0.052842776,
+MA,2025,November,Methadone (T40.3),146,146,100,0.052842776,
+MA,2025,November,Cocaine (T40.5),736,736,100,0.052842776,
+MA,2025,November,Psychostimulants with abuse potential (T43.6),151,151,100,0.052842776,
+MA,2025,November,Percent with drugs specified,98.76733436,,100,0.052842776,
+MA,2025,December,Number of Drug Overdose Deaths,1337,1337,100,0.04934454,
+MA,2025,December,"Opioids (T40.0-T40.4,T40.6)",981,981,100,0.04934454,
+MA,2025,December,"Synthetic opioids, excl. methadone (T40.4)",879,879,100,0.04934454,
+MA,2025,December,Heroin (T40.1),51,51,100,0.04934454,
+MA,2025,December,Natural & semi-synthetic opioids (T40.2),95,95,100,0.04934454,
+MA,2025,December,Methadone (T40.3),154,154,100,0.04934454,
+MA,2025,December,Cocaine (T40.5),771,771,100,0.04934454,
+MA,2025,December,Psychostimulants with abuse potential (T43.6),153,153,100,0.04934454,
+MA,2025,December,Percent with drugs specified,98.65370232,,100,0.04934454,
+MA,2026,January,Number of Drug Overdose Deaths,1329,1329,100,0.046068543,*
+MA,2026,January,"Opioids (T40.0-T40.4,T40.6)",959,959,100,0.046068543,*
+MA,2026,January,"Synthetic opioids, excl. methadone (T40.4)",859,859,100,0.046068543,*
+MA,2026,January,Heroin (T40.1),50,50,100,0.046068543,*
+MA,2026,January,Natural & semi-synthetic opioids (T40.2),83,83,100,0.046068543,*
+MA,2026,January,Methadone (T40.3),159,159,100,0.046068543,*
+MA,2026,January,Cocaine (T40.5),784,784,100,0.046068543,*
+MA,2026,January,Psychostimulants with abuse potential (T43.6),139,139,100,0.046068543,*
+MA,2026,January,Percent with drugs specified,98.79608728,,100,0.046068543,*
+MA,2026,February,Number of Drug Overdose Deaths,1344,1344,100,0.046478429,*
+MA,2026,February,"Opioids (T40.0-T40.4,T40.6)",955,955,100,0.046478429,*
+MA,2026,February,"Synthetic opioids, excl. methadone (T40.4)",854,854,100,0.046478429,*
+MA,2026,February,Heroin (T40.1),51,51,100,0.046478429,*
+MA,2026,February,Natural & semi-synthetic opioids (T40.2),82,82,100,0.046478429,*
+MA,2026,February,Methadone (T40.3),158,158,100,0.046478429,*
+MA,2026,February,Cocaine (T40.5),793,793,100,0.046478429,*
+MA,2026,February,Psychostimulants with abuse potential (T43.6),146,146,100,0.046478429,*
+MA,2026,February,Percent with drugs specified,98.66071429,,100,0.046478429,*
+MA,2026,March,Number of Drug Overdose Deaths,1318,1318,100,0.053208294,*
+MA,2026,March,"Opioids (T40.0-T40.4,T40.6)",925,925,100,0.053208294,*
+MA,2026,March,"Synthetic opioids, excl. methadone (T40.4)",816,816,100,0.053208294,*
+MA,2026,March,Heroin (T40.1),47,47,100,0.053208294,*
+MA,2026,March,Natural & semi-synthetic opioids (T40.2),87,87,100,0.053208294,*
+MA,2026,March,Methadone (T40.3),154,154,100,0.053208294,*
+MA,2026,March,Cocaine (T40.5),787,787,100,0.053208294,*
+MA,2026,March,Psychostimulants with abuse potential (T43.6),140,140,100,0.053208294,*
+MA,2026,March,Percent with drugs specified,98.55842185,,100,0.053208294,*
+MA,2026,April,Number of Drug Overdose Deaths,1311,1311,100,0.058228522,*
+MA,2026,April,"Opioids (T40.0-T40.4,T40.6)",937,937,100,0.058228522,*
+MA,2026,April,"Synthetic opioids, excl. methadone (T40.4)",824,824,100,0.058228522,*
+MA,2026,April,Heroin (T40.1),46,46,100,0.058228522,*
+MA,2026,April,Natural & semi-synthetic opioids (T40.2),91,91,100,0.058228522,*
+MA,2026,April,Methadone (T40.3),159,159,100,0.058228522,*
+MA,2026,April,Cocaine (T40.5),770,770,100,0.058228522,*
+MA,2026,April,Psychostimulants with abuse potential (T43.6),143,143,100,0.058228522,*
+MA,2026,April,Percent with drugs specified,98.77955759,,100,0.058228522,*
+MA,2026,May,Number of Drug Overdose Deaths,1308,1308,100,0.064742111,*
+MA,2026,May,"Opioids (T40.0-T40.4,T40.6)",931,931,100,0.064742111,*
+MA,2026,May,"Synthetic opioids, excl. methadone (T40.4)",823,823,100,0.064742111,*
+MA,2026,May,Heroin (T40.1),40,40,100,0.064742111,*
+MA,2026,May,Natural & semi-synthetic opioids (T40.2),86,86,100,0.064742111,*
+MA,2026,May,Methadone (T40.3),154,154,100,0.064742111,*
+MA,2026,May,Cocaine (T40.5),773,773,100,0.064742111,*
+MA,2026,May,Psychostimulants with abuse potential (T43.6),146,146,100,0.064742111,*
+MA,2026,May,Percent with drugs specified,98.70030581,,100,0.064742111,*
+US,2019,January,Number of Drug Overdose Deaths,67697,68187,100,0.145149473,**
+US,2019,January,"Opioids (T40.0-T40.4,T40.6)",46996,47317,100,0.145149473,**
+US,2019,January,"Synthetic opioids, excl. methadone (T40.4)",31585,31797,100,0.145149473,**
+US,2019,January,Heroin (T40.1),15089,15183,100,0.145149473,**
+US,2019,January,Natural & semi-synthetic opioids (T40.2),12455,12555,100,0.145149473,**
+US,2019,January,Methadone (T40.3),3027,3053,100,0.145149473,**
+US,2019,January,Cocaine (T40.5),14731,14831,100,0.145149473,**
+US,2019,January,Psychostimulants with abuse potential (T43.6),13142,13259,100,0.145149473,**
+US,2019,January,Percent with drugs specified,92.08236702,,100,0.145149473,**
+US,2019,February,Number of Drug Overdose Deaths,67631,68130,100,0.14636432,**
+US,2019,February,"Opioids (T40.0-T40.4,T40.6)",47025,47353,100,0.14636432,**
+US,2019,February,"Synthetic opioids, excl. methadone (T40.4)",31754,31971,100,0.14636432,**
+US,2019,February,Heroin (T40.1),15060,15155,100,0.14636432,**
+US,2019,February,Natural & semi-synthetic opioids (T40.2),12331,12432,100,0.14636432,**
+US,2019,February,Methadone (T40.3),3014,3040,100,0.14636432,**
+US,2019,February,Cocaine (T40.5),14721,14823,100,0.14636432,**
+US,2019,February,Psychostimulants with abuse potential (T43.6),13293,13414,100,0.14636432,**
+US,2019,February,Percent with drugs specified,92.21658707,,100,0.14636432,**
+US,2019,March,Number of Drug Overdose Deaths,67727,68235,100,0.147470911,**
+US,2019,March,"Opioids (T40.0-T40.4,T40.6)",47166,47501,100,0.147470911,**
+US,2019,March,"Synthetic opioids, excl. methadone (T40.4)",32019,32242,100,0.147470911,**
+US,2019,March,Heroin (T40.1),15002,15098,100,0.147470911,**
+US,2019,March,Natural & semi-synthetic opioids (T40.2),12270,12372,100,0.147470911,**
+US,2019,March,Methadone (T40.3),2936,2962,100,0.147470911,**
+US,2019,March,Cocaine (T40.5),14679,14783,100,0.147470911,**
+US,2019,March,Psychostimulants with abuse potential (T43.6),13563,13688,100,0.147470911,**
+US,2019,March,Percent with drugs specified,92.37379479,,100,0.147470911,**
+US,2019,April,Number of Drug Overdose Deaths,67736,68259,100,0.149345951,**
+US,2019,April,"Opioids (T40.0-T40.4,T40.6)",47162,47507,100,0.149345951,**
+US,2019,April,"Synthetic opioids, excl. methadone (T40.4)",32197,32428,100,0.149345951,**
+US,2019,April,Heroin (T40.1),14904,15003,100,0.149345951,**
+US,2019,April,Natural & semi-synthetic opioids (T40.2),12177,12282,100,0.149345951,**
+US,2019,April,Methadone (T40.3),2891,2917,100,0.149345951,**
+US,2019,April,Cocaine (T40.5),14664,14771,100,0.149345951,**
+US,2019,April,Psychostimulants with abuse potential (T43.6),13780,13910,100,0.149345951,**
+US,2019,April,Percent with drugs specified,92.47224519,,100,0.149345951,**
+US,2019,May,Number of Drug Overdose Deaths,67795,68320,100,0.149552808,**
+US,2019,May,"Opioids (T40.0-T40.4,T40.6)",47197,47543,100,0.149552808,**
+US,2019,May,"Synthetic opioids, excl. methadone (T40.4)",32402,32635,100,0.149552808,**
+US,2019,May,Heroin (T40.1),14798,14896,100,0.149552808,**
+US,2019,May,Natural & semi-synthetic opioids (T40.2),12073,12177,100,0.149552808,**
+US,2019,May,Methadone (T40.3),2858,2884,100,0.149552808,**
+US,2019,May,Cocaine (T40.5),14659,14766,100,0.149552808,**
+US,2019,May,Psychostimulants with abuse potential (T43.6),14055,14188,100,0.149552808,**
+US,2019,May,Percent with drugs specified,92.57172358,,100,0.149552808,**
+US,2019,June,Number of Drug Overdose Deaths,67787,68322,100,0.15078944,**
+US,2019,June,"Opioids (T40.0-T40.4,T40.6)",47230,47583,100,0.15078944,**
+US,2019,June,"Synthetic opioids, excl. methadone (T40.4)",32594,32833,100,0.15078944,**
+US,2019,June,Heroin (T40.1),14640,14739,100,0.15078944,**
+US,2019,June,Natural & semi-synthetic opioids (T40.2),11958,12063,100,0.15078944,**
+US,2019,June,Methadone (T40.3),2814,2840,100,0.15078944,**
+US,2019,June,Cocaine (T40.5),14638,14748,100,0.15078944,**
+US,2019,June,Psychostimulants with abuse potential (T43.6),14308,14446,100,0.15078944,**
+US,2019,June,Percent with drugs specified,92.73607034,,100,0.15078944,**
+US,2019,July,Number of Drug Overdose Deaths,68023,68562,100,0.151098006,**
+US,2019,July,"Opioids (T40.0-T40.4,T40.6)",47474,47831,100,0.151098006,**
+US,2019,July,"Synthetic opioids, excl. methadone (T40.4)",33035,33278,100,0.151098006,**
+US,2019,July,Heroin (T40.1),14532,14631,100,0.151098006,**
+US,2019,July,Natural & semi-synthetic opioids (T40.2),11929,12035,100,0.151098006,**
+US,2019,July,Methadone (T40.3),2802,2828,100,0.151098006,**
+US,2019,July,Cocaine (T40.5),14729,14840,100,0.151098006,**
+US,2019,July,Psychostimulants with abuse potential (T43.6),14608,14749,100,0.151098006,**
+US,2019,July,Percent with drugs specified,92.92151184,,100,0.151098006,**
+US,2019,August,Number of Drug Overdose Deaths,68371,68932,100,0.153545122,**
+US,2019,August,"Opioids (T40.0-T40.4,T40.6)",47772,48144,100,0.153545122,**
+US,2019,August,"Synthetic opioids, excl. methadone (T40.4)",33514,33770,100,0.153545122,**
+US,2019,August,Heroin (T40.1),14409,14510,100,0.153545122,**
+US,2019,August,Natural & semi-synthetic opioids (T40.2),11876,11985,100,0.153545122,**
+US,2019,August,Methadone (T40.3),2796,2823,100,0.153545122,**
+US,2019,August,Cocaine (T40.5),14895,15011,100,0.153545122,**
+US,2019,August,Psychostimulants with abuse potential (T43.6),14873,15021,100,0.153545122,**
+US,2019,August,Percent with drugs specified,92.99995612,,100,0.153545122,**
+US,2019,September,Number of Drug Overdose Deaths,68757,69324,100,0.153856156,**
+US,2019,September,"Opioids (T40.0-T40.4,T40.6)",48140,48517,100,0.153856156,**
+US,2019,September,"Synthetic opioids, excl. methadone (T40.4)",34057,34318,100,0.153856156,**
+US,2019,September,Heroin (T40.1),14288,14389,100,0.153856156,**
+US,2019,September,Natural & semi-synthetic opioids (T40.2),11860,11970,100,0.153856156,**
+US,2019,September,Methadone (T40.3),2759,2786,100,0.153856156,**
+US,2019,September,Cocaine (T40.5),15075,15193,100,0.153856156,**
+US,2019,September,Psychostimulants with abuse potential (T43.6),15247,15400,100,0.153856156,**
+US,2019,September,Percent with drugs specified,93.20650988,,100,0.153856156,**
+US,2019,October,Number of Drug Overdose Deaths,69371,69950,100,0.154744051,**
+US,2019,October,"Opioids (T40.0-T40.4,T40.6)",48663,49049,100,0.154744051,**
+US,2019,October,"Synthetic opioids, excl. methadone (T40.4)",34768,35038,100,0.154744051,**
+US,2019,October,Heroin (T40.1),14178,14279,100,0.154744051,**
+US,2019,October,Natural & semi-synthetic opioids (T40.2),11874,11985,100,0.154744051,**
+US,2019,October,Methadone (T40.3),2739,2766,100,0.154744051,**
+US,2019,October,Cocaine (T40.5),15344,15466,100,0.154744051,**
+US,2019,October,Psychostimulants with abuse potential (T43.6),15647,15805,100,0.154744051,**
+US,2019,October,Percent with drugs specified,93.40214211,,100,0.154744051,**
+US,2019,November,Number of Drug Overdose Deaths,70357,70942,100,0.154509264,**
+US,2019,November,"Opioids (T40.0-T40.4,T40.6)",49488,49879,100,0.154509264,**
+US,2019,November,"Synthetic opioids, excl. methadone (T40.4)",35677,35953,100,0.154509264,**
+US,2019,November,Heroin (T40.1),14247,14349,100,0.154509264,**
+US,2019,November,Natural & semi-synthetic opioids (T40.2),11978,12090,100,0.154509264,**
+US,2019,November,Methadone (T40.3),2743,2770,100,0.154509264,**
+US,2019,November,Cocaine (T40.5),15710,15835,100,0.154509264,**
+US,2019,November,Psychostimulants with abuse potential (T43.6),16015,16177,100,0.154509264,**
+US,2019,November,Percent with drugs specified,93.51734724,,100,0.154509264,**
+US,2019,December,Number of Drug Overdose Deaths,71130,71740,100,0.156699771,**
+US,2019,December,"Opioids (T40.0-T40.4,T40.6)",50178,50587,100,0.156699771,**
+US,2019,December,"Synthetic opioids, excl. methadone (T40.4)",36603,36895,100,0.156699771,**
+US,2019,December,Heroin (T40.1),14116,14220,100,0.156699771,**
+US,2019,December,Natural & semi-synthetic opioids (T40.2),11941,12056,100,0.156699771,**
+US,2019,December,Methadone (T40.3),2756,2784,100,0.156699771,**
+US,2019,December,Cocaine (T40.5),16024,16155,100,0.156699771,**
+US,2019,December,Psychostimulants with abuse potential (T43.6),16342,16511,100,0.156699771,**
+US,2019,December,Percent with drugs specified,93.72135527,,100,0.156699771,**
+US,2020,January,Number of Drug Overdose Deaths,72124,72732,100,0.155476854,**
+US,2020,January,"Opioids (T40.0-T40.4,T40.6)",51019,51427,100,0.155476854,**
+US,2020,January,"Synthetic opioids, excl. methadone (T40.4)",37579,37873,100,0.155476854,**
+US,2020,January,Heroin (T40.1),14059,14161,100,0.155476854,**
+US,2020,January,Natural & semi-synthetic opioids (T40.2),11998,12112,100,0.155476854,**
+US,2020,January,Methadone (T40.3),2762,2789,100,0.155476854,**
+US,2020,January,Cocaine (T40.5),16359,16491,100,0.155476854,**
+US,2020,January,Psychostimulants with abuse potential (T43.6),16642,16812,100,0.155476854,**
+US,2020,January,Percent with drugs specified,93.80788642,,100,0.155476854,**
+US,2020,February,Number of Drug Overdose Deaths,73343,73952,100,0.15436102,**
+US,2020,February,"Opioids (T40.0-T40.4,T40.6)",51999,52409,100,0.15436102,**
+US,2020,February,"Synthetic opioids, excl. methadone (T40.4)",38712,39011,100,0.15436102,**
+US,2020,February,Heroin (T40.1),14008,14108,100,0.15436102,**
+US,2020,February,Natural & semi-synthetic opioids (T40.2),12101,12214,100,0.15436102,**
+US,2020,February,Methadone (T40.3),2743,2770,100,0.15436102,**
+US,2020,February,Cocaine (T40.5),16763,16896,100,0.15436102,**
+US,2020,February,Psychostimulants with abuse potential (T43.6),17109,17281,100,0.15436102,**
+US,2020,February,Percent with drugs specified,93.90807575,,100,0.15436102,**
+US,2020,March,Number of Drug Overdose Deaths,74679,75273,100,0.151346622,**
+US,2020,March,"Opioids (T40.0-T40.4,T40.6)",53099,53499,100,0.151346622,**
+US,2020,March,"Synthetic opioids, excl. methadone (T40.4)",40006,40301,100,0.151346622,**
+US,2020,March,Heroin (T40.1),13930,14025,100,0.151346622,**
+US,2020,March,Natural & semi-synthetic opioids (T40.2),12149,12257,100,0.151346622,**
+US,2020,March,Methadone (T40.3),2780,2806,100,0.151346622,**
+US,2020,March,Cocaine (T40.5),17227,17357,100,0.151346622,**
+US,2020,March,Psychostimulants with abuse potential (T43.6),17663,17834,100,0.151346622,**
+US,2020,March,Percent with drugs specified,93.97420962,,100,0.151346622,**
+US,2020,April,Number of Drug Overdose Deaths,77017,77581,100,0.145940342,**
+US,2020,April,"Opioids (T40.0-T40.4,T40.6)",55187,55569,100,0.145940342,**
+US,2020,April,"Synthetic opioids, excl. methadone (T40.4)",42163,42449,100,0.145940342,**
+US,2020,April,Heroin (T40.1),14059,14147,100,0.145940342,**
+US,2020,April,Natural & semi-synthetic opioids (T40.2),12333,12433,100,0.145940342,**
+US,2020,April,Methadone (T40.3),2908,2933,100,0.145940342,**
+US,2020,April,Cocaine (T40.5),17889,18012,100,0.145940342,**
+US,2020,April,Psychostimulants with abuse potential (T43.6),18478,18644,100,0.145940342,**
+US,2020,April,Percent with drugs specified,94.13116585,,100,0.145940342,**
+US,2020,May,Number of Drug Overdose Deaths,80577,81163,100,0.145445887,**
+US,2020,May,"Opioids (T40.0-T40.4,T40.6)",58460,58862,100,0.145445887,**
+US,2020,May,"Synthetic opioids, excl. methadone (T40.4)",45438,45744,100,0.145445887,**
+US,2020,May,Heroin (T40.1),14379,14469,100,0.145445887,**
+US,2020,May,Natural & semi-synthetic opioids (T40.2),12776,12879,100,0.145445887,**
+US,2020,May,Methadone (T40.3),3071,3097,100,0.145445887,**
+US,2020,May,Cocaine (T40.5),18659,18786,100,0.145445887,**
+US,2020,May,Psychostimulants with abuse potential (T43.6),19394,19567,100,0.145445887,**
+US,2020,May,Percent with drugs specified,94.16707001,,100,0.145445887,**
+US,2020,June,Number of Drug Overdose Deaths,82916,83519,100,0.14549322,**
+US,2020,June,"Opioids (T40.0-T40.4,T40.6)",60610,61027,100,0.14549322,**
+US,2020,June,"Synthetic opioids, excl. methadone (T40.4)",47744,48066,100,0.14549322,**
+US,2020,June,Heroin (T40.1),14413,14503,100,0.14549322,**
+US,2020,June,Natural & semi-synthetic opioids (T40.2),12893,12997,100,0.14549322,**
+US,2020,June,Methadone (T40.3),3165,3192,100,0.14549322,**
+US,2020,June,Cocaine (T40.5),19076,19206,100,0.14549322,**
+US,2020,June,Psychostimulants with abuse potential (T43.6),20100,20280,100,0.14549322,**
+US,2020,June,Percent with drugs specified,94.17603358,,100,0.14549322,**
+US,2020,July,Number of Drug Overdose Deaths,85236,85861,100,0.146056852,**
+US,2020,July,"Opioids (T40.0-T40.4,T40.6)",62614,63048,100,0.146056852,**
+US,2020,July,"Synthetic opioids, excl. methadone (T40.4)",49794,50133,100,0.146056852,**
+US,2020,July,Heroin (T40.1),14395,14486,100,0.146056852,**
+US,2020,July,Natural & semi-synthetic opioids (T40.2),13073,13179,100,0.146056852,**
+US,2020,July,Methadone (T40.3),3273,3301,100,0.146056852,**
+US,2020,July,Cocaine (T40.5),19343,19477,100,0.146056852,**
+US,2020,July,Psychostimulants with abuse potential (T43.6),20864,21052,100,0.146056852,**
+US,2020,July,Percent with drugs specified,94.16326435,,100,0.146056852,**
+US,2020,August,Number of Drug Overdose Deaths,87293,87918,100,0.144523227,**
+US,2020,August,"Opioids (T40.0-T40.4,T40.6)",64379,64814,100,0.144523227,**
+US,2020,August,"Synthetic opioids, excl. methadone (T40.4)",51653,51996,100,0.144523227,**
+US,2020,August,Heroin (T40.1),14252,14339,100,0.144523227,**
+US,2020,August,Natural & semi-synthetic opioids (T40.2),13235,13340,100,0.144523227,**
+US,2020,August,Methadone (T40.3),3377,3405,100,0.144523227,**
+US,2020,August,Cocaine (T40.5),19498,19629,100,0.144523227,**
+US,2020,August,Psychostimulants with abuse potential (T43.6),21882,22075,100,0.144523227,**
+US,2020,August,Percent with drugs specified,94.28247397,,100,0.144523227,**
+US,2020,September,Number of Drug Overdose Deaths,88879,89504,100,0.143389751,**
+US,2020,September,"Opioids (T40.0-T40.4,T40.6)",65811,66248,100,0.143389751,**
+US,2020,September,"Synthetic opioids, excl. methadone (T40.4)",53243,53590,100,0.143389751,**
+US,2020,September,Heroin (T40.1),14096,14181,100,0.143389751,**
+US,2020,September,Natural & semi-synthetic opioids (T40.2),13365,13469,100,0.143389751,**
+US,2020,September,Methadone (T40.3),3428,3456,100,0.143389751,**
+US,2020,September,Cocaine (T40.5),19682,19812,100,0.143389751,**
+US,2020,September,Psychostimulants with abuse potential (T43.6),22426,22621,100,0.143389751,**
+US,2020,September,Percent with drugs specified,94.28886464,,100,0.143389751,**
+US,2020,October,Number of Drug Overdose Deaths,90093,90735,100,0.144220695,**
+US,2020,October,"Opioids (T40.0-T40.4,T40.6)",66881,67331,100,0.144220695,**
+US,2020,October,"Synthetic opioids, excl. methadone (T40.4)",54472,54832,100,0.144220695,**
+US,2020,October,Heroin (T40.1),13826,13910,100,0.144220695,**
+US,2020,October,Natural & semi-synthetic opioids (T40.2),13435,13541,100,0.144220695,**
+US,2020,October,Methadone (T40.3),3489,3518,100,0.144220695,**
+US,2020,October,Cocaine (T40.5),19683,19815,100,0.144220695,**
+US,2020,October,Psychostimulants with abuse potential (T43.6),22857,23058,100,0.144220695,**
+US,2020,October,Percent with drugs specified,94.28035474,,100,0.144220695,**
+US,2020,November,Number of Drug Overdose Deaths,91200,91847,100,0.14391863,**
+US,2020,November,"Opioids (T40.0-T40.4,T40.6)",67943,68398,100,0.14391863,**
+US,2020,November,"Synthetic opioids, excl. methadone (T40.4)",55672,56038,100,0.14391863,**
+US,2020,November,Heroin (T40.1),13509,13591,100,0.14391863,**
+US,2020,November,Natural & semi-synthetic opioids (T40.2),13463,13568,100,0.14391863,**
+US,2020,November,Methadone (T40.3),3535,3564,100,0.14391863,**
+US,2020,November,Cocaine (T40.5),19626,19756,100,0.14391863,**
+US,2020,November,Psychostimulants with abuse potential (T43.6),23463,23668,100,0.14391863,**
+US,2020,November,Percent with drugs specified,94.35087719,,100,0.14391863,**
+US,2020,December,Number of Drug Overdose Deaths,92478,93129,100,0.143469061,**
+US,2020,December,"Opioids (T40.0-T40.4,T40.6)",69061,69520,100,0.143469061,**
+US,2020,December,"Synthetic opioids, excl. methadone (T40.4)",56894,57265,100,0.143469061,**
+US,2020,December,Heroin (T40.1),13253,13333,100,0.143469061,**
+US,2020,December,Natural & semi-synthetic opioids (T40.2),13518,13623,100,0.143469061,**
+US,2020,December,Methadone (T40.3),3561,3590,100,0.143469061,**
+US,2020,December,Cocaine (T40.5),19601,19730,100,0.143469061,**
+US,2020,December,Psychostimulants with abuse potential (T43.6),24134,24344,100,0.143469061,**
+US,2020,December,Percent with drugs specified,94.36298363,,100,0.143469061,**
+US,2021,January,Number of Drug Overdose Deaths,94788,95418,100,0.140087162,**
+US,2021,January,"Opioids (T40.0-T40.4,T40.6)",70950,71394,100,0.140087162,**
+US,2021,January,"Synthetic opioids, excl. methadone (T40.4)",58908,59270,100,0.140087162,**
+US,2021,January,Heroin (T40.1),13091,13166,100,0.140087162,**
+US,2021,January,Natural & semi-synthetic opioids (T40.2),13617,13716,100,0.140087162,**
+US,2021,January,Methadone (T40.3),3650,3678,100,0.140087162,**
+US,2021,January,Cocaine (T40.5),19974,20098,100,0.140087162,**
+US,2021,January,Psychostimulants with abuse potential (T43.6),25135,25343,100,0.140087162,**
+US,2021,January,Percent with drugs specified,94.39380512,,100,0.140087162,**
+US,2021,February,Number of Drug Overdose Deaths,96118,96747,100,0.1392204,**
+US,2021,February,"Opioids (T40.0-T40.4,T40.6)",72081,72525,100,0.1392204,**
+US,2021,February,"Synthetic opioids, excl. methadone (T40.4)",60159,60523,100,0.1392204,**
+US,2021,February,Heroin (T40.1),12750,12822,100,0.1392204,**
+US,2021,February,Natural & semi-synthetic opioids (T40.2),13671,13769,100,0.1392204,**
+US,2021,February,Methadone (T40.3),3740,3769,100,0.1392204,**
+US,2021,February,Cocaine (T40.5),20076,20198,100,0.1392204,**
+US,2021,February,Psychostimulants with abuse potential (T43.6),25871,26082,100,0.1392204,**
+US,2021,February,Percent with drugs specified,94.41831915,,100,0.1392204,**
+US,2021,March,Number of Drug Overdose Deaths,98211,98876,100,0.14120669,**
+US,2021,March,"Opioids (T40.0-T40.4,T40.6)",73924,74396,100,0.14120669,**
+US,2021,March,"Synthetic opioids, excl. methadone (T40.4)",62195,62585,100,0.14120669,**
+US,2021,March,Heroin (T40.1),12535,12608,100,0.14120669,**
+US,2021,March,Natural & semi-synthetic opioids (T40.2),13816,13919,100,0.14120669,**
+US,2021,March,Methadone (T40.3),3815,3845,100,0.14120669,**
+US,2021,March,Cocaine (T40.5),20437,20566,100,0.14120669,**
+US,2021,March,Psychostimulants with abuse potential (T43.6),26847,27073,100,0.14120669,**
+US,2021,March,Percent with drugs specified,94.50061602,,100,0.14120669,**
+US,2021,April,Number of Drug Overdose Deaths,99772,100508,100,0.146427514,**
+US,2021,April,"Opioids (T40.0-T40.4,T40.6)",75165,75690,100,0.146427514,**
+US,2021,April,"Synthetic opioids, excl. methadone (T40.4)",63591,64026,100,0.146427514,**
+US,2021,April,Heroin (T40.1),12164,12241,100,0.146427514,**
+US,2021,April,Natural & semi-synthetic opioids (T40.2),13922,14036,100,0.146427514,**
+US,2021,April,Methadone (T40.3),3799,3832,100,0.146427514,**
+US,2021,April,Cocaine (T40.5),20751,20895,100,0.146427514,**
+US,2021,April,Psychostimulants with abuse potential (T43.6),27704,27955,100,0.146427514,**
+US,2021,April,Percent with drugs specified,94.53353646,,100,0.146427514,**
+US,2021,May,Number of Drug Overdose Deaths,99679,100427,100,0.147485444,**
+US,2021,May,"Opioids (T40.0-T40.4,T40.6)",74908,75440,100,0.147485444,**
+US,2021,May,"Synthetic opioids, excl. methadone (T40.4)",63642,64085,100,0.147485444,**
+US,2021,May,Heroin (T40.1),11467,11541,100,0.147485444,**
+US,2021,May,Natural & semi-synthetic opioids (T40.2),13702,13816,100,0.147485444,**
+US,2021,May,Methadone (T40.3),3728,3761,100,0.147485444,**
+US,2021,May,Cocaine (T40.5),20764,20911,100,0.147485444,**
+US,2021,May,Psychostimulants with abuse potential (T43.6),28328,28588,100,0.147485444,**
+US,2021,May,Percent with drugs specified,94.63578086,,100,0.147485444,**
+US,2021,June,Number of Drug Overdose Deaths,100569,101358,100,0.150493567,**
+US,2021,June,"Opioids (T40.0-T40.4,T40.6)",75460,76021,100,0.150493567,**
+US,2021,June,"Synthetic opioids, excl. methadone (T40.4)",64378,64847,100,0.150493567,**
+US,2021,June,Heroin (T40.1),11009,11083,100,0.150493567,**
+US,2021,June,Natural & semi-synthetic opioids (T40.2),13751,13872,100,0.150493567,**
+US,2021,June,Methadone (T40.3),3711,3745,100,0.150493567,**
+US,2021,June,Cocaine (T40.5),21073,21230,100,0.150493567,**
+US,2021,June,Psychostimulants with abuse potential (T43.6),29063,29341,100,0.150493567,**
+US,2021,June,Percent with drugs specified,94.74887888,,100,0.150493567,**
+US,2021,July,Number of Drug Overdose Deaths,101477,102288,100,0.151711123,**
+US,2021,July,"Opioids (T40.0-T40.4,T40.6)",76157,76734,100,0.151711123,**
+US,2021,July,"Synthetic opioids, excl. methadone (T40.4)",65305,65789,100,0.151711123,**
+US,2021,July,Heroin (T40.1),10648,10721,100,0.151711123,**
+US,2021,July,Natural & semi-synthetic opioids (T40.2),13737,13860,100,0.151711123,**
+US,2021,July,Methadone (T40.3),3660,3694,100,0.151711123,**
+US,2021,July,Cocaine (T40.5),21564,21727,100,0.151711123,**
+US,2021,July,Psychostimulants with abuse potential (T43.6),29771,30060,100,0.151711123,**
+US,2021,July,Percent with drugs specified,94.85893355,,100,0.151711123,**
+US,2021,August,Number of Drug Overdose Deaths,102612,103447,100,0.152996737,**
+US,2021,August,"Opioids (T40.0-T40.4,T40.6)",77060,77655,100,0.152996737,**
+US,2021,August,"Synthetic opioids, excl. methadone (T40.4)",66444,66946,100,0.152996737,**
+US,2021,August,Heroin (T40.1),10333,10405,100,0.152996737,**
+US,2021,August,Natural & semi-synthetic opioids (T40.2),13749,13874,100,0.152996737,**
+US,2021,August,Methadone (T40.3),3644,3679,100,0.152996737,**
+US,2021,August,Cocaine (T40.5),22177,22349,100,0.152996737,**
+US,2021,August,Psychostimulants with abuse potential (T43.6),30286,30585,100,0.152996737,**
+US,2021,August,Percent with drugs specified,94.96160293,,100,0.152996737,**
+US,2021,September,Number of Drug Overdose Deaths,104099,104962,100,0.15428908,**
+US,2021,September,"Opioids (T40.0-T40.4,T40.6)",78181,78796,100,0.15428908,**
+US,2021,September,"Synthetic opioids, excl. methadone (T40.4)",67716,68237,100,0.15428908,**
+US,2021,September,Heroin (T40.1),10079,10151,100,0.15428908,**
+US,2021,September,Natural & semi-synthetic opioids (T40.2),13771,13899,100,0.15428908,**
+US,2021,September,Methadone (T40.3),3663,3699,100,0.15428908,**
+US,2021,September,Cocaine (T40.5),22749,22928,100,0.15428908,**
+US,2021,September,Psychostimulants with abuse potential (T43.6),31047,31359,100,0.15428908,**
+US,2021,September,Percent with drugs specified,95.02588882,,100,0.15428908,**
+US,2021,October,Number of Drug Overdose Deaths,105528,106405,100,0.154469117,**
+US,2021,October,"Opioids (T40.0-T40.4,T40.6)",79313,79939,100,0.154469117,**
+US,2021,October,"Synthetic opioids, excl. methadone (T40.4)",69058,69591,100,0.154469117,**
+US,2021,October,Heroin (T40.1),9873,9944,100,0.154469117,**
+US,2021,October,Natural & semi-synthetic opioids (T40.2),13743,13871,100,0.154469117,**
+US,2021,October,Methadone (T40.3),3649,3685,100,0.154469117,**
+US,2021,October,Cocaine (T40.5),23409,23594,100,0.154469117,**
+US,2021,October,Psychostimulants with abuse potential (T43.6),31876,32197,100,0.154469117,**
+US,2021,October,Percent with drugs specified,95.09229778,,100,0.154469117,**
+US,2021,November,Number of Drug Overdose Deaths,106554,107460,100,0.156140735,**
+US,2021,November,"Opioids (T40.0-T40.4,T40.6)",80123,80770,100,0.156140735,**
+US,2021,November,"Synthetic opioids, excl. methadone (T40.4)",70049,70603,100,0.156140735,**
+US,2021,November,Heroin (T40.1),9560,9630,100,0.156140735,**
+US,2021,November,Natural & semi-synthetic opioids (T40.2),13713,13844,100,0.156140735,**
+US,2021,November,Methadone (T40.3),3672,3709,100,0.156140735,**
+US,2021,November,Cocaine (T40.5),24051,24246,100,0.156140735,**
+US,2021,November,Psychostimulants with abuse potential (T43.6),32456,32789,100,0.156140735,**
+US,2021,November,Percent with drugs specified,95.12266081,,100,0.156140735,**
+US,2021,December,Number of Drug Overdose Deaths,107573,108553,100,0.161371151,**
+US,2021,December,"Opioids (T40.0-T40.4,T40.6)",80997,81699,100,0.161371151,**
+US,2021,December,"Synthetic opioids, excl. methadone (T40.4)",71143,71746,100,0.161371151,**
+US,2021,December,Heroin (T40.1),9263,9336,100,0.161371151,**
+US,2021,December,Natural & semi-synthetic opioids (T40.2),13674,13815,100,0.161371151,**
+US,2021,December,Methadone (T40.3),3697,3737,100,0.161371151,**
+US,2021,December,Cocaine (T40.5),24710,24926,100,0.161371151,**
+US,2021,December,Psychostimulants with abuse potential (T43.6),32962,33322,100,0.161371151,**
+US,2021,December,Percent with drugs specified,95.1865245,,100,0.161371151,**
+US,2022,January,Number of Drug Overdose Deaths,107800,108795,100,0.162446329,**
+US,2022,January,"Opioids (T40.0-T40.4,T40.6)",81148,81861,100,0.162446329,**
+US,2022,January,"Synthetic opioids, excl. methadone (T40.4)",71570,72185,100,0.162446329,**
+US,2022,January,Heroin (T40.1),8933,9004,100,0.162446329,**
+US,2022,January,Natural & semi-synthetic opioids (T40.2),13544,13686,100,0.162446329,**
+US,2022,January,Methadone (T40.3),3670,3710,100,0.162446329,**
+US,2022,January,Cocaine (T40.5),25003,25225,100,0.162446329,**
+US,2022,January,Psychostimulants with abuse potential (T43.6),33206,33574,100,0.162446329,**
+US,2022,January,Percent with drugs specified,95.23654917,,100,0.162446329,**
+US,2022,February,Number of Drug Overdose Deaths,108636,109649,100,0.163257677,**
+US,2022,February,"Opioids (T40.0-T40.4,T40.6)",81921,82649,100,0.163257677,**
+US,2022,February,"Synthetic opioids, excl. methadone (T40.4)",72519,73149,100,0.163257677,**
+US,2022,February,Heroin (T40.1),8733,8803,100,0.163257677,**
+US,2022,February,Natural & semi-synthetic opioids (T40.2),13464,13607,100,0.163257677,**
+US,2022,February,Methadone (T40.3),3596,3635,100,0.163257677,**
+US,2022,February,Cocaine (T40.5),25533,25762,100,0.163257677,**
+US,2022,February,Psychostimulants with abuse potential (T43.6),33646,34022,100,0.163257677,**
+US,2022,February,Percent with drugs specified,95.29621856,,100,0.163257677,**
+US,2022,March,Number of Drug Overdose Deaths,108604,109622,100,0.163703044,**
+US,2022,March,"Opioids (T40.0-T40.4,T40.6)",81859,82590,100,0.163703044,**
+US,2022,March,"Synthetic opioids, excl. methadone (T40.4)",72614,73248,100,0.163703044,**
+US,2022,March,Heroin (T40.1),8327,8394,100,0.163703044,**
+US,2022,March,Natural & semi-synthetic opioids (T40.2),13256,13397,100,0.163703044,**
+US,2022,March,Methadone (T40.3),3512,3551,100,0.163703044,**
+US,2022,March,Cocaine (T40.5),25751,25983,100,0.163703044,**
+US,2022,March,Psychostimulants with abuse potential (T43.6),33777,34156,100,0.163703044,**
+US,2022,March,Percent with drugs specified,95.31324813,,100,0.163703044,**
+US,2022,April,Number of Drug Overdose Deaths,107785,108785,100,0.162804732,**
+US,2022,April,"Opioids (T40.0-T40.4,T40.6)",81289,82007,100,0.162804732,**
+US,2022,April,"Synthetic opioids, excl. methadone (T40.4)",72263,72887,100,0.162804732,**
+US,2022,April,Heroin (T40.1),7933,7996,100,0.162804732,**
+US,2022,April,Natural & semi-synthetic opioids (T40.2),12963,13100,100,0.162804732,**
+US,2022,April,Methadone (T40.3),3430,3467,100,0.162804732,**
+US,2022,April,Cocaine (T40.5),25779,26009,100,0.162804732,**
+US,2022,April,Psychostimulants with abuse potential (T43.6),33550,33923,100,0.162804732,**
+US,2022,April,Percent with drugs specified,95.36206337,,100,0.162804732,**
+US,2022,May,Number of Drug Overdose Deaths,107429,108429,100,0.163102165,**
+US,2022,May,"Opioids (T40.0-T40.4,T40.6)",81002,81720,100,0.163102165,**
+US,2022,May,"Synthetic opioids, excl. methadone (T40.4)",72155,72780,100,0.163102165,**
+US,2022,May,Heroin (T40.1),7603,7664,100,0.163102165,**
+US,2022,May,Natural & semi-synthetic opioids (T40.2),12737,12872,100,0.163102165,**
+US,2022,May,Methadone (T40.3),3388,3425,100,0.163102165,**
+US,2022,May,Cocaine (T40.5),25963,26195,100,0.163102165,**
+US,2022,May,Psychostimulants with abuse potential (T43.6),33490,33863,100,0.163102165,**
+US,2022,May,Percent with drugs specified,95.450949,,100,0.163102165,**
+US,2022,June,Number of Drug Overdose Deaths,107370,108326,100,0.159637232,**
+US,2022,June,"Opioids (T40.0-T40.4,T40.6)",80933,81619,100,0.159637232,**
+US,2022,June,"Synthetic opioids, excl. methadone (T40.4)",72215,72813,100,0.159637232,**
+US,2022,June,Heroin (T40.1),7374,7431,100,0.159637232,**
+US,2022,June,Natural & semi-synthetic opioids (T40.2),12580,12707,100,0.159637232,**
+US,2022,June,Methadone (T40.3),3375,3410,100,0.159637232,**
+US,2022,June,Cocaine (T40.5),26173,26396,100,0.159637232,**
+US,2022,June,Psychostimulants with abuse potential (T43.6),33655,34016,100,0.159637232,**
+US,2022,June,Percent with drugs specified,95.49594859,,100,0.159637232,**
+US,2022,July,Number of Drug Overdose Deaths,107583,108538,100,0.159381756,**
+US,2022,July,"Opioids (T40.0-T40.4,T40.6)",81125,81810,100,0.159381756,**
+US,2022,July,"Synthetic opioids, excl. methadone (T40.4)",72536,73135,100,0.159381756,**
+US,2022,July,Heroin (T40.1),7062,7116,100,0.159381756,**
+US,2022,July,Natural & semi-synthetic opioids (T40.2),12485,12610,100,0.159381756,**
+US,2022,July,Methadone (T40.3),3381,3416,100,0.159381756,**
+US,2022,July,Cocaine (T40.5),26373,26597,100,0.159381756,**
+US,2022,July,Psychostimulants with abuse potential (T43.6),33890,34252,100,0.159381756,**
+US,2022,July,Percent with drugs specified,95.55598933,,100,0.159381756,**
+US,2022,August,Number of Drug Overdose Deaths,107474,108444,100,0.160625822,**
+US,2022,August,"Opioids (T40.0-T40.4,T40.6)",81177,81874,100,0.160625822,**
+US,2022,August,"Synthetic opioids, excl. methadone (T40.4)",72765,73376,100,0.160625822,**
+US,2022,August,Heroin (T40.1),6789,6842,100,0.160625822,**
+US,2022,August,Natural & semi-synthetic opioids (T40.2),12284,12410,100,0.160625822,**
+US,2022,August,Methadone (T40.3),3381,3417,100,0.160625822,**
+US,2022,August,Cocaine (T40.5),26588,26818,100,0.160625822,**
+US,2022,August,Psychostimulants with abuse potential (T43.6),33837,34204,100,0.160625822,**
+US,2022,August,Percent with drugs specified,95.61196196,,100,0.160625822,**
+US,2022,September,Number of Drug Overdose Deaths,107432,108407,100,0.161096479,**
+US,2022,September,"Opioids (T40.0-T40.4,T40.6)",81139,81840,100,0.161096479,**
+US,2022,September,"Synthetic opioids, excl. methadone (T40.4)",72843,73458,100,0.161096479,**
+US,2022,September,Heroin (T40.1),6540,6591,100,0.161096479,**
+US,2022,September,Natural & semi-synthetic opioids (T40.2),12158,12283,100,0.161096479,**
+US,2022,September,Methadone (T40.3),3347,3383,100,0.161096479,**
+US,2022,September,Cocaine (T40.5),26818,27051,100,0.161096479,**
+US,2022,September,Psychostimulants with abuse potential (T43.6),33922,34292,100,0.161096479,**
+US,2022,September,Percent with drugs specified,95.6763348,,100,0.161096479,**
+US,2022,October,Number of Drug Overdose Deaths,107819,108799,100,0.161206301,**
+US,2022,October,"Opioids (T40.0-T40.4,T40.6)",81614,82320,100,0.161206301,**
+US,2022,October,"Synthetic opioids, excl. methadone (T40.4)",73400,74021,100,0.161206301,**
+US,2022,October,Heroin (T40.1),6293,6342,100,0.161206301,**
+US,2022,October,Natural & semi-synthetic opioids (T40.2),12118,12243,100,0.161206301,**
+US,2022,October,Methadone (T40.3),3362,3398,100,0.161206301,**
+US,2022,October,Cocaine (T40.5),27134,27371,100,0.161206301,**
+US,2022,October,Psychostimulants with abuse potential (T43.6),34089,34461,100,0.161206301,**
+US,2022,October,Percent with drugs specified,95.73359055,,100,0.161206301,**
+US,2022,November,Number of Drug Overdose Deaths,108429,109431,100,0.162527755,**
+US,2022,November,"Opioids (T40.0-T40.4,T40.6)",82075,82797,100,0.162527755,**
+US,2022,November,"Synthetic opioids, excl. methadone (T40.4)",74012,74649,100,0.162527755,**
+US,2022,November,Heroin (T40.1),6099,6148,100,0.162527755,**
+US,2022,November,Natural & semi-synthetic opioids (T40.2),11992,12118,100,0.162527755,**
+US,2022,November,Methadone (T40.3),3364,3401,100,0.162527755,**
+US,2022,November,Cocaine (T40.5),27472,27716,100,0.162527755,**
+US,2022,November,Psychostimulants with abuse potential (T43.6),34294,34674,100,0.162527755,**
+US,2022,November,Percent with drugs specified,95.76035931,,100,0.162527755,**
+US,2022,December,Number of Drug Overdose Deaths,109413,110393,100,0.160081761,**
+US,2022,December,"Opioids (T40.0-T40.4,T40.6)",82851,83557,100,0.160081761,**
+US,2022,December,"Synthetic opioids, excl. methadone (T40.4)",74829,75453,100,0.160081761,**
+US,2022,December,Heroin (T40.1),5958,6004,100,0.160081761,**
+US,2022,December,Natural & semi-synthetic opioids (T40.2),11934,12055,100,0.160081761,**
+US,2022,December,Methadone (T40.3),3366,3401,100,0.160081761,**
+US,2022,December,Cocaine (T40.5),27921,28161,100,0.160081761,**
+US,2022,December,Psychostimulants with abuse potential (T43.6),34842,35217,100,0.160081761,**
+US,2022,December,Percent with drugs specified,95.83321909,,100,0.160081761,**
+US,2023,January,Number of Drug Overdose Deaths,109745,110751,100,0.161896612,**
+US,2023,January,"Opioids (T40.0-T40.4,T40.6)",83264,83991,100,0.161896612,**
+US,2023,January,"Synthetic opioids, excl. methadone (T40.4)",75390,76033,100,0.161896612,**
+US,2023,January,Heroin (T40.1),5710,5755,100,0.161896612,**
+US,2023,January,Natural & semi-synthetic opioids (T40.2),11782,11905,100,0.161896612,**
+US,2023,January,Methadone (T40.3),3332,3368,100,0.161896612,**
+US,2023,January,Cocaine (T40.5),28326,28575,100,0.161896612,**
+US,2023,January,Psychostimulants with abuse potential (T43.6),35163,35550,100,0.161896612,**
+US,2023,January,Percent with drugs specified,95.90323022,,100,0.161896612,**
+US,2023,February,Number of Drug Overdose Deaths,109714,110720,100,0.161909215,**
+US,2023,February,"Opioids (T40.0-T40.4,T40.6)",83250,83977,100,0.161909215,**
+US,2023,February,"Synthetic opioids, excl. methadone (T40.4)",75548,76193,100,0.161909215,**
+US,2023,February,Heroin (T40.1),5534,5578,100,0.161909215,**
+US,2023,February,Natural & semi-synthetic opioids (T40.2),11652,11773,100,0.161909215,**
+US,2023,February,Methadone (T40.3),3355,3391,100,0.161909215,**
+US,2023,February,Cocaine (T40.5),28497,28748,100,0.161909215,**
+US,2023,February,Psychostimulants with abuse potential (T43.6),35283,35671,100,0.161909215,**
+US,2023,February,Percent with drugs specified,95.92485918,,100,0.161909215,**
+US,2023,March,Number of Drug Overdose Deaths,110084,111058,100,0.15915811,**
+US,2023,March,"Opioids (T40.0-T40.4,T40.6)",83584,84288,100,0.15915811,**
+US,2023,March,"Synthetic opioids, excl. methadone (T40.4)",75993,76619,100,0.15915811,**
+US,2023,March,Heroin (T40.1),5344,5385,100,0.15915811,**
+US,2023,March,Natural & semi-synthetic opioids (T40.2),11612,11728,100,0.15915811,**
+US,2023,March,Methadone (T40.3),3382,3417,100,0.15915811,**
+US,2023,March,Cocaine (T40.5),28839,29083,100,0.15915811,**
+US,2023,March,Psychostimulants with abuse potential (T43.6),35541,35920,100,0.15915811,**
+US,2023,March,Percent with drugs specified,95.97943389,,100,0.15915811,**
+US,2023,April,Number of Drug Overdose Deaths,110774,111739,100,0.157953094,**
+US,2023,April,"Opioids (T40.0-T40.4,T40.6)",84187,84884,100,0.157953094,**
+US,2023,April,"Synthetic opioids, excl. methadone (T40.4)",76683,77304,100,0.157953094,**
+US,2023,April,Heroin (T40.1),5204,5243,100,0.157953094,**
+US,2023,April,Natural & semi-synthetic opioids (T40.2),11560,11674,100,0.157953094,**
+US,2023,April,Methadone (T40.3),3438,3473,100,0.157953094,**
+US,2023,April,Cocaine (T40.5),29211,29454,100,0.157953094,**
+US,2023,April,Psychostimulants with abuse potential (T43.6),35965,36343,100,0.157953094,**
+US,2023,April,Percent with drugs specified,96.00989402,,100,0.157953094,**
+US,2023,May,Number of Drug Overdose Deaths,111422,112357,100,0.155224619,**
+US,2023,May,"Opioids (T40.0-T40.4,T40.6)",84769,85445,100,0.155224619,**
+US,2023,May,"Synthetic opioids, excl. methadone (T40.4)",77375,77979,100,0.155224619,**
+US,2023,May,Heroin (T40.1),5076,5113,100,0.155224619,**
+US,2023,May,Natural & semi-synthetic opioids (T40.2),11504,11613,100,0.155224619,**
+US,2023,May,Methadone (T40.3),3450,3484,100,0.155224619,**
+US,2023,May,Cocaine (T40.5),29635,29872,100,0.155224619,**
+US,2023,May,Psychostimulants with abuse potential (T43.6),36341,36710,100,0.155224619,**
+US,2023,May,Percent with drugs specified,96.00437975,,100,0.155224619,**
+US,2023,June,Number of Drug Overdose Deaths,111466,112412,100,0.156031139,**
+US,2023,June,"Opioids (T40.0-T40.4,T40.6)",84972,85657,100,0.156031139,**
+US,2023,June,"Synthetic opioids, excl. methadone (T40.4)",77695,78308,100,0.156031139,**
+US,2023,June,Heroin (T40.1),4963,4999,100,0.156031139,**
+US,2023,June,Natural & semi-synthetic opioids (T40.2),11352,11461,100,0.156031139,**
+US,2023,June,Methadone (T40.3),3447,3481,100,0.156031139,**
+US,2023,June,Cocaine (T40.5),29988,30231,100,0.156031139,**
+US,2023,June,Psychostimulants with abuse potential (T43.6),36451,36825,100,0.156031139,**
+US,2023,June,Percent with drugs specified,96.03466528,,100,0.156031139,**
+US,2023,July,Number of Drug Overdose Deaths,111382,112360,100,0.158540425,**
+US,2023,July,"Opioids (T40.0-T40.4,T40.6)",84862,85570,100,0.158540425,**
+US,2023,July,"Synthetic opioids, excl. methadone (T40.4)",77693,78327,100,0.158540425,**
+US,2023,July,Heroin (T40.1),4786,4822,100,0.158540425,**
+US,2023,July,Natural & semi-synthetic opioids (T40.2),11135,11246,100,0.158540425,**
+US,2023,July,Methadone (T40.3),3463,3499,100,0.158540425,**
+US,2023,July,Cocaine (T40.5),30232,30486,100,0.158540425,**
+US,2023,July,Psychostimulants with abuse potential (T43.6),36656,37044,100,0.158540425,**
+US,2023,July,Percent with drugs specified,96.03706164,,100,0.158540425,**
+US,2023,August,Number of Drug Overdose Deaths,111451,112418,100,0.157655055,**
+US,2023,August,"Opioids (T40.0-T40.4,T40.6)",84682,85380,100,0.157655055,**
+US,2023,August,"Synthetic opioids, excl. methadone (T40.4)",77581,78207,100,0.157655055,**
+US,2023,August,Heroin (T40.1),4623,4658,100,0.157655055,**
+US,2023,August,Natural & semi-synthetic opioids (T40.2),11002,11110,100,0.157655055,**
+US,2023,August,Methadone (T40.3),3444,3479,100,0.157655055,**
+US,2023,August,Cocaine (T40.5),30512,30765,100,0.157655055,**
+US,2023,August,Psychostimulants with abuse potential (T43.6),36963,37350,100,0.157655055,**
+US,2023,August,Percent with drugs specified,96.00541942,,100,0.157655055,**
+US,2023,September,Number of Drug Overdose Deaths,110716,111700,100,0.159443546,**
+US,2023,September,"Opioids (T40.0-T40.4,T40.6)",84154,84865,100,0.159443546,**
+US,2023,September,"Synthetic opioids, excl. methadone (T40.4)",77201,77839,100,0.159443546,**
+US,2023,September,Heroin (T40.1),4490,4525,100,0.159443546,**
+US,2023,September,Natural & semi-synthetic opioids (T40.2),10765,10873,100,0.159443546,**
+US,2023,September,Methadone (T40.3),3436,3472,100,0.159443546,**
+US,2023,September,Cocaine (T40.5),30492,30751,100,0.159443546,**
+US,2023,September,Psychostimulants with abuse potential (T43.6),36876,37270,100,0.159443546,**
+US,2023,September,Percent with drugs specified,96.00780375,,100,0.159443546,**
+US,2023,October,Number of Drug Overdose Deaths,109703,110748,100,0.164997408,**
+US,2023,October,"Opioids (T40.0-T40.4,T40.6)",83216,83972,100,0.164997408,**
+US,2023,October,"Synthetic opioids, excl. methadone (T40.4)",76373,77051,100,0.164997408,**
+US,2023,October,Heroin (T40.1),4359,4395,100,0.164997408,**
+US,2023,October,Natural & semi-synthetic opioids (T40.2),10568,10683,100,0.164997408,**
+US,2023,October,Methadone (T40.3),3423,3461,100,0.164997408,**
+US,2023,October,Cocaine (T40.5),30371,30650,100,0.164997408,**
+US,2023,October,Psychostimulants with abuse potential (T43.6),36695,37113,100,0.164997408,**
+US,2023,October,Percent with drugs specified,96.02745595,,100,0.164997408,**
+US,2023,November,Number of Drug Overdose Deaths,108529,109576,100,0.166004913,**
+US,2023,November,"Opioids (T40.0-T40.4,T40.6)",82133,82888,100,0.166004913,**
+US,2023,November,"Synthetic opioids, excl. methadone (T40.4)",75367,76044,100,0.166004913,**
+US,2023,November,Heroin (T40.1),4207,4242,100,0.166004913,**
+US,2023,November,Natural & semi-synthetic opioids (T40.2),10409,10523,100,0.166004913,**
+US,2023,November,Methadone (T40.3),3399,3438,100,0.166004913,**
+US,2023,November,Cocaine (T40.5),30209,30490,100,0.166004913,**
+US,2023,November,Psychostimulants with abuse potential (T43.6),36481,36901,100,0.166004913,**
+US,2023,November,Percent with drugs specified,96.03700393,,100,0.166004913,**
+US,2023,December,Number of Drug Overdose Deaths,106881,107966,100,0.170331272,**
+US,2023,December,"Opioids (T40.0-T40.4,T40.6)",80719,81501,100,0.170331272,**
+US,2023,December,"Synthetic opioids, excl. methadone (T40.4)",74091,74792,100,0.170331272,**
+US,2023,December,Heroin (T40.1),4062,4098,100,0.170331272,**
+US,2023,December,Natural & semi-synthetic opioids (T40.2),10180,10298,100,0.170331272,**
+US,2023,December,Methadone (T40.3),3390,3430,100,0.170331272,**
+US,2023,December,Cocaine (T40.5),29911,30205,100,0.170331272,**
+US,2023,December,Psychostimulants with abuse potential (T43.6),35982,36416,100,0.170331272,**
+US,2023,December,Percent with drugs specified,96.02829315,,100,0.170331272,**
+US,2024,January,Number of Drug Overdose Deaths,105522,106587,100,0.169845845,**
+US,2024,January,"Opioids (T40.0-T40.4,T40.6)",79377,80141,100,0.169845845,**
+US,2024,January,"Synthetic opioids, excl. methadone (T40.4)",72718,73402,100,0.169845845,**
+US,2024,January,Heroin (T40.1),3940,3975,100,0.169845845,**
+US,2024,January,Natural & semi-synthetic opioids (T40.2),10122,10239,100,0.169845845,**
+US,2024,January,Methadone (T40.3),3406,3446,100,0.169845845,**
+US,2024,January,Cocaine (T40.5),29583,29872,100,0.169845845,**
+US,2024,January,Psychostimulants with abuse potential (T43.6),35608,36035,100,0.169845845,**
+US,2024,January,Percent with drugs specified,96.05106044,,100,0.169845845,**
+US,2024,February,Number of Drug Overdose Deaths,104361,105405,100,0.169105012,**
+US,2024,February,"Opioids (T40.0-T40.4,T40.6)",78200,78946,100,0.169105012,**
+US,2024,February,"Synthetic opioids, excl. methadone (T40.4)",71521,72188,100,0.169105012,**
+US,2024,February,Heroin (T40.1),3823,3856,100,0.169105012,**
+US,2024,February,Natural & semi-synthetic opioids (T40.2),9990,10104,100,0.169105012,**
+US,2024,February,Methadone (T40.3),3423,3463,100,0.169105012,**
+US,2024,February,Cocaine (T40.5),29343,29627,100,0.169105012,**
+US,2024,February,Psychostimulants with abuse potential (T43.6),35448,35870,100,0.169105012,**
+US,2024,February,Percent with drugs specified,96.08570251,,100,0.169105012,**
+US,2024,March,Number of Drug Overdose Deaths,102174,103192,100,0.168732383,**
+US,2024,March,"Opioids (T40.0-T40.4,T40.6)",76204,76928,100,0.168732383,**
+US,2024,March,"Synthetic opioids, excl. methadone (T40.4)",69626,70272,100,0.168732383,**
+US,2024,March,Heroin (T40.1),3669,3701,100,0.168732383,**
+US,2024,March,Natural & semi-synthetic opioids (T40.2),9705,9816,100,0.168732383,**
+US,2024,March,Methadone (T40.3),3398,3438,100,0.168732383,**
+US,2024,March,Cocaine (T40.5),28814,29091,100,0.168732383,**
+US,2024,March,Psychostimulants with abuse potential (T43.6),34968,35383,100,0.168732383,**
+US,2024,March,Percent with drugs specified,96.13502457,,100,0.168732383,**
+US,2024,April,Number of Drug Overdose Deaths,100052,101049,100,0.168723239,**
+US,2024,April,"Opioids (T40.0-T40.4,T40.6)",74131,74835,100,0.168723239,**
+US,2024,April,"Synthetic opioids, excl. methadone (T40.4)",67618,68246,100,0.168723239,**
+US,2024,April,Heroin (T40.1),3567,3598,100,0.168723239,**
+US,2024,April,Natural & semi-synthetic opioids (T40.2),9492,9600,100,0.168723239,**
+US,2024,April,Methadone (T40.3),3367,3406,100,0.168723239,**
+US,2024,April,Cocaine (T40.5),28213,28485,100,0.168723239,**
+US,2024,April,Psychostimulants with abuse potential (T43.6),34392,34800,100,0.168723239,**
+US,2024,April,Percent with drugs specified,96.12801343,,100,0.168723239,**
+US,2024,May,Number of Drug Overdose Deaths,97687,98685,100,0.170940006,**
+US,2024,May,"Opioids (T40.0-T40.4,T40.6)",71841,72542,100,0.170940006,**
+US,2024,May,"Synthetic opioids, excl. methadone (T40.4)",65374,65997,100,0.170940006,**
+US,2024,May,Heroin (T40.1),3450,3481,100,0.170940006,**
+US,2024,May,Natural & semi-synthetic opioids (T40.2),9284,9393,100,0.170940006,**
+US,2024,May,Methadone (T40.3),3334,3374,100,0.170940006,**
+US,2024,May,Cocaine (T40.5),27554,27827,100,0.170940006,**
+US,2024,May,Psychostimulants with abuse potential (T43.6),33792,34202,100,0.170940006,**
+US,2024,May,Percent with drugs specified,96.15813773,,100,0.170940006,**
+US,2024,June,Number of Drug Overdose Deaths,95741,96726,100,0.171569962,**
+US,2024,June,"Opioids (T40.0-T40.4,T40.6)",69723,70408,100,0.171569962,**
+US,2024,June,"Synthetic opioids, excl. methadone (T40.4)",63313,63921,100,0.171569962,**
+US,2024,June,Heroin (T40.1),3283,3312,100,0.171569962,**
+US,2024,June,Natural & semi-synthetic opioids (T40.2),9112,9220,100,0.171569962,**
+US,2024,June,Methadone (T40.3),3333,3373,100,0.171569962,**
+US,2024,June,Cocaine (T40.5),26909,27177,100,0.171569962,**
+US,2024,June,Psychostimulants with abuse potential (T43.6),33355,33763,100,0.171569962,**
+US,2024,June,Percent with drugs specified,96.09989451,,100,0.171569962,**
+US,2024,July,Number of Drug Overdose Deaths,93193,94100,100,0.166768456,**
+US,2024,July,"Opioids (T40.0-T40.4,T40.6)",67124,67747,100,0.166768456,**
+US,2024,July,"Synthetic opioids, excl. methadone (T40.4)",60783,61334,100,0.166768456,**
+US,2024,July,Heroin (T40.1),3196,3223,100,0.166768456,**
+US,2024,July,Natural & semi-synthetic opioids (T40.2),8931,9030,100,0.166768456,**
+US,2024,July,Methadone (T40.3),3281,3319,100,0.166768456,**
+US,2024,July,Cocaine (T40.5),26223,26469,100,0.166768456,**
+US,2024,July,Psychostimulants with abuse potential (T43.6),32600,32979,100,0.166768456,**
+US,2024,July,Percent with drugs specified,96.07910465,,100,0.166768456,**
+US,2024,August,Number of Drug Overdose Deaths,90202,91043,100,0.163199141,**
+US,2024,August,"Opioids (T40.0-T40.4,T40.6)",64359,64930,100,0.163199141,**
+US,2024,August,"Synthetic opioids, excl. methadone (T40.4)",58042,58546,100,0.163199141,**
+US,2024,August,Heroin (T40.1),3077,3102,100,0.163199141,**
+US,2024,August,Natural & semi-synthetic opioids (T40.2),8763,8856,100,0.163199141,**
+US,2024,August,Methadone (T40.3),3268,3304,100,0.163199141,**
+US,2024,August,Cocaine (T40.5),25252,25478,100,0.163199141,**
+US,2024,August,Psychostimulants with abuse potential (T43.6),31725,32079,100,0.163199141,**
+US,2024,August,Percent with drugs specified,96.07436642,,100,0.163199141,**
+US,2024,September,Number of Drug Overdose Deaths,87654,88406,100,0.156800206,**
+US,2024,September,"Opioids (T40.0-T40.4,T40.6)",61744,62247,100,0.156800206,**
+US,2024,September,"Synthetic opioids, excl. methadone (T40.4)",55391,55833,100,0.156800206,**
+US,2024,September,Heroin (T40.1),2968,2990,100,0.156800206,**
+US,2024,September,Natural & semi-synthetic opioids (T40.2),8595,8678,100,0.156800206,**
+US,2024,September,Methadone (T40.3),3284,3317,100,0.156800206,**
+US,2024,September,Cocaine (T40.5),24493,24694,100,0.156800206,**
+US,2024,September,Psychostimulants with abuse potential (T43.6),31069,31391,100,0.156800206,**
+US,2024,September,Percent with drugs specified,96.08232368,,100,0.156800206,**
+US,2024,October,Number of Drug Overdose Deaths,85178,85835,100,0.149276021,**
+US,2024,October,"Opioids (T40.0-T40.4,T40.6)",59243,59676,100,0.149276021,**
+US,2024,October,"Synthetic opioids, excl. methadone (T40.4)",52876,53254,100,0.149276021,**
+US,2024,October,Heroin (T40.1),2904,2924,100,0.149276021,**
+US,2024,October,Natural & semi-synthetic opioids (T40.2),8381,8453,100,0.149276021,**
+US,2024,October,Methadone (T40.3),3263,3293,100,0.149276021,**
+US,2024,October,Cocaine (T40.5),23706,23879,100,0.149276021,**
+US,2024,October,Psychostimulants with abuse potential (T43.6),30455,30742,100,0.149276021,**
+US,2024,October,Percent with drugs specified,96.05414544,,100,0.149276021,**
+US,2024,November,Number of Drug Overdose Deaths,82946,83512,100,0.14161735,**
+US,2024,November,"Opioids (T40.0-T40.4,T40.6)",57070,57437,100,0.14161735,**
+US,2024,November,"Synthetic opioids, excl. methadone (T40.4)",50725,51045,100,0.14161735,**
+US,2024,November,Heroin (T40.1),2882,2899,100,0.14161735,**
+US,2024,November,Natural & semi-synthetic opioids (T40.2),8171,8233,100,0.14161735,**
+US,2024,November,Methadone (T40.3),3269,3295,100,0.14161735,**
+US,2024,November,Cocaine (T40.5),22954,23100,100,0.14161735,**
+US,2024,November,Psychostimulants with abuse potential (T43.6),30018,30272,100,0.14161735,**
+US,2024,November,Percent with drugs specified,96.07817134,,100,0.14161735,**
+US,2024,December,Number of Drug Overdose Deaths,80860,81313,100,0.131031538,**
+US,2024,December,"Opioids (T40.0-T40.4,T40.6)",55007,55296,100,0.131031538,**
+US,2024,December,"Synthetic opioids, excl. methadone (T40.4)",48662,48913,100,0.131031538,**
+US,2024,December,Heroin (T40.1),2794,2808,100,0.131031538,**
+US,2024,December,Natural & semi-synthetic opioids (T40.2),8034,8082,100,0.131031538,**
+US,2024,December,Methadone (T40.3),3264,3285,100,0.131031538,**
+US,2024,December,Cocaine (T40.5),22283,22397,100,0.131031538,**
+US,2024,December,Psychostimulants with abuse potential (T43.6),29641,29852,100,0.131031538,**
+US,2024,December,Percent with drugs specified,96.09943112,,100,0.131031538,**
+US,2025,January,Number of Drug Overdose Deaths,79332,79626,100,0.13034529,
+US,2025,January,"Opioids (T40.0-T40.4,T40.6)",53392,53595,100,0.13034529,
+US,2025,January,"Synthetic opioids, excl. methadone (T40.4)",47043,47231,100,0.13034529,
+US,2025,January,Heroin (T40.1),2749,2755,100,0.13034529,
+US,2025,January,Natural & semi-synthetic opioids (T40.2),7870,7893,100,0.13034529,
+US,2025,January,Methadone (T40.3),3286,3295,100,0.13034529,
+US,2025,January,Cocaine (T40.5),21793,21888,100,0.13034529,
+US,2025,January,Psychostimulants with abuse potential (T43.6),29409,29534,100,0.13034529,
+US,2025,January,Percent with drugs specified,96.07976605,,100,0.13034529,
+US,2025,February,Number of Drug Overdose Deaths,77831,78056,100,0.128440515,
+US,2025,February,"Opioids (T40.0-T40.4,T40.6)",51933,52086,100,0.128440515,
+US,2025,February,"Synthetic opioids, excl. methadone (T40.4)",45588,45730,100,0.128440515,
+US,2025,February,Heroin (T40.1),2688,2696,100,0.128440515,
+US,2025,February,Natural & semi-synthetic opioids (T40.2),7732,7750,100,0.128440515,
+US,2025,February,Methadone (T40.3),3302,3317,100,0.128440515,
+US,2025,February,Cocaine (T40.5),21323,21377,100,0.128440515,
+US,2025,February,Psychostimulants with abuse potential (T43.6),28998,29126,100,0.128440515,
+US,2025,February,Percent with drugs specified,96.11465868,,100,0.128440515,
+US,2025,March,Number of Drug Overdose Deaths,77064,77306,100,0.127094458,
+US,2025,March,"Opioids (T40.0-T40.4,T40.6)",51054,51208,100,0.127094458,
+US,2025,March,"Synthetic opioids, excl. methadone (T40.4)",44643,44783,100,0.127094458,
+US,2025,March,Heroin (T40.1),2669,2678,100,0.127094458,
+US,2025,March,Natural & semi-synthetic opioids (T40.2),7714,7739,100,0.127094458,
+US,2025,March,Methadone (T40.3),3373,3397,100,0.127094458,
+US,2025,March,Cocaine (T40.5),21075,21114,100,0.127094458,
+US,2025,March,Psychostimulants with abuse potential (T43.6),28825,28953,100,0.127094458,
+US,2025,March,Percent with drugs specified,96.11751272,,100,0.127094458,
+US,2025,April,Number of Drug Overdose Deaths,75967,76176,100,0.124354035,
+US,2025,April,"Opioids (T40.0-T40.4,T40.6)",49964,50079,100,0.124354035,
+US,2025,April,"Synthetic opioids, excl. methadone (T40.4)",43570,43670,100,0.124354035,
+US,2025,April,Heroin (T40.1),2584,2593,100,0.124354035,
+US,2025,April,Natural & semi-synthetic opioids (T40.2),7621,7645,100,0.124354035,
+US,2025,April,Methadone (T40.3),3383,3396,100,0.124354035,
+US,2025,April,Cocaine (T40.5),20697,20721,100,0.124354035,
+US,2025,April,Psychostimulants with abuse potential (T43.6),28635,28752,100,0.124354035,
+US,2025,April,Percent with drugs specified,96.14174576,,100,0.124354035,
+US,2025,May,Number of Drug Overdose Deaths,74878,75094,100,0.12148828,
+US,2025,May,"Opioids (T40.0-T40.4,T40.6)",48908,49025,100,0.12148828,
+US,2025,May,"Synthetic opioids, excl. methadone (T40.4)",42534,42640,100,0.12148828,
+US,2025,May,Heroin (T40.1),2524,2537,100,0.12148828,
+US,2025,May,Natural & semi-synthetic opioids (T40.2),7488,7513,100,0.12148828,
+US,2025,May,Methadone (T40.3),3409,3411,100,0.12148828,
+US,2025,May,Cocaine (T40.5),20375,20408,100,0.12148828,
+US,2025,May,Psychostimulants with abuse potential (T43.6),28351,28465,100,0.12148828,
+US,2025,May,Percent with drugs specified,96.13504634,,100,0.12148828,
+US,2025,June,Number of Drug Overdose Deaths,73905,74120,100,0.115322928,
+US,2025,June,"Opioids (T40.0-T40.4,T40.6)",48045,48142,100,0.115322928,
+US,2025,June,"Synthetic opioids, excl. methadone (T40.4)",41596,41685,100,0.115322928,
+US,2025,June,Heroin (T40.1),2489,2497,100,0.115322928,
+US,2025,June,Natural & semi-synthetic opioids (T40.2),7431,7451,100,0.115322928,
+US,2025,June,Methadone (T40.3),3413,3414,100,0.115322928,
+US,2025,June,Cocaine (T40.5),20225,20262,100,0.115322928,
+US,2025,June,Psychostimulants with abuse potential (T43.6),27965,28078,100,0.115322928,
+US,2025,June,Percent with drugs specified,96.19105609,,100,0.115322928,
+US,2025,July,Number of Drug Overdose Deaths,72987,73240,100,0.111005397,
+US,2025,July,"Opioids (T40.0-T40.4,T40.6)",47460,47585,100,0.111005397,
+US,2025,July,"Synthetic opioids, excl. methadone (T40.4)",41001,41105,100,0.111005397,
+US,2025,July,Heroin (T40.1),2427,2435,100,0.111005397,
+US,2025,July,Natural & semi-synthetic opioids (T40.2),7366,7392,100,0.111005397,
+US,2025,July,Methadone (T40.3),3443,3444,100,0.111005397,
+US,2025,July,Cocaine (T40.5),20043,20114,100,0.111005397,
+US,2025,July,Psychostimulants with abuse potential (T43.6),27557,27680,100,0.111005397,
+US,2025,July,Percent with drugs specified,96.22672531,,100,0.111005397,
+US,2025,August,Number of Drug Overdose Deaths,72373,72889,100,0.108585698,
+US,2025,August,"Opioids (T40.0-T40.4,T40.6)",46825,47117,100,0.108585698,
+US,2025,August,"Synthetic opioids, excl. methadone (T40.4)",40384,40638,100,0.108585698,
+US,2025,August,Heroin (T40.1),2373,2386,100,0.108585698,
+US,2025,August,Natural & semi-synthetic opioids (T40.2),7266,7314,100,0.108585698,
+US,2025,August,Methadone (T40.3),3434,3454,100,0.108585698,
+US,2025,August,Cocaine (T40.5),19924,20054,100,0.108585698,
+US,2025,August,Psychostimulants with abuse potential (T43.6),27379,27646,100,0.108585698,
+US,2025,August,Percent with drugs specified,96.2306385,,100,0.108585698,
+US,2025,September,Number of Drug Overdose Deaths,71892,72368,100,0.107704542,
+US,2025,September,"Opioids (T40.0-T40.4,T40.6)",46415,46699,100,0.107704542,
+US,2025,September,"Synthetic opioids, excl. methadone (T40.4)",40022,40247,100,0.107704542,
+US,2025,September,Heroin (T40.1),2300,2310,100,0.107704542,
+US,2025,September,Natural & semi-synthetic opioids (T40.2),7190,7242,100,0.107704542,
+US,2025,September,Methadone (T40.3),3447,3481,100,0.107704542,
+US,2025,September,Cocaine (T40.5),19901,20024,100,0.107704542,
+US,2025,September,Psychostimulants with abuse potential (T43.6),27129,27378,100,0.107704542,
+US,2025,September,Percent with drugs specified,96.27774996,,100,0.107704542,
+US,2025,October,Number of Drug Overdose Deaths,71384,71779,100,0.106878147,
+US,2025,October,"Opioids (T40.0-T40.4,T40.6)",45922,46171,100,0.106878147,
+US,2025,October,"Synthetic opioids, excl. methadone (T40.4)",39519,39722,100,0.106878147,
+US,2025,October,Heroin (T40.1),2226,2234,100,0.106878147,
+US,2025,October,Natural & semi-synthetic opioids (T40.2),7158,7204,100,0.106878147,
+US,2025,October,Methadone (T40.3),3495,3526,100,0.106878147,
+US,2025,October,Cocaine (T40.5),19828,19931,100,0.106878147,
+US,2025,October,Psychostimulants with abuse potential (T43.6),26873,27062,100,0.106878147,
+US,2025,October,Percent with drugs specified,96.28488177,,100,0.106878147,
+US,2025,November,Number of Drug Overdose Deaths,71017,71293,100,0.105433716,
+US,2025,November,"Opioids (T40.0-T40.4,T40.6)",45509,45693,100,0.105433716,
+US,2025,November,"Synthetic opioids, excl. methadone (T40.4)",39053,39204,100,0.105433716,
+US,2025,November,Heroin (T40.1),2141,2146,100,0.105433716,
+US,2025,November,Natural & semi-synthetic opioids (T40.2),7181,7210,100,0.105433716,
+US,2025,November,Methadone (T40.3),3513,3538,100,0.105433716,
+US,2025,November,Cocaine (T40.5),19838,19903,100,0.105433716,
+US,2025,November,Psychostimulants with abuse potential (T43.6),26608,26740,100,0.105433716,
+US,2025,November,Percent with drugs specified,96.29666136,,100,0.105433716,
+US,2025,December,Number of Drug Overdose Deaths,70646,70735,100,0.102618065,
+US,2025,December,"Opioids (T40.0-T40.4,T40.6)",45013,45065,100,0.102618065,
+US,2025,December,"Synthetic opioids, excl. methadone (T40.4)",38462,38506,100,0.102618065,
+US,2025,December,Heroin (T40.1),2060,2065,100,0.102618065,
+US,2025,December,Natural & semi-synthetic opioids (T40.2),7142,7148,100,0.102618065,
+US,2025,December,Methadone (T40.3),3556,3564,100,0.102618065,
+US,2025,December,Cocaine (T40.5),19933,19953,100,0.102618065,
+US,2025,December,Psychostimulants with abuse potential (T43.6),26260,26315,100,0.102618065,
+US,2025,December,Percent with drugs specified,96.2857062,,100,0.102618065,
+US,2026,January,Number of Drug Overdose Deaths,69671,69835,100,0.118591507,*
+US,2026,January,"Opioids (T40.0-T40.4,T40.6)",44227,44337,100,0.118591507,*
+US,2026,January,"Synthetic opioids, excl. methadone (T40.4)",37749,37852,100,0.118591507,*
+US,2026,January,Heroin (T40.1),1998,2000,100,0.118591507,*
+US,2026,January,Natural & semi-synthetic opioids (T40.2),7006,7015,100,0.118591507,*
+US,2026,January,Methadone (T40.3),3524,3528,100,0.118591507,*
+US,2026,January,Cocaine (T40.5),19813,19871,100,0.118591507,*
+US,2026,January,Psychostimulants with abuse potential (T43.6),25839,25911,100,0.118591507,*
+US,2026,January,Percent with drugs specified,96.30692828,,100,0.118591507,*
+US,2026,February,Number of Drug Overdose Deaths,68950,69216,100,0.136808025,*
+US,2026,February,"Opioids (T40.0-T40.4,T40.6)",43600,43770,100,0.136808025,*
+US,2026,February,"Synthetic opioids, excl. methadone (T40.4)",37046,37196,100,0.136808025,*
+US,2026,February,Heroin (T40.1),1938,1945,100,0.136808025,*
+US,2026,February,Natural & semi-synthetic opioids (T40.2),6991,7015,100,0.136808025,*
+US,2026,February,Methadone (T40.3),3517,3537,100,0.136808025,*
+US,2026,February,Cocaine (T40.5),19732,19802,100,0.136808025,*
+US,2026,February,Psychostimulants with abuse potential (T43.6),25487,25626,100,0.136808025,*
+US,2026,February,Percent with drugs specified,96.27411168,,100,0.136808025,*
+US,2026,March,Number of Drug Overdose Deaths,67576,68080,100,0.16454122,*
+US,2026,March,"Opioids (T40.0-T40.4,T40.6)",42393,42700,100,0.16454122,*
+US,2026,March,"Synthetic opioids, excl. methadone (T40.4)",35835,36094,100,0.16454122,*
+US,2026,March,Heroin (T40.1),1848,1861,100,0.16454122,*
+US,2026,March,Natural & semi-synthetic opioids (T40.2),6882,6941,100,0.16454122,*
+US,2026,March,Methadone (T40.3),3431,3473,100,0.16454122,*
+US,2026,March,Cocaine (T40.5),19404,19527,100,0.16454122,*
+US,2026,March,Psychostimulants with abuse potential (T43.6),24938,25166,100,0.16454122,*
+US,2026,March,Percent with drugs specified,96.2323902,,100,0.16454122,*
+US,2026,April,Number of Drug Overdose Deaths,66466,67209,100,0.197182914,*
+US,2026,April,"Opioids (T40.0-T40.4,T40.6)",41508,41946,100,0.197182914,*
+US,2026,April,"Synthetic opioids, excl. methadone (T40.4)",34898,35257,100,0.197182914,*
+US,2026,April,Heroin (T40.1),1752,1771,100,0.197182914,*
+US,2026,April,Natural & semi-synthetic opioids (T40.2),6855,6948,100,0.197182914,*
+US,2026,April,Methadone (T40.3),3376,3423,100,0.197182914,*
+US,2026,April,Cocaine (T40.5),19222,19413,100,0.197182914,*
+US,2026,April,Psychostimulants with abuse potential (T43.6),24387,24710,100,0.197182914,*
+US,2026,April,Percent with drugs specified,96.24469654,,100,0.197182914,*
+US,2026,May,Number of Drug Overdose Deaths,65351,66478,100,0.244944684,*
+US,2026,May,"Opioids (T40.0-T40.4,T40.6)",40641,41311,100,0.244944684,*
+US,2026,May,"Synthetic opioids, excl. methadone (T40.4)",33959,34507,100,0.244944684,*
+US,2026,May,Heroin (T40.1),1684,1714,100,0.244944684,*
+US,2026,May,Natural & semi-synthetic opioids (T40.2),6852,6996,100,0.244944684,*
+US,2026,May,Methadone (T40.3),3327,3386,100,0.244944684,*
+US,2026,May,Cocaine (T40.5),18911,19225,100,0.244944684,*
+US,2026,May,Psychostimulants with abuse potential (T43.6),23939,24409,100,0.244944684,*
+US,2026,May,Percent with drugs specified,96.23112118,,100,0.244944684,*

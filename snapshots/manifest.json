@@ -1228,6 +1228,158 @@
           "rows": 1650
         }
       ]
+    },
+    {
+      "id": "ma-dph-opioid-deaths-town",
+      "title": "Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022",
+      "publisher": "Massachusetts Department of Public Health (Registry of Vital Records and Statistics)",
+      "source_urls": [
+        "https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download",
+        "https://www.mass.gov/lists/substance-use-and-overdose-data"
+      ],
+      "source_sha256": {
+        "opioid-related-overdose-deaths-by-citytown-june-2023.pdf": "9ec3bbd8d6879ccd95950db97b51b1ad864923276ac7edda46a36f4bd58b8f13"
+      },
+      "source_vintage": "deaths 2015-2022 (posted June 2023; data updated 2023-04-25)",
+      "retrieved": "2026-11-08",
+      "license": "Public report of the Massachusetts Department of Public Health.",
+      "derivation": "Table 1 (city/town of residence, Massachusetts residents) and Table 2 (city/town of death occurrence) transcribed from `pdftotext -layout` output: one row per basis and town with yearly counts 2015-2022, plus the Unknown, Out of Massachusetts, and Total rows. The builder checks that each table's rows sum to the published totals and that 351 towns are present. DPH spellings are kept (Manchester, North Attleboro). Builder: xtask/scripts/build_overdose_towns.py.",
+      "caveats": [
+        "This June 2023 table is the latest town-level table DPH published as a document; later town data (through 2025) are only on DPH's BSAS dashboard (Community Profile).",
+        "2020-2022 counts were preliminary when posted; DPH's later reports use an updated 'opioid-involved' method, so their counts differ slightly from this table. Do not mix the two series.",
+        "Counts are as published by DPH, including small numbers."
+      ],
+      "files": [
+        {
+          "path": "ma_opioid_deaths_town.csv",
+          "sha256": "f9c88f6181856cba5c4fe381cf3528819bce1c7c0bd976d96c8422f57acacab8",
+          "bytes": 26164,
+          "rows": 706
+        }
+      ]
+    },
+    {
+      "id": "cdc-vsrr-overdose-ma",
+      "title": "VSRR provisional drug overdose death counts: Massachusetts, U.S., and Massachusetts counties",
+      "publisher": "CDC, National Center for Health Statistics (National Vital Statistics System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/xkb8-kh2a",
+        "https://data.cdc.gov/d/gb4e-yj24",
+        "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"
+      ],
+      "source_sha256": {},
+      "source_vintage": "12 month-ending periods through May 2026 (state, rows updated 2026-10-14) and March 2026 (counties, data as of 2026-10-04)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "State file: rows of xkb8-kh2a for state MA and US from January 2019 for nine indicators (all drug overdose deaths; opioids; synthetic opioids other than methadone; heroin; natural and semi-synthetic opioids; methadone; cocaine; psychostimulants; percent with drugs specified), keeping reported and predicted values, percent complete, percent pending investigation, and the footnote symbol. County file: rows of gb4e-yj24 for the 14 Massachusetts counties from January 2020, keeping the 12 month-ending count (blank when NCHS suppressed a count of 1-9), footnote, urban-rural code, percent pending, and data date. Builder: xtask/scripts/build_overdose_vsrr.py (Python 3 and curl).",
+      "caveats": [
+        "Provisional counts are incomplete and are revised monthly; predicted values adjust for reporting delays.",
+        "State counts are by the jurisdiction where the death occurred; county counts are by county of residence.",
+        "County counts of 1-9 are suppressed by NCHS."
+      ],
+      "files": [
+        {
+          "path": "cdc_vsrr_overdose_ma_us.csv",
+          "sha256": "218ed817185e211be4c75d48c95f0e8196ef9df612a55781a819514d81779786",
+          "bytes": 119025,
+          "rows": 1602
+        },
+        {
+          "path": "cdc_vsrr_overdose_ma_counties.csv",
+          "sha256": "6bc951452692aba6ccdb2396ed8157b6c832d4b7935878a8fe51e53e0dc62708",
+          "bytes": 69136,
+          "rows": 1050
+        }
+      ]
+    },
+    {
+      "id": "ma-youth-health-survey",
+      "title": "Massachusetts Youth Health Survey (2023, 2025) and Massachusetts YRBS (2023) report tables",
+      "publisher": "Massachusetts Department of Public Health, Health Survey Program (with DESE)",
+      "source_urls": [
+        "https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-yhs-and-yrbs-joint-report/download",
+        "https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs"
+      ],
+      "source_sha256": {
+        "2025-massachusetts-youth-health-survey-report.docx": "6005010ee51f9f2099ce6296603aa6b5070d1e8fd62a28545c3302d5ba60c909",
+        "2023-massachusetts-youth-health-survey-report.docx": "2c71012077b63bb53660a448d35f530c3d940bc5a0c827d093bec931ba3b6026",
+        "2023-massachusetts-yhs-and-yrbs-joint-report.docx": "7c4109223ceee8f74f0940bce206ab1f0f1f3c4c28246dbc8b949333f3a84a91"
+      },
+      "source_vintage": "MYHS 2025 (report dated 2026-04-14), MYHS 2023 (2024-05-23), joint MYHS/MYRBS 2023 report",
+      "retrieved": "2026-11-08",
+      "license": "Public reports of the Massachusetts Department of Public Health.",
+      "derivation": "Every table that starts 'Percentage of Massachusetts ... students who reported:' was read from the DOCX (header cells = indicators; each estimate row with its 95% confidence interval, from the next row or the same cell; blank rows start a group such as Grade, Gender, Race/Ethnicity). Indicators marked ^ in the joint report and all its middle school results are labeled MYHS; other joint-report high school results are MYRBS. '**' (not presented) is kept as suppressed. One published typo (91..0) was read as 91.0. Indicators are in ma_youth_survey_indicators.csv; estimates refer to them by id. Builder: xtask/scripts/build_youth_survey.py.",
+      "caveats": [
+        "DPH does not present estimates based on fewer than 100 respondents or with a relative standard error above 30%.",
+        "The MYHS and the MYRBS are different surveys of public school students; their estimates for similar questions differ and should not be mixed in a trend.",
+        "Students in private schools, state custody, or other settings are not represented; data are self-reported."
+      ],
+      "files": [
+        {
+          "path": "ma_youth_survey.csv",
+          "sha256": "085cbc3d61c965d02bc79fa826a7cc489e2feec8696bd44048fbf0c097eb244b",
+          "bytes": 134185,
+          "rows": 3565
+        },
+        {
+          "path": "ma_youth_survey_indicators.csv",
+          "sha256": "aba955561e5cc2c88356f9e661017bf51e6d8228243601239d91c42da8dddb9b",
+          "bytes": 29634,
+          "rows": 305
+        }
+      ]
+    },
+    {
+      "id": "cdc-yrbs-mental-health-ma-us",
+      "title": "YRBSS Mental Health Indicators: Massachusetts and the United States",
+      "publisher": "CDC, Division of Adolescent and School Health (Youth Risk Behavior Surveillance System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/nu3s-3dwd"
+      ],
+      "source_sha256": {},
+      "source_vintage": "YRBS 2019, 2021, and 2023 (rows updated 2026-05-27)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "All rows of nu3s-3dwd for area_abbr MA (Massachusetts YRBS) and XX (national YRBS): year, question, demographic type and value, percent, and 95% confidence limits. 'Suppressed' values are blank. Builder: xtask/scripts/build_yrbs_mental_health.py (Python 3 and curl).",
+      "caveats": [
+        "CDC suppresses estimates with too few respondents ('Suppressed')."
+      ],
+      "files": [
+        {
+          "path": "cdc_yrbs_mental_health_ma_us.csv",
+          "sha256": "eea231fc8aab3e761cb64cdfe145f717647a1a7f1e7fac03edb7f2c53cc22ff7",
+          "bytes": 48790,
+          "rows": 340
+        }
+      ]
+    },
+    {
+      "id": "samhsa-findtreatment-ma",
+      "title": "FindTreatment.gov substance use treatment facilities in Massachusetts",
+      "publisher": "Substance Abuse and Mental Health Services Administration (SAMHSA), Behavioral Health Services Information System",
+      "source_urls": [
+        "https://findtreatment.gov/locator/exportsAsJson/v2?sAddr=%2242.3601,-71.0589%22&limitType=0&limitValue=3&sType=sa&pageSize=2000&page=1&sort=0",
+        "https://findtreatment.gov/assets/FindTreatment-Developer-Guide.pdf"
+      ],
+      "source_sha256": {},
+      "source_vintage": "facility listings as served 2026-11-09 (341 Massachusetts substance use facilities)",
+      "retrieved": "2026-11-09",
+      "license": "U.S. federal government data (SAMHSA FindTreatment.gov public locator API).",
+      "derivation": "State search of the FindTreatment.gov locator API for Massachusetts (state ID 3) substance use facilities. Kept: names, address, phone, intake and hotline numbers, website, coordinates, and the service categories TC, SET, OT, OM, PAY, PYAS, SL, OL, AGE, SN, RSS, SG, EXCL, and DETOX as 'CODE=values' joined by '|'. Builder: xtask/scripts/build_findtreatment.py (Python 3 and curl).",
+      "caveats": [
+        "Facilities report their own services to SAMHSA; call ahead to confirm services, openings, insurance, and language.",
+        "Used only when the live locator cannot be reached; it is a statewide copy, so distances are computed from the town's center."
+      ],
+      "files": [
+        {
+          "path": "findtreatment_ma.csv",
+          "sha256": "71d7e58dfc78f518eb2cc8a6f960abf1cb664ac0eb8515a282a94ef36df7e20f",
+          "bytes": 427268,
+          "rows": 341
+        }
+      ]
     }
   ]
 }

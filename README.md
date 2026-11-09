@@ -156,6 +156,15 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `check_readability` | COMM-01 | comms | Flesch Reading Ease, Flesch-Kincaid, SMOG, and Fog grades; long sentences, CDC Everyday Words jargon, passive voice, and acronyms flagged; CDC Clear Communication Index scored. |
+| `get_overdose_data` | MH-03 | bh | DPH town overdose deaths 2015-2022 with rates vs the state, CDC provisional county, state, and U.S. counts by drug, and DPH's 2024 findings. |
+| `get_youth_risk_behavior_data` | MH-07 | bh | Massachusetts Youth Health Survey and YRBS indicators (sadness, suicide, bullying, substance use) by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs, vs the U.S. |
+| `find_naloxone_and_harm_reduction` | MH-04 | bh | Naloxone access under the statewide standing order, syringe service approval by town, fentanyl test strips, help lines, and a cited naloxone teaching script (Word handout). |
+| `find_substance_use_treatment` | MH-05 | bh | FindTreatment.gov facilities near a town: methadone, buprenorphine, naltrexone, withdrawal management, recovery supports, filtered by MassHealth and language, plus the Substance Use Helpline. |
+| `plan_school_postvention` | MH-06 | bh | After a suicide affecting a school: toolkit steps, talking points, staff/student/parent/media templates filled locally, and a safe-messaging check of drafts. |
+| `translate_health_material` | COMM-02 | comms | Translation workflow (no bundled translations): language priorities, agency translations, translator brief, glossary and back-translation checks, review worksheet. |
+| `create_social_media_campaign` | COMM-03 | comms | Posting calendar tied to health observances, checks of draft posts (length, alt text, hashtags, readability, safe messaging), XLSX calendar. |
+| `draft_press_materials` | COMM-04 | comms | Press release, media advisory, talking points, or spokesperson Q&A with CDC CERC checks and a Word export. |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

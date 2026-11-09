@@ -1,0 +1,123 @@
+# Definitions, data notes, and DPH's statewide findings for get_overdose_data (MH-03).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/bh_overdose_data.schema.json
+meta:
+  id: bh-overdose-data
+  title: Overdose death data notes (DPH and CDC)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2026-03-01
+  source:
+    title: "Massachusetts 2024 Opioid-Involved Overdose Report: Data, Trends, and Action (published March 2026)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/massachusetts-2024-opioid-involved-overdose-report-0/download
+  related_sources:
+    - title: "Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022 (posted June 2023)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download
+    - title: Bureau of Substance Addiction Services (BSAS) Dashboard
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/bureau-of-substance-addiction-services-bsas-dashboard
+    - title: Provisional Drug Overdose Death Counts
+      publisher: CDC, National Center for Health Statistics
+      url: https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-08 from DPH's 2024 Opioid-Involved Overdose Report (published March 2026),
+    DPH's city/town table (posted June 2023, technical notes), the BSAS dashboard page (updated
+    August 2026), and the CDC/NCHS dataset descriptions on data.cdc.gov (xkb8-kh2a, gb4e-yj24).
+    Each statewide finding is quoted with its page (high confidence). DPH's town-level series after
+    2022 is only on the BSAS dashboard (a Tableau application that could not be read), so the tool
+    stops at 2022 for towns and uses CDC's provisional county counts for recent local trends.
+    DPH's suppression practice for the dashboard is not stated in a fetched document; the tool
+    follows the 2024 report (no rate for fewer than 5 deaths) and NCHS (county counts of 1-9
+    suppressed) (medium confidence that these are DPH's complete rules).
+
+sources:
+  dph_2024_report:
+    title: "Massachusetts 2024 Opioid-Involved Overdose Report: Data, Trends, and Action"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/massachusetts-2024-opioid-involved-overdose-report-0/download
+    date: 2026-03-01
+  dph_town_table:
+    title: "Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download
+    date: 2023-06-01
+  bsas_dashboard:
+    title: Bureau of Substance Addiction Services (BSAS) Dashboard (Community Profile)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/bureau-of-substance-addiction-services-bsas-dashboard
+    date: 2026-08-01
+  dph_data_page:
+    title: Substance Use and Overdose Data
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/lists/substance-use-and-overdose-data
+    date: null
+  cdc_vsrr:
+    title: VSRR Provisional Drug Overdose Death Counts (data.cdc.gov xkb8-kh2a)
+    publisher: CDC, National Center for Health Statistics
+    url: https://data.cdc.gov/d/xkb8-kh2a
+    date: null
+  cdc_vsrr_county:
+    title: VSRR Provisional County-Level Drug Overdose Death Counts (data.cdc.gov gb4e-yj24)
+    publisher: CDC, National Center for Health Statistics
+    url: https://data.cdc.gov/d/gb4e-yj24
+    date: null
+  cdc_vsrr_page:
+    title: Provisional Drug Overdose Death Counts
+    publisher: CDC, National Center for Health Statistics
+    url: https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm
+    date: null
+
+definitions:
+  - id: dph_opioid_related
+    text: "DPH town table: opioid-related overdose deaths of all intents (unintentional, undetermined, and suicide). Underlying cause X40-X44, X60-X64, X85, or Y10-Y14 with any of T40.0-T40.4 or T40.6 among the multiple causes (CDC's case definition, used by DPH since August 2019). Opioids include heroin, illicitly manufactured fentanyl, prescription opioids, and unspecified opioids."
+    source: dph_town_table
+    section: Technical Notes
+  - id: dph_bases
+    text: "DPH's Table 1 counts deaths by the decedent's city or town of residence (Massachusetts residents only); Table 2 counts deaths by the city or town where the death occurred (including non-residents; residents who died outside Massachusetts are listed as 'Out of Massachusetts')."
+    source: dph_town_table
+    section: Note to Readers
+  - id: cdc_state
+    text: "CDC state counts are provisional numbers of drug overdose deaths in the 12 months ending in the month shown, counted by the jurisdiction where the death occurred. Predicted values adjust for reporting delays. Reporting of specific drugs varies by jurisdiction, so CDC advises against comparing drug-specific death rates between jurisdictions."
+    source: cdc_vsrr_page
+    section: Dataset description
+  - id: cdc_county
+    text: "CDC county counts are provisional drug overdose deaths (all drugs) in the 12 months ending in the month shown, by county of residence. Counts of 1-9 are suppressed under NCHS confidentiality standards."
+    source: cdc_vsrr_county
+    section: Dataset description
+  - id: dph_2024_method
+    text: "DPH's 2024 report counts 'opioid-involved' overdose deaths with updated methods; its numbers differ slightly from the earlier 'opioid-related' town table, and all death data are preliminary until DPH's Annual Death Report."
+    source: dph_2024_report
+    section: "Data Sources (p. 6); Overview (p. 7)"
+
+rules:
+  rate_min_deaths: 5
+  rate_min_deaths_source: "DPH 2024 report p. 14: a rate 'is not calculated ... due to low death count (fewer than 5 deaths) rendering the rate unstable.'"
+  county_suppression: "NCHS suppresses county counts of 1-9 (gb4e-yj24 dataset description)."
+
+findings_2024:
+  - text: "In 2024, 1,667 Massachusetts residents died from a drug overdose; 80% (1,336) were opioid-involved, about 19 opioid-involved overdose deaths per 100,000 residents."
+    source: dph_2024_report
+    section: "Overview of overdoses in Massachusetts, p. 7"
+  - text: "From 2023 to 2024, opioid-involved overdose deaths in Massachusetts decreased by 37%."
+    source: dph_2024_report
+    section: "Hypotheses for the 2024 drop in overdose deaths, p. 8"
+  - text: "In 2024 there were 14,678 opioid-involved EMS incidents, a 19% drop from 2023."
+    source: dph_2024_report
+    section: "Overview of overdoses in Massachusetts, p. 7"
+  - text: "In 2024, all racial and ethnic groups saw a decrease in opioid-involved overdose deaths for the first time since 2010, but inequities persist: Black non-Hispanic residents made up 6% of all deaths in Massachusetts but 10% of opioid-involved overdose deaths, and Hispanic residents 5% of all deaths but 17% of opioid-involved overdose deaths."
+    source: dph_2024_report
+    section: "Race and Hispanic ethnicity, p. 14"
+  - text: "In 2024, Suffolk (212 deaths) and Middlesex (193) Counties had the most residents who died of an opioid-involved overdose; Boston (171), Springfield (83), and Worcester (68) had the most among cities."
+    source: dph_2024_report
+    section: "Geography and rurality, p. 17"
+  - text: "Berkshire, Hampden, and Suffolk Counties had the highest age-adjusted rates in 2024; North Adams (81.4 per 100,000), Salisbury (68.2), and Pittsfield (55.6) had the highest town rates. 2024 was the first year since 2018 that rates in rural areas dipped below rates in urban areas."
+    source: dph_2024_report
+    section: "Geography and rurality, pp. 17-18"

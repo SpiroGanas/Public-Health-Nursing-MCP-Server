@@ -139,6 +139,43 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 11: substance use, crisis resources, and health communication
 
 <!-- Phase 11 entries go below this line. -->
+- `check_readability` (COMM-01): reading-level formulas (Flesch Reading Ease, Flesch-Kincaid,
+  SMOG with CDC's conversion table, Gunning Fog), plain-language flags with CDC Everyday Words
+  alternatives, and the CDC Clear Communication Index scored from the nurse's answers. The text
+  statistics moved to `phn_tools::comms::textstats` (VAX-09 now uses them) with better sentence
+  splitting and syllable counting. Content: `content/comms/readability.yaml`. `comms.rs` became
+  the `comms/` folder.
+- `get_overdose_data` (MH-03): DPH town-level opioid-related overdose deaths (2015-2022 table,
+  bundled), 5-year rates with exact intervals compared with the state, CDC/NCHS provisional county,
+  state, and U.S. counts by drug class (live → cache → snapshot), and DPH's 2024 findings.
+  Snapshots `ma-dph-opioid-deaths-town` and `cdc-vsrr-overdose-ma` (builders in `xtask/scripts/`);
+  content `content/bh/overdose_data.yaml`.
+- `get_youth_risk_behavior_data` (MH-07): DPH Youth Health Survey (2023, 2025) and Massachusetts
+  YRBS (2023) report tables by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs and
+  differences by non-overlapping intervals, and CDC YRBS mental health indicators for
+  Massachusetts vs the U.S. Snapshots `ma-youth-health-survey` and `cdc-yrbs-mental-health-ma-us`;
+  content `content/bh/youth_survey.yaml` (also holds DPH's 988 Lifeline text).
+- `find_naloxone_and_harm_reduction` (MH-04): naloxone access (statewide standing order of July
+  13, 2026, pharmacy policy, programs), syringe service program approval by town, fentanyl test
+  strip facts, help lines, and a cited teaching script with an optional Word handout. Content
+  `content/bh/substance_use_resources.yaml` (shared with MH-05).
+- `find_substance_use_treatment` (MH-05): SAMHSA FindTreatment.gov adapter
+  (`phn_data::findtreatment`, live → cache → bundled statewide snapshot `samhsa-findtreatment-ma`)
+  with MOUD, setting, special-group, payment, and language filters, and the Massachusetts
+  Substance Use Helpline.
+- `plan_school_postvention` (MH-06): After a Suicide toolkit steps and talking points (with
+  pages), message templates by cause-of-death status filled locally into Word files, and a
+  safe-messaging check of drafts. Content `content/bh/postvention.yaml` and
+  `content/comms/safe_messaging.yaml` (shared rules, `phn_tools::comms::safe_messaging`); fixture
+  `fixtures/synthetic/data/postvention_details.csv`.
+- `translate_health_material` (COMM-02): translation workflow with language priorities from EQ-03,
+  agency translations in `/data/templates/<language>/`, a translator brief, glossary and
+  back-translation checks, the qualified-translator draft label, and an XLSX review worksheet.
+  Content `content/comms/translation.yaml`.
+- `create_social_media_campaign` (COMM-03) and `draft_press_materials` (COMM-04): campaign
+  calendars tied to observances with post checks and an XLSX export; press materials built and
+  checked against CDC CERC media guidance with a Word export. Content
+  `content/comms/campaigns.yaml` (platform limits and observance dates marked unverified).
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

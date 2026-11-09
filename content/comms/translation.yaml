@@ -1,0 +1,75 @@
+# Translation workflow guidance for translate_health_material (COMM-02).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/comms_translation.schema.json
+meta:
+  id: comms-translation
+  title: Translation workflow for health materials (qualified translator, glossary, back-translation)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2010-07-01
+  source:
+    title: "Simply Put: A Guide for Creating Easy-to-Understand Materials (3rd edition), Translations Take Your Message Further"
+    publisher: Centers for Disease Control and Prevention
+    url: https://stacks.cdc.gov/view/cdc/11938
+  related_sources:
+    - title: "Health Literacy Online (3rd edition), 3.5 Make websites available in other languages"
+      publisher: Office of Disease Prevention and Health Promotion, HHS
+      url: https://odphp.health.gov/healthliteracyonline/ensure-accessibility/make-websites-available-other-languages
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The workflow steps and pitfalls are paraphrased from CDC's Simply Put
+    (3rd edition, pp. 25-26), fetched from CDC Stacks (high confidence). Following the product
+    owner's decision, the server bundles no translations: it prepares a brief for a qualified
+    translator, checks drafts against the agency's own glossary, and compares a back-translation
+    with the English source. The check rules (numbers, dates, negations, glossary terms, missing
+    sentences) were designed by the developer (medium confidence that they catch the most
+    important errors; they do not judge meaning or tone). The draft label wording is a tool
+    default for the agency to change.
+
+sources:
+  simply_put:
+    title: "Simply Put: A Guide for Creating Easy-to-Understand Materials (3rd edition)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://stacks.cdc.gov/view/cdc/11938
+    date: 2010-07-01
+
+draft_label: "DRAFT TRANSLATION - for review by a qualified translator. Not for distribution until reviewed and approved by [agency]."
+
+workflow:
+  - text: "Start from a clear, plain-language English source: a translation keeps the source's problems."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 4 (p. 25)"
+  - text: "Use a qualified translator who knows the audience (typically a native speaker of the target language, experienced, and preferably certified). For audiences with more than one variety of a language, have more than one translator check the translation."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 4 (p. 25)"
+  - text: "Avoid literal translation: let the translator choose expressions the audience uses."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 5 (p. 25)"
+  - text: "Back-translate: a different person translates the material back into English, and you check that the meaning and tone stayed the same."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 6 (p. 26)"
+  - text: "Field test the draft with members of the audience and revise."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 7 (p. 26)"
+  - text: "Get advice from community organizations that work with the audience; they can also help recruit people to test materials."
+    source: simply_put
+    section: "Translations Take Your Message Further, step 3 (p. 25)"
+
+pitfalls:
+  - text: "Do not translate English slang or idioms literally."
+    source: simply_put
+    section: "Beware of these common pitfalls (p. 26)"
+  - text: "Do not translate into a dialect unless the audience uses it."
+    source: simply_put
+    section: "Beware of these common pitfalls (p. 26)"
+  - text: "Keep all accent marks and special characters; missing ones can change meaning. Make sure your software supports the language's characters."
+    source: simply_put
+    section: "Beware of these common pitfalls (p. 26)"
+  - text: "If you list a phone number, make sure staff who speak the language answer it, or say when they are available."
+    source: simply_put
+    section: "Beware of these common pitfalls (p. 26)"

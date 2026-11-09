@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 88;
+const TOOL_COUNT = 97;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -99,6 +99,7 @@ const frontChapters = [
                 ['Healthy aging and mental health screening (chapter 14)', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
@@ -2628,6 +2629,274 @@ const toolChapters = [
   },
   // End of Phase 10 chapter.
   // Phase 11 chapter goes below this line.
+  {
+    title: 'Substance use, crisis resources, and health communication',
+    intro: 'These tools support overdose prevention, youth mental health, school crisis response, and the materials you write for the public. The substance use and postvention tools are in the bh group (the school_nurse profile includes it; turn it on for other profiles); the communication tools are in the comms group, which every profile includes. Resource lists, safe-messaging rules, and templates were drafted from DPH, CDC, SAMHSA, AFSP, and SPRC documents retrieved in November 2026 and are pending review by the subject matter expert; every answer says so. None of these tools replaces a crisis line: in an emergency, call 911, and for a mental health or substance use crisis, call or text 988.',
+    tools: [
+      {
+        id: 'check_readability',
+        title: 'Check the reading level and plain language of a draft',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: a Word, HTML, PDF, text, or Markdown file in your data folder',
+        does: 'Scores a draft with four reading-level formulas (Flesch Reading Ease, Flesch-Kincaid, SMOG, and Gunning Fog), flags long sentences, public health jargon (with CDC’s *Everyday Words* alternatives), possible passive voice, acronyms that are not spelled out, and long paragraphs and lists, and walks you through the CDC Clear Communication Index.',
+        when: [
+          'Before you publish a fact sheet, flyer, letter, web page, or social media post.',
+          'Revising a material that families or clients find hard to read.',
+          'Scoring a material with the CDC Clear Communication Index for a grant or quality project.',
+        ],
+        provide: [
+          'The text, pasted into the chat, or the name of the file in your data folder.',
+          'Optionally the grade level you aim for (the tool uses grade 8 unless you say otherwise) and your yes or no answers to the 20 Clear Communication Index questions.',
+        ],
+        examples: [
+          'Check the reading level of this flyer and suggest plainer words: [paste text].',
+          'Check lead_poisoning_factsheet.docx against a 6th-grade target.',
+          'Score this material with the CDC Clear Communication Index. Here are my answers: 1 yes, 2 yes, 3 no ...',
+        ],
+        returns: [
+          'The grade level by each formula and the median compared with your target; counts of words, sentences, and syllables; the flags with suggested fixes; and the Clear Communication Index items with the tool’s suggestions, or your score (90 or higher passes) once you have answered every item that applies.',
+        ],
+        notes: [
+          'Reading-level formulas only count syllables and sentence length. They cannot tell whether your audience will understand or act on a material; test drafts with members of your audience.',
+          'The formulas and word list are for English. For other languages, rely on a qualified translator.',
+          'When you check a file, quoted sentences are passed through the redactor, but remove client details before publishing anything.',
+        ],
+      },
+      {
+        id: 'get_overdose_data',
+        title: 'Look up overdose deaths for your community',
+        toolset: 'bh',
+        internet: 'optional (works offline from bundled data)',
+        files: 'no',
+        does: 'Shows overdose deaths for a city or town, county, or the state: DPH’s yearly counts of opioid-related overdose deaths by town (2015 to 2022) with a 5-year rate compared with the state; CDC’s provisional counts for the latest 12 months for counties, Massachusetts, and the United States, with the change from a year earlier and a breakdown by drug (fentanyl, heroin, cocaine, stimulants); and DPH’s statewide findings for 2024.',
+        when: [
+          'Preparing a board of health update, a grant application, or a community health assessment.',
+          'Planning naloxone distribution or outreach and deciding where to focus.',
+          'Answering a reporter’s or official’s question about local overdose trends.',
+        ],
+        provide: [
+          'The town, county, or “Massachusetts” (your saved town is used if you do not say), and optionally other places to compare and a drug class.',
+          'Whether you want deaths of residents (the default) or deaths that happened in the town.',
+        ],
+        examples: [
+          'How many opioid overdose deaths has Pittsfield had, and how does its rate compare with the state?',
+          'Compare overdose deaths in Fall River and New Bedford and their county.',
+          'What is the latest CDC count of fentanyl deaths in Massachusetts, and is it going down?',
+        ],
+        returns: [
+          'Yearly town counts, the 2018–2022 rate with its 95% confidence interval and how it compares with the state, county and state trends with the percent change, counts by drug, DPH’s 2024 findings with page numbers, and a link to DPH’s dashboard for newer town data.',
+        ],
+        notes: [
+          'DPH last published town counts as a document for 2015–2022. Newer town numbers (through 2025) are on DPH’s BSAS dashboard; the tool gives the link.',
+          'No rate is shown for fewer than 5 deaths, and rates based on fewer than 20 deaths are marked unstable. CDC hides county counts of 1 to 9.',
+          'DPH, CDC state, and CDC county numbers use different definitions (opioid-related deaths by residence; all overdose deaths by place of death; all overdose deaths by county of residence), so they do not add up to each other.',
+        ],
+      },
+      {
+        id: 'get_youth_risk_behavior_data',
+        title: 'Look up youth mental health and risk behavior data',
+        toolset: 'bh',
+        internet: 'optional (works offline from bundled data)',
+        files: 'no',
+        does: 'Shows how many Massachusetts middle and high school students report persistent sadness, thinking about suicide, self-injury, bullying, vaping, drinking, marijuana use, protective factors such as feeling they belong at school, and other topics, from DPH’s Youth Health Survey (2023 and 2025) and the Massachusetts Youth Risk Behavior Survey (2023), by sex, grade, race and ethnicity, and LGBTQ identity, with 95% confidence intervals. Compares Massachusetts with the United States using CDC’s Youth Risk Behavior Survey.',
+        when: [
+          'Making the case for a school-based mental health or substance use program.',
+          'A community health assessment or a grant application section on youth.',
+          'Preparing a presentation for a school committee or parent group.',
+        ],
+        provide: [
+          'The topic (for example “sad or hopeless”, “vaping”, or “bullied”), high school or middle school, and which groups you want to see.',
+        ],
+        examples: [
+          'What percentage of Massachusetts high school students felt sad or hopeless, by sex and race?',
+          'How common is vaping among Massachusetts middle school students, by grade?',
+          'How does Massachusetts compare with the U.S. on suicidal thoughts among high school students?',
+        ],
+        returns: [
+          'For each matching indicator: the statewide percentage and each group’s percentage with its 95% confidence interval, which groups differ from the comparison group, the change from two years earlier, and CDC figures for Massachusetts and the U.S.',
+        ],
+        notes: [
+          'These are statewide figures for public school students. There are no town or school figures.',
+          'A difference is reported only when the confidence intervals do not overlap, DPH’s rule. Estimates DPH or CDC did not publish (too few students) are shown as not presented.',
+          'The Youth Health Survey, the Massachusetts YRBS, and CDC’s figures are different surveys; compare years within one survey only.',
+          'When you share suicide-related numbers, follow safe-messaging guidance and include the 988 Lifeline.',
+        ],
+      },
+      {
+        id: 'find_naloxone_and_harm_reduction',
+        title: 'Find naloxone and harm reduction resources',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'only if you ask for a handout',
+        does: 'Explains how anyone in Massachusetts can get naloxone (at a pharmacy counter without a prescription under the statewide standing order, from distribution programs, by home delivery, or through agency purchasing), lists the naloxone products in the standing order, says whether your town’s board of health has approved a syringe services program, gives facts about fentanyl test strips and help lines, and provides a step-by-step naloxone teaching script, which it can save as a Word handout.',
+        when: [
+          'Teaching a client, family, or community group how to respond to an overdose.',
+          'Answering “where can I get Narcan?” or “does my insurance cover it?”',
+          'Planning naloxone distribution or a syringe services conversation with your board of health.',
+        ],
+        provide: [
+          'Your town (or use your saved town), and whether you want the teaching script and a Word handout.',
+        ],
+        examples: [
+          'How can a family in Pittsfield get naloxone, and is there a syringe services program?',
+          'Give me a naloxone teaching script for a parent group and save it as a handout.',
+          'What naloxone products does the Massachusetts standing order list?',
+        ],
+        returns: [
+          'Ways to get naloxone, the standing order’s products and directions, pharmacy duties and legal protections, syringe services approval for your town and county, fentanyl test strip facts, help lines, links to DPH’s site maps, and the teaching script (and the handout file name, if requested).',
+        ],
+        notes: [
+          'DPH’s maps of naloxone programs and syringe service sites cannot be read by the server; open the links for current sites and hours.',
+          'Whether fentanyl test strips are legal under Massachusetts law could not be confirmed; ask your agency’s counsel.',
+          'Rescue breathing and CPR steps are for people trained to do them. Follow your agency’s protocols.',
+        ],
+      },
+      {
+        id: 'find_substance_use_treatment',
+        title: 'Find substance use treatment',
+        toolset: 'bh',
+        internet: 'optional (a bundled statewide list is used offline)',
+        files: 'no',
+        does: 'Lists substance use treatment programs near a Massachusetts town from SAMHSA’s FindTreatment.gov: programs that offer methadone, buprenorphine, or naltrexone for opioid use disorder, withdrawal management (detox), residential or outpatient care, and recovery supports, and programs for teens, pregnant or postpartum women, veterans, or people with mental health conditions, filtered by insurance (including MassHealth) and language.',
+        when: [
+          'Helping a client or family find treatment that takes MassHealth.',
+          'Finding a methadone or buprenorphine program after an overdose or a hospital stay.',
+          'Building a local referral list for staff.',
+        ],
+        provide: [
+          'The town (or use your saved town), how far the person can travel, the kind of treatment, the insurance, and the language needed.',
+        ],
+        examples: [
+          'Find buprenorphine treatment within 10 miles of Fall River that takes MassHealth.',
+          'Is there a methadone program near Springfield with Spanish-speaking staff?',
+          'List residential programs for pregnant women within 30 miles of Worcester.',
+        ],
+        returns: [
+          'Matching programs nearest first, with address, phone, website, distance, medications offered, settings, insurance accepted, and languages; and the Massachusetts Substance Use Helpline and 988.',
+        ],
+        notes: [
+          'Programs report their own services to SAMHSA. Call ahead to confirm openings, insurance, and language.',
+          'Distances are straight-line miles from the center of the town.',
+          'The Massachusetts Substance Use Helpline (800-327-5050) can also help find treatment and recovery services.',
+        ],
+      },
+      {
+        id: 'plan_school_postvention',
+        title: 'Plan a school’s response after a suicide',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'optional: a file with the school’s notice details, to fill the letters',
+        does: 'Walks a school crisis team through the steps in the AFSP and SPRC toolkit *After a Suicide: A Toolkit for Schools* for the first day, the first week, and after; gives talking points; provides draft messages for the staff meeting, students, parents, the media, and social media that fit what is known about the cause of death; checks your own drafts against safe-messaging rules; and fills the letters from a file in your data folder.',
+        when: [
+          'A student or staff member has died and suicide is suspected or confirmed.',
+          'Reviewing a letter, statement, or post about a suicide before it goes out.',
+          'Preparing a postvention plan before a crisis happens.',
+        ],
+        provide: [
+          'Whether the cause of death is confirmed, unconfirmed, or the family asked that it not be shared, and which messages you need.',
+          'Optionally a draft to check, and a spreadsheet in your data folder with columns such as School Name, Student Name, Principal Name, Date of Notice, and Counseling Location to fill the letters. Do not type names into the chat.',
+        ],
+        examples: [
+          'A student died over the weekend and the cause is not confirmed. What should our school do today, and what do we tell students?',
+          'Check this draft letter to parents for safe messaging: [paste text].',
+          'Fill the parent letter and student statement from school_notice.xlsx.',
+        ],
+        returns: [
+          'Steps by phase with toolkit page numbers, talking points, the message templates with their placeholders, any safe-messaging problems in your draft (by sentence number), and the names of the filled Word files in your output folder.',
+        ],
+        notes: [
+          'The templates are drafts written for this server. The toolkit’s own sample statements can be used directly from the PDF with its credit line.',
+          'The family’s wishes and your crisis team decide what is shared. Confirm the cause of death before calling it a suicide.',
+          'The tool never describes how a person died. The safe-messaging check uses word patterns; a person must still review every message.',
+          'Anyone in crisis can call or text 988.',
+        ],
+      },
+      {
+        id: 'translate_health_material',
+        title: 'Prepare and check a translation',
+        toolset: 'comms',
+        internet: 'optional (language data work offline)',
+        files: 'optional: the English source, your glossary, a translated draft, a back-translation',
+        does: 'Supports translating a health material without replacing a qualified translator: shows which languages are most needed in your town, finds your agency’s approved translations, prepares a brief for the translator (numbered sentences, your glossary’s approved terms, and numbers, phone numbers, and web addresses that must not change), checks a translated draft against your glossary, and compares a back-translation with the English to catch reversed instructions, changed numbers, and missing sentences.',
+        when: [
+          'Before sending a flyer or letter to a translator.',
+          'Reviewing a draft translation (including one the AI assistant wrote) before a qualified translator approves it.',
+          'Deciding which languages to translate a material into.',
+        ],
+        provide: [
+          'The English text or file, the language, and optionally your glossary file, the translated draft, and a back-translation by a different person.',
+          'Keep approved translations in your data folder under templates/<language>/ (for example templates/spanish/flu_flyer.docx) so the tool can find them.',
+        ],
+        examples: [
+          'Which languages should our flu flyer be translated into for Lawrence?',
+          'Prepare a translator brief for this flyer in Portuguese using glossary.csv.',
+          'Compare this Spanish back-translation with the English and tell me what changed.',
+        ],
+        returns: [
+          'Language priorities, any existing agency translation, the numbered sentences, glossary terms, items that must not change, problems found in the draft and back-translation, CDC’s translation steps, the “draft for qualified translator review” label, and an optional review workbook.',
+        ],
+        notes: [
+          'The server does not include or produce translations. Every draft must be reviewed and approved by a qualified translator.',
+          'The checks look at numbers, phone numbers, glossary terms, negations, and missing sentences; they cannot judge meaning or tone.',
+        ],
+      },
+      {
+        id: 'create_social_media_campaign',
+        title: 'Plan and check a social media campaign',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: your own observance calendar; an Excel calendar is saved if you ask',
+        does: 'Plans when to post on each platform over the weeks of a campaign, ties posts to related health observances (such as National Influenza Vaccination Week), and checks draft posts for length, alt text on images, readable hashtags, emoji, words in capitals, reading level, jargon, and safe messaging when the topic is suicide.',
+        when: [
+          'Planning a flu, naloxone, lead, or heat-safety campaign.',
+          'Checking posts before you schedule them.',
+        ],
+        provide: [
+          'The topic, platforms, start date, number of weeks and posts per week, and any draft posts with their alt text.',
+        ],
+        examples: [
+          'Plan a four-week flu shot campaign on Facebook and Instagram starting December 1, and write posts for the first week.',
+          'Check these three posts before I schedule them: [paste posts].',
+        ],
+        returns: [
+          'The observances in the campaign window, the posting calendar, problems in each draft post, and an Excel calendar if requested.',
+        ],
+        notes: [
+          'Platform character limits and observance dates could not be verified by the server; confirm them. You can give your own limits and observance calendar.',
+          'The assistant writes the posts; the tool plans and checks them.',
+        ],
+      },
+      {
+        id: 'draft_press_materials',
+        title: 'Draft a press release, media advisory, talking points, or Q&A',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'only if you ask for a Word document',
+        does: 'Builds a press release, media advisory, talking points, or spokesperson Q&A from the facts you give, marks what is missing, and checks it against CDC’s Crisis and Emergency Risk Communication (CERC) guidance: contact information, date, release time or embargo, who-what-when-where-why, one page, short sentences, no loaded words, and no client details. Adds the reading level, CERC principles, questions to prepare for, and safe messaging when the topic is suicide.',
+        when: [
+          'Announcing a clinic, an outbreak update, or a health advisory.',
+          'Preparing a spokesperson for interviews.',
+          'Reviewing a release before it goes through approval.',
+        ],
+        provide: [
+          'The kind of material, the facts (who, what, when, where, why), key messages, quotes from officials, and the media contact; or a draft to check.',
+        ],
+        examples: [
+          'Draft a press release announcing free flu clinics at Town Hall on Saturday.',
+          'Make a media advisory for Tuesday’s press conference on naloxone training.',
+          'Prepare a spokesperson Q&A for a measles case in town.',
+        ],
+        returns: [
+          'The draft with bracketed gaps, the CERC checks, the reading grade, questions to prepare for, and the Word file name if requested.',
+        ],
+        notes: [
+          'All facts, numbers, and quotes must come from you and go through your agency’s approval process.',
+          'Never include client names or details that could identify a person.',
+        ],
+      },
+    ],
+  },
   // End of Phase 11 chapter.
   // Phase 12 chapter goes below this line.
   {
