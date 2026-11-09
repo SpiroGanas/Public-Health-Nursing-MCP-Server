@@ -428,7 +428,7 @@ Read these before changing architecture: `project_plan.md` ยง5, `docs/adr/0001`โ
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 609 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # 661 tests: unit, golden, CDSi cases, MCP integration
 node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
