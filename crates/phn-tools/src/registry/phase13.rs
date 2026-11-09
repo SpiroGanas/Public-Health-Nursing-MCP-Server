@@ -11,7 +11,12 @@ use phn_core::Toolset;
 pub(super) const ICS: &[ToolMeta] = &[];
 
 /// EPR-07 (continuity of operations).
-pub(super) const COOP: &[ToolMeta] = &[];
+pub(super) const COOP: &[ToolMeta] = &[ToolMeta {
+    name: "continuity_of_operations_planner",
+    plan_id: "EPR-07",
+    toolset: Toolset::Epr,
+    phase: 13,
+}];
 
 /// EPR-08 and EPR-09 (HSEEP exercise design and after-action report).
 pub(super) const HSEEP: &[ToolMeta] = &[];

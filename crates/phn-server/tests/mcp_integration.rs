@@ -835,6 +835,20 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 13 EPR-01 (ICS) data tools go below this line.
         // ---- End of Phase 13 EPR-01 data tools.
         // ---- Phase 13 EPR-07 (COOP) data tools go below this line.
+        // EPR-07 fills the staff roster's names and contacts only into files.
+        (
+            "continuity_of_operations_planner",
+            json!({"town": "Wilmington", "roster_path": "staff_roster.csv", "output": "both",
+                   "succession": [{"position": "Incident Commander",
+                                   "successors": ["Health Agent", "Public Health Nurse", "Safety Officer"]}]}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as a roster is used only inside the files, never echoed.
+        (
+            "continuity_of_operations_planner",
+            json!({"roster_path": "shelter_registrations.csv", "output": "none"}),
+            "data/shelter_registrations.csv",
+        ),
         // ---- End of Phase 13 EPR-07 data tools.
         // ---- Phase 13 EPR-08/EPR-09 (HSEEP) data tools go below this line.
         // ---- End of Phase 13 EPR-08/EPR-09 data tools.

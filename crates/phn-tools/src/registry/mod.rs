@@ -233,13 +233,23 @@ mod tests {
         }
     }
 
+    /// The phase a `PHASES` entry belongs to: one list per phase, except Phase 13,
+    /// which has four work-package lists (`registry/phase13.rs`) at indexes 12 to 15.
+    fn expected_phase(index: usize) -> usize {
+        match index {
+            0..=11 => index + 1,
+            12..=15 => 13,
+            _ => index - 2,
+        }
+    }
+
     #[test]
     fn each_phase_file_lists_only_its_own_phase() {
         for (i, list) in PHASES.iter().enumerate().skip(1) {
             for t in *list {
                 assert_eq!(
                     usize::from(t.phase),
-                    i + 1,
+                    expected_phase(i),
                     "{} is in the wrong phase file",
                     t.name
                 );

@@ -2150,6 +2150,43 @@ written to `/data/output` (product-owner decision, Phase 13).
 <!-- End of Phase 13 EPR-01 sections. -->
 
 <!-- Phase 13 EPR-07 (COOP) sections go below this line. -->
+
+### `continuity_of_operations_planner` (EPR-07, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `agency_name`, `town` | letterhead, saved town | Plan title and jurisdiction. |
+| `functions` | 19 seeded board of health functions | Change a seeded function by `id` (tier 1-4, `rto`, `minimum_staff`, `lead_position`, `authority`, `dependencies`) or add one with `label` and `tier`. |
+| `exclude_functions` | | Seeded function ids to leave out. |
+| `succession` | template positions | Each key position with `successors` in order (positions or names; three or more recommended) and an optional `incumbent`. |
+| `delegations` | five drafted | Add delegations (`authority`, `delegated_to`, `trigger`, `limits`, `legal_basis`). |
+| `alternate_sites` | | `name`, `kind` (`alternate`, `telework`, `devolution`), `location`, `capacity`, `agreement`, `ready_within_hours`. |
+| `essential_records`, `communications` | default lists | Added to the defaults. |
+| `staff_count`, `absenteeism_percent` | —, 40 | Staffing check at the planning absenteeism rate. |
+| `devolution_partner` | | Neighboring board of health, health district, or DPH. |
+| `pandemic_annex` | true | Pandemic and infectious disease annex. |
+| `plan_date` | today | Start of the dated test, training, and exercise schedule. |
+| `roster_path`, `roster_sheet` | | Staff roster (CSV/XLSX in `/data`): names, positions, phones, emails, radio. |
+| `output` | `both` | `docx` (plan), `xlsx` (workbook), `both`, or `none`. |
+
+Organized by the ten FEMA continuity elements (essential functions, orders of succession,
+delegations of authority, continuity facilities, continuity communications, essential records,
+human capital, test/training/exercise, devolution, reconstitution) and four phases (readiness,
+activation and relocation, continuity operations, reconstitution). Seeded functions carry their
+authority (105 CMR 300.110 and 300.160; M.G.L. c. 111 sections 30, 31, 95, 104, 122, 127A;
+c. 114 section 45; c. 30B section 8; 310 CMR 15.000), a priority tier with a recovery time
+objective, and minimum staff (tiers and staff are tool defaults). Delegations include the board's
+emergency agent (c. 111 section 30: acts for the board in an emergency and reports within two
+days), burial permit agents, emergency procurement, and isolation and quarantine orders; town
+counsel must confirm each. The human capital check applies the federal pandemic planning
+assumption (up to 40% of staff absent for about 2 weeks at the peak; 2006 Implementation Plan)
+to `staff_count` and compares the staff left with the Tier 1 and Tier 1-2 minimums. The result
+lists each element as `provided`, `partial`, `drafted` (tool template to confirm), or `missing`.
+
+Privacy: roster contacts (and names read from the roster) are filled only into the plan's
+succession table and call-down annex and the workbook in `/data/output`; the response reports
+counts only (`roster`). Phone numbers or emails typed into the request are reported in the
+privacy block with a request to use the roster instead. Decision support only.
 <!-- End of Phase 13 EPR-07 sections. -->
 
 <!-- Phase 13 EPR-08/EPR-09 (HSEEP) sections go below this line. -->

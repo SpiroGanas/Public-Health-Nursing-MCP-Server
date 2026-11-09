@@ -1,0 +1,880 @@
+# Continuity of operations (COOP) planning content for continuity_of_operations_planner (EPR-07):
+# FEMA's continuity plan elements and phases, Massachusetts board of health essential functions
+# with priority tiers, orders of succession and delegation templates, essential records,
+# continuity communications, human capital, test/training/exercise schedule, devolution,
+# reconstitution, and a pandemic annex.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_continuity.schema.json
+meta:
+  id: epr-continuity
+  title: Continuity of operations planning for local boards of health (FEMA elements and Massachusetts essential functions)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: null
+  source:
+    title: Continuity Guidance Circular (February 2018)
+    publisher: Federal Emergency Management Agency
+    url: https://www.fema.gov/sites/default/files/2020-07/Continuity-Guidance-Circular_031218.pdf
+  related_sources:
+    - title: "Public Health Emergency Preparedness and Response Capabilities: National Standards for State, Local, Tribal, and Territorial Public Health (October 2018, updated January 2019)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    - title: National Strategy for Pandemic Influenza Implementation Plan (May 2006)
+      publisher: Homeland Security Council
+      url: https://www.cdc.gov/pandemic-flu/media/pdfs/2024/08/pandemic-influenza-implementation.pdf
+    - title: Massachusetts General Laws, chapter 111 (public health), chapter 114 section 45, chapter 30B section 8, chapter 40 section 4A
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. VERIFIED (high confidence): the Massachusetts statutes were read on
+    malegislature.gov on 2026-11-09 (c. 111 sections 30, 31, 95, 104, 122, and 127A; c. 114
+    section 45; c. 30B section 8; c. 40 section 4A) and are paraphrased with their section
+    numbers; the CDC PHEP capability references to continuity of operations (Capability 1,
+    resource element P5, p. 23; Capability 3, Function 4, Task 5, p. 39) and the federal
+    pandemic planning assumption (up to 40 percent of staff absent for about 2 weeks at the peak
+    of a pandemic wave; Implementation Plan, Chapter 9, and planning assumption 7 in Chapter 2)
+    were read from the PDFs on cdc.gov; DPH's preparedness page links the Health and Homeland
+    Alert Network (HHAN) and MA Responds (checked 2026-11-09). The board of health reporting duties (105 CMR 300.110 and
+    300.160) come from this project's 105 CMR 300.000 content, re-drafted from the regulation
+    text on 2026-11-07. NOT RETRIEVED (medium confidence): FEMA's Continuity Guidance Circular
+    (2018) and its continuity plan template for non-federal entities could not be fetched
+    (www.fema.gov returned 403 and the FEMA training site serving IS-1300 was blocked), so the
+    ten continuity elements, the four plan phases, and the element checklists are drafted from
+    the developer's knowledge of those documents. TOOL DEFAULTS (no published source): the
+    priority tiers and recovery time objectives (modeled on FEMA's 12-hour and 30-day planning
+    benchmarks, medium confidence), the tier given to each board of health function, the
+    minimum staff per function, the default succession positions, the essential records list,
+    the communications list, and the test, training, and exercise frequencies. The agency must
+    confirm each against its own business impact analysis, and town counsel must confirm every
+    delegation of authority. MassDEP's 310 CMR 15.000 page was found, but the board of health's
+    role as Title 5 approving authority is stated from the developer's knowledge (medium).
+
+sources:
+  fema-cgc:
+    title: Continuity Guidance Circular (February 2018)
+    publisher: Federal Emergency Management Agency
+    url: https://www.fema.gov/sites/default/files/2020-07/Continuity-Guidance-Circular_031218.pdf
+    effective_date: 2018-02-01
+    retrieved: null
+  fema-template:
+    title: Continuity Plan Template and Instructions for Non-Federal Entities and Community-Based Organizations
+    publisher: Federal Emergency Management Agency
+    url: https://www.fema.gov/emergency-managers/national-preparedness/continuity/toolkit
+    effective_date: null
+    retrieved: null
+  cdc-phep:
+    title: "Public Health Emergency Preparedness and Response Capabilities: National Standards for State, Local, Tribal, and Territorial Public Health (October 2018, updated January 2019)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-09
+  pandemic-impl:
+    title: National Strategy for Pandemic Influenza Implementation Plan (May 2006)
+    publisher: Homeland Security Council
+    url: https://www.cdc.gov/pandemic-flu/media/pdfs/2024/08/pandemic-influenza-implementation.pdf
+    effective_date: 2006-05-01
+    retrieved: 2026-11-09
+  cdc-npi-2017:
+    title: "Community Mitigation Guidelines to Prevent Pandemic Influenza, United States, 2017 (MMWR Recomm Rep 2017;66(No. RR-1))"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/66/rr/rr6601a1.htm
+    effective_date: 2017-04-21
+    retrieved: 2026-11-09
+  mgl-c111-s30:
+    title: "M.G.L. c. 111, section 30: Agents; appointment; inspections"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section30
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c111-s31:
+    title: "M.G.L. c. 111, section 31: Health regulations"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section31
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c111-s95:
+    title: "M.G.L. c. 111, section 95: Powers and duties of boards in cases of infectious diseases"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section95
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c111-s104:
+    title: "M.G.L. c. 111, section 104: Prevention of spread of infection; public notice; removal"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section104
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c111-s122:
+    title: "M.G.L. c. 111, section 122: Regulations relative to nuisances; examinations"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section122
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c111-s127a:
+    title: "M.G.L. c. 111, section 127A: State sanitary code; adoption; enforcement"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section127A
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c114-s45:
+    title: "M.G.L. c. 114, section 45: Burial permits; permits for removal of bodies"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter114/Section45
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c30b-s8:
+    title: "M.G.L. c. 30B, section 8: Emergency procurements"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30B/Section8
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-c40-s4a:
+    title: "M.G.L. c. 40, section 4A: Governmental units; joint operation of public activities"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40/Section4A
+    effective_date: null
+    retrieved: 2026-11-09
+  title5:
+    title: "310 CMR 15.000: Septic systems (Title 5 of the State Environmental Code)"
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/regulations/310-CMR-1500-septic-systems-title-5
+    effective_date: null
+    retrieved: 2026-11-09
+  cmr-300:
+    title: "105 CMR 300.000: Reportable diseases, surveillance, and isolation and quarantine requirements"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    effective_date: null
+    retrieved: 2026-11-07
+
+# The continuity plan elements (FEMA). Each has the questions the plan must answer.
+elements:
+  - id: essential_functions
+    label: Essential functions
+    description: >-
+      The functions the agency must continue, or resume quickly, during any disruption, ranked
+      by priority with a recovery time objective, the staff, systems, and records each needs, and
+      the functions that can be deferred.
+    checklist:
+      - Each function has a priority tier and a recovery time objective.
+      - Each function lists its minimum staff, key systems, and essential records.
+      - Deferrable functions and the order in which they resume are named.
+      - The list came from a business process or impact analysis and is reviewed every year.
+    source: fema-cgc
+    section: "Essential functions; business process analysis and business impact analysis"
+    confidence: medium
+  - id: orders_of_succession
+    label: Orders of succession
+    description: >-
+      Who assumes each leadership position, in order, when the incumbent is unavailable, with
+      the conditions that trigger succession and how it ends.
+    checklist:
+      - Every key position has at least three successors, by position title.
+      - Successors are spread across locations where possible (not all in one building).
+      - Successors know they are on the list and are trained.
+      - Triggers (unavailable, incapacitated, cannot be reached within a set time) and the return of authority are written.
+    source: fema-cgc
+    section: "Orders of succession"
+    confidence: medium
+  - id: delegations_of_authority
+    label: Delegations of authority
+    description: >-
+      Written, pre-approved authority for named positions to make decisions and act on behalf of
+      the agency or board during a disruption, with triggers, limits, duration, and reporting.
+    checklist:
+      - Each delegation names the authority, the position that receives it, the trigger, the limits, and when it ends.
+      - The legal basis is cited and reviewed by town counsel.
+      - Delegations are signed in advance and kept with the essential records.
+    source: fema-cgc
+    section: "Delegations of authority"
+    confidence: medium
+  - id: continuity_facilities
+    label: Continuity facilities
+    description: >-
+      Alternate locations (another municipal building, a partner's site, telework) where
+      essential functions continue when the primary site cannot be used, and devolution sites.
+    checklist:
+      - At least one alternate site, far enough away not to share the same hazard, with space, power, and connectivity.
+      - A written agreement (memorandum of understanding) for any site the agency does not control.
+      - Telework capability for functions that can be done remotely.
+      - The site can be ready within the shortest recovery time objective.
+    source: fema-cgc
+    section: "Continuity facilities"
+    confidence: medium
+  - id: continuity_communications
+    label: Continuity communications
+    description: >-
+      Redundant ways to reach staff, partners, DPH, and the public, available at the alternate
+      site and tested regularly.
+    checklist:
+      - At least two independent ways to reach staff (for example cell phone and an alerting system).
+      - The 24/7 disease-reporting line can be forwarded to on-call staff.
+      - Access to MAVEN, email, and the Health and Homeland Alert Network from the alternate site.
+      - Communications are tested at least quarterly.
+    source: fema-cgc
+    section: "Continuity communications"
+    confidence: medium
+  - id: essential_records
+    label: Essential records management
+    description: >-
+      The records, databases, and documents needed to perform essential functions and protect
+      legal and financial rights, with how each is protected and reached from the alternate site.
+    checklist:
+      - Each essential record has an owner, a format, a backup, and a way to reach it remotely.
+      - Emergency operating records (this plan, call-down lists, delegations) are kept in hard copy and electronically.
+      - Records with protected health information stay in approved systems.
+      - Access to essential records is tested at least once a year.
+    source: fema-cgc
+    section: "Essential records management"
+    confidence: medium
+  - id: human_capital
+    label: Human capital
+    description: >-
+      Which staff perform essential functions, how they are alerted and supported, cross-training,
+      telework, leave and pay policies, staff and family care, and planning for high absenteeism.
+    checklist:
+      - Continuity staff for each essential function are named and cross-trained.
+      - Staffing holds up with the planning absenteeism rate (pandemic planning assumption).
+      - Volunteer and mutual-aid staff (Medical Reserve Corps) are part of the plan.
+      - Staff and family preparedness is encouraged; employee assistance is listed.
+    source: fema-cgc
+    section: "Human capital"
+    confidence: medium
+  - id: tte
+    label: Test, training, and exercise (TT&E)
+    description: >-
+      A yearly schedule of tests of notification, communications, records, and facilities;
+      training for continuity staff and successors; and exercises of the plan, with corrective
+      actions tracked.
+    checklist:
+      - Tests, training, and exercises have dates, owners, and are documented.
+      - After-action reports produce an improvement plan.
+      - The plan is reviewed and updated every year.
+    source: fema-cgc
+    section: "Test, training, and exercise program"
+    confidence: medium
+  - id: devolution
+    label: Devolution of control and direction
+    description: >-
+      Transferring essential functions to another organization or group of staff when the
+      agency's own leadership and staff cannot perform them (for example when staff are
+      quarantined or the whole office is unusable).
+    checklist:
+      - A devolution partner (neighboring board of health, health district, or DPH) and its triggers are named.
+      - Which functions transfer, and the records and authority the partner needs, are listed.
+      - A written agreement exists (intermunicipal agreement or memorandum of understanding).
+    source: fema-cgc
+    section: "Devolution of control and direction"
+    confidence: medium
+  - id: reconstitution
+    label: Reconstitution
+    description: >-
+      Returning to normal operations at the primary or a replacement site: assessing the
+      facility, bringing staff back, restoring deferred functions in priority order, and
+      reviewing what happened.
+    checklist:
+      - A reconstitution manager and the steps to return are named.
+      - Deferred functions resume in priority order.
+      - An after-action review is held and an improvement plan is written.
+    source: fema-cgc
+    section: "Reconstitution operations"
+    confidence: medium
+
+# Plan phases (FEMA continuity plan template).
+phases:
+  - id: readiness
+    label: "Phase I: Readiness and preparedness"
+    timing: Normal operations
+    actions:
+      - Keep this plan, call-down lists, and delegations current; review them every year.
+      - Run the test, training, and exercise schedule and track corrective actions.
+      - Keep go-kits and essential records copies at the alternate site.
+      - Watch for threats (weather, outbreaks, utility or IT problems) and raise readiness when one is likely.
+  - id: activation
+    label: "Phase II: Activation and relocation"
+    timing: 0 to 12 hours
+    actions:
+      - The health director (or the next successor available) decides to activate the plan and records the time and reason.
+      - Alert and account for staff with the call-down list; tell continuity staff where to report.
+      - Notify the town's emergency management director, the chief executive officer, DPH, and the regional health and medical coordinating coalition.
+      - Forward the 24/7 disease-reporting line to on-call staff and confirm MAVEN access.
+      - Move to the alternate site or telework, and confirm the Tier 1 functions are running.
+  - id: continuity_operations
+    label: "Phase III: Continuity operations"
+    timing: 12 hours to 30 days or longer
+    actions:
+      - Perform essential functions in tier order; defer Tier 4 functions.
+      - Track staff availability, absenteeism, and the functions that are running, each operational period.
+      - Request mutual aid, Medical Reserve Corps volunteers, or devolution if staffing falls below Tier 1 needs.
+      - Keep staff, partners, and the public informed; document decisions and costs.
+  - id: reconstitution
+    label: "Phase IV: Reconstitution"
+    timing: When the threat has passed
+    actions:
+      - Name a reconstitution manager; check the primary site is safe (building, utilities, IT).
+      - Bring staff back in phases and resume deferred functions in priority order.
+      - Reconcile records created during continuity operations.
+      - Notify staff, partners, DPH, and the public that normal operations have resumed.
+      - Hold a hotwash and write an after-action report and improvement plan (build_after_action_report).
+
+# Priority tiers and recovery time objectives (tool defaults).
+tiers:
+  - tier: 1
+    label: Tier 1, continue without interruption
+    rto: Continuous, or resume within 12 hours
+    rto_hours: 12
+    description: Life safety and legally time-critical functions that cannot stop.
+  - tier: 2
+    label: Tier 2, resume within 24 to 72 hours
+    rto: Within 24 to 72 hours
+    rto_hours: 72
+    description: Functions whose interruption beyond a few days would harm health or safety.
+  - tier: 3
+    label: Tier 3, resume within 1 to 2 weeks
+    rto: Within 1 to 2 weeks
+    rto_hours: 336
+    description: Important services that can pause briefly.
+  - tier: 4
+    label: Tier 4, may be deferred up to 30 days
+    rto: Deferred up to 30 days (resume during reconstitution)
+    rto_hours: 720
+    description: Routine functions that can wait until reconstitution.
+tiers_note: >-
+  Tiers and recovery time objectives are tool defaults modeled on FEMA's continuity planning
+  benchmarks (essential functions resumed within 12 hours and sustained for up to 30 days);
+  set your own from your business impact analysis.
+
+# Massachusetts board of health essential functions (seeds; tier and staff are tool defaults).
+functions:
+  - id: disease_reporting
+    label: Receive and report communicable disease reports 24/7
+    description: >-
+      Answer the 24/7 line for reportable disease calls; report every case or suspect case to
+      DPH through MAVEN immediately and within 24 hours; report clusters, outbreaks, unusual
+      illness, and suspected food poisoning to DPH immediately.
+    authority: 105 CMR 300.110 and 300.160
+    source: cmr-300
+    tier: 1
+    minimum_staff: 1
+    dependencies: [24/7 phone line or answering service, MAVEN access, DPH Epidemiology line (617-983-6800)]
+    incident_dependent: false
+    confidence: high
+  - id: investigation_control
+    label: Investigate cases and outbreaks; isolation and quarantine
+    description: >-
+      Interview cases, identify and notify contacts, and put in place isolation, quarantine,
+      exclusion, and other control measures with DPH.
+    authority: M.G.L. c. 111, sections 95 and 104; 105 CMR 300.000
+    source: mgl-c111-s95
+    tier: 1
+    minimum_staff: 2
+    dependencies: [MAVEN access, phones, the DPH Guide to Surveillance, Reporting and Control]
+    incident_dependent: false
+    confidence: high
+  - id: public_information
+    label: Public health alerts and risk communication
+    description: >-
+      Issue health alerts, advisories, and public information (website, social media, the town's
+      alerting system, partners), coordinated with the town and DPH.
+    authority: CDC PHEP Capability 4 (Emergency Public Information and Warning)
+    source: cdc-phep
+    tier: 1
+    minimum_staff: 1
+    dependencies: [Website and social media access, town alerting system, Health and Homeland Alert Network]
+    incident_dependent: false
+    confidence: medium
+  - id: board_decisions
+    label: Board of health decisions, emergency orders, and regulations
+    description: >-
+      Keep the board's authority working: emergency orders, regulations, and decisions by the
+      board, or by its agent or director acting for it in an emergency or when it cannot
+      conveniently assemble (the agent reports each action to the board within two days).
+    authority: M.G.L. c. 111, sections 30 and 31
+    source: mgl-c111-s30
+    tier: 1
+    minimum_staff: 1
+    dependencies: [Board member and agent contact list, signed delegations, remote meeting capability]
+    incident_dependent: false
+    confidence: high
+  - id: imminent_hazards
+    label: Respond to nuisances and imminent health hazards
+    description: >-
+      Examine and abate nuisances and causes of sickness that threaten health, for example sewage
+      overflows, unsafe drinking water, unsanitary conditions after flooding, or dead animals.
+    authority: M.G.L. c. 111, section 122
+    source: mgl-c111-s122
+    tier: 1
+    minimum_staff: 1
+    dependencies: [Vehicle, inspection kit, orders and placard templates]
+    incident_dependent: false
+    confidence: high
+  - id: emergency_dispensing
+    label: Emergency dispensing and mass vaccination (when activated)
+    description: >-
+      Open and staff points of dispensing or vaccination clinics when a public health emergency
+      requires medical countermeasures.
+    authority: CDC PHEP Capability 8 (Medical Countermeasure Dispensing and Administration)
+    source: cdc-phep
+    tier: 1
+    minimum_staff: 4
+    dependencies: [Dispensing plan, Medical Reserve Corps, sites, supplies]
+    incident_dependent: true
+    confidence: medium
+  - id: shelter_health
+    label: Health and medical support in shelters (when activated)
+    description: >-
+      Health services, functional needs support, and disease surveillance in emergency shelters
+      with the town and partners.
+    authority: CDC PHEP Capability 7 (Mass Care)
+    source: cdc-phep
+    tier: 1
+    minimum_staff: 2
+    dependencies: [Shelter plan, Medical Reserve Corps, supplies]
+    incident_dependent: true
+    confidence: medium
+  - id: housing_emergencies
+    label: Housing conditions that endanger health (no heat, water, or sanitation)
+    description: >-
+      Respond to complaints of conditions unfit for human habitation that endanger health, such as
+      loss of heat, water, or sanitation, under the State Sanitary Code.
+    authority: M.G.L. c. 111, section 127A; 105 CMR 410.000
+    source: mgl-c111-s127a
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Inspection kit, order templates, housing complaint log]
+    incident_dependent: false
+    confidence: high
+  - id: food_emergencies
+    label: Food establishment emergencies and foodborne illness complaints
+    description: >-
+      Respond to food establishments that lose power or water, to fires or floods, to recalls,
+      and to foodborne illness complaints, under the State Sanitary Code food protection rules.
+    authority: M.G.L. c. 111, section 127A; 105 CMR 590.000
+    source: mgl-c111-s127a
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Inspection kit, establishment list with emergency contacts, complaint log]
+    incident_dependent: false
+    confidence: high
+  - id: burial_permits
+    label: Burial and disposition permits
+    description: >-
+      Issue permits to bury, cremate, or remove a body; a permit comes from the board of health or
+      its agent appointed to issue permits. Designate more than one agent so permits continue.
+    authority: M.G.L. c. 114, section 45
+    source: mgl-c114-s45
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Permit forms or electronic system, designated agents, funeral director contacts]
+    incident_dependent: false
+    confidence: high
+  - id: tb_case_management
+    label: Tuberculosis case management and directly observed therapy
+    description: >-
+      Continue directly observed therapy and follow-up for people with active tuberculosis so
+      treatment is not interrupted.
+    authority: 105 CMR 300.000; DPH Division of Tuberculosis Prevention and Control guidance
+    source: cmr-300
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Client schedule (in the approved record system), video DOT option, medications]
+    incident_dependent: false
+    confidence: medium
+  - id: septic_failures
+    label: Failed septic systems posing an imminent health risk
+    description: >-
+      Respond to septic system failures that pose an imminent threat (sewage backup or breakout)
+      as the Title 5 approving authority; routine permits and inspections can wait.
+    authority: 310 CMR 15.000 (Title 5 of the State Environmental Code)
+    source: title5
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Licensed septic installer and pumper list, order templates]
+    incident_dependent: false
+    confidence: medium
+  - id: vulnerable_clients
+    label: Wellness checks for high-risk clients during an incident
+    description: >-
+      Check on clients known to the nursing program who are at high risk in the incident (for
+      example people on home oxygen in a power outage), coordinated with partners.
+    authority: Agency policy
+    source: cdc-phep
+    tier: 2
+    minimum_staff: 1
+    dependencies: [Client list in the approved record system, phones, partner contacts]
+    incident_dependent: true
+    confidence: low
+  - id: administration
+    label: Payroll, purchasing, and emergency procurement
+    description: >-
+      Keep staff paid and buy what the response needs; the procurement officer may make an
+      emergency procurement when following the normal rules would endanger health or safety, and
+      must document it.
+    authority: M.G.L. c. 30B, section 8
+    source: mgl-c30b-s8
+    tier: 3
+    minimum_staff: 1
+    dependencies: [Town finance and payroll systems, procurement officer]
+    incident_dependent: false
+    confidence: high
+  - id: nursing_programs
+    label: Routine public health nursing visits and clinics
+    description: >-
+      Home visits, blood pressure and other screening clinics, and case management not tied to an
+      active disease investigation.
+    authority: Agency policy
+    source: fema-cgc
+    tier: 3
+    minimum_staff: 1
+    dependencies: [Client schedule (in the approved record system), supplies]
+    incident_dependent: false
+    confidence: low
+  - id: seasonal_permits
+    label: Seasonal inspections (recreational camps, pools, bathing beaches)
+    description: >-
+      Seasonal inspections and water testing that protect children and swimmers; time-critical in
+      summer, deferrable in winter.
+    authority: State Sanitary Code (105 CMR 430.000, 435.000, 445.000)
+    source: mgl-c111-s127a
+    tier: 3
+    minimum_staff: 1
+    dependencies: [Inspection schedule, laboratory for water samples]
+    incident_dependent: false
+    confidence: medium
+  - id: routine_immunization
+    label: Routine immunization clinics
+    description: >-
+      Scheduled immunization clinics that are not part of an emergency response.
+    authority: Agency policy
+    source: fema-cgc
+    tier: 4
+    minimum_staff: 2
+    dependencies: [Vaccine storage and handling, clinic sites]
+    incident_dependent: false
+    confidence: low
+  - id: routine_inspections
+    label: Routine inspections, plan reviews, and permits
+    description: >-
+      Scheduled food, housing, and Title 5 inspections, plan reviews, and permit renewals that do
+      not involve an imminent hazard.
+    authority: M.G.L. c. 111, section 127A; 310 CMR 15.000
+    source: mgl-c111-s127a
+    tier: 4
+    minimum_staff: 1
+    dependencies: [Permit database, inspection schedule]
+    incident_dependent: false
+    confidence: medium
+  - id: community_programs
+    label: Health education, community programs, and grant reporting
+    description: >-
+      Community health education, coalition meetings, and grant reports (ask funders about
+      deadline extensions).
+    authority: Agency policy
+    source: fema-cgc
+    tier: 4
+    minimum_staff: 1
+    dependencies: [Program files, funder contacts]
+    incident_dependent: false
+    confidence: low
+
+# Default orders of succession by position (templates to replace with the agency's positions).
+succession_defaults:
+  - position: Health Director
+    successors: [Health Agent, Public Health Nurse, Board of Health Chair]
+    note: Leads the department and decides to activate this plan.
+  - position: Board of Health Chair
+    successors: [Board of Health Member, Board of Health Member, Health Director (acting as the board's agent under c. 111, section 30)]
+    note: The board acts as a body; when it cannot conveniently assemble, its appointed agent or director may act for it.
+  - position: Public Health Nurse
+    successors: [Public Health Nurse, Medical Reserve Corps nurse coordinator, Regional or neighboring board of health nurse]
+    note: Leads disease investigation and clinical response.
+  - position: Health Agent
+    successors: [Health Inspector, Health Director, Neighboring board of health agent (through an intermunicipal agreement)]
+    note: Leads inspections, nuisances, and permits.
+succession_rules:
+  - text: List at least three successors for each key position, by position title, so the list stays valid when people change jobs.
+    source: fema-cgc
+    section: "Orders of succession"
+    confidence: medium
+  - text: State what triggers succession (for example the incumbent is unavailable or cannot be reached within a set time), that the successor holds the authority only until the incumbent can resume, and how the change is announced.
+    source: fema-cgc
+    section: "Orders of succession"
+    confidence: medium
+  - text: Include successors who work in a different location where possible, so one event does not remove the whole line.
+    source: fema-cgc
+    section: "Orders of succession"
+    confidence: medium
+
+# Delegation templates.
+delegations:
+  - id: board_emergency_agent
+    authority: Act for the board of health in an emergency or when the board cannot conveniently assemble
+    delegated_to: The agent or director of public health appointed by the board
+    trigger: An emergency, or the board cannot conveniently assemble
+    limits: >-
+      The agent has all the authority of the board but must report each action to the board
+      within two days for its approval, and acts under the board's direction and control.
+    legal_basis: M.G.L. c. 111, section 30
+    source: mgl-c111-s30
+    confidence: high
+  - id: isolation_quarantine
+    authority: Isolation, quarantine, and other infectious disease control orders
+    delegated_to: Health Director or agent; Public Health Nurse for investigation steps
+    trigger: A disease dangerous to the public health in the town
+    limits: >-
+      Orders follow 105 CMR 300.000 and DPH guidance; removal to a hospital or place of reception
+      requires the conditions in M.G.L. c. 111, sections 95 and 96. Town counsel should review
+      order templates in advance.
+    legal_basis: M.G.L. c. 111, sections 95 and 104; 105 CMR 300.000
+    source: mgl-c111-s95
+    confidence: medium
+  - id: burial_permits
+    authority: Issue burial, cremation, and removal permits
+    delegated_to: Agents appointed by the board to issue permits (name at least two)
+    trigger: Always in force; add agents before an emergency
+    limits: Permits are issued as M.G.L. c. 114, section 45 requires.
+    legal_basis: M.G.L. c. 114, section 45
+    source: mgl-c114-s45
+    confidence: high
+  - id: emergency_procurement
+    authority: Emergency procurement of supplies and services
+    delegated_to: The town's procurement officer (request through the town)
+    trigger: Following the normal procurement rules would take long enough to endanger health or safety
+    limits: >-
+      Only what the emergency needs; follow the normal rules as far as practicable; the
+      procurement officer records each emergency procurement and sends the record to the State
+      Secretary.
+    legal_basis: M.G.L. c. 30B, section 8
+    source: mgl-c30b-s8
+    confidence: high
+  - id: public_information
+    authority: Release public health information and alerts
+    delegated_to: Public Information Officer or Health Director (per agency policy)
+    trigger: Activation of this plan
+    limits: Coordinate with the town and DPH; follow agency approval steps for each message.
+    legal_basis: Agency policy
+    source: cdc-phep
+    confidence: low
+delegation_note: >-
+  Delegations of authority have legal effect. Town counsel must confirm the legal basis, form,
+  and signatures of every delegation before the plan is adopted; this tool drafts them for
+  review only.
+
+# Essential records (defaults).
+records:
+  - name: This COOP plan, the emergency operations plan, and signed delegations of authority
+    kind: Emergency operating record
+    protection: Paper copy in each go-kit and at the alternate site; electronic copy in the town's backed-up drive
+  - name: Staff and partner call-down list (roster)
+    kind: Emergency operating record
+    protection: Paper copy in go-kits; electronic copy; update quarterly
+  - name: Communicable disease investigations (MAVEN)
+    kind: Essential record (state system)
+    protection: Held in MAVEN by DPH; confirm remote access and accounts for successors
+  - name: Immunization records (Massachusetts Immunization Information System)
+    kind: Essential record (state system)
+    protection: Held in MIIS by DPH; confirm remote access
+  - name: Tuberculosis and other nursing case files
+    kind: Essential record (protected health information)
+    protection: Keep in the approved record system; plan secure remote access; no copies outside approved systems
+  - name: Permit, license, and inspection database (food, housing, Title 5, camps, pools)
+    kind: Legal and financial record
+    protection: Backed up off site; read access from the alternate site
+  - name: Board of health regulations, minutes, and orders
+    kind: Legal record
+    protection: Electronic copy with the town clerk and off-site backup
+  - name: Vaccine inventory and storage temperature logs
+    kind: Essential record
+    protection: Data logger exports backed up; paper log as fallback
+  - name: Contracts, grants, and memoranda of understanding (alternate sites, mutual aid)
+    kind: Legal and financial record
+    protection: Copies with the town and in the go-kit
+
+# Continuity communications (defaults).
+communications:
+  - mode: Cell phones (agency-issued or personal with a stipend)
+    use: Staff call-down, field work
+    note: Keep chargers and power banks in go-kits.
+  - mode: 24/7 disease-reporting line forwarding or answering service
+    use: Receiving reportable disease calls from providers and DPH
+    note: Test forwarding to on-call staff every quarter.
+  - mode: MAVEN (Massachusetts Virtual Epidemiologic Network)
+    use: Case reporting and investigation with DPH
+    note: Confirm successors have accounts and remote access.
+  - mode: Health and Homeland Alert Network (HHAN)
+    use: Alerts from DPH to local health
+    note: Keep every successor's HHAN profile current.
+  - mode: Town alerting system and website
+    use: Public alerts and information
+    note: Confirm who can send alerts from the alternate site.
+  - mode: Email and video meetings
+    use: Coordination, remote board meetings
+    note: Plan for loss of the town network (personal hotspot).
+  - mode: Two-way radio (town or HMCC)
+    use: Backup when phones fail
+    note: Coordinate channels with the town's communications unit.
+
+# Test, training, and exercise schedule (tool defaults; months from the plan date).
+tte:
+  - activity: Test the staff alert and notification (call-down) procedure
+    kind: test
+    frequency: Quarterly
+    months: [0, 3, 6, 9]
+    owner: Health Director
+  - activity: Test continuity communications from the alternate site (phones, line forwarding, MAVEN, HHAN, email)
+    kind: test
+    frequency: Quarterly
+    months: [1, 4, 7, 10]
+    owner: Health Director
+  - activity: Test access to essential records from the alternate site
+    kind: test
+    frequency: Yearly
+    months: [2]
+    owner: Health Agent
+  - activity: Test the alternate site's readiness (power, connectivity, space)
+    kind: test
+    frequency: Yearly
+    months: [5]
+    owner: Health Director
+  - activity: Train continuity staff and successors on the plan and their roles
+    kind: training
+    frequency: Yearly and for new staff
+    months: [1]
+    owner: Health Director
+  - activity: Brief board of health members on succession, delegations, and remote meetings
+    kind: training
+    frequency: Yearly
+    months: [2]
+    owner: Board of Health Chair
+  - activity: Exercise the plan (tabletop, then a functional exercise of relocation or telework)
+    kind: exercise
+    frequency: Yearly
+    months: [8]
+    owner: Health Director
+  - activity: Review and update the plan, essential functions, and call-down lists; record changes
+    kind: review
+    frequency: Yearly, and after each activation or exercise
+    months: [11]
+    owner: Health Director
+tte_note: >-
+  Frequencies follow common FEMA continuity practice (quarterly notification and communications
+  tests, yearly training, exercise, and plan review) but are tool defaults; FEMA's guidance could
+  not be retrieved to confirm them.
+
+devolution:
+  triggers:
+    - The department's leadership and staff cannot perform Tier 1 functions (for example most staff are ill or quarantined).
+    - The primary and alternate sites are both unusable.
+    - Staffing falls below the Tier 1 minimum for more than one operational period.
+  partners:
+    - A neighboring board of health or public health district (through an intermunicipal agreement)
+    - DPH (Office of Local and Regional Health and the regional epidemiologist)
+    - The regional Health and Medical Coordinating Coalition (HMCC) for coordination and resources
+  agreement:
+    text: >-
+      Cities and towns may agree to perform services jointly or for one another when authorized
+      (in a town by the select board, in a city by the city council with the mayor's approval),
+      for a term of up to 25 years with a stated maximum financial liability.
+    source: mgl-c40-s4a
+    section: "Section 4A"
+    confidence: high
+  steps:
+    - Decide to devolve and notify the devolution partner, DPH, and the town.
+    - Transfer the Tier 1 functions, the records and system access they need, and the delegations.
+    - Forward the 24/7 line and publish the new contact for providers.
+    - Take functions back during reconstitution, with a written handoff.
+
+reconstitution:
+  - Name a reconstitution manager and set the date to return.
+  - Confirm the primary site is safe (building, utilities, IT) or arrange a replacement site.
+  - Bring staff back in phases; confirm their health and needs.
+  - Resume deferred functions in tier order and clear backlogs (inspections, permits, clinics).
+  - Reconcile records created during continuity operations into the permanent systems.
+  - Tell staff, partners, DPH, and the public that normal operations have resumed.
+  - Hold a hotwash, write an after-action report and improvement plan, and update this plan.
+
+human_capital:
+  absenteeism:
+    value: 40
+    unit: percent of staff absent at the peak of a severe pandemic wave (about 2 weeks)
+    text: >-
+      The federal government recommends that government entities plan with the assumption that
+      up to 40 percent of their staff may be absent for periods of about 2 weeks at the height of
+      a pandemic wave, with lower levels for a few weeks on either side of the peak.
+    source: pandemic-impl
+    section: "Chapter 9 (Institutions: Protecting Personnel and Ensuring Continuity of Operations); Chapter 2, planning assumption 7"
+    confidence: high
+  actions:
+    - text: Cross-train at least two people for every Tier 1 function.
+      source: fema-cgc
+      section: "Human capital"
+      confidence: medium
+    - text: Plan telework for functions that can be done remotely, with equipment and system access arranged in advance.
+      source: fema-cgc
+      section: "Human capital"
+      confidence: medium
+    - text: Arrange surge staff from the Medical Reserve Corps and mutual aid, and keep their credentials and training current.
+      source: cdc-phep
+      section: "Capability 15: Volunteer Management"
+      confidence: medium
+    - text: Encourage staff and family preparedness plans so staff can report to work; list employee assistance resources.
+      source: fema-cgc
+      section: "Human capital"
+      confidence: medium
+
+phep_links:
+  - text: >-
+      PHEP Capability 3 (Emergency Operations Coordination), Function 4, Task 5: develop
+      continuity of operations plans that identify response priorities to ensure the continuation
+      and recovery of critical public health functions.
+    source: cdc-phep
+    section: "Capability 3, Function 4, Task 5 (p. 39)"
+    confidence: high
+  - text: >-
+      PHEP Capability 1 (Community Preparedness), resource element P5: plans or annexes that show
+      how the agency will support continuity of operations for public health, health care,
+      behavioral health, and environmental health services, including vaccination and
+      dispensing, with attention to people with access and functional needs.
+    source: cdc-phep
+    section: "Capability 1, P5 (p. 23)"
+    confidence: high
+
+pandemic_annex:
+  - text: >-
+      Plan for staff absence of up to 40 percent for about 2 weeks at the peak of a pandemic wave,
+      with lower absence for a few weeks before and after; absence also comes from caring for ill
+      family members, children dismissed from school, quarantine, and fear of infection.
+    source: pandemic-impl
+    section: "Chapter 9; Chapter 2, planning assumption 7"
+    confidence: high
+  - text: >-
+      Protect staff health so essential functions continue: reasonable protective measures,
+      staying home when ill, and workplace measures that reduce contact.
+    source: pandemic-impl
+    section: "Chapter 9"
+    confidence: high
+  - text: >-
+      Expect community mitigation measures (school dismissals, social distancing in workplaces,
+      cancelled gatherings) that change demand for services and staff availability; plan which
+      functions continue by telework.
+    source: cdc-npi-2017
+    section: "Community mitigation measures (NPIs)"
+    confidence: high
+  - text: >-
+      Track staff availability each week and defer Tier 4, then Tier 3, functions as absence rises;
+      request Medical Reserve Corps and mutual-aid staff before Tier 1 functions are at risk.
+    source: fema-cgc
+    section: "Human capital; pandemic considerations"
+    confidence: medium
+  - text: >-
+      Plan for a long event (a pandemic wave lasts weeks to months and more than one wave may
+      come), with rotation of continuity staff and support for staff well-being.
+    source: pandemic-impl
+    section: "Chapter 9"
+    confidence: medium

@@ -11,7 +11,7 @@
 
 const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 97;
+const TOOL_COUNT = 98;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3069,6 +3069,38 @@ const toolChapters = [
       // End of Phase 13 EPR-01 entries.
 
       // Phase 13 EPR-07 (COOP) entries go below this line.
+      {
+        id: 'continuity_of_operations_planner',
+        title: 'Draft a continuity of operations (COOP) plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Drafts a continuity of operations plan for your board of health or health department, organized by FEMA’s ten continuity elements. It starts from 19 board of health essential functions with their legal authority (for example 24/7 disease reporting under 105 CMR 300.000, isolation and quarantine, burial permits, and housing and food emergencies), puts them in priority tiers with recovery times, drafts orders of succession and delegations of authority (including the board’s emergency agent under M.G.L. c. 111, section 30), checks whether your staff can cover the most urgent functions if 40% are out in a pandemic, and builds a dated schedule of tests, training, and exercises. It tells you which parts of the plan are done, drafted, or still missing.',
+        when: [
+          'Writing or updating your COOP plan, or checking it against FEMA’s elements.',
+          'Before flu season or a predicted storm, to confirm who takes over and where staff will work.',
+          'Planning for staff shortages in an outbreak or pandemic.',
+        ],
+        provide: [
+          'Optionally: your town and agency name, changes to the essential functions (tier, recovery time, staff), your key positions and their successors, alternate sites and telework, the number of staff, and a devolution partner.',
+          'Optionally: a staff roster file (CSV or Excel) with names, positions, phones, and emails. Contact details go only into the Word plan and Excel workbook in your output folder.',
+        ],
+        examples: [
+          'Draft a COOP plan for the Wilmington Board of Health. We have 6 staff, and the library meeting room is our alternate site.',
+          'Make our health director succession three deep: health agent, public health nurse, then the board chair. Use staff_roster.csv for contacts.',
+          'Move routine immunization clinics to Tier 2 and add animal bite follow-up as Tier 1.',
+        ],
+        returns: [
+          'Essential functions by tier with recovery times, authority, and staff; orders of succession; delegations of authority; sites, communications, and essential records; the staffing check; the first year’s test, training, and exercise dates; a pandemic annex; and a list of plan elements that are provided, drafted, or missing.',
+          'A Word plan (with a call-down annex when you give a roster) and an Excel workbook in your output folder.',
+        ],
+        notes: [
+          'A draft for the board to review and adopt. Tiers, recovery times, and staff numbers are starting points; set your own from a business impact analysis.',
+          'Delegations of authority have legal effect. Have town counsel confirm each one before the plan is adopted.',
+          'Give staff phone numbers and emails in the roster file, not in the chat.',
+          'FEMA’s continuity guidance could not be downloaded when this content was written; the statutes and CDC sources were checked. Pending review.',
+        ],
+      },
       // End of Phase 13 EPR-07 entries.
 
       // Phase 13 EPR-08/EPR-09 (HSEEP) entries go below this line.
