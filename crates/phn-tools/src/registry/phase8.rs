@@ -35,4 +35,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Mch,
         phase: 8,
     },
+    ToolMeta {
+        name: "estimate_benefit_eligibility",
+        plan_id: "EQ-06",
+        toolset: Toolset::Equity,
+        phase: 8,
+    },
 ];

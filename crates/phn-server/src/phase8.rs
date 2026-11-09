@@ -1,6 +1,7 @@
 //! Phase 8 tools: maternal, child, and family health.
 
 use phn_core::Envelope;
+use phn_tools::equity::{BenefitArgs, BenefitResult};
 use phn_tools::mch::{
     GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, MandatedReporterArgs,
     MandatedReporterResult, MilestoneArgs, MilestoneResult, NewbornVisitArgs, NewbornVisitResult,
@@ -123,5 +124,25 @@ impl PhnServer {
             phn_tools::mch::plan_newborn_postpartum_visit(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "estimate_benefit_eligibility",
+        description = "Income screen (not a determination) for WIC, SNAP, MassHealth (pregnant \
+            people and infants, children, parents, adults, young adults), the Health Safety Net, \
+            and home energy assistance (HEAP/LIHEAP) from household size and gross income, using \
+            the 2026 federal poverty guidelines and each program's current Massachusetts limits \
+            with effective dates: percent of poverty, each program's limit for the household, \
+            likely income-eligible or over, SNAP maximum benefit, and how to apply.",
+        annotations(title = "Benefit eligibility screen", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<BenefitResult>>()
+    )]
+    async fn estimate_benefit_eligibility(
+        &self,
+        Parameters(args): Parameters<BenefitArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::equity::estimate_benefit_eligibility(
+            &self.ctx, args,
+        ))
     }
 }

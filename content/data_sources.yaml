@@ -556,6 +556,20 @@ sources:
       - >-
         Draft pending review. The AAP 2022 policy texts (publications.aap.org) were blocked;
         safe sleep uses CDC's page and the AAP abstract, and jaundice items are low confidence.
+  - id: equity-benefit-eligibility
+    name: Benefit income limits (HHS poverty guidelines, WIC, SNAP, MassHealth, Health Safety Net, HEAP)
+    publisher: HHS ASPE; Massachusetts DPH, DTA, MassHealth, and EOHLC
+    kind: content
+    status: active
+    content_id: equity-benefit-eligibility
+    homepage: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+    probe_url: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+    used_by: [estimate_benefit_eligibility]
+    caveats:
+      - >-
+        Draft pending review; refresh every year (FPL January, MassHealth March 1, WIC June or
+        July, SNAP and HEAP October 1). The FNS WIC site redirects to a blocked host; the DPH
+        WIC table was used.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

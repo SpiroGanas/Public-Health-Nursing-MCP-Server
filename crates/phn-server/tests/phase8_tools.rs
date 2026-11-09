@@ -279,3 +279,29 @@ async fn newborn_postpartum_visit_plan_and_documents() {
     .await;
     assert!(e.contains("0 to 365"));
 }
+
+// ------------------------------------------------------------------ EQ-06
+
+#[tokio::test]
+async fn benefit_eligibility_screen() {
+    let h = start(|_| {}).await;
+    let s = call_ok(
+        &h,
+        "estimate_benefit_eligibility",
+        json!({"household_size": 4, "annual_income": 52000, "child_under_5": true,
+               "children_under_19": true, "pays_for_heat": true}),
+    )
+    .await;
+    assert!(md(&s).contains("% of the 2026 federal poverty guideline"));
+    assert_eq!(s["data"]["fpl_annual"], 33000.0);
+    assert!(s["data"]["programs"].as_array().unwrap().len() >= 8);
+    assert!(notice(&s).contains(DECISION_SUPPORT));
+    assert!(caveats(&s).contains("not an eligibility determination"));
+    let e = call_err(
+        &h,
+        "estimate_benefit_eligibility",
+        json!({"household_size": 4}),
+    )
+    .await;
+    assert!(e.contains("income"));
+}

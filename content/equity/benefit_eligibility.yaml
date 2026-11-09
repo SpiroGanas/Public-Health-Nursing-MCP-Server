@@ -1,0 +1,224 @@
+# Income limits for a benefit eligibility SCREEN (not a determination): federal poverty
+# guidelines, WIC, SNAP, MassHealth, the Health Safety Net, and home energy assistance
+# (LIHEAP/HEAP), for estimate_benefit_eligibility (EQ-06).
+#
+# REVIEW STATUS: pending. Drafted 2026-11-08 from the sources below. Refresh every year: FPL
+# (January), MassHealth (March 1), WIC (June/July), SNAP and HEAP (October 1).
+# Schema: content/schemas/equity_benefits.schema.json
+meta:
+  id: equity-benefit-eligibility
+  title: Benefit eligibility income limits (FPL, WIC, SNAP, MassHealth, Health Safety Net, HEAP)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: HHS Poverty Guidelines for 2026
+    publisher: U.S. Department of Health and Human Services, ASPE
+    url: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+  related_sources:
+    - title: Check eligibility for WIC (income eligibility guidelines June 11, 2026 - June 30, 2027)
+      publisher: Massachusetts Department of Public Health, WIC Nutrition Program
+      url: https://www.mass.gov/info-details/check-eligibility-for-wic
+    - title: Supplemental Nutrition Assistance Program (SNAP) eligibility chart
+      publisher: Massachusetts Department of Transitional Assistance
+      url: https://www.mass.gov/how-to/apply-for-snap-benefits-food-stamps
+    - title: Member Booklet for Health and Dental Coverage and Help Paying Costs
+      publisher: MassHealth
+      url: https://www.mass.gov/doc/member-booklet-for-health-and-dental-coverage-and-help-paying-costs-0/download
+    - title: Learn about Home Energy Assistance (HEAP), FY 2027 income guidelines
+      publisher: Massachusetts Executive Office of Housing and Livable Communities
+      url: https://www.mass.gov/info-details/learn-about-home-energy-assistance-heap
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08. The 2026 poverty guidelines are transcribed from ASPE's page. WIC
+    limits (185% of FPL) are transcribed from DPH's WIC page (June 11, 2026 - June 30, 2027).
+    SNAP gross income limits (200% of FPL) and maximum benefits are transcribed from DTA's page,
+    which is undated; they match the 2026 FPL and are assumed to be the federal fiscal year 2027
+    values effective October 1, 2026 (medium confidence on the date). MassHealth limits by
+    coverage type are transcribed from the MassHealth Member Booklet (PDF modified 2026-08-12;
+    income standards effective March 1, 2026). Health Safety Net limits are from the same
+    booklet. HEAP limits (60% of state median income) are transcribed from EOHLC's page (FY
+    2027). The FNS WIC page (fns.usda.gov, now redirecting to a blocked host) could not be
+    reached. These are income screens only: every program has other rules.
+
+refresh_schedule: "FPL each January (ASPE); MassHealth income standards March 1; WIC income guidelines in June or July; SNAP October 1; HEAP October 1 (season November 1 - April 30)."
+
+sources:
+  aspe-fpl-2026:
+    title: HHS Poverty Guidelines for 2026
+    publisher: U.S. Department of Health and Human Services, ASPE
+    url: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-wic:
+    title: Check eligibility for WIC
+    publisher: Massachusetts Department of Public Health, WIC Nutrition Program
+    url: https://www.mass.gov/info-details/check-eligibility-for-wic
+    effective_date: 2026-06-11
+    retrieved: 2026-11-08
+  ma-snap:
+    title: Supplemental Nutrition Assistance Program (SNAP) (eligibility chart)
+    publisher: Massachusetts Department of Transitional Assistance
+    url: https://www.mass.gov/how-to/apply-for-snap-benefits-food-stamps
+    effective_date: 2026-10-01
+    retrieved: 2026-11-08
+  masshealth-booklet:
+    title: Member Booklet for Health and Dental Coverage and Help Paying Costs
+    publisher: MassHealth
+    url: https://www.mass.gov/doc/member-booklet-for-health-and-dental-coverage-and-help-paying-costs-0/download
+    effective_date: 2026-03-01
+    retrieved: 2026-11-08
+  ma-heap:
+    title: Learn about Home Energy Assistance (HEAP)
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/info-details/learn-about-home-energy-assistance-heap
+    effective_date: 2026-10-01
+    retrieved: 2026-11-08
+
+fpl:
+  year: 2026
+  area: 48 contiguous states and the District of Columbia
+  base: [15960, 21640, 27320, 33000, 38680, 44360, 50040, 55720]
+  each_additional: 5680
+  source: aspe-fpl-2026
+  section: "2026 poverty guidelines for the 48 contiguous states and the District of Columbia"
+
+programs:
+  - id: wic
+    name: WIC (Women, Infants, and Children Nutrition Program)
+    who: "Pregnant people, breastfeeding people, new mothers (postpartum), and children under 5 who live in Massachusetts and have a nutritional need (WIC staff assess this)."
+    income_basis: gross
+    limit_type: table_annual
+    annual: [29526, 40034, 50542, 61050, 71558, 82066, 92574, 103082]
+    each_additional: 10508
+    percent_fpl: 185
+    effective: "June 11, 2026 - June 30, 2027"
+    automatic: "Automatically income-eligible with certain MassHealth plans (Standard, CarePlus, Limited, Limited/CMSP, Medicare Savings Program), SNAP, or TAFDC (cash assistance)."
+    apply: "Contact a local WIC program or apply online (mass.gov/wic)."
+    source: ma-wic
+    section: "Overview; Income eligibility guidelines"
+    confidence: high
+  - id: snap
+    name: SNAP (food assistance, Department of Transitional Assistance)
+    who: "Massachusetts households; the household is everyone who buys and cooks most meals together, and a spouse and children under 22 living together are always included."
+    income_basis: gross
+    limit_type: table_monthly
+    monthly: [2660, 3607, 4553, 5500, 6447, 7393, 8340, 9287]
+    each_additional: 947
+    percent_fpl: 200
+    max_benefit_monthly: [306, 562, 808, 1023, 1217, 1463, 1616, 1841]
+    max_benefit_each_additional: 225
+    effective: "Federal fiscal year 2027 (assumed October 1, 2026; DTA's page is undated)"
+    automatic: "Not part of the public charge test; a family can apply for an eligible member (such as a U.S. citizen child) even if others are not eligible."
+    apply: "Apply on DTA Connect or call DTA; a decision comes within 30 days (some within 7 days)."
+    source: ma-snap
+    section: "SNAP Eligibility Chart"
+    confidence: medium
+  - id: masshealth_pregnant_infant
+    name: MassHealth Standard (pregnant people and infants under 1)
+    who: "Pregnant people (the unborn child or children count in household size) and children younger than 1."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 200
+    effective: "MassHealth income standards effective March 1, 2026"
+    automatic: "Pregnant members keep coverage through 12 months after pregnancy (postpartum)."
+    apply: "Apply with the Massachusetts Application for Health and Dental Coverage (ACA-3), online at MAhealthconnector.org, or by phone."
+    source: masshealth-booklet
+    section: "Section 3, MassHealth Standard, Income standards"
+    confidence: high
+  - id: masshealth_child
+    name: MassHealth Standard (children 1-18) or Family Assistance (children under 19)
+    who: "Children 1 through 18: MassHealth Standard up to 150% of FPL; children under 19 not eligible for Standard: MassHealth Family Assistance up to 300% of FPL (premiums may apply above 150%)."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 300
+    tiers:
+      - percent_fpl: 150
+        label: MassHealth Standard (children 1-18)
+      - percent_fpl: 300
+        label: MassHealth Family Assistance (children under 19)
+    effective: "MassHealth income standards effective March 1, 2026"
+    automatic: "Children younger than 21 may get provisional coverage while proof is gathered."
+    apply: "Apply with the ACA-3 application, online at MAhealthconnector.org, or by phone."
+    source: masshealth-booklet
+    section: "Section 3, MassHealth Standard and Family Assistance, Income standards"
+    confidence: high
+  - id: masshealth_parent
+    name: MassHealth Standard (parents and caretaker relatives of children under 19)
+    who: "Parents living with their children under 19, or caretaker relatives who are the primary caretaker when neither parent lives in the home."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 133
+    effective: "MassHealth income standards effective March 1, 2026"
+    automatic: ""
+    apply: "Apply with the ACA-3 application, online at MAhealthconnector.org, or by phone."
+    source: masshealth-booklet
+    section: "Section 3, MassHealth Standard, Income standards"
+    confidence: high
+  - id: masshealth_adult
+    name: MassHealth CarePlus (adults 21-64)
+    who: "Adults 21 to 64 who are U.S. citizens or qualified noncitizens and are not eligible for MassHealth Standard."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 133
+    effective: "MassHealth income standards effective March 1, 2026"
+    automatic: ""
+    apply: "Apply with the ACA-3 application, online at MAhealthconnector.org, or by phone."
+    source: masshealth-booklet
+    section: "Section 3, MassHealth CarePlus, Income standards"
+    confidence: high
+  - id: masshealth_young_adult
+    name: MassHealth Standard (young adults 19-20)
+    who: "Young adults 19 or 20 years old."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 150
+    effective: "MassHealth income standards effective March 1, 2026"
+    automatic: ""
+    apply: "Apply with the ACA-3 application, online at MAhealthconnector.org, or by phone."
+    source: masshealth-booklet
+    section: "Section 3, MassHealth Standard, Income standards"
+    confidence: high
+  - id: health_safety_net
+    name: Health Safety Net (care at Massachusetts acute hospitals and community health centers)
+    who: "Massachusetts residents; eligibility is determined by MassHealth. Covers care at acute hospitals and community health centers (not private doctors, ambulance, or most outside labs)."
+    income_basis: magi
+    limit_type: percent_fpl
+    percent_fpl: 300
+    tiers:
+      - percent_fpl: 150
+        label: Health Safety Net with no deductible
+      - percent_fpl: 300
+        label: Health Safety Net with an annual income-based deductible
+    effective: "Rule effective June 1, 2016; FPL amounts as of March 1, 2026"
+    automatic: ""
+    apply: "Apply with the ACA-3 application (the same application as MassHealth)."
+    source: masshealth-booklet
+    section: "Section 3, The Health Safety Net; Section 5 (Health Safety Net, income standards)"
+    confidence: high
+  - id: heap
+    name: Home Energy Assistance (HEAP/LIHEAP) for heating costs
+    who: "Massachusetts homeowners and renters who pay for heat (including heat included in rent); household income at or below 60% of the state median income; households apply every year."
+    income_basis: gross
+    limit_type: table_annual
+    annual: [53585, 70073, 86561, 103049, 119536, 136024, 139116, 142207, 145299, 148390]
+    each_additional: null
+    percent_fpl: null
+    effective: "Federal fiscal year 2027 (applications open October 1, 2026; season November 1 - April 30)"
+    automatic: "Eligible households also get discounts on investor-owned electric and gas utility bills."
+    apply: "Apply online (HEAP portal), in person, or by mail with the local agency; Cold Relief Heatline (800) 632-8175."
+    source: ma-heap
+    section: "Income Eligibility (FY 2027)"
+    confidence: high
+
+general_caveats:
+  - text: "This is an income screen, not an eligibility determination. Each program also looks at citizenship or immigration status, residency, assets (some programs), household composition, deductions, and other rules; families should apply even if they are near a limit."
+    source: masshealth-booklet
+    section: "Section 1 (eligibility factors); DTA: 'If you aren't sure if you are eligible, apply!'"
+  - text: "MassHealth and the Health Safety Net use Modified Adjusted Gross Income (MAGI) for the MAGI household, which can differ from the people living together; WIC and HEAP use gross household income; SNAP's chart is monthly gross income before taxes."
+    source: masshealth-booklet
+    section: "Section 8 (income); WIC and HEAP pages; SNAP chart"

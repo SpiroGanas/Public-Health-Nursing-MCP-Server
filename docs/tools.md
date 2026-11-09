@@ -1210,6 +1210,36 @@ The plan and teaching sheet contain no information about the family. Translation
 same rule as the lead teaching sheet: `/data/templates/<language>/newborn_postpartum_teaching.docx`
 or `.md`; otherwise English, and the result says so. Content: `mch-newborn-postpartum` (pending
 review).
+### `estimate_benefit_eligibility` (EQ-06, toolset `equity`)
+
+An **income screen, not an eligibility determination**, for WIC, SNAP, MassHealth, the Health
+Safety Net, and home energy assistance, from household size and gross income.
+
+| Argument | |
+|---|---|
+| `household_size` | People in the household (1-20). |
+| `annual_income` or `monthly_income` | Gross household income before taxes. |
+| `pregnant`, `unborn_children` | MassHealth counts the unborn child or children in household size. |
+| `child_under_5`, `infant_under_1`, `children_under_19`, `young_adult_19_20`, `postpartum_or_breastfeeding` | Which programs apply. |
+| `receives_snap_masshealth_or_tafdc` | WIC automatic income eligibility. |
+| `pays_for_heat` | HEAP applies to households that pay for heat (including heat in rent). |
+
+**Limits** (content `equity-benefit-eligibility`, pending review): 2026 HHS poverty guidelines
+(48 states and DC: $15,960 for one person plus $5,680 per additional person); WIC 185% of FPL
+(DPH table, June 11, 2026 - June 30, 2027; automatic with certain MassHealth plans, SNAP, or
+TAFDC); SNAP gross monthly income 200% of FPL and maximum benefits (DTA chart; assumed effective
+October 1, 2026); MassHealth (Member Booklet, standards effective March 1, 2026): pregnant
+people and infants under 1 at 200% (unborn counted), children 1-18 Standard at 150% and Family
+Assistance under 19 at 300%, young adults 19-20 at 150%, parents and caretakers at 133%,
+CarePlus adults 21-64 at 133%; Health Safety Net at 300% (no deductible up to 150%); HEAP at 60%
+of state median income (FY 2027 table, households of 1-10).
+
+**Returns** the percent of FPL, each program's limit for the household (monthly and annual),
+the screen result (likely income-eligible, over the limit, automatically income-eligible, or
+does not apply from the facts given), the tier (Family Assistance; HSN with or without a
+deductible), SNAP's maximum benefit, notes, how to apply, and each program's effective date.
+A unit test checks that the WIC and SNAP tables equal 185% and 200% of the poverty guidelines.
+**Refresh annually:** FPL in January, MassHealth March 1, WIC June/July, SNAP and HEAP October 1.
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

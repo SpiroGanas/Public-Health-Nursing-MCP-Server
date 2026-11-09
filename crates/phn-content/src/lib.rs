@@ -183,6 +183,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/mch/newborn_postpartum.yaml"),
         schema: include_str!("../../../content/schemas/mch_newborn.schema.json"),
     },
+    ContentItem {
+        id: "equity-benefit-eligibility",
+        path: "content/equity/benefit_eligibility.yaml",
+        resource_uri: "phn://content/equity-benefit-eligibility",
+        yaml: include_str!("../../../content/equity/benefit_eligibility.yaml"),
+        schema: include_str!("../../../content/schemas/equity_benefits.schema.json"),
+    },
     // End of Phase 8 content items.
     // Phase 9 content items go below this line.
     // End of Phase 9 content items.

@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 52;
+const TOOL_COUNT = 53;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans.', '5'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening.', '6'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1882,6 +1882,33 @@ const toolChapters = [
           'The weight change is reported, not judged: share it with the baby’s provider.',
           'The jaundice points are general (low confidence) because the full AAP guideline could not be retrieved; follow the baby’s discharge plan.',
           'Documents contain no information about the family. Translations come from your agency’s own files (templates/<language>/newborn_postpartum_teaching.docx); otherwise the English sheet is used.',
+        ],
+      },
+      {
+        id: 'estimate_benefit_eligibility',
+        title: 'Screen for benefit eligibility',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'no',
+        does: 'Compares a household’s size and income with the current income limits for WIC, SNAP, MassHealth, the Health Safety Net, and home heating assistance, and shows the percent of the federal poverty guideline. It is a screen to help you encourage families to apply, not an eligibility decision.',
+        when: [
+          'A home visit where the family is struggling with food, health coverage, or heating costs.',
+          'Deciding which applications to help a family start.',
+        ],
+        provide: [
+          'The number of people in the household and the gross income (yearly or monthly). Optionally: pregnancy, a baby or young children, children under 19, a young adult 19 or 20, whether the family already gets SNAP, MassHealth, or TAFDC, and whether they pay for heat.',
+        ],
+        examples: [
+          'A family of 3 with a newborn earns $3,500 a month. Which programs might they qualify for?',
+          'A pregnant woman living alone earns $40,000 a year. Is she under the MassHealth limit?',
+        ],
+        returns: [
+          'The percent of the poverty guideline and, for each program, the income limit for the household, whether the income is under it, the tier (for example the Health Safety Net with a deductible), SNAP’s maximum benefit, notes, how to apply, and the date the limits took effect.',
+        ],
+        notes: [
+          'Only income is checked. Programs also look at immigration status, residency, assets, and who counts in the household, so encourage families to apply.',
+          'Limits change every year (poverty guidelines in January, MassHealth in March, WIC in June or July, SNAP and heating assistance in October); the answer shows each date.',
+          'This tool is in the equity group.',
         ],
       },
     ],

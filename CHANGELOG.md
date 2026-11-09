@@ -54,6 +54,10 @@ All notable changes are recorded here. The format follows
   and hearing screening under 105 CMR 270.000 and M.G.L. c. 111, s. 67F, CDC Hear Her urgent
   maternal warning signs) with an optional DOCX visit plan and family teaching sheet. Content
   `content/mch/newborn_postpartum.yaml` (pending review; jaundice items low confidence).
+- `estimate_benefit_eligibility` (EQ-06): income screen for WIC, SNAP, MassHealth, the Health
+  Safety Net, and HEAP with the 2026 poverty guidelines and each program's current limits and
+  effective dates. Content `content/equity/benefit_eligibility.yaml` (pending review; refresh
+  annually).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management
