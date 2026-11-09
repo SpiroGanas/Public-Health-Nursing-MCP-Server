@@ -327,3 +327,26 @@ async fn lead_risk_ranking_and_map() {
     .await;
     assert!(e.contains("cities and towns only"));
 }
+
+// ------------------------------------------------------------------ MCH-06
+
+#[tokio::test]
+async fn maternal_infant_profile_for_a_town() {
+    let h = start(|_| {}).await;
+    let s = call_ok(
+        &h,
+        "maternal_infant_health_profile",
+        json!({"town": "Springfield"}),
+    )
+    .await;
+    assert_eq!(s["data"]["community"], "Springfield");
+    assert!(md(&s).contains("Infant mortality"));
+    assert!(!s["data"]["prams"].as_array().unwrap().is_empty());
+    let e = call_err(
+        &h,
+        "maternal_infant_health_profile",
+        json!({"town": "Springfeld", "county": "Hampden"}),
+    )
+    .await;
+    assert!(e.contains("not both"));
+}

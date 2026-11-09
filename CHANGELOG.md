@@ -62,6 +62,11 @@ All notable changes are recorded here. The format follows
   pre-1950/1980 housing, low income, young children, DPH screening gap and elevated blood lead
   prevalence) with DPH's high-risk designation and a choropleth map. Snapshot
   `ma-acs5-housing-age` (ACS B25034, `xtask/scripts/build_housing_age.py`).
+- `maternal_infant_health_profile` (MCH-06): community births, low birthweight, preterm, and
+  teen births with exact intervals and state/U.S. comparisons; statewide indicators and infant
+  mortality by race and Hispanic ethnicity; PRAMS indicators; trends. Snapshot
+  `ma-maternal-infant` (DPH birth, death, and PRAMS reports; CDC NCHS provisional estimates;
+  `xtask/scripts/build_maternal_infant.py`).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

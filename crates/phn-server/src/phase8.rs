@@ -4,8 +4,8 @@ use phn_core::Envelope;
 use phn_tools::equity::{BenefitArgs, BenefitResult};
 use phn_tools::mch::{
     GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, LeadRiskArgs, LeadRiskResult,
-    MandatedReporterArgs, MandatedReporterResult, MilestoneArgs, MilestoneResult, NewbornVisitArgs,
-    NewbornVisitResult,
+    MandatedReporterArgs, MandatedReporterResult, MaternalInfantArgs, MaternalInfantResult,
+    MilestoneArgs, MilestoneResult, NewbornVisitArgs, NewbornVisitResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -163,5 +163,27 @@ impl PhnServer {
             phn_tools::mch::map_lead_risk(ctx, args)
         })
         .await
+    }
+
+    #[tool(
+        name = "maternal_infant_health_profile",
+        description = "Maternal and infant health profile from DPH vital statistics and PRAMS: for \
+            a Massachusetts town or county, 2023 resident births, low birthweight, preterm \
+            birth, and teen births with 95% intervals compared with the state and U.S.; \
+            statewide figures by race and Hispanic ethnicity (low birthweight, preterm, adequate \
+            and first-trimester prenatal care, cesarean, breastfeeding, infant, neonatal, and \
+            postneonatal mortality with ratios to White non-Hispanic); PRAMS indicators \
+            (postpartum depressive symptoms, depression screening, breastfeeding, safe sleep, \
+            unintended pregnancy); and trends. Small counts are suppressed.",
+        annotations(title = "Maternal and infant health profile", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<MaternalInfantResult>>()
+    )]
+    async fn maternal_infant_health_profile(
+        &self,
+        Parameters(args): Parameters<MaternalInfantArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::mch::maternal_infant_health_profile(
+            &self.ctx, args,
+        ))
     }
 }

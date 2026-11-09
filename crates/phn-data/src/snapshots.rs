@@ -226,6 +226,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "ma_acs5_housing_age.csv",
         include_str!("../../../snapshots/ma_acs5_housing_age.csv"),
     ),
+    (
+        "ma_maternal_infant.csv",
+        include_str!("../../../snapshots/ma_maternal_infant.csv"),
+    ),
     // End of Phase 8 snapshot files.
 ];
 

@@ -1263,6 +1263,33 @@ next to it, and designated communities outside the top list are named.
 MOEs), `census-acs5-ma` (below 200% of poverty, under 5), and `ma-lead-screening` (DPH 2024
 surveillance report: screening and prevalence by community, high-risk list). ACS bins do not
 split at 1978. Statewide values are returned for comparison. No local data is read.
+### `maternal_infant_health_profile` (MCH-06, toolset `mch`)
+
+Births and maternal and infant health indicators for Massachusetts and its communities.
+
+| Argument | |
+|---|---|
+| `town` or `county` | Community profile: 2023 resident births, low birthweight %, preterm %, teen births. |
+| `by_race` | Statewide figures by race and Hispanic ethnicity (default true). |
+| `trends` | State trends (default true). |
+
+**Community indicators** are computed from DPH's counts (2023 Birth Report, Table 17) with exact
+Poisson 95% intervals (`phn_epi::rates`), flagged as unstable below 20 events, suppressed for
+DPH's 1-4 counts and below the configured threshold, and compared with the state ("higher" or
+"lower" only when the interval excludes the state value) and the U.S. **Statewide by race and
+Hispanic ethnicity** (2023): low birthweight, preterm, adequate prenatal care (APNCU),
+first-trimester care, cesarean, in-hospital breastfeeding; infant, neonatal, and postneonatal
+mortality (2022 Death Report, Table 5), each with the ratio to White non-Hispanic. **PRAMS**
+(2019-2021 report, weighted % with 95% CIs): depression screening (prenatal, postpartum),
+postpartum depressive symptoms, breastfeeding initiation and 8 weeks, back to sleep, no
+bed-sharing, no soft bedding, unintended pregnancy. **Trends:** low birthweight, preterm, and
+adequate prenatal care 2013-2023; infant mortality 2012-2022. **U.S.:** CDC NCHS provisional
+estimates (data.cdc.gov `76vv-a7x8`, 12 months ending 2024 Q4; `jqwm-z2g9`, 12 months ending
+2023 Q4), labeled with their periods.
+
+Data: snapshot `ma-maternal-infant`, built from DPH's annual reports and CDC's datasets by
+`xtask/scripts/build_maternal_infant.py` (CDC WONDER was blocked; DPH publishes no machine-readable
+town file). Community infant mortality and PRAMS are not published. No local data is read.
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

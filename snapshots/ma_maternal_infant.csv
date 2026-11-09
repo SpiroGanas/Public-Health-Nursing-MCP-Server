@@ -1,0 +1,1769 @@
+geo_type,geography,indicator,group,period,numerator,denominator,value,lower,upper,unit,source
+state,Massachusetts,resident_births,Total,2023,67068,,67068,,,births,ma-births-2023
+state,Massachusetts,low_birthweight_pct,Total,2023,5077,67068,7.57,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct,Total,2023,6046,67068,9.01,,,% of births,ma-births-2023
+state,Massachusetts,teen_births,Total,2023,1310,,1310,,,births to ages 15-19,ma-births-2023
+town,Abington,resident_births,Total,2023,187,,187,,,births,ma-births-2023
+town,Abington,low_birthweight_pct,Total,2023,16,187,8.56,,,% of births,ma-births-2023
+town,Abington,preterm_pct,Total,2023,23,187,12.3,,,% of births,ma-births-2023
+town,Abington,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Acton,resident_births,Total,2023,157,,157,,,births,ma-births-2023
+town,Acton,low_birthweight_pct,Total,2023,7,157,4.46,,,% of births,ma-births-2023
+town,Acton,preterm_pct,Total,2023,7,157,4.46,,,% of births,ma-births-2023
+town,Acton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Acushnet,resident_births,Total,2023,82,,82,,,births,ma-births-2023
+town,Acushnet,low_birthweight_pct,Total,2023,6,82,7.32,,,% of births,ma-births-2023
+town,Acushnet,preterm_pct,Total,2023,9,82,10.98,,,% of births,ma-births-2023
+town,Acushnet,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Adams,resident_births,Total,2023,62,,62,,,births,ma-births-2023
+town,Adams,low_birthweight_pct,Total,2023,5,62,8.06,,,% of births,ma-births-2023
+town,Adams,preterm_pct,Total,2023,10,62,16.13,,,% of births,ma-births-2023
+town,Adams,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Agawam,resident_births,Total,2023,230,,230,,,births,ma-births-2023
+town,Agawam,low_birthweight_pct,Total,2023,15,230,6.52,,,% of births,ma-births-2023
+town,Agawam,preterm_pct,Total,2023,15,230,6.52,,,% of births,ma-births-2023
+town,Agawam,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Alford,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Alford,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Alford,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Alford,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Amesbury,resident_births,Total,2023,172,,172,,,births,ma-births-2023
+town,Amesbury,low_birthweight_pct,Total,2023,9,172,5.23,,,% of births,ma-births-2023
+town,Amesbury,preterm_pct,Total,2023,9,172,5.23,,,% of births,ma-births-2023
+town,Amesbury,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Amherst,resident_births,Total,2023,118,,118,,,births,ma-births-2023
+town,Amherst,low_birthweight_pct,Total,2023,11,118,9.32,,,% of births,ma-births-2023
+town,Amherst,preterm_pct,Total,2023,9,118,7.63,,,% of births,ma-births-2023
+town,Amherst,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Andover,resident_births,Total,2023,274,,274,,,births,ma-births-2023
+town,Andover,low_birthweight_pct,Total,2023,10,274,3.65,,,% of births,ma-births-2023
+town,Andover,preterm_pct,Total,2023,12,274,4.38,,,% of births,ma-births-2023
+town,Andover,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Aquinnah,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Aquinnah,low_birthweight_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Aquinnah,preterm_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Aquinnah,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Arlington,resident_births,Total,2023,407,,407,,,births,ma-births-2023
+town,Arlington,low_birthweight_pct,Total,2023,21,407,5.16,,,% of births,ma-births-2023
+town,Arlington,preterm_pct,Total,2023,21,407,5.16,,,% of births,ma-births-2023
+town,Arlington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Ashburnham,resident_births,Total,2023,55,,55,,,births,ma-births-2023
+town,Ashburnham,low_birthweight_pct,Total,2023,5,55,9.09,,,% of births,ma-births-2023
+town,Ashburnham,preterm_pct,Total,2023,8,55,14.55,,,% of births,ma-births-2023
+town,Ashburnham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Ashby,resident_births,Total,2023,21,,21,,,births,ma-births-2023
+town,Ashby,low_birthweight_pct,Total,2023,<5,21,,,,% of births,ma-births-2023
+town,Ashby,preterm_pct,Total,2023,<5,21,,,,% of births,ma-births-2023
+town,Ashby,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Ashfield,resident_births,Total,2023,7,,7,,,births,ma-births-2023
+town,Ashfield,low_birthweight_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Ashfield,preterm_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Ashfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Ashland,resident_births,Total,2023,196,,196,,,births,ma-births-2023
+town,Ashland,low_birthweight_pct,Total,2023,13,196,6.63,,,% of births,ma-births-2023
+town,Ashland,preterm_pct,Total,2023,14,196,7.14,,,% of births,ma-births-2023
+town,Ashland,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Athol,resident_births,Total,2023,100,,100,,,births,ma-births-2023
+town,Athol,low_birthweight_pct,Total,2023,8,100,8,,,% of births,ma-births-2023
+town,Athol,preterm_pct,Total,2023,6,100,6,,,% of births,ma-births-2023
+town,Athol,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Attleboro,resident_births,Total,2023,476,,476,,,births,ma-births-2023
+town,Attleboro,low_birthweight_pct,Total,2023,55,476,11.55,,,% of births,ma-births-2023
+town,Attleboro,preterm_pct,Total,2023,48,476,10.08,,,% of births,ma-births-2023
+town,Attleboro,teen_births,Total,2023,8,,8,,,births to ages 15-19,ma-births-2023
+town,Auburn,resident_births,Total,2023,141,,141,,,births,ma-births-2023
+town,Auburn,low_birthweight_pct,Total,2023,7,141,4.96,,,% of births,ma-births-2023
+town,Auburn,preterm_pct,Total,2023,14,141,9.93,,,% of births,ma-births-2023
+town,Auburn,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Avon,resident_births,Total,2023,58,,58,,,births,ma-births-2023
+town,Avon,low_birthweight_pct,Total,2023,<5,58,,,,% of births,ma-births-2023
+town,Avon,preterm_pct,Total,2023,8,58,13.79,,,% of births,ma-births-2023
+town,Avon,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Ayer,resident_births,Total,2023,70,,70,,,births,ma-births-2023
+town,Ayer,low_birthweight_pct,Total,2023,<5,70,,,,% of births,ma-births-2023
+town,Ayer,preterm_pct,Total,2023,7,70,10,,,% of births,ma-births-2023
+town,Ayer,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Barnstable,resident_births,Total,2023,403,,403,,,births,ma-births-2023
+town,Barnstable,low_birthweight_pct,Total,2023,23,403,5.71,,,% of births,ma-births-2023
+town,Barnstable,preterm_pct,Total,2023,27,403,6.7,,,% of births,ma-births-2023
+town,Barnstable,teen_births,Total,2023,9,,9,,,births to ages 15-19,ma-births-2023
+town,Barre,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Barre,low_birthweight_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Barre,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Barre,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Becket,resident_births,Total,2023,10,,10,,,births,ma-births-2023
+town,Becket,low_birthweight_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,Becket,preterm_pct,Total,2023,<5,10,,,,% of births,ma-births-2023
+town,Becket,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Bedford,resident_births,Total,2023,108,,108,,,births,ma-births-2023
+town,Bedford,low_birthweight_pct,Total,2023,7,108,6.48,,,% of births,ma-births-2023
+town,Bedford,preterm_pct,Total,2023,7,108,6.48,,,% of births,ma-births-2023
+town,Bedford,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Belchertown,resident_births,Total,2023,106,,106,,,births,ma-births-2023
+town,Belchertown,low_birthweight_pct,Total,2023,6,106,5.66,,,% of births,ma-births-2023
+town,Belchertown,preterm_pct,Total,2023,<5,106,,,,% of births,ma-births-2023
+town,Belchertown,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Bellingham,resident_births,Total,2023,181,,181,,,births,ma-births-2023
+town,Bellingham,low_birthweight_pct,Total,2023,12,181,6.63,,,% of births,ma-births-2023
+town,Bellingham,preterm_pct,Total,2023,19,181,10.5,,,% of births,ma-births-2023
+town,Bellingham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Belmont,resident_births,Total,2023,222,,222,,,births,ma-births-2023
+town,Belmont,low_birthweight_pct,Total,2023,18,222,8.11,,,% of births,ma-births-2023
+town,Belmont,preterm_pct,Total,2023,21,222,9.46,,,% of births,ma-births-2023
+town,Belmont,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Berkley,resident_births,Total,2023,49,,49,,,births,ma-births-2023
+town,Berkley,low_birthweight_pct,Total,2023,<5,49,,,,% of births,ma-births-2023
+town,Berkley,preterm_pct,Total,2023,<5,49,,,,% of births,ma-births-2023
+town,Berkley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Berlin,resident_births,Total,2023,29,,29,,,births,ma-births-2023
+town,Berlin,low_birthweight_pct,Total,2023,<5,29,,,,% of births,ma-births-2023
+town,Berlin,preterm_pct,Total,2023,<5,29,,,,% of births,ma-births-2023
+town,Berlin,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Bernardston,resident_births,Total,2023,15,,15,,,births,ma-births-2023
+town,Bernardston,low_birthweight_pct,Total,2023,0,15,0,,,% of births,ma-births-2023
+town,Bernardston,preterm_pct,Total,2023,0,15,0,,,% of births,ma-births-2023
+town,Bernardston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Beverly,resident_births,Total,2023,378,,378,,,births,ma-births-2023
+town,Beverly,low_birthweight_pct,Total,2023,23,378,6.08,,,% of births,ma-births-2023
+town,Beverly,preterm_pct,Total,2023,27,378,7.14,,,% of births,ma-births-2023
+town,Beverly,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Billerica,resident_births,Total,2023,444,,444,,,births,ma-births-2023
+town,Billerica,low_birthweight_pct,Total,2023,26,444,5.86,,,% of births,ma-births-2023
+town,Billerica,preterm_pct,Total,2023,38,444,8.56,,,% of births,ma-births-2023
+town,Billerica,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Blackstone,resident_births,Total,2023,86,,86,,,births,ma-births-2023
+town,Blackstone,low_birthweight_pct,Total,2023,<5,86,,,,% of births,ma-births-2023
+town,Blackstone,preterm_pct,Total,2023,6,86,6.98,,,% of births,ma-births-2023
+town,Blackstone,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Blandford,resident_births,Total,2023,13,,13,,,births,ma-births-2023
+town,Blandford,low_birthweight_pct,Total,2023,0,13,0,,,% of births,ma-births-2023
+town,Blandford,preterm_pct,Total,2023,<5,13,,,,% of births,ma-births-2023
+town,Blandford,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Bolton,resident_births,Total,2023,57,,57,,,births,ma-births-2023
+town,Bolton,low_birthweight_pct,Total,2023,<5,57,,,,% of births,ma-births-2023
+town,Bolton,preterm_pct,Total,2023,<5,57,,,,% of births,ma-births-2023
+town,Bolton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Boston,resident_births,Total,2023,6845,,6845,,,births,ma-births-2023
+town,Boston,low_birthweight_pct,Total,2023,549,6845,8.02,,,% of births,ma-births-2023
+town,Boston,preterm_pct,Total,2023,651,6845,9.51,,,% of births,ma-births-2023
+town,Boston,teen_births,Total,2023,144,,144,,,births to ages 15-19,ma-births-2023
+town,Bourne,resident_births,Total,2023,170,,170,,,births,ma-births-2023
+town,Bourne,low_birthweight_pct,Total,2023,7,170,4.12,,,% of births,ma-births-2023
+town,Bourne,preterm_pct,Total,2023,11,170,6.47,,,% of births,ma-births-2023
+town,Bourne,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Boxborough,resident_births,Total,2023,37,,37,,,births,ma-births-2023
+town,Boxborough,low_birthweight_pct,Total,2023,5,37,13.51,,,% of births,ma-births-2023
+town,Boxborough,preterm_pct,Total,2023,6,37,16.22,,,% of births,ma-births-2023
+town,Boxborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Boxford,resident_births,Total,2023,68,,68,,,births,ma-births-2023
+town,Boxford,low_birthweight_pct,Total,2023,5,68,7.35,,,% of births,ma-births-2023
+town,Boxford,preterm_pct,Total,2023,<5,68,,,,% of births,ma-births-2023
+town,Boxford,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Boylston,resident_births,Total,2023,39,,39,,,births,ma-births-2023
+town,Boylston,low_birthweight_pct,Total,2023,<5,39,,,,% of births,ma-births-2023
+town,Boylston,preterm_pct,Total,2023,<5,39,,,,% of births,ma-births-2023
+town,Boylston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Braintree,resident_births,Total,2023,331,,331,,,births,ma-births-2023
+town,Braintree,low_birthweight_pct,Total,2023,30,331,9.06,,,% of births,ma-births-2023
+town,Braintree,preterm_pct,Total,2023,36,331,10.88,,,% of births,ma-births-2023
+town,Braintree,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Brewster,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Brewster,low_birthweight_pct,Total,2023,5,59,8.47,,,% of births,ma-births-2023
+town,Brewster,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Brewster,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Bridgewater,resident_births,Total,2023,257,,257,,,births,ma-births-2023
+town,Bridgewater,low_birthweight_pct,Total,2023,25,257,9.73,,,% of births,ma-births-2023
+town,Bridgewater,preterm_pct,Total,2023,24,257,9.34,,,% of births,ma-births-2023
+town,Bridgewater,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Brimfield,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Brimfield,low_birthweight_pct,Total,2023,0,19,0,,,% of births,ma-births-2023
+town,Brimfield,preterm_pct,Total,2023,0,19,0,,,% of births,ma-births-2023
+town,Brimfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Brockton,resident_births,Total,2023,1406,,1406,,,births,ma-births-2023
+town,Brockton,low_birthweight_pct,Total,2023,130,1406,9.25,,,% of births,ma-births-2023
+town,Brockton,preterm_pct,Total,2023,140,1406,9.96,,,% of births,ma-births-2023
+town,Brockton,teen_births,Total,2023,49,,49,,,births to ages 15-19,ma-births-2023
+town,Brookfield,resident_births,Total,2023,27,,27,,,births,ma-births-2023
+town,Brookfield,low_birthweight_pct,Total,2023,<5,27,,,,% of births,ma-births-2023
+town,Brookfield,preterm_pct,Total,2023,<5,27,,,,% of births,ma-births-2023
+town,Brookfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Brookline,resident_births,Total,2023,422,,422,,,births,ma-births-2023
+town,Brookline,low_birthweight_pct,Total,2023,22,422,5.21,,,% of births,ma-births-2023
+town,Brookline,preterm_pct,Total,2023,33,422,7.82,,,% of births,ma-births-2023
+town,Brookline,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Buckland,resident_births,Total,2023,10,,10,,,births,ma-births-2023
+town,Buckland,low_birthweight_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,Buckland,preterm_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,Buckland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Burlington,resident_births,Total,2023,299,,299,,,births,ma-births-2023
+town,Burlington,low_birthweight_pct,Total,2023,25,299,8.36,,,% of births,ma-births-2023
+town,Burlington,preterm_pct,Total,2023,25,299,8.36,,,% of births,ma-births-2023
+town,Burlington,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Cambridge,resident_births,Total,2023,889,,889,,,births,ma-births-2023
+town,Cambridge,low_birthweight_pct,Total,2023,60,889,6.75,,,% of births,ma-births-2023
+town,Cambridge,preterm_pct,Total,2023,63,889,7.09,,,% of births,ma-births-2023
+town,Cambridge,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Canton,resident_births,Total,2023,275,,275,,,births,ma-births-2023
+town,Canton,low_birthweight_pct,Total,2023,15,275,5.45,,,% of births,ma-births-2023
+town,Canton,preterm_pct,Total,2023,20,275,7.27,,,% of births,ma-births-2023
+town,Canton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Carlisle,resident_births,Total,2023,41,,41,,,births,ma-births-2023
+town,Carlisle,low_birthweight_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Carlisle,preterm_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Carlisle,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Carver,resident_births,Total,2023,104,,104,,,births,ma-births-2023
+town,Carver,low_birthweight_pct,Total,2023,<5,104,,,,% of births,ma-births-2023
+town,Carver,preterm_pct,Total,2023,10,104,9.62,,,% of births,ma-births-2023
+town,Carver,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Charlemont,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,Charlemont,low_birthweight_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Charlemont,preterm_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Charlemont,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Charlton,resident_births,Total,2023,125,,125,,,births,ma-births-2023
+town,Charlton,low_birthweight_pct,Total,2023,11,125,8.8,,,% of births,ma-births-2023
+town,Charlton,preterm_pct,Total,2023,13,125,10.4,,,% of births,ma-births-2023
+town,Charlton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Chatham,resident_births,Total,2023,22,,22,,,births,ma-births-2023
+town,Chatham,low_birthweight_pct,Total,2023,0,22,0,,,% of births,ma-births-2023
+town,Chatham,preterm_pct,Total,2023,0,22,0,,,% of births,ma-births-2023
+town,Chatham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Chelmsford,resident_births,Total,2023,323,,323,,,births,ma-births-2023
+town,Chelmsford,low_birthweight_pct,Total,2023,20,323,6.19,,,% of births,ma-births-2023
+town,Chelmsford,preterm_pct,Total,2023,31,323,9.6,,,% of births,ma-births-2023
+town,Chelmsford,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Chelsea,resident_births,Total,2023,538,,538,,,births,ma-births-2023
+town,Chelsea,low_birthweight_pct,Total,2023,35,538,6.51,,,% of births,ma-births-2023
+town,Chelsea,preterm_pct,Total,2023,51,538,9.48,,,% of births,ma-births-2023
+town,Chelsea,teen_births,Total,2023,27,,27,,,births to ages 15-19,ma-births-2023
+town,Cheshire,resident_births,Total,2023,26,,26,,,births,ma-births-2023
+town,Cheshire,low_birthweight_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Cheshire,preterm_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Cheshire,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Chester,resident_births,Total,2023,15,,15,,,births,ma-births-2023
+town,Chester,low_birthweight_pct,Total,2023,<5,15,,,,% of births,ma-births-2023
+town,Chester,preterm_pct,Total,2023,0,15,0,,,% of births,ma-births-2023
+town,Chester,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Chesterfield,resident_births,Total,2023,7,,7,,,births,ma-births-2023
+town,Chesterfield,low_birthweight_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Chesterfield,preterm_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Chesterfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Chicopee,resident_births,Total,2023,499,,499,,,births,ma-births-2023
+town,Chicopee,low_birthweight_pct,Total,2023,41,499,8.22,,,% of births,ma-births-2023
+town,Chicopee,preterm_pct,Total,2023,58,499,11.62,,,% of births,ma-births-2023
+town,Chicopee,teen_births,Total,2023,21,,21,,,births to ages 15-19,ma-births-2023
+town,Chilmark,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Chilmark,low_birthweight_pct,Total,2023,0,4,0,,,% of births,ma-births-2023
+town,Chilmark,preterm_pct,Total,2023,0,4,0,,,% of births,ma-births-2023
+town,Chilmark,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Clarksburg,resident_births,Total,2023,11,,11,,,births,ma-births-2023
+town,Clarksburg,low_birthweight_pct,Total,2023,<5,11,,,,% of births,ma-births-2023
+town,Clarksburg,preterm_pct,Total,2023,<5,11,,,,% of births,ma-births-2023
+town,Clarksburg,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Clinton,resident_births,Total,2023,157,,157,,,births,ma-births-2023
+town,Clinton,low_birthweight_pct,Total,2023,7,157,4.46,,,% of births,ma-births-2023
+town,Clinton,preterm_pct,Total,2023,9,157,5.73,,,% of births,ma-births-2023
+town,Clinton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Cohasset,resident_births,Total,2023,66,,66,,,births,ma-births-2023
+town,Cohasset,low_birthweight_pct,Total,2023,<5,66,,,,% of births,ma-births-2023
+town,Cohasset,preterm_pct,Total,2023,<5,66,,,,% of births,ma-births-2023
+town,Cohasset,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Colrain,resident_births,Total,2023,11,,11,,,births,ma-births-2023
+town,Colrain,low_birthweight_pct,Total,2023,0,11,0,,,% of births,ma-births-2023
+town,Colrain,preterm_pct,Total,2023,<5,11,,,,% of births,ma-births-2023
+town,Colrain,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Concord,resident_births,Total,2023,116,,116,,,births,ma-births-2023
+town,Concord,low_birthweight_pct,Total,2023,<5,116,,,,% of births,ma-births-2023
+town,Concord,preterm_pct,Total,2023,10,116,8.62,,,% of births,ma-births-2023
+town,Concord,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Conway,resident_births,Total,2023,5,,5,,,births,ma-births-2023
+town,Conway,low_birthweight_pct,Total,2023,<5,5,,,,% of births,ma-births-2023
+town,Conway,preterm_pct,Total,2023,<5,5,,,,% of births,ma-births-2023
+town,Conway,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Cummington,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Cummington,low_birthweight_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Cummington,preterm_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Cummington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Dalton,resident_births,Total,2023,38,,38,,,births,ma-births-2023
+town,Dalton,low_birthweight_pct,Total,2023,<5,38,,,,% of births,ma-births-2023
+town,Dalton,preterm_pct,Total,2023,<5,38,,,,% of births,ma-births-2023
+town,Dalton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Danvers,resident_births,Total,2023,250,,250,,,births,ma-births-2023
+town,Danvers,low_birthweight_pct,Total,2023,10,250,4,,,% of births,ma-births-2023
+town,Danvers,preterm_pct,Total,2023,16,250,6.4,,,% of births,ma-births-2023
+town,Danvers,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Dartmouth,resident_births,Total,2023,167,,167,,,births,ma-births-2023
+town,Dartmouth,low_birthweight_pct,Total,2023,14,167,8.38,,,% of births,ma-births-2023
+town,Dartmouth,preterm_pct,Total,2023,10,167,5.99,,,% of births,ma-births-2023
+town,Dartmouth,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Dedham,resident_births,Total,2023,302,,302,,,births,ma-births-2023
+town,Dedham,low_birthweight_pct,Total,2023,26,302,8.61,,,% of births,ma-births-2023
+town,Dedham,preterm_pct,Total,2023,39,302,12.91,,,% of births,ma-births-2023
+town,Dedham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Deerfield,resident_births,Total,2023,32,,32,,,births,ma-births-2023
+town,Deerfield,low_birthweight_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,Deerfield,preterm_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,Deerfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Dennis,resident_births,Total,2023,79,,79,,,births,ma-births-2023
+town,Dennis,low_birthweight_pct,Total,2023,5,79,6.33,,,% of births,ma-births-2023
+town,Dennis,preterm_pct,Total,2023,<5,79,,,,% of births,ma-births-2023
+town,Dennis,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Dighton,resident_births,Total,2023,60,,60,,,births,ma-births-2023
+town,Dighton,low_birthweight_pct,Total,2023,<5,60,,,,% of births,ma-births-2023
+town,Dighton,preterm_pct,Total,2023,<5,60,,,,% of births,ma-births-2023
+town,Dighton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Douglas,resident_births,Total,2023,85,,85,,,births,ma-births-2023
+town,Douglas,low_birthweight_pct,Total,2023,7,85,8.24,,,% of births,ma-births-2023
+town,Douglas,preterm_pct,Total,2023,12,85,14.12,,,% of births,ma-births-2023
+town,Douglas,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Dover,resident_births,Total,2023,50,,50,,,births,ma-births-2023
+town,Dover,low_birthweight_pct,Total,2023,<5,50,,,,% of births,ma-births-2023
+town,Dover,preterm_pct,Total,2023,<5,50,,,,% of births,ma-births-2023
+town,Dover,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Dracut,resident_births,Total,2023,299,,299,,,births,ma-births-2023
+town,Dracut,low_birthweight_pct,Total,2023,34,299,11.37,,,% of births,ma-births-2023
+town,Dracut,preterm_pct,Total,2023,38,299,12.71,,,% of births,ma-births-2023
+town,Dracut,teen_births,Total,2023,5,,5,,,births to ages 15-19,ma-births-2023
+town,Dudley,resident_births,Total,2023,88,,88,,,births,ma-births-2023
+town,Dudley,low_birthweight_pct,Total,2023,9,88,10.23,,,% of births,ma-births-2023
+town,Dudley,preterm_pct,Total,2023,11,88,12.5,,,% of births,ma-births-2023
+town,Dudley,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Dunstable,resident_births,Total,2023,25,,25,,,births,ma-births-2023
+town,Dunstable,low_birthweight_pct,Total,2023,<5,25,,,,% of births,ma-births-2023
+town,Dunstable,preterm_pct,Total,2023,<5,25,,,,% of births,ma-births-2023
+town,Dunstable,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Duxbury,resident_births,Total,2023,118,,118,,,births,ma-births-2023
+town,Duxbury,low_birthweight_pct,Total,2023,11,118,9.32,,,% of births,ma-births-2023
+town,Duxbury,preterm_pct,Total,2023,16,118,13.56,,,% of births,ma-births-2023
+town,Duxbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,East Bridgewater,resident_births,Total,2023,118,,118,,,births,ma-births-2023
+town,East Bridgewater,low_birthweight_pct,Total,2023,16,118,13.56,,,% of births,ma-births-2023
+town,East Bridgewater,preterm_pct,Total,2023,21,118,17.8,,,% of births,ma-births-2023
+town,East Bridgewater,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,East Brookfield,resident_births,Total,2023,24,,24,,,births,ma-births-2023
+town,East Brookfield,low_birthweight_pct,Total,2023,<5,24,,,,% of births,ma-births-2023
+town,East Brookfield,preterm_pct,Total,2023,0,24,0,,,% of births,ma-births-2023
+town,East Brookfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,East Longmeadow,resident_births,Total,2023,116,,116,,,births,ma-births-2023
+town,East Longmeadow,low_birthweight_pct,Total,2023,7,116,6.03,,,% of births,ma-births-2023
+town,East Longmeadow,preterm_pct,Total,2023,7,116,6.03,,,% of births,ma-births-2023
+town,East Longmeadow,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Eastham,resident_births,Total,2023,32,,32,,,births,ma-births-2023
+town,Eastham,low_birthweight_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,Eastham,preterm_pct,Total,2023,5,32,15.62,,,% of births,ma-births-2023
+town,Eastham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Easthampton,resident_births,Total,2023,106,,106,,,births,ma-births-2023
+town,Easthampton,low_birthweight_pct,Total,2023,5,106,4.72,,,% of births,ma-births-2023
+town,Easthampton,preterm_pct,Total,2023,11,106,10.38,,,% of births,ma-births-2023
+town,Easthampton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Easton,resident_births,Total,2023,232,,232,,,births,ma-births-2023
+town,Easton,low_birthweight_pct,Total,2023,27,232,11.64,,,% of births,ma-births-2023
+town,Easton,preterm_pct,Total,2023,26,232,11.21,,,% of births,ma-births-2023
+town,Easton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Edgartown,resident_births,Total,2023,44,,44,,,births,ma-births-2023
+town,Edgartown,low_birthweight_pct,Total,2023,<5,44,,,,% of births,ma-births-2023
+town,Edgartown,preterm_pct,Total,2023,<5,44,,,,% of births,ma-births-2023
+town,Edgartown,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Egremont,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,Egremont,low_birthweight_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Egremont,preterm_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Egremont,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Erving,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Erving,low_birthweight_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Erving,preterm_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Erving,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Essex,resident_births,Total,2023,32,,32,,,births,ma-births-2023
+town,Essex,low_birthweight_pct,Total,2023,0,32,0,,,% of births,ma-births-2023
+town,Essex,preterm_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,Essex,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Everett,resident_births,Total,2023,650,,650,,,births,ma-births-2023
+town,Everett,low_birthweight_pct,Total,2023,58,650,8.92,,,% of births,ma-births-2023
+town,Everett,preterm_pct,Total,2023,72,650,11.08,,,% of births,ma-births-2023
+town,Everett,teen_births,Total,2023,15,,15,,,births to ages 15-19,ma-births-2023
+town,Fairhaven,resident_births,Total,2023,105,,105,,,births,ma-births-2023
+town,Fairhaven,low_birthweight_pct,Total,2023,9,105,8.57,,,% of births,ma-births-2023
+town,Fairhaven,preterm_pct,Total,2023,6,105,5.71,,,% of births,ma-births-2023
+town,Fairhaven,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Fall River,resident_births,Total,2023,1129,,1129,,,births,ma-births-2023
+town,Fall River,low_birthweight_pct,Total,2023,109,1129,9.65,,,% of births,ma-births-2023
+town,Fall River,preterm_pct,Total,2023,111,1129,9.83,,,% of births,ma-births-2023
+town,Fall River,teen_births,Total,2023,52,,52,,,births to ages 15-19,ma-births-2023
+town,Falmouth,resident_births,Total,2023,177,,177,,,births,ma-births-2023
+town,Falmouth,low_birthweight_pct,Total,2023,11,177,6.21,,,% of births,ma-births-2023
+town,Falmouth,preterm_pct,Total,2023,18,177,10.17,,,% of births,ma-births-2023
+town,Falmouth,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Fitchburg,resident_births,Total,2023,471,,471,,,births,ma-births-2023
+town,Fitchburg,low_birthweight_pct,Total,2023,37,471,7.86,,,% of births,ma-births-2023
+town,Fitchburg,preterm_pct,Total,2023,50,471,10.62,,,% of births,ma-births-2023
+town,Fitchburg,teen_births,Total,2023,25,,25,,,births to ages 15-19,ma-births-2023
+town,Florida,resident_births,Total,2023,3,,3,,,births,ma-births-2023
+town,Florida,low_birthweight_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Florida,preterm_pct,Total,2023,<5,3,,,,% of births,ma-births-2023
+town,Florida,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Foxborough,resident_births,Total,2023,189,,189,,,births,ma-births-2023
+town,Foxborough,low_birthweight_pct,Total,2023,10,189,5.29,,,% of births,ma-births-2023
+town,Foxborough,preterm_pct,Total,2023,17,189,8.99,,,% of births,ma-births-2023
+town,Foxborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Framingham,resident_births,Total,2023,939,,939,,,births,ma-births-2023
+town,Framingham,low_birthweight_pct,Total,2023,83,939,8.84,,,% of births,ma-births-2023
+town,Framingham,preterm_pct,Total,2023,95,939,10.12,,,% of births,ma-births-2023
+town,Framingham,teen_births,Total,2023,20,,20,,,births to ages 15-19,ma-births-2023
+town,Franklin,resident_births,Total,2023,338,,338,,,births,ma-births-2023
+town,Franklin,low_birthweight_pct,Total,2023,20,338,5.92,,,% of births,ma-births-2023
+town,Franklin,preterm_pct,Total,2023,30,338,8.88,,,% of births,ma-births-2023
+town,Franklin,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Freetown,resident_births,Total,2023,69,,69,,,births,ma-births-2023
+town,Freetown,low_birthweight_pct,Total,2023,8,69,11.59,,,% of births,ma-births-2023
+town,Freetown,preterm_pct,Total,2023,6,69,8.7,,,% of births,ma-births-2023
+town,Freetown,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Gardner,resident_births,Total,2023,204,,204,,,births,ma-births-2023
+town,Gardner,low_birthweight_pct,Total,2023,14,204,6.86,,,% of births,ma-births-2023
+town,Gardner,preterm_pct,Total,2023,19,204,9.31,,,% of births,ma-births-2023
+town,Gardner,teen_births,Total,2023,5,,5,,,births to ages 15-19,ma-births-2023
+town,Georgetown,resident_births,Total,2023,80,,80,,,births,ma-births-2023
+town,Georgetown,low_birthweight_pct,Total,2023,<5,80,,,,% of births,ma-births-2023
+town,Georgetown,preterm_pct,Total,2023,7,80,8.75,,,% of births,ma-births-2023
+town,Georgetown,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Gill,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Gill,low_birthweight_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Gill,preterm_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Gill,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Gloucester,resident_births,Total,2023,236,,236,,,births,ma-births-2023
+town,Gloucester,low_birthweight_pct,Total,2023,18,236,7.63,,,% of births,ma-births-2023
+town,Gloucester,preterm_pct,Total,2023,22,236,9.32,,,% of births,ma-births-2023
+town,Gloucester,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Goshen,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Goshen,low_birthweight_pct,Total,2023,0,4,0,,,% of births,ma-births-2023
+town,Goshen,preterm_pct,Total,2023,0,4,0,,,% of births,ma-births-2023
+town,Goshen,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Gosnold,resident_births,Total,2023,0,,0,,,births,ma-births-2023
+town,Gosnold,low_birthweight_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,Gosnold,preterm_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,Gosnold,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Grafton,resident_births,Total,2023,193,,193,,,births,ma-births-2023
+town,Grafton,low_birthweight_pct,Total,2023,18,193,9.33,,,% of births,ma-births-2023
+town,Grafton,preterm_pct,Total,2023,22,193,11.4,,,% of births,ma-births-2023
+town,Grafton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Granby,resident_births,Total,2023,33,,33,,,births,ma-births-2023
+town,Granby,low_birthweight_pct,Total,2023,<5,33,,,,% of births,ma-births-2023
+town,Granby,preterm_pct,Total,2023,<5,33,,,,% of births,ma-births-2023
+town,Granby,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Granville,resident_births,Total,2023,14,,14,,,births,ma-births-2023
+town,Granville,low_birthweight_pct,Total,2023,0,14,0,,,% of births,ma-births-2023
+town,Granville,preterm_pct,Total,2023,<5,14,,,,% of births,ma-births-2023
+town,Granville,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Great Barrington,resident_births,Total,2023,35,,35,,,births,ma-births-2023
+town,Great Barrington,low_birthweight_pct,Total,2023,<5,35,,,,% of births,ma-births-2023
+town,Great Barrington,preterm_pct,Total,2023,<5,35,,,,% of births,ma-births-2023
+town,Great Barrington,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Greenfield,resident_births,Total,2023,135,,135,,,births,ma-births-2023
+town,Greenfield,low_birthweight_pct,Total,2023,12,135,8.89,,,% of births,ma-births-2023
+town,Greenfield,preterm_pct,Total,2023,14,135,10.37,,,% of births,ma-births-2023
+town,Greenfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Groton,resident_births,Total,2023,78,,78,,,births,ma-births-2023
+town,Groton,low_birthweight_pct,Total,2023,<5,78,,,,% of births,ma-births-2023
+town,Groton,preterm_pct,Total,2023,<5,78,,,,% of births,ma-births-2023
+town,Groton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Groveland,resident_births,Total,2023,53,,53,,,births,ma-births-2023
+town,Groveland,low_birthweight_pct,Total,2023,<5,53,,,,% of births,ma-births-2023
+town,Groveland,preterm_pct,Total,2023,8,53,15.09,,,% of births,ma-births-2023
+town,Groveland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hadley,resident_births,Total,2023,26,,26,,,births,ma-births-2023
+town,Hadley,low_birthweight_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Hadley,preterm_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Hadley,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Halifax,resident_births,Total,2023,77,,77,,,births,ma-births-2023
+town,Halifax,low_birthweight_pct,Total,2023,<5,77,,,,% of births,ma-births-2023
+town,Halifax,preterm_pct,Total,2023,<5,77,,,,% of births,ma-births-2023
+town,Halifax,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Hamilton,resident_births,Total,2023,75,,75,,,births,ma-births-2023
+town,Hamilton,low_birthweight_pct,Total,2023,6,75,8,,,% of births,ma-births-2023
+town,Hamilton,preterm_pct,Total,2023,7,75,9.33,,,% of births,ma-births-2023
+town,Hamilton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hampden,resident_births,Total,2023,46,,46,,,births,ma-births-2023
+town,Hampden,low_birthweight_pct,Total,2023,<5,46,,,,% of births,ma-births-2023
+town,Hampden,preterm_pct,Total,2023,<5,46,,,,% of births,ma-births-2023
+town,Hampden,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Hancock,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Hancock,low_birthweight_pct,Total,2023,<5,2,,,,% of births,ma-births-2023
+town,Hancock,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Hancock,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hanover,resident_births,Total,2023,115,,115,,,births,ma-births-2023
+town,Hanover,low_birthweight_pct,Total,2023,7,115,6.09,,,% of births,ma-births-2023
+town,Hanover,preterm_pct,Total,2023,11,115,9.57,,,% of births,ma-births-2023
+town,Hanover,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hanson,resident_births,Total,2023,85,,85,,,births,ma-births-2023
+town,Hanson,low_birthweight_pct,Total,2023,5,85,5.88,,,% of births,ma-births-2023
+town,Hanson,preterm_pct,Total,2023,7,85,8.24,,,% of births,ma-births-2023
+town,Hanson,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hardwick,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Hardwick,low_birthweight_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Hardwick,preterm_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Hardwick,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Harvard,resident_births,Total,2023,45,,45,,,births,ma-births-2023
+town,Harvard,low_birthweight_pct,Total,2023,<5,45,,,,% of births,ma-births-2023
+town,Harvard,preterm_pct,Total,2023,5,45,11.11,,,% of births,ma-births-2023
+town,Harvard,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Harwich,resident_births,Total,2023,75,,75,,,births,ma-births-2023
+town,Harwich,low_birthweight_pct,Total,2023,<5,75,,,,% of births,ma-births-2023
+town,Harwich,preterm_pct,Total,2023,<5,75,,,,% of births,ma-births-2023
+town,Harwich,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Hatfield,resident_births,Total,2023,21,,21,,,births,ma-births-2023
+town,Hatfield,low_birthweight_pct,Total,2023,0,21,0,,,% of births,ma-births-2023
+town,Hatfield,preterm_pct,Total,2023,0,21,0,,,% of births,ma-births-2023
+town,Hatfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Haverhill,resident_births,Total,2023,747,,747,,,births,ma-births-2023
+town,Haverhill,low_birthweight_pct,Total,2023,52,747,6.96,,,% of births,ma-births-2023
+town,Haverhill,preterm_pct,Total,2023,70,747,9.37,,,% of births,ma-births-2023
+town,Haverhill,teen_births,Total,2023,23,,23,,,births to ages 15-19,ma-births-2023
+town,Hawley,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Hawley,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Hawley,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Hawley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Heath,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Heath,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Heath,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Heath,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hingham,resident_births,Total,2023,241,,241,,,births,ma-births-2023
+town,Hingham,low_birthweight_pct,Total,2023,10,241,4.15,,,% of births,ma-births-2023
+town,Hingham,preterm_pct,Total,2023,18,241,7.47,,,% of births,ma-births-2023
+town,Hingham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hinsdale,resident_births,Total,2023,14,,14,,,births,ma-births-2023
+town,Hinsdale,low_birthweight_pct,Total,2023,0,14,0,,,% of births,ma-births-2023
+town,Hinsdale,preterm_pct,Total,2023,0,14,0,,,% of births,ma-births-2023
+town,Hinsdale,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Holbrook,resident_births,Total,2023,111,,111,,,births,ma-births-2023
+town,Holbrook,low_birthweight_pct,Total,2023,14,111,12.61,,,% of births,ma-births-2023
+town,Holbrook,preterm_pct,Total,2023,13,111,11.71,,,% of births,ma-births-2023
+town,Holbrook,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Holden,resident_births,Total,2023,169,,169,,,births,ma-births-2023
+town,Holden,low_birthweight_pct,Total,2023,9,169,5.33,,,% of births,ma-births-2023
+town,Holden,preterm_pct,Total,2023,13,169,7.69,,,% of births,ma-births-2023
+town,Holden,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Holland,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Holland,low_birthweight_pct,Total,2023,0,19,0,,,% of births,ma-births-2023
+town,Holland,preterm_pct,Total,2023,0,19,0,,,% of births,ma-births-2023
+town,Holland,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Holliston,resident_births,Total,2023,132,,132,,,births,ma-births-2023
+town,Holliston,low_birthweight_pct,Total,2023,8,132,6.06,,,% of births,ma-births-2023
+town,Holliston,preterm_pct,Total,2023,12,132,9.09,,,% of births,ma-births-2023
+town,Holliston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Holyoke,resident_births,Total,2023,396,,396,,,births,ma-births-2023
+town,Holyoke,low_birthweight_pct,Total,2023,38,396,9.6,,,% of births,ma-births-2023
+town,Holyoke,preterm_pct,Total,2023,42,396,10.61,,,% of births,ma-births-2023
+town,Holyoke,teen_births,Total,2023,27,,27,,,births to ages 15-19,ma-births-2023
+town,Hopedale,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Hopedale,low_birthweight_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Hopedale,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Hopedale,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hopkinton,resident_births,Total,2023,143,,143,,,births,ma-births-2023
+town,Hopkinton,low_birthweight_pct,Total,2023,8,143,5.59,,,% of births,ma-births-2023
+town,Hopkinton,preterm_pct,Total,2023,7,143,4.9,,,% of births,ma-births-2023
+town,Hopkinton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Hubbardston,resident_births,Total,2023,53,,53,,,births,ma-births-2023
+town,Hubbardston,low_birthweight_pct,Total,2023,5,53,9.43,,,% of births,ma-births-2023
+town,Hubbardston,preterm_pct,Total,2023,6,53,11.32,,,% of births,ma-births-2023
+town,Hubbardston,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Hudson,resident_births,Total,2023,189,,189,,,births,ma-births-2023
+town,Hudson,low_birthweight_pct,Total,2023,12,189,6.35,,,% of births,ma-births-2023
+town,Hudson,preterm_pct,Total,2023,13,189,6.88,,,% of births,ma-births-2023
+town,Hudson,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Hull,resident_births,Total,2023,43,,43,,,births,ma-births-2023
+town,Hull,low_birthweight_pct,Total,2023,5,43,11.63,,,% of births,ma-births-2023
+town,Hull,preterm_pct,Total,2023,5,43,11.63,,,% of births,ma-births-2023
+town,Hull,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Huntington,resident_births,Total,2023,16,,16,,,births,ma-births-2023
+town,Huntington,low_birthweight_pct,Total,2023,<5,16,,,,% of births,ma-births-2023
+town,Huntington,preterm_pct,Total,2023,<5,16,,,,% of births,ma-births-2023
+town,Huntington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Ipswich,resident_births,Total,2023,107,,107,,,births,ma-births-2023
+town,Ipswich,low_birthweight_pct,Total,2023,<5,107,,,,% of births,ma-births-2023
+town,Ipswich,preterm_pct,Total,2023,6,107,5.61,,,% of births,ma-births-2023
+town,Ipswich,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Kingston,resident_births,Total,2023,151,,151,,,births,ma-births-2023
+town,Kingston,low_birthweight_pct,Total,2023,<5,151,,,,% of births,ma-births-2023
+town,Kingston,preterm_pct,Total,2023,6,151,3.97,,,% of births,ma-births-2023
+town,Kingston,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lakeville,resident_births,Total,2023,102,,102,,,births,ma-births-2023
+town,Lakeville,low_birthweight_pct,Total,2023,9,102,8.82,,,% of births,ma-births-2023
+town,Lakeville,preterm_pct,Total,2023,11,102,10.78,,,% of births,ma-births-2023
+town,Lakeville,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lancaster,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Lancaster,low_birthweight_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Lancaster,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Lancaster,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Lanesborough,resident_births,Total,2023,18,,18,,,births,ma-births-2023
+town,Lanesborough,low_birthweight_pct,Total,2023,<5,18,,,,% of births,ma-births-2023
+town,Lanesborough,preterm_pct,Total,2023,<5,18,,,,% of births,ma-births-2023
+town,Lanesborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lawrence,resident_births,Total,2023,1394,,1394,,,births,ma-births-2023
+town,Lawrence,low_birthweight_pct,Total,2023,103,1394,7.39,,,% of births,ma-births-2023
+town,Lawrence,preterm_pct,Total,2023,119,1394,8.54,,,% of births,ma-births-2023
+town,Lawrence,teen_births,Total,2023,85,,85,,,births to ages 15-19,ma-births-2023
+town,Lee,resident_births,Total,2023,38,,38,,,births,ma-births-2023
+town,Lee,low_birthweight_pct,Total,2023,<5,38,,,,% of births,ma-births-2023
+town,Lee,preterm_pct,Total,2023,<5,38,,,,% of births,ma-births-2023
+town,Lee,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Leicester,resident_births,Total,2023,98,,98,,,births,ma-births-2023
+town,Leicester,low_birthweight_pct,Total,2023,7,98,7.14,,,% of births,ma-births-2023
+town,Leicester,preterm_pct,Total,2023,8,98,8.16,,,% of births,ma-births-2023
+town,Leicester,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lenox,resident_births,Total,2023,26,,26,,,births,ma-births-2023
+town,Lenox,low_birthweight_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Lenox,preterm_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Lenox,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Leominster,resident_births,Total,2023,507,,507,,,births,ma-births-2023
+town,Leominster,low_birthweight_pct,Total,2023,54,507,10.65,,,% of births,ma-births-2023
+town,Leominster,preterm_pct,Total,2023,68,507,13.41,,,% of births,ma-births-2023
+town,Leominster,teen_births,Total,2023,5,,5,,,births to ages 15-19,ma-births-2023
+town,Leverett,resident_births,Total,2023,13,,13,,,births,ma-births-2023
+town,Leverett,low_birthweight_pct,Total,2023,0,13,0,,,% of births,ma-births-2023
+town,Leverett,preterm_pct,Total,2023,0,13,0,,,% of births,ma-births-2023
+town,Leverett,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Lexington,resident_births,Total,2023,165,,165,,,births,ma-births-2023
+town,Lexington,low_birthweight_pct,Total,2023,12,165,7.27,,,% of births,ma-births-2023
+town,Lexington,preterm_pct,Total,2023,12,165,7.27,,,% of births,ma-births-2023
+town,Lexington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Leyden,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Leyden,low_birthweight_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Leyden,preterm_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Leyden,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Lincoln,resident_births,Total,2023,63,,63,,,births,ma-births-2023
+town,Lincoln,low_birthweight_pct,Total,2023,<5,63,,,,% of births,ma-births-2023
+town,Lincoln,preterm_pct,Total,2023,<5,63,,,,% of births,ma-births-2023
+town,Lincoln,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Littleton,resident_births,Total,2023,85,,85,,,births,ma-births-2023
+town,Littleton,low_birthweight_pct,Total,2023,5,85,5.88,,,% of births,ma-births-2023
+town,Littleton,preterm_pct,Total,2023,9,85,10.59,,,% of births,ma-births-2023
+town,Littleton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Longmeadow,resident_births,Total,2023,111,,111,,,births,ma-births-2023
+town,Longmeadow,low_birthweight_pct,Total,2023,<5,111,,,,% of births,ma-births-2023
+town,Longmeadow,preterm_pct,Total,2023,5,111,4.5,,,% of births,ma-births-2023
+town,Longmeadow,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Lowell,resident_births,Total,2023,1408,,1408,,,births,ma-births-2023
+town,Lowell,low_birthweight_pct,Total,2023,129,1408,9.16,,,% of births,ma-births-2023
+town,Lowell,preterm_pct,Total,2023,123,1408,8.74,,,% of births,ma-births-2023
+town,Lowell,teen_births,Total,2023,49,,49,,,births to ages 15-19,ma-births-2023
+town,Ludlow,resident_births,Total,2023,159,,159,,,births,ma-births-2023
+town,Ludlow,low_birthweight_pct,Total,2023,10,159,6.29,,,% of births,ma-births-2023
+town,Ludlow,preterm_pct,Total,2023,11,159,6.92,,,% of births,ma-births-2023
+town,Ludlow,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lunenburg,resident_births,Total,2023,117,,117,,,births,ma-births-2023
+town,Lunenburg,low_birthweight_pct,Total,2023,10,117,8.55,,,% of births,ma-births-2023
+town,Lunenburg,preterm_pct,Total,2023,12,117,10.26,,,% of births,ma-births-2023
+town,Lunenburg,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Lynn,resident_births,Total,2023,1503,,1503,,,births,ma-births-2023
+town,Lynn,low_birthweight_pct,Total,2023,112,1503,7.45,,,% of births,ma-births-2023
+town,Lynn,preterm_pct,Total,2023,132,1503,8.78,,,% of births,ma-births-2023
+town,Lynn,teen_births,Total,2023,80,,80,,,births to ages 15-19,ma-births-2023
+town,Lynnfield,resident_births,Total,2023,106,,106,,,births,ma-births-2023
+town,Lynnfield,low_birthweight_pct,Total,2023,<5,106,,,,% of births,ma-births-2023
+town,Lynnfield,preterm_pct,Total,2023,8,106,7.55,,,% of births,ma-births-2023
+town,Lynnfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Malden,resident_births,Total,2023,774,,774,,,births,ma-births-2023
+town,Malden,low_birthweight_pct,Total,2023,69,774,8.91,,,% of births,ma-births-2023
+town,Malden,preterm_pct,Total,2023,71,774,9.17,,,% of births,ma-births-2023
+town,Malden,teen_births,Total,2023,8,,8,,,births to ages 15-19,ma-births-2023
+town,Manchester,resident_births,Total,2023,30,,30,,,births,ma-births-2023
+town,Manchester,low_birthweight_pct,Total,2023,<5,30,,,,% of births,ma-births-2023
+town,Manchester,preterm_pct,Total,2023,<5,30,,,,% of births,ma-births-2023
+town,Manchester,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Mansfield,resident_births,Total,2023,222,,222,,,births,ma-births-2023
+town,Mansfield,low_birthweight_pct,Total,2023,20,222,9.01,,,% of births,ma-births-2023
+town,Mansfield,preterm_pct,Total,2023,22,222,9.91,,,% of births,ma-births-2023
+town,Mansfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Marblehead,resident_births,Total,2023,177,,177,,,births,ma-births-2023
+town,Marblehead,low_birthweight_pct,Total,2023,7,177,3.95,,,% of births,ma-births-2023
+town,Marblehead,preterm_pct,Total,2023,12,177,6.78,,,% of births,ma-births-2023
+town,Marblehead,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Marion,resident_births,Total,2023,43,,43,,,births,ma-births-2023
+town,Marion,low_birthweight_pct,Total,2023,0,43,0,,,% of births,ma-births-2023
+town,Marion,preterm_pct,Total,2023,0,43,0,,,% of births,ma-births-2023
+town,Marion,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Marlborough,resident_births,Total,2023,483,,483,,,births,ma-births-2023
+town,Marlborough,low_birthweight_pct,Total,2023,29,483,6,,,% of births,ma-births-2023
+town,Marlborough,preterm_pct,Total,2023,37,483,7.66,,,% of births,ma-births-2023
+town,Marlborough,teen_births,Total,2023,10,,10,,,births to ages 15-19,ma-births-2023
+town,Marshfield,resident_births,Total,2023,199,,199,,,births,ma-births-2023
+town,Marshfield,low_birthweight_pct,Total,2023,13,199,6.53,,,% of births,ma-births-2023
+town,Marshfield,preterm_pct,Total,2023,16,199,8.04,,,% of births,ma-births-2023
+town,Marshfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Mashpee,resident_births,Total,2023,98,,98,,,births,ma-births-2023
+town,Mashpee,low_birthweight_pct,Total,2023,<5,98,,,,% of births,ma-births-2023
+town,Mashpee,preterm_pct,Total,2023,6,98,6.12,,,% of births,ma-births-2023
+town,Mashpee,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Mattapoisett,resident_births,Total,2023,43,,43,,,births,ma-births-2023
+town,Mattapoisett,low_birthweight_pct,Total,2023,<5,43,,,,% of births,ma-births-2023
+town,Mattapoisett,preterm_pct,Total,2023,<5,43,,,,% of births,ma-births-2023
+town,Mattapoisett,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Maynard,resident_births,Total,2023,121,,121,,,births,ma-births-2023
+town,Maynard,low_birthweight_pct,Total,2023,5,121,4.13,,,% of births,ma-births-2023
+town,Maynard,preterm_pct,Total,2023,11,121,9.09,,,% of births,ma-births-2023
+town,Maynard,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Medfield,resident_births,Total,2023,144,,144,,,births,ma-births-2023
+town,Medfield,low_birthweight_pct,Total,2023,9,144,6.25,,,% of births,ma-births-2023
+town,Medfield,preterm_pct,Total,2023,13,144,9.03,,,% of births,ma-births-2023
+town,Medfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Medford,resident_births,Total,2023,560,,560,,,births,ma-births-2023
+town,Medford,low_birthweight_pct,Total,2023,40,560,7.14,,,% of births,ma-births-2023
+town,Medford,preterm_pct,Total,2023,55,560,9.82,,,% of births,ma-births-2023
+town,Medford,teen_births,Total,2023,6,,6,,,births to ages 15-19,ma-births-2023
+town,Medway,resident_births,Total,2023,120,,120,,,births,ma-births-2023
+town,Medway,low_birthweight_pct,Total,2023,5,120,4.17,,,% of births,ma-births-2023
+town,Medway,preterm_pct,Total,2023,6,120,5,,,% of births,ma-births-2023
+town,Medway,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Melrose,resident_births,Total,2023,303,,303,,,births,ma-births-2023
+town,Melrose,low_birthweight_pct,Total,2023,20,303,6.6,,,% of births,ma-births-2023
+town,Melrose,preterm_pct,Total,2023,21,303,6.93,,,% of births,ma-births-2023
+town,Melrose,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Mendon,resident_births,Total,2023,66,,66,,,births,ma-births-2023
+town,Mendon,low_birthweight_pct,Total,2023,<5,66,,,,% of births,ma-births-2023
+town,Mendon,preterm_pct,Total,2023,<5,66,,,,% of births,ma-births-2023
+town,Mendon,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Merrimac,resident_births,Total,2023,58,,58,,,births,ma-births-2023
+town,Merrimac,low_birthweight_pct,Total,2023,<5,58,,,,% of births,ma-births-2023
+town,Merrimac,preterm_pct,Total,2023,<5,58,,,,% of births,ma-births-2023
+town,Merrimac,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Methuen,resident_births,Total,2023,538,,538,,,births,ma-births-2023
+town,Methuen,low_birthweight_pct,Total,2023,40,538,7.43,,,% of births,ma-births-2023
+town,Methuen,preterm_pct,Total,2023,42,538,7.81,,,% of births,ma-births-2023
+town,Methuen,teen_births,Total,2023,12,,12,,,births to ages 15-19,ma-births-2023
+town,Middleborough,resident_births,Total,2023,262,,262,,,births,ma-births-2023
+town,Middleborough,low_birthweight_pct,Total,2023,18,262,6.87,,,% of births,ma-births-2023
+town,Middleborough,preterm_pct,Total,2023,24,262,9.16,,,% of births,ma-births-2023
+town,Middleborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Middlefield,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Middlefield,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Middlefield,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Middlefield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Middleton,resident_births,Total,2023,51,,51,,,births,ma-births-2023
+town,Middleton,low_birthweight_pct,Total,2023,<5,51,,,,% of births,ma-births-2023
+town,Middleton,preterm_pct,Total,2023,<5,51,,,,% of births,ma-births-2023
+town,Middleton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Milford,resident_births,Total,2023,463,,463,,,births,ma-births-2023
+town,Milford,low_birthweight_pct,Total,2023,31,463,6.7,,,% of births,ma-births-2023
+town,Milford,preterm_pct,Total,2023,44,463,9.5,,,% of births,ma-births-2023
+town,Milford,teen_births,Total,2023,13,,13,,,births to ages 15-19,ma-births-2023
+town,Millbury,resident_births,Total,2023,138,,138,,,births,ma-births-2023
+town,Millbury,low_birthweight_pct,Total,2023,11,138,7.97,,,% of births,ma-births-2023
+town,Millbury,preterm_pct,Total,2023,11,138,7.97,,,% of births,ma-births-2023
+town,Millbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Millis,resident_births,Total,2023,69,,69,,,births,ma-births-2023
+town,Millis,low_birthweight_pct,Total,2023,8,69,11.59,,,% of births,ma-births-2023
+town,Millis,preterm_pct,Total,2023,10,69,14.49,,,% of births,ma-births-2023
+town,Millis,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Millville,resident_births,Total,2023,36,,36,,,births,ma-births-2023
+town,Millville,low_birthweight_pct,Total,2023,5,36,13.89,,,% of births,ma-births-2023
+town,Millville,preterm_pct,Total,2023,8,36,22.22,,,% of births,ma-births-2023
+town,Millville,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Milton,resident_births,Total,2023,260,,260,,,births,ma-births-2023
+town,Milton,low_birthweight_pct,Total,2023,20,260,7.69,,,% of births,ma-births-2023
+town,Milton,preterm_pct,Total,2023,22,260,8.46,,,% of births,ma-births-2023
+town,Milton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Monroe,resident_births,Total,2023,1,,1,,,births,ma-births-2023
+town,Monroe,low_birthweight_pct,Total,2023,0,1,0,,,% of births,ma-births-2023
+town,Monroe,preterm_pct,Total,2023,0,1,0,,,% of births,ma-births-2023
+town,Monroe,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Monson,resident_births,Total,2023,74,,74,,,births,ma-births-2023
+town,Monson,low_birthweight_pct,Total,2023,5,74,6.76,,,% of births,ma-births-2023
+town,Monson,preterm_pct,Total,2023,<5,74,,,,% of births,ma-births-2023
+town,Monson,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Montague,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Montague,low_birthweight_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Montague,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,Montague,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Monterey,resident_births,Total,2023,3,,3,,,births,ma-births-2023
+town,Monterey,low_birthweight_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Monterey,preterm_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Monterey,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Montgomery,resident_births,Total,2023,9,,9,,,births,ma-births-2023
+town,Montgomery,low_birthweight_pct,Total,2023,<5,9,,,,% of births,ma-births-2023
+town,Montgomery,preterm_pct,Total,2023,<5,9,,,,% of births,ma-births-2023
+town,Montgomery,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Mount Washington,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Mount Washington,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Mount Washington,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Mount Washington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Nahant,resident_births,Total,2023,19,,19,,,births,ma-births-2023
+town,Nahant,low_birthweight_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Nahant,preterm_pct,Total,2023,<5,19,,,,% of births,ma-births-2023
+town,Nahant,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Nantucket,resident_births,Total,2023,156,,156,,,births,ma-births-2023
+town,Nantucket,low_birthweight_pct,Total,2023,11,156,7.05,,,% of births,ma-births-2023
+town,Nantucket,preterm_pct,Total,2023,10,156,6.41,,,% of births,ma-births-2023
+town,Nantucket,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Natick,resident_births,Total,2023,358,,358,,,births,ma-births-2023
+town,Natick,low_birthweight_pct,Total,2023,22,358,6.15,,,% of births,ma-births-2023
+town,Natick,preterm_pct,Total,2023,23,358,6.42,,,% of births,ma-births-2023
+town,Natick,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Needham,resident_births,Total,2023,226,,226,,,births,ma-births-2023
+town,Needham,low_birthweight_pct,Total,2023,14,226,6.19,,,% of births,ma-births-2023
+town,Needham,preterm_pct,Total,2023,18,226,7.96,,,% of births,ma-births-2023
+town,Needham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,New Ashford,resident_births,Total,2023,0,,0,,,births,ma-births-2023
+town,New Ashford,low_birthweight_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,New Ashford,preterm_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,New Ashford,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,New Bedford,resident_births,Total,2023,1156,,1156,,,births,ma-births-2023
+town,New Bedford,low_birthweight_pct,Total,2023,127,1156,10.99,,,% of births,ma-births-2023
+town,New Bedford,preterm_pct,Total,2023,112,1156,9.69,,,% of births,ma-births-2023
+town,New Bedford,teen_births,Total,2023,67,,67,,,births to ages 15-19,ma-births-2023
+town,New Braintree,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,New Braintree,low_birthweight_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,New Braintree,preterm_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,New Braintree,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,New Marlborough,resident_births,Total,2023,10,,10,,,births,ma-births-2023
+town,New Marlborough,low_birthweight_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,New Marlborough,preterm_pct,Total,2023,<5,10,,,,% of births,ma-births-2023
+town,New Marlborough,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,New Salem,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,New Salem,low_birthweight_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,New Salem,preterm_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,New Salem,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Newbury,resident_births,Total,2023,53,,53,,,births,ma-births-2023
+town,Newbury,low_birthweight_pct,Total,2023,5,53,9.43,,,% of births,ma-births-2023
+town,Newbury,preterm_pct,Total,2023,5,53,9.43,,,% of births,ma-births-2023
+town,Newbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Newburyport,resident_births,Total,2023,138,,138,,,births,ma-births-2023
+town,Newburyport,low_birthweight_pct,Total,2023,5,138,3.62,,,% of births,ma-births-2023
+town,Newburyport,preterm_pct,Total,2023,8,138,5.8,,,% of births,ma-births-2023
+town,Newburyport,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Newton,resident_births,Total,2023,567,,567,,,births,ma-births-2023
+town,Newton,low_birthweight_pct,Total,2023,37,567,6.53,,,% of births,ma-births-2023
+town,Newton,preterm_pct,Total,2023,40,567,7.05,,,% of births,ma-births-2023
+town,Newton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Norfolk,resident_births,Total,2023,96,,96,,,births,ma-births-2023
+town,Norfolk,low_birthweight_pct,Total,2023,<5,96,,,,% of births,ma-births-2023
+town,Norfolk,preterm_pct,Total,2023,<5,96,,,,% of births,ma-births-2023
+town,Norfolk,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,North Adams,resident_births,Total,2023,78,,78,,,births,ma-births-2023
+town,North Adams,low_birthweight_pct,Total,2023,11,78,14.1,,,% of births,ma-births-2023
+town,North Adams,preterm_pct,Total,2023,10,78,12.82,,,% of births,ma-births-2023
+town,North Adams,teen_births,Total,2023,5,,5,,,births to ages 15-19,ma-births-2023
+town,North Andover,resident_births,Total,2023,287,,287,,,births,ma-births-2023
+town,North Andover,low_birthweight_pct,Total,2023,22,287,7.67,,,% of births,ma-births-2023
+town,North Andover,preterm_pct,Total,2023,30,287,10.45,,,% of births,ma-births-2023
+town,North Andover,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,North Attleborough,resident_births,Total,2023,297,,297,,,births,ma-births-2023
+town,North Attleborough,low_birthweight_pct,Total,2023,16,297,5.39,,,% of births,ma-births-2023
+town,North Attleborough,preterm_pct,Total,2023,22,297,7.41,,,% of births,ma-births-2023
+town,North Attleborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,North Brookfield,resident_births,Total,2023,41,,41,,,births,ma-births-2023
+town,North Brookfield,low_birthweight_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,North Brookfield,preterm_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,North Brookfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,North Reading,resident_births,Total,2023,141,,141,,,births,ma-births-2023
+town,North Reading,low_birthweight_pct,Total,2023,10,141,7.09,,,% of births,ma-births-2023
+town,North Reading,preterm_pct,Total,2023,11,141,7.8,,,% of births,ma-births-2023
+town,North Reading,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Northampton,resident_births,Total,2023,142,,142,,,births,ma-births-2023
+town,Northampton,low_birthweight_pct,Total,2023,11,142,7.75,,,% of births,ma-births-2023
+town,Northampton,preterm_pct,Total,2023,8,142,5.63,,,% of births,ma-births-2023
+town,Northampton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Northborough,resident_births,Total,2023,117,,117,,,births,ma-births-2023
+town,Northborough,low_birthweight_pct,Total,2023,7,117,5.98,,,% of births,ma-births-2023
+town,Northborough,preterm_pct,Total,2023,11,117,9.4,,,% of births,ma-births-2023
+town,Northborough,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Northbridge,resident_births,Total,2023,149,,149,,,births,ma-births-2023
+town,Northbridge,low_birthweight_pct,Total,2023,14,149,9.4,,,% of births,ma-births-2023
+town,Northbridge,preterm_pct,Total,2023,15,149,10.07,,,% of births,ma-births-2023
+town,Northbridge,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Northfield,resident_births,Total,2023,32,,32,,,births,ma-births-2023
+town,Northfield,low_birthweight_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,Northfield,preterm_pct,Total,2023,0,32,0,,,% of births,ma-births-2023
+town,Northfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Norton,resident_births,Total,2023,157,,157,,,births,ma-births-2023
+town,Norton,low_birthweight_pct,Total,2023,16,157,10.19,,,% of births,ma-births-2023
+town,Norton,preterm_pct,Total,2023,17,157,10.83,,,% of births,ma-births-2023
+town,Norton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Norwell,resident_births,Total,2023,123,,123,,,births,ma-births-2023
+town,Norwell,low_birthweight_pct,Total,2023,7,123,5.69,,,% of births,ma-births-2023
+town,Norwell,preterm_pct,Total,2023,14,123,11.38,,,% of births,ma-births-2023
+town,Norwell,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Norwood,resident_births,Total,2023,340,,340,,,births,ma-births-2023
+town,Norwood,low_birthweight_pct,Total,2023,20,340,5.88,,,% of births,ma-births-2023
+town,Norwood,preterm_pct,Total,2023,29,340,8.53,,,% of births,ma-births-2023
+town,Norwood,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Oak Bluffs,resident_births,Total,2023,34,,34,,,births,ma-births-2023
+town,Oak Bluffs,low_birthweight_pct,Total,2023,0,34,0,,,% of births,ma-births-2023
+town,Oak Bluffs,preterm_pct,Total,2023,<5,34,,,,% of births,ma-births-2023
+town,Oak Bluffs,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Oakham,resident_births,Total,2023,15,,15,,,births,ma-births-2023
+town,Oakham,low_birthweight_pct,Total,2023,<5,15,,,,% of births,ma-births-2023
+town,Oakham,preterm_pct,Total,2023,<5,15,,,,% of births,ma-births-2023
+town,Oakham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Orange,resident_births,Total,2023,41,,41,,,births,ma-births-2023
+town,Orange,low_birthweight_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Orange,preterm_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Orange,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Orleans,resident_births,Total,2023,16,,16,,,births,ma-births-2023
+town,Orleans,low_birthweight_pct,Total,2023,0,16,0,,,% of births,ma-births-2023
+town,Orleans,preterm_pct,Total,2023,<5,16,,,,% of births,ma-births-2023
+town,Orleans,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Otis,resident_births,Total,2023,14,,14,,,births,ma-births-2023
+town,Otis,low_birthweight_pct,Total,2023,<5,14,,,,% of births,ma-births-2023
+town,Otis,preterm_pct,Total,2023,<5,14,,,,% of births,ma-births-2023
+town,Otis,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Oxford,resident_births,Total,2023,131,,131,,,births,ma-births-2023
+town,Oxford,low_birthweight_pct,Total,2023,9,131,6.87,,,% of births,ma-births-2023
+town,Oxford,preterm_pct,Total,2023,11,131,8.4,,,% of births,ma-births-2023
+town,Oxford,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Palmer,resident_births,Total,2023,104,,104,,,births,ma-births-2023
+town,Palmer,low_birthweight_pct,Total,2023,6,104,5.77,,,% of births,ma-births-2023
+town,Palmer,preterm_pct,Total,2023,12,104,11.54,,,% of births,ma-births-2023
+town,Palmer,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Paxton,resident_births,Total,2023,36,,36,,,births,ma-births-2023
+town,Paxton,low_birthweight_pct,Total,2023,<5,36,,,,% of births,ma-births-2023
+town,Paxton,preterm_pct,Total,2023,<5,36,,,,% of births,ma-births-2023
+town,Paxton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Peabody,resident_births,Total,2023,547,,547,,,births,ma-births-2023
+town,Peabody,low_birthweight_pct,Total,2023,34,547,6.22,,,% of births,ma-births-2023
+town,Peabody,preterm_pct,Total,2023,38,547,6.95,,,% of births,ma-births-2023
+town,Peabody,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Pelham,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Pelham,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Pelham,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Pelham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Pembroke,resident_births,Total,2023,191,,191,,,births,ma-births-2023
+town,Pembroke,low_birthweight_pct,Total,2023,9,191,4.71,,,% of births,ma-births-2023
+town,Pembroke,preterm_pct,Total,2023,18,191,9.42,,,% of births,ma-births-2023
+town,Pembroke,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Pepperell,resident_births,Total,2023,101,,101,,,births,ma-births-2023
+town,Pepperell,low_birthweight_pct,Total,2023,9,101,8.91,,,% of births,ma-births-2023
+town,Pepperell,preterm_pct,Total,2023,8,101,7.92,,,% of births,ma-births-2023
+town,Pepperell,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Peru,resident_births,Total,2023,5,,5,,,births,ma-births-2023
+town,Peru,low_birthweight_pct,Total,2023,0,5,0,,,% of births,ma-births-2023
+town,Peru,preterm_pct,Total,2023,<5,5,,,,% of births,ma-births-2023
+town,Peru,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Petersham,resident_births,Total,2023,11,,11,,,births,ma-births-2023
+town,Petersham,low_birthweight_pct,Total,2023,<5,11,,,,% of births,ma-births-2023
+town,Petersham,preterm_pct,Total,2023,<5,11,,,,% of births,ma-births-2023
+town,Petersham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Phillipston,resident_births,Total,2023,13,,13,,,births,ma-births-2023
+town,Phillipston,low_birthweight_pct,Total,2023,<5,13,,,,% of births,ma-births-2023
+town,Phillipston,preterm_pct,Total,2023,<5,13,,,,% of births,ma-births-2023
+town,Phillipston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Pittsfield,resident_births,Total,2023,388,,388,,,births,ma-births-2023
+town,Pittsfield,low_birthweight_pct,Total,2023,37,388,9.54,,,% of births,ma-births-2023
+town,Pittsfield,preterm_pct,Total,2023,36,388,9.28,,,% of births,ma-births-2023
+town,Pittsfield,teen_births,Total,2023,23,,23,,,births to ages 15-19,ma-births-2023
+town,Plainfield,resident_births,Total,2023,3,,3,,,births,ma-births-2023
+town,Plainfield,low_birthweight_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Plainfield,preterm_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Plainfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Plainville,resident_births,Total,2023,101,,101,,,births,ma-births-2023
+town,Plainville,low_birthweight_pct,Total,2023,12,101,11.88,,,% of births,ma-births-2023
+town,Plainville,preterm_pct,Total,2023,14,101,13.86,,,% of births,ma-births-2023
+town,Plainville,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Plymouth,resident_births,Total,2023,591,,591,,,births,ma-births-2023
+town,Plymouth,low_birthweight_pct,Total,2023,25,591,4.23,,,% of births,ma-births-2023
+town,Plymouth,preterm_pct,Total,2023,44,591,7.45,,,% of births,ma-births-2023
+town,Plymouth,teen_births,Total,2023,7,,7,,,births to ages 15-19,ma-births-2023
+town,Plympton,resident_births,Total,2023,23,,23,,,births,ma-births-2023
+town,Plympton,low_birthweight_pct,Total,2023,0,23,0,,,% of births,ma-births-2023
+town,Plympton,preterm_pct,Total,2023,<5,23,,,,% of births,ma-births-2023
+town,Plympton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Princeton,resident_births,Total,2023,29,,29,,,births,ma-births-2023
+town,Princeton,low_birthweight_pct,Total,2023,<5,29,,,,% of births,ma-births-2023
+town,Princeton,preterm_pct,Total,2023,0,29,0,,,% of births,ma-births-2023
+town,Princeton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Provincetown,resident_births,Total,2023,9,,9,,,births,ma-births-2023
+town,Provincetown,low_birthweight_pct,Total,2023,<5,9,,,,% of births,ma-births-2023
+town,Provincetown,preterm_pct,Total,2023,<5,9,,,,% of births,ma-births-2023
+town,Provincetown,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Quincy,resident_births,Total,2023,1057,,1057,,,births,ma-births-2023
+town,Quincy,low_birthweight_pct,Total,2023,88,1057,8.33,,,% of births,ma-births-2023
+town,Quincy,preterm_pct,Total,2023,99,1057,9.37,,,% of births,ma-births-2023
+town,Quincy,teen_births,Total,2023,10,,10,,,births to ages 15-19,ma-births-2023
+town,Randolph,resident_births,Total,2023,331,,331,,,births,ma-births-2023
+town,Randolph,low_birthweight_pct,Total,2023,36,331,10.88,,,% of births,ma-births-2023
+town,Randolph,preterm_pct,Total,2023,34,331,10.27,,,% of births,ma-births-2023
+town,Randolph,teen_births,Total,2023,6,,6,,,births to ages 15-19,ma-births-2023
+town,Raynham,resident_births,Total,2023,138,,138,,,births,ma-births-2023
+town,Raynham,low_birthweight_pct,Total,2023,8,138,5.8,,,% of births,ma-births-2023
+town,Raynham,preterm_pct,Total,2023,13,138,9.42,,,% of births,ma-births-2023
+town,Raynham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Reading,resident_births,Total,2023,257,,257,,,births,ma-births-2023
+town,Reading,low_birthweight_pct,Total,2023,17,257,6.61,,,% of births,ma-births-2023
+town,Reading,preterm_pct,Total,2023,20,257,7.78,,,% of births,ma-births-2023
+town,Reading,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rehoboth,resident_births,Total,2023,110,,110,,,births,ma-births-2023
+town,Rehoboth,low_birthweight_pct,Total,2023,6,110,5.45,,,% of births,ma-births-2023
+town,Rehoboth,preterm_pct,Total,2023,9,110,8.18,,,% of births,ma-births-2023
+town,Rehoboth,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Revere,resident_births,Total,2023,628,,628,,,births,ma-births-2023
+town,Revere,low_birthweight_pct,Total,2023,54,628,8.6,,,% of births,ma-births-2023
+town,Revere,preterm_pct,Total,2023,68,628,10.83,,,% of births,ma-births-2023
+town,Revere,teen_births,Total,2023,13,,13,,,births to ages 15-19,ma-births-2023
+town,Richmond,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,Richmond,low_birthweight_pct,Total,2023,<5,8,,,,% of births,ma-births-2023
+town,Richmond,preterm_pct,Total,2023,<5,8,,,,% of births,ma-births-2023
+town,Richmond,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rochester,resident_births,Total,2023,41,,41,,,births,ma-births-2023
+town,Rochester,low_birthweight_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Rochester,preterm_pct,Total,2023,6,41,14.63,,,% of births,ma-births-2023
+town,Rochester,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rockland,resident_births,Total,2023,170,,170,,,births,ma-births-2023
+town,Rockland,low_birthweight_pct,Total,2023,14,170,8.24,,,% of births,ma-births-2023
+town,Rockland,preterm_pct,Total,2023,17,170,10,,,% of births,ma-births-2023
+town,Rockland,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Rockport,resident_births,Total,2023,21,,21,,,births,ma-births-2023
+town,Rockport,low_birthweight_pct,Total,2023,<5,21,,,,% of births,ma-births-2023
+town,Rockport,preterm_pct,Total,2023,<5,21,,,,% of births,ma-births-2023
+town,Rockport,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rowe,resident_births,Total,2023,3,,3,,,births,ma-births-2023
+town,Rowe,low_birthweight_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Rowe,preterm_pct,Total,2023,0,3,0,,,% of births,ma-births-2023
+town,Rowe,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rowley,resident_births,Total,2023,53,,53,,,births,ma-births-2023
+town,Rowley,low_birthweight_pct,Total,2023,<5,53,,,,% of births,ma-births-2023
+town,Rowley,preterm_pct,Total,2023,<5,53,,,,% of births,ma-births-2023
+town,Rowley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Royalston,resident_births,Total,2023,13,,13,,,births,ma-births-2023
+town,Royalston,low_birthweight_pct,Total,2023,0,13,0,,,% of births,ma-births-2023
+town,Royalston,preterm_pct,Total,2023,<5,13,,,,% of births,ma-births-2023
+town,Royalston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Russell,resident_births,Total,2023,18,,18,,,births,ma-births-2023
+town,Russell,low_birthweight_pct,Total,2023,<5,18,,,,% of births,ma-births-2023
+town,Russell,preterm_pct,Total,2023,<5,18,,,,% of births,ma-births-2023
+town,Russell,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Rutland,resident_births,Total,2023,90,,90,,,births,ma-births-2023
+town,Rutland,low_birthweight_pct,Total,2023,<5,90,,,,% of births,ma-births-2023
+town,Rutland,preterm_pct,Total,2023,5,90,5.56,,,% of births,ma-births-2023
+town,Rutland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Salem,resident_births,Total,2023,464,,464,,,births,ma-births-2023
+town,Salem,low_birthweight_pct,Total,2023,38,464,8.19,,,% of births,ma-births-2023
+town,Salem,preterm_pct,Total,2023,43,464,9.27,,,% of births,ma-births-2023
+town,Salem,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Salisbury,resident_births,Total,2023,70,,70,,,births,ma-births-2023
+town,Salisbury,low_birthweight_pct,Total,2023,5,70,7.14,,,% of births,ma-births-2023
+town,Salisbury,preterm_pct,Total,2023,5,70,7.14,,,% of births,ma-births-2023
+town,Salisbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sandisfield,resident_births,Total,2023,7,,7,,,births,ma-births-2023
+town,Sandisfield,low_birthweight_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Sandisfield,preterm_pct,Total,2023,0,7,0,,,% of births,ma-births-2023
+town,Sandisfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sandwich,resident_births,Total,2023,143,,143,,,births,ma-births-2023
+town,Sandwich,low_birthweight_pct,Total,2023,9,143,6.29,,,% of births,ma-births-2023
+town,Sandwich,preterm_pct,Total,2023,14,143,9.79,,,% of births,ma-births-2023
+town,Sandwich,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Saugus,resident_births,Total,2023,282,,282,,,births,ma-births-2023
+town,Saugus,low_birthweight_pct,Total,2023,13,282,4.61,,,% of births,ma-births-2023
+town,Saugus,preterm_pct,Total,2023,28,282,9.93,,,% of births,ma-births-2023
+town,Saugus,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Savoy,resident_births,Total,2023,6,,6,,,births,ma-births-2023
+town,Savoy,low_birthweight_pct,Total,2023,0,6,0,,,% of births,ma-births-2023
+town,Savoy,preterm_pct,Total,2023,0,6,0,,,% of births,ma-births-2023
+town,Savoy,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Scituate,resident_births,Total,2023,182,,182,,,births,ma-births-2023
+town,Scituate,low_birthweight_pct,Total,2023,13,182,7.14,,,% of births,ma-births-2023
+town,Scituate,preterm_pct,Total,2023,15,182,8.24,,,% of births,ma-births-2023
+town,Scituate,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Seekonk,resident_births,Total,2023,126,,126,,,births,ma-births-2023
+town,Seekonk,low_birthweight_pct,Total,2023,12,126,9.52,,,% of births,ma-births-2023
+town,Seekonk,preterm_pct,Total,2023,14,126,11.11,,,% of births,ma-births-2023
+town,Seekonk,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sharon,resident_births,Total,2023,145,,145,,,births,ma-births-2023
+town,Sharon,low_birthweight_pct,Total,2023,9,145,6.21,,,% of births,ma-births-2023
+town,Sharon,preterm_pct,Total,2023,10,145,6.9,,,% of births,ma-births-2023
+town,Sharon,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sheffield,resident_births,Total,2023,23,,23,,,births,ma-births-2023
+town,Sheffield,low_birthweight_pct,Total,2023,<5,23,,,,% of births,ma-births-2023
+town,Sheffield,preterm_pct,Total,2023,<5,23,,,,% of births,ma-births-2023
+town,Sheffield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Shelburne,resident_births,Total,2023,9,,9,,,births,ma-births-2023
+town,Shelburne,low_birthweight_pct,Total,2023,0,9,0,,,% of births,ma-births-2023
+town,Shelburne,preterm_pct,Total,2023,0,9,0,,,% of births,ma-births-2023
+town,Shelburne,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Sherborn,resident_births,Total,2023,43,,43,,,births,ma-births-2023
+town,Sherborn,low_birthweight_pct,Total,2023,<5,43,,,,% of births,ma-births-2023
+town,Sherborn,preterm_pct,Total,2023,<5,43,,,,% of births,ma-births-2023
+town,Sherborn,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Shirley,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,Shirley,low_birthweight_pct,Total,2023,5,59,8.47,,,% of births,ma-births-2023
+town,Shirley,preterm_pct,Total,2023,5,59,8.47,,,% of births,ma-births-2023
+town,Shirley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Shrewsbury,resident_births,Total,2023,302,,302,,,births,ma-births-2023
+town,Shrewsbury,low_birthweight_pct,Total,2023,22,302,7.28,,,% of births,ma-births-2023
+town,Shrewsbury,preterm_pct,Total,2023,24,302,7.95,,,% of births,ma-births-2023
+town,Shrewsbury,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Shutesbury,resident_births,Total,2023,11,,11,,,births,ma-births-2023
+town,Shutesbury,low_birthweight_pct,Total,2023,0,11,0,,,% of births,ma-births-2023
+town,Shutesbury,preterm_pct,Total,2023,0,11,0,,,% of births,ma-births-2023
+town,Shutesbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Somerset,resident_births,Total,2023,127,,127,,,births,ma-births-2023
+town,Somerset,low_birthweight_pct,Total,2023,11,127,8.66,,,% of births,ma-births-2023
+town,Somerset,preterm_pct,Total,2023,11,127,8.66,,,% of births,ma-births-2023
+town,Somerset,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Somerville,resident_births,Total,2023,701,,701,,,births,ma-births-2023
+town,Somerville,low_birthweight_pct,Total,2023,59,701,8.42,,,% of births,ma-births-2023
+town,Somerville,preterm_pct,Total,2023,58,701,8.27,,,% of births,ma-births-2023
+town,Somerville,teen_births,Total,2023,15,,15,,,births to ages 15-19,ma-births-2023
+town,South Hadley,resident_births,Total,2023,112,,112,,,births,ma-births-2023
+town,South Hadley,low_birthweight_pct,Total,2023,6,112,5.36,,,% of births,ma-births-2023
+town,South Hadley,preterm_pct,Total,2023,9,112,8.04,,,% of births,ma-births-2023
+town,South Hadley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Southampton,resident_births,Total,2023,41,,41,,,births,ma-births-2023
+town,Southampton,low_birthweight_pct,Total,2023,<5,41,,,,% of births,ma-births-2023
+town,Southampton,preterm_pct,Total,2023,6,41,14.63,,,% of births,ma-births-2023
+town,Southampton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Southborough,resident_births,Total,2023,104,,104,,,births,ma-births-2023
+town,Southborough,low_birthweight_pct,Total,2023,<5,104,,,,% of births,ma-births-2023
+town,Southborough,preterm_pct,Total,2023,7,104,6.73,,,% of births,ma-births-2023
+town,Southborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Southbridge,resident_births,Total,2023,218,,218,,,births,ma-births-2023
+town,Southbridge,low_birthweight_pct,Total,2023,32,218,14.68,,,% of births,ma-births-2023
+town,Southbridge,preterm_pct,Total,2023,27,218,12.39,,,% of births,ma-births-2023
+town,Southbridge,teen_births,Total,2023,5,,5,,,births to ages 15-19,ma-births-2023
+town,Southwick,resident_births,Total,2023,83,,83,,,births,ma-births-2023
+town,Southwick,low_birthweight_pct,Total,2023,<5,83,,,,% of births,ma-births-2023
+town,Southwick,preterm_pct,Total,2023,6,83,7.23,,,% of births,ma-births-2023
+town,Southwick,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Spencer,resident_births,Total,2023,109,,109,,,births,ma-births-2023
+town,Spencer,low_birthweight_pct,Total,2023,5,109,4.59,,,% of births,ma-births-2023
+town,Spencer,preterm_pct,Total,2023,10,109,9.17,,,% of births,ma-births-2023
+town,Spencer,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Springfield,resident_births,Total,2023,1892,,1892,,,births,ma-births-2023
+town,Springfield,low_birthweight_pct,Total,2023,207,1892,10.94,,,% of births,ma-births-2023
+town,Springfield,preterm_pct,Total,2023,215,1892,11.36,,,% of births,ma-births-2023
+town,Springfield,teen_births,Total,2023,127,,127,,,births to ages 15-19,ma-births-2023
+town,Sterling,resident_births,Total,2023,64,,64,,,births,ma-births-2023
+town,Sterling,low_birthweight_pct,Total,2023,<5,64,,,,% of births,ma-births-2023
+town,Sterling,preterm_pct,Total,2023,<5,64,,,,% of births,ma-births-2023
+town,Sterling,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Stockbridge,resident_births,Total,2023,9,,9,,,births,ma-births-2023
+town,Stockbridge,low_birthweight_pct,Total,2023,<5,9,,,,% of births,ma-births-2023
+town,Stockbridge,preterm_pct,Total,2023,0,9,0,,,% of births,ma-births-2023
+town,Stockbridge,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Stoneham,resident_births,Total,2023,262,,262,,,births,ma-births-2023
+town,Stoneham,low_birthweight_pct,Total,2023,26,262,9.92,,,% of births,ma-births-2023
+town,Stoneham,preterm_pct,Total,2023,33,262,12.6,,,% of births,ma-births-2023
+town,Stoneham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Stoughton,resident_births,Total,2023,274,,274,,,births,ma-births-2023
+town,Stoughton,low_birthweight_pct,Total,2023,16,274,5.84,,,% of births,ma-births-2023
+town,Stoughton,preterm_pct,Total,2023,27,274,9.85,,,% of births,ma-births-2023
+town,Stoughton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Stow,resident_births,Total,2023,62,,62,,,births,ma-births-2023
+town,Stow,low_birthweight_pct,Total,2023,<5,62,,,,% of births,ma-births-2023
+town,Stow,preterm_pct,Total,2023,5,62,8.06,,,% of births,ma-births-2023
+town,Stow,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sturbridge,resident_births,Total,2023,85,,85,,,births,ma-births-2023
+town,Sturbridge,low_birthweight_pct,Total,2023,<5,85,,,,% of births,ma-births-2023
+town,Sturbridge,preterm_pct,Total,2023,7,85,8.24,,,% of births,ma-births-2023
+town,Sturbridge,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Sudbury,resident_births,Total,2023,141,,141,,,births,ma-births-2023
+town,Sudbury,low_birthweight_pct,Total,2023,<5,141,,,,% of births,ma-births-2023
+town,Sudbury,preterm_pct,Total,2023,7,141,4.96,,,% of births,ma-births-2023
+town,Sudbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sunderland,resident_births,Total,2023,17,,17,,,births,ma-births-2023
+town,Sunderland,low_birthweight_pct,Total,2023,<5,17,,,,% of births,ma-births-2023
+town,Sunderland,preterm_pct,Total,2023,<5,17,,,,% of births,ma-births-2023
+town,Sunderland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Sutton,resident_births,Total,2023,86,,86,,,births,ma-births-2023
+town,Sutton,low_birthweight_pct,Total,2023,7,86,8.14,,,% of births,ma-births-2023
+town,Sutton,preterm_pct,Total,2023,8,86,9.3,,,% of births,ma-births-2023
+town,Sutton,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Swampscott,resident_births,Total,2023,133,,133,,,births,ma-births-2023
+town,Swampscott,low_birthweight_pct,Total,2023,7,133,5.26,,,% of births,ma-births-2023
+town,Swampscott,preterm_pct,Total,2023,8,133,6.02,,,% of births,ma-births-2023
+town,Swampscott,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Swansea,resident_births,Total,2023,118,,118,,,births,ma-births-2023
+town,Swansea,low_birthweight_pct,Total,2023,9,118,7.63,,,% of births,ma-births-2023
+town,Swansea,preterm_pct,Total,2023,8,118,6.78,,,% of births,ma-births-2023
+town,Swansea,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Taunton,resident_births,Total,2023,629,,629,,,births,ma-births-2023
+town,Taunton,low_birthweight_pct,Total,2023,62,629,9.86,,,% of births,ma-births-2023
+town,Taunton,preterm_pct,Total,2023,69,629,10.97,,,% of births,ma-births-2023
+town,Taunton,teen_births,Total,2023,11,,11,,,births to ages 15-19,ma-births-2023
+town,Templeton,resident_births,Total,2023,83,,83,,,births,ma-births-2023
+town,Templeton,low_birthweight_pct,Total,2023,7,83,8.43,,,% of births,ma-births-2023
+town,Templeton,preterm_pct,Total,2023,8,83,9.64,,,% of births,ma-births-2023
+town,Templeton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Tewksbury,resident_births,Total,2023,319,,319,,,births,ma-births-2023
+town,Tewksbury,low_birthweight_pct,Total,2023,30,319,9.4,,,% of births,ma-births-2023
+town,Tewksbury,preterm_pct,Total,2023,38,319,11.91,,,% of births,ma-births-2023
+town,Tewksbury,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Tisbury,resident_births,Total,2023,45,,45,,,births,ma-births-2023
+town,Tisbury,low_birthweight_pct,Total,2023,<5,45,,,,% of births,ma-births-2023
+town,Tisbury,preterm_pct,Total,2023,<5,45,,,,% of births,ma-births-2023
+town,Tisbury,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Tolland,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Tolland,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Tolland,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Tolland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Topsfield,resident_births,Total,2023,54,,54,,,births,ma-births-2023
+town,Topsfield,low_birthweight_pct,Total,2023,<5,54,,,,% of births,ma-births-2023
+town,Topsfield,preterm_pct,Total,2023,6,54,11.11,,,% of births,ma-births-2023
+town,Topsfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Townsend,resident_births,Total,2023,85,,85,,,births,ma-births-2023
+town,Townsend,low_birthweight_pct,Total,2023,5,85,5.88,,,% of births,ma-births-2023
+town,Townsend,preterm_pct,Total,2023,5,85,5.88,,,% of births,ma-births-2023
+town,Townsend,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Truro,resident_births,Total,2023,12,,12,,,births,ma-births-2023
+town,Truro,low_birthweight_pct,Total,2023,0,12,0,,,% of births,ma-births-2023
+town,Truro,preterm_pct,Total,2023,0,12,0,,,% of births,ma-births-2023
+town,Truro,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Tyngsborough,resident_births,Total,2023,110,,110,,,births,ma-births-2023
+town,Tyngsborough,low_birthweight_pct,Total,2023,14,110,12.73,,,% of births,ma-births-2023
+town,Tyngsborough,preterm_pct,Total,2023,15,110,13.64,,,% of births,ma-births-2023
+town,Tyngsborough,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Tyringham,resident_births,Total,2023,0,,0,,,births,ma-births-2023
+town,Tyringham,low_birthweight_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,Tyringham,preterm_pct,Total,2023,0,0,,,,% of births,ma-births-2023
+town,Tyringham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Upton,resident_births,Total,2023,64,,64,,,births,ma-births-2023
+town,Upton,low_birthweight_pct,Total,2023,<5,64,,,,% of births,ma-births-2023
+town,Upton,preterm_pct,Total,2023,<5,64,,,,% of births,ma-births-2023
+town,Upton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Uxbridge,resident_births,Total,2023,115,,115,,,births,ma-births-2023
+town,Uxbridge,low_birthweight_pct,Total,2023,6,115,5.22,,,% of births,ma-births-2023
+town,Uxbridge,preterm_pct,Total,2023,9,115,7.83,,,% of births,ma-births-2023
+town,Uxbridge,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Wakefield,resident_births,Total,2023,303,,303,,,births,ma-births-2023
+town,Wakefield,low_birthweight_pct,Total,2023,23,303,7.59,,,% of births,ma-births-2023
+town,Wakefield,preterm_pct,Total,2023,26,303,8.58,,,% of births,ma-births-2023
+town,Wakefield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Wales,resident_births,Total,2023,12,,12,,,births,ma-births-2023
+town,Wales,low_birthweight_pct,Total,2023,0,12,0,,,% of births,ma-births-2023
+town,Wales,preterm_pct,Total,2023,0,12,0,,,% of births,ma-births-2023
+town,Wales,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Walpole,resident_births,Total,2023,259,,259,,,births,ma-births-2023
+town,Walpole,low_birthweight_pct,Total,2023,24,259,9.27,,,% of births,ma-births-2023
+town,Walpole,preterm_pct,Total,2023,36,259,13.9,,,% of births,ma-births-2023
+town,Walpole,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Waltham,resident_births,Total,2023,667,,667,,,births,ma-births-2023
+town,Waltham,low_birthweight_pct,Total,2023,43,667,6.45,,,% of births,ma-births-2023
+town,Waltham,preterm_pct,Total,2023,55,667,8.25,,,% of births,ma-births-2023
+town,Waltham,teen_births,Total,2023,15,,15,,,births to ages 15-19,ma-births-2023
+town,Ware,resident_births,Total,2023,91,,91,,,births,ma-births-2023
+town,Ware,low_birthweight_pct,Total,2023,8,91,8.79,,,% of births,ma-births-2023
+town,Ware,preterm_pct,Total,2023,12,91,13.19,,,% of births,ma-births-2023
+town,Ware,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Wareham,resident_births,Total,2023,197,,197,,,births,ma-births-2023
+town,Wareham,low_birthweight_pct,Total,2023,16,197,8.12,,,% of births,ma-births-2023
+town,Wareham,preterm_pct,Total,2023,18,197,9.14,,,% of births,ma-births-2023
+town,Wareham,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Warren,resident_births,Total,2023,51,,51,,,births,ma-births-2023
+town,Warren,low_birthweight_pct,Total,2023,<5,51,,,,% of births,ma-births-2023
+town,Warren,preterm_pct,Total,2023,6,51,11.76,,,% of births,ma-births-2023
+town,Warren,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Warwick,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Warwick,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Warwick,preterm_pct,Total,2023,<5,2,,,,% of births,ma-births-2023
+town,Warwick,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Washington,resident_births,Total,2023,2,,2,,,births,ma-births-2023
+town,Washington,low_birthweight_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Washington,preterm_pct,Total,2023,0,2,0,,,% of births,ma-births-2023
+town,Washington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Watertown,resident_births,Total,2023,367,,367,,,births,ma-births-2023
+town,Watertown,low_birthweight_pct,Total,2023,18,367,4.9,,,% of births,ma-births-2023
+town,Watertown,preterm_pct,Total,2023,28,367,7.63,,,% of births,ma-births-2023
+town,Watertown,teen_births,Total,2023,7,,7,,,births to ages 15-19,ma-births-2023
+town,Wayland,resident_births,Total,2023,105,,105,,,births,ma-births-2023
+town,Wayland,low_birthweight_pct,Total,2023,5,105,4.76,,,% of births,ma-births-2023
+town,Wayland,preterm_pct,Total,2023,7,105,6.67,,,% of births,ma-births-2023
+town,Wayland,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Webster,resident_births,Total,2023,181,,181,,,births,ma-births-2023
+town,Webster,low_birthweight_pct,Total,2023,24,181,13.26,,,% of births,ma-births-2023
+town,Webster,preterm_pct,Total,2023,23,181,12.71,,,% of births,ma-births-2023
+town,Webster,teen_births,Total,2023,7,,7,,,births to ages 15-19,ma-births-2023
+town,Wellesley,resident_births,Total,2023,201,,201,,,births,ma-births-2023
+town,Wellesley,low_birthweight_pct,Total,2023,12,201,5.97,,,% of births,ma-births-2023
+town,Wellesley,preterm_pct,Total,2023,15,201,7.46,,,% of births,ma-births-2023
+town,Wellesley,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Wellfleet,resident_births,Total,2023,10,,10,,,births,ma-births-2023
+town,Wellfleet,low_birthweight_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,Wellfleet,preterm_pct,Total,2023,<5,10,,,,% of births,ma-births-2023
+town,Wellfleet,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Wendell,resident_births,Total,2023,5,,5,,,births,ma-births-2023
+town,Wendell,low_birthweight_pct,Total,2023,0,5,0,,,% of births,ma-births-2023
+town,Wendell,preterm_pct,Total,2023,0,5,0,,,% of births,ma-births-2023
+town,Wendell,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Wenham,resident_births,Total,2023,34,,34,,,births,ma-births-2023
+town,Wenham,low_birthweight_pct,Total,2023,<5,34,,,,% of births,ma-births-2023
+town,Wenham,preterm_pct,Total,2023,<5,34,,,,% of births,ma-births-2023
+town,Wenham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,West Boylston,resident_births,Total,2023,75,,75,,,births,ma-births-2023
+town,West Boylston,low_birthweight_pct,Total,2023,12,75,16,,,% of births,ma-births-2023
+town,West Boylston,preterm_pct,Total,2023,10,75,13.33,,,% of births,ma-births-2023
+town,West Boylston,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,West Bridgewater,resident_births,Total,2023,59,,59,,,births,ma-births-2023
+town,West Bridgewater,low_birthweight_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,West Bridgewater,preterm_pct,Total,2023,<5,59,,,,% of births,ma-births-2023
+town,West Bridgewater,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,West Brookfield,resident_births,Total,2023,32,,32,,,births,ma-births-2023
+town,West Brookfield,low_birthweight_pct,Total,2023,<5,32,,,,% of births,ma-births-2023
+town,West Brookfield,preterm_pct,Total,2023,5,32,15.62,,,% of births,ma-births-2023
+town,West Brookfield,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,West Newbury,resident_births,Total,2023,39,,39,,,births,ma-births-2023
+town,West Newbury,low_birthweight_pct,Total,2023,5,39,12.82,,,% of births,ma-births-2023
+town,West Newbury,preterm_pct,Total,2023,<5,39,,,,% of births,ma-births-2023
+town,West Newbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,West Springfield,resident_births,Total,2023,315,,315,,,births,ma-births-2023
+town,West Springfield,low_birthweight_pct,Total,2023,24,315,7.62,,,% of births,ma-births-2023
+town,West Springfield,preterm_pct,Total,2023,35,315,11.11,,,% of births,ma-births-2023
+town,West Springfield,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,West Stockbridge,resident_births,Total,2023,10,,10,,,births,ma-births-2023
+town,West Stockbridge,low_birthweight_pct,Total,2023,0,10,0,,,% of births,ma-births-2023
+town,West Stockbridge,preterm_pct,Total,2023,<5,10,,,,% of births,ma-births-2023
+town,West Stockbridge,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,West Tisbury,resident_births,Total,2023,24,,24,,,births,ma-births-2023
+town,West Tisbury,low_birthweight_pct,Total,2023,<5,24,,,,% of births,ma-births-2023
+town,West Tisbury,preterm_pct,Total,2023,<5,24,,,,% of births,ma-births-2023
+town,West Tisbury,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Westborough,resident_births,Total,2023,204,,204,,,births,ma-births-2023
+town,Westborough,low_birthweight_pct,Total,2023,14,204,6.86,,,% of births,ma-births-2023
+town,Westborough,preterm_pct,Total,2023,19,204,9.31,,,% of births,ma-births-2023
+town,Westborough,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Westfield,resident_births,Total,2023,336,,336,,,births,ma-births-2023
+town,Westfield,low_birthweight_pct,Total,2023,24,336,7.14,,,% of births,ma-births-2023
+town,Westfield,preterm_pct,Total,2023,34,336,10.12,,,% of births,ma-births-2023
+town,Westfield,teen_births,Total,2023,6,,6,,,births to ages 15-19,ma-births-2023
+town,Westford,resident_births,Total,2023,163,,163,,,births,ma-births-2023
+town,Westford,low_birthweight_pct,Total,2023,<5,163,,,,% of births,ma-births-2023
+town,Westford,preterm_pct,Total,2023,<5,163,,,,% of births,ma-births-2023
+town,Westford,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Westhampton,resident_births,Total,2023,16,,16,,,births,ma-births-2023
+town,Westhampton,low_birthweight_pct,Total,2023,<5,16,,,,% of births,ma-births-2023
+town,Westhampton,preterm_pct,Total,2023,<5,16,,,,% of births,ma-births-2023
+town,Westhampton,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Westminster,resident_births,Total,2023,67,,67,,,births,ma-births-2023
+town,Westminster,low_birthweight_pct,Total,2023,<5,67,,,,% of births,ma-births-2023
+town,Westminster,preterm_pct,Total,2023,<5,67,,,,% of births,ma-births-2023
+town,Westminster,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Weston,resident_births,Total,2023,65,,65,,,births,ma-births-2023
+town,Weston,low_birthweight_pct,Total,2023,<5,65,,,,% of births,ma-births-2023
+town,Weston,preterm_pct,Total,2023,5,65,7.69,,,% of births,ma-births-2023
+town,Weston,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Westport,resident_births,Total,2023,90,,90,,,births,ma-births-2023
+town,Westport,low_birthweight_pct,Total,2023,6,90,6.67,,,% of births,ma-births-2023
+town,Westport,preterm_pct,Total,2023,8,90,8.89,,,% of births,ma-births-2023
+town,Westport,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Westwood,resident_births,Total,2023,112,,112,,,births,ma-births-2023
+town,Westwood,low_birthweight_pct,Total,2023,5,112,4.46,,,% of births,ma-births-2023
+town,Westwood,preterm_pct,Total,2023,9,112,8.04,,,% of births,ma-births-2023
+town,Westwood,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Weymouth,resident_births,Total,2023,652,,652,,,births,ma-births-2023
+town,Weymouth,low_birthweight_pct,Total,2023,46,652,7.06,,,% of births,ma-births-2023
+town,Weymouth,preterm_pct,Total,2023,55,652,8.44,,,% of births,ma-births-2023
+town,Weymouth,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Whately,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,Whately,low_birthweight_pct,Total,2023,<5,8,,,,% of births,ma-births-2023
+town,Whately,preterm_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Whately,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Whitman,resident_births,Total,2023,174,,174,,,births,ma-births-2023
+town,Whitman,low_birthweight_pct,Total,2023,8,174,4.6,,,% of births,ma-births-2023
+town,Whitman,preterm_pct,Total,2023,7,174,4.02,,,% of births,ma-births-2023
+town,Whitman,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Wilbraham,resident_births,Total,2023,108,,108,,,births,ma-births-2023
+town,Wilbraham,low_birthweight_pct,Total,2023,<5,108,,,,% of births,ma-births-2023
+town,Wilbraham,preterm_pct,Total,2023,10,108,9.26,,,% of births,ma-births-2023
+town,Wilbraham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Williamsburg,resident_births,Total,2023,8,,8,,,births,ma-births-2023
+town,Williamsburg,low_birthweight_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Williamsburg,preterm_pct,Total,2023,0,8,0,,,% of births,ma-births-2023
+town,Williamsburg,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Williamstown,resident_births,Total,2023,26,,26,,,births,ma-births-2023
+town,Williamstown,low_birthweight_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Williamstown,preterm_pct,Total,2023,<5,26,,,,% of births,ma-births-2023
+town,Williamstown,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Wilmington,resident_births,Total,2023,208,,208,,,births,ma-births-2023
+town,Wilmington,low_birthweight_pct,Total,2023,17,208,8.17,,,% of births,ma-births-2023
+town,Wilmington,preterm_pct,Total,2023,30,208,14.42,,,% of births,ma-births-2023
+town,Wilmington,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Winchendon,resident_births,Total,2023,113,,113,,,births,ma-births-2023
+town,Winchendon,low_birthweight_pct,Total,2023,10,113,8.85,,,% of births,ma-births-2023
+town,Winchendon,preterm_pct,Total,2023,23,113,20.35,,,% of births,ma-births-2023
+town,Winchendon,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Winchester,resident_births,Total,2023,175,,175,,,births,ma-births-2023
+town,Winchester,low_birthweight_pct,Total,2023,9,175,5.14,,,% of births,ma-births-2023
+town,Winchester,preterm_pct,Total,2023,8,175,4.57,,,% of births,ma-births-2023
+town,Winchester,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Windsor,resident_births,Total,2023,4,,4,,,births,ma-births-2023
+town,Windsor,low_birthweight_pct,Total,2023,<5,4,,,,% of births,ma-births-2023
+town,Windsor,preterm_pct,Total,2023,0,4,0,,,% of births,ma-births-2023
+town,Windsor,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Winthrop,resident_births,Total,2023,160,,160,,,births,ma-births-2023
+town,Winthrop,low_birthweight_pct,Total,2023,7,160,4.38,,,% of births,ma-births-2023
+town,Winthrop,preterm_pct,Total,2023,13,160,8.12,,,% of births,ma-births-2023
+town,Winthrop,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Woburn,resident_births,Total,2023,454,,454,,,births,ma-births-2023
+town,Woburn,low_birthweight_pct,Total,2023,37,454,8.15,,,% of births,ma-births-2023
+town,Woburn,preterm_pct,Total,2023,41,454,9.03,,,% of births,ma-births-2023
+town,Woburn,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+town,Worcester,resident_births,Total,2023,2252,,2252,,,births,ma-births-2023
+town,Worcester,low_birthweight_pct,Total,2023,184,2252,8.17,,,% of births,ma-births-2023
+town,Worcester,preterm_pct,Total,2023,207,2252,9.19,,,% of births,ma-births-2023
+town,Worcester,teen_births,Total,2023,73,,73,,,births to ages 15-19,ma-births-2023
+town,Worthington,resident_births,Total,2023,5,,5,,,births,ma-births-2023
+town,Worthington,low_birthweight_pct,Total,2023,0,5,0,,,% of births,ma-births-2023
+town,Worthington,preterm_pct,Total,2023,<5,5,,,,% of births,ma-births-2023
+town,Worthington,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Wrentham,resident_births,Total,2023,108,,108,,,births,ma-births-2023
+town,Wrentham,low_birthweight_pct,Total,2023,11,108,10.19,,,% of births,ma-births-2023
+town,Wrentham,preterm_pct,Total,2023,11,108,10.19,,,% of births,ma-births-2023
+town,Wrentham,teen_births,Total,2023,0,,0,,,births to ages 15-19,ma-births-2023
+town,Yarmouth,resident_births,Total,2023,197,,197,,,births,ma-births-2023
+town,Yarmouth,low_birthweight_pct,Total,2023,14,197,7.11,,,% of births,ma-births-2023
+town,Yarmouth,preterm_pct,Total,2023,14,197,7.11,,,% of births,ma-births-2023
+town,Yarmouth,teen_births,Total,2023,<5,,,,,births to ages 15-19,ma-births-2023
+county,Barnstable County,resident_births,Total,2023,1502,,1502,,,births,ma-births-2023
+county,Barnstable County,low_birthweight_pct,Total,2023,85,1502,5.66,,,% of births,ma-births-2023
+county,Barnstable County,preterm_pct,Total,2023,108,1502,7.19,,,% of births,ma-births-2023
+county,Berkshire County,resident_births,Total,2023,888,,888,,,births,ma-births-2023
+county,Berkshire County,low_birthweight_pct,Total,2023,77,888,8.67,,,% of births,ma-births-2023
+county,Berkshire County,preterm_pct,Total,2023,89,888,10.02,,,% of births,ma-births-2023
+county,Bristol County,resident_births,Total,2023,5539,,5539,,,births,ma-births-2023
+county,Bristol County,low_birthweight_pct,Total,2023,526,5539,9.5,,,% of births,ma-births-2023
+county,Bristol County,preterm_pct,Total,2023,525,5539,9.48,,,% of births,ma-births-2023
+county,Dukes County,resident_births,Total,2023,155,,155,,,births,ma-births-2023
+county,Dukes County,low_birthweight_pct,Total,2023,7,155,4.52,,,% of births,ma-births-2023
+county,Dukes County,preterm_pct,Total,2023,9,155,5.81,,,% of births,ma-births-2023
+county,Essex County,resident_births,Total,2023,8523,,8523,,,births,ma-births-2023
+county,Essex County,low_birthweight_pct,Total,2023,561,8523,6.58,,,% of births,ma-births-2023
+county,Essex County,preterm_pct,Total,2023,693,8523,8.13,,,% of births,ma-births-2023
+county,Franklin County,resident_births,Total,2023,474,,474,,,births,ma-births-2023
+county,Franklin County,low_birthweight_pct,Total,2023,37,474,7.81,,,% of births,ma-births-2023
+county,Franklin County,preterm_pct,Total,2023,39,474,8.23,,,% of births,ma-births-2023
+county,Hampden County,resident_births,Total,2023,4590,,4590,,,births,ma-births-2023
+county,Hampden County,low_birthweight_pct,Total,2023,393,4590,8.56,,,% of births,ma-births-2023
+county,Hampden County,preterm_pct,Total,2023,465,4590,10.13,,,% of births,ma-births-2023
+county,Hampshire County,resident_births,Total,2023,863,,863,,,births,ma-births-2023
+county,Hampshire County,low_birthweight_pct,Total,2023,60,863,6.95,,,% of births,ma-births-2023
+county,Hampshire County,preterm_pct,Total,2023,70,863,8.11,,,% of births,ma-births-2023
+county,Middlesex County,resident_births,Total,2023,15460,,15460,,,births,ma-births-2023
+county,Middlesex County,low_birthweight_pct,Total,2023,1133,15460,7.33,,,% of births,ma-births-2023
+county,Middlesex County,preterm_pct,Total,2023,1312,15460,8.49,,,% of births,ma-births-2023
+county,Nantucket County,resident_births,Total,2023,156,,156,,,births,ma-births-2023
+county,Nantucket County,low_birthweight_pct,Total,2023,11,156,7.05,,,% of births,ma-births-2023
+county,Nantucket County,preterm_pct,Total,2023,10,156,6.41,,,% of births,ma-births-2023
+county,Norfolk County,resident_births,Total,2023,6818,,6818,,,births,ma-births-2023
+county,Norfolk County,low_birthweight_pct,Total,2023,495,6818,7.26,,,% of births,ma-births-2023
+county,Norfolk County,preterm_pct,Total,2023,629,6818,9.23,,,% of births,ma-births-2023
+county,Plymouth County,resident_births,Total,2023,5302,,5302,,,births,ma-births-2023
+county,Plymouth County,low_birthweight_pct,Total,2023,376,5302,7.09,,,% of births,ma-births-2023
+county,Plymouth County,preterm_pct,Total,2023,483,5302,9.11,,,% of births,ma-births-2023
+county,Suffolk County,resident_births,Total,2023,8171,,8171,,,births,ma-births-2023
+county,Suffolk County,low_birthweight_pct,Total,2023,645,8171,7.89,,,% of births,ma-births-2023
+county,Suffolk County,preterm_pct,Total,2023,783,8171,9.58,,,% of births,ma-births-2023
+county,Worcester County,resident_births,Total,2023,8627,,8627,,,births,ma-births-2023
+county,Worcester County,low_birthweight_pct,Total,2023,671,8627,7.78,,,% of births,ma-births-2023
+county,Worcester County,preterm_pct,Total,2023,831,8627,9.63,,,% of births,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,Total,2023,52663,,79.6,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,Total,2023,51124,,77.2,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,Total,2023,22373,,33.4,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,Total,2023,57809,,88.2,,,%,ma-births-2023
+state,Massachusetts,low_birthweight_pct,American Indian/Alaska Native non-Hispanic,2023,35,,12.1,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,American Indian/Alaska Native non-Hispanic,2023,224,,78.9,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,American Indian/Alaska Native non-Hispanic,2023,210,,73.4,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,American Indian/Alaska Native non-Hispanic,2023,105,,36.2,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,American Indian/Alaska Native non-Hispanic,2023,247,,89.5,,,%,ma-births-2023
+state,Massachusetts,low_birthweight_pct,Asian/Pacific Islander non-Hispanic,2023,492,,8.4,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,Asian/Pacific Islander non-Hispanic,2023,4728,,81.5,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,Asian/Pacific Islander non-Hispanic,2023,4663,,80.3,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,Asian/Pacific Islander non-Hispanic,2023,1833,,31.3,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,Asian/Pacific Islander non-Hispanic,2023,5271,,91.2,,,%,ma-births-2023
+state,Massachusetts,low_birthweight_pct,Black non-Hispanic,2023,808,,10.7,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,Black non-Hispanic,2023,5027,,68.2,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,Black non-Hispanic,2023,4580,,61.9,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,Black non-Hispanic,2023,2860,,38,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,Black non-Hispanic,2023,6692,,90.1,,,%,ma-births-2023
+state,Massachusetts,low_birthweight_pct,Hispanic,2023,1220,,7.9,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,Hispanic,2023,11237,,73.6,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,Hispanic,2023,10849,,71,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,Hispanic,2023,5203,,33.7,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,Hispanic,2023,13376,,86.9,,,%,ma-births-2023
+state,Massachusetts,low_birthweight_pct,White non-Hispanic,2023,2347,,6.5,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct,White non-Hispanic,2023,30324,,84.6,,,%,ma-births-2023
+state,Massachusetts,first_trimester_care_pct,White non-Hispanic,2023,29738,,82.9,,,%,ma-births-2023
+state,Massachusetts,cesarean_pct,White non-Hispanic,2023,11810,,32.6,,,%,ma-births-2023
+state,Massachusetts,breastfeeding_in_hospital_pct,White non-Hispanic,2023,30898,,87.9,,,%,ma-births-2023
+state,Massachusetts,preterm_pct,Asian/Pacific Islander non-Hispanic,2023,430,5858,7.34,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct,Black non-Hispanic,2023,845,7534,11.22,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct,Hispanic,2023,1471,15430,9.53,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct,White non-Hispanic,2023,3064,36244,8.45,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2013,,,7.7,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2014,,,7.5,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2015,,,7.5,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2016,,,7.5,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2017,,,7.5,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2018,,,7.6,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2019,,,7.7,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2020,,,7.4,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2021,,,7.5,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2022,,,7.9,,,% of births,ma-births-2023
+state,Massachusetts,low_birthweight_pct_trend,Total,2023,,,7.6,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2013,,,8.8,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2014,,,8.6,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2015,,,8.4,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2016,,,8.7,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2017,,,8.9,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2018,,,8.9,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2019,,,9,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2020,,,8.8,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2021,,,9,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2022,,,9.1,,,% of births,ma-births-2023
+state,Massachusetts,preterm_pct_trend,Total,2023,,,9,,,% of births,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2013,,,83.7,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2014,,,82.6,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2015,,,81.8,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2016,,,82.1,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2017,,,80.6,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2018,,,76.1,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2019,,,81.6,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2020,,,76.6,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2021,,,78.5,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2022,,,76.7,,,%,ma-births-2023
+state,Massachusetts,adequate_prenatal_care_pct_trend,Total,2023,,,79.6,,,%,ma-births-2023
+state,Massachusetts,infant_mortality_rate,Total,2012,309,,4.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2012,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2012,17,,2.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2012,57,,8.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2012,71,,5.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2012,158,,3.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2013,298,,4.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2013,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2013,15,,2.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2013,63,,8.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2013,49,,3.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2013,161,,3.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2014,321,,4.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2014,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2014,20,,3.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2014,54,,7.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2014,62,,5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2014,169,,3.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2015,310,,4.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2015,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2015,15,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2015,59,,8.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2015,75,,5.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2015,146,,3.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2016,283,,4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2016,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2016,18,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2016,56,,7.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2016,78,,5.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2016,119,,2.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2017,263,,3.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2017,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2017,19,,2.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2017,49,,6.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2017,71,,5.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2017,109,,2.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2018,291,,4.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2018,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2018,9,,1.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2018,62,,8.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2018,63,,4.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2018,148,,3.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2019,255,,3.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2019,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2019,15,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2019,48,,6.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2019,67,,4.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2019,108,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2020,263,,4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2020,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2020,13,,2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2020,51,,7.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2020,61,,4.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2020,111,,2.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2021,228,,3.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2021,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2021,14,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2021,52,,7.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2021,55,,3.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2021,94,,2.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Total,2022,229,,3.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,American Indian/Alaska Native non-Hispanic,2022,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Asian/Pacific Islander non-Hispanic,2022,7,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Black non-Hispanic,2022,38,,5.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,Hispanic,2022,62,,4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,infant_mortality_rate,White non-Hispanic,2022,103,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2012,216,,3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2012,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2012,13,,2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2012,41,,5.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2012,46,,3.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2012,111,,2.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2013,221,,3.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2013,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2013,10,,1.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2013,45,,6.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2013,39,,3.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2013,119,,2.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2014,236,,3.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2014,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2014,15,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2014,38,,5.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2014,50,,3.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2014,122,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2015,237,,3.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2015,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2015,15,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2015,45,,6.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2015,59,,4.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2015,106,,2.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2016,214,,3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2016,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2016,9,,1.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2016,47,,6.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2016,64,,4.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2016,87,,2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2017,180,,2.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2017,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2017,11,,1.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2017,32,,4.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2017,52,,3.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2017,70,,1.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2018,224,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2018,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2018,6,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2018,54,,7.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2018,49,,3.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2018,107,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2019,188,,2.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2019,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2019,11,,1.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2019,41,,5.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2019,52,,3.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2019,69,,1.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2020,190,,2.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2020,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2020,10,,1.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2020,39,,5.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2020,42,,3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2020,75,,2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2021,164,,2.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2021,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2021,13,,2.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2021,36,,5.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2021,41,,2.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2021,65,,1.6,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Total,2022,149,,2.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2022,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2022,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Black non-Hispanic,2022,21,,2.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,Hispanic,2022,43,,2.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,neonatal_mortality_rate,White non-Hispanic,2022,68,,1.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2012,93,,1.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2012,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2012,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2012,16,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2012,25,,1.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2012,47,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2013,77,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2013,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2013,5,,0.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2013,18,,2.5,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2013,10,,0.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2013,42,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2014,85,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2014,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2014,5,,0.8,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2014,16,,2.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2014,12,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2014,47,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2015,73,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2015,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2015,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2015,14,,2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2015,16,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2015,40,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2016,69,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2016,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2016,9,,1.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2016,9,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2016,14,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2016,32,,0.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2017,83,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2017,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2017,8,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2017,17,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2017,19,,1.4,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2017,39,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2018,67,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2018,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2018,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2018,8,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2018,14,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2018,41,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2019,67,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2019,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2019,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2019,7,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2019,15,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2019,39,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2020,73,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2020,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2020,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2020,12,,1.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2020,19,,1.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2020,36,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2021,64,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2021,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2021,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2021,16,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2021,14,,1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2021,29,,0.7,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Total,2022,77,,1.1,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,American Indian/Alaska Native non-Hispanic,2022,0,,0,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Asian/Pacific Islander non-Hispanic,2022,<5,,,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Black non-Hispanic,2022,17,,2.3,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,Hispanic,2022,18,,1.2,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,postneonatal_mortality_rate,White non-Hispanic,2022,35,,0.9,,,"per 1,000 live births",ma-deaths-2022
+state,Massachusetts,prams_depression_screening_prenatal_pct,Total,2019-2021,,,86.9,84.6,88.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_postpartum_pct,Total,2019-2021,,,87.8,85.7,89.6,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_postpartum_depressive_symptoms_pct,Total,2019-2021,,,10.2,8.6,12.0,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_prenatal_pct,White non-Hispanic,2019-2021,,,86.1,82.4,89.1,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_postpartum_pct,White non-Hispanic,2019-2021,,,90.4,87.1,92.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_postpartum_depressive_symptoms_pct,White non-Hispanic,2019-2021,,,6.9,4.8,9.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_prenatal_pct,Black non-Hispanic,2019-2021,,,91.4,88.1,93.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_postpartum_pct,Black non-Hispanic,2019-2021,,,85.2,79.8,89.3,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_postpartum_depressive_symptoms_pct,Black non-Hispanic,2019-2021,,,16.7,13.1,21.1,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_prenatal_pct,Hispanic,2019-2021,,,90.3,87.0,92.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_postpartum_pct,Hispanic,2019-2021,,,81.4,77.3,85.0,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_postpartum_depressive_symptoms_pct,Hispanic,2019-2021,,,13.9,10.8,17.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_prenatal_pct,Asian non-Hispanic,2019-2021,,,78.6,73.6,82.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_depression_screening_postpartum_pct,Asian non-Hispanic,2019-2021,,,87,82.6,90.4,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_postpartum_depressive_symptoms_pct,Asian non-Hispanic,2019-2021,,,17.7,13.7,22.4,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_initiation_pct,Total,2021,,,91.3,89.0,93.2,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_8_weeks_pct,Total,2021,,,73.1,69.8,76.2,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_initiation_pct,White non-Hispanic,2021,,,89.9,86.1,92.8,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_8_weeks_pct,White non-Hispanic,2021,,,73.3,68.1,77.8,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_initiation_pct,Black non-Hispanic,2021,,,92.8,88.6,95.5,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_8_weeks_pct,Black non-Hispanic,2021,,,76.5,70.9,81.3,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_initiation_pct,Hispanic,2021,,,92.3,88.9,94.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_8_weeks_pct,Hispanic,2021,,,66.8,61.5,71.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_initiation_pct,Asian non-Hispanic,2021,,,95.3,91.3,97.5,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_breastfeeding_8_weeks_pct,Asian non-Hispanic,2021,,,82.7,76.9,87.2,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_back_to_sleep_pct,Total,2019-2021,,,87.5,85.7,89.1,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_bed_sharing_pct,Total,2019-2021,,,67.8,64.7,70.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_soft_bedding_pct,Total,2019-2021,,,59.4,56.4,62.4,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_back_to_sleep_pct,White non-Hispanic,2019-2021,,,94.6,91.9,96.5,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_bed_sharing_pct,White non-Hispanic,2019-2021,,,67.6,62.9,72.0,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_soft_bedding_pct,White non-Hispanic,2019-2021,,,70.3,65.7,74.6,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_back_to_sleep_pct,Black non-Hispanic,2019-2021,,,71,65.1,76.3,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_bed_sharing_pct,Black non-Hispanic,2019-2021,,,66.6,60.6,72.1,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_soft_bedding_pct,Black non-Hispanic,2019-2021,,,45.3,39.6,51.2,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_back_to_sleep_pct,Hispanic,2019-2021,,,73,68.4,77.1,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_bed_sharing_pct,Hispanic,2019-2021,,,72,67.3,76.3,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_soft_bedding_pct,Hispanic,2019-2021,,,40.3,35.5,45.4,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_back_to_sleep_pct,Asian non-Hispanic,2019-2021,,,88,83.6,91.3,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_bed_sharing_pct,Asian non-Hispanic,2019-2021,,,62.2,56.6,67.4,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_no_soft_bedding_pct,Asian non-Hispanic,2019-2021,,,41.9,36.3,47.7,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_unintended_pregnancy_pct,Total,2021,,,17.2,14.9,19.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_unintended_pregnancy_pct,White non-Hispanic,2021,,,11.9,8.7,16.0,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_unintended_pregnancy_pct,Black non-Hispanic,2021,,,30.4,25.2,36.2,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_unintended_pregnancy_pct,Hispanic,2021,,,26.9,22.5,31.9,% (weighted),ma-prams-2019-2021
+state,Massachusetts,prams_unintended_pregnancy_pct,Asian non-Hispanic,2021,,,11.2,7.8,15.8,% (weighted),ma-prams-2019-2021
+nation,United States,preterm_pct,Total,12 months ending 2024 Q4 (provisional),,,10.41,,,% of births,cdc-nchs-vsrr-births
+nation,United States,preterm_pct,Hispanic,12 months ending 2024 Q4 (provisional),,,10.07,,,% of births,cdc-nchs-vsrr-births
+nation,United States,preterm_pct,Black non-Hispanic,12 months ending 2024 Q4 (provisional),,,14.86,,,% of births,cdc-nchs-vsrr-births
+nation,United States,preterm_pct,White non-Hispanic,12 months ending 2024 Q4 (provisional),,,9.49,,,% of births,cdc-nchs-vsrr-births
+nation,United States,low_birthweight_pct,Total,12 months ending 2024 Q4 (provisional),,,8.52,,,% of births,cdc-nchs-vsrr-births
+nation,United States,low_birthweight_pct,Hispanic,12 months ending 2024 Q4 (provisional),,,7.84,,,% of births,cdc-nchs-vsrr-births
+nation,United States,low_birthweight_pct,Black non-Hispanic,12 months ending 2024 Q4 (provisional),,,15.01,,,% of births,cdc-nchs-vsrr-births
+nation,United States,low_birthweight_pct,White non-Hispanic,12 months ending 2024 Q4 (provisional),,,6.97,,,% of births,cdc-nchs-vsrr-births
+nation,United States,infant_mortality_rate,Total,12 months ending 2023 Q4 (provisional),,,5.63,,,"per 1,000 live births",cdc-nchs-vsrr-infant-mortality

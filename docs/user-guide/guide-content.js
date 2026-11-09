@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 54;
+const TOOL_COUNT = 55;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps.', '7'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps; maternal and infant health profiles.', '8'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1938,6 +1938,35 @@ const toolChapters = [
           'The outreach index is the server’s planning ranking (the average of each measure’s percentile rank), not a DPH method.',
           'Housing age comes from the Census Bureau’s survey, which groups homes as built before 1980, not 1978. Tract estimates are less precise.',
           'Screening figures are from DPH’s 2024 report (2023 for 24 communities whose page was missing from it).',
+        ],
+      },
+      {
+        id: 'maternal_infant_health_profile',
+        title: 'Maternal and infant health profile',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Reports births, low birthweight, preterm birth, teen births, prenatal care, infant mortality, and PRAMS survey results (postpartum depression, breastfeeding, safe sleep, unintended pregnancy) for Massachusetts, a town, or a county, by race and Hispanic ethnicity where DPH publishes it, compared with the state and the U.S.',
+        when: [
+          'A community health assessment or MCH needs assessment.',
+          'Grant applications and presentations on maternal and infant health equity.',
+          'Checking how your town compares with the state on low birthweight or preterm birth.',
+        ],
+        provide: [
+          'Optionally: a town or county, and whether to include race and ethnicity and trends.',
+        ],
+        examples: [
+          'Give me a maternal and infant health profile for Springfield.',
+          'How does infant mortality in Massachusetts differ by race and ethnicity?',
+          'What do PRAMS data show about safe sleep and postpartum depression in Massachusetts?',
+        ],
+        returns: [
+          'For a town or county: births, low birthweight and preterm percentages with 95% confidence intervals and whether they differ from the state, and teen births. Statewide tables by race and ethnicity with ratios to White non-Hispanic, PRAMS results, trends, and U.S. comparisons.',
+        ],
+        notes: [
+          'Town figures come from DPH’s 2023 birth report; small counts are suppressed and percentages from fewer than 20 births are unstable.',
+          'Infant mortality and PRAMS are statewide only (DPH does not publish them by town).',
+          'U.S. figures are provisional CDC estimates for slightly different years.',
         ],
       },
     ],

@@ -583,6 +583,19 @@ sources:
       - >-
         ACS 2020-2024 5-year estimates; year-built bins do not split at 1978. Rebuild with
         xtask/scripts/build_housing_age.py when the next 5-year release is out.
+  - id: ma-maternal-infant
+    name: Massachusetts births, infant mortality, and PRAMS (DPH reports) with CDC NCHS provisional U.S. estimates
+    publisher: Massachusetts DPH; CDC National Center for Health Statistics
+    kind: snapshot
+    status: active
+    snapshot_id: ma-maternal-infant
+    homepage: https://www.mass.gov/vital-records-data-and-publications
+    probe_url: https://www.mass.gov/lists/annual-massachusetts-birth-reports
+    used_by: [maternal_infant_health_profile]
+    caveats:
+      - >-
+        Built from the 2023 Birth Report, the 2022 Death Report, and the 2019-2021 PRAMS report
+        (DOCX tables); rebuild when DPH publishes new reports. CDC WONDER was blocked.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

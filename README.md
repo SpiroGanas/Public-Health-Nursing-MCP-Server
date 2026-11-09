@@ -112,6 +112,7 @@ output folder instead of being sent to the AI model.
 | `plan_newborn_postpartum_visit` | MCH-01 | mch | Newborn and postpartum home visit plan: feeding and weight, jaundice, safe sleep, car seats, MA newborn screening, and CDC Hear Her maternal warning signs, with a DOCX plan and teaching sheet |
 | `estimate_benefit_eligibility` | EQ-06 | equity | Income screen for WIC, SNAP, MassHealth, the Health Safety Net, and heating assistance from household size and income (2026 poverty guidelines; a screen, not a determination) |
 | `map_lead_risk` | MCH-05 | mch | Ranks towns or tracts for lead outreach from pre-1950/1980 housing, low income, young children, DPH screening rates and prevalence, and DPH high-risk status, with a choropleth map |
+| `maternal_infant_health_profile` | MCH-06 | mch | Births, low birthweight, preterm, prenatal care, infant mortality, and PRAMS indicators by community and race/ethnicity, compared with MA and the U.S. |
 <!-- Phase 8 rows go above this line. -->
 
 ### Phase 9: PHN practice toolkit and case management

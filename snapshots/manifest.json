@@ -933,6 +933,42 @@
           "rows": 1968
         }
       ]
+    },
+    {
+      "id": "ma-maternal-infant",
+      "title": "Massachusetts births, low birthweight, preterm birth, prenatal care, infant mortality, and PRAMS indicators (DPH), with U.S. provisional comparisons (CDC NCHS)",
+      "publisher": "Massachusetts DPH Registry of Vital Records and Statistics and PRAMS; CDC National Center for Health Statistics",
+      "source_urls": [
+        "https://www.mass.gov/doc/2023-birth-report/download",
+        "https://www.mass.gov/doc/2022-death-report-docx/download",
+        "https://www.mass.gov/doc/2019-2021-mass-prams-report-docx/download",
+        "https://data.cdc.gov/resource/76vv-a7x8.json",
+        "https://data.cdc.gov/resource/jqwm-z2g9.json"
+      ],
+      "source_sha256": {
+        "2023-birth-report.docx": "3faccb34e25584288b369d43a7b9f1fde535d1ccd44187dd11fcb8d24f8f835d",
+        "2022-death-report.docx": "116a2cb9e73689176f6bbb8a75d49d494c024a0267c03341475439f9af617168",
+        "2019-2021-mass-prams-report.docx": "a1c29d3ec2afdfc9cd74bc8ce0625bc9a5a1a8dd0ac6bab9bcaa1cd4a684e17e",
+        "76vv-a7x8_2024Q4.json": "863f3862de01e8039b6f0b93758168a53586010f87792d8820da326be56ce715",
+        "jqwm-z2g9_2023Q4.json": "5ec54bfd5431ee775eb4752146c900d85cccc4ace8c2a5d5d3e8d02fd7c56082"
+      },
+      "source_vintage": "Births 2023 (report modified 2026-08-19); infant deaths 2012-2022 (report modified 2025-01-08); PRAMS 2019-2021; U.S. provisional 12 months ending 2024 Q4 (births) and 2023 Q4 (infant mortality)",
+      "retrieved": "2026-11-09",
+      "license": "Massachusetts DPH public reports; CDC data are U.S. government works (public domain).",
+      "derivation": "xtask/scripts/build_maternal_infant.py reads the DOCX tables: 2023 Birth Report Table 17 (resident births, low birthweight, preterm, and teen births by municipality; town and county percentages computed from DPH's counts), Table 2 (state by race and Hispanic ethnicity), the gestational-age table (preterm by race), and Table 1 (state trends 2013-2023); 2022 Death Report Table 5 (infant, neonatal, and postneonatal mortality by race, 2012-2022); PRAMS 2019-2021 report Tables 19, 47, 48, 56 (weighted percentages with 95% CIs). U.S. values are CDC NCHS VSRR quarterly provisional estimates. DPH's suppressed counts (1-4) are kept as '<5'.",
+      "caveats": [
+        "DPH suppresses counts of 1-4; town percentages from small numbers are unstable.",
+        "U.S. comparisons are provisional and for different 12-month periods than the Massachusetts figures.",
+        "Community-level infant mortality and PRAMS estimates are not published; those are statewide only."
+      ],
+      "files": [
+        {
+          "path": "ma_maternal_infant.csv",
+          "sha256": "da804a1243e25a6eb27d09aaeadb08b5a85a869baf2f358ddd7911a51bd45228",
+          "bytes": 150883,
+          "rows": 1768
+        }
+      ]
     }
   ]
 }
