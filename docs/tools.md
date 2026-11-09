@@ -2147,6 +2147,37 @@ call signs come only from a roster file in `/data` (`roster_path`) and go only i
 written to `/data/output` (product-owner decision, Phase 13).
 
 <!-- Phase 13 EPR-01 (ICS) sections go below this line. -->
+
+### `generate_ics_forms` (EPR-01, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `forms` | `iap` (202, 203, 204, 205, 205A, 206, 207, 208) | Any of 201, 202, 203, 204, 205, 205A, 206, 207, 208, 213, 213RR, 214, 215A, or `all`. |
+| `incident_name`, `incident_number` | | Block 1 (and 2) of every form. |
+| `period_start`, `period_end` | | Operational period, `YYYY-MM-DD HH:MM` (24-hour clock). |
+| `prepared_at`, `prepared_by`, `approved_by` | now; the Planning Section Chief; the Incident Commander | Prepared-by and approval blocks (signatures are by hand). |
+| `objectives`, `command_emphasis`, `situational_awareness`, `situation_summary`, `actions`, `safety_message`, `site_safety_plan_required`, `site_safety_plan_location` | | ICS 201, 202, and 208 text. |
+| `organization` | from the roster's position column when empty | Position, name, agency (names only; never phone numbers). |
+| `assignments` | | One ICS 204 per Division/Group: supervisor, branch director, resources, work assignments, special instructions, communications. |
+| `resources`, `radio_channels`, `radio_instructions`, `medical_plan`, `messages`, `resource_requests`, `activity_logs`, `safety_analysis`, `other_attachments` | | ICS 201 block 10, 205, 206, 213, 213RR, 214, 215A, and 202 block 6. Facility numbers (hospital, ambulance dispatch) may be given; never personal numbers. |
+| `incident_type`, `use_suggestions` | none, `false` | `measles_outbreak`, `respiratory_outbreak`, `mass_dispensing`, `coastal_storm`, `extreme_heat`, `flooding`, `hazmat` (or words such as "POD", "hurricane"). Returns suggested SMART objectives, command emphasis, safety message, and ICS 215A lines; with `use_suggestions` they go into empty blocks marked "suggested; review". |
+| `map_path`, `map_description` | | PNG/JPEG map in `/data` for ICS 201 block 4 and the IAP map page (with alt text). |
+| `roster_path`, `roster_sheet` | | Staff roster CSV/XLSX in `/data` (name, position, agency, work and cell phone, email, radio). |
+| `format` | `docx` | `pdf` or `both`. |
+| `blank_forms` | `false` | Also write blank copies with FEMA's block instructions to `output/…/blank/`. |
+
+Writes one file per form (one copy per Division/Group, message, request, or log) and, when two
+or more IAP forms are requested, an assembled Incident Action Plan (cover, contents, forms in
+IAP order, map page) to a new folder in `/data/output`. The forms keep FEMA's titles, block
+numbers, and labels (NIMS ICS Forms Booklet, FEMA 502-2; forms v3 and v3.1, checked against
+FEMA's PDFs) as accessible DOCX/PDF documents; they are labeled as adaptations, not FEMA's
+fillable PDFs. Returns, per form, the files written and the required blocks still blank (with
+FEMA's instruction for each) so the assistant can ask for them; an IAP checklist; the form
+catalog; and suggestions for the incident type, with citations and confidence. **Privacy (ADR
+0009):** staff phone numbers, emails, and radio call signs come only from `roster_path` and are
+written only to the documents (the ICS 205A is marked "not for public release"); the response
+contains counts (staff, matched, unmatched), never roster values. Contact details or client
+identifiers typed into the request are reported by category in the privacy block.
 <!-- End of Phase 13 EPR-01 sections. -->
 
 <!-- Phase 13 EPR-07 (COOP) sections go below this line. -->

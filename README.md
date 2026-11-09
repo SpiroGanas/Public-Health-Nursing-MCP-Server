@@ -186,6 +186,7 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `generate_ics_forms` | EPR-01 | epr | FEMA ICS forms (201–208, 213, 213RR, 214, 215A) and an assembled Incident Action Plan in Word/PDF; staff contacts filled locally from a roster file. |
 <!-- Phase 13 EPR-01 (ICS) rows go above this line. -->
 
 <!-- Phase 13 EPR-07 (COOP) rows go above this line. -->

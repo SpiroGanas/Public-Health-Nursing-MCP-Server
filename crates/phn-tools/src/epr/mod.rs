@@ -27,6 +27,8 @@ pub use shelter::{ShelterArgs, ShelterResult, functional_needs_shelter_intake};
 pub mod roster;
 
 // Phase 13 EPR-01 (ICS) modules go below this line.
+pub mod ics;
+pub use ics::{IcsArgs, IcsResult, generate_ics_forms};
 // End of Phase 13 EPR-01 modules.
 
 // Phase 13 EPR-07 (COOP) modules go below this line.
