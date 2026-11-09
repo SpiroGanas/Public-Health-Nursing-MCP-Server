@@ -1,0 +1,293 @@
+# Naloxone, harm reduction, and treatment resources for find_naloxone_and_harm_reduction (MH-04)
+# and find_substance_use_treatment (MH-05).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/bh_substance_use_resources.schema.json
+meta:
+  id: bh-substance-use-resources
+  title: Naloxone, harm reduction, and substance use treatment resources (Massachusetts)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2026-07-13
+  source:
+    title: Standing Order for Dispensing Naloxone Rescue Kits (signed July 13, 2026)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/statewide-standing-order/download
+  related_sources:
+    - title: Stop an Overdose with Naloxone
+      publisher: Massachusetts Department of Public Health, Bureau of Substance Addiction Services
+      url: https://www.mass.gov/stop-an-overdose-with-naloxone
+    - title: Overdose Education and Naloxone Distribution Program Core Competencies (updated 2019)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/oend-program-core-competencies/download
+    - title: "Board of Registration in Pharmacy Policy 2024-01: Naloxone Dispensing (revised 2/6/25)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/2024-01-naloxone-dispensing-pdf/download
+    - title: Syringe Service Program locator
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/syringe-service-program-locator
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-08 from DPH's statewide naloxone standing order (July 13, 2026), the Board of
+    Registration in Pharmacy Policy 2024-01 (revised 2/6/25), DPH's naloxone pages (pharmacy,
+    FAQs, facts and formulations, risk factors, programs and agencies), the OEND Program Core
+    Competencies (updated 2019), the Syringe Service Program locator page's list of cities and
+    towns with board of health approval, CDC's naloxone, overdose response, and fentanyl pages,
+    and M.G.L. c. 111, s. 215 and c. 94C, s. 1 on malegislature.gov. Statements are close
+    paraphrases or quotes (high confidence) except where marked. DPH's naloxone program and
+    syringe service program maps (Tableau Public and Google My Maps) could not be read, so the
+    tool links to them instead of listing sites. Whether fentanyl test strips are exempt from the
+    drug paraphernalia definition could not be confirmed (low confidence; see that entry). The
+    OEND competencies date from 2019; where they differ from the 2026 standing order (for example,
+    preferred formulations), the standing order is used. The teaching script wording is the
+    developer's arrangement of these sources and needs the nurse's review before use.
+
+sources:
+  standing_order:
+    title: Standing Order for Dispensing Naloxone Rescue Kits
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/statewide-standing-order/download
+    date: 2026-07-13
+  pharmacy_policy:
+    title: "Board of Registration in Pharmacy Policy 2024-01: Naloxone Dispensing"
+    publisher: Massachusetts Department of Public Health, Bureau of Health Professions Licensure
+    url: https://www.mass.gov/doc/2024-01-naloxone-dispensing-pdf/download
+    date: 2025-02-06
+  pharmacy_page:
+    title: Getting Naloxone from a Pharmacy or Store
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/getting-naloxone-from-a-pharmacy-or-store
+    date: null
+  naloxone_faq:
+    title: Frequently asked questions (FAQs) about naloxone
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/frequently-asked-questions-faqs-about-naloxone
+    date: null
+  naloxone_facts:
+    title: Naloxone facts and formulations
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/naloxone-facts-and-formulations
+    date: null
+  naloxone_programs:
+    title: Naloxone for Programs and Agencies
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/naloxone-for-programs-and-agencies
+    date: null
+  naloxone_landing:
+    title: Stop an Overdose with Naloxone
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/stop-an-overdose-with-naloxone
+    date: null
+  naloxone_locator:
+    title: Naloxone Program Locator (OEND and Community Naloxone Program sites)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/naloxone-program-locator
+    date: null
+  ssp_locator:
+    title: Syringe Service Program locator
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/syringe-service-program-locator
+    date: null
+  risk_factors:
+    title: Opioid Overdose Risk Factors
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/opioid-overdose-risk-factors
+    date: null
+  oend_competencies:
+    title: Overdose Education and Naloxone Distribution Program Core Competencies (updated 2019)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/oend-program-core-competencies/download
+    date: 2019-01-01
+  youcan:
+    title: You Can Save a Life (order naloxone, training videos)
+    publisher: Massachusetts Department of Public Health
+    url: https://youcan.info/
+    date: null
+  bsas_contacts:
+    title: Opioid Overdose Prevention Information (contacts)
+    publisher: Massachusetts Department of Public Health, Bureau of Substance Addiction Services
+    url: https://www.mass.gov/opioid-overdose-prevention-information
+    date: null
+  cdc_naloxone:
+    title: Lifesaving Naloxone
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/stop-overdose/caring/naloxone.html
+    date: 2025-06-11
+  cdc_response:
+    title: What to Do If You Think Someone Is Overdosing
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/stop-overdose/response/index.html
+    date: 2024-04-02
+  cdc_fentanyl:
+    title: Fentanyl Facts
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/stop-overdose/caring/fentanyl-facts.html
+    date: 2024-04-02
+  mgl_111_215:
+    title: "M.G.L. c. 111, s. 215: Needle exchange programs; approval; report"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section215
+    date: null
+  mgl_94c_1:
+    title: "M.G.L. c. 94C, s. 1: Definitions (drug paraphernalia)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94C/Section1
+    date: null
+  ma_988:
+    title: 988 Suicide and Crisis Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+    date: null
+
+contacts:
+  - name: Massachusetts Substance Use Helpline
+    detail: "(800) 327-5050 (voice); (800) 720-3480 (TTY and ASCII). Website helplinema.org (the server cannot open it; give the link)."
+    source: bsas_contacts
+  - name: "Massachusetts Overdose Prevention Helpline (Never Use Alone New England)"
+    detail: "1-800-972-0590, for people who use alone."
+    source: risk_factors
+  - name: 988 Suicide and Crisis Lifeline
+    detail: "Call or text 988, or chat online; free, confidential, 24/7."
+    source: ma_988
+  - name: Bureau of Substance Addiction Services (main line)
+    detail: "(617) 624-5111"
+    source: bsas_contacts
+
+standing_order:
+  signed: 2026-07-13
+  authority: "Issued under M.G.L. c. 94C, s. 19B (as amended by chapter 208 of the acts of 2018): authorizes licensed pharmacists to dispense naloxone rescue kits to a person at risk of an opioid-related overdose, or a family member, friend, or other person in a position to assist."
+  formulations:
+    - name: Naloxone 4 mg/0.1 mL nasal spray
+      dispense: 2 doses
+      directions: Administer a single spray in one nostril. Repeat after 3 minutes if no or minimal response.
+    - name: Naloxone 4 mg/0.25 mL nasal spray
+      dispense: 2 doses
+      directions: Administer a single spray in one nostril. Repeat after 3 minutes if no or minimal response.
+    - name: Naloxone 2 mg/2 mL single-dose Luer-Jet prefilled syringe with a mucosal atomization device (MAD 300) per dose
+      dispense: 2 doses
+      directions: Spray 1 mL in each nostril. Repeat after 3 minutes if no or minimal response.
+    - name: Naloxone 3 mg/0.1 mL nasal spray
+      dispense: 2 doses
+      directions: Administer a single spray in one nostril. Repeat after 3 minutes if no or minimal response.
+    - name: Naloxone 0.4 mg/mL in 1 mL single-dose vial, with a 3 cc, 25 gauge, 1-inch syringe per dose
+      dispense: 2 doses
+      directions: Inject 1 mL IM in shoulder or thigh. Repeat after 3 minutes if no or minimal response.
+  why_preferred: "These doses and formulations are preferred because they give the best combination of effectiveness at displacing fentanyl, titratability when multiple doses are needed, and minimizing the risk of naloxone-precipitated withdrawal."
+
+access:
+  - text: "Anyone can get naloxone at a pharmacy counter without a prescription under the statewide standing order; the pharmacy can bill insurance, including MassHealth. Some stores sell it on the shelf (not covered by insurance)."
+    source: pharmacy_page
+    section: How?
+  - text: "MassHealth members have no co-pay for naloxone. Most private Massachusetts-based insurers must fully cover it without a co-pay; insurers based outside Massachusetts may not."
+    source: naloxone_faq
+    section: Where to get naloxone
+  - text: "BSAS-approved naloxone distribution programs (OEND and the Community Naloxone Program) train people and give out naloxone rescue kits; find them on DPH's Naloxone Program Locator map."
+    source: naloxone_locator
+    section: Naloxone Program Locator
+  - text: "Naloxone can be ordered for home delivery through DPH's You Can Save a Life website, which also has short training videos."
+    source: naloxone_faq
+    section: Where to get naloxone
+  - text: "State and municipal agencies (such as police, fire departments, and public schools) can buy naloxone through the State Office of Pharmacy Services at the public interest price; some organizations qualify for the DPH Community Naloxone Program."
+    source: naloxone_faq
+    section: Where to get naloxone
+  - text: "Naloxone products should be stored at room temperature (68-77 F) away from direct sunlight. If naloxone is frozen during an overdose, do not wait for it to thaw: call 911 and give rescue breaths. Expired naloxone will likely still work and should be used if it is all you have."
+    source: naloxone_faq
+    section: Product information
+
+pharmacy_rules:
+  - text: "Massachusetts pharmacies must stock naloxone and keep a continuous, sufficient supply (M.G.L. c. 94C, s. 19C)."
+    source: pharmacy_policy
+    section: Policy 2024-01 (introduction)
+  - text: "The pharmacy must offer to dispense naloxone whenever a Schedule II opioid is dispensed."
+    source: pharmacy_policy
+    section: I.C
+  - text: "There is no regulatory limit on the amount of naloxone that may be dispensed to one person, although insurance may limit coverage."
+    source: pharmacy_policy
+    section: I.F
+  - text: "The pharmacy must counsel the person and give an Opioid Antagonist Information Pamphlet (for example DPH's Stop an Overdose wallet card in English, Portuguese, and Spanish)."
+    source: pharmacy_policy
+    section: I.G
+
+legal:
+  - text: "The standing order's statute protects practitioners prescribing or dispensing naloxone from criminal or civil liability or professional discipline (M.G.L. c. 94C, s. 19B(f)) and gives criminal and civil immunity to anyone who, in good faith, gives an opioid antagonist to a person who appears to be having an opioid-related overdose (s. 19B(g))."
+    source: standing_order
+    section: Introduction
+  - text: "The Good Samaritan law (M.G.L. c. 94C, s. 34A) protects a person who seeks medical help for an overdose, and the person overdosing, from charges for possession of controlled substances. DPH's training notes that it does not protect against losing public housing, arrest on prior warrants, or Department of Children and Families involvement if children are present."
+    source: oend_competencies
+    section: Recognizing and Responding to an Opioid Overdose (Call 9-1-1)
+
+syringe_services:
+  statute: "A local board of health must approve a syringe services program (needle exchange) before DPH implements one in its city or town (M.G.L. c. 111, s. 215)."
+  statute_source: mgl_111_215
+  list_source: ssp_locator
+  list_note: "Cities and towns with board of health approval to establish a syringe services program, as listed on DPH's Syringe Service Program locator page (retrieved 2026-11-08). Approval does not mean a program currently operates in that town; check DPH's map."
+  approved_towns: [Adams, Alford, Amherst, Ayer, Belchertown, Berlin, Beverly, Boston, Braintree, Brockton, Cambridge, Chelsea, Chicopee, Chilmark, Clarksburg, Dalton, Dartmouth, Dennis, Eastham, Easthampton, Edgartown, Egremont, Essex, Fairhaven, Fall River, Falmouth, Florida, Framingham, Gloucester, Great Barrington, Greenfield, Hamilton, Hancock, Haverhill, Hinsdale, Holyoke, Hudson, Ipswich, Lanesborough, Lawrence, Lee, Lenox, Lowell, Ludlow, Lynn, Mashpee, Montague, Monterey, Mount Washington, Natick, North Adams, Northampton, Oak Bluffs, Orleans, Peabody, Peru, Pittsfield, Plymouth, Provincetown, Quincy, Revere, Richmond, Rockport, Salem, Sandisfield, Sandwich, Sheffield, Somerville, Springfield, Stockbridge, South Hadley, Taunton, Tisbury, Truro, Tyringham, Ware, Wareham, Washington, Wellfleet, Wenham, West Stockbridge, West Tisbury, Westfield, Williamstown, Windsor, Worcester]
+
+fentanyl_test_strips:
+  - text: "Fentanyl test strips are inexpensive and typically give results within 5 minutes. Even if a test is negative, take caution: strips might not detect more potent fentanyl-like drugs such as carfentanil."
+    source: cdc_fentanyl
+    section: Fentanyl and overdose
+    confidence: high
+  - text: "Drugs may contain deadly levels of fentanyl that cannot be seen, tasted, or smelled; it is nearly impossible to tell without testing."
+    source: cdc_fentanyl
+    section: Fentanyl and overdose
+    confidence: high
+  - text: "Program staff can order fentanyl test strips through DPH's Bureau of Substance Addiction Services; the order link is under 'Program Resources' on DPH's Stop an Overdose with Naloxone page."
+    source: naloxone_landing
+    section: Program Resources
+    confidence: medium
+  - text: "Legal status not confirmed: the drug paraphernalia definition in M.G.L. c. 94C, s. 1, as published on malegislature.gov (retrieved 2026-11-08), includes testing equipment used to identify or analyze controlled substances. Whether a later law exempts fentanyl test strips or other drug-checking supplies could not be confirmed. Check with agency counsel before advising on legality."
+    source: mgl_94c_1
+    section: Drug paraphernalia, clause (4)
+    confidence: low
+  - text: "DPH points to the Massachusetts Drug Supply Data Stream (streetcheck.org) for current drug-checking results, including fentanyl and xylazine."
+    source: risk_factors
+    section: Information on fentanyl
+    confidence: medium
+
+risk_factors:
+  - text: "Changes in tolerance from not using or using less, such as after a hospital stay, jail, or a period of less or no opioid use."
+    source: risk_factors
+    section: Risk factors
+  - text: "Changes in the drug supply."
+    source: risk_factors
+    section: Risk factors
+  - text: "Mixing opioids with alcohol or benzodiazepines, or with stimulants such as cocaine and methamphetamine."
+    source: risk_factors
+    section: Risk factors
+  - text: "Chronic health conditions such as HIV, hepatitis C, lung disease, or heart disease, and a history of past overdoses."
+    source: risk_factors
+    section: Risk factors
+  - text: "Stopping methadone, buprenorphine, or naltrexone raises overdose risk for several weeks; taking them as prescribed is protective."
+    source: oend_competencies
+    section: Preventing Overdose
+
+teaching_script:
+  - step: Recognize an overdose
+    text: "Signs of an opioid overdose: no response when you shout or rub the breastbone; slow breathing (fewer than 8 breaths a minute) or no breathing; deep snoring or gurgling; blue, purple, or gray lips and fingertips; pinpoint pupils. Someone who is very high still responds and breathes 8 or more times a minute. If you are not sure, treat it as an overdose."
+    sources: [oend_competencies, cdc_response]
+  - step: Try to wake the person
+    text: "Call the person's name, tap their shoulders, then rub your knuckles hard up and down the breastbone (sternal rub). If there is no response, act as if it is an overdose."
+    sources: [oend_competencies]
+  - step: Call 911
+    text: "Call 911. The person needs medical care even if they wake up, because naloxone wears off in 30 to 90 minutes and the opioid can last longer. Massachusetts' Good Samaritan law protects the caller and the person overdosing from drug possession charges."
+    sources: [oend_competencies]
+  - step: Give naloxone
+    text: "Nasal spray: peel open the package, hold the device with your thumb on the plunger and two fingers on the nozzle, put the tip in one nostril until your fingers touch the nose, and press the plunger firmly. Injectable: inject 1 mL into the shoulder or thigh. If there is no or minimal response after 3 minutes, give a second dose. Fentanyl overdoses may need more than one dose."
+    sources: [standing_order, oend_competencies, cdc_naloxone]
+  - step: Support breathing
+    text: "Between doses, if you are trained and able: check that the mouth is clear, tilt the head back, lift the chin, pinch the nose, and give 1 breath every 5 seconds. If you are trained in CPR, give chest compressions. Stop when the person is breathing 8 or more times a minute on their own."
+    sources: [oend_competencies]
+  - step: Recovery position and stay
+    text: "If the person is breathing, lay them on their side so they do not choke. Stay until help arrives (CDC: until emergency help arrives or for at least 4 hours) and tell responders how many doses you gave. If you must leave, give naloxone first, put the person in the recovery position, and leave the rest of the naloxone next to them."
+    sources: [oend_competencies, cdc_naloxone, cdc_response]
+  - step: When they wake up
+    text: "Explain that they overdosed and you gave naloxone. Naloxone can cause sudden withdrawal (anxiety, chills, nausea, vomiting, cravings). Encourage them not to use again for several hours, because the overdose can return when naloxone wears off."
+    sources: [oend_competencies]
+  - step: Safety plan
+    text: "Carry naloxone and tell others where it is (you cannot use it on yourself). Avoid using alone: use with someone who has naloxone, take turns, or call the Massachusetts Overdose Prevention Helpline (Never Use Alone New England), 1-800-972-0590. Assume drugs may contain fentanyl, start low and go slow, and avoid mixing opioids with alcohol or benzodiazepines."
+    sources: [risk_factors, oend_competencies, cdc_naloxone]

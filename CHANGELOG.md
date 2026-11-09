@@ -55,6 +55,10 @@ All notable changes are recorded here. The format follows
   differences by non-overlapping intervals, and CDC YRBS mental health indicators for
   Massachusetts vs the U.S. Snapshots `ma-youth-health-survey` and `cdc-yrbs-mental-health-ma-us`;
   content `content/bh/youth_survey.yaml` (also holds DPH's 988 Lifeline text).
+- `find_naloxone_and_harm_reduction` (MH-04): naloxone access (statewide standing order of July
+  13, 2026, pharmacy policy, programs), syringe service program approval by town, fentanyl test
+  strip facts, help lines, and a cited teaching script with an optional Word handout. Content
+  `content/bh/substance_use_resources.yaml` (shared with MH-05).
 <!-- End of Phase 11 entries. -->
 
 ### Added — Phase 12: emergency preparedness I: situational awareness and planning

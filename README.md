@@ -126,6 +126,7 @@ output folder instead of being sent to the AI model.
 | `check_readability` | COMM-01 | comms | Flesch Reading Ease, Flesch-Kincaid, SMOG, and Fog grades; long sentences, CDC Everyday Words jargon, passive voice, and acronyms flagged; CDC Clear Communication Index scored. |
 | `get_overdose_data` | MH-03 | bh | DPH town overdose deaths 2015-2022 with rates vs the state, CDC provisional county, state, and U.S. counts by drug, and DPH's 2024 findings. |
 | `get_youth_risk_behavior_data` | MH-07 | bh | Massachusetts Youth Health Survey and YRBS indicators (sadness, suicide, bullying, substance use) by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs, vs the U.S. |
+| `find_naloxone_and_harm_reduction` | MH-04 | bh | Naloxone access under the statewide standing order, syringe service approval by town, fentanyl test strips, help lines, and a cited naloxone teaching script (Word handout). |
 <!-- Phase 11 rows go above this line. -->
 
 ### Phase 12: emergency preparedness I: situational awareness and planning

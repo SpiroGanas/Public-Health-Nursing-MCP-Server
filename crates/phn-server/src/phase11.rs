@@ -1,7 +1,10 @@
 //! Phase 11 tools: substance use, crisis resources, and health communication.
 
 use phn_core::Envelope;
-use phn_tools::bh::{OverdoseArgs, OverdoseResult, YouthSurveyArgs, YouthSurveyResult};
+use phn_tools::bh::{
+    HarmReductionArgs, HarmReductionResult, OverdoseArgs, OverdoseResult, YouthSurveyArgs,
+    YouthSurveyResult,
+};
 use phn_tools::comms::{ReadabilityArgs, ReadabilityResult};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -69,5 +72,27 @@ impl PhnServer {
         Parameters(args): Parameters<YouthSurveyArgs>,
     ) -> CallToolResult {
         respond(phn_tools::bh::get_youth_risk_behavior_data(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "find_naloxone_and_harm_reduction",
+        description = "How to get naloxone in Massachusetts (pharmacy counter under the statewide \
+            standing order with insurance including MassHealth, distribution programs, home \
+            delivery, agency purchasing), the standing order's formulations and directions, \
+            pharmacy duties and legal protections, whether a town's board of health approved a \
+            syringe services program, fentanyl test strip facts, help lines, links to DPH's site \
+            maps, and a cited naloxone teaching script, optionally as a Word handout in \
+            /data/output.",
+        annotations(title = "Naloxone and harm reduction", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<HarmReductionResult>>()
+    )]
+    async fn find_naloxone_and_harm_reduction(
+        &self,
+        Parameters(args): Parameters<HarmReductionArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::bh::find_naloxone_and_harm_reduction(ctx, args)
+        })
+        .await
     }
 }

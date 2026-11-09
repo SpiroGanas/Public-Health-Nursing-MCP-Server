@@ -8,6 +8,10 @@
 // Phase 11 modules go below this line.
 pub mod overdose;
 pub use overdose::{OverdoseArgs, OverdoseResult, get_overdose_data};
+pub mod harm_reduction;
+pub use harm_reduction::{
+    HarmReductionArgs, HarmReductionResult, find_naloxone_and_harm_reduction,
+};
 pub mod youth_survey;
 pub use youth_survey::{YouthSurveyArgs, YouthSurveyResult, get_youth_risk_behavior_data};
 // End of Phase 11 modules.

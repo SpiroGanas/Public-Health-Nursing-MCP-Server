@@ -23,4 +23,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Bh,
         phase: 11,
     },
+    ToolMeta {
+        name: "find_naloxone_and_harm_reduction",
+        plan_id: "MH-04",
+        toolset: Toolset::Bh,
+        phase: 11,
+    },
 ];

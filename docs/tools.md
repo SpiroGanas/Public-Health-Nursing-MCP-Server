@@ -1124,6 +1124,25 @@ compared the same way. CDC's YRBSS mental health indicators (`nu3s-3dwd`, 2019-2
 snapshot) compare Massachusetts with the national YRBS. Suicide-related answers include DPH's 988
 Lifeline text and a safe-messaging reminder.
 
+### `find_naloxone_and_harm_reduction` (MH-04, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | For syringe service program approval and approved towns in the same county. |
+| `include_teaching_script` | true | |
+| `handout` | none | `docx`: an accessible Word handout of the script, access options, and help lines in `/data/output`. |
+
+From `content/bh/substance_use_resources.yaml`: ways to get naloxone (pharmacy counter under the
+statewide standing order with insurance including MassHealth and no MassHealth co-pay; BSAS
+distribution programs; home delivery through You Can Save a Life; agency purchasing), the
+standing order's five preferred formulations and directions (signed July 13, 2026), pharmacy
+duties (Board of Pharmacy Policy 2024-01), legal protections (c. 94C §§ 19B, 34A), whether the
+town's board of health approved a syringe services program (DPH's list; c. 111 § 215), fentanyl
+test strip facts (CDC; the legal status is marked unverified), overdose risk factors, contacts
+(Substance Use Helpline, Never Use Alone line, 988), and an 8-step teaching script citing DPH's
+OEND core competencies, the standing order, and CDC. DPH's site maps cannot be read, so they are
+linked. Decision support.
+
 <!-- End of Phase 11 tools. -->
 
 ## Phase 12: Emergency preparedness I: situational awareness and planning

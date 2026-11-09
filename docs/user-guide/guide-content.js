@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 50;
+const TOOL_COUNT = 51;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -95,7 +95,7 @@ const frontChapters = [
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
-                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data.', '3'],
+                ['Substance use, crisis resources, and health communication', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone and harm reduction resources.', '4'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
                 // End of Phase 12 work-area rows.
@@ -1821,6 +1821,35 @@ const toolChapters = [
           'A difference is reported only when the confidence intervals do not overlap, DPH’s rule. Estimates DPH or CDC did not publish (too few students) are shown as not presented.',
           'The Youth Health Survey, the Massachusetts YRBS, and CDC’s figures are different surveys; compare years within one survey only.',
           'When you share suicide-related numbers, follow safe-messaging guidance and include the 988 Lifeline.',
+        ],
+      },
+      {
+        id: 'find_naloxone_and_harm_reduction',
+        title: 'Find naloxone and harm reduction resources',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'only if you ask for a handout',
+        does: 'Explains how anyone in Massachusetts can get naloxone (at a pharmacy counter without a prescription under the statewide standing order, from distribution programs, by home delivery, or through agency purchasing), lists the naloxone products in the standing order, says whether your town’s board of health has approved a syringe services program, gives facts about fentanyl test strips and help lines, and provides a step-by-step naloxone teaching script, which it can save as a Word handout.',
+        when: [
+          'Teaching a client, family, or community group how to respond to an overdose.',
+          'Answering “where can I get Narcan?” or “does my insurance cover it?”',
+          'Planning naloxone distribution or a syringe services conversation with your board of health.',
+        ],
+        provide: [
+          'Your town (or use your saved town), and whether you want the teaching script and a Word handout.',
+        ],
+        examples: [
+          'How can a family in Pittsfield get naloxone, and is there a syringe services program?',
+          'Give me a naloxone teaching script for a parent group and save it as a handout.',
+          'What naloxone products does the Massachusetts standing order list?',
+        ],
+        returns: [
+          'Ways to get naloxone, the standing order’s products and directions, pharmacy duties and legal protections, syringe services approval for your town and county, fentanyl test strip facts, help lines, links to DPH’s site maps, and the teaching script (and the handout file name, if requested).',
+        ],
+        notes: [
+          'DPH’s maps of naloxone programs and syringe service sites cannot be read by the server; open the links for current sites and hours.',
+          'Whether fentanyl test strips are legal under Massachusetts law could not be confirmed; ask your agency’s counsel.',
+          'Rescue breathing and CPR steps are for people trained to do them. Follow your agency’s protocols.',
         ],
       },
     ],

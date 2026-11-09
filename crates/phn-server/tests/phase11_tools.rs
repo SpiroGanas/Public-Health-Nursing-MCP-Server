@@ -414,3 +414,58 @@ async fn youth_survey_topics_levels_and_groups() {
     .await;
     assert!(e.contains("high, middle, or both"), "{e}");
 }
+
+// ------------------------------------------------------------------ MH-04
+
+#[tokio::test]
+async fn naloxone_resources_town_status_script_and_handout() {
+    let h = start(|c| c.offline = true).await;
+    let s = call_ok(
+        &h,
+        "find_naloxone_and_harm_reduction",
+        json!({"town": "Pittsfield", "handout": "docx"}),
+    )
+    .await;
+    let d = &s["data"];
+    assert_eq!(d["syringe_services"]["town"], "Pittsfield");
+    assert_eq!(d["syringe_services"]["approved"], true);
+    assert!(
+        d["syringe_services"]["approved_in_county"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|t| t == "North Adams")
+    );
+    assert_eq!(
+        d["standing_order_formulations"].as_array().unwrap().len(),
+        5
+    );
+    assert!(d["teaching_script"].as_array().unwrap().len() >= 6);
+    assert!(decision_support(&s));
+    assert!(has_pending_review_caveat(&s));
+    let file = d["handout_file"].as_str().unwrap();
+    assert!(file.starts_with("output/"), "{file}");
+    assert!(h.data().join(file).exists());
+    assert_eq!(s["privacy"]["files_written"][0], file);
+    assert!(md(&s).contains("(800) 327-5050"));
+    assert!(md(&s).contains("Call 911"));
+    // The handout passes the server's own accessibility check.
+    let a = call_ok(&h, "check_document_accessibility", json!({"path": file})).await;
+    assert_eq!(a["data"]["report"]["failed"], 0, "{}", md(&a));
+
+    let s = call_ok(
+        &h,
+        "find_naloxone_and_harm_reduction",
+        json!({"town": "Wilmington", "include_teaching_script": false}),
+    )
+    .await;
+    assert_eq!(s["data"]["syringe_services"]["approved"], false);
+    assert!(s["data"]["teaching_script"].as_array().unwrap().is_empty());
+    let e = call_err(
+        &h,
+        "find_naloxone_and_harm_reduction",
+        json!({"town": "Springfeld"}),
+    )
+    .await;
+    assert!(e.contains("Did you mean"), "{e}");
+}
