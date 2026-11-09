@@ -874,6 +874,39 @@
           "rows": 2
         }
       ]
+    },
+    {
+      "id": "census-acs5-ma-older-adults",
+      "title": "ACS 2020-2024 5-year estimates: older adults living alone, without a vehicle, with limited English, and in poverty (Massachusetts)",
+      "publisher": "U.S. Census Bureau, American Community Survey",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b09020.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25045.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b16004.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b17001.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b09020.dat": "d46e9ff0d3609e800f6c2faec369527d549d2aa4d34f31ac2665df0cca908a50",
+        "acsdt5y2024-b16004.dat": "5c43c1e337b44eb0362c85d958b3d8b9dd08f94577ff6b11af7d76c5b57b790e",
+        "acsdt5y2024-b17001.dat": "707adda8aaff136382f4fe0858617d09062da48b1a3d2ab2e9a1047def09b531",
+        "acsdt5y2024-b25045.dat": "73888419c52221dd27cf4de879e58ae1fbf52bc049d4a70b5e1b43a294691139"
+      },
+      "source_vintage": "2020-2024",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "From the ACS 5-year table-based summary file (2024 release): B09020 (living alone: male and female householders living alone, of the population 65+), B25045 (householder 65+ with no vehicle, owner and renter), B16004 (65+ speaking English 'well', 'not well', or 'not at all', i.e. less than 'very well'), and B17001 (65-74 and 75+ below poverty, of those for whom poverty is determined), for the nation, Massachusetts, its counties, its 351 county subdivisions, and populated tracts (tracts with no adults 65+ are omitted). MOEs: sqrt(sum of squared MOEs) for sums, the Census Bureau's derived-proportion formula for percentages (phn_data::older_adults, phn_data::census).",
+      "caveats": [
+        "Small-area ACS estimates, especially for tracts, can have large margins of error; check the coefficient of variation before ranking areas.",
+        "Living alone counts householders 65+ living alone; people 65+ in group quarters (for example nursing homes) are in the denominator but cannot live alone."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_older_adults.csv",
+          "sha256": "ea5e91ee4f341e116c0bcf84de4914d27f772c63680e0f43533f6cc09cc775bd",
+          "bytes": 248157,
+          "rows": 1958
+        }
+      ]
     }
   ]
 }

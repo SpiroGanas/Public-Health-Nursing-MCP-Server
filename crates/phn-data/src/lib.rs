@@ -40,6 +40,7 @@ pub mod vaccine_codes;
 
 // Phase 10 adapters (CMS Provider Data Catalog) go below this line.
 pub mod cms_provider;
+pub mod older_adults;
 
 pub use cache::Cache;
 pub use http::HttpClient;
