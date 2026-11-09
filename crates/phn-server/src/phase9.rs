@@ -5,7 +5,9 @@ use phn_tools::cd::{LtbiCalendar, LtbiCalendarArgs, TbContactArgs, TbContactPlan
 use phn_tools::core::{
     DocTemplateArgs, DocTemplateResult, OmahaArgs, OmahaResult, WheelArgs, WheelResult,
 };
-use phn_tools::equity::{HrsnArgs, HrsnResult, ResourceSearchArgs, ResourceSearchResult};
+use phn_tools::equity::{
+    HrsnArgs, HrsnResult, NewcomerArgs, NewcomerResult, ResourceSearchArgs, ResourceSearchResult,
+};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -167,5 +169,29 @@ impl PhnServer {
         Parameters(args): Parameters<ResourceSearchArgs>,
     ) -> CallToolResult {
         respond(phn_tools::equity::find_community_resources(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "newcomer_health_navigator",
+        description = "Refugee and immigrant (newcomer) health in Massachusetts: CDC domestic \
+            refugee screening components (history and physical, TB, immunizations, CBC, lead, \
+            hepatitis, HIV, parasites, malaria, mental health, nutrition, reproductive health, \
+            cancer) with age rules and the 90-day window from arrival; DPH and Office for Refugees \
+            and Immigrants programs (RHAP, RHPP, Refugee Medical Assistance); MassHealth coverage \
+            by immigration status, including the October 1, 2026 federal changes for refugees, \
+            asylees, and others; and Emergency Assistance family shelter and basic-needs \
+            resources. Uses status and age only (no identifiers); can write a blank screening \
+            checklist (agency translations from /data/templates/<language>/).",
+        annotations(title = "Newcomer health navigator", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<NewcomerResult>>()
+    )]
+    async fn newcomer_health_navigator(
+        &self,
+        Parameters(args): Parameters<NewcomerArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::equity::newcomer_health_navigator(ctx, args)
+        })
+        .await
     }
 }

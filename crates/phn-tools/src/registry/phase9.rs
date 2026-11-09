@@ -47,4 +47,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Equity,
         phase: 9,
     },
+    ToolMeta {
+        name: "newcomer_health_navigator",
+        plan_id: "EQ-11",
+        toolset: Toolset::Equity,
+        phase: 9,
+    },
 ];
