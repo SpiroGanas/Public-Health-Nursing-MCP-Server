@@ -77,9 +77,8 @@ struct AhcContent {
     referrals: BTreeMap<String, Vec<CitedText>>,
 }
 
-static CONTENT: LazyLock<AhcContent> = LazyLock::new(|| {
-    practice::load(AHC_CONTENT).expect("AHC HRSN content matches the Rust types")
-});
+static CONTENT: LazyLock<AhcContent> =
+    LazyLock::new(|| practice::load(AHC_CONTENT).expect("AHC HRSN content matches the Rust types"));
 
 fn content() -> &'static AhcContent {
     &CONTENT
@@ -115,7 +114,9 @@ pub struct HrsnArgs {
 }
 
 /// Screen result for a domain.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum DomainStatus {
     /// An answer CMS marks as a possible unmet need (or a score at the threshold).
@@ -275,7 +276,8 @@ fn parse_text(item: &Item, s: &str) -> Option<Ans> {
         let exact = item.options.iter().find(|o| {
             norm(&o.key) == n
                 || norm(&o.label) == n
-                || o.value.is_some_and(|v| n == v.to_string() || n.starts_with(&format!("{v}_")))
+                || o.value
+                    .is_some_and(|v| n == v.to_string() || n.starts_with(&format!("{v}_")))
                 || (n.len() >= 4 && norm(&o.label).starts_with(&n))
         });
         // Otherwise the option whose key words all appear in the answer, most words first
@@ -394,7 +396,10 @@ fn score_options(
         }
     }
     if applicable == 0 {
-        return (DomainStatus::NotScreened, "not applicable at this age".into());
+        return (
+            DomainStatus::NotScreened,
+            "not applicable at this age".into(),
+        );
     }
     if !positive.is_empty() {
         (
@@ -423,7 +428,10 @@ fn score_sum(
     let mut answered = 0;
     for i in items {
         if let Some(Ans::Keys(keys)) = answers.get(&i.id)
-            && let Some(v) = keys.first().and_then(|k| option(i, k)).and_then(|o| o.value)
+            && let Some(v) = keys
+                .first()
+                .and_then(|k| option(i, k))
+                .and_then(|o| o.value)
         {
             sum += v;
             answered += 1;
@@ -517,10 +525,7 @@ fn score_activity(
                     ),
                 )
             } else {
-                (
-                    DomainStatus::Negative,
-                    format!("{weekly} minutes a week"),
-                )
+                (DomainStatus::Negative, format!("{weekly} minutes a week"))
             }
         }
     }
@@ -545,7 +550,10 @@ fn item_infos() -> Vec<ItemInfo> {
 
 fn base_sources(c: &AhcContent, results: &[DomainResult]) -> Vec<Source> {
     let mut keys: Vec<&str> = vec!["cms-ahc-tool"];
-    for d in results.iter().filter(|d| d.status == DomainStatus::Positive) {
+    for d in results
+        .iter()
+        .filter(|d| d.status == DomainStatus::Positive)
+    {
         if let Some(v) = c.referrals.get(&d.domain) {
             keys.extend(v.iter().map(|n| n.source.as_str()));
         }
@@ -610,7 +618,10 @@ pub fn screen_health_related_social_needs(
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["#", "Item id", "Domain", "Topic", "Answer keys"], &rows));
+        s.push_str(&md::table(
+            &["#", "Item id", "Domain", "Topic", "Answer keys"],
+            &rows,
+        ));
         s.push_str(
             "\nItems 1-10 are the core screen; 11-26 are supplemental. Give answers by item id \
              (or question number) to score them.\n",
@@ -681,7 +692,10 @@ pub fn screen_health_related_social_needs(
         s.push_str("\nNo positive domains among the answers given.\n");
     } else {
         s.push_str("\n**Referral categories for positive domains**\n");
-        for d in results.iter().filter(|d| d.status == DomainStatus::Positive) {
+        for d in results
+            .iter()
+            .filter(|d| d.status == DomainStatus::Positive)
+        {
             s.push_str(&format!("\n_{}_\n", d.label));
             for r in &d.referrals {
                 s.push_str(&format!("- {} ({})\n", r.text, r.citation));
@@ -802,7 +816,11 @@ fn batch(
             .and_then(|g| g[ri].clone())
             .unwrap_or_else(|| "(blank)".into());
         let mut line = vec![(ri + 2).to_string()];
-        line.extend(id_cols.iter().map(|&i| row.get(i).cloned().unwrap_or_default()));
+        line.extend(
+            id_cols
+                .iter()
+                .map(|&i| row.get(i).cloned().unwrap_or_default()),
+        );
         for d in &results {
             line.push(d.status.label().to_string());
             for g in [group.clone(), "All".to_string()] {
@@ -921,7 +939,13 @@ fn batch(
         })
         .collect();
     s.push_str(&md::table(
-        &["Domain", "Positive", "Negative", "Incomplete", "Not screened"],
+        &[
+            "Domain",
+            "Positive",
+            "Negative",
+            "Incomplete",
+            "Not screened",
+        ],
         &rows,
     ));
     if group_names.len() > 1 {
@@ -973,8 +997,7 @@ fn batch(
         identifiers_detected: lt.identifier_categories(),
         files_written: written,
         notes: vec![
-            "Only counts by domain are returned; per-person results are in the output file."
-                .into(),
+            "Only counts by domain are returned; per-person results are in the output file.".into(),
         ],
     })
     .decision_support())
@@ -996,8 +1019,7 @@ mod tests {
 
     fn run(answers: serde_json::Value, age: Option<u32>) -> Envelope<HrsnResult> {
         let (_d, c) = ctx(false);
-        let answers: BTreeMap<String, serde_json::Value> =
-            serde_json::from_value(answers).unwrap();
+        let answers: BTreeMap<String, serde_json::Value> = serde_json::from_value(answers).unwrap();
         screen_health_related_social_needs(
             &c,
             HrsnArgs {
@@ -1037,7 +1059,12 @@ mod tests {
         assert_eq!(status(&env, "transportation"), DomainStatus::Negative);
         assert_eq!(status(&env, "utilities"), DomainStatus::Positive);
         assert_eq!(status(&env, "safety"), DomainStatus::Negative);
-        let food = env.data.domains.iter().find(|d| d.domain == "food").unwrap();
+        let food = env
+            .data
+            .domains
+            .iter()
+            .find(|d| d.domain == "food")
+            .unwrap();
         assert!(food.referrals.iter().any(|r| r.text.contains("SNAP")));
         assert!(env.notice.is_some());
     }
@@ -1063,9 +1090,15 @@ mod tests {
         assert_eq!(status(&env, "mental_health"), DomainStatus::Positive);
         // 3 x 40 = 120 minutes a week < 150.
         assert_eq!(status(&env, "physical_activity"), DomainStatus::Positive);
-        let env = run(json!({"exercise_days": 7, "exercise_minutes": 60}), Some(12));
+        let env = run(
+            json!({"exercise_days": 7, "exercise_minutes": 60}),
+            Some(12),
+        );
         assert_eq!(status(&env, "physical_activity"), DomainStatus::Negative);
-        let env = run(json!({"exercise_days": 7, "exercise_minutes": 50}), Some(12));
+        let env = run(
+            json!({"exercise_days": 7, "exercise_minutes": 50}),
+            Some(12),
+        );
         assert_eq!(status(&env, "physical_activity"), DomainStatus::Positive);
         let env = run(json!({"errands": "yes"}), Some(10));
         assert_eq!(status(&env, "disabilities"), DomainStatus::NotScreened);

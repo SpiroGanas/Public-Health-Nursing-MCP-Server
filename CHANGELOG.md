@@ -29,6 +29,28 @@ All notable changes are recorded here. The format follows
 ### Added — Phase 9: PHN practice toolkit and case management
 
 <!-- Phase 9 entries go below this line. -->
+
+- `plan_tb_contact_investigation` (CD-11) and `ltbi_treatment_calendar` (CD-12): the 2005
+  NTCA/CDC contact investigation rules (infectious period, Figure 2-4 priorities, Table 3 time
+  frames, 8-10 week retest) with an XLSX tracking workbook and local contact-list summaries, and
+  LTBI dose calendars, completion windows, and adherence checks for 3HP, 4R, 3HR, 6H, and 9H with
+  an XLSX tracker and DOCX patient calendar (no dose calculation).
+- `screen_health_related_social_needs` (EQ-05): CMS AHC HRSN scoring by domain with Massachusetts
+  referral categories and a batch mode with suppressed counts.
+- `omaha_system_coder` (CORE-01), `classify_intervention_wheel` (CORE-02), and
+  `nursing_documentation_template` (CORE-03): Omaha System coding, Public Health Intervention
+  Wheel classification with workload counts, and SOAP/DAR/narrative templates with a
+  required-elements check; notes are analyzed locally and never returned.
+- `find_community_resources` (EQ-07): the nurse's resource directory plus HRSA health center sites
+  (new `phn_data::hrsa` adapter and `hrsa-health-centers-ma` snapshot with its builder script).
+- `newcomer_health_navigator` (EQ-11): CDC domestic refugee screening, DPH/ORI programs, MassHealth
+  coverage by immigration status including the October 2026 federal changes, and EA shelter
+  resources.
+- Content (pending review): `content/cd/tuberculosis.yaml`, `content/equity/ahc_hrsn.yaml`,
+  `content/equity/newcomer_health.yaml`, `content/core/omaha_system.yaml`,
+  `content/core/intervention_wheel.yaml`, `content/core/documentation_templates.yaml`; agency
+  translations are read from `/data/templates/<language>/`; fictional TB contact, HRSN screening,
+  and resource directory fixtures.
 <!-- End of Phase 9 entries. -->
 
 ### Added — Phase 10: healthy aging and mental health screening

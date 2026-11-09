@@ -281,7 +281,12 @@ fn find_problem(q: &str) -> Option<&'static Problem> {
         .or_else(|| {
             c.problems
                 .iter()
-                .map(|p| (p, phn_core::text::similarity(&n, &phn_core::text::normalize(&p.name))))
+                .map(|p| {
+                    (
+                        p,
+                        phn_core::text::similarity(&n, &phn_core::text::normalize(&p.name)),
+                    )
+                })
                 .filter(|(_, s)| *s >= 0.75)
                 .max_by(|a, b| a.1.total_cmp(&b.1))
                 .map(|(p, _)| p)
@@ -314,7 +319,13 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
     let mut caveats: Vec<String> = practice::review_caveat(&c.meta).into_iter().collect();
     let mut sources: Vec<Source> = practice::sources_for(
         &c.sources,
-        ["omaha-overview", "omaha-pcs", "omaha-is", "omaha-prso", "omaha-faq"],
+        [
+            "omaha-overview",
+            "omaha-pcs",
+            "omaha-is",
+            "omaha-prso",
+            "omaha-faq",
+        ],
     );
 
     // ---- Text to analyze (never returned)
@@ -369,8 +380,17 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                     in_sentence.push(pi);
                     let has = |w: &[&str]| w.iter().any(|x| s.contains(&format!(" {x} ")));
                     family[pi] |= has(&[
-                        "family", "mother", "father", "parent", "parents", "household", "children",
-                        "spouse", "husband", "wife", "siblings",
+                        "family",
+                        "mother",
+                        "father",
+                        "parent",
+                        "parents",
+                        "household",
+                        "children",
+                        "spouse",
+                        "husband",
+                        "wife",
+                        "siblings",
                     ]);
                     risk[pi] |= has(&["risk", "potential", "exposed", "exposure"]);
                     promotion[pi] |= has(&["wants", "interested", "goal", "would like", "plans"]);
@@ -504,7 +524,11 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                     .signs_symptoms_verified
                     .iter()
                     .cloned()
-                    .chain(p.signs_symptoms_draft.iter().map(|s| format!("{s} (unverified)")))
+                    .chain(
+                        p.signs_symptoms_draft
+                            .iter()
+                            .map(|s| format!("{s} (unverified)")),
+                    )
                     .collect(),
             });
         }
@@ -601,7 +625,9 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             ));
         }
         let mut blocks = vec![
-            practice::para("Client: ____________________   Clinician: ____________________   Date: __________"),
+            practice::para(
+                "Client: ____________________   Clinician: ____________________   Date: __________",
+            ),
             practice::para(
                 "Draft generated from Omaha System terms; confirm each problem, modifier, sign \
                  and symptom, and intervention, and add client-specific information.",
@@ -643,8 +669,18 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                 "Problem Rating Scale for Outcomes (1-5)",
                 &["Concept", "Admission", "Interim", "Dismissal"],
                 vec![
-                    vec!["Knowledge".into(), String::new(), String::new(), String::new()],
-                    vec!["Behavior".into(), String::new(), String::new(), String::new()],
+                    vec![
+                        "Knowledge".into(),
+                        String::new(),
+                        String::new(),
+                        String::new(),
+                    ],
+                    vec![
+                        "Behavior".into(),
+                        String::new(),
+                        String::new(),
+                        String::new(),
+                    ],
                     vec!["Status".into(), String::new(), String::new(), String::new()],
                 ],
             ));
@@ -677,7 +713,11 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                     vec![
                         format!("{} {}", p.code, p.name),
                         p.domain.clone(),
-                        format!("{}, {}", p.suggested_scope, p.suggested_type.replace('_', " ")),
+                        format!(
+                            "{}, {}",
+                            p.suggested_scope,
+                            p.suggested_type.replace('_', " ")
+                        ),
                         p.matched_terms.join(", "),
                         p.interventions
                             .iter()
@@ -717,7 +757,10 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             h.code, h.name, h.kind, h.detail
         ));
         if !h.signs_symptoms.is_empty() {
-            s.push_str(&format!("Signs/symptoms: {}\n", h.signs_symptoms.join("; ")));
+            s.push_str(&format!(
+                "Signs/symptoms: {}\n",
+                h.signs_symptoms.join("; ")
+            ));
         }
     }
     if !ratings_out.is_empty() {
@@ -751,7 +794,9 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
          dismissal.\n",
     );
     if let Some(f) = &care_plan {
-        s.push_str(&format!("\n**Care plan draft:** `{f}` (blank for client details).\n"));
+        s.push_str(&format!(
+            "\n**Care plan draft:** `{f}` (blank for client details).\n"
+        ));
     }
     caveats.push(
         "Suggestions come from keyword cues and need the nurse's judgment: confirm each problem, \
@@ -780,7 +825,9 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
         ..Privacy::none()
     };
     if source_file.is_some() {
-        privacy.notes.push("The note file was read from /data and left unchanged.".into());
+        privacy
+            .notes
+            .push("The note file was read from /data and left unchanged.".into());
     }
     let data = OmahaResult {
         source_file,
@@ -817,7 +864,11 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                     .collect::<Vec<_>>()
                     .join(", ")
             ),
-            citation: practice::cite(&c.sources, &c.modifiers.note.source, &c.modifiers.note.section),
+            citation: practice::cite(
+                &c.sources,
+                &c.modifiers.note.source,
+                &c.modifiers.note.section,
+            ),
             confidence: None,
         },
         license: practice::note(&c.license, &c.sources),
@@ -877,7 +928,8 @@ mod tests {
         assert!(
             med.interventions
                 .iter()
-                .any(|i| i.category.starts_with("Teaching") && i.target == "medication action/side effects")
+                .any(|i| i.category.starts_with("Teaching")
+                    && i.target == "medication action/side effects")
         );
         assert!(d.problems.iter().any(|p| p.name == "Income"));
         // "denies fever" is negated.
@@ -938,6 +990,11 @@ mod tests {
         assert_eq!(c.problems.len(), 42);
         assert_eq!(c.targets.len(), 76);
         assert_eq!(c.problems[41].name, "Medication regimen");
-        assert_eq!(find_problem("communicable infectious condition").unwrap().code, "34");
+        assert_eq!(
+            find_problem("communicable infectious condition")
+                .unwrap()
+                .code,
+            "34"
+        );
     }
 }

@@ -104,10 +104,7 @@ pub(crate) fn cite(
     key: &str,
     section: &str,
 ) -> String {
-    let title = sources
-        .get(key)
-        .map(|s| s.title.as_str())
-        .unwrap_or(key);
+    let title = sources.get(key).map(|s| s.title.as_str()).unwrap_or(key);
     if section.is_empty() {
         title.to_string()
     } else {
@@ -252,7 +249,10 @@ pub(crate) fn document_markdown(doc: &Document) -> String {
     for b in &doc.blocks {
         match b {
             Block::Heading { level, text } => {
-                s.push_str(&format!("{} {text}\n\n", "#".repeat((*level as usize).clamp(1, 6))));
+                s.push_str(&format!(
+                    "{} {text}\n\n",
+                    "#".repeat((*level as usize).clamp(1, 6))
+                ));
             }
             Block::Paragraph(runs) => {
                 let t: String = runs.iter().map(|r| r.text.as_str()).collect();
@@ -342,7 +342,11 @@ pub(crate) fn table(
 }
 
 /// A blank document shell with the agency letterhead.
-pub(crate) fn document(ctx: &Context, title: &str, blocks: Vec<phn_docs::model::Block>) -> Document {
+pub(crate) fn document(
+    ctx: &Context,
+    title: &str,
+    blocks: Vec<phn_docs::model::Block>,
+) -> Document {
     Document {
         title: title.to_string(),
         subtitle: None,
@@ -397,7 +401,9 @@ pub(crate) fn identifier_columns(
                 return false;
             }
             let n = phn_core::text::normalize(h);
-            findings.iter().any(|f| &f.column == *h && f.kind.is_direct())
+            findings
+                .iter()
+                .any(|f| &f.column == *h && f.kind.is_direct())
                 || n.contains("name")
                 || n == "id"
                 || n.ends_with(" id")
@@ -450,10 +456,8 @@ mod tests {
 
     #[test]
     fn suppression_hides_small_counts_and_a_complement() {
-        let (shown, any) = suppressed_counts(
-            &[("a".into(), 2), ("b".into(), 30), ("c".into(), 40)],
-            5,
-        );
+        let (shown, any) =
+            suppressed_counts(&[("a".into(), 2), ("b".into(), 30), ("c".into(), 40)], 5);
         assert!(any);
         assert_eq!(shown[0].1, "*");
         assert_eq!(shown.iter().filter(|(_, v)| v == "*").count(), 2);
@@ -477,7 +481,10 @@ mod tests {
     fn padded_words_and_languages() {
         assert_eq!(padded_words("Taught re: meds!"), " taught re meds ");
         assert_eq!(language_folder("English"), None);
-        assert_eq!(language_folder("Haitian Creole").as_deref(), Some("haitian_creole"));
+        assert_eq!(
+            language_folder("Haitian Creole").as_deref(),
+            Some("haitian_creole")
+        );
         assert_eq!(language_folder("../es").as_deref(), Some("es"));
         assert_eq!(
             fill_placeholders("Start {{start}}", &[("start", "2026-01-01".into())]),

@@ -181,7 +181,15 @@ fn matches(s: &str, cue: &str) -> bool {
 }
 
 /// Classify one description.
-fn classify(text: &str) -> (Option<&'static Intervention>, Vec<String>, String, String, Vec<String>) {
+fn classify(
+    text: &str,
+) -> (
+    Option<&'static Intervention>,
+    Vec<String>,
+    String,
+    String,
+    Vec<String>,
+) {
     let c = content();
     let s = practice::padded_words(text);
     let mut scored: Vec<(usize, &Intervention, Vec<String>)> = c
@@ -228,7 +236,13 @@ fn classify(text: &str) -> (Option<&'static Intervention>, Vec<String>, String, 
                 .take(3)
                 .map(|(_, i, _)| i.name.clone())
                 .collect();
-            (Some(*best), also, level.into(), strength.into(), hits.clone())
+            (
+                Some(*best),
+                also,
+                level.into(),
+                strength.into(),
+                hits.clone(),
+            )
         }
     }
 }
@@ -312,7 +326,13 @@ pub fn classify_intervention_wheel(
     let overview = practice::note(&c.overview, &c.sources);
     let mut sources = practice::sources_for(
         &c.sources,
-        ["mdh-wheel", "keller-2004", "schaffer-2022", "leclair-2024", "kovacevic-2024"],
+        [
+            "mdh-wheel",
+            "keller-2004",
+            "schaffer-2022",
+            "leclair-2024",
+            "kovacevic-2024",
+        ],
     );
     if let Some(path) = args.path.as_deref().filter(|p| !p.trim().is_empty()) {
         return batch(ctx, &args, path, overview, interventions, wedges, levels);
@@ -327,8 +347,12 @@ pub fn classify_intervention_wheel(
         let (best, also, level, strength, hits) = classify(a);
         classified.push(ActivityClass {
             activity: i + 1,
-            intervention: best.map(|b| b.id.clone()).unwrap_or_else(|| "unclassified".into()),
-            intervention_name: best.map(|b| b.name.clone()).unwrap_or_else(|| "Unclassified".into()),
+            intervention: best
+                .map(|b| b.id.clone())
+                .unwrap_or_else(|| "unclassified".into()),
+            intervention_name: best
+                .map(|b| b.name.clone())
+                .unwrap_or_else(|| "Unclassified".into()),
             wedge: best.map(|b| b.wedge.clone()).unwrap_or_default(),
             level,
             match_strength: strength,
@@ -340,7 +364,11 @@ pub fn classify_intervention_wheel(
     if classified.is_empty() {
         s.push_str(&format!("{}\n\n", c.overview.text));
         for w in &wedges {
-            s.push_str(&format!("- **{}:** {}\n", w.label, w.interventions.join(", ")));
+            s.push_str(&format!(
+                "- **{}:** {}\n",
+                w.label,
+                w.interventions.join(", ")
+            ));
         }
         s.push_str("\n**Levels of practice**\n\n");
         for l in &levels {
@@ -361,7 +389,14 @@ pub fn classify_intervention_wheel(
             })
             .collect();
         s.push_str(&md::table(
-            &["#", "Intervention", "Wedge", "Level", "Match", "Also consider"],
+            &[
+                "#",
+                "Intervention",
+                "Wedge",
+                "Level",
+                "Match",
+                "Also consider",
+            ],
             &rows,
         ));
         let mut tally: BTreeMap<String, usize> = BTreeMap::new();
@@ -393,8 +428,7 @@ pub fn classify_intervention_wheel(
     .caveats(caveats(c))
     .privacy(Privacy {
         notes: vec![
-            "Activity descriptions are not repeated; results refer to activities by number."
-                .into(),
+            "Activity descriptions are not repeated; results refer to activities by number.".into(),
         ],
         ..Privacy::none()
     }))
@@ -416,14 +450,18 @@ fn batch(
     // it is located directly rather than through the identifier guard.
     let act_c = match args.activity_column.as_deref() {
         Some(name) => t.column_index(name).ok_or_else(|| {
-            PhnError::InvalidInput(format!(
-                "'{}' has no column named '{name}'",
-                lt.label
-            ))
+            PhnError::InvalidInput(format!("'{}' has no column named '{name}'", lt.label))
         })?,
         None => practice::find_col(
             t,
-            &["activity", "activities", "description", "task", "notes", "activity_description"],
+            &[
+                "activity",
+                "activities",
+                "description",
+                "task",
+                "notes",
+                "activity_description",
+            ],
         )
         .ok_or_else(|| {
             PhnError::InvalidInput(
@@ -466,7 +504,9 @@ fn batch(
         if best.is_none() {
             unclassified += 1;
         }
-        let name = best.map(|b| b.name.clone()).unwrap_or_else(|| "Unclassified".into());
+        let name = best
+            .map(|b| b.name.clone())
+            .unwrap_or_else(|| "Unclassified".into());
         let h = hours.as_ref().and_then(|v| v[ri]).unwrap_or(0.0);
         let g = groups
             .as_ref()
@@ -492,7 +532,14 @@ fn batch(
     }
     let mut headers = t.headers.clone();
     headers.extend(
-        ["Intervention", "Wedge", "Level of practice", "Match", "Also consider"].map(String::from),
+        [
+            "Intervention",
+            "Wedge",
+            "Level of practice",
+            "Match",
+            "Also consider",
+        ]
+        .map(String::from),
     );
     let h: Vec<&str> = headers.iter().map(String::as_str).collect();
     let doc = practice::document(
@@ -552,7 +599,10 @@ fn batch(
             ]
         })
         .collect();
-    s.push_str(&md::table(&["Intervention", "Level", "Activities", "Hours"], &rows));
+    s.push_str(&md::table(
+        &["Intervention", "Level", "Activities", "Hours"],
+        &rows,
+    ));
     if any {
         s.push_str(&format!(
             "\n`*` = suppressed (counts from 1 to {} and cells that would reveal them).\n",
@@ -668,7 +718,9 @@ mod tests {
             ));
         }
         for i in 0..6 {
-            csv.push_str(&format!("2026-10-1{i},Flu shots at the senior center clinic,3,Immunization\n"));
+            csv.push_str(&format!(
+                "2026-10-1{i},Flu shots at the senior center clinic,3,Immunization\n"
+            ));
         }
         std::fs::write(dir.path().join("data/log.csv"), csv).unwrap();
         let env = classify_intervention_wheel(

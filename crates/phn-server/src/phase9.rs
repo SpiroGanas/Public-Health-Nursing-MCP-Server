@@ -57,7 +57,10 @@ impl PhnServer {
         &self,
         Parameters(args): Parameters<LtbiCalendarArgs>,
     ) -> CallToolResult {
-        blocking(&self.ctx, move |ctx| phn_tools::cd::ltbi_treatment_calendar(ctx, args)).await
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::cd::ltbi_treatment_calendar(ctx, args)
+        })
+        .await
     }
 
     #[tool(
@@ -97,11 +100,11 @@ impl PhnServer {
         annotations(title = "Omaha System coder", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
         output_schema = schema_for_output::<Envelope<OmahaResult>>()
     )]
-    async fn omaha_system_coder(
-        &self,
-        Parameters(args): Parameters<OmahaArgs>,
-    ) -> CallToolResult {
-        blocking(&self.ctx, move |ctx| phn_tools::core::omaha_system_coder(ctx, args)).await
+    async fn omaha_system_coder(&self, Parameters(args): Parameters<OmahaArgs>) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::core::omaha_system_coder(ctx, args)
+        })
+        .await
     }
 
     #[tool(

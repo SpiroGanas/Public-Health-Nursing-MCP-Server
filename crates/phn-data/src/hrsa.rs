@@ -10,8 +10,7 @@ use crate::http::HttpClient;
 use crate::snapshots::SnapshotStore;
 
 /// HRSA's site download (about 14 MB, all states).
-pub const HRSA_SITES_URL: &str =
-    "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv";
+pub const HRSA_SITES_URL: &str = "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv";
 /// Snapshot id and file.
 pub const SNAPSHOT_ID: &str = "hrsa-health-centers-ma";
 const SNAPSHOT_FILE: &str = "hrsa_health_centers_ma.csv";

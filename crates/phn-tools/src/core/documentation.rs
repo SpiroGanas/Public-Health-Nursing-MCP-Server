@@ -190,9 +190,30 @@ pub struct DocTemplateResult {
 
 fn has_date(text: &str) -> bool {
     const MONTHS: &[&str] = &[
-        "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "sept", "oct", "nov", "dec",
-        "january", "february", "march", "april", "june", "july", "august", "september", "october",
-        "november", "december",
+        "jan",
+        "feb",
+        "mar",
+        "apr",
+        "may",
+        "jun",
+        "jul",
+        "aug",
+        "sep",
+        "sept",
+        "oct",
+        "nov",
+        "dec",
+        "january",
+        "february",
+        "march",
+        "april",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
     ];
     let tokens: Vec<String> = text
         .split(|c: char| c.is_whitespace() || c == ',' || c == ';' || c == '(' || c == ')')
@@ -201,7 +222,11 @@ fn has_date(text: &str) -> bool {
         .collect();
     for (i, t) in tokens.iter().enumerate() {
         let parts: Vec<&str> = t.split(['/', '-']).collect();
-        if parts.len() == 3 && parts.iter().all(|p| !p.is_empty() && p.chars().all(|c| c.is_ascii_digit())) {
+        if parts.len() == 3
+            && parts
+                .iter()
+                .all(|p| !p.is_empty() && p.chars().all(|c| c.is_ascii_digit()))
+        {
             return true;
         }
         if MONTHS.contains(&t.as_str())
@@ -237,9 +262,11 @@ fn has_credential(text: &str) -> bool {
     const CREDS: &[&str] = &[
         "RN", "PHN", "BSN", "MSN", "DNP", "APRN", "NP", "LPN", "LVN", "CNS", "CPNP", "FNP",
     ];
-    text.split(|c: char| c.is_whitespace() || c == ',' || c == ';' || c == '/' || c == '(' || c == ')')
-        .map(|t| t.replace('.', ""))
-        .any(|t| CREDS.contains(&t.as_str()))
+    text.split(|c: char| {
+        c.is_whitespace() || c == ',' || c == ';' || c == '/' || c == '(' || c == ')'
+    })
+    .map(|t| t.replace('.', ""))
+    .any(|t| CREDS.contains(&t.as_str()))
 }
 
 /// Find section headings in the note: a line that is an alias (optionally
@@ -281,8 +308,7 @@ fn check_text(
 ) -> (String, Vec<String>, Vec<ElementCheck>) {
     let c = content();
     // Detect the format with the most section headings.
-    let mut best: (usize, &Format, Vec<(String, usize)>) =
-        (0, &c.formats[2], Vec::new());
+    let mut best: (usize, &Format, Vec<(String, usize)>) = (0, &c.formats[2], Vec::new());
     for f in &c.formats {
         let s = sections_in(text, f);
         let distinct = {
@@ -315,7 +341,9 @@ fn check_text(
             "date_time" => (has_date(text) && has_time(text), None),
             "credential" => {
                 let p = has_credential(text)
-                    || e.cues.iter().any(|q| padded.contains(&practice::padded_words(q)));
+                    || e.cues
+                        .iter()
+                        .any(|q| padded.contains(&practice::padded_words(q)));
                 (p, None)
             }
             _ => {
@@ -338,7 +366,11 @@ fn check_text(
             id: e.id.clone(),
             label: e.label.clone(),
             present,
-            found_in_section: if present { pos.and_then(section_at) } else { None },
+            found_in_section: if present {
+                pos.and_then(section_at)
+            } else {
+                None
+            },
         });
     }
     let mut found: Vec<String> = secs
@@ -482,9 +514,13 @@ pub fn nursing_documentation_template(
             blocks.push(practice::para(" "));
         }
         blocks.push(practice::heading(2, "Visit-specific prompts"));
-        blocks.push(practice::bullets(v.prompts.iter().map(|p| format!("☐ {p}"))));
+        blocks.push(practice::bullets(
+            v.prompts.iter().map(|p| format!("☐ {p}")),
+        ));
         blocks.push(practice::heading(2, "Required elements"));
-        blocks.push(practice::bullets(required.iter().map(|e| format!("☐ {}", e.label))));
+        blocks.push(practice::bullets(
+            required.iter().map(|e| format!("☐ {}", e.label)),
+        ));
         blocks.push(practice::para(
             "Signature (name as licensed, credentials): ______________________",
         ));
@@ -519,7 +555,10 @@ pub fn nursing_documentation_template(
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["Required element", "Result", "Section"], &rows));
+        s.push_str(&md::table(
+            &["Required element", "Result", "Section"],
+            &rows,
+        ));
         if !ch.identifiers_detected.is_empty() {
             s.push_str(&format!(
                 "\nThe note contains identifiers ({}); keep it in your secure record and do not \
@@ -549,9 +588,9 @@ pub fn nursing_documentation_template(
     };
     if let Some(ch) = &check {
         privacy.identifiers_detected = ch.identifiers_detected.keys().cloned().collect();
-        privacy
-            .notes
-            .push("The note was read locally; only element results and counts are returned.".into());
+        privacy.notes.push(
+            "The note was read locally; only element results and counts are returned.".into(),
+        );
     }
     let data = DocTemplateResult {
         format,
@@ -596,7 +635,11 @@ mod tests {
     #[test]
     fn templates_for_each_format_and_visit_type() {
         let (_d, c) = ctx(false);
-        for (f, n) in [(DocFormat::Soap, 4), (DocFormat::Dar, 4), (DocFormat::Narrative, 4)] {
+        for (f, n) in [
+            (DocFormat::Soap, 4),
+            (DocFormat::Dar, 4),
+            (DocFormat::Narrative, 4),
+        ] {
             let env = nursing_documentation_template(
                 &c,
                 DocTemplateArgs {
@@ -607,7 +650,12 @@ mod tests {
             )
             .unwrap();
             assert_eq!(env.data.sections.len(), n);
-            assert!(env.data.required_elements.iter().any(|e| e.id == "control_measures"));
+            assert!(
+                env.data
+                    .required_elements
+                    .iter()
+                    .any(|e| e.id == "control_measures")
+            );
             assert!(env.data.template_markdown.contains("Signature"));
         }
     }
@@ -664,7 +712,12 @@ mod tests {
         .unwrap();
         assert_eq!(env.data.files.len(), 2);
         assert!(!env.data.required_elements.iter().any(|e| e.id == "consent"));
-        assert!(env.data.required_elements.iter().any(|e| e.id == "dose_observed"));
+        assert!(
+            env.data
+                .required_elements
+                .iter()
+                .any(|e| e.id == "dose_observed")
+        );
         let e = nursing_documentation_template(
             &c,
             DocTemplateArgs {

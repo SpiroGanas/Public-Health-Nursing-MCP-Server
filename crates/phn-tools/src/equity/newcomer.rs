@@ -303,8 +303,12 @@ fn likely_coverage(s: &Status, age: Option<u32>, pregnant: bool, disabled: bool)
                 "Group 2 (affected from October 1, 2026): "
             };
             match (age, disabled) {
-                (Some(a), _) if a >= 65 => format!("{base}age 65 or older generally gets MassHealth Family Assistance."),
-                (_, true) => format!("{base}an adult with a disability generally gets MassHealth Family Assistance."),
+                (Some(a), _) if a >= 65 => {
+                    format!("{base}age 65 or older generally gets MassHealth Family Assistance.")
+                }
+                (_, true) => format!(
+                    "{base}an adult with a disability generally gets MassHealth Family Assistance."
+                ),
                 (Some(_), false) => format!(
                     "{base}an adult 21-64 without a disability generally gets only MassHealth \
                      Limited (emergency services) and/or the Health Safety Net. Recently arrived \
@@ -348,16 +352,17 @@ pub fn newcomer_health_navigator(
             "arrival_date is after today (or as_of)".into(),
         ));
     }
-    let topics: Vec<NewcomerTopic> = if args.topics.is_empty() || args.topics.contains(&NewcomerTopic::All) {
-        vec![
-            NewcomerTopic::Screening,
-            NewcomerTopic::Programs,
-            NewcomerTopic::Coverage,
-            NewcomerTopic::Shelter,
-        ]
-    } else {
-        args.topics.clone()
-    };
+    let topics: Vec<NewcomerTopic> =
+        if args.topics.is_empty() || args.topics.contains(&NewcomerTopic::All) {
+            vec![
+                NewcomerTopic::Screening,
+                NewcomerTopic::Programs,
+                NewcomerTopic::Coverage,
+                NewcomerTopic::Shelter,
+            ]
+        } else {
+            args.topics.clone()
+        };
     let want = |t: NewcomerTopic| topics.contains(&t);
     let status = match args.status.as_deref().filter(|s| !s.trim().is_empty()) {
         Some(q) => Some(find_status(q).ok_or_else(|| {
@@ -411,7 +416,10 @@ pub fn newcomer_health_navigator(
     } else {
         Vec::new()
     };
-    if programs.iter().any(|p| p.confidence == Some(Confidence::Low)) {
+    if programs
+        .iter()
+        .any(|p| p.confidence == Some(Confidence::Low))
+    {
         caveats.push(
             "ORI's pages disagree on how long Refugee Medical Assistance lasts (8 vs 4 months); \
              confirm with ORI."
@@ -452,21 +460,29 @@ pub fn newcomer_health_navigator(
         let translation = lang
             .as_deref()
             .and_then(|l| practice::agency_template(ctx, l, "newcomer_checklist.md"));
-        let mut blocks = vec![
-            practice::para("Name / ID: (local record)    Arrival date: __________    Interpreter language: __________"),
-        ];
+        let mut blocks = vec![practice::para(
+            "Name / ID: (local record)    Arrival date: __________    Interpreter language: __________",
+        )];
         if let Some((text, p)) = &translation {
-            blocks.extend(phn_docs::model::from_markdown(&practice::fill_placeholders(
-                text,
-                &[(
-                    "screening_due_by",
-                    due.map(|d| d.to_string()).unwrap_or_default(),
-                )],
-            )));
-            checklist_language = Some(format!("{} (agency translation {p})", lang.clone().unwrap_or_default()));
+            blocks.extend(phn_docs::model::from_markdown(
+                &practice::fill_placeholders(
+                    text,
+                    &[(
+                        "screening_due_by",
+                        due.map(|d| d.to_string()).unwrap_or_default(),
+                    )],
+                ),
+            ));
+            checklist_language = Some(format!(
+                "{} (agency translation {p})",
+                lang.clone().unwrap_or_default()
+            ));
         } else {
             checklist_language = Some("English".into());
-            if let Some(l) = lang.as_deref().filter(|l| practice::language_folder(l).is_some()) {
+            if let Some(l) = lang
+                .as_deref()
+                .filter(|l| practice::language_folder(l).is_some())
+            {
                 caveats.push(format!(
                     "No agency translation was found for '{l}' (expected \
                      templates/{}/newcomer_checklist.md in the data folder); the checklist is in \
@@ -518,7 +534,10 @@ pub fn newcomer_health_navigator(
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["Component", "At this age", "Key point"], &rows));
+        s.push_str(&md::table(
+            &["Component", "At this age", "Key point"],
+            &rows,
+        ));
     }
     if let Some(cv) = &coverage {
         s.push_str(&format!(
@@ -539,7 +558,10 @@ pub fn newcomer_health_navigator(
     if !programs.is_empty() {
         s.push_str("\n**Massachusetts programs**\n");
         for p in &programs {
-            s.push_str(&format!("- **{}** — {} Contact: {}\n", p.name, p.description, p.contact));
+            s.push_str(&format!(
+                "- **{}** — {} Contact: {}\n",
+                p.name, p.description, p.contact
+            ));
         }
     }
     if !shelter.is_empty() {
@@ -688,7 +710,11 @@ mod tests {
         .unwrap();
         assert_eq!(env.data.files.len(), 1);
         assert_eq!(env.data.checklist_language.as_deref(), Some("English"));
-        assert!(env.caveats.iter().any(|c| c.contains("templates/dari/newcomer_checklist.md")));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("templates/dari/newcomer_checklist.md"))
+        );
         assert!(env.data.coverage.is_none());
     }
 }

@@ -157,9 +157,11 @@ fn parse_regimen(s: &str) -> Result<RegimenId> {
     let n = phn_core::text::normalize(s).replace(['-', '_'], " ");
     let twice = n.contains("twice") || n.contains("biweekly") || n.contains("2x");
     let id = match n.replace(' ', "").as_str() {
-        "3hp" | "isoniazidrifapentine" | "inhrpt" | "rifapentineisoniazid" | "isoniazidandrifapentine" => {
-            RegimenId::R3HP
-        }
+        "3hp"
+        | "isoniazidrifapentine"
+        | "inhrpt"
+        | "rifapentineisoniazid"
+        | "isoniazidandrifapentine" => RegimenId::R3HP,
         "4r" | "rifampin" | "rif" | "4rif" | "rifampicin" => RegimenId::R4R,
         "3hr" | "isoniazidrifampin" | "inhrif" | "isoniazidandrifampin" => RegimenId::R3HR,
         "6h" | "6inh" if !twice => RegimenId::R6H,
@@ -483,11 +485,7 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
     let last = 3 + t.sched.len() as u32;
     let sr = last + 1;
     ws.write_string_with_format(sr, 0, "Doses taken", &bold)?;
-    ws.write_formula(
-        sr,
-        3,
-        Formula::new(format!("=COUNTIF(D4:D{last},\"Y\")")),
-    )?;
+    ws.write_formula(sr, 3, Formula::new(format!("=COUNTIF(D4:D{last},\"Y\")")))?;
     ws.write_string_with_format(sr + 1, 0, "Doses required to complete", &bold)?;
     ws.write_number(sr + 1, 3, f64::from(t.r.completion.doses_required))?;
     ws.write_string_with_format(sr + 2, 0, "Doses remaining", &bold)?;
@@ -502,14 +500,21 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
             ws.write_date_with_format(sr + 3, 3, &to_xl(d)?, &date)?;
         }
         None => {
-            ws.write_string(sr + 3, 3, "no published window: agree one with the TB program")?;
+            ws.write_string(
+                sr + 3,
+                3,
+                "no published window: agree one with the TB program",
+            )?;
         }
     }
     ws.set_freeze_panes(3, 0)?;
 
     let ws = wb.add_worksheet();
     ws.set_name("Visits")?;
-    for (i, h) in ["Date", "Week", "Purpose", "Done (date)", "Findings"].iter().enumerate() {
+    for (i, h) in ["Date", "Week", "Purpose", "Done (date)", "Findings"]
+        .iter()
+        .enumerate()
+    {
         ws.write_string_with_format(0, i as u16, *h, &head)?;
     }
     ws.set_column_width(0, 12)?;
@@ -529,7 +534,10 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
     ws.set_column_width(0, 30)?;
     ws.set_column_width(1, 100)?;
     let mut rows: Vec<(String, String)> = vec![
-        ("Regimen".into(), format!("{} ({})", t.r.name, t.r.id.code())),
+        (
+            "Regimen".into(),
+            format!("{} ({})", t.r.name, t.r.id.code()),
+        ),
         ("Administration".into(), t.admin.label().into()),
         ("Total doses scheduled".into(), t.r.total_doses.to_string()),
         (
@@ -537,7 +545,11 @@ fn build_tracker(t: &TrackerSpec<'_>) -> std::result::Result<Vec<u8>, XlsxError>
             format!(
                 "{} Source: {}",
                 t.r.completion.text,
-                practice::cite(&t.c.sources, &t.r.completion.source, &t.r.completion.section)
+                practice::cite(
+                    &t.c.sources,
+                    &t.r.completion.source,
+                    &t.r.completion.section
+                )
             ),
         ),
         ("Interruptions".into(), t.c.ltbi.interruption.text.clone()),
@@ -566,7 +578,9 @@ fn month_tables(sched: &[NaiveDate], visits: &[Visit]) -> Vec<phn_docs::model::B
         .collect();
     let mut month = NaiveDate::from_ymd_opt(first.year(), first.month(), 1).expect("valid date");
     while month <= *last {
-        let next = month.checked_add_months(Months::new(1)).expect("valid month");
+        let next = month
+            .checked_add_months(Months::new(1))
+            .expect("valid month");
         let mut rows: Vec<Vec<String>> = Vec::new();
         let mut week = vec![String::new(); 7];
         let mut d = month;
@@ -604,9 +618,7 @@ fn english_instructions(c: &TbContent, r: &Regimen, deadline: Option<NaiveDate>)
             "Take your TB medicine on each day marked \"dose\" and check the box. You need {} \
              doses{}.",
             r.completion.doses_required,
-            deadline
-                .map(|d| format!(" by {d}"))
-                .unwrap_or_default()
+            deadline.map(|d| format!(" by {d}")).unwrap_or_default()
         ),
         "Keep your appointments (marked \"visit\"). Bring this calendar.".into(),
     ];
@@ -634,9 +646,8 @@ pub fn ltbi_treatment_calendar(
         .iter()
         .find(|x| x.id == id)
         .ok_or_else(|| PhnError::Internal(format!("regimen {id:?} missing")))?;
-    let start = practice::date_arg("start_date", &Some(args.start_date.clone()))?.ok_or_else(
-        || PhnError::InvalidInput("start_date is required (YYYY-MM-DD)".into()),
-    )?;
+    let start = practice::date_arg("start_date", &Some(args.start_date.clone()))?
+        .ok_or_else(|| PhnError::InvalidInput("start_date is required (YYYY-MM-DD)".into()))?;
     let as_of = practice::date_arg("as_of", &args.as_of)?
         .unwrap_or_else(|| chrono::Local::now().date_naive());
     let days: Vec<Weekday> = if args.twice_weekly_days.is_empty() {
@@ -645,9 +656,8 @@ pub fn ltbi_treatment_calendar(
         args.twice_weekly_days
             .iter()
             .map(|d| {
-                parse_weekday(d).ok_or_else(|| {
-                    PhnError::InvalidInput(format!("'{d}' is not a weekday name"))
-                })
+                parse_weekday(d)
+                    .ok_or_else(|| PhnError::InvalidInput(format!("'{d}' is not a weekday name")))
             })
             .collect::<Result<_>>()?
     };
@@ -659,7 +669,11 @@ pub fn ltbi_treatment_calendar(
     let mut caveats: Vec<String> = practice::review_caveat(&c.meta).into_iter().collect();
     let admin = args.administration.unwrap_or(match r.frequency {
         Frequency::TwiceWeekly => Administration::Dot,
-        _ if r.dph_administration.as_deref().is_some_and(|a| a.contains("DOT")) => {
+        _ if r
+            .dph_administration
+            .as_deref()
+            .is_some_and(|a| a.contains("DOT")) =>
+        {
             Administration::Dot
         }
         _ => Administration::Sat,
@@ -714,9 +728,7 @@ pub fn ltbi_treatment_calendar(
         .enumerate()
         .map(|(i, d)| {
             practice::date_arg(&format!("doses_taken[{}]", i + 1), &Some(d.clone()))?
-                .ok_or_else(|| {
-                    PhnError::InvalidInput(format!("doses_taken[{}] is empty", i + 1))
-                })
+                .ok_or_else(|| PhnError::InvalidInput(format!("doses_taken[{}] is empty", i + 1)))
         })
         .collect::<Result<_>>()?;
     if taken.iter().any(|d| *d > as_of) {
@@ -740,7 +752,8 @@ pub fn ltbi_treatment_calendar(
     // ---- Patient language
     let requested = args.language.clone().unwrap_or_else(|| "English".into());
     let translation = args.language.as_deref().and_then(|l| {
-        practice::language_folder(l).and_then(|_| practice::agency_template(ctx, l, "ltbi_calendar.md"))
+        practice::language_folder(l)
+            .and_then(|_| practice::agency_template(ctx, l, "ltbi_calendar.md"))
     });
     let english_needed = practice::language_folder(&requested).is_some() && translation.is_none();
     if english_needed {
@@ -776,7 +789,9 @@ pub fn ltbi_treatment_calendar(
                 files.push(sb.display_path(&path));
 
                 let mut blocks = vec![
-                    practice::para("Name: ______________________________    Date of birth: ______________"),
+                    practice::para(
+                        "Name: ______________________________    Date of birth: ______________",
+                    ),
                     practice::para(format!(
                         "Medicine: {} — {} doses, {}. First dose {start}; last scheduled dose {end}.",
                         r.name,
@@ -810,7 +825,10 @@ pub fn ltbi_treatment_calendar(
                 files.extend(practice::write_document(
                     ctx,
                     &doc,
-                    &format!("ltbi_{}_calendar_{start}", r.id.code().replace([' ', '(', ')'], "")),
+                    &format!(
+                        "ltbi_{}_calendar_{start}",
+                        r.id.code().replace([' ', '(', ')'], "")
+                    ),
                     &["docx"],
                 )?);
             }
@@ -844,7 +862,10 @@ pub fn ltbi_treatment_calendar(
         vec!["First dose".into(), start.to_string()],
         vec![
             "Doses".into(),
-            format!("{} scheduled; {} required to complete", r.total_doses, r.completion.doses_required),
+            format!(
+                "{} scheduled; {} required to complete",
+                r.total_doses, r.completion.doses_required
+            ),
         ],
         vec!["Last scheduled dose".into(), end.to_string()],
         vec![
@@ -1029,13 +1050,20 @@ mod tests {
         assert_eq!(env.data.regimen, RegimenId::R4R);
         assert_eq!(env.data.scheduled_end, "2026-05-14");
         assert_eq!(env.data.completion.deadline.as_deref(), Some("2026-07-14"));
-        assert_eq!(parse_regimen("9H twice weekly").unwrap(), RegimenId::R9HTwiceWeekly);
+        assert_eq!(
+            parse_regimen("9H twice weekly").unwrap(),
+            RegimenId::R9HTwiceWeekly
+        );
         assert_eq!(parse_regimen("6h").unwrap(), RegimenId::R6H);
         assert!(parse_regimen("4 months of magic").is_err());
         // 3HR has no published window.
         let env = ltbi_treatment_calendar(&c, args("3HR", "2026-01-15")).unwrap();
         assert!(env.data.completion.deadline.is_none());
-        assert!(env.caveats.iter().any(|c| c.contains("No completion window")));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("No completion window"))
+        );
     }
 
     #[test]
@@ -1073,7 +1101,10 @@ mod tests {
 
         let mut a = args("4R", "2026-01-01");
         a.doses_taken = (0..30)
-            .map(|i| (NaiveDate::from_ymd_opt(2026, 1, 1).unwrap() + chrono::Duration::days(i)).to_string())
+            .map(|i| {
+                (NaiveDate::from_ymd_opt(2026, 1, 1).unwrap() + chrono::Duration::days(i))
+                    .to_string()
+            })
             .collect();
         a.as_of = Some("2026-01-31".into());
         let env = ltbi_treatment_calendar(&c, a).unwrap();
@@ -1091,7 +1122,11 @@ mod tests {
         let env = ltbi_treatment_calendar(&c, a).unwrap();
         assert_eq!(env.data.files.len(), 2);
         assert_eq!(env.data.patient_language.used, "English");
-        assert!(env.caveats.iter().any(|c| c.contains("templates/portuguese/ltbi_calendar.md")));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("templates/portuguese/ltbi_calendar.md"))
+        );
         // With an agency translation it is used.
         let tdir = dir.path().join("data/templates/portuguese");
         std::fs::create_dir_all(&tdir).unwrap();

@@ -107,7 +107,12 @@ async fn tb_contact_plan_assigns_priorities_and_writes_a_workbook() {
     assert!(decision_support(&s) && pending(&s));
     let wb = d["workbook"].as_str().unwrap();
     assert!(h.data().join(wb).exists());
-    assert!(!d["dph_tb_program"]["phone_business_hours"].as_str().unwrap().is_empty());
+    assert!(
+        !d["dph_tb_program"]["phone_business_hours"]
+            .as_str()
+            .unwrap()
+            .is_empty()
+    );
 
     // A local contact list: counts and expansion signals only.
     let r = h
@@ -275,12 +280,7 @@ async fn omaha_wheel_and_documentation_never_echo_notes() {
     )
     .await;
     assert_eq!(files(&s).len(), 2);
-    let e = call_err(
-        &h,
-        "omaha_system_coder",
-        json!({"lookup": "zzzzqqqq"}),
-    )
-    .await;
+    let e = call_err(&h, "omaha_system_coder", json!({"lookup": "zzzzqqqq"})).await;
     assert!(e.contains("nothing in the Omaha System"));
 }
 

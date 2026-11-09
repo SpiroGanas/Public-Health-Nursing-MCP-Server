@@ -25,25 +25,153 @@ pub const DEFAULT_DIRECTORY: &str = "resources/community_resources.csv";
 
 /// Service categories and the words that select them.
 const CATEGORIES: &[(&str, &[&str])] = &[
-    ("food", &["food", "pantry", "meals", "meal", "groceries", "snap", "wic", "nutrition", "hunger"]),
-    ("housing", &["housing", "shelter", "homeless", "homelessness", "rent", "eviction", "rental"]),
-    ("utilities", &["utilities", "utility", "fuel", "heating", "heat", "electric", "energy", "heap"]),
-    ("transportation", &["transportation", "rides", "ride", "transit", "bus", "van"]),
-    ("primary_care", &["primary care", "health center", "clinic", "medical", "doctor", "fqhc", "health care"]),
+    (
+        "food",
+        &[
+            "food",
+            "pantry",
+            "meals",
+            "meal",
+            "groceries",
+            "snap",
+            "wic",
+            "nutrition",
+            "hunger",
+        ],
+    ),
+    (
+        "housing",
+        &[
+            "housing",
+            "shelter",
+            "homeless",
+            "homelessness",
+            "rent",
+            "eviction",
+            "rental",
+        ],
+    ),
+    (
+        "utilities",
+        &[
+            "utilities",
+            "utility",
+            "fuel",
+            "heating",
+            "heat",
+            "electric",
+            "energy",
+            "heap",
+        ],
+    ),
+    (
+        "transportation",
+        &["transportation", "rides", "ride", "transit", "bus", "van"],
+    ),
+    (
+        "primary_care",
+        &[
+            "primary care",
+            "health center",
+            "clinic",
+            "medical",
+            "doctor",
+            "fqhc",
+            "health care",
+        ],
+    ),
     ("dental", &["dental", "dentist", "oral health", "teeth"]),
-    ("behavioral_health", &["behavioral health", "mental health", "counseling", "therapy", "psychiatric"]),
-    ("substance_use", &["substance use", "recovery", "addiction", "opioid", "detox", "harm reduction", "naloxone"]),
-    ("safety", &["domestic violence", "safety", "abuse", "sexual assault", "dv"]),
-    ("legal_immigration", &["legal", "immigration", "lawyer", "attorney", "asylum"]),
-    ("employment", &["employment", "job", "jobs", "work", "career", "masshire"]),
-    ("education", &["education", "esol", "esl", "english classes", "ged", "training", "literacy"]),
-    ("child_family", &["child care", "childcare", "parenting", "family", "early intervention", "home visiting"]),
-    ("older_adults", &["older adults", "elder", "seniors", "council on aging", "aging"]),
-    ("disability", &["disability", "disabilities", "accessible", "independent living"]),
+    (
+        "behavioral_health",
+        &[
+            "behavioral health",
+            "mental health",
+            "counseling",
+            "therapy",
+            "psychiatric",
+        ],
+    ),
+    (
+        "substance_use",
+        &[
+            "substance use",
+            "recovery",
+            "addiction",
+            "opioid",
+            "detox",
+            "harm reduction",
+            "naloxone",
+        ],
+    ),
+    (
+        "safety",
+        &[
+            "domestic violence",
+            "safety",
+            "abuse",
+            "sexual assault",
+            "dv",
+        ],
+    ),
+    (
+        "legal_immigration",
+        &["legal", "immigration", "lawyer", "attorney", "asylum"],
+    ),
+    (
+        "employment",
+        &["employment", "job", "jobs", "work", "career", "masshire"],
+    ),
+    (
+        "education",
+        &[
+            "education",
+            "esol",
+            "esl",
+            "english classes",
+            "ged",
+            "training",
+            "literacy",
+        ],
+    ),
+    (
+        "child_family",
+        &[
+            "child care",
+            "childcare",
+            "parenting",
+            "family",
+            "early intervention",
+            "home visiting",
+        ],
+    ),
+    (
+        "older_adults",
+        &[
+            "older adults",
+            "elder",
+            "seniors",
+            "council on aging",
+            "aging",
+        ],
+    ),
+    (
+        "disability",
+        &[
+            "disability",
+            "disabilities",
+            "accessible",
+            "independent living",
+        ],
+    ),
 ];
 
 /// Categories that HRSA health center sites can satisfy.
-const HEALTH_CATEGORIES: &[&str] = &["primary_care", "dental", "behavioral_health", "substance_use"];
+const HEALTH_CATEGORIES: &[&str] = &[
+    "primary_care",
+    "dental",
+    "behavioral_health",
+    "substance_use",
+];
 
 /// Arguments for `find_community_resources`.
 #[derive(Debug, Clone, Default, Deserialize, Serialize, JsonSchema)]
@@ -121,10 +249,7 @@ fn categories_for(q: &str) -> Vec<&'static str> {
     CATEGORIES
         .iter()
         .filter(|(id, words)| {
-            *id == n
-                || words
-                    .iter()
-                    .any(|w| p.contains(&practice::padded_words(w)))
+            *id == n || words.iter().any(|w| p.contains(&practice::padded_words(w)))
         })
         .map(|(id, _)| *id)
         .collect()
@@ -239,16 +364,26 @@ fn parse_hours(s: &str) -> Option<Spans> {
 }
 
 fn is_open(spans: &Spans, day: Weekday, minute: Option<u32>) -> bool {
-    spans.iter().any(|(days, a, b)| {
-        days.contains(&day) && minute.is_none_or(|m| m >= *a && m < *b)
-    })
+    spans
+        .iter()
+        .any(|(days, a, b)| days.contains(&day) && minute.is_none_or(|m| m >= *a && m < *b))
 }
 
 /// Refuse files that look like client data (never echo values).
 fn directory_guard(lt: &crate::localdata::LocalTable) -> Result<()> {
     let person_headers = [
-        "first name", "last name", "dob", "date of birth", "birth date", "ssn", "mrn", "patient",
-        "client", "student", "member id", "medical record",
+        "first name",
+        "last name",
+        "dob",
+        "date of birth",
+        "birth date",
+        "ssn",
+        "mrn",
+        "patient",
+        "client",
+        "student",
+        "member id",
+        "medical record",
     ];
     let bad_headers: Vec<&String> = lt
         .table
@@ -256,7 +391,9 @@ fn directory_guard(lt: &crate::localdata::LocalTable) -> Result<()> {
         .iter()
         .filter(|h| {
             let n = phn_core::text::normalize(h);
-            person_headers.iter().any(|p| n == *p || n.starts_with(&format!("{p} ")))
+            person_headers
+                .iter()
+                .any(|p| n == *p || n.starts_with(&format!("{p} ")))
         })
         .collect();
     let bad_kinds: Vec<&str> = lt
@@ -363,9 +500,10 @@ pub async fn find_community_resources(
     let day = match args.open_on.as_deref().map(str::trim) {
         None | Some("") => None,
         Some(d) if d.eq_ignore_ascii_case("today") => Some(today.weekday()),
-        Some(d) => Some(parse_day(d).ok_or_else(|| {
-            PhnError::InvalidInput(format!("open_on '{d}' is not a weekday"))
-        })?),
+        Some(d) => Some(
+            parse_day(d)
+                .ok_or_else(|| PhnError::InvalidInput(format!("open_on '{d}' is not a weekday")))?,
+        ),
     };
     let minute = match args.open_at.as_deref().map(str::trim) {
         None | Some("") => None,
@@ -398,7 +536,11 @@ pub async fn find_community_resources(
     let mut results: Vec<(i32, ResourceHit)> = Vec::new();
 
     // ---- The nurse's directory
-    let dir_path = match args.directory_path.as_deref().filter(|p| !p.trim().is_empty()) {
+    let dir_path = match args
+        .directory_path
+        .as_deref()
+        .filter(|p| !p.trim().is_empty())
+    {
         Some(p) => Some(p.to_string()),
         None => ctx
             .sandbox()
@@ -555,9 +697,7 @@ pub async fn find_community_resources(
                     .snapshots
                     .entry(phn_data::hrsa::SNAPSHOT_ID)
                     .map(|(e, _)| e.to_source())
-                    .unwrap_or_else(|| {
-                        Source::computed("HRSA health center sites", "HRSA")
-                    });
+                    .unwrap_or_else(|| Source::computed("HRSA health center sites", "HRSA"));
                 src.mode = s.mode;
                 src.url = Some(phn_data::hrsa::HRSA_SITES_URL.into());
                 src.retrieved = Some(s.as_of.chars().take(10).collect());
@@ -675,7 +815,15 @@ pub async fn find_community_resources(
             })
             .collect();
         s.push_str(&md::table(
-            &["Resource", "Services", "Town", "Phone", "Languages", "Hours", "Source"],
+            &[
+                "Resource",
+                "Services",
+                "Town",
+                "Phone",
+                "Languages",
+                "Hours",
+                "Source",
+            ],
             &rows,
         ));
         if total > results.len() {
@@ -690,7 +838,10 @@ pub async fn find_community_resources(
          as current as their last_verified date."
             .into(),
     );
-    if results.iter().any(|r| r.needs_reverification && r.source == "directory") {
+    if results
+        .iter()
+        .any(|r| r.needs_reverification && r.source == "directory")
+    {
         caveats.push(
             "Some directory entries were last verified more than 12 months ago (or have no date)."
                 .into(),
@@ -734,7 +885,11 @@ mod tests {
     fn ctx() -> (tempfile::TempDir, Context) {
         let dir = tempfile::tempdir().unwrap();
         std::fs::create_dir_all(dir.path().join("data/resources")).unwrap();
-        std::fs::write(dir.path().join("data/resources/community_resources.csv"), DIR).unwrap();
+        std::fs::write(
+            dir.path().join("data/resources/community_resources.csv"),
+            DIR,
+        )
+        .unwrap();
         let c = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
         (dir, c)
     }
@@ -755,7 +910,11 @@ mod tests {
         assert!(!is_open(&sp, Weekday::Mon, Some(16 * 60 + 30)));
         let sp = parse_hours("Tue 15:00-18:00; Sat 9:00-12:00").unwrap();
         assert!(is_open(&sp, Weekday::Sat, Some(10 * 60)));
-        assert!(is_open(&parse_hours("24/7").unwrap(), Weekday::Sun, Some(3 * 60)));
+        assert!(is_open(
+            &parse_hours("24/7").unwrap(),
+            Weekday::Sun,
+            Some(3 * 60)
+        ));
         let sp = parse_hours("Mon, Wed 9-5").unwrap();
         assert!(is_open(&sp, Weekday::Wed, Some(16 * 60)));
         assert!(parse_hours("by appointment").is_none());
@@ -811,7 +970,10 @@ mod tests {
         )
         .unwrap();
         assert!(env.data.health_center_sites_searched > 200);
-        assert_eq!(env.data.health_center_data_mode.as_deref(), Some("snapshot"));
+        assert_eq!(
+            env.data.health_center_data_mode.as_deref(),
+            Some("snapshot")
+        );
         assert!(env.data.results.iter().all(|r| r.town == "Springfield"));
         assert!(env.data.results.iter().any(|r| r.source == "hrsa"));
     }

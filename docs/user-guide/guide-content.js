@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 55;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -91,6 +91,7 @@ const frontChapters = [
                 // Phase 8 work-area rows go below this line.
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
+                ['Public health nursing practice (chapter 13)', 'Plan TB contact investigations and latent TB treatment; screen for social needs and find community resources; navigate newcomer health and coverage; code notes with the Omaha System and the Intervention Wheel; use documentation templates.', '8'],
                 // End of Phase 9 work-area rows.
                 // Phase 10 work-area rows go below this line.
                 // End of Phase 10 work-area rows.
@@ -1724,6 +1725,223 @@ const toolChapters = [
   // Phase 8 chapter goes below this line.
   // End of Phase 8 chapter.
   // Phase 9 chapter goes below this line.
+  {
+    title: 'Public health nursing practice and case management',
+    intro: 'These tools support everyday case management and documentation: TB contact investigations and latent TB treatment, social needs screening and referral, community resources, newcomer health, Omaha System coding, the Public Health Intervention Wheel, and documentation templates. The TB tools are in the cd group; social needs, resources, and newcomer health are in the equity group; the Omaha System, Intervention Wheel, and documentation tools are in the core group, which is always on. Notes and client lists are read in your data folder and never sent back to the assistant; only codes, counts, and blank templates come back. All of the reference content is a draft awaiting your review.',
+    tools: [
+      {
+        id: 'plan_tb_contact_investigation',
+        title: 'Plan a TB contact investigation',
+        toolset: 'cd',
+        internet: 'no',
+        files: 'optional',
+        does: 'Applies the 2005 NTCA/CDC contact investigation guidelines to an index case: whether to investigate, the infectious period and the window to ask about, contact priority (high, medium, low) from the published decision trees, deadlines for the first encounter and the medical evaluation in business days, and the testing schedule with the retest 8–10 weeks after last exposure. It lists the DPH TB program numbers, reporting rules, and state TB clinics, and writes a tracking workbook with formulas.',
+        when: [
+          'A new case of pulmonary TB has been reported in your town.',
+          'Deciding which contacts to test first and when to retest.',
+          'Checking whether test results call for expanding the investigation.',
+        ],
+        provide: [
+          'The case’s clinical facts: symptoms, smear and chest X-ray results, and dates (symptom onset, first positive finding, treatment start).',
+          'Contact groups as counts and risk facts (setting, age band, HIV or immunosuppression), never names. Or a contact list in your data folder.',
+        ],
+        examples: [
+          'Plan a TB contact investigation for a smear-positive cavitary case with cough since June 10: 4 household adults, 6 children under 5 at a child care center, and 20 coworkers.',
+          'Use tb_contacts.csv to assign contact priorities and tell me whether we should expand.',
+        ],
+        returns: [
+          'The infectious period with the rule used, each group’s priority and why, first-encounter deadlines, retest windows, actions for young children and immunocompromised contacts, DPH contacts and clinics, and the workbook in output/.',
+          'With a contact list: counts by priority, tested and positive counts, and expansion signals only.',
+        ],
+        notes: [
+          'Duration limits for “high” and “medium” exposure are set by your program; there is no national cut-off.',
+          'Business days skip weekends but not holidays.',
+        ],
+      },
+      {
+        id: 'ltbi_treatment_calendar',
+        title: 'Latent TB treatment calendar',
+        toolset: 'cd',
+        internet: 'no',
+        files: 'optional',
+        does: 'Builds a dose calendar and adherence tracker for a latent TB infection regimen (3HP, 4R, 3HR, 6H, 9H, or twice-weekly isoniazid): every dose date, monitoring visits, and the completion window, such as 11 of 12 weekly 3HP doses within 16 weeks. Given the dates doses were taken, it counts valid doses, flags gaps of more than 2 months, and says whether completion still fits the window. It never calculates doses.',
+        when: [
+          'Starting a client on latent TB treatment.',
+          'Checking whether a client who missed doses can still finish in time.',
+          'Preparing a calendar for a client or a DOT schedule.',
+        ],
+        provide: [
+          'The regimen and the first dose date; optionally DOT or self-administered, dose dates taken, and the client’s language.',
+        ],
+        examples: [
+          'Make a 4R calendar starting January 15 in Portuguese.',
+          'My client on 3HP took doses January 5, 12, and 19 and nothing since. It is March 30. Can she still complete?',
+        ],
+        returns: [
+          'The schedule, visits, completion deadline, CDC and DPH positions, an adherence status, an XLSX tracker, and a DOCX patient calendar in output/.',
+        ],
+        notes: [
+          'Patient instructions come from your agency’s translation in templates/<language>/ltbi_calendar.md when you provide one; otherwise English with a reminder to use an interpreter.',
+          'DPH’s page lists 3HP, 4R, and 9H; CDC also lists 3HR and 6H.',
+        ],
+      },
+      {
+        id: 'screen_health_related_social_needs',
+        title: 'Screen health-related social needs',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'optional',
+        does: 'Scores the CMS Accountable Health Communities social needs screening tool by domain (housing, food, transportation, utilities, safety, and the supplemental domains) and maps each positive domain to Massachusetts referral options such as Emergency Assistance shelter, Mass 211, SNAP, WIC, fuel assistance, and MassHealth ACO social needs services. It can also summarize a file of many screenings.',
+        when: [
+          'After a client completes the screening at a home visit or clinic.',
+          'Summarizing screenings for a program report.',
+        ],
+        provide: [
+          'The answers by question number or item name (no names), and the client’s age for the physical activity question; or a file of screenings in your data folder.',
+        ],
+        examples: [
+          'Score this AHC screen: Q1 not steady, Q3 often true, Q6 already shut off, safety items 1, 2, 1, 1.',
+          'Summarize hrsn_screenings.csv by site.',
+        ],
+        returns: [
+          'Each domain as positive, negative, incomplete, or not screened with the reason, and referral options for positive domains; for a file, counts by domain with small numbers suppressed and per-person results in output/.',
+        ],
+        notes: [
+          'A positive domain means the person might have an unmet need; talk with them before referring.',
+          'Exact question wording is shown only for public-domain items; use the CMS form for the rest.',
+        ],
+      },
+      {
+        id: 'omaha_system_coder',
+        title: 'Code a note with the Omaha System',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Reads a visit narrative or care plan and suggests Omaha System problems (with domain, modifiers, and signs and symptoms), interventions as category and target, and the Knowledge-Behavior-Status rating scale. It can label your ratings and show change from baseline, look up a problem or target, and write a blank care plan. The note is never sent back.',
+        when: [
+          'Documenting a home visit in Omaha System terms.',
+          'Teaching or checking Omaha System coding.',
+        ],
+        provide: [
+          'The note (as text, or better, a file in your data folder), a term to look up, or ratings to label.',
+        ],
+        examples: [
+          'Code my visit note visit_2026-11-05.docx with the Omaha System and draft a care plan.',
+          'Knowledge 3, Behavior 2, Status 2 for Medication regimen; admission was 2, 2, 1.',
+        ],
+        returns: [
+          'Problem codes and names with the matched terms, suggested interventions, the rating scale, and the care plan file in output/.',
+        ],
+        notes: [
+          'Suggestions come from keywords; confirm every problem and intervention.',
+          'Signs and symptoms marked unverified are drafts awaiting your check against the 2005 Omaha System book.',
+        ],
+      },
+      {
+        id: 'classify_intervention_wheel',
+        title: 'Classify activities by the Intervention Wheel',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Classifies public health nursing activities by the 17 interventions, 5 wedges, and 3 levels of practice of the Minnesota Public Health Intervention Wheel, for reports and workload analysis. It can classify an activity log in your data folder and total the hours by intervention.',
+        when: [
+          'Annual reports and workload analysis.',
+          'Teaching students or new staff about population-based practice.',
+        ],
+        provide: [
+          'Short activity descriptions, or an activity log with a description column (and optionally hours and a program column).',
+        ],
+        examples: [
+          'Classify: drafted a tobacco regulation; flu clinic at the senior center; TB contact tracing.',
+          'Classify activity_log.xlsx by intervention and level, with hours by program.',
+        ],
+        returns: [
+          'The intervention, wedge, and level for each activity (by number), or counts and hours by intervention and level, with each activity’s result in output/.',
+        ],
+        notes: [
+          'Four definitions and the level definitions could not be checked against MDH’s own page and are marked low confidence.',
+        ],
+      },
+      {
+        id: 'nursing_documentation_template',
+        title: 'Nursing documentation template',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Gives SOAP, DAR (focus charting), or narrative templates for home visits, clinic visits, communicable disease case investigations, and DOT visits, with the required elements to include (date and time, signature with credentials, consent, language and interpreter, teaching with teach-back, response, follow-up, and visit-specific items). It can check a note in your data folder for those elements without sending the note back.',
+        when: [
+          'Setting up or reviewing documentation for a program.',
+          'Checking your own note before signing it.',
+        ],
+        provide: [
+          'The format and visit type; optionally a note file to check, and elements your agency documents elsewhere.',
+        ],
+        examples: [
+          'Give me a DAR template for a DOT visit.',
+          'Check my note home_visit_note.docx for required elements.',
+        ],
+        returns: [
+          'The template as Markdown (and DOCX in output/ if asked), and for a note, which elements were found and in which section.',
+        ],
+        notes: [
+          'The structures are common defaults; follow your agency’s documentation policy where it differs.',
+          '244 CMR 9.03 applies to every nurse licensed in Massachusetts; 42 CFR 484 is cited only as a reference standard.',
+        ],
+      },
+      {
+        id: 'find_community_resources',
+        title: 'Find community resources',
+        toolset: 'equity',
+        internet: 'optional',
+        files: 'optional',
+        does: 'Searches your agency’s own resource directory (a spreadsheet in your data folder) by town, service, language, and opening hours, together with HRSA-funded community health center sites, same town first, then the rest of the county. Entries not verified in the past year are flagged.',
+        when: [
+          'Finding a referral during or after a visit.',
+          'Keeping your resource list in one place for the whole team.',
+        ],
+        provide: [
+          'The town (or your configured town), the service, and optionally a language and a day and time.',
+          'Your directory at resources/community_resources.csv with columns name, services, town, address, phone, website, languages, hours, eligibility, cost, last_verified.',
+        ],
+        examples: [
+          'Find a food pantry near Amherst with Spanish-speaking staff open Saturday morning.',
+          'Which community health centers in Worcester offer dental care?',
+        ],
+        returns: [
+          'Matching resources with services, town, phone, languages, hours, and source, plus the directory format if yours needs fixing.',
+        ],
+        notes: [
+          'HRSA lists health center sites, not their services, languages, or daily hours; call to confirm.',
+          'A file that looks like a client list is refused.',
+        ],
+      },
+      {
+        id: 'newcomer_health_navigator',
+        title: 'Newcomer health navigator',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'optional',
+        does: 'Brings together refugee and immigrant health information for Massachusetts: the CDC domestic medical screening components with age rules and the 90-day window, DPH and Office for Refugees and Immigrants programs, MassHealth coverage by immigration status (including the October 1, 2026 federal changes), and Emergency Assistance family shelter and basic-needs resources.',
+        when: [
+          'A newly arrived family is referred to your program or living in a shelter in your town.',
+          'Questions about what coverage a client may have.',
+        ],
+        provide: [
+          'Topics, and optionally the person’s immigration status, age, pregnancy, disability, arrival date, and preferred language (no names).',
+        ],
+        examples: [
+          'An asylee, 45, arrived September 1. What screening is due, and what MassHealth coverage applies now?',
+          'What shelter and food resources are there for a newly arrived family with children?',
+        ],
+        returns: [
+          'Screening components and deadlines, programs with contacts, the likely coverage path with the rules, shelter resources, and a blank checklist in output/ if asked.',
+        ],
+        notes: [
+          'Benefit rules for immigrants changed in 2025–2026 and are still changing; MassHealth decides eligibility. Refer status questions to an immigration legal service on ORI’s list.',
+        ],
+      },
+    ],
+  },
   // End of Phase 9 chapter.
   // Phase 10 chapter goes below this line.
   // End of Phase 10 chapter.

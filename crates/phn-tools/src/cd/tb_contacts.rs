@@ -349,11 +349,7 @@ struct Period {
     window_through: Option<NaiveDate>,
 }
 
-fn infectious_period(
-    c: &TbContent,
-    ic: &IndexCase,
-    caveats: &mut Vec<String>,
-) -> Result<Period> {
+fn infectious_period(c: &TbContent, ic: &IndexCase, caveats: &mut Vec<String>) -> Result<Period> {
     let onset = practice::date_arg("symptom_onset_date", &ic.symptom_onset_date)?;
     let finding = practice::date_arg(
         "first_positive_finding_date",
@@ -362,10 +358,7 @@ fn infectious_period(
     let dx = practice::date_arg("suspected_diagnosis_date", &ic.suspected_diagnosis_date)?;
     let tx = practice::date_arg("treatment_start_date", &ic.treatment_start_date)?;
     let iso = practice::date_arg("isolation_start_date", &ic.isolation_start_date)?;
-    let end = practice::date_arg(
-        "infectious_period_end_date",
-        &ic.infectious_period_end_date,
-    )?;
+    let end = practice::date_arg("infectious_period_end_date", &ic.infectious_period_end_date)?;
     let rules = &c.contact_investigation.infectious_period.start_rules;
     let rule = |id: &str| rules.iter().find(|r| r.id == id);
     let smear_or_cavity = ic.afb_smear_positive == Some(true) || ic.cavitary == Some(true);
@@ -494,7 +487,11 @@ fn schedule(
                 "Test (TST or IGRA) at the initial encounter{}; induration of {} mm or more is \
                  positive for a contact.",
                 encounter_due
-                    .map(|d| format!(", by {} ({} business days from listing)", d, tf.map(|t| t.encounter_business_days).unwrap_or(0)))
+                    .map(|d| format!(
+                        ", by {} ({} business days from listing)",
+                        d,
+                        tf.map(|t| t.encounter_business_days).unwrap_or(0)
+                    ))
                     .unwrap_or_default(),
                 ci.testing.positive_tst_mm
             ));
@@ -656,7 +653,11 @@ fn priority_formula(c: &TbContent, ct: CaseType, r: u32, extra: u16) -> String {
     let tree = c.contact_investigation.tree(ct);
     let mut f = format!("\"{}\"", title(tree.otherwise));
     for rule in tree.rules.iter().rev() {
-        f = format!("IF({},\"{}\",{f})", cond(rule.condition), title(rule.priority));
+        f = format!(
+            "IF({},\"{}\",{f})",
+            cond(rule.condition),
+            title(rule.priority)
+        );
     }
     format!(
         "=IF(COUNTA({}{r}:{}{r})=0,\"\",{f})",
@@ -840,12 +841,7 @@ fn build_workbook(w: &WorkbookSpec<'_>) -> std::result::Result<Vec<u8>, XlsxErro
         row += 1;
     }
     row += 1;
-    ws.write_string_with_format(
-        row,
-        0,
-        &format!("Priority rules ({})", tree.section),
-        &bold,
-    )?;
+    ws.write_string_with_format(row, 0, &format!("Priority rules ({})", tree.section), &bold)?;
     ws.write_string_with_format(row, 1, &tree.label, &wrap)?;
     row += 1;
     for rule in &tree.rules {
@@ -930,7 +926,12 @@ fn read_contact_file(
     let col = |names: &[&str]| practice::find_col(t, names);
     let age_c = col(&["age", "age_years", "age_yrs"]);
     let dob_c = col(&["dob", "date_of_birth", "birth_date"]);
-    let setting_c = col(&["setting", "exposure_setting", "relationship", "contact_type"]);
+    let setting_c = col(&[
+        "setting",
+        "exposure_setting",
+        "relationship",
+        "contact_type",
+    ]);
     let hh_c = col(&["household", "household_contact"]);
     let mr_c = col(&[
         "medical_risk",
@@ -950,9 +951,20 @@ fn read_contact_file(
     let prior_c = col(&["prior_positive", "previous_positive", "prior_positive_test"]);
     if age_c.is_none() && dob_c.is_none() && hh_c.is_none() && setting_c.is_none() {
         let usable: Vec<&str> = [
-            "Age", "Setting", "Household", "Medical Risk", "Medical Procedure", "Congregate",
-            "Exceeds High Limits", "Exceeds Medium Limits", "Last Exposure", "Date Listed",
-            "Test1 Result", "Test2 Result", "Outcome", "Prior Positive",
+            "Age",
+            "Setting",
+            "Household",
+            "Medical Risk",
+            "Medical Procedure",
+            "Congregate",
+            "Exceeds High Limits",
+            "Exceeds Medium Limits",
+            "Last Exposure",
+            "Date Listed",
+            "Test1 Result",
+            "Test2 Result",
+            "Outcome",
+            "Prior Positive",
         ]
         .to_vec();
         return Err(PhnError::InvalidInput(format!(
@@ -1000,9 +1012,16 @@ fn read_contact_file(
             || sn.contains("autopsy")
             || sn.contains("sputum induction");
         let congregate = practice::yes(&cell(cong_c))
-            || ["shelter", "correction", "jail", "prison", "nursing home", "congregate"]
-                .iter()
-                .any(|k| sn.contains(k));
+            || [
+                "shelter",
+                "correction",
+                "jail",
+                "prison",
+                "nursing home",
+                "congregate",
+            ]
+            .iter()
+            .any(|k| sn.contains(k));
         let eh = practice::yes(&cell(eh_c));
         let em = practice::yes(&cell(em_c));
         if age.is_none() && hh_c.is_none() && setting.is_empty() {
@@ -1028,8 +1047,8 @@ fn read_contact_file(
             let says_disease = (o.contains("disease") || o.contains("active"))
                 && !o.contains("no ")
                 && !o.starts_with("not");
-            let disease_column = out_c
-                .is_some_and(|i| phn_core::text::normalize(&t.headers[i]).contains("disease"));
+            let disease_column =
+                out_c.is_some_and(|i| phn_core::text::normalize(&t.headers[i]).contains("disease"));
             says_disease || (disease_column && practice::yes(&outcome))
         };
         let positive = t1 == Some(true) || t2 == Some(true);
@@ -1049,7 +1068,10 @@ fn read_contact_file(
             );
         }
         if priority == Priority::Low && disease {
-            push_once(&mut signals, "TB disease in a contact assigned low priority");
+            push_once(
+                &mut signals,
+                "TB disease in a contact assigned low priority",
+            );
         }
         if disease && priority != Priority::Low {
             push_once(
@@ -1058,7 +1080,10 @@ fn read_contact_file(
             );
         }
         contacts.push(FileContact {
-            ids: id_cols.iter().map(|&i| row.get(i).cloned().unwrap_or_default()).collect(),
+            ids: id_cols
+                .iter()
+                .map(|&i| row.get(i).cloned().unwrap_or_default())
+                .collect(),
             setting,
             age,
             flags: [household, medical_risk, procedure, congregate, eh, em],
@@ -1291,7 +1316,11 @@ pub fn plan_tb_contact_investigation(
     let mut file_contacts: Vec<FileContact> = Vec::new();
     let mut id_headers = Vec::new();
     let mut identifiers_detected = Vec::new();
-    if let Some(path) = args.contact_file.as_deref().filter(|p| !p.trim().is_empty()) {
+    if let Some(path) = args
+        .contact_file
+        .as_deref()
+        .filter(|p| !p.trim().is_empty())
+    {
         let Some(t) = ct else {
             return Err(PhnError::InvalidInput(format!(
                 "no contact priorities apply: {reason}"
@@ -1321,7 +1350,8 @@ pub fn plan_tb_contact_investigation(
                     review: practice::review_caveat(&c.meta).unwrap_or_default(),
                 })
                 .map_err(xerr)?;
-                let path = sb.new_output_file(&format!("tb_contact_investigation_{listed}.xlsx"))?;
+                let path =
+                    sb.new_output_file(&format!("tb_contact_investigation_{listed}.xlsx"))?;
                 std::fs::write(&path, bytes)?;
                 let shown = sb.display_path(&path);
                 files_written.push(shown.clone());
@@ -1353,7 +1383,13 @@ pub fn plan_tb_contact_investigation(
         let rule_text: Vec<String> = tree
             .rules
             .iter()
-            .map(|r| format!("{} → {}", ci.condition_label(r.condition), r.priority.label()))
+            .map(|r| {
+                format!(
+                    "{} → {}",
+                    ci.condition_label(r.condition),
+                    r.priority.label()
+                )
+            })
             .collect();
         s.push_str(&format!(
             "\n**Priority rules ({}):** {}; otherwise {}.\n",
@@ -1375,7 +1411,9 @@ pub fn plan_tb_contact_investigation(
                         .map(|p| p.label().to_string())
                         .unwrap_or_else(|| "—".into()),
                     g.decided_by.clone(),
-                    g.initial_encounter_due.clone().unwrap_or_else(|| "—".into()),
+                    g.initial_encounter_due
+                        .clone()
+                        .unwrap_or_else(|| "—".into()),
                     match (&g.retest_window_opens, &g.retest_window_closes) {
                         (Some(a), Some(b)) => format!("{a} to {b}"),
                         _ => "8-10 weeks after last exposure".into(),
@@ -1404,7 +1442,10 @@ pub fn plan_tb_contact_investigation(
             fs.file,
             fs.contacts_classified,
             if fs.rows_with_problems > 0 {
-                format!("; {} row(s) lacked age, household, and setting", fs.rows_with_problems)
+                format!(
+                    "; {} row(s) lacked age, household, and setting",
+                    fs.rows_with_problems
+                )
             } else {
                 String::new()
             },
@@ -1477,7 +1518,12 @@ pub fn plan_tb_contact_investigation(
                 .into(),
         );
     }
-    let mut keys = vec!["cdc-ci-2005", "dph-tb", "dph-tb-report", "dph-tb-outpatient"];
+    let mut keys = vec![
+        "cdc-ci-2005",
+        "dph-tb",
+        "dph-tb-report",
+        "dph-tb-outpatient",
+    ];
     if ic.mdr_tb {
         keys.push("cdc-ltbi-2020");
     }
@@ -1739,7 +1785,12 @@ mod tests {
         let w = env.data.workbook.unwrap();
         let tables = phn_local::table::read_tables(&dir.path().join("data").join(&w)).unwrap();
         assert!(tables[0].headers.iter().any(|h| h == "Priority (computed)"));
-        let f = priority_formula(tb_content::content(), CaseType::SmearPositiveOrCavitary, 2, 0);
+        let f = priority_formula(
+            tb_content::content(),
+            CaseType::SmearPositiveOrCavitary,
+            2,
+            0,
+        );
         assert!(f.starts_with("=IF(COUNTA(D2:K2)=0"));
         assert!(f.contains("\"Medium\""));
         assert_eq!(env.privacy.files_written.len(), 1);
@@ -1774,7 +1825,11 @@ mod tests {
         assert_eq!(fs.contacts_classified, 9);
         assert_eq!(fs.by_priority.get("high").map(String::as_str), Some("9"));
         assert!(fs.expansion_signals.iter().any(|s| s.contains("under 5")));
-        assert!(fs.expansion_signals.iter().any(|s| s.contains("negative to positive")));
+        assert!(
+            fs.expansion_signals
+                .iter()
+                .any(|s| s.contains("negative to positive"))
+        );
         let json = serde_json::to_string(&env).unwrap();
         assert!(!json.contains("Zebulon") && !json.contains("413-555"));
         assert!(env.privacy.suppression_applied);
