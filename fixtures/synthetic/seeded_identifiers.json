@@ -3758,6 +3758,390 @@
    "kind": "other_id_number",
    "file": "data/church_supper_outbreak.csv",
    "column": "Case ID"
+  },
+  {
+   "value": "P-1001",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ambrose",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1948-02-17",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0161",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1002",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Okonkwo-Ferris",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Delphine",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1955-07-03",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0162",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1003",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Vasquez-Lindqvist",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Teodoro",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1961-11-29",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0163",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1004",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Marchetti-Oyelaran",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Philippa",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1940-05-08",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0164",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1005",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Brannigan-Soto",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Lucius",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1952-09-21",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0165",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1006",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Haverstock",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ottoline",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1958-01-30",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0166",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1007",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Nwachukwu-Bell",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rosalind",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1944-12-12",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0167",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "P-1008",
+   "kind": "case_id",
+   "file": "data/phq9_screens.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Etheridge-Kwan",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Barnaby",
+   "kind": "name",
+   "file": "data/phq9_screens.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "1950-06-06",
+   "kind": "birth_date",
+   "file": "data/phq9_screens.csv",
+   "column": "DOB"
+  },
+  {
+   "value": "508-555-0168",
+   "kind": "phone",
+   "file": "data/phq9_screens.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "Wilhelmina Fairweather-Quist",
+   "kind": "name",
+   "file": "data/protective_report_details.csv",
+   "column": "Name"
+  },
+  {
+   "value": "14 Larkspur Lane",
+   "kind": "street_address",
+   "file": "data/protective_report_details.csv",
+   "column": "Address"
+  },
+  {
+   "value": "413-555-0171",
+   "kind": "phone",
+   "file": "data/protective_report_details.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "Cornelius Fairweather-Quist",
+   "kind": "name",
+   "file": "data/protective_report_details.csv",
+   "column": "Caretaker Name"
+  },
+  {
+   "value": "Imogen Talbot-Reyes",
+   "kind": "name",
+   "file": "data/protective_report_details.csv",
+   "column": "Reporter Name"
+  },
+  {
+   "value": "413-555-0173",
+   "kind": "phone",
+   "file": "data/protective_report_details.csv",
+   "column": "Reporter Phone"
+  },
+  {
+   "value": "Bartholomew Esquivel-Hart",
+   "kind": "name",
+   "file": "data/protective_report_details.csv",
+   "column": "Name"
+  },
+  {
+   "value": "92 Quarry Road",
+   "kind": "street_address",
+   "file": "data/protective_report_details.csv",
+   "column": "Address"
+  },
+  {
+   "value": "978-555-0174",
+   "kind": "phone",
+   "file": "data/protective_report_details.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "413-555-0172",
+   "kind": "phone",
+   "file": "data/protective_report_details.csv",
+   "column": "Observations"
+  },
+  {
+   "value": "Evangeline Moorcroft-Sato",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Name"
+  },
+  {
+   "value": "3 Juniper Court",
+   "kind": "street_address",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Address"
+  },
+  {
+   "value": "Thaddeus Moorcroft-Sato",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Name"
+  },
+  {
+   "value": "413-555-0181",
+   "kind": "phone",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Phone"
+  },
+  {
+   "value": "Casimir Delacroix-Nunes",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Name"
+  },
+  {
+   "value": "58 Birchwood Avenue",
+   "kind": "street_address",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Address"
+  },
+  {
+   "value": "Seraphina Delacroix-Nunes",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Name"
+  },
+  {
+   "value": "413-555-0182",
+   "kind": "phone",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Phone"
+  },
+  {
+   "value": "Hortense Pemberton-Ali",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Name"
+  },
+  {
+   "value": "210 Old Mill Road",
+   "kind": "street_address",
+   "file": "data/proxy_details.csv",
+   "column": "Principal Address"
+  },
+  {
+   "value": "Alaric Pemberton-Ali",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Name"
+  },
+  {
+   "value": "413-555-0183",
+   "kind": "phone",
+   "file": "data/proxy_details.csv",
+   "column": "Agent Phone"
+  },
+  {
+   "value": "Gwendolyn Achterberg",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Witness 1 Name"
+  },
+  {
+   "value": "Rupert Lindgren-Obi",
+   "kind": "name",
+   "file": "data/proxy_details.csv",
+   "column": "Witness 2 Name"
   }
  ]
 }
