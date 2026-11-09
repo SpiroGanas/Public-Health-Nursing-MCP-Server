@@ -1,0 +1,280 @@
+# Massachusetts protective services reporting for adults: Adult Protective Services for people
+# 60 and older (M.G.L. c.19A, ss.14-26) and the Disabled Persons Protection Commission for
+# people 18 to 59 with disabilities (M.G.L. c.19C), for elder_protective_services_guide (AGE-03).
+#
+# REVIEW STATUS: pending. Statute text is transcribed from malegislature.gov and program
+# details from mass.gov, both retrieved 2026-11-08. Legal decision support only.
+# Schema: content/schemas/aging_protective_services.schema.json
+meta:
+  id: aging-protective-services
+  title: Massachusetts elder and disabled adult protective services reporting (M.G.L. c.19A and c.19C)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "M.G.L. c.19A, ss.14-26: Protective services for older adults"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A
+  related_sources:
+    - title: "M.G.L. c.19C: Disabled Persons Protection Commission"
+      publisher: The General Court of the Commonwealth of Massachusetts
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19C
+    - title: Report Abuse of Adults Aged 60+
+      publisher: Massachusetts Executive Office of Aging & Independence
+      url: https://www.mass.gov/info-details/report-abuse-of-adults-aged-60
+    - title: Mandated Reporters of Abuse in Adults Aged 60+
+      publisher: Massachusetts Executive Office of Aging & Independence
+      url: https://www.mass.gov/info-details/mandated-reporters-of-abuse-in-adults-aged-60
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Definitions, mandated reporter lists, report content, timelines, penalties, and immunity are
+    transcribed from M.G.L. c.19A ss.14, 15, 16, and 18 and c.19C ss.1, 10, and 11 on
+    malegislature.gov (high confidence). Phone numbers, online reporting, the 48-hour mandated
+    reporter form, review times, and the 30-day and 45-day investigation and notification times are
+    from the Executive Office of Aging & Independence pages (high confidence). 651 CMR 5.00 itself
+    and the DPPC web site (now dppcmass.gov) could not be read from the build environment; the
+    DPPC hotline is as listed on the EOAI page. The narrative template's sections follow the
+    report content in c.19A s.15(e); its documentation tips are general practice (medium
+    confidence). Not legal advice: confirm with your agency and, if needed, counsel.
+
+sources:
+  mgl-19a-14:
+    title: "M.G.L. c.19A, s.14 (definitions)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section14
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19a-15:
+    title: "M.G.L. c.19A, s.15 (reports of abuse; mandated reporters)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section15
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19a-16:
+    title: "M.G.L. c.19A, s.16 (protective services system; 24-hour report line; notice to reporters)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section16
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19a-18:
+    title: "M.G.L. c.19A, s.18 (assessment, evaluation, service plan)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section18
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19c-1:
+    title: "M.G.L. c.19C, s.1 (definitions; mandated reporters)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19C/Section1
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19c-10:
+    title: "M.G.L. c.19C, s.10 (reports by mandated reporters)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19C/Section10
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-19c-11:
+    title: "M.G.L. c.19C, s.11 (retaliation prohibited)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19C/Section11
+    effective_date: null
+    retrieved: 2026-11-08
+  eoai-report:
+    title: Report Abuse of Adults Aged 60+
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/report-abuse-of-adults-aged-60
+    effective_date: null
+    retrieved: 2026-11-08
+  eoai-mandated:
+    title: Mandated Reporters of Abuse in Adults Aged 60+
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/mandated-reporters-of-abuse-in-adults-aged-60
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-988-faq:
+    title: About the 988 Lifeline (frequently asked questions)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/about-the-988-lifeline
+    effective_date: null
+    retrieved: 2026-11-08
+  eoai-signs:
+    title: Types and Signs of Abuse of Adults Aged 60+
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/types-and-signs-of-abuse-of-adults-aged-60
+    effective_date: null
+    retrieved: 2026-11-08
+
+pathways:
+  - id: elder_aps
+    name: Adult Protective Services (Executive Office of Aging & Independence)
+    who: "Adults 60 or older who live in Massachusetts in the community (not in a long-term care setting)"
+    age_min: 60
+    age_max: null
+    setting: community
+    hotline: "(800) 922-2275"
+    hours: 24 hours a day, every day
+    how: >-
+      Call (800) 922-2275 or report online through the EOAI web intake (linked from the EOAI
+      page). Call for an emergency, to report anonymously, or if you do not have the person's name
+      and address. Mandated reporters who call must also send the Elder Abuse Mandated Reporter
+      Form to the local Adult Protective Services agency within 48 hours; an online report needs
+      no call and no form.
+    online: https://www.mass.gov/info-details/mandated-reporters-of-abuse-in-adults-aged-60
+    source: eoai-mandated
+    section: "Should I call or use the online system?"
+  - id: dppc
+    name: Disabled Persons Protection Commission (DPPC)
+    who: "Adults 18 to 59 with an intellectual disability, or otherwise mentally or physically disabled and as a result wholly or partially dependent on others to meet daily living needs"
+    age_min: 18
+    age_max: 59
+    setting: any
+    hotline: "(800) 426-9009"
+    hours: as listed by EOAI
+    how: >-
+      Mandated reporters notify the Commission orally immediately and in writing within 48 hours.
+      A death believed to result from a reportable condition is reported immediately, in writing,
+      to the Commission, the district attorney, and the medical examiner.
+    online: null
+    source: mgl-19c-10
+    section: "s.10"
+  - id: dph_facility
+    name: Massachusetts Department of Public Health (abuse of a patient by nursing home or hospital staff)
+    who: Patients abused by nursing home or hospital staff
+    age_min: null
+    age_max: null
+    setting: facility
+    hotline: "(800) 462-5540"
+    hours: not stated on the source page
+    how: Adult Protective Services cannot investigate abuse of people in long-term care settings; report abuse by nursing home or hospital staff to DPH.
+    online: null
+    source: eoai-report
+    section: "Who can receive adult protective services?"
+
+emergency:
+  - {text: "If someone is in immediate danger, call 911 first.", source: dph-988-faq, section: "How does 988 interact with 911 emergency services?"}
+  - {text: "In an emergency, report elder abuse by phone at (800) 922-2275 rather than online.", source: eoai-report, section: "Should I call or use the online system?"}
+
+definitions:
+  - {term: "Older adult", text: "An individual who is sixty years of age or over.", source: mgl-19a-14, section: "s.14"}
+  - {term: "Abuse (older adult)", text: "An act or omission which results in serious physical or emotional injury to an older adult or financial exploitation of an older adult; or the failure, inability or resistance of an older adult to provide for the older adult one or more of the necessities essential for physical and emotional well-being without which the older adult would be unable to safely remain in the community (self-neglect). No one is considered abused solely for relying on treatment in accordance with the tenets of a church or religious denomination by a duly accredited practitioner.", source: mgl-19a-14, section: "s.14"}
+  - {term: "Financial exploitation", text: "An act or omission by another person which causes a substantial monetary or property loss to an older adult, or a substantial monetary or property gain to the other person which would otherwise benefit the older adult, unless the older adult knowingly consented (consent obtained by misrepresentation, undue influence, coercion, or threat of force does not count). Bona fide gifts are not exploitation.", source: mgl-19a-14, section: "s.14"}
+  - {term: "Emergency", text: "A situation in which an older adult is living in conditions which present a substantial risk of death or immediate and serious physical or mental harm.", source: mgl-19a-14, section: "s.14"}
+  - {term: "Caretaker", text: "The person responsible for the care of an older adult, by family relationship, by a voluntary or contractual duty, or by a fiduciary duty imposed by law.", source: mgl-19a-14, section: "s.14"}
+  - {term: "Disabled person (DPPC)", text: "A person between the ages of eighteen to fifty-nine, inclusive, who is a person with an intellectual disability as defined by section 1 of chapter 123B, or who is otherwise mentally or physically disabled and as a result is wholly or partially dependent on others to meet daily living needs.", source: mgl-19c-1, section: "s.1"}
+  - {term: "Reportable condition (DPPC)", text: "A serious physical or emotional injury resulting from abuse, including unconsented to sexual activity.", source: mgl-19c-1, section: "s.1"}
+  - {term: "Abuse (DPPC)", text: "An act or omission which results in serious physical or emotional injury to a disabled person.", source: mgl-19c-1, section: "s.1"}
+
+mandated_reporters:
+  elder:
+    list: >-
+      Physician, physician assistant, medical intern, dentist, nurse, family counselor, probation
+      officer, social worker, police officer, firefighter, emergency medical technician, animal
+      control officer, licensed psychologist, coroner, registered physical therapist, registered
+      occupational therapist, osteopath, podiatrist, director of a council on aging, outreach
+      worker employed by a council on aging, executive director of a licensed home health agency
+      or of a homemaker service agency, or manager of an assisted living residence. Executive
+      directors of home care corporations, home health agencies, and homemaker agencies must also
+      set up internal procedures so their homemakers, aides, and case managers report to them.
+    trigger: Reasonable cause to believe that an older adult is suffering from or has died as a result of abuse.
+    source: mgl-19a-15
+    section: "s.15(a)-(b)"
+  disabled:
+    list: >-
+      Physician, medical intern, hospital personnel engaged in examination, care or treatment,
+      medical examiner, dentist, psychologist, nurse, chiropractor, podiatrist, osteopath, public
+      or private school teacher, educational administrator, guidance or family counselor, day care
+      worker, probation officer, animal control officer, social worker, foster parent, police
+      officer, or a person employed by a state agency within the Executive Office of Health and
+      Human Services or by a private agency providing services to disabled persons.
+    trigger: Reasonable cause, in a professional capacity, to believe that a disabled person is suffering from a reportable condition.
+    source: mgl-19c-1
+    section: "s.1"
+
+duties:
+  - {text: "Elder (60+): a mandated reporter must immediately make a verbal report (or cause one to be made) to the department or its designated agency, and within 48 hours make a written report.", source: mgl-19a-15, section: "s.15(a)"}
+  - {text: "Disabled adult (18-59): mandated reporters notify the Commission orally immediately upon becoming aware of a reportable condition and in writing within 48 hours after the oral report.", source: mgl-19c-10, section: "s.10"}
+  - {text: "Any other person may also report when they have reasonable cause to believe an older adult or disabled person is being abused; elder reports can be anonymous by phone.", source: mgl-19a-15, section: "s.15(c); EOAI: who can file a report"}
+  - {text: "Professional privileges (for example psychotherapist-patient) do not prohibit filing an elder abuse report.", source: mgl-19a-15, section: "s.15(f)"}
+  - {text: "For DPPC reports, privilege cannot be invoked to prevent a report, except that a mandated reporter need not report if the disabled person invokes a privilege to keep communications with that reporter confidential.", source: mgl-19c-10, section: "s.10"}
+
+report_contents:
+  text: >-
+    Reports by mandated reporters contain: the name, address, and approximate age of the older
+    adult; information about the nature and extent of the abuse; the name of the person's
+    caretaker, if known; any medical treatment being received or immediately required, if known;
+    any other information the reporter believes is relevant; and the name and address of the
+    reporter and where they may be contacted, if the reporter wishes to provide it.
+  source: mgl-19a-15
+  section: "s.15(e)"
+
+timelines:
+  - {step: "Verbal report", when: "Immediately", source: mgl-19a-15, section: "s.15(a)"}
+  - {step: "Written report (or EOAI mandated reporter form after a phone report)", when: "Within 48 hours", source: eoai-mandated, section: "How to report by phone"}
+  - {step: "Report reviewed by the local Adult Protective Services agency", when: "Usually the same day; regulations allow up to 48 hours in non-emergency situations", source: eoai-mandated, section: "What happens after a report is made?"}
+  - {step: "Assessment when an emergency exists", when: "Completed within 24 hours of receiving the report", source: mgl-19a-18, section: "s.18(a)"}
+  - {step: "Serious abuse referred to the district attorney", when: "Within 48 hours of the determination", source: mgl-19a-18, section: "s.18(a)"}
+  - {step: "Investigation completed", when: "Within 30 days of the report", source: eoai-mandated, section: "What happens after a case has been investigated?"}
+  - {step: "Mandated reporter told of the agency's response or findings", when: "In writing within 45 days of the report", source: mgl-19a-16, section: "s.16(b)"}
+
+protections:
+  - {text: "A mandated elder abuse reporter is not liable in any civil or criminal action because of the report, unless they perpetrated the abuse; other reporters are protected if the report was made in good faith.", source: mgl-19a-15, section: "s.15(d)"}
+  - {text: "Employers and supervisors may not discharge, demote, transfer, reduce pay or benefits, give a negative evaluation, or take any other detrimental action because an employee filed an elder abuse report.", source: mgl-19a-15, section: "s.15(d)"}
+  - {text: "Retaliation against anyone who files a DPPC report or provides information is prohibited (fine up to $1,000, up to 1 year imprisonment, or both, and liability for treble damages).", source: mgl-19c-11, section: "s.11"}
+penalties:
+  - {text: "A mandated reporter who fails to make a required elder abuse report may be fined not more than $1,000.", source: mgl-19a-15, section: "s.15(a)"}
+  - {text: "A mandated reporter who fails to make the required oral and written DPPC reports may be fined not more than $1,000.", source: mgl-19c-10, section: "s.10"}
+
+after_report:
+  - {text: "If abuse is confirmed, the caseworker works with the older adult on a plan of action; the older adult chooses whether to accept it, and Adult Protective Services will not move forward without the older adult's consent.", source: eoai-report, section: "After a case has been investigated"}
+  - {text: "Protective services include the capacity to respond to an emergency, case work, homemaker and home health aide, transportation, legal assistance, counseling, nutrition, guardianship and conservatorship, protective orders, emergency shelter, foster care, and adult day care, using the least restrictive alternatives.", source: mgl-19a-18, section: "s.18(a)-(b)"}
+  - {text: "If abuse or neglect is not confirmed, the case is closed; investigators work with law enforcement when a crime may have been committed.", source: eoai-report, section: "After a case has been investigated"}
+
+self_neglect:
+  - {text: "Self-neglect is the most common form of abuse in older adults: the person cannot meet basic needs (adequate food, clothing, shelter, health care), putting their health, safety, and well-being at risk.", source: eoai-signs, section: "Self-neglect"}
+  - {text: "Examples: forgetting to take medication, hoarding, inability to maintain personal hygiene, inability to manage finances (unpaid bills or rent), and being unable to meet basic financial needs because of a scam.", source: eoai-signs, section: "Self-neglect"}
+  - {text: "Self-neglect is reportable to Adult Protective Services because the statutory definition of abuse includes an older adult's failure, inability, or resistance to provide necessities without which they could not safely remain in the community.", source: mgl-19a-14, section: "s.14"}
+
+signs:
+  - {type: "Physical abuse, neglect, or mistreatment", signs: "Bruises, pressure marks, broken bones, abrasions, burns", source: eoai-signs}
+  - {type: "Emotional abuse", signs: "Unexplained withdrawal from normal activities, sudden change in alertness, unusual depression, strained or tense relationships, frequent arguments between caregiver and older adult", source: eoai-signs}
+  - {type: "Financial abuse", signs: "Sudden changes in financial situation", source: eoai-signs}
+  - {type: "Self-neglect", signs: "Malnutrition or dehydration, poor hygiene, bedsores, inappropriate clothing, mismanagement of medications, home safety issues, hoarding, lack of utilities, eviction or foreclosure, wandering, unsafe smoking or driving, unpaid bills, compulsive spending", source: eoai-signs}
+  - {type: "Verbal or emotional abuse", signs: "Belittling, threats, other uses of power and control", source: eoai-signs}
+  - {type: "Caregiver neglect", signs: "Withholding food, medications, or access to health care; lack of supervision leading to wandering or other unsafe behavior", source: eoai-signs}
+  - {type: "Sexual abuse", signs: "Non-consensual touching or sexual activity, including with a person unable to consent; may include groping, assault, excessive scrubbing, overly intrusive touching, or unnecessary medical procedures", source: eoai-signs}
+
+narrative_template:
+  title: Report narrative — suspected abuse, neglect, or self-neglect
+  sections:
+    - heading: About the person
+      fields: ["Name", "Address", "Approximate Age", "Phone"]
+      guidance: Required by c.19A s.15(e) (name, address, approximate age).
+    - heading: Caretaker
+      fields: ["Caretaker Name", "Caretaker Relationship"]
+      guidance: If known.
+    - heading: What was observed
+      fields: ["Date Observed", "Observations"]
+      guidance: Describe what you saw and heard, with dates and times, in objective terms; avoid conclusions.
+    - heading: Statements
+      fields: ["Statements"]
+      guidance: Quote the person's own words, and others', in quotation marks, with who said them.
+    - heading: Nature and extent of the abuse
+      fields: ["Type of Concern", "Nature and Extent"]
+      guidance: Type (physical, sexual, emotional, caregiver neglect, financial exploitation, self-neglect) and how serious or ongoing it appears. Required by s.15(e).
+    - heading: Medical treatment
+      fields: ["Medical Treatment"]
+      guidance: Treatment being received or immediately required, if known. Required by s.15(e).
+    - heading: Immediate safety and actions taken
+      fields: ["Immediate Risk", "Actions Taken"]
+      guidance: Whether there is an emergency (substantial risk of death or immediate serious harm), and what you did (911, safety plan, notified supervisor).
+    - heading: Reporter
+      fields: ["Reporter Name", "Reporter Agency", "Reporter Phone", "Report Date", "Verbal Report Time"]
+      guidance: Reporter contact details, if the reporter wishes to provide them (s.15(e)); keep the time of the verbal report for the 48-hour written report.
+  confidence: medium
+  source: mgl-19a-15
+  section: "s.15(e)"

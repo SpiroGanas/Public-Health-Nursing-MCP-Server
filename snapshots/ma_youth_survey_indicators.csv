@@ -1,0 +1,306 @@
+id,survey,year,level,topic,indicator
+1,MYHS,2025,high,Protective factors,Doing volunteer work or community service in past week
+2,MYHS,2025,high,Protective factors,Taking part in organized activities in past week
+3,MYHS,2025,high,Protective factors,Feeling their neighborhood was safe from crime
+4,MYHS,2025,high,Protective factors,Feeling safe with family/caregivers a lot or quite a bit
+5,MYHS,2025,high,Protective factors,Feeling they belong at school a lot or quite a bit
+6,MYHS,2025,high,Protective factors,Feeling that family/caregivers support their interests a lot or quite a bit
+7,MYHS,2025,middle,Protective factors,Doing volunteer work or community service in past week
+8,MYHS,2025,middle,Protective factors,Taking part in organized activities in past week
+9,MYHS,2025,middle,Protective factors,Feeling their neighborhood was safe from crime
+10,MYHS,2025,middle,Protective factors,Feeling safe with family/caregivers a lot or quite a bit
+11,MYHS,2025,middle,Protective factors,Feeling they belong at school a lot or quite a bit
+12,MYHS,2025,middle,Protective factors,Feeling that family/caregivers support their interests a lot or quite a bit
+13,MYHS,2025,high,Mental health and suicidality,"Injuring oneself intentionally without wanting to die, past year"
+14,MYHS,2025,high,Mental health and suicidality,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+15,MYHS,2025,high,Mental health and suicidality,"Seriously considering suicide, past year"
+16,MYHS,2025,middle,Mental health and suicidality,"Injuring oneself intentionally without wanting to die, past year"
+17,MYHS,2025,middle,Mental health and suicidality,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+18,MYHS,2025,middle,Mental health and suicidality,"Seriously considering suicide, past year"
+19,MYHS,2025,high,Tobacco use,Ever smoking cigarettes
+20,MYHS,2025,high,Tobacco use,Ever trying a vape product
+21,MYHS,2025,high,Tobacco use,"Using a vape product, past 30 days"
+22,MYHS,2025,high,Tobacco use,Thinking most people their age use electronic vapor products
+23,MYHS,2025,high,Tobacco use,Thinking the risk of harm from occasionally use conventional tobacco is moderate to great
+24,MYHS,2025,high,Tobacco use,Thinking the risk of harm from occasionally use vape products is moderate to great
+25,MYHS,2025,middle,Tobacco use,Ever smoking cigarettes
+26,MYHS,2025,middle,Tobacco use,Ever trying a vape product
+27,MYHS,2025,middle,Tobacco use,Thinking most people their age use electronic vapor products
+28,MYHS,2025,middle,Tobacco use,Thinking the risk of harm from occasionally use conventional tobacco is moderate to great
+29,MYHS,2025,middle,Tobacco use,Thinking the risk of harm from occasionally use vape products is moderate to great
+30,MYHS,2025,high,Alcohol use,"Drinking alcohol, past 30 days"
+31,MYHS,2025,high,Alcohol use,"Binge drinking, past 30 days"
+32,MYHS,2025,high,Alcohol use,"Driving a car after drinking alcohol, past 30 days (among those who drive and used alcohol in past 30 days)"
+33,MYHS,2025,high,Alcohol use,Thinking most people their age drink alcohol
+34,MYHS,2025,high,Alcohol use,Thinking the risk of harm from binge drinking is moderate to great
+35,MYHS,2025,high,Alcohol use,Thinking it’s very or fairly easy to get alcohol
+36,MYHS,2025,middle,Alcohol use,"Drinking alcohol, past 30 days"
+37,MYHS,2025,middle,Alcohol use,"Binge drinking, past 30 days"
+38,MYHS,2025,middle,Alcohol use,"Rode in a car driven by someone who had been drinking alcohol, past 30 days"
+39,MYHS,2025,middle,Alcohol use,Thinking most people their age drink alcohol
+40,MYHS,2025,middle,Alcohol use,Thinking the risk of harm from binge drinking is moderate to great
+41,MYHS,2025,middle,Alcohol use,Thinking it’s very or fairly easy to get alcohol
+42,MYHS,2025,high,Marijuana use,Ever using marijuana
+43,MYHS,2025,high,Marijuana use,"Using marijuana, past 30 days"
+44,MYHS,2025,high,Marijuana use,"Driving a car after using marijuana, past 30 days (among those who drive and used marijuana in past 30 days)"
+45,MYHS,2025,high,Marijuana use,Thinking most people their age use marijuana
+46,MYHS,2025,high,Marijuana use,Thinking it’s very or fairly easy to get marijuana
+47,MYHS,2025,high,Marijuana use,Thinking the risk of harm from occasionally using marijuana is moderate to great
+48,MYHS,2025,middle,Marijuana use,Ever using marijuana
+49,MYHS,2025,middle,Marijuana use,"Using marijuana, past 30 days"
+50,MYHS,2025,middle,Marijuana use,"Rode in a car driven by someone who had been using marijuana, past 30 days"
+51,MYHS,2025,middle,Marijuana use,Thinking most people their age use marijuana
+52,MYHS,2025,middle,Marijuana use,Thinking it’s very or fairly easy to get marijuana
+53,MYHS,2025,middle,Marijuana use,Thinking the risk of harm from occasionally using marijuana is moderate to great
+54,MYHS,2023,high,Protective factors,Doing volunteer work or community service in past week
+55,MYHS,2023,high,Protective factors,Taking part in organized activities in past week
+56,MYHS,2023,high,Protective factors,Feeling their neighborhood was safe from crime
+57,MYHS,2023,high,Protective factors,Feeling safe with family/caregivers a lot or quite a bit
+58,MYHS,2023,high,Protective factors,Feeling they belong at school a lot or quite a bit
+59,MYHS,2023,high,Protective factors,Feeling that family/caregivers support their interests a lot or quite a bit
+60,MYHS,2023,middle,Protective factors,Doing volunteer work or community service in past week
+61,MYHS,2023,middle,Protective factors,Taking part in organized activities in past week
+62,MYHS,2023,middle,Protective factors,Feeling their neighborhood was safe from crime
+63,MYHS,2023,middle,Protective factors,Feeling safe with family/caregivers a lot or quite a bit
+64,MYHS,2023,middle,Protective factors,Feeling they belong at school a lot or quite a bit
+65,MYHS,2023,middle,Protective factors,Feeling that family/caregivers support their interests a lot or quite a bit
+66,MYHS,2023,high,Mental health and suicidality,"Injuring oneself intentionally without wanting to die, past year"
+67,MYHS,2023,high,Mental health and suicidality,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+68,MYHS,2023,high,Mental health and suicidality,"Seriously considering suicide, past year"
+69,MYHS,2023,middle,Mental health and suicidality,"Injuring oneself intentionally without wanting to die, past year"
+70,MYHS,2023,middle,Mental health and suicidality,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+71,MYHS,2023,middle,Mental health and suicidality,"Seriously considering suicide, past year"
+72,MYHS,2023,high,Tobacco use,Ever smoking cigarettes
+73,MYHS,2023,high,Tobacco use,Ever trying a vape product
+74,MYHS,2023,high,Tobacco use,"Using a vape product, past 30 days"
+75,MYHS,2023,high,Tobacco use,Thinking most people their age use electronic vapor products
+76,MYHS,2023,high,Tobacco use,Thinking the risk of harm from occasionally use conventional tobacco is moderate to great
+77,MYHS,2023,high,Tobacco use,Thinking the risk of harm from occasionally use vape products is moderate to great
+78,MYHS,2023,middle,Tobacco use,Ever smoking cigarettes
+79,MYHS,2023,middle,Tobacco use,Ever trying a vape product
+80,MYHS,2023,middle,Tobacco use,Thinking most people their age use electronic vapor products
+81,MYHS,2023,middle,Tobacco use,Thinking the risk of harm from occasionally use conventional tobacco is moderate to great
+82,MYHS,2023,middle,Tobacco use,Thinking the risk of harm from occasionally use vape products is moderate to great
+83,MYHS,2023,high,Alcohol use,"Drinking alcohol, past 30 days"
+84,MYHS,2023,high,Alcohol use,"Binge drinking, past 30 days"
+85,MYHS,2023,high,Alcohol use,"Driving a car after drinking alcohol, past 30 days (among those who drive and used alcohol in past 30 days)"
+86,MYHS,2023,high,Alcohol use,Thinking most people their age drink alcohol
+87,MYHS,2023,high,Alcohol use,Thinking the risk of harm from binge drinking is moderate to great
+88,MYHS,2023,high,Alcohol use,Thinking it’s very or fairly easy to get alcohol
+89,MYHS,2023,middle,Alcohol use,"Drinking alcohol,past 30 days"
+90,MYHS,2023,middle,Alcohol use,"Binge drinking, past 30 days"
+91,MYHS,2023,middle,Alcohol use,"Riding with someone who had been drinking alcohol, past 30 days"
+92,MYHS,2023,middle,Alcohol use,Thinking most people their age drink alcohol
+93,MYHS,2023,middle,Alcohol use,Thinking the risk of harm from binge drinking is moderate to great
+94,MYHS,2023,middle,Alcohol use,Thinking it’s very or fairly easy to get alcohol
+95,MYHS,2023,high,Marijuana use,Ever using marijuana
+96,MYHS,2023,high,Marijuana use,"Using marijuana, past 30 days"
+97,MYHS,2023,high,Marijuana use,"Driving a car after using marijuana, past 30 days (among those who drive and used marijuana in past 30 days)"
+98,MYHS,2023,high,Marijuana use,Thinking most people their age use marijuana
+99,MYHS,2023,high,Marijuana use,Thinking it’s very or fairly easy to get marijuana
+100,MYHS,2023,high,Marijuana use,Thinking the risk of harm from occasionally using marijuana is moderate to great
+101,MYHS,2023,middle,Marijuana use,Ever using marijuana
+102,MYHS,2023,middle,Marijuana use,"Using marijuana, past 30 days"
+103,MYHS,2023,middle,Marijuana use,"Rode in a car driven by someone who had been using marijuana, past 30 days"
+104,MYHS,2023,middle,Marijuana use,Thinking most people their age use marijuana
+105,MYHS,2023,middle,Marijuana use,Thinking it’s very or fairly easy to get marijuana
+106,MYHS,2023,middle,Marijuana use,Thinking the risk of harm from occasionally using marijuana is moderate to great
+107,MYRBS,2023,high,Protective factors,Sleeping 8+ hours on an average school night
+108,MYRBS,2023,high,Protective factors,Earning mostly A's and B's in school
+109,MYRBS,2023,high,Protective factors,Having at least one parent or other adult family member that they can talk to about things important to them
+110,MYRBS,2023,high,Protective factors,Having at least one teacher or other adult at school that they can talk to if they have a problem
+111,MYRBS,2023,high,Protective factors,they will most likely attend a 4-yr college after they complete high school
+112,MYHS,2023,high,Protective factors,"Doing volunteer work, community service or helping people outside of their home without getting paid in past week"
+113,MYHS,2023,high,Protective factors,Feeling safe when with family/caregiver(s) a lot or quite a bit
+114,MYHS,2023,high,Protective factors,Feeling that they belong at school a lot or quite a bit
+115,MYHS,2023,middle,Protective factors,Sleeping 8+ hours on an average school night
+116,MYHS,2023,middle,Protective factors,Earning mostly A's and B's in school
+117,MYHS,2023,middle,Protective factors,"Doing volunteer work, community service or helping people outside of their home without getting paid in past week"
+118,MYHS,2023,middle,Protective factors,Feeling safe when with family/caregiver(s) a lot or quite a bit
+119,MYHS,2023,middle,Protective factors,Feeling that they belong at school a lot or quite a bit
+120,MYRBS,2023,high,School experiences,Attending physical education (PE) classes on one or more days in an average week when they were in school
+121,MYRBS,2023,high,School experiences,"Using alcohol at school, past 30 days"
+122,MYRBS,2023,high,School experiences,"Using marijuana at school, past 30 days"
+123,MYRBS,2023,high,School experiences,"Using any tobacco products at school, past 30 days"
+124,MYRBS,2023,high,School experiences,"Being offered, sold, or given drugs at school, past year"
+125,MYRBS,2023,high,School experiences,"Skipping school because they felt unsafe, past 30 days"
+126,MYRBS,2023,high,School experiences,"Being threatened or injured with a weapon at school, past year"
+127,MYRBS,2023,high,School experiences,"Being in a physical fight at school, past year"
+128,MYRBS,2023,high,School experiences,Ever being taught how to use condoms in school
+129,MYRBS,2023,high,School experiences,"Being bullied on school property, past year"
+130,MYRBS,2023,high,School experiences,Feeling that they were treated badly or unfairly in school because of their race or ethnicity most of the time or always
+131,MYRBS,2023,high,School experiences,Agreeing or strongly agreeing that their school has clear rules and consequences for their behavior
+132,MYRBS,2023,high,Family and adult interaction,Parental/Family disapproval of marijuana use
+133,MYRBS,2023,high,Family and adult interaction,Agreeing or strongly agreeing that their parents or other adults in their family have clear rules and consequences for their behavior
+134,MYRBS,2023,high,Family and adult interaction,an adult in their household most of the time or always tried to make sure their basic needs were met
+135,MYRBS,2023,high,Family and adult interaction,Ever living with someone who was having a problem with alcohol or drug use
+136,MYRBS,2023,high,Family and adult interaction,"Ever living with someone who was depressed, mentally ill, or suicidal"
+137,MYRBS,2023,high,Family and adult interaction,"a parent or other adult in their home hit, beat, kicked, or physically hurt them always or most of the time"
+138,MYRBS,2023,high,Family and adult interaction,a parent or other adult in their home most of the time or always insulted them or put them down
+139,MYRBS,2023,high,Family and adult interaction,"a parent or other adult in their home slapped, hit, kicked, punched, or beat each other up always or most of the time"
+140,MYRBS,2023,high,Family and adult interaction,"Ever being separated from a parent or guardian because they went to jail, prison, or a detention center"
+141,MYHS,2023,middle,Family and adult interaction,"Being physically hurt by someone in their family, past year"
+142,MYHS,2023,middle,Family and adult interaction,"Witnessing violence in their family, past year"
+143,MYRBS,2023,high,Physical activity and nutrition,"Being physically active for 60 minutes, 5+ days per week"
+144,MYHS,2023,high,Physical activity and nutrition,"Engaging in vigorous activity for 20+ minutes, 3+ times per week"
+145,MYRBS,2023,high,Physical activity and nutrition,Drinking 1+ glasses of milk per day
+146,MYRBS,2023,high,Physical activity and nutrition,Eating breakfast every day
+147,MYRBS,2023,high,Physical activity and nutrition,Drinking 1+ glass of non-diet soda per day
+148,MYRBS,2023,high,Physical activity and nutrition,Eating fruit or drinking 100% fruit juice 2+ times per day
+149,MYRBS,2023,high,Physical activity and nutrition,Eating vegetables 3+ times per day
+150,MYRBS,2023,high,Physical activity and nutrition,Eating fruit 2+ AND vegetables 3+ times per day
+151,MYHS,2023,middle,Physical activity and nutrition,"Being physically active for 60 minutes, 5+ days per week"
+152,MYHS,2023,middle,Physical activity and nutrition,"Engaging in vigorous activity for 20+ minutes, 3+ times per week"
+153,MYHS,2023,middle,Physical activity and nutrition,Eating fruit 2+ times yesterday
+154,MYHS,2023,middle,Physical activity and nutrition,Eating vegetables 3+ times yesterday
+155,MYHS,2023,middle,Physical activity and nutrition,Eating fruit 2+ AND vegetables 3+ times yesterday
+156,MYRBS,2023,high,Weight and weight control,"Being obese (i.e., ≥95th percentile for body mass index by age and sex)"
+157,MYRBS,2023,high,Weight and weight control,"Being overweight (i.e., 85 to 95th percentile for body mass index by age and sex)"
+158,MYRBS,2023,high,Weight and weight control,Thinking they are slightly or very overweight
+159,MYRBS,2023,high,Weight and weight control,Trying to lose weight
+160,MYHS,2023,middle,Weight and weight control,"Being obese (i.e., ≥95th percentile for body mass index by age and sex)"
+161,MYHS,2023,middle,Weight and weight control,"Being overweight (i.e., 85 to 95th percentile for body mass index by age and sex)"
+162,MYRBS,2023,high,Motor vehicle safety,"Driving after drinking, past 30 days (among students who drove)"
+163,MYRBS,2023,high,Motor vehicle safety,"Riding with someone who had been drinking alcohol, past 30 days"
+164,MYRBS,2023,high,Motor vehicle safety,"Driving after using marijuana, past 30 days (among students who drove)"
+165,MYRBS,2023,high,Motor vehicle safety,"Riding with someone who had been using marijuana, past 30 days"
+166,MYRBS,2023,high,Motor vehicle safety,"Texting or emailing while driving, past 30 days (among students who drove)"
+167,MYHS,2023,high,Motor vehicle safety,"Nodded off or fallen asleep while driving, past 30 days (among students who drove)"
+168,MYHS,2023,high,Motor vehicle safety,Rarely or Never Wearing a Seatbelt When Passenger
+169,MYHS,2023,middle,Motor vehicle safety,"Riding with someone who had been using marijuana, past 30 days"
+170,MYHS,2023,middle,Motor vehicle safety,Never or rarely wearing a seatbelt
+171,MYHS,2023,middle,Motor vehicle safety,"Riding with someone who had been drinking alcohol, past 30 days"
+172,MYHS,2023,high,Sports-related concussion,"Having symptoms of a sports-related concussion (among those who played on a team), past year"
+173,MYHS,2023,high,Sports-related concussion,"Being removed from play after symptoms of a sports-related concussion (among those who played on a team and had symptoms), past year"
+174,MYHS,2023,middle,Sports-related concussion,"Having symptoms of a sports-related concussion (among those who played on a team), past year"
+175,MYHS,2023,middle,Sports-related concussion,"Being removed from play after symptoms of a sports-related concussion (among those who played on a team and had symptoms), past year"
+176,MYHS,2023,high,Substance perception and access,"Hearing or seeing anti-alcohol or anti-drug ads, past 30 days"
+177,MYHS,2023,high,Substance perception and access,Thinking most their age drink alcohol
+178,MYHS,2023,high,Substance perception and access,Thinking most their age use electronic vapor products
+179,MYHS,2023,high,Substance perception and access,Thinking most their age smoke marijuana
+180,MYHS,2023,high,Substance perception and access,Thinking most their age use other illegal drugs
+181,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from binge drinking is moderate or great
+182,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from marijuana is moderate or great
+183,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from inhalants is moderate or great
+184,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from narcotics is moderate or great
+185,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from Ritalin/Adderall is moderate or great
+186,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from conventional tobacco is moderate or great
+187,MYHS,2023,high,Substance perception and access,Thinking the risk of harm from electronic vapor products is moderate or great
+188,MYHS,2023,high,Substance perception and access,Thinking it is very or fairly easy to get alcohol
+189,MYHS,2023,high,Substance perception and access,Thinking it is very or fairly easy to get marijuana
+190,MYHS,2023,middle,Substance perception and access,"Having heard or seen ads for alcohol, past 30 days"
+191,MYHS,2023,middle,Substance perception and access,"Having heard or seen anti-alcohol or anti-drug ads, past 30 days"
+192,MYHS,2023,middle,Substance perception and access,Thinking most their age drink alcohol
+193,MYHS,2023,middle,Substance perception and access,Thinking most their age use electronic vapor products
+194,MYHS,2023,middle,Substance perception and access,Thinking most their age smoke marijuana
+195,MYHS,2023,middle,Substance perception and access,Thinking most their age use other illegal drugs
+196,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from marijuana is moderate or great
+197,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from inhalants is moderate or great
+198,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from narcotics is moderate or great
+199,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from binge drinking is moderate to great
+200,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from Ritalin/Adderall is moderate or great
+201,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from conventional tobacco is moderate or great
+202,MYHS,2023,middle,Substance perception and access,Thinking the risk of harm from electronic vapor products is moderate or great
+203,MYHS,2023,middle,Substance perception and access,Thinking it’s very or fairly easy to get alcohol
+204,MYHS,2023,middle,Substance perception and access,Thinking it’s very or fairly easy to get marijuana
+205,MYRBS,2023,high,Alcohol use,Drinking alcohol before age 13
+206,MYRBS,2023,high,Alcohol use,"Drinking alcohol, past 30 days"
+207,MYRBS,2023,high,Alcohol use,"Binge drinking, past 30 days* *Had four or more drinks of alcohol in a row for female students or five or more drinks of alcohol in a row for male students, within a couple of hours, on at least 1 day during the 30 days before the survey"
+208,MYHS,2023,middle,Alcohol use,Ever drinking alcohol
+209,MYRBS,2023,high,Tobacco use,Smoking cigarettes before age of 13
+210,MYRBS,2023,high,Tobacco use,"Smoking cigarettes, past 30 days"
+211,MYHS,2023,high,Tobacco use,"Using cigars, past 30 days"
+212,MYHS,2023,high,Tobacco use,"Using nicotine pouches, chewing tobacco, snuff, dip, snus, or dissolvable tobacco products, past 30 days"
+213,MYRBS,2023,high,Tobacco use,Ever using electronic vapor products
+214,MYRBS,2023,high,Tobacco use,"Using electronic vapor products, past 30 days"
+215,MYRBS,2023,high,Tobacco use,"Using electronic vapor products daily, past 30 days"
+216,MYHS,2023,middle,Tobacco use,"Ever using cigars, cigarillos, or little cigars"
+217,MYHS,2023,middle,Tobacco use,Ever using electronic vapor product
+218,MYRBS,2023,high,Marijuana use,"Using marijuana, past 30 days"
+219,MYRBS,2023,high,Marijuana use,Using marijuana before age of 13
+220,MYRBS,2023,high,Other drug use,Ever using cocaine
+221,MYRBS,2023,high,Other drug use,Ever using ecstasy
+222,MYRBS,2023,high,Other drug use,Ever using methamphetamine
+223,MYRBS,2023,high,Other drug use,Ever using heroin
+224,MYHS,2023,high,Other drug use,"Using an inhalant, past 30 days"
+225,MYHS,2023,high,Other drug use,Ever using prescription drugs (not their own)
+226,MYHS,2023,high,Other drug use,"Using prescription drugs (not their own), past 30 days"
+227,MYHS,2023,high,Other drug use,Ever injecting an illegal drug
+228,MYHS,2023,high,Other drug use,Ever using any drugs
+229,MYHS,2023,middle,Other drug use,Ever using cocaine
+230,MYHS,2023,middle,Other drug use,Ever using ecstasy
+231,MYHS,2023,middle,Other drug use,Ever using methamphetamine
+232,MYHS,2023,middle,Other drug use,Ever using heroin
+233,MYHS,2023,middle,Other drug use,Ever using inhalants
+234,MYHS,2023,middle,Other drug use,Ever using prescription drugs (not their own)
+235,MYHS,2023,middle,Other drug use,"Using prescription drugs (not their own), past 30 days"
+236,MYHS,2023,middle,Other drug use,Ever injecting an illegal drug
+237,MYHS,2023,middle,Other drug use,Ever using any drug**
+238,MYHS,2023,high,Gambling,"Playing lottery or scratch tickets, past year"
+239,MYHS,2023,high,Gambling,"Gambling at a casino, past year"
+240,MYHS,2023,high,Gambling,Participating in Fantasy Sports
+241,MYHS,2023,high,Gambling,"Engaging in other forms of gambling*, past year"
+242,MYHS,2023,high,Gambling,"Engaging in ANY form of gambling, past year"
+243,MYHS,2023,middle,Gambling,"Playing lottery or scratch tickets, past year"
+244,MYHS,2023,middle,Gambling,"Gambling at a casino, past year"
+245,MYHS,2023,middle,Gambling,Participating in Fantasy Sports
+246,MYHS,2023,middle,Gambling,"Engaging in other forms of gambling*, past year"
+247,MYHS,2023,middle,Gambling,"Engaging in ANY form of gambling, past year"
+248,MYRBS,2023,high,"Bullying, discrimination, and harrassment","Being cyber-bullied, past year"
+249,MYHS,2023,high,"Bullying, discrimination, and harrassment",Thinking most their age bully or push others around
+250,MYHS,2023,high,"Bullying, discrimination, and harrassment","Initiating bullying, past year"
+251,MYHS,2023,high,"Bullying, discrimination, and harrassment","Initiating cyber-bullying, past year"
+252,MYRBS,2023,high,"Bullying, discrimination, and harrassment",Being the victim of teasing or name calling because of their race or ethnic background in past 12 months
+253,MYRBS,2023,high,"Bullying, discrimination, and harrassment",Feeling that they were treated badly or unfairly because of their race or ethnicity most of the time or always
+254,MYRBS,2023,high,"Bullying, discrimination, and harrassment",Feeling that they were treated badly or unfairly because of their sexual orientation most of the time or always
+255,MYHS,2023,middle,Bullying,"Being bullied at school, past year"
+256,MYHS,2023,middle,Bullying,"Being cyber-bullied, past year"
+257,MYHS,2023,middle,Bullying,Thinking most their age bully or push others around
+258,MYHS,2023,middle,Bullying,"Initiating bullying, past year"
+259,MYHS,2023,middle,Bullying,"Initiating cyber-bullying, past year"
+260,MYRBS,2023,high,Dating and sexual violence,"Being a victim of physical dating violence, past year"
+261,MYRBS,2023,high,Dating and sexual violence,"Being a victim of sexual dating violence, past year"
+262,MYRBS,2023,high,Dating and sexual violence,Ever being physically forced to have sexual intercourse
+263,MYRBS,2023,high,Dating and sexual violence,An adult or person at least 5 years older than them ever made them do sexual things they did not want to do
+264,MYHS,2023,high,Dating and sexual violence,"Having their activity monitored by someone they were dating, past year"
+265,MYHS,2023,middle,Dating violence,"Being the victim of dating violence, past year"
+266,MYHS,2023,middle,Dating violence,"Having their activity monitored by someone they were dating, past year"
+267,MYRBS,2023,high,Other violence,"Being involved in a fight, past year"
+268,MYRBS,2023,high,Other violence,"Carrying a weapon, past 30 days"
+269,MYRBS,2023,high,Neighborhood factors,"Ever seeing someone get physically attacked, beaten, stabbed, or shot in their neighborhood"
+270,MYHS,2023,high,Neighborhood factors,Feeling their neighborhood was safe from crime
+271,MYHS,2023,middle,Neighborhood factors,Feeling their neighborhood was safe from crime
+272,MYRBS,2023,high,Mental health,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+273,MYRBS,2023,high,Mental health,"Injuring oneself intentionally without wanting to die, past year"
+274,MYRBS,2023,high,Mental health,their mental health was not good always or most of the time during the previous 30 days
+275,MYHS,2023,middle,Mental health,"Feeling sad or hopeless for 2+ weeks that they stopped doing usual activities, past year"
+276,MYHS,2023,middle,Mental health,"Injuring oneself intentionally without wanting to die, past year"
+277,MYRBS,2023,high,Suicide,"Seriously considering suicide, past year"
+278,MYRBS,2023,high,Suicide,"Making a suicide plan, past year"
+279,MYRBS,2023,high,Suicide,"Attempting suicide, past year"
+280,MYRBS,2023,high,Suicide,"Attempting suicide that resulted in an injury, poisoning or overdose that had to be treated by a doctor or nurse, past year"
+281,MYRBS,2023,high,Suicide,Asking for help from someone before their suicide attempt
+282,MYHS,2023,middle,Suicide,"Attempting suicide, past year"
+283,MYHS,2023,middle,Suicide,"Seriously considering suicide, past year"
+284,MYRBS,2023,high,Sexual behavior,"Having sexual intercourse, past 3 months"
+285,MYRBS,2023,high,Sexual behavior,Having sexual intercourse before age 13
+286,MYRBS,2023,high,Sexual behavior,Using a condom at last sexual intercourse
+287,MYRBS,2023,high,Sexual behavior,Having had sexual intercourse with 4+ partners during their life
+288,MYRBS,2023,high,Sexual behavior,Drinking alcohol or using drugs at last sexual intercourse
+289,MYRBS,2023,high,Sexual behavior,"Not using any method to prevent pregnancy at last sexual intercourse (among students who had sex, past 3 months)"
+290,MYRBS,2023,high,Sexual behavior,Ever been tested for STD other than HIV
+291,MYRBS,2023,high,Sexual behavior,Ever having same-sex sexual contact (among those who have ever had sexual contact)
+292,MYHS,2023,high,Health status,"Seeing a dentist, past year"
+293,MYHS,2023,high,Health status,"Having a cavity, past year"
+294,MYHS,2023,high,Health status,Having a physical disability or long-term health problem
+295,MYHS,2023,high,Health status,Having a long-term emotional or learning disability
+296,MYHS,2023,middle,Health status,"Seeing a dentist, past year"
+297,MYHS,2023,middle,Health status,"Having a cavity, past year"
+298,MYHS,2023,middle,Health status,Having a physical disability or long-term health problem
+299,MYHS,2023,middle,Health status,Having a long-term emotional or learning disability
+300,MYHS,2023,high,Other determinants of health,Going to bed hungry at least once in previous week because there was not enough food at home
+301,MYRBS,2023,high,Other determinants of health,housing instability in the past year
+302,MYRBS,2023,high,Other determinants of health,Using social media several times a day or more
+303,MYRBS,2023,high,Other determinants of health,They or their family had ever received services from state agencies
+304,MYHS,2023,middle,Other determinants of health,Going to bed hungry at least once in previous week because there was not enough food at home
+305,MYHS,2023,middle,Other determinants of health,housing instability in the past year

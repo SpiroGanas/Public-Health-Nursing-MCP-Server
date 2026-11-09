@@ -1,0 +1,167 @@
+# CMIST shelter health intake form and planning estimates for functional_needs_shelter_intake
+# (EPR-03).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_functional_needs_shelter.schema.json
+meta:
+  id: epr-functional-needs-shelter
+  title: CMIST shelter health intake and functional needs planning estimates
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019): Capability 1 (at-risk populations, CMIST framework) and Capability 7 (Mass Care)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  related_sources:
+    - title: Power Outage Safety Tips (people who rely on electricity-dependent equipment)
+      publisher: Massachusetts Emergency Management Agency
+      url: https://www.mass.gov/info-details/power-outage-safety-tips
+    - title: HHS emPOWER Program quick reference (electricity-dependent equipment and health care services)
+      publisher: HHS Administration for Strategic Preparedness and Response
+      url: https://empowerprogram.hhs.gov/Quick-Data-Reference-Guide.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The CMIST domains, their definition, and the mass care tasks (health screening at congregate
+    locations, shelter assessment within 48 hours, staffing model elements, specialty food,
+    referrals) are transcribed or summarized from CDC's PHEP capabilities (high confidence). The
+    equipment list comes from the HHS emPOWER quick reference (high). The intake questions are
+    THIS PROJECT'S DRAFT organized by CMIST domain (medium confidence): FEMA's Functional Needs
+    Support Services guidance and ASPR's at-risk individuals pages could not be retrieved
+    (fema.gov and aspr.hhs.gov were unreachable). The staffing ratios are TOOL DEFAULTS with no
+    published source; replace them with your shelter plan's ratios.
+
+sources:
+  cdc-phep:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+  empower-quickref:
+    title: "HHS emPOWER Program Quick Reference: Medicare data in HHS emPOWER Program tools"
+    publisher: HHS Administration for Strategic Preparedness and Response
+    url: https://empowerprogram.hhs.gov/Quick-Data-Reference-Guide.pdf
+    effective_date: null
+    retrieved: 2026-11-08
+  mema-power:
+    title: Power Outage Safety Tips
+    publisher: Massachusetts Emergency Management Agency
+    url: https://www.mass.gov/info-details/power-outage-safety-tips
+    effective_date: null
+    retrieved: 2026-11-08
+
+cmist_definition:
+  text: "The Communication; Maintaining Health; Independence; Support, Safety and Self-determination; Transportation (CMIST) framework defines cross-cutting categories of the access and functional needs of at-risk individuals. It addresses common access and functional needs that are not tied to specific diagnoses, status, or labels, such as pregnant women, children, or elderly."
+  source: cdc-phep
+  section: Glossary, CMIST framework
+  confidence: high
+
+mass_care_tasks:
+  - text: Coordinate with response partners to conduct health screenings and identify medical, access, and functional needs (CMIST) of the population registering at congregate locations.
+    source: cdc-phep
+    section: Capability 7, Function 2, Task 4
+    confidence: high
+  - text: Complete the initial environmental health and safety assessment of a shelter within 48 hours after it opens, and repeat assessments; criteria include accessibility for people with disabilities, backup power, sanitation, potable water, ventilation and climate control, and a separate medical area for privacy and isolation of infectious disease.
+    source: cdc-phep
+    section: Capability 7, Function 2, P1
+    confidence: high
+  - text: Use scalable staffing models for health services at congregate locations that address barriers for people with disabilities and access and functional needs, mental and behavioral health, environmental health, aggregate data, immunization, infection control, data sharing (for example with the American Red Cross), and risk communication.
+    source: cdc-phep
+    section: Capability 7, P2 (Scalable congregate location staffing models)
+    confidence: high
+  - text: Coordinate specialty food for young children, pregnant or postpartum women and infants, older adults, and people with access and functional needs.
+    source: cdc-phep
+    section: Capability 7, P4
+    confidence: high
+  - text: Refer individuals from the congregate location to health services, medical facilities, or specialized shelters, coordinating transfer with EMS or medical transport providers.
+    source: cdc-phep
+    section: Capability 7, P5
+    confidence: high
+
+domains:
+  - id: communication
+    letter: C
+    label: Communication
+    questions:
+      - {id: preferred_language, text: "Preferred language (spoken and written)", kind: text}
+      - {id: interpreter_needed, text: "Needs an interpreter (including American Sign Language)", kind: yes_no}
+      - {id: hearing, text: "Deaf or hard of hearing; needs hearing aids, captioning, or ASL", kind: yes_no}
+      - {id: vision, text: "Blind or low vision; needs large print, braille, or a guide", kind: yes_no}
+      - {id: speech, text: "Difficulty speaking or uses a communication device", kind: yes_no}
+      - {id: understanding, text: "Difficulty understanding, remembering, or following instructions", kind: yes_no}
+  - id: maintaining_health
+    letter: M
+    label: Maintaining health
+    questions:
+      - {id: medications_with_them, text: "Has all needed medications", kind: yes_no}
+      - {id: medication_needed_72h, text: "Needs a medication refill or dose within 72 hours", kind: yes_no}
+      - {id: refrigerated_medication, text: "Has medication that must be refrigerated (for example insulin)", kind: yes_no}
+      - {id: electric_equipment, text: "Uses medical equipment that needs electricity (oxygen concentrator, ventilator, BiPAP, suction, infusion or feeding pump, home dialysis, power wheelchair or scooter, electric bed)", kind: yes_no}
+      - {id: oxygen, text: "Uses oxygen (concentrator or tanks)", kind: yes_no}
+      - {id: dialysis, text: "Receives dialysis (in a facility or at home); next session", kind: yes_no}
+      - {id: special_diet, text: "Special diet, food allergy, or infant formula needed", kind: yes_no}
+      - {id: pregnant_postpartum, text: "Pregnant or recently gave birth", kind: yes_no}
+      - {id: symptoms, text: "Fever, cough, vomiting, diarrhea, or rash now (infection control screening)", kind: yes_no}
+  - id: independence
+    letter: I
+    label: Independence
+    questions:
+      - {id: mobility_aid, text: "Uses a wheelchair, walker, cane, or other mobility aid", kind: yes_no}
+      - {id: service_animal, text: "Has a service animal", kind: yes_no}
+      - {id: assistive_device_lost, text: "Lost or left behind an assistive device (glasses, hearing aid, dentures, mobility aid)", kind: yes_no}
+      - {id: help_daily_activities, text: "Needs help with bathing, dressing, toileting, eating, or moving", kind: yes_no}
+  - id: support_safety
+    letter: S
+    label: Support, safety, and self-determination
+    questions:
+      - {id: caregiver_present, text: "Has a caregiver or personal care assistant with them", kind: yes_no}
+      - {id: needs_supervision, text: "Needs supervision (for example dementia), or is a child without a guardian", kind: yes_no}
+      - {id: behavioral_health, text: "Would like to talk with someone about stress, mental health, or substance use", kind: yes_no}
+      - {id: safety_concern, text: "Has a safety concern (for example domestic violence)", kind: yes_no}
+  - id: transportation
+    letter: T
+    label: Transportation
+    questions:
+      - {id: accessible_transport, text: "Needs an accessible vehicle (wheelchair lift) to travel", kind: yes_no}
+      - {id: medical_appointment_transport, text: "Needs transportation to dialysis, treatment, or medical appointments", kind: yes_no}
+questions_source: cdc-phep
+questions_section: Capability 1 and Capability 7 (CMIST categories); question wording drafted by this project
+
+dispositions:
+  - General population shelter (no additional support)
+  - General population shelter with functional needs support (equipment, power, personal assistance, interpreter)
+  - Refer for medical evaluation (on-site health services)
+  - Refer to hospital or medical facility (coordinate EMS or medical transport)
+  - Other (describe)
+
+# Electricity-dependent equipment counted by emPOWER (shelters need power for these).
+electric_equipment:
+  items: [Ventilator, Bi-level positive airway pressure device (BiPAP), Oxygen concentrator, Suction pump, IV infusion pump, Enteral feeding device, At-home dialysis machine, Motorized wheelchair or scooter, Electric bed, Cardiac assist devices (LVAD, RVAD, BIVAD, total artificial heart)]
+  source: empower-quickref
+  section: Electricity-dependent DME and certain cardiac implantable devices
+
+# Tool defaults for staffing (no published ratio could be retrieved).
+staffing_defaults:
+  - id: residents_per_health_staff
+    label: Shelter residents per health services staff member (each shift)
+    value: 50
+    unit: residents
+    basis: tool_default
+    note: Planning placeholder only; FEMA's FNSS guidance could not be retrieved. Use your shelter plan's ratio.
+  - id: fnss_residents_per_support_staff
+    label: Residents with functional needs per personal assistance or FNSS staff member (each shift)
+    value: 10
+    unit: residents
+    basis: tool_default
+    note: Planning placeholder only. People who need help with daily activities may need one-to-one support.
+  - id: lep_residents_per_interpreter
+    label: Residents with limited English per interpreter (each shift, per language)
+    value: 25
+    unit: residents
+    basis: tool_default
+    note: Planning placeholder only; remote interpretation can extend coverage.

@@ -1,0 +1,105 @@
+# Survey notes for get_youth_risk_behavior_data (MH-07), and the 988 Lifeline facts that the
+# Phase 11 behavioral health tools show with suicide-related answers.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/bh_youth_survey.schema.json
+meta:
+  id: bh-youth-survey
+  title: Youth survey notes (MYHS, MYRBS, CDC YRBS) and 988 Lifeline
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2026-04-14
+  source:
+    title: Results of the Massachusetts Youth Health Survey 2025 (April 14, 2026)
+    publisher: Massachusetts Department of Public Health, Health Survey Program
+    url: https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download
+  related_sources:
+    - title: 2023 Massachusetts YHS and YRBS Joint Report
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/2023-massachusetts-yhs-and-yrbs-joint-report/download
+    - title: Youth Risk Behavioral Surveillance System (YRBSS) - Mental Health Indicators
+      publisher: Centers for Disease Control and Prevention
+      url: https://data.cdc.gov/d/nu3s-3dwd
+    - title: 988 Suicide and Crisis Lifeline
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-08. Survey descriptions, suppression rules, and the confidence-interval rule are
+    quoted from DPH's 2025 and 2023 MYHS reports and the 2023 joint YHS/YRBS report (high
+    confidence); the CDC dataset description from data.cdc.gov (high). The 988 facts are from
+    DPH's 988 Lifeline page (high). The developer chose the reference groups used to describe
+    differences (male, White, straight/cisgender), following the comparisons in DPH's reports
+    (medium).
+
+sources:
+  myhs_2025:
+    title: Results of the Massachusetts Youth Health Survey 2025
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download
+    date: 2026-04-14
+  myhs_2023:
+    title: Results of the Massachusetts Youth Health Survey 2023
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/2023-massachusetts-youth-health-survey-report/download
+    date: 2024-05-23
+  joint_2023:
+    title: 2023 Massachusetts YHS and YRBS Joint Report
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/2023-massachusetts-yhs-and-yrbs-joint-report/download
+    date: null
+  myhs_page:
+    title: Massachusetts Youth Health Survey (YHS)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs
+    date: null
+  cdc_yrbs_mh:
+    title: Youth Risk Behavioral Surveillance System (YRBSS) - Mental Health Indicators
+    publisher: Centers for Disease Control and Prevention
+    url: https://data.cdc.gov/d/nu3s-3dwd
+    date: null
+  ma_988:
+    title: 988 Suicide and Crisis Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+    date: null
+
+surveys:
+  - id: MYHS
+    name: Massachusetts Youth Health Survey
+    text: "DPH's surveillance survey of students in grades 6-12, run with DESE in randomly selected public middle and high schools every odd-numbered year; weighted to represent all Massachusetts public middle and high school students. In 2025, 1,897 high school and 3,135 middle school students completed it."
+    source: myhs_2025
+    section: Introduction
+  - id: MYRBS
+    name: Massachusetts Youth Risk Behavior Survey
+    text: "The Massachusetts YRBS (high school), reported with the MYHS in DPH's joint report; high school results in the joint report are from the MYRBS unless marked as MYHS, and all middle school results are from the MYHS."
+    source: joint_2023
+    section: "Data Tables: Analysis and Statistics Presented"
+  - id: CDC
+    name: CDC Youth Risk Behavior Surveillance System
+    text: "CDC's state and national YRBS estimates of mental health indicators for high school students (Massachusetts YRBS and the national YRBS, 2019-2023), with 95% confidence intervals."
+    source: cdc_yrbs_mh
+    section: Dataset description
+
+notes:
+  - text: "Data are not presented if the underlying sample size is less than 100 respondents and/or the relative standard error is above 30%."
+    source: joint_2023
+    section: "Data Tables: Analysis and Statistics Presented"
+  - text: "Statistically significant differences between percent estimates can be determined if their 95% confidence intervals do not overlap."
+    source: joint_2023
+    section: "Data Tables: Analysis and Statistics Presented"
+  - text: "Data are self-reported by public school students; students in private schools, state custody, or other settings are not represented, and students with severe limitations or frequent absences may be under-represented. The data are cross-sectional and should not be used to assess causality."
+    source: joint_2023
+    section: "Data Tables: Analysis and Statistics Presented"
+  - text: "Starting in 2023 the MYHS included a nonbinary gender option; estimates for that group are unreliable and are not presented."
+    source: myhs_2025
+    section: Introduction
+
+crisis:
+  text: "If you or a loved one are having emotional distress or thoughts of suicide, call or text 988, or chat online, to reach the 988 Suicide and Crisis Lifeline: free, confidential, 24/7. Veterans press 1; Spanish press 2. You do not need to be suicidal to contact 988."
+  source: ma_988
+  section: 988 Lifeline

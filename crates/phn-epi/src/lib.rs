@@ -18,6 +18,8 @@
 //!   equal-variance tests (EPI-10).
 //! * [`spc`]: run charts (Anhøj rules) and XmR, p, u, c control charts (EBP-06).
 //! * [`dist`]: distribution helpers.
+//! * [`queueing`]: M/M/c (Erlang C) queues for dispensing sites (EPR-02).
+//! * [`survey`]: weighted proportions with cluster (Taylor series) variance for CASPER (EPR-11).
 //!
 //! Every calculation is checked against reference values from R or SciPy in
 //! `tests/golden.rs`.
@@ -27,10 +29,12 @@ pub mod dist;
 pub mod glm;
 pub mod hypothesis;
 pub mod linalg;
+pub mod queueing;
 pub mod rates;
 pub mod sample_size;
 pub mod spc;
 pub mod standardize;
 pub mod suppression;
+pub mod survey;
 pub mod trend;
 pub mod two_by_two;

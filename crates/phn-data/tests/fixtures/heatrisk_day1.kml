@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+ <Folder>
+  <ScreenOverlay>
+  <name>NOAA Logo</name>
+  <Icon>
+  <href>https://www.wpc.ncep.noaa.gov/heatrisk/images/noaalow1trans.png</href>
+  </Icon>
+  <overlayXY x="-350" y="66" xunits="pixels" yunits="pixels"/>
+  <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+  <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+  <size x="-1" y="-1" xunits="fraction" yunits="fraction"/>
+  </ScreenOverlay>
+  <ScreenOverlay>
+  <name>NWS Logo</name>
+  <Icon>
+  <href>https://www.wpc.ncep.noaa.gov/heatrisk/images/nwslogoredletters.png</href>
+  </Icon>
+  <overlayXY x="-412" y="62" xunits="pixels" yunits="pixels"/>
+  <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+  <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+  <size x="-1" y="-1" xunits="fraction" yunits="fraction"/>
+  </ScreenOverlay>
+  <ScreenOverlay>
+  <name>HeatRisk Legend</name>
+  <Icon>
+  <href>https://www.wpc.ncep.noaa.gov/heatrisk/images/HeatRiskLegend.png</href>
+  </Icon>
+  <overlayXY x="-112" y="742" xunits="pixels" yunits="pixels"/>
+  <screenXY x="0" y="1" xunits="fraction" yunits="fraction"/>
+  <rotationXY x="0" y="0" xunits="fraction" yunits="fraction"/>
+  <size x="-1" y="-1" xunits="fraction" yunits="fraction"/>
+  </ScreenOverlay>
+
+  <name>NWS Experimental HeatRisk Forecast</name>
+    <GroundOverlay>
+		<name>HeatRisk Forecast for Nov 08, 2026</name>
+     <opacity>0.65</opacity>
+     
+     <Icon>
+      <href>https://www.wpc.ncep.noaa.gov/heatrisk/data/HeatRisk_1.png</href>
+     </Icon>
+     <LatLonBox>
+      <north>51.552451</north>
+      <south>21.722303</south>
+      <east>-63.302855</east>
+      <west>-128.670029</west>
+     </LatLonBox>
+    </GroundOverlay>
+ </Folder>
+</kml>

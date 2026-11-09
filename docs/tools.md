@@ -1036,3 +1036,1106 @@ reports DPH is replacing it with its own program); the final values come from a 
 read from MWRA's data PDF. If a source cannot be reached, the briefing uses the bundled
 snapshots (`cdc-respiratory-ma`, `cdc-nwss-ma`; the last 13 weeks) and says so; a source with no
 data at all is left out with a caveat.
+
+## Phase 7: School health
+
+<!-- Phase 7 tools go below this line. -->
+
+School health tools are in the `school` toolset (on in the `school_nurse` profile). Their content
+is in `content/school/` (pending review, due 2027-02-01). The school year runs July 1 to June 30.
+
+**Templates and translations.** Tools that write letters or plans for families (SCH-02, SCH-04,
+SCH-05) ship English templates only. An agency adds its own approved translations as
+`/data/templates/<language>/<kind>.md`, where `<language>` is a language name or code found in the
+nurse's file (`spanish` or `es`, `portuguese` or `pt`, `haitian-creole` or `ht`, ...). Kinds:
+`vision_referral`, `hearing_referral`, `postural_referral`, `concussion_caregiver_letter`, and
+`<condition>_emergency_plan` (`diabetes`, `asthma`, `seizures`, `food_allergy`). Each English
+template is written next to the documents as `template_english_<kind>.md`; keep its
+`{{placeholders}}`. Letters for a language without an agency translation are written in English
+and counted in the answer. Nothing is machine-translated.
+
+### `get_ma_school_screening_requirements` (SCH-01, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `screening` | all | `vision`, `hearing`, `bmi` (height and weight), `postural` (scoliosis), `sbirt`, `kindergarten vision certificate`, or `physical exam` (aliases accepted). |
+| `grade` | all grades (table) | `PK`, `K`, `1`–`12`, or `ungraded` (then `age_years`). |
+| `age_years` | | Age for ungraded classrooms (105 CMR 200.000 gives age rules). |
+| `new_student` | false | New to the district: school-entry rules apply (DPH advises screening new students' vision). |
+| `include_details` | true | Protocol, referral, notification, exemptions, reporting, and confidentiality. |
+
+Rules come from 105 CMR 200.000 (vision 200.400(B), hearing 200.400(C), BMI 200.500, physical
+examinations 200.100), M.G.L. c. 71, section 57 (postural screening annually in grades 5–9; the
+kindergarten vision certificate) and section 97 (SBIRT), and DPH's 2022 vision protocol (critical
+lines, charts, near vision, stereoacuity, instrument screening; public preschool screened
+annually). Each band is `annual`, `once_in_band`, `school_entry`, `district_selected`, or
+`entry_and_interval`. Hearing protocol details come from DPH's 2007 manual because the current DPH
+hearing protocol could not be retrieved (marked medium or low confidence).
+
+### `track_school_screenings` (SCH-02, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | Roster with results (CSV/XLSX in `/data`), one row per student. |
+| `as_of` | today | Sets the school year. |
+| `screenings` | every one with columns | `vision`, `hearing`, `bmi`, `postural`, `kindergarten vision certificate`. SBIRT is refused. |
+| `write_letters` | false | Referral letters for students referred whose follow-up is not documented (vision, hearing, postural). |
+| `letter_format` | `docx` | `docx` or `pdf`. |
+| `school_name`, `nurse_name`, `nurse_phone` | | Letter fields (or a `School` column). |
+
+Columns: `Grade` (required); optional `Date of Birth`, `Sex`, `Home Language`, `New Student`,
+`Parent Name`, `Student Name` or `First Name`/`Last Name`; and per screening a date, a result
+(`pass`, `refer`, `absent`, `refused`, `exempt`), and a follow-up column, e.g. `Vision Date`,
+`Vision Result`, `Vision Referral Completed`. BMI uses `Height (in)` and `Weight (lb)` (or cm/kg),
+`BMI Percentile`, or `BMI Category`; with height, weight, date of birth, and sex the tool computes
+the CDC BMI-for-age percentile (LMS method, `content/school/cdc_bmi_for_age.yaml`). A screening
+counts toward this year when it falls in the window its band needs (this school year for annual
+bands; since the student entered the band for once-per-band screenings). Statuses: `passed`,
+`referred, follow-up pending`, `referred, follow-up done`, `incomplete`, `due`, `exempt or opted
+out`, `not required`. The answer has suppressed counts and completion, referral, and follow-up
+rates by grade (rates hidden when a count they use is hidden) and BMI category counts by grade
+and sex. Per-student results and an action list go to
+`/data/output/school_screenings_<date>.xlsx`; letters to
+`/data/output/school_screening_letters_<date>/`. Columns that look like SBIRT results are ignored
+and not copied (M.G.L. c. 71, section 97(c)).
+
+### `school_medication_administration_guide` (SCH-03, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | | A question in plain language. |
+| `topic` | | A topic id instead (listed when both are omitted). |
+| `max_topics` | 4 | Topics returned for a question (1–6). |
+
+Answers from 105 CMR 210.000 as amended 12/5/2025 (Mass. Register #1562) and M.G.L. c. 71,
+section 54B, each point cited by section. Topics: scope and definitions, policies, DPH
+registration (MCSR), delegation, orders and consent, the medication administration plan, field
+trips, self-administration and self-carry, training, storage, documentation, medication errors,
+epinephrine, opioid antagonists, other emergency rescue medications, and the nurse's judgment,
+waivers, and inspections. Topics are matched by keywords, with keywords shared by several topics
+counting less.
+
+### `build_individualized_health_plan` (SCH-04, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `condition` | required | `diabetes`, `asthma`, `seizures` (epilepsy), or `food allergy` (anaphylaxis). |
+| `student_file`, `sheet` | | Local fill: one row per student (CSV/XLSX in `/data`). |
+| `format` | `docx` | `docx` or `pdf`. |
+| `include_504` | true | Suggested Section 504 accommodations. |
+| `write_templates` | false | Write the blank English templates to `/data/output`. |
+| `school_name`, `nurse_name`, `nurse_phone` | | Fields for filled plans. |
+
+Returns the plan as cited sections (recognize, emergency steps, call 911, nursing assessment,
+goals, interventions, medications, required plan elements, suggested 504 accommodations, family
+resources) and the placeholders. With `student_file`, columns such as `Student Name`, `Date of
+Birth`, `Grade`, `Parent Name`, `Parent Phone`, `Emergency Contact`, `Provider Name`, `Provider
+Phone`, `Allergies`, `Medications`, `Emergency Medication`, `Home Language`, and condition fields
+(`Target Range`, `Low Threshold`, `Glucagon`, `Insulin`; `Peak Flow`, `Triggers`; `Seizure
+Description`, `Rescue Instructions`; `Allergens`, `Epinephrine`) fill one IHP plus emergency action
+plan per student in `/data/output/health_plans_<condition>/`; rows whose `Condition` names another
+condition are skipped. The answer has counts, blank-field counts, and languages only. Sources: CDC
+school health and clinical pages, CDC's 2013 food allergy guidelines, 105 CMR 210.000, M.G.L. c.
+71, section 54B, and DPH's 2007 manual (IHP process).
+
+### `concussion_return_to_learn_tracker` (SCH-05, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `injury_date`, `diagnosis_date`, `returned_to_school`, `symptom_free_date`, `full_academics_date`, `cleared_to_begin_rtp` | | Dates for one student (no name). |
+| `during_extracurricular` | true | Injury in an extracurricular athletic activity (105 CMR 201.000 applies). |
+| `rtp_stage_completed` | 0 | Highest gradual return-to-play stage completed (DPH clearance form, 1–6). |
+| `symptoms` | | Plain words, to pick accommodations from DPH's Table 1. |
+| `symptom_ratings` | | DPH Post-concussion Symptom Monitoring Tool ratings (0–6 for 22 symptoms). |
+| `rest_guidance` | `dph2018` | `dph2018` or `cdc2025` for time out of school. |
+| `as_of` | today | |
+| `tracker_path`, `sheet` | | Log mode: a head injury log in `/data`. |
+| `write_plans` | false | Log mode: filled reentry plans and caregiver letters. |
+| `format`, `school_name`, `nurse_name`, `nurse_phone` | | Document options. |
+
+One student: a timeline (removal from play, parent contact, written notice and athletic
+director/nurse notification by the end of the next business day, Report of Head Injury form,
+reentry plan, the 4-week mark), DPH's return-to-learn stages, the DPH clearance form's six
+return-to-play stages with status, accommodations, a symptom-check schedule (twice weekly for two
+weeks after return, then weekly), forms with links and translations, danger signs, and flags
+(clearance before full-time classes without accommodations, stages without a symptom-free date or
+clearance, 4 weeks without a full academic load). Log mode checks each record (written notice and
+AD/nurse notice on time, form on file, reentry plan, clearance before return and after full
+academics, clearing provider type) and returns suppressed counts, including the 105 CMR 201.017
+statistics; per-student checks go to `/data/output/concussion_log_check_<date>.xlsx`. Business
+days skip weekends, not holidays.
+
+### `monitor_school_absenteeism` (SCH-06, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | Absences in `/data`: one row per absent student-day (Date, School, Reason) or daily counts (Date, School, Count, Reason or syndrome columns such as `ILI` and `GI`, Enrollment). |
+| `date_column`, `school_column`, `reason_column`, `count_column`, `enrollment_column` | found by name | Overrides. |
+| `group_column` | | Also look within grades, classrooms, or teams (at most 20 values; identifier columns refused). |
+| `syndromes` | `ili`, `gi`, `all_illness` | Also `rash`, `other_illness`, `total`. |
+| `end_date` | last date in the file | |
+| `report_days` | 5 | School days shown and checked for signals. |
+
+Reasons are sorted into influenza-like illness (CDC ILINet definition), gastrointestinal illness
+(DPH: vomiting or diarrhea above what is normal for the facility), rash, and other illness by
+keywords. EARS C1, C2, and C3 (`phn_epi::aberration`, as in `detect_aberrations`) run on each
+school's (and group's) daily series over the school days in the file, with a baseline SD floor of
+0.5 when counts are sparse. The answer lists signals, recent days (counts from 1 to the threshold
+shown as `<n`), and the notification rules: 105 CMR 300.134 (report a suspected cluster to the
+local board of health immediately), DPH's online gastrointestinal cluster form for schools and
+child care, and 606 CMR 7.11(9) for child care. Exact counts go to
+`/data/output/school_absenteeism_<date>.xlsx`. Names and IDs in the file are never read.
+
+### `build_school_health_annual_report` (SCH-07, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `visit_log_path`, `visit_log_sheet` | | Health office visits: Date, Reason, Disposition; optional Grade, Type (student/staff), 911 Type, Injury, Head Injury, Student ID (used only to count distinct students). |
+| `medication_log_path`, `medication_log_sheet` | | Doses: Date and Type (scheduled or PRN). |
+| `screening_path`, `screening_sheet` | | The roster `track_school_screenings` reads. |
+| `school_year` | current | e.g. `2025-2026`. |
+| `enrollment` | | For per-student rates. |
+| `school_name`, `summary_format` | | Report title; `docx` or `pdf`. |
+
+Visits are sorted into DPH's published categories (health maintenance, injury/first aid,
+mental/behavioral health, miscellaneous) and dispositions (returned to class, dismissed for
+illness or injury, 911 medical or behavioral, other). The workbook
+`/data/output/school_health_annual_<year>.xlsx` has monthly activities, medication doses,
+screenings (screened, referred, completed referrals), the BMI report (grade × sex × category)
+with DPH's height and weight data-quality ranges, the DPH reports a school may owe, and
+definitions; a school committee summary (`docx` or `pdf`) has suppressed aggregates and DPH's
+2011–2012 statewide returned-to-class rate for comparison. DPH does not publish its current Status
+Report form, so field names follow DPH's published categories; match them to DPH's forms.
+
+### `child_care_health_consultation_checklist` (SCH-08, toolset `school`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_type` | `large_group` | `family`, `small_group`, or `large_group`. |
+| `domains` | all | `health_policy`, `consultant`, `medication`, `care_plans`, `records`, `illness`, `infection_control`, `first_aid`, `safe_sleep`, `nutrition`, `staff_health`, `safety`. |
+| `findings` | | `[{item, status, note}]`, status `met`, `partial`, `not_met`, or `not_applicable`. |
+| `write_worksheet`, `worksheet_format` | false, `xlsx` | A visit worksheet in `/data/output`. |
+| `program_name` | | Worksheet title. |
+
+Items paraphrase 606 CMR 7.00 (Mass. Register #1459, 12/24/21) with the section cited and the
+evidence to look for, filtered by program type (for example the health care policy and
+consultant approvals in 7.11(19) apply to large group programs). Findings give counts by domain
+and a gap list.
+
+<!-- End of Phase 7 tools. -->
+
+## Phase 8: Maternal, child, and family health
+
+<!-- Phase 8 tools go below this line. -->
+
+### `calculate_growth_percentiles` (MCH-03, toolset `mch`)
+
+Percentiles and z-scores for a child's weight, length or height, BMI, and head circumference,
+using the charts CDC recommends: the **WHO 2006 growth standards from birth to 24 months** and
+the **CDC 2000 growth charts from 2 to 20 years**, with CDC's **2022 extended BMI-for-age**
+method above the 95th percentile.
+
+| Argument | |
+|---|---|
+| `sex` | `male` or `female` (required for one child). |
+| `measurements` | One or more visits, oldest first. Each visit gives an age (`age_days`, `age_months`, `age_years`, or `measurement_date` with `birth_date`) and at least one of `weight_kg` (or `weight_lb` + `weight_oz`), `length_or_height_cm` (or `_in`), `head_circumference_cm` (or `_in`); optional `position` (`recumbent` or `standing`). At most 60 visits. |
+| `birth_date` | Only needed with `measurement_date`. Dates are used to compute age and are not returned. |
+| `gestational_age_weeks`, `gestational_age_days` | Gestational age at birth. Under 37 weeks, corrected age is used until 24 months of chronological age (`correct_for_prematurity: false` turns this off). |
+| `measurements_path`, `sheet` | Batch mode: a CSV/XLSX in `/data` with one row per child-visit (`sex`; `age_months`/`age_days`/`age_years` or `date_of_birth` + `measurement_date`; `weight_kg`/`weight_lb`; `height_cm`/`height_in`; `head_circumference_cm`; `gestational_age_weeks`). |
+
+**Method** (CDC's SAS programs and data-file pages):
+
+- z = ((X/M)^L − 1)/(L·S); percentile = Φ(z). L, M, S are interpolated linearly: WHO by day of
+  age (CDC's daily WHO file) and by 0.1 cm of length; CDC between the half-month rows.
+- WHO weight, BMI, and weight-for-length z-scores beyond ±3 use the distance between the 2 and
+  3 SD values (WHO's restricted method). CDC uses ln(X/M)/S when |L| < 0.01.
+- Extended BMI (from 2 years): above the 95th percentile, percentile = 90 + 10·Φ((BMI − P95)/σ),
+  with σ = 0.3728 + 0.5196·age − 0.0091·age² (boys) or 0.8334 + 0.3712·age − 0.0011·age² (girls),
+  age in years; z = Φ⁻¹(percentile/100). The 2000-chart LMS z-score is also returned.
+- Flags: WHO values at or below the 2.3rd or at or above the 97.7th percentile (±2 SD, MMWR
+  2010); CDC values at or below the 5th or at or above the 95th; CDC BMI categories (underweight,
+  healthy weight, overweight, obesity, severe obesity class 2 at ≥120% of the 95th percentile or
+  BMI ≥35, class 3 at ≥140% or BMI ≥40); extreme values to re-measure (WHO z cut points and CDC
+  modified z-scores from CDC's SAS programs).
+- Several visits show the change in z-score and in the measurement since the previous visit.
+- Age 20 or older, length outside 45–110 cm for weight-for-length, head circumference after 36
+  months, and a corrected age before term are reported as "not scored" with the reason.
+
+**Batch mode** writes `growth_percentiles.xlsx` (per-row percentiles, z-scores, BMI, weight
+status, flags, and rows not scored, with any name and ID columns copied from the file) to the
+output folder and returns only weight-status counts by age group (WHO weight-for-length under 2;
+CDC BMI category from 2), with small-cell suppression.
+
+**Golden tests** (`crates/phn-tools/tests/growth_golden.rs`) reproduce every published percentile
+in CDC's 2000 data files (weight, stature, head circumference; relative error < 1e-7), all
+percentiles and z-score values in CDC's extended BMI file (to its 4 decimals), CDC's four worked
+extended-BMI examples, and WHO's published monthly L, M, S and ±3 SD values from the daily file.
+
+Sources: snapshots `who-growth-standards` (CDC's `WHOref_d.csv`) and `cdc-growth-charts` (CDC
+data files, verbatim); content `mch-growth-interpretation` (pending review). The corrected-age
+rule is **low confidence** (no CDC source states it; confirm the agency's rule).
+### `childhood_lead_screening_guide` (MCH-04, toolset `mch`)
+
+Massachusetts childhood lead screening and follow-up from **105 CMR 460.000** (Mass. Register
+#1353, 12/1/17) and DPH's Childhood Lead Poisoning Prevention Program (CLPPP) pages.
+
+| Argument | |
+|---|---|
+| `child_age_months` | Child's age: each required screening is shown as due now, upcoming, or past. |
+| `town` | Where the child lives: DPH's current high-risk list (rank) and the town's published screening rate and blood lead prevalence with state values. |
+| `blood_lead_level`, `sample_type` | A result in µg/dL and `capillary` or `venous` (required with a level). |
+| `risk_factors` | `household_poisoned`, `renovation`, `deteriorated_paint`, `clinical_judgment` (105 CMR 460.050(D)). |
+| `teaching_sheet`, `language` | Write a family teaching sheet (DOCX) to the output folder; see translations below. |
+
+**What it returns:** definitions (lead poisoning ≥10 µg/dL venous; blood lead level of concern
+5–<10; CDC reference value 3.5); the routine schedule (9–12 months, 2, 3, and 4 in a high-risk
+community; entry to child care, pre-K, or kindergarten); high-risk schedules; venous
+confirmation timing for capillary results (3.5–4.9 and 5–9: 3 months; 10–14: 1 month; 15–19:
+2 weeks; 20–44: 1 week; 45–69: 48 hours; ≥70: emergency care); provider, environmental, case
+management, and re-test actions by venous level (DPH's table); reporting (lead poisoning within
+3 working days; every result electronically within one week; confidentiality); the Lead Law;
+family teaching; CLPPP contacts and pediatric environmental health clinics.
+
+**High-risk communities:** the 17 communities on DPH's 2024 list (2020–2024 data, from the 2024
+Annual Childhood Lead Poisoning Surveillance Report), checked against snapshot
+`ma-lead-screening`. Update `content/mch/lead_screening.yaml` and the snapshot each year
+(`xtask/scripts/build_lead_snapshot.py`).
+
+**Translations:** the server ships an English teaching sheet only. For another language, put
+the agency's approved translation at `/data/templates/<language>/lead_family_teaching.docx` (used
+as is) or `.md` (rendered with your letterhead). `<language>` is the folder name you choose, for
+example `spanish` or `es` (common codes and names are both tried). If none is found, the
+English sheet is written and the result says so; the server does not machine-translate.
+
+Content: `mch-lead-screening` (pending review). DPH's follow-up table combines Massachusetts
+requirements with CDC's 2021 reference value and CDC's schedules; the tool says so.
+
+### `mandated_reporter_51a_guide` (MCH-07, toolset `mch`)
+
+Massachusetts reporting of suspected child abuse and neglect under **M.G.L. c. 119, s. 51A**
+(and the s. 21 definition of mandated reporter), with DCF's guidance.
+
+| Argument | |
+|---|---|
+| `topics` | Any of `who`, `when`, `how`, `contents`, `protections`, `definitions`, `domestic_violence`, `process`, `warning_signs`, `documentation` (default all). |
+| `concerns` | Kinds of concern to tailor the guidance: `physical_abuse`, `sexual_abuse`, `emotional_abuse`, `neglect`, `sexual_exploitation`, `human_trafficking`, `prenatal_substance_exposure`, `domestic_violence`, `child_death`. No names or details. |
+| `works_for_facility` | Adds the option to notify the person in charge (s. 51A(a)). |
+| `oral_report_time` | When DCF was called (`2026-11-08 14:30`): the written report is due 48 hours later. |
+| `narrative_template` | Return the written-report template: sections and field names following DCF's Child Abuse Reporting Form. |
+| `notes_path`, `sheet` | The nurse's notes in `/data`: a `.txt`/`.md` file of `Field name: value` lines (a value may continue on following lines; lines that do not start with a field name stay with the previous field) or a CSV/XLSX with one row per report and field names as columns. |
+
+**Template + local fill.** The template (no identifiers) is returned to the model. With
+`notes_path`, the tool fills `51a_written_report_draft.docx` per report in the output folder:
+each template field, `?` for unknown entries (as DCF's form asks), DCF's related-concerns
+checklist with the named items checked, and a signature line. The response lists only file
+names, the number of fields filled, and the names of fields left blank; label and column
+mismatches are counted, never shown. The privacy block lists the files and the identifier
+categories detected in the notes.
+
+**Content** (`mch-mandated-reporting`, pending review): who must report (nurses included); the
+four reporting grounds; that prenatal substance exposure alone does not meet the requirement
+(s. 51A(a)) and that DCF's guide still lists newborn drug dependence (flagged low confidence for
+the nurse to reconcile); the steps (911 if in danger; call the DCF area office or the
+Child-At-Risk Hotline 1-800-792-5200; written report within 48 hours online, by fax, or by mail;
+the facility designee option; police, Child Advocate, and DA/medical examiner for deaths);
+report contents (s. 51A(d) and DCF's additions); penalties and good-faith protections; DCF's
+definitions (110 CMR 2.00); domestic violence guidance; DCF's screening and response timelines;
+warning signs; and documentation tips.
+### `check_developmental_milestones` (MCH-02, toolset `mch`)
+
+CDC's "Learn the Signs. Act Early." milestones (the 2022 CDC/AAP revision, as published on
+cdc.gov, pages updated 2026-05-16) and Massachusetts Early Intervention referral.
+
+| Argument | |
+|---|---|
+| `age_months` | Child's age (2 months to 5 years; the checklist for the most recent age reached is used: 2, 4, 6, 9, 12, 15, 18, 24, 30, 36, 48, 60 months). |
+| `gestational_age_weeks` | Born before 37 weeks and under 24 months: the corrected-age checklist is shown too. |
+| `not_yet` | IDs of milestones the child does not yet do, from the checklist (`18m-language-1`). |
+| `lost_skills`, `concern` | Lost skills or other concerns (act early either way). |
+| `town` | The EI programs that serve the town (snapshot `ma-ei-programs`, DPH's directory of 2026-09-24). |
+
+**Returns** the checklist (ID, area, milestone, status) with CDC's source page and date; whether
+to act early and CDC's steps (talk with the doctor and ask about screening; ask for a specialist
+referral; request a free evaluation from EI under 3 or the public school district at 3 or older,
+with no doctor's referral needed); screening due (AAP: general at 9, 18, 30 months; autism at 18
+and 24 months, within 1.5 months of those ages, or now when there is a concern); Massachusetts EI
+eligibility, referral (anyone can refer), and cost (none to families); EI programs for the town
+with phone and website; CDC's questions to share with the doctor; and the next checklist age.
+
+Milestones are what 75% or more of children do by an age; the checklists are not a substitute
+for standardized screening. CDC does not say how to adjust for prematurity; the tool shows both
+checklists and defers to the child's provider. Content: `mch-developmental-milestones` (pending
+review; milestones transcribed word for word).
+### `plan_newborn_postpartum_visit` (MCH-01, toolset `mch`)
+
+A newborn and postpartum home visit plan: what to check and what to teach.
+
+| Argument | |
+|---|---|
+| `baby_age_days` | Baby's age at the visit (0-365). |
+| `gestational_age_weeks` | For context (the AAP jaundice guideline covers 35 weeks or more). |
+| `feeding` | `breast`, `formula`, or `mixed` (tailors the feeding points). |
+| `birth_weight_g` (or `_lb` + `_oz`), `weight_g` (or `_lb` + `_oz`) | Percent change from birth weight (reported, not judged). |
+| `discharged_within_24_hours` | Reminder that a second blood spot is due within 48 hours of birth. |
+| `hearing_screen` | `passed`, `not_passed`, `not_done`, `unknown`: follow-up reminder. |
+| `documents`, `language` | Write a visit plan (with check boxes and citations) and a family teaching sheet (DOCX) to the output folder. |
+
+**Sections:** feeding and weight (CDC: 8-12 feeds a day, formula amounts in the first days,
+vitamin D, hunger and fullness cues); jaundice (**low confidence**: the AAP 2022 guideline text
+could not be retrieved, so only general points and the discharge plan); safe sleep (CDC's page
+supporting the AAP 2022 policy and the policy abstract); car seat (M.G.L. c. 90, s. 7AA);
+newborn screening (105 CMR 270.007: blood spot at 24-48 hours, second specimen after early
+discharge, refusal only on religious grounds; M.G.L. c. 111, s. 67F hearing screen); postpartum
+health with CDC Hear Her's urgent maternal warning signs (up to a year after delivery).
+
+The plan and teaching sheet contain no information about the family. Translations follow the
+same rule as the lead teaching sheet: `/data/templates/<language>/newborn_postpartum_teaching.docx`
+or `.md`; otherwise English, and the result says so. Content: `mch-newborn-postpartum` (pending
+review).
+### `estimate_benefit_eligibility` (EQ-06, toolset `equity`)
+
+An **income screen, not an eligibility determination**, for WIC, SNAP, MassHealth, the Health
+Safety Net, and home energy assistance, from household size and gross income.
+
+| Argument | |
+|---|---|
+| `household_size` | People in the household (1-20). |
+| `annual_income` or `monthly_income` | Gross household income before taxes. |
+| `pregnant`, `unborn_children` | MassHealth counts the unborn child or children in household size. |
+| `child_under_5`, `infant_under_1`, `children_under_19`, `young_adult_19_20`, `postpartum_or_breastfeeding` | Which programs apply. |
+| `receives_snap_masshealth_or_tafdc` | WIC automatic income eligibility. |
+| `pays_for_heat` | HEAP applies to households that pay for heat (including heat in rent). |
+
+**Limits** (content `equity-benefit-eligibility`, pending review): 2026 HHS poverty guidelines
+(48 states and DC: $15,960 for one person plus $5,680 per additional person); WIC 185% of FPL
+(DPH table, June 11, 2026 - June 30, 2027; automatic with certain MassHealth plans, SNAP, or
+TAFDC); SNAP gross monthly income 200% of FPL and maximum benefits (DTA chart; assumed effective
+October 1, 2026); MassHealth (Member Booklet, standards effective March 1, 2026): pregnant
+people and infants under 1 at 200% (unborn counted), children 1-18 Standard at 150% and Family
+Assistance under 19 at 300%, young adults 19-20 at 150%, parents and caretakers at 133%,
+CarePlus adults 21-64 at 133%; Health Safety Net at 300% (no deductible up to 150%); HEAP at 60%
+of state median income (FY 2027 table, households of 1-10).
+
+**Returns** the percent of FPL, each program's limit for the household (monthly and annual),
+the screen result (likely income-eligible, over the limit, automatically income-eligible, or
+does not apply from the facts given), the tier (Family Assistance; HSN with or without a
+deductible), SNAP's maximum benefit, notes, how to apply, and each program's effective date.
+A unit test checks that the WIC and SNAP tables equal 185% and 200% of the poverty guidelines.
+**Refresh annually:** FPL in January, MassHealth March 1, WIC June/July, SNAP and HEAP October 1.
+### `map_lead_risk` (MCH-05, toolset `mch`)
+
+Ranks cities and towns (or census tracts) for childhood lead outreach and draws a map.
+
+| Argument | |
+|---|---|
+| `geography` | `town` (default) or `tract`. |
+| `county`, `towns` | Limit the areas in scope (for tracts: tracts whose main town is listed). |
+| `indicators` | `pre1950_housing`, `pre1980_housing`, `low_income` (below 200% of poverty), `children_under5`, and for towns `screening_gap` (100 − % of children 9-47 months screened) and `elevated_bll` (% of screened children with an estimated confirmed level of 5 µg/dL or more). Default: pre-1950 housing and low income, plus the two DPH screening measures for towns. |
+| `top` | Areas to list (default 20, at most 100). |
+| `map` | Draw a choropleth of the index (default true; SVG and PNG in `output/maps/`). |
+
+**Method:** the outreach index is the mean of the indicators' percentile ranks (0-100, ties
+averaged) among the areas in scope; an area missing a value (DPH's "NS") is ranked on the
+others. It is this server's planning ranking, not a DPH method; DPH's high-risk designation and
+its high-risk score (5-year incidence adjusted for low income and pre-1978 housing) are shown
+next to it, and designated communities outside the top list are named.
+
+**Data** (bundled snapshots): `ma-acs5-housing-age` (ACS 2020-2024 5-year B25034, built with
+`xtask/scripts/build_housing_age.py` from the keyless summary file; pre-1950 and pre-1980 with
+MOEs), `census-acs5-ma` (below 200% of poverty, under 5), and `ma-lead-screening` (DPH 2024
+surveillance report: screening and prevalence by community, high-risk list). ACS bins do not
+split at 1978. Statewide values are returned for comparison. No local data is read.
+### `maternal_infant_health_profile` (MCH-06, toolset `mch`)
+
+Births and maternal and infant health indicators for Massachusetts and its communities.
+
+| Argument | |
+|---|---|
+| `town` or `county` | Community profile: 2023 resident births, low birthweight %, preterm %, teen births. |
+| `by_race` | Statewide figures by race and Hispanic ethnicity (default true). |
+| `trends` | State trends (default true). |
+
+**Community indicators** are computed from DPH's counts (2023 Birth Report, Table 17) with exact
+Poisson 95% intervals (`phn_epi::rates`), flagged as unstable below 20 events, suppressed for
+DPH's 1-4 counts and below the configured threshold, and compared with the state ("higher" or
+"lower" only when the interval excludes the state value) and the U.S. **Statewide by race and
+Hispanic ethnicity** (2023): low birthweight, preterm, adequate prenatal care (APNCU),
+first-trimester care, cesarean, in-hospital breastfeeding; infant, neonatal, and postneonatal
+mortality (2022 Death Report, Table 5), each with the ratio to White non-Hispanic. **PRAMS**
+(2019-2021 report, weighted % with 95% CIs): depression screening (prenatal, postpartum),
+postpartum depressive symptoms, breastfeeding initiation and 8 weeks, back to sleep, no
+bed-sharing, no soft bedding, unintended pregnancy. **Trends:** low birthweight, preterm, and
+adequate prenatal care 2013-2023; infant mortality 2012-2022. **U.S.:** CDC NCHS provisional
+estimates (data.cdc.gov `76vv-a7x8`, 12 months ending 2024 Q4; `jqwm-z2g9`, 12 months ending
+2023 Q4), labeled with their periods.
+
+Data: snapshot `ma-maternal-infant`, built from DPH's annual reports and CDC's datasets by
+`xtask/scripts/build_maternal_infant.py` (CDC WONDER was blocked; DPH publishes no machine-readable
+town file). Community infant mortality and PRAMS are not published. No local data is read.
+<!-- End of Phase 8 tools. -->
+
+## Phase 9: PHN practice toolkit and case management
+
+<!-- Phase 9 tools go below this line. -->
+
+Phase 9 tools support everyday case management and documentation. Every content file they use is
+`status: pending` (review due 2027-02-01); see `docs/acceptance/phase-9.md` for the review
+checklist. Narrative notes and client lists are read locally and never returned.
+
+### `plan_tb_contact_investigation` (CD-11, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `index_case` | required | Clinical facts only: `site` (`pulmonary`, `laryngeal`, `pleural`, `extrapulmonary_only`), `symptomatic`, `afb_smear_positive`, `cavitary`, `chest_radiograph` (`consistent_with_tb`, `abnormal_not_consistent`, `normal`, `not_done`), `naa_positive`, `culture_positive`, `mdr_tb`, `age_years`, and dates: `symptom_onset_date`, `first_positive_finding_date`, `suspected_diagnosis_date`, `treatment_start_date`, `isolation_start_date`, `infectious_period_end_date`. |
+| `contact_groups` | | Counts and risk facts, never names: `setting` (`household`, `workplace`, `school`, `child_care`, `congregate_living`, `medical_procedure`, `health_care`, `social`, `travel`, `other`), `count`, `age_band` (`under_5`, `5_to_15`, `16_plus`), `medical_risk`, `exceeds_high_priority_limits`, `exceeds_medium_priority_limits`, `last_exposure_date`, `prior_positive_test`. |
+| `contact_file`, `sheet` | | A local contact list (columns such as Age or DOB, Household, Setting, Medical Risk, Last Exposure, Test1 Result, Test2 Result). |
+| `listed_date` | today | Starts the Table 3 time frames. |
+| `write_workbook`, `template_rows` | true, 50 | XLSX tracking workbook in `/data/output`. |
+
+Applies the 2005 NTCA/CDC guidelines (MMWR 54(RR-15)): whether to investigate; the infectious
+period (Table 2: 3 months before symptom onset or the first positive finding, whichever is
+earlier; 4 weeks before the suspected diagnosis for asymptomatic, smear-negative, noncavitary
+cases), the closing criteria, and the window to ask about; contact priority from the Figure 2-4
+decision trees; the initial-encounter and evaluation deadlines in business days (Table 3); and
+the testing schedule, including the retest 8-10 weeks after last exposure, window prophylaxis for
+children under 5, and full treatment for immunocompromised contacts. Adds DPH TB program phone
+numbers, reporting rules (TB disease immediately; positive LTBI tests online), and DPH's state TB
+clinics (those in the configured county first). The workbook has Y/N validation and formulas for
+priority, WORKDAY due dates, and the retest window. With `contact_file` the workbook is filled
+locally and the answer returns only suppressed counts by priority, tested/positive counts, and
+expansion signals (10% or more positive among high-priority contacts, infection under age 5,
+negative-to-positive changes, disease in a low-priority contact).
+
+### `ltbi_treatment_calendar` (CD-12, toolset `cd`)
+
+| Argument | Default | |
+|---|---|---|
+| `regimen` | required | `3HP`, `4R`, `3HR`, `6H`, `9H`, `6H_twice_weekly`, `9H_twice_weekly` (names such as "rifampin" also work). |
+| `start_date` | required | First dose, YYYY-MM-DD. |
+| `administration` | DPH's mode or self-administered | `dot`, `vdot`, or `sat` (twice-weekly regimens are DOT only). |
+| `twice_weekly_days` | Monday, Thursday | Dosing days for twice-weekly regimens. |
+| `doses_taken`, `as_of` | , today | Dose dates for the adherence check. |
+| `write_files` | true | XLSX adherence tracker and DOCX patient calendar in `/data/output`. |
+| `language` | English | Uses `/data/templates/<language>/ltbi_calendar.md` (placeholders `{{regimen}}`, `{{start_date}}`, `{{doses}}`, `{{completion_deadline}}`, `{{program_phone}}`) when present; otherwise English with a caveat. |
+
+Every dose date (weekly and twice-weekly regimens), monitoring visits (DPH's weeks 1, 5, and 9 for
+3HP; monthly otherwise), and the completion window: 11 of 12 3HP doses within 16 weeks with doses
+more than 72 hours apart; 120 4R doses within 6 months; 180 (6H) or 270 (9H) daily doses within 9
+or 12 months; 52 or 76 twice-weekly doses within 9 or 12 months (2000 ATS/CDC). No window is
+published for 3HR. The adherence check counts valid doses, finds gaps over 2 months (TB disease
+must be ruled out before resuming), and projects whether completion still fits the window. CDC
+(2020) and DPH positions are both shown; DPH's page lists 3HP, 4R, and 9H. Doses are never
+calculated (plan item CD-16).
+
+### `screen_health_related_social_needs` (EQ-05, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `answers` | list items | One person's answers by item id or question number (1-26, 23a, 23b): option keys or labels, numbers for items 7-10, 17, 18, 23a/b, a list for item 2. |
+| `age_years` | | Sets the physical activity threshold and the age limits of items 25-26. |
+| `path`, `sheet`, `group_by` | | Batch mode: a local file with one screening per row (columns by item id or q1-q26, optional Age); counts by an optional category column. |
+| `list_items` | false | Item ids, answer keys, sources, and reuse terms. |
+
+Scores the CMS AHC HRSN screening tool by domain using the answers CMS underlines: living
+situation, food, transportation, utilities, interpersonal safety (HITS items 7-10 summing to 11 or
+more), and the supplemental domains (financial strain, employment, family and community support,
+education, physical activity under 150 minutes a week for adults or 60 minutes a day for ages 6-17,
+substance use, mental health with PHQ-2 of 3 or more or any stress, disabilities). Positive
+domains map to Massachusetts referral categories (EA family shelter, Mass 211, HomeBASE, SNAP,
+WIC, HEAP, MassHealth ACO HRSN services, MassHire, 988). Item wording is returned only for
+public-domain items. Batch mode writes per-person results to
+`/data/output/hrsn_screening_results.xlsx` and returns suppressed counts by domain and group.
+
+### `omaha_system_coder` (CORE-01, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` or `path` | | A narrative to code (text, or a note file in `/data`: TXT, MD, DOCX, PDF, HTML). Never returned. |
+| `lookup` | | A problem, target, or intervention category by name or code. |
+| `ratings` | | Knowledge, Behavior, Status (1-5) per problem, with optional baseline ratings. |
+| `max_problems` | 8 | |
+| `write_care_plan` | false | Blank Omaha System care plan (DOCX) for the suggested problems. |
+
+Suggests Omaha System problems (42 in 4 domains, with codes, suggested modifiers, and
+signs/symptoms), intervention category and target pairs found in the same sentences, and the
+Knowledge-Behavior-Status scale. Negated phrases ("denies fever") are not counted. The result has
+codes and the vocabulary terms that matched, never the note's words. Signs/symptoms not seen on
+omahasystem.org are marked unverified.
+
+### `classify_intervention_wheel` (CORE-02, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `activities` | list the Wheel | Short activity descriptions (returned by number only). |
+| `path`, `sheet`, `activity_column`, `hours_column`, `group_by` | | Classify an activity log; per-activity results go to `/data/output`; counts and hours by intervention, level, and group are returned with suppression. |
+
+Classifies activities by the 17 interventions, 5 wedges, and 3 levels of practice of the Public
+Health Intervention Wheel, with definitions and confidence (MDH's own page could not be fetched;
+four definitions are low confidence).
+
+### `nursing_documentation_template` (CORE-03, toolset `core`)
+
+| Argument | Default | |
+|---|---|---|
+| `format` | `soap` | `soap`, `dar`, or `narrative`. |
+| `visit_type` | `home_visit` | `home_visit`, `clinic`, `case_investigation`, or `dot_visit`. |
+| `check_path` | | A note in `/data` to check for the required elements (text never returned). |
+| `skip_elements` | | Element ids to leave out (for example `consent`). |
+| `write_template` | false | DOCX and Markdown template in `/data/output`. |
+
+Section prompts, visit-specific prompts, and required elements: date and time, signature with
+credentials (244 CMR 9.03(44)), consent, language and interpreter, assessment, interventions,
+teaching with teach-back, response, goals, follow-up, and visit-specific items (safety for home
+visits; reporting, control measures, and contacts for case investigations; dose observed and
+side-effect screen for DOT). 42 CFR 484.110 and 484.50 are cited as a reference standard. The
+note check returns found/missing per element, the section where each was found, and counts of
+identifier kinds.
+
+### `find_community_resources` (EQ-07, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Massachusetts city or town. |
+| `service` | | Category (food, housing, utilities, transportation, primary_care, dental, behavioral_health, substance_use, safety, legal_immigration, employment, education, child_family, older_adults, disability) or any words. |
+| `language`, `open_on`, `open_at` | | Language offered; weekday or "today"; HH:MM. |
+| `include_county`, `include_health_centers` | true, true | |
+| `directory_path`, `sheet` | `resources/community_resources.csv` | The nurse's directory. |
+| `max_results` | 15 | At most 50. |
+
+Searches the nurse's directory (columns: name, services, town, address, phone, website,
+languages, hours such as "Mon-Fri 9:00-17:00; Sat 10:00-14:00" or "24/7", eligibility, cost,
+last_verified) and HRSA-funded health center sites (data.hrsa.gov download filtered to
+Massachusetts, cached a week, snapshot `hrsa-health-centers-ma` offline). Ranks same town, then
+same county; flags entries verified more than 12 months ago. Files that look like client lists
+(names, dates of birth, record numbers) are refused.
+
+### `newcomer_health_navigator` (EQ-11, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `topics` | all | `screening`, `programs`, `coverage`, `shelter`, `all`. |
+| `status` | | Immigration status for coverage (refugee, asylee, cuban_haitian_entrant, special_immigrant_visa, trafficking_victim, withholding_of_removal, cofa_migrant, lpr_5_years_or_more, lpr_under_5_years, parolee_1_year_plus, parolee_under_1_year, temporary_protected_status, asylum_applicant_with_work_permit, asylum_applicant_no_work_permit, daca, nonimmigrant_visa, undocumented). |
+| `age_years`, `pregnant`, `disabled` | | Age rules for screening and coverage. |
+| `arrival_date`, `as_of` | , today | The 90-day screening window. |
+| `preferred_language` | | Interpreter reminder; agency checklist translation from `/data/templates/<language>/newcomer_checklist.md`. |
+| `write_checklist` | false | Blank screening checklist (DOCX). |
+
+CDC domestic refugee screening components with age rules (TST under 2, IGRA 2 and older; lead for
+16 and younger with a repeat at 3-6 months for 6 and younger; HIV 13-64; hepatitis B for all and C
+for adults), DPH and ORI programs (RHAP, RHPP, Refugee Medical Assistance), MassHealth coverage by
+immigration status including the October 1, 2026 federal changes (EOM 26-10: adult refugees,
+asylees, and several other statuses move to MassHealth Limited/Health Safety Net or Family
+Assistance; children under 21 and pregnant or postpartum people are protected), and Emergency
+Assistance family shelter and basic-needs resources.
+
+<!-- End of Phase 9 tools. -->
+
+## Phase 10: Healthy aging and mental health screening
+
+<!-- Phase 10 tools go below this line. -->
+
+All Phase 10 reference content is in `content/bh/` and `content/aging/`, drafted on 2026-11-08
+and 2026-11-09 from the cited sources, `status: pending` (review due 2027-02-01). Town
+directories are dated snapshots built by `cargo xtask build-service-directories`; nursing home
+data by `cargo xtask build-nursing-home-snapshot`; older-adult ACS tables by
+`cargo xtask build-older-adult-snapshots`.
+
+### `score_mental_health_screen` (MH-02, toolset `bh`)
+
+Scores a free screening instrument from its item responses: PHQ-2, PHQ-9, GAD-2, GAD-7,
+Edinburgh Postnatal Depression Scale (EPDS), NIMH Ask Suicide-Screening Questions (ASQ), or the
+C-SSRS screener. It never diagnoses.
+
+| Argument | Default | |
+|---|---|---|
+| `instrument` | none (lists instruments) | `phq2`, `phq9`, `gad2`, `gad7`, `epds`, `asq`, `cssrs_screener` (aliases such as "PHQ-9" work). |
+| `responses` | | Item answers in order: numbers, `true`/`false`, or text ("yes", "several days", "skipped"). |
+| `epds_entered_as` | `scores` | `option_positions` to enter the position of the chosen answer; the tool reverse-scores items 3 and 5-10. |
+| `age_years`, `refused` | | ASQ: a youth's (under 18) refusal is a non-acute positive screen; an adult's is not. |
+| `asq_attempt_within_12_months`, `asq_bssa_documented_since_attempt` | | ASQ item 4 follow-up (the past-attempt exception). |
+| `cssrs_behavior_past_3_months` | treated as yes when unknown | C-SSRS item 6 follow-up. |
+| `difficulty` | | PHQ-9 functional difficulty (recorded, not scored). |
+| `file`, `sheet` | | A CSV/XLSX of screens in `/data` (columns `q1`..`qN`); per-row results go to `/data/output`, rows with alerts first. |
+
+Returns the total, severity band, outcome (`negative`, `positive`, `acute_positive`,
+`non_acute_positive`, `positive_acuity_unknown`, `no_risk`/`low_risk`/`moderate_risk`/`high_risk`,
+`incomplete`), each item, missing items, the published cutoff with its citation, and **safety
+alerts** with cited steps: PHQ-9 item 9 or EPDS item 10 above zero (same day, whatever the
+total), ASQ acute (immediate) and non-acute positive (brief suicide safety assessment, safety
+plan, follow-up within 72 hours), and C-SSRS high, moderate, or low risk. 988 and the Crisis
+Text Line are given to everyone screened for suicide risk. Item wording is bundled only for the
+public-domain NIMH ASQ; PHQ/GAD, EPDS, and C-SSRS items are listed by topic and their license
+terms are recorded. File mode returns suppressed counts by outcome and the number of rows with a
+safety alert. Golden tests: `crates/phn-tools/tests/screening_golden.rs`.
+
+### `find_crisis_resources` (MH-01, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Massachusetts city or town. |
+| `audience` | `all` | `youth`, `adult`, or `all`. |
+| `language` | | A preferred language; the answer says how to reach each line in it. |
+
+Lists 911 (immediate danger), the 988 Suicide and Crisis Lifeline (call, text, chat; Spanish,
+interpretation in 240+ languages, ASL videophone, TTY, veterans), the Massachusetts Behavioral
+Health Help Line (833-773-2445, call or text, 200+ languages), Mobile Crisis Intervention for
+youth and adults (877-382-1609), the Crisis Text Line, and the town's Community Behavioral
+Health Center(s) from mass.gov's listing (`cbhc_match`: `listed`, or `same_county` when no
+published "Serving" list names the town). Says which line to use when. No warmline is listed
+because none could be verified.
+
+### `steadi_fall_risk_assessment` (AGE-01, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `stay_independent` | The 12 Stay Independent answers (yes = true). At risk at 4 points or more, or any fall in the past year. |
+| `unsteady`, `worries_about_falling`, `fell_past_year` | The three key questions (alternative screen). |
+| `falls_count`, `fall_injury` | Fall history. |
+| `age_years`, `sex` | For CDC's 30-Second Chair Stand below-average scores (ages 60-94, men and women). |
+| `tug_seconds`, `tug_observations` | Timed Up and Go (12 seconds or more = at risk) and gait observations. |
+| `chair_stands`, `chair_used_arms` | 30-Second Chair Stand (using arms scores 0). |
+| `balance_seconds` | 4-Stage Balance Test times in order (tandem under 10 seconds = increased risk). |
+| `orthostatic` | Lying and standing blood pressures and symptoms (drop of 20 systolic or 10 diastolic, or symptoms = abnormal). |
+| `other_risk_factors`, `home_hazards` | Medications, vision, feet, vitamin D, ...; hazards matched to CDC's Check for Safety fixes (`all` for the whole checklist). |
+| `plan_format` | `docx` or `pdf`: a fall prevention plan in `/data/output` (no names). |
+
+Returns the screen, each test against CDC's threshold, the risk factors with their evidence, the
+STEADI intervention plan by factor, assessments still to do, prevention (when not at risk),
+follow-up (30-90 days when at risk), home-safety fixes, and CDC's test procedures.
+
+### `elder_protective_services_guide` (AGE-03, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `age_years`, `has_disability`, `setting` | Routes to Adult Protective Services (60+, community; 800-922-2275), DPPC (18-59 with a disability; 800-426-9009), or DPH (abuse by nursing home or hospital staff; 800-462-5540). |
+| `concern` | Physical, sexual, emotional, caregiver neglect, financial exploitation, or self-neglect. |
+| `emergency`, `reporter_role` | Emergency steps; whether the role is a mandated reporter. |
+| `details_file`, `sheet`, `format` | Template + local fill: one row per report in `/data`; narratives go to `/data/output` only. |
+
+Returns the pathways, mandated reporter lists (M.G.L. c.19A s.15, c.19C s.1), duties (verbal
+report immediately, written within 48 hours), what a report contains (s.15(e)), timelines
+(review within 48 hours, emergency assessment within 24 hours, investigation within 30 days,
+written notice to the reporter within 45 days), definitions, signs by type, self-neglect,
+protections and penalties, and the report-narrative template with its column names. Identifying
+details are never accepted as arguments.
+
+### `find_ma_aging_services` (AGE-02, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `town` | Default: the configured town. |
+| `needs` | Any of `home_care`, `meals`, `insurance`, `caregiver`, `dementia`, `protective`, `long_term_care`, `community`, `information` (default all). |
+
+Returns the town's Aging Services Access Point (Boston: three, by neighborhood), Council on Aging
+(how to reach it; contacts are not bundled), SHINE office and phone, senior nutrition project,
+statewide lines (MassOptions, MassRelay, elder abuse hotline, Long-Term Care Ombudsman,
+Alzheimer's Association helpline, SHINE for Chinese speakers), and program descriptions.
+
+### `explain_older_adult_coverage_options` (AGE-04, toolset `aging`)
+
+All arguments are optional: `age_years`, `household_size`, `monthly_income`,
+`countable_assets`, `has_medicare_a_and_b`, `has_masshealth_standard`, `has_disability`,
+`nursing_home_level_of_care`, `living` (`community`, `assisted_living`, `nursing_home`),
+`has_private_insurance`, `town`.
+
+Returns Medicare 2026 premiums, deductibles, coinsurance, and income-related Part B premiums
+(CMS), the Part D out-of-pocket threshold, MassHealth's FPL figures (effective March 1, 2026),
+and for each program (Medicare Savings Programs, MassHealth 65+, Frail Elder Waiver, PACE, SCO,
+One Care) its rules and a screen (`likely_eligible`, `may_be_eligible`, `probably_not_eligible`,
+`need_more_information`) with reasons, the MSP level (QMB at or below 190% FPL, SLMB/QI at or
+below 225%), and PACE availability in the town's county. Not an eligibility decision.
+
+### `nursing_home_quality_lookup` (AGE-06, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `name`, `ccn`, `town`, `county` | configured town | Filters (names are fuzzy-matched). |
+| `statewide` | false | Statewide summary. |
+| `sort_by` | `name` | `overall_rating`, `staffing`, `infection_control`, `staff_flu_vaccination`. |
+| `limit` | 25 | |
+| `include_citations` | when 5 or fewer | Infection control citations (three years). |
+
+Live from the CMS Provider Data Catalog (Provider Information 4pq5-n9py, Health Deficiencies
+r5ix-sfxw, SNF QRP fykj-qjee, MDS Quality Measures djen-97ju, State/US Averages xcdc-v8bm),
+cached for a day, with the `cms-ma-nursing-homes` snapshot offline. Returns star ratings,
+staffing hours and turnover, inspections, fines and penalties, Special Focus and abuse flags,
+infection control F-tags with scope and severity, staff and resident COVID-19, flu, and
+pneumococcal vaccination, and Massachusetts and U.S. averages.
+
+### `map_older_adult_vulnerability` (AGE-05, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town | City or town, "X County", tract GEOID, or "Massachusetts". |
+| `subareas` | tracts for a town; towns otherwise | `tract` or `town`. |
+| `rank_by` | `composite` | `living_alone`, `disability`, `no_vehicle`, `limited_english`, `poverty`. |
+| `limit` | 15 | Sub-areas listed (the map shows all). |
+| `map` | false | Choropleth SVG and PNG in `/data/output` (via `create_choropleth_map`). |
+
+Returns the area's five indicators with 90% margins of error, counts, reliability flags (CV over
+30%), and Massachusetts and U.S. values; the age profile (Phase 4 ACS adapter, live with a
+Census key); and sub-areas ranked by the chosen indicator or by how many of the five exceed the
+state value. ACS 2020-2024 tables B09020, B25045, B16004, B17001, and C18108.
+
+### `advance_care_planning_toolkit` (AGE-07, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `session_minutes` | 60 | Scales the facilitator script (20-240). |
+| `materials_format` | none | `docx` or `pdf`: facilitator script, handout, and blank proxy in `/data/output`. |
+| `details_file`, `sheet`, `format` | | Template + local fill of health care proxies, one row per person, with an optional `Language` column. |
+
+Returns health care proxy rules from M.G.L. c.201D (witnesses, who can be an agent, when
+authority starts, revocation), the proxy template and its fields, what to do after signing, MOLST
+status (not verified; the old molst-ma.org domain is no longer the program's site), a link to The
+Conversation Project, the session script, and the handout. Agency translations of the proxy go in
+`/data/templates/<language>/health_care_proxy.md`; rows in a language without one use English,
+and the result counts them by language.
+
+<!-- End of Phase 10 tools. -->
+
+## Phase 11: Substance use, crisis resources, and health communication
+
+<!-- Phase 11 tools go below this line. -->
+
+### `check_readability` (COMM-01, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` or `path` | required | The draft as plain text or Markdown, or a DOCX, HTML, PDF, TXT, or Markdown file in `/data`. |
+| `target_grade` | 8 | Reading grade to aim for (a tool default; set your agency's standard). |
+| `cci_answers` | | Your CDC Clear Communication Index answers: `"1"`–`"20"` → `yes`/`no` (`na` for 19 and 20), plus `"C"` and `"D"` → `yes`/`no` for whether Parts C (numbers) and D (risk) apply. |
+| `max_flags` | 10 | Most flags listed per kind (max 50). |
+
+Counts words, sentences, and syllables (headings excluded; each list item is a sentence;
+hyphenated words count once) and reports Flesch Reading Ease, Flesch-Kincaid, SMOG (formula and
+CDC's conversion table), and Gunning Fog, with the median grade against the target and Fry's
+per-100-word averages. Flags sentences over 20 words (CDC plain language checklist; ODPHP Health
+Literacy Online), jargon from CDC's *Everyday Words for Public Health Communication* (124 terms,
+with CDC's alternatives and before/after examples), possible passive voice, acronyms not spelled
+out at first use, paragraphs over 5 sentences, lists over 7 items, negative instructions, and
+numbers. The Clear Communication Index is scored from the nurse's answers following CDC's score
+sheet (90 or higher passes); until every applicable item is answered, the tool shows its own
+suggestions for the items it can judge (lists, headings, jargon, numbers). Excerpts quoted from a
+file pass through the identifier redactor, and words that could be names are never listed.
+Golden tests: CDC *Simply Put*'s SMOG table and hepatitis A Fry example, and the score sheet's
+arithmetic (`crates/phn-tools/tests/readability_golden.rs`).
+### `get_overdose_data` (MH-03, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town, else Massachusetts | A city or town, a county, or `Massachusetts`. |
+| `compare_with` | | Up to 5 other towns or counties. |
+| `basis` | `residence` | Town counts by `residence` (DPH Table 1) or `occurrence` (Table 2). |
+| `drug` | `all` | State and U.S. drug class: `all`, `opioids`, `synthetic_opioids` (fentanyl), `heroin`, `prescription_opioids`, `methadone`, `cocaine`, `stimulants`. |
+| `months` | 13 | 12 month-ending CDC periods to list (max 60). |
+
+Towns: DPH's *Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022*
+(posted June 2023, the latest town table DPH published as a document; bundled snapshot), with a
+2018-2022 average annual rate per 100,000 (ACS 2020-2024 population, exact Poisson interval),
+compared with the state. No rate is given for fewer than 5 deaths (DPH's rule in its 2024
+report); rates on fewer than 20 deaths are flagged unstable. Counties: CDC/NCHS provisional 12
+month-ending drug overdose deaths by county of residence (`gb4e-yj24`; counts of 1-9 suppressed
+by NCHS). State and U.S.: CDC/NCHS provisional counts by drug class (`xkb8-kh2a`, by state of
+occurrence), with the change from a year earlier. Both CDC datasets are live → cache → snapshot.
+Adds DPH's statewide findings for 2024 (March 2026 report, with pages) and a link to the BSAS
+dashboard for newer town data.
+
+### `get_youth_risk_behavior_data` (MH-07, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | mental health and suicide | Words such as `sad or hopeless`, `suicide`, `self-harm`, `bullied`, `vaping`, `alcohol`, `marijuana`, `belong at school`. |
+| `school_level` | `high` | `high`, `middle`, or `both`. |
+| `by` | all | Any of `sex`, `grade`, `race_ethnicity`, `lgbtq`. |
+| `survey` | both | `MYHS` or `MYRBS`. |
+| `compare_us` | true | Add CDC YRBS mental health estimates for Massachusetts and the U.S. |
+| `max_indicators` | 8 | Max 25. |
+
+Massachusetts indicators come from DPH's report tables (bundled): the Massachusetts Youth Health
+Survey 2025 (April 2026) and 2023, and the 2023 joint MYHS/YRBS report (305 indicators, 3,565
+estimates with 95% confidence intervals; `**` estimates DPH did not present stay suppressed).
+Groups are compared with male, White, and straight/cisgender students, and a difference is shown
+only when the 95% intervals do not overlap (DPH's rule); the same indicator two years earlier is
+compared the same way. CDC's YRBSS mental health indicators (`nu3s-3dwd`, 2019-2023, live → cache →
+snapshot) compare Massachusetts with the national YRBS. Suicide-related answers include DPH's 988
+Lifeline text and a safe-messaging reminder.
+
+### `find_naloxone_and_harm_reduction` (MH-04, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | For syringe service program approval and approved towns in the same county. |
+| `include_teaching_script` | true | |
+| `handout` | none | `docx`: an accessible Word handout of the script, access options, and help lines in `/data/output`. |
+
+From `content/bh/substance_use_resources.yaml`: ways to get naloxone (pharmacy counter under the
+statewide standing order with insurance including MassHealth and no MassHealth co-pay; BSAS
+distribution programs; home delivery through You Can Save a Life; agency purchasing), the
+standing order's five preferred formulations and directions (signed July 13, 2026), pharmacy
+duties (Board of Pharmacy Policy 2024-01), legal protections (c. 94C §§ 19B, 34A), whether the
+town's board of health approved a syringe services program (DPH's list; c. 111 § 215), fentanyl
+test strip facts (CDC; the legal status is marked unverified), overdose risk factors, contacts
+(Substance Use Helpline, Never Use Alone line, 988), and an 8-step teaching script citing DPH's
+OEND core competencies, the standing order, and CDC. DPH's site maps cannot be read, so they are
+linked. Decision support.
+
+### `find_substance_use_treatment` (MH-05, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Search center (the town's label point, converted from MassGIS state plane to latitude/longitude). |
+| `radius_miles` | 15 | 1 to 75. |
+| `services` | | All must match: `methadone` (opioid treatment program), `buprenorphine`, `naltrexone`, `withdrawal_management`, `residential`, `outpatient`, `intensive_outpatient`, `recovery_support`, `sober_housing`, `adolescents`, `pregnant_postpartum`, `co_occurring`, `veterans`. |
+| `payment` | | `masshealth` (Medicaid), `medicare`, `private`, `self_pay`, `sliding_fee`. |
+| `language` | | `spanish`, `asl`, or another language (`portuguese`, `creole`, `vietnamese`, ...). |
+| `max_results` | 15 | Max 50. |
+
+SAMHSA's FindTreatment.gov locator API (`phn_data::findtreatment`; distance search, substance
+use facilities) through live → cache → a bundled statewide copy (`samhsa-findtreatment-ma`, 341
+facilities; distances computed from the town center when it is used). Returns each facility's
+address, phones, website, miles, medications for opioid use disorder, settings, payment, and
+languages, plus the Massachusetts Substance Use Helpline, 988, and FDA's MOUD categories.
+
+### `plan_school_postvention` (MH-06, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `cause_status` | `unconfirmed` | `unconfirmed`, `ruled_suicide`, or `family_declined_disclosure`; chooses the student and parent templates. |
+| `phase` | `all` | `first_24_hours`, `first_week`, `ongoing`. |
+| `messages` | staff meeting, student notification, parent letter | Also `media_statement`, `social_media_post`. |
+| `draft_text` or `draft_path` | | A draft to check against the safe-messaging rules. |
+| `details_path` | | CSV/XLSX in `/data` whose columns match the placeholders; each row fills the templates as Word files in `/data/output`. |
+
+Steps (16, by phase, with page numbers) and talking points paraphrase AFSP/SPRC *After a
+Suicide: A Toolkit for Schools* (2nd ed., 2018). The templates are this project's own drafts that
+follow the toolkit's structure (the toolkit allows copying with credit, but adapting or
+excerpting needs EDC's permission; the license is recorded in the content), use 988, and pass the
+safe-messaging rules. The safe-messaging check (`content/comms/safe_messaging.yaml`, shared with
+the communication tools) flags method or scene details, outdated language, single causes,
+glamorizing, sensational words, PA or assembly announcements, and memorials on school grounds,
+and missing help resources or hope; findings cite sentence numbers and never repeat method
+words. Local fill follows the template + local fill rule: names are never arguments and never
+returned. Decision support.
+
+### `translate_health_material` (COMM-02, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `source_text` or `source_path` | | The English source (excerpts from a file are redacted). |
+| `language` | | Target language (31 recognized, e.g. Spanish, Portuguese, Haitian Creole, Cape Verdean Creole, Vietnamese, Chinese (Simplified/Traditional), Arabic, Khmer). |
+| `glossary_path` | | Agency glossary CSV/XLSX in `/data`: `english` plus one column per language (name or code), or `english`, `language`, `translation`. |
+| `translation_text` or `translation_path` | | A translated draft to check. |
+| `back_translation_text` or `back_translation_path` | | An English back-translation by someone other than the translator. |
+| `town` | configured town | For language priorities (EQ-03, ACS limited English proficiency). |
+| `material_name` | | File stem to look for in `/data/templates/<language>/`. |
+| `worksheet` | none | `xlsx`: a review worksheet (segments, draft, back-translation, comments, approval) in `/data/output`. |
+
+No translations are bundled (product-owner decision). The tool reports agency-approved
+translations found in `/data/templates/<language>/` (expected layout: one folder per language,
+named by language or code, holding files named like the English material), builds a translator
+brief (numbered segments; approved glossary terms in the source; numbers, phone numbers, times,
+web and email addresses that must carry over), checks a draft for missing glossary terms and
+changed numbers or phones, and compares a back-translation with the source (sentence count and
+coverage, negations, glossary terms). Every result carries the label "DRAFT TRANSLATION - for
+review by a qualified translator" and CDC *Simply Put*'s translation steps and pitfalls. Script
+notes point to DOCX for scripts the PDF writer cannot render (ADR 0003).
+
+### `create_social_media_campaign` (COMM-03, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | required | e.g. `flu vaccine`, `naloxone`, `lead poisoning`. |
+| `platforms` | facebook, instagram, x | Also `linkedin`, `bluesky`, `threads`. |
+| `start_date`, `weeks`, `posts_per_week` | today, 4, 2 | Max 26 weeks and 7 posts a week. |
+| `posts` | | Draft posts to check: `platform`, `text`, `alt_text`, `has_image`, `date`. |
+| `observances_path` | | Your own observance calendar (CSV/XLSX: `name`, `start`, `end`). |
+| `char_limits` | | Override platform limits, e.g. `{"x": 280}`. |
+| `target_grade` | 8 | |
+| `export` | none | `xlsx` calendar with posts and issues in `/data/output`. |
+
+Plans posting slots (Tuesday and Thursday first) and ties them to related observances (20 bundled
+observances with date rules, marked unverified because ODPHP's National Health Observances pages
+were unavailable; or the agency's own calendar). Checks drafts for platform length (links on X
+counted as 23 characters), alt text (WCAG 1.1.1; no "image of"), CamelCase hashtags, hashtag
+count, emoji, words in capitals, reading grade and jargon (COMM-01 engine), and safe messaging when
+the post is about suicide. Platform limits could not be verified from this environment and are
+overridable.
+
+### `draft_press_materials` (COMM-04, toolset `comms`)
+
+| Argument | Default | |
+|---|---|---|
+| `kind` | `press_release` | `media_advisory`, `talking_points`, `qa`. |
+| `headline`, `facts` (`who`, `what`, `when`, `where`, `why`, `how`) | | |
+| `key_messages`, `call_to_action`, `quotes` (`speaker`, `text`) | | Quote officials only. |
+| `contact` (`name`, `phone`, `email`, `after_hours_phone`) | | |
+| `release_date`, `embargo_until` | today, none | No embargo gives "For immediate release". |
+| `draft_text` | | Check an existing draft instead of the built structure. |
+| `export` | none | `docx` in `/data/output`. |
+
+Builds the structure from the facts with `[BRACKETED]` gaps listed, then checks it (or a draft)
+against CDC's CERC *Working with the Media* (2018): contact block, date, release time or embargo,
+5 Ws, headline, one page, sentences of 20 words or fewer, no loaded words, and a privacy check for
+client identifiers; adds the reading grade, safe messaging for suicide topics, CERC's six
+principles, and the CERC wallet card's questions for a spokesperson Q&A.
+
+<!-- End of Phase 11 tools. -->
+
+## Phase 12: Emergency preparedness I: situational awareness and planning
+
+<!-- Phase 12 tools go below this line. -->
+
+### `get_active_hazard_alerts` (EPR-05, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county ("Bristol County"), or "Massachusetts". |
+| `guidance_for` | | Hazards to plan for without an active alert (`extreme_heat`, "winter storm", "Hurricane Warning", ...). |
+| `include_marine` | false | List alerts for coastal waters only. |
+| `include_declarations` | true | FEMA disaster declarations. |
+| `declaration_years` | 10 | Years of declarations listed (1–75). |
+
+Live NWS alerts (`api.weather.gov/alerts/active?area=MA`, cached five minutes, never from a
+snapshot) are filtered to the area by county FIPS from each alert's SAME codes; cancelled, test,
+and marine-only alerts are left out. Each NWS event maps to a hazard in
+`content/epr/hazard_health_actions.yaml` with cited health effects, at-risk groups, public
+health actions, and public messages (CDC topic pages, MEMA safety tips, CDC PHEP capabilities),
+plus the follow-on power outage and carbon monoxide risks. FEMA declarations come from OpenFEMA
+(live, cached a day, bundled snapshot fallback), grouped by declaration, with counts by incident
+type since 1953. When alerts cannot be reached the first caveat says so in capitals.
+
+### `model_dispensing_site_throughput` (EPR-02, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `population` | required | People who need the countermeasure. |
+| `model` | `oral_prophylaxis` | Or `vaccination`. |
+| `sites` | 1 | Sites open at once. |
+| `operating_hours` or `arrivals_per_hour` | one required | Hours each site is open to reach everyone, or arrivals per site per hour. |
+| `regimens_per_visit` | 1 | Head-of-household pickup. |
+| `stations` | model defaults | Overrides per station: `minutes_per_client`, `fraction_of_clients`, `staff` (to evaluate a plan), or new stations. |
+| `max_utilization`, `target_wait_minutes` | 0.85, 10 | Sizing targets (tool defaults). |
+| `hours_open_per_day`, `shift_hours`, `support_staff_per_shift`, `surge_factor` | 12, 6, 0, 1.25 | Calendar, shifts, and surge check (tool defaults). |
+| `worksheet` | false | Staffing XLSX in `/data/output`. |
+
+Each station is an M/M/c queue (`phn_epi::queueing`): arrivals λ × share of clients, service
+rate 60 ÷ minutes, Erlang C probability of waiting through the Erlang B recursion, mean wait
+Wq = C/(cμ − λ), line length, P(wait > target), and capacity. Sizing picks the fewest staff with
+utilization ≤ the maximum and Wq ≤ the target. Site capacity is the bottleneck station's;
+hours needed = visits ÷ (sites × served per hour); people inside come from Little's law.
+Golden tests: exact rational values and the County Hospital example in Hillier and Lieberman.
+Definitions and activation elements are from CDC PHEP Capability 8; station times are tool
+defaults (the AHRQ and CDC planning guides with published times could not be retrieved).
+
+### `air_quality_protective_guidance` (ENV-02, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town (nearest reporting area), county (each town's nearest area), or the state (all 11 areas). |
+| `aqi`, `pollutant` | | Guidance for an AQI you already have. |
+| `concentration`, `pollutant`, `ozone_averaging` | | Convert a concentration to an AQI. |
+
+Current NowCast, yesterday's, and forecast AQI per pollutant come from AirNow's public
+reporting-area file (no key; Massachusetts forecasts by MassDEP); with `PHN_AIRNOW_API_KEY` the
+AirNow API is tried first (untested: the host was unreachable when built). Guidance is for the
+worst category among the current reading and the forecasts for today and tomorrow: EPA levels
+of health concern, pollutant-specific sensitive groups, and actions for sensitive groups, the
+public, schools (EPA-456/F-14-003, transcribed), and outdoor events (summaries, medium
+confidence). AQI conversion uses 40 CFR 58 Appendix G (2024 PM2.5 breakpoints), truncation, and
+Equation 1; tests reproduce the appendix's worked example. Offline, every category's actions
+are listed.
+
+### `heat_health_action_planner` (ENV-01, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | Town or county. |
+| `plan_for_level` | forecast peak | HeatRisk level 0–4 to plan for. |
+| `cooling_centers_path` | | CSV/XLSX in `/data` (name, address, town, hours, phone, accessible, pets, notes); rows go to the checklist only. |
+| `checklist` | true | DOCX checklist in `/data/output`. |
+
+The 7-day NWS HeatRisk is read from WPC's KML ground-overlay PNGs (palette index = level) and
+sampled over the town or county boundaries (EPSG:26986 ↔ latitude/longitude, point in polygon);
+the NWS point forecast is for the town (or the county's most populous town); heat alerts come
+from the NWS API. The heat-vulnerable population combines ACS (65+, 85+, under 5, disability,
+poverty, no vehicle, limited English, no internet, renters), CDC PLACES adult prevalence (town
+values are tract-weighted), SVI tracts in the top quarter, and HHS emPOWER. Activation steps are
+cumulative to the level; the checklist adds outreach scripts, schools and child care, outdoor
+workers (NIOSH), heat illness signs and response (MEMA), and medications and power outages (CDC).
+
+### `hazard_vulnerability_assessment` (EPR-06, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town or county. |
+| `scores` | | Per hazard: `probability` (0–3), `human`, `property`, `operations` (0–3), `preparedness`, `internal_response`, `external_response` (1–3, 3 = weak). |
+| `use_seeds` | true | Fill missing probability and human impact from ResilientMass ratings. |
+| `nri_path` | | A FEMA National Risk Index table downloaded into `/data`. |
+| `workbook` | true | XLSX facilitation workbook in `/data/output`. |
+
+Relative risk = (probability ÷ 3) × (sum of the six severity items ÷ 18) × 100, ranked. Seeds:
+the 2023 ResilientMass Plan's statewide likelihood, human consequence, warning time, and scale
+for its 15 hazards (Tables 5.1-1 to 5.1-5), FEMA declarations for the county since 1953, and NRI
+scores from the nurse's file (prefix + `_RISKS`, `_RISKR`, `_AFREQ`). Six local hazards are added
+(pandemic, power outage, water, hazmat, mass casualty, cyber). The scoring method is the tool's
+own, modeled on common HVA worksheets. The NRI could not be bundled: hazards.fema.gov/nri now
+redirects to FEMA's Resilience Analysis and Planning Tool, which was blocked.
+
+### `functional_needs_shelter_intake` (EPR-03, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Local rates for the estimates. |
+| `expected_residents` | | Planning estimates of needs and staff. |
+| `blank_form` | `docx` | `xlsx`, `both`, or `none`. |
+| `intake_path` | | CSV/XLSX of registrants in `/data` (question ids as columns). |
+| `residents_per_health_staff`, `fnss_residents_per_support_staff`, `lep_residents_per_interpreter` | 50, 10, 25 | Staffing ratios (tool defaults). |
+
+Returns the CMIST intake template (26 questions in five domains, dispositions) and the CDC PHEP
+mass care tasks. Estimates apply local rates (ACS limited English, disability, 65+, under 5, no
+vehicle; PLACES hearing, vision, cognition, mobility, self-care, independent living, COPD,
+diabetes; emPOWER electricity dependence) to the expected residents. With `intake_path` it
+writes one completed form per registrant to `/data/output` (in an agency translation from
+`/data/templates/<language>/cmist_intake.md` when present, otherwise English, counted) and
+returns only counts of "yes" by question and registrants by language, suppressed below the
+threshold. Identifying details are never returned.
+
+### `get_electricity_dependent_population` (EPR-04, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `zip_codes` | | Specific ZIP codes instead. |
+| `local_path` | | A ZIP-level aggregate file in `/data` (for example DPH's emPOWER Emergency Planning Dataset). |
+
+HHS emPOWER counts (Medicare beneficiaries with claims for electricity-dependent equipment) are
+read live from the emPOWER Map's JSON endpoints (the ArcGIS REST service is not needed), cached a
+week, with a bundled snapshot. Counties are HHS's totals; towns allocate ZIP codes by the ZCTA's
+land share in the town. Rates per 1,000 beneficiaries are compared with Massachusetts and the
+U.S. Values of 1–11 are published as 11 and flagged. Local files with direct identifiers are
+refused (the restricted outreach dataset must stay in secure agency systems); totals from
+aggregate files are suppressed below 11 (CMS cell-size policy) or the agency threshold.
+
+### `plan_casper_assessment` (EPR-11, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` or `towns` | saved town | The sampling frame (a town, several towns, or a county). |
+| `clusters`, `interviews_per_cluster` | 30, 7 | Other values make a modified CASPER. |
+| `household_measure` | `total` | Or `occupied`. |
+| `seed` | chosen and reported | Reproducible selection. |
+| `exclude_blocks_under` | | Leave out small blocks (modified frame). |
+| `materials` | true | Cluster list and tracking forms (XLSX) and team packet (DOCX) in `/data/output`. |
+| `results_path`, `cluster_column`, `times_selected_column`, `questions`, `frame_households`, `tracking` | | Weighted analysis of returned data. |
+
+Stage I follows the CASPER Toolkit (3rd ed., section 2.4): 30 random household numbers between 1
+and the frame total (SplitMix64 with rejection sampling) mapped to 2020 census blocks by
+cumulative households (PL 94-171 snapshot: 88,246 blocks with housing); blocks can be chosen
+more than once. Analysis uses the toolkit weight N ÷ (interviews in the cluster ÷ times selected
+× clusters selected), weighted proportions with Taylor-series variance (clusters as PSUs, t with
+clusters − 1 df; golden test against `samplics`), design effects, contact, cooperation, and
+completion rates, the 80% completion rule (otherwise unweighted), and no estimates for cells
+under 5.
+
+<!-- End of Phase 12 tools. -->

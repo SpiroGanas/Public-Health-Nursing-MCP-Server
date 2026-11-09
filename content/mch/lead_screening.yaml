@@ -1,0 +1,334 @@
+# Childhood lead screening, confirmation, follow-up, case management, reporting, and family
+# teaching in Massachusetts, for childhood_lead_screening_guide (MCH-04) and map_lead_risk
+# (MCH-05).
+#
+# REVIEW STATUS: pending. Drafted 2026-11-08 from 105 CMR 460.000 and DPH CLPPP pages fetched
+# that day. Schema: content/schemas/mch_lead.schema.json
+meta:
+  id: mch-lead-screening
+  title: Massachusetts childhood lead screening and case management (105 CMR 460.000, DPH CLPPP)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2017-12-01
+  source:
+    title: "105 CMR 460.000: Lead Poisoning Prevention and Control (Mass. Register #1353, 12/1/17)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-460-lead-poisoning-prevention-and-control/download
+  related_sources:
+    - title: Learn about lead testing in Massachusetts and what a result means for your child
+      publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+      url: https://www.mass.gov/info-details/learn-about-lead-testing-in-massachusetts-and-what-a-result-means-for-your-child
+    - title: Learn about lead screening and reporting requirements
+      publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+      url: https://www.mass.gov/info-details/learn-about-lead-screening-and-reporting-requirements
+    - title: 2024 Annual Childhood Lead Poisoning Surveillance Report (high-risk communities 2020-2024)
+      publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+      url: https://www.mass.gov/doc/2024-annual-childhood-lead-poisoning-surveillance-report/download
+    - title: Recommended Actions Based on Blood Lead Level
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/lead-prevention/hcp/clinical-guidance/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted on 2026-11-08. Definitions, the screening schedule, high-risk criteria, and
+    reporting deadlines are transcribed from 105 CMR 460.020-460.050 (Mass. Register #1353,
+    12/1/17; the version on mass.gov on 2026-11-08). The confirmation and follow-up schedules
+    and the action table by venous blood lead level are transcribed from DPH CLPPP's page "Learn
+    about lead testing in Massachusetts and what a result means for your child", which mixes
+    DPH requirements with CDC's 2021 reference value (3.5 ug/dL) and CDC's recommended
+    schedules. The 2024 high-risk community list is from DPH's 2024 annual surveillance report
+    (Appendix I, published August 2026). Family teaching is summarized from DPH pages (medium
+    confidence for summaries). DPH updates the high-risk list every year.
+
+sources:
+  cmr460:
+    title: "105 CMR 460.000: Lead Poisoning Prevention and Control (Mass. Register #1353, 12/1/17)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-460-lead-poisoning-prevention-and-control/download
+    effective_date: 2017-12-01
+    retrieved: 2026-11-08
+  dph-results:
+    title: Learn about lead testing in Massachusetts and what a result means for your child
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/learn-about-lead-testing-in-massachusetts-and-what-a-result-means-for-your-child
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-requirements:
+    title: Learn about lead screening and reporting requirements
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/learn-about-lead-screening-and-reporting-requirements
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-report-2024:
+    title: 2024 Annual Childhood Lead Poisoning Surveillance Report
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/doc/2024-annual-childhood-lead-poisoning-surveillance-report/download
+    effective_date: 2026-08-05
+    retrieved: 2026-11-08
+  dph-habits:
+    title: Learn about short-term habits to keep your child safe from lead
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/learn-about-short-term-habits-to-keep-your-child-safe-from-lead
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-other-sources:
+    title: Sources of lead besides lead paint
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/sources-of-lead-besides-lead-paint
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-lead-law:
+    title: Learn about Massachusetts Lead Law
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/learn-about-massachusetts-lead-law
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-child-health:
+    title: Lead and Your Child's Health
+    publisher: Massachusetts DPH Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/lead-and-your-childs-health
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-actions:
+    title: Recommended Actions Based on Blood Lead Level
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/lead-prevention/hcp/clinical-guidance/index.html
+    effective_date: 2025-08-21
+    retrieved: 2026-11-08
+
+definitions:
+  - term: Lead poisoning
+    text: "A concentration of lead in whole venous blood of 10 micrograms per deciliter (ug/dL) or greater in a child younger than six years old."
+    source: cmr460
+    section: "460.020 (Lead Poisoning)"
+  - term: Blood lead level of concern
+    text: "A concentration of lead in whole venous blood from 5 to less than 10 ug/dL in a child younger than six years old; used for surveillance and outreach for children at risk of lead poisoning."
+    source: cmr460
+    section: "460.020 (Blood Lead Level of Concern)"
+  - term: CDC blood lead reference value
+    text: "3.5 ug/dL since 2021 (5 ug/dL from 2012 to 2021): it identifies children whose blood lead levels are higher than most children's levels. There is no safe blood lead level."
+    source: dph-results
+    section: "What does my child's blood lead level mean?"
+  - term: Confirmed test
+    text: "A single venous specimen, or two capillary specimens of 5 ug/dL or more drawn within 12 weeks of each other; a single capillary test is unconfirmed (DPH surveillance definition)."
+    source: dph-report-2024
+    section: "Appendix II footnote 2"
+
+screening_schedule:
+  routine:
+    - age_months_from: 9
+      age_months_to: 12
+      label: "Once between 9 and 12 months"
+    - age_months_from: 24
+      age_months_to: 35
+      label: "Again at age 2"
+    - age_months_from: 36
+      age_months_to: 47
+      label: "Again at age 3"
+  high_risk_community:
+    age_months_from: 48
+    age_months_to: 59
+    label: "At age 4 if the child lives in one of DPH's high-risk communities"
+  source: cmr460
+  section: "460.050(C)"
+  entry:
+    text: "Children between one and six years old who have never been screened must be screened at entry to child care (group or family), pre-kindergarten, or kindergarten and present evidence of screening; a child screened before need not be rescreened but must present evidence of the earlier screening."
+    source: cmr460
+    section: "460.050(E)"
+  sample:
+    text: "A venous sample is recommended for screening. A capillary result of 5 ug/dL or more requires a confirmatory venous sample (DPH recommends within 2 months). Wash the child's hand with soap and water first: an alcohol swab alone does not remove lead on the skin, and capillary tests are prone to false-positive results from contamination."
+    source: dph-requirements
+    section: "460.050(B); Information about capillary blood lead testing"
+  provider_duty:
+    text: "Physicians must screen at these intervals; licensed health care facilities serving children under six and HMOs must take appropriate steps to ensure their patients are screened (M.G.L. c. 112, s. 12BB). Screening is a covered, reimbursable service."
+    source: cmr460
+    section: "460.050(A); 460.060"
+
+high_risk_criteria:
+  - id: household_poisoned
+    text: "Lives in a home where siblings or other children in the same household are lead poisoned."
+    schedule: "At least every 6 months from 6 months to 3 years of age, and again at 4 and 5 years."
+    source: cmr460
+    section: "460.050(D)(1)(a) and (D)(2)"
+  - id: renovation
+    text: "Lives in a pre-1978 home that is undergoing renovation, unless a lead inspector found no dangerous levels of lead in the surfaces to be disturbed."
+    schedule: "Within 4 weeks of the start of the renovation, once a month while it lasts, and once after it is finished."
+    source: cmr460
+    section: "460.050(D)(1)(b) and (D)(2)"
+  - id: deteriorated_paint
+    text: "Lives in a pre-1978 home with deteriorated paint or plaster, unless a lead inspector found no dangerous level of lead."
+    schedule: "At least every 6 months from 6 months to 3 years of age, and again at 4 and 5 years."
+    source: cmr460
+    section: "460.050(D)(1)(c) and (D)(2)"
+  - id: clinical_judgment
+    text: "Any child the health care provider judges to be at high risk may be screened more than once a year."
+    schedule: "As the provider judges."
+    source: cmr460
+    section: "460.050(D)(1)"
+
+high_risk_communities:
+  year: 2024
+  period: "2020-2024"
+  method: "Communities with at least 15 confirmed cases of 10 ug/dL or more (children 9 to 47 months) over 5 years and a high-risk score (5-year incidence rate adjusted for the share of families below 200% of poverty and of pre-1978 housing) significantly above the state's. Listed from highest to lowest score."
+  source: dph-report-2024
+  section: "High-risk communities; Appendix I; Appendix III"
+  towns: [New Bedford, Springfield, Brockton, Fall River, Lowell, Everett, Lynn, Pittsfield, Chelsea, Worcester, Fitchburg, Lawrence, Milford, Chicopee, Malden, Boston, Taunton]
+  note: "Fitchburg and Milford were added and Westfield dropped off the list from 2023. Rural communities with small populations may not meet the 15-case minimum even when individual children are at high risk."
+
+# Confirmation of a capillary (fingerstick) result with a venous sample.
+capillary_confirmation:
+  - from: 3.5
+    to: 4.9
+    timing: "Venous confirmation within 3 months (CDC's recommended schedule)"
+  - from: 5
+    to: 9.9
+    timing: "Venous confirmation within 3 months (Massachusetts requires confirmation of capillary results of 5 ug/dL or more; DPH recommends within 2 months)"
+  - from: 10
+    to: 14.9
+    timing: "Venous confirmation within 1 month"
+  - from: 15
+    to: 19.9
+    timing: "Venous confirmation within 2 weeks"
+  - from: 20
+    to: 44.9
+    timing: "Venous confirmation within 1 week"
+  - from: 45
+    to: 69.9
+    timing: "Venous confirmation within 48 hours"
+  - from: 70
+    to: null
+    timing: "Seek emergency medical care"
+capillary_confirmation_source: dph-results
+capillary_confirmation_section: "Capillary blood lead level: confirmation test due (the higher the level, the more urgent)"
+
+# Actions by confirmed (venous) blood lead level.
+venous_actions:
+  - from: 0
+    to: 3.4
+    category: "Below the CDC reference value"
+    provider: "Monitor for annual re-screen and high-risk factors."
+    environmental: "Preventive inspection for pre-1978 homes: families who rent can contact the local board of health; families who own can hire a privately licensed lead inspector."
+    case_management: "None."
+    retest: "Re-screen annually through age 3; at age 4 in a high-risk community."
+  - from: 3.5
+    to: 4.9
+    category: "At or above the CDC reference value"
+    provider: "Check for iron deficiency (iron therapy if needed). Lead education for the family. Nutrition counseling on calcium and iron. Complete a lead risk assessment."
+    environmental: "Preventive inspection for pre-1978 homes (renters: local board of health; owners: privately licensed lead inspector)."
+    case_management: "Referral to a community health worker and care coordination on the doctor's request."
+    retest: "Venous blood lead level again in 6-9 months (CDC guidance)."
+  - from: 5
+    to: 9.9
+    category: "Blood lead level of concern (Massachusetts)"
+    provider: "Check for iron deficiency (iron therapy if needed). Lead education for the family. Nutrition counseling on calcium and iron. Complete a lead risk assessment."
+    environmental: "Inspection on the parent's request (renters: local board of health; owners: privately licensed lead inspector)."
+    case_management: "Referral to a community health worker and care coordination on the doctor's request."
+    retest: "Venous blood lead level again in 3-6 months. Test siblings under 6."
+  - from: 10
+    to: 14.9
+    category: "Lead poisoned"
+    provider: "Check for iron deficiency (iron therapy if needed)."
+    environmental: "CLPPP lead inspector assigned for a mandatory environmental investigation; if lead hazards are found, the home must be deleaded."
+    case_management: "Community health worker services offered; CLPPP care coordinator assigned; re-screening monitored with reminder letters."
+    retest: "Venous blood lead level within 3 months. Test siblings under 6."
+  - from: 15
+    to: 19.9
+    category: "Lead poisoned"
+    provider: "Check for iron deficiency (iron therapy if needed)."
+    environmental: "CLPPP lead inspector assigned for a mandatory environmental investigation; if lead hazards are found, the home must be deleaded."
+    case_management: "Community health worker services offered; CLPPP client care coordinator assigned; re-screening monitored with reminder letters."
+    retest: "Venous blood lead level within 1-2 months. Test siblings under 6."
+  - from: 20
+    to: 44.9
+    category: "Lead poisoned"
+    provider: "Check for iron deficiency (iron therapy if needed). Abdominal x-ray with bowel decontamination if indicated. Consult a pediatric environmental health specialist to consider chelation at 35-44 ug/dL."
+    environmental: "CLPPP lead inspector assigned for an urgent mandatory environmental investigation; if lead hazards are found, the home must be deleaded."
+    case_management: "CLPPP client care staff assigned; re-screening monitored with reminder letters."
+    retest: "Venous blood lead level within 1 month. Test siblings under 6."
+  - from: 45
+    to: 69.9
+    category: "Lead poisoned"
+    provider: "Medical evaluation (most children are hospitalized). Abdominal x-ray with bowel decontamination if indicated. Consult a pediatric environmental health specialist. Chelation therapy; consider extending hospitalization if a lead-safe environment cannot be assured."
+    environmental: "Emergency inspection: site visit with assessment and counseling within 2-3 days, typically sooner. Client care staff inform the clinician and specialty clinic of the environmental status for chelation decisions. If lead hazards are found, the home must be deleaded."
+    case_management: "Community health worker services offered; CLPPP clinical care coordinator assigned; re-screening monitored with reminder letters."
+    retest: "At the provider's discretion. Test siblings under 6; other family members may need testing depending on the source."
+  - from: 70
+    to: null
+    category: "Lead poisoned: medical emergency"
+    provider: "Immediate hospital admission and chelation therapy. Consult a pediatric environmental health specialist. Iron therapy after treatment."
+    environmental: "Emergency inspection: site visit with assessment and counseling within 24 hours, typically sooner. If lead hazards are found, the home must be deleaded."
+    case_management: "Community health worker services offered; reminder letters; CLPPP clinical care coordinator assigned."
+    retest: "At the provider's discretion. Test siblings under 6; other family members may need testing depending on the source."
+venous_actions_source: dph-results
+venous_actions_section: "Venous blood lead levels and follow-up actions; venous follow-up testing schedule"
+
+specialty_clinics:
+  text: "Pediatric environmental specialist clinics in Massachusetts: Baystate Health (Pediatric Lead Poisoning and Environmental Health), Boston Children's Hospital (Pediatric Environmental Health Center), and Boston Medical Center (Lead Clinic)."
+  source: dph-results
+  section: "Pediatric Environmental Specialist Clinics"
+
+reporting:
+  - text: "Physicians, other health care providers, and laboratories report every case of childhood lead poisoning (10 ug/dL or more) to DPH within three working days of identification; each episode is reported."
+    source: cmr460
+    section: "460.040(A)"
+  - text: "Laboratories and practices that analyze blood lead specimens report every result (even below 5 ug/dL), with address and demographic data including race and ethnicity, to CLPPP electronically (Mass HIway) within one week of analysis; DPH's page says within 7 calendar days for results below 10 ug/dL. Practices using a point-of-care (LeadCare) device report their own results."
+    source: dph-requirements
+    section: "460.040(B); Data reporting requirements"
+  - text: "Individually identifiable lead test results are confidential and are not public records; DPH may share them only with the parents or guardians, the child's health care provider, local health officials, and others listed in the regulation."
+    source: cmr460
+    section: "460.070"
+
+lead_law:
+  - text: "The Massachusetts Lead Law requires removal or covering of lead paint hazards in homes built before 1978 where any child under 6 lives, whether rented or owner-occupied, regardless of the child's blood lead level. Owners are responsible; tax credits, grants, and loans are available."
+    source: dph-lead-law
+    section: "What does the Lead Law require?"
+  - text: "An owner may correct urgent hazards first under Interim Control (approved by a licensed risk assessor) and then has up to 2 years to reach full compliance; deleading must be done by trained, licensed people after a licensed inspection."
+    source: dph-lead-law
+    section: "How do I comply with the Lead Law?"
+  - text: "It is illegal to evict or refuse to rent to a family because of lead paint; owners are liable for a child's lead poisoning from hazards where the child lives."
+    source: dph-lead-law
+    section: "Discrimination and liability"
+
+teaching:
+  - topic: Why it matters
+    text: "Lead can hurt the brain, kidneys, and nervous system, slow growth and development, make learning hard, damage hearing and speech, and cause behavior problems. Young children absorb lead more easily than adults, and the harm may never go away. The most important step is to find and remove the lead."
+    source: dph-child-health
+    section: "Introduction"
+    confidence: medium
+  - topic: Clean lead dust safely
+    text: "Wet-wipe often with an all-purpose cleaner in a spray bottle and paper towels (a new towel for each area); clean window wells, sills, play areas, and floors once or twice a week with children away. Pick up chips with a damp paper towel and seal them in a plastic bag. Do not vacuum or sweep paint chips or dust. Pour wash water down the toilet, and wash hands afterward."
+    source: dph-habits
+    section: "How do I clean lead dust in my home?"
+  - topic: Block access to peeling paint
+    text: "Cover peeling paint or plaster with duct tape or contact paper; keep the lower window sash closed if the window well is in bad condition; move furniture to block peeling areas (never where a child could climb to a window); use a bedroom without chipping paint if possible."
+    source: dph-habits
+    section: "Short-term habits, items 2-5"
+  - topic: Hands, toys, and food
+    text: "Wash children's hands and toys often and trim fingernails. Feed foods high in iron, calcium, and vitamin C and low in fat (children who lack iron absorb more lead). Keep children from walking around with food."
+    source: dph-habits
+    section: "Short-term habits, items 6-7"
+  - topic: Water
+    text: "Run water until it is cold if it has not been used for more than 6 hours; use cold water for drinking, cooking, and infant formula (boiling does not remove lead); never use hot water or foreign or antique tea kettles (such as samovars) for formula."
+    source: dph-other-sources
+    section: "Lead in water"
+  - topic: Soil
+    text: "Cover bare soil where children play with grass, mulch, or mats; move play areas away from old buildings and roads; use a door mat and take shoes off at the door; wash or peel garden vegetables and plant gardens away from roads and old buildings. UMass Amherst tests soil: (413) 545-2311."
+    source: dph-other-sources
+    section: "Lead in soil"
+  - topic: Other sources
+    text: "Check for lead in imported spices (such as turmeric and paprika), cosmetics (kohl, surma), folk medicines, ceramic dishes, brass containers, antique tea kettles, jewelry, fishing sinkers and bullets, worn porcelain tubs and sinks, and hobby materials (solder, paints, glazes). See DPH's list of recent lead-related recalls."
+    source: dph-other-sources
+    section: "Sources of lead"
+  - topic: Testing and the law
+    text: "Test at 9-12 months and at ages 2 and 3 (and 4 in a high-risk community), and bring proof of a lead test for child care, preschool, and kindergarten. Homes built before 1978 where a child under 6 lives must be deleaded by law; renters can call the local board of health, and landlords cannot evict a family because of lead paint."
+    source: dph-results
+    section: "When should children be tested for lead?; Massachusetts Lead Law"
+
+contacts:
+  - text: "DPH Childhood Lead Poisoning Prevention Program (CLPPP): (800) 532-9571 or (617) 624-5757; 250 Washington Street, Boston (2024 report) / 100 Cambridge St., 19th Floor, Boston (CLPPP web page)."
+    source: dph-requirements
+    section: "Contact"
+    confidence: medium

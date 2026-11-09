@@ -1,0 +1,925 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/tuberculosis.schema.json",
+  "title": "Tuberculosis contact investigation and LTBI treatment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "sources",
+    "contact_investigation",
+    "ma_program",
+    "ltbi"
+  ],
+  "$defs": {
+    "cited_text": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "tb-investigation-and-ltbi"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "effective_date",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "effective_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retrieved": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contact_investigation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transmission_factors",
+        "initiate",
+        "infectious_period",
+        "priority_trees",
+        "conditions",
+        "exposure_notes",
+        "timeframes",
+        "timeframe_note",
+        "testing",
+        "special_groups",
+        "expansion",
+        "index_case_data",
+        "interview_settings"
+      ],
+      "properties": {
+        "transmission_factors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "initiate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "infectious_period": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "start_rules",
+            "earlier_start_note",
+            "end_criteria",
+            "stricter_end"
+          ],
+          "properties": {
+            "start_rules": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "id",
+                  "when",
+                  "start",
+                  "months_before",
+                  "weeks_before",
+                  "anchor",
+                  "source",
+                  "section"
+                ],
+                "properties": {
+                  "id": {
+                    "enum": [
+                      "symptomatic",
+                      "asymptomatic_smear_or_cavity",
+                      "asymptomatic_other"
+                    ]
+                  },
+                  "when": {
+                    "type": "string"
+                  },
+                  "start": {
+                    "type": "string"
+                  },
+                  "months_before": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "weeks_before": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "anchor": {
+                    "enum": [
+                      "earlier_of_onset_and_first_finding",
+                      "first_finding",
+                      "suspected_diagnosis"
+                    ]
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "section": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  }
+                }
+              }
+            },
+            "earlier_start_note": {
+              "$ref": "#/$defs/cited_text"
+            },
+            "end_criteria": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/cited_text"
+              }
+            },
+            "stricter_end": {
+              "$ref": "#/$defs/cited_text"
+            }
+          }
+        },
+        "priority_trees": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case_type",
+              "label",
+              "source",
+              "section",
+              "rules",
+              "otherwise"
+            ],
+            "properties": {
+              "case_type": {
+                "enum": [
+                  "smear_positive_or_cavitary",
+                  "smear_negative_cxr_consistent",
+                  "abnormal_cxr_not_consistent"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "rules": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "condition",
+                    "priority"
+                  ],
+                  "properties": {
+                    "condition": {
+                      "enum": [
+                        "household",
+                        "age_under_5",
+                        "medical_risk",
+                        "medical_procedure",
+                        "congregate_setting",
+                        "exceeds_high_priority_limits",
+                        "age_5_to_15",
+                        "exceeds_medium_priority_limits"
+                      ]
+                    },
+                    "priority": {
+                      "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                      ]
+                    }
+                  }
+                }
+              },
+              "otherwise": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "definition"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "household",
+                  "age_under_5",
+                  "medical_risk",
+                  "medical_procedure",
+                  "congregate_setting",
+                  "exceeds_high_priority_limits",
+                  "age_5_to_15",
+                  "exceeds_medium_priority_limits"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "exposure_notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "timeframes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "case_type",
+              "priority",
+              "encounter_business_days",
+              "evaluation_business_days",
+              "source",
+              "section"
+            ],
+            "properties": {
+              "case_type": {
+                "enum": [
+                  "smear_positive_or_cavitary",
+                  "smear_negative_cxr_consistent",
+                  "abnormal_cxr_not_consistent",
+                  "any"
+                ]
+              },
+              "priority": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "encounter_business_days": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "evaluation_business_days": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "timeframe_note": {
+          "$ref": "#/$defs/cited_text"
+        },
+        "testing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "window_weeks_min",
+            "window_weeks_max",
+            "positive_tst_mm",
+            "notes"
+          ],
+          "properties": {
+            "window_weeks_min": {
+              "type": "integer"
+            },
+            "window_weeks_max": {
+              "type": "integer"
+            },
+            "positive_tst_mm": {
+              "type": "integer"
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/cited_text"
+              }
+            }
+          }
+        },
+        "special_groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "text",
+              "source",
+              "section"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "expansion": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "intro",
+            "triggers",
+            "source",
+            "section"
+          ],
+          "properties": {
+            "intro": {
+              "type": "string"
+            },
+            "triggers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "source": {
+              "type": "string"
+            },
+            "section": {
+              "type": "string"
+            }
+          }
+        },
+        "index_case_data": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source",
+            "section",
+            "groups"
+          ],
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "section": {
+              "type": "string"
+            },
+            "groups": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "heading",
+                  "items"
+                ],
+                "properties": {
+                  "heading": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "interview_settings": {
+          "$ref": "#/$defs/cited_text"
+        }
+      }
+    },
+    "ma_program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "division",
+        "address",
+        "phone_business_hours",
+        "phone_after_hours",
+        "fax",
+        "reporting",
+        "source",
+        "clinics_source",
+        "clinics"
+      ],
+      "properties": {
+        "division": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "phone_business_hours": {
+          "type": "string"
+        },
+        "phone_after_hours": {
+          "type": "string"
+        },
+        "fax": {
+          "type": "string"
+        },
+        "reporting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "source": {
+          "type": "string"
+        },
+        "clinics_source": {
+          "type": "string"
+        },
+        "clinics": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "organization",
+              "address",
+              "town",
+              "phone",
+              "referrals"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "organization": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "town": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "referrals": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "ltbi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before_starting",
+        "regimens",
+        "monitoring",
+        "stop_and_call",
+        "education",
+        "adherence",
+        "interruption",
+        "post_treatment"
+      ],
+      "properties": {
+        "before_starting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "regimens": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "drugs",
+              "frequency",
+              "interval_days",
+              "total_doses",
+              "duration_text",
+              "cdc_rank",
+              "dph_listed",
+              "dph_administration",
+              "allowed_administration",
+              "completion",
+              "recommended_for",
+              "not_recommended_for",
+              "monitoring",
+              "monitoring_visit_weeks",
+              "sources"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "3HP",
+                  "4R",
+                  "3HR",
+                  "6H",
+                  "6H_twice_weekly",
+                  "9H",
+                  "9H_twice_weekly"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "drugs": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "frequency": {
+                "enum": [
+                  "daily",
+                  "once_weekly",
+                  "twice_weekly"
+                ]
+              },
+              "interval_days": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "total_doses": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "duration_text": {
+                "type": "string"
+              },
+              "cdc_rank": {
+                "enum": [
+                  "preferred",
+                  "alternative"
+                ]
+              },
+              "dph_listed": {
+                "type": "boolean"
+              },
+              "dph_administration": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "allowed_administration": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "dot",
+                    "vdot",
+                    "sat"
+                  ]
+                }
+              },
+              "completion": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "doses_required",
+                  "within_days",
+                  "within_months",
+                  "min_days_between_doses",
+                  "text",
+                  "source",
+                  "section",
+                  "confidence"
+                ],
+                "properties": {
+                  "doses_required": {
+                    "type": "integer"
+                  },
+                  "within_days": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "min_days_between_doses": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "source": {
+                    "type": "string"
+                  },
+                  "section": {
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "enum": [
+                      "high",
+                      "medium",
+                      "low"
+                    ]
+                  },
+                  "within_months": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "recommended_for": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "not_recommended_for": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "monitoring": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/cited_text"
+                }
+              },
+              "monitoring_visit_weeks": {
+                "type": [
+                  "array",
+                  "null"
+                ],
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "monitoring": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "stop_and_call": {
+          "$ref": "#/$defs/cited_text"
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "adherence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        },
+        "interruption": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "source",
+            "section",
+            "interruption_days"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "source": {
+              "type": "string"
+            },
+            "section": {
+              "type": "string"
+            },
+            "interruption_days": {
+              "type": "integer"
+            }
+          }
+        },
+        "post_treatment": {
+          "$ref": "#/$defs/cited_text"
+        }
+      }
+    }
+  }
+}

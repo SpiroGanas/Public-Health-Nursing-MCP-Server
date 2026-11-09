@@ -1,0 +1,642 @@
+# Medication administration in Massachusetts public and non-public schools (105 CMR 210.000,
+# M.G.L. c. 71, section 54B) for school_medication_administration_guide (SCH-03).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from 105 CMR 210.000 (Mass. Register #1562,
+# 12/5/2025) and DPH School Health Services pages fetched that day.
+# Schema: content/schemas/school_medication_administration.schema.json
+meta:
+  id: ma-school-medication-administration
+  title: Medication administration in Massachusetts schools (105 CMR 210.000)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2025-12-05
+  source:
+    title: "105 CMR 210.000: The Administration of Medications in Public and Non-public Schools (Mass. Register #1562, 12/5/2025)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-210-the-administration-of-medications-in-public-and-non-public-schools/download
+  related_sources:
+    - title: "M.G.L. c. 71, section 54B (Administration of medications in school settings)"
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section54B
+    - title: "School Health Services: Medication Administration"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/school-health-services-medication-administration
+    - title: Register for medication delegation and/or epinephrine and emergency rescue opioid antagonist training in Massachusetts schools
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/how-to/register-for-medication-delegation-andor-epinephrine-and-emergency-rescue-opioid-antagonist-training-in-massachusetts-schools
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Answers paraphrase 105 CMR 210.000 as amended 12/5/2025 (fetched from mass.gov 2026-11-08) and
+    M.G.L. c. 71, section 54B, section by section (high confidence). Older guidance that predates
+    the 2025 amendments (for example DPH's former Q&A documents and 2007 manual chapter) was not
+    used. The Board of Registration in Nursing advisory rulings that 105 CMR 210.005(D)(2) refers
+    to (AR 92-05 on over-the-counter drugs and AR 9324 on medication orders) were not fetched; the
+    tool cites them by name only (medium). DPH's report forms are online surveys; their questions
+    were not reviewed. The subject matter expert must review before Pilot 2.
+
+sources:
+  cmr210:
+    title: "105 CMR 210.000: The Administration of Medications in Public and Non-public Schools"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-210-the-administration-of-medications-in-public-and-non-public-schools/download
+    effective_date: 2025-12-05
+    retrieved: 2026-11-08
+  mgl-c71-s54b:
+    title: "M.G.L. c. 71, section 54B: Administration of medications in school settings; regulations"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section54B
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-medadmin-page:
+    title: "School Health Services: Medication Administration"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/school-health-services-medication-administration
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-registration:
+    title: Register for medication delegation and/or epinephrine and emergency rescue opioid antagonist training in Massachusetts schools
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/how-to/register-for-medication-delegation-andor-epinephrine-and-emergency-rescue-opioid-antagonist-training-in-massachusetts-schools
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-med-error:
+    title: Filing a Medication Error in School
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/filing-a-medication-error-in-school
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-data-tools:
+    title: School Health Services data collection tools
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    effective_date: null
+    retrieved: 2026-11-08
+
+topics:
+  - id: scope_and_definitions
+    title: Scope and key definitions
+    keywords: [scope, definition, purpose, who, applies, regular school activities, school nurse, medication, unlicensed]
+    summary: >-
+      105 CMR 210.000 sets minimum standards for storing and giving medications to students in
+      public and non-public primary and secondary schools, and lets school nurses delegate
+      medication administration to trained, nurse-supervised unlicensed school personnel when the
+      district or school registers with DPH.
+    points:
+      - text: >-
+          "Regular school activities" include instruction and every activity organized or
+          sanctioned by the school: day and overnight field trips, school transportation,
+          interscholastic sporting events, after-school and extracurricular clubs, and proms or
+          other social events.
+        source: cmr210
+        section: "210.002 (Regular School Activities)"
+      - text: >-
+          "Medication" means any controlled substance in schedules II-VI or FDA-approved
+          over-the-counter medication with a drug fact sheet.
+        source: cmr210
+        section: "210.002 (Medication)"
+      - text: >-
+          Emergency rescue medications are schedule II-VI medications given for an allergic
+          reaction, hypoglycemia, apparent opioid overdose, asthma, or other loss of consciousness
+          or acute respiratory event to prevent death or serious harm: pre-dosed epinephrine,
+          opioid antagonists, glucagon (auto-injector or nasal), nerve agent antidotes, rescue
+          inhalers, and other pre-dosed medications given through the mucous membranes.
+        source: cmr210
+        section: "210.002 (Emergency Rescue Medication)"
+      - text: >-
+          A school nurse is a registered nurse appointed under M.G.L. c. 71, sections 53, 53A, and
+          53B (or by the governing body of a non-public school). The medication program manager is
+          the school nurse who registers the school or district medication program with DPH.
+        source: cmr210
+        section: "210.002 (School Nurse; Medication Program Manager)"
+      - text: >-
+          Child care programs licensed by EEC follow 606 CMR 7.11, not 105 CMR 210.000 (see
+          child_care_health_consultation_checklist).
+        source: cmr210
+        section: "210.001"
+        confidence: medium
+    confidence: high
+
+  - id: policies
+    title: School committee medication policies
+    keywords: [policy, policies, school committee, governing body, procedures, review every two years]
+    summary: >-
+      The school committee or governing body adopts medication policies proposed by the
+      medication program manager with the school physician, and reviews them at least every two
+      years.
+    points:
+      - text: >-
+          Policies must cover at least: designation of a medication program manager; documentation
+          of administration; response to medication emergencies; storage; reporting and
+          documenting medication errors; information for caregivers (available on request); and
+          procedures for resolving questions between the school and a caregiver.
+        source: cmr210
+        section: "210.003(A)(1)-(7)"
+      - text: Policies are submitted to DPH on request.
+        source: cmr210
+        section: "210.003(B)"
+      - text: >-
+          The medication program manager, with the school physician and the school wellness
+          committee if one exists, develops the policies for approval.
+        source: cmr210
+        section: "210.005(A)"
+    confidence: high
+
+  - id: registration
+    title: DPH registration and the Massachusetts Controlled Substances Registration
+    keywords: [registration, register, mcsr, controlled substances registration, dph registration, stock medication, stock]
+    summary: >-
+      Every school or district that stores medication or delegates administration to unlicensed
+      personnel must hold a Massachusetts Controlled Substances Registration (MCSR) by registering
+      with DPH; at minimum this can be done by registering for emergency medication training.
+    points:
+      - text: >-
+          Schools and districts where medication is stored or where administration is delegated
+          must obtain an MCSR by registering with DPH; registering for emergency medication
+          training is the minimum route.
+        source: cmr210
+        section: "210.003(C)"
+      - text: >-
+          A school holding an MCSR may buy stock prescription medications not prescribed to an
+          individual, as the Drug Control Program permits.
+        source: cmr210
+        section: "210.003(E)"
+      - text: >-
+          Schools may not use 105 CMR 700.003(C) for giving emergency rescue medications during
+          regular school activities.
+        source: cmr210
+        section: "210.003(D)"
+      - text: >-
+          DPH's registration requires a registered nurse as Medication Program Manager, policy
+          development, enough school nurses to supervise unlicensed personnel, and completion of
+          state-approved courses by the program manager. Questions: medication.delegation@mass.gov.
+        source: dph-medadmin-page
+        section: "page introduction"
+    confidence: high
+
+  - id: delegation
+    title: Delegation to unlicensed school personnel
+    keywords: [delegate, delegation, unlicensed, staff, teacher, aide, secretary, supervision, select, train]
+    summary: >-
+      With a school committee policy, the school nurse may delegate medication administration to
+      unlicensed school personnel whom the nurse selects, trains, and supervises; the nurse (with
+      the school physician) has final authority over delegation.
+    points:
+      - text: >-
+          Selection criteria: sound judgment; can read and write in the language of the order;
+          can communicate with the nurse orally and in writing and with the student (or has an
+          interpreter); can follow 105 CMR 210.000 and nursing supervision; respects
+          confidentiality; and completed approved training.
+        source: cmr210
+        section: "210.004(A)(2)(a)-(g)"
+      - text: >-
+          A school nurse must be on duty while delegated personnel give medications and available
+          for consultation in person or virtually.
+        source: cmr210
+        section: "210.004(A)(3)"
+      - text: >-
+          Parenteral medications cannot be delegated, except epinephrine or injectable glucagon in
+          an FDA-approved pre-dosed auto-injector.
+        source: cmr210
+        section: "210.004(A)(4)"
+      - text: >-
+          PRN medications given by delegated personnel need a nursing assessment or consultation
+          for each dose, except emergency rescue medications given under the student's emergency
+          medication plan.
+        source: cmr210
+        section: "210.004(A)(5)"
+      - text: >-
+          Neither prescription nor over-the-counter medication may be given by delegation without
+          a student-specific order from a licensed prescriber. The name of the person giving
+          medication by delegation is recorded in the student health record.
+        source: cmr210
+        section: "210.004(A)(6)-(7)"
+      - text: >-
+          The nurse supervises the first time delegated personnel give a medication, at the work
+          site (for PRN rescue medications given by inhalation or mucous membranes, or a glucagon
+          auto-injector, competency may be shown without giving the medication in extenuating
+          circumstances). The degree of supervision depends on the student, the person's
+          training, the medication, and the nurse's proximity.
+        source: cmr210
+        section: "210.005(G)(4)-(5)"
+      - text: >-
+          For each student the nurse decides whether delegation is safe, gives the first dose when
+          a risk is indicated or the student has never had the medication, reviews orders and side
+          effects with the delegate, supervises, and reviews delegation documentation weekly.
+        source: cmr210
+        section: "210.005(G)(6)"
+      - text: A licensed practical nurse may not delegate medication administration.
+        source: cmr210
+        section: "210.005(I)"
+      - text: >-
+          The school committee must assure that enough school nurses are available to supervise
+          delegated personnel.
+        source: cmr210
+        section: "210.005(G)"
+    confidence: high
+
+  - id: orders_and_consent
+    title: Medication orders and caregiver authorization
+    keywords: [order, orders, prescription, prescriber, consent, authorization, parent permission, verbal order, telephone order, renew, annual]
+    summary: >-
+      Each medication needs a proper order from a licensed prescriber, renewed at the start of
+      each academic year, and a written caregiver authorization.
+    points:
+      - text: >-
+          Orders are renewed at the beginning of each academic year and as clinically necessary.
+          Only the school nurse takes telephone orders or changes; a verbal order is followed by a
+          written or electronic order within three school days.
+        source: cmr210
+        section: "210.005(D)(1)"
+      - text: >-
+          The order contains the student's name; the prescriber's name, signature, and business and
+          emergency phone numbers; the medication name, route, and dose; frequency and time; the
+          date; the diagnosis (unless confidential or the family asks); and directions.
+        source: cmr210
+        section: "210.005(D)(1)(a)"
+      - text: >-
+          Also seek student-specific side effects, contraindications and adverse reactions, other
+          medications, and the date of the return visit.
+        source: cmr210
+        section: "210.005(D)(1)(b)"
+      - text: >-
+          Short-term medications (10 school days or fewer) may use the pharmacy-labeled container
+          in place of an order; the nurse may still ask for an order.
+        source: cmr210
+        section: "210.005(D)(2)(a)"
+      - text: >-
+          Over-the-counter medications follow Board of Registration in Nursing Advisory Ruling
+          92-05; standing orders follow Advisory Ruling 9324. Unlicensed personnel may give a
+          medication under a standing order only if it is patient-specific (except an emergency
+          rescue opioid antagonist) and only under delegation.
+        source: cmr210
+        section: "210.005(D)(2)(b)-(c)"
+      - text: >-
+          Investigational new drugs need a written order, written caregiver consent, and a
+          pharmacy-labeled container.
+        source: cmr210
+        section: "210.005(D)(2)(d)"
+      - text: >-
+          The caregiver's written authorization includes their printed name, signature, and phone;
+          a list of current medications (unless confidential); approval for the nurse or designated
+          personnel to give the medication; and whom to call in an emergency if the caregiver is
+          unavailable.
+        source: cmr210
+        section: "210.005(D)(3)"
+    confidence: high
+
+  - id: medication_plan
+    title: Medication administration plan
+    keywords: [plan, medication administration plan, map, individual plan, "504", iep, health plan]
+    summary: >-
+      Before the first dose, the school nurse assesses the student and writes a medication
+      administration plan with the caregiver (and the student, when able), referenced in any IEP
+      or Section 504 plan.
+    points:
+      - text: >-
+          The plan includes the student's name, the order, the caregiver authorization, allergies,
+          diagnosis (unless confidential), side effects and contraindications, quantity received,
+          storage, duration of the order, designated unlicensed personnel and back-up, plans to
+          teach self-administration, others to notify (with permission), location, and a plan
+          for monitoring effects.
+        source: cmr210
+        section: "210.005(E)(1)(a)-(n)"
+      - text: >-
+          The school nurse has final decision-making authority over medication administration for
+          field trips and short-term special events, which may use nursing staff, delegation, or
+          both.
+        source: cmr210
+        section: "210.005(E)(1)(o)"
+      - text: >-
+          Whenever possible the order is obtained and the plan developed before the student enters
+          or re-enters school.
+        source: cmr210
+        section: "210.005(D)(1)"
+    confidence: high
+
+  - id: field_trips
+    title: Field trips and school events
+    keywords: [field trip, trip, overnight, event, prom, athletics, after school, sports, before school]
+    summary: >-
+      Field trips and other sanctioned activities are "regular school activities"; the school
+      nurse decides how medications will be covered (nursing staff, delegation, or both).
+    points:
+      - text: >-
+          Day and overnight field trips, school transportation, interscholastic events,
+          extracurricular clubs, and proms are regular school activities.
+        source: cmr210
+        section: "210.002 (Regular School Activities)"
+      - text: >-
+          The school nurse has final decision-making authority for medication administration on
+          field trips and short-term special school events.
+        source: cmr210
+        section: "210.005(E)(1)(o)"
+      - text: >-
+          Trained unlicensed personnel may give epinephrine on field trips when a school nurse is
+          not immediately available, under a registered epinephrine program.
+        source: cmr210
+        section: "210.010(A)"
+      - text: >-
+          Epinephrine may be given in before- and after-school programs, athletics, special events,
+          and weekend programs when the policy covers them and the designated school nurse
+          approves and selects trained persons; the nurse-on-duty rule of 210.004(A)(3) does not
+          apply there. Rules for visiting students from other schools are in 210.010(B)(2).
+        source: cmr210
+        section: "210.010(B)"
+    confidence: high
+
+  - id: self_administration
+    title: Self-administration and self-carry
+    keywords: [self carry, self-carry, self administer, self-administration, inhaler, epipen, insulin, pump, enzymes, cystic fibrosis, diabetes]
+    summary: >-
+      Consistent with school policy, the school nurse may permit self-carry and
+      self-administration under a written agreement; state law bars districts from prohibiting
+      self-carry of inhalers, epinephrine, cystic fibrosis enzymes, and diabetes supplies.
+    points:
+      - text: >-
+          Requirements: a student-nurse-caregiver agreement; a plan with the elements needed for
+          safe self-administration; the nurse's evaluation that it is safe (observing initial
+          self-administration as needed); the student knows the medication, frequency, and
+          protocols; written caregiver authorization (unless the student may consent on their own
+          under M.G.L. c. 112, section 12F); a prescriber order if the nurse asks; a storage plan;
+          a monitoring plan; and, with permission, informing teachers.
+        source: cmr210
+        section: "210.006(1)-(9)"
+      - text: >-
+          For an inhaler or other preventive or emergency medication, keep a back-up supply in the
+          health room or a second readily available location whenever possible.
+        source: cmr210
+        section: "210.006(7)"
+      - text: >-
+          No district may prohibit students with asthma or other respiratory diseases from
+          carrying and using prescription inhalers, or students with life-threatening allergies
+          from carrying and using epinephrine, under DPH self-administration rules.
+        source: mgl-c71-s54b
+        section: "paragraph 2"
+      - text: >-
+          No district may prohibit students with cystic fibrosis from carrying and using
+          prescription enzyme supplements, or students with diabetes from carrying and using a
+          glucose monitoring test and insulin delivery system.
+        source: mgl-c71-s54b
+        section: "paragraphs 4-5"
+      - text: >-
+          Self-medicating students must not have access to other students' medications.
+        source: cmr210
+        section: "210.008(D)"
+    confidence: high
+
+  - id: training
+    title: Training of unlicensed school personnel
+    keywords: [training, train, competency, cpr, annual review, curriculum]
+    summary: >-
+      Unlicensed personnel who give medications are trained under the school nurse's direction
+      using DPH's content standards and competency test, with an annual review.
+    points:
+      - text: >-
+          Training uses content standards and a competency test approved by DPH with the Board of
+          Registration in Nursing; the nurse documents training and competency and provides a
+          review and update at least annually.
+        source: cmr210
+        section: "210.007(B), (C), (E), (F)"
+      - text: >-
+          Designated personnel are told who is CPR-certified; schools should try to have at least
+          two CPR-certified staff in each building throughout the day.
+        source: cmr210
+        section: "210.007(D)"
+      - text: >-
+          Epinephrine training covers risk reduction, recognizing severe allergic reactions,
+          following the plan, device use, storage, notification, and records, with a review at
+          least twice a year.
+        source: cmr210
+        section: "210.010(A)(4)"
+      - text: >-
+          Opioid antagonist training covers recognizing an opioid overdose and the administration
+          method, by the school nurse or a training provider the nurse designates.
+        source: cmr210
+        section: "210.011(A)(4)"
+    confidence: high
+
+  - id: storage
+    title: Receiving, storing, and disposing of medications
+    keywords: [storage, store, locked, cabinet, refrigerator, refrigeration, temperature, freezer, keys, supply, 30 day, disposal, dispose, return, destroy, delivery]
+    summary: >-
+      Medications arrive in labeled containers delivered by a caregiver or designated adult, are
+      counted, and are kept in a locked, anchored cabinet used only for medications (rescue
+      medications follow their own rules).
+    points:
+      - text: >-
+          A caregiver or caregiver-designated adult delivers medications to the nurse or a trained
+          designee, in a pharmacy or manufacturer labeled container; the quantity is documented. In
+          extenuating circumstances another person or a pharmacy may deliver with advance notice.
+        source: cmr210
+        section: "210.008(A)"
+      - text: >-
+          Store in the original labeled container, in a securely locked cabinet used only for
+          medications, kept locked except when opened, substantially built and anchored.
+        source: cmr210
+        section: "210.008(B)-(C)"
+      - text: >-
+          Refrigerated medications go in a locked box in a refrigerator or a locked refrigerator
+          at 36 to 46 F (2 to 8 C); frozen medications in a locked box in a freezer or a locked
+          freezer at -13 to 14 F (-25 to -10 C).
+        source: cmr210
+        section: "210.008(C)"
+      - text: >-
+          No more than a 30-school-day supply per student is stored at school, except multidose
+          devices.
+        source: cmr210
+        section: "210.008(F)"
+      - text: >-
+          Unused, discontinued, or outdated medications are returned to the caregiver and the
+          return documented; in extenuating circumstances, with consent when possible, the nurse
+          destroys them under DPH Drug Control Program policies.
+        source: cmr210
+        section: "210.008(G)"
+      - text: >-
+          Each school must allow epinephrine to be stored in a secure but unlocked place, as the
+          nurse determines, wherever an allergic student is most at risk, such as classrooms and
+          lunchrooms.
+        source: mgl-c71-s54b
+        section: "paragraph 3"
+    confidence: high
+
+  - id: documentation
+    title: Documentation and record keeping
+    keywords: [documentation, document, record, log, mar, medication administration record, omission, missed dose]
+    summary: >-
+      Each school keeps a medication administration record for each student: a daily log plus the
+      medication administration plan, order, and caregiver authorization.
+    points:
+      - text: >-
+          The daily log records the dose, the date and time given or omitted (with the reason and
+          action taken), and who gave each dose.
+        source: cmr210
+        section: "210.009(A)(3)"
+      - text: >-
+          The nurse documents significant observations of effectiveness and any adverse reactions
+          and actions. Records must prevent alteration or destruction.
+        source: cmr210
+        section: "210.009(A)(4)-(5)"
+      - text: >-
+          With consent, the completed record is filed in the cumulative health record; if the
+          caregiver or student objects, it is kept as confidential medical notes.
+        source: cmr210
+        section: "210.009(A)(6)"
+      - text: DPH may inspect any medication record without prior notice.
+        source: cmr210
+        section: "210.009(D)"
+    confidence: high
+
+  - id: medication_errors
+    title: Medication errors
+    keywords: [error, errors, medication error, wrong dose, wrong student, missed, late, incident, report]
+    summary: >-
+      A medication error is any failure to give a medication as prescribed: on time, in the
+      correct dose, by accepted practice, and to the correct student.
+    points:
+      - text: >-
+          The program manager writes procedures and forms for documenting and reporting errors,
+          naming who is notified besides the caregiver and nurse (the prescriber or school
+          physician if harm is possible), and reviews error reports to prevent recurrence.
+        source: cmr210
+        section: "210.005(F)(5)-(6)"
+      - text: >-
+          The nurse documents each error on the school's accident/incident form and in the health
+          record. Suspected diversion or tampering is reported to DPH's Drug Control Program;
+          errors needing medical care or ongoing assessment are reported to DPH as instructed.
+        source: cmr210
+        section: "210.009(B)"
+      - text: >-
+          DPH's Medication Error Report is submitted by any school where a medication error
+          occurred. Guidance: medication.delegation@mass.gov.
+        source: dph-data-tools
+        section: "Medication Error Report"
+    confidence: high
+
+  - id: epinephrine
+    title: Epinephrine
+    keywords: [epinephrine, epipen, epi-pen, auvi-q, neffy, anaphylaxis, allergy, allergic reaction, stock epinephrine]
+    summary: >-
+      A registered school may let trained unlicensed personnel give any FDA-approved pre-dosed
+      epinephrine in a life-threatening situation when a school nurse is not immediately
+      available, under an individualized plan updated every year.
+    points:
+      - text: >-
+          Conditions: annual school committee approval of the policy; assurance to DPH through
+          registration; the program manager (with the school physician) oversees the program;
+          staff trained and evaluated to DPH's curriculum, with a review at least twice a year.
+        source: cmr210
+        section: "210.010(A)(1)-(4)"
+      - text: >-
+          The individualized plan (updated yearly) includes the prescriber's diagnosis of risk and
+          order, caregiver authorization, contact numbers, storage locations (where the student is
+          most at risk, rapidly accessible, secure but not locked when most likely needed), named
+          staff, a risk reduction plan, and the student's readiness for self-administration.
+        source: cmr210
+        section: "210.010(A)(5)"
+      - text: >-
+          When epinephrine is given: call EMS (generally 911) immediately, then notify the
+          caregiver; if unlicensed personnel gave it, also notify the school nurse.
+        source: cmr210
+        section: "210.010(A)(6)"
+      - text: >-
+          Submit DPH's Epinephrine Administration Report each time epinephrine is given to a
+          student or staff member; review each incident and dispose of used devices properly.
+        source: cmr210
+        section: "210.010(A)(7)(g), (i), (j)"
+      - text: >-
+          Epinephrine is governed solely by 105 CMR 210.010.
+        source: cmr210
+        section: "210.010(C)"
+    confidence: high
+
+  - id: opioid_antagonist
+    title: Naloxone and other emergency rescue opioid antagonists
+    keywords: [naloxone, narcan, opioid, overdose, opioid antagonist, nalmefene, standing order]
+    summary: >-
+      A registered school may let trained unlicensed personnel give any FDA-approved pre-dosed
+      opioid antagonist in a life-threatening situation; separately, anyone may carry and give one
+      on school grounds under the statewide standing order.
+    points:
+      - text: >-
+          Conditions: annual policy approval, registration assurance, program manager oversight,
+          and training by the school nurse or a designated provider in recognizing overdose and
+          using the device, with documented competency.
+        source: cmr210
+        section: "210.011(A)(1)-(4)"
+      - text: >-
+          When given: call EMS (generally 911) immediately, then notify the caregiver as
+          appropriate and the school nurse; the program manager reports each administration to
+          DPH.
+        source: cmr210
+        section: "210.011(A)(5)"
+      - text: >-
+          Store where students and visitors are most likely to be, rapidly accessible, in a place
+          that minimizes unintended use, secure but not locked.
+        source: cmr210
+        section: "210.011(A)(7)"
+      - text: >-
+          Any individual, including unlicensed school personnel, may carry and give an opioid
+          antagonist on school grounds or at school events as permitted by the statewide standing
+          order and M.G.L. c. 94C, sections 19(d) and 34A(e).
+        source: cmr210
+        section: "210.011(B)"
+    confidence: high
+
+  - id: emergency_rescue_medications
+    title: Other emergency rescue medications (glucagon, seizure rescue, inhalers)
+    keywords: [glucagon, baqsimi, gvoke, diazepam, valtoco, midazolam, nayzilam, seizure, rescue, prn, emergency medication]
+    summary: >-
+      Emergency rescue medications may be given by delegated personnel under the student's
+      emergency medication plan without a separate nursing assessment; the plan must address
+      calling EMS and then the caregiver when a PRN rescue medication is given.
+    points:
+      - text: >-
+          Emergency rescue medications may be given under delegation per the student's emergency
+          medication plan without a separate nursing assessment for each dose.
+        source: cmr210
+        section: "210.004(A)(5)"
+      - text: >-
+          The only parenteral medications that may be delegated are epinephrine and injectable
+          glucagon in an FDA-approved pre-dosed auto-injector.
+        source: cmr210
+        section: "210.004(A)(4)"
+      - text: >-
+          When a PRN emergency rescue medication is given, the plan addresses notifying local EMS
+          and then the caregiver. In extenuating circumstances, rescue medications given by
+          inhalation or mucous membranes (such as nasal glucagon or diazepam) or a glucagon
+          auto-injector need not have been given to the student before.
+        source: cmr210
+        section: "210.005(G)(4), (G)(6)(b)"
+    confidence: high
+
+  - id: nurse_judgment
+    title: When the nurse may refuse; waivers and inspections
+    keywords: [refuse, decline, unsafe, waiver, inspection, deficiency, plan of correction, references]
+    summary: >-
+      The school nurse may refuse to give any medication that could be harmful, dangerous, or
+      inappropriate, notifying the caregiver and prescriber immediately.
+    points:
+      - text: >-
+          The nurse may refuse to give or allow any medication judged potentially harmful,
+          dangerous, or inappropriate, and notifies the caregiver and prescriber immediately.
+        source: cmr210
+        section: "210.005(H)"
+      - text: The school nurse must have access to current, peer-reviewed medication references.
+        source: cmr210
+        section: "210.005(J)"
+      - text: >-
+          The Commissioner may waive requirements on a finding of undue hardship, no risk to
+          health or safety, substantial compliance with compensating measures, and written
+          documentation.
+        source: cmr210
+        section: "210.015"
+      - text: >-
+          DPH may inspect schools; after a deficiency statement the school submits a plan of
+          correction within 30 business days.
+        source: cmr210
+        section: "210.017"
+    confidence: high

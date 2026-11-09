@@ -590,6 +590,248 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"file": "line_list.csv", "id_column": "Case ID", "dob_column": "DOB", "date_column": "Onset Date", "vaccine_column": "Diagnosis"}),
             ll,
         ),
+        // ---- Phase 7 data tools go below this line.
+        (
+            "track_school_screenings",
+            json!({"path": "school_screenings.csv", "as_of": "2026-11-15", "write_letters": true}),
+            "data/school_screenings.csv",
+        ),
+        (
+            "track_school_screenings",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "school_absence_log.csv"}),
+            "data/school_absence_log.csv",
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "school_absence_log.csv", "group_column": "Student Name"}),
+            "data/school_absence_log.csv",
+        ),
+        (
+            "monitor_school_absenteeism",
+            json!({"path": "line_list.csv", "school_column": "Town", "reason_column": "Diagnosis", "date_column": "Onset Date"}),
+            ll,
+        ),
+        (
+            "build_school_health_annual_report",
+            json!({"visit_log_path": "health_office_visits.csv", "screening_path": "school_screenings.csv", "school_year": "2025-2026"}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "build_school_health_annual_report",
+            json!({"screening_path": "school_screenings.csv", "school_year": "2026-2027"}),
+            "data/school_screenings.csv",
+        ),
+        (
+            "concussion_return_to_learn_tracker",
+            json!({"tracker_path": "concussion_log.csv", "write_plans": true, "as_of": "2026-11-01"}),
+            "data/concussion_log.csv",
+        ),
+        (
+            "build_individualized_health_plan",
+            json!({"condition": "food allergy", "student_file": "health_plan_students.csv"}),
+            "data/health_plan_students.csv",
+        ),
+        (
+            "build_individualized_health_plan",
+            json!({"condition": "diabetes", "student_file": "health_plan_students.csv"}),
+            "data/health_plan_students.csv",
+        ),
+        // ---- End of Phase 7 data tools.
+        // ---- Phase 8 data tools go below this line.
+        (
+            "calculate_growth_percentiles",
+            json!({"measurements_path": "growth_measurements.csv"}),
+            "data/growth_measurements.csv",
+        ),
+        // Pointed at the outbreak line list (no growth columns): the error must not leak.
+        (
+            "calculate_growth_percentiles",
+            json!({"measurements_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "mandated_reporter_51a_guide",
+            json!({"notes_path": "51a_notes.txt", "narrative_template": true}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "mandated_reporter_51a_guide",
+            json!({"notes_path": "line_list.csv"}),
+            ll,
+        ),
+        // ---- End of Phase 8 data tools.
+        // ---- Phase 9 data tools go below this line.
+        (
+            "plan_tb_contact_investigation",
+            json!({"index_case": {"symptomatic": true, "afb_smear_positive": true, "symptom_onset_date": "2026-06-01"},
+                   "contact_file": "tb_contacts.csv", "listed_date": "2026-08-07"}),
+            "data/tb_contacts.csv",
+        ),
+        (
+            "plan_tb_contact_investigation",
+            json!({"index_case": {"symptomatic": true, "afb_smear_positive": true, "symptom_onset_date": "2026-06-01"},
+                   "contact_file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "hrsn_screenings.csv", "group_by": "Site"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "hrsn_screenings.csv", "group_by": "Client Name"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "screen_health_related_social_needs",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "omaha_system_coder",
+            json!({"path": "client_note.txt", "write_care_plan": true}),
+            "data/client_note.txt",
+        ),
+        (
+            "nursing_documentation_template",
+            json!({"check_path": "client_note.txt", "visit_type": "home_visit"}),
+            "data/client_note.txt",
+        ),
+        (
+            "classify_intervention_wheel",
+            json!({"path": "line_list.csv", "activity_column": "Notes", "group_by": "Diagnosis"}),
+            ll,
+        ),
+        (
+            "classify_intervention_wheel",
+            json!({"path": "line_list.csv", "activity_column": "Notes", "group_by": "Last Name"}),
+            ll,
+        ),
+        (
+            "find_community_resources",
+            json!({"directory_path": "line_list.csv", "town": "Amherst"}),
+            ll,
+        ),
+        (
+            "find_community_resources",
+            json!({"directory_path": "tb_contacts.csv", "town": "Amherst"}),
+            "data/tb_contacts.csv",
+        ),
+        // ---- End of Phase 9 data tools.
+        // ---- Phase 10 data tools go below this line.
+        (
+            "score_mental_health_screen",
+            json!({"instrument": "phq9", "file": "phq9_screens.csv"}),
+            "data/phq9_screens.csv",
+        ),
+        (
+            "score_mental_health_screen",
+            json!({"instrument": "phq9", "file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "elder_protective_services_guide",
+            json!({"age_years": 80, "details_file": "protective_report_details.csv"}),
+            "data/protective_report_details.csv",
+        ),
+        (
+            "elder_protective_services_guide",
+            json!({"details_file": "line_list.csv", "format": "pdf"}),
+            ll,
+        ),
+        (
+            "advance_care_planning_toolkit",
+            json!({"details_file": "proxy_details.csv"}),
+            "data/proxy_details.csv",
+        ),
+        (
+            "advance_care_planning_toolkit",
+            json!({"details_file": "line_list.csv"}),
+            ll,
+        ),
+        // ---- End of Phase 10 data tools.
+        // ---- Phase 11 data tools go below this line.
+        (
+            "check_readability",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "check_readability",
+            json!({"path": "policies/needlestick_exposure.md", "max_flags": 50}),
+            "data/policies/needlestick_exposure.md",
+        ),
+        (
+            "plan_school_postvention",
+            json!({"details_path": "postvention_details.csv", "cause_status": "ruled_suicide",
+                   "messages": ["staff_meeting", "student_notification", "parent_letter", "media_statement", "social_media_post"]}),
+            "data/postvention_details.csv",
+        ),
+        (
+            "plan_school_postvention",
+            json!({"draft_path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "translate_health_material",
+            json!({"source_path": "client_note.txt", "language": "Spanish", "worksheet": "xlsx"}),
+            "data/client_note.txt",
+        ),
+        // COMM-03 pointed at the outbreak line list as its observance calendar.
+        (
+            "create_social_media_campaign",
+            json!({"topic": "flu vaccine", "platforms": ["facebook"], "observances_path": "line_list.csv"}),
+            ll,
+        ),
+        // ---- End of Phase 11 data tools.
+        // ---- Phase 12 data tools go below this line.
+        (
+            "functional_needs_shelter_intake",
+            json!({"area": "Brockton", "expected_residents": 150, "intake_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "heat_health_action_planner",
+            json!({"area": "Springfield", "plan_for_level": 3, "cooling_centers_path": "cooling_centers.csv"}),
+            "data/cooling_centers.csv",
+        ),
+        (
+            "plan_casper_assessment",
+            json!({"area": "Fall River", "seed": 7, "results_path": "casper_results.csv",
+                   "times_selected_column": "times_selected",
+                   "questions": ["structure", "damage", "has_generator", "needs_medication"]}),
+            "data/casper_results.csv",
+        ),
+        // Identifier columns named as questions are refused without echoing values.
+        (
+            "plan_casper_assessment",
+            json!({"area": "Fall River", "seed": 7, "results_path": "casper_results.csv",
+                   "questions": ["Household Address", "Callback Phone"]}),
+            "data/casper_results.csv",
+        ),
+        // Individual-level files given to aggregate-only readers are refused.
+        (
+            "get_electricity_dependent_population",
+            json!({"area": "Brockton", "local_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "hazard_vulnerability_assessment",
+            json!({"area": "Plymouth County", "nri_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "plan_casper_assessment",
+            json!({"area": "Brockton", "results_path": "shelter_registrations.csv", "cluster_column": "Name"}),
+            "data/shelter_registrations.csv",
+        ),
+        // ---- End of Phase 12 data tools.
     ];
     for (name, args, file) in checks {
         let r = h.call(name, args.clone()).await;

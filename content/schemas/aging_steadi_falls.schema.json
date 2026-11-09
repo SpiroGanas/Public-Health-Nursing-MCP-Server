@@ -1,0 +1,596 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/aging_steadi_falls.schema.json",
+  "title": "STEADI fall risk",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "stay_independent",
+    "key_questions",
+    "screen_frequency",
+    "tug",
+    "chair_stand",
+    "four_stage",
+    "orthostatic",
+    "assessments",
+    "interventions",
+    "not_at_risk",
+    "at_risk_follow_up",
+    "home_checklist",
+    "patient_actions",
+    "patient_actions_source"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "cited_text": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "strings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "factor": {
+      "enum": [
+        "fall_history",
+        "gait_balance",
+        "fear_of_falling",
+        "strength",
+        "urgency",
+        "feet",
+        "medications",
+        "comorbidities",
+        "home_hazards",
+        "orthostatic",
+        "vision",
+        "vitamin_d"
+      ]
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "aging-steadi-falls"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "effective_date",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "effective_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      }
+    },
+    "stay_independent": {
+      "type": "object",
+      "required": [
+        "at_risk_score",
+        "rule",
+        "attribution",
+        "items"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "at_risk_score": {
+          "type": "integer"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 12,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "required": [
+              "n",
+              "points",
+              "wording",
+              "why",
+              "factor"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "n": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 2
+              },
+              "wording": {
+                "type": "string"
+              },
+              "why": {
+                "type": "string"
+              },
+              "factor": {
+                "$ref": "#/$defs/factor"
+              }
+            }
+          }
+        }
+      }
+    },
+    "key_questions": {
+      "type": "object",
+      "required": [
+        "rule",
+        "questions",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rule": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "wording"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "wording": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "screen_frequency": {
+      "$ref": "#/$defs/cited_text"
+    },
+    "tug": {
+      "type": "object",
+      "required": [
+        "at_risk_seconds",
+        "rule",
+        "procedure",
+        "observations",
+        "observations_note",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "at_risk_seconds": {
+          "type": "number"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "procedure": {
+          "type": "string"
+        },
+        "observations": {
+          "$ref": "#/$defs/strings"
+        },
+        "observations_note": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        }
+      }
+    },
+    "chair_stand": {
+      "type": "object",
+      "required": [
+        "procedure",
+        "rule",
+        "below_average",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "procedure": {
+          "type": "string"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "below_average": {
+          "type": "array",
+          "minItems": 7,
+          "items": {
+            "type": "object",
+            "required": [
+              "age_min",
+              "age_max",
+              "men",
+              "women"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "age_min": {
+                "type": "integer"
+              },
+              "age_max": {
+                "type": "integer"
+              },
+              "men": {
+                "type": "integer"
+              },
+              "women": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "four_stage": {
+      "type": "object",
+      "required": [
+        "hold_seconds",
+        "stages",
+        "rule",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hold_seconds": {
+          "type": "number"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "stages": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": [
+              "n",
+              "name"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "n": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "orthostatic": {
+      "type": "object",
+      "required": [
+        "procedure",
+        "systolic_drop",
+        "diastolic_drop",
+        "rule",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "procedure": {
+          "type": "string"
+        },
+        "systolic_drop": {
+          "type": "number"
+        },
+        "diastolic_drop": {
+          "type": "number"
+        },
+        "rule": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        }
+      }
+    },
+    "assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "factor",
+          "assess"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "factor": {
+            "$ref": "#/$defs/factor"
+          },
+          "assess": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interventions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "factor",
+          "finding",
+          "actions"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "factor": {
+            "$ref": "#/$defs/factor"
+          },
+          "finding": {
+            "type": "string"
+          },
+          "actions": {
+            "$ref": "#/$defs/strings"
+          }
+        }
+      }
+    },
+    "not_at_risk": {
+      "$ref": "#/$defs/strings"
+    },
+    "at_risk_follow_up": {
+      "type": "string"
+    },
+    "home_checklist": {
+      "type": "object",
+      "required": [
+        "areas",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "area",
+              "checks"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "area": {
+                "type": "string"
+              },
+              "checks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "hazard",
+                    "fix"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "hazard": {
+                      "type": "string"
+                    },
+                    "fix": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "patient_actions": {
+      "$ref": "#/$defs/strings"
+    },
+    "patient_actions_source": {
+      "type": "string"
+    }
+  }
+}

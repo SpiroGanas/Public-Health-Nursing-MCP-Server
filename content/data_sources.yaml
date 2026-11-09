@@ -104,6 +104,32 @@ sources:
       - check_ma_school_immunization_requirements
       - analyze_vaccination_coverage
       - forecast_immunizations_due
+      - track_school_screenings
+      - build_individualized_health_plan
+      - concussion_return_to_learn_tracker
+      - monitor_school_absenteeism
+      - build_school_health_annual_report
+      - calculate_growth_percentiles
+      - mandated_reporter_51a_guide
+      - plan_tb_contact_investigation
+      - ltbi_treatment_calendar
+      - screen_health_related_social_needs
+      - omaha_system_coder
+      - classify_intervention_wheel
+      - nursing_documentation_template
+      - find_community_resources
+      - score_mental_health_screen
+      - elder_protective_services_guide
+      - advance_care_planning_toolkit
+      - check_readability
+      - plan_school_postvention
+      - translate_health_material
+      - create_social_media_campaign
+      - heat_health_action_planner
+      - hazard_vulnerability_assessment
+      - functional_needs_shelter_intake
+      - get_electricity_dependent_population
+      - plan_casper_assessment
     caveats:
       - Files never leave the container. Tools return aggregates by default; identifiable output is written to /data/output only.
 
@@ -179,7 +205,14 @@ sources:
     snapshot_id: census-acs5-ma
     homepage: https://www.census.gov/programs-surveys/acs
     probe_url: https://api.census.gov/data/2024/acs/acs5/variables/B01003_001E.json
-    used_by: [build_community_health_profile, language_access_profile]
+    used_by:
+      - build_community_health_profile
+      - language_access_profile
+      - map_older_adult_vulnerability
+      - get_overdose_data
+      - functional_needs_shelter_intake
+      - heat_health_action_planner
+      - translate_health_material
     caveats:
       - >-
         Live figures come from api.census.gov (the newest published 5-year vintage). From
@@ -425,12 +458,716 @@ sources:
         Linked, not read: the briefing points to this dashboard (hospital admissions and ED
         visits for COVID-19, influenza, and RSV) as the Massachusetts source of record.
   - id: nws-alerts
-    name: National Weather Service alerts API
+    name: National Weather Service API (active alerts and point forecasts)
     publisher: National Weather Service
     kind: live
-    status: planned
-    planned_phase: 12
+    status: active
     homepage: https://www.weather.gov/documentation/services-web-api
     probe_url: https://api.weather.gov/alerts/active?area=MA
-    used_by: []
-    caveats: []
+    used_by: [get_active_hazard_alerts, heat_health_action_planner]
+    caveats:
+      - >-
+        Alerts are cached for five minutes and never served from a snapshot; when the API cannot
+        be reached the tools say so. Requests send the server's User-Agent (name, version, and
+        project URL) as NWS asks.
+  # Phase 7 sources go below this line.
+  - id: ma-school-screening-requirements
+    name: Massachusetts school health screening requirements (105 CMR 200.000, M.G.L. c. 71 sections 57 and 97, DPH protocols)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-screening-requirements
+    homepage: https://www.mass.gov/lists/school-health-screening
+    probe_url: https://www.mass.gov/regulations/105-CMR-20000-physical-examination-of-school-children
+    used_by: [get_ma_school_screening_requirements, track_school_screenings]
+    caveats:
+      - Drafted 2026-11-08 and pending subject-matter review. DPH's current hearing screening protocol could not be fetched; hearing details come from the 2007 manual (low to medium confidence).
+  - id: cdc-bmi-for-age
+    name: CDC BMI-for-age growth chart reference (LMS parameters, 2000 CDC growth charts)
+    publisher: Centers for Disease Control and Prevention, National Center for Health Statistics
+    kind: content
+    status: active
+    content_id: cdc-bmi-for-age
+    homepage: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    probe_url: https://www.cdc.gov/growthcharts/data/zscore/bmiagerev.csv
+    used_by: [track_school_screenings, build_school_health_annual_report]
+    caveats:
+      - Copied unchanged from bmiagerev.csv (retrieved 2026-11-08). Percentiles above the 95th are reported as "95th or above" because CDC's 2022 extended charts replace them.
+  - id: ma-school-medication-administration
+    name: Medication administration in Massachusetts schools (105 CMR 210.000, 12/5/2025)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-medication-administration
+    homepage: https://www.mass.gov/school-health-services-medication-administration
+    probe_url: https://www.mass.gov/regulations/105-CMR-21000-the-administration-of-prescription-medications-in-public-and-private-schools
+    used_by: [school_medication_administration_guide]
+    caveats:
+      - Paraphrases 105 CMR 210.000 as amended 12/5/2025; pending subject-matter review. Board of Registration in Nursing advisory rulings are cited by name only.
+  - id: ma-school-concussion
+    name: Head injuries and concussions in Massachusetts schools (105 CMR 201.000, DPH return-to-learn guidance, CDC HEADS UP)
+    publisher: Massachusetts Department of Public Health and CDC (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-concussion
+    homepage: https://www.mass.gov/sports-related-concussions-and-head-injuries
+    probe_url: https://www.mass.gov/sports-related-concussions-and-head-injuries
+    used_by: [concussion_return_to_learn_tracker]
+    caveats:
+      - DPH's 2018 return-to-learn guidance and CDC's 2025 advice differ on time out of school; both are shown. The year-end report deadline changes every year.
+  - id: ma-school-absenteeism
+    name: Illness absenteeism syndromes and board of health notification (105 CMR 300.000, DPH norovirus school guidance)
+    publisher: Massachusetts Department of Public Health and CDC (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-absenteeism
+    homepage: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    probe_url: https://www.mass.gov/info-details/norovirus-information-for-child-care-programs-and-k-12-schools
+    used_by: [monitor_school_absenteeism]
+    caveats:
+      - DPH sets no numeric absence threshold; statistical signals prompt a call to the board of health but do not decide whether a cluster exists.
+  - id: ma-school-health-plans
+    name: Individualized health plan and emergency action plan content (diabetes, asthma, seizures, food allergy)
+    publisher: CDC and Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-health-plans
+    homepage: https://www.cdc.gov/school-health-conditions/food-allergies/index.html
+    probe_url: https://www.cdc.gov/school-health-conditions/chronic/diabetes.html
+    used_by: [build_individualized_health_plan]
+    caveats:
+      - Goals, interventions, and suggested Section 504 accommodations are a nursing template organized from cited CDC and DPH statements; pending subject-matter review.
+  - id: ma-school-annual-report
+    name: Massachusetts school health year-end reporting requirements (DPH data collection tools)
+    publisher: Massachusetts Department of Public Health (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-school-annual-report
+    homepage: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    probe_url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    used_by: [build_school_health_annual_report]
+    caveats:
+      - DPH does not publish its current Status Report form; the workbook follows the categories DPH has published (2012 Essential School Health Services report, regulations) and must be matched to DPH's current forms.
+  - id: ma-child-care-health-checklist
+    name: Child care health consultation checklist (606 CMR 7.00, Mass. Register #1459)
+    publisher: Massachusetts Department of Early Education and Care (drafted by this project)
+    kind: content
+    status: active
+    content_id: ma-child-care-health-checklist
+    homepage: https://www.mass.gov/regulations/606-CMR-700-standards-for-the-licensure-or-approval-of-family-child-care-small-group-and-school-age-and-large-group-and-school-age-child-care-programs
+    probe_url: https://www.mass.gov/doc/family-group-school-age-child-care-programs-606-cmr-7-0/download
+    used_by: [child_care_health_consultation_checklist]
+    caveats:
+      - Paraphrases 606 CMR 7.00 as published 12/24/21; check EEC's regulations page for amendments at each review.
+  # End of Phase 7 sources.
+  # Phase 8 sources go below this line.
+  - id: mch-growth-interpretation
+    name: Growth chart selection and interpretation (MMWR 2010, CDC BMI categories, CDC SAS programs)
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: mch-growth-interpretation
+    homepage: https://www.cdc.gov/growthcharts/index.htm
+    probe_url: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        Draft pending review. The corrected-age rule (until 24 months) is low confidence: no CDC
+        page states it.
+  - id: cdc-growth-charts
+    name: CDC 2000 growth charts and 2022 extended BMI-for-age charts (LMS data files)
+    publisher: CDC National Center for Health Statistics
+    kind: snapshot
+    status: active
+    snapshot_id: cdc-growth-charts
+    homepage: https://www.cdc.gov/growthcharts/cdc-data-files.htm
+    probe_url: https://www.cdc.gov/growthcharts/data/zscore/wtage.csv
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        Historical reference (NHANES 1963-1994) that CDC does not plan to update; the extended
+        BMI curves above the 95th percentile use data through 2016.
+  - id: who-growth-standards
+    name: WHO Child Growth Standards, birth to 24 months (CDC's daily LMS file)
+    publisher: World Health Organization (file distributed by CDC)
+    kind: snapshot
+    status: active
+    snapshot_id: who-growth-standards
+    homepage: https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas-who.html
+    probe_url: https://www.cdc.gov/growth-chart-training/media/files/WHOref_d.csv
+    used_by: [calculate_growth_percentiles]
+    caveats:
+      - >-
+        CDC's monthly WHO data files on ftp.cdc.gov and who.int were not reachable from the
+        build environment; the daily file used by CDC's SAS program reproduces WHO's monthly
+        tables.
+  - id: mch-lead-screening
+    name: Massachusetts childhood lead screening and case management (105 CMR 460.000, DPH CLPPP)
+    publisher: Massachusetts Department of Public Health
+    kind: content
+    status: active
+    content_id: mch-lead-screening
+    homepage: https://www.mass.gov/orgs/childhood-lead-poisoning-prevention-program
+    probe_url: https://www.mass.gov/info-details/learn-about-lead-testing-in-massachusetts-and-what-a-result-means-for-your-child
+    used_by: [childhood_lead_screening_guide, map_lead_risk]
+    caveats:
+      - >-
+        Draft pending review. The high-risk community list is updated each year in DPH's annual
+        surveillance report.
+  - id: ma-lead-screening
+    name: DPH childhood blood lead screening and prevalence by community, and high-risk communities
+    publisher: Massachusetts Department of Public Health, Childhood Lead Poisoning Prevention Program
+    kind: snapshot
+    status: active
+    snapshot_id: ma-lead-screening
+    homepage: https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists
+    probe_url: https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists
+    used_by: [childhood_lead_screening_guide, map_lead_risk]
+    caveats:
+      - >-
+        Calendar year 2024, except 24 communities (Monson to Northampton) whose page is missing
+        from DPH's 2024 PDF and which show 2023 values. Rebuild each year with
+        xtask/scripts/build_lead_snapshot.py.
+  - id: mch-mandated-reporting
+    name: Massachusetts mandated reporting of child abuse and neglect (M.G.L. c. 119, s. 51A; DCF)
+    publisher: Massachusetts General Court; Department of Children and Families
+    kind: content
+    status: active
+    content_id: mch-mandated-reporting
+    homepage: https://www.mass.gov/how-to/report-child-abuse-or-neglect-as-a-mandated-reporter
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVII/Chapter119/Section51A
+    used_by: [mandated_reporter_51a_guide]
+    caveats:
+      - >-
+        Draft pending review. DCF's Mandated Reporter Guide and s. 51A(a) differ on prenatal
+        substance exposure; the tool flags this.
+  - id: mch-developmental-milestones
+    name: CDC developmental milestones (Learn the Signs. Act Early.) and Massachusetts Early Intervention
+    publisher: Centers for Disease Control and Prevention; Massachusetts DPH Early Intervention Division
+    kind: content
+    status: active
+    content_id: mch-developmental-milestones
+    homepage: https://www.cdc.gov/act-early/milestones/index.html
+    probe_url: https://www.cdc.gov/act-early/milestones/index.html
+    used_by: [check_developmental_milestones]
+    caveats:
+      - >-
+        Draft pending review; milestones transcribed word for word from CDC's pages (updated
+        2026-05-16).
+  - id: ma-ei-programs
+    name: Massachusetts Early Intervention program directory
+    publisher: Massachusetts Department of Public Health, Early Intervention Division
+    kind: snapshot
+    status: active
+    snapshot_id: ma-ei-programs
+    homepage: https://www.mass.gov/info-details/ei-program-contact-information
+    probe_url: https://www.mass.gov/info-details/ei-program-contact-information
+    used_by: [check_developmental_milestones]
+    caveats:
+      - >-
+        DPH's CSV of 2026-09-24. The CSV address on mass.gov changes with each update; download
+        the current one from the directory page when refreshing.
+  - id: mch-newborn-postpartum
+    name: Newborn and postpartum home visit guidance (CDC Hear Her, AAP 2022 safe sleep, 105 CMR 270.000, MA car seat law)
+    publisher: CDC; American Academy of Pediatrics; Massachusetts DPH; Massachusetts General Court
+    kind: content
+    status: active
+    content_id: mch-newborn-postpartum
+    homepage: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+    probe_url: https://www.cdc.gov/hearher/maternal-warning-signs/index.html
+    used_by: [plan_newborn_postpartum_visit]
+    caveats:
+      - >-
+        Draft pending review. The AAP 2022 policy texts (publications.aap.org) were blocked;
+        safe sleep uses CDC's page and the AAP abstract, and jaundice items are low confidence.
+  - id: equity-benefit-eligibility
+    name: Benefit income limits (HHS poverty guidelines, WIC, SNAP, MassHealth, Health Safety Net, HEAP)
+    publisher: HHS ASPE; Massachusetts DPH, DTA, MassHealth, and EOHLC
+    kind: content
+    status: active
+    content_id: equity-benefit-eligibility
+    homepage: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+    probe_url: https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines
+    used_by: [estimate_benefit_eligibility]
+    caveats:
+      - >-
+        Draft pending review; refresh every year (FPL January, MassHealth March 1, WIC June or
+        July, SNAP and HEAP October 1). The FNS WIC site redirects to a blocked host; the DPH
+        WIC table was used.
+  - id: ma-acs5-housing-age
+    name: ACS year structure built (B25034), Massachusetts towns and tracts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: ma-acs5-housing-age
+    homepage: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/
+    probe_url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat
+    used_by: [map_lead_risk]
+    caveats:
+      - >-
+        ACS 2020-2024 5-year estimates; year-built bins do not split at 1978. Rebuild with
+        xtask/scripts/build_housing_age.py when the next 5-year release is out.
+  - id: ma-maternal-infant
+    name: Massachusetts births, infant mortality, and PRAMS (DPH reports) with CDC NCHS provisional U.S. estimates
+    publisher: Massachusetts DPH; CDC National Center for Health Statistics
+    kind: snapshot
+    status: active
+    snapshot_id: ma-maternal-infant
+    homepage: https://www.mass.gov/vital-records-data-and-publications
+    probe_url: https://www.mass.gov/lists/annual-massachusetts-birth-reports
+    used_by: [maternal_infant_health_profile]
+    caveats:
+      - >-
+        Built from the 2023 Birth Report, the 2022 Death Report, and the 2019-2021 PRAMS report
+        (DOCX tables); rebuild when DPH publishes new reports. CDC WONDER was blocked.
+  # End of Phase 8 sources.
+  # Phase 9 sources go below this line.
+  - id: tb-investigation-and-ltbi
+    name: TB contact investigation and LTBI treatment content (NTCA/CDC 2005 and 2020 guidelines, DPH TB program)
+    publisher: CDC, National Tuberculosis Controllers Association, and Massachusetts DPH (drafted by this project)
+    kind: content
+    status: active
+    content_id: tb-investigation-and-ltbi
+    homepage: https://www.cdc.gov/tb/hcp/clinical-guidance/index.html
+    probe_url: https://www.mass.gov/info-details/treatment-regimens-for-latent-tuberculosis-infection-in-massachusetts
+    used_by: [plan_tb_contact_investigation, ltbi_treatment_calendar]
+    caveats:
+      - >-
+        Drafted 2026-11-08 and pending review. The 2005 contact investigation guidelines are still
+        CDC's current guidance; DPH lists 3HP, 4R, and 9H while CDC/NTCA 2020 also lists 3HR and
+        6H. State TB clinic contacts come from DPH's 2025 list and change often.
+  - id: ahc-hrsn-screening
+    name: CMS Accountable Health Communities health-related social needs screening tool (scoring and Massachusetts referrals)
+    publisher: Centers for Medicare & Medicaid Services; Massachusetts agencies for referral resources
+    kind: content
+    status: active
+    content_id: ahc-hrsn-screening
+    homepage: https://www.cms.gov/priorities/innovation/innovation-models/ahcm
+    probe_url: https://www.cms.gov/priorities/innovation/files/worksheets/ahcm-screeningtool.pdf
+    used_by: [screen_health_related_social_needs]
+    caveats:
+      - >-
+        Item wording is bundled only for public-domain items; CMS's permission from the original
+        item authors covers the AHC Model only. Referral resources were checked on mass.gov on
+        2026-11-08.
+  - id: omaha-system
+    name: The Omaha System (2005), Problem Classification Scheme, Intervention Scheme, Problem Rating Scale for Outcomes
+    publisher: The Omaha System
+    kind: content
+    status: active
+    content_id: omaha-system
+    homepage: https://www.omahasystem.org/
+    probe_url: https://www.omahasystem.org/overview
+    used_by: [omaha_system_coder]
+    caveats:
+      - >-
+        Public domain; terms must be used as published in the 2005 book. Signs/symptoms not seen on
+        omahasystem.org and the labels for ratings 4-5 are unverified drafts.
+  - id: public-health-intervention-wheel
+    name: Public Health Intervention Wheel (Minnesota Department of Health)
+    publisher: Minnesota Department of Health
+    kind: content
+    status: active
+    content_id: public-health-intervention-wheel
+    homepage: https://www.health.state.mn.us/communities/practice/research/phncouncil/wheel.html
+    probe_url: null
+    used_by: [classify_intervention_wheel]
+    caveats:
+      - >-
+        MDH's page returned HTTP 403 to automated requests on 2026-11-08; definitions were taken
+        from published articles quoting MDH (2019) and four are low confidence.
+  - id: nursing-documentation-templates
+    name: Nursing documentation templates and required elements (244 CMR 9.03; 42 CFR 484 as a reference standard)
+    publisher: Massachusetts Board of Registration in Nursing; CMS (eCFR); drafted by this project
+    kind: content
+    status: active
+    content_id: nursing-documentation-templates
+    homepage: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    probe_url: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    used_by: [nursing_documentation_template]
+    caveats:
+      - SOAP, DAR, and narrative structures are tool defaults; follow the agency's documentation policy.
+  - id: hrsa-health-centers
+    name: HRSA health center service delivery sites (Massachusetts)
+    publisher: Health Resources and Services Administration
+    kind: live
+    status: active
+    snapshot_id: hrsa-health-centers-ma
+    homepage: https://data.hrsa.gov/data/download
+    probe_url: https://data.hrsa.gov/data/download
+    used_by: [find_community_resources]
+    caveats:
+      - >-
+        The live download (about 14 MB, all states) is filtered to active Massachusetts service
+        sites and cached for a week; the bundled snapshot (255 sites, 2026-11-08) is the
+        fallback. HRSA lists sites, not services, languages, or daily hours.
+  - id: community-resource-directory
+    name: The nurse's community resource directory (CSV/XLSX in /data)
+    publisher: Your agency
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [find_community_resources]
+    caveats:
+      - >-
+        Maintained by the nurse at /data/resources/community_resources.csv (name, services, town,
+        address, phone, website, languages, hours, eligibility, cost, last_verified); entries
+        verified more than 12 months ago are flagged.
+  - id: newcomer-health
+    name: Refugee and immigrant health content (CDC domestic screening, DPH/ORI programs, MassHealth noncitizen coverage, EA shelter)
+    publisher: CDC, Massachusetts DPH, Office for Refugees and Immigrants, MassHealth, EOHLC (drafted by this project)
+    kind: content
+    status: active
+    content_id: newcomer-health
+    homepage: https://www.cdc.gov/immigrant-refugee-health/hcp/domestic-guidance/index.html
+    probe_url: https://www.mass.gov/info-details/masshealth-information-for-noncitizens
+    used_by: [newcomer_health_navigator]
+    caveats:
+      - >-
+        Includes the October 1, 2026 federal MassHealth changes (EOM 26-10); immigration-related
+        benefit rules are changing quickly, so check MassHealth's noncitizen page before each use.
+  # End of Phase 9 sources.
+  # Phase 10 sources go below this line.
+  - id: bh-mental-health-screening
+    name: Mental health screening instruments (PHQ, GAD, EPDS, NIMH ASQ, C-SSRS screener)
+    publisher: NIMH; instrument developers (PubMed/PMC); compiled by this project
+    kind: content
+    status: active
+    content_id: bh-mental-health-screening
+    homepage: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+    probe_url: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+    used_by: [score_mental_health_screen]
+    caveats:
+      - >-
+        Cutoffs, safety-alert rules, and license terms are pending the subject matter expert's
+        review. phqscreeners.com and cssrs.columbia.edu could not be reached when drafted (PHQ
+        license and C-SSRS triage levels are medium or low confidence).
+  - id: bh-crisis-resources
+    name: Crisis lines (988, Behavioral Health Help Line, mobile crisis, Crisis Text Line)
+    publisher: Massachusetts DPH and EOHHS (mass.gov); NIMH
+    kind: content
+    status: active
+    content_id: bh-crisis-resources
+    homepage: https://www.mass.gov/community-behavioral-health-centers
+    probe_url: https://www.mass.gov/info-details/about-the-988-lifeline
+    used_by: [find_crisis_resources]
+    caveats:
+      - Numbers read from mass.gov and NIMH on 2026-11-08; call-test before publishing. No warmline could be verified.
+  - id: ma-cbhc-directory
+    name: Community Behavioral Health Centers and the towns they serve
+    publisher: Massachusetts Executive Office of Health and Human Services (mass.gov)
+    kind: snapshot
+    status: active
+    snapshot_id: ma-cbhc-directory
+    homepage: https://www.mass.gov/find-a-cbhc/locations
+    probe_url: https://www.mass.gov/find-a-cbhc/locations
+    used_by: [find_crisis_resources]
+    caveats:
+      - >-
+        Built by cargo xtask build-service-directories from mass.gov's paged listing; 63 towns
+        are in no published "Serving" list, so the tool shows the CBHCs in their county.
+  - id: ma-aging-service-directory
+    name: Aging Services Access Points, SHINE offices, and senior nutrition projects by town
+    publisher: Massachusetts Executive Office of Aging & Independence (mass.gov)
+    kind: snapshot
+    status: active
+    snapshot_id: ma-aging-service-directory
+    content_id: aging-services-guide
+    homepage: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    probe_url: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    used_by: [find_ma_aging_services]
+    caveats:
+      - >-
+        Council on Aging contacts are not bundled (AGE publishes them on an ArcGIS map;
+        mcoaonline.org was not reachable). Protective services areas may differ from ASAP areas.
+  - id: aging-steadi-falls
+    name: CDC STEADI fall risk screening, assessments, and interventions
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: aging-steadi-falls
+    homepage: https://www.cdc.gov/steadi/
+    probe_url: https://www.cdc.gov/steadi/hcp/clinical-resources/index.html
+    used_by: [steadi_fall_risk_assessment]
+    caveats:
+      - Transcribed from the CDC STEADI materials (2017-2023); pending review.
+  - id: aging-protective-services
+    name: Elder and disabled adult protective services reporting (M.G.L. c.19A, c.19C)
+    publisher: Massachusetts General Court; Executive Office of Aging & Independence
+    kind: content
+    status: active
+    content_id: aging-protective-services
+    homepage: https://www.mass.gov/protecting-older-adults-from-abuse
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section15
+    used_by: [elder_protective_services_guide]
+    caveats:
+      - 651 CMR 5.00 and the DPPC web site (dppcmass.gov) could not be read when drafted.
+  - id: aging-coverage-options
+    name: Older adult coverage options (Medicare 2026 costs, MSPs, MassHealth, FEW, PACE, SCO, One Care)
+    publisher: CMS (cms.gov); MassHealth and EOAI (mass.gov)
+    kind: content
+    status: active
+    content_id: aging-coverage-options
+    homepage: https://www.mass.gov/info-details/get-help-paying-medicare-costs
+    probe_url: https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles
+    used_by: [explain_older_adult_coverage_options]
+    caveats:
+      - Update Medicare amounts each November (CMS) and MassHealth FPL figures each March.
+  - id: cms-provider-data-nursing-homes
+    name: CMS Provider Data Catalog, nursing homes (Care Compare)
+    publisher: Centers for Medicare & Medicaid Services
+    kind: live
+    status: active
+    snapshot_id: cms-ma-nursing-homes
+    content_id: aging-nursing-home-guide
+    homepage: https://data.cms.gov/provider-data/topics/nursing-homes
+    probe_url: https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/4pq5-n9py
+    used_by: [nursing_home_quality_lookup]
+    caveats:
+      - >-
+        Datasets 4pq5-n9py, r5ix-sfxw, fykj-qjee, djen-97ju, and xcdc-v8bm, checked 2026-11-08;
+        CMS refreshes monthly and removed its separate COVID-19 vaccination datasets in July 2025.
+  - id: census-acs5-ma-older-adults
+    name: ACS 5-year estimates for older adults (living alone, no vehicle, limited English, poverty)
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: census-acs5-ma-older-adults
+    homepage: https://www.census.gov/programs-surveys/acs
+    probe_url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/
+    used_by: [map_older_adult_vulnerability]
+    caveats:
+      - Built from the 2020-2024 table-based summary files; disability and the age profile use the Phase 4 ACS adapter.
+  - id: aging-advance-care-planning
+    name: Health care proxy (M.G.L. c.201D), MOLST status, and community session materials
+    publisher: Massachusetts General Court; compiled by this project
+    kind: content
+    status: active
+    content_id: aging-advance-care-planning
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section2
+    used_by: [advance_care_planning_toolkit]
+    caveats:
+      - >-
+        MOLST is not verified: on 2026-11-09 molst-ma.org served unrelated content and no
+        mass.gov MOLST page was found. Do not link to that domain.
+  # End of Phase 10 sources.
+  # Phase 11 sources go below this line.
+  - id: ma-dph-opioid-deaths-town
+    name: DPH opioid-related overdose deaths by city/town, 2015-2022
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-dph-opioid-deaths-town
+    homepage: https://www.mass.gov/lists/substance-use-and-overdose-data
+    probe_url: https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download
+    used_by: [get_overdose_data]
+    caveats:
+      - >-
+        The latest town-level table DPH published as a document (posted June 2023). Newer town data
+        (through 2025) are only on DPH's BSAS dashboard (Tableau), which the server cannot read.
+
+  - id: cdc-vsrr-overdose
+    name: CDC VSRR provisional drug overdose death counts (state and county)
+    publisher: CDC, National Center for Health Statistics
+    kind: live
+    status: active
+    snapshot_id: cdc-vsrr-overdose-ma
+    homepage: https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm
+    probe_url: https://data.cdc.gov/resource/xkb8-kh2a.json?$limit=1
+    used_by: [get_overdose_data]
+    caveats:
+      - >-
+        Provisional 12 month-ending counts, revised monthly. State counts are by state of
+        occurrence, county counts by county of residence; county counts of 1-9 are suppressed.
+
+  - id: ma-youth-health-survey
+    name: Massachusetts Youth Health Survey and YRBS report tables
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: ma-youth-health-survey
+    homepage: https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs
+    probe_url: https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download
+    used_by: [get_youth_risk_behavior_data]
+    caveats:
+      - >-
+        Tables from the 2025 and 2023 MYHS reports and the 2023 joint MYHS/YRBS report. Statewide
+        public school estimates only; DPH does not present estimates from fewer than 100
+        respondents or with a relative standard error above 30%.
+
+  - id: cdc-yrbs-mental-health
+    name: CDC YRBSS mental health indicators (Massachusetts and national)
+    publisher: Centers for Disease Control and Prevention
+    kind: live
+    status: active
+    snapshot_id: cdc-yrbs-mental-health-ma-us
+    homepage: https://data.cdc.gov/d/nu3s-3dwd
+    probe_url: https://data.cdc.gov/resource/nu3s-3dwd.json?$limit=1
+    used_by: [get_youth_risk_behavior_data]
+    caveats:
+      - >-
+        High school estimates for 2019, 2021, and 2023 only; the Massachusetts YRBS and national
+        YRBS differ from DPH's Youth Health Survey.
+
+  - id: samhsa-findtreatment
+    name: SAMHSA FindTreatment.gov facility locator
+    publisher: Substance Abuse and Mental Health Services Administration
+    kind: live
+    status: active
+    snapshot_id: samhsa-findtreatment-ma
+    homepage: https://findtreatment.gov/
+    probe_url: https://findtreatment.gov/locator/exportsAsJson/v2?sAddr=%2242.3601,-71.0589%22&limitType=2&limitValue=1000&sType=sa&pageSize=1&page=1
+    used_by: [find_substance_use_treatment]
+    caveats:
+      - >-
+        Facilities report their own services. The bundled statewide copy (341 facilities, November
+        2026) is used when the locator cannot be reached. The Massachusetts Substance Use Helpline
+        site (helplinema.org) cannot be reached by the server and is given as a link only.
+
+  - id: bh-substance-use-resources
+    name: Naloxone, harm reduction, and treatment resources (DPH standing order, OEND, SSP list)
+    publisher: Massachusetts Department of Public Health; CDC; FDA
+    kind: content
+    status: active
+    content_id: bh-substance-use-resources
+    homepage: https://www.mass.gov/stop-an-overdose-with-naloxone
+    probe_url: https://www.mass.gov/doc/statewide-standing-order/download
+    used_by: [find_naloxone_and_harm_reduction, find_substance_use_treatment]
+    caveats:
+      - >-
+        DPH's naloxone program and syringe service program maps (Tableau Public and Google My
+        Maps) are not reachable by the server; the tool links to them.
+
+  - id: after-a-suicide-toolkit
+    name: "After a Suicide: A Toolkit for Schools (2nd edition) and safe-messaging rules"
+    publisher: AFSP and SPRC (Education Development Center)
+    kind: content
+    status: active
+    content_id: bh-school-postvention
+    homepage: https://sprc.org/resources/after-suicide-toolkit-schools
+    probe_url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+    used_by: [plan_school_postvention, create_social_media_campaign, draft_press_materials]
+    caveats:
+      - >-
+        Paraphrased with page numbers; the templates are the project's own drafts because adapting
+        the copyrighted toolkit needs permission from EDC.
+
+  - id: cdc-clear-communication-index
+    name: CDC Clear Communication Index, Everyday Words, and plain language guidance
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: comms-readability
+    homepage: https://www.cdc.gov/ccindex/index.html
+    probe_url: https://www.cdc.gov/ccindex/pdf/full-index-score-sheet.pdf
+    used_by: [check_readability, create_social_media_campaign, draft_press_materials, translate_health_material]
+    caveats:
+      - >-
+        The Everyday Words list was read from CDC's tool on 2026-11-08 (124 terms); CDC may add
+        terms.
+
+  - id: cdc-cerc
+    name: CDC Crisis and Emergency Risk Communication (CERC) media guidance
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: comms-campaigns
+    homepage: https://www.cdc.gov/cerc/php/cerc-manual/index.html
+    probe_url: https://www.cdc.gov/cerc/media/pdfs/CERC_Working_with_the_Media.pdf
+    used_by: [draft_press_materials, create_social_media_campaign]
+    caveats:
+      - >-
+        Social media platform limits and national health observance dates in the same content file
+        could not be verified from the build environment and are marked low confidence.
+  # End of Phase 11 sources.
+  # Phase 12 sources go below this line.
+  - id: openfema-declarations
+    name: OpenFEMA Disaster Declarations Summaries (Massachusetts)
+    publisher: Federal Emergency Management Agency
+    kind: live
+    status: active
+    snapshot_id: fema-declarations-ma
+    homepage: https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2
+    probe_url: https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=state%20eq%20%27MA%27&$top=1
+    used_by: [get_active_hazard_alerts, hazard_vulnerability_assessment]
+    caveats:
+      - >-
+        Declarations record federal assistance, not every hazard event. www.fema.gov web pages
+        returned 403 from this project's build network while the OpenFEMA API worked.
+  - id: hhs-empower
+    name: HHS emPOWER Map data (electricity-dependent Medicare beneficiaries by county and ZIP code)
+    publisher: HHS Administration for Strategic Preparedness and Response (ASPR) and CMS
+    kind: live
+    status: active
+    snapshot_id: hhs-empower-ma
+    homepage: https://empowerprogram.hhs.gov/empowermap
+    probe_url: https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/counties.json
+    used_by: [get_electricity_dependent_population, heat_health_action_planner, functional_needs_shelter_intake]
+    caveats:
+      - >-
+        Read from the emPOWER Map's own JSON endpoints (the REST Service is on arcgis.com, which
+        some networks block). Values of 1-11 are published as 11; the data month is not stated.
+  - id: airnow-reporting-area
+    name: EPA AirNow reporting-area file (current and forecast AQI)
+    publisher: U.S. Environmental Protection Agency (AirNow); Massachusetts forecasts by MassDEP
+    kind: live
+    status: active
+    homepage: https://files.airnowtech.org/airnow/docs/ReportingAreaFactSheet.pdf
+    probe_url: https://files.airnowtech.org/airnow/today/reportingarea.dat
+    used_by: [air_quality_protective_guidance]
+    caveats:
+      - >-
+        Preliminary data, not for regulatory use. The optional AirNow API path
+        (PHN_AIRNOW_API_KEY, www.airnowapi.org) was not reachable from the build network and is
+        untested.
+  - id: nws-heatrisk
+    name: NWS HeatRisk (experimental), 7-day forecast grids
+    publisher: National Weather Service, Weather Prediction Center
+    kind: live
+    status: active
+    homepage: https://www.wpc.ncep.noaa.gov/heatrisk/
+    probe_url: https://www.wpc.ncep.noaa.gov/heatrisk/data/FileTimes.js
+    used_by: [heat_health_action_planner]
+    caveats:
+      - >-
+        Experimental product read from the KML ground-overlay images (palette index = HeatRisk
+        level); a change in WPC's file format would stop it, and the tool would say no data.
+  - id: census-pl2020-blocks
+    name: 2020 Census Redistricting Data (PL 94-171) housing units by census block, Massachusetts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: census-pl2020-blocks-ma
+    homepage: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/
+    probe_url: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/
+    used_by: [plan_casper_assessment]
+    caveats:
+      - Housing counts as of April 1, 2020.
+  - id: fema-nri
+    name: FEMA National Risk Index tables (downloaded by the nurse)
+    publisher: Federal Emergency Management Agency
+    kind: local
+    status: active
+    homepage: https://hazards.fema.gov/nri/
+    probe_url: https://hazards.fema.gov/nri/
+    used_by: [hazard_vulnerability_assessment]
+    caveats:
+      - >-
+        On 2026-11-08 every hazards.fema.gov/nri address redirected to FEMA's Resilience Analysis
+        and Planning Tool page, which was blocked from the build network, so no NRI snapshot is
+        bundled. A table the nurse downloads can be read from /data; its column names could not
+        be checked against FEMA's data dictionary.
+  - id: epr-env-reference-content
+    name: Preparedness and environmental health reference content (hazard actions, dispensing, AQI, heat, HVA, CMIST, emPOWER, CASPER)
+    publisher: CDC, EPA, NWS, MEMA, Commonwealth of Massachusetts, HHS ASPR (drafted by this project)
+    kind: content
+    status: active
+    content_id: epr-hazard-health-actions
+    homepage: https://www.cdc.gov/natural-disasters/about/index.html
+    probe_url: https://www.cdc.gov/natural-disasters/about/index.html
+    used_by: [get_active_hazard_alerts, model_dispensing_site_throughput, air_quality_protective_guidance, heat_health_action_planner, hazard_vulnerability_assessment, functional_needs_shelter_intake, get_electricity_dependent_population, plan_casper_assessment]
+    caveats:
+      - Drafted from sources retrieved 2026-11-08 and pending subject-matter review; tool defaults (dispensing station times, shelter staffing ratios) have no published source.
+  # End of Phase 12 sources.

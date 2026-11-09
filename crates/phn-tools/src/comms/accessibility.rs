@@ -1,6 +1,4 @@
-//! Health communication tools.
-//!
-//! * COMM-05 `check_document_accessibility`
+//! COMM-05 `check_document_accessibility` (Phase 1).
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::accessibility::{self, Report, Status};

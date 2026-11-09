@@ -10,9 +10,10 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.7.0 — Phases 0 to 6 of the [project plan](project_plan.md).** 47 of the 148
+> **Status: v0.13.0 — Phases 0 to 12 of the [project plan](project_plan.md).** 97 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
-> immunization schedules, recommendations, and school requirements, and the other items listed by
+> immunization schedules and school requirements, school health and maternal-child health rules,
+> screening instruments, aging and preparedness guidance, and the other items listed by
 > `get_data_source_status`) is a **draft pending review** by the subject matter expert; every
 > answer from it says so. All clinical and legal output is decision support only.
 
@@ -95,6 +96,92 @@ output folder instead of being sent to the AI model.
 | `get_notifiable_disease_trends` | CD-08 | cd | NNDSS weekly counts for Massachusetts, New England, and the U.S. compared with the five previous years (year to date, last 4 weeks, year-end totals) |
 | `get_respiratory_and_wastewater_surveillance` | CD-09 | cd | Weekly COVID-19, influenza, and RSV briefing: hospital admissions, ED visits, test positivity, and wastewater levels by Massachusetts site, with data dates |
 
+### Phase 7: school health
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `get_ma_school_screening_requirements` | SCH-01 | school | Required school screenings by grade (105 CMR 200.000, M.G.L. c. 71) with protocols, referral, notification, and reporting rules. |
+| `track_school_screenings` | SCH-02 | school | From a local roster: who is due, completion, referral, and follow-up rates by grade, BMI categories, and referral letters in each family's language (written locally). |
+| `school_medication_administration_guide` | SCH-03 | school | Cited answers on medication administration in schools (105 CMR 210.000, amended 12/5/2025). |
+| `build_individualized_health_plan` | SCH-04 | school | IHP and emergency action plan for diabetes, asthma, seizures, or food allergy, with suggested 504 accommodations; filled locally from a student file. |
+| `concussion_return_to_learn_tracker` | SCH-05 | school | 105 CMR 201.000 deadlines, reentry and return-to-play stages, accommodations, and head injury log checks with reentry plans written locally. |
+| `monitor_school_absenteeism` | SCH-06 | school | EARS signals for influenza-like or gastrointestinal absences by school, with when to call the board of health. |
+| `build_school_health_annual_report` | SCH-07 | school | Year-end statistics from local logs in DPH's published reporting categories, plus a school committee summary. |
+| `child_care_health_consultation_checklist` | SCH-08 | school | Health consultant checklist against EEC licensing rules (606 CMR 7.00). |
+<!-- Phase 7 rows go above this line. -->
+
+### Phase 8: maternal, child, and family health
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `calculate_growth_percentiles` | MCH-03 | mch | WHO (0-24 months) and CDC (2-20 years) percentiles and z-scores with extended BMI, corrected age, BMI category, and visit-to-visit change; batch files with suppressed counts |
+| `childhood_lead_screening_guide` | MCH-04 | mch | Massachusetts lead screening schedule (105 CMR 460.000), DPH high-risk communities, confirmation timing and follow-up by blood lead level, reporting, and a family teaching sheet |
+| `mandated_reporter_51a_guide` | MCH-07 | mch | Massachusetts 51A reporting: who, when (call now, written report in 48 hours), what to include, protections, DCF process; fills a written-report draft from local notes into /data/output |
+| `check_developmental_milestones` | MCH-02 | mch | CDC milestone checklist for a child's age (2022 revision) with act-early steps, screening ages, Massachusetts Early Intervention referral, and the EI programs for a town |
+| `plan_newborn_postpartum_visit` | MCH-01 | mch | Newborn and postpartum home visit plan: feeding and weight, jaundice, safe sleep, car seats, MA newborn screening, and CDC Hear Her maternal warning signs, with a DOCX plan and teaching sheet |
+| `estimate_benefit_eligibility` | EQ-06 | equity | Income screen for WIC, SNAP, MassHealth, the Health Safety Net, and heating assistance from household size and income (2026 poverty guidelines; a screen, not a determination) |
+| `map_lead_risk` | MCH-05 | mch | Ranks towns or tracts for lead outreach from pre-1950/1980 housing, low income, young children, DPH screening rates and prevalence, and DPH high-risk status, with a choropleth map |
+| `maternal_infant_health_profile` | MCH-06 | mch | Births, low birthweight, preterm, prenatal care, infant mortality, and PRAMS indicators by community and race/ethnicity, compared with MA and the U.S. |
+<!-- Phase 8 rows go above this line. -->
+
+### Phase 9: PHN practice toolkit and case management
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `plan_tb_contact_investigation` | CD-11 | cd | TB contact investigation per NTCA/CDC: infectious period, contact priorities, deadlines, the 8-10 week retest, DPH TB contacts, and a tracking workbook. |
+| `ltbi_treatment_calendar` | CD-12 | cd | Dose calendar, monitoring visits, completion window, and adherence check for 3HP, 4R, 3HR, 6H, and 9H (no dose calculation). |
+| `screen_health_related_social_needs` | EQ-05 | equity | Scores the CMS AHC HRSN screening tool by domain and maps positive domains to Massachusetts referral categories; batch mode returns suppressed counts. |
+| `omaha_system_coder` | CORE-01 | core | Codes a narrative to Omaha System problems, interventions, and KBS ratings without returning the text. |
+| `classify_intervention_wheel` | CORE-02 | core | Classifies activities by the Public Health Intervention Wheel's 17 interventions and 3 levels for workload reports. |
+| `nursing_documentation_template` | CORE-03 | core | SOAP, DAR, and narrative templates with required elements, and a check of a local note that never returns its text. |
+| `find_community_resources` | EQ-07 | equity | Searches the nurse's resource directory and HRSA health centers by town, service, language, and hours. |
+| `newcomer_health_navigator` | EQ-11 | equity | Refugee and immigrant health: CDC domestic screening, DPH/ORI programs, MassHealth coverage by status (October 2026 changes), and shelter resources. |
+<!-- Phase 9 rows go above this line. -->
+
+### Phase 10: healthy aging and mental health screening
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `score_mental_health_screen` | MH-02 | bh | Scores PHQ-2/9, GAD-2/7, EPDS, NIMH ASQ, and the C-SSRS screener with published cutoffs and safety alerts (988, brief suicide safety assessment, agency protocol); never diagnoses. |
+| `find_crisis_resources` | MH-01 | bh | 988, the Behavioral Health Help Line, mobile crisis, Crisis Text Line, and the town's Community Behavioral Health Center, with language options. |
+| `steadi_fall_risk_assessment` | AGE-01 | aging | CDC STEADI screening, TUG, chair stand norms, 4-stage balance, orthostatic BP, and an intervention and home-safety plan. |
+| `elder_protective_services_guide` | AGE-03 | aging | Adult Protective Services (60+) and DPPC (18-59) reporting rules, timelines, and a report narrative filled locally. |
+| `find_ma_aging_services` | AGE-02 | aging | ASAP, Council on Aging, SHINE, meals, caregiver and dementia supports, and protective and ombudsman contacts for a town. |
+| `explain_older_adult_coverage_options` | AGE-04 | aging | Medicare 2026 costs, Medicare Savings Programs, MassHealth 65+, Frail Elder Waiver, PACE, SCO, and One Care with a screen. |
+| `nursing_home_quality_lookup` | AGE-06 | aging | CMS star ratings, staffing, infection control citations, and staff and resident vaccination for Massachusetts nursing homes. |
+| `map_older_adult_vulnerability` | AGE-05 | aging | Older adults living alone, with disabilities, without a vehicle, with limited English, or in poverty, by tract or town, with a map. |
+| `advance_care_planning_toolkit` | AGE-07 | aging | Health care proxy rules (c.201D) and template filled locally, MOLST status, and a community session script and handout. |
+<!-- Phase 10 rows go above this line. -->
+
+### Phase 11: substance use, crisis resources, and health communication
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `check_readability` | COMM-01 | comms | Flesch Reading Ease, Flesch-Kincaid, SMOG, and Fog grades; long sentences, CDC Everyday Words jargon, passive voice, and acronyms flagged; CDC Clear Communication Index scored. |
+| `get_overdose_data` | MH-03 | bh | DPH town overdose deaths 2015-2022 with rates vs the state, CDC provisional county, state, and U.S. counts by drug, and DPH's 2024 findings. |
+| `get_youth_risk_behavior_data` | MH-07 | bh | Massachusetts Youth Health Survey and YRBS indicators (sadness, suicide, bullying, substance use) by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs, vs the U.S. |
+| `find_naloxone_and_harm_reduction` | MH-04 | bh | Naloxone access under the statewide standing order, syringe service approval by town, fentanyl test strips, help lines, and a cited naloxone teaching script (Word handout). |
+| `find_substance_use_treatment` | MH-05 | bh | FindTreatment.gov facilities near a town: methadone, buprenorphine, naltrexone, withdrawal management, recovery supports, filtered by MassHealth and language, plus the Substance Use Helpline. |
+| `plan_school_postvention` | MH-06 | bh | After a suicide affecting a school: toolkit steps, talking points, staff/student/parent/media templates filled locally, and a safe-messaging check of drafts. |
+| `translate_health_material` | COMM-02 | comms | Translation workflow (no bundled translations): language priorities, agency translations, translator brief, glossary and back-translation checks, review worksheet. |
+| `create_social_media_campaign` | COMM-03 | comms | Posting calendar tied to health observances, checks of draft posts (length, alt text, hashtags, readability, safe messaging), XLSX calendar. |
+| `draft_press_materials` | COMM-04 | comms | Press release, media advisory, talking points, or spokesperson Q&A with CDC CERC checks and a Word export. |
+<!-- Phase 11 rows go above this line. -->
+
+### Phase 12: emergency preparedness I: situational awareness and planning
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `get_active_hazard_alerts` | EPR-05 | epr | Current NWS watches and warnings for a town, county, or the state with likely health effects and public health actions, plus FEMA declarations. |
+| `model_dispensing_site_throughput` | EPR-02 | epr | POD and mass vaccination site queues (M/M/c): staff per station, waits, bottleneck, capacity, and hours to reach a population. |
+| `air_quality_protective_guidance` | ENV-02 | env | Current and forecast AQI from AirNow with actions for sensitive groups, schools, and outdoor events; concentration-to-AQI conversion. |
+| `heat_health_action_planner` | ENV-01 | env | 7-day HeatRisk and forecast, heat-vulnerable population, activation steps, and a heat response checklist with cooling centers and outreach scripts. |
+| `hazard_vulnerability_assessment` | EPR-06 | epr | Facilitated HVA (probability × severity) seeded with ResilientMass ratings, FEMA declarations, and optional NRI scores, with a workbook. |
+| `functional_needs_shelter_intake` | EPR-03 | epr | CMIST shelter intake form, local fill to the output folder, and estimates of support needs and staff for a shelter population. |
+| `get_electricity_dependent_population` | EPR-04 | epr | HHS emPOWER counts of electricity-dependent Medicare beneficiaries by town, county, and ZIP code for outage planning. |
+| `plan_casper_assessment` | EPR-11 | epr | CDC CASPER cluster sample of census blocks, team materials, and weighted analysis with confidence intervals. |
+<!-- Phase 12 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.
@@ -116,7 +203,7 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0
 ```
 
 On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
@@ -125,7 +212,7 @@ Apple silicon) from the GitHub release and run `docker load -i <file>`.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 .
 ```
 
 ### 3. Create your data folder
@@ -150,7 +237,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
       ]
     }
   }
@@ -169,7 +256,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
       ]
     }
   }
@@ -191,7 +278,7 @@ Then try, for example:
 > Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.7.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration
@@ -210,6 +297,7 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | `PHN_HTTP_TIMEOUT_SECS` | `20` | Timeout for public API calls. |
 | `PHN_DATA_DIR`, `PHN_CACHE_DIR`, `PHN_OUTPUT_DIR`, `PHN_POLICY_DIR`, `PHN_SETTINGS_FILE` | `/data`, `/cache`, `/data/output`, `/data/policies`, `/cache/phn-settings.toml` | Folder locations (rarely changed). |
 | `PHN_LOG` | `info` | Log level. Logs go to stderr; stdout carries the MCP protocol. |
+| `PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` | none | Optional free API keys. Everything works without them (bundled snapshots or lower rate limits); the Census key is needed for live ACS data from some networks, and the AirNow key adds the AirNow API to the public AirNow files. |
 
 **Profiles and toolsets.** Exposing every tool at once crowds the model's context, so tools are
 grouped into toolsets (`core`, `cd`, `vax`, `school`, `mch`, `aging`, `bh`, `epr`, `env`,

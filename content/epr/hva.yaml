@@ -1,0 +1,271 @@
+# Hazard vulnerability assessment (HVA) method, scales, and Massachusetts hazard seeds for
+# hazard_vulnerability_assessment (EPR-06).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-08).
+# Schema: content/schemas/epr_hva.schema.json
+meta:
+  id: epr-hazard-vulnerability
+  title: Hazard vulnerability assessment method and Massachusetts hazard seeds
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "ResilientMass Plan: 2023 Massachusetts State Hazard Mitigation and Climate Adaptation Plan, Chapter 5 (Risk Assessment and Hazard Analysis)"
+    publisher: Commonwealth of Massachusetts, Executive Office of Energy and Environmental Affairs and MEMA
+    url: https://www.mass.gov/doc/resilientmass-plan-chapter-5-risk-assessment-and-hazard-analysis/download
+  related_sources:
+    - title: 2023 ResilientMass Plan (overview page)
+      publisher: Commonwealth of Massachusetts
+      url: https://www.mass.gov/info-details/2023-resilientmass-plan
+    - title: OpenFEMA Disaster Declarations Summaries v2
+      publisher: Federal Emergency Management Agency
+      url: https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2
+    - title: Public Health Emergency Preparedness and Response Capabilities (Capability 1, jurisdictional risk assessment)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The 15 hazards and their statewide likelihood, human consequence, warning time, and scale
+    are transcribed from ResilientMass Plan Tables 5.1-1 and 5.1-3 to 5.1-9 (high confidence).
+    The scoring method (probability x severity, severity = impacts + preparedness gaps) is this
+    project's documented method, modeled on the structure of widely used hospital and public
+    health HVA worksheets (for example Kaiser Permanente's); those worksheets could not be
+    retrieved to confirm, so the method is labeled the tool's own (medium confidence). The
+    mappings from ResilientMass ratings to seed scores and the FEMA National Risk Index column
+    prefixes are tool choices (low confidence for NRI: FEMA's NRI site redirected to the
+    Resilience Analysis and Planning Tool, which was blocked, so the data dictionary could not be
+    checked). Technological and public health hazards added for local health departments have
+    no ResilientMass seeds.
+
+sources:
+  resilientmass-ch5:
+    title: "ResilientMass Plan (2023), Chapter 5: Risk Assessment and Hazard Analysis"
+    publisher: Commonwealth of Massachusetts (EEA and MEMA)
+    url: https://www.mass.gov/doc/resilientmass-plan-chapter-5-risk-assessment-and-hazard-analysis/download
+    effective_date: "2023"
+    retrieved: 2026-11-08
+  resilientmass:
+    title: 2023 ResilientMass Plan
+    publisher: Commonwealth of Massachusetts
+    url: https://www.mass.gov/info-details/2023-resilientmass-plan
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-phep:
+    title: Public Health Emergency Preparedness and Response Capabilities (October 2018, updated January 2019)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/readiness/media/pdfs/CDC_PreparednesResponseCapabilities_October2018_Final_508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+  openfema:
+    title: Disaster Declarations Summaries v2 (OpenFEMA)
+    publisher: Federal Emergency Management Agency
+    url: https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2
+    effective_date: null
+    retrieved: 2026-11-08
+
+method:
+  summary: >-
+    For each hazard the planning group scores probability (1-3) and six severity items (0-3):
+    three impacts (people, property and infrastructure, and health department operations and
+    services) and three preparedness gaps (planning and training, internal response capacity,
+    and external partners and resources; 1 = strong, 2 = moderate, 3 = weak or none). Severity =
+    sum of the six items divided by 18. Relative risk = (probability / 3) x severity x 100, from 0
+    to 100%. Hazards are ranked by relative risk; ties keep the order of higher probability.
+  formula: relative_risk_percent = (probability / 3) * (human + property + operations + preparedness + internal_response + external_response) / 18 * 100
+  basis: tool_method
+  note: >-
+    This is the tool's documented method. It follows the common probability x severity structure
+    of hospital and public health HVA worksheets, but no published version could be retrieved to
+    check it. Use your HMCC's or agency's own HVA method if it differs, and keep the group's
+    reasoning for each score.
+  phep_link:
+    text: Jurisdictional risk assessments identify the hazards and at-risk populations that public health preparedness plans address; CDC's Capability 1 asks health departments to use them with partners.
+    source: cdc-phep
+    section: Capability 1, Community Preparedness (jurisdictional risk assessment)
+    confidence: medium
+
+scales:
+  probability:
+    - {score: 0, label: Not applicable, description: The hazard cannot occur here.}
+    - {score: 1, label: Low, description: "Unlikely in a planning cycle; few or no local occurrences (ResilientMass likelihood low or very low)."}
+    - {score: 2, label: Moderate, description: "Likely at least once in about 50 years (ResilientMass medium)."}
+    - {score: 3, label: High, description: "Likely every year or more often (ResilientMass high or very high)."}
+  impact:
+    - {score: 0, label: None, description: No effect expected.}
+    - {score: 1, label: Low, description: "Inconvenience, limited effects, minor outages."}
+    - {score: 2, label: Moderate, description: "Disruption of daily life and services; injuries possible."}
+    - {score: 3, label: High, description: "Deaths or serious injuries, long disruption of essential services or facilities."}
+  preparedness_gap:
+    - {score: 1, label: Strong, description: "Current plans, trained staff, exercised recently, resources on hand."}
+    - {score: 2, label: Moderate, description: "Plans exist but are dated or partly exercised; some gaps in staff or supplies."}
+    - {score: 3, label: Weak or none, description: "No plan, not trained or exercised, or depends on resources not secured."}
+  seed_mapping:
+    likelihood: {"Very high": 3, "High": 3, "Medium": 2, "Low": 1, "Very low": 1}
+    human_consequence: {"Very high": 3, "High": 2, "Medium": 1, "Low": 1, "Very low": 0}
+    note: Tool mapping from ResilientMass's five-level statewide ratings to the 0-3 scales; statewide ratings are only a starting point for local scoring.
+
+# ResilientMass Tables 5.1-3 to 5.1-5 (statewide snapshots).
+hazards:
+  - id: extreme_temperatures
+    label: Average and extreme temperatures (heat and cold)
+    category: natural
+    resilientmass: {likelihood: Very high, human: Very high, economic: Medium, environment: Very high, warning: "1-5 days", impact_scale: Multi-state}
+    fema_incident_types: []
+    nws_hazards: [extreme_heat, extreme_cold]
+    nri_prefixes: [HWAV, CWAV]
+  - id: groundwater_changes
+    label: Changes in groundwater
+    category: natural
+    resilientmass: {likelihood: High, human: High, economic: Medium, environment: High, warning: "1-5 days", impact_scale: Statewide}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+  - id: coastal_flooding
+    label: Coastal flooding and storm surge
+    category: natural
+    resilientmass: {likelihood: Very high, human: High, economic: High, environment: High, warning: "1-5 days", impact_scale: Coast-wide}
+    fema_incident_types: [Coastal Storm]
+    nws_hazards: [coastal_flood]
+    nri_prefixes: [CFLD]
+  - id: coastal_erosion
+    label: Coastal erosion
+    category: natural
+    resilientmass: {likelihood: Very high, human: High, economic: Medium, environment: High, warning: More than 1 week, impact_scale: Coast-wide}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+  - id: drought
+    label: Drought
+    category: natural
+    resilientmass: {likelihood: Medium, human: High, economic: High, environment: High, warning: More than 1 week, impact_scale: Multi-state}
+    fema_incident_types: []
+    nws_hazards: [drought]
+    nri_prefixes: [DRGT]
+  - id: earthquakes
+    label: Earthquakes
+    category: natural
+    resilientmass: {likelihood: Medium, human: High, economic: Medium, environment: Low, warning: No warning, impact_scale: Multi-state}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: [ERQK]
+  - id: inland_flooding
+    label: Flooding from precipitation (including dam overtopping)
+    category: natural
+    resilientmass: {likelihood: Very high, human: Very high, economic: High, environment: Medium, warning: "1-5 days", impact_scale: Localized}
+    fema_incident_types: [Flood]
+    nws_hazards: [flood]
+    nri_prefixes: [RFLD]
+  - id: hurricanes
+    label: Hurricanes and tropical cyclones
+    category: natural
+    resilientmass: {likelihood: Medium, human: Very high, economic: High, environment: Medium, warning: "1-5 days", impact_scale: Multi-state}
+    fema_incident_types: [Hurricane]
+    nws_hazards: [tropical_cyclone]
+    nri_prefixes: [HRCN]
+  - id: invasive_species
+    label: Invasive species
+    category: natural
+    resilientmass: {likelihood: Very high, human: Medium, economic: High, environment: Very high, warning: More than 1 week, impact_scale: Multi-state}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+  - id: landslides
+    label: Landslides and mudflows
+    category: natural
+    resilientmass: {likelihood: High, human: High, economic: Low, environment: Medium, warning: No warning, impact_scale: Localized}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: [LNDS]
+  - id: other_severe_weather
+    label: Other severe weather (strong wind, thunderstorms, lightning, hail)
+    category: natural
+    resilientmass: {likelihood: Very high, human: High, economic: Low, environment: Low, warning: 1 day (24 hours), impact_scale: Localized}
+    fema_incident_types: [Severe Storm]
+    nws_hazards: [severe_storm_wind]
+    nri_prefixes: [SWND, LTNG, HAIL]
+  - id: winter_storms
+    label: Severe winter storms and nor'easters
+    category: natural
+    resilientmass: {likelihood: High, human: Very high, economic: Low, environment: Low, warning: "1-5 days", impact_scale: Multi-state}
+    fema_incident_types: [Snowstorm, Severe Ice Storm, Winter Storm]
+    nws_hazards: [winter_storm]
+    nri_prefixes: [WNTW, ISTM]
+  - id: tornadoes
+    label: Tornadoes
+    category: natural
+    resilientmass: {likelihood: High, human: High, economic: Medium, environment: Medium, warning: Hours, impact_scale: Multi-state}
+    fema_incident_types: [Tornado]
+    nws_hazards: [tornado]
+    nri_prefixes: [TRND]
+  - id: tsunamis
+    label: Tsunamis
+    category: natural
+    resilientmass: {likelihood: Very low, human: Very high, economic: High, environment: Very high, warning: Hours, impact_scale: Coast-wide}
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: [TSUN]
+  - id: wildfires
+    label: Wildfires
+    category: natural
+    resilientmass: {likelihood: Very high, human: High, economic: Medium, environment: Medium, warning: Hours, impact_scale: Regional}
+    fema_incident_types: [Fire]
+    nws_hazards: [wildfire_smoke_air]
+    nri_prefixes: [WFIR]
+  # Hazards a local health department usually adds (no ResilientMass seed).
+  - id: infectious_disease
+    label: Infectious disease outbreak or pandemic
+    category: public_health
+    fema_incident_types: [Biological]
+    nws_hazards: []
+    nri_prefixes: []
+  - id: extended_power_outage
+    label: Extended power outage
+    category: technological
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+  - id: water_contamination
+    label: Drinking water contamination or loss of water service
+    category: technological
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+  - id: hazmat
+    label: Hazardous materials release (fixed site or transportation)
+    category: technological
+    fema_incident_types: []
+    nws_hazards: [hazmat_civil]
+    nri_prefixes: []
+  - id: mass_casualty
+    label: Mass casualty or mass violence incident
+    category: human_caused
+    fema_incident_types: [Terrorist]
+    nws_hazards: []
+    nri_prefixes: []
+  - id: cyber
+    label: Cyberattack or IT system failure affecting health services
+    category: technological
+    fema_incident_types: []
+    nws_hazards: []
+    nri_prefixes: []
+hazard_source: resilientmass-ch5
+hazard_section: Tables 5.1-1 (hazards), 5.1-3 (geospatial scale), 5.1-4 (magnitude of consequences), 5.1-5 (likelihood and warning time)
+
+# Expected FEMA National Risk Index table columns (tool assumption; not verified).
+nri:
+  county_id_columns: [STCOFIPS, COUNTYFIPS, STATEFIPS_COUNTYFIPS]
+  tract_id_columns: [TRACTFIPS]
+  overall_score: RISK_SCORE
+  overall_rating: RISK_RATNG
+  hazard_score_suffix: _RISKS
+  hazard_rating_suffix: _RISKR
+  hazard_frequency_suffix: _AFREQ
+  note: >-
+    Column names follow the National Risk Index table downloads as this tool expects them
+    (prefix + _RISKS for the hazard risk score, _RISKR for its rating, _AFREQ for annualized
+    frequency). They could not be checked against FEMA's data dictionary; the tool reports which
+    columns it found.

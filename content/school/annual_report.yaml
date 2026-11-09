@@ -1,0 +1,272 @@
+# Massachusetts school health year-end data reporting: which DPH reports exist, who submits
+# them, when, and what they contain, for build_school_health_annual_report (SCH-07).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from DPH School Health Services pages and
+# reports, 105 CMR 200.000 and 201.000, and M.G.L. c. 71, section 97, fetched that day.
+# Schema: content/schemas/school_annual_report.schema.json
+meta:
+  id: ma-school-annual-report
+  title: Massachusetts school health year-end reporting (DPH data collection tools)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: School Health Services data collection tools
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+  related_sources:
+    - title: "2012 Program Update: Essential School Health Services"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/2012-program-update-essential-school-health-services/download
+    - title: BMI Screening Guidelines for Schools (2014)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/bmi-screening-guidelines-for-schools/download
+    - title: "105 CMR 201.000: Head Injuries and Concussions in Extracurricular Athletic Activities"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-201-head-injuries-and-concussions-in-extracurricular-activities/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    DPH lists its school health data collection tools publicly (which schools submit which
+    report) but does not publish the current Status Report or Monthly Activities Report forms;
+    schools request access from the School Health Services epidemiologist. The report layout in
+    this file is therefore built from what DPH publishes: the data categories and definitions in
+    DPH's Essential School Health Services reports (2006-2012; the 2012 Program Update is used),
+    the BMI, SBIRT, and concussion reporting requirements in regulation and statute, and DPH's
+    BMI reporting memo (2019). Field names in the tool's workbook are descriptive, not DPH's own;
+    match them to DPH's current forms before submitting (medium confidence overall). The subject
+    matter expert should obtain the current Status Report form from DPH and review this mapping.
+
+sources:
+  dph-data-tools:
+    title: School Health Services data collection tools
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    effective_date: null
+    retrieved: 2026-11-08
+  eshs-2012:
+    title: "2012 Program Update: Essential School Health Services (school year 2011-2012)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/2012-program-update-essential-school-health-services/download
+    effective_date: 2012-06-30
+    retrieved: 2026-11-08
+  cmr200:
+    title: "105 CMR 200.000: Physical Examination of School Children"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-200-physical-examination-of-school-children/download
+    effective_date: 2013-11-08
+    retrieved: 2026-11-08
+  dph-bmi-guidelines:
+    title: BMI Screening Guidelines for Schools (2014)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/bmi-screening-guidelines-for-schools/download
+    effective_date: 2014-01-01
+    retrieved: 2026-11-08
+  dph-bmi-memo-2019:
+    title: Reporting Forms for Mandatory Body Mass Index (BMI) Screening FY 2019
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/doc/reporting-forms-for-bmi-screening/download
+    effective_date: 2019-02-01
+    retrieved: 2026-11-08
+  mgl-c71-s97:
+    title: "M.G.L. c. 71, section 97: Verbal screening tool for substance abuse disorders"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section97
+    effective_date: null
+    retrieved: 2026-11-08
+  cmr201:
+    title: "105 CMR 201.000: Head Injuries and Concussions in Extracurricular Athletic Activities"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-201-head-injuries-and-concussions-in-extracurricular-activities/download
+    effective_date: 2014-08-01
+    retrieved: 2026-11-08
+  dph-concussion-schools:
+    title: Head injury and concussion information for schools (Required yearly reporting)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/head-injury-and-concussion-information-for-schools-school-staff-coaches-athletic-trainers-and-volunteers
+    effective_date: null
+    retrieved: 2026-11-08
+  cmr210:
+    title: "105 CMR 210.000: The Administration of Medications in Public and Non-public Schools"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-210-the-administration-of-medications-in-public-and-non-public-schools/download
+    effective_date: 2025-12-05
+    retrieved: 2026-11-08
+  dph-postural:
+    title: Postural Screening Program training material (revised 1996; Rev 3-19-19)
+    publisher: Massachusetts Department of Public Health, School Health Unit
+    url: https://www.mass.gov/doc/postural-screening/download
+    effective_date: 2019-03-19
+    retrieved: 2026-11-08
+
+reports:
+  - id: status_report
+    name: Status Report (year-end)
+    who_submits: >-
+      Districts and non-public schools funded through DPH's Comprehensive School Health Services
+      (CSHS) program
+    due: Year end; date set by DPH (ask the School Health Services epidemiologist)
+    content:
+      - Screenings by type (vision, hearing, postural, BMI) with the number screened, referred, and completed referrals
+      - BMI aggregate data (included here, not as a separate submission, for CSHS-funded districts)
+      - SBIRT data (included here for CSHS-funded districts)
+      - Student characteristics, staffing, and program data as DPH's form requires
+    source: dph-data-tools
+    section: "Type of report: Status Report"
+    confidence: medium
+  - id: monthly_activities
+    name: Monthly Activities Report
+    who_submits: CSHS-funded districts and non-public schools
+    due: Monthly during the school year
+    content:
+      - Student health encounters (any contact in which the nurse gave counseling, treatment, or aid; mandated screenings are not encounters)
+      - Disposition after assessment (returned to class, dismissed, other such as stayed in the health office or sent to the counselor)
+      - Early dismissals due to illness or injury, and injury reports
+      - Referrals for emergency services (medical 911 calls, behavioral health 911 calls, other emergency referrals)
+      - Diagnosed or suspected head injuries
+      - Medication doses (scheduled, PRN by prescription, PRN by protocol) and prescriptions on file
+    source: eshs-2012
+    section: "School Health Services Activity, categories 1-3; Tables 5-10"
+    confidence: medium
+  - id: bmi_report
+    name: BMI Report
+    who_submits: All public school districts with grades 1, 4, 7, or 10 (CSHS-funded districts include it in the Status Report)
+    due: July 15 after the school year ends (online only)
+    content:
+      - Aggregate counts by grade, gender, and BMI category (underweight, healthy weight, overweight, obese)
+      - Number of students measured and enrolled in each grade
+    source: cmr200
+    section: "200.500(C)"
+    confidence: high
+  - id: sbirt_report
+    name: SBIRT report
+    who_submits: All public school districts with a middle or high school (CSHS-funded districts include it in the Status Report)
+    due: Within 90 days after completing the screening
+    content:
+      - De-identified screening results through DPH's data eCollection tool
+      - Students enrolled in the grade, parent or guardian opt-outs, and student opt-outs
+      - Referrals by type, with no identifying information
+    source: mgl-c71-s97
+    section: "(a)"
+    confidence: high
+  - id: concussion_year_end
+    name: Head injury year-end report (105 CMR 201.017)
+    who_submits: Public middle and high schools and MIAA schools with extracurricular athletics
+    due: For 2025-2026, August 14, 2026 (online only; DPH sets the date each year)
+    content:
+      - Total number of Report of a Head Injury During Sports Season forms (or school equivalents) received
+      - Total number of students with head injuries or suspected concussions during extracurricular athletic activities
+    source: cmr201
+    section: "201.017"
+    confidence: high
+  - id: epinephrine_report
+    name: Epinephrine Administration Report
+    who_submits: Any school in which epinephrine was given to a student or staff member
+    due: Each time epinephrine is given
+    content:
+      - One report per administration (online form)
+    source: cmr210
+    section: "210.010(A)(7)(j)"
+    confidence: high
+  - id: opioid_antagonist_report
+    name: Opioid Antagonist Report
+    who_submits: Any school in which an opioid antagonist (naloxone) was given
+    due: Each time an opioid antagonist is given during regular school activities
+    content:
+      - One report per administration (online form)
+    source: cmr210
+    section: "210.011(A)(5)(b)"
+    confidence: high
+  - id: medication_error_report
+    name: Medication Error Report
+    who_submits: Any school in which a medication error occurred
+    due: As DPH instructs; errors needing medical care or ongoing assessment are reported
+    content:
+      - One report per error (online form)
+    source: cmr210
+    section: "210.009(B)"
+    confidence: high
+  - id: postural_final_report
+    name: Postural Screening Final Report
+    who_submits: Each school system (per DPH's postural training material)
+    due: July 15 (per the training material; confirm with DPH that it is still collected)
+    content:
+      - "By grade 5-9 and sex: enrollment, screened, rescreened, under nurse observation, referred to a physician, and outcomes"
+    source: dph-postural
+    section: "4.5 Record keeping and final report"
+    confidence: low
+
+definitions:
+  - text: >-
+      An encounter is any contact with a student in which the school nurse provided counseling,
+      treatment, or aid of any kind; casual conversations and mandated screenings are not
+      encounters.
+    source: eshs-2012
+    section: "1. Health Encounters"
+  - text: >-
+      The returned-to-class rate is the share of illness or injury assessments after which the
+      student returned to class (93.1 percent in ESHS districts in 2011-2012); dismissals and
+      "other" (stayed in the health office, referred to the counselor) make up the rest.
+    source: eshs-2012
+    section: "Table 6. Disposition After Illness/Injury Assessment"
+  - text: >-
+      A completed referral is one in which an appointment for follow-up care has been made and
+      kept.
+    source: eshs-2012
+    section: "Tables 11a-11b"
+  - text: >-
+      Health maintenance encounters include illness assessment, acute illness, chronic condition
+      care, scheduled medications and procedures, and individual health education; mental and
+      behavioral health support encounters are those whose primary reason is a mental or
+      behavioral health need.
+    source: eshs-2012
+    section: "1. Health Encounters; Table 5"
+
+format_note:
+  text: >-
+    DPH does not publish the current Status Report or Monthly Activities Report forms; schools
+    request access from the School Health Services epidemiologist. The workbook this tool writes
+    follows the categories DPH has published and must be matched to DPH's current forms before
+    submission.
+  source: dph-data-tools
+  section: "page introduction"
+  confidence: high
+
+bmi_quality_ranges:
+  - grade: "1"
+    height_in: [40, 55]
+    weight_lb: [37, 110]
+    source: dph-bmi-guidelines
+    section: "VIII. Collection of BMI Data and Reporting to MDPH"
+  - grade: "4"
+    height_in: [48, 63]
+    weight_lb: [51, 180]
+    source: dph-bmi-guidelines
+    section: "VIII"
+  - grade: "7"
+    height_in: [54, 71]
+    weight_lb: [70, 260]
+    source: dph-bmi-guidelines
+    section: "VIII"
+  - grade: "10"
+    height_in: [57, 74]
+    weight_lb: [74, 275]
+    source: dph-bmi-guidelines
+    section: "VIII"
+
+statewide_reference:
+  - text: >-
+      2011-2012 ESHS districts: 93.1 percent of students returned to class after assessment, 5.1
+      percent were dismissed, 1.8 percent other; dismissals were 93.2 percent for illness and 6.8
+      percent for injury.
+    source: eshs-2012
+    section: "Table 6; Figure 1"
+  - text: >-
+      2011-2012 ESHS districts: vision referrals 11.6 percent of those screened (51.1 percent of
+      referrals completed); hearing 2.4 percent (34.5 percent completed); postural 3.3 percent
+      (34.4 percent completed); BMI 20.7 percent referred (13.3 percent completed).
+    source: eshs-2012
+    section: "Table 11a"

@@ -5,11 +5,17 @@
 
 use phn_core::Toolset;
 
+mod phase10;
+mod phase11;
+mod phase12;
 mod phase2;
 mod phase3;
 mod phase4;
 mod phase5;
 mod phase6;
+mod phase7;
+mod phase8;
+mod phase9;
 
 /// Metadata about one tool.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -104,6 +110,12 @@ const PHASES: &[&[ToolMeta]] = &[
     phase4::TOOLS,
     phase5::TOOLS,
     phase6::TOOLS,
+    phase7::TOOLS,
+    phase8::TOOLS,
+    phase9::TOOLS,
+    phase10::TOOLS,
+    phase11::TOOLS,
+    phase12::TOOLS,
 ];
 
 /// Every implemented tool, in phase order.
@@ -181,6 +193,28 @@ mod tests {
         assert!(
             guide.contains(&format!("const TOOL_COUNT = {count};")),
             "TOOL_COUNT in the user guide should be {count}"
+        );
+    }
+
+    /// Every user-guide entry uses an `internet` value the guide builder knows
+    /// (an unknown value makes `build-user-guide.js` fail).
+    #[test]
+    fn user_guide_internet_values_are_known() {
+        let guide = include_str!("../../../../docs/user-guide/guide-content.js");
+        let mut seen = 0;
+        for (pos, _) in guide.match_indices("\n        internet: '") {
+            let rest = &guide[pos + "\n        internet: '".len()..];
+            let value = &rest[..rest.find('\'').expect("closing quote after internet")];
+            assert!(
+                ["no", "optional", "yes"].contains(&value),
+                "unknown internet value '{value}' in the user guide (use no, optional, or yes)"
+            );
+            seen += 1;
+        }
+        assert_eq!(
+            seen,
+            tools().count(),
+            "every guide entry needs an internet value"
         );
     }
 

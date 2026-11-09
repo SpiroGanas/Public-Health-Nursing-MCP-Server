@@ -1,0 +1,750 @@
+# Individualized health plans (IHPs) and emergency action plans for students with diabetes,
+# asthma, seizures, and food allergy/anaphylaxis, for build_individualized_health_plan (SCH-04).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from CDC school health and clinical pages,
+# CDC's Voluntary Guidelines for Managing Food Allergies, 105 CMR 210.000, M.G.L. c. 71,
+# section 54B, and DPH's Comprehensive School Health Manual, all fetched that day.
+# Goals and interventions are a nursing template built from those sources; they are not
+# orders. Schema: content/schemas/school_health_plans.schema.json
+meta:
+  id: ma-school-health-plans
+  title: Individualized health plans and emergency action plans for students (diabetes, asthma, seizures, food allergy)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: "Voluntary Guidelines for Managing Food Allergies in Schools and Early Care and Education Programs (2013)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/media/pdfs/20_316712-A_FA_guide_508tag.pdf
+  related_sources:
+    - title: Managing Diabetes in Schools; Managing Asthma in Schools; Managing Epilepsy in Schools
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/school-health-conditions/chronic/diabetes.html
+    - title: "105 CMR 210.000: The Administration of Medications in Public and Non-public Schools"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/105-cmr-210-the-administration-of-medications-in-public-and-non-public-schools/download
+    - title: Massachusetts Comprehensive School Health Manual (2007), Chapter 7
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/comprehensive-school-health-manual/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Recognition and emergency steps are transcribed from CDC pages (hypoglycemia and its
+    treatment, May 2024; asthma action plan zones, reviewed August 2026; seizure first aid, May
+    2024; epilepsy, diabetes, and asthma in schools, July-August 2024) and CDC's 2013 food allergy
+    guidelines (high confidence). Medication and plan requirements come from 105 CMR 210.000
+    (12/5/2025) and M.G.L. c. 71, section 54B (high). The IHP process follows DPH's 2007 manual
+    (medium: older document). Nursing goals, interventions, and suggested Section 504
+    accommodations are the developer's organization of those cited statements into a nursing
+    plan template (medium); the nurse sets the actual goals, and the Section 504 team decides
+    eligibility and accommodations. CDC's two hypoglycemia pages give the severe low threshold as
+    below 54 mg/dL and below 55 mg/dL respectively; the student's provider orders govern. NIDDK's
+    "Helping the Student with Diabetes Succeed", the Epilepsy Foundation's seizure action plan,
+    and AAAAI/FARE emergency care plan forms could not be fetched and are cited by name only.
+    The subject matter expert must review before Pilot 2.
+
+sources:
+  cdc-fa-guidelines:
+    title: Voluntary Guidelines for Managing Food Allergies in Schools and Early Care and Education Programs
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/media/pdfs/20_316712-A_FA_guide_508tag.pdf
+    effective_date: 2013-01-01
+    retrieved: 2026-11-08
+  cdc-fa-schools:
+    title: Food Allergies in Schools
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/food-allergies/index.html
+    effective_date: 2024-07-09
+    retrieved: 2026-11-08
+  cdc-diabetes-schools:
+    title: Managing Diabetes in Schools
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/chronic/diabetes.html
+    effective_date: 2024-07-08
+    retrieved: 2026-11-08
+  cdc-hypoglycemia:
+    title: Low Blood Sugar (Hypoglycemia)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/about/low-blood-sugar-hypoglycemia.html
+    effective_date: 2024-05-16
+    retrieved: 2026-11-08
+  cdc-hypo-treatment:
+    title: Treatment of Low Blood Sugar (Hypoglycemia)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/treatment/treatment-low-blood-sugar-hypoglycemia.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-08
+  cdc-manage-blood-sugar:
+    title: Manage Blood Sugar
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/treatment/index.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-08
+  cdc-asthma-schools:
+    title: Managing Asthma in Schools
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/chronic/asthma.html
+    effective_date: 2024-08-13
+    retrieved: 2026-11-08
+  cdc-asthma-action-plan:
+    title: Asthma Action Plans (Green, Yellow, and Red Zones)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/asthma/living-with/
+    effective_date: 2026-08-28
+    retrieved: 2026-11-08
+  cdc-epilepsy-schools:
+    title: Managing Epilepsy in Schools
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/school-health-conditions/chronic/epilepsy.html
+    effective_date: 2024-07-08
+    retrieved: 2026-11-08
+  cdc-seizure-first-aid:
+    title: First Aid for Seizures
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/epilepsy/first-aid-for-seizures/index.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-08
+  cmr210:
+    title: "105 CMR 210.000: The Administration of Medications in Public and Non-public Schools"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-210-the-administration-of-medications-in-public-and-non-public-schools/download
+    effective_date: 2025-12-05
+    retrieved: 2026-11-08
+  mgl-c71-s54b:
+    title: "M.G.L. c. 71, section 54B: Administration of medications in school settings"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section54B
+    effective_date: null
+    retrieved: 2026-11-08
+  cshm-2007:
+    title: Massachusetts Comprehensive School Health Manual (2007), Chapter 7 Students Requiring Specialized Health Services
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/comprehensive-school-health-manual/download
+    effective_date: 2007-01-01
+    retrieved: 2026-11-08
+
+process:
+  - text: >-
+      The school nurse coordinates and develops the individualized health care plan with the
+      family, the student when appropriate, the school physician, other school staff, and the
+      student's health care providers, in compliance with health, education, and confidentiality
+      laws and nursing standards.
+    source: cshm-2007
+    section: "Chapter 7, The IHCP Planning Process"
+    confidence: medium
+  - text: >-
+      Assessment (physical findings and needs, strengths, coping, communication needs, social and
+      emotional relationships, family issues, resources) is done by the nurse or physician and is
+      never delegated; it includes review of the provider's orders and plans.
+    source: cshm-2007
+    section: "Chapter 7, Assessment"
+    confidence: medium
+  - text: >-
+      Planning starts before school entry, or as soon as a need is identified; families are
+      planning partners, and communication with the family is in the family's primary language,
+      with interpreters at meetings.
+    source: cshm-2007
+    section: "Chapter 7, Family Participation"
+    confidence: medium
+  - text: >-
+      An IHP is a nursing document that outlines how the student will receive health services at
+      school, with specific outcome expectations; an emergency care plan (ECP, also called an
+      action plan) is a short, easy-to-follow plan for emergencies, written or confirmed by the
+      child's doctor and signed by the doctor and parent.
+    source: cdc-fa-guidelines
+    section: "Section 1, Ensure the daily management of food allergies"
+  - text: >-
+      A medication administration plan is required for every student receiving medication at
+      school and is referenced in any IEP or Section 504 plan.
+    source: cmr210
+    section: "210.005(E)"
+  - text: >-
+      An IHP or ECP kept by a public school is an education record under FERPA; state in the plan
+      who may access it.
+    source: cdc-fa-guidelines
+    section: "Section 1"
+
+legal:
+  - text: >-
+      Section 504 of the Rehabilitation Act protects students with a physical or mental impairment
+      that limits a major life activity; a 504 plan documents accommodations and services
+      decided by a group knowledgeable about the student, including the parents and school nurse.
+      Eligibility is decided by the 504 team, not by this tool.
+    source: cshm-2007
+    section: "Chapter 7, Section 504 of the Rehabilitation Act of 1973"
+    confidence: medium
+  - text: >-
+      If a doctor determines a food allergy may cause anaphylaxis and it is a disability, school
+      staff can integrate the ECP, the doctor's statement, and the IHP into a Section 504 plan (or
+      an IEP if appropriate), while still using an easy-to-read ECP.
+    source: cdc-fa-guidelines
+    section: "Section 1"
+  - text: >-
+      No district may prohibit self-carry and self-administration of prescription inhalers,
+      epinephrine, cystic fibrosis enzymes, or a diabetes glucose monitor and insulin delivery
+      system under DPH's self-administration rules.
+    source: mgl-c71-s54b
+    section: "paragraphs 2, 4, 5"
+
+conditions:
+  - id: diabetes
+    name: Diabetes
+    aliases: [diabetes, type 1 diabetes, type 2 diabetes, t1d, insulin, hypoglycemia, low blood sugar, diabetic]
+    summary:
+      text: >-
+        Work with the student's parents, doctor, and school staff on a Diabetes Medical
+        Management Plan that lists the services the school will provide, how to recognize high
+        and low blood sugar, how to handle emergencies, and current doctor and emergency
+        contacts; make sure staff have a glucagon emergency kit and know how to use it.
+      source: cdc-diabetes-schools
+      section: "Recommendations: Managing diabetes at school"
+    recognition:
+      - text: >-
+          Blood sugar below 70 mg/dL is low. Common symptoms: fast heartbeat, shaking, sweating,
+          nervousness or anxiety, irritability or confusion, dizziness, hunger. Some people have
+          no symptoms (hypoglycemia unawareness).
+        source: cdc-hypoglycemia
+        section: "Key points; Symptoms"
+      - text: >-
+          Severe low blood sugar (below 54 mg/dL on this page) may cause weakness, trouble walking
+          or seeing, strange behavior or confusion, seizures, or fainting, and usually needs
+          someone else to treat it.
+        source: cdc-hypoglycemia
+        section: "Severe low blood sugar"
+        confidence: medium
+      - text: >-
+          High blood sugar: when sick with blood sugar 240 mg/dL or above, check ketones; high
+          ketones can be an early sign of diabetic ketoacidosis.
+        source: cdc-manage-blood-sugar
+        section: "What causes high blood sugar?"
+    emergency_steps:
+      - text: >-
+          Low blood sugar (15-15 rule): give 15 grams of fast-acting carbohydrate, wait 15
+          minutes, recheck; repeat while below 70 mg/dL; then a snack or meal with protein and
+          carbohydrate. Young children may need less than 15 grams; follow the provider's order.
+        source: cdc-hypo-treatment
+        section: "The 15-15 rule"
+      - text: >-
+          Fast sugar examples: 4 ounces of juice or regular soda; 1 tablespoon of sugar, honey, or
+          syrup; 3-4 glucose tablets; 1 dose of glucose gel. High-fiber or high-fat foods slow
+          absorption.
+        source: cdc-hypo-treatment
+        section: "Foods to treat low blood sugar"
+      - text: >-
+          Severely low blood sugar (below 55 mg/dL on this page) may not be treatable with the
+          15-15 rule; glucagon is the best treatment. After glucagon, get emergency medical
+          treatment; when awake and able to swallow, give fast sugar and then carbohydrate with
+          protein.
+        source: cdc-hypo-treatment
+        section: "Treating severely low blood sugar"
+    call_911:
+      - text: Get emergency medical treatment immediately after a glucagon injection.
+        source: cdc-hypo-treatment
+        section: "Seek medical help right away"
+      - text: >-
+          When a PRN emergency rescue medication (such as glucagon) is given at school, the plan
+          must address notifying local EMS, then the caregiver.
+        source: cmr210
+        section: "210.005(G)(4)"
+      - text: Call 911 if a person with diabetes loses consciousness during a seizure.
+        source: cdc-seizure-first-aid
+        section: "When to call for help"
+    assessment:
+      - text: >-
+          Review the provider's orders (Diabetes Medical Management Plan), the student's
+          self-management skills, how the student recognizes lows, and the family's routines,
+          as part of the nurse's assessment.
+        source: cshm-2007
+        section: "Chapter 7, Assessment"
+        confidence: medium
+    goals:
+      - text: >-
+          The student receives the diabetes care services in the management plan at school
+          (blood sugar checks, medications, meal planning, physical activity).
+        source: cdc-diabetes-schools
+        section: "Overview"
+        confidence: medium
+      - text: >-
+          Staff who work with the student recognize low blood sugar and know what to do and where
+          the glucagon is kept.
+        source: cdc-hypo-treatment
+        section: "Things for loved ones to know"
+        confidence: medium
+      - text: >-
+          The student manages diabetes at a level right for their age and grows toward
+          self-management.
+        source: cdc-diabetes-schools
+        section: "Diabetes self-management"
+        confidence: medium
+      - text: >-
+          The student takes part fully in physical education and activity (at least 60 minutes a
+          day).
+        source: cdc-diabetes-schools
+        section: "Diabetes self-management"
+        confidence: medium
+    interventions:
+      - text: >-
+          Obtain annual orders and caregiver authorization and write the medication
+          administration plan before the student starts school.
+        source: cmr210
+        section: "210.005(D), (E)"
+      - text: >-
+          Identify and train unlicensed personnel for glucagon (a pre-dosed auto-injector may be
+          delegated; nasal glucagon is an emergency rescue medication).
+        source: cmr210
+        section: "210.004(A)(1), (A)(4); 210.002"
+      - text: >-
+          Set up a self-carry agreement for the glucose monitor and insulin delivery system when
+          appropriate.
+        source: cmr210
+        section: "210.006"
+      - text: >-
+          Confirm the student has recommended vaccinations, including flu vaccine, and encourage
+          handwashing.
+        source: cdc-diabetes-schools
+        section: "Diabetes self-management"
+      - text: >-
+          Plan coverage for field trips and after-school activities.
+        source: cmr210
+        section: "210.005(E)(1)(o)"
+    accommodations:
+      - text: >-
+          Blood sugar checks and treatment where and when needed, including in class, by the
+          student or a trained employee, with the student knowing where and when to go.
+        source: cdc-diabetes-schools
+        section: "Diabetes self-management"
+        confidence: medium
+      - text: Self-carry of the glucose monitor and insulin delivery system.
+        source: mgl-c71-s54b
+        section: "paragraph 5"
+      - text: >-
+          Ready access to fast-acting sugar for treating lows (the student keeps a source with
+          them).
+        source: cdc-hypo-treatment
+        section: "Foods to treat low blood sugar"
+        confidence: medium
+      - text: >-
+          Full participation in physical education and activities, with a plan for checks around
+          activity.
+        source: cdc-diabetes-schools
+        section: "Diabetes self-management"
+        confidence: medium
+      - text: Trained staff and supplies on field trips and at after-school events.
+        source: cmr210
+        section: "210.005(E)(1)(o)"
+        confidence: medium
+    medications:
+      - text: >-
+          Insulin and glucagon are given per the prescriber's order; glucagon in a pre-dosed
+          auto-injector or nasal form is an emergency rescue medication that may be given by
+          trained delegated personnel under the student's emergency medication plan.
+        source: cmr210
+        section: "210.002; 210.004(A)(4)-(5)"
+    plan_elements:
+      - text: >-
+          Services the school will provide; how to recognize high and low blood sugar; how to
+          handle diabetes emergencies; updated doctor and emergency contacts.
+        source: cdc-diabetes-schools
+        section: "Recommendations"
+      - text: >-
+          Medication administration plan elements (order, authorization, allergies, side effects,
+          storage, delegated staff and back-up, self-administration teaching, monitoring).
+        source: cmr210
+        section: "210.005(E)(1)"
+    family_resources:
+      - text: >-
+          CDC lists Managing Diabetes at School, the American Diabetes Association's Safe at
+          School, and NIDDK's Helping the Student with Diabetes Succeed (which includes emergency
+          care plans).
+        source: cdc-diabetes-schools
+        section: "Resources"
+    confidence: high
+
+  - id: asthma
+    name: Asthma
+    aliases: [asthma, wheezing, inhaler, albuterol, reactive airway, breathing]
+    summary:
+      text: >-
+        Asthma is a leading chronic illness of children and a leading cause of school absence.
+        Successful school programs link with asthma care providers, identify and serve the most
+        affected students, ensure students take and learn to use their medicines, educate staff
+        and families, reduce triggers, and offer safe physical activity.
+      source: cdc-asthma-schools
+      section: "At a glance; Recommendations"
+    recognition:
+      - text: >-
+          Yellow zone (getting worse): some cough, wheezing, chest tightness, or trouble
+          breathing; waking at night; cannot do some usual activities; peak flow half to about
+          three quarters of personal best.
+        source: cdc-asthma-action-plan
+        section: "Yellow Zone"
+      - text: >-
+          Red zone (medical alert): a lot of trouble breathing; reliever medicine does not help;
+          cannot do usual activities; in the yellow zone 24 hours without improvement; peak flow
+          below half of personal best.
+        source: cdc-asthma-action-plan
+        section: "Red Zone"
+    emergency_steps:
+      - text: >-
+          Yellow zone: add the reliever (quick-relief) medicine and continue the daily controller;
+          keep checking if symptoms improve within an hour.
+        source: cdc-asthma-action-plan
+        section: "Yellow Zone"
+      - text: >-
+          Red zone: give other medicines the doctor prescribed and call the doctor; if symptoms do
+          not improve and the doctor cannot be reached, go to the hospital.
+        source: cdc-asthma-action-plan
+        section: "Red Zone"
+      - text: >-
+          Follow the student's own Asthma Action Plan from their health care provider.
+        source: cdc-asthma-action-plan
+        section: "Asthma Action Plans"
+    call_911:
+      - text: >-
+          Rescue inhalers are emergency rescue medications; when one is given as a PRN rescue
+          medication, the plan must address notifying local EMS, then the caregiver.
+        source: cmr210
+        section: "210.002; 210.005(G)(4)"
+      - text: >-
+          Red zone symptoms that do not improve when the doctor cannot be reached need hospital
+          care.
+        source: cdc-asthma-action-plan
+        section: "Red Zone"
+    assessment:
+      - text: >-
+          Review the Asthma Action Plan, known triggers, frequency of symptoms and missed school,
+          and the student's inhaler technique and readiness to self-carry.
+        source: cmr210
+        section: "210.006(3)-(4)"
+        confidence: medium
+    goals:
+      - text: >-
+          The student has quick-relief medicine available at all times, including PE, recess, and
+          field trips.
+        source: mgl-c71-s54b
+        section: "paragraph 2"
+        confidence: medium
+      - text: The student takes medicines as prescribed and learns to use them correctly.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: Exposure to asthma triggers at school is reduced.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: The student takes part safely in physical education and activities.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+        confidence: medium
+    interventions:
+      - text: >-
+          Obtain the Asthma Action Plan and medication orders; write the medication administration
+          plan.
+        source: cmr210
+        section: "210.005(D), (E)"
+      - text: >-
+          Set up a self-carry agreement where appropriate and keep a back-up inhaler in the health
+          room or another available location.
+        source: cmr210
+        section: "210.006(1), (7)"
+      - text: >-
+          Link with the student's asthma care provider; provide asthma education to the student
+          and awareness for staff and families.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+      - text: Work with the school to reduce triggers in the environment.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+    accommodations:
+      - text: Self-carry of a prescription inhaler.
+        source: mgl-c71-s54b
+        section: "paragraph 2"
+      - text: >-
+          Access to quick-relief medicine during PE, recess, field trips, and after-school
+          activities, with medication before activity if ordered.
+        source: cdc-asthma-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: >-
+          Reduced exposure to the student's identified triggers (for example tobacco smoke, dust
+          mites, mold, pests).
+        source: cdc-asthma-schools
+        section: "Health impacts"
+        confidence: medium
+    medications:
+      - text: >-
+          Quick-relief (rescue) inhalers are emergency rescue medications; PRN doses by delegated
+          personnel follow the emergency medication plan.
+        source: cmr210
+        section: "210.002; 210.004(A)(5)"
+    plan_elements:
+      - text: >-
+          Green, yellow, and red zones with symptoms, peak flow ranges if used, the daily
+          controller, the reliever, and when to call the doctor or go to the hospital.
+        source: cdc-asthma-action-plan
+        section: "Asthma Action Plans"
+    family_resources:
+      - text: CDC's fillable Asthma Action Plan tool.
+        source: cdc-asthma-action-plan
+        section: "Create your own Asthma Action Plan"
+    confidence: high
+
+  - id: seizures
+    name: Seizures and epilepsy
+    aliases: [seizure, seizures, epilepsy, convulsion, convulsions, seizure disorder]
+    summary:
+      text: >-
+        Support students with epilepsy by educating nurses, teachers, staff, and students about
+        epilepsy, seizure first aid, and stigma; follow the seizure action plan and give first aid
+        (including rescue medications) when needed.
+      source: cdc-epilepsy-schools
+      section: "At a glance; Recommendations"
+    recognition:
+      - text: >-
+          Some seizures look like staring spells or confusion; others cause a person to lose
+          awareness, fall, stiffen or shake. Most seizures last a few minutes.
+        source: cdc-seizure-first-aid
+        section: "Recognizing a seizure"
+    emergency_steps:
+      - text: >-
+          Stay calm and stay with the person; remove nearby hazards; check for a medical
+          bracelet; turn them on their side with the mouth toward the ground; time the seizure;
+          afterwards help them sit somewhere safe, comfort them, and explain what happened.
+        source: cdc-seizure-first-aid
+        section: "How to keep someone safe during a seizure"
+      - text: >-
+          For a generalized seizure, also ease them to the ground, put something soft under the
+          head, remove eyeglasses, and loosen anything around the neck.
+        source: cdc-seizure-first-aid
+        section: "Extra steps for generalized seizures"
+      - text: >-
+          Do not hold the person down, put anything in the mouth, give mouth-to-mouth breaths
+          during the seizure, or offer food or water until fully alert.
+        source: cdc-seizure-first-aid
+        section: "What to avoid"
+      - text: Give rescue medication per the seizure action plan and order.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+    call_911:
+      - text: >-
+          Call 911 if the seizure lasts longer than 5 minutes; another seizure follows soon after;
+          the person has trouble breathing or waking; is injured; the seizure happens in water; it
+          is the person's first seizure; or the person has diabetes and loses consciousness or is
+          pregnant.
+        source: cdc-seizure-first-aid
+        section: "When to call for help"
+      - text: >-
+          When a PRN emergency rescue medication is given, the plan must address notifying local
+          EMS, then the caregiver.
+        source: cmr210
+        section: "210.005(G)(4)"
+    assessment:
+      - text: >-
+          Review the seizure action plan, seizure types and triggers, rescue medication orders,
+          related conditions including mental health, and attendance and academic effects.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+    goals:
+      - text: Staff who work with the student know seizure first aid and the seizure action plan.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: The student takes daily medication as directed and avoids known triggers.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: >-
+          The student's attendance and learning are supported, with case management when the
+          condition disrupts them, and the student is protected from bullying.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+    interventions:
+      - text: >-
+          Obtain the seizure action plan and rescue medication orders; write the medication
+          administration plan and train delegated staff.
+        source: cmr210
+        section: "210.005(D)-(E); 210.007"
+      - text: >-
+          Arrange seizure training for school nurses and personnel (CDC points to the Epilepsy
+          Foundation's courses).
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+      - text: >-
+          Refer students with uncontrolled seizures to community medical services; monitor for
+          depression and bullying.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+    accommodations:
+      - text: >-
+          Trained staff and rescue medication available during the school day, on field trips,
+          and at activities.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+      - text: Avoidance of identified triggers such as flashing lights.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+      - text: >-
+          Academic supports and case management when seizures or treatment affect attendance or
+          performance; access to special education under disability law where eligible.
+        source: cdc-epilepsy-schools
+        section: "Recommendations"
+        confidence: medium
+    medications:
+      - text: >-
+          Nasal or other mucosal seizure rescue medications (for example nasal diazepam) are
+          emergency rescue medications; in extenuating circumstances they need not have been
+          given to the student before.
+        source: cmr210
+        section: "210.002; 210.005(G)(6)(b)"
+    plan_elements:
+      - text: >-
+          A seizure action plan contains first aid information, parent and health care provider
+          contacts, and the child's medications (example: Epilepsy Foundation).
+        source: cdc-epilepsy-schools
+        section: "What Is a Seizure Action Plan?"
+    family_resources:
+      - text: >-
+          CDC information for parents; the Epilepsy Foundation's seizure first aid training.
+        source: cdc-epilepsy-schools
+        section: "Resources"
+    confidence: high
+
+  - id: food_allergy
+    name: Food allergy and anaphylaxis
+    aliases: [food allergy, allergy, allergies, anaphylaxis, peanut, tree nut, nut allergy, epinephrine, epipen, life-threatening allergy]
+    summary:
+      text: >-
+        Every school should have a food allergy management and prevention plan covering daily
+        management of individual children, preparing for emergencies, staff professional
+        development, educating children and families, and a safe environment. Each child with a
+        food allergy needs an emergency care plan.
+      source: cdc-fa-schools
+      section: "What CDC is doing; Responding to food allergy emergency"
+    recognition:
+      - text: >-
+          Allergic reaction symptoms: swollen lips, tongue, or eyes; itching, flushing, rash, or
+          hives; nausea, cramping, vomiting, or diarrhea; congestion, hoarse voice, trouble
+          swallowing; deep cough, wheezing, shortness of breath, chest tightness; pale or blue
+          skin, weak pulse, dizziness, fainting, confusion; a sense of doom or change in
+          alertness.
+        source: cdc-fa-guidelines
+        section: "About Food Allergies"
+      - text: >-
+          Breathing difficulty, hoarseness, or faintness with a change in mood or alertness, or
+          rapidly progressing skin, gut, or cardiovascular symptoms signal anaphylaxis and need
+          immediate attention. Young children may describe symptoms as "my mouth feels funny" or
+          "something is stuck in my throat".
+        source: cdc-fa-guidelines
+        section: "About Food Allergies"
+    emergency_steps:
+      - text: >-
+          The first-line treatment for anaphylaxis is prompt epinephrine; delay in giving
+          epinephrine and relying on oral antihistamines alone are risk factors for fatal
+          reactions.
+        source: cdc-fa-guidelines
+        section: "Treatment of Anaphylaxis and Use of Epinephrine; Fatal Food Allergy Reactions"
+      - text: >-
+          Up to 20 percent of anaphylactic reactions recur within 4 to 8 hours; children with
+          food-induced anaphylaxis need close monitoring and evaluation in an emergency care
+          setting.
+        source: cdc-fa-guidelines
+        section: "Timing of Symptoms"
+    call_911:
+      - text: >-
+          When epinephrine is given, notify local EMS (generally 911) immediately, then the
+          caregiver; if unlicensed personnel gave it, also notify the school nurse.
+        source: cmr210
+        section: "210.010(A)(6)"
+    assessment:
+      - text: >-
+          Confirm the doctor's written diagnosis, the allergens, prior reactions and anaphylaxis
+          history, coexisting asthma, and the emergency treatment plan.
+        source: cdc-fa-guidelines
+        section: "Section 1 (ECP contents)"
+    goals:
+      - text: The student avoids exposure to identified allergens at school and school events.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+        confidence: medium
+      - text: >-
+          Staff recognize an allergic reaction and give epinephrine promptly per the plan.
+        source: cdc-fa-guidelines
+        section: "Treatment of Anaphylaxis and Use of Epinephrine"
+        confidence: medium
+      - text: >-
+          The student is included in field trips, PE, recess, and activities.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+        confidence: medium
+    interventions:
+      - text: >-
+          Obtain an emergency care plan signed by the doctor and parent; write the individualized
+          epinephrine plan (updated yearly) with storage locations, named staff, risk reduction,
+          and self-administration readiness.
+        source: cmr210
+        section: "210.010(A)(5)"
+      - text: >-
+          Train staff (including transportation staff) to recognize reactions and give
+          epinephrine; ensure rapid access to epinephrine.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+      - text: >-
+          Store epinephrine secure but unlocked where the student is most at risk, such as
+          classrooms and lunchrooms.
+        source: mgl-c71-s54b
+        section: "paragraph 3"
+      - text: >-
+          Submit DPH's Epinephrine Administration Report each time epinephrine is given and review
+          each incident.
+        source: cmr210
+        section: "210.010(A)(7)(g), (j)"
+    accommodations:
+      - text: Self-carry of epinephrine.
+        source: mgl-c71-s54b
+        section: "paragraph 2"
+      - text: >-
+          Allergy-friendly seating in class and at meals; no identified allergens in class
+          projects, parties, crafts, science, cooking, snacks, or rewards; nonfood incentives.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+      - text: >-
+          Meal accommodations approved by a doctor or allergist through dietary orders or the ECP;
+          help reading labels of food provided by others.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+      - text: >-
+          Inclusion in field trips, events, PE, and recess, with rapid access to epinephrine and
+          trained staff; parents may be invited, not required, to chaperone.
+        source: cdc-fa-guidelines
+        section: "Table 1"
+    medications:
+      - text: >-
+          Epinephrine in any FDA-approved pre-dosed form may be given by trained unlicensed staff
+          in a registered program when a nurse is not immediately available.
+        source: cmr210
+        section: "210.010(A)"
+    plan_elements:
+      - text: >-
+          ECP contents: a recent photo; the allergen with the doctor's written diagnosis; signs and
+          symptoms; severity and anaphylaxis history; the treatment plan including epinephrine;
+          other conditions such as asthma; parent and doctor contacts.
+        source: cdc-fa-guidelines
+        section: "Section 1 (ECP contents)"
+      - text: >-
+          Epinephrine plan elements: diagnosis and order, caregiver authorization, contacts,
+          storage, named staff, risk reduction, and self-administration readiness.
+        source: cmr210
+        section: "210.010(A)(5)(a)-(g)"
+    family_resources:
+      - text: >-
+          CDC's food allergy toolkit, the Food Allergy and Anaphylaxis Emergency Care Plan, and
+          state guidelines are linked from CDC's Food Allergies in Schools page.
+        source: cdc-fa-schools
+        section: "Resources"
+    confidence: high

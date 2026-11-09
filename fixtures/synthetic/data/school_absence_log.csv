@@ -1,0 +1,259 @@
+Date,School,Grade,Student ID,Student Name,Reason
+2026-09-28,Aldergrove Elementary,2,9520005,Nikolai Quarshie,doctor appointment
+2026-09-28,Aldergrove Elementary,5,9520019,Brisa Engstrand,family trip
+2026-09-28,Aldergrove Elementary,5,9520021,Dagny Gruszka,family trip
+2026-09-28,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,cold
+2026-09-28,Quarry Hill Middle,7,9520004,Marisol Pellegrino-Vance,flu
+2026-09-28,Quarry Hill Middle,8,9520024,Gwilym Dragomir,sick
+2026-09-28,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,doctor appointment
+2026-09-28,Quarry Hill Middle,6,9520038,Oriel Radovanovic,sore throat
+2026-09-28,Quarry Hill Middle,7,9520032,Gethin Lindqvist-Oyama,headache
+2026-09-28,Quarry Hill Middle,8,9520018,Anselm Dziedzic,unexcused
+2026-09-28,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,sick
+2026-09-29,Aldergrove Elementary,1,9520035,Lysander Ostrowski,diarrhea
+2026-09-29,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,flu
+2026-09-29,Aldergrove Elementary,3,9520025,Hesper Esterhazy,stomach ache
+2026-09-29,Aldergrove Elementary,2,9520003,Lysander Ostrowski,family trip
+2026-09-29,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,sick
+2026-09-29,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,cold
+2026-09-29,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,headache
+2026-09-29,Quarry Hill Middle,7,9520032,Gethin Lindqvist-Oyama,headache
+2026-09-29,Quarry Hill Middle,7,9520028,Corisande Holmqvist,sick
+2026-09-30,Aldergrove Elementary,5,9520021,Dagny Gruszka,family trip
+2026-09-30,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,unexcused
+2026-09-30,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,stomach ache
+2026-09-30,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,cold
+2026-09-30,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,diarrhea
+2026-09-30,Aldergrove Elementary,1,9520035,Lysander Ostrowski,fever and cough
+2026-09-30,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,sore throat
+2026-09-30,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,doctor appointment
+2026-09-30,Quarry Hill Middle,8,9520022,Eirlys Brennecke,cold
+2026-09-30,Quarry Hill Middle,6,9520016,Yevgenia Bergkvist,unexcused
+2026-09-30,Quarry Hill Middle,6,9520038,Oriel Radovanovic,fever and cough
+2026-09-30,Quarry Hill Middle,6,9520006,Oriel Radovanovic,cold
+2026-10-01,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,doctor appointment
+2026-10-01,Aldergrove Elementary,2,9520005,Nikolai Quarshie,unexcused
+2026-10-01,Aldergrove Elementary,1,9520017,Zephyrine Cieslak,headache
+2026-10-01,Aldergrove Elementary,5,9520027,Bexley Gaudreault,sore throat
+2026-10-01,Aldergrove Elementary,5,9520037,Nikolai Quarshie,fever and cough
+2026-10-01,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,flu
+2026-10-01,Quarry Hill Middle,7,9520028,Corisande Holmqvist,family trip
+2026-10-01,Quarry Hill Middle,8,9520002,Jorvik Nakashima-Roe,headache
+2026-10-01,Quarry Hill Middle,8,9520024,Gwilym Dragomir,headache
+2026-10-02,Aldergrove Elementary,2,9520005,Nikolai Quarshie,cold
+2026-10-02,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,headache
+2026-10-02,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,unexcused
+2026-10-02,Quarry Hill Middle,8,9520002,Jorvik Nakashima-Roe,doctor appointment
+2026-10-02,Quarry Hill Middle,7,9520028,Corisande Holmqvist,fever and cough
+2026-10-02,Quarry Hill Middle,8,9520024,Gwilym Dragomir,headache
+2026-10-02,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,cold
+2026-10-02,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,family trip
+2026-10-05,Aldergrove Elementary,5,9520019,Brisa Engstrand,cold
+2026-10-05,Aldergrove Elementary,1,9520035,Lysander Ostrowski,fever and cough
+2026-10-05,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,headache
+2026-10-05,Aldergrove Elementary,5,9520037,Nikolai Quarshie,family trip
+2026-10-05,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,flu
+2026-10-05,Aldergrove Elementary,5,9520021,Dagny Gruszka,headache
+2026-10-05,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,unexcused
+2026-10-05,Quarry Hill Middle,8,9520018,Anselm Dziedzic,fever and cough
+2026-10-05,Quarry Hill Middle,8,9520022,Eirlys Brennecke,headache
+2026-10-05,Quarry Hill Middle,7,9520032,Gethin Lindqvist-Oyama,vomiting
+2026-10-06,Aldergrove Elementary,5,9520021,Dagny Gruszka,flu
+2026-10-06,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,family trip
+2026-10-06,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,headache
+2026-10-06,Aldergrove Elementary,5,9520037,Nikolai Quarshie,fever and cough
+2026-10-06,Aldergrove Elementary,1,9520017,Zephyrine Cieslak,sore throat
+2026-10-06,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,cold
+2026-10-06,Quarry Hill Middle,8,9520026,Amaru Fennimore,cold
+2026-10-06,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,unexcused
+2026-10-06,Quarry Hill Middle,7,9520030,Elowen Jaskolski,family trip
+2026-10-07,Aldergrove Elementary,4,9520029,Dariush Iacobelli,fever and cough
+2026-10-07,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,sick
+2026-10-07,Aldergrove Elementary,4,9520023,Florentyna Castellucci,sick
+2026-10-07,Quarry Hill Middle,7,9520028,Corisande Holmqvist,flu
+2026-10-07,Quarry Hill Middle,8,9520026,Amaru Fennimore,cold
+2026-10-07,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,vomiting
+2026-10-08,Aldergrove Elementary,4,9520031,Faustine Kowalewska,doctor appointment
+2026-10-08,Aldergrove Elementary,4,9520023,Florentyna Castellucci,sick
+2026-10-08,Aldergrove Elementary,2,9520003,Lysander Ostrowski,doctor appointment
+2026-10-08,Aldergrove Elementary,2,9520005,Nikolai Quarshie,fever and cough
+2026-10-08,Aldergrove Elementary,4,9520029,Dariush Iacobelli,sore throat
+2026-10-08,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,sore throat
+2026-10-08,Quarry Hill Middle,8,9520022,Eirlys Brennecke,fever and cough
+2026-10-08,Quarry Hill Middle,6,9520012,Ulyana Xanthopoulos,flu
+2026-10-09,Aldergrove Elementary,1,9520035,Lysander Ostrowski,stomach ache
+2026-10-09,Aldergrove Elementary,4,9520023,Florentyna Castellucci,cold
+2026-10-09,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,vomiting
+2026-10-09,Quarry Hill Middle,6,9520038,Oriel Radovanovic,fever and cough
+2026-10-09,Quarry Hill Middle,8,9520024,Gwilym Dragomir,fever and cough
+2026-10-09,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,family trip
+2026-10-09,Quarry Hill Middle,7,9520036,Marisol Pellegrino-Vance,sick
+2026-10-09,Quarry Hill Middle,7,9520028,Corisande Holmqvist,doctor appointment
+2026-10-12,Aldergrove Elementary,5,9520019,Brisa Engstrand,family trip
+2026-10-12,Aldergrove Elementary,2,9520003,Lysander Ostrowski,stomach ache
+2026-10-12,Aldergrove Elementary,4,9520031,Faustine Kowalewska,family trip
+2026-10-12,Aldergrove Elementary,5,9520037,Nikolai Quarshie,family trip
+2026-10-12,Aldergrove Elementary,5,9520021,Dagny Gruszka,sore throat
+2026-10-12,Quarry Hill Middle,7,9520004,Marisol Pellegrino-Vance,family trip
+2026-10-12,Quarry Hill Middle,8,9520018,Anselm Dziedzic,doctor appointment
+2026-10-12,Quarry Hill Middle,6,9520038,Oriel Radovanovic,family trip
+2026-10-12,Quarry Hill Middle,8,9520024,Gwilym Dragomir,stomach ache
+2026-10-13,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,cold
+2026-10-13,Aldergrove Elementary,5,9520037,Nikolai Quarshie,sick
+2026-10-13,Aldergrove Elementary,2,9520003,Lysander Ostrowski,cold
+2026-10-13,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,flu
+2026-10-13,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,headache
+2026-10-13,Quarry Hill Middle,7,9520030,Elowen Jaskolski,cold
+2026-10-13,Quarry Hill Middle,7,9520036,Marisol Pellegrino-Vance,flu
+2026-10-13,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,sick
+2026-10-13,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,family trip
+2026-10-13,Quarry Hill Middle,6,9520012,Ulyana Xanthopoulos,unexcused
+2026-10-13,Quarry Hill Middle,8,9520018,Anselm Dziedzic,family trip
+2026-10-14,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,family trip
+2026-10-14,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,sore throat
+2026-10-14,Aldergrove Elementary,5,9520021,Dagny Gruszka,flu
+2026-10-14,Quarry Hill Middle,7,9520036,Marisol Pellegrino-Vance,cold
+2026-10-14,Quarry Hill Middle,6,9520038,Oriel Radovanovic,family trip
+2026-10-14,Quarry Hill Middle,6,9520016,Yevgenia Bergkvist,sick
+2026-10-14,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,sore throat
+2026-10-14,Quarry Hill Middle,8,9520002,Jorvik Nakashima-Roe,flu
+2026-10-14,Quarry Hill Middle,8,9520024,Gwilym Dragomir,family trip
+2026-10-15,Aldergrove Elementary,4,9520029,Dariush Iacobelli,fever and cough
+2026-10-15,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,doctor appointment
+2026-10-15,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,doctor appointment
+2026-10-15,Quarry Hill Middle,7,9520028,Corisande Holmqvist,headache
+2026-10-15,Quarry Hill Middle,8,9520002,Jorvik Nakashima-Roe,family trip
+2026-10-15,Quarry Hill Middle,8,9520020,Cosmin Fiorentino-Lake,sick
+2026-10-15,Quarry Hill Middle,6,9520006,Oriel Radovanovic,flu
+2026-10-15,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,stomach ache
+2026-10-15,Quarry Hill Middle,7,9520036,Marisol Pellegrino-Vance,sore throat
+2026-10-16,Aldergrove Elementary,5,9520021,Dagny Gruszka,cold
+2026-10-16,Aldergrove Elementary,5,9520019,Brisa Engstrand,sick
+2026-10-16,Aldergrove Elementary,1,9520035,Lysander Ostrowski,sore throat
+2026-10-16,Aldergrove Elementary,4,9520031,Faustine Kowalewska,family trip
+2026-10-16,Quarry Hill Middle,8,9520020,Cosmin Fiorentino-Lake,stomach ache
+2026-10-16,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,cold
+2026-10-16,Quarry Hill Middle,7,9520028,Corisande Holmqvist,unexcused
+2026-10-16,Quarry Hill Middle,8,9520024,Gwilym Dragomir,sore throat
+2026-10-19,Aldergrove Elementary,5,9520019,Brisa Engstrand,family trip
+2026-10-19,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,doctor appointment
+2026-10-19,Aldergrove Elementary,4,9520023,Florentyna Castellucci,stomach ache
+2026-10-19,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,headache
+2026-10-19,Aldergrove Elementary,5,9520037,Nikolai Quarshie,sore throat
+2026-10-19,Quarry Hill Middle,7,9520004,Marisol Pellegrino-Vance,cold
+2026-10-19,Quarry Hill Middle,8,9520022,Eirlys Brennecke,doctor appointment
+2026-10-19,Quarry Hill Middle,8,9520026,Amaru Fennimore,cold
+2026-10-19,Quarry Hill Middle,7,9520028,Corisande Holmqvist,doctor appointment
+2026-10-19,Quarry Hill Middle,6,9520038,Oriel Radovanovic,sick
+2026-10-20,Aldergrove Elementary,2,9520003,Lysander Ostrowski,cold
+2026-10-20,Aldergrove Elementary,5,9520021,Dagny Gruszka,doctor appointment
+2026-10-20,Aldergrove Elementary,5,9520037,Nikolai Quarshie,doctor appointment
+2026-10-20,Quarry Hill Middle,8,9520020,Cosmin Fiorentino-Lake,doctor appointment
+2026-10-20,Quarry Hill Middle,8,9520022,Eirlys Brennecke,family trip
+2026-10-20,Quarry Hill Middle,7,9520032,Gethin Lindqvist-Oyama,sore throat
+2026-10-21,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,sore throat
+2026-10-21,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,headache
+2026-10-21,Aldergrove Elementary,4,9520029,Dariush Iacobelli,stomach ache
+2026-10-21,Aldergrove Elementary,5,9520027,Bexley Gaudreault,cold
+2026-10-21,Quarry Hill Middle,6,9520014,Wenceslas Zaborowski,flu
+2026-10-21,Quarry Hill Middle,8,9520020,Cosmin Fiorentino-Lake,family trip
+2026-10-21,Quarry Hill Middle,8,9520024,Gwilym Dragomir,fever and cough
+2026-10-21,Quarry Hill Middle,6,9520038,Oriel Radovanovic,unexcused
+2026-10-21,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,unexcused
+2026-10-22,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,unexcused
+2026-10-22,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,flu
+2026-10-22,Aldergrove Elementary,4,9520031,Faustine Kowalewska,doctor appointment
+2026-10-22,Aldergrove Elementary,2,9520003,Lysander Ostrowski,unexcused
+2026-10-22,Aldergrove Elementary,2,9520005,Nikolai Quarshie,headache
+2026-10-22,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,headache
+2026-10-22,Quarry Hill Middle,8,9520018,Anselm Dziedzic,fever and cough
+2026-10-22,Quarry Hill Middle,7,9520010,Seraphine Vukovich,stomach ache
+2026-10-22,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,doctor appointment
+2026-10-22,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,sick
+2026-10-22,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,family trip
+2026-10-23,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,flu
+2026-10-23,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,unexcused
+2026-10-23,Aldergrove Elementary,4,9520029,Dariush Iacobelli,headache
+2026-10-23,Aldergrove Elementary,5,9520021,Dagny Gruszka,sick
+2026-10-23,Aldergrove Elementary,4,9520031,Faustine Kowalewska,sick
+2026-10-23,Aldergrove Elementary,5,9520027,Bexley Gaudreault,sick
+2026-10-23,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,doctor appointment
+2026-10-23,Quarry Hill Middle,7,9520036,Marisol Pellegrino-Vance,unexcused
+2026-10-23,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,doctor appointment
+2026-10-23,Quarry Hill Middle,8,9520002,Jorvik Nakashima-Roe,sick
+2026-10-23,Quarry Hill Middle,8,9520024,Gwilym Dragomir,sick
+2026-10-26,Aldergrove Elementary,4,9520029,Dariush Iacobelli,fever and cough
+2026-10-26,Aldergrove Elementary,5,9520021,Dagny Gruszka,unexcused
+2026-10-26,Aldergrove Elementary,3,9520015,Xiomara Abelardo-Finch,cold
+2026-10-26,Aldergrove Elementary,2,9520005,Nikolai Quarshie,fever and cough
+2026-10-26,Aldergrove Elementary,3,9520025,Hesper Esterhazy,flu
+2026-10-26,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,fever and cough
+2026-10-26,Quarry Hill Middle,6,9520038,Oriel Radovanovic,headache
+2026-10-26,Quarry Hill Middle,7,9520030,Elowen Jaskolski,family trip
+2026-10-26,Quarry Hill Middle,7,9520028,Corisande Holmqvist,unexcused
+2026-10-27,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,unexcused
+2026-10-27,Aldergrove Elementary,5,9520027,Bexley Gaudreault,doctor appointment
+2026-10-27,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,family trip
+2026-10-27,Aldergrove Elementary,5,9520019,Brisa Engstrand,sick
+2026-10-27,Aldergrove Elementary,2,9520003,Lysander Ostrowski,sore throat
+2026-10-27,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,headache
+2026-10-27,Aldergrove Elementary,1,9520035,Lysander Ostrowski,sore throat
+2026-10-27,Quarry Hill Middle,7,9520004,Marisol Pellegrino-Vance,unexcused
+2026-10-27,Quarry Hill Middle,8,9520026,Amaru Fennimore,family trip
+2026-10-27,Quarry Hill Middle,6,9520016,Yevgenia Bergkvist,sore throat
+2026-10-28,Aldergrove Elementary,2,9520005,Nikolai Quarshie,cold
+2026-10-28,Aldergrove Elementary,4,9520029,Dariush Iacobelli,sore throat
+2026-10-28,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,sick
+2026-10-28,Quarry Hill Middle,8,9520018,Anselm Dziedzic,flu
+2026-10-28,Quarry Hill Middle,8,9520022,Eirlys Brennecke,doctor appointment
+2026-10-28,Quarry Hill Middle,8,9520034,Jorvik Nakashima-Roe,family trip
+2026-10-28,Quarry Hill Middle,6,9520016,Yevgenia Bergkvist,flu
+2026-10-29,Aldergrove Elementary,3,9520025,Hesper Esterhazy,unexcused
+2026-10-29,Aldergrove Elementary,5,9520037,Nikolai Quarshie,doctor appointment
+2026-10-29,Aldergrove Elementary,5,9520027,Bexley Gaudreault,flu
+2026-10-29,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,family trip
+2026-10-29,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,cold
+2026-10-29,Quarry Hill Middle,8,9520024,Gwilym Dragomir,sick
+2026-10-29,Quarry Hill Middle,7,9520010,Seraphine Vukovich,doctor appointment
+2026-10-30,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,doctor appointment
+2026-10-30,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,fever and cough
+2026-10-30,Aldergrove Elementary,2,9520003,Lysander Ostrowski,doctor appointment
+2026-10-30,Aldergrove Elementary,2,9520005,Nikolai Quarshie,vomiting
+2026-10-30,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,stomach bug
+2026-10-30,Aldergrove Elementary,3,9520015,Xiomara Abelardo-Finch,stomach bug
+2026-10-30,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,stomach bug
+2026-10-30,Aldergrove Elementary,3,9520013,Valdemar Yamamura-Kell,vomiting
+2026-10-30,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,vomiting and diarrhea
+2026-10-30,Aldergrove Elementary,4,9520029,Dariush Iacobelli,vomiting and diarrhea
+2026-10-30,Aldergrove Elementary,5,9520021,Dagny Gruszka,vomiting
+2026-10-30,Aldergrove Elementary,4,9520023,Florentyna Castellucci,vomiting
+2026-10-30,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,stomach bug
+2026-10-30,Aldergrove Elementary,1,9520017,Zephyrine Cieslak,vomiting and diarrhea
+2026-10-30,Aldergrove Elementary,3,9520025,Hesper Esterhazy,stomach bug
+2026-10-30,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,doctor appointment
+2026-10-30,Quarry Hill Middle,8,9520026,Amaru Fennimore,fever and cough
+2026-10-30,Quarry Hill Middle,8,9520040,Quintessa Thorvaldsen,unexcused
+2026-10-30,Quarry Hill Middle,7,9520028,Corisande Holmqvist,family trip
+2026-10-30,Quarry Hill Middle,8,9520024,Gwilym Dragomir,doctor appointment
+2026-11-02,Aldergrove Elementary,3,9520015,Xiomara Abelardo-Finch,doctor appointment
+2026-11-02,Aldergrove Elementary,4,9520031,Faustine Kowalewska,sick
+2026-11-02,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,fever and cough
+2026-11-02,Aldergrove Elementary,2,9520007,Peregrin Szczepanik,stomach bug
+2026-11-02,Aldergrove Elementary,1,9520033,Ilsabet Mavromatis,vomiting
+2026-11-02,Aldergrove Elementary,1,9520035,Lysander Ostrowski,vomiting and diarrhea
+2026-11-02,Aldergrove Elementary,1,9520017,Zephyrine Cieslak,vomiting
+2026-11-02,Aldergrove Elementary,3,9520015,Xiomara Abelardo-Finch,vomiting
+2026-11-02,Aldergrove Elementary,4,9520031,Faustine Kowalewska,vomiting
+2026-11-02,Aldergrove Elementary,3,9520025,Hesper Esterhazy,vomiting
+2026-11-02,Aldergrove Elementary,3,9520001,Ilsabet Mavromatis,vomiting
+2026-11-02,Aldergrove Elementary,2,9520003,Lysander Ostrowski,stomach bug
+2026-11-02,Aldergrove Elementary,2,9520011,Tadhg Wojciechowska,stomach bug
+2026-11-02,Aldergrove Elementary,1,9520009,Rhosyn Uchendu,vomiting and diarrhea
+2026-11-02,Aldergrove Elementary,4,9520039,Peregrin Szczepanik,vomiting and diarrhea
+2026-11-02,Quarry Hill Middle,8,9520022,Eirlys Brennecke,unexcused
+2026-11-02,Quarry Hill Middle,7,9520030,Elowen Jaskolski,doctor appointment
+2026-11-02,Quarry Hill Middle,6,9520038,Oriel Radovanovic,sore throat
+2026-11-02,Quarry Hill Middle,6,9520016,Yevgenia Bergkvist,unexcused
+2026-11-02,Quarry Hill Middle,6,9520012,Ulyana Xanthopoulos,doctor appointment
+2026-11-02,Quarry Hill Middle,8,9520008,Quintessa Thorvaldsen,cold
+2026-11-02,Quarry Hill Middle,7,9520028,Corisande Holmqvist,sore throat

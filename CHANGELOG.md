@@ -7,6 +7,8 @@ All notable changes are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.13.0] — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
+
 ### Added
 
 - User guide for public health nurses (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`): an
@@ -15,6 +17,190 @@ All notable changes are recorded here. The format follows
   it, what it returns, and what to keep in mind; plus a tool index, glossary, and
   troubleshooting. Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
   registry test keeps the guide's tool list in step with the implemented tools.
+
+### Added — Phase 7: school health
+
+- School health tools (toolset `school`): `get_ma_school_screening_requirements` (SCH-01),
+  `track_school_screenings` (SCH-02), `school_medication_administration_guide` (SCH-03),
+  `build_individualized_health_plan` (SCH-04), `concussion_return_to_learn_tracker` (SCH-05),
+  `monitor_school_absenteeism` (SCH-06), `build_school_health_annual_report` (SCH-07), and
+  `child_care_health_consultation_checklist` (SCH-08).
+- Content drafted from 105 CMR 200.000, 201.000, 210.000 (12/5/2025), 300.000, 606 CMR 7.00,
+  M.G.L. c. 71 sections 53-57, 54B, and 97, c. 111 section 222, DPH school health protocols and
+  guidance, and CDC pages, all pending review: `content/school/*.yaml` with schemas, and the CDC
+  BMI-for-age LMS reference copied from `bmiagerev.csv`.
+- School-year (July-June) and grade logic, BMI-for-age percentiles (golden test against CDC's
+  published percentiles), and letter and plan templates with local fill and agency translations
+  in `/data/templates/<language>/`.
+- Fictional fixtures (screening roster, absence log, health office visits, head injury log,
+  health plan students) with a seeded generator, added to the leak test.
+
+### Added — Phase 8: maternal, child, and family health
+
+- `calculate_growth_percentiles` (MCH-03): WHO 2006 (birth to 24 months) and CDC 2000 (2 to 20
+  years) percentiles and z-scores with CDC's 2022 extended BMI-for-age method, BMI categories,
+  corrected age for prematurity, extreme-value flags, visit-to-visit change, and a batch mode
+  that writes per-row results to the output folder. Snapshots `who-growth-standards` and
+  `cdc-growth-charts` (`xtask/scripts/build_growth_charts.py`); content
+  `content/mch/growth_interpretation.yaml` (pending review); golden tests against CDC's and
+  WHO's published tables.
+- `childhood_lead_screening_guide` (MCH-04): screening schedule and high-risk schedules from
+  105 CMR 460.050, DPH's 2024 high-risk community list with each town's screening rate, venous
+  confirmation and follow-up by blood lead level from DPH CLPPP, reporting, the Lead Law, family
+  teaching, and an optional teaching sheet (English or an agency translation in
+  `/data/templates/<language>/`). Content `content/mch/lead_screening.yaml` (pending review);
+  snapshot `ma-lead-screening` from DPH's 2024 surveillance report
+  (`xtask/scripts/build_lead_snapshot.py`).
+- `mandated_reporter_51a_guide` (MCH-07): M.G.L. c. 119, s. 51A guidance (who, when, how,
+  contents, penalties and protections, DCF definitions, domestic violence, DCF process, warning
+  signs), the 48-hour written-report deadline, and the written-report narrative template; with
+  `notes_path` it fills a draft from the nurse's local notes into `/data/output` and returns
+  only file names and field counts. Content `content/mch/mandated_reporting.yaml` (pending
+  review).
+- `check_developmental_milestones` (MCH-02): CDC "Learn the Signs. Act Early." checklists
+  (2 months to 5 years) with milestone IDs, act-early steps, AAP screening ages, the
+  corrected-age checklist for preterm infants, Massachusetts Early Intervention referral, and
+  the EI programs serving a town. Content `content/mch/developmental_milestones.yaml` (pending
+  review); snapshot `ma-ei-programs` (DPH's EI program directory).
+- `plan_newborn_postpartum_visit` (MCH-01): newborn and postpartum home visit plan (feeding and
+  weight change, jaundice, AAP 2022 safe sleep, Massachusetts car seat law, newborn blood spot
+  and hearing screening under 105 CMR 270.000 and M.G.L. c. 111, s. 67F, CDC Hear Her urgent
+  maternal warning signs) with an optional DOCX visit plan and family teaching sheet. Content
+  `content/mch/newborn_postpartum.yaml` (pending review; jaundice items low confidence).
+- `estimate_benefit_eligibility` (EQ-06): income screen for WIC, SNAP, MassHealth, the Health
+  Safety Net, and HEAP with the 2026 poverty guidelines and each program's current limits and
+  effective dates. Content `content/equity/benefit_eligibility.yaml` (pending review; refresh
+  annually).
+- `map_lead_risk` (MCH-05): outreach ranking of towns or tracts (mean percentile rank of
+  pre-1950/1980 housing, low income, young children, DPH screening gap and elevated blood lead
+  prevalence) with DPH's high-risk designation and a choropleth map. Snapshot
+  `ma-acs5-housing-age` (ACS B25034, `xtask/scripts/build_housing_age.py`).
+- `maternal_infant_health_profile` (MCH-06): community births, low birthweight, preterm, and
+  teen births with exact intervals and state/U.S. comparisons; statewide indicators and infant
+  mortality by race and Hispanic ethnicity; PRAMS indicators; trends. Snapshot
+  `ma-maternal-infant` (DPH birth, death, and PRAMS reports; CDC NCHS provisional estimates;
+  `xtask/scripts/build_maternal_infant.py`).
+### Added — Phase 9: PHN practice toolkit and case management
+
+- `plan_tb_contact_investigation` (CD-11) and `ltbi_treatment_calendar` (CD-12): the 2005
+  NTCA/CDC contact investigation rules (infectious period, Figure 2-4 priorities, Table 3 time
+  frames, 8-10 week retest) with an XLSX tracking workbook and local contact-list summaries, and
+  LTBI dose calendars, completion windows, and adherence checks for 3HP, 4R, 3HR, 6H, and 9H with
+  an XLSX tracker and DOCX patient calendar (no dose calculation).
+- `screen_health_related_social_needs` (EQ-05): CMS AHC HRSN scoring by domain with Massachusetts
+  referral categories and a batch mode with suppressed counts.
+- `omaha_system_coder` (CORE-01), `classify_intervention_wheel` (CORE-02), and
+  `nursing_documentation_template` (CORE-03): Omaha System coding, Public Health Intervention
+  Wheel classification with workload counts, and SOAP/DAR/narrative templates with a
+  required-elements check; notes are analyzed locally and never returned.
+- `find_community_resources` (EQ-07): the nurse's resource directory plus HRSA health center sites
+  (new `phn_data::hrsa` adapter and `hrsa-health-centers-ma` snapshot with its builder script).
+- `newcomer_health_navigator` (EQ-11): CDC domestic refugee screening, DPH/ORI programs, MassHealth
+  coverage by immigration status including the October 2026 federal changes, and EA shelter
+  resources.
+- Content (pending review): `content/cd/tuberculosis.yaml`, `content/equity/ahc_hrsn.yaml`,
+  `content/equity/newcomer_health.yaml`, `content/core/omaha_system.yaml`,
+  `content/core/intervention_wheel.yaml`, `content/core/documentation_templates.yaml`; agency
+  translations are read from `/data/templates/<language>/`; fictional TB contact, HRSN screening,
+  and resource directory fixtures.
+### Added — Phase 10: healthy aging and mental health screening
+
+- `score_mental_health_screen` (MH-02): scoring engine for PHQ-2, PHQ-9, GAD-2, GAD-7, EPDS, the
+  NIMH ASQ, and the C-SSRS screener with range checks, published cutoffs, safety-alert rules and
+  cited steps, license terms per instrument, file mode with suppressed counts, and 50 golden cases.
+- `find_crisis_resources` (MH-01): 988, the Behavioral Health Help Line, mobile crisis, the Crisis
+  Text Line, and Community Behavioral Health Centers by town, with language access.
+- `steadi_fall_risk_assessment` (AGE-01), `elder_protective_services_guide` (AGE-03),
+  `find_ma_aging_services` (AGE-02), `explain_older_adult_coverage_options` (AGE-04),
+  `nursing_home_quality_lookup` (AGE-06), `map_older_adult_vulnerability` (AGE-05), and
+  `advance_care_planning_toolkit` (AGE-07).
+- Town-to-service directory framework and snapshots (ASAPs, SHINE offices, senior nutrition
+  projects, CBHCs) with `cargo xtask build-service-directories`; CMS Provider Data Catalog adapter
+  (`phn_data::cms_provider`) with `cargo xtask build-nursing-home-snapshot`; older-adult ACS
+  indicators (`phn_data::older_adults`) with `cargo xtask build-older-adult-snapshots`.
+- Template + local fill helper (`phn_tools::aging::localfill`) with agency translations from
+  `/data/templates/<language>/` and English fallback counted by language.
+- Content (all pending review): `content/bh/mental_health_screening.yaml`,
+  `content/bh/crisis_resources.yaml`, and `content/aging/*.yaml` (STEADI, protective services,
+  aging services, coverage options, nursing home guide, advance care planning).
+### Added — Phase 11: substance use, crisis resources, and health communication
+
+- `check_readability` (COMM-01): reading-level formulas (Flesch Reading Ease, Flesch-Kincaid,
+  SMOG with CDC's conversion table, Gunning Fog), plain-language flags with CDC Everyday Words
+  alternatives, and the CDC Clear Communication Index scored from the nurse's answers. The text
+  statistics moved to `phn_tools::comms::textstats` (VAX-09 now uses them) with better sentence
+  splitting and syllable counting. Content: `content/comms/readability.yaml`. `comms.rs` became
+  the `comms/` folder.
+- `get_overdose_data` (MH-03): DPH town-level opioid-related overdose deaths (2015-2022 table,
+  bundled), 5-year rates with exact intervals compared with the state, CDC/NCHS provisional county,
+  state, and U.S. counts by drug class (live → cache → snapshot), and DPH's 2024 findings.
+  Snapshots `ma-dph-opioid-deaths-town` and `cdc-vsrr-overdose-ma` (builders in `xtask/scripts/`);
+  content `content/bh/overdose_data.yaml`.
+- `get_youth_risk_behavior_data` (MH-07): DPH Youth Health Survey (2023, 2025) and Massachusetts
+  YRBS (2023) report tables by sex, grade, race/ethnicity, and LGBTQ identity with 95% CIs and
+  differences by non-overlapping intervals, and CDC YRBS mental health indicators for
+  Massachusetts vs the U.S. Snapshots `ma-youth-health-survey` and `cdc-yrbs-mental-health-ma-us`;
+  content `content/bh/youth_survey.yaml` (also holds DPH's 988 Lifeline text).
+- `find_naloxone_and_harm_reduction` (MH-04): naloxone access (statewide standing order of July
+  13, 2026, pharmacy policy, programs), syringe service program approval by town, fentanyl test
+  strip facts, help lines, and a cited teaching script with an optional Word handout. Content
+  `content/bh/substance_use_resources.yaml` (shared with MH-05).
+- `find_substance_use_treatment` (MH-05): SAMHSA FindTreatment.gov adapter
+  (`phn_data::findtreatment`, live → cache → bundled statewide snapshot `samhsa-findtreatment-ma`)
+  with MOUD, setting, special-group, payment, and language filters, and the Massachusetts
+  Substance Use Helpline.
+- `plan_school_postvention` (MH-06): After a Suicide toolkit steps and talking points (with
+  pages), message templates by cause-of-death status filled locally into Word files, and a
+  safe-messaging check of drafts. Content `content/bh/postvention.yaml` and
+  `content/comms/safe_messaging.yaml` (shared rules, `phn_tools::comms::safe_messaging`); fixture
+  `fixtures/synthetic/data/postvention_details.csv`.
+- `translate_health_material` (COMM-02): translation workflow with language priorities from EQ-03,
+  agency translations in `/data/templates/<language>/`, a translator brief, glossary and
+  back-translation checks, the qualified-translator draft label, and an XLSX review worksheet.
+  Content `content/comms/translation.yaml`.
+- `create_social_media_campaign` (COMM-03) and `draft_press_materials` (COMM-04): campaign
+  calendars tied to observances with post checks and an XLSX export; press materials built and
+  checked against CDC CERC media guidance with a Word export. Content
+  `content/comms/campaigns.yaml` (platform limits and observance dates marked unverified).
+### Added — Phase 12: emergency preparedness I: situational awareness and planning
+
+- `get_active_hazard_alerts` (EPR-05): live NWS alerts for a town, county, or the state with
+  cited health effects, at-risk groups, public health actions, and messages, and OpenFEMA
+  disaster declarations (snapshot fallback).
+- `model_dispensing_site_throughput` (EPR-02): M/M/c (Erlang C) model of POD and mass
+  vaccination stations with sizing, waits, bottleneck, capacity, hours to reach a population,
+  and an optional staffing workbook; `phn_epi::queueing` with golden tests.
+- `air_quality_protective_guidance` (ENV-02): AirNow current and forecast AQI by reporting area
+  with EPA and CDC protective actions, and 2024 Appendix G concentration-to-AQI conversion.
+- `heat_health_action_planner` (ENV-01): NWS HeatRisk and forecast, heat-vulnerable population
+  (ACS, PLACES, SVI, emPOWER), activation steps, and a DOCX heat response checklist.
+- `hazard_vulnerability_assessment` (EPR-06): facilitated HVA seeded with ResilientMass 2023,
+  FEMA declarations, and optional NRI tables, with an XLSX workbook.
+- `functional_needs_shelter_intake` (EPR-03): CMIST intake template and blank form, local fill
+  with agency translations, and shelter planning estimates.
+- `get_electricity_dependent_population` (EPR-04): HHS emPOWER counts by town, county, and ZIP
+  code from the emPOWER Map's JSON endpoints (snapshot fallback).
+- `plan_casper_assessment` (EPR-11): CASPER cluster selection from 2020 census blocks with a
+  reproducible seed, team materials, and weighted analysis (`phn_epi::survey`, golden test
+  against samplics).
+- Data adapters (`phn_data::nws`, `openfema`, `empower`, `airnow`, `heatrisk`,
+  `census_blocks`, `projection`) and snapshots (FEMA declarations, emPOWER, 2020 census block
+  housing units) built by `xtask/scripts/build_epr_snapshots.py`; eight content files in
+  `content/epr/` and `content/env/` (pending review).
+### Changed and fixed during integration
+
+- The communication tools moved from `comms.rs` to `crates/phn-tools/src/comms/`; COMM-05 now
+  lives in `comms/accessibility.rs`, and VAX-09's readability check uses the shared COMM-01 engine.
+- Two user guide entries used an internet value the Word builder did not know, which broke
+  `build-user-guide.js`; a registry test now checks every entry's value.
+- The leak test also covers `create_social_media_campaign` pointed at an identifiable file.
+- The data source registry lists every Phase 7–12 tool that reads local files or ACS data.
+- `.gitignore` (a Python template) ignored every `env/` folder; exceptions keep
+  `crates/phn-tools/src/env/` and `content/env/` in the repository.
+- The former MOLST domain (molst-ma.org) no longer belongs to the program; the advance care
+  planning tool does not link to it and marks its MOLST content unverified.
+- The README documents the optional API keys (`PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`,
+  `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY`).
 
 ## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 

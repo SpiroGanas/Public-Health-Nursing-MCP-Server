@@ -189,6 +189,132 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         "mwra_biobot.csv",
         include_str!("../../../snapshots/mwra_biobot.csv"),
     ),
+    // Phase 10 snapshot files go below this line.
+    (
+        "ma_asap_directory.csv",
+        include_str!("../../../snapshots/ma_asap_directory.csv"),
+    ),
+    (
+        "ma_shine_directory.csv",
+        include_str!("../../../snapshots/ma_shine_directory.csv"),
+    ),
+    (
+        "ma_nutrition_directory.csv",
+        include_str!("../../../snapshots/ma_nutrition_directory.csv"),
+    ),
+    (
+        "ma_cbhc_directory.csv",
+        include_str!("../../../snapshots/ma_cbhc_directory.csv"),
+    ),
+    (
+        "cms_ma_nursing_homes.csv",
+        include_str!("../../../snapshots/cms_ma_nursing_homes.csv"),
+    ),
+    (
+        "cms_ma_nh_infection_citations.csv",
+        include_str!("../../../snapshots/cms_ma_nh_infection_citations.csv"),
+    ),
+    (
+        "cms_ma_nh_averages.csv",
+        include_str!("../../../snapshots/cms_ma_nh_averages.csv"),
+    ),
+    (
+        "ma_acs5_older_adults.csv",
+        include_str!("../../../snapshots/ma_acs5_older_adults.csv"),
+    ),
+    // End of Phase 10 snapshot files.
+    // Phase 8 snapshot files go below this line.
+    (
+        "cdc_growth_wtage.csv",
+        include_str!("../../../snapshots/cdc_growth_wtage.csv"),
+    ),
+    (
+        "cdc_growth_statage.csv",
+        include_str!("../../../snapshots/cdc_growth_statage.csv"),
+    ),
+    (
+        "cdc_growth_hcageinf.csv",
+        include_str!("../../../snapshots/cdc_growth_hcageinf.csv"),
+    ),
+    (
+        "cdc_growth_bmi_age_2022.csv",
+        include_str!("../../../snapshots/cdc_growth_bmi_age_2022.csv"),
+    ),
+    (
+        "who_growth_by_age.csv",
+        include_str!("../../../snapshots/who_growth_by_age.csv"),
+    ),
+    (
+        "who_growth_wfl.csv",
+        include_str!("../../../snapshots/who_growth_wfl.csv"),
+    ),
+    (
+        "ma_lead_screening_2024.csv",
+        include_str!("../../../snapshots/ma_lead_screening_2024.csv"),
+    ),
+    (
+        "ma_ei_programs.csv",
+        include_str!("../../../snapshots/ma_ei_programs.csv"),
+    ),
+    (
+        "ma_acs5_housing_age.csv",
+        include_str!("../../../snapshots/ma_acs5_housing_age.csv"),
+    ),
+    (
+        "ma_maternal_infant.csv",
+        include_str!("../../../snapshots/ma_maternal_infant.csv"),
+    ),
+    // End of Phase 8 snapshot files.
+    // Phase 9 snapshot files go below this line.
+    (
+        "hrsa_health_centers_ma.csv",
+        include_str!("../../../snapshots/hrsa_health_centers_ma.csv"),
+    ),
+    // End of Phase 9 snapshot files.
+    // Phase 12 snapshot files go below this line.
+    (
+        "fema_declarations_ma.csv",
+        include_str!("../../../snapshots/fema_declarations_ma.csv"),
+    ),
+    (
+        "empower_ma.csv",
+        include_str!("../../../snapshots/empower_ma.csv"),
+    ),
+    (
+        "ma_pl2020_blocks.txt",
+        include_str!("../../../snapshots/ma_pl2020_blocks.txt"),
+    ),
+    // End of Phase 12 snapshot files.
+    // Phase 11 snapshot files go below this line.
+    (
+        "ma_opioid_deaths_town.csv",
+        include_str!("../../../snapshots/ma_opioid_deaths_town.csv"),
+    ),
+    (
+        "cdc_vsrr_overdose_ma_us.csv",
+        include_str!("../../../snapshots/cdc_vsrr_overdose_ma_us.csv"),
+    ),
+    (
+        "cdc_vsrr_overdose_ma_counties.csv",
+        include_str!("../../../snapshots/cdc_vsrr_overdose_ma_counties.csv"),
+    ),
+    (
+        "ma_youth_survey.csv",
+        include_str!("../../../snapshots/ma_youth_survey.csv"),
+    ),
+    (
+        "ma_youth_survey_indicators.csv",
+        include_str!("../../../snapshots/ma_youth_survey_indicators.csv"),
+    ),
+    (
+        "cdc_yrbs_mental_health_ma_us.csv",
+        include_str!("../../../snapshots/cdc_yrbs_mental_health_ma_us.csv"),
+    ),
+    (
+        "findtreatment_ma.csv",
+        include_str!("../../../snapshots/findtreatment_ma.csv"),
+    ),
+    // End of Phase 11 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

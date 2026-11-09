@@ -1,0 +1,193 @@
+# Statewide crisis lines and how to use them, for find_crisis_resources (MH-01). Local Community
+# Behavioral Health Centers (CBHCs) by town come from the ma-cbhc-directory snapshot
+# (cargo xtask build-service-directories).
+#
+# REVIEW STATUS: pending. Every number below was read from the cited page on 2026-11-08.
+# Schema: content/schemas/bh_crisis_resources.schema.json
+meta:
+  id: bh-crisis-resources
+  title: Massachusetts and national crisis lines (988, Behavioral Health Help Line, mobile crisis, Crisis Text Line)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: About the 988 Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/about-the-988-lifeline
+  related_sources:
+    - title: Community Behavioral Health Centers
+      publisher: Massachusetts Executive Office of Health and Human Services
+      url: https://www.mass.gov/community-behavioral-health-centers
+    - title: Mobile Crisis Intervention
+      publisher: Massachusetts Executive Office of Health and Human Services
+      url: https://www.mass.gov/info-details/mobile-crisis-intervention
+    - title: Find a CBHC Locations
+      publisher: Massachusetts Executive Office of Health and Human Services
+      url: https://www.mass.gov/find-a-cbhc/locations
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Every phone number, text code, and language option was read from the cited mass.gov or NIMH
+    page on 2026-11-08 (high confidence). masshelpline.com, 988lifeline.org, and
+    crisistextline.org could not be reached from the build environment, so details are taken from
+    mass.gov and NIMH. No list of Massachusetts peer warmlines could be found on a reachable
+    official page; the tool says so rather than listing unverified numbers. Phone lines change:
+    the nurse should call-test the numbers before publishing them.
+
+sources:
+  ma-988:
+    title: About the 988 Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/about-the-988-lifeline
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-988-landing:
+    title: 988 Suicide and Crisis Lifeline (Massachusetts)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-cbhc:
+    title: Community Behavioral Health Centers
+    publisher: Massachusetts Executive Office of Health and Human Services
+    url: https://www.mass.gov/community-behavioral-health-centers
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-mci:
+    title: Mobile Crisis Intervention
+    publisher: Massachusetts Executive Office of Health and Human Services
+    url: https://www.mass.gov/info-details/mobile-crisis-intervention
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-cbhc-locations:
+    title: Find a CBHC Locations
+    publisher: Massachusetts Executive Office of Health and Human Services
+    url: https://www.mass.gov/find-a-cbhc/locations
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-dmh:
+    title: Massachusetts Department of Mental Health (contact block)
+    publisher: Massachusetts Department of Mental Health
+    url: https://www.mass.gov/orgs/massachusetts-department-of-mental-health
+    effective_date: null
+    retrieved: 2026-11-08
+  nimh-asq-tool:
+    title: "NIMH Toolkit: Suicide Risk Screening Tool (resources to give all patients)"
+    publisher: National Institute of Mental Health (NIMH)
+    url: https://www.nimh.nih.gov/sites/default/files/documents/research/research-conducted-at-nimh/asq-toolkit-materials/asq-tool/screening-tool-asq-nimh-toolkit.pdf
+    effective_date: 2025-09-29
+    retrieved: 2026-11-08
+
+lines:
+  - id: emergency_911
+    name: 911 (immediate danger)
+    audience: all
+    purpose: Use first when someone is in immediate danger (for example a suicide attempt in progress or a weapon involved).
+    contacts:
+      - {mode: call, value: "911"}
+    languages: []
+    hours: 24/7
+    cost: free
+    notes:
+      - "\"If you or your loved one are in immediate danger, you should call 911 first\" (DPH, About the 988 Lifeline)."
+    source: ma-988
+    section: "Frequently asked questions: how 988 interacts with 911"
+    confidence: high
+  - id: lifeline_988
+    name: 988 Suicide and Crisis Lifeline
+    audience: all
+    purpose: >-
+      Free, confidential emotional support for anyone in emotional distress or suicidal crisis, or
+      worried about someone. You do not need to be suicidal to contact 988. Calls are routed to a
+      local Massachusetts call center when possible.
+    contacts:
+      - {mode: call, value: "988"}
+      - {mode: text, value: "988"}
+      - {mode: chat, value: "https://988lifeline.org/chat"}
+      - {mode: call, value: "(800) 273-8255", note: "the former National Suicide Prevention Lifeline number reaches the same centers"}
+    languages:
+      - {language: Spanish, how: "call 988 and press 2; text the word Ayuda to 988; or chat at 988lifeline.org/es/chat"}
+      - {language: "Interpretation in more than 240 languages", how: "call 988 and say the name of the language you need"}
+      - {language: American Sign Language, how: "call 988 by videophone, or connect through 988 ASL Now"}
+      - {language: TTY, how: "use your preferred relay service, or dial 711 then 988"}
+    hours: 24/7, 365 days a year
+    cost: free
+    notes:
+      - "Veterans and service members: call 988 and press 1, text 838255, or chat at veteranscrisisline.net."
+      - "988 does not contact 911 without the caller's permission unless a suicide attempt is in progress or likely to happen very soon; fewer than 2% of Massachusetts 988 calls need emergency intervention."
+    source: ma-988
+    section: "988 accessibility and specialized services; frequently asked questions"
+    confidence: high
+  - id: bhhl
+    name: Massachusetts Behavioral Health Help Line (BHHL)
+    audience: all
+    purpose: >-
+      A 24/7 clinical help line staffed by behavioral health clinicians and peer coaches that offers
+      assessment, treatment referrals, and crisis triage, and connects callers directly (warm
+      handoff) to their nearest Community Behavioral Health Center when appropriate. Use it to
+      connect someone to the full range of mental health and substance use treatment.
+    contacts:
+      - {mode: call, value: "(833) 773-2445"}
+      - {mode: text, value: "(833) 773-2445"}
+      - {mode: chat, value: "https://www.masshelpline.com/chat/"}
+    languages:
+      - {language: "More than 200 languages", how: "available 24/7 when you call, text, or chat"}
+    hours: 24/7, 365 days a year
+    cost: free
+    notes:
+      - "988 offers emotional support to anyone in distress; the BHHL connects people to treatment services (DPH, About the 988 Lifeline)."
+    source: ma-cbhc
+    section: "Behavioral Health Help Line"
+    confidence: high
+  - id: mobile_crisis
+    name: Mobile Crisis Intervention (MCI) through Community Behavioral Health Centers, youth and adults
+    audience: all
+    purpose: >-
+      For a mental health or substance use crisis, for a child or an adult, when help is needed
+      within an hour: CBHC crisis teams come to the person (home, school, work, or anywhere in the
+      community), assess, give immediate help, and plan next steps. No insurance needed.
+    contacts:
+      - {mode: call, value: "(877) 382-1609", note: "toll-free; listen to the message and enter the ZIP code to be transferred to the closest CBHC"}
+    languages: []
+    hours: 24/7, 365 days a year
+    cost: free (no insurance needed)
+    notes:
+      - When appropriate the local CBHC dispatches a team within 60 minutes of being contacted.
+      - "Every CBHC also takes walk-ins for crisis care 24/7, and offers community crisis stabilization (short-term overnight care) with separate youth and adult programs."
+    source: ma-mci
+    section: "Mobile Crisis Intervention"
+    confidence: high
+  - id: crisis_text_line
+    name: Crisis Text Line
+    audience: all
+    purpose: Text-based crisis support.
+    contacts:
+      - {mode: text, value: "Text HOME (English) or HOLA (Spanish) to 741741"}
+    languages:
+      - {language: Spanish, how: "text HOLA to 741741"}
+    hours: 24/7
+    cost: free
+    notes:
+      - Listed by NIMH as a resource to give every patient screened for suicide risk (www.crisistextline.org).
+    source: nimh-asq-tool
+    section: "Provide resources to all patients"
+    confidence: high
+
+warmlines:
+  status: not_verified
+  text: >-
+    No list of Massachusetts peer-run warmlines could be confirmed on a reachable official page on
+    2026-11-08, so none are listed. The Behavioral Health Help Line is staffed by clinicians and peer
+    coaches 24/7 and can connect callers to peer support; add your local warmline to your agency
+    resource list after confirming it.
+  source: ma-cbhc
+  section: "Behavioral Health Help Line"
+
+cbhc_services:
+  - {text: "All CBHCs are open daily for walk-ins, routine appointments, and crisis care; crisis services are available 24 hours a day, 7 days a week, 365 days a year, including holidays.", source: ma-cbhc, section: "Visit a CBHC"}
+  - {text: "Routine outpatient services run 8 AM to 8 PM on weekdays and 9 AM to 5 PM on weekends; every CBHC offers in-person and telehealth care.", source: ma-cbhc, section: "Visit a CBHC"}
+  - {text: "Crisis services are available to anyone in Massachusetts, with or without health insurance; outpatient services are covered by all MassHealth plans and some commercial plans.", source: ma-cbhc, section: "Community Behavioral Health Centers"}
+  - {text: "Community Crisis Stabilization is short-term overnight crisis care in a home-like setting, a less restrictive alternative to inpatient hospitalization, with separate adult and youth programs.", source: ma-cbhc, section: "Types of Care"}

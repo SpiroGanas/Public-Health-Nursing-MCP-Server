@@ -1,0 +1,609 @@
+# Head injuries and concussions in Massachusetts schools: 105 CMR 201.000 requirements, DPH
+# return-to-learn guidance and forms, and CDC HEADS UP steps, for
+# concussion_return_to_learn_tracker (SCH-05).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from the sources below, fetched that day.
+# Schema: content/schemas/school_concussion.schema.json
+meta:
+  id: ma-school-concussion
+  title: Head injuries and concussions in Massachusetts schools (105 CMR 201.000, DPH and CDC guidance)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2014-08-01
+  source:
+    title: "105 CMR 201.000: Head Injuries and Concussions in Extracurricular Athletic Activities (MA Reg. #1266, dated 8-1-14)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-201-head-injuries-and-concussions-in-extracurricular-activities/download
+  related_sources:
+    - title: "Returning to School After Concussion: Guidelines for Massachusetts Schools (June 2018)"
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/returning-to-school-after-concussion/download
+    - title: Post Sports-Related Head Injury Medical Clearance and Authorization Form
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/post-sports-related-head-injury-medical-clearance-and-authorization-form/download
+    - title: "HEADS UP: Returning to School After a Concussion; Returning to Sports"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/heads-up/guidelines/returning-to-school.html
+    - title: "M.G.L. c. 111, section 222 (Interscholastic athletic head injury safety training program)"
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section222
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Regulatory requirements are transcribed from 105 CMR 201.000 (MA Reg. #1266, 8-1-14) and
+    M.G.L. c. 111, section 222 (high confidence). Return-to-learn stages, accommodations, and the
+    symptom monitoring tool come from DPH's June 2018 guidelines; the gradual return-to-play
+    stages and clearance instructions from DPH's current clearance form (Healey administration
+    letterhead); CDC steps, danger signs, and return-to-school advice from CDC HEADS UP pages
+    updated August-September 2025. DPH's 2018 guidance (rest 2-4 days, most students miss 1 to 4
+    days) predates CDC's 2025 advice that most children return within 1 to 2 days; both are shown
+    and flagged as a divergence for the nurse's decision. The year-end report deadline (August
+    14, 2026) is for the 2025-2026 school year and changes yearly. The subject matter expert must
+    review before Pilot 2.
+
+sources:
+  cmr201:
+    title: "105 CMR 201.000: Head Injuries and Concussions in Extracurricular Athletic Activities"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-201-head-injuries-and-concussions-in-extracurricular-activities/download
+    effective_date: 2014-08-01
+    retrieved: 2026-11-08
+  mgl-c111-s222:
+    title: "M.G.L. c. 111, section 222: Interscholastic athletic head injury safety training program"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section222
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-rtl-2018:
+    title: "Returning to School After Concussion: Guidelines for Massachusetts Schools (June 2018)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/returning-to-school-after-concussion/download
+    effective_date: 2018-06-01
+    retrieved: 2026-11-08
+  dph-clearance-form:
+    title: Post Sports-Related Head Injury Medical Clearance and Authorization Form
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/post-sports-related-head-injury-medical-clearance-and-authorization-form/download
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-symptom-tool:
+    title: Post-concussion Symptom Monitoring Tool
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/post-concussion-symptom-monitoring-tool/download
+    effective_date: 2018-06-01
+    retrieved: 2026-11-08
+  dph-schools-page:
+    title: Head injury and concussion information for schools, school staff, coaches, athletic trainers, and volunteers
+    publisher: Massachusetts Department of Public Health, Injury Prevention and Control Program
+    url: https://www.mass.gov/info-details/head-injury-and-concussion-information-for-schools-school-staff-coaches-athletic-trainers-and-volunteers
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-forms-list:
+    title: Required forms for schools with extracurricular sports activities (with translations)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/lists/required-forms-for-schools-with-extracurricular-sports-activities
+    effective_date: null
+    retrieved: 2026-11-08
+  cdc-return-school:
+    title: "HEADS UP: Returning to School After a Concussion"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/heads-up/guidelines/returning-to-school.html
+    effective_date: 2025-08-06
+    retrieved: 2026-11-08
+  cdc-return-sports:
+    title: "HEADS UP: Returning to Sports (6-Step Return to Play Progression)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/heads-up/guidelines/returning-to-sports.html
+    effective_date: 2025-09-15
+    retrieved: 2026-11-08
+  cdc-signs:
+    title: "HEADS UP: Signs and Symptoms of Concussion"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/heads-up/signs-symptoms/index.html
+    effective_date: 2025-09-15
+    retrieved: 2026-11-08
+
+scope:
+  - text: >-
+      Applies to all public middle and high schools serving grades 6 through graduation and other
+      schools subject to MIAA rules, for head injuries in extracurricular athletic activities
+      (including marching band and cheerleading); policies may be applied to all head injuries.
+    source: cmr201
+    section: "201.004, 201.005, 201.006(A)"
+  - text: >-
+      A head injury is a direct blow or indirect trauma to the head, including a concussion or
+      traumatic brain injury; a scalp or facial laceration alone is not a head injury.
+    source: cmr201
+    section: "201.005 (Head Injury)"
+  - text: >-
+      Each school must have head injury policies developed by a team (administrator, school nurse,
+      school or team physician, athletic director, athletic trainer, neuropsychologist if
+      available, guidance counselor, teacher), reviewed at least every two years.
+    source: cmr201
+    section: "201.006(A)"
+
+forms:
+  - id: pre_participation
+    name: Pre-participation Head Injury/Concussion Reporting Form for Extracurricular Activities
+    who_completes: Student and parent (both sign)
+    when: Before the start of every sports season
+    url: https://www.mass.gov/doc/pre-participation-head-injuryconcussion-reporting-form-for-extracurricular-activities-0/download
+    translations: [Arabic, French, Haitian Creole, Portuguese, Somali, Spanish, Vietnamese]
+    source: cmr201
+    section: "201.008(A)(2)(b)"
+  - id: report_of_head_injury
+    name: Report of a Head Injury During Sports Season Form
+    who_completes: >-
+      Coach, for an injury in practice or competition; parent, for a head injury during the season
+      outside the activity
+    when: When a head injury or suspected concussion occurs during the season
+    url: https://www.mass.gov/doc/report-of-a-head-injury-during-sports-season-form/download
+    translations: [Arabic, French, Haitian Creole, Portuguese, Somali, Spanish, Vietnamese]
+    source: cmr201
+    section: "201.008(B), 201.013(A)(3)"
+  - id: medical_clearance
+    name: Post Sports-Related Head Injury Medical Clearance and Authorization Form
+    who_completes: >-
+      Physician, or a licensed athletic trainer or nurse practitioner in consultation with a
+      physician, a physician assistant supervised by a physician, or a neuropsychologist
+      coordinating with the physician managing recovery
+    when: Before the student resumes the extracurricular athletic activity
+    url: https://www.mass.gov/doc/post-sports-related-head-injury-medical-clearance-and-authorization-form-0/download
+    translations: [Portuguese, Spanish]
+    source: cmr201
+    section: "201.011"
+
+training:
+  - text: >-
+      Each year coaches, licensed athletic trainers, trainers, volunteers, school and team
+      physicians, school nurses, athletic directors, marching band directors, and athletes and
+      their parents complete a DPH-approved head injury safety training (for example CDC HEADS UP
+      or the NFHS course); game officials complete it annually too.
+    source: cmr201
+    section: "201.007(A), (E)"
+  - text: >-
+      Before practice or competition each year, the student and parent complete approved training
+      and give the school a certificate or signed acknowledgment.
+    source: cmr201
+    section: "201.008(A)(2)(a)"
+  - text: >-
+      The school keeps a record of completion for everyone required to train.
+    source: cmr201
+    section: "201.007(C)"
+
+removal_from_play:
+  - text: >-
+      A student who sustains a head injury or suspected concussion, shows signs or symptoms of a
+      concussion, or loses consciousness even briefly during practice or competition is removed
+      immediately and may not return that day.
+    source: cmr201
+    section: "201.010(A)"
+  - text: >-
+      The student may not return to practice or competition until medical clearance and
+      authorization is provided.
+    source: cmr201
+    section: "201.010(B)"
+  - text: >-
+      If a student becomes unconscious, or has a diagnosed or suspected concussion, written
+      authorization from a licensed physician, licensed neuropsychologist, certified athletic
+      trainer, or other professional DPH designates goes to the athletic director before any
+      return.
+    source: mgl-c111-s222
+    section: "(c)"
+
+notification:
+  - who: Coach to parent
+    when: Immediately after the practice or competition
+    how: In person or by phone
+    source: cmr201
+    section: "201.010(C)"
+  - who: Coach to parent
+    when: By the end of the next business day
+    how: In writing (paper or electronic)
+    deadline_business_days: 1
+    source: cmr201
+    section: "201.010(C)"
+  - who: Coach or designee to athletic director and school nurse
+    when: By the end of the next business day
+    how: Communication that the student was removed
+    deadline_business_days: 1
+    source: cmr201
+    section: "201.010(D)"
+
+reentry_plan:
+  - text: >-
+      Every student removed from play and diagnosed with a concussion has a written graduated
+      reentry plan for return to full academic and extracurricular athletic activities.
+    source: cmr201
+    section: "201.010(E)"
+  - text: >-
+      The plan is developed by the student's teachers, guidance counselor, school nurse, athletic
+      trainer if on staff, neuropsychologist if involved, parent, and the student support or IEP
+      team as appropriate, in consultation with the student's primary care provider or the
+      physician managing recovery.
+    source: cmr201
+    section: "201.010(E)(1)"
+  - text: >-
+      The plan addresses physical and cognitive rest as appropriate; graduated return to
+      athletics and classes with accommodations or modifications; estimated time intervals;
+      frequency of assessments by the school nurse, physician, athletic trainer, or
+      neuropsychologist until full return; and communication among school staff, the parent, and
+      the treating provider.
+    source: cmr201
+    section: "201.010(E)(2)(a)-(e)"
+  - text: >-
+      The student must be completely symptom free at rest to begin graduated reentry to athletics,
+      and symptom free at rest, with exertion, and with cognitive activity to complete the plan and
+      be medically cleared.
+    source: cmr201
+    section: "201.010(E)(3)"
+  - text: >-
+      Identify a point person (often the school nurse, guidance counselor, or athletic trainer) to
+      coordinate the plan; a concussion management team is best practice, especially when
+      symptoms persist.
+    source: dph-rtl-2018
+    section: "Writing and Coordinating the Graduated Reentry Plan"
+
+clearance:
+  - text: >-
+      Only these may authorize return to play: a licensed physician; a licensed athletic trainer
+      in consultation with a physician; a licensed nurse practitioner in consultation with a
+      physician; a licensed physician assistant under a physician's supervision; or a licensed
+      neuropsychologist coordinating with the physician managing recovery. They must attest to
+      DPH-approved or equivalent training in post-traumatic head injury assessment.
+    source: cmr201
+    section: "201.011(A), (B)"
+  - text: >-
+      The clearance form (or school-based equivalent) is presented to the athletic director unless
+      school policy names another person. The return-to-play decision is medical and may involve
+      the parents, school nurse, and teachers.
+    source: cmr201
+    section: "201.011"
+  - text: >-
+      To clear a student to begin the gradual return-to-play protocol, the student must be back in
+      class full time without concussion-related academic accommodations. To clear full
+      activity without restriction, the provider confirms stages 1-4 were completed without
+      symptoms returning.
+    source: dph-clearance-form
+    section: "For Medical Providers"
+  - text: >-
+      The school may use a student's head injury history to decide whether, or under what
+      conditions, the student participates.
+    source: cmr201
+    section: "201.009(B)"
+
+return_to_learn:
+  - id: rest
+    name: Rest
+    min_days: 2
+    max_days: 4
+    text: >-
+      Minimal cognitive activity. If symptoms are severe, consider staying home a few days; if
+      mild, the child can attend half or full days as long as symptoms do not worsen. Minimize
+      screen time (computer in 15-minute intervals with breaks).
+    activities:
+      - Inform the school; ask for a point person for the return-to-learn process
+      - Minimize electronics and screen time
+      - Half or full days if symptoms are mild and do not worsen
+    source: dph-rtl-2018
+    section: "Table 2: Academic Recovery Guidelines After Concussion (REST)"
+  - id: reentry
+    name: Re-entry
+    min_days: 2
+    max_days: 10
+    text: >-
+      Light to moderate cognitive activity. Attend half or full days when able to listen, do light
+      reading, and tolerate 30 minutes of light exposure (not necessarily symptom free); take rest
+      breaks; sit out classes that worsen symptoms; homework in 15- to 30-minute blocks.
+    activities:
+      - Decide which work is excused, modified, or required
+      - Prioritize work in each class and spread make-up work over a few weeks
+      - Temporary adjustments such as excused PE, extra test time, shorter assignments, delayed high-stakes tests
+    source: dph-rtl-2018
+    section: "Table 2 (RE-ENTRY)"
+  - id: reintegration
+    name: Reintegration
+    min_days: 10
+    max_days: 14
+    text: >-
+      Moderate to high cognitive activity. Attend full days, begin make-up work, consider untimed
+      tests, and increase homework while avoiding a return of severe symptoms.
+    activities:
+      - Full school days
+      - Begin make-up work and continue teacher check-ins
+    source: dph-rtl-2018
+    section: "Table 2 (REINTEGRATION)"
+  - id: return
+    name: Return
+    min_days: 0
+    text: >-
+      When symptoms are gone: full cognitive activity, all classes and full days without breaks,
+      finish make-up work and testing.
+    activities:
+      - Full classwork, homework, and major assignments
+      - Finish make-up work and testing
+    source: dph-rtl-2018
+    section: "Table 2 (RETURN)"
+
+return_to_play_dph:
+  - id: stage_1
+    name: "Stage 1: Low levels of physical activity"
+    text: >-
+      Activity that does not bring symptoms back: walking, light jogging, light stationary biking,
+      light weightlifting (low weight, moderate reps, no bench or squats).
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+  - id: stage_2
+    name: "Stage 2: Moderate physical activity with body/head movement"
+    text: >-
+      Moderate jogging, brief running, moderate stationary cycling, moderate weightlifting (less
+      time or weight than usual).
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+  - id: stage_3
+    name: "Stage 3: Heavy non-contact physical activity"
+    text: >-
+      Sprinting, high-intensity stationary cycling, the regular lifting routine, non-contact
+      sport-specific drills in three planes of movement.
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+  - id: stage_4
+    name: "Stage 4: Sports-specific practice"
+    text: Sport-specific practice.
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+  - id: stage_5
+    name: "Stage 5: Full contact in a controlled drill or practice"
+    text: >-
+      Full contact (if appropriate) in a controlled drill or practice. The physician or medical
+      provider signs the clearance form before full contact.
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+  - id: stage_6
+    name: "Stage 6: Return to competition"
+    text: >-
+      Return to competition. Move to the next stage only if symptoms did not recur; if they
+      return, go back to the previous symptom-free stage after 24 hours symptom free.
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"
+
+return_to_play_cdc:
+  - id: step_1
+    name: "Step 1: Back to regular activities"
+    text: >-
+      Back to regular activities such as school, with the healthcare provider's approval to begin
+      the return-to-sports progression. Each step typically takes at least 24 hours.
+    source: cdc-return-sports
+    section: "6-Step Return to Play Progression"
+  - id: step_2
+    name: "Step 2: Light aerobic activity"
+    text: About 5 to 10 minutes on an exercise bike, walking, or light jogging; no weight lifting.
+    source: cdc-return-sports
+    section: "Step 2"
+  - id: step_3
+    name: "Step 3: Moderate activity"
+    text: >-
+      Moderate jogging, brief running, moderate-intensity stationary biking or weightlifting.
+    source: cdc-return-sports
+    section: "Step 3"
+  - id: step_4
+    name: "Step 4: Heavy, non-contact activity"
+    text: >-
+      Sprinting or running, high-intensity stationary biking, regular weightlifting, non-contact
+      sport-specific drills.
+    source: cdc-return-sports
+    section: "Step 4"
+  - id: step_5
+    name: "Step 5: Practice and full contact"
+    text: Return to practice and full contact (if appropriate) in controlled practice.
+    source: cdc-return-sports
+    section: "Step 5"
+  - id: step_6
+    name: "Step 6: Competition"
+    text: >-
+      Return to competition. If symptoms return, stop, contact the medical provider, and after
+      more rest and no symptoms restart at the previous step.
+    source: cdc-return-sports
+    section: "Step 6"
+
+accommodations:
+  - effect: Attention and concentration
+    problem: Short focus on lecture, class work, homework
+    supports:
+      - Shorter assignments; break down tasks
+      - Avoid tests and major projects during recovery; extra time in a quiet setting; one test per day
+      - Postpone standardized tests when possible
+      - Study guides, class notes, or a peer note-taker
+    source: dph-rtl-2018
+    section: "Table 1: School Accommodations for Post-Concussion Effects"
+  - effect: Working memory
+    problem: Holding instructions in mind, reading comprehension, math calculation, writing
+    supports:
+      - Repetition; calculator
+      - Shorter reading passages
+      - Written instructions and help with homework and classwork
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Memory consolidation and retrieval
+    problem: Retaining new information and retrieving learned information
+    supports:
+      - Smaller chunks to learn
+      - Alternate ways to show mastery, such as multiple choice or spoken answers
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Processing speed
+    problem: Keeping pace with work and verbal information
+    supports:
+      - Extended time; slow down verbal information; check comprehension
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Fatigue
+    problem: Decreased arousal for attention and working memory
+    supports:
+      - Rest breaks during classes, homework, and exams
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Headaches
+    problem: Interferes with concentration; triggered by fluorescent light, noise, focusing
+    supports:
+      - Rest breaks; rest in a quiet area
+      - Turn off fluorescent lights
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Light or noise sensitivity
+    problem: Symptoms worsen in bright or loud places; difficulty with visual tasks
+    supports:
+      - Sunglasses; sit away from bright light; reduce screen brightness and exposure
+      - Avoid noisy, crowded places such as the lunchroom, assemblies, and hallways; ear plugs
+      - Preferential seating; quiet place to study
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Dizziness or balance problems
+    problem: Unsteadiness, often provoked by visual motion
+    supports:
+      - Elevator pass; extra time between classes
+      - Allow head down if symptoms worsen; early dismissal from class
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Sleep disturbance
+    problem: Decreased arousal, shifted sleep schedule
+    supports:
+      - Later start or shortened day; rest breaks
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Anxiety
+    problem: Can interfere with concentration; student may push through symptoms to avoid falling behind
+    supports:
+      - Reassurance about accommodations; workload reduction; alternate forms of testing
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Symptom sensitivity
+    problem: Symptoms worsen with overactivity
+    supports:
+      - Reduce cognitive or physical demands below the symptom threshold
+      - Rest breaks; work in small increments
+    source: dph-rtl-2018
+    section: "Table 1"
+  - effect: Emotional and mood symptoms
+    problem: Sadness, irritability, nervousness; may affect relationships
+    supports:
+      - Emotional support plan; a signal to leave class to de-escalate; a quiet place to go
+      - Reassurance that feelings are typical in recovery; connect to psychological services
+    source: dph-rtl-2018
+    section: "Table 1"
+
+danger_signs:
+  - text: >-
+      Call 911 or go to the emergency department for any danger sign after a bump, blow, or jolt
+      to the head: convulsions or seizures; not recognizing people or places; repeated nausea or
+      vomiting; unusual behavior, increased confusion, restlessness, or agitation; loss of
+      consciousness with increasing drowsiness or inability to wake or stay awake; slurred
+      speech, weakness, numbness, or decreased coordination; a headache that gets worse and does
+      not go away; one pupil larger than the other or double vision.
+    source: cdc-signs
+    section: "Concussion danger signs"
+
+symptom_monitoring:
+  symptoms:
+    - Headache
+    - Pressure in head
+    - Neck pain
+    - Nausea or vomiting
+    - Dizziness
+    - Blurred vision
+    - Balance problems
+    - Sensitivity to light
+    - Sensitivity to noise
+    - Feeling slowed down
+    - Feeling like "in a fog"
+    - Don't feel right
+    - Difficulty concentrating
+    - Difficulty remembering
+    - Fatigue or low energy
+    - Confusion
+    - Drowsiness
+    - Trouble falling asleep
+    - More emotional
+    - Irritability
+    - Sadness
+    - Nervous or anxious
+  scale: 0 (none) to 6 (most severe) for each symptom, rated for today or the past few days
+  frequency: >-
+    Twice weekly for the first two weeks after school reentry and weekly after that, at different
+    times of day (symptoms are often worse later in the day); a completed copy can go to the
+    student's health care provider.
+  source: dph-symptom-tool
+  section: "Post-concussion Symptom Monitoring Tool"
+
+persistent_symptoms:
+  - text: >-
+      Most students recover within 4 weeks. If a student has not recovered and resumed a full
+      academic load within 3 or 4 weeks, a comprehensive, multidisciplinary assessment may be
+      needed; the school should consider a more formal concussion management team and education
+      plan options.
+    source: dph-rtl-2018
+    section: "Highlights; Flow Chart"
+  - text: >-
+      Students with persistent symptoms who need supports to participate fully may be candidates
+      for a Section 504 plan (evaluated under 34 C.F.R. 104.35); a small percentage with more
+      chronic needs may need an IEP. Reference the reentry plan in the IEP's Additional
+      Information section if appropriate.
+    source: dph-rtl-2018
+    section: "When Symptoms Persist"
+  - text: >-
+      A prior concussion, migraines, mental or behavioral health conditions, or learning
+      disabilities may lengthen recovery.
+    source: cdc-return-school
+    section: "Monitor your child for ongoing symptoms"
+
+nurse_responsibilities:
+  - text: >-
+      The school nurse helps develop and review the policies; completes annual training; reviews
+      (or has the school physician review) pre-participation forms that show a head injury history
+      and Report of Head Injury forms, following up with parents and coaches; keeps the forms in
+      the health record; takes part in reentry planning and revises the health care plan;
+      monitors recovering students with teachers; and provides educational materials.
+    source: cmr201
+    section: "201.015(A)-(H)"
+
+records_and_reporting:
+  - text: >-
+      Keep training verifications, pre-participation forms, Report of Head Injury forms, clearance
+      forms, and graduated reentry plans for three years or at least until the student graduates.
+    source: cmr201
+    section: "201.016(A)"
+  - text: >-
+      Report annual statistics to DPH: the total number of Report of Head Injury forms received,
+      and the total number of students who had head injuries or suspected concussions in
+      extracurricular athletic activities.
+    source: cmr201
+    section: "201.017"
+  - text: >-
+      DPH's deadline for the 2025-2026 Year End Report is August 14, 2026 (online only; DPH no
+      longer accepts mailed reports).
+    source: dph-schools-page
+    section: "Required yearly reporting for schools"
+    confidence: medium
+  - text: >-
+      Send DPH an affirmation on letterhead that policies were reviewed and updated by September
+      30 of every odd-numbered year.
+    source: cmr201
+    section: "201.006(C)"
+
+divergences:
+  - text: >-
+      DPH's 2018 guidance says most students need 1 to 4 days off and describes a 2-4 day rest
+      stage; CDC (2025) says most children can return to school within 1 to 2 days and that
+      getting back to school can shorten recovery. Decide which your district follows and say so
+      in the plan.
+    source: cdc-return-school
+    section: "What to do"
+  - text: >-
+      DPH's clearance form numbers six stages starting with low-level activity; CDC numbers six
+      steps starting with return to regular activities (school). The activities match; use the
+      DPH form's stages for Massachusetts clearance.
+    source: dph-clearance-form
+    section: "Gradual Return to Play Protocol"

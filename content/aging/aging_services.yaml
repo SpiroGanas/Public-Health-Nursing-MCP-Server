@@ -1,0 +1,228 @@
+# Statewide aging services lines and program descriptions for find_ma_aging_services (AGE-02).
+# Town-level providers (ASAPs, SHINE offices, senior nutrition projects) come from the
+# ma-aging-service-directory snapshot (cargo xtask build-service-directories).
+#
+# REVIEW STATUS: pending. Every number and description was read from the cited mass.gov page on
+# 2026-11-08.
+# Schema: content/schemas/aging_services.schema.json
+meta:
+  id: aging-services-guide
+  title: Massachusetts aging services (MassOptions, ASAPs, Councils on Aging, SHINE, meals, caregiver and dementia supports)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: null
+  source:
+    title: Executive Office of Aging & Independence (AGE)
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/orgs/executive-office-of-aging-independence-age
+  related_sources:
+    - title: Find Your Regional Aging Services Access Point (ASAP)
+      publisher: Massachusetts Executive Office of Aging & Independence
+      url: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    - title: Find Your Local Council on Aging
+      publisher: Massachusetts Executive Office of Aging & Independence
+      url: https://www.mass.gov/info-details/find-your-local-council-on-aging
+    - title: Find a SHINE Counselor Near You
+      publisher: Massachusetts Executive Office of Aging & Independence
+      url: https://www.mass.gov/info-details/find-a-shine-counselor-near-you
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Read from mass.gov on 2026-11-08 (high confidence). Council on Aging contacts are not bundled:
+    AGE publishes them only on an ArcGIS map and the Massachusetts Councils on Aging site
+    (mcoaonline.org), neither reachable from the build environment; the tool points to the map
+    and MassOptions. The Alzheimer's Association helpline number is from AGE's "Call for
+    Immediate Help" document. Service areas can change; call-test numbers before publishing.
+
+sources:
+  age-org:
+    title: Executive Office of Aging & Independence (contact block)
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/orgs/executive-office-of-aging-independence-age
+    effective_date: null
+    retrieved: 2026-11-08
+  age-asap:
+    title: Find Your Regional Aging Services Access Point (ASAP)
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    effective_date: null
+    retrieved: 2026-11-08
+  age-coa:
+    title: Find Your Local Council on Aging
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/find-your-local-council-on-aging
+    effective_date: null
+    retrieved: 2026-11-08
+  age-shine:
+    title: Find a SHINE Counselor Near You
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/find-a-shine-counselor-near-you
+    effective_date: null
+    retrieved: 2026-11-08
+  age-shine-program:
+    title: SHINE Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/shine-program
+    effective_date: null
+    retrieved: 2026-11-08
+  age-nutrition:
+    title: Senior Nutrition Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/senior-nutrition-program
+    effective_date: null
+    retrieved: 2026-11-08
+  age-nutrition-sites:
+    title: Nutrition Program Sites
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/nutrition-program-sites
+    effective_date: null
+    retrieved: 2026-11-08
+  age-caregiver:
+    title: Family Caregiver Support Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/family-caregiver-support-program
+    effective_date: null
+    retrieved: 2026-11-08
+  age-home-care:
+    title: Home Care Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/home-care-program
+    effective_date: null
+    retrieved: 2026-11-08
+  age-options:
+    title: Options Counseling
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/options-counseling
+    effective_date: null
+    retrieved: 2026-11-08
+  age-ombudsman:
+    title: Massachusetts Long-Term Care Ombudsman Program
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/orgs/massachusetts-long-term-care-ombudsman-program
+    effective_date: null
+    retrieved: 2026-11-08
+  age-dementia:
+    title: "Alzheimer's Disease and Related Dementias (resource page and 'Call for Immediate Help' document)"
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/alzheimers-disease-and-related-dementias
+    effective_date: null
+    retrieved: 2026-11-08
+  age-report-abuse:
+    title: Report Abuse of Adults Aged 60+
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/report-abuse-of-adults-aged-60
+    effective_date: null
+    retrieved: 2026-11-08
+
+lines:
+  - {id: massoptions, category: information, name: MassOptions, phone: "(800) 243-4636", hours: "Monday-Friday, 9 AM-5 PM", detail: "Connects older adults, people with disabilities, and caregivers to services, Options Counseling, Family Caregiver Specialists, and SHINE. Interpreter services in 100+ languages.", source: age-org, section: Contact Us}
+  - {id: massrelay, category: information, name: MassRelay (for MassOptions and SHINE), phone: "711", hours: "", detail: "MassRelay 711 or (800) 439-0183 (voice); TTY/ASCII (800) 439-2370.", source: age-shine, section: "Find a SHINE Counselor"}
+  - {id: elder_abuse, category: protective, name: "Elder abuse hotline (Adult Protective Services, 60+)", phone: "(800) 922-2275", hours: "24/7", detail: "Report abuse, neglect, financial exploitation, or self-neglect of an adult 60+ living in the community; the report is referred to the local protective services agency. Online reporting is also available. Use elder_protective_services_guide for reporting rules.", source: age-report-abuse, section: "Report Abuse of Adults Aged 60+"}
+  - {id: ombudsman, category: long_term_care, name: Long-Term Care Ombudsman Program, phone: "617-222-7495", hours: "", detail: "Free advocates who investigate and resolve complaints for residents of nursing homes, rest homes, and assisted living residences; anyone can bring a complaint.", source: age-ombudsman, section: "About; Contact Us"}
+  - {id: alz_helpline, category: dementia, name: "Alzheimer's Association 24/7 Helpline", phone: "800-272-3900", hours: "24/7", detail: "Free, confidential support and information for people living with Alzheimer's disease and related dementias, caregivers, families, and the public; also education programs and support groups.", source: age-dementia, section: "Call for Immediate Help"}
+  - {id: shine_chinese, category: insurance, name: "SHINE through the Greater Boston Chinese Golden Age Center (statewide, Chinese speakers)", phone: "617-357-0226", hours: "", detail: "SHINE support across the state for Chinese-speaking older adults, adults living with a disability, and caregivers.", source: age-shine, section: "Find a SHINE Counselor"}
+
+programs:
+  - id: asap
+    category: home_care
+    name: Aging Services Access Points (ASAPs)
+    text: >-
+      23 ASAPs contracted with AGE serve adults 60 and older and their caregivers: home care,
+      senior nutrition, Options Counseling, the Family Caregiver Support Program, the Community
+      Transition Liaison Program (adults 22+ moving from a nursing facility back to the community),
+      supportive and congregate housing, and Information and Resources. 18 ASAPs are also
+      protective services agencies; protective services areas may differ from the ASAP areas.
+    source: age-asap
+    section: "What is an Aging Services Access Point?"
+  - id: coa
+    category: community
+    name: Councils on Aging and senior centers
+    text: >-
+      350 Councils on Aging are municipal agencies that run local senior centers. Services vary by
+      town and may include outreach, transportation, meals, health screenings, health insurance
+      counseling, social activities, fitness and wellness, and lifelong learning.
+    source: age-coa
+    section: "What is a Council on Aging?"
+  - id: home_care
+    category: home_care
+    name: Home Care Program (through the ASAP)
+    text: >-
+      Care management and in-home and community supports for adults 60+, people with disabilities,
+      and people under 60 with early-onset Alzheimer's disease or a related dementia. Services are
+      based on assessed need, and cost depends on income; they include homemaker and personal
+      care, home-delivered meals, adult day health, dementia day care and coaching, chore,
+      companion, medication dispensing, money management, and home safety evaluations, among
+      others. The Frail Elder Waiver is part of home care.
+    source: age-home-care
+    section: "About the Home Care Program; services"
+  - id: meals
+    category: meals
+    name: Senior Nutrition Program (home-delivered and community meals)
+    text: >-
+      Home-delivered meals for older adults who are frail, isolated, or homebound (being homebound
+      is not required); each delivery is also a daily safety check, emergency meals are provided
+      for storms, and medically tailored and texture-modified meals are available. Community meals
+      are served at more than 325 sites. Some areas offer culturally specific meals (for example
+      Caribbean, Chinese, Haitian, Indian, Italian, kosher, Latino, Portuguese, Russian, Southern,
+      or vegetarian).
+    source: age-nutrition
+    section: "About the Senior Nutrition Program; Home-Delivered Meals"
+  - id: caregiver
+    category: caregiver
+    name: Family Caregiver Support Program
+    text: >-
+      Free Caregiver Specialists who refer, counsel, train, run support groups, and arrange
+      respite. Eligible: unpaid caregivers 18+ caring for someone 60+ or anyone living with
+      Alzheimer's disease or a related dementia; also grandparents and relatives 55+ caring for a
+      child under 18 or an adult 18-59 with a disability. Call MassOptions to reach a Caregiver
+      Specialist; fact sheets are available in Arabic, Chinese, Haitian Creole, Khmer, Portuguese,
+      Russian, and other languages.
+    source: age-caregiver
+    section: "About; Eligibility and Cost; Contact"
+  - id: options
+    category: information
+    name: Options Counseling
+    text: >-
+      Free, unbiased counseling for adults 60+, adults with a disability, and their families on
+      long-term services, transportation, and where to live (home, with family, assisted living, or
+      a nursing home). Call MassOptions.
+    source: age-options
+    section: "About; Eligibility and Cost"
+  - id: shine
+    category: insurance
+    name: SHINE (Serving the Health Insurance Needs of Everyone on Medicare)
+    text: >-
+      Free health insurance information, counseling, and help for Massachusetts residents eligible
+      for Medicare and their caregivers, from certified counselors (the federal SHIP program).
+      Use explain_older_adult_coverage_options for the plans and costs.
+    source: age-shine-program
+    section: SHINE Program
+  - id: dementia
+    category: dementia
+    name: Dementia supports
+    text: >-
+      AGE's dementia resource page lists statewide help: the Alzheimer's Association 24/7 Helpline,
+      and MassOptions for referral to local services. Home care, Alzheimer's/dementia coaching,
+      dementia day care, and the Family Caregiver Support Program also serve people living with
+      dementia and their caregivers.
+    source: age-dementia
+    section: "Call for Immediate Help"
+  - id: ombudsman
+    category: long_term_care
+    name: Long-Term Care Ombudsman
+    text: >-
+      Certified ombudsmen visit nursing homes, rest homes, and assisted living residences, mediate,
+      and investigate complaints on behalf of residents; free for residents.
+    source: age-ombudsman
+    section: About
+
+coa_lookup:
+  text: >-
+    Each city and town has a Council on Aging. AGE's map of Councils on Aging, and MassOptions at
+    (800) 243-4636, give the contact for a town; the town hall can also connect you.
+  map_url: https://experience.arcgis.com/experience/06e961a605cf4ee3bfd8c01b6516ef7d/page/Councils-on-Aging/
+  source: age-coa
+  section: "Find Your Local Council on Aging"

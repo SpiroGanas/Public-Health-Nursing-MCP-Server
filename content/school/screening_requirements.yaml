@@ -1,0 +1,774 @@
+# Massachusetts school health screening requirements by grade: vision, hearing, height/weight
+# (BMI), postural, SBIRT verbal substance use screening, the kindergarten vision certificate,
+# and physical examinations. Used by get_ma_school_screening_requirements (SCH-01) and
+# track_school_screenings (SCH-02).
+#
+# REVIEW STATUS: pending. Drafted on 2026-11-08 from the regulation, statutes, and DPH protocols
+# fetched that day (see sources). See meta.verification_note.
+# Schema: content/schemas/school_screening_requirements.schema.json
+meta:
+  id: ma-school-screening-requirements
+  title: Massachusetts school health screening requirements (105 CMR 200.000 and M.G.L. c. 71)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2013-11-08
+  source:
+    title: "105 CMR 200.000: Physical Examination of School Children (dated 11/08/2013 on mass.gov)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-200-physical-examination-of-school-children/download
+  related_sources:
+    - title: "M.G.L. c. 71, section 57 (Physical examination of pupils; eye examination, written report)"
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section57
+    - title: "M.G.L. c. 71, section 97 (Verbal screening tool for substance abuse disorders)"
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section97
+    - title: Updated Massachusetts Vision Screening Protocols (August 23, 2021; updated September 14, 2022)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/massachusetts-vision-screening-protocol-for-school-districts-0/download
+    - title: School health screening (DPH list of protocols and forms)
+      publisher: Massachusetts Department of Public Health, School Health Services
+      url: https://www.mass.gov/lists/school-health-screening
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Grades, frequencies, ungraded-classroom ages, notification, opt-out, and confidentiality rules
+    are transcribed from 105 CMR 200.000 (the mass.gov page dates it 11/08/2013), M.G.L. c. 71,
+    sections 57 and 97, and DPH's 2022 vision protocol, all fetched 2026-11-08 (high confidence).
+    BMI reporting deadlines and data-quality ranges come from DPH's 2014 BMI Screening
+    Guidelines and its February 2019 reporting memo; current reporting links may have changed
+    (medium). DPH's current Pure Tone Audiometer Hearing Screening Protocol is hosted on a
+    server this build could not reach, so hearing protocol details come from Exhibit 5-3 of the
+    2007 Comprehensive School Health Manual and are low to medium confidence: confirm them
+    against the current DPH protocol. The 2007 manual's statement that hearing is screened
+    annually K-12 is superseded by 105 CMR 200.400(C) and is not used. The postural screening
+    final report and its July 15 date come from DPH's postural screening training material
+    (revised 1996, reviewed 2019) and may no longer be collected that way (low). The subject
+    matter expert must review before Pilot 2.
+
+sources:
+  cmr200:
+    title: "105 CMR 200.000: Physical Examination of School Children"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-200-physical-examination-of-school-children/download
+    effective_date: 2013-11-08
+    retrieved: 2026-11-08
+  mgl-c71-s57:
+    title: "M.G.L. c. 71, section 57: Physical examination of pupils; eye examination, written report"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section57
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-c71-s97:
+    title: "M.G.L. c. 71, section 97: Verbal screening tool for substance abuse disorders"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section97
+    effective_date: null
+    retrieved: 2026-11-08
+  mgl-c71-s56:
+    title: "M.G.L. c. 71, section 56: Sick children; notification of parents"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section56
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-vision-2022:
+    title: Updated Massachusetts Vision Screening Protocols (memo to school nurses; implementation September 1, 2022)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/massachusetts-vision-screening-protocol-for-school-districts-0/download
+    effective_date: 2022-09-14
+    retrieved: 2026-11-08
+  cshm-2007:
+    title: Massachusetts Comprehensive School Health Manual (2007), Chapter 5 Health Assessment and Exhibit 5-3
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/comprehensive-school-health-manual/download
+    effective_date: 2007-01-01
+    retrieved: 2026-11-08
+  dph-postural:
+    title: Postural Screening Program training material (revised 1996; Rev 3-19-19)
+    publisher: Massachusetts Department of Public Health, School Health Unit
+    url: https://www.mass.gov/doc/postural-screening/download
+    effective_date: 2019-03-19
+    retrieved: 2026-11-08
+  dph-bmi-guidelines:
+    title: BMI Screening Guidelines for Schools (2014)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/bmi-screening-guidelines-for-schools/download
+    effective_date: 2014-01-01
+    retrieved: 2026-11-08
+  dph-bmi-memo-2019:
+    title: Reporting Forms for Mandatory Body Mass Index (BMI) Screening FY 2019 (memo, February 2019)
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/doc/reporting-forms-for-bmi-screening/download
+    effective_date: 2019-02-01
+    retrieved: 2026-11-08
+  dph-sbirt-faq:
+    title: "SBIRT in Schools: FAQs (January 2019)"
+    publisher: Massachusetts Department of Public Health with the Department of Elementary and Secondary Education
+    url: https://www.mass.gov/doc/sbrit-in-schools-faqs/download
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+  dph-data-tools:
+    title: School Health Services data collection tools
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/lists/school-health-services-data-collection-tools
+    effective_date: null
+    retrieved: 2026-11-08
+  dph-screening-list:
+    title: School health screening (protocols, forms, and guidance)
+    publisher: Massachusetts Department of Public Health, School Health Services
+    url: https://www.mass.gov/lists/school-health-screening
+    effective_date: null
+    retrieved: 2026-11-08
+
+general:
+  - text: >-
+      105 CMR 200.100 through 200.500 are minimum requirements; the school committee or board of
+      health may provide more frequent or more specialized examinations.
+    source: cmr200
+    section: "200.600"
+  - text: >-
+      A student is exempt from physical examinations or screenings on religious grounds upon the
+      written request of the parent or legal guardian, except with respect to communicable
+      diseases.
+    source: cmr200
+    section: "200.610"
+  - text: >-
+      DPH may waive any of 105 CMR 200.100 through 200.500 (except the BMI confidentiality rules
+      of 200.500(A)) on written request with an alternative plan. Waivers are not granted because
+      of school health budget reductions and last up to one year.
+    source: cmr200
+    section: "200.620"
+  - text: >-
+      Results of required health appraisals are recorded on health record forms provided or
+      approved by DPH.
+    source: cmr200
+    section: "200.630"
+  - text: >-
+      A private school that does not perform these examinations must tell every parent or
+      guardian that it does not, and recommend that the parent consult the child's health care
+      provider, school committee, or board of health. Pupils in approved private schools may be
+      examined at the parent's individual request.
+    source: mgl-c71-s57
+    section: "paragraphs 1-2"
+  - text: >-
+      If any child is found to have a disease, defect, or disability requiring treatment, the
+      school committee must notify the parent or guardian forthwith.
+    source: mgl-c71-s56
+    section: "section 56"
+  - text: >-
+      Screenings under 105 CMR 200.000 supplement, and do not replace, oversight of care by the
+      student's primary care provider.
+    source: cmr200
+    section: "200.001"
+
+screenings:
+  - id: vision
+    name: Vision screening
+    aliases: [vision, eyes, eye, sight, visual acuity, eye screening]
+    trackable: true
+    referral_letters: true
+    legal_basis:
+      - source: cmr200
+        section: "200.400(B)"
+      - source: mgl-c71-s57
+        section: "paragraph 1"
+    schedule:
+      - band: PK
+        grades: [PK]
+        frequency: annual
+        ages: [3, 5]
+        text: >-
+          Public preschool children (ages 3, 4, and 5) are screened annually, starting the year of
+          school entry (DPH protocol, mandatory from September 1, 2022).
+        source: dph-vision-2022
+        section: "Summary of additions/changes, item 2"
+      - band: K-5
+        grades: [K, "1", "2", "3", "4", "5"]
+        frequency: annual
+        ages: [5, 11]
+        text: >-
+          In the year of school entry and annually through grade 5 (or by age 11 in ungraded
+          classrooms).
+        source: cmr200
+        section: "200.400(B)"
+      - band: "6-8"
+        grades: ["6", "7", "8"]
+        frequency: once_in_band
+        ages: [12, 14]
+        text: Once in grades 6 through 8 (or ages 12 through 14 in ungraded classrooms).
+        source: cmr200
+        section: "200.400(B)"
+      - band: "9-12"
+        grades: ["9", "10", "11", "12"]
+        frequency: once_in_band
+        ages: [15, 18]
+        text: Once in grades 9 through 12 (or ages 15 through 18 in ungraded classrooms).
+        source: cmr200
+        section: "200.400(B)"
+    new_students:
+      text: >-
+        DPH advises screening all new students, regardless of age or month of entry, in distance
+        visual acuity, near visual acuity, and stereopsis when they cannot show evidence of these
+        required screenings (for example students moving from another state or district).
+      source: dph-vision-2022
+      section: "Vision screening frequency"
+    who:
+      - text: >-
+          Screened by teachers, physicians, optometrists, nurses, or others approved by DPH, in
+          accordance with DPH guidelines, using the Massachusetts Vision Test or another method
+          approved by DPH.
+        source: cmr200
+        section: "200.400(B), (D)"
+    protocol:
+      - text: >-
+          Critical line for chart-based screening: preschool age 3, 20/50; preschool age 4 and
+          older, 20/40; kindergarten (age 5) through grade 12, 20/32.
+        source: dph-vision-2022
+        section: "Summary of additions/changes, item 1"
+      - text: >-
+          Acuity charts use logMAR notation; LEA SYMBOLS and Sloan Letters are the acceptable
+          near and distance charts. All other visual acuity charts are discontinued.
+        source: dph-vision-2022
+        section: "item 3"
+      - text: >-
+          Near vision is screened at 16 inches annually from the year of school entry through
+          grade 3 (ages 3 through 9).
+        source: dph-vision-2022
+        section: "item 4"
+      - text: >-
+          Distance acuity for ages 3 to 5 is screened at 10 feet; the EyE Check test at 5 feet is
+          an approved option for ages 3, 4, and 5.
+        source: dph-vision-2022
+        section: "item 5"
+      - text: >-
+          Stereoacuity uses the Pass 1 test for ages 5 through 9 (kindergarten through grade 3);
+          the Random Dot E is discontinued.
+        source: dph-vision-2022
+        section: "item 6"
+      - text: >-
+          Instrument-based screening (PlusOptix, Retinomax, Spot, or other DPH-approved devices)
+          is for ages 3, 4, and 5 only and replaces distance acuity and stereoacuity, but near
+          acuity must still be screened. Children 6 and older who cannot do letter or symbol
+          acuity screening are referred for a comprehensive eye examination.
+        source: dph-vision-2022
+        section: "item 7"
+      - text: >-
+          Vision testing machines (Optec, Titmus, Keystone View) are discontinued for all ages.
+        source: dph-vision-2022
+        section: "item 8"
+      - text: >-
+          The detailed pass and refer criteria for each test are in DPH's Vision Screening
+          Manual and the approved BU SHIELD training; they are not reproduced here.
+        source: dph-vision-2022
+        section: "Training in the New Protocols"
+        confidence: medium
+    referral:
+      - text: >-
+          A child who does not pass a vision screening needs a comprehensive eye examination by an
+          eye doctor (ophthalmologist or optometrist).
+        source: dph-vision-2022
+        section: "Purpose and introduction"
+      - text: >-
+          For any student who does not pass, the school nurse develops a written plan for
+          follow-up, in consultation with the parent or guardian to the extent possible. With
+          consent, the student's primary care provider receives a copy of the screening record.
+        source: cmr200
+        section: "200.400(E)"
+      - text: >-
+          A comprehensive eye examination by an eye doctor experienced with children is also
+          advised when a child cannot complete or refuses screening and cannot be rescreened
+          promptly; has complex or multiple disabilities that prevent standard screening; is not
+          reaching educational milestones or has or is being considered for an IEP; or when a
+          parent, teacher, nurse, or screener has concerns, even after a recent pass.
+        source: dph-vision-2022
+        section: "Further recommendations, item 2"
+      - text: >-
+          The eye examiner must send a written report to school health personnel and a copy to the
+          parent, including findings, recommended educational adjustments (for example
+          preferential seating or glasses in school), and whether a return visit is needed.
+        source: mgl-c71-s57
+        section: "paragraph 3, items (a)-(g)"
+    parent_notification:
+      - text: >-
+          Referral starts with notifying parents of the need for an eye examination, followed by a
+          systematic process for periodic reminders, recording eye examination results, and
+          sharing results with teachers where appropriate. Provide linguistically and culturally
+          appropriate materials and address barriers to care.
+        source: dph-vision-2022
+        section: "Further recommendations, item 4"
+    exemptions:
+      - text: Religious exemption on written request of the parent or guardian.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    reporting:
+      - text: >-
+          Screening and referral counts are part of the year-end Status Report only for districts
+          and schools funded through DPH's Comprehensive School Health Services program.
+        source: dph-data-tools
+        section: "Type of report: Status Report"
+        confidence: medium
+    confidentiality:
+      - text: >-
+          School nurse records and school screenings are education records under FERPA. Sharing a
+          student's vision result and plan with teachers or IEP providers who have a legitimate
+          educational interest is encouraged when follow-up or treatment is not happening.
+        source: dph-vision-2022
+        section: "Further recommendations, item 3"
+    confidence: high
+
+  - id: kindergarten_vision_certificate
+    name: Kindergarten entry vision certificate
+    aliases: [kindergarten vision, vision certificate, vision certification, k vision]
+    trackable: true
+    referral_letters: false
+    legal_basis:
+      - source: mgl-c71-s57
+        section: "paragraph 1"
+      - source: cmr200
+        section: "200.400(A)"
+    schedule:
+      - band: K
+        grades: [K]
+        frequency: school_entry
+        text: >-
+          Upon entering kindergarten or within 30 days after school entry, the parent or guardian
+          presents certification that the child passed a vision screening within the previous 12
+          months, by personnel approved by DPH.
+        source: cmr200
+        section: "200.400(A)"
+    who:
+      - text: >-
+          The screening must have been done within the previous 12 months by personnel approved by
+          DPH and trained in DPH's vision screening techniques.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    protocol: []
+    referral:
+      - text: >-
+          For children who fail the screening and for children diagnosed with neurodevelopmental
+          delay, the parent provides proof of a comprehensive eye examination by an optometrist or
+          ophthalmologist, with any diagnosis, treatment, prognosis, recommendations, and evidence
+          of follow-up treatment if needed.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    parent_notification: []
+    exemptions:
+      - text: Religious exemption on written request of the parent or guardian.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    reporting: []
+    confidentiality: []
+    confidence: high
+
+  - id: hearing
+    name: Hearing screening
+    aliases: [hearing, ears, audiometry, pure tone, audiometer]
+    trackable: true
+    referral_letters: true
+    legal_basis:
+      - source: cmr200
+        section: "200.400(C)"
+      - source: mgl-c71-s57
+        section: "paragraph 1"
+    schedule:
+      - band: K-3
+        grades: [K, "1", "2", "3"]
+        frequency: annual
+        ages: [5, 9]
+        text: >-
+          In the year of school entry and annually through grade 3 (or by age 9 in ungraded
+          classrooms).
+        source: cmr200
+        section: "200.400(C)"
+      - band: "6-8"
+        grades: ["6", "7", "8"]
+        frequency: once_in_band
+        ages: [12, 14]
+        text: Once in grades 6 through 8 (ages 12 through 14 in ungraded classrooms).
+        source: cmr200
+        section: "200.400(C)"
+      - band: "9-12"
+        grades: ["9", "10", "11", "12"]
+        frequency: once_in_band
+        ages: [15, 18]
+        text: Once in grades 9 through 12 (ages 15 through 18 in ungraded classrooms).
+        source: cmr200
+        section: "200.400(C)"
+    new_students:
+      text: >-
+        Screen in the year of school entry. 105 CMR 200.400(C) states the year of school entry
+        but does not say how to treat students who transfer in at other grades; follow district
+        policy.
+      source: cmr200
+      section: "200.400(C)"
+      confidence: medium
+    who:
+      - text: >-
+          Screened by teachers, physicians, optometrists, nurses, or others approved by DPH, using
+          a discrete frequency hearing test such as the Massachusetts Hearing Test or a comparable
+          method approved by DPH.
+        source: cmr200
+        section: "200.400(C), (D)"
+      - text: >-
+          School nurses coordinate the program; lay screeners or volunteers work under the direct
+          supervision of the school nurse. DPH trains and certifies screeners.
+        source: cshm-2007
+        section: "Chapter 5, Hearing Screening: Personnel"
+        confidence: medium
+    protocol:
+      - text: >-
+          Individual pure tone screening only (group testing is not appropriate) at 1000, 2000,
+          and 4000 Hz at 20 dB in each ear. A child passes when the 20 dB tone is identified at
+          each frequency.
+        source: cshm-2007
+        section: "Exhibit 5-3 (system beginning January 2005)"
+        confidence: medium
+      - text: >-
+          A child who does not identify 20 dB at 1000, 2000, or 4000 Hz is rescreened. The 2007
+          manual's exhibit says the rescreen should be no later than 2 weeks after the original
+          test, while its text says within 1 week; confirm with the current DPH protocol.
+        source: cshm-2007
+        section: "Chapter 5, Referral and Follow-up; Exhibit 5-3"
+        confidence: low
+      - text: >-
+          The audiometer must meet ANSI screening audiometer standards and receive a full
+          laboratory calibration at least once a year. Tympanometry is not part of the
+          population screening program except under an educational audiologist's direction.
+        source: cshm-2007
+        section: "Chapter 5, Equipment; Exhibit 5-3"
+        confidence: medium
+      - text: >-
+          A typical failure rate is about 2.5 to 3 percent; rates consistently far from this
+          should prompt a review of the tester, the room's ambient noise, the audiometer, and the
+          procedure.
+        source: cshm-2007
+        section: "Chapter 5, Referral and Follow-up"
+        confidence: medium
+      - text: >-
+          DPH's current Pure Tone Audiometer Hearing Screening Protocol and Hearing Screening
+          Referral form are linked from DPH's school health screening page but were not
+          reachable when this content was drafted; use them in place of the 2007 details above.
+        source: dph-screening-list
+        section: "Hearing screening"
+        confidence: low
+    referral:
+      - text: >-
+          A repeat failure on the rescreen confirms the need for referral and justifies written
+          notification to the parent or guardian.
+        source: cshm-2007
+        section: "Chapter 5, Referral and Follow-up; Exhibit 5-3"
+        confidence: medium
+      - text: >-
+          For any student who does not pass, the school nurse develops a written plan for
+          follow-up, in consultation with the parent or guardian to the extent possible. With
+          consent, the primary care provider receives a copy of the screening record.
+        source: cmr200
+        section: "200.400(E)"
+    parent_notification:
+      - text: >-
+          After a referral, follow up to learn whether the parent consulted the primary care
+          provider, whether the problem was resolved, and whether educational adjustments were
+          made.
+        source: cshm-2007
+        section: "Chapter 5, Recordkeeping and Documentation"
+        confidence: medium
+    exemptions:
+      - text: Religious exemption on written request of the parent or guardian.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    reporting:
+      - text: >-
+          Screening and referral counts are part of the year-end Status Report only for districts
+          and schools funded through DPH's Comprehensive School Health Services program.
+        source: dph-data-tools
+        section: "Type of report: Status Report"
+        confidence: medium
+    confidentiality: []
+    confidence: high
+
+  - id: height_weight_bmi
+    name: Height and weight (BMI) screening
+    aliases: [bmi, body mass index, height and weight, height weight, growth, weight]
+    trackable: true
+    referral_letters: false
+    legal_basis:
+      - source: cmr200
+        section: "200.500"
+    schedule:
+      - band: "1, 4, 7, 10"
+        grades: ["1", "4", "7", "10"]
+        frequency: annual
+        text: >-
+          Height and weight are measured, and BMI and its percentile calculated, for each student
+          in grades 1, 4, 7, and 10 (or by the 7th, 10th, 13th, and 16th birthday in ungraded
+          classrooms).
+        source: cmr200
+        section: "200.500"
+    who:
+      - text: >-
+          Measured by trained school personnel or others approved by DPH, following DPH
+          guidelines.
+        source: cmr200
+        section: "200.500(A)"
+    protocol:
+      - text: >-
+          BMI is plotted on the CDC BMI-for-age growth chart for the child's sex to give a
+          percentile; weight status categories are underweight, healthy weight, overweight, and
+          obese.
+        source: dph-bmi-guidelines
+        section: "I. Introduction"
+      - text: >-
+          Before reporting, check data quality: review the measurements when more than 1 percent
+          of heights or weights in a grade fall outside DPH's expected ranges (grade 1: height
+          40-55 in, weight 37-110 lb; grade 4: 48-63 in, 51-180 lb; grade 7: 54-71 in, 70-260 lb;
+          grade 10: 57-74 in, 74-275 lb).
+        source: dph-bmi-guidelines
+        section: "VIII. Collection of BMI Data and Reporting to MDPH"
+        confidence: medium
+    referral:
+      - text: >-
+          The regulation requires no referral. For results that are significantly out of range or
+          of particular concern, the school nurse may contact the parents and encourage follow-up
+          with the primary care provider.
+        source: dph-bmi-guidelines
+        section: "IX. Follow-up"
+    parent_notification:
+      - text: >-
+          Give parents prior notice of the screening and its benefits by any reasonable means.
+        source: cmr200
+        section: "200.500(A)"
+      - text: >-
+          Parents may request in writing that their child not be measured.
+        source: cmr200
+        section: "200.500(D)"
+    exemptions:
+      - text: Written parent or guardian opt-out of measurement; religious exemption.
+        source: cmr200
+        section: "200.500(D), 200.610"
+    reporting:
+      - text: >-
+          The district reports aggregate BMI data to DPH annually, with totals by grade, gender,
+          and BMI category.
+        source: cmr200
+        section: "200.500(C)"
+      - text: >-
+          Reports are submitted online and are due by July 15 after the school year ends. Districts
+          in DPH's school health services program submit BMI data with their year-end Status
+          Report; other districts use the separate BMI report.
+        source: dph-bmi-memo-2019
+        section: "memo body"
+        confidence: medium
+    confidentiality:
+      - text: >-
+          Staff must not disclose an individual student's height, weight, or BMI to anyone other
+          than the parent or guardian without written permission. Every effort is made to protect
+          privacy during measurement. Results are kept in the student's school health record.
+        source: cmr200
+        section: "200.500(A), (B)"
+    confidence: high
+
+  - id: postural
+    name: Postural (scoliosis) screening
+    aliases: [postural, posture, scoliosis, spine, spinal, kyphosis]
+    trackable: true
+    referral_letters: true
+    legal_basis:
+      - source: mgl-c71-s57
+        section: "paragraph 1"
+    schedule:
+      - band: "5-9"
+        grades: ["5", "6", "7", "8", "9"]
+        frequency: annual
+        text: Tests for postural defects at least once annually in grades 5 through 9.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    who:
+      - text: >-
+          Performed by teachers, physicians, optometrists, nurses, or other personnel approved by
+          DPH. DPH's training material suggests the physical education teacher does the initial
+          screening and the school nurse the rescreening.
+        source: dph-postural
+        section: "2.1 Overview"
+    protocol:
+      - text: >-
+          Five positions: standing facing the screener (refer if any 2 of 3: shoulder, waist,
+          hip asymmetry); back to the screener (refer if any 3 of 5: head, shoulder, scapula,
+          spine, waist); side view (refer if either roundback or sway back); forward bend (refer if
+          a rib hump is present); forward bend viewed from the side (refer if an exaggerated
+          midline hump is present).
+        source: dph-postural
+        section: "4.2 Postural Screening Review"
+      - text: >-
+          Students with positive findings are rescreened in a separate session, preferably by the
+          school nurse; if the finding is not confirmed, the parents are not contacted.
+        source: dph-postural
+        section: "4.4 Follow-up"
+    referral:
+      - text: >-
+          When a rescreen confirms a finding, the nurse contacts the family (by phone, or by
+          letter), sends the follow-up letter, learns the family's choice of physician, and sends
+          the letter to the physician.
+        source: dph-postural
+        section: "4.4 Follow-up"
+      - text: >-
+          If the physician finds nothing but the screener's concern continues, the school
+          physician may consult and the student is rescreened in 3 to 6 months.
+        source: dph-postural
+        section: "4.4 Follow-up"
+    parent_notification:
+      - text: >-
+          Parents receive an initial letter and brochure before screening; parents of students
+          with no positive finding are not contacted again until the next year.
+        source: dph-postural
+        section: "5.21 Initial letter to parents"
+    exemptions:
+      - text: Religious exemption on written request of the parent or guardian.
+        source: mgl-c71-s57
+        section: "paragraph 1"
+    reporting:
+      - text: >-
+          DPH's training material asks each school system to submit a Postural Screening Final
+          Report (enrollment, screened, rescreened, referred, and outcomes by grade) by July 15.
+          Confirm with DPH whether this report is still collected.
+        source: dph-postural
+        section: "4.5 Record keeping and final report"
+        confidence: low
+    confidentiality: []
+    confidence: high
+
+  - id: sbirt
+    name: SBIRT verbal substance use screening
+    aliases: [sbirt, substance use, substance abuse, crafft, drug screening, alcohol screening]
+    trackable: false
+    referral_letters: false
+    legal_basis:
+      - source: mgl-c71-s97
+        section: "(a)"
+    schedule:
+      - band: "two grade levels"
+        grades: ["7", "8", "9", "10"]
+        frequency: district_selected
+        text: >-
+          Annual verbal screening at 2 grade levels recommended by DESE with DPH. DPH's FAQ: the
+          CRAFFT-II is approved for ages 12 and older; grades 7 to 10 are appropriate, and the
+          district selects one middle school grade and one high school grade.
+        source: dph-sbirt-faq
+        section: "What grades do we pick?"
+    who:
+      - text: >-
+          School professionals who completed the SBIRT in Schools introductory workshop conduct
+          the screening; DPH encourages school nurses to coordinate the program.
+        source: dph-sbirt-faq
+        section: "Roles and Responsibilities"
+    protocol:
+      - text: >-
+          A structured one-to-one conversation using the CRAFFT-II questionnaire, responding with
+          the REACT or Brief Negotiated Interview model. The screener reads DPH's introductory
+          statement on confidentiality first.
+        source: dph-sbirt-faq
+        section: "SBIRT in Schools Training; Confidentiality"
+    referral:
+      - text: >-
+          Follow-up may be with the original screener, another school professional (with the
+          student's consent on DPH's consent-for-disclosure form), an outside provider, or crisis
+          services for an immediate medical emergency.
+        source: dph-sbirt-faq
+        section: "Making a Referral"
+    parent_notification:
+      - text: Parents or guardians are notified before the start of the school year.
+        source: mgl-c71-s97
+        section: "(a)"
+    exemptions:
+      - text: >-
+          A pupil or parent may opt out by written notice at any time before or during the
+          screening. A district with an alternative substance use program may opt out on DESE's
+          form signed by the superintendent.
+        source: mgl-c71-s97
+        section: "(b), (d)"
+    reporting:
+      - text: >-
+          De-identified results are reported to DPH within 90 days after the screening is
+          completed.
+        source: mgl-c71-s97
+        section: "(a)"
+      - text: >-
+          All public districts with a middle or high school submit the SBIRT report (districts in
+          DPH's school health services program include it with the Status Report).
+        source: dph-data-tools
+        section: "Type of report: SBIRT report"
+    confidentiality:
+      - text: >-
+          Statements made during screening are confidential and may not be disclosed without the
+          prior written consent of the pupil, parent, or guardian, except in an immediate medical
+          emergency or when state law requires. No record of any statement, response, or
+          disclosure may be made in any form that identifies the pupil.
+        source: mgl-c71-s97
+        section: "(c)"
+    confidence: high
+
+  - id: physical_exam
+    name: Physical examination
+    aliases: [physical, physical exam, physical examination, health exam, sports physical]
+    trackable: false
+    referral_letters: false
+    legal_basis:
+      - source: cmr200
+        section: "200.100(B)"
+    schedule:
+      - band: school entry and intervals
+        grades: [K, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+        frequency: entry_and_interval
+        text: >-
+          Within one year before school entry or within 30 days after entry, then at intervals of
+          either three or four years. A student who transfers from another school system is
+          examined as an entering student; transferred health records may show compliance.
+        source: cmr200
+        section: "200.100(B)(1)"
+      - band: employment certificate
+        grades: []
+        frequency: event
+        text: Students over 14 and under 16 who request employment certificates.
+        source: cmr200
+        section: "200.100(B)(2)"
+      - band: competitive athletics
+        grades: []
+        frequency: event
+        text: Annually before participation in competitive athletics.
+        source: cmr200
+        section: "200.100(B)(3)"
+    who:
+      - text: >-
+          A licensed physician, nurse practitioner, or physician assistant, preferably the
+          student's own provider, who records results on DPH-approved forms and sends a copy to
+          the school. The school physician examines students who lack this service because of
+          hardship.
+        source: cmr200
+        section: "200.100(A), 200.200(A)"
+    protocol:
+      - text: >-
+          Examinations are done in the presence of a third person with reasonable privacy; the
+          school physician does not perform rectal or vaginal examinations.
+        source: cmr200
+        section: "200.300(A), (B)"
+    referral:
+      - text: >-
+          The school physician promptly notifies the parent of any disability or condition found
+          and encourages a visit to the primary care provider.
+        source: cmr200
+        section: "200.200(F)"
+    parent_notification: []
+    exemptions:
+      - text: Religious exemption on written request, except as to communicable diseases.
+        source: cmr200
+        section: "200.610"
+    reporting: []
+    confidentiality:
+      - text: >-
+          With the parent's consent, the primary care provider receives a copy of a school-performed
+          examination record.
+        source: cmr200
+        section: "200.100(A)"
+    confidence: high

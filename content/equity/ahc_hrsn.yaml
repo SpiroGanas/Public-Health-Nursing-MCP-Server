@@ -1,0 +1,565 @@
+# CMS Accountable Health Communities (AHC) Health-Related Social Needs (HRSN) Screening Tool:
+# item scoring, domains, item licensing, and Massachusetts referral categories, for
+# screen_health_related_social_needs (EQ-05).
+#
+# REVIEW STATUS: pending. Drafted from the CMS tool PDF (retrieved 2026-11-08); positive answers
+# are the ones CMS underlines (read from the PDF's underline marks). Schema:
+# content/schemas/ahc_hrsn.schema.json
+#
+# Item wording is bundled only where reuse is clearly free (U.S. government sources and the
+# PHQ-2). CMS says it got permission from the original authors "for the AHC Model and our use
+# only"; for the other items the tool shows a short topic label and points to the CMS form.
+meta:
+  id: ahc-hrsn-screening
+  title: CMS Accountable Health Communities Health-Related Social Needs Screening Tool (scoring and referral categories)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: "2021-08-12"
+  source:
+    title: The Accountable Health Communities Health-Related Social Needs Screening Tool
+    publisher: Centers for Medicare & Medicaid Services, Center for Medicare and Medicaid Innovation
+    url: https://www.cms.gov/priorities/innovation/files/worksheets/ahcm-screeningtool.pdf
+  related_sources:
+    - title: "Billioux A, et al. Standardized Screening for Health-Related Social Needs in Clinical Settings: The Accountable Health Communities Screening Tool. NAM Perspectives, 2017"
+      publisher: National Academy of Medicine
+      url: https://nam.edu/wp-content/uploads/2017/05/Standardized-Screening-for-Health-Related-Social-Needs-in-Clinical-Settings.pdf
+    - title: Resources for EA Eligible Families
+      publisher: Massachusetts Executive Office of Housing and Livable Communities
+      url: https://www.mass.gov/info-details/resources-for-ea-eligible-families
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Scoring was transcribed on 2026-11-08 from the CMS AHC HRSN Screening Tool PDF (created
+    2018-01-03, modified 2021-08-12): the answers CMS underlines as possible unmet needs were read
+    from the PDF's underline marks, the safety threshold (11 or more on items 7-10), the PHQ-2
+    threshold (3 or more), and the physical activity thresholds are stated in the PDF (high
+    confidence). The PDF does not include the per-item citation-and-notification table it refers
+    to; the reuse status of each item is the developer's reading of each item's source (medium);
+    the PHQ-2 reuse statement follows the product owner's decision (PHQ screeners need no
+    permission) and was not re-fetched.
+    Referral categories cite mass.gov pages retrieved 2026-11-08; the transportation entry is
+    medium confidence (MassHealth's transportation page could not be located). The subject
+    matter expert must review before use.
+
+sources:
+  cms-ahc-tool:
+    title: The Accountable Health Communities Health-Related Social Needs Screening Tool
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://www.cms.gov/priorities/innovation/files/worksheets/ahcm-screeningtool.pdf
+    effective_date: "2021-08-12"
+    retrieved: 2026-11-08
+  ea-resources:
+    title: Resources for EA Eligible Families
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/info-details/resources-for-ea-eligible-families
+    effective_date: null
+    retrieved: 2026-11-08
+  ea-apply:
+    title: Review Eligibility & Apply for Emergency Assistance (EA) Family Shelter
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/how-to/apply-for-emergency-assistance-ea-family-shelter
+    effective_date: null
+    retrieved: 2026-11-08
+  heap:
+    title: Apply for Home Energy Assistance (HEAP)
+    publisher: Massachusetts Executive Office of Housing and Livable Communities
+    url: https://www.mass.gov/how-to/apply-for-home-energy-assistance-heap
+    effective_date: null
+    retrieved: 2026-11-08
+  wic:
+    title: Women, Infants & Children (WIC) Nutrition Program
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/orgs/women-infants-children-nutrition-program
+    effective_date: null
+    retrieved: 2026-11-08
+  snap:
+    title: SNAP benefits (formerly food stamps)
+    publisher: Massachusetts Department of Transitional Assistance
+    url: https://www.mass.gov/snap-benefits-formerly-food-stamps
+    effective_date: null
+    retrieved: 2026-11-08
+  masshealth-hrsn:
+    title: MassHealth Members Who Need Assistance with Food or Housing (Health Related Social Needs Services)
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/masshealth-members-who-need-assistance-with-food-or-housing
+    effective_date: 2025-01-08
+    retrieved: 2026-11-08
+  masshealth-contact:
+    title: MassHealth Health Related Social Needs Services (MassHealth Customer Service Center contact)
+    publisher: MassHealth
+    url: https://www.mass.gov/masshealth-health-related-social-needs-services
+    effective_date: null
+    retrieved: 2026-11-08
+  cmr410:
+    title: "105 CMR 410.000: Minimum Standards of Fitness for Human Habitation (State Sanitary Code, Chapter II)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/regulations/105-CMR-41000-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii
+    effective_date: 2023-06-23
+    retrieved: 2026-11-08
+  nimh-help:
+    title: Help for Mental Illnesses (988 Suicide & Crisis Lifeline)
+    publisher: National Institute of Mental Health
+    url: https://www.nimh.nih.gov/health/find-help
+    effective_date: null
+    retrieved: 2026-11-08
+
+domains:
+  - {id: living_situation, label: Living situation (housing instability and housing quality), core: true}
+  - {id: food, label: Food insecurity, core: true}
+  - {id: transportation, label: Transportation problems, core: true}
+  - {id: utilities, label: Utility help needs, core: true}
+  - {id: safety, label: Interpersonal safety, core: true}
+  - {id: financial_strain, label: Financial strain, core: false}
+  - {id: employment, label: Employment, core: false}
+  - {id: family_community_support, label: Family and community support, core: false}
+  - {id: education, label: Education, core: false}
+  - {id: physical_activity, label: Physical activity, core: false}
+  - {id: substance_use, label: Substance use, core: false}
+  - {id: mental_health, label: Mental health, core: false}
+  - {id: disabilities, label: Disabilities, core: false}
+
+items:
+  - id: living_situation
+    number: "1"
+    domain: living_situation
+    topic: Living situation today
+    item_source: PRAPARE (National Association of Community Health Centers and partners)
+    reuse: "Wording not bundled: CMS's permission covers the AHC Model only; PRAPARE has its own terms."
+    wording: null
+    multi: false
+    options:
+      - {key: steady, label: Steady place to live, positive: false}
+      - {key: worried_about_losing, label: "Place to live today, worried about losing it", positive: true}
+      - {key: not_steady, label: "No steady place to live (staying with others, hotel, shelter, outside, car...)", positive: true}
+  - id: housing_problems
+    number: "2"
+    domain: living_situation
+    topic: Problems with the place you live (choose all)
+    item_source: Nuruzzaman et al., J Health Care Poor Underserved 2015
+    reuse: "Wording not bundled: published instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: true
+    options:
+      - {key: pests, label: Pests, positive: true}
+      - {key: mold, label: Mold, positive: true}
+      - {key: lead, label: Lead paint or pipes, positive: true}
+      - {key: lack_of_heat, label: Lack of heat, positive: true}
+      - {key: oven_stove, label: Oven or stove not working, positive: true}
+      - {key: smoke_detectors, label: Smoke detectors missing or not working, positive: true}
+      - {key: water_leaks, label: Water leaks, positive: true}
+      - {key: none, label: None of these, positive: false}
+  - id: food_worry
+    number: "3"
+    domain: food
+    topic: "Past 12 months: worried food would run out"
+    item_source: Hunger Vital Sign (Hager et al., Pediatrics 2010)
+    reuse: "Wording not bundled: published instrument; confirm the authors' reuse terms."
+    wording: null
+    multi: false
+    options:
+      - {key: often_true, label: Often true, positive: true}
+      - {key: sometimes_true, label: Sometimes true, positive: true}
+      - {key: never_true, label: Never true, positive: false}
+  - id: food_didnt_last
+    number: "4"
+    domain: food
+    topic: "Past 12 months: food did not last and no money for more"
+    item_source: Hunger Vital Sign (Hager et al., Pediatrics 2010)
+    reuse: "Wording not bundled: published instrument; confirm the authors' reuse terms."
+    wording: null
+    multi: false
+    options:
+      - {key: often_true, label: Often true, positive: true}
+      - {key: sometimes_true, label: Sometimes true, positive: true}
+      - {key: never_true, label: Never true, positive: false}
+  - id: transportation
+    number: "5"
+    domain: transportation
+    topic: "Past 12 months: lack of transportation kept you from appointments, work, or daily needs"
+    item_source: PRAPARE (National Association of Community Health Centers and partners)
+    reuse: "Wording not bundled: CMS's permission covers the AHC Model only; PRAPARE has its own terms."
+    wording: null
+    multi: false
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+  - id: utilities
+    number: "6"
+    domain: utilities
+    topic: "Past 12 months: utility company threatened to shut off service"
+    item_source: Cook et al., Pediatrics 2008 (household energy security)
+    reuse: "Wording not bundled: published instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+      - {key: already_shut_off, label: Already shut off, positive: true}
+  - id: physically_hurt
+    number: "7"
+    domain: safety
+    topic: How often anyone physically hurts you
+    item_source: HITS (Sherin et al., Fam Med 1998)
+    reuse: "Wording not bundled: HITS is a copyrighted instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, value: 1}
+      - {key: rarely, label: Rarely, value: 2}
+      - {key: sometimes, label: Sometimes, value: 3}
+      - {key: fairly_often, label: Fairly often, value: 4}
+      - {key: frequently, label: Frequently, value: 5}
+  - id: insult
+    number: "8"
+    domain: safety
+    topic: How often anyone insults or talks down to you
+    item_source: HITS (Sherin et al., Fam Med 1998)
+    reuse: "Wording not bundled: HITS is a copyrighted instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, value: 1}
+      - {key: rarely, label: Rarely, value: 2}
+      - {key: sometimes, label: Sometimes, value: 3}
+      - {key: fairly_often, label: Fairly often, value: 4}
+      - {key: frequently, label: Frequently, value: 5}
+  - id: threaten
+    number: "9"
+    domain: safety
+    topic: How often anyone threatens you with harm
+    item_source: HITS (Sherin et al., Fam Med 1998)
+    reuse: "Wording not bundled: HITS is a copyrighted instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, value: 1}
+      - {key: rarely, label: Rarely, value: 2}
+      - {key: sometimes, label: Sometimes, value: 3}
+      - {key: fairly_often, label: Fairly often, value: 4}
+      - {key: frequently, label: Frequently, value: 5}
+  - id: scream
+    number: "10"
+    domain: safety
+    topic: How often anyone screams or curses at you
+    item_source: HITS (Sherin et al., Fam Med 1998)
+    reuse: "Wording not bundled: HITS is a copyrighted instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, value: 1}
+      - {key: rarely, label: Rarely, value: 2}
+      - {key: sometimes, label: Sometimes, value: 3}
+      - {key: fairly_often, label: Fairly often, value: 4}
+      - {key: frequently, label: Frequently, value: 5}
+  - id: financial_strain
+    number: "11"
+    domain: financial_strain
+    topic: How hard it is to pay for basics (food, housing, medical care, heating)
+    item_source: SWAN Sleep Study (Hall et al., Sleep 2009)
+    reuse: "Wording not bundled: published item; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: very_hard, label: Very hard, positive: true}
+      - {key: somewhat_hard, label: Somewhat hard, positive: true}
+      - {key: not_hard, label: Not hard at all, positive: false}
+  - id: employment
+    number: "12"
+    domain: employment
+    topic: Wants help finding or keeping work
+    item_source: CMS AHC Technical Expert Panel (2016)
+    reuse: "U.S. government work (CMS technical expert panel); wording bundled."
+    wording: "Do you want help finding or keeping work or a job?"
+    multi: false
+    options:
+      - {key: help_finding, label: "Yes, help finding work", positive: true}
+      - {key: help_keeping, label: "Yes, help keeping work", positive: true}
+      - {key: "no", label: I do not need or want help, positive: false}
+  - id: daily_help
+    number: "13"
+    domain: family_community_support
+    topic: Gets the help needed with day-to-day activities
+    item_source: Kaiser Permanente Medicare Total Health Assessment (2012)
+    reuse: "Wording not bundled: proprietary questionnaire; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: no_help_needed, label: Does not need help, positive: false}
+      - {key: gets_all_help, label: Gets all the help needed, positive: false}
+      - {key: little_more_help, label: Could use a little more help, positive: true}
+      - {key: lot_more_help, label: Needs a lot more help, positive: true}
+  - id: lonely
+    number: "14"
+    domain: family_community_support
+    topic: How often lonely or isolated
+    item_source: AARP Research (Anderson and Thayer, 2018)
+    reuse: "Wording not bundled: AARP survey item; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, positive: false}
+      - {key: rarely, label: Rarely, positive: false}
+      - {key: sometimes, label: Sometimes, positive: false}
+      - {key: often, label: Often, positive: true}
+      - {key: always, label: Always, positive: true}
+  - id: other_language
+    number: "15"
+    domain: education
+    topic: Speaks a language other than English at home
+    item_source: U.S. Census Bureau, American Community Survey
+    reuse: "U.S. government work (American Community Survey); wording bundled."
+    wording: "Do you speak a language other than English at home?"
+    multi: false
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+  - id: school_training
+    number: "16"
+    domain: education
+    topic: Wants help with school or training
+    item_source: CMS AHC Technical Expert Panel (2016)
+    reuse: "U.S. government work (CMS technical expert panel); wording bundled."
+    wording: "Do you want help with school or training? For example, starting or completing job training or getting a high school diploma, GED or equivalent."
+    multi: false
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+  - id: exercise_days
+    number: "17"
+    domain: physical_activity
+    topic: "Last 30 days: days per week of moderate exercise (0-7)"
+    item_source: Exercise Vital Sign (Coleman et al., Med Sci Sports Exerc 2012)
+    reuse: "Wording not bundled: published instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options: []
+  - id: exercise_minutes
+    number: "18"
+    domain: physical_activity
+    topic: "Minutes of exercise on those days (0, 10, 20 ... 150 or more)"
+    item_source: Exercise Vital Sign (Coleman et al., Med Sci Sports Exerc 2012)
+    reuse: "Wording not bundled: published instrument; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options: []
+  - id: alcohol
+    number: "19"
+    domain: substance_use
+    topic: "Past 12 months: days with 5+ drinks (males) or 4+ drinks (females)"
+    item_source: NIAAA, Helping Patients Who Drink Too Much (2005)
+    reuse: "Federal (NIH) item; CMS adapted it. Wording not bundled because the CMS version adds definitions."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, positive: false}
+      - {key: once_or_twice, label: Once or twice, positive: true}
+      - {key: monthly, label: Monthly, positive: true}
+      - {key: weekly, label: Weekly, positive: true}
+      - {key: daily, label: Daily or almost daily, positive: true}
+  - id: tobacco
+    number: "20"
+    domain: substance_use
+    topic: "Past 12 months: tobacco product use"
+    item_source: NIAAA-format frequency item (CMS AHC)
+    reuse: "Wording not bundled (CMS version)."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, positive: false}
+      - {key: once_or_twice, label: Once or twice, positive: true}
+      - {key: monthly, label: Monthly, positive: true}
+      - {key: weekly, label: Weekly, positive: true}
+      - {key: daily, label: Daily or almost daily, positive: true}
+  - id: prescription_misuse
+    number: "21"
+    domain: substance_use
+    topic: "Past year: prescription drugs used for non-medical reasons"
+    item_source: NIAAA-format frequency item (CMS AHC)
+    reuse: "Wording not bundled (CMS version)."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, positive: false}
+      - {key: once_or_twice, label: Once or twice, positive: true}
+      - {key: monthly, label: Monthly, positive: true}
+      - {key: weekly, label: Weekly, positive: true}
+      - {key: daily, label: Daily or almost daily, positive: true}
+  - id: illegal_drugs
+    number: "22"
+    domain: substance_use
+    topic: "Past year: illegal drug use"
+    item_source: NIAAA-format frequency item (CMS AHC)
+    reuse: "Wording not bundled (CMS version)."
+    wording: null
+    multi: false
+    options:
+      - {key: never, label: Never, positive: false}
+      - {key: once_or_twice, label: Once or twice, positive: true}
+      - {key: monthly, label: Monthly, positive: true}
+      - {key: weekly, label: Weekly, positive: true}
+      - {key: daily, label: Daily or almost daily, positive: true}
+  - id: phq2_interest
+    number: "23a"
+    domain: mental_health
+    topic: "Past 2 weeks: little interest or pleasure in doing things (PHQ-2)"
+    item_source: PHQ-2 (Kroenke, Spitzer, Williams 2003; Pfizer)
+    reuse: "PHQ screeners are free to reproduce without permission; wording bundled."
+    wording: "Over the past 2 weeks, how often have you been bothered by little interest or pleasure in doing things?"
+    multi: false
+    options:
+      - {key: not_at_all, label: Not at all, value: 0}
+      - {key: several_days, label: Several days, value: 1}
+      - {key: more_than_half, label: More than half the days, value: 2}
+      - {key: nearly_every_day, label: Nearly every day, value: 3}
+  - id: phq2_down
+    number: "23b"
+    domain: mental_health
+    topic: "Past 2 weeks: feeling down, depressed, or hopeless (PHQ-2)"
+    item_source: PHQ-2 (Kroenke, Spitzer, Williams 2003; Pfizer)
+    reuse: "PHQ screeners are free to reproduce without permission; wording bundled."
+    wording: "Over the past 2 weeks, how often have you been bothered by feeling down, depressed, or hopeless?"
+    multi: false
+    options:
+      - {key: not_at_all, label: Not at all, value: 0}
+      - {key: several_days, label: Several days, value: 1}
+      - {key: more_than_half, label: More than half the days, value: 2}
+      - {key: nearly_every_day, label: Nearly every day, value: 3}
+  - id: stress
+    number: "24"
+    domain: mental_health
+    topic: Feels stress these days (tense, restless, nervous, anxious, cannot sleep)
+    item_source: Elo et al., Scand J Work Environ Health 2003 (single-item stress measure)
+    reuse: "Wording not bundled: published item; CMS's permission covers the AHC Model only."
+    wording: null
+    multi: false
+    options:
+      - {key: not_at_all, label: Not at all, positive: false}
+      - {key: a_little, label: A little bit, positive: true}
+      - {key: somewhat, label: Somewhat, positive: true}
+      - {key: quite_a_bit, label: Quite a bit, positive: true}
+      - {key: very_much, label: Very much, positive: true}
+  - id: cognition
+    number: "25"
+    domain: disabilities
+    topic: Serious difficulty concentrating, remembering, or making decisions (age 5+)
+    item_source: HHS data collection standards for disability status (2011)
+    reuse: "U.S. government work (HHS/ACS disability item); wording bundled."
+    wording: "Because of a physical, mental, or emotional condition, do you have serious difficulty concentrating, remembering, or making decisions?"
+    multi: false
+    min_age: 5
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+  - id: errands
+    number: "26"
+    domain: disabilities
+    topic: Difficulty doing errands alone (age 15+)
+    item_source: HHS data collection standards for disability status (2011)
+    reuse: "U.S. government work (HHS/ACS disability item); wording bundled."
+    wording: "Because of a physical, mental, or emotional condition, do you have difficulty doing errands alone such as visiting a doctor's office or shopping?"
+    multi: false
+    min_age: 15
+    options:
+      - {key: "yes", label: "Yes", positive: true}
+      - {key: "no", label: "No", positive: false}
+
+rules:
+  safety_threshold: 11
+  phq2_threshold: 3
+  physical_activity:
+    under_age: 6
+    youth_max_age: 17
+    youth_min_minutes_per_day: 60
+    adult_min_minutes_per_week: 150
+  notes:
+    - text: "If someone chooses the underlined answers, they might have an unmet health-related social need."
+      source: cms-ahc-tool
+      section: Core Questions (instructions)
+    - text: "A score of 11 or more when the numerical values for answers to questions 7-10 are added shows that the person might not be safe."
+      source: cms-ahc-tool
+      section: Safety
+    - text: "If you get 3 or more when you add the answers to questions 23a and 23b the person may have a mental health need."
+      source: cms-ahc-tool
+      section: Mental Health
+    - text: "Physical activity: minutes per week = days x minutes. Under 6 years the need cannot be determined; ages 6-17, less than an average of 60 minutes a day; 18 or older, less than 150 minutes a week."
+      source: cms-ahc-tool
+      section: Physical Activity
+    - text: "The questions are meant for individual respondents who answer for themselves; a parent or caregiver can answer for an individual."
+      source: cms-ahc-tool
+      section: Who should use the AHC HRSN Screening Tool?
+
+referrals:
+  living_situation:
+    - text: "Families with children under 21 or pregnant who need shelter: Emergency Assistance (EA) Family Shelter (Massachusetts Emergency Family Shelter Contact Line (866) 584-0653, Monday-Friday 8am-5pm, or apply online through the Housing Help Hub). Eligibility includes Massachusetts residency, income at or below 115% of the federal poverty guidelines, and a qualifying reason."
+      source: ea-apply
+      section: Eligibility; How to apply
+    - text: "Non-EA shelter and local housing help: Mass 211 ((877) 211-6277, www.mass211.org). EA-eligible families may use HomeBASE (up to $30,000 over 2 years) and should join MRVP and Section 8 waitlists."
+      source: ea-resources
+      section: Housing Resources
+    - text: "MassHealth members in an accountable care organization (ACO) may get housing search, housing navigation, transitional goods, or Healthy Homes services through their ACO."
+      source: masshealth-hrsn
+      section: Housing Services
+    - text: "Housing quality problems (pests, mold, lead, lack of heat, broken stove, missing smoke detectors, leaks): the local board of health enforces the State Sanitary Code's minimum housing standards."
+      source: cmr410
+      section: 105 CMR 410.000 summary
+  food:
+    - text: "SNAP through the Department of Transitional Assistance: DTA Assistance Line (877) 382-2363 or DTAConnect.com; noncitizens may still be eligible, a family can apply for an eligible member such as a U.S.-citizen child, and SNAP is not part of a public charge test."
+      source: ea-resources
+      section: Food Assistance (SNAP)
+    - text: "WIC for pregnant and breastfeeding people and children under 5: (800) 942-1007 or a local WIC office."
+      source: wic
+      section: Who we serve; contact
+    - text: "MassHealth ACO members may get nutrition services (medically tailored or nutritionally appropriate meals, food boxes, food prescriptions, nutrition counseling) through their ACO."
+      source: masshealth-hrsn
+      section: Nutrition Services
+  transportation:
+    - text: "Mass 211 ((877) 211-6277) for local transportation resources. MassHealth members can ask MassHealth Customer Service ((800) 841-2900) about transportation to covered medical appointments."
+      source: masshealth-contact
+      section: MassHealth Customer Service Center
+      confidence: medium
+  utilities:
+    - text: "Home Energy Assistance Program (HEAP): helps eligible households (income up to 60% of state median income) pay part of winter heating bills and can qualify them for electric and gas rate discounts; find the local provider at 1 (800) 632-8175 or through Mass 211."
+      source: heap
+      section: What you need; Contacts
+  safety:
+    - text: "Follow your agency's protocol for a positive safety screen: talk privately, assess immediate danger (call 911 in an emergency), offer domestic violence advocacy and safety planning, and meet mandated-reporter obligations when a child, elder, or person with a disability may be at risk. Mass 211 is available 24 hours with interpreters."
+      source: heap
+      section: Contacts (Mass 211)
+      confidence: medium
+  financial_strain:
+    - text: "Benefits screening: SNAP (DTA (877) 382-2363), HEAP (1 (800) 632-8175), and Mass 211 for local programs; Family Resource Centers help families with basic needs."
+      source: ea-resources
+      section: Food Resources; Meeting Basic Needs
+  employment:
+    - text: "MassHire Career Centers: job search help, career planning, workshops, and training referrals."
+      source: ea-resources
+      section: MassHire Career Centers
+  family_community_support:
+    - text: "Family Resource Centers (statewide) and Mass 211 for local support services; cultural community connections through Local Cultural Councils."
+      source: ea-resources
+      section: Meeting Basic Needs; Cultural Communities
+  education:
+    - text: "MassHire Career Centers and approved training programs (including work-readiness ESOL). A 'yes' to item 15 (another language at home) calls for a qualified interpreter and translated materials, not a deficit."
+      source: ea-resources
+      section: Approved and Authorized Training Programs
+  physical_activity:
+    - text: "Discuss physical activity with the person's primary care provider and local community programs; for ages 6-17 the goal behind the screen is an average of 60 minutes a day, for adults 150 minutes a week."
+      source: cms-ahc-tool
+      section: Physical Activity
+  substance_use:
+    - text: "A positive substance use screen needs a follow-up assessment and referral per agency protocol; in a crisis, the 988 Suicide & Crisis Lifeline takes calls and texts 24 hours a day."
+      source: nimh-help
+      section: In Crisis? Call or Text 988
+      confidence: medium
+  mental_health:
+    - text: "A PHQ-2 score of 3 or more calls for a full depression assessment (for example the PHQ-9) and a suicide-risk screen per agency protocol. For suicidal crisis or emotional distress, call or text 988 (988 Suicide & Crisis Lifeline)."
+      source: nimh-help
+      section: In Crisis? Call or Text 988
+  disabilities:
+    - text: "Assess functional needs and connect to the primary care provider; MassHealth members in an ACO can ask about care coordination and HRSN services."
+      source: masshealth-hrsn
+      section: Additional Resources
+      confidence: medium

@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/ahc_hrsn.schema.json",
+  "title": "CMS AHC HRSN screening tool scoring and referrals",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "sources",
+    "domains",
+    "items",
+    "rules",
+    "referrals"
+  ],
+  "$defs": {
+    "cited_text": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    },
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ahc-hrsn-screening"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "effective_date",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "pattern": "^https://"
+          },
+          "effective_date": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retrieved": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "core"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "enum": [
+              "living_situation",
+              "food",
+              "transportation",
+              "utilities",
+              "safety",
+              "financial_strain",
+              "employment",
+              "family_community_support",
+              "education",
+              "physical_activity",
+              "substance_use",
+              "mental_health",
+              "disabilities"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "core": {
+            "type": "boolean"
+          }
+        }
+      },
+      "minItems": 13
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "domain",
+          "topic",
+          "item_source",
+          "reuse",
+          "wording",
+          "multi",
+          "options"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "number": {
+            "type": "string"
+          },
+          "domain": {
+            "enum": [
+              "living_situation",
+              "food",
+              "transportation",
+              "utilities",
+              "safety",
+              "financial_strain",
+              "employment",
+              "family_community_support",
+              "education",
+              "physical_activity",
+              "substance_use",
+              "mental_health",
+              "disabilities"
+            ]
+          },
+          "topic": {
+            "type": "string"
+          },
+          "item_source": {
+            "type": "string"
+          },
+          "reuse": {
+            "type": "string"
+          },
+          "wording": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "multi": {
+            "type": "boolean"
+          },
+          "min_age": {
+            "type": "integer"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "label"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "key": {
+                  "type": "string"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "positive": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "minItems": 26
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "safety_threshold",
+        "phq2_threshold",
+        "physical_activity",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "safety_threshold": {
+          "type": "integer"
+        },
+        "phq2_threshold": {
+          "type": "integer"
+        },
+        "physical_activity": {
+          "type": "object",
+          "required": [
+            "under_age",
+            "youth_max_age",
+            "youth_min_minutes_per_day",
+            "adult_min_minutes_per_week"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "under_age": {
+              "type": "integer"
+            },
+            "youth_max_age": {
+              "type": "integer"
+            },
+            "youth_min_minutes_per_day": {
+              "type": "integer"
+            },
+            "adult_min_minutes_per_week": {
+              "type": "integer"
+            }
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          }
+        }
+      }
+    },
+    "referrals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "living_situation",
+        "food",
+        "transportation",
+        "utilities",
+        "safety",
+        "financial_strain",
+        "employment",
+        "family_community_support",
+        "education",
+        "physical_activity",
+        "substance_use",
+        "mental_health",
+        "disabilities"
+      ],
+      "properties": {
+        "living_situation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "food": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "transportation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "utilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "safety": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "financial_strain": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "employment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "family_community_support": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "physical_activity": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "substance_use": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "mental_health": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        },
+        "disabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited_text"
+          },
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

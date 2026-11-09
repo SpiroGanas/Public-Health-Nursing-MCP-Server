@@ -1,0 +1,146 @@
+# Safe-messaging rules for suicide-related communications, used by plan_school_postvention (MH-06)
+# to check drafts and by the communication tools when the topic is suicide.
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/comms_safe_messaging.schema.json
+meta:
+  id: comms-safe-messaging
+  title: Safe messaging about suicide (rules for checking drafts)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2018-04-01
+  source:
+    title: "After a Suicide: A Toolkit for Schools, 2nd edition (2018)"
+    publisher: American Foundation for Suicide Prevention and Suicide Prevention Resource Center (Education Development Center)
+    url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+  related_sources:
+    - title: 988 Suicide and Crisis Lifeline
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. Each rule paraphrases a recommendation in After a Suicide: A Toolkit for
+    Schools (2nd edition, 2018), with its page; the toolkit is copyrighted (reproduction with
+    credit is allowed; adapting or excerpting needs permission from EDC, permissions@edc.org), so
+    the rules are short paraphrases, not quotations. The word patterns that detect each problem
+    were written by the developer and are heuristics (medium confidence); the rule on the word
+    "committed" extends the toolkit's preferred-language advice (medium). The toolkit lists the
+    former Lifeline number 1-800-273-8255; the rules use 988 from DPH's 988 page. The nurse should
+    review the rules and patterns before use.
+
+sources:
+  toolkit:
+    title: "After a Suicide: A Toolkit for Schools, 2nd edition"
+    publisher: AFSP and SPRC (Education Development Center)
+    url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+    date: 2018-04-01
+  ma_988:
+    title: 988 Suicide and Crisis Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+    date: null
+
+# Problems found by patterns (case-insensitive regular expressions), checked one sentence at a
+# time; "requires" lists words that must also be in that sentence, and a sentence matching an
+# "except" pattern is skipped.
+rules:
+  - id: method_details
+    severity: must_fix
+    message: The draft appears to describe how the person died or the method.
+    fix: Remove any description of the method or location. Focus on the loss and on coping and help.
+    patterns: ["\\bhang(ed|ing)?\\b", "\\bnoose\\b", "\\brope\\b", "\\bgun\\b", "\\bfirearm\\b", "\\bshot (him|her|them)sel(f|ves)\\b", "\\bpills?\\b", "\\boverdosed?\\b", "\\bjump(ed|ing)? (from|off)\\b", "\\bbridge\\b", "\\btrain tracks?\\b", "\\bslit\\b", "\\bcarbon monoxide\\b", "\\bsuffocat", "\\bpoison"]
+    requires: []
+    source: toolkit
+    section: "Working with the Media (p. 24); Tips for Talking about Suicide (p. 55)"
+    confidence: medium
+  - id: death_scene
+    severity: must_fix
+    message: The draft appears to describe where or how the person was found.
+    fix: Do not describe the scene or where the person was found; do not use photos of the scene or of grieving mourners.
+    patterns: ["\\bbody was found\\b", "\\bwas found (dead|in|at|by)\\b", "\\bscene\\b"]
+    requires: []
+    source: toolkit
+    section: "Working with the Media (p. 24); Key Messages for Media Spokesperson (p. 59)"
+    confidence: medium
+  - id: outdated_language
+    severity: should_fix
+    message: The draft uses wording the toolkit advises against (such as a "successful" or "committed" suicide).
+    fix: "Say \"died by suicide\" or \"killed himself, herself, or themselves.\""
+    patterns: ["\\bcommit(ted|s)? suicide\\b", "\\bsuccessful(ly)? (suicide|attempt)\\b", "\\bcompleted suicide\\b", "\\bfailed (suicide|attempt)\\b", "\\bunsuccessful (suicide|attempt)\\b"]
+    requires: []
+    source: toolkit
+    section: Working with the Media (p. 24)
+    confidence: medium
+  - id: simple_cause
+    severity: should_fix
+    message: The draft may give a single cause for the suicide.
+    fix: Suicide is not caused by a single event. Say that many factors, often including a mental health or substance use condition, are usually involved.
+    patterns: ["\\bbecause (of )?", "\\bdue to\\b", "\\bcaused by\\b", "\\bafter (a |his |her |their )?(break ?up|breakup|fight|argument)\\b", "\\bresult of\\b", "\\bdriven to\\b"]
+    requires: ["suicide", "died", "death", "killed", "took (his|her|their) (own )?life"]
+    except: ["\\bnot (caused by|due to|because)", "\\bno single\\b", "\\bnot .*single (event|cause)"]
+    source: toolkit
+    section: "Working with the Media (p. 24); Tips for Talking about Suicide (p. 55)"
+    confidence: medium
+  - id: glamorizing
+    severity: should_fix
+    message: The draft may romanticize the death or present it as a release or a choice.
+    fix: Talk about the person in a balanced way and focus on how they lived; do not present the death as peaceful, brave, or a solution.
+    patterns: ["\\bbetter place\\b", "\\bat peace\\b", "\\bfree (now|at last)\\b", "\\bno (more|longer) (in )?pain\\b", "\\bbrave\\b", "\\bheroic\\b", "\\bchose to (die|end)\\b", "\\bend(ed)? (his|her|their) suffering\\b"]
+    requires: []
+    source: toolkit
+    section: "Share the News with the School Community (p. 8); Working with the Media (p. 24); Memorialization (p. 26)"
+    confidence: medium
+  - id: sensational
+    severity: should_fix
+    message: The draft uses sensational words.
+    fix: Use calm, factual language; sensational coverage can contribute to contagion.
+    patterns: ["\\bepidemic\\b", "\\bskyrocket", "\\bspate\\b", "\\brash of\\b", "\\bshocking\\b", "\\bhorrific\\b", "\\bgruesome\\b"]
+    requires: []
+    source: toolkit
+    section: Key Messages for Media Spokesperson (p. 59)
+    confidence: medium
+  - id: large_announcement
+    severity: should_fix
+    message: The draft mentions telling students over the PA system or in an assembly.
+    fix: Tell students in small groups such as homerooms or advisories, not over the PA system or in an assembly.
+    patterns: ["\\bassembl(y|ies)\\b", "\\bloudspeaker\\b", "\\bpublic address\\b", "\\bover the PA\\b", "\\bPA system\\b"]
+    requires: []
+    source: toolkit
+    section: Crisis Response Team Coordinator's Tasks (p. 9)
+    confidence: high
+  - id: memorial_on_grounds
+    severity: should_fix
+    message: The draft mentions a memorial or service at school or a permanent memorial.
+    fix: Hold funerals and memorial services off school grounds and outside school hours, and treat all deaths the same way under the school's memorial policy.
+    patterns: ["\\bmemorial (service|assembly|bench|plaque|garden|tree)\\b", "\\bplaque\\b", "\\bon school grounds\\b", "\\bpermanent memorial\\b"]
+    requires: []
+    source: toolkit
+    section: Memorialization (p. 26)
+    confidence: medium
+
+# Things every message about a suicide should contain (missing ones are flagged).
+required:
+  - id: help_resources
+    message: The draft does not list where to get help.
+    fix: "Add the 988 Suicide and Crisis Lifeline (call or text 988) and school and local mental health contacts."
+    patterns: ["\\b988\\b", "\\bcrisis (line|text line|lifeline)\\b", "\\bhelp line\\b", "\\bhotline\\b"]
+    source: toolkit
+    section: "Working with the Media (p. 24); 988 Lifeline (DPH)"
+  - id: hope_and_help_seeking
+    message: The draft has no message of hope or help-seeking.
+    fix: "Say that help is available and treatment works, and encourage students to talk with a trusted adult."
+    patterns: ["\\bhelp is available\\b", "\\btreatment\\b", "\\btreatable\\b", "\\btrusted adult\\b", "\\breach out\\b", "\\bsupport\\b", "\\bcounsel(or|ors|ing)\\b"]
+    source: toolkit
+    section: "Working with the Media (p. 24); Tips for Talking about Suicide (p. 56)"
+
+# Checks a person must make (the tool cannot detect them).
+checklist:
+  - "The cause of death is confirmed (family, medical examiner, or police) before it is called a suicide; otherwise say it is still being determined (toolkit p. 7)."
+  - "The family has agreed to what is shared about the cause of death; if not, say the family has asked that the cause not be shared (toolkit p. 7)."
+  - "The person is described in a balanced way, including known struggles, without idealizing them (toolkit p. 8)."
+  - "No photos of the deceased's death scene or of devastated mourners are used (toolkit p. 24)."
+  - "Warning signs and where to get help are included (toolkit p. 24)."

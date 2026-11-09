@@ -758,6 +758,628 @@
           "rows": 1173
         }
       ]
+    },
+    {
+      "id": "ma-aging-service-directory",
+      "title": "Massachusetts Aging Services Access Points, SHINE offices, and senior nutrition projects by town",
+      "publisher": "Massachusetts Executive Office of Aging & Independence (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap",
+        "https://www.mass.gov/info-details/find-a-shine-counselor-near-you",
+        "https://www.mass.gov/files/csv/2026-10/towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv",
+        "https://www.mass.gov/info-details/nutrition-program-sites"
+      ],
+      "source_sha256": {
+        "find-your-regional-aging-services-access-point-asap.html": "ec9b65ac890a1d311edce82f3d4974d1cc3b7cc8b6f5ab30fc0eba6093f8f4c0",
+        "nutrition-program-sites.html": "9a22d4594b66e016f314a88dc8552b4a73d073bf2352b8cba3d1ec29eee18678",
+        "towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv": "11356772d5b81adacd06ad08988ddf7f89adc168dabee6c7f8f41368e4ffff4f"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV; senior nutrition projects and the communities they serve from the 'Nutrition Program Sites' table. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).",
+      "caveats": [
+        "Service areas are as published on mass.gov; AGE notes that the areas served by an ASAP's protective services may differ. Confirm with the ASAP or call MassOptions at (800) 243-4636.",
+        "Boston is served by several ASAPs by neighborhood; the neighborhoods are listed for each.",
+        "The SHINE town list has no row for: Groton. Use MassOptions (800) 243-4636 to find a SHINE counselor there."
+      ],
+      "files": [
+        {
+          "path": "ma_asap_directory.csv",
+          "sha256": "8fedd54d08f1329746349b87683f9004b6ff12dfcb72fc086eebf149a707e808",
+          "bytes": 10703,
+          "rows": 23
+        },
+        {
+          "path": "ma_shine_directory.csv",
+          "sha256": "bd728914a472bc1c5ab07af1dfe6756240f14ea759db0e0a92fca05e4b611fc9",
+          "bytes": 20255,
+          "rows": 350
+        },
+        {
+          "path": "ma_nutrition_directory.csv",
+          "sha256": "235e19348dbac035de2e30594ae894de17e209017a3ee4792ef8e3b106a29035",
+          "bytes": 10585,
+          "rows": 23
+        }
+      ]
+    },
+    {
+      "id": "ma-cbhc-directory",
+      "title": "Massachusetts Community Behavioral Health Centers (CBHCs) and the towns they list",
+      "publisher": "Massachusetts Executive Office of Health and Human Services (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/find-a-cbhc/locations"
+      ],
+      "source_sha256": {
+        "cbhc_locations_0.html": "c68df90ac4daef7805f54d157230b6216e4b9c08595309fffb2bdd1f07a9d8db",
+        "cbhc_locations_1.html": "2560486c5757e396bec84337b53aca12565e052a270b1f55e85ceee30dbd16a8",
+        "cbhc_locations_2.html": "e5f20bf54dfc9b62ff13b1f4cc937d1ef4144b7dc499f7f8f76e24118129ae7c",
+        "cbhc_locations_3.html": "315f7eb447e5afb623c2047890e13830b055d099c3b9bedb89686b8dd9a42c77"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "Every location in the paged 'Find a CBHC Locations' listing: name, address, phone, and the 'Serving' town list; coordinates from the page's map data. Place names are matched to MassGIS municipalities as for the ASAP directory.",
+      "caveats": [
+        "63 of 351 towns are not named in any CBHC's 'Serving' list (some CBHC listings, for example in the Framingham, Waltham, Quincy, Hyannis, and Martha's Vineyard areas, publish no town list); for those towns the tool lists the CBHCs in the same county and the statewide numbers that route to the nearest CBHC.",
+        "mass.gov's listing is the source of record; CBHC catchment areas can change. Confirm with the Behavioral Health Help Line, (833) 773-2445."
+      ],
+      "files": [
+        {
+          "path": "ma_cbhc_directory.csv",
+          "sha256": "a4023c2ac7f0bbb12d6fe5e7d93144769f058bba418b6b99ba0e93e8acc59fbf",
+          "bytes": 11767,
+          "rows": 31
+        }
+      ]
+    },
+    {
+      "id": "cms-ma-nursing-homes",
+      "title": "Massachusetts nursing homes: CMS star ratings, staffing, infection control citations, and vaccination",
+      "publisher": "Centers for Medicare & Medicaid Services, Provider Data Catalog (Care Compare)",
+      "source_urls": [
+        "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/fykj-qjee/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/djen-97ju/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/r5ix-sfxw/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/xcdc-v8bm/0"
+      ],
+      "source_sha256": {},
+      "source_vintage": "2026-10-01",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CMS Provider Data Catalog); public domain in the United States.",
+      "derivation": "Massachusetts rows from Provider Information (4pq5-n9py; selected columns), SNF Quality Reporting Program measures S_040_02 (staff COVID-19 up to date), S_041_01 (staff flu), and S_045_01 (residents COVID-19 up to date) (fykj-qjee), MDS quality measures 415, 454, 430, and 472 (resident pneumococcal and flu) (djen-97ju), Health Deficiencies in the 'Infection Control Deficiencies' category (r5ix-sfxw), and State/US Averages (xcdc-v8bm), joined by CMS Certification Number (xtask/src/nursing_homes.rs, phn_data::cms_provider).",
+      "caveats": [
+        "CMS processing date 2026-10-01; CMS refreshes Care Compare monthly. Star ratings and citations change after each inspection.",
+        "Vaccination measures cover different periods (SNF QRP quarters; MDS four-quarter averages); CMS removed its separate COVID-19 vaccination datasets in July 2025."
+      ],
+      "files": [
+        {
+          "path": "cms_ma_nursing_homes.csv",
+          "sha256": "6b14548a36f205655edab9ee2f62de2fcfe9598a5e1d32d068a812a676efda95",
+          "bytes": 147265,
+          "rows": 341
+        },
+        {
+          "path": "cms_ma_nh_infection_citations.csv",
+          "sha256": "4eba387bde36dbeaf1d7ac5b306921bba4562d85507cc9c3c2eaa059f96d54d4",
+          "bytes": 129649,
+          "rows": 781
+        },
+        {
+          "path": "cms_ma_nh_averages.csv",
+          "sha256": "640238956a3d243e60fc0544389a3484d1b77cc3c30376e55c71f48c178eadd2",
+          "bytes": 283,
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "id": "census-acs5-ma-older-adults",
+      "title": "ACS 2020-2024 5-year estimates: older adults living alone, without a vehicle, with limited English, and in poverty (Massachusetts)",
+      "publisher": "U.S. Census Bureau, American Community Survey",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b09020.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25045.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b16004.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b17001.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b09020.dat": "d46e9ff0d3609e800f6c2faec369527d549d2aa4d34f31ac2665df0cca908a50",
+        "acsdt5y2024-b16004.dat": "5c43c1e337b44eb0362c85d958b3d8b9dd08f94577ff6b11af7d76c5b57b790e",
+        "acsdt5y2024-b17001.dat": "707adda8aaff136382f4fe0858617d09062da48b1a3d2ab2e9a1047def09b531",
+        "acsdt5y2024-b25045.dat": "73888419c52221dd27cf4de879e58ae1fbf52bc049d4a70b5e1b43a294691139"
+      },
+      "source_vintage": "2020-2024",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "From the ACS 5-year table-based summary file (2024 release): B09020 (living alone: male and female householders living alone, of the population 65+), B25045 (householder 65+ with no vehicle, owner and renter), B16004 (65+ speaking English 'well', 'not well', or 'not at all', i.e. less than 'very well'), and B17001 (65-74 and 75+ below poverty, of those for whom poverty is determined), for the nation, Massachusetts, its counties, its 351 county subdivisions, and populated tracts (tracts with no adults 65+ are omitted). MOEs: sqrt(sum of squared MOEs) for sums, the Census Bureau's derived-proportion formula for percentages (phn_data::older_adults, phn_data::census).",
+      "caveats": [
+        "Small-area ACS estimates, especially for tracts, can have large margins of error; check the coefficient of variation before ranking areas.",
+        "Living alone counts householders 65+ living alone; people 65+ in group quarters (for example nursing homes) are in the denominator but cannot live alone."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_older_adults.csv",
+          "sha256": "ea5e91ee4f341e116c0bcf84de4914d27f772c63680e0f43533f6cc09cc775bd",
+          "bytes": 248157,
+          "rows": 1958
+        }
+      ]
+    },
+    {
+      "id": "cdc-growth-charts",
+      "title": "CDC 2000 growth charts (2 to 20 years), CDC infant head circumference (to 36 months), and the 2022 CDC extended BMI-for-age charts: LMS parameters and published percentiles",
+      "publisher": "Centers for Disease Control and Prevention, National Center for Health Statistics",
+      "source_urls": [
+        "https://www.cdc.gov/growthcharts/data/zscore/wtage.csv",
+        "https://www.cdc.gov/growthcharts/data/zscore/statage.csv",
+        "https://www.cdc.gov/growthcharts/data/zscore/hcageinf.csv",
+        "https://www.cdc.gov/growthcharts/data/extended-bmi/bmi-age-2022.csv",
+        "https://www.cdc.gov/growthcharts/cdc-data-files.htm",
+        "https://www.cdc.gov/growthcharts/extended-bmi-data-files.htm"
+      ],
+      "source_sha256": {
+        "wtage.csv": "3406c9d125bcb69c062a9e84eb8c0209bfe9346542bdc1d308643750dcc241b7",
+        "statage.csv": "45130d2a9d7c50c54a47e7ba626b66c61d4554bc2d901198cedd9419a53f7251",
+        "hcageinf.csv": "bf7e2d7af8fdb336f0b159e480414842136da960ea6a730b7e73d1060b4549e9",
+        "bmi-age-2022.csv": "7f416a213157a5209bb6cbfd1b19292510248f3f31fe43c9ff63f6d8e39f7890"
+      },
+      "source_vintage": "2000 CDC growth charts (data files last reviewed 2024-09-02); extended BMI-for-age 2022",
+      "retrieved": "2026-11-08",
+      "license": "U.S. government work (CDC/NCHS); public domain.",
+      "derivation": "Files copied verbatim by xtask/scripts/build_growth_charts.py. Each row gives L, M, S by sex (1 = male, 2 = female) and age in months at the half-month point, plus CDC's smoothed percentiles; bmi-age-2022.csv adds sigma for the extended method above the 95th percentile.",
+      "caveats": [
+        "CDC recommends the WHO standards from birth to 24 months and the CDC 2000 charts from 2 to 20 years. The CDC infant head circumference chart is used only from 24 to 36 months.",
+        "The 2000 charts are a historical reference (NHANES 1963-1994); CDC has no plans to update them."
+      ],
+      "files": [
+        {
+          "path": "cdc_growth_wtage.csv",
+          "sha256": "3406c9d125bcb69c062a9e84eb8c0209bfe9346542bdc1d308643750dcc241b7",
+          "bytes": 66456,
+          "rows": 436
+        },
+        {
+          "path": "cdc_growth_statage.csv",
+          "sha256": "45130d2a9d7c50c54a47e7ba626b66c61d4554bc2d901198cedd9419a53f7251",
+          "bytes": 66087,
+          "rows": 436
+        },
+        {
+          "path": "cdc_growth_hcageinf.csv",
+          "sha256": "bf7e2d7af8fdb336f0b159e480414842136da960ea6a730b7e73d1060b4549e9",
+          "bytes": 11486,
+          "rows": 76
+        },
+        {
+          "path": "cdc_growth_bmi_age_2022.csv",
+          "sha256": "7f416a213157a5209bb6cbfd1b19292510248f3f31fe43c9ff63f6d8e39f7890",
+          "bytes": 124895,
+          "rows": 438
+        }
+      ]
+    },
+    {
+      "id": "who-growth-standards",
+      "title": "WHO Child Growth Standards (2006), birth to 24 months: LMS parameters by day of age and by length (CDC's copy)",
+      "publisher": "World Health Organization; file distributed by CDC (Division of Nutrition, Physical Activity, and Obesity) with its SAS program for the WHO growth charts",
+      "source_urls": [
+        "https://www.cdc.gov/growth-chart-training/media/files/WHOref_d.csv",
+        "https://www.cdc.gov/growth-chart-training/hcp/computer-programs/sas-who.html",
+        "https://www.cdc.gov/growthcharts/who-data-files.htm"
+      ],
+      "source_sha256": {
+        "WHOref_d.csv": "709d04e07de554b6e379aa21ede29b14e41946943f62b9fadea9f80c56f1c4d3"
+      },
+      "source_vintage": "WHO Child Growth Standards 2006 (CDC pages last reviewed 2024-09-02)",
+      "retrieved": "2026-11-08",
+      "license": "WHO Child Growth Standards tables are published by WHO for public use; CDC distributes this copy for its public SAS program.",
+      "derivation": "xtask/scripts/build_growth_charts.py keeps the 'forage' rows for ages 0 to 730 days (L, M, S for weight, length, head circumference, and BMI) and the 'forlen' rows at every 0.1 cm from 45 to 110 cm (weight-for-length). Values are copied as text. The source's 0.01 cm grid is linear between 0.1 cm points (largest relative difference 7e-9), and interpolating the daily values at 30.4375 x month days reproduces WHO's published monthly L, M, S.",
+      "caveats": [
+        "CDC's monthly WHO data files are on ftp.cdc.gov, which was not reachable from the build environment; this daily file is the one CDC's own SAS program uses.",
+        "WHO length-for-age and weight-for-length assume recumbent length (birth to 24 months).",
+        "WHO length becomes standing height from 731 days (24 months); the snapshot stops at 730 days, and the tool uses the WHO tables only before 24 months."
+      ],
+      "files": [
+        {
+          "path": "who_growth_by_age.csv",
+          "sha256": "3561bbce90d25a6d94801e8094bbd160c0b738925776516b4bc18abdbbad5efc",
+          "bytes": 201130,
+          "rows": 1462
+        },
+        {
+          "path": "who_growth_wfl.csv",
+          "sha256": "31f6eed1dd3f95c7735efc959ffb75481960d462f831bba53a3f206d91ae4561",
+          "bytes": 59733,
+          "rows": 1302
+        }
+      ]
+    },
+    {
+      "id": "ma-lead-screening",
+      "title": "Childhood blood lead screening and blood lead levels by community (children 9 to 47 months, calendar year 2024) and DPH high-risk communities for childhood lead poisoning (2020-2024)",
+      "publisher": "Massachusetts Department of Public Health, Childhood Lead Poisoning Prevention Program",
+      "source_urls": [
+        "https://www.mass.gov/doc/2024-annual-childhood-lead-poisoning-surveillance-report/download",
+        "https://www.mass.gov/doc/2023-annual-childhood-lead-poisoning-surveillance-report/download",
+        "https://www.mass.gov/lists/annual-screening-and-blood-lead-level-reports-and-high-risk-community-lists"
+      ],
+      "source_sha256": {
+        "2024-annual-childhood-lead-poisoning-surveillance-report.pdf": "300d9e4cf24fa0d7611973af0a1be55335f061507808c7f5ba758611166ad9d3",
+        "2023-annual-childhood-lead-poisoning-surveillance-report.docx": "9cc4e58791710fcdaef43d33d502538faf8f6b0c66787ae953b86ad6fad5d3d0"
+      },
+      "source_vintage": "Calendar year 2024 (2023 for 24 communities); high-risk list 2020-2024; report published 2026-08-05",
+      "retrieved": "2026-11-08",
+      "license": "Massachusetts DPH public report.",
+      "derivation": "xtask/scripts/build_lead_snapshot.py reads Appendix I (high-risk communities) and Appendix II (screening and blood lead levels by community) from pdftotext output of the 2024 report. DPH's 2024 PDF has no Appendix II page for Monson through Northampton (24 communities, including New Bedford); their rows come from the 2023 report (DOCX) and are marked data_year 2023. Values are copied as printed: NS = not shown (1-5 children where fewer than 1,200 were screened), >99 = more children screened than the population estimate, NA = no children. Town names follow MassGIS (Manchester = Manchester-by-the-Sea).",
+      "caveats": [
+        "Blood lead level counts include confirmed and unconfirmed tests; 'estimated confirmed' adds a share of unconfirmed capillary tests. Lead poisoning is a confirmed level of 10 ug/dL or more.",
+        "Populations are UMass Donahue Institute 2020 interim estimates; percent of pre-1978 housing and poverty are ACS 2022 5-year (as reported by DPH).",
+        "24 communities (Monson to Northampton, including New Bedford) show 2023 values because the 2024 report omitted their page."
+      ],
+      "files": [
+        {
+          "path": "ma_lead_screening_2024.csv",
+          "sha256": "773e14e148a11a874a1ae1d974978cbf7cff0d8877181ac780708b3a57527cb7",
+          "bytes": 25754,
+          "rows": 352
+        }
+      ]
+    },
+    {
+      "id": "ma-ei-programs",
+      "title": "Massachusetts Early Intervention programs and the cities and towns they serve",
+      "publisher": "Massachusetts Department of Public Health, Early Intervention Division",
+      "source_urls": [
+        "https://www.mass.gov/files/csv/2026-09/ei-program-contact-information-09-24-26.csv",
+        "https://www.mass.gov/info-details/ei-program-contact-information"
+      ],
+      "source_sha256": {
+        "ei-program-contact-information-09-24-26.csv": "a54e400dc61bc5757329ea77e2d60d30293c1e461a71fb83978a52b46bbc44da"
+      },
+      "source_vintage": "2026-09-24",
+      "retrieved": "2026-11-08",
+      "license": "Massachusetts DPH public directory.",
+      "derivation": "DPH's 'Download table data as CSV' file, copied verbatim (UTF-8 with byte-order mark; addresses span lines inside quotes). Program name, website, phone, address, catchment area (cities and towns, with Boston neighborhood exceptions in parentheses), and programs in the catchment area.",
+      "caveats": [
+        "Seven towns are spelled differently in DPH's file (Bernardson, Blanford, Foxboro, Gay Head, Manchester, Middleboro, North Attleboro); the tool maps them (content mch-developmental-milestones, ei_town_aliases).",
+        "Program contacts change; confirm with DPH's EI directory."
+      ],
+      "files": [
+        {
+          "path": "ma_ei_programs.csv",
+          "sha256": "a54e400dc61bc5757329ea77e2d60d30293c1e461a71fb83978a52b46bbc44da",
+          "bytes": 19534,
+          "rows": 62
+        }
+      ]
+    },
+    {
+      "id": "ma-acs5-housing-age",
+      "title": "Housing units built before 1950 and before 1980 (ACS 2020-2024 5-year, table B25034) for Massachusetts, counties, cities and towns, and census tracts",
+      "publisher": "U.S. Census Bureau, American Community Survey",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b25034.dat": "806d6cb18e8e6c0855e065eca99164b07334cc32f521899aa45a4415ef7d380e"
+      },
+      "source_vintage": "ACS 2020-2024 5-year estimates (summary file modified 2026-01-29)",
+      "retrieved": "2026-11-09",
+      "license": "U.S. government work (Census Bureau); public domain.",
+      "derivation": "xtask/scripts/build_housing_age.py: B25034 cells for the state, 14 counties, 351 county subdivisions, and the 1,602 tracts in ma_acs5_indicators.csv (names from that file). Pre-1950 = built 1940-1949 + 1939 or earlier; pre-1980 = built 1950-1979 + pre-1950. MOEs (90%) of sums use sqrt(sum of squared MOEs) with only the largest MOE among zero estimates; percentages use the derived-proportion formula (ratio formula when the radicand is negative).",
+      "caveats": [
+        "ACS year-built bins do not split at 1978 (the Lead Law's cutoff); pre-1980 is the closest available. Year built is reported by respondents and is less reliable for older housing.",
+        "Tract estimates have large margins of error; compare them with care."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_housing_age.csv",
+          "sha256": "96ded09e2f97b129838b976771ec66afaeca82c534b032d67979d0002f518e7f",
+          "bytes": 186573,
+          "rows": 1968
+        }
+      ]
+    },
+    {
+      "id": "ma-maternal-infant",
+      "title": "Massachusetts births, low birthweight, preterm birth, prenatal care, infant mortality, and PRAMS indicators (DPH), with U.S. provisional comparisons (CDC NCHS)",
+      "publisher": "Massachusetts DPH Registry of Vital Records and Statistics and PRAMS; CDC National Center for Health Statistics",
+      "source_urls": [
+        "https://www.mass.gov/doc/2023-birth-report/download",
+        "https://www.mass.gov/doc/2022-death-report-docx/download",
+        "https://www.mass.gov/doc/2019-2021-mass-prams-report-docx/download",
+        "https://data.cdc.gov/resource/76vv-a7x8.json",
+        "https://data.cdc.gov/resource/jqwm-z2g9.json"
+      ],
+      "source_sha256": {
+        "2023-birth-report.docx": "3faccb34e25584288b369d43a7b9f1fde535d1ccd44187dd11fcb8d24f8f835d",
+        "2022-death-report.docx": "116a2cb9e73689176f6bbb8a75d49d494c024a0267c03341475439f9af617168",
+        "2019-2021-mass-prams-report.docx": "a1c29d3ec2afdfc9cd74bc8ce0625bc9a5a1a8dd0ac6bab9bcaa1cd4a684e17e",
+        "76vv-a7x8_2024Q4.json": "863f3862de01e8039b6f0b93758168a53586010f87792d8820da326be56ce715",
+        "jqwm-z2g9_2023Q4.json": "5ec54bfd5431ee775eb4752146c900d85cccc4ace8c2a5d5d3e8d02fd7c56082"
+      },
+      "source_vintage": "Births 2023 (report modified 2026-08-19); infant deaths 2012-2022 (report modified 2025-01-08); PRAMS 2019-2021; U.S. provisional 12 months ending 2024 Q4 (births) and 2023 Q4 (infant mortality)",
+      "retrieved": "2026-11-09",
+      "license": "Massachusetts DPH public reports; CDC data are U.S. government works (public domain).",
+      "derivation": "xtask/scripts/build_maternal_infant.py reads the DOCX tables: 2023 Birth Report Table 17 (resident births, low birthweight, preterm, and teen births by municipality; town and county percentages computed from DPH's counts), Table 2 (state by race and Hispanic ethnicity), the gestational-age table (preterm by race), and Table 1 (state trends 2013-2023); 2022 Death Report Table 5 (infant, neonatal, and postneonatal mortality by race, 2012-2022); PRAMS 2019-2021 report Tables 19, 47, 48, 56 (weighted percentages with 95% CIs). U.S. values are CDC NCHS VSRR quarterly provisional estimates. DPH's suppressed counts (1-4) are kept as '<5'.",
+      "caveats": [
+        "DPH suppresses counts of 1-4; town percentages from small numbers are unstable.",
+        "U.S. comparisons are provisional and for different 12-month periods than the Massachusetts figures.",
+        "Community-level infant mortality and PRAMS estimates are not published; those are statewide only."
+      ],
+      "files": [
+        {
+          "path": "ma_maternal_infant.csv",
+          "sha256": "da804a1243e25a6eb27d09aaeadb08b5a85a869baf2f358ddd7911a51bd45228",
+          "bytes": 150883,
+          "rows": 1768
+        }
+      ]
+    },
+    {
+      "id": "hrsa-health-centers-ma",
+      "title": "HRSA-funded health center service delivery sites in Massachusetts",
+      "publisher": "Health Resources and Services Administration (HRSA Data Warehouse)",
+      "source_urls": [
+        "https://data.hrsa.gov/DataDownload/DD_Files/Health_Center_Service_Delivery_and_LookAlike_Sites.csv"
+      ],
+      "source_sha256": {
+        "Health_Center_Service_Delivery_and_LookAlike_Sites.csv": "55156f392f5cf1b4182bd001aa4abd9b801c43c1f6929e2ac2f1f000e120494f"
+      },
+      "source_vintage": "2026-11-08 (HRSA data warehouse record date; file last modified 2026-11-08)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Active Massachusetts sites from HRSA's Health Center Service Delivery and Look-Alike Sites download, excluding administrative-only sites; columns kept: site name, health center (grantee) name, type, address, city, ZIP, phone, website, operating hours per week, location setting, location type, site type, operating schedule and calendar, county, and geocoded coordinates. Builder: xtask/scripts/build_hrsa_health_centers.py (Python 3 standard library).",
+      "caveats": [
+        "HRSA lists sites, not the services, languages, or hours of each site; call the site or use HRSA's Find a Health Center to confirm services and hours. Operating schedule and calendar are 'Unknown' for about half of Massachusetts sites.",
+        "Massachusetts had no FQHC look-alike sites in this download; only HRSA-funded FQHC sites are listed."
+      ],
+      "files": [
+        {
+          "path": "hrsa_health_centers_ma.csv",
+          "sha256": "3c050091ca263c9ba36f36cdecf7b7972fbf4e90778c90cd47a76052d493ed1b",
+          "bytes": 72117,
+          "rows": 255
+        }
+      ]
+    },
+    {
+      "id": "fema-declarations-ma",
+      "title": "FEMA disaster declarations for Massachusetts (Disaster Declarations Summaries v2)",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=state%20eq%20%27MA%27&$orderby=declarationDate%20desc,disasterNumber%20desc&$top=5000"
+      ],
+      "source_sha256": {
+        "fema_ma.json": "eecb2255c8f160001da004f4c8feccb2284a16a989e011bfc428935d74841acd"
+      },
+      "source_vintage": "OpenFEMA refresh 2026-11-06 (declarations 1953-06-11 to 2026-06-30)",
+      "retrieved": "2026-11-08",
+      "license": "OpenFEMA data are U.S. federal government works (public domain); FEMA's terms ask users not to imply endorsement.",
+      "derivation": "Every Massachusetts row of DisasterDeclarationsSummaries v2 (one per declaration and designated area), with the declaration and incident dates cut to YYYY-MM-DD and the four program flags (IH, IA, PA, HM) joined with semicolons. Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "Declarations record federal assistance, not every hazard event: many floods, heat waves, and storms never reach a declaration. Use the counts as a lower bound on how often a hazard has caused serious damage."
+      ],
+      "files": [
+        {
+          "path": "fema_declarations_ma.csv",
+          "sha256": "8a2bd70c3f92e774b71979a59053b646ebc15815fb2cb99eaa75b9315d21c2a2",
+          "bytes": 52492,
+          "rows": 415
+        }
+      ]
+    },
+    {
+      "id": "hhs-empower-ma",
+      "title": "HHS emPOWER Map: Medicare beneficiaries who rely on electricity-dependent medical equipment, Massachusetts counties and ZIP codes",
+      "publisher": "U.S. Department of Health and Human Services, Administration for Strategic Preparedness and Response (ASPR), with CMS",
+      "source_urls": [
+        "https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/counties.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/zipcodes.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/states.json",
+        "https://empowerprogram.hhs.gov/api/v1/dme/national.json"
+      ],
+      "source_sha256": {
+        "empower_counties.json": "bb7da171456c77715d55911e96df835f0e6b3639958997ed8e58279a9b05c50e",
+        "empower_zips.json": "1493d6db3dea4ccf7041a45f100bf7060e14de78593f58339bc4e524e7e2378b"
+      },
+      "source_vintage": "monthly emPOWER Map data as served on 2026-11-08 (the API does not state the data month)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain); de-identified under the CMS cell-size suppression policy.",
+      "derivation": "The emPOWER Map's JSON endpoints for the nation, Massachusetts, its 14 counties, and its ZIP codes (geometry dropped). Columns: level, GEOID or ZIP, name, county, Medicare beneficiaries, and beneficiaries with claims for electricity-dependent durable medical equipment (DME ALL). Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "HHS reports small values (1 to 11) as 11 to comply with the CMS cell-size suppression policy, so a ZIP code showing 11 may have fewer; sums across ZIP codes overstate the total slightly.",
+        "Counts cover Medicare fee-for-service and Medicare Advantage beneficiaries only; people with Medicaid only, private insurance, or no claims are not counted."
+      ],
+      "files": [
+        {
+          "path": "empower_ma.csv",
+          "sha256": "2bec50fb3e70be967b541fac96b9332c4bf0fa9ad4e2a0eecf1497e3fd8d4f36",
+          "bytes": 17618,
+          "rows": 526
+        }
+      ]
+    },
+    {
+      "id": "census-pl2020-blocks-ma",
+      "title": "2020 Census housing units by census block, Massachusetts (Redistricting Data, PL 94-171)",
+      "publisher": "U.S. Census Bureau",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/Massachusetts/ma2020.pl.zip"
+      ],
+      "source_sha256": {
+        "ma2020.pl.zip": "9857362fbc1162d3943685134a77a91542a70eb667f3477559d07fd0a81e4889"
+      },
+      "source_vintage": "2020 Census (April 1, 2020); PL 94-171 file released 2021-08-12",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Every 2020 census block in Massachusetts with at least one housing unit (88,246 blocks, 2,998,537 housing units): county, county subdivision (city or town), tract, block, total housing units (H1_001N), and vacant units (H1_003N, omitted when zero), grouped one line per county, county subdivision, and tract. Block rows come from the geographic header (summary level 750) joined to segment 2 by LOGRECNO; the builder checks H1_001N = HU100 = H1_002N + H1_003N for every block. Builder: xtask/scripts/build_epr_snapshots.py.",
+      "caveats": [
+        "Housing counts are as of April 1, 2020; new construction and demolition since then are not reflected, which CASPER's weights cannot correct (CDC CASPER Toolkit, 3rd edition, section 4.2)."
+      ],
+      "files": [
+        {
+          "path": "ma_pl2020_blocks.txt",
+          "sha256": "fe7646dcb168f5605a284b1fb362441fd4d495c1810c6cd55889fd5472a64f44",
+          "bytes": 787083,
+          "rows": 1650
+        }
+      ]
+    },
+    {
+      "id": "ma-dph-opioid-deaths-town",
+      "title": "Number of Opioid-Related Overdose Deaths, All Intents by City/Town, 2015-2022",
+      "publisher": "Massachusetts Department of Public Health (Registry of Vital Records and Statistics)",
+      "source_urls": [
+        "https://www.mass.gov/doc/opioid-related-overdose-deaths-by-citytown-june-2023/download",
+        "https://www.mass.gov/lists/substance-use-and-overdose-data"
+      ],
+      "source_sha256": {
+        "opioid-related-overdose-deaths-by-citytown-june-2023.pdf": "9ec3bbd8d6879ccd95950db97b51b1ad864923276ac7edda46a36f4bd58b8f13"
+      },
+      "source_vintage": "deaths 2015-2022 (posted June 2023; data updated 2023-04-25)",
+      "retrieved": "2026-11-08",
+      "license": "Public report of the Massachusetts Department of Public Health.",
+      "derivation": "Table 1 (city/town of residence, Massachusetts residents) and Table 2 (city/town of death occurrence) transcribed from `pdftotext -layout` output: one row per basis and town with yearly counts 2015-2022, plus the Unknown, Out of Massachusetts, and Total rows. The builder checks that each table's rows sum to the published totals and that 351 towns are present. DPH spellings are kept (Manchester, North Attleboro). Builder: xtask/scripts/build_overdose_towns.py.",
+      "caveats": [
+        "This June 2023 table is the latest town-level table DPH published as a document; later town data (through 2025) are only on DPH's BSAS dashboard (Community Profile).",
+        "2020-2022 counts were preliminary when posted; DPH's later reports use an updated 'opioid-involved' method, so their counts differ slightly from this table. Do not mix the two series.",
+        "Counts are as published by DPH, including small numbers."
+      ],
+      "files": [
+        {
+          "path": "ma_opioid_deaths_town.csv",
+          "sha256": "f9c88f6181856cba5c4fe381cf3528819bce1c7c0bd976d96c8422f57acacab8",
+          "bytes": 26164,
+          "rows": 706
+        }
+      ]
+    },
+    {
+      "id": "cdc-vsrr-overdose-ma",
+      "title": "VSRR provisional drug overdose death counts: Massachusetts, U.S., and Massachusetts counties",
+      "publisher": "CDC, National Center for Health Statistics (National Vital Statistics System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/xkb8-kh2a",
+        "https://data.cdc.gov/d/gb4e-yj24",
+        "https://www.cdc.gov/nchs/nvss/vsrr/drug-overdose-data.htm"
+      ],
+      "source_sha256": {},
+      "source_vintage": "12 month-ending periods through May 2026 (state, rows updated 2026-10-14) and March 2026 (counties, data as of 2026-10-04)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "State file: rows of xkb8-kh2a for state MA and US from January 2019 for nine indicators (all drug overdose deaths; opioids; synthetic opioids other than methadone; heroin; natural and semi-synthetic opioids; methadone; cocaine; psychostimulants; percent with drugs specified), keeping reported and predicted values, percent complete, percent pending investigation, and the footnote symbol. County file: rows of gb4e-yj24 for the 14 Massachusetts counties from January 2020, keeping the 12 month-ending count (blank when NCHS suppressed a count of 1-9), footnote, urban-rural code, percent pending, and data date. Builder: xtask/scripts/build_overdose_vsrr.py (Python 3 and curl).",
+      "caveats": [
+        "Provisional counts are incomplete and are revised monthly; predicted values adjust for reporting delays.",
+        "State counts are by the jurisdiction where the death occurred; county counts are by county of residence.",
+        "County counts of 1-9 are suppressed by NCHS."
+      ],
+      "files": [
+        {
+          "path": "cdc_vsrr_overdose_ma_us.csv",
+          "sha256": "218ed817185e211be4c75d48c95f0e8196ef9df612a55781a819514d81779786",
+          "bytes": 119025,
+          "rows": 1602
+        },
+        {
+          "path": "cdc_vsrr_overdose_ma_counties.csv",
+          "sha256": "6bc951452692aba6ccdb2396ed8157b6c832d4b7935878a8fe51e53e0dc62708",
+          "bytes": 69136,
+          "rows": 1050
+        }
+      ]
+    },
+    {
+      "id": "ma-youth-health-survey",
+      "title": "Massachusetts Youth Health Survey (2023, 2025) and Massachusetts YRBS (2023) report tables",
+      "publisher": "Massachusetts Department of Public Health, Health Survey Program (with DESE)",
+      "source_urls": [
+        "https://www.mass.gov/doc/2025-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-youth-health-survey-report/download",
+        "https://www.mass.gov/doc/2023-massachusetts-yhs-and-yrbs-joint-report/download",
+        "https://www.mass.gov/lists/massachusetts-youth-health-survey-myhs"
+      ],
+      "source_sha256": {
+        "2025-massachusetts-youth-health-survey-report.docx": "6005010ee51f9f2099ce6296603aa6b5070d1e8fd62a28545c3302d5ba60c909",
+        "2023-massachusetts-youth-health-survey-report.docx": "2c71012077b63bb53660a448d35f530c3d940bc5a0c827d093bec931ba3b6026",
+        "2023-massachusetts-yhs-and-yrbs-joint-report.docx": "7c4109223ceee8f74f0940bce206ab1f0f1f3c4c28246dbc8b949333f3a84a91"
+      },
+      "source_vintage": "MYHS 2025 (report dated 2026-04-14), MYHS 2023 (2024-05-23), joint MYHS/MYRBS 2023 report",
+      "retrieved": "2026-11-08",
+      "license": "Public reports of the Massachusetts Department of Public Health.",
+      "derivation": "Every table that starts 'Percentage of Massachusetts ... students who reported:' was read from the DOCX (header cells = indicators; each estimate row with its 95% confidence interval, from the next row or the same cell; blank rows start a group such as Grade, Gender, Race/Ethnicity). Indicators marked ^ in the joint report and all its middle school results are labeled MYHS; other joint-report high school results are MYRBS. '**' (not presented) is kept as suppressed. One published typo (91..0) was read as 91.0. Indicators are in ma_youth_survey_indicators.csv; estimates refer to them by id. Builder: xtask/scripts/build_youth_survey.py.",
+      "caveats": [
+        "DPH does not present estimates based on fewer than 100 respondents or with a relative standard error above 30%.",
+        "The MYHS and the MYRBS are different surveys of public school students; their estimates for similar questions differ and should not be mixed in a trend.",
+        "Students in private schools, state custody, or other settings are not represented; data are self-reported."
+      ],
+      "files": [
+        {
+          "path": "ma_youth_survey.csv",
+          "sha256": "085cbc3d61c965d02bc79fa826a7cc489e2feec8696bd44048fbf0c097eb244b",
+          "bytes": 134185,
+          "rows": 3565
+        },
+        {
+          "path": "ma_youth_survey_indicators.csv",
+          "sha256": "aba955561e5cc2c88356f9e661017bf51e6d8228243601239d91c42da8dddb9b",
+          "bytes": 29634,
+          "rows": 305
+        }
+      ]
+    },
+    {
+      "id": "cdc-yrbs-mental-health-ma-us",
+      "title": "YRBSS Mental Health Indicators: Massachusetts and the United States",
+      "publisher": "CDC, Division of Adolescent and School Health (Youth Risk Behavior Surveillance System)",
+      "source_urls": [
+        "https://data.cdc.gov/d/nu3s-3dwd"
+      ],
+      "source_sha256": {},
+      "source_vintage": "YRBS 2019, 2021, and 2023 (rows updated 2026-05-27)",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CDC open data, data.cdc.gov); public domain in the United States.",
+      "derivation": "All rows of nu3s-3dwd for area_abbr MA (Massachusetts YRBS) and XX (national YRBS): year, question, demographic type and value, percent, and 95% confidence limits. 'Suppressed' values are blank. Builder: xtask/scripts/build_yrbs_mental_health.py (Python 3 and curl).",
+      "caveats": [
+        "CDC suppresses estimates with too few respondents ('Suppressed')."
+      ],
+      "files": [
+        {
+          "path": "cdc_yrbs_mental_health_ma_us.csv",
+          "sha256": "eea231fc8aab3e761cb64cdfe145f717647a1a7f1e7fac03edb7f2c53cc22ff7",
+          "bytes": 48790,
+          "rows": 340
+        }
+      ]
+    },
+    {
+      "id": "samhsa-findtreatment-ma",
+      "title": "FindTreatment.gov substance use treatment facilities in Massachusetts",
+      "publisher": "Substance Abuse and Mental Health Services Administration (SAMHSA), Behavioral Health Services Information System",
+      "source_urls": [
+        "https://findtreatment.gov/locator/exportsAsJson/v2?sAddr=%2242.3601,-71.0589%22&limitType=0&limitValue=3&sType=sa&pageSize=2000&page=1&sort=0",
+        "https://findtreatment.gov/assets/FindTreatment-Developer-Guide.pdf"
+      ],
+      "source_sha256": {},
+      "source_vintage": "facility listings as served 2026-11-09 (341 Massachusetts substance use facilities)",
+      "retrieved": "2026-11-09",
+      "license": "U.S. federal government data (SAMHSA FindTreatment.gov public locator API).",
+      "derivation": "State search of the FindTreatment.gov locator API for Massachusetts (state ID 3) substance use facilities. Kept: names, address, phone, intake and hotline numbers, website, coordinates, and the service categories TC, SET, OT, OM, PAY, PYAS, SL, OL, AGE, SN, RSS, SG, EXCL, and DETOX as 'CODE=values' joined by '|'. Builder: xtask/scripts/build_findtreatment.py (Python 3 and curl).",
+      "caveats": [
+        "Facilities report their own services to SAMHSA; call ahead to confirm services, openings, insurance, and language.",
+        "Used only when the live locator cannot be reached; it is a statewide copy, so distances are computed from the town's center."
+      ],
+      "files": [
+        {
+          "path": "findtreatment_ma.csv",
+          "sha256": "71d7e58dfc78f518eb2cc8a6f960abf1cb664ac0eb8515a282a94ef36df7e20f",
+          "bytes": 427268,
+          "rows": 341
+        }
+      ]
     }
   ]
 }

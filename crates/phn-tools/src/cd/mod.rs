@@ -43,3 +43,12 @@ pub use nndss::{NotifiableTrendsArgs, NotifiableTrendsResult, get_notifiable_dis
 pub use respiratory::{
     RespiratoryBriefing, RespiratorySurveillanceArgs, get_respiratory_and_wastewater_surveillance,
 };
+
+// Phase 9 modules go below this line.
+pub mod ltbi_calendar;
+pub mod tb_contacts;
+pub mod tb_content;
+
+pub use ltbi_calendar::{LtbiCalendar, LtbiCalendarArgs, ltbi_treatment_calendar};
+pub use tb_contacts::{TbContactArgs, TbContactPlan, plan_tb_contact_investigation};
+// End of Phase 9 modules.

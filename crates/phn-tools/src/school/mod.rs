@@ -1,0 +1,33 @@
+//! School health tools (toolset `school`).
+//!
+//! Phase 7: SCH-01 to SCH-08.
+
+// Phase 7 modules go below this line.
+pub mod absenteeism;
+pub mod annual_report;
+pub mod bmi;
+pub mod calendar;
+pub mod child_care;
+pub mod concussion;
+pub mod content;
+pub mod health_plans;
+pub mod medication;
+pub mod screening_requirements;
+pub mod screenings;
+pub mod templates;
+
+pub use absenteeism::{AbsenteeismArgs, AbsenteeismResult, monitor_school_absenteeism};
+pub use annual_report::{AnnualReportArgs, AnnualReportResult, build_school_health_annual_report};
+pub use child_care::{
+    ChildCareChecklistArgs, ChildCareChecklistResult, child_care_health_consultation_checklist,
+};
+pub use concussion::{ConcussionArgs, ConcussionResult, concussion_return_to_learn_tracker};
+pub use health_plans::{HealthPlanArgs, HealthPlanResult, build_individualized_health_plan};
+pub use medication::{
+    MedicationGuideArgs, MedicationGuideResult, school_medication_administration_guide,
+};
+pub use screening_requirements::{
+    ScreeningRequirementsArgs, ScreeningRequirementsResult, get_ma_school_screening_requirements,
+};
+pub use screenings::{TrackScreeningsArgs, TrackScreeningsResult, track_school_screenings};
+// End of Phase 7 modules.

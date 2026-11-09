@@ -1,0 +1,250 @@
+# School postvention steps and message templates for plan_school_postvention (MH-06).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/bh_postvention.schema.json
+meta:
+  id: bh-school-postvention
+  title: School postvention after a suicide (steps and message templates)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2018-04-01
+  source:
+    title: "After a Suicide: A Toolkit for Schools, 2nd edition (2018)"
+    publisher: American Foundation for Suicide Prevention and Suicide Prevention Resource Center (Education Development Center)
+    url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+  related_sources:
+    - title: After a Suicide - A Toolkit for Schools (resource page)
+      publisher: Suicide Prevention Resource Center
+      url: https://sprc.org/resources/after-suicide-toolkit-schools
+    - title: 988 Suicide and Crisis Lifeline
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Drafted 2026-11-09. The steps are short paraphrases of After a Suicide: A Toolkit for Schools
+    (2nd edition, 2018) with page numbers (high confidence that each reflects the toolkit). License
+    (from the toolkit's copyright page): "This publication may be copied, reproduced, and
+    distributed provided the copyright notice, author credit, and website addresses for both SPRC
+    (sprc.org) and AFSP (afsp.org) are included. For additional rights, such as adapting or
+    excerpting a portion of the material for publication, please contact permissions@edc.org." The
+    message templates are therefore the developer's own drafts that follow the toolkit's
+    structure; they do not reproduce the toolkit's sample statements, which agencies can use
+    directly from the PDF with the required credit. The toolkit lists the former Lifeline number;
+    templates use 988 (DPH). The nurse and the school's crisis team must review every template
+    before use. Toolkit copyright: (c) 2018 Education Development Center and American Foundation
+    for Suicide Prevention.
+
+sources:
+  toolkit:
+    title: "After a Suicide: A Toolkit for Schools, 2nd edition"
+    publisher: AFSP and SPRC (Education Development Center)
+    url: https://sprc.org/wp-content/uploads/2022/12/AfteraSuicideToolkitforSchools.pdf
+    date: 2018-04-01
+  ma_988:
+    title: 988 Suicide and Crisis Lifeline
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/988-suicide-and-crisis-lifeline
+    date: null
+
+license: "(c) 2018 Education Development Center and American Foundation for Suicide Prevention. The toolkit may be copied, reproduced, and distributed with the copyright notice, author credit, and the web addresses sprc.org and afsp.org; adapting or excerpting it for publication needs permission from permissions@edc.org."
+
+steps:
+  - phase: first_24_hours
+    text: "Confirm the facts: check with the family, the coroner or medical examiner, or police before calling the death a suicide."
+    page: 7
+  - phase: first_24_hours
+    text: "Contact the family, preferably in person: offer condolences, ask how the school can help, which friends may need support, what students should be told, and about funeral plans."
+    page: 8
+  - phase: first_24_hours
+    text: "Convene the crisis response team (usually led by the principal) and assign roles: safety, staff and student support, community liaison, funeral, media, and social media."
+    page: 9
+  - phase: first_24_hours
+    text: "Notify staff, in person where possible, and hold an all-staff meeting as soon as possible, ideally before school starts."
+    page: 9
+  - phase: first_24_hours
+    text: "Tell students in small groups such as homerooms, using a prepared statement; never over the PA system or in an assembly. Consider having a counselor in the student's own homeroom."
+    page: 9
+  - phase: first_24_hours
+    text: "Send parents a written notice, and give staff information on talking about suicide and on youth warning signs."
+    page: 9
+  - phase: first_24_hours
+    text: "Identify social media accounts to monitor and assign a team member to monitor them."
+    page: 9
+  - phase: first_24_hours
+    text: "Keep regular school hours and routines, and watch for students who withdraw or gather in hallways and bathrooms."
+    page: 10
+  - phase: first_week
+    text: "Offer grief support in small groups and individually; help students name their feelings and practice coping strategies."
+    page: 14
+  - phase: first_week
+    text: "Identify students who may be at higher risk: those with past attempts, depression, trauma, or loss; recent stressful events; witnesses; family members and close friends (including siblings at other schools, teammates, partners); those who received a message from the student; and those who had a last negative interaction with or bullied the student. Connect them with mental health care."
+    page: 38
+  - phase: first_week
+    text: "Name one media spokesperson, keep reporters off school grounds, and give the media safe-reporting recommendations."
+    page: 24
+  - phase: first_week
+    text: "Hold a parent meeting if needed, with small groups led by mental health professionals; keep media out of those groups."
+    page: 54
+  - phase: first_week
+    text: "Funerals and memorial services should be held off school grounds and outside school hours; encourage students to attend with their parents."
+    page: 26
+  - phase: ongoing
+    text: "Follow the school's memorial policy and treat all deaths the same way; focus on how the student lived, not how they died; avoid permanent memorials that can glamorize the death."
+    page: 26
+  - phase: ongoing
+    text: "Watch for signs of contagion; if there may be a cluster, strengthen screening, coordinate with community partners, and bring in outside experts."
+    page: 38
+  - phase: ongoing
+    text: "Plan for anniversaries, graduations, and yearbooks, and move toward a comprehensive suicide prevention plan."
+    page: 42
+
+talking_points:
+  - text: "Suicide is not caused by a single event; mental health or substance use conditions are often involved, and they are treatable."
+    page: 55
+  - text: "Do not talk about the method; talk about how the loss affects students and how they can cope."
+    page: 55
+  - text: "Address blame and anger: anger is normal, and blaming others is not fair."
+    page: 55
+  - text: "Reassure students that the death is not their fault; we cannot always see the signs."
+    page: 56
+  - text: "Seeking help is a sign of strength; talk with a trusted adult if you or a friend are struggling."
+    page: 56
+
+# Message templates: the developer's own drafts following the toolkit's structure (see license).
+# {{Placeholders}} are filled from a local file only; values are never returned to the AI.
+templates:
+  - id: staff_meeting
+    title: Initial all-staff meeting agenda
+    cause_status: any
+    toolkit_page: 45
+    markdown: |
+      # All-staff meeting: {{School Name}}
+
+      **Date:** {{Date of Notice}} · **Led by:** {{Principal Name}}
+
+      1. Share what is known about the death of {{Student Name}}, and what may be said to students. Cause of death: follow the statement chosen for students today.
+      2. Explain the plan for the day: students hear the news in homerooms from the prepared statement; counselors are in {{Counseling Location}}.
+      3. Review how to talk about suicide: no details of how the student died; no single cause; help is available.
+      4. Review warning signs and how to refer a student to {{School Counselor Name}} ({{School Counselor Phone}}).
+      5. Remind staff that the media spokesperson is {{Media Spokesperson}}; refer all calls.
+      6. Staff support: this is hard for adults too. Support is available at {{Staff Support Contact}}. The 988 Suicide and Crisis Lifeline is available 24/7 by call or text at 988.
+  - id: student_notification
+    title: Statement for homeroom teachers to read to students
+    cause_status: ruled_suicide
+    toolkit_page: 47
+    markdown: |
+      # Statement for students
+
+      I am very sad to tell you that {{Student Name}}, a student in our school, has died. The family has shared that the cause of death was suicide.
+
+      Many of us are feeling shock, sadness, or anger, and all of these feelings are normal. Suicide is not caused by a single event. Often a person has a mental health or substance use problem that others could not see. These problems are treatable, and help is available.
+
+      Counselors are available today in {{Counseling Location}}. If you are worried about yourself or a friend, please talk with me or another trusted adult. You can also call or text 988, any time of day or night.
+  - id: student_notification
+    title: Statement for homeroom teachers to read to students
+    cause_status: unconfirmed
+    toolkit_page: 48
+    markdown: |
+      # Statement for students
+
+      I am very sad to tell you that {{Student Name}}, a student in our school, has died. The cause of death has not been determined yet. We will share more when we can.
+
+      You may hear rumors. Rumors are often wrong and can be hurtful to the family and friends, so please do not spread them.
+
+      Many of us are feeling shock, sadness, or anger, and all of these feelings are normal. Counselors are available today in {{Counseling Location}}. If you are worried about yourself or a friend, please talk with me or another trusted adult. You can also call or text 988, any time of day or night.
+  - id: student_notification
+    title: Statement for homeroom teachers to read to students
+    cause_status: family_declined_disclosure
+    toolkit_page: 49
+    markdown: |
+      # Statement for students
+
+      I am very sad to tell you that {{Student Name}}, a student in our school, has died. The family has asked that information about the cause of death not be shared at this time, and we respect their wishes.
+
+      Many of us are feeling shock, sadness, or anger, and all of these feelings are normal. Counselors are available today in {{Counseling Location}}. There has been talk about suicide, so we want you to know that help is available: if you are worried about yourself or a friend, talk with me or another trusted adult, or call or text 988, any time of day or night.
+  - id: parent_letter
+    title: Letter to parents and guardians
+    cause_status: ruled_suicide
+    toolkit_page: 50
+    markdown: |
+      # A message to {{School Name}} families
+
+      {{Date of Notice}}
+
+      Dear parents and guardians,
+
+      With great sadness, we share that {{Student Name}}, a student at our school, has died. The family has shared that the cause of death was suicide. Our thoughts are with the family and friends.
+
+      Students heard the news today from their homeroom teachers. Counselors are available at school {{Counseling Dates}}. Your child may want to talk about the death. Listen, let them share their feelings, and remind them that help is available. Suicide is not caused by a single event; mental health conditions are often involved and are treatable.
+
+      Please contact {{School Counselor Name}} at {{School Counselor Phone}} if you are worried about your child. If you think your child is in crisis, call or text 988 (the Suicide and Crisis Lifeline), or call 911 in an emergency. We will hold a meeting for parents on {{Parent Meeting Date}} at {{Parent Meeting Location}}.
+
+      Sincerely,
+
+      {{Principal Name}}
+  - id: parent_letter
+    title: Letter to parents and guardians
+    cause_status: unconfirmed
+    toolkit_page: 51
+    markdown: |
+      # A message to {{School Name}} families
+
+      {{Date of Notice}}
+
+      Dear parents and guardians,
+
+      With great sadness, we share that {{Student Name}}, a student at our school, has died. The cause of death has not been determined. Our thoughts are with the family and friends.
+
+      Students heard the news today from their homeroom teachers. Counselors are available at school {{Counseling Dates}}. Your child may want to talk about the death. Listen, let them share their feelings, and remind them not to spread rumors.
+
+      Please contact {{School Counselor Name}} at {{School Counselor Phone}} if you are worried about your child. If you think your child is in crisis, call or text 988 (the Suicide and Crisis Lifeline), or call 911 in an emergency.
+
+      Sincerely,
+
+      {{Principal Name}}
+  - id: parent_letter
+    title: Letter to parents and guardians
+    cause_status: family_declined_disclosure
+    toolkit_page: 52
+    markdown: |
+      # A message to {{School Name}} families
+
+      {{Date of Notice}}
+
+      Dear parents and guardians,
+
+      With great sadness, we share that {{Student Name}}, a student at our school, has died. The family has asked that the cause of death not be shared, and we respect their wishes. Our thoughts are with the family and friends.
+
+      Students heard the news today from their homeroom teachers. Counselors are available at school {{Counseling Dates}}. This is a good time to talk with your child about how they are feeling and to remind them that help is available.
+
+      Please contact {{School Counselor Name}} at {{School Counselor Phone}} if you are worried about your child. If you think your child is in crisis, call or text 988 (the Suicide and Crisis Lifeline), or call 911 in an emergency.
+
+      Sincerely,
+
+      {{Principal Name}}
+  - id: media_statement
+    title: Statement for the media spokesperson
+    cause_status: any
+    toolkit_page: 59
+    markdown: |
+      # Statement from {{School Name}}
+
+      We are deeply saddened by the death of one of our students. Our thoughts are with the family, friends, and our school community.
+
+      Counselors are available to students and staff at school {{Counseling Dates}}. We encourage anyone who is struggling to reach out: help is available, and mental health conditions are treatable. Anyone in crisis can call or text 988, the Suicide and Crisis Lifeline, 24 hours a day.
+
+      We ask the media to respect the family's privacy, to keep cameras and reporters off school grounds, and to follow safe-reporting recommendations: do not describe the method or location, do not oversimplify the cause, and include the 988 Lifeline.
+
+      Media contact: {{Media Spokesperson}}, {{Spokesperson Phone}}
+  - id: social_media_post
+    title: Post for the school's social media accounts
+    cause_status: any
+    toolkit_page: 33
+    markdown: |
+      # Social media post
+
+      Our {{School Name}} community is grieving the loss of a student. Counselors are available at school {{Counseling Dates}}. If you or someone you know is struggling, please reach out to a trusted adult, or call or text 988 any time. Help is available.

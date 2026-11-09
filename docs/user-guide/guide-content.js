@@ -9,9 +9,9 @@
 
 'use strict';
 
-const VERSION = '0.7.0';
+const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 47;
+const TOOL_COUNT = 97;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -22,6 +22,12 @@ const TOOLSETS = {
   chronic: 'chronic (chronic disease)',
   ebp: 'ebp (evidence-based practice and quality improvement)',
   comms: 'comms (communications)',
+  school: 'school (school health)',
+  mch: 'mch (maternal, child, and family health)',
+  aging: 'aging (healthy aging and older adults)',
+  bh: 'bh (mental health and substance use)',
+  epr: 'epr (emergency preparedness)',
+  env: 'env (environmental health and climate)',
 };
 
 const INTERNET = {
@@ -66,7 +72,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into seven work areas. Chapters 4 to 10 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 13 work areas. Chapters 4 to 16 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -80,6 +86,24 @@ const frontChapters = [
                 ['Epidemiology and statistics (chapter 8)', 'Rates with confidence intervals, age adjustment, SIR and SMR, 2×2 tables, statistical tests, sample size, trends, charts, control charts, and maps.', '10'],
                 ['Community health and equity (chapter 9)', 'One-request community health profiles, Social Vulnerability Index, language access, disparity measures, and CDC PLACES chronic disease estimates.', '5'],
                 ['Evidence-based practice (chapter 10)', 'PICO-based PubMed searches and the newest MMWR reports and Health Alert Network notices.', '2'],
+                // Phase 7 work-area rows go below this line.
+                ['School health (chapter 11)', 'Screening requirements and tracking with referral letters; medication administration rules; individualized health plans; concussion return to learn; illness absenteeism; the year-end report; child care health consultation.', '8'],
+                // End of Phase 7 work-area rows.
+                // Phase 8 work-area rows go below this line.
+                ['Maternal, child, and family health (chapter 12)', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps; maternal and infant health profiles.', '8'],
+                // End of Phase 8 work-area rows.
+                // Phase 9 work-area rows go below this line.
+                ['Public health nursing practice (chapter 13)', 'Plan TB contact investigations and latent TB treatment; screen for social needs and find community resources; navigate newcomer health and coverage; code notes with the Omaha System and the Intervention Wheel; use documentation templates.', '8'],
+                // End of Phase 9 work-area rows.
+                // Phase 10 work-area rows go below this line.
+                ['Healthy aging and mental health screening (chapter 14)', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
+                // End of Phase 10 work-area rows.
+                // Phase 11 work-area rows go below this line.
+                ['Substance use, crisis resources, and health communication (chapter 15)', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
+                // End of Phase 11 work-area rows.
+                // Phase 12 work-area rows go below this line.
+                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
+                // End of Phase 12 work-area rows.
               ],
             },
           },
@@ -275,7 +299,7 @@ const frontChapters = [
 ];
 
 // ---------------------------------------------------------------------------------------
-// Tool chapters: chapters 4–10. One entry per implemented tool.
+// Tool chapters: chapters 4–16. One entry per implemented tool.
 // ---------------------------------------------------------------------------------------
 
 const toolChapters = [
@@ -1701,6 +1725,1402 @@ const toolChapters = [
       },
     ],
   },
+  // Phase 7 chapter goes below this line.
+  {
+    title: 'School health',
+    intro: 'These eight tools support school nurses and child care health consultants: what screenings Massachusetts requires and who is due, medication administration rules, health plans, concussion management, illness absenteeism, the year-end report, and child care licensing checks. They are in the school group, which the school_nurse profile includes. All of their reference content was drafted from the regulations and DPH guidance in November 2026 and is waiting for your review. Tools that write letters or plans for families use English templates; your agency can add its own approved translations in a templates folder (the notes for each tool say how).',
+    tools: [
+      {
+        id: 'get_ma_school_screening_requirements',
+        title: 'Look up school screening requirements',
+        toolset: 'school',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists the health screenings Massachusetts requires in schools (vision, hearing, height and weight for BMI, postural, SBIRT substance use screening, the kindergarten vision certificate, and physical examinations) by grade, with DPH protocols, referral rules, parent notification, exemptions, reporting to DPH, and confidentiality rules, each cited to 105 CMR 200.000, M.G.L. c. 71, or a DPH protocol.',
+        when: [
+          'Planning the screening calendar for the year.',
+          'A parent or principal asks which screenings a grade gets.',
+          'Checking the vision critical line or which charts DPH allows.',
+          'Answering questions about BMI confidentiality or SBIRT opt-out.',
+        ],
+        provide: [
+          'Optionally a grade (PK, K, 1–12, or ungraded with an age) and a screening name.',
+          'Whether the student is new to the district (school-entry rules).',
+        ],
+        examples: [
+          'Which screenings are required in grade 7?',
+          'What are the vision screening rules for kindergarten, and what is the critical line?',
+          'Show me the screening schedule for every grade.',
+          'What does the law say about SBIRT confidentiality?',
+        ],
+        returns: [
+          'For each screening: whether it is required in the grade and why, the schedule by grade band, who may screen, the protocol, referral and follow-up, parent notification, exemptions, reporting to DPH, and confidentiality, each with its citation.',
+          'Without a grade: a table of screenings by grade.',
+        ],
+        notes: [
+          'DPH’s current hearing protocol could not be retrieved, so hearing details come from DPH’s 2007 manual and are marked medium or low confidence.',
+          'These are state minimums; your school committee or board of health may require more.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'track_school_screenings',
+        title: 'Track screenings and send referral letters',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your roster with results)',
+        does: 'Reads your roster with screening results, works out which students are due for each required screening this school year, and computes completion, referral, and referral follow-up rates by grade, plus BMI categories for DPH’s BMI report. It writes an action list to your output folder and, if you ask, mail-merges referral letters in each family’s language.',
+        when: [
+          'Mid-year: who still needs vision or hearing screening?',
+          'Following up on referrals that have not come back.',
+          'Preparing BMI numbers for DPH.',
+          'Sending referral letters to families in their language.',
+        ],
+        provide: [
+          'A CSV or Excel file with a Grade column and, for each screening, a date, a result (pass, refer, absent, refused, exempt), and a follow-up column, for example Vision Date, Vision Result, Vision Referral Completed.',
+          'For BMI: Height and Weight (or BMI Percentile or Category), with Date of Birth and Sex so the percentile can be computed.',
+          'For letters: Student Name (or First and Last Name), Home Language, Parent Name, and your name and phone number.',
+        ],
+        examples: [
+          'Check screenings.xlsx as of today and tell me completion rates by grade.',
+          'Write referral letters for students whose vision referrals are still open.',
+          'How many grade 4 students still need BMI measurements?',
+        ],
+        returns: [
+          'Counts and rates by grade and screening (required, screened, referred, follow-up done, due, exempt), with small counts suppressed.',
+          'An action list and per-student results in school_screenings_<date>.xlsx, and letters grouped by language in a letters folder, all in your output folder.',
+          'How many letters used your agency’s translation and how many fell back to English.',
+        ],
+        notes: [
+          'Student names never reach the AI; they are only in the files written to your output folder.',
+          'Do not keep SBIRT results with names: the law forbids it, and the tool ignores such columns.',
+          'Add your agency’s translations as templates/<language>/vision_referral.md (also hearing_referral and postural_referral); the English template is written next to the letters.',
+        ],
+      },
+      {
+        id: 'school_medication_administration_guide',
+        title: 'Medication administration in schools',
+        toolset: 'school',
+        internet: 'no',
+        files: 'no',
+        does: 'Answers questions about giving medications in Massachusetts schools from 105 CMR 210.000 as amended in December 2025 and M.G.L. c. 71, section 54B, with each point cited by section: orders and parent consent, delegation to unlicensed staff, field trips, self-carry, storage, documentation, medication errors, epinephrine, naloxone, glucagon and other rescue medications, and DPH registration.',
+        when: [
+          'A principal asks whether a teacher can give medication on a field trip.',
+          'Setting up delegation or training for unlicensed staff.',
+          'A medication error happened and you need the reporting steps.',
+          'Reviewing your district’s medication policy.',
+        ],
+        provide: [
+          'A question in plain language, or a topic name. Ask with nothing to see the list of topics.',
+        ],
+        examples: [
+          'Can a trained secretary give an EpiPen on a field trip?',
+          'How long can we keep a student’s medication at school, and at what refrigerator temperature?',
+          'Who can carry naloxone at school?',
+          'What must a medication order contain?',
+        ],
+        returns: [
+          'The matching topics with a short summary and cited points from the regulation and statute.',
+        ],
+        notes: [
+          'Your school committee’s policy and nursing regulations also apply. Child care programs follow EEC’s rules instead (see the child care health consultation checklist in this chapter).',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'build_individualized_health_plan',
+        title: 'Build an individualized health plan',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only when filling plans from your student file',
+        does: 'Drafts an individualized health plan and an emergency action plan for a student with diabetes, asthma, seizures, or a food allergy, from cited CDC and DPH guidance: how to recognize an emergency, what to do, when to call 911, the nursing assessment, goals, interventions, what the medication plan must contain under 105 CMR 210.000, and suggested Section 504 accommodations. If you point it at a file with your students’ details, it fills one plan per student in your output folder.',
+        when: [
+          'A new student with a chronic condition is enrolling.',
+          'Annual plan renewal before school starts.',
+          'Preparing for a 504 meeting.',
+        ],
+        provide: [
+          'The condition.',
+          'To fill plans: a CSV or Excel file with one row per student (Student Name, Date of Birth, Grade, Parent Name and Phone, Provider, Emergency Medication, Home Language, and condition details such as Allergens or Target Range).',
+        ],
+        examples: [
+          'Give me an IHP template for a student with type 1 diabetes.',
+          'Fill food allergy plans for the students in ihp_students.xlsx.',
+          'What 504 accommodations are suggested for a student with asthma?',
+        ],
+        returns: [
+          'The plan sections with citations and the list of fields to fill.',
+          'When filling: one document per student (plan plus emergency action plan) in your output folder, with counts of blank fields; nothing about the students comes back to the chat.',
+        ],
+        notes: [
+          'Never type a student’s details into the chat; put them in a file and point the tool at it.',
+          'The provider’s orders govern treatment, you set the nursing goals, and the 504 team decides accommodations.',
+          'Add your agency’s translated emergency action plans as templates/<language>/<condition>_emergency_plan.md.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'concussion_return_to_learn_tracker',
+        title: 'Concussion: return to learn and return to play',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only when checking your head injury log',
+        does: 'Applies 105 CMR 201.000 and DPH and CDC guidance to a student’s head injury: removal from play, notification deadlines, forms, the graduated reentry plan, return-to-learn stages, accommodations for the student’s symptoms, a symptom-check schedule, and the gradual return to play. It flags problems such as clearance before the student is back in class full time. With your head injury log it checks every record, writes reentry plans and caregiver letters, and gives the counts DPH asks for each year.',
+        when: [
+          'A student was removed from a game with a suspected concussion.',
+          'Writing a graduated reentry plan.',
+          'Checking whether a clearance form can be accepted.',
+          'Preparing the year-end head injury report.',
+        ],
+        provide: [
+          'Dates only (no name): injury, diagnosis, return to school, symptom free, full-time classes, clearance, and the return-to-play stage completed; current symptoms if you want accommodations.',
+          'For the log: a CSV or Excel file with one row per injury (Injury Date, Extracurricular, Written Notice, AD Nurse Notified, Head Injury Form, Diagnosed Concussion, Reentry Plan, Full Academics, Clearance Date, Cleared By, Full Return).',
+        ],
+        examples: [
+          'A soccer player was hit on Friday, October 2, and diagnosed the next day. What is due and when?',
+          'She has headaches and light sensitivity. What accommodations should teachers use?',
+          'Check concussion_log.xlsx and write reentry plans for the diagnosed students.',
+        ],
+        returns: [
+          'A dated timeline with each requirement’s status, the stages, accommodations, forms with links and translations, danger signs, and flags.',
+          'Log mode: counts of records missing each requirement and the 105 CMR 201.017 statistics, with details, plans, and letters in your output folder.',
+        ],
+        notes: [
+          'DPH’s 2018 guidance and CDC’s 2025 advice differ on how many days a student should stay home; the tool shows both.',
+          'Business-day deadlines skip weekends but not holidays.',
+          'Return to play is a medical decision; the tool tracks steps and never clears a student.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'monitor_school_absenteeism',
+        title: 'Monitor illness absenteeism',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your absence records)',
+        does: 'Looks for unusual increases in influenza-like or stomach-illness absences by school, and optionally by grade, classroom, or team, using CDC’s EARS methods, and tells you when and how to notify your local board of health.',
+        when: [
+          'Daily or weekly surveillance during flu and norovirus season.',
+          'Several students went home vomiting today: is this unusual?',
+          'Checking whether one team or classroom has a cluster.',
+        ],
+        provide: [
+          'A file of absences: one row per absent student per day (Date, School, Reason), or daily counts by school (Date, School, Count, Reason or columns such as ILI and GI, and Enrollment).',
+          'Optionally a grade, classroom, or team column to check within groups.',
+        ],
+        examples: [
+          'Check absences.xlsx for unusual illness absences in the last week.',
+          'Is there a stomach bug cluster at the middle school? Look by grade.',
+        ],
+        returns: [
+          'Signals by school, syndrome, and day, recent counts (small counts shown as “<5”), how reasons were sorted, and the reporting rules: 105 CMR 300.134, DPH’s online cluster form for stomach illness, and child care parent notification.',
+          'Exact daily counts in an Excel file in your output folder.',
+        ],
+        notes: [
+          'A signal is a prompt to look closer and call the board of health, not a decision that there is an outbreak. DPH sets no numeric threshold.',
+          'Names and IDs in your file are never read.',
+          'Needs at least 8 school days of data.',
+        ],
+      },
+      {
+        id: 'build_school_health_annual_report',
+        title: 'Build the school health annual report',
+        toolset: 'school',
+        internet: 'no',
+        files: 'yes (your visit log, medication log, or screening roster)',
+        does: 'Compiles the school year’s statistics from your health office visit log, medication log, and screening roster: visits by type, the returned-to-class and dismissal rates, 911 calls, head injuries, medication doses, screenings and referrals, and BMI counts by grade, sex, and category. It writes a workbook laid out by DPH’s published reporting categories and a summary for the school committee, and lists the DPH reports you may owe.',
+        when: [
+          'End of the school year, before DPH’s reports are due.',
+          'Preparing a presentation for the school committee.',
+        ],
+        provide: [
+          'A visit log (Date, Reason, Disposition; optional Grade, Type, 911 Type, Head Injury, Student ID), and optionally a medication log and the screening roster.',
+          'The school year and enrollment.',
+        ],
+        examples: [
+          'Build the 2025–2026 annual report from visits.xlsx and screenings.xlsx; enrollment is 420.',
+          'What was our returned-to-class rate this year?',
+        ],
+        returns: [
+          'Monthly and yearly counts and rates with small counts suppressed, BMI data-quality checks, and the list of DPH reports with due dates.',
+          'A workbook and a school committee summary in your output folder.',
+        ],
+        notes: [
+          'DPH does not publish its current year-end Status Report form, so match the workbook to DPH’s form before submitting.',
+          'Reasons and dispositions are sorted by keywords; check the workbook.',
+          'Pending review.',
+        ],
+      },
+      {
+        id: 'child_care_health_consultation_checklist',
+        title: 'Child care health consultation checklist',
+        toolset: 'school',
+        internet: 'no',
+        files: 'only if you ask for a worksheet',
+        does: 'Gives a checklist of the health-related EEC licensing requirements (606 CMR 7.00) for family, small group, or large group child care: the health care policy, the consultant’s approvals, medication administration and consent, individual health care plans, immunization and health records, illness exclusion and notification, infection control, first aid and emergencies, safe sleep, food allergies, and educator health, each cited with the evidence to look for.',
+        when: [
+          'Preparing for or documenting a health consultant visit.',
+          'Reviewing a program’s health care policy for licensing renewal.',
+        ],
+        provide: [
+          'The program type and, optionally, the areas to cover.',
+          'Your findings (met, partly met, not met) if you want a gap list.',
+        ],
+        examples: [
+          'Give me the medication administration checklist for a large group program.',
+          'Record these findings and list the gaps: medication training not met, safe sleep met.',
+          'Write a visit worksheet for a family child care program.',
+        ],
+        returns: [
+          'The checklist items with citations and evidence to look for, counts by area, a gap list, and optionally a worksheet in your output folder.',
+        ],
+        notes: [
+          'Based on 606 CMR 7.00 as published in December 2021; check EEC’s site for amendments.',
+          'Do not record children’s names in findings.',
+          'Pending review.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 7 chapter.
+  // Phase 8 chapter goes below this line.
+  {
+    title: 'Maternal, child, and family health',
+    intro: 'These tools support home visiting, early childhood, and lead poisoning prevention work: growth charts, lead screening and case management, mandated reporting, developmental milestones, newborn and postpartum visits, benefit eligibility screening, lead risk maps, and maternal and infant health data. They are in the mch group (benefit eligibility is in the equity group). Clinical and legal content is a draft until you review it.',
+    tools: [
+      {
+        id: 'calculate_growth_percentiles',
+        title: 'Calculate growth percentiles',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when scoring a file of many children',
+        does: 'Calculates percentiles and z-scores for weight, length or height, BMI, and head circumference using the WHO standards from birth to 24 months and the CDC charts from 2 to 20 years, including CDC’s 2022 extended BMI-for-age method for children above the 95th percentile, the BMI category, and corrected age for babies born early. It compares visits and flags values to re-measure.',
+        when: [
+          'A home visit or clinic weight check for an infant or child.',
+          'Following a baby’s weight gain over several visits.',
+          'Scoring a file of measurements from a screening event or a WIC or school list.',
+        ],
+        provide: [
+          'The child’s sex and, for each visit, the age (days, months, or years, or the measurement date with the birth date) and the measurements in kilograms or pounds and centimeters or inches.',
+          'Optionally: gestational age at birth (for corrected age), or the name of a CSV or Excel file in your data folder for many children.',
+        ],
+        examples: [
+          'A 9-month-old boy weighs 9.7 kg and is 72 cm long. What are his percentiles?',
+          'Plot this baby girl’s weights: 2 weeks 3.4 kg, 1 month 4.0 kg, 2 months 4.9 kg. She was born at 34 weeks.',
+          'A 10-year-old girl is 55 inches tall and weighs 110 pounds. What is her BMI percentile and category?',
+          'Score the measurements in growth_screening.xlsx and give me the weight-status counts.',
+        ],
+        returns: [
+          'For each visit: each measurement’s percentile, z-score, the chart used (WHO or CDC), the median, flags (for example below the 2.3rd percentile on the WHO chart, or the BMI category), and the change since the last visit.',
+          'For a file: a spreadsheet in your output folder with each row’s results, and only counts by age group and weight status in the chat.',
+        ],
+        notes: [
+          'Percentiles are screening information, not a diagnosis. Look at the pattern over time and refer to the child’s health care provider for concerns.',
+          'The WHO charts flag growth at ±2 SD (the 2.3rd and 97.7th percentiles); the CDC charts traditionally use the 5th and 95th.',
+          'Corrected age is used until 24 months for babies born before 37 weeks. This rule is a draft: confirm your agency’s practice.',
+          'Birth and measurement dates are used only to calculate age; they are not shown in the answer.',
+        ],
+      },
+      {
+        id: 'childhood_lead_screening_guide',
+        title: 'Childhood lead screening guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for a teaching sheet',
+        does: 'Explains the Massachusetts lead screening schedule (105 CMR 460.000), whether a town is on DPH’s high-risk community list, when to confirm a fingerstick result with a venous test, what to do at each blood lead level (follow-up testing, medical, environmental, and case management steps from DPH’s Childhood Lead Poisoning Prevention Program), reporting rules, the Lead Law, and what to teach families. It can write a family teaching sheet.',
+        when: [
+          'A home visit to a family with a young child in older housing.',
+          'A child has a capillary (fingerstick) result and you need to know how soon to confirm it.',
+          'Case management for a child with an elevated or poisoned blood lead level.',
+          'Checking whether a 4-year-old in your town still needs a lead test.',
+        ],
+        provide: [
+          'Any of: the child’s age in months, the town, a blood lead level with “capillary” or “venous”, and risk factors (a lead-poisoned sibling, renovation, or peeling paint in a pre-1978 home).',
+          'Optionally: ask for a teaching sheet and the family’s language.',
+        ],
+        examples: [
+          'An 18-month-old in Lowell had a fingerstick lead level of 7. What happens next?',
+          'What are the follow-up steps for a venous blood lead level of 16 in a 2-year-old?',
+          'Is Fitchburg a high-risk community for lead, and what is its screening rate?',
+          'Write a lead teaching sheet for a Spanish-speaking family.',
+        ],
+        returns: [
+          'The screenings the child needs and whether each is due, the town’s high-risk status and screening figures, the confirmation timing and actions for the result, reporting duties, Lead Law points, family teaching points, and contacts.',
+          'If you asked for one, a teaching sheet in your output folder.',
+        ],
+        notes: [
+          'The high-risk list changes every year; this version uses DPH’s 2024 list (17 communities).',
+          'DPH’s follow-up table mixes Massachusetts rules (lead poisoning at 10 µg/dL, level of concern 5 to 9) with CDC’s 3.5 µg/dL reference value. Follow the child’s provider and CLPPP.',
+          'The server ships an English teaching sheet. To give families your agency’s translation, save it as templates/<language>/lead_family_teaching.docx in your data folder; otherwise the English sheet is used and the answer says so.',
+        ],
+      },
+      {
+        id: 'mandated_reporter_51a_guide',
+        title: 'Mandated reporter (51A) guide',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only when drafting the written report from your notes',
+        does: 'Explains Massachusetts child abuse and neglect reporting under M.G.L. c. 119, §51A: who must report, the immediate call to DCF and the written report within 48 hours, what to include, protections and penalties, DCF’s definitions, domestic violence and substance-exposure questions, and what DCF does next. It gives you the written-report template and can fill a draft from notes you keep in your data folder, without sending those notes to the AI.',
+        when: [
+          'You are worried about a child after a home visit and want to know your duty and the steps.',
+          'You called DCF and need to file the written report within 48 hours.',
+          'Training new staff on mandated reporting.',
+        ],
+        provide: [
+          'Optionally: the kind of concern (for example neglect or domestic violence; no names), whether you work for an agency with a person in charge, and the time you called DCF.',
+          'To draft the written report: the name of a notes file in your data folder (a text file with “Field name: value” lines, or a spreadsheet with one row per report).',
+        ],
+        examples: [
+          'Am I required to report this, and how? I saw unexplained bruises on a toddler during a home visit.',
+          'I called DCF at 3:20 pm today. When is my written 51A report due, and what goes in it?',
+          'Give me the 51A written report template.',
+          'Draft the written report from 51a_notes.txt in my data folder.',
+        ],
+        returns: [
+          'The steps, the deadline for the written report, guidance on each topic with citations, notes for the kind of concern, and the template’s sections and field names.',
+          'When drafting: a Word draft in your output folder for each report, with only the file name and how many fields were filled shown in the chat.',
+        ],
+        notes: [
+          'Never type the family’s names or details into the chat; keep them in a notes file in your data folder.',
+          'Unknown entries are marked “?” in the draft, as DCF’s form asks. Review the draft, then submit it through DCF’s online form or DCF’s reporting form.',
+          'The statute says prenatal substance exposure alone does not require a report, but DCF’s guide still lists newborn drug dependence; check current DCF practice.',
+          'This is guidance, not legal advice. When unsure, call DCF.',
+        ],
+      },
+      {
+        id: 'check_developmental_milestones',
+        title: 'Check developmental milestones',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists CDC’s “Learn the Signs. Act Early.” milestones for a child’s age (2 months to 5 years), lets you mark the ones the child does not yet do, and, if any are missed or skills were lost, gives the act-early steps: talk with the doctor, developmental screening, and a Massachusetts Early Intervention referral (or preschool special education from age 3), with the EI programs that serve the family’s town.',
+        when: [
+          'A home visit or well-child check where you go over development with the family.',
+          'A parent is worried about speech, movement, or behavior.',
+          'You need the Early Intervention program for a family’s town.',
+        ],
+        provide: [
+          'The child’s age in months. Optionally: weeks of gestation if born early, the IDs of milestones not yet seen (from the checklist the tool gives you), lost skills or other concerns, and the town.',
+        ],
+        examples: [
+          'Show the milestones for a 15-month-old.',
+          'This 18-month-old does not say three or more words (18m-language-1). What next? The family lives in Brockton.',
+          'A 6-month-old born at 30 weeks: which milestones should we look for?',
+        ],
+        returns: [
+          'The checklist with an ID for each milestone, whether to act early and how, screening that is due, Early Intervention eligibility and referral, the EI programs for the town with phone numbers, and questions to share with the doctor.',
+        ],
+        notes: [
+          'Milestones are what most children (75% or more) do by an age. The checklists do not replace standardized developmental screening.',
+          'For babies born early, the tool also shows the corrected-age checklist; decide with the child’s provider which to use.',
+          'Anyone can refer a child to Early Intervention, at no cost to families.',
+        ],
+      },
+      {
+        id: 'plan_newborn_postpartum_visit',
+        title: 'Plan a newborn and postpartum visit',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'only if you ask for documents',
+        does: 'Builds a home visit plan for a newborn and the birthing parent: what to check and what to teach about feeding and weight, jaundice, safe sleep, car seats, Massachusetts newborn blood spot and hearing screening, and CDC’s urgent maternal warning signs. It can save a visit plan and a family teaching sheet as Word documents.',
+        when: [
+          'Preparing for a postpartum or newborn home visit.',
+          'You need a teaching sheet to leave with the family.',
+          'Checking that newborn screening follow-up is complete.',
+        ],
+        provide: [
+          'The baby’s age in days. Optionally: how the baby is fed, birth weight and today’s weight, whether the baby went home within 24 hours, the hearing screen result, and whether you want documents (and the family’s language).',
+        ],
+        examples: [
+          'Plan a home visit for a 5-day-old breastfed baby; birth weight 7 lb 8 oz, today 6 lb 15 oz.',
+          'The baby did not pass the hearing screen and went home at 20 hours. What should I follow up on?',
+          'Make a visit plan and a teaching sheet for a family that speaks Portuguese.',
+        ],
+        returns: [
+          'Follow-up items from what you entered, a checklist and teaching points for each topic with citations, the urgent maternal warning signs, and the documents written to your output folder.',
+        ],
+        notes: [
+          'The weight change is reported, not judged: share it with the baby’s provider.',
+          'The jaundice points are general (low confidence) because the full AAP guideline could not be retrieved; follow the baby’s discharge plan.',
+          'Documents contain no information about the family. Translations come from your agency’s own files (templates/<language>/newborn_postpartum_teaching.docx); otherwise the English sheet is used.',
+        ],
+      },
+      {
+        id: 'estimate_benefit_eligibility',
+        title: 'Screen for benefit eligibility',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'no',
+        does: 'Compares a household’s size and income with the current income limits for WIC, SNAP, MassHealth, the Health Safety Net, and home heating assistance, and shows the percent of the federal poverty guideline. It is a screen to help you encourage families to apply, not an eligibility decision.',
+        when: [
+          'A home visit where the family is struggling with food, health coverage, or heating costs.',
+          'Deciding which applications to help a family start.',
+        ],
+        provide: [
+          'The number of people in the household and the gross income (yearly or monthly). Optionally: pregnancy, a baby or young children, children under 19, a young adult 19 or 20, whether the family already gets SNAP, MassHealth, or TAFDC, and whether they pay for heat.',
+        ],
+        examples: [
+          'A family of 3 with a newborn earns $3,500 a month. Which programs might they qualify for?',
+          'A pregnant woman living alone earns $40,000 a year. Is she under the MassHealth limit?',
+        ],
+        returns: [
+          'The percent of the poverty guideline and, for each program, the income limit for the household, whether the income is under it, the tier (for example the Health Safety Net with a deductible), SNAP’s maximum benefit, notes, how to apply, and the date the limits took effect.',
+        ],
+        notes: [
+          'Only income is checked. Programs also look at immigration status, residency, assets, and who counts in the household, so encourage families to apply.',
+          'Limits change every year (poverty guidelines in January, MassHealth in March, WIC in June or July, SNAP and heating assistance in October); the answer shows each date.',
+          'This tool is in the equity group.',
+        ],
+      },
+      {
+        id: 'map_lead_risk',
+        title: 'Map lead risk for outreach',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'yes, a map in output/maps',
+        does: 'Ranks cities and towns, or census tracts, for childhood lead outreach using old housing, low income, young children, DPH’s lead screening rates and blood lead levels, and DPH’s high-risk community list, and draws a map.',
+        when: [
+          'Planning lead outreach, screening events, or deleading promotion.',
+          'A grant application or board of health presentation on lead.',
+          'Finding the neighborhoods in your town with the oldest housing.',
+        ],
+        provide: [
+          'Optionally: towns or tracts, a county or list of towns, which measures to use, and how many areas to list.',
+        ],
+        examples: [
+          'Which towns in Bristol County should we prioritize for lead outreach?',
+          'Rank the census tracts in Lowell by pre-1950 housing and low income, and make a map.',
+          'Show the 30 Massachusetts towns with the lowest lead screening rates and old housing.',
+        ],
+        returns: [
+          'A ranked table with each measure, the outreach index, DPH’s high-risk status and score, statewide values for comparison, high-risk communities that did not make the list, and the map files.',
+        ],
+        notes: [
+          'The outreach index is the server’s planning ranking (the average of each measure’s percentile rank), not a DPH method.',
+          'Housing age comes from the Census Bureau’s survey, which groups homes as built before 1980, not 1978. Tract estimates are less precise.',
+          'Screening figures are from DPH’s 2024 report (2023 for 24 communities whose page was missing from it).',
+        ],
+      },
+      {
+        id: 'maternal_infant_health_profile',
+        title: 'Maternal and infant health profile',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'no',
+        does: 'Reports births, low birthweight, preterm birth, teen births, prenatal care, infant mortality, and PRAMS survey results (postpartum depression, breastfeeding, safe sleep, unintended pregnancy) for Massachusetts, a town, or a county, by race and Hispanic ethnicity where DPH publishes it, compared with the state and the U.S.',
+        when: [
+          'A community health assessment or MCH needs assessment.',
+          'Grant applications and presentations on maternal and infant health equity.',
+          'Checking how your town compares with the state on low birthweight or preterm birth.',
+        ],
+        provide: [
+          'Optionally: a town or county, and whether to include race and ethnicity and trends.',
+        ],
+        examples: [
+          'Give me a maternal and infant health profile for Springfield.',
+          'How does infant mortality in Massachusetts differ by race and ethnicity?',
+          'What do PRAMS data show about safe sleep and postpartum depression in Massachusetts?',
+        ],
+        returns: [
+          'For a town or county: births, low birthweight and preterm percentages with 95% confidence intervals and whether they differ from the state, and teen births. Statewide tables by race and ethnicity with ratios to White non-Hispanic, PRAMS results, trends, and U.S. comparisons.',
+        ],
+        notes: [
+          'Town figures come from DPH’s 2023 birth report; small counts are suppressed and percentages from fewer than 20 births are unstable.',
+          'Infant mortality and PRAMS are statewide only (DPH does not publish them by town).',
+          'U.S. figures are provisional CDC estimates for slightly different years.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 8 chapter.
+  // Phase 9 chapter goes below this line.
+  {
+    title: 'Public health nursing practice and case management',
+    intro: 'These tools support everyday case management and documentation: TB contact investigations and latent TB treatment, social needs screening and referral, community resources, newcomer health, Omaha System coding, the Public Health Intervention Wheel, and documentation templates. The TB tools are in the cd group; social needs, resources, and newcomer health are in the equity group; the Omaha System, Intervention Wheel, and documentation tools are in the core group, which is always on. Notes and client lists are read in your data folder and never sent back to the assistant; only codes, counts, and blank templates come back. All of the reference content is a draft awaiting your review.',
+    tools: [
+      {
+        id: 'plan_tb_contact_investigation',
+        title: 'Plan a TB contact investigation',
+        toolset: 'cd',
+        internet: 'no',
+        files: 'optional',
+        does: 'Applies the 2005 NTCA/CDC contact investigation guidelines to an index case: whether to investigate, the infectious period and the window to ask about, contact priority (high, medium, low) from the published decision trees, deadlines for the first encounter and the medical evaluation in business days, and the testing schedule with the retest 8–10 weeks after last exposure. It lists the DPH TB program numbers, reporting rules, and state TB clinics, and writes a tracking workbook with formulas.',
+        when: [
+          'A new case of pulmonary TB has been reported in your town.',
+          'Deciding which contacts to test first and when to retest.',
+          'Checking whether test results call for expanding the investigation.',
+        ],
+        provide: [
+          'The case’s clinical facts: symptoms, smear and chest X-ray results, and dates (symptom onset, first positive finding, treatment start).',
+          'Contact groups as counts and risk facts (setting, age band, HIV or immunosuppression), never names. Or a contact list in your data folder.',
+        ],
+        examples: [
+          'Plan a TB contact investigation for a smear-positive cavitary case with cough since June 10: 4 household adults, 6 children under 5 at a child care center, and 20 coworkers.',
+          'Use tb_contacts.csv to assign contact priorities and tell me whether we should expand.',
+        ],
+        returns: [
+          'The infectious period with the rule used, each group’s priority and why, first-encounter deadlines, retest windows, actions for young children and immunocompromised contacts, DPH contacts and clinics, and the workbook in output/.',
+          'With a contact list: counts by priority, tested and positive counts, and expansion signals only.',
+        ],
+        notes: [
+          'Duration limits for “high” and “medium” exposure are set by your program; there is no national cut-off.',
+          'Business days skip weekends but not holidays.',
+        ],
+      },
+      {
+        id: 'ltbi_treatment_calendar',
+        title: 'Latent TB treatment calendar',
+        toolset: 'cd',
+        internet: 'no',
+        files: 'optional',
+        does: 'Builds a dose calendar and adherence tracker for a latent TB infection regimen (3HP, 4R, 3HR, 6H, 9H, or twice-weekly isoniazid): every dose date, monitoring visits, and the completion window, such as 11 of 12 weekly 3HP doses within 16 weeks. Given the dates doses were taken, it counts valid doses, flags gaps of more than 2 months, and says whether completion still fits the window. It never calculates doses.',
+        when: [
+          'Starting a client on latent TB treatment.',
+          'Checking whether a client who missed doses can still finish in time.',
+          'Preparing a calendar for a client or a DOT schedule.',
+        ],
+        provide: [
+          'The regimen and the first dose date; optionally DOT or self-administered, dose dates taken, and the client’s language.',
+        ],
+        examples: [
+          'Make a 4R calendar starting January 15 in Portuguese.',
+          'My client on 3HP took doses January 5, 12, and 19 and nothing since. It is March 30. Can she still complete?',
+        ],
+        returns: [
+          'The schedule, visits, completion deadline, CDC and DPH positions, an adherence status, an XLSX tracker, and a DOCX patient calendar in output/.',
+        ],
+        notes: [
+          'Patient instructions come from your agency’s translation in templates/<language>/ltbi_calendar.md when you provide one; otherwise English with a reminder to use an interpreter.',
+          'DPH’s page lists 3HP, 4R, and 9H; CDC also lists 3HR and 6H.',
+        ],
+      },
+      {
+        id: 'screen_health_related_social_needs',
+        title: 'Screen health-related social needs',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'optional',
+        does: 'Scores the CMS Accountable Health Communities social needs screening tool by domain (housing, food, transportation, utilities, safety, and the supplemental domains) and maps each positive domain to Massachusetts referral options such as Emergency Assistance shelter, Mass 211, SNAP, WIC, fuel assistance, and MassHealth ACO social needs services. It can also summarize a file of many screenings.',
+        when: [
+          'After a client completes the screening at a home visit or clinic.',
+          'Summarizing screenings for a program report.',
+        ],
+        provide: [
+          'The answers by question number or item name (no names), and the client’s age for the physical activity question; or a file of screenings in your data folder.',
+        ],
+        examples: [
+          'Score this AHC screen: Q1 not steady, Q3 often true, Q6 already shut off, safety items 1, 2, 1, 1.',
+          'Summarize hrsn_screenings.csv by site.',
+        ],
+        returns: [
+          'Each domain as positive, negative, incomplete, or not screened with the reason, and referral options for positive domains; for a file, counts by domain with small numbers suppressed and per-person results in output/.',
+        ],
+        notes: [
+          'A positive domain means the person might have an unmet need; talk with them before referring.',
+          'Exact question wording is shown only for public-domain items; use the CMS form for the rest.',
+        ],
+      },
+      {
+        id: 'omaha_system_coder',
+        title: 'Code a note with the Omaha System',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Reads a visit narrative or care plan and suggests Omaha System problems (with domain, modifiers, and signs and symptoms), interventions as category and target, and the Knowledge-Behavior-Status rating scale. It can label your ratings and show change from baseline, look up a problem or target, and write a blank care plan. The note is never sent back.',
+        when: [
+          'Documenting a home visit in Omaha System terms.',
+          'Teaching or checking Omaha System coding.',
+        ],
+        provide: [
+          'The note (as text, or better, a file in your data folder), a term to look up, or ratings to label.',
+        ],
+        examples: [
+          'Code my visit note visit_2026-11-05.docx with the Omaha System and draft a care plan.',
+          'Knowledge 3, Behavior 2, Status 2 for Medication regimen; admission was 2, 2, 1.',
+        ],
+        returns: [
+          'Problem codes and names with the matched terms, suggested interventions, the rating scale, and the care plan file in output/.',
+        ],
+        notes: [
+          'Suggestions come from keywords; confirm every problem and intervention.',
+          'Signs and symptoms marked unverified are drafts awaiting your check against the 2005 Omaha System book.',
+        ],
+      },
+      {
+        id: 'classify_intervention_wheel',
+        title: 'Classify activities by the Intervention Wheel',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Classifies public health nursing activities by the 17 interventions, 5 wedges, and 3 levels of practice of the Minnesota Public Health Intervention Wheel, for reports and workload analysis. It can classify an activity log in your data folder and total the hours by intervention.',
+        when: [
+          'Annual reports and workload analysis.',
+          'Teaching students or new staff about population-based practice.',
+        ],
+        provide: [
+          'Short activity descriptions, or an activity log with a description column (and optionally hours and a program column).',
+        ],
+        examples: [
+          'Classify: drafted a tobacco regulation; flu clinic at the senior center; TB contact tracing.',
+          'Classify activity_log.xlsx by intervention and level, with hours by program.',
+        ],
+        returns: [
+          'The intervention, wedge, and level for each activity (by number), or counts and hours by intervention and level, with each activity’s result in output/.',
+        ],
+        notes: [
+          'Four definitions and the level definitions could not be checked against MDH’s own page and are marked low confidence.',
+        ],
+      },
+      {
+        id: 'nursing_documentation_template',
+        title: 'Nursing documentation template',
+        toolset: 'core',
+        internet: 'no',
+        files: 'optional',
+        does: 'Gives SOAP, DAR (focus charting), or narrative templates for home visits, clinic visits, communicable disease case investigations, and DOT visits, with the required elements to include (date and time, signature with credentials, consent, language and interpreter, teaching with teach-back, response, follow-up, and visit-specific items). It can check a note in your data folder for those elements without sending the note back.',
+        when: [
+          'Setting up or reviewing documentation for a program.',
+          'Checking your own note before signing it.',
+        ],
+        provide: [
+          'The format and visit type; optionally a note file to check, and elements your agency documents elsewhere.',
+        ],
+        examples: [
+          'Give me a DAR template for a DOT visit.',
+          'Check my note home_visit_note.docx for required elements.',
+        ],
+        returns: [
+          'The template as Markdown (and DOCX in output/ if asked), and for a note, which elements were found and in which section.',
+        ],
+        notes: [
+          'The structures are common defaults; follow your agency’s documentation policy where it differs.',
+          '244 CMR 9.03 applies to every nurse licensed in Massachusetts; 42 CFR 484 is cited only as a reference standard.',
+        ],
+      },
+      {
+        id: 'find_community_resources',
+        title: 'Find community resources',
+        toolset: 'equity',
+        internet: 'optional',
+        files: 'optional',
+        does: 'Searches your agency’s own resource directory (a spreadsheet in your data folder) by town, service, language, and opening hours, together with HRSA-funded community health center sites, same town first, then the rest of the county. Entries not verified in the past year are flagged.',
+        when: [
+          'Finding a referral during or after a visit.',
+          'Keeping your resource list in one place for the whole team.',
+        ],
+        provide: [
+          'The town (or your configured town), the service, and optionally a language and a day and time.',
+          'Your directory at resources/community_resources.csv with columns name, services, town, address, phone, website, languages, hours, eligibility, cost, last_verified.',
+        ],
+        examples: [
+          'Find a food pantry near Amherst with Spanish-speaking staff open Saturday morning.',
+          'Which community health centers in Worcester offer dental care?',
+        ],
+        returns: [
+          'Matching resources with services, town, phone, languages, hours, and source, plus the directory format if yours needs fixing.',
+        ],
+        notes: [
+          'HRSA lists health center sites, not their services, languages, or daily hours; call to confirm.',
+          'A file that looks like a client list is refused.',
+        ],
+      },
+      {
+        id: 'newcomer_health_navigator',
+        title: 'Newcomer health navigator',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'optional',
+        does: 'Brings together refugee and immigrant health information for Massachusetts: the CDC domestic medical screening components with age rules and the 90-day window, DPH and Office for Refugees and Immigrants programs, MassHealth coverage by immigration status (including the October 1, 2026 federal changes), and Emergency Assistance family shelter and basic-needs resources.',
+        when: [
+          'A newly arrived family is referred to your program or living in a shelter in your town.',
+          'Questions about what coverage a client may have.',
+        ],
+        provide: [
+          'Topics, and optionally the person’s immigration status, age, pregnancy, disability, arrival date, and preferred language (no names).',
+        ],
+        examples: [
+          'An asylee, 45, arrived September 1. What screening is due, and what MassHealth coverage applies now?',
+          'What shelter and food resources are there for a newly arrived family with children?',
+        ],
+        returns: [
+          'Screening components and deadlines, programs with contacts, the likely coverage path with the rules, shelter resources, and a blank checklist in output/ if asked.',
+        ],
+        notes: [
+          'Benefit rules for immigrants changed in 2025–2026 and are still changing; MassHealth decides eligibility. Refer status questions to an immigration legal service on ORI’s list.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 9 chapter.
+  // Phase 10 chapter goes below this line.
+  {
+    title: 'Healthy aging and mental health screening',
+    intro: 'These tools support work with older adults and mental health screening: scoring free screening instruments with safety alerts, finding crisis and aging services by town, fall risk assessment, elder protective services reporting, coverage options, nursing home quality, mapping older adults at risk, and advance care planning. The screening and crisis tools are in the bh group (school_nurse profile); the others are in the aging group. All content was drafted in November 2026 from the cited sources and is pending review.',
+    tools: [
+      {
+        id: 'score_mental_health_screen',
+        title: 'Score a mental health screen',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'only for a file of screens',
+        does: 'Scores the PHQ-2, PHQ-9, GAD-2, GAD-7, Edinburgh Postnatal Depression Scale, NIMH Ask Suicide-Screening Questions (ASQ), or the C-SSRS screener from the item answers, checks the answers, gives the total and the published cutoff, and raises safety alerts with the steps to take. It never diagnoses.',
+        when: [
+          'After a depression, anxiety, or perinatal screen at a clinic or home visit.',
+          'When a suicide risk screen is positive and you need the next steps.',
+          'Summarizing a screening event from a spreadsheet.',
+        ],
+        provide: [
+          'The instrument and the answers in order (numbers, yes/no, or words such as “several days”).',
+          'For the ASQ: age, whether the person refused, and when a past attempt was. For the C-SSRS: whether behavior was in the past 3 months.',
+          'Or a spreadsheet in your data folder with columns q1, q2, ... (one row per screen).',
+        ],
+        examples: [
+          'Score a PHQ-9: 2, 2, 1, 2, 1, 1, 1, 0, 1.',
+          'ASQ answers: no, no, yes, no, and yes to question 5. What now?',
+          'Score the EPDS screens in postpartum_screens.xlsx.',
+        ],
+        returns: [
+          'The total, severity, result (for example acute positive), each item, safety alerts with cited steps, 988 and the Crisis Text Line, and the instrument’s license terms. For a file: counts only, with a results file listing rows with alerts first.',
+        ],
+        notes: [
+          'Any answer above zero on PHQ-9 item 9 or EPDS item 10 raises a same-day safety alert, whatever the total.',
+          'Only the public-domain ASQ’s wording is included. PHQ, GAD, EPDS, and C-SSRS items are listed by topic; use the official forms.',
+          'Follow your agency’s suicide risk protocol.',
+        ],
+      },
+      {
+        id: 'find_crisis_resources',
+        title: 'Find crisis resources',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists 911, the 988 Lifeline, the Massachusetts Behavioral Health Help Line, Mobile Crisis Intervention for youth and adults, the Crisis Text Line, and the town’s Community Behavioral Health Center, with how to call, text, or chat and language options.',
+        when: [
+          'Someone is in crisis, or you are preparing a resource card.',
+          'A family needs help in Spanish, another language, or ASL.',
+        ],
+        provide: ['A town (or your saved town), and optionally youth or adult and a language.'],
+        examples: [
+          'Crisis resources for a teenager in Lowell; the family speaks Spanish.',
+          'Who is the Community Behavioral Health Center for Gardner?',
+        ],
+        returns: ['Which line to use when, each line’s numbers and language options, and the local CBHC’s address and phone.'],
+        notes: [
+          'Numbers were read from mass.gov and NIMH in November 2026; call-test them before publishing.',
+          'No peer warmline is listed because none could be verified.',
+        ],
+      },
+      {
+        id: 'steadi_fall_risk_assessment',
+        title: 'Assess fall risk (CDC STEADI)',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'only if you ask for a plan document',
+        does: 'Scores CDC’s Stay Independent checklist or the three key questions, interprets the Timed Up and Go, 30-Second Chair Stand (by age and sex), 4-Stage Balance Test, and orthostatic blood pressure, and builds an intervention and home-safety plan.',
+        when: [
+          'A fall risk screen at a home visit, senior center, or clinic.',
+          'Planning a fall prevention referral after a fall.',
+        ],
+        provide: [
+          'The 12 Stay Independent answers or the three key questions.',
+          'Any test results, age and sex (for the chair stand), and home hazards you saw.',
+        ],
+        examples: [
+          'Stay Independent: yes to items 1, 3, 4, 6, and 10. TUG 14 seconds, 7 chair stands, man aged 82.',
+          'Make a fall prevention plan in Word for that assessment.',
+        ],
+        returns: ['The screen, each test against CDC’s threshold, risk factors, interventions, assessments still to do, home-safety fixes, and follow-up timing.'],
+        notes: ['Do not type names; add them to the plan document on your computer.'],
+      },
+      {
+        id: 'elder_protective_services_guide',
+        title: 'Report suspected elder or disabled adult abuse',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'only to fill report narratives',
+        does: 'Explains Massachusetts reporting rules for abuse, neglect, financial exploitation, and self-neglect of adults 60 and older (Adult Protective Services) and adults 18 to 59 with disabilities (DPPC): who must report, how, how fast, what a report contains, and what happens next. Fills report narratives from a file on your computer.',
+        when: [
+          'You suspect abuse, neglect, or self-neglect during a visit.',
+          'Training staff on mandated reporting.',
+        ],
+        provide: [
+          'Age, setting (community or facility), the concern, and your role. Never names in the chat.',
+          'Optionally a spreadsheet in your data folder with the report details (one row per report).',
+        ],
+        examples: [
+          'I am a public health nurse. An 84-year-old client says her son takes her checks. What do I do?',
+          'Fill report narratives from apsreport.csv.',
+        ],
+        returns: ['The agency and hotline, mandated reporter duties, timelines, signs, self-neglect guidance, the narrative template, and counts of filled narratives.'],
+        notes: [
+          'A phone report by a mandated reporter needs the written form within 48 hours; an online report does not.',
+          'Legal decision support, not legal advice.',
+        ],
+      },
+      {
+        id: 'find_ma_aging_services',
+        title: 'Find aging services for a town',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists the town’s Aging Services Access Point, Council on Aging, SHINE Medicare counseling office, senior nutrition (meals) project, caregiver and dementia supports, and protective services and ombudsman contacts.',
+        when: ['Connecting an older adult or caregiver to services.', 'Building a resource list for a town.'],
+        provide: ['A town, and optionally needs such as meals, insurance, caregiver, or dementia.'],
+        examples: ['What aging services are there for Pittsfield?', 'Who delivers meals and does SHINE counseling in Orange?'],
+        returns: ['Providers with addresses and phones, statewide lines, and what each program offers.'],
+        notes: ['Council on Aging phone numbers are not included; call MassOptions (800) 243-4636 or use AGE’s map.'],
+      },
+      {
+        id: 'explain_older_adult_coverage_options',
+        title: 'Explain coverage options for older adults',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'no',
+        does: 'Explains Medicare (with this year’s premiums and deductibles), Medicare Savings Programs, MassHealth for people 65 and older, the Frail Elder Waiver, PACE, Senior Care Options, and One Care, and screens each from the facts you give.',
+        when: ['An older adult cannot afford Medicare costs.', 'Exploring options to stay at home with care needs.'],
+        provide: ['Any of: age, household size, monthly income, assets, current coverage, nursing home level of care, and town.'],
+        examples: ['A 70-year-old couple with $3,900 a month and Medicare: what help is there?', 'Is PACE available in Barnstable?'],
+        returns: ['Medicare costs, each program’s rules and a screen with reasons, the Medicare Savings Program level, PACE availability, and where to get help.'],
+        notes: ['A screen, not an eligibility decision. Medicare figures are for 2026; update each November.'],
+      },
+      {
+        id: 'nursing_home_quality_lookup',
+        title: 'Look up nursing home quality',
+        toolset: 'aging',
+        internet: 'optional',
+        files: 'no',
+        does: 'Shows CMS Care Compare data for Massachusetts nursing homes: star ratings, staffing, inspections and infection control citations, penalties, and staff and resident vaccination, with state and national averages.',
+        when: ['Preparing for an outbreak response or infection control visit.', 'Comparing facilities in your area.'],
+        provide: ['A facility name or CMS number, a town or county, or ask for a statewide summary.'],
+        examples: ['Infection control citations for nursing homes in Worcester.', 'Statewide, which nursing homes have the lowest staff flu vaccination?'],
+        returns: ['Ratings, staffing, citations with F-tags and severity, vaccination rates, flags, and averages.'],
+        notes: ['Citations may be under dispute or already corrected; check each one’s status.'],
+      },
+      {
+        id: 'map_older_adult_vulnerability',
+        title: 'Map older adults at risk',
+        toolset: 'aging',
+        internet: 'optional',
+        files: 'only for a map',
+        does: 'Shows where older adults who live alone, have a disability, have no vehicle, speak limited English, or live in poverty are concentrated, by census tract or town, with margins of error and a map.',
+        when: ['Planning outreach or wellness checks.', 'Emergency preparedness and grant narratives.'],
+        provide: ['A town, county, or Massachusetts, and optionally what to rank by and whether to draw a map.'],
+        examples: ['Which tracts in Springfield have the most older adults living alone? Make a map.', 'Rank Franklin County towns by older adults without a vehicle.'],
+        returns: ['The area’s five indicators compared with the state and U.S., ranked sub-areas, reliability flags, and a map file.'],
+        notes: ['Small-area survey estimates can be unreliable; look at the margins of error.'],
+      },
+      {
+        id: 'advance_care_planning_toolkit',
+        title: 'Advance care planning toolkit',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'for session materials and filled proxies',
+        does: 'Explains the Massachusetts health care proxy, provides a proxy template, a facilitator script and handout for a community session, and the status of MOLST, and fills proxy forms from a file on your computer, using your agency’s translations when you have them.',
+        when: ['Running a community advance care planning session.', 'Helping clients complete health care proxies.'],
+        provide: ['Session length and whether you want Word or PDF materials; optionally a spreadsheet with proxy details and a Language column.'],
+        examples: ['Plan a 45-minute health care proxy session at the senior center and make the handouts.', 'Fill health care proxies from proxy_clinic.csv.'],
+        returns: ['Proxy rules from the law, the template, the script with timings, the handout, MOLST status, and counts of filled forms by language.'],
+        notes: [
+          'MOLST could not be verified: the old molst-ma.org web address no longer belongs to the program. Get the current form from your health system or DPH.',
+          'Put agency translations in templates/<language>/health_care_proxy.md in your data folder.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 10 chapter.
+  // Phase 11 chapter goes below this line.
+  {
+    title: 'Substance use, crisis resources, and health communication',
+    intro: 'These tools support overdose prevention, youth mental health, school crisis response, and the materials you write for the public. The substance use and postvention tools are in the bh group (the school_nurse profile includes it; turn it on for other profiles); the communication tools are in the comms group, which every profile includes. Resource lists, safe-messaging rules, and templates were drafted from DPH, CDC, SAMHSA, AFSP, and SPRC documents retrieved in November 2026 and are pending review by the subject matter expert; every answer says so. None of these tools replaces a crisis line: in an emergency, call 911, and for a mental health or substance use crisis, call or text 988.',
+    tools: [
+      {
+        id: 'check_readability',
+        title: 'Check the reading level and plain language of a draft',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: a Word, HTML, PDF, text, or Markdown file in your data folder',
+        does: 'Scores a draft with four reading-level formulas (Flesch Reading Ease, Flesch-Kincaid, SMOG, and Gunning Fog), flags long sentences, public health jargon (with CDC’s *Everyday Words* alternatives), possible passive voice, acronyms that are not spelled out, and long paragraphs and lists, and walks you through the CDC Clear Communication Index.',
+        when: [
+          'Before you publish a fact sheet, flyer, letter, web page, or social media post.',
+          'Revising a material that families or clients find hard to read.',
+          'Scoring a material with the CDC Clear Communication Index for a grant or quality project.',
+        ],
+        provide: [
+          'The text, pasted into the chat, or the name of the file in your data folder.',
+          'Optionally the grade level you aim for (the tool uses grade 8 unless you say otherwise) and your yes or no answers to the 20 Clear Communication Index questions.',
+        ],
+        examples: [
+          'Check the reading level of this flyer and suggest plainer words: [paste text].',
+          'Check lead_poisoning_factsheet.docx against a 6th-grade target.',
+          'Score this material with the CDC Clear Communication Index. Here are my answers: 1 yes, 2 yes, 3 no ...',
+        ],
+        returns: [
+          'The grade level by each formula and the median compared with your target; counts of words, sentences, and syllables; the flags with suggested fixes; and the Clear Communication Index items with the tool’s suggestions, or your score (90 or higher passes) once you have answered every item that applies.',
+        ],
+        notes: [
+          'Reading-level formulas only count syllables and sentence length. They cannot tell whether your audience will understand or act on a material; test drafts with members of your audience.',
+          'The formulas and word list are for English. For other languages, rely on a qualified translator.',
+          'When you check a file, quoted sentences are passed through the redactor, but remove client details before publishing anything.',
+        ],
+      },
+      {
+        id: 'get_overdose_data',
+        title: 'Look up overdose deaths for your community',
+        toolset: 'bh',
+        internet: 'optional',
+        files: 'no',
+        does: 'Shows overdose deaths for a city or town, county, or the state: DPH’s yearly counts of opioid-related overdose deaths by town (2015 to 2022) with a 5-year rate compared with the state; CDC’s provisional counts for the latest 12 months for counties, Massachusetts, and the United States, with the change from a year earlier and a breakdown by drug (fentanyl, heroin, cocaine, stimulants); and DPH’s statewide findings for 2024.',
+        when: [
+          'Preparing a board of health update, a grant application, or a community health assessment.',
+          'Planning naloxone distribution or outreach and deciding where to focus.',
+          'Answering a reporter’s or official’s question about local overdose trends.',
+        ],
+        provide: [
+          'The town, county, or “Massachusetts” (your saved town is used if you do not say), and optionally other places to compare and a drug class.',
+          'Whether you want deaths of residents (the default) or deaths that happened in the town.',
+        ],
+        examples: [
+          'How many opioid overdose deaths has Pittsfield had, and how does its rate compare with the state?',
+          'Compare overdose deaths in Fall River and New Bedford and their county.',
+          'What is the latest CDC count of fentanyl deaths in Massachusetts, and is it going down?',
+        ],
+        returns: [
+          'Yearly town counts, the 2018–2022 rate with its 95% confidence interval and how it compares with the state, county and state trends with the percent change, counts by drug, DPH’s 2024 findings with page numbers, and a link to DPH’s dashboard for newer town data.',
+        ],
+        notes: [
+          'DPH last published town counts as a document for 2015–2022. Newer town numbers (through 2025) are on DPH’s BSAS dashboard; the tool gives the link.',
+          'No rate is shown for fewer than 5 deaths, and rates based on fewer than 20 deaths are marked unstable. CDC hides county counts of 1 to 9.',
+          'DPH, CDC state, and CDC county numbers use different definitions (opioid-related deaths by residence; all overdose deaths by place of death; all overdose deaths by county of residence), so they do not add up to each other.',
+        ],
+      },
+      {
+        id: 'get_youth_risk_behavior_data',
+        title: 'Look up youth mental health and risk behavior data',
+        toolset: 'bh',
+        internet: 'optional',
+        files: 'no',
+        does: 'Shows how many Massachusetts middle and high school students report persistent sadness, thinking about suicide, self-injury, bullying, vaping, drinking, marijuana use, protective factors such as feeling they belong at school, and other topics, from DPH’s Youth Health Survey (2023 and 2025) and the Massachusetts Youth Risk Behavior Survey (2023), by sex, grade, race and ethnicity, and LGBTQ identity, with 95% confidence intervals. Compares Massachusetts with the United States using CDC’s Youth Risk Behavior Survey.',
+        when: [
+          'Making the case for a school-based mental health or substance use program.',
+          'A community health assessment or a grant application section on youth.',
+          'Preparing a presentation for a school committee or parent group.',
+        ],
+        provide: [
+          'The topic (for example “sad or hopeless”, “vaping”, or “bullied”), high school or middle school, and which groups you want to see.',
+        ],
+        examples: [
+          'What percentage of Massachusetts high school students felt sad or hopeless, by sex and race?',
+          'How common is vaping among Massachusetts middle school students, by grade?',
+          'How does Massachusetts compare with the U.S. on suicidal thoughts among high school students?',
+        ],
+        returns: [
+          'For each matching indicator: the statewide percentage and each group’s percentage with its 95% confidence interval, which groups differ from the comparison group, the change from two years earlier, and CDC figures for Massachusetts and the U.S.',
+        ],
+        notes: [
+          'These are statewide figures for public school students. There are no town or school figures.',
+          'A difference is reported only when the confidence intervals do not overlap, DPH’s rule. Estimates DPH or CDC did not publish (too few students) are shown as not presented.',
+          'The Youth Health Survey, the Massachusetts YRBS, and CDC’s figures are different surveys; compare years within one survey only.',
+          'When you share suicide-related numbers, follow safe-messaging guidance and include the 988 Lifeline.',
+        ],
+      },
+      {
+        id: 'find_naloxone_and_harm_reduction',
+        title: 'Find naloxone and harm reduction resources',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'only if you ask for a handout',
+        does: 'Explains how anyone in Massachusetts can get naloxone (at a pharmacy counter without a prescription under the statewide standing order, from distribution programs, by home delivery, or through agency purchasing), lists the naloxone products in the standing order, says whether your town’s board of health has approved a syringe services program, gives facts about fentanyl test strips and help lines, and provides a step-by-step naloxone teaching script, which it can save as a Word handout.',
+        when: [
+          'Teaching a client, family, or community group how to respond to an overdose.',
+          'Answering “where can I get Narcan?” or “does my insurance cover it?”',
+          'Planning naloxone distribution or a syringe services conversation with your board of health.',
+        ],
+        provide: [
+          'Your town (or use your saved town), and whether you want the teaching script and a Word handout.',
+        ],
+        examples: [
+          'How can a family in Pittsfield get naloxone, and is there a syringe services program?',
+          'Give me a naloxone teaching script for a parent group and save it as a handout.',
+          'What naloxone products does the Massachusetts standing order list?',
+        ],
+        returns: [
+          'Ways to get naloxone, the standing order’s products and directions, pharmacy duties and legal protections, syringe services approval for your town and county, fentanyl test strip facts, help lines, links to DPH’s site maps, and the teaching script (and the handout file name, if requested).',
+        ],
+        notes: [
+          'DPH’s maps of naloxone programs and syringe service sites cannot be read by the server; open the links for current sites and hours.',
+          'Whether fentanyl test strips are legal under Massachusetts law could not be confirmed; ask your agency’s counsel.',
+          'Rescue breathing and CPR steps are for people trained to do them. Follow your agency’s protocols.',
+        ],
+      },
+      {
+        id: 'find_substance_use_treatment',
+        title: 'Find substance use treatment',
+        toolset: 'bh',
+        internet: 'optional',
+        files: 'no',
+        does: 'Lists substance use treatment programs near a Massachusetts town from SAMHSA’s FindTreatment.gov: programs that offer methadone, buprenorphine, or naltrexone for opioid use disorder, withdrawal management (detox), residential or outpatient care, and recovery supports, and programs for teens, pregnant or postpartum women, veterans, or people with mental health conditions, filtered by insurance (including MassHealth) and language.',
+        when: [
+          'Helping a client or family find treatment that takes MassHealth.',
+          'Finding a methadone or buprenorphine program after an overdose or a hospital stay.',
+          'Building a local referral list for staff.',
+        ],
+        provide: [
+          'The town (or use your saved town), how far the person can travel, the kind of treatment, the insurance, and the language needed.',
+        ],
+        examples: [
+          'Find buprenorphine treatment within 10 miles of Fall River that takes MassHealth.',
+          'Is there a methadone program near Springfield with Spanish-speaking staff?',
+          'List residential programs for pregnant women within 30 miles of Worcester.',
+        ],
+        returns: [
+          'Matching programs nearest first, with address, phone, website, distance, medications offered, settings, insurance accepted, and languages; and the Massachusetts Substance Use Helpline and 988.',
+        ],
+        notes: [
+          'Programs report their own services to SAMHSA. Call ahead to confirm openings, insurance, and language.',
+          'Distances are straight-line miles from the center of the town.',
+          'The Massachusetts Substance Use Helpline (800-327-5050) can also help find treatment and recovery services.',
+        ],
+      },
+      {
+        id: 'plan_school_postvention',
+        title: 'Plan a school’s response after a suicide',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'optional: a file with the school’s notice details, to fill the letters',
+        does: 'Walks a school crisis team through the steps in the AFSP and SPRC toolkit *After a Suicide: A Toolkit for Schools* for the first day, the first week, and after; gives talking points; provides draft messages for the staff meeting, students, parents, the media, and social media that fit what is known about the cause of death; checks your own drafts against safe-messaging rules; and fills the letters from a file in your data folder.',
+        when: [
+          'A student or staff member has died and suicide is suspected or confirmed.',
+          'Reviewing a letter, statement, or post about a suicide before it goes out.',
+          'Preparing a postvention plan before a crisis happens.',
+        ],
+        provide: [
+          'Whether the cause of death is confirmed, unconfirmed, or the family asked that it not be shared, and which messages you need.',
+          'Optionally a draft to check, and a spreadsheet in your data folder with columns such as School Name, Student Name, Principal Name, Date of Notice, and Counseling Location to fill the letters. Do not type names into the chat.',
+        ],
+        examples: [
+          'A student died over the weekend and the cause is not confirmed. What should our school do today, and what do we tell students?',
+          'Check this draft letter to parents for safe messaging: [paste text].',
+          'Fill the parent letter and student statement from school_notice.xlsx.',
+        ],
+        returns: [
+          'Steps by phase with toolkit page numbers, talking points, the message templates with their placeholders, any safe-messaging problems in your draft (by sentence number), and the names of the filled Word files in your output folder.',
+        ],
+        notes: [
+          'The templates are drafts written for this server. The toolkit’s own sample statements can be used directly from the PDF with its credit line.',
+          'The family’s wishes and your crisis team decide what is shared. Confirm the cause of death before calling it a suicide.',
+          'The tool never describes how a person died. The safe-messaging check uses word patterns; a person must still review every message.',
+          'Anyone in crisis can call or text 988.',
+        ],
+      },
+      {
+        id: 'translate_health_material',
+        title: 'Prepare and check a translation',
+        toolset: 'comms',
+        internet: 'optional',
+        files: 'optional: the English source, your glossary, a translated draft, a back-translation',
+        does: 'Supports translating a health material without replacing a qualified translator: shows which languages are most needed in your town, finds your agency’s approved translations, prepares a brief for the translator (numbered sentences, your glossary’s approved terms, and numbers, phone numbers, and web addresses that must not change), checks a translated draft against your glossary, and compares a back-translation with the English to catch reversed instructions, changed numbers, and missing sentences.',
+        when: [
+          'Before sending a flyer or letter to a translator.',
+          'Reviewing a draft translation (including one the AI assistant wrote) before a qualified translator approves it.',
+          'Deciding which languages to translate a material into.',
+        ],
+        provide: [
+          'The English text or file, the language, and optionally your glossary file, the translated draft, and a back-translation by a different person.',
+          'Keep approved translations in your data folder under templates/<language>/ (for example templates/spanish/flu_flyer.docx) so the tool can find them.',
+        ],
+        examples: [
+          'Which languages should our flu flyer be translated into for Lawrence?',
+          'Prepare a translator brief for this flyer in Portuguese using glossary.csv.',
+          'Compare this Spanish back-translation with the English and tell me what changed.',
+        ],
+        returns: [
+          'Language priorities, any existing agency translation, the numbered sentences, glossary terms, items that must not change, problems found in the draft and back-translation, CDC’s translation steps, the “draft for qualified translator review” label, and an optional review workbook.',
+        ],
+        notes: [
+          'The server does not include or produce translations. Every draft must be reviewed and approved by a qualified translator.',
+          'The checks look at numbers, phone numbers, glossary terms, negations, and missing sentences; they cannot judge meaning or tone.',
+        ],
+      },
+      {
+        id: 'create_social_media_campaign',
+        title: 'Plan and check a social media campaign',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'optional: your own observance calendar; an Excel calendar is saved if you ask',
+        does: 'Plans when to post on each platform over the weeks of a campaign, ties posts to related health observances (such as National Influenza Vaccination Week), and checks draft posts for length, alt text on images, readable hashtags, emoji, words in capitals, reading level, jargon, and safe messaging when the topic is suicide.',
+        when: [
+          'Planning a flu, naloxone, lead, or heat-safety campaign.',
+          'Checking posts before you schedule them.',
+        ],
+        provide: [
+          'The topic, platforms, start date, number of weeks and posts per week, and any draft posts with their alt text.',
+        ],
+        examples: [
+          'Plan a four-week flu shot campaign on Facebook and Instagram starting December 1, and write posts for the first week.',
+          'Check these three posts before I schedule them: [paste posts].',
+        ],
+        returns: [
+          'The observances in the campaign window, the posting calendar, problems in each draft post, and an Excel calendar if requested.',
+        ],
+        notes: [
+          'Platform character limits and observance dates could not be verified by the server; confirm them. You can give your own limits and observance calendar.',
+          'The assistant writes the posts; the tool plans and checks them.',
+        ],
+      },
+      {
+        id: 'draft_press_materials',
+        title: 'Draft a press release, media advisory, talking points, or Q&A',
+        toolset: 'comms',
+        internet: 'no',
+        files: 'only if you ask for a Word document',
+        does: 'Builds a press release, media advisory, talking points, or spokesperson Q&A from the facts you give, marks what is missing, and checks it against CDC’s Crisis and Emergency Risk Communication (CERC) guidance: contact information, date, release time or embargo, who-what-when-where-why, one page, short sentences, no loaded words, and no client details. Adds the reading level, CERC principles, questions to prepare for, and safe messaging when the topic is suicide.',
+        when: [
+          'Announcing a clinic, an outbreak update, or a health advisory.',
+          'Preparing a spokesperson for interviews.',
+          'Reviewing a release before it goes through approval.',
+        ],
+        provide: [
+          'The kind of material, the facts (who, what, when, where, why), key messages, quotes from officials, and the media contact; or a draft to check.',
+        ],
+        examples: [
+          'Draft a press release announcing free flu clinics at Town Hall on Saturday.',
+          'Make a media advisory for Tuesday’s press conference on naloxone training.',
+          'Prepare a spokesperson Q&A for a measles case in town.',
+        ],
+        returns: [
+          'The draft with bracketed gaps, the CERC checks, the reading grade, questions to prepare for, and the Word file name if requested.',
+        ],
+        notes: [
+          'All facts, numbers, and quotes must come from you and go through your agency’s approval process.',
+          'Never include client names or details that could identify a person.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 11 chapter.
+  // Phase 12 chapter goes below this line.
+  {
+    title: 'Emergency preparedness and environmental health',
+    intro: 'These eight tools support situational awareness and planning before and during emergencies: hazard alerts, dispensing sites, air quality, heat, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, and CASPER rapid needs assessments. Six are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. The guidance they give is drafted from CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
+    tools: [
+      {
+        id: 'get_active_hazard_alerts',
+        title: 'Check active hazard alerts and what they mean for health',
+        toolset: 'epr',
+        internet: 'yes',
+        files: 'no',
+        does: 'Lists the current National Weather Service watches, warnings, and advisories for your town, county, or the whole state, and for each hazard gives the likely health effects, who is most at risk, suggested public health actions, and public messages, including the power outage and carbon monoxide risks that follow storms. It also lists FEMA disaster declarations that covered the area, with counts by type since 1953.',
+        when: [
+          'A storm, heat wave, flood, or other hazard is forecast or under way.',
+          'Briefing your board of health, partners, or staff.',
+          'Planning ahead for a season (ask for guidance for a hazard with no alert yet).',
+        ],
+        provide: [
+          'An area (your saved town by default), and optionally hazards to plan for, such as “winter storm” or “extreme heat”.',
+        ],
+        examples: [
+          'Are there any weather alerts for Fall River right now, and what should the health department do?',
+          'What are the health effects and public messages for a hurricane warning in Barnstable County?',
+          'How many FEMA disaster declarations has Bristol County had, and for what?',
+        ],
+        returns: [
+          'Each active alert with severity, urgency, certainty, counties, timing, and NWS instructions; guidance for each hazard with citations; FEMA declarations and counts by incident type.',
+        ],
+        notes: [
+          'NWS alerts are the official source; if the tool cannot reach them it says so plainly and shows no alerts. Never rely on an old copy for warnings.',
+          'FEMA declarations count only federally declared events.',
+        ],
+      },
+      {
+        id: 'model_dispensing_site_throughput',
+        title: 'Model a dispensing site (POD) or mass vaccination site',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'only if you ask for a worksheet',
+        does: 'Treats each station of a point of dispensing (greeting, forms and screening, medical consultation, dispensing, exit) or mass vaccination site (check-in, screening, vaccination) as a waiting line with several staff, and works out how many staff each station needs, how busy they are, how long people wait, where the bottleneck is, how many people the site can serve per hour, how many people are inside at once, and how many hours and days it takes to reach everyone.',
+        when: [
+          'Writing or updating a medical countermeasure dispensing plan.',
+          'Testing a staffing plan before an exercise, or after a drill using your own station times.',
+        ],
+        provide: [
+          'The population to reach and either the hours your sites will be open or the expected arrivals per hour, and the number of sites.',
+          'Optionally: your measured minutes per client at each station, your staffing, head-of-household pickup, shift length, and support staff.',
+        ],
+        examples: [
+          'We need to give antibiotics to 48,000 people with 2 PODs open 48 hours. How many staff per station?',
+          'Our flu clinic will have 8 check-in staff, 10 screeners, and 9 vaccinators with 120 arrivals an hour. Where is the bottleneck?',
+        ],
+        returns: [
+          'A table by station (staff, how busy, average wait, people in line, capacity), the bottleneck, site capacity, hours and days to reach everyone, staff per shift, a busiest-hour check, and CDC’s activation checklist.',
+        ],
+        notes: [
+          'Station times are tool defaults with no published source. Replace them with times measured in your drills.',
+          'The model assumes steady, random arrivals; real arrivals come in waves, so lines can be longer.',
+        ],
+      },
+      {
+        id: 'get_electricity_dependent_population',
+        title: 'Find people who rely on electricity-dependent medical equipment',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'no',
+        does: 'Reports HHS emPOWER counts of Medicare beneficiaries who use electricity-dependent medical equipment (ventilators, oxygen concentrators, BiPAP, feeding and infusion pumps, home dialysis, power wheelchairs, electric beds, cardiac assist devices) for your town, county, the state, or ZIP codes, with rates compared with Massachusetts and the U.S. and power outage planning actions.',
+        when: [
+          'Before a storm or heat wave that may cause power outages.',
+          'Planning shelters, charging sites, and outreach with emergency management and utilities.',
+        ],
+        provide: [
+          'An area or ZIP codes. Optionally, a ZIP-level count file from DPH (for example the emPOWER Emergency Planning Dataset).',
+        ],
+        examples: [
+          'How many people in Plymouth County rely on electricity-dependent medical equipment, by ZIP code?',
+          'What are the emPOWER counts for Amherst?',
+        ],
+        returns: [
+          'Totals, rates per 1,000 Medicare beneficiaries, a ZIP code table, planning actions, and utility phone numbers.',
+        ],
+        notes: [
+          'Counts cover Medicare only and do not identify anyone. HHS shows 1 to 11 as 11.',
+          'Files with names or addresses are refused; never put the restricted emPOWER outreach list into this tool.',
+        ],
+      },
+      {
+        id: 'hazard_vulnerability_assessment',
+        title: 'Run a hazard vulnerability assessment (HVA)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, a workbook in your output folder',
+        does: 'Helps a planning group score hazards for probability, impact on people, property, and health department operations, and preparedness gaps, and ranks them by relative risk. It starts the discussion with the statewide ratings in the 2023 ResilientMass Plan, FEMA declarations for your county, and, if you download one, FEMA National Risk Index scores.',
+        when: [
+          'Your annual or HMCC hazard vulnerability assessment.',
+          'Updating a preparedness or continuity plan.',
+        ],
+        provide: [
+          'A town or county and, as the group decides them, scores for each hazard. Optionally a National Risk Index table saved in your data folder.',
+        ],
+        examples: [
+          'Start a hazard vulnerability assessment for Worcester County.',
+          'Score winter storms 3, 2, 2, 2 with preparedness 1, 2, 2, and pandemic 2, 3, 1, 3 with 2, 2, 2. Rank them.',
+        ],
+        returns: [
+          'A ranked table, seeds for discussion for 21 hazards, the scoring scales, and an Excel facilitation workbook.',
+        ],
+        notes: [
+          'The scoring method is the tool’s own, modeled on common HVA worksheets. Use your HMCC’s method if it differs.',
+          'The National Risk Index could not be bundled because FEMA’s download site was unavailable.',
+        ],
+      },
+      {
+        id: 'functional_needs_shelter_intake',
+        title: 'Shelter health intake for access and functional needs (CMIST)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, to your output folder',
+        does: 'Provides a shelter health intake organized by the CMIST framework (communication, maintaining health, independence, support and safety, transportation) as a blank form, fills completed forms from your registration file without showing anyone’s details in the chat, and estimates how many residents of a shelter of a given size will need interpreters, accessible cots, personal assistance, power for medical equipment, and other support.',
+        when: [
+          'Preparing shelter health services or a shelter plan.',
+          'During sheltering, to turn registration data into forms and a count of needs.',
+        ],
+        provide: [
+          'The town or county the shelter serves and the expected number of residents.',
+          'Optionally, a registration file in your data folder with one row per person and columns named like the questions.',
+        ],
+        examples: [
+          'We expect 200 people at the Brockton shelter. What functional needs should we plan for, and how many staff?',
+          'Make the CMIST intake form for our shelter.',
+          'Fill intake forms from shelter_registrations.csv.',
+        ],
+        returns: [
+          'The intake questions, estimates by need with local rates, staff per shift, and, from a file, counts of needs and preferred languages (small numbers hidden).',
+        ],
+        notes: [
+          'Completed forms go only to your output folder. Agency translations in templates/<language>/cmist_intake.md are used when present; otherwise forms are in English and the tool says how many.',
+          'The questions are a draft and the staffing ratios are tool defaults; adapt them to your shelter plan.',
+        ],
+      },
+      {
+        id: 'plan_casper_assessment',
+        title: 'Plan and analyze a CASPER rapid needs assessment',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Plans a CDC Community Assessment for Public Health Emergency Response (CASPER): selects 30 census blocks with probability proportional to housing, gives each cluster’s households and sampling interval, and writes the cluster list, tracking forms, and a team packet. After fieldwork it weights the returned data as the CASPER Toolkit describes and reports estimated households, percentages, and 95% confidence intervals.',
+        when: [
+          'After a disaster, to measure household needs quickly.',
+          'For a preparedness survey of your community.',
+        ],
+        provide: [
+          'A town, several towns, or a county; optionally the number of clusters, total or occupied households, and a seed to reproduce a selection.',
+          'For analysis: a file of completed questionnaires with a cluster column, the questions to estimate, and tracking-form totals.',
+        ],
+        examples: [
+          'Plan a CASPER for Fall River.',
+          'Analyze casper_results.csv for the questions damage and generator, with 300 households attempted and 200 contacted.',
+        ],
+        returns: [
+          'The selected clusters, the seed, household selection steps, weights, response-rate formulas, and, from returned data, weighted results with confidence intervals and response rates.',
+        ],
+        notes: [
+          'Uses 2020 Census housing counts; homes built or lost since then are not reflected.',
+          'Results with fewer than 5 answers are not shown, as the toolkit advises.',
+        ],
+      },
+      {
+        id: 'air_quality_protective_guidance',
+        title: 'Check air quality and protective actions',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'no',
+        does: 'Shows the current and forecast Air Quality Index from EPA AirNow for the reporting area nearest your town (or every Massachusetts area), and the protective actions for sensitive groups, the public, schools, and outdoor events for that level. It can also convert a pollutant reading to an AQI.',
+        when: [
+          'Wildfire smoke or an ozone day.',
+          'Advising schools, camps, coaches, or event organizers.',
+        ],
+        provide: [
+          'An area, or an AQI value or pollutant reading you already have.',
+        ],
+        examples: [
+          'What is the air quality in Springfield today, and should schools hold recess outside?',
+          'The AQI is 135 for ozone. What should we tell outdoor event organizers?',
+          'Convert a 24-hour PM2.5 of 60 µg/m³ to an AQI.',
+        ],
+        returns: [
+          'Current, yesterday’s, and forecast AQI by pollutant, the category, sensitive groups, actions by audience, and tips.',
+        ],
+        notes: [
+          'AirNow data are preliminary. Without the internet, actions for every category are listed.',
+          'Some actions for the public and events are the project’s summaries of EPA and CDC guidance.',
+        ],
+      },
+      {
+        id: 'heat_health_action_planner',
+        title: 'Plan the heat response',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'yes, a checklist in your output folder',
+        does: 'Combines the National Weather Service 7-day HeatRisk and forecast for your town or county with your local heat-vulnerable population (older adults, young children, disability, poverty, no car, limited English, chronic disease, socially vulnerable areas, and people who rely on powered medical equipment) and gives public health steps for the expected heat level. It writes a Word checklist with cooling centers, outreach call and door-knock scripts, school and outdoor worker guidance, heat illness teaching, and medication and power outage planning.',
+        when: [
+          'Before a heat wave, or at the start of summer to prepare.',
+          'Exercising your heat plan (choose a HeatRisk level).',
+        ],
+        provide: [
+          'A town or county, and optionally your cooling center list (a CSV or Excel file in your data folder).',
+        ],
+        examples: [
+          'Make a heat response plan for Worcester for this week.',
+          'Plan for HeatRisk red (3) in Lowell using cooling_centers.xlsx.',
+        ],
+        returns: [
+          'HeatRisk by day, the forecast, heat alerts, the local population table, activation steps, and the checklist file name.',
+        ],
+        notes: [
+          'HeatRisk is experimental and does not replace NWS heat advisories and warnings.',
+          'Activation steps and scripts are drafts; adapt them to your heat plan. Cooling center rows go into the checklist only.',
+        ],
+      },
+    ],
+  },
+  // End of Phase 12 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------
