@@ -32,6 +32,11 @@ pub use ics::{IcsArgs, IcsResult, generate_ics_forms};
 // End of Phase 13 EPR-01 modules.
 
 // Phase 13 EPR-07 (COOP) modules go below this line.
+pub mod coop;
+pub use coop::{
+    CommInput, CoopArgs, CoopResult, DelegationInput, FunctionInput, RecordInput, SiteInput,
+    SuccessionInput, continuity_of_operations_planner,
+};
 // End of Phase 13 EPR-07 modules.
 
 // Phase 13 EPR-08/EPR-09 (HSEEP) modules go below this line.

@@ -469,12 +469,21 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 12 content items.
     // Phase 13 content items go below this line (EPR-01, EPR-07, EPR-08/09, EPR-10).
+    // Phase 13 EPR-01 (ICS).
     ContentItem {
         id: "epr-ics-forms",
         path: "content/epr/ics_forms.yaml",
         resource_uri: "phn://content/epr-ics-forms",
         yaml: include_str!("../../../content/epr/ics_forms.yaml"),
         schema: include_str!("../../../content/schemas/epr_ics_forms.schema.json"),
+    },
+    // Phase 13 EPR-07 (COOP).
+    ContentItem {
+        id: "epr-continuity",
+        path: "content/epr/continuity.yaml",
+        resource_uri: "phn://content/epr-continuity",
+        yaml: include_str!("../../../content/epr/continuity.yaml"),
+        schema: include_str!("../../../content/schemas/epr_continuity.schema.json"),
     },
     // End of Phase 13 content items.
 ];

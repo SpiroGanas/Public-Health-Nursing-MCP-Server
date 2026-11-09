@@ -1171,3 +1171,15 @@ sources:
     caveats:
       - Drafted from sources retrieved 2026-11-08 and pending subject-matter review; tool defaults (dispensing station times, shelter staffing ratios) have no published source.
   # End of Phase 12 sources.
+  # Phase 13 EPR-07 (COOP) source.
+  - id: epr-continuity-content
+    name: Continuity of operations planning content (FEMA continuity elements, Massachusetts board of health essential functions and authorities)
+    publisher: FEMA, CDC, Massachusetts Legislature, DPH (drafted by this project)
+    kind: content
+    status: active
+    content_id: epr-continuity
+    homepage: https://www.cdc.gov/readiness/php/capabilities/index.html
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section30
+    used_by: [continuity_of_operations_planner]
+    caveats:
+      - FEMA's Continuity Guidance Circular and continuity plan template could not be retrieved (www.fema.gov returned 403); the statutes, PHEP capabilities, and pandemic planning assumption were read 2026-11-09. Tiers, recovery times, staff, and TT&E frequencies are tool defaults.

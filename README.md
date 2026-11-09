@@ -189,6 +189,7 @@ output folder instead of being sent to the AI model.
 | `generate_ics_forms` | EPR-01 | epr | FEMA ICS forms (201–208, 213, 213RR, 214, 215A) and an assembled Incident Action Plan in Word/PDF; staff contacts filled locally from a roster file. |
 <!-- Phase 13 EPR-01 (ICS) rows go above this line. -->
 
+| `continuity_of_operations_planner` | EPR-07 | epr | Board of health COOP plan by FEMA's continuity elements: essential functions with tiers and authority, succession, delegations, sites, records, absenteeism check, TT&E schedule, and pandemic annex. |
 <!-- Phase 13 EPR-07 (COOP) rows go above this line. -->
 
 <!-- Phase 13 EPR-08/EPR-09 (HSEEP) rows go above this line. -->
