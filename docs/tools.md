@@ -1240,6 +1240,29 @@ does not apply from the facts given), the tier (Family Assistance; HSN with or w
 deductible), SNAP's maximum benefit, notes, how to apply, and each program's effective date.
 A unit test checks that the WIC and SNAP tables equal 185% and 200% of the poverty guidelines.
 **Refresh annually:** FPL in January, MassHealth March 1, WIC June/July, SNAP and HEAP October 1.
+### `map_lead_risk` (MCH-05, toolset `mch`)
+
+Ranks cities and towns (or census tracts) for childhood lead outreach and draws a map.
+
+| Argument | |
+|---|---|
+| `geography` | `town` (default) or `tract`. |
+| `county`, `towns` | Limit the areas in scope (for tracts: tracts whose main town is listed). |
+| `indicators` | `pre1950_housing`, `pre1980_housing`, `low_income` (below 200% of poverty), `children_under5`, and for towns `screening_gap` (100 − % of children 9-47 months screened) and `elevated_bll` (% of screened children with an estimated confirmed level of 5 µg/dL or more). Default: pre-1950 housing and low income, plus the two DPH screening measures for towns. |
+| `top` | Areas to list (default 20, at most 100). |
+| `map` | Draw a choropleth of the index (default true; SVG and PNG in `output/maps/`). |
+
+**Method:** the outreach index is the mean of the indicators' percentile ranks (0-100, ties
+averaged) among the areas in scope; an area missing a value (DPH's "NS") is ranked on the
+others. It is this server's planning ranking, not a DPH method; DPH's high-risk designation and
+its high-risk score (5-year incidence adjusted for low income and pre-1978 housing) are shown
+next to it, and designated communities outside the top list are named.
+
+**Data** (bundled snapshots): `ma-acs5-housing-age` (ACS 2020-2024 5-year B25034, built with
+`xtask/scripts/build_housing_age.py` from the keyless summary file; pre-1950 and pre-1980 with
+MOEs), `census-acs5-ma` (below 200% of poverty, under 5), and `ma-lead-screening` (DPH 2024
+surveillance report: screening and prevalence by community, high-risk list). ACS bins do not
+split at 1978. Statewide values are returned for comparison. No local data is read.
 <!-- End of Phase 8 tools. -->
 
 ## Phase 9: PHN practice toolkit and case management

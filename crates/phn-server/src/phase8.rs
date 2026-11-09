@@ -3,8 +3,9 @@
 use phn_core::Envelope;
 use phn_tools::equity::{BenefitArgs, BenefitResult};
 use phn_tools::mch::{
-    GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, MandatedReporterArgs,
-    MandatedReporterResult, MilestoneArgs, MilestoneResult, NewbornVisitArgs, NewbornVisitResult,
+    GrowthArgs, GrowthResult, LeadGuideArgs, LeadGuideResult, LeadRiskArgs, LeadRiskResult,
+    MandatedReporterArgs, MandatedReporterResult, MilestoneArgs, MilestoneResult, NewbornVisitArgs,
+    NewbornVisitResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -144,5 +145,23 @@ impl PhnServer {
         respond(phn_tools::equity::estimate_benefit_eligibility(
             &self.ctx, args,
         ))
+    }
+
+    #[tool(
+        name = "map_lead_risk",
+        description = "Rank Massachusetts cities and towns (or census tracts in a county or towns) \
+            for childhood lead outreach from old housing (ACS: built before 1950 or 1980), low \
+            income (below 200% of poverty), young children, DPH's published lead screening rates \
+            and blood lead prevalence (2024 report, towns), and DPH's high-risk community list, \
+            with a transparent outreach index (mean percentile rank) and a choropleth map (SVG \
+            and PNG) written to /data/output.",
+        annotations(title = "Map lead risk", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<LeadRiskResult>>()
+    )]
+    async fn map_lead_risk(&self, Parameters(args): Parameters<LeadRiskArgs>) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::mch::map_lead_risk(ctx, args)
+        })
+        .await
     }
 }

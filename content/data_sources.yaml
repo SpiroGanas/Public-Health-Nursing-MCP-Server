@@ -570,6 +570,19 @@ sources:
         Draft pending review; refresh every year (FPL January, MassHealth March 1, WIC June or
         July, SNAP and HEAP October 1). The FNS WIC site redirects to a blocked host; the DPH
         WIC table was used.
+  - id: ma-acs5-housing-age
+    name: ACS year structure built (B25034), Massachusetts towns and tracts
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: ma-acs5-housing-age
+    homepage: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/
+    probe_url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat
+    used_by: [map_lead_risk]
+    caveats:
+      - >-
+        ACS 2020-2024 5-year estimates; year-built bins do not split at 1978. Rebuild with
+        xtask/scripts/build_housing_age.py when the next 5-year release is out.
   # End of Phase 8 sources.
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.

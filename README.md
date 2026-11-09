@@ -111,6 +111,7 @@ output folder instead of being sent to the AI model.
 | `check_developmental_milestones` | MCH-02 | mch | CDC milestone checklist for a child's age (2022 revision) with act-early steps, screening ages, Massachusetts Early Intervention referral, and the EI programs for a town |
 | `plan_newborn_postpartum_visit` | MCH-01 | mch | Newborn and postpartum home visit plan: feeding and weight, jaundice, safe sleep, car seats, MA newborn screening, and CDC Hear Her maternal warning signs, with a DOCX plan and teaching sheet |
 | `estimate_benefit_eligibility` | EQ-06 | equity | Income screen for WIC, SNAP, MassHealth, the Health Safety Net, and heating assistance from household size and income (2026 poverty guidelines; a screen, not a determination) |
+| `map_lead_risk` | MCH-05 | mch | Ranks towns or tracts for lead outreach from pre-1950/1980 housing, low income, young children, DPH screening rates and prevalence, and DPH high-risk status, with a choropleth map |
 <!-- Phase 8 rows go above this line. -->
 
 ### Phase 9: PHN practice toolkit and case management

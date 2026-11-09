@@ -906,6 +906,33 @@
           "rows": 62
         }
       ]
+    },
+    {
+      "id": "ma-acs5-housing-age",
+      "title": "Housing units built before 1950 and before 1980 (ACS 2020-2024 5-year, table B25034) for Massachusetts, counties, cities and towns, and census tracts",
+      "publisher": "U.S. Census Bureau, American Community Survey",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b25034.dat": "806d6cb18e8e6c0855e065eca99164b07334cc32f521899aa45a4415ef7d380e"
+      },
+      "source_vintage": "ACS 2020-2024 5-year estimates (summary file modified 2026-01-29)",
+      "retrieved": "2026-11-09",
+      "license": "U.S. government work (Census Bureau); public domain.",
+      "derivation": "xtask/scripts/build_housing_age.py: B25034 cells for the state, 14 counties, 351 county subdivisions, and the 1,602 tracts in ma_acs5_indicators.csv (names from that file). Pre-1950 = built 1940-1949 + 1939 or earlier; pre-1980 = built 1950-1979 + pre-1950. MOEs (90%) of sums use sqrt(sum of squared MOEs) with only the largest MOE among zero estimates; percentages use the derived-proportion formula (ratio formula when the radicand is negative).",
+      "caveats": [
+        "ACS year-built bins do not split at 1978 (the Lead Law's cutoff); pre-1980 is the closest available. Year built is reported by respondents and is less reliable for older housing.",
+        "Tract estimates have large margins of error; compare them with care."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_housing_age.csv",
+          "sha256": "96ded09e2f97b129838b976771ec66afaeca82c534b032d67979d0002f518e7f",
+          "bytes": 186573,
+          "rows": 1968
+        }
+      ]
     }
   ]
 }

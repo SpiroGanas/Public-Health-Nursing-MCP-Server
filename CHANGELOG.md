@@ -58,6 +58,10 @@ All notable changes are recorded here. The format follows
   Safety Net, and HEAP with the 2026 poverty guidelines and each program's current limits and
   effective dates. Content `content/equity/benefit_eligibility.yaml` (pending review; refresh
   annually).
+- `map_lead_risk` (MCH-05): outreach ranking of towns or tracts (mean percentile rank of
+  pre-1950/1980 housing, low income, young children, DPH screening gap and elevated blood lead
+  prevalence) with DPH's high-risk designation and a choropleth map. Snapshot
+  `ma-acs5-housing-age` (ACS B25034, `xtask/scripts/build_housing_age.py`).
 <!-- End of Phase 8 entries. -->
 
 ### Added — Phase 9: PHN practice toolkit and case management

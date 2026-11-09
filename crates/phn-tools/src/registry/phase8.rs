@@ -41,4 +41,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Equity,
         phase: 8,
     },
+    ToolMeta {
+        name: "map_lead_risk",
+        plan_id: "MCH-05",
+        toolset: Toolset::Mch,
+        phase: 8,
+    },
 ];

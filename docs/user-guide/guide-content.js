@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 53;
+const TOOL_COUNT = 54;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -89,7 +89,7 @@ const frontChapters = [
                 // Phase 7 work-area rows go below this line.
                 // End of Phase 7 work-area rows.
                 // Phase 8 work-area rows go below this line.
-                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening.', '6'],
+                ['Maternal, child, and family health', 'Growth percentiles with corrected age and extended BMI; lead screening, follow-up, and family teaching; mandated reporting (51A) with a written-report draft; developmental milestones and Early Intervention referral; newborn and postpartum visit plans; benefit eligibility screening; lead outreach maps.', '7'],
                 // End of Phase 8 work-area rows.
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
@@ -1909,6 +1909,35 @@ const toolChapters = [
           'Only income is checked. Programs also look at immigration status, residency, assets, and who counts in the household, so encourage families to apply.',
           'Limits change every year (poverty guidelines in January, MassHealth in March, WIC in June or July, SNAP and heating assistance in October); the answer shows each date.',
           'This tool is in the equity group.',
+        ],
+      },
+      {
+        id: 'map_lead_risk',
+        title: 'Map lead risk for outreach',
+        toolset: 'mch',
+        internet: 'no',
+        files: 'yes, a map in output/maps',
+        does: 'Ranks cities and towns, or census tracts, for childhood lead outreach using old housing, low income, young children, DPH’s lead screening rates and blood lead levels, and DPH’s high-risk community list, and draws a map.',
+        when: [
+          'Planning lead outreach, screening events, or deleading promotion.',
+          'A grant application or board of health presentation on lead.',
+          'Finding the neighborhoods in your town with the oldest housing.',
+        ],
+        provide: [
+          'Optionally: towns or tracts, a county or list of towns, which measures to use, and how many areas to list.',
+        ],
+        examples: [
+          'Which towns in Bristol County should we prioritize for lead outreach?',
+          'Rank the census tracts in Lowell by pre-1950 housing and low income, and make a map.',
+          'Show the 30 Massachusetts towns with the lowest lead screening rates and old housing.',
+        ],
+        returns: [
+          'A ranked table with each measure, the outreach index, DPH’s high-risk status and score, statewide values for comparison, high-risk communities that did not make the list, and the map files.',
+        ],
+        notes: [
+          'The outreach index is the server’s planning ranking (the average of each measure’s percentile rank), not a DPH method.',
+          'Housing age comes from the Census Bureau’s survey, which groups homes as built before 1980, not 1978. Tract estimates are less precise.',
+          'Screening figures are from DPH’s 2024 report (2023 for 24 communities whose page was missing from it).',
         ],
       },
     ],

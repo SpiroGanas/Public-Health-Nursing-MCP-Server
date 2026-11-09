@@ -305,3 +305,25 @@ async fn benefit_eligibility_screen() {
     .await;
     assert!(e.contains("income"));
 }
+
+// ------------------------------------------------------------------ MCH-05
+
+#[tokio::test]
+async fn lead_risk_ranking_and_map() {
+    let h = start(|_| {}).await;
+    let s = call_ok(&h, "map_lead_risk", json!({"county": "Bristol", "top": 10})).await;
+    assert_eq!(s["data"]["ranked"].as_array().unwrap().len(), 10);
+    assert!(md(&s).contains("Outreach index"));
+    let files = s["data"]["map_files"].as_array().unwrap();
+    assert!(!files.is_empty());
+    for f in files {
+        assert!(h.data().join(f.as_str().unwrap()).exists());
+    }
+    let e = call_err(
+        &h,
+        "map_lead_risk",
+        json!({"geography": "tract", "indicators": ["elevated_bll"]}),
+    )
+    .await;
+    assert!(e.contains("cities and towns only"));
+}
