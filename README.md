@@ -287,6 +287,7 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | `PHN_HTTP_TIMEOUT_SECS` | `20` | Timeout for public API calls. |
 | `PHN_DATA_DIR`, `PHN_CACHE_DIR`, `PHN_OUTPUT_DIR`, `PHN_POLICY_DIR`, `PHN_SETTINGS_FILE` | `/data`, `/cache`, `/data/output`, `/data/policies`, `/cache/phn-settings.toml` | Folder locations (rarely changed). |
 | `PHN_LOG` | `info` | Log level. Logs go to stderr; stdout carries the MCP protocol. |
+| `PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` | none | Optional free API keys. Everything works without them (bundled snapshots or lower rate limits); the Census key is needed for live ACS data from some networks, and the AirNow key adds the AirNow API to the public AirNow files. |
 
 **Profiles and toolsets.** Exposing every tool at once crowds the model's context, so tools are
 grouped into toolsets (`core`, `cd`, `vax`, `school`, `mch`, `aging`, `bh`, `epr`, `env`,
