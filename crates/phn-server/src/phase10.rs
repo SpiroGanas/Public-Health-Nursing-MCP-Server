@@ -1,20 +1,214 @@
 //! Phase 10 tools: healthy aging and mental health screening.
 
-#[allow(unused_imports)]
 use phn_core::Envelope;
-#[allow(unused_imports)]
+use phn_tools::aging::{
+    AcpArgs, AcpResult, AgingServicesArgs, AgingServicesResult, CoverageArgs, CoverageResult,
+    FallRiskArgs, FallRiskResult, NursingHomeArgs, NursingHomeResult, ProtectiveArgs,
+    ProtectiveResult, VulnerabilityArgs, VulnerabilityResult,
+};
+use phn_tools::bh::{CrisisArgs, CrisisResult, ScreenArgs, ScreenResult};
 use rmcp::handler::server::common::schema_for_output;
-#[allow(unused_imports)]
 use rmcp::handler::server::wrapper::Parameters;
-#[allow(unused_imports)]
 use rmcp::model::CallToolResult;
-#[allow(unused_imports)]
-use rmcp::tool;
-use rmcp::tool_router;
+use rmcp::{tool, tool_router};
 
-#[allow(unused_imports)]
 use crate::server::{PhnServer, blocking, respond};
 
-// Remove `allow_empty` once this phase has tools.
-#[tool_router(router = phase10_router, vis = "pub(crate)", allow_empty)]
-impl PhnServer {}
+#[tool_router(router = phase10_router, vis = "pub(crate)")]
+impl PhnServer {
+    #[tool(
+        name = "score_mental_health_screen",
+        description = "Score a free mental health screening instrument from its item responses: \
+            PHQ-2, PHQ-9, GAD-2, GAD-7, Edinburgh Postnatal Depression Scale (EPDS), NIMH Ask \
+            Suicide-Screening Questions (ASQ), or the C-SSRS screener. Validates ranges, gives the \
+            total and the published cutoff or risk level, and raises safety alerts (PHQ-9 item 9, \
+            EPDS item 10, ASQ positive or acute positive, C-SSRS risk) with the required steps \
+            (NIMH ASQ pathway and brief suicide safety assessment, 988, agency protocol). Never \
+            diagnoses. Omit the instrument to list instruments, cutoffs, and license terms. With \
+            file, scores a CSV/XLSX of screens in /data, writes per-row results to /data/output, \
+            and returns only suppressed counts.",
+        annotations(title = "Score a mental health screen", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<ScreenResult>>()
+    )]
+    async fn score_mental_health_screen(
+        &self,
+        Parameters(args): Parameters<ScreenArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::bh::score_mental_health_screen(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "find_crisis_resources",
+        description = "Crisis resources for a Massachusetts town: 911 for immediate danger, the \
+            988 Suicide and Crisis Lifeline (call, text, chat; Spanish, interpretation in 240+ \
+            languages, ASL videophone, TTY, veterans), the Massachusetts Behavioral Health Help \
+            Line (call or text, 200+ languages), Mobile Crisis Intervention for youth and adults \
+            through Community Behavioral Health Centers, the Crisis Text Line, and the town's \
+            local CBHC with address and phone. Says which line to use when and how to reach each \
+            in a requested language.",
+        annotations(title = "Find crisis resources", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<CrisisResult>>()
+    )]
+    async fn find_crisis_resources(
+        &self,
+        Parameters(args): Parameters<CrisisArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::bh::find_crisis_resources(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "steadi_fall_risk_assessment",
+        description = "CDC STEADI fall risk assessment for an older adult: scores the Stay \
+            Independent checklist (12 items, at risk at 4 or more or any fall in the past year) or \
+            the three key questions, interprets the Timed Up and Go (12 seconds or more), \
+            30-Second Chair Stand (CDC below-average scores by age and sex), 4-Stage Balance Test \
+            (tandem stand under 10 seconds), and orthostatic blood pressure, and builds an \
+            intervention plan by risk factor plus home-safety fixes from CDC's Check for Safety \
+            checklist. Can write the plan as DOCX or PDF to /data/output. No names needed.",
+        annotations(title = "STEADI fall risk assessment", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<FallRiskResult>>()
+    )]
+    async fn steadi_fall_risk_assessment(
+        &self,
+        Parameters(args): Parameters<FallRiskArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::steadi_fall_risk_assessment(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "elder_protective_services_guide",
+        description = "Massachusetts reporting rules for abuse, neglect, financial exploitation, and \
+            self-neglect of adults 60 and older (Adult Protective Services, M.G.L. c.19A; hotline \
+            800-922-2275) and adults 18-59 with disabilities (DPPC, c.19C), and abuse by nursing \
+            home or hospital staff (DPH): who must report, how and how fast (verbal now, written \
+            within 48 hours), what a report contains, timelines, signs, self-neglect, and \
+            protections. Returns a report-narrative template; with details_file (a CSV/XLSX in \
+            /data) it fills the narratives and writes them to /data/output without returning the \
+            details. Never pass names or addresses as arguments.",
+        annotations(title = "Elder and disabled adult protective services guide", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<ProtectiveResult>>()
+    )]
+    async fn elder_protective_services_guide(
+        &self,
+        Parameters(args): Parameters<ProtectiveArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::elder_protective_services_guide(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "find_ma_aging_services",
+        description = "For a Massachusetts city or town: the Aging Services Access Point (Boston: by \
+            neighborhood) with address and phone, the Council on Aging and how to reach it, the \
+            SHINE Medicare counseling office, the senior nutrition project for home-delivered and \
+            community meals, caregiver and dementia supports, the elder abuse hotline, the Long-Term \
+            Care Ombudsman, and MassOptions, with what each program offers. Filter by needs \
+            (home_care, meals, insurance, caregiver, dementia, protective, long_term_care, \
+            community, information).",
+        annotations(title = "Find Massachusetts aging services", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<AgingServicesResult>>()
+    )]
+    async fn find_ma_aging_services(
+        &self,
+        Parameters(args): Parameters<AgingServicesArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::find_ma_aging_services(ctx, args)
+        })
+        .await
+    }
+
+    #[tool(
+        name = "explain_older_adult_coverage_options",
+        description = "Plain-language comparison of coverage for older adults in Massachusetts: Medicare Parts \
+            A, B, D, Medigap, and Medicare Advantage with the current year's premiums, deductibles, \
+            and income-related Part B premiums (CMS), Medicare Savings Programs (QMB at or below \
+            190% FPL, SLMB/QI at or below 225%, no asset limit), MassHealth for people 65+, the \
+            Frail Elder Waiver, PACE (with county availability), Senior Care Options, and One Care, \
+            each with its rules and effective dates. Given age, income, assets, and coverage, \
+            screens each program (likely, maybe, probably not, need more information). Not an \
+            eligibility decision.",
+        annotations(title = "Explain older adult coverage options", read_only_hint = true, idempotent_hint = true, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<CoverageResult>>()
+    )]
+    async fn explain_older_adult_coverage_options(
+        &self,
+        Parameters(args): Parameters<CoverageArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::explain_older_adult_coverage_options(
+            &self.ctx, args,
+        ))
+    }
+
+    #[tool(
+        name = "nursing_home_quality_lookup",
+        description = "CMS Care Compare data for Massachusetts nursing homes by name, CMS Certification Number, \
+            town, or county (or a statewide summary): overall, health inspection, staffing, and \
+            quality star ratings; nurse staffing hours and turnover; infection control citations \
+            from the last three years with F-tags and scope/severity; fines and penalties; Special \
+            Focus and abuse flags; and staff and resident COVID-19, flu, and pneumococcal \
+            vaccination, with Massachusetts and U.S. averages. Live from the CMS Provider Data \
+            Catalog with a dated snapshot when offline.",
+        annotations(title = "Nursing home quality lookup", read_only_hint = true, idempotent_hint = true, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<NursingHomeResult>>()
+    )]
+    async fn nursing_home_quality_lookup(
+        &self,
+        Parameters(args): Parameters<NursingHomeArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::nursing_home_quality_lookup(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "map_older_adult_vulnerability",
+        description = "Where older adults who live alone, have a disability, have no vehicle, speak English \
+            less than very well, or live in poverty are concentrated (American Community Survey \
+            5-year estimates with margins of error), for a Massachusetts city or town (by census \
+            tract), a county or the state (by city or town), compared with Massachusetts and the \
+            U.S. Ranks sub-areas by one indicator or by how many exceed the state value, flags \
+            unreliable estimates, and can draw a choropleth map (SVG and PNG in /data/output). For \
+            outreach, wellness checks, and emergency planning; area estimates only.",
+        annotations(title = "Map older adult vulnerability", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = true),
+        output_schema = schema_for_output::<Envelope<VulnerabilityResult>>()
+    )]
+    async fn map_older_adult_vulnerability(
+        &self,
+        Parameters(args): Parameters<VulnerabilityArgs>,
+    ) -> CallToolResult {
+        respond(phn_tools::aging::map_older_adult_vulnerability(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "advance_care_planning_toolkit",
+        description = "Advance care planning in Massachusetts: health care proxy rules from M.G.L. c.201D (who \
+            can be an agent, two adult witnesses, when the agent's authority starts, revocation), a \
+            fillable proxy template, MOLST status (flagged as unverified; the old molst-ma.org \
+            domain is no longer the program's site), The Conversation Project's guides (link), and a \
+            facilitator script and handout for a community session scaled to its length. Writes \
+            session materials as DOCX or PDF; with details_file (a CSV/XLSX in /data) fills proxy \
+            forms locally, using agency translations from /data/templates/<language>/ and English \
+            otherwise, without returning any details.",
+        annotations(title = "Advance care planning toolkit", read_only_hint = false, destructive_hint = false, idempotent_hint = false, open_world_hint = false),
+        output_schema = schema_for_output::<Envelope<AcpResult>>()
+    )]
+    async fn advance_care_planning_toolkit(
+        &self,
+        Parameters(args): Parameters<AcpArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::aging::advance_care_planning_toolkit(ctx, args)
+        })
+        .await
+    }
+}

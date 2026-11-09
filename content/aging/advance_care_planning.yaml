@@ -1,0 +1,188 @@
+# Advance care planning in Massachusetts: the health care proxy (M.G.L. c.201D), MOLST, The
+# Conversation Project (link only), and a facilitator script for community sessions, for
+# advance_care_planning_toolkit (AGE-07).
+#
+# REVIEW STATUS: pending. Health care proxy rules are transcribed from c.201D on
+# malegislature.gov (2026-11-09). MOLST could not be verified: see meta.verification_note.
+# Schema: content/schemas/aging_advance_care_planning.schema.json
+meta:
+  id: aging-advance-care-planning
+  title: Advance care planning in Massachusetts (health care proxy, MOLST, community sessions)
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: null
+  source:
+    title: "M.G.L. c.201D: Health care proxies"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D
+  related_sources:
+    - title: The Conversation Project (link only; not reachable from the build environment)
+      publisher: Institute for Healthcare Improvement
+      url: https://theconversationproject.org/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Health care proxy rules are transcribed from M.G.L. c.201D ss.1-3, 5-8, and 14-17 (high
+    confidence). Massachusetts law sets the proxy's execution requirements but this file found no
+    official state form on a reachable page; the proxy template is drafted from s.2 and must be
+    checked against the form your agency uses (medium confidence). MOLST could NOT be verified:
+    on 2026-11-09 the former program domain molst-ma.org served unrelated content and no
+    mass.gov MOLST page could be found, so the MOLST text is low confidence and the tool does not
+    link to that domain. The Conversation Project's site was not reachable; it is linked only.
+    The facilitator script is drafted for this server (medium confidence) and needs the nurse's
+    review.
+
+sources:
+  mgl-201d-1:
+    title: "M.G.L. c.201D, s.1 (definitions)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section1
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-2:
+    title: "M.G.L. c.201D, s.2 (appointing an agent; signing and witnesses; alternate agent)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section2
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-3:
+    title: "M.G.L. c.201D, s.3 (facility operators and employees as agents)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section3
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-5:
+    title: "M.G.L. c.201D, s.5 (agent's authority and standard for decisions)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section5
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-6:
+    title: "M.G.L. c.201D, s.6 (determination of incapacity)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section6
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-7:
+    title: "M.G.L. c.201D, s.7 (revocation)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section7
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-8:
+    title: "M.G.L. c.201D, s.8 (immunity)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section8
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-14:
+    title: "M.G.L. c.201D, ss.14-15 (physician and facility conscience provisions)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section14
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-16:
+    title: "M.G.L. c.201D, s.16 (no proxy; earlier powers of attorney)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section16
+    effective_date: null
+    retrieved: 2026-11-09
+  mgl-201d-17:
+    title: "M.G.L. c.201D, s.17 (court proceedings)"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section17
+    effective_date: null
+    retrieved: 2026-11-09
+  conversation-project:
+    title: The Conversation Project (conversation starter guides; link only, not reviewed)
+    publisher: Institute for Healthcare Improvement
+    url: https://theconversationproject.org/
+    effective_date: null
+    retrieved: 2026-11-09
+
+proxy_rules:
+  - {text: "Every competent adult has the right to appoint a health care agent by signing a health care proxy. Every adult is presumed competent.", source: mgl-201d-2, section: "s.2"}
+  - {text: "The proxy must be in writing and signed by the adult (or at their direction) in the presence of two other adults who sign as witnesses and affirm in writing that the principal appeared to be at least 18, of sound mind, and under no constraint or undue influence.", source: mgl-201d-2, section: "s.2"}
+  - {text: "The person named as agent may not be a witness.", source: mgl-201d-2, section: "s.2"}
+  - {text: "An alternate agent may be named, to serve when the agent is not available, willing, or competent to make a timely decision, or is disqualified.", source: mgl-201d-2, section: "s.2"}
+  - {text: "An operator, administrator, or employee of a facility cannot be the agent of a patient or resident of that facility (or an applicant) unless related by blood, marriage, or adoption.", source: mgl-201d-3, section: "s.3"}
+  - {text: "The agent's authority begins only after the attending physician determines in writing, in the medical record, that the principal lacks capacity to make or communicate health care decisions; the principal and agent are told orally and in writing. If the principal regains capacity, the agent's authority stops.", source: mgl-201d-6, section: "s.6"}
+  - {text: "If the principal objects to an agent's decision, the principal's decision prevails unless a court has found that the principal lacks capacity.", source: mgl-201d-6, section: "s.6"}
+  - {text: "The agent may make any health care decision the principal could make, including about life-sustaining treatment, subject to limits written in the proxy; the agent decides by the principal's wishes (including religious and moral beliefs) or, if those are unknown, the principal's best interests, and may see the principal's medical information.", source: mgl-201d-5, section: "s.5"}
+  - {text: "A physician given a proxy must put it (or a copy) in the medical record; providers follow the agent's decisions as if the principal made them.", source: mgl-201d-5, section: "s.5"}
+  - {text: "The principal may revoke the proxy by telling the agent or a provider, orally or in writing, or by any act showing intent to revoke. A later proxy revokes an earlier one, and divorce or legal separation revokes a spouse's appointment as agent. Nursing staff told of a revocation must notify the attending physician immediately.", source: mgl-201d-7, section: "s.7"}
+  - {text: "Providers who carry out an agent's decision in good faith, and agents who decide in good faith, are not liable.", source: mgl-201d-8, section: "s.8"}
+  - {text: "A physician or a private religious facility may decline an agent's decision that conflicts with their moral or religious views (or the facility's stated policy), but must arrange transfer or seek a court's help.", source: mgl-201d-14, section: "ss.14-15"}
+  - {text: "Not appointing an agent creates no presumption about a person's wishes; without a proxy, providers may rely on the informed consent of responsible parties as the law allows.", source: mgl-201d-16, section: "s.16"}
+  - {text: "Providers, guardians, family, close friends, or the Commissioner of Public Health may ask a court to decide disputes, such as the proxy's validity or removing an agent acting in bad faith.", source: mgl-201d-17, section: "s.17"}
+
+proxy_template:
+  title: Health Care Proxy (Massachusetts General Laws chapter 201D)
+  confidence: medium
+  sections:
+    - heading: Principal
+      fields: ["Principal Name", "Principal Address"]
+      text: "I, {{Principal Name}}, of {{Principal Address}}, appoint the health care agent named below to make health care decisions for me if my attending physician determines that I lack the capacity to make or communicate health care decisions."
+    - heading: Health care agent
+      fields: ["Agent Name", "Agent Address", "Agent Phone"]
+      text: "Agent: {{Agent Name}}, {{Agent Address}}, telephone {{Agent Phone}}."
+    - heading: Alternate agent (optional)
+      fields: ["Alternate Name", "Alternate Address", "Alternate Phone"]
+      text: "If my agent is not available, willing, or competent to act, I appoint {{Alternate Name}}, {{Alternate Address}}, telephone {{Alternate Phone}}."
+    - heading: Limitations (optional)
+      fields: ["Limitations"]
+      text: "My agent has authority to make all health care decisions for me, including decisions about life-sustaining treatment, except: {{Limitations}}"
+    - heading: Signature
+      fields: ["Signature Date"]
+      text: "Signed by me (or at my direction) in the presence of two adult witnesses on {{Signature Date}}. Signature: ____________________"
+    - heading: Witnesses
+      fields: ["Witness 1 Name", "Witness 2 Name"]
+      text: "We, the undersigned, each witnessed the signing of this health care proxy by the principal or at the direction of the principal and state that the principal appeared to be at least 18 years of age, of sound mind, and under no constraint or undue influence. Neither of us is named as the health care agent or alternate. Witness 1: {{Witness 1 Name}} ____________________  Witness 2: {{Witness 2 Name}} ____________________"
+  source: mgl-201d-2
+  section: "s.2"
+
+after_signing:
+  - Give copies to the agent and alternate, to your primary care clinician, and to any hospital or facility where you get care; ask that it be put in your medical record.
+  - Keep the original where it can be found; tell family who your agent is and what matters most to you.
+  - Review it when your health, relationships, or wishes change; a new proxy revokes the old one.
+
+molst:
+  status: not_verified
+  confidence: low
+  text: >-
+    MOLST (Medical Orders for Life-Sustaining Treatment) is the Massachusetts medical order form
+    for people with serious illness, completed with a clinician; unlike a health care proxy it is
+    a set of current medical orders. The program's former web domain (molst-ma.org) served
+    unrelated content when checked on 2026-11-09, and no official mass.gov MOLST page
+    could be found, so this description and the form's current rules are NOT verified. Get the
+    current MOLST form and training from your health system or DPH, and do not use the old domain.
+  warning: Do not link to or download from molst-ma.org; the domain no longer belongs to the MOLST program.
+
+conversation_project:
+  url: https://theconversationproject.org/
+  text: >-
+    The Conversation Project (Institute for Healthcare Improvement) offers free conversation
+    starter guides, including for choosing a health care proxy, in several languages. Linked only:
+    the site could not be reached to review its current materials.
+  source: conversation-project
+
+facilitator_script:
+  confidence: medium
+  note: Drafted for this server from the statute; adapt it to your audience and agency policy.
+  segments:
+    - {title: Welcome and ground rules, minutes: 5, script: "Introduce yourself and the purpose: planning ahead so the people you trust can speak for you. Everyone takes part at their own pace; no one has to share personal details. This is information, not legal or medical advice."}
+    - {title: Why plan ahead, minutes: 10, script: "Ask: what would you want your family to know if you could not speak for yourself? Explain that a health care proxy names the person who decides only if a doctor finds you cannot decide or communicate, and that you stay in charge whenever you can."}
+    - {title: Choosing a health care agent, minutes: 10, script: "Discuss who makes a good agent: someone 18 or older who knows your values, can be reached, and will honor your wishes even under pressure. Name an alternate. Staff of a facility where you live cannot be your agent unless related to you."}
+    - {title: Completing the health care proxy, minutes: 15, script: "Walk through the form: your name, your agent and alternate, any limits. Sign in front of two adult witnesses; your agent cannot be a witness. Witnesses confirm you appeared to be 18 or older, of sound mind, and not under pressure."}
+    - {title: Talking with your agent and family, minutes: 10, script: "Use a conversation starter (for example The Conversation Project's guides): what matters most, what worries you, what treatments you would or would not want. Encourage writing notes to share with the agent."}
+    - {title: Serious illness and medical orders, minutes: 5, script: "For people with serious illness, clinicians can complete medical orders (MOLST) with them; ask your clinician. A health care proxy is for everyone 18 and older."}
+    - {title: Next steps and questions, minutes: 5, script: "Give copies to your agent and clinicians, keep the original safe, review it when things change, and revoke it any time by telling your agent or provider. Offer one-to-one help and interpreters."}
+
+handout_points:
+  - A health care proxy names one person (and an alternate) to make health care decisions for you only if your doctor finds you cannot make or communicate them.
+  - Sign it in front of two adult witnesses; the person you name cannot be a witness.
+  - You stay in charge whenever you can decide; if you object to your agent's decision, your decision counts unless a court says otherwise.
+  - Give copies to your agent, your clinicians, and your hospital; you can change or cancel it at any time.

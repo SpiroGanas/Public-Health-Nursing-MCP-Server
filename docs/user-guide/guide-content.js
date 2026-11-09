@@ -11,7 +11,7 @@
 
 const VERSION = '0.7.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 55;
+const TOOL_COUNT = 64;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -94,6 +94,7 @@ const frontChapters = [
                 // Phase 9 work-area rows go below this line.
                 // End of Phase 9 work-area rows.
                 // Phase 10 work-area rows go below this line.
+                ['Healthy aging and mental health screening', 'Score depression, anxiety, perinatal, and suicide risk screens with safety alerts; find crisis and aging services by town; assess fall risk; report elder abuse; explain coverage; look up nursing home quality; map older adults at risk; plan advance care planning sessions.', '9'],
                 // End of Phase 10 work-area rows.
                 // Phase 11 work-area rows go below this line.
                 // End of Phase 11 work-area rows.
@@ -1983,6 +1984,180 @@ const toolChapters = [
   // Phase 9 chapter goes below this line.
   // End of Phase 9 chapter.
   // Phase 10 chapter goes below this line.
+  {
+    title: 'Healthy aging and mental health screening',
+    intro: 'These tools support work with older adults and mental health screening: scoring free screening instruments with safety alerts, finding crisis and aging services by town, fall risk assessment, elder protective services reporting, coverage options, nursing home quality, mapping older adults at risk, and advance care planning. The screening and crisis tools are in the bh group (school_nurse profile); the others are in the aging group. All content was drafted in November 2026 from the cited sources and is pending review.',
+    tools: [
+      {
+        id: 'score_mental_health_screen',
+        title: 'Score a mental health screen',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'only for a file of screens',
+        does: 'Scores the PHQ-2, PHQ-9, GAD-2, GAD-7, Edinburgh Postnatal Depression Scale, NIMH Ask Suicide-Screening Questions (ASQ), or the C-SSRS screener from the item answers, checks the answers, gives the total and the published cutoff, and raises safety alerts with the steps to take. It never diagnoses.',
+        when: [
+          'After a depression, anxiety, or perinatal screen at a clinic or home visit.',
+          'When a suicide risk screen is positive and you need the next steps.',
+          'Summarizing a screening event from a spreadsheet.',
+        ],
+        provide: [
+          'The instrument and the answers in order (numbers, yes/no, or words such as “several days”).',
+          'For the ASQ: age, whether the person refused, and when a past attempt was. For the C-SSRS: whether behavior was in the past 3 months.',
+          'Or a spreadsheet in your data folder with columns q1, q2, ... (one row per screen).',
+        ],
+        examples: [
+          'Score a PHQ-9: 2, 2, 1, 2, 1, 1, 1, 0, 1.',
+          'ASQ answers: no, no, yes, no, and yes to question 5. What now?',
+          'Score the EPDS screens in postpartum_screens.xlsx.',
+        ],
+        returns: [
+          'The total, severity, result (for example acute positive), each item, safety alerts with cited steps, 988 and the Crisis Text Line, and the instrument’s license terms. For a file: counts only, with a results file listing rows with alerts first.',
+        ],
+        notes: [
+          'Any answer above zero on PHQ-9 item 9 or EPDS item 10 raises a same-day safety alert, whatever the total.',
+          'Only the public-domain ASQ’s wording is included. PHQ, GAD, EPDS, and C-SSRS items are listed by topic; use the official forms.',
+          'Follow your agency’s suicide risk protocol.',
+        ],
+      },
+      {
+        id: 'find_crisis_resources',
+        title: 'Find crisis resources',
+        toolset: 'bh',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists 911, the 988 Lifeline, the Massachusetts Behavioral Health Help Line, Mobile Crisis Intervention for youth and adults, the Crisis Text Line, and the town’s Community Behavioral Health Center, with how to call, text, or chat and language options.',
+        when: [
+          'Someone is in crisis, or you are preparing a resource card.',
+          'A family needs help in Spanish, another language, or ASL.',
+        ],
+        provide: ['A town (or your saved town), and optionally youth or adult and a language.'],
+        examples: [
+          'Crisis resources for a teenager in Lowell; the family speaks Spanish.',
+          'Who is the Community Behavioral Health Center for Gardner?',
+        ],
+        returns: ['Which line to use when, each line’s numbers and language options, and the local CBHC’s address and phone.'],
+        notes: [
+          'Numbers were read from mass.gov and NIMH in November 2026; call-test them before publishing.',
+          'No peer warmline is listed because none could be verified.',
+        ],
+      },
+      {
+        id: 'steadi_fall_risk_assessment',
+        title: 'Assess fall risk (CDC STEADI)',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'only if you ask for a plan document',
+        does: 'Scores CDC’s Stay Independent checklist or the three key questions, interprets the Timed Up and Go, 30-Second Chair Stand (by age and sex), 4-Stage Balance Test, and orthostatic blood pressure, and builds an intervention and home-safety plan.',
+        when: [
+          'A fall risk screen at a home visit, senior center, or clinic.',
+          'Planning a fall prevention referral after a fall.',
+        ],
+        provide: [
+          'The 12 Stay Independent answers or the three key questions.',
+          'Any test results, age and sex (for the chair stand), and home hazards you saw.',
+        ],
+        examples: [
+          'Stay Independent: yes to items 1, 3, 4, 6, and 10. TUG 14 seconds, 7 chair stands, man aged 82.',
+          'Make a fall prevention plan in Word for that assessment.',
+        ],
+        returns: ['The screen, each test against CDC’s threshold, risk factors, interventions, assessments still to do, home-safety fixes, and follow-up timing.'],
+        notes: ['Do not type names; add them to the plan document on your computer.'],
+      },
+      {
+        id: 'elder_protective_services_guide',
+        title: 'Report suspected elder or disabled adult abuse',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'only to fill report narratives',
+        does: 'Explains Massachusetts reporting rules for abuse, neglect, financial exploitation, and self-neglect of adults 60 and older (Adult Protective Services) and adults 18 to 59 with disabilities (DPPC): who must report, how, how fast, what a report contains, and what happens next. Fills report narratives from a file on your computer.',
+        when: [
+          'You suspect abuse, neglect, or self-neglect during a visit.',
+          'Training staff on mandated reporting.',
+        ],
+        provide: [
+          'Age, setting (community or facility), the concern, and your role. Never names in the chat.',
+          'Optionally a spreadsheet in your data folder with the report details (one row per report).',
+        ],
+        examples: [
+          'I am a public health nurse. An 84-year-old client says her son takes her checks. What do I do?',
+          'Fill report narratives from apsreport.csv.',
+        ],
+        returns: ['The agency and hotline, mandated reporter duties, timelines, signs, self-neglect guidance, the narrative template, and counts of filled narratives.'],
+        notes: [
+          'A phone report by a mandated reporter needs the written form within 48 hours; an online report does not.',
+          'Legal decision support, not legal advice.',
+        ],
+      },
+      {
+        id: 'find_ma_aging_services',
+        title: 'Find aging services for a town',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'no',
+        does: 'Lists the town’s Aging Services Access Point, Council on Aging, SHINE Medicare counseling office, senior nutrition (meals) project, caregiver and dementia supports, and protective services and ombudsman contacts.',
+        when: ['Connecting an older adult or caregiver to services.', 'Building a resource list for a town.'],
+        provide: ['A town, and optionally needs such as meals, insurance, caregiver, or dementia.'],
+        examples: ['What aging services are there for Pittsfield?', 'Who delivers meals and does SHINE counseling in Orange?'],
+        returns: ['Providers with addresses and phones, statewide lines, and what each program offers.'],
+        notes: ['Council on Aging phone numbers are not included; call MassOptions (800) 243-4636 or use AGE’s map.'],
+      },
+      {
+        id: 'explain_older_adult_coverage_options',
+        title: 'Explain coverage options for older adults',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'no',
+        does: 'Explains Medicare (with this year’s premiums and deductibles), Medicare Savings Programs, MassHealth for people 65 and older, the Frail Elder Waiver, PACE, Senior Care Options, and One Care, and screens each from the facts you give.',
+        when: ['An older adult cannot afford Medicare costs.', 'Exploring options to stay at home with care needs.'],
+        provide: ['Any of: age, household size, monthly income, assets, current coverage, nursing home level of care, and town.'],
+        examples: ['A 70-year-old couple with $3,900 a month and Medicare: what help is there?', 'Is PACE available in Barnstable?'],
+        returns: ['Medicare costs, each program’s rules and a screen with reasons, the Medicare Savings Program level, PACE availability, and where to get help.'],
+        notes: ['A screen, not an eligibility decision. Medicare figures are for 2026; update each November.'],
+      },
+      {
+        id: 'nursing_home_quality_lookup',
+        title: 'Look up nursing home quality',
+        toolset: 'aging',
+        internet: 'yes (works offline from a snapshot)',
+        files: 'no',
+        does: 'Shows CMS Care Compare data for Massachusetts nursing homes: star ratings, staffing, inspections and infection control citations, penalties, and staff and resident vaccination, with state and national averages.',
+        when: ['Preparing for an outbreak response or infection control visit.', 'Comparing facilities in your area.'],
+        provide: ['A facility name or CMS number, a town or county, or ask for a statewide summary.'],
+        examples: ['Infection control citations for nursing homes in Worcester.', 'Statewide, which nursing homes have the lowest staff flu vaccination?'],
+        returns: ['Ratings, staffing, citations with F-tags and severity, vaccination rates, flags, and averages.'],
+        notes: ['Citations may be under dispute or already corrected; check each one’s status.'],
+      },
+      {
+        id: 'map_older_adult_vulnerability',
+        title: 'Map older adults at risk',
+        toolset: 'aging',
+        internet: 'yes (works offline from a snapshot)',
+        files: 'only for a map',
+        does: 'Shows where older adults who live alone, have a disability, have no vehicle, speak limited English, or live in poverty are concentrated, by census tract or town, with margins of error and a map.',
+        when: ['Planning outreach or wellness checks.', 'Emergency preparedness and grant narratives.'],
+        provide: ['A town, county, or Massachusetts, and optionally what to rank by and whether to draw a map.'],
+        examples: ['Which tracts in Springfield have the most older adults living alone? Make a map.', 'Rank Franklin County towns by older adults without a vehicle.'],
+        returns: ['The area’s five indicators compared with the state and U.S., ranked sub-areas, reliability flags, and a map file.'],
+        notes: ['Small-area survey estimates can be unreliable; look at the margins of error.'],
+      },
+      {
+        id: 'advance_care_planning_toolkit',
+        title: 'Advance care planning toolkit',
+        toolset: 'aging',
+        internet: 'no',
+        files: 'for session materials and filled proxies',
+        does: 'Explains the Massachusetts health care proxy, provides a proxy template, a facilitator script and handout for a community session, and the status of MOLST, and fills proxy forms from a file on your computer, using your agency’s translations when you have them.',
+        when: ['Running a community advance care planning session.', 'Helping clients complete health care proxies.'],
+        provide: ['Session length and whether you want Word or PDF materials; optionally a spreadsheet with proxy details and a Language column.'],
+        examples: ['Plan a 45-minute health care proxy session at the senior center and make the handouts.', 'Fill health care proxies from proxy_clinic.csv.'],
+        returns: ['Proxy rules from the law, the template, the script with timings, the handout, MOLST status, and counts of filled forms by language.'],
+        notes: [
+          'MOLST could not be verified: the old molst-ma.org web address no longer belongs to the program. Get the current form from your health system or DPH.',
+          'Put agency translations in templates/<language>/health_care_proxy.md in your data folder.',
+        ],
+      },
+    ],
+  },
   // End of Phase 10 chapter.
   // Phase 11 chapter goes below this line.
   // End of Phase 11 chapter.

@@ -1,0 +1,280 @@
+# CDC STEADI (Stopping Elderly Accidents, Deaths & Injuries) fall risk screening, assessments,
+# norms, and interventions, for steadi_fall_risk_assessment (AGE-01).
+#
+# REVIEW STATUS: pending. Transcribed from the CDC STEADI materials retrieved on 2026-11-08.
+# Schema: content/schemas/aging_steadi_falls.schema.json
+meta:
+  id: aging-steadi-falls
+  title: CDC STEADI fall risk screening, gait and balance norms, and interventions
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2019-01-01
+  source:
+    title: "STEADI Algorithm for Fall Risk Screening, Assessment, and Intervention among Community-Dwelling Adults 65 years and older (2019)"
+    publisher: Centers for Disease Control and Prevention, National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Algorithm-508.pdf
+  related_sources:
+    - title: "Stay Independent brochure: Check Your Risk for Falling (2023)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/steadi/pdf/steadi-brochure-stayindependent-508.pdf
+    - title: "STEADI assessments: Timed Up and Go, 30-Second Chair Stand, 4-Stage Balance Test, Measuring Orthostatic Blood Pressure (2017)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/steadi/hcp/clinical-resources/index.html
+    - title: "Check for Safety: A Home Fall Prevention Checklist for Older Adults (2017)"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/steadi/pdf/steadi-brochure-checkforsafety-508.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Transcribed on 2026-11-08 from the CDC STEADI algorithm (2019), Stay Independent brochure
+    (2023), the four 2017 assessment sheets, and the Check for Safety brochure (2017); all were
+    retrieved from cdc.gov (high confidence). The chair-stand cut-offs are CDC's "below average"
+    scores; CDC gives none below age 60 or above 94, so the tool reports no norm outside those
+    ages. The Stay Independent checklist was developed by the Greater Los Angeles VA GRECC
+    (Rubenstein et al., J Safety Res 2011) and adapted by CDC with the authors' permission.
+
+sources:
+  steadi-algorithm:
+    title: STEADI Algorithm for Fall Risk Screening, Assessment, and Intervention (2019)
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Algorithm-508.pdf
+    effective_date: 2019-01-01
+    retrieved: 2026-11-08
+  stay-independent:
+    title: "Stay Independent: Check Your Risk for Falling (brochure, 2023)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/pdf/steadi-brochure-stayindependent-508.pdf
+    effective_date: 2023-01-01
+    retrieved: 2026-11-08
+  tug:
+    title: "STEADI Assessment: Timed Up & Go (TUG) (2017)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-TUG-508.pdf
+    effective_date: 2017-01-01
+    retrieved: 2026-11-08
+  chair-stand:
+    title: "STEADI Assessment: 30-Second Chair Stand (2017)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-30Sec-508.pdf
+    effective_date: 2017-01-01
+    retrieved: 2026-11-08
+  four-stage:
+    title: "STEADI Assessment: The 4-Stage Balance Test (2017)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-4Stage-508.pdf
+    effective_date: 2017-01-01
+    retrieved: 2026-11-08
+  orthostatic:
+    title: "STEADI Assessment: Measuring Orthostatic Blood Pressure (2017)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/media/pdfs/STEADI-Assessment-MeasuringBP-508.pdf
+    effective_date: 2017-01-01
+    retrieved: 2026-11-08
+  check-for-safety:
+    title: "Check for Safety: A Home Fall Prevention Checklist for Older Adults (2017)"
+    publisher: CDC National Center for Injury Prevention and Control
+    url: https://www.cdc.gov/steadi/pdf/steadi-brochure-checkforsafety-508.pdf
+    effective_date: 2017-01-01
+    retrieved: 2026-11-08
+
+stay_independent:
+  at_risk_score: 4
+  rule: >-
+    Add the points for each yes. A score of 4 or more means the person may be at risk for
+    falling. If the score is under 4, ask whether the person fell in the past year; if yes, the
+    person is at risk (STEADI algorithm).
+  attribution: >-
+    Developed by the Greater Los Angeles VA Geriatric Research Education Clinical Center and
+    affiliates; a validated fall risk self-assessment (Rubenstein et al., J Safety Res
+    2011;42(6):493-499). Adapted by CDC with permission of the authors.
+  items:
+    - {n: 1, points: 2, wording: "I have fallen in the past year.", why: "People who have fallen once are likely to fall again.", factor: fall_history}
+    - {n: 2, points: 2, wording: "I use or have been advised to use a cane or walker to get around safely.", why: "People who have been advised to use a cane or walker may already be more likely to fall.", factor: gait_balance}
+    - {n: 3, points: 1, wording: "Sometimes I feel unsteady when I am walking.", why: "Unsteadiness or needing support while walking are signs of poor balance.", factor: gait_balance}
+    - {n: 4, points: 1, wording: "I steady myself by holding onto furniture when walking at home.", why: "This is also a sign of poor balance.", factor: gait_balance}
+    - {n: 5, points: 1, wording: "I am worried about falling.", why: "People who are worried about falling are more likely to fall.", factor: fear_of_falling}
+    - {n: 6, points: 1, wording: "I need to push with my hands to stand up from a chair.", why: "This is a sign of weak leg muscles, a major reason for falling.", factor: strength}
+    - {n: 7, points: 1, wording: "I have some trouble stepping up onto a curb.", why: "This is also a sign of weak leg muscles.", factor: strength}
+    - {n: 8, points: 1, wording: "I often have to rush to the toilet.", why: "Rushing to the bathroom, especially at night, increases your chance of falling.", factor: urgency}
+    - {n: 9, points: 1, wording: "I have lost some feeling in my feet.", why: "Numbness in your feet can cause stumbles and lead to falls.", factor: feet}
+    - {n: 10, points: 1, wording: "I take medicine that sometimes makes me feel light-headed or more tired than usual.", why: "Side effects from medicines can sometimes increase your chance of falling.", factor: medications}
+    - {n: 11, points: 1, wording: "I take medicine to help me sleep or improve my mood.", why: "These medicines can sometimes increase your chance of falling.", factor: medications}
+    - {n: 12, points: 1, wording: "I often feel sad or depressed.", why: "Symptoms of depression, such as not feeling well or feeling slowed down, are linked to falls.", factor: comorbidities}
+
+key_questions:
+  rule: At risk if yes to any question; if the person has fallen, ask how many times and whether they were injured.
+  questions:
+    - {id: unsteady, wording: "Feels unsteady when standing or walking?"}
+    - {id: worries, wording: "Worries about falling?"}
+    - {id: fallen, wording: "Has fallen in past year?"}
+  source: steadi-algorithm
+  section: "1 Screen: Three key questions for patients"
+
+screen_frequency:
+  text: Screen for fall risk yearly, or any time the person presents with an acute fall.
+  source: steadi-algorithm
+  section: "1 Screen"
+
+tug:
+  at_risk_seconds: 12
+  rule: An older adult who takes 12 seconds or more to complete the TUG is at risk for falling.
+  procedure: >-
+    The person wears regular footwear and may use a walking aid. From sitting in a standard arm
+    chair, on "Go" they stand, walk to a line 3 meters (10 feet) away at a normal pace, turn,
+    walk back, and sit down. Time from "Go" until seated. Always stay by the person for safety.
+  observations:
+    - Slow tentative pace
+    - Loss of balance
+    - Short strides
+    - Little or no arm swing
+    - Steadying self on walls
+    - Shuffling
+    - En bloc turning
+    - Not using assistive device properly
+  observations_note: These changes may signify neurological problems that require further evaluation.
+  source: tug
+  section: "Timed Up & Go"
+
+chair_stand:
+  procedure: >-
+    Chair with a straight back and no arm rests (seat 17 inches high) and a stopwatch. The person
+    sits in the middle of the chair, arms crossed at the wrists on the opposite shoulders, feet
+    flat, back straight. On "Go" they rise to full standing and sit back down, repeatedly for 30
+    seconds. Count full stands; if over halfway up at 30 seconds, count it. If the person must
+    use their arms to stand, stop the test and record 0. Stand next to the person for safety.
+  rule: A below-average score indicates a risk for falls.
+  below_average:
+    # A score below the value shown is below average.
+    - {age_min: 60, age_max: 64, men: 14, women: 12}
+    - {age_min: 65, age_max: 69, men: 12, women: 11}
+    - {age_min: 70, age_max: 74, men: 12, women: 10}
+    - {age_min: 75, age_max: 79, men: 11, women: 10}
+    - {age_min: 80, age_max: 84, men: 10, women: 9}
+    - {age_min: 85, age_max: 89, men: 8, women: 8}
+    - {age_min: 90, age_max: 94, men: 7, women: 4}
+  source: chair-stand
+  section: "Scoring: Chair Stand Below Average Scores"
+
+four_stage:
+  hold_seconds: 10
+  stages:
+    - {n: 1, name: "Feet side by side"}
+    - {n: 2, name: "Semi-tandem: the instep of one foot touching the big toe of the other"}
+    - {n: 3, name: "Tandem: one foot in front of the other, heel touching toe"}
+    - {n: 4, name: "Stand on one foot"}
+  rule: >-
+    If the person holds a position for 10 seconds without moving their feet or needing support,
+    go to the next position; if not, stop the test. An older adult who cannot hold the tandem
+    stand for at least 10 seconds is at increased risk of falling; consider referral to physical
+    therapy for gait and balance exercises, or to an evidence-based fall prevention program such
+    as Tai Chi. No assistive device; eyes open.
+  source: four-stage
+  section: "The 4-Stage Balance Test"
+
+orthostatic:
+  procedure: Have the person lie down for 5 minutes; measure blood pressure and pulse; have them stand; repeat after standing 1 and 3 minutes.
+  systolic_drop: 20
+  diastolic_drop: 10
+  rule: A drop in systolic blood pressure of 20 mm Hg or more, or in diastolic blood pressure of 10 mm Hg or more, or lightheadedness or dizziness, is considered abnormal.
+  source: orthostatic
+  section: "Measuring Orthostatic Blood Pressure"
+
+assessments:
+  # Risk factors to assess when the screen is positive (STEADI algorithm step 2).
+  - {factor: gait_balance, assess: "Evaluate gait, strength, and balance (Timed Up & Go, 30-Second Chair Stand, 4-Stage Balance Test)"}
+  - {factor: medications, assess: "Identify medications that increase fall risk (e.g., Beers Criteria)"}
+  - {factor: home_hazards, assess: "Ask about potential home hazards (e.g., throw rugs, slippery tub floor)"}
+  - {factor: orthostatic, assess: "Measure orthostatic blood pressure (lying and standing positions)"}
+  - {factor: vision, assess: "Check visual acuity (e.g., Snellen eye test)"}
+  - {factor: feet, assess: "Assess feet and footwear"}
+  - {factor: vitamin_d, assess: "Assess vitamin D intake"}
+  - {factor: comorbidities, assess: "Identify comorbidities (e.g., depression, osteoporosis)"}
+
+interventions:
+  - factor: gait_balance
+    finding: Poor gait, strength, and balance observed
+    actions: ["Refer for physical therapy", "Refer to an evidence-based exercise or fall prevention program (e.g., Tai Chi)"]
+  - factor: strength
+    finding: Weak leg muscles (needs hands to stand, trouble with curbs, low chair-stand score)
+    actions: ["Refer for physical therapy", "Refer to an evidence-based exercise or fall prevention program (e.g., Tai Chi)"]
+  - factor: medications
+    finding: Medication(s) likely to increase fall risk
+    actions: ["Optimize medications by stopping, switching, or reducing the dosage of medications that increase fall risk (prescriber or pharmacist review)"]
+  - factor: home_hazards
+    finding: Home hazards likely
+    actions: ["Refer to an occupational therapist to evaluate home safety", "Go through CDC's Check for Safety home checklist with the person and family"]
+  - factor: orthostatic
+    finding: Orthostatic hypotension observed
+    actions: ["Stop, switch, or reduce the dose of medications that increase fall risk", "Establish an appropriate blood pressure goal", "Encourage adequate hydration", "Educate about the importance of exercises (e.g., foot pumps)", "Consider compression stockings"]
+  - factor: vision
+    finding: Visual impairment observed
+    actions: ["Refer to an ophthalmologist or optometrist", "Consider the benefits of cataract surgery", "Stop, switch, or reduce the dose of medication affecting vision (e.g., anticholinergics)", "Provide education on depth perception and single versus multifocal lenses"]
+  - factor: feet
+    finding: Feet or footwear issues identified
+    actions: ["Provide education on shoe fit, traction, insoles, and heel height", "Refer to a podiatrist"]
+  - factor: vitamin_d
+    finding: Vitamin D deficiency observed or likely
+    actions: ["Recommend a daily vitamin D supplement"]
+  - factor: comorbidities
+    finding: Comorbidities documented (e.g., depression, osteoporosis)
+    actions: ["Optimize treatment of conditions identified", "Be mindful of medications that increase fall risk"]
+  - factor: fear_of_falling
+    finding: Worried about falling
+    actions: ["Discuss the person's and the provider's health goals", "Refer to an evidence-based exercise or fall prevention program (e.g., Tai Chi)"]
+  - factor: urgency
+    finding: Often rushes to the toilet
+    actions: ["Address with the person's clinician", "Nightlight on the path from bed to bathroom and grab bars by the toilet (Check for Safety)"]
+  - factor: fall_history
+    finding: Fell in the past year
+    actions: ["Ask how many times and whether the person was injured", "Assess all modifiable risk factors (STEADI step 2)"]
+
+not_at_risk:
+  - Educate the person on fall prevention
+  - Assess vitamin D intake; if deficient, recommend a daily vitamin D supplement
+  - Refer to a community exercise or fall prevention program
+  - Reassess yearly, or any time the person presents with an acute fall
+at_risk_follow_up: >-
+  Discuss the person's and the provider's health goals, develop an individualized care plan, and
+  follow up in 30 to 90 days; discuss ways to improve receptiveness to the care plan and address
+  barriers.
+
+home_checklist:
+  areas:
+    - area: Stairs and steps (indoors and outdoors)
+      checks:
+        - {hazard: "Papers, shoes, books, or other objects on the stairs", fix: "Always keep objects off the stairs."}
+        - {hazard: "Broken or uneven steps", fix: "Fix loose or uneven steps."}
+        - {hazard: "No light and light switch at the top and bottom of the stairs", fix: "Have an electrician put in an overhead light and light switch at the top and bottom of the stairs (switches that glow are available)."}
+        - {hazard: "Burned-out stairway light bulb", fix: "Have a friend or family member change the light bulb."}
+        - {hazard: "Loose or torn carpet on the steps", fix: "Make sure the carpet is firmly attached to every step, or remove it and attach non-slip rubber treads."}
+        - {hazard: "Loose or broken handrails, or a handrail on only one side", fix: "Fix loose handrails or put in new ones; handrails on both sides, as long as the stairs."}
+    - area: Floors
+      checks:
+        - {hazard: "Having to walk around furniture", fix: "Ask someone to move the furniture so your path is clear."}
+        - {hazard: "Throw rugs on the floor", fix: "Remove the rugs, or use double-sided tape or a non-slip backing so they won't slip."}
+        - {hazard: "Papers, shoes, books, or other objects on the floor", fix: "Pick up things on the floor; always keep objects off the floor."}
+        - {hazard: "Walking over or around wires or cords", fix: "Coil or tape cords and wires next to the wall; if needed, have an electrician put in another outlet."}
+    - area: Kitchen
+      checks:
+        - {hazard: "Things used often are on high shelves", fix: "Keep things used often on the lower shelves (about waist high)."}
+        - {hazard: "Unsteady step stool", fix: "If you must use a step stool, get one with a bar to hold on to; never use a chair as a step stool."}
+    - area: Bedrooms
+      checks:
+        - {hazard: "Light near the bed hard to reach", fix: "Place a lamp close to the bed where it's easy to reach."}
+        - {hazard: "Dark path from the bed to the bathroom", fix: "Put in a nightlight (some turn on by themselves after dark)."}
+    - area: Bathrooms
+      checks:
+        - {hazard: "Slippery tub or shower floor", fix: "Put a non-slip rubber mat or self-stick strips on the floor of the tub or shower."}
+        - {hazard: "Needing support to get in and out of the tub or up from the toilet", fix: "Have grab bars put in next to and inside the tub, and next to the toilet."}
+  source: check-for-safety
+  section: "Use this checklist to find and fix hazards in your home"
+
+patient_actions:
+  - "Speak up: talk openly with your health care provider about fall risks and prevention, and ask your doctor or pharmacist to review your medicines."
+  - "Keep moving: begin an exercise program to improve leg strength and balance."
+  - "Get an annual eye exam and replace eyeglasses as needed."
+  - "Make your home safer: remove clutter and tripping hazards."
+patient_actions_source: stay-independent

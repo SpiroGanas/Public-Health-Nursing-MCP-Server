@@ -210,6 +210,62 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 9 content items go below this line.
     // End of Phase 9 content items.
     // Phase 10 content items go below this line.
+    ContentItem {
+        id: "bh-mental-health-screening",
+        path: "content/bh/mental_health_screening.yaml",
+        resource_uri: "phn://content/bh-mental-health-screening",
+        yaml: include_str!("../../../content/bh/mental_health_screening.yaml"),
+        schema: include_str!("../../../content/schemas/bh_mental_health_screening.schema.json"),
+    },
+    ContentItem {
+        id: "bh-crisis-resources",
+        path: "content/bh/crisis_resources.yaml",
+        resource_uri: "phn://content/bh-crisis-resources",
+        yaml: include_str!("../../../content/bh/crisis_resources.yaml"),
+        schema: include_str!("../../../content/schemas/bh_crisis_resources.schema.json"),
+    },
+    ContentItem {
+        id: "aging-steadi-falls",
+        path: "content/aging/steadi_falls.yaml",
+        resource_uri: "phn://content/aging-steadi-falls",
+        yaml: include_str!("../../../content/aging/steadi_falls.yaml"),
+        schema: include_str!("../../../content/schemas/aging_steadi_falls.schema.json"),
+    },
+    ContentItem {
+        id: "aging-protective-services",
+        path: "content/aging/protective_services.yaml",
+        resource_uri: "phn://content/aging-protective-services",
+        yaml: include_str!("../../../content/aging/protective_services.yaml"),
+        schema: include_str!("../../../content/schemas/aging_protective_services.schema.json"),
+    },
+    ContentItem {
+        id: "aging-services-guide",
+        path: "content/aging/aging_services.yaml",
+        resource_uri: "phn://content/aging-services-guide",
+        yaml: include_str!("../../../content/aging/aging_services.yaml"),
+        schema: include_str!("../../../content/schemas/aging_services.schema.json"),
+    },
+    ContentItem {
+        id: "aging-coverage-options",
+        path: "content/aging/coverage_options.yaml",
+        resource_uri: "phn://content/aging-coverage-options",
+        yaml: include_str!("../../../content/aging/coverage_options.yaml"),
+        schema: include_str!("../../../content/schemas/aging_coverage_options.schema.json"),
+    },
+    ContentItem {
+        id: "aging-nursing-home-guide",
+        path: "content/aging/nursing_home_guide.yaml",
+        resource_uri: "phn://content/aging-nursing-home-guide",
+        yaml: include_str!("../../../content/aging/nursing_home_guide.yaml"),
+        schema: include_str!("../../../content/schemas/aging_nursing_home_guide.schema.json"),
+    },
+    ContentItem {
+        id: "aging-advance-care-planning",
+        path: "content/aging/advance_care_planning.yaml",
+        resource_uri: "phn://content/aging-advance-care-planning",
+        yaml: include_str!("../../../content/aging/advance_care_planning.yaml"),
+        schema: include_str!("../../../content/schemas/aging_advance_care_planning.schema.json"),
+    },
     // End of Phase 10 content items.
     // Phase 11 content items go below this line.
     // End of Phase 11 content items.

@@ -758,6 +758,155 @@
           "rows": 1173
         }
       ]
+    },
+    {
+      "id": "ma-aging-service-directory",
+      "title": "Massachusetts Aging Services Access Points, SHINE offices, and senior nutrition projects by town",
+      "publisher": "Massachusetts Executive Office of Aging & Independence (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap",
+        "https://www.mass.gov/info-details/find-a-shine-counselor-near-you",
+        "https://www.mass.gov/files/csv/2026-10/towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv",
+        "https://www.mass.gov/info-details/nutrition-program-sites"
+      ],
+      "source_sha256": {
+        "find-your-regional-aging-services-access-point-asap.html": "ec9b65ac890a1d311edce82f3d4974d1cc3b7cc8b6f5ab30fc0eba6093f8f4c0",
+        "nutrition-program-sites.html": "9a22d4594b66e016f314a88dc8552b4a73d073bf2352b8cba3d1ec29eee18678",
+        "towns-by-shine-regional-office-directory-REVISED-10.19.2026%20-Accessibility%20checked.csv": "11356772d5b81adacd06ad08988ddf7f89adc168dabee6c7f8f41368e4ffff4f"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "ASAP names, addresses, phones, web sites, and 'Areas served' parsed from the AGE page's 'A Complete List of ASAPs'; SHINE regional office and phone by town from AGE's CSV; senior nutrition projects and the communities they serve from the 'Nutrition Program Sites' table. Place names are matched to the 351 MassGIS municipalities; villages and Boston neighborhoods are mapped to their town (kept in their own column) and known spelling variants are corrected (xtask/src/service_directories.rs).",
+      "caveats": [
+        "Service areas are as published on mass.gov; AGE notes that the areas served by an ASAP's protective services may differ. Confirm with the ASAP or call MassOptions at (800) 243-4636.",
+        "Boston is served by several ASAPs by neighborhood; the neighborhoods are listed for each.",
+        "The SHINE town list has no row for: Groton. Use MassOptions (800) 243-4636 to find a SHINE counselor there."
+      ],
+      "files": [
+        {
+          "path": "ma_asap_directory.csv",
+          "sha256": "8fedd54d08f1329746349b87683f9004b6ff12dfcb72fc086eebf149a707e808",
+          "bytes": 10703,
+          "rows": 23
+        },
+        {
+          "path": "ma_shine_directory.csv",
+          "sha256": "bd728914a472bc1c5ab07af1dfe6756240f14ea759db0e0a92fca05e4b611fc9",
+          "bytes": 20255,
+          "rows": 350
+        },
+        {
+          "path": "ma_nutrition_directory.csv",
+          "sha256": "235e19348dbac035de2e30594ae894de17e209017a3ee4792ef8e3b106a29035",
+          "bytes": 10585,
+          "rows": 23
+        }
+      ]
+    },
+    {
+      "id": "ma-cbhc-directory",
+      "title": "Massachusetts Community Behavioral Health Centers (CBHCs) and the towns they list",
+      "publisher": "Massachusetts Executive Office of Health and Human Services (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/find-a-cbhc/locations"
+      ],
+      "source_sha256": {
+        "cbhc_locations_0.html": "c68df90ac4daef7805f54d157230b6216e4b9c08595309fffb2bdd1f07a9d8db",
+        "cbhc_locations_1.html": "2560486c5757e396bec84337b53aca12565e052a270b1f55e85ceee30dbd16a8",
+        "cbhc_locations_2.html": "e5f20bf54dfc9b62ff13b1f4cc937d1ef4144b7dc499f7f8f76e24118129ae7c",
+        "cbhc_locations_3.html": "315f7eb447e5afb623c2047890e13830b055d099c3b9bedb89686b8dd9a42c77"
+      },
+      "source_vintage": "2026-11-08",
+      "retrieved": "2026-11-08",
+      "license": "Public information published by the Commonwealth of Massachusetts on mass.gov.",
+      "derivation": "Every location in the paged 'Find a CBHC Locations' listing: name, address, phone, and the 'Serving' town list; coordinates from the page's map data. Place names are matched to MassGIS municipalities as for the ASAP directory.",
+      "caveats": [
+        "63 of 351 towns are not named in any CBHC's 'Serving' list (some CBHC listings, for example in the Framingham, Waltham, Quincy, Hyannis, and Martha's Vineyard areas, publish no town list); for those towns the tool lists the CBHCs in the same county and the statewide numbers that route to the nearest CBHC.",
+        "mass.gov's listing is the source of record; CBHC catchment areas can change. Confirm with the Behavioral Health Help Line, (833) 773-2445."
+      ],
+      "files": [
+        {
+          "path": "ma_cbhc_directory.csv",
+          "sha256": "a4023c2ac7f0bbb12d6fe5e7d93144769f058bba418b6b99ba0e93e8acc59fbf",
+          "bytes": 11767,
+          "rows": 31
+        }
+      ]
+    },
+    {
+      "id": "cms-ma-nursing-homes",
+      "title": "Massachusetts nursing homes: CMS star ratings, staffing, infection control citations, and vaccination",
+      "publisher": "Centers for Medicare & Medicaid Services, Provider Data Catalog (Care Compare)",
+      "source_urls": [
+        "https://data.cms.gov/provider-data/api/1/datastore/query/4pq5-n9py/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/fykj-qjee/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/djen-97ju/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/r5ix-sfxw/0",
+        "https://data.cms.gov/provider-data/api/1/datastore/query/xcdc-v8bm/0"
+      ],
+      "source_sha256": {},
+      "source_vintage": "2026-10-01",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (CMS Provider Data Catalog); public domain in the United States.",
+      "derivation": "Massachusetts rows from Provider Information (4pq5-n9py; selected columns), SNF Quality Reporting Program measures S_040_02 (staff COVID-19 up to date), S_041_01 (staff flu), and S_045_01 (residents COVID-19 up to date) (fykj-qjee), MDS quality measures 415, 454, 430, and 472 (resident pneumococcal and flu) (djen-97ju), Health Deficiencies in the 'Infection Control Deficiencies' category (r5ix-sfxw), and State/US Averages (xcdc-v8bm), joined by CMS Certification Number (xtask/src/nursing_homes.rs, phn_data::cms_provider).",
+      "caveats": [
+        "CMS processing date 2026-10-01; CMS refreshes Care Compare monthly. Star ratings and citations change after each inspection.",
+        "Vaccination measures cover different periods (SNF QRP quarters; MDS four-quarter averages); CMS removed its separate COVID-19 vaccination datasets in July 2025."
+      ],
+      "files": [
+        {
+          "path": "cms_ma_nursing_homes.csv",
+          "sha256": "6b14548a36f205655edab9ee2f62de2fcfe9598a5e1d32d068a812a676efda95",
+          "bytes": 147265,
+          "rows": 341
+        },
+        {
+          "path": "cms_ma_nh_infection_citations.csv",
+          "sha256": "4eba387bde36dbeaf1d7ac5b306921bba4562d85507cc9c3c2eaa059f96d54d4",
+          "bytes": 129649,
+          "rows": 781
+        },
+        {
+          "path": "cms_ma_nh_averages.csv",
+          "sha256": "640238956a3d243e60fc0544389a3484d1b77cc3c30376e55c71f48c178eadd2",
+          "bytes": 283,
+          "rows": 2
+        }
+      ]
+    },
+    {
+      "id": "census-acs5-ma-older-adults",
+      "title": "ACS 2020-2024 5-year estimates: older adults living alone, without a vehicle, with limited English, and in poverty (Massachusetts)",
+      "publisher": "U.S. Census Bureau, American Community Survey",
+      "source_urls": [
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b09020.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25045.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b16004.dat",
+        "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b17001.dat"
+      ],
+      "source_sha256": {
+        "acsdt5y2024-b09020.dat": "d46e9ff0d3609e800f6c2faec369527d549d2aa4d34f31ac2665df0cca908a50",
+        "acsdt5y2024-b16004.dat": "5c43c1e337b44eb0362c85d958b3d8b9dd08f94577ff6b11af7d76c5b57b790e",
+        "acsdt5y2024-b17001.dat": "707adda8aaff136382f4fe0858617d09062da48b1a3d2ab2e9a1047def09b531",
+        "acsdt5y2024-b25045.dat": "73888419c52221dd27cf4de879e58ae1fbf52bc049d4a70b5e1b43a294691139"
+      },
+      "source_vintage": "2020-2024",
+      "retrieved": "2026-11-08",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "From the ACS 5-year table-based summary file (2024 release): B09020 (living alone: male and female householders living alone, of the population 65+), B25045 (householder 65+ with no vehicle, owner and renter), B16004 (65+ speaking English 'well', 'not well', or 'not at all', i.e. less than 'very well'), and B17001 (65-74 and 75+ below poverty, of those for whom poverty is determined), for the nation, Massachusetts, its counties, its 351 county subdivisions, and populated tracts (tracts with no adults 65+ are omitted). MOEs: sqrt(sum of squared MOEs) for sums, the Census Bureau's derived-proportion formula for percentages (phn_data::older_adults, phn_data::census).",
+      "caveats": [
+        "Small-area ACS estimates, especially for tracts, can have large margins of error; check the coefficient of variation before ranking areas.",
+        "Living alone counts householders 65+ living alone; people 65+ in group quarters (for example nursing homes) are in the denominator but cannot live alone."
+      ],
+      "files": [
+        {
+          "path": "ma_acs5_older_adults.csv",
+          "sha256": "ea5e91ee4f341e116c0bcf84de4914d27f772c63680e0f43533f6cc09cc775bd",
+          "bytes": 248157,
+          "rows": 1958
+        }
+      ]
     }
   ]
 }

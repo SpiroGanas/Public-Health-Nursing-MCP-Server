@@ -647,6 +647,36 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 9 data tools go below this line.
         // ---- End of Phase 9 data tools.
         // ---- Phase 10 data tools go below this line.
+        (
+            "score_mental_health_screen",
+            json!({"instrument": "phq9", "file": "phq9_screens.csv"}),
+            "data/phq9_screens.csv",
+        ),
+        (
+            "score_mental_health_screen",
+            json!({"instrument": "phq9", "file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "elder_protective_services_guide",
+            json!({"age_years": 80, "details_file": "protective_report_details.csv"}),
+            "data/protective_report_details.csv",
+        ),
+        (
+            "elder_protective_services_guide",
+            json!({"details_file": "line_list.csv", "format": "pdf"}),
+            ll,
+        ),
+        (
+            "advance_care_planning_toolkit",
+            json!({"details_file": "proxy_details.csv"}),
+            "data/proxy_details.csv",
+        ),
+        (
+            "advance_care_planning_toolkit",
+            json!({"details_file": "line_list.csv"}),
+            ll,
+        ),
         // ---- End of Phase 10 data tools.
         // ---- Phase 11 data tools go below this line.
         // ---- End of Phase 11 data tools.

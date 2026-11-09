@@ -1,0 +1,226 @@
+# Health coverage options for older adults in Massachusetts: Medicare costs for the current year,
+# Medicare Savings Programs, MassHealth for people 65+, the Frail Elder Waiver, PACE, Senior Care
+# Options, and One Care, for explain_older_adult_coverage_options (AGE-04).
+#
+# REVIEW STATUS: pending. Figures transcribed from cms.gov and mass.gov on 2026-11-08, with
+# their effective dates. Update every November (Medicare) and March (MassHealth income limits).
+# Schema: content/schemas/aging_coverage_options.schema.json
+meta:
+  id: aging-coverage-options
+  title: Older adult coverage options in Massachusetts (Medicare 2026 costs, MSPs, MassHealth, FEW, PACE, SCO, One Care)
+  version: 0.1.0
+  prepared: 2026-11-08
+  effective_date: 2026-03-01
+  source:
+    title: Get help paying Medicare costs (Medicare Savings Programs)
+    publisher: MassHealth and the Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/get-help-paying-medicare-costs
+  related_sources:
+    - title: 2026 Medicare Parts A & B Premiums and Deductibles (fact sheet, November 14, 2025)
+      publisher: Centers for Medicare & Medicaid Services
+      url: https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles
+    - title: Program financial guidelines for certain MassHealth applicants and members
+      publisher: MassHealth
+      url: https://www.mass.gov/info-details/program-financial-guidelines-for-certain-masshealth-applicants-and-members
+    - title: 2026 MassHealth Income Standards and Federal Poverty Guidelines (effective March 1, 2026)
+      publisher: MassHealth
+      url: https://www.mass.gov/doc/2026-masshealth-income-standards-and-federal-poverty-guidelines/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Transcribed on 2026-11-08 (high confidence) from CMS's 2026 Parts A and B fact sheet (released
+    November 14, 2025), CMS's Final CY 2026 Part D Redesign Program Instructions fact sheet (April
+    7, 2025), MassHealth's program financial guidelines and 2026 income standards (FPL figures
+    effective March 1, 2026), and mass.gov pages on Medicare Savings Programs, the Frail Elder
+    Waiver, PACE, Senior Care Options, and One Care. CMS had not published 2027 Medicare amounts
+    when this was drafted; update this file when it does (usually in November). The FPL figures
+    are MassHealth's rounded figures; MassHealth decides eligibility using countable income.
+
+sources:
+  cms-2026-ab:
+    title: 2026 Medicare Parts A & B Premiums and Deductibles
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles
+    effective_date: 2026-01-01
+    retrieved: 2026-11-08
+  cms-2026-partd:
+    title: Final CY 2026 Part D Redesign Program Instructions (fact sheet)
+    publisher: Centers for Medicare & Medicaid Services
+    url: https://www.cms.gov/newsroom/fact-sheets/final-cy-2026-part-d-redesign-program-instructions
+    effective_date: 2026-01-01
+    retrieved: 2026-11-08
+  ma-what-is-medicare:
+    title: What is Medicare?
+    publisher: Massachusetts Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/what-is-medicare
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-msp:
+    title: Get help paying Medicare costs (Medicare Savings Programs)
+    publisher: MassHealth and the Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/get-help-paying-medicare-costs
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-financial:
+    title: Program financial guidelines for certain MassHealth applicants and members
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/program-financial-guidelines-for-certain-masshealth-applicants-and-members
+    effective_date: 2026-01-01
+    retrieved: 2026-11-08
+  ma-fpl-2026:
+    title: 2026 MassHealth Income Standards and Federal Poverty Guidelines
+    publisher: MassHealth
+    url: https://www.mass.gov/doc/2026-masshealth-income-standards-and-federal-poverty-guidelines/download
+    effective_date: 2026-03-01
+    retrieved: 2026-11-08
+  ma-few:
+    title: "Frail Elder Waiver: Information for applicants and participants"
+    publisher: MassHealth and the Executive Office of Aging & Independence
+    url: https://www.mass.gov/info-details/frail-elder-waiver-information-for-applicants-and-participants
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-pace:
+    title: Who is eligible for PACE?
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/who-is-eligible-for-pace
+    effective_date: 2026-02-10
+    retrieved: 2026-11-08
+  ma-pace-areas:
+    title: Massachusetts PACE Service Areas
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/massachusetts-pace-service-areas
+    effective_date: null
+    retrieved: 2026-11-08
+  ma-sco:
+    title: Senior Care Options Eligibility
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/senior-care-options-eligibility
+    effective_date: 2025-10-01
+    retrieved: 2026-11-08
+  ma-sco-2026:
+    title: 2026 SCO Eligibility Changes
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/2026-sco-eligibility-changes
+    effective_date: 2026-01-01
+    retrieved: 2026-11-08
+  ma-onecare:
+    title: One Care Eligibility
+    publisher: MassHealth
+    url: https://www.mass.gov/info-details/one-care-eligibility
+    effective_date: null
+    retrieved: 2026-11-08
+
+medicare:
+  year: 2026
+  effective_date: 2026-01-01
+  next_update: CMS usually announces next year's Medicare premiums and deductibles in November.
+  parts:
+    - {part: "Part A (hospital insurance)", covers: "Inpatient hospital, skilled nursing facility, hospice, inpatient rehabilitation, and some home health care.", source: cms-2026-ab}
+    - {part: "Part B (medical insurance)", covers: "Physicians' services, outpatient hospital services, certain home health services, durable medical equipment, and certain other medical and health services.", source: cms-2026-ab}
+    - {part: "Medigap (Medicare Supplement Insurance)", covers: "With Original Medicare (Parts A and B), a private Medigap policy covers some costs Medicare does not, such as copayments, coinsurance, and deductibles.", source: ma-what-is-medicare}
+    - {part: "Medicare Advantage", covers: "A Medicare-approved plan from a private company that bundles Part A, Part B, and usually Part D into one plan.", source: ma-what-is-medicare}
+    - {part: "Part D (prescription drugs)", covers: "Drug coverage from private plans; premiums vary by plan. In 2026 the annual out-of-pocket threshold is $2,100, after which the enrollee pays no cost sharing for covered Part D drugs.", source: cms-2026-partd}
+  costs:
+    - {item: "Part A premium", amount: "$0 for about 99% of beneficiaries (40 or more quarters of Medicare-covered employment)", source: cms-2026-ab}
+    - {item: "Part A premium, buy-in with 30-39 quarters", amount: "$311 per month", source: cms-2026-ab}
+    - {item: "Part A premium, buy-in with fewer than 30 quarters", amount: "$565 per month", source: cms-2026-ab}
+    - {item: "Part A inpatient hospital deductible (per benefit period)", amount: "$1,736", source: cms-2026-ab}
+    - {item: "Part A hospital coinsurance, days 61-90", amount: "$434 per day", source: cms-2026-ab}
+    - {item: "Part A lifetime reserve days", amount: "$868 per day", source: cms-2026-ab}
+    - {item: "Skilled nursing facility coinsurance, days 21-100", amount: "$217 per day", source: cms-2026-ab}
+    - {item: "Part B standard premium", amount: "$202.90 per month", source: cms-2026-ab}
+    - {item: "Part B annual deductible", amount: "$283", source: cms-2026-ab}
+    - {item: "Part B immunosuppressive drug premium (after kidney transplant coverage ends)", amount: "$121.60 per month", source: cms-2026-ab}
+    - {item: "Part D annual out-of-pocket threshold", amount: "$2,100", source: cms-2026-partd}
+  irmaa:
+    note: "Higher-income beneficiaries (about 8%) pay an income-related monthly adjustment; total monthly Part B premium by modified adjusted gross income:"
+    rows:
+      - {individual: "$109,000 or less", joint: "$218,000 or less", total_premium: "$202.90"}
+      - {individual: "over $109,000 to $137,000", joint: "over $218,000 to $274,000", total_premium: "$284.10"}
+      - {individual: "over $137,000 to $171,000", joint: "over $274,000 to $342,000", total_premium: "$405.80"}
+      - {individual: "over $171,000 to $205,000", joint: "over $342,000 to $410,000", total_premium: "$527.50"}
+      - {individual: "over $205,000 and under $500,000", joint: "over $410,000 and under $750,000", total_premium: "$649.20"}
+      - {individual: "$500,000 or more", joint: "$750,000 or more", total_premium: "$689.90"}
+    source: cms-2026-ab
+
+fpl_monthly:
+  effective_date: 2026-03-01
+  note: MassHealth's rounded monthly figures; income limits change each March 1.
+  rows:
+    - {household: 1, pct100: 1330, pct190: 2527, pct225: 2993}
+    - {household: 2, pct100: 1804, pct190: 3427, pct225: 4058}
+  source: ma-fpl-2026
+
+programs:
+  - id: msp
+    name: Medicare Savings Programs (MSPs; formerly MassHealth Buy-In)
+    who: Massachusetts residents with Medicare and household income at or below 225% of the federal poverty level. You do not need to be on MassHealth to apply.
+    benefits:
+      - "QMB (income at or below 190% FPL): MassHealth pays the Part A premium (if any) and the Part B premium, and Medicare copays and deductibles (providers, including Medicare Advantage providers, cannot bill you for them; pharmacy copays may still apply); Health Safety Net coverage at acute care hospitals and community health centers; automatic Medicare Part D Extra Help."
+      - "SLMB/QI (income above 190% up to 225% FPL): MassHealth pays the Part B premium; Health Safety Net; automatic Part D Extra Help."
+    assets: "No asset limit since March 1, 2024."
+    apply: "Apply by mail or online with the Medicare Savings Programs application (English, Chinese, Haitian Creole, Portuguese, Spanish, Vietnamese). MassHealth Customer Service (800) 841-2900, TDD/TTY 711; or a SHINE counselor through MassOptions (800) 243-4636."
+    source: ma-msp
+    section: "Do I qualify? Types of MSPs; How to apply"
+  - id: masshealth_65
+    name: MassHealth for people 65 and older living in the community
+    who: "People with Medicare and household income at or below 225% FPL may qualify for both an MSP and MassHealth; certain MassHealth benefits also require countable assets at or below $2,000 (single) or $3,000 (married couple)."
+    benefits:
+      - "MassHealth Standard provides a full range of benefits (inpatient and outpatient hospital, physicians, clinics, dental, vision, and more)."
+      - "Long-term care figures (2026): personal needs allowance $72.80; community spouse resource standard $32,532 to $162,660; maximum home equity $1,130,000; maximum monthly maintenance needs allowance $4,066.50."
+    assets: "$2,000 (individual) or $3,000 (member of a married couple) for certain MassHealth benefits; the MSP itself has no asset limit."
+    apply: "MassHealth Customer Service (800) 841-2900, TDD/TTY 711."
+    source: ma-financial
+    section: "Eligibility Figures for Community Residents Age 65 or Older; Residents of a Long-Term-Care Facility"
+  - id: few
+    name: Frail Elder Waiver (FEW)
+    who: "Age 65+, or 60-64 with a disability; meets clinical eligibility (nursing facility level of care); needs at least one FEW service a month; lives in a community setting (own or a family member's home, or congregate housing; not assisted living, group homes, or rest homes); can be served safely in the community; meets MassHealth Standard financial requirements for the community (special rules apply); not in another HCBS waiver, One Care, or PACE."
+    benefits:
+      - "A case manager and a comprehensive service plan; services such as homemaker, personal care, home health aide, home-delivered meals, chore, companion, dementia coaching, assisted transportation, personal emergency response systems, home safety evaluations, and medication delivery."
+    assets: "MassHealth Standard community rules, with special financial rules for waiver applicants."
+    apply: "Apply at any time; contact the local ASAP or MassOptions (800) 243-4636."
+    source: ma-few
+    section: "Eligibility Criteria; Services Offered"
+  - id: pace
+    name: Program of All-inclusive Care for the Elderly (PACE)
+    who: "Age 55+ (55-64 needs a disability determination); certified by the state as eligible for nursing home care; meets MassHealth Standard citizenship and residency rules; lives in a PACE organization's service area; can live safely in the community; agrees to get health services only through the PACE organization."
+    benefits:
+      - "Medicare and MassHealth together provide a wide range of medical, social, recreational, and wellness services. You do not need MassHealth to enroll; private pay and Medicare-only options exist."
+    assets: "For MassHealth to pay the PACE premium: countable income at or below 300% of the federal benefit rate ($2,982 a month in 2026) and countable assets at or below $2,000 (single); a spouse's income is not counted against the limit."
+    apply: "Contact a PACE organization serving your county."
+    source: ma-pace
+    section: "Who is eligible for PACE?"
+  - id: sco
+    name: Senior Care Options (SCO)
+    who: "Age 65+; enrolled in Medicare Parts A and B (required for everyone from January 1, 2026); qualifies for Part D; has MassHealth Standard; lives at home or in a long-term care facility (not an inpatient of a chronic or rehabilitation hospital or living in an ICF/IID); not in a six-month MassHealth deductible period; lives in a SCO plan's area."
+    benefits:
+      - "One plan, one card, and one care team combining MassHealth and Medicare, with a care coordinator; generally no or low premiums and no copays; covers medical, mental health, prescriptions, and geriatric support services."
+    assets: "MassHealth Standard rules."
+    apply: "Find a SCO plan in your area (mass.gov); MassHealth (800) 841-2900."
+    source: ma-sco
+    section: "You can get SCO if you"
+  - id: one_care
+    name: One Care
+    who: "Age 21-64 with a disability; Medicare Parts A and B; qualifies for Part D; MassHealth Standard or CommonHealth; no private health insurance; not in a Home and Community Based Services waiver; lives in a One Care plan's area."
+    benefits:
+      - "One plan, one card, and one care team combining MassHealth and Medicare."
+    assets: "MassHealth Standard or CommonHealth rules."
+    apply: "MassHealth (800) 841-2900, TDD/TTY 711."
+    source: ma-onecare
+    section: "You can get One Care if you"
+
+pace_counties:
+  available: [Berkshire, Bristol, Essex, Hampden, Hampshire, Middlesex, Norfolk, Plymouth, Suffolk, Worcester]
+  partial:
+    - {county: Franklin, note: "Serenity Care is available in Greenfield, Turners Falls, and Shelburne Falls; Fallon Health-Summit ElderCare is also listed for Franklin County."}
+  not_available: [Barnstable, Dukes, Nantucket]
+  source: ma-pace-areas
+  section: Massachusetts PACE Service Areas
+
+help:
+  - {text: "SHINE (free Medicare counseling): through MassOptions (800) 243-4636; use find_ma_aging_services for the town's SHINE office.", source: ma-msp, section: "More questions?"}
+  - {text: "MassHealth Customer Service: (800) 841-2900, TDD/TTY 711.", source: ma-msp, section: "More questions?"}
+  - {text: "Medicare: (800) 633-4227 or medicare.gov (for questions about Parts A, B, and D).", source: ma-sco, section: "How do I know if I have Medicare Parts A and B?"}

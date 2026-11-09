@@ -1237,6 +1237,165 @@ and a gap list.
 ## Phase 10: Healthy aging and mental health screening
 
 <!-- Phase 10 tools go below this line. -->
+
+All Phase 10 reference content is in `content/bh/` and `content/aging/`, drafted on 2026-11-08
+and 2026-11-09 from the cited sources, `status: pending` (review due 2027-02-01). Town
+directories are dated snapshots built by `cargo xtask build-service-directories`; nursing home
+data by `cargo xtask build-nursing-home-snapshot`; older-adult ACS tables by
+`cargo xtask build-older-adult-snapshots`.
+
+### `score_mental_health_screen` (MH-02, toolset `bh`)
+
+Scores a free screening instrument from its item responses: PHQ-2, PHQ-9, GAD-2, GAD-7,
+Edinburgh Postnatal Depression Scale (EPDS), NIMH Ask Suicide-Screening Questions (ASQ), or the
+C-SSRS screener. It never diagnoses.
+
+| Argument | Default | |
+|---|---|---|
+| `instrument` | none (lists instruments) | `phq2`, `phq9`, `gad2`, `gad7`, `epds`, `asq`, `cssrs_screener` (aliases such as "PHQ-9" work). |
+| `responses` | | Item answers in order: numbers, `true`/`false`, or text ("yes", "several days", "skipped"). |
+| `epds_entered_as` | `scores` | `option_positions` to enter the position of the chosen answer; the tool reverse-scores items 3 and 5-10. |
+| `age_years`, `refused` | | ASQ: a youth's (under 18) refusal is a non-acute positive screen; an adult's is not. |
+| `asq_attempt_within_12_months`, `asq_bssa_documented_since_attempt` | | ASQ item 4 follow-up (the past-attempt exception). |
+| `cssrs_behavior_past_3_months` | treated as yes when unknown | C-SSRS item 6 follow-up. |
+| `difficulty` | | PHQ-9 functional difficulty (recorded, not scored). |
+| `file`, `sheet` | | A CSV/XLSX of screens in `/data` (columns `q1`..`qN`); per-row results go to `/data/output`, rows with alerts first. |
+
+Returns the total, severity band, outcome (`negative`, `positive`, `acute_positive`,
+`non_acute_positive`, `positive_acuity_unknown`, `no_risk`/`low_risk`/`moderate_risk`/`high_risk`,
+`incomplete`), each item, missing items, the published cutoff with its citation, and **safety
+alerts** with cited steps: PHQ-9 item 9 or EPDS item 10 above zero (same day, whatever the
+total), ASQ acute (immediate) and non-acute positive (brief suicide safety assessment, safety
+plan, follow-up within 72 hours), and C-SSRS high, moderate, or low risk. 988 and the Crisis
+Text Line are given to everyone screened for suicide risk. Item wording is bundled only for the
+public-domain NIMH ASQ; PHQ/GAD, EPDS, and C-SSRS items are listed by topic and their license
+terms are recorded. File mode returns suppressed counts by outcome and the number of rows with a
+safety alert. Golden tests: `crates/phn-tools/tests/screening_golden.rs`.
+
+### `find_crisis_resources` (MH-01, toolset `bh`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | configured town | Massachusetts city or town. |
+| `audience` | `all` | `youth`, `adult`, or `all`. |
+| `language` | | A preferred language; the answer says how to reach each line in it. |
+
+Lists 911 (immediate danger), the 988 Suicide and Crisis Lifeline (call, text, chat; Spanish,
+interpretation in 240+ languages, ASL videophone, TTY, veterans), the Massachusetts Behavioral
+Health Help Line (833-773-2445, call or text, 200+ languages), Mobile Crisis Intervention for
+youth and adults (877-382-1609), the Crisis Text Line, and the town's Community Behavioral
+Health Center(s) from mass.gov's listing (`cbhc_match`: `listed`, or `same_county` when no
+published "Serving" list names the town). Says which line to use when. No warmline is listed
+because none could be verified.
+
+### `steadi_fall_risk_assessment` (AGE-01, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `stay_independent` | The 12 Stay Independent answers (yes = true). At risk at 4 points or more, or any fall in the past year. |
+| `unsteady`, `worries_about_falling`, `fell_past_year` | The three key questions (alternative screen). |
+| `falls_count`, `fall_injury` | Fall history. |
+| `age_years`, `sex` | For CDC's 30-Second Chair Stand below-average scores (ages 60-94, men and women). |
+| `tug_seconds`, `tug_observations` | Timed Up and Go (12 seconds or more = at risk) and gait observations. |
+| `chair_stands`, `chair_used_arms` | 30-Second Chair Stand (using arms scores 0). |
+| `balance_seconds` | 4-Stage Balance Test times in order (tandem under 10 seconds = increased risk). |
+| `orthostatic` | Lying and standing blood pressures and symptoms (drop of 20 systolic or 10 diastolic, or symptoms = abnormal). |
+| `other_risk_factors`, `home_hazards` | Medications, vision, feet, vitamin D, ...; hazards matched to CDC's Check for Safety fixes (`all` for the whole checklist). |
+| `plan_format` | `docx` or `pdf`: a fall prevention plan in `/data/output` (no names). |
+
+Returns the screen, each test against CDC's threshold, the risk factors with their evidence, the
+STEADI intervention plan by factor, assessments still to do, prevention (when not at risk),
+follow-up (30-90 days when at risk), home-safety fixes, and CDC's test procedures.
+
+### `elder_protective_services_guide` (AGE-03, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `age_years`, `has_disability`, `setting` | Routes to Adult Protective Services (60+, community; 800-922-2275), DPPC (18-59 with a disability; 800-426-9009), or DPH (abuse by nursing home or hospital staff; 800-462-5540). |
+| `concern` | Physical, sexual, emotional, caregiver neglect, financial exploitation, or self-neglect. |
+| `emergency`, `reporter_role` | Emergency steps; whether the role is a mandated reporter. |
+| `details_file`, `sheet`, `format` | Template + local fill: one row per report in `/data`; narratives go to `/data/output` only. |
+
+Returns the pathways, mandated reporter lists (M.G.L. c.19A s.15, c.19C s.1), duties (verbal
+report immediately, written within 48 hours), what a report contains (s.15(e)), timelines
+(review within 48 hours, emergency assessment within 24 hours, investigation within 30 days,
+written notice to the reporter within 45 days), definitions, signs by type, self-neglect,
+protections and penalties, and the report-narrative template with its column names. Identifying
+details are never accepted as arguments.
+
+### `find_ma_aging_services` (AGE-02, toolset `aging`)
+
+| Argument | |
+|---|---|
+| `town` | Default: the configured town. |
+| `needs` | Any of `home_care`, `meals`, `insurance`, `caregiver`, `dementia`, `protective`, `long_term_care`, `community`, `information` (default all). |
+
+Returns the town's Aging Services Access Point (Boston: three, by neighborhood), Council on Aging
+(how to reach it; contacts are not bundled), SHINE office and phone, senior nutrition project,
+statewide lines (MassOptions, MassRelay, elder abuse hotline, Long-Term Care Ombudsman,
+Alzheimer's Association helpline, SHINE for Chinese speakers), and program descriptions.
+
+### `explain_older_adult_coverage_options` (AGE-04, toolset `aging`)
+
+All arguments are optional: `age_years`, `household_size`, `monthly_income`,
+`countable_assets`, `has_medicare_a_and_b`, `has_masshealth_standard`, `has_disability`,
+`nursing_home_level_of_care`, `living` (`community`, `assisted_living`, `nursing_home`),
+`has_private_insurance`, `town`.
+
+Returns Medicare 2026 premiums, deductibles, coinsurance, and income-related Part B premiums
+(CMS), the Part D out-of-pocket threshold, MassHealth's FPL figures (effective March 1, 2026),
+and for each program (Medicare Savings Programs, MassHealth 65+, Frail Elder Waiver, PACE, SCO,
+One Care) its rules and a screen (`likely_eligible`, `may_be_eligible`, `probably_not_eligible`,
+`need_more_information`) with reasons, the MSP level (QMB at or below 190% FPL, SLMB/QI at or
+below 225%), and PACE availability in the town's county. Not an eligibility decision.
+
+### `nursing_home_quality_lookup` (AGE-06, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `name`, `ccn`, `town`, `county` | configured town | Filters (names are fuzzy-matched). |
+| `statewide` | false | Statewide summary. |
+| `sort_by` | `name` | `overall_rating`, `staffing`, `infection_control`, `staff_flu_vaccination`. |
+| `limit` | 25 | |
+| `include_citations` | when 5 or fewer | Infection control citations (three years). |
+
+Live from the CMS Provider Data Catalog (Provider Information 4pq5-n9py, Health Deficiencies
+r5ix-sfxw, SNF QRP fykj-qjee, MDS Quality Measures djen-97ju, State/US Averages xcdc-v8bm),
+cached for a day, with the `cms-ma-nursing-homes` snapshot offline. Returns star ratings,
+staffing hours and turnover, inspections, fines and penalties, Special Focus and abuse flags,
+infection control F-tags with scope and severity, staff and resident COVID-19, flu, and
+pneumococcal vaccination, and Massachusetts and U.S. averages.
+
+### `map_older_adult_vulnerability` (AGE-05, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | configured town | City or town, "X County", tract GEOID, or "Massachusetts". |
+| `subareas` | tracts for a town; towns otherwise | `tract` or `town`. |
+| `rank_by` | `composite` | `living_alone`, `disability`, `no_vehicle`, `limited_english`, `poverty`. |
+| `limit` | 15 | Sub-areas listed (the map shows all). |
+| `map` | false | Choropleth SVG and PNG in `/data/output` (via `create_choropleth_map`). |
+
+Returns the area's five indicators with 90% margins of error, counts, reliability flags (CV over
+30%), and Massachusetts and U.S. values; the age profile (Phase 4 ACS adapter, live with a
+Census key); and sub-areas ranked by the chosen indicator or by how many of the five exceed the
+state value. ACS 2020-2024 tables B09020, B25045, B16004, B17001, and C18108.
+
+### `advance_care_planning_toolkit` (AGE-07, toolset `aging`)
+
+| Argument | Default | |
+|---|---|---|
+| `session_minutes` | 60 | Scales the facilitator script (20-240). |
+| `materials_format` | none | `docx` or `pdf`: facilitator script, handout, and blank proxy in `/data/output`. |
+| `details_file`, `sheet`, `format` | | Template + local fill of health care proxies, one row per person, with an optional `Language` column. |
+
+Returns health care proxy rules from M.G.L. c.201D (witnesses, who can be an agent, when
+authority starts, revocation), the proxy template and its fields, what to do after signing, MOLST
+status (not verified; the old molst-ma.org domain is no longer the program's site), a link to The
+Conversation Project, the session script, and the handout. Agency translations of the proxy go in
+`/data/templates/<language>/health_care_proxy.md`; rows in a language without one use English,
+and the result counts them by language.
+
 <!-- End of Phase 10 tools. -->
 
 ## Phase 11: Substance use, crisis resources, and health communication

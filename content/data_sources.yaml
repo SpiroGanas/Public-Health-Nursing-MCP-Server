@@ -529,6 +529,129 @@ sources:
   # Phase 9 sources go below this line.
   # End of Phase 9 sources.
   # Phase 10 sources go below this line.
+  - id: bh-mental-health-screening
+    name: Mental health screening instruments (PHQ, GAD, EPDS, NIMH ASQ, C-SSRS screener)
+    publisher: NIMH; instrument developers (PubMed/PMC); compiled by this project
+    kind: content
+    status: active
+    content_id: bh-mental-health-screening
+    homepage: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+    probe_url: https://www.nimh.nih.gov/research/research-conducted-at-nimh/asq-toolkit-materials
+    used_by: [score_mental_health_screen]
+    caveats:
+      - >-
+        Cutoffs, safety-alert rules, and license terms are pending the subject matter expert's
+        review. phqscreeners.com and cssrs.columbia.edu could not be reached when drafted (PHQ
+        license and C-SSRS triage levels are medium or low confidence).
+  - id: bh-crisis-resources
+    name: Crisis lines (988, Behavioral Health Help Line, mobile crisis, Crisis Text Line)
+    publisher: Massachusetts DPH and EOHHS (mass.gov); NIMH
+    kind: content
+    status: active
+    content_id: bh-crisis-resources
+    homepage: https://www.mass.gov/community-behavioral-health-centers
+    probe_url: https://www.mass.gov/info-details/about-the-988-lifeline
+    used_by: [find_crisis_resources]
+    caveats:
+      - Numbers read from mass.gov and NIMH on 2026-11-08; call-test before publishing. No warmline could be verified.
+  - id: ma-cbhc-directory
+    name: Community Behavioral Health Centers and the towns they serve
+    publisher: Massachusetts Executive Office of Health and Human Services (mass.gov)
+    kind: snapshot
+    status: active
+    snapshot_id: ma-cbhc-directory
+    homepage: https://www.mass.gov/find-a-cbhc/locations
+    probe_url: https://www.mass.gov/find-a-cbhc/locations
+    used_by: [find_crisis_resources]
+    caveats:
+      - >-
+        Built by cargo xtask build-service-directories from mass.gov's paged listing; 63 towns
+        are in no published "Serving" list, so the tool shows the CBHCs in their county.
+  - id: ma-aging-service-directory
+    name: Aging Services Access Points, SHINE offices, and senior nutrition projects by town
+    publisher: Massachusetts Executive Office of Aging & Independence (mass.gov)
+    kind: snapshot
+    status: active
+    snapshot_id: ma-aging-service-directory
+    content_id: aging-services-guide
+    homepage: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    probe_url: https://www.mass.gov/info-details/find-your-regional-aging-services-access-point-asap
+    used_by: [find_ma_aging_services]
+    caveats:
+      - >-
+        Council on Aging contacts are not bundled (AGE publishes them on an ArcGIS map;
+        mcoaonline.org was not reachable). Protective services areas may differ from ASAP areas.
+  - id: aging-steadi-falls
+    name: CDC STEADI fall risk screening, assessments, and interventions
+    publisher: Centers for Disease Control and Prevention
+    kind: content
+    status: active
+    content_id: aging-steadi-falls
+    homepage: https://www.cdc.gov/steadi/
+    probe_url: https://www.cdc.gov/steadi/hcp/clinical-resources/index.html
+    used_by: [steadi_fall_risk_assessment]
+    caveats:
+      - Transcribed from the CDC STEADI materials (2017-2023); pending review.
+  - id: aging-protective-services
+    name: Elder and disabled adult protective services reporting (M.G.L. c.19A, c.19C)
+    publisher: Massachusetts General Court; Executive Office of Aging & Independence
+    kind: content
+    status: active
+    content_id: aging-protective-services
+    homepage: https://www.mass.gov/protecting-older-adults-from-abuse
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter19A/Section15
+    used_by: [elder_protective_services_guide]
+    caveats:
+      - 651 CMR 5.00 and the DPPC web site (dppcmass.gov) could not be read when drafted.
+  - id: aging-coverage-options
+    name: Older adult coverage options (Medicare 2026 costs, MSPs, MassHealth, FEW, PACE, SCO, One Care)
+    publisher: CMS (cms.gov); MassHealth and EOAI (mass.gov)
+    kind: content
+    status: active
+    content_id: aging-coverage-options
+    homepage: https://www.mass.gov/info-details/get-help-paying-medicare-costs
+    probe_url: https://www.cms.gov/newsroom/fact-sheets/2026-medicare-parts-b-premiums-deductibles
+    used_by: [explain_older_adult_coverage_options]
+    caveats:
+      - Update Medicare amounts each November (CMS) and MassHealth FPL figures each March.
+  - id: cms-provider-data-nursing-homes
+    name: CMS Provider Data Catalog, nursing homes (Care Compare)
+    publisher: Centers for Medicare & Medicaid Services
+    kind: live
+    status: active
+    snapshot_id: cms-ma-nursing-homes
+    content_id: aging-nursing-home-guide
+    homepage: https://data.cms.gov/provider-data/topics/nursing-homes
+    probe_url: https://data.cms.gov/provider-data/api/1/metastore/schemas/dataset/items/4pq5-n9py
+    used_by: [nursing_home_quality_lookup]
+    caveats:
+      - >-
+        Datasets 4pq5-n9py, r5ix-sfxw, fykj-qjee, djen-97ju, and xcdc-v8bm, checked 2026-11-08;
+        CMS refreshes monthly and removed its separate COVID-19 vaccination datasets in July 2025.
+  - id: census-acs5-ma-older-adults
+    name: ACS 5-year estimates for older adults (living alone, no vehicle, limited English, poverty)
+    publisher: U.S. Census Bureau
+    kind: snapshot
+    status: active
+    snapshot_id: census-acs5-ma-older-adults
+    homepage: https://www.census.gov/programs-surveys/acs
+    probe_url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/
+    used_by: [map_older_adult_vulnerability]
+    caveats:
+      - Built from the 2020-2024 table-based summary files; disability and the age profile use the Phase 4 ACS adapter.
+  - id: aging-advance-care-planning
+    name: Health care proxy (M.G.L. c.201D), MOLST status, and community session materials
+    publisher: Massachusetts General Court; compiled by this project
+    kind: content
+    status: active
+    content_id: aging-advance-care-planning
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleII/Chapter201D/Section2
+    used_by: [advance_care_planning_toolkit]
+    caveats:
+      - >-
+        MOLST is not verified: on 2026-11-09 molst-ma.org served unrelated content and no
+        mass.gov MOLST page was found. Do not link to that domain.
   # End of Phase 10 sources.
   # Phase 11 sources go below this line.
   # End of Phase 11 sources.
