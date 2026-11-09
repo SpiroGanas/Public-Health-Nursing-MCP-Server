@@ -11,7 +11,7 @@
 
 const VERSION = '0.13.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 97;
+const TOOL_COUNT = 98;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3066,6 +3066,37 @@ const toolChapters = [
         ],
       },
       // Phase 13 EPR-01 (ICS) entries go below this line.
+      {
+        id: 'generate_ics_forms',
+        title: 'Fill ICS forms and assemble an Incident Action Plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Fills FEMA Incident Command System forms for a health department incident (ICS 201 Incident Briefing, 202 Incident Objectives, 203 Organization Assignment List, 204 Assignment List, 205 Radio Communications Plan, 205A Communications List, 206 Medical Plan, 207 Organization Chart, 208 Safety Message, 213 General Message, 213RR Resource Request, 214 Activity Log, and 215A Safety Analysis) and assembles the Incident Action Plan as a Word or PDF document. The forms keep FEMA’s block numbers and labels. It tells you which required blocks are still blank and suggests SMART objectives and safety precautions for common public health incidents.',
+        when: [
+          'At the start of a response, to brief staff and set objectives for the first operational period.',
+          'Before each planning meeting, to produce the next Incident Action Plan.',
+          'During an exercise, so staff practice with the same forms they will use in a real response.',
+        ],
+        provide: [
+          'The incident name, the operational period (start and end date and time), and your objectives.',
+          'Who holds each ICS position (positions and names only), the Divisions or Groups and their work, radio channels, and the responder medical plan (hospitals and ambulance service).',
+          'Optionally: a staff roster file in your data folder with phone numbers and emails, the kind of incident (for example measles, POD, hurricane, heat), a map image, and whether you want blank forms too.',
+        ],
+        examples: [
+          'Make an Incident Action Plan for the Maple Grove measles exposure for tomorrow 0700 to 1900, using staff_roster.csv for contacts.',
+          'Write an ICS 213RR for 200 cases of bottled water for the senior center cooling site, urgent.',
+          'Give me blank ICS 214 activity logs and an ICS 215A with suggested hazards for a coastal storm.',
+        ],
+        returns: [
+          'One file per form and the assembled Incident Action Plan in your output folder, a list of required blocks still blank with FEMA’s instructions, an Incident Action Plan checklist, and suggested objectives and safety lines with their sources.',
+        ],
+        notes: [
+          'Phone numbers and emails come only from your roster file and go only into the documents; they never appear in the chat. Do not type them into your request.',
+          'The forms are accessible versions of FEMA’s forms, not FEMA’s fillable PDFs. Signatures are added by hand.',
+          'Suggested objectives and hazards are drafts for the Incident Commander and Safety Officer to review.',
+        ],
+      },
       // End of Phase 13 EPR-01 entries.
 
       // Phase 13 EPR-07 (COOP) entries go below this line.

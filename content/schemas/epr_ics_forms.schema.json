@@ -1,0 +1,447 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/epr_ics_forms.schema.json",
+  "title": "ICS forms and public health incident suggestions",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "iap",
+    "forms",
+    "incident_types"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "epr-ics-forms"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "hazard": {
+      "type": "object",
+      "required": [
+        "incident_area",
+        "hazard",
+        "mitigation",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "incident_area": {
+          "type": "string"
+        },
+        "hazard": {
+          "type": "string"
+        },
+        "mitigation": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "form_id": {
+      "enum": [
+        "201",
+        "202",
+        "203",
+        "204",
+        "205",
+        "205A",
+        "206",
+        "207",
+        "208",
+        "213",
+        "213RR",
+        "214",
+        "215A"
+      ]
+    },
+    "block": {
+      "type": "object",
+      "required": [
+        "number",
+        "label",
+        "required",
+        "instructions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "number": {
+          "type": "string",
+          "pattern": "^[0-9]+$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "instructions": {
+          "type": "string"
+        },
+        "part": {
+          "enum": [
+            "Requestor",
+            "Logistics",
+            "Finance"
+          ]
+        }
+      }
+    },
+    "form": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared_by",
+        "iap_role",
+        "purpose",
+        "source",
+        "blocks"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/form_id"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^v[0-9.]+$"
+        },
+        "prepared_by": {
+          "type": "string"
+        },
+        "iap_role": {
+          "enum": [
+            "typical",
+            "optional",
+            "not_typical"
+          ]
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/block"
+          }
+        }
+      }
+    },
+    "incident_type": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "aliases",
+        "command_emphasis",
+        "objectives",
+        "hazards",
+        "safety_message"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z_]+$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "command_emphasis": {
+          "type": "string"
+        },
+        "objectives": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "hazards": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/hazard"
+          }
+        },
+        "safety_message": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "iap": {
+      "type": "object",
+      "required": [
+        "typical",
+        "optional",
+        "default_set",
+        "order",
+        "source",
+        "section",
+        "adaptation_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "typical": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form_id"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form_id"
+          }
+        },
+        "default_set": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form_id"
+          }
+        },
+        "order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/form_id"
+          }
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "adaptation_note": {
+          "type": "string"
+        }
+      }
+    },
+    "forms": {
+      "type": "array",
+      "minItems": 13,
+      "items": {
+        "$ref": "#/$defs/form"
+      }
+    },
+    "incident_types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/incident_type"
+      }
+    }
+  }
+}

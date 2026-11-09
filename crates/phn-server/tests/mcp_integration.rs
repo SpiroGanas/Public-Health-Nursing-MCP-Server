@@ -833,6 +833,26 @@ async fn no_row_level_data_is_returned_by_default() {
         ),
         // ---- End of Phase 12 data tools.
         // ---- Phase 13 EPR-01 (ICS) data tools go below this line.
+        (
+            "generate_ics_forms",
+            json!({"forms": ["all"], "roster_path": "staff_roster.csv", "incident_name": "Leak test",
+                   "blank_forms": true}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "generate_ics_forms",
+            json!({"roster_path": "staff_roster.csv",
+                   "organization": [{"position": "Incident Commander"}, {"position": "Safety Officer"}],
+                   "assignments": [{"group": "Clinic Group", "supervisor": "R. Example",
+                                    "resources": [{"identifier": "Team 1", "leader": "R. Example"}]}]}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as the roster is used only in the documents.
+        (
+            "generate_ics_forms",
+            json!({"forms": ["203", "205A", "207"], "roster_path": "line_list.csv"}),
+            ll,
+        ),
         // ---- End of Phase 13 EPR-01 data tools.
         // ---- Phase 13 EPR-07 (COOP) data tools go below this line.
         // ---- End of Phase 13 EPR-07 data tools.

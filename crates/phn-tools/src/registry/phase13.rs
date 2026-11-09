@@ -8,7 +8,12 @@ use super::ToolMeta;
 use phn_core::Toolset;
 
 /// EPR-01 (ICS forms and Incident Action Plan).
-pub(super) const ICS: &[ToolMeta] = &[];
+pub(super) const ICS: &[ToolMeta] = &[ToolMeta {
+    name: "generate_ics_forms",
+    plan_id: "EPR-01",
+    toolset: Toolset::Epr,
+    phase: 13,
+}];
 
 /// EPR-07 (continuity of operations).
 pub(super) const COOP: &[ToolMeta] = &[];
