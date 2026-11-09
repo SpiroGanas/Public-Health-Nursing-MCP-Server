@@ -1,0 +1,524 @@
+# ICS forms (titles, block numbers, block labels, and FEMA's block instructions) and suggested
+# objectives and safety analysis lines for common public health incidents, for
+# generate_ics_forms (EPR-01).
+#
+# REVIEW STATUS: pending. See meta.verification_note.
+# Schema: content/schemas/epr_ics_forms.schema.json
+meta:
+  id: epr-ics-forms
+  title: ICS forms (NIMS ICS Forms Booklet) and public health incident suggestions
+  version: 0.1.0
+  prepared: 2026-11-09
+  effective_date: 2010-09-01
+  source:
+    title: "NIMS ICS Forms Booklet, FEMA 502-2 (September 2010), with the individual ICS forms v3 and v3.1"
+    publisher: Federal Emergency Management Agency, Emergency Management Institute
+    url: https://training.fema.gov/emiweb/is/icsresource/icsforms/
+  related_sources:
+    - title: "ICS Forms: Instructions (v3) (introduction, ICS forms list, and form adaptation guidance)"
+      publisher: Federal Emergency Management Agency, Emergency Management Institute
+      url: "https://training.fema.gov/emiweb/is/icsresource/assets/ics%20forms/ics%20forms%20-%20instructions%20(v3).pdf"
+    - title: Interim Infection Prevention and Control Recommendations for Measles in Healthcare Settings
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/infection-control/hcp/measles/index.html
+    - title: "Heat Stress: Workplace Recommendations"
+      publisher: CDC National Institute for Occupational Safety and Health
+      url: https://www.cdc.gov/niosh/heat-stress/recommendations/index.html
+    - title: Carbon Monoxide (CO) Poisoning Basics
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    - title: Preparing for Floods
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/floods/safety/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Fetched 2026-11-09 from training.fema.gov. Every form title, form version, block number,
+    block label, column label, and the "typically prepared by" and IAP roles below were checked
+    against FEMA's PDFs (ICS 201 v3, 202 v3.1, 203 v3, 204 v3.1, 205 v3.1, 205A v3, 206 v3, 207 v3,
+    208 v3.1, 213 v3, 213RR v3, 214 v3.1, 215A v3) and the instructions booklet (FEMA 502-2,
+    September 2010): high confidence. Block instructions are shortened quotations of FEMA's
+    block-by-block instructions (high). The ICS 213RR PDF has no instruction page; its
+    instructions here are this project's summary of the form's printed labels (medium). The
+    INCIDENT SUGGESTIONS (objectives, command emphasis, and ICS 215A hazards and mitigations) are
+    THIS PROJECT'S DRAFTS for a local health department: lines that restate a CDC or NIOSH page
+    cite it (high or medium), and the rest are tool suggestions with no single source (medium or
+    low). Replace them with your agency's plans and your Safety Officer's analysis.
+
+sources:
+  fema-ics-forms:
+    title: "NIMS ICS Forms Booklet, FEMA 502-2 (forms v3 and v3.1)"
+    publisher: Federal Emergency Management Agency, Emergency Management Institute
+    url: https://training.fema.gov/emiweb/is/icsresource/icsforms/
+    effective_date: 2010-09-01
+    retrieved: 2026-11-09
+  fema-ics-instructions:
+    title: "ICS Forms: Instructions (v3)"
+    publisher: Federal Emergency Management Agency, Emergency Management Institute
+    url: "https://training.fema.gov/emiweb/is/icsresource/assets/ics%20forms/ics%20forms%20-%20instructions%20(v3).pdf"
+    effective_date: 2010-09-01
+    retrieved: 2026-11-09
+  cdc-measles-ipc:
+    title: Interim Infection Prevention and Control Recommendations for Measles in Healthcare Settings
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/infection-control/hcp/measles/index.html
+    effective_date: null
+    retrieved: 2026-11-09
+  niosh-heat:
+    title: "Heat Stress: Workplace Recommendations"
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/heat-stress/recommendations/index.html
+    effective_date: 2026-07-16
+    retrieved: 2026-11-09
+  cdc-co:
+    title: Carbon Monoxide (CO) Poisoning Basics
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    effective_date: 2026-10-26
+    retrieved: 2026-11-09
+  cdc-floods:
+    title: Preparing for Floods
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/floods/safety/index.html
+    effective_date: 2026-08-24
+    retrieved: 2026-11-09
+  tool:
+    title: "Public Health Nursing MCP Server: drafted suggestion (no single published source)"
+    publisher: Public Health Nursing MCP Server
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/epr/ics_forms.yaml
+    effective_date: null
+    retrieved: 2026-11-09
+
+# FEMA's ICS forms list: * typically included in an IAP; ** additional forms that could be used
+# in the IAP. The ICS 207 is a wall chart "not intended to be part of the IAP", but the ICS 202
+# block 6 checklist lists it, so it is in the tool's default IAP set (ADR 0009).
+iap:
+  typical: ["202", "203", "204", "205", "206"]
+  optional: ["205A", "208"]
+  default_set: ["202", "203", "204", "205", "205A", "206", "207", "208"]
+  order: ["202", "203", "204", "205", "205A", "206", "207", "208", "215A"]
+  source: fema-ics-instructions
+  section: ICS Forms List
+  adaptation_note: >-
+    FEMA encourages organizations that adapt an ICS form to keep its essential data elements and
+    form number and to say clearly that the form is an adaptation (ICS Form Adaptation, FEMA
+    502-2). These documents keep FEMA's titles, block numbers, and labels but are laid out as
+    accessible documents, not FEMA's fillable PDFs.
+
+forms:
+  - id: "201"
+    title: Incident Briefing
+    version: v3
+    prepared_by: Initial Incident Commander
+    iap_role: not_typical
+    purpose: >-
+      Provides the Incident Commander and the Command and General Staffs with basic information
+      on the incident situation and the resources allocated to it; also serves as an initial
+      action worksheet and a permanent record of the initial response. It can serve as part of
+      the initial IAP.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Incident Number", required: false, instructions: Enter the number assigned to the incident.}
+      - {number: "3", label: "Date/Time Initiated", fields: [Date, Time], required: true, instructions: "Enter date initiated (month/day/year) and time initiated (using the 24-hour clock)."}
+      - number: "4"
+        label: Map/Sketch
+        prompt: "(include sketch, showing the total area of operations, the incident site/area, impacted and threatened areas, overflight results, trajectories, impacted shorelines, or other graphics depicting situational status and resource assignment)"
+        required: false
+        instructions: Show perimeter and other graphics depicting situational status, resource assignments, incident facilities, and other special information on a map/sketch or with attached maps. North should be at the top of page unless noted otherwise.
+      - number: "5"
+        label: Situation Summary and Health and Safety Briefing
+        prompt: "(for briefings or transfer of command): Recognize potential incident Health and Safety Hazards and develop necessary measures (remove hazard, provide personal protective equipment, warn people of the hazard) to protect responders from those hazards."
+        required: true
+        instructions: Self-explanatory.
+      - {number: "6", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position/title, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+      - {number: "7", label: "Current and Planned Objectives", required: true, instructions: Enter the objectives used on the incident and note any specific problem areas.}
+      - {number: "8", label: "Current and Planned Actions, Strategies, and Tactics", fields: [Time, Actions], required: false, instructions: "Enter the current and planned actions, strategies, and tactics and time they may or did occur to attain the objectives."}
+      - number: "9"
+        label: Current Organization
+        prompt: "(fill in additional organization as appropriate)"
+        fields: [Incident Commander(s), Liaison Officer, Safety Officer, Public Information Officer, Operations Section Chief, Planning Section Chief, Logistics Section Chief, Finance/Admin Section Chief]
+        required: true
+        instructions: "Enter on the organization chart the names of the individuals assigned to each position. If Unified Command is being used, split the Incident Commander box and indicate agency for each of the Incident Commanders."
+      - {number: "10", label: "Resource Summary", fields: [Resource, Resource Identifier, Date/Time Ordered, ETA, Arrived, "Notes (location/assignment/status)"], required: false, instructions: "Enter the number and appropriate category, kind, or type of resource ordered; the agency or resource designator; the date and time ordered; the ETA (24-hour clock); an X or checkmark on arrival; and notes such as assigned location and status."}
+
+  - id: "202"
+    title: Incident Objectives
+    version: v3.1
+    prepared_by: Planning Section Chief
+    iap_role: typical
+    purpose: >-
+      Describes the basic incident strategy, incident objectives, command emphasis/priorities,
+      and safety considerations for use during the next operational period. It is part of the IAP
+      and can be used as the opening or cover page.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: "Enter the name assigned to the incident. If needed, an incident number can be added."}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Objective(s)", required: true, instructions: "Enter clear, concise statements of the objectives for managing the response, ideally in priority order. Objectives should follow the SMART model or a similar approach: Specific, Measurable, Action-oriented, Realistic, Time-sensitive."}
+      - {number: "4", label: "Operational Period Command Emphasis", fields: [General Situational Awareness], required: false, instructions: "Enter command emphasis for the operational period, which may include tactical priorities or a general weather forecast. General situational awareness may include a weather forecast, incident conditions, and/or a general safety message reviewed by the Safety Officer."}
+      - {number: "5", label: "Site Safety Plan Required?", fields: [Yes/No, "Approved Site Safety Plan(s) Located at"], required: false, instructions: Safety Officer should check whether or not a site safety plan is required for this incident and enter the location of the approved Site Safety Plan(s).}
+      - number: "6"
+        label: Incident Action Plan
+        prompt: "(the items checked below are included in this Incident Action Plan):"
+        fields: [ICS 203, ICS 204, ICS 205, ICS 205A, ICS 206, ICS 207, ICS 208, Map/Chart, Weather Forecast/Tides/Currents, "Other Attachments:"]
+        required: true
+        instructions: Check appropriate forms and list other relevant documents that are included in the IAP.
+      - {number: "7", label: "Prepared by", fields: [Name, Position/Title, Signature], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+      - {number: "8", label: "Approved by Incident Commander", fields: [Name, Signature, Date/Time], required: true, instructions: "In the case of a Unified Command, one IC may approve the ICS 202. If additional IC signatures are used, attach a blank page."}
+
+  - id: "203"
+    title: Organization Assignment List
+    version: v3
+    prepared_by: Resources Unit Leader
+    iap_role: typical
+    purpose: >-
+      Provides ICS personnel with information on the units that are currently activated and the
+      names of personnel staffing each position/unit. Complete only the blocks for the positions
+      being used; a trainee is shown with "(T)" after the name.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Incident Commander(s) and Command Staff", fields: [IC/UCs, Deputy, Safety Officer, Public Info. Officer, Liaison Officer], required: true, instructions: "Enter the names of the Incident Commander(s) and Command Staff. For all individuals, use at least the first initial and last name. For Unified Command, also include agency names."}
+      - {number: "4", label: "Agency/Organization Representatives", fields: [Agency/Organization, Name], required: false, instructions: Enter the agency/organization names and the names of their representatives.}
+      - {number: "5", label: "Planning Section", fields: [Chief, Deputy, Resources Unit, Situation Unit, Documentation Unit, Demobilization Unit, Technical Specialists], required: false, instructions: "Enter the name of the Planning Section Chief, Deputy, and Unit Leaders after each position title. List Technical Specialists with an indication of specialty."}
+      - {number: "6", label: "Logistics Section", fields: [Chief, Deputy, Support Branch Director, Supply Unit, Facilities Unit, Ground Support Unit, Service Branch Director, Communications Unit, Medical Unit, Food Unit], required: false, instructions: "Enter the name of the Logistics Section Chief, Deputy, Branch Directors, and Unit Leaders after each position title."}
+      - {number: "7", label: "Operations Section", fields: [Chief, Deputy, Staging Area, Branch, Branch Director, Division/Group, Air Operations Branch, Air Ops Branch Dir.], required: false, instructions: "Enter the name of the Operations Section Chief, Deputy, Branch Director(s), Deputies, and personnel staffing each of the listed positions. For Divisions/Groups, enter the Division/Group identifier and the supervisor's name."}
+      - {number: "8", label: "Finance/Administration Section", fields: [Chief, Deputy, Time Unit, Procurement Unit, Comp/Claims Unit, Cost Unit], required: false, instructions: "Enter the name of the Finance/Administration Section Chief, Deputy, and Unit Leaders after each position title."}
+      - {number: "9", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "204"
+    title: Assignment List
+    version: v3.1
+    prepared_by: Resources Unit Leader and Operations Section Chief
+    iap_role: typical
+    purpose: >-
+      Informs Division and Group supervisors of incident assignments. One ICS 204 is prepared
+      for each Division or Group; it must be approved by the Incident Commander.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Branch / Division / Group / Staging Area", fields: [Branch, Division, Group, Staging Area], required: true, instructions: "Write the alphanumeric abbreviation for the Branch, Division, Group, and Staging Area (e.g., \"Branch 1,\" \"Division D,\" \"Group 1A\") in large letters for easy referencing."}
+      - {number: "4", label: "Operations Personnel", fields: [Name, Contact Number(s), Operations Section Chief, Branch Director, Division/Group Supervisor], required: true, instructions: "Enter the name and contact numbers of the Operations Section Chief, applicable Branch Director(s), and Division/Group Supervisor(s)."}
+      - {number: "5", label: "Resources Assigned", fields: [Resource Identifier, Leader, "# of Persons", "Contact (e.g., phone, pager, radio frequency, etc.)", "Reporting Location, Special Equipment and Supplies, Remarks, Notes, Information"], required: false, instructions: "Enter each resource's identifier (TBD if not yet known), leader's name, total number of persons including the leader, primary means of contacting the leader, and reporting location, special equipment, briefing, transportation, or other notes."}
+      - {number: "6", label: "Work Assignments", required: true, instructions: Provide a statement of the tactical objectives to be achieved within the operational period by personnel assigned to this Division or Group.}
+      - {number: "7", label: "Special Instructions", required: false, instructions: "Enter a statement noting any safety problems, specific precautions to be exercised, dropoff or pickup points, or other important information."}
+      - number: "8"
+        label: Communications
+        prompt: "(radio and/or phone contact numbers needed for this assignment)"
+        fields: [Name/Function, "Primary Contact: indicate cell, pager, or radio (frequency/system/channel)"]
+        required: false
+        instructions: "Enter specific communications information (including emergency numbers) for this Branch/Division/Group. In light of potential IAP distribution, use sensitivity when including cell phone numbers."
+      - {number: "9", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "205"
+    title: Incident Radio Communications Plan
+    version: v3.1
+    prepared_by: Communications Unit Leader
+    iap_role: typical
+    purpose: >-
+      Provides information on all radio frequency or trunked radio system talkgroup assignments
+      for each operational period, down to the Division/Group level.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Date/Time Prepared", fields: [Date, Time], required: true, instructions: "Enter date prepared (month/day/year) and time prepared (using the 24-hour clock)."}
+      - {number: "3", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "4", label: "Basic Radio Channel Use", fields: [Zone Grp., "Ch #", Function, Channel Name/Trunked Radio System Talkgroup, Assignment, RX Freq N or W, RX Tone/NAC, TX Freq N or W, TX Tone/NAC, "Mode (A, D, or M)", Remarks], required: true, instructions: "For each channel or talkgroup enter the function (Command, Tactical, Ground-to-Air, Air-to-Air, Support, Dispatch), channel name, assignment, receive and transmit frequencies (xxx.xxxx followed by N or W), tones or NAC, mode (A analog, D digital, M mixed), and remarks."}
+      - {number: "5", label: "Special Instructions", required: false, instructions: "Enter any special instructions (e.g., using cross-band repeaters, secure-voice, encoders, private line tones) or other emergency communications needs."}
+      - {number: "6", label: "Prepared by (Communications Unit Leader)", fields: [Name, Signature, Date/Time], required: true, instructions: "Enter the name and signature of the person preparing the form, typically the Communications Unit Leader, and the date and time prepared."}
+
+  - id: "205A"
+    title: Communications List
+    version: v3
+    prepared_by: Communications Unit Leader
+    iap_role: optional
+    purpose: >-
+      Records methods of contact for incident personnel and functions as an incident directory.
+      If it contains sensitive information such as cell phone numbers, it should be clearly
+      marked in the header that it contains sensitive information and is not for public release.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Basic Local Communications Information", fields: [Incident Assigned Position, Name (Alphabetized), "Method(s) of Contact (phone, pager, cell, etc.)"], required: true, instructions: "Enter the ICS organizational assignment, the name of the assigned person, and the radio frequency and contact number(s) for each assignment."}
+      - {number: "4", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "206"
+    title: Medical Plan
+    version: v3
+    prepared_by: Medical Unit Leader (reviewed by Safety Officer)
+    iap_role: typical
+    purpose: >-
+      Provides information on incident medical aid stations, transportation services, hospitals,
+      and medical emergency procedures (for responders).
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Medical Aid Stations", fields: [Name, Location, Contact Number(s)/Frequency, "Paramedics on Site?"], required: false, instructions: "Enter the name, location, contact number(s) and frequency of each incident medical aid station, and whether paramedics are on site."}
+      - number: "4"
+        label: Transportation
+        prompt: "(indicate air or ground)"
+        fields: [Ambulance Service, Location, Contact Number(s)/Frequency, Level of Service]
+        required: true
+        instructions: "Enter the name, location, contact number(s) and frequency of each ambulance service, and the level of service (ALS or BLS)."
+      - {number: "5", label: "Hospitals", fields: [Hospital Name, "Address, Latitude & Longitude if Helipad", Contact Number(s)/Frequency, Travel Time (Air), Travel Time (Ground), Trauma Center, Burn Center, Helipad], required: true, instructions: "Enter each hospital that could serve the incident: name, address (latitude and longitude if it has a helipad), contact numbers, travel time by air and ground, trauma center level, burn center, and helipad."}
+      - {number: "6", label: "Special Medical Emergency Procedures", fields: ["Aviation assets are utilized for rescue (coordinate with Air Operations)"], required: true, instructions: "Note any special emergency instructions for incident personnel, including (1) who should be contacted, (2) how they should be contacted, and (3) who manages an incident within an incident due to a rescue, accident, etc. Include procedures for how to report medical emergencies."}
+      - {number: "7", label: "Prepared by (Medical Unit Leader)", fields: [Name, Signature], required: true, instructions: "Enter the name and signature of the person preparing the form, typically the Medical Unit Leader."}
+      - {number: "8", label: "Approved by (Safety Officer)", fields: [Name, Signature, Date/Time], required: true, instructions: "Enter the name of the person who approved the plan, typically the Safety Officer, and the date and time reviewed."}
+
+  - id: "207"
+    title: Incident Organization Chart
+    version: v3
+    prepared_by: Resources Unit Leader
+    iap_role: not_typical
+    purpose: >-
+      A wall chart of the ICS organization position assignments: which elements are activated and
+      who staffs each. FEMA intends it to be wall mounted at Incident Command Posts and not part
+      of the IAP, but the ICS 202 lists it among IAP attachments.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Print the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Organization Chart", fields: [Incident Commander(s), Liaison Officer, Safety Officer, Public Information Officer, Operations Section Chief, Staging Area Manager, Planning Section Chief, Resources Unit Ldr., Situation Unit Ldr., Documentation Unit Ldr., Demobilization Unit Ldr., Logistics Section Chief, Support Branch Dir., Supply Unit Ldr., Facilities Unit Ldr., Ground Spt. Unit Ldr., Service Branch Dir., Comms Unit Ldr., Medical Unit Ldr., Food Unit Ldr., Finance/Admin Section Chief, Time Unit Ldr., Procurement Unit Ldr., Comp./Claims Unit Ldr., Cost Unit Ldr.], required: true, instructions: "Complete the incident organization chart. For all individuals, use at least the first initial and last name; list agency where appropriate, such as for Unified Commanders."}
+      - {number: "4", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "208"
+    title: Safety Message/Plan
+    version: v3.1
+    prepared_by: Safety Officer
+    iap_role: optional
+    purpose: Expands on the Safety Message and Site Safety Plan; an optional IAP form completed by the Safety Officer.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Safety Message/Expanded Safety Message, Safety Plan, Site Safety Plan", required: true, instructions: "Enter clear, concise statements for safety message(s), priorities, and key command emphasis/decisions/directions, such as known safety hazards and specific precautions to be observed during this operational period."}
+      - {number: "4", label: "Site Safety Plan Required?", fields: [Yes/No, "Approved Site Safety Plan(s) Located At"], required: false, instructions: Check whether or not a site safety plan is required for this incident and enter where the approved Site Safety Plan(s) is located.}
+      - {number: "5", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "213"
+    title: General Message
+    version: v3
+    prepared_by: Any message originator
+    iap_role: not_typical
+    purpose: >-
+      Used to send any message or notification to incident personnel that requires hard-copy
+      delivery, and by dispatchers to record incoming messages that cannot be transmitted orally.
+      A copy goes to the Documentation Unit.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name (Optional)", required: false, instructions: Enter the name assigned to the incident. This block is optional.}
+      - {number: "2", label: "To (Name and Position)", required: true, instructions: "Enter the name and position the General Message is intended for. Use at least the first initial and last name; for Unified Command, include agency names."}
+      - {number: "3", label: "From (Name and Position)", required: true, instructions: "Enter the name and position of the individual sending the General Message. Use at least the first initial and last name."}
+      - {number: "4", label: "Subject", required: true, instructions: Enter the subject of the message.}
+      - {number: "5", label: "Date", required: true, instructions: Enter the date (month/day/year) of the message.}
+      - {number: "6", label: "Time", required: true, instructions: Enter the time (using the 24-hour clock) of the message.}
+      - {number: "7", label: "Message", required: true, instructions: Enter the content of the message. Try to be as concise as possible.}
+      - {number: "8", label: "Approved by", fields: [Name, Signature, Position/Title], required: false, instructions: "Enter the name, signature, and ICS position/title of the person approving the message."}
+      - {number: "9", label: "Reply", required: false, instructions: The intended recipient will enter a reply to the message and return it to the originator.}
+      - {number: "10", label: "Replied by", fields: [Name, Position/Title, Signature, Date/Time], required: false, instructions: "Enter the name, ICS position/title, and signature of the person replying to the message, with the date and time."}
+
+  - id: "213RR"
+    title: Resource Request Message
+    version: v3
+    prepared_by: Requestor, then Logistics and Finance
+    iap_role: not_typical
+    purpose: >-
+      A resource request in three parts: the requestor completes blocks 1-9, Logistics blocks
+      10-16, and Finance blocks 17-19. Use additional forms when requesting different resource
+      sources of supply.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", part: Requestor, required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Date/Time", part: Requestor, required: true, instructions: Enter the date and time of the request (24-hour clock).}
+      - {number: "3", label: "Resource Request Number", part: Requestor, required: false, instructions: Enter the request number assigned by the incident.}
+      - number: "4"
+        label: Order
+        prompt: "(Use additional forms when requesting different resource sources of supply.)"
+        part: Requestor
+        fields: [Qty., Kind, Type, "Detailed Item Description: (Vital characteristics, brand, specs, experience, size, etc.)", Arrival Date and Time (Requested), Arrival Date and Time (Estimated), Cost]
+        required: true
+        instructions: For each item enter the quantity, kind, type, a detailed description, and the requested arrival date and time.
+      - {number: "5", label: "Requested Delivery/Reporting Location", part: Requestor, required: true, instructions: Enter where the resource should be delivered or report.}
+      - {number: "6", label: "Suitable Substitutes and/or Suggested Sources", part: Requestor, required: false, instructions: Enter acceptable substitutes and any suggested sources.}
+      - {number: "7", label: "Requested by Name/Position", part: Requestor, required: true, instructions: Enter the requestor's name and ICS position.}
+      - {number: "8", label: "Priority", part: Requestor, fields: [Urgent, Routine, Low], required: true, instructions: Check one priority.}
+      - {number: "9", label: "Section Chief Approval", part: Requestor, required: false, instructions: Approval of the requestor's Section Chief.}
+      - {number: "10", label: "Logistics Order Number", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "11", label: "Supplier Phone/Fax/Email", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "12", label: "Name of Supplier/POC", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "13", label: "Notes", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "14", label: "Approval Signature of Auth Logistics Rep", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "15", label: "Date/Time", part: Logistics, required: false, instructions: Completed by Logistics.}
+      - {number: "16", label: "Order placed by (check box)", part: Logistics, fields: [SPUL, PROC], required: false, instructions: "Completed by Logistics: Supply Unit (SPUL) or Procurement Unit (PROC)."}
+      - {number: "17", label: "Reply/Comments from Finance", part: Finance, required: false, instructions: Completed by Finance.}
+      - {number: "18", label: "Finance Section Signature", part: Finance, required: false, instructions: Completed by Finance.}
+      - {number: "19", label: "Date/Time", part: Finance, required: false, instructions: Completed by Finance.}
+
+  - id: "214"
+    title: Activity Log
+    version: v3.1
+    prepared_by: All Sections and Units
+    iap_role: not_typical
+    purpose: >-
+      Records details of notable activities at any ICS level, including single resources,
+      equipment, and Task Forces; provides basic incident activity documentation and a reference
+      for any after-action report.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (using the 24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "3", label: "Name", required: true, instructions: "Enter the title of the organizational unit or resource designator (e.g., Facilities Unit, Safety Officer, Strike Team)."}
+      - {number: "4", label: "ICS Position", required: true, instructions: Enter the name and ICS position of the individual in charge of the Unit.}
+      - {number: "5", label: "Home Agency (and Unit)", required: false, instructions: Enter the home agency of the individual completing the ICS 214 and a unit designator if used.}
+      - {number: "6", label: "Resources Assigned", fields: [Name, ICS Position, Home Agency (and Unit)], required: false, instructions: "Enter each resource's name (at least first initial and last name), ICS position, and home agency and/or unit."}
+      - {number: "7", label: "Activity Log", fields: [Date/Time, Notable Activities], required: true, instructions: "Enter the time (24-hour clock) and briefly describe individual notable activities, such as task assignments, task completions, injuries, and difficulties encountered."}
+      - {number: "8", label: "Prepared by", fields: [Name, Position/Title, Signature, Date/Time], required: true, instructions: "Enter the name, ICS position/title, and signature of the person preparing the form. Enter date (month/day/year) and time prepared (24-hour clock)."}
+
+  - id: "215A"
+    title: Incident Action Plan Safety Analysis
+    version: v3
+    prepared_by: Safety Officer (with the Operations Section Chief)
+    iap_role: not_typical
+    purpose: >-
+      Aids the Safety Officer in completing an operational risk assessment to prioritize
+      hazards, safety, and health issues and to develop controls; can be part of the IAP.
+    source: fema-ics-forms
+    blocks:
+      - {number: "1", label: "Incident Name", required: true, instructions: Enter the name assigned to the incident.}
+      - {number: "2", label: "Incident Number", required: false, instructions: Enter the number assigned to the incident.}
+      - {number: "3", label: "Date/Time Prepared", fields: [Date, Time], required: true, instructions: "Enter date (month/day/year) and time (using the 24-hour clock) prepared."}
+      - {number: "4", label: "Operational Period", fields: [Date From, Date To, Time From, Time To], required: true, instructions: "Enter the start date (month/day/year) and time (24-hour clock) and end date and time for the operational period to which the form applies."}
+      - {number: "5", label: "Incident Area", required: true, instructions: "Enter the incident areas where personnel or resources are likely to encounter risks (a Branch, Division, or Group)."}
+      - {number: "6", label: "Hazards/Risks", required: true, instructions: List the types of hazards and/or risks likely to be encountered by personnel or resources at the incident area relevant to the work assignment.}
+      - {number: "7", label: "Mitigations", required: true, instructions: "List actions taken to reduce risk for each hazard indicated (e.g., specify personal protective equipment or use of a buddy system or escape routes)."}
+      - {number: "8", label: "Prepared by (Safety Officer and Operations Section Chief)", fields: [Safety Officer Name, Operations Section Chief Name, Signature, Date/Time], required: true, instructions: "Enter the name of both the Safety Officer and the Operations Section Chief, who should collaborate on form preparation, and the date and time reviewed."}
+
+# Suggestions by incident type. Objectives are SMART templates: complete the [BRACKETED] parts.
+incident_types:
+  - id: measles_outbreak
+    label: Measles or other vaccine-preventable disease outbreak
+    aliases: [measles, rubeola, vpd, vaccine preventable, mumps, rubella, varicella, pertussis]
+    command_emphasis: >-
+      Speed of contact identification and post-exposure prophylaxis within its time windows;
+      staff assigned to case or contact work must have documented measles immunity.
+    objectives:
+      - {text: "Identify and notify all people exposed at [EXPOSURE SITES AND TIMES] and assess their immune status by [DATE/TIME], in coordination with DPH Epidemiology.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Offer post-exposure prophylaxis to every eligible susceptible contact within the recommended time window (vaccine or immune globulin, per DPH and ACIP) by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Issue exclusion and quarantine notices to susceptible contacts under 105 CMR 300.200 and DPH guidance by [DATE/TIME] and track them daily through the end of the incubation period.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Publish exposure locations and times and what to do through [CHANNELS] by [TIME], and update the public every [N] hours.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Confirm documented presumptive evidence of measles immunity for 100% of staff before assignment to case or contact work.", source: cdc-measles-ipc, section: "Recommendations, 1. Ensure that all HCP have presumptive evidence of immunity", confidence: high}
+    hazards:
+      - {incident_area: "Case and contact interviews, home visits, and clinics", hazard: "Airborne measles exposure of staff (measles can remain infectious in the air for up to 2 hours)", mitigation: "Assign only staff with presumptive evidence of measles immunity (2 documented doses, laboratory evidence, or birth before 1957); use a respirator at least as protective as a fit-tested N95 for contact with known or suspected cases, regardless of immunity; follow Standard and Airborne Precautions.", source: cdc-measles-ipc, section: "Recommendations", confidence: high}
+      - {incident_area: "Post-exposure prophylaxis and vaccination clinics", hazard: "Possibly exposed people waiting together; needlestick and sharps injuries", mitigation: "Separate entrance and waiting area for exposed people; post respiratory hygiene and cough etiquette signs in common languages; sharps containers at every vaccination station and the agency's bloodborne pathogens exposure plan.", source: tool, section: "Drafted suggestion", confidence: medium}
+      - {incident_area: "All operations", hazard: "Fatigue from long operational periods", mitigation: "Plan shift lengths and breaks, rotate staff between interview and clinic work, and brief the next shift before handoff.", source: tool, section: "Drafted suggestion", confidence: low}
+    safety_message:
+      - {text: "Only staff with documented measles immunity work with cases or contacts; wear a fit-tested N95 or better respirator for any contact with a known or suspected case.", source: cdc-measles-ipc, section: "Recommendations", confidence: high}
+
+  - id: respiratory_outbreak
+    label: Respiratory illness outbreak (influenza, COVID-19, or similar) in a congregate setting
+    aliases: [respiratory, influenza, flu, covid, covid-19, rsv, ili, congregate]
+    command_emphasis: >-
+      Early case finding and infection control in the affected facility; protect staff and
+      residents at highest risk; clear, consistent messages to families and staff.
+    objectives:
+      - {text: "Complete an on-site infection control assessment of [FACILITY] and give written recommendations by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Establish daily line-list reporting of new cases among residents and staff from [FACILITY] by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Arrange testing for all symptomatic residents and staff within [N] hours of symptom report.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Offer vaccination or treatment and prophylaxis, as recommended by DPH, to eligible residents and staff by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "Facility site visits and specimen collection", hazard: "Respiratory exposure of staff", mitigation: "Wear the PPE recommended for the pathogen (at minimum a fit-tested N95 respirator for specimen collection), perform hand hygiene, and limit time in affected units.", source: tool, section: "Drafted suggestion", confidence: medium}
+      - {incident_area: "All operations", hazard: "Staff illness spreading the outbreak", mitigation: "Staff with symptoms stay home and report; keep vaccination current; track staff absences.", source: tool, section: "Drafted suggestion", confidence: medium}
+    safety_message:
+      - {text: "Do not report to work with fever or respiratory symptoms; tell your supervisor.", source: tool, section: "Drafted suggestion", confidence: medium}
+
+  - id: mass_dispensing
+    label: Mass dispensing or mass vaccination (point of dispensing, POD)
+    aliases: [pod, dispensing, mass dispensing, mass vaccination, mass prophylaxis, anthrax, medical countermeasures, mcm]
+    command_emphasis: >-
+      Open sites on time with enough staff at the bottleneck station; steady flow and short
+      waits; security and accessibility for everyone in line.
+    objectives:
+      - {text: "Open [NUMBER] points of dispensing by [DATE/TIME] with every station staffed for the first shift.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Dispense medical countermeasures to [POPULATION] residents by [DATE/TIME] (about [N] people per hour per site).", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Provide accessible entry, seating, interpreters, and an express lane at every site by opening time.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Report doses dispensed, inventory on hand, and wait times to the EOC every [N] hours.", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "Site entrance and lines", hazard: "Crowd surge, agitation, and workplace violence", mitigation: "Law enforcement or security at the entrance and in line, clear signs and line marshals, a de-escalation plan, and a radio code for help.", source: tool, section: "Drafted suggestion", confidence: medium}
+      - {incident_area: "Vaccination and dispensing stations", hazard: "Needlestick and sharps injuries; repetitive strain; standing for long periods", mitigation: "Sharps containers within reach, safety-engineered needles, bloodborne pathogens exposure plan, adjustable work surfaces, rotation and breaks.", source: tool, section: "Drafted suggestion", confidence: medium}
+      - {incident_area: "Outdoor lines and drive-through lanes", hazard: "Heat or cold stress for staff and clients; vehicle traffic", mitigation: "Shade or warming areas, water, rotation of outdoor staff, high-visibility vests, and traffic control.", source: tool, section: "Drafted suggestion", confidence: medium}
+    safety_message:
+      - {text: "Report any needlestick at once to your supervisor and the Medical Unit; never recap needles.", source: tool, section: "Drafted suggestion", confidence: medium}
+
+  - id: coastal_storm
+    label: Coastal storm, hurricane, or nor'easter with power outage
+    aliases: [hurricane, coastal storm, nor'easter, noreaster, tropical storm, storm, power outage, blizzard, outage]
+    command_emphasis: >-
+      Protect residents who rely on electricity-dependent medical equipment, prevent carbon
+      monoxide poisoning, and support shelter health operations; responders do not drive or
+      walk through flood water.
+    objectives:
+      - {text: "Contact every resident on the electricity-dependent and medically vulnerable registry by [DATE/TIME] and arrange power, transport, or shelter as needed.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Staff shelter health services at [SHELTER] with [NUMBER] nurses per shift from [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Issue carbon monoxide and generator safety messages in [LANGUAGES] through [CHANNELS] by [DATE/TIME] and repeat them daily while power is out.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Inspect food establishments and other licensed facilities affected by the outage within [N] hours of power restoration.", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "Shelters, warming centers, and home visits", hazard: "Carbon monoxide from generators and fuel-burning equipment", mitigation: "Operate generators outdoors more than 20 feet from windows, doors, and vents; carry or check for CO detectors; leave and call 911 if anyone has headache, dizziness, or confusion.", source: cdc-co, section: "Generator safety", confidence: high}
+      - {incident_area: "Field operations and travel", hazard: "Flood water and flooded roads", mitigation: "Do not drive or walk across flooded roads; turn back and report the location.", source: cdc-floods, section: "During", confidence: high}
+      - {incident_area: "Field operations and travel", hazard: "Downed power lines and storm debris", mitigation: "Treat every downed line as energized and stay well away; wear sturdy footwear and gloves; report hazards to the utility and DPW.", source: tool, section: "Drafted suggestion", confidence: medium}
+    safety_message:
+      - {text: "Generators run outdoors only, more than 20 feet from windows, doors, and vents. Never drive or walk through flood water.", source: cdc-co, section: "Generator safety", confidence: high}
+
+  - id: extreme_heat
+    label: Extreme heat emergency
+    aliases: [heat, heat wave, heatwave, extreme heat, high heat]
+    command_emphasis: >-
+      Reach residents at highest risk of heat illness and keep cooling centers open; protect
+      outreach and cooling center staff from heat stress.
+    objectives:
+      - {text: "Open [NUMBER] cooling centers with extended hours from [DATE/TIME] through the end of the heat advisory.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Call or visit every resident on the at-risk registry within [N] hours of the heat advisory and document wellness checks.", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Send heat illness prevention messages to schools, child care programs, and outdoor employers by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "Outreach teams and outdoor operations", hazard: "Heat stress and heat-related illness among staff", mitigation: "Provide cool drinking water near the work area and encourage frequent drinking; limit time in the heat and increase recovery time in a cool area; use a buddy system to watch for signs of heat illness; acclimatize new workers gradually over 7 to 14 days.", source: niosh-heat, section: "Controls and Acclimatization", confidence: high}
+      - {incident_area: "Cooling centers", hazard: "Clients with heat illness or medical emergencies", mitigation: "Staff trained to recognize heat illness, a first aid kit, and a clear plan to call 911.", source: tool, section: "Drafted suggestion", confidence: medium}
+    safety_message:
+      - {text: "Drink water often, take breaks in a cool place, and watch your partner for signs of heat illness.", source: niosh-heat, section: "Controls", confidence: high}
+
+  - id: flooding
+    label: Flooding
+    aliases: [flood, flooding, flash flood, inland flooding, storm surge]
+    command_emphasis: >-
+      Keep responders out of flood water; drinking water, food safety, mold, and carbon
+      monoxide messages for residents returning home.
+    objectives:
+      - {text: "Issue drinking water, food safety, and cleanup guidance for flooded homes in [LANGUAGES] by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Assess [NUMBER] affected private wells and septic systems and advise owners by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Distribute cleanup kits and personal protective equipment at [LOCATIONS] from [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "Field operations and travel", hazard: "Flood water and flooded roads", mitigation: "Do not drive or walk across flooded roads; turn back and report the location.", source: cdc-floods, section: "During", confidence: high}
+      - {incident_area: "Flooded buildings", hazard: "Contaminated flood water, debris, electrical hazards, and mold", mitigation: "Wear rubber boots and gloves; do not enter until power is off; wash hands with soap and water; stay out of buildings with structural damage.", source: cdc-floods, section: "After", confidence: medium}
+    safety_message:
+      - {text: "Never drive or walk through flood water. Wear boots and gloves in flooded buildings and wash your hands often.", source: cdc-floods, section: "During and After", confidence: high}
+
+  - id: hazmat
+    label: Hazardous materials release
+    aliases: [hazmat, hazardous materials, chemical, chemical release, spill, toxic release]
+    command_emphasis: >-
+      Public health supports the fire service's hazmat response: health advice for residents,
+      shelter-in-place or evacuation messages, and follow-up of exposed people; no public health
+      staff enter the hot or warm zone.
+    objectives:
+      - {text: "Provide health guidance on the released substance to the Incident Commander and the public by [DATE/TIME].", source: tool, section: "SMART objective template", confidence: medium}
+      - {text: "Identify and follow up all residents who report symptoms after the release within [N] hours.", source: tool, section: "SMART objective template", confidence: medium}
+    hazards:
+      - {incident_area: "All public health staff", hazard: "Chemical exposure near the release", mitigation: "Stay outside the hot and warm zones and upwind and uphill of the release; enter only with hazmat training and the PPE the Safety Officer specifies; a site safety plan (ICS 208HM) is required.", source: tool, section: "Drafted suggestion", confidence: medium}
+    safety_message:
+      - {text: "Public health staff stay outside the hot and warm zones, upwind and uphill. Report any symptoms to the Medical Unit.", source: tool, section: "Drafted suggestion", confidence: medium}

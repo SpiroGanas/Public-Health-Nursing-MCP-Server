@@ -31,6 +31,8 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/shelter_registrations.csv` | 12 fictional shelter registrants (names, dates of birth, phones, addresses, emails, preferred language) with CMIST intake answers, for the Phase 12 shelter intake tool. |
 | `data/cooling_centers.csv` | Four cooling centers with a fictional after-hours contact person, cell phone, and email that must never be returned (Phase 12 heat planner). |
 | `data/casper_results.csv` | 198 fictional CASPER interviews in 30 clusters (7, or 5 in every fifth cluster) with structure, damage, generator, and medication answers, plus household addresses and callback phones that must never be returned. |
+| `data/staff_roster.csv` | 12 fictional health department and partner staff (names, ICS positions, agencies, work and cell phones, emails, radio call signs) for the Phase 13 ICS, COOP, and exercise tools. Names may appear in chat only when the caller passes them; nothing read from this file may be returned. |
+| `data/exercise_feedback.csv` | 14 fictional HSEEP Participant Feedback Forms (names, emails, agency, exercise role, eight 1-5 ratings, and free-text comments) for the Phase 13 after-action report tool, which may return only suppressed aggregates. |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
 

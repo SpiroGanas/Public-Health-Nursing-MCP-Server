@@ -10,12 +10,12 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.13.0 — Phases 0 to 12 of the [project plan](project_plan.md).** 97 of the 148
+> **Status: v0.14.0 — Phases 0 to 13 of the [project plan](project_plan.md).** 102 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
 > immunization schedules and school requirements, school health and maternal-child health rules,
-> screening instruments, aging and preparedness guidance, and the other items listed by
-> `get_data_source_status`) is a **draft pending review** by the subject matter expert; every
-> answer from it says so. All clinical and legal output is decision support only.
+> screening instruments, aging and preparedness guidance, ICS forms, COOP, HSEEP, and CERC
+> material, and the other items listed by `get_data_source_status`) is a **draft pending
+> review** by the subject matter expert; every answer from it says so. All clinical and legal output is decision support only.
 
 ## Tools
 
@@ -182,6 +182,17 @@ output folder instead of being sent to the AI model.
 | `plan_casper_assessment` | EPR-11 | epr | CDC CASPER cluster sample of census blocks, team materials, and weighted analysis with confidence intervals. |
 <!-- Phase 12 rows go above this line. -->
 
+### Phase 13: emergency preparedness II: ICS, plans, and exercises
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `generate_ics_forms` | EPR-01 | epr | FEMA ICS forms (201–208, 213, 213RR, 214, 215A) and an assembled Incident Action Plan in Word/PDF; staff contacts filled locally from a roster file. |
+| `continuity_of_operations_planner` | EPR-07 | epr | Board of health COOP plan by FEMA's continuity elements: essential functions with tiers and authority, succession, delegations, sites, records, absenteeism check, TT&E schedule, and pandemic annex. |
+| `design_hseep_exercise` | EPR-08 | epr | HSEEP exercise design: SMART objectives mapped to PHEP and FEMA core capabilities, measles, coastal storm, and heat tabletop scenarios, SitMan, EEGs, feedback form, and MSEL. |
+| `build_after_action_report` | EPR-09 | epr | HSEEP after-action report and improvement plan from hotwash findings, with corrective-action checks and suppressed feedback-form totals. |
+| `crisis_risk_communication_builder` | EPR-10 | epr | CDC CERC message maps (27/9/3 checks), holding statements, FAQs, spokesperson prep, and phase tasks for seven pre-scripted hazards or your own, with a language plan (agency translations or translator briefs). |
+<!-- Phase 13 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.
@@ -203,7 +214,7 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0
 ```
 
 On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
@@ -212,7 +223,7 @@ Apple silicon) from the GitHub release and run `docker load -i <file>`.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 .
 ```
 
 ### 3. Create your data folder
@@ -237,7 +248,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
       ]
     }
   }
@@ -256,7 +267,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
       ]
     }
   }
@@ -278,7 +289,7 @@ Then try, for example:
 > Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.13.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

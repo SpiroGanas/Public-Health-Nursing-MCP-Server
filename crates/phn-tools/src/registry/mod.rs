@@ -8,6 +8,7 @@ use phn_core::Toolset;
 mod phase10;
 mod phase11;
 mod phase12;
+mod phase13;
 mod phase2;
 mod phase3;
 mod phase4;
@@ -102,25 +103,30 @@ const PHASE_0_1: &[ToolMeta] = &[
     },
 ];
 
-/// Every phase's tool list, in phase order.
-const PHASES: &[&[ToolMeta]] = &[
-    PHASE_0_1,
-    phase2::TOOLS,
-    phase3::TOOLS,
-    phase4::TOOLS,
-    phase5::TOOLS,
-    phase6::TOOLS,
-    phase7::TOOLS,
-    phase8::TOOLS,
-    phase9::TOOLS,
-    phase10::TOOLS,
-    phase11::TOOLS,
-    phase12::TOOLS,
+/// Every phase's tool list with the phase it belongs to, in phase order (the
+/// first list holds Phases 0 and 1; Phase 13 keeps one list per work package).
+const PHASES: &[(u8, &[ToolMeta])] = &[
+    (1, PHASE_0_1),
+    (2, phase2::TOOLS),
+    (3, phase3::TOOLS),
+    (4, phase4::TOOLS),
+    (5, phase5::TOOLS),
+    (6, phase6::TOOLS),
+    (7, phase7::TOOLS),
+    (8, phase8::TOOLS),
+    (9, phase9::TOOLS),
+    (10, phase10::TOOLS),
+    (11, phase11::TOOLS),
+    (12, phase12::TOOLS),
+    (13, phase13::ICS),
+    (13, phase13::COOP),
+    (13, phase13::HSEEP),
+    (13, phase13::CERC),
 ];
 
 /// Every implemented tool, in phase order.
 pub fn tools() -> impl Iterator<Item = &'static ToolMeta> {
-    PHASES.iter().flat_map(|p| p.iter())
+    PHASES.iter().flat_map(|(_, p)| p.iter())
 }
 
 /// Look up a tool by MCP name.
@@ -230,15 +236,20 @@ mod tests {
 
     #[test]
     fn each_phase_file_lists_only_its_own_phase() {
-        for (i, list) in PHASES.iter().enumerate().skip(1) {
+        for (phase, list) in PHASES.iter().skip(1) {
             for t in *list {
-                assert_eq!(
-                    usize::from(t.phase),
-                    i + 1,
-                    "{} is in the wrong phase file",
-                    t.name
-                );
+                assert_eq!(t.phase, *phase, "{} is in the wrong phase file", t.name);
             }
+        }
+        for t in PHASES[0].1 {
+            assert!(t.phase <= 1, "{} is in the Phase 0-1 list", t.name);
+        }
+        // Phases appear in order, each at most one step after the previous.
+        for w in PHASES.windows(2) {
+            assert!(
+                w[1].0 == w[0].0 || w[1].0 == w[0].0 + 1,
+                "phase lists out of order"
+            );
         }
     }
 }

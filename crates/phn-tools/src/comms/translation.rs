@@ -554,6 +554,114 @@ fn word_set(s: &str) -> BTreeSet<String> {
         .collect()
 }
 
+// ---------------------------------------------------------------- shared with EPR-10
+
+/// The town's language priorities from EQ-03: the PUMA's detailed languages with
+/// limited-English speakers (largest first, at most 8), or the town's language
+/// groups when no detailed rows exist. Returns the rows and the ACS citation, or
+/// a caveat explaining why they could not be computed.
+pub async fn language_priorities(
+    ctx: &Context,
+    town: &str,
+) -> std::result::Result<(Vec<LanguagePriority>, Vec<Source>), String> {
+    let env = language_access_profile(
+        ctx,
+        LanguageAccessArgs {
+            area: Some(town.to_string()),
+            ..Default::default()
+        },
+    )
+    .await
+    .map_err(|e| format!("Language priorities for {town} could not be computed: {e}"))?;
+    let mut rows: Vec<LanguagePriority> = env
+        .data
+        .puma_languages
+        .iter()
+        .filter(|r| r.lep.value > 0.0)
+        .map(|r| LanguagePriority {
+            language: r.language.clone(),
+            lep_estimate: r.lep.value.round(),
+            lep_moe: r.lep.moe.map(f64::round),
+            geography: format!("PUMA(s) {}", env.data.pumas.join(", ")),
+        })
+        .collect();
+    rows.sort_by(|a, b| b.lep_estimate.total_cmp(&a.lep_estimate));
+    rows.truncate(8);
+    if rows.is_empty() {
+        rows = env
+            .data
+            .groups
+            .iter()
+            .map(|g| LanguagePriority {
+                language: g.language_group.clone(),
+                lep_estimate: g.lep.value.round(),
+                lep_moe: g.lep.moe.map(f64::round),
+                geography: env.data.area.clone(),
+            })
+            .collect();
+    }
+    Ok((rows, env.sources.into_iter().take(1).collect()))
+}
+
+/// A translator brief for one language: numbered English segments, items that
+/// must carry over unchanged, the draft label, and the translation workflow.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct TranslatorBrief {
+    /// Language as recognized (or as given when the tool does not know it).
+    pub language: String,
+    /// BCP 47 tag, when known.
+    pub language_tag: Option<String>,
+    pub script_note: Option<String>,
+    /// Numbered English segments to translate.
+    pub segments: Vec<String>,
+    /// Numbers, phone numbers, web addresses, emails, and times that must not change.
+    pub keep_unchanged: Vec<InvariantCheck>,
+    pub draft_label: String,
+    pub workflow: Vec<String>,
+}
+
+/// Build a translator brief for an English source (text supplied in the
+/// request, not read from a file). Never translates.
+pub fn translator_brief(language: &str, english: &str) -> TranslatorBrief {
+    let c = &*CONTENT;
+    let known = resolve_language(language).ok();
+    TranslatorBrief {
+        language: known
+            .map(|l| l.1.to_string())
+            .unwrap_or_else(|| language.trim().to_string()),
+        language_tag: known.map(|l| l.2.to_string()),
+        script_note: known.and_then(|l| l.4.map(str::to_string)),
+        segments: sentences(english),
+        keep_unchanged: invariants(english)
+            .into_iter()
+            .map(|(kind, value)| InvariantCheck {
+                kind,
+                value,
+                in_translation: None,
+                in_back_translation: None,
+            })
+            .collect(),
+        draft_label: c.draft_label.clone(),
+        workflow: c
+            .workflow
+            .iter()
+            .map(|w| format!("{} ({}, {})", w.text, source_title(&w.source), w.section))
+            .collect(),
+    }
+}
+
+/// The translation workflow's citations (for tools that build briefs).
+pub fn translation_sources() -> Vec<Source> {
+    let c = &*CONTENT;
+    let mut keys: Vec<&str> = c.workflow.iter().map(|w| w.source.as_str()).collect();
+    keys.sort();
+    keys.dedup();
+    keys.iter()
+        .filter_map(|k| c.sources.get(*k))
+        .map(|s| s.to_source(&c.meta.prepared))
+        .collect()
+}
+
 /// Run the translation workflow checks.
 pub async fn translate_health_material(
     ctx: &Context,
@@ -623,49 +731,12 @@ pub async fn translate_health_material(
         .or_else(|| ctx.settings().jurisdiction.town);
     let mut priorities = Vec::new();
     if let Some(t) = &town {
-        match language_access_profile(
-            ctx,
-            LanguageAccessArgs {
-                area: Some(t.clone()),
-                ..Default::default()
-            },
-        )
-        .await
-        {
-            Ok(env) => {
-                let mut rows: Vec<LanguagePriority> = env
-                    .data
-                    .puma_languages
-                    .iter()
-                    .filter(|r| r.lep.value > 0.0)
-                    .map(|r| LanguagePriority {
-                        language: r.language.clone(),
-                        lep_estimate: r.lep.value.round(),
-                        lep_moe: r.lep.moe.map(f64::round),
-                        geography: format!("PUMA(s) {}", env.data.pumas.join(", ")),
-                    })
-                    .collect();
-                rows.sort_by(|a, b| b.lep_estimate.total_cmp(&a.lep_estimate));
-                rows.truncate(8);
-                if rows.is_empty() {
-                    rows = env
-                        .data
-                        .groups
-                        .iter()
-                        .map(|g| LanguagePriority {
-                            language: g.language_group.clone(),
-                            lep_estimate: g.lep.value.round(),
-                            lep_moe: g.lep.moe.map(f64::round),
-                            geography: env.data.area.clone(),
-                        })
-                        .collect();
-                }
+        match language_priorities(ctx, t).await {
+            Ok((rows, src)) => {
                 priorities = rows;
-                sources.extend(env.sources.into_iter().take(1));
+                sources.extend(src);
             }
-            Err(e) => caveats.push(format!(
-                "Language priorities for {t} could not be computed: {e}"
-            )),
+            Err(e) => caveats.push(e),
         }
     }
 

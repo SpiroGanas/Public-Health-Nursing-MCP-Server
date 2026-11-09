@@ -2139,3 +2139,181 @@ completion rates, the 80% completion rule (otherwise unweighted), and no estimat
 under 5.
 
 <!-- End of Phase 12 tools. -->
+
+## Phase 13: Emergency preparedness II: ICS, plans, and exercises
+
+Staff names and positions may be passed in a request; phone numbers, email addresses, and radio
+call signs come only from a roster file in `/data` (`roster_path`) and go only into documents
+written to `/data/output` (ADR 0009).
+
+### `generate_ics_forms` (EPR-01, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `forms` | `iap` (202, 203, 204, 205, 205A, 206, 207, 208) | Any of 201, 202, 203, 204, 205, 205A, 206, 207, 208, 213, 213RR, 214, 215A, or `all`. |
+| `incident_name`, `incident_number` | | Block 1 (and 2) of every form. |
+| `period_start`, `period_end` | | Operational period, `YYYY-MM-DD HH:MM` (24-hour clock). |
+| `prepared_at`, `prepared_by`, `approved_by` | now; the Planning Section Chief; the Incident Commander | Prepared-by and approval blocks (signatures are by hand). |
+| `objectives`, `command_emphasis`, `situational_awareness`, `situation_summary`, `actions`, `safety_message`, `site_safety_plan_required`, `site_safety_plan_location` | | ICS 201, 202, and 208 text. |
+| `organization` | from the roster's position column when empty | Position, name, agency (names only; never phone numbers). |
+| `assignments` | | One ICS 204 per Division/Group: supervisor, branch director, resources, work assignments, special instructions, communications. |
+| `resources`, `radio_channels`, `radio_instructions`, `medical_plan`, `messages`, `resource_requests`, `activity_logs`, `safety_analysis`, `other_attachments` | | ICS 201 block 10, 205, 206, 213, 213RR, 214, 215A, and 202 block 6. Facility numbers (hospital, ambulance dispatch) may be given; never personal numbers. |
+| `incident_type`, `use_suggestions` | none, `false` | `measles_outbreak`, `respiratory_outbreak`, `mass_dispensing`, `coastal_storm`, `extreme_heat`, `flooding`, `hazmat` (or words such as "POD", "hurricane"). Returns suggested SMART objectives, command emphasis, safety message, and ICS 215A lines; with `use_suggestions` they go into empty blocks marked "suggested; review". |
+| `map_path`, `map_description` | | PNG/JPEG map in `/data` for ICS 201 block 4 and the IAP map page (with alt text). |
+| `roster_path`, `roster_sheet` | | Staff roster CSV/XLSX in `/data` (name, position, agency, work and cell phone, email, radio). |
+| `format` | `docx` | `pdf` or `both`. |
+| `blank_forms` | `false` | Also write blank copies with FEMA's block instructions to `output/…/blank/`. |
+
+Writes one file per form (one copy per Division/Group, message, request, or log) and, when two
+or more IAP forms are requested, an assembled Incident Action Plan (cover, contents, forms in
+IAP order, map page) to a new folder in `/data/output`. The forms keep FEMA's titles, block
+numbers, and labels (NIMS ICS Forms Booklet, FEMA 502-2; forms v3 and v3.1, checked against
+FEMA's PDFs) as accessible DOCX/PDF documents; they are labeled as adaptations, not FEMA's
+fillable PDFs. Returns, per form, the files written and the required blocks still blank (with
+FEMA's instruction for each) so the assistant can ask for them; an IAP checklist; the form
+catalog; and suggestions for the incident type, with citations and confidence. **Privacy (ADR
+0009):** staff phone numbers, emails, and radio call signs come only from `roster_path` and are
+written only to the documents (the ICS 205A is marked "not for public release"); the response
+contains counts (staff, matched, unmatched), never roster values. Contact details or client
+identifiers typed into the request are reported by category in the privacy block.
+### `continuity_of_operations_planner` (EPR-07, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `agency_name`, `town` | letterhead, saved town | Plan title and jurisdiction. |
+| `functions` | 19 seeded board of health functions | Change a seeded function by `id` (tier 1-4, `rto`, `minimum_staff`, `lead_position`, `authority`, `dependencies`) or add one with `label` and `tier`. |
+| `exclude_functions` | | Seeded function ids to leave out. |
+| `succession` | template positions | Each key position with `successors` in order (positions or names; three or more recommended) and an optional `incumbent`. |
+| `delegations` | five drafted | Add delegations (`authority`, `delegated_to`, `trigger`, `limits`, `legal_basis`). |
+| `alternate_sites` | | `name`, `kind` (`alternate`, `telework`, `devolution`), `location`, `capacity`, `agreement`, `ready_within_hours`. |
+| `essential_records`, `communications` | default lists | Added to the defaults. |
+| `staff_count`, `absenteeism_percent` | —, 40 | Staffing check at the planning absenteeism rate. |
+| `devolution_partner` | | Neighboring board of health, health district, or DPH. |
+| `pandemic_annex` | true | Pandemic and infectious disease annex. |
+| `plan_date` | today | Start of the dated test, training, and exercise schedule. |
+| `roster_path`, `roster_sheet` | | Staff roster (CSV/XLSX in `/data`): names, positions, phones, emails, radio. |
+| `output` | `both` | `docx` (plan), `xlsx` (workbook), `both`, or `none`. |
+
+Organized by the ten FEMA continuity elements (essential functions, orders of succession,
+delegations of authority, continuity facilities, continuity communications, essential records,
+human capital, test/training/exercise, devolution, reconstitution) and four phases (readiness,
+activation and relocation, continuity operations, reconstitution). Seeded functions carry their
+authority (105 CMR 300.110 and 300.160; M.G.L. c. 111 sections 30, 31, 95, 104, 122, 127A;
+c. 114 section 45; c. 30B section 8; 310 CMR 15.000), a priority tier with a recovery time
+objective, and minimum staff (tiers and staff are tool defaults). Delegations include the board's
+emergency agent (c. 111 section 30: acts for the board in an emergency and reports within two
+days), burial permit agents, emergency procurement, and isolation and quarantine orders; town
+counsel must confirm each. The human capital check applies the federal pandemic planning
+assumption (up to 40% of staff absent for about 2 weeks at the peak; 2006 Implementation Plan)
+to `staff_count` and compares the staff left with the Tier 1 and Tier 1-2 minimums. The result
+lists each element as `provided`, `partial`, `drafted` (tool template to confirm), or `missing`.
+
+Privacy: roster contacts (and names read from the roster) are filled only into the plan's
+succession table and call-down annex and the workbook in `/data/output`; the response reports
+counts only (`roster`). Phone numbers or emails typed into the request are reported in the
+privacy block with a request to use the roster instead. Decision support only.
+### `design_hseep_exercise` (EPR-08, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `exercise_type` | `tabletop` | `seminar`, `workshop`, `tabletop`, `game`, `drill`, `functional`, or `full_scale` (HSEEP 2020, Tables 2.3-2.9). |
+| `scenario` | | Developed: `measles_outbreak`, `coastal_storm_power_outage`, `extreme_heat`. Seeds: `mass_dispensing_anthrax`, `pandemic_influenza`, `cyberattack`, `water_contamination`, `mass_casualty`, `hazmat_release`. Words such as "measles" or "hurricane" also work. Required except for seminars and workshops. |
+| `custom_scenario` | | Your own scenario (fictional); modules get placeholders for injects. |
+| `objectives` | the scenario's suggested objectives | Each `{text, capabilities}`; capabilities are PHEP numbers or names and/or FEMA core capabilities. |
+| `area`, `agency`, `sponsor`, `exercise_name` | saved town; letterhead agency or "<town> Board of Health" | Fill `{{town}}` and `{{agency}}` in the scenario. |
+| `date`, `start_time`, `duration_hours`, `location`, `scope` | 09:00; by type (tabletop 3.5 h) | Schedule and planning timeline. |
+| `participants`, `organizations`, `point_of_contact` | | Positions, optional names, exercise roles (player, facilitator, evaluator, controller, observer). |
+| `roster_path`, `roster_sheet` | | Staff roster (name, position, phone, email); contacts go only into the files. |
+| `documents` | `docx` | `pdf`, `both`, or `none`. |
+
+Objectives get a SMART check (word patterns for specific, measurable, relevant, and time-bound;
+achievable is left to the planning team) and are mapped to the 15 CDC PHEP capabilities (2018
+standards) and FEMA's 32 core capabilities; FEMA capabilities are added from this project's
+PHEP mapping (not an official crosswalk), and PHEP capabilities are suggested from the wording
+when none are given. Developed scenarios have three modules with injects, key issues, and
+discussion questions by functional group, keyed to PHEP capabilities; seed and custom scenarios
+get module questions built from the capabilities' functions. The schedule splits the time across
+modules with breaks, a hotwash, and closing; the planning timeline dates the C&O, Initial,
+Midterm, MSEL (operations only), and Final Planning Meetings (weeks are tool defaults) and the
+after-action steps. Files in `/data/output/exercise_<name>/`: Situation Manual and Facilitator
+Guide (discussion-based) or Exercise Plan (operations-based) plus an MSEL workbook (functional
+and full-scale), Exercise Evaluation Guides (one per objective and PHEP capability, with the
+capability's functions as critical tasks and the P/S/M/U ratings key), a Participant Feedback
+Form, and a sign-in sheet. Nothing read from the roster is returned; the result counts matches.
+
+### `build_after_action_report` (EPR-09, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `name`, `kind` | `exercise` | `incident` for a real response. |
+| `exercise_type`, `start_date`, `end_date`, `area`, `agency`, `location`, `scope`, `hazard`, `scenario_summary`, `sponsor` | | Overview fields (no client details). |
+| `objectives` | | Each `{text, capabilities, ratings: [{capability, rating: P/S/M/U}]}`. |
+| `observations` | | Each `{kind: strength or area_for_improvement, objective, capability, statement, reference, analysis, root_cause, recommendation}`. |
+| `corrective_actions` | | Each `{area_for_improvement, action, element (planning, organization, equipment, training, exercise), organization, poc_name, poc_position, start_date, completion_date}`. |
+| `participants`, `organizations`, `point_of_contact` | | Counts by level or organization; the POC's phone and email come from the roster. |
+| `feedback_path`, `feedback_sheet` | | Participant Feedback Forms (one row per form; rating columns named like the form's statements or `q1`-`q8`, values 1-5 or the scale labels). |
+| `roster_path`, `roster_sheet` | | Contacts for the POC and corrective-action owners (files only). |
+| `documents` | `docx` | `pdf`, `both`, or `none`; the XLSX improvement plan tracker is always written unless `none`. |
+
+Follows the HSEEP 2020 AAR/IP template: overview, Table 1 (capability ratings), strengths and
+areas for improvement (with reference and analysis) by objective and capability, the
+Improvement Plan (numbered by capability), participants, and a feedback summary. Checks: every
+area for improvement has a corrective action; each action has an element, organization, point
+of contact, and start and completion dates in order (after the exercise); capabilities resolve;
+each objective's PHEP capabilities are rated; areas for improvement state the gap rather than a
+recommendation; no person names (non-attribution) or client identifiers or contact details in
+the text. An area for improvement with a recommendation but no action gets a drafted action
+marked for the After-Action Meeting. Feedback forms are totaled locally: identifier columns
+(names, emails) are skipped, comments are counted but never read back, and each statement's
+counts are suppressed (with a complement) below the threshold; means and percent agreeing are
+hidden when fewer forms than the threshold answered. After-action dates (30, 45, 60 days) are
+tool defaults.
+### `crisis_risk_communication_builder` (EPR-10, toolset `epr`)
+
+| Argument | Default | |
+|---|---|---|
+| `hazard` | (lists the library) | Pre-scripted set: `measles_exposure`, `boil_water`, `extreme_heat`, `coastal_storm_power_outage`, `shelter_in_place`, `respiratory_pandemic`, `mass_dispensing_pod` (aliases such as "measles", "hurricane", "POD" work). |
+| `hazard_description` | | Any other hazard; the map is built from your facts. |
+| `phase` | `initial` | `preparation`, `initial`, `maintenance`, `resolution`, or `all` (CERC rhythm). |
+| `details` | | Values for the set's `{{placeholders}}` (place, times, agent). Never client details. |
+| `what_happened`, `known`, `unknown`, `being_done`, `public_actions`, `next_update`, `info_source`, `organization` | | The holding statement; missing parts stay `[BRACKETED]` and are listed. |
+| `message_map`, `empathy`, `draft_text` | | Check your own map (up to 3 key messages) or a draft. |
+| `audiences`, `spokesperson` | the set's audiences | Audience concerns (CERC Table 1) and spokesperson preparation. |
+| `area` or `languages` | saved town | Language plan from ACS limited-English counts (offline from snapshots), plus saved preferred languages. |
+| `target_grade` | 8 | Reading grade for the checks. |
+| `export` | | `docx`: packet, English template, and per-language agency translations or translator briefs in `/data/output/cerc_<id>/`. |
+| `roster_path`, `media_contact_position` | , `Public Information Officer` | Media contact's name, phone, and email go into the packet only (ADR 0009). |
+
+Content: `content/epr/cerc.yaml` (pending review): the CERC rhythm and phase tasks (CDC CERC
+manual chapters 2014–2019), PHEP Capability 4 functions, message-map rules and limits (ATSDR
+2015 message mapping checklist; EPA/600/R-07/027: 3 key messages, 3 supporting facts, 27 words,
+9 seconds, grade level minus 4, 1N = 3P, no absolutes), initial-statement elements, media holding
+lines, first-48-hours steps, spokesperson tips and bridges, 24 of EPA's 77 reporters' questions,
+audience concerns, and seven pre-scripted sets with FAQs and phase notes, each fact cited with a
+confidence level. The CERC principles and press checklist are shared with `draft_press_materials`;
+the coastal storm, heat, and shelter sets add the matching public messages from
+`content/epr/hazard_health_actions.yaml`.
+
+Checks: three key messages; three supporting facts each; key messages ≤ 27 words and ≤ 9
+seconds at 3 words per second; empathy first; ≤ 12 words per sentence on average; reading grade
+(the COMM-01 engine); no absolutes; action steps stated positively; three or four actions;
+known/unknown/doing and next update in the holding statement; loaded words (shared with
+COMM-04); client identifiers; safe messaging when suicide is mentioned. Agency translations are
+read from `/data/templates/<language>/cerc_<id>.md` (ACS names are matched to folder names, e.g.
+"Haitian" → `haitian-creole`); other languages get a COMM-02 translator brief. Nothing is
+machine-translated. Contact details found in the request are reported in the privacy block.
+
+### MCP prompt: `plan_tabletop_exercise`
+
+Arguments (all optional): `scenario`, `area`, `exercise_date`, `roster_path`. Returns one message
+that walks the model through an HSEEP tabletop exercise cycle for a Massachusetts local health
+department: choose the hazard and describe the people most affected
+(`hazard_vulnerability_assessment`, `get_active_hazard_alerts`, `build_community_health_profile`,
+`language_access_profile`, and `get_electricity_dependent_population`, `heat_health_action_planner`,
+or `search_ma_disease_control_guide` by scenario), design the exercise with objectives mapped to
+PHEP and FEMA core capabilities (`design_hseep_exercise`), prepare player materials
+(`generate_ics_forms`, `crisis_risk_communication_builder`, `continuity_of_operations_planner`,
+`model_dispensing_site_throughput`, `plan_vaccination_clinic`, `functional_needs_shelter_intake`),
+run the hotwash, and write the after-action report and improvement plan
+(`build_after_action_report`). Staff contacts stay in the roster file; client details never go
+into the chat.

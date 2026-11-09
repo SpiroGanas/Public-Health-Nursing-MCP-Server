@@ -832,6 +832,95 @@ async fn no_row_level_data_is_returned_by_default() {
             "data/shelter_registrations.csv",
         ),
         // ---- End of Phase 12 data tools.
+        // ---- Phase 13 EPR-01 (ICS) data tools go below this line.
+        (
+            "generate_ics_forms",
+            json!({"forms": ["all"], "roster_path": "staff_roster.csv", "incident_name": "Leak test",
+                   "blank_forms": true}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "generate_ics_forms",
+            json!({"roster_path": "staff_roster.csv",
+                   "organization": [{"position": "Incident Commander"}, {"position": "Safety Officer"}],
+                   "assignments": [{"group": "Clinic Group", "supervisor": "R. Example",
+                                    "resources": [{"identifier": "Team 1", "leader": "R. Example"}]}]}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as the roster is used only in the documents.
+        (
+            "generate_ics_forms",
+            json!({"forms": ["203", "205A", "207"], "roster_path": "line_list.csv"}),
+            ll,
+        ),
+        // ---- End of Phase 13 EPR-01 data tools.
+        // ---- Phase 13 EPR-07 (COOP) data tools go below this line.
+        // EPR-07 fills the staff roster's names and contacts only into files.
+        (
+            "continuity_of_operations_planner",
+            json!({"town": "Wilmington", "roster_path": "staff_roster.csv", "output": "both",
+                   "succession": [{"position": "Incident Commander",
+                                   "successors": ["Health Agent", "Public Health Nurse", "Safety Officer"]}]}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as a roster is used only inside the files, never echoed.
+        (
+            "continuity_of_operations_planner",
+            json!({"roster_path": "shelter_registrations.csv", "output": "none"}),
+            "data/shelter_registrations.csv",
+        ),
+        // ---- End of Phase 13 EPR-07 data tools.
+        // ---- Phase 13 EPR-08/EPR-09 (HSEEP) data tools go below this line.
+        // EPR-08 with a staff roster: contacts go only into the exercise documents.
+        (
+            "design_hseep_exercise",
+            json!({"scenario": "measles_outbreak", "area": "Amherst", "roster_path": "staff_roster.csv",
+                   "participants": [{"role": "Incident Commander"}, {"role": "Public Information Officer"},
+                                    {"role": "Medical Unit Leader", "exercise_role": "evaluator"}],
+                   "point_of_contact": {"role": "Incident Commander"}}),
+            "data/staff_roster.csv",
+        ),
+        // EPR-09 feedback forms: aggregates only; names, emails, and comments stay in the file.
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "objectives": [{"text": "Discuss notification within 2 hours per the plan.", "capabilities": ["4"]}],
+                   "observations": [{"kind": "strength", "capability": "4", "statement": "Messages were approved quickly."}],
+                   "feedback_path": "exercise_feedback.csv", "roster_path": "staff_roster.csv",
+                   "point_of_contact": {"position": "Incident Commander"}, "documents": "none"}),
+            "data/exercise_feedback.csv",
+        ),
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "objectives": [{"text": "Discuss notification within 2 hours per the plan.", "capabilities": ["4"]}],
+                   "corrective_actions": [{"action": "Update the call-down list for all 12 staff", "poc_position": "Public Information Officer"}],
+                   "observations": [{"kind": "area_for_improvement", "capability": "4", "statement": "The call-down list was out of date."}],
+                   "roster_path": "staff_roster.csv", "point_of_contact": {"position": "Incident Commander"}}),
+            "data/staff_roster.csv",
+        ),
+        // An identifiable line list given as feedback forms is never echoed.
+        (
+            "build_after_action_report",
+            json!({"name": "Exercise", "observations": [{"kind": "strength", "capability": "13", "statement": "Good teamwork."}],
+                   "feedback_path": "line_list.csv", "documents": "none"}),
+            ll,
+        ),
+        // ---- End of Phase 13 EPR-08/EPR-09 data tools.
+        // ---- Phase 13 EPR-10 (CERC) data tools go below this line.
+        // EPR-10 fills the PIO's contacts from the staff roster into the packet only.
+        (
+            "crisis_risk_communication_builder",
+            json!({"hazard": "measles", "languages": ["Spanish"], "roster_path": "staff_roster.csv",
+                   "details": {"location": "Town Hall", "exposure_times": "Monday 9 to 11 a.m."},
+                   "export": "docx"}),
+            "data/staff_roster.csv",
+        ),
+        // A client file given as the roster returns counts only.
+        (
+            "crisis_risk_communication_builder",
+            json!({"hazard": "heat", "roster_path": "line_list.csv", "media_contact_position": "Name"}),
+            ll,
+        ),
+        // ---- End of Phase 13 EPR-10 data tools.
     ];
     for (name, args, file) in checks {
         let r = h.call(name, args.clone()).await;

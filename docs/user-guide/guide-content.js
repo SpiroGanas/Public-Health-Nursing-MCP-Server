@@ -9,9 +9,9 @@
 
 'use strict';
 
-const VERSION = '0.13.0';
+const VERSION = '0.14.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 97;
+const TOOL_COUNT = 102;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -102,7 +102,7 @@ const frontChapters = [
                 ['Substance use, crisis resources, and health communication (chapter 15)', 'Check reading level and plain language; look up overdose deaths and youth survey data; find naloxone, harm reduction, and treatment; plan a school’s response after a suicide; prepare and check translations; plan social media campaigns; draft press materials.', '9'],
                 // End of Phase 11 work-area rows.
                 // Phase 12 work-area rows go below this line.
-                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; check air quality; plan the heat response.', '8'],
+                ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; fill ICS forms and Incident Action Plans; draft a continuity of operations plan; design exercises and write after-action reports; build crisis and emergency risk communication; check air quality; plan the heat response.', '13, plus a guided tabletop exercise'],
                 // End of Phase 12 work-area rows.
               ],
             },
@@ -2901,7 +2901,7 @@ const toolChapters = [
   // Phase 12 chapter goes below this line.
   {
     title: 'Emergency preparedness and environmental health',
-    intro: 'These eight tools support situational awareness and planning before and during emergencies: hazard alerts, dispensing sites, air quality, heat, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, and CASPER rapid needs assessments. Six are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. The guidance they give is drafted from CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
+    intro: 'These thirteen tools support preparedness before, during, and after emergencies: hazard alerts, dispensing sites, hazard vulnerability assessments, shelter intake, people who rely on powered medical equipment, CASPER rapid needs assessments, ICS forms and Incident Action Plans, continuity of operations plans, HSEEP exercises and after-action reports, crisis and emergency risk communication, air quality, and heat. Eleven are in the epr group and two (air quality and heat) in the env group; the preparedness profile includes both. Staff names and positions may be used in a request, but staff phone numbers and emails belong in a roster file in your data folder: the tools put them only into the documents they write to your output folder. The guidance is drafted from FEMA, CDC, EPA, NWS, MEMA, and ResilientMass sources and is pending review by the project’s subject matter expert.',
     tools: [
       {
         id: 'get_active_hazard_alerts',
@@ -3066,6 +3066,159 @@ const toolChapters = [
         ],
       },
       {
+        id: 'generate_ics_forms',
+        title: 'Fill ICS forms and assemble an Incident Action Plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Fills FEMA Incident Command System forms for a health department incident (ICS 201 Incident Briefing, 202 Incident Objectives, 203 Organization Assignment List, 204 Assignment List, 205 Radio Communications Plan, 205A Communications List, 206 Medical Plan, 207 Organization Chart, 208 Safety Message, 213 General Message, 213RR Resource Request, 214 Activity Log, and 215A Safety Analysis) and assembles the Incident Action Plan as a Word or PDF document. The forms keep FEMA’s block numbers and labels. It tells you which required blocks are still blank and suggests SMART objectives and safety precautions for common public health incidents.',
+        when: [
+          'At the start of a response, to brief staff and set objectives for the first operational period.',
+          'Before each planning meeting, to produce the next Incident Action Plan.',
+          'During an exercise, so staff practice with the same forms they will use in a real response.',
+        ],
+        provide: [
+          'The incident name, the operational period (start and end date and time), and your objectives.',
+          'Who holds each ICS position (positions and names only), the Divisions or Groups and their work, radio channels, and the responder medical plan (hospitals and ambulance service).',
+          'Optionally: a staff roster file in your data folder with phone numbers and emails, the kind of incident (for example measles, POD, hurricane, heat), a map image, and whether you want blank forms too.',
+        ],
+        examples: [
+          'Make an Incident Action Plan for the Maple Grove measles exposure for tomorrow 0700 to 1900, using staff_roster.csv for contacts.',
+          'Write an ICS 213RR for 200 cases of bottled water for the senior center cooling site, urgent.',
+          'Give me blank ICS 214 activity logs and an ICS 215A with suggested hazards for a coastal storm.',
+        ],
+        returns: [
+          'One file per form and the assembled Incident Action Plan in your output folder, a list of required blocks still blank with FEMA’s instructions, an Incident Action Plan checklist, and suggested objectives and safety lines with their sources.',
+        ],
+        notes: [
+          'Phone numbers and emails come only from your roster file and go only into the documents; they never appear in the chat. Do not type them into your request.',
+          'The forms are accessible versions of FEMA’s forms, not FEMA’s fillable PDFs. Signatures are added by hand.',
+          'Suggested objectives and hazards are drafts for the Incident Commander and Safety Officer to review.',
+        ],
+      },
+      {
+        id: 'continuity_of_operations_planner',
+        title: 'Draft a continuity of operations (COOP) plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Drafts a continuity of operations plan for your board of health or health department, organized by FEMA’s ten continuity elements. It starts from 19 board of health essential functions with their legal authority (for example 24/7 disease reporting under 105 CMR 300.000, isolation and quarantine, burial permits, and housing and food emergencies), puts them in priority tiers with recovery times, drafts orders of succession and delegations of authority (including the board’s emergency agent under M.G.L. c. 111, section 30), checks whether your staff can cover the most urgent functions if 40% are out in a pandemic, and builds a dated schedule of tests, training, and exercises. It tells you which parts of the plan are done, drafted, or still missing.',
+        when: [
+          'Writing or updating your COOP plan, or checking it against FEMA’s elements.',
+          'Before flu season or a predicted storm, to confirm who takes over and where staff will work.',
+          'Planning for staff shortages in an outbreak or pandemic.',
+        ],
+        provide: [
+          'Optionally: your town and agency name, changes to the essential functions (tier, recovery time, staff), your key positions and their successors, alternate sites and telework, the number of staff, and a devolution partner.',
+          'Optionally: a staff roster file (CSV or Excel) with names, positions, phones, and emails. Contact details go only into the Word plan and Excel workbook in your output folder.',
+        ],
+        examples: [
+          'Draft a COOP plan for the Wilmington Board of Health. We have 6 staff, and the library meeting room is our alternate site.',
+          'Make our health director succession three deep: health agent, public health nurse, then the board chair. Use staff_roster.csv for contacts.',
+          'Move routine immunization clinics to Tier 2 and add animal bite follow-up as Tier 1.',
+        ],
+        returns: [
+          'Essential functions by tier with recovery times, authority, and staff; orders of succession; delegations of authority; sites, communications, and essential records; the staffing check; the first year’s test, training, and exercise dates; a pandemic annex; and a list of plan elements that are provided, drafted, or missing.',
+          'A Word plan (with a call-down annex when you give a roster) and an Excel workbook in your output folder.',
+        ],
+        notes: [
+          'A draft for the board to review and adopt. Tiers, recovery times, and staff numbers are starting points; set your own from a business impact analysis.',
+          'Delegations of authority have legal effect. Have town counsel confirm each one before the plan is adopted.',
+          'Give staff phone numbers and emails in the roster file, not in the chat.',
+          'FEMA’s continuity guidance could not be downloaded when this content was written; the statutes and CDC sources were checked. Pending review.',
+        ],
+      },
+      {
+        id: 'design_hseep_exercise',
+        title: 'Design a tabletop or other preparedness exercise (HSEEP)',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Designs an exercise that follows FEMA’s Homeland Security Exercise and Evaluation Program (HSEEP): checks that your objectives are SMART, links each one to the CDC public health preparedness (PHEP) capabilities and FEMA core capabilities, and builds the scenario, modules, discussion questions, schedule, and planning timeline. It writes the Situation Manual and Facilitator Guide (or the Exercise Plan and Master Scenario Events List for drills and functional exercises), Exercise Evaluation Guides, a participant feedback form, and a sign-in sheet. Three tabletop scenarios are ready to use: a measles outbreak, a coastal storm with a power outage, and extreme heat.',
+        when: [
+          'Planning a tabletop, drill, or functional exercise for your health department, school partners, or HMCC.',
+          'Turning an idea for an exercise into HSEEP documents with objectives that will hold up in the after-action report.',
+        ],
+        provide: [
+          'The scenario (measles, coastal storm, extreme heat, or another hazard) or your own scenario in a few sentences; your town; the date, place, and length.',
+          'Optionally: your own objectives, the people and organizations taking part (positions are enough), and a staff roster file in your data folder for contact details.',
+        ],
+        examples: [
+          'Design a measles tabletop exercise for Amherst on March 17, 2027, at Town Hall, for 3.5 hours.',
+          'Plan a functional exercise on extreme heat for Lowell, with an MSEL.',
+          'Check whether these exercise objectives are SMART and which capabilities they test.',
+        ],
+        returns: [
+          'The objectives with their capabilities and a SMART check, the scenario modules with injects and questions, the day’s schedule, planning meeting dates, and the list of documents written.',
+        ],
+        notes: [
+          'Scenario events are fictional and written by this project; have your planning team and DPH regional staff review them before use.',
+          'Links between PHEP and FEMA capabilities are this project’s mapping, not an official crosswalk. Planning meeting weeks are suggestions.',
+          'Staff phone numbers and emails from your roster appear only in the documents, never in the chat.',
+        ],
+      },
+      {
+        id: 'build_after_action_report',
+        title: 'Write the after-action report and improvement plan',
+        toolset: 'epr',
+        internet: 'no',
+        files: 'yes, to your output folder',
+        does: 'Turns the strengths and areas for improvement from your hotwash and evaluators into an HSEEP after-action report and improvement plan for an exercise or a real incident. It checks that every area for improvement has a corrective action with an owner and dates, that findings describe the problem rather than the fix, and that no names or client details slipped in. It totals participant feedback forms from your file and writes the report (Word or PDF) and an improvement plan tracker (Excel).',
+        when: [
+          'After an exercise hotwash, to draft the AAR/IP for the after-action meeting.',
+          'After a real response, such as an outbreak or a storm, to capture lessons learned.',
+        ],
+        provide: [
+          'The objectives with their capabilities and ratings (P, S, M, or U), the observations, and the corrective actions with the responsible organization, point of contact, and dates. Share notes without client names or details.',
+          'Optionally, a file of participant feedback forms and a staff roster in your data folder.',
+        ],
+        examples: [
+          'Write the after-action report for our measles tabletop from these hotwash notes.',
+          'Add the feedback forms in exercise_feedback.csv to the after-action report.',
+          'Check whether our improvement plan has an owner and a due date for every area for improvement.',
+        ],
+        returns: [
+          'The capability ratings, the numbered improvement plan with what is missing for each action, the HSEEP checks, feedback form averages (small numbers hidden), and next steps with suggested dates.',
+        ],
+        notes: [
+          'The report is a draft for the after-action meeting; leaders confirm findings, owners, and dates.',
+          'Written comments on feedback forms are counted but not shown in the chat; read them in your file.',
+          'The 30-, 45-, and 60-day after-action dates are suggestions; follow your grant or program deadlines.',
+        ],
+      },
+      {
+        id: 'crisis_risk_communication_builder',
+        title: 'Build crisis and emergency risk communication (CERC)',
+        toolset: 'epr',
+        internet: 'optional',
+        files: 'yes, to your output folder',
+        does: 'Uses CDC’s Crisis and Emergency Risk Communication (CERC) model to build a message map (three key messages with three supporting facts each), a holding statement, frequently asked questions, spokesperson preparation, and the communication tasks for each phase of a crisis. It has ready-made message sets for a measles exposure, a boil water order, extreme heat, a coastal storm with power outages and carbon monoxide, shelter in place, respiratory illness, and mass dispensing, and it checks every message against message-mapping rules: 27 words in about 9 seconds, empathy first, short sentences, your reading grade, no absolutes, and positive action steps. It lists your town’s priority languages and uses your agency’s approved translations when you have them; otherwise it writes a brief for a qualified translator.',
+        when: [
+          'In the first hours of an emergency, to get an accurate first statement out quickly.',
+          'Before an emergency, to prepare and test messages and have them translated.',
+          'To check a message someone has drafted before it is released.',
+        ],
+        provide: [
+          'The hazard (or a short description of another one) and the phase: preparation, initial, maintenance, or resolution.',
+          'What you know, what you do not know yet, what you are doing, when the next update will come, and where people can get information.',
+          'Details for the message, such as the place and times of a measles exposure. Never client names.',
+          'Optionally: your staff roster file, so the media contact’s phone and email go into the Word packet only.',
+        ],
+        examples: [
+          'We had a measles exposure at the Pollard Library on Tuesday from 2 to 5 p.m. Draft the first message for Lowell.',
+          'Check this boil water notice against CERC before we send it.',
+          'Prepare maintenance-phase messages for a coastal storm with power outages, in Word, with translator briefs.',
+        ],
+        returns: [
+          'A message map with its checks, a holding statement with any missing parts marked in brackets, FAQs, spokesperson tips and likely reporters’ questions, audience concerns, the CERC tasks for the phase, and a language plan; optionally a Word packet, the English template, and translations or translator briefs in your output folder.',
+        ],
+        notes: [
+          'Every message is a draft for your agency’s approval; check each fact with your subject matter experts.',
+          'Nothing is machine-translated. Save approved translations as templates/<language>/cerc_<message set>.md in your data folder to reuse them.',
+          'The mass dispensing messages depend on your POD plan; replace the low-confidence parts with your plan’s wording.',
+        ],
+      },
+      {
         id: 'air_quality_protective_guidance',
         title: 'Check air quality and protective actions',
         toolset: 'env',
@@ -3119,8 +3272,32 @@ const toolChapters = [
         ],
       },
     ],
+    extras: [
+      {
+        title: 'Guided workflow: plan a tabletop exercise',
+        blocks: [
+          {
+            p: 'The server also offers a ready-made **prompt** called “Plan a tabletop exercise.” It walks Claude through a full exercise cycle from FEMA’s Homeland Security Exercise and Evaluation Program (HSEEP), adapted to a Massachusetts local health department working with DPH, the HMCC, and MEMA, and has Claude use the tools in this chapter in order.',
+          },
+          {
+            p: 'In Claude Desktop, choose “Plan a tabletop exercise” from the same menu as the outbreak investigation prompt (chapter 6) and fill in whatever you know; every item is optional:',
+          },
+          {
+            bullets: [
+              'the scenario (for example a measles outbreak, a coastal storm with a power outage, or extreme heat);',
+              'the town or county;',
+              'the exercise date;',
+              'a staff roster file in your data folder, so contact details go only into the documents.',
+            ],
+          },
+          {
+            p: 'The workflow covers choosing the hazard and describing the people most affected; designing the exercise with objectives linked to CDC and FEMA capabilities; preparing player materials (an Incident Action Plan, crisis messages, and, when an inject calls for it, the continuity plan, a clinic or POD model, or shelter intake); the hotwash; and the after-action report and improvement plan.',
+          },
+        ],
+      },
+    ],
   },
-  // End of Phase 12 chapter.
+  // End of Phase 12 and 13 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------

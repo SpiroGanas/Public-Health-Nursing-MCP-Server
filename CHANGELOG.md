@@ -7,6 +7,58 @@ All notable changes are recorded here. The format follows
 
 ## [Unreleased]
 
+## [0.14.0] — Phase 13: emergency preparedness II (ICS forms, COOP, HSEEP exercises, after-action reports, CERC)
+
+### Added
+
+- Preparedness document tools (toolset `epr`):
+  - `generate_ics_forms` (EPR-01): ICS 201, 202, 203, 204, 205, 205A, 206, 207, 208, 213, 213RR,
+    214, and 215A in Word and/or PDF, with FEMA's titles, block numbers, and labels (checked
+    against FEMA's v3/v3.1 forms), an assembled Incident Action Plan, blank forms with FEMA's block
+    instructions, the required blocks still blank, and suggested objectives and safety lines for
+    seven public health incident types.
+  - `continuity_of_operations_planner` (EPR-07): a board of health continuity of operations plan
+    by FEMA's ten continuity elements, with 19 Massachusetts essential functions (authority,
+    priority tier, recovery time, minimum staff), orders of succession, delegations of authority,
+    continuity facilities, communications, essential records, a 40% absenteeism staffing check,
+    a first-year test, training, and exercise schedule, devolution, reconstitution, and a pandemic
+    annex (Word plan and Excel workbook).
+  - `design_hseep_exercise` (EPR-08): HSEEP exercise design for all seven exercise types, with a
+    SMART check of each objective, mapping to the 15 CDC PHEP capabilities and FEMA core
+    capabilities, fully developed tabletop scenarios for a measles outbreak, a coastal storm with
+    a power outage, and extreme heat (Pilot 3), scenario seeds for six other hazards, and the
+    Situation Manual, Facilitator Guide, Exercise Plan, MSEL, Exercise Evaluation Guides, feedback
+    form, and sign-in sheet.
+  - `build_after_action_report` (EPR-09): the HSEEP after-action report and improvement plan for
+    an exercise or a real incident, with corrective-action, non-attribution, and client-identifier
+    checks and participant feedback-form totals computed locally with small-cell suppression.
+  - `crisis_risk_communication_builder` (EPR-10): CDC CERC message maps checked against the
+    27-word, 9-second, 3-message rules, holding statements, FAQs, spokesperson preparation, and
+    phase tasks for seven pre-scripted hazards or your own, with the town's priority languages,
+    agency translations from `/data/templates/<language>/`, and translator briefs (no machine
+    translation).
+- MCP prompt `plan_tabletop_exercise`: an HSEEP tabletop exercise cycle (hazard context, design,
+  player materials, hotwash, after-action report) using the Phase 12 and 13 tools.
+- `epr::roster` and ADR 0009: staff names and positions may be passed in a request; phone
+  numbers, emails, and radio call signs come only from a roster file in `/data` and are written
+  only to documents in `/data/output`. Contact details found in a request are reported in the
+  privacy block.
+- Content drafted from FEMA's ICS forms, HSEEP 2020 and its templates, CDC's 2018 PHEP
+  capability standards, the CERC manual and message-mapping guides, M.G.L. c. 111 and c. 114,
+  and CDC and DPH hazard pages, all pending review: `content/epr/ics_forms.yaml`,
+  `continuity.yaml`, `capabilities.yaml`, `hseep.yaml`, `exercise_scenarios.yaml`, and
+  `cerc.yaml`, with schemas.
+- Synthetic fixtures: a fictional staff roster and exercise feedback forms with seeded
+  identifiers; every new tool is in the leak test.
+- Acceptance script `docs/acceptance/phase-13.md`; user guide rebuilt for 102 tools (124 pages).
+
+### Changed
+
+- The tool registry lists phases as (phase, tools) pairs so a phase can have several
+  work-package lists.
+- COMM-02 exposes its language-priority and translator-brief helpers, and COMM-04 shares its
+  loaded-word check, for reuse by the CERC builder.
+
 ## [0.13.0] — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
 
 ### Added

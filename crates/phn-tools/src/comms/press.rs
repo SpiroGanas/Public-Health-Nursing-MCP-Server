@@ -119,6 +119,16 @@ const LOADED: &[&str] = &[
     "panic",
 ];
 
+/// Emotionally loaded words found in lower-cased text (CERC: remove adjectives and
+/// loaded words). Shared with EPR-10 `crisis_risk_communication_builder`.
+pub(crate) fn loaded_words(lower: &str) -> Vec<&'static str> {
+    LOADED
+        .iter()
+        .copied()
+        .filter(|w| lower.contains(*w))
+        .collect()
+}
+
 fn opt(s: &Option<String>) -> Option<&str> {
     s.as_deref().map(str::trim).filter(|v| !v.is_empty())
 }
@@ -399,11 +409,7 @@ pub fn draft_press_materials(ctx: &Context, args: PressArgs) -> Result<Envelope<
         detail: format!("{} sentence(s) over 20 words", a.flags.long_sentence_count),
         source: src("short_sentences"),
     });
-    let loaded: Vec<&str> = LOADED
-        .iter()
-        .copied()
-        .filter(|w| lower.contains(*w))
-        .collect();
+    let loaded: Vec<&str> = loaded_words(&lower);
     checks.push(PressCheck {
         id: "no_loaded_words".into(),
         passed: loaded.is_empty(),
