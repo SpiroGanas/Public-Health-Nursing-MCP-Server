@@ -709,20 +709,16 @@ pub fn build_after_action_report(ctx: &Context, args: AarArgs) -> Result<Envelop
         });
         // Tally into the analysis table.
         if let Some(c) = &cap {
-            let mut hit = false;
-            for a in analysis
+            let row = analysis
                 .iter_mut()
-                .filter(|a| a.capability.id == c.id && o.objective.is_none_or(|n| n == a.objective))
-            {
-                hit = true;
+                .find(|a| a.capability.id == c.id && o.objective.is_none_or(|n| n == a.objective));
+            if let Some(a) = row {
                 if afi {
                     a.areas_for_improvement += 1;
                 } else {
                     a.strengths += 1;
                 }
-                break;
-            }
-            if !hit {
+            } else {
                 analysis.push(CapabilityAnalysis {
                     objective: o.objective.unwrap_or(0),
                     capability: c.clone(),
@@ -845,7 +841,7 @@ pub fn build_after_action_report(ctx: &Context, args: AarArgs) -> Result<Envelop
         let contact = found.map(|f| f.contact_line()).unwrap_or_default();
         ip_rows.push((
             ImprovementRow {
-                number: a.map(&number_of).unwrap_or_else(|| "-".into()),
+                number: a.map(number_of).unwrap_or_else(|| "-".into()),
                 capability: a
                     .and_then(|x| x.cap.as_ref().map(|c| c.name.clone()))
                     .or_else(|| ca.and_then(|c| c.capability.clone()))

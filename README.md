@@ -190,6 +190,8 @@ output folder instead of being sent to the AI model.
 
 <!-- Phase 13 EPR-07 (COOP) rows go above this line. -->
 
+| `design_hseep_exercise` | EPR-08 | epr | HSEEP exercise design: SMART objectives mapped to PHEP and FEMA core capabilities, measles, coastal storm, and heat tabletop scenarios, SitMan, EEGs, feedback form, and MSEL. |
+| `build_after_action_report` | EPR-09 | epr | HSEEP after-action report and improvement plan from hotwash findings, with corrective-action checks and suppressed feedback-form totals. |
 <!-- Phase 13 EPR-08/EPR-09 (HSEEP) rows go above this line. -->
 
 <!-- Phase 13 EPR-10 (CERC) rows go above this line. -->

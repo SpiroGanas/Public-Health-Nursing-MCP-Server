@@ -344,6 +344,17 @@ fn select_scenario(q: &str) -> Option<Selected> {
     }
 }
 
+/// Scenario output, default PHEP ids, suggested objectives, functional groups,
+/// related tools, and the library id.
+type ScenarioParts = (
+    ScenarioOut,
+    Vec<String>,
+    Vec<hc::SuggestedObjective>,
+    Vec<String>,
+    Vec<String>,
+    Option<String>,
+);
+
 fn short_title(id: &str) -> &'static str {
     match id {
         "measles_outbreak" => "Measles Response",
@@ -722,14 +733,7 @@ pub fn design_hseep_exercise(
     let fill = |t: &str| hc::fill(t, &town, &agency);
 
     // Scenario description and default capabilities.
-    let (scenario, default_phep, suggested, functional_groups, related_tools, scenario_id): (
-        ScenarioOut,
-        Vec<String>,
-        Vec<hc::SuggestedObjective>,
-        Vec<String>,
-        Vec<String>,
-        Option<String>,
-    ) = match &selected {
+    let (scenario, default_phep, suggested, functional_groups, related_tools, scenario_id): ScenarioParts = match &selected {
         Some(Selected::Developed(s)) if custom.is_none() => (
             ScenarioOut {
                 kind: "developed".into(),
@@ -858,7 +862,7 @@ pub fn design_hseep_exercise(
             let text = format!(
                 "Within the first 24 hours of the incident, discuss how the {agency} would {lower}, in accordance with the agency's emergency operations plan."
             );
-            let m = hc::map_objective(&text, &[p.id.clone()]);
+            let m = hc::map_objective(&text, std::slice::from_ref(&p.id));
             add_caps(&m, &mut all_phep, &mut all_fema);
             push_objective(text, &m, true, &mut objectives);
         }

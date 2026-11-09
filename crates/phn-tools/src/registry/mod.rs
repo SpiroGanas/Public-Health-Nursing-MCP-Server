@@ -235,11 +235,13 @@ mod tests {
 
     #[test]
     fn each_phase_file_lists_only_its_own_phase() {
+        // PHASES[0] is Phases 0-1 and PHASES[1..=11] are Phases 2-12; Phase 13 has four
+        // work-package lists (ICS, COOP, HSEEP, CERC) after those.
         for (i, list) in PHASES.iter().enumerate().skip(1) {
             for t in *list {
                 assert_eq!(
                     usize::from(t.phase),
-                    i + 1,
+                    (i + 1).min(13),
                     "{} is in the wrong phase file",
                     t.name
                 );
