@@ -47,4 +47,10 @@ pub(super) const TOOLS: &[ToolMeta] = &[
         toolset: Toolset::Epr,
         phase: 12,
     },
+    ToolMeta {
+        name: "plan_casper_assessment",
+        plan_id: "EPR-11",
+        toolset: Toolset::Epr,
+        phase: 12,
+    },
 ];

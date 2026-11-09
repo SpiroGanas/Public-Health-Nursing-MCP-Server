@@ -205,6 +205,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/epr/electricity_dependence.yaml"),
         schema: include_str!("../../../content/schemas/epr_electricity_dependence.schema.json"),
     },
+    ContentItem {
+        id: "epr-casper",
+        path: "content/epr/casper.yaml",
+        resource_uri: "phn://content/epr-casper",
+        yaml: include_str!("../../../content/epr/casper.yaml"),
+        schema: include_str!("../../../content/schemas/epr_casper.schema.json"),
+    },
     // End of Phase 12 content items.
 ];
 

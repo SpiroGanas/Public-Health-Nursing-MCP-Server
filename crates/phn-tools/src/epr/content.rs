@@ -588,6 +588,66 @@ pub struct Power {
     pub utilities: CitedList,
 }
 
+// ---------------------------------------------------------------- CASPER (EPR-11)
+
+/// CASPER design parameters.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CasperDesign {
+    pub clusters: u32,
+    pub interviews_per_cluster: u32,
+    pub goal: u32,
+    pub minimum_completion_rate: f64,
+    pub minimum_cell_observations: usize,
+    pub stage1: Vec<Cited>,
+    pub stage2: Vec<String>,
+    pub stage2_source: String,
+    pub stage2_section: String,
+}
+
+/// A named formula.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct NamedFormula {
+    pub name: String,
+    pub formula: String,
+}
+
+/// CASPER analysis rules.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CasperAnalysis {
+    pub weight_formula: String,
+    pub rules: Vec<Cited>,
+    pub response_rates: Vec<NamedFormula>,
+    pub response_source: String,
+    pub response_section: String,
+}
+
+/// Tracking-form category.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct TrackingCategory {
+    pub category: String,
+    pub outcomes: Vec<String>,
+}
+
+/// `content/epr/casper.yaml`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Casper {
+    pub meta: ContentMeta,
+    pub sources: BTreeMap<String, DocSource>,
+    pub design: CasperDesign,
+    pub analysis: CasperAnalysis,
+    pub consent_elements: CitedList,
+    pub consent_template: Vec<String>,
+    pub consent_template_note: String,
+    pub questionnaire: Vec<Cited>,
+    pub team: Vec<Cited>,
+    pub supplies: CitedList,
+    pub interview_tips: CitedList,
+    pub tracking_categories: Vec<TrackingCategory>,
+    pub tracking_note: String,
+    pub team_tracking_columns: Vec<String>,
+    pub referral_fields: Vec<String>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

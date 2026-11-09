@@ -3,8 +3,8 @@
 use phn_core::Envelope;
 use phn_tools::env::{AirQualityArgs, AirQualityResult, HeatPlanArgs, HeatPlanResult};
 use phn_tools::epr::{
-    DispensingArgs, DispensingResult, ElectricityArgs, ElectricityResult, HazardAlertsArgs,
-    HazardAlertsResult, HvaArgs, HvaResult, ShelterArgs, ShelterResult,
+    CasperArgs, CasperResult, DispensingArgs, DispensingResult, ElectricityArgs, ElectricityResult,
+    HazardAlertsArgs, HazardAlertsResult, HvaArgs, HvaResult, ShelterArgs, ShelterResult,
 };
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
@@ -201,5 +201,37 @@ impl PhnServer {
         Parameters(args): Parameters<ElectricityArgs>,
     ) -> CallToolResult {
         respond(phn_tools::epr::get_electricity_dependent_population(&self.ctx, args).await)
+    }
+
+    #[tool(
+        name = "plan_casper_assessment",
+        description = "Plan a CDC CASPER rapid needs assessment for a Massachusetts town, \
+            several towns, or a county: selects clusters (default 30) of 2020 census blocks \
+            with probability proportional to housing units (or occupied households) using a \
+            reported seed so the selection can be reproduced, lists each cluster's block GEOID, \
+            households, interviews, and sampling interval, and writes the cluster list, tracking \
+            forms, and a team packet (consent script, household selection steps, interview tips, \
+            supplies, referral form, questionnaire guidance) to /data/output. With results_path \
+            (one row per completed interview, with a cluster column) it applies the toolkit's \
+            weights and returns weighted percentages, estimated households, 95% confidence \
+            intervals, design effects, and completion, contact, and cooperation rates \
+            (aggregates only; cells under 5 suppressed).",
+        annotations(
+            title = "Plan a CASPER assessment",
+            read_only_hint = false,
+            destructive_hint = false,
+            idempotent_hint = false,
+            open_world_hint = false
+        ),
+        output_schema = schema_for_output::<Envelope<CasperResult>>()
+    )]
+    async fn plan_casper_assessment(
+        &self,
+        Parameters(args): Parameters<CasperArgs>,
+    ) -> CallToolResult {
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::epr::plan_casper_assessment(ctx, args)
+        })
+        .await
     }
 }

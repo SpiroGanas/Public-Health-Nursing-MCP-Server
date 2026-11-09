@@ -5,6 +5,7 @@
 // Phase 12 modules go below this line.
 pub mod alerts;
 pub mod area;
+pub mod casper;
 pub mod content;
 pub mod dispensing;
 pub mod hva;
@@ -13,6 +14,7 @@ pub mod power;
 pub mod shelter;
 
 pub use alerts::{HazardAlertsArgs, HazardAlertsResult, get_active_hazard_alerts};
+pub use casper::{CasperArgs, CasperResult, TrackingTotals, plan_casper_assessment};
 pub use dispensing::{
     DispensingArgs, DispensingResult, StationInput, model_dispensing_site_throughput,
 };
