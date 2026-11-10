@@ -617,51 +617,18 @@ fn outputs(o: Option<&str>) -> Result<(bool, bool)> {
     }
 }
 
-/// Free-text arguments that might carry contact details (facility locations excluded:
-/// a facility's address belongs in the plan).
-fn free_text(a: &CoopArgs) -> Vec<String> {
-    let mut v: Vec<String> = Vec::new();
-    let mut push = |s: &Option<String>| {
-        if let Some(x) = opt(s) {
-            v.push(x.to_string());
-        }
-    };
-    push(&a.agency_name);
-    push(&a.devolution_partner);
-    for f in &a.functions {
-        push(&f.label);
-        push(&f.description);
-        push(&f.authority);
-        push(&f.lead_position);
-    }
-    for s in &a.succession {
-        push(&s.incumbent);
-        push(&s.note);
-    }
-    for d in &a.delegations {
-        push(&d.delegated_to);
-        push(&d.limits);
-        push(&d.trigger);
-    }
-    for s in &a.alternate_sites {
-        push(&s.notes);
-        push(&s.agreement);
-    }
-    for r in &a.essential_records {
-        push(&r.protection);
-    }
-    for c in &a.communications {
-        push(&c.note);
-    }
-    let mut out = v;
-    for s in &a.succession {
-        out.extend(s.successors.iter().cloned());
-    }
-    for f in &a.functions {
-        out.extend(f.dependencies.iter().cloned());
-    }
-    out
-}
+/// Argument fields not scanned for typed-in contact details: the town, dates, file
+/// paths, function ids, and facility locations (a facility's address belongs in the plan).
+const CONTACT_SCAN_SKIP: &[&str] = &[
+    "town",
+    "plan_date",
+    "roster_path",
+    "roster_sheet",
+    "output",
+    "location",
+    "exclude_functions",
+    "id",
+];
 
 fn para(s: impl Into<String>) -> Block {
     Block::Paragraph(vec![Inline::plain(s)])
@@ -1069,9 +1036,11 @@ pub fn continuity_of_operations_planner(
         .filter(|t| t.tier <= 2)
         .map(|t| t.minimum_staff)
         .sum();
+    // Staff at work round down. Multiplying before dividing (and a tiny allowance) keeps
+    // whole results whole: 10 staff at 80% absence is 2, not 1.9999999999999996 -> 1.
     let available = args
         .staff_count
-        .map(|n| (n as f64 * (1.0 - absenteeism / 100.0)).floor() as u32);
+        .map(|n| (n as f64 * (100.0 - absenteeism) / 100.0 + 1e-9).floor() as u32);
     let check = match available {
         None => "Give staff_count to check staffing at the planning absenteeism rate.".to_string(),
         Some(a) if a < t1 => format!(
@@ -1305,31 +1274,38 @@ pub fn continuity_of_operations_planner(
         None => None,
     };
     let mut tally = RosterTally::default();
-    let mut lookup = |who: &str| -> (String, String) {
+    // `used` holds the roster rows already listed for one key position, so that a title
+    // held by several people (or repeated in the order of succession) gives the next
+    // holder each time, never the incumbent as their own successor or one person twice.
+    let mut lookup = |who: &str, used: &mut Vec<usize>| -> (String, String) {
+        let Some(r) = roster.as_ref() else {
+            return (String::new(), String::new());
+        };
+        let index = |e: &roster::StaffContact| r.entries.iter().position(|x| std::ptr::eq(x, e));
         // A successor may be a person's name or a position title.
-        let by_name = roster.as_ref().and_then(|r| {
-            r.find(Some(who), None)
-                .map(|e| (e.name.clone(), e.contact_line()))
+        let hit = r.find(Some(who), None).or_else(|| {
+            r.holders(who)
+                .into_iter()
+                .find(|e| index(*e).is_none_or(|i| !used.contains(&i)))
         });
-        let hit = by_name.or_else(|| {
-            roster.as_ref().and_then(|r| {
-                r.holders(who)
-                    .first()
-                    .map(|e| (e.name.clone(), e.contact_line()))
-            })
-        });
-        if roster.is_some() {
-            if hit.is_some() {
+        match hit {
+            Some(e) => {
+                if let Some(i) = index(e) {
+                    used.push(i);
+                }
                 tally.matched += 1;
-            } else {
+                (e.name.clone(), e.contact_line())
+            }
+            None => {
                 tally.unmatched += 1;
+                (String::new(), String::new())
             }
         }
-        hit.unwrap_or_default()
     };
     let mut succession_rows: Vec<Vec<String>> = Vec::new();
     for s in &succession {
-        let (n, contact) = lookup(s.incumbent.as_deref().unwrap_or(&s.position));
+        let mut used: Vec<usize> = Vec::new();
+        let (n, contact) = lookup(s.incumbent.as_deref().unwrap_or(&s.position), &mut used);
         succession_rows.push(vec![
             s.position.clone(),
             "Incumbent".into(),
@@ -1337,7 +1313,7 @@ pub fn continuity_of_operations_planner(
             contact,
         ]);
         for (k, who) in s.successors.iter().enumerate() {
-            let (n, contact) = lookup(who);
+            let (n, contact) = lookup(who, &mut used);
             let shown = if n.is_empty() || norm(&n) == norm(who) {
                 who.clone()
             } else {
@@ -1689,7 +1665,8 @@ pub fn continuity_of_operations_planner(
     }
 
     // ---- privacy
-    let texts = free_text(&args);
+    // Every text field of the request (positions, sites, records, and systems included).
+    let texts = roster::argument_strings(&args, CONTACT_SCAN_SKIP);
     let found = roster::contacts_in_arguments(texts.iter().map(String::as_str));
     let mut privacy = Privacy::none();
     privacy.files_written = files_written.clone();
@@ -2096,6 +2073,99 @@ mod tests {
         .unwrap();
         assert!(!r.privacy.identifiers_detected.is_empty());
         assert!(r.summary.contains("roster file"));
+        // Fields that were not scanned before (a communications system) are scanned too;
+        // a facility's location is not.
+        let r = continuity_of_operations_planner(
+            &ctx,
+            CoopArgs {
+                communications: vec![CommInput {
+                    mode: "Director's cell 508-555-0177".into(),
+                    ..Default::default()
+                }],
+                output: Some("none".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(!r.privacy.identifiers_detected.is_empty());
+        let r = continuity_of_operations_planner(
+            &ctx,
+            CoopArgs {
+                alternate_sites: vec![SiteInput {
+                    name: "Senior Center".into(),
+                    location: Some("12 Main Street".into()),
+                    ..Default::default()
+                }],
+                output: Some("none".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(r.privacy.identifiers_detected.is_empty());
+    }
+
+    #[test]
+    fn staff_at_work_rounds_down_without_losing_a_whole_person() {
+        let (_d, ctx) = ctx();
+        let at_peak = |staff: u32, pct: f64| {
+            continuity_of_operations_planner(
+                &ctx,
+                CoopArgs {
+                    staff_count: Some(staff),
+                    absenteeism_percent: Some(pct),
+                    output: Some("none".into()),
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+            .data
+            .human_capital
+            .staff_available_at_peak
+        };
+        assert_eq!(at_peak(10, 80.0), Some(2));
+        assert_eq!(at_peak(90, 30.0), Some(63));
+        assert_eq!(at_peak(10, 40.0), Some(6));
+        // Still rounds down.
+        assert_eq!(at_peak(7, 40.0), Some(4));
+        assert_eq!(at_peak(3, 50.0), Some(1));
+    }
+
+    #[test]
+    fn a_repeated_title_gives_the_next_holder_not_the_incumbent() {
+        let (dir, ctx) = ctx();
+        std::fs::write(
+            dir.path().join("data/nurses.csv"),
+            "Name,Position,Cell Phone\n\
+             Ana One,Public Health Nurse,508-555-0111\n\
+             Bea Two,Public Health Nurse,508-555-0112\n",
+        )
+        .unwrap();
+        let r = continuity_of_operations_planner(
+            &ctx,
+            CoopArgs {
+                succession: vec![SuccessionInput {
+                    position: "Public Health Nurse".into(),
+                    successors: vec!["Public Health Nurse".into(), "Public Health Nurse".into()],
+                    ..Default::default()
+                }],
+                roster_path: Some("nurses.csv".into()),
+                plan_date: Some("2026-11-09".into()),
+                output: Some("docx".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        // Incumbent and first successor are found; no third nurse exists for the second.
+        let roster = r.data.roster.as_ref().unwrap();
+        assert_eq!((roster.matched, roster.unmatched), (2, 1));
+        let plan = dir
+            .path()
+            .join("data")
+            .join(r.data.plan_file.as_ref().unwrap());
+        let text = phn_local::docx::read_docx(&plan).unwrap().plain_text();
+        // Each nurse's number appears once in the succession table and once in the call-down list.
+        assert_eq!(text.matches("508-555-0111").count(), 2, "{text}");
+        assert_eq!(text.matches("508-555-0112").count(), 2, "{text}");
     }
 
     #[test]

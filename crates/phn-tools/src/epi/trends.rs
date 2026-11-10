@@ -57,7 +57,9 @@ pub struct TrendArgs {
     /// poisson, or negative_binomial.
     #[serde(default)]
     pub model: Option<ModelChoice>,
-    /// Adjust for an annual seasonal cycle (default true for monthly and weekly data).
+    /// Adjust for an annual seasonal cycle. Default: true for monthly and weekly data with at
+    /// least two full years (24 months or 104 weeks), otherwise false. Asking for it with fewer
+    /// than one and a half years of data is refused.
     #[serde(default)]
     pub seasonal: Option<bool>,
     /// Maximum joinpoints to search for (0–3, default 3, limited by the number of periods).
@@ -101,28 +103,128 @@ pub struct FittedPoint {
     pub fitted: f64,
 }
 
-/// Decimal year of the first period, read from its label when possible.
-fn start_time(label: &str, unit: TimeUnit) -> f64 {
-    let digits: Vec<u32> = label
+/// Month number (1–12) named by a word such as "Jan", "Sept", or "March".
+fn month_from_name(word: &str) -> Option<u32> {
+    const MONTHS: [&str; 12] = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+    ];
+    let w = word.to_ascii_lowercase();
+    if w.len() < 3 {
+        return None;
+    }
+    MONTHS
+        .iter()
+        .position(|m| m.starts_with(&w))
+        .map(|i| i as u32 + 1)
+}
+
+/// Decimal year of the first period, read from its label, and whether its
+/// place within the year (month, quarter, or week) could be read. Understood:
+/// "2024", "2024-03", "03/2024", "Mar 2024", "2024 Q2", "2024-W05", and dates
+/// such as "2024-06-03", "6/3/2024" (month first), or "June 3, 2024". When
+/// the place in the year cannot be read the time is the year alone (0 without
+/// a year): trends are unaffected, but the calendar position of a seasonal
+/// peak is then unknown.
+fn start_time(label: &str, unit: TimeUnit) -> (f64, bool) {
+    let groups: Vec<u32> = label
         .split(|c: char| !c.is_ascii_digit())
         .filter(|s| !s.is_empty())
         .filter_map(|s| s.parse().ok())
         .collect();
-    let Some(&year) = digits.iter().find(|d| (1900..=2100).contains(*d)) else {
-        return 0.0;
+    let Some(yi) = groups.iter().position(|d| (1900..=2100).contains(d)) else {
+        return (0.0, false);
     };
-    let sub = digits
-        .iter()
-        .find(|d| **d != year)
-        .copied()
-        .unwrap_or(1)
-        .max(1);
-    let y = f64::from(year);
-    match unit {
-        TimeUnit::Year => y,
-        TimeUnit::Quarter => y + (f64::from(sub.min(4)) - 1.0) / 4.0,
-        TimeUnit::Month => y + (f64::from(sub.min(12)) - 1.0) / 12.0,
-        TimeUnit::Week => y + (f64::from(sub.min(53)) - 1.0) / 52.0,
+    let y = f64::from(groups[yi]);
+    if unit == TimeUnit::Year {
+        return (y, true);
+    }
+    let named_month = label
+        .split(|c: char| !c.is_alphabetic())
+        .find_map(month_from_name);
+    // Numbers written before and after the year.
+    let (before, after) = (&groups[..yi], &groups[yi + 1..]);
+    let day_ok = |d: u32| (1..=31).contains(&d);
+    // (month, day of the month) when the label names a month or is a date.
+    let month_day: Option<(u32, u32)> = match (named_month, before, after) {
+        (Some(m), _, _) => Some((
+            m,
+            before
+                .iter()
+                .chain(after)
+                .copied()
+                .find(|d| day_ok(*d))
+                .unwrap_or(1),
+        )),
+        (None, [], [m, d]) if (1..=12).contains(m) && day_ok(*d) => Some((*m, *d)),
+        (None, [a, b], []) if (1..=12).contains(a) && day_ok(*b) => Some((*a, *b)),
+        (None, [a, b], []) if (1..=12).contains(b) && day_ok(*a) => Some((*b, *a)),
+        _ => None,
+    };
+    // A single number beside the year: the month, quarter, or week number.
+    let single: Option<u32> = match (before, after) {
+        ([], [v]) | ([v], []) => Some(*v),
+        _ => None,
+    };
+    let fraction = match (unit, month_day, single) {
+        (TimeUnit::Month, Some((m, _)), _) => Some(f64::from(m - 1) / 12.0),
+        (TimeUnit::Month, None, Some(m)) if (1..=12).contains(&m) => {
+            Some(f64::from(m - 1) / 12.0)
+        }
+        (TimeUnit::Quarter, Some((m, _)), _) => Some(f64::from((m - 1) / 3) / 4.0),
+        (TimeUnit::Quarter, None, Some(q)) if (1..=4).contains(&q) => {
+            Some(f64::from(q - 1) / 4.0)
+        }
+        // A week labeled with a date: that date's place in the year.
+        (TimeUnit::Week, Some((m, d)), _) => {
+            Some((f64::from(m - 1) + f64::from(d - 1) / 31.0) / 12.0)
+        }
+        (TimeUnit::Week, None, Some(w)) if (1..=53).contains(&w) => {
+            Some(f64::from(w - 1) / 52.0)
+        }
+        _ => None,
+    };
+    match fraction {
+        Some(f) => (y + f, true),
+        None => (y, false),
+    }
+}
+
+/// Whether to fit the annual seasonal term, and whether the default was
+/// turned off because the series is short. The term defaults to on for
+/// monthly and weekly data only with at least two full years: fitted to
+/// less, a seasonal wave cannot be told apart from the trend and the percent
+/// change per year becomes meaningless. An explicit request with fewer than
+/// one and a half years is refused for the same reason.
+fn seasonal_choice(requested: Option<bool>, unit: TimeUnit, n: usize) -> Result<(bool, bool)> {
+    let (word, enough) = match unit {
+        TimeUnit::Year => return Ok((false, false)),
+        TimeUnit::Quarter => ("quarters", 6),
+        TimeUnit::Month => ("months", 18),
+        TimeUnit::Week => ("weeks", 78),
+    };
+    let years = n as f64 / unit.per_year();
+    match requested {
+        Some(true) if n < enough => Err(PhnError::InvalidInput(format!(
+            "seasonal = true needs at least {enough} {word} (one and a half years); with {n} the \
+             seasonal pattern cannot be separated from the trend. Use seasonal = false, or give \
+             more periods."
+        ))),
+        Some(s) => Ok((s, false)),
+        None => {
+            let wanted = matches!(unit, TimeUnit::Month | TimeUnit::Week);
+            Ok((wanted && years >= 2.0, wanted && years < 2.0))
+        }
     }
 }
 
@@ -163,7 +265,7 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
     {
         return Err(PhnError::InvalidInput("counts must be zero or more".into()));
     }
-    let t0 = start_time(&args.periods[0].label, unit);
+    let (t0, start_known) = start_time(&args.periods[0].label, unit);
     let time: Vec<f64> = (0..n).map(|i| t0 + i as f64 / unit.per_year()).collect();
     let series = Series {
         time: time.clone(),
@@ -188,10 +290,7 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
             })?;
         interruptions.push(time[i]);
     }
-    let seasonal = args
-        .seasonal
-        .unwrap_or(matches!(unit, TimeUnit::Month | TimeUnit::Week))
-        && unit != TimeUnit::Year;
+    let (seasonal, seasonal_off_short) = seasonal_choice(args.seasonal, unit, n)?;
     let opts = Options {
         model: args.model.unwrap_or_default(),
         seasonal,
@@ -268,7 +367,12 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
         fmt_p(r.apc.p_value)
     ));
     if let Some(jp) = &r.joinpoint {
-        if jp.joinpoints.is_empty() {
+        if jp.joinpoints.is_empty() && trend::recommended_max_joinpoints(n) == 0 {
+            summary.push_str(&format!(
+                "- **Joinpoints:** not tested — looking for a change in trend needs at least 7 \
+                 periods (you gave {n}).\n"
+            ));
+        } else if jp.joinpoints.is_empty() {
             summary.push_str(
                 "- **Joinpoints:** none selected — one straight trend fits best (BIC).\n",
             );
@@ -318,7 +422,11 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
         ));
     }
     if let Some(s) = &r.seasonality {
-        let month = (s.peak_fraction_of_year * 12.0).floor() as usize % 12;
+        // Period i sits at the start of its interval on the time axis, so
+        // the middle of the peak period is half a period later.
+        let per = unit.per_year();
+        let mid = (s.peak_fraction_of_year + 0.5 / per).rem_euclid(1.0);
+        let month = (mid * 12.0).floor() as usize % 12;
         let months = [
             "January",
             "February",
@@ -333,9 +441,20 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
             "November",
             "December",
         ];
+        let peak = if start_known {
+            format!("around {}", months[month])
+        } else {
+            // The calendar position of the first period is unknown: count
+            // from it instead of naming a month.
+            let k = (mid * per).floor() as usize % (per as usize) + 1;
+            format!(
+                "about {unit_word} {k} of each {}-{unit_word} cycle, counting from the first \
+                 period given",
+                per as usize
+            )
+        };
         summary.push_str(&format!(
-            "- **Seasonality:** peak around {}; peak-to-trough ratio {:.2} ({})\n",
-            months[month],
+            "- **Seasonality:** peak {peak}; peak-to-trough ratio {:.2} ({})\n",
             s.peak_to_trough,
             fmt_p(s.p_value)
         ));
@@ -405,6 +524,22 @@ pub fn analyze_trends(ctx: &Context, args: TrendArgs) -> Result<Envelope<TrendTo
     }
 
     let mut caveats = r.warnings.clone();
+    if seasonal_off_short {
+        caveats.push(format!(
+            "Fewer than two full years of data ({n} {unit_word}s): the seasonal term was left out, \
+             because a seasonal wave fitted to less cannot be told apart from the trend. A \
+             seasonal pattern can therefore look like a trend here; treat the percent change per \
+             year with caution."
+        ));
+    }
+    if r.seasonality.is_some() && !start_known {
+        caveats.push(
+            "The first period label could not be read as a calendar month, quarter, or week (use \
+             labels such as 2024-03, Mar 2024, 2024 Q2, 2024-W05, or a date), so the seasonal \
+             peak is given as a position counted from the first period, not as a month."
+                .into(),
+        );
+    }
     caveats.push(
         "Joinpoint locations are chosen from the observed periods by BIC (NCI's Joinpoint program \
          uses permutation tests by default), and intervals are conditional on those locations, so \

@@ -9,7 +9,7 @@ Install Rust (stable, 1.88 or later). Then:
 
 ```sh
 cargo test --workspace
-cargo clippy --workspace --all-targets -- -D warnings
+cargo +stable clippy --workspace --all-targets -- -D warnings   # CI uses the latest stable clippy
 cargo fmt --all
 cargo xtask validate-content
 ```
@@ -24,7 +24,8 @@ A tool is done when it meets the plan's definition of done:
    -> Result<Envelope<Data>>`. `Args` and `Data` derive `Deserialize`/`Serialize` and
    `JsonSchema`; document every field (the doc comments become the schema descriptions the
    model reads).
-2. **Registration** in `crates/phn-tools/src/registry.rs` (plan ID, toolset, phase) and an
+2. **Registration** in `crates/phn-tools/src/registry/` (plan ID, toolset, phase), in the file
+   for the tool's phase (for example `phase14.rs`, listed in `registry/mod.rs`), and an
    `#[tool]` wrapper in `crates/phn-server/src/` with a description written for the model,
    annotations, and `output_schema = schema_for_output::<Envelope<Data>>()`. File and CPU heavy
    tools run through `blocking(...)`.
@@ -62,9 +63,19 @@ schema and fails when a review is overdue.
 
 ## Data snapshots
 
-`cargo xtask build-snapshots` rebuilds `snapshots/` from MassGIS and updates the manifest
-(sources, vintage, SHA-256 checksums). `--check` compares without writing and is run weekly in
-CI. Review the diff before committing a refreshed snapshot.
+`cargo xtask build-snapshots` rebuilds the MassGIS reference lists in `snapshots/` (towns,
+counties, HMCC regions, school districts) and updates the manifest (sources, vintage, SHA-256
+checksums). `--check` compares without writing and is run weekly in CI.
+
+The other snapshots have their own builders: `cargo xtask build-public-snapshots` (ACS, SVI,
+PLACES, boundaries), `build-surveillance-snapshots` (NNDSS, respiratory, wastewater),
+`build-guide-corpus` (DPH guide and fact sheets), `build-service-directories`,
+`build-nursing-home-snapshot`, `build-older-adult-snapshots`, and the Python scripts in
+`xtask/scripts/`. Each entry in `snapshots/manifest.json` says how it was built in its
+`derivation` field. `cargo xtask build-name-lists` rebuilds the PHI detector's name lists.
+
+Review the diff before committing a refreshed snapshot, and run `cargo xtask validate-content`,
+which checks the snapshot checksums.
 
 ## Architecture decisions
 

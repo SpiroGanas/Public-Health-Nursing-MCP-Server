@@ -22,7 +22,7 @@ jobs:
     name: Format and clippy
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
@@ -34,7 +34,7 @@ jobs:
     name: Tests (unit, golden, MCP integration)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo test --workspace --locked
@@ -43,7 +43,7 @@ jobs:
     name: Content review dates and snapshot checksums
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - run: cargo xtask validate-content
@@ -52,7 +52,7 @@ jobs:
     name: cargo deny (licenses, bans, sources, advisories)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: EmbarkStudios/cargo-deny-action@v2
         with:
           command: check
@@ -61,7 +61,7 @@ jobs:
     name: cargo audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: taiki-e/install-action@v2
         with:
           tool: cargo-audit
@@ -72,7 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [lint, test]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
@@ -86,10 +86,23 @@ jobs:
           docker run --rm phn-mcp-server:ci --version
           mkdir -p "$RUNNER_TEMP/data"
           docker run --rm --read-only -e PHN_OFFLINE=1 \
-            -v "$RUNNER_TEMP/data:/data" phn-mcp-server:ci check
+            -v "$RUNNER_TEMP/data:/data" phn-mcp-server:ci check > check.txt
+          cat check.txt
+          # The image sets TZ=America/New_York; the base image must ship the zone
+          # file, or the server silently runs on UTC.
+          grep -Eq 'local time: +[0-9-]+ [0-9:]+ -0[45]:00 \(TZ=America/New_York\)' check.txt
           printf '%s\n' \
             '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}' \
             '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
             '{"jsonrpc":"2.0","id":2,"method":"tools/list"}' \
             | timeout 30 docker run -i --rm --read-only -e PHN_OFFLINE=1 phn-mcp-server:ci > out.jsonl || true
           grep -q '"lookup_reportable_condition"' out.jsonl
+          # Linux users run the container as themselves (--user); settings must
+          # still save to a named /cache volume.
+          printf '%s\n' \
+            '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci","version":"0"}}}' \
+            '{"jsonrpc":"2.0","method":"notifications/initialized"}' \
+            '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"configure_jurisdiction","arguments":{"town":"Amherst"}}}' \
+            | timeout 30 docker run -i --rm --read-only --user 1234:1234 -e PHN_OFFLINE=1 \
+              -v phn-ci-cache:/cache phn-mcp-server:ci > save.jsonl || true
+          grep -q 'Settings saved' save.jsonl

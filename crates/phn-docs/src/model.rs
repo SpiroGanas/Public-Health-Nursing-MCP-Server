@@ -142,7 +142,9 @@ impl Document {
 
 /// Convert Markdown (CommonMark with tables) to blocks.
 ///
-/// A line containing only `\pagebreak` or `<!-- pagebreak -->` starts a new page.
+/// A line containing only `\pagebreak` or `<!-- pagebreak -->` starts a new page;
+/// a horizontal rule (`---`) does not. Nested list items stay inside their
+/// parent item, each on its own line.
 pub fn from_markdown(md: &str) -> Vec<Block> {
     let mut blocks = Vec::new();
     let mut opts = Options::empty();
@@ -155,6 +157,8 @@ pub fn from_markdown(md: &str) -> Vec<Block> {
     let mut link: Option<String> = None;
     let mut heading: Option<u8> = None;
     let mut list_stack: Vec<(bool, Vec<Vec<Inline>>)> = Vec::new();
+    // Text of the list items that are open around a nested list.
+    let mut parent_items: Vec<Vec<Inline>> = Vec::new();
     let mut in_item = false;
     let mut table: Option<TableBlock> = None;
     let mut in_head = false;
@@ -220,18 +224,37 @@ pub fn from_markdown(md: &str) -> Vec<Block> {
                 }
             }
             Event::Start(Tag::List(start)) => {
-                if !runs.is_empty() && in_item {
-                    // Nested list: flush the parent item text first.
-                    if let Some((_, items)) = list_stack.last_mut() {
-                        items.push(std::mem::take(&mut runs));
-                    }
+                if !list_stack.is_empty() {
+                    // Nested list: set the open parent item aside; the nested
+                    // items are added to it when the nested list ends.
+                    parent_items.push(std::mem::take(&mut runs));
                 }
                 list_stack.push((start.is_some(), Vec::new()));
                 in_item = false;
             }
             Event::End(TagEnd::List(_)) => {
                 if let Some((ordered, items)) = list_stack.pop() {
-                    blocks.push(Block::List { ordered, items });
+                    if list_stack.is_empty() {
+                        blocks.push(Block::List { ordered, items });
+                    } else {
+                        // Keep nested items inside their parent item, in
+                        // reading order, each on its own line.
+                        let mut parent = parent_items.pop().unwrap_or_default();
+                        if let Some(last) = parent.last_mut() {
+                            last.text = last.text.trim_end().to_string();
+                        }
+                        for (n, item) in items.into_iter().enumerate() {
+                            let mark = if ordered {
+                                format!("{}. ", n + 1)
+                            } else {
+                                "– ".to_string()
+                            };
+                            let lead = if parent.is_empty() { "" } else { "\n" };
+                            parent.push(Inline::plain(format!("{lead}{mark}")));
+                            parent.extend(item);
+                        }
+                        runs = parent;
+                    }
                 }
                 in_item = !list_stack.is_empty();
             }
@@ -328,8 +351,34 @@ pub fn from_markdown(md: &str) -> Vec<Block> {
                     push_text(&mut runs, " ", bold, italic, &link);
                 }
             }
+            Event::Start(Tag::CodeBlock(_)) | Event::Start(Tag::HtmlBlock) => {
+                if !in_item {
+                    runs.clear();
+                }
+            }
+            Event::End(TagEnd::CodeBlock) | Event::End(TagEnd::HtmlBlock) => {
+                // Indented or fenced text (an address block, a script) and
+                // block-level HTML are kept as plain paragraphs, one per line.
+                if in_item {
+                    push_text(&mut runs, " ", bold, italic, &link);
+                } else if table.is_none() {
+                    let text: String = std::mem::take(&mut runs)
+                        .into_iter()
+                        .map(|r| r.text)
+                        .collect();
+                    for line in text.lines().filter(|l| !l.trim().is_empty()) {
+                        blocks.push(Block::Paragraph(vec![Inline::plain(line.trim_end())]));
+                    }
+                }
+            }
             Event::Html(h) | Event::InlineHtml(h) => {
-                if h.contains("pagebreak") {
+                // Only the exact comment starts a new page.
+                let is_page_break = h
+                    .trim()
+                    .strip_prefix("<!--")
+                    .and_then(|s| s.strip_suffix("-->"))
+                    .is_some_and(|s| s.trim().eq_ignore_ascii_case("pagebreak"));
+                if is_page_break {
                     blocks.push(Block::PageBreak);
                 } else if !h.trim_start().starts_with("<!--") {
                     // Keep angle-bracket text rather than silently dropping it.
@@ -340,7 +389,8 @@ pub fn from_markdown(md: &str) -> Vec<Block> {
                     }
                 }
             }
-            Event::Rule => blocks.push(Block::PageBreak),
+            // A horizontal rule ("---") is dropped: it does not start a new page.
+            Event::Rule => {}
             _ => {}
         }
     }
@@ -384,5 +434,62 @@ mod tests {
         }
         assert!(matches!(&b[5], Block::Image(i) if i.alt == "Map of cases"));
         assert_eq!(b[6], Block::PageBreak);
+    }
+
+    fn item_text(item: &[Inline]) -> String {
+        item.iter().map(|i| i.text.as_str()).collect()
+    }
+
+    #[test]
+    fn nested_list_items_stay_in_order_inside_their_parent() {
+        let b = from_markdown(
+            "1. Exclude the case\n   - until 5 days of antibiotics\n   - or 21 days from cough onset\n2. Notify families\n",
+        );
+        assert_eq!(b.len(), 1, "{b:?}");
+        match &b[0] {
+            Block::List { ordered, items } => {
+                assert!(*ordered);
+                assert_eq!(items.len(), 2);
+                assert_eq!(
+                    item_text(&items[0]),
+                    "Exclude the case\n– until 5 days of antibiotics\n– or 21 days from cough onset"
+                );
+                assert_eq!(item_text(&items[1]), "Notify families");
+            }
+            other => panic!("{other:?}"),
+        }
+    }
+
+    #[test]
+    fn indented_and_fenced_text_is_kept() {
+        let b = from_markdown(
+            "Send it to:\n\n    Board of Health\n    1 Main St\n\n```\nSay this aloud.\n```\n\nThanks.",
+        );
+        let text: Vec<String> = b
+            .iter()
+            .filter_map(|x| match x {
+                Block::Paragraph(r) => Some(item_text(r)),
+                _ => None,
+            })
+            .collect();
+        assert_eq!(
+            text,
+            vec![
+                "Send it to:",
+                "Board of Health",
+                "1 Main St",
+                "Say this aloud.",
+                "Thanks."
+            ]
+        );
+    }
+
+    #[test]
+    fn only_an_explicit_marker_breaks_the_page() {
+        let b = from_markdown("One.\n\n---\n\nTwo.\n\n<!-- pagebreak -->\n\nThree.\n\n<!-- no pagebreak here -->\n\nFour.");
+        let breaks = b.iter().filter(|x| **x == Block::PageBreak).count();
+        assert_eq!(breaks, 1, "{b:?}");
+        assert_eq!(b.len(), 5);
+        assert_eq!(b[2], Block::PageBreak);
     }
 }

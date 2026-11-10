@@ -4,15 +4,16 @@
 //! The API is public and keyless. NWS asks every client to send a
 //! descriptive User-Agent; [`crate::http::HttpClient`] sends the server's
 //! name, version, and project URL (no personal email). Alerts are cached for
-//! five minutes and are never served from a bundled snapshot: an old alert is
-//! worse than none, so when the live API cannot be reached the tools say so.
+//! five minutes and are never served from a bundled snapshot or from a cached
+//! copy more than an hour old: an old alert is worse than none, so when the
+//! live API cannot be reached the tools say so.
 
 use phn_core::{PhnError, Result};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::apifetch::{expect_json, fetch_validated};
+use crate::apifetch::{FetchOptions, expect_json, fetch_validated, fetch_with_options, reason};
 use crate::cache::Cache;
 use crate::fetch::Fetched;
 use crate::http::HttpClient;
@@ -23,6 +24,11 @@ pub const ALERTS_ACTIVE_MA: &str = "https://api.weather.gov/alerts/active?area=M
 pub const API_DOCS: &str = "https://www.weather.gov/documentation/services-web-api";
 /// Alerts are re-fetched after five minutes.
 pub const ALERTS_TTL_SECS: u64 = 300;
+/// When the live feed cannot be reached, a cached copy of the alerts older
+/// than this (60 minutes) is not shown.
+pub const ALERTS_MAX_STALE_SECS: u64 = 3600;
+/// The only host forecasts are fetched from.
+pub const API_HOST_PREFIX: &str = "https://api.weather.gov/";
 /// Forecasts are re-fetched after an hour.
 pub const FORECAST_TTL_SECS: u64 = 3600;
 /// A point's forecast office and grid rarely change.
@@ -160,18 +166,30 @@ pub fn parse_alerts(body: &[u8]) -> Result<AlertFeed> {
     })
 }
 
-/// Fetch the active Massachusetts alerts (live, then a cached copy; never a snapshot).
+/// Fetch the active Massachusetts alerts: live, then a cached copy no more
+/// than [`ALERTS_MAX_STALE_SECS`] old; never an older copy or a snapshot.
 pub async fn fetch_active_alerts(http: &HttpClient, cache: Option<&Cache>) -> Result<Fetched> {
-    fetch_validated(
+    let options = FetchOptions {
+        max_stale_secs: Some(ALERTS_MAX_STALE_SECS),
+        ..FetchOptions::default()
+    };
+    fetch_with_options(
         http,
         cache,
         ALERTS_ACTIVE_MA,
-        None,
         ALERTS_TTL_SECS,
         &validate_features,
         None,
+        options,
     )
     .await
+    .map_err(|f| {
+        PhnError::Network(format!(
+            "the NWS alert feed could not be reached ({}); alerts are not shown from a copy \
+             more than 60 minutes old",
+            reason(&f.error)
+        ))
+    })
 }
 
 fn validate_features(body: &[u8]) -> Result<()> {
@@ -217,6 +235,11 @@ pub fn parse_points(body: &[u8]) -> Result<PointInfo> {
         office: s(p, "gridId"),
         nearest_place,
     })
+}
+
+/// True when a URL points at the NWS API host over HTTPS.
+pub fn is_nws_api_url(url: &str) -> bool {
+    url.starts_with(API_HOST_PREFIX)
 }
 
 /// One forecast period (12 hours).
@@ -294,6 +317,14 @@ pub async fn fetch_forecast(
     )
     .await?;
     let info = parse_points(&points.body)?;
+    // The forecast link comes from the response body; follow it only to NWS.
+    if !is_nws_api_url(&info.forecast_url) {
+        return Err(PhnError::Network(
+            "the NWS points response links to a forecast outside api.weather.gov; it was not \
+             fetched"
+                .into(),
+        ));
+    }
     let fc = fetch_validated(
         http,
         cache,
@@ -346,6 +377,69 @@ mod tests {
         assert!(parse_alerts(b"{\"type\":\"FeatureCollection\"}").is_err());
         assert!(validate_features(b"<html></html>").is_err());
         assert!(validate_features(b"{\"features\":[]}").is_ok());
+    }
+
+    #[test]
+    fn forecast_links_must_stay_on_the_nws_host() {
+        assert!(is_nws_api_url(
+            "https://api.weather.gov/gridpoints/BOX/71,90/forecast"
+        ));
+        assert!(!is_nws_api_url(
+            "https://api.weather.gov.example.org/gridpoints/BOX/71,90/forecast"
+        ));
+        assert!(!is_nws_api_url("http://api.weather.gov/gridpoints/BOX/71,90/forecast"));
+        assert!(!is_nws_api_url("https://example.org/forecast"));
+    }
+
+    #[tokio::test]
+    async fn a_points_link_to_another_host_is_not_fetched() {
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let body = br#"{"properties":{"forecast":"https://example.org/forecast","gridId":"BOX"}}"#;
+        cache
+            .put(&points_url(42.36, -71.06), body, POINTS_TTL_SECS)
+            .unwrap();
+        let err = fetch_forecast(&http, Some(&cache), 42.36, -71.06)
+            .await
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("outside api.weather.gov"), "{err}");
+    }
+
+    #[tokio::test]
+    async fn alerts_are_never_served_from_an_old_cached_copy() {
+        // Offline (or the feed is down): only a recent cached copy may be used.
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let now = chrono::Utc::now();
+        cache
+            .put_at(
+                ALERTS_ACTIVE_MA,
+                ALERTS.as_bytes(),
+                ALERTS_TTL_SECS,
+                now - chrono::Duration::days(7),
+            )
+            .unwrap();
+        let err = fetch_active_alerts(&http, Some(&cache))
+            .await
+            .unwrap_err()
+            .to_string();
+        assert!(err.contains("alert feed could not be reached"), "{err}");
+        assert!(err.contains("too old"), "{err}");
+
+        cache
+            .put_at(
+                ALERTS_ACTIVE_MA,
+                ALERTS.as_bytes(),
+                ALERTS_TTL_SECS,
+                now - chrono::Duration::minutes(20),
+            )
+            .unwrap();
+        let f = fetch_active_alerts(&http, Some(&cache)).await.unwrap();
+        assert_eq!(f.mode, phn_core::SourceMode::Cache);
+        assert!(f.fallback_reason.is_some());
     }
 
     #[test]

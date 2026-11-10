@@ -45,7 +45,11 @@ impl PhnServer {
         &self,
         Parameters(args): Parameters<TwoByTwoArgs>,
     ) -> CallToolResult {
-        respond(phn_tools::epi::analyze_two_by_two(&self.ctx, args))
+        // Exact tests on large tables are CPU-heavy: keep them off the async runtime.
+        blocking(&self.ctx, move |ctx| {
+            phn_tools::epi::analyze_two_by_two(ctx, args)
+        })
+        .await
     }
 
     #[tool(

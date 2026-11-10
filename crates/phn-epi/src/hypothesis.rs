@@ -158,11 +158,19 @@ pub fn t_test(x: &[f64], y: &[f64], equal_var: bool, confidence: f64) -> Test {
         let (a, b) = (vx / nx, vy / ny);
         (
             (a + b).sqrt(),
-            (a + b).powi(2) / (a * a / (nx - 1.0) + b * b / (ny - 1.0)),
+            if a + b > 0.0 {
+                (a + b).powi(2) / (a * a / (nx - 1.0) + b * b / (ny - 1.0))
+            } else {
+                // No variation in either group: the Welch df is 0/0. Use the
+                // pooled df so the result is defined (p = 1 when the means
+                // are equal, p = 0 when they differ).
+                nx + ny - 2.0
+            },
         )
     };
     let d = mx - my;
-    let t = d / se;
+    // Identical constant groups: 0/0 is "no difference", not undefined.
+    let t = if se == 0.0 && d == 0.0 { 0.0 } else { d / se };
     let q = t_quantile(1.0 - (1.0 - confidence) / 2.0, df);
     let sp = (((nx - 1.0) * vx + (ny - 1.0) * vy) / (nx + ny - 2.0)).sqrt();
     let mut r = Test::new(
@@ -180,8 +188,8 @@ pub fn t_test(x: &[f64], y: &[f64], equal_var: bool, confidence: f64) -> Test {
     r.estimate = Some(d);
     r.lower = Some(d - q * se);
     r.upper = Some(d + q * se);
-    r.effect_size = Some(d / sp);
-    r.effect_size_name = Some("Cohen's d (pooled SD)".into());
+    r.effect_size = (sp > 0.0).then(|| d / sp);
+    r.effect_size_name = r.effect_size.map(|_| "Cohen's d (pooled SD)".into());
     r
 }
 
@@ -192,7 +200,8 @@ pub fn paired_t_test(x: &[f64], y: &[f64], confidence: f64) -> Test {
     let m = mean(&d);
     let sd = variance(&d).sqrt();
     let se = sd / n.sqrt();
-    let t = m / se;
+    // Every pair unchanged: 0/0 is "no change", not undefined.
+    let t = if se == 0.0 && m == 0.0 { 0.0 } else { m / se };
     let q = t_quantile(1.0 - (1.0 - confidence) / 2.0, n - 1.0);
     let mut r = Test::new(
         "Paired t test",
@@ -205,8 +214,8 @@ pub fn paired_t_test(x: &[f64], y: &[f64], confidence: f64) -> Test {
     r.estimate = Some(m);
     r.lower = Some(m - q * se);
     r.upper = Some(m + q * se);
-    r.effect_size = Some(m / sd);
-    r.effect_size_name = Some("Cohen's d (paired)".into());
+    r.effect_size = (sd > 0.0).then(|| m / sd);
+    r.effect_size_name = r.effect_size.map(|_| "Cohen's d (paired)".into());
     r
 }
 
@@ -241,7 +250,7 @@ fn wilcox_counts(m: usize, n: usize) -> Vec<f64> {
 /// the sign is taken explicitly.) When every value is tied (`sigma` = 0)
 /// the data carry no evidence of a difference and p = 1.
 fn p_rank_normal(zz: f64, sigma: f64) -> f64 {
-    if !(sigma > 0.0) {
+    if sigma.is_nan() || sigma <= 0.0 {
         return 1.0;
     }
     let corr = if zz > 0.0 {
@@ -347,12 +356,17 @@ pub fn anova(groups: &[Vec<f64>]) -> Test {
         })
         .sum();
     let (df1, df2) = ((groups.len() - 1) as f64, (all.len() - groups.len()) as f64);
-    let f = (ssb / df1) / (ssw / df2);
+    // Every value identical: 0/0 is "no difference" (F = 0, p = 1).
+    let f = if ssb == 0.0 && ssw == 0.0 {
+        0.0
+    } else {
+        (ssb / df1) / (ssw / df2)
+    };
     let mut t = Test::new("One-way ANOVA", "F", f, p_f(f, df1, df2), "F distribution");
     t.df = Some(df1);
     t.df2 = Some(df2);
-    t.effect_size = Some(ssb / (ssb + ssw));
-    t.effect_size_name = Some("eta squared".into());
+    t.effect_size = (ssb + ssw > 0.0).then(|| ssb / (ssb + ssw));
+    t.effect_size_name = t.effect_size.map(|_| "eta squared".into());
     t
 }
 
@@ -659,5 +673,71 @@ mod tests {
         let s = [1.0, 2.0, 3.0, 4.0];
         assert!((quantile(&s, 0.25) - 1.75).abs() < 1e-12);
         assert!((quantile(&s, 0.5) - 2.5).abs() < 1e-12);
+    }
+
+    #[test]
+    fn rank_tests_without_a_difference_give_p_one() {
+        // Every value tied in both groups: sigma = 0. This used to give p = 0.
+        let same = mann_whitney(&[5.0, 5.0, 5.0], &[5.0, 5.0, 5.0]);
+        assert_eq!(same.p_value, 1.0, "{same:?}");
+        // W exactly at its expected value (8 of 16) with ties: R's
+        // wilcox.test applies no continuity correction and gives p = 1
+        // (sign(0) = 0); the old code gave 0.876.
+        let x = [1.0, 2.0, 2.0, 3.0];
+        let mw = mann_whitney(&x, &x);
+        assert_eq!(mw.statistic, 8.0);
+        assert!((mw.p_value - 1.0).abs() < 1e-12, "{mw:?}");
+        // Signed rank: differences 1, −1, 2, −2 and one zero (which forces
+        // the normal approximation); V = 5 = n(n+1)/4, so p = 1 (was 0.853).
+        let sr = wilcoxon_signed_rank(&[1.0, 0.0, 2.0, 0.0, 3.0], &[0.0, 1.0, 0.0, 2.0, 3.0]);
+        assert_eq!(sr.statistic, 5.0);
+        assert!((sr.p_value - 1.0).abs() < 1e-12, "{sr:?}");
+        // Before and after identical for every pair (n = 0 after dropping
+        // zeros): p = 1, not 0.
+        let none = wilcoxon_signed_rank(&[4.0, 4.0, 4.0], &[4.0, 4.0, 4.0]);
+        assert_eq!(none.p_value, 1.0, "{none:?}");
+        // A real difference with ties is still corrected toward zero:
+        // W = 0, zz = −8, sigma = √(16/12 · (9 − 24/56)), z = −7.5/sigma.
+        let apart = mann_whitney(&[1.0, 1.0, 2.0, 2.0], &[3.0, 3.0, 4.0, 4.0]);
+        let sigma = (16.0f64 / 12.0 * (9.0 - 24.0 / 56.0)).sqrt();
+        assert!((apart.p_value - p_normal_two_sided(-7.5 / sigma)).abs() < 1e-12);
+        assert!(apart.p_value < 0.05);
+    }
+
+    #[test]
+    fn tests_on_data_without_variation_are_defined() {
+        // Identical constant groups: no difference, p = 1 (not NaN).
+        let w = t_test(&[5.0, 5.0, 5.0], &[5.0, 5.0, 5.0], false, 0.95);
+        assert_eq!(w.statistic, 0.0);
+        assert!((w.p_value - 1.0).abs() < 1e-12, "{w:?}");
+        assert_eq!(w.df, Some(4.0));
+        assert!(w.effect_size.is_none() && w.effect_size_name.is_none());
+        assert_eq!((w.lower, w.upper), (Some(0.0), Some(0.0)));
+        // Constant groups that differ: an infinite statistic has p = 0.
+        let d = t_test(&[5.0, 5.0, 5.0], &[7.0, 7.0, 7.0], false, 0.95);
+        assert!(d.statistic.is_infinite() && d.p_value == 0.0, "{d:?}");
+        let p = paired_t_test(&[4.0, 4.0, 4.0], &[4.0, 4.0, 4.0], 0.95);
+        assert_eq!(p.statistic, 0.0);
+        assert!((p.p_value - 1.0).abs() < 1e-12 && p.effect_size.is_none());
+        let a = anova(&[vec![2.0; 3], vec![2.0; 3], vec![2.0; 3]]);
+        assert_eq!(a.statistic, 0.0);
+        assert!((a.p_value - 1.0).abs() < 1e-12 && a.effect_size.is_none());
+        // The median-centered Levene test on such data reports equal variances.
+        assert!((brown_forsythe(&[vec![2.0; 3], vec![2.0; 3]]).p_value - 1.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn chi_square_ignores_empty_rows_and_columns() {
+        // A 3×2 table whose middle row is empty is the 2×2 table
+        // [[10, 20], [20, 10]]: χ² = 60·(100 − 400)²/30⁴ = 6.667 on 1 df
+        // (the old code used 2 df), Cramér's V = √(6.667/60) = 0.333.
+        let (t, min_e) =
+            chi_square_table(&[vec![10.0, 20.0], vec![0.0, 0.0], vec![20.0, 10.0]]);
+        assert_eq!(t.df, Some(1.0));
+        assert!((t.statistic - 20.0 / 3.0).abs() < 1e-9);
+        assert!((t.p_value - p_chi_square(20.0 / 3.0, 1.0)).abs() < 1e-12);
+        assert!((t.p_value - 0.009_823).abs() < 1e-5, "{}", t.p_value);
+        assert!((t.effect_size.unwrap() - 1.0 / 3.0).abs() < 1e-9);
+        assert_eq!(min_e, 0.0);
     }
 }

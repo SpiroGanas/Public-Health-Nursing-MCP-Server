@@ -167,7 +167,7 @@ impl PhnServer {
             read_only_hint = false,
             destructive_hint = false,
             idempotent_hint = false,
-            open_world_hint = false
+            open_world_hint = true
         ),
         output_schema = schema_for_output::<Envelope<ShelterResult>>()
     )]

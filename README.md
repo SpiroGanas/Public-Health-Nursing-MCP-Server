@@ -217,8 +217,17 @@ Once a release is published:
 docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0
 ```
 
-On networks that block GHCR, download `phn-mcp-server-<version>-amd64.tar.gz` (or `-arm64` for
-Apple silicon) from the GitHub release and run `docker load -i <file>`.
+On networks that block GHCR, download `phn-mcp-server-v0.14.0-amd64.tar.gz` (or `-arm64` for
+Apple silicon) from the GitHub release. Load it, then give the image the name the configuration
+below uses:
+
+```sh
+docker load -i phn-mcp-server-v0.14.0-amd64.tar.gz
+docker tag phn-mcp-server:v0.14.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0
+```
+
+(Use `arm64` in both commands on Apple silicon.) Without the second command Docker does not find
+the image under that name and tries to download it from GHCR.
 
 To build it yourself from this repository:
 
@@ -286,8 +295,11 @@ Then try, for example:
 
 > Is a positive HBsAg reportable, and how fast?
 > What does our policy say about needlestick injuries?
-> Profile PHN-Data/line_list.csv and tell me if it contains identifiers.
+> Profile line_list.csv and tell me if it contains identifiers.
 > Make a de-identified copy of line_list.csv I can share with the school.
+
+File names are relative to your data folder: say `line_list.csv` or `rosters/kindergarten.xlsx`,
+not `PHN-Data/line_list.csv`.
 
 `docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
@@ -308,6 +320,7 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | `PHN_HTTP_TIMEOUT_SECS` | `20` | Timeout for public API calls. |
 | `PHN_DATA_DIR`, `PHN_CACHE_DIR`, `PHN_OUTPUT_DIR`, `PHN_POLICY_DIR`, `PHN_SETTINGS_FILE` | `/data`, `/cache`, `/data/output`, `/data/policies`, `/cache/phn-settings.toml` | Folder locations (rarely changed). |
 | `PHN_LOG` | `info` | Log level. Logs go to stderr; stdout carries the MCP protocol. |
+| `TZ` | `America/New_York` (set in the image) | Time zone for "today" and for dates and times printed on documents. Set another zone with, for example, `-e TZ=America/Chicago`. |
 | `PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` | none | Optional free API keys. Everything works without them (bundled snapshots or lower rate limits); the Census key is needed for live ACS data from some networks, and the AirNow key adds the AirNow API to the public AirNow files. |
 
 **Profiles and toolsets.** Exposing every tool at once crowds the model's context, so tools are
@@ -352,7 +365,7 @@ Requirements: Rust 1.88 or later (stable). Then:
 
 ```sh
 cargo test --workspace                 # unit, golden, and MCP integration tests
-cargo clippy --workspace --all-targets -- -D warnings
+cargo +stable clippy --workspace --all-targets -- -D warnings   # CI uses the latest stable clippy
 cargo run -p phn-server --bin phn-mcp-server -- check
 cargo xtask validate-content           # schemas, review dates, snapshot checksums
 cargo xtask build-snapshots --check    # rebuild MassGIS snapshots and diff them
@@ -367,19 +380,24 @@ Repository layout:
 
 ```
 crates/
-  phn-server   # binary: rmcp stdio server, toolset filtering, MCP resources
+  phn-server   # binary: rmcp stdio server, toolset filtering, MCP prompts and resources
   phn-core     # configuration, errors, response envelope, toolsets
-  phn-data     # HTTP client, SQLite cache, snapshot store, Massachusetts reference lists
-  phn-content  # reviewed reference content (YAML + JSON Schema)
-  phn-epi      # rates and exact intervals, small-cell suppression
+  phn-data     # HTTP client, SQLite cache, snapshot store, Massachusetts reference lists,
+               # adapters for public data sources (live → cache → snapshot)
+  phn-content  # reference content (YAML + JSON Schema); every file is pending review
+  phn-epi      # rates and intervals, suppression, standardization, 2×2 tables, regression,
+               # trends, hypothesis tests, SPC, aberration detection, queueing, survey estimates
+  phn-cdsi     # CDC CDSi supporting data and the immunization evaluation and forecasting engine
   phn-local    # /data sandbox, parsers, PHI detection, de-identification, policy index
-  phn-docs     # DOCX/PDF/XLSX/CSV/SVG/PNG output, mail-merge, accessibility checks
-  phn-tools    # tool implementations
+  phn-docs     # DOCX/PDF/XLSX/CSV/SVG/PNG output, mail-merge, accessibility checks, charts
+  phn-tools    # tool implementations, one folder per theme
 content/       # reference content with citations and review metadata
 snapshots/     # dated data snapshots + manifest (built by xtask)
 fixtures/      # synthetic test corpus (all fictional)
-docs/          # tool reference, user guide (Word), architecture decisions, acceptance script
-xtask/         # snapshot builder, name-list builder, content validator
+docs/          # tool reference, user guide (Word), architecture decisions, acceptance scripts,
+               # CDSi test results
+xtask/         # snapshot builders (Rust, and Python in scripts/), name-list builder,
+               # content validator
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add a tool and how content review works, and

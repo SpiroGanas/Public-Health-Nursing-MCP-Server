@@ -29,6 +29,8 @@ pub fn esc(s: &str) -> String {
             '\'' => o.push_str("&apos;"),
             // Strip control characters that are invalid in XML 1.0.
             c if (c as u32) < 0x20 && !matches!(c, '\t' | '\n' | '\r') => {}
+            // U+FFFE and U+FFFF are not XML characters either; Word refuses them.
+            '\u{FFFE}' | '\u{FFFF}' => {}
             c => o.push(c),
         }
     }
@@ -507,6 +509,14 @@ mod tests {
         assert!(t.header_row_marked);
         assert_eq!(t.rows[1], vec!["1", "3"]);
         assert!(parsed.plain_text().contains("we need help <now>"));
+    }
+
+    #[test]
+    fn escaping_drops_characters_xml_does_not_allow() {
+        assert_eq!(
+            esc("a\u{0}b\u{B}c\u{FFFE}d\u{FFFF}e & <f>\tg"),
+            "abcde &amp; &lt;f&gt;\tg"
+        );
     }
 
     #[test]

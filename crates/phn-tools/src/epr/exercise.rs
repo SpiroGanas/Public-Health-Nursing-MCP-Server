@@ -1143,27 +1143,24 @@ pub fn design_hseep_exercise(
         warnings.push("Operations-based exercises need controllers (and often simulators) to deliver MSEL injects.".into());
     }
 
-    // Privacy: contact details in the request.
-    let mut texts: Vec<&str> = vec![];
-    for o in &args.objectives {
-        texts.push(&o.text);
-    }
-    for p in args.participants.iter().chain(args.point_of_contact.iter()) {
-        texts.push(&p.role);
-        if let Some(n) = &p.name {
-            texts.push(n);
-        }
-    }
-    if let Some(c) = &args.custom_scenario {
-        texts.push(c);
-    }
-    for s in [&args.location, &args.scope, &args.sponsor]
-        .into_iter()
-        .flatten()
-    {
-        texts.push(s);
-    }
-    let contact_kinds = roster::contacts_in_arguments(texts);
+    // Privacy: contact details typed anywhere in the request (every text field, including
+    // organizations and the exercise name), except the type, scenario id, area, date,
+    // time, capability names, and file settings.
+    let texts = roster::argument_strings(
+        &args,
+        &[
+            "exercise_type",
+            "scenario",
+            "area",
+            "date",
+            "start_time",
+            "capabilities",
+            "roster_path",
+            "roster_sheet",
+            "documents",
+        ],
+    );
+    let contact_kinds = roster::contacts_in_arguments(texts.iter().map(String::as_str));
 
     let exercise_name = opt(&args.exercise_name)
         .map(str::to_string)

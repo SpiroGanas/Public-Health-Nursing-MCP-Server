@@ -24,3 +24,12 @@ pub const SERVER_NAME: &str = "public-health-nursing-mcp-server";
 
 /// Crate version shared across the workspace.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+/// The server's local date, time, and UTC offset as `chrono::Local` sees them,
+/// for example `2026-11-10 09:15 -05:00`. `chrono` takes the zone from the `TZ`
+/// environment variable (the Docker image sets `America/New_York`) and falls
+/// back to UTC when the zone cannot be read, so `check` prints this for the
+/// nurse to confirm that "today" in date calculations is Massachusetts time.
+pub fn local_time_label() -> String {
+    chrono::Local::now().format("%Y-%m-%d %H:%M %:z").to_string()
+}

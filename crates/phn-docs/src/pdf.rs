@@ -50,9 +50,14 @@ impl FontRes {
         let face = fonts::face(self.bold);
         let mut hex = String::with_capacity(s.len() * 4);
         for c in s.chars() {
-            let gid = face.glyph(c).or_else(|| face.glyph('?')).unwrap_or(0);
+            // A character the font lacks is drawn as "?" and is recorded as
+            // "?" too, so a real question mark never reads as another character.
+            let (gid, shown) = match face.glyph(c) {
+                Some(g) => (g, c),
+                None => (face.glyph('?').unwrap_or(0), '?'),
+            };
             let new = self.remap.remap(gid);
-            self.used.entry(new).or_insert((gid, c));
+            self.used.entry(new).or_insert((gid, shown));
             hex.push_str(&format!("{new:04X}"));
         }
         hex
@@ -240,6 +245,9 @@ impl<'a> Writer<'a> {
     ) -> Vec<Vec<(String, bool, Rgb)>> {
         // Split runs into words that keep their style; append URLs after link text.
         let mut words: Vec<(String, bool, Rgb, bool)> = Vec::new(); // (word, bold, color, space_before)
+        // Markdown leaves the space between "are " and "**rising**" at the end
+        // of the first run, so the end of each run is remembered.
+        let mut prev_ended_with_space = false;
         for r in runs {
             let bold = r.bold || force_bold;
             let color = if r.link.is_some() { LINK } else { BLACK };
@@ -252,8 +260,12 @@ impl<'a> Writer<'a> {
             }
             let starts_with_space = text.starts_with(char::is_whitespace);
             for (i, w) in text.split_whitespace().enumerate() {
-                let space = i > 0 || starts_with_space || words.is_empty();
+                let space =
+                    i > 0 || starts_with_space || prev_ended_with_space || words.is_empty();
                 words.push((w.to_string(), bold, color, space && !words.is_empty()));
+            }
+            if !text.is_empty() {
+                prev_ended_with_space = text.ends_with(char::is_whitespace);
             }
         }
         let mut lines: Vec<Vec<(String, bool, Rgb)>> = vec![Vec::new()];
@@ -262,8 +274,12 @@ impl<'a> Writer<'a> {
             let sep = if space && line_w > 0.0 { " " } else { "" };
             let piece = format!("{sep}{word}");
             let w = fonts::text_width(&piece, bold, size);
-            if line_w + w > width && line_w > 0.0 {
-                lines.push(Vec::new());
+            // Also taken for a first word wider than the line (a long web
+            // address), which is broken across lines instead of running off the page.
+            if line_w + w > width {
+                if lines.last().is_some_and(|l| !l.is_empty()) {
+                    lines.push(Vec::new());
+                }
                 line_w = 0.0;
                 let wrapped = fonts::wrap(&word, bold, size, width);
                 let n = wrapped.len();
@@ -944,6 +960,70 @@ mod tests {
         assert!(text.contains("señales"), "{}", &text[..200.min(text.len())]);
         assert!(text.contains("Casos por semana"));
         assert!(text.contains("Week 79"));
+    }
+
+    #[test]
+    fn styled_runs_keep_the_space_before_them() {
+        let runs = vec![
+            Inline::plain("Cases are "),
+            Inline {
+                text: "rising".into(),
+                bold: true,
+                ..Inline::default()
+            },
+            Inline::plain(" & we need help. See "),
+            Inline {
+                text: "the guide".into(),
+                link: Some("https://www.mass.gov".into()),
+                ..Inline::default()
+            },
+            Inline::plain(" today."),
+        ];
+        // Wide enough that nothing wraps.
+        let lines = Writer::layout_runs(&runs, BODY, 10_000.0, false);
+        let text: String = lines
+            .iter()
+            .flatten()
+            .map(|(s, _, _)| s.as_str())
+            .collect();
+        assert_eq!(
+            text,
+            "Cases are rising & we need help. See the guide (https://www.mass.gov) today."
+        );
+    }
+
+    #[test]
+    fn a_long_first_word_is_broken_across_lines() {
+        let url = format!("https://www.mass.gov/{}", "info-details/".repeat(12));
+        let lines = Writer::layout_runs(&[Inline::plain(url.clone())], BODY, CONTENT_W, false);
+        assert!(lines.len() > 1);
+        for l in &lines {
+            let w: f32 = l
+                .iter()
+                .map(|(s, b, _)| fonts::text_width(s, *b, BODY))
+                .sum();
+            assert!(w <= CONTENT_W, "{w}");
+        }
+        let joined: String = lines
+            .iter()
+            .flatten()
+            .map(|(s, _, _)| s.as_str())
+            .collect();
+        assert_eq!(joined, url);
+    }
+
+    #[test]
+    fn missing_glyphs_are_recorded_as_question_marks() {
+        let mut f = FontRes::new(false);
+        let _ = f.encode("中?");
+        let q = fonts::face(false).glyph('?').unwrap();
+        let chars: Vec<char> = f
+            .used
+            .values()
+            .filter(|(old, _)| *old == q)
+            .map(|(_, c)| *c)
+            .collect();
+        assert_eq!(chars, vec!['?']);
     }
 
     #[test]

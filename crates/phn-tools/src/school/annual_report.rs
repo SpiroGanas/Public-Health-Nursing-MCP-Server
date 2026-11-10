@@ -49,9 +49,10 @@ pub struct AnnualReportArgs {
     /// Screening roster with results (the same file track_school_screenings reads).
     pub screening_path: Option<String>,
     pub screening_sheet: Option<String>,
-    /// School year, e.g. "2025-2026" (default: the school year that ended most
-    /// recently on or before as_of, or the current one if as_of is in it and
-    /// the log has dates in it).
+    /// School year, e.g. "2025-2026" (July 1 to June 30). Default: the school
+    /// year that contains as_of; but when a visit log or medication log is
+    /// given and neither has a row dated in that year, the school year before
+    /// it (the one that ended most recently).
     pub school_year: Option<String>,
     /// Evaluation date (default today).
     pub as_of: Option<String>,
@@ -160,12 +161,18 @@ enum Disposition {
     Unknown,
 }
 
+/// True when the normalized text has one of the keywords as a whole word (keywords of up
+/// to 3 letters), at the start of a word (longer keywords, so "injur" matches "injury"),
+/// or as a phrase starting at a word. Matching inside a word is not allowed: "distress"
+/// is not "stress" and "heartburn" is not "burn".
 fn has(t: &str, words: &[&str]) -> bool {
     words.iter().any(|w| {
-        if w.len() <= 3 {
+        if w.contains(' ') {
+            format!(" {t}").contains(&format!(" {w}"))
+        } else if w.len() <= 3 {
             t.split_whitespace().any(|x| x == *w)
         } else {
-            t.contains(w)
+            t.split_whitespace().any(|x| x.starts_with(w))
         }
     })
 }
@@ -185,6 +192,8 @@ fn category(reason: &str) -> Category {
             "sprain",
             "bump",
             "bleed",
+            "nosebleed",
+            "sunburn",
             "scrape",
             "laceration",
             "splinter",
@@ -270,7 +279,7 @@ fn disposition(s: &str) -> Disposition {
         &[
             "dismiss",
             "sent home",
-            "home",
+            "went home",
             "picked up",
             "early release",
             "left school",
@@ -278,7 +287,10 @@ fn disposition(s: &str) -> Disposition {
     ) {
         Disposition::Dismissed
     } else if has(&t, &["class", "returned", "rtc", "back to class"]) {
+        // Checked before a bare "home": "called home; returned to class" is a return.
         Disposition::Returned
+    } else if t.split_whitespace().any(|x| x == "home") {
+        Disposition::Dismissed
     } else {
         Disposition::Other
     }

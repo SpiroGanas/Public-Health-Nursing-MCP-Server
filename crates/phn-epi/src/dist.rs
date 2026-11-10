@@ -121,4 +121,16 @@ mod tests {
         assert!((r - 2f64.sqrt()).abs() < 1e-10);
         assert!((p_t_two_sided(2.228_138_85, 10.0) - 0.05).abs() < 1e-7);
     }
+
+    #[test]
+    fn infinite_statistics_have_p_zero_and_undefined_ones_stay_nan() {
+        assert_eq!(p_t_two_sided(f64::INFINITY, 4.0), 0.0);
+        assert_eq!(p_t_two_sided(f64::NEG_INFINITY, 4.0), 0.0);
+        assert_eq!(p_f(f64::INFINITY, 2.0, 6.0), 0.0);
+        assert_eq!(p_chi_square(f64::INFINITY, 1.0), 0.0);
+        assert!(p_t_two_sided(f64::NAN, 4.0).is_nan());
+        assert!(p_t_two_sided(f64::INFINITY, 0.0).is_nan());
+        assert!(p_f(f64::NAN, 2.0, 6.0).is_nan());
+        assert!(p_chi_square(f64::INFINITY, 0.0).is_nan());
+    }
 }

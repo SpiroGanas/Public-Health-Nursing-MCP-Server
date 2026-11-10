@@ -5,9 +5,12 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
+No version has been tagged or published as a release yet. The date on each version is the day
+it was merged to `main` (Eastern time).
+
 ## [Unreleased]
 
-## [0.14.0] — Phase 13: emergency preparedness II (ICS forms, COOP, HSEEP exercises, after-action reports, CERC)
+## [0.14.0] — 2026-11-09 (not tagged) — Phase 13: emergency preparedness II (ICS forms, COOP, HSEEP exercises, after-action reports, CERC)
 
 ### Added
 
@@ -59,15 +62,16 @@ All notable changes are recorded here. The format follows
 - COMM-02 exposes its language-priority and translator-brief helpers, and COMM-04 shares its
   loaded-word check, for reuse by the CERC builder.
 
-## [0.13.0] — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
+## [0.13.0] — 2026-11-08 (not tagged) — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
 
 ### Added
 
 - User guide for public health nurses (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`): an
   executive summary of the server's benefits, how it works and protects privacy, getting
-  started, and for each of the 47 implemented tools what it does, when to use it, how to ask for
-  it, what it returns, and what to keep in mind; plus a tool index, glossary, and
-  troubleshooting. Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
+  started, and for each implemented tool what it does, when to use it, how to ask for it, what
+  it returns, and what to keep in mind; plus a tool index, glossary, and troubleshooting. The
+  guide was first written after Phase 6, for 47 tools, and was rebuilt for this version's 97
+  tools (116 pages). Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
   registry test keeps the guide's tool list in step with the implemented tools.
 
 ### Added — Phase 7: school health
@@ -254,7 +258,7 @@ All notable changes are recorded here. The format follows
 - The README documents the optional API keys (`PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`,
   `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY`).
 
-## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
+## [0.7.0] — 2026-11-08 (not tagged) — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
 ### Added — Phase 2: epidemiology and biostatistics engine
 
@@ -382,7 +386,7 @@ All notable changes are recorded here. The format follows
   map; the snapshot builder applies an override table.
 - Data source registry: fixed the 105 CMR 300.000 address (the old mass.gov URL returns 404).
 
-## [0.2.0] — Phase 1: local data, privacy guardrails, and documents
+## [0.2.0] — 2026-11-07 (not tagged) — Phase 1: local data, privacy guardrails, and documents
 
 ### Added
 - `read_local_file` (CORE-04): lists `/data` and extracts text and tables from PDF, DOCX, XLSX,
@@ -403,7 +407,7 @@ All notable changes are recorded here. The format follows
   row-level data is returned by default and that exported documents pass the server's own
   accessibility checks.
 
-## [0.1.0] — Phase 0: foundation (internal)
+## [0.1.0] — 2026-11-07 (not tagged) — Phase 0: foundation (internal)
 
 ### Added
 - Rust workspace (`phn-core`, `phn-content`, `phn-data`, `phn-epi`, `phn-local`, `phn-docs`,

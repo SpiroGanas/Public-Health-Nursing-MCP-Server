@@ -588,4 +588,58 @@ mod tests {
                 .all(|p| p.signals.contains(&Rule::LongRun))
         );
     }
+
+    fn control_chart(chart: ChartType, values: &[f64], baseline: Option<usize>) -> Chart {
+        super::chart(&Input {
+            chart,
+            values: values.to_vec(),
+            denominators: None,
+            phase_starts: vec![],
+            baseline,
+        })
+        .unwrap()
+    }
+
+    fn has(c: &Chart, i: usize, rule: Rule) -> bool {
+        c.points[i].signals.contains(&rule)
+    }
+
+    #[test]
+    fn repeated_values_are_not_a_trend() {
+        // Six periods with no events used to be flagged as a trend
+        // (f64::signum(0.0) is 1.0).
+        let zeros = control_chart(ChartType::C, &[0.0; 6], None);
+        assert!((0..6).all(|i| zeros.points[i].signals.is_empty()), "{zeros:?}");
+        // Only three distinct values: not six points moving one way.
+        let steps = control_chart(ChartType::Xmr, &[3.0, 3.0, 4.0, 4.0, 5.0, 5.0], None);
+        assert!((0..6).all(|i| !has(&steps, i, Rule::Trend)));
+        // Five distinct rising values with repeats: still not six.
+        let five = control_chart(ChartType::Xmr, &[1.0, 2.0, 2.0, 3.0, 4.0, 4.0, 5.0], None);
+        assert!((0..7).all(|i| !has(&five, i, Rule::Trend)));
+        // Six distinct rising values with a repeat inside: a trend; the
+        // repeated point sits inside the run and is marked with it.
+        let rise = control_chart(ChartType::Xmr, &[1.0, 2.0, 2.0, 3.0, 4.0, 5.0, 6.0], None);
+        assert!((0..7).all(|i| has(&rise, i, Rule::Trend)), "{rise:?}");
+        // Six falling values, then a rise: the falling six are marked.
+        let fall = control_chart(ChartType::Xmr, &[9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 6.0], None);
+        assert!((0..6).all(|i| has(&fall, i, Rule::Trend)));
+        assert!(!has(&fall, 6, Rule::Trend));
+    }
+
+    #[test]
+    fn a_point_on_the_center_line_neither_counts_nor_breaks_a_shift() {
+        // Baseline 10, 12, 8, 10: center line exactly 10.
+        let mut v = vec![10.0, 12.0, 8.0, 10.0];
+        // Four above, one on the line, four above: eight above in all.
+        v.extend([11.0, 11.0, 11.0, 11.0, 10.0, 11.0, 11.0, 11.0, 11.0]);
+        let c = control_chart(ChartType::Xmr, &v, Some(4));
+        assert_eq!(c.phases[0].center, 10.0);
+        assert!((4..=12).all(|i| has(&c, i, Rule::Shift)), "{c:?}");
+        assert!((0..4).all(|i| !has(&c, i, Rule::Shift)));
+        // Seven above plus the point on the line is not a shift.
+        let mut v = vec![10.0, 12.0, 8.0, 10.0];
+        v.extend([11.0, 11.0, 11.0, 11.0, 10.0, 11.0, 11.0, 11.0]);
+        let c = control_chart(ChartType::Xmr, &v, Some(4));
+        assert!((0..v.len()).all(|i| !has(&c, i, Rule::Shift)));
+    }
 }

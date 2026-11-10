@@ -63,6 +63,36 @@ pub(crate) fn respond<T: Serialize>(result: phn_core::Result<Envelope<T>>) -> Ca
     }
 }
 
+/// The tool-level error for a tool whose toolset is off. When an environment
+/// variable pins the toolsets, `configure_jurisdiction` cannot enable the tool,
+/// so the message names the variable and points at the client configuration.
+pub(crate) fn disabled_tool_message(
+    name: &str,
+    toolset: phn_core::Toolset,
+    config: &phn_core::Config,
+) -> String {
+    let pins: Vec<&str> = config
+        .env_overrides()
+        .into_iter()
+        .filter(|v| matches!(*v, "PHN_PROFILE" | "PHN_TOOLSETS"))
+        .collect();
+    if pins.is_empty() {
+        format!(
+            "The tool '{name}' belongs to the '{toolset}' toolset, which is not enabled. \
+             Enable it with configure_jurisdiction (toolsets) or PHN_TOOLSETS."
+        )
+    } else {
+        format!(
+            "The tool '{name}' belongs to the '{toolset}' toolset, which is not enabled. The \
+             enabled toolsets are fixed by {} in the MCP client configuration (the server's \
+             docker arguments), so configure_jurisdiction cannot enable it. To use this tool, \
+             ask the nurse to edit the client configuration (add '{toolset}' to PHN_TOOLSETS, \
+             or change or remove PHN_PROFILE) and restart the client.",
+            pins.join(" and ")
+        )
+    }
+}
+
 /// Run blocking work (file parsing, indexing) off the async runtime.
 pub(crate) async fn blocking<T, F>(ctx: &Arc<Context>, f: F) -> CallToolResult
 where
@@ -248,11 +278,9 @@ impl ServerHandler for PhnServer {
         if let Some(meta) = phn_tools::registry::tool(&name)
             && !self.ctx.enabled_toolsets().contains(&meta.toolset)
         {
-            return Ok(CallToolResult::error(vec![ContentBlock::text(format!(
-                "The tool '{name}' belongs to the '{}' toolset, which is not enabled. \
-                     Enable it with configure_jurisdiction (toolsets) or PHN_TOOLSETS.",
-                meta.toolset
-            ))])
+            return Ok(CallToolResult::error(vec![ContentBlock::text(
+                disabled_tool_message(&name, meta.toolset, &self.ctx.config),
+            )])
             .into());
         }
         let tcc = ToolCallContext::new(self, request, context);
@@ -315,4 +343,32 @@ pub(crate) fn resource(
         .with_title(title)
         .with_description(description)
         .with_mime_type(mime)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::disabled_tool_message;
+    use phn_core::{Config, Profile, Toolset};
+    use std::path::Path;
+
+    #[test]
+    fn disabled_tool_message_names_the_pinning_variable() {
+        let mut c = Config::for_root(Path::new("/unused"));
+        let free = disabled_tool_message("steadi_fall_risk_assessment", Toolset::Aging, &c);
+        assert!(free.contains("'aging' toolset, which is not enabled"));
+        assert!(free.contains("Enable it with configure_jurisdiction (toolsets)"));
+
+        // With PHN_PROFILE pinned (the README's configuration), saving toolsets
+        // cannot work, so the message must not suggest it.
+        c.env_profile = Some(Profile::CdNurse);
+        let pinned = disabled_tool_message("steadi_fall_risk_assessment", Toolset::Aging, &c);
+        assert!(pinned.contains("not enabled"));
+        assert!(pinned.contains("fixed by PHN_PROFILE in the MCP client configuration"));
+        assert!(pinned.contains("configure_jurisdiction cannot enable it"));
+        assert!(!pinned.contains("Enable it with configure_jurisdiction"));
+
+        c.env_toolsets = Some([Toolset::Cd].into());
+        let both = disabled_tool_message("steadi_fall_risk_assessment", Toolset::Aging, &c);
+        assert!(both.contains("fixed by PHN_PROFILE and PHN_TOOLSETS"));
+    }
 }

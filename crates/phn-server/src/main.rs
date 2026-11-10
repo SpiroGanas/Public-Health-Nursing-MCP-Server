@@ -53,6 +53,10 @@ async fn main() -> anyhow::Result<()> {
     for w in &ctx.startup_warnings {
         tracing::warn!("{w}");
     }
+    // Out-of-range values in the settings file are ignored; say so on stderr.
+    for w in ctx.settings().warnings() {
+        tracing::warn!("{w}");
+    }
     tracing::info!(
         version = phn_core::VERSION,
         toolsets = ?ctx.enabled_toolsets(),
@@ -86,6 +90,13 @@ fn check() -> anyhow::Result<()> {
     println!("cache folder:  {}", ctx.config.paths.cache_dir.display());
     println!("settings file: {}", ctx.config.settings_path.display());
     println!("offline mode:  {}", ctx.config.offline);
+    // Date calculations ("today", deadlines) use this clock; in the Docker image
+    // TZ=America/New_York makes it Massachusetts time (-05:00 or -04:00).
+    println!(
+        "local time:    {} (TZ={})",
+        phn_core::local_time_label(),
+        std::env::var("TZ").unwrap_or_else(|_| "not set".into())
+    );
     println!(
         "town:          {}",
         settings.jurisdiction.town.as_deref().unwrap_or("not set")
@@ -100,7 +111,7 @@ fn check() -> anyhow::Result<()> {
     );
     println!(
         "suppression:   counts of 1-{} suppressed",
-        ctx.suppression_threshold() - 1
+        ctx.suppression_threshold().saturating_sub(1)
     );
     println!(
         "municipalities: {}, school districts: {}",
@@ -115,6 +126,9 @@ fn check() -> anyhow::Result<()> {
         );
     }
     for w in &ctx.startup_warnings {
+        println!("warning: {w}");
+    }
+    for w in settings.warnings() {
         println!("warning: {w}");
     }
     println!("OK");

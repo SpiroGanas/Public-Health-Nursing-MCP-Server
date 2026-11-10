@@ -6,6 +6,10 @@ mounted folder and the `epr`, `comms`, and `core` toolsets enabled (for example
 emails: those must appear only in the documents written to `output/`, never in the chat. Record
 pass/fail and notes. Pilot 3 is a tabletop exercise designed with `design_hseep_exercise`.
 
+Prompt 16 may also suggest `plan_vaccination_clinic`, which is in the `vax` toolset and is not
+part of the `preparedness` profile. To include it, start the server with
+`PHN_TOOLSETS=epr,env,epi,equity,comms,cd,vax` instead of the profile.
+
 | # | Prompt | Expected tool | Check |
 |---|---|---|---|
 | 1 | "Make an Incident Action Plan for the Maple Grove School measles exposure for tomorrow 0700 to 1900. I am the Planning Section Chief. Use staff_roster.csv for the organization and contacts. Objectives: notify all exposed students and staff by noon; offer MMR at a 2 p.m. clinic." | `generate_ics_forms` | IAP folder in `output/` with ICS 202, 203, 204, 205, 205A, 206, 207, 208 and `Incident_Action_Plan.docx`. The chat shows only counts for the roster (12 staff) and the blocks still blank (for example the 206 hospitals); no staff names or phone numbers from the file. Open the IAP: block numbers and labels match FEMA's forms; the 205A lists contacts and is marked "not for public release"; measles suggestions (N95, documented immunity) are offered with sources. |

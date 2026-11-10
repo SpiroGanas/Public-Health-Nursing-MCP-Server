@@ -156,6 +156,7 @@ field names, and generic file names.
 | Argument | Default | |
 |---|---|---|
 | `table` or `path` | | Inline `{columns, rows}` or a CSV/XLSX of counts. |
+| `sheet` | | Sheet name for an XLSX file. |
 | `label_columns` | detected | Leading text columns. |
 | `threshold` | configured (5) | |
 | `suppress_zeros` | false | |
@@ -316,7 +317,8 @@ line chart of observed and modeled values. Golden tests: R `glm`, `MASS::glm.nb`
 Give one kind of data: `groups` (name + values), `paired` (`before`, `after`), `table`
 (`row_labels`, `column_labels`, `counts`), `x` and `y`, or a local file: `path` (+ `sheet`) with
 `outcome` and `group`, `paired_with`, or `predictors` (regression; `outcome_event` for logistic).
-`test` defaults to `auto`; `confidence` 0.95.
+`test` defaults to `auto`; `confidence` 0.95. Optional labels: `question` (the question in
+words, repeated in the answer) and `x_name` and `y_name` (names for the two measurements).
 
 Automatic choice: two groups → Welch t (or Mann–Whitney if not normal: Shapiro–Wilk p < 0.05
 with n < 30); 3+ groups → ANOVA, Welch ANOVA (unequal variances by the median-centered Levene
@@ -496,6 +498,7 @@ DPH 2022 measles chapter and the 2013 ACIP statement). Decision support.
 | `counts` | (required) | At least 8 periods, oldest first. |
 | `frequency` | `weekly` | `daily`, `weekly`, or `monthly`. |
 | `period_labels` or `start_date` | | Labels for the periods. |
+| `series_name` | | What is being counted, e.g. "ILI emergency department visits". |
 | `methods` | all | `ears_c1`, `ears_c2`, `ears_c3`, `cusum`, `farrington`. |
 | `ears_min_sigma` | 0.5 when counts are sparse | Floor for the baseline SD. |
 | `cusum_k`, `cusum_h`, `cusum_baseline_periods` | 0.5, 4, first half (≤ 52) | |
@@ -1047,7 +1050,10 @@ is in `content/school/` (pending review, due 2027-02-01). The school year runs J
 **Templates and translations.** Tools that write letters or plans for families (SCH-02, SCH-04,
 SCH-05) ship English templates only. An agency adds its own approved translations as
 `/data/templates/<language>/<kind>.md`, where `<language>` is a language name or code found in the
-nurse's file (`spanish` or `es`, `portuguese` or `pt`, `haitian-creole` or `ht`, ...). Kinds:
+nurse's file (`spanish` or `es`, `portuguese` or `pt`, `haitian_creole` or `ht`, ...). For a
+language with two words, name the folder `haitian_creole` (recommended), `haitian-creole`, or
+`ht`. Other tools that read `/data/templates/` match folder names in slightly different ways;
+ADR 0010 lists them. Kinds:
 `vision_referral`, `hearing_referral`, `postural_referral`, `concussion_caregiver_letter`, and
 `<condition>_emergency_plan` (`diabetes`, `asthma`, `seizures`, `food_allergy`). Each English
 template is written next to the documents as `template_english_<kind>.md`; keep its
@@ -1193,7 +1199,8 @@ child care, and 606 CMR 7.11(9) for child care. Exact counts go to
 | `visit_log_path`, `visit_log_sheet` | | Health office visits: Date, Reason, Disposition; optional Grade, Type (student/staff), 911 Type, Injury, Head Injury, Student ID (used only to count distinct students). |
 | `medication_log_path`, `medication_log_sheet` | | Doses: Date and Type (scheduled or PRN). |
 | `screening_path`, `screening_sheet` | | The roster `track_school_screenings` reads. |
-| `school_year` | current | e.g. `2025-2026`. |
+| `school_year` | the school year that contains `as_of` | e.g. `2025-2026`. |
+| `as_of` | today | Evaluation date, YYYY-MM-DD; it sets the default school year. |
 | `enrollment` | | For per-student rates. |
 | `school_name`, `summary_format` | | Report title; `docx` or `pdf`. |
 
@@ -1304,7 +1311,8 @@ Annual Childhood Lead Poisoning Surveillance Report), checked against snapshot
 **Translations:** the server ships an English teaching sheet only. For another language, put
 the agency's approved translation at `/data/templates/<language>/lead_family_teaching.docx` (used
 as is) or `.md` (rendered with your letterhead). `<language>` is the folder name you choose, for
-example `spanish` or `es` (common codes and names are both tried). If none is found, the
+example `spanish` or `es` (common codes and names are both tried). For a language with two
+words use `haitian_creole` (recommended), `haitian-creole`, or `ht`. If none is found, the
 English sheet is written and the result says so; the server does not machine-translate.
 
 Content: `mch-lead-screening` (pending review). DPH's follow-up table combines Massachusetts
@@ -1487,7 +1495,7 @@ checklist. Narrative notes and client lists are read locally and never returned.
 | Argument | Default | |
 |---|---|---|
 | `index_case` | required | Clinical facts only: `site` (`pulmonary`, `laryngeal`, `pleural`, `extrapulmonary_only`), `symptomatic`, `afb_smear_positive`, `cavitary`, `chest_radiograph` (`consistent_with_tb`, `abnormal_not_consistent`, `normal`, `not_done`), `naa_positive`, `culture_positive`, `mdr_tb`, `age_years`, and dates: `symptom_onset_date`, `first_positive_finding_date`, `suspected_diagnosis_date`, `treatment_start_date`, `isolation_start_date`, `infectious_period_end_date`. |
-| `contact_groups` | | Counts and risk facts, never names: `setting` (`household`, `workplace`, `school`, `child_care`, `congregate_living`, `medical_procedure`, `health_care`, `social`, `travel`, `other`), `count`, `age_band` (`under_5`, `5_to_15`, `16_plus`), `medical_risk`, `exceeds_high_priority_limits`, `exceeds_medium_priority_limits`, `last_exposure_date`, `prior_positive_test`. |
+| `contact_groups` | | Counts and risk facts, never names: `setting` (`household`, `workplace`, `school`, `child_care`, `congregate_living`, `medical_procedure`, `health_care`, `social`, `travel`, `other`), `count`, `age_band` (`under_5`, `5_to_15`, `16_plus`, or `unknown`), `medical_risk`, `exceeds_high_priority_limits`, `exceeds_medium_priority_limits`, `last_exposure_date`, `prior_positive_test`. |
 | `contact_file`, `sheet` | | A local contact list (columns such as Age or DOB, Household, Setting, Medical Risk, Last Exposure, Test1 Result, Test2 Result). |
 | `listed_date` | today | Starts the Table 3 time frames. |
 | `write_workbook`, `template_rows` | true, 50 | XLSX tracking workbook in `/data/output`. |
@@ -1571,7 +1579,8 @@ omahasystem.org are marked unverified.
 
 Classifies activities by the 17 interventions, 5 wedges, and 3 levels of practice of the Public
 Health Intervention Wheel, with definitions and confidence (MDH's own page could not be fetched;
-four definitions are low confidence).
+the definitions of four interventions (surveillance, screening, delegated functions, and
+consultation) and of the three levels of practice are low confidence).
 
 ### `nursing_documentation_template` (CORE-03, toolset `core`)
 
@@ -1971,6 +1980,7 @@ overridable.
 | `key_messages`, `call_to_action`, `quotes` (`speaker`, `text`) | | Quote officials only. |
 | `contact` (`name`, `phone`, `email`, `after_hours_phone`) | | |
 | `release_date`, `embargo_until` | today, none | No embargo gives "For immediate release". |
+| `target_grade` | 8 | Reading grade to aim for. |
 | `draft_text` | | Check an existing draft instead of the built structure. |
 | `export` | none | `docx` in `/data/output`. |
 
@@ -2092,14 +2102,17 @@ redirects to FEMA's Resilience Analysis and Planning Tool, which was blocked.
 | `intake_path` | | CSV/XLSX of registrants in `/data` (question ids as columns). |
 | `residents_per_health_staff`, `fnss_residents_per_support_staff`, `lep_residents_per_interpreter` | 50, 10, 25 | Staffing ratios (tool defaults). |
 
-Returns the CMIST intake template (26 questions in five domains, dispositions) and the CDC PHEP
+Returns the CMIST intake template (25 questions in five domains, dispositions) and the CDC PHEP
 mass care tasks. Estimates apply local rates (ACS limited English, disability, 65+, under 5, no
 vehicle; PLACES hearing, vision, cognition, mobility, self-care, independent living, COPD,
 diabetes; emPOWER electricity dependence) to the expected residents. With `intake_path` it
 writes one completed form per registrant to `/data/output` (in an agency translation from
 `/data/templates/<language>/cmist_intake.md` when present, otherwise English, counted) and
 returns only counts of "yes" by question and registrants by language, suppressed below the
-threshold. Identifying details are never returned.
+threshold. For this tool `<language>` must be the language exactly as it is written in the
+registration file, in lower case (`spanish`; a two-word language keeps its space, as in
+`haitian creole`); codes such as `es` are not matched to names. Identifying details are never
+returned.
 
 ### `get_electricity_dependent_population` (EPR-04, toolset `epr`)
 
@@ -2153,6 +2166,7 @@ written to `/data/output` (ADR 0009).
 | `forms` | `iap` (202, 203, 204, 205, 205A, 206, 207, 208) | Any of 201, 202, 203, 204, 205, 205A, 206, 207, 208, 213, 213RR, 214, 215A, or `all`. |
 | `incident_name`, `incident_number` | | Block 1 (and 2) of every form. |
 | `period_start`, `period_end` | | Operational period, `YYYY-MM-DD HH:MM` (24-hour clock). |
+| `initiated` | `period_start` | ICS 201 date and time initiated. |
 | `prepared_at`, `prepared_by`, `approved_by` | now; the Planning Section Chief; the Incident Commander | Prepared-by and approval blocks (signatures are by hand). |
 | `objectives`, `command_emphasis`, `situational_awareness`, `situation_summary`, `actions`, `safety_message`, `site_safety_plan_required`, `site_safety_plan_location` | | ICS 201, 202, and 208 text. |
 | `organization` | from the roster's position column when empty | Position, name, agency (names only; never phone numbers). |
@@ -2222,7 +2236,8 @@ privacy block with a request to use the roster instead. Decision support only.
 | `objectives` | the scenario's suggested objectives | Each `{text, capabilities}`; capabilities are PHEP numbers or names and/or FEMA core capabilities. |
 | `area`, `agency`, `sponsor`, `exercise_name` | saved town; letterhead agency or "<town> Board of Health" | Fill `{{town}}` and `{{agency}}` in the scenario. |
 | `date`, `start_time`, `duration_hours`, `location`, `scope` | 09:00; by type (tabletop 3.5 h) | Schedule and planning timeline. |
-| `participants`, `organizations`, `point_of_contact` | | Positions, optional names, exercise roles (player, facilitator, evaluator, controller, observer). |
+| `capabilities` | | Extra capabilities to exercise beyond those named in the objectives. |
+| `participants`, `organizations`, `point_of_contact` | | Positions, optional names, exercise roles (player, facilitator, evaluator, controller, simulator, observer, planner). |
 | `roster_path`, `roster_sheet` | | Staff roster (name, position, phone, email); contacts go only into the files. |
 | `documents` | `docx` | `pdf`, `both`, or `none`. |
 
@@ -2300,7 +2315,8 @@ seconds at 3 words per second; empathy first; ≤ 12 words per sentence on avera
 known/unknown/doing and next update in the holding statement; loaded words (shared with
 COMM-04); client identifiers; safe messaging when suicide is mentioned. Agency translations are
 read from `/data/templates/<language>/cerc_<id>.md` (ACS names are matched to folder names, e.g.
-"Haitian" → `haitian-creole`); other languages get a COMM-02 translator brief. Nothing is
+"Haitian" → `haitian_creole` or `haitian-creole`); other languages get a COMM-02 translator
+brief. Nothing is
 machine-translated. Contact details found in the request are reported in the privacy block.
 
 ### MCP prompt: `plan_tabletop_exercise`

@@ -62,20 +62,21 @@ impl Table {
     pub fn new(a: u64, b: u64, c: u64, d: u64) -> Self {
         Self { a, b, c, d }
     }
+    // Margins saturate instead of overflowing on absurd counts.
     pub fn n1(&self) -> u64 {
-        self.a + self.b
+        self.a.saturating_add(self.b)
     }
     pub fn n0(&self) -> u64 {
-        self.c + self.d
+        self.c.saturating_add(self.d)
     }
     pub fn m1(&self) -> u64 {
-        self.a + self.c
+        self.a.saturating_add(self.c)
     }
     pub fn m0(&self) -> u64 {
-        self.b + self.d
+        self.b.saturating_add(self.d)
     }
     pub fn total(&self) -> u64 {
-        self.a + self.b + self.c + self.d
+        self.n1().saturating_add(self.n0())
     }
     fn f(&self) -> (f64, f64, f64, f64) {
         (self.a as f64, self.b as f64, self.c as f64, self.d as f64)
@@ -245,6 +246,14 @@ pub fn analyze(t: Table, design: Design, confidence: f64) -> TwoByTwo {
     };
 
     let hyper = Hyper::new(&t);
+    if hyper.is_none() && exact_support(&t).is_some() {
+        warnings.push(format!(
+            "This table has more than {MAX_EXACT_SUPPORT} possible arrangements, so the exact \
+             methods (Fisher's exact test, mid-p, and the conditional odds ratio) were skipped. \
+             With counts this large the chi-square tests and the Woolf and Katz intervals are \
+             accurate."
+        ));
+    }
     let alpha = 1.0 - confidence;
     let (exact_or, mid_or) = match &hyper {
         Some(h) => {
@@ -399,6 +408,24 @@ pub fn analyze(t: Table, design: Design, confidence: f64) -> TwoByTwo {
     }
 }
 
+/// Largest number of possible tables (values of `a` given the margins) for
+/// which the exact methods are computed. Each exact interval sums over every
+/// possible table dozens of times, so beyond this the work and memory grow
+/// without any gain in accuracy over the large-sample methods.
+pub const MAX_EXACT_SUPPORT: u64 = 1_000_000;
+
+/// Number of possible values of `a` given the margins, or `None` when a
+/// margin is empty (no exact distribution exists).
+fn exact_support(t: &Table) -> Option<u64> {
+    let (m1, m0, n1) = (t.m1(), t.m0(), t.n1());
+    if t.total() == 0 || n1 == 0 || t.n0() == 0 || m1 == 0 || m0 == 0 {
+        return None;
+    }
+    let lo = n1.saturating_sub(m0);
+    let hi = n1.min(m1);
+    Some(hi.saturating_sub(lo).saturating_add(1))
+}
+
 /// The (noncentral) hypergeometric distribution of `a` given the margins.
 struct Hyper {
     lo: u64,
@@ -410,7 +437,7 @@ struct Hyper {
 impl Hyper {
     fn new(t: &Table) -> Option<Self> {
         let (m1, m0, n1) = (t.m1(), t.m0(), t.n1());
-        if t.total() == 0 || n1 == 0 || t.n0() == 0 || m1 == 0 || m0 == 0 {
+        if exact_support(t)? > MAX_EXACT_SUPPORT {
             return None;
         }
         let lo = n1.saturating_sub(m0);
@@ -557,7 +584,12 @@ pub fn mantel_haenszel(strata: &[Table], design: Design, confidence: f64) -> Str
         ));
     }
     let crude = strata.iter().fold(Table::new(0, 0, 0, 0), |acc, t| {
-        Table::new(acc.a + t.a, acc.b + t.b, acc.c + t.c, acc.d + t.d)
+        Table::new(
+            acc.a.saturating_add(t.a),
+            acc.b.saturating_add(t.b),
+            acc.c.saturating_add(t.c),
+            acc.d.saturating_add(t.d),
+        )
     });
     let crude_res = analyze(crude, design, confidence);
 
@@ -756,5 +788,57 @@ mod tests {
         let bd = s.breslow_day.unwrap();
         assert!(bd.p_value > 0.05);
         assert!(s.mh_odds_ratio.unwrap().value > 1.0);
+    }
+
+    #[test]
+    fn breslow_day_df_counts_only_informative_strata() {
+        // Two strata with different odds ratios (3.86 and 1.00), and the same
+        // two plus a stratum with no cases. The empty stratum has no expected
+        // table and adds nothing, so both analyses must agree: statistic
+        // 6.577 on 1 df, p = 0.0103 (the old code used 2 df: p = 0.037).
+        let two = [Table::new(30, 70, 10, 90), Table::new(20, 80, 20, 80)];
+        let three = [two[0], two[1], Table::new(0, 10, 0, 12)];
+        let a = mantel_haenszel(&two, Design::Cohort, 0.95)
+            .breslow_day
+            .unwrap();
+        let b = mantel_haenszel(&three, Design::Cohort, 0.95)
+            .breslow_day
+            .unwrap();
+        assert_eq!(b.df, Some(1.0));
+        assert!((b.statistic.unwrap() - 6.5771).abs() < 1e-3, "{b:?}");
+        assert!((b.p_value - 0.0103).abs() < 2e-4, "{b:?}");
+        assert!((a.statistic.unwrap() - b.statistic.unwrap()).abs() < 1e-9);
+        assert!((a.p_value - b.p_value).abs() < 1e-12);
+        // One informative stratum cannot test homogeneity.
+        let one = [Table::new(30, 70, 10, 90), Table::new(0, 10, 0, 12)];
+        assert!(
+            mantel_haenszel(&one, Design::Cohort, 0.95)
+                .breslow_day
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn very_large_tables_skip_exact_methods() {
+        // 3.5 million possible tables: the exact methods are skipped with a
+        // note; large-sample results are still reported.
+        let big = Table::new(2_000_000, 5_000_000, 1_500_000, 5_500_000);
+        assert_eq!(exact_support(&big), Some(3_500_001));
+        let r = analyze(big, Design::Cohort, 0.95);
+        assert!(r.odds_ratio_exact.is_none() && r.odds_ratio_mid_p.is_none());
+        assert!(r.exact.is_empty());
+        assert!(r.warnings.iter().any(|w| w.contains("exact")), "{:?}", r.warnings);
+        assert_eq!(r.chi_square.len(), 3);
+        let rr = r.risk_ratio.unwrap();
+        assert!((rr.value - (2.0 / 7.0) / (1.5 / 7.0)).abs() < 1e-12);
+        assert!(r.odds_ratio.is_some());
+        // Ordinary tables keep their exact results, and absurd counts do not
+        // overflow the margins.
+        let small = analyze(Table::new(30, 10, 5, 25), Design::Cohort, 0.95);
+        assert_eq!(small.exact.len(), 4);
+        assert!(small.odds_ratio_exact.is_some());
+        let huge = Table::new(u64::MAX, u64::MAX, 1, 1);
+        assert_eq!(huge.total(), u64::MAX);
+        assert!(Hyper::new(&huge).is_none());
     }
 }

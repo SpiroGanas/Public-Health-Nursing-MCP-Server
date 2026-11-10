@@ -4,6 +4,9 @@
 //! * `http_cache`: bodies of live responses with a time-to-live, so a later
 //!   call can fall back to the cached copy when the API is unreachable.
 //! * `source_status`: the latest reachability check for each data source.
+//!
+//! Bodies fetched more than [`MAX_AGE_DAYS`] ago are deleted when the cache
+//! is opened, so the file does not grow without limit.
 
 use std::path::Path;
 use std::sync::Mutex;
@@ -22,6 +25,10 @@ pub struct CachedBody {
     /// True when the entry is younger than its time-to-live.
     pub fresh: bool,
 }
+
+/// Cached bodies older than this are deleted when the cache is opened. The
+/// longest time-to-live in use is 30 days, so nothing still fresh is removed.
+pub const MAX_AGE_DAYS: i64 = 90;
 
 /// SQLite-backed cache. Cheap operations run inline under a mutex.
 #[derive(Debug)]
@@ -63,9 +70,27 @@ impl Cache {
              );",
         )
         .map_err(db_err)?;
-        Ok(Self {
+        let cache = Self {
             conn: Mutex::new(conn),
-        })
+        };
+        if let Err(e) = cache.prune(Utc::now()) {
+            tracing::warn!(error = %e, "could not prune the HTTP cache");
+        }
+        Ok(cache)
+    }
+
+    /// Delete bodies fetched more than [`MAX_AGE_DAYS`] before `now`. Returns
+    /// the number of bodies removed.
+    pub fn prune(&self, now: DateTime<Utc>) -> Result<usize> {
+        // `fetched_at` is always written as UTC RFC 3339 text, which sorts
+        // in time order.
+        let cutoff = (now - chrono::Duration::days(MAX_AGE_DAYS)).to_rfc3339();
+        self.lock()
+            .execute(
+                "DELETE FROM http_cache WHERE fetched_at < ?1",
+                params![cutoff],
+            )
+            .map_err(db_err)
     }
 
     fn lock(&self) -> std::sync::MutexGuard<'_, Connection> {
@@ -112,6 +137,19 @@ impl Cache {
         }))
     }
 
+    /// Read a cached body, treating a read error as a miss. The error is
+    /// logged (to stderr) so a damaged cache never blocks the live API or the
+    /// bundled snapshot.
+    pub fn get_or_miss(&self, key: &str) -> Option<CachedBody> {
+        match self.get(key) {
+            Ok(hit) => hit,
+            Err(e) => {
+                tracing::warn!(error = %e, "could not read the HTTP cache; treating it as a miss");
+                None
+            }
+        }
+    }
+
     /// Record the latest reachability check for a source.
     pub fn record_probe(&self, source_id: &str, result: &ProbeResult) -> Result<()> {
         let json = serde_json::to_string(result)
@@ -156,6 +194,37 @@ mod tests {
         c.put_at("old", b"x", 60, Utc::now() - chrono::Duration::hours(2))
             .unwrap();
         assert!(!c.get("old").unwrap().unwrap().fresh);
+    }
+
+    #[test]
+    fn read_errors_are_treated_as_a_miss() {
+        let c = Cache::in_memory().unwrap();
+        c.put("k", b"hello", 3600).unwrap();
+        assert!(c.get_or_miss("k").is_some());
+        // Simulate a damaged cache: the table is gone.
+        c.lock().execute_batch("DROP TABLE http_cache").unwrap();
+        assert!(c.get("k").is_err());
+        assert!(c.get_or_miss("k").is_none());
+    }
+
+    #[test]
+    fn old_bodies_are_pruned_when_the_cache_opens() {
+        let dir = tempfile::tempdir().unwrap();
+        let path = dir.path().join("cache.sqlite");
+        let c = Cache::open(&path).unwrap();
+        let now = Utc::now();
+        c.put_at("ancient", b"x", 60, now - chrono::Duration::days(MAX_AGE_DAYS + 10))
+            .unwrap();
+        c.put_at("stale", b"y", 60, now - chrono::Duration::days(MAX_AGE_DAYS - 10))
+            .unwrap();
+        c.put("fresh", b"z", 60).unwrap();
+        drop(c);
+        let c = Cache::open(&path).unwrap();
+        assert!(c.get("ancient").unwrap().is_none());
+        // A stale copy inside the limit is kept as a fallback.
+        assert!(!c.get("stale").unwrap().unwrap().fresh);
+        assert!(c.get("fresh").unwrap().unwrap().fresh);
+        assert_eq!(c.prune(now + chrono::Duration::days(MAX_AGE_DAYS + 1)).unwrap(), 2);
     }
 
     #[test]
