@@ -214,16 +214,16 @@ const frontChapters = [
               widths: [1700, 2500, 2860, 2300],
               header: ['Profile', 'Intended for', 'Tool groups included', 'Not included'],
               rows: [
-                ['school_nurse', 'School nurses', 'core, vax, cd, epi, comms', 'equity, chronic, ebp'],
-                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'chronic, ebp'],
-                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, comms, ebp, chronic', 'cd, vax'],
-                ['preparedness', 'Emergency preparedness coordinators', 'core, epi, equity, comms, cd', 'vax, chronic, ebp'],
+                ['school_nurse', 'School nurses', 'core, school, vax, cd, bh, comms, epi', 'mch, aging, epr, env, equity, chronic, ebp'],
+                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'school, mch, aging, bh, epr, env, chronic, ebp'],
+                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, comms, ebp, chronic', 'cd, vax, school, mch, aging, bh, epr, env'],
+                ['preparedness', 'Emergency preparedness coordinators', 'core, epr, env, epi, equity, comms, cd', 'vax, school, mch, aging, bh, chronic, ebp'],
                 ['(none)', 'Anyone who wants every tool', 'All groups', '—'],
               ],
             },
           },
           {
-            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. Profiles also switch on groups reserved for future versions; those have no effect yet.',
+            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. The phn_leader profile also switches on three groups reserved for future versions (planning, leadership, and policy); they have no tools yet. The mch and aging groups are not part of any profile: ask Claude to turn them on (for example “Turn on the mch toolset”), or use no profile.',
           },
         ],
       },
@@ -232,9 +232,9 @@ const frontChapters = [
         blocks: [
           {
             bullets: [
-              '**Bundled reference content**, drafted from 105 CMR 300.000, DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, and EPA, each entry with its citation and a confidence level. All of it is pending expert review.',
-              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, and recent CDC surveillance data.',
-              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, and DailyMed.',
+              '**Bundled reference content**, drafted from Massachusetts regulations and laws (105 CMR 300.000 and the school health, lead, and child care regulations cited in each chapter; the Massachusetts General Laws on mandated reporting and health care proxies), DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, EPA, CMS, and FEMA’s incident command and exercise materials, each entry with its citation and a confidence level. All of it is pending expert review.',
+              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, recent CDC surveillance data, CDC and WHO growth charts, DPH lead screening, birth, overdose, and youth survey tables, directories of aging and behavioral health services, CMS nursing home data, FEMA disaster declarations, and HHS emPOWER counts.',
+              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, DailyMed, the National Weather Service, AirNow, OpenFEMA, HHS emPOWER, CMS Provider Data, HRSA, and FindTreatment.gov.',
               '**Your own files** in the data folder.',
             ],
           },

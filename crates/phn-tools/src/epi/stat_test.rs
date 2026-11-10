@@ -145,6 +145,10 @@ pub struct RegressionResult {
     /// Overall test: F (linear) or likelihood-ratio χ² (logistic).
     pub overall: Test,
     pub aic: f64,
+    /// Problems with the fit that make the estimates unreliable (for example
+    /// a predictor that perfectly separates the outcome).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub warnings: Vec<String>,
 }
 
 /// Result of `run_statistical_test`.
@@ -422,7 +426,9 @@ fn base(desc: String, selected: &str, why: String) -> StatTestResult {
 }
 
 fn sig_text(p: f64) -> &'static str {
-    if p < 0.05 {
+    if p.is_nan() {
+        "could not be tested because the data have no variation"
+    } else if p < 0.05 {
         "is statistically significant at the 5% level"
     } else {
         "is not statistically significant at the 5% level"
@@ -689,6 +695,14 @@ fn correlate(
         r.n_used = x.len();
         return Ok(r);
     }
+    let constant = |v: &[f64]| v.windows(2).all(|w| w[0] == w[1]);
+    for (name, v) in [(xn, x), (yn, y)] {
+        if constant(v) {
+            return Err(PhnError::InvalidInput(format!(
+                "every value of {name} is the same, so a correlation cannot be calculated"
+            )));
+        }
+    }
     let (nx, _) = normal_enough(x);
     let (ny, _) = normal_enough(y);
     let picked = match choice {
@@ -940,6 +954,23 @@ fn contingency(
 
 fn regression(data: &GlmData, family: Family, conf: f64) -> Result<RegressionResult> {
     let f = glm::fit(data, family, conf).map_err(PhnError::InvalidInput)?;
+    let mut warnings = Vec::new();
+    if f.has_separation() {
+        warnings.push(
+            "A predictor (or a combination of predictors) predicts the outcome perfectly or \
+             almost perfectly (separation). The odds ratios, confidence intervals, and p-values \
+             below cannot be trusted: a huge odds ratio with a p-value near 1 is a symptom, not \
+             a finding. For one yes/no predictor use Fisher's exact test (analyze_two_by_two); \
+             otherwise combine sparse categories or drop the predictor."
+                .to_string(),
+        );
+    } else if !f.converged {
+        warnings.push(
+            "The model did not converge, so the estimates may be unreliable. Simplify the \
+             model (fewer predictors or combined categories) or collect more data."
+                .to_string(),
+        );
+    }
     let p = f.coefficients.len() as f64;
     let n = f.n as f64;
     let terms = f
@@ -1009,6 +1040,7 @@ fn regression(data: &GlmData, family: Family, conf: f64) -> Result<RegressionRes
         adjusted_r_squared: adj,
         overall,
         aic: f.aic,
+        warnings,
     })
 }
 
@@ -1041,6 +1073,9 @@ fn regression_markdown(r: &RegressionResult, conf: f64) -> String {
         if logistic { "Logistic" } else { "Linear" },
         r.n
     );
+    for w in &r.warnings {
+        s.push_str(&format!("> **Warning:** {w}\n\n"));
+    }
     s.push_str(&md::table(
         &["Term", &format!("Estimate ({pctl} CI)"), "p"],
         &rows,
@@ -1061,6 +1096,9 @@ fn regression_markdown(r: &RegressionResult, conf: f64) -> String {
 }
 
 fn regression_interpretation(r: &RegressionResult) -> String {
+    if !r.warnings.is_empty() {
+        return format!("**Do not interpret these estimates.** {}", r.warnings.join(" "));
+    }
     let sig: Vec<&str> = r
         .terms
         .iter()

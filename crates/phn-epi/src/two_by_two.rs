@@ -678,6 +678,9 @@ fn breslow_day_tarone(strata: &[&Table], or_mh: f64) -> Option<TestResult> {
         return None;
     }
     let (mut bd, mut sum_diff, mut sum_var) = (0.0, 0.0, 0.0);
+    // Strata with an empty margin have no expected table and add nothing to
+    // the statistic, so they do not count toward the degrees of freedom.
+    let mut used = 0usize;
     for t in strata {
         let (a, _, _, _) = t.f();
         let (n1, n0, m1) = (t.n1() as f64, t.n0() as f64, t.m1() as f64);
@@ -698,12 +701,13 @@ fn breslow_day_tarone(strata: &[&Table], or_mh: f64) -> Option<TestResult> {
         bd += (a - ea).powi(2) / v;
         sum_diff += a - ea;
         sum_var += v;
+        used += 1;
     }
-    if sum_var <= 0.0 {
+    if sum_var <= 0.0 || used < 2 {
         return None;
     }
     let stat = bd - sum_diff.powi(2) / sum_var;
-    let df = (strata.len() - 1) as f64;
+    let df = (used - 1) as f64;
     Some(TestResult {
         name: "Breslow–Day test of homogeneity (Tarone-corrected)".into(),
         statistic: Some(stat),

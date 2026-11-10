@@ -55,6 +55,9 @@ pub struct Coefficient {
     pub upper: f64,
 }
 
+/// Fitted probabilities this close to 0 or 1 signal separation.
+const SEPARATION_EPS: f64 = 1e-7;
+
 /// A fitted model.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct GlmFit {
@@ -121,6 +124,12 @@ fn validate(d: &GlmData, family: Family) -> Result<(), String> {
         Family::Poisson | Family::NegativeBinomial => {
             if d.y.iter().any(|v| *v < 0.0) {
                 return Err("counts cannot be negative".into());
+            }
+            if d.y.iter().all(|v| *v == 0.0) {
+                return Err(
+                    "every count is zero, so there are no events to model a rate or trend from"
+                        .into(),
+                );
             }
         }
         Family::Binomial => {
@@ -558,6 +567,20 @@ impl GlmFit {
             z_two_sided(self.confidence)
         };
         (est, est - crit * se, est + crit * se)
+    }
+
+    /// True when a logistic model has fitted probabilities that are
+    /// numerically 0 or 1. This is the sign of complete or quasi-complete
+    /// separation: some predictor (or combination) predicts the outcome
+    /// perfectly, the maximum-likelihood estimate does not exist, and the
+    /// reported coefficients, standard errors, and Wald p-values are not
+    /// usable (R warns "fitted probabilities numerically 0 or 1 occurred").
+    pub fn has_separation(&self) -> bool {
+        self.family == Family::Binomial
+            && self
+                .fitted
+                .iter()
+                .any(|m| *m < SEPARATION_EPS || *m > 1.0 - SEPARATION_EPS)
     }
 
     /// The coefficient with this name.

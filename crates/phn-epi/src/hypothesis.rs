@@ -234,6 +234,26 @@ fn wilcox_counts(m: usize, n: usize) -> Vec<f64> {
     table[m].clone()
 }
 
+/// Two-sided p-value for a rank statistic centered at zero (`zz`) with
+/// standard deviation `sigma`, using the continuity correction of R's
+/// `wilcox.test`: 0.5 toward zero, and none when the statistic is exactly at
+/// its expected value. (`f64::signum(0.0)` is 1.0, unlike R's `sign(0)`, so
+/// the sign is taken explicitly.) When every value is tied (`sigma` = 0)
+/// the data carry no evidence of a difference and p = 1.
+fn p_rank_normal(zz: f64, sigma: f64) -> f64 {
+    if !(sigma > 0.0) {
+        return 1.0;
+    }
+    let corr = if zz > 0.0 {
+        0.5
+    } else if zz < 0.0 {
+        -0.5
+    } else {
+        0.0
+    };
+    p_normal_two_sided((zz - corr) / sigma)
+}
+
 /// Mann–Whitney U / Wilcoxon rank-sum test (as R `wilcox.test(x, y)`).
 /// The statistic is W = rank sum of x − nx(nx+1)/2.
 pub fn mann_whitney(x: &[f64], y: &[f64]) -> Test {
@@ -255,9 +275,8 @@ pub fn mann_whitney(x: &[f64], y: &[f64]) -> Test {
         let zz = w - nxf * nyf / 2.0;
         let tie: f64 = ties.iter().map(|t| t * t * t - t).sum();
         let sigma = (nxf * nyf / 12.0 * ((n + 1.0) - tie / (n * (n - 1.0)))).sqrt();
-        let corr = 0.5 * zz.signum();
         (
-            p_normal_two_sided((zz - corr) / sigma),
+            p_rank_normal(zz, sigma),
             "normal approximation with continuity correction",
         )
     };
@@ -302,9 +321,8 @@ pub fn wilcoxon_signed_rank(x: &[f64], y: &[f64]) -> Test {
         let zz = v - nf * (nf + 1.0) / 4.0;
         let tie: f64 = ties.iter().map(|t| t * t * t - t).sum();
         let sigma = (nf * (nf + 1.0) * (2.0 * nf + 1.0) / 24.0 - tie / 48.0).sqrt();
-        let corr = 0.5 * zz.signum();
         (
-            p_normal_two_sided((zz - corr) / sigma),
+            p_rank_normal(zz, sigma),
             "normal approximation with continuity correction",
         )
     };
@@ -422,7 +440,11 @@ pub fn chi_square_table(table: &[Vec<f64>]) -> (Test, f64) {
             }
         }
     }
-    let df = ((table.len() - 1) * (table[0].len() - 1)) as f64;
+    // Rows and columns with a zero total contribute no cells, so they do not
+    // count toward the degrees of freedom (or Cramér's V).
+    let used_rows = rows.iter().filter(|v| **v > 0.0).count();
+    let used_cols = cols.iter().filter(|v| **v > 0.0).count();
+    let df = (used_rows.saturating_sub(1) * used_cols.saturating_sub(1)) as f64;
     let mut t = Test::new(
         "Pearson chi-square test of independence",
         "χ²",
@@ -431,8 +453,8 @@ pub fn chi_square_table(table: &[Vec<f64>]) -> (Test, f64) {
         "chi-square approximation",
     );
     t.df = Some(df);
-    let k = (table.len().min(table[0].len()) - 1) as f64;
-    t.effect_size = Some((x2 / (n * k)).sqrt());
+    let k = used_rows.min(used_cols).saturating_sub(1) as f64;
+    t.effect_size = (k > 0.0 && n > 0.0).then(|| (x2 / (n * k)).sqrt());
     t.effect_size_name = Some("Cramér's V".into());
     (t, min_e)
 }
