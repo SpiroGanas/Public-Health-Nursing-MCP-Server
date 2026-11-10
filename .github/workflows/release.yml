@@ -1,9 +1,11 @@
 name: Release
 
+# Runs when a version tag (vMAJOR.MINOR.PATCH) is pushed. There is no manual
+# trigger: the image tags, the release, and the tarball names all come from the
+# tag, so a run without one could not publish anything.
 on:
   push:
     tags: ["v*.*.*"]
-  workflow_dispatch:
 
 permissions:
   contents: write
@@ -15,19 +17,54 @@ env:
 
 jobs:
   image:
-    name: Multi-architecture image, SBOM, scan, signature
+    name: Scan, multi-architecture image, SBOM, signature
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Image name (lowercase)
         run: echo "IMAGE=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+      # QEMU lets the amd64 runner build the arm64 image; Buildx does the builds.
       - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v3
+
+      # --- Checks that must pass before anything is published -----------------
+      # Build the amd64 image into the runner's local Docker engine only.
+      - name: Build amd64 image locally (not pushed)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64
+          load: true
+          tags: phn-mcp-server:scan
+          build-args: VERSION=${{ github.ref_name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      # Scan that local image. A critical or high finding with a fix available
+      # stops the release here, before the registry is touched.
+      - name: Vulnerability scan (local image)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: phn-mcp-server:scan
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: "1"
+      # The SBOM comes from the source tree (Cargo.lock), so it lists every Rust
+      # crate in the server. An SBOM made from the image would list only the
+      # base image's packages, because the binary carries no dependency list.
+      - name: SBOM (CycloneDX) from the source tree
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: sbom.cdx.json
+
+      # --- Publish --------------------------------------------------------------
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # Image tags from the git tag: v1.2.3 gives 1.2.3 and 1.2 (and latest).
       - id: meta
         uses: docker/metadata-action@v5
         with:
@@ -35,6 +72,8 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+      # Build both architectures and push. The amd64 layers come from the build
+      # cache of the scanned image above.
       - id: build
         uses: docker/build-push-action@v6
         with:
@@ -46,22 +85,11 @@ jobs:
           build-args: VERSION=${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - name: SBOM (CycloneDX)
-        uses: anchore/sbom-action@v0
-        with:
-          image: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
-          format: cyclonedx-json
-          output-file: sbom.cdx.json
-      - name: Vulnerability scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          image-ref: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
-          severity: CRITICAL,HIGH
-          ignore-unfixed: true
-          exit-code: "1"
+      # Keyless signature (GitHub's OIDC identity) on the pushed image digest.
       - uses: sigstore/cosign-installer@v3
       - name: Sign image (keyless)
         run: cosign sign --yes "${IMAGE}@${{ steps.build.outputs.digest }}"
+      # One tarball per architecture, for `docker load` on networks that block GHCR.
       - name: Offline image tarballs for networks that block GHCR
         run: |
           for arch in amd64 arm64; do
@@ -69,8 +97,8 @@ jobs:
             docker tag "${IMAGE}@${{ steps.build.outputs.digest }}" "phn-mcp-server:${GITHUB_REF_NAME}-${arch}"
             docker save "phn-mcp-server:${GITHUB_REF_NAME}-${arch}" | gzip > "phn-mcp-server-${GITHUB_REF_NAME}-${arch}.tar.gz"
           done
+      # GitHub release with the SBOM and the tarballs attached.
       - uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             sbom.cdx.json

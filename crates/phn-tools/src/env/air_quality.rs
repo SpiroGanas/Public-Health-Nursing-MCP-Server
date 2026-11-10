@@ -113,7 +113,10 @@ pub struct AirQualityResult {
 
 /// AQI from a concentration with Appendix G truncation and Equation 1.
 /// Returns the AQI and the breakpoint row used, or None below the table
-/// (1-hour ozone under 0.125 ppm).
+/// (1-hour ozone under 0.125 ppm) or above a table that does not reach AQI 500
+/// (8-hour ozone above 0.200 ppm, 1-hour SO2 above 304 ppb: Appendix G uses
+/// another averaging time there). Only a table whose top row ends at AQI 500 is
+/// extrapolated.
 pub fn aqi_from_concentration(t: &BreakpointTable, c: f64) -> Option<(u32, f64, [f64; 4])> {
     if !(c.is_finite() && c >= 0.0) {
         return None;
@@ -125,7 +128,7 @@ pub fn aqi_from_concentration(t: &BreakpointTable, c: f64) -> Option<(u32, f64, 
         .rows
         .iter()
         .find(|r| ct >= r[0] && ct <= r[1])
-        .or_else(|| t.rows.last().filter(|r| ct > r[1]))?;
+        .or_else(|| t.rows.last().filter(|r| ct > r[1] && r[3] >= 500.0))?;
     let i = (row[3] - row[2]) / (row[1] - row[0]) * (ct - row[0]) + row[2];
     Some((i.round() as u32, ct, *row))
 }
@@ -272,10 +275,25 @@ pub async fn air_quality_protective_guidance(
             })?;
             let t = table_for(&aq, p, args.ozone_averaging.as_deref().unwrap_or("8-hour"))?;
             let (i, ct, row) = aqi_from_concentration(t, c).ok_or_else(|| {
-                PhnError::InvalidInput(format!(
-                    "{c} {} is below the {} {} breakpoints; use the 8-hour average for ozone",
-                    t.unit, t.averaging, t.pollutant
-                ))
+                match t.rows.last().filter(|r| c > r[1]) {
+                    // Above a table that stops short of AQI 500.
+                    Some(top) => PhnError::InvalidInput(format!(
+                        "{c} {} is above the highest {} breakpoint ({} {}, AQI {}), and this \
+                         table does not define higher AQI values. {}",
+                        t.unit,
+                        t.pollutant,
+                        top[1],
+                        t.unit,
+                        top[3],
+                        t.note
+                            .as_deref()
+                            .unwrap_or("Use the averaging time 40 CFR 58 Appendix G gives for higher values.")
+                    )),
+                    None => PhnError::InvalidInput(format!(
+                        "{c} {} is below the {} {} breakpoints; use the 8-hour average for ozone",
+                        t.unit, t.averaging, t.pollutant
+                    )),
+                }
             })?;
             if i > 500 {
                 caveats.push(
@@ -705,6 +723,14 @@ mod tests {
         let o8 = table_for(&aq, "O3", "8-hour").unwrap();
         assert_eq!(aqi_from_concentration(o8, 0.070).unwrap().0, 100);
         assert_eq!(aqi_from_concentration(o8, 0.0709).unwrap().0, 100);
+        // 8-hour ozone and 1-hour SO2 stop at AQI 300 and 200: no extrapolation above them.
+        assert_eq!(aqi_from_concentration(o8, 0.200).unwrap().0, 300);
+        assert!(aqi_from_concentration(o8, 0.250).is_none());
+        let so2 = table_for(&aq, "SO2", "").unwrap();
+        assert_eq!(aqi_from_concentration(so2, 304.0).unwrap().0, 200);
+        assert!(aqi_from_concentration(so2, 400.0).is_none());
+        // A table that reaches AQI 500 is still extrapolated above its top row.
+        assert!(aqi_from_concentration(pm, 400.0).unwrap().0 > 500);
         assert_eq!(aq.category_for(101).name, "Unhealthy for Sensitive Groups");
         assert_eq!(aq.category_for(900).name, "Hazardous");
     }

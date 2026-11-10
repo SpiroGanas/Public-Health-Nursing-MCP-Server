@@ -386,7 +386,15 @@ pub fn resolve(query: &str) -> std::result::Result<Cap<'static>, String> {
         .or_else(|| q.strip_prefix("phep "))
         .or_else(|| q.strip_prefix("capability "))
         .unwrap_or(&q);
-    if let Ok(n) = num.parse::<u8>() {
+    // The display form these tools return ("PHEP 13: Public Health Surveillance and
+    // Epidemiological Investigation") is accepted back: after a "PHEP" or "Capability"
+    // prefix, a leading number names the capability.
+    let lead = if num.len() < q.len() {
+        num.split(' ').next().unwrap_or(num)
+    } else {
+        num
+    };
+    if let Ok(n) = lead.parse::<u8>() {
         return CAPS
             .phep
             .iter()
@@ -485,7 +493,16 @@ const CUES: &[(&str, &[&str])] = &[
             "wellness check",
         ],
     ),
-    ("phep-2", &["recover", "restor", "return to normal"]),
+    (
+        "phep-2",
+        &[
+            "recover",
+            "restore",
+            "restoring",
+            "restoration",
+            "return to normal",
+        ],
+    ),
     (
         "phep-3",
         &[

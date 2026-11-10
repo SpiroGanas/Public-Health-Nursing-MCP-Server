@@ -121,11 +121,18 @@ const LOADED: &[&str] = &[
 
 /// Emotionally loaded words found in lower-cased text (CERC: remove adjectives and
 /// loaded words). Shared with EPR-10 `crisis_risk_communication_builder`.
+///
+/// A loaded word matches a whole word or the start of one ("panic", "panicked"),
+/// never the inside of another word ("Hispanic").
 pub(crate) fn loaded_words(lower: &str) -> Vec<&'static str> {
+    let tokens: Vec<&str> = lower
+        .split(|c: char| !c.is_alphanumeric())
+        .filter(|t| !t.is_empty())
+        .collect();
     LOADED
         .iter()
         .copied()
-        .filter(|w| lower.contains(*w))
+        .filter(|w| tokens.iter().any(|t| t.starts_with(*w)))
         .collect()
 }
 
@@ -602,6 +609,16 @@ mod tests {
         std::fs::create_dir_all(dir.path().join("data")).unwrap();
         let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
         (dir, ctx)
+    }
+
+    #[test]
+    fn loaded_words_match_whole_words_not_parts_of_other_words() {
+        assert!(loaded_words("outreach to hispanic residents of the city").is_empty());
+        assert_eq!(
+            loaded_words("a devastating outbreak; residents panicked."),
+            vec!["devastating", "panic"]
+        );
+        assert_eq!(loaded_words("no need to panic"), vec!["panic"]);
     }
 
     #[test]

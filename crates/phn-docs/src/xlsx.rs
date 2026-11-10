@@ -229,4 +229,60 @@ mod tests {
         assert_eq!(t.rows[0], vec!["Amherst", "3", "01002"]);
         assert!(phn_local::table::read_table(&p, Some("Notes")).is_ok());
     }
+
+    #[test]
+    fn sheet_names_are_cut_by_characters_not_bytes() {
+        let mut used = Vec::new();
+        // Byte 28 of each caption falls inside the dash.
+        for caption in [
+            "Immunization rates by town — 2025",
+            "Cases by school and grade — fall 2025",
+        ] {
+            let name = sheet_name(caption, &mut used);
+            assert!(name.chars().count() <= 31, "{name}");
+            assert!(!name.ends_with(' ') && !name.ends_with('\''));
+        }
+        assert_eq!(sheet_name("'Quoted' ", &mut used), "Quoted");
+    }
+
+    #[test]
+    fn repeated_headers_are_numbered() {
+        let mut h: Vec<String> = ["Town", "n", "%", "N", "%"]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
+        unique_headers(&mut h);
+        assert_eq!(h, vec!["Town", "n", "%", "N (2)", "% (2)"]);
+        let doc = Document {
+            title: "Cases".into(),
+            subtitle: None,
+            language: "en-US".into(),
+            author: None,
+            letterhead: None,
+            logo: None,
+            blocks: from_markdown("| Town | n | % | n | % |\n|---|---|---|---|---|\n| Amherst | 3 | 1.5 | 4 | 2.0 |\n"),
+        };
+        assert!(to_xlsx(&doc).is_ok());
+    }
+
+    #[test]
+    fn only_plain_numbers_become_numbers() {
+        for (text, number) in [
+            ("3", 3.0),
+            ("-5", -5.0),
+            ("0", 0.0),
+            ("0.5", 0.5),
+            (".5", 0.5),
+            ("1,234", 1234.0),
+            ("-1,234,567.5", -1_234_567.5),
+        ] {
+            assert_eq!(as_number(text), Some(number), "{text}");
+        }
+        for text in [
+            "", "-", "01002", "1,2", "5,10", "1E5", "12e3", "NaN", "inf", "+15085550100", "12.5%",
+            "1234567890123456", "2026-11-08",
+        ] {
+            assert_eq!(as_number(text), None, "{text}");
+        }
+    }
 }

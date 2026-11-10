@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
 use crate::cache::Cache;
-use crate::fetch::fetch_with_fallback;
+use crate::apifetch::fetch_validated;
 use crate::http::HttpClient;
 use crate::snapshots::SnapshotStore;
 use crate::socrata::encode;
@@ -152,7 +152,8 @@ pub fn query_url(
     format!("{API}/{dataset}/0?{}", q.join("&"))
 }
 
-/// Parse one page: the total count and the rows.
+/// Parse one page: the total count (0 when the response does not give one)
+/// and the rows.
 pub fn parse_page(body: &[u8]) -> Result<(usize, Vec<Map<String, Value>>)> {
     let v: Value = serde_json::from_slice(body)
         .map_err(|e| PhnError::Network(format!("CMS datastore returned invalid JSON: {e}")))?;
@@ -518,42 +519,67 @@ pub fn assemble(
     )
 }
 
-/// Fetch every page of a query through the cache.
+/// True when paging is finished: the reported total is reached, or, when the
+/// response gives no total, a page comes back short.
+fn last_page(n: usize, offset: usize, count: usize) -> bool {
+    n == 0 || (count > 0 && offset >= count) || (count == 0 && n < PAGE) || offset > 20_000
+}
+
+/// Fetch every page of a query through the cache. Returns the rows, the
+/// mode, and why a cached page was used when the live request failed.
 async fn fetch_all(
     http: &HttpClient,
     cache: Option<&Cache>,
     dataset: &str,
     conditions: &[Condition],
     properties: &[&str],
-) -> Result<(Vec<Map<String, Value>>, SourceMode)> {
+) -> Result<(Vec<Map<String, Value>>, SourceMode, Option<String>)> {
     let mut all = Vec::new();
     let mut offset = 0;
     let mut mode = SourceMode::Live;
+    let mut fallback_reason = None;
     loop {
         let url = query_url(dataset, conditions, properties, offset);
-        let f = fetch_with_fallback(http, cache, &url, TTL_SECS, None).await?;
+        // Only a page the parser accepts is cached or used.
+        let f = fetch_validated(
+            http,
+            cache,
+            &url,
+            None,
+            TTL_SECS,
+            &|b: &[u8]| parse_page(b).map(|_| ()),
+            None,
+        )
+        .await?;
         if f.mode == SourceMode::Cache {
             mode = SourceMode::Cache;
+        }
+        if fallback_reason.is_none() {
+            fallback_reason = f.fallback_reason;
         }
         let (count, rows) = parse_page(&f.body)?;
         let n = rows.len();
         all.extend(rows);
         offset += n;
-        if n == 0 || offset >= count || offset > 20_000 {
+        if last_page(n, offset, count) {
             break;
         }
     }
-    Ok((all, mode))
+    Ok((all, mode, fallback_reason))
 }
 
 /// Live (or cached) Massachusetts nursing home data.
 pub async fn load_live(http: &HttpClient, cache: Option<&Cache>) -> Result<NursingHomeData> {
     let mut sets = Vec::new();
     let mut mode = SourceMode::Live;
+    let mut fallback_reason = None;
     for (dataset, conds, props) in ma_queries() {
-        let (rows, m) = fetch_all(http, cache, dataset, &conds, &props).await?;
+        let (rows, m, reason) = fetch_all(http, cache, dataset, &conds, &props).await?;
         if m == SourceMode::Cache {
             mode = SourceMode::Cache;
+        }
+        if fallback_reason.is_none() {
+            fallback_reason = reason;
         }
         sets.push(rows);
     }
@@ -574,7 +600,7 @@ pub async fn load_live(http: &HttpClient, cache: Option<&Cache>) -> Result<Nursi
         averages,
         mode,
         as_of,
-        fallback_reason: None,
+        fallback_reason,
     })
 }
 
@@ -611,6 +637,75 @@ mod tests {
         assert!(u.starts_with("https://data.cms.gov/provider-data/api/1/datastore/query/fykj-qjee/0?limit=500&offset=500"));
         assert!(u.contains("conditions%5B1%5D%5Bvalue%5D%5B1%5D=B"));
         assert!(u.contains("properties%5B0%5D=score"));
+    }
+
+    fn page(rows: usize, count: Option<usize>) -> Vec<u8> {
+        let results: Vec<Value> = (0..rows)
+            .map(|i| serde_json::json!({ "cms_certification_number_ccn": i.to_string() }))
+            .collect();
+        let mut body = serde_json::json!({ "results": results });
+        if let Some(c) = count {
+            body["count"] = serde_json::json!(c);
+        }
+        serde_json::to_vec(&body).unwrap()
+    }
+
+    #[tokio::test]
+    async fn pages_until_a_short_page_and_keeps_the_fallback_reason() {
+        // Offline, with both pages in the cache; the response has no `count`.
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let conds = [Condition::eq("state", "MA")];
+        let props = ["cms_certification_number_ccn"];
+        cache
+            .put(
+                &query_url(PROVIDER_INFO, &conds, &props, 0),
+                &page(PAGE, None),
+                TTL_SECS,
+            )
+            .unwrap();
+        // The second page is past its time-to-live: used only as a fallback.
+        cache
+            .put_at(
+                &query_url(PROVIDER_INFO, &conds, &props, PAGE),
+                &page(3, None),
+                TTL_SECS,
+                chrono::Utc::now() - chrono::Duration::days(3),
+            )
+            .unwrap();
+        let (rows, mode, reason) = fetch_all(&http, Some(&cache), PROVIDER_INFO, &conds, &props)
+            .await
+            .unwrap();
+        assert_eq!(rows.len(), PAGE + 3);
+        assert_eq!(mode, SourceMode::Cache);
+        assert!(reason.unwrap().contains("using cached copy"));
+
+        assert!(last_page(0, 0, 0));
+        assert!(!last_page(PAGE, PAGE, 0));
+        assert!(last_page(3, PAGE + 3, 0));
+        assert!(!last_page(PAGE, PAGE, PAGE + 3));
+        assert!(last_page(3, PAGE + 3, PAGE + 3));
+    }
+
+    #[tokio::test]
+    async fn a_page_that_is_not_a_result_set_is_not_used() {
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let conds = [Condition::eq("state", "MA")];
+        cache
+            .put(
+                &query_url(PROVIDER_INFO, &conds, &[], 0),
+                b"<html>Access blocked</html>",
+                TTL_SECS,
+            )
+            .unwrap();
+        assert!(
+            fetch_all(&http, Some(&cache), PROVIDER_INFO, &conds, &[])
+                .await
+                .is_err()
+        );
     }
 
     #[test]

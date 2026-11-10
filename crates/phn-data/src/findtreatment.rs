@@ -19,7 +19,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::cache::Cache;
-use crate::fetch::{SnapshotFallback, fetch_with_fallback};
+use crate::apifetch::fetch_validated;
+use crate::fetch::{SnapshotFallback, local_date};
 use crate::http::HttpClient;
 
 /// Snapshot id and file.
@@ -244,7 +245,7 @@ impl SearchResult {
             publisher: "Substance Abuse and Mental Health Services Administration (SAMHSA)".into(),
             url: Some(self.url.clone()),
             effective_date: None,
-            retrieved: Some(self.as_of.chars().take(10).collect()),
+            retrieved: Some(local_date(&self.as_of)),
             mode: self.mode,
         }
     }
@@ -260,7 +261,18 @@ pub async fn search(
     snapshot: Option<SnapshotFallback>,
 ) -> Result<SearchResult> {
     let url = search_url(lat, lng, miles);
-    let fetched = fetch_with_fallback(http, cache, &url, TTL_SECS, snapshot).await?;
+    // Only a body the parser accepts is cached or returned as live data; a
+    // web page or an error body falls back to the cached copy or the snapshot.
+    let fetched = fetch_validated(
+        http,
+        cache,
+        &url,
+        None,
+        TTL_SECS,
+        &|b: &[u8]| parse_json(b).map(|_| ()),
+        snapshot,
+    )
+    .await?;
     let facilities = if fetched.mode == SourceMode::Snapshot {
         parse_snapshot(&String::from_utf8_lossy(&fetched.body), lat, lng, miles)?
     } else {
@@ -293,6 +305,29 @@ mod tests {
             (lat - 42.35).abs() < 0.05 && (lng + 71.06).abs() < 0.08,
             "{lat} {lng}"
         );
+    }
+
+    #[tokio::test]
+    async fn a_cached_error_page_is_ignored_and_the_snapshot_is_used() {
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        cache
+            .put(
+                &search_url(42.45, -73.25, 25.0),
+                b"<html>Service unavailable</html>",
+                TTL_SECS,
+            )
+            .unwrap();
+        let csv = "name1,name2,street1,street2,city,state,zip,phone,intake1,hotline1,website,latitude,longitude,services\nB,,2 Elm St,,Lee,MA,01238,413-555-0101,,,,42.30,-73.25,PAY=Medicaid\n";
+        let snap: SnapshotFallback =
+            Box::new(move || Some((csv.as_bytes().to_vec(), "2026-11-01".to_string())));
+        let r = search(&http, Some(&cache), 42.45, -73.25, 25.0, Some(snap))
+            .await
+            .unwrap();
+        assert_eq!(r.mode, SourceMode::Snapshot);
+        assert_eq!(r.facilities.len(), 1);
+        assert_eq!(r.source().retrieved.as_deref(), Some("2026-11-01"));
     }
 
     #[test]

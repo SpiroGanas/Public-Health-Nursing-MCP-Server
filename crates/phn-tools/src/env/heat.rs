@@ -72,8 +72,13 @@ pub struct HeatPlanResult {
     /// Place the forecast is for.
     pub forecast_point: Option<String>,
     pub forecast: Vec<ForecastPeriod>,
-    /// Active NWS heat alerts for the county.
+    /// Active NWS heat alerts for the county (empty when the feed could not be read; see
+    /// `heat_alerts_status`).
     pub heat_alerts: Vec<String>,
+    /// Whether the NWS alert feed was read: "live", "cache", or "unavailable". When it is
+    /// "unavailable" an empty `heat_alerts` does not mean there are no alerts.
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub heat_alerts_status: String,
     pub population: PopulationProfile,
     /// The level the activation steps are for.
     pub activation_level: u8,
@@ -125,6 +130,27 @@ fn sample(grid: &HeatRiskGrid, features: &[&phn_data::boundaries::Feature]) -> V
         }
     }
     out
+}
+
+/// The highest HeatRisk level in the forecast and the first day it is reached.
+fn peak_of(days: &[HeatRiskDay]) -> Option<(u8, Option<String>)> {
+    // `max_by_key` keeps the last of equal maxima, so search from the last day back.
+    days.iter()
+        .rev()
+        .filter_map(|d| d.max_level.map(|m| (m, d.date.clone())))
+        .max_by_key(|(m, _)| *m)
+}
+
+/// The checklist's line about active heat alerts. "None" is said only when the
+/// NWS feed was actually read.
+fn alerts_line(alerts: &[String], alerts_checked: bool) -> String {
+    if !alerts_checked {
+        "Active heat alerts: NWS alerts could not be checked — see weather.gov.".to_string()
+    } else if alerts.is_empty() {
+        "Active heat alerts: none at the time of writing".to_string()
+    } else {
+        format!("Active heat alerts: {}", alerts.join("; "))
+    }
 }
 
 /// Build a heat response plan.
@@ -262,20 +288,31 @@ pub async fn heat_health_action_planner(
             ),
         ),
     }
-    let peak = days
-        .iter()
-        .filter_map(|d| d.max_level.map(|m| (m, d.date.clone())))
-        .max_by_key(|(m, _)| *m);
+    let peak = peak_of(&days);
     let (peak_level, peak_date) = match &peak {
         Some((m, d)) => (Some(*m), d.clone()),
         None => (None, None),
     };
 
-    // Heat alerts.
+    // Heat alerts: real ("Actual") alerts that have not ended. When the feed
+    // cannot be read, say so; never report "none".
     let mut heat_alerts = Vec::new();
+    let mut heat_alerts_status = "unavailable".to_string();
     if let Ok(f) = nws::fetch_active_alerts(&ctx.http, ctx.cache.as_ref()).await
         && let Ok(feed) = nws::parse_alerts(&f.body)
     {
+        heat_alerts_status = f.mode.label().to_string();
+        if f.mode == phn_core::SourceMode::Cache {
+            caveats.push(format!(
+                "NWS alerts are from a cached copy fetched {}; check weather.gov for newer alerts.",
+                f.as_of
+                    .chars()
+                    .take(16)
+                    .collect::<String>()
+                    .replace('T', " ")
+            ));
+        }
+        let now = chrono::Utc::now();
         let hz: content::HazardActions = content::load(content::HAZARDS)?;
         for a in feed.alerts {
             let is_heat = hz
@@ -286,7 +323,7 @@ pub async fn heat_health_action_planner(
                     .county_fips
                     .as_ref()
                     .is_some_and(|c| a.county_fips.contains(c))
-                && !a.message_type.eq_ignore_ascii_case("cancel")
+                && crate::epr::alerts::alert_is_current(&a, now)
             {
                 heat_alerts.push(format!(
                     "{}{}",
@@ -298,6 +335,18 @@ pub async fn heat_health_action_planner(
                 ));
             }
         }
+    }
+    let alerts_checked = heat_alerts_status != "unavailable";
+    if !alerts_checked {
+        // Right after the HeatRisk warning when that is also unavailable.
+        let at = usize::from(heatrisk_status == "unavailable").min(caveats.len());
+        caveats.insert(
+            at,
+            "NWS alerts could not be checked — see weather.gov (NWS Boston/Norton, and NWS \
+             Albany for Berkshire County). This plan does not show active heat advisories or \
+             warnings."
+                .into(),
+        );
     }
 
     // Activation.
@@ -406,6 +455,7 @@ pub async fn heat_health_action_planner(
             &days,
             &forecast,
             &heat_alerts,
+            alerts_checked,
             &population,
             activation_level,
             &activation_steps,
@@ -481,7 +531,9 @@ pub async fn heat_health_action_planner(
             highs.join(", ")
         ));
     }
-    if !heat_alerts.is_empty() {
+    if !alerts_checked {
+        s.push_str("**NWS alerts could not be checked — see weather.gov.**\n\n");
+    } else if !heat_alerts.is_empty() {
         s.push_str(&format!(
             "**Active heat alerts:** {}\n\n",
             heat_alerts.join("; ")
@@ -573,6 +625,7 @@ pub async fn heat_health_action_planner(
             forecast_point,
             forecast,
             heat_alerts,
+            heat_alerts_status,
             population,
             activation_level,
             activation_steps,
@@ -611,6 +664,7 @@ fn checklist(
     days: &[HeatRiskDay],
     forecast: &[ForecastPeriod],
     alerts: &[String],
+    alerts_checked: bool,
     population: &PopulationProfile,
     level: u8,
     steps: &[CitedOut],
@@ -676,14 +730,7 @@ fn checklist(
                 .collect(),
         }));
     }
-    blocks.push(p(&format!(
-        "Active heat alerts: {}",
-        if alerts.is_empty() {
-            "none at the time of writing".to_string()
-        } else {
-            alerts.join("; ")
-        }
-    )));
+    blocks.push(p(&alerts_line(alerts, alerts_checked)));
     blocks.push(h(&format!(
         "2. Activation steps (HeatRisk {level} and below)"
     )));
@@ -811,6 +858,39 @@ fn checklist(
 mod tests {
     use super::*;
 
+    #[test]
+    fn checklist_says_none_only_when_the_alert_feed_was_read() {
+        let unchecked = alerts_line(&[], false);
+        assert!(unchecked.contains("could not be checked — see weather.gov"));
+        assert!(!unchecked.contains("none"));
+        assert!(alerts_line(&[], true).contains("none at the time of writing"));
+        assert_eq!(
+            alerts_line(&["Heat Advisory until 8 PM".to_string()], true),
+            "Active heat alerts: Heat Advisory until 8 PM"
+        );
+    }
+
+    #[test]
+    fn peak_is_the_first_day_at_the_highest_level() {
+        let day = |n: u8, level: Option<u8>| HeatRiskDay {
+            day: n,
+            date: Some(format!("2026-07-1{n}")),
+            max_level: level,
+            level_name: None,
+            color: None,
+            share_by_level: Vec::new(),
+        };
+        let days = vec![
+            day(1, Some(1)),
+            day(2, Some(3)),
+            day(3, Some(2)),
+            day(4, None),
+            day(5, Some(3)),
+        ];
+        assert_eq!(peak_of(&days), Some((3, Some("2026-07-12".to_string()))));
+        assert_eq!(peak_of(&[day(1, None)]), None);
+    }
+
     #[tokio::test]
     async fn offline_plan_writes_a_checklist_and_reads_cooling_centers() {
         let dir = tempfile::tempdir().unwrap();
@@ -855,6 +935,14 @@ mod tests {
         assert!(!env.summary.contains("1 Main St"));
         assert!(d.population.health.iter().any(|h| h.id == "COPD"));
         assert!(env.caveats[0].contains("HeatRisk could not be retrieved"));
+        // Offline, the alert feed cannot be read: say so, never "none".
+        assert_eq!(d.heat_alerts_status, "unavailable");
+        assert!(d.heat_alerts.is_empty());
+        assert!(
+            env.summary
+                .contains("NWS alerts could not be checked — see weather.gov")
+        );
+        assert!(env.caveats[1].contains("NWS alerts could not be checked"));
         assert!(
             heat_health_action_planner(
                 &ctx,

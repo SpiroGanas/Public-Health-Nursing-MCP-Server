@@ -91,6 +91,24 @@ const METHOD: &str = "Direct standardization: Σ wᵢ·(countᵢ/populationᵢ) 
 gamma-method confidence interval (Fay & Feuer, Stat Med 1997;16:791–801); crude rates with exact \
 Poisson intervals; comparisons with a z-test on the difference and a log-scale interval for the ratio.";
 
+/// True when the age groups run from age 0 to an open-ended oldest group
+/// with no gaps, so the adjusted rate covers all ages.
+fn covers_all_ages(ages: &[AgeGroup]) -> bool {
+    let mut sorted = ages.to_vec();
+    sorted.sort_by_key(|a| a.start);
+    let mut next = 0u32;
+    for (i, a) in sorted.iter().enumerate() {
+        if a.start != next {
+            return false;
+        }
+        match a.end {
+            Some(e) => next = e.saturating_add(1),
+            None => return i + 1 == sorted.len(),
+        }
+    }
+    false
+}
+
 /// Directly age-adjusted rates with gamma confidence intervals.
 pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<AgeAdjustResult>> {
     if args.groups.is_empty() || args.groups.len() > 200 {
@@ -130,6 +148,8 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
     let threshold = ctx.suppression_threshold();
     let mut basis_used: Option<StandardBasis> = None;
     let mut out = Vec::new();
+    // Age groups used by each group, sorted, to check coverage and consistency.
+    let mut group_ages: Vec<Vec<AgeGroup>> = Vec::new();
     for g in &args.groups {
         if g.strata.is_empty() {
             return Err(PhnError::InvalidInput(format!(
@@ -200,6 +220,8 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
                 standard: *w,
             })
             .collect();
+        ages.sort_by_key(|a| (a.start, a.end));
+        group_ages.push(ages);
         let r = standardize::direct_adjust(&strata, per, confidence);
         out.push(AdjustedGroup {
             label: g.label.clone(),
@@ -209,6 +231,7 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
             vs_reference: None,
         });
     }
+    let mut ref_index: Option<usize> = None;
     if let Some(refl) = &args.reference_group {
         let Some(ri) = out
             .iter()
@@ -218,6 +241,7 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
                 "reference group '{refl}' is not one of the groups"
             )));
         };
+        ref_index = Some(ri);
         let reference = out[ri].result.clone();
         for (i, g) in out.iter_mut().enumerate() {
             if i != ri {
@@ -251,7 +275,8 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
     }
     let rows: Vec<Vec<String>> = out
         .iter()
-        .map(|g| {
+        .enumerate()
+        .map(|(i, g)| {
             let r = &g.result;
             let mut notes = Vec::new();
             if g.unreliable {
@@ -280,18 +305,18 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
             if has_ref {
                 row.insert(
                     4,
-                    g.vs_reference
-                        .as_ref()
-                        .map(|c| {
-                            format!(
-                                "{:.2} ({:.2}–{:.2}); {}",
-                                c.ratio,
-                                c.ratio_lower,
-                                c.ratio_upper,
-                                crate::epi::two_by_two::fmt_p(c.p_value)
-                            )
-                        })
-                        .unwrap_or_else(|| "reference".into()),
+                    match &g.vs_reference {
+                        Some(c) => format!(
+                            "{:.2} ({:.2}–{:.2}); {}",
+                            c.ratio,
+                            c.ratio_lower,
+                            c.ratio_upper,
+                            crate::epi::two_by_two::fmt_p(c.p_value)
+                        ),
+                        None if Some(i) == ref_index => "reference".into(),
+                        // A ratio needs events in both groups.
+                        None => "not estimable (a rate of zero)".into(),
+                    },
                 );
             }
             row
@@ -335,6 +360,29 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
             "Your age groups split groups of the NCHS Master List, so weights come from the \
              single-year 2000 standard population; they differ from NCHS published weights by a \
              few millionths, which does not change the rates in practice."
+                .into(),
+        );
+    }
+    let partial: Vec<&str> = out
+        .iter()
+        .zip(&group_ages)
+        .filter(|(_, ages)| !covers_all_ages(ages))
+        .map(|(g, _)| g.label.as_str())
+        .collect();
+    if !partial.is_empty() {
+        caveats.push(format!(
+            "The age groups given do not run from age 0 to an open-ended oldest group (such as \
+             85+) without gaps for: {}. The standard weights were rescaled to the ages given, so \
+             these rates describe only those ages and are not comparable with all-ages \
+             age-adjusted rates published elsewhere. If an age group was left out by mistake, \
+             add it and run this again.",
+            partial.join(", ")
+        ));
+    }
+    if group_ages.windows(2).any(|w| w[0] != w[1]) {
+        caveats.push(
+            "The groups do not all use the same age groups, so their rates were adjusted with \
+             different weights. Use the same age groups for every group before comparing them."
                 .into(),
         );
     }
@@ -393,4 +441,123 @@ pub fn age_adjust_rates(ctx: &Context, args: AgeAdjustArgs) -> Result<Envelope<A
         suppression_threshold: Some(threshold),
         ..Privacy::none()
     }))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let mut c = phn_core::Config::for_root(dir.path());
+        c.offline = true;
+        (dir, Context::new(c).unwrap())
+    }
+
+    fn group(label: &str, strata: &[(&str, u64, f64)]) -> AgeAdjustGroupInput {
+        AgeAdjustGroupInput {
+            label: label.into(),
+            strata: strata
+                .iter()
+                .map(|(a, c, p)| AgeStratumInput {
+                    age_group: (*a).into(),
+                    count: *c,
+                    population: *p,
+                })
+                .collect(),
+        }
+    }
+
+    fn run(groups: Vec<AgeAdjustGroupInput>, reference: Option<&str>) -> Envelope<AgeAdjustResult> {
+        let (_dir, ctx) = ctx();
+        age_adjust_rates(
+            &ctx,
+            AgeAdjustArgs {
+                groups,
+                custom_standard: None,
+                per: None,
+                confidence: None,
+                reference_group: reference.map(str::to_string),
+                event_description: None,
+            },
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn coverage_check() {
+        let g = |s: &str| parse_age_group(s).unwrap();
+        assert!(covers_all_ages(&[g("65+"), g("0-44"), g("45-64")]));
+        assert!(covers_all_ages(&[g("0+")]));
+        assert!(!covers_all_ages(&[g("0-4"), g("15-24"), g("25+")]));
+        assert!(!covers_all_ages(&[g("0-44"), g("45-64")]));
+        assert!(!covers_all_ages(&[g("18-44"), g("45+")]));
+    }
+
+    #[test]
+    fn only_the_reference_group_is_labeled_reference() {
+        let ages = [("0-44", 60_000.0), ("45-64", 30_000.0), ("65+", 10_000.0)];
+        let with = |counts: [u64; 3]| -> Vec<(&str, u64, f64)> {
+            ages.iter()
+                .zip(counts)
+                .map(|((a, p), c)| (*a, c, *p))
+                .collect()
+        };
+        let r = run(
+            vec![
+                group("Town A", &with([30, 60, 90])),
+                group("Town B", &with([0, 0, 0])),
+                group("Town C", &with([20, 70, 80])),
+            ],
+            Some("Town A"),
+        );
+        // Town B has no events: no ratio can be estimated. It used to be
+        // labeled "reference" like Town A.
+        assert!(r.data.groups[1].vs_reference.is_none());
+        assert!(r.data.groups[2].vs_reference.is_some());
+        let line = |town: &str| {
+            r.summary
+                .lines()
+                .find(|l| l.contains(town))
+                .unwrap_or_default()
+                .to_string()
+        };
+        assert!(line("Town A").contains("reference"), "{}", r.summary);
+        assert!(line("Town B").contains("not estimable"), "{}", r.summary);
+        assert!(!line("Town B").contains("reference"), "{}", r.summary);
+        // Complete, matching age groups: no coverage or consistency caveat.
+        assert!(
+            !r.caveats
+                .iter()
+                .any(|c| c.contains("without gaps") || c.contains("same age groups")),
+            "{:?}",
+            r.caveats
+        );
+    }
+
+    #[test]
+    fn gaps_and_mismatched_age_groups_are_flagged() {
+        let r = run(
+            vec![
+                // Ages 5–14 are missing.
+                group(
+                    "Gap Town",
+                    &[("0-4", 2, 5_000.0), ("15-24", 5, 12_000.0), ("25+", 80, 60_000.0)],
+                ),
+                group(
+                    "Whole Town",
+                    &[("0-14", 4, 15_000.0), ("15-24", 5, 12_000.0), ("25+", 80, 60_000.0)],
+                ),
+            ],
+            None,
+        );
+        let gap = r
+            .caveats
+            .iter()
+            .find(|c| c.contains("without gaps"))
+            .expect("coverage caveat");
+        assert!(gap.contains("Gap Town") && !gap.contains("Whole Town"), "{gap}");
+        assert!(r.caveats.iter().any(|c| c.contains("same age groups")));
+    }
 }

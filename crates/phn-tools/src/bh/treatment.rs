@@ -89,7 +89,15 @@ const SERVICES: &[Filter] = &[
         |f| f.has("OT", "federally-certified opioid treatment program") || f.has("OM", "methadone"),
     ),
     ("buprenorphine", "buprenorphine", |f| {
-        f.has("OM", "buprenorphine") || f.has("OT", "buprenorphine")
+        // "Use methadone/buprenorphine for pain management or emergency dosing" is not
+        // treatment of opioid use disorder.
+        f.has("OM", "buprenorphine")
+            || f.services.get("OT").is_some_and(|v| {
+                v.iter().any(|s| {
+                    let l = s.to_lowercase();
+                    l.contains("buprenorphine") && !l.contains("pain management")
+                })
+            })
     }),
     ("naltrexone", "naltrexone", |f| {
         f.has("OM", "naltrexone") || f.has("OT", "naltrexone")
@@ -170,6 +178,22 @@ fn service_key(raw: &str) -> Result<&'static Filter> {
             SERVICES.iter().map(|s| s.0).collect::<Vec<_>>().join(", ")
         ))
     })
+}
+
+/// True when a value in category `code` is exactly `value` (case-insensitive).
+/// Substring matching is wrong for payment and language: SAMHSA's values
+/// include "State-financed health insurance plan other than Medicaid" and
+/// "Other languages (excluding Spanish)".
+fn has_exact(f: &Facility, code: &str, value: &str) -> bool {
+    f.services
+        .get(code)
+        .is_some_and(|v| v.iter().any(|s| s.trim().eq_ignore_ascii_case(value)))
+}
+
+/// True when the facility's ZIP code is not a Massachusetts one (010-027).
+fn outside_massachusetts(f: &Facility) -> bool {
+    let z = f.zip.trim();
+    !z.is_empty() && !z.starts_with("01") && !z.starts_with("02")
 }
 
 fn moud(f: &Facility) -> Vec<String> {
@@ -281,7 +305,7 @@ pub async fn find_substance_use_treatment(
     let lang_ok = |f: &Facility| -> bool {
         match language.as_deref() {
             None => true,
-            Some("spanish") | Some("espanol") | Some("español") => f.has("SL", "spanish"),
+            Some("spanish") | Some("espanol") | Some("español") => has_exact(f, "SL", "Spanish"),
             Some("asl") | Some("sign") | Some("sign language") | Some("american sign language") => {
                 f.has("SL", "sign language")
             }
@@ -298,7 +322,7 @@ pub async fn find_substance_use_treatment(
         match payment {
             None => true,
             Some(("PYAS", _)) => f.services.contains_key("PYAS"),
-            Some((v, _)) => f.has("PAY", v),
+            Some((v, _)) => has_exact(f, "PAY", v),
         }
     };
     let mut matching: Vec<&Facility> = found
@@ -432,6 +456,17 @@ pub async fn find_substance_use_treatment(
         "Distances are straight-line miles from the center of {}, not travel distance.",
         town.name
     ));
+    let out_of_state = matching
+        .iter()
+        .take(max)
+        .filter(|f| outside_massachusetts(f))
+        .count();
+    if out_of_state > 0 {
+        caveats.push(format!(
+            "{out_of_state} listed facilit{} outside Massachusetts by ZIP code (the search is by distance). \"Medicaid\" at an out-of-state facility is that state's program, not MassHealth; confirm coverage before referring.",
+            if out_of_state == 1 { "y is" } else { "ies are" }
+        ));
+    }
     caveats.extend(content::review_caveats(&[SUBSTANCE_USE]));
     let mut sources = vec![found.source()];
     sources.extend(content::cite(
@@ -472,5 +507,65 @@ mod tests {
         assert_eq!(service_key("OTP").unwrap().0, "methadone");
         assert_eq!(service_key("detox").unwrap().0, "withdrawal_management");
         assert!(service_key("acupuncture").is_err());
+    }
+
+    /// A facility with services given as (category code, "value; value").
+    fn facility(zip: &str, services: &[(&str, &str)]) -> Facility {
+        Facility {
+            name: "Test Program".into(),
+            name2: String::new(),
+            address: "1 Main St".into(),
+            city: "Lee".into(),
+            zip: zip.into(),
+            phone: String::new(),
+            intake_phone: String::new(),
+            website: String::new(),
+            latitude: 42.3,
+            longitude: -73.25,
+            miles: 1.0,
+            services: services
+                .iter()
+                .map(|(k, v)| {
+                    (
+                        k.to_string(),
+                        v.split("; ").map(str::to_string).collect::<Vec<String>>(),
+                    )
+                })
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn payment_and_language_filters_do_not_match_negated_values() {
+        let other = facility(
+            "01238",
+            &[
+                ("SL", "Other languages (excluding Spanish)"),
+                (
+                    "PAY",
+                    "State-financed health insurance plan other than Medicaid",
+                ),
+                (
+                    "OT",
+                    "Use methadone/buprenorphine for pain management or emergency dosing",
+                ),
+            ],
+        );
+        assert!(!has_exact(&other, "SL", "Spanish"));
+        assert!(!has_exact(&other, "PAY", "Medicaid"));
+        assert!(!SERVICES[1].2(&other));
+        let yes = facility(
+            "02903",
+            &[
+                ("SL", "Spanish"),
+                ("PAY", "Medicaid; Medicare"),
+                ("OT", "Buprenorphine maintenance"),
+            ],
+        );
+        assert!(has_exact(&yes, "SL", "spanish"));
+        assert!(has_exact(&yes, "PAY", "Medicaid"));
+        assert!(SERVICES[1].2(&yes));
+        assert!(!outside_massachusetts(&other));
+        assert!(outside_massachusetts(&yes));
     }
 }

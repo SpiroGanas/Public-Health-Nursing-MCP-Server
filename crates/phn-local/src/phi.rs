@@ -283,7 +283,9 @@ pub fn is_surname(word: &str) -> bool {
 // Patterns
 // ---------------------------------------------------------------------------
 
-static RE_SSN: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{3}-\d{2}-\d{4}$").unwrap());
+static RE_SSN: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^\d{3}[- ]\d{2}[- ]\d{4}$").unwrap());
+static RE_LOCAL_PHONE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{3}-\d{4}$").unwrap());
 static RE_SSN_BARE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{9}$").unwrap());
 static RE_PHONE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(?:\s*(?:x|ext\.?)\s*\d+)?$")
@@ -303,9 +305,29 @@ static RE_ID_CODE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"^[A-Za-z]{0,4}[-#]?\d{4,14}[A-Za-z]{0,2}$").unwrap());
 
 // Free-text patterns.
-static T_SSN: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\b\d{3}-\d{2}-\d{4}\b").unwrap());
+static T_SSN: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\b\d{3}[- ]\d{2}[- ]\d{4}\b").unwrap());
+/// A labeled SSN in any common layout ("SSN 123 45 6789", "SSN: 123456789").
+static T_SSN_LABELED: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?i)\b(?:SSN|SS#|social security(?: number| no\.?| #)?)[\s:#]*\d{3}[-. ]?\d{2}[-. ]?\d{4}\b",
+    )
+    .unwrap()
+});
 static T_PHONE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?:\+?1[\s.-]?)?(?:\(\d{3}\)|\b\d{3})[\s.-]?\d{3}[\s.-]\d{4}\b").unwrap()
+});
+/// Ten digits with no separators, in the North American numbering plan (area
+/// code and exchange start with 2–9), optionally after a leading 1.
+static T_PHONE_BARE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\b1?[2-9]\d{2}[2-9]\d{6}\b").unwrap());
+/// A seven-digit local number, only right after a phone word ("call 555-0101"),
+/// so ranges of counts such as "500-1000" are not flagged. Group 1 is the number.
+static T_PHONE_LOCAL: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?i)\b(?:call|phone|tel|telephone|cell|mobile|fax|ph|text|pager)\b\.?(?:\s+(?:number|no\.?|is|at))*[\s:#-]*(\d{3}-\d{4})\b",
+    )
+    .unwrap()
 });
 static T_EMAIL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b").unwrap());
@@ -313,17 +335,23 @@ static T_URL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r#"(?i)\b(?:https?://|www\.)[^\s<>"')]+"#).unwrap());
 static T_IP: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b(?:\d{1,3}\.){3}\d{1,3}\b").unwrap());
-const DATE_PAT: &str = r"(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4})";
+const DATE_PAT: &str = r"(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}|\d{1,2}\.\d{1,2}\.\d{4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?,?\s+\d{4})";
+/// A compact date (YYYYMMDD) is accepted only right after a birth-date label.
+const COMPACT_DATE_PAT: &str = r"(?:19|20)\d\d[01]\d[0-3]\d\b";
 static T_DOB: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(&format!(
-        r"(?i)\b(?:DOB|D\.O\.B\.?|date of birth|birth\s?date|born(?: on)?)\s*[:#-]?\s*{DATE_PAT}"
+        r"(?i)\b(?:DOB|D\.O\.B\.?|date of birth|birth\s?date|birthday|born(?: on)?)\s*[:#-]?\s*(?:{DATE_PAT}|{COMPACT_DATE_PAT})"
     ))
     .unwrap()
 });
 static T_DATE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(&format!(r"(?i)\b{DATE_PAT}\b")).unwrap());
 static T_LABELED_ID: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?i)\b(MRN|medical record(?: number| no\.?| #)?|patient id|client id|case (?:id|number|no\.?|#)|SASID|chart (?:number|no\.?|#)|member id|medicaid(?: id| number)?|masshealth(?: id| number)?|medicare(?: id| number)?|account (?:number|no\.?|#)|acct\.? ?#?|license (?:number|no\.?|#)|SSN|social security(?: number| no\.?)?)\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{3,})\b")
+    // The value (group 2) must contain a digit and be at least four characters,
+    // so ordinary words after a label ("patient identified", "Medicare
+    // enrollment") are not treated as record numbers. Any mix of spaces, ":"
+    // and "#" may separate the label from the value ("MRN: #12345").
+    Regex::new(r"(?i)\b(MRN|medical record(?: number| no\.?| #)?|patient id|client id|case (?:id|number|no\.?|#)|SASID|chart (?:number|no\.?|#)|member id|medicaid(?: id| number)?|masshealth(?: id| number)?|medicare(?: id| number)?|account (?:number|no\.?|#)|acct\.? ?#?|license (?:number|no\.?|#)|SSN|social security(?: number| no\.?)?)(?:\s+(?:number|num|no\.?))?[\s:#]*(\d[A-Z0-9-]{3,}|[A-Z]\d[A-Z0-9-]{2,}|[A-Z][A-Z-]\d[A-Z0-9-]+|[A-Z][A-Z-]{2,5}\d[A-Z0-9-]*)\b")
         .unwrap()
 });
 static T_STREET: LazyLock<Regex> = LazyLock::new(|| {
@@ -373,17 +401,61 @@ const RELATION_CUES: [&str; 24] = [
 // Dates
 // ---------------------------------------------------------------------------
 
-/// Parse common date formats (ISO, US slash, Excel-style datetime, month names).
+/// Parse common date formats (ISO, US slash, dotted, compact YYYYMMDD,
+/// Excel-style datetime, month names, and month-year as the first of the
+/// month).
+///
+/// A result is accepted only when its year is from 1900 to 2100. chrono's
+/// `%Y` reads one to four digits, so "3/5/21" would otherwise parse as the
+/// year 21; such values fall through to the two-digit-year formats instead.
+/// Two-digit years that would land more than a year in the future are read as
+/// the previous century ("3/7/45" is 1945).
 pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
+    use chrono::{Datelike, NaiveDate};
     let s = s.trim();
     if s.len() < 6 || s.len() > 30 {
         return None;
     }
+    let plausible = |d: NaiveDate| (1900..=2100).contains(&d.year()).then_some(d);
     let head = s.split(['T', ' ']).next().unwrap_or(s);
+    if head.len() == 8
+        && head.bytes().all(|b| b.is_ascii_digit())
+        && let Some(d) = NaiveDate::parse_from_str(head, "%Y%m%d")
+            .ok()
+            .and_then(plausible)
+    {
+        return Some(d);
+    }
     for fmt in [
-        "%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%m/%d/%y", "%d-%b-%Y", "%d-%b-%y",
+        "%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%d-%b-%Y", "%m.%d.%Y",
     ] {
-        if let Ok(d) = chrono::NaiveDate::parse_from_str(head, fmt) {
+        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+            .ok()
+            .and_then(plausible)
+        {
+            return Some(d);
+        }
+    }
+    for fmt in ["%m/%d/%y", "%m-%d-%y", "%d-%b-%y", "%m.%d.%y"] {
+        if let Ok(d) = NaiveDate::parse_from_str(head, fmt) {
+            let limit = chrono::Local::now().date_naive() + chrono::Duration::days(366);
+            let d = if d > limit {
+                d.with_year(d.year() - 100).unwrap_or(d)
+            } else {
+                d
+            };
+            if let Some(d) = plausible(d) {
+                return Some(d);
+            }
+        }
+    }
+    // Day-first dates are tried last, so they only apply when the first
+    // number cannot be a month ("13/03/2015").
+    for fmt in ["%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y"] {
+        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+            .ok()
+            .and_then(plausible)
+        {
             return Some(d);
         }
     }
@@ -395,11 +467,40 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
         "%d %B %Y",
         "%d %b %Y",
     ] {
-        if let Ok(d) = chrono::NaiveDate::parse_from_str(s, fmt) {
+        if let Some(d) = NaiveDate::parse_from_str(s, fmt).ok().and_then(plausible) {
             return Some(d);
         }
     }
+    // Month and year only ("March 2015"): the first of that month.
+    if s.starts_with(|c: char| c.is_ascii_alphabetic())
+        && let Some(d) = NaiveDate::parse_from_str(&format!("1 {s}"), "%d %B %Y")
+            .ok()
+            .and_then(plausible)
+    {
+        return Some(d);
+    }
     None
+}
+
+/// A bare four-digit year from 1900 to 2100 ("2024"), which is not an
+/// identifier under Safe Harbor and may be kept as it is.
+pub fn plain_year(s: &str) -> Option<i32> {
+    let s = s.trim();
+    if s.len() != 4 || !s.bytes().all(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    s.parse::<i32>().ok().filter(|y| (1900..=2100).contains(y))
+}
+
+/// False when an age column's header says the unit is months, weeks, or days,
+/// so the "over 89" rule (which is about years) does not apply to it.
+pub fn age_header_is_years(header: &str) -> bool {
+    !tokens(header).iter().any(|t| {
+        matches!(
+            t.as_str(),
+            "month" | "months" | "mo" | "mos" | "week" | "weeks" | "wk" | "wks" | "day" | "days"
+        )
+    })
 }
 
 // ---------------------------------------------------------------------------
@@ -407,7 +508,8 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
 // ---------------------------------------------------------------------------
 
 fn tokens(header: &str) -> Vec<String> {
-    phn_core::text::normalize(header)
+    // "#" in a header means "number" ("Case #", "Record #").
+    phn_core::text::normalize(&header.replace('#', " number "))
         .split(' ')
         .filter(|t| !t.is_empty())
         .map(str::to_string)

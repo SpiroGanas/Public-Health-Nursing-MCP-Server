@@ -603,3 +603,160 @@ fn capitalize(s: &str) -> String {
         None => String::new(),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let mut c = phn_core::Config::for_root(dir.path());
+        c.offline = true;
+        (dir, Context::new(c).unwrap())
+    }
+
+    fn args(labels: Vec<String>, counts: &[f64], unit: TimeUnit) -> TrendArgs {
+        TrendArgs {
+            periods: labels
+                .into_iter()
+                .zip(counts)
+                .map(|(label, count)| PeriodInput {
+                    label,
+                    count: *count,
+                    population: None,
+                })
+                .collect(),
+            time_unit: Some(unit),
+            model: Some(ModelChoice::Poisson),
+            seasonal: None,
+            max_joinpoints: Some(0),
+            interruptions: None,
+            per: None,
+            confidence: None,
+            event_description: None,
+            chart: Some(false),
+        }
+    }
+
+    fn close(got: (f64, bool), want: f64) -> bool {
+        got.1 && (got.0 - want).abs() < 1e-9
+    }
+
+    #[test]
+    fn first_period_labels_are_read() {
+        assert!(close(start_time("2019", TimeUnit::Year), 2019.0));
+        assert!(close(start_time("2024-03", TimeUnit::Month), 2024.0 + 2.0 / 12.0));
+        assert!(close(start_time("03/2024", TimeUnit::Month), 2024.0 + 2.0 / 12.0));
+        // Month names used to be read as January.
+        assert!(close(start_time("Jul 2023", TimeUnit::Month), 2023.5));
+        assert!(close(
+            start_time("September 2023", TimeUnit::Month),
+            2023.0 + 8.0 / 12.0
+        ));
+        assert!(close(start_time("2024 Q2", TimeUnit::Quarter), 2024.25));
+        assert!(close(start_time("2024-04-01", TimeUnit::Quarter), 2024.25));
+        assert!(close(start_time("2024-W05", TimeUnit::Week), 2024.0 + 4.0 / 52.0));
+        // A week labeled by its starting date (3 June) used to be read as week 6.
+        let june3 = 2024.0 + (5.0 + 2.0 / 31.0) / 12.0;
+        assert!(close(start_time("2024-06-03", TimeUnit::Week), june3));
+        assert!(close(start_time("6/3/2024", TimeUnit::Week), june3));
+        assert!(close(start_time("June 3, 2024", TimeUnit::Week), june3));
+        // No place in the year, or no year at all: flagged as unknown.
+        assert_eq!(start_time("2023", TimeUnit::Month), (2023.0, false));
+        assert_eq!(start_time("Week 1", TimeUnit::Week), (0.0, false));
+        assert_eq!(start_time("P1", TimeUnit::Month), (0.0, false));
+    }
+
+    #[test]
+    fn seasonal_term_needs_enough_cycles() {
+        let pick = |req, unit, n| seasonal_choice(req, unit, n).unwrap();
+        // Default: on with two full years of monthly or weekly data.
+        assert_eq!(pick(None, TimeUnit::Month, 36), (true, false));
+        assert_eq!(pick(None, TimeUnit::Month, 24), (true, false));
+        assert_eq!(pick(None, TimeUnit::Month, 23), (false, true));
+        assert_eq!(pick(None, TimeUnit::Week, 104), (true, false));
+        assert_eq!(pick(None, TimeUnit::Week, 103), (false, true));
+        assert_eq!(pick(None, TimeUnit::Quarter, 40), (false, false));
+        assert_eq!(pick(None, TimeUnit::Year, 30), (false, false));
+        // Explicit choices.
+        assert_eq!(pick(Some(false), TimeUnit::Month, 60), (false, false));
+        assert_eq!(pick(Some(true), TimeUnit::Month, 18), (true, false));
+        assert_eq!(pick(Some(true), TimeUnit::Year, 30), (false, false));
+        let e = seasonal_choice(Some(true), TimeUnit::Month, 17)
+            .unwrap_err()
+            .to_string();
+        assert!(e.contains("18 months"), "{e}");
+        assert!(seasonal_choice(Some(true), TimeUnit::Quarter, 5).is_err());
+        assert!(seasonal_choice(Some(true), TimeUnit::Week, 77).is_err());
+    }
+
+    #[test]
+    fn short_monthly_series_gets_no_seasonal_term_by_default() {
+        let (_dir, ctx) = ctx();
+        // Eight flat months. With the seasonal term (the old default) the
+        // percent change per year had a 95% interval of −91% to +988%.
+        let counts = [52.0, 47.0, 55.0, 49.0, 51.0, 46.0, 53.0, 48.0];
+        let labels: Vec<String> = (1..=8).map(|m| format!("2024-{m:02}")).collect();
+        let r = analyze_trends(&ctx, args(labels.clone(), &counts, TimeUnit::Month)).unwrap();
+        assert!(r.data.analysis.seasonality.is_none());
+        assert!(r.data.analysis.apc.upper < 100.0, "{:?}", r.data.analysis.apc);
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("seasonal term was left out")),
+            "{:?}",
+            r.caveats
+        );
+        let mut asked = args(labels, &counts, TimeUnit::Month);
+        asked.seasonal = Some(true);
+        let e = analyze_trends(&ctx, asked).unwrap_err().to_string();
+        assert!(e.contains("18 months"), "{e}");
+    }
+
+    /// Thirty-six months starting in July 2023 with more events every
+    /// December, January, and February.
+    fn winter_peak(label: impl Fn(usize) -> String) -> TrendArgs {
+        let counts: Vec<f64> = (0..36)
+            .map(|i| match (6 + i) % 12 {
+                11 | 0 | 1 => 80.0,
+                _ => 50.0,
+            })
+            .collect();
+        args((0..36).map(label).collect(), &counts, TimeUnit::Month)
+    }
+
+    #[test]
+    fn seasonal_peak_is_named_from_the_labels() {
+        let (_dir, ctx) = ctx();
+        const NAMES: [&str; 12] = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        ];
+        // "Jul 2023" used to be read as January 2023, moving the peak to July.
+        let named = winter_peak(|i| format!("{} {}", NAMES[(6 + i) % 12], 2023 + (6 + i) / 12));
+        let r = analyze_trends(&ctx, named).unwrap();
+        assert!(r.summary.contains("peak around January"), "{}", r.summary);
+        // Labels without a readable date: a position, not a month, and a caveat.
+        let plain = winter_peak(|i| format!("P{}", i + 1));
+        let r = analyze_trends(&ctx, plain).unwrap();
+        assert!(
+            r.summary
+                .contains("about month 7 of each 12-month cycle"),
+            "{}",
+            r.summary
+        );
+        assert!(!r.summary.contains("peak around"));
+        assert!(r.caveats.iter().any(|c| c.contains("could not be read")));
+    }
+
+    #[test]
+    fn joinpoints_are_reported_as_not_tested_for_short_series() {
+        let (_dir, ctx) = ctx();
+        let labels: Vec<String> = (2018..=2023).map(|y| y.to_string()).collect();
+        let mut a = args(labels, &[40.0, 44.0, 39.0, 47.0, 45.0, 50.0], TimeUnit::Year);
+        a.max_joinpoints = None;
+        let r = analyze_trends(&ctx, a).unwrap();
+        assert!(r.summary.contains("**Joinpoints:** not tested"), "{}", r.summary);
+        assert!(!r.summary.contains("none selected"));
+    }
+}
