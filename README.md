@@ -198,6 +198,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `vector_borne_disease_risk` | ENV-06 | env | DPH EEE and West Nile virus risk levels by town (live in season, otherwise the dated last levels) with DPH's actions for each level, tick-borne disease cases and rates by county, and prevention messages for the public, schools, camps, and outdoor workers; optional DOCX notice. |
+| `housing_conditions_health_guide` | ENV-07 | env | State Sanitary Code (105 CMR 410.000) guide to mold, pests, heat, hot water, lead, alarms, and trash: code sections, owner and occupant duties, health effects, how to get a board of health inspection, tenant protections, readable tenant teaching sheets, and locally filled request letters. |
 <!-- Phase 14 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
