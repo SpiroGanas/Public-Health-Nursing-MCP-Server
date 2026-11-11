@@ -4,12 +4,11 @@ A handoff document for whoever picks up this project next, human or AI agent. Re
 starting work, and **update it before you finish** (see [Keeping this file current](#keeping-this-file-current)).
 
 - **Last updated:** 2026-11-11
-- **Current version:** 0.14.1 (Phases 0–13 of [`project_plan.md`](project_plan.md), plus the
-  fixes from a peer review of all 102 tools); not yet released
-- **Next:** Phase 14, environmental health and climate (the nurse chose to keep building rather
-  than pause for the review backlog, 2026-11-11). Pilots 1, 2, and 3 still wait on the nurse's
-  content reviews; no phase has yet met the plan's definition of done (content reviewed, signed
-  image published, acceptance script run).
+- **Current version:** 0.15.0 (Phases 0–14 of [`project_plan.md`](project_plan.md), 110 tools);
+  not yet released. PR #8 (branch `ccr-db56717a-c5p1la`) holds Phase 14.
+- **Next:** Phase 15, chronic disease prevention and community assessment. Pilots 1, 2, and 3
+  still wait on the nurse's content reviews; no phase has yet met the plan's definition of done
+  (content reviewed, signed image published, acceptance script run).
 
 ## 1. Where things stand
 
@@ -30,15 +29,17 @@ starting work, and **update it before you finish** (see [Keeping this file curre
 | 11 | Substance use, crisis resources, and health communication (9 tools) | Merged; content review needed | PR #5 |
 | 12 | Emergency preparedness I (8 tools) | Merged; content review needed | PR #5 |
 | 13 | Emergency preparedness II: ICS, plans, and exercises (5 tools + tabletop prompt) | Merged; content review needed before Pilot 3 | PR #6 |
-| — | Peer review of Phases 0–13: code, plan, architecture, and documentation | Open | PR #7 |
-| 14–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
+| — | Peer review of Phases 0–13: code, plan, architecture, and documentation | Merged | PR #7 |
+| 14 | Environmental health and climate (8 tools) | Open; content review needed | PR #8 |
+| 15–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
 
-PRs #5 (Phases 7–12) and #6 (Phase 13) are merged. PR #7 (branch `ccr-1d0425d8-s31v7d`) holds
-the peer review: twelve reviewers read the code by area, then fixed about 170 of roughly 210
-findings (every high- and medium-severity finding except the ones listed as open items below);
-the rest are recorded in section 2. When it merges, start new work on a fresh branch from `main`.
+PRs #5 (Phases 7–12), #6 (Phase 13), and #7 (the peer review: about 170 of roughly 210 findings
+fixed; the rest are open items in section 2) are merged. PR #8 (branch `ccr-db56717a-c5p1la`)
+holds Phase 14: four helpers built one work package each (water, EJ and climate, vectors and
+housing, chemicals and food) in separate worktrees, and the coordinator merged them. When it
+merges, start new work on a fresh branch from `main`.
 
-### Tools implemented (102 of 148)
+### Tools implemented (110 of 148)
 
 | Tool | Plan ID | Toolset | Phase | Code |
 |---|---|---|---|---|
@@ -144,12 +145,21 @@ the rest are recorded in section 2. When it merges, start new work on a fresh br
 | `design_hseep_exercise` | EPR-08 | epr | 13 | `crates/phn-tools/src/epr/exercise.rs` |
 | `build_after_action_report` | EPR-09 | epr | 13 | `crates/phn-tools/src/epr/aar.rs` |
 | `crisis_risk_communication_builder` | EPR-10 | epr | 13 | `crates/phn-tools/src/epr/cerc.rs` |
+| `drinking_water_quality_lookup` | ENV-03 | env | 14 | `crates/phn-tools/src/env/drinking_water.rs` |
+| `community_water_fluoridation_status` | CHR-07 | chronic | 14 | `crates/phn-tools/src/chronic/fluoridation.rs` |
+| `environmental_justice_screen` | ENV-04 | env | 14 | `crates/phn-tools/src/env/ej_screen.rs` |
+| `climate_health_vulnerability_profile` | ENV-05 | env | 14 | `crates/phn-tools/src/env/climate_profile.rs` |
+| `vector_borne_disease_risk` | ENV-06 | env | 14 | `crates/phn-tools/src/env/vector_borne.rs` |
+| `housing_conditions_health_guide` | ENV-07 | env | 14 | `crates/phn-tools/src/env/housing.rs` |
+| `chemical_exposure_reference` | ENV-08 | env | 14 | `crates/phn-tools/src/env/chemical.rs` |
+| `food_access_mapper` | CHR-06 | chronic | 14 | `crates/phn-tools/src/chronic/food_access.rs` |
 
-MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0), `phase1.rs`–`phase12.rs`, and
-`phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`; the
+MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0), `phase1.rs`–`phase12.rs`,
+`phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`, and
+`phase14_water.rs`, `phase14_ejclimate.rs`, `phase14_vectorhousing.rs`, `phase14_chemfood.rs`; the
 `investigate_outbreak` and `plan_tabletop_exercise` MCP prompts are in `prompts.rs`. The registry
 (tool → plan ID → toolset → phase) is `crates/phn-tools/src/registry/` with one file per phase
-from Phase 2 (Phases 0–1 are in `mod.rs`; Phase 13's file has four lists; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
+from Phase 2 (Phases 0–1 are in `mod.rs`; Phases 13 and 14 have four lists each; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
 roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 
 ### Exit criteria
@@ -168,8 +178,9 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 | Phase 8: the nurse reviews the milestone, lead, and mandated reporting content | **Waiting on the nurse** (`docs/acceptance/phase-8.md`) |
 | Phase 10: the nurse validates screening cutoffs, safety messages, and instrument license terms, and spot-checks the directories | **Waiting on the nurse** (`docs/acceptance/phase-10.md`) |
 | Phase 13: Pilot 3, a tabletop exercise designed with EPR-08, after the nurse reviews the Phase 13 content | **Waiting on the nurse** (`docs/acceptance/phase-13.md`) |
+| Phase 14: environmental and climate tools work for any town, live and offline, every figure cited | Offline: done (snapshots for every source; automated tests). Live: SDWIS, the EEA PFAS API, OpenFEMA, and DPH's arbovirus workbook were exercised once by ignored live tests or by hand. Content review: **waiting on the nurse** (`docs/acceptance/phase-14.md`) |
 | Phases 7–12: calculators match reference values | Done: CDC 2000 growth percentiles (relative error < 1e-7), CDC extended BMI, WHO monthly tables, screening scores (50 cases), readability formulas, Erlang C, 40 CFR 58 App. G AQI example, CASPER survey intervals (samplics) |
-| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–13) |
+| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–14) |
 
 ## 2. Open items
 
@@ -236,6 +247,25 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
      - `content/epr/cerc.yaml`: the mass dispensing set (low confidence; depends on the POD plan);
        the boil water set follows CDC only (MassDEP's boil order pages returned 404); measles FAQs
        on infants and exclusion (medium).
+   - Phase 14 (`docs/acceptance/phase-14.md` lists each file's checks):
+     - `content/env/drinking_water.yaml`: the federal PFAS status is **time-sensitive** (EPA's
+       May 18, 2026 proposals were expected to be final by the end of 2026; re-check);
+       `content/chronic/fluoridation.yaml`: CPSTF's position is CDC's description of it (medium),
+       the "non-adjusted" status wording is inferred, and the board of health discussion points
+       are drafts; ADA, ASTDD, AAPD, WHO, HHS, and CPSTF's own page could not be fetched and are
+       listed as not included.
+     - `content/env/environmental_justice.yaml`: the MEPA EIR item comes from the MEPA guide page
+       (301 CMR 11.06(7)(b) and the two MEPA EJ protocol PDFs were not fetched); the EJScreen
+       column list is EPA's file as copied in the EJAM repository (medium).
+       `climate_vulnerability.yaml`: **all flagging thresholds are tool defaults** and the
+       ZIP-to-town weighting of Heat and Health Index values is this project's method (medium).
+     - `content/env/vector_borne.yaml`: the 2026 cancellation times were read from calendar
+       images (medium); `housing_conditions.yaml`: the teaching sheets, letter templates, and
+       tenant protection summaries are drafts for legal aid or counsel to read.
+     - `content/env/chemical_exposure.yaml`: the "occupational limits are not community limits"
+       and "an MRL is not a diagnostic threshold" wording is this project's (medium);
+       `content/chronic/food_access.yaml`: how to get the SNAP retailer file and the HIP vendor
+       list is **low confidence** (the USDA and DTAFinder pages were blocked).
 2. **Decisions the nurse asked to make** (collected from the phase work):
    - Reportable conditions: should "immediate" follow DPH's call lists or the regulation's
      "immediately, but in no case more than 24 hours"? DPH's lists disagree on LCM, West Nile,
@@ -292,6 +322,17 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
      versus grant deadlines; EEGs per PHEP capability or per FEMA core capability; which scenario
      Pilot 3 uses and who vets it; more CERC hazards, a lower reading grade for crisis messages,
      and who approves translated pre-scripted messages.
+   - Environmental health and climate (Phase 14): the 90% share of residents on community water
+     below which private well guidance is shown; whether to add the fluoridation positions that
+     could not be fetched, and the order of bodies (DPH first); spot-check the CDC-to-town
+     matching in `snapshots/ma_fluoridation_systems.csv` (CDC lists Hingham's Weir River system
+     twice with different answers); the climate profile's flagging thresholds; confirm MVP
+     designation with the regional coordinator (Chester and Warwick are missing from mass.gov's
+     regions page); whether a FEMA flood-zone area by town is needed (NFIP claims are used
+     instead; MassGIS's 202 MB `nfhl.zip` is reachable); children's DEET (DPH's tick page says
+     10–15%, its mosquito fact sheet 30% or less); whether DPH's 2021 school repellent guidance is
+     still current; whether to name a regional poison center and which contacts each chemical
+     scenario lists; the 50% land-area rule for carrying the 2019 food access map to 2020 tracts.
    - Profiles: the `mch` and `aging` toolsets are in no role profile (they are on when no profile
      is set). Decide whether to add a profile for home visiting and community nursing.
    - **Peer review (2026-11-11).** Decided by the nurse: keep building toward Phase 14 rather than
@@ -332,10 +373,11 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
        profiles (`preparedness` has no `vax`, `school_nurse` has no `mch`); ACS vintage switching
        automatically; a runtime warning for overdue content reviews; how maps distinguish
        suppressed from no data; PDF heading levels under the title.
-3. **Run the acceptance scripts** for Phases 0–13 on Windows and macOS and send the IT request.
+3. **Run the acceptance scripts** for Phases 0–14 on Windows and macOS and send the IT request.
    **Read the user guide** (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`) for accuracy and
    tone before sharing it with other nurses; send corrections as edits to `guide-content.js`.
-4. **Publish a release:** once PR #7 merges, tag `v0.14.1` to run `.github/workflows/release.yml`
+4. **Publish a release:** tag `v0.14.1` (PR #7 is merged and CI on `main` passed), or wait and
+   tag `v0.15.0` after PR #8 merges, to run `.github/workflows/release.yml`
    (it now scans a local image with Trivy before pushing, builds the SBOM from the source tree,
    then pushes the multi-architecture image, signs it with cosign, and attaches offline
    tarballs). No release has ever been tagged; the workflow has never run, so watch it closely
@@ -352,7 +394,12 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
    provisional overdose counts (monthly), the youth survey (every two years), CMS nursing home
    data, and fast-changing immigrant coverage rules (MassHealth memo EOM 26-10). Spot-check the 63
    towns that no CBHC lists, SHINE's missing Groton row, and Shelburne and Tolland (no meals
-   project).
+   project). Phase 14 adds: DPH's arbovirus risk levels (live in season; rebuild the snapshot
+   after each season), DPH's annual tick-borne disease summary, SDWIS and MassDEP PFAS6
+   (quarterly), CDC My Water's Fluoride (yearly), the ATSDR MRL table and NIOSH IDLH table,
+   FEMA hazard mitigation plans and NFIP data, and the USDA Food Access Research Atlas. Each has a
+   builder in `xtask/scripts/build_{water,ejclimate,vectorhousing,chemfood}_snapshots.py` with a
+   `--check` mode.
 
 ### Known limitations and technical debt
 
@@ -445,6 +492,18 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
     (school/CERC, maternal-child health, and `core/practice.rs` used by shelter intake, LTBI, and
     the newcomer checklist); `haitian_creole` works everywhere, codes such as `ht` do not. Unify
     them.
+- **Phase 14 limits:** water systems are listed under the town in their PWSID, so a neighbor's
+  system that serves part of a town is not shown; SDWIS has no descriptions for Revised Total
+  Coliform Rule codes; school and child care lead testing (on the EEA portal) is not included;
+  the EEA PFAS endpoint is the portal's own undocumented API. EJScreen and CDC's EJI are not
+  bundled (their hosts and every archive mirror were blocked); the EJ tool reads an archived
+  EJScreen file the nurse saves. Flood risk uses NFIP claims (insured losses, not risk) instead of
+  flood-zone areas. Tick-borne data are county-level (Dukes and Nantucket combined); NNDSS has
+  no 2025–2026 Massachusetts babesiosis or anaplasmosis rows. The 2025 food access map (any SNAP
+  store) finds few low-access tracts in cities; the 2019 supermarket map is shown beside it.
+  There are no AEGL or soil screening values. SNAP retailers and HIP vendors are files the nurse
+  downloads or builds (the USDA and DTAFinder hosts were blocked), and the retailer file's column
+  names could not be checked.
 - **User guide upkeep:** the `.docx` is built by `docs/user-guide/build-user-guide.js` (Node.js
   with the `docx` package, plus LibreOffice and `pdftotext` for contents page numbers); it is not
   part of the Rust build or CI. Every new tool needs an entry in `guide-content.js` (a registry
@@ -461,7 +520,9 @@ crates/
                adapters: Socrata (data.cdc.gov), Census ACS, SVI, PLACES, NCBI E-utilities, CDC feeds,
                boundaries, openFDA/DailyMed/RxNorm, CVX/MVX, NNDSS, respiratory and wastewater,
                HRSA, CMS Provider Data, older adults, FindTreatment.gov, NWS, OpenFEMA, emPOWER,
-               AirNow files, HeatRisk, census blocks (PL 94-171)
+               AirNow files, HeatRisk, census blocks (PL 94-171), SDWIS/PFAS6/fluoridation (water),
+               EJ layer/Heat and Health Index/NFIP/hazard mitigation plans/MVP (ejclimate), DPH
+               arbovirus and tick-borne data (vectorborne), NIOSH/ATSDR (chemicals), USDA food access
   phn-epi      rates, suppression, standardization, 2×2/Mantel–Haenszel, GLMs (IRLS), trends/joinpoint,
                hypothesis tests, SPC, sample size, aberration detection (EARS, CUSUM, Farrington),
                M/M/c queueing (Erlang C), survey estimation with cluster (Taylor) intervals
@@ -473,7 +534,7 @@ crates/
                chronic, equity, epi, comms, ebp); localdata (guardrails for analyzing local files); charts
   phn-server   rmcp server: per-phase #[tool] routers, prompts, toolset filtering, resources, main.rs
 content/       reference content (YAML) with review metadata; schemas in content/schemas/
-snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 9 MB, 34 snapshots)
+snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 12 MB, 50 snapshots)
 fixtures/      synthetic test corpus, all fictional; seeded_identifiers.json lists every planted identifier
 docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0010),
                acceptance/ (per phase), cdsi-test-results.md
@@ -514,7 +575,7 @@ Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`�
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 822 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # 895 tests: unit, golden, CDSi cases, MCP integration
 node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
@@ -611,6 +672,30 @@ MSRV is 1.88.
   line-list parser by rejecting years outside 1900–2100); byte slicing and `String::truncate` on
   non-ASCII text; `f64::signum(0.0)` is 1.0; substring keyword matching; fuzzy matching that
   accepted ties; and suppression applied per row when totals elsewhere revealed the cell.
+- **Network (Phase 14):** data.epa.gov (Envirofacts `dmapservice` tables; the older
+  enviro.epa.gov pages are blocked), www.ers.usda.gov, nccd.cdc.gov (My Water's Fluoride, through
+  ASP.NET form posts), msc.fema.gov, eeaonline.eea.state.ma.us (the EEA Data Portal's PFAS API),
+  and wwwn.cdc.gov (ATSDR MRLs and ToxFAQs) were added and work; www.atsdr.cdc.gov and the MassGIS
+  S3 downloads work. Still blocked: eji.cdc.gov, gaftp.epa.gov, ejscreen.epa.gov (and
+  www.epa.gov/ejscreen is 404), web.archive.org, source.coop, `*.github.io`, github.com release
+  pages, zenodo.org, dataverse.harvard.edu, screening-tools.com, arcgis.com and
+  gis.data.mass.gov, resilientma.mass.gov, ephtracking.cdc.gov, echo.epa.gov,
+  gisportal.ers.usda.gov, www.fna.usda.gov (where www.fns.usda.gov now redirects),
+  catalog.data.gov, DTAFinder, www.osha.gov, the poison center sites, ntp.niehs.nih.gov,
+  www.cochranelibrary.com, pubmed.ncbi.nlm.nih.gov (web; E-utilities work), www.ada.org,
+  www.astdd.org, www.aapd.org, www.thecommunityguide.org, and publications.aap.org (403). eCFR
+  web pages redirect to a blocked host; its versioner API works.
+- **SDWIS quirks:** `STATE_CODE` is the mailing address (out-of-state systems appear), so filter
+  on primacy agency; a town's systems share the PWSID prefix `MA` + MassDEP region digit + MassGIS
+  town number; lead and copper sample ids repeat across systems (join on PWSID and sample id).
+  The one tribal system (Aquinnah Wampanoag) has EPA Region 1 primacy.
+- **Leak-test surnames again:** citing a journal article's first author ("Taylor") failed the leak
+  test; cite evidence by journal and year, not author.
+- **Phase 14 parallel work:** with per-package marker sections everywhere, the only conflicts were
+  the README rows above a shared marker line, `manifest.json`, and `seeded_identifiers.json`. A
+  small script that unions the README hunks and merges the JSON lists by key resolved every
+  merge; a trial merge of the unfinished branches in a throwaway worktree found the conflicts
+  early. Helpers that hit the usage limit had committed WIP at each step and resumed by message.
 - **Library APIs** (read the source in `~/.cargo/registry/src/` before guessing):
   - `rmcp` 3.9: `output_schema = schema_for_output::<Envelope<T>>()`; per-phase
     `#[tool_router(router = phaseN_router, vis = "pub(crate)")]` blocks merged in
@@ -620,24 +705,28 @@ MSRV is 1.88.
     `skrifa` as before. rustfmt removes the blank line before a comment marker in `vec!`/array
     literals.
 
-## 5. Suggested next steps (Pilot 3 → Phase 14: environmental health and climate)
+## 5. Suggested next steps (Phase 15: chronic disease prevention and community assessment)
 
 - Pilot 3: the nurse reviews the Phase 13 content (section 2), picks the scenario, and runs the
   tabletop with `plan_tabletop_exercise` / `design_hseep_exercise`; feed what the planning team
   changes back into `content/epr/exercise_scenarios.yaml` and the after-action report into
   `build_after_action_report`'s acceptance checks.
-- Tag `v0.14.1` after PR #7 merges and watch the first run of the release workflow.
+- Tag a release (`v0.14.1` now, or `v0.15.0` after PR #8 merges) and watch the first run of the
+  release workflow.
 - Work through the review's open technical debt (section 2, "Open after the peer review") a few
-  items at a time, alongside Phase 14.
-- Phase 14 (`project_plan.md`): ENV-03 `drinking_water_quality_lookup`, ENV-04
-  `environmental_justice_screen`, ENV-05 `climate_health_vulnerability_profile`, ENV-06
-  `vector_borne_disease_risk`, ENV-07 `housing_conditions_health_guide`, ENV-08
-  `chemical_exposure_reference`, CHR-06 `food_access_mapper`, CHR-07
-  `community_water_fluoridation_status`. Reuse the Phase 12 heat and air quality code
-  (`crates/phn-tools/src/env/`) and the CERC boil water set; check whether EPA Envirofacts,
-  MassDEP, and the Massachusetts EJ layer are reachable before planning snapshots.
+  items at a time.
+- Phase 15 (`project_plan.md`): CHR-02 `community_bp_screening_toolkit`, CHR-03
+  `diabetes_prevention_finder`, CHR-04 `preventive_services_lookup`, CHR-05
+  `asthma_home_assessment`, EQ-08 `community_health_assessment_builder`, EQ-09
+  `prioritize_health_issues`, EQ-10 `analyze_qualitative_data`, EPI-13
+  `geocode_and_aggregate_addresses`. The offline geocoder (MassGIS address points and TIGER) is
+  the largest item; check image size early. CHR-05 can reuse the Phase 14 housing content
+  (`content/env/housing_conditions.yaml`) and EQ-08 the Phase 14 EJ, climate, and food access
+  tools. Check whether the USPSTF API and the National DPP registry are reachable first.
 - Before Pilots 1 and 2, get the nurse's content reviews and decisions done (section 2). The
-  nurse may also want a role profile for home visiting and community nursing (section 2).
+  nurse may also want a role profile for home visiting and community nursing (section 2), and
+  the `env` and `chronic` groups are now large enough that an environmental health profile may
+  help.
 
 ## 6. History
 
@@ -651,6 +740,7 @@ MSRV is 1.88.
 | 2026-11-09 | Phases 7–12: 50 tools (school health, maternal and child health, PHN practice, healthy aging and mental health screening, substance use and communication, preparedness I); version 0.13.0; user guide rebuilt (116 pages) | #5 |
 | 2026-11-09 | Phase 13: 5 tools (ICS forms and IAP, COOP, HSEEP exercise design, after-action report, CERC), `plan_tabletop_exercise` prompt, staff roster module and ADR 0009; version 0.14.0; user guide rebuilt (124 pages) | #6 |
 | 2026-11-11 | Peer review of Phases 0–13: about 170 fixes (privacy leaks, wrong clinical and statistical results, panics, stale data shown as current), plan and documentation corrected, ADR 0010, Docker time zone, release workflow reordered; version 0.14.1; 822 tests | #7 |
+| 2026-11-11 | Phase 14: 8 tools (drinking water, fluoridation, EJ screen, climate and health vulnerability, vector-borne disease, housing conditions, chemical exposure, food access), 16 snapshots with four builders, population count bases fixed; version 0.15.0; user guide rebuilt (135 pages); 895 tests | #8 |
 
 ## Keeping this file current
 

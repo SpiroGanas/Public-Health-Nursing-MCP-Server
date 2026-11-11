@@ -9,9 +9,9 @@
 
 'use strict';
 
-const VERSION = '0.14.1';
+const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 102;
+const TOOL_COUNT = 110;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -72,7 +72,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into 13 work areas. Chapters 4 to 16 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 14 work areas. Chapters 4 to 17 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -104,6 +104,9 @@ const frontChapters = [
                 // Phase 12 work-area rows go below this line.
                 ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; fill ICS forms and Incident Action Plans; draft a continuity of operations plan; design exercises and write after-action reports; build crisis and emergency risk communication; check air quality; plan the heat response.', '13, plus a guided tabletop exercise'],
                 // End of Phase 12 work-area rows.
+                // Phase 14 work-area rows go below this line.
+                ['Environmental health and climate (chapter 17)', 'Look up drinking water violations, lead, and PFAS for your town’s water systems; check community water fluoridation; screen environmental justice populations; profile climate and health vulnerability for MVP and hazard mitigation planning; follow mosquito and tick-borne disease risk; explain housing conditions under the State Sanitary Code; look up chemical exposure limits; map food access.', '8'],
+                // End of Phase 14 work-area rows.
               ],
             },
           },
@@ -3368,6 +3371,267 @@ const toolChapters = [
     ],
   },
   // End of Phase 12 and 13 chapter.
+  // Phase 14 chapter goes below this line.
+  {
+    title: 'Environmental health and climate',
+    intro: 'These eight tools cover environmental health and the health effects of climate: drinking water quality and community water fluoridation, environmental justice populations, climate and health vulnerability for MVP and hazard mitigation planning, mosquito- and tick-borne disease risk, housing conditions under the State Sanitary Code, chemical exposure reference values, and food access. Six are in the env group (the preparedness profile includes it; turn it on for other profiles); the fluoridation and food access tools are in the chronic group (phn_leader only). Every figure names its source and date, and the tools work offline from bundled snapshots when live data cannot be reached. The guidance was drafted from EPA, MassDEP, DPH, EEA, CDC, ATSDR, NIOSH, FEMA, and USDA sources retrieved in November 2026 and is pending review by the project’s subject matter expert; every answer says so.',
+    tools: [
+      // Phase 14 Water (ENV-03, CHR-07) tools.
+      {
+        id: 'drinking_water_quality_lookup',
+        title: 'Look up drinking water quality',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'no',
+        does: 'Lists the public water systems in a Massachusetts town (from EPA’s drinking water database) with how many people each serves, health-based violations in recent years, the latest lead and copper test results compared with the action levels, and MassDEP PFAS results for treated water compared with the Massachusetts standard of 20 ng/L. It says what residents can do and, when part of the town uses private wells, what MassDEP recommends well owners test for and how often.',
+        when: [
+          'A resident, parent, or provider asks whether the town’s water is safe, or about PFAS or lead in the water.',
+          'Planning outreach to families with infants or pregnant people where PFAS is above the standard.',
+          'Advising private well owners, home buyers, or landlords about well testing.',
+        ],
+        provide: [
+          'A town (or use your saved town), or a water system’s ID (PWSID) or name.',
+          'Optionally how many years of violations to show, or ask to include schools, child care, and businesses with their own wells.',
+        ],
+        examples: [
+          'Is there PFAS in Boxborough’s water, and what should pregnant residents do?',
+          'Show health-based drinking water violations in Acton over the last 10 years.',
+          'What should private well owners in Harvard test for, and how often?',
+          'Look up water system MA2002000.',
+        ],
+        returns: [
+          'A table of systems with violations, lead results, and PFAS results; what needs attention; what residents can do; private well testing guidance when relevant; and the current Massachusetts and EPA standards, including EPA’s 2026 proposed changes to the PFAS rule.',
+        ],
+        notes: [
+          'EPA’s data are updated every three months and can lag MassDEP; the water system and MassDEP have the final word on compliance.',
+          'Without the internet, a dated copy of the data is used and the answer says so.',
+          'PFAS averages are for information only; MassDEP decides compliance from quarterly averages of monthly samples.',
+          'Systems are listed under the town in their ID number; a neighboring town’s system may also serve part of your town.',
+        ],
+      },
+      {
+        id: 'community_water_fluoridation_status',
+        title: 'Check community water fluoridation',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'only if you ask for a brief',
+        does: 'Shows whether a town’s water is fluoridated on DPH’s list and in CDC’s state report (which systems add fluoride, buy fluoridated water, or have natural fluoride, and their reported fluoride levels), the statewide picture, each organization’s current position side by side with its date, the main evidence reviews, where they disagree, and what Massachusetts law (M.G.L. c. 111, § 8C) says about local decisions. It can write a Word brief for a board of health discussion.',
+        when: [
+          'A board of health is asked to start, continue, or stop fluoridation.',
+          'Deciding with local clinicians whether children need other fluoride protection.',
+          'Answering residents’ questions about fluoride in the water.',
+        ],
+        provide: [
+          'A town (or use your saved town), or “Massachusetts” for the statewide summary.',
+          'Ask for a brief if you want the Word document.',
+        ],
+        examples: [
+          'Is Hingham’s water fluoridated?',
+          'Prepare a fluoridation brief for our board of health in Northampton.',
+          'What share of Massachusetts residents get fluoridated water?',
+        ],
+        returns: [
+          'The town’s status from DPH and CDC with the systems behind it, the statewide summary, positions from DPH, CDC, EPA, FDA, the AAP, and the Community Preventive Services Task Force with dates, evidence reviews (NTP, JAMA Pediatrics, Cochrane, CDC), where they differ, the state law, and draft discussion points.',
+        ],
+        notes: [
+          'The tool never takes a side; it shows each body’s position and date so the board can weigh them.',
+          'Federal positions changed in 2025 and 2026; check the sources before a vote.',
+          'DPH’s list is from 2023 and CDC’s report is reported by the state; the water system is the best source for current fluoride levels.',
+          'Some organizations’ websites could not be reached, so their positions are not included (the answer lists them).',
+        ],
+      },
+      // End of Phase 14 water tools.
+      // Phase 14 EJ and climate (ENV-04, ENV-05) tools.
+      {
+        id: 'environmental_justice_screen',
+        title: 'Screen for environmental justice populations',
+        toolset: 'env',
+        internet: 'no',
+        files: 'optional: a map and a table in your output folder; reads an EJScreen file you saved',
+        does: 'Shows which neighborhoods (census block groups) in your town, a county, or the state are Massachusetts environmental justice (EJ) populations, which criteria they meet (minority, income, English isolation), how many people live in them, and the languages to plan for. It explains what an EJ designation changes (state environmental review of nearby projects, translation and interpreters, DPH’s vulnerable health criteria) and adds Social Vulnerability Index context.',
+        when: [
+          'Planning outreach, a community health assessment, or language access.',
+          'A project needing state environmental review (MEPA) is proposed near your town and you want to know whether EJ rules apply.',
+          'Writing a grant that asks about EJ populations.',
+        ],
+        provide: [
+          'A town, county, or "Massachusetts" (your saved town is the default).',
+          'Optionally, an archived EPA EJScreen block group file you saved in your data folder, and whether you want a map or a table.',
+        ],
+        examples: [
+          'Which neighborhoods in Lowell are environmental justice populations, and which languages should we plan for?',
+          'How many people in Hampden County live in EJ block groups? Make a map.',
+          'Using the EJScreen file ejscreen_ma.csv, compare traffic and air pollution percentiles in Chelsea’s EJ block groups with the rest of the city.',
+        ],
+        returns: [
+          'EJ block groups and people by criterion, the share of residents, limited-English households and top languages, towns ranked by EJ population (for a county or the state), SVI context, what designation means, and DPH’s vulnerable health criteria.',
+          'With an EJScreen file: average percentiles for EJ and other block groups and counts at or above the 80th percentile (no rows).',
+        ],
+        notes: [
+          'The EJ layer uses the 2020 Census and 2016–2020 survey estimates (EEA update of November 2022). Confirm a specific site on EEA’s EJ Maps Viewer.',
+          'EPA removed EJScreen in 2025. It is not built in; if you have an archived copy, save just the Massachusetts rows in your data folder.',
+          'The CDC Environmental Justice Index is not built in; the link is given.',
+        ],
+      },
+      {
+        id: 'climate_health_vulnerability_profile',
+        title: 'Profile your town’s climate and health vulnerability',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'optional: a Word profile in your output folder',
+        does: 'Builds a one-page-style profile of your town for Municipal Vulnerability Preparedness (MVP) and hazard mitigation planning: extreme heat days, tree canopy, and paved surface; flood insurance claims and flood program status; environmental justice and social vulnerability; older adults, young children, disability, poverty, no car, limited English; asthma, COPD, heart disease, diabetes and other climate-sensitive conditions; people who rely on powered medical equipment; and your town’s MVP and FEMA hazard mitigation plan status. Every number is compared with Massachusetts, and the most important vulnerabilities are listed first.',
+        when: [
+          'Your town is starting or updating its MVP or hazard mitigation plan.',
+          'Preparing a climate and health section for a community health assessment or a grant.',
+        ],
+        provide: [
+          'A city or town (your saved town is the default). Ask for a Word document if you want one.',
+        ],
+        examples: [
+          'Build a climate and health vulnerability profile for Chelsea for our MVP workshop.',
+          'Is Scituate’s hazard mitigation plan current, and how often has it flooded?',
+          'Write a climate vulnerability profile for Pittsfield as a Word document.',
+        ],
+        returns: [
+          'Heat, flooding, social vulnerability, and health indicators with Massachusetts comparisons, sources, and years; the most important vulnerabilities and the rule that flagged each; MVP and FEMA plan status; health effects of heat and flooding.',
+        ],
+        notes: [
+          'The rules that pick the most important vulnerabilities are the tool’s defaults (for example, at least 1.2 times the state value), not a standard; your planning team can weigh them differently.',
+          'Heat and tree canopy values come from ZIP code areas averaged over the town. Flood insurance claims show past insured losses, not a flood map.',
+          'FEMA plan status is checked online when possible; otherwise a saved copy is used and the answer says so.',
+        ],
+      },
+      // End of Phase 14 ejclimate tools.
+      // Phase 14 Vectors and housing (ENV-06, ENV-07) tools.
+      {
+        id: 'vector_borne_disease_risk',
+        title: 'Check mosquito- and tick-borne disease risk',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'optional, a one-page notice in your output folder',
+        does: 'Shows the Massachusetts Department of Public Health (DPH) risk level for Eastern equine encephalitis (EEE) and West Nile virus in your town, county, or the whole state, what the level means, what residents can do, and what DPH’s Arbovirus Surveillance and Response Plan recommends at that level. It adds Lyme disease, babesiosis, and anaplasmosis cases and rates for your county from DPH’s yearly reports, emergency department visits for tick-borne disease, and prevention messages for families, schools, camps, and outdoor workers.',
+        when: [
+          'During mosquito season (June to October), when DPH raises a town’s risk level.',
+          'Planning tick and mosquito messages for schools, camps, or outdoor workers.',
+          'Preparing a board of health update or a community health assessment.',
+        ],
+        provide: [
+          'A town or county (or your saved town), and who the messages are for.',
+          'Optionally a past season (2022 or later), or ask for a one-page notice.',
+        ],
+        examples: [
+          'What is the EEE and West Nile virus risk in Middleborough right now?',
+          'Which towns in Plymouth County were at high EEE risk in 2024?',
+          'How common is babesiosis in Barnstable County, and what should camps do about ticks?',
+          'Make a one-page mosquito and tick notice for our schools.',
+        ],
+        returns: [
+          'Risk levels with the date DPH last updated them, what each level means and the actions for it, positive mosquito and animal findings, human cases by county, earlier seasons, tick-borne disease counts and rates by county with the state rate, emergency department visits, and cited prevention messages.',
+        ],
+        notes: [
+          'Outside June to October, or when DPH’s page cannot be reached, it shows DPH’s last levels with their date and says clearly that they are not current risk.',
+          'DPH publishes tick-borne disease cases by county, not town, and reports Dukes and Nantucket together. Counts under 20 are marked unstable.',
+          'Lyme disease counts changed in 2022 when the case definition changed, so they cannot be compared with earlier years.',
+          'The recommended cancellation times for evening activities are DPH’s 2026 schedule; DPH publishes a new one each season.',
+        ],
+      },
+      {
+        id: 'housing_conditions_health_guide',
+        title: 'Explain unhealthy housing conditions and how to get an inspection',
+        toolset: 'env',
+        internet: 'no',
+        files: 'yes, tenant teaching sheets (and letters, if you give a household file) in your output folder',
+        does: 'Explains what the State Sanitary Code (105 CMR 410.000) requires for mold and leaks, pests, heat, hot water and utilities, lead paint, smoke and carbon monoxide alarms, and trash: who must fix what (owner or tenant), the health effects and who is most at risk, which problems are urgent, how to get a free board of health inspection and how fast it must happen, and tenant protections. It writes plain-language tenant teaching sheets checked for reading level, and can fill inspection request and repair request letters from your own household list.',
+        when: [
+          'A family on your caseload has mold, pests, no heat, or peeling paint.',
+          'Teaching a tenant how to ask for repairs or an inspection.',
+          'Preparing handouts for a clinic, shelter, or community event.',
+        ],
+        provide: [
+          'The problems in the family’s own words (for example “roaches and a leak”), or leave it blank for all.',
+          'Optionally the languages you need (only your agency’s approved translations are used) and a household file in your data folder for the letters.',
+        ],
+        examples: [
+          'A family in Holyoke has no heat and mice. What does the sanitary code require, and how do they get an inspection?',
+          'Make teaching sheets about mold and lead paint in English and Spanish.',
+          'Fill inspection request letters from housing_requests.csv.',
+        ],
+        returns: [
+          'Code sections and requirements, owner and tenant duties, health effects, inspection and hearing timelines, tenant protections, local housing facts, the teaching sheets with their reading grade, and the letter templates.',
+        ],
+        notes: [
+          'Tenant protections are general information, not legal advice. Refer families to legal aid (masslrf.org) before they withhold rent or make repairs themselves.',
+          'Names, addresses, and phone numbers from your household file go only into the letters in your output folder; they are never shown in the chat.',
+          'Save your board of health phone number (configure_jurisdiction) so it prints on the sheets.',
+        ],
+      },
+      // End of Phase 14 vectorhousing tools.
+      // Phase 14 Chemicals and food (ENV-08, CHR-06) tools.
+      {
+        id: 'chemical_exposure_reference',
+        title: 'Look up a chemical exposure',
+        toolset: 'env',
+        internet: 'no',
+        files: 'no',
+        does: 'Looks up a chemical by name, synonym, or CAS number and shows its NIOSH Pocket Guide entry (workplace limits, symptoms, target organs, first aid), the current NIOSH IDLH, ATSDR minimal risk levels by route and length of exposure, and links to the ATSDR ToxFAQs fact sheet you can share. For a spill, indoor air, contaminated site, drinking water, or workplace question it adds notes and whom to call in Massachusetts.',
+        when: [
+          'A resident calls about a spill, an odor, or a chemical found at a site or in water.',
+          'You need plain-language material (ToxFAQs) for a community meeting.',
+          'Checking what a chemical does to the body and how it is absorbed.',
+        ],
+        provide: [
+          'The chemical name, a synonym or abbreviation (TCE, perc), or the CAS number from the Safety Data Sheet.',
+          'Optionally the situation: spill or release, indoor air, contaminated site, drinking water, or workplace.',
+        ],
+        examples: [
+          'A truck spilled toluene on Route 9. What are the health effects and whom do we call?',
+          'Residents near a dry cleaner are worried about perc in indoor air. What are the ATSDR screening levels?',
+          'Look up CAS 79-01-6 for a contaminated site question.',
+        ],
+        returns: [
+          'The NIOSH entry, current IDLH, ATSDR MRLs, ToxFAQs links, scenario notes, a whom-to-call table, and how to read the numbers.',
+        ],
+        notes: [
+          'Workplace limits (REL, PEL, IDLH) are for adult workers over a work shift. They are not safe levels for homes, schools, or communities; every answer says so.',
+          'ATSDR minimal risk levels are screening levels, not cleanup levels or a test for whether one person was harmed.',
+          'If a name could mean more than one chemical (for example arsenic), the tool lists the choices instead of guessing.',
+          'Phone numbers were checked on official pages when the tool was built; the content is waiting for review.',
+        ],
+      },
+      {
+        id: 'food_access_mapper',
+        title: 'Map food access and food resources',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a map, a Word resource list, and an Excel workbook in your output folder',
+        does: 'Shows the census tracts in your town, county, or the state that the USDA Food Access Research Atlas counts as low income and low access to food (four definitions, by straight-line or driving distance), how many people live there, households without a car or receiving SNAP, and how these tracts overlap social vulnerability. It adds Healthy Incentives Program (HIP) and SNAP information, and counts the food pantries, SNAP stores, and HIP farm vendors in your own lists by town.',
+        when: [
+          'A community health assessment or improvement plan on food insecurity.',
+          'Planning where to hold a mobile pantry, farmers market, or SNAP outreach.',
+          'A grant application that needs food access data.',
+        ],
+        provide: [
+          'A town or county (or nothing for your saved town).',
+          'Optionally your lists in your data folder: food pantries and meal sites, SNAP stores downloaded from USDA, and HIP vendors. List organizations only, never clients.',
+        ],
+        examples: [
+          'Which census tracts in Holyoke are low income and low access to food?',
+          'Map food access in Hampden County by driving distance and use my pantries.csv list.',
+          'How many HIP vendors and food pantries do we have in the low-access areas of Springfield?',
+        ],
+        returns: [
+          'Tract counts and people by definition, a list of the low-access tracts, HIP and SNAP facts, counts of your sites by town, a tract map, a Word resource list, and an Excel workbook.',
+        ],
+        notes: [
+          'The newest map (2025) counts any SNAP store, including convenience stores; the older 2019 supermarket map is shown for comparison and is approximate on today’s census tracts.',
+          'Site names and addresses from your lists go only into the files in your output folder; the chat sees counts.',
+          'A list that looks like clients (names with dates of birth, client or patient columns) is refused.',
+        ],
+      },
+      // End of Phase 14 chemfood tools.
+    ],
+  },
+  // End of Phase 14 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------

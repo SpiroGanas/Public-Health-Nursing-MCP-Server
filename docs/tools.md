@@ -2585,3 +2585,358 @@ run the hotwash, and write the after-action report and improvement plan
 into the chat. The message names the toolsets the workflow uses (`epr`, with `equity`, `env`,
 `cd`, and `vax` for context) and tells the model to report, not retry, a tool whose toolset is
 off.
+
+## Phase 14: Environmental health and climate
+
+<!-- Phase 14 tools go below this line. -->
+
+<!-- Phase 14 Water (ENV-03, CHR-07). -->
+
+### `drinking_water_quality_lookup` (ENV-03, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town | A Massachusetts city or town (counties and the state are refused: systems are listed town by town). |
+| `system` | | A PWSID (`MA2002000`) or part of a system name; shows that system only. A name must match one system (ties are refused with the candidates). |
+| `years` | 5 | Years of violation history (1–10). |
+| `include_non_community` | false | Also list non-transient (schools, child care, workplaces) and transient (restaurants, campgrounds) systems; they are counted either way. |
+| `private_wells` | automatic | Private well testing guidance; included automatically when the town's community systems report serving fewer than 90% of its ACS population (tool default) or there is none. |
+
+**Output.** For each system: population served and connections, source (ground, surface,
+purchased), wholesaler and school/child care flags, health-based violations whose compliance
+period began in the window (contaminant, violation type, category, rule, status, return to
+compliance, measured level, public notice tier; named from SDWIS reference codes, with the rule
+and category when a code has no description), counts of other violations by category, the
+number listed as Open, the latest lead and copper 90th percentiles against the 15 µg/L and
+1.3 mg/L action levels, and a PFAS6 summary for treated water (latest result, highest result
+and count above 20 ng/L in the last 12 months of data, and the highest sampling-location average
+in the latest quarter, with not-detected counted as 0, a tool default). Flags list what needs
+attention. The town summary compares the population served with the ACS population. Standards
+(Massachusetts PFAS6 MCL and how MassDEP determines compliance; EPA's 2024 PFAS rule and the May
+2026 proposals to rescind four MCLs and extend PFOA/PFOS compliance to 2031; the Lead and Copper
+Rule and the 2024 Improvements), what residents can do (Consumer Confidence Reports; MassDEP's
+PFAS advice for pregnant and nursing people and infants; EPA's lead steps), and private well
+guidance (MassDEP Private Well Guidelines Tables 11 and 12, PFAS testing FAQ, certified labs,
+board of health role, Table 9 arsenic/uranium towns, bedrock lead towns).
+
+**Sources.** Live: EPA SDWIS/Fed through the Envirofacts data service
+(`data.epa.gov/dmapservice/sdwis.water_system|violation|lcr_sample_result|lcr_sample`, filtered by
+the four PWSID prefixes of the town: `MA` + MassDEP region digit + MassGIS town number) and the
+EEA Data Portal API (finished-water PFAS6, 24 months), cached for a day, requested concurrently.
+Fallback: snapshots `epa-sdwis-ma` (active systems, violations since 2016, lead and copper since
+2016, reference codes) and `massdep-pfas6-ma` (24 months), retrieved 2026-11-11, built by
+`xtask/scripts/build_water_snapshots.py`. Tribal systems (EPA Region 1 primacy; the Aquinnah
+Wampanoag system) always come from the snapshot. Content: `content/env/drinking_water.yaml`.
+
+**Privacy.** Public data only; SDWIS operator names, emails, and phones are never parsed or
+returned. No local files.
+
+**Limits.** SDWIS is quarterly and can lag MassDEP; a system is listed under the town in its
+PWSID and may serve neighbors (and a neighbor's system may serve part of the town); population
+served is self-reported. PFAS6 averages are informational, not compliance determinations.
+Lead and copper action level exceedances are not violations. Revised Total Coliform Rule
+violation codes have no SDWIS description and are named by rule and category.
+
+### `community_water_fluoridation_status` (CHR-07, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town, else Massachusetts | A city or town, or "Massachusetts" for the statewide summary only (counties are refused). |
+| `brief` | false | Write a DOCX board of health brief to `/data/output`. |
+
+**Output.** The town's status on the DPH 2023 list (fully, partially, or not fluoridated; MWRA
+communities; year begun; DPH's notes) and from CDC My Water's Fluoride's 2025 Fluoridation
+Status Report (each community system assigned to the town: adjusted, consecutive, natural, or
+non-adjusted; population; reported 2025 average fluoride for adjusted systems), whether the two
+agree, and notes (duplicate CDC records that disagree, an adjusted system averaging 0 mg/L,
+DPH notes such as Fall River's interim suspension). Statewide: CDC's November 2025 summary
+(people and systems by status; 58.2% of people on community systems) and towns by DPH status.
+Then the standards (PHS 0.7 mg/L; EPA MCL 4.0 and secondary 2.0 mg/L), each body's current
+position side by side with its date (DPH, CDC, CPSTF as described by CDC, EPA, FDA, AAP), evidence
+reviews (NTP 2024, JAMA Pediatrics 2025, Cochrane 2024, CDC 2024), where they differ (supplement
+ages: DPH vs FDA vs AAP; safety at 0.7 mg/L; size of benefit), M.G.L. c. 111, § 8C in plain
+language, draft board of health discussion points, and the bodies not included because their
+sites could not be reached (ADA, ASTDD, AAPD, WHO, CPSTF's own page, HHS).
+
+**Sources.** Snapshots `cdc-mwf-ma` and `dph-fluoridation-towns` (retrieved 2026-11-11; CDC
+records matched to EPA SDWIS systems and towns by the builder, with outdated or duplicate CDC
+PWSIDs labeled). Content: `content/chronic/fluoridation.yaml` (every position and finding cites
+its own page or the PubMed record, with dates).
+
+**Privacy.** Public data and reference content only; the brief contains no personal data.
+
+**Limits.** DPH's list is from 2023 and CDC's report is state-reported and may show targets, not
+test results; the water system is the best source. Positions are never ranked or chosen; this is
+decision support for a board of health under c. 111, § 8C.
+
+<!-- End of Phase 14 water. -->
+
+<!-- Phase 14 EJ and climate (ENV-04, ENV-05). -->
+
+### `environmental_justice_screen` (ENV-04, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | City or town, county, or the state. |
+| `ejscreen_path` | | An archived EPA EJScreen 2.3 (2024) block group CSV in `/data` (Massachusetts rows, or the national file under 150 MB). |
+| `map` | false | Map of the EJ block groups (SVG and PNG) in `/data/output/maps`. |
+| `table` | false | The area's EJ block groups (XLSX) in `/data/output`. |
+
+**Output:** the area's 2020 Environmental Justice block groups (EEA layer, 2020 Census and ACS
+2016–2020, updated November 2022, corrected June 2024) by criterion (minority, income, English
+isolation) and by combination, with their 2020 Census population; for a town, EEA's official
+municipal statistics (EJ and total block groups, people in EJ block groups, percent of residents),
+with a caveat when the newer layer differs (Chelmsford); for a county or the state, the towns
+ranked by people in EJ block groups (25 listed statewide). English isolation: the block groups
+meeting that criterion, their limited-English households, the area's ACS limited-English
+household percent, and the three largest language groups among residents with limited English.
+SVI context: high-SVI tracts (top quarter in Massachusetts) and the EJ block groups in them. The
+statutory criteria (St. 2021, c. 8, § 56), what a designation changes (MEPA designated geographic
+area of 1 or 5 miles, EIR, advance notice, translation at 5% and interpreters above 10% of
+limited-English residents, consulting Boards of Health on languages; EEA agency public
+participation), DPH's four vulnerable health EJ criteria (heart attack, childhood blood lead,
+low birth weight, childhood asthma at 110% or more of the state rate), and how to use them.
+
+**Counting:** a block group split at a town line counts fully in each town it touches, as EEA
+counts it; county and state totals count each block group once (2,599 block groups and 3,482,860
+people statewide; EEA's published 2,604 and 3,487,681 count the split ones per town). State share
+uses the 2020 Census population (7,029,917) and EEA's 4,985 block groups.
+
+**EJScreen file:** read with the local-file guardrails. The `ID` column must hold 12-digit block
+group codes (a column the identifier scan flags is accepted only when its values are
+Massachusetts block group codes in known tracts; anything else is refused). For each `P_`
+percentile column (13 environmental indicators, 13 EJ Indexes, demographic index, low income,
+limited English) it returns the population-weighted average percentile (`ACSTOTPOP`) for all,
+EJ, and other block groups in the area and the number at or above the 80th and 90th percentile,
+plus the block groups with any EJ Index at or above the 80th percentile (EPA's former starting
+point for review, not a designation). Block groups are placed in towns by their tract's main
+town. Rows and individual values are never returned. State or national percentiles are read from
+the file name (`StatePct`).
+
+**Sources:** EEA/MassGIS 2020 EJ layer and municipal statistics; MassGIS 2020 Census towns; EEA EJ
+Policy (2021); MEPA EJ protocols guide; DPH EJ Tool; EPA EJScreen 2.3 technical documentation and
+column list; CDC/ATSDR SVI 2022; ACS 2020–2024. **Privacy:** public aggregate data; the optional
+EJScreen file gives averages and counts only; files go to `/data/output`. **Limits:** EPA's EJScreen
+archive and the CDC/ATSDR Environmental Justice Index download (eji.cdc.gov) could not be reached
+when this was built, so neither is bundled; the map polygons are simplified (15 m).
+
+### `climate_health_vulnerability_profile` (ENV-05, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | One city or town (counties and the state are refused). |
+| `document` | false | Word (DOCX) profile in `/data/output`. |
+
+**Output** (each indicator with value, Massachusetts value, ratio, source, and vintage):
+
+- Heat: extreme heat days a year (2018–2022), tree canopy, and impervious surface (NLCD 2021)
+  from the CDC/ATSDR Heat and Health Index 2024. HHI publishes ZIP Code Tabulation Area values;
+  town values are averages weighted by each ZCTA's land area in the town, and the state value
+  weights every ZCTA by land area. The ZCTAs with their HHI national ranks are listed.
+- Flooding: NFIP claims since 1978 (count, paid, dollars, peak year), claims in the last ten
+  complete years, claims per 1,000 2020 Census housing units vs the state rate; NFIP
+  participation, current flood map date, Community Rating System class and discount (Community
+  Status Book).
+- Social vulnerability: percent of residents in EJ block groups (EEA) and high-SVI tracts; ACS
+  older adults, young children, disability, poverty, no vehicle, limited English, no internet,
+  renters; PLACES asthma, COPD, coronary heart disease, diabetes, obesity, disability types,
+  loneliness, utility shutoff threat; HHS emPOWER electricity-dependent beneficiaries.
+- Planning: MVP region, MVP planning reports posted on mass.gov, designated through prior work,
+  FY24 MVP 2.0 pilot; FEMA hazard mitigation plans for the town (status, approval, expiration).
+- Most important vulnerabilities (at most 8), ranked by distance from the state value, by
+  **tool-default rules** stated in the output: percent indicators at least 1.2 times the state
+  value (unreliable ACS estimates skipped), heat days 1.1 times, tree canopy 0.75 times or less,
+  impervious 1.5 times, NFIP claims rate 2 times or 25+ recent claims, any top-quarter SVI tract,
+  50% or more of residents in EJ block groups, emPOWER rate 1.2 times. A planning flag is raised
+  when no approved plan is listed or the plan has expired or expires within 12 months
+  (44 CFR 201.6(d)(3): revise and resubmit within 5 years).
+- Health effects of extreme heat and flooding, and who is at risk (shared hazard content).
+
+**Live data:** the NFIP Community Status Book and FEMA hazard mitigation plan statuses (OpenFEMA,
+cached a day, bundled fallback); emPOWER as in `get_electricity_dependent_population`. Everything
+else is bundled, so the profile works offline. **Sources:** CDC/ATSDR HHI 2024 (data and
+technical documentation), OpenFEMA NfipClaims v3, NfipCommunityStatusBook, and
+HazardMitigationPlanStatuses, mass.gov MVP pages, eCFR 44 CFR 201.6, EEA EJ layer, SVI 2022, ACS,
+PLACES 2025, emPOWER. **Privacy:** public aggregate data only; the DOCX goes to `/data/output`.
+**Limits:** NFIP claims count insured losses only and are not a flood-risk map; FEMA NFHL flood
+zone areas by town and a verified town temperature series were not available (ResilientMass and
+CDC's Tracking Network were blocked); mass.gov does not list designated MVP communities.
+
+<!-- End of Phase 14 ejclimate. -->
+
+<!-- Phase 14 Vectors and housing (ENV-06, ENV-07). -->
+
+### `vector_borne_disease_risk` (ENV-06, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `season` | current season (June–October), else the latest | 2022 to the latest DPH workbook. |
+| `audiences` | all | `public`, `schools`, `camps`, `outdoor_workers`, or `all`. |
+| `notice` | false | One-page DOCX notice in `/data/output` (first audience given). |
+
+**Output.** EEE and West Nile virus risk levels for the town (or the number of towns at each
+level and the towns at EEE moderate or higher or WNV high or higher, for a county or the state),
+with the date DPH last updated them and whether they are current; for the highest level in the
+area, what it means, what residents can do (DPH's dashboard text), and what DPH's 2026 Arbovirus
+Surveillance and Response Plan recommends (Tables 1 and 2, shortened); positive mosquito
+samples and animal cases (town or county) and human cases (county of residence only, counts);
+the area's final levels in earlier seasons; DPH's recommended cancellation window for evening
+activities when EEE is high or critical during the season (2026 schedule, Appendix 2); Lyme
+disease (probable), babesiosis, and anaplasmosis (confirmed and probable) cases and DPH
+incidence rates per 100,000 by county, 2022–2025, with the Massachusetts rate, the change from
+the previous year, and the ratio to the state, and DPH's ten-year statewide totals; emergency
+department visits with a tick-borne disease diagnosis by county (DPH syndromic surveillance,
+2021 to the current year); current-year babesiosis and anaplasmosis counts for Massachusetts from
+NNDSS (via `get_notifiable_disease_trends`); and cited prevention messages for each audience.
+
+**Sources.** Live: DPH's Massachusetts arbovirus update page and the season's "EEE and WNV risk
+level and data" workbook it links (cached 6 hours in season, 7 days outside it), parsed with the
+server's spreadsheet reader. Snapshots: `dph-arbovirus-risk` (2022–2026 workbooks) and
+`dph-tickborne-surveillance` (DPH Tick-borne Disease Surveillance Summaries 2022–2025 and the
+syndromic reports), built by `xtask/scripts/build_vectorhousing_snapshots.py`. Content:
+`content/env/vector_borne.yaml` (DPH, CDC, NIOSH, 105 CMR 430.000).
+
+**Season handling.** From June through October the tool tries the live workbook; levels are
+called current only when they come live or from the cache for this year's season. Outside the
+season (and when the live page cannot be reached) it shows DPH's last levels with their date and
+says plainly that the season is over (or has not started) and that the levels are not current
+risk. During the season, a bundled copy is labeled as possibly out of date.
+
+**Privacy.** Public data only. Human cases are counted by county as DPH publishes them; their
+age, sex, and clinical presentation are not kept.
+
+**Limits.** DPH sets risk for focal areas, so a town can be at moderate or high risk without its
+own positive finding. DPH publishes tick-borne disease cases by county only (town figures are
+maps); Dukes and Nantucket are combined. Lyme counts from 2022 on follow the new case definition
+and cannot be compared with earlier years. Rates are DPH's as published; counts under 20 are
+flagged as unstable. NNDSS had no 2025–2026 Massachusetts babesiosis or anaplasmosis rows when
+checked, so the current-year line may say so. The cancellation schedule covers the 2026 season;
+DPH issues a new one each year.
+
+### `housing_conditions_health_guide` (ENV-07, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `conditions` | all | Names or the tenant's words: mold, leak, pests, roaches, bed bugs, no heat, hot water, lead paint, smoke or carbon monoxide alarms, trash. Matched on whole words. |
+| `area` | saved town | Town or county for local housing facts (ACS). |
+| `teaching_sheets` | true | Plain-language tenant sheets in `/data/output`. |
+| `format` | docx | `docx` or `pdf`. |
+| `languages` | | Agency-approved translations from `/data/templates/<language>/housing_<sheet>.md`; no machine translation. |
+| `households_path` | | CSV/XLSX in `/data`, one row per household (name, address, unit, town, phone, owner, problems, date noticed, language). |
+| `letters` | both | `inspection_request`, `repair_request`, or `both` (needs `households_path`). |
+
+**Output.** For each condition: the 105 CMR 410.000 sections and what they require (moisture and
+mold 410.500, 410.420, 410.220, 410.620(E); pests 410.550, 410.540; heat 410.160, 410.180; hot
+water and utilities 410.150, 410.130, 410.003(C); lead 410.470 and M.G.L. c. 111, § 197; smoke and
+carbon monoxide alarms 410.330, 410.170; trash 410.560, 410.570), owner and occupant
+responsibilities, whether 410.630(A) always deems it a condition that may endanger health, health
+effects and who is most at risk (CDC, EPA), and practical advice. Then the inspection process
+(410.600–410.680: how to ask, 1 or 5 business days, comprehensive inspection, orders within 12
+hours or 7 days, correction within 24 hours or 30 days, reinspection, hearings 410.800–410.860),
+the 18 conditions always deemed to endanger health, the saved board of health phone, tenant
+protections (M.G.L. c. 186, § 18; c. 239, § 8A; c. 111, § 127L; DPH's Notice of Occupants' Legal
+Rights and Responsibilities) with a not-legal-advice notice, and local housing facts (built
+before 1980 and 1950, renters, cost burden, crowding). Teaching sheets (one on getting an
+inspection, one per condition) are scored with the COMM-01 readability engine (median grade;
+target 8). The two letter templates are returned for review.
+
+**Privacy.** The letters follow ADR 0008: the AI sees only the templates; household details are
+read from the local file and written only to `/data/output`; the response has counts (households,
+letters, blank fields, languages) and file names. The board of health phone and town come from
+saved settings.
+
+**Limits.** Content is drafted from the regulation published in Mass. Register #1498 (6/23/2023)
+and pending review. The tenant protections summarize the statutes and DPH's notice and leave out
+conditions; refer tenants to legal aid. Local and city housing codes may add requirements.
+
+<!-- End of Phase 14 vectorhousing. -->
+
+<!-- Phase 14 Chemicals and food (ENV-08, CHR-06). -->
+
+### `chemical_exposure_reference` (ENV-08, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `chemical` | (required) | A name, synonym, trade name, or abbreviation ("benzene", "TCE", "perc", "PFOA", "PFAS"), or a CAS Registry Number ("71-43-2"; the check digit is verified). |
+| `scenario` | none | `spill_or_release`, `indoor_air`, `contaminated_site`, `drinking_water`, or `workplace`: adds scenario notes, links, and whom to call. |
+
+Looks the chemical up in four bundled snapshots: the NIOSH Pocket Guide (677 entries: synonyms,
+CAS, DOT ID and ERG guide, conversion, NIOSH REL, OSHA PEL, IDLH, physical description, exposure
+routes, symptoms, target organs, cancer site, first aid, page link), the NIOSH IDLH table (current
+values, which can differ from the Pocket Guide's), the ATSDR MRL table (October 2026: route,
+duration, MRL, total factors, endpoint, draft or final), and the ATSDR ToxFAQs index (links to the
+web page and two-page PDF; the text is not copied). Records are joined by CAS number, by ATSDR's
+substance id, or by identical names (NIOSH lists chlordane under 57-74-9, ATSDR under 12789-03-6).
+Matching: CAS number; exact name, synonym, parenthetical abbreviation, or singular of a plural
+name; content aliases (PFAS); then fuzzy spelling (accepted at 0.86 or more, a tool default, and
+flagged "check this is the chemical you meant"). When different chemicals score within 0.02 of
+each other the call fails with the candidates ("arsenic": inorganic or organic compounds); below
+the threshold it fails with suggestions and a pointer to the Safety Data Sheet.
+
+Every answer starts with the framing (also the first caveat): occupational limits (REL, PEL, IDLH)
+are for adult workers over a work shift and are not safe levels for community or residential
+exposure; MRLs are screening levels, not cleanup levels or diagnostic thresholds. "How to read
+these numbers" cites the NIOSH Pocket Guide introduction, the NIOSH IDLH page, EPA's AEGL page,
+ATSDR's MRL pages, and ATSDR's Public Health Assessment Guidance Manual. Whom to call (from
+`content/env/chemical_exposure.yaml`, every number read from the cited official page): 911 (local
+fire department), Poison Control 1-800-222-1222, MassDEP's 24-hour spill line 1-888-304-1133, the
+National Response Center 1-800-424-8802, the National Pesticide Information Center, DPH's
+toxicology division and Indoor Air Quality unit (617) 624-5757, MassDEP's main office, and the
+local board of health. Without a scenario it lists 911, Poison Control, MassDEP, DPH toxicology,
+and the board of health. Caveats flag provisional (draft) MRLs, a missing MRL ("does not mean the
+chemical is safe"), an IDLH that differs between the Pocket Guide and the current table, fuzzy
+matches, and review status. Decision support; no local data are read.
+
+Limits: reference tables only (no AEGLs, drinking water standards, or soil screening values; use
+`drinking_water_quality_lookup` for water). OSHA's pages could not be reached, so OSHA is named
+through the Department of Labor Standards page. Snapshots: `niosh_npg.csv`, `niosh_idlh.csv`,
+`atsdr_mrls.csv`, `atsdr_toxfaqs.csv` (`xtask/scripts/build_chemfood_snapshots.py`).
+
+### `food_access_mapper` (CHR-06, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `distance` | `straight_line` | `straight_line` or `driving` distance to the nearest SNAP-authorized store. |
+| `definition` | any | `one_and_ten`, `half_and_ten`, `one_and_twenty`, or `vehicle`: the definition for the tract list and the map. |
+| `pantries_path` | | CSV/XLSX in `/data` of food pantries and meal sites (organizations): name, type, address, town, ZIP, hours, phone, website, languages, latitude, longitude. |
+| `snap_retailers_path` | | CSV in `/data` from USDA's SNAP Retailer Locator (store name, store type, city, state, ZIP, latitude, longitude, end date). |
+| `hip_vendors_path` | | CSV/XLSX in `/data` of HIP farm vendors (name, type, address, town, hours), for example built from DTAFinder.com. |
+| `map` | true for a town or county | Tract map (SVG and PNG) in `/data/output/maps`. |
+| `report` | true | DOCX resource list and XLSX workbook in `/data/output`. |
+
+Data: the bundled `usda-food-access-ma` snapshot of the USDA ERS Food Access Research Atlas. The
+2025 SNAP-authorized Retailer Access Map (SRAM; STARS stores as of June 2025; released July 2026)
+is on 2020 census tracts, the project's tract geography, and gives the four low-income/low-access
+(LILA) flags by straight-line and driving distance, low-access people and low-income people,
+households without a vehicle, SNAP households, and children and older adults beyond 1 mile. The
+2019 Large Retailer Access Map (LRAM, formerly the Atlas; supermarkets, supercenters, and large
+grocery stores) is on 2010 tracts; the builder carried its LILA flags to 2020 tracts with the
+Census 2020-to-2010 tract relationship file (share of each 2020 tract's land in a flagged 2010
+tract), and a 2020 tract counts when the share is at least 50% (tool default). A town uses the
+tracts lying mainly in it (as the SVI tool does). Output: for each definition the LILA tracts and
+people in them (SRAM) with the LRAM comparison; context (population, households, low-income
+tracts, households without a vehicle or receiving SNAP, ACS poverty and no-vehicle percentages,
+LILA tracts in the top quarter of the Massachusetts SVI); the LILA tracts (up to 60; all in the
+workbook) with town, poverty, definitions met, and SVI; HIP and SNAP facts from DTA (HIP $40/$60/$80
+a month by household size, vendor types, DTAFinder, EBT Customer Service; DTA Assistance Line,
+timelines, public charge); and how to get each local file not given.
+
+Privacy: local files go through `phn_tools::localdata`, and a file with person columns (first or
+last name, client, patient, participant, recipient, member, date of birth, SSN, MRN, health plan
+or account numbers) is refused without echoing values. Only counts are returned: sites by town,
+by a fixed set of kinds (the file's own labels are not repeated), sites inside LILA tracts and
+LILA tracts without a site (when coordinates are given). Site names, addresses, and phones go
+only to the DOCX and XLSX in `/data/output`. SNAP retailer rows outside Massachusetts or with an
+end date are left out.
+
+Limits: no live fetch (ERS's map services at gisportal.ers.usda.gov are blocked from the build
+environment; the Atlas changes every few years). The SNAP Retailer Locator (www.fns.usda.gov,
+now www.fna.usda.gov) and DTAFinder.com could not be reached, so those lists are files the nurse
+adds. Distance is not the only barrier to food (cost, hours, transportation, culturally
+appropriate food).
+
+<!-- End of Phase 14 chemfood. -->
+
+<!-- End of Phase 14 tools. -->

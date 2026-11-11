@@ -33,6 +33,7 @@ explicitly asks for row-level data (and even then identifiers are masked).
 | `data/casper_results.csv` | 198 fictional CASPER interviews in 30 clusters (7, or 5 in every fifth cluster) with structure, damage, generator, and medication answers, plus household addresses and callback phones that must never be returned. |
 | `data/staff_roster.csv` | 12 fictional health department and partner staff (names, ICS positions, agencies, work and cell phones, emails, radio call signs) for the Phase 13 ICS, COOP, and exercise tools. Names may appear in chat only when the caller passes them; nothing read from this file may be returned. |
 | `data/exercise_feedback.csv` | 14 fictional HSEEP Participant Feedback Forms (names, emails, agency, exercise role, eight 1-5 ratings, and free-text comments) for the Phase 13 after-action report tool, which may return only suppressed aggregates. |
+| `data/ejscreen_ma_extract.csv` | 24 block group rows shaped like an archived EPA EJScreen 2.3 extract (22 real Lowell 2020 block group codes, two elsewhere) with made-up percentiles and a fictional reviewer name and email that must never be returned (Phase 14 EJ screen). |
 | `data/policies/` | Two short agency policies; one contains an example SSN that must never be returned. |
 | `seeded_identifiers.json` | Every seeded identifier value, its kind, and its file. |
 

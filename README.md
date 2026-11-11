@@ -10,12 +10,13 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.14.1 — Phases 0 to 13 of the [project plan](project_plan.md), with the fixes from a
-> peer review of those phases (see [CHANGELOG.md](CHANGELOG.md)).** 102 of the 148
+> **Status: v0.15.0 — Phases 0 to 14 of the [project plan](project_plan.md) (see
+> [CHANGELOG.md](CHANGELOG.md)).** 110 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
 > immunization schedules and school requirements, school health and maternal-child health rules,
 > screening instruments, aging and preparedness guidance, ICS forms, COOP, HSEEP, and CERC
-> material, and the other items listed by `get_data_source_status`) is a **draft pending
+> material, environmental health and housing guidance, and the other items listed by
+> `get_data_source_status`) is a **draft pending
 > review** by the subject matter expert; every answer from it says so. All clinical and legal output is decision support only.
 
 ## Tools
@@ -194,6 +195,20 @@ output folder instead of being sent to the AI model.
 | `crisis_risk_communication_builder` | EPR-10 | epr | CDC CERC message maps (27/9/3 checks), holding statements, FAQs, spokesperson prep, and phase tasks for seven pre-scripted hazards or your own, with a language plan (agency translations or translator briefs). |
 <!-- Phase 13 rows go above this line. -->
 
+### Phase 14: environmental health and climate
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+| `drinking_water_quality_lookup` | ENV-03 | env | Public water systems for a town (EPA SDWIS): health-based violations, lead and copper 90th percentiles, MassDEP PFAS6 results, what residents can do, and private well testing guidance. |
+| `community_water_fluoridation_status` | CHR-07 | chronic | Town fluoridation status (DPH 2023, CDC My Water's Fluoride) with the systems behind it, a statewide summary, positions and evidence side by side, M.G.L. c. 111 § 8C, and an optional board of health brief. |
+| `environmental_justice_screen` | ENV-04 | env | Massachusetts 2020 EJ block groups by criterion for a town, county, or the state, people living in them, English isolation and language access, SVI context, what designation means (MEPA, DPH vulnerable health criteria), optional archived EJScreen summary, map, and table. |
+| `climate_health_vulnerability_profile` | ENV-05 | env | Town profile for MVP and hazard mitigation planning: heat days, tree canopy, impervious surface, NFIP flood claims, social vulnerability, climate-sensitive health, MVP and FEMA plan status, and the most important vulnerabilities, with a DOCX option. |
+| `vector_borne_disease_risk` | ENV-06 | env | DPH EEE and West Nile virus risk levels by town (live in season, otherwise the dated last levels) with DPH's actions for each level, tick-borne disease cases and rates by county, and prevention messages for the public, schools, camps, and outdoor workers; optional DOCX notice. |
+| `housing_conditions_health_guide` | ENV-07 | env | State Sanitary Code (105 CMR 410.000) guide to mold, pests, heat, hot water, lead, alarms, and trash: code sections, owner and occupant duties, health effects, how to get a board of health inspection, tenant protections, readable tenant teaching sheets, and locally filled request letters. |
+| `chemical_exposure_reference` | ENV-08 | env | NIOSH Pocket Guide entry, current IDLH, ATSDR minimal risk levels, and ToxFAQs links for a chemical (name, synonym, or CAS number), with scenario notes and Massachusetts contacts; always says occupational limits are not community limits and MRLs are screening levels. |
+| `food_access_mapper` | CHR-06 | chronic | USDA Food Access Research Atlas low-income/low-access tracts (four definitions, straight-line or driving) for a town, county, or the state, with people affected, vehicle and SNAP context, HIP and SNAP information, counts of your pantries, SNAP retailers, and HIP vendors by town, a tract map, and a resource list. |
+<!-- Phase 14 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.
@@ -215,16 +230,16 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
 ```
 
-On networks that block GHCR, download `phn-mcp-server-v0.14.1-amd64.tar.gz` (or `-arm64` for
+On networks that block GHCR, download `phn-mcp-server-v0.15.0-amd64.tar.gz` (or `-arm64` for
 Apple silicon) from the GitHub release. Load it, then give the image the name the configuration
 below uses:
 
 ```sh
-docker load -i phn-mcp-server-v0.14.1-amd64.tar.gz
-docker tag phn-mcp-server:v0.14.1-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
+docker load -i phn-mcp-server-v0.15.0-amd64.tar.gz
+docker tag phn-mcp-server:v0.15.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
 ```
 
 (Use `arm64` in both commands on Apple silicon.) Without the second command Docker does not find
@@ -233,7 +248,7 @@ the image under that name and tries to download it from GHCR.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 .
 ```
 
 ### 3. Create your data folder
@@ -258,7 +273,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
       ]
     }
   }
@@ -277,7 +292,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
       ]
     }
   }
@@ -306,7 +321,7 @@ Then try, for example:
 File names are relative to your data folder: say `line_list.csv` or `rosters/kindergarten.xlsx`,
 not `PHN-Data/line_list.csv`.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

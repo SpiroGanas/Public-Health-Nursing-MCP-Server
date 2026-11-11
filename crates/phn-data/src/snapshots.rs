@@ -316,6 +316,112 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
         include_str!("../../../snapshots/findtreatment_ma.csv"),
     ),
     // End of Phase 11 snapshot files.
+    // Phase 14 snapshot files go below this line.
+    // Phase 14 Water (ENV-03, CHR-07).
+    (
+        "ma_water_systems.csv",
+        include_str!("../../../snapshots/ma_water_systems.csv"),
+    ),
+    (
+        "ma_water_violations.csv",
+        include_str!("../../../snapshots/ma_water_violations.csv"),
+    ),
+    (
+        "ma_water_lead_copper.csv",
+        include_str!("../../../snapshots/ma_water_lead_copper.csv"),
+    ),
+    (
+        "sdwis_codes.csv",
+        include_str!("../../../snapshots/sdwis_codes.csv"),
+    ),
+    (
+        "ma_water_pfas6.csv",
+        include_str!("../../../snapshots/ma_water_pfas6.csv"),
+    ),
+    (
+        "ma_fluoridation_systems.csv",
+        include_str!("../../../snapshots/ma_fluoridation_systems.csv"),
+    ),
+    (
+        "ma_fluoridation_summary.csv",
+        include_str!("../../../snapshots/ma_fluoridation_summary.csv"),
+    ),
+    (
+        "ma_fluoridation_towns.csv",
+        include_str!("../../../snapshots/ma_fluoridation_towns.csv"),
+    ),
+    // End of Phase 14 water.
+    // Phase 14 EJ and climate (ENV-04, ENV-05).
+    (
+        "ma_ej_2020_block_groups.csv",
+        include_str!("../../../snapshots/ma_ej_2020_block_groups.csv"),
+    ),
+    (
+        "ma_ej_2020_towns.csv",
+        include_str!("../../../snapshots/ma_ej_2020_towns.csv"),
+    ),
+    (
+        "ma_heat_health_index_2024.csv",
+        include_str!("../../../snapshots/ma_heat_health_index_2024.csv"),
+    ),
+    (
+        "fema_nfip_community_status_ma.csv",
+        include_str!("../../../snapshots/fema_nfip_community_status_ma.csv"),
+    ),
+    (
+        "fema_nfip_claims_ma_towns.csv",
+        include_str!("../../../snapshots/fema_nfip_claims_ma_towns.csv"),
+    ),
+    (
+        "fema_hazard_mitigation_plans_ma.csv",
+        include_str!("../../../snapshots/fema_hazard_mitigation_plans_ma.csv"),
+    ),
+    (
+        "ma_mvp_communities.csv",
+        include_str!("../../../snapshots/ma_mvp_communities.csv"),
+    ),
+    // End of Phase 14 ejclimate.
+    // Phase 14 Vectors and housing (ENV-06, ENV-07).
+    (
+        "ma_arbovirus_risk.csv",
+        include_str!("../../../snapshots/ma_arbovirus_risk.csv"),
+    ),
+    (
+        "ma_arbovirus_positives.csv",
+        include_str!("../../../snapshots/ma_arbovirus_positives.csv"),
+    ),
+    (
+        "ma_tickborne_cases.csv",
+        include_str!("../../../snapshots/ma_tickborne_cases.csv"),
+    ),
+    (
+        "ma_tickborne_ed_visits.csv",
+        include_str!("../../../snapshots/ma_tickborne_ed_visits.csv"),
+    ),
+    // End of Phase 14 vectorhousing.
+    // Phase 14 Chemicals and food (ENV-08, CHR-06).
+    (
+        "niosh_npg.csv",
+        include_str!("../../../snapshots/niosh_npg.csv"),
+    ),
+    (
+        "niosh_idlh.csv",
+        include_str!("../../../snapshots/niosh_idlh.csv"),
+    ),
+    (
+        "atsdr_mrls.csv",
+        include_str!("../../../snapshots/atsdr_mrls.csv"),
+    ),
+    (
+        "atsdr_toxfaqs.csv",
+        include_str!("../../../snapshots/atsdr_toxfaqs.csv"),
+    ),
+    (
+        "usda_food_access_ma.csv",
+        include_str!("../../../snapshots/usda_food_access_ma.csv"),
+    ),
+    // End of Phase 14 chemfood.
+    // End of Phase 14 snapshot files.
 ];
 
 /// Access to bundled snapshots with an optional newer copy in the cache.

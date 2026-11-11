@@ -1380,6 +1380,554 @@
           "rows": 341
         }
       ]
+    },
+    {
+      "id": "ma-ej-2020",
+      "title": "Massachusetts 2020 Environmental Justice Population block groups, municipal EJ statistics, and 2020 Census town population",
+      "publisher": "Massachusetts Executive Office of Energy and Environmental Affairs (EEA GIS) via MassGIS; U.S. Census Bureau 2020 Census town counts via MassGIS",
+      "source_urls": [
+        "https://www.mass.gov/info-details/massgis-data-2020-environmental-justice-populations",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/ej2020.zip",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/EJ%202020%20updated%20municipal%20statistics%20Nov2022..xlsx",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/CENSUS2020TOWNS_SHP.zip"
+      ],
+      "source_sha256": {
+        "ej2020.zip": "22b46b021a10cf7bc5e20333a6191be3343260e61480a7ebcb978ea449ec8275",
+        "CENSUS2020TOWNS_SHP.zip": "b3432e042edd71a718241bab36907c5893480b94ec1ac327b1e84159cec28876",
+        "EJ 2020 updated municipal statistics Nov2022..xlsx": "9c2e75d563b32ec8d49da2001f7356c1fcd977cd8d84c6fa8895e9709d92061f"
+      },
+      "source_vintage": "EJ layer: 2020 Census (race and ethnicity, table P2) and ACS 2016–2020 (income B19013, limited English households C16002), EEA update released November 2022; MassGIS page last updated June 6, 2024 (one Lowell/Chelmsford block group fix). Municipal statistics: November 2022 update. Town population: 2020 Census.",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts state government data (MassGIS public download); U.S. Census Bureau data (public domain).",
+      "derivation": "EJ_POLY.dbf/.shp from ej2020.zip: every polygon (2,604; three block groups split at town lines appear once per town with the whole block group's attributes, as in the source). Kept: GEOID, municipality, split flag, total population, percent minority, households, limited English households and percent, block group median household income and its percent of the state median, the 2019-income flag, the town's median income as a percent of the state's, and the criteria code (M, I, E). Geometry projected as published (NAD83 / Massachusetts Mainland, EPSG:26986), simplified with Douglas–Peucker (15 m, each polygon on its own), quantized to 10 m, and delta-encoded like ma_boundaries_*.csv. Towns: every city and town with its 2020 Census population and housing units (CENSUS2020TOWNS_POLY POP2020, HOUSING20) and EEA's municipal statistics (criteria, EJ and total block groups, population in EJ block groups, total population, percent) for the 187 towns with EJ block groups. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Block groups are 2020 Census geography; income and language come from ACS 2016–2020 estimates, which have sampling error. EJ designation can change when EEA updates the layer.",
+        "Polygons are simplified for town-scale maps; adjacent block groups can show small gaps or overlaps. Use the EEA EJ Maps Viewer for parcel-level questions.",
+        "The layer has Chelmsford with 6 EJ block groups (9,220 people); EEA's municipal statistics table lists 5 (8,362). The layer is the newer file (June 2024).",
+        "EEA's 'total population' in the municipal statistics differs slightly from the 2020 Census town count for some towns."
+      ],
+      "files": [
+        {
+          "path": "ma_ej_2020_block_groups.csv",
+          "sha256": "b474cb9af4feb85394ee8adf3732997def5f8b902b274c4e28a056e767c22c2f",
+          "bytes": 429601,
+          "rows": 2604
+        },
+        {
+          "path": "ma_ej_2020_towns.csv",
+          "sha256": "e6ec87deaf149695298d50bfdac4fb7c245148ab0f81a1cc0818abf04f7c2a41",
+          "bytes": 19464,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "cdc-heat-health-index-2024-ma",
+      "title": "CDC/ATSDR Heat and Health Index (HHI) 2024, Massachusetts ZIP Code Tabulation Areas",
+      "publisher": "Centers for Disease Control and Prevention / Agency for Toxic Substances and Disease Registry, with HHS Office of Climate Change and Health Equity",
+      "source_urls": [
+        "https://www.atsdr.cdc.gov/place-health/php/hhi/index.html",
+        "https://www.atsdr.cdc.gov/place-health/media/files/2024/08/HHI_Data.zip",
+        "https://www.atsdr.cdc.gov/place-health/media/pdfs/2024/07/HHI-2024-Release-Technical-Documentation-508.pdf"
+      ],
+      "source_sha256": {
+        "HHI_Data.zip": "5a5d37be873a741f2096c93a6793688496b063f3dd1ad45c25cf4d420767e4f1"
+      },
+      "source_vintage": "HHI 2024 release (data file dated June 2024): extreme heat days 2018–2022 (NLDAS-2 via the Tracking Network), heat-related EMS activations 2020–2022 (NEMSIS), PLACES 2023, ACS 2015–2019, NLCD 2021 impervious surface and tree canopy, 2010 ZCTAs.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Rows of 'HHI Data 2024 United States.xlsx' with STATEFP10 = 25 (533 ZCTAs). Kept: ZCTA, population, P_NEHD (5-year average number of extreme heat days, days above the ZCTA's 95th percentile of 1991–2020 temperatures), PR_NEHD, PR_HRI, the four module ranks and OVERALL_RANK (national percentile ranks, 0–1), P_IMPERV and PR_IMPERV, P_TREEC and PR_TREEC (tree canopy ranked so that less canopy ranks higher). -999 (no data) is stored as blank. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Extreme heat days are relative to each ZCTA's own temperature history and come from modeled (NLDAS-2) temperatures, not weather stations.",
+        "Values are for ZIP Code Tabulation Areas, not towns; town values in this server are land-area-weighted averages of the ZCTAs that overlap the town.",
+        "Percentile ranks are national; they show relative, not absolute, heat vulnerability."
+      ],
+      "files": [
+        {
+          "path": "ma_heat_health_index_2024.csv",
+          "sha256": "8335c7e316d591cc9d195ad3a10295e2bf744238f9a25a2f2cfab2c7efd08811",
+          "bytes": 44842,
+          "rows": 533
+        }
+      ]
+    },
+    {
+      "id": "fema-nfip-ma",
+      "title": "National Flood Insurance Program (NFIP): Massachusetts claims by city or town and the Community Status Book",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v3/NfipClaims?$filter=state%20eq%20%27MA%27",
+        "https://www.fema.gov/api/open/v1/NfipCommunityStatusBook?$filter=state%20eq%20%27MA%27&$top=1000",
+        "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3",
+        "https://www.fema.gov/openfema-data-page/nfip-community-status-book-v1"
+      ],
+      "source_sha256": {
+        "NfipCommunityStatusBook (MA, JSON)": "be204d3bb7b168fd53530421e973c652e44e23922afc7f42a18db74af8680ddc",
+        "NfipClaims v3 (MA, JSON pages)": "3b49e5f6275b3ce3094fd25002efd9488349946d72c84b7e8f263bc59bea84ee"
+      },
+      "source_vintage": "OpenFEMA NfipClaims v3 (as of 2026-09-08 in the data; claims with years of loss 1978–2026) and NfipCommunityStatusBook v1 (refreshed 2026-08-25), as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (OpenFEMA; FEMA asks that it not be presented as FEMA-endorsed).",
+      "derivation": "Claims: every Massachusetts row of NfipClaims v3 (35375 claims). Each claim is assigned to a city or town by its NFIP rated community number matched to the Community Status Book (35150), else by the tract of its census block group (161); 64 could not be placed. Per town: claims, claims with any payment, total paid (building + contents + increased cost of compliance, nominal dollars), claims and payments with year of loss in the last ten complete years (recent_from–recent_to), first year of loss, and the year with the most claims. Community Status Book: every Massachusetts community as published (participation, current effective map date, Community Rating System class and discount, sanction). Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Claims count insured flood losses only; places with few flood insurance policies can have real flood damage and few claims.",
+        "Dollar amounts are not adjusted for inflation.",
+        "The Community Status Book is fetched live by the tool when OpenFEMA can be reached; this copy is the fallback."
+      ],
+      "files": [
+        {
+          "path": "fema_nfip_community_status_ma.csv",
+          "sha256": "52a3be45c14793d4ddc4cb45c374467d50a6afc5bc35e004dd2426fa7c489205",
+          "bytes": 29363,
+          "rows": 350
+        },
+        {
+          "path": "fema_nfip_claims_ma_towns.csv",
+          "sha256": "c9fd2214347f4bfbb970e889c1a8312fe6d5082c2719fab09fad28ca924d73d7",
+          "bytes": 17084,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "fema-hazard-mitigation-plans-ma",
+      "title": "FEMA hazard mitigation plan statuses for Massachusetts jurisdictions",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v1/HazardMitigationPlanStatuses?$filter=stateAbbreviation%20eq%20%27MA%27&$top=1000",
+        "https://www.fema.gov/openfema-data-page/hazard-mitigation-plan-statuses-v1"
+      ],
+      "source_sha256": {
+        "HazardMitigationPlanStatuses (MA, JSON)": "651fd6638f0bbc97d9da7c7d47dc9258ff2bdfdcaafba023b7660fac97a5b48d"
+      },
+      "source_vintage": "OpenFEMA HazardMitigationPlanStatuses v1 as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (OpenFEMA; FEMA asks that it not be presented as FEMA-endorsed).",
+      "derivation": "Every Massachusetts row (one per plan and jurisdiction): plan id, jurisdiction GEOID, place name, county, jurisdiction type, NFIP community number, plan title and type, plan and jurisdiction status, approval, expiration, adoption, and jurisdiction approval dates (YYYY-MM-DD). Columns keep the OpenFEMA field names so the tool reads this copy and the live API the same way. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "The tool fetches this dataset live when OpenFEMA can be reached; this copy is the fallback and can be out of date.",
+        "A town can appear in several plans (its own and regional or county plans)."
+      ],
+      "files": [
+        {
+          "path": "fema_hazard_mitigation_plans_ma.csv",
+          "sha256": "e46cb83a328fe6c868c5c6b24e594b92708bb7f0b415cf52f7b1d44f4f70d7c8",
+          "bytes": 86811,
+          "rows": 470
+        }
+      ]
+    },
+    {
+      "id": "ma-mvp-communities",
+      "title": "Massachusetts Municipal Vulnerability Preparedness (MVP) program: regions, planning reports, and MVP 2.0 pilot communities",
+      "publisher": "Massachusetts Executive Office of Energy and Environmental Affairs (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/contact-your-mvp-regional-coordinator",
+        "https://www.mass.gov/info-details/municipal-vulnerability-preparedness-mvp-program-planning-reports",
+        "https://www.mass.gov/lists/mvp-community-snapshots"
+      ],
+      "source_sha256": {
+        "contact-your-mvp-regional-coordinator.html": "f7fb2d968dca54ba880ac639716a50e893692d53181e349970287e3b62f8edc4",
+        "municipal-vulnerability-preparedness-mvp-program-planning-reports.html": "ebdaf07c19d1cabcb106b7efc3b65a3c6ec625159353c5c0b5f7a49b3618fd04",
+        "mvp-community-snapshots.html": "bc0c634ee1aa6dd8b05b8dd8b7f35e42ce8c63ae51496fc72bd9b43667274187"
+      },
+      "source_vintage": "mass.gov pages as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts state government web content.",
+      "derivation": "Region: the town lists under 'Cities and Towns in the ... Region' on the regional coordinator page ('Manchester' read as Manchester-by-the-Sea; Chester and Warwick are not listed). Planning reports: titles of the report links on the planning reports page that name the town as a whole word (appendices and later parts of multi-part reports skipped); 'designated through prior work' is the page's asterisk note. MVP 2.0 pilot: towns on the MVP Community Snapshots list (FY24 MVP 2.0 Action Grant pilot round). Coordinator names and contact details are not kept. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "mass.gov does not publish a list of designated MVP communities; a missing planning report does not mean a town is not an MVP community. Confirm with your MVP regional coordinator (mvp@mass.gov).",
+        "Titles are matched by town name; joint and regional reports are listed for each town they name."
+      ],
+      "files": [
+        {
+          "path": "ma_mvp_communities.csv",
+          "sha256": "603710f4e56c89fa7947352e1089d9a7f822892e95a44b4ede9bc3be16819050",
+          "bytes": 22367,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "niosh-npg",
+      "title": "NIOSH Pocket Guide to Chemical Hazards (677 entries)",
+      "publisher": "CDC, National Institute for Occupational Safety and Health (NIOSH)",
+      "source_urls": [
+        "https://www.cdc.gov/niosh/npg/",
+        "https://www.cdc.gov/niosh/npg/npgsyn-a.html",
+        "https://www.cdc.gov/niosh/npg/npgdcas.html",
+        "https://www.cdc.gov/niosh/npg/pgintrod.html"
+      ],
+      "source_sha256": {
+        "npgd*.html (sha256 of the sorted per-page digests)": "cfe488f7831a7134ff23aed2358a891a7156ae40d69e64b7bbd00091c7c2f197"
+      },
+      "source_vintage": "online Pocket Guide pages (most last reviewed October 30, 2019; index last reviewed February 18, 2020)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (CDC/NIOSH); public domain in the United States.",
+      "derivation": "Every entry page linked from the Pocket Guide's name/synonym (A-Z) and CAS indexes (npgd0001-npgd0685, 677 pages), fetched one at a time with a pause. Kept as published: name, synonyms and trade names, CAS number, DOT ID and ERG guide, conversion factor, IDLH, NIOSH REL, OSHA PEL, physical description, exposure routes, symptoms, target organs, cancer site, first aid, page URL, and the page's last-reviewed date. Left out: formula, properties, incompatibilities, measurement methods, personal protection, and respirator recommendations (see the linked page). The source checksum is the SHA-256 of the sorted per-page checksums. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "Occupational limits (REL, PEL, IDLH) are for workers over a work shift; they are not community or residential exposure limits.",
+        "Some IDLH values were revised after the Pocket Guide pages (see the niosh-idlh snapshot)."
+      ],
+      "files": [
+        {
+          "path": "niosh_npg.csv",
+          "sha256": "2e7a1d2e918d67dc45dbce4644367d99447f99a2eded49da28b50d4a96055504",
+          "bytes": 489044,
+          "rows": 677
+        }
+      ]
+    },
+    {
+      "id": "niosh-idlh",
+      "title": "NIOSH Immediately Dangerous to Life or Health (IDLH) values: current table",
+      "publisher": "CDC, National Institute for Occupational Safety and Health (NIOSH)",
+      "source_urls": [
+        "https://www.cdc.gov/niosh/idlh/default.html"
+      ],
+      "source_sha256": {
+        "idlh/default.html": "7fe87147b2eb2fa7d4ca08dc352952df7df58fa31884e0b8ed70faf30c5e3233"
+      },
+      "source_vintage": "IDLH table page last reviewed April 1, 2026 (values based on the 1994 criteria or CIB 66)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (CDC/NIOSH); public domain in the United States.",
+      "derivation": "Every row of the table of current IDLH values: substance, CAS number, current IDLH, and the link to its documentation. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "IDLH values are for respirator selection and worker escape (30-minute basis), not for community exposure."
+      ],
+      "files": [
+        {
+          "path": "niosh_idlh.csv",
+          "sha256": "1eab1303c9b286e3814f65b65a2353643fdf125d68cfd83328d2f03289308ac3",
+          "bytes": 32559,
+          "rows": 403
+        }
+      ]
+    },
+    {
+      "id": "atsdr-mrls",
+      "title": "ATSDR Minimal Risk Levels (MRLs) for Hazardous Substances",
+      "publisher": "Agency for Toxic Substances and Disease Registry (ATSDR)",
+      "source_urls": [
+        "https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx",
+        "https://www.atsdr.cdc.gov/mrls/pdfs/ATSDR-MRLs-October-2026-H.pdf"
+      ],
+      "source_sha256": {
+        "mrlsListing.aspx": "9c575c5e46fc9fb561ed70e6b198d5ddbe19c12646c7739dfb3e64bd44d060d3"
+      },
+      "source_vintage": "October 2026",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (ATSDR); public domain in the United States.",
+      "derivation": "Every row of the MRL table titled 'ATSDR Minimal Risk Level (MRLs) - October 2026' (page last reviewed December 9, 2025): substance, Toxic Substances Portal id, route, duration, MRL, total factors, endpoint, draft/final, cover date, and CAS number. Continuation rows (a second uncertainty factor and endpoint for the same MRL, as for trichloroethylene) were joined to the row above with '; '. One route printed 'Inh' was written 'Inh.'. 484 rows; the page's own tally (483) counts only routes spelled 'Inh.' and 'Oral'. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "MRLs are screening levels for non-cancer effects, not cleanup or action levels; MRLs from draft toxicological profiles are provisional."
+      ],
+      "files": [
+        {
+          "path": "atsdr_mrls.csv",
+          "sha256": "9deb91ea1e11fc50fd10a77fd408196a833e57278be58e2a5831494087f0a0ef",
+          "bytes": 38736,
+          "rows": 484
+        }
+      ]
+    },
+    {
+      "id": "atsdr-toxfaqs",
+      "title": "ATSDR ToxFAQs index (titles, CAS numbers, and links)",
+      "publisher": "Agency for Toxic Substances and Disease Registry (ATSDR)",
+      "source_urls": [
+        "https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx"
+      ],
+      "source_sha256": {
+        "ToxFAQsDetails pages (sha256 of the sorted per-page digests)": "a412ce9e5e825513c5cac5609a31834064adb05e656a8e87805766a4dd6b7481"
+      },
+      "source_vintage": "ToxFAQs index as served 2026-11-11 (landing page last reviewed February 10, 2021)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (ATSDR); public domain in the United States.",
+      "derivation": "The A-Z index of the ToxFAQs landing page (each letter is a form post), then each ToxFAQs page for its CAS numbers and PDF link. Only titles, ids, CAS numbers, and links are kept; the fact sheet text is not copied. Some ToxFAQs (classes such as dioxins, PCBs, PFAS) list no CAS number. The source checksum is the SHA-256 of the sorted per-page checksums. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "ToxFAQs are updated only when the related toxicological profile is revised."
+      ],
+      "files": [
+        {
+          "path": "atsdr_toxfaqs.csv",
+          "sha256": "b8ebb72f08d71a576f3a78050200381e8a6c1187dda9b8f8b12effd21a221590",
+          "bytes": 32316,
+          "rows": 204
+        }
+      ]
+    },
+    {
+      "id": "usda-food-access-ma",
+      "title": "USDA ERS Food Access Research Atlas: Massachusetts census tracts (SRAM 2025 and LRAM 2019)",
+      "publisher": "USDA Economic Research Service; tract relationship file from the U.S. Census Bureau",
+      "source_urls": [
+        "https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data",
+        "https://www.ers.usda.gov/media/29395/2025-snap-authorized-retailer-access-map-sram-data.zip",
+        "https://www.ers.usda.gov/media/5627/2019-large-retailer-access-map-lram-formerly-known-as-the-food-access-research-atlas-fara-data.zip",
+        "https://www2.census.gov/geo/docs/maps-data/data/rel2020/tract/tab20_tract20_tract10_st25.txt"
+      ],
+      "source_sha256": {
+        "2025-snap-authorized-retailer-access-map-sram-data.zip": "8e8ccda55aa478dd5907050249c28157d445568d242db8b5f85231b82c8afdbf",
+        "2019-large-retailer-access-map-lram-formerly-known-as-the-food-access-research-atlas-fara-data.zip": "6a56bb6ab1f35874b850257f0d3f3657e335af1d2d12bf6a64b4868e5e54465d",
+        "tab20_tract20_tract10_st25.txt": "28054457559d9a143b9090146de154f4f22b4f28e2baa6cf82d217bf613006be"
+      },
+      "source_vintage": "SRAM 2025 (STARS stores as of June 2025; released July 2026, file updated 2026-07-27) on 2020 tracts; LRAM 2019 (updated 2021-04-27) on 2010 tracts",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (USDA ERS; U.S. Census Bureau); public domain in the United States.",
+      "derivation": "The 1,613 Massachusetts rows of the SRAM general tract characteristics and the straight-line (sd_) and driving (dd_) distance tables: urban flag, 2020 population and housing units, group quarters flag, low-income flag, poverty rate, median family income, low-income people, children, seniors, households without a vehicle, SNAP households; per distance type the four LILA flags (1/10, 1/2/10, 1/20, vehicle), the low-vehicle-access flag, three low-access flags, low-access people and low-income people at 1/10, 1/2/10, and 1/20 miles, households without a vehicle beyond 1/2 and 1 mile, and children and seniors beyond 1 mile. LRAM 2019 LILA flags (2010 tracts) were carried to 2020 tracts with the Census 2020-2010 tract relationship file: lram_*_share is the share of the 2020 tract's land area that lay in a 2010 tract with the flag (15 small 2010 tracts absent from the LRAM file count as not flagged). Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "The SRAM counts any SNAP-authorized store (including convenience stores); the LRAM counts supermarkets, supercenters, and large grocery stores.",
+        "LRAM shares assume people are spread evenly over land within a tract; treat them as approximate."
+      ],
+      "files": [
+        {
+          "path": "usda_food_access_ma.csv",
+          "sha256": "59153ab2256916daf3cfda5098472d864824b6e4ed7a5f91adacc991ee0d9b09",
+          "bytes": 284173,
+          "rows": 1613
+        }
+      ]
+    },
+    {
+      "id": "dph-arbovirus-risk",
+      "title": "EEE and West Nile virus risk levels by city and town, and positive mosquito, animal, and human findings, Massachusetts, 2022-2026 seasons",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences (Arbovirus Surveillance Program)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/massachusetts-arbovirus-update",
+        "https://www.mass.gov/doc/2026-eee-and-wnv-risk-level-and-data/download",
+        "https://www.mass.gov/doc/2025-eee-and-wnv-risk-level-and-data-final/download",
+        "https://www.mass.gov/doc/2024-eee-and-wnv-risk-level-and-data-final-0/download",
+        "https://www.mass.gov/doc/2023-eee-and-wnv-risk-level-and-data-final/download",
+        "https://www.mass.gov/doc/2022-eee-and-wnv-risk-level-and-data-final/download"
+      ],
+      "source_sha256": {
+        "2022-eee-and-wnv-risk-level-and-data.xlsx": "c9391194042736347aa1c1b75d80c802e5da6919163ae6aad6bcdcf15036c706",
+        "2023-eee-and-wnv-risk-level-and-data.xlsx": "9444683dac6c94efb20cc87db7edcb376efd78fb101136486234f8ac21f4f41b",
+        "2024-eee-and-wnv-risk-level-and-data.xlsx": "97c8d2a92b29673415784a7f215d6048cbcdd880426ff2673e6f08beccb16dac",
+        "2025-eee-and-wnv-risk-level-and-data.xlsx": "9d982463e72e4d71dc4d870e0fd00e901828c42c80dcdde5de2fc1094bf15488",
+        "2026-eee-and-wnv-risk-level-and-data.xlsx": "247276b2aed42b989e6931f056b868ee49266358fdecda625e6b4fa2a1588d5f"
+      },
+      "source_vintage": "2026 season, risk levels last updated 2026-11-04 (after the June-October season); final levels for 2022-2025",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts DPH public data.",
+      "derivation": "xtask/scripts/build_vectorhousing_snapshots.py reads each season's 'EEE and WNV risk level and data' workbook linked from the arbovirus update page: the 'Risk by Town' sheet (town, county, EEE and WNV risk level, last updated) and the 'Positive Samples and Cases' sheet, counted by season, virus, sample type, county, and town with the latest collection or onset date. Human cases are counted by county only, with no date, age, sex, or clinical presentation. Levels are trimmed and title-cased; town names follow MassGIS (Manchester = Manchester-by-the-Sea; Mattapoissett = Mattapoisett; Boston neighborhoods = Boston); 'Devens' is kept as reported.",
+      "caveats": [
+        "The season runs June to October; levels after October are DPH's last levels of the season, not current risk. Risk for mosquito-borne disease is virtually eliminated by the first local hard frost (DPH 2026 plan).",
+        "DPH assigns risk to focal areas that usually include neighboring towns, so a town can be at moderate or high risk with no positive finding of its own."
+      ],
+      "files": [
+        {
+          "path": "ma_arbovirus_risk.csv",
+          "sha256": "1874f957d52d721ba27dcd9326bb88d6c13fc23216bc726359b791a4f5a95ed9",
+          "bytes": 81250,
+          "rows": 1755
+        },
+        {
+          "path": "ma_arbovirus_positives.csv",
+          "sha256": "44034e37fb0f26ced5901360aa5b4c8a70d7f084b8af266fd1036d70a90cebb2",
+          "bytes": 28056,
+          "rows": 580
+        }
+      ]
+    },
+    {
+      "id": "dph-tickborne-surveillance",
+      "title": "Tick-borne disease cases and incidence by county (Lyme disease, babesiosis, anaplasmosis), 2022-2025, and emergency department visits for tick-borne disease by county, 2021-2026, Massachusetts",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences",
+      "source_urls": [
+        "https://www.mass.gov/lists/tick-borne-disease-surveillance-summaries-and-data",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2025/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2024/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2023/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2022/download",
+        "https://www.mass.gov/lists/monthly-tick-borne-disease-reports"
+      ],
+      "source_sha256": {
+        "tickborne-disease-surveillance-report-2022.docx": "ab4d4a9c7b3c32ec7b7bbe023ab46898cd88d7f7119c26ce01c0eb9defb2daf8",
+        "tickborne-disease-surveillance-report-2023.docx": "6b363623b8a11049adc5c93d94486b7e2acb66e351635d7dc675a956c53cfc01",
+        "tickborne-disease-surveillance-report-2024.docx": "1b2c69675b999fe1b72d232697b15ca7a0a2b521511c6d931bf7cfa55a813d62",
+        "tickborne-disease-surveillance-report-2025.docx": "afb8ceda1011388791ce33bb930815d1c115f7089abc9449af46e3b3bf481d54",
+        "tick-syndromic-report-2021-12.docx": "d9fe0a6843a5b6cdee0cb3f1f33575f242a41bf1ba066ded54b3e5831f500fe3",
+        "tick-syndromic-report-2022-12.docx": "061f3a3196b4dd1d2aa5a7e9c4bbb8c54d24b136c58489a25e4577916fdbb221",
+        "tick-syndromic-report-2023-12.docx": "9420e4ce7b6a70132b47a0c721ed522200d63ff0d68c7ec5387d4ad3aa6299bf",
+        "tick-syndromic-report-2024-12.docx": "71a6f20cc3cc1d889a34c87ff0cfd241003255fade0a3539e2b013245f4014f2",
+        "tick-syndromic-report-2025-12.docx": "4ad9f5e552ea0ed9774b4e56dbbf49951a42d23b733e5caa305641bd0edf16df",
+        "tick-syndromic-report-2026-09.docx": "d381e814459100a00a718eb3e384e728ff85a2b1db7ac816ec1215c44a3b6065"
+      },
+      "source_vintage": "Case summaries for calendar years 2022-2025 (ten-year table 2016-2025); emergency department reports January-December 2021-2025 and January-September 2026",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts DPH public reports.",
+      "derivation": "xtask/scripts/build_vectorhousing_snapshots.py reads Tables 1-3 (Lyme disease probable cases; babesiosis and HGA confirmed and probable cases; cases and DPH incidence rates per 100,000 by county of residence) of each annual Tick-borne Disease Surveillance Summary, the ten-year totals table of the latest summary, and Table 1 (emergency department visits, tick-borne disease visits, and rate per 10,000 ED visits by county) of the latest Tick Exposure and Tick-borne Disease Syndromic Surveillance Report for each year. Values are copied as printed; Dukes and Nantucket are combined as DPH reports them.",
+      "caveats": [
+        "In 2022 the Lyme disease case definition changed: high-incidence states count probable cases from laboratory evidence alone. County Lyme counts from 2022 on are probable cases and cannot be compared with earlier years; the ten-year table counts confirmed, probable, and suspect cases.",
+        "Emergency department visits show only people seen in an ED; the rate is per 10,000 ED visits by county residents, not per population. Visits with a missing or out-of-state county are not shown."
+      ],
+      "files": [
+        {
+          "path": "ma_tickborne_cases.csv",
+          "sha256": "b92cbce97ac9ca86434911bdbcf745d5c33bc43783c1b5fd8c16ae8ca9aa1d38",
+          "bytes": 22151,
+          "rows": 198
+        },
+        {
+          "path": "ma_tickborne_ed_visits.csv",
+          "sha256": "dce597c9656065938591e2f764dd55bb590ac1e5ee299c9ce6d57711fa7b2bd7",
+          "bytes": 3049,
+          "rows": 78
+        }
+      ]
+    },
+    {
+      "id": "epa-sdwis-ma",
+      "title": "EPA Safe Drinking Water Information System (SDWIS/Fed): Massachusetts public water systems, violations, and lead and copper 90th percentiles",
+      "publisher": "U.S. Environmental Protection Agency (Envirofacts SDWIS data service); data reported by MassDEP",
+      "source_urls": [
+        "https://data.epa.gov/efservice/WATER_SYSTEM/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/VIOLATION/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/LCR_SAMPLE_RESULT/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/LCR_SAMPLE/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/WATER_SYSTEM/PRIMACY_AGENCY_CODE/01/CSV",
+        "https://data.epa.gov/dmapservice/sdwis.ref_code_value/CSV",
+        "https://www.epa.gov/enviro/envirofacts-data-service-api"
+      ],
+      "source_sha256": {
+        "water_system_ma.csv": "f5df3021034f47fc49e095127b0f4c0fd18b9492854402fead4e194de965fc54",
+        "water_system_01.csv": "b99334b442337e9455861219c4121677519ef1410a4b60cea6fae1ef9449855e",
+        "violation_ma.csv": "ec886c0a673059a0bff31213c91b0fd03d05ae6a6f6ac0ae93313938e3c1e1bc",
+        "violation_010307001.csv": "4946b8306f07b52bdcf5379a5894935da06dacfec9caf0b8e183f02a837a3618",
+        "lcr_sample_result_ma.csv": "713f0d3e99cf874f7507e7e75c1295057d46ace16e0e61b833ad0575a6e51f36",
+        "lcr_sample_ma.csv": "1c01a73fee855140ccd1c70e3c0e8039dba4d8c97dcf948e5365df3310f8ce80",
+        "lcr_sample_result_010307001.csv": "4d2544a606253fb194359edf94d0a1579dbfaf6697a75d7ac901f7e11eb3605c",
+        "lcr_sample_010307001.csv": "aea4465c49ecb46659e81b371b6fb63d2b2d4f8ce35d5b742d383a7680ee911d",
+        "ref_code_value.csv": "91574fff73a03b6df753617570d21d7ba8ad07e0a3346efeb1c9732e2a07ecea"
+      },
+      "source_vintage": "SDWIS/Fed as served by Envirofacts on 2026-11-11 (quarterly federal data; latest violation compliance periods in 2026)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (public domain).",
+      "derivation": "Active systems with primacy agency MA, plus tribal systems in Massachusetts (primacy EPA Region 1; one: the Aquinnah Wampanoag system, assigned to Aquinnah from its name). Town = alphabetical MassGIS town number in PWSID digits 4-6 (matches SDWIS city served for every active system; Manchester is Manchester-by-the-Sea). Kept: PWSID, system name, type, town, population served, service connections, primary source, owner type, wholesaler and school/child care flags. Operator names, emails, phone numbers, and addresses are not kept. Violations: compliance periods beginning 2016-01-01 or later. Lead and copper: PB90/CU90 results joined to their monitoring period by PWSID and sample id, periods ending 2016-01-01 or later. Codes: violation, category, contaminant, rule, source, type, owner, and compliance status code descriptions. Builder: xtask/scripts/build_water_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "SDWIS/Fed is updated quarterly from state reports; recent violations and results can be missing or revised. MassDEP is the authority for current compliance.",
+        "Population served is reported by each system and can include seasonal or non-resident populations, or be out of date.",
+        "A system is listed under the town in its PWSID; a system can also serve parts of neighboring towns."
+      ],
+      "files": [
+        {
+          "path": "ma_water_systems.csv",
+          "sha256": "3a492b048750359dc73d45f2aca630f9b8fa10dd003c7f96e688642ca9446ce8",
+          "bytes": 109887,
+          "rows": 1613
+        },
+        {
+          "path": "ma_water_violations.csv",
+          "sha256": "4af0d09b773890c47e5ece2573834c42be7850a524dbcb00b25597517f76e6de",
+          "bytes": 409934,
+          "rows": 6903
+        },
+        {
+          "path": "ma_water_lead_copper.csv",
+          "sha256": "5880ee6d10f0a6512276444636661b7eb098e4fd0a29ef1c55c8502851d92aa4",
+          "bytes": 224490,
+          "rows": 5262
+        },
+        {
+          "path": "sdwis_codes.csv",
+          "sha256": "de5f4e6456c7e6d5b17adba02d679ae5e66ea9bda2739353185dac5d40a7c595",
+          "bytes": 33999,
+          "rows": 878
+        }
+      ]
+    },
+    {
+      "id": "massdep-pfas6-ma",
+      "title": "MassDEP PFAS6 results for finished drinking water, public water systems (EEA Data Portal)",
+      "publisher": "Massachusetts Department of Environmental Protection, Drinking Water Program (Executive Office of Energy and Environmental Affairs Data Portal)",
+      "source_urls": [
+        "https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater?ChemicalName=PFAS6&RaworFinished=F&FromCollectedDate=2024-11-11",
+        "https://eeaonline.eea.state.ma.us/portal#!/search/drinking-water"
+      ],
+      "source_sha256": {
+        "pfas6_0.json": "f63dbf0816c00adaad7b158079e71826831cbc0f9500481b43a2bf7b79630ac7",
+        "pfas6_5000.json": "209cafeaf2db39515f277cb43861e041607ca0bc7331d63257c3aa0cfea8a2f7"
+      },
+      "source_vintage": "finished-water PFAS6 results collected 2024-11-11 to 2026-11-11, as posted on 2026-11-11",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts public records (EEA Data Portal).",
+      "derivation": "Every PFAS6 result for finished (treated) water collected in the 24 months before the build date. Kept: PWSID (with MA prefix), collection date, sampling location code and name, result in ng/L or ND. Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "Single results are not compliance determinations: MassDEP computes PFAS6 compliance from the average of monthly samples over a quarter at each sampling location (310 CMR 22.07G).",
+        "Consecutive systems that buy water may have no results of their own; the seller's results apply to the purchased water."
+      ],
+      "files": [
+        {
+          "path": "ma_water_pfas6.csv",
+          "sha256": "b4b7ba0a5633681e116b7b8c206e934a3f1639941e21c43e4296b69263fe2efd",
+          "bytes": 290275,
+          "rows": 5123
+        }
+      ]
+    },
+    {
+      "id": "cdc-mwf-ma",
+      "title": "CDC My Water's Fluoride: Massachusetts Fluoridation Status Report (2025), Average Fluoride Levels by Month (2025), and Monthly Summary Report (November 2025)",
+      "publisher": "Centers for Disease Control and Prevention, Division of Oral Health (Water Fluoridation Reporting System); data reported by the Massachusetts Department of Public Health",
+      "source_urls": [
+        "https://nccd.cdc.gov/doh_mwf/Reports/FlStatus_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Reports/AvgFlLevel_Month_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Reports/Summary_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Default/Default.aspx"
+      ],
+      "source_sha256": {},
+      "source_vintage": "Fluoridation Status Report for 2025 and Monthly Summary Report for November 2025, as served on 2026-11-11",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (public domain).",
+      "derivation": "Fluoridation Status Report (all water systems, optional columns Status and Water Source) for the latest year: every community water system with population served, fluoridated (Yes/No), status (Adjusted, Consecutive, Natural, Non-Adjusted), and water source. Each record is matched to an active SDWIS system (same PWSID; same digits with a different region digit and a similar name; or the same name) and a town (the matched system's town; for a record naming part of a town, that town; else a town named in the record or the PWSID town number). Where two records match one SDWIS system, the one whose PWSID differs is labeled a duplicate. Annual average fluoride level (mg/L) from the Average Fluoride Levels by Month report for adjusted systems. Monthly summary: systems and population by status. Source checksums are not recorded: the pages embed a per-session form state. Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "My Water's Fluoride is state-reported, not real time; values may be targets rather than test results. Some records carry outdated PWSIDs or duplicate a system with a different status.",
+        "The best source of the current fluoride level is the local water system."
+      ],
+      "files": [
+        {
+          "path": "ma_fluoridation_systems.csv",
+          "sha256": "52c456fb17f7805fa98bdd5db56c63258b8503126db6a42f26a979c572ef7394",
+          "bytes": 63203,
+          "rows": 575
+        },
+        {
+          "path": "ma_fluoridation_summary.csv",
+          "sha256": "417f333c76529ba5f0d301f4640e9bb41817bbeb61fa9af0ba077acbdd62fd39",
+          "bytes": 508,
+          "rows": 14
+        }
+      ]
+    },
+    {
+      "id": "dph-fluoridation-towns",
+      "title": "2023 List of Massachusetts Cities/Towns by Community Water Fluoridation Status",
+      "publisher": "Massachusetts Department of Public Health, Office of Oral Health",
+      "source_urls": [
+        "https://www.mass.gov/files/csv/2024-01/cities-and-towns-fluoride-population-2023-update%20-%20Copy.csv",
+        "https://www.mass.gov/info-details/community-water-fluoridation-status"
+      ],
+      "source_sha256": {
+        "dph_fluoridation_2023.csv": "e9d9cda99415eb0271e07e2e3d788c5a72206eea624bdfca2137fe427612d8f7"
+      },
+      "source_vintage": "2023 water fluoridation status (CSV posted January 2024); populations are 2016-2020 ACS estimates",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts public records (mass.gov).",
+      "derivation": "The DPH CSV as published: town (asterisk = receives fluoridated water from the MWRA, kept as mwra = Y), status (Fully Fluoridated, Partially Fluoridated, Non-Fluoridated), population, year fluoridation began, and DPH's additional information. Ten towns have two rows (a partially fluoridated part and the rest of the town). Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "DPH notes that the current status of some fluoridated communities may differ because of a temporary suspension of fluoridation.",
+        "The list reflects 2023; towns that changed status since then are not shown as changed."
+      ],
+      "files": [
+        {
+          "path": "ma_fluoridation_towns.csv",
+          "sha256": "8319e07961a0e37625340c751ded16caf720966c573e3bb65ddd02074562048b",
+          "bytes": 29451,
+          "rows": 361
+        }
+      ]
     }
   ]
 }

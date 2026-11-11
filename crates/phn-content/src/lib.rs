@@ -516,6 +516,72 @@ pub const ITEMS: &[ContentItem] = &[
         schema: include_str!("../../../content/schemas/epr_exercise_scenarios.schema.json"),
     },
     // End of Phase 13 content items.
+    // Phase 14 content items go below this line.
+    // Phase 14 Water (ENV-03, CHR-07).
+    ContentItem {
+        id: "env-drinking-water",
+        path: "content/env/drinking_water.yaml",
+        resource_uri: "phn://content/env-drinking-water",
+        yaml: include_str!("../../../content/env/drinking_water.yaml"),
+        schema: include_str!("../../../content/schemas/env_drinking_water.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-fluoridation",
+        path: "content/chronic/fluoridation.yaml",
+        resource_uri: "phn://content/chronic-fluoridation",
+        yaml: include_str!("../../../content/chronic/fluoridation.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_fluoridation.schema.json"),
+    },
+    // End of Phase 14 water.
+    // Phase 14 EJ and climate (ENV-04, ENV-05).
+    ContentItem {
+        id: "env-environmental-justice",
+        path: "content/env/environmental_justice.yaml",
+        resource_uri: "phn://content/env-environmental-justice",
+        yaml: include_str!("../../../content/env/environmental_justice.yaml"),
+        schema: include_str!("../../../content/schemas/env_environmental_justice.schema.json"),
+    },
+    ContentItem {
+        id: "env-climate-vulnerability",
+        path: "content/env/climate_vulnerability.yaml",
+        resource_uri: "phn://content/env-climate-vulnerability",
+        yaml: include_str!("../../../content/env/climate_vulnerability.yaml"),
+        schema: include_str!("../../../content/schemas/env_climate_vulnerability.schema.json"),
+    },
+    // End of Phase 14 ejclimate.
+    // Phase 14 Vectors and housing (ENV-06, ENV-07).
+    ContentItem {
+        id: "env-vector-borne",
+        path: "content/env/vector_borne.yaml",
+        resource_uri: "phn://content/env-vector-borne",
+        yaml: include_str!("../../../content/env/vector_borne.yaml"),
+        schema: include_str!("../../../content/schemas/env_vector_borne.schema.json"),
+    },
+    ContentItem {
+        id: "env-housing-conditions",
+        path: "content/env/housing_conditions.yaml",
+        resource_uri: "phn://content/env-housing-conditions",
+        yaml: include_str!("../../../content/env/housing_conditions.yaml"),
+        schema: include_str!("../../../content/schemas/env_housing_conditions.schema.json"),
+    },
+    // End of Phase 14 vectorhousing.
+    // Phase 14 Chemicals and food (ENV-08, CHR-06).
+    ContentItem {
+        id: "env-chemical-exposure",
+        path: "content/env/chemical_exposure.yaml",
+        resource_uri: "phn://content/env-chemical-exposure",
+        yaml: include_str!("../../../content/env/chemical_exposure.yaml"),
+        schema: include_str!("../../../content/schemas/env_chemical_exposure.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-food-access",
+        path: "content/chronic/food_access.yaml",
+        resource_uri: "phn://content/chronic-food-access",
+        yaml: include_str!("../../../content/chronic/food_access.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_food_access.schema.json"),
+    },
+    // End of Phase 14 chemfood.
+    // End of Phase 14 content items.
 ];
 
 /// Parse a YAML document into a JSON value (for schema validation).
