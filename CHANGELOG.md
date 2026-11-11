@@ -77,7 +77,7 @@ it was merged to `main` (Eastern time).
 - Synthetic fixtures with seeded identifiers (an EJScreen extract, housing requests, a pantry
   list); every new data tool is in the leak test.
 - Acceptance script `docs/acceptance/phase-14.md`; user guide chapter 17 and a rebuilt guide
-  for 110 tools.
+  for 110 tools (135 pages).
 
 ### Fixed
 

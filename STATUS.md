@@ -575,7 +575,7 @@ Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`�
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 822 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # 895 tests: unit, golden, CDSi cases, MCP integration
 node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
@@ -740,6 +740,7 @@ MSRV is 1.88.
 | 2026-11-09 | Phases 7–12: 50 tools (school health, maternal and child health, PHN practice, healthy aging and mental health screening, substance use and communication, preparedness I); version 0.13.0; user guide rebuilt (116 pages) | #5 |
 | 2026-11-09 | Phase 13: 5 tools (ICS forms and IAP, COOP, HSEEP exercise design, after-action report, CERC), `plan_tabletop_exercise` prompt, staff roster module and ADR 0009; version 0.14.0; user guide rebuilt (124 pages) | #6 |
 | 2026-11-11 | Peer review of Phases 0–13: about 170 fixes (privacy leaks, wrong clinical and statistical results, panics, stale data shown as current), plan and documentation corrected, ADR 0010, Docker time zone, release workflow reordered; version 0.14.1; 822 tests | #7 |
+| 2026-11-11 | Phase 14: 8 tools (drinking water, fluoridation, EJ screen, climate and health vulnerability, vector-borne disease, housing conditions, chemical exposure, food access), 16 snapshots with four builders, population count bases fixed; version 0.15.0; user guide rebuilt (135 pages); 895 tests | #8 |
 
 ## Keeping this file current
 
