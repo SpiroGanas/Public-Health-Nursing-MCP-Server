@@ -10,8 +10,8 @@ script downloads the sources (politely: one request at a time with a short
 pause), writes the snapshot files to snapshots/, and prints the manifest
 fields (file checksums, bytes, rows, source checksums) to paste into
 snapshots/manifest.json. With --check it writes nothing and reports whether
-the files would change. --only limits the run to some of: npg, mrl, toxfaqs,
-food.
+the files would change. --only limits the run to some of: npg, idlh, mrl,
+toxfaqs, food.
 
 Snapshots:
 
@@ -22,6 +22,8 @@ Snapshots:
                        symptoms, target organs, cancer site, first aid, and
                        the page's "last reviewed" date. Respirator, protective
                        clothing, measurement, and property cards are left out.
+* niosh_idlh.csv       NIOSH IDLH table (current values, 1994 criteria or CIB 66):
+                       substance, CAS, IDLH, and the documentation link.
 * atsdr_mrls.csv       ATSDR Minimal Risk Levels (the whole table at
                        wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx): substance,
                        route, duration, MRL, total factors, endpoint,
@@ -166,6 +168,7 @@ def parse_npg(page, ident):
     for m in re.finditer(r"<h6>(.*?)</h6>(.*?)(?=<h6>|$)", limits, re.S):
         label = text_of(m.group(1))
         val = text_of(m.group(2))
+        val = re.sub(r"^(?:NIOSH REL|OSHA PEL)\s*:?\s*;?\s*", "", val).strip(" ;")
         if label.startswith("NIOSH REL"):
             rel = val
         elif label.startswith("OSHA PEL"):
@@ -173,7 +176,7 @@ def parse_npg(page, ident):
     idlh = plain("IDLH")
     idlh = re.sub(r";?\s*See:.*$", "", idlh).strip(" ;")
     first_aid = plain("First Aid")
-    first_aid = re.sub(r"^\(See procedures\)\s*;?\s*", "", first_aid)
+    first_aid = re.sub(r"^\(\s*See procedures\s*\)\s*;?\s*", "", first_aid)
     first_aid = re.sub(r"\s*;\s*", "; ", first_aid).strip(" ;")
     first_aid = re.sub(r"(Eye|Skin|Breathing|Swallow):\s*", r"\1: ", first_aid)
     syn = plain("Synonyms & Trade Names")
@@ -219,6 +222,38 @@ def npg(work):
     # Too many pages to list each checksum in the manifest: one digest of all.
     digest = sha("".join(f"{k}:{v}\n" for k, v in sorted(src.items())).encode())
     return out.getvalue(), {"npgd*.html (sha256 of the sorted per-page digests)": digest}, len(rows)
+
+
+# ---------------------------------------------------------------- NIOSH IDLH table
+
+IDLH_URL = "https://www.cdc.gov/niosh/idlh/default.html"
+IDLH_FIELDS = ["substance", "cas", "idlh", "documentation_url"]
+
+
+def idlh(work):
+    b = cached(work, "idlh_default.html", IDLH_URL)
+    t = b.decode("utf-8", "replace")
+    table = t[t.find('<table id="idlh_table"'):]
+    table = table[:table.find("</table>")]
+    rows = []
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", table, re.S):
+        cells = re.findall(r"<td[^>]*>(.*?)</td>", tr, re.S)
+        if len(cells) != 3:
+            continue
+        link = re.search(r'href="([^"]+)"', cells[0])
+        url = ""
+        if link:
+            url = urllib.parse.urljoin("https://www.cdc.gov/", link.group(1))
+        rows.append({"substance": text_of(cells[0]), "cas": text_of(cells[1]),
+                     "idlh": text_of(cells[2]), "documentation_url": url})
+    reviewed = re.search(r'last-reviewed-date">([^<]*)<', t)
+    out = io.StringIO()
+    w = csv.DictWriter(out, fieldnames=IDLH_FIELDS, lineterminator="\n")
+    w.writeheader()
+    for r in rows:
+        w.writerow(r)
+    note = f"last reviewed {reviewed.group(1).strip()}" if reviewed else ""
+    return out.getvalue(), {"idlh/default.html": sha(b)}, len(rows), note
 
 
 # ---------------------------------------------------------------- ATSDR MRLs
@@ -443,6 +478,9 @@ def main():
     if only is None or "npg" in only:
         text, src, rows = npg(work)
         results["niosh_npg.csv"] = (text, src, rows, "")
+    if only is None or "idlh" in only:
+        text, src, rows, note = idlh(work)
+        results["niosh_idlh.csv"] = (text, src, rows, note)
     if only is None or "mrl" in only:
         text, src, rows, title = mrl(work)
         results["atsdr_mrls.csv"] = (text, src, rows, title)

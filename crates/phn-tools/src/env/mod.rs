@@ -17,5 +17,8 @@ pub use heat::{HeatPlanArgs, HeatPlanResult, heat_health_action_planner};
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
 // End of Phase 14 vectorhousing.
 // Phase 14 Chemicals and food (ENV-08, CHR-06).
+pub mod chemical;
+
+pub use chemical::{ChemicalArgs, ChemicalResult, chemical_exposure_reference};
 // End of Phase 14 chemfood.
 // End of Phase 14 modules (ENV-03 to ENV-08).

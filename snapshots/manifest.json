@@ -1380,6 +1380,147 @@
           "rows": 341
         }
       ]
+    },
+    {
+      "id": "niosh-npg",
+      "title": "NIOSH Pocket Guide to Chemical Hazards (677 entries)",
+      "publisher": "CDC, National Institute for Occupational Safety and Health (NIOSH)",
+      "source_urls": [
+        "https://www.cdc.gov/niosh/npg/",
+        "https://www.cdc.gov/niosh/npg/npgsyn-a.html",
+        "https://www.cdc.gov/niosh/npg/npgdcas.html",
+        "https://www.cdc.gov/niosh/npg/pgintrod.html"
+      ],
+      "source_sha256": {
+        "npgd*.html (sha256 of the sorted per-page digests)": "cfe488f7831a7134ff23aed2358a891a7156ae40d69e64b7bbd00091c7c2f197"
+      },
+      "source_vintage": "online Pocket Guide pages (most last reviewed October 30, 2019; index last reviewed February 18, 2020)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (CDC/NIOSH); public domain in the United States.",
+      "derivation": "Every entry page linked from the Pocket Guide's name/synonym (A-Z) and CAS indexes (npgd0001-npgd0685, 677 pages), fetched one at a time with a pause. Kept as published: name, synonyms and trade names, CAS number, DOT ID and ERG guide, conversion factor, IDLH, NIOSH REL, OSHA PEL, physical description, exposure routes, symptoms, target organs, cancer site, first aid, page URL, and the page's last-reviewed date. Left out: formula, properties, incompatibilities, measurement methods, personal protection, and respirator recommendations (see the linked page). The source checksum is the SHA-256 of the sorted per-page checksums. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "Occupational limits (REL, PEL, IDLH) are for workers over a work shift; they are not community or residential exposure limits.",
+        "Some IDLH values were revised after the Pocket Guide pages (see the niosh-idlh snapshot)."
+      ],
+      "files": [
+        {
+          "path": "niosh_npg.csv",
+          "sha256": "2e7a1d2e918d67dc45dbce4644367d99447f99a2eded49da28b50d4a96055504",
+          "bytes": 489044,
+          "rows": 677
+        }
+      ]
+    },
+    {
+      "id": "niosh-idlh",
+      "title": "NIOSH Immediately Dangerous to Life or Health (IDLH) values: current table",
+      "publisher": "CDC, National Institute for Occupational Safety and Health (NIOSH)",
+      "source_urls": [
+        "https://www.cdc.gov/niosh/idlh/default.html"
+      ],
+      "source_sha256": {
+        "idlh/default.html": "7fe87147b2eb2fa7d4ca08dc352952df7df58fa31884e0b8ed70faf30c5e3233"
+      },
+      "source_vintage": "IDLH table page last reviewed April 1, 2026 (values based on the 1994 criteria or CIB 66)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (CDC/NIOSH); public domain in the United States.",
+      "derivation": "Every row of the table of current IDLH values: substance, CAS number, current IDLH, and the link to its documentation. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "IDLH values are for respirator selection and worker escape (30-minute basis), not for community exposure."
+      ],
+      "files": [
+        {
+          "path": "niosh_idlh.csv",
+          "sha256": "1eab1303c9b286e3814f65b65a2353643fdf125d68cfd83328d2f03289308ac3",
+          "bytes": 32559,
+          "rows": 403
+        }
+      ]
+    },
+    {
+      "id": "atsdr-mrls",
+      "title": "ATSDR Minimal Risk Levels (MRLs) for Hazardous Substances",
+      "publisher": "Agency for Toxic Substances and Disease Registry (ATSDR)",
+      "source_urls": [
+        "https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx",
+        "https://www.atsdr.cdc.gov/mrls/pdfs/ATSDR-MRLs-October-2026-H.pdf"
+      ],
+      "source_sha256": {
+        "mrlsListing.aspx": "9c575c5e46fc9fb561ed70e6b198d5ddbe19c12646c7739dfb3e64bd44d060d3"
+      },
+      "source_vintage": "ATSDR Minimal Risk Level (MRLs) - October 2026 (table page last reviewed December 9, 2025)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (ATSDR); public domain in the United States.",
+      "derivation": "Every row of the MRL table: substance, Toxic Substances Portal id, route, duration, MRL, total factors, endpoint, draft/final, cover date, and CAS number. Continuation rows (a second uncertainty factor and endpoint for the same MRL, as for trichloroethylene) were joined to the row above with '; '. One route printed 'Inh' was written 'Inh.'. 484 rows; the page's own tally (483) counts only routes spelled 'Inh.' and 'Oral'. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "MRLs are screening levels for non-cancer effects, not cleanup or action levels; MRLs from draft toxicological profiles are provisional."
+      ],
+      "files": [
+        {
+          "path": "atsdr_mrls.csv",
+          "sha256": "9deb91ea1e11fc50fd10a77fd408196a833e57278be58e2a5831494087f0a0ef",
+          "bytes": 38736,
+          "rows": 484
+        }
+      ]
+    },
+    {
+      "id": "atsdr-toxfaqs",
+      "title": "ATSDR ToxFAQs index (titles, CAS numbers, and links)",
+      "publisher": "Agency for Toxic Substances and Disease Registry (ATSDR)",
+      "source_urls": [
+        "https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx"
+      ],
+      "source_sha256": {
+        "ToxFAQsDetails pages (sha256 of the sorted per-page digests)": "a412ce9e5e825513c5cac5609a31834064adb05e656a8e87805766a4dd6b7481"
+      },
+      "source_vintage": "ToxFAQs index as served 2026-11-11 (landing page last reviewed February 10, 2021)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (ATSDR); public domain in the United States.",
+      "derivation": "The A-Z index of the ToxFAQs landing page (each letter is a form post), then each ToxFAQs page for its CAS numbers and PDF link. Only titles, ids, CAS numbers, and links are kept; the fact sheet text is not copied. Some ToxFAQs (classes such as dioxins, PCBs, PFAS) list no CAS number. The source checksum is the SHA-256 of the sorted per-page checksums. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "ToxFAQs are updated only when the related toxicological profile is revised."
+      ],
+      "files": [
+        {
+          "path": "atsdr_toxfaqs.csv",
+          "sha256": "b8ebb72f08d71a576f3a78050200381e8a6c1187dda9b8f8b12effd21a221590",
+          "bytes": 32316,
+          "rows": 204
+        }
+      ]
+    },
+    {
+      "id": "usda-food-access-ma",
+      "title": "USDA ERS Food Access Research Atlas: Massachusetts census tracts (SRAM 2025 and LRAM 2019)",
+      "publisher": "USDA Economic Research Service; tract relationship file from the U.S. Census Bureau",
+      "source_urls": [
+        "https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data",
+        "https://www.ers.usda.gov/media/29395/2025-snap-authorized-retailer-access-map-sram-data.zip",
+        "https://www.ers.usda.gov/media/5627/2019-large-retailer-access-map-lram-formerly-known-as-the-food-access-research-atlas-fara-data.zip",
+        "https://www2.census.gov/geo/docs/maps-data/data/rel2020/tract/tab20_tract20_tract10_st25.txt"
+      ],
+      "source_sha256": {
+        "2025-snap-authorized-retailer-access-map-sram-data.zip": "8e8ccda55aa478dd5907050249c28157d445568d242db8b5f85231b82c8afdbf",
+        "2019-large-retailer-access-map-lram-formerly-known-as-the-food-access-research-atlas-fara-data.zip": "6a56bb6ab1f35874b850257f0d3f3657e335af1d2d12bf6a64b4868e5e54465d",
+        "tab20_tract20_tract10_st25.txt": "28054457559d9a143b9090146de154f4f22b4f28e2baa6cf82d217bf613006be"
+      },
+      "source_vintage": "SRAM 2025 (STARS stores as of June 2025; released July 2026, file updated 2026-07-27) on 2020 tracts; LRAM 2019 (updated 2021-04-27) on 2010 tracts",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (USDA ERS; U.S. Census Bureau); public domain in the United States.",
+      "derivation": "The 1,613 Massachusetts rows of the SRAM general tract characteristics and the straight-line (sd_) and driving (dd_) distance tables: urban flag, 2020 population and housing units, group quarters flag, low-income flag, poverty rate, median family income, low-income people, children, seniors, households without a vehicle, SNAP households; per distance type the four LILA flags (1/10, 1/2/10, 1/20, vehicle), the low-vehicle-access flag, three low-access flags, low-access people and low-income people at 1/10, 1/2/10, and 1/20 miles, households without a vehicle beyond 1/2 and 1 mile, and children and seniors beyond 1 mile. LRAM 2019 LILA flags (2010 tracts) were carried to 2020 tracts with the Census 2020-2010 tract relationship file: lram_*_share is the share of the 2020 tract's land area that lay in a 2010 tract with the flag (15 small 2010 tracts absent from the LRAM file count as not flagged). Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "The SRAM counts any SNAP-authorized store (including convenience stores); the LRAM counts supermarkets, supercenters, and large grocery stores.",
+        "LRAM shares assume people are spread evenly over land within a tract; treat them as approximate."
+      ],
+      "files": [
+        {
+          "path": "usda_food_access_ma.csv",
+          "sha256": "59153ab2256916daf3cfda5098472d864824b6e4ed7a5f91adacc991ee0d9b09",
+          "bytes": 284173,
+          "rows": 1613
+        }
+      ]
     }
   ]
 }

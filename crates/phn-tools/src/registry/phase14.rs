@@ -19,4 +19,17 @@ pub(super) const EJ_CLIMATE: &[ToolMeta] = &[];
 pub(super) const VECTOR_HOUSING: &[ToolMeta] = &[];
 
 /// Chemicals and food: ENV-08 `chemical_exposure_reference`, CHR-06 `food_access_mapper`.
-pub(super) const CHEM_FOOD: &[ToolMeta] = &[];
+pub(super) const CHEM_FOOD: &[ToolMeta] = &[
+    ToolMeta {
+        name: "chemical_exposure_reference",
+        plan_id: "ENV-08",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+    ToolMeta {
+        name: "food_access_mapper",
+        plan_id: "CHR-06",
+        toolset: Toolset::Chronic,
+        phase: 14,
+    },
+];

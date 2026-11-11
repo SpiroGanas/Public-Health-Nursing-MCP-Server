@@ -524,6 +524,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
     // End of Phase 14 vectorhousing.
     // Phase 14 Chemicals and food (ENV-08, CHR-06).
+    ContentItem {
+        id: "env-chemical-exposure",
+        path: "content/env/chemical_exposure.yaml",
+        resource_uri: "phn://content/env-chemical-exposure",
+        yaml: include_str!("../../../content/env/chemical_exposure.yaml"),
+        schema: include_str!("../../../content/schemas/env_chemical_exposure.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-food-access",
+        path: "content/chronic/food_access.yaml",
+        resource_uri: "phn://content/chronic-food-access",
+        yaml: include_str!("../../../content/chronic/food_access.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_food_access.schema.json"),
+    },
     // End of Phase 14 chemfood.
     // End of Phase 14 content items.
 ];

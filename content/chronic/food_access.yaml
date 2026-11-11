@@ -1,0 +1,334 @@
+# Food access mapping: USDA Food Access Research Atlas definitions, the Healthy Incentives
+# Program (HIP), SNAP, and the columns the tool reads from local resource files, for
+# food_access_mapper (CHR-06). Tract data are in the usda-food-access-ma snapshot built by
+# xtask/scripts/build_chemfood_snapshots.py.
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/chronic_food_access.schema.json
+meta:
+  id: chronic-food-access
+  title: Food access mapping (Food Access Research Atlas definitions, HIP, SNAP, local resource files)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: Food Access Research Atlas
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas
+  related_sources:
+    - title: Massachusetts Healthy Incentives Program (HIP) Frequently Asked Questions
+      publisher: Massachusetts Department of Transitional Assistance
+      url: https://www.mass.gov/info-details/massachusetts-healthy-incentives-program-hip-frequently-asked-questions
+    - title: Supplemental Nutrition Assistance Program (SNAP) (formerly known as food stamps)
+      publisher: Massachusetts Department of Transitional Assistance
+      url: https://www.mass.gov/how-to/supplemental-nutrition-assistance-program-snap-formerly-known-as-food-stamps
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The low-income/low-access definitions, the low-income tract definition, the urban/rural
+    rule, and the data sources of both maps are transcribed from ERS's SRAM and LRAM reference
+    guides and download page (high confidence). HIP amounts, vendor types, DTAFinder, and the
+    EBT Customer Service number are from DTA's HIP FAQ; the DTA Assistance Line and the SNAP
+    timelines are from DTA's SNAP page (high). The 2010-to-2020 tract method and its 50 percent
+    threshold are THIS PROJECT'S METHOD (tool default). The SNAP Retailer Locator page could
+    not be opened from here (www.fns.usda.gov redirects to www.fna.usda.gov, which this
+    environment blocks), and DTAFinder.com was also blocked, so the instructions for getting
+    those files are low confidence until checked. The column names the tool accepts are tool
+    defaults; the FNS retailer file's own column names could not be checked.
+
+sources:
+  ers-fara:
+    title: Food Access Research Atlas
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas
+    effective_date: 2026-10-15
+    retrieved: 2026-11-11
+  ers-download:
+    title: Food Access Research Atlas - Download the Data
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data
+    effective_date: 2026-07-27
+    retrieved: 2026-11-11
+  ers-mapping:
+    title: Food Access Research Atlas - Mapping Tools
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas/mapping-tools
+    effective_date: 2026-07-27
+    retrieved: 2026-11-11
+  ers-sram-guide:
+    title: Food Access Research Atlas - SNAP-authorized Retailer Access Map Reference Guide
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas/documentation/snap-authorized-retailer-access-map-reference-guide
+    effective_date: 2026-07-27
+    retrieved: 2026-11-11
+  ers-lram-guide:
+    title: Food Access Research Atlas - Large Retailer Access Map Reference Guide
+    publisher: USDA Economic Research Service
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas/documentation/large-retailer-access-map-reference-guide
+    effective_date: 2026-07-27
+    retrieved: 2026-11-11
+  census-tract-relationship:
+    title: 2020 Census Tract to 2010 Census Tract Relationship File (Massachusetts)
+    publisher: U.S. Census Bureau
+    url: https://www2.census.gov/geo/docs/maps-data/data/rel2020/tract/tab20_tract20_tract10_st25.txt
+    effective_date: null
+    retrieved: 2026-11-11
+  dta-hip:
+    title: Massachusetts Healthy Incentives Program (HIP)
+    publisher: Massachusetts Department of Transitional Assistance
+    url: https://www.mass.gov/massachusetts-hip-gives-you-money-back-when-you-use-your-snap-benefits-to-buy-healthy-local-fruits-and-vegetables-from-hip-farm-vendors
+    effective_date: null
+    retrieved: 2026-11-11
+  dta-hip-faq:
+    title: Massachusetts Healthy Incentives Program (HIP) Frequently Asked Questions
+    publisher: Massachusetts Department of Transitional Assistance
+    url: https://www.mass.gov/info-details/massachusetts-healthy-incentives-program-hip-frequently-asked-questions
+    effective_date: null
+    retrieved: 2026-11-11
+  dta-snap:
+    title: Supplemental Nutrition Assistance Program (SNAP) (formerly known as food stamps)
+    publisher: Massachusetts Department of Transitional Assistance
+    url: https://www.mass.gov/how-to/supplemental-nutrition-assistance-program-snap-formerly-known-as-food-stamps
+    effective_date: null
+    retrieved: 2026-11-11
+
+# The four low-income/low-access (LILA) definitions, in the order the tool reports them.
+definitions:
+  - id: one_and_ten
+    label: Low income and low access, 1 mile (urban) or 10 miles (rural)
+    text: >-
+      A low-income tract with at least 500 people, or 33 percent of the population, living
+      more than 1 mile (urban areas) or more than 10 miles (rural areas) from the nearest
+      SNAP-authorized store (SRAM) or the nearest supermarket, supercenter, or large grocery
+      store (LRAM).
+    source: ers-sram-guide
+    section: Low-income and low-access tract measured at 1 mile and 10 miles
+    confidence: high
+  - id: half_and_ten
+    label: Low income and low access, 1/2 mile (urban) or 10 miles (rural)
+    text: >-
+      A low-income tract with at least 500 people, or 33 percent of the population, living
+      more than one-half mile (urban areas) or more than 10 miles (rural areas) from the
+      nearest store.
+    source: ers-sram-guide
+    section: Low-income and low-access tract measured at one-half mile and 10 miles
+    confidence: high
+  - id: one_and_twenty
+    label: Low income and low access, 1 mile (urban) or 20 miles (rural)
+    text: >-
+      A low-income tract with at least 500 people, or 33 percent of the population, living
+      more than 1 mile (urban areas) or more than 20 miles (rural areas) from the nearest
+      store.
+    source: ers-sram-guide
+    section: Low-income and low-access tract measured at 1 and 20 miles
+    confidence: high
+  - id: vehicle
+    label: Low income and low access, vehicle access (or 20 miles)
+    text: >-
+      A low-income tract where at least 100 households are more than one-half mile from the
+      nearest store and have no vehicle, or at least 500 people, or 33 percent of the
+      population, live more than 20 miles from the nearest store, whether or not they have a
+      vehicle.
+    source: ers-sram-guide
+    section: Low-income and low-access tract using vehicle access and at 20 miles
+    confidence: high
+
+# What the measures mean and where they come from.
+background:
+  - text: >-
+      A low-income tract has a poverty rate of 20 percent or more, or a median family income
+      at or below 80 percent of the statewide median family income, or (in a metropolitan
+      area) at or below 80 percent of the metropolitan area's median family income (American
+      Community Survey 2020-2024 tract estimates in the SRAM).
+    source: ers-sram-guide
+    section: Low-income tract
+    confidence: high
+  - text: >-
+      A tract is urban when its population-weighted center falls in a Census Bureau urban
+      area (at least 5,000 people or 2,000 housing units); all other tracts are rural.
+    source: ers-sram-guide
+    section: Urban/rural status
+    confidence: high
+  - text: >-
+      The SNAP-authorized Retailer Access Map (SRAM, first released July 2026) measures
+      distance to the nearest of nearly 250,000 SNAP-authorized stores (any format, from
+      convenience stores to supermarkets; farmers markets and delivery routes are left out),
+      by straight-line and by driving distance, on 2020 census tracts. Its store list is the
+      SNAP Store Tracking and Redemption System (STARS) as of June 2025, with LandScan USA 2020
+      population patterns and ACS 2020-2024 estimates.
+    source: ers-sram-guide
+    section: Distance-Based Measures Summary Table; Euclidean-based Distance Measures
+    confidence: high
+  - text: >-
+      The Large Retailer Access Map (LRAM, formerly the Food Access Research Atlas) measures
+      distance to supermarkets, supercenters, and large grocery stores (2019 STARS and TDLinx
+      directories) with 2010 Census population and ACS 2014-2018 income, on 2010 census
+      tracts. It was last updated in 2021; ERS expects its next update in winter 2026-27.
+    source: ers-lram-guide
+    section: Low-income and low-access tract measured at 1 mile and 10 miles
+    confidence: high
+  - text: >-
+      These measures can help highlight neighborhoods where distance and transportation
+      barriers may limit access to food retailers.
+    source: ers-fara
+    section: Overview
+    confidence: high
+
+# This project's methods (not from a source; tool defaults are labeled as such).
+methods:
+  - text: >-
+      The LRAM's 2010 tracts were carried to 2020 tracts with the Census Bureau's 2020-to-2010
+      tract relationship file: for each 2020 tract, the share of its land area that lay in a
+      2010 tract flagged low income and low access. A 2020 tract is counted as LRAM low income
+      and low access when that share is at least 50 percent (tool default). This assumes
+      people are spread evenly over land, so treat LRAM counts as approximate.
+    confidence: medium
+  - text: >-
+      Tract counts and people are summed over the census tracts that lie mainly in the town
+      (the same tracts the SVI tool uses); a tract can extend into a neighboring town.
+    confidence: medium
+
+# Healthy Incentives Program.
+hip:
+  - text: >-
+      HIP puts money back on the EBT card when a household uses SNAP to buy fruits and
+      vegetables from HIP farm vendors: up to $40 a month for households of 1-2 people, $60
+      for 3-5, and $80 for 6 or more.
+    source: dta-hip-faq
+    section: How do I know how much HIP I can use for the month?
+    confidence: high
+  - text: >-
+      There is no separate sign-up: every Massachusetts household that gets SNAP can use HIP
+      (and can keep using it for up to 60 days after SNAP stops).
+    source: dta-hip-faq
+    section: How do I sign up for HIP?; I stopped receiving SNAP
+    confidence: high
+  - text: >-
+      HIP vendors are farmers' markets (where some or all vendors take HIP), farm stands,
+      mobile markets, and CSA farm shares; grocery and convenience stores do not take HIP.
+      DTAFinder.com finds HIP vendors by location and hours.
+    source: dta-hip-faq
+    section: What kind of vendors process HIP?; How do I find a HIP vendor near me?
+    confidence: high
+  - text: >-
+      EBT Customer Service, (800) 997-2555, can tell a household how much HIP it has used this
+      month.
+    source: dta-hip-faq
+    section: How do I know how much HIP I can use for the month?
+    confidence: high
+
+# SNAP.
+snap:
+  - text: >-
+      Apply for SNAP online with DTA Connect or through the DTA Assistance Line, (877)
+      382-2363, open 8:15 a.m. to 4:45 p.m. DTA sends a decision within 30 days; some people
+      get SNAP within 7 days.
+    source: dta-snap
+    section: SNAP overview; Contacts
+    confidence: high
+  - text: >-
+      SNAP is not part of a public charge test; a parent who is not a U.S. citizen or
+      eligible immigrant can safely apply for an eligible family member, such as a U.S.
+      citizen child.
+    source: dta-snap
+    section: SNAP Eligibility
+    confidence: high
+
+# Local files: the columns the tool reads (tool defaults) and how to get each file.
+local_files:
+  - id: pantries
+    label: Food pantries and meal sites
+    how_to_get: >-
+      Your own list, or the agency list from your regional food bank: one row per site with
+      the organization or site name, type (pantry, meal site, mobile pantry), street address,
+      town, hours, phone, website, and languages; latitude and longitude are optional. List
+      organizations only, never clients.
+    confidence: medium
+    columns:
+      - field: name
+        aliases: [name, organization, organization name, agency, agency name, site, site name, pantry, program]
+      - field: type
+        aliases: [type, site type, program type, service, services, category]
+      - field: address
+        aliases: [address, street address, street, location]
+      - field: town
+        aliases: [town, city, municipality, city/town]
+      - field: zip
+        aliases: [zip, zip code, zipcode, postal code, zip5]
+      - field: hours
+        aliases: [hours, days and hours, schedule, days/hours, open]
+      - field: phone
+        aliases: [phone, phone number, telephone, main phone]
+      - field: website
+        aliases: [website, web, url, web site]
+      - field: languages
+        aliases: [languages, language]
+      - field: latitude
+        aliases: [latitude, lat, y]
+      - field: longitude
+        aliases: [longitude, lon, long, lng, x]
+  - id: snap_retailers
+    label: SNAP-authorized retailers
+    how_to_get: >-
+      USDA's SNAP Retailer Locator (Food and Nutrition Administration, formerly the Food and
+      Nutrition Service) offers its retailer list for download; save the Massachusetts rows as
+      a CSV in /data. The server could not open that page to check the current steps.
+    confidence: low
+    columns:
+      - field: name
+        aliases: [store name, store_name, name, retailer, retailer name]
+      - field: type
+        aliases: [store type, store_type, type, retailer type]
+      - field: address
+        aliases: [address, store street address, street address, store_street_address]
+      - field: town
+        aliases: [city, town, municipality]
+      - field: state
+        aliases: [state]
+      - field: zip
+        aliases: [zip code, zip, zip5, zipcode]
+      - field: latitude
+        aliases: [latitude, lat, y]
+      - field: longitude
+        aliases: [longitude, lon, long, lng, x]
+      - field: end_date
+        aliases: [end date, end_date, authorization end date]
+  - id: hip_vendors
+    label: HIP farm vendors
+    how_to_get: >-
+      DTAFinder.com lists HIP vendors but offers no download this server could reach; build a
+      CSV from it (vendor name, type such as farmers market, farm stand, mobile market, or CSA,
+      address, town, days and hours) or ask DTA for a list.
+    confidence: low
+    columns:
+      - field: name
+        aliases: [name, vendor, vendor name, farm, farm name, market, market name]
+      - field: type
+        aliases: [type, vendor type, location type, category]
+      - field: address
+        aliases: [address, street address, location]
+      - field: town
+        aliases: [town, city, municipality]
+      - field: zip
+        aliases: [zip, zip code, zipcode]
+      - field: hours
+        aliases: [hours, days and hours, schedule, days/hours, season]
+      - field: latitude
+        aliases: [latitude, lat, y]
+      - field: longitude
+        aliases: [longitude, lon, long, lng, x]
+
+links:
+  - label: USDA ERS Food Access Research Atlas (SRAM and LRAM maps)
+    url: https://www.ers.usda.gov/data-products/food-access-research-atlas/mapping-tools
+  - label: DTA Finder (HIP vendors and DTA offices)
+    url: https://www.dtafinder.com/
+  - label: Massachusetts Healthy Incentives Program (HIP)
+    url: https://www.mass.gov/massachusetts-hip-gives-you-money-back-when-you-use-your-snap-benefits-to-buy-healthy-local-fruits-and-vegetables-from-hip-farm-vendors
+  - label: Apply for SNAP (DTA)
+    url: https://www.mass.gov/how-to/supplemental-nutrition-assistance-program-snap-formerly-known-as-food-stamps
+  - label: USDA SNAP Retailer Locator (could not be checked from this environment)
+    url: https://www.fns.usda.gov/snap/retailer-locator
