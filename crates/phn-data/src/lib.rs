@@ -64,6 +64,7 @@ pub use snapshots::SnapshotStore;
 // Phase 14 EJ and climate (ENV-04, ENV-05).
 // End of Phase 14 ejclimate.
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
+pub mod vectorborne;
 // End of Phase 14 vectorhousing.
 // Phase 14 Chemicals and food (ENV-08, CHR-06).
 // End of Phase 14 chemfood.
