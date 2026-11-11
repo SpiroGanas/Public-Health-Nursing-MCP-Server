@@ -213,10 +213,11 @@ fn dph_status_of(rows: &[&DphTownStatus]) -> String {
         "partially fluoridated".into()
     } else if rows.is_empty() {
         "not listed".into()
-    } else if rows
-        .iter()
-        .all(|r| r.information.to_ascii_lowercase().contains("does not have a community water supply"))
-    {
+    } else if rows.iter().all(|r| {
+        r.information
+            .to_ascii_lowercase()
+            .contains("does not have a community water supply")
+    }) {
         "not fluoridated (no community water system)".into()
     } else {
         "not fluoridated".into()
@@ -297,10 +298,18 @@ fn town_status(f: &FluoridationData, town: &str) -> TownFluoridation {
                     main.name,
                     main.cdc_pwsid,
                     main.status,
-                    if main.fluoridated { "fluoridated" } else { "not fluoridated" },
+                    if main.fluoridated {
+                        "fluoridated"
+                    } else {
+                        "not fluoridated"
+                    },
                     d.cdc_pwsid,
                     d.status,
-                    if d.fluoridated { "fluoridated" } else { "not fluoridated" }
+                    if d.fluoridated {
+                        "fluoridated"
+                    } else {
+                        "not fluoridated"
+                    }
                 ));
                 cdc_status = "records disagree".into();
             }
@@ -531,7 +540,11 @@ pub fn community_water_fluoridation_status(
                         format!(
                             "{}{}",
                             x.name,
-                            if x.duplicate { " (duplicate record)" } else { "" }
+                            if x.duplicate {
+                                " (duplicate record)"
+                            } else {
+                                ""
+                            }
                         ),
                         x.sdwis_pwsid
                             .clone()
@@ -766,7 +779,11 @@ fn brief(
                             format!(
                                 "{}{}",
                                 x.name,
-                                if x.duplicate { " (duplicate record)" } else { "" }
+                                if x.duplicate {
+                                    " (duplicate record)"
+                                } else {
+                                    ""
+                                }
                             ),
                             x.sdwis_pwsid.clone().unwrap_or_else(|| x.cdc_pwsid.clone()),
                             x.status.clone(),

@@ -120,7 +120,12 @@ async fn drinking_water_lookup_falls_back_to_the_snapshot_offline() {
     assert!(s["data"]["private_well_guidance"].is_null());
 
     // Problems the nurse can fix are tool errors.
-    let e = call_err(&h, "drinking_water_quality_lookup", json!({"town": "Bostn"})).await;
+    let e = call_err(
+        &h,
+        "drinking_water_quality_lookup",
+        json!({"town": "Bostn"}),
+    )
+    .await;
     assert!(e.contains("Boston"), "{e}");
     call_err(
         &h,
@@ -184,7 +189,12 @@ async fn fluoridation_status_shows_positions_side_by_side_and_writes_a_brief() {
     assert!(!d["evidence"].as_array().unwrap().is_empty());
     assert!(!d["massachusetts_law"].as_array().unwrap().is_empty());
     assert!(!d["positions_not_included"].as_array().unwrap().is_empty());
-    assert!(d["statewide"]["percent_population_fluoridated"].as_f64().unwrap() > 50.0);
+    assert!(
+        d["statewide"]["percent_population_fluoridated"]
+            .as_f64()
+            .unwrap()
+            > 50.0
+    );
     assert!(pending(&s));
     assert!(s["notice"].as_str().is_some());
     assert!(d["brief_file"].is_null());

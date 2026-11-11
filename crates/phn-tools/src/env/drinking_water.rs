@@ -652,9 +652,7 @@ pub async fn drinking_water_quality_lookup(
         health.sort_by(|a, b| b.begin.cmp(&a.begin));
         let mut other: BTreeMap<String, usize> = BTreeMap::new();
         for v in vs.iter().filter(|v| !v.health_based) {
-            *other
-                .entry(violation_out(codes, v).category)
-                .or_insert(0) += 1;
+            *other.entry(violation_out(codes, v).category).or_insert(0) += 1;
         }
         // Only violations SDWIS lists as Open; "Known" and other statuses are shown as coded.
         let unresolved = vs
@@ -797,9 +795,9 @@ pub async fn drinking_water_quality_lookup(
 
     // Standards and actions.
     let any_pfas_concern = systems.iter().any(|s| {
-        s.pfas6.as_ref().is_some_and(|p| {
-            p.latest_quarter_above_standard || p.results_above_20_12_months > 0
-        })
+        s.pfas6
+            .as_ref()
+            .is_some_and(|p| p.latest_quarter_above_standard || p.results_above_20_12_months > 0)
     });
     let any_lead_concern = systems.iter().any(|s| {
         s.lead.as_ref().is_some_and(|l| l.above_action_level)
@@ -860,7 +858,11 @@ pub async fn drinking_water_quality_lookup(
                                 "{} µg/L ({}){}",
                                 md::num(l.ninetieth_percentile_mg_l * 1000.0, 1),
                                 l.period_end.chars().take(4).collect::<String>(),
-                                if l.above_action_level { " ABOVE AL" } else { "" }
+                                if l.above_action_level {
+                                    " ABOVE AL"
+                                } else {
+                                    ""
+                                }
                             )
                         })
                         .unwrap_or_else(|| "—".into()),
@@ -909,7 +911,11 @@ pub async fn drinking_water_quality_lookup(
     }
     let flagged: Vec<String> = systems
         .iter()
-        .flat_map(|r| r.flags.iter().map(move |f| format!("- **{}:** {f}", r.name)))
+        .flat_map(|r| {
+            r.flags
+                .iter()
+                .map(move |f| format!("- **{}:** {f}", r.name))
+        })
         .collect();
     if !flagged.is_empty() {
         s.push_str("**Needs attention:**\n");
@@ -1004,7 +1010,9 @@ pub async fn drinking_water_quality_lookup(
                 .into(),
             publisher: "U.S. EPA (Envirofacts); data reported by MassDEP".into(),
             url: Some(match tw.sdwis.mode {
-                SourceMode::Snapshot => "https://www.epa.gov/enviro/envirofacts-data-service-api".into(),
+                SourceMode::Snapshot => {
+                    "https://www.epa.gov/enviro/envirofacts-data-service-api".into()
+                }
                 _ => water::dmap_url("water_system", &water::town_prefixes(muni.town_id)),
             }),
             effective_date: (tw.sdwis.mode == SourceMode::Snapshot)

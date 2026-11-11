@@ -35,7 +35,8 @@ pub const DPH_FLUORIDATION_SNAPSHOT: &str = "dph-fluoridation-towns";
 /// Envirofacts data service (table queries).
 pub const DMAP_BASE: &str = "https://data.epa.gov/dmapservice";
 /// EEA Data Portal drinking water results API.
-pub const EEA_API: &str = "https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater";
+pub const EEA_API: &str =
+    "https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater";
 /// EEA Data Portal search page for people.
 pub const EEA_PORTAL: &str = "https://eeaonline.eea.state.ma.us/portal#!/search/drinking-water";
 /// SDWIS changes quarterly; PFAS results are posted as labs report.
@@ -471,7 +472,10 @@ pub fn parse_live_systems(body: &[u8], town: &str) -> Result<Vec<WaterSystem>> {
         .filter(|o| js(o, "pws_activity_code") == "A")
         .map(|o| WaterSystem {
             pwsid: js(o, "pwsid"),
-            name: js(o, "pws_name").split_whitespace().collect::<Vec<_>>().join(" "),
+            name: js(o, "pws_name")
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             system_type: js(o, "pws_type_code"),
             town: town.to_string(),
             population: to_u64(jf(o, "population_served_count")),
@@ -743,10 +747,9 @@ pub async fn fetch_town(
 
     // PFAS6.
     let (pfas, pfas_status) = match pfas_live {
-        Ok((body, mode, as_of, note)) => (
-            parse_live_pfas(&body)?,
-            DatasetStatus { mode, as_of, note },
-        ),
+        Ok((body, mode, as_of, note)) => {
+            (parse_live_pfas(&body)?, DatasetStatus { mode, as_of, note })
+        }
         Err(e) => {
             let ps = PfasSnapshot::shared(store)?;
             let ids: Vec<&str> = systems.iter().map(|s| s.pwsid.as_str()).collect();
@@ -895,7 +898,9 @@ pub fn parse_dph_towns(text: &str) -> Result<Vec<DphTownStatus>> {
                 town: x.s("town"),
                 status: x.s("status"),
                 population: to_u64(x.f("population")),
-                year_began: x.opt("year_began").filter(|y| y.chars().all(|c| c.is_ascii_digit())),
+                year_began: x
+                    .opt("year_began")
+                    .filter(|y| y.chars().all(|c| c.is_ascii_digit())),
                 mwra: x.s("mwra") == "Y",
                 information: x.s("information"),
             }
@@ -1011,7 +1016,11 @@ mod tests {
         let acton = s.system("MA2002000").unwrap();
         assert_eq!(acton.town, "Acton");
         assert_eq!(acton.system_type, "CWS");
-        assert!(s.violations.iter().all(|v| v.begin.as_str() >= "2016-01-01"));
+        assert!(
+            s.violations
+                .iter()
+                .all(|v| v.begin.as_str() >= "2016-01-01")
+        );
         assert!(
             s.lead_copper
                 .iter()
@@ -1022,12 +1031,12 @@ mod tests {
             Some("TTHM"),
             "trihalomethanes code"
         );
-        assert_eq!(
-            s.codes.get("VIOLATION_CODE", "02"),
-            Some("MCL, Average")
-        );
+        assert_eq!(s.codes.get("VIOLATION_CODE", "02"), Some("MCL, Average"));
         // The tribal system is placed in Aquinnah.
-        assert_eq!(s.system("010307001").map(|x| x.town.as_str()), Some("Aquinnah"));
+        assert_eq!(
+            s.system("010307001").map(|x| x.town.as_str()),
+            Some("Aquinnah")
+        );
         let p = PfasSnapshot::shared(&store).unwrap();
         assert!(p.results.len() > 1000);
         assert!(p.results.iter().any(|r| r.result_ng_l.is_none()));
@@ -1036,13 +1045,16 @@ mod tests {
         assert!(f.systems.len() > 500);
         assert_eq!(f.towns.len(), 361);
         assert_eq!(f.dph_rows("Pelham").len(), 2);
-        let total = f.summary_row("All community water systems", "Total").unwrap();
+        let total = f
+            .summary_row("All community water systems", "Total")
+            .unwrap();
         assert!(total.population > 6_000_000);
     }
 
     #[test]
     fn live_json_is_parsed_without_contact_fields() {
-        let ws = br#"[{"pwsid":"MA2002000","pws_name":"ACTON  WATER DISTRICT","pws_activity_code":"A",
+        let ws =
+            br#"[{"pwsid":"MA2002000","pws_name":"ACTON  WATER DISTRICT","pws_activity_code":"A",
             "pws_type_code":"CWS","population_served_count":23000,"service_connections_count":7000,
             "primary_source_code":"GW","owner_type_code":"L","is_wholesaler_ind":"N",
             "is_school_or_daycare_ind":"N","primacy_agency_code":"MA","admin_name":"PAT EXAMPLE",
@@ -1107,7 +1119,9 @@ mod tests {
         assert!(t.systems.iter().all(|s| pwsid_town_id(&s.pwsid) == Some(2)));
         assert!(t.pfas.iter().all(|r| pwsid_town_id(&r.pwsid) == Some(2)));
         // Aquinnah's tribal system (EPA Region 1 primacy) comes from the snapshot.
-        let a = fetch_town(&http, None, &store, 104, "Aquinnah").await.unwrap();
+        let a = fetch_town(&http, None, &store, 104, "Aquinnah")
+            .await
+            .unwrap();
         assert!(a.systems.iter().any(|s| s.pwsid == "010307001"));
     }
 }
@@ -1128,7 +1142,12 @@ mod live_tests {
         let store = SnapshotStore::bundled();
         let t = fetch_town(&http, None, &store, 2, "Acton").await.unwrap();
         assert_eq!(t.sdwis.mode, SourceMode::Live, "{:?}", t.sdwis.note);
-        assert_eq!(t.pfas_status.mode, SourceMode::Live, "{:?}", t.pfas_status.note);
+        assert_eq!(
+            t.pfas_status.mode,
+            SourceMode::Live,
+            "{:?}",
+            t.pfas_status.note
+        );
         assert!(t.systems.iter().any(|s| s.pwsid == "MA2002000"));
         assert!(!t.pfas.is_empty());
         eprintln!(
