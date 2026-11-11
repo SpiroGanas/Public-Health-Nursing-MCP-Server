@@ -1846,4 +1846,65 @@ mod tests {
         assert_eq!(resolve_condition("pregnant").unwrap().0, "007");
         assert!(resolve_condition("zzzz").is_err());
     }
+
+    #[test]
+    fn dates_with_two_digit_years_and_implausible_dates() {
+        let d = |s: &str| NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap();
+        assert_eq!(parse_date("dob", "10/15/26").unwrap(), d("2026-10-15"));
+        assert_eq!(parse_date("dob", "3/4/15").unwrap(), d("2015-03-04"));
+        assert_eq!(parse_date("dob", "2015-03-04").unwrap(), d("2015-03-04"));
+        assert_eq!(
+            parse_date("dob", "2015-03-04T00:00:00").unwrap(),
+            d("2015-03-04")
+        );
+        assert!(parse_date("dob", "9/3/2024–10/1/2024").is_err());
+        assert!(parse_date("dob", "+262143-12-31").is_err());
+        assert!(parse_date("dob", "2020-13-40").is_err());
+    }
+
+    /// Doses dated before birth or after the assessment date, and rows that
+    /// disagree about a date of birth, are counted and reported.
+    #[test]
+    fn file_mode_reports_doses_outside_dates_and_birth_date_conflicts() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        std::fs::write(
+            dir.path().join("data").join("iz.csv"),
+            "person_id,dob,cvx,date_given\n\
+             P-1,2020-01-01,110,2020-03-01\n\
+             P-1,2020-01-01,110,2019-12-01\n\
+             P-1,2020-01-01,110,2030-01-01\n\
+             P-2,2021-05-05,110,2021-07-05\n\
+             P-2,2021-06-06,110,2021-09-05\n",
+        )
+        .unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = true;
+        let ctx = Context::new(config).unwrap();
+        let env = forecast_immunizations_due(
+            &ctx,
+            ForecastImmunizationsArgs {
+                file: Some("iz.csv".into()),
+                assessment_date: Some("2026-11-01".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let f = env.data.file.unwrap();
+        assert_eq!(f.persons, 2);
+        assert_eq!(f.dose_rows, 3);
+        assert_eq!(f.dose_rows_outside_dates, 2);
+        assert_eq!(f.persons_with_conflicting_birth_dates, 1);
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("2 dose row(s) were not evaluated"))
+        );
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("different dates of birth"))
+        );
+        assert!(env.summary.contains("3 dose rows evaluated"));
+    }
 }

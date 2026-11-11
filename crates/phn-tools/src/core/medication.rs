@@ -5,7 +5,7 @@
 //! inserts). Live with a one-day cache; there is no offline snapshot.
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
-use phn_data::fetch::fetch_with_fallback;
+use phn_data::apifetch::{self, FetchOptions};
 use phn_data::medication::{
     self, Endpoints, LabelSummary, RecallSummary, RxConcept, ShortageSummary, SplSummary,
 };
@@ -66,24 +66,39 @@ enum Got {
 }
 
 async fn get_json(ctx: &Context, url: &str) -> Got {
-    match fetch_with_fallback(&ctx.http, ctx.cache.as_ref(), url, TTL, None).await {
+    // The openFDA key goes with the request only: the cache key is the
+    // key-free URL, and only a JSON body is cached.
+    let (public_url, key) = medication::split_api_key(url);
+    let options = FetchOptions {
+        key: key.as_deref().map(|k| ("api_key", k)),
+        ..FetchOptions::default()
+    };
+    let fetched = apifetch::fetch_with_options(
+        &ctx.http,
+        ctx.cache.as_ref(),
+        public_url,
+        TTL,
+        &apifetch::expect_json,
+        None,
+        options,
+    )
+    .await;
+    match fetched {
         Ok(f) => match serde_json::from_slice::<Value>(&f.body) {
             Ok(v) => Got::Json(v, f.mode, f.as_of),
             Err(e) => Got::Unavailable(format!("unexpected response ({e})")),
         },
-        Err(e) => {
-            let m = e.to_string();
-            if m.contains("404") {
-                Got::NoResults
+        // openFDA answers HTTP 404 when nothing matches. Only the status the
+        // server sent counts, never text in the URL or the message.
+        Err(failure) if failure.live_status == Some(404) => Got::NoResults,
+        Err(failure) => {
+            // Never echo the URL.
+            let short = if failure.error.to_string().contains("offline mode") {
+                "offline mode is on".to_string()
             } else {
-                // Never echo the URL (it may carry the API key).
-                let short = if m.contains("offline") {
-                    "offline mode is on".to_string()
-                } else {
-                    "the service could not be reached".to_string()
-                };
-                Got::Unavailable(short)
-            }
+                "the service could not be reached or returned an unexpected response".to_string()
+            };
+            Got::Unavailable(short)
         }
     }
 }

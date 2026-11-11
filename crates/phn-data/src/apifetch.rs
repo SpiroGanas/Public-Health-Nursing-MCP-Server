@@ -423,5 +423,21 @@ mod tests {
         .unwrap();
         assert_eq!(r.mode, SourceMode::Snapshot);
         assert!(!r.fallback_reason.unwrap().contains("SECRET"));
+
+        // A cache that cannot be read is a miss, not an error.
+        cache.damage_for_tests();
+        let snap: SnapshotFallback = Box::new(|| Some((b"[]".to_vec(), "2026-01-01".into())));
+        let r = fetch_validated(
+            &http,
+            Some(&cache),
+            "https://x/a",
+            None,
+            60,
+            &expect_json,
+            Some(snap),
+        )
+        .await
+        .unwrap();
+        assert_eq!(r.mode, SourceMode::Snapshot);
     }
 }

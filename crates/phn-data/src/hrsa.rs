@@ -163,10 +163,8 @@ pub async fn ma_sites(
     cache: Option<&Cache>,
     snapshots: &SnapshotStore,
 ) -> Result<Sites> {
-    let cached = match cache {
-        Some(c) => c.get(CACHE_KEY)?,
-        None => None,
-    };
+    // A cache read error is a miss, not a failure.
+    let cached = cache.and_then(|c| c.get_or_miss(CACHE_KEY));
     if let Some(hit) = &cached
         && hit.fresh
         && let Ok(text) = std::str::from_utf8(&hit.body)
@@ -225,6 +223,20 @@ pub async fn ma_sites(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn a_damaged_cache_does_not_block_the_snapshot() {
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        cache.damage_for_tests();
+        assert!(cache.get(CACHE_KEY).is_err());
+        let sites = ma_sites(&http, Some(&cache), &SnapshotStore::bundled())
+            .await
+            .unwrap();
+        assert_eq!(sites.mode, SourceMode::Snapshot);
+        assert!(sites.sites.len() > 200);
+    }
 
     #[test]
     fn snapshot_parses_and_filter_keeps_ma_service_sites() {

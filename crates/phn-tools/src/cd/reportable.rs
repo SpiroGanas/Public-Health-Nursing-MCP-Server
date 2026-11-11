@@ -114,7 +114,10 @@ pub fn lookup_reportable_condition(
         board_of_health_phone: settings.jurisdiction.board_of_health_phone.clone(),
     });
 
-    let best = hits.first().filter(|h| h.score >= CONFIDENT_MATCH);
+    // Exact names win; ties between conditions and generic or very short
+    // queries are "not matched" and the candidates are listed instead.
+    let best = reportable::confident(query, &hits);
+    let ambiguous = best.is_none() && hits.first().is_some_and(|h| h.score >= CONFIDENT_MATCH);
     let condition = best.map(|h| {
         let c = h.condition;
         let how = how_to_report(c.timeframe, &c.report_to, &dph);
@@ -135,10 +138,8 @@ pub fn lookup_reportable_condition(
             content_confidence: c.confidence,
         }
     });
-    let skip = usize::from(condition.is_some());
     let alternatives: Vec<Alternative> = hits
         .iter()
-        .skip(skip)
         .filter(|h| condition.as_ref().is_none_or(|c| c.id != h.condition.id))
         .take(max_alt)
         .map(|h| Alternative {
@@ -201,6 +202,13 @@ pub fn lookup_reportable_condition(
                 "\"{query}\" did not match a condition on the Massachusetts reportable list \
                  bundled with this server. **This does not mean it is not reportable.**\n\n"
             ));
+            if ambiguous {
+                summary.push_str(
+                    "- The words fit more than one listed condition, or are too general to pick \
+                     one (see the possible matches below). Ask again with the specific condition, \
+                     organism, or laboratory result; reporting rules differ between them.\n",
+                );
+            }
             summary.push_str(&format!("- {CATCH_ALL}\n"));
             summary.push_str(&format!(
                 "- When unsure, call {} at {}.\n",
@@ -310,5 +318,56 @@ fn how_to_report(t: Timeframe, to: &[ReportTo], dph: &Contact) -> String {
             "Report through the DPH program named in the notes, following its current instructions."
                 .into()
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        let c = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, c)
+    }
+
+    fn look(c: &Context, q: &str) -> ReportableLookup {
+        lookup_reportable_condition(
+            c,
+            LookupReportableArgs {
+                query: q.into(),
+                max_alternatives: None,
+            },
+        )
+        .unwrap()
+        .data
+    }
+
+    #[test]
+    fn ambiguous_or_generic_queries_list_candidates_instead_of_one_condition() {
+        let (_d, c) = ctx();
+        for q in [
+            "hepatitis",
+            "meningitis",
+            "fever",
+            "tick bite",
+            "stomach flu",
+        ] {
+            let d = look(&c, q);
+            assert!(!d.matched && d.condition.is_none(), "{q}");
+        }
+        // The candidates are offered, not chosen.
+        let d = look(&c, "hepatitis");
+        assert!(d.alternatives.iter().any(|a| a.id == "hepatitis-a"));
+        assert!(d.alternatives.iter().any(|a| a.id == "hepatitis-c"));
+        // Exact names, and the one condition that names the whole query, match.
+        assert_eq!(look(&c, "measles").condition.unwrap().id, "measles");
+        let d = look(&c, "hepatitis B");
+        assert_eq!(d.condition.unwrap().id, "hepatitis-b");
+        assert!(d.alternatives.iter().all(|a| a.id != "hepatitis-b"));
+        assert_eq!(
+            look(&c, "whooping cough").condition.unwrap().id,
+            "pertussis"
+        );
     }
 }

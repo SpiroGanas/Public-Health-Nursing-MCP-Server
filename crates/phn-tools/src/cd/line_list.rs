@@ -5,7 +5,7 @@
 //! exposures; every choice can be overridden. Identifier columns (names,
 //! phone numbers, IDs) are never used, and no cell values are returned.
 
-use chrono::{NaiveDate, NaiveDateTime, NaiveTime};
+use chrono::{Datelike, NaiveDate, NaiveDateTime, NaiveTime};
 use phn_core::text::normalize;
 use phn_core::{PhnError, Result};
 use phn_local::phi;
@@ -176,7 +176,16 @@ fn is_non_case(v: &str) -> bool {
         || v.contains("ruled out")
 }
 
-/// Parse a date or date-time cell.
+/// Years a date in a line list may fall in. chrono's `%Y` also reads a
+/// two-digit year such as "26" as the year 26, so anything outside this range
+/// is rejected and the two-digit-year formats are tried instead.
+fn plausible_year(y: i32) -> bool {
+    (1900..=2100).contains(&y)
+}
+
+/// Parse a date or date-time cell. Dates are read as month/day/year (U.S.
+/// order); two-digit years are read as 1969-2068; years outside 1900-2100
+/// are not accepted.
 pub fn parse_datetime(s: &str) -> Option<(NaiveDateTime, bool)> {
     let s = s.trim();
     for fmt in [
@@ -187,14 +196,29 @@ pub fn parse_datetime(s: &str) -> Option<(NaiveDateTime, bool)> {
         "%m/%d/%Y %H:%M",
         "%m/%d/%Y %I:%M %p",
         "%m/%d/%y %H:%M",
+        "%m/%d/%y %I:%M %p",
     ] {
-        if let Ok(d) = NaiveDateTime::parse_from_str(s, fmt) {
+        if let Ok(d) = NaiveDateTime::parse_from_str(s, fmt)
+            && plausible_year(d.date().year())
+        {
             // Midnight with seconds from spreadsheets means "date only".
             let date_only = d.time() == NaiveTime::MIN && s.ends_with("00:00:00");
             return Some((d, !date_only));
         }
     }
-    phi::parse_date(s).map(|d| (d.and_time(NaiveTime::MIN), false))
+    if let Some(d) = phi::parse_date(s).filter(|d| plausible_year(d.year())) {
+        return Some((d.and_time(NaiveTime::MIN), false));
+    }
+    // Two-digit years ("5/3/26"), which the four-digit formats misread.
+    let head = s.split(['T', ' ']).next().unwrap_or(s);
+    for fmt in ["%m/%d/%y", "%m-%d-%y"] {
+        if let Ok(d) = NaiveDate::parse_from_str(head, fmt)
+            && plausible_year(d.year())
+        {
+            return Some((d.and_time(NaiveTime::MIN), false));
+        }
+    }
+    None
 }
 
 /// Parse a time cell (HH:MM, H:MM AM, H AM).
@@ -301,13 +325,36 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
             ));
         }
     }
+    // A time column is used on its own evidence only when its name says it is
+    // the onset time; "Meal Time" or "Interview Time" must be named by the caller.
     let time_idx = match &o.onset_time_column {
         Some(c) => Some(lt.column(c)?),
-        None => find_by_words(&lt, &[&["onset", "time"], &["time"]], &used),
+        None => find_by_words(
+            &lt,
+            &[
+                &["onset", "time"],
+                &["symptom", "time"],
+                &["symptoms", "time"],
+                &["illness", "time"],
+            ],
+            &used,
+        ),
     };
     if let Some(i) = time_idx {
         used.push(i);
         map.onset_time = Some(lt.table.headers[i].clone());
+        if o.onset_time_column.is_none() {
+            map.notes.push(format!(
+                "Onset time: '{}' (found by name).",
+                lt.table.headers[i]
+            ));
+        }
+    } else if let Some(i) = find_by_words(&lt, &[&["time"]], &used) {
+        map.notes.push(format!(
+            "The column '{}' was not used as the onset time because its name does not say \
+             onset; if it holds onset times, name it with onset_time_column.",
+            lt.table.headers[i]
+        ));
     }
 
     // Case column.
@@ -315,13 +362,15 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
         Some(c) => Some(lt.column(c)?),
         None => find_by_words(
             &lt,
+            // An ill yes/no column is preferred to a bare "status" column,
+            // which is often something else ("Vaccination Status").
             &[
                 &["case", "status"],
                 &["case", "classification"],
                 &["classification"],
-                &["status"],
                 &["ill"],
                 &["sick"],
+                &["status"],
                 &["case"],
             ],
             &used,
@@ -331,6 +380,12 @@ pub fn load(ctx: &Context, path: &str, sheet: Option<&str>, o: &ColumnOptions) -
     if let Some(i) = case_idx {
         used.push(i);
         map.case = Some(lt.table.headers[i].clone());
+        if o.case_column.is_none() {
+            map.notes.push(format!(
+                "Case column: '{}' (found by name).",
+                lt.table.headers[i]
+            ));
+        }
         let (share, _) = yes_no_share(&lt, i);
         case_is_yes_no = share >= 0.9;
         map.case_values = match &o.case_values {
@@ -575,6 +630,19 @@ mod tests {
             "14:30"
         );
         assert!(parse_time("later").is_none());
+        // Two-digit years are 20YY, not the year 26.
+        let (d, t) = parse_datetime("5/3/26 14:00").unwrap();
+        assert!(t);
+        assert_eq!(d.format("%Y-%m-%d %H:%M").to_string(), "2026-05-03 14:00");
+        let (d, t) = parse_datetime("5/3/26").unwrap();
+        assert!(!t);
+        assert_eq!(d.format("%Y-%m-%d").to_string(), "2026-05-03");
+        let (d, _) = parse_datetime("05/03/2026 2:30 PM").unwrap();
+        assert_eq!(d.format("%Y-%m-%d %H:%M").to_string(), "2026-05-03 14:30");
+        // Implausible years are refused rather than computed with.
+        assert!(parse_datetime("0026-05-03").is_none());
+        assert!(parse_datetime("+262142-12-31").is_none());
+        assert!(parse_datetime("2101-01-01 10:00").is_none());
         assert!(has_word("Abdominal Cramps", SYMPTOM_WORDS));
         assert!(!has_word("Roast Turkey", SYMPTOM_WORDS));
     }

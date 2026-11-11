@@ -360,7 +360,18 @@ pub async fn lookup_vaccine_product(
                 .map(|t| t.trade_name.clone())
                 .unwrap_or_else(|| m.short_description.clone());
             let url = endpoints.dailymed_spls(&term, 3);
-            match fetch_with_fallback(&ctx.http, ctx.cache.as_ref(), &url, 86_400, None).await {
+            // Only a JSON body is cached or used (not a proxy's HTML page).
+            match phn_data::apifetch::fetch_validated(
+                &ctx.http,
+                ctx.cache.as_ref(),
+                &url,
+                None,
+                86_400,
+                &phn_data::apifetch::expect_json,
+                None,
+            )
+            .await
+            {
                 Ok(f) => {
                     if let Ok(v) = serde_json::from_slice::<serde_json::Value>(&f.body) {
                         m.labels = medication::parse_spls(&v);

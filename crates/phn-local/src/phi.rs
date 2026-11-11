@@ -703,11 +703,24 @@ fn header_kind(header: &str) -> Option<(Identifier, Confidence)> {
     if has_any(&["sasid", "lasid", "nhi", "maven"]) {
         return Some((OtherIdNumber, High));
     }
+    // "Number of patient visits" is a count, not an ID.
     if (has("id") || has("identifier") || has("number") || has("no") || has("num"))
+        && !has("of")
         && (person_hint
             || has_any(&[
                 "case", "record", "student", "patient", "client", "member", "event",
             ]))
+    {
+        return Some((OtherIdNumber, High));
+    }
+    // A column headed just "ID", "ID number", or "Identifier".
+    if (has("id") || has("identifier"))
+        && t.iter().all(|x| {
+            matches!(
+                x.as_str(),
+                "id" | "identifier" | "number" | "no" | "num" | "code"
+            )
+        })
     {
         return Some((OtherIdNumber, High));
     }
@@ -723,6 +736,65 @@ fn share(values: &[&str], pred: impl Fn(&str) -> bool) -> f64 {
         return 0.0;
     }
     values.iter().filter(|v| pred(v)).count() as f64 / values.len() as f64
+}
+
+/// Words that make up a person's name when they are the whole header.
+const NAME_PART_HEADERS: [&str; 10] = [
+    "first", "last", "middle", "given", "family", "maiden", "nickname", "alias", "aka", "mi",
+];
+
+/// Header words that point at a person ("Student", "Guardian", "Contact").
+const PERSON_HEADERS: [&str; 10] = [
+    "guardian", "parent", "mother", "father", "spouse", "patient", "client", "student", "child",
+    "contact",
+];
+
+/// Header words that show a "person" header is about something else
+/// ("Student grade", "Contact type", "Patient status").
+const NOT_PERSON_HEADERS: [&str; 22] = [
+    "type", "status", "grade", "age", "sex", "gender", "race", "ethnicity", "language", "count",
+    "total", "school", "town", "city", "relationship", "result", "category", "group", "setting",
+    "method", "level", "risk",
+];
+
+/// True when every word of the header is a name part ("First", "Last, First").
+fn name_part_header(tokens: &[String]) -> bool {
+    !tokens.is_empty()
+        && tokens
+            .iter()
+            .all(|t| NAME_PART_HEADERS.contains(&t.as_str()))
+}
+
+/// True when the header points at a person and not at an attribute of one.
+fn person_header(tokens: &[String]) -> bool {
+    tokens.iter().any(|t| PERSON_HEADERS.contains(&t.as_str()))
+        && !tokens
+            .iter()
+            .any(|t| NOT_PERSON_HEADERS.contains(&t.as_str()))
+}
+
+/// True for text shaped like a name: one to five alphabetic words, and not a
+/// yes/no or "unknown" style answer.
+fn name_shaped(v: &str) -> bool {
+    let words: Vec<&str> = v
+        .split([' ', ','])
+        .map(str::trim)
+        .filter(|w| !w.is_empty())
+        .collect();
+    if words.is_empty() || words.len() > 5 {
+        return false;
+    }
+    if !words.iter().all(|w| {
+        w.chars()
+            .all(|c| c.is_alphabetic() || matches!(c, '-' | '\'' | '.' | '’'))
+    }) {
+        return false;
+    }
+    !matches!(
+        v.trim().to_ascii_lowercase().as_str(),
+        "yes" | "no" | "y" | "n" | "true" | "false" | "t" | "f" | "unknown" | "unk" | "other"
+            | "none" | "self"
+    )
 }
 
 fn name_like(v: &str) -> bool {
@@ -800,9 +872,25 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
         ));
     }
 
+    // Nine-digit numbers under a "Social …" header are SSNs without hyphens.
+    let header_tokens = tokens(header);
+    if header_tokens.iter().any(|t| t == "social") {
+        let bare = share(values, |v| RE_SSN_BARE.is_match(v));
+        if bare >= 0.5 {
+            return Some(make(
+                Identifier::Ssn,
+                Confidence::High,
+                format!(
+                    "column name mentions 'social' and {} of values are nine-digit numbers",
+                    pct(bare)
+                ),
+            ));
+        }
+    }
+
     let by_header = header_kind(header);
     if let Some((kind, conf)) = by_header {
-        // Date headers need date values; other header hits stand on their own.
+        // Date headers need date-like values; other header hits stand on their own.
         if kind == Identifier::Date {
             let d = share(values, |v| parse_date(v).is_some());
             if d >= 0.6 {
@@ -811,6 +899,21 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
                     Confidence::High,
                     format!(
                         "column name suggests a date; {} of values are dates",
+                        pct(d)
+                    ),
+                ));
+            }
+            // Values with digits that were not recognized as dates are still
+            // treated as dates (and blanked or masked downstream), so an
+            // unfamiliar date format is never passed through as it is. Yes/no
+            // columns such as "Up to date" are left alone.
+            let digits = share(values, |v| v.chars().any(|c| c.is_ascii_digit()));
+            if digits >= 0.6 {
+                return Some(make(
+                    kind,
+                    conf,
+                    format!(
+                        "column name suggests a date; only {} of values were recognized as dates",
                         pct(d)
                     ),
                 ));
@@ -834,6 +937,31 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
                 conf,
                 format!("column name '{header}' suggests {}", kind.label()),
             ));
+        }
+    }
+
+    // Headers that point at a person without saying "name": "First", "Last",
+    // "Student", "Guardian". The values decide: text shaped like names is
+    // flagged even when the names are not on the public name lists.
+    if by_header.is_none() && !values.is_empty() {
+        let shaped = share(values, name_shaped);
+        if shaped >= 0.6 && name_part_header(&header_tokens) {
+            return Some(make(
+                Identifier::Name,
+                Confidence::Medium,
+                format!("column name '{header}' suggests part of a person's name"),
+            ));
+        }
+        if shaped >= 0.6 && person_header(&header_tokens) {
+            let listed = share(values, name_like);
+            let multiword = share(values, |v| v.split_whitespace().count() >= 2);
+            if listed >= 0.3 || multiword >= 0.5 || (distinct.len() >= 3 && distinct_ratio > 0.5) {
+                return Some(make(
+                    Identifier::Name,
+                    Confidence::Medium,
+                    format!("column name '{header}' suggests a person and the values look like names"),
+                ));
+            }
         }
     }
 
@@ -934,6 +1062,77 @@ pub fn is_missing(v: &str) -> bool {
     )
 }
 
+/// How a header cell or a sheet name looks when it is checked for content
+/// that is data about a person and not a label. Used to keep the first record
+/// of a file without a header row, or names used as column headers, out of
+/// tool results (column names are always returned).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HeaderLook {
+    /// An ordinary label.
+    Label,
+    /// A number or a date; real headers can be these ("2024", "9/14/2026").
+    DataLike,
+    /// A person's full name ("Maria Garcia", "Garcia, Maria").
+    Name,
+    /// An identifier value: SSN, phone number, email or street address, web
+    /// address, a long ID code, or a labeled date of birth.
+    Identifier,
+}
+
+/// Classify one header cell or sheet name. See [`HeaderLook`].
+pub fn header_look(cell: &str) -> HeaderLook {
+    let v = cell.trim();
+    if v.is_empty() {
+        return HeaderLook::Label;
+    }
+    let digits = v.chars().filter(char::is_ascii_digit).count();
+    let all_digits = digits == v.chars().count();
+    if RE_SSN.is_match(v)
+        || RE_EMAIL.is_match(v)
+        || RE_URL.is_match(v)
+        || RE_IP.is_match(v)
+        || RE_STREET.is_match(v)
+        || RE_LOCAL_PHONE.is_match(v)
+        || (RE_PHONE.is_match(v) && digits >= 10)
+        || (RE_ID_CODE.is_match(v) && digits >= if all_digits { 7 } else { 6 })
+    {
+        return HeaderLook::Identifier;
+    }
+    if scan_text(v).iter().any(|f| {
+        matches!(
+            f.kind,
+            Identifier::Ssn
+                | Identifier::BirthDate
+                | Identifier::Email
+                | Identifier::Phone
+                | Identifier::StreetAddress
+        )
+    }) {
+        return HeaderLook::Identifier;
+    }
+    let words: Vec<&str> = v
+        .split([' ', ','])
+        .map(str::trim)
+        .filter(|w| !w.is_empty())
+        .collect();
+    let alphabetic = |w: &str| {
+        w.chars()
+            .all(|c| c.is_alphabetic() || matches!(c, '-' | '\'' | '.'))
+    };
+    if (2..=3).contains(&words.len()) && words.iter().copied().all(alphabetic) {
+        let forward =
+            !v.contains(',') && is_first_name(words[0]) && is_surname(words[words.len() - 1]);
+        let reversed = v.contains(',') && is_surname(words[0]) && is_first_name(words[1]);
+        if forward || reversed {
+            return HeaderLook::Name;
+        }
+    }
+    if v.replace(',', "").parse::<f64>().is_ok() || parse_date(v).is_some() || is_missing(v) {
+        return HeaderLook::DataLike;
+    }
+    HeaderLook::Label
+}
+
 // ---------------------------------------------------------------------------
 // Free text
 // ---------------------------------------------------------------------------
@@ -961,6 +1160,7 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
         }
     };
     push(&T_SSN, Identifier::Ssn, Confidence::High);
+    push(&T_SSN_LABELED, Identifier::Ssn, Confidence::High);
     push(&T_DOB, Identifier::BirthDate, Confidence::High);
     push(&T_EMAIL, Identifier::Email, Confidence::High);
     push(&T_URL, Identifier::Url, Confidence::High);
@@ -1018,6 +1218,23 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
             confidence: Confidence::Medium,
         });
     }
+    for m in T_PHONE_BARE.find_iter(text) {
+        f.push(TextFinding {
+            kind: Identifier::Phone,
+            start: m.start(),
+            end: m.end(),
+            confidence: Confidence::Medium,
+        });
+    }
+    for c in T_PHONE_LOCAL.captures_iter(text) {
+        let m = c.get(1).expect("number group");
+        f.push(TextFinding {
+            kind: Identifier::Phone,
+            start: m.start(),
+            end: m.end(),
+            confidence: Confidence::Medium,
+        });
+    }
     for m in T_IP.find_iter(text) {
         f.push(TextFinding {
             kind: Identifier::IpAddress,
@@ -1047,8 +1264,9 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
         let a = words[i];
         let a_l = a.as_str().to_ascii_lowercase();
         let next = words.get(i + 1).filter(|b| adjacent(&a, b));
-        // Relationship cue: "Daughter Carmen [Delgado]".
-        let preceded_by_cue = i > 0 && {
+        // Relationship cue: "Daughter Carmen [Delgado]". The cue word may be
+        // lower case, so it is looked for even before the first capitalized word.
+        let preceded_by_cue = {
             let prev = &text[..a.start()];
             let cue = prev
                 .trim_end()
@@ -1109,18 +1327,28 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
             });
         }
     }
-    // Keep the first, longest, highest-confidence finding for overlapping spans.
+    // Overlapping spans are merged into one finding that covers all of them,
+    // so the tail of a later finding (for example the number in "Mrs. Delgado
+    // Medicaid ID: 100234567", where the name span reaches "Medicaid") is never
+    // left outside a redaction. The merged finding takes the kind that standard
+    // redaction removes when either span has one.
     f.sort_by(|a, b| {
         a.start
             .cmp(&b.start)
             .then(b.confidence.cmp(&a.confidence))
             .then((b.end - b.start).cmp(&(a.end - a.start)))
     });
+    let rank = |x: &TextFinding| (redacted_by(RedactionLevel::Standard, x), x.confidence);
     let mut out: Vec<TextFinding> = Vec::new();
     for x in f {
-        if let Some(last) = out.last()
+        if let Some(last) = out.last_mut()
             && x.start < last.end
         {
+            if rank(&x) > rank(last) {
+                last.kind = x.kind;
+                last.confidence = x.confidence;
+            }
+            last.end = last.end.max(x.end);
             continue;
         }
         out.push(x);

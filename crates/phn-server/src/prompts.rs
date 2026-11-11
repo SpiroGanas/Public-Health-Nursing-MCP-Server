@@ -7,6 +7,7 @@
 //!   after-action report and improvement plan) for a Massachusetts local health
 //!   department, calling the Phase 12 and 13 preparedness tools in order.
 
+use phn_core::Toolset;
 use rmcp::ErrorData;
 use rmcp::model::{GetPromptResult, JsonObject, Prompt, PromptArgument, PromptMessage, Role};
 
@@ -16,6 +17,77 @@ pub(crate) const INVESTIGATE_OUTBREAK: &str = "investigate_outbreak";
 /// Name of the tabletop exercise prompt (Phase 13, Pilot 3).
 pub(crate) const PLAN_TABLETOP_EXERCISE: &str = "plan_tabletop_exercise";
 
+/// Tool groups the outbreak prompt's tools belong to (`core` is always on).
+const OUTBREAK_TOOLSETS: &[Toolset] = &[Toolset::Cd, Toolset::Epi];
+
+/// Tool groups the tabletop prompt's tools belong to (`core` is always on).
+const TABLETOP_TOOLSETS: &[Toolset] = &[
+    Toolset::Epr,
+    Toolset::Equity,
+    Toolset::Env,
+    Toolset::Cd,
+    Toolset::Vax,
+];
+
+/// Tells the model which tool groups a workflow uses and what to do when one
+/// of them is off (prompts are listed whatever toolsets are enabled).
+fn toolset_note(needed: &[Toolset]) -> String {
+    let names: Vec<&str> = needed.iter().map(|t| t.as_str()).collect();
+    format!(
+        "Tool groups: this workflow uses the {} toolsets (core tools are always on). If a tool \
+named below is missing from your tool list, or a call fails because its toolset is not enabled, \
+do not retry it: tell me which toolset is off and which step it affects, and carry on with the \
+steps that do not need it. I can turn a toolset on by asking you to save it with \
+configure_jurisdiction (toolsets); if the error says the toolsets are fixed by PHN_PROFILE or \
+PHN_TOOLSETS, I have to change that in the client configuration instead.",
+        names.join(", ")
+    )
+}
+
+/// Values of `calculate_isolation_and_exclusion`'s `settings` argument that fit
+/// a free-text outbreak setting, as a starting point for the model. Child care
+/// and school have their own rule sets; elsewhere `other` covers residents,
+/// guests, and the public.
+fn isolation_settings(setting: &str) -> Vec<&'static str> {
+    let s = setting.to_lowercase();
+    let has = |words: &[&str]| words.iter().any(|w| s.contains(*w));
+    let mut out = Vec::new();
+    if !s.contains("adult day")
+        && has(&[
+            "child care",
+            "childcare",
+            "child-care",
+            "day care",
+            "daycare",
+            "preschool",
+            "pre-school",
+        ])
+    {
+        out.push("child_care");
+    }
+    if s.contains("school") {
+        out.push("school");
+    }
+    if has(&["restaurant", "food", "cafeteria", "kitchen", "catering"]) {
+        out.push("food_handler");
+    }
+    if has(&[
+        "long-term care",
+        "long term care",
+        "nursing home",
+        "hospital",
+        "health care",
+        "healthcare",
+        "clinic",
+    ]) {
+        out.push("health_care_worker");
+    }
+    if !out.contains(&"child_care") && !out.contains(&"school") {
+        out.push("other");
+    }
+    out
+}
+
 /// Every prompt the server offers.
 pub(crate) fn list() -> Vec<Prompt> {
     let mut p = Prompt::new(
@@ -23,14 +95,14 @@ pub(crate) fn list() -> Vec<Prompt> {
         Some(
             "Step-by-step outbreak investigation for a Massachusetts board of health: CDC's \
              steps of a field investigation adapted to DPH and MAVEN reporting, calling this \
-             server's communicable disease tools in order.",
+             server's communicable disease tools in order. Uses the cd and epi toolsets.",
         ),
         Some(vec![
             PromptArgument::new("disease")
                 .with_title("Suspected disease or syndrome")
                 .with_description(
-                    "For example salmonellosis, norovirus, pertussis, or 'GI illness, agent \
-                     unknown'.",
+                    "For example salmonellosis, norovirus, or pertussis. Leave it empty when \
+                     the agent is not known yet.",
                 )
                 .with_required(false),
             PromptArgument::new("setting")
@@ -60,7 +132,8 @@ pub(crate) fn list() -> Vec<Prompt> {
             "Plan, run, and evaluate an HSEEP tabletop exercise for a Massachusetts local \
              health department: hazard context, exercise design with objectives mapped to CDC \
              PHEP and FEMA core capabilities, player materials (ICS forms, crisis messages, \
-             continuity plan), the hotwash, and the after-action report and improvement plan.",
+             continuity plan), the hotwash, and the after-action report and improvement plan. \
+             Uses the epr toolset; equity, env, cd, and vax tools add context when enabled.",
         ),
         Some(vec![
             PromptArgument::new("scenario")
@@ -161,10 +234,60 @@ fn outbreak(args: &Option<JsonObject>) -> Result<GetPromptResult, ErrorData> {
         .as_ref()
         .map(|p| format!("path \"{p}\""))
         .unwrap_or_else(|| "path to the line list".into());
+    // With no agent yet, the model must not pass a syndrome as a disease name.
+    let unknown_note = if disease.is_some() {
+        ""
+    } else {
+        "\n\nThe agent is not known yet. Do not pass a syndrome description (such as \"GI \
+illness\") as a disease name: leave the disease argument out of every tool call until laboratory \
+results or the clinical picture point to an agent, and tell me which answers are missing because \
+of that."
+    };
+    let step1 = if disease.is_some() {
+        format!(
+            "Call lookup_reportable_condition for {d} to confirm how and how fast \
+it must be reported, and remind me to call the DPH Division of Epidemiology (617-983-6800, \
+24/7) early: DPH epidemiologists work with the board of health on clusters and outbreaks. \
+Call search_ma_disease_control_guide{disease_arg} with no query to get the \
+DPH guide chapter outline, then with queries such as \"outbreak\" and \"laboratory testing\"."
+        )
+    } else {
+        "Remind me to call the DPH Division of Epidemiology (617-983-6800, 24/7) early: DPH \
+epidemiologists work with the board of health on clusters and outbreaks. As soon as an agent is \
+suspected, call lookup_reportable_condition for it to confirm how and how fast it must be \
+reported, and call search_ma_disease_control_guide with that disease and no query to get the DPH \
+guide chapter outline, then with queries such as \"outbreak\" and \"laboratory testing\"."
+            .to_string()
+    };
+    // calculate_isolation_and_exclusion and infection_control_for_congregate_settings
+    // both need a disease or pathogen name.
+    let (iso_when, ic_when) = if disease.is_some() {
+        (format!(" (disease \"{d}\")"), "")
+    } else {
+        (
+            " once an agent is suspected (it needs a disease name)".to_string(),
+            " once a pathogen is suspected",
+        )
+    };
+    let settings_hint = match &setting {
+        Some(text) => format!(
+            "For the setting I gave ({text}), start with settings [{}] and adjust it to who is \
+ill.",
+            isolation_settings(text)
+                .iter()
+                .map(|v| format!("\"{v}\""))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ),
+        None => "I have not told you the setting: ask me, or leave settings out to see the \
+rules for all five."
+            .to_string(),
+    };
+    let toolsets = toolset_note(OUTBREAK_TOOLSETS);
 
     let text = format!(
         "Help me investigate a possible outbreak as a Massachusetts local public health nurse. \
-Suspected disease: {d}. Setting: {s}. Data: {ll}.
+Suspected disease: {d}. Setting: {s}. Data: {ll}.{unknown_note}
 
 Work through the steps of a field investigation (CDC Field Epidemiology Manual, chapter 3), \
 adapted to a Massachusetts board of health. Several steps run at the same time; start control \
@@ -177,11 +300,9 @@ addresses, phone numbers, or record numbers into the chat. Identifiable data sta
 in the data folder; the tools return aggregates with small-cell suppression and write \
 identifiable output (contact lists, letters) only to the output folder.
 
-1. Prepare and notify. Call lookup_reportable_condition for {d} to confirm how and how fast \
-it must be reported, and remind me to call the DPH Division of Epidemiology (617-983-6800, \
-24/7) early: DPH epidemiologists work with the board of health on clusters and outbreaks. \
-Call search_ma_disease_control_guide{disease_arg} with no query to get the \
-DPH guide chapter outline, then with queries such as \"outbreak\" and \"laboratory testing\".
+{toolsets}
+
+1. Prepare and notify. {step1}
 
 2. Confirm the diagnosis. Ask what laboratory results exist; use \
 search_ma_disease_control_guide (query \"laboratory testing\") for specimens and the State \
@@ -202,9 +323,12 @@ common source, propagated) and its uncertainty. Summarize the person and place t
 step 4.
 
 6. Start control measures now. For cases and ill food handlers, health care workers, \
-students, and staff, call calculate_isolation_and_exclusion (setting: {s}). For the setting, \
+students, and staff, call calculate_isolation_and_exclusion{iso_when}. Its settings argument is \
+a list of one or more of child_care, school, food_handler, health_care_worker, other (leave it \
+out for all five); pick every value that describes the person, for example school and \
+food_handler for an ill cafeteria worker at a school. {settings_hint} For the setting, \
 call infection_control_for_congregate_settings (precautions, cohorting, PPE, EPA disinfectant \
-list). If contacts need follow-up, call plan_contact_tracing (it writes a blank contact \
+list){ic_when}. If contacts need follow-up, call plan_contact_tracing (it writes a blank contact \
 tracking workbook to the output folder). For measles, call assess_measles_exposure for each \
 exposed person (no identifiers needed).
 
@@ -267,6 +391,7 @@ XLSX with name, position, phone, and email columns) in the data folder and pass 
 roster_path."
                 .into()
         });
+    let toolsets = toolset_note(TABLETOP_TOOLSETS);
 
     let text = format!(
         "Help me plan, run, and evaluate a discussion-based tabletop exercise as a Massachusetts \
@@ -281,6 +406,10 @@ agency, DPH, my HMCC, and MEMA.
 Privacy rules: staff names and positions may be used in the chat, but never ask me to paste \
 phone numbers, emails, or anything about clients or patients. {roster_text} If notes from the \
 hotwash mention clients or staff details, help me remove them before they go into a tool.
+
+{toolsets} Only the epr toolset is essential here; the equity, env, cd, and vax tools add context \
+for some scenarios, and the preparedness profile does not include vax \
+(analyze_vaccination_coverage, plan_vaccination_clinic).
 
 1. Choose the hazard and set the context. If the scenario is not chosen, call \
 hazard_vulnerability_assessment for the area and suggest a scenario from the top hazards; \
@@ -377,5 +506,120 @@ mod tests {
         let mut long = JsonObject::new();
         long.insert("area".into(), "x".repeat(301).into());
         assert!(get(PLAN_TABLETOP_EXERCISE, &Some(long)).is_err());
+    }
+
+    fn render(name: &str, pairs: &[(&str, &str)]) -> String {
+        let mut a = JsonObject::new();
+        for (k, v) in pairs {
+            a.insert((*k).into(), (*v).into());
+        }
+        let r = get(name, &Some(a)).unwrap();
+        r.messages[0].content.as_text().unwrap().text.clone()
+    }
+
+    #[test]
+    fn outbreak_prompt_with_no_agent_does_not_offer_a_syndrome_as_a_disease() {
+        // The argument description no longer suggests a value no tool accepts.
+        let l = list();
+        let disease_arg = l[0]
+            .arguments
+            .as_ref()
+            .unwrap()
+            .iter()
+            .find(|a| a.name == "disease")
+            .unwrap();
+        let desc = disease_arg.description.as_deref().unwrap();
+        assert!(!desc.contains("agent unknown'"), "{desc}");
+        assert!(desc.contains("Leave it empty"), "{desc}");
+
+        let text = render(INVESTIGATE_OUTBREAK, &[("setting", "school")]);
+        assert!(text.contains("leave the disease argument out of every tool call"));
+        assert!(!text.contains("lookup_reportable_condition for not yet known"));
+        assert!(!text.contains("disease \"not yet known\""));
+        // The tools that need a disease are deferred, not called with a guess.
+        assert!(text.contains(
+            "calculate_isolation_and_exclusion once an agent is suspected (it needs a disease name)"
+        ));
+        // With a disease the note is absent and the disease is passed.
+        let known = render(INVESTIGATE_OUTBREAK, &[("disease", "pertussis")]);
+        assert!(!known.contains("The agent is not known yet"));
+        assert!(known.contains("lookup_reportable_condition for pertussis"));
+        assert!(known.contains("calculate_isolation_and_exclusion (disease \"pertussis\")"));
+    }
+
+    #[test]
+    fn outbreak_prompt_uses_the_real_settings_argument() {
+        // `calculate_isolation_and_exclusion` has `settings` (a list), not `setting`.
+        for (setting, expect) in [
+            ("school", "settings [\"school\"]"),
+            ("child care", "settings [\"child_care\"]"),
+            (
+                "long-term care",
+                "settings [\"health_care_worker\", \"other\"]",
+            ),
+            ("restaurant or event", "settings [\"food_handler\", \"other\"]"),
+            ("shelter", "settings [\"other\"]"),
+            ("adult day health program", "settings [\"other\"]"),
+            (
+                "School cafeteria",
+                "settings [\"school\", \"food_handler\"]",
+            ),
+        ] {
+            let text = render(
+                INVESTIGATE_OUTBREAK,
+                &[("disease", "norovirus"), ("setting", setting)],
+            );
+            assert!(text.contains(expect), "{setting}: expected {expect}");
+            assert!(!text.contains("(setting: "), "{setting}");
+            assert!(text.contains("child_care, school, food_handler, health_care_worker, other"));
+        }
+        let none = render(INVESTIGATE_OUTBREAK, &[("disease", "norovirus")]);
+        assert!(none.contains("leave settings out to see the rules for all five"));
+        // Every suggested value is one the tool accepts.
+        for v in isolation_settings("school, child care, hospital kitchen, community") {
+            assert!(
+                ["child_care", "school", "food_handler", "health_care_worker", "other"]
+                    .contains(&v),
+                "{v}"
+            );
+        }
+    }
+
+    #[test]
+    fn prompts_state_the_toolsets_their_tools_need() {
+        for (name, needed) in [
+            (INVESTIGATE_OUTBREAK, OUTBREAK_TOOLSETS),
+            (PLAN_TABLETOP_EXERCISE, TABLETOP_TOOLSETS),
+        ] {
+            let text = render(name, &[]);
+            assert!(text.contains(&toolset_note(needed)), "{name}");
+            assert!(text.contains("do not retry it"), "{name}");
+            // Every tool the prompt names is in `core` or in a toolset it declares.
+            let mut named = 0;
+            for t in phn_tools::registry::tools() {
+                if text.contains(t.name) {
+                    named += 1;
+                    assert!(
+                        t.toolset == Toolset::Core || needed.contains(&t.toolset),
+                        "{name} names {} ({}) but does not declare that toolset",
+                        t.name,
+                        t.toolset
+                    );
+                }
+            }
+            assert!(named >= 9, "{name} names {named} tools");
+            // Every declared toolset is used by at least one named tool.
+            for ts in needed {
+                assert!(
+                    phn_tools::registry::tools()
+                        .any(|t| t.toolset == *ts && text.contains(t.name)),
+                    "{name} declares {ts} but names no tool from it"
+                );
+            }
+        }
+        let outbreak = render(INVESTIGATE_OUTBREAK, &[]);
+        assert!(outbreak.contains("uses the cd, epi toolsets"));
+        let tabletop = render(PLAN_TABLETOP_EXERCISE, &[]);
+        assert!(tabletop.contains("the preparedness profile does not include vax"));
     }
 }

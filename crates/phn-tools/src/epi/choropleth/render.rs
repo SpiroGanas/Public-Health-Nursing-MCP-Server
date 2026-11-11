@@ -55,10 +55,20 @@ const PAD: f64 = 24.0;
 const LEGEND_W: f64 = 230.0;
 
 fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
+    let mut o = String::with_capacity(s.len());
+    for c in s.chars() {
+        match c {
+            '&' => o.push_str("&amp;"),
+            '<' => o.push_str("&lt;"),
+            '>' => o.push_str("&gt;"),
+            '"' => o.push_str("&quot;"),
+            // Characters XML 1.0 does not allow would make the image unreadable.
+            c if (c as u32) < 0x20 && !matches!(c, '\t' | '\n' | '\r') => {}
+            '\u{FFFE}' | '\u{FFFF}' => {}
+            c => o.push(c),
+        }
+    }
+    o
 }
 
 fn wrap(text: &str, max_chars: usize) -> Vec<String> {
@@ -269,4 +279,17 @@ pub fn render(spec: &MapSpec<'_>) -> String {
         esc(&desc),
         palette::SURFACE
     )
+}
+
+#[cfg(test)]
+mod tests {
+    use super::esc;
+
+    #[test]
+    fn escaping_drops_characters_xml_does_not_allow() {
+        assert_eq!(
+            esc("Rate \u{1}per <100,000> & \"more\"\u{FFFF}"),
+            "Rate per &lt;100,000&gt; &amp; &quot;more&quot;"
+        );
+    }
 }

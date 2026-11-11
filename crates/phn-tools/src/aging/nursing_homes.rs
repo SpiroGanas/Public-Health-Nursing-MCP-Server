@@ -9,7 +9,9 @@ use std::sync::LazyLock;
 
 use phn_content::ContentMeta;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
+use phn_data::census::GeoLevel;
 use phn_data::cms_provider::{self, Averages, InfectionCitation, NursingHome, NursingHomeData};
+use phn_data::geography::MaGeographies;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -155,6 +157,25 @@ fn pct(v: Option<f64>) -> String {
     v.map(|x| format!("{x:.0}%")).unwrap_or_else(|| "—".into())
 }
 
+/// The city or town a facility is in. CMS lists the postal city, which can be
+/// a village or neighborhood ("Hyannis", "Dorchester") or a variant spelling
+/// ("Middleboro"); when it is not one of the 351 municipalities, the main town
+/// of the facility's ZIP Code Tabulation Area is used.
+fn facility_town(
+    ctx: &Context,
+    geos: Option<&MaGeographies>,
+    f: &NursingHome,
+) -> Option<String> {
+    if let Some(m) = ctx.ma.town(&f.city) {
+        return Some(m.name.clone());
+    }
+    let zip: String = f.zip.trim().chars().take(5).collect();
+    geos?
+        .get(&zip)
+        .filter(|g| g.level == GeoLevel::Zcta)
+        .and_then(|g| g.town.clone())
+}
+
 async fn load(ctx: &Context) -> Result<(NursingHomeData, Vec<String>)> {
     let mut caveats = Vec::new();
     if !ctx.http.is_offline() {
@@ -218,7 +239,19 @@ pub async fn nursing_home_quality_lookup(
     }
     if let Some(t) = &town {
         let tu = phn_core::text::normalize(t);
-        matches.retain(|f| phn_core::text::normalize(&f.city) == tu);
+        let geos = MaGeographies::shared(&ctx.snapshots).ok();
+        matches.retain(|f| {
+            facility_town(ctx, geos, f).is_some_and(|ft| phn_core::text::normalize(&ft) == tu)
+        });
+        let by_zip = matches
+            .iter()
+            .filter(|f| phn_core::text::normalize(&f.city) != tu)
+            .count();
+        if by_zip > 0 {
+            caveats.push(format!(
+                "{by_zip} of the facilities matched are listed by CMS under a village, neighborhood, or variant name (shown in parentheses) and were matched to {t} by ZIP code. A ZIP code can cross a town line; check the address."
+            ));
+        }
         query.push(format!("town {t}"));
     }
     if let Some(cn) = &county {
@@ -676,5 +709,37 @@ mod tests {
                 .await
                 .is_err()
         );
+    }
+
+    #[tokio::test]
+    async fn town_search_includes_villages_and_variant_spellings() {
+        let (_d, ctx) = ctx();
+        let find = |town: &str| {
+            nursing_home_quality_lookup(
+                &ctx,
+                NursingHomeArgs {
+                    town: Some(town.into()),
+                    limit: Some(100),
+                    ..Default::default()
+                },
+            )
+        };
+        // CMS lists Barnstable's homes under Hyannis and Centerville.
+        let r = find("Barnstable").await.unwrap();
+        assert!(r.data.matched >= 2);
+        assert!(r.caveats.iter().any(|c| c.contains("ZIP code")));
+        // "MIDDLEBORO" in CMS is Middleborough.
+        assert!(find("Middleborough").await.unwrap().data.matched >= 1);
+        // Boston includes its neighborhoods (Dorchester, Mattapan, ...).
+        let r = find("Boston").await.unwrap();
+        assert!(
+            r.data
+                .facilities
+                .iter()
+                .any(|f| !f.facility.city.eq_ignore_ascii_case("boston"))
+        );
+        // A plain city-name match adds no ZIP caveat.
+        let r = find("Worcester").await.unwrap();
+        assert!(!r.caveats.iter().any(|c| c.contains("by ZIP code")));
     }
 }

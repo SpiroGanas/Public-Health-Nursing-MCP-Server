@@ -150,6 +150,15 @@ impl Cache {
         }
     }
 
+    /// Make every later read and write fail, as a damaged cache file would
+    /// (for tests of the fallback chain).
+    #[cfg(test)]
+    pub(crate) fn damage_for_tests(&self) {
+        self.lock()
+            .execute_batch("DROP TABLE http_cache")
+            .expect("drop the cache table");
+    }
+
     /// Record the latest reachability check for a source.
     pub fn record_probe(&self, source_id: &str, result: &ProbeResult) -> Result<()> {
         let json = serde_json::to_string(result)
@@ -202,7 +211,7 @@ mod tests {
         c.put("k", b"hello", 3600).unwrap();
         assert!(c.get_or_miss("k").is_some());
         // Simulate a damaged cache: the table is gone.
-        c.lock().execute_batch("DROP TABLE http_cache").unwrap();
+        c.damage_for_tests();
         assert!(c.get("k").is_err());
         assert!(c.get_or_miss("k").is_none());
     }

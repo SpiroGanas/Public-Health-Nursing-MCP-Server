@@ -4,7 +4,8 @@
 //! `snapshots/` with a `manifest.json` (sources, vintage, retrieval date,
 //! SHA-256 checksums), and embedded in the binary. A newer copy can be placed
 //! in `/cache/snapshots/` (same layout); it is used only when its manifest
-//! entry is newer and every file matches its checksum.
+//! entry is newer, lists the same files as the bundled entry, and every file
+//! matches its checksum.
 
 use std::borrow::Cow;
 use std::collections::BTreeMap;
@@ -402,6 +403,20 @@ impl SnapshotStore {
         if entry.retrieved <= bundled.retrieved {
             return None;
         }
+        // The override must provide exactly the files the bundled snapshot
+        // has; with a missing file the tools could not load it at all.
+        let paths = |e: &SnapshotEntry| {
+            let mut p: Vec<String> = e.files.iter().map(|f| f.path.clone()).collect();
+            p.sort();
+            p
+        };
+        if paths(&entry) != paths(bundled) {
+            tracing::warn!(
+                snapshot = id,
+                "ignoring cached snapshot whose file list differs from the bundled one"
+            );
+            return None;
+        }
         let all_valid = entry.files.iter().all(|f| file_matches(dir, f));
         if !all_valid {
             tracing::warn!(snapshot = id, "ignoring cached snapshot with bad checksum");
@@ -463,6 +478,26 @@ mod tests {
             .unwrap();
         assert_eq!(origin, SnapshotOrigin::CacheOverride);
         assert_eq!(t, text);
+
+        // An override that lists no files (or different files) is rejected,
+        // so the bundled copy is still served.
+        let mut empty = bundled.clone();
+        empty.retrieved = "2999-01-01".into();
+        empty.files.clear();
+        let manifest = Manifest {
+            format_version: 1,
+            snapshots: vec![empty],
+        };
+        std::fs::write(
+            dir.path().join("manifest.json"),
+            serde_json::to_string(&manifest).unwrap(),
+        )
+        .unwrap();
+        let (t, _, origin) = store
+            .file_text("ma-municipalities", "ma_municipalities.csv")
+            .unwrap();
+        assert_eq!(origin, SnapshotOrigin::Bundled);
+        assert_ne!(t, text);
 
         // Tamper with the file: the override is rejected.
         std::fs::write(dir.path().join("ma_municipalities.csv"), "tampered").unwrap();

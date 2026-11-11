@@ -21,9 +21,9 @@ use serde::{Deserialize, Serialize};
 use crate::context::Context;
 use crate::localdata;
 use crate::md;
-use crate::school::calendar::{SchoolYear, add_business_days};
+use crate::school::calendar::{SchoolYear, add_business_days, next_weekday};
 use crate::school::content::{self, CONCUSSION_INFO, CitedOut, confidence_suffix, outs};
-use crate::school::screenings::find_col;
+use crate::school::screenings::{find_col, result_language_label};
 use crate::school::templates::{self, DocFormat, LanguageCount, TemplateResolver};
 
 /// Which return-to-school guidance the district follows for the first days.
@@ -162,6 +162,11 @@ pub struct LogSummary {
     pub open_cases: String,
     /// Check -> number of injuries not meeting it ("*" when suppressed).
     pub gaps: BTreeMap<String, String>,
+    /// Notices marked done without a date (written notice to the parent, or telling the
+    /// athletic director and nurse), so the next-business-day deadline could not be checked;
+    /// they are not counted as gaps ("*" when suppressed; absent when there are none).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub notices_without_date: Option<String>,
     pub output_file: String,
     pub suppression_threshold: u32,
 }
@@ -525,7 +530,7 @@ fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
                 citation: cite("cmr201", "201.008(B)"),
             });
         }
-        let four = i + Duration::days(28);
+        let four = i.checked_add_signed(Duration::days(28)).unwrap_or(i);
         let not_back = full_acad.is_none_or(|d| d > four);
         t.push(TimelineItem {
             date: Some(four.to_string()),
@@ -594,7 +599,7 @@ fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
         .collect();
     if stage < 6 {
         let ready = symptom_free.is_some() && full_acad.is_some() && cleared.is_some();
-        let next = as_of + Duration::days(1);
+        let next = as_of.succ_opt().unwrap_or(as_of);
         t.push(TimelineItem {
             date: if ready || stage > 0 { Some(next.to_string()) } else { None },
             what: format!(
@@ -619,7 +624,14 @@ fn single(args: &ConcussionArgs, as_of: NaiveDate) -> Result<SingleOut> {
     let mut schedule = Vec::new();
     if let Some(b) = back {
         for d in [0i64, 3, 7, 10, 14, 21, 28] {
-            schedule.push((b + Duration::days(d)).to_string());
+            // Checks happen at school: a Saturday or Sunday moves to Monday.
+            let Some(day) = b.checked_add_signed(Duration::days(d)) else {
+                break;
+            };
+            let day = next_weekday(day).to_string();
+            if schedule.last() != Some(&day) {
+                schedule.push(day);
+            }
         }
     }
     Ok((t, flags, rtp, schedule))
@@ -712,12 +724,12 @@ fn log_cols(h: &[String]) -> Result<LogCols> {
             h,
             &[
                 "reentry plan",
-                "re-entry plan",
+                "re entry plan",
                 "return to learn plan",
                 "plan date",
             ],
         ),
-        symptom_free: col(h, &["symptom free", "symptom-free"]),
+        symptom_free: col(h, &["symptom free"]),
         full_academics: col(
             h,
             &["full academics", "full time classes", "no accommodations"],
@@ -738,7 +750,17 @@ fn log_cols(h: &[String]) -> Result<LogCols> {
         ),
         grade: find_col(h, &["grade", "grade level"]),
         sport: col(h, &["sport", "activity", "team"]),
-        language: col(h, &["home language", "primary language", "language"]),
+        // Exact header names only (a column that merely contains "language" is not it).
+        language: find_col(
+            h,
+            &[
+                "home language",
+                "primary language",
+                "family language",
+                "preferred language",
+                "language",
+            ],
+        ),
         student_name: find_col(h, &["student name", "student", "name"]),
         first: find_col(h, &["first name", "first"]),
         last: find_col(h, &["last name", "last", "surname"]),
@@ -811,6 +833,7 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
     let mut injuries = 0usize;
     let mut problems = Vec::new();
     let mut diagnosed_rows = Vec::new();
+    let mut undated_notices = 0u64;
     for (ri, row) in lt.table.rows.iter().enumerate() {
         if row.iter().all(|c| c.trim().is_empty()) {
             continue;
@@ -840,18 +863,23 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
             };
             results.push(s.to_string());
         };
-        // 0 written notice
-        check(
-            0,
-            ec.then(|| date_of(lc.written_notice).is_some_and(|d| d <= nbd)),
-            &mut results,
-        );
-        // 1 AD and nurse
-        check(
-            1,
-            ec.then(|| date_of(lc.ad_nurse).is_some_and(|d| d <= nbd)),
-            &mut results,
-        );
+        // 0 written notice; 1 AD and nurse. A "yes" without a date is done, but the
+        // deadline cannot be checked, so it is not counted as a gap.
+        for (k, column) in [(0usize, lc.written_notice), (1, lc.ad_nurse)] {
+            if ec
+                && date_of(column).is_none()
+                && localdata::truthy(cellv(row, column)) == Some(true)
+            {
+                undated_notices += 1;
+                results.push("done, date not recorded".to_string());
+            } else {
+                check(
+                    k,
+                    ec.then(|| date_of(column).is_some_and(|d| d <= nbd)),
+                    &mut results,
+                );
+            }
+        }
         // 2 form
         let form = lc.form.is_some_and(|i| yes(cellv(row, Some(i))));
         if form {
@@ -918,7 +946,11 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
         line.push(if ec { "yes".into() } else { "no".into() });
         line.push(if diagnosed { "yes".into() } else { "no".into() });
         line.extend(results);
-        line.push(if is_open && as_of >= inj + Duration::days(28) {
+        line.push(if is_open
+            && inj
+                .checked_add_signed(Duration::days(28))
+                .is_some_and(|four| as_of >= four)
+        {
             "over 4 weeks: assessment and 504/IEP review".into()
         } else if is_open {
             "open".into()
@@ -1010,8 +1042,15 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
             ..SuppressionOptions::default()
         },
     );
+    let mut hide: Vec<bool> = (0..vals.len()).map(|i| sup.is_hidden(i, 0)).collect();
+    // Forms received (0) plus records without a form (gap 2, at 4 + 2) is the number of
+    // injuries, so when one of the two is hidden the other is hidden with it.
+    if hide[0] != hide[6] {
+        hide[0] = true;
+        hide[6] = true;
+    }
     let show = |i: usize| {
-        if sup.is_hidden(i, 0) {
+        if hide[i] {
             "*".to_string()
         } else {
             vals[i].to_string()
@@ -1030,6 +1069,13 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
             .enumerate()
             .map(|(k, name)| (name.to_string(), show(4 + k)))
             .collect(),
+        notices_without_date: (undated_notices > 0).then(|| {
+            if undated_notices < u64::from(threshold) {
+                "*".to_string()
+            } else {
+                undated_notices.to_string()
+            }
+        }),
         output_file: output_file.clone(),
         suppression_threshold: threshold,
     };
@@ -1114,8 +1160,10 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
             let (filled, unk) = templates::fill(&chosen.markdown, &v, "________");
             unknown_placeholders.extend(unk);
             let d = templates::document(ctx, &filled, &chosen.tag, "Concussion letter");
+            // Unrecognized language values are grouped as "Other" (no cell text in results
+            // or file names).
             letters
-                .entry(chosen.language.clone())
+                .entry(result_language_label(&lang))
                 .or_insert_with(|| (chosen.tag.clone(), chosen.translated, Vec::new()))
                 .2
                 .push(d);
@@ -1242,6 +1290,11 @@ pub fn concussion_return_to_learn_tracker(
             &["Requirement", "Records not meeting it"],
             &rows,
         ));
+        if let Some(n) = &l.notices_without_date {
+            s.push_str(&format!(
+                "\nNotices marked done without a date (the next-business-day deadline could not be checked; not counted above): {n}.\n"
+            ));
+        }
         s.push('\n');
     }
     if !timeline.is_empty() {

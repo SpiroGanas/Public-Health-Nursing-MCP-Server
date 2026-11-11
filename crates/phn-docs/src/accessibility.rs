@@ -907,6 +907,20 @@ pub fn check_pdf(info: &PdfInfo) -> Report {
             "The PDF is encrypted; security settings can block screen readers.",
         ));
     }
+    // What the DOCX and HTML checks cover but the PDF check cannot yet see.
+    checks.push(
+        check(
+            "pdf_structure_not_checked",
+            INFO_REL,
+            Status::Manual,
+            "Not checked automatically for PDF files: headings and their order, table header \
+             cells, color contrast, and link text.",
+        )
+        .fix(
+            "Check the source document (Word or HTML) with this tool, or run Acrobat's \
+             accessibility checker on the PDF.",
+        ),
+    );
     checks.extend(manual_checks());
     Report::new("pdf", checks)
 }
@@ -964,6 +978,14 @@ mod tests {
             .filter(|c| c.status == Status::Fail || c.status == Status::Warning)
             .collect();
         assert!(problems.is_empty(), "{problems:#?}");
+        // The report says what the PDF check does not cover.
+        let gap = report
+            .checks
+            .iter()
+            .find(|c| c.id == "pdf_structure_not_checked")
+            .expect("PDF coverage note");
+        assert_eq!(gap.status, Status::Manual);
+        assert_eq!(report.manual, 4);
     }
 
     #[test]

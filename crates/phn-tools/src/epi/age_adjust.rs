@@ -497,8 +497,9 @@ mod tests {
 
     #[test]
     fn only_the_reference_group_is_labeled_reference() {
-        let ages = [("0-44", 60_000.0), ("45-64", 30_000.0), ("65+", 10_000.0)];
-        let with = |counts: [u64; 3]| -> Vec<(&str, u64, f64)> {
+        let ages: [(&'static str, f64); 3] =
+            [("0-44", 60_000.0), ("45-64", 30_000.0), ("65+", 10_000.0)];
+        let with = |counts: [u64; 3]| -> Vec<(&'static str, u64, f64)> {
             ages.iter()
                 .zip(counts)
                 .map(|((a, p), c)| (*a, c, *p))

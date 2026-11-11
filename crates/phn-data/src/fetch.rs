@@ -199,5 +199,13 @@ mod tests {
 
         let err = fetch_with_fallback(&http, None, "https://example.org/c", 1, None).await;
         assert!(err.is_err());
+
+        // A cache that cannot be read is a miss: the snapshot is still used.
+        cache.damage_for_tests();
+        let snap: SnapshotFallback = Box::new(|| Some((b"snap".to_vec(), "2026-01-01".into())));
+        let r = fetch_with_fallback(&http, Some(&cache), "https://example.org/a", 1, Some(snap))
+            .await
+            .unwrap();
+        assert_eq!(r.mode, SourceMode::Snapshot);
     }
 }

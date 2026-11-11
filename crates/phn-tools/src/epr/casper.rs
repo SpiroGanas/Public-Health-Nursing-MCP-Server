@@ -82,15 +82,18 @@ pub struct Cluster {
     pub vacant: u32,
     pub times_selected: u32,
     pub interviews_to_complete: u32,
-    /// Stage II sampling interval n = households ÷ 7 (rounded, at least 1).
+    /// Stage II sampling interval n = households ÷ interviews to complete (rounded down, at
+    /// least 1), so a block selected twice uses half the interval.
     pub sampling_interval: u32,
 }
 
-/// One category's estimate (cells with fewer than 5 observations are suppressed).
+/// One category's estimate (cells with fewer observations than the larger of 5 and your
+/// suppression threshold are suppressed).
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct CasperEstimate {
     pub category: String,
-    /// Unweighted count ("<5" when fewer than 5).
+    /// Unweighted count: "<5" (or your threshold) when small, and "withheld" for the next
+    /// smallest answer when exactly one answer is small, so the total cannot reveal it.
     pub frequency: String,
     pub estimated_households: Option<f64>,
     pub percent: Option<f64>,
@@ -134,6 +137,8 @@ pub struct CasperResult {
     pub frame_households: u64,
     /// Share of frame blocks with fewer households than the interviews per cluster.
     pub small_block_share: f64,
+    /// Seed of the selection. 0 with no clusters when no sample was drawn (an analysis of
+    /// returned data without the plan's seed).
     pub seed: u64,
     pub design: String,
     pub modified: bool,
@@ -195,6 +200,29 @@ pub fn select_pps(sizes: &[u32], k: u32, rng: &mut SplitMix64) -> Vec<usize> {
             cum.partition_point(|&c| c < r)
         })
         .collect()
+}
+
+/// Complementary suppression for one question: when exactly one answer has a
+/// count from 1 to `min_cell` − 1, the index of the next smallest shown answer,
+/// which is withheld too so the respondent total cannot reveal the small count.
+pub fn complementary_cell(counts: &[usize], min_cell: usize) -> Option<usize> {
+    let small = counts.iter().filter(|n| **n > 0 && **n < min_cell).count();
+    if small != 1 {
+        return None;
+    }
+    counts
+        .iter()
+        .enumerate()
+        .filter(|(_, n)| **n >= min_cell)
+        .min_by_key(|(_, n)| **n)
+        .map(|(i, _)| i)
+}
+
+/// Stage II sampling interval: every n-th household, n = households ÷
+/// interviews to complete, rounded down (so one pass through the cluster
+/// reaches at least that many households), and at least 1.
+pub fn sampling_interval(households: u32, interviews: u32) -> u32 {
+    (households / interviews.max(1)).max(1)
 }
 
 fn frame_for(ctx: &Context, args: &CasperArgs) -> Result<(String, Vec<String>)> {
@@ -287,14 +315,31 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
     let sizes: Vec<u32> = frame.iter().map(|b| size(b)).collect();
     let frame_households: u64 = sizes.iter().map(|&s| s as u64).sum();
     let small = sizes.iter().filter(|&&s| s < per).count() as f64 / sizes.len() as f64;
-    let seed = args.seed.unwrap_or_else(|| {
-        std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .map(|d| d.as_secs())
-            .unwrap_or(1)
-    });
+    // Analysis of returned data never draws (or writes) a new sample by itself:
+    // the clusters are listed again only when the plan's seed is given.
+    let draw = args.results_path.is_none() || args.seed.is_some();
+    let seed = if draw {
+        args.seed.unwrap_or_else(|| {
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_secs())
+                .unwrap_or(1)
+        })
+    } else {
+        0
+    };
     let mut rng = SplitMix64::new(seed);
-    let draws = select_pps(&sizes, k, &mut rng);
+    let draws = if draw {
+        select_pps(&sizes, k, &mut rng)
+    } else {
+        Vec::new()
+    };
+    // Smallest cell shown: the larger of the toolkit's minimum and the agency's
+    // suppression threshold.
+    let min_cell = c
+        .design
+        .minimum_cell_observations
+        .max(ctx.suppression_threshold() as usize);
     let geos = MaGeographies::shared(&ctx.snapshots)?;
     let mut order: Vec<usize> = Vec::new();
     let mut times: BTreeMap<usize, u32> = BTreeMap::new();
@@ -326,7 +371,7 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
                 vacant: b.vacant,
                 times_selected: t,
                 interviews_to_complete: per * t,
-                sampling_interval: ((hh as f64 / per as f64).round() as u32).max(1),
+                sampling_interval: sampling_interval(hh, per * t),
             }
         })
         .collect();
@@ -444,7 +489,15 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
             .contacted
             .filter(|a| *a > 0)
             .map(|a| (completed_for_rates / a as f64 * 1000.0).round() / 10.0);
-        let min_cell = c.design.minimum_cell_observations;
+        if times_by.values().any(|t| *t > 1.0) {
+            caveats.push(
+                "Clusters selected more than once are weighted as the toolkit describes, but each \
+                 counts as one sampling unit for the confidence intervals (the toolkit treats \
+                 each selection as its own cluster). To match the toolkit, record each selection \
+                 under its own cluster number and leave out the times-selected column."
+                    .into(),
+            );
+        }
         let mut questions = Vec::new();
         for q in &args.questions {
             let qi = lt.column(q)?;
@@ -471,16 +524,21 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
                         "'{q}' cannot be estimated: answers are needed from at least two clusters"
                     ))
                 })?;
+            let counts: Vec<usize> = t.categories.iter().map(|e| e.n).collect();
+            let withheld = complementary_cell(&counts, min_cell);
             let estimates = t
                 .categories
                 .iter()
-                .map(|e| {
-                    let show = e.n >= min_cell;
+                .enumerate()
+                .map(|(ci, e)| {
+                    let show = e.n >= min_cell && Some(ci) != withheld;
                     let r1 = |x: f64| (x * 10.0).round() / 10.0;
                     CasperEstimate {
                         category: e.category.clone(),
                         frequency: if e.n > 0 && e.n < min_cell {
                             format!("<{min_cell}")
+                        } else if Some(ci) == withheld {
+                            "withheld".to_string()
                         } else {
                             e.n.to_string()
                         },
@@ -521,7 +579,7 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
 
     // Materials.
     let mut files = Vec::new();
-    if args.materials.unwrap_or(true) {
+    if args.materials.unwrap_or(true) && draw {
         let sandbox = ctx.sandbox()?;
         let crows: Vec<Vec<String>> = clusters
             .iter()
@@ -667,7 +725,7 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
 
     // Summary.
     let mut s = format!(
-        "**CASPER plan — {frame_name}**\n\nFrame: {} census blocks with {} {} (2020 Census). Design: {k} clusters × {per} interviews = {} interviews{}. Seed **{seed}** (use the same seed to reproduce this selection).\n\n",
+        "**CASPER plan — {frame_name}**\n\nFrame: {} census blocks with {} {} (2020 Census). Design: {k} clusters × {per} interviews = {} interviews{}. {}\n\n",
         md::num(frame.len() as f64, 0),
         md::num(frame_households as f64, 0),
         if occupied {
@@ -676,7 +734,12 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
             "housing units"
         },
         k * per,
-        if modified { " (modified CASPER)" } else { "" }
+        if modified { " (modified CASPER)" } else { "" },
+        if draw {
+            format!("Seed **{seed}** (use the same seed to reproduce this selection).")
+        } else {
+            "No sample was drawn: this run analyzes returned data. Give the seed from your plan to list its clusters again.".to_string()
+        }
     );
     let rows: Vec<Vec<String>> = clusters
         .iter()
@@ -695,17 +758,19 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
             ]
         })
         .collect();
-    s.push_str(&md::table(
-        &[
-            "Cluster",
-            "Census block",
-            "Town",
-            "Households",
-            "Interviews",
-            "Every nth household",
-        ],
-        &rows,
-    ));
+    if draw {
+        s.push_str(&md::table(
+            &[
+                "Cluster",
+                "Census block",
+                "Town",
+                "Households",
+                "Interviews",
+                "Every nth household",
+            ],
+            &rows,
+        ));
+    }
     if repeated > 0 {
         s.push_str(&format!("\n{repeated} block(s) were selected more than once; teams complete 7 interviews for each time selected.\n"));
     }
@@ -759,7 +824,9 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
             ));
             s.push('\n');
         }
-        s.push_str("Cells with fewer than 5 observations are not shown (CASPER Toolkit).\n");
+        s.push_str(&format!(
+            "Cells with fewer than {min_cell} observations are not shown (CASPER Toolkit and your suppression threshold); when one answer is that small, the next smallest is withheld too so the total cannot reveal it.\n"
+        ));
     }
     if !files.is_empty() {
         s.push_str(&format!(
@@ -830,11 +897,13 @@ pub fn plan_casper_assessment(ctx: &Context, args: CasperArgs) -> Result<Envelop
     .privacy(Privacy {
         row_level_data: false,
         suppression_applied: args.results_path.is_some(),
-        suppression_threshold: args.results_path.as_ref().map(|_| 5),
+        suppression_threshold: args.results_path.as_ref().map(|_| min_cell as u32),
         identifiers_detected: identifiers,
         files_written: files,
         notes: if suppressed {
-            vec!["Answer counts under 5 are shown as <5 and their estimates withheld.".into()]
+            vec![format!(
+                "Answer counts under {min_cell} are shown as <{min_cell} and their estimates withheld; when exactly one answer of a question is that small, the next smallest answer is withheld too."
+            )]
         } else {
             Vec::new()
         },
@@ -953,8 +1022,53 @@ mod tests {
             .unwrap();
         assert_eq!(yes.frequency, "<5");
         assert!(yes.percent.is_none());
+        // Complementary suppression: with 3 "Yes" hidden, the 177 "No" are withheld
+        // too, or the respondent total would reveal the 3.
+        let no = an.questions[1]
+            .estimates
+            .iter()
+            .find(|e| e.category == "No")
+            .unwrap();
+        assert_eq!(no.frequency, "withheld");
+        assert!(no.percent.is_none() && no.estimated_households.is_none());
         assert_eq!(env.data.files.len(), 2);
         assert!(env.privacy.suppression_applied);
+        assert_eq!(env.privacy.suppression_threshold, Some(5));
+
+        // Analysis without the plan's seed draws no new sample and writes no materials.
+        let env = plan_casper_assessment(
+            &c,
+            CasperArgs {
+                area: Some("Fall River".into()),
+                results_path: Some("casper.csv".into()),
+                questions: vec!["damage".into()],
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(env.data.clusters.is_empty());
+        assert!(env.data.files.is_empty());
+        assert_eq!(env.data.seed, 0);
+        assert!(env.summary.contains("No sample was drawn"));
+        assert!(env.data.analysis.is_some());
+    }
+
+    #[test]
+    fn sampling_interval_and_complementary_suppression() {
+        // A 70-unit block selected twice needs 14 interviews: every 5th household.
+        assert_eq!(sampling_interval(70, 7), 10);
+        assert_eq!(sampling_interval(70, 14), 5);
+        // Rounded down so one pass reaches at least 7 households (25 ÷ 7 = 3.57 → 3).
+        assert_eq!(sampling_interval(25, 7), 3);
+        assert_eq!(sampling_interval(3, 7), 1);
+        // One small cell: the next smallest shown cell is withheld.
+        assert_eq!(complementary_cell(&[3, 177], 5), Some(1));
+        assert_eq!(complementary_cell(&[40, 3, 20, 0], 5), Some(2));
+        // No small cell, or two of them (they hide each other): nothing more is withheld.
+        assert_eq!(complementary_cell(&[45, 135], 5), None);
+        assert_eq!(complementary_cell(&[2, 3, 100], 5), None);
+        // The agency's threshold can be higher than the toolkit's 5.
+        assert_eq!(complementary_cell(&[8, 50, 60], 11), Some(1));
     }
 
     #[test]
