@@ -320,6 +320,34 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // Phase 14 Water (ENV-03, CHR-07).
     // End of Phase 14 water.
     // Phase 14 EJ and climate (ENV-04, ENV-05).
+    (
+        "ma_ej_2020_block_groups.csv",
+        include_str!("../../../snapshots/ma_ej_2020_block_groups.csv"),
+    ),
+    (
+        "ma_ej_2020_towns.csv",
+        include_str!("../../../snapshots/ma_ej_2020_towns.csv"),
+    ),
+    (
+        "ma_heat_health_index_2024.csv",
+        include_str!("../../../snapshots/ma_heat_health_index_2024.csv"),
+    ),
+    (
+        "fema_nfip_community_status_ma.csv",
+        include_str!("../../../snapshots/fema_nfip_community_status_ma.csv"),
+    ),
+    (
+        "fema_nfip_claims_ma_towns.csv",
+        include_str!("../../../snapshots/fema_nfip_claims_ma_towns.csv"),
+    ),
+    (
+        "fema_hazard_mitigation_plans_ma.csv",
+        include_str!("../../../snapshots/fema_hazard_mitigation_plans_ma.csv"),
+    ),
+    (
+        "ma_mvp_communities.csv",
+        include_str!("../../../snapshots/ma_mvp_communities.csv"),
+    ),
     // End of Phase 14 ejclimate.
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
     // End of Phase 14 vectorhousing.

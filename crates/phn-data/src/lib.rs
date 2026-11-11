@@ -62,6 +62,7 @@ pub use snapshots::SnapshotStore;
 // Phase 14 Water (ENV-03, CHR-07).
 // End of Phase 14 water.
 // Phase 14 EJ and climate (ENV-04, ENV-05).
+pub mod ejclimate;
 // End of Phase 14 ejclimate.
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
 // End of Phase 14 vectorhousing.
