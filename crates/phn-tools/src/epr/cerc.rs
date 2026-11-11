@@ -460,6 +460,21 @@ fn cited(items: &[Cited]) -> Vec<CitedOut> {
 
 /// Resolve a library entry from an id, alias, or free text.
 fn find_entry(q: &str) -> Option<&'static LibraryEntry> {
+    find_entry_exact(q).or_else(|| {
+        // An alias as whole words inside the text ("measles at the library"), never as
+        // part of a word: "hundreds" does not hold "eds", nor "flush" "flu".
+        let n = format!(" {} ", phn_core::text::normalize(q));
+        CONTENT.library.iter().find(|e| {
+            e.aliases.iter().any(|a| {
+                let a = phn_core::text::normalize(a);
+                a.len() > 2 && n.contains(&format!(" {a} "))
+            })
+        })
+    })
+}
+
+/// A library entry whose id or alias is exactly the text given.
+fn find_entry_exact(q: &str) -> Option<&'static LibraryEntry> {
     let n = phn_core::text::normalize(q);
     if n.is_empty() {
         return None;
@@ -471,14 +486,12 @@ fn find_entry(q: &str) -> Option<&'static LibraryEntry> {
             lib.iter()
                 .find(|e| e.aliases.iter().any(|a| phn_core::text::normalize(a) == n))
         })
-        .or_else(|| {
-            lib.iter().find(|e| {
-                e.aliases.iter().any(|a| {
-                    let a = phn_core::text::normalize(a);
-                    a.len() > 2 && (n.contains(&a) || a.contains(&n))
-                })
-            })
-        })
+}
+
+/// True for a whole-text `[BRACKETED]` placeholder (a part still to be written).
+fn is_bracket_pad(s: &str) -> bool {
+    let t = s.trim();
+    t.len() > 2 && t.starts_with('[') && t.ends_with(']')
 }
 
 fn parse_phases(p: Option<&str>) -> Result<(String, Vec<&'static PhaseDef>)> {
@@ -832,7 +845,11 @@ pub async fn crisis_risk_communication_builder(
                 )));
             }
         },
-        None => opt(&args.hazard_description).and_then(find_entry),
+        // A free-text description selects a pre-scripted set only when it is exactly a
+        // set's name ("measles", "heat wave"). "No heat in senior housing" or "space
+        // heater fire" must not bring up the extreme heat messages; a likely set is
+        // suggested in a caveat instead.
+        None => opt(&args.hazard_description).and_then(find_entry_exact),
     };
     let custom_label = opt(&args.hazard_description)
         .or(opt(&args.hazard))

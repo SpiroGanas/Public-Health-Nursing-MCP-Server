@@ -178,6 +178,12 @@ pub struct BatchSummary {
     pub students_evaluated: usize,
     /// Rows that could not be evaluated (problems are listed in the output file).
     pub rows_with_problems: usize,
+    /// Roster columns read as vaccine dose dates.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub vaccine_columns: Vec<String>,
+    /// Roster columns that were not used (not a recognized vaccine, input, or identifier column). A requirement whose vaccine column is listed here will show as not met.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub columns_not_used: Vec<String>,
     pub counts: Vec<CountRow>,
     pub output_file: String,
     pub suppression_threshold: u32,
@@ -290,6 +296,10 @@ struct Validated {
     /// Most recent invalid dose (not counting same-day duplicates); a repeat
     /// dose is spaced from it by the minimum interval (CDC).
     last_invalid: Option<NaiveDate>,
+    /// Doses counted as valid that follow a dose that did not count by less
+    /// than the minimum interval. CDC spaces a repeat dose from the invalid
+    /// dose, so a requirement that relies on such a dose needs review.
+    spacing_flags: Vec<String>,
 }
 
 fn span(s: &str) -> Span {
@@ -306,6 +316,8 @@ fn validate(
 ) -> Validated {
     let mut valid: Vec<NaiveDate> = Vec::new();
     let mut invalid = Vec::new();
+    let mut spacing_flags: Vec<String> = Vec::new();
+    let mut last_seen: Option<NaiveDate> = None;
     for &d in doses {
         if valid.last() == Some(&d) {
             invalid.push(InvalidDose {
@@ -314,6 +326,9 @@ fn validate(
             });
             continue;
         }
+        // The most recent earlier dose of this vaccine, when it did not count.
+        let earlier_invalid = last_seen.filter(|p| *p < d && valid.last() != Some(p));
+        last_seen = Some(d);
         let n = valid.len();
         let rule = &series.doses[n.min(series.doses.len() - 1)];
         let min_age_date = dates::date_at_age(dob, span(&rule.min_age));
@@ -362,6 +377,21 @@ fn validate(
             });
             continue;
         }
+        if let Some(inv) = earlier_invalid {
+            let iv = rule
+                .min_interval
+                .as_deref()
+                .map(span)
+                .unwrap_or(Span::weeks(4));
+            let due = dates::add(inv, iv);
+            if !dates::meets(d, due, grace && !rule.no_grace_interval) {
+                spacing_flags.push(format!(
+                    "the dose on {d} was given {} day(s) after a dose that did not count ({inv}), less than the minimum interval of {}",
+                    (d - inv).num_days(),
+                    iv.label()
+                ));
+            }
+        }
         valid.push(d);
     }
     let last_invalid = invalid
@@ -374,6 +404,7 @@ fn validate(
         valid,
         invalid,
         last_invalid,
+        spacing_flags,
     }
 }
 
@@ -663,11 +694,24 @@ impl Eval<'_> {
                     }
                 }
                 if fail.is_empty() {
-                    let mut r = self.result(
-                        req,
-                        ReqStatus::Met,
-                        format!("{have} valid dose(s) meet the requirement"),
-                    );
+                    // A dose given too soon after one that did not count is
+                    // not accepted as "met" without a person checking it.
+                    let mut r = if v.spacing_flags.is_empty() {
+                        self.result(
+                            req,
+                            ReqStatus::Met,
+                            format!("{have} valid dose(s) meet the requirement"),
+                        )
+                    } else {
+                        self.result(
+                            req,
+                            ReqStatus::NeedsReview,
+                            format!(
+                                "{have} dose(s) meet the count, but {}; CDC spaces a repeat dose from the dose that did not count by the minimum interval - verify against the MIIS forecast",
+                                v.spacing_flags.join("; ")
+                            ),
+                        )
+                    };
                     r.valid_doses = have;
                     r.invalid_doses = v.invalid;
                     return r;
@@ -706,7 +750,52 @@ impl Eval<'_> {
         );
         r.valid_doses = v.valid.len();
         r.invalid_doses = v.invalid;
-        self.with_next(r, next)
+        let r = self.with_next(r, next);
+        if antigen == "dtap" {
+            return self.dtap_at_seven_or_older(r);
+        }
+        r
+    }
+
+    /// DTaP is for children under 7 (schedule content: "DTaP (children under
+    /// 7)", "Tdap (7 years and older)"). For a student 7 or older whose DTaP
+    /// doses do not meet the requirement, Tdap or Td given at 7 or older may
+    /// complete an age-appropriate catch-up series; the rules for that are
+    /// not in the content, so the result is "needs review", never "met", and
+    /// DTaP is never suggested.
+    fn dtap_at_seven_or_older(&self, mut r: RequirementResult) -> RequirementResult {
+        let seventh = dates::date_at_age(self.st.dob, Span::years(7));
+        if self.as_of < seventh {
+            return r;
+        }
+        let later: usize = ["tdap", "td"]
+            .iter()
+            .map(|a| {
+                self.hist
+                    .by_antigen
+                    .get(a)
+                    .map(|v| {
+                        v.iter()
+                            .filter(|d| dates::meets(**d, seventh, self.grace))
+                            .count()
+                    })
+                    .unwrap_or(0)
+            })
+            .sum();
+        if later > 0 {
+            r.status = ReqStatus::NeedsReview;
+            r.reason = format!(
+                "{} valid DTaP dose(s) and {later} Tdap/Td dose(s) given at 7 years or older; students 7 and older catch up with Tdap/Td, not DTaP - verify age-appropriate catch-up against the MIIS forecast",
+                r.valid_doses
+            );
+            r.earliest_next_dose = None;
+            r.eligible_now = false;
+        } else {
+            r.reason.push_str(
+                "; this student is 7 or older, so any catch-up dose is Tdap or Td, not DTaP",
+            );
+        }
+        r
     }
 
     fn men_doses(&self) -> Option<(Validated, &'static Series)> {
@@ -1175,6 +1264,12 @@ pub fn check_ma_school_immunization_requirements(
                 e.kind
             )));
         }
+        if !exemption_key_known(&normalize_vaccine_key(&e.vaccine)) {
+            return Err(PhnError::InvalidInput(format!(
+                "exemption vaccine '{}' is not recognized; use all, dtap, polio, hepb, hib, mmr, varicella, tdap, or menacwy",
+                e.vaccine
+            )));
+        }
     }
     let (setting_id, grade_label, results, mut notes) = evaluate_student(&st, as_of, grace)?;
     if st.exemptions.values().any(|k| k.starts_with("med")) {
@@ -1268,6 +1363,66 @@ fn normalize_vaccine_key(k: &str) -> String {
     }
 }
 
+/// True when an exemption names "all" or a vaccine that has a requirement.
+fn exemption_key_known(key: &str) -> bool {
+    key == "all"
+        || SCHOOL_REQS
+            .settings
+            .iter()
+            .flat_map(|s| s.requirements.iter())
+            .any(|r| r.vaccine == key)
+}
+
+/// Parse a roster Exemptions cell ("mmr:medical; all:religious"). A bare
+/// "medical" or "religious" covers every vaccine. Returns `None` when any
+/// part cannot be read, so the row is listed for review rather than being
+/// evaluated without the exemption or with the wrong kind.
+fn parse_exemption_cell(cell: &str) -> Option<BTreeMap<String, String>> {
+    let mut out = BTreeMap::new();
+    for part in cell
+        .split([';', ','])
+        .map(str::trim)
+        .filter(|p| !p.is_empty())
+    {
+        let lower = part.to_ascii_lowercase();
+        if ["none", "no", "n", "n/a", "na", "-"].contains(&lower.as_str()) {
+            continue;
+        }
+        let (vaccine, kind) = match part.split_once(':') {
+            Some((v, k)) => (normalize_vaccine_key(v), k.trim().to_ascii_lowercase()),
+            None => ("all".to_string(), lower),
+        };
+        if !(kind.starts_with("med") || kind.starts_with("rel")) || !exemption_key_known(&vaccine)
+        {
+            return None;
+        }
+        out.insert(vaccine, kind);
+    }
+    Some(out)
+}
+
+/// The vaccine key of a roster column, also when the header carries a dose
+/// number ("MMR 1", "DTaP #2", "Polio dose 3").
+fn roster_vaccine_key(header: &str) -> Option<String> {
+    if antigens_for_key(header).is_some() {
+        return Some(header.to_string());
+    }
+    let n = phn_core::text::normalize(header);
+    let mut words: Vec<&str> = n.split(' ').collect();
+    let numbered = words
+        .last()
+        .is_some_and(|w| !w.is_empty() && w.len() <= 2 && w.chars().all(|c| c.is_ascii_digit()));
+    if !numbered {
+        return None;
+    }
+    words.pop();
+    if words.last() == Some(&"dose") {
+        words.pop();
+    }
+    let base = words.join(" ");
+    (!base.is_empty() && antigens_for_key(&base).is_some()).then_some(base)
+}
+
 // ------------------------------------------------------------------ batch mode
 
 fn find_col(t: &phn_local::table::Table, names: &[&str]) -> Option<usize> {
@@ -1326,7 +1481,7 @@ fn batch(
         .headers
         .iter()
         .enumerate()
-        .filter_map(|(i, h)| antigens_for_key(h).map(|_| (i, h.clone())))
+        .filter_map(|(i, h)| roster_vaccine_key(h).map(|key| (i, key)))
         .collect();
     if vaccine_cols.is_empty() {
         return Err(PhnError::InvalidInput(
@@ -1375,6 +1530,26 @@ fn batch(
                     })
         })
         .map(|(i, _)| i)
+        .collect();
+    // Columns read as dose dates, and columns that were not used at all, are
+    // reported so that an unrecognized vaccine column is not missed.
+    let vaccine_columns: Vec<String> = vaccine_cols
+        .iter()
+        .map(|(i, _)| table.headers[*i].clone())
+        .collect();
+    let columns_not_used: Vec<String> = table
+        .headers
+        .iter()
+        .enumerate()
+        .filter(|(i, h)| {
+            !h.trim().is_empty()
+                && *i != dob_col
+                && *i != grade_col
+                && !vaccine_cols.iter().any(|(v, _)| v == i)
+                && ![lab_col, hist_col, ex_col, hs_col, ft_col, us_col, res_col].contains(&Some(*i))
+                && !id_cols.contains(i)
+        })
+        .map(|(_, h)| h.clone())
         .collect();
 
     let mut per_student: Vec<Vec<String>> = Vec::new();

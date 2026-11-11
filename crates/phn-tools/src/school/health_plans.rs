@@ -22,6 +22,7 @@ use serde::{Deserialize, Serialize};
 use crate::context::Context;
 use crate::localdata;
 use crate::school::content::{self, CitedOut, Condition, PLANS, confidence_suffix, outs};
+use crate::school::screenings::result_language_label;
 use crate::school::templates::{self, DocFormat, LanguageCount, TemplateResolver};
 
 /// Arguments for `build_individualized_health_plan`.
@@ -253,6 +254,19 @@ fn find_condition(q: &str) -> Option<&'static Condition> {
                     .any(|a| n.contains(&phn_core::text::normalize(a)))
             })
         })
+}
+
+/// True when a Condition cell names this condition, alone or with others ("asthma,
+/// peanut allergy" names both asthma and food allergy).
+fn cell_names_condition(cell: &str, cond: &Condition) -> bool {
+    if find_condition(cell).is_some_and(|x| x.id == cond.id) {
+        return true;
+    }
+    let n = phn_core::text::normalize(cell);
+    cond.aliases.iter().any(|a| {
+        let an = phn_core::text::normalize(a);
+        !an.is_empty() && n.contains(&an)
+    })
 }
 
 fn bullet(items: &[CitedOut]) -> String {
@@ -512,9 +526,7 @@ pub fn build_individualized_health_plan(
                 }
                 if let Some(ci) = cond_col {
                     let v = row.get(ci).map(String::as_str).unwrap_or("");
-                    if !v.trim().is_empty()
-                        && find_condition(v).map(|x| x.id.as_str()) != Some(cond.id.as_str())
-                    {
+                    if !v.trim().is_empty() && !cell_names_condition(v, cond) {
                         skipped += 1;
                         continue;
                     }
@@ -557,8 +569,9 @@ pub fn build_individualized_health_plan(
                 if !chosen.translated && !templates::is_english(&lang) {
                     fallback += 1;
                 }
+                // Unrecognized language values are counted as "Other" (no cell text).
                 *by_lang
-                    .entry((chosen.language.clone(), chosen.translated))
+                    .entry((result_language_label(&lang), chosen.translated))
                     .or_default() += 1;
                 let (eap_filled, unk) = templates::fill(&chosen.markdown, &values, "________");
                 unknown_placeholders.extend(unk);
@@ -814,5 +827,35 @@ Oro Brembly,2014-02-01,6,Lio Brembly,617-555-0143,English,asthma,,\n",
         }
         assert!(d.path().join("data").join(&p.files[0]).exists());
         assert!(!e.data.templates_written.is_empty());
+    }
+
+    #[test]
+    fn a_student_with_two_conditions_gets_each_plan_and_language_text_stays_local() {
+        // Asthma with a food allergy: the row must not be skipped for the food allergy plan.
+        let cond = find_condition("food allergy").unwrap();
+        assert!(cell_names_condition("Asthma; peanut allergy", cond));
+        assert!(!cell_names_condition("seizures", cond));
+        let (d, c) = ctx();
+        std::fs::write(
+            d.path().join("data/two.csv"),
+            "Student Name,Grade,Home Language,Condition\n\
+Quill Zorvath,5,Tlhingan (ask for aunt Morwenna),Asthma; peanut allergy\n\
+Oro Brembly,6,English,seizures\n",
+        )
+        .unwrap();
+        let e = build_individualized_health_plan(
+            &c,
+            HealthPlanArgs {
+                condition: "food allergy".into(),
+                student_file: Some("two.csv".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let p = e.data.documents.as_ref().unwrap();
+        assert_eq!((p.students, p.rows_skipped), (1, 1));
+        assert!(p.by_language.iter().any(|x| x.language == "Other"));
+        let all = serde_json::to_string(&e).unwrap();
+        assert!(!all.contains("Morwenna") && !all.contains("Tlhingan"));
     }
 }

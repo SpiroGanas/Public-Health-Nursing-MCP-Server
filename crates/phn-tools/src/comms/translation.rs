@@ -431,20 +431,81 @@ fn load_glossary(ctx: &Context, path: &str, lang: Option<&Language>) -> Result<G
         out.push((e, tr));
     }
     out.sort_by_key(|g| std::cmp::Reverse(g.0.len()));
-    out.dedup_by(|a, b| a.0.eq_ignore_ascii_case(&b.0));
+    // Keep the first row of each English term (duplicates need not be adjacent).
+    let mut seen: Vec<String> = Vec::new();
+    out.retain(|g| {
+        let key = g.0.to_lowercase();
+        if seen.contains(&key) {
+            false
+        } else {
+            seen.push(key);
+            true
+        }
+    });
     Ok((out, label))
 }
 
+/// Scripts written without spaces between words (Chinese, Japanese, Korean
+/// particles, Thai, Lao, Khmer, Burmese), where a term cannot be matched as a
+/// whole word.
+fn unspaced_script(c: char) -> bool {
+    matches!(
+        c as u32,
+        0x0E00..=0x0EFF
+            | 0x1000..=0x109F
+            | 0x1780..=0x17FF
+            | 0x3040..=0x30FF
+            | 0x3400..=0x4DBF
+            | 0x4E00..=0x9FFF
+            | 0xAC00..=0xD7AF
+            | 0xF900..=0xFAFF
+    )
+}
+
+/// Times `needle` appears in `hay`, ignoring case. A term matches as a whole
+/// word, with an optional plural ending ("vaccine" finds "vaccines", "vacuna"
+/// finds "vacunas"); terms in scripts without word spacing match anywhere.
 fn count_ci(hay: &str, needle: &str) -> usize {
-    if needle.is_empty() {
+    let n = needle.trim().to_lowercase();
+    if n.is_empty() {
         return 0;
     }
-    let re = regex::Regex::new(&format!(
-        r"(?i)(^|[^\p{{L}}\p{{N}}]){}($|[^\p{{L}}\p{{N}}])",
-        regex::escape(needle)
-    ))
-    .expect("escaped pattern");
-    re.find_iter(hay).count()
+    let h = hay.to_lowercase();
+    if n.chars().any(unspaced_script) {
+        return h.matches(n.as_str()).count();
+    }
+    let boundary = |s: &str| s.chars().next().is_none_or(|c| !c.is_alphanumeric());
+    let mut count = 0;
+    let mut from = 0;
+    while let Some(pos) = h[from..].find(n.as_str()) {
+        let start = from + pos;
+        let end = start + n.len();
+        let before_ok = h[..start]
+            .chars()
+            .next_back()
+            .is_none_or(|c| !c.is_alphanumeric());
+        let after = &h[end..];
+        let plural = if boundary(after) {
+            Some(0)
+        } else if after.starts_with("es") && boundary(&after[2..]) {
+            Some(2)
+        } else if after.starts_with('s') && boundary(&after[1..]) {
+            Some(1)
+        } else {
+            None
+        };
+        match plural {
+            Some(extra) if before_ok => {
+                count += 1;
+                from = end + extra;
+            }
+            _ => {
+                // Step past the first character of this occurrence.
+                from = start + h[start..].chars().next().map_or(1, char::len_utf8);
+            }
+        }
+    }
+    count
 }
 
 static INVARIANT: LazyLock<Vec<(&'static str, regex::Regex)>> = LazyLock::new(|| {
@@ -490,6 +551,20 @@ fn contains_invariant(hay: &str, kind: &str, v: &str) -> bool {
         // Numbers and phones may be formatted differently (1,000 vs 1.000; dashes vs dots).
         "number" | "phone" | "time" => {
             let d = digits(v);
+            if d.is_empty() {
+                return false;
+            }
+            // A number is one token even with separators inside it, so "1,000",
+            // "1.000", "3.5", "3,5", and "9:30" compare by their digits.
+            static NUMBER_TOKEN: LazyLock<regex::Regex> = LazyLock::new(|| {
+                regex::Regex::new(r"\d+(?:[.,:]\d+)*").expect("valid regex")
+            });
+            if NUMBER_TOKEN
+                .find_iter(hay)
+                .any(|m| digits(m.as_str()) == d)
+            {
+                return true;
+            }
             let all: String = hay
                 .chars()
                 .map(|c| if c.is_ascii_digit() { c } else { ' ' })
@@ -777,7 +852,7 @@ pub async fn translate_health_material(
 
     // ---- source analysis
     let src_sentences = source.as_deref().map(sentences).unwrap_or_default();
-    let mut glossary_terms = Vec::new();
+    let mut glossary_terms: Vec<GlossaryUse> = Vec::new();
     if let Some(gp) = args
         .glossary_path
         .as_deref()
@@ -786,13 +861,28 @@ pub async fn translate_health_material(
         let (gl, label) = load_glossary(ctx, gp, lang)?;
         sources.push(Source::local_file(&label));
         if let Some(src) = &source {
+            // Longest terms come first; a shorter term is not counted again where
+            // it is part of a longer glossary term ("flu" inside "flu shot").
             for (e, tr) in &gl {
-                let n = count_ci(src, e);
+                let inside_longer: usize = glossary_terms
+                    .iter()
+                    .map(|g| g.times_in_source * count_ci(&g.english, e))
+                    .sum();
+                let n = count_ci(src, e).saturating_sub(inside_longer);
                 if n == 0 {
                     continue;
                 }
                 let in_tr = match (&translation, tr) {
-                    (Some(t), Some(a)) => Some(count_ci(t, a)),
+                    (Some(t), Some(a)) => {
+                        let inside: usize = glossary_terms
+                            .iter()
+                            .map(|g| match (g.times_in_translation, g.approved.as_deref()) {
+                                (Some(times), Some(longer)) => times * count_ci(longer, a),
+                                _ => 0,
+                            })
+                            .sum();
+                        Some(count_ci(t, a).saturating_sub(inside))
+                    }
                     _ => None,
                 };
                 glossary_terms.push(GlossaryUse {
@@ -1169,5 +1259,37 @@ mod tests {
         ));
         assert!(!contains_invariant("Traiga 3 formularios", "number", "2"));
         assert_eq!(negations("Do not share. Never use it without help."), 3);
+    }
+
+    #[test]
+    fn numbers_with_separators_and_times_carry_over() {
+        // Unchanged in the draft: found.
+        assert!(contains_invariant("Hasta 1,000 personas", "number", "1,000"));
+        assert!(contains_invariant("Tome 3.5 mg", "number", "3.5"));
+        assert!(contains_invariant("Fiebre de 100.4 grados", "number", "100.4"));
+        assert!(contains_invariant("Llegue a las 9:30", "time", "9:30"));
+        // Local number formats still match by their digits.
+        assert!(contains_invariant("Hasta 1.000 personas", "number", "1,000"));
+        assert!(contains_invariant("Tome 3,5 mg", "number", "3.5"));
+        // A changed value is still reported.
+        assert!(!contains_invariant("Tome 5.3 mg", "number", "3.5"));
+        assert!(!contains_invariant("Llegue a las 9:00", "time", "9:30"));
+        assert!(!contains_invariant("Hasta 100 personas", "number", "1,000"));
+    }
+
+    #[test]
+    fn glossary_terms_match_plurals_and_unspaced_scripts() {
+        // Whole words with a plural ending; not inside other words.
+        assert_eq!(count_ci("Vaccines work. Get a vaccine.", "vaccine"), 2);
+        assert_eq!(count_ci("Las vacunas son seguras", "vacuna"), 1);
+        assert_eq!(count_ci("The influenza season", "flu"), 0);
+        assert_eq!(count_ci("flu, flu and FLU", "flu"), 3);
+        // Chinese has no spaces between words: the approved term is found inside the sentence.
+        assert_eq!(count_ci("请接种流感疫苗以保护家人", "疫苗"), 1);
+        assert_eq!(count_ci("请接种流感疫苗以保护家人", "口罩"), 0);
+        // Terms contained in a longer term are counted there.
+        assert_eq!(count_ci("flu shot", "flu"), 1);
+        assert_eq!(count_ci("", "flu"), 0);
+        assert_eq!(count_ci("flu", "  "), 0);
     }
 }

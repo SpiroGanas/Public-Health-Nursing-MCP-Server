@@ -81,7 +81,11 @@ pub struct SpcRow {
     pub label: String,
     /// Plotted value (null when suppressed in this response).
     pub value: Option<f64>,
-    pub center: f64,
+    /// Center line (median for run charts). Omitted, with the control
+    /// limits, when any period's value is suppressed: together with the
+    /// other periods' values they would reveal the suppressed number.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub center: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub lcl: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -95,6 +99,8 @@ pub struct SpcRow {
 pub struct SpcResult {
     pub chart_type: ChartType,
     pub rows: Vec<SpcRow>,
+    /// Center line and limits by phase. Empty when any period's value is
+    /// suppressed (see `rows`); the chart file in the output folder has them.
     pub phases: Vec<PhaseSummary>,
     /// Periods with a special-cause or non-random signal.
     pub signals: Vec<String>,
@@ -353,6 +359,12 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
     } else {
         1.0
     };
+    // A suppressed value can be worked out from the center line (the mean of
+    // all periods) or the limits (which encode each denominator) and the
+    // values that are shown. When anything from a local file is suppressed,
+    // the center line, limits, and phase averages stay out of the response;
+    // the chart file written to the output folder is unchanged.
+    let withhold = prep.local.is_some() && prep.hide.iter().any(|h| *h);
     let rows: Vec<SpcRow> = chart
         .points
         .iter()
@@ -360,9 +372,9 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
         .map(|(i, p)| SpcRow {
             label: prep.labels[i].clone(),
             value: (!prep.hide[i]).then_some(p.value * scale),
-            center: p.center * scale,
-            lcl: p.lcl.map(|v| v * scale),
-            ucl: p.ucl.map(|v| v * scale),
+            center: (!withhold).then_some(p.center * scale),
+            lcl: p.lcl.filter(|_| !withhold).map(|v| v * scale),
+            ucl: p.ucl.filter(|_| !withhold).map(|v| v * scale),
             signals: p.signals.clone(),
             suppressed: prep.hide[i],
         })
@@ -514,6 +526,18 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
             String::new()
         };
         match chart_type {
+            ChartType::Run if withhold => s.push_str(&format!(
+                "- {pl}longest run {} (limit {}); crossings {} (minimum {}); {} useful observations\n",
+                ph.longest_run.unwrap_or(0),
+                ph.longest_run_limit.unwrap_or(0),
+                ph.crossings.unwrap_or(0),
+                ph.crossings_limit.unwrap_or(0),
+                ph.useful_observations.unwrap_or(0)
+            )),
+            _ if withhold => s.push_str(&format!(
+                "- {pl}center line and limits computed from {} baseline points\n",
+                ph.baseline_points
+            )),
             ChartType::Run => s.push_str(&format!(
                 "- {pl}median {}; longest run {} (limit {}); crossings {} (minimum {}); {} useful observations\n",
                 md::num(ph.center * scale, 2),
@@ -531,6 +555,14 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
             )),
         }
     }
+    if withhold {
+        s.push_str(
+            "\nThe center line, control limits, and phase averages are not shown here because \
+             some periods are below the suppression threshold: combined with the other periods' \
+             values they would reveal the suppressed numbers. They are drawn in the chart file \
+             in your output folder.\n",
+        );
+    }
     s.push('\n');
     if signals.is_empty() {
         s.push_str(if chart_type == ChartType::Run {
@@ -545,7 +577,7 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
         }
         s.push('\n');
     }
-    let show_limits = chart_type != ChartType::Run;
+    let show_limits = chart_type != ChartType::Run && !withhold;
     let table_rows: Vec<Vec<String>> = rows
         .iter()
         .map(|r| {
@@ -554,8 +586,10 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
                 r.value
                     .map(|v| md::num(v, 2))
                     .unwrap_or_else(|| "suppressed".into()),
-                md::num(r.center, 2),
             ];
+            if let Some(c) = r.center {
+                v.push(md::num(c, 2));
+            }
             if show_limits {
                 v.push(r.lcl.map(|x| md::num(x, 2)).unwrap_or_default());
                 v.push(r.ucl.map(|x| md::num(x, 2)).unwrap_or_default());
@@ -568,15 +602,14 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
             v
         })
         .collect();
-    let mut heads = vec![
-        "Period",
-        "Value",
-        if chart_type == ChartType::Run {
+    let mut heads = vec!["Period", "Value"];
+    if !withhold {
+        heads.push(if chart_type == ChartType::Run {
             "Median"
         } else {
             "Center"
-        },
-    ];
+        });
+    }
     if show_limits {
         heads.extend(["LCL", "UCL"]);
     }
@@ -617,6 +650,14 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
              folder."
                 .into(),
         );
+        if withhold {
+            privacy.notes.push(
+                "The center line, control limits, and phase averages are withheld from this \
+                 response because they would let the suppressed values be worked out; they are \
+                 in the chart file only."
+                    .into(),
+            );
+        }
         if let Some(f) = &chart_files {
             privacy.files_written = f.png.iter().chain(f.svg.iter()).cloned().collect();
         }
@@ -626,7 +667,7 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
         SpcResult {
             chart_type,
             rows,
-            phases: chart.phases,
+            phases: if withhold { Vec::new() } else { chart.phases },
             signals,
             chart: chart_files,
             display_scale: scale,

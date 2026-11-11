@@ -1616,4 +1616,55 @@ Iska Quenby,9200003,9,Hockey,English,2026-10-10,Y,,,N,N,,,,,\n",
         }
         assert!(d.path().join("data").join(&l.output_file).exists());
     }
+
+    #[test]
+    fn undated_notices_and_hyphenated_plan_header_are_not_gaps() {
+        let (d, c) = ctx();
+        let mut body = String::from(
+            "Student ID,Injury Date,Extracurricular,Written Notice,AD Nurse Notified,Head Injury Form,Diagnosed Concussion,Re-entry Plan\n",
+        );
+        for i in 0..6 {
+            body.push_str(&format!(
+                "92000{i:02},2026-10-0{},Y,Yes,Yes,Y,Y,2026-10-20\n",
+                i + 1
+            ));
+        }
+        std::fs::write(d.path().join("data/log2.csv"), body).unwrap();
+        let e = concussion_return_to_learn_tracker(
+            &c,
+            ConcussionArgs {
+                tracker_path: Some("log2.csv".into()),
+                as_of: Some("2026-11-01".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let l = e.data.log.as_ref().unwrap();
+        assert_eq!(l.injuries, 6);
+        // "Yes" without a date is done (12 notices), not a gap.
+        assert_eq!(l.gaps["written notice by next business day"], "0");
+        assert_eq!(l.gaps["AD and nurse told by next business day"], "0");
+        assert_eq!(l.notices_without_date.as_deref(), Some("12"));
+        // "Re-entry Plan" is recognized as the reentry plan column.
+        assert_eq!(l.gaps["reentry plan for diagnosed concussion"], "0");
+    }
+
+    #[test]
+    fn symptom_checks_fall_on_school_days() {
+        let (_d, c) = ctx();
+        // Returned on Thursday 2026-11-05: day 3 and day 10 are Sundays and move to Monday.
+        let e = concussion_return_to_learn_tracker(
+            &c,
+            ConcussionArgs {
+                injury_date: Some("2026-11-02".into()),
+                returned_to_school: Some("2026-11-05".into()),
+                as_of: Some("2026-11-06".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let s = &e.data.monitoring_schedule;
+        assert_eq!(s[1], "2026-11-09");
+        assert_eq!(s[3], "2026-11-16");
+    }
 }

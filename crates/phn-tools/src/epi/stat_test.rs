@@ -863,6 +863,15 @@ fn contingency(
         }
         ft
     });
+    // No exact result (an empty row or column, or a table too large for the
+    // exact calculation): show the chi-square test instead.
+    let fisher = fisher.filter(|f| !f.p_value.is_nan());
+    let exact_unavailable = picked == TestChoice::FisherExact && fisher.is_none();
+    let picked = if exact_unavailable {
+        TestChoice::ChiSquare
+    } else {
+        picked
+    };
     let n: f64 = counts.iter().flatten().sum();
     let cells = counts.len() * counts[0].len();
     let low = counts
@@ -884,6 +893,10 @@ fn contingency(
         ),
         &format!("{picked:?}"),
         match (choice, picked) {
+            _ if exact_unavailable => "Fisher's exact test cannot be calculated for this table \
+                                       (an empty row or column, or counts too large for the \
+                                       exact method), so the chi-square test is shown"
+                .into(),
             (TestChoice::Auto, TestChoice::FisherExact) => {
                 "2×2 table with an expected count below 5, so the exact test is used".into()
             }
@@ -1378,4 +1391,72 @@ fn from_file(
         lt.label, r.data_description
     );
     Ok(((r, any_hidden), miss))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// One row per person: `exposed_ill` of 10 exposed and `unexposed_ill`
+    /// of 10 unexposed people are ill.
+    fn exposure_data(exposed_ill: usize, unexposed_ill: usize) -> GlmData {
+        let mut d = GlmData {
+            names: vec!["(Intercept)".into(), "exposed".into()],
+            ..GlmData::default()
+        };
+        for (exposed, ill) in [(1.0, exposed_ill), (0.0, unexposed_ill)] {
+            for i in 0..10 {
+                d.y.push(if i < ill { 1.0 } else { 0.0 });
+                d.x.push(vec![1.0, exposed]);
+            }
+        }
+        d.trials = Some(vec![1.0; d.y.len()]);
+        d
+    }
+
+    #[test]
+    fn separation_replaces_the_interpretation_with_a_warning() {
+        // Exposed 10/10 ill, unexposed 3/10 ill. The fit used to report an
+        // enormous odds ratio with p near 1 and "No predictor is
+        // statistically significant".
+        let r = regression(&exposure_data(10, 3), Family::Binomial, 0.95).unwrap();
+        assert_eq!(r.warnings.len(), 1);
+        assert!(r.warnings[0].contains("separation"), "{:?}", r.warnings);
+        let text = regression_interpretation(&r);
+        assert!(text.starts_with("**Do not interpret"), "{text}");
+        assert!(!text.contains("No predictor is statistically significant"));
+        assert!(regression_markdown(&r, 0.95).contains("**Warning:**"));
+        // Exposed 7/10, unexposed 3/10: an ordinary fit with no warning.
+        let r = regression(&exposure_data(7, 3), Family::Binomial, 0.95).unwrap();
+        assert!(r.warnings.is_empty(), "{:?}", r.warnings);
+        let (or, _, _) = r.terms[1].odds_ratio.unwrap();
+        assert!((or - 49.0 / 9.0).abs() < 1e-6);
+        assert!(!regression_interpretation(&r).starts_with("**Do not interpret"));
+        assert!(!regression_markdown(&r, 0.95).contains("**Warning:**"));
+    }
+
+    #[test]
+    fn fisher_falls_back_to_chi_square_when_exact_methods_are_unavailable() {
+        let c = Ctx {
+            conf: 0.95,
+            local: false,
+            threshold: 5,
+        };
+        let labels = ["a".to_string(), "b".to_string()];
+        // About 3.5 million possible tables: the exact methods are skipped.
+        let big = vec![
+            vec![2_000_000.0, 5_000_000.0],
+            vec![1_500_000.0, 5_500_000.0],
+        ];
+        let r = contingency(&big, &labels, &labels, TestChoice::FisherExact, &c, None).unwrap();
+        assert_eq!(r.selected_test, "ChiSquare");
+        assert!(r.rationale.contains("cannot be calculated"), "{}", r.rationale);
+        assert!(r.primary.as_ref().is_some_and(|t| t.p_value < 1e-12));
+        assert!(r.alternatives.is_empty());
+        // An ordinary small table still uses the exact test.
+        let small = vec![vec![2.0, 8.0], vec![9.0, 1.0]];
+        let r = contingency(&small, &labels, &labels, TestChoice::Auto, &c, None).unwrap();
+        assert_eq!(r.selected_test, "FisherExact");
+        assert_eq!(r.alternatives.len(), 1);
+    }
 }

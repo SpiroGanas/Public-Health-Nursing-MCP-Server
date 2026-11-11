@@ -92,10 +92,29 @@ impl Check {
     }
 }
 
+/// A short excerpt of document text for the report.
+///
+/// The report is returned to the AI model, so possible identifiers (names,
+/// phone numbers, addresses, dates, record numbers) are replaced with
+/// `[REDACTED: kind]` first, and only then is the excerpt cut: a cut can
+/// never leave part of an identifier behind.
 fn short(s: &str) -> String {
-    let s = s.trim();
+    let redacted =
+        phn_local::phi::redact_text(s.trim(), phn_local::phi::RedactionLevel::Strict).text;
+    let s = redacted.trim();
     if s.chars().count() > 50 {
-        format!("{}…", s.chars().take(50).collect::<String>())
+        let mut cut: String = s.chars().take(50).collect();
+        // Do not leave half a replacement marker at the cut.
+        if let Some(open) = cut.rfind('[') {
+            let tail = &cut[open..];
+            if !tail.contains(']')
+                && ("[REDACTED".starts_with(tail) || tail.starts_with("[REDACTED"))
+            {
+                cut.truncate(open);
+                cut.push_str("[REDACTED]");
+            }
+        }
+        format!("{cut}…")
     } else {
         s.to_string()
     }
@@ -391,7 +410,12 @@ pub fn check_docx(doc: &DocxDocument) -> Report {
     let missing: Vec<String> = images
         .iter()
         .filter(|d| d.alt_text.is_none())
-        .map(|d| d.name.clone().unwrap_or_else(|| "unnamed image".into()))
+        .map(|d| {
+            d.name
+                .as_deref()
+                .map(short)
+                .unwrap_or_else(|| "unnamed image".into())
+        })
         .collect();
     checks.push(if images.is_empty() {
         check("alt_text", NON_TEXT, Status::NotApplicable, "No images.")
@@ -950,6 +974,20 @@ mod tests {
         assert!(contrast_ratio(parse_color("#AAAAAA").unwrap(), white) < 4.5);
         assert_eq!(parse_color("rgb(255, 0, 0)"), Some((255, 0, 0)));
         assert_eq!(parse_color("#fff"), Some((255, 255, 255)));
+    }
+
+    #[test]
+    fn excerpts_are_redacted_before_they_are_cut() {
+        let s = short("Call Maria Garcia at 413-555-0100 about the clinic next week, please");
+        assert!(s.contains("[REDACTED"), "{s}");
+        assert!(!s.contains("Garcia") && !s.contains("555"), "{s}");
+        // A marker that would be cut in half is replaced whole.
+        let long = format!("{} Maria Garcia", "x".repeat(44));
+        let s = short(&long);
+        assert!(!s.contains("Garcia") && !s.contains("Maria"), "{s}");
+        assert!(s.ends_with("[REDACTED]…"), "{s}");
+        // Text without identifiers is unchanged.
+        assert_eq!(short("  Situation update  "), "Situation update");
     }
 
     #[test]

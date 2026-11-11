@@ -183,6 +183,20 @@ pub struct ProblemMatch {
     pub interventions: Vec<InterventionMatch>,
 }
 
+/// A problem whose cue terms appeared only after a negation word (no, not,
+/// denies, without, ...). It may be ruled out ("denies fever") or it may be
+/// the problem itself ("no income", "not taking insulin"): the nurse decides.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct NegatedProblem {
+    pub code: String,
+    pub name: String,
+    pub domain: String,
+    /// Sentences where the problem's terms appeared only in negated phrases.
+    pub sentences: usize,
+    /// Vocabulary terms (this tool's cues) that were negated; never text from the note.
+    pub negated_terms: Vec<String>,
+}
+
 /// A looked-up term.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct LookupHit {
@@ -220,6 +234,10 @@ pub struct OmahaResult {
     pub source_file: Option<String>,
     pub sentences_analyzed: usize,
     pub problems: Vec<ProblemMatch>,
+    /// Problems mentioned only as absent or negated ("no income", "denies fever"). Review
+    /// each: an absent need is often the problem itself. They are not in `problems`.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mentioned_as_absent_or_negated: Vec<NegatedProblem>,
     /// Interventions found in sentences without a problem cue.
     pub unlinked_interventions: Vec<InterventionMatch>,
     pub lookup: Vec<LookupHit>,
@@ -343,6 +361,7 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
 
     // ---- Coding
     let mut problems: Vec<ProblemMatch> = Vec::new();
+    let mut negated_only: Vec<NegatedProblem> = Vec::new();
     let mut unlinked: BTreeMap<(String, String), usize> = BTreeMap::new();
     let mut n_sent = 0;
     if let Some(t) = &text {
@@ -352,6 +371,8 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
         let mut hits: BTreeMap<usize, (usize, Vec<String>, Vec<String>)> = BTreeMap::new();
         // problem index -> (category, target) -> sentences
         let mut pair_hits: BTreeMap<usize, BTreeMap<(usize, usize), usize>> = BTreeMap::new();
+        // problem index -> sentences where its cues appeared only negated
+        let mut neg_sentences: BTreeMap<usize, usize> = BTreeMap::new();
         let mut family = vec![false; c.problems.len()];
         let mut risk = vec![false; c.problems.len()];
         let mut promotion = vec![false; c.problems.len()];
@@ -359,10 +380,12 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             let mut in_sentence: Vec<usize> = Vec::new();
             for (pi, p) in c.problems.iter().enumerate() {
                 let mut matched = false;
+                let mut negated_here = false;
                 for cue in &p.cues {
                     if let Some(neg) = cue_hit(s, cue) {
                         let e = hits.entry(pi).or_default();
                         if neg {
+                            negated_here = true;
                             if !e.2.contains(cue) && !e.1.contains(cue) {
                                 e.2.push(cue.clone());
                             }
@@ -374,6 +397,9 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                             e.2.retain(|x| x != cue);
                         }
                     }
+                }
+                if !matched && negated_here {
+                    *neg_sentences.entry(pi).or_default() += 1;
                 }
                 if matched {
                     hits.entry(pi).or_default().0 += 1;

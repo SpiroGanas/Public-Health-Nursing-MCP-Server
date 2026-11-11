@@ -42,14 +42,50 @@ pub struct CapabilityRating {
     pub rating: String,
 }
 
+/// A capability named for an objective: a number or name ("13", "PHEP 4", "Mass Care"),
+/// or the capability object that design_hseep_exercise returns in its objectives
+/// (framework, id, name), so that tool's objectives can be passed on unchanged.
+#[derive(Debug, Clone, Deserialize, Serialize, JsonSchema)]
+#[serde(untagged)]
+pub enum CapabilityInput {
+    /// PHEP number or name, or FEMA core capability name.
+    Name(String),
+    /// A capability object from design_hseep_exercise.
+    Ref(CapabilityRef),
+}
+
+impl CapabilityInput {
+    /// The text to resolve: the name as given, or the object's id (its name when the id is blank).
+    fn query(&self) -> String {
+        match self {
+            CapabilityInput::Name(s) => s.clone(),
+            CapabilityInput::Ref(r) if r.id.trim().is_empty() => r.name.clone(),
+            CapabilityInput::Ref(r) => r.id.clone(),
+        }
+    }
+}
+
+impl From<&str> for CapabilityInput {
+    fn from(s: &str) -> Self {
+        CapabilityInput::Name(s.to_string())
+    }
+}
+
+impl From<String> for CapabilityInput {
+    fn from(s: String) -> Self {
+        CapabilityInput::Name(s)
+    }
+}
+
 /// An exercise or incident objective.
 #[derive(Debug, Clone, Default, Deserialize, Serialize, JsonSchema)]
 #[serde(default)]
 pub struct AarObjective {
     pub text: String,
-    /// Capabilities (PHEP numbers or names, FEMA core capabilities); FEMA ones are added
-    /// from this project's PHEP mapping when only PHEP ones are given.
-    pub capabilities: Vec<String>,
+    /// Capabilities (PHEP numbers or names, FEMA core capabilities, or the capability
+    /// objects from design_hseep_exercise); FEMA ones are added from this project's PHEP
+    /// mapping when only PHEP ones are given.
+    pub capabilities: Vec<CapabilityInput>,
     /// Ratings by capability (P, S, M, U).
     pub ratings: Vec<CapabilityRating>,
 }
@@ -629,7 +665,17 @@ pub fn build_after_action_report(ctx: &Context, args: AarArgs) -> Result<Envelop
     let mut analysis: Vec<CapabilityAnalysis> = Vec::new();
     let mut unrated = 0usize;
     for (i, o) in args.objectives.iter().enumerate() {
-        let m = hc::map_objective(&o.text, &o.capabilities);
+        let given: Vec<String> = o.capabilities.iter().map(CapabilityInput::query).collect();
+        let m = hc::map_objective(&o.text, &given);
+        // A rating for a capability that cannot be recognized is an error, not dropped.
+        for r in &o.ratings {
+            if let Err(e) = hc::resolve(&r.capability) {
+                return Err(PhnError::InvalidInput(format!(
+                    "objective {}: a rating names a capability that was not recognized ({e})",
+                    i + 1
+                )));
+            }
+        }
         for p in &m.phep {
             if !all_phep.iter().any(|x| x.id == p.id) {
                 all_phep.push(p);
@@ -2032,6 +2078,43 @@ mod tests {
                 .contains("P, S, M, or U")
         );
         assert!(build_after_action_report(&ctx, AarArgs::default()).is_err());
+    }
+
+    #[test]
+    fn exercise_capability_objects_and_display_names_chain_into_the_report() {
+        let (_d, ctx) = ctx();
+        let display = "PHEP 13: Public Health Surveillance and Epidemiological Investigation";
+        // An objective as design_hseep_exercise returns it (extra fields are ignored).
+        let objective: AarObjective = serde_json::from_value(serde_json::json!({
+            "number": 1,
+            "text": "Within 2 hours of notification, begin case investigation in accordance with the DPH guide.",
+            "capabilities": [
+                {"framework": "PHEP", "id": "phep-13", "name": display},
+                "Situational Assessment"
+            ],
+            "suggested": true,
+            "ratings": [{"capability": display, "rating": "S"}]
+        }))
+        .unwrap();
+        let mut a = base();
+        a.feedback_path = None;
+        a.roster_path = None;
+        a.documents = Some("none".into());
+        a.objectives[0] = objective;
+        let r = build_after_action_report(&ctx, a).unwrap();
+        let row = r
+            .data
+            .analysis
+            .iter()
+            .find(|x| x.objective == 1 && x.capability.id == "phep-13")
+            .unwrap();
+        assert_eq!(row.rating.as_deref(), Some("S"));
+        // A rating whose capability is not recognized is refused, not silently dropped.
+        let mut a = base();
+        a.documents = Some("none".into());
+        a.objectives[0].ratings[0].capability = "Teleportation".into();
+        let e = build_after_action_report(&ctx, a).unwrap_err().to_string();
+        assert!(e.contains("not recognized"), "{e}");
     }
 
     #[test]

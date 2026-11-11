@@ -872,6 +872,33 @@ pub fn decode_moe(v: f64) -> Option<f64> {
     }
 }
 
+/// A published median that the Census Bureau cut off at the end of its range.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MedianBound {
+    /// The true median is at or above the published limit.
+    AtOrAbove,
+    /// The true median is at or below the published limit.
+    AtOrBelow,
+}
+
+/// Whether a median household income (B19013) is top- or bottom-coded. The
+/// ACS publishes a median above $250,000 as 250,001 with margin-of-error code
+/// -333333333 ("250,000+"), and one below $2,500 as 2,499 with code
+/// -222222222 ("2,500-"). [`decode_moe`] turns both codes into "no margin",
+/// and the bundled snapshot stores them as a blank margin, so the two limit
+/// values with no margin of error identify the case on both paths.
+pub fn income_bound(e: &Estimate) -> Option<MedianBound> {
+    if e.moe.is_some() {
+        None
+    } else if (e.value - 250_001.0).abs() < 0.5 {
+        Some(MedianBound::AtOrAbove)
+    } else if (e.value - 2_499.0).abs() < 0.5 {
+        Some(MedianBound::AtOrBelow)
+    } else {
+        None
+    }
+}
+
 /// Sum of estimates. The MOE is `sqrt(Σ MOE²)`; following the Census
 /// Bureau's guidance, when several components are zero only the largest MOE
 /// among the zero estimates is included.
@@ -1305,7 +1332,7 @@ impl AcsFetch {
                     .unwrap_or_else(|| format!("{API_BASE}/{}/acs/acs5", self.vintage)),
             ),
             effective_date: Some(format!("{}-12", self.vintage + 1)),
-            retrieved: Some(self.as_of.chars().take(10).collect()),
+            retrieved: Some(crate::fetch::local_date(&self.as_of)),
             mode: self.mode,
         }
     }
@@ -1595,6 +1622,33 @@ mod tests {
         assert!(urls[0].contains("&for=county%20subdivision%3A13660&in=state%3A25%20county%3A015"));
         assert!(urls.iter().all(|u| !u.contains("key=")));
         assert!(urls.iter().all(|u| u.matches(',').count() <= 49));
+    }
+
+    #[test]
+    fn top_coded_median_income_is_recognized_live_and_in_the_snapshot() {
+        // Live: the API sends 250001 with the "250,000+" margin code.
+        let body = br#"[["NAME","B19013_001E","B19013_001M","state","county","county subdivision"],
+                        ["Weston town, Middlesex County, Massachusetts","250001","-333333333","25","017","77255"]]"#;
+        let (_, cells) = parse_api_response(body).unwrap();
+        assert_eq!(
+            income_bound(&cells["B19013_001"]),
+            Some(MedianBound::AtOrAbove)
+        );
+        // Snapshot: Weston's value is stored as 250001 with a blank margin.
+        let snap = AcsSnapshot::load(&SnapshotStore::bundled()).unwrap();
+        let weston = &snap.row("2501777255").unwrap().values["median_household_income"];
+        assert_eq!(income_bound(weston), Some(MedianBound::AtOrAbove));
+        let ma = &snap.state().unwrap().values["median_household_income"];
+        assert_eq!(income_bound(ma), None);
+        // Ordinary estimates, and the limit value with a real margin, are not flagged.
+        assert_eq!(income_bound(&e(250_001.0, 900.0)), None);
+        assert_eq!(
+            income_bound(&Estimate {
+                value: 2_499.0,
+                moe: None
+            }),
+            Some(MedianBound::AtOrBelow)
+        );
     }
 
     #[test]

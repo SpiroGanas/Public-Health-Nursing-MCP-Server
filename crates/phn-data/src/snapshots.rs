@@ -479,6 +479,11 @@ mod tests {
         assert_eq!(origin, SnapshotOrigin::CacheOverride);
         assert_eq!(t, text);
 
+        // Tamper with the file: the override is rejected.
+        std::fs::write(dir.path().join("ma_municipalities.csv"), "tampered").unwrap();
+        let (_, origin) = store.entry("ma-municipalities").unwrap();
+        assert_eq!(origin, SnapshotOrigin::Bundled);
+
         // An override that lists no files (or different files) is rejected,
         // so the bundled copy is still served.
         let mut empty = bundled.clone();
@@ -498,10 +503,5 @@ mod tests {
             .unwrap();
         assert_eq!(origin, SnapshotOrigin::Bundled);
         assert_ne!(t, text);
-
-        // Tamper with the file: the override is rejected.
-        std::fs::write(dir.path().join("ma_municipalities.csv"), "tampered").unwrap();
-        let (_, origin) = store.entry("ma-municipalities").unwrap();
-        assert_eq!(origin, SnapshotOrigin::Bundled);
     }
 }

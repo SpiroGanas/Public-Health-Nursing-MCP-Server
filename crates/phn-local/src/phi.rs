@@ -1548,6 +1548,108 @@ mod tests {
     }
 
     #[test]
+    fn overlapping_findings_are_merged_not_dropped() {
+        // The titled-name span reaches "Medicaid"; the number must still go.
+        for (text, secret) in [
+            ("Mrs. Delgado\nMedicaid ID: 100234567", "100234567"),
+            ("Carmen\nCase number: 2024-0118", "2024-0118"),
+            ("Client: Mrs. Delgado\nDate of Birth: 04/17/1958", "04/17/1958"),
+        ] {
+            for level in [RedactionLevel::Standard, RedactionLevel::Strict] {
+                let r = redact_text(text, level);
+                assert!(!r.text.contains(secret), "{secret} survived: {}", r.text);
+            }
+        }
+        // The merged span is counted under the kind standard redaction removes.
+        let r = redact_text(
+            "Client: Mrs. Delgado\nDate of Birth: 04/17/1958",
+            RedactionLevel::Standard,
+        );
+        assert!(r.redacted.contains_key(&Identifier::BirthDate));
+    }
+
+    #[test]
+    fn common_identifier_formats_are_found() {
+        let strict = |t: &str| redact_text(t, RedactionLevel::Strict).text;
+        assert!(!strict("SSN 123 45 6789 on file").contains("6789"));
+        assert!(!strict("SSN: 123456789").contains("123456789"));
+        assert!(!strict("MRN: #12345 and MRN#: 99887").contains("12345"));
+        assert!(!strict("MRN: #12345 and MRN#: 99887").contains("99887"));
+        assert!(!strict("call 555-0101 today").contains("555-0101"));
+        assert!(!strict("cell 4135550101").contains("4135550101"));
+        assert!(!strict("DOB 20150307").contains("20150307"));
+        assert!(!strict("born 7 March 2015").contains("March"));
+        assert!(!strict("DOB: 03.07.2015").contains("03.07"));
+        assert!(!strict("spoke with daughter Carmen today").contains("Carmen"));
+        // Ordinary words after a label, ranges of counts, and ZIP+4 are left alone.
+        for plain in [
+            "Patient identified by medicare enrollment",
+            "serving 500-1000 residents",
+            "ZIP 01002-1234",
+            "school year 2024-2025",
+        ] {
+            assert!(scan_text(plain).is_empty(), "{plain}: {:?}", scan_text(plain));
+        }
+    }
+
+    #[test]
+    fn person_and_id_headers_are_flagged_in_small_files() {
+        let t = table(
+            &["First", "Last", "ID", "Case #", "Student", "Up to date", "MI"],
+            &[
+                &["Thuy", "Okafor", "104", "7", "Ngoc Adeyemi", "Y", "N"],
+                &["Abdi", "Mohamud", "105", "8", "Linh Abdi", "N", "Y"],
+                &["Thuy", "Okafor", "104", "9", "Ngoc Adeyemi", "Y", "N"],
+            ],
+        );
+        let f = scan_table(&t);
+        let kind = |c: &str| f.iter().find(|x| x.column == c).map(|x| x.kind);
+        assert_eq!(kind("First"), Some(Identifier::Name));
+        assert_eq!(kind("Last"), Some(Identifier::Name));
+        assert_eq!(kind("Student"), Some(Identifier::Name));
+        assert_eq!(kind("ID"), Some(Identifier::OtherIdNumber));
+        assert_eq!(kind("Case #"), Some(Identifier::OtherIdNumber));
+        // Yes/no columns are not names or dates.
+        assert_eq!(kind("Up to date"), None);
+        assert_eq!(kind("MI"), None);
+        // A date header with an unfamiliar format is still treated as a date.
+        let t = table(&["Onset Date"], &[&["2024.W03-2"], &["2024.W04-5"]]);
+        assert_eq!(scan_table(&t)[0].kind, Identifier::Date);
+    }
+
+    #[test]
+    fn header_cells_that_are_data_are_recognized() {
+        assert_eq!(header_look("413-555-0101"), HeaderLook::Identifier);
+        assert_eq!(header_look("maria@example.org"), HeaderLook::Identifier);
+        assert_eq!(header_look("12 Elm St"), HeaderLook::Identifier);
+        assert_eq!(header_look("C-20260001"), HeaderLook::Identifier);
+        assert_eq!(header_look("Maria Garcia"), HeaderLook::Name);
+        assert_eq!(header_look("Garcia, Maria"), HeaderLook::Name);
+        assert_eq!(header_look("2024"), HeaderLook::DataLike);
+        assert_eq!(header_look("3/7/2015"), HeaderLook::DataLike);
+        for label in ["Town", "Onset Date", "Student Name", "MRN Number", "FY2024", "Total"] {
+            assert_eq!(header_look(label), HeaderLook::Label, "{label}");
+        }
+    }
+
+    #[test]
+    fn two_digit_years_and_other_formats_parse() {
+        let d = |y, m, day| chrono::NaiveDate::from_ymd_opt(y, m, day);
+        assert_eq!(parse_date("3/5/21"), d(2021, 3, 5));
+        assert_eq!(parse_date("3/7/45"), d(1945, 3, 7));
+        assert_eq!(parse_date("20150307"), d(2015, 3, 7));
+        assert_eq!(parse_date("03.07.2015"), d(2015, 3, 7));
+        assert_eq!(parse_date("13/03/2015"), d(2015, 3, 13));
+        assert_eq!(parse_date("7 March 2015"), d(2015, 3, 7));
+        assert_eq!(parse_date("March 2015"), d(2015, 3, 1));
+        assert!(parse_date("3/7/0015").is_none());
+        assert!(parse_date("12345678").is_none());
+        assert_eq!(plain_year("2024"), Some(2024));
+        assert_eq!(plain_year("0015"), None);
+        assert!(!age_header_is_years("Age (months)") && age_header_is_years("Age"));
+    }
+
+    #[test]
     fn parses_dates() {
         assert!(parse_date("2024-01-03").is_some());
         assert!(parse_date("1/3/2024").is_some());

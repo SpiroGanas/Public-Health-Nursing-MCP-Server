@@ -274,7 +274,7 @@ impl PlacesFetch {
                 self.location.level.dataset_id()
             )),
             effective_date: Some(RELEASE.into()),
-            retrieved: Some(self.as_of.chars().take(10).collect()),
+            retrieved: Some(crate::fetch::local_date(&self.as_of)),
             mode: self.mode,
         }
     }
