@@ -760,7 +760,7 @@ fn checklist(
         headers: vec![
             "Indicator".into(),
             "Percent".into(),
-            "About how many people".into(),
+            "About how many".into(),
             "Source".into(),
         ],
         rows: population
@@ -771,7 +771,7 @@ fn checklist(
                 vec![
                     i.label.clone(),
                     i.percent.map(|v| format!("{v}%")).unwrap_or_default(),
-                    i.people.map(|n| md::num(n, 0)).unwrap_or_default(),
+                    i.count_text(),
                     i.source.clone(),
                 ]
             })

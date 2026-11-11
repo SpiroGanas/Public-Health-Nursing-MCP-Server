@@ -1375,7 +1375,7 @@ fn profile_document(
         headers: [
             "Indicator",
             "Percent",
-            "About how many people",
+            "About how many",
             "Massachusetts",
             "Source",
         ]
@@ -1389,7 +1389,7 @@ fn profile_document(
                 vec![
                     i.label.clone(),
                     i.percent.map(|v| format!("{v}%")).unwrap_or_default(),
-                    i.people.map(|n| md::num(n, 0)).unwrap_or_default(),
+                    i.count_text(),
                     i.massachusetts.map(|v| format!("{v}%")).unwrap_or_default(),
                     i.source.clone(),
                 ]

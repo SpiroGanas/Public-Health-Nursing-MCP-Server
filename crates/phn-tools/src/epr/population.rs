@@ -25,8 +25,13 @@ pub struct Indicator {
     pub percent: Option<f64>,
     /// 90% margin of error of the percent (ACS) when published.
     pub moe: Option<f64>,
-    /// Approximate number of people: percent × population (rounded).
+    /// Approximate count: percent × the indicator's base (rounded). The base
+    /// is the population the percent describes (see `count_of`), so for
+    /// household indicators this is a number of households, not people.
     pub people: Option<f64>,
+    /// What `people` counts: "people", "people 5+", "adults", "adults 65+",
+    /// or "households".
+    pub count_of: String,
     /// Massachusetts value for comparison.
     pub massachusetts: Option<f64>,
     /// "ACS 2020–2024", "PLACES 2025 (2023 BRFSS)", ...
@@ -101,6 +106,48 @@ fn round1(x: f64) -> f64 {
     (x * 10.0).round() / 10.0
 }
 
+impl Indicator {
+    /// The approximate count with its unit when it is not people, e.g.
+    /// "1,234" or "1,234 households"; "—" when there is none.
+    pub fn count_text(&self) -> String {
+        match self.people {
+            None => "—".into(),
+            Some(n) if self.count_of == "people" => md::num(n, 0),
+            Some(n) => format!("{} {}", md::num(n, 0), self.count_of),
+        }
+    }
+}
+
+/// The base an ACS percent describes, for the approximate count: the
+/// population or households the indicator's denominator counts. Returns the
+/// base and what it counts. Bases other than the total population or
+/// households are derived from other bundled percents, so they are
+/// approximate (for example, adults 65+ includes people in nursing homes,
+/// while the disability universe does not).
+fn acs_base(
+    id: &str,
+    population: Option<f64>,
+    households: Option<f64>,
+    pct: impl Fn(&str) -> Option<f64>,
+) -> (Option<f64>, &'static str) {
+    match id {
+        "disability_65plus_pct" => (
+            population
+                .zip(pct("age_65plus_pct"))
+                .map(|(p, s)| p * s / 100.0),
+            "adults 65+",
+        ),
+        "lep_pct" => (
+            population
+                .zip(pct("age_under5_pct"))
+                .map(|(p, u)| p * (1.0 - u / 100.0)),
+            "people 5+",
+        ),
+        "renter_pct" | "no_vehicle_pct" | "no_internet_pct" => (households, "households"),
+        _ => (population, "people"),
+    }
+}
+
 /// Build the profile. Returns it with the sources and caveats it used.
 pub async fn profile(
     ctx: &Context,
@@ -127,12 +174,16 @@ pub async fn profile(
             let label = census::indicator(id)
                 .map(|d| d.label.to_string())
                 .unwrap_or_else(|| id.to_string());
+            let (base, count_of) = acs_base(id, population, households, |k| {
+                r.values.get(k).map(|e| e.value)
+            });
             demographics.push(Indicator {
                 id: id.to_string(),
                 label,
                 percent: Some(round1(e.value)),
                 moe: e.moe.map(round1),
-                people: population.map(|p| (p * e.value / 100.0).round()),
+                people: base.map(|b| (b * e.value / 100.0).round()),
+                count_of: count_of.into(),
                 massachusetts: ma.and_then(|m| m.values.get(*id)).map(|m| round1(m.value)),
                 source: period.clone(),
                 unreliable: e.unreliable(),
@@ -199,6 +250,7 @@ pub async fn profile(
                 percent: value.map(round1),
                 moe: None,
                 people: value.zip(adults).map(|(v, a)| (a * v / 100.0).round()),
+                count_of: "adults".into(),
                 massachusetts: m.ma_crude.map(round1),
                 source: format!("PLACES 2025 ({} BRFSS)", m.data_year),
                 unreliable: false,
@@ -390,9 +442,7 @@ pub fn markdown(p: &PopulationProfile) -> String {
                         )
                     })
                     .unwrap_or_else(|| "—".into()),
-                i.people
-                    .map(|n| md::num(n, 0))
-                    .unwrap_or_else(|| "—".into()),
+                i.count_text(),
                 i.massachusetts
                     .map(|v| format!("{v}%"))
                     .unwrap_or_else(|| "—".into()),
@@ -405,7 +455,7 @@ pub fn markdown(p: &PopulationProfile) -> String {
             &[
                 "Indicator",
                 "Percent",
-                "About how many people",
+                "About how many",
                 "Massachusetts",
                 "Source",
             ],
@@ -465,5 +515,26 @@ mod tests {
         assert_eq!(e.per_1000_beneficiaries, Some(29.4));
         let (p, _, _) = profile(&ctx, &area::Area::state(), false).await.unwrap();
         assert!(p.population.unwrap() > 6_000_000.0);
+    }
+
+    #[tokio::test]
+    async fn counts_use_each_indicators_own_base() {
+        let dir = tempfile::tempdir().unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        let a = area::resolve(&ctx, Some("Chelsea"), true).unwrap();
+        let (p, _, _) = profile(&ctx, &a, false).await.unwrap();
+        let get = |id: &str| p.demographics.iter().find(|d| d.id == id).unwrap();
+        let older = get("age_65plus_pct").people.unwrap();
+        let older_disabled = get("disability_65plus_pct");
+        assert_eq!(older_disabled.count_of, "adults 65+");
+        // Adults 65+ with a disability cannot outnumber adults 65+.
+        assert!(older_disabled.people.unwrap() <= older);
+        let renters = get("renter_pct");
+        assert_eq!(renters.count_of, "households");
+        assert!(renters.people.unwrap() <= p.households.unwrap());
+        assert!(renters.count_text().ends_with(" households"));
+        assert_eq!(get("lep_pct").count_of, "people 5+");
+        assert_eq!(get("age_65plus_pct").count_of, "people");
+        assert!(p.health.iter().all(|h| h.count_of == "adults"));
     }
 }
