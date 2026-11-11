@@ -7,7 +7,6 @@ use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
 use rmcp::{tool, tool_router};
 
-#[allow(unused_imports)]
 use crate::server::{PhnServer, blocking, respond};
 
 #[tool_router(router = phase14_vectorhousing_router, vis = "pub(crate)")]

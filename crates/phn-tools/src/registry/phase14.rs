@@ -2,9 +2,7 @@
 //!
 //! One list per work package, so the packages can be built in parallel.
 
-#[allow(unused_imports)]
 use super::ToolMeta;
-#[allow(unused_imports)]
 use phn_core::Toolset;
 
 /// Water: ENV-03 `drinking_water_quality_lookup`, CHR-07 `community_water_fluoridation_status`.

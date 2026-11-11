@@ -213,6 +213,10 @@ sources:
       - functional_needs_shelter_intake
       - heat_health_action_planner
       - translate_health_material
+      - drinking_water_quality_lookup
+      - environmental_justice_screen
+      - climate_health_vulnerability_profile
+      - food_access_mapper
     caveats:
       - >-
         Live figures come from api.census.gov (the newest published 5-year vintage). From
@@ -234,7 +238,7 @@ sources:
     snapshot_id: ma-boundaries
     homepage: https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
     probe_url: https://www2.census.gov/geo/tiger/GENZ2024/shp/cb_2024_25_cousub_500k.zip
-    used_by: [build_community_health_profile, get_social_vulnerability_index, language_access_profile, get_places_estimates, create_choropleth_map]
+    used_by: [build_community_health_profile, get_social_vulnerability_index, language_access_profile, get_places_estimates, create_choropleth_map, environmental_justice_screen, food_access_mapper]
     caveats:
       - >-
         Towns are Census county subdivisions (2024 Gazetteer); tract-to-town shares come from the
@@ -252,7 +256,7 @@ sources:
     snapshot_id: cdc-places-2025-ma
     homepage: https://www.cdc.gov/places/index.html
     probe_url: https://data.cdc.gov/resource/swc5-untb.json?$limit=1
-    used_by: [get_places_estimates, build_community_health_profile]
+    used_by: [get_places_estimates, build_community_health_profile, climate_health_vulnerability_profile]
     caveats:
       - Some datasets were removed or changed in 2025; snapshots are kept for reproducibility.
       - >-
@@ -271,7 +275,7 @@ sources:
     snapshot_id: cdc-svi-2022-ma
     homepage: https://www.atsdr.cdc.gov/place-health/php/svi/index.html
     probe_url: https://svi.cdc.gov/Documents/Data/2022/csv/states/Massachusetts.csv
-    used_by: [get_social_vulnerability_index, build_community_health_profile]
+    used_by: [get_social_vulnerability_index, build_community_health_profile, environmental_justice_screen, climate_health_vulnerability_profile, food_access_mapper]
     caveats:
       - >-
         Released about every two years; SVI 2022 (ACS 2018–2022, released May 2024, MOE
@@ -387,7 +391,7 @@ sources:
     snapshot_id: cdc-nndss-weekly
     homepage: https://data.cdc.gov/d/x9gk-5huc
     probe_url: https://data.cdc.gov/resource/x9gk-5huc.json?$limit=1
-    used_by: [get_notifiable_disease_trends]
+    used_by: [get_notifiable_disease_trends, vector_borne_disease_risk]
     caveats:
       - >-
         Provisional weekly counts (MMWR years 2022 onward) as published each week by reporting
@@ -702,7 +706,7 @@ sources:
     snapshot_id: ma-acs5-housing-age
     homepage: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/
     probe_url: https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25034.dat
-    used_by: [map_lead_risk]
+    used_by: [map_lead_risk, housing_conditions_health_guide]
     caveats:
       - >-
         ACS 2020-2024 5-year estimates; year-built bins do not split at 1978. Rebuild with
@@ -1104,7 +1108,7 @@ sources:
     snapshot_id: hhs-empower-ma
     homepage: https://empowerprogram.hhs.gov/empowermap
     probe_url: https://empowerprogram.hhs.gov/api/v1/dme/states/Massachusetts/counties.json
-    used_by: [get_electricity_dependent_population, heat_health_action_planner, functional_needs_shelter_intake]
+    used_by: [get_electricity_dependent_population, heat_health_action_planner, functional_needs_shelter_intake, climate_health_vulnerability_profile]
     caveats:
       - >-
         Read from the emPOWER Map's own JSON endpoints (the REST Service is on arcgis.com, which

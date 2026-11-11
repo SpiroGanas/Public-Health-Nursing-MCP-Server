@@ -8,8 +8,7 @@ use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
 use rmcp::{tool, tool_router};
 
-#[allow(unused_imports)]
-use crate::server::{PhnServer, blocking, respond};
+use crate::server::{PhnServer, blocking};
 
 #[tool_router(router = phase14_chemfood_router, vis = "pub(crate)")]
 impl PhnServer {
