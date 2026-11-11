@@ -1191,5 +1191,126 @@ sources:
   # Phase 14 Vectors and housing (ENV-06, ENV-07).
   # End of Phase 14 vectorhousing.
   # Phase 14 Chemicals and food (ENV-08, CHR-06).
+  - id: niosh-pocket-guide
+    name: NIOSH Pocket Guide to Chemical Hazards (677 entries)
+    publisher: CDC, National Institute for Occupational Safety and Health
+    kind: snapshot
+    status: active
+    snapshot_id: niosh-npg
+    homepage: https://www.cdc.gov/niosh/npg/
+    probe_url: https://www.cdc.gov/niosh/npg/npgd0049.html
+    used_by: [chemical_exposure_reference]
+    caveats:
+      - >-
+        Built 2026-11-11 from every entry page (most last reviewed 2019). RELs, PELs, and IDLHs
+        are occupational limits for workers over a work shift, not community exposure limits.
+  - id: niosh-idlh-table
+    name: NIOSH Immediately Dangerous to Life or Health (IDLH) values
+    publisher: CDC, National Institute for Occupational Safety and Health
+    kind: snapshot
+    status: active
+    snapshot_id: niosh-idlh
+    homepage: https://www.cdc.gov/niosh/idlh/default.html
+    probe_url: https://www.cdc.gov/niosh/idlh/default.html
+    used_by: [chemical_exposure_reference]
+    caveats:
+      - Current values (page last reviewed 2026-04-01); some differ from the Pocket Guide's.
+  - id: atsdr-minimal-risk-levels
+    name: ATSDR Minimal Risk Levels (MRLs)
+    publisher: Agency for Toxic Substances and Disease Registry
+    kind: snapshot
+    status: active
+    snapshot_id: atsdr-mrls
+    homepage: https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx
+    probe_url: https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx
+    used_by: [chemical_exposure_reference]
+    caveats:
+      - >-
+        October 2026 table. MRLs are screening levels for non-cancer effects, not cleanup or
+        action levels; MRLs from draft toxicological profiles are provisional.
+  - id: atsdr-toxfaqs
+    name: ATSDR ToxFAQs index (links)
+    publisher: Agency for Toxic Substances and Disease Registry
+    kind: snapshot
+    status: active
+    snapshot_id: atsdr-toxfaqs
+    homepage: https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx
+    probe_url: https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx
+    used_by: [chemical_exposure_reference]
+    caveats:
+      - Titles, CAS numbers, and links only; the fact sheets are linked, not copied.
+  - id: env-chemical-exposure-content
+    name: Chemical exposure reference content (how to read limits, scenarios, Massachusetts contacts)
+    publisher: NIOSH, ATSDR, EPA, MassDEP, DPH (drafted by this project)
+    kind: content
+    status: active
+    content_id: env-chemical-exposure
+    homepage: https://www.mass.gov/how-to/report-a-spill-or-environmental-emergency
+    probe_url: https://www.mass.gov/how-to/report-a-spill-or-environmental-emergency
+    used_by: [chemical_exposure_reference]
+    caveats:
+      - >-
+        Drafted from sources retrieved 2026-11-11 and pending subject-matter review. Phone
+        numbers were read from the cited official pages; poisonhelp.hrsa.gov and osha.gov were
+        blocked from the build network.
+  - id: usda-food-access-research-atlas
+    name: USDA ERS Food Access Research Atlas (SRAM 2025 and LRAM 2019), Massachusetts tracts
+    publisher: USDA Economic Research Service
+    kind: snapshot
+    status: active
+    snapshot_id: usda-food-access-ma
+    homepage: https://www.ers.usda.gov/data-products/food-access-research-atlas
+    probe_url: https://www.ers.usda.gov/data-products/food-access-research-atlas/download-the-data
+    used_by: [food_access_mapper]
+    caveats:
+      - >-
+        Bundled snapshot only: ERS's map services (gisportal.ers.usda.gov) were blocked from the
+        build network, and the Atlas changes every few years. LRAM figures were carried from 2010
+        to 2020 tracts by land area and are approximate.
+  - id: chronic-food-access-content
+    name: Food access content (Atlas definitions, HIP, SNAP, local file columns)
+    publisher: USDA ERS, Massachusetts DTA (drafted by this project)
+    kind: content
+    status: active
+    content_id: chronic-food-access
+    homepage: https://www.mass.gov/info-details/massachusetts-healthy-incentives-program-hip-frequently-asked-questions
+    probe_url: https://www.mass.gov/info-details/massachusetts-healthy-incentives-program-hip-frequently-asked-questions
+    used_by: [food_access_mapper]
+    caveats:
+      - Drafted from sources retrieved 2026-11-11 and pending subject-matter review.
+  - id: food-pantry-list
+    name: The nurse's food pantry and meal site list (CSV/XLSX in /data)
+    publisher: Your agency or regional food bank
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [food_access_mapper]
+    caveats:
+      - Organizations only; files with client columns are refused. Only counts by town are returned.
+  - id: snap-retailer-list
+    name: USDA SNAP-authorized retailer list (CSV the nurse downloads into /data)
+    publisher: USDA Food and Nutrition Administration (formerly Food and Nutrition Service)
+    kind: local
+    status: active
+    homepage: https://www.fns.usda.gov/snap/retailer-locator
+    probe_url: https://www.fns.usda.gov/snap/retailer-locator
+    used_by: [food_access_mapper]
+    caveats:
+      - >-
+        www.fns.usda.gov redirected to www.fna.usda.gov, which was blocked from the build
+        network, so the download steps and column names could not be checked; the tool accepts
+        common column names (store name, store type, city, state, ZIP, latitude, longitude, end
+        date).
+  - id: hip-vendor-list
+    name: Healthy Incentives Program (HIP) vendor list (CSV/XLSX the nurse builds in /data)
+    publisher: Massachusetts Department of Transitional Assistance (DTAFinder.com)
+    kind: local
+    status: active
+    homepage: https://www.dtafinder.com/
+    probe_url: https://www.dtafinder.com/
+    used_by: [food_access_mapper]
+    caveats:
+      - DTAFinder.com was blocked from the build network and offers no download the server could reach; the nurse builds or requests the list.
   # End of Phase 14 chemfood.
   # End of Phase 14 sources.

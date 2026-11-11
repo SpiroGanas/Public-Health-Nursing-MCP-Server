@@ -1168,6 +1168,10 @@ mod tests {
         let e = run(&c, "arsenic", None).unwrap_err().to_string();
         assert!(e.contains("more than one"), "{e}");
         assert!(e.contains("inorganic") && e.contains("organic"), "{e}");
+        // Naming one of them resolves it.
+        let a = run(&c, "arsenic, inorganic compounds", None).unwrap();
+        assert!(a.data.cas.contains(&"7440-38-2".to_string()));
+        assert!(a.data.mrls.iter().all(|m| m.route == "Oral"));
         // Far from anything: not found, with no "more than one" wording.
         let e = run(&c, "bleach", None).unwrap_err().to_string();
         assert!(e.contains("not found"), "{e}");
