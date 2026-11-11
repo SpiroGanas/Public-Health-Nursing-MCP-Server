@@ -361,3 +361,44 @@ pub fn export_document(ctx: &Context, args: ExportDocumentArgs) -> Result<Envelo
     .caveats(caveats)
     .privacy(privacy))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn merged_values_never_reach_the_accessibility_report() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        std::fs::write(
+            dir.path().join("data/letters.csv"),
+            "Student,School\nLucas Lima,Wildwood Elementary\nSofia Silva,Fort River Elementary\n",
+        )
+        .unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        for mode in [MergeMode::Combined, MergeMode::OneFilePerRecord] {
+            let env = export_document(
+                &ctx,
+                ExportDocumentArgs {
+                    title: "Exclusion notice for {{Student}}".into(),
+                    subtitle: None,
+                    content_markdown: "**{{Student}}**\n\n### {{School}}\n\nPlease stay home.".into(),
+                    formats: Some(vec![ExportFormat::Docx, ExportFormat::Pdf]),
+                    file_name: Some("notice".into()),
+                    language: None,
+                    use_letterhead: Some(false),
+                    table_index: None,
+                    merge_data_path: Some("letters.csv".into()),
+                    merge_sheet: None,
+                    merge_mode: Some(mode),
+                },
+            )
+            .unwrap();
+            assert!(!env.data.accessibility.is_empty());
+            let out = format!("{}\n{}", env.to_markdown(), serde_json::to_string(&env).unwrap());
+            for secret in ["Lucas", "Lima", "Wildwood", "Sofia"] {
+                assert!(!out.contains(secret), "{secret} leaked ({mode:?}): {out}");
+            }
+        }
+    }
+}

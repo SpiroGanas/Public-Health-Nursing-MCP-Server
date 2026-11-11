@@ -487,9 +487,9 @@ fn count_ci(hay: &str, needle: &str) -> usize {
         let after = &h[end..];
         let plural = if boundary(after) {
             Some(0)
-        } else if after.starts_with("es") && boundary(&after[2..]) {
+        } else if after.strip_prefix("es").is_some_and(boundary) {
             Some(2)
-        } else if after.starts_with('s') && boundary(&after[1..]) {
+        } else if after.strip_prefix('s').is_some_and(boundary) {
             Some(1)
         } else {
             None
