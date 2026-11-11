@@ -1,0 +1,485 @@
+substance,toxid,route,duration,mrl,factors,endpoint,status,cover_date,cas
+ACENAPHTHENE,25,Oral,Int.,0.6 mg/kg/day,300,Hepatic,Final,08/1995,83-32-9
+ACETONE,1,Oral,Int.,0.6 mg/kg/day,100,Hemato.,Final,06/2022,67-64-1
+ACETONE,1,Inh.,Acute,8 ppm,30,Neurol.,Final,06/2022,67-64-1
+ACROLEIN,102,Inh.,Acute,0.003 ppm,100,Resp.,Final,04/2025,107-02-8
+ACROLEIN,102,Inh.,Int.,0.0004 ppm,30,Resp.,Final,04/2025,107-02-8
+ACROLEIN,102,Inh.,Chr.,0.0004 ppm,30,Resp.,Final,04/2025,107-02-8
+ACROLEIN,102,Oral,Int.,0.002 mg/kg/day,100,Gastro.,Final,04/2025,107-02-8
+ACRYLAMIDE,236,Oral,Acute,0.01 mg/kg/day,30,Repro.,Final,12/2012,79-06-1
+ACRYLAMIDE,236,Oral,Int.,0.001 mg/kg/day,30,Neurol.,Final,12/2012,79-06-1
+ACRYLAMIDE,236,Oral,Chr.,0.001 mg/kg/day,30,Neurol.,Final,12/2012,79-06-1
+ACRYLONITRILE,78,Inh.,Int.,0.8 ppb,30,Resp.,Final,04/2025,107-13-1
+ACRYLONITRILE,78,Oral,Acute,0.09 mg/kg/day,100,Develop.,Final,04/2025,107-13-1
+ACRYLONITRILE,78,Oral,Int.,0.02 mg/kg/day,100,Gastro.,Final,04/2025,107-13-1
+ACRYLONITRILE,78,Oral,Chr.,0.09 µg/kg/day,1000,Gastro.,Final,04/2025,107-13-1
+ALDRIN,56,Oral,Acute,2 ug/kg/day,100,Develop.,Final,06/2022,309-00-2
+ALDRIN,56,Oral,Chr.,0.04 ug/kg/day,1000,Hepatic,Final,06/2022,309-00-2
+ALUMINUM,34,Oral,Int.,1 mg/kg/day,30,Neurol.,Final,09/2008,7429-90-5
+ALUMINUM,34,Oral,Chr.,1 mg/kg/day,90,Neurol.,Final,09/2008,7429-90-5
+AMMONIA,2,Inh.,Acute,1.7 ppm,30,Resp.,Final,09/2004,7664-41-7
+AMMONIA,2,Inh.,Chr.,0.1 ppm,30,Resp.,Final,09/2004,7664-41-7
+ANTHRACENE,25,Oral,Int.,10 mg/kg/day,100,Hepatic,Final,08/1995,120-12-7
+ANTIMONY,58,Inh.,Acute,0.001 mg/m3,30,Resp.,Final,10/2019,7440-36-0
+ANTIMONY,58,Inh.,Int.,0.001 mg/m3,30,Resp.,Final,10/2019,7440-36-0
+ANTIMONY,58,Inh.,Chr.,0.0003 mg/m3,30,Resp.,Final,10/2019,7440-36-0
+ANTIMONY,58,Oral,Acute,1 mg/kg/day,100,Hepatic,Final,10/2019,7440-36-0
+ANTIMONY,58,Oral,Int.,0.0006 mg/kg/day,100,Metab.,Final,10/2019,7440-36-0
+ARSENIC,3,Oral,Acute,0.005 mg/kg/day,10,Gastro.,Final,08/2007,7440-38-2
+ARSENIC,3,Oral,Chr.,0.0003 mg/kg/day,3,Dermal,Final,08/2007,7440-38-2
+ATRAZINE,59,Oral,Acute,0.01 mg/kg/day,100,Body Wt.,Final,09/2003,1912-24-9
+ATRAZINE,59,Oral,Int.,0.003 mg/kg/day,300,Repro.,Final,09/2003,1912-24-9
+1-BROMOPROPANE,285,Inh.,Acute,1 ppm,30,Neurol.,Final,08/2017,106-94-5
+1-BROMOPROPANE,285,Inh.,Int.,0.1 ppm,30,Neurol.,Final,08/2017,106-94-5
+1-BROMOPROPANE,285,Inh.,Chr.,0.02 ppm,30,Neurol.,Final,08/2017,106-94-5
+1-BROMOPROPANE,285,Oral,Acute,0.2 mg/kg/day,100,Neurol.,Final,08/2017,106-94-5
+2-BUTANONE,60,Inh.,Acute,1 ppm,100,Neurol.,Final,10/2020,78-93-3
+2-BUTOXYETHANOL,61,Inh.,Acute,6 ppm,9,Hemato.,Final,08/1998,111-76-2
+2-BUTOXYETHANOL,61,Inh.,Int.,3 ppm,9,Hemato.,Final,08/1998,111-76-2
+2-BUTOXYETHANOL,61,Inh.,Chr.,0.2 ppm,3,Hemato.,Final,08/1998,111-76-2
+2-BUTOXYETHANOL,61,Oral,Acute,0.4 mg/kg/day,90,Hemato.,Final,08/1998,111-76-2
+2-BUTOXYETHANOL,61,Oral,Int.,0.07 mg/kg/day,1000,Hepatic,Final,08/1998,111-76-2
+"BARIUM, SOLUBLE SALTS",57,Oral,Int.,0.2 mg/kg/day,300,Renal,Final,08/2007,7440-39-3
+"BARIUM, SOLUBLE SALTS",57,Oral,Chr.,0.2 mg/kg/day,300,Renal,Final,08/2007,7440-39-3
+BENZENE,14,Inh.,Acute,0.009 ppm,300,Immuno.,Draft,10/2024,71-43-2
+BENZENE,14,Inh.,Int.,0.007 ppm,300,Immuno.,Draft,10/2024,71-43-2
+BENZENE,14,Inh.,Chr.,0.002 ppm,100,Immuno.,Draft,10/2024,71-43-2
+BENZENE,14,Oral,Acute,0.0009 mg/kg/day,100,Hemato.,Draft,10/2024,71-43-2
+BENZENE,14,Oral,Int.,0.0009 mg/kg/day,100,Hemato.,Draft,10/2024,71-43-2
+BENZENE,14,Oral,Chr.,0.0003 mg/kg/day,3,Hemato.,Draft,10/2024,71-43-2
+BERYLLIUM,33,Inh.,Chr.,1 ng/m3,30,Immuno.,Final,09/2023,7440-41-7
+BIS(2 CHLOROETHYL)ETHER (BCEE),159,Inh.,Int.,0.02 ppm,1000,Body Wt.,Final,10/2017,111-44-4
+BIS(CHLOROMETHYL)ETHER (BCME),188,Inh.,Int.,0.0003 ppm,100,Resp.,Final,11/2017,542-88-1
+BORON AND COMPOUNDS,80,Inh.,Acute,0.3 mg/m3,3,Resp.,Final,11/2010,7440-42-8
+BORON AND COMPOUNDS,80,Oral,Acute,0.2 mg/kg/day,100,Develop.,Final,11/2010,7440-42-8
+BORON AND COMPOUNDS,80,Oral,Int.,0.2 mg/kg/day,66,Develop.,Final,11/2010,7440-42-8
+BROMODICHLOROMETHANE,127,Oral,Acute,0.07 mg/kg/day,100,Develop.,Final,03/2020,75-27-4
+BROMODICHLOROMETHANE,127,Oral,Chr.,0.008 mg/kg/day,100,Hepatic,Final,03/2020,75-27-4
+BROMOFORM,128,Oral,Acute,0.7 mg/kg/day,100,Hepatic,Final,08/2005,75-25-2
+BROMOFORM,128,Oral,Int.,0.2 mg/kg/day,100,Hepatic,Final,08/2005,75-25-2
+BROMOFORM,128,Oral,Chr.,0.02 mg/kg/day,3000,Hepatic,Final,08/2005,75-25-2
+BROMOMETHANE,160,Inh.,Int.,0.02 ppm,90,Neurol.,Final,03/2020,74-83-9
+BROMOMETHANE,160,Inh.,Chr.,0.001 ppm,90,Resp.,Final,03/2020,74-83-9
+2-CHLOROPHENOL,195,Oral,Int.,0.08 mg/kg/day,100,Reprod.,Final,06/2022,95-57-8
+4-CHLOROPHENOL,195,Oral,Int.,0.9 mg/kg/day,100,Reprod.,Final,06/2022,106-48-9
+CADMIUM,15,Inh.,Chr.,0.0001 mgCd/m3,9,Renal,Draft,10/2026,7440-43-9
+CADMIUM,15,Oral,Acute,0.002 mgCd/kg/day,1000,Renal,Draft,10/2026,7440-43-9
+CADMIUM,15,Oral,Chr.,0.0003 mgCd/kg/day,3,Renal,Draft,10/2026,7440-43-9
+CARBON DISULFIDE,84,Inh.,Acute,0.2 ppm,90,Hepatic,Final,07/2025,75-15-0
+CARBON DISULFIDE,84,Inh.,Chr.,0.1 ppm,10,Neurol.,Final,07/2025,75-15-0
+CARBON DISULFIDE,84,Oral,Acute,0.03 mg/kg/day,1000,Develop.,Final,07/2025,75-15-0
+CARBON TETRACHLORIDE,35,Inh.,Int.,0.03 ppm,30,Hepatic,Final,08/2005,56-23-5
+CARBON TETRACHLORIDE,35,Inh.,Chr.,0.03 ppm,30,Hepatic,Final,08/2005,56-23-5
+CARBON TETRACHLORIDE,35,Oral,Acute,0.02 mg/kg/day,300,Hepatic,Final,08/2005,56-23-5
+CARBON TETRACHLORIDE,35,Oral,Int.,0.007 mg/kg/day,100,Hepatic,Final,08/2005,56-23-5
+CESIUM,107,Rad.,Acute,4 mSv,3,Develop.,Final,04/2004,7440-46-2
+CESIUM,107,Rad.,Chr.,1 mSv/yr,3,Other,Final,04/2004,7440-46-2
+CHLORDANE,62,Inh.,Int.,0.0002 mg/m3,100,Hepatic,Final,02/2018,12789-03-6
+CHLORDANE,62,Inh.,Chr.,0.00002 mg/m3,1000,Hepatic,Final,02/2018,12789-03-6
+CHLORDANE,62,Oral,Acute,0.001 mg/kg/day,1000,Develop.,Final,02/2018,12789-03-6
+CHLORDANE,62,Oral,Int.,0.0006 mg/kg/day,100,Hepatic,Final,02/2018,12789-03-6
+CHLORDANE,62,Oral,Chr.,0.0006 mg/kg/day,100,Hepatic,Final,02/2018,12789-03-6
+CHLORDECONE,118,Oral,Acute,0.01 mg/kg/day,100,Neurol.,Final,10/2020,143-50-0
+CHLORDECONE,118,Oral,Int.,3 ug/kg/day,100,"Neurol.,Reprod.",Final,10/2020,143-50-0
+CHLORDECONE,118,Oral,Chr.,0.9 ug/kg/day,100,Renal,Final,10/2020,143-50-0
+CHLORFENVINPHOS,193,Oral,Acute,0.002 mg/kg/day,1000,Neurol.,Final,09/1997,470-90-6
+CHLORFENVINPHOS,193,Oral,Int.,0.002 mg/kg/day,1000,Immuno.,Final,09/1997,470-90-6
+CHLORFENVINPHOS,193,Oral,Chr.,0.0007 mg/kg/day,1000,Neurol.,Final,09/1997,470-90-6
+CHLORINE,36,Inh.,Acute,0.06 ppm,3,Resp.,Final,11/2010,7782-50-5
+CHLORINE,36,Inh.,Int.,0.002 ppm,90,Resp.,Final,11/2010,7782-50-5
+CHLORINE,36,Inh.,Chr.,0.00005 ppm,30,Resp.,Final,11/2010,7782-50-5
+CHLORINE DIOXIDE,108,Inh.,Int.,0.001 ppm,300,Resp.,Final,09/2004,10049-04-4
+CHLORITE,108,Oral,Int.,0.1 mg/kg/day,30,Develop.,Final,09/2004,7758-19-2
+CHLOROBENZENE,87,Oral,Int.,0.07 mg/kg/day,100,Hepatic,Final,10/2020,108-90-7
+CHLOROETHANE,161,Inh.,Acute,13 ppm,30,Develop.,Final,01/2025,75-00-3
+CHLOROETHANE,161,Inh.,Int.,13 ppm,300,Repro.,Final,01/2025,75-00-3
+CHLOROFORM,16,Inh.,Acute,0.001 ppm,30,Resp.,Final,10/2024,67-66-3
+CHLOROFORM,16,Inh.,Int.,0.0008 ppm,90,Resp.,Final,10/2024,67-66-3
+CHLOROFORM,16,Inh.,Chr.,0.0004 ppm,300,Resp.,Final,10/2024,67-66-3
+CHLOROFORM,16,Oral,Acute,0.3 mg/kg/day,100,Hepatic,Final,10/2024,67-66-3
+CHLOROFORM,16,Oral,Int.,0.1 mg/kg/day,100,Hepatic,Final,10/2024,67-66-3
+CHLOROFORM,16,Oral,Chr.,0.02 mg/kg/day,100,Hepatic,Final,10/2024,67-66-3
+CHLOROMETHANE,109,Inh.,Acute,0.5 ppm,90,Neurol.,Final,09/2023,74-87-3
+CHLOROMETHANE,109,Inh.,Int.,0.3 ppm,30,Neurol.,Final,09/2023,74-87-3
+CHLOROMETHANE,109,Inh.,Chr.,0.03 ppm,300,Neurol.,Final,09/2023,74-87-3
+CHLORPYRIFOS,88,Oral,Acute,0.003 mg/kg/day,10,Neurol.,Final,09/1997,2921-88-2
+CHLORPYRIFOS,88,Oral,Int.,0.003 mg/kg/day,10,Neurol.,Final,09/1997,2921-88-2
+CHLORPYRIFOS,88,Oral,Chr.,0.001 mg/kg/day,100,Neurol.,Final,09/1997,2921-88-2
+CHROMIUM(III) INSOL. PARTICULATES,17,Inh.,Int.,0.005 mg/m3,90,Resp.,Final,09/2012,16065-83-1
+CHROMIUM(III) SOLUBLE PARTICULATES,17,Inh.,Int.,0.0001 mg/m3,300,Resp.,Final,09/2012,16065-83-1
+CHROMIUM(VI),17,Oral,Int.,0.005 mg/kg/day,100,Hemato.,Final,09/2012,18540-29-9
+CHROMIUM(VI),17,Oral,Chr,0.0009 mg/kg/day,100,Gastro.,Final,09/2012,18540-29-9
+"CHROMIUM(VI), AEROSOL MISTS",17,Inh.,Int.,0.000005 mg/m3,100,Resp.,Final,09/2012,18540-29-9
+"CHROMIUM(VI), AEROSOL MISTS",17,Inh.,Chr.,0.000005 mg/m3,100,Resp.,Final,09/2012,18540-29-9
+"CHROMIUM(VI), PARTICULATES",17,Inh.,Int.,0.0003 mg/m3,30,Resp.,Final,09/2012,18540-29-9
+COBALT,64,Inh.,Acute,0.0003 mg/m3,30,Resp.,Final,10/2024,7440-48-8
+COBALT,64,Inh.,Chr.,0.0001 mg/m3,10,Resp.,Final,10/2024,7440-48-8
+COBALT,64,Oral,Acute,0.03 mg/kg/day,30,Hemato.,Final,10/2024,7440-48-8
+COBALT,64,Oral,Int.,0.02 mg/kg/day,100,Hemato.,Final,10/2024,7440-48-8
+COPPER,37,Oral,Acute,0.02 mg/kg/day,3,Gastro.,Final,10/2024,7440-50-8
+COPPER,37,Oral,Int.,0.02 mg/kg/day,3,Gastro.,Final,10/2024,7440-50-8
+CRESOLS,196,Oral,Int.,0.1 mg/kg/day,100,Resp.,Final,09/2008,1319-77-3
+CRESOLS,196,Oral,Chr.,0.1 mg/kg/day,1000,Resp.,Final,09/2008,1319-77-3
+"CYANIDE, SODIUM",19,Oral,Int.,0.04 mg/kg/day,100,Endocr.,Draft,10/2024,143-33-9
+CYHALOTHRIN,153,Oral,Acute,0.01 mg/kg/day,100,Gastro.,Final,09/2003,68085-85-8
+CYHALOTHRIN,153,Oral,Int.,0.01 mg/kg/day,100,Gastro.,Final,09/2003,68085-85-8
+CYPERMETHRIN,153,Oral,Acute,0.02 mg/kg/day,1000,Neurol.,Final,09/2003,52315-07-8
+DIBROMOCHLOROMETHANE,128,Oral,Acute,0.1 mg/kg/day,300,Hepatic,Final,08/2005,124-48-1
+DIBROMOCHLOROMETHANE,128,Oral,Chr.,0.09 mg/kg/day,300,Hepatic,Final,08/2005,124-48-1
+"1,1-DICHLOROETHENE",130,Inh.,Int.,1 ppb,30,Resp.,Final,04/2022,75-35-4
+"1,1-DICHLOROETHENE",130,Inh.,Chr.,1 ppb,30,Resp.,Final,04/2022,75-35-4
+"1,1-DICHLOROETHENE",130,Oral,Chr.,0.05 mg/kg/day,100,Hepatic,Final,04/2022,75-35-4
+"1,1-DIMETHYLHYDRAZINE",89,Inh.,Int.,0.0002 ppm,300,Hepatic,Final,09/1997,57-14-7
+"1,2-DIBROMO-3-CHLOROPROPANE",166,Inh.,Int.,0.0002 ppm,100,Repro.,Final,04/2018,96-12-8
+"1,2-DIBROMO-3-CHLOROPROPANE",166,Oral,Int.,0.002 mg/kg/day,1000,Repro.,Final,04/2018,96-12-8
+"1,2-DICHLOROBENZENE",126,Oral,Acute,0.7 mg/kg/day,100,Hepatic,Final,08/2006,95-50-1
+"1,2-DICHLOROBENZENE",126,Oral,Int.,0.6 mg/kg/day,100,Hepatic,Final,08/2006,95-50-1
+"1,2-DICHLOROBENZENE",126,Oral,Chr.,0.3 mg/kg/day,100,Renal,Final,08/2006,95-50-1
+"1,2-DICHLOROETHANE",110,Inh.,Acute,0.1 ppm,30,Resp.,Final,07/2024,107-06-2
+"1,2-DICHLOROETHANE",110,Inh.,Int.,0.1 ppm,30,Neurol.,Final,07/2024,107-06-2
+"1,2-DICHLOROETHANE",110,Oral,Int.,0.7 mg/kg/day,100,Renal,Final,07/2024,107-06-2
+"1,2-DICHLOROETHENE, TRANS-",82,Inh.,Acute,3 ppm,100,Ocular,Final,04/2025,156-60-5
+"1,2-DICHLOROETHENE, TRANS-",82,Oral,Int.,0.2 mg/kg/day,100,Immuno.,Final,04/2025,156-60-5
+"1,2-DICHLOROPROPANE",162,Inh.,Acute,0.02 ppm,90,Resp.,Final,11/2021,78-87-5
+"1,2-DICHLOROPROPANE",162,Inh.,Int.,2 ppb,30,Resp.,Final,11/2021,78-87-5
+"1,2-DICHLOROPROPANE",162,Oral,Acute,0.3 mg/kg/day,100,Hemato.,Final,11/2021,78-87-5
+"1,2-DICHLOROPROPANE",162,Oral,Int.,0.07 mg/kg/day,1000,Hemato.,Final,11/2021,78-87-5
+"1,2-DIMETHYLHYDRAZINE",89,Oral,Int.,0.0008 mg/kg/day,1000,Hepatic,Final,09/1997,540-73-8
+"1,2-DIPHENYLHYDRAZINE",198,Oral,Int.,0.05 mg/kg/day,100,Hepatic,Final,10/2020,122-66-7
+"1,3-DICHLOROBENZENE",126,Oral,Acute,0.4 mg/kg/day,100,Hepatic,Final,08/2006,541-73-1
+"1,3-DICHLOROBENZENE",126,Oral,Int.,0.02 mg/kg/day,100,Endocr.,Final,08/2006,541-73-1
+"1,3-DICHLOROPROPENE",163,Inh.,Int.,0.008 ppm,30,Resp.,Final,09/2008,542-75-6
+"1,3-DICHLOROPROPENE",163,Inh.,Chr.,0.007 ppm,30,Resp.,Final,09/2008,542-75-6
+"1,3-DICHLOROPROPENE",163,Oral,Int.,0.04 mg/kg/day,100,Gastro.,Final,09/2008,542-75-6
+"1,3-DICHLOROPROPENE",163,Oral,Chr.,0.03 mg/kg/day,100,Gastro.,Final,09/2008,542-75-6
+"1,3-DINITROBENZENE",164,Oral,Acute,0.08 mg/kg/day,100,Repro.,Final,06/1995,99-65-0
+"1,3-DINITROBENZENE",164,Oral,Int.,0.0005 mg/kg/day,1000,Hemato.,Final,06/1995,99-65-0
+"1,4-DICHLOROBENZENE",126,Inh.,Acute,2 ppm,10,Resp.,Final,08/2006,106-46-7
+"1,4-DICHLOROBENZENE",126,Inh.,Int.,0.2 ppm,100,Hepatic,Final,08/2006,106-46-7
+"1,4-DICHLOROBENZENE",126,Inh.,Chr.,0.01 ppm,30,Resp.,Final,08/2006,106-46-7
+"1,4-DICHLOROBENZENE",126,Oral,Int.,0.07 mg/kg/day,100,Hepatic,Final,08/2006,106-46-7
+"1,4-DICHLOROBENZENE",126,Oral,Chr.,0.07 mg/kg/day,100,Hepatic,Final,08/2006,106-46-7
+"1,4-DIOXANE",199,Inh.,Acute,2 ppm,10,Ocular,Final,04/2012,123-91-1
+"1,4-DIOXANE",199,Inh.,Int.,0.2 ppm,30,Resp.,Final,04/2012,123-91-1
+"1,4-DIOXANE",199,Inh.,Chr.,0.03 ppm,300,Resp.,Final,04/2012,123-91-1
+"1,4-DIOXANE",199,Oral,Acute,5 mg/kg/day,100,Develop.,Final,04/2012,123-91-1
+"1,4-DIOXANE",199,Oral,Int.,0.5 mg/kg/day,100,Hepatic,Final,04/2012,123-91-1
+"1,4-DIOXANE",199,Oral,Chr.,0.1 mg/kg/day,100,Hepatic,Final,04/2012,123-91-1
+"2,3-DICHLOROPROPENE",163,Inh.,Acute,0.002 ppm,90,Resp.,Final,09/2008,78-88-6
+"2,3-DINITROTOLUENE",165,Oral,Acute,0.09 mg/kg/day,3000,Renal,Final,02/2016,602-01-7
+"2,4-DICHLOROPHENOL",195,Oral,Int.,0.02 mg/kg/day,100,Immuno.,Final,06/2022,120-83-2
+"2,4-DICHLOROPHENOXYACETIC ACID (2,4-D)",288,Oral,Int.,0.2 mg/kg/day,100,Renal,Final,07/2020,94-75-7
+"2,4-DICHLOROPHENOXYACETIC ACID (2,4-D)",288,Oral,Chronic,0.2 mg/kg/day,100,Renal,Final,07/2020,94-75-7
+"2,4-DINITROPHENOL",132,Oral,Int.,0.07 ug/kg/day,1000,Body Wt.,Final,08/2021,51-28-5
+"2,4-DINITROTOLUENE",165,Oral,Acute,0.05 mg/kg/day,100,Neurol.,Final,02/2016,121-14-2
+"2,4-DINITROTOLUENE",165,Oral,Int.,0.007 mg/kg/day,100,Hemato.,Final,02/2016,121-14-2
+"2,4-DINITROTOLUENE",165,Oral,Chr.,0.001 mg/kg/day,100,Hemato.,Final,02/2016,121-14-2
+"2,5-DINITROTOLUENE",165,Oral,Acute,0.007 mg/kg/day,300,Hemato.,Final,02/2016,619-15-8
+"2,6-DINITROTOLUENE",165,Oral,Acute,0.09 mg/kg/day,100,Hemato.,Final,02/2016,606-20-2
+"2,6-DINITROTOLUENE",165,Oral,Int.,0.004 mg/kg/day,1000,Hemato.,Final,02/2016,606-20-2
+"3,4-DINITROTOLUENE",165,Oral,Acute,0.03 mg/kg/day,300,Hemato.,Final,02/2016,610-39-9
+"3,5-DINITROTOLUENE",165,Oral,Acute,0.03 mg/kg/day,300,Repro.,Final,02/2016,618-85-9
+"4,6-DINITRO-O-CRESOL",218,Oral,Acute,0.004 mg/kg/day,100,Neurol.,Final,01/2018,534-52-1
+"4,6-DINITRO-O-CRESOL",218,Oral,Int.,0.004 mg/kg/day,100,Neurol.,Final,01/2018,534-52-1
+"DDD, P,P'-",20,Oral,Acute,0.5 ug/kg/day,1000,Develop.,Final,04/2022,72-54-8
+"DDD, P,P'-",20,Oral,Int.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,72-54-8
+"DDD, P,P'-",20,Oral,Chr.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,72-54-8
+"DDE, P,P'-",20,Oral,Acute,0.5 ug/kg/day,1000,Develop.,Final,04/2022,72-55-9
+"DDE, P,P'-",20,Oral,Int.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,72-55-9
+"DDE, P,P'-",20,Oral,Chr.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,72-55-9
+"DDT, P,P'-",20,Oral,Acute,0.5 ug/kg/day,1000,Develop.,Final,04/2022,50-29-3
+"DDT, P,P'-",20,Oral,Int.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,50-29-3
+"DDT, P,P'-",20,Oral,Chr.,0.5 ug/kg/day,100,Hepatic,Final,04/2022,50-29-3
+"DEET (N,N-DIETHYL-META-TOLUAMIDE)",201,Oral,Int.,1 mg/kg/day,100,Develop.,Final,08/2017,134-62-3
+DI(2-ETHYLHEXYL)PHTHALATE (DEHP),65,Inh.,Int.,0.2 ppb,300,Develop.,Final,01/2022,117-81-7
+DI(2-ETHYLHEXYL)PHTHALATE (DEHP),65,Oral,Acute,3 ug/kg/day,300,Develop.,Final,01/2022,117-81-7
+DI(2-ETHYLHEXYL)PHTHALATE (DEHP),65,Oral,Int.,0.1 ug/kg/day,300,Develop.,Final,01/2022,117-81-7
+DIAZINON,90,Inh.,Int.,0.01 mg/m3,30,Neurol.,Final,09/2008,333-41-5
+DIAZINON,90,Oral,Acute,0.006 mg/kg/day,100,Neurol.,Final,09/2008,333-41-5
+DIAZINON,90,Oral,Int.,0.002 mg/kg/day,100,Neurol.,Final,09/2008,333-41-5
+DIAZINON,90,Oral,Chr.,0.0007 mg/kg/day,100,Neurol.,Final,09/2008,333-41-5
+DICHLORVOS,111,Inh.,Acute,0.002 ppm,100,Neurol.,Final,09/1997,62-73-7
+DICHLORVOS,111,Inh.,Int.,0.0003 ppm,100,Neurol.,Final,09/1997,62-73-7
+DICHLORVOS,111,Inh.,Chr.,0.00006 ppm,100,Neurol.,Final,09/1997,62-73-7
+DICHLORVOS,111,Oral,Acute,0.004 mg/kg/day,1000,Neurol.,Final,09/1997,62-73-7
+DICHLORVOS,111,Oral,Int.,0.003 mg/kg/day,10,Neurol.,Final,09/1997,62-73-7
+DICHLORVOS,111,Oral,Chr.,0.0005 mg/kg/day,100,Neurol.,Final,09/1997,62-73-7
+DIELDRIN,56,Oral,Chr.,0.05 ug/kg/day,100,Hepatic,Final,06/2022,60-57-1
+DIELDRIN,56,Oral,Int.,0.1 ug/kg/day,100,Neurol.,Final,06/2022,60-57-1
+DIETHYL PHTHALATE,112,Oral,Acute,7 mg/kg/day,300,Repro.,Final,06/1995,84-66-2
+DIETHYL PHTHALATE,112,Oral,Int.,6 mg/kg/day,300,Hepatic,Final,06/1995,84-66-2
+DIISOPROPYL METHYLPHOSPHONATE (DIMP),203,Oral,Int.,0.8 mg/kg/day,100,Hemato.,Final,08/1998,1445-75-6
+DIISOPROPYL METHYLPHOSPHONATE (DIMP),203,Oral,Chr.,0.6 mg/kg/day,100,Hemato.,Final,08/1998,1445-75-6
+DIMETHYLARSINIC ACID (DMA),3,Oral,Chr.,0.02 mg/kg/day,100,Renal,Final,08/2007,75-60-5
+DI-N-BUTYL PHTHALATE,167,Oral,Acute,0.5 mg/kg/day,100,Develop.,Final,09/2001,84-74-2
+DI-N-OCTYL PHTHALATE,204,Oral,Acute,3 mg/kg/day,300,Hepatic,Final,09/1997,117-84-0
+DI-N-OCTYL PHTHALATE,204,Oral,Int.,0.4 mg/kg/day,100,Hepatic,Final,09/1997,117-84-0
+DISULFOTON,205,Inh.,Acute,0.6 ug/m3,30,Neurol.,Final,08/2022,298-04-4
+DISULFOTON,205,Inh.,Int.,0.6 ug/m3,30,Neurol.,Final,08/2022,298-04-4
+DISULFOTON,205,Oral,Acute,0.3 ug/kg/day,100,Neurol.,Final,08/2022,298-04-4
+DISULFOTON,205,Oral,Int.,0.09 ug/kg/day,100,"Neurol., Develop.",Final,08/2022,298-04-4
+DISULFOTON,205,Oral,Chr.,0.06 ug/kg/day,1000,Neurol.,Final,08/2022,298-04-4
+ENDOSULFAN,113,Oral,Acute,0.007 mg/kg/day,100,Neurol.,Final,08/2015,115-29-7
+ENDOSULFAN,113,Oral,Int.,0.005 mg/kg/day,100,Immuno.,Final,08/2015,115-29-7
+ENDOSULFAN,113,Oral,Chr.,0.005 mg/kg/day,100,Immuno.,Final,08/2015,115-29-7
+ENDRIN,114,Oral,Acute,0.6 ug/kg/day,100,Neurol.,Final,03/2021,72-20-8
+ENDRIN,114,Oral,Int.,0.6 ug/kg/day,100,Neurol.,Final,03/2021,72-20-8
+ENDRIN,114,Oral,Chr.,0.3 ug/kg/day,100,"Neurol.,Hepatic",Final,03/2021,72-20-8
+ETHION,206,Oral,Acute,0.002 mg/kg/day,30,Neurol.,Final,09/2000,563-12-2
+ETHION,206,Oral,Int.,0.002 mg/kg/day,30,Neurol.,Final,09/2000,563-12-2
+ETHION,206,Oral,Chr.,0.0004 mg/kg/day,150,Neurol.,Final,09/2000,563-12-2
+ETHYLBENZENE,66,Inh.,Acute,5 ppm,30,Neurol.,Final,11/2010,100-41-4
+ETHYLBENZENE,66,Inh.,Int.,2 ppm,30,Neurol.,Final,11/2010,100-41-4
+ETHYLBENZENE,66,Inh.,Chr.,0.06 ppm,300,Renal,Final,11/2010,100-41-4
+ETHYLBENZENE,66,Oral,Int.,0.4 mg/kg/day,30,Hepatic,Final,11/2010,100-41-4
+ETHYLENE GLYCOL,21,Inh.,Acute,2 mg/m3,10,Renal,Final,11/2010,107-21-1
+ETHYLENE GLYCOL,21,Oral,Acute,0.8 mg/kg/day,100,Develop.,Final,11/2010,107-21-1
+ETHYLENE GLYCOL,21,Oral,Int.,0.8 mg/kg/day,100,Develop.,Final,11/2010,107-21-1
+ETHYLENE OXIDE,133,Inh.,Acute,0.4 ppm,30,Develop.,Final,08/2022,75-21-8
+ETHYLENE OXIDE,133,Inh.,Int.,0.07 ppm,30,Develop.,Final,08/2022,75-21-8
+FLUORANTHENE,38,Oral,Int.,0.4 mg/kg/day,300,Hepatic,Final,08/1995,206-44-0
+FLUORENE,25,Oral,Int.,0.4 mg/kg/day,300,Hepatic,Final,08/1995,86-73-7
+"FLUORIDE, SODIUM",38,Oral,Chr.,0.05 mg/kg/day,3,Musculo.,Final,09/2003,7681-49-4
+FLUORINE,38,Inh.,Acute,0.01 ppm,10,Resp.,Final,09/2003,7782-41-4
+FORMALDEHYDE,39,Inh.,Acute,0.04 ppm,9,Resp.,Final,07/1999,50-00-0
+FORMALDEHYDE,39,Inh.,Int.,0.03 ppm,30,Resp.,Final,07/1999,50-00-0
+FORMALDEHYDE,39,Inh.,Chr.,0.008 ppm,30,Resp.,Final,07/1999,50-00-0
+FORMALDEHYDE,39,Oral,Int.,0.3 mg/kg/day,100,Gastro.,Final,07/1999,50-00-0
+FORMALDEHYDE,39,Oral,Chr.,0.2 mg/kg/day,100,Gastro.,Final,07/1999,50-00-0
+FUEL OIL NO.2,91,Inh.,Acute,0.02 mg/m3,1000,Neurol.,Final,06/1995,68476-30-2
+GLUTARALDEHYDE,284,Inh.,Acute,0.001 ppm,3,Resp.,Final,07/2017,111-30-8
+GLUTARALDEHYDE,284,Inh.,Int.,0.00003 ppm,3,Resp.,Final,07/2017,111-30-8
+GLUTARALDEHYDE,284,Oral,Chr.,0.1 mg/kg/day,30,Gastro.,Final,07/2017,111-30-8
+GLYPHOSATE TECHNICAL,293,Oral,Acute,1 mg/kg/day,100,Gastro.,Final,08/2020,1071-83-6
+GLYPHOSATE TECHNICAL,293,Oral,Int.,1 mg/kg/day,100,Gastro.,Final,08/2020,1071-83-6
+GLYPHOSATE TECHNICAL,293,Oral,Chr.,1 mg/kg/day,100,Gastro.,Final,08/2020,1071-83-6
+GUTHION (AZINPHOS-METHYL),207,Inh.,Acute,0.02 mg/m3,30,Neurol.,Final,09/2008,86-50-0
+GUTHION (AZINPHOS-METHYL),207,Inh.,Int.,0.01 mg/m3,30,Neurol.,Final,09/2008,86-50-0
+GUTHION (AZINPHOS-METHYL),207,Inh.,Chr.,0.01 mg/m3,30,Neurol.,Final,09/2008,86-50-0
+GUTHION (AZINPHOS-METHYL),207,Oral,Acute,0.01 mg/kg/day,100,Neurol.,Final,09/2008,86-50-0
+GUTHION (AZINPHOS-METHYL),207,Oral,Int.,0.003 mg/kg/day,100,Neurol.,Final,09/2008,86-50-0
+GUTHION (AZINPHOS-METHYL),207,Oral,Chr.,0.003 mg/kg/day,100,Neurol.,Final,09/2008,86-50-0
+"1,2,3,6,7,8-HEXACHLORODIBENZOFURAN",194,Oral,Int.,5 ng/kg/day,100,"Hepatic, Endocrine",Final,04/2023,57117-44-9
+2-HEXANONE,134,Oral,Chr.,0.05 mg/kg/day,3000,Neurol.,Final,02/2020,591-78-6
+HEPTACHLOR,135,Oral,Acute,0.0006 mg/kg/day,3000,Repro.,Final,08/2007,76-44-8
+HEPTACHLOR,135,Oral,Int.,0.0001 mg/kg/day,300,Immuno.,Final,08/2007,76-44-8
+HEXACHLOROBENZENE,115,Oral,Acute,0.008 mg/kg/day,300,Develop.,Final,08/2015,118-74-1
+HEXACHLOROBENZENE,115,Oral,Int.,0.0001 mg/kg/day,90,Repro.,Final,08/2015,118-74-1
+HEXACHLOROBENZENE,115,Oral,Chr.,0.00007 mg/kg/day,300,Hepatic,Final,08/2015,118-74-1
+HEXACHLOROBUTADIENE,168,Oral,Acute,6 ug/kg/day,1000,Renal,Final,03/2021,87-68-3
+HEXACHLOROBUTADIENE,168,Oral,Int.,2 ug/kg/day,100,Renal,Final,03/2021,87-68-3
+"HEXACHLOROCYCLOHEXANE (HCH), ALPHA",138,Oral,Int.,2 ug/kg/day,1000,Hepatic,Final,03/2024,319-84-6
+"HEXACHLOROCYCLOHEXANE (HCH), ALPHA",138,Oral,Chr.,0.9 ug/kg/day,1000,Hepatic,Final,03/2024,319-84-6
+"HEXACHLOROCYCLOHEXANE (HCH), BETA",138,Oral,Acute,0.08 mg/kg/day,100,Neurol.,Final,03/2024,319-85-7
+"HEXACHLOROCYCLOHEXANE (HCH), BETA",138,Oral,Int.,0.6 ug/kg/day,300,Hepatic,Final,03/2024,319-85-7
+"HEXACHLOROCYCLOHEXANE (HCH), GAMMA",138,Oral,Acute,3 ug/kg/day,300,Develop.,Final,03/2024,58-89-9
+"HEXACHLOROCYCLOHEXANE (HCH), GAMMA",138,Oral,Int.,0.8 ng/kg/day,100,Develop.,Final,03/2024,58-89-9
+HEXACHLOROCYCLOPENTADIENE,208,Inh.,Int.,0.0001 ppm,30,Resp.,Draft,10/2026,77-47-4
+HEXACHLOROCYCLOPENTADIENE,208,Inh.,Chr.,0.00006 ppm,30,Resp.,Draft,10/2026,77-47-4
+HEXACHLOROCYCLOPENTADIENE,208,Oral,Int.,0.06 mg/kg/day,100,Gastro.,Draft,10/2026,77-47-4
+HEXACHLOROETHANE,169,Inh.,Acute,6 ppm,30,Neurol.,Final,09/1997,67-72-1
+HEXACHLOROETHANE,169,Inh.,Int.,6 ppm,30,Neurol.,Final,09/1997,67-72-1
+HEXACHLOROETHANE,169,Oral,Acute,1 mg/kg/day,100,Hepatic,Final,09/1997,67-72-1
+HEXACHLOROETHANE,169,Oral,Int.,0.01 mg/kg/day,100,Hepatic,Final,09/1997,67-72-1
+HEXAMETHYLENE DIISOCYANATE,170,Inh.,Int.,0.00003 ppm,30,Resp.,Final,08/1998,822-06-0
+HEXAMETHYLENE DIISOCYANATE,170,Inh.,Chr.,0.00001 ppm,90,Resp.,Final,08/1998,822-06-0
+HMX (CYCLOTETRAMETHYLENE TETRANITRAMINE),171,Oral,Acute,0.1 mg/kg/day,1000,Neurol.,Final,09/1997,2691-41-0
+HMX (CYCLOTETRAMETHYLENE TETRANITRAMINE),171,Oral,Int.,0.05 mg/kg/day,1000,Hepatic,Final,09/1997,2691-41-0
+HYDRAZINE,89,Inh.,Int.,0.004 ppm,300,Hepatic,Final,09/1997,302-01-2
+HYDROGEN FLUORIDE,250,Inh.,Acute,0.02 ppm,30,Resp.,Final,09/2003,7664-39-3
+HYDROGEN SULFIDE,67,Inh.,Acute,0.07 ppm,27,Resp.,Final,11/2016,7783-06-4
+HYDROGEN SULFIDE,67,Inh.,Int.,0.02 ppm,30,Resp.,Final,11/2016,7783-06-4
+n-HEXANE,68,Inh.,Acute,6 ppm,30,Develop.,Final,04/2025,110-54-3
+n-HEXANE,68,Inh.,Int.,0.4 ppm,300,Resp.,Final,04/2025,110-54-3
+n-HEXANE,68,Oral,Int.,0.1 mg/kg/day,300,Neurol.,Final,04/2025,110-54-3
+IODIDE,85,Oral,Acute,0.01 mg/kg/day,1,Endocr.,Final,04/2004,7553-56-2
+IODIDE,85,Oral,Chr.,0.01 mg/kg/day,1,Endocr.,Final,04/2004,7553-56-2
+"IONIZING RADIATION, N.O.S.",86,Rad.,Acute,4 mSv,3,Neurol.,Final,09/1999,HZ1800-45-T
+"IONIZING RADIATION, N.O.S.",86,Rad.,Chr.,1 mSv/yr,3,Other,Final,09/1999,HZ1800-45-T
+ISOPHORONE,148,Oral,Int.,3 mg/kg/day,100,Other,Final,07/2018,78-59-1
+ISOPHORONE,148,Oral,Chr.,0.2 mg/kg/day,1000,Hepatic,Final,07/2018,78-59-1
+JP-4,149,Inh.,Int.,9 mg/m3,300,Hepatic,Final,06/1995,50815-00-4
+JP-5,150,Inh.,Int.,2 mg/m<sup>3</sup>,90,Hepatic,Final,03/2017,8008-20-6
+JP-7,149,Inh.,Chr.,0.3 mg/m3,300,Hepatic,Final,06/1995,HZ0600-22-T
+JP-8,150,Inh.,Int.,3 mg/m<sup>3</sup>,30,Neurol.,Final,03/2017,8008-20-6
+JP-8,150,Oral,Acute,3 mg/kg/day,100,Immuno.,Final,03/2017,8008-20-6
+JP-8,150,Oral,Int.,0.3 mg/kg/day,1000,Develop.,Final,03/2017,8008-20-6
+KEROSENE,91,Inh.,Int.,0.01 mg/m3,1000,Hepatic,Final,06/1995,8008-20-6
+1-METHYLNAPHTHALENE,43,Inh.,Int.,0.09 ppb,30,Resp.,Final,04/2025,90-12-0
+1-METHYLNAPHTHALENE,43,Oral,Int.,0.6 mg/kg/day,100,Hepatic,Final,04/2025,90-12-0
+1-METHYLNAPHTHALENE,43,Oral,Chr.,0.07 mg/kg/day,1000,Resp.,Final,04/2025,90-12-0
+2-METHYLNAPHTHALENE,43,Inh.,Int.,0.3 ppb,300,Resp.,Final,04/2025,91-57-6
+2-METHYLNAPHTHALENE,43,Oral,Chr.,0.06 mg/kg/day,100,Resp.,Final,04/2025,91-57-6
+"4,4'-METHYLENEBIS(2-CHLOROANILINE) (MBOCA)",209,Oral,Chr.,0.003 mg/kg/day,3000,Hepatic,Final,10/2017,101-14-4
+"4,4'-METHYLENEDIANILINE",210,Oral,Acute,0.2 mg/kg/day,150,Hepatic,Final,08/1998,101-77-9
+"4,4'-METHYLENEDIANILINE",210,Oral,Int.,0.08 mg/kg/day,100,Hepatic,Final,08/1998,101-77-9
+MALATHION,92,Inh.,Acute,0.2 mg/m3,100,Neurol.,Final,09/2003,121-75-5
+MALATHION,92,Inh.,Int.,0.02 mg/m3,1000,Resp.,Final,09/2003,121-75-5
+MALATHION,92,Oral,Int.,0.02 mg/kg/day,10,Neurol.,Final,09/2003,121-75-5
+MALATHION,92,Oral,Chr.,0.02 mg/kg/day,100,Neurol.,Final,09/2003,121-75-5
+"MANGANESE, RESPIRABLE",23,Inh.,Chr.,0.3 ug/m3,100,Neurol.,Final,09/2012,7439-96-5
+MERCURY,24,Inh.,Chr.,0.3 ug/m3,10,Neurol.,Final,10/2024,7439-97-6
+"MERCURY, INORGANIC SALTS (MERCURIC CHLORIDE, ETC.)",24,Oral,Acute,0.002 mg/kg/day,100,Renal,Final,10/2024,7487-94-7
+"MERCURY, INORGANIC SALTS (MERCURIC CHLORIDE, ETC.)",24,Oral,Int.,0.00001 mg/kg/day,1000,Renal,Final,10/2024,7487-94-7
+METHOXYCHLOR,151,Oral,Int.,0.005 mg/kg/day,1000,Repro.,Final,09/2002,72-43-5
+METHYL PARATHION,117,Oral,Int.,0.0007 mg/kg/day,300,Neurol.,Final,09/2001,298-00-0
+METHYL PARATHION,117,Oral,Chr.,0.0003 mg/kg/day,100,Hemato.,Final,09/2001,298-00-0
+METHYL tert-BUTYL ETHER (MTBE),41,Inh.,Acute,2 ppm,30,Neurol.,Final,09/2023,1634-04-4
+METHYL tert-BUTYL ETHER (MTBE),41,Inh.,Int.,1 ppm,30,"Neurol.,Hepatic",Final,09/2023,1634-04-4
+METHYL tert-BUTYL ETHER (MTBE),41,Inh.,Chr.,1 ppm,30,Renal,Final,09/2023,1634-04-4
+METHYL tert-BUTYL ETHER (MTBE),41,Oral,Int.,0.4 mg/kg/day,100,Develop.,Final,09/2023,1634-04-4
+METHYLENE CHLORIDE,42,Inh.,Acute,0.6 ppm,100,Neurol.,Final,09/2000,75-09-2
+METHYLENE CHLORIDE,42,Inh.,Int.,0.3 ppm,90,Hepatic,Final,09/2000,75-09-2
+METHYLENE CHLORIDE,42,Inh.,Chr.,0.3 ppm,30,Hepatic,Final,09/2000,75-09-2
+METHYLENE CHLORIDE,42,Oral,Acute,0.2 mg/kg/day,100,Neurol.,Final,09/2000,75-09-2
+METHYLENE CHLORIDE,42,Oral,Chr.,0.06 mg/kg/day,100,Hepatic,Final,09/2000,75-09-2
+"METHYLENEDIPHENYL DIISOCYANATE (MDI), POLYMERIC",282,Inh.,Chr.,0.001 mg/m3,30,Resp.,Final,06/2018,9016-87-9
+METHYLMERCURY,24,Oral,Chr.,0.1 ug/kg/day,3,Develop.,Final,10/2024,22967-92-6
+MIREX,276,Oral,Chr.,0.3 ug/kg/day,300,Hepatic,Final,10/2020,2385-85-5
+MOLYBDENUM,289,Inh.,Chr.,2 ug/m3,30,Resp.,Final,05/2020,1313-27-5
+MOLYBDENUM,289,Oral,Int.,0.06 mg/kg/day,300,Renal,Final,05/2020,7439-98-7
+MONOMETHYLARSONIC ACID (MMA),3,Oral,Int.,0.1 mg/kg/day,100,Gastro.,Final,08/2007,124-58-3
+MONOMETHYLARSONIC ACID (MMA),3,Oral,Chr.,0.01 mg/kg/day,100,Renal,Final,08/2007,124-58-3
+NAPHTHALENE,43,Inh.,Acute,0.06 ppb,30,Resp.,Final,04/2025,91-20-3
+NAPHTHALENE,43,Oral,Acute,0.2 mg/kg/day,300,Neurol.,Final,04/2025,91-20-3
+NAPHTHALENE,43,Oral,Int.,0.2 mg/kg/day,300,Neurol.,Final,04/2025,91-20-3
+NICKEL,44,Inh.,Acute,0.0001 mg/m3,300,Resp.,Final,10/2024,7440-02-0
+NICKEL,44,Inh.,Int.,0.000003 mg/m3,30,Resp.,Final,10/2024,7440-02-0
+NITRATE,258,Oral,Acute,4 mg/kg/day,1,Hemato.,Final,07/2017,14797-55-8
+NITRATE,258,Oral,Int.,4 mg/kg/day,1,Hemato.,Final,07/2017,14797-55-8
+NITRATE,258,Oral,Chr.,4 mg/kg/day,1,Hemato.,Final,07/2017,14797-55-8
+NITRITE,258,Oral,Acute,0.1 mg/kg/day,2,Hemato.,Final,07/2017,14797-65-0
+NITRITE,258,Oral,Int.,0.1 mg/kg/day,2,Hemato.,Final,07/2017,14797-65-0
+NITRITE,258,Oral,Chr.,0.1 mg/kg/day,2,Hemato.,Final,07/2017,14797-65-0
+NITROBENZENE,95,Inh.,Acute,0.1 ppm,30,Hemato.,Final,01/2024,98-95-3
+NITROBENZENE,95,Inh.,Int.,3 ppb,300,Hemato.,Final,01/2024,98-95-3
+NITROBENZENE,95,Inh.,Chr.,0.2 ppb,300,Resp.,Final,01/2024,98-95-3
+NITROBENZENE,95,Oral,Acute,0.05 mg/kg/day,100,Hemato.,Final,01/2024,98-95-3
+NITROBENZENE,95,Oral,Int.,0.02 mg/kg/day,100,Hemato.,Final,01/2024,98-95-3
+N-NITROSODIMETHYLAMINE (NDMA),173,Oral,Acute,0.01 ug/kg/day,100,Hemato.,Final,04/2023,62-75-9
+"1,2,3,7,8-PENTACHLORODIBENZOFURAN",194,Oral,Int.,7 ng/kg/day,100,Hepatic,Final,04/2023,57117-41-6
+"2,3,4,7,8-PENTACHLORO­DIBENZOFURAN",194,Oral,Acute,0.5 ng/kg/day,1000,Develop.,Final,04/2023,57117-31-4
+"2,3,4,7,8-PENTACHLORO­DIBENZOFURAN",194,Oral,Int.,7 pg/kg/day,100,Endocrine,Final,04/2023,57117-31-4
+"2,3,4,7,8-PENTACHLORO­DIBENZOFURAN",194,Oral,Chr.,4 pg/kg/day,1000,"Hepatic, Endocrine",Final,04/2023,57117-31-4
+PARATHION,246,Inh.,Int.,20 ng/m3,100,Neurol.,Final,01/2017,56-38-2
+PARATHION,246,Oral,Int.,0.009 mg/kg/day,10,Neurol.,Final,01/2017,56-38-2
+"PBDE, DECABROMINATED",183,Oral,Acute,0.01 mg/kg/day,100,Develop.,Final,03/2017,67774-32-7
+"PBDE, DECABROMINATED",183,Oral,Int.,0.0002 mg/kg/day,300,Endocr.,Final,03/2017,67774-32-7
+PENTACHLOROPHENOL,70,Oral,Acute,5 ug/kg/day,1000,Develop.,Final,04/2022,87-86-5
+PENTACHLOROPHENOL,70,Oral,Chr.,5 ug/kg/day,300,Hepatic,Final,04/2022,87-86-5
+PERCHLORATES,181,Oral,Chr.,0.0007 mg/kg/day,10,Endocr.,Final,09/2008,14797-73-0
+PERFLUOROHEXANE SULFONIC ACID (PFHxS),237,Oral,Int.,0.02 ug/kg/day,300,Endocr.,Final,03/2020,355-46-4
+PERFLUORONONANOIC ACID (PFNA),237,Oral,Int.,3 ng/kg/day,300,Develop.,Final,03/2020,375-95-1
+PERFLUOROOCTANE SULFONIC ACID (PFOS),237,Oral,Int.,2 ng/kg/day,300,Develop.,Final,03/2020,1763-23-1
+PERFLUOROOCTANOIC ACID (PFOA),237,Oral,Int.,3 ng/kg/day,300,Develop.,Final,03/2020,335-67-1
+PERMETHRIN,153,Oral,Acute,0.3 mg/kg/day,100,Neurol.,Final,09/2003,52645-53-1
+PERMETHRIN,153,Oral,Int.,0.2 mg/kg/day,100,Neurol.,Final,09/2003,52645-53-1
+PHENOL,27,Oral,Acute,1 mg/kg/day,100,Body Wt.,Final,09/2008,108-95-2
+"PHOSPHORUS, WHITE",52,Inh.,Acute,0.02 mg/m3,30,Resp.,Final,09/1997,7723-14-0
+"PHOSPHORUS, WHITE",52,Oral,Int.,0.0002 mg/kg/day,100,Repro.,Final,09/1997,7723-14-0
+POLYBROMINATED BIPHENYLS (PBBS),94,Oral,Acute,0.01 mg/kg/day,100,Endocr.,Final,09/2004,067774-32-7
+"POLYBROMINATED DIPHENYL ETHERS (PBDES), LOWER BROMINATED",183,Inh.,Int.,0.006 mg/m3,90,Endocr.,Final,03/2017,32536-52-0
+"POLYBROMINATED DIPHENYL ETHERS (PBDES), LOWER BROMINATED",183,Oral,Acute,0.00006 mg/kg/day,1000,Develop.,Final,03/2017,60348-60-9
+"POLYBROMINATED DIPHENYL ETHERS (PBDES), LOWER BROMINATED",183,Oral,Int.,0.000003 mg/kg/day,300,Reprod.,Final,03/2017,5436-43-1
+POLYCHLORINATED BIPHENYLS (PCBs) (Aroclor 1254),26,Oral,Int.,0.03 ug/kg/day,300,Neurol.,Final,11/2000,11097-69-1
+POLYCHLORINATED BIPHENYLS (PCBs) (Aroclor 1254),26,Oral,Chr.,0.02 ug/kg/day,300,Immuno.,Final,11/2000,11097-69-1
+PROPYLENE GLYCOL,240,Inh.,Int.,0.009 ppm,1000,Resp.,Final,09/1997,57-55-6
+PROPYLENE GLYCOL DINITRATE,152,Inh.,Acute,0.003 ppm,10,Neurol.,Final,06/1995,6423-43-4
+PROPYLENE GLYCOL DINITRATE,152,Inh.,Int.,0.00004 ppm,1000,Hemato.,Final,06/1995,6423-43-4
+PROPYLENE GLYCOL DINITRATE,152,Inh.,Chr.,0.00004 ppm,1000,Hemato.,Final,06/1995,6423-43-4
+RDX (CYCLONITE),72,Oral,Acute,0.2 mg/kg/day,30,Neurol.,Final,01/2012,121-82-4
+RDX (CYCLONITE),72,Oral,Int.,0.1 mg/kg/day,30,Neurol.,Final,01/2012,121-82-4
+RDX (CYCLONITE),72,Oral,Chr.,0.1 mg/kg/day,30,Neurol.,Final,01/2012,121-82-4
+REFRACTORY CERAMIC FIBERS,185,Inh.,Chr.,0.03 fibers/cc,30,Resp.,Final,09/2004,HZ0900-26-T
+"S,S,S-TRIBUTYL PHOSPHOROTRITHIOATE (TRIBUFOS)",292,Inh.,Int.,0.04 mg/m3,30,Neurol.,Final,03/2020,78-48-8
+"S,S,S-TRIBUTYL PHOSPHOROTRITHIOATE (TRIBUFOS)",292,Oral,Int.,0.003 mg/kg/day,100,Neurol.,Final,03/2020,78-48-8
+"S,S,S-TRIBUTYL PHOSPHOROTRITHIOATE (TRIBUFOS)",292,Oral,Chr.,0.5 ug/kg/day,100,Gastro.,Final,03/2020,78-48-8
+SELENIUM,28,Oral,Chr.,0.005 mg/kg/day,3,Dermal,Final,09/2003,7782-49-2
+STRONTIUM,120,Oral,Int.,2 mg/kg/day,90,Musculo.,Final,04/2004,7440-24-6
+STYRENE,74,Inh.,Acute,5 ppm,10,Neurol.,Final,11/2010,100-42-5
+STYRENE,74,Inh.,Chr.,0.2 ppm,30,Neurol.,Final,11/2010,100-42-5
+STYRENE,74,Oral,Acute,0.1 mg/kg/day,1000,Neurol.,Final,11/2010,100-42-5
+SULFUR DIOXIDE,46,Inh.,Acute,0.01 ppm,9,Resp.,Final,12/1998,7446-09-5
+SULFUR MUSTARD,184,Inh.,Acute,0.0007 mg/m3,30,Ocular,Final,09/2003,505-60-2
+SULFUR MUSTARD,184,Inh.,Int.,0.00002 mg/m3,30,Ocular,Final,09/2003,505-60-2
+SULFUR MUSTARD,184,Oral,Acute,0.5 µg/kg/day,1000,Develop.,Final,09/2003,505-60-2
+SULFUR MUSTARD,184,Oral,Int.,0.07 µg/kg/day,300,Gastro.,Final,09/2003,505-60-2
+"1,1,1-TRICHLOROETHANE",76,Inh.,Acute,1 ppm,100,Neurol.,Final,03/2024,71-55-6
+"1,1,1-TRICHLOROETHANE",76,Inh.,Int.,0.7 ppm,100,Neurol.,Final,03/2024,71-55-6
+"1,1,1-TRICHLOROETHANE",76,Oral,Int.,2 mg/kg/day,100,Body Wt.,Final,03/2024,71-55-6
+"1,1,2,2-TETRACHLOROETHANE",156,Oral,Int.,0.5 mg/kg/day,100,Hepatic,Final,09/2008,79-34-5
+"1,1,2-TRICHLOROETHANE",155,Inh.,Acute,0.03 ppm,270,Resp.,Final,03/2021,79-00-5
+"1,1,2-TRICHLOROETHANE",155,Inh.,Int.,2 ppb,30,Resp.,Final,03/2021,79-00-5
+"1,1,2-TRICHLOROETHANE",155,Oral,Acute,0.5 mg/kg/day,100,Hepatic,Final,03/2021,79-00-5
+"1,1,2-TRICHLOROETHANE",155,Oral,Int.,0.04 mg/kg/day,100,Immuno.,Final,03/2021,79-00-5
+"1,2,3-TRICHLOROPROPANE",186,Inh.,Acute,1 ppb,30,Resp.,Final,08/2021,96-18-4
+"1,2,3-TRICHLOROPROPANE",186,Oral,Int.,0.03 mg/kg/day,100,Hemato.,Final,08/2021,96-18-4
+"1,2,3-TRICHLOROPROPANE",186,Oral,Chr.,0.01 mg/kg/day,100,Hepatic,Final,08/2021,96-18-4
+"1,2,4 - TRICHLOROBENZENE",255,Oral,Int.,0.1 mg/kg/day,100,Hepatic,Final,10/2014,120-82-1
+"1,2,4 - TRICHLOROBENZENE",255,Oral,Chr.,0.1 mg/kg/day,100,Hepatic,Final,10/2014,120-82-1
+"2,3,4,6-TETRACHLOROPHENOL",195,Oral,Acute,0.08 mg/kg/day,100,Hepatic,Final,06/2022,58-90-2
+"2,3,4,6-TETRACHLOROPHENOL",195,Oral,Int.,0.01 mg/kg/day,100,Hepatic,Final,06/2022,58-90-2
+"2,3,7,8-TETRACHLORODIBENZO-P-DIOXIN",63,Oral,Acute,0.0002 ug/kg/day,21,Immuno.,Draft,10/2024,1746-01-6
+"2,3,7,8-TETRACHLORODIBENZO-P-DIOXIN",63,Oral,Chr.,0.0000004 ug/kg/day,300,Develop.,Draft,10/2024,1746-01-6
+"2,4,5-TRICHLOROPHENOL",195,Oral,Int.,1 mg/kg/day,100,"Hepatic,Renal",Final,06/2022,95-95-4
+"2,4,6-TRICHLOROPHENOL",195,Oral,Int.,5 ug/kg/day,100,Hepatic,Final,06/2022,88-06-2
+"2,4,6-TRINITROTOLUENE",125,Oral,Int.,0.0005 mg/kg/day,1000,Hepatic,Final,06/1995,118-96-7
+TETRACHLOROETHYLENE,48,Inh.,Acute,0.006 ppm,300,Neurol.,Final,06/2019,127-18-4
+TETRACHLOROETHYLENE,48,Inh.,Int.,0.006 ppm,300,Neurol.,Final,06/2019,127-18-4
+TETRACHLOROETHYLENE,48,Inh.,Chr.,0.006 ppm,300,Neurol.,Final,06/2019,127-18-4
+TETRACHLOROETHYLENE,48,Oral,Acute,0.008 mg/kg/day,300,Neurol.,Final,06/2019,127-18-4
+TETRACHLOROETHYLENE,48,Oral,Int.,0.008 mg/kg/day,300,Neurol.,Final,06/2019,127-18-4
+TETRACHLOROETHYLENE,48,Oral,Chr.,0.008 mg/kg/day,300,Neurol.,Final,06/2019,127-18-4
+"TIN, DIBUTYL-, DICHLORIDE",98,Oral,Int.,0.005 mg/kg/day,1000,Immuno.,Final,08/2005,683-18-1
+"TIN, INORGANIC",98,Oral,Int.,0.3 mg/kg/day,100,Hemato.,Final,08/2005,7440-31-5
+"TIN, TRIBUTYL-, OXIDE",98,Oral,Int.,0.0003 mg/kg/day,100,Immuno.,Final,08/2005,56-35-9
+"TIN, TRIBUTYL-, OXIDE",98,Oral,Chr.,0.0003 mg/kg/day,100,Immuno.,Final,08/2005,56-36-9
+TITANIUM TETRACHLORIDE,122,Inh.,Int.,0.01 mg/m3,90,Resp.,Final,09/1997,7550-45-0
+TITANIUM TETRACHLORIDE,122,Inh.,Chr.,0.0001 mg/m3,90,Resp.,Final,09/1997,7550-45-0
+TOLUENE,29,Inh.,Acute,2 ppm,9,Neurol.,Final,06/2017,108-88-3
+TOLUENE,29,Inh.,Chr.,1 ppm,10,Neurol.,Final,06/2017,108-88-3
+TOLUENE,29,Oral,Acute,0.8 mg/kg/day,300,Neurol.,Final,06/2017,108-88-3
+TOLUENE,29,Oral,Int.,0.2 mg/kg/day,100,Immuno.,Final,06/2017,108-88-3
+TOLUENE DIISOCYANATE (TDI),245,Inh.,Acute,0.00001 ppm,100,Resp.,Final,06/2018,26471-62-5
+TOLUENE DIISOCYANATE (TDI),245,Inh.,Chr.,0.000003 ppm,100,Resp.,Final,06/2020,26471-62-5
+TOLUENE DIISOCYANATE (TDI),245,Inh.,Chr.,0.0001 mg/m3,30,Resp.,Final,06/2018,9016-87-9
+TOXAPHENE,99,Oral,Acute,0.05 mg/kg/day,100,Neurol.,Final,10/2014,8001-35-2
+TOXAPHENE,99,Oral,Int.,0.002 mg/kg/day,100,Immuno.,Final,10/2014,8001-35-2
+TRIBUTYL PHOSPHATE (TNBP),239,Oral,Acute,1.1 mg/kg/day,100,Body Wt.,Final,09/2012,126-73-8
+TRIBUTYL PHOSPHATE (TNBP),239,Oral,Int.,0.08 mg/kg/day,100,Renal,Final,09/2012,126-73-8
+TRIBUTYL PHOSPHATE (TNBP),239,Oral,Chr.,0.08 mg/kg/day,100,Renal,Final,09/2012,126-73-8
+TRICHLOROETHYLENE,30,Inh.,Int.,0.0004 ppm,10; 100,Develop.; Immuno.,Final,06/2019,79-01-6
+TRICHLOROETHYLENE,30,Inh.,Chr.,0.0004 ppm,10; 100,Develop.; Immuno.,Final,06/2019,79-01-6
+TRICHLOROETHYLENE,30,Oral,Int.,0.0005 mg/kg/day,10; 100; 1000,Develop.; Immuno.; Immuno.,Final,06/2019,79-01-6
+TRICHLOROETHYLENE,30,Oral,Chr.,0.0005 mg/kg/day,10; 100; 1000,Develop.; Immuno.; Immuno.,Final,06/2019,79-01-6
+TRICRESYL PHOSPHATE (TCP),239,Oral,Int.,0.04 mg/kg/day,100,Reprod.,Final,09/2012,1330-78-5
+TRICRESYL PHOSPHATE (TCP),239,Oral,Chr.,0.02 mg/kg/day,100,Reprod.,Final,09/2012,1330-78-5
+"TRIS(1,3-DICHLORO-2-PROPYL) PHOSPHATE (TDCP)",239,Oral,Int.,0.05 mg/kg/day,100,Renal,Final,09/2012,13674-87-8
+"TRIS(1,3-DICHLORO-2-PROPYL) PHOSPHATE (TDCP)",239,Oral,Chr.,0.02 mg/kg/day,100,Renal,Final,09/2012,13674-87-8
+TRIS(2-BUTOXYETHYL) PHOSPHATE (TBEP),239,Oral,Acute,4.8 mg/kg/day,100,Body Wt.,Final,09/2012,78-51-3
+TRIS(2-BUTOXYETHYL) PHOSPHATE (TBEP),239,Oral,Int.,0.09 mg/kg/day,100,Hepatic,Final,09/2012,78-51-3
+TRIS(2-CHLOROETHYL) PHOSPHATE (TCEP),239,Oral,Int.,0.6 mg/kg/day,100,Neurol.,Final,09/2012,115-96-8
+TRIS(2-CHLOROETHYL) PHOSPHATE (TCEP),239,Oral,Chr.,0.2 mg/kg/day,100,Renal,Final,09/2012,115-96-8
+"URANIUM, INSOLUBLE COMPOUNDS",77,Inh.,Int.,0.002 mg/m3,100,Renal,Final,02/2013,7440-61-1
+"URANIUM, INSOLUBLE COMPOUNDS",77,Inh.,Chr.,0.0008 mg/m3,1000,Resp.,Final,02/2013,7440-61-1
+"URANIUM, SOLUBLE SALTS",77,Inh.,Int.,0.0001 mg/m3,300,Renal,Final,02/2013,7440-61-1
+"URANIUM, SOLUBLE SALTS",77,Inh.,Chr.,0.00004 mg/m3,100,Renal,Final,02/2013,7440-61-1
+"URANIUM, SOLUBLE SALTS",77,Oral,Acute,0.002 mg/kg/day,100,Develop.,Final,02/2013,7440-61-1
+"URANIUM, SOLUBLE SALTS",77,Oral,Int.,0.0002 mg/kg/day,300,Renal,Final,02/2013,7440-61-1
+VANADIUM,50,Inh.,Acute,0.0008 mg/m3,90,Resp.,Final,09/2012,7440-62-2
+VANADIUM,50,Inh.,Chr.,0.0001 mg/m3,30,Resp.,Final,09/2012,7440-62-2
+VANADIUM,50,Oral,Int.,0.01 mg/kg/day,10,Hemato.,Final,09/2012,7440-62-2
+VINYL ACETATE,124,Inh.,Acute,1 ppm,30,Resp.,Final,01/2025,108-05-4
+VINYL ACETATE,124,Inh.,Int.,0.7 ppm,30,Resp.,Final,01/2025,108-05-4
+VINYL ACETATE,124,Inh.,Chr.,0.3 ppm,30,Resp.,Final,01/2025,108-05-4
+VINYL CHLORIDE,51,Inh.,Acute,0.5 ppm,30,Develop.,Final,01/2024,75-01-4
+VINYL CHLORIDE,51,Inh.,Int.,0.02 ppm,30,Hepatic,Final,01/2024,75-01-4
+VINYL CHLORIDE,51,Oral,Chr.,3 µg/kg/day,30,Hepatic,Final,01/2024,75-01-4
+"XYLENES, MIXED",53,Inh.,Acute,2 ppm,30,Neurol.,Draft,05/2026,1330-20-7
+"XYLENES, MIXED",53,Inh.,Int.,0.4 ppm,30,Neurol.,Draft,05/2026,1330-20-7
+"XYLENES, MIXED",53,Inh.,Chr.,0.01 ppm,300,Neurol.,Draft,05/2026,1330-20-7
+"XYLENES, MIXED",53,Oral,Acute,1 mg/kg/day,100,Neurol.,Draft,05/2026,1330-20-7
+"XYLENES, MIXED",53,Oral,Int.,0.2 mg/kg/day,1000,Neurol.,Draft,05/2026,1330-20-7
+"XYLENES, MIXED",53,Oral,Chr.,0.2 mg/kg/day,1000,Neurol.,Draft,05/2026,1330-20-7
+ZINC,54,Oral,Int.,0.3 mg/kg/day,3,Hemato.,Final,08/2005,7440-66-6
+ZINC,54,Oral,Chr.,0.3 mg/kg/day,3,Hemato.,Final,08/2005,7440-66-6
