@@ -42,7 +42,7 @@ jobs:
       # Scan that local image. A critical or high finding with a fix available
       # stops the release here, before the registry is touched.
       - name: Vulnerability scan (local image)
-        uses: aquasecurity/trivy-action@0.28.0
+        uses: aquasecurity/trivy-action@v0.28.0
         with:
           image-ref: phn-mcp-server:scan
           severity: CRITICAL,HIGH
