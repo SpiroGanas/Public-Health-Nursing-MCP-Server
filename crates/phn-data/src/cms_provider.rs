@@ -17,8 +17,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
-use crate::cache::Cache;
 use crate::apifetch::fetch_validated;
+use crate::cache::Cache;
 use crate::http::HttpClient;
 use crate::snapshots::SnapshotStore;
 use crate::socrata::encode;

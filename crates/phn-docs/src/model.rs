@@ -486,7 +486,9 @@ mod tests {
 
     #[test]
     fn only_an_explicit_marker_breaks_the_page() {
-        let b = from_markdown("One.\n\n---\n\nTwo.\n\n<!-- pagebreak -->\n\nThree.\n\n<!-- no pagebreak here -->\n\nFour.");
+        let b = from_markdown(
+            "One.\n\n---\n\nTwo.\n\n<!-- pagebreak -->\n\nThree.\n\n<!-- no pagebreak here -->\n\nFour.",
+        );
         let breaks = b.iter().filter(|x| **x == Block::PageBreak).count();
         assert_eq!(breaks, 1, "{b:?}");
         assert_eq!(b.len(), 5);

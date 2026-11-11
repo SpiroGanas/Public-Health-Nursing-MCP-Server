@@ -2553,7 +2553,12 @@ mod tests {
         )
         .unwrap();
         let d = &r.data;
-        assert!(d.public_message.as_ref().unwrap().contains("[SUPPORTING FACT]"));
+        assert!(
+            d.public_message
+                .as_ref()
+                .unwrap()
+                .contains("[SUPPORTING FACT]")
+        );
         assert!(
             d.missing
                 .iter()
@@ -2596,12 +2601,12 @@ mod tests {
         assert_eq!(p, "agency_translation");
         assert!(!caveats.iter().any(|c| c.contains("NOT used")));
         // Changed action steps: the translation no longer matches the English.
-        let (p, caveats) = plan(vec!["Do not drink tap water; use bottled water only.".into()]);
+        let (p, caveats) = plan(vec![
+            "Do not drink tap water; use bottled water only.".into(),
+        ]);
         assert_eq!(p, "translator_brief");
         assert!(
-            caveats
-                .iter()
-                .any(|c| c.contains("NOT used for Spanish")),
+            caveats.iter().any(|c| c.contains("NOT used for Spanish")),
             "{caveats:?}"
         );
     }

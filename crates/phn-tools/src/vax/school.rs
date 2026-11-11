@@ -1392,8 +1392,7 @@ fn parse_exemption_cell(cell: &str) -> Option<BTreeMap<String, String>> {
             Some((v, k)) => (normalize_vaccine_key(v), k.trim().to_ascii_lowercase()),
             None => ("all".to_string(), lower),
         };
-        if !(kind.starts_with("med") || kind.starts_with("rel")) || !exemption_key_known(&vaccine)
-        {
+        if !(kind.starts_with("med") || kind.starts_with("rel")) || !exemption_key_known(&vaccine) {
             return None;
         }
         out.insert(vaccine, kind);

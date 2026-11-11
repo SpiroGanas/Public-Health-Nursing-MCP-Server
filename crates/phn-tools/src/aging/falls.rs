@@ -513,11 +513,7 @@ pub fn steadi_fall_risk_assessment(
         || args.worries_about_falling.is_some()
         || fell_past_year.is_some()
     {
-        let answers = [
-            args.unsteady,
-            args.worries_about_falling,
-            fell_past_year,
-        ];
+        let answers = [args.unsteady, args.worries_about_falling, fell_past_year];
         let mut positive = Vec::new();
         for (q, a) in c.key_questions.questions.iter().zip(answers) {
             if a == Some(true) {

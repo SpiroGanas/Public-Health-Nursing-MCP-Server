@@ -827,7 +827,11 @@ mod tests {
         let r = analyze(big, Design::Cohort, 0.95);
         assert!(r.odds_ratio_exact.is_none() && r.odds_ratio_mid_p.is_none());
         assert!(r.exact.is_empty());
-        assert!(r.warnings.iter().any(|w| w.contains("exact")), "{:?}", r.warnings);
+        assert!(
+            r.warnings.iter().any(|w| w.contains("exact")),
+            "{:?}",
+            r.warnings
+        );
         assert_eq!(r.chi_square.len(), 3);
         let rr = r.risk_ratio.unwrap();
         assert!((rr.value - (2.0 / 7.0) / (1.5 / 7.0)).abs() < 1e-12);

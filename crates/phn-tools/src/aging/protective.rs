@@ -866,7 +866,10 @@ mod tests {
         )
         .unwrap();
         assert_eq!(r.data.mandated_reporter, Some(true));
-        assert!(r.summary.contains("\"nurse\" on the list for adults 60 and older"));
+        assert!(
+            r.summary
+                .contains("\"nurse\" on the list for adults 60 and older")
+        );
         assert!(!r.data.self_neglect.is_empty());
         assert!(r.data.timelines.iter().any(|t| t.when.contains("48 hours")));
         assert!(
@@ -944,6 +947,9 @@ mod tests {
         // Facility (DPH) pathway for an older adult: no list, so no assertion.
         let r = run(Some(80), Some(CareSetting::Facility), "nurse");
         assert_eq!(r.data.mandated_reporter, None);
-        assert!(r.summary.contains("no mandated reporter list for that pathway"));
+        assert!(
+            r.summary
+                .contains("no mandated reporter list for that pathway")
+        );
     }
 }

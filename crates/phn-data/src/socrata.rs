@@ -14,8 +14,8 @@
 use phn_core::{PhnError, Result, Source, SourceMode};
 use serde_json::{Map, Value};
 
-use crate::cache::Cache;
 use crate::apifetch::fetch_validated;
+use crate::cache::Cache;
 use crate::fetch::{SnapshotFallback, local_date};
 use crate::http::HttpClient;
 

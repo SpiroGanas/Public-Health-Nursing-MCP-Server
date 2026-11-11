@@ -222,10 +222,20 @@ mod tests {
         let path = dir.path().join("cache.sqlite");
         let c = Cache::open(&path).unwrap();
         let now = Utc::now();
-        c.put_at("ancient", b"x", 60, now - chrono::Duration::days(MAX_AGE_DAYS + 10))
-            .unwrap();
-        c.put_at("stale", b"y", 60, now - chrono::Duration::days(MAX_AGE_DAYS - 10))
-            .unwrap();
+        c.put_at(
+            "ancient",
+            b"x",
+            60,
+            now - chrono::Duration::days(MAX_AGE_DAYS + 10),
+        )
+        .unwrap();
+        c.put_at(
+            "stale",
+            b"y",
+            60,
+            now - chrono::Duration::days(MAX_AGE_DAYS - 10),
+        )
+        .unwrap();
         c.put("fresh", b"z", 60).unwrap();
         drop(c);
         let c = Cache::open(&path).unwrap();
@@ -233,7 +243,11 @@ mod tests {
         // A stale copy inside the limit is kept as a fallback.
         assert!(!c.get("stale").unwrap().unwrap().fresh);
         assert!(c.get("fresh").unwrap().unwrap().fresh);
-        assert_eq!(c.prune(now + chrono::Duration::days(MAX_AGE_DAYS + 1)).unwrap(), 2);
+        assert_eq!(
+            c.prune(now + chrono::Duration::days(MAX_AGE_DAYS + 1))
+                .unwrap(),
+            2
+        );
     }
 
     #[test]

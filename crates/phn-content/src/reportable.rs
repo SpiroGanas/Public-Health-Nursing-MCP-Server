@@ -507,7 +507,10 @@ mod tests {
         }
         assert!(!lookup("hepatitis").is_empty());
         // Exact names and aliases always win.
-        assert_eq!(confident_id("H flu"), Some("haemophilus-influenzae-invasive"));
+        assert_eq!(
+            confident_id("H flu"),
+            Some("haemophilus-influenzae-invasive")
+        );
         assert_eq!(confident_id("flu"), Some("influenza-laboratory-confirmed"));
         assert_eq!(confident_id("cholera"), Some("cholera"));
         assert_eq!(confident_id("ebola"), Some("viral-hemorrhagic-fever"));

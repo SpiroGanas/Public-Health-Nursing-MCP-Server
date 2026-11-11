@@ -178,20 +178,14 @@ fn start_time(label: &str, unit: TimeUnit) -> (f64, bool) {
     };
     let fraction = match (unit, month_day, single) {
         (TimeUnit::Month, Some((m, _)), _) => Some(f64::from(m - 1) / 12.0),
-        (TimeUnit::Month, None, Some(m)) if (1..=12).contains(&m) => {
-            Some(f64::from(m - 1) / 12.0)
-        }
+        (TimeUnit::Month, None, Some(m)) if (1..=12).contains(&m) => Some(f64::from(m - 1) / 12.0),
         (TimeUnit::Quarter, Some((m, _)), _) => Some(f64::from((m - 1) / 3) / 4.0),
-        (TimeUnit::Quarter, None, Some(q)) if (1..=4).contains(&q) => {
-            Some(f64::from(q - 1) / 4.0)
-        }
+        (TimeUnit::Quarter, None, Some(q)) if (1..=4).contains(&q) => Some(f64::from(q - 1) / 4.0),
         // A week labeled with a date: that date's place in the year.
         (TimeUnit::Week, Some((m, d)), _) => {
             Some((f64::from(m - 1) + f64::from(d - 1) / 31.0) / 12.0)
         }
-        (TimeUnit::Week, None, Some(w)) if (1..=53).contains(&w) => {
-            Some(f64::from(w - 1) / 52.0)
-        }
+        (TimeUnit::Week, None, Some(w)) if (1..=53).contains(&w) => Some(f64::from(w - 1) / 52.0),
         _ => None,
     };
     match fraction {
@@ -646,8 +640,14 @@ mod tests {
     #[test]
     fn first_period_labels_are_read() {
         assert!(close(start_time("2019", TimeUnit::Year), 2019.0));
-        assert!(close(start_time("2024-03", TimeUnit::Month), 2024.0 + 2.0 / 12.0));
-        assert!(close(start_time("03/2024", TimeUnit::Month), 2024.0 + 2.0 / 12.0));
+        assert!(close(
+            start_time("2024-03", TimeUnit::Month),
+            2024.0 + 2.0 / 12.0
+        ));
+        assert!(close(
+            start_time("03/2024", TimeUnit::Month),
+            2024.0 + 2.0 / 12.0
+        ));
         // Month names used to be read as January.
         assert!(close(start_time("Jul 2023", TimeUnit::Month), 2023.5));
         assert!(close(
@@ -656,7 +656,10 @@ mod tests {
         ));
         assert!(close(start_time("2024 Q2", TimeUnit::Quarter), 2024.25));
         assert!(close(start_time("2024-04-01", TimeUnit::Quarter), 2024.25));
-        assert!(close(start_time("2024-W05", TimeUnit::Week), 2024.0 + 4.0 / 52.0));
+        assert!(close(
+            start_time("2024-W05", TimeUnit::Week),
+            2024.0 + 4.0 / 52.0
+        ));
         // A week labeled by its starting date (3 June) used to be read as week 6.
         let june3 = 2024.0 + (5.0 + 2.0 / 31.0) / 12.0;
         assert!(close(start_time("2024-06-03", TimeUnit::Week), june3));
@@ -700,7 +703,11 @@ mod tests {
         let labels: Vec<String> = (1..=8).map(|m| format!("2024-{m:02}")).collect();
         let r = analyze_trends(&ctx, args(labels.clone(), &counts, TimeUnit::Month)).unwrap();
         assert!(r.data.analysis.seasonality.is_none());
-        assert!(r.data.analysis.apc.upper < 100.0, "{:?}", r.data.analysis.apc);
+        assert!(
+            r.data.analysis.apc.upper < 100.0,
+            "{:?}",
+            r.data.analysis.apc
+        );
         assert!(
             r.caveats
                 .iter()
@@ -740,8 +747,7 @@ mod tests {
         let plain = winter_peak(|i| format!("P{}", i + 1));
         let r = analyze_trends(&ctx, plain).unwrap();
         assert!(
-            r.summary
-                .contains("about month 7 of each 12-month cycle"),
+            r.summary.contains("about month 7 of each 12-month cycle"),
             "{}",
             r.summary
         );
@@ -753,10 +759,18 @@ mod tests {
     fn joinpoints_are_reported_as_not_tested_for_short_series() {
         let (_dir, ctx) = ctx();
         let labels: Vec<String> = (2018..=2023).map(|y| y.to_string()).collect();
-        let mut a = args(labels, &[40.0, 44.0, 39.0, 47.0, 45.0, 50.0], TimeUnit::Year);
+        let mut a = args(
+            labels,
+            &[40.0, 44.0, 39.0, 47.0, 45.0, 50.0],
+            TimeUnit::Year,
+        );
         a.max_joinpoints = None;
         let r = analyze_trends(&ctx, a).unwrap();
-        assert!(r.summary.contains("**Joinpoints:** not tested"), "{}", r.summary);
+        assert!(
+            r.summary.contains("**Joinpoints:** not tested"),
+            "{}",
+            r.summary
+        );
         assert!(!r.summary.contains("none selected"));
     }
 }

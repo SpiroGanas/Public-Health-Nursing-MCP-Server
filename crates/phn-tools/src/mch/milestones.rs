@@ -642,7 +642,11 @@ mod tests {
         )
         .unwrap();
         assert_eq!(
-            env.data.corrected_age_checklist.as_ref().unwrap().age_months,
+            env.data
+                .corrected_age_checklist
+                .as_ref()
+                .unwrap()
+                .age_months,
             6
         );
         assert!(env.data.act_early);

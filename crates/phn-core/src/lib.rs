@@ -31,5 +31,7 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 /// back to UTC when the zone cannot be read, so `check` prints this for the
 /// nurse to confirm that "today" in date calculations is Massachusetts time.
 pub fn local_time_label() -> String {
-    chrono::Local::now().format("%Y-%m-%d %H:%M %:z").to_string()
+    chrono::Local::now()
+        .format("%Y-%m-%d %H:%M %:z")
+        .to_string()
 }

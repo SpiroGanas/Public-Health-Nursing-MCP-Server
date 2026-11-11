@@ -304,9 +304,8 @@ pub fn assess_measles_exposure(
     // 4 days after rash onset) counts: PEP windows, exclusion, and monitoring
     // are counted from the exposure dates clamped to that period.
     let infectious = case_onset.map(|o| (add(o, -4), add(o, 4)));
-    let clamped = infectious.is_some_and(|(s, e)| {
-        raw_last >= s && raw_first <= e && (raw_first < s || raw_last > e)
-    });
+    let clamped = infectious
+        .is_some_and(|(s, e)| raw_last >= s && raw_first <= e && (raw_first < s || raw_last > e));
     let (first_exp, last_exp) = match infectious {
         Some((s, e)) if clamped => (raw_first.max(s), raw_last.min(e)),
         _ => (raw_first, raw_last),
@@ -814,11 +813,7 @@ mod tests {
         assert_eq!(ex.start_date.as_deref(), Some("2026-03-11"));
         assert_eq!(ex.last_excluded_date.as_deref(), Some("2026-04-02"));
         assert!(env.summary.contains("2026-03-06 to 2026-03-12"));
-        assert!(
-            env.caveats
-                .iter()
-                .any(|c| c.contains("infectious period"))
-        );
+        assert!(env.caveats.iter().any(|c| c.contains("infectious period")));
     }
 
     #[test]

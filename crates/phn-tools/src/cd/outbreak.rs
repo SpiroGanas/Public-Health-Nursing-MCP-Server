@@ -1140,12 +1140,19 @@ mod tests {
                 .iter()
                 .any(|c| c.contains("No incubation period was used"))
         );
-        assert!(incubation(Some("gastroenteritis"), None, None, None).unwrap().is_none());
+        assert!(
+            incubation(Some("gastroenteritis"), None, None, None)
+                .unwrap()
+                .is_none()
+        );
         // Everyone ate the stuffing among people with an answer: it cannot be
         // compared, and the caveat says so instead of dropping it silently.
         let mut csv = String::from("Ill,Onset Date,Stuffing,Pie\n");
         for i in 0..6 {
-            csv.push_str(&format!("Y,2026-05-03,Y,{}\n", if i < 3 { "Y" } else { "N" }));
+            csv.push_str(&format!(
+                "Y,2026-05-03,Y,{}\n",
+                if i < 3 { "Y" } else { "N" }
+            ));
         }
         for i in 0..6 {
             csv.push_str(&format!("N,,Y,{}\n", if i < 2 { "Y" } else { "N" }));
@@ -1165,7 +1172,11 @@ mod tests {
                 .iter()
                 .any(|c| c.contains("Not analyzed") && c.contains("Stuffing"))
         );
-        assert!(incubation(Some("salmonellosis"), None, None, None).unwrap().is_some());
+        assert!(
+            incubation(Some("salmonellosis"), None, None, None)
+                .unwrap()
+                .is_some()
+        );
     }
 
     #[test]

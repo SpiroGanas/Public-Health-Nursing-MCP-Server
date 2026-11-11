@@ -18,8 +18,8 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::cache::Cache;
 use crate::apifetch::fetch_validated;
+use crate::cache::Cache;
 use crate::fetch::{SnapshotFallback, local_date};
 use crate::http::HttpClient;
 

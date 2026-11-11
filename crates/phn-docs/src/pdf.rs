@@ -260,8 +260,7 @@ impl<'a> Writer<'a> {
             }
             let starts_with_space = text.starts_with(char::is_whitespace);
             for (i, w) in text.split_whitespace().enumerate() {
-                let space =
-                    i > 0 || starts_with_space || prev_ended_with_space || words.is_empty();
+                let space = i > 0 || starts_with_space || prev_ended_with_space || words.is_empty();
                 words.push((w.to_string(), bold, color, space && !words.is_empty()));
             }
             if !text.is_empty() {
@@ -981,11 +980,7 @@ mod tests {
         ];
         // Wide enough that nothing wraps.
         let lines = Writer::layout_runs(&runs, BODY, 10_000.0, false);
-        let text: String = lines
-            .iter()
-            .flatten()
-            .map(|(s, _, _)| s.as_str())
-            .collect();
+        let text: String = lines.iter().flatten().map(|(s, _, _)| s.as_str()).collect();
         assert_eq!(
             text,
             "Cases are rising & we need help. See the guide (https://www.mass.gov) today."
@@ -1004,11 +999,7 @@ mod tests {
                 .sum();
             assert!(w <= CONTENT_W, "{w}");
         }
-        let joined: String = lines
-            .iter()
-            .flatten()
-            .map(|(s, _, _)| s.as_str())
-            .collect();
+        let joined: String = lines.iter().flatten().map(|(s, _, _)| s.as_str()).collect();
         assert_eq!(joined, url);
     }
 

@@ -123,7 +123,12 @@ mod tests {
                 );
             }
             if r.uri.starts_with("phn://snapshots/") && r.uri.ends_with(".json") {
-                assert_eq!(r.mime_type.as_deref(), Some("application/json"), "{}", r.uri);
+                assert_eq!(
+                    r.mime_type.as_deref(),
+                    Some("application/json"),
+                    "{}",
+                    r.uri
+                );
             }
             if r.uri.starts_with("phn://snapshots/") && r.uri.ends_with(".csv") {
                 assert_eq!(r.mime_type.as_deref(), Some("text/csv"), "{}", r.uri);

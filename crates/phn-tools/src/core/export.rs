@@ -382,7 +382,8 @@ mod tests {
                 ExportDocumentArgs {
                     title: "Exclusion notice for {{Student}}".into(),
                     subtitle: None,
-                    content_markdown: "**{{Student}}**\n\n### {{School}}\n\nPlease stay home.".into(),
+                    content_markdown: "**{{Student}}**\n\n### {{School}}\n\nPlease stay home."
+                        .into(),
                     formats: Some(vec![ExportFormat::Docx, ExportFormat::Pdf]),
                     file_name: Some("notice".into()),
                     language: None,
@@ -395,7 +396,11 @@ mod tests {
             )
             .unwrap();
             assert!(!env.data.accessibility.is_empty());
-            let out = format!("{}\n{}", env.to_markdown(), serde_json::to_string(&env).unwrap());
+            let out = format!(
+                "{}\n{}",
+                env.to_markdown(),
+                serde_json::to_string(&env).unwrap()
+            );
             for secret in ["Lucas", "Lima", "Wildwood", "Sofia"] {
                 assert!(!out.contains(secret), "{secret} leaked ({mode:?}): {out}");
             }

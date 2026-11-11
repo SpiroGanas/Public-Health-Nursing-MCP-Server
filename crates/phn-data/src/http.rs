@@ -111,15 +111,10 @@ impl HttpClient {
                 message: "offline mode is on (PHN_OFFLINE)".into(),
             });
         }
-        let resp = self
-            .inner
-            .get(url)
-            .send()
-            .await
-            .map_err(|e| HttpFailure {
-                status: None,
-                message: format!("GET {url}: {e}"),
-            })?;
+        let resp = self.inner.get(url).send().await.map_err(|e| HttpFailure {
+            status: None,
+            message: format!("GET {url}: {e}"),
+        })?;
         let status = resp.status();
         if !status.is_success() {
             return Err(HttpFailure {

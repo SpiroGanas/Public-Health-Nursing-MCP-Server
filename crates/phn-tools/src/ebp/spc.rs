@@ -730,7 +730,10 @@ mod tests {
         );
         assert!(r.data.phases.is_empty());
         let json = serde_json::to_string(&r.data).unwrap();
-        assert!(!json.contains("\"center\"") && !json.contains("\"ucl\""), "{json}");
+        assert!(
+            !json.contains("\"center\"") && !json.contains("\"ucl\""),
+            "{json}"
+        );
         assert!(r.summary.contains("not shown here"), "{}", r.summary);
         assert!(!r.summary.contains("10.3"), "{}", r.summary);
         assert!(!r.summary.contains("Center") && !r.summary.contains("UCL"));

@@ -454,7 +454,13 @@ pub fn deidentify(table: &Table, findings: &[ColumnFinding], opts: &DeidOptions)
                 let coordinates = phn_core::text::normalize(header).split(' ').any(|t| {
                     matches!(
                         t,
-                        "latitude" | "longitude" | "lat" | "lon" | "lng" | "geocode" | "coordinates"
+                        "latitude"
+                            | "longitude"
+                            | "lat"
+                            | "lon"
+                            | "lng"
+                            | "geocode"
+                            | "coordinates"
                             | "xy"
                     )
                 });
@@ -725,8 +731,15 @@ mod tests {
         let r = deidentify(&t, &f, &opts(DeidMode::SafeHarbor));
         // The date inside the text cell is removed; the months column is not top-coded;
         // a bare year stays and a compact date is reduced to its year.
-        assert!(!r.table.rows[0][0].contains("3/7/2024"), "{:?}", r.table.rows[0]);
-        assert_eq!(r.table.headers, vec!["Dx", "Age (months)", "Visit date (year)"]);
+        assert!(
+            !r.table.rows[0][0].contains("3/7/2024"),
+            "{:?}",
+            r.table.rows[0]
+        );
+        assert_eq!(
+            r.table.headers,
+            vec!["Dx", "Age (months)", "Visit date (year)"]
+        );
         assert_eq!(r.table.rows[0][1], "96");
         assert_eq!(r.table.rows[0][2], "2024");
         assert_eq!(r.table.rows[1][2], "2024");

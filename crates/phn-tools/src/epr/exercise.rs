@@ -2417,6 +2417,9 @@ mod tests {
         let bytes = std::fs::read(dir.path().join("data").join(&sheet.files[0])).unwrap();
         let text = phn_local::docx::parse_docx(&bytes).unwrap().plain_text();
         assert!(text.contains("Dana Lee"), "{text}");
-        assert!(!text.contains("508-555-0102") && !text.contains("bo@example.org"), "{text}");
+        assert!(
+            !text.contains("508-555-0102") && !text.contains("bo@example.org"),
+            "{text}"
+        );
     }
 }

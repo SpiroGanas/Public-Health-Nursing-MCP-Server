@@ -260,7 +260,9 @@ mod tests {
             author: None,
             letterhead: None,
             logo: None,
-            blocks: from_markdown("| Town | n | % | n | % |\n|---|---|---|---|---|\n| Amherst | 3 | 1.5 | 4 | 2.0 |\n"),
+            blocks: from_markdown(
+                "| Town | n | % | n | % |\n|---|---|---|---|---|\n| Amherst | 3 | 1.5 | 4 | 2.0 |\n",
+            ),
         };
         assert!(to_xlsx(&doc).is_ok());
     }
@@ -279,8 +281,19 @@ mod tests {
             assert_eq!(as_number(text), Some(number), "{text}");
         }
         for text in [
-            "", "-", "01002", "1,2", "5,10", "1E5", "12e3", "NaN", "inf", "+15085550100", "12.5%",
-            "1234567890123456", "2026-11-08",
+            "",
+            "-",
+            "01002",
+            "1,2",
+            "5,10",
+            "1E5",
+            "12e3",
+            "NaN",
+            "inf",
+            "+15085550100",
+            "12.5%",
+            "1234567890123456",
+            "2026-11-08",
         ] {
             assert_eq!(as_number(text), None, "{text}");
         }

@@ -755,7 +755,10 @@ mod tests {
                 .to_string()
                 .contains("Hepatitis B")
         );
-        assert_eq!(find_disease("viral gastroenteritis").unwrap().id, "norovirus");
+        assert_eq!(
+            find_disease("viral gastroenteritis").unwrap().id,
+            "norovirus"
+        );
     }
 
     #[test]

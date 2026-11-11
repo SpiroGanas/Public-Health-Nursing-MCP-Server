@@ -609,7 +609,10 @@ mod tests {
         // Six periods with no events used to be flagged as a trend
         // (f64::signum(0.0) is 1.0).
         let zeros = control_chart(ChartType::C, &[0.0; 6], None);
-        assert!((0..6).all(|i| zeros.points[i].signals.is_empty()), "{zeros:?}");
+        assert!(
+            (0..6).all(|i| zeros.points[i].signals.is_empty()),
+            "{zeros:?}"
+        );
         // Only three distinct values: not six points moving one way.
         let steps = control_chart(ChartType::Xmr, &[3.0, 3.0, 4.0, 4.0, 5.0, 5.0], None);
         assert!((0..6).all(|i| !has(&steps, i, Rule::Trend)));

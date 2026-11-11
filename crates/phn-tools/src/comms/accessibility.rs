@@ -176,7 +176,10 @@ mod tests {
         )
         .unwrap();
         let all = serde_json::to_string(&env).unwrap();
-        assert!(!all.contains("Garcia") && !all.contains("555-0100"), "{all}");
+        assert!(
+            !all.contains("Garcia") && !all.contains("555-0100"),
+            "{all}"
+        );
         assert!(!env.privacy.identifiers_detected.is_empty());
     }
 }

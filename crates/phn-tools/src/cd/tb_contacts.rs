@@ -1904,8 +1904,7 @@ mod tests {
         assert!(file_date("2021-03-05").is_some());
 
         let (dir, c) = ctx(true);
-        let mut csv =
-            String::from("Contact ID,First Name,Last Name,Age,Household,Setting\n");
+        let mut csv = String::from("Contact ID,First Name,Last Name,Age,Household,Setting\n");
         for i in 0..6 {
             csv.push_str(&format!("K{i},Zebulon{i},Quixote,8 months,N,friend\n"));
         }

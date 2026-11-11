@@ -1768,12 +1768,7 @@ mod tests {
         let s = score(inst("cssrs_screener"), &yn(&[yes, yes, None, yes]), d).unwrap();
         assert_eq!(s.outcome, ScreenOutcome::HighRisk);
         // Complete answers keep their level.
-        let s = score(
-            inst("cssrs_screener"),
-            &yn(&[yes, yes, no, no, no, no]),
-            d,
-        )
-        .unwrap();
+        let s = score(inst("cssrs_screener"), &yn(&[yes, yes, no, no, no, no]), d).unwrap();
         assert_eq!(s.outcome, ScreenOutcome::LowRisk);
         assert!(ScreenOutcome::RiskNotDetermined.is_positive());
 
@@ -1789,7 +1784,11 @@ mod tests {
         )
         .unwrap();
         assert_eq!(env.data.safety_alerts[0].urgency, "same_day");
-        assert!(env.data.safety_alerts[0].title.contains("not yet determined"));
+        assert!(
+            env.data.safety_alerts[0]
+                .title
+                .contains("not yet determined")
+        );
         let headline = env.summary.lines().next().unwrap_or_default();
         assert!(headline.contains("not yet determined"), "{headline}");
         assert!(env.summary.contains("988"));

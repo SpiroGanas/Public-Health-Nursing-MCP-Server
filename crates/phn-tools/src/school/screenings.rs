@@ -626,11 +626,7 @@ fn evaluate_one(
                 if c.metric_height || c.metric_weight {
                     // Each column is converted by its own unit (cm or in, kg or lb).
                     let h_cm = if c.metric_height { h } else { h * 2.54 };
-                    let w_kg = if c.metric_weight {
-                        w
-                    } else {
-                        w * 0.453_592_37
-                    };
+                    let w_kg = if c.metric_weight { w } else { w * 0.453_592_37 };
                     bmi::evaluate(s, bmi::age_months(d, when), h_cm, w_kg, true)
                 } else {
                     bmi::evaluate(s, bmi::age_months(d, when), h, w, false)
@@ -1993,7 +1989,10 @@ Juno Wexley,4,2017-01-01,M,137.16,70\n";
         assert_eq!(result_language_label("Spanish"), "Spanish");
         assert_eq!(result_language_label("es"), "Spanish");
         assert_eq!(result_language_label(" "), "English");
-        assert_eq!(result_language_label("Yes - IEP, mom prefers calls"), "Other");
+        assert_eq!(
+            result_language_label("Yes - IEP, mom prefers calls"),
+            "Other"
+        );
         // A column that only contains the word is not the language column.
         let headers: Vec<String> = ["Grade", "Speech/Language Services", "Renewal Date"]
             .map(String::from)

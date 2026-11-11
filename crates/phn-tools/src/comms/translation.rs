@@ -556,13 +556,9 @@ fn contains_invariant(hay: &str, kind: &str, v: &str) -> bool {
             }
             // A number is one token even with separators inside it, so "1,000",
             // "1.000", "3.5", "3,5", and "9:30" compare by their digits.
-            static NUMBER_TOKEN: LazyLock<regex::Regex> = LazyLock::new(|| {
-                regex::Regex::new(r"\d+(?:[.,:]\d+)*").expect("valid regex")
-            });
-            if NUMBER_TOKEN
-                .find_iter(hay)
-                .any(|m| digits(m.as_str()) == d)
-            {
+            static NUMBER_TOKEN: LazyLock<regex::Regex> =
+                LazyLock::new(|| regex::Regex::new(r"\d+(?:[.,:]\d+)*").expect("valid regex"));
+            if NUMBER_TOKEN.find_iter(hay).any(|m| digits(m.as_str()) == d) {
                 return true;
             }
             let all: String = hay
@@ -1264,12 +1260,24 @@ mod tests {
     #[test]
     fn numbers_with_separators_and_times_carry_over() {
         // Unchanged in the draft: found.
-        assert!(contains_invariant("Hasta 1,000 personas", "number", "1,000"));
+        assert!(contains_invariant(
+            "Hasta 1,000 personas",
+            "number",
+            "1,000"
+        ));
         assert!(contains_invariant("Tome 3.5 mg", "number", "3.5"));
-        assert!(contains_invariant("Fiebre de 100.4 grados", "number", "100.4"));
+        assert!(contains_invariant(
+            "Fiebre de 100.4 grados",
+            "number",
+            "100.4"
+        ));
         assert!(contains_invariant("Llegue a las 9:30", "time", "9:30"));
         // Local number formats still match by their digits.
-        assert!(contains_invariant("Hasta 1.000 personas", "number", "1,000"));
+        assert!(contains_invariant(
+            "Hasta 1.000 personas",
+            "number",
+            "1,000"
+        ));
         assert!(contains_invariant("Tome 3,5 mg", "number", "3.5"));
         // A changed value is still reported.
         assert!(!contains_invariant("Tome 5.3 mg", "number", "3.5"));

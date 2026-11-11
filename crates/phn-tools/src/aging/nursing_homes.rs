@@ -161,11 +161,7 @@ fn pct(v: Option<f64>) -> String {
 /// a village or neighborhood ("Hyannis", "Dorchester") or a variant spelling
 /// ("Middleboro"); when it is not one of the 351 municipalities, the main town
 /// of the facility's ZIP Code Tabulation Area is used.
-fn facility_town(
-    ctx: &Context,
-    geos: Option<&MaGeographies>,
-    f: &NursingHome,
-) -> Option<String> {
+fn facility_town(ctx: &Context, geos: Option<&MaGeographies>, f: &NursingHome) -> Option<String> {
     if let Some(m) = ctx.ma.town(&f.city) {
         return Some(m.name.clone());
     }

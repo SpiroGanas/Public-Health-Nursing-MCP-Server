@@ -416,7 +416,9 @@ pub fn write_in(ctx: &Context, dir: &Path, file: &str, bytes: &[u8]) -> Result<S
             Err(e) => return Err(e.into()),
         }
     }
-    Err(PhnError::Internal("too many files with the same name".into()))
+    Err(PhnError::Internal(
+        "too many files with the same name".into(),
+    ))
 }
 
 /// Count of letters by language, with whether an agency translation was used.
@@ -463,7 +465,10 @@ mod tests {
         let b = write_in(&ctx, &out, "letters_hmong.docx", b"second").unwrap();
         assert_ne!(a, b);
         assert!(b.ends_with("letters_hmong-2.docx"), "{b}");
-        assert_eq!(std::fs::read(out.join("letters_hmong.docx")).unwrap(), b"first");
+        assert_eq!(
+            std::fs::read(out.join("letters_hmong.docx")).unwrap(),
+            b"first"
+        );
     }
 
     #[test]

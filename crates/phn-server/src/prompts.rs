@@ -557,7 +557,10 @@ mod tests {
                 "long-term care",
                 "settings [\"health_care_worker\", \"other\"]",
             ),
-            ("restaurant or event", "settings [\"food_handler\", \"other\"]"),
+            (
+                "restaurant or event",
+                "settings [\"food_handler\", \"other\"]",
+            ),
             ("shelter", "settings [\"other\"]"),
             ("adult day health program", "settings [\"other\"]"),
             (
@@ -578,8 +581,14 @@ mod tests {
         // Every suggested value is one the tool accepts.
         for v in isolation_settings("school, child care, hospital kitchen, community") {
             assert!(
-                ["child_care", "school", "food_handler", "health_care_worker", "other"]
-                    .contains(&v),
+                [
+                    "child_care",
+                    "school",
+                    "food_handler",
+                    "health_care_worker",
+                    "other"
+                ]
+                .contains(&v),
                 "{v}"
             );
         }
@@ -611,8 +620,7 @@ mod tests {
             // Every declared toolset is used by at least one named tool.
             for ts in needed {
                 assert!(
-                    phn_tools::registry::tools()
-                        .any(|t| t.toolset == *ts && text.contains(t.name)),
+                    phn_tools::registry::tools().any(|t| t.toolset == *ts && text.contains(t.name)),
                     "{name} declares {ts} but names no tool from it"
                 );
             }

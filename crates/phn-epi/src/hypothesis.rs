@@ -731,8 +731,7 @@ mod tests {
         // A 3×2 table whose middle row is empty is the 2×2 table
         // [[10, 20], [20, 10]]: χ² = 60·(100 − 400)²/30⁴ = 6.667 on 1 df
         // (the old code used 2 df), Cramér's V = √(6.667/60) = 0.333.
-        let (t, min_e) =
-            chi_square_table(&[vec![10.0, 20.0], vec![0.0, 0.0], vec![20.0, 10.0]]);
+        let (t, min_e) = chi_square_table(&[vec![10.0, 20.0], vec![0.0, 0.0], vec![20.0, 10.0]]);
         assert_eq!(t.df, Some(1.0));
         assert!((t.statistic - 20.0 / 3.0).abs() < 1e-9);
         assert!((t.p_value - p_chi_square(20.0 / 3.0, 1.0)).abs() < 1e-12);

@@ -278,10 +278,14 @@ impl ServerHandler for PhnServer {
         if let Some(meta) = phn_tools::registry::tool(&name)
             && !self.ctx.enabled_toolsets().contains(&meta.toolset)
         {
-            return Ok(CallToolResult::error(vec![ContentBlock::text(
-                disabled_tool_message(&name, meta.toolset, &self.ctx.config),
-            )])
-            .into());
+            return Ok(
+                CallToolResult::error(vec![ContentBlock::text(disabled_tool_message(
+                    &name,
+                    meta.toolset,
+                    &self.ctx.config,
+                ))])
+                .into(),
+            );
         }
         let tcc = ToolCallContext::new(self, request, context);
         self.tool_router.call(tcc).await

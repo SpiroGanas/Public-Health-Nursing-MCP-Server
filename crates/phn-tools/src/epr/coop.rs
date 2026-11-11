@@ -1286,7 +1286,7 @@ pub fn continuity_of_operations_planner(
         let hit = r.find(Some(who), None).or_else(|| {
             r.holders(who)
                 .into_iter()
-                .find(|e| index(*e).is_none_or(|i| !used.contains(&i)))
+                .find(|e| index(e).is_none_or(|i| !used.contains(&i)))
         });
         match hit {
             Some(e) => {

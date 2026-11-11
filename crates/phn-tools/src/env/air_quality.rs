@@ -285,9 +285,9 @@ pub async fn air_quality_protective_guidance(
                         top[1],
                         t.unit,
                         top[3],
-                        t.note
-                            .as_deref()
-                            .unwrap_or("Use the averaging time 40 CFR 58 Appendix G gives for higher values.")
+                        t.note.as_deref().unwrap_or(
+                            "Use the averaging time 40 CFR 58 Appendix G gives for higher values."
+                        )
                     )),
                     None => PhnError::InvalidInput(format!(
                         "{c} {} is below the {} {} breakpoints; use the 8-hour average for ozone",

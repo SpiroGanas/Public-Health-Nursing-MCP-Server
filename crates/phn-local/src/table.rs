@@ -380,7 +380,11 @@ mod tests {
 
         // A grid with one column per person: the names are not returned as headers.
         let p2 = dir.path().join("grid.csv");
-        std::fs::write(&p2, "Date,Maria Garcia,James Smith,Linda Nguyen\n2026-09-14,x,,x\n").unwrap();
+        std::fs::write(
+            &p2,
+            "Date,Maria Garcia,James Smith,Linda Nguyen\n2026-09-14,x,,x\n",
+        )
+        .unwrap();
         let t2 = read_table(&p2, None).unwrap();
         assert_eq!(t2.headers, vec!["Date", "column_2", "column_3", "column_4"]);
         assert_eq!(t2.rows.len(), 1);

@@ -387,7 +387,9 @@ mod tests {
         assert!(!is_nws_api_url(
             "https://api.weather.gov.example.org/gridpoints/BOX/71,90/forecast"
         ));
-        assert!(!is_nws_api_url("http://api.weather.gov/gridpoints/BOX/71,90/forecast"));
+        assert!(!is_nws_api_url(
+            "http://api.weather.gov/gridpoints/BOX/71,90/forecast"
+        ));
         assert!(!is_nws_api_url("https://example.org/forecast"));
     }
 

@@ -946,17 +946,19 @@ fn log_mode(ctx: &Context, args: &ConcussionArgs, as_of: NaiveDate) -> Result<Lo
         line.push(if ec { "yes".into() } else { "no".into() });
         line.push(if diagnosed { "yes".into() } else { "no".into() });
         line.extend(results);
-        line.push(if is_open
-            && inj
-                .checked_add_signed(Duration::days(28))
-                .is_some_and(|four| as_of >= four)
-        {
-            "over 4 weeks: assessment and 504/IEP review".into()
-        } else if is_open {
-            "open".into()
-        } else {
-            String::new()
-        });
+        line.push(
+            if is_open
+                && inj
+                    .checked_add_signed(Duration::days(28))
+                    .is_some_and(|four| as_of >= four)
+            {
+                "over 4 weeks: assessment and 504/IEP review".into()
+            } else if is_open {
+                "open".into()
+            } else {
+                String::new()
+            },
+        );
         if lc
             .returned_same_day
             .is_some_and(|i| localdata::truthy(cellv(row, Some(i))) == Some(true))

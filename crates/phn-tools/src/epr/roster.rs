@@ -495,7 +495,10 @@ mod tests {
                 .is_none()
         );
         // A name that is not on the roster never borrows the position holder's contacts.
-        assert!(r.find(Some("A. Quell"), Some("Incident Commander")).is_none());
+        assert!(
+            r.find(Some("A. Quell"), Some("Incident Commander"))
+                .is_none()
+        );
         assert!(r.find(Some("Nobody"), Some("PIO")).is_none());
         assert_eq!(
             r.find(Some("ada quell"), Some("PIO")).unwrap().name,

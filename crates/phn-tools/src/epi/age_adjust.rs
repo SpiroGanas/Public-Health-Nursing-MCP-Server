@@ -544,11 +544,19 @@ mod tests {
                 // Ages 5–14 are missing.
                 group(
                     "Gap Town",
-                    &[("0-4", 2, 5_000.0), ("15-24", 5, 12_000.0), ("25+", 80, 60_000.0)],
+                    &[
+                        ("0-4", 2, 5_000.0),
+                        ("15-24", 5, 12_000.0),
+                        ("25+", 80, 60_000.0),
+                    ],
                 ),
                 group(
                     "Whole Town",
-                    &[("0-14", 4, 15_000.0), ("15-24", 5, 12_000.0), ("25+", 80, 60_000.0)],
+                    &[
+                        ("0-14", 4, 15_000.0),
+                        ("15-24", 5, 12_000.0),
+                        ("25+", 80, 60_000.0),
+                    ],
                 ),
             ],
             None,
@@ -558,7 +566,10 @@ mod tests {
             .iter()
             .find(|c| c.contains("without gaps"))
             .expect("coverage caveat");
-        assert!(gap.contains("Gap Town") && !gap.contains("Whole Town"), "{gap}");
+        assert!(
+            gap.contains("Gap Town") && !gap.contains("Whole Town"),
+            "{gap}"
+        );
         assert!(r.caveats.iter().any(|c| c.contains("same age groups")));
     }
 }

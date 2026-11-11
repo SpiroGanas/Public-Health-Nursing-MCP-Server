@@ -752,9 +752,28 @@ const PERSON_HEADERS: [&str; 10] = [
 /// Header words that show a "person" header is about something else
 /// ("Student grade", "Contact type", "Patient status").
 const NOT_PERSON_HEADERS: [&str; 22] = [
-    "type", "status", "grade", "age", "sex", "gender", "race", "ethnicity", "language", "count",
-    "total", "school", "town", "city", "relationship", "result", "category", "group", "setting",
-    "method", "level", "risk",
+    "type",
+    "status",
+    "grade",
+    "age",
+    "sex",
+    "gender",
+    "race",
+    "ethnicity",
+    "language",
+    "count",
+    "total",
+    "school",
+    "town",
+    "city",
+    "relationship",
+    "result",
+    "category",
+    "group",
+    "setting",
+    "method",
+    "level",
+    "risk",
 ];
 
 /// True when every word of the header is a name part ("First", "Last, First").
@@ -792,8 +811,19 @@ fn name_shaped(v: &str) -> bool {
     }
     !matches!(
         v.trim().to_ascii_lowercase().as_str(),
-        "yes" | "no" | "y" | "n" | "true" | "false" | "t" | "f" | "unknown" | "unk" | "other"
-            | "none" | "self"
+        "yes"
+            | "no"
+            | "y"
+            | "n"
+            | "true"
+            | "false"
+            | "t"
+            | "f"
+            | "unknown"
+            | "unk"
+            | "other"
+            | "none"
+            | "self"
     )
 }
 
@@ -955,11 +985,22 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
         if shaped >= 0.6 && person_header(&header_tokens) {
             let listed = share(values, name_like);
             let multiword = share(values, |v| v.split_whitespace().count() >= 2);
-            if listed >= 0.3 || multiword >= 0.5 || (distinct.len() >= 3 && distinct_ratio > 0.5) {
+            // Names are capitalized; categories such as "Sent home" are not.
+            let capitalized = share(values, |v| {
+                v.split_whitespace()
+                    .all(|w| w.chars().next().is_some_and(char::is_uppercase))
+            });
+            if capitalized >= 0.6
+                && (listed >= 0.3
+                    || multiword >= 0.5
+                    || (distinct.len() >= 3 && distinct_ratio > 0.5))
+            {
                 return Some(make(
                     Identifier::Name,
                     Confidence::Medium,
-                    format!("column name '{header}' suggests a person and the values look like names"),
+                    format!(
+                        "column name '{header}' suggests a person and the values look like names"
+                    ),
                 ));
             }
         }
@@ -1553,7 +1594,10 @@ mod tests {
         for (text, secret) in [
             ("Mrs. Delgado\nMedicaid ID: 100234567", "100234567"),
             ("Carmen\nCase number: 2024-0118", "2024-0118"),
-            ("Client: Mrs. Delgado\nDate of Birth: 04/17/1958", "04/17/1958"),
+            (
+                "Client: Mrs. Delgado\nDate of Birth: 04/17/1958",
+                "04/17/1958",
+            ),
         ] {
             for level in [RedactionLevel::Standard, RedactionLevel::Strict] {
                 let r = redact_text(text, level);
@@ -1588,14 +1632,26 @@ mod tests {
             "ZIP 01002-1234",
             "school year 2024-2025",
         ] {
-            assert!(scan_text(plain).is_empty(), "{plain}: {:?}", scan_text(plain));
+            assert!(
+                scan_text(plain).is_empty(),
+                "{plain}: {:?}",
+                scan_text(plain)
+            );
         }
     }
 
     #[test]
     fn person_and_id_headers_are_flagged_in_small_files() {
         let t = table(
-            &["First", "Last", "ID", "Case #", "Student", "Up to date", "MI"],
+            &[
+                "First",
+                "Last",
+                "ID",
+                "Case #",
+                "Student",
+                "Up to date",
+                "MI",
+            ],
             &[
                 &["Thuy", "Okafor", "104", "7", "Ngoc Adeyemi", "Y", "N"],
                 &["Abdi", "Mohamud", "105", "8", "Linh Abdi", "N", "Y"],
@@ -1627,7 +1683,14 @@ mod tests {
         assert_eq!(header_look("Garcia, Maria"), HeaderLook::Name);
         assert_eq!(header_look("2024"), HeaderLook::DataLike);
         assert_eq!(header_look("3/7/2015"), HeaderLook::DataLike);
-        for label in ["Town", "Onset Date", "Student Name", "MRN Number", "FY2024", "Total"] {
+        for label in [
+            "Town",
+            "Onset Date",
+            "Student Name",
+            "MRN Number",
+            "FY2024",
+            "Total",
+        ] {
             assert_eq!(header_look(label), HeaderLook::Label, "{label}");
         }
     }

@@ -1110,7 +1110,10 @@ fn regression_markdown(r: &RegressionResult, conf: f64) -> String {
 
 fn regression_interpretation(r: &RegressionResult) -> String {
     if !r.warnings.is_empty() {
-        return format!("**Do not interpret these estimates.** {}", r.warnings.join(" "));
+        return format!(
+            "**Do not interpret these estimates.** {}",
+            r.warnings.join(" ")
+        );
     }
     let sig: Vec<&str> = r
         .terms
@@ -1450,7 +1453,11 @@ mod tests {
         ];
         let r = contingency(&big, &labels, &labels, TestChoice::FisherExact, &c, None).unwrap();
         assert_eq!(r.selected_test, "ChiSquare");
-        assert!(r.rationale.contains("cannot be calculated"), "{}", r.rationale);
+        assert!(
+            r.rationale.contains("cannot be calculated"),
+            "{}",
+            r.rationale
+        );
         assert!(r.primary.as_ref().is_some_and(|t| t.p_value < 1e-12));
         assert!(r.alternatives.is_empty());
         // An ordinary small table still uses the exact test.

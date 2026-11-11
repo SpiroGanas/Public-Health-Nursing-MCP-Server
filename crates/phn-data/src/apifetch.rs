@@ -342,7 +342,9 @@ mod tests {
         let http = HttpClient::new(&Config::for_root(dir.path())).unwrap();
         let cache = Cache::in_memory().unwrap();
         let fetched = chrono::Utc::now() - chrono::Duration::hours(2);
-        cache.put_at("https://x/alerts", b"[]", 300, fetched).unwrap();
+        cache
+            .put_at("https://x/alerts", b"[]", 300, fetched)
+            .unwrap();
 
         // Two hours old with a one-hour limit: refused.
         let strict = FetchOptions {

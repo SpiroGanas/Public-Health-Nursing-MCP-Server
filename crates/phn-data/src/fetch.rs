@@ -38,10 +38,7 @@ pub type SnapshotFallback = Box<dyn FnOnce() -> Option<(Vec<u8>, String)> + Send
 /// `YYYY-MM-DD` of anything else (snapshot dates).
 pub fn local_date(as_of: &str) -> String {
     match chrono::DateTime::parse_from_rfc3339(as_of) {
-        Ok(t) => t
-            .with_timezone(&chrono::Local)
-            .date_naive()
-            .to_string(),
+        Ok(t) => t.with_timezone(&chrono::Local).date_naive().to_string(),
         Err(_) => as_of.chars().take(10).collect(),
     }
 }

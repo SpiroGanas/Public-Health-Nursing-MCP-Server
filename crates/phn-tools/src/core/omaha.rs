@@ -1032,11 +1032,7 @@ mod tests {
         assert_eq!(med.code, "42");
         assert!(med.negated_terms.contains(&"insulin".to_string()));
         assert!(env.summary.contains("Mentioned as absent or negated"));
-        assert!(
-            env.caveats
-                .iter()
-                .any(|c| c.contains("absent or negated"))
-        );
+        assert!(env.caveats.iter().any(|c| c.contains("absent or negated")));
         // The note's own words are still not returned.
         let json = serde_json::to_string(&env).unwrap();
         assert!(!json.contains("is not taking her"));

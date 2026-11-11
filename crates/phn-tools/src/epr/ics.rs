@@ -3165,7 +3165,10 @@ mod tests {
         let t = docx_text(&folder.join("ICS_205A_Communications_List.docx"));
         assert!(t.contains("A. Rivera"), "{t}");
         // The roster's Safety Officer is someone else: none of that person's details appear.
-        assert!(!t.contains("508-555-0103") && !t.contains("cy@example.org"), "{t}");
+        assert!(
+            !t.contains("508-555-0103") && !t.contains("cy@example.org"),
+            "{t}"
+        );
         assert!(!t.contains("Cy Dunmore"), "{t}");
     }
 
@@ -3290,7 +3293,10 @@ mod tests {
         assert!(t.contains("— — Branch Director: Clinic Branch"), "{t}");
         assert!(t.contains("J. Director"), "{t}");
         assert!(t.contains("— — — Division/Group: Gym Clinic"), "{t}");
-        assert!(t.contains("— — Division/Group: Contact Tracing Group"), "{t}");
+        assert!(
+            t.contains("— — Division/Group: Contact Tracing Group"),
+            "{t}"
+        );
         assert!(t.contains("— Deputy") && t.contains("H. Second"), "{t}");
         assert!(t.contains("Other assigned positions"), "{t}");
         assert!(!t.contains("(added)"), "{t}");

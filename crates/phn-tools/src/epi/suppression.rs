@@ -90,9 +90,30 @@ fn is_label_header(h: &str) -> bool {
     phn_core::text::normalize(h).split(' ').any(|t| {
         matches!(
             t,
-            "grade" | "age" | "year" | "yr" | "week" | "wk" | "mmwr" | "month" | "quarter"
-                | "period" | "day" | "date" | "zip" | "zipcode" | "fips" | "code" | "id"
-                | "cluster" | "group" | "level" | "class" | "district" | "region" | "tract"
+            "grade"
+                | "age"
+                | "year"
+                | "yr"
+                | "week"
+                | "wk"
+                | "mmwr"
+                | "month"
+                | "quarter"
+                | "period"
+                | "day"
+                | "date"
+                | "zip"
+                | "zipcode"
+                | "fips"
+                | "code"
+                | "id"
+                | "cluster"
+                | "group"
+                | "level"
+                | "class"
+                | "district"
+                | "region"
+                | "tract"
         )
     })
 }
@@ -103,7 +124,11 @@ fn row_sums_match(table: &Table, from: usize, ncols: usize) -> bool {
     let mut checked = 0;
     for row in &table.rows {
         let vals: Option<Vec<u64>> = (from..ncols)
-            .map(|c| parse_count(row.get(c).map(String::as_str).unwrap_or("")).ok().flatten())
+            .map(|c| {
+                parse_count(row.get(c).map(String::as_str).unwrap_or(""))
+                    .ok()
+                    .flatten()
+            })
             .collect();
         let Some(vals) = vals else { continue };
         let (total, parts) = vals.split_last().expect("at least two columns");
@@ -224,10 +249,9 @@ pub fn apply_small_cell_suppression(
     // without identifiers (a name or phone number in a label column would be
     // returned otherwise).
     let suspicious_label = table.rows.iter().any(|row| {
-        row.iter().take(label_cols).any(|v| {
-            v.chars().count() > 80
-                || phi::scan_text(v).iter().any(|f| f.kind.is_direct())
-        })
+        row.iter()
+            .take(label_cols)
+            .any(|v| v.chars().count() > 80 || phi::scan_text(v).iter().any(|f| f.kind.is_direct()))
     });
     if suspicious_label {
         return Err(PhnError::Privacy(
@@ -431,9 +455,21 @@ mod tests {
             inline(
                 &["Town", "Notes", "Cases"],
                 &[
-                    &["Amherst", "Spoke with daughter Carmen about the exposure at school today", "3"],
-                    &["Hadley", "Household contacts were identified and notified by phone call", "8"],
-                    &["Pelham", "Mother reports two siblings with the same cough since Monday", "6"],
+                    &[
+                        "Amherst",
+                        "Spoke with daughter Carmen about the exposure at school today",
+                        "3",
+                    ],
+                    &[
+                        "Hadley",
+                        "Household contacts were identified and notified by phone call",
+                        "8",
+                    ],
+                    &[
+                        "Pelham",
+                        "Mother reports two siblings with the same cough since Monday",
+                        "6",
+                    ],
                 ],
             ),
         )
@@ -442,7 +478,10 @@ mod tests {
         assert!(!e.contains("Carmen"), "{e}");
         let e = apply_small_cell_suppression(
             &ctx,
-            inline(&["Contact", "Cases"], &[&["call 413-555-0101", "3"], &["Amherst", "8"]]),
+            inline(
+                &["Contact", "Cases"],
+                &[&["call 413-555-0101", "3"], &["Amherst", "8"]],
+            ),
         )
         .unwrap_err()
         .to_string();

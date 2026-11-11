@@ -674,9 +674,8 @@ pub fn build_school_health_annual_report(
         // Year row, or when its numerator or the rest of its denominator is a small count.
         let year_hidden = &hidden[hidden.len() - 1];
         let small = |n: u64| n > 0 && n < u64::from(threshold);
-        let returned_ok = !(year_hidden[0] || year_hidden[5])
-            && !small(tot[5])
-            && !small(assessed - tot[5]);
+        let returned_ok =
+            !(year_hidden[0] || year_hidden[5]) && !small(tot[5]) && !small(assessed - tot[5]);
         let dismissal_ok = !(year_hidden[6] || year_hidden[7])
             && !small(dismissed)
             && !small(assessed - dismissed);
