@@ -435,6 +435,12 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
     supporting facts and duplicate languages; after-action date arithmetic; async tools that
     parse files on the async runtime (Phases 9, 11, 12, and CERC); the image ships an empty
     `/data`; release actions are pinned to tags, not commit SHAs.
+  - Dates: the 1900–2100 check covers files and the communicable disease, school,
+    immunization, and growth tools, but not `core/practice.rs` `date_arg` (LTBI, newcomer, TB
+    arguments) or the COOP, after-action, ICS, press, and social media date arguments
+    (`design_hseep_exercise` allows 1900–2200); an outbreak cell with a date and a time reads
+    two-digit years with chrono's 69/68 pivot. The nursing home tool does not show the CMS
+    adapter's fallback reason.
   - Template folders: tools resolve `/data/templates/<language>/` with three different rules
     (school/CERC, maternal-child health, and `core/practice.rs` used by shelter intake, LTBI, and
     the newcomer checklist); `haitian_creole` works everywhere, codes such as `ht` do not. Unify

@@ -17,6 +17,20 @@ plain-language message.
 
 Paths are relative to the mounted data folder (`/data`); `/data/...` is also accepted.
 
+**Dates.** Date arguments are written YYYY-MM-DD. Dates in the nurse's files, and dates given to
+the school, immunization, and growth tools, may also be written month first (3/7/2024 or 3/7/24)
+or as an Excel date. A two-digit year is read in the current century unless that would be more
+than a year in the future, in which case it is the previous century (3/7/24 is 2024; 5/2/50 is
+1950). A year before 1900 or after 2100 makes a cell in a file unreadable, and the communicable
+disease, school, immunization, and growth tools refuse such a date as an argument. (In an
+outbreak line list, a cell holding a date and a time, such as `5/3/26 14:30`, reads a two-digit
+year as 1969–2068.)
+
+**Sources and the cache.** The retrieval date cited for a source is the local calendar date (the
+container runs on Eastern time). Copies of public data saved in `/cache` are deleted after 90
+days; a cache that cannot be read is skipped, so the live source or the bundled snapshot is used
+instead.
+
 ---
 
 ## Phase 0
@@ -55,7 +69,11 @@ current settings.
 | `reset` | Clear all settings first. |
 
 Environment variables in the client configuration override saved values; the result says when
-that happens. HMCC regions are derived from the 2005 DPH preparedness-region layer (4A and 4B
+that happens. In particular, when `PHN_PROFILE` or `PHN_TOOLSETS` is set there, a saved profile or
+toolset list has no effect; a call to a tool outside the enabled toolsets then returns an error
+saying that the client configuration must be edited. A `suppression_threshold` outside 2–30 in the
+settings file (for example after a hand edit) is never used: the default applies, and the result
+and the server's startup log say so. HMCC regions are derived from the 2005 DPH preparedness-region layer (4A and 4B
 merged into 4AB), corrected where DPH's HMCC Regional Boundaries map (December 2019) differs
 (Wilmington, Region 3), and carry that caveat.
 
@@ -86,6 +104,9 @@ regulation sections the entry was transcribed from, and the chapter of DPH's *Gu
 Surveillance, Reporting and Control* when the current handbook has one. Includes the nurse's own
 board of health when configured and the DPH Epidemiology line. When nothing matches, it says that
 this does **not** mean the condition is not reportable: clusters and unusual illnesses always are.
+It does not guess: a query that fits more than one condition ("hepatitis"), is too general
+("fever", "stomach flu"), or is very short is answered as not matched, with the candidates
+listed. An exact name, alias, or laboratory term always matches.
 
 The content was re-checked on 2026-11-07 against the regulation text (Mass. Register #1470,
 5/27/22) and DPH's current provider and laboratory reporting lists, and it remains pending
@@ -113,7 +134,15 @@ returned by default. With `include_rows`, identifier columns are replaced by
 identifiers inside other text are redacted. For documents, standard redaction removes Social
 Security numbers and labeled dates of birth and record, member, account, and license numbers;
 if any of those are found the whole document is redacted strictly (names, phone numbers,
-emails, addresses, and dates too). There is no way to turn redaction off.
+emails, addresses, and dates too). Headings and titles are redacted like the body. A document
+that holds a table (a Word table, or tab-, pipe-, or semicolon-separated text) with a
+client-identifier column, or several names next to dates or street addresses, is treated as a
+client roster and redacted strictly. In sample rows, ZIP codes become three digits plus `xx`
+(`000xx` for the low-population prefixes), a birth year that shows an age of 90 or more becomes
+`90+`, and numbers of six or more digits in columns that were not recognized become
+`[REDACTED: number]`. Column headers that are blank or look like data (a file with no header row)
+are shown as `column_N`, and a sheet named after a person as `sheet_N` (use that name to select
+it). There is no way to turn redaction off.
 
 ### `search_agency_policies` (CORE-05, toolset `core`)
 
@@ -124,7 +153,10 @@ emails, addresses, and dates too). There is no way to turn redaction off.
 | `max_results` | 5 | 1–20. |
 
 Indexes PDF (by page), DOCX (by heading), Markdown (by heading), text, and HTML with `tantivy`
-in `/cache/index`, rebuilding automatically when files change. Returns passages with query
+in `/cache/index`, rebuilding automatically when files change. Headings in passages and
+citations are redacted like the text. A file that holds client identifiers (a date of birth, a
+record or health plan number) is redacted strictly, headings included; an SSN alone does not
+trigger this, because policies often show example numbers. Returns passages with query
 terms in bold and citations such as `Exposure Control Plan.docx, § Reporting` or
 `TB policy.pdf, p. 4`.
 
@@ -133,7 +165,7 @@ terms in bold and citations such as `Exposure Control Plan.docx, § Reporting` o
 | Argument | Default | |
 |---|---|---|
 | `title`, `subtitle` | | Title is also the document's title property. |
-| `content_markdown` | required | Headings, paragraphs, bold/italic, lists, links, pipe tables (`Table: caption` line before a table), images `![alt](path)`, `\pagebreak`. |
+| `content_markdown` | required | Headings, paragraphs, bold/italic, lists (nested items stay under their parent item), links, pipe tables (`Table: caption` line before a table), images `![alt](path)`, `\pagebreak` or `<!-- pagebreak -->`. A `---` rule does not start a new page. Indented or fenced text is kept as plain paragraphs. |
 | `formats` | `["docx"]` | `docx`, `pdf`, `xlsx`, `csv`, `svg`, `png`. |
 | `file_name` | from title | Files are never overwritten (a number is added). |
 | `language` | `en-US` | BCP 47 tag set on the document. |
@@ -148,8 +180,15 @@ embeds subset DejaVu fonts with Unicode maps, sets the language and title, and m
 letterhead and page numbers as artifacts. Every DOCX and PDF is checked with
 `check_document_accessibility` before the result is returned. Images must have alt text.
 
+In XLSX output, repeated column names get a number ("n (2)"), sheet names are cut to 28
+characters, and only plain numbers are stored as numbers (ZIP codes with leading zeros, lists
+such as "1,2", and long identifiers stay text). In CSV output, a cell that starts with `=`, `+`,
+`-`, or `@` and is not a number gets a leading apostrophe, so a spreadsheet does not run it as a
+formula.
+
 **Privacy:** merged documents are written to `/data/output`; the response contains only counts,
-field names, and generic file names.
+field names, and generic file names. For a mail merge, the accessibility check runs on the
+template, so no merged text comes back in the check's messages.
 
 ### `apply_small_cell_suppression` (EPI-06, toolset `epi`)
 
@@ -167,7 +206,12 @@ field names, and generic file names.
 
 Complementary suppression hides additional cells until no row or column contains exactly one
 hidden cell, preferring the smallest non-zero interior cells and touching totals only as a last
-resort. Tables with direct identifiers are refused as record-level data.
+resort. Tables with direct identifiers are refused as record-level data. A leading numeric column
+named like a label (Grade, Age, Year, Week, Month, ZIP, Code, ID, District, Tract, ...) is a label
+column, not a count; so is a leading numeric column that is not part of the row sum when the last
+column is a total. Label cells that look like free text (over 80 characters) or contain names,
+phone numbers, or addresses are refused, because labels are returned as they are. Error messages
+name the row and column of a bad cell but never quote it.
 
 ### `profile_local_dataset` (EPI-07, toolset `epi`)
 
@@ -182,7 +226,11 @@ identifiers with the evidence (never values). With value summaries: mean, SD, qu
 outlier counts for numeric columns (min/max shown only with enough records, ages over 89 as
 90+), month ranges for dates other than birth dates, and frequency tables with small-cell and
 complementary suppression for categorical, town, and ZIP columns. Identifier columns never
-show values.
+show values. A numeric column with fewer values than the suppression threshold shows no
+statistics. In age columns, ages over 89 are counted as 90 before any statistic is computed. The
+smallest and largest values are also hidden when almost every value differs, as ID numbers do.
+"(missing)" is listed with its count, outside the suppression of the other categories, because
+the number missing is reported anyway.
 
 ### `deidentify_dataset` (EPI-08, toolset `epi`)
 
@@ -203,7 +251,11 @@ account, license, vehicle, and device numbers, URLs, IP addresses, photos, and b
 reduces dates to year; replaces dates of birth with age (90+ for 90 and older); reduces ZIP
 codes to three digits (000 for the 17 low-population prefixes in HHS guidance); top-codes ages
 over 89; redacts identifiers found in other text cells; and reports records whose combination of
-quasi-identifiers is shared by fewer than *k* records (*k* = the suppression threshold).
+quasi-identifiers is shared by fewer than *k* records (*k* = the suppression threshold). Safe
+Harbor also removes full dates and ZIP codes found inside text cells (a bare year stays; a compact
+date such as 20240311 becomes its year). Ages in months, weeks, or days are not top-coded. A
+limited data set drops latitude, longitude, and geocode columns, which locate a home as precisely
+as a street address.
 Writes the data and a markdown report to `/data/output`; only the report is returned.
 
 ### `check_document_accessibility` (COMM-05, toolset `comms`)
@@ -212,11 +264,15 @@ Writes the data and a markdown report to `/data/output`; only the report is retu
 |---|---|
 | `path` | DOCX, HTML, or PDF in `/data`. |
 
-Checks, with the WCAG 2.1 success criterion for each: title (2.4.2), language (3.1.1), headings
-present (2.4.6) and in order (1.3.1), bold paragraphs posing as headings, alt text (1.1.1),
-table header rows and merged cells (1.3.1), color contrast (1.4.3), link text (2.4.4), empty
-paragraphs and typed bullets, form labels (HTML, 3.3.2), tagging, title display, scanned pages,
-figure alt text, and embedded fonts (PDF). Lists failures with how to fix them in Word or
+Checks, with the WCAG 2.1 success criterion for each: title (2.4.2), language (3.1.1), alt text
+(1.1.1), and scanned pages for every format; headings present (2.4.6) and in order (1.3.1), bold
+paragraphs posing as headings, table header rows and merged cells (1.3.1), color contrast
+(1.4.3), link text (2.4.4), empty paragraphs and typed bullets, and form labels (HTML, 3.3.2) for
+DOCX and HTML; tagging, title display, figure alt text, and embedded fonts for PDF. For a PDF,
+headings, table header cells, contrast, and link text are listed as manual checks (check the
+source document, or use Acrobat's checker). Text quoted in the report (title, headings, first
+table rows) has possible identifiers replaced with `[REDACTED: kind]`, and the privacy block
+says when that happened. Lists failures with how to fix them in Word or
 Acrobat, plus the manual checks automation cannot do (reading order, use of color, alt-text
 quality).
 
@@ -242,7 +298,10 @@ NCHS Master List (Healthy People 2010 Statistical Notes No. 20) when the age gro
 it — reproducing NCHS weights exactly — and from the single-year P25-1130 population (NCI SEER)
 otherwise. Confidence intervals use the gamma method of Fay and Feuer (1997); crude rates use
 exact Poisson intervals. Flags rates from fewer than 20 events and totals below the suppression
-threshold. Golden tests: R `epitools::ageadjust.direct`.
+threshold. Caveats say when a group's age groups do not run from age 0 to an open-ended oldest
+group (the rates then describe only those ages and are not comparable with published all-ages
+rates) and when groups use different age groups. A comparison with a group whose rate is zero is
+shown as "not estimable". Golden tests: R `epitools::ageadjust.direct`.
 
 ### `analyze_two_by_two` (EPI-03, toolset `epi`)
 
@@ -259,7 +318,11 @@ preventable fractions (Levin; Miettinen for case-control), Pearson, Yates, and M
 chi-square, Fisher's exact (two- and one-sided), and the mid-p. With two or more strata: crude and
 Mantel–Haenszel odds and risk ratios (Robins–Breslow–Greenland and Greenland–Robins intervals),
 the MH test, the Breslow–Day test with Tarone's correction, and the crude-versus-adjusted change
-(a confounding screen). Golden tests: R `fisher.test`, `chisq.test`, `mantelhaen.test`,
+(a confounding screen). The Breslow–Day degrees of freedom count only strata with both margins
+filled. Cells larger than 1,000,000,000 are refused as typing errors; when a table has more than
+1,000,000 possible arrangements, the exact methods (Fisher, mid-p, conditional odds ratio) are
+skipped with a note, and the chi-square tests and Woolf and Katz intervals are used. Golden tests:
+R `fisher.test`, `chisq.test`, `mantelhaen.test`,
 `epitools`; SciPy; statsmodels.
 
 ### `calculate_sample_size` (EPI-04, toolset `epi`)
@@ -298,10 +361,10 @@ with the reference, not areas with each other, and points to CDC/CSTE cluster gu
 
 | Argument | Default | |
 |---|---|---|
-| `periods` | | In order: `label`, `count`, optional `population`. |
+| `periods` | | In order: `label`, `count`, optional `population`. Labels such as "2024", "2024-03", "03/2024", "Mar 2024", "2024 Q2", "2024-W05", or a date place a seasonal peak in the calendar; other labels give the peak as a position counted from the first period. |
 | `time_unit` | `year` | `quarter`, `month`, `week`. |
 | `model` | `auto` | Poisson, switching to negative binomial when Pearson dispersion > 1.5. |
-| `seasonal` | true for months and weeks | One annual harmonic, tested by likelihood ratio. |
+| `seasonal` | true for months and weeks with at least two years (24 months, 104 weeks) | One annual harmonic, tested by likelihood ratio. Turned off by default for shorter series (with a caveat); `true` is refused with fewer than 18 months, 78 weeks, or 6 quarters. |
 | `max_joinpoints` | 3 | Limited to ⌊(n − 2)/5⌋ as in NCI Joinpoint guidance. |
 | `interruptions` | | Labels of the first period after a known change (interrupted time series). |
 | `per`, `confidence`, `event_description`, `chart` (true) | | |
@@ -309,7 +372,9 @@ with the reference, not areas with each other, and points to CDC/CSTE cluster gu
 Reports the percent change per year from one log-linear trend; the BIC-selected joinpoint model
 (segment APCs and the AAPC; intervals conditional on joinpoint locations); level and slope changes
 at interruptions; seasonality; Mann–Kendall τ; and Durbin–Watson autocorrelation warnings. Saves a
-line chart of observed and modeled values. Golden tests: R `glm`, `MASS::glm.nb`,
+line chart of observed and modeled values. A series whose counts are all zero is refused. A model
+that does not converge is reported in the caveats, and the Durbin–Watson statistic is left out
+when the model fits every period exactly. Golden tests: R `glm`, `MASS::glm.nb`,
 `trend::mk.test`, `trend::sens.slope`.
 
 ### `run_statistical_test` (EPI-10, toolset `epi`)
@@ -328,7 +393,19 @@ Kruskal–Wallis; paired → paired t or Wilcoxon signed-rank; counts → chi-sq
 logistic regression. Alternatives run as sensitivity checks. Local files: only aggregates (n,
 mean, SD, median, IQR — never minimum, maximum, or rows); identifier columns are refused; groups
 smaller than the suppression threshold are refused; table cells are suppressed with complementary
-suppression. Golden tests: R `t.test`, `wilcox.test`, `oneway.test`, `kruskal.test`,
+suppression.
+
+Edge cases: when the data show no difference at all (every value tied, or groups identical), the
+rank tests give p = 1 and the t tests and ANOVA a statistic of 0 with p = 1, rather than an
+undefined value. Rows and columns of a table that total zero do not count toward the chi-square
+degrees of freedom or Cramér's V. When Fisher's exact test is asked for but cannot be calculated
+(an empty row or column, or more than 1,000,000 possible tables), the chi-square test is shown
+with the reason. A correlation with a variable whose values are all the same is refused. For
+logistic regression, `warnings` reports separation (a predictor that predicts the outcome
+perfectly or almost perfectly) or a model that did not converge, and the interpretation then says
+not to interpret the estimates.
+
+Golden tests: R `t.test`, `wilcox.test`, `oneway.test`, `kruskal.test`,
 `chisq.test`, `cor.test`, `shapiro.test`, `glm`; SciPy for the median-centered Levene test (tool output calls it "Levene" because the
 eponym "Brown" collides with the surname detector in the leak tests).
 
@@ -347,7 +424,9 @@ eponym "Brown" collides with the surname detector in the leak tests).
 Writes to `/data/output/charts/`. Colors follow a fixed order validated for color-vision
 deficiency on white; series also get marker shapes and direct labels, suppressed values are
 hatched, and the SVG has a title and generated description. Returns the alt text, the data table,
-and markdown to embed the image with `export_document`.
+and markdown to embed the image with `export_document`. `log_scale` is refused for bar charts
+(bars start at zero, which a log scale cannot show). A suppressed value's confidence limits are
+hidden too, in the image and in the data table.
 
 ### `create_spc_chart` (EBP-06, toolset `ebp`)
 
@@ -364,7 +443,11 @@ the 5th percentile of Binomial(n − 1, ½)). Control charts use 3-sigma limits 
 moving range) and the *Health Care Data Guide* rules: a point outside the limits, 8 in a row on
 one side, 6 increasing or decreasing, 2 of 3 beyond 2σ, 15 within 1σ. For local files, values
 from fewer records than the suppression threshold are hidden in the response (the saved chart
-keeps them, locally). Golden tests: R `qcc` limits.
+keeps them, locally), and the center line, control limits, and phase averages are then withheld
+from the response as well (they would let the hidden values be worked out); the chart file has
+them. In the shift rule a point exactly on the center line neither counts toward a run nor breaks
+it, and in the trend rule a repeated value is skipped, so a flat series is never a trend
+(Provost and Murray). Golden tests: R `qcc` limits.
 
 
 ---
@@ -416,7 +499,12 @@ possible, DPH guide chapters, DPH respiratory and GI guidance, CDC). Day countin
 anchor date; "through day N" means back on day N + 1; for N days of treatment the first full day
 is day 1, so back on start + N; "H hours after" with dates only gives the earliest calendar date.
 A more specific rule that fully applies replaces a general one (for example continuous measles
-exposure). Tuberculosis is not computed (refer). Decision support.
+exposure). Tuberculosis is not computed (refer). Disease names are not guessed: a name that fits
+more than one disease ("hepatitis", "h flu"), names a syndrome ("gastroenteritis"), or excludes
+the disease ("non-cholera Vibrio") is an error listing the candidates. For a rule counted in hours
+(for example 24 hours after treatment starts), `as_of` reports the person as excluded through the
+last day before the earliest return date. Dates must be YYYY-MM-DD between 1900 and 2100.
+Decision support.
 
 ### `analyze_outbreak_line_list` (CD-04, toolset `cd`)
 
@@ -438,7 +526,15 @@ odds ratios (Woolf), and Fisher exact p-values from `phn_epi::two_by_two`; likel
 0.05 and lower confidence limit above 1); and the probable exposure window (last onset − maximum
 incubation to first onset − minimum incubation; median onset − typical incubation). Identifier
 columns are never used, and no row-level values are returned. In the exposure table, small counts
-are masked as `<5`, but the ratios are computed from all records (the summary says so).
+are masked as `<5`, but the ratios are computed from all records (the summary says so). With fewer
+cases with an onset date than the suppression threshold, the median onset and the probable
+exposure window are not shown (they would give away individual onset times). Exposures where no
+one was recorded as exposed, or no one as unexposed, are listed in a caveat instead of being
+dropped silently (a blank cell is not read as "no"). A `disease` the server's table does not hold
+as one specific disease ("GI illness, agent unknown") is not an error: no incubation period is
+used, and a caveat says how to give one. A time column is used as the onset time only when its
+name says so ("Onset Time"); a column such as "Meal Time" must be named in `onset_time_column`.
+An ill yes/no column is preferred to a generic "Status" column as the case column.
 
 ### `generate_epi_curve` (CD-05, toolset `cd`)
 
@@ -455,7 +551,9 @@ Writes the chart to `/data/output/charts/` (exact counts, alt text, data table) 
 counts per interval with suppression. Describes the pattern — point source (onsets within about
 1.5 × the incubation range, one peak), continuous common source, intermittent common source, or
 propagated (peaks about one incubation period apart) — with its reasoning and uncertainty (CDC
-Field Epidemiology Manual, chapter 6; CDC Quick-Learn "Create an Epi Curve").
+Field Epidemiology Manual, chapter 6; CDC Quick-Learn "Create an Epi Curve"). Onset and exposure
+dates must fall between 1900 and 2100. A disease the server cannot match to one incubation period
+is treated as no incubation period (the interval and pattern then come from the onsets alone).
 
 ### `plan_contact_tracing` (CD-06, toolset `cd`)
 
@@ -470,8 +568,11 @@ Returns the infectious period, the contact elicitation window, the contact defin
 and monitoring guidance, and per-contact date rules (symptoms possible from/through from the
 incubation period, monitoring end, PEP deadlines, susceptible-contact exclusion). Writes a blank
 `contact_tracking_<disease>.xlsx` to `/data/output` whose date columns are Excel formulas from
-each contact's first and last exposure dates, plus a sheet of the rules and sources. No
-identifiers pass through the chat. Decision support.
+each contact's first and last exposure dates, plus a sheet of the rules and sources. Each
+exclusion column names who it applies to: the settings and every condition, including the "not"
+ones (for pertussis, only health care workers who have no symptoms and no prophylaxis; for
+hepatitis A, susceptible food handlers without prophylaxis), so a rule for one group is not read
+as applying to every contact. No identifiers pass through the chat. Decision support.
 
 ### `assess_measles_exposure` (CD-07, toolset `cd`)
 
@@ -489,7 +590,12 @@ Returns the immunity assessment with reasoning, MMR (72 hours) and IG (6 days) d
 the IG dose (IGIM 0.5 mL/kg, maximum 15 mL; IGIV 400 mg/kg), exclusion dates from the disease
 rules (day 5 after first exposure through day 21 after last exposure), priority groups, the
 symptom-monitoring end date, and DPH program notes (`content/cd/measles_exposure.yaml`, from the
-DPH 2022 measles chapter and the 2013 ACIP statement). Decision support.
+DPH 2022 measles chapter and the 2013 ACIP statement). An infant under 12 months has no evidence
+of immunity whatever dose count is given (doses before the first birthday do not count; the
+reasoning says so). When the case's rash onset is given and the exposure dates extend outside the
+infectious period (4 days before through 4 days after rash onset), PEP deadlines, exclusion, and
+monitoring are counted from exposure within that period, and the answer says so. Decision
+support.
 
 ### `detect_aberrations` (CD-10, toolset `cd`)
 
@@ -524,7 +630,8 @@ Returns transmission-based precautions and their duration (CDC/HICPAC Appendix A
 precaution means and its PPE (105 CMR 300.020), cohorting and hand hygiene notes, the EPA lists
 of registered disinfectants with claims against the pathogen (with links; products are matched by
 EPA registration number), and DPH notes for the setting (for example, shelters and day programs
-follow general-population guidance). Decision support.
+follow general-population guidance). Pathogens are not guessed: a name the content does not cover
+("ebola", "legionella") is an error rather than the closest entry. Decision support.
 
 ### MCP prompt: `investigate_outbreak`
 
@@ -536,7 +643,11 @@ and count cases (`analyze_outbreak_line_list`), describe time, place, and person
 (`generate_epi_curve`), start control measures (`calculate_isolation_and_exclusion`,
 `infection_control_for_congregate_settings`, `plan_contact_tracing`, `assess_measles_exposure`),
 test hypotheses (`analyze_two_by_two`), and communicate (`export_document`, MAVEN as DPH
-directs) — with privacy rules for the whole investigation.
+directs) — with privacy rules for the whole investigation. The message names the toolsets the
+workflow uses (`cd`, `epi`) and tells the model what to do when one is off. It turns the free-text
+`setting` into the matching values of `calculate_isolation_and_exclusion`'s `settings` argument.
+When `disease` is empty, it tells the model not to pass a syndrome ("GI illness") as a disease
+name until the agent is known.
 
 ---
 
@@ -577,7 +688,9 @@ adult-population-weighted mean of the town's tract estimates (derived by this se
 interval). SVI: the tracts that belong mainly to the town (largest share of their census
 blocks); for the 37 small towns without one, the tracts that overlap the town, with a caveat.
 Births and deaths are omitted: no machine-readable town-level vital statistics source was
-reachable; the result says so. Read-only; open-world.
+reachable; the result says so. A median household income the Census Bureau publishes at the
+end of its range is shown as "$250,000 or more" (or "$2,500 or less"), not as $250,001.
+Read-only; open-world.
 
 ### `get_social_vulnerability_index` (EQ-02, toolset `equity`)
 
@@ -700,14 +813,17 @@ unions of member towns. Writes files; not open-world.
 | `sort` | `relevance` | Or `newest`. |
 
 Each element becomes `("MeSH"[MeSH Terms] OR "phrase"[tiab] OR "synonym"[tiab])`: given MeSH
-headings are checked against the MeSH database (unknown ones are dropped and reported), and
+headings are checked against the MeSH database (unknown ones are dropped and reported; an element
+left with no terms is left out of the query with a warning, and a search with no terms left is an
+error), and
 PubMed's automatic term mapping adds the heading for the whole phrase. Elements are ANDed with the
 filters. Returns the exact query (and PubMed's translation and a link to rerun it), the total
 count, and for each record the PMID, title, journal, year, first three authors, an abstract
 excerpt, DOI, publication types, and link. NCBI E-utilities (`esearch`, `efetch`) with
 `tool=public-health-nursing-mcp-server` and no email; requests are spaced to stay under NCBI's
 limit (3 per second, 10 with `PHN_NCBI_API_KEY`) and cached for a day, so a recent search also
-works offline. Read-only; open-world.
+works offline. An error reported by NCBI (for example a search backend timeout) is a tool error
+and is not cached. Read-only; open-world.
 
 ### `search_cdc_guidance` (EBP-02, toolset `ebp`)
 
@@ -797,7 +913,17 @@ dates separated by semicolons; optional `Exemptions` (`mmr:medical; all:religiou
 `Varicella History`, `Lab Immunity`, and college columns. Per-student results (with the roster's
 name and ID columns) go to `/data/output/school_immunization_check_<date>.xlsx`; the answer has
 only counts by grade, requirement, and status, with small-cell suppression. Rows that cannot be
-evaluated are listed in the output file, not the answer.
+evaluated are listed in the output file, not the answer. Roster columns may carry a dose number
+("MMR 1", "DTaP #2", "Polio dose 3"); the answer lists the columns read as vaccines
+(`vaccine_columns`) and those not used (`columns_not_used`: a requirement whose vaccine is in an
+unused column shows as not met). In the Exemptions cell, a bare "medical" or "religious" covers
+every vaccine; a cell that cannot be read sends the row for review instead of guessing.
+
+**Needs review** is also used for a student 7 or older whose DTaP doses do not meet the K–6
+requirement (Tdap or Td at 7 or older may complete a catch-up series, which the content does not
+encode; DTaP is never suggested at 7 or older), and for a requirement met only with a dose given
+less than the minimum interval after a dose that did not count (CDC spaces the repeat dose from
+the invalid one).
 
 ### `analyze_vaccination_coverage` (VAX-05, toolset `vax`)
 
@@ -839,6 +965,8 @@ thresholds (`in_range`, `out_of_range_below_reporting_threshold`, `reportable_cu
 `reportable_immediate`, `undetermined`) and lists the CDC Storage and Handling Toolkit steps,
 DPH's steps for state-supplied vaccine, and contacts. It never decides viability: only the
 manufacturer can, and for state-supplied vaccine the Vaccine Program then gives instructions.
+Readings entered in Fahrenheit are compared with the Fahrenheit range (36–46 °F for a
+refrigerator), so 46.3 °F is out of range.
 
 ### `lookup_vaccine_product` (VAX-07, toolset `vax`)
 
@@ -905,7 +1033,13 @@ Live lookups (cached a day) in RxNorm (RxNav: best concept, ingredients, brand n
 (label highlights with effective date, set ID, and version; enforcement reports; drug shortages),
 and DailyMed (package inserts with version and publication date). openFDA searches use the RxNorm
 ingredient name when there is one. An optional free key in `PHN_OPENFDA_API_KEY` raises openFDA's
-rate limit and is never shown. There is no offline copy: offline or unreachable sections are
+rate limit and is never shown or saved in the cache. When RxNorm has no exact match, a caveat names
+RxNorm's closest match and says which name the other sections were searched for (the close match,
+or the name as typed when the match may be a different drug).
+Shortages are also searched under the RxNorm ingredient names, because shortage records are filed
+by generic name. A section that could not be checked says whether offline mode was on or the
+service could not be reached; "not found" (HTTP 404) is reported as no results. There is no
+offline copy: offline or unreachable sections are
 reported as not checked. Reference only; it gives no patient-specific dosing.
 
 ---
@@ -948,6 +1082,10 @@ evaluations (with person IDs) are written to `/data/output/<file>_forecast_<date
 `<file>_dose_evaluations_<date>.csv`. The response holds only the number of people by vaccine
 group and status, with small-cell suppression. Rows with a missing ID, date of birth, date, or
 vaccine are skipped and counted; unrecognized vaccines are counted and listed in the output file.
+Doses dated before the person's date of birth or after the assessment date are not evaluated:
+they are counted (`dose_rows_outside_dates`) and listed in the dose-evaluation file, and
+`dose_rows` counts only the doses evaluated. People whose rows give more than one date of birth
+are counted (`persons_with_conflicting_birth_dates`); the first date was used.
 
 **Validation.** `crates/phn-cdsi/tests/cdsi_test_cases.rs` runs all 1,401 CDC test cases (healthy
 childhood and adult v4.46; underlying conditions v4.6). All 1,064 healthy cases pass; 36 older
@@ -1002,7 +1140,9 @@ Conditions not in the weekly tables (for example Lyme disease) are a tool error 
 CDC's annual tables and `lookup_reportable_condition`. Data come through the live → cache →
 snapshot chain; the bundled snapshot (`cdc-nndss-weekly`) holds the latest week only (that week
 and the 7 before it, plus weeks 52–53) for Massachusetts, New England, and U.S. residents, and
-omits series with no reported cases. Counts are provisional; DPH (MAVEN) counts can differ.
+omits series with no reported cases. Counts are provisional; DPH (MAVEN) counts can differ. In a
+53-week MMWR year, week 53 is compared with week 52 of 52-week baseline years, and the "last 4
+weeks" window is 4 weeks long in every year.
 
 ### `get_respiratory_and_wastewater_surveillance` (CD-09, toolset `cd`)
 
@@ -1105,6 +1245,18 @@ and sex. Per-student results and an action list go to
 `/data/output/school_screening_letters_<date>/`. Columns that look like SBIRT results are ignored
 and not copied (M.G.L. c. 71, section 97(c)).
 
+Results such as "negative", "no concerns", or "no referral needed" count as a pass; a bare "no"
+means not screened. Heights written in feet and inches (4'10") or with fractions are not read
+(give inches or centimeters as a number); height and weight columns may use different units (cm
+with lb, for example). The language and new-student columns are found only by their exact names
+(`Home Language`, `Primary Language`, `Family Language`, `Preferred Language`, or `Language`;
+`New Student`, `New Entrant`, `New to District`, or `New`), so a column such as "Speech/Language Services" is not taken for one. The counts by grade hide
+more cells than before: required = screened + incomplete + exempt + due and referred = completed
++ pending are protected as sums too, so a hidden count cannot be found by subtraction, and a rate
+is hidden when any count in its numerator or denominator is. Languages that the server does not
+recognize are reported (and named in letter file names) as "Other"; text from a language cell is
+never returned. Letter files are never overwritten: a number is added.
+
 ### `school_medication_administration_guide` (SCH-03, toolset `school`)
 
 | Argument | Default | |
@@ -1140,7 +1292,9 @@ Phone`, `Allergies`, `Medications`, `Emergency Medication`, `Home Language`, and
 (`Target Range`, `Low Threshold`, `Glucagon`, `Insulin`; `Peak Flow`, `Triggers`; `Seizure
 Description`, `Rescue Instructions`; `Allergens`, `Epinephrine`) fill one IHP plus emergency action
 plan per student in `/data/output/health_plans_<condition>/`; rows whose `Condition` names another
-condition are skipped. The answer has counts, blank-field counts, and languages only. Sources: CDC
+condition are skipped. A `Condition` cell may name several conditions ("asthma, peanut
+allergy"); the student then gets a plan for each condition asked for. The answer has counts,
+blank-field counts, and languages only (unrecognized languages as "Other"). Sources: CDC
 school health and clinical pages, CDC's 2013 food allergy guidelines, 105 CMR 210.000, M.G.L. c.
 71, section 54B, and DPH's 2007 manual (IHP process).
 
@@ -1168,8 +1322,11 @@ weeks after return, then weekly), forms with links and translations, danger sign
 clearance, 4 weeks without a full academic load). Log mode checks each record (written notice and
 AD/nurse notice on time, form on file, reentry plan, clearance before return and after full
 academics, clearing provider type) and returns suppressed counts, including the 105 CMR 201.017
-statistics; per-student checks go to `/data/output/concussion_log_check_<date>.xlsx`. Business
-days skip weekends, not holidays.
+statistics; per-student checks go to `/data/output/concussion_log_check_<date>.xlsx`. A notice
+column marked "yes" without a date counts as done, date not recorded: it is not a gap, and
+`notices_without_date` counts these records. A "Re-entry Plan" column is recognized, and the
+language column is found only by its exact name. Business days skip weekends, not holidays;
+symptom-check dates that fall on a weekend move to the next weekday.
 
 ### `monitor_school_absenteeism` (SCH-06, toolset `school`)
 
@@ -1213,6 +1370,14 @@ with DPH's height and weight data-quality ranges, the DPH reports a school may o
 definitions; a school committee summary (`docx` or `pdf`) has suppressed aggregates and DPH's
 2011–2012 statewide returned-to-class rate for comparison. DPH does not publish its current Status
 Report form, so field names follow DPH's published categories; match them to DPH's forms.
+
+When `school_year` is not given and no visit or medication row is dated in the school year that
+contains `as_of` (for example a report run in July or August), the report covers the school year
+before it and says so. Visit reasons and dispositions are matched by whole words or word starts,
+never inside a word ("distress" is not "stress", "heartburn" is not a burn), and "called home;
+returned to class" counts as a return. A year percentage is left out when a count behind it is
+suppressed. Without a `911 Type` column, 911 calls are sorted as medical or behavioral health from
+the visit reason, and a note says so.
 
 ### `child_care_health_consultation_checklist` (SCH-08, toolset `school`)
 
@@ -1369,6 +1534,10 @@ with no doctor's referral needed); screening due (AAP: general at 9, 18, 30 mont
 and 24 months, within 1.5 months of those ages, or now when there is a concern); Massachusetts EI
 eligibility, referral (anyone can refer), and cost (none to families); EI programs for the town
 with phone and website; CDC's questions to share with the doctor; and the next checklist age.
+Milestones marked not yet on the corrected-age checklist count toward acting early too (a caveat
+says how many). When the corrected age is under 2 months (before CDC's first checklist), only the
+chronological-age checklist is shown, with a note to decide with the child's provider which age
+to use.
 
 Milestones are what 75% or more of children do by an age; the checklists are not a substitute
 for standardized screening. CDC does not say how to adjust for prematurity; the tool shows both
@@ -1514,6 +1683,12 @@ locally and the answer returns only suppressed counts by priority, tested/positi
 expansion signals (10% or more positive among high-priority contacts, infection under age 5,
 negative-to-positive changes, disease in a low-priority contact).
 
+A `symptom_onset_date` means the index patient had symptoms, so the infectious period counts from
+3 months before onset even when `symptomatic` is left false (a caveat says so). In a contact file,
+ages may be whole years or carry a unit ("8 months", "18 mo", "6 wk"), and dates of birth with a
+year outside 1900–2100 are unreadable; contacts whose age could not be read are counted
+(`ages_not_read`), because the age rules (under 5, for example) were not applied to them.
+
 ### `ltbi_treatment_calendar` (CD-12, toolset `cd`)
 
 | Argument | Default | |
@@ -1552,7 +1727,9 @@ substance use, mental health with PHQ-2 of 3 or more or any stress, disabilities
 domains map to Massachusetts referral categories (EA family shelter, Mass 211, HomeBASE, SNAP,
 WIC, HEAP, MassHealth ACO HRSN services, MassHire, 988). Item wording is returned only for
 public-domain items. Batch mode writes per-person results to
-`/data/output/hrsn_screening_results.xlsx` and returns suppressed counts by domain and group.
+`/data/output/hrsn_screening_results.xlsx` and returns suppressed counts by domain and group. With
+`group_by`, each domain's counts for every group and "All" are suppressed together, so a count
+hidden in one group cannot be found by subtracting the other groups from "All".
 
 ### `omaha_system_coder` (CORE-01, toolset `core`)
 
@@ -1566,7 +1743,10 @@ public-domain items. Batch mode writes per-person results to
 
 Suggests Omaha System problems (42 in 4 domains, with codes, suggested modifiers, and
 signs/symptoms), intervention category and target pairs found in the same sentences, and the
-Knowledge-Behavior-Status scale. Negated phrases ("denies fever") are not counted. The result has
+Knowledge-Behavior-Status scale. A problem whose terms appear only after a negation word ("denies
+fever", but also "no income" or "not taking insulin") is not in `problems`: it is listed in
+`mentioned_as_absent_or_negated` for the nurse to decide, because an absent need is often the
+problem itself. The result has
 codes and the vocabulary terms that matched, never the note's words. Signs/symptoms not seen on
 omahasystem.org are marked unverified.
 
@@ -1614,7 +1794,9 @@ identifier kinds.
 Searches the nurse's directory (columns: name, services, town, address, phone, website,
 languages, hours such as "Mon-Fri 9:00-17:00; Sat 10:00-14:00" or "24/7", eligibility, cost,
 last_verified) and HRSA-funded health center sites (data.hrsa.gov download filtered to
-Massachusetts, cached a week, snapshot `hrsa-health-centers-ma` offline). Ranks same town, then
+Massachusetts, cached a week, snapshot `hrsa-health-centers-ma` offline). A health center listed
+under a village or neighborhood ("Dorchester", "Hyannis") is placed in the main town of its ZIP
+code and shown as "Dorchester (Boston)". Ranks same town, then
 same county; flags entries verified more than 12 months ago. Files that look like client lists
 (names, dates of birth, record numbers) are refused.
 
@@ -1677,6 +1859,14 @@ public-domain NIMH ASQ; PHQ/GAD, EPDS, and C-SSRS items are listed by topic and 
 terms are recorded. File mode returns suppressed counts by outcome and the number of rows with a
 safety alert. Golden tests: `crates/phn-tools/tests/screening_golden.rs`.
 
+Unanswered safety items are not treated as "no": when PHQ-9 item 9 or EPDS item 10 is missing,
+`safety_items_unanswered` lists it and the answer says to ask it before the person leaves. A
+C-SSRS screener with a yes answer but unanswered items that decide the risk level (item 6, or
+items 3–5 unless item 2 was answered no) is "risk level not yet determined", with at least the same-day
+(moderate risk) steps until the items are asked. In file mode, rows whose suicide-risk item is
+missing or unreadable are listed first too; `rows_scored` and `rows_incomplete` are null when any
+outcome count is suppressed, and a number of rows with an alert below the threshold is hidden.
+
 ### `find_crisis_resources` (MH-01, toolset `bh`)
 
 | Argument | Default | |
@@ -1710,7 +1900,9 @@ because none could be verified.
 
 Returns the screen, each test against CDC's threshold, the risk factors with their evidence, the
 STEADI intervention plan by factor, assessments still to do, prevention (when not at risk),
-follow-up (30-90 days when at risk), home-safety fixes, and CDC's test procedures.
+follow-up (30-90 days when at risk), home-safety fixes, and CDC's test procedures. A
+`falls_count` of 1 or more counts as a fall in the past year (at risk); `fell_past_year: false`
+with a count of 1 or more is an error to correct.
 
 ### `elder_protective_services_guide` (AGE-03, toolset `aging`)
 
@@ -1726,7 +1918,11 @@ report immediately, written within 48 hours), what a report contains (s.15(e)), 
 (review within 48 hours, emergency assessment within 24 hours, investigation within 30 days,
 written notice to the reporter within 45 days), definitions, signs by type, self-neglect,
 protections and penalties, and the report-narrative template with its column names. Identifying
-details are never accepted as arguments.
+details are never accepted as arguments. `mandated_reporter` compares the role with the statutory
+list for the chosen pathway only (c.19A for adults 60 and older, c.19C for adults 18–59 with a
+disability): `true` when it matches an entry (a word match, not a legal determination), and null
+when no role is given, when the role is not found on that list (the answer then says to read the
+list against the statute), or for the DPH facility pathway.
 
 ### `find_ma_aging_services` (AGE-02, toolset `aging`)
 
@@ -1769,7 +1965,10 @@ r5ix-sfxw, SNF QRP fykj-qjee, MDS Quality Measures djen-97ju, State/US Averages 
 cached for a day, with the `cms-ma-nursing-homes` snapshot offline. Returns star ratings,
 staffing hours and turnover, inspections, fines and penalties, Special Focus and abuse flags,
 infection control F-tags with scope and severity, staff and resident COVID-19, flu, and
-pneumococcal vaccination, and Massachusetts and U.S. averages.
+pneumococcal vaccination, and Massachusetts and U.S. averages. CMS lists a facility's postal city,
+which can be a village, neighborhood, or variant spelling ("Hyannis", "Dorchester",
+"Middleboro"); such facilities are matched to a town by ZIP code, shown with the postal name in
+parentheses, and a caveat says a ZIP code can cross a town line.
 
 ### `map_older_adult_vulnerability` (AGE-05, toolset `aging`)
 
@@ -1827,6 +2026,9 @@ numbers. The Clear Communication Index is scored from the nurse's answers follow
 sheet (90 or higher passes); until every applicable item is answered, the tool shows its own
 suggestions for the items it can judge (lists, headings, jargon, numbers). Excerpts quoted from a
 file pass through the identifier redactor, and words that could be names are never listed.
+Syllable counting handles silent *e* inside words and compounds (safety, careful, caregiver) and
+common public health words (diarrhea, diabetes, influenza, reaction), so grades can differ
+slightly from version 0.14.0.
 Golden tests: CDC *Simply Put*'s SMOG table and hepatitis A Fry example, and the score sheet's
 arithmetic (`crates/phn-tools/tests/readability_golden.rs`).
 ### `get_overdose_data` (MH-03, toolset `bh`)
@@ -1905,6 +2107,11 @@ use facilities) through live → cache → a bundled statewide copy (`samhsa-fin
 facilities; distances computed from the town center when it is used). Returns each facility's
 address, phones, website, miles, medications for opioid use disorder, settings, payment, and
 languages, plus the Massachusetts Substance Use Helpline, 988, and FDA's MOUD categories.
+Payment and language filters match SAMHSA's values exactly, so "Medicaid" does not match "State-
+financed health insurance plan other than Medicaid" and "Spanish" does not match "Other languages
+(excluding Spanish)"; buprenorphine does not match a facility that uses it only for pain
+management or emergency dosing. Facilities outside Massachusetts (by ZIP code) are flagged: their
+"Medicaid" is that state's program, not MassHealth.
 
 ### `plan_school_postvention` (MH-06, toolset `bh`)
 
@@ -1944,8 +2151,11 @@ No translations are bundled (product-owner decision). The tool reports agency-ap
 translations found in `/data/templates/<language>/` (expected layout: one folder per language,
 named by language or code, holding files named like the English material), builds a translator
 brief (numbered segments; approved glossary terms in the source; numbers, phone numbers, times,
-web and email addresses that must carry over), checks a draft for missing glossary terms and
-changed numbers or phones, and compares a back-translation with the source (sentence count and
+web and email addresses that must carry over), checks a draft for missing glossary terms (as whole
+words with a plural ending; anywhere in scripts written without spaces, such as Chinese) and
+changed numbers or phones (decimals, thousands separators, and times such as 9:30 are read whole,
+and local formats such as 1.000 or 3,5 match by their digits), and compares a back-translation
+with the source (sentence count and
 coverage, negations, glossary terms). Every result carries the label "DRAFT TRANSLATION - for
 review by a qualified translator" and CDC *Simply Put*'s translation steps and pitfalls. Script
 notes point to DOCX for scripts the PDF writer cannot render (ADR 0003).
@@ -1988,7 +2198,8 @@ Builds the structure from the facts with `[BRACKETED]` gaps listed, then checks 
 against CDC's CERC *Working with the Media* (2018): contact block, date, release time or embargo,
 5 Ws, headline, one page, sentences of 20 words or fewer, no loaded words, and a privacy check for
 client identifiers; adds the reading grade, safe messaging for suicide topics, CERC's six
-principles, and the CERC wallet card's questions for a spokesperson Q&A.
+principles, and the CERC wallet card's questions for a spokesperson Q&A. Loaded words match whole
+words or word starts ("panic", "panicked"), never the inside of another word ("Hispanic").
 
 <!-- End of Phase 11 tools. -->
 
@@ -2013,7 +2224,10 @@ and marine-only alerts are left out. Each NWS event maps to a hazard in
 health actions, and public messages (CDC topic pages, MEMA safety tips, CDC PHEP capabilities),
 plus the follow-on power outage and carbon monoxide risks. FEMA declarations come from OpenFEMA
 (live, cached a day, bundled snapshot fallback), grouped by declaration, with counts by incident
-type since 1953. When alerts cannot be reached the first caveat says so in capitals.
+type since 1953. When alerts cannot be reached the first caveat says so in capitals. A cached copy
+of the alert feed is used only when it is no more than 60 minutes old; otherwise the alerts are
+reported as not retrieved. Alerts that have ended (or expired), test alerts, and cancellations
+are left out.
 
 ### `model_dispensing_site_throughput` (EPR-02, toolset `epr`)
 
@@ -2053,8 +2267,10 @@ worst category among the current reading and the forecasts for today and tomorro
 of health concern, pollutant-specific sensitive groups, and actions for sensitive groups, the
 public, schools (EPA-456/F-14-003, transcribed), and outdoor events (summaries, medium
 confidence). AQI conversion uses 40 CFR 58 Appendix G (2024 PM2.5 breakpoints), truncation, and
-Equation 1; tests reproduce the appendix's worked example. Offline, every category's actions
-are listed.
+Equation 1; tests reproduce the appendix's worked example. A concentration above a table that
+stops below AQI 500 (8-hour ozone above 0.200 ppm, 1-hour SO2 above 304 ppb) is an error that names
+the averaging time Appendix G uses for higher values; only tables that reach AQI 500 are
+extrapolated. Offline, every category's actions are listed.
 
 ### `heat_health_action_planner` (ENV-01, toolset `env`)
 
@@ -2073,6 +2289,11 @@ poverty, no vehicle, limited English, no internet, renters), CDC PLACES adult pr
 values are tract-weighted), SVI tracts in the top quarter, and HHS emPOWER. Activation steps are
 cumulative to the level; the checklist adds outreach scripts, schools and child care, outdoor
 workers (NIOSH), heat illness signs and response (MEMA), and medications and power outages (CDC).
+`heat_alerts_status` says whether the NWS alert feed was read live, from the cache, or not at
+all; when it could not be read, the answer and the checklist say "NWS alerts could not be checked
+— see weather.gov" instead of "none". Expired and test alerts are left out. The peak HeatRisk day
+is the first day the highest level is reached. A HeatRisk image saved before WPC's latest update
+is not paired with the new dates; a caveat gives the reason when a cached copy was used.
 
 ### `hazard_vulnerability_assessment` (EPR-06, toolset `epr`)
 
@@ -2109,10 +2330,10 @@ diabetes; emPOWER electricity dependence) to the expected residents. With `intak
 writes one completed form per registrant to `/data/output` (in an agency translation from
 `/data/templates/<language>/cmist_intake.md` when present, otherwise English, counted) and
 returns only counts of "yes" by question and registrants by language, suppressed below the
-threshold. For this tool `<language>` must be the language exactly as it is written in the
-registration file, in lower case (`spanish`; a two-word language keeps its space, as in
-`haitian creole`); codes such as `es` are not matched to names. Identifying details are never
-returned.
+threshold. The `<language>` folder is the language as written in the registration file, in lower
+case, with spaces as underscores and other punctuation except `-` removed: "Haitian Creole" →
+`haitian_creole`, "Spanish" → `spanish`. Codes and names are not matched to each other (a file
+that says "es" needs a folder named `es`). Identifying details are never returned.
 
 ### `get_electricity_dependent_population` (EPR-04, toolset `epr`)
 
@@ -2149,7 +2370,12 @@ more than once. Analysis uses the toolkit weight N ÷ (interviews in the cluster
 × clusters selected), weighted proportions with Taylor-series variance (clusters as PSUs, t with
 clusters − 1 df; golden test against `samplics`), design effects, contact, cooperation, and
 completion rates, the 80% completion rule (otherwise unweighted), and no estimates for cells
-under 5.
+under the larger of 5 and the agency's suppression threshold. When exactly one answer to a
+question is that small, the next smallest answer is withheld too, so the total cannot reveal it.
+The stage II sampling interval (every *n*th household) is households ÷ (interviews × times the
+block was selected), rounded down. An analysis of returned data without the plan's
+seed draws no new sample and writes no new materials. A cluster selected more than once counts
+as one sampling unit for the confidence intervals; a caveat explains how to match the toolkit.
 
 <!-- End of Phase 12 tools. -->
 
@@ -2157,7 +2383,13 @@ under 5.
 
 Staff names and positions may be passed in a request; phone numbers, email addresses, and radio
 call signs come only from a roster file in `/data` (`roster_path`) and go only into documents
-written to `/data/output` (ADR 0009).
+written to `/data/output` (ADR 0009). When a name is given, a person's contact details are filled
+in only when the roster has that exact full name (case and punctuation ignored); a name that is
+not on the roster gets no contact details, never those of someone else in the same position. The
+position (its first holder) is used only when no name is given (ADR 0010). A roster with no name
+or position column is an error that lists the roster fields it did recognize, not the column
+names. Every text field of a request is scanned for typed-in phone numbers and emails, except
+file paths, dates and times, and fields where a facility's number belongs.
 
 ### `generate_ics_forms` (EPR-01, toolset `epr`)
 
@@ -2189,7 +2421,10 @@ catalog; and suggestions for the incident type, with citations and confidence. *
 0009):** staff phone numbers, emails, and radio call signs come only from `roster_path` and are
 written only to the documents (the ICS 205A is marked "not for public release"); the response
 contains counts (staff, matched, unmatched), never roster values. Contact details or client
-identifiers typed into the request are reported by category in the privacy block.
+identifiers typed into the request are reported by category in the privacy block. The output
+folder name is a plain ASCII version of the incident name (a slash or accent cannot change the
+folder). The ICS 207 shows Branch Directors with their Divisions and Groups under the Operations
+Section Chief; positions with no place on the chart are listed as "Other assigned positions".
 ### `continuity_of_operations_planner` (EPR-07, toolset `epr`)
 
 | Argument | Default | |
@@ -2219,7 +2454,10 @@ emergency agent (c. 111 section 30: acts for the board in an emergency and repor
 days), burial permit agents, emergency procurement, and isolation and quarantine orders; town
 counsel must confirm each. The human capital check applies the federal pandemic planning
 assumption (up to 40% of staff absent for about 2 weeks at the peak; 2006 Implementation Plan)
-to `staff_count` and compares the staff left with the Tier 1 and Tier 1-2 minimums. The result
+to `staff_count` (staff at work round down without losing a whole person: 10 staff at 80% absence
+is 2) and compares the staff left with the Tier 1 and Tier 1-2 minimums. When a successor position
+is held by several people, each mention gets the next holder, so no one is their own successor or
+listed twice. The result
 lists each element as `provided`, `partial`, `drafted` (tool template to confirm), or `missing`.
 
 Privacy: roster contacts (and names read from the roster) are filled only into the plan's
@@ -2255,6 +2493,11 @@ Guide (discussion-based) or Exercise Plan (operations-based) plus an MSEL workbo
 and full-scale), Exercise Evaluation Guides (one per objective and PHEP capability, with the
 capability's functions as critical tasks and the P/S/M/U ratings key), a Participant Feedback
 Form, and a sign-in sheet. Nothing read from the roster is returned; the result counts matches.
+When the schedule needs more time than `duration_hours` (fixed parts and a minimum of 20 minutes
+a module), a warning gives the duration needed; registration and the controller/evaluator debrief
+(after the exercise) are outside that length. MSEL event numbers count within each module ("1-1",
+"1-2", "2-1"). PHEP capabilities are suggested from whole words or word starts in the objective
+("media" is not found in "immediately"). Dates must be YYYY-MM-DD between 1900 and 2200.
 
 ### `build_after_action_report` (EPR-09, toolset `epr`)
 
@@ -2262,7 +2505,7 @@ Form, and a sign-in sheet. Nothing read from the roster is returned; the result 
 |---|---|---|
 | `name`, `kind` | `exercise` | `incident` for a real response. |
 | `exercise_type`, `start_date`, `end_date`, `area`, `agency`, `location`, `scope`, `hazard`, `scenario_summary`, `sponsor` | | Overview fields (no client details). |
-| `objectives` | | Each `{text, capabilities, ratings: [{capability, rating: P/S/M/U}]}`. |
+| `objectives` | | Each `{text, capabilities, ratings: [{capability, rating: P/S/M/U}]}`. Capabilities may be numbers, names, the display form "PHEP 13: Public Health Surveillance and Epidemiological Investigation", or the capability objects `design_hseep_exercise` returns. A rating that names an unrecognized capability is an error. |
 | `observations` | | Each `{kind: strength or area_for_improvement, objective, capability, statement, reference, analysis, root_cause, recommendation}`. |
 | `corrective_actions` | | Each `{area_for_improvement, action, element (planning, organization, equipment, training, exercise), organization, poc_name, poc_position, start_date, completion_date}`. |
 | `participants`, `organizations`, `point_of_contact` | | Counts by level or organization; the POC's phone and email come from the roster. |
@@ -2282,7 +2525,8 @@ marked for the After-Action Meeting. Feedback forms are totaled locally: identif
 (names, emails) are skipped, comments are counted but never read back, and each statement's
 counts are suppressed (with a complement) below the threshold; means and percent agreeing are
 hidden when fewer forms than the threshold answered. After-action dates (30, 45, 60 days) are
-tool defaults.
+tool defaults. A corrective action's `element` given as a single letter must be unambiguous ("E"
+could be equipment or exercise, so it is not guessed).
 ### `crisis_risk_communication_builder` (EPR-10, toolset `epr`)
 
 | Argument | Default | |
@@ -2316,8 +2560,14 @@ known/unknown/doing and next update in the holding statement; loaded words (shar
 COMM-04); client identifiers; safe messaging when suicide is mentioned. Agency translations are
 read from `/data/templates/<language>/cerc_<id>.md` (ACS names are matched to folder names, e.g.
 "Haitian" → `haitian_creole` or `haitian-creole`); other languages get a COMM-02 translator
-brief. Nothing is
-machine-translated. Contact details found in the request are reported in the privacy block.
+brief. Nothing is machine-translated. An agency translation is used only when the English message
+is the library's own: when you supply your own message map, action steps, or empathy statement,
+the approved translation no longer matches, so a translator brief is prepared instead and a
+caveat says so. A hazard name or alias matches as whole words ("measles at the library"), never
+inside another word; a `hazard_description` selects a pre-scripted set only when it is exactly a
+set's name, and otherwise a caveat suggests the set that may fit. Supporting facts left as
+`[BRACKETED]` placeholders are listed as missing, not counted as written. Contact details found
+in the request are reported in the privacy block.
 
 ### MCP prompt: `plan_tabletop_exercise`
 
@@ -2332,4 +2582,6 @@ PHEP and FEMA core capabilities (`design_hseep_exercise`), prepare player materi
 `model_dispensing_site_throughput`, `plan_vaccination_clinic`, `functional_needs_shelter_intake`),
 run the hotwash, and write the after-action report and improvement plan
 (`build_after_action_report`). Staff contacts stay in the roster file; client details never go
-into the chat.
+into the chat. The message names the toolsets the workflow uses (`epr`, with `equity`, `env`,
+`cd`, and `vax` for context) and tells the model to report, not retry, a tool whose toolset is
+off.

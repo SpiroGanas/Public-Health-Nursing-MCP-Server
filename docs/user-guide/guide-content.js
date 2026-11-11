@@ -9,7 +9,7 @@
 
 'use strict';
 
-const VERSION = '0.14.0';
+const VERSION = '0.14.1';
 const GUIDE_DATE = 'November 2026';
 const TOOL_COUNT = 102;
 
@@ -284,7 +284,7 @@ const frontChapters = [
           {
             bullets: [
               '**Be specific.** Give the disease, the setting (school, child care, food handler, health care worker), whether the person is a case or a contact, and the relevant dates.',
-              '**Give exact dates.** Tools count days from the dates you give. “Onset October 20, 2026” is better than “about two weeks ago.”',
+              '**Give exact dates.** Tools count days from the dates you give. “Onset October 20, 2026” is better than “about two weeks ago.” In your files, a two-digit year is read in this century unless that would be more than a year in the future (3/7/24 is 2024; a birth date of 5/2/50 is 1950). Dates before 1900 or after 2100 are treated as errors.',
               '**Point to files by name.** “Analyze outbreak/potluck.xlsx” lets the tool read the file locally, so identifiers never pass through the chat.',
               '**Never type identifiers.** Leave names, dates of birth with names, addresses, and record numbers out of your messages.',
               '**Ask for the method and sources.** “How did you calculate that?” and “What are the caveats?” are always good follow-up questions.',
@@ -346,6 +346,7 @@ const toolChapters = [
           'HMCC regions come from DPH’s 2005 preparedness-region map, corrected where DPH’s 2019 HMCC map differs (Wilmington is Region 3). You can set the region yourself if it is wrong.',
           'Changing your profile updates the tool list right away in clients that support it; otherwise restart Claude Desktop.',
           'To start over, ask Claude to reset all settings.',
+          'If your profile or tool groups are set in the Claude Desktop configuration file (as in the README’s examples), they cannot be changed here: a profile or tool group you save is kept but has no effect, and the answer says so. A tool outside your groups then reports that the configuration file must be edited.',
         ],
       },
       {
@@ -413,6 +414,8 @@ const toolChapters = [
           'Sample rows, when requested, have identifier columns replaced by [REDACTED], dates shortened to the year, ZIP codes to three digits, and ages over 89 shown as 90+.',
           'In documents, Social Security numbers and labeled dates of birth and record, member, account, and license numbers are removed. If any are found, the whole document is redacted strictly (names, phone numbers, emails, addresses, and dates as well).',
           'Redaction cannot be turned off. Scanned PDFs without a text layer cannot be read (there is no text recognition).',
+          'Headings and titles are redacted like the rest of the text. A document with a table or list of clients (names next to dates of birth or addresses) is redacted strictly.',
+          'If a spreadsheet has no header row, its columns are shown as column_1, column_2, and so on, so that no names or values appear as column names.',
         ],
       },
       {
@@ -442,6 +445,7 @@ const toolChapters = [
         notes: [
           'Works with PDF, Word, Markdown, text, and HTML files. The search index updates itself when files change, so the first search after adding files can be slower.',
           'Scanned PDFs without a text layer cannot be searched.',
+          'Headings in the passages are redacted too. A file that holds client information (a date of birth or record number) is redacted strictly.',
         ],
       },
       {
@@ -475,6 +479,8 @@ const toolChapters = [
           'Every image needs alternative text.',
           'PDF output is single-column, and letters outside the bundled font (some non-Latin scripts) can show as “?”. Use Word for those languages.',
           'Setting a document’s language does not translate it. Have translated materials checked by a qualified translator before you distribute them.',
+          'A line of three dashes (---) does not start a new page; use \\pagebreak. Lists inside lists stay under their parent item.',
+          'In CSV files, a cell that starts with =, +, -, or @ and is not a number gets a leading apostrophe, so a spreadsheet does not run it as a formula.',
         ],
       },
       {
@@ -501,6 +507,8 @@ const toolChapters = [
         notes: [
           'Automated checks cannot confirm everything; do the manual checks it lists.',
           'This tool is in the comms group, which every profile includes.',
+          'For PDFs, headings, table headers, color contrast, and link text are listed as manual checks; check the Word or HTML original with this tool, or use Acrobat’s checker.',
+          'Text quoted in the report (titles, headings, first table rows) has possible names, phone numbers, and other identifiers replaced with [REDACTED].',
         ],
       },
       {
@@ -530,6 +538,7 @@ const toolChapters = [
         ],
         notes: [
           'Identifier columns never show values. Minimum and maximum values are shown only when there are enough records, and ages over 89 appear as 90+.',
+          'A number column with fewer values than your suppression threshold shows no statistics, and the smallest and largest values are hidden when almost every value is different (as with ID numbers).',
         ],
       },
       {
@@ -561,6 +570,7 @@ const toolChapters = [
           'ID numbers are replaced with new codes and no link back to the originals is kept, so keep your original file.',
           'If you keep any column unchanged, the output is marked NOT de-identified.',
           'A limited data set is still protected health information; under HIPAA it is shared only under a data use agreement. Follow your agency’s policy.',
+          'Safe Harbor also removes full dates and ZIP codes written inside text cells (for example “onset 3/7/2024” in a notes column). A limited data set drops latitude and longitude columns.',
         ],
       },
       {
@@ -589,6 +599,7 @@ const toolChapters = [
         notes: [
           'Tables that contain direct identifiers are refused, because they are record-level data, not a table of counts.',
           'Totals are hidden only as a last resort. The same marker is used for primary and complementary suppression so readers cannot tell them apart.',
+          'A first column of numbers that are labels (grade, age, year, week, ZIP code) is treated as a label, not a count. Label cells that look like names, phone numbers, or long notes are refused.',
         ],
       },
     ],
@@ -623,6 +634,7 @@ const toolChapters = [
         notes: [
           'If nothing matches, that does **not** mean the condition is not reportable: clusters and unusual illnesses always are.',
           'The list was re-checked against the regulation text and DPH’s current reporting lists in November 2026 and is pending subject-matter review.',
+          'It does not guess. If your words fit more than one condition (“hepatitis”) or are too general (“fever”, “stomach flu”), the answer lists the possible conditions for you to choose from. Ask again with the specific name.',
         ],
       },
       {
@@ -687,6 +699,7 @@ const toolChapters = [
           'Day counting: day 0 is the date the rule counts from, and “through day 21” means the person may return on day 22.',
           'Rules cover 37 diseases. Tuberculosis dates are not calculated: the tool shows the regulation’s clearance criteria for reference and refers you to the clinician and DPH’s TB program.',
           'Decision support, pending review.',
+          'The disease must be named specifically. A general or ambiguous name (“hepatitis”, “gastroenteritis”) gets a list of the diseases it could mean.',
         ],
       },
       {
@@ -718,6 +731,8 @@ const toolChapters = [
         notes: [
           'Based on DPH’s 2022 measles chapter and the 2013 ACIP statement; pending review.',
           'Suspected measles must be reported promptly (check the timeframe with the tool in section 6.1); coordinate exposure follow-up with DPH Epidemiology.',
+          'A baby under 12 months has no evidence of immunity whatever doses are reported, because doses before the first birthday do not count.',
+          'If you give the case’s rash onset and the exposure dates go beyond the case’s infectious period, the deadlines are counted from the days inside that period, and the answer says so.',
         ],
       },
       {
@@ -746,6 +761,7 @@ const toolChapters = [
         notes: [
           'Enter contacts’ names in the workbook on your computer, not in the chat.',
           'Decision support, pending review.',
+          'Each exclusion column in the workbook says who it applies to (for example only health care workers without symptoms or prophylaxis for pertussis), so check the column heading before excluding a contact.',
         ],
       },
       {
@@ -774,6 +790,7 @@ const toolChapters = [
         ],
         notes: [
           'Decision support, pending review. The facility’s own infection prevention program and current DPH guidance also apply.',
+          'Pathogens that are not in the server’s content (for example Ebola or Legionella) get a message saying so, rather than guidance for a different organism.',
         ],
       },
       {
@@ -808,6 +825,9 @@ const toolChapters = [
           'Identifier columns are never used, and no row-level values are returned.',
           'In the exposure table, small counts are shown as <5, but the ratios are calculated from all records, so they could reveal a small count; the answer says so. Check this against your data release policy before sharing.',
           'A statistical association is not proof. Interpret it with the laboratory and environmental findings.',
+          'With fewer cases with onset dates than your suppression threshold, the median onset and the probable exposure window are not shown, because they would reveal individual onset times.',
+          'Foods or exposures where no one was recorded as exposed, or no one as not exposed, are listed in the caveats. If a blank cell means “did not eat”, enter N and run the analysis again.',
+          'If the agent is not known yet, you can still analyze the line list: leave the disease out (or describe it, such as “GI illness, agent unknown”), and give incubation hours if you want an exposure window.',
         ],
       },
       {
@@ -837,6 +857,7 @@ const toolChapters = [
         notes: [
           'The saved chart shows exact counts. Review it, and suppress small numbers if needed, before sharing it outside your agency.',
           'The pattern is a hypothesis to test, not a conclusion.',
+          'Dates must be between 1900 and 2100; a two-digit year such as 5/3/26 is read as 2026.',
         ],
       },
       {
@@ -897,6 +918,7 @@ const toolChapters = [
           'Counts are provisional, and DPH’s MAVEN counts can differ.',
           'Conditions not in the weekly tables (for example Lyme disease) are not available; the tool points you to CDC’s annual tables.',
           'Offline, only the most recent week in the bundled snapshot is available.',
+          'In a year with an MMWR week 53, that week is compared with week 52 of earlier years.',
         ],
       },
       {
@@ -1044,6 +1066,7 @@ const toolChapters = [
           'The engine passes all 1,064 of CDC’s healthy-person test cases. 36 older test cases involving underlying conditions do not pass and are documented, so check risk-based forecasts carefully.',
           'Seasonal vaccines (influenza, COVID-19, RSV) show “not recommended now” after the season in CDC’s data ends, until CDC publishes new data.',
           'Always verify against the MIIS record before acting.',
+          'In a file, doses dated before the date of birth or after the assessment date are not evaluated; the answer counts them, and people whose rows give different dates of birth, so you can correct the file.',
         ],
       },
       {
@@ -1078,6 +1101,9 @@ const toolChapters = [
           'DPH does not say whether the 4-day grace period applies to school requirements; the tool applies it by default and says so.',
           'DPH’s May 2026 flyer and its 2026–2027 requirements differ on the minimum age for MenACWY; the tool follows the requirements document.',
           'Pending review against DPH’s current requirements document.',
+          'For a student 7 or older whose DTaP doses do not meet the requirement, the result is “needs review”, because Tdap or Td can complete a catch-up series; DTaP is never suggested at 7 or older.',
+          'A dose given too soon after a dose that did not count is marked “needs review” rather than met.',
+          'Roster columns may carry a dose number (“MMR 1”, “DTaP #2”). The answer lists the columns it read as vaccines and any it did not use; a requirement whose column was not used shows as not met, so check that list.',
         ],
       },
       {
@@ -1138,6 +1164,7 @@ const toolChapters = [
         ],
         notes: [
           'The tool never decides whether vaccine can still be used. Only the manufacturer can; for state-supplied vaccine, the Vaccine Program then gives instructions.',
+          'Readings entered in Fahrenheit are compared with the Fahrenheit range (36–46 °F for a refrigerator).',
         ],
       },
       {
@@ -1251,6 +1278,7 @@ const toolChapters = [
           'Reference only; it gives no patient-specific dosing.',
           'It needs the internet. There is no offline copy, and any section it could not check is listed as not checked.',
           'It is in the core group, so it is always available.',
+          'If the name you typed is not an exact match in RxNorm, the answer names the closest match and which name was searched. Confirm it is the drug you meant.',
         ],
       },
     ],
@@ -1319,6 +1347,7 @@ const toolChapters = [
         when: [
           'Residents raise concern about a possible cancer cluster.',
           'Asking whether a town’s count is higher than expected given its age structure.',
+          'If your age groups do not start at 0 and end with an open-ended oldest group (such as 85+), the answer warns that the rates describe only those ages and are not comparable with published age-adjusted rates.',
         ],
         provide: [
           'For each area: the observed count, and by age group (or other stratum) the local population and the reference rate (or reference count and population).',
@@ -1360,6 +1389,7 @@ const toolChapters = [
         notes: [
           'Choose the design carefully: case-control studies give odds ratios, not risk ratios.',
           'For a whole line list, use the outbreak analysis tool (section 6.7), which runs this analysis for every exposure.',
+          'For very large tables (counts in the millions), the exact tests are skipped and the chi-square tests are used; the answer says so.',
         ],
       },
       {
@@ -1388,6 +1418,8 @@ const toolChapters = [
         ],
         notes: [
           'From files, only aggregates are returned (count, mean, standard deviation, median, and interquartile range; never minimum, maximum, or rows). Identifier columns and groups smaller than your suppression threshold are refused, and table cells are suppressed.',
+          'If a logistic regression finds a predictor that predicts the outcome perfectly (separation), or the model does not converge, the answer warns you not to interpret the estimates.',
+          'Data with no differences at all (every value the same) give p = 1. A correlation with a measurement that never changes is refused.',
         ],
       },
       {
@@ -1440,6 +1472,7 @@ const toolChapters = [
         notes: [
           'Joinpoint locations are chosen by a different statistical criterion than NCI’s Joinpoint program uses, so results can differ slightly from it.',
           'Short series allow few joinpoints.',
+          'Monthly and weekly data are adjusted for seasons only with at least two full years; with less, the answer says that a seasonal pattern may look like a trend. A series of all zeros is refused.',
         ],
       },
       {
@@ -1472,6 +1505,7 @@ const toolChapters = [
         when: [
           'Quality improvement projects and PDSA cycles, such as the percentage of reports investigated within 24 hours or clinic wait times.',
           'Monitoring any process over time.',
+          'Bar charts cannot use a log scale. When a value is hidden by small-cell suppression, its confidence limits are hidden too.',
         ],
         provide: [
           'The chart type: run chart (default), XmR for measurements, p for proportions, u for rates, or c for counts.',
@@ -1488,6 +1522,8 @@ const toolChapters = [
         notes: [
           'This tool is in the ebp group, which only the phn_leader profile includes; turn the group on if you need it.',
           'For local files, values based on fewer records than your suppression threshold are hidden in the chat (the saved chart keeps them, on your computer).',
+          'When values from a local file are hidden, the center line and control limits are also left out of the chat (they would reveal the hidden values); the saved chart has them.',
+          'Repeated values and points on the center line do not count toward a trend or a shift.',
         ],
       },
       {
@@ -1550,6 +1586,7 @@ const toolChapters = [
         notes: [
           'Births and deaths are not included, because no machine-readable town-level source was available; the answer says so.',
           'Live Census data sometimes need an API key on agency networks; without one the tool uses the bundled snapshot and says why.',
+          'A median household income above the Census Bureau’s top value is shown as “$250,000 or more”.',
         ],
       },
       {
@@ -1694,6 +1731,7 @@ const toolChapters = [
         notes: [
           'Read the full articles before relying on them.',
           'MeSH headings that do not exist are dropped and reported. Recent searches are kept for a day, so they also work offline.',
+          'If PubMed reports an error (for example a timeout), you get the error instead of an empty result; try again later.',
         ],
       },
       {
@@ -1795,6 +1833,9 @@ const toolChapters = [
           'Student names never reach the AI; they are only in the files written to your output folder.',
           'Do not keep SBIRT results with names: the law forbids it, and the tool ignores such columns.',
           'Add your agency’s translations as templates/<language>/vision_referral.md (also hearing_referral and postural_referral); the English template is written next to the letters.',
+          'Results such as “negative” or “no concerns” count as passed. Heights written as feet and inches (4’10”) are not read; give inches or centimeters.',
+          'The language column must be named Home Language, Primary Language, Family Language, Preferred Language, or Language. Languages the server does not recognize are counted as “Other”.',
+          'More small counts are hidden than before, so that a hidden number cannot be worked out by subtracting other numbers in the same row.',
         ],
       },
       {
@@ -1857,6 +1898,7 @@ const toolChapters = [
           'The provider’s orders govern treatment, you set the nursing goals, and the 504 team decides accommodations.',
           'Add your agency’s translated emergency action plans as templates/<language>/<condition>_emergency_plan.md.',
           'Pending review.',
+          'A student whose Condition cell names more than one condition (“asthma, peanut allergy”) gets a plan for each condition you ask for.',
         ],
       },
       {
@@ -1890,6 +1932,7 @@ const toolChapters = [
           'Business-day deadlines skip weekends but not holidays.',
           'Return to play is a medical decision; the tool tracks steps and never clears a student.',
           'Pending review.',
+          'A notice column marked “yes” without a date counts as done (date not recorded), not as a gap. Symptom checks that would fall on a weekend move to the next weekday.',
         ],
       },
       {
@@ -1949,6 +1992,7 @@ const toolChapters = [
           'DPH does not publish its current year-end Status Report form, so match the workbook to DPH’s form before submitting.',
           'Reasons and dispositions are sorted by keywords; check the workbook.',
           'Pending review.',
+          'If you do not name the school year and your logs have no visits in the current one (for example in July or August), the report covers the school year that just ended and says so.',
         ],
       },
       {
@@ -2052,6 +2096,7 @@ const toolChapters = [
           'The high-risk list changes every year; this version uses DPH’s 2024 list (17 communities).',
           'DPH’s follow-up table mixes Massachusetts rules (lead poisoning at 10 µg/dL, level of concern 5 to 9) with CDC’s 3.5 µg/dL reference value. Follow the child’s provider and CLPPP.',
           'The server ships an English teaching sheet. To give families your agency’s translation, save it as templates/<language>/lead_family_teaching.docx in your data folder; otherwise the English sheet is used and the answer says so.',
+          'For a language with two words, name the folder haitian_creole (recommended), haitian-creole, or ht.',
         ],
       },
       {
@@ -2114,6 +2159,7 @@ const toolChapters = [
           'Milestones are what most children (75% or more) do by an age. The checklists do not replace standardized developmental screening.',
           'For babies born early, the tool also shows the corrected-age checklist; decide with the child’s provider which to use.',
           'Anyone can refer a child to Early Intervention, at no cost to families.',
+          'For a baby born early, milestones marked “not yet” on the corrected-age checklist also count toward acting early.',
         ],
       },
       {
@@ -2265,6 +2311,7 @@ const toolChapters = [
         notes: [
           'Duration limits for “high” and “medium” exposure are set by your program; there is no national cut-off.',
           'Business days skip weekends but not holidays.',
+          'If you give a symptom onset date, the index patient is treated as having symptoms. In a contact file, ages such as “8 months” are read; contacts whose age cannot be read are counted, because the age rules were not applied to them.',
         ],
       },
       {
@@ -2318,6 +2365,7 @@ const toolChapters = [
         notes: [
           'A positive domain means the person might have an unmet need; talk with them before referring.',
           'Exact question wording is shown only for public-domain items; use the CMS form for the rest.',
+          'When you summarize by site or group, small counts are hidden across all the groups together, so a hidden count cannot be found by subtracting the other groups from the total.',
         ],
       },
       {
@@ -2344,6 +2392,7 @@ const toolChapters = [
         notes: [
           'Suggestions come from keywords; confirm every problem and intervention.',
           'Signs and symptoms marked unverified are drafts awaiting your check against the 2005 Omaha System book.',
+          'Problems mentioned only with a negative (“no income”, “not taking insulin”, “denies fever”) are listed separately for you to decide: an absent need is often the problem itself.',
         ],
       },
       {
@@ -2422,6 +2471,7 @@ const toolChapters = [
         notes: [
           'HRSA lists health center sites, not their services, languages, or daily hours; call to confirm.',
           'A file that looks like a client list is refused.',
+          'Health centers listed under a village or neighborhood are placed in their town, for example “Dorchester (Boston)”.',
         ],
       },
       {
@@ -2486,6 +2536,8 @@ const toolChapters = [
           'Any answer above zero on PHQ-9 item 9 or EPDS item 10 raises a same-day safety alert, whatever the total.',
           'Only the public-domain ASQ’s wording is included. PHQ, GAD, EPDS, and C-SSRS items are listed by topic; use the official forms.',
           'Follow your agency’s suicide risk protocol.',
+          'If PHQ-9 item 9 or EPDS item 10 is not answered, the answer says to ask it before the person leaves: suicide risk has not been screened until it is answered.',
+          'A C-SSRS screener with a yes answer but unanswered items is “risk level not yet determined”; follow at least the same-day steps until the items are asked.',
         ],
       },
       {
@@ -2542,6 +2594,7 @@ const toolChapters = [
         when: [
           'You suspect abuse, neglect, or self-neglect during a visit.',
           'Training staff on mandated reporting.',
+          'A count of one or more falls in the past year counts as a fall (at risk).',
         ],
         provide: [
           'Age, setting (community or facility), the concern, and your role. Never names in the chat.',
@@ -2555,6 +2608,7 @@ const toolChapters = [
         notes: [
           'A phone report by a mandated reporter needs the written form within 48 hours; an online report does not.',
           'Legal decision support, not legal advice.',
+          'The answer says you are a mandated reporter only when your role matches the statutory list for that pathway. If it cannot match your role, it says so and shows the list; that does not mean you are not a mandated reporter.',
         ],
       },
       {
@@ -2623,6 +2677,7 @@ const toolChapters = [
         notes: [
           'MOLST could not be verified: the old molst-ma.org web address no longer belongs to the program. Get the current form from your health system or DPH.',
           'Put agency translations in templates/<language>/health_care_proxy.md in your data folder.',
+          'Nursing homes that CMS lists under a village or neighborhood (Hyannis, Dorchester) are matched to their town by ZIP code; the answer says when, because a ZIP code can cross a town line.',
         ],
       },
     ],
@@ -2661,6 +2716,7 @@ const toolChapters = [
           'Reading-level formulas only count syllables and sentence length. They cannot tell whether your audience will understand or act on a material; test drafts with members of your audience.',
           'The formulas and word list are for English. For other languages, rely on a qualified translator.',
           'When you check a file, quoted sentences are passed through the redactor, but remove client details before publishing anything.',
+          'Syllables are counted more accurately than in version 0.14.0 (for example safety, diarrhea, influenza), so grades can differ slightly from earlier results.',
         ],
       },
       {
@@ -2779,6 +2835,7 @@ const toolChapters = [
           'Programs report their own services to SAMHSA. Call ahead to confirm openings, insurance, and language.',
           'Distances are straight-line miles from the center of the town.',
           'The Massachusetts Substance Use Helpline (800-327-5050) can also help find treatment and recovery services.',
+          'Facilities outside Massachusetts are flagged: their “Medicaid” is that state’s program, not MassHealth.',
         ],
       },
       {
@@ -2839,6 +2896,7 @@ const toolChapters = [
         notes: [
           'The server does not include or produce translations. Every draft must be reviewed and approved by a qualified translator.',
           'The checks look at numbers, phone numbers, glossary terms, negations, and missing sentences; they cannot judge meaning or tone.',
+          'Numbers such as 3.5, 1,000, and 9:30 are checked whole, and a translation that writes them the local way (1.000 or 3,5) still matches.',
         ],
       },
       {
@@ -2929,6 +2987,7 @@ const toolChapters = [
         notes: [
           'NWS alerts are the official source; if the tool cannot reach them it says so plainly and shows no alerts. Never rely on an old copy for warnings.',
           'FEMA declarations count only federally declared events.',
+          'If the live alert feed cannot be reached, a saved copy is used only if it is less than an hour old; otherwise the answer says alerts could not be checked. Alerts that have ended are left out.',
         ],
       },
       {
@@ -3036,6 +3095,7 @@ const toolChapters = [
         notes: [
           'Completed forms go only to your output folder. Agency translations in templates/<language>/cmist_intake.md are used when present; otherwise forms are in English and the tool says how many.',
           'The questions are a draft and the staffing ratios are tool defaults; adapt them to your shelter plan.',
+          'The translation folder is the language as written in your registration file, in lower case with an underscore between words (Haitian Creole → templates/haitian_creole/). A file that uses codes such as “es” needs a folder named es.',
         ],
       },
       {
@@ -3063,6 +3123,8 @@ const toolChapters = [
         notes: [
           'Uses 2020 Census housing counts; homes built or lost since then are not reflected.',
           'Results with fewer than 5 answers are not shown, as the toolkit advises.',
+          'Answers with fewer responses than the larger of 5 and your suppression threshold are hidden, and when only one answer is that small, the next smallest is hidden too.',
+          'Analyzing returned data without your plan’s seed does not draw a new sample or write new materials.',
         ],
       },
       {
@@ -3094,6 +3156,7 @@ const toolChapters = [
           'Phone numbers and emails come only from your roster file and go only into the documents; they never appear in the chat. Do not type them into your request.',
           'The forms are accessible versions of FEMA’s forms, not FEMA’s fillable PDFs. Signatures are added by hand.',
           'Suggested objectives and hazards are drafts for the Incident Commander and Safety Officer to review.',
+          'A person’s contact details are filled in only when the roster has the exact full name you gave. A name not on the roster gets no contact details, never those of someone else in the same position. Check the spelling if contacts are missing.',
         ],
       },
       {
@@ -3126,6 +3189,7 @@ const toolChapters = [
           'Delegations of authority have legal effect. Have town counsel confirm each one before the plan is adopted.',
           'Give staff phone numbers and emails in the roster file, not in the chat.',
           'FEMA’s continuity guidance could not be downloaded when this content was written; the statutes and CDC sources were checked. Pending review.',
+          'Contact details for a successor named in your request are filled in only when the roster has that exact full name.',
         ],
       },
       {
@@ -3155,6 +3219,7 @@ const toolChapters = [
           'Scenario events are fictional and written by this project; have your planning team and DPH regional staff review them before use.',
           'Links between PHEP and FEMA capabilities are this project’s mapping, not an official crosswalk. Planning meeting weeks are suggestions.',
           'Staff phone numbers and emails from your roster appear only in the documents, never in the chat.',
+          'If the schedule needs more time than the length you gave, the answer says how many hours it needs.',
         ],
       },
       {
@@ -3184,6 +3249,7 @@ const toolChapters = [
           'The report is a draft for the after-action meeting; leaders confirm findings, owners, and dates.',
           'Written comments on feedback forms are counted but not shown in the chat; read them in your file.',
           'The 30-, 45-, and 60-day after-action dates are suggestions; follow your grant or program deadlines.',
+          'You can pass the objectives from design_hseep_exercise unchanged. A rating for a capability the tool does not recognize is an error, so it is not dropped silently.',
         ],
       },
       {
@@ -3216,6 +3282,8 @@ const toolChapters = [
           'Every message is a draft for your agency’s approval; check each fact with your subject matter experts.',
           'Nothing is machine-translated. Save approved translations as templates/<language>/cerc_<message set>.md in your data folder to reuse them.',
           'The mass dispensing messages depend on your POD plan; replace the low-confidence parts with your plan’s wording.',
+          'Your agency’s approved translation is used only for the library’s own English message. If you change the key messages, action steps, or empathy statement, a translator brief is prepared instead, because the approved translation no longer matches.',
+          'A description such as “space heater fire” does not bring up the extreme heat messages; name the message set if one fits.',
         ],
       },
       {
@@ -3243,6 +3311,7 @@ const toolChapters = [
         notes: [
           'AirNow data are preliminary. Without the internet, actions for every category are listed.',
           'Some actions for the public and events are the project’s summaries of EPA and CDC guidance.',
+          'Very high 8-hour ozone or 1-hour sulfur dioxide readings are refused with the averaging time to use instead, because EPA’s tables do not cover them.',
         ],
       },
       {
@@ -3269,6 +3338,7 @@ const toolChapters = [
         notes: [
           'HeatRisk is experimental and does not replace NWS heat advisories and warnings.',
           'Activation steps and scripts are drafts; adapt them to your heat plan. Cooling center rows go into the checklist only.',
+          'If the alert feed cannot be reached, the checklist says “NWS alerts could not be checked — see weather.gov”, not “none”.',
         ],
       },
     ],

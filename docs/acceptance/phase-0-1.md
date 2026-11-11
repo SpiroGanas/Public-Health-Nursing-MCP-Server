@@ -6,8 +6,8 @@ Desktop on a **Windows** computer and a **Mac**, using the synthetic corpus in
 
 ## Setup checks
 
-- [ ] `docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 --version` prints the version (use the tag you pulled, loaded, or built; no earlier version was published).
-- [ ] The Claude Desktop configuration from the README starts the server and the tools appear. In version 0.14.0 that is all 102 tools with no profile, 56 with `PHN_PROFILE=cd_nurse`, and 63 with `PHN_PROFILE=school_nurse`; the 11 Phase 0 and 1 tools tested below are available with no profile and with the `cd_nurse`, `school_nurse`, and `preparedness` profiles (`phn_leader` leaves out `lookup_reportable_condition`).
+- [ ] `docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 --version` prints the version (use the tag you pulled, loaded, or built; no earlier version was published).
+- [ ] The Claude Desktop configuration from the README starts the server and the tools appear. In version 0.14.1 that is all 102 tools with no profile, 56 with `PHN_PROFILE=cd_nurse`, and 63 with `PHN_PROFILE=school_nurse`; the 11 Phase 0 and 1 tools tested below are available with no profile and with the `cd_nurse`, `school_nurse`, and `preparedness` profiles (`phn_leader` leaves out `lookup_reportable_condition`).
 - [ ] Agency IT has been asked whether Docker Desktop, Podman Desktop, or Rancher Desktop is approved (template below).
 
 ## Phase 0

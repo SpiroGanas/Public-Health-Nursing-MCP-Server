@@ -4,13 +4,13 @@
 public health nurses: an executive summary of what the server offers, how it works and protects
 privacy, how to get started, and, for every implemented tool, what it does, when to use it, how
 to ask for it, what it returns, and what to keep in mind. It covers only tools that are
-implemented and registered in the server (102 in version 0.14.0).
+implemented and registered in the server (102 in version 0.14.1).
 
 ## Files
 
 | File | What it is |
 |---|---|
-| `PHN-MCP-Server-User-Guide.docx` | The guide (Word, US Letter, about 124 pages). Built; do not edit by hand. |
+| `PHN-MCP-Server-User-Guide.docx` | The guide (Word, US Letter, about 126 pages). Built; do not edit by hand. |
 | `guide-content.js` | All of the guide's text: chapters, one entry per tool, glossary, troubleshooting. |
 | `build-user-guide.js` | Turns the content into Word: styles, tables, table of contents, footer. |
 

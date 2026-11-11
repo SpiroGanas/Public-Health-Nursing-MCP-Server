@@ -10,7 +10,8 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.14.0 — Phases 0 to 13 of the [project plan](project_plan.md).** 102 of the 148
+> **Status: v0.14.1 — Phases 0 to 13 of the [project plan](project_plan.md), with the fixes from a
+> peer review of those phases (see [CHANGELOG.md](CHANGELOG.md)).** 102 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
 > immunization schedules and school requirements, school health and maternal-child health rules,
 > screening instruments, aging and preparedness guidance, ICS forms, COOP, HSEEP, and CERC
@@ -214,16 +215,16 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
 ```
 
-On networks that block GHCR, download `phn-mcp-server-v0.14.0-amd64.tar.gz` (or `-arm64` for
+On networks that block GHCR, download `phn-mcp-server-v0.14.1-amd64.tar.gz` (or `-arm64` for
 Apple silicon) from the GitHub release. Load it, then give the image the name the configuration
 below uses:
 
 ```sh
-docker load -i phn-mcp-server-v0.14.0-amd64.tar.gz
-docker tag phn-mcp-server:v0.14.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0
+docker load -i phn-mcp-server-v0.14.1-amd64.tar.gz
+docker tag phn-mcp-server:v0.14.1-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
 ```
 
 (Use `arm64` in both commands on Apple silicon.) Without the second command Docker does not find
@@ -232,7 +233,7 @@ the image under that name and tries to download it from GHCR.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 .
 ```
 
 ### 3. Create your data folder
@@ -257,7 +258,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
       ]
     }
   }
@@ -276,7 +277,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
       ]
     }
   }
@@ -285,7 +286,11 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
 
 On **Linux**, add `"--user", "1000:1000"` (your own user and group IDs from `id -u` and
 `id -g`) after `--read-only` so the server can write to your folder and the files it creates
-belong to you. Docker Desktop on Windows and macOS handles this automatically.
+belong to you. Docker Desktop on Windows and macOS handles this automatically. The image makes
+`/cache` writable for any user, and a new `phn-cache` volume copies that the first time it is
+used. A volume first created by version 0.14.0 or earlier is not writable by your user: remove it
+once with `docker volume rm phn-cache` (this deletes the saved settings and the download cache,
+which are rebuilt) and start the server again.
 
 Restart Claude Desktop. The tools appear under the tools (hammer) icon. Start with:
 
@@ -301,7 +306,7 @@ Then try, for example:
 File names are relative to your data folder: say `line_list.csv` or `rosters/kindergarten.xlsx`,
 not `PHN-Data/line_list.csv`.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration
@@ -312,9 +317,9 @@ settings saved by `configure_jurisdiction` in `/cache/phn-settings.toml`.
 | Variable | Default | Purpose |
 |---|---|---|
 | `PHN_PROFILE` | none | Role profile: `school_nurse`, `cd_nurse`, `phn_leader`, or `preparedness`. |
-| `PHN_TOOLSETS` | all | Comma-separated toolsets, e.g. `cd,epi`. Overrides the profile. `core` is always on. |
-| `PHN_SUPPRESSION_THRESHOLD` | `5` | Counts from 1 to threshold − 1 are suppressed (2–30). |
-| `PHN_OFFLINE` | off | `1` disables all network calls; only bundled and cached data are used. |
+| `PHN_TOOLSETS` | all | Comma-separated toolsets, e.g. `cd,epi`. Overrides the profile. `core` is always on. A value that names no toolset (for example `,`) stops the server with an error. |
+| `PHN_SUPPRESSION_THRESHOLD` | `5` | Counts from 1 to threshold − 1 are suppressed (2–30). A threshold outside 2–30 in the saved settings file is ignored (the default is used) and reported at startup and by `configure_jurisdiction`. |
+| `PHN_OFFLINE` | off | `1`, `true`, `yes`, or `on` disables all network calls; only bundled and cached data are used. `0`, `false`, `no`, or `off` leaves them on. Any other value stops the server with an error, so a typo cannot leave the network on. |
 | `PHN_CA_BUNDLE` | none | PEM file of extra certificate authorities, for agency networks that inspect TLS. Put it in `/cache` or `/data`. |
 | `HTTPS_PROXY`, `NO_PROXY` | none | Outbound proxy, if your agency requires one. |
 | `PHN_HTTP_TIMEOUT_SECS` | `20` | Timeout for public API calls. |
@@ -336,7 +341,11 @@ a sensible set:
 | `preparedness` | core, epr, env, epi, equity, comms, cd |
 
 Changing the profile or toolsets with `configure_jurisdiction` refreshes the tool list
-immediately in clients that support tool-list notifications.
+immediately in clients that support tool-list notifications. When `PHN_PROFILE` or
+`PHN_TOOLSETS` is set in the client configuration (as in the examples above), it fixes the
+toolsets: a profile or toolset list saved with `configure_jurisdiction` is kept but has no
+effect, and the answer says so. To use a tool outside those toolsets, edit the client
+configuration and restart the client.
 
 ## Privacy and safety design
 
