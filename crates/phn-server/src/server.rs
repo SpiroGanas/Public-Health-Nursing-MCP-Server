@@ -129,6 +129,10 @@ impl PhnServer {
         tool_router.merge(Self::phase13_coop_router());
         tool_router.merge(Self::phase13_hseep_router());
         tool_router.merge(Self::phase13_cerc_router());
+        tool_router.merge(Self::phase14_water_router());
+        tool_router.merge(Self::phase14_ejclimate_router());
+        tool_router.merge(Self::phase14_vectorhousing_router());
+        tool_router.merge(Self::phase14_chemfood_router());
         Self { ctx, tool_router }
     }
 

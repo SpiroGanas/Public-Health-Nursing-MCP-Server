@@ -194,6 +194,12 @@ output folder instead of being sent to the AI model.
 | `crisis_risk_communication_builder` | EPR-10 | epr | CDC CERC message maps (27/9/3 checks), holding statements, FAQs, spokesperson prep, and phase tasks for seven pre-scripted hazards or your own, with a language plan (agency translations or translator briefs). |
 <!-- Phase 13 rows go above this line. -->
 
+### Phase 14: environmental health and climate
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 14 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.

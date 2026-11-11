@@ -2585,3 +2585,25 @@ run the hotwash, and write the after-action report and improvement plan
 into the chat. The message names the toolsets the workflow uses (`epr`, with `equity`, `env`,
 `cd`, and `vax` for context) and tells the model to report, not retry, a tool whose toolset is
 off.
+
+## Phase 14: Environmental health and climate
+
+<!-- Phase 14 tools go below this line. -->
+
+<!-- Phase 14 Water (ENV-03, CHR-07). -->
+
+<!-- End of Phase 14 water. -->
+
+<!-- Phase 14 EJ and climate (ENV-04, ENV-05). -->
+
+<!-- End of Phase 14 ejclimate. -->
+
+<!-- Phase 14 Vectors and housing (ENV-06, ENV-07). -->
+
+<!-- End of Phase 14 vectorhousing. -->
+
+<!-- Phase 14 Chemicals and food (ENV-08, CHR-06). -->
+
+<!-- End of Phase 14 chemfood. -->
+
+<!-- End of Phase 14 tools. -->

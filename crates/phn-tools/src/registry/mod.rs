@@ -9,6 +9,7 @@ mod phase10;
 mod phase11;
 mod phase12;
 mod phase13;
+mod phase14;
 mod phase2;
 mod phase3;
 mod phase4;
@@ -104,7 +105,7 @@ const PHASE_0_1: &[ToolMeta] = &[
 ];
 
 /// Every phase's tool list with the phase it belongs to, in phase order (the
-/// first list holds Phases 0 and 1; Phase 13 keeps one list per work package).
+/// first list holds Phases 0 and 1; Phases 13 and 14 keep one list per work package).
 const PHASES: &[(u8, &[ToolMeta])] = &[
     (1, PHASE_0_1),
     (2, phase2::TOOLS),
@@ -122,6 +123,10 @@ const PHASES: &[(u8, &[ToolMeta])] = &[
     (13, phase13::COOP),
     (13, phase13::HSEEP),
     (13, phase13::CERC),
+    (14, phase14::WATER),
+    (14, phase14::EJ_CLIMATE),
+    (14, phase14::VECTOR_HOUSING),
+    (14, phase14::CHEM_FOOD),
 ];
 
 /// Every implemented tool, in phase order.

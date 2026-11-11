@@ -104,6 +104,8 @@ const frontChapters = [
                 // Phase 12 work-area rows go below this line.
                 ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; fill ICS forms and Incident Action Plans; draft a continuity of operations plan; design exercises and write after-action reports; build crisis and emergency risk communication; check air quality; plan the heat response.', '13, plus a guided tabletop exercise'],
                 // End of Phase 12 work-area rows.
+                // Phase 14 work-area rows go below this line.
+                // End of Phase 14 work-area rows.
               ],
             },
           },
@@ -3368,6 +3370,22 @@ const toolChapters = [
     ],
   },
   // End of Phase 12 and 13 chapter.
+  // Phase 14 chapter goes below this line.
+  {
+    title: 'Environmental health and climate',
+    intro: 'TODO(Phase 14 merge): chapter introduction.',
+    tools: [
+      // Phase 14 Water (ENV-03, CHR-07) tools.
+      // End of Phase 14 water tools.
+      // Phase 14 EJ and climate (ENV-04, ENV-05) tools.
+      // End of Phase 14 ejclimate tools.
+      // Phase 14 Vectors and housing (ENV-06, ENV-07) tools.
+      // End of Phase 14 vectorhousing tools.
+      // Phase 14 Chemicals and food (ENV-08, CHR-06) tools.
+      // End of Phase 14 chemfood tools.
+    ],
+  },
+  // End of Phase 14 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------
