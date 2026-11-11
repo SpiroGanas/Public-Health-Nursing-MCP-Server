@@ -253,7 +253,12 @@ fn cell_to_string(d: &Data) -> String {
 pub fn excel_serial_to_iso(serial: f64) -> String {
     let base = chrono::NaiveDate::from_ymd_opt(1899, 12, 30).expect("valid date");
     let days = serial.floor() as i64;
-    let date = base + chrono::Duration::days(days);
+    // A number far outside the date range (for example a phone number typed
+    // into a date-formatted cell) is returned as the number, not a panic.
+    let Some(date) = chrono::Duration::try_days(days).and_then(|d| base.checked_add_signed(d))
+    else {
+        return format!("{serial}");
+    };
     let secs = ((serial - serial.floor()) * 86_400.0).round() as i64;
     if secs == 0 {
         date.format("%Y-%m-%d").to_string()
@@ -392,6 +397,7 @@ mod tests {
     fn excel_dates_and_duplicate_headers() {
         assert_eq!(excel_serial_to_iso(45292.0), "2024-01-01");
         assert_eq!(excel_serial_to_iso(45292.5), "2024-01-01T12:00");
+        assert_eq!(excel_serial_to_iso(4_135_550_101.0), "4135550101");
         assert_eq!(
             clean_headers(vec!["Date".into(), "date".into(), "".into()]),
             vec!["Date", "date_2", "column_3"]

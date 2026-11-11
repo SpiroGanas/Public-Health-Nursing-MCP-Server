@@ -28,7 +28,8 @@ pub enum ColumnType {
     Text,
 }
 
-/// Numeric summary (values above 89 in age columns are shown as "90+").
+/// Numeric summary. In age columns (in years) values above 89 are counted as
+/// 90 and the extremes are shown as "90+".
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct NumericSummary {
     pub n: usize,
@@ -225,8 +226,22 @@ pub fn profile(table: &Table, opts: &ProfileOptions) -> DatasetProfile {
                 .iter()
                 .filter_map(|v| v.replace(',', "").parse::<f64>().ok())
                 .collect();
+            let is_age = kind == Some(Identifier::Age) && phi::age_header_is_years(name);
+            if is_age {
+                // Top-code before any statistic, so no mean or quantile shows an age over 89.
+                for x in &mut nums {
+                    *x = x.min(90.0);
+                }
+            }
             nums.sort_by(f64::total_cmp);
-            if !nums.is_empty() {
+            // With fewer records than the suppression threshold every statistic
+            // describes individual people, so none is shown.
+            if !nums.is_empty() && nums.len() < opts.suppression_threshold as usize {
+                cp.values_withheld = Some(format!(
+                    "fewer than {} values, so no statistics are shown",
+                    opts.suppression_threshold
+                ));
+            } else if !nums.is_empty() {
                 let n = nums.len();
                 let mean = nums.iter().sum::<f64>() / n as f64;
                 let sd = if n > 1 {
@@ -244,7 +259,6 @@ pub fn profile(table: &Table, opts: &ProfileOptions) -> DatasetProfile {
                     .iter()
                     .filter(|&&x| x < p25 - 1.5 * iqr || x > p75 + 1.5 * iqr)
                     .count();
-                let is_age = kind == Some(Identifier::Age);
                 let cap = |x: f64| {
                     if is_age && x > 89.0 {
                         "90+".to_string()
@@ -252,8 +266,13 @@ pub fn profile(table: &Table, opts: &ProfileOptions) -> DatasetProfile {
                         fmt_num(x)
                     }
                 };
-                // Extremes describe single records; hide them when few records.
-                let show_extremes = n >= opts.suppression_threshold as usize;
+                // Extremes describe single records. They are also hidden when
+                // almost every value is different, which is how ID and record
+                // numbers look (the smallest and largest ID would be shown).
+                let mostly_unique = kind.is_none()
+                    && inferred_type == ColumnType::Integer
+                    && distinct * 10 >= n * 9;
+                let show_extremes = n >= opts.suppression_threshold as usize && !mostly_unique;
                 cp.numeric = Some(NumericSummary {
                     n,
                     mean: (mean * 100.0).round() / 100.0,
@@ -301,9 +320,10 @@ pub fn profile(table: &Table, opts: &ProfileOptions) -> DatasetProfile {
             if other > 0 {
                 shown.push(("(all other values)".into(), other));
             }
-            if missing > 0 {
-                shown.push(("(missing)".into(), missing as u64));
-            }
+            // Missing values are counted outside the suppression matrix: the
+            // number missing is published anyway (`missing`), so a hidden
+            // "(missing)" cell would protect nothing and would let a hidden
+            // category be worked out from the total.
             let total: u64 = shown.iter().map(|x| x.1).sum();
             let mut cells: Vec<Vec<Option<u64>>> = shown.iter().map(|x| vec![Some(x.1)]).collect();
             cells.push(vec![Some(total)]);
@@ -334,6 +354,15 @@ pub fn profile(table: &Table, opts: &ProfileOptions) -> DatasetProfile {
                     })
                     .collect(),
             );
+            if missing > 0
+                && let Some(f) = cp.frequencies.as_mut()
+            {
+                f.push(Frequency {
+                    value: "(missing)".into(),
+                    count: Some(missing as u64),
+                    display: missing.to_string(),
+                });
+            }
         }
         column_profiles.push(cp);
     }
@@ -404,6 +433,51 @@ mod tests {
         );
         let json = serde_json::to_string(&p).unwrap();
         assert!(!json.contains("Person1"));
+    }
+
+    #[test]
+    fn missing_counts_do_not_undo_suppression_and_small_columns_get_no_statistics() {
+        let mut rows = Vec::new();
+        for (race, n) in [("White", 40), ("Black", 9), ("Asian", 3), ("", 2)] {
+            for _ in 0..n {
+                rows.push(vec![race.to_string(), "92".into()]);
+            }
+        }
+        rows.truncate(54);
+        // Three ages only, one of them over 89.
+        for (i, r) in rows.iter_mut().enumerate() {
+            r[1] = match i {
+                0 => "95".into(),
+                1 => "40".into(),
+                2 => "30".into(),
+                _ => String::new(),
+            };
+        }
+        let t = Table {
+            name: "t".into(),
+            headers: vec!["Race".into(), "Age".into()],
+            rows,
+            truncated: false,
+        };
+        let p = profile(
+            &t,
+            &ProfileOptions {
+                include_value_summaries: true,
+                ..ProfileOptions::default()
+            },
+        );
+        let race = p.column_profiles.iter().find(|c| c.name == "Race").unwrap();
+        let f = race.frequencies.as_ref().unwrap();
+        let hidden: Vec<&str> = f
+            .iter()
+            .filter(|x| x.count.is_none())
+            .map(|x| x.value.as_str())
+            .collect();
+        // Asian (3) is hidden together with another category, not with "(missing)".
+        assert!(hidden.contains(&"Asian") && hidden.len() >= 2, "{f:?}");
+        assert!(!hidden.contains(&"(missing)"));
+        let age = p.column_profiles.iter().find(|c| c.name == "Age").unwrap();
+        assert!(age.numeric.is_none() && age.values_withheld.is_some());
     }
 
     #[test]

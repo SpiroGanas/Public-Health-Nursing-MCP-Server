@@ -190,10 +190,15 @@ fn has_exact(f: &Facility, code: &str, value: &str) -> bool {
         .is_some_and(|v| v.iter().any(|s| s.trim().eq_ignore_ascii_case(value)))
 }
 
-/// True when the facility's ZIP code is not a Massachusetts one (010-027).
+/// True when the facility's ZIP code is not a Massachusetts one.
+/// Massachusetts ZIP codes start 010–027 (plus 055 for a few post office
+/// boxes); 028–029 is Rhode Island.
 fn outside_massachusetts(f: &Facility) -> bool {
     let z = f.zip.trim();
-    !z.is_empty() && !z.starts_with("01") && !z.starts_with("02")
+    let Some(prefix) = z.get(..3).and_then(|p| p.parse::<u16>().ok()) else {
+        return false;
+    };
+    !((10..=27).contains(&prefix) || prefix == 55)
 }
 
 fn moud(f: &Facility) -> Vec<String> {
