@@ -927,6 +927,19 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 13 EPR-10 data tools.
         // ---- Phase 14 data tools go below this line.
         // ---- Phase 14 Water (ENV-03, CHR-07).
+        // Neither tool reads local files. Their public-data output (system names,
+        // CDC records) and the fluoridation brief must still carry no seeded
+        // identifier, and SDWIS operator contacts are never returned.
+        (
+            "drinking_water_quality_lookup",
+            json!({"town": "Boxborough", "include_non_community": true, "private_wells": true, "years": 10}),
+            ll,
+        ),
+        (
+            "community_water_fluoridation_status",
+            json!({"town": "Hingham", "brief": true}),
+            ll,
+        ),
         // ---- End of Phase 14 water.
         // ---- Phase 14 EJ and climate (ENV-04, ENV-05).
         // ENV-04: an EJScreen-shaped file returns only averages and counts; the reviewer

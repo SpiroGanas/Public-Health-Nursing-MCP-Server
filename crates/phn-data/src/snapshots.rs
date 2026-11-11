@@ -318,6 +318,38 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 11 snapshot files.
     // Phase 14 snapshot files go below this line.
     // Phase 14 Water (ENV-03, CHR-07).
+    (
+        "ma_water_systems.csv",
+        include_str!("../../../snapshots/ma_water_systems.csv"),
+    ),
+    (
+        "ma_water_violations.csv",
+        include_str!("../../../snapshots/ma_water_violations.csv"),
+    ),
+    (
+        "ma_water_lead_copper.csv",
+        include_str!("../../../snapshots/ma_water_lead_copper.csv"),
+    ),
+    (
+        "sdwis_codes.csv",
+        include_str!("../../../snapshots/sdwis_codes.csv"),
+    ),
+    (
+        "ma_water_pfas6.csv",
+        include_str!("../../../snapshots/ma_water_pfas6.csv"),
+    ),
+    (
+        "ma_fluoridation_systems.csv",
+        include_str!("../../../snapshots/ma_fluoridation_systems.csv"),
+    ),
+    (
+        "ma_fluoridation_summary.csv",
+        include_str!("../../../snapshots/ma_fluoridation_summary.csv"),
+    ),
+    (
+        "ma_fluoridation_towns.csv",
+        include_str!("../../../snapshots/ma_fluoridation_towns.csv"),
+    ),
     // End of Phase 14 water.
     // Phase 14 EJ and climate (ENV-04, ENV-05).
     (

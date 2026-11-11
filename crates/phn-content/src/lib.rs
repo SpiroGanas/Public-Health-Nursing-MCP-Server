@@ -518,6 +518,20 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 13 content items.
     // Phase 14 content items go below this line.
     // Phase 14 Water (ENV-03, CHR-07).
+    ContentItem {
+        id: "env-drinking-water",
+        path: "content/env/drinking_water.yaml",
+        resource_uri: "phn://content/env-drinking-water",
+        yaml: include_str!("../../../content/env/drinking_water.yaml"),
+        schema: include_str!("../../../content/schemas/env_drinking_water.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-fluoridation",
+        path: "content/chronic/fluoridation.yaml",
+        resource_uri: "phn://content/chronic-fluoridation",
+        yaml: include_str!("../../../content/chronic/fluoridation.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_fluoridation.schema.json"),
+    },
     // End of Phase 14 water.
     // Phase 14 EJ and climate (ENV-04, ENV-05).
     ContentItem {

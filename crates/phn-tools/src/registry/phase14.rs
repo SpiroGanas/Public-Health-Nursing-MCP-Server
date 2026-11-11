@@ -8,7 +8,20 @@ use super::ToolMeta;
 use phn_core::Toolset;
 
 /// Water: ENV-03 `drinking_water_quality_lookup`, CHR-07 `community_water_fluoridation_status`.
-pub(super) const WATER: &[ToolMeta] = &[];
+pub(super) const WATER: &[ToolMeta] = &[
+    ToolMeta {
+        name: "drinking_water_quality_lookup",
+        plan_id: "ENV-03",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+    ToolMeta {
+        name: "community_water_fluoridation_status",
+        plan_id: "CHR-07",
+        toolset: Toolset::Chronic,
+        phase: 14,
+    },
+];
 
 /// Environmental justice and climate: ENV-04 `environmental_justice_screen`, ENV-05
 /// `climate_health_vulnerability_profile`.

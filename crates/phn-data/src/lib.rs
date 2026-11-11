@@ -60,6 +60,7 @@ pub use http::HttpClient;
 pub use snapshots::SnapshotStore;
 // Phase 14 adapters go below this line.
 // Phase 14 Water (ENV-03, CHR-07).
+pub mod water;
 // End of Phase 14 water.
 // Phase 14 EJ and climate (ENV-04, ENV-05).
 pub mod ejclimate;

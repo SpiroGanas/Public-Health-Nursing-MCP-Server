@@ -1,0 +1,496 @@
+# Drinking water quality: Massachusetts and EPA standards used by drinking_water_quality_lookup
+# (ENV-03), what residents can do, and private well testing guidance.
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/env_drinking_water.schema.json
+meta:
+  id: env-drinking-water
+  title: Drinking water standards, resident actions, and private well testing (Massachusetts)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: Per- and Polyfluoroalkyl Substances (PFAS) in Drinking Water
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/info-details/per-and-polyfluoroalkyl-substances-pfas-in-drinking-water
+  related_sources:
+    - title: Private Well Guidelines (updated May 2024)
+      publisher: Massachusetts Department of Environmental Protection, Drinking Water Program
+      url: https://www.mass.gov/doc/private-well-guidelines/download
+    - title: Proposed PFAS Rescission Rule; Proposed PFOA and PFOS Compliance Extension Rule
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/sdwa/proposed-pfas-rescission-rule
+    - title: Lead and Copper Rule; Lead and Copper Rule Improvements
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/dwreginfo/lead-and-copper-rule
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Every statement is transcribed or closely paraphrased from the fetched page or PDF named in
+    its source, retrieved 2026-11-11 (high confidence unless marked). The federal PFAS rule is
+    changing: the 2024 MCLs are in force, EPA proposed on May 18, 2026 to keep the PFOA and PFOS
+    MCLs, rescind the other four, and allow a two-year extension; EPA expected to finalize by the
+    end of 2026. Re-check EPA's pages before relying on the federal status. The share of a town's
+    residents on community systems that suggests private well use (well_reliance_share) is a
+    TOOL DEFAULT with no published source.
+
+sources:
+  massdep-pfas:
+    title: Per- and Polyfluoroalkyl Substances (PFAS) in Drinking Water
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/info-details/per-and-polyfluoroalkyl-substances-pfas-in-drinking-water
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-pfas-qrg:
+    title: Per- and Polyfluoroalkyl Substances (PFAS) Drinking Water Regulations Quick Reference Guide (310 CMR 22.07G)
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/doc/per-and-polyfluoroalkyl-substances-pfas-drinking-water-regulations-quick-reference-guide/download
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-pfas-consumer:
+    title: "MassDEP Fact Sheet - PFAS in Drinking Water: Questions and Answers for Consumers"
+    publisher: Massachusetts Department of Environmental Protection, Drinking Water Program
+    url: https://www.mass.gov/doc/massdep-fact-sheet-pfas-in-drinking-water-questions-and-answers-for-consumers/download
+    effective_date: 2026-05-28
+    retrieved: 2026-11-11
+  massdep-pfas-private:
+    title: PFAS in Private Well Drinking Water Supplies FAQ
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/info-details/pfas-in-private-well-drinking-water-supplies-faq
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-private-wells:
+    title: Private Well Guidelines (updated May 2024)
+    publisher: Massachusetts Department of Environmental Protection, Drinking Water Program
+    url: https://www.mass.gov/doc/private-well-guidelines/download
+    effective_date: 2024-05-01
+    retrieved: 2026-11-11
+  massdep-private-labs:
+    title: Private Drinking Water Testing and the use of MassDEP Certified Laboratories
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/info-details/private-drinking-water-testing-and-the-use-of-massdep-certified-laboratories
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-labs:
+    title: Certified Laboratories
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/certified-laboratories
+    effective_date: null
+    retrieved: 2026-11-11
+  epa-pfas-npdwr:
+    title: Per- and Polyfluoroalkyl Substances (PFAS) - Final PFAS National Primary Drinking Water Regulation
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sdwa/and-polyfluoroalkyl-substances-pfas
+    effective_date: null
+    retrieved: 2026-11-11
+  epa-pfas-rescission:
+    title: Proposed PFAS Rescission Rule
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sdwa/proposed-pfas-rescission-rule
+    effective_date: 2026-10-08
+    retrieved: 2026-11-11
+  epa-pfas-extension:
+    title: Proposed PFOA and PFOS Compliance Extension Rule
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sdwa/proposed-pfoa-and-pfos-compliance-extension-rule
+    effective_date: null
+    retrieved: 2026-11-11
+  epa-lcr:
+    title: Lead and Copper Rule
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/dwreginfo/lead-and-copper-rule
+    effective_date: 2026-01-02
+    retrieved: 2026-11-11
+  epa-lcri-qa:
+    title: Lead and Copper Rule Improvements (LCRI) Questions and Answers
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/ground-water-and-drinking-water/lcri-questions-and-answers
+    effective_date: 2026-03-11
+    retrieved: 2026-11-11
+  epa-lead-basics:
+    title: Basic Information about Lead in Drinking Water
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/ground-water-and-drinking-water/basic-information-about-lead-drinking-water
+    effective_date: 2026-06-18
+    retrieved: 2026-11-11
+
+# Numbers the tool compares results with.
+thresholds:
+  - id: ma_pfas6_mcl
+    label: Massachusetts PFAS6 standard (MMCL), sum of six PFAS
+    value: 20
+    unit: ng/L
+    source: massdep-pfas-qrg
+    section: General Description; Compliance and Violations
+    confidence: high
+  - id: ma_pfas6_confirmation
+    label: PFAS6 level above which MassDEP requires confirmation sampling and, when confirmed, monthly monitoring
+    value: 10
+    unit: ng/L
+    source: massdep-pfas-qrg
+    section: Confirmatory Sampling Requirements; Increased Monitoring
+    confidence: high
+  - id: lead_action_level
+    label: Lead action level (90th percentile of tap samples)
+    value: 0.015
+    unit: mg/L
+    source: epa-lcr
+    section: Rule Summary
+    confidence: high
+  - id: copper_action_level
+    label: Copper action level (90th percentile of tap samples)
+    value: 1.3
+    unit: mg/L
+    source: epa-lcr
+    section: Rule Summary
+    confidence: high
+  - id: lcri_lead_action_level
+    label: Lead action level under the 2024 Lead and Copper Rule Improvements (not yet in effect)
+    value: 0.010
+    unit: mg/L
+    source: epa-lcri-qa
+    section: What are the key requirements of the LCRI
+    confidence: high
+
+pfas_rules:
+  - text: >-
+      Massachusetts standard: since October 2, 2020, the Massachusetts Maximum Contaminant Level is
+      20 ng/L (parts per trillion) for the sum of six PFAS (PFOS, PFOA, PFHxS, PFNA, PFHpA, and
+      PFDA; "PFAS6"). It applies to community and non-transient non-community systems; MassDEP
+      states that this standard is still in effect.
+    source: massdep-pfas
+    section: Massachusetts PFAS Standard for Public Drinking Water Supplies
+    confidence: high
+  - text: >-
+      Compliance is calculated from the average of the monthly samples over a quarter at each
+      sampling location; if any one location is in violation, the system is in violation. A
+      violation requires a Tier 2 public notice. A single result above 20 ng/L is not by itself a
+      violation, but a result that would push the quarterly average above 20 ng/L puts the
+      system in violation immediately.
+    source: massdep-pfas-qrg
+    section: Compliance and Violations; Public Notice
+    confidence: high
+  - text: >-
+      When the average of a PFAS6 result and its confirmatory sample is above 10 ng/L, the
+      location must be sampled monthly; when that average exceeds 20 ng/L the system must give
+      public education materials within 30 days and update them quarterly until a result is at
+      or below the standard.
+    source: massdep-pfas-qrg
+    section: Increased Monitoring if PFAS is detected; Public Education
+    confidence: high
+  - text: >-
+      Transient non-community systems (restaurants, campgrounds) must collect a PFAS sample but
+      are not subject to the PFAS6 standard; elevated levels lead to a site-specific health
+      assessment.
+    source: massdep-pfas-qrg
+    section: Utilities Covered
+    confidence: high
+  - text: >-
+      Federal standard: on April 10, 2024 EPA set enforceable MCLs of 4.0 ppt each for PFOA and
+      PFOS, 10 ppt each for PFHxS, PFNA, and HFPO-DA (GenX), and a Hazard Index of 1 for mixtures
+      of two or more of PFHxS, PFNA, HFPO-DA, and PFBS. Compliance is by running annual average;
+      systems must finish initial monitoring by 2027 and comply with the MCLs by 2029.
+    source: epa-pfas-npdwr
+    section: Rule Summary
+    confidence: high
+  - text: >-
+      Federal changes under way: on May 18, 2026 EPA proposed to keep the PFOA and PFOS MCLs
+      (4.0 ppt each) and rescind the MCLs for PFHxS, PFNA, HFPO-DA, and the Hazard Index mixture,
+      and separately proposed to let systems request two more years (to April 2031) to meet the
+      PFOA and PFOS MCLs; systems with PFOA or PFOS at or above 12 ppt would have to take
+      short-term actions during an exemption. Comment periods closed July 20, 2026; MassDEP
+      reports that EPA expects to finalize the revisions by the end of the year.
+    source: epa-pfas-rescission
+    section: Proposed Rule Summary; Background (and the Compliance Extension Rule page)
+    confidence: high
+  - text: >-
+      On March 16, 2026 EPA approved MassDEP's request for a primacy extension, giving MassDEP
+      until April 26, 2028 to adopt state PFAS regulations at least as stringent as the federal
+      MCLs; MassDEP will propose amendments and hold public hearings.
+    source: massdep-pfas
+    section: Massachusetts PFAS Standard for Public Drinking Water Supplies
+    confidence: high
+
+lead_copper_rules:
+  - text: >-
+      Lead and copper have action levels, not MCLs: if more than 10% of customer tap samples
+      exceed 15 ppb lead (0.015 mg/L) or 1.3 ppm copper (1.3 mg/L) - that is, the 90th percentile
+      is above the action level - the system must take more steps to control corrosion; a lead
+      action level exceedance also requires public education and may require replacing lead
+      service lines under the system's control.
+    source: epa-lcr
+    section: Rule Summary
+    confidence: high
+  - text: >-
+      MassDEP notes that exceeding a lead or copper action level is not by itself a violation of
+      the regulations.
+    source: massdep-private-labs
+    section: specified tests performed by MassDEP-certified laboratories
+    confidence: high
+  - text: >-
+      The 2024 Lead and Copper Rule Improvements lower the lead action level to 10 µg/L and
+      require lead service lines and certain galvanized service lines under a system's control
+      to be replaced, most within 10 years; systems must begin complying three years after the rule's publication
+      (expected late 2027) and follow the current rule until then.
+    source: epa-lcri-qa
+    section: LCRI requirements and compliance dates
+    confidence: high
+  - text: >-
+      EPA's goal (MCLG) for lead is zero; EPA and CDC agree there is no known safe level of lead
+      in a child's blood. Drinking water can be 20% or more of a person's lead exposure, and 40%
+      to 60% for infants who drink mostly mixed formula.
+    source: epa-lead-basics
+    section: General Information; Is there a safe level of lead in drinking water?
+    confidence: high
+
+# What residents on public water can do.
+public_water_actions:
+  - text: >-
+      Every community water system must send customers an annual water quality report (Consumer
+      Confidence Report) by July 1; ask the water system for a copy. Public water systems must
+      alert customers when there is a problem with the water (Public Notification Rule).
+    source: epa-lead-basics
+    section: Find Out if Lead is in Your Drinking Water
+    confidence: high
+  - text: >-
+      MassDEP's PFAS results for every public water system are on the EEA Data Portal (search the
+      contaminant group "PFAS" or the chemical name "PFAS6").
+    source: massdep-pfas
+    section: PFAS testing data
+    confidence: high
+  - text: >-
+      People on a public water system should contact the system for information about
+      contaminants in their water.
+    source: massdep-pfas-consumer
+    section: "Question 5"
+    confidence: high
+
+pfas_actions:
+  - text: >-
+      When PFAS6 is above the Massachusetts standard (or PFOA or PFOS above EPA's standards),
+      pregnant or nursing people, infants, and people whose health care provider says they have
+      a compromised immune system should consider bottled water that has been tested for PFAS
+      for drinking, cooking foods that absorb water, and making infant formula (or use formula
+      that does not need added water).
+    source: massdep-pfas-consumer
+    section: "Question 6"
+    confidence: high
+  - text: >-
+      For older children and adults the standard applies to a lifetime of drinking the water, so
+      shorter exposures carry less risk; tested bottled water reduces exposure for anyone
+      concerned while the level is being lowered.
+    source: massdep-pfas-consumer
+    section: "Question 6"
+    confidence: high
+  - text: >-
+      Boiling water does not destroy PFAS and raises the level somewhat. In most situations the
+      water can be used to wash and rinse food and dishes; routine showering and bathing are not
+      a significant concern unless levels are very high; consider bottled water for young
+      children's tooth brushing because they may swallow more water.
+    source: massdep-pfas-consumer
+    section: "Question 6; Note on boiling water"
+    confidence: high
+  - text: >-
+      Home filters should be certified to NSF/ANSI 53 or 58 for PFAS; MassDEP notes that current
+      certifications do not yet show removal down to EPA's new levels, so check for independent
+      results showing the device reduces PFAS below the MassDEP and EPA standards.
+    source: massdep-pfas
+    section: Home Water Filters
+    confidence: high
+  - text: >-
+      Consuming water above the standard does not mean health effects will occur; the risk
+      depends on the level and how long it is consumed. People with specific health concerns
+      may wish to talk with their doctor.
+    source: massdep-pfas-consumer
+    section: "Question 4"
+    confidence: high
+
+lead_actions:
+  - text: >-
+      Use only cold water for drinking, cooking, and making baby formula; boiling does not
+      remove lead.
+    source: epa-lead-basics
+    section: Important Steps You Can Take to Reduce Lead in Drinking Water
+    confidence: high
+  - text: >-
+      Run the tap (or shower, laundry, dishes) to flush water that has sat in the pipes; ask the
+      water system how long to flush where there are lead service lines.
+    source: epa-lead-basics
+    section: Important Steps You Can Take to Reduce Lead in Drinking Water
+    confidence: high
+  - text: >-
+      Use a filter certified to remove lead, replace cartridges on time, and do not run hot water
+      through it; clean faucet aerators regularly.
+    source: epa-lead-basics
+    section: Important Steps You Can Take to Reduce Lead in Drinking Water
+    confidence: high
+  - text: >-
+      Ask the water system whether the home has a lead service line and to test the tap water;
+      ask a pediatrician about a blood lead test for young children (CDC recommends public
+      health action at 3.5 µg/dL or more).
+    source: epa-lead-basics
+    section: Important Steps You Can Take; Get Your Child Tested
+    confidence: high
+
+private_wells:
+  overview:
+    - text: >-
+        More than 500,000 people in Massachusetts rely on private wells. Local boards of health
+        regulate private wells and may have bylaws or regulations that require testing (for
+        example before a new well is used, or at property transfer).
+      source: massdep-private-wells
+      section: Introduction; Private Well Guidelines page
+      confidence: high
+    - text: >-
+        MassDEP strongly urges well owners to test at least once a year, whether or not the board
+        of health requires it, and recommends a MassDEP-certified laboratory; certification is
+        by analyte, so search the Online Searchable Laboratory Certification Listing for a lab
+        certified for each test you need.
+      source: massdep-private-labs
+      section: As the owner of a private well, do I have to test my water?; How can I find a certified laboratory?
+      confidence: high
+    - text: >-
+        If a result is above a limit in the tables, retest to confirm; if the second result is
+        also above the limit, treatment may be needed and the local board of health should be
+        notified.
+      source: massdep-private-wells
+      section: Water Quality and Water Testing
+      confidence: high
+    - text: >-
+        Before selling a property, the owner should test every private drinking water well for
+        the annual and 10-year parameters (within one year before transfer) and give the results
+        to the board of health; landlords should share results with tenants, and the board of
+        health may require an alternative water supply when a well does not meet standards.
+      source: massdep-private-wells
+      section: Transfer of Property
+      confidence: high
+  annual:
+    - text: >-
+        Every year, preferably in spring, test for total coliform bacteria and nitrate/nitrite.
+      source: massdep-private-wells
+      section: Table 11, Recommended Water Quality Testing - Annual Basis
+      confidence: high
+    - text: >-
+        If total coliform bacteria are present: retest for E. coli and stop drinking water
+        straight from the tap until results return; if E. coli is confirmed, boil the water or
+        use bottled water and consult a water treatment professional; if not, find and remove the
+        source, disinfect the well, and retest.
+      source: massdep-private-wells
+      section: Table 11, Recommended Water Quality Testing - Annual Basis
+      confidence: high
+    - text: >-
+        Nitrate/nitrite above 10 mg/L: resample to confirm; if confirmed, install treatment or
+        find another water supply.
+      source: massdep-private-wells
+      section: Table 11, Recommended Water Quality Testing - Annual Basis
+      confidence: high
+  every_ten_years:
+    section: Table 12, Recommended Water Quality Testing - Initially and Every 10 years
+    source: massdep-private-wells
+    confidence: high
+    note: >-
+      Test initially and then at least every 10 years; compare with earlier results. If the
+      first test showed no problem with fluoride, copper, radon, or radionuclides, those may be
+      skipped because they usually stay stable.
+    parameters:
+      - {parameter: Arsenic, limit: "> 0.010 mg/L"}
+      - {parameter: Lead, limit: "> 0.015 mg/L"}
+      - {parameter: Manganese, limit: "> 0.3 mg/L"}
+      - {parameter: Copper, limit: "> 1.3 mg/L"}
+      - {parameter: Fluoride, limit: "> 4 mg/L"}
+      - {parameter: Sodium, limit: "> 20 mg/L (concern mainly for low-sodium diets)"}
+      - {parameter: Gross alpha screen, limit: "> 15 pCi/L"}
+      - {parameter: Radon-222, limit: "> 10,000 pCi/L (if radon is found in water, test indoor air)"}
+      - {parameter: Radium 226 and 228, limit: "> 5 pCi/L"}
+      - {parameter: Uranium, limit: "> 0.03 mg/L"}
+      - {parameter: Volatile organic compounds, limit: Above the Massachusetts MCLs}
+      - {parameter: PFAS6, limit: "Above 20 ng/L for the six MassDEP-regulated PFAS combined"}
+      - {parameter: "PFOA; PFOS", limit: "> 4.0 ng/L each"}
+      - {parameter: "PFHxS; PFNA; HFPO-DA (GenX)", limit: "> 10 ng/L each"}
+      - {parameter: "Mixtures of two or more of PFHxS, PFNA, HFPO-DA, and PFBS", limit: "Above EPA Hazard Index of 1"}
+      - {parameter: "Chloride; hardness; iron; pH (taste, odor, and treatment design)", limit: "Chloride > 250 mg/L; hardness < 50 or > 200 mg/L; iron > 0.3 mg/L; pH < 6.5 or > 8.5"}
+  pfas:
+    - text: >-
+        MassDEP recommends testing all private drinking water wells for PFAS, especially within
+        one to two miles of a known PFAS source (airfields or training areas where firefighting
+        foam was used, some manufacturing and waste sites) or of other supplies where PFAS was
+        found. Labs test drinking water for PFAS with EPA Method 537.1 or 533; search the
+        certification listing for analyte PFAS and matrix potable (drinking water).
+      source: massdep-pfas-private
+      section: Should I test my private well for PFAS?; How can I test my well water for PFAS?
+      confidence: high
+    - text: >-
+        If no PFAS is found, test again at least every 10 years or as the local public health
+        agency recommends; check with the board of health for local testing requirements.
+      source: massdep-pfas-private
+      section: How often should I test my well water for PFAS?
+      confidence: high
+    - text: >-
+        If PFAS is found, pregnant and nursing people and infants can use bottled water tested for
+        PFAS for drinking, formula, and cooking; point-of-use or whole-house treatment (GAC, ion
+        exchange, reverse osmosis) can work, but test before choosing and after installing. Test
+        for radon before choosing GAC (MassDEP advises against GAC for radon above 5,000 pCi/L),
+        and reverse osmosis wastewater may not go to a Title 5 septic system.
+      source: massdep-pfas-private
+      section: If I Have PFAS in My Well Water What Can I Do?; Radon and GAC; RO wastewater
+      confidence: high
+  more_often:
+    section: Water Quality and Water Testing (conditions that may prompt more frequent testing)
+    source: massdep-private-wells
+    confidence: high
+    items:
+      - A change in taste, color, or clarity, especially after heavy rain or drought.
+      - Recent well construction, repair, or pump or plumbing work (test for bacteria after disinfection and flushing).
+      - Earlier results above a standard in this well or a neighbor's well.
+      - Someone in the household is pregnant or nursing.
+      - An unexplained illness in the family.
+      - A shallow overburden well less than 50 feet deep.
+      - A well in a heavily developed area where hazardous chemicals are handled, or after a chemical or fuel spill near the well.
+  arsenic_uranium:
+    text: >-
+      A 2011 USGS study of bedrock wells in central Massachusetts found these towns had a high or
+      medium probability of exceeding the drinking water standard for arsenic and/or uranium.
+      The study covered only central Massachusetts; other towns (for example Monson) may also
+      have elevated levels.
+    source: massdep-private-wells
+    section: Table 9, Towns with High or Medium Probability of Exceeding Arsenic and/or Uranium MCL
+    confidence: high
+    towns: [Amesbury, Andover, Ashby, Auburn, Blackstone, Bolton, Boxborough, Boxford, Boylston,
+            Carlisle, Charlton, Concord, Douglas, Dracut, Dudley, Fitchburg, Grafton, Groton,
+            Harvard, Holden, Hopkinton, Hudson, Leicester, Leominster, Littleton, Lunenburg,
+            Mendon, Merrimac, Middleton, Millbury, Millville, Newburyport, Northborough,
+            Northbridge, Oakham, Oxford, Pepperell, Princeton, Rutland, Southborough, Southbridge,
+            Spencer, Sterling, Stow, Sturbridge, Sutton, Townsend, Tyngsborough, Upton, Uxbridge,
+            Webster, Westborough, Westford, Westminster]
+  bedrock_lead:
+    text: >-
+      Elevated naturally occurring lead has been found in some bedrock wells in rock formations
+      under all or parts of these towns; lead can also come from old pipes, solder, and brass
+      fixtures, especially with low-pH water.
+    source: massdep-private-wells
+    section: Water Quality and Water Testing, Lead
+    confidence: high
+    towns: [Monson, Blackstone, Douglas, Bellingham, Mendon, Hopedale, Uxbridge, Millville, Milford, Holliston]
+
+# Numbers chosen by this project with no published source.
+tool_defaults:
+  well_reliance_share:
+    value: 0.9
+    note: >-
+      TOOL DEFAULT. When community water systems listed in the town report serving fewer people
+      than this share of the town's ACS population, the tool says part of the town likely relies
+      on private wells (or neighboring systems). Population served is self-reported and systems
+      can serve other towns, so this is a prompt to check, not a measurement.
+  default_years: 5
+  max_years: 10
+
+links:
+  - {label: EEA Data Portal - drinking water results (PFAS and other contaminants), url: "https://eeaonline.eea.state.ma.us/portal#!/search/drinking-water"}
+  - {label: MassDEP Certified Laboratories, url: "https://www.mass.gov/certified-laboratories"}
+  - {label: MassDEP Online Searchable Laboratory Certification Listing, url: "https://eeaonline.eea.state.ma.us/DEP/Labcert/Labcert.aspx"}
+  - {label: MassDEP Private Well Guidelines, url: "https://www.mass.gov/info-details/private-well-guidelines"}
+  - {label: MassDEP PFAS in Private Well Drinking Water Supplies FAQ, url: "https://www.mass.gov/info-details/pfas-in-private-well-drinking-water-supplies-faq"}
+  - {label: EPA Consumer Confidence Reports, url: "https://www.epa.gov/ccr"}

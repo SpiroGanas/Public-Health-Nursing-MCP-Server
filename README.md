@@ -205,6 +205,8 @@ output folder instead of being sent to the AI model.
 | `food_access_mapper` | CHR-06 | chronic | USDA Food Access Research Atlas low-income/low-access tracts (four definitions, straight-line or driving) for a town, county, or the state, with people affected, vehicle and SNAP context, HIP and SNAP information, counts of your pantries, SNAP retailers, and HIP vendors by town, a tract map, and a resource list. |
 | `vector_borne_disease_risk` | ENV-06 | env | DPH EEE and West Nile virus risk levels by town (live in season, otherwise the dated last levels) with DPH's actions for each level, tick-borne disease cases and rates by county, and prevention messages for the public, schools, camps, and outdoor workers; optional DOCX notice. |
 | `housing_conditions_health_guide` | ENV-07 | env | State Sanitary Code (105 CMR 410.000) guide to mold, pests, heat, hot water, lead, alarms, and trash: code sections, owner and occupant duties, health effects, how to get a board of health inspection, tenant protections, readable tenant teaching sheets, and locally filled request letters. |
+| `drinking_water_quality_lookup` | ENV-03 | env | Public water systems for a town (EPA SDWIS): health-based violations, lead and copper 90th percentiles, MassDEP PFAS6 results, what residents can do, and private well testing guidance. |
+| `community_water_fluoridation_status` | CHR-07 | chronic | Town fluoridation status (DPH 2023, CDC My Water's Fluoride) with the systems behind it, a statewide summary, positions and evidence side by side, M.G.L. c. 111 § 8C, and an optional board of health brief. |
 <!-- Phase 14 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

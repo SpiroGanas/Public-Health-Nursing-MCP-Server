@@ -1,0 +1,362 @@
+town,status,population,year_began,mwra,information
+Abington,Non-Fluoridated,16557,not applicable,N,city/town does have a community water supply
+Acton,Fully Fluoridated,23634,1970,N,not applicable
+Acushnet,Fully Fluoridated,10589,2007,N,not applicable
+Adams,Non-Fluoridated,8084,not applicable,N,city/town does have a community water supply
+Agawam,Non-Fluoridated,28627,not applicable,N,city/town does have a community water supply
+Alford,Non-Fluoridated,411,not applicable,N,city/town does not have a community water supply
+Amesbury,Non-Fluoridated,17474,not applicable,N,city/town does have a community water supply
+Amherst,Fully Fluoridated,39995,1987,N,not applicable
+Andover,Fully Fluoridated,36098,1969,N,not applicable
+Aquinnah,Non-Fluoridated,675,not applicable,N,city/town does have a community water supply
+Arlington,Fully Fluoridated,45379,1978,Y,not applicable
+Ashburnham,Fully Fluoridated,6304,1958,N,not applicable
+Ashby,Non-Fluoridated,3211,not applicable,N,city/town does not have a community water supply
+Ashfield,Non-Fluoridated,1793,not applicable,N,city/town does not have a community water supply
+Ashland,Non-Fluoridated,17787,not applicable,N,city/town does have a community water supply
+Athol,Fully Fluoridated,11694,1952,N,not applicable
+Attleboro,Fully Fluoridated,45023,1973,N,not applicable
+Auburn,Non-Fluoridated,16692,not applicable,N,city/town does have a community water supply
+Avon,Non-Fluoridated,4513,not applicable,N,city/town does have a community water supply
+Ayer,Non-Fluoridated,8158,not applicable,N,city/town does have a community water supply
+Barnstable,Non-Fluoridated,44497,not applicable,N,city/town does have a community water supply
+Barre,Non-Fluoridated,5562,not applicable,N,city/town does have a community water supply
+Becket,Non-Fluoridated,2012,not applicable,N,city/town does not have a community water supply
+Bedford,Fully Fluoridated,14136,1978,Y,not applicable
+Belchertown,Partially Fluoridated,102,,N,Amherst supplies fluoridated water to 50 homes and two businesses
+Belchertown,Non-Fluoridated,14978,not applicable,N,city/town does not have a community water supply
+Bellingham,Non-Fluoridated,17196,not applicable,N,city/town does not have a community water supply
+Belmont,Fully Fluoridated,26158,1978,Y,not applicable
+Berkley,Non-Fluoridated,6801,not applicable,N,city/town does not have a community water supply
+Berlin,Non-Fluoridated,3312,not applicable,N,city/town does not have a community water supply
+Bernardston,Non-Fluoridated,2014,not applicable,N,city/town does have a community water supply
+Beverly,Fully Fluoridated,42062,1952,N,not applicable
+Billerica,Fully Fluoridated,43274,1992,N,not applicable
+Blackstone,Non-Fluoridated,9249,not applicable,N,city/town does have a community water supply
+Blandford,Non-Fluoridated,1061,not applicable,N,city/town does have a community water supply
+Bolton,Non-Fluoridated,5356,not applicable,N,city/town does not have a community water supply
+Boston,Fully Fluoridated,689326,1978,Y,not applicable
+Bourne,Non-Fluoridated,19819,not applicable,N,city/town does not have a community water supply
+Boxford,Non-Fluoridated,8316,not applicable,N,city/town does not have a community water supply
+Boylston,Non-Fluoridated,4666,not applicable,N,city/town does have a community water supply
+Braintree,Non-Fluoridated,37196,not applicable,N,city/town does have a community water supply
+Brewster,Non-Fluoridated,9811,not applicable,N,city/town does have a community water supply
+Bridgewater,Partially Fluoridated,228,1989,N,Massahusetts Correctional Institute supplies fluoridated water to 228 inmates
+Bridgewater,Non-Fluoridated,27213,not applicable,N,city/town does not have a community water supply
+Brimfield,Non-Fluoridated,3663,not applicable,N,city/town does not have a community water supply
+Brockton,Non-Fluoridated,95740,not applicable,N,city/town does have a community water supply
+Brookfield,Non-Fluoridated,3439,not applicable,N,city/town does have a community water supply
+Brookline,Fully Fluoridated,59223,1978,Y,not applicable
+Buckland,Non-Fluoridated,2063,not applicable,N,city/town does have a community water supply
+Burlington,Fully Fluoridated,28077,1993,N,not applicable
+Cambridge,Fully Fluoridated,117822,1974,Y,not applicable
+Canton,Fully Fluoridated,23615,1978,Y,not applicable
+Carlisle,Non-Fluoridated,5232,not applicable,N,city/town does have a community water supply
+Carver,Non-Fluoridated,11745,not applicable,N,city/town does not have a community water supply
+Charlemont,Non-Fluoridated,1090,not applicable,N,city/town does not have a community water supply
+Charlton,Partially Fluoridated,150,1996,N,Southbridge supplies 150 residents with fluoridated water
+Charlton,Non-Fluoridated,13460,not applicable,N,city/town does not have a community water supply
+Chatham,Non-Fluoridated,6009,not applicable,N,city/town does have a community water supply
+Chelmsford,Non-Fluoridated,35239,not applicable,N,city/town does have a community water supply
+Chelsea,Fully Fluoridated,39878,1978,Y,not applicable
+Cheshire,Non-Fluoridated,3138,not applicable,N,city/town does have a community water supply
+Chester,Non-Fluoridated,1525,not applicable,N,city/town does have a community water supply
+Chesterfield,Non-Fluoridated,1189,not applicable,N,city/town does not have a community water supply
+Chicopee,Non-Fluoridated,55186,not applicable,N,city/town does have a community water supply
+Chilmark,Non-Fluoridated,1330,not applicable,N,city/town does have a community water supply
+Clarksburg,Non-Fluoridated,1779,not applicable,N,city/town does have a community water supply
+Clinton,Non-Fluoridated,13940,not applicable,N,city/town does have a community water supply
+Cohasset,Fully Fluoridated,8520,1956,N,not applicable
+Colrain,Non-Fluoridated,1772,not applicable,N,city/town does have a community water supply
+Concord,Fully Fluoridated,18950,1970,N,not applicable
+Conway,Non-Fluoridated,1854,not applicable,N,city/town does not have a community water supply
+Cummington,Non-Fluoridated,1003,not applicable,N,city/town does have a community water supply
+Dalton,Non-Fluoridated,6573,not applicable,N,city/town does have a community water supply
+Danvers,Fully Fluoridated,27549,1951,N,not applicable
+Dartmouth,Fully Fluoridated,34062,2007,N,not applicable
+Dedham,Fully Fluoridated,25330,1977,Y,not applicable
+Deerfield,Non-Fluoridated,5029,not applicable,N,city/town does have a community water supply
+Dennis,Non-Fluoridated,13927,not applicable,N,city/town does have a community water supply
+Dighton,Non-fluoridated,7845,not applicable,N,city/town does not have a community water supply
+Douglas,Non-Fluoridated,8938,not applicable,N,city/town does have a community water supply
+Dover,Non-Fluoridated,6079,not applicable,N,city/town does have a community water supply
+Dracut,Fully Fluoridated,31458,1982,N,not applicable
+Dudley,Non-Fluoridated,11699,not applicable,N,city/town does have a community water supply
+Dunstable,Non-Fluoridated,3374,not applicable,N,city/town does have a community water supply
+Duxbury,Fully Fluoridated,15912,1987,N,not applicable
+East Bridgewater,Non-Fluoridated,14509,not applicable,N,city/town does have a community water supply
+East Brookfield,Non-Fluoridated,2157,not applicable,N,city/town does have a community water supply
+East Longmeadow,Non-Fluoridated,16215,not applicable,N,city/town does have a community water supply
+Eastham,Non-Fluoridated,4896,not applicable,N,city/town does have a community water supply
+Easthampton,Non-Fluoridated,15930,not applicable,N,city/town does have a community water supply
+Easton,Non-Fluoridated,24860,not applicable,N,city/town does have a community water supply
+Edgartown,Non-Fluoridated,4358,not applicable,N,city/town does have a community water supply
+Egremont,Non-Fluoridated,1473,not applicable,N,city/town does have a community water supply
+Erving,Non-Fluoridated,1673,not applicable,N,city/town does have a community water supply
+Essex,Fully Fluoridated,3771,1970,N,not applicable
+Everett,Fully Fluoridated,46275,1978,Y,not applicable
+Fairhaven,Non-Fluoridated,16072,not applicable,N,city/town does have a community water supply
+Fall River,Fully Fluoridated,89618,1973,N,Interim suspension or fluoridation due to supply chain and equipment since December 2018
+Falmouth,Non-Fluoridated,31104,not applicable,N,city/town does have a community water supply
+Fitchburg,Fully Fluoridated,40576,1975,N,not applicable
+Florida,Non-Fluoridated,742,not applicable,N,city/town does not have a community water supply
+Foxborough,Non-Fluoridated,17917,not applicable,N,city/town does have a community water supply
+Framingham,Fully Fluoridated,72846,1970,Y,not applicable
+Franklin,Fully Fluoridated,33644,1970,N,not applicable
+Freetown,Fully Fluoridated,9364,1978/2007,N,not applicable
+Gardner,Fully Fluoridated,20605,1987,N,not applicable
+Georgetown,Non-Fluoridated,8733,not applicable,N,city/town does have a community water supply
+Gill,Non-Fluoridated,1732,not applicable,N,city/town does have a community water supply
+Gloucester,Fully Fluoridated,30291,1981,N,not applicable
+Goshen,Non-Fluoridated,880,not applicable,N,city/town does not have a community water supply
+Gosnold,Non-Fluoridated,37,not applicable,N,city/town does not have a community water supply
+Grafton,Non-Fluoridated,19031,not applicable,N,city/town does have a community water supply
+Granby,Non-Fluoridated,6310,not applicable,N,city/town does have a community water supply
+Granville,Non-Fluoridated,1703,not applicable,N,city/town does have a community water supply
+Great Barrington,Non-Fluoridated,6930,not applicable,N,city/town does have a community water supply
+Greenfield,Non-Fluoridated,17353,not applicable,N,city/town does have a community water supply
+Groton,Non-Fluoridated,11322,not applicable,N,city/town does have a community water supply
+Groveland,Fully Fluoridated,6815,1995,N,not applicable
+Hadley,Non-Fluoridated,5328,not applicable,N,city/town does have a community water supply
+Halifax,Non-Fluoridated,7830,not applicable,N,city/town does have a community water supply
+Hamilton,Fully Fluoridated,8048,1956,N,not applicable
+Hampden,Non-Fluoridated,5174,not applicable,N,city/town does not have a community water supply
+Hancock,Non-Fluoridated,657,not applicable,N,city/town does not have a community water supply
+Hanover,Non-Fluoridated,14526,not applicable,N,city/town does have a community water supply
+Hanson,Non-Fluoridated,10874,not applicable,N,city/town does have a community water supply
+Hardwick,Partially Fluoridated,210,,N,Eagle High School is fluoridated with 210 students
+Hardwick,Non-Fluoridated,2829,not applicable,N,city/town does not have a community water supply
+Harvard,Non-Fluoridated,6592,not applicable,N,city/town does have a community water supply
+Harwich,Non-Fluoridated,12168,not applicable,N,city/town does have a community water supply
+Hatfield,Non-Fluoridated,3271,not applicable,N,city/town does have a community water supply
+Haverhill,Fully Fluoridated,63783,1971,N,not applicable
+Hawley,Non-Fluoridated,421,not applicable,N,city/town does not have a community water supply
+Heath,Non-Fluoridated,671,not applicable,N,city/town does not have a community water supply
+Hingham,Fully Fluoridated,23983,1953,N,not applicable
+Hinsdale,Non-Fluoridated,1721,not applicable,N,city/town does have a community water supply
+Holbrook,Non-Fluoridated,11051,not applicable,N,city/town does have a community water supply
+Holden,Fully Fluoridated,19128,1995,N,not applicable
+Holland,Non-Fluoridated,2492,not applicable,N,city/town does not have a community water supply
+Holliston,Fully Fluoridated,14792,1970,N,not applicable
+Holyoke,Fully Fluoridated,40161,1970,N,not applicable
+Hopedale,Non-Fluoridated,5956,not applicable,N,city/town does not have a community water supply
+Hopkinton,Non-Fluoridated,18030,not applicable,N,city/town does have a community water supply
+Hubbardston,Non-Fluoridated,4758,not applicable,N,city/town does not have a community water supply
+Hudson,Fully Fluoridated,19863,1985,N,not applicable
+Hull,Fully Fluoridated,10478,1953,N,not applicable
+Huntington,Non-Fluoridated,2170,not applicable,N,city/town does have a community water supply
+Ipswich,Fully Fluoridated,14022,1971,N,not applicable
+Kingston,Non-Fluoridated,13746,not applicable,N,city/town does have a community water supply
+Lakeville,Non-Fluoridated,11489,not applicable,N,city/town does have a community water supply
+Lancaster,Non-Fluoridated,7984,not applicable,N,city/town does have a community water supply
+Lanesborough,Non-Fluoridated,2961,not applicable,N,city/town does have a community water supply
+Lawrence,Fully Fluoridated,80022,1983,N,not applicable
+Lee,Non-Fluoridated,5705,not applicable,N,city/town does have a community water supply
+Leicester,Non-Fluoridated,11314,not applicable,N,city/town does have a community water supply
+Lenox,Non-Fluoridated,4964,not applicable,N,city/town does have a community water supply
+Leominster,Non-Fluoridated,41581,not applicable,N,city/town does have a community water supply
+Leverett,Partially Fluoridated,20,,N,Amherst supplies fluoridated water to 10 homes
+Leverett,Non-Fluoridated,1855,not applicable,N,city/town does not have a community water supply
+Lexington,Fully Fluoridated,33304,1978,Y,not applicable
+Leyden,Non-Fluoridated,686,not applicable,N,city/town does not have a community water supply
+Lincoln,Fully Fluoridated,6868,1971,N,not applicable
+Littleton,Non-Fluoridated,10152,not applicable,N,city/town does have a community water supply
+Longmeadow,Fully Fluoridated,15736,1989,N,not applicable
+Lowell,Fully Fluoridated,111311,1982,N,not applicable
+Ludlow,Non-Fluoridated,21223,not applicable,N,city/town does have a community water supply
+Lunenburg,Non-Fluoridated,11530,not applicable,N,city/town does have a community water supply
+Lynn,Fully Fluoridated,94201,1983,N,not applicable
+Lynnfield,Fully Fluoridated,12968,1959/1972,Y,not applicable
+Malden,Fully Fluoridated,60710,1978,Y,not applicable
+Manchester-by-the-Sea,Fully Fluoridated,5400,1983,N,not applicable
+Mansfield,Fully Fluoridated,24145,1997,N,not applicable
+Marblehead,Fully Fluoridated,20530,1978,Y,not applicable
+Marion,Non-Fluoridated,5148,not applicable,N,city/town does have a community water supply
+Marlborough,Fully Fluoridated,39663,1982,Y,not applicable
+Marshfield,Non-fluoridated,25937,not applicable,N,city/town does not have a community water supply
+Mashpee,Non-Fluoridated,14204,not applicable,N,city/town does have a community water supply
+Mattapoisett,Non-Fluoridated,6374,not applicable,N,city/town does have a community water supply
+Maynard,Non-Fluoridated,10900,not applicable,N,city/town does have a community water supply
+Medfield,Non-Fluoridated,12926,not applicable,N,city/town does have a community water supply
+Medford,Fully Fluoridated,58290,1978,N,not applicable
+Medway,Fully Fluoridated,13398,1953,N,not applicable
+Melrose,Fully Fluoridated,28054,1978,Y,not applicable
+Mendon,Non-Fluoridated,6146,not applicable,N,city/town does not have a community water supply
+Merrimac,Non-Fluoridated,6926,not applicable,N,city/town does have a community water supply
+Methuen,Non-Fluoridated,50518,not applicable,N,city/town does have a community water supply
+Middleborough,Non-Fluoridated,25181,not applicable,N,city/town does have a community water supply
+Middlefield,Non-Fluoridated,363,not applicable,N,city/town does not have a community water supply
+Middleton,Fully Fluoridated,9952,1951,N,not applicable
+Milford,Non-Fluoridated,28936,not applicable,N,city/town does have a community water supply
+Millbury,Non-Fluoridated,13822,not applicable,N,city/town does have a community water supply
+Millis,Fully Fluoridated,8288,1988,N,not applicable
+Millville,Non-Fluoridated,3249,not applicable,N,city/town does have a community water supply
+Milton,Fully Fluoridated,27590,1978,Y,not applicable
+Monroe,Non-Fluoridated,100,not applicable,N,city/town does not have a community water supply
+Monson,Non-Fluoridated,8775,not applicable,N,city/town does have a community water supply
+Montague,Non-Fluoridated,8251,not applicable,N,city/town does have a community water supply
+Monterey,Non-Fluoridated,723,not applicable,N,city/town does have a community water supply
+Montgomery,Non-Fluoridated,907,not applicable,N,city/town does not have a community water supply
+Mount Washington,Non-Fluoridated,136,not applicable,N,city/town does not have a community water supply
+Nahant,Fully Fluoridated,3512,1978,Y,not applicable
+Nantucket,Non-Fluoridated,11212,not applicable,N,city/town does have a community water supply
+Natick,Fully Fluoridated,36044,1997,N,not applicable
+Needham,Fully Fluoridated,31177,1971,Y,not applicable
+New Ashford,Non-Fluoridated,243,not applicable,N,city/town does not have a community water supply
+New Bedford,Fully Fluoridated,95355,2007,N,not applicable
+New Braintree,Non-Fluoridated,1155,not applicable,N,city/town does not have a community water supply
+New Marlborough,Non-Fluoridated,1498,not applicable,N,city/town does have a community water supply
+New Salem,Non-Fluoridated,1067,not applicable,N,city/town does not have a community water supply
+Newbury,Partially Fluoridated,1302,1969,N,Newburyport supplies fluoridated water to 1302 residents
+Newbury,Non-Fluoridated,5804,not applicable,N,city/town does not have a community water supply
+Newburyport,Fully Fluoridated,18197,1969,N,not applicable
+Newton,Fully Fluoridated,88322,1963,Y,not applicable
+Norfolk,Non-Fluoridated,11861,not applicable,N,city/town does have a community water supply
+North Adams,Non-Fluoridated,12897,not applicable,N,city/town does have a community water supply
+North Andover,Fully Fluoridated,31262,1975,N,not applicable
+North Attleborough,Fully Fluoridated,29281,2002,N,not applicable
+North Brookfield,Non-Fluoridated,4774,not applicable,N,city/town does have a community water supply
+Northampton,Non-Fluoridated,28552,not applicable,N,city/town does have a community water supply
+Northborough,Fully Fluoridated,15047,2001,Y,not applicable
+Northbridge,Non-Fluoridated,16616,not applicable,N,city/town does have a community water supply
+Northfield,Non-Fluoridated,2973,not applicable,N,city/town does have a community water supply
+Norton,Non-Fluoridated,19874,not applicable,N,city/town does have a community water supply
+Norwell,Non-Fluoridated,11120,not applicable,N,city/town does have a community water supply
+Norwood,Fully Fluoridated,29446,1978,Y,not applicable
+Oak Bluffs,Fully Fluoridated,4701,1991,N,not applicable
+Oakham,Non-Fluoridated,1636,not applicable,N,city/town does not have a community water supply
+Orange,Partially Fluoridated,98,,N,Athol supplies fluoridated water to 49 homes
+Orange,Non-Fluoridated,7532,not applicable,N,city/town does not have a community water supply
+Orleans,Non-Fluoridated,5812,not applicable,N,city/town does have a community water supply
+Otis,Non-Fluoridated,1423,not applicable,N,city/town does not have a community water supply
+Oxford,Fully Fluoridated,13967,1987,N,not applicable
+Palmer,Non-Fluoridated,12236,not applicable,N,city/town does have a community water supply
+Paxton,Non-Fluoridated,4961,not applicable,N,city/town does have a community water supply
+Peabody,Fully Fluoridated,53004,1983,Y,not applicable
+Pelham,Partially Fluoridated,197,1987,N,Amherst supplis fluoridated water to 40 homes and the Pelham elementary school with 117 students
+Pelham,Non-Fluoridated,1151,not applicable,N,city/town does not have a community water supply
+Pembroke,Fully Fluoridated,18455,1969,N,not applicable
+Pepperell,Non-Fluoridated,12113,not applicable,N,city/town does have a community water supply
+Peru,Non-Fluoridated,732,not applicable,N,city/town does not have a community water supply
+Petersham,Non-Fluoridated,1142,not applicable,N,city/town does not have a community water supply
+Phillipston,Non-Fluoridated,1915,not applicable,N,city/town does not have a community water supply
+Pittsfield,Non-Fluoridated,42514,not applicable,N,city/town does have a community water supply
+Plainfield,Non-Fluoridated,688,not applicable,N,city/town does not have a community water supply
+Plainville,Non-Fluoridated,9227,not applicable,N,city/town does have a community water supply
+Plymouth,Non-Fluoridated,60991,not applicable,N,city/town does have a community water supply
+Plympton,Non-Fluoridated,2979,not applicable,N,city/town does not have a community water supply
+Princeton,Non-Fluoridated,3466,not applicable,N,city/town does not have a community water supply
+Provincetown,Non-Fluoridated,2972,not applicable,N,city/town does have a community water supply
+Quincy,Fully Fluoridated,94389,1978,Y,not applicable
+Randolph,Non-Fluoridated,34214,not applicable,N,city/town does have a community water supply
+Raynham,Non-Fluoridated,14346,not applicable,N,city/town does have a community water supply
+Reading,Fully Fluoridated,25236,1970,Y,not applicable
+Rehoboth,Non-Fluoridated,12285,not applicable,N,city/town does not have a community water supply
+Revere,Fully Fluoridated,53400,1978,Y,not applicable
+Richmond,Non-Fluoridated,1404,not applicable,N,city/town does not have a community water supply
+Rochester,Non-Fluoridated,5646,not applicable,N,city/town does not have a community water supply
+Rockland,Non-Fluoridated,18010,not applicable,N,city/town does have a community water supply
+Rockport,Fully Fluoridated,7269,1984,N,not applicable
+Rowe,Non-Fluoridated,445,not applicable,N,city/town does not have a community water supply
+Rowley,Non-Fluoridated,6375,not applicable,N,city/town does have a community water supply
+Royalston,Fully Fluoridated,1451,,N,not applicable
+Russell,Non-Fluoridated,1524,not applicable,N,city/town does have a community water supply
+Rutland,Fully Fluoridated,8799,1985,N,not applicable
+Salem,Fully Fluoridated,43350,1952,N,not applicable
+Salisbury,Non-Fluoridated,9465,not applicable,N,city/town does have a community water supply
+Sandisfield,Non-Fluoridated,891,not applicable,N,city/town does not have a community water supply
+Sandwich,Non-Fluoridated,20256,not applicable,N,city/town does have a community water supply
+Saugus,Fully Fluoridated,28326,1978,Y,not applicable
+Savoy,Non-Fluoridated,701,not applicable,N,city/town does not have a community water supply
+Scituate,Fully Fluoridated,18839,1954,N,not applicable
+Seekonk,Fully Fluoridated,15613,1952,N,not applicable
+Sharon,Fully Fluoridated,18666,1953,N,not applicable
+Sheffield,Non-Fluoridated,3146,not applicable,N,city/town does have a community water supply
+Shelburne,Non-Fluoridated,1411,not applicable,N,city/town does have a community water supply
+Sherborn,Non-Fluoridated,4324,not applicable,N,city/town does not have a community water supply
+Shirley,Non-Fluoridated,7616,not applicable,N,city/town does have a community water supply
+Shrewsbury,Fully Fluoridated,37683,1953,N,not applicable
+Shutesbury,Non-Fluoridated,1885,not applicable,N,city/town does not have a community water supply
+Somerset,Fully Fluoridated,18160,1969,N,not applicable
+Somerville,Fully Fluoridated,81175,1978,Y,not applicable
+South Hadley,Non-Fluoridated,17715,not applicable,N,city/town does have a community water supply
+Southampton,Non-Fluoridated,6169,not applicable,N,city/town does have a community water supply
+Southborough,Fully Fluoridated,10151,1996,Y,not applicable
+Southbridge,Fully Fluoridated,16865,1971,N,not applicable
+Southwick,Non-Fluoridated,9722,not applicable,N,city/town does have a community water supply
+Spencer,Non-Fluoridated,11942,not applicable,N,city/town does have a community water supply
+Springfield,Non-Fluoridated,153677,not applicable,N,city/town does have a community water supply
+Sterling,Non-Fluoridated,8130,not applicable,N,city/town does have a community water supply
+Stockbridge,Non-Fluoridated,1837,not applicable,N,city/town does have a community water supply
+Stoneham,Fully Fluoridated,23625,1978,N,not applicable
+Stoughton,Non-Fluoridated,28742,not applicable,N,city/town does have a community water supply
+Stow,Non-Fluoridated,7159,not applicable,N,city/town does not have a community water supply
+Sturbridge,Fully Fluoridated,9559,1990,N,not applicable
+Sudbury,Fully Fluoridated,19248,1960,N,not applicable
+Sunderland,Non-Fluoridated,3643,not applicable,N,city/town does have a community water supply
+Sutton,Non-Fluoridated,9506,not applicable,N,city/town does have a community water supply
+Swampscott,Fully Fluoridated,15184,1978,Y,not applicable
+Swansea,Non-Fluoridated,16692,not applicable,N,city/town does not have a community water supply
+Taunton,Fully Fluoridated,57327,1981,N,not applicable
+Templeton,Fully Fluoridated,8115,1951,N,not applicable
+Tewksbury,Fully Fluoridated,31154,1983,N,not applicable
+Tisbury,Non-Fluoridated,4132,not applicable,N,city/town does have a community water supply
+Tolland,Non-Fluoridated,467,not applicable,N,city/town does not have a community water supply
+Topsfield,Fully Fluoridated,6613,1953,N,not applicable
+Townsend,Non-Fluoridated,9497,not applicable,N,city/town does have a community water supply
+Truro,Non-Fluoridated,1076,not applicable,N,city/town does have a community water supply
+Tyngsborough,Fully Fluoridated,12442,1987,N,not applicable
+Tyringham,Non-Fluoridated,513,not applicable,N,city/town does not have a community water supply
+Upton,Non-Fluoridated,7968,not applicable,N,city/town does have a community water supply
+Uxbridge,Non-Fluoridated,14100,not applicable,N,city/town does have a community water supply
+Wakefield,Fully Fluoridated,27041,1978,Y,not applicable
+Wales,Non-Fluoridated,2087,not applicable,N,city/town does not have a community water supply
+Walpole,Fully Fluoridated,25427,1977,N,not applicable
+Waltham,Fully Fluoridated,62597,1978,Y,not applicable
+Ware,Non-Fluoridated,9821,not applicable,N,city/town does have a community water supply
+Wareham,Non-Fluoridated,22694,not applicable,N,city/town does have a community water supply
+Warren,Non-Fluoridated,5205,not applicable,N,city/town does have a community water supply
+Warwick,Non-Fluoridated,743,not applicable,N,city/town does not have a community water supply
+Washington,Non-Fluoridated,487,not applicable,N,city/town does not have a community water supply
+Watertown,Fully Fluoridated,35749,1971,Y,not applicable
+Wayland,Fully Fluoridated,13823,2000,N,not applicable
+Webster,Non-Fluoridated,16934,not applicable,N,city/town does have a community water supply
+Wellesley,Fully Fluoridated,28747,1987,Y,not applicable
+Wellfleet,Non-Fluoridated,3662,not applicable,N,city/town does not have a community water supply
+Wendell,Non-Fluoridated,867,not applicable,N,city/town does not have a community water supply
+Wenham,Fully Fluoridated,5208,1967,N,not applicable
+West Boylston,Non-Fluoridated,8008,not applicable,N,city/town does have a community water supply
+West Bridgewater,Non-Fluoridated,7254,not applicable,N,city/town does have a community water supply
+West Brookfield,Non-Fluoridated,3721,not applicable,N,city/town does have a community water supply
+West Newbury,Fully Fluoridated,4688,1969,N,not applicable
+West Springfield,Non-Fluoridated,28527,not applicable,N,city/town does have a community water supply
+West Stockbridge,Non-Fluoridated,1172,not applicable,N,city/town does have a community water supply
+West Tisbury,Non-Fluoridated,2197,not applicable,N,city/town does not have a community water supply
+Westborough,Fully Fluoridated,19067,1974,N,not applicable
+Westfield,Non-Fluoridated,41303,not applicable,N,city/town does have a community water supply
+Westford,Fully Fluoridated,24566,1994,N,not applicable
+Westhampton,Non-Fluoridated,1711,not applicable,N,city/town does have a community water supply
+Westminster,Fully Fluoridated,7874,1968,N,not applicable
+Weston,Fully Fluoridated,12103,1973,Y,not applicable
+Westport,Partially Fluoridated,315,1975,N,Fall River supplies 150 homes and 15 business *see Fall River note
+Westport,Non-Fluoridated,15674,not applicable,N,city/town does not have a community water supply
+Westwood,Fully Fluoridated,16215,1977,Y,not applicable
+Weymouth,Fully Fluoridated,57213,1972,N,not applicable
+Whately,Non-Fluoridated,1488,not applicable,N,city/town does have a community water supply
+Whitman,Non-Fluoridated,15139,not applicable,N,city/town does have a community water supply
+Wilbraham,Non-Fluoridated,14656,not applicable,N,city/town does have a community water supply
+Williamsburg,Non-Fluoridated,2638,not applicable,N,city/town does have a community water supply
+Williamstown,Non-Fluoridated,7522,not applicable,N,city/town does have a community water supply
+Wilmington,Non-fluoridated,23390,not applicable,N,city/town does not have a community water supply
+Winchendon,Fully Fluoridated,10847,1958,N,not applicable
+Winchester,Fully Fluoridated,22760,1956,Y,not applicable
+Windsor,Non-Fluoridated,938,not applicable,N,city/town does not have a community water supply
+Winthrop,Fully Fluoridated,18558,1978,N,not applicable
+Woburn,Fully Fluoridated,40297,1978/2008,Y,not applicable
+Worcester,Partially Fluoridated,360,1995,N,Holden supplies fluoridated water to 180 homes
+Worcester,Non-Fluoridated,184826,not applicable,N,city/town does not have a community water supply
+Worthington,Non-Fluoridated,1200,not applicable,N,city/town does have a community water supply
+Wrentham,Non-Fluoridated,11930,not applicable,N,city/town does have a community water supply
+Yarmouth,Non-Fluoridated,23292,not applicable,N,city/town does have a community water supply
+Boxborough,Non-Fluoridated,5677,not applicable,N,city/town does not have a community water supply
+North Reading,Fully Fluoridated,15672,1971,N,not applicable

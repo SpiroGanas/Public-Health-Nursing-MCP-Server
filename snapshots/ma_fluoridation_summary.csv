@@ -1,0 +1,15 @@
+group,status,systems,population
+All community water systems,Total,575,6327962
+Fluoridated,Adjusted,79,1899434
+Fluoridated,Natural,14,2299
+Fluoridated,Variable/Other,0,0
+Fluoridated,Defluoridated,0,0
+Fluoridated,Consecutive,65,1778789
+Fluoridated,Multi-source,0,0
+Fluoridated,Total,158,3680522
+Non-fluoridated,Non-Adjusted,369,2169502
+Non-fluoridated,Variable/Other,0,0
+Non-fluoridated,Defluoridated,0,0
+Non-fluoridated,Consecutive,48,477938
+Non-fluoridated,Multi-source,0,0
+Non-fluoridated,Total,417,2647440
