@@ -13,7 +13,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_data::boundaries::{BoundaryLayer, Feature, Layer};
 use phn_data::census::AcsSnapshot;
-use phn_data::food_access::{self, Definition, Distance, FoodAccess, FoodAccessTract};
+use phn_data::food_access::{Definition, Distance, FoodAccess, FoodAccessTract};
 use phn_data::geography::MaGeographies;
 use phn_data::projection;
 use phn_data::svi::SviSnapshot;
@@ -867,6 +867,343 @@ const TRACT_HEADERS: [&str; 11] = [
     "SVI (MA percentile)",
 ];
 
+/// The DOCX/XLSX resource list: tract counts and list, sites from the nurse's files,
+/// HIP and SNAP, links, and definitions.
+fn report_document(
+    ctx: &Context,
+    r: &FoodAccessResult,
+    all_rows: &[TractRow],
+    loaded: &[(String, Vec<Site>)],
+    lila_set: &BTreeSet<String>,
+    c: &FoodContent,
+    vintage: &str,
+) -> Document {
+    let (area, dist, definitions, hip, snap, methods) = (
+        &r.area,
+        r.distance,
+        &r.definitions,
+        &r.hip,
+        &r.snap,
+        &r.methods,
+    );
+    let background = content::cite_all(&c.background, &c.sources);
+    let p = |t: &str| Block::Paragraph(vec![Inline::plain(t)]);
+    let h = |t: &str| Block::Heading {
+        level: 2,
+        text: t.to_string(),
+    };
+    let list = |items: Vec<String>| Block::List {
+        ordered: false,
+        items: items.into_iter().map(|i| vec![Inline::plain(i)]).collect(),
+    };
+    let mut blocks = vec![p(&format!(
+        "Prepared {} for {} from the USDA ERS Food Access Research Atlas ({}) and your \
+         files. Site lists come from your files; verify hours before sharing.",
+        chrono::Local::now().date_naive(),
+        area.name,
+        vintage
+    ))];
+    blocks.push(h("Low-income and low-access census tracts"));
+    blocks.push(Block::Table(TableBlock {
+        caption: Some("Tracts by definition".into()),
+        headers: [
+            "Definition",
+            "Tracts (SRAM)",
+            "People in those tracts",
+            "Tracts (LRAM 2019, approx.)",
+        ]
+        .map(String::from)
+        .to_vec(),
+        rows: definitions
+            .iter()
+            .map(|d| {
+                vec![
+                    d.label.clone(),
+                    d.lila_tracts.to_string(),
+                    md::num(d.people_in_lila_tracts, 0),
+                    d.lram_lila_tracts.to_string(),
+                ]
+            })
+            .collect(),
+    }));
+    blocks.push(Block::Table(TableBlock {
+        caption: Some("Low-income and low-access tracts".into()),
+        headers: TRACT_HEADERS.map(String::from).to_vec(),
+        rows: tract_table_rows(all_rows),
+    }));
+    for (label, sites) in loaded {
+        blocks.push(h(label));
+        if sites.is_empty() {
+            blocks.push(p("None of the sites in your file are in this area."));
+        } else {
+            blocks.push(Block::Table(site_table(label, sites, lila_set)));
+        }
+    }
+    blocks.push(h("Healthy Incentives Program (HIP)"));
+    blocks.push(list(hip.iter().map(|x| x.text.clone()).collect()));
+    blocks.push(h("SNAP"));
+    blocks.push(list(snap.iter().map(|x| x.text.clone()).collect()));
+    blocks.push(h("Links"));
+    blocks.push(list(
+        c.links
+            .iter()
+            .map(|l| format!("{}: {}", l.label, l.url))
+            .collect(),
+    ));
+    blocks.push(h("Definitions and methods"));
+    blocks.push(list(
+        c.definitions
+            .iter()
+            .map(|d| format!("{}: {}", d.label, d.text))
+            .chain(background.iter().map(|b| b.text.clone()))
+            .chain(methods.iter().cloned())
+            .collect(),
+    ));
+    Document {
+        title: format!("Food access and food resources — {}", area.name),
+        subtitle: Some(format!(
+            "Low-income and low-access tracts ({}) and local food resources",
+            dist.label()
+        )),
+        language: "en-US".into(),
+        author: None,
+        letterhead: ctx.settings().letterhead,
+        logo: None,
+        blocks,
+    }
+}
+
+/// The markdown summary.
+fn summary_markdown(
+    r: &FoodAccessResult,
+    c: &FoodContent,
+    def: Option<Definition>,
+    alt_text: Option<&str>,
+) -> String {
+    let (area, dist, definitions, context) = (&r.area, r.distance, &r.definitions, &r.context);
+    let (resources, hip, snap) = (&r.resources, &r.hip, &r.snap);
+    let (files_you_can_add, map_files, report_files) =
+        (&r.files_you_can_add, &r.map_files, &r.report_files);
+    let lila_tracts_total = r.lila_tracts_total;
+    let n0 = |x: f64| md::num(x, 0);
+    let mut s = format!(
+        "**Food access — {}** ({} census tracts; {}; USDA ERS Food Access Research Atlas)\n\n",
+        area.name,
+        r.tracts,
+        dist.label()
+    );
+    s.push_str(&md::table(
+        &[
+            "Definition",
+            "Low-income/low-access tracts (any SNAP store, 2025)",
+            "People in those tracts",
+            "Low-access people (low-income)",
+            "Supermarket-based tracts (2019, approx.)",
+        ],
+        &definitions
+            .iter()
+            .map(|d| {
+                vec![
+                    d.label.clone(),
+                    d.lila_tracts.to_string(),
+                    n0(d.people_in_lila_tracts),
+                    match (
+                        d.low_access_people_in_lila_tracts,
+                        d.low_access_low_income_people_in_lila_tracts,
+                    ) {
+                        (Some(a), Some(b)) => format!("{} ({})", n0(a), n0(b)),
+                        _ => "—".into(),
+                    },
+                    format!(
+                        "{} ({} people)",
+                        d.lram_lila_tracts,
+                        n0(d.people_in_lram_lila_tracts)
+                    ),
+                ]
+            })
+            .collect::<Vec<_>>(),
+    ));
+    s.push_str(&format!(
+        "\n**Context:** {} people in {} households; {} low-income tract(s) ({} people); {} \
+         households without a vehicle and {} receiving SNAP (ACS 2020-2024 in the Atlas); {} \
+         children and {} adults 65+ live more than 1 mile from a SNAP-authorized store.{}{}\n\n",
+        n0(context.population),
+        n0(context.households),
+        context.low_income_tracts,
+        n0(context.people_in_low_income_tracts),
+        n0(context.households_no_vehicle),
+        n0(context.households_snap),
+        n0(context.children_beyond_1_mile),
+        n0(context.older_adults_beyond_1_mile),
+        match (context.poverty_pct, context.no_vehicle_pct) {
+            (Some(p), Some(v)) => format!(
+                " ACS 5-year: {p}% of people below poverty; {v}% of households have no vehicle."
+            ),
+            _ => String::new(),
+        },
+        if context.lila_tracts_high_svi > 0 {
+            format!(
+                " {} low-income/low-access tract(s) are also in the top quarter of the \
+                 Massachusetts SVI.",
+                context.lila_tracts_high_svi
+            )
+        } else {
+            String::new()
+        }
+    ));
+    if r.lila_tracts.is_empty() {
+        s.push_str(&format!(
+            "No tract here is low income and low access to a SNAP-authorized store ({}, {}).\n\n",
+            def.map(|d| d.label()).unwrap_or("any definition"),
+            dist.label()
+        ));
+    } else {
+        s.push_str(&format!(
+            "**Low-income and low-access tracts** ({}{}):\n\n",
+            def.map(|d| d.label()).unwrap_or("any definition"),
+            if lila_tracts_total > MAX_LISTED_TRACTS {
+                format!("; first {MAX_LISTED_TRACTS} of {lila_tracts_total}, all in the workbook")
+            } else {
+                String::new()
+            }
+        ));
+        s.push_str(&md::table(
+            &[
+                "Tract",
+                "Town",
+                "People",
+                "Poverty",
+                "Definitions met (SRAM)",
+                "No-vehicle households",
+                "SVI",
+            ],
+            &r.lila_tracts
+                .iter()
+                .map(|t| {
+                    vec![
+                        format!(
+                            "{} ({})",
+                            t.name.trim_start_matches("Census Tract "),
+                            t.geoid
+                        ),
+                        t.town.clone().unwrap_or_default(),
+                        t.population.map(n0).unwrap_or_default(),
+                        t.poverty_rate.map(|p| format!("{p}%")).unwrap_or_default(),
+                        t.lila.join("; "),
+                        t.households_no_vehicle.map(n0).unwrap_or_default(),
+                        t.svi_ma_overall
+                            .map(|v| format!("{v:.2}"))
+                            .unwrap_or_default(),
+                    ]
+                })
+                .collect::<Vec<_>>(),
+        ));
+        s.push('\n');
+    }
+    s.push_str("**Food resources**\n");
+    if resources.is_empty() {
+        s.push_str("- No local resource files were given (see below for what you can add).\n");
+    }
+    for res in resources {
+        let label = c
+            .local_files
+            .iter()
+            .find(|f| f.id == res.kind)
+            .map(|f| f.label.as_str())
+            .unwrap_or(res.kind.as_str());
+        let towns: Vec<String> = res
+            .by_town
+            .iter()
+            .take(12)
+            .map(|t| format!("{} {}", t.town, t.sites))
+            .collect();
+        s.push_str(&format!(
+            "- {label} (`{}`): {} site(s) in {} of {} read{}{}{}{}.\n",
+            res.file,
+            res.in_area,
+            area.name,
+            res.rows_read,
+            if towns.is_empty() {
+                String::new()
+            } else {
+                format!(
+                    "; by town: {}{}",
+                    towns.join(", "),
+                    if res.by_town.len() > 12 { ", ..." } else { "" }
+                )
+            },
+            if res.by_type.is_empty() {
+                String::new()
+            } else {
+                format!(
+                    "; by kind: {}",
+                    res.by_type
+                        .iter()
+                        .map(|t| format!("{} {}", t.kind, t.sites))
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )
+            },
+            match (res.in_lila_tracts, res.lila_tracts_without_site) {
+                (Some(a), Some(b)) => format!(
+                    "; {a} inside a low-income/low-access tract; {b} such tract(s) have none"
+                ),
+                _ => String::new(),
+            },
+            if res.town_not_recognized + res.excluded > 0 {
+                format!(
+                    " ({} row(s) not placed in a Massachusetts town, {} left out as out of state \
+                     or no longer authorized)",
+                    res.town_not_recognized, res.excluded
+                )
+            } else {
+                String::new()
+            }
+        ));
+    }
+    s.push_str("\n**Healthy Incentives Program (HIP)**\n");
+    for x in hip {
+        s.push_str(&content::bullet(x));
+    }
+    s.push_str("\n**SNAP**\n");
+    for x in snap {
+        s.push_str(&content::bullet(x));
+    }
+    if !files_you_can_add.is_empty() {
+        s.push_str("\n**Files you can add**\n");
+        for f in files_you_can_add {
+            s.push_str(&format!("- {f}\n"));
+        }
+    }
+    if !map_files.is_empty() {
+        s.push_str(&format!(
+            "\nMap written to /data/{} and /data/{}.\n",
+            map_files[0],
+            map_files.get(1).cloned().unwrap_or_default()
+        ));
+        if let Some(a) = alt_text {
+            s.push_str(&format!("**Alt text:** {a}\n"));
+        }
+    }
+    if !report_files.is_empty() {
+        s.push_str(&format!(
+            "\nResource list (DOCX) and workbook (XLSX) written to {}{}.\n",
+            report_files
+                .iter()
+                .map(|f| format!("/data/{f}"))
+                .collect::<Vec<_>>()
+                .join(" and "),
+            if resources.is_empty() {
+                ""
+            } else {
+                "; site names and addresses from your files are only there"
+            }
+        ));
+    }
+
+    s
+}
+
 /// Map food access for a town, county, or the state.
 pub fn food_access_mapper(
     ctx: &Context,
@@ -891,7 +1228,7 @@ pub fn food_access_mapper(
         AreaLevel::County => (
             fa.tracts
                 .iter()
-                .filter(|t| Some(&t.geoid[..5]) == area.county_fips.as_deref())
+                .filter(|t| t.geoid.get(..5) == area.county_fips.as_deref())
                 .map(|t| t.geoid.clone())
                 .collect(),
             false,
@@ -919,7 +1256,9 @@ pub fn food_access_mapper(
         .collect();
 
     // Definition summaries.
-    let sum = |it: &mut dyn Iterator<Item = Option<f64>>| -> f64 { it.flatten().sum() };
+    // A fold from +0.0: an empty f64 `sum()` is -0.0, which prints as "-0".
+    let sum =
+        |it: &mut dyn Iterator<Item = Option<f64>>| -> f64 { it.flatten().fold(0.0, |a, b| a + b) };
     let definitions: Vec<DefinitionSummary> = Definition::ALL
         .iter()
         .map(|d| {
@@ -1117,13 +1456,11 @@ pub fn food_access_mapper(
         )?;
         map_files = files;
         alt_text = Some(alt);
-        let tl = BoundaryLayer::shared(&ctx.snapshots, Layer::Tract)?;
-        sources.push(tl.source.clone());
+        sources.push(tract_layer.source.clone());
     }
 
     let hip = content::cite_all(&c.hip, &c.sources);
     let snap = content::cite_all(&c.snap, &c.sources);
-    let background = content::cite_all(&c.background, &c.sources);
     let methods: Vec<String> = c
         .methods
         .iter()
@@ -1143,316 +1480,38 @@ pub fn food_access_mapper(
         .map(|d| d.id().to_string())
         .unwrap_or_else(|| "any".into());
 
+    let listed: Vec<TractRow> = all_rows.iter().take(MAX_LISTED_TRACTS).cloned().collect();
+    let mut result = FoodAccessResult {
+        area,
+        distance: dist,
+        mapped_definition,
+        tracts: tracts.len(),
+        definitions,
+        context,
+        lila_tracts: listed,
+        lila_tracts_total,
+        resources,
+        hip,
+        snap,
+        files_you_can_add,
+        links: c.links.clone(),
+        methods,
+        map_files,
+        report_files: Vec::new(),
+    };
+
     // Report files.
-    let mut report_files = Vec::new();
     if args.report.unwrap_or(true) {
-        let p = |t: &str| Block::Paragraph(vec![Inline::plain(t)]);
-        let h = |t: &str| Block::Heading {
-            level: 2,
-            text: t.to_string(),
-        };
-        let list = |items: Vec<String>| Block::List {
-            ordered: false,
-            items: items.into_iter().map(|i| vec![Inline::plain(i)]).collect(),
-        };
-        let mut blocks = vec![p(&format!(
-            "Prepared {} for {} from the USDA ERS Food Access Research Atlas ({}) and your \
-             files. Site lists come from your files; verify hours before sharing.",
-            chrono::Local::now().date_naive(),
-            area.name,
-            fa.vintage
-        ))];
-        blocks.push(h("Low-income and low-access census tracts"));
-        blocks.push(Block::Table(TableBlock {
-            caption: Some("Tracts by definition".into()),
-            headers: [
-                "Definition",
-                "Tracts (SRAM)",
-                "People in those tracts",
-                "Tracts (LRAM 2019, approx.)",
-            ]
-            .map(String::from)
-            .to_vec(),
-            rows: definitions
-                .iter()
-                .map(|d| {
-                    vec![
-                        d.label.clone(),
-                        d.lila_tracts.to_string(),
-                        md::num(d.people_in_lila_tracts, 0),
-                        d.lram_lila_tracts.to_string(),
-                    ]
-                })
-                .collect(),
-        }));
-        blocks.push(Block::Table(TableBlock {
-            caption: Some("Low-income and low-access tracts".into()),
-            headers: TRACT_HEADERS.map(String::from).to_vec(),
-            rows: tract_table_rows(&all_rows),
-        }));
-        for (label, sites) in &loaded {
-            blocks.push(h(label));
-            if sites.is_empty() {
-                blocks.push(p("None of the sites in your file are in this area."));
-            } else {
-                blocks.push(Block::Table(site_table(label, sites, &lila_set)));
-            }
-        }
-        blocks.push(h("Healthy Incentives Program (HIP)"));
-        blocks.push(list(hip.iter().map(|x| x.text.clone()).collect()));
-        blocks.push(h("SNAP"));
-        blocks.push(list(snap.iter().map(|x| x.text.clone()).collect()));
-        blocks.push(h("Links"));
-        blocks.push(list(
-            c.links
-                .iter()
-                .map(|l| format!("{}: {}", l.label, l.url))
-                .collect(),
-        ));
-        blocks.push(h("Definitions and methods"));
-        blocks.push(list(
-            c.definitions
-                .iter()
-                .map(|d| format!("{}: {}", d.label, d.text))
-                .chain(background.iter().map(|b| b.text.clone()))
-                .chain(methods.iter().cloned())
-                .collect(),
-        ));
-        let doc = Document {
-            title: format!("Food access and food resources — {}", area.name),
-            subtitle: Some(format!(
-                "Low-income and low-access tracts ({}) and local food resources",
-                dist.label()
-            )),
-            language: "en-US".into(),
-            author: None,
-            letterhead: ctx.settings().letterhead,
-            logo: None,
-            blocks,
-        };
+        let doc = report_document(ctx, &result, &all_rows, &loaded, &lila_set, &c, &fa.vintage);
         let sandbox = ctx.sandbox()?;
-        let stem = format!("food_access_{}", slug(&area.name));
+        let stem = format!("food_access_{}", slug(&result.area.name));
         let docx = sandbox.new_output_file(&format!("{stem}.docx"))?;
         std::fs::write(&docx, phn_docs::docx::to_docx(&doc)?)?;
         let xlsx = sandbox.new_output_file(&format!("{stem}.xlsx"))?;
         std::fs::write(&xlsx, phn_docs::xlsx::to_xlsx(&doc)?)?;
-        report_files.push(sandbox.display_path(&docx));
-        report_files.push(sandbox.display_path(&xlsx));
+        result.report_files = vec![sandbox.display_path(&docx), sandbox.display_path(&xlsx)];
     }
-
-    // Summary.
-    let n0 = |x: f64| md::num(x, 0);
-    let mut s = format!(
-        "**Food access — {}** ({} census tracts; {}; USDA ERS Food Access Research Atlas)\n\n",
-        area.name,
-        tracts.len(),
-        dist.label()
-    );
-    s.push_str(&md::table(
-        &[
-            "Definition",
-            "Low-income/low-access tracts (any SNAP store, 2025)",
-            "People in those tracts",
-            "Low-access people (low-income)",
-            "Supermarket access tracts (2019, approx.)",
-        ],
-        &definitions
-            .iter()
-            .map(|d| {
-                vec![
-                    d.label.clone(),
-                    d.lila_tracts.to_string(),
-                    n0(d.people_in_lila_tracts),
-                    match (
-                        d.low_access_people_in_lila_tracts,
-                        d.low_access_low_income_people_in_lila_tracts,
-                    ) {
-                        (Some(a), Some(b)) => format!("{} ({})", n0(a), n0(b)),
-                        _ => "—".into(),
-                    },
-                    format!(
-                        "{} ({} people)",
-                        d.lram_lila_tracts,
-                        n0(d.people_in_lram_lila_tracts)
-                    ),
-                ]
-            })
-            .collect::<Vec<_>>(),
-    ));
-    s.push_str(&format!(
-        "\n**Context:** {} people in {} households; {} low-income tract(s) ({} people); {} \
-         households without a vehicle and {} receiving SNAP (ACS 2020-2024 in the Atlas); {} \
-         children and {} adults 65+ live more than 1 mile from a SNAP-authorized store.{}{}\n\n",
-        n0(context.population),
-        n0(context.households),
-        context.low_income_tracts,
-        n0(context.people_in_low_income_tracts),
-        n0(context.households_no_vehicle),
-        n0(context.households_snap),
-        n0(context.children_beyond_1_mile),
-        n0(context.older_adults_beyond_1_mile),
-        match (context.poverty_pct, context.no_vehicle_pct) {
-            (Some(p), Some(v)) => format!(
-                " ACS 5-year: {p}% of people below poverty; {v}% of households have no vehicle."
-            ),
-            _ => String::new(),
-        },
-        if context.lila_tracts_high_svi > 0 {
-            format!(
-                " {} low-income/low-access tract(s) are also in the top quarter of the \
-                 Massachusetts SVI.",
-                context.lila_tracts_high_svi
-            )
-        } else {
-            String::new()
-        }
-    ));
-    if all_rows.is_empty() {
-        s.push_str(&format!(
-            "No tract here is low income and low access to a SNAP-authorized store ({}, {}).\n\n",
-            def.map(|d| d.label()).unwrap_or("any definition"),
-            dist.label()
-        ));
-    } else {
-        s.push_str(&format!(
-            "**Low-income and low-access tracts** ({}{}):\n\n",
-            def.map(|d| d.label()).unwrap_or("any definition"),
-            if lila_tracts_total > MAX_LISTED_TRACTS {
-                format!("; first {MAX_LISTED_TRACTS} of {lila_tracts_total}, all in the workbook")
-            } else {
-                String::new()
-            }
-        ));
-        let shown: Vec<TractRow> = all_rows.iter().take(MAX_LISTED_TRACTS).cloned().collect();
-        s.push_str(&md::table(
-            &[
-                "Tract",
-                "Town",
-                "People",
-                "Poverty",
-                "Definitions met (SRAM)",
-                "No-vehicle households",
-                "SVI",
-            ],
-            &shown
-                .iter()
-                .map(|t| {
-                    vec![
-                        format!(
-                            "{} ({})",
-                            t.name.trim_start_matches("Census Tract "),
-                            t.geoid
-                        ),
-                        t.town.clone().unwrap_or_default(),
-                        t.population.map(n0).unwrap_or_default(),
-                        t.poverty_rate.map(|p| format!("{p}%")).unwrap_or_default(),
-                        t.lila.join("; "),
-                        t.households_no_vehicle.map(n0).unwrap_or_default(),
-                        t.svi_ma_overall
-                            .map(|v| format!("{v:.2}"))
-                            .unwrap_or_default(),
-                    ]
-                })
-                .collect::<Vec<_>>(),
-        ));
-        s.push('\n');
-    }
-    s.push_str("**Food resources**\n");
-    if resources.is_empty() {
-        s.push_str("- No local resource files were given (see below for what you can add).\n");
-    }
-    for r in &resources {
-        let label = c
-            .local_files
-            .iter()
-            .find(|f| f.id == r.kind)
-            .map(|f| f.label.as_str())
-            .unwrap_or(r.kind.as_str());
-        let towns: Vec<String> = r
-            .by_town
-            .iter()
-            .take(12)
-            .map(|t| format!("{} {}", t.town, t.sites))
-            .collect();
-        s.push_str(&format!(
-            "- {label} (`{}`): {} site(s) in {} of {} read{}{}{}{}.\n",
-            r.file,
-            r.in_area,
-            area.name,
-            r.rows_read,
-            if towns.is_empty() {
-                String::new()
-            } else {
-                format!(
-                    "; by town: {}{}",
-                    towns.join(", "),
-                    if r.by_town.len() > 12 { ", ..." } else { "" }
-                )
-            },
-            if r.by_type.is_empty() {
-                String::new()
-            } else {
-                format!(
-                    "; by kind: {}",
-                    r.by_type
-                        .iter()
-                        .map(|t| format!("{} {}", t.kind, t.sites))
-                        .collect::<Vec<_>>()
-                        .join(", ")
-                )
-            },
-            match (r.in_lila_tracts, r.lila_tracts_without_site) {
-                (Some(a), Some(b)) => format!(
-                    "; {a} inside a low-income/low-access tract; {b} such tract(s) have none"
-                ),
-                _ => String::new(),
-            },
-            if r.town_not_recognized + r.excluded > 0 {
-                format!(
-                    " ({} row(s) not placed in a Massachusetts town, {} left out as out of state \
-                     or no longer authorized)",
-                    r.town_not_recognized, r.excluded
-                )
-            } else {
-                String::new()
-            }
-        ));
-    }
-    s.push_str("\n**Healthy Incentives Program (HIP)**\n");
-    for x in &hip {
-        s.push_str(&content::bullet(x));
-    }
-    s.push_str("\n**SNAP**\n");
-    for x in &snap {
-        s.push_str(&content::bullet(x));
-    }
-    if !files_you_can_add.is_empty() {
-        s.push_str("\n**Files you can add**\n");
-        for f in &files_you_can_add {
-            s.push_str(&format!("- {f}\n"));
-        }
-    }
-    if !map_files.is_empty() {
-        s.push_str(&format!(
-            "\nMap written to /data/{} and /data/{}.\n",
-            map_files[0],
-            map_files.get(1).cloned().unwrap_or_default()
-        ));
-        if let Some(a) = &alt_text {
-            s.push_str(&format!("**Alt text:** {a}\n"));
-        }
-    }
-    if !report_files.is_empty() {
-        s.push_str(&format!(
-            "\nResource list (DOCX) and workbook (XLSX) written to {}{}.\n",
-            report_files.join(" and "),
-            if loaded.is_empty() {
-                ""
-            } else {
-                "; site names and addresses from your files are only there"
-            }
-        ));
-    }
+    let s = summary_markdown(&result, &c, def, alt_text.as_deref());
 
     // Caveats.
     caveats.push(
@@ -1473,12 +1532,12 @@ pub fn food_access_mapper(
          2020-2024), so low-income counts can differ from other ACS tables."
             .into(),
     );
-    if resources.iter().any(|r| r.kind == "snap_retailers") {
+    if result.resources.iter().any(|r| r.kind == "snap_retailers") {
         caveats.push(
             "SNAP retailer rows with an end date were left out as no longer authorized.".into(),
         );
     }
-    if !resources.is_empty() {
+    if !result.resources.is_empty() {
         caveats.push(
             "Resource counts come from your files; check that they are current before sharing."
                 .into(),
@@ -1499,8 +1558,8 @@ pub fn food_access_mapper(
     ));
     sources.extend(local_sources);
 
-    let mut files_written = map_files.clone();
-    files_written.extend(report_files.iter().cloned());
+    let mut files_written = result.map_files.clone();
+    files_written.extend(result.report_files.iter().cloned());
     let mut notes = Vec::new();
     if !loaded.is_empty() {
         notes.push(
@@ -1509,38 +1568,16 @@ pub fn food_access_mapper(
                 .into(),
         );
     }
-    let listed: Vec<TractRow> = all_rows.into_iter().take(MAX_LISTED_TRACTS).collect();
-    let _ = food_access::ATLAS_URL;
-    Ok(Envelope::new(
-        s,
-        FoodAccessResult {
-            area,
-            distance: dist,
-            mapped_definition,
-            tracts: tracts.len(),
-            definitions,
-            context,
-            lila_tracts: listed,
-            lila_tracts_total,
-            resources,
-            hip,
-            snap,
-            files_you_can_add,
-            links: c.links.clone(),
-            methods,
-            map_files,
-            report_files,
-        },
-    )
-    .sources(sources)
-    .caveats(caveats)
-    .privacy(Privacy {
-        row_level_data: false,
-        identifiers_detected: identifiers,
-        files_written,
-        notes,
-        ..Privacy::none()
-    }))
+    Ok(Envelope::new(s, result)
+        .sources(sources)
+        .caveats(caveats)
+        .privacy(Privacy {
+            row_level_data: false,
+            identifiers_detected: identifiers,
+            files_written,
+            notes,
+            ..Privacy::none()
+        }))
 }
 
 #[cfg(test)]
@@ -1600,6 +1637,8 @@ mod tests {
         )
         .unwrap();
         assert_eq!(town.data.map_files.len(), 2);
+        // Empty sums print as 0, not -0.
+        assert!(!town.summary.contains("| -0"), "{}", town.summary);
         assert_eq!(town.data.report_files.len(), 2);
         for f in town.data.map_files.iter().chain(&town.data.report_files) {
             assert!(dir.path().join("data").join(f).exists(), "{f}");

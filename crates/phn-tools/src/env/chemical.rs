@@ -871,7 +871,7 @@ pub fn chemical_exposure_reference(
         ));
     } else {
         s.push_str(&format!(
-            "**ATSDR minimal risk levels** (screening levels; MRL table {mrl_vintage})\n\n"
+            "**ATSDR minimal risk levels** (screening levels; ATSDR MRL table, {mrl_vintage})\n\n"
         ));
         let rows: Vec<Vec<String>> = mrls
             .iter()

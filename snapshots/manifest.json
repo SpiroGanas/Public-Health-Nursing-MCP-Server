@@ -1448,10 +1448,10 @@
       "source_sha256": {
         "mrlsListing.aspx": "9c575c5e46fc9fb561ed70e6b198d5ddbe19c12646c7739dfb3e64bd44d060d3"
       },
-      "source_vintage": "ATSDR Minimal Risk Level (MRLs) - October 2026 (table page last reviewed December 9, 2025)",
+      "source_vintage": "October 2026",
       "retrieved": "2026-11-11",
       "license": "U.S. federal government work (ATSDR); public domain in the United States.",
-      "derivation": "Every row of the MRL table: substance, Toxic Substances Portal id, route, duration, MRL, total factors, endpoint, draft/final, cover date, and CAS number. Continuation rows (a second uncertainty factor and endpoint for the same MRL, as for trichloroethylene) were joined to the row above with '; '. One route printed 'Inh' was written 'Inh.'. 484 rows; the page's own tally (483) counts only routes spelled 'Inh.' and 'Oral'. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
+      "derivation": "Every row of the MRL table titled 'ATSDR Minimal Risk Level (MRLs) - October 2026' (page last reviewed December 9, 2025): substance, Toxic Substances Portal id, route, duration, MRL, total factors, endpoint, draft/final, cover date, and CAS number. Continuation rows (a second uncertainty factor and endpoint for the same MRL, as for trichloroethylene) were joined to the row above with '; '. One route printed 'Inh' was written 'Inh.'. 484 rows; the page's own tally (483) counts only routes spelled 'Inh.' and 'Oral'. Builder: xtask/scripts/build_chemfood_snapshots.py (Python 3 standard library).",
       "caveats": [
         "MRLs are screening levels for non-cancer effects, not cleanup or action levels; MRLs from draft toxicological profiles are provisional."
       ],
