@@ -243,10 +243,7 @@ pub fn export_document(ctx: &Context, args: ExportDocumentArgs) -> Result<Envelo
                 let (combined, empty) = mailmerge::combined(&doc, &table, &binding);
                 empty_total = empty;
                 for f in &formats {
-                    let bytes = write(&combined, &format!("{base}_merged"), *f, None)?;
-                    if let Some(r) = self_check(&bytes, *f) {
-                        reports.push(r);
-                    }
+                    write(&combined, &format!("{base}_merged"), *f, None)?;
                 }
             }
             MergeMode::OneFilePerRecord => {
@@ -256,14 +253,17 @@ pub fn export_document(ctx: &Context, args: ExportDocumentArgs) -> Result<Envelo
                     let (d, empty) = mailmerge::fill(&doc, &binding, row);
                     empty_total += empty;
                     for f in &formats {
-                        let bytes = write(&d, &format!("{base}_{:04}", i + 1), *f, Some(&dir))?;
-                        if i == 0
-                            && let Some(r) = self_check(&bytes, *f)
-                        {
-                            reports.push(r);
-                        }
+                        write(&d, &format!("{base}_{:04}", i + 1), *f, Some(&dir))?;
                     }
                 }
+            }
+        }
+        // The accessibility report quotes document text (title, headings,
+        // bold lines), so it is run on the unfilled template, never on a
+        // merged document: no value from the data file reaches the result.
+        for f in &formats {
+            if let Some(r) = self_check(&render(&doc, *f, args.table_index)?, *f) {
+                reports.push(r);
             }
         }
         let mut fields: Vec<String> = binding.keys().cloned().collect();

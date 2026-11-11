@@ -680,6 +680,81 @@ mod tests {
     }
 
     #[test]
+    fn syllables_for_words_the_earlier_rules_got_wrong() {
+        // Every word the pre-2026-11 rules miscounted on the 300-word check list.
+        for (w, n) in [
+            ("influenza", 4),
+            ("diabetes", 4),
+            ("pneumonia", 3),
+            ("sometimes", 2),
+            ("something", 2),
+            ("homeless", 2),
+            ("careful", 2),
+            ("movement", 2),
+            ("statement", 2),
+            ("everything", 3),
+            ("therefore", 2),
+            ("diarrhea", 4),
+            ("nausea", 3),
+            ("experience", 4),
+            ("serious", 3),
+            ("various", 3),
+            ("previous", 3),
+            ("reaction", 3),
+            ("fluid", 2),
+            ("carried", 2),
+            ("studied", 2),
+            ("hundred", 2),
+            ("indeed", 2),
+            ("proceed", 2),
+            ("exceed", 2),
+            ("agreed", 2),
+            ("succeed", 2),
+            ("antibiotic", 5),
+            ("antibiotics", 5),
+            ("safety", 2),
+            ("ninety", 2),
+            ("poem", 2),
+            ("lion", 2),
+            ("pioneer", 3),
+            ("heroin", 3),
+            ("gonorrhea", 4),
+            ("doesn't", 2),
+            ("isn't", 2),
+            ("guidelines", 2),
+            ("scientists", 3),
+            ("society", 4),
+            ("anxiety", 4),
+            ("dietary", 4),
+            ("quietly", 3),
+            ("vegetables", 3),
+            ("comfortable", 3),
+            ("isles", 1),
+        ] {
+            assert_eq!(word_syllables(w), n, "{w}");
+        }
+        // The new rules leave these alone.
+        for (w, n) in [
+            ("called", 1),
+            ("handled", 2),
+            ("employed", 2),
+            ("friend", 1),
+            ("guide", 1),
+            ("conscious", 2),
+            ("delicious", 3),
+            ("household", 2),
+            ("caregiver", 3),
+            ("element", 3),
+            ("treatment", 2),
+        ] {
+            assert_eq!(word_syllables(w), n, "{w}");
+        }
+        // "Safety comes first. Sometimes something goes wrong." has no polysyllables.
+        let p = parse("Safety comes first. Sometimes something goes wrong. Call us.");
+        assert_eq!(p.counts().polysyllables, 0);
+    }
+
+    #[test]
     fn sentences_respect_abbreviations_initials_and_decimals() {
         let s = split_sentences(
             "Dr. Lee said 3.5 mg is enough. Call the U.S. Food and Drug Administration! Is it safe? \

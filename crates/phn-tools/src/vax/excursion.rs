@@ -564,6 +564,34 @@ mod tests {
         assert_eq!(classify(&ctx, "freezer", None, None, None), Undetermined);
     }
 
+    /// Readings in Fahrenheit are compared with the Fahrenheit range
+    /// (36-46 F), so 46.3 F (7.9 C) is out of range, not "within range".
+    #[test]
+    fn fahrenheit_readings_use_the_fahrenheit_range() {
+        let (_d, ctx) = ctx();
+        let f = |min: f64, max: f64, minutes: Option<u32>| {
+            vaccine_temperature_excursion_helper(
+                &ctx,
+                ExcursionArgs {
+                    unit_type: "refrigerator".into(),
+                    min_temp: Some(min),
+                    max_temp: Some(max),
+                    temp_unit: Some("F".into()),
+                    minutes_out_of_range: minutes,
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+            .data
+            .classification
+        };
+        use ExcursionClass::*;
+        assert_eq!(f(40.0, 46.3, None), Undetermined);
+        assert_eq!(f(40.0, 46.3, Some(10)), OutOfRangeBelowReportingThreshold);
+        assert_eq!(f(35.7, 40.0, Some(45)), ReportableCumulative);
+        assert_eq!(f(36.0, 46.0, None), InRange);
+    }
+
     #[test]
     fn fahrenheit_is_converted() {
         assert!((to_c(46.0, "F") - 7.777_777).abs() < 1e-4);

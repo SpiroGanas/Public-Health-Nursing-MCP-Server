@@ -542,6 +542,7 @@ pub fn analyze_outbreak_line_list(
 
     // Exposures.
     let mut exposures = Vec::new();
+    let mut skipped_exposures: Vec<String> = Vec::new();
     if cohort_data {
         for (j, name) in ll.map.exposures.iter().enumerate() {
             let (mut a, mut b, mut cc, mut d) = (0u64, 0u64, 0u64, 0u64);
@@ -555,6 +556,7 @@ pub fn analyze_outbreak_line_list(
                 }
             }
             if a + b + cc + d == 0 || a + b == 0 || cc + d == 0 {
+                skipped_exposures.push(name.clone());
                 continue;
             }
             let res = two_by_two::analyze(Table::new(a, b, cc, d), design, 0.95);
@@ -851,6 +853,14 @@ pub fn analyze_outbreak_line_list(
             t - 1
         ));
     }
+    if !skipped_exposures.is_empty() {
+        caveats.push(format!(
+            "Not analyzed because no one was recorded as exposed, or no one as unexposed: {}. If \
+             a blank cell means \"did not eat\", enter N in those cells and run the analysis \
+             again; an item nearly everyone ate can still be the vehicle.",
+            skipped_exposures.join(", ")
+        ));
+    }
     if let Some(d) = unknown_disease {
         caveats.push(format!(
             "No incubation period was used: '{d}' is not one specific disease in this server's \
@@ -1131,6 +1141,30 @@ mod tests {
                 .any(|c| c.contains("No incubation period was used"))
         );
         assert!(incubation(Some("gastroenteritis"), None, None, None).unwrap().is_none());
+        // Everyone ate the stuffing among people with an answer: it cannot be
+        // compared, and the caveat says so instead of dropping it silently.
+        let mut csv = String::from("Ill,Onset Date,Stuffing,Pie\n");
+        for i in 0..6 {
+            csv.push_str(&format!("Y,2026-05-03,Y,{}\n", if i < 3 { "Y" } else { "N" }));
+        }
+        for i in 0..6 {
+            csv.push_str(&format!("N,,Y,{}\n", if i < 2 { "Y" } else { "N" }));
+        }
+        std::fs::write(data.join("all_ate.csv"), csv).unwrap();
+        let env = analyze_outbreak_line_list(
+            &c,
+            OutbreakArgs {
+                path: "all_ate.csv".into(),
+                ..OutbreakArgs::default()
+            },
+        )
+        .unwrap();
+        assert!(env.data.exposures.iter().all(|e| e.exposure != "Stuffing"));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("Not analyzed") && c.contains("Stuffing"))
+        );
         assert!(incubation(Some("salmonellosis"), None, None, None).unwrap().is_some());
     }
 
