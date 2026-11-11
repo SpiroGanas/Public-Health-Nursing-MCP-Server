@@ -1,0 +1,817 @@
+# Housing conditions that affect health under the State Sanitary Code (105 CMR 410.000): code
+# requirements, owner and occupant responsibilities, health effects, the board of health
+# inspection process, tenant protections (decision support, not legal advice), tenant teaching
+# sheets, and letter templates for local fill, for housing_conditions_health_guide (ENV-07).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/env_housing_conditions.schema.json
+meta:
+  id: env-housing-conditions
+  title: Housing conditions and health under 105 CMR 410.000 (State Sanitary Code, Chapter II)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: 2023-06-23
+  source:
+    title: "105 CMR 410.000: Minimum Standards of Fitness for Human Habitation (State Sanitary Code, Chapter II) (Mass. Register #1498, 6/23/2023)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download
+  related_sources:
+    - title: Notice of Occupants' Legal Rights and Responsibilities
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/doc/occupants-legal-rights-and-responsibilities/download
+    - title: M.G.L. c. 186, § 18; c. 239, § 8A; c. 111, §§ 127L and 197
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18
+    - title: CDC and EPA pages on mold, asthma triggers, lead, carbon monoxide, bed bugs, and hypothermia
+      publisher: CDC; U.S. Environmental Protection Agency
+      url: https://www.cdc.gov/mold-health/about/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Code requirements are transcribed from the 105 CMR 410.000 PDF on mass.gov, whose pages are
+    marked Mass. Register #1498, 6/23/2023 (the regulation page is dated 06/23/2023; the PDF does
+    not state a separate effective date, so 2023-06-23 is used). Section numbers and numbers
+    (temperatures, hours, days) were checked against that text (high confidence). Tenant
+    protections are summarized from DPH's Notice of Occupants' Legal Rights and Responsibilities
+    and from the statutes as published on malegislature.gov (high confidence for what the text
+    says; this is not legal advice and the summaries leave out conditions and exceptions). Health
+    effects and who is at risk are summarized from the CDC and EPA pages listed (high). The
+    tenant teaching sheets and letter templates are THIS PROJECT'S DRAFTS in plain language built
+    from those sources (medium confidence); have them reviewed before use and add agency-approved
+    translations in /data/templates/<language>/.
+
+sources:
+  cmr410:
+    title: "105 CMR 410.000: Minimum Standards of Fitness for Human Habitation (State Sanitary Code, Chapter II) (Mass. Register #1498, 6/23/2023)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download
+    effective_date: 2023-06-23
+    retrieved: 2026-11-11
+  dph-olrr:
+    title: Notice of Occupants' Legal Rights and Responsibilities
+    publisher: Massachusetts Department of Public Health, Bureau of Climate and Environmental Health
+    url: https://www.mass.gov/doc/occupants-legal-rights-and-responsibilities/download
+    effective_date: null
+    retrieved: 2026-11-11
+  mgl-186-18:
+    title: "M.G.L. c. 186, § 18: Reprisal for reporting violations of law or for tenant's union activity"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartII/TitleI/Chapter186/Section18
+    effective_date: null
+    retrieved: 2026-11-11
+  mgl-239-8a:
+    title: "M.G.L. c. 239, § 8A: Rent withholding; grounds; amount claimed; presumptions and burden of proof"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleIII/Chapter239/Section8A
+    effective_date: null
+    retrieved: 2026-11-11
+  mgl-111-127l:
+    title: "M.G.L. c. 111, § 127L: Repairs by tenants of residential premises to cure violations; reimbursement for cost"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section127L
+    effective_date: null
+    retrieved: 2026-11-11
+  mgl-111-197:
+    title: "M.G.L. c. 111, § 197: Duty of residential premises owners (lead paint)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section197
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-lead-law:
+    title: Learn about Massachusetts Lead Law
+    publisher: Massachusetts Department of Public Health, Childhood Lead Poisoning Prevention Program
+    url: https://www.mass.gov/info-details/learn-about-massachusetts-lead-law
+    effective_date: null
+    retrieved: 2026-11-11
+  cdc-mold:
+    title: Mold (About Mold)
+    publisher: CDC National Center for Environmental Health
+    url: https://www.cdc.gov/mold-health/about/index.html
+    effective_date: 2024-09-26
+    retrieved: 2026-11-11
+  epa-asthma:
+    title: "Asthma Triggers: Gain Control"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/asthma/asthma-triggers-gain-control
+    effective_date: 2026-07-06
+    retrieved: 2026-11-11
+  cdc-lead:
+    title: About Childhood Lead Poisoning Prevention
+    publisher: CDC
+    url: https://www.cdc.gov/lead-prevention/about/index.html
+    effective_date: null
+    retrieved: 2026-11-11
+  cdc-co:
+    title: Carbon Monoxide (CO) Poisoning Basics
+    publisher: CDC
+    url: https://www.cdc.gov/carbon-monoxide/about/index.html
+    effective_date: 2026-10-26
+    retrieved: 2026-11-11
+  cdc-bed-bugs:
+    title: About Bed Bugs
+    publisher: CDC
+    url: https://www.cdc.gov/bed-bugs/about/index.html
+    effective_date: null
+    retrieved: 2026-11-11
+  cdc-hypothermia:
+    title: Preventing Hypothermia
+    publisher: CDC
+    url: https://www.cdc.gov/winter-weather/prevention/index.html
+    effective_date: 2024-01-30
+    retrieved: 2026-11-11
+
+conditions:
+  - id: moisture_mold
+    label: Moisture, leaks, and mold
+    keywords: [mold, mildew, moisture, damp, dampness, leak, leaks, water damage, condensation, flooding, musty]
+    urgent: false
+    urgent_note: >-
+      Mold and excess moisture are not on the list of conditions that are always deemed to
+      endanger health (410.630(A)) unless they come from a structural defect that does (for
+      example a roof leak under 410.630(A)(12)); the inspector may still find that they may
+      endanger or impair health (410.630(B)). Otherwise the order allows up to 30 days to correct.
+    code:
+      - section: "410.010"
+        text: Excess moisture means the unwanted presence of moisture or water on permeable surfaces that occurs on a periodic, chronic, or acute basis and presents a risk of mold growth.
+      - section: "410.500(A)(1)"
+        text: The owner must keep the building and its structural elements protected from wind, rain, and snow, watertight, free from excess moisture or the appearance of mold, and pest resistant.
+      - section: "410.500(B)"
+        text: After leaks and flooding, the owner must make sure all surfaces are dried within 48 hours of being notified or of the end of the event, whichever is sooner.
+      - section: "410.420(A)"
+        text: No room or area may be used for living if it is subject to excess moisture.
+      - section: "410.220(A)-(B)"
+        text: Living rooms and rooms with a toilet, tub, or shower need openable windows, skylights, or doors equal to at least 4% of the floor area, or mechanical ventilation to the outdoors; when the board of health finds natural ventilation is not enough to remove excess moisture, mechanical ventilation is required.
+      - section: "410.170(B)"
+        text: Electric and gas clothes dryers must be vented to the outdoors unless listed and labeled as ventless.
+      - section: "410.235(C)"
+        text: After any maintenance or repair, the owner must dispose of debris, leave the area clean, and dry all surfaces exposed to moisture.
+      - section: "410.620(E)"
+        text: An inspector who finds excess moisture or the appearance of mold must investigate the sources (plumbing leaks, structural defects, poorly maintained ventilation, heating, air conditioning, or ductwork). Environmental testing is not required, and test results may not be the only basis for deciding whether excess moisture or mold exists.
+    owner:
+      - Keep the building watertight and free from excess moisture and the appearance of mold (410.500(A)(1)).
+      - Dry surfaces within 48 hours after a leak or flood (410.500(B)) and after repairs (410.235(C)).
+      - Provide and maintain the required ventilation, including mechanical ventilation when the board of health requires it (410.220).
+    occupant:
+      - Use the building and its parts with reasonable care (410.510) and keep the unit sanitary (410.003(F)).
+      - Give the owner access for repairs with at least 48 hours' notice, or without notice for emergency repairs (410.003(E)).
+    health_effects:
+      - text: Damp and moldy homes may cause a stuffy nose, sore throat, coughing or wheezing, burning eyes, or skin rash in some people; people with asthma or mold allergy may have severe reactions, and people with weakened immune systems or chronic lung disease may get lung infections from mold.
+        source: cdc-mold
+        section: Possible health effects
+        confidence: high
+      - text: The Institute of Medicine (2004) found sufficient evidence linking indoor mold with upper respiratory symptoms, cough, and wheeze in healthy people and with asthma symptoms in people with asthma; some studies suggest early mold exposure may contribute to asthma in some children.
+        source: cdc-mold
+        section: Possible health effects
+        confidence: high
+    at_risk: [people with asthma, people allergic to mold, people with weakened immune systems, people with chronic lung disease, young children]
+    advice:
+      - text: Fix the moisture problem and clean up the mold; you do not need to know the type of mold. CDC does not recommend mold testing.
+        source: cdc-mold
+        section: Cleaning; Home testing
+        confidence: high
+      - text: Keep indoor humidity no higher than 50%, use kitchen and bathroom exhaust fans that vent outside, and dry wet areas within 24 to 48 hours.
+        source: cdc-mold
+        section: Preventing
+        confidence: high
+      - text: Clean mold on hard surfaces with soap and water, household products, or no more than 1 cup of household bleach in 1 gallon of water; never mix bleach with ammonia or other cleaners, open windows, and wear rubber gloves, boots, and goggles.
+        source: cdc-mold
+        section: Cleaning
+        confidence: high
+  - id: pests
+    label: Pests (cockroaches, mice and rats, bed bugs, and others)
+    keywords: [pest, pests, cockroach, cockroaches, roach, roaches, mice, mouse, rat, rats, rodent, rodents, bed bug, bed bugs, bedbugs, insects, infestation, exterminator, ants, flies]
+    urgent: true
+    urgent_note: >-
+      Failure to keep the premises free from pests as required by 410.550(A) and (B) is always
+      deemed a condition that may endanger health (410.630(A)(17)); the order requires a good
+      faith effort to correct within 24 hours (410.640(A)(1)).
+    code:
+      - section: "410.010"
+        text: Pests include insects (such as mosquitoes, bees, flies, ants, termites, cockroaches, and bed bugs), arachnids (such as spiders and ticks), rodents, and other unwanted animal life; a pest infestation is the recurrent presence of pests.
+      - section: "410.550(A)"
+        text: In a residence with one dwelling unit, the occupant must keep the unit free from pest infestation and is responsible for pest elimination, but the owner is responsible if the owner has not maintained the structural or building elements needed to keep pests out.
+      - section: "410.550(B)"
+        text: In a residence with two or more dwelling units (and in rooming houses and homeless shelters), the owner must keep it and its premises free from infestation and is responsible for pest elimination.
+      - section: "410.550(C)-(D)"
+        text: Extermination means removing harborage, removing or sealing off food and breeding sources, and poisoning, spraying, fumigating, or trapping; indoor commercial pesticide use needs at least 48 hours' written notice to occupants with the company, date, locations, and products.
+      - section: "410.550(F)-(G)"
+        text: The owner must inspect each unit for pests before a new occupancy and keep records of monitoring, repairs, pesticides applied, and follow-up inspections for the board of health.
+      - section: "410.540"
+        text: The owner must provide tight-fitting screens (at least 16 mesh) on openable exterior windows, and screen doors where required, from April 1 through October 31 each year.
+      - section: "410.500(A)(2)"
+        text: Buildings must be free from holes, cracks, and defects that provide an entry or harborage for pests.
+      - section: "410.620(D)"
+        text: A pest inspection covers the unit, nearby common areas, the exterior, and, for insects, units next door where bed bugs are confirmed; for rodents, accessible attics, basements, and crawl spaces.
+    owner:
+      - Eliminate pests in buildings with two or more units, and in single-unit homes when the cause is the building's condition (410.550(A)-(B)).
+      - Inspect for pests before each new tenancy and keep records (410.550(F)-(G)); seal entry points (410.500(A)(2)); install screens April 1 to October 31 (410.540).
+      - Give 48 hours' written notice before indoor commercial pesticide applications (410.550(D)).
+    occupant:
+      - Keep the unit sanitary so it does not attract pests (410.550(E)) and store garbage in covered, pest-resistant containers (410.560(D)).
+      - Give access and follow the pest control company's preparation instructions (410.550(D)(3)).
+    health_effects:
+      - text: Droppings and body parts of cockroaches and other pests can trigger asthma; proteins in cockroach droppings and saliva can cause allergic reactions, and cockroach allergens likely play a significant role in asthma in many urban areas.
+        source: epa-asthma
+        section: Cockroaches and Pests
+        confidence: high
+      - text: Bed bugs are not known to spread disease, but bites can cause itching, loss of sleep, anxiety, and, rarely, allergic reactions; scratching can lead to skin infection.
+        source: cdc-bed-bugs
+        section: Signs and symptoms
+        confidence: high
+    at_risk: [people with asthma, people with allergies, children with asthma]
+    advice:
+      - text: Keep counters, sinks, tables, and floors clean; clean up dishes, crumbs, and spills right away; store food in airtight containers; and seal cracks around cabinets. Pesticides can harm people too, so use lower-risk pest control.
+        source: epa-asthma
+        section: Cockroaches and Pests (Actions You Can Take)
+        confidence: high
+      - text: Bed bugs hide in mattress seams, box springs, bed frames, headboards, and cracks near beds; early detection makes them easier to control.
+        source: cdc-bed-bugs
+        section: Where to look for bed bugs; Reducing risk
+        confidence: high
+  - id: heat
+    label: No heat or not enough heat
+    keywords: [heat, heating, no heat, cold, cold apartment, furnace, boiler, radiator, thermostat, temperature, space heater, heater, too hot]
+    urgent: true
+    urgent_note: >-
+      Failure to provide heat as required by 410.180, or improper venting or use of a prohibited
+      space heater or water heater, is always deemed a condition that may endanger health
+      (410.630(A)(2)); the order requires a good faith effort to correct within 24 hours.
+    code:
+      - section: "410.180(A)"
+        text: From September 15 through May 31, the owner must heat every habitable room and every room with a toilet, shower, or tub to at least 68°F between 7:00 a.m. and 11:00 p.m. and at least 64°F between 11:01 p.m. and 6:59 a.m.
+      - section: "410.180(B)"
+        text: During the heating season the required heating system must not raise the temperature above 78°F in any room.
+      - section: "410.180(C)"
+        text: Temperature is measured 5 feet above the floor on a wall, at any point more than 5 feet from the exterior wall.
+      - section: "410.180(D)"
+        text: A board of health may change the heating season for its municipality, ending it no earlier than May 15 or starting it no later than September 30, by posting notice on the municipality's website.
+      - section: "410.160(A)-(B)"
+        text: The owner must provide and maintain a heating system able to heat every habitable room and bathroom to the required temperatures; a fireplace, wood or pellet stove, or portable electric space heater does not count as the heating system.
+      - section: "410.160(C)"
+        text: "Prohibited in any residence: portable space heaters with a barometric fuel control and a fuel tank less than 42 inches from the burner, heaters adapted to burn propane, kerosene, range oil, or number one fuel oil, portable wick-type space heaters, and unvented propane or natural gas space heaters not approved under the fire code."
+      - section: "410.200; 410.210"
+        text: The owner pays for the electricity, gas, or oil used for heat unless it is metered (or tanked) for that unit alone and a written rental agreement says the occupant pays.
+      - section: "410.620(B)(3)"
+        text: From September 15 through May 31, a complaint only about lack of heat is investigated first; a comprehensive inspection requested at the same time follows within 1 business day for 410.630(A) violations or 5 business days for others.
+    owner:
+      - Provide heat to the required temperatures from September 15 to May 31 (410.180), and maintain the heating system (410.160(A); 410.235(A)(6)).
+      - Pay for heating fuel unless separately metered and the written rental agreement says otherwise (410.200; 410.210).
+    occupant:
+      - Do not use prohibited heaters (410.160(C)); give access for repairs (410.003(E)).
+      - Pay for heating fuel only when the unit has its own meter or tank and a written agreement requires it (410.200; 410.210).
+    health_effects:
+      - text: Hypothermia can happen with long exposure to cold and affects thinking and movement, so a person may not know it is happening; warning signs in adults are shivering, exhaustion, confusion, fumbling hands, memory loss, slurred speech, and drowsiness, and in babies bright red, cold skin and very low energy.
+        source: cdc-hypothermia
+        section: What is hypothermia?; What to look out for
+        confidence: high
+      - text: Using the wrong heat source can cause carbon monoxide poisoning; never heat a home with a gas oven.
+        source: cdc-co
+        section: Oil and gas furnaces and other household appliances
+        confidence: high
+    at_risk: [older adults with inadequate food, clothing, or heating, babies sleeping in cold bedrooms, people who drink alcohol or use drugs]
+    advice:
+      - text: Older adults with inadequate food, clothing, or heating and babies sleeping in cold bedrooms are among those most often affected by hypothermia.
+        source: cdc-hypothermia
+        section: Risk factors
+        confidence: high
+  - id: water_utilities
+    label: Hot water, water, and utility shutoffs
+    keywords: [hot water, no hot water, water, water shutoff, electricity, electric, gas, utilities, utility, shutoff, shut off, power, plumbing, toilet, sewage]
+    urgent: true
+    urgent_note: >-
+      No water (hot and cold) meeting the ordinary needs of the occupant for 24 hours or longer,
+      a shutoff or failure to restore electricity, gas, or water, and lack of a working toilet,
+      sink, tub or shower, or sewage system are always deemed conditions that may endanger health
+      (410.630(A)(1), (3), (5), (6)).
+    code:
+      - section: "410.150(A)-(C)"
+        text: The owner must provide hot water in sufficient quantity and pressure, at 110°F to 130°F at fixtures other than a tub or shower, and 110°F to 120°F at a tub or shower.
+      - section: "410.130(A)"
+        text: The owner must provide potable water sufficient in quantity and pressure for the ordinary needs of every occupant.
+      - section: "410.003(C)"
+        text: No owner or occupant may shut off a required service, facility, utility, or equipment except temporarily for repairs with reasonable notice, or in a temporary emergency approved by the board of health; whoever is responsible must take immediate steps to restore it (see M.G.L. c. 186, § 14).
+      - section: "410.130(D)"
+        text: An owner who submeters water may not shut off water because the occupant has not paid a separate water or sewer charge.
+    owner:
+      - Provide and maintain hot water, potable water, and the plumbing and sewage system (410.130; 410.150; 410.235).
+      - Do not shut off utilities except as allowed, and restore them immediately (410.003(C)).
+    occupant:
+      - Do not shut off required utilities (410.003(C)); keep fixtures you use sanitary (410.240(B)).
+    health_effects: []
+    at_risk: []
+    advice: []
+  - id: lead
+    label: Lead paint
+    keywords: [lead, lead paint, paint, peeling paint, chipping paint, deleading, lead poisoning, old paint, dust]
+    urgent: true
+    urgent_note: >-
+      Lead-based paint on a dwelling in violation of 105 CMR 460.000 is always deemed a condition
+      that may endanger health (410.630(A)(11)). The Lead Law (M.G.L. c. 111, §§ 189A-199B) and
+      105 CMR 460.000 set the owner's deleading duties.
+    code:
+      - section: "410.470"
+        text: All residences must comply with 105 CMR 460.000, Lead Poisoning Prevention and Control.
+      - section: "410.630(A)(11)"
+        text: The presence of lead-based paint on a dwelling in violation of 105 CMR 460.000 (see M.G.L. c. 111, §§ 190-199) is a condition deemed to endanger or materially impair health or safety.
+      - section: "M.G.L. c. 111, § 197(a)"
+        text: Whenever a child under six years of age lives in premises where any paint, plaster, or other accessible structural material contains dangerous levels of lead, the owner must abate or contain it.
+      - section: "M.G.L. c. 111, § 197(f)-(g)"
+        text: Repainting over lead paint without containment or abatement is not compliance, and pregnant women and children under six may not occupy the unit during deleading.
+    owner:
+      - Delead or bring under interim control homes built before 1978 where a child under 6 lives; hire a licensed lead inspector, and use licensed or trained and authorized people for the work (DPH Lead Law page; M.G.L. c. 111, § 197).
+      - The owner is legally responsible if a child is poisoned by lead hazards where the child lives, and cannot avoid liability by having tenants sign an agreement accepting lead paint (DPH Lead Law page).
+    occupant:
+      - Tell the owner and the board of health about peeling or chipping paint, and keep children away from it and from the dust.
+    health_effects:
+      - text: No safe blood lead level in children has been identified; even low levels are associated with developmental delays, difficulty learning, and behavioral issues, and the effects can be permanent.
+        source: cdc-lead
+        section: Lead in blood
+        confidence: high
+      - text: Children younger than 6 are more likely to be exposed because of hand-to-mouth behavior; chipping or peeling paint in homes built before 1978 is a common source.
+        source: cdc-lead
+        section: Overview; Causes
+        confidence: high
+    at_risk: [children under 6, pregnant women, families in homes built before 1978]
+    advice:
+      - text: The Lead Law requires removing or covering lead paint hazards in homes built before 1978 where any child under 6 lives; hazards include loose lead paint, lead paint on windows and friction surfaces, and other surfaces children can reach.
+        source: dph-lead-law
+        section: What does the Lead Law require?
+        confidence: high
+      - text: An owner cannot evict or refuse to rent to a family because of lead paint; discrimination is against the law.
+        source: dph-lead-law
+        section: Can I evict or refuse to rent to a family with children under six if there is lead paint in the home?
+        confidence: high
+      - text: A blood lead test is the best way to know whether a child has been exposed; renters can ask the landlord to have the home inspected or to share recent lead inspection results.
+        source: cdc-lead
+        section: Testing
+        confidence: high
+  - id: smoke_co
+    label: Smoke and carbon monoxide alarms, venting, and fuel-burning appliances
+    keywords: [smoke detector, smoke alarm, carbon monoxide, co detector, co alarm, alarm, alarms, venting, vent, chimney, gas smell, fumes, generator]
+    urgent: true
+    urgent_note: >-
+      Failure to provide a required smoke detector or carbon monoxide alarm, and improper venting
+      of fuel-burning heaters or water heaters, are always deemed conditions that may endanger
+      health (410.630(A)(2), (15)).
+    code:
+      - section: "410.330(A)"
+        text: The owner must provide, install, and maintain working smoke detectors and carbon monoxide alarms wherever state law and the building and fire codes require them.
+      - section: "410.330(B)"
+        text: The board of health must immediately notify the local fire chief of any smoke or carbon monoxide alarm violation seen during an inspection.
+      - section: "410.170(A)"
+        text: Furnaces, boilers, wood and pellet stoves, water heaters, and permitted space heaters that burn fuel must be properly vented to the outdoors (except unvented gas heaters approved under the fire code).
+    owner:
+      - Provide, install, and maintain smoke and carbon monoxide alarms (410.330; 410.235(A)(13)) and properly vented fuel-burning equipment (410.170).
+    occupant:
+      - Keep smoke and carbon monoxide alarms in sanitary condition and use them with reasonable care (410.240(B)(5)); do not disable them.
+    health_effects:
+      - text: Carbon monoxide is an odorless, colorless gas that can cause sudden illness and death; common symptoms are headache, dizziness, weakness, upset stomach, vomiting, chest pain, and confusion, and people who are asleep or intoxicated can die before they have symptoms.
+        source: cdc-co
+        section: What it is; Symptoms
+        confidence: high
+    at_risk: [infants, older adults, people with chronic heart disease, people with anemia, people with breathing problems]
+    advice:
+      - text: Install battery-operated or battery back-up carbon monoxide detectors near every sleeping area, check batteries each spring and fall, and replace detectors as the maker directs or every 5 years.
+        source: cdc-co
+        section: CO detectors
+        confidence: high
+      - text: Never use a generator inside a home or garage (only outside, more than 20 feet from windows, doors, and vents), never burn charcoal indoors, and have heating systems and fuel-burning appliances serviced every year.
+        source: cdc-co
+        section: Reducing risk
+        confidence: high
+  - id: refuse_sanitation
+    label: Trash, garbage, and unsanitary common areas
+    keywords: [trash, garbage, refuse, rubbish, dumpster, recycling, filth, unsanitary, hallway, common area, smell, odor]
+    urgent: true
+    urgent_note: >-
+      An accumulation of refuse, filth, or other causes of sickness that may provide food or
+      harborage for pests or contribute to accidents or disease (violations of 410.560 or
+      410.570) is always deemed a condition that may endanger health (410.630(A)(10)).
+    code:
+      - section: "410.560(A)"
+        text: The owner of a building with two or more units (or a rooming house or homeless shelter) is responsible for final collection and disposal of refuse; the occupant of a single-unit residence is responsible for it there.
+      - section: "410.560(D)-(E)"
+        text: Garbage must be stored in watertight, pest-resistant receptacles with tight-fitting covers; the owner provides enough receptacles, and occupants place their refuse in them and follow local rules, including recycling and pay-as-you-throw.
+      - section: "410.570(B)-(C)"
+        text: Occupants keep the part of the residence they control free of refuse and filth; the owner keeps common areas clean, sanitary, and safe; occupants keep the landing, porch, or deck next to their unit clear.
+      - section: "410.630(A)(8)"
+        text: Blocking any exit, passageway, or common area with objects, including refuse, so that people cannot get out in an emergency is always deemed a condition that may endanger health or safety.
+    owner:
+      - Provide enough covered receptacles and arrange collection in multi-unit buildings (410.560); keep common areas clean and safe (410.570(C)(1)).
+    occupant:
+      - Use the receptacles provided and follow local trash and recycling rules (410.560(B), (E)(3)); keep your unit and the landing outside it clean and clear (410.570(B), (C)(2)).
+    health_effects:
+      - text: Refuse and filth can provide food and shelter for rodents, insects, and other pests, and contribute to accidents or the spread of disease (the reason 105 CMR 410.630(A)(10) treats them as conditions that may endanger health).
+        source: cmr410
+        section: "410.630(A)(10)"
+        confidence: high
+    at_risk: []
+    advice: []
+
+urgent_list:
+  source: cmr410
+  section: "410.630(A)"
+  items:
+    - "(1) No water, hot and cold, sufficient for ordinary needs for 24 hours or longer (410.130, 410.140, 410.150)"
+    - "(2) No heat as required by 410.180, or improper venting or use of a prohibited space heater or water heater"
+    - "(3) Shutoff or failure to restore electricity, gas, or water"
+    - "(4) Missing required electrical facilities (410.300(A)-(E))"
+    - "(5) No safe supply of water (410.130(A))"
+    - "(6) No toilet, sink, shower or tub, or a sewage disposal system that does not work"
+    - "(7) No kitchen sink, or an owner-supplied stove, oven, or refrigerator that does not work"
+    - "(8) Inadequate or blocked exits, passageways, or common areas"
+    - "(9) Failure to meet the lock and security requirements (410.270(A))"
+    - "(10) Accumulated refuse, filth, or other causes of sickness (410.560, 410.570)"
+    - "(11) Lead-based paint in violation of 105 CMR 460.000"
+    - "(12) Roof, foundation, or other structural defects that may expose people to fire, burns, shock, accident, or other dangers"
+    - "(13) Electrical, plumbing, heating, or gas facilities not installed or maintained to accepted standards, exposing people to danger"
+    - "(14) Damaged asbestos insulation or covering on a pipe, boiler, or furnace that may release asbestos"
+    - "(15) No smoke detector or carbon monoxide alarm as required (410.330)"
+    - "(16) No railing or guard for a stairway, porch, balcony, or roof as required (410.520)"
+    - "(17) Pests in violation of 410.550(A) and (B)"
+    - "(18) Any other violation the owner fails to fix within the time the board of health ordered"
+
+inspection:
+  request:
+    - text: If you think conditions in your home are unsafe or unsanitary, tell your landlord first; if the landlord does not fix them, contact your local health department, which inspects for free and orders the landlord to fix violations. Find it through your city or town hall or mass.gov/lists/massachusetts-city-and-town-websites.
+      source: dph-olrr
+      section: Your Right to Safe and Healthy Housing and Protection from Retaliation
+      confidence: high
+    - text: The board of health must inspect a unit and its common areas when an occupant asks in writing, in person, by phone, or electronically, whether or not the occupant told the owner first, even if an eviction or other dispute is pending, and even if the occupant is anonymous or asks that their name be kept confidential.
+      source: cmr410
+      section: "410.600(A)"
+      confidence: high
+    - text: A request from someone who does not live in the unit (for example a nurse, neighbor, or relative) is investigated to decide whether to inspect, by looking from the street, reviewing records, or contacting the occupants, owner, or manager.
+      source: cmr410
+      section: "410.600(B)"
+      confidence: high
+    - text: The inspection must take place within 1 business day of the request if the conditions alleged include any listed in 410.630(A), and within 5 business days otherwise, at a time that works for the occupant when possible.
+      source: cmr410
+      section: "410.600(C)"
+      confidence: high
+  during:
+    - text: At the start, the inspector tells the occupant of the right to a comprehensive inspection and does one if asked; every inspection covers at least the condition reported and all the conditions listed in 410.630(A). A violation in a common area counts as a violation in every unit with access to it.
+      source: cmr410
+      section: "410.620(B)"
+      confidence: high
+    - text: The inspector gives the occupant a verbal summary at the end and a written summary on request; the inspection report is signed under the pains and penalties of perjury and comes with DPH's Occupants' Legal Rights and Responsibilities.
+      source: cmr410
+      section: "410.610; 410.620(C)"
+      confidence: high
+  after:
+    - text: For conditions listed in 410.630(A), the board of health orders the responsible person within 12 hours of the inspection to make a good faith effort to correct within 24 hours of service; for other violations it orders correction within 30 days, issued within 7 days of the inspection. No order may allow more than 30 days, or be extended, without a hearing.
+      source: cmr410
+      section: "410.640"
+      confidence: high
+    - text: A reinspection is done within 24 hours after the deadline for urgent violations and within 7 days after the deadline for others; the occupant gets a summary of what was and was not corrected.
+      source: cmr410
+      section: "410.660"
+      confidence: high
+    - text: Every order is in writing with the inspection report and the Occupants' Legal Rights and Responsibilities, states the hearing rights and deadlines, includes "This is an important legal document. It may affect your rights. You should have it translated" in any language spoken by more than 1% of the community, and tells the owner that the occupant may be able to use statutory remedies.
+      source: cmr410
+      section: "410.670(A)-(B)"
+      confidence: high
+    - text: If a comprehensive inspection finds no violations, the inspector sends the report and a letter saying so within 7 days.
+      source: cmr410
+      section: "410.670(C)"
+      confidence: high
+    - text: A home or part of it can be found unfit for human habitation after notice and a public hearing (or at once if the danger is immediate); if it is condemned and the occupant is not the owner, the owner must provide comparable, suitable housing for a set period.
+      source: cmr410
+      section: "410.650; 410.900(E)"
+      confidence: high
+  hearings:
+    - text: "An occupant may ask the board of health in writing for a hearing: within 30 days after asking for an inspection that was not done; within 30 days after an inspection for which no report was issued; within 30 days after receiving the inspection report if violations the occupant claimed were not found or no order was issued; and within 45 days after receiving the order if it is not enforced. A person served with an order, and every affected person, has 7 days after service to ask for a hearing."
+      source: cmr410
+      section: "410.800"
+      confidence: high
+    - text: The hearing must start within 14 days of the request, the board decides in writing within 5 days after the hearing, and anyone aggrieved by the final decision can go to court; a late request waives the right to a hearing.
+      source: cmr410
+      section: "410.810-410.860"
+      confidence: high
+
+tenant_protections:
+  - id: retaliation
+    label: Protection from retaliation
+    text: >-
+      A landlord who threatens or takes reprisals against a tenant for reporting a suspected code
+      violation to the board of health, complaining about it in writing to the landlord, taking
+      legal action to enforce housing laws, or joining a tenants' union is liable for damages of
+      at least one and up to three months' rent (or actual damages if greater) plus costs and
+      attorney's fees. A notice to end the tenancy (except for nonpayment of rent), a rent
+      increase, or a big change in the terms within six months after such a report creates a
+      presumption of reprisal. Lease terms that waive this are void.
+    source: mgl-186-18
+    section: "Section 18"
+    confidence: high
+  - id: rent_withholding
+    label: Withholding rent (defense in an eviction for nonpayment)
+    text: >-
+      In an eviction for nonpayment, a tenant may raise the condition of the home as a defense
+      or counterclaim if the landlord knew of the conditions before the tenant fell behind on
+      rent, the tenant did not cause them, and other conditions are met. A board of health
+      inspection notice sent to the landlord is presumed to show the landlord knew; a certified
+      inspection report is evidence of the conditions. The court can require the tenant to pay
+      the fair value of the use of the home into court. DPH advises saving withheld rent, because
+      a judge may require some or all of it to be paid.
+    source: mgl-239-8a
+    section: "Section 8A; DPH Notice, Option 2"
+    confidence: high
+  - id: repair_and_deduct
+    label: Repair and deduct
+    text: >-
+      When the board of health or a court has certified that violations may endanger or
+      materially impair health, safety, or well-being, and the owner was notified in writing and
+      did not begin repairs (or sign a contract for them) within 5 days and substantially finish
+      within 14 days (or a shorter period the board or court ordered), the tenant may have the
+      repairs made and deduct the cost from rent, up to four months' rent in any 12 months. This
+      does not apply to conditions the tenant or the tenant's household or guests caused, or if
+      the tenant unreasonably denied the owner access.
+    source: mgl-111-127l
+    section: "Section 127L"
+    confidence: high
+  - id: court
+    label: Going to court
+    text: >-
+      A tenant or the local health department can ask a Housing or District Court to order the
+      owner to fix violations (M.G.L. c. 111, §§ 127A and 127C), and a tenant can ask for a
+      refund of rent paid while violations existed (breach of the warranty of habitability or
+      M.G.L. c. 93A); the tenant must show there were violations that the owner knew about and
+      did not fix. A tenant may also be able to end the lease and move out.
+    source: dph-olrr
+    section: Your Options if an Owner Does Not Fix the Problems (Options 1 and 4)
+    confidence: high
+  - id: legal_help
+    label: Free legal help
+    text: >-
+      DPH advises talking to an attorney before withholding rent or taking other legal action.
+      People who cannot afford an attorney may be eligible for free legal aid: masslrf.org lists
+      options, and masslegalhelp.org/legal-tactics and madeuptocode.org explain tenants' rights;
+      Court Service Centers help with filing.
+    source: dph-olrr
+    section: Introduction; Your Options if an Owner Does Not Fix the Problems
+    confidence: high
+legal_notice: >-
+  This is general information, not legal advice. Tenants' rights depend on the facts and on
+  conditions in the statutes not summarized here. Refer tenants to legal aid (masslrf.org lists
+  free options) before they withhold rent, repair and deduct, or take other legal action.
+
+teaching_sheets:
+  - id: inspection
+    title: How to Get Your Home Inspected
+    condition: null
+    sources: [dph-olrr, cmr410, mgl-186-18]
+    markdown: |
+      # How to Get Your Home Inspected
+
+      Your home must be safe and healthy. A state law sets the rules. It is called the Housing Code.
+
+      ## Step 1: Tell your landlord
+
+      Tell your landlord about the problem. Write it down if you can. Keep a copy. Write the date.
+
+      ## Step 2: Call the board of health
+
+      If the problem is not fixed, call your local board of health. The inspection is free.
+
+      Board of health phone: {{board_of_health_phone}}
+
+      The board of health must inspect even if you did not tell your landlord first. You can ask them to keep your name private.
+
+      ## How fast they come
+
+      - For no heat, no water, pests, or other serious problems: within 1 business day.
+      - For other problems: within 5 business days.
+
+      Ask the inspector to check your whole home. This is called a full inspection. You can ask for it.
+
+      ## After the inspection
+
+      The inspector will tell you what they found. You can ask for it in writing. The landlord gets an order to fix the problems.
+
+      ## Your rights
+
+      Your landlord cannot punish you for asking for repairs or calling the board of health. This sheet is not legal advice. For free legal help, go to masslrf.org.
+  - id: moisture_mold
+    title: Mold and Leaks in Your Home
+    condition: moisture_mold
+    sources: [cdc-mold, cmr410]
+    markdown: |
+      # Mold and Leaks in Your Home
+
+      Mold grows where there is water. It can look like spots. It can smell musty.
+
+      ## How mold can hurt your health
+
+      Mold can cause a stuffy nose, cough, wheezing, sore throat, or itchy eyes. It can make asthma worse. People with lung disease or a weak immune system can get very sick.
+
+      ## What your landlord must do
+
+      - Fix leaks and keep the building dry.
+      - Dry wet areas within 48 hours after a leak or flood.
+      - Keep your home free of mold.
+
+      ## What you can do
+
+      - Tell your landlord about leaks right away. Write it down.
+      - Use the bathroom fan. Use the kitchen fan when you cook.
+      - Wipe mold off hard surfaces with soap and water.
+      - Never mix bleach with ammonia or other cleaners.
+      - You do not need a mold test.
+
+      ## If it is not fixed
+
+      Call the board of health at {{board_of_health_phone}}. The inspection is free.
+  - id: pests
+    title: Pests in Your Home
+    condition: pests
+    sources: [epa-asthma, cdc-bed-bugs, cmr410]
+    markdown: |
+      # Pests in Your Home
+
+      Pests include cockroaches, mice, rats, and bed bugs.
+
+      ## How pests can hurt your health
+
+      Droppings from cockroaches and mice can make asthma worse. Bed bug bites can itch and make it hard to sleep.
+
+      ## Who must get rid of pests
+
+      - In a building with 2 or more homes, the landlord must get rid of pests.
+      - In a 1-family home, the person living there does it. But the landlord must do it if pests get in because the building is not kept in good repair.
+      - The landlord must tell you 48 hours before spraying inside.
+
+      ## What you can do
+
+      - Keep food in closed containers.
+      - Clean up crumbs and spills right away.
+      - Put trash in a can with a tight lid.
+      - Follow the pest company's instructions before they come.
+      - Look for bed bugs in mattress seams and bed frames.
+
+      ## If it is not fixed
+
+      Tell your landlord in writing. Then call the board of health at {{board_of_health_phone}}. Pests are a serious problem under the code. The board of health must inspect within 1 business day.
+  - id: heat
+    title: No Heat in Your Home
+    condition: heat
+    sources: [cmr410, cdc-hypothermia, cdc-co]
+    markdown: |
+      # No Heat in Your Home
+
+      From September 15 to May 31, your landlord must give you heat.
+
+      ## How warm it must be
+
+      - Day (7 a.m. to 11 p.m.): at least 68°F.
+      - Night (11 p.m. to 7 a.m.): at least 64°F.
+      - It should not be over 78°F.
+
+      Your town may start heat season a little later or end it a little sooner.
+
+      ## Stay safe when it is cold
+
+      - Never use the stove or oven to heat your home.
+      - Never use a grill or generator inside.
+      - Do not use kerosene or propane heaters inside.
+      - Check on older adults and babies. Cold can make them very sick.
+      - Signs of being too cold: shivering, confusion, sleepiness, slurred speech. Babies may have bright red, cold skin.
+
+      ## If there is no heat
+
+      Tell your landlord right away. Then call the board of health at {{board_of_health_phone}}. No heat is a serious problem. They must come within 1 business day.
+  - id: lead
+    title: Lead Paint and Your Child
+    condition: lead
+    sources: [cdc-lead, dph-lead-law, mgl-111-197]
+    markdown: |
+      # Lead Paint and Your Child
+
+      Many homes built before 1978 have lead paint. Lead can hurt how a child grows, learns, and behaves. The harm can last a lifetime.
+
+      ## Who is most at risk
+
+      Children under 6 years old. Young children put their hands and toys in their mouths. Lead dust gets on hands and toys.
+
+      ## What the law says
+
+      - If a child under 6 lives in the home, the owner must remove or cover lead paint hazards.
+      - A landlord cannot evict you or refuse to rent to you because of lead paint.
+
+      ## What you can do
+
+      - Tell your landlord about peeling or chipping paint. Write it down.
+      - Ask your landlord if the home has a lead inspection letter.
+      - Keep children away from peeling paint and paint dust.
+      - Ask your child's doctor or nurse about a blood lead test.
+
+      ## If it is not fixed
+
+      Call the board of health at {{board_of_health_phone}}.
+  - id: smoke_co
+    title: Smoke and Carbon Monoxide Alarms
+    condition: smoke_co
+    sources: [cdc-co, cmr410]
+    markdown: |
+      # Smoke and Carbon Monoxide Alarms
+
+      Carbon monoxide (CO) is a gas. You cannot see it or smell it. It can make you very sick or kill you.
+
+      ## Signs of CO poisoning
+
+      Headache, dizziness, weakness, upset stomach, throwing up, chest pain, and confusion. It can feel like the flu. People who are asleep can die before they feel sick.
+
+      ## What your landlord must do
+
+      - Put in smoke alarms and CO alarms where the law requires them.
+      - Keep them working.
+      - Make sure furnaces and water heaters vent outside.
+
+      ## What you can do
+
+      - Do not take down or cover alarms.
+      - Have a CO alarm near every place people sleep.
+      - Never use a generator, grill, or camp stove inside.
+      - Never heat your home with the oven.
+
+      ## If alarms are missing or broken
+
+      Tell your landlord. Then call the board of health at {{board_of_health_phone}}. This is a serious problem under the code.
+  - id: refuse_sanitation
+    title: Trash and Clean Common Areas
+    condition: refuse_sanitation
+    sources: [cmr410]
+    markdown: |
+      # Trash and Clean Common Areas
+
+      Trash that piles up brings mice, rats, and bugs. It can also block a way out in a fire.
+
+      ## What your landlord must do
+
+      - In a building with 2 or more homes, give enough trash cans with tight lids.
+      - Arrange for trash pickup.
+      - Keep hallways, stairs, and other shared areas clean and safe.
+
+      ## What you must do
+
+      - Keep your own home clean.
+      - Put trash in the cans the landlord gives you.
+      - Follow your town's trash and recycling rules.
+      - Keep the landing or porch by your door clean and clear.
+      - Never block hallways, stairs, or exits.
+
+      ## If it is not fixed
+
+      Tell your landlord in writing. Then call the board of health at {{board_of_health_phone}}.
+
+letters:
+  placeholders: [date, tenant_name, address, unit, town, phone, owner_name, problems, date_first_noticed]
+  inspection_request:
+    kind: housing_inspection_request
+    description: A request to the board of health for an inspection under 105 CMR 410.600, from the occupant.
+    markdown: |
+      # Request for a Housing Inspection
+
+      Date: {{date}}
+
+      To: {{town}} Board of Health
+
+      I am asking for an inspection of my home under the State Sanitary Code, 105 CMR 410.600.
+
+      - Name: {{tenant_name}}
+      - Address: {{address}}, unit {{unit}}, {{town}}
+      - Phone: {{phone}}
+      - Owner or manager: {{owner_name}}
+
+      Problems in my home: {{problems}}
+
+      I first noticed the problems on: {{date_first_noticed}}
+
+      Please inspect my whole home (a comprehensive inspection). Please contact me to set a time.
+
+      Signature: ______________________
+  repair_request:
+    kind: housing_repair_request
+    description: A written notice from the occupant to the owner asking for repairs, keeping a dated copy.
+    markdown: |
+      # Request for Repairs
+
+      Date: {{date}}
+
+      To: {{owner_name}}
+
+      I live at {{address}}, unit {{unit}}, {{town}}.
+
+      These problems in my home need to be fixed: {{problems}}
+
+      I first noticed the problems on: {{date_first_noticed}}
+
+      Please contact me at {{phone}} to set a time for repairs.
+
+      I am keeping a copy of this letter.
+
+      Signature: ______________________
+
+      Name: {{tenant_name}}
