@@ -3382,6 +3382,67 @@ const toolChapters = [
       // Phase 14 Vectors and housing (ENV-06, ENV-07) tools.
       // End of Phase 14 vectorhousing tools.
       // Phase 14 Chemicals and food (ENV-08, CHR-06) tools.
+      {
+        id: 'chemical_exposure_reference',
+        title: 'Look up a chemical exposure',
+        toolset: 'env',
+        internet: 'no',
+        files: 'no',
+        does: 'Looks up a chemical by name, synonym, or CAS number and shows its NIOSH Pocket Guide entry (workplace limits, symptoms, target organs, first aid), the current NIOSH IDLH, ATSDR minimal risk levels by route and length of exposure, and links to the ATSDR ToxFAQs fact sheet you can share. For a spill, indoor air, contaminated site, drinking water, or workplace question it adds notes and whom to call in Massachusetts.',
+        when: [
+          'A resident calls about a spill, an odor, or a chemical found at a site or in water.',
+          'You need plain-language material (ToxFAQs) for a community meeting.',
+          'Checking what a chemical does to the body and how it is absorbed.',
+        ],
+        provide: [
+          'The chemical name, a synonym or abbreviation (TCE, perc), or the CAS number from the Safety Data Sheet.',
+          'Optionally the situation: spill or release, indoor air, contaminated site, drinking water, or workplace.',
+        ],
+        examples: [
+          'A truck spilled toluene on Route 9. What are the health effects and whom do we call?',
+          'Residents near a dry cleaner are worried about perc in indoor air. What are the ATSDR screening levels?',
+          'Look up CAS 79-01-6 for a contaminated site question.',
+        ],
+        returns: [
+          'The NIOSH entry, current IDLH, ATSDR MRLs, ToxFAQs links, scenario notes, a whom-to-call table, and how to read the numbers.',
+        ],
+        notes: [
+          'Workplace limits (REL, PEL, IDLH) are for adult workers over a work shift. They are not safe levels for homes, schools, or communities; every answer says so.',
+          'ATSDR minimal risk levels are screening levels, not cleanup levels or a test for whether one person was harmed.',
+          'If a name could mean more than one chemical (for example arsenic), the tool lists the choices instead of guessing.',
+          'Phone numbers were checked on official pages when the tool was built; the content is waiting for review.',
+        ],
+      },
+      {
+        id: 'food_access_mapper',
+        title: 'Map food access and food resources',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a map, a Word resource list, and an Excel workbook in your output folder',
+        does: 'Shows the census tracts in your town, county, or the state that the USDA Food Access Research Atlas counts as low income and low access to food (four definitions, by straight-line or driving distance), how many people live there, households without a car or receiving SNAP, and how these tracts overlap social vulnerability. It adds Healthy Incentives Program (HIP) and SNAP information, and counts the food pantries, SNAP stores, and HIP farm vendors in your own lists by town.',
+        when: [
+          'A community health assessment or improvement plan on food insecurity.',
+          'Planning where to hold a mobile pantry, farmers market, or SNAP outreach.',
+          'A grant application that needs food access data.',
+        ],
+        provide: [
+          'A town or county (or nothing for your saved town).',
+          'Optionally your lists in your data folder: food pantries and meal sites, SNAP stores downloaded from USDA, and HIP vendors. List organizations only, never clients.',
+        ],
+        examples: [
+          'Which census tracts in Holyoke are low income and low access to food?',
+          'Map food access in Hampden County by driving distance and use my pantries.csv list.',
+          'How many HIP vendors and food pantries do we have in the low-access areas of Springfield?',
+        ],
+        returns: [
+          'Tract counts and people by definition, a list of the low-access tracts, HIP and SNAP facts, counts of your sites by town, a tract map, a Word resource list, and an Excel workbook.',
+        ],
+        notes: [
+          'The newest map (2025) counts any SNAP store, including convenience stores; the older 2019 supermarket map is shown for comparison and is approximate on today’s census tracts.',
+          'Site names and addresses from your lists go only into the files in your output folder; the chat sees counts.',
+          'A list that looks like clients (names with dates of birth, client or patient columns) is refused.',
+        ],
+      },
       // End of Phase 14 chemfood tools.
     ],
   },

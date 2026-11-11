@@ -272,7 +272,11 @@ mod tests {
         assert_eq!(benzene.cas, vec!["71-43-2"]);
         assert!(benzene.rel.contains("Ca"));
         assert!(!benzene.pel.is_empty());
-        assert!(r.mrls.iter().any(|m| m.cas.contains(&"71-43-2".to_string())));
+        assert!(
+            r.mrls
+                .iter()
+                .any(|m| m.cas.contains(&"71-43-2".to_string()))
+        );
         assert!(
             r.toxfaqs
                 .iter()

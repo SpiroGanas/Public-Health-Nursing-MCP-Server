@@ -2604,6 +2604,89 @@ off.
 
 <!-- Phase 14 Chemicals and food (ENV-08, CHR-06). -->
 
+### `chemical_exposure_reference` (ENV-08, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `chemical` | (required) | A name, synonym, trade name, or abbreviation ("benzene", "TCE", "perc", "PFOA", "PFAS"), or a CAS Registry Number ("71-43-2"; the check digit is verified). |
+| `scenario` | none | `spill_or_release`, `indoor_air`, `contaminated_site`, `drinking_water`, or `workplace`: adds scenario notes, links, and whom to call. |
+
+Looks the chemical up in four bundled snapshots: the NIOSH Pocket Guide (677 entries: synonyms,
+CAS, DOT ID and ERG guide, conversion, NIOSH REL, OSHA PEL, IDLH, physical description, exposure
+routes, symptoms, target organs, cancer site, first aid, page link), the NIOSH IDLH table (current
+values, which can differ from the Pocket Guide's), the ATSDR MRL table (October 2026: route,
+duration, MRL, total factors, endpoint, draft or final), and the ATSDR ToxFAQs index (links to the
+web page and two-page PDF; the text is not copied). Records are joined by CAS number, by ATSDR's
+substance id, or by identical names (NIOSH lists chlordane under 57-74-9, ATSDR under 12789-03-6).
+Matching: CAS number; exact name, synonym, parenthetical abbreviation, or singular of a plural
+name; content aliases (PFAS); then fuzzy spelling (accepted at 0.86 or more, a tool default, and
+flagged "check this is the chemical you meant"). When different chemicals score within 0.02 of
+each other the call fails with the candidates ("arsenic": inorganic or organic compounds); below
+the threshold it fails with suggestions and a pointer to the Safety Data Sheet.
+
+Every answer starts with the framing (also the first caveat): occupational limits (REL, PEL, IDLH)
+are for adult workers over a work shift and are not safe levels for community or residential
+exposure; MRLs are screening levels, not cleanup levels or diagnostic thresholds. "How to read
+these numbers" cites the NIOSH Pocket Guide introduction, the NIOSH IDLH page, EPA's AEGL page,
+ATSDR's MRL pages, and ATSDR's Public Health Assessment Guidance Manual. Whom to call (from
+`content/env/chemical_exposure.yaml`, every number read from the cited official page): 911 (local
+fire department), Poison Control 1-800-222-1222, MassDEP's 24-hour spill line 1-888-304-1133, the
+National Response Center 1-800-424-8802, the National Pesticide Information Center, DPH's
+toxicology division and Indoor Air Quality unit (617) 624-5757, MassDEP's main office, and the
+local board of health. Without a scenario it lists 911, Poison Control, MassDEP, DPH toxicology,
+and the board of health. Caveats flag provisional (draft) MRLs, a missing MRL ("does not mean the
+chemical is safe"), an IDLH that differs between the Pocket Guide and the current table, fuzzy
+matches, and review status. Decision support; no local data are read.
+
+Limits: reference tables only (no AEGLs, drinking water standards, or soil screening values; use
+`drinking_water_quality_lookup` for water). OSHA's pages could not be reached, so OSHA is named
+through the Department of Labor Standards page. Snapshots: `niosh_npg.csv`, `niosh_idlh.csv`,
+`atsdr_mrls.csv`, `atsdr_toxfaqs.csv` (`xtask/scripts/build_chemfood_snapshots.py`).
+
+### `food_access_mapper` (CHR-06, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `distance` | `straight_line` | `straight_line` or `driving` distance to the nearest SNAP-authorized store. |
+| `definition` | any | `one_and_ten`, `half_and_ten`, `one_and_twenty`, or `vehicle`: the definition for the tract list and the map. |
+| `pantries_path` | | CSV/XLSX in `/data` of food pantries and meal sites (organizations): name, type, address, town, ZIP, hours, phone, website, languages, latitude, longitude. |
+| `snap_retailers_path` | | CSV in `/data` from USDA's SNAP Retailer Locator (store name, store type, city, state, ZIP, latitude, longitude, end date). |
+| `hip_vendors_path` | | CSV/XLSX in `/data` of HIP farm vendors (name, type, address, town, hours), for example built from DTAFinder.com. |
+| `map` | true for a town or county | Tract map (SVG and PNG) in `/data/output/maps`. |
+| `report` | true | DOCX resource list and XLSX workbook in `/data/output`. |
+
+Data: the bundled `usda-food-access-ma` snapshot of the USDA ERS Food Access Research Atlas. The
+2025 SNAP-authorized Retailer Access Map (SRAM; STARS stores as of June 2025; released July 2026)
+is on 2020 census tracts, the project's tract geography, and gives the four low-income/low-access
+(LILA) flags by straight-line and driving distance, low-access people and low-income people,
+households without a vehicle, SNAP households, and children and older adults beyond 1 mile. The
+2019 Large Retailer Access Map (LRAM, formerly the Atlas; supermarkets, supercenters, and large
+grocery stores) is on 2010 tracts; the builder carried its LILA flags to 2020 tracts with the
+Census 2020-to-2010 tract relationship file (share of each 2020 tract's land in a flagged 2010
+tract), and a 2020 tract counts when the share is at least 50% (tool default). A town uses the
+tracts lying mainly in it (as the SVI tool does). Output: for each definition the LILA tracts and
+people in them (SRAM) with the LRAM comparison; context (population, households, low-income
+tracts, households without a vehicle or receiving SNAP, ACS poverty and no-vehicle percentages,
+LILA tracts in the top quarter of the Massachusetts SVI); the LILA tracts (up to 60; all in the
+workbook) with town, poverty, definitions met, and SVI; HIP and SNAP facts from DTA (HIP $40/$60/$80
+a month by household size, vendor types, DTAFinder, EBT Customer Service; DTA Assistance Line,
+timelines, public charge); and how to get each local file not given.
+
+Privacy: local files go through `phn_tools::localdata`, and a file with person columns (first or
+last name, client, patient, participant, recipient, member, date of birth, SSN, MRN, health plan
+or account numbers) is refused without echoing values. Only counts are returned: sites by town,
+by a fixed set of kinds (the file's own labels are not repeated), sites inside LILA tracts and
+LILA tracts without a site (when coordinates are given). Site names, addresses, and phones go
+only to the DOCX and XLSX in `/data/output`. SNAP retailer rows outside Massachusetts or with an
+end date are left out.
+
+Limits: no live fetch (ERS's map services at gisportal.ers.usda.gov are blocked from the build
+environment; the Atlas changes every few years). The SNAP Retailer Locator (www.fns.usda.gov,
+now www.fna.usda.gov) and DTAFinder.com could not be reached, so those lists are files the nurse
+adds. Distance is not the only barrier to food (cost, hours, transportation, culturally
+appropriate food).
+
 <!-- End of Phase 14 chemfood. -->
 
 <!-- End of Phase 14 tools. -->

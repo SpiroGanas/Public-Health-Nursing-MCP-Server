@@ -267,9 +267,9 @@ local_files:
       - field: languages
         aliases: [languages, language]
       - field: latitude
-        aliases: [latitude, lat, y]
+        aliases: [latitude, lat, "y"]
       - field: longitude
-        aliases: [longitude, lon, long, lng, x]
+        aliases: [longitude, lon, long, lng, "x"]
   - id: snap_retailers
     label: SNAP-authorized retailers
     how_to_get: >-
@@ -291,9 +291,9 @@ local_files:
       - field: zip
         aliases: [zip code, zip, zip5, zipcode]
       - field: latitude
-        aliases: [latitude, lat, y]
+        aliases: [latitude, lat, "y"]
       - field: longitude
-        aliases: [longitude, lon, long, lng, x]
+        aliases: [longitude, lon, long, lng, "x"]
       - field: end_date
         aliases: [end date, end_date, authorization end date]
   - id: hip_vendors
@@ -317,9 +317,9 @@ local_files:
       - field: hours
         aliases: [hours, days and hours, schedule, days/hours, season]
       - field: latitude
-        aliases: [latitude, lat, y]
+        aliases: [latitude, lat, "y"]
       - field: longitude
-        aliases: [longitude, lon, long, lng, x]
+        aliases: [longitude, lon, long, lng, "x"]
 
 links:
   - label: USDA ERS Food Access Research Atlas (SRAM and LRAM maps)

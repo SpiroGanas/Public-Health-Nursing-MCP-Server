@@ -933,6 +933,70 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 14 Vectors and housing (ENV-06, ENV-07).
         // ---- End of Phase 14 vectorhousing.
         // ---- Phase 14 Chemicals and food (ENV-08, CHR-06).
+        // Person-level files given as resource lists are refused without echoing values.
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "pantries_path": "line_list.csv", "map": false}),
+            ll,
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "pantries_path": "hrsn_screenings.csv", "map": false}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "pantries_path": "shelter_registrations.csv", "map": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "snap_retailers_path": "line_list.csv", "map": false}),
+            ll,
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "snap_retailers_path": "hrsn_screenings.csv", "map": false}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "snap_retailers_path": "shelter_registrations.csv", "map": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "hip_vendors_path": "line_list.csv", "map": false}),
+            ll,
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "hip_vendors_path": "hrsn_screenings.csv", "map": false}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "hip_vendors_path": "shelter_registrations.csv", "map": false}),
+            "data/shelter_registrations.csv",
+        ),
+        // Organization lists with contact people: accepted, counted, and the contacts
+        // (names, cell phones, emails) never returned.
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "pantries_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Hampden County", "hip_vendors_path": "food_pantries.csv",
+                   "snap_retailers_path": "food_pantries.csv", "map": false}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "food_access_mapper",
+            json!({"area": "Springfield", "pantries_path": "cooling_centers.csv", "map": false}),
+            "data/cooling_centers.csv",
+        ),
         // ---- End of Phase 14 chemfood.
         // ---- End of Phase 14 data tools.
         // ---- Path arguments that had no row before the peer review.

@@ -137,6 +137,8 @@ pub struct DefinitionSummary {
     pub people_in_lram_lila_tracts: f64,
     /// The definition, from ERS.
     pub definition: String,
+    /// Source and section of the definition.
+    pub citation: String,
 }
 
 /// One low-income/low-access tract.
@@ -278,10 +280,6 @@ fn slug(s: &str) -> String {
         }
     }
     out.trim_matches('_').to_string()
-}
-
-fn pct(x: f64) -> String {
-    format!("{}%", md::num(x * 100.0, 0))
 }
 
 /// Refuse files that look like lists of people (never echoes values).
@@ -501,7 +499,11 @@ fn load_resource(
         }
         let mut town = ctx.ma.town(&get("town")).map(|m| m.name.clone());
         if town.is_none() {
-            let zip: String = get("zip").chars().filter(char::is_ascii_digit).take(5).collect();
+            let zip: String = get("zip")
+                .chars()
+                .filter(char::is_ascii_digit)
+                .take(5)
+                .collect();
             if zip.len() == 5 {
                 town = geos
                     .get(&zip)
@@ -556,7 +558,10 @@ fn load_resource(
             .iter()
             .filter(|s| s.tract.as_ref().is_some_and(|t| lila_in_area.contains(t)))
             .count();
-        let served: BTreeSet<&String> = with_coords.iter().filter_map(|s| s.tract.as_ref()).collect();
+        let served: BTreeSet<&String> = with_coords
+            .iter()
+            .filter_map(|s| s.tract.as_ref())
+            .collect();
         let without = lila_in_area.iter().filter(|t| !served.contains(t)).count();
         (Some(in_lila), Some(without))
     };
@@ -674,7 +679,9 @@ fn draw_map(
     } else {
         Vec::new()
     };
-    let def_label = def.map(|d| d.label()).unwrap_or("any of the four definitions");
+    let def_label = def
+        .map(|d| d.label())
+        .unwrap_or("any of the four definitions");
     let mut legend = vec![
         LegendRow {
             label: format!("Low income and low access ({n_lila})"),
@@ -920,12 +927,26 @@ pub fn food_access_mapper(
                 .iter()
                 .filter(|t| t.measures(dist).lila(*d) == Some(true))
                 .collect();
-            let lram: Vec<&&FoodAccessTract> = tracts.iter().filter(|t| lram_meets(t, *d)).collect();
-            let text = c
-                .definitions
-                .iter()
-                .find(|x| x.id == d.id())
-                .map(|x| x.text.clone())
+            let lram: Vec<&&FoodAccessTract> =
+                tracts.iter().filter(|t| lram_meets(t, *d)).collect();
+            let dd = c.definitions.iter().find(|x| x.id == d.id());
+            let text = dd.map(|x| x.text.clone()).unwrap_or_default();
+            let citation = dd
+                .map(|x| {
+                    format!(
+                        "{}, {}{}",
+                        c.sources
+                            .get(&x.source)
+                            .map(|s| s.title.as_str())
+                            .unwrap_or(x.source.as_str()),
+                        x.section,
+                        if x.confidence == Confidence::High {
+                            ""
+                        } else {
+                            " (not high confidence)"
+                        }
+                    )
+                })
                 .unwrap_or_default();
             DefinitionSummary {
                 id: d.id().into(),
@@ -944,13 +965,16 @@ pub fn food_access_mapper(
                 lram_lila_tracts: lram.len(),
                 people_in_lram_lila_tracts: sum(&mut lram.iter().map(|t| t.population)),
                 definition: text,
+                citation,
             }
         })
         .collect();
 
     // Context.
-    let any_lila: Vec<&&FoodAccessTract> =
-        tracts.iter().filter(|t| tract_meets(t, dist, None)).collect();
+    let any_lila: Vec<&&FoodAccessTract> = tracts
+        .iter()
+        .filter(|t| tract_meets(t, dist, None))
+        .collect();
     let svi_of = |g: &str| svi.and_then(|s| s.tract(g)).and_then(|t| t.ma.overall);
     let acs = AcsSnapshot::shared(&ctx.snapshots).ok();
     let acs_row = acs.and_then(|a| a.row(&area.geoid));
@@ -1024,7 +1048,11 @@ pub fn food_access_mapper(
         b.lila
             .len()
             .cmp(&a.lila.len())
-            .then(b.population.unwrap_or(0.0).total_cmp(&a.population.unwrap_or(0.0)))
+            .then(
+                b.population
+                    .unwrap_or(0.0)
+                    .total_cmp(&a.population.unwrap_or(0.0)),
+            )
             .then(a.geoid.cmp(&b.geoid))
     });
     let lila_tracts_total = all_rows.len();
@@ -1111,7 +1139,9 @@ pub fn food_access_mapper(
             )
         })
         .collect();
-    let mapped_definition = def.map(|d| d.id().to_string()).unwrap_or_else(|| "any".into());
+    let mapped_definition = def
+        .map(|d| d.id().to_string())
+        .unwrap_or_else(|| "any".into());
 
     // Report files.
     let mut report_files = Vec::new();
@@ -1308,13 +1338,19 @@ pub fn food_access_mapper(
                 .iter()
                 .map(|t| {
                     vec![
-                        format!("{} ({})", t.name.trim_start_matches("Census Tract "), t.geoid),
+                        format!(
+                            "{} ({})",
+                            t.name.trim_start_matches("Census Tract "),
+                            t.geoid
+                        ),
                         t.town.clone().unwrap_or_default(),
                         t.population.map(n0).unwrap_or_default(),
                         t.poverty_rate.map(|p| format!("{p}%")).unwrap_or_default(),
                         t.lila.join("; "),
                         t.households_no_vehicle.map(n0).unwrap_or_default(),
-                        t.svi_ma_overall.map(|v| format!("{v:.2}")).unwrap_or_default(),
+                        t.svi_ma_overall
+                            .map(|v| format!("{v:.2}"))
+                            .unwrap_or_default(),
                     ]
                 })
                 .collect::<Vec<_>>(),
@@ -1525,7 +1561,10 @@ mod tests {
         assert_eq!(kind_of("pantries", "Jane's list"), "Other or not stated");
         assert_eq!(kind_of("hip_vendors", "Farmers Market"), "Farmers market");
         assert_eq!(kind_of("hip_vendors", "CSA"), "CSA farm share");
-        assert_eq!(kind_of("snap_retailers", "Convenience Store"), "Convenience store");
+        assert_eq!(
+            kind_of("snap_retailers", "Convenience Store"),
+            "Convenience store"
+        );
         assert_eq!(
             kind_of("snap_retailers", "Super Store"),
             "Supermarket or super store"
@@ -1621,10 +1660,20 @@ mod tests {
         assert!(r.in_lila_tracts.is_some());
         assert!(r.by_type.iter().any(|t| t.kind == "Meal site"));
         let all = serde_json::to_string(&env.data).unwrap() + &env.summary;
-        for secret in ["Example Pantry One", "1 Main St", "413-555-0190", "Nowhere Town"] {
+        for secret in [
+            "Example Pantry One",
+            "1 Main St",
+            "413-555-0190",
+            "Nowhere Town",
+        ] {
             assert!(!all.contains(secret), "{secret} leaked");
         }
-        assert!(env.privacy.files_written.iter().any(|f| f.ends_with(".xlsx")));
+        assert!(
+            env.privacy
+                .files_written
+                .iter()
+                .any(|f| f.ends_with(".xlsx"))
+        );
     }
 
     #[test]

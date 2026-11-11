@@ -23,7 +23,7 @@ use crate::md;
 pub const CHEMICAL_EXPOSURE: &str = "env-chemical-exposure";
 
 /// Score a fuzzy match must reach to be used without asking (tool default).
-const ACCEPT_SCORE: f64 = 0.88;
+const ACCEPT_SCORE: f64 = 0.86;
 /// Lowest score offered as a "did you mean" candidate (tool default).
 const SUGGEST_SCORE: f64 = 0.70;
 /// Two different chemicals scoring within this margin of each other are a tie.
@@ -237,37 +237,86 @@ struct Candidate {
     toxids: Vec<String>,
 }
 
-impl Candidate {
-    /// What makes two candidates the same chemical: their CAS numbers, else
-    /// their normalized label.
-    fn identity(&self) -> String {
-        if self.cas.is_empty() {
-            phn_core::text::normalize(&self.label)
-        } else {
-            let mut c = self.cas.clone();
-            c.sort();
-            c.join(",")
+/// Group candidates that describe the same chemical: they share a CAS number,
+/// the same Toxic Substances Portal id (ATSDR records), or exactly the same name
+/// (NIOSH lists chlordane under CAS 57-74-9, ATSDR under 12789-03-6). Returns a
+/// group id per candidate.
+fn groups(cands: &[Candidate]) -> Vec<usize> {
+    let mut parent: Vec<usize> = (0..cands.len()).collect();
+    fn find(p: &mut [usize], i: usize) -> usize {
+        let mut r = i;
+        while p[r] != r {
+            r = p[r];
+        }
+        let mut j = i;
+        while p[j] != r {
+            let next = p[j];
+            p[j] = r;
+            j = next;
+        }
+        r
+    }
+    let mut first_by_key: BTreeMap<String, usize> = BTreeMap::new();
+    for (i, c) in cands.iter().enumerate() {
+        let keys = c
+            .cas
+            .iter()
+            .map(|x| format!("cas:{x}"))
+            .chain(c.toxids.iter().map(|t| format!("tox:{t}")))
+            .chain(std::iter::once(format!(
+                "name:{}",
+                phn_core::text::normalize(&c.label)
+            )));
+        for k in keys {
+            match first_by_key.get(&k) {
+                Some(&j) => {
+                    let (a, b) = (find(&mut parent, i), find(&mut parent, j));
+                    if a != b {
+                        parent[a] = b;
+                    }
+                }
+                None => {
+                    first_by_key.insert(k, i);
+                }
+            }
         }
     }
+    (0..cands.len()).map(|i| find(&mut parent, i)).collect()
 }
 
-/// Extra search keys for a name: without a parenthetical ("Nickel (as Ni)"),
-/// the parenthetical abbreviation ("PFOA", "PCBs" and "PCB"), and the part after
-/// a colon ("Mercury: Metallic Mercury").
+/// Whether a parenthetical is an abbreviation ("PFOA", "PCBs", "TCE").
+fn is_abbreviation(inside: &str) -> bool {
+    !inside.is_empty()
+        && !inside.contains(' ')
+        && inside.chars().filter(|c| c.is_ascii_uppercase()).count() >= 2
+}
+
+/// Extra search keys for a name: the name without trailing parentheticals
+/// ("Nickel metal and other compounds (as Ni)"), parenthetical abbreviations
+/// ("PFOA", "PCBs" and "PCB"), the parts of "A / B" titles, the part after a
+/// colon ("Mercury: Metallic Mercury"), and the singular of a plural last word
+/// ("Xylenes", "Fuel Oils").
 fn name_keys(name: &str) -> Vec<String> {
-    let mut keys = vec![name.to_string()];
-    if let Some((before, rest)) = name.split_once('(')
-        && let Some((inside, _)) = rest.split_once(')')
-    {
-        let b = before.trim();
-        if !b.is_empty() {
-            keys.push(b.to_string());
+    let mut keys = vec![name.trim().to_string()];
+    // Trailing parentheticals, one at a time.
+    let mut base = name.trim().to_string();
+    while base.ends_with(')') {
+        let Some(open) = base.rfind('(') else { break };
+        let trimmed = base[..open].trim().to_string();
+        if trimmed.is_empty() {
+            break;
         }
+        keys.push(trimmed.clone());
+        base = trimmed;
+    }
+    // Abbreviations anywhere in parentheses.
+    let mut rest = name;
+    while let Some((_, after)) = rest.split_once('(') {
+        let Some((inside, tail)) = after.split_once(')') else {
+            break;
+        };
         let inside = inside.trim();
-        let is_abbrev = !inside.is_empty()
-            && !inside.contains(' ')
-            && inside.chars().filter(|c| c.is_ascii_uppercase()).count() >= 2;
-        if is_abbrev {
+        if is_abbreviation(inside) {
             keys.push(inside.to_string());
             if let Some(singular) = inside.strip_suffix('s')
                 && singular.chars().count() >= 3
@@ -275,11 +324,45 @@ fn name_keys(name: &str) -> Vec<String> {
                 keys.push(singular.to_string());
             }
         }
+        rest = tail;
+    }
+    for part in name.split(" / ") {
+        if part.trim() != name.trim() {
+            keys.push(part.trim().to_string());
+        }
     }
     if let Some((_, after)) = name.split_once(": ") {
         keys.push(after.trim().to_string());
     }
+    // Singular forms of a plural last word.
+    let mut singular = Vec::new();
+    for k in &keys {
+        let lower = k.to_lowercase();
+        let last = lower.rsplit(' ').next().unwrap_or("");
+        if last.chars().count() > 4
+            && k.ends_with(['s', 'S'])
+            && !last.ends_with("ss")
+            && last.chars().all(char::is_alphabetic)
+        {
+            singular.push(k[..k.len() - 1].to_string());
+        }
+    }
+    keys.extend(singular);
+    keys.dedup();
     keys
+}
+
+/// Readable label for an upper-case ATSDR name: "TOLUENE DIISOCYANATE (TDI)" becomes
+/// "Toluene Diisocyanate (TDI)" (parentheticals keep their capitals).
+fn tidy_upper(name: &str) -> String {
+    match name.split_once('(') {
+        Some((before, rest)) => format!(
+            "{} ({}",
+            phn_core::text::title_case(&before.trim().to_lowercase()),
+            rest
+        ),
+        None => phn_core::text::title_case(&name.to_lowercase()),
+    }
 }
 
 fn candidates(r: &ChemicalReference, aliases: &[AliasDef]) -> Vec<Candidate> {
@@ -303,7 +386,7 @@ fn candidates(r: &ChemicalReference, aliases: &[AliasDef]) -> Vec<Candidate> {
         }
         seen.push(m.substance.clone());
         out.push(Candidate {
-            label: phn_core::text::title_case(&m.substance.to_lowercase()),
+            label: tidy_upper(&m.substance),
             keys: name_keys(&m.substance),
             cas: m.cas.clone(),
             npg: None,
@@ -348,6 +431,33 @@ fn looks_like_cas(q: &str) -> bool {
         && t.matches('-').count() == 2
 }
 
+/// Labels of the first candidate of each group, in rank order.
+fn group_labels(
+    list: &[&phn_core::text::Ranked],
+    cands: &[Candidate],
+    group: &[usize],
+    limit: usize,
+) -> Vec<String> {
+    let mut seen: Vec<usize> = Vec::new();
+    let mut labels = Vec::new();
+    for r in list {
+        let g = group[r.index];
+        if seen.contains(&g) {
+            continue;
+        }
+        seen.push(g);
+        let c = &cands[r.index];
+        labels.push(match c.cas.first() {
+            Some(cas) => format!("{} (CAS {cas})", c.label),
+            None => c.label.clone(),
+        });
+        if labels.len() >= limit {
+            break;
+        }
+    }
+    labels
+}
+
 fn resolve(query: &str, cands: &[Candidate], aliases: &[AliasDef]) -> Result<Resolved> {
     let q = query.trim();
     if looks_like_cas(q) {
@@ -387,6 +497,7 @@ fn resolve(query: &str, cands: &[Candidate], aliases: &[AliasDef]) -> Result<Res
             "name a chemical or give its CAS number".into(),
         ));
     }
+    let group = groups(cands);
     let is_alias = aliases
         .iter()
         .any(|a| phn_core::text::normalize(&a.alias) == nq);
@@ -394,36 +505,22 @@ fn resolve(query: &str, cands: &[Candidate], aliases: &[AliasDef]) -> Result<Res
     let Some(top) = ranked.first() else {
         return Ok(Resolved::NotFound(Vec::new()));
     };
-    // Every candidate within the tie margin of the top score.
+    let all: Vec<&phn_core::text::Ranked> = ranked.iter().take(20).collect();
+    if top.score < ACCEPT_SCORE {
+        return Ok(Resolved::NotFound(group_labels(&all, cands, &group, 6)));
+    }
+    // Every candidate within the tie margin of the top score: one chemical, or a tie.
     let near: Vec<&phn_core::text::Ranked> = ranked
         .iter()
         .filter(|r| r.score >= top.score - TIE_MARGIN)
         .collect();
-    let mut identities: Vec<String> = near.iter().map(|r| cands[r.index].identity()).collect();
-    identities.sort();
-    identities.dedup();
-    let distinct_labels = |list: &[&phn_core::text::Ranked]| -> Vec<String> {
-        let mut seen_ids: Vec<String> = Vec::new();
-        let mut labels = Vec::new();
-        for r in list {
-            let c = &cands[r.index];
-            let id = c.identity();
-            if seen_ids.contains(&id) {
-                continue;
-            }
-            seen_ids.push(id);
-            labels.push(match c.cas.first() {
-                Some(cas) => format!("{} (CAS {cas})", c.label),
-                None => c.label.clone(),
-            });
-        }
-        labels
-    };
-    if identities.len() > 1 {
-        let all: Vec<&phn_core::text::Ranked> = ranked.iter().take(12).collect();
-        let mut labels = distinct_labels(&near);
-        for l in distinct_labels(&all) {
-            if labels.len() >= 6 {
+    let mut near_groups: Vec<usize> = near.iter().map(|r| group[r.index]).collect();
+    near_groups.sort_unstable();
+    near_groups.dedup();
+    if near_groups.len() > 1 {
+        let mut labels = group_labels(&near, cands, &group, 8);
+        for l in group_labels(&all, cands, &group, 8) {
+            if labels.len() >= 8 {
                 break;
             }
             if !labels.contains(&l) {
@@ -431,12 +528,6 @@ fn resolve(query: &str, cands: &[Candidate], aliases: &[AliasDef]) -> Result<Res
             }
         }
         return Ok(Resolved::Ambiguous(labels));
-    }
-    if top.score < ACCEPT_SCORE {
-        let all: Vec<&phn_core::text::Ranked> = ranked.iter().take(12).collect();
-        let mut labels = distinct_labels(&all);
-        labels.truncate(6);
-        return Ok(Resolved::NotFound(labels));
     }
     let hits: Vec<usize> = near.iter().map(|r| r.index).collect();
     let primary = hits
@@ -974,7 +1065,11 @@ mod tests {
         (dir, c)
     }
 
-    fn run(c: &Context, chemical: &str, scenario: Option<Scenario>) -> Result<Envelope<ChemicalResult>> {
+    fn run(
+        c: &Context,
+        chemical: &str,
+        scenario: Option<Scenario>,
+    ) -> Result<Envelope<ChemicalResult>> {
         chemical_exposure_reference(
             c,
             ChemicalArgs {
@@ -994,6 +1089,10 @@ mod tests {
         assert!(k.contains(&"Nickel metal and other compounds".to_string()));
         assert!(!k.contains(&"as Ni".to_string()));
         assert!(name_keys("Mercury: Metallic Mercury").contains(&"Metallic Mercury".to_string()));
+        assert_eq!(
+            tidy_upper("TOLUENE DIISOCYANATE (TDI)"),
+            "Toluene Diisocyanate (TDI)"
+        );
     }
 
     #[test]
@@ -1025,17 +1124,31 @@ mod tests {
         let by_cas = run(&c, "71-43-2", None).unwrap();
         assert_eq!(by_cas.data.matched.method, "cas");
         assert_eq!(by_cas.data.niosh.as_ref().unwrap().name, n.name);
-        assert!(by_cas.caveats.iter().any(|x| x.contains("No exposure scenario")));
+        assert!(
+            by_cas
+                .caveats
+                .iter()
+                .any(|x| x.contains("No exposure scenario"))
+        );
     }
 
     #[test]
     fn synonyms_aliases_and_typos_resolve() {
         let (_d, c) = ctx();
         let tce = run(&c, "TCE", None).unwrap();
-        assert!(tce.data.cas.contains(&"79-01-6".to_string()), "{:?}", tce.data.matched);
+        assert!(
+            tce.data.cas.contains(&"79-01-6".to_string()),
+            "{:?}",
+            tce.data.matched
+        );
         let pfas = run(&c, "PFAS", Some(Scenario::DrinkingWater)).unwrap();
         assert_eq!(pfas.data.matched.method, "alias");
-        assert!(pfas.data.toxfaqs.iter().any(|t| t.title == "Perfluoroalkyls"));
+        assert!(
+            pfas.data
+                .toxfaqs
+                .iter()
+                .any(|t| t.title == "Perfluoroalkyls")
+        );
         assert!(pfas.summary.contains("drinking_water_quality_lookup"));
         let pfoa = run(&c, "PFOA", None).unwrap();
         assert!(pfoa.data.mrls.iter().any(|m| m.route == "Oral"));
@@ -1051,12 +1164,31 @@ mod tests {
         assert!(e.contains("check digit"), "{e}");
         assert!(run(&c, "", None).is_err());
         assert!(run(&c, "zzqx flurble", None).is_err());
-        // "xylene" isomers: the ToxFAQ "Xylene" is an exact match, so no tie there;
-        // a bare "dichlorobenzene" names several isomers.
-        let e = run(&c, "dichlorobenzene", None);
-        if let Err(err) = e {
-            assert!(err.to_string().contains("more than one") || err.to_string().contains("Did you mean"));
-        }
+        // Inorganic and organic arsenic are different Pocket Guide entries: a tie.
+        let e = run(&c, "arsenic", None).unwrap_err().to_string();
+        assert!(e.contains("more than one"), "{e}");
+        assert!(e.contains("inorganic") && e.contains("organic"), "{e}");
+        // Far from anything: not found, with no "more than one" wording.
+        let e = run(&c, "bleach", None).unwrap_err().to_string();
+        assert!(e.contains("not found"), "{e}");
+    }
+
+    #[test]
+    fn related_atsdr_records_are_one_chemical() {
+        let (_d, c) = ctx();
+        // The ToxFAQ covers the three isomers; their Pocket Guide entries and MRLs come along.
+        let d = run(&c, "dichlorobenzene", None).unwrap();
+        assert!(d.data.toxfaqs.iter().any(|t| t.title == "Dichlorobenzenes"));
+        assert!(d.data.mrls.len() >= 8);
+        assert!(d.data.niosh.is_some() && !d.data.other_niosh_entries.is_empty());
+        // "mercury": the ToxFAQ and the MRL share a CAS number, so no tie.
+        let m = run(&c, "mercury", None).unwrap();
+        assert_eq!(m.data.cas, vec!["7439-97-6"]);
+        assert!(m.data.niosh.is_some());
+        // Plural ATSDR names match the singular.
+        let x = run(&c, "xylene", None).unwrap();
+        assert!(x.data.cas.contains(&"1330-20-7".to_string()));
+        assert!(x.caveats.iter().any(|c| c.contains("provisional")));
     }
 
     #[test]

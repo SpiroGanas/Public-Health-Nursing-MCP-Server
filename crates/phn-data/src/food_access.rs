@@ -188,11 +188,13 @@ pub struct FoodAccess {
 
 fn parse_tract(get: &dyn Fn(&str) -> Option<String>) -> FoodAccessTract {
     let num = |k: &str| get(k).and_then(|v| v.parse::<f64>().ok());
-    let flag = |k: &str| get(k).and_then(|v| match v.as_str() {
-        "1" => Some(true),
-        "0" => Some(false),
-        _ => None,
-    });
+    let flag = |k: &str| {
+        get(k).and_then(|v| match v.as_str() {
+            "1" => Some(true),
+            "0" => Some(false),
+            _ => None,
+        })
+    };
     let measures = |p: &str| AccessMeasures {
         lila: [
             flag(&format!("{p}_lila_1_10")),
@@ -255,8 +257,7 @@ impl FoodAccess {
             .headers()
             .map_err(|e| PhnError::Internal(format!("food access snapshot: {e}")))?
             .clone();
-        let index: HashMap<&str, usize> =
-            headers.iter().enumerate().map(|(i, h)| (h, i)).collect();
+        let index: HashMap<&str, usize> = headers.iter().enumerate().map(|(i, h)| (h, i)).collect();
         let mut tracts = Vec::new();
         for rec in rdr.records() {
             let r = rec.map_err(|e| PhnError::Internal(format!("food access snapshot: {e}")))?;
@@ -305,7 +306,11 @@ mod tests {
     fn bundled_snapshot_loads_with_2020_tracts() {
         let f = FoodAccess::load(&SnapshotStore::bundled()).unwrap();
         assert!(f.tracts.len() > 1600, "{}", f.tracts.len());
-        assert!(f.tracts.iter().all(|t| t.geoid.len() == 11 && t.geoid.starts_with("25")));
+        assert!(
+            f.tracts
+                .iter()
+                .all(|t| t.geoid.len() == 11 && t.geoid.starts_with("25"))
+        );
         // Some tracts are LILA under the half-mile definition, fewer under 1 mile.
         let count = |d: Definition, dist: Distance| {
             f.tracts
@@ -319,7 +324,11 @@ mod tests {
         assert!(count(Definition::HalfAndTen, Distance::Driving) >= half);
         // The 2020 geography matches the project's tract list.
         let geos = crate::geography::MaGeographies::load(&SnapshotStore::bundled()).unwrap();
-        let matched = f.tracts.iter().filter(|t| geos.get(&t.geoid).is_some()).count();
+        let matched = f
+            .tracts
+            .iter()
+            .filter(|t| geos.get(&t.geoid).is_some())
+            .count();
         assert_eq!(matched, f.tracts.len());
         assert!(
             f.tracts
