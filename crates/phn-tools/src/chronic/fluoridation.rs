@@ -290,29 +290,28 @@ fn town_status(f: &FluoridationData, town: &str) -> TownFluoridation {
         if let Some(main) = cdc_systems
             .iter()
             .find(|m| !m.duplicate && m.sdwis_pwsid.is_some() && m.sdwis_pwsid == d.sdwis_pwsid)
+            && main.fluoridated != d.fluoridated
         {
-            if main.fluoridated != d.fluoridated {
-                notes.push(format!(
-                    "CDC lists {} twice with different answers: {} ({}, {}) and {} ({}, {}). Ask \
-                     the water system which is current.",
-                    main.name,
-                    main.cdc_pwsid,
-                    main.status,
-                    if main.fluoridated {
-                        "fluoridated"
-                    } else {
-                        "not fluoridated"
-                    },
-                    d.cdc_pwsid,
-                    d.status,
-                    if d.fluoridated {
-                        "fluoridated"
-                    } else {
-                        "not fluoridated"
-                    }
-                ));
-                cdc_status = "records disagree".into();
-            }
+            notes.push(format!(
+                "CDC lists {} twice with different answers: {} ({}, {}) and {} ({}, {}). Ask \
+                 the water system which is current.",
+                main.name,
+                main.cdc_pwsid,
+                main.status,
+                if main.fluoridated {
+                    "fluoridated"
+                } else {
+                    "not fluoridated"
+                },
+                d.cdc_pwsid,
+                d.status,
+                if d.fluoridated {
+                    "fluoridated"
+                } else {
+                    "not fluoridated"
+                }
+            ));
+            cdc_status = "records disagree".into();
         }
     }
     for s in cdc_systems.iter().filter(|s| !s.duplicate) {

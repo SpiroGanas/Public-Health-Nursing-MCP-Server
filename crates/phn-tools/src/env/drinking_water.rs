@@ -922,23 +922,22 @@ pub async fn drinking_water_quality_lookup(
         s.push_str(&flagged.join("\n"));
         s.push_str("\n\n");
     }
-    if only_pwsid.is_none() {
-        match (town_population, served_share) {
-            (Some(p), Some(sh)) => s.push_str(&format!(
-                "Community systems listed under {} report serving {} people; the town has about \
-                 {} residents ({}%).{}\n\n",
-                muni.name,
-                md::num(community_population_served as f64, 0),
-                md::num(p, 0),
-                md::num(sh * 100.0, 0),
-                if likely_private_wells {
-                    " Part of the town likely uses private wells or a neighboring town's system."
-                } else {
-                    ""
-                }
-            )),
-            _ => {}
-        }
+    if only_pwsid.is_none()
+        && let (Some(p), Some(sh)) = (town_population, served_share)
+    {
+        s.push_str(&format!(
+            "Community systems listed under {} report serving {} people; the town has about \
+             {} residents ({}%).{}\n\n",
+            muni.name,
+            md::num(community_population_served as f64, 0),
+            md::num(p, 0),
+            md::num(sh * 100.0, 0),
+            if likely_private_wells {
+                " Part of the town likely uses private wells or a neighboring town's system."
+            } else {
+                ""
+            }
+        ));
     }
     if let Some(g) = &private_well_guidance {
         s.push_str("**Private wells (MassDEP):** test every year (spring) for total coliform bacteria and nitrate/nitrite; test initially and at least every 10 years for arsenic, lead, manganese, copper, fluoride, sodium, radionuclides (gross alpha, radon, radium, uranium), VOCs, and PFAS; use a MassDEP-certified lab; the board of health regulates private wells and may require testing.");
