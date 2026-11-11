@@ -223,7 +223,7 @@ pub struct SystemReport {
     pub health_based_violations: Vec<ViolationOut>,
     /// Other (monitoring, reporting, notice) violations in the window, by category.
     pub other_violations: BTreeMap<String, usize>,
-    /// Violations in the window with no return to compliance recorded.
+    /// Violations in the window that SDWIS lists as Open (no return to compliance recorded).
     pub unresolved_violations: usize,
     pub lead: Option<LeadCopperOut>,
     pub copper: Option<LeadCopperOut>,
@@ -656,9 +656,10 @@ pub async fn drinking_water_quality_lookup(
                 .entry(violation_out(codes, v).category)
                 .or_insert(0) += 1;
         }
+        // Only violations SDWIS lists as Open; "Known" and other statuses are shown as coded.
         let unresolved = vs
             .iter()
-            .filter(|v| v.status != "R" && v.returned_to_compliance.is_none() && v.status != "I")
+            .filter(|v| v.status == "O" && v.returned_to_compliance.is_none())
             .count();
         let lc: Vec<&LeadCopper> = tw
             .lead_copper
@@ -678,7 +679,7 @@ pub async fn drinking_water_quality_lookup(
         }
         if unresolved > 0 {
             flags.push(format!(
-                "{unresolved} violation(s) in the window with no return to compliance recorded"
+                "{unresolved} violation(s) in the window listed as Open in SDWIS (no return to compliance recorded)"
             ));
         }
         if let Some(l) = &lead
@@ -1297,5 +1298,33 @@ mod tests {
         .unwrap();
         assert_eq!(env.data.systems.len(), 1);
         assert_eq!(env.data.town, "Acton");
+    }
+}
+
+#[cfg(test)]
+mod live_tests {
+    use super::*;
+
+    /// `cargo test -p phn-tools --lib drinking_water::live_tests -- --ignored --nocapture`
+    #[tokio::test]
+    #[ignore]
+    async fn live_lookup_prints_summaries() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = false;
+        config.http_timeout = std::time::Duration::from_secs(30);
+        let ctx = Context::new(config).unwrap();
+        for town in ["Hudson", "Boxborough", "Brockton"] {
+            let env = drinking_water_quality_lookup(
+                &ctx,
+                DrinkingWaterArgs {
+                    town: Some(town.into()),
+                    ..Default::default()
+                },
+            )
+            .await
+            .unwrap();
+            eprintln!("{}\n{:#?}\n-----", env.summary, env.caveats);
+        }
     }
 }
