@@ -931,6 +931,21 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 14 EJ and climate (ENV-04, ENV-05).
         // ---- End of Phase 14 ejclimate.
         // ---- Phase 14 Vectors and housing (ENV-06, ENV-07).
+        // ENV-07 fills inspection and repair request letters from a household file into
+        // /data/output only; the response has counts and file names.
+        (
+            "housing_conditions_health_guide",
+            json!({"conditions": ["no heat", "mold"], "households_path": "housing_requests.csv",
+                   "languages": ["Spanish"]}),
+            "data/housing_requests.csv",
+        ),
+        // An identifiable line list given as the household file is never echoed.
+        (
+            "housing_conditions_health_guide",
+            json!({"households_path": "line_list.csv", "letters": "repair_request",
+                   "teaching_sheets": false}),
+            ll,
+        ),
         // ---- End of Phase 14 vectorhousing.
         // ---- Phase 14 Chemicals and food (ENV-08, CHR-06).
         // ---- End of Phase 14 chemfood.

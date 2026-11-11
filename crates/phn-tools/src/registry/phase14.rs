@@ -16,7 +16,20 @@ pub(super) const EJ_CLIMATE: &[ToolMeta] = &[];
 
 /// Vectors and housing: ENV-06 `vector_borne_disease_risk`, ENV-07
 /// `housing_conditions_health_guide`.
-pub(super) const VECTOR_HOUSING: &[ToolMeta] = &[];
+pub(super) const VECTOR_HOUSING: &[ToolMeta] = &[
+    ToolMeta {
+        name: "vector_borne_disease_risk",
+        plan_id: "ENV-06",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+    ToolMeta {
+        name: "housing_conditions_health_guide",
+        plan_id: "ENV-07",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+];
 
 /// Chemicals and food: ENV-08 `chemical_exposure_reference`, CHR-06 `food_access_mapper`.
 pub(super) const CHEM_FOOD: &[ToolMeta] = &[];
