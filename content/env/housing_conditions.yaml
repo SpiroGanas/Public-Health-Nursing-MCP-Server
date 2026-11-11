@@ -208,10 +208,9 @@ conditions:
     owner:
       - Eliminate pests in buildings with two or more units, and in single-unit homes when the cause is the building's condition (410.550(A)-(B)).
       - Inspect for pests before each new tenancy and keep records (410.550(F)-(G)); seal entry points (410.500(A)(2)); install screens April 1 to October 31 (410.540).
-      - Give 48 hours' written notice before indoor commercial pesticide applications (410.550(D)).
     occupant:
       - Keep the unit sanitary so it does not attract pests (410.550(E)) and store garbage in covered, pest-resistant containers (410.560(D)).
-      - Give access and follow the pest control company's preparation instructions (410.550(D)(3)).
+      - Give access and follow the pest control company's preparation instructions (410.550(D)(3)); the applicator must give occupants at least 48 hours' written notice before indoor commercial pesticide use (410.550(D)(1)-(2)).
     health_effects:
       - text: Droppings and body parts of cockroaches and other pests can trigger asthma; proteins in cockroach droppings and saliva can cause allergic reactions, and cockroach allergens likely play a significant role in asthma in many urban areas.
         source: epa-asthma
@@ -324,7 +323,7 @@ conditions:
       - Delead or bring under interim control homes built before 1978 where a child under 6 lives; hire a licensed lead inspector, and use licensed or trained and authorized people for the work (DPH Lead Law page; M.G.L. c. 111, § 197).
       - The owner is legally responsible if a child is poisoned by lead hazards where the child lives, and cannot avoid liability by having tenants sign an agreement accepting lead paint (DPH Lead Law page).
     occupant:
-      - Tell the owner and the board of health about peeling or chipping paint, and keep children away from it and from the dust.
+      - The code sets no occupant duty for lead paint; tenants can tell the owner and the board of health about peeling or chipping paint and keep children away from it and its dust (this project's suggestion).
     health_effects:
       - text: No safe blood lead level in children has been identified; even low levels are associated with developmental delays, difficulty learning, and behavioral issues, and the effects can be permanent.
         source: cdc-lead
@@ -334,7 +333,7 @@ conditions:
         source: cdc-lead
         section: Overview; Causes
         confidence: high
-    at_risk: [children under 6, pregnant women, families in homes built before 1978]
+    at_risk: [children under 6, families in homes built before 1978]
     advice:
       - text: The Lead Law requires removing or covering lead paint hazards in homes built before 1978 where any child under 6 lives; hazards include loose lead paint, lead paint on windows and friction surfaces, and other surfaces children can reach.
         source: dph-lead-law
@@ -366,7 +365,7 @@ conditions:
     owner:
       - Provide, install, and maintain smoke and carbon monoxide alarms (410.330; 410.235(A)(13)) and properly vented fuel-burning equipment (410.170).
     occupant:
-      - Keep smoke and carbon monoxide alarms in sanitary condition and use them with reasonable care (410.240(B)(5)); do not disable them.
+      - Keep smoke and carbon monoxide alarms in sanitary condition and use them with reasonable care (410.240(B)(5)).
     health_effects:
       - text: Carbon monoxide is an odorless, colorless gas that can cause sudden illness and death; common symptoms are headache, dizziness, weakness, upset stomach, vomiting, chest pain, and confusion, and people who are asleep or intoxicated can die before they have symptoms.
         source: cdc-co
@@ -641,7 +640,7 @@ teaching_sheets:
 
       - In a building with 2 or more homes, the landlord must get rid of pests.
       - In a 1-family home, the person living there does it. But the landlord must do it if pests get in because the building is not kept in good repair.
-      - The landlord must tell you 48 hours before spraying inside.
+      - The pest company must tell you at least 48 hours before spraying inside.
 
       ## What you can do
 
