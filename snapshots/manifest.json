@@ -1458,7 +1458,7 @@
       "source_urls": [
         "https://www.fema.gov/api/open/v3/NfipClaims?$filter=state%20eq%20%27MA%27",
         "https://www.fema.gov/api/open/v1/NfipCommunityStatusBook?$filter=state%20eq%20%27MA%27&$top=1000",
-        "https://www.fema.gov/openfema-data-page/fima-nfip-redacted-claims-v2",
+        "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3",
         "https://www.fema.gov/openfema-data-page/nfip-community-status-book-v1"
       ],
       "source_sha256": {

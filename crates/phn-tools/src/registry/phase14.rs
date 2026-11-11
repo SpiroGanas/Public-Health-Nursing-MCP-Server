@@ -12,7 +12,20 @@ pub(super) const WATER: &[ToolMeta] = &[];
 
 /// Environmental justice and climate: ENV-04 `environmental_justice_screen`, ENV-05
 /// `climate_health_vulnerability_profile`.
-pub(super) const EJ_CLIMATE: &[ToolMeta] = &[];
+pub(super) const EJ_CLIMATE: &[ToolMeta] = &[
+    ToolMeta {
+        name: "environmental_justice_screen",
+        plan_id: "ENV-04",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+    ToolMeta {
+        name: "climate_health_vulnerability_profile",
+        plan_id: "ENV-05",
+        toolset: Toolset::Env,
+        phase: 14,
+    },
+];
 
 /// Vectors and housing: ENV-06 `vector_borne_disease_risk`, ENV-07
 /// `housing_conditions_health_guide`.

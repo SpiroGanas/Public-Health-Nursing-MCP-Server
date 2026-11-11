@@ -3378,6 +3378,65 @@ const toolChapters = [
       // Phase 14 Water (ENV-03, CHR-07) tools.
       // End of Phase 14 water tools.
       // Phase 14 EJ and climate (ENV-04, ENV-05) tools.
+      {
+        id: 'environmental_justice_screen',
+        title: 'Screen for environmental justice populations',
+        toolset: 'env',
+        internet: 'no',
+        files: 'optional: a map and a table in your output folder; reads an EJScreen file you saved',
+        does: 'Shows which neighborhoods (census block groups) in your town, a county, or the state are Massachusetts environmental justice (EJ) populations, which criteria they meet (minority, income, English isolation), how many people live in them, and the languages to plan for. It explains what an EJ designation changes (state environmental review of nearby projects, translation and interpreters, DPH’s vulnerable health criteria) and adds Social Vulnerability Index context.',
+        when: [
+          'Planning outreach, a community health assessment, or language access.',
+          'A project needing state environmental review (MEPA) is proposed near your town and you want to know whether EJ rules apply.',
+          'Writing a grant that asks about EJ populations.',
+        ],
+        provide: [
+          'A town, county, or "Massachusetts" (your saved town is the default).',
+          'Optionally, an archived EPA EJScreen block group file you saved in your data folder, and whether you want a map or a table.',
+        ],
+        examples: [
+          'Which neighborhoods in Lowell are environmental justice populations, and which languages should we plan for?',
+          'How many people in Hampden County live in EJ block groups? Make a map.',
+          'Using the EJScreen file ejscreen_ma.csv, compare traffic and air pollution percentiles in Chelsea’s EJ block groups with the rest of the city.',
+        ],
+        returns: [
+          'EJ block groups and people by criterion, the share of residents, limited-English households and top languages, towns ranked by EJ population (for a county or the state), SVI context, what designation means, and DPH’s vulnerable health criteria.',
+          'With an EJScreen file: average percentiles for EJ and other block groups and counts at or above the 80th percentile (no rows).',
+        ],
+        notes: [
+          'The EJ layer uses the 2020 Census and 2016–2020 survey estimates (EEA update of November 2022). Confirm a specific site on EEA’s EJ Maps Viewer.',
+          'EPA removed EJScreen in 2025. It is not built in; if you have an archived copy, save just the Massachusetts rows in your data folder.',
+          'The CDC Environmental Justice Index is not built in; the link is given.',
+        ],
+      },
+      {
+        id: 'climate_health_vulnerability_profile',
+        title: 'Profile your town’s climate and health vulnerability',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'optional: a Word profile in your output folder',
+        does: 'Builds a one-page-style profile of your town for Municipal Vulnerability Preparedness (MVP) and hazard mitigation planning: extreme heat days, tree canopy, and paved surface; flood insurance claims and flood program status; environmental justice and social vulnerability; older adults, young children, disability, poverty, no car, limited English; asthma, COPD, heart disease, diabetes and other climate-sensitive conditions; people who rely on powered medical equipment; and your town’s MVP and FEMA hazard mitigation plan status. Every number is compared with Massachusetts, and the most important vulnerabilities are listed first.',
+        when: [
+          'Your town is starting or updating its MVP or hazard mitigation plan.',
+          'Preparing a climate and health section for a community health assessment or a grant.',
+        ],
+        provide: [
+          'A city or town (your saved town is the default). Ask for a Word document if you want one.',
+        ],
+        examples: [
+          'Build a climate and health vulnerability profile for Chelsea for our MVP workshop.',
+          'Is Scituate’s hazard mitigation plan current, and how often has it flooded?',
+          'Write a climate vulnerability profile for Pittsfield as a Word document.',
+        ],
+        returns: [
+          'Heat, flooding, social vulnerability, and health indicators with Massachusetts comparisons, sources, and years; the most important vulnerabilities and the rule that flagged each; MVP and FEMA plan status; health effects of heat and flooding.',
+        ],
+        notes: [
+          'The rules that pick the most important vulnerabilities are the tool’s defaults (for example, at least 1.2 times the state value), not a standard; your planning team can weigh them differently.',
+          'Heat and tree canopy values come from ZIP code areas averaged over the town. Flood insurance claims show past insured losses, not a flood map.',
+          'FEMA plan status is checked online when possible; otherwise a saved copy is used and the answer says so.',
+        ],
+      },
       // End of Phase 14 ejclimate tools.
       // Phase 14 Vectors and housing (ENV-06, ENV-07) tools.
       // End of Phase 14 vectorhousing tools.

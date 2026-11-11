@@ -45,7 +45,7 @@ pub const HHI_URL: &str = "https://www.atsdr.cdc.gov/place-health/php/hhi/index.
 pub const NFIP_SNAPSHOT_ID: &str = "fema-nfip-ma";
 pub const NFIP_COMMUNITIES_FILE: &str = "fema_nfip_community_status_ma.csv";
 pub const NFIP_CLAIMS_FILE: &str = "fema_nfip_claims_ma_towns.csv";
-pub const NFIP_CLAIMS_PAGE: &str = "https://www.fema.gov/openfema-data-page/fima-nfip-redacted-claims-v2";
+pub const NFIP_CLAIMS_PAGE: &str = "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3";
 pub const NFIP_COMMUNITIES_PAGE: &str =
     "https://www.fema.gov/openfema-data-page/nfip-community-status-book-v1";
 
