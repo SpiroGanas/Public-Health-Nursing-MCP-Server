@@ -11,6 +11,9 @@ pub use heat::{HeatPlanArgs, HeatPlanResult, heat_health_action_planner};
 // End of Phase 12 modules.
 // Phase 14 modules (ENV-03 to ENV-08) go below this line.
 // Phase 14 Water (ENV-03, CHR-07).
+pub mod drinking_water;
+
+pub use drinking_water::{DrinkingWaterArgs, DrinkingWaterResult, drinking_water_quality_lookup};
 // End of Phase 14 water.
 // Phase 14 EJ and climate (ENV-04, ENV-05).
 // End of Phase 14 ejclimate.
