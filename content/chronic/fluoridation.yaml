@@ -147,7 +147,7 @@ sources:
     retrieved: 2026-11-11
   jama-2025:
     title: "Fluoride Exposure and Children's IQ Scores: A Systematic Review and Meta-Analysis (JAMA Pediatr 2025;179(3):282-292; PubMed 39761023)"
-    publisher: JAMA Pediatrics (Taylor KW, et al., NIEHS)
+    publisher: JAMA Pediatrics (authors from the NIEHS Division of Translational Toxicology)
     url: https://pubmed.ncbi.nlm.nih.gov/39761023/
     effective_date: 2025-03-01
     retrieved: 2026-11-11
@@ -281,7 +281,7 @@ evidence:
     source: ntp-2024
     section: Discussion; Methods
     confidence: high
-  - review: Taylor et al., JAMA Pediatrics, March 2025 (systematic review and meta-analysis, 74 studies)
+  - review: NIEHS systematic review and meta-analysis, JAMA Pediatrics, March 2025 (74 studies)
     finding: >-
       Found inverse associations between fluoride exposure and children's IQ, including a
       decrease of 1.63 IQ points per 1 mg/L increase in urinary fluoride (1.14 in low risk-of-bias
