@@ -74,7 +74,7 @@ impl PhnServer {
             output folder: DOCX or tagged PDF with the agency letterhead, XLSX or CSV for tables, \
             or SVG/PNG images. For letters to many people, give merge_data_path (a CSV/XLSX in \
             /data) and {{Column}} placeholders: merged letters are written to /data/output and \
-            never returned.",
+            never returned. CSV cells that start like a spreadsheet formula are written as text.",
         annotations(
             title = "Export a document",
             read_only_hint = false,
@@ -172,9 +172,11 @@ impl PhnServer {
     #[tool(
         name = "check_document_accessibility",
         description = "Check a DOCX, HTML, or PDF file in /data against Section 508 and WCAG 2.1 \
-            AA: document title and language, headings and their order, alt text, table header \
-            rows, color contrast, link text, tagging (PDF), and scanned pages. Lists failures \
-            with how to fix them.",
+            AA: document title and language, alt text, and scanned pages for every format; \
+            headings and their order, table header rows, color contrast, and link text for DOCX \
+            and HTML; tagging and fonts for PDF (other PDF checks are listed as manual). Lists \
+            failures with how to fix them. Quoted excerpts have possible client identifiers \
+            redacted.",
         annotations(
             title = "Check document accessibility",
             read_only_hint = true,

@@ -56,7 +56,8 @@ pub struct ExportDocumentArgs {
     pub subtitle: Option<String>,
     /// Body in Markdown: # headings, paragraphs, **bold**, lists, [links](https://…),
     /// pipe tables (a line "Table: caption" right before a table sets its caption),
-    /// images as ![alt text](path/in/data.png), and "\pagebreak".
+    /// images as ![alt text](path/in/data.png), and a "\pagebreak" line (or
+    /// `<!-- pagebreak -->`) for a new page; a `---` rule does not start a page.
     pub content_markdown: String,
     /// Formats to write (default ["docx"]). XLSX and CSV export the tables.
     #[serde(default)]
