@@ -209,11 +209,47 @@ pub async fn lookup_with(
             }
         }
         status("rxnorm", &got, None, None);
-        // Search openFDA by the RxNorm ingredient name when we have one.
-        if let Some(c) = &rxnorm
-            && c.tty == "IN"
-        {
+    }
+    // RxNorm's approximate search always returns its closest concept, which
+    // can be a different drug. Compare it with what was typed before using it.
+    let mut rx_note: Option<String> = None;
+    let mut rx_close = false;
+    if let Some(c) = &rxnorm {
+        let nq = phn_core::text::normalize(&q);
+        let nn = phn_core::text::normalize(&c.name);
+        let exact = nq == nn || format!(" {nq} ").contains(&format!(" {nn} "));
+        rx_close = exact || phn_core::text::similarity(&nq, &nn) >= 0.85;
+        if rx_close && c.tty == "IN" {
+            // Search openFDA by the RxNorm ingredient name.
             search_term = c.name.clone();
+            if !exact {
+                rx_note = Some(format!(
+                    "RxNorm's closest match to '{q}' is {}; it is not an exact match. The \
+                     label, recall, and shortage sections were searched for {}. Confirm that \
+                     this is the drug you meant.",
+                    c.name, c.name
+                ));
+            }
+        } else if !rx_close {
+            rx_note = Some(format!(
+                "RxNorm's closest match to '{q}' is {} ({}), which may be a different drug. \
+                 The label, recall, and shortage sections were searched for '{q}' as typed. \
+                 Check the spelling or give the generic name.",
+                c.name, c.tty
+            ));
+        }
+    }
+    // Shortage records are filed under the generic (ingredient) name, so a
+    // brand-name query is also searched by its RxNorm ingredients.
+    let mut shortage_terms: Vec<String> = vec![search_term.clone()];
+    if rx_close && rxnorm.as_ref().is_some_and(|c| c.tty != "IN") {
+        for r in related.iter().filter(|r| r.tty == "IN").take(3) {
+            if !shortage_terms
+                .iter()
+                .any(|t| t.eq_ignore_ascii_case(&r.name))
+            {
+                shortage_terms.push(r.name.clone());
+            }
         }
     }
 
@@ -259,24 +295,44 @@ pub async fn lookup_with(
         }
         status("recalls", &got, total, date);
     }
-    let mut shortages = Vec::new();
+    let mut shortages: Vec<ShortageSummary> = Vec::new();
     if want("shortages") {
-        let got = get_json(ctx, &ep.openfda_shortages(&search_term, limit, api_key)).await;
-        let mut total = None;
-        let mut date = None;
-        if let Got::Json(v, mode, as_of) = &got {
-            shortages = medication::parse_shortages(v);
-            total = Some(medication::openfda_total(v));
-            date = medication::openfda_last_updated(v);
-            add_source(
-                &mut sources,
-                "openFDA drug shortages",
-                "U.S. Food and Drug Administration",
-                "https://open.fda.gov/apis/drug/drugshortages/",
-                *mode,
-                as_of,
-                date.clone(),
-            );
+        let mut got = Got::NoResults;
+        let mut total: Option<u64> = None;
+        let mut date: Option<String> = None;
+        for term in &shortage_terms {
+            let g = get_json(ctx, &ep.openfda_shortages(term, limit, api_key)).await;
+            if let Got::Json(v, mode, as_of) = &g {
+                for s in medication::parse_shortages(v) {
+                    if !shortages.contains(&s) {
+                        shortages.push(s);
+                    }
+                }
+                total = Some(total.unwrap_or(0) + medication::openfda_total(v));
+                if date.is_none() {
+                    date = medication::openfda_last_updated(v);
+                }
+                add_source(
+                    &mut sources,
+                    "openFDA drug shortages",
+                    "U.S. Food and Drug Administration",
+                    "https://open.fda.gov/apis/drug/drugshortages/",
+                    *mode,
+                    as_of,
+                    date.clone(),
+                );
+            }
+            // Keep the most informative outcome: results, then a failure,
+            // then "no results".
+            let better = match (&got, &g) {
+                (Got::Json(..), _) => false,
+                (_, Got::Json(..)) => true,
+                (Got::NoResults, Got::Unavailable(_)) => true,
+                _ => false,
+            };
+            if better {
+                got = g;
+            }
         }
         status("shortages", &got, total, date);
     }
@@ -360,9 +416,9 @@ pub async fn lookup_with(
     };
     if checked("recalls") {
         if recalls.is_empty() {
-            summary.push_str(
-                "**Recalls:** none found in openFDA enforcement reports for this name.\n\n",
-            );
+            summary.push_str(&format!(
+                "**Recalls:** none found in openFDA enforcement reports for \"{search_term}\".\n\n"
+            ));
         } else {
             let rows: Vec<Vec<String>> = recalls
                 .iter()
@@ -386,9 +442,12 @@ pub async fn lookup_with(
     }
     if checked("shortages") {
         if shortages.is_empty() {
-            summary.push_str(
-                "**Shortages:** none listed in openFDA's drug shortage data for this name.\n\n",
-            );
+            summary.push_str(&format!(
+                "**Shortages:** none listed in openFDA's drug shortage data under the generic \
+                 name(s) searched: {}. Shortages are filed by generic name; if this is a brand \
+                 name, also check the FDA drug shortage list by ingredient.\n\n",
+                shortage_terms.join("; ")
+            ));
         } else {
             let rows: Vec<Vec<String>> = shortages
                 .iter()
@@ -401,7 +460,10 @@ pub async fn lookup_with(
                     ]
                 })
                 .collect();
-            summary.push_str("**Shortages**\n\n");
+            summary.push_str(&format!(
+                "**Shortages** (searched: {})\n\n",
+                shortage_terms.join("; ")
+            ));
             summary.push_str(&md::table(
                 &["Drug", "Status", "Presentation", "Updated"],
                 &rows,
@@ -443,6 +505,9 @@ pub async fn lookup_with(
         "Reference only. openFDA states its data are unvalidated and must not be relied on for medical decisions; the FDA-approved label (package insert) is the authority. Check your agency's protocols and a pharmacist before acting.".to_string(),
         "Label excerpts are shortened; read the full label (DailyMed link) before use.".to_string(),
     ];
+    if let Some(n) = rx_note {
+        caveats.push(n);
+    }
     if labels.is_empty()
         && want("label")
         && !sections
@@ -571,6 +636,14 @@ mod tests {
         assert!(md.contains("set ID 00b86913-50c8-443f-8467-f4f499d358af"));
         assert!(!md.contains("secret-key"), "API key must never be returned");
         assert!(env.notice.is_some());
+        // The query was misspelled: the answer says the RxNorm match is not
+        // exact and names the term the openFDA sections were searched for.
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("not an exact match") && c.contains("amoxicillin"))
+        );
+        assert!(md.contains("name(s) searched: amoxicillin"), "{md}");
     }
 
     #[tokio::test]

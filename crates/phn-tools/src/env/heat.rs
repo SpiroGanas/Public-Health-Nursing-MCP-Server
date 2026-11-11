@@ -244,6 +244,9 @@ pub async fn heat_health_action_planner(
         Ok(hr) => {
             heatrisk_status = hr.mode.label().to_string();
             heatrisk_updated = hr.updated.clone();
+            if let Some(r) = &hr.fallback_reason {
+                caveats.push(format!("NWS HeatRisk: {r}."));
+            }
             for g in &hr.grids {
                 let cells = sample(g, &features);
                 let max = cells.iter().copied().max();

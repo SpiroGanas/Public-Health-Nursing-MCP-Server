@@ -2561,9 +2561,10 @@ mod tests {
             "{:?}",
             d.missing
         );
-        let failed = |checks: &[CercCheck], id: &str| checks.iter().any(|c| c.id == id && !c.passed);
-        assert!(failed(&d.map_checks, "three_supporting_facts"));
-        assert!(failed(&d.statement_checks, "placeholders_filled"));
+        let failed =
+            |checks: &[CercCheck], id: &str| checks.iter().any(|c| c.id == id && !c.passed);
+        assert!(failed(d.map_checks.as_slice(), "three_supporting_facts"));
+        assert!(failed(d.statement_checks.as_slice(), "placeholders_filled"));
         assert!(!r.summary.contains("All message-map and CERC checks passed"));
     }
 

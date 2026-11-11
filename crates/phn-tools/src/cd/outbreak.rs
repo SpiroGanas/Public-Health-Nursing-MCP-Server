@@ -161,19 +161,20 @@ pub(crate) fn incubation(
 ) -> Result<Option<Incubation>> {
     let content = phn_content::disease_rules::content();
     let mut out: Option<Incubation> = None;
-    if let Some(name) = disease.filter(|s| !s.trim().is_empty()) {
-        let d = super::engine::find_disease(name)?;
-        if let Some(i) = &d.incubation
-            && let (Some(a), Some(b)) = (i.min_days(), i.max_days())
-        {
-            out = Some(Incubation {
-                min_h: a * 24.0,
-                typical_h: i.typical_days().map(|t| t * 24.0),
-                max_h: b * 24.0,
-                label: format!("{}: {}", d.name, i.describe()),
-                source: Some(super::engine::rule_source(content, &i.source.source)),
-            });
-        }
+    // A disease the table does not hold ("GI illness, agent unknown") is not
+    // an error: the analysis runs without a disease-specific incubation period.
+    if let Some(name) = disease.filter(|s| !s.trim().is_empty())
+        && let Ok(d) = super::engine::find_disease(name)
+        && let Some(i) = &d.incubation
+        && let (Some(a), Some(b)) = (i.min_days(), i.max_days())
+    {
+        out = Some(Incubation {
+            min_h: a * 24.0,
+            typical_h: i.typical_days().map(|t| t * 24.0),
+            max_h: b * 24.0,
+            label: format!("{}: {}", d.name, i.describe()),
+            source: Some(super::engine::rule_source(content, &i.source.source)),
+        });
     }
     if min_h.is_some() || max_h.is_some() || typ_h.is_some() {
         let (Some(a), Some(b)) = (
@@ -511,7 +512,17 @@ pub fn analyze_outbreak_line_list(
         }
     });
     let mut onsets: Vec<NaiveDateTime> = cases.iter().filter_map(|r| r.onset).collect();
-    let median_onset = median_dt(&mut onsets.clone()).map(|d| fmt_dt(d, ll.has_times));
+    // With only a few onsets, the median and the exposure window (first and
+    // last onset minus the incubation limits) give away individual onset
+    // times, so both are held back below the suppression threshold, as the
+    // median age is.
+    let n_onsets = onsets.len();
+    let enough_onsets = n_onsets >= t as usize;
+    let median_onset = if enough_onsets {
+        median_dt(&mut onsets.clone()).map(|d| fmt_dt(d, ll.has_times))
+    } else {
+        None
+    };
 
     // Symptoms among cases.
     let sym_labels = ll.map.symptoms.clone();
@@ -601,10 +612,18 @@ pub fn analyze_outbreak_line_list(
         .collect();
 
     // Exposure window.
-    let window = inc
-        .as_ref()
-        .and_then(|i| exposure_window(&onsets, i, known, ll.has_times));
+    let window = if enough_onsets {
+        inc.as_ref()
+            .and_then(|i| exposure_window(&onsets, i, known, ll.has_times))
+    } else {
+        None
+    };
     onsets.clear();
+    let unknown_disease = args
+        .disease
+        .as_deref()
+        .map(str::trim)
+        .filter(|d| !d.is_empty() && super::engine::find_disease(d).is_err());
 
     // ---- Markdown
     let mut s = format!(
@@ -754,6 +773,11 @@ pub fn analyze_outbreak_line_list(
                 _ => String::new(),
             }
         ));
+    } else if n_onsets > 0 && !enough_onsets {
+        s.push_str(&format!(
+            "Fewer than {t} cases have an onset date, so the median onset and the probable \
+             exposure window are not shown (they would give away individual onset times).\n\n"
+        ));
     } else if onsets_empty(&ll) {
         s.push_str("No onset dates were found, so no exposure window was estimated.\n\n");
     } else {
@@ -827,6 +851,13 @@ pub fn analyze_outbreak_line_list(
             t - 1
         ));
     }
+    if let Some(d) = unknown_disease {
+        caveats.push(format!(
+            "No incubation period was used: '{d}' is not one specific disease in this server's \
+             disease table (or the name fits more than one). Give the specific disease, or \
+             incubation_min_hours and incubation_max_hours, to estimate the exposure window."
+        ));
+    }
     if ll.cases_without_onset > 0 {
         caveats.push(format!(
             "{} case(s) have no readable onset date and are left out of the time summary and \
@@ -876,10 +907,12 @@ pub fn analyze_outbreak_line_list(
         suppression_threshold: Some(t),
         identifiers_detected: ll.table.identifier_categories(),
         files_written: Vec::new(),
-        notes: vec![
-            "Aggregates only: no names, IDs, contact details, or individual dates are returned."
-                .into(),
-        ],
+        notes: vec![format!(
+            "Aggregates only: no names, IDs, or contact details are returned. Onset dates appear \
+             only as the row labels of the cases-by-onset-date table (counts under {t} are \
+             hidden); the median onset and the exposure window are returned only when at least \
+             {t} cases have an onset date."
+        )],
     };
     let data = OutbreakResult {
         columns: ll.map.clone(),
@@ -1048,6 +1081,57 @@ mod tests {
         for name in ["Abernathy", "Ardith", "508-555-0140", "CS-2026-001"] {
             assert!(!md.contains(name), "{name}");
         }
+    }
+
+    #[test]
+    fn few_onsets_hide_the_median_and_window_and_unknown_disease_is_not_an_error() {
+        let dir = tempfile::tempdir().unwrap();
+        let data = dir.path().join("data");
+        std::fs::create_dir_all(&data).unwrap();
+        let mut csv = String::from("Ill,Onset Date,Onset Time,Stuffing\n");
+        for h in ["14:10", "16:20", "19:40"] {
+            csv.push_str(&format!("Y,2026-05-03,{h},Y\n"));
+        }
+        for _ in 0..5 {
+            csv.push_str("N,,,N\n");
+        }
+        std::fs::write(data.join("small.csv"), csv).unwrap();
+        let c = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        let env = analyze_outbreak_line_list(
+            &c,
+            OutbreakArgs {
+                path: "small.csv".into(),
+                disease: Some("salmonellosis".into()),
+                ..OutbreakArgs::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(env.data.cases, 3);
+        assert!(env.data.median_onset.is_none());
+        assert!(env.data.exposure_window.is_none());
+        let md = env.to_markdown();
+        assert!(md.contains("are not shown"), "{md}");
+        for h in ["14:10", "16:20", "19:40"] {
+            assert!(!md.contains(h), "{h}");
+        }
+        // The prompt's own example of an unknown agent must not fail the analysis.
+        let env = analyze_outbreak_line_list(
+            &c,
+            OutbreakArgs {
+                path: "small.csv".into(),
+                disease: Some("GI illness, agent unknown".into()),
+                ..OutbreakArgs::default()
+            },
+        )
+        .unwrap();
+        assert!(env.data.exposure_window.is_none());
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("No incubation period was used"))
+        );
+        assert!(incubation(Some("gastroenteritis"), None, None, None).unwrap().is_none());
+        assert!(incubation(Some("salmonellosis"), None, None, None).unwrap().is_some());
     }
 
     #[test]
