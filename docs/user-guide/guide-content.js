@@ -3376,6 +3376,69 @@ const toolChapters = [
     intro: 'TODO(Phase 14 merge): chapter introduction.',
     tools: [
       // Phase 14 Water (ENV-03, CHR-07) tools.
+      {
+        id: 'drinking_water_quality_lookup',
+        title: 'Look up drinking water quality',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'no',
+        does: 'Lists the public water systems in a Massachusetts town (from EPA’s drinking water database) with how many people each serves, health-based violations in recent years, the latest lead and copper test results compared with the action levels, and MassDEP PFAS results for treated water compared with the Massachusetts standard of 20 ng/L. It says what residents can do and, when part of the town uses private wells, what MassDEP recommends well owners test for and how often.',
+        when: [
+          'A resident, parent, or provider asks whether the town’s water is safe, or about PFAS or lead in the water.',
+          'Planning outreach to families with infants or pregnant people where PFAS is above the standard.',
+          'Advising private well owners, home buyers, or landlords about well testing.',
+        ],
+        provide: [
+          'A town (or use your saved town), or a water system’s ID (PWSID) or name.',
+          'Optionally how many years of violations to show, or ask to include schools, child care, and businesses with their own wells.',
+        ],
+        examples: [
+          'Is there PFAS in Boxborough’s water, and what should pregnant residents do?',
+          'Show health-based drinking water violations in Acton over the last 10 years.',
+          'What should private well owners in Harvard test for, and how often?',
+          'Look up water system MA2002000.',
+        ],
+        returns: [
+          'A table of systems with violations, lead results, and PFAS results; what needs attention; what residents can do; private well testing guidance when relevant; and the current Massachusetts and EPA standards, including EPA’s 2026 proposed changes to the PFAS rule.',
+        ],
+        notes: [
+          'EPA’s data are updated every three months and can lag MassDEP; the water system and MassDEP have the final word on compliance.',
+          'Without the internet, a dated copy of the data is used and the answer says so.',
+          'PFAS averages are for information only; MassDEP decides compliance from quarterly averages of monthly samples.',
+          'Systems are listed under the town in their ID number; a neighboring town’s system may also serve part of your town.',
+        ],
+      },
+      {
+        id: 'community_water_fluoridation_status',
+        title: 'Check community water fluoridation',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'only if you ask for a brief',
+        does: 'Shows whether a town’s water is fluoridated on DPH’s list and in CDC’s state report (which systems add fluoride, buy fluoridated water, or have natural fluoride, and their reported fluoride levels), the statewide picture, each organization’s current position side by side with its date, the main evidence reviews, where they disagree, and what Massachusetts law (M.G.L. c. 111, § 8C) says about local decisions. It can write a Word brief for a board of health discussion.',
+        when: [
+          'A board of health is asked to start, continue, or stop fluoridation.',
+          'Deciding with local clinicians whether children need other fluoride protection.',
+          'Answering residents’ questions about fluoride in the water.',
+        ],
+        provide: [
+          'A town (or use your saved town), or “Massachusetts” for the statewide summary.',
+          'Ask for a brief if you want the Word document.',
+        ],
+        examples: [
+          'Is Hingham’s water fluoridated?',
+          'Prepare a fluoridation brief for our board of health in Northampton.',
+          'What share of Massachusetts residents get fluoridated water?',
+        ],
+        returns: [
+          'The town’s status from DPH and CDC with the systems behind it, the statewide summary, positions from DPH, CDC, EPA, FDA, the AAP, and the Community Preventive Services Task Force with dates, evidence reviews (NTP, JAMA Pediatrics, Cochrane, CDC), where they differ, the state law, and draft discussion points.',
+        ],
+        notes: [
+          'The tool never takes a side; it shows each body’s position and date so the board can weigh them.',
+          'Federal positions changed in 2025 and 2026; check the sources before a vote.',
+          'DPH’s list is from 2023 and CDC’s report is reported by the state; the water system is the best source for current fluoride levels.',
+          'Some organizations’ websites could not be reached, so their positions are not included (the answer lists them).',
+        ],
+      },
       // End of Phase 14 water tools.
       // Phase 14 EJ and climate (ENV-04, ENV-05) tools.
       // End of Phase 14 ejclimate tools.

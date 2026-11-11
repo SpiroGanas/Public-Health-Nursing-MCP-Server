@@ -2592,6 +2592,83 @@ off.
 
 <!-- Phase 14 Water (ENV-03, CHR-07). -->
 
+### `drinking_water_quality_lookup` (ENV-03, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town | A Massachusetts city or town (counties and the state are refused: systems are listed town by town). |
+| `system` | | A PWSID (`MA2002000`) or part of a system name; shows that system only. A name must match one system (ties are refused with the candidates). |
+| `years` | 5 | Years of violation history (1–10). |
+| `include_non_community` | false | Also list non-transient (schools, child care, workplaces) and transient (restaurants, campgrounds) systems; they are counted either way. |
+| `private_wells` | automatic | Private well testing guidance; included automatically when the town's community systems report serving fewer than 90% of its ACS population (tool default) or there is none. |
+
+**Output.** For each system: population served and connections, source (ground, surface,
+purchased), wholesaler and school/child care flags, health-based violations whose compliance
+period began in the window (contaminant, violation type, category, rule, status, return to
+compliance, measured level, public notice tier; named from SDWIS reference codes, with the rule
+and category when a code has no description), counts of other violations by category, the
+number listed as Open, the latest lead and copper 90th percentiles against the 15 µg/L and
+1.3 mg/L action levels, and a PFAS6 summary for treated water (latest result, highest result
+and count above 20 ng/L in the last 12 months of data, and the highest sampling-location average
+in the latest quarter, with not-detected counted as 0, a tool default). Flags list what needs
+attention. The town summary compares the population served with the ACS population. Standards
+(Massachusetts PFAS6 MCL and how MassDEP determines compliance; EPA's 2024 PFAS rule and the May
+2026 proposals to rescind four MCLs and extend PFOA/PFOS compliance to 2031; the Lead and Copper
+Rule and the 2024 Improvements), what residents can do (Consumer Confidence Reports; MassDEP's
+PFAS advice for pregnant and nursing people and infants; EPA's lead steps), and private well
+guidance (MassDEP Private Well Guidelines Tables 11 and 12, PFAS testing FAQ, certified labs,
+board of health role, Table 9 arsenic/uranium towns, bedrock lead towns).
+
+**Sources.** Live: EPA SDWIS/Fed through the Envirofacts data service
+(`data.epa.gov/dmapservice/sdwis.water_system|violation|lcr_sample_result|lcr_sample`, filtered by
+the four PWSID prefixes of the town: `MA` + MassDEP region digit + MassGIS town number) and the
+EEA Data Portal API (finished-water PFAS6, 24 months), cached for a day, requested concurrently.
+Fallback: snapshots `epa-sdwis-ma` (active systems, violations since 2016, lead and copper since
+2016, reference codes) and `massdep-pfas6-ma` (24 months), retrieved 2026-11-11, built by
+`xtask/scripts/build_water_snapshots.py`. Tribal systems (EPA Region 1 primacy; the Aquinnah
+Wampanoag system) always come from the snapshot. Content: `content/env/drinking_water.yaml`.
+
+**Privacy.** Public data only; SDWIS operator names, emails, and phones are never parsed or
+returned. No local files.
+
+**Limits.** SDWIS is quarterly and can lag MassDEP; a system is listed under the town in its
+PWSID and may serve neighbors (and a neighbor's system may serve part of the town); population
+served is self-reported. PFAS6 averages are informational, not compliance determinations.
+Lead and copper action level exceedances are not violations. Revised Total Coliform Rule
+violation codes have no SDWIS description and are named by rule and category.
+
+### `community_water_fluoridation_status` (CHR-07, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town, else Massachusetts | A city or town, or "Massachusetts" for the statewide summary only (counties are refused). |
+| `brief` | false | Write a DOCX board of health brief to `/data/output`. |
+
+**Output.** The town's status on the DPH 2023 list (fully, partially, or not fluoridated; MWRA
+communities; year begun; DPH's notes) and from CDC My Water's Fluoride's 2025 Fluoridation
+Status Report (each community system assigned to the town: adjusted, consecutive, natural, or
+non-adjusted; population; reported 2025 average fluoride for adjusted systems), whether the two
+agree, and notes (duplicate CDC records that disagree, an adjusted system averaging 0 mg/L,
+DPH notes such as Fall River's interim suspension). Statewide: CDC's November 2025 summary
+(people and systems by status; 58.2% of people on community systems) and towns by DPH status.
+Then the standards (PHS 0.7 mg/L; EPA MCL 4.0 and secondary 2.0 mg/L), each body's current
+position side by side with its date (DPH, CDC, CPSTF as described by CDC, EPA, FDA, AAP), evidence
+reviews (NTP 2024, JAMA Pediatrics 2025, Cochrane 2024, CDC 2024), where they differ (supplement
+ages: DPH vs FDA vs AAP; safety at 0.7 mg/L; size of benefit), M.G.L. c. 111, § 8C in plain
+language, draft board of health discussion points, and the bodies not included because their
+sites could not be reached (ADA, ASTDD, AAPD, WHO, CPSTF's own page, HHS).
+
+**Sources.** Snapshots `cdc-mwf-ma` and `dph-fluoridation-towns` (retrieved 2026-11-11; CDC
+records matched to EPA SDWIS systems and towns by the builder, with outdated or duplicate CDC
+PWSIDs labeled). Content: `content/chronic/fluoridation.yaml` (every position and finding cites
+its own page or the PubMed record, with dates).
+
+**Privacy.** Public data and reference content only; the brief contains no personal data.
+
+**Limits.** DPH's list is from 2023 and CDC's report is state-reported and may show targets, not
+test results; the water system is the best source. Positions are never ranked or chosen; this is
+decision support for a board of health under c. 111, § 8C.
+
 <!-- End of Phase 14 water. -->
 
 <!-- Phase 14 EJ and climate (ENV-04, ENV-05). -->

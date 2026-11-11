@@ -1185,6 +1185,103 @@ sources:
       - FEMA's Continuity Guidance Circular and continuity plan template could not be retrieved (www.fema.gov returned 403); the statutes, PHEP capabilities, and pandemic planning assumption were read 2026-11-09. Tiers, recovery times, staff, and TT&E frequencies are tool defaults.
   # Phase 14 sources go below this line.
   # Phase 14 Water (ENV-03, CHR-07).
+  - id: epa-sdwis-envirofacts
+    name: EPA SDWIS/Fed through the Envirofacts data service (water systems, violations, lead and copper)
+    publisher: U.S. Environmental Protection Agency; data reported by MassDEP
+    kind: live
+    status: active
+    homepage: https://www.epa.gov/enviro/envirofacts-data-service-api
+    probe_url: https://data.epa.gov/dmapservice/sdwis.water_system/pwsid/beginsWith/MA2002/JSON
+    used_by: [drinking_water_quality_lookup]
+    caveats:
+      - >-
+        Queried one town at a time by PWSID prefix (MA + region digit + town number); operator
+        names, emails, and phone numbers in the rows are not read. Quarterly federal data that can
+        lag MassDEP. The bundled snapshot epa-sdwis-ma is used when the service cannot be reached.
+  - id: epa-sdwis-ma
+    name: EPA SDWIS snapshot for Massachusetts (active systems, violations and lead/copper since 2016, codes)
+    publisher: U.S. Environmental Protection Agency (Envirofacts)
+    kind: snapshot
+    status: active
+    snapshot_id: epa-sdwis-ma
+    homepage: https://www.epa.gov/enviro/envirofacts-data-service-api
+    probe_url: null
+    used_by: [drinking_water_quality_lookup]
+    caveats:
+      - Built by xtask/scripts/build_water_snapshots.py; refresh quarterly.
+  - id: eea-portal-drinking-water
+    name: EEA Data Portal drinking water results (MassDEP PFAS6, finished water)
+    publisher: Massachusetts Department of Environmental Protection (Executive Office of Energy and Environmental Affairs)
+    kind: live
+    status: active
+    homepage: https://eeaonline.eea.state.ma.us/portal#!/search/drinking-water
+    probe_url: https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater?Town=ACTON&ChemicalName=PFAS6&_start=0&_end=1
+    used_by: [drinking_water_quality_lookup]
+    caveats:
+      - >-
+        The portal's own JSON API (used by its web page; not a documented public API). Single
+        results are not compliance determinations; the snapshot massdep-pfas6-ma (24 months) is
+        used when it cannot be reached.
+  - id: massdep-pfas6-ma
+    name: MassDEP PFAS6 snapshot (finished water, 24 months)
+    publisher: Massachusetts Department of Environmental Protection
+    kind: snapshot
+    status: active
+    snapshot_id: massdep-pfas6-ma
+    homepage: https://www.mass.gov/info-details/per-and-polyfluoroalkyl-substances-pfas-in-drinking-water
+    probe_url: null
+    used_by: [drinking_water_quality_lookup]
+    caveats:
+      - Built by xtask/scripts/build_water_snapshots.py.
+  - id: cdc-mwf-ma
+    name: CDC My Water's Fluoride, Massachusetts state reports (2025 status report, November 2025 summary)
+    publisher: Centers for Disease Control and Prevention, Division of Oral Health; data reported by DPH
+    kind: snapshot
+    status: active
+    snapshot_id: cdc-mwf-ma
+    homepage: https://nccd.cdc.gov/doh_mwf/Default/Default.aspx
+    probe_url: https://nccd.cdc.gov/doh_mwf/Default/Default.aspx
+    used_by: [community_water_fluoridation_status]
+    caveats:
+      - >-
+        ASP.NET pages read by the snapshot builder (the per-system detail pages returned server
+        errors when built); some records carry outdated or duplicate PWSIDs, which the builder
+        labels.
+  - id: dph-fluoridation-towns
+    name: DPH 2023 list of Massachusetts cities and towns by community water fluoridation status
+    publisher: Massachusetts Department of Public Health, Office of Oral Health
+    kind: snapshot
+    status: active
+    snapshot_id: dph-fluoridation-towns
+    homepage: https://www.mass.gov/info-details/community-water-fluoridation-status
+    probe_url: https://www.mass.gov/info-details/community-water-fluoridation-status
+    used_by: [community_water_fluoridation_status]
+    caveats:
+      - Reflects 2023; DPH notes temporary suspensions may not be shown.
+  - id: env-drinking-water
+    name: Drinking water standards, resident actions, and private well testing (content)
+    publisher: MassDEP, U.S. EPA (compiled by this project)
+    kind: content
+    status: active
+    content_id: env-drinking-water
+    homepage: https://www.mass.gov/info-details/per-and-polyfluoroalkyl-substances-pfas-in-drinking-water
+    probe_url: null
+    used_by: [drinking_water_quality_lookup]
+    caveats:
+      - Pending subject matter expert review; the federal PFAS rule was being revised when drafted.
+  - id: chronic-fluoridation
+    name: Community water fluoridation positions, evidence, law, and discussion points (content)
+    publisher: DPH, CDC, EPA, FDA, AAP, NTP, Cochrane, JAMA Pediatrics (compiled by this project)
+    kind: content
+    status: active
+    content_id: chronic-fluoridation
+    homepage: https://www.mass.gov/info-details/community-water-fluoridation-status
+    probe_url: null
+    used_by: [community_water_fluoridation_status]
+    caveats:
+      - >-
+        Pending subject matter expert review; positions shown side by side with dates; ADA, ASTDD,
+        AAPD, WHO, and HHS positions could not be fetched and are not included.
   # End of Phase 14 water.
   # Phase 14 EJ and climate (ENV-04, ENV-05).
   # End of Phase 14 ejclimate.

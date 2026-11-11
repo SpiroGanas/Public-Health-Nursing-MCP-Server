@@ -533,7 +533,9 @@ pub fn community_water_fluoridation_status(
                             x.name,
                             if x.duplicate { " (duplicate record)" } else { "" }
                         ),
-                        x.sdwis_pwsid.clone().unwrap_or_else(|| x.cdc_pwsid.clone()),
+                        x.sdwis_pwsid
+                            .clone()
+                            .unwrap_or_else(|| x.cdc_pwsid.replace('-', "")),
                         x.status.clone(),
                         if x.fluoridated { "yes" } else { "no" }.into(),
                         x.population
@@ -616,10 +618,6 @@ pub fn community_water_fluoridation_status(
         } else {
             "; ask for brief = true to write them to a DOCX"
         }
-    ));
-    s.push_str(&format!(
-        "\nNot included (sources could not be reached): {}.\n",
-        c.not_included.join("; ")
     ));
 
     // Brief.
@@ -1073,5 +1071,29 @@ mod tests {
         // Hingham's two CDC records for one system disagree.
         let t = env.data.town.as_ref().unwrap();
         assert!(t.notes.iter().any(|n| n.contains("twice")), "{:?}", t.notes);
+    }
+}
+
+#[cfg(test)]
+mod print_tests {
+    use super::*;
+
+    /// `cargo test -p phn-tools --lib fluoridation::print_tests -- --ignored --nocapture`
+    #[test]
+    #[ignore]
+    fn print_summaries() {
+        let dir = tempfile::tempdir().unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        for town in ["Hingham", "Worcester", "Charlton"] {
+            let env = community_water_fluoridation_status(
+                &ctx,
+                FluoridationArgs {
+                    town: Some(town.into()),
+                    brief: None,
+                },
+            )
+            .unwrap();
+            eprintln!("{}\n-----", env.summary);
+        }
     }
 }

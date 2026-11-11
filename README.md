@@ -198,6 +198,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `drinking_water_quality_lookup` | ENV-03 | env | Public water systems for a town (EPA SDWIS): health-based violations, lead and copper 90th percentiles, MassDEP PFAS6 results, what residents can do, and private well testing guidance. |
+| `community_water_fluoridation_status` | CHR-07 | chronic | Town fluoridation status (DPH 2023, CDC My Water's Fluoride) with the systems behind it, a statewide summary, positions and evidence side by side, M.G.L. c. 111 § 8C, and an optional board of health brief. |
 <!-- Phase 14 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
