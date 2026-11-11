@@ -281,6 +281,8 @@ pub struct NndssCount {
     pub mmwr_week: u32,
     pub week_ending: String,
     pub year_to_date: Option<f64>,
+    /// Why the year-to-date count is missing (CDC flag meaning or "no data").
+    pub note: Option<String>,
     /// Mean of the same weeks in the five previous years.
     pub five_year_mean: Option<f64>,
     /// "above 5-year range", "within 5-year range", "below 5-year range", or "no baseline".
@@ -784,6 +786,7 @@ async fn nndss_counts(ctx: &Context) -> (Vec<NndssCount>, String, Vec<Source>, V
                         mmwr_week: d.mmwr_week,
                         week_ending: d.week_ending.clone(),
                         year_to_date: t.year_to_date.current,
+                        note: t.year_to_date.current_note.clone(),
                         five_year_mean: t.year_to_date.baseline_mean,
                         assessment: t.year_to_date.assessment.clone(),
                     });
@@ -1502,17 +1505,26 @@ fn summary(
         let v: Vec<String> = t
             .current_year
             .iter()
-            .map(|n| {
-                format!(
+            .map(|n| match n.year_to_date {
+                Some(x) => format!(
                     "{} {} so far in {} (through MMWR week {}, {}; 5-year mean {}; {})",
                     n.condition,
-                    n.year_to_date.map(|x| md::num(x, 0)).unwrap_or_else(|| "—".into()),
+                    md::num(x, 0),
                     n.mmwr_year,
                     n.mmwr_week,
                     n.week_ending,
-                    n.five_year_mean.map(|x| md::num(x, 0)).unwrap_or_else(|| "—".into()),
+                    n.five_year_mean
+                        .map(|m| md::num(m, 0))
+                        .unwrap_or_else(|| "—".into()),
                     n.assessment
-                )
+                ),
+                None => format!(
+                    "{}: no {} count for Massachusetts in NNDSS through MMWR week {} ({})",
+                    n.condition,
+                    n.mmwr_year,
+                    n.mmwr_week,
+                    n.note.clone().unwrap_or_else(|| "not reported".into())
+                ),
             })
             .collect();
         s.push_str(&format!(
