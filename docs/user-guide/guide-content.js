@@ -72,7 +72,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into 13 work areas. Chapters 4 to 16 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 14 work areas. Chapters 4 to 17 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -105,6 +105,7 @@ const frontChapters = [
                 ['Emergency preparedness and environmental health (chapter 16)', 'Check hazard alerts and their health effects; model dispensing sites; run a hazard vulnerability assessment; plan shelter intake for functional needs; find people who rely on powered medical equipment; plan a CASPER; fill ICS forms and Incident Action Plans; draft a continuity of operations plan; design exercises and write after-action reports; build crisis and emergency risk communication; check air quality; plan the heat response.', '13, plus a guided tabletop exercise'],
                 // End of Phase 12 work-area rows.
                 // Phase 14 work-area rows go below this line.
+                ['Environmental health and climate (chapter 17)', 'Look up drinking water violations, lead, and PFAS for your town’s water systems; check community water fluoridation; screen environmental justice populations; profile climate and health vulnerability for MVP and hazard mitigation planning; follow mosquito and tick-borne disease risk; explain housing conditions under the State Sanitary Code; look up chemical exposure limits; map food access.', '8'],
                 // End of Phase 14 work-area rows.
               ],
             },
@@ -3373,7 +3374,7 @@ const toolChapters = [
   // Phase 14 chapter goes below this line.
   {
     title: 'Environmental health and climate',
-    intro: 'TODO(Phase 14 merge): chapter introduction.',
+    intro: 'These eight tools cover environmental health and the health effects of climate: drinking water quality and community water fluoridation, environmental justice populations, climate and health vulnerability for MVP and hazard mitigation planning, mosquito- and tick-borne disease risk, housing conditions under the State Sanitary Code, chemical exposure reference values, and food access. Six are in the env group (the preparedness profile includes it; turn it on for other profiles); the fluoridation and food access tools are in the chronic group (phn_leader only). Every figure names its source and date, and the tools work offline from bundled snapshots when live data cannot be reached. The guidance was drafted from EPA, MassDEP, DPH, EEA, CDC, ATSDR, NIOSH, FEMA, and USDA sources retrieved in November 2026 and is pending review by the project’s subject matter expert; every answer says so.',
     tools: [
       // Phase 14 Water (ENV-03, CHR-07) tools.
       // End of Phase 14 water tools.
