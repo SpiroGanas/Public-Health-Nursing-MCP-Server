@@ -393,10 +393,8 @@ fn parse_workbook(
         if town.is_empty() {
             continue;
         }
-        let (Some(eee), Some(wnv)) = (
-            RiskLevel::parse(cell(r, ce)),
-            RiskLevel::parse(cell(r, cw)),
-        ) else {
+        let (Some(eee), Some(wnv)) = (RiskLevel::parse(cell(r, ce)), RiskLevel::parse(cell(r, cw)))
+        else {
             return Err(bad(&format!("unknown risk level for {town}")));
         };
         let as_of = sheet_date(cell(r, cd)).unwrap_or_default();
@@ -444,7 +442,11 @@ fn parse_workbook(
             let human = kind == "Human";
             let town = (!human && !cell(r, ccm).is_empty())
                 .then(|| vectorborne::canonical_town(cell(r, ccm)));
-            let date = if human { None } else { sheet_date(cell(r, cdt)) };
+            let date = if human {
+                None
+            } else {
+                sheet_date(cell(r, cdt))
+            };
             let e = positives
                 .entry((virus, kind.to_string(), cell(r, cco).to_string(), town))
                 .or_insert((0, None));
@@ -472,7 +474,11 @@ fn parse_workbook(
 }
 
 /// Read workbook bytes through a temporary file in the cache folder.
-fn read_workbook_bytes(ctx: &Context, season: i32, bytes: &[u8]) -> Result<Vec<phn_local::table::Table>> {
+fn read_workbook_bytes(
+    ctx: &Context,
+    season: i32,
+    bytes: &[u8],
+) -> Result<Vec<phn_local::table::Table>> {
     let dir = ctx.config.paths.cache_dir.join("tmp");
     std::fs::create_dir_all(&dir)?;
     let nanos = std::time::SystemTime::now()
@@ -534,9 +540,14 @@ fn snapshot_season(ctx: &Context, season: i32) -> Result<Option<ArboSeason>> {
         .into_iter()
         .filter(|p| p.season == season)
         .collect();
-    let as_of = towns.iter().map(|t| t.as_of.clone()).max().unwrap_or_default();
+    let as_of = towns
+        .iter()
+        .map(|t| t.as_of.clone())
+        .max()
+        .unwrap_or_default();
     let mut source = entry.to_source();
-    source.title = format!("{season} EEE and WNV risk levels by town (bundled snapshot of DPH's workbook)");
+    source.title =
+        format!("{season} EEE and WNV risk levels by town (bundled snapshot of DPH's workbook)");
     source.effective_date = Some(as_of.clone());
     Ok(Some(ArboSeason {
         season,
@@ -769,7 +780,10 @@ async fn nndss_counts(ctx: &Context) -> (Vec<NndssCount>, String, Vec<Source>, V
     let mut status = "unavailable".to_string();
     for (query, label) in [
         ("Babesiosis", "Babesiosis"),
-        ("Anaplasma phagocytophilum", "Anaplasmosis (Anaplasma phagocytophilum infection)"),
+        (
+            "Anaplasma phagocytophilum",
+            "Anaplasmosis (Anaplasma phagocytophilum infection)",
+        ),
     ] {
         let args = crate::cd::NotifiableTrendsArgs {
             condition: Some(query.into()),
@@ -926,9 +940,8 @@ async fn run(
         None => {
             // No data for the wanted season (DPH has not posted it, or it could not be
             // reached): fall back to the latest season available.
-            let fallback = snapshot_season(ctx, latest_snapshot)?.ok_or_else(|| {
-                PhnError::Internal("arbovirus snapshot has no seasons".into())
-            })?;
+            let fallback = snapshot_season(ctx, latest_snapshot)?
+                .ok_or_else(|| PhnError::Internal("arbovirus snapshot has no seasons".into()))?;
             caveats.push(format!(
                 "DPH's {wanted} risk levels are not available{}; showing the final {} levels instead.",
                 live_error
@@ -1108,13 +1121,20 @@ async fn run(
         .map(|((virus, sample_type), (count, towns, latest))| {
             let scope = match (area.level, sample_type.as_str()) {
                 (AreaLevel::Town, "Human") => {
-                    format!("{} County (county of residence)", area.county.clone().unwrap_or_default())
+                    format!(
+                        "{} County (county of residence)",
+                        area.county.clone().unwrap_or_default()
+                    )
                 }
                 _ => area.name.clone(),
             };
             PositiveSummary {
                 virus,
-                towns: if sample_type == "Human" { 0 } else { towns.len() },
+                towns: if sample_type == "Human" {
+                    0
+                } else {
+                    towns.len()
+                },
                 sample_type,
                 count,
                 latest_date: latest,
@@ -1134,11 +1154,33 @@ async fn run(
         }
         history.push(SeasonHistory {
             season: s,
-            as_of: in_area.iter().map(|t| t.as_of.clone()).max().unwrap_or_default(),
-            highest_eee: in_area.iter().map(|t| t.eee).max().unwrap_or(RiskLevel::Remote).label().into(),
-            highest_wnv: in_area.iter().map(|t| t.wnv).max().unwrap_or(RiskLevel::Low).label().into(),
-            towns_eee_moderate_or_higher: in_area.iter().filter(|t| t.eee >= RiskLevel::Moderate).count(),
-            towns_wnv_moderate_or_higher: in_area.iter().filter(|t| t.wnv >= RiskLevel::Moderate).count(),
+            as_of: in_area
+                .iter()
+                .map(|t| t.as_of.clone())
+                .max()
+                .unwrap_or_default(),
+            highest_eee: in_area
+                .iter()
+                .map(|t| t.eee)
+                .max()
+                .unwrap_or(RiskLevel::Remote)
+                .label()
+                .into(),
+            highest_wnv: in_area
+                .iter()
+                .map(|t| t.wnv)
+                .max()
+                .unwrap_or(RiskLevel::Low)
+                .label()
+                .into(),
+            towns_eee_moderate_or_higher: in_area
+                .iter()
+                .filter(|t| t.eee >= RiskLevel::Moderate)
+                .count(),
+            towns_wnv_moderate_or_higher: in_area
+                .iter()
+                .filter(|t| t.wnv >= RiskLevel::Moderate)
+                .count(),
         });
     }
 
@@ -1249,7 +1291,14 @@ async fn run(
     }
 
     // ---- Summary.
-    let s = summary(&area, &season_status, &arbovirus, &tickborne, &prevention, &notice_file);
+    let s = summary(
+        &area,
+        &season_status,
+        &arbovirus,
+        &tickborne,
+        &prevention,
+        &notice_file,
+    );
 
     // ---- Caveats and sources.
     caveats.push(c.season.focal_areas.text.trim().to_string());
@@ -1357,7 +1406,10 @@ fn summary(
                 ]
             })
             .collect();
-        s.push_str(&format!("Towns in {} by risk level ({} season):\n\n", area.name, a.season));
+        s.push_str(&format!(
+            "Towns in {} by risk level ({} season):\n\n",
+            area.name, a.season
+        ));
         s.push_str(&md::table(&["Level", "EEE", "West Nile virus"], &rows));
         s.push('\n');
         if !a.elevated_towns.is_empty() {
@@ -1382,8 +1434,14 @@ fn summary(
             "**{} {} ({})** — {}\n",
             g.virus, g.level, g.map_color, g.meaning
         ));
-        s.push_str(&format!("- What residents can do: {}\n", g.public_actions.join(" ")));
-        s.push_str(&format!("- DPH's plan at this level: {}\n\n", g.dph_response.join(" ")));
+        s.push_str(&format!(
+            "- What residents can do: {}\n",
+            g.public_actions.join(" ")
+        ));
+        s.push_str(&format!(
+            "- DPH's plan at this level: {}\n\n",
+            g.dph_response.join(" ")
+        ));
     }
     if let Some(w) = &a.cancellation {
         s.push_str(&format!(
@@ -1442,7 +1500,9 @@ fn summary(
             rows.push(vec![
                 d.disease.clone(),
                 y.year.to_string(),
-                y.cases.map(|n| md::num(n as f64, 0)).unwrap_or_else(|| "—".into()),
+                y.cases
+                    .map(|n| md::num(n as f64, 0))
+                    .unwrap_or_else(|| "—".into()),
                 fmt_rate(y.rate_per_100k),
                 fmt_rate(st.and_then(|m| m.rate_per_100k)),
                 y.flags.join("; "),
@@ -1464,7 +1524,11 @@ fn summary(
         "\nLyme disease counts are probable cases (case definition changed in 2022); babesiosis \
          and anaplasmosis are confirmed and probable. Rates are DPH's.\n",
     );
-    if let Some(last) = t.ed_visits.iter().max_by_key(|e| (e.year, e.through_month.clone())) {
+    if let Some(last) = t
+        .ed_visits
+        .iter()
+        .max_by_key(|e| (e.year, e.through_month.clone()))
+    {
         if t.geography == "Massachusetts" {
             s.push_str(&format!(
                 "\nEmergency department visits for tick-borne disease, {} (highest rate first): {}.\n",
@@ -1583,7 +1647,11 @@ fn notice_document(
     blocks.push(Block::Table(TableBlock {
         caption: Some(format!(
             "DPH risk level{}, {} season, as of {}",
-            if a.town.is_some() { "" } else { " (highest in the area)" },
+            if a.town.is_some() {
+                ""
+            } else {
+                " (highest in the area)"
+            },
             a.season,
             a.as_of
         )),
@@ -1606,7 +1674,10 @@ fn notice_document(
             w.week.start, w.week.end, w.week.from, w.week.to
         )));
     }
-    blocks.push(h(&format!("{} — preventing bites", audience_label(audience))));
+    blocks.push(h(&format!(
+        "{} — preventing bites",
+        audience_label(audience)
+    )));
     blocks.push(list(
         messages_for(c, audience)
             .iter()
@@ -1623,7 +1694,9 @@ fn notice_document(
                 "{} {}: {} cases ({} per 100,000; Massachusetts {}).",
                 d.disease,
                 y.year,
-                y.cases.map(|n| md::num(n as f64, 0)).unwrap_or_else(|| "—".into()),
+                y.cases
+                    .map(|n| md::num(n as f64, 0))
+                    .unwrap_or_else(|| "—".into()),
                 fmt_rate(y.rate_per_100k),
                 fmt_rate(
                     d.massachusetts
@@ -1723,14 +1796,20 @@ mod tests {
         assert_eq!(default_season(&c, date("2027-03-01")), 2026);
         assert_eq!(default_season(&c, date("2027-06-02")), 2027);
         let w = cancellation_for(&c, date("2026-08-19")).unwrap();
-        assert_eq!((w.week.start.as_str(), w.week.end.as_str()), ("7:45 PM", "6:00 AM"));
+        assert_eq!(
+            (w.week.start.as_str(), w.week.end.as_str()),
+            ("7:45 PM", "6:00 AM")
+        );
         assert!(cancellation_for(&c, date("2026-11-11")).is_none());
     }
 
     #[test]
     fn audiences_are_checked() {
         assert_eq!(audiences(&[]).unwrap().len(), 4);
-        assert_eq!(audiences(&["Schools".into(), "camp".into()]).unwrap(), vec!["schools", "camps"]);
+        assert_eq!(
+            audiences(&["Schools".into(), "camp".into()]).unwrap(),
+            vec!["schools", "camps"]
+        );
         assert!(audiences(&["pilots".into()]).is_err());
     }
 
@@ -1752,7 +1831,13 @@ mod tests {
         rows.push(s(&["Amherst", "Hampshire", "High", "Moderate", "46329"]));
         let risk = Table {
             name: "Risk by Town".into(),
-            headers: s(&["Town", "County", "EEE Risk Level", "WNV Risk Level", "Last updated"]),
+            headers: s(&[
+                "Town",
+                "County",
+                "EEE Risk Level",
+                "WNV Risk Level",
+                "Last updated",
+            ]),
             rows,
             truncated: false,
         };
@@ -1771,17 +1856,57 @@ mod tests {
                 "Clinical Presentation (Human)",
             ]),
             rows: vec![
-                s(&["1", "WNV", "Mosquito", "Hampshire", "Amherst", "46200", "Culex", "", "", ""]),
-                s(&["2", "WNV", "Mosquito ", "Hampshire", "Amherst", "46210", "Culex", "", "", ""]),
-                s(&["3", "EEE", "Human", "Hampshire", "", "46220", "", "60-69", "Male", "Encephalitis"]),
+                s(&[
+                    "1",
+                    "WNV",
+                    "Mosquito",
+                    "Hampshire",
+                    "Amherst",
+                    "46200",
+                    "Culex",
+                    "",
+                    "",
+                    "",
+                ]),
+                s(&[
+                    "2",
+                    "WNV",
+                    "Mosquito ",
+                    "Hampshire",
+                    "Amherst",
+                    "46210",
+                    "Culex",
+                    "",
+                    "",
+                    "",
+                ]),
+                s(&[
+                    "3",
+                    "EEE",
+                    "Human",
+                    "Hampshire",
+                    "",
+                    "46220",
+                    "",
+                    "60-69",
+                    "Male",
+                    "Encephalitis",
+                ]),
             ],
             truncated: false,
         };
         let (towns, positives, as_of) = parse_workbook(2026, &[risk, pos]).unwrap();
         assert_eq!(as_of, "2026-11-04");
         assert_eq!(towns.len(), 351);
-        assert!(towns.iter().any(|t| t.town == "Manchester-by-the-Sea" && t.wnv == RiskLevel::Low));
-        let m = positives.iter().find(|p| p.sample_type == "Mosquito").unwrap();
+        assert!(
+            towns
+                .iter()
+                .any(|t| t.town == "Manchester-by-the-Sea" && t.wnv == RiskLevel::Low)
+        );
+        let m = positives
+            .iter()
+            .find(|p| p.sample_type == "Mosquito")
+            .unwrap();
         assert_eq!((m.count, m.latest_date.as_deref()), (2, Some("2026-07-07")));
         let h = positives.iter().find(|p| p.sample_type == "Human").unwrap();
         assert!(h.town.is_none() && h.latest_date.is_none());
@@ -1815,8 +1940,17 @@ mod tests {
         assert!(d.arbovirus.town.is_some());
         assert_eq!(d.arbovirus.guidance.len(), 2);
         assert_eq!(d.tickborne.geography, "Plymouth");
-        let lyme = d.tickborne.diseases.iter().find(|x| x.disease == "Lyme disease").unwrap();
-        assert!(lyme.years.iter().any(|y| y.year == 2025 && y.cases == Some(1589)));
+        let lyme = d
+            .tickborne
+            .diseases
+            .iter()
+            .find(|x| x.disease == "Lyme disease")
+            .unwrap();
+        assert!(
+            lyme.years
+                .iter()
+                .any(|y| y.year == 2025 && y.cases == Some(1589))
+        );
         assert!(!d.tickborne.ed_visits.is_empty());
         assert_eq!(d.prevention.len(), 1);
         assert_eq!(d.prevention[0].audience, "schools");
@@ -1832,7 +1966,12 @@ mod tests {
         assert!(env.summary.contains("is over"));
         // NNDSS falls back to its bundled snapshot offline.
         assert_eq!(d.tickborne.current_year_status, "snapshot");
-        assert!(d.tickborne.current_year.iter().any(|n| n.condition == "Babesiosis"));
+        assert!(
+            d.tickborne
+                .current_year
+                .iter()
+                .any(|n| n.condition == "Babesiosis")
+        );
     }
 
     #[tokio::test]
@@ -1856,7 +1995,11 @@ mod tests {
         let total: usize = a.towns_by_level.iter().map(|l| l.eee_towns).sum();
         assert_eq!(total, 351);
         assert!(a.elevated_towns.len() <= MAX_TOWNS_LISTED);
-        assert!(a.positives.iter().any(|p| p.virus == "EEE" && p.sample_type == "Human"));
+        assert!(
+            a.positives
+                .iter()
+                .any(|p| p.virus == "EEE" && p.sample_type == "Human")
+        );
         assert!(env.data.season_status.contains("earlier season"));
         assert_eq!(env.data.tickborne.geography, "Massachusetts");
         assert_eq!(env.data.tickborne.ed_visits.len(), 13);

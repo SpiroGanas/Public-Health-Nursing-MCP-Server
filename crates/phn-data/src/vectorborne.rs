@@ -216,7 +216,11 @@ fn expect_xlsx(body: &[u8]) -> Result<()> {
 }
 
 /// Fetch the arbovirus update page (live → cache).
-pub async fn fetch_page(http: &HttpClient, cache: Option<&Cache>, ttl_secs: u64) -> Result<Fetched> {
+pub async fn fetch_page(
+    http: &HttpClient,
+    cache: Option<&Cache>,
+    ttl_secs: u64,
+) -> Result<Fetched> {
     fetch_validated(
         http,
         cache,

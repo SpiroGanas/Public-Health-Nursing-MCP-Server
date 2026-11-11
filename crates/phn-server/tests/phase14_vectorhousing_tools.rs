@@ -130,12 +130,28 @@ async fn vector_risk_statewide_for_an_earlier_season_and_bad_input() {
             .iter()
             .any(|p| p["virus"] == "EEE" && p["sample_type"] == "Human" && p["towns"] == 0)
     );
-    assert_eq!(s["data"]["tickborne"]["ed_visits"].as_array().unwrap().len(), 13);
+    assert_eq!(
+        s["data"]["tickborne"]["ed_visits"]
+            .as_array()
+            .unwrap()
+            .len(),
+        13
+    );
     let e = call_err(&h, "vector_borne_disease_risk", json!({"season": 2015})).await;
     assert!(e.contains("season must be from"));
-    let e = call_err(&h, "vector_borne_disease_risk", json!({"audiences": ["pilots"]})).await;
+    let e = call_err(
+        &h,
+        "vector_borne_disease_risk",
+        json!({"audiences": ["pilots"]}),
+    )
+    .await;
     assert!(e.contains("unknown audience"));
-    let e = call_err(&h, "vector_borne_disease_risk", json!({"area": "Midleborough"})).await;
+    let e = call_err(
+        &h,
+        "vector_borne_disease_risk",
+        json!({"area": "Midleborough"}),
+    )
+    .await;
     assert!(e.contains("Middleborough"));
 }
 
@@ -166,7 +182,12 @@ async fn housing_guide_explains_the_code_and_writes_readable_sheets() {
             .iter()
             .any(|k| k["section"] == "410.550(B)")
     );
-    assert!(d["regulation"].as_str().unwrap().contains("105 CMR 410.000"));
+    assert!(
+        d["regulation"]
+            .as_str()
+            .unwrap()
+            .contains("105 CMR 410.000")
+    );
     assert!(
         d["inspection"]["request"]
             .as_array()
@@ -175,7 +196,10 @@ async fn housing_guide_explains_the_code_and_writes_readable_sheets() {
             .any(|x| x["text"].as_str().unwrap().contains("1 business day"))
     );
     assert_eq!(
-        d["inspection"]["urgent_conditions"].as_array().unwrap().len(),
+        d["inspection"]["urgent_conditions"]
+            .as_array()
+            .unwrap()
+            .len(),
         18
     );
     let sheets = d["teaching_sheets"].as_array().unwrap();
@@ -190,7 +214,12 @@ async fn housing_guide_explains_the_code_and_writes_readable_sheets() {
     }
     assert!(caveats(&s).contains("does not machine-translate"));
     assert!(caveats(&s).contains("not legal advice"));
-    assert!(d["local_housing"]["built_before_1980_pct"].as_f64().unwrap() > 0.0);
+    assert!(
+        d["local_housing"]["built_before_1980_pct"]
+            .as_f64()
+            .unwrap()
+            > 0.0
+    );
     assert!(
         d["tenant_protections"]
             .as_array()

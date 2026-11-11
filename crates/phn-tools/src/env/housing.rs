@@ -387,7 +387,10 @@ fn local_housing(ctx: &Context, a: &Area) -> Result<(Option<LocalHousing>, Vec<S
             crowding_pct: get(&i, "crowding_pct"),
             source: format!(
                 "{} ({}); {} ({})",
-                hous_entry.title, hous_entry.source_vintage, ind_entry.title, ind_entry.source_vintage
+                hous_entry.title,
+                hous_entry.source_vintage,
+                ind_entry.title,
+                ind_entry.source_vintage
             ),
         }),
         vec![hous_entry.to_source(), ind_entry.to_source()],
@@ -398,23 +401,61 @@ fn local_housing(ctx: &Context, a: &Area) -> Result<(Option<LocalHousing>, Vec<S
 const HOUSEHOLD_FIELDS: &[(&str, &[&str])] = &[
     (
         "tenant_name",
-        &["name", "tenant name", "tenant", "occupant", "occupant name", "full name", "resident"],
+        &[
+            "name",
+            "tenant name",
+            "tenant",
+            "occupant",
+            "occupant name",
+            "full name",
+            "resident",
+        ],
     ),
-    ("address", &["address", "street address", "street", "address line 1"]),
-    ("unit", &["unit", "apartment", "apt", "unit number", "apt number"]),
+    (
+        "address",
+        &["address", "street address", "street", "address line 1"],
+    ),
+    (
+        "unit",
+        &["unit", "apartment", "apt", "unit number", "apt number"],
+    ),
     ("town", &["town", "city", "city or town", "municipality"]),
-    ("phone", &["phone", "telephone", "phone number", "cell", "mobile"]),
+    (
+        "phone",
+        &["phone", "telephone", "phone number", "cell", "mobile"],
+    ),
     (
         "owner_name",
-        &["owner", "owner name", "landlord", "landlord name", "property manager", "manager"],
+        &[
+            "owner",
+            "owner name",
+            "landlord",
+            "landlord name",
+            "property manager",
+            "manager",
+        ],
     ),
     (
         "problems",
-        &["problems", "problem", "conditions", "condition", "issues", "complaint", "description"],
+        &[
+            "problems",
+            "problem",
+            "conditions",
+            "condition",
+            "issues",
+            "complaint",
+            "description",
+        ],
     ),
     (
         "date_first_noticed",
-        &["date noticed", "date first noticed", "noticed", "first noticed", "since"],
+        &[
+            "date noticed",
+            "date first noticed",
+            "noticed",
+            "first noticed",
+            "since",
+        ],
     ),
 ];
 const LANGUAGE_COLUMNS: &[&str] = &[
@@ -435,9 +476,14 @@ fn find_column(headers: &[String], aliases: &[&str]) -> Option<usize> {
 }
 
 fn letter_kinds<'a>(c: &'a HousingContent, which: Option<&str>) -> Result<Vec<&'a LetterDef>> {
-    let w = which.map(|s| words(s).trim().to_string()).unwrap_or_default();
+    let w = which
+        .map(|s| words(s).trim().to_string())
+        .unwrap_or_default();
     match w.as_str() {
-        "" | "both" | "all" => Ok(vec![&c.letters.inspection_request, &c.letters.repair_request]),
+        "" | "both" | "all" => Ok(vec![
+            &c.letters.inspection_request,
+            &c.letters.repair_request,
+        ]),
         "inspection request" | "inspection" | "housing inspection request" => {
             Ok(vec![&c.letters.inspection_request])
         }
@@ -713,7 +759,10 @@ pub fn housing_conditions_health_guide(
         caveats.push(format!(
             "No agency-approved translation was found for: {}. Only the English sheets were \
              written for those languages; this server does not machine-translate.",
-            missing_translations.into_iter().collect::<Vec<_>>().join(", ")
+            missing_translations
+                .into_iter()
+                .collect::<Vec<_>>()
+                .join(", ")
         ));
     }
 
@@ -850,11 +899,13 @@ pub fn housing_conditions_health_guide(
             files,
             by_language: by_lang
                 .into_iter()
-                .map(|(language, (documents, agency_translation))| LanguageCount {
-                    language,
-                    documents,
-                    agency_translation,
-                })
+                .map(
+                    |(language, (documents, agency_translation))| LanguageCount {
+                        language,
+                        documents,
+                        agency_translation,
+                    },
+                )
                 .collect(),
             english_fallback: fallback,
             blank_fields,
@@ -890,7 +941,12 @@ pub fn housing_conditions_health_guide(
         &letters,
     );
 
-    caveats.push(c.legal_notice.split_whitespace().collect::<Vec<_>>().join(" "));
+    caveats.push(
+        c.legal_notice
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     caveats.push(
         "Local bylaws, the Boston and other city housing codes, and the State Building Code may \
          add requirements; the board of health enforces 105 CMR 410.000 locally."
@@ -934,7 +990,11 @@ pub fn housing_conditions_health_guide(
             inspection,
             board_of_health,
             tenant_protections,
-            legal_notice: c.legal_notice.split_whitespace().collect::<Vec<_>>().join(" "),
+            legal_notice: c
+                .legal_notice
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             local_housing: local,
             teaching_sheets: sheet_out,
             teaching_sheet_folder: sheet_folder,
@@ -1031,11 +1091,17 @@ fn summary(
     }
     s.push_str("### Tenant protections (decision support, not legal advice)\n\n");
     for p in protections {
-        s.push_str(&format!("- **{}:** {} _({})_\n", p.label, p.text, p.citation));
+        s.push_str(&format!(
+            "- **{}:** {} _({})_\n",
+            p.label, p.text, p.citation
+        ));
     }
     s.push_str(&format!(
         "\n_{}_\n\n",
-        c.legal_notice.split_whitespace().collect::<Vec<_>>().join(" ")
+        c.legal_notice
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
     ));
     if let Some(l) = local {
         s.push_str(&format!(
@@ -1065,7 +1131,11 @@ fn summary(
                             format!(
                                 "{}: {}",
                                 t.language,
-                                if t.file.is_some() { "agency translation" } else { "none" }
+                                if t.file.is_some() {
+                                    "agency translation"
+                                } else {
+                                    "none"
+                                }
                             )
                         })
                         .collect::<Vec<_>>()
@@ -1154,7 +1224,10 @@ mod tests {
     fn teaching_sheets_meet_the_reading_target() {
         let c = content();
         let mut values = BTreeMap::new();
-        values.insert("board_of_health_phone".to_string(), "413-555-0199".to_string());
+        values.insert(
+            "board_of_health_phone".to_string(),
+            "413-555-0199".to_string(),
+        );
         values.insert("town".to_string(), "Amherst".to_string());
         for s in &c.teaching_sheets {
             let (filled, unknown) = templates::fill(&s.markdown, &values, BLANK);
@@ -1217,16 +1290,33 @@ mod tests {
         let d = &env.data;
         assert_eq!(d.conditions.len(), 1);
         assert!(d.conditions[0].urgent);
-        assert!(d.conditions[0].code.iter().any(|k| k.section == "410.180(A)"));
+        assert!(
+            d.conditions[0]
+                .code
+                .iter()
+                .any(|k| k.section == "410.180(A)")
+        );
         // Inspection sheet plus the heat sheet.
         assert_eq!(d.teaching_sheets.len(), 2);
         let heat = d.teaching_sheets.iter().find(|s| s.id == "heat").unwrap();
         assert!(heat.meets_target);
-        let es = heat.translations.iter().find(|t| t.language == "Spanish").unwrap();
+        let es = heat
+            .translations
+            .iter()
+            .find(|t| t.language == "Spanish")
+            .unwrap();
         assert!(es.file.is_some());
-        let pt = heat.translations.iter().find(|t| t.language == "Portuguese").unwrap();
+        let pt = heat
+            .translations
+            .iter()
+            .find(|t| t.language == "Portuguese")
+            .unwrap();
         assert!(pt.file.is_none());
-        assert!(env.caveats.iter().any(|c| c.contains("does not machine-translate")));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("does not machine-translate"))
+        );
         let l = d.local_housing.as_ref().unwrap();
         assert!(l.built_before_1980_pct.unwrap() > 50.0);
         assert!(env.notice.is_some());
@@ -1285,10 +1375,22 @@ mod tests {
         assert!(l.blank_fields >= 2);
         assert_eq!(l.english_fallback, 2);
         let json = serde_json::to_string(&env).unwrap();
-        for secret in ["Ottilie", "Fernsby", "12 Larkspur Way", "413-555-0142", "Quince", "Juniper"] {
+        for secret in [
+            "Ottilie",
+            "Fernsby",
+            "12 Larkspur Way",
+            "413-555-0142",
+            "Quince",
+            "Juniper",
+        ] {
             assert!(!json.contains(secret), "{secret} leaked");
         }
-        assert!(env.privacy.identifiers_detected.iter().any(|i| !i.is_empty()));
+        assert!(
+            env.privacy
+                .identifiers_detected
+                .iter()
+                .any(|i| !i.is_empty())
+        );
         let out = dir.path().join("data/output");
         let folder = out.join(l.folder.rsplit('/').next().unwrap());
         assert!(folder.exists());
