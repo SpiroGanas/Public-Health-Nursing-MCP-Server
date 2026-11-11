@@ -126,6 +126,10 @@ pub struct EpiCurveResult {
     pub chart: ChartFiles,
 }
 
+/// Years an onset or exposure date may fall in. Dates outside this range are
+/// data-entry errors, and date arithmetic on extreme years would overflow.
+const PLOT_YEARS: std::ops::RangeInclusive<i32> = 1900..=2100;
+
 const CANDIDATES: [f64; 13] = [
     1.0, 2.0, 3.0, 4.0, 6.0, 8.0, 12.0, 24.0, 48.0, 72.0, 96.0, 168.0, 336.0,
 ];
@@ -356,6 +360,11 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
             ))
         })?),
     };
+    if known.is_some_and(|k| !PLOT_YEARS.contains(&k.year())) {
+        return Err(PhnError::InvalidInput(
+            "exposure_datetime must be between the years 1900 and 2100".into(),
+        ));
+    }
 
     // Collect (onset, stratum, count).
     let mut points: Vec<(NaiveDateTime, String, u64)> = Vec::new();
@@ -385,6 +394,11 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
                 let (d, timed) = line_list::parse_datetime(&oc.onset).ok_or_else(|| {
                     PhnError::InvalidInput(format!("onset '{}' is not a date", oc.onset))
                 })?;
+                if !PLOT_YEARS.contains(&d.year()) {
+                    return Err(PhnError::InvalidInput(
+                        "onset dates must be between the years 1900 and 2100".into(),
+                    ));
+                }
                 has_times |= timed;
                 points.push((
                     d,
@@ -422,14 +436,16 @@ pub fn generate_epi_curve(ctx: &Context, args: EpiCurveArgs) -> Result<Envelope<
                     continue;
                 }
                 match rec.onset {
-                    Some(d) => {
+                    // A date far outside the plausible range is a data-entry
+                    // error; it is counted with the unreadable onsets.
+                    Some(d) if PLOT_YEARS.contains(&d.year()) => {
                         let s = strat
                             .as_ref()
                             .map(|v| v[r].clone().unwrap_or_else(|| "Unknown".into()))
                             .unwrap_or_else(|| "Cases".into());
                         points.push((d, s, 1));
                     }
-                    None => without_onset += 1,
+                    _ => without_onset += 1,
                 }
             }
             has_times = ll.has_times;
@@ -796,6 +812,39 @@ mod tests {
             Pattern::ContinuousCommonSource
         );
         assert_eq!(classify(&[0, 1, 1, 0], 24.0, None).0, Pattern::Undetermined);
+    }
+
+    #[test]
+    fn dates_far_outside_the_plausible_range_are_refused() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let c = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        let counts = |onset: &str| {
+            Some(vec![OnsetCount {
+                onset: onset.into(),
+                count: 6,
+                stratum: None,
+            }])
+        };
+        for onset in ["+262142-12-31", "2500-01-01", "1700-06-01"] {
+            let r = generate_epi_curve(
+                &c,
+                EpiCurveArgs {
+                    onset_counts: counts(onset),
+                    ..EpiCurveArgs::default()
+                },
+            );
+            assert!(r.is_err(), "{onset}");
+        }
+        let r = generate_epi_curve(
+            &c,
+            EpiCurveArgs {
+                onset_counts: counts("2026-05-03"),
+                exposure_datetime: Some("9999-01-01".into()),
+                ..EpiCurveArgs::default()
+            },
+        );
+        assert!(r.is_err());
     }
 
     #[test]

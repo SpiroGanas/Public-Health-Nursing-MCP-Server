@@ -1585,17 +1585,20 @@ fn batch(
                 doses.entry(h.clone()).or_default().extend(ds);
             }
         }
-        let exemptions: BTreeMap<String, String> = ex_col
-            .map(|c| {
-                cell(c)
-                    .split([';', ','])
-                    .filter_map(|p| {
-                        let (v, k) = p.split_once(':')?;
-                        Some((normalize_vaccine_key(v), k.trim().to_ascii_lowercase()))
-                    })
-                    .collect()
-            })
-            .unwrap_or_default();
+        let exemptions: BTreeMap<String, String> =
+            match ex_col.map(|c| parse_exemption_cell(cell(c))) {
+                None => BTreeMap::new(),
+                Some(Some(m)) => m,
+                Some(None) => {
+                    fail(
+                        "the Exemptions cell could not be read; use vaccine:kind with kind \
+                         medical or religious (for example mmr:medical; all:religious)"
+                            .into(),
+                        &mut problems,
+                    );
+                    continue;
+                }
+            };
         let st = Student {
             grade: cell(grade_col).to_string(),
             dob,
@@ -1820,6 +1823,19 @@ fn batch(
         ));
     }
     let mut caveats = base_caveats(grace);
+    summary.push_str(&format!(
+        "\nVaccine columns read: {}.\n",
+        vaccine_columns.join(", ")
+    ));
+    if !columns_not_used.is_empty() {
+        caveats.push(format!(
+            "These roster columns were not used: {}. If one of them holds dose dates, every \
+             student will show as not meeting that requirement; rename it to the vaccine (dtap, \
+             polio, hepb, hib, mmr, mmrv, varicella, tdap, td, menacwy; a dose number such as \
+             \"MMR 1\" is accepted) and run the check again.",
+            columns_not_used.join(", ")
+        ));
+    }
     caveats.push(
         "Counts are by requirement; a student can appear in several rows. Students marked 'needs \
          review' have records the rules cannot decide (for example Hib product, partial laboratory \
@@ -1839,6 +1855,8 @@ fn batch(
                 students_read: table.rows.len(),
                 students_evaluated: evaluated,
                 rows_with_problems: problems.len(),
+                vaccine_columns,
+                columns_not_used,
                 counts: count_rows,
                 output_file: out_display.clone(),
                 suppression_threshold: threshold,
@@ -2146,5 +2164,130 @@ mod tests {
         assert!(evaluate_student(&s, d("2026-09-01"), true).is_err());
         let s = student("13th", "2020-01-01", &[]);
         assert!(evaluate_student(&s, d("2026-09-01"), true).is_err());
+    }
+
+    /// Students 7 or older catch up with Tdap/Td, which the DTaP count alone
+    /// cannot judge: "needs review", never "not met" with a DTaP suggestion.
+    #[test]
+    fn tdap_and_td_catch_up_at_seven_or_older_needs_review() {
+        let s = student(
+            "4",
+            "2017-03-01",
+            &[
+                ("tdap", &["2025-09-10"]),
+                ("td", &["2025-10-10", "2026-04-15"]),
+            ],
+        );
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        let x = r.iter().find(|x| x.requirement_id == "dtap").unwrap();
+        assert_eq!(x.status, ReqStatus::NeedsReview);
+        assert!(x.reason.contains("3 Tdap/Td dose(s)"), "{}", x.reason);
+        assert!(x.earliest_next_dose.is_none());
+        assert!(!x.eligible_now);
+        // Three infant DTaP doses plus Tdap at 8.
+        let s = student(
+            "4",
+            "2017-03-01",
+            &[
+                ("dtap", &["2017-05-01", "2017-07-01", "2017-09-01"]),
+                ("tdap", &["2025-09-10"]),
+            ],
+        );
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        assert_eq!(status(&r, "dtap"), ReqStatus::NeedsReview);
+        // No doses at all: still not met, but DTaP is not suggested.
+        let s = student("4", "2017-03-01", &[]);
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        let x = r.iter().find(|x| x.requirement_id == "dtap").unwrap();
+        assert_eq!(x.status, ReqStatus::NotMet);
+        assert!(x.reason.contains("not DTaP"), "{}", x.reason);
+        // A 6-year-old is unchanged.
+        let s = student("1", "2020-03-01", &[("dtap", &["2020-05-01"])]);
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        let x = r.iter().find(|x| x.requirement_id == "dtap").unwrap();
+        assert_eq!(x.status, ReqStatus::NotMet);
+        assert!(!x.reason.contains("not DTaP"));
+    }
+
+    /// A dose given too soon after a dose that did not count is not accepted
+    /// as "met" without review (CDC spaces the repeat from the invalid dose).
+    #[test]
+    fn dose_too_soon_after_an_invalid_dose_needs_review() {
+        // Polio: a 4th dose at 3 years 11 months does not count as the final
+        // dose; a 5th dose two months later is under 6 months after it.
+        let s = student(
+            "1",
+            "2020-01-01",
+            &[(
+                "polio",
+                &[
+                    "2020-03-01",
+                    "2020-05-01",
+                    "2020-07-01",
+                    "2023-12-01",
+                    "2024-02-01",
+                ],
+            )],
+        );
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        let p = r.iter().find(|x| x.requirement_id == "polio").unwrap();
+        assert_eq!(p.status, ReqStatus::NeedsReview);
+        assert!(p.reason.contains("2023-12-01"), "{}", p.reason);
+        // The same history with the 5th dose 6 months later is met.
+        let s = student(
+            "1",
+            "2020-01-01",
+            &[(
+                "polio",
+                &[
+                    "2020-03-01",
+                    "2020-05-01",
+                    "2020-07-01",
+                    "2023-12-01",
+                    "2024-06-01",
+                ],
+            )],
+        );
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        assert_eq!(status(&r, "polio"), ReqStatus::Met);
+        // MMR 12 days before the first birthday does not count; a repeat 13
+        // days later is less than 4 weeks after it.
+        let s = student(
+            "K",
+            "2020-01-01",
+            &[("mmr", &["2020-12-20", "2021-01-02", "2024-02-01"])],
+        );
+        let (_, _, r, _) = evaluate_student(&s, d("2026-09-01"), true).unwrap();
+        assert_eq!(status(&r, "mmr"), ReqStatus::NeedsReview);
+    }
+
+    #[test]
+    fn roster_exemption_cells_and_numbered_vaccine_columns() {
+        let ex = parse_exemption_cell;
+        let m = ex("mmr:medical; all:religious").unwrap();
+        assert_eq!(m.get("mmr").map(String::as_str), Some("medical"));
+        assert_eq!(m.get("all").map(String::as_str), Some("religious"));
+        // A bare kind covers every vaccine instead of being dropped.
+        assert_eq!(
+            ex("Religious").unwrap().get("all").map(String::as_str),
+            Some("religious")
+        );
+        assert!(ex("").unwrap().is_empty());
+        assert!(ex("None").unwrap().is_empty());
+        // Unknown kinds and vaccines are not read as religious exemptions.
+        assert!(ex("all:philosophical").is_none());
+        assert!(ex("mmr:no").is_none());
+        assert!(ex("pertussis:medical").is_none());
+        assert!(exemption_key_known("hepb"));
+        assert!(!exemption_key_known("pertussis"));
+
+        assert_eq!(roster_vaccine_key("MMR").as_deref(), Some("MMR"));
+        assert_eq!(roster_vaccine_key("MMR 1").as_deref(), Some("mmr"));
+        assert_eq!(roster_vaccine_key("DTaP #2").as_deref(), Some("dtap"));
+        assert_eq!(roster_vaccine_key("Polio dose 3").as_deref(), Some("polio"));
+        assert_eq!(roster_vaccine_key("Hep B 3").as_deref(), Some("hep b"));
+        assert!(antigens_for_key("hep b").is_some());
+        assert!(roster_vaccine_key("Grade 7").is_none());
+        assert!(roster_vaccine_key("Varicella History").is_none());
     }
 }

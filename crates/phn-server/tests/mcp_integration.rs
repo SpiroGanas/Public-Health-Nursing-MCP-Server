@@ -228,6 +228,10 @@ async fn toolsets_limit_which_tools_are_listed_and_callable() {
         .await;
     assert_eq!(r.is_error, Some(true));
     assert!(everything(&r).contains("not enabled"));
+    // The toolsets are pinned by the environment here, so the error must name
+    // the variable instead of suggesting configure_jurisdiction.
+    assert!(everything(&r).contains("fixed by PHN_TOOLSETS"));
+    assert!(!everything(&r).contains("Enable it with configure_jurisdiction"));
 }
 
 #[tokio::test]
@@ -921,8 +925,55 @@ async fn no_row_level_data_is_returned_by_default() {
             ll,
         ),
         // ---- End of Phase 13 EPR-10 data tools.
+        // ---- Path arguments that had no row before the peer review.
+        // A translated draft and a back-translation read from client files.
+        (
+            "translate_health_material",
+            json!({"source_path": "policies/tb_screening.txt", "language": "Spanish",
+                   "translation_path": "client_note.txt", "back_translation_path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        // A line list given as the glossary.
+        (
+            "translate_health_material",
+            json!({"source_path": "policies/tb_screening.txt", "language": "Spanish",
+                   "glossary_path": "line_list.csv"}),
+            ll,
+        ),
+        // A line list given as the medication log.
+        (
+            "build_school_health_annual_report",
+            json!({"medication_log_path": "line_list.csv", "school_year": "2025-2026"}),
+            ll,
+        ),
+        // A line list given as the incident map image.
+        (
+            "generate_ics_forms",
+            json!({"forms": ["201"], "map_path": "line_list.csv", "incident_name": "Leak test"}),
+            ll,
+        ),
+        // ---- End of path arguments added by the peer review.
     ];
+    let tools = h.client.list_all_tools().await.unwrap();
     for (name, args, file) in checks {
+        // The tools ignore arguments they do not know, so a misspelled or
+        // renamed argument would make its row test nothing. Every argument
+        // must be one the tool's input schema declares.
+        let tool = tools
+            .iter()
+            .find(|t| t.name == name)
+            .unwrap_or_else(|| panic!("{name} is not a listed tool"));
+        let props = tool
+            .input_schema
+            .get("properties")
+            .and_then(|p| p.as_object())
+            .unwrap_or_else(|| panic!("{name} has no input properties"));
+        for key in args.as_object().into_iter().flat_map(|o| o.keys()) {
+            assert!(
+                props.contains_key(key),
+                "{name}: '{key}' is not an argument of this tool, so this row tests nothing"
+            );
+        }
         let r = h.call(name, args.clone()).await;
         let found = leaks(&everything(&r), file, None);
         assert!(
@@ -930,6 +981,33 @@ async fn no_row_level_data_is_returned_by_default() {
             "{name} {args} returned identifiers: {found:?}"
         );
     }
+    // COMM-05 reads a document and reports findings about it. The letter has
+    // identifiers in its title, in a heading that skips a level, in low-contrast
+    // text, in a bold line, and in a table without header cells; the findings may
+    // say where a problem is but must not quote any of them.
+    let letter = "data/client_letter.html";
+    let r = h
+        .call(
+            "check_document_accessibility",
+            json!({"path": "client_letter.html"}),
+        )
+        .await;
+    assert_eq!(r.is_error, Some(false), "{}", summary(&r));
+    let found = leaks(&everything(&r), letter, None);
+    assert!(
+        found.is_empty(),
+        "check_document_accessibility quoted identifiers: {found:?}"
+    );
+    // The check did look at the parts that hold them.
+    let s = r.structured_content.unwrap();
+    let ids: Vec<&str> = s["data"]["report"]["checks"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|c| c["status"] != "pass" && c["status"] != "not_applicable")
+        .filter_map(|c| c["id"].as_str())
+        .collect();
+    assert!(ids.contains(&"heading_order"), "{ids:?}");
     // Aggregate value summaries never show direct identifiers either.
     let r = h
         .call(
@@ -941,6 +1019,50 @@ async fn no_row_level_data_is_returned_by_default() {
     let s = r.structured_content.unwrap();
     assert_eq!(s["privacy"]["row_level_data"], false);
     assert_eq!(s["privacy"]["suppression_applied"], true);
+}
+
+/// A tool whose wrapper awaits an async tool function fetches from a public
+/// source (live, then cache, then snapshot), so its annotations must say it is
+/// open-world. `functional_needs_shelter_intake` (HHS emPOWER) was marked closed.
+#[tokio::test]
+async fn tools_that_await_a_fetch_are_annotated_open_world() {
+    let h = start(|_| {}).await;
+    let tools = h.client.list_all_tools().await.unwrap();
+    let src_dir = common::repo_root().join("crates/phn-server/src");
+    let mut checked = 0;
+    for entry in std::fs::read_dir(&src_dir).unwrap() {
+        let path = entry.unwrap().path();
+        if path.extension().and_then(|e| e.to_str()) != Some("rs") {
+            continue;
+        }
+        let src = std::fs::read_to_string(&path).unwrap();
+        for block in src.split("#[tool(").skip(1) {
+            // Async tool functions are called as `tool(&self.ctx, args).await`.
+            if !block.contains("args).await") {
+                continue;
+            }
+            let name = block
+                .split("name = \"")
+                .nth(1)
+                .and_then(|rest| rest.split('"').next())
+                .expect("tool name");
+            let tool = tools
+                .iter()
+                .find(|t| t.name == name)
+                .unwrap_or_else(|| panic!("{name} is not a listed tool"));
+            assert_eq!(
+                tool.annotations.as_ref().and_then(|a| a.open_world_hint),
+                Some(true),
+                "{name} awaits an async tool function (a network fetch) but is not annotated \
+                 open_world_hint = true"
+            );
+            checked += 1;
+        }
+    }
+    assert!(
+        checked >= 20,
+        "only {checked} async tool wrappers found; did the wrapper pattern change?"
+    );
 }
 
 #[tokio::test]

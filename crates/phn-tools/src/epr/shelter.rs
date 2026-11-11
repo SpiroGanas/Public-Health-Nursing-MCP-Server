@@ -584,13 +584,15 @@ pub async fn functional_needs_shelter_intake(
                 .filter(|l| !l.is_empty())
                 .unwrap_or_else(|| "Not recorded".into());
             *langs.entry(lang.clone()).or_default() += 1;
-            let tpl = templates_dir
-                .join(lang.to_ascii_lowercase())
-                .join("cmist_intake.md");
+            // The same folder names as the other tools ("Haitian Creole" →
+            // haitian_creole); the helper keeps only letters, digits, - and _, so a
+            // cell value can never point outside /data/templates.
+            let tpl = crate::core::practice::language_folder(&lang)
+                .map(|folder| templates_dir.join(folder).join("cmist_intake.md"));
             let is_english = lang.eq_ignore_ascii_case("english") || lang == "Not recorded";
-            let filled = match (!is_english)
-                .then(|| std::fs::read_to_string(&tpl).ok())
-                .flatten()
+            let filled = match tpl
+                .filter(|_| !is_english)
+                .and_then(|path| std::fs::read_to_string(path).ok())
             {
                 Some(text) => {
                     translated += 1;
@@ -834,6 +836,42 @@ pub async fn functional_needs_shelter_intake(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[tokio::test]
+    async fn agency_translations_use_the_shared_folder_names() {
+        let dir = tempfile::tempdir().unwrap();
+        let data = dir.path().join("data");
+        // The folder name the other tools use for "Haitian Creole".
+        std::fs::create_dir_all(data.join("templates/haitian_creole")).unwrap();
+        std::fs::write(
+            data.join("templates/haitian_creole/cmist_intake.md"),
+            "# Admisyon\n\nNon: {{Name}}\n",
+        )
+        .unwrap();
+        std::fs::write(
+            data.join("intake.csv"),
+            "Name,Preferred Language,interpreter_needed\n\
+             Resident One,Haitian Creole,yes\n\
+             Resident Two,../../outside,no\n",
+        )
+        .unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        let env = functional_needs_shelter_intake(
+            &ctx,
+            ShelterArgs {
+                area: Some("Brockton".into()),
+                blank_form: Some("none".into()),
+                intake_path: Some("intake.csv".into()),
+                ..Default::default()
+            },
+        )
+        .await
+        .unwrap();
+        let b = env.data.batch.as_ref().unwrap();
+        assert_eq!(b.forms_in_agency_translation, 1);
+        // A value that is not a folder name falls back to English; it is never used as a path.
+        assert_eq!(b.forms_in_english_fallback, 1);
+    }
 
     #[tokio::test]
     async fn estimates_needs_and_fills_forms_locally() {

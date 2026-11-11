@@ -469,6 +469,18 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             .map(|(pi, (n, cues, neg))| (pi, n, cues, neg))
             .collect();
         ranked.sort_by(|a, b| (b.1, b.2.len()).cmp(&(a.1, a.2.len())).then(a.0.cmp(&b.0)));
+        // Problems whose cues appeared only after a negation word are not dropped:
+        // they are listed apart for the nurse to review.
+        for (pi, _, _, neg) in ranked.iter().filter(|r| r.1 == 0 && !r.3.is_empty()) {
+            let p = &c.problems[*pi];
+            negated_only.push(NegatedProblem {
+                code: p.code.clone(),
+                name: p.name.clone(),
+                domain: domain_label(&p.domain),
+                sentences: neg_sentences.get(pi).copied().unwrap_or(0),
+                negated_terms: neg.clone(),
+            });
+        }
         for (pi, n, cues, neg) in ranked.into_iter().filter(|r| r.1 > 0).take(max) {
             let p = &c.problems[pi];
             let mut ints: Vec<InterventionMatch> = pair_hits
@@ -508,10 +520,19 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                 interventions: ints,
             });
         }
-        if problems.is_empty() {
+        if problems.is_empty() && negated_only.is_empty() {
             caveats.push(
                 "No Omaha System problem cues were found in the text; try a fuller narrative or \
                  use lookup to browse problems."
+                    .into(),
+            );
+        }
+        if !negated_only.is_empty() {
+            caveats.push(
+                "Problems listed as mentioned as absent or negated had their terms only after \
+                 words such as no, not, denies, or without. Decide for each whether the note \
+                 rules the problem out (denies fever) or describes it (no income, not taking a \
+                 medication)."
                     .into(),
             );
         }
@@ -765,6 +786,17 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                 &rows,
             ));
         }
+        if !negated_only.is_empty() {
+            s.push_str(&format!(
+                "\n**Mentioned as absent or negated — review** (an absent need, such as no \
+                 income or not taking a medication, is often the problem itself): {}.\n",
+                negated_only
+                    .iter()
+                    .map(|p| format!("{} {} ({})", p.code, p.name, p.negated_terms.join(", ")))
+                    .collect::<Vec<_>>()
+                    .join("; ")
+            ));
+        }
         if !unlinked_interventions.is_empty() {
             s.push_str(&format!(
                 "\nOther interventions found: {}.\n",
@@ -859,6 +891,7 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
         source_file,
         sentences_analyzed: n_sent,
         problems,
+        mentioned_as_absent_or_negated: negated_only,
         unlinked_interventions,
         lookup,
         ratings: ratings_out,
@@ -967,6 +1000,46 @@ mod tests {
         let json = serde_json::to_string(&env).unwrap();
         assert!(!json.contains("Lost job last month"));
         assert!(!json.contains("cannot pay rent;"));
+    }
+
+    #[test]
+    fn negated_only_problems_are_listed_for_review_not_dropped() {
+        let (_d, c) = ctx(false);
+        let env = omaha_system_coder(
+            &c,
+            OmahaArgs {
+                text: Some("Client has no income and is not taking her insulin.".into()),
+                ..OmahaArgs::default()
+            },
+        )
+        .unwrap();
+        let d = &env.data;
+        // "no income" and "not taking her insulin" are the problems themselves:
+        // they are kept apart for review, not suggested as confirmed and not lost.
+        assert!(!d.problems.iter().any(|p| p.code == "01" || p.code == "42"));
+        let income = d
+            .mentioned_as_absent_or_negated
+            .iter()
+            .find(|p| p.name == "Income")
+            .expect("income listed for review");
+        assert_eq!(income.sentences, 1);
+        assert_eq!(income.negated_terms, vec!["income".to_string()]);
+        let med = d
+            .mentioned_as_absent_or_negated
+            .iter()
+            .find(|p| p.name == "Medication regimen")
+            .expect("medication regimen listed for review");
+        assert_eq!(med.code, "42");
+        assert!(med.negated_terms.contains(&"insulin".to_string()));
+        assert!(env.summary.contains("Mentioned as absent or negated"));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("absent or negated"))
+        );
+        // The note's own words are still not returned.
+        let json = serde_json::to_string(&env).unwrap();
+        assert!(!json.contains("is not taking her"));
     }
 
     #[test]

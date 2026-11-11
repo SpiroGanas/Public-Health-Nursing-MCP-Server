@@ -677,3 +677,76 @@ pub fn create_spc_chart(ctx: &Context, args: SpcArgs) -> Result<Envelope<SpcResu
     .caveats(caveats)
     .privacy(privacy))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A context with threshold 5 and a line list at `data/visits.csv` that
+    /// has `per_month[i]` records in month i + 1 of 2024.
+    fn ctx_with_visits(per_month: &[usize]) -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let mut csv = String::from("Onset Date,Site\n");
+        for (m, k) in per_month.iter().enumerate() {
+            for day in 1..=*k {
+                csv.push_str(&format!("2024-{:02}-{:02},A\n", m + 1, day));
+            }
+        }
+        std::fs::write(dir.path().join("data").join("visits.csv"), csv).unwrap();
+        let mut c = phn_core::Config::for_root(dir.path());
+        c.offline = true;
+        c.env_suppression_threshold = Some(5);
+        (dir, Context::new(c).unwrap())
+    }
+
+    fn count_chart(ctx: &Context) -> Envelope<SpcResult> {
+        create_spc_chart(
+            ctx,
+            SpcArgs {
+                path: Some("visits.csv".into()),
+                date_column: Some("Onset Date".into()),
+                measure: Some(FileMeasure::Count),
+                ..SpcArgs::default()
+            },
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn center_line_and_limits_are_withheld_when_a_period_is_suppressed() {
+        // March has 2 records (below the threshold of 5). Its count used to
+        // be recoverable: 6 × center line (10.33) − the five visible counts.
+        let (_dir, ctx) = ctx_with_visits(&[12, 12, 2, 12, 12, 12]);
+        let r = count_chart(&ctx);
+        assert_eq!(r.data.rows.len(), 6);
+        assert!(r.data.rows[2].suppressed && r.data.rows[2].value.is_none());
+        assert_eq!(r.data.rows[0].value, Some(12.0));
+        assert!(
+            r.data
+                .rows
+                .iter()
+                .all(|x| x.center.is_none() && x.lcl.is_none() && x.ucl.is_none())
+        );
+        assert!(r.data.phases.is_empty());
+        let json = serde_json::to_string(&r.data).unwrap();
+        assert!(!json.contains("\"center\"") && !json.contains("\"ucl\""), "{json}");
+        assert!(r.summary.contains("not shown here"), "{}", r.summary);
+        assert!(!r.summary.contains("10.3"), "{}", r.summary);
+        assert!(!r.summary.contains("Center") && !r.summary.contains("UCL"));
+        assert!(r.privacy.suppression_applied);
+        assert!(r.privacy.notes.iter().any(|n| n.contains("withheld")));
+    }
+
+    #[test]
+    fn center_line_and_limits_are_returned_when_nothing_is_suppressed() {
+        let (_dir, ctx) = ctx_with_visits(&[12, 14, 9, 12, 11, 14]);
+        let r = count_chart(&ctx);
+        assert!(r.data.rows.iter().all(|x| !x.suppressed));
+        assert_eq!(r.data.rows[0].center, Some(12.0));
+        assert!(r.data.rows[0].ucl.is_some());
+        assert_eq!(r.data.phases.len(), 1);
+        assert!(r.summary.contains("Center") && r.summary.contains("UCL"));
+        assert!(!r.summary.contains("not shown here"));
+    }
+}

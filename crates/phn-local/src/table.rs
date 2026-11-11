@@ -144,9 +144,15 @@ fn read_delimited(path: &Path) -> Result<Table> {
             .collect(),
         None => Vec::new(),
     };
-    let headers = clean_headers(headers);
+    let (screened, headerless) = screen_headers(headers.clone());
+    let first_row = headers;
+    let headers = clean_headers(screened);
     let width = headers.len();
     let mut rows = Vec::new();
+    if headerless {
+        // No header row: the first line is a record and stays in the data.
+        rows.push(first_row);
+    }
     let mut truncated = false;
     for rec in records {
         let rec = rec.map_err(|e| PhnError::parse(path, e))?;
@@ -183,9 +189,15 @@ fn read_spreadsheet(path: &Path) -> Result<Vec<Table>> {
             .rows()
             .map(|r| r.iter().map(cell_to_string).collect::<Vec<String>>())
             .skip_while(|r| r.iter().all(|c| c.is_empty()));
-        let headers = clean_headers(rows_iter.next().unwrap_or_default());
+        let first_row = rows_iter.next().unwrap_or_default();
+        let (screened, headerless) = screen_headers(first_row.clone());
+        let headers = clean_headers(screened);
         let width = headers.len();
         let mut rows = Vec::new();
+        if headerless {
+            // No header row: the first line is a record and stays in the data.
+            rows.push(first_row);
+        }
         let mut truncated = false;
         for mut r in rows_iter {
             if r.iter().all(|c| c.is_empty()) {
@@ -198,6 +210,13 @@ fn read_spreadsheet(path: &Path) -> Result<Vec<Table>> {
             r.resize(width, String::new());
             rows.push(r);
         }
+        // A sheet named after a person is shown as sheet_N (use that name to select it).
+        let name = match crate::phi::header_look(&name) {
+            crate::phi::HeaderLook::Identifier | crate::phi::HeaderLook::Name => {
+                format!("sheet_{}", out.len() + 1)
+            }
+            _ => name,
+        };
         out.push(Table {
             name,
             headers,
@@ -248,6 +267,53 @@ pub fn excel_serial_to_iso(serial: f64) -> String {
     }
 }
 
+/// Blank the header cells that hold data about a person, and report whether
+/// the whole row looks like a record (a file without a header row).
+///
+/// Column names are returned by every tool, so they must not carry values.
+/// A cell that is an identifier value (phone, email, SSN, street address, long
+/// ID code) is always blanked; full names are blanked when they make up at
+/// least half of the header row (a grid with one column per person). When an
+/// identifier is present and at least half of the cells are values, the row
+/// is treated as data: every column gets a generic name. Blank cells are then
+/// named `column_N` by [`clean_headers`].
+fn screen_headers(raw: Vec<String>) -> (Vec<String>, bool) {
+    use crate::phi::{HeaderLook, header_look};
+    let looks: Vec<HeaderLook> = raw.iter().map(|h| header_look(h)).collect();
+    let nonempty = raw.iter().filter(|h| !h.trim().is_empty()).count();
+    let count = |k: HeaderLook| looks.iter().filter(|l| **l == k).count();
+    let ident = count(HeaderLook::Identifier);
+    let names = count(HeaderLook::Name);
+    let data = count(HeaderLook::DataLike);
+    let hide_names = names >= 3 && names * 2 >= nonempty;
+    let headerless = ident >= 1 && (ident + names + data) * 2 >= nonempty;
+    let headers = raw
+        .into_iter()
+        .zip(looks)
+        .map(|(h, look)| {
+            let hide = headerless
+                || look == HeaderLook::Identifier
+                || (look == HeaderLook::Name && hide_names);
+            if hide { String::new() } else { h }
+        })
+        .collect();
+    (headers, headerless)
+}
+
+/// Number of columns shown under a generic `column_N` name because the header
+/// was blank or looked like data or an identifier. Tools use this to add a
+/// caveat.
+pub fn generic_header_count(table: &Table) -> usize {
+    table
+        .headers
+        .iter()
+        .filter(|h| {
+            h.strip_prefix("column_")
+                .is_some_and(|n| !n.is_empty() && n.bytes().all(|b| b.is_ascii_digit()))
+        })
+        .count()
+}
+
 /// Fill blank headers and make duplicates unique.
 fn clean_headers(raw: Vec<String>) -> Vec<String> {
     let mut seen = std::collections::HashMap::new();
@@ -286,6 +352,40 @@ mod tests {
         std::fs::write(&p2, b"Name,City\nJos\xe9,Lowell\n").unwrap();
         let t2 = read_table(&p2, None).unwrap();
         assert_eq!(t2.rows[0][0], "José");
+    }
+
+    #[test]
+    fn a_file_without_a_header_row_does_not_leak_its_first_record() {
+        let dir = tempfile::tempdir().unwrap();
+        let p = dir.path().join("nohdr.csv");
+        std::fs::write(
+            &p,
+            "Maria,Garcia,3/7/2015,413-555-0101,12 Elm St\nJames,Smith,11/30/2012,617-555-0199,4 Oak Ave\n",
+        )
+        .unwrap();
+        let t = read_table(&p, None).unwrap();
+        assert_eq!(
+            t.headers,
+            vec!["column_1", "column_2", "column_3", "column_4", "column_5"]
+        );
+        assert_eq!(generic_header_count(&t), 5);
+        // The first line is kept as a record.
+        assert_eq!(t.rows.len(), 2);
+        assert_eq!(t.rows[0][0], "Maria");
+
+        // A grid with one column per person: the names are not returned as headers.
+        let p2 = dir.path().join("grid.csv");
+        std::fs::write(&p2, "Date,Maria Garcia,James Smith,Linda Nguyen\n2026-09-14,x,,x\n").unwrap();
+        let t2 = read_table(&p2, None).unwrap();
+        assert_eq!(t2.headers, vec!["Date", "column_2", "column_3", "column_4"]);
+        assert_eq!(t2.rows.len(), 1);
+
+        // Ordinary tables, including year columns, are unchanged.
+        let p3 = dir.path().join("counts.csv");
+        std::fs::write(&p3, "Town,2024,2025,Total\nAmherst,12,3,15\n").unwrap();
+        let t3 = read_table(&p3, None).unwrap();
+        assert_eq!(t3.headers, vec!["Town", "2024", "2025", "Total"]);
+        assert_eq!(generic_header_count(&t3), 0);
     }
 
     #[test]

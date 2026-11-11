@@ -209,6 +209,10 @@ pub struct ContactFileSummary {
     pub rows_read: usize,
     pub contacts_classified: usize,
     pub rows_with_problems: usize,
+    /// Contacts whose age or date of birth was present but could not be read
+    /// (the age rules were not applied to them, so their priority may be too low).
+    #[serde(default)]
+    pub ages_not_read: usize,
     /// Contacts by priority ("*" = suppressed).
     pub by_priority: BTreeMap<String, String>,
     /// High-priority contacts with a recorded test result ("*" = suppressed).
@@ -362,7 +366,19 @@ fn infectious_period(c: &TbContent, ic: &IndexCase, caveats: &mut Vec<String>) -
     let rules = &c.contact_investigation.infectious_period.start_rules;
     let rule = |id: &str| rules.iter().find(|r| r.id == id);
     let smear_or_cavity = ic.afb_smear_positive == Some(true) || ic.cavitary == Some(true);
-    let (rule_id, anchor) = if ic.symptomatic {
+    // A symptom onset date means the patient has (or had) TB symptoms, even
+    // when `symptomatic` was left at its default of false.
+    let symptomatic = ic.symptomatic || onset.is_some();
+    if !ic.symptomatic && onset.is_some() {
+        caveats.push(
+            "A symptom onset date was given, so the index patient was treated as symptomatic \
+             (infectious period from 3 months before symptom onset or the first positive \
+             finding, whichever is earlier), although symptomatic was not set to true. If the \
+             patient never had TB symptoms, leave symptom_onset_date out."
+                .into(),
+        );
+    }
+    let (rule_id, anchor) = if symptomatic {
         let a = match (onset, finding) {
             (Some(a), Some(b)) => Some(a.min(b)),
             (a, b) => a.or(b),
@@ -887,6 +903,37 @@ fn build_workbook(w: &WorkbookSpec<'_>) -> std::result::Result<Vec<u8>, XlsxErro
     wb.save_to_buffer()
 }
 
+/// A date cell from a contact file. Years outside 1900-2100 (for example a
+/// two-digit year misread as the year 26) are treated as unreadable.
+fn file_date(cell: &str) -> Option<NaiveDate> {
+    use chrono::Datelike;
+    phn_local::phi::parse_date(cell).filter(|d| (1900..=2100).contains(&d.year()))
+}
+
+/// Age in years from an Age cell: a plain number of years, or a number with
+/// a unit ("8 months", "18 mo", "6 wk", "3 years").
+fn parse_age_years(cell: &str) -> Option<f64> {
+    let s = cell.trim().to_ascii_lowercase();
+    if let Ok(x) = s.parse::<f64>() {
+        return Some(x).filter(|x| x.is_finite() && *x >= 0.0);
+    }
+    let split = s.find(|c: char| !(c.is_ascii_digit() || c == '.'))?;
+    let n: f64 = s[..split].parse().ok()?;
+    let unit = s[split..].trim();
+    let per_year = if unit.starts_with('y') {
+        1.0
+    } else if unit.starts_with('m') {
+        12.0
+    } else if unit.starts_with('w') {
+        52.18
+    } else if unit.starts_with('d') {
+        365.25
+    } else {
+        return None;
+    };
+    Some(n / per_year)
+}
+
 fn parse_result(cell: &str) -> Option<bool> {
     let s = cell.trim().to_ascii_lowercase();
     if s.is_empty() {
@@ -985,6 +1032,7 @@ fn read_contact_file(
     let tree = c.contact_investigation.tree(ct);
     let mut contacts = Vec::new();
     let mut problems = 0usize;
+    let mut ages_not_read = 0usize;
     let mut tested_high = 0u64;
     let mut positive_high = 0u64;
     let mut signals: Vec<String> = Vec::new();
@@ -997,12 +1045,18 @@ fn read_contact_file(
                 .map(|s| s.trim().to_string())
                 .unwrap_or_default()
         };
-        let listed = phn_local::phi::parse_date(&cell(listed_c)).unwrap_or(listed_default);
-        let age = cell(age_c).parse::<f64>().ok().or_else(|| {
-            phn_local::phi::parse_date(&cell(dob_c))
+        let listed = file_date(&cell(listed_c)).unwrap_or(listed_default);
+        let age = parse_age_years(&cell(age_c)).or_else(|| {
+            file_date(&cell(dob_c))
                 .map(|d| (listed - d).num_days() as f64 / 365.25)
+                .filter(|a| *a >= 0.0)
                 .map(|a| a.floor())
         });
+        // An age or birth date that is present but unreadable must not pass
+        // silently: the under-5 and 5-15 rules cannot be applied to that row.
+        if age.is_none() && (!cell(age_c).is_empty() || !cell(dob_c).is_empty()) {
+            ages_not_read += 1;
+        }
         let setting = cell(setting_c);
         let sn = phn_core::text::normalize(&setting);
         let household = practice::yes(&cell(hh_c)) || sn.contains("household");
@@ -1088,7 +1142,7 @@ fn read_contact_file(
             age,
             flags: [household, medical_risk, procedure, congregate, eh, em],
             listed,
-            last_exposure: phn_local::phi::parse_date(&cell(le_c)),
+            last_exposure: file_date(&cell(le_c)),
             test1: (!cell(t1_c).is_empty()).then(|| cell(t1_c)),
             test2: (!cell(t2_c).is_empty()).then(|| cell(t2_c)),
             outcome: (!outcome.is_empty()).then_some(outcome),
@@ -1131,6 +1185,7 @@ fn read_contact_file(
             rows_read: t.rows.len(),
             contacts_classified: contacts.len(),
             rows_with_problems: problems,
+            ages_not_read,
             by_priority: shown.into_iter().collect(),
             high_priority_tested: small(tested_high),
             high_priority_positive: small(positive_high),
@@ -1327,6 +1382,15 @@ pub fn plan_tb_contact_investigation(
             )));
         };
         let out = read_contact_file(ctx, c, t, path, args.sheet.as_deref(), listed)?;
+        if out.summary.ages_not_read > 0 {
+            caveats.push(format!(
+                "{} contact(s) have an age or date of birth that could not be read, so the \
+                 under-5 and 5-15 priority rules were not applied to them and their priority may \
+                 be too low. Enter age in whole years or as \"8 months\", or a date of birth with \
+                 a four-digit year, and run the tool again.",
+                out.summary.ages_not_read
+            ));
+        }
         file_contacts = out.contacts;
         id_headers = out.id_headers;
         identifiers_detected = out.identifier_kinds;
@@ -1794,6 +1858,76 @@ mod tests {
         assert!(f.starts_with("=IF(COUNTA(D2:K2)=0"));
         assert!(f.contains("\"Medium\""));
         assert_eq!(env.privacy.files_written.len(), 1);
+    }
+
+    #[test]
+    fn symptom_onset_date_makes_the_case_symptomatic() {
+        let (_d, c) = ctx(false);
+        // `symptomatic` left out, but an onset date given: Table 2's
+        // 3-months-before rule applies, not 4 weeks before diagnosis.
+        let env = plan_tb_contact_investigation(
+            &c,
+            TbContactArgs {
+                index_case: IndexCase {
+                    chest_radiograph: Some(CxrFinding::ConsistentWithTb),
+                    afb_smear_positive: Some(false),
+                    symptom_onset_date: Some("2026-08-01".into()),
+                    suspected_diagnosis_date: Some("2026-10-01".into()),
+                    ..IndexCase::default()
+                },
+                write_workbook: Some(false),
+                ..TbContactArgs::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            env.data.infectious_period_start.as_deref(),
+            Some("2026-05-01")
+        );
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("treated as symptomatic"))
+        );
+    }
+
+    #[test]
+    fn ages_in_months_are_read_and_unreadable_ages_are_counted() {
+        assert_eq!(parse_age_years("3"), Some(3.0));
+        assert!(parse_age_years("8 months").is_some_and(|a| a < 1.0));
+        assert!(parse_age_years("18 mo").is_some_and(|a| (1.4..1.6).contains(&a)));
+        assert_eq!(parse_age_years("4 years"), Some(4.0));
+        assert_eq!(parse_age_years("toddler"), None);
+        assert_eq!(parse_age_years(""), None);
+        // A two-digit year read as the year 21 is not a usable birth date.
+        assert!(file_date("0021-03-05").is_none());
+        assert!(file_date("2021-03-05").is_some());
+
+        let (dir, c) = ctx(true);
+        let mut csv =
+            String::from("Contact ID,First Name,Last Name,Age,Household,Setting\n");
+        for i in 0..6 {
+            csv.push_str(&format!("K{i},Zebulon{i},Quixote,8 months,N,friend\n"));
+        }
+        csv.push_str("K9,Ysolde,Quixote,toddler,Y,home\n");
+        std::fs::write(dir.path().join("data/contacts.csv"), csv).unwrap();
+        let env = plan_tb_contact_investigation(
+            &c,
+            TbContactArgs {
+                index_case: smear_positive(),
+                contact_file: Some("contacts.csv".into()),
+                listed_date: Some("2026-08-07".into()),
+                ..TbContactArgs::default()
+            },
+        )
+        .unwrap();
+        let fs = env.data.contact_file.as_ref().unwrap();
+        // Infants recorded in months are under 5: high priority, not low.
+        assert_eq!(fs.by_priority.get("high").map(String::as_str), Some("7"));
+        assert_eq!(fs.ages_not_read, 1);
+        assert!(env.caveats.iter().any(|c| c.contains("could not be read")));
+        let json = serde_json::to_string(&env).unwrap();
+        assert!(!json.contains("Zebulon") && !json.contains("toddler"));
     }
 
     #[test]
