@@ -1,0 +1,12 @@
+# Exceptions to the release image scan (.github/workflows/release.yml).
+# Each entry needs a reason and an expiry (exp:YYYY-MM-DD). After the expiry
+# date Trivy fails on it again, so the exception cannot be forgotten.
+
+# CVE-2026-84782: libssl3 3.0.20-1~deb12u2 in the distroless/cc-debian12 base
+# image (OpenSSL information disclosure via DTLS handshake retransmission).
+# Debian fixed it in 3.0.22-1~deb12u2, but on 2026-11-11 the latest distroless
+# image still shipped the old package, so there was nothing to upgrade to.
+# The server does not use OpenSSL: HTTPS goes through rustls and Cargo.lock has
+# no openssl crates; it never opens DTLS connections.
+# Remove this entry when distroless ships the fixed libssl3.
+CVE-2026-84782 exp:2026-12-11
