@@ -399,26 +399,31 @@ fn block_group_column(
             ))
         })?;
     let flagged = lt.findings.iter().any(|f| f.index == idx);
-    let (mut present, mut ok) = (0usize, 0usize);
+    // Nearly every value must be a 12-digit code (the national file also has
+    // territory rows), at least one must be a Massachusetts block group, and
+    // the codes that start with 25 must be Massachusetts block groups.
+    let (mut present, mut twelve, mut ma, mut ma_ok) = (0usize, 0usize, 0usize, 0usize);
     for v in lt.table.column(idx) {
         let v = v.trim();
         if v.is_empty() {
             continue;
         }
         present += 1;
-        if is_block_group_code(v, geos) {
-            ok += 1;
+        if v.len() == 12 && v.bytes().all(|b| b.is_ascii_digit()) {
+            twelve += 1;
+            if v.starts_with("25") {
+                ma += 1;
+                if is_block_group_code(v, geos) {
+                    ma_ok += 1;
+                }
+            }
         }
     }
-    // Rows outside Massachusetts are allowed (the national file); the codes
-    // must still all look like block group codes.
-    let looks_like_codes = lt
-        .table
-        .column(idx)
-        .map(str::trim)
-        .filter(|v| !v.is_empty())
-        .all(|v| v.len() == 12 && v.bytes().all(|b| b.is_ascii_digit()));
-    if present == 0 || ok == 0 || !looks_like_codes {
+    let codes = present > 0
+        && twelve as f64 >= 0.95 * present as f64
+        && ma_ok > 0
+        && ma_ok as f64 >= 0.9 * ma as f64;
+    if !codes {
         return Err(if flagged {
             PhnError::Privacy(format!(
                 "column '{}' in '{}' looks like a personal identifier, not census block group \
@@ -427,7 +432,8 @@ fn block_group_column(
             ))
         } else {
             PhnError::InvalidInput(format!(
-                "column '{}' in '{}' does not hold 12-digit census block group codes",
+                "column '{}' in '{}' does not hold 12-digit Massachusetts census block group \
+                 codes",
                 lt.table.headers[idx], lt.label
             ))
         });
@@ -607,7 +613,7 @@ fn summarize_ejscreen(
         );
     }
     caveats.push(
-        "EJScreen is archived: EPA removed it in February 2025 and no longer maintains or updates \
+        "EJScreen is archived: EPA removed it in 2025 and no longer maintains or updates \
          the data (version 2.3 uses ACS 2018–2022 and environmental data from about 2017–2022)."
             .into(),
     );
@@ -859,7 +865,14 @@ pub fn environmental_justice_screen(
             total_population: t.stats_total_pop,
             percent_population_in_ej_block_groups: t.pct_pop_in_ej_block_groups,
         });
-    let ej_towns: BTreeSet<&str> = bgs.iter().map(|b| b.town.as_str()).collect();
+    // Every polygon, so a town whose only EJ block group is split from a
+    // neighbor's still counts.
+    let ej_towns: BTreeSet<&str> = layer
+        .block_groups
+        .iter()
+        .filter(|b| towns.contains(&b.town))
+        .map(|b| b.town.as_str())
+        .collect();
     let (people, percent, total_bgs) = match (&area.level, &official) {
         (AreaLevel::Town, Some(o)) => (
             o.population_in_ej_block_groups.unwrap_or(layer_people),

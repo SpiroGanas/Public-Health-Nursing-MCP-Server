@@ -1214,7 +1214,7 @@ sources:
     used_by: [environmental_justice_screen]
     caveats:
       - >-
-        EPA removed EJScreen in February 2025; its download host (gaftp.epa.gov) and the public
+        EPA removed EJScreen in 2025; its download host (gaftp.epa.gov) and the public
         archives (zenodo.org, dataverse.harvard.edu, screening-tools.com) are blocked from the
         build network, so EJScreen is read only from a file the nurse saves in /data.
       - >-

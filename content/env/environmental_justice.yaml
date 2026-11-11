@@ -215,14 +215,15 @@ state_block_groups:
 
 what_designation_means:
   - text: >-
-      Any project with an EJ population (in whole or in part) within its designated geographic area
-      must file an Environmental Impact Report under MEPA (301 CMR 11.06(7)(b)). The area is usually
-      a 1-mile radius of the project site, and a 5-mile radius for projects over the air thresholds
-      at 301 CMR 11.03(8)(a)-(b) or generating 150 or more new average daily trips of diesel vehicle
-      traffic for a year or more.
+      MEPA's guidance says that, under the Climate Roadmap Act, a project with an EJ population (in
+      whole or in part) within its designated geographic area must submit an Environmental Impact
+      Report in accordance with 301 CMR 11.06(7)(b). The area is usually a 1-mile radius of the
+      project site, and a 5-mile radius for projects expected to exceed the review thresholds at
+      301 CMR 11.03(8)(a)-(b) or to generate 150 or more new average daily trips of diesel vehicle
+      traffic for a year or more. Read 301 CMR 11.06(7)(b) for which projects this covers.
     source: mepa-ej-guide
     section: EIR Requirement
-    confidence: high
+    confidence: medium
   - text: >-
       Such projects must also promote meaningful community outreach and engagement with EJ
       populations, and projects at or above mandatory EIR thresholds (or seeking expedited review)
@@ -233,9 +234,10 @@ what_designation_means:
     section: EJ Outreach and Engagement; Advanced Notification
     confidence: high
   - text: >-
-      Projects that must file an EIR because of nearby EJ populations must assess the project's
-      effects on those populations, including a baseline of existing conditions; MEPA names the DPH
-      EJ Tool and EPA EJScreen as resources for the baseline assessment.
+      Projects that must file an EIR because of nearby EJ populations must assess climate change
+      effects on those populations. A project asking for a single or "rollover" EIR must include a
+      baseline assessment of existing conditions in the EJ populations, and MEPA names the DPH EJ
+      Tool and EPA EJScreen as resources for that baseline.
     source: mepa-ej-guide
     section: EIR Requirement; Climate Change
     confidence: high
@@ -312,7 +314,8 @@ how_to_use:
 
 ejscreen:
   status: >-
-    EPA removed EJScreen from its website in February 2025 and no longer maintains it. This server
+    EPA removed EJScreen from its website in 2025 (www.epa.gov/ejscreen no longer answers) and no
+    longer maintains it. This server
     does not bundle EJScreen data: EPA's download site and the public archives that hold copies
     could not be reached from the build network. If you have an archived copy of the EJScreen 2.3
     (2024) block group CSV, save it (or just the Massachusetts rows) in /data and pass it as
