@@ -3,7 +3,7 @@
 //! (with date formulas) written to the output folder.
 
 use chrono::NaiveDate;
-use phn_content::disease_rules::{self, Anchor, Disease, Role};
+use phn_content::disease_rules::{self, Anchor, DayRef, Disease, Role, Rule, Setting};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use rust_xlsxwriter::{Format, Formula, Workbook, XlsxError};
 use schemars::JsonSchema;
@@ -146,8 +146,17 @@ fn per_contact_rules(d: &Disease) -> Vec<ContactDateRule> {
             citation: rule_cite(&p.source, &p.section),
         });
     }
-    // Susceptible-contact exclusion anchored on the contact's own exposures.
-    let mut seen = Vec::new();
+    // Contact exclusion anchored on the contact's own exposures. Each column
+    // names who the rule covers (settings and every condition, including the
+    // "not" ones), so a rule for one group is not read as applying to all.
+    struct Excl<'a> {
+        start: DayRef,
+        end: DayRef,
+        conditions: Vec<(&'static str, bool)>,
+        settings: Vec<Setting>,
+        rule: &'a Rule,
+    }
+    let mut excl: Vec<Excl<'_>> = Vec::new();
     for r in d.rules.iter().filter(|r| r.role == Role::Contact) {
         let (Some(start), Some(end)) = (&r.start, &r.end.through) else {
             continue;
@@ -156,46 +165,87 @@ fn per_contact_rules(d: &Disease) -> Vec<ContactDateRule> {
         if !ok(start.anchor) || !ok(end.anchor) {
             continue;
         }
-        let key = (start.day, end.day);
-        if seen.contains(&key) {
+        let conditions = r.when.conditions();
+        if let Some(e) = excl
+            .iter_mut()
+            .find(|e| e.start.day == start.day && e.end.day == end.day)
+        {
+            // The same rule written once per setting: widen the settings.
+            if e.start == *start && e.end == *end && e.conditions == conditions {
+                for s in &r.settings {
+                    if !e.settings.contains(s) {
+                        e.settings.push(*s);
+                    }
+                }
+            }
             continue;
         }
-        seen.push(key);
-        let cond: Vec<String> = r
-            .when
-            .conditions()
-            .iter()
-            .filter(|(_, v)| *v)
-            .map(|(n, _)| n.replace('_', " "))
-            .collect();
-        let who = if cond.is_empty() {
+        if excl.len() >= 2 {
+            continue;
+        }
+        excl.push(Excl {
+            start: *start,
+            end: *end,
+            conditions,
+            settings: r.settings.clone(),
+            rule: r,
+        });
+    }
+    for e in &excl {
+        let mut parts: Vec<String> = Vec::new();
+        let every_setting = e.settings.contains(&Setting::All)
+            || Setting::CONCRETE.iter().all(|s| e.settings.contains(s));
+        if !every_setting {
+            parts.push(
+                e.settings
+                    .iter()
+                    .map(|s| match s {
+                        Setting::All => "all settings",
+                        Setting::ChildCare => "child care",
+                        Setting::School => "school",
+                        Setting::FoodHandler => "food handlers",
+                        Setting::HealthCareWorker => "health care workers",
+                        Setting::Other => "other settings",
+                    })
+                    .collect::<Vec<_>>()
+                    .join(", "),
+            );
+        }
+        if !e.conditions.is_empty() {
+            parts.push(
+                e.conditions
+                    .iter()
+                    .map(|(n, v)| engine::condition_label(n, *v))
+                    .collect::<Vec<_>>()
+                    .join(", "),
+            );
+        }
+        let who = if parts.is_empty() {
             String::new()
         } else {
-            format!(" (if {})", cond.join(", "))
+            format!(" ({})", parts.join("; "))
         };
         let name = |a: Anchor| match a {
             Anchor::FirstExposure => "first_exposure",
             _ => "last_exposure",
         };
+        let r = e.rule;
         out.push(ContactDateRule {
             label: format!("Exclude from{who}"),
-            days: i64::from(start.day),
-            anchor: name(start.anchor).into(),
+            days: i64::from(e.start.day),
+            anchor: name(e.start.anchor).into(),
             example_if_exposed_last_infectious_day: None,
             explanation: format!("{} — {}", r.applies_to, r.wording),
             citation: r.citation.clone(),
         });
         out.push(ContactDateRule {
             label: format!("Exclude through{who}"),
-            days: i64::from(end.day),
-            anchor: name(end.anchor).into(),
+            days: i64::from(e.end.day),
+            anchor: name(e.end.anchor).into(),
             example_if_exposed_last_infectious_day: None,
             explanation: format!("{} — {}", r.applies_to, r.wording),
             citation: r.citation.clone(),
         });
-        if seen.len() >= 2 {
-            break;
-        }
     }
     out
 }
@@ -628,6 +678,40 @@ mod tests {
                 .any(|h| h.starts_with("PEP deadline"))
         );
         assert_eq!(env.privacy.files_written.len(), 1);
+    }
+
+    #[test]
+    fn exclusion_columns_say_who_the_rule_covers() {
+        let labels = |q: &str| -> Vec<String> {
+            per_contact_rules(find_disease(q).unwrap())
+                .into_iter()
+                .map(|r| r.label)
+                .filter(|l| l.starts_with("Exclude"))
+                .collect()
+        };
+        // Pertussis: only asymptomatic health care workers without
+        // prophylaxis are excluded; the column must not read as "everyone".
+        let p = labels("pertussis");
+        assert_eq!(p.len(), 2, "{p:?}");
+        for l in &p {
+            assert!(l.contains("health care workers"), "{l}");
+            assert!(l.contains("has no symptoms"), "{l}");
+            assert!(l.contains("is not taking prophylaxis"), "{l}");
+        }
+        // Hepatitis A: susceptible food handlers without prophylaxis only.
+        let h = labels("hepatitis A");
+        assert!(!h.is_empty());
+        for l in &h {
+            assert!(l.contains("food handlers"), "{l}");
+            assert!(l.contains("is not taking prophylaxis"), "{l}");
+        }
+        // Measles: the same days for every setting, so no setting is named.
+        let m = labels("measles");
+        assert_eq!(m.len(), 2, "{m:?}");
+        for l in &m {
+            assert!(l.contains("lacks evidence of immunity"), "{l}");
+            assert!(!l.contains("school"), "{l}");
+        }
     }
 
     #[test]

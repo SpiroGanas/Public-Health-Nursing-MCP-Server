@@ -183,6 +183,20 @@ pub struct ProblemMatch {
     pub interventions: Vec<InterventionMatch>,
 }
 
+/// A problem whose cue terms appeared only after a negation word (no, not,
+/// denies, without, ...). It may be ruled out ("denies fever") or it may be
+/// the problem itself ("no income", "not taking insulin"): the nurse decides.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
+pub struct NegatedProblem {
+    pub code: String,
+    pub name: String,
+    pub domain: String,
+    /// Sentences where the problem's terms appeared only in negated phrases.
+    pub sentences: usize,
+    /// Vocabulary terms (this tool's cues) that were negated; never text from the note.
+    pub negated_terms: Vec<String>,
+}
+
 /// A looked-up term.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct LookupHit {
@@ -220,6 +234,10 @@ pub struct OmahaResult {
     pub source_file: Option<String>,
     pub sentences_analyzed: usize,
     pub problems: Vec<ProblemMatch>,
+    /// Problems mentioned only as absent or negated ("no income", "denies fever"). Review
+    /// each: an absent need is often the problem itself. They are not in `problems`.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mentioned_as_absent_or_negated: Vec<NegatedProblem>,
     /// Interventions found in sentences without a problem cue.
     pub unlinked_interventions: Vec<InterventionMatch>,
     pub lookup: Vec<LookupHit>,
@@ -343,6 +361,7 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
 
     // ---- Coding
     let mut problems: Vec<ProblemMatch> = Vec::new();
+    let mut negated_only: Vec<NegatedProblem> = Vec::new();
     let mut unlinked: BTreeMap<(String, String), usize> = BTreeMap::new();
     let mut n_sent = 0;
     if let Some(t) = &text {
@@ -352,6 +371,8 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
         let mut hits: BTreeMap<usize, (usize, Vec<String>, Vec<String>)> = BTreeMap::new();
         // problem index -> (category, target) -> sentences
         let mut pair_hits: BTreeMap<usize, BTreeMap<(usize, usize), usize>> = BTreeMap::new();
+        // problem index -> sentences where its cues appeared only negated
+        let mut neg_sentences: BTreeMap<usize, usize> = BTreeMap::new();
         let mut family = vec![false; c.problems.len()];
         let mut risk = vec![false; c.problems.len()];
         let mut promotion = vec![false; c.problems.len()];
@@ -359,10 +380,12 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             let mut in_sentence: Vec<usize> = Vec::new();
             for (pi, p) in c.problems.iter().enumerate() {
                 let mut matched = false;
+                let mut negated_here = false;
                 for cue in &p.cues {
                     if let Some(neg) = cue_hit(s, cue) {
                         let e = hits.entry(pi).or_default();
                         if neg {
+                            negated_here = true;
                             if !e.2.contains(cue) && !e.1.contains(cue) {
                                 e.2.push(cue.clone());
                             }
@@ -374,6 +397,9 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                             e.2.retain(|x| x != cue);
                         }
                     }
+                }
+                if !matched && negated_here {
+                    *neg_sentences.entry(pi).or_default() += 1;
                 }
                 if matched {
                     hits.entry(pi).or_default().0 += 1;
@@ -443,6 +469,18 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
             .map(|(pi, (n, cues, neg))| (pi, n, cues, neg))
             .collect();
         ranked.sort_by(|a, b| (b.1, b.2.len()).cmp(&(a.1, a.2.len())).then(a.0.cmp(&b.0)));
+        // Problems whose cues appeared only after a negation word are not dropped:
+        // they are listed apart for the nurse to review.
+        for (pi, _, _, neg) in ranked.iter().filter(|r| r.1 == 0 && !r.3.is_empty()) {
+            let p = &c.problems[*pi];
+            negated_only.push(NegatedProblem {
+                code: p.code.clone(),
+                name: p.name.clone(),
+                domain: domain_label(&p.domain),
+                sentences: neg_sentences.get(pi).copied().unwrap_or(0),
+                negated_terms: neg.clone(),
+            });
+        }
         for (pi, n, cues, neg) in ranked.into_iter().filter(|r| r.1 > 0).take(max) {
             let p = &c.problems[pi];
             let mut ints: Vec<InterventionMatch> = pair_hits
@@ -482,10 +520,19 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                 interventions: ints,
             });
         }
-        if problems.is_empty() {
+        if problems.is_empty() && negated_only.is_empty() {
             caveats.push(
                 "No Omaha System problem cues were found in the text; try a fuller narrative or \
                  use lookup to browse problems."
+                    .into(),
+            );
+        }
+        if !negated_only.is_empty() {
+            caveats.push(
+                "Problems listed as mentioned as absent or negated had their terms only after \
+                 words such as no, not, denies, or without. Decide for each whether the note \
+                 rules the problem out (denies fever) or describes it (no income, not taking a \
+                 medication)."
                     .into(),
             );
         }
@@ -739,6 +786,17 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
                 &rows,
             ));
         }
+        if !negated_only.is_empty() {
+            s.push_str(&format!(
+                "\n**Mentioned as absent or negated — review** (an absent need, such as no \
+                 income or not taking a medication, is often the problem itself): {}.\n",
+                negated_only
+                    .iter()
+                    .map(|p| format!("{} {} ({})", p.code, p.name, p.negated_terms.join(", ")))
+                    .collect::<Vec<_>>()
+                    .join("; ")
+            ));
+        }
         if !unlinked_interventions.is_empty() {
             s.push_str(&format!(
                 "\nOther interventions found: {}.\n",
@@ -833,6 +891,7 @@ pub fn omaha_system_coder(ctx: &Context, args: OmahaArgs) -> Result<Envelope<Oma
         source_file,
         sentences_analyzed: n_sent,
         problems,
+        mentioned_as_absent_or_negated: negated_only,
         unlinked_interventions,
         lookup,
         ratings: ratings_out,
@@ -941,6 +1000,42 @@ mod tests {
         let json = serde_json::to_string(&env).unwrap();
         assert!(!json.contains("Lost job last month"));
         assert!(!json.contains("cannot pay rent;"));
+    }
+
+    #[test]
+    fn negated_only_problems_are_listed_for_review_not_dropped() {
+        let (_d, c) = ctx(false);
+        let env = omaha_system_coder(
+            &c,
+            OmahaArgs {
+                text: Some("Client has no income and is not taking her insulin.".into()),
+                ..OmahaArgs::default()
+            },
+        )
+        .unwrap();
+        let d = &env.data;
+        // "no income" and "not taking her insulin" are the problems themselves:
+        // they are kept apart for review, not suggested as confirmed and not lost.
+        assert!(!d.problems.iter().any(|p| p.code == "01" || p.code == "42"));
+        let income = d
+            .mentioned_as_absent_or_negated
+            .iter()
+            .find(|p| p.name == "Income")
+            .expect("income listed for review");
+        assert_eq!(income.sentences, 1);
+        assert_eq!(income.negated_terms, vec!["income".to_string()]);
+        let med = d
+            .mentioned_as_absent_or_negated
+            .iter()
+            .find(|p| p.name == "Medication regimen")
+            .expect("medication regimen listed for review");
+        assert_eq!(med.code, "42");
+        assert!(med.negated_terms.contains(&"insulin".to_string()));
+        assert!(env.summary.contains("Mentioned as absent or negated"));
+        assert!(env.caveats.iter().any(|c| c.contains("absent or negated")));
+        // The note's own words are still not returned.
+        let json = serde_json::to_string(&env).unwrap();
+        assert!(!json.contains("is not taking her"));
     }
 
     #[test]

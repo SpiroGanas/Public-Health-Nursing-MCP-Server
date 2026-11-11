@@ -164,21 +164,60 @@ pub fn age_months(dob: NaiveDate, on: NaiveDate) -> i32 {
     m
 }
 
+/// Earliest year accepted from a typed or file date.
+const MIN_YEAR: i32 = 1900;
+/// Latest year accepted from a typed or file date.
+const MAX_YEAR: i32 = 2100;
+
+/// Keep a parsed date only when its year is plausible. `%Y` accepts one to
+/// four digits, so "3/4/15" would otherwise be read as the year 15.
+fn plausible(d: NaiveDate) -> Option<NaiveDate> {
+    (MIN_YEAR..=MAX_YEAR).contains(&d.year()).then_some(d)
+}
+
+/// A two-digit year that would land more than a year in the future belongs
+/// to the previous century ("5/2/50" is a birth date in 1950, not 2050). The
+/// same rule is used by `phn_local::phi::parse_date`.
+fn two_digit_century(d: NaiveDate) -> NaiveDate {
+    let limit = chrono::Local::now().date_naive() + chrono::Duration::days(366);
+    if d > limit {
+        d.with_year(d.year() - 100).unwrap_or(d)
+    } else {
+        d
+    }
+}
+
 /// Parse a date typed by a person or found in a file: ISO (2024-03-05),
-/// US (3/5/2024 or 03-05-2024), or an Excel serial number.
+/// US (3/5/2024, 03-05-2024, or 3/5/24), or an Excel serial number. Years
+/// outside 1900-2100 are rejected. A two-digit year is read in the current
+/// century unless that would be more than a year in the future, in which case
+/// it is the previous century (3/4/15 is 2015; 5/2/50 is 1950).
 pub fn parse_date(s: &str) -> Option<NaiveDate> {
     let t = s.trim();
     if t.is_empty() {
         return None;
     }
-    for fmt in ["%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%m/%d/%y"] {
-        if let Ok(d) = NaiveDate::parse_from_str(t, fmt) {
+    // Four-digit years first, then two-digit years.
+    for fmt in ["%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d"] {
+        if let Ok(d) = NaiveDate::parse_from_str(t, fmt)
+            && let Some(d) = plausible(d)
+        {
             return Some(d);
         }
     }
-    // ISO date-time ("2024-03-05T00:00:00" or "2024-03-05 00:00:00").
+    for fmt in ["%m/%d/%y", "%m-%d-%y"] {
+        if let Ok(d) = NaiveDate::parse_from_str(t, fmt)
+            && let Some(d) = plausible(two_digit_century(d))
+        {
+            return Some(d);
+        }
+    }
+    // ISO date-time ("2024-03-05T00:00:00" or "2024-03-05 00:00:00"). `get`
+    // returns `None` when byte 10 is inside a multi-byte character.
     if t.len() > 10
-        && let Ok(d) = NaiveDate::parse_from_str(&t[..10], "%Y-%m-%d")
+        && let Some(head) = t.get(..10)
+        && let Ok(d) = NaiveDate::parse_from_str(head, "%Y-%m-%d")
+        && let Some(d) = plausible(d)
     {
         return Some(d);
     }
@@ -189,7 +228,8 @@ pub fn parse_date(s: &str) -> Option<NaiveDate> {
             &phn_local::table::excel_serial_to_iso(serial),
             "%Y-%m-%d",
         )
-        .ok();
+        .ok()
+        .and_then(plausible);
     }
     None
 }
@@ -278,5 +318,27 @@ mod tests {
         assert_eq!(parse_date("2024-03-05 00:00:00"), Some(d("2024-03-05")));
         assert_eq!(parse_date("45356"), Some(d("2024-03-05")));
         assert!(parse_date("unknown").is_none());
+    }
+
+    #[test]
+    fn two_digit_years_and_implausible_dates() {
+        // Two-digit years are read as 20YY unless that is more than a year in
+        // the future (then 19YY), never as the year YY.
+        assert_eq!(parse_date("10/15/26"), Some(d("2026-10-15")));
+        assert_eq!(parse_date("5/2/50"), Some(d("1950-05-02")));
+        assert_eq!(parse_date("3/4/15"), Some(d("2015-03-04")));
+        assert_eq!(parse_date("03-04-15"), Some(d("2015-03-04")));
+        assert_eq!(parse_date("6/1/98"), Some(d("1998-06-01")));
+        // Four-digit years are unchanged.
+        assert_eq!(parse_date("10/15/2026"), Some(d("2026-10-15")));
+        // A date range with an en dash is not a date, and must not panic
+        // (byte 10 falls inside the dash).
+        assert!(parse_date("9/3/2024–10/1/2024").is_none());
+        assert!(parse_date("2019年4月15日").is_none());
+        // Years outside 1900-2100 are rejected.
+        assert!(parse_date("+262143-12-31").is_none());
+        assert!(parse_date("0015-03-04").is_none());
+        assert!(parse_date("2150-01-01").is_none());
+        assert!(require_date("as_of", "+262143-12-31").is_err());
     }
 }

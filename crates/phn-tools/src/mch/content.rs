@@ -168,6 +168,14 @@ pub(crate) fn language_folders(language: &str) -> Vec<String> {
         }
     }
     out.dedup();
+    // A folder may use a hyphen where the name has a space ("haitian-creole"), as the
+    // school letter templates accept.
+    let hyphenated: Vec<String> = out
+        .iter()
+        .filter(|f| f.contains('_'))
+        .map(|f| f.replace('_', "-"))
+        .collect();
+    out.extend(hyphenated);
     out
 }
 
@@ -200,4 +208,18 @@ pub(crate) fn agency_translation(
         }
     }
     None
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn language_folders_accept_the_hyphenated_spelling() {
+        let f = language_folders("Haitian Creole");
+        assert_eq!(f[0], "haitian_creole");
+        assert!(f.contains(&"ht".to_string()) && f.contains(&"haitian-creole".to_string()));
+        assert!(language_folders("ht").contains(&"haitian-creole".to_string()));
+        assert_eq!(language_folders("Spanish"), vec!["spanish", "es"]);
+    }
 }

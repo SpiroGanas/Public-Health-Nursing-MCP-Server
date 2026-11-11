@@ -703,9 +703,29 @@ pub async fn find_community_resources(
                 src.retrieved = Some(s.as_of.chars().take(10).collect());
                 sources.push(src);
                 let dental = cats.contains(&"dental");
+                let geos = phn_data::geography::MaGeographies::shared(&ctx.snapshots).ok();
                 for site in s.sites {
-                    let Some(prox) = proximity(&site.city, Some(&site.county)) else {
+                    // HRSA lists the postal city, which can be a village or neighborhood
+                    // ("Dorchester", "Hyannis"); use the main town of the ZIP code then.
+                    let site_town = match ctx.ma.town(&site.city) {
+                        Some(m) => m.name.clone(),
+                        None => {
+                            let zip: String = site.zip.trim().chars().take(5).collect();
+                            geos.and_then(|g| g.get(&zip))
+                                .filter(|g| g.level == phn_data::census::GeoLevel::Zcta)
+                                .and_then(|g| g.town.clone())
+                                .unwrap_or_else(|| site.city.clone())
+                        }
+                    };
+                    let Some(prox) = proximity(&site_town, Some(&site.county)) else {
                         continue;
+                    };
+                    let town_label = if phn_core::text::normalize(&site_town)
+                        == phn_core::text::normalize(&site.city)
+                    {
+                        site.city.clone()
+                    } else {
+                        format!("{} ({site_town})", site.city)
                     };
                     if args.language.is_some() || day.is_some() {
                         // HRSA does not publish languages or daily hours.
@@ -736,7 +756,7 @@ pub async fn find_community_resources(
                             name: site.site_name,
                             organization: Some(site.health_center),
                             services,
-                            town: site.city,
+                            town: town_label,
                             county: Some(site.county),
                             address: Some(site.address),
                             phone: (!site.phone.is_empty()).then_some(site.phone),

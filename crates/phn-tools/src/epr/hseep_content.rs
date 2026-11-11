@@ -386,7 +386,15 @@ pub fn resolve(query: &str) -> std::result::Result<Cap<'static>, String> {
         .or_else(|| q.strip_prefix("phep "))
         .or_else(|| q.strip_prefix("capability "))
         .unwrap_or(&q);
-    if let Ok(n) = num.parse::<u8>() {
+    // The display form these tools return ("PHEP 13: Public Health Surveillance and
+    // Epidemiological Investigation") is accepted back: after a "PHEP" or "Capability"
+    // prefix, a leading number names the capability.
+    let lead = if num.len() < q.len() {
+        num.split(' ').next().unwrap_or(num)
+    } else {
+        num
+    };
+    if let Ok(n) = lead.parse::<u8>() {
         return CAPS
             .phep
             .iter()
@@ -485,7 +493,16 @@ const CUES: &[(&str, &[&str])] = &[
             "wellness check",
         ],
     ),
-    ("phep-2", &["recover", "restor", "return to normal"]),
+    (
+        "phep-2",
+        &[
+            "recover",
+            "restore",
+            "restoring",
+            "restoration",
+            "return to normal",
+        ],
+    ),
     (
         "phep-3",
         &[
@@ -625,14 +642,22 @@ pub fn infer_phep(text: &str) -> Vec<&'static PhepCap> {
     let mut out = Vec::new();
     for (id, cues) in CUES {
         let hit = cues.iter().any(|c| {
-            if c.len() <= 4 {
+            // Cues match at the start of a word, never inside one ("media" is not found in
+            // "immediately", "closure" in "disclosure", or "press" in "express").
+            let pattern = if c.len() <= 4 {
                 // Short cues must be whole words ("ics", "pod", "ems", "eoc").
-                Regex::new(&format!(r"\b{}\b", regex::escape(c)))
-                    .map(|re| re.is_match(&t))
-                    .unwrap_or(false)
+                format!(r"\b{}\b", regex::escape(c))
+            } else if c.len() <= 6 {
+                // Short words with their endings only ("alerts", "clinics"), so that
+                // "press" is not found in "pressure" or "clinic" in "clinical".
+                format!(r"\b{}(s|es|d|ed|ing)?\b", regex::escape(c))
             } else {
-                t.contains(c)
-            }
+                // Longer cues and stems ("vaccinat", "dispens") begin a word.
+                format!(r"\b{}", regex::escape(c))
+            };
+            Regex::new(&pattern)
+                .map(|re| re.is_match(&t))
+                .unwrap_or(false)
         });
         if hit && let Some(p) = phep(id) {
             out.push(p);
@@ -907,7 +932,20 @@ pub fn element(s: &str) -> Option<&'static Element> {
     DOCTRINE
         .capability_elements
         .iter()
-        .find(|e| n == e.id || n == norm(&e.name) || (n.len() == 1 && e.id.starts_with(&n)))
+        .find(|e| {
+            n == e.id
+                || n == norm(&e.name)
+                // A single letter counts only when one element starts with it: "E" could be
+                // Equipment or Exercise, so it is not guessed.
+                || (n.len() == 1
+                    && e.id.starts_with(&n)
+                    && DOCTRINE
+                        .capability_elements
+                        .iter()
+                        .filter(|x| x.id.starts_with(&n))
+                        .count()
+                        == 1)
+        })
         .or_else(|| match n.as_str() {
             "plan" | "plans" | "policy" | "procedure" => DOCTRINE
                 .capability_elements
@@ -1102,6 +1140,44 @@ mod tests {
         assert!(resolve("16").is_err());
         assert!(resolve("information").unwrap_err().contains("several"));
         assert!(resolve("teleportation").is_err());
+        // The display names the tools return resolve when passed back in.
+        for p in &CAPS.phep {
+            assert_eq!(id(&phep_ref(p).name), p.id, "{}", phep_ref(p).name);
+        }
+        for f in &CAPS.fema_core {
+            assert_eq!(id(&fema_ref(f).name), f.id, "{}", f.name);
+        }
+        assert_eq!(
+            id("PHEP 13: Public Health Surveillance and Epidemiological Investigation"),
+            "phep-13"
+        );
+        assert!(resolve("PHEP 16: Something Else").is_err());
+    }
+
+    #[test]
+    fn cues_match_words_not_parts_of_words() {
+        let ids = |t: &str| -> Vec<String> { infer_phep(t).iter().map(|p| p.id.clone()).collect() };
+        // "immediately" holds "media", "disclosure" holds "closure", "clinical" holds
+        // "clinic", and "pressure" and "express" hold "press".
+        let got = ids("Immediately report suspect cases to the state health department.");
+        assert!(!got.contains(&"phep-4".to_string()), "{got:?}");
+        let got = ids("Review the clinical disclosure form under pressure and express thanks.");
+        assert!(
+            !got.contains(&"phep-4".to_string())
+                && !got.contains(&"phep-8".to_string())
+                && !got.contains(&"phep-11".to_string()),
+            "{got:?}"
+        );
+        // Whole words, plurals, and stems still match.
+        let got = ids("Send alerts to the media and restore services after school closures.");
+        assert!(
+            got.contains(&"phep-4".to_string())
+                && got.contains(&"phep-2".to_string())
+                && got.contains(&"phep-11".to_string()),
+            "{got:?}"
+        );
+        let got = ids("Open vaccination clinics and dispensing sites.");
+        assert!(got.contains(&"phep-8".to_string()), "{got:?}");
     }
 
     #[test]
@@ -1136,5 +1212,9 @@ mod tests {
         assert!(element("P").is_some_and(|e| e.id == "planning"));
         assert!(element("Training").is_some_and(|e| e.id == "training"));
         assert!(element("budget").is_none());
+        // "E" alone could be Equipment or Exercise, so it is not guessed.
+        assert!(element("E").is_none());
+        assert!(element("T").is_some_and(|e| e.id == "training"));
+        assert!(element("Equipment").is_some_and(|e| e.id == "equipment"));
     }
 }

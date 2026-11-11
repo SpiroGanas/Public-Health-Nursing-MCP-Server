@@ -246,7 +246,7 @@ pub fn live_cvx_source(mode: SourceMode, as_of: &str) -> Source {
         publisher: "Centers for Disease Control and Prevention".into(),
         url: Some(CODE_SETS_PAGE.into()),
         effective_date: None,
-        retrieved: Some(as_of.chars().take(10).collect()),
+        retrieved: Some(crate::fetch::local_date(as_of)),
         mode,
     }
 }

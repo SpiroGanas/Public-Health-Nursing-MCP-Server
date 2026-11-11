@@ -157,8 +157,11 @@ pub struct TrendResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub seasonality: Option<Seasonality>,
     pub mann_kendall: MannKendall,
-    /// Durbin–Watson statistic on Pearson residuals of the main model (≈2 means no autocorrelation).
-    pub durbin_watson: f64,
+    /// Durbin–Watson statistic on Pearson residuals of the main model (≈2
+    /// means no autocorrelation). Omitted when the model reproduces every
+    /// period exactly, so there are no residuals to check.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub durbin_watson: Option<f64>,
     /// Fitted rates (or counts) from the selected model, per unit of population.
     #[schemars(skip)]
     #[serde(skip)]
@@ -297,6 +300,9 @@ pub fn analyze(s: &Series, o: &Options) -> Result<TrendResult, String> {
              intervals may be too narrow. Consider model = negative_binomial."
         ));
     }
+    if !main.converged {
+        warnings.push(NOT_CONVERGED.into());
+    }
     let (b, lo, hi) = main.linear_combination(&unit(main.coefficients.len(), 1));
     let apc = pc(b, lo, hi, main.coefficients[1].p_value);
 
@@ -352,6 +358,9 @@ pub fn analyze(s: &Series, o: &Options) -> Result<TrendResult, String> {
             }
         }
         let f = fit_fam(design(s, t0, &[], &its, o.seasonal))?;
+        if !f.converged && main.converged {
+            warnings.push(NOT_CONVERGED.into());
+        }
         let p = f.coefficients.len();
         for (k, it) in its.iter().enumerate() {
             let li = 2 + 2 * k;
@@ -398,10 +407,14 @@ pub fn analyze(s: &Series, o: &Options) -> Result<TrendResult, String> {
         .collect();
     let num: f64 = resid.windows(2).map(|w| (w[1] - w[0]).powi(2)).sum();
     let den: f64 = resid.iter().map(|r| r * r).sum();
-    let durbin_watson = if den > 0.0 { num / den } else { f64::NAN };
-    if durbin_watson < 1.5 || durbin_watson > 2.5 {
+    // With residuals that are zero up to rounding (a series the model
+    // reproduces exactly) the ratio is noise, so it is not reported.
+    let durbin_watson = (den > 1e-12).then(|| num / den);
+    if let Some(dw) = durbin_watson
+        && !(1.5..=2.5).contains(&dw)
+    {
         warnings.push(format!(
-            "Successive residuals are correlated (Durbin–Watson {durbin_watson:.2}; about 2 means \
+            "Successive residuals are correlated (Durbin–Watson {dw:.2}; about 2 means \
              none), so p-values and intervals may be too optimistic."
         ));
     }
@@ -432,6 +445,11 @@ pub fn analyze(s: &Series, o: &Options) -> Result<TrendResult, String> {
         warnings,
     })
 }
+
+/// Warning shown when a model's fitting iterations stopped before converging.
+const NOT_CONVERGED: &str = "The trend model did not converge, so its estimates and intervals may \
+be unreliable. Try a simpler model (seasonal = false, fewer joinpoints, or model = poisson) or \
+combine periods.";
 
 fn scale(fitted: &[f64], pop: Option<&[f64]>) -> Vec<f64> {
     match pop {
@@ -483,12 +501,14 @@ fn joinpoint_search(
         let mut combo = Vec::with_capacity(k);
         let mut visit = |c: &[usize]| {
             let hinges: Vec<f64> = c.iter().map(|i| s.time[*i]).collect();
+            // Fits that did not converge are not candidates.
             if let Ok(f) = fit_design(
                 s,
                 design(s, t0, &hinges, &[], o.seasonal),
                 family,
                 o.confidence,
-            ) {
+            ) && f.converged
+            {
                 let b = bic(&f, k);
                 if best_k.as_ref().is_none_or(|(bb, _)| b < *bb) {
                     best_k = Some((b, c.to_vec()));
@@ -618,7 +638,9 @@ pub fn mann_kendall(t: &[f64], x: &[f64]) -> MannKendall {
     };
     let n0 = nf * (nf - 1.0) / 2.0;
     let tie_pairs: f64 = ties.iter().map(|t| t * (t - 1.0) / 2.0).sum();
-    let tau = s / ((n0 - tie_pairs) * n0).sqrt();
+    // Every value tied (a constant series): tau is 0/0; report 0 (no trend).
+    let tau_den = ((n0 - tie_pairs) * n0).sqrt();
+    let tau = if tau_den > 0.0 { s / tau_den } else { 0.0 };
     slopes.sort_by(f64::total_cmp);
     let m = slopes.len();
     let sens = if m == 0 {
@@ -725,5 +747,58 @@ mod tests {
         assert!((mk.tau - 1.0).abs() < 1e-12);
         assert!((mk.sens_slope - 1.0).abs() < 1e-12);
         assert_eq!(recommended_max_joinpoints(12), 2);
+    }
+
+    #[test]
+    fn constant_series_has_no_nan_results() {
+        // The same count every year: tau used to be 0/0 and the
+        // Durbin–Watson statistic 0/0 (or rounding noise).
+        let s = Series {
+            time: (2015..=2020).map(f64::from).collect(),
+            counts: vec![5.0; 6],
+            population: None,
+        };
+        let r = analyze(
+            &s,
+            &Options {
+                model: ModelChoice::Poisson,
+                ..Options::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(r.mann_kendall.tau, 0.0);
+        assert_eq!(r.mann_kendall.s, 0.0);
+        assert_eq!(r.mann_kendall.p_value, 1.0);
+        assert_eq!(r.mann_kendall.sens_slope, 0.0);
+        assert!(r.durbin_watson.is_none(), "{:?}", r.durbin_watson);
+        assert!(r.warnings.iter().all(|w| !w.contains("Durbin")));
+        assert!(r.apc.percent.abs() < 1e-6);
+        // A series with scatter still reports the statistic.
+        let noisy = Series {
+            time: (2015..=2020).map(f64::from).collect(),
+            counts: vec![5.0, 9.0, 4.0, 8.0, 6.0, 10.0],
+            population: None,
+        };
+        let r = analyze(
+            &noisy,
+            &Options {
+                model: ModelChoice::Poisson,
+                ..Options::default()
+            },
+        )
+        .unwrap();
+        assert!(r.durbin_watson.is_some_and(|d| (0.0..=4.0).contains(&d)));
+        assert!(r.mann_kendall.tau > 0.0);
+    }
+
+    #[test]
+    fn a_series_with_no_events_is_refused_plainly() {
+        let s = Series {
+            time: (2015..=2020).map(f64::from).collect(),
+            counts: vec![0.0; 6],
+            population: Some(vec![10_000.0; 6]),
+        };
+        let e = analyze(&s, &Options::default()).unwrap_err();
+        assert!(e.contains("every count is zero"), "{e}");
     }
 }

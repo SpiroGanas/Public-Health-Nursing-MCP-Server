@@ -460,6 +460,21 @@ fn cited(items: &[Cited]) -> Vec<CitedOut> {
 
 /// Resolve a library entry from an id, alias, or free text.
 fn find_entry(q: &str) -> Option<&'static LibraryEntry> {
+    find_entry_exact(q).or_else(|| {
+        // An alias as whole words inside the text ("measles at the library"), never as
+        // part of a word: "hundreds" does not hold "eds", nor "flush" "flu".
+        let n = format!(" {} ", phn_core::text::normalize(q));
+        CONTENT.library.iter().find(|e| {
+            e.aliases.iter().any(|a| {
+                let a = phn_core::text::normalize(a);
+                a.len() > 2 && n.contains(&format!(" {a} "))
+            })
+        })
+    })
+}
+
+/// A library entry whose id or alias is exactly the text given.
+fn find_entry_exact(q: &str) -> Option<&'static LibraryEntry> {
     let n = phn_core::text::normalize(q);
     if n.is_empty() {
         return None;
@@ -471,14 +486,20 @@ fn find_entry(q: &str) -> Option<&'static LibraryEntry> {
             lib.iter()
                 .find(|e| e.aliases.iter().any(|a| phn_core::text::normalize(a) == n))
         })
-        .or_else(|| {
-            lib.iter().find(|e| {
-                e.aliases.iter().any(|a| {
-                    let a = phn_core::text::normalize(a);
-                    a.len() > 2 && (n.contains(&a) || a.contains(&n))
-                })
-            })
-        })
+}
+
+/// True for a whole-text `[BRACKETED]` placeholder (a part still to be written).
+fn is_bracket_pad(s: &str) -> bool {
+    let t = s.trim();
+    t.len() > 2 && t.starts_with('[') && t.ends_with(']')
+}
+
+/// Supporting facts of a key message that are written (not bracketed placeholders).
+fn written_facts(k: &MapMessage) -> usize {
+    k.supporting
+        .iter()
+        .filter(|s| !is_bracket_pad(&s.text))
+        .count()
 }
 
 fn parse_phases(p: Option<&str>) -> Result<(String, Vec<&'static PhaseDef>)> {
@@ -832,7 +853,11 @@ pub async fn crisis_risk_communication_builder(
                 )));
             }
         },
-        None => opt(&args.hazard_description).and_then(find_entry),
+        // A free-text description selects a pre-scripted set only when it is exactly a
+        // set's name ("measles", "heat wave"). "No heat in senior housing" or "space
+        // heater fire" must not bring up the extreme heat messages; a likely set is
+        // suggested in a caveat instead.
+        None => opt(&args.hazard_description).and_then(find_entry_exact),
     };
     let custom_label = opt(&args.hazard_description)
         .or(opt(&args.hazard))
@@ -868,6 +893,14 @@ pub async fn crisis_risk_communication_builder(
         &c.sources,
     );
     let mut caveats: Vec<String> = Vec::new();
+    if entry.is_none()
+        && let Some(e) = opt(&args.hazard_description).and_then(find_entry)
+    {
+        caveats.push(format!(
+            "The description mentions a hazard with a pre-scripted message set ({}). It was not used, because the description may be about something else; pass hazard \"{}\" if that set fits.",
+            e.label, e.id
+        ));
+    }
     let mut privacy = Privacy::none();
     let mut missing: Vec<String> = Vec::new();
 
@@ -1048,6 +1081,24 @@ pub async fn crisis_risk_communication_builder(
                 .collect()
         })
         .unwrap_or_default();
+    // Bracketed parts of the map that are still to be written (a map built from too few
+    // facts is padded with them) count as missing, like unfilled {{placeholders}}.
+    if let Some(m) = &message_map {
+        for (i, k) in m.key_messages.iter().enumerate() {
+            let mut gaps = Vec::new();
+            if is_bracket_pad(&k.text) {
+                gaps.push(format!("key message {}", i + 1));
+            }
+            if k.supporting.iter().any(|s| is_bracket_pad(&s.text)) {
+                gaps.push(format!("supporting facts for key message {}", i + 1));
+            }
+            for g in gaps {
+                if !missing.contains(&g) {
+                    missing.push(g);
+                }
+            }
+        }
+    }
 
     // ---- map checks
     let mut map_checks = Vec::new();
@@ -1059,12 +1110,13 @@ pub async fn crisis_risk_communication_builder(
             format!("{n} key message(s); use {}", lim.key_messages),
             &rule_source("three_key_messages"),
         ));
+        // Bracketed placeholders are not supporting facts.
         let short: Vec<String> = m
             .key_messages
             .iter()
             .enumerate()
-            .filter(|(_, k)| k.supporting.len() < lim.supporting_per_key)
-            .map(|(i, k)| format!("key message {} has {}", i + 1, k.supporting.len()))
+            .filter(|(_, k)| written_facts(k) < lim.supporting_per_key)
+            .map(|(i, k)| format!("key message {} has {}", i + 1, written_facts(k)))
             .collect();
         map_checks.push(check(
             "three_supporting_facts",
@@ -1666,6 +1718,13 @@ pub async fn crisis_risk_communication_builder(
     let mut resolver = TemplateResolver::new(ctx, &kind_owned, english_template.clone());
     let mut briefs: Vec<(usize, TranslatorBrief)> = Vec::new();
     let mut agency_docs: Vec<(usize, templates::Chosen)> = Vec::new();
+    // An approved translation matches only the unmodified library message. With the
+    // nurse's own map, action steps, or empathy statement, the English no longer says
+    // what the translation says, so the translation is not used.
+    let library_unmodified = raw.as_ref().is_some_and(|r| r.origin == "library")
+        && user_actions.is_empty()
+        && opt(&args.empathy).is_none();
+    let mut stale_translations: Vec<String> = Vec::new();
     for (i, r) in rows.iter_mut().enumerate() {
         let fl = folder_language(&r.language);
         let brief = translation::translator_brief(&fl, public_message.as_deref().unwrap_or(""));
@@ -1674,6 +1733,13 @@ pub async fn crisis_risk_communication_builder(
             .as_ref()
             .map(|_| resolver.choose(&fl))
             .filter(|ch| ch.translated);
+        let chosen = match chosen {
+            Some(_) if !library_unmodified => {
+                stale_translations.push(r.language.clone());
+                None
+            }
+            other => other,
+        };
         match chosen {
             Some(ch) => {
                 r.plan = "agency_translation".into();
@@ -1693,6 +1759,12 @@ pub async fn crisis_risk_communication_builder(
     }
     if !briefs.is_empty() {
         sources.extend(translation::translation_sources());
+    }
+    if !stale_translations.is_empty() {
+        caveats.push(format!(
+            "Your agency's approved translation was NOT used for {}: the English message was changed (your own message map, action steps, or empathy statement), so the approved translation no longer matches it. A translator brief was prepared instead; have the changed message translated and approved before release.",
+            stale_translations.join(", ")
+        ));
     }
     let mut language_plan = LanguagePlan {
         area: area.clone(),
@@ -2414,6 +2486,129 @@ mod tests {
         assert_eq!(find_entry("POD").unwrap().id, "mass_dispensing_pod");
         assert_eq!(find_entry("boil water").unwrap().id, "boil_water");
         assert!(find_entry("volcano").is_none());
+        // Aliases match as whole words, never inside a word.
+        assert_eq!(
+            find_entry("measles at the library").unwrap().id,
+            "measles_exposure"
+        );
+        for q in [
+            "norovirus, hundreds ill",
+            "sewage backup, do not flush",
+            "space heater fire",
+            "fluoride overfeed",
+        ] {
+            assert!(find_entry(q).is_none(), "{q}");
+        }
+        // A description selects a set only when it is exactly the set's name.
+        assert_eq!(find_entry_exact("heat wave").unwrap().id, "extreme_heat");
+        assert!(find_entry_exact("no heat in senior housing").is_none());
+    }
+
+    #[test]
+    fn a_described_hazard_is_built_from_the_facts_not_a_lookalike_set() {
+        let (_d, ctx) = ctx();
+        let r = run(
+            &ctx,
+            CercArgs {
+                hazard_description: Some("no heat in senior housing".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(r.data.hazard_id.is_none());
+        assert_eq!(
+            r.data.message_map.as_ref().unwrap().origin,
+            "built_from_inputs"
+        );
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("pass hazard \"extreme_heat\"")),
+            "{:?}",
+            r.caveats
+        );
+    }
+
+    #[test]
+    fn bracketed_parts_of_a_built_map_are_reported_as_missing() {
+        let (_d, ctx) = ctx();
+        let r = run(
+            &ctx,
+            CercArgs {
+                hazard_description: Some("water main break".into()),
+                organization: Some("Riverton Board of Health".into()),
+                what_happened: Some("A water main broke on Elm Street at 6 a.m.".into()),
+                known: vec!["Water pressure is low in the north end.".into()],
+                unknown: vec!["We do not know yet how long repairs will take.".into()],
+                being_done: vec!["Crews are repairing the main.".into()],
+                public_actions: vec![
+                    "Use bottled water for drinking.".into(),
+                    "Check on neighbors.".into(),
+                    "Call 2-1-1 for help.".into(),
+                ],
+                next_update: Some("by 4 p.m. today".into()),
+                info_source: Some("the town website".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let d = &r.data;
+        assert!(
+            d.public_message
+                .as_ref()
+                .unwrap()
+                .contains("[SUPPORTING FACT]")
+        );
+        assert!(
+            d.missing
+                .iter()
+                .any(|m| m == "supporting facts for key message 1"),
+            "{:?}",
+            d.missing
+        );
+        let failed =
+            |checks: &[CercCheck], id: &str| checks.iter().any(|c| c.id == id && !c.passed);
+        assert!(failed(d.map_checks.as_slice(), "three_supporting_facts"));
+        assert!(failed(d.statement_checks.as_slice(), "placeholders_filled"));
+        assert!(!r.summary.contains("All message-map and CERC checks passed"));
+    }
+
+    #[test]
+    fn an_approved_translation_is_used_only_for_the_unmodified_library_message() {
+        let (dir, ctx) = ctx();
+        let folder = dir.path().join("data/templates/spanish");
+        std::fs::create_dir_all(&folder).unwrap();
+        std::fs::write(
+            folder.join("cerc_boil_water.md"),
+            "# Aviso de hervir el agua\n\nHierva el agua durante un minuto.\n",
+        )
+        .unwrap();
+        let plan = |actions: Vec<String>| {
+            let r = run(
+                &ctx,
+                CercArgs {
+                    hazard: Some("boil_water".into()),
+                    languages: vec!["Spanish".into()],
+                    public_actions: actions,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+            (r.data.language_plan.rows[0].plan.clone(), r.caveats.clone())
+        };
+        // The library message as written: the approved translation is used.
+        let (p, caveats) = plan(vec![]);
+        assert_eq!(p, "agency_translation");
+        assert!(!caveats.iter().any(|c| c.contains("NOT used")));
+        // Changed action steps: the translation no longer matches the English.
+        let (p, caveats) = plan(vec![
+            "Do not drink tap water; use bottled water only.".into(),
+        ]);
+        assert_eq!(p, "translator_brief");
+        assert!(
+            caveats.iter().any(|c| c.contains("NOT used for Spanish")),
+            "{caveats:?}"
+        );
     }
 
     #[test]

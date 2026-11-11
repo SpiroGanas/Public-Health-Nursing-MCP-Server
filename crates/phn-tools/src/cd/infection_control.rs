@@ -107,12 +107,13 @@ pub fn infection_control_for_congregate_settings(
         ));
     }
     let matches = infection_control::find(q);
-    let best = matches.first().copied().filter(|(_, score)| *score >= 0.6);
-    let Some((p, _)) = best else {
+    // Only an exact name or a close match counts; a pathogen that is not
+    // covered must not borrow the guidance of one with a similar spelling.
+    let Some(p) = infection_control::best_match(q) else {
         let names: Vec<&str> = c.pathogens.iter().map(|p| p.name.as_str()).collect();
         return Err(PhnError::NotFound(format!(
-            "no infection control guidance matches '{q}'. Covered: {}. For other organisms, see \
-             CDC/HICPAC Appendix A ({}).",
+            "no infection control guidance matches '{q}' (this tool does not guess from similar \
+             names). Covered: {}. For other organisms, see CDC/HICPAC Appendix A ({}).",
             names.join("; "),
             c.sources
                 .get("cdc-appendix-a")
@@ -365,6 +366,31 @@ mod tests {
         );
         assert!(env.summary.contains("List G"));
         assert!(env.notice.is_some());
+    }
+
+    #[test]
+    fn uncovered_pathogens_are_not_found_instead_of_matched_loosely() {
+        let (_d, c) = ctx();
+        for q in ["ebola", "CRE", "impetigo", "bed bugs", "legionella"] {
+            let e = infection_control_for_congregate_settings(
+                &c,
+                InfectionControlArgs {
+                    pathogen: q.into(),
+                    setting: None,
+                },
+            )
+            .unwrap_err();
+            assert!(e.to_string().contains("Covered"), "{q}: {e}");
+        }
+        let env = infection_control_for_congregate_settings(
+            &c,
+            InfectionControlArgs {
+                pathogen: "MRSA".into(),
+                setting: None,
+            },
+        )
+        .unwrap();
+        assert!(env.data.pathogen.contains("MRSA"));
     }
 
     #[test]

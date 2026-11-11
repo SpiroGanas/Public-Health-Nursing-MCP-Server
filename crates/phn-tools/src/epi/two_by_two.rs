@@ -69,6 +69,11 @@ pub struct TwoByTwoResult {
     pub interpretation: String,
 }
 
+/// Largest count accepted in one cell. Far above any real table (it is
+/// about three times the U.S. population); larger values are typing errors
+/// and would only waste time.
+const MAX_CELL: u64 = 1_000_000_000;
+
 fn fmt_est(e: &Estimate, d: usize) -> String {
     format!(
         "{} ({} – {})",
@@ -101,6 +106,12 @@ pub fn analyze_two_by_two(ctx: &Context, args: TwoByTwoArgs) -> Result<Envelope<
     let design = args.design.unwrap_or_default();
     for t in &args.tables {
         let tb = t.table();
+        if [tb.a, tb.b, tb.c, tb.d].iter().any(|v| *v > MAX_CELL) {
+            return Err(PhnError::InvalidInput(format!(
+                "a table cell is larger than {}; check the counts",
+                md::num(MAX_CELL as f64, 0)
+            )));
+        }
         if tb.total() == 0 {
             return Err(PhnError::InvalidInput("a table has no people in it".into()));
         }
@@ -421,10 +432,17 @@ fn interpret(
             .into();
     };
     let excludes_one = e.lower > 1.0 || e.upper.is_some_and(|u| u < 1.0);
-    let p = r.exact.first().map(|t| t.p_value).unwrap_or(f64::NAN);
+    let (test_name, p) = match r.exact.first() {
+        Some(t) => ("Fisher's exact", t.p_value),
+        // Exact methods are skipped for very large tables.
+        None => (
+            "chi-square",
+            r.chi_square.first().map(|t| t.p_value).unwrap_or(f64::NAN),
+        ),
+    };
     let mut out = format!(
         "People with the exposure ({exposure}) had {:.2} times the {} of {outcome} ({pctl} CI {:.2}–{}; \
-         Fisher's exact {}).",
+         {test_name} {}).",
         e.value,
         if design == Design::CaseControl {
             "odds"
@@ -451,4 +469,57 @@ fn interpret(
     }
     let _ = name;
     out
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let mut c = phn_core::Config::for_root(dir.path());
+        c.offline = true;
+        (dir, Context::new(c).unwrap())
+    }
+
+    fn one_table(a: u64, b: u64, c: u64, d: u64) -> TwoByTwoArgs {
+        TwoByTwoArgs {
+            tables: vec![TableInput {
+                exposed_cases: a,
+                exposed_noncases: b,
+                unexposed_cases: c,
+                unexposed_noncases: d,
+                label: None,
+            }],
+            design: None,
+            confidence: None,
+            exposure: None,
+            outcome: None,
+        }
+    }
+
+    #[test]
+    fn very_large_tables_are_analyzed_without_exact_methods() {
+        let (_dir, ctx) = ctx();
+        // A statewide-size table: about 3.5 million possible arrangements.
+        let r = analyze_two_by_two(&ctx, one_table(2_000_000, 5_000_000, 1_500_000, 5_500_000))
+            .unwrap();
+        assert!(r.data.tables[0].exact.is_empty());
+        assert!(r.data.tables[0].risk_ratio.is_some());
+        assert!(r.summary.contains("exact methods"), "{}", r.summary);
+        assert!(
+            r.data.interpretation.contains("chi-square p < 0.001"),
+            "{}",
+            r.data.interpretation
+        );
+        // An ordinary table still reports Fisher's exact test.
+        let r = analyze_two_by_two(&ctx, one_table(30, 10, 5, 25)).unwrap();
+        assert!(r.data.interpretation.contains("Fisher's exact p < 0.001"));
+        // Counts no real table could hold are refused.
+        let e = analyze_two_by_two(&ctx, one_table(5_000_000_000, 10, 5, 25))
+            .unwrap_err()
+            .to_string();
+        assert!(e.contains("check the counts"), "{e}");
+    }
 }

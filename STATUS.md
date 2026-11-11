@@ -3,10 +3,13 @@
 A handoff document for whoever picks up this project next, human or AI agent. Read it before
 starting work, and **update it before you finish** (see [Keeping this file current](#keeping-this-file-current)).
 
-- **Last updated:** 2026-11-09
-- **Current version:** 0.14.0 (Phases 0–13 of [`project_plan.md`](project_plan.md)); not yet released
-- **Next:** Pilot 3 (a tabletop exercise designed with `design_hseep_exercise`), then Phase 14,
-  environmental health and climate. Pilots 1, 2, and 3 wait on the nurse's content reviews.
+- **Last updated:** 2026-11-11
+- **Current version:** 0.14.1 (Phases 0–13 of [`project_plan.md`](project_plan.md), plus the
+  fixes from a peer review of all 102 tools); not yet released
+- **Next:** Phase 14, environmental health and climate (the nurse chose to keep building rather
+  than pause for the review backlog, 2026-11-11). Pilots 1, 2, and 3 still wait on the nurse's
+  content reviews; no phase has yet met the plan's definition of done (content reviewed, signed
+  image published, acceptance script run).
 
 ## 1. Where things stand
 
@@ -20,19 +23,20 @@ starting work, and **update it before you finish** (see [Keeping this file curre
 | 5 | Immunizations I (9 tools) | Merged; content review needed | PR #3 |
 | 6 | Immunization forecasting and surveillance feeds (3 tools) | Merged; CDSi exceptions to review | PR #3 |
 | — | User guide for nurses (Word) | Merged; nurse to read for accuracy and tone | PR #4 |
-| 7 | School health (8 tools) | Open; content review needed before Pilot 2 | PR #5 |
-| 8 | Maternal, child, and family health (8 tools) | Open; content review needed | PR #5 |
-| 9 | PHN practice toolkit and case management (8 tools) | Open; content review needed | PR #5 |
-| 10 | Healthy aging and mental health screening (9 tools) | Open; content review needed | PR #5 |
-| 11 | Substance use, crisis resources, and health communication (9 tools) | Open; content review needed | PR #5 |
+| 7 | School health (8 tools) | Merged; content review needed before Pilot 2 | PR #5 |
+| 8 | Maternal, child, and family health (8 tools) | Merged; content review needed | PR #5 |
+| 9 | PHN practice toolkit and case management (8 tools) | Merged; content review needed | PR #5 |
+| 10 | Healthy aging and mental health screening (9 tools) | Merged; content review needed | PR #5 |
+| 11 | Substance use, crisis resources, and health communication (9 tools) | Merged; content review needed | PR #5 |
 | 12 | Emergency preparedness I (8 tools) | Merged; content review needed | PR #5 |
-| 13 | Emergency preparedness II: ICS, plans, and exercises (5 tools + tabletop prompt) | Open; content review needed before Pilot 3 | PR #6 |
+| 13 | Emergency preparedness II: ICS, plans, and exercises (5 tools + tabletop prompt) | Merged; content review needed before Pilot 3 | PR #6 |
+| — | Peer review of Phases 0–13: code, plan, architecture, and documentation | Open | PR #7 |
 | 14–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
 
-PR #5 (Phases 7–12) is merged. PR #6 (branch `claude/wizardly-fermat-c58t6h`) holds Phase 13,
-built by four helper agents in their own worktrees (`phase-13-ics`, `-coop`, `-hseep`, `-cerc`)
-from a scaffolding commit with per-package router files, registry lists, and markers; see the
-lessons learned below. When it merges, start new work on a fresh branch from `main`.
+PRs #5 (Phases 7–12) and #6 (Phase 13) are merged. PR #7 (branch `ccr-1d0425d8-s31v7d`) holds
+the peer review: twelve reviewers read the code by area, then fixed about 170 of roughly 210
+findings (every high- and medium-severity finding except the ones listed as open items below);
+the rest are recorded in section 2. When it merges, start new work on a fresh branch from `main`.
 
 ### Tools implemented (102 of 148)
 
@@ -145,7 +149,7 @@ MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0), `phase1.rs`–
 `phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`; the
 `investigate_outbreak` and `plan_tabletop_exercise` MCP prompts are in `prompts.rs`. The registry
 (tool → plan ID → toolset → phase) is `crates/phn-tools/src/registry/` with one file per phase
-(Phase 13's file has four lists; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
+from Phase 2 (Phases 0–1 are in `mod.rs`; Phase 13's file has four lists; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
 roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 
 ### Exit criteria
@@ -198,7 +202,8 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
        SNAP effective date is assumed to be 2026-10-01.
      - `content/core/omaha_system.yaml` (signs and symptoms not shown in the website's case studies,
        and rating labels 4–5, are from memory of the 2005 book) and `intervention_wheel.yaml` (MDH's
-       site was unreachable; five definitions are from memory); `content/cd/tuberculosis.yaml`
+       site was unreachable; the definitions of four interventions and of the three levels of practice
+       are from memory); `content/cd/tuberculosis.yaml`
        (no source gives a 3HR completion window, so it is empty);
        `content/equity/newcomer_health.yaml` (ORI pages disagree on Refugee Medical Assistance: 8 vs
        4 months).
@@ -289,13 +294,53 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
      and who approves translated pre-scripted messages.
    - Profiles: the `mch` and `aging` toolsets are in no role profile (they are on when no profile
      is set). Decide whether to add a profile for home visiting and community nursing.
+   - **Peer review (2026-11-11).** Decided by the nurse: keep building toward Phase 14 rather than
+     pause for the review backlog; roster contacts are filled only on an exact full-name match.
+     Implemented as a conservative default, to confirm or change: the C-SSRS screener reports
+     "risk level not yet determined" (with same-day steps) when deciding items are unanswered;
+     SPC charts from local files withhold the center line and limits when a period is
+     suppressed; outbreak median onset and exposure window are withheld below the suppression
+     threshold; a Markdown `---` no longer starts a new page; CSV cells that look like formulas
+     get a leading apostrophe; refrigerator readings in °F are judged against 36–46 °F; NWS alerts
+     are never shown from a cached copy more than 60 minutes old; the container runs on Eastern
+     time (`TZ=America/New_York`). Still to decide:
+     - Privacy policy: enforce an outbound host allowlist in code, or rely on the agency
+       firewall (`project_plan.md` §5.5 now says it is not enforced); `read_local_file`'s default
+       redaction level for documents outside the policies folder (standard or strict); whether
+       labels of suppressed categories may be shown; client names in file names returned by
+       listings; whether counts of letters and plans by family language need suppression;
+       whether suppression must hold across groups and totals in one response (fixed for HRSN,
+       screening batches, and school reports); outbreak well-person cells and "percent of cases
+       exposed"; TB expansion statements about single contacts; after-action notes that contain
+       identifiers (warn, mask, or refuse); feedback-form means beside suppressed counts;
+       exact small counts in epidemic-curve images; very broad identifier headers ("Insurance
+       type", "Birth weight"); shuffling rows before de-identification; limited data set
+       geography.
+     - Statistics: dropping zero-population age groups; automatic test choice (n ≥ 30 rule,
+       Shapiro–Wilk); Yates correction as the primary 2×2 chi-square; an RSE > 30% unstable-rate
+       rule; a minimum sigma for EARS C3; Levin's attributable fraction for outbreak cohorts.
+     - Clinical and program: MassHealth's 5-point income disregard and counting an unborn child;
+       CDC minimum ages beyond DPH's wording in the school checker; the hepatitis B 2-dose
+       adolescent schedule; an "in process" school status; whether an exemption overrides
+       "needs review"; ungraded classrooms; measles exclusion for immunocompromised contacts with
+       documented doses; LTBI directly observed therapy on weekdays only; EPDS answer-entry mode;
+       newcomer screening age rules (in code, not content); the 48-hour dispensing window as clock
+       time; dispensing utilization defaults; readability grades for non-English text; town-name
+       aliases ("Foxboro", "Manchester"); growth extreme-value cut points; undated screening
+       results; a school calendar for absenteeism; SMART-objective heuristics; ICS 214 sorting;
+       holding statements by CERC phase; a Controller/Evaluator Handbook and drill MSEL; role
+       profiles (`preparedness` has no `vax`, `school_nurse` has no `mch`); ACS vintage switching
+       automatically; a runtime warning for overdue content reviews; how maps distinguish
+       suppressed from no data; PDF heading levels under the title.
 3. **Run the acceptance scripts** for Phases 0–13 on Windows and macOS and send the IT request.
    **Read the user guide** (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`) for accuracy and
    tone before sharing it with other nurses; send corrections as edits to `guide-content.js`.
-4. **Publish a release:** once PR #6 merges, tag `v0.14.0` to run `.github/workflows/release.yml`
-   (GHCR image, SBOM, Trivy scan, cosign signature, offline tarballs). No release has ever been
-   tagged (`v0.13.0` was not tagged after PR #5); the workflow has never run, so watch it closely
-   the first time.
+4. **Publish a release:** once PR #7 merges, tag `v0.14.1` to run `.github/workflows/release.yml`
+   (it now scans a local image with Trivy before pushing, builds the SBOM from the source tree,
+   then pushes the multi-architecture image, signs it with cosign, and attaches offline
+   tarballs). No release has ever been tagged; the workflow has never run, so watch it closely
+   the first time. The CI smoke test now checks that the image reports Eastern time; if it fails,
+   copy `/usr/share/zoneinfo` from the builder stage into the runtime image.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
    from some networks), `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` (the
    AirNow API path is untested: its host was blocked here). Everything works without them
@@ -336,7 +381,6 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 - The variance test is labeled "Levene (median-centered)" in tool output: the eponym "Brown"
   (Brown–Forsythe) matches a seeded surname in the leak tests. Avoid common surnames in fixed
   output text.
-- GitHub warns that `actions/checkout@v4` runs on a deprecated Node.js version; bump to v5.
 - **Phases 7–12 limits:** business-day deadlines (concussion, TB contacts) skip weekends but not
   holidays; absenteeism detection needs at least 8 school days; Omaha, Intervention Wheel,
   documentation, passive-voice, jargon, and safe-messaging checks are keyword or pattern based;
@@ -359,6 +403,48 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
   (refactor candidate). The CERC language plan matches ACS language groups ("Thai, Lao, or
   other…") to a translations folder by the first language named; agency translations exist only
   for the pre-scripted sets.
+- **Open after the peer review (2026-11-11).** Lower-severity findings not fixed in PR #7:
+  - Privacy and robustness: no size limits on input files, DOCX zip members, or sparse XLSX
+    ranges (memory); `Sandbox::new_output_file` checks then writes (not create-new); the
+    after-action feedback summary returns header text (a headerless file could echo a comment);
+    aging local-fill and the disparities error message can return a cell's text; the leak test
+    does not assert each row's success; the concussion log's `injuries` total is not suppressed.
+  - Data: the content validator does not catch an unregistered YAML file, a `meta.id` mismatch,
+    or `reviewed` without a reviewer; empty live results are cached (PLACES, OpenFEMA); the HRSA
+    download can exceed the 20-second timeout; the CVX fetch can cache a block page; several
+    tools still date citations from the UTC timestamp; PLACES live rows are not checked against
+    the bundled release year.
+  - Statistics: constant groups and equal paired differences are not refused up front in
+    `run_statistical_test`; infinite statistics serialize as null; "Cramér's V = NaN" for a 2×2
+    with an empty row; survey-mean `population_size` and `create_spc_chart` denominator lengths
+    are not validated.
+  - Documents: PDF table rows taller than a page are cut off; epidemic-curve markers can fall
+    past the right edge; PDF headings and table headers are listed as manual checks.
+  - Tools: college immunization rules ignore full-time status and age; MenACWY grades 7–10 reject
+    a dose given after the 10th birthday as "dose 2"; epinephrine band boundaries pick the lower
+    band; the CDSi harness matches exceptions by case ID only; the LTBI twice-weekly calendar can
+    omit the start date; outbreak zero cells show "—" for the risk ratio; absence reasons ignore
+    negation; absenteeism enrollment is overwritten per row and weekend rows count as school
+    days; growth batch files assume metric units; `unborn_children` is unbounded;
+    language-access groups under 50; county overdose rates under 20 are not flagged; MassHealth
+    65+ for households of 3 or more and PACE for couples; PACE and asset constants are in code
+    (`aging/coverage.rs`); chair stands with arms or zero stands without age; resource hours like
+    "9-8"; emPOWER totals with masked ZIP codes are point estimates; Omaha "potential" problems;
+    HVA probability wording and tied ranks; CASPER clusters selected twice count once in the
+    variance; unknown placeholders in agency CERC translations; CERC messages with more than three
+    supporting facts and duplicate languages; after-action date arithmetic; async tools that
+    parse files on the async runtime (Phases 9, 11, 12, and CERC); the image ships an empty
+    `/data`; release actions are pinned to tags, not commit SHAs.
+  - Dates: the 1900–2100 check covers files and the communicable disease, school,
+    immunization, and growth tools, but not `core/practice.rs` `date_arg` (LTBI, newcomer, TB
+    arguments) or the COOP, after-action, ICS, press, and social media date arguments
+    (`design_hseep_exercise` allows 1900–2200); an outbreak cell with a date and a time reads
+    two-digit years with chrono's 69/68 pivot. The nursing home tool does not show the CMS
+    adapter's fallback reason.
+  - Template folders: tools resolve `/data/templates/<language>/` with three different rules
+    (school/CERC, maternal-child health, and `core/practice.rs` used by shelter intake, LTBI, and
+    the newcomer checklist); `haitian_creole` works everywhere, codes such as `ht` do not. Unify
+    them.
 - **User guide upkeep:** the `.docx` is built by `docs/user-guide/build-user-guide.js` (Node.js
   with the `docx` package, plus LibreOffice and `pdftotext` for contents page numbers); it is not
   part of the Rust build or CI. Every new tool needs an entry in `guide-content.js` (a registry
@@ -389,7 +475,7 @@ crates/
 content/       reference content (YAML) with review metadata; schemas in content/schemas/
 snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 9 MB, 34 snapshots)
 fixtures/      synthetic test corpus, all fictional; seeded_identifiers.json lists every planted identifier
-docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0008),
+docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0010),
                acceptance/ (per phase), cdsi-test-results.md
 xtask/         build-snapshots, build-public-snapshots, build-surveillance-snapshots,
                build-guide-corpus, build-name-lists, build-service-directories,
@@ -397,7 +483,7 @@ xtask/         build-snapshots, build-public-snapshots, build-surveillance-snaps
                scripts/ (Python builders for the other snapshots)
 ```
 
-Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`–`0008`, and
+Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`–`0010`, and
 `CONTRIBUTING.md` (definition of done for a tool). Golden-test fixtures in
 `crates/phn-epi/tests/fixtures/` come with the R/Python scripts that generated them
 (`generators/`); rerun those rather than editing numbers by hand.
@@ -428,7 +514,7 @@ Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`�
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 661 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # 822 tests: unit, golden, CDSi cases, MCP integration
 node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
@@ -514,6 +600,17 @@ MSRV is 1.88.
 - **Network (Phase 13):** training.fema.gov (ICS forms) and preptoolkit.fema.gov (HSEEP) were
   added and work; www.fema.gov pages still return 403 (Continuity Guidance Circular, National
   Preparedness Goal); MassDEP's boil order pages returned 404.
+- **Peer review (2026-11-11):** twelve read-only reviewers (one per area) found about 210
+  issues; the same agents then fixed their own findings with strict file ownership and no
+  cargo, and the coordinator built, linted, and tested centrally. Eleven agents editing one tree
+  without compiling produced a workspace that built on the first try with one clippy error and
+  one failing test. Repeated 5-hour usage limits and two container restarts interrupted the fix
+  phase; agents resumed from their saved transcripts, and pushing a WIP commit at each stop kept
+  the work safe. Shared root causes found by several reviewers at once: chrono's `%Y` reads
+  1–4 digits, so "3/5/21" parsed as year 21 (fixed in `phi::parse_date`, `vax/dates.rs`, and the
+  line-list parser by rejecting years outside 1900–2100); byte slicing and `String::truncate` on
+  non-ASCII text; `f64::signum(0.0)` is 1.0; substring keyword matching; fuzzy matching that
+  accepted ties; and suppression applied per row when totals elsewhere revealed the cell.
 - **Library APIs** (read the source in `~/.cargo/registry/src/` before guessing):
   - `rmcp` 3.9: `output_schema = schema_for_output::<Envelope<T>>()`; per-phase
     `#[tool_router(router = phaseN_router, vis = "pub(crate)")]` blocks merged in
@@ -529,7 +626,9 @@ MSRV is 1.88.
   tabletop with `plan_tabletop_exercise` / `design_hseep_exercise`; feed what the planning team
   changes back into `content/epr/exercise_scenarios.yaml` and the after-action report into
   `build_after_action_report`'s acceptance checks.
-- Tag `v0.14.0` after PR #6 merges and watch the first run of the release workflow.
+- Tag `v0.14.1` after PR #7 merges and watch the first run of the release workflow.
+- Work through the review's open technical debt (section 2, "Open after the peer review") a few
+  items at a time, alongside Phase 14.
 - Phase 14 (`project_plan.md`): ENV-03 `drinking_water_quality_lookup`, ENV-04
   `environmental_justice_screen`, ENV-05 `climate_health_vulnerability_profile`, ENV-06
   `vector_borne_disease_risk`, ENV-07 `housing_conditions_health_guide`, ENV-08
@@ -551,6 +650,7 @@ MSRV is 1.88.
 | 2026-11-08 | User guide for public health nurses (Word) and a test that keeps it in step with the tools | #4 |
 | 2026-11-09 | Phases 7–12: 50 tools (school health, maternal and child health, PHN practice, healthy aging and mental health screening, substance use and communication, preparedness I); version 0.13.0; user guide rebuilt (116 pages) | #5 |
 | 2026-11-09 | Phase 13: 5 tools (ICS forms and IAP, COOP, HSEEP exercise design, after-action report, CERC), `plan_tabletop_exercise` prompt, staff roster module and ADR 0009; version 0.14.0; user guide rebuilt (124 pages) | #6 |
+| 2026-11-11 | Peer review of Phases 0–13: about 170 fixes (privacy leaks, wrong clinical and statistical results, panics, stale data shown as current), plan and documentation corrected, ADR 0010, Docker time zone, release workflow reordered; version 0.14.1; 822 tests | #7 |
 
 ## Keeping this file current
 

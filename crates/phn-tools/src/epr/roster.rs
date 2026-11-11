@@ -220,20 +220,40 @@ impl Roster {
         let first = find_col(h, FIRST);
         let last = find_col(h, LAST);
         let position = find_col(h, POSITION);
-        if name.is_none() && first.is_none() && last.is_none() && position.is_none() {
-            // Only header names are echoed, never cell values.
-            return Err(PhnError::InvalidInput(format!(
-                "'{label}' needs a name column (name, or first name and last name) or a position \
-                 column (position, ICS position, role, or title). Columns found: {}",
-                h.join(", ")
-            )));
-        }
         let agency = find_col(h, AGENCY);
         let work = find_col(h, WORK_PHONE);
         let cell = find_col(h, CELL);
         let email = find_col(h, EMAIL);
         let radio = find_col(h, RADIO);
         let alt = find_col(h, ALTERNATE);
+        if name.is_none() && first.is_none() && last.is_none() && position.is_none() {
+            // The file's own header text is never echoed: a roster without a header row would
+            // put a person's name or phone number there. Only this module's field names and a
+            // count are reported.
+            let recognized: Vec<&str> = [
+                ("agency", agency),
+                ("work phone", work),
+                ("cell phone", cell),
+                ("email", email),
+                ("radio", radio),
+                ("alternate contact", alt),
+            ]
+            .into_iter()
+            .filter(|(_, col)| col.is_some())
+            .map(|(field, _)| field)
+            .collect();
+            return Err(PhnError::InvalidInput(format!(
+                "'{label}' needs a name column (name, or first name and last name) or a position \
+                 column (position, ICS position, role, or title). It has {} column(s); recognized \
+                 roster fields: {}. Check that the first row holds the column names.",
+                h.len(),
+                if recognized.is_empty() {
+                    "none".to_string()
+                } else {
+                    recognized.join(", ")
+                }
+            )));
+        }
         let mut columns_matched = Vec::new();
         for (field, col) in [
             ("name", name.or(first).or(last)),
@@ -296,23 +316,22 @@ impl Roster {
         Source::local_file(&self.label)
     }
 
-    /// Find a person: by name first (case and punctuation ignored), then by
-    /// position (the first holder of that position).
+    /// Find a person. When a name is given, only an exact full-name match counts
+    /// (case and punctuation ignored): a name that is not on the roster returns
+    /// `None`, so another person's contact details are never placed beside it.
+    /// The position (its first holder) is used only when no name is given.
     pub fn find(&self, name: Option<&str>, position: Option<&str>) -> Option<&StaffContact> {
-        let by_name = name
-            .map(norm_text)
-            .filter(|n| !n.is_empty())
-            .and_then(|n| self.entries.iter().find(|e| norm_text(&e.name) == n));
-        by_name.or_else(|| {
-            position
-                .map(normalize_position)
-                .filter(|p| !p.is_empty())
-                .and_then(|p| {
-                    self.entries
-                        .iter()
-                        .find(|e| normalize_position(&e.position) == p)
-                })
-        })
+        if let Some(n) = name.map(norm_text).filter(|n| !n.is_empty()) {
+            return self.entries.iter().find(|e| norm_text(&e.name) == n);
+        }
+        position
+            .map(normalize_position)
+            .filter(|p| !p.is_empty())
+            .and_then(|p| {
+                self.entries
+                    .iter()
+                    .find(|e| normalize_position(&e.position) == p)
+            })
     }
 
     /// Everyone holding a position, in roster order (for orders of succession).
@@ -394,6 +413,41 @@ pub fn contacts_in_arguments<'a>(texts: impl IntoIterator<Item = &'a str>) -> Ve
     found
 }
 
+/// Every non-empty string in a tool's arguments, for [`contacts_in_arguments`],
+/// so a phone number typed into any field (a supervisor's name, a resource
+/// leader, a message recipient) is noticed. Fields named in `skip_keys` are
+/// left out with everything under them: file paths, dates and times, and
+/// fields where a facility's or the public's number or address belongs.
+pub fn argument_strings<T: Serialize>(args: &T, skip_keys: &[&str]) -> Vec<String> {
+    fn walk(v: &serde_json::Value, skip: &[&str], out: &mut Vec<String>) {
+        match v {
+            serde_json::Value::String(s) => {
+                if !s.trim().is_empty() {
+                    out.push(s.clone());
+                }
+            }
+            serde_json::Value::Array(items) => {
+                for x in items {
+                    walk(x, skip, out);
+                }
+            }
+            serde_json::Value::Object(map) => {
+                for (k, x) in map {
+                    if !skip.contains(&k.as_str()) {
+                        walk(x, skip, out);
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+    let mut out = Vec::new();
+    if let Ok(v) = serde_json::to_value(args) {
+        walk(&v, skip_keys, &mut out);
+    }
+    out
+}
+
 /// Privacy note for tools that used [`contacts_in_arguments`] and found something.
 pub const CONTACTS_IN_ARGUMENTS_NOTE: &str = "Contact details (phone numbers, emails, or \
     addresses) were found in the request. Put staff contacts in a roster file in /data \
@@ -440,6 +494,16 @@ mod tests {
             t.find(Some(&r), Some("Nobody"), Some("Safety Officer"))
                 .is_none()
         );
+        // A name that is not on the roster never borrows the position holder's contacts.
+        assert!(
+            r.find(Some("A. Quell"), Some("Incident Commander"))
+                .is_none()
+        );
+        assert!(r.find(Some("Nobody"), Some("PIO")).is_none());
+        assert_eq!(
+            r.find(Some("ada quell"), Some("PIO")).unwrap().name,
+            "Ada Quell"
+        );
         assert!(t.find(Some(&r), None, Some("pio")).is_some());
         assert_eq!((t.matched, t.unmatched), (1, 1));
         assert!(t.find(None, Some("x"), None).is_none());
@@ -460,8 +524,51 @@ mod tests {
         let e = Roster::load(&ctx, "roster.csv", None)
             .unwrap_err()
             .to_string();
-        assert!(e.contains("Phone, Email"), "{e}");
+        assert!(e.contains("work phone, email"), "{e}");
         assert!(!e.contains("555-0101") && !e.contains("ada@"), "{e}");
+    }
+
+    #[test]
+    fn a_roster_without_a_header_row_does_not_echo_its_first_row() {
+        // The first row is taken as headers; none of it may come back in the error.
+        let (_d, ctx) = ctx_with(
+            "Ada Quell,508-555-0101,ada@example.org\nBo Ren,508-555-0102,bo@example.org\n",
+        );
+        let e = Roster::load(&ctx, "roster.csv", None)
+            .unwrap_err()
+            .to_string();
+        assert!(e.contains("3 column(s)"), "{e}");
+        assert!(
+            !e.contains("Quell") && !e.contains("555-0101") && !e.contains("ada@"),
+            "{e}"
+        );
+    }
+
+    #[test]
+    fn argument_strings_walks_every_field_except_skipped_keys() {
+        #[derive(Serialize)]
+        struct Inner {
+            leader: Option<String>,
+            location: String,
+        }
+        #[derive(Serialize)]
+        struct Args {
+            roster_path: String,
+            people: Vec<Inner>,
+            count: u32,
+        }
+        let a = Args {
+            roster_path: "roster 617-555-0123.csv".into(),
+            people: vec![Inner {
+                leader: Some("Dana Lee 617-555-0123".into()),
+                location: "12 Main Street".into(),
+            }],
+            count: 3,
+        };
+        let s = argument_strings(&a, &["roster_path", "location"]);
+        assert_eq!(s, vec!["Dana Lee 617-555-0123".to_string()]);
+        let found = contacts_in_arguments(s.iter().map(String::as_str));
+        assert!(found.iter().any(|f| f.contains("phone")), "{found:?}");
     }
 
     #[test]

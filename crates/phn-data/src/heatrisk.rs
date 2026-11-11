@@ -16,7 +16,7 @@ use phn_core::{PhnError, Result, SourceMode};
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::apifetch::fetch_validated;
+use crate::apifetch::{FetchOptions, fetch_validated, fetch_with_options};
 use crate::cache::Cache;
 use crate::http::HttpClient;
 
@@ -171,6 +171,14 @@ pub fn parse_file_times(js: &str) -> (Vec<(u8, String)>, Option<String>) {
     (days, updated)
 }
 
+/// WPC's "last updated" text ("2026-11-08 19:49 UTC") as a UTC time.
+pub fn parse_updated(s: &str) -> Option<chrono::DateTime<chrono::Utc>> {
+    let t = s.trim().strip_suffix("UTC")?.trim();
+    chrono::NaiveDateTime::parse_from_str(t, "%Y-%m-%d %H:%M")
+        .ok()
+        .map(|n| n.and_utc())
+}
+
 /// The 7-day HeatRisk forecast.
 #[derive(Debug, Clone)]
 pub struct HeatRiskForecast {
@@ -178,7 +186,10 @@ pub struct HeatRiskForecast {
     /// WPC's "last updated" time.
     pub updated: Option<String>,
     pub mode: SourceMode,
+    /// When the oldest file used (dates or a day's image) was retrieved.
     pub as_of: String,
+    /// Why a cached copy was used for any of the files, when one was.
+    pub fallback_reason: Option<String>,
 }
 
 fn not_html(body: &[u8]) -> Result<()> {
@@ -209,6 +220,13 @@ pub async fn fetch(http: &HttpClient, cache: Option<&Cache>, days: u8) -> Result
     )
     .await?;
     let (dates, updated) = parse_file_times(&String::from_utf8_lossy(&times.body));
+    // An image cached before WPC's latest update belongs to an earlier
+    // forecast; pairing it with the new dates would be wrong, so it is not
+    // used (fresh or stale).
+    let options = FetchOptions {
+        not_before: updated.as_deref().and_then(parse_updated),
+        ..FetchOptions::default()
+    };
     let kml = fetch_validated(
         http,
         cache,
@@ -222,19 +240,29 @@ pub async fn fetch(http: &HttpClient, cache: Option<&Cache>, days: u8) -> Result
     let bbox = parse_kml_box(&String::from_utf8_lossy(&kml.body))?;
     let mut grids = Vec::new();
     let mut mode = times.mode;
+    let mut as_of = times.as_of;
+    let mut fallback_reason = times.fallback_reason.or(kml.fallback_reason);
     for day in 1..=days.clamp(1, 7) {
-        let png = fetch_validated(
+        let png = fetch_with_options(
             http,
             cache,
             &format!("{DATA_BASE}/HeatRisk_{day}.png"),
-            None,
             TTL_SECS,
             &|b: &[u8]| decode_png(b).map(|_| ()),
             None,
+            options,
         )
-        .await?;
+        .await
+        .map_err(|f| f.error)?;
         if png.mode != SourceMode::Live {
             mode = png.mode;
+        }
+        // Retrieval times are UTC RFC 3339 text, which sorts in time order.
+        if png.as_of < as_of {
+            as_of = png.as_of;
+        }
+        if fallback_reason.is_none() {
+            fallback_reason = png.fallback_reason;
         }
         let (width, height, cells) = decode_png(&png.body)?;
         grids.push(HeatRiskGrid {
@@ -253,7 +281,8 @@ pub async fn fetch(http: &HttpClient, cache: Option<&Cache>, days: u8) -> Result
         grids,
         updated,
         mode,
-        as_of: times.as_of,
+        as_of,
+        fallback_reason,
     })
 }
 
@@ -287,6 +316,56 @@ mod tests {
         assert!(centres.len() > 50, "{}", centres.len());
     }
 
+    #[tokio::test]
+    async fn images_older_than_the_latest_update_are_rejected() {
+        // Offline, so every file comes from the cache.
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let now = chrono::Utc::now();
+        let updated = now - chrono::Duration::hours(2);
+        let times = format!(
+            "var file_times = {{\"1\":\"11/08/2026\"}};\nvar last_updated = '{}';",
+            updated.format("%Y-%m-%d %H:%M UTC")
+        );
+        let times_at = now - chrono::Duration::minutes(90);
+        cache
+            .put_at(
+                &format!("{DATA_BASE}/FileTimes.js"),
+                times.as_bytes(),
+                TTL_SECS,
+                times_at,
+            )
+            .unwrap();
+        cache
+            .put_at(
+                &format!("{DATA_BASE}/HeatRisk_Day1_Fcst.kml"),
+                KML.as_bytes(),
+                TTL_SECS,
+                times_at,
+            )
+            .unwrap();
+        let png_key = format!("{DATA_BASE}/HeatRisk_1.png");
+
+        // The image was cached an hour before WPC's update: not used.
+        cache
+            .put_at(&png_key, PNG, TTL_SECS, now - chrono::Duration::hours(3))
+            .unwrap();
+        assert!(fetch(&http, Some(&cache), 1).await.is_err());
+
+        // An image cached after the update is used, and the result reports
+        // the oldest retrieval time and why cached copies were used.
+        cache
+            .put_at(&png_key, PNG, TTL_SECS, now - chrono::Duration::minutes(30))
+            .unwrap();
+        let hr = fetch(&http, Some(&cache), 1).await.unwrap();
+        assert_eq!(hr.grids.len(), 1);
+        assert_eq!(hr.grids[0].date.as_deref(), Some("2026-11-08"));
+        assert_eq!(hr.mode, SourceMode::Cache);
+        assert_eq!(hr.as_of, times_at.to_rfc3339());
+        assert!(hr.fallback_reason.is_some());
+    }
+
     #[test]
     fn parses_file_times() {
         let (days, updated) = parse_file_times(
@@ -295,5 +374,10 @@ mod tests {
         assert_eq!(days[0], (1, "2026-11-08".to_string()));
         assert_eq!(days.len(), 2);
         assert_eq!(updated.as_deref(), Some("2026-11-08 19:49 UTC"));
+        assert_eq!(
+            parse_updated("2026-11-08 19:49 UTC").unwrap().to_rfc3339(),
+            "2026-11-08T19:49:00+00:00"
+        );
+        assert!(parse_updated("yesterday").is_none());
     }
 }

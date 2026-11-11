@@ -420,6 +420,17 @@ pub fn steadi_fall_risk_assessment(
     let mut factors: BTreeMap<String, Vec<String>> = BTreeMap::new();
     let mut add = |f: &str, why: String| factors.entry(f.to_string()).or_default().push(why);
 
+    // A count of falls answers the "fell in the past year" question.
+    let fell_past_year = match (args.fell_past_year, args.falls_count) {
+        (Some(false), Some(n)) if n > 0 => {
+            return Err(PhnError::InvalidInput(format!(
+                "fell_past_year is false but falls_count is {n}; correct one of them"
+            )));
+        }
+        (None, Some(n)) => Some(n > 0),
+        (f, _) => f,
+    };
+
     // ---- 1. Screen
     let si = &c.stay_independent;
     let screen = if !args.stay_independent.is_empty() {
@@ -456,7 +467,7 @@ pub fn steadi_fall_risk_assessment(
             }
         }
         let fell = args.stay_independent.first().copied().flatten() == Some(true)
-            || args.fell_past_year == Some(true);
+            || fell_past_year == Some(true);
         let (at_risk, reason) = if score >= si.at_risk_score {
             (
                 Some(true),
@@ -500,13 +511,9 @@ pub fn steadi_fall_risk_assessment(
         }
     } else if args.unsteady.is_some()
         || args.worries_about_falling.is_some()
-        || args.fell_past_year.is_some()
+        || fell_past_year.is_some()
     {
-        let answers = [
-            args.unsteady,
-            args.worries_about_falling,
-            args.fell_past_year,
-        ];
+        let answers = [args.unsteady, args.worries_about_falling, fell_past_year];
         let mut positive = Vec::new();
         for (q, a) in c.key_questions.questions.iter().zip(answers) {
             if a == Some(true) {
@@ -522,7 +529,7 @@ pub fn steadi_fall_risk_assessment(
         if args.worries_about_falling == Some(true) {
             add("fear_of_falling", "Worries about falling".into());
         }
-        if args.fell_past_year == Some(true) {
+        if fell_past_year == Some(true) {
             add("fall_history", "Fell in the past year".into());
         }
         let at_risk = if !positive.is_empty() {
@@ -560,10 +567,10 @@ pub fn steadi_fall_risk_assessment(
             citation: cite("steadi-algorithm", "1 Screen"),
         }
     };
-    if args.fell_past_year == Some(true) && screen.method == "stay_independent" {
+    if fell_past_year == Some(true) && screen.method == "stay_independent" {
         add("fall_history", "Fell in the past year".into());
     }
-    if let Some(n) = args.falls_count {
+    if let Some(n) = args.falls_count.filter(|n| *n > 0) {
         add(
             "fall_history",
             format!(
@@ -1481,5 +1488,58 @@ mod tests {
         .unwrap();
         assert_eq!(x.data.tests[0].result, "no_norm");
         assert_eq!(x.data.overall, "incomplete");
+    }
+
+    #[test]
+    fn falls_count_answers_the_fall_question() {
+        let (_d, ctx) = ctx();
+        // Two falls is a yes to "fell in the past year": at risk.
+        let x = steadi_fall_risk_assessment(
+            &ctx,
+            FallRiskArgs {
+                unsteady: Some(false),
+                worries_about_falling: Some(false),
+                falls_count: Some(2),
+                ..FallRiskArgs::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(x.data.overall, "at_risk");
+        // No falls is not a risk factor and adds no fall-history interventions.
+        let x = steadi_fall_risk_assessment(
+            &ctx,
+            FallRiskArgs {
+                unsteady: Some(false),
+                worries_about_falling: Some(false),
+                falls_count: Some(0),
+                ..FallRiskArgs::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(x.data.overall, "not_at_risk");
+        assert!(x.data.risk_factors.is_empty());
+        assert!(x.data.intervention_plan.is_empty());
+        // A zero count alone is not a screen, and a contradiction is an error.
+        assert!(
+            steadi_fall_risk_assessment(
+                &ctx,
+                FallRiskArgs {
+                    falls_count: Some(0),
+                    ..FallRiskArgs::default()
+                },
+            )
+            .is_err()
+        );
+        assert!(
+            steadi_fall_risk_assessment(
+                &ctx,
+                FallRiskArgs {
+                    fell_past_year: Some(false),
+                    falls_count: Some(1),
+                    ..FallRiskArgs::default()
+                },
+            )
+            .is_err()
+        );
     }
 }

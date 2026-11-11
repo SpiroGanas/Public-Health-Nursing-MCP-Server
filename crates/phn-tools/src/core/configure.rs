@@ -243,7 +243,10 @@ pub fn configure_jurisdiction(
     let overridden: Vec<&String> = env_overrides
         .iter()
         .filter(|v| {
-            (v.as_str() == "PHN_PROFILE" && changed.iter().any(|c| c == "profile"))
+            // Either variable pins the enabled toolsets, so a saved profile or
+            // toolset list has no effect while one of them is set.
+            (v.as_str() == "PHN_PROFILE"
+                && changed.iter().any(|c| c == "toolsets" || c == "profile"))
                 || (v.as_str() == "PHN_TOOLSETS"
                     && changed.iter().any(|c| c == "toolsets" || c == "profile"))
                 || (v.as_str() == "PHN_SUPPRESSION_THRESHOLD"
@@ -261,6 +264,9 @@ pub fn configure_jurisdiction(
                 .join(", ")
         ));
     }
+    // A hand-edited settings file can hold a threshold outside 2–30. It is
+    // never used; say so instead of showing a threshold that is not in force.
+    caveats.extend(s.warnings().into_iter().map(|w| format!("Note: {w}.")));
 
     let derived = DerivedJurisdiction {
         hmcc_region_description: s
@@ -310,7 +316,7 @@ pub fn configure_jurisdiction(
     ));
     summary.push_str(&format!(
         "- Suppression threshold: counts of 1–{} are suppressed\n- Preferred languages: {}\n- Profile: {}\n- Enabled toolsets: {}\n- Letterhead: {}\n- Vaccine recommendation basis: {}\n",
-        threshold - 1,
+        threshold.saturating_sub(1),
         if s.preferred_languages.is_empty() {
             "not set".into()
         } else {
@@ -367,4 +373,86 @@ pub fn configure_jurisdiction(
             .source(ctx.ma.district_source.clone());
     }
     Ok(env)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx_with(customize: impl FnOnce(&mut phn_core::Config)) -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("cache")).unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        customize(&mut config);
+        let ctx = Context::new(config).unwrap();
+        (dir, ctx)
+    }
+
+    fn save_toolsets(ctx: &Context, list: &[&str]) -> Envelope<ConfigureResult> {
+        configure_jurisdiction(
+            ctx,
+            ConfigureJurisdictionArgs {
+                toolsets: Some(list.iter().map(|s| s.to_string()).collect()),
+                ..ConfigureJurisdictionArgs::default()
+            },
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn saving_toolsets_under_a_pinned_profile_says_the_environment_wins() {
+        // The README's client configuration pins PHN_PROFILE; a saved toolset
+        // list then has no effect, and the answer must say why.
+        let (_dir, ctx) = ctx_with(|c| c.env_profile = Some(Profile::CdNurse));
+        let env = save_toolsets(&ctx, &["aging"]);
+        assert!(!env.data.toolsets_changed);
+        assert!(!env.data.enabled_toolsets.contains(&Toolset::Aging));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("PHN_PROFILE") && c.contains("take precedence")),
+            "{:?}",
+            env.caveats
+        );
+        // The same holds when PHN_TOOLSETS is the pin.
+        let (_dir, ctx) = ctx_with(|c| c.env_toolsets = Some([Toolset::Cd].into()));
+        let env = save_toolsets(&ctx, &["aging"]);
+        assert!(!env.data.toolsets_changed);
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("PHN_TOOLSETS") && c.contains("take precedence")),
+            "{:?}",
+            env.caveats
+        );
+        // Without a pin the saved list takes effect and there is no such caveat.
+        let (_dir, ctx) = ctx_with(|_| {});
+        let env = save_toolsets(&ctx, &["aging"]);
+        assert!(env.data.toolsets_changed);
+        assert!(env.data.enabled_toolsets.contains(&Toolset::Aging));
+        assert!(!env.caveats.iter().any(|c| c.contains("take precedence")));
+    }
+
+    #[test]
+    fn out_of_range_threshold_in_the_settings_file_is_reported_not_used() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("cache")).unwrap();
+        std::fs::write(
+            dir.path().join("cache/phn-settings.toml"),
+            "suppression_threshold = 0\n",
+        )
+        .unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        // Viewing the settings must not underflow on "threshold - 1".
+        let env = configure_jurisdiction(&ctx, ConfigureJurisdictionArgs::default()).unwrap();
+        assert_eq!(env.data.suppression_threshold, 5);
+        assert!(env.summary.contains("counts of 1–4 are suppressed"));
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("suppression_threshold = 0")),
+            "{:?}",
+            env.caveats
+        );
+    }
 }

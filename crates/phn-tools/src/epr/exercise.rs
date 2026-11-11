@@ -12,7 +12,7 @@
 
 use std::collections::BTreeSet;
 
-use chrono::{Duration, NaiveDate, NaiveTime};
+use chrono::{Datelike, Duration, NaiveDate, NaiveTime};
 use phn_core::{Envelope, PhnError, Privacy, Result};
 use phn_docs::model::{Block, Document};
 use schemars::JsonSchema;
@@ -517,6 +517,24 @@ fn push_item(label: String, mins: i64, schedule: &mut Vec<ScheduleItem>, t: &mut
     *t += Duration::minutes(mins.max(0));
 }
 
+/// MSEL event numbers for injects listed module by module, counting within each
+/// module: "1-1", "1-2", "2-1".
+fn msel_event_ids(modules: impl IntoIterator<Item = u32>) -> Vec<String> {
+    let mut last: Option<u32> = None;
+    let mut seq = 0usize;
+    modules
+        .into_iter()
+        .map(|mn| {
+            if last != Some(mn) {
+                last = Some(mn);
+                seq = 0;
+            }
+            seq += 1;
+            format!("{mn}-{seq}")
+        })
+        .collect()
+}
+
 fn overview_rows(r: &ExerciseResult, sponsor: &str, scope: &str, poc: &str) -> Vec<Vec<String>> {
     let caps = |fw: &str| {
         r.capabilities
@@ -998,7 +1016,7 @@ pub fn design_hseep_exercise(
             &mut t,
         );
         push(
-            "Controller/evaluator debrief".into(),
+            "Controller/evaluator debrief (after the exercise)".into(),
             30,
             &mut schedule,
             &mut t,
@@ -1045,13 +1063,37 @@ pub fn design_hseep_exercise(
             &mut t,
         );
     }
+    // The fixed parts (briefing or welcome, breaks, hotwash, closing) and the minimum of
+    // 20 minutes for a module or 30 minutes of play can need more time than was asked for.
+    // Registration (before the start) and the controller/evaluator debrief (after the
+    // exercise) are outside the exercise's length.
+    let planned: i64 = schedule
+        .iter()
+        .filter(|s| {
+            s.activity != "Registration and sign-in"
+                && !s.activity.starts_with("Controller/evaluator debrief")
+        })
+        .map(|s| i64::from(s.minutes))
+        .sum();
+    if planned > total {
+        warnings.push(format!(
+            "The schedule below needs {planned} minutes, more than the {total} minutes of duration_hours: set duration_hours to at least {:.2}, or cover fewer modules.",
+            planned as f64 / 60.0
+        ));
+    }
 
     // Planning timeline.
     let today = chrono::Local::now().date_naive();
     let date = match opt(&args.date) {
-        Some(d) => Some(NaiveDate::parse_from_str(d, "%Y-%m-%d").map_err(|_| {
-            PhnError::InvalidInput(format!("date '{d}' is not a date (YYYY-MM-DD)"))
-        })?),
+        // Years outside 1900-2200 are typing errors (and would overflow the date arithmetic).
+        Some(d) => Some(
+            NaiveDate::parse_from_str(d, "%Y-%m-%d")
+                .ok()
+                .filter(|x| (1900..=2200).contains(&x.year()))
+                .ok_or_else(|| {
+                    PhnError::InvalidInput(format!("date '{d}' is not a date (YYYY-MM-DD)"))
+                })?,
+        ),
         None => None,
     };
     let mut planning_timeline = Vec::new();
@@ -1143,27 +1185,24 @@ pub fn design_hseep_exercise(
         warnings.push("Operations-based exercises need controllers (and often simulators) to deliver MSEL injects.".into());
     }
 
-    // Privacy: contact details in the request.
-    let mut texts: Vec<&str> = vec![];
-    for o in &args.objectives {
-        texts.push(&o.text);
-    }
-    for p in args.participants.iter().chain(args.point_of_contact.iter()) {
-        texts.push(&p.role);
-        if let Some(n) = &p.name {
-            texts.push(n);
-        }
-    }
-    if let Some(c) = &args.custom_scenario {
-        texts.push(c);
-    }
-    for s in [&args.location, &args.scope, &args.sponsor]
-        .into_iter()
-        .flatten()
-    {
-        texts.push(s);
-    }
-    let contact_kinds = roster::contacts_in_arguments(texts);
+    // Privacy: contact details typed anywhere in the request (every text field, including
+    // organizations and the exercise name), except the type, scenario id, area, date,
+    // time, capability names, and file settings.
+    let texts = roster::argument_strings(
+        &args,
+        &[
+            "exercise_type",
+            "scenario",
+            "area",
+            "date",
+            "start_time",
+            "capabilities",
+            "roster_path",
+            "roster_sheet",
+            "documents",
+        ],
+    );
+    let contact_kinds = roster::contacts_in_arguments(texts.iter().map(String::as_str));
 
     let exercise_name = opt(&args.exercise_name)
         .map(str::to_string)
@@ -1473,10 +1512,11 @@ pub fn design_hseep_exercise(
                     play / injects.len() as i64
                 };
                 let play_start = start + Duration::minutes(20);
+                let event_ids = msel_event_ids(injects.iter().map(|(mn, _, _)| *mn));
                 let rows: Vec<Vec<String>> = injects
                     .iter()
                     .enumerate()
-                    .map(|(k, (mn, i, m))| {
+                    .map(|(k, (_, i, m))| {
                         let at = play_start + Duration::minutes(step * k as i64);
                         let synopsis: String = i
                             .text
@@ -1485,7 +1525,7 @@ pub fn design_hseep_exercise(
                             .collect::<Vec<_>>()
                             .join(" ");
                         vec![
-                            format!("{mn}-{}", k + 1),
+                            event_ids[k].clone(),
                             result.date.clone().unwrap_or_default(),
                             clock(at),
                             "Inject".into(),
@@ -2268,5 +2308,118 @@ mod tests {
         assert_eq!(r.data.scenario.kind, "seed");
         assert!(r.data.objectives.iter().all(|o| o.suggested));
         assert!(!r.privacy.identifiers_detected.is_empty());
+        // A number typed into a field that was not scanned before (organizations).
+        let r = design_hseep_exercise(
+            &ctx,
+            ExerciseArgs {
+                scenario: Some("anthrax".into()),
+                area: Some("Worcester".into()),
+                organizations: vec!["Medical Reserve Corps (call 508-555-0177)".into()],
+                documents: Some("none".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(!r.privacy.identifiers_detected.is_empty());
+        // Dates far outside any real exercise are refused, not computed with.
+        for bad in ["+262143-12-01", "0001-01-01"] {
+            assert!(
+                design_hseep_exercise(
+                    &ctx,
+                    ExerciseArgs {
+                        scenario: Some("anthrax".into()),
+                        area: Some("Worcester".into()),
+                        date: Some(bad.into()),
+                        documents: Some("none".into()),
+                        ..Default::default()
+                    },
+                )
+                .is_err(),
+                "{bad}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_schedule_longer_than_the_duration_is_flagged() {
+        let (_d, ctx) = ctx();
+        let run = |hours: Option<f64>| {
+            design_hseep_exercise(
+                &ctx,
+                ExerciseArgs {
+                    scenario: Some("measles".into()),
+                    area: Some("Amherst".into()),
+                    duration_hours: hours,
+                    documents: Some("none".into()),
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+        };
+        // Three modules of at least 20 minutes, two breaks, welcome, hotwash, and closing.
+        let short = run(Some(1.5));
+        assert!(
+            short
+                .data
+                .warnings
+                .iter()
+                .any(|w| w.contains("needs 135 minutes") && w.contains("2.25")),
+            "{:?}",
+            short.data.warnings
+        );
+        let usual = run(None);
+        assert!(
+            !usual
+                .data
+                .warnings
+                .iter()
+                .any(|w| w.contains("duration_hours")),
+            "{:?}",
+            usual.data.warnings
+        );
+    }
+
+    #[test]
+    fn msel_events_are_numbered_within_each_module() {
+        assert_eq!(
+            msel_event_ids([1, 1, 1, 2, 2, 3]),
+            vec!["1-1", "1-2", "1-3", "2-1", "2-2", "3-1"]
+        );
+    }
+
+    #[test]
+    fn a_participant_not_on_the_roster_gets_no_contact() {
+        let (dir, ctx) = ctx();
+        let r = design_hseep_exercise(
+            &ctx,
+            ExerciseArgs {
+                scenario: Some("measles".into()),
+                area: Some("Amherst".into()),
+                participants: vec![ParticipantInput {
+                    role: "Health Director".into(),
+                    name: Some("Dana Lee".into()),
+                    ..Default::default()
+                }],
+                roster_path: Some("roster.csv".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let ro = r.data.roster.as_ref().unwrap();
+        assert_eq!((ro.matched, ro.unmatched), (0, 1));
+        // The roster's Health Director is someone else: that person's contacts stay out.
+        let sheet = r
+            .data
+            .documents
+            .iter()
+            .find(|x| x.name.starts_with("Sign-in"))
+            .unwrap();
+        let bytes = std::fs::read(dir.path().join("data").join(&sheet.files[0])).unwrap();
+        let text = phn_local::docx::parse_docx(&bytes).unwrap().plain_text();
+        assert!(text.contains("Dana Lee"), "{text}");
+        assert!(
+            !text.contains("508-555-0102") && !text.contains("bo@example.org"),
+            "{text}"
+        );
     }
 }

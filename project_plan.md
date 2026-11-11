@@ -48,72 +48,85 @@ A tool goes to **Appendix A** if it cannot be built without one of the following
 
 ## 5. Architecture
 
+This section describes the architecture as built through Phase 13 (version 0.14.0). Where the build departed from the original plan, the architecture decision record (ADR) in [`docs/adr/`](docs/adr/) that made the change is named. [`STATUS.md`](STATUS.md) has the current state of the work.
+
 ### 5.1 Cargo workspace
 
 ```
 crates/
-  phn-server     # binary: rmcp server, stdio transport, toolset registry, MCP prompts/resources
-  phn-core       # configuration, errors, response envelope, citations and provenance
+  phn-server     # binary: rmcp server, stdio transport, toolset filtering, MCP prompts and resources
+  phn-core       # configuration, errors, response envelope, toolsets and profiles
   phn-data       # HTTP client (proxy + custom CA), SQLite cache, snapshot store, API adapters
-  phn-content    # reviewed reference content (YAML + JSON Schema), full-text index
-  phn-epi        # rates, CIs, standardization, 2x2, trends, aberration detection, SPC
-  phn-local      # sandboxed /data access, CSV/XLSX/PDF/DOCX parsing, PHI detection, de-identification
-  phn-docs       # DOCX/XLSX/PDF/SVG/PNG output, templates, letterhead, mail-merge
+  phn-content    # reference content (YAML + JSON Schema) with review metadata, embedded in the binary
+  phn-epi        # rates, CIs, standardization, 2x2, regression, trends, tests, aberration detection,
+                 # SPC, queueing, survey estimation
+  phn-cdsi       # CDC CDSi supporting data and the immunization evaluation and forecasting engine
+                 # (added in Phase 6; ADR 0010)
+  phn-local      # sandboxed /data access, CSV/XLSX/PDF/DOCX parsing, PHI detection, de-identification,
+                 # full-text index of agency policies
+  phn-docs       # DOCX/XLSX/PDF/CSV/SVG/PNG output, letterhead, mail-merge, accessibility checks,
+                 # chart and map rendering
   phn-tools      # tool implementations, one module per theme (vax, cd, school, mch, ...)
 content/         # reference content with citations and review metadata
-snapshots/       # dated data snapshots + manifest (built by the snapshot-builder CLI)
-xtask/           # snapshot-builder, content validator, release tooling
+snapshots/       # dated data snapshots + manifest
+xtask/           # snapshot builders (Rust, and Python in scripts/), content validator
 ```
 
 ### 5.2 Main Rust dependencies
 
-| Need | Crate(s) |
+| Need | Crate(s) as built |
 |---|---|
-| MCP protocol | `rmcp` (official Rust SDK): tools with JSON Schema via `schemars`, structured output, tool annotations such as `readOnlyHint` |
-| Async, HTTP, serialization | `tokio`, `reqwest` (rustls; honors `HTTPS_PROXY`; extra CA bundle for agencies that inspect TLS traffic), `serde`, `serde_json` |
+| MCP protocol | `rmcp` (official Rust SDK): tools with JSON Schema via `schemars`, structured output, tool annotations such as `readOnlyHint` (ADR 0001) |
+| Async, HTTP, serialization | `tokio`, `reqwest` (rustls; honors `HTTPS_PROXY`; extra CA bundle for agencies that inspect TLS traffic), `serde`, `serde_json`, `serde-saphyr` (YAML content), `toml` (saved settings) |
 | Cache and search | `rusqlite` (bundled SQLite), `tantivy` (offline full-text search) |
-| Tabular data | `csv`, `calamine` (XLSX read), `rust_xlsxwriter` (XLSX write); `polars` if heavier analysis needs it |
-| Documents | `docx-rs` (DOCX), `lopdf`/`pdf-extract` (PDF text), `printpdf` or the `typst` library for PDF output (decided in Phase 1) |
-| Statistics and charts | `statrs`, `plotters` (SVG/PNG) |
-| Geospatial | `geo`, `geojson`, `rstar`, `shapefile` |
+| Tabular data | `csv`, `calamine` (XLSX read), `rust_xlsxwriter` (XLSX write). `polars` was not needed. |
+| Documents | The server's own DOCX writer and tagged-PDF writer on `lopdf`, with `subsetter` and `skrifa` for the bundled fonts; `lopdf` also reads PDF text. ADR 0003 chose this over `docx-rs`, `printpdf`, and `typst` so that every accessibility property is controlled. |
+| Statistics | `statrs` for distributions; the methods themselves are in `phn-epi` |
+| Charts and maps | Drawn by `phn-docs` as accessible SVG and turned into PNG with `resvg`. ADR 0006 chose this over `plotters`. |
+| Geospatial | Simplified boundaries bundled as snapshots and read by the server's own code. `geo` and `shapefile` are used only by `xtask` to build the snapshots; `geojson` and `rstar` were not needed. |
 | CDSi supporting data | `quick-xml` |
+| Content validation | `jsonschema` |
 | Logging | `tracing`, writing **to stderr only** (stdout carries the MCP protocol) |
 
 ### 5.3 Response contract
 
-Every tool returns a markdown `summary` for the model and a structured `data` object (MCP structured content), plus:
-- `sources[]`: title, publisher, URL, effective date, retrieval date, and mode (`live` or `snapshot`);
+Every tool returns a markdown `summary` for the model and a structured `data` object (MCP structured content), plus (ADR 0002):
+- `sources[]`: title, publisher, URL, effective date, retrieval date, and mode (`live`, `cache`, `snapshot`, `local`, or `computed`);
 - `caveats[]`: data limits, small numbers, and recommendation divergence;
-- `privacy`: whether any row-level data is included and whether suppression was applied.
+- `privacy`: whether any row-level data is included, whether suppression was applied and at what threshold, which kinds of identifiers were detected, and which files were written;
+- a decision-support `notice` on clinical and legal answers.
 
-Reference content is also exposed as MCP **resources**. Common multi-tool workflows are exposed as MCP **prompts**, such as "investigate an outbreak", "build a community health profile", or "prepare a grant application".
+Reference content and snapshots are also exposed as MCP **resources**. Common multi-tool workflows are exposed as MCP **prompts**. Two exist so far: "investigate an outbreak" (Phase 3) and "plan a tabletop exercise" (Phase 13). Others, such as "build a community health assessment" and "prepare a grant application", come with their phases.
 
 ### 5.4 Toolsets and role profiles
 
-Exposing 148 tools at once would crowd the model's context and hurt tool selection. Tools are therefore grouped into toolsets: `core`, `cd`, `vax`, `school`, `mch`, `aging`, `bh`, `epr`, `env`, `chronic`, `equity`, `epi`, `planning`, `leadership`, `policy`, `comms`, and `ebp`. They are enabled through `PHN_TOOLSETS` or role profiles set with `PHN_PROFILE`: `school_nurse`, `cd_nurse`, `phn_leader`, and `preparedness`. A set of realistic nurse prompts is re-run at every release to check that the model picks the right tools.
+Exposing 148 tools at once would crowd the model's context and hurt tool selection. Tools are therefore grouped into toolsets: `core`, `cd`, `vax`, `school`, `mch`, `aging`, `bh`, `epr`, `env`, `chronic`, `equity`, `epi`, `planning`, `leadership`, `policy`, `comms`, and `ebp`. They are enabled through `PHN_TOOLSETS` or role profiles set with `PHN_PROFILE`: `school_nurse`, `cd_nurse`, `phn_leader`, and `preparedness`. The `mch` and `aging` toolsets are not in any profile yet; they are on when no profile is set or when they are named in `PHN_TOOLSETS`.
+
+**Planned, not yet built:** a set of realistic nurse prompts that is re-run at every release to check that the model picks the right tools. Today the per-phase acceptance scripts in `docs/acceptance/` are run by hand.
 
 ### 5.5 Privacy and safety guardrails
 
-- **Sandbox.** The container reads and writes only `/data` (mounted by the nurse) and `/cache`. Paths are canonicalized to block traversal.
-- **Aggregate first.** Tools that read local data return aggregates by default and apply small-cell suppression automatically. Returning row-level data requires an explicit argument and passes through the PHI detector.
-- **Local mail-merge.** Anything identifiable, such as referral letters, contact sheets, or rosters, is written to `/data/output` and never returned to the model.
-- **No telemetry.** Outbound calls go only to an allowlist of public APIs. The server also runs with `--network none` for strictly offline work.
+- **Sandbox.** The container reads and writes only `/data` (mounted by the nurse) and `/cache`. Paths are canonicalized to block traversal (ADR 0004).
+- **Aggregate first.** Tools that read local data return aggregates by default and apply small-cell suppression automatically. Returning row-level data requires an explicit argument, and the rows are always masked; there is no option to turn masking off (ADR 0004).
+- **Local mail-merge and local fill.** Anything identifiable, such as referral letters, contact sheets, or rosters, is written to `/data/output` and never returned to the model. Documents about one person are built from a template that the model sees and a local file that it does not (ADR 0008). Staff phone numbers and emails come only from a roster file (ADR 0009).
+- **No telemetry.** The server sends no usage data anywhere. It calls only the public data sources listed in `content/data_sources.yaml` and reported by `get_data_source_status`, and it runs fully offline with `PHN_OFFLINE=1` or `docker run --network none`. The HTTP client does not itself enforce a list of allowed hosts; whether to add that check in code is an open decision.
 - **Decision support only.** Clinical and legal tools always cite sources and include a decision-support notice. No tool submits anything to an external system.
 
 ### 5.6 Offline fallback and data freshness
 
 - Each data adapter tries the live API first, then the cache (with a time-to-live), then the bundled snapshot. Every response states which mode was used and the data's date.
-- A `snapshot-builder` CLI runs in CI on a schedule. It records checksums and produces a diff report, so that changes to Massachusetts web pages that would break scraping are noticed quickly.
+- Snapshots are built by `cargo xtask` subcommands and the Python scripts in `xtask/scripts/`, which record each source, its vintage, and SHA-256 checksums in `snapshots/manifest.json`. A weekly CI job runs `cargo xtask build-snapshots --check` (the MassGIS reference lists) and `cargo xtask validate-content`. The other builders are run by hand when a source publishes new data.
 - This matters because agency firewalls can block public APIs, and some federal datasets were removed or changed in 2025.
 
 ### 5.7 Docker image and distribution
 
-- **Build.** A multi-stage build (using `cargo-chef` for dependency caching) produces a `gcr.io/distroless/cc-debian12` runtime image that runs as a non-root user with a read-only root filesystem.
-- **Publishing.** Images are multi-architecture (amd64 and arm64, built with buildx) and published to GHCR with semantic version tags. Each release has an SBOM (`cargo-cyclonedx` or `syft`), a vulnerability scan (`trivy`), and a `cosign` signature.
-- **Data.** Snapshot data is built into the image. An optional refresh writes newer snapshots to the `/cache` volume.
-- **Restricted networks.** For networks that block GHCR, a `docker save` tarball is attached to each release.
+- **Build.** A multi-stage build (using `cargo-chef` for dependency caching) produces a `gcr.io/distroless/cc-debian12` runtime image that runs as a non-root user with a read-only root filesystem (ADR 0001).
+- **Publishing.** The release workflow builds multi-architecture images (amd64 and arm64, with buildx), pushes them to GHCR with semantic version tags, and adds an SBOM, a vulnerability scan (`trivy`), and a `cosign` signature. It runs when a version is tagged. No version has been tagged yet, so the workflow has not run and no image has been published.
+- **Data.** Reference content and snapshots are embedded in the server binary at build time, so the image works offline and ships exactly what was tested (ADR 0001). Newer data fetched from live sources is kept in the `/cache` volume.
+- **Time zone.** The image sets `TZ=America/New_York`, so "today" and the dates and times on documents are Eastern time; `-e TZ=...` changes it (ADR 0010).
+- **Restricted networks.** For networks that block GHCR, the release workflow attaches a `docker save` tarball for each architecture.
 
-Example client configuration (Claude Desktop, macOS):
+Example client configuration (Claude Desktop, macOS). The README has the current version of this, with the Windows form:
 
 ```json
 {
@@ -121,11 +134,11 @@ Example client configuration (Claude Desktop, macOS):
     "public-health-nursing": {
       "command": "docker",
       "args": [
-        "run", "-i", "--rm",
+        "run", "-i", "--rm", "--read-only",
         "-v", "/Users/nurse/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:1.0.0"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.0"
       ]
     }
   }
@@ -136,9 +149,9 @@ Docker Desktop requires a paid subscription for larger organizations, which may 
 
 ### 5.8 Quality
 
-- **Golden tests** compare every calculator with published worked examples or reference outputs: NCHS age adjustment, exact Poisson CI tables, the CDC CDSi test cases, and EARS reference series. Reference outputs from R or Epi Info are generated during development and committed as fixtures.
-- **MCP integration tests** use an `rmcp` client to check schema validity, errors, and annotations for every tool. Tools are also tested manually with the MCP Inspector and Claude Desktop on Windows and macOS.
-- **Content metadata.** Every content item records its `source`, `effective_date`, `reviewed_by`, and `review_due`. CI fails when a review is overdue.
+- **Golden tests** compare every calculator with published worked examples or reference outputs: NCHS age adjustment, exact Poisson CI tables, the CDC CDSi test cases, and reference series for aberration detection. Reference outputs from R, SciPy, and statsmodels are generated during development and committed as fixtures with the scripts that made them.
+- **MCP integration tests** use an `rmcp` client to check schema validity, errors, and annotations for every tool, and a leak test checks that no seeded identifier from the synthetic corpus is returned. Manual testing with Claude Desktop on Windows and macOS is part of each phase's acceptance script and has not been done yet.
+- **Content metadata.** Every content file records its sources and a `meta.review` block (`status`, `reviewed_by`, `reviewed_on`, `review_due`). CI fails when a review is overdue.
 - **Code checks.** CI runs `cargo fmt`, `cargo clippy -D warnings`, `cargo deny`, and `cargo audit`.
 
 ### 5.9 Definition of done (every phase)
@@ -149,6 +162,8 @@ Docker Desktop requires a paid subscription for larger organizations, which may 
 4. The tool reference documentation and changelog are updated.
 5. A versioned, signed multi-architecture image is published to GHCR.
 6. The nurse has accepted the phase using a short script of realistic prompts.
+
+Phases 0–13 are built. Items 3, 5, and 6 are still open for every one of them: the reference content is drafted with citations but has not yet been reviewed by the nurse, no signed image has been published, and no acceptance script has been run. `STATUS.md` tracks these open items.
 
 ## 6. Roadmap at a glance
 
@@ -221,7 +236,7 @@ Phases differ in tool count because the tools differ in size. A phase with few t
 **Engineering:**
 - The `phn-epi` crate: exact Poisson and binomial CIs, gamma-method CIs, and the 2000 US standard population.
 - GLM fitting (IRLS) for Poisson, negative binomial, and logistic regression; segmented regression; SPC rules.
-- `plotters` charts with an accessible palette and generated alt text.
+- Charts with an accessible palette and generated alt text. The plan named `plotters`; the charts were built as the server's own SVG renderer instead (ADR 0006).
 
 **Exit:** All golden tests match their published or reference values within tolerance.
 
@@ -471,7 +486,7 @@ With one developer, plan to spend roughly 2–4 days a month on maintenance afte
 | Changes to Massachusetts web pages break snapshot builds | Medium | Checksums and diff alerts in the snapshot builder, and a manual-upload fallback for each source. |
 | Government networks block or inspect traffic | Medium | Proxy and custom CA support, offline mode, and offline image tarballs. |
 | Container runtime licensing or IT approval delays adoption | Medium | Raise it in Phase 0. Support Podman Desktop and Rancher Desktop as free alternatives. |
-| Too many tools degrade the model's tool selection | Medium | Toolsets and role profiles, short precise tool descriptions, and a regression set of nurse prompts at every release. |
+| Too many tools degrade the model's tool selection | Medium | Toolsets and role profiles and short precise tool descriptions are in place. A regression set of nurse prompts re-run at every release is planned and not yet built. |
 | The CDSi forecaster or offline geocoder overruns | Medium | Each has a dedicated phase with lighter companion tools that can slip to the next phase. |
 | Single-developer bus factor | Medium | Architecture decision records, strong test coverage, and contributor documentation from Phase 0. |
 | License terms of "free" instruments (e.g., EPDS, C-SSRS) | Low | Record license terms in content metadata and confirm them during the nurse's content review. Move any instrument with restrictive terms to Appendix A. |

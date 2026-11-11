@@ -196,8 +196,17 @@ pub fn vaccine_temperature_excursion_helper(
             triggered.push(format!("Immediate: {}", t.text));
         }
     }
-    let out_of_range = max_c.is_some_and(|m| hi.is_some_and(|h| m > h))
-        || min_c.is_some_and(|m| lo.is_some_and(|l| m < l));
+    // Readings entered in Fahrenheit are compared with the Fahrenheit range
+    // (36-46 F is slightly narrower than 2-8 C), so 46.3 F is out of range.
+    let out_of_range = if tu == "F" {
+        let lo_f = range.range_f.first().copied().flatten();
+        let hi_f = range.range_f.get(1).copied().flatten();
+        args.max_temp.is_some_and(|m| hi_f.is_some_and(|h| m > h))
+            || args.min_temp.is_some_and(|m| lo_f.is_some_and(|l| m < l))
+    } else {
+        max_c.is_some_and(|m| hi.is_some_and(|h| m > h))
+            || min_c.is_some_and(|m| lo.is_some_and(|l| m < l))
+    };
     let classification = if !triggered.is_empty() {
         ExcursionClass::ReportableImmediate
     } else if min_c.is_none() && max_c.is_none() {
@@ -553,6 +562,34 @@ mod tests {
             InRange
         );
         assert_eq!(classify(&ctx, "freezer", None, None, None), Undetermined);
+    }
+
+    /// Readings in Fahrenheit are compared with the Fahrenheit range
+    /// (36-46 F), so 46.3 F (7.9 C) is out of range, not "within range".
+    #[test]
+    fn fahrenheit_readings_use_the_fahrenheit_range() {
+        let (_d, ctx) = ctx();
+        let f = |min: f64, max: f64, minutes: Option<u32>| {
+            vaccine_temperature_excursion_helper(
+                &ctx,
+                ExcursionArgs {
+                    unit_type: "refrigerator".into(),
+                    min_temp: Some(min),
+                    max_temp: Some(max),
+                    temp_unit: Some("F".into()),
+                    minutes_out_of_range: minutes,
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+            .data
+            .classification
+        };
+        use ExcursionClass::*;
+        assert_eq!(f(40.0, 46.3, None), Undetermined);
+        assert_eq!(f(40.0, 46.3, Some(10)), OutOfRangeBelowReportingThreshold);
+        assert_eq!(f(35.7, 40.0, Some(45)), ReportableCumulative);
+        assert_eq!(f(36.0, 46.0, None), InRange);
     }
 
     #[test]

@@ -229,6 +229,9 @@ pub enum ScreenOutcome {
     LowRisk,
     ModerateRisk,
     HighRisk,
+    /// C-SSRS: a yes answer, but item(s) that decide the risk level were not
+    /// answered. At least the moderate (same-day) steps apply until they are.
+    RiskNotDetermined,
     /// Not enough items answered to decide.
     Incomplete,
     /// Severity instrument scored (no single positive/negative call).
@@ -248,6 +251,9 @@ impl ScreenOutcome {
             ScreenOutcome::LowRisk => "low risk",
             ScreenOutcome::ModerateRisk => "moderate risk",
             ScreenOutcome::HighRisk => "high risk",
+            ScreenOutcome::RiskNotDetermined => {
+                "risk level not yet determined (required items not answered)"
+            }
             ScreenOutcome::Incomplete => "incomplete",
             ScreenOutcome::Scored => "scored",
         }
@@ -264,6 +270,7 @@ impl ScreenOutcome {
                 | ScreenOutcome::LowRisk
                 | ScreenOutcome::ModerateRisk
                 | ScreenOutcome::HighRisk
+                | ScreenOutcome::RiskNotDetermined
         )
     }
 }
@@ -317,6 +324,10 @@ pub struct ScoredScreen {
     pub missing_items: Vec<u32>,
     pub alert_ids: Vec<String>,
     pub notes: Vec<String>,
+    /// Safety items (PHQ-9 item 9, EPDS item 10) that were not answered. Ask
+    /// them before the person leaves: suicide risk has not been screened.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub safety_items_unanswered: Vec<u32>,
 }
 
 /// An instrument in the catalog listing.
@@ -335,8 +346,12 @@ pub struct InstrumentSummary {
 pub struct ScreenBatch {
     pub file: String,
     pub rows_read: usize,
-    pub rows_scored: usize,
-    pub rows_incomplete: usize,
+    /// Rows with a result (null when any count below is suppressed, so the
+    /// hidden count cannot be found by subtraction).
+    pub rows_scored: Option<usize>,
+    /// Rows that were incomplete or could not be scored (null when any count
+    /// below is suppressed).
+    pub rows_incomplete: Option<usize>,
     /// Counts by outcome or severity; "*" when suppressed.
     pub counts: BTreeMap<String, String>,
     /// Rows with a safety alert ("*" when suppressed). Their row numbers are
@@ -495,6 +510,19 @@ pub fn score(
         }
     }
     let mut notes = Vec::new();
+    // A safety item that was not answered must never pass silently.
+    let mut safety_unanswered: Vec<u32> = Vec::new();
+    for s in &inst.safety_items {
+        if missing.contains(&s.item) && !safety_unanswered.contains(&s.item) {
+            safety_unanswered.push(s.item);
+        }
+    }
+    if !safety_unanswered.is_empty() {
+        notes.push(format!(
+            "SAFETY: item {} (the item that raises the suicide-risk alert) was not answered. Ask it before the person leaves; suicide risk has not been screened until it is answered.",
+            join_nums(&safety_unanswered)
+        ));
+    }
     let mut total = None;
     let mut partial = None;
     let mut severity = None;
@@ -573,6 +601,7 @@ pub fn score(
         missing_items: missing,
         alert_ids,
         notes,
+        safety_items_unanswered: safety_unanswered,
     })
 }
 
@@ -712,9 +741,47 @@ fn cssrs_outcome(
             ScreenOutcome::Incomplete
         }
     };
+    // Low or moderate risk can only be called when the items that could raise
+    // the level were answered: item 6 always, and items 3–5 unless item 2 is no.
+    let outcome = if matches!(
+        outcome,
+        ScreenOutcome::LowRisk | ScreenOutcome::ModerateRisk
+    ) {
+        let mut ask: Vec<u32> = Vec::new();
+        if value(2) != Some(0) || (3..=5).any(yes) {
+            let unanswered: Vec<u32> = (3..=5).filter(|n| value(*n).is_none()).collect();
+            if !unanswered.is_empty() {
+                if value(2).is_none() {
+                    ask.push(2);
+                }
+                ask.extend(unanswered);
+            }
+        }
+        if value(6).is_none() {
+            ask.push(6);
+        }
+        if ask.is_empty() {
+            outcome
+        } else {
+            notes.push(format!(
+                "Item(s) {} were not answered, so the risk level is not yet determined: it is at least {} and may be higher. Ask the item(s) now, before the person leaves, and score the screen again. Until then, follow at least the same-day (moderate risk) steps.",
+                join_nums(&ask),
+                if outcome == ScreenOutcome::LowRisk {
+                    "low"
+                } else {
+                    "moderate"
+                }
+            ));
+            ScreenOutcome::RiskNotDetermined
+        }
+    } else {
+        outcome
+    };
     match outcome {
         ScreenOutcome::HighRisk => push_alert(alerts, "cssrs_high"),
-        ScreenOutcome::ModerateRisk => push_alert(alerts, "cssrs_moderate"),
+        ScreenOutcome::ModerateRisk | ScreenOutcome::RiskNotDetermined => {
+            push_alert(alerts, "cssrs_moderate")
+        }
         ScreenOutcome::LowRisk => push_alert(alerts, "cssrs_low"),
         _ => {}
     }
@@ -828,7 +895,14 @@ pub fn score_mental_health_screen(
         return batch(ctx, inst, path, args.sheet.as_deref(), opts);
     }
     let scored = score(inst, &args.responses, opts)?;
-    let alerts = alerts_out(&scored.alert_ids);
+    let mut alerts = alerts_out(&scored.alert_ids);
+    if scored.outcome == ScreenOutcome::RiskNotDetermined {
+        // The moderate (same-day) steps are shown as the floor, not as the result.
+        for a in alerts.iter_mut().filter(|a| a.id == "cssrs_moderate") {
+            a.title = "C-SSRS screener: risk level not yet determined".into();
+            a.trigger = "A yes answer, but item(s) that decide the risk level were not answered. These same-day steps apply until the item(s) are asked; the level may be higher.".into();
+        }
+    }
     let resources = cite_all(&c.sources, &c.resources_for_all);
     let max_score =
         (inst.response != ResponseKind::YesNo).then(|| inst.item_max * inst.item_count as i32);
@@ -848,12 +922,27 @@ pub fn score_mental_health_screen(
         ScreenOutcome::Incomplete => next_steps.push(
             "Complete the missing item(s) before interpreting the screen.".to_string(),
         ),
+        ScreenOutcome::RiskNotDetermined => next_steps.push(
+            "Ask the unanswered C-SSRS item(s) named in the notes now, before the person leaves, and score the screen again.".to_string(),
+        ),
         _ => {}
     }
-    if matches!(inst.id.as_str(), "phq9" | "gad7" | "epds") && scored.alert_ids.is_empty() {
+    if matches!(inst.id.as_str(), "phq9" | "gad7" | "epds")
+        && scored.alert_ids.is_empty()
+        && scored.safety_items_unanswered.is_empty()
+    {
         next_steps.push(
             "Rescreen at the interval your program uses; scores can be tracked over time."
                 .to_string(),
+        );
+    }
+    if !scored.safety_items_unanswered.is_empty() {
+        next_steps.insert(
+            0,
+            format!(
+                "Ask item {} now, before the person leaves: it is the suicide-risk item and it was not answered.",
+                join_nums(&scored.safety_items_unanswered)
+            ),
         );
     }
     if !alerts.is_empty() {
@@ -879,6 +968,12 @@ pub fn score_mental_health_screen(
             }
             s.push('\n');
         }
+    }
+    if !scored.safety_items_unanswered.is_empty() {
+        s.push_str(&format!(
+            "**SAFETY: item {} (the suicide-risk item) was not answered.** Ask it before the person leaves; suicide risk has not been screened.\n\n",
+            join_nums(&scored.safety_items_unanswered)
+        ));
     }
     match (scored.total_score, max_score) {
         (Some(t), Some(m)) => s.push_str(&format!(
@@ -942,7 +1037,10 @@ pub fn score_mental_health_screen(
             s.push_str(&format!("- {n}\n"));
         }
     }
-    if !alerts.is_empty() || matches!(inst.id.as_str(), "asq" | "cssrs_screener") {
+    if !alerts.is_empty()
+        || !scored.safety_items_unanswered.is_empty()
+        || matches!(inst.id.as_str(), "asq" | "cssrs_screener")
+    {
         s.push_str("\n**Give to everyone screened:** ");
         s.push_str(
             &resources
@@ -1167,6 +1265,20 @@ fn batch(
     let mut scored_n = 0usize;
     let mut incomplete = 0usize;
     let mut alerts_n = 0u64;
+    // The "Safety alerts" cell of a row (rows with text here are listed first).
+    let alert_cell = |sc: &ScoredScreen| -> String {
+        let mut parts: Vec<String> = alerts_out(&sc.alert_ids)
+            .iter()
+            .map(|a| format!("{} ({})", a.title, a.urgency.replace('_', " ")))
+            .collect();
+        if !sc.safety_items_unanswered.is_empty() {
+            parts.push(format!(
+                "suicide-risk item {} not answered or not readable: ask it",
+                join_nums(&sc.safety_items_unanswered)
+            ));
+        }
+        parts.join("; ")
+    };
     for (ri, row) in table.rows.iter().enumerate() {
         let responses: Vec<Option<ItemResponse>> = cols
             .iter()
@@ -1224,11 +1336,7 @@ fn batch(
                     sc.total_score.map(|t| t.to_string()).unwrap_or_default(),
                     sc.severity.clone().unwrap_or_default(),
                     sc.outcome.label().to_string(),
-                    alerts_out(&sc.alert_ids)
-                        .iter()
-                        .map(|a| format!("{} ({})", a.title, a.urgency.replace('_', " ")))
-                        .collect::<Vec<_>>()
-                        .join("; "),
+                    alert_cell(&sc),
                     join_nums(&sc.missing_items),
                 ]);
             }
@@ -1239,12 +1347,32 @@ fn batch(
                     order.push(key.clone());
                 }
                 *counts.entry(key).or_default() += 1;
+                // Score again with the unreadable cells treated as unanswered,
+                // so a readable positive safety item still raises its alert.
+                let readable: Vec<Option<ItemResponse>> = responses
+                    .iter()
+                    .enumerate()
+                    .map(|(i, r)| {
+                        r.as_ref()
+                            .filter(|x| parse_response(inst, i as u32 + 1, Some(*x)).is_ok())
+                            .cloned()
+                    })
+                    .collect();
+                let alerts_text = match score(inst, &readable, o) {
+                    Ok(sc) => {
+                        if !sc.alert_ids.is_empty() {
+                            alerts_n += 1;
+                        }
+                        alert_cell(&sc)
+                    }
+                    Err(_) => String::new(),
+                };
                 out_rows.push(vec![
                     row_no,
                     String::new(),
                     String::new(),
                     "could not be scored".into(),
-                    String::new(),
+                    alerts_text,
                     e.to_string(),
                 ]);
             }
@@ -1273,14 +1401,18 @@ fn batch(
     std::fs::write(&out, bytes)?;
     let out_display = sandbox.display_path(&out);
 
-    // Suppressed counts: one row of outcome counts plus the alert count.
+    // Suppressed counts. The outcome counts form one row with their total
+    // (every row of the file falls in exactly one outcome), so a second cell
+    // is hidden whenever one is and the hidden count cannot be found by
+    // subtracting the shown counts from the number of screens.
     let threshold = ctx.suppression_threshold();
     let mut row: Vec<Option<u64>> = order.iter().map(|k| Some(counts[k])).collect();
-    row.push(Some(alerts_n));
+    row.push(Some(table.rows.len() as u64));
     let sup = suppress(
         &[row.clone()],
         &SuppressionOptions {
             threshold,
+            last_column_is_total: true,
             ..SuppressionOptions::default()
         },
     );
@@ -1295,11 +1427,26 @@ fn batch(
     for (i, k) in order.iter().enumerate() {
         count_map.insert(k.clone(), shown(i));
     }
-    let alerts_shown = shown(order.len());
-    let any_suppressed = sup.primary + sup.complementary > 0;
+    let outcomes_suppressed = sup.primary + sup.complementary > 0;
+    // The alert count overlaps the outcomes (it is not part of that row), so
+    // the threshold is applied to it on its own.
+    let alerts_hidden = alerts_n > 0 && alerts_n < u64::from(threshold);
+    let alerts_shown = if alerts_hidden {
+        "*".to_string()
+    } else {
+        alerts_n.to_string()
+    };
+    let any_suppressed = outcomes_suppressed || alerts_hidden;
+    // The scored / incomplete split is a sum of outcome counts: publish it
+    // only when no outcome count is hidden.
+    let split = if outcomes_suppressed {
+        String::new()
+    } else {
+        format!("Scored {scored_n}; incomplete or not scorable {incomplete}. ")
+    };
 
     let mut s = format!(
-        "**{} — file of {} screen(s)**\n\nScored {scored_n}; incomplete or not scorable {incomplete}. Per-row results (row numbers only, alerts first) were written to `{out_display}`; nothing from the rows is shown here.\n\n",
+        "**{} — file of {} screen(s)**\n\n{split}Per-row results (row numbers only, alerts first) were written to `{out_display}`; nothing from the rows is shown here.\n\n",
         inst.name,
         table.rows.len()
     );
@@ -1311,6 +1458,9 @@ fn batch(
     s.push_str(&format!(
         "\n**Screens with a safety alert: {alerts_shown}.** Open the output file now and follow up on each one today.\n"
     ));
+    if !inst.safety_items.is_empty() {
+        s.push_str("Rows where the suicide-risk item was not answered or could not be read are listed first too: ask that item.\n");
+    }
     if any_suppressed {
         s.push_str(&format!(
             "\n`*` = suppressed (counts from 1 to {} and cells that would reveal them).\n",
@@ -1360,8 +1510,8 @@ fn batch(
             batch: Some(ScreenBatch {
                 file: lt.label.clone(),
                 rows_read: table.rows.len(),
-                rows_scored: scored_n,
-                rows_incomplete: incomplete,
+                rows_scored: (!outcomes_suppressed).then_some(scored_n),
+                rows_incomplete: (!outcomes_suppressed).then_some(incomplete),
                 counts: count_map,
                 rows_with_safety_alerts: alerts_shown,
                 output_file: out_display.clone(),
@@ -1583,5 +1733,159 @@ mod tests {
             ScreenOutcome::HighRisk
         );
         assert_eq!(c(&[no, no], None), ScreenOutcome::Incomplete);
+    }
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let c = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, c)
+    }
+
+    #[test]
+    fn cssrs_unanswered_deciding_items_are_not_low_risk() {
+        let d = ScoreOptions::default();
+        let yes = Some(true);
+        let no = Some(false);
+        // Yes to items 1 and 2 only: items 3-5 and 6 decide the level.
+        let s = score(inst("cssrs_screener"), &yn(&[yes, yes]), d).unwrap();
+        assert_eq!(s.outcome, ScreenOutcome::RiskNotDetermined);
+        assert_eq!(s.alert_ids, vec!["cssrs_moderate"]);
+        assert!(
+            s.notes.iter().any(|n| n.contains("3, 4, 5, 6")),
+            "{:?}",
+            s.notes
+        );
+        // Item 2 is no, so items 3-5 are skipped, but item 6 was not asked.
+        let s = score(inst("cssrs_screener"), &yn(&[yes, no]), d).unwrap();
+        assert_eq!(s.outcome, ScreenOutcome::RiskNotDetermined);
+        assert!(
+            s.notes.iter().any(|n| n.contains("Item(s) 6 ")),
+            "{:?}",
+            s.notes
+        );
+        // Intent (item 4) is high risk whatever else is missing.
+        let s = score(inst("cssrs_screener"), &yn(&[yes, yes, None, yes]), d).unwrap();
+        assert_eq!(s.outcome, ScreenOutcome::HighRisk);
+        // Complete answers keep their level.
+        let s = score(inst("cssrs_screener"), &yn(&[yes, yes, no, no, no, no]), d).unwrap();
+        assert_eq!(s.outcome, ScreenOutcome::LowRisk);
+        assert!(ScreenOutcome::RiskNotDetermined.is_positive());
+
+        // The tool shows the same-day steps as a floor and says what to ask.
+        let (_d, c) = ctx();
+        let env = score_mental_health_screen(
+            &c,
+            ScreenArgs {
+                instrument: Some("cssrs_screener".into()),
+                responses: yn(&[yes, yes]),
+                ..ScreenArgs::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(env.data.safety_alerts[0].urgency, "same_day");
+        assert!(
+            env.data.safety_alerts[0]
+                .title
+                .contains("not yet determined")
+        );
+        let headline = env.summary.lines().next().unwrap_or_default();
+        assert!(headline.contains("not yet determined"), "{headline}");
+        assert!(env.summary.contains("988"));
+        assert!(
+            env.data
+                .next_steps
+                .iter()
+                .any(|s| s.contains("Ask the unanswered C-SSRS item(s)"))
+        );
+    }
+
+    #[test]
+    fn unanswered_safety_item_is_called_out() {
+        let (_d, c) = ctx();
+        // PHQ-9 with item 9 skipped: answered items sum to 16.
+        let mut r = n(&[2, 2, 2, 2, 2, 2, 2, 2]);
+        r.push(None);
+        let env = score_mental_health_screen(
+            &c,
+            ScreenArgs {
+                instrument: Some("phq9".into()),
+                responses: r,
+                ..ScreenArgs::default()
+            },
+        )
+        .unwrap();
+        let sc = env.data.scored.as_ref().unwrap();
+        assert_eq!(sc.safety_items_unanswered, vec![9]);
+        assert!(sc.alert_ids.is_empty());
+        assert!(
+            env.data.next_steps[0].contains("item 9"),
+            "{:?}",
+            env.data.next_steps
+        );
+        assert!(!env.data.next_steps.iter().any(|s| s.contains("Rescreen")));
+        assert!(env.summary.contains("SAFETY: item 9"));
+        assert!(env.summary.contains("988"));
+        // A complete screen is unchanged.
+        let s = score(inst("phq9"), &n(&[0; 9]), ScoreOptions::default()).unwrap();
+        assert!(s.safety_items_unanswered.is_empty());
+        // EPDS item 10.
+        let s = score(inst("epds"), &n(&[1; 9]), ScoreOptions::default()).unwrap();
+        assert_eq!(s.safety_items_unanswered, vec![10]);
+    }
+
+    fn batch_of(c: &Context, dir: &std::path::Path, csv: &str) -> ScreenBatch {
+        std::fs::write(dir.join("data/screens.csv"), csv).unwrap();
+        score_mental_health_screen(
+            c,
+            ScreenArgs {
+                instrument: Some("phq9".into()),
+                file: Some("screens.csv".into()),
+                ..ScreenArgs::default()
+            },
+        )
+        .unwrap()
+        .data
+        .batch
+        .unwrap()
+    }
+
+    #[test]
+    fn batch_alert_survives_an_unreadable_cell() {
+        let (dir, c) = ctx();
+        // Six rows: item 3 is out of range (a typo), item 9 is positive.
+        let mut csv = String::from("q1,q2,q3,q4,q5,q6,q7,q8,q9\n");
+        for _ in 0..6 {
+            csv.push_str("1,1,9,1,1,1,1,1,3\n");
+        }
+        let b = batch_of(&c, dir.path(), &csv);
+        assert_eq!(b.counts["could not be scored"], "6");
+        assert_eq!(b.rows_with_safety_alerts, "6");
+    }
+
+    #[test]
+    fn batch_hidden_count_cannot_be_found_by_subtraction() {
+        let (dir, c) = ctx();
+        let mut csv = String::from("q1,q2,q3,q4,q5,q6,q7,q8,q9\n");
+        for _ in 0..6 {
+            csv.push_str("0,0,0,0,0,0,0,0,1\n"); // minimal, with a safety alert
+        }
+        for _ in 0..6 {
+            csv.push_str("0,0,0,0,0,0,0,0,0\n"); // minimal
+        }
+        for _ in 0..10 {
+            csv.push_str("1,1,1,1,1,0,0,0,0\n"); // mild (5)
+        }
+        for _ in 0..3 {
+            csv.push_str("3,3,3,3,3,3,3,3,0\n"); // severe (24)
+        }
+        let b = batch_of(&c, dir.path(), &csv);
+        assert_eq!(b.rows_read, 25);
+        assert_eq!(b.counts["severe"], "*");
+        // A second outcome count is hidden with it, not the alert count.
+        assert_eq!(b.counts.values().filter(|v| *v == "*").count(), 2);
+        assert_eq!(b.rows_with_safety_alerts, "6");
+        assert_eq!(b.rows_scored, None);
+        assert_eq!(b.rows_incomplete, None);
     }
 }

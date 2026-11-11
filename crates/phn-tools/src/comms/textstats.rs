@@ -13,9 +13,14 @@
 //!   counts as one word (CDC *Simply Put*, Appendix C). Numbers count as
 //!   one-syllable words.
 //! * **Syllables** are estimated from vowel groups with corrections for silent
-//!   final *e*, *-le*, *-ed*, *-es*, *-tion*, and common vowel pairs that are
-//!   two syllables (*ia*, *io*, *ua*), plus a short list of exceptions. Expect
-//!   about 95% agreement with dictionary counts on health text.
+//!   final *e*, a silent *e* inside compounds and before suffixes (*safety*,
+//!   *something*, *movement*, *careful*, *household*), *-le*, *-ed*, *-es*,
+//!   *-tion*, and common vowel pairs that are two syllables (*ia*, *io*, *ua*,
+//!   *iet*, *-rious*), plus a list of exceptions. Measured against dictionary
+//!   counts: 300 of 300 on the list of common health words the rules were
+//!   tuned on (253 of 300 before the 2026-11 revision), and 204 of 209 (97.6%)
+//!   on a second list the rules had not seen (its five misses were then added
+//!   as rules or exceptions). Unusual words can still be off by one.
 
 use std::sync::LazyLock;
 
@@ -410,6 +415,41 @@ const EXCEPTIONS: &[(&str, usize)] = &[
     ("videos", 3),
     ("wednesday", 2),
     ("covid", 2),
+    ("influenza", 4),
+    ("diabetes", 4),
+    ("pneumonia", 3),
+    ("therefore", 2),
+    ("everything", 3),
+    ("everybody", 4),
+    ("nausea", 3),
+    ("poem", 2),
+    ("poems", 2),
+    ("lion", 2),
+    ("lions", 2),
+    ("pioneer", 3),
+    ("pioneers", 3),
+    ("heroin", 3),
+    // "aren't" and "weren't" (apostrophes are dropped before counting).
+    ("arent", 1),
+    ("werent", 1),
+    ("vegetable", 3),
+    ("vegetables", 3),
+    ("comfortable", 3),
+    ("isle", 1),
+    ("isles", 1),
+    ("aisle", 1),
+    ("aisles", 1),
+    ("element", 3),
+    ("elements", 3),
+    ("nevertheless", 4),
+    ("homelessness", 3),
+    ("evening", 2),
+    ("evenings", 2),
+    ("ache", 1),
+    ("aches", 1),
+    ("headache", 2),
+    ("headaches", 2),
+    ("tiredness", 2),
 ];
 
 /// Two-vowel sequences pronounced as two syllables, and endings that are one
@@ -417,7 +457,8 @@ const EXCEPTIONS: &[(&str, usize)] = &[
 static ADD_SYL: LazyLock<Vec<regex::Regex>> = LazyLock::new(|| {
     [
         "ia",
-        "riet",
+        // so-ci-e-ty, di-e-ta-ry, va-ri-e-ty
+        "iet",
         "dien",
         "iu",
         "io",
@@ -427,17 +468,58 @@ static ADD_SYL: LazyLock<Vec<regex::Regex>> = LazyLock::new(|| {
         "[^l]lien",
         "^coa[dglx].",
         "[^gq]ua[^auieo]",
-        "dnt$",
+        // didn't, isn't, doesn't, mustn't (apostrophes are dropped before counting)
+        "[dst]nt$",
         "eing",
         "oing",
+        // se-ri-ous, pre-vi-ous, te-di-ous (but not -cious, -tious, -gious)
+        "[rvd]ious",
+        // ex-pe-ri-ence, nu-tri-ent, re-cip-i-ent (but not friend)
+        "[^f]rien",
+        "pien",
+        // di-ar-rhe-a, gon-or-rhe-a
+        "rhea$",
+        // re-act, re-al-i-ty, re-al-ize (but not read, reach, real)
+        "^react",
+        "^reali",
+        // flu-id, ru-in (but not liquid, guide)
+        "[^qg]uid",
+        "ruin",
+        // sci-en-tist, sci-en-tif-ic ("science" is an exception)
+        "^scien",
     ]
     .iter()
     .map(|p| regex::Regex::new(p).expect("valid regex"))
     .collect()
 });
 static SUB_SYL: LazyLock<Vec<regex::Regex>> = LazyLock::new(|| {
+    // "cious" is covered by "iou" (listing both subtracted twice: con-scious, de-li-cious).
+    ["cial", "tia", "cius", "giu", "ion", "iou", "sia$", ".ely$"]
+        .iter()
+        .map(|p| regex::Regex::new(p).expect("valid regex"))
+        .collect()
+});
+/// A silent *e* inside a word, before a suffix or the second part of a
+/// compound (safe-ty, care-ful, home-less, move-ment, some-thing, guide-lines,
+/// house-hold, care-giver). Matched against the whole word; each match is one
+/// syllable fewer than its vowel groups.
+static SILENT_E: LazyLock<Vec<regex::Regex>> = LazyLock::new(|| {
     [
-        "cial", "tia", "cius", "cious", "giu", "ion", "iou", "sia$", ".ely$",
+        "[^aeiouy]ety$",
+        "[^aeiouy]eful(ly)?$",
+        "[^aeiouy]e(less|ness)$",
+        "[aeiouy][^aeiouy]ements?$",
+        "[nrl][cgsv]ements?$",
+        "[^aeiouy]etimes?$",
+        "[^aeiouy]ethings?$",
+        "[aeiouy][^aeiouy]elines?$",
+        "[^aeiouy]ewhere$",
+        "[^aeiouy]ebody$",
+        "[aeiouy][^aeiouy]ework(s|er|ers)?$",
+        "[aeiouy][^aeiouy]eholds?$",
+        "[aeiouy][^aeiouy]estyles?$",
+        "[aeiouy][^aeiouy]egiv(er|ers|ing)$",
+        "[aeiouy][^aeiouy]etak(er|ers|ing)$",
     ]
     .iter()
     .map(|p| regex::Regex::new(p).expect("valid regex"))
@@ -501,9 +583,27 @@ pub fn word_syllables(word: &str) -> usize {
             syl += 1;
         }
     }
-    // Silent -ed (caused, loved) unless after t or d (started, needed).
-    if n > 3 && w.ends_with("ed") && !matches!(chars[n - 3], 't' | 'd') && groups > 1 {
-        syl -= 1;
+    for r in SILENT_E.iter() {
+        if r.is_match(&w) {
+            syl -= 1;
+        }
+    }
+    // Silent -ed (caused, loved). The e is sounded, or already part of the
+    // vowel group before it, after t or d (started, needed), after a vowel
+    // (carried, agreed, continued, employed), in consonant + "red" (hundred),
+    // and in consonant + "led" except after l, r, or w (handled, disabled; but
+    // called, curled, crawled).
+    if n > 3 && w.ends_with("ed") && groups > 1 {
+        let before = chars[n - 3];
+        let earlier = chars[n - 4];
+        let vowel = |c: char| "aeiouy".contains(c);
+        let sounded = matches!(before, 't' | 'd')
+            || vowel(before)
+            || (before == 'r' && !vowel(earlier))
+            || (before == 'l' && !vowel(earlier) && !matches!(earlier, 'l' | 'r' | 'w'));
+        if !sounded {
+            syl -= 1;
+        }
     }
     // Silent -es (makes, states) unless after s, x, z, c, g, ch, sh (cases, ages).
     if n > 3
@@ -577,6 +677,81 @@ mod tests {
         ] {
             assert_eq!(word_syllables(w), n, "{w}");
         }
+    }
+
+    #[test]
+    fn syllables_for_words_the_earlier_rules_got_wrong() {
+        // Every word the pre-2026-11 rules miscounted on the 300-word check list.
+        for (w, n) in [
+            ("influenza", 4),
+            ("diabetes", 4),
+            ("pneumonia", 3),
+            ("sometimes", 2),
+            ("something", 2),
+            ("homeless", 2),
+            ("careful", 2),
+            ("movement", 2),
+            ("statement", 2),
+            ("everything", 3),
+            ("therefore", 2),
+            ("diarrhea", 4),
+            ("nausea", 3),
+            ("experience", 4),
+            ("serious", 3),
+            ("various", 3),
+            ("previous", 3),
+            ("reaction", 3),
+            ("fluid", 2),
+            ("carried", 2),
+            ("studied", 2),
+            ("hundred", 2),
+            ("indeed", 2),
+            ("proceed", 2),
+            ("exceed", 2),
+            ("agreed", 2),
+            ("succeed", 2),
+            ("antibiotic", 5),
+            ("antibiotics", 5),
+            ("safety", 2),
+            ("ninety", 2),
+            ("poem", 2),
+            ("lion", 2),
+            ("pioneer", 3),
+            ("heroin", 3),
+            ("gonorrhea", 4),
+            ("doesn't", 2),
+            ("isn't", 2),
+            ("guidelines", 2),
+            ("scientists", 3),
+            ("society", 4),
+            ("anxiety", 4),
+            ("dietary", 4),
+            ("quietly", 3),
+            ("vegetables", 3),
+            ("comfortable", 3),
+            ("isles", 1),
+        ] {
+            assert_eq!(word_syllables(w), n, "{w}");
+        }
+        // The new rules leave these alone.
+        for (w, n) in [
+            ("called", 1),
+            ("handled", 2),
+            ("employed", 2),
+            ("friend", 1),
+            ("guide", 1),
+            ("conscious", 2),
+            ("delicious", 3),
+            ("household", 2),
+            ("caregiver", 3),
+            ("element", 3),
+            ("treatment", 2),
+        ] {
+            assert_eq!(word_syllables(w), n, "{w}");
+        }
+        // "Safety comes first. Sometimes something goes wrong." has no polysyllables.
+        let p = parse("Safety comes first. Sometimes something goes wrong. Call us.");
+        assert_eq!(p.counts().polysyllables, 0);
     }
 
     #[test]

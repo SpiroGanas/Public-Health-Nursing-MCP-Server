@@ -103,25 +103,53 @@ pub fn mask_row(row: &[String], findings: &[ColumnFinding]) -> Vec<String> {
             if v.trim().is_empty() {
                 return String::new();
             }
-            match findings.iter().find(|f| f.index == i).map(|f| f.kind) {
-                Some(Identifier::Date) | Some(Identifier::BirthDate) => phi::parse_date(v)
+            let finding = findings.iter().find(|f| f.index == i);
+            match finding.map(|f| f.kind) {
+                // A birth year that shows an age of 90 or more is itself withheld.
+                Some(Identifier::BirthDate) => match phi::parse_date(v) {
+                    Some(d) => {
+                        let today = chrono::Local::now().date_naive();
+                        if phn_local::deid::age_on(d, today) >= 90 {
+                            "90+".into()
+                        } else {
+                            d.format("%Y").to_string()
+                        }
+                    }
+                    None => "[REDACTED: date]".into(),
+                },
+                Some(Identifier::Date) => phi::parse_date(v)
                     .map(|d| d.format("%Y").to_string())
+                    .or_else(|| phi::plain_year(v).map(|y| y.to_string()))
                     .unwrap_or_else(|| "[REDACTED: date]".into()),
-                Some(Identifier::ZipCode) => {
-                    let d: String = v.chars().filter(char::is_ascii_digit).take(3).collect();
-                    if d.len() == 3 {
-                        format!("{d}xx")
-                    } else {
-                        "[REDACTED]".into()
+                // Same rule as de-identification: three digits, 000 for the
+                // low-population prefixes, leading zero restored.
+                Some(Identifier::ZipCode) => match phn_local::deid::zip3(v.trim()) {
+                    Some(z) => format!("{z}xx"),
+                    None => "[REDACTED]".into(),
+                },
+                Some(Identifier::Age) => {
+                    let years = finding.is_none_or(|f| phi::age_header_is_years(&f.column));
+                    let lead: String = v
+                        .trim()
+                        .chars()
+                        .take_while(|c| c.is_ascii_digit() || *c == '.')
+                        .collect();
+                    match lead.parse::<f64>() {
+                        Ok(a) if years && a > 89.0 => "90+".into(),
+                        _ => v.clone(),
                     }
                 }
-                Some(Identifier::Age) => match v.trim().parse::<f64>() {
-                    Ok(a) if a > 89.0 => "90+".into(),
-                    _ => v.clone(),
-                },
                 Some(k) => format!("[REDACTED: {}]", k.label()),
                 None => {
-                    if v.len() < 6 || v.parse::<f64>().is_ok() {
+                    if v.parse::<f64>().is_ok() {
+                        // Long numbers in a column that was not recognized are
+                        // most likely record, phone, or ID numbers.
+                        if v.chars().filter(char::is_ascii_digit).count() >= 6 {
+                            "[REDACTED: number]".into()
+                        } else {
+                            v.clone()
+                        }
+                    } else if v.len() < 6 {
                         v.clone()
                     } else {
                         phi::redact_text(v, RedactionLevel::Strict).text
@@ -290,6 +318,18 @@ pub fn read_local_file(
             );
         }
         privacy.identifiers_detected = kinds.into_iter().collect();
+        let generic: usize = extracted
+            .tables
+            .iter()
+            .map(phn_local::table::generic_header_count)
+            .sum();
+        if generic > 0 {
+            caveats.push(format!(
+                "{generic} column(s) are shown as column_N because the header was blank or looked \
+                 like data or an identifier (for example a file with no header row, or names used \
+                 as column headers)."
+            ));
+        }
         data.tables = Some(previews);
     } else {
         let requested = args.redaction.unwrap_or_default();
@@ -303,12 +343,53 @@ pub fn read_local_file(
             Identifier::MedicalRecordNumber,
             Identifier::HealthPlanNumber,
         ];
+        // Headings and titles are returned too, so they count as well.
+        let headings = extracted
+            .sections
+            .iter()
+            .map(|s| s.heading.as_str())
+            .collect::<Vec<_>>()
+            .join("\n");
+        let heading_signal = phi::redact_text(&headings, requested)
+            .redacted
+            .keys()
+            .any(|k| client_signals.contains(k));
+        // A table (a Word table, or tab-, pipe- or semicolon-separated text)
+        // with a client-identifier column is a client roster even though no
+        // value carries its own label.
+        let table_signal = extracted
+            .tables
+            .iter()
+            .chain(delimited_table(&extracted.text).iter())
+            .any(|t| {
+                phi::scan_table(t).iter().any(|f| {
+                    client_signals.contains(&f.kind) || f.kind == Identifier::OtherIdNumber
+                })
+            });
+        // Several names next to as many dates or street addresses reads as
+        // a list of people. Staff contact lists (names with phone numbers) do not match.
+        let seen = |k: Identifier| {
+            red.redacted.get(&k).copied().unwrap_or(0)
+                + red.detected_only.get(&k).copied().unwrap_or(0)
+        };
+        let density_signal = seen(Identifier::Name) >= 3
+            && seen(Identifier::Date) + seen(Identifier::StreetAddress) >= 3;
         let escalated = requested == RedactionLevel::Standard
-            && red.redacted.keys().any(|k| client_signals.contains(k));
+            && (red.redacted.keys().any(|k| client_signals.contains(k))
+                || heading_signal
+                || table_signal
+                || density_signal);
+        let level = if escalated {
+            RedactionLevel::Strict
+        } else {
+            requested
+        };
         if escalated {
             red = phi::redact_text(&extracted.text, RedactionLevel::Strict);
             caveats.push(
-                "This document contains client identifiers (such as a date of birth, record                  number, or SSN), so strict redaction was applied: names, phone numbers,                  addresses, and dates were also removed."
+                "This document contains client identifiers (such as a date of birth, record \
+                 number, or SSN) or looks like a list of people, so strict redaction was applied: \
+                 names, phone numbers, addresses, and dates were also removed."
                     .into(),
             );
         }
@@ -322,7 +403,8 @@ pub fn read_local_file(
                 .sections
                 .iter()
                 .map(|s| SectionSummary {
-                    heading: s.heading.clone(),
+                    // Headings are returned, so they are redacted like the body.
+                    heading: phi::redact_text(&s.heading, level).text,
                     level: s.level,
                     page: s.page,
                     chars: s.text.chars().count(),
@@ -399,6 +481,39 @@ pub fn read_local_file(
         .privacy(privacy))
 }
 
+/// Read text as a table when it is laid out as one: at least three lines with
+/// the same number (two or more) of tabs, pipes, or semicolons. Commas are not
+/// used because ordinary sentences contain them.
+fn delimited_table(text: &str) -> Option<Table> {
+    let lines: Vec<&str> = text
+        .lines()
+        .filter(|l| !l.trim().is_empty())
+        .take(5_000)
+        .collect();
+    for d in ['\t', '|', ';'] {
+        let counts: Vec<usize> = lines.iter().map(|l| l.matches(d).count()).collect();
+        let Some(&width) = counts.iter().find(|&&c| c >= 2) else {
+            continue;
+        };
+        let mut rows: Vec<Vec<String>> = lines
+            .iter()
+            .zip(&counts)
+            .filter(|(_, c)| **c == width)
+            .map(|(l, _)| l.split(d).map(|c| c.trim().to_string()).collect())
+            .collect();
+        if rows.len() >= 3 {
+            let headers = rows.remove(0);
+            return Some(Table {
+                name: "text".into(),
+                headers,
+                rows,
+                truncated: false,
+            });
+        }
+    }
+    None
+}
+
 /// Helper for other tools: read one table and refuse when it does not exist.
 pub fn load_table(ctx: &Context, path: &str, sheet: Option<&str>) -> Result<(Table, String)> {
     let sandbox = ctx.sandbox()?;
@@ -410,4 +525,106 @@ pub fn load_table(ctx: &Context, path: &str, sheet: Option<&str>) -> Result<(Tab
     }
     let t = phn_local::table::read_table(&p, sheet)?;
     Ok((t, sandbox.display_path(&p)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx_with(files: &[(&str, &str)]) -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        for (name, text) in files {
+            std::fs::write(dir.path().join("data").join(name), text).unwrap();
+        }
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn read(ctx: &Context, path: &str, include_rows: bool) -> String {
+        let env = read_local_file(
+            ctx,
+            ReadLocalFileArgs {
+                path: Some(path.into()),
+                include_rows,
+                ..ReadLocalFileArgs::default()
+            },
+        )
+        .unwrap();
+        format!(
+            "{}\n{}",
+            env.to_markdown(),
+            serde_json::to_string(&env).unwrap()
+        )
+    }
+
+    #[test]
+    fn headings_are_redacted_like_the_body() {
+        let (_d, ctx) = ctx_with(&[(
+            "plan.md",
+            "# Health Care Plan: Maria Garcia, DOB 03/02/2015\nTake inhaler before gym.\n",
+        )]);
+        let out = read(&ctx, "plan.md", false);
+        for secret in ["Garcia", "03/02/2015"] {
+            assert!(!out.contains(secret), "{secret} leaked: {out}");
+        }
+    }
+
+    #[test]
+    fn a_roster_table_in_a_text_file_escalates_to_strict() {
+        let (_d, ctx) = ctx_with(&[(
+            "roster.txt",
+            "Name\tDOB\tPhone\nMaria Garcia\t03/02/2015\t413-555-0101\nJames Smith\t11/30/2012\t617-555-0199\n",
+        )]);
+        let out = read(&ctx, "roster.txt", false);
+        for secret in ["Garcia", "Smith", "03/02/2015", "413-555-0101"] {
+            assert!(!out.contains(secret), "{secret} leaked: {out}");
+        }
+        // A staff contact list (names and phones only) keeps standard redaction.
+        let (_d2, ctx2) = ctx_with(&[(
+            "contacts.txt",
+            "Role\tName\tPhone\nSupervisor\tMaria Garcia\t413-555-0101\nBackup\tJames Smith\t617-555-0199\n",
+        )]);
+        assert!(read(&ctx2, "contacts.txt", false).contains("413-555-0101"));
+    }
+
+    #[test]
+    fn a_file_without_a_header_row_is_not_echoed_as_column_names() {
+        let (_d, ctx) = ctx_with(&[(
+            "nohdr.csv",
+            "Maria,Garcia,3/7/2015,413-555-0101,12 Elm St\nJames,Smith,11/30/2012,617-555-0199,4 Oak Ave\n",
+        )]);
+        let out = read(&ctx, "nohdr.csv", false);
+        for secret in ["Garcia", "413-555-0101", "12 Elm St", "3/7/2015"] {
+            assert!(!out.contains(secret), "{secret} leaked: {out}");
+        }
+        assert!(out.contains("column_1") && out.contains("no header row"));
+    }
+
+    #[test]
+    fn masked_rows_follow_the_stated_rules() {
+        let f = |index: usize, column: &str, kind| ColumnFinding {
+            column: column.into(),
+            index,
+            kind,
+            confidence: phi::Confidence::High,
+            evidence: String::new(),
+        };
+        let findings = vec![
+            f(0, "ZIP", Identifier::ZipCode),
+            f(1, "DOB", Identifier::BirthDate),
+            f(2, "Age", Identifier::Age),
+            f(3, "Age (months)", Identifier::Age),
+        ];
+        let row: Vec<String> = ["1002", "1930-05-01", "92 yrs", "96", "4135550101", "12"]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
+        assert_eq!(
+            mask_row(&row, &findings),
+            vec!["010xx", "90+", "90+", "96", "[REDACTED: number]", "12"]
+        );
+        let border: Vec<String> = vec!["03601".into()];
+        assert_eq!(mask_row(&border, &findings[..1]), vec!["000xx"]);
+    }
 }

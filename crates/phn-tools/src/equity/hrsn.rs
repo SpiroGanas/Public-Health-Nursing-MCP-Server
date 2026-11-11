@@ -896,22 +896,59 @@ fn batch(
     group_names.dedup();
     group_names.retain(|g| g != "All");
     group_names.insert(0, "All".into());
-    for g in &group_names {
-        for d in &c.domains {
-            let Some(m) = counts.get(&(g.clone(), d.id.clone())) else {
+    // Per domain, one matrix of every group (and "All") by status, suppressed
+    // together: a count hidden in one group then has a second hidden cell in
+    // its column, so it cannot be found by subtracting the other groups from
+    // "All" (and each row still hides at least two cells).
+    let mut by_domain: Vec<Vec<DomainCounts>> = Vec::new();
+    for d in &c.domains {
+        let cells: Vec<Vec<Option<u64>>> = group_names
+            .iter()
+            .map(|g| {
+                let m = counts.get(&(g.clone(), d.id.clone()));
+                statuses
+                    .iter()
+                    .map(|s| Some(m.and_then(|m| m.get(s)).copied().unwrap_or(0)))
+                    .collect()
+            })
+            .collect();
+        let sup = phn_epi::suppression::suppress(
+            &cells,
+            &phn_epi::suppression::SuppressionOptions {
+                threshold,
+                ..phn_epi::suppression::SuppressionOptions::default()
+            },
+        );
+        let mut rows = Vec::new();
+        for (ri, g) in group_names.iter().enumerate() {
+            if !counts.contains_key(&(g.clone(), d.id.clone())) {
                 continue;
-            };
-            let raw: Vec<(String, u64)> = statuses
-                .iter()
-                .map(|s| (s.label().to_string(), *m.get(s).unwrap_or(&0)))
-                .collect();
-            let (shown, any) = practice::suppressed_counts(&raw, threshold);
-            any_suppressed |= any;
-            count_rows.push(DomainCounts {
+            }
+            let mut shown: BTreeMap<String, String> = BTreeMap::new();
+            for (ci, st) in statuses.iter().enumerate() {
+                let hidden = sup.is_hidden(ri, ci);
+                any_suppressed |= hidden;
+                shown.insert(
+                    st.label().to_string(),
+                    if hidden {
+                        "*".to_string()
+                    } else {
+                        cells[ri][ci].unwrap_or(0).to_string()
+                    },
+                );
+            }
+            rows.push(DomainCounts {
                 domain: d.id.clone(),
                 group: g.clone(),
-                counts: shown.into_iter().collect(),
+                counts: shown,
             });
+        }
+        by_domain.push(rows);
+    }
+    // Listed as before: "All" first, then each group, domains in order.
+    for g in &group_names {
+        for rows in &by_domain {
+            count_rows.extend(rows.iter().filter(|r| &r.group == g).cloned());
         }
     }
     let mut s = format!(
@@ -1167,5 +1204,39 @@ mod tests {
         assert!(!json.contains("Zorbeck") && !json.contains("MRN77"));
         assert!(env.privacy.suppression_applied);
         assert_eq!(env.privacy.files_written.len(), 1);
+    }
+
+    #[test]
+    fn group_counts_cannot_be_recovered_from_the_all_row() {
+        let (dir, c) = ctx(true);
+        // Clinic 1: 3 yes, 40 no. Clinic 2: 20 yes, 30 no.
+        let mut csv = String::from("Site,q5\n");
+        for (site, answer, n) in [(1, "yes", 3), (1, "no", 40), (2, "yes", 20), (2, "no", 30)] {
+            for _ in 0..n {
+                csv.push_str(&format!("Clinic {site},{answer}\n"));
+            }
+        }
+        std::fs::write(dir.path().join("data/hrsn_sites.csv"), csv).unwrap();
+        let env = screen_health_related_social_needs(
+            &c,
+            HrsnArgs {
+                path: Some("hrsn_sites.csv".into()),
+                group_by: Some("Site".into()),
+                ..HrsnArgs::default()
+            },
+        )
+        .unwrap();
+        let b = env.data.batch.as_ref().unwrap();
+        let positive = |group: &str| {
+            b.counts
+                .iter()
+                .find(|r| r.group == group && r.domain == "transportation")
+                .unwrap()
+                .counts["positive"]
+                .clone()
+        };
+        assert_eq!(positive("Clinic 1"), "*");
+        // Clinic 1's 3 must not be All (23) minus Clinic 2 (20).
+        assert!(positive("All") == "*" || positive("Clinic 2") == "*");
     }
 }

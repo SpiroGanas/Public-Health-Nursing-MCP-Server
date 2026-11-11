@@ -5,9 +5,178 @@ All notable changes are recorded here. The format follows
 [Semantic Versioning](https://semver.org/). Version numbers track the phases in
 [`project_plan.md`](project_plan.md).
 
+No version has been tagged or published as a release yet. The date on each version is the day
+it was merged to `main` (Eastern time).
+
 ## [Unreleased]
 
-## [0.14.0] — Phase 13: emergency preparedness II (ICS forms, COOP, HSEEP exercises, after-action reports, CERC)
+## [0.14.1] — 2026-11-11 (not yet tagged) — Peer review of Phases 0–13
+
+A review of the code and documentation for Phases 0–13 found errors in calculations, places where
+private information could reach the AI model, and documentation that no longer matched the code.
+This release fixes them. No tools were added or removed; `docs/tools.md` describes each tool's
+new behavior. ADR 0010 records the decisions made in the review.
+
+### Security and privacy
+
+- Local files: headings and titles are now redacted like the rest of the text in `read_local_file`
+  and `search_agency_policies`, and documents that hold a client table or roster (in Word tables
+  or tab-, pipe-, or semicolon-separated text) are redacted strictly.
+- Local files: column headers and sheet names that look like names or values (a file with no
+  header row) are shown as `column_N` and `sheet_N`; more name and ID columns are recognized
+  ("First", "Last", "Student", "Guardian", "ID", "Case #"); more date, phone, SSN, and record
+  number formats are detected.
+- `read_local_file` sample rows: ZIP codes use the Safe Harbor rule (000 for low-population
+  prefixes), a birth year that shows an age of 90 or more is `90+`, and long numbers in unknown
+  columns are masked.
+- `profile_local_dataset`: no statistics for a column with fewer values than the suppression
+  threshold; ages over 89 top-coded before any statistic; smallest and largest values hidden for
+  ID-like columns.
+- `apply_small_cell_suppression`: numeric label columns (grade, age, week, ZIP) are no longer
+  treated as counts, which could undo the suppression; label cells with names, phone numbers, or
+  free text are refused; error messages no longer quote cell values.
+- `deidentify_dataset`: Safe Harbor removes dates and ZIP codes inside text cells; a limited
+  data set drops latitude and longitude.
+- `check_document_accessibility`: quoted excerpts are redacted, and the privacy block reports it.
+  `export_document` mail merges no longer return merged text in the accessibility messages.
+- Small counts that could be worked out by subtraction are now hidden in
+  `track_school_screenings`, `build_school_health_annual_report`, `screen_health_related_social_needs`
+  (by group), `score_mental_health_screen` (file mode), `plan_casper_assessment`, and
+  `create_spc_chart` (center line and limits withheld); `analyze_outbreak_line_list` withholds the
+  median onset and exposure window in very small outbreaks; `create_chart` hides a suppressed
+  value's confidence limits.
+- Language cells are never returned: unrecognized languages are reported as "Other" in school
+  letters and health plans, and letter files are never overwritten.
+- Staff contacts (ADR 0010): a name not found on the roster gets no contact details, instead of
+  those of the first person in the same position (decided by the product owner on 2026-11-11).
+  Typed-in phone numbers and emails are now detected in every field of the Phase 13 tools.
+- A saved suppression threshold outside 2–30 (for example after a hand edit) is ignored instead of
+  switching suppression off.
+- CSV output marks cells that start like a spreadsheet formula as text.
+- Network: requests send no Referer header; openFDA's API key is no longer stored in the cache;
+  the NWS forecast link is followed only to api.weather.gov; an error page from a data source is
+  no longer cached as data.
+- Release workflow: the image is scanned before anything is pushed, the SBOM lists the Rust
+  crates (built from the source tree), and the workflow runs only for version tags.
+
+### Fixed
+
+- Statistics: rank tests (Mann–Whitney, Wilcoxon) gave p = 0 when there was no difference at all;
+  they now give p = 1. t tests and ANOVA on data with no variation give p = 1 instead of an
+  undefined value.
+- Statistics: chi-square degrees of freedom and Cramér's V ignore empty rows and columns;
+  Breslow–Day degrees of freedom ignore empty strata.
+- Statistics: logistic regression in `run_statistical_test` warns about separation and models that
+  did not converge, instead of reporting huge odds ratios as "not significant".
+- Statistics: SPC trend and shift rules no longer count repeated values or points on the center
+  line (a flat series is never a trend).
+- Statistics: an all-zero count series is refused for rate and trend models; a correlation with a
+  constant variable is refused; Fisher's exact test falls back to chi-square when it cannot be
+  calculated; very large 2×2 tables skip the exact methods instead of running for minutes.
+- `analyze_trends`: seasonal adjustment is on by default only with at least two years of monthly
+  or weekly data; the seasonal peak is placed correctly for labels such as "Mar 2024".
+- `age_adjust_rates`: warns when age groups do not cover all ages or differ between groups.
+- Dates (every tool that reads dates from files, and the school, immunization, growth, and
+  communicable disease tools): "3/5/26" was read as the year 26; two-digit years are now read in
+  the current century unless that would be more than a year in the future (then the previous
+  century), and years outside 1900–2100 are refused instead of crashing date arithmetic.
+- Disease and pathogen lookups no longer guess: `lookup_reportable_condition`,
+  `calculate_isolation_and_exclusion`, and `infection_control_for_congregate_settings` had
+  answered "hepatitis" as hepatitis A, "gastroenteritis" as group A strep, "stomach flu" as
+  influenza, and "ebola" as MRSA. Ambiguous or general queries now list the candidates.
+- `plan_contact_tracing`: workbook columns now say which contacts each exclusion applies to
+  (pertussis and hepatitis A rules had read as applying to every contact).
+- `assess_measles_exposure`: an infant under 12 months with reported doses was treated as immune;
+  PEP deadlines now count only exposure inside the case's infectious period.
+- `calculate_isolation_and_exclusion`: "still excluded on" checks work for rules counted in hours.
+- `plan_tb_contact_investigation`: a symptom onset date now sets the infectious period even when
+  "symptomatic" was not marked; ages such as "8 months" are read.
+- `analyze_outbreak_line_list`: an unknown agent is a caveat, not an error; exposures that could
+  not be compared are listed; a "Meal Time" column is no longer taken for the onset time.
+- `get_notifiable_disease_trends`: the "last 4 weeks" baseline was 3 weeks long for week 53.
+- `check_ma_school_immunization_requirements`: students 7 and older with DTaP gaps were told
+  "not met" and offered DTaP (now "needs review"); doses too soon after an invalid dose, numbered
+  roster columns ("MMR 1"), and Exemptions cells such as "Religious" are handled.
+- `forecast_immunizations_due` (file mode): doses dated before birth or after the assessment date
+  are counted and listed instead of being silently treated as evaluated.
+- `vaccine_temperature_excursion_helper`: Fahrenheit readings such as 46.3 °F were judged in range.
+- `lookup_medication_information`: shortages are searched by generic name (a brand name had
+  returned "none listed"); a close but inexact RxNorm match now carries a caveat.
+- `score_mental_health_screen`: a C-SSRS screener with unanswered deciding items was scored low
+  risk (now "risk level not yet determined"); unanswered suicide-risk items are flagged.
+- `find_substance_use_treatment`: "Medicaid" and "Spanish" filters matched the wrong SAMHSA values;
+  out-of-state facilities are flagged.
+- `nursing_home_quality_lookup` and `find_community_resources`: facilities listed under a village
+  or neighborhood (Hyannis, Dorchester, Middleboro) were missed; they are matched by ZIP code.
+- `elder_protective_services_guide`: whether a role is a mandated reporter now follows the list for
+  the chosen pathway (c.19A or c.19C).
+- `steadi_fall_risk_assessment`: a count of falls now counts as a fall in the past year.
+- School tools: "Negative" results count as passed; heights such as 4'10" are no longer read as
+  410; "Speech/Language Services" is no longer taken for the language column; a student with two
+  conditions gets both health plans; a "yes" notice without a date is not a gap; the annual report
+  in July or August covers the school year that just ended; visit reasons no longer match inside
+  words ("distress" is not "stress").
+- `check_developmental_milestones`: "not yet" on the corrected-age checklist now counts.
+- `get_active_hazard_alerts` and `heat_health_action_planner`: a stale cached copy of the NWS feed
+  was shown as current alerts, and a failed feed read as "no alerts"; ended alerts are dropped.
+- `heat_health_action_planner`: a HeatRisk image from an earlier forecast is no longer paired with
+  new dates; the peak day is the first day of the highest level.
+- `air_quality_protective_guidance`: concentrations above the 8-hour ozone and 1-hour SO2 tables
+  are refused instead of extrapolated.
+- `build_community_health_profile`: a top-coded median income showed as $250,001.
+- `translate_health_material`: numbers such as 3.5, 1,000, and 9:30 were reported as missing;
+  glossary terms match whole words and plurals.
+- `check_readability`: syllable counting fixed for many common words, such as safety, serious,
+  diarrhea, and influenza (grades can shift a little); `draft_press_materials` no longer flags
+  "Hispanic" as containing "panic".
+- `omaha_system_coder`: negated problems ("no income") are listed for review instead of dropped.
+- `plan_casper_assessment`: the sampling interval accounts for blocks selected twice; analyzing
+  returned data without a seed no longer draws a new sample.
+- `generate_ics_forms`: the ICS 207 shows branches; an incident name with a slash no longer
+  changes the output folder.
+- `continuity_of_operations_planner`: staff at the peak were undercounted (10 staff at 80% absence
+  gave 1); a position held by several people no longer makes someone their own successor.
+- `design_hseep_exercise`: warns when the schedule is longer than the exercise; MSEL events are
+  numbered within each module.
+- `build_after_action_report`: ratings naming "PHEP 13: …" were dropped silently; the objectives
+  from `design_hseep_exercise` can be passed unchanged.
+- `crisis_risk_communication_builder`: an agency translation was used even after the English
+  message was changed; "space heater fire" no longer brings up the heat messages; bracketed
+  placeholders no longer pass the checks.
+- `export_document`: a `---` line no longer starts a new page; nested lists and indented text are
+  kept in order; words no longer run together in PDFs; repeated column names and long sheet
+  names no longer break XLSX files; text such as "1,2" stays text.
+- `create_chart` refuses a log scale for bar charts; charts with a very narrow range no longer hang.
+- Crashes fixed for file names, sheet names, and dates with accented or very long text.
+- `search_pubmed`: an NCBI error is reported instead of being cached as "no results".
+
+### Changed
+
+- The Docker image runs on Eastern time (`TZ=America/New_York`), so "today" and document dates no
+  longer roll over at 7 or 8 p.m. (ADR 0010). `phn-mcp-server check` prints the local time.
+- The Docker image makes `/cache` writable for Linux users who run it with `--user`. A
+  `phn-cache` volume created by an earlier version must be removed once (see the README).
+- `PHN_OFFLINE` accepts only 1/true/yes/on or 0/false/no/off, and `PHN_TOOLSETS` must name at
+  least one toolset; anything else stops the server with an error.
+- When `PHN_PROFILE` or `PHN_TOOLSETS` is set in the client configuration, `configure_jurisdiction`
+  says that saved toolsets have no effect, and a disabled tool's error says to edit the
+  configuration.
+- `functional_needs_shelter_intake` uses the same translation folder names as the LTBI calendar
+  and newcomer checklist (`haitian_creole`), and is marked as using the internet.
+- The lead and newborn teaching sheets also accept a `haitian-creole` folder.
+- The `investigate_outbreak` and `plan_tabletop_exercise` prompts name the toolsets they use and
+  say what to do when one is off; the outbreak prompt no longer suggests "GI illness, agent
+  unknown" as a disease name.
+- MCP resources: content descriptions say "pending review" instead of "Reviewed reference
+  content"; JSON and text snapshots have the right MIME type.
+- Cached public data older than 90 days is deleted; a damaged cache is skipped instead of
+  stopping a lookup; retrieval dates are local dates.
+- Documentation: README (offline image install, repository layout, configuration), CONTRIBUTING,
+  `project_plan.md` §5 (the architecture as built), the user guide's profile table, the acceptance
+  scripts, and new ADR 0010 (superseding notes for ADRs 0001, 0004, and 0008; time zone; roster
+  name matching).
+
+## [0.14.0] — 2026-11-09 (not tagged) — Phase 13: emergency preparedness II (ICS forms, COOP, HSEEP exercises, after-action reports, CERC)
 
 ### Added
 
@@ -59,15 +228,16 @@ All notable changes are recorded here. The format follows
 - COMM-02 exposes its language-priority and translator-brief helpers, and COMM-04 shares its
   loaded-word check, for reuse by the CERC builder.
 
-## [0.13.0] — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
+## [0.13.0] — 2026-11-08 (not tagged) — Phases 7 to 12: school health, maternal and child health, PHN practice, healthy aging, substance use and communication, and emergency preparedness I
 
 ### Added
 
 - User guide for public health nurses (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`): an
   executive summary of the server's benefits, how it works and protects privacy, getting
-  started, and for each of the 47 implemented tools what it does, when to use it, how to ask for
-  it, what it returns, and what to keep in mind; plus a tool index, glossary, and
-  troubleshooting. Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
+  started, and for each implemented tool what it does, when to use it, how to ask for it, what
+  it returns, and what to keep in mind; plus a tool index, glossary, and troubleshooting. The
+  guide was first written after Phase 6, for 47 tools, and was rebuilt for this version's 97
+  tools (116 pages). Built from `docs/user-guide/guide-content.js` by `build-user-guide.js`; a
   registry test keeps the guide's tool list in step with the implemented tools.
 
 ### Added — Phase 7: school health
@@ -254,7 +424,7 @@ All notable changes are recorded here. The format follows
 - The README documents the optional API keys (`PHN_CENSUS_API_KEY`, `PHN_NCBI_API_KEY`,
   `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY`).
 
-## [0.7.0] — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
+## [0.7.0] — 2026-11-08 (not tagged) — Phases 2 to 6: epidemiology engine, communicable disease, public data, immunizations, and immunization forecasting
 
 ### Added — Phase 2: epidemiology and biostatistics engine
 
@@ -382,7 +552,7 @@ All notable changes are recorded here. The format follows
   map; the snapshot builder applies an override table.
 - Data source registry: fixed the 105 CMR 300.000 address (the old mass.gov URL returns 404).
 
-## [0.2.0] — Phase 1: local data, privacy guardrails, and documents
+## [0.2.0] — 2026-11-07 (not tagged) — Phase 1: local data, privacy guardrails, and documents
 
 ### Added
 - `read_local_file` (CORE-04): lists `/data` and extracts text and tables from PDF, DOCX, XLSX,
@@ -403,7 +573,7 @@ All notable changes are recorded here. The format follows
   row-level data is returned by default and that exported documents pass the server's own
   accessibility checks.
 
-## [0.1.0] — Phase 0: foundation (internal)
+## [0.1.0] — 2026-11-07 (not tagged) — Phase 0: foundation (internal)
 
 ### Added
 - Rust workspace (`phn-core`, `phn-content`, `phn-data`, `phn-epi`, `phn-local`, `phn-docs`,

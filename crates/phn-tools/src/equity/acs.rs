@@ -129,7 +129,13 @@ pub(crate) async fn figures(ctx: &Context, geo: &Geography) -> Result<AcsFigures
 pub(crate) fn fmt_value(def: Option<&IndicatorDef>, e: &Estimate) -> String {
     match def.map(|d| d.kind) {
         Some(IndicatorKind::Percent) => format!("{:.1}%", e.value),
-        Some(IndicatorKind::Dollars) => format!("${}", md::num(e.value, 0)),
+        // The ACS top-codes median household income at $250,000 (published
+        // as 250,001 with no margin of error) and bottom-codes it at $2,500.
+        Some(IndicatorKind::Dollars) => match census::income_bound(e) {
+            Some(census::MedianBound::AtOrAbove) => "$250,000 or more".to_string(),
+            Some(census::MedianBound::AtOrBelow) => "$2,500 or less".to_string(),
+            None => format!("${}", md::num(e.value, 0)),
+        },
         Some(IndicatorKind::Median) => format!("{:.1}", e.value),
         _ => md::num(e.value, 0),
     }
@@ -156,5 +162,32 @@ pub(crate) fn check_level(geo: &Geography) -> Result<()> {
             geo.name,
             geo.level.label()
         ))),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn top_coded_median_income_is_not_shown_as_an_exact_amount() {
+        let def = census::indicator("median_household_income");
+        assert!(def.is_some());
+        let top = Estimate {
+            value: 250_001.0,
+            moe: None,
+        };
+        assert_eq!(fmt_value(def, &top), "$250,000 or more");
+        assert_eq!(fmt_moe(def, &top), "—");
+        let bottom = Estimate {
+            value: 2_499.0,
+            moe: None,
+        };
+        assert_eq!(fmt_value(def, &bottom), "$2,500 or less");
+        let usual = Estimate {
+            value: 103_960.0,
+            moe: Some(527.0),
+        };
+        assert_eq!(fmt_value(def, &usual), "$103,960");
     }
 }

@@ -21,7 +21,7 @@ use tantivy::snippet::SnippetGenerator;
 use tantivy::{Index, IndexReader, TantivyDocument, doc};
 
 use crate::extract::{FileKind, extract};
-use crate::phi::{RedactionLevel, redact_text};
+use crate::phi::{Identifier, RedactionLevel, redact_text};
 
 const INDEX_FORMAT: u32 = 1;
 const CHUNK_CHARS: usize = 2_000;
@@ -245,18 +245,46 @@ impl PolicyIndex {
                     continue;
                 }
             };
+            // A file that holds client identifiers (date of birth, record or
+            // health plan number) is treated as client information: everything
+            // detectable is redacted, headings included (ADR 0004, item 4).
+            // An SSN alone does not escalate, since policies show example SSNs.
+            let all_text = extracted
+                .sections
+                .iter()
+                .flat_map(|s| [s.heading.as_str(), s.text.as_str()])
+                .collect::<Vec<_>>()
+                .join("\n");
+            let client = redact_text(&all_text, RedactionLevel::Standard)
+                .redacted
+                .keys()
+                .any(|k| {
+                    matches!(
+                        k,
+                        Identifier::BirthDate
+                            | Identifier::MedicalRecordNumber
+                            | Identifier::HealthPlanNumber
+                    )
+                });
+            let level = if client {
+                RedactionLevel::Strict
+            } else {
+                RedactionLevel::Standard
+            };
             let mut any = false;
             for s in &extracted.sections {
                 for chunk in chunks(&s.text) {
                     if chunk.trim().is_empty() && s.heading.is_empty() {
                         continue;
                     }
-                    let red = redact_text(&chunk, RedactionLevel::Standard);
+                    let red = redact_text(&chunk, level);
                     stats.redactions += red.redacted.values().sum::<usize>();
+                    // Headings are returned in hits and citations, so they are
+                    // redacted like the body.
                     let heading = if s.heading.is_empty() {
                         "(untitled section)".to_string()
                     } else {
-                        s.heading.clone()
+                        redact_text(&s.heading, level).text
                     };
                     writer
                         .add_document(doc!(
@@ -391,6 +419,28 @@ mod tests {
         let rebuilt = PolicyIndex::open_or_build(&pol, Some(&idx_dir)).unwrap();
         assert!(rebuilt.stats.rebuilt);
         assert_eq!(rebuilt.search("tuberculosis", 3).unwrap()[0].file, "tb.txt");
+    }
+
+    #[test]
+    fn headings_are_redacted_and_client_files_escalate() {
+        let dir = tempfile::tempdir().unwrap();
+        let pol = dir.path().join("policies");
+        std::fs::create_dir_all(&pol).unwrap();
+        std::fs::write(
+            pol.join("plan.md"),
+            "# Asthma plan for Maria Garcia, DOB 03/02/2015\nGive albuterol before recess. \
+             Call 413-555-0101 if symptoms persist.\n",
+        )
+        .unwrap();
+        let idx = PolicyIndex::open_or_build(&pol, None).unwrap();
+        let hits = idx.search("albuterol recess", 5).unwrap();
+        assert!(!hits.is_empty());
+        for h in &hits {
+            let all = format!("{} {} {}", h.section, h.citation, h.snippet);
+            for secret in ["Garcia", "03/02/2015", "413-555-0101"] {
+                assert!(!all.contains(secret), "{secret} leaked: {all}");
+            }
+        }
     }
 
     #[test]

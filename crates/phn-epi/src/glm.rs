@@ -55,6 +55,9 @@ pub struct Coefficient {
     pub upper: f64,
 }
 
+/// Fitted probabilities this close to 0 or 1 signal separation.
+const SEPARATION_EPS: f64 = 1e-7;
+
 /// A fitted model.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct GlmFit {
@@ -121,6 +124,12 @@ fn validate(d: &GlmData, family: Family) -> Result<(), String> {
         Family::Poisson | Family::NegativeBinomial => {
             if d.y.iter().any(|v| *v < 0.0) {
                 return Err("counts cannot be negative".into());
+            }
+            if d.y.iter().all(|v| *v == 0.0) {
+                return Err(
+                    "every count is zero, so there are no events to model a rate or trend from"
+                        .into(),
+                );
             }
         }
         Family::Binomial => {
@@ -283,8 +292,13 @@ fn irls(
         if !dev.is_finite() {
             return Err("the model did not converge (the fitted values diverged)".into());
         }
-        if (dev - dev_old).abs() / (dev.abs() + 0.1) < 1e-12 {
-            converged = true;
+        let change = (dev - dev_old).abs() / (dev.abs() + 0.1);
+        // Converged in R's sense (`glm.control(epsilon = 1e-8)`). Iterations
+        // continue to 1e-12 for extra precision; when the fit is nearly
+        // exact, rounding in the deviance can keep the change just above
+        // that, which is not a failure to converge.
+        converged = change < 1e-8;
+        if change < 1e-12 {
             l_final = Some(l);
             break;
         }
@@ -560,6 +574,20 @@ impl GlmFit {
         (est, est - crit * se, est + crit * se)
     }
 
+    /// True when a logistic model has fitted probabilities that are
+    /// numerically 0 or 1. This is the sign of complete or quasi-complete
+    /// separation: some predictor (or combination) predicts the outcome
+    /// perfectly, the maximum-likelihood estimate does not exist, and the
+    /// reported coefficients, standard errors, and Wald p-values are not
+    /// usable (R warns "fitted probabilities numerically 0 or 1 occurred").
+    pub fn has_separation(&self) -> bool {
+        self.family == Family::Binomial
+            && self
+                .fitted
+                .iter()
+                .any(|m| *m < SEPARATION_EPS || *m > 1.0 - SEPARATION_EPS)
+    }
+
     /// The coefficient with this name.
     pub fn coef(&self, name: &str) -> Option<&Coefficient> {
         self.coefficients.iter().find(|c| c.name == name)
@@ -600,6 +628,25 @@ mod tests {
     }
 
     #[test]
+    fn a_nearly_exact_fit_counts_as_converged() {
+        // Counts that follow a smooth trend almost exactly: the deviance is
+        // tiny, so its rounding error can keep the relative change above
+        // 1e-12 for all 100 iterations. That used to leave `converged` false.
+        let y: Vec<f64> = (0..8)
+            .map(|i| (5000.0 * (0.03 * f64::from(i)).exp()).round())
+            .collect();
+        let d = GlmData {
+            x: (0..8).map(|i| vec![1.0, f64::from(i)]).collect(),
+            y,
+            names: vec!["(Intercept)".into(), "t".into()],
+            ..GlmData::default()
+        };
+        let f = fit(&d, Family::Poisson, 0.95).unwrap();
+        assert!(f.converged, "{} iterations", f.iterations);
+        assert!((f.coefficients[1].estimate - 0.03).abs() < 1e-4);
+    }
+
+    #[test]
     fn collinear_predictors_are_reported() {
         let d = GlmData {
             y: vec![1.0, 2.0, 3.0, 4.0],
@@ -617,5 +664,61 @@ mod tests {
                 .unwrap_err()
                 .contains("collinear")
         );
+    }
+
+    /// One row per person: `exposed_ill` of 10 exposed and `unexposed_ill`
+    /// of 10 unexposed people are ill.
+    fn exposure_data(exposed_ill: usize, unexposed_ill: usize) -> GlmData {
+        let mut d = GlmData {
+            names: vec!["(Intercept)".into(), "exposed".into()],
+            ..GlmData::default()
+        };
+        for (exposed, ill) in [(1.0, exposed_ill), (0.0, unexposed_ill)] {
+            for i in 0..10 {
+                d.y.push(if i < ill { 1.0 } else { 0.0 });
+                d.x.push(vec![1.0, exposed]);
+            }
+        }
+        d.trials = Some(vec![1.0; d.y.len()]);
+        d
+    }
+
+    #[test]
+    fn separation_is_flagged() {
+        // Exposed 10/10 ill, unexposed 3/10: the exposure predicts illness
+        // perfectly among the exposed, so the slope runs off to infinity
+        // (about 30 when the iterations stop) with a Wald p-value near 1.
+        let f = fit(&exposure_data(10, 3), Family::Binomial, 0.95).unwrap();
+        assert!(f.has_separation());
+        let slope = f.coef("exposed").unwrap();
+        assert!(slope.estimate > 15.0 && slope.p_value > 0.9, "{slope:?}");
+        // Exposed 7/10, unexposed 3/10: an ordinary fit, odds ratio
+        // (7·7)/(3·3) = 5.44.
+        let f = fit(&exposure_data(7, 3), Family::Binomial, 0.95).unwrap();
+        assert!(!f.has_separation() && f.converged);
+        let slope = f.coef("exposed").unwrap();
+        assert!((slope.estimate.exp() - 49.0 / 9.0).abs() < 1e-6);
+        // Only logistic models can be separated.
+        let d = GlmData {
+            y: vec![1.0, 2.0, 4.0, 3.0],
+            x: (0..4).map(|i| vec![1.0, f64::from(i)]).collect(),
+            names: vec!["(Intercept)".into(), "t".into()],
+            ..GlmData::default()
+        };
+        assert!(!fit(&d, Family::Poisson, 0.95).unwrap().has_separation());
+    }
+
+    #[test]
+    fn all_zero_counts_are_rejected_with_a_plain_message() {
+        let d = GlmData {
+            y: vec![0.0; 5],
+            x: (0..5).map(|i| vec![1.0, f64::from(i)]).collect(),
+            names: vec!["(Intercept)".into(), "t".into()],
+            ..GlmData::default()
+        };
+        for family in [Family::Poisson, Family::NegativeBinomial] {
+            let e = fit(&d, family, 0.95).unwrap_err();
+            assert!(e.contains("every count is zero"), "{e}");
+        }
     }
 }

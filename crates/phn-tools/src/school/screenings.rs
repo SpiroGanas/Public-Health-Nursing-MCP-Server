@@ -192,6 +192,11 @@ fn parse_result(s: &str) -> Option<Recorded> {
         "completed",
         "measured",
         "done",
+        "negative",
+        "neg",
+        "no concerns",
+        "no findings",
+        "no referral needed",
     ]) {
         Some(Recorded::Pass)
     } else if has(&[
@@ -217,17 +222,20 @@ fn parse_result(s: &str) -> Option<Recorded> {
         "waived",
     ]) {
         Some(Recorded::Exempt)
-    } else if has(&[
-        "absent",
-        "refused",
-        "rescreen",
-        "retest",
-        "incomplete",
-        "unable",
-        "not done",
-        "could not test",
-        "no",
-    ]) {
+    } else if t == "no"
+        || has(&[
+            "absent",
+            "refused",
+            "rescreen",
+            "retest",
+            "incomplete",
+            "unable",
+            "not done",
+            "could not test",
+            "no show",
+        ])
+    {
+        // A bare "no" means not screened; "no ..." phrases are read above or left unknown.
         Some(Recorded::Incomplete)
     } else {
         None
@@ -412,7 +420,9 @@ pub(crate) fn roster_columns(headers: &[String]) -> Result<RosterCols> {
             ],
         ),
         sex: find_col(headers, &["sex", "gender", "sex at birth"]),
-        language: find_col_containing(
+        // Exact header names only: a column that merely contains "language" or "new"
+        // (speech-language services, renewal dates) must not be read as one of these.
+        language: find_col(
             headers,
             &[
                 "home language",
@@ -422,7 +432,7 @@ pub(crate) fn roster_columns(headers: &[String]) -> Result<RosterCols> {
                 "language",
             ],
         ),
-        new_student: find_col_containing(
+        new_student: find_col(
             headers,
             &["new student", "new entrant", "new to district", "new"],
         ),
@@ -563,6 +573,10 @@ fn truthy_or_date(s: &str) -> bool {
 }
 
 fn number(s: &str) -> Option<f64> {
+    // Feet-and-inches (4'10") and fractions (54 1/2) cannot be read as one number.
+    if s.contains(['\'', '"', '\u{2019}', '\u{2032}', '\u{2033}', '/']) {
+        return None;
+    }
     let t: String = s
         .chars()
         .filter(|c| c.is_ascii_digit() || *c == '.' || *c == '-')
@@ -608,13 +622,16 @@ fn evaluate_one(
         let w = number(cell(row, c.weight));
         let when = date.unwrap_or(as_of);
         let computed = match (h, w, dob, sex) {
-            (Some(h), Some(w), Some(d), Some(s)) => bmi::evaluate(
-                s,
-                bmi::age_months(d, when),
-                h,
-                w,
-                c.metric_height || c.metric_weight,
-            ),
+            (Some(h), Some(w), Some(d), Some(s)) => {
+                if c.metric_height || c.metric_weight {
+                    // Each column is converted by its own unit (cm or in, kg or lb).
+                    let h_cm = if c.metric_height { h } else { h * 2.54 };
+                    let w_kg = if c.metric_weight { w } else { w * 0.453_592_37 };
+                    bmi::evaluate(s, bmi::age_months(d, when), h_cm, w_kg, true)
+                } else {
+                    bmi::evaluate(s, bmi::age_months(d, when), h, w, false)
+                }
+            }
             _ => None,
         };
         e.bmi = computed;
@@ -875,6 +892,91 @@ fn pct(num: u64, den: u64) -> String {
     }
 }
 
+/// Column groups of a screening row that add up (the first column is the total of the
+/// others): required = screened + incomplete + exempt + due, and referred = completed +
+/// pending.
+const SCREENING_GROUPS: [&[usize]; 2] = [&[0, 1, 5, 6, 7], &[2, 3, 4]];
+
+/// Extra complementary suppression for tables whose columns are nested sums.
+///
+/// [`suppress`] treats a whole row as one sum, so a row can keep a single hidden cell inside
+/// a group whose other members are all shown, and the hidden value could be found by
+/// subtraction. This hides more cells (the smallest non-zero part first, then a zero part,
+/// then the group total) until every group in every row, and every column, has either no
+/// hidden cell or at least two. `groups` lists column indexes with the total first.
+/// Returns the number of cells it hid.
+pub(crate) fn protect_additive_groups(
+    cells: &[Vec<Option<u64>>],
+    hidden: &mut [Vec<bool>],
+    groups: &[&[usize]],
+    last_row_is_total: bool,
+) -> usize {
+    let nrows = cells.len().min(hidden.len());
+    let ncols = hidden.iter().map(Vec::len).min().unwrap_or(0);
+    let value = |r: usize, c: usize| cells[r].get(c).copied().flatten().unwrap_or(0);
+    let mut added = 0;
+    loop {
+        let mut changed = false;
+        for r in 0..nrows {
+            for g in groups {
+                if g.iter().any(|&c| c >= ncols) {
+                    continue;
+                }
+                if g.iter().filter(|&&c| hidden[r][c]).count() != 1 {
+                    continue;
+                }
+                let pick = g
+                    .iter()
+                    .copied()
+                    .filter(|&c| !hidden[r][c])
+                    .min_by_key(|&c| {
+                        let v = value(r, c);
+                        let class = if c == g[0] {
+                            2
+                        } else if v == 0 {
+                            1
+                        } else {
+                            0
+                        };
+                        (class, v, c)
+                    });
+                if let Some(c) = pick {
+                    hidden[r][c] = true;
+                    added += 1;
+                    changed = true;
+                }
+            }
+        }
+        if nrows > 1 {
+            for c in 0..ncols {
+                if (0..nrows).filter(|&r| hidden[r][c]).count() != 1 {
+                    continue;
+                }
+                let pick = (0..nrows).filter(|&r| !hidden[r][c]).min_by_key(|&r| {
+                    let v = value(r, c);
+                    let class = if last_row_is_total && r + 1 == nrows {
+                        2
+                    } else if v == 0 {
+                        1
+                    } else {
+                        0
+                    };
+                    (class, v, r)
+                });
+                if let Some(r) = pick {
+                    hidden[r][c] = true;
+                    added += 1;
+                    changed = true;
+                }
+            }
+        }
+        if !changed {
+            break;
+        }
+    }
+    added
+}
+
 fn grade_sort_key(g: &str) -> i32 {
     Grade::parse(g).map(Grade::ordinal).unwrap_or(100)
 }
@@ -913,16 +1015,25 @@ pub(crate) fn screening_rows(a: &RosterAnalysis, threshold: u32) -> (Vec<Screeni
                 ..SuppressionOptions::default()
             },
         );
-        any |= sup.primary + sup.complementary > 0;
+        let mut hidden: Vec<Vec<bool>> = matrix
+            .iter()
+            .enumerate()
+            .map(|(r, row)| (0..row.len()).map(|c| sup.is_hidden(r, c)).collect())
+            .collect();
+        // The columns are nested sums, so protect each sum as well as each row and column.
+        protect_additive_groups(&matrix, &mut hidden, &SCREENING_GROUPS, labels.len() > 1);
+        any |= hidden.iter().flatten().any(|h| *h);
         for (ri, t) in tallies.iter().enumerate() {
             let shown = |ci: usize| -> String {
-                if sup.is_hidden(ri, ci) {
+                if hidden[ri][ci] {
                     "*".into()
                 } else {
                     matrix[ri][ci].unwrap_or(0).to_string()
                 }
             };
-            let hidden = |ci: usize| sup.is_hidden(ri, ci);
+            // A rate is hidden when its numerator, its denominator, or the rest of its
+            // denominator (its complement) is hidden.
+            let any_hidden = |cols: &[usize]| cols.iter().any(|&c| hidden[ri][c]);
             let den_completion = t.required - t.exempt;
             out.push(ScreeningRow {
                 screening: sc.name.clone(),
@@ -935,17 +1046,17 @@ pub(crate) fn screening_rows(a: &RosterAnalysis, threshold: u32) -> (Vec<Screeni
                 incomplete: shown(5),
                 exempt: shown(6),
                 due: shown(7),
-                completion_pct: if hidden(1) || hidden(0) || hidden(6) {
+                completion_pct: if any_hidden(&[0, 1, 5, 6, 7]) {
                     "*".into()
                 } else {
                     pct(t.screened(), den_completion)
                 },
-                referral_pct: if hidden(2) || hidden(1) {
+                referral_pct: if any_hidden(&[1, 2]) {
                     "*".into()
                 } else {
                     pct(t.referred(), t.screened())
                 },
-                follow_up_pct: if hidden(3) || hidden(2) {
+                follow_up_pct: if any_hidden(&[2, 3, 4]) {
                     "*".into()
                 } else {
                     pct(t.referral_completed, t.referred())
@@ -1122,6 +1233,25 @@ Thank you,
 {{nurse_phone}}
 ";
 
+/// The language label that may appear in a result or a file name: "English", a language
+/// the server recognizes ("Spanish"), or "Other". Text from a language cell that is not a
+/// recognized language is never returned.
+pub(crate) fn result_language_label(raw: &str) -> String {
+    if templates::is_english(raw) {
+        return "English".into();
+    }
+    // `language_label` gives a fixed name for a language it knows and the cell text itself
+    // otherwise. A fixed name is never all capitals, so an upper-cased value that comes back
+    // unchanged was not recognized.
+    let upper = raw.trim().to_uppercase();
+    let label = templates::language_label(&upper);
+    if label == upper {
+        "Other".into()
+    } else {
+        label
+    }
+}
+
 fn student_name(a: &RosterAnalysis, row: &[String]) -> String {
     if let Some(i) = a.cols.student_name {
         return cell(row, Some(i)).to_string();
@@ -1209,15 +1339,19 @@ fn write_letters(
             let (filled, unk) = templates::fill(&chosen.markdown, &v, "________");
             unknown.extend(unk);
             let doc = templates::document(ctx, &filled, &chosen.tag, &sc.name);
+            // Group and count by a label that never carries cell text (unrecognized
+            // language values are "Other").
+            let label = result_language_label(&st.language);
+            *by_lang
+                .entry((label.clone(), chosen.translated))
+                .or_default() += 1;
             let g = groups
-                .entry(chosen.language.clone())
+                .entry(label)
                 .or_insert_with(|| (chosen.tag.clone(), chosen.translated, Vec::new()));
             g.2.push(doc);
             total += 1;
         }
-        for (lang, (tag, translated, docs)) in groups {
-            let n = docs.len();
-            *by_lang.entry((lang.clone(), translated)).or_default() += n;
+        for (lang, (tag, _translated, docs)) in groups {
             let combined = templates::combine(&format!("{} letters", sc.name), &tag, docs, ctx);
             let bytes = format.render(&combined)?;
             let file = format!(
@@ -1780,5 +1914,109 @@ mod tests {
         )
         .unwrap_err();
         assert!(err.to_string().contains("97(c)"));
+    }
+
+    #[test]
+    fn nested_sums_cannot_be_undone_by_subtraction() {
+        // Grade 5 vision: required 100, screened 96, referred 10, completed 8, pending 2,
+        // incomplete 0, exempt 0, due 4 (one grade, so the total row is the same).
+        let row: Vec<Option<u64>> = [100u64, 96, 10, 8, 2, 0, 0, 4]
+            .into_iter()
+            .map(Some)
+            .collect();
+        let matrix = vec![row.clone(), row];
+        let sup = suppress(
+            &matrix,
+            &SuppressionOptions {
+                threshold: 5,
+                last_row_is_total: true,
+                ..SuppressionOptions::default()
+            },
+        );
+        let mut hidden: Vec<Vec<bool>> = matrix
+            .iter()
+            .enumerate()
+            .map(|(r, row)| (0..row.len()).map(|c| sup.is_hidden(r, c)).collect())
+            .collect();
+        // Before the fix only pending and due were hidden: 10 - 8 and 100 - 96 gave them away.
+        assert!(hidden[0][4] && hidden[0][7]);
+        let added = protect_additive_groups(&matrix, &mut hidden, &SCREENING_GROUPS, true);
+        assert!(added > 0);
+        for h in &hidden {
+            for g in SCREENING_GROUPS {
+                assert_ne!(g.iter().filter(|&&c| h[c]).count(), 1, "{h:?}");
+            }
+            // Completed referrals and screened are hidden with pending and due.
+            assert!(h[3] && h[1]);
+        }
+        assert!((0..8).all(|c| hidden.iter().filter(|h| h[c]).count() != 1));
+    }
+
+    #[test]
+    fn results_and_measurements_are_read_carefully() {
+        assert_eq!(parse_result("Negative"), Some(Recorded::Pass));
+        assert_eq!(parse_result("No concerns"), Some(Recorded::Pass));
+        assert_eq!(parse_result("no"), Some(Recorded::Incomplete));
+        assert_eq!(parse_result("No show"), Some(Recorded::Incomplete));
+        assert_eq!(parse_result("positive"), Some(Recorded::Refer));
+        assert_eq!(parse_result("no idea"), None);
+        assert_eq!(number("4'10\""), None);
+        assert_eq!(number("54 1/2"), None);
+        assert_eq!(number("54.5 in"), Some(54.5));
+    }
+
+    #[test]
+    fn height_and_weight_units_are_converted_separately() {
+        // 137.16 cm and 70 lb: BMI 16.9 (healthy weight), not 70 kg (BMI 37).
+        let body = "Name,Grade,Date of Birth,Sex,Height (cm),Weight (lb)\n\
+Juno Wexley,4,2017-01-01,M,137.16,70\n";
+        let (_d, c) = ctx_with("m.csv", body);
+        let a = analyze(
+            &c,
+            "m.csv",
+            None,
+            NaiveDate::from_ymd_opt(2026, 11, 1).unwrap(),
+            None,
+        )
+        .unwrap();
+        let b = &a.students[0].results[0];
+        assert!((b.bmi.unwrap().bmi - 16.88).abs() < 0.02);
+        assert_eq!(b.bmi_category, Some(BmiCategory::HealthyWeight));
+    }
+
+    #[test]
+    fn language_cell_text_is_never_returned() {
+        assert_eq!(result_language_label("Spanish"), "Spanish");
+        assert_eq!(result_language_label("es"), "Spanish");
+        assert_eq!(result_language_label(" "), "English");
+        assert_eq!(
+            result_language_label("Yes - IEP, mom prefers calls"),
+            "Other"
+        );
+        // A column that only contains the word is not the language column.
+        let headers: Vec<String> = ["Grade", "Speech/Language Services", "Renewal Date"]
+            .map(String::from)
+            .to_vec();
+        let cols = roster_columns(&headers).unwrap();
+        assert!(cols.language.is_none() && cols.new_student.is_none());
+        // An unrecognized value in a real language column is reported as "Other".
+        let body = ROSTER.replace(",F,Spanish,", ",F,Tlhingan (ask for aunt Morwenna),");
+        let (_d, c) = ctx_with("r.csv", &body);
+        let e = track_school_screenings(
+            &c,
+            TrackScreeningsArgs {
+                path: "r.csv".into(),
+                as_of: Some("2026-11-01".into()),
+                write_letters: Some(true),
+                screenings: Some(vec!["vision".into()]),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let all = serde_json::to_string(&e).unwrap();
+        assert!(!all.contains("Morwenna") && !all.contains("Tlhingan"));
+        let l = e.data.letters.unwrap();
+        assert!(l.by_language.iter().any(|x| x.language == "Other"));
+        assert!(l.files.iter().any(|f| f.contains("vision_referral_other")));
     }
 }

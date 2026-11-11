@@ -126,7 +126,9 @@ pub struct DeidResult {
     pub rare_combinations: Option<RareCombinations>,
 }
 
-fn zip3(raw: &str) -> Option<String> {
+/// First three ZIP digits under the Safe Harbor rule: "000" for the
+/// low-population prefixes; a leading zero dropped by a spreadsheet is restored.
+pub fn zip3(raw: &str) -> Option<String> {
     let digits: String = raw.chars().take_while(|c| c.is_ascii_digit()).collect();
     let five = match digits.len() {
         5 => digits,
@@ -143,7 +145,8 @@ fn zip3(raw: &str) -> Option<String> {
     })
 }
 
-fn age_on(dob: NaiveDate, at: NaiveDate) -> i32 {
+/// Age in whole years on a date.
+pub fn age_on(dob: NaiveDate, at: NaiveDate) -> i32 {
     let mut age = at.year() - dob.year();
     if (at.month(), at.day()) < (dob.month(), dob.day()) {
         age -= 1;
@@ -245,7 +248,13 @@ pub fn deidentify(table: &Table, findings: &[ColumnFinding], opts: &DeidOptions)
                             return v.to_string();
                         }
                         let r = phi::redact_text(v, RedactionLevel::Strict);
-                        let high = r.redacted.keys().any(|k| k.is_direct());
+                        // Safe Harbor also removes dates and ZIP codes found
+                        // inside text; a limited data set may keep them.
+                        let high = if lds {
+                            r.redacted.keys().any(|k| k.is_direct())
+                        } else {
+                            !r.redacted.is_empty()
+                        };
                         if high {
                             changed += 1;
                             r.text
@@ -289,6 +298,8 @@ pub fn deidentify(table: &Table, findings: &[ColumnFinding], opts: &DeidOptions)
                                     changed += 1;
                                     d.year().to_string()
                                 }
+                                // A bare year is already year-only.
+                                None if phi::plain_year(v).is_some() => v.trim().to_string(),
                                 None => {
                                     unparsed += 1;
                                     String::new()
@@ -372,10 +383,12 @@ pub fn deidentify(table: &Table, findings: &[ColumnFinding], opts: &DeidOptions)
             }
             Some(Identifier::Age) => {
                 let mut top = 0;
+                // "Over 89" is about years; ages in months, weeks, or days are kept.
+                let years = phi::age_header_is_years(header);
                 let values = col
                     .iter()
                     .map(|v| match v.trim().parse::<f64>() {
-                        Ok(a) if a > 89.0 && !lds => {
+                        Ok(a) if a > 89.0 && !lds && years => {
                             top += 1;
                             "90+".into()
                         }
@@ -436,7 +449,25 @@ pub fn deidentify(table: &Table, findings: &[ColumnFinding], opts: &DeidOptions)
                 }
             }
             Some(Identifier::Geography) => {
-                if lds {
+                // Coordinates and geocodes locate a home as precisely as a
+                // street address, which a limited data set may not keep.
+                let coordinates = phn_core::text::normalize(header).split(' ').any(|t| {
+                    matches!(
+                        t,
+                        "latitude"
+                            | "longitude"
+                            | "lat"
+                            | "lon"
+                            | "lng"
+                            | "geocode"
+                            | "coordinates"
+                            | "xy"
+                    )
+                });
+                if lds && coordinates {
+                    report.action = ColumnAction::Dropped;
+                    report.detail = "dropped: coordinates locate an address, which a limited data set may not keep".into();
+                } else if lds {
                     report.detail = "kept (limited data set)".into();
                     let idx = push(
                         &mut out_headers,
@@ -678,6 +709,43 @@ mod tests {
         let r = deidentify(&t, &f, &o);
         assert!(!r.safe_harbor_compliant);
         assert!(r.table.headers.contains(&"Town".to_string()));
+    }
+
+    #[test]
+    fn dates_in_text_coordinates_and_ages_in_months() {
+        let t = Table {
+            name: "t".into(),
+            headers: ["Dx", "Latitude", "Age (months)", "Visit date"]
+                .map(String::from)
+                .to_vec(),
+            rows: [
+                ["Pertussis, onset 3/7/2024", "42.3732", "96", "2024"],
+                ["Pertussis", "42.3601", "14", "20240311"],
+            ]
+            .iter()
+            .map(|r| r.iter().map(|s| s.to_string()).collect())
+            .collect(),
+            truncated: false,
+        };
+        let f = phi::scan_table(&t);
+        let r = deidentify(&t, &f, &opts(DeidMode::SafeHarbor));
+        // The date inside the text cell is removed; the months column is not top-coded;
+        // a bare year stays and a compact date is reduced to its year.
+        assert!(
+            !r.table.rows[0][0].contains("3/7/2024"),
+            "{:?}",
+            r.table.rows[0]
+        );
+        assert_eq!(
+            r.table.headers,
+            vec!["Dx", "Age (months)", "Visit date (year)"]
+        );
+        assert_eq!(r.table.rows[0][1], "96");
+        assert_eq!(r.table.rows[0][2], "2024");
+        assert_eq!(r.table.rows[1][2], "2024");
+        // A limited data set keeps towns but not coordinates.
+        let lds = deidentify(&t, &f, &opts(DeidMode::LimitedDataSet));
+        assert!(!lds.table.headers.contains(&"Latitude".to_string()));
     }
 
     #[test]

@@ -8855,6 +8855,56 @@
    "kind": "email",
    "file": "data/exercise_feedback.csv",
    "column": "Email"
+  },
+  {
+   "value": "Wexford",
+   "kind": "name",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "Alaric Wexford",
+   "kind": "name",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "Lenora Wexford",
+   "kind": "name",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "09/23/1949",
+   "kind": "birth_date",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "02/11/1953",
+   "kind": "birth_date",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "00778421",
+   "kind": "medical_record_number",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "927-41-0158",
+   "kind": "ssn",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "927-41-0163",
+   "kind": "ssn",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "413-555-0142",
+   "kind": "phone",
+   "file": "data/client_letter.html"
+  },
+  {
+   "value": "413-555-0143",
+   "kind": "phone",
+   "file": "data/client_letter.html"
   }
  ]
 }

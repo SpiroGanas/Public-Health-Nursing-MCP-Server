@@ -141,6 +141,21 @@ fn truncate(s: &str, n: usize) -> String {
     }
 }
 
+/// True when an alert is a real ("Actual"), not cancelled, alert that has not
+/// ended: its `ends` time (or `expires` when there is no `ends`) is not before
+/// `now`. An alert with no readable end time is kept.
+pub(crate) fn alert_is_current(a: &NwsAlert, now: chrono::DateTime<chrono::Utc>) -> bool {
+    if a.message_type.eq_ignore_ascii_case("cancel") || !a.status.eq_ignore_ascii_case("actual") {
+        return false;
+    }
+    let end = a
+        .ends
+        .as_deref()
+        .or(a.expires.as_deref())
+        .and_then(|t| chrono::DateTime::parse_from_rfc3339(t.trim()).ok());
+    end.is_none_or(|e| e.with_timezone(&chrono::Utc) >= now)
+}
+
 /// Group declaration rows for the area into one entry per declaration,
 /// newest first. County areas include statewide designations.
 pub fn declarations_for(rows: &[Declaration], area: &Area) -> Vec<DeclarationOut> {
@@ -351,10 +366,16 @@ pub async fn get_active_hazard_alerts(
                 retrieved: Some(f.as_of.chars().take(19).collect()),
                 mode: f.mode,
             });
+            let now = chrono::Utc::now();
+            let mut ended = 0usize;
             for a in feed.alerts {
                 if a.message_type.eq_ignore_ascii_case("cancel")
                     || !a.status.eq_ignore_ascii_case("actual")
                 {
+                    continue;
+                }
+                if !alert_is_current(&a, now) {
+                    ended += 1;
                     continue;
                 }
                 if !include_marine && a.is_marine_only() {
@@ -374,14 +395,20 @@ pub async fn get_active_hazard_alerts(
                 }
                 alerts.push(alert_out(ctx, &h, &a));
             }
+            if ended > 0 {
+                caveats.push(format!(
+                    "{ended} alert(s) in the NWS feed had already ended and are not shown."
+                ));
+            }
         }
         Err(e) => {
             caveats.insert(
                 0,
                 format!(
-                    "CURRENT NWS ALERTS COULD NOT BE RETRIEVED ({}). This answer does not show \
-                     active watches or warnings; check weather.gov (NWS Boston/Norton, and NWS \
-                     Albany for Berkshire County) or NOAA Weather Radio.",
+                    "CURRENT NWS ALERTS COULD NOT BE RETRIEVED ({}). NWS alerts could not be \
+                     checked — see weather.gov (NWS Boston/Norton, and NWS Albany for Berkshire \
+                     County) or NOAA Weather Radio. This answer does not show active watches or \
+                     warnings.",
                     phn_data::apifetch::reason(&e)
                 ),
             );
@@ -539,8 +566,8 @@ pub async fn get_active_hazard_alerts(
     let mut s = format!("**Hazard alerts — {}**\n\n", area.name);
     match alerts_status.as_str() {
         "unavailable" => s.push_str(
-            "⚠️ Live NWS alerts could not be retrieved, so active watches and warnings are NOT \
-             shown. Check weather.gov.\n\n",
+            "⚠️ NWS alerts could not be checked — see weather.gov. Active watches and warnings \
+             are NOT shown.\n\n",
         ),
         _ => {
             if alerts.is_empty() {
@@ -795,7 +822,13 @@ mod tests {
         let d = &env.data;
         assert_eq!(d.alerts_status, "unavailable");
         assert!(env.caveats[0].contains("COULD NOT BE RETRIEVED"));
+        assert!(env.caveats[0].contains("could not be checked"));
         assert!(env.summary.contains("NOT"));
+        assert!(
+            env.summary
+                .contains("NWS alerts could not be checked — see weather.gov")
+        );
+        assert!(!env.summary.contains("No active NWS"));
         // Requested hazard plus its secondary hazards.
         let ids: Vec<&str> = d.hazards.iter().map(|g| g.id.as_str()).collect();
         assert_eq!(
@@ -817,6 +850,36 @@ mod tests {
         );
         assert!(env.notice.is_some());
         assert!(env.sources.iter().any(|s| s.mode == SourceMode::Snapshot));
+    }
+
+    #[test]
+    fn ended_cancelled_and_test_alerts_are_not_current() {
+        let body = serde_json::json!({"features": [
+            {"properties": {"id": "a", "event": "Heat Advisory", "status": "Actual",
+                "messageType": "Alert", "ends": "2026-07-15T20:00:00-04:00",
+                "expires": "2026-07-15T12:00:00-04:00"}},
+            {"properties": {"id": "b", "event": "Heat Advisory", "status": "Actual",
+                "messageType": "Alert", "expires": "2026-07-14T20:00:00-04:00"}},
+            {"properties": {"id": "c", "event": "Heat Advisory", "status": "Test",
+                "messageType": "Alert", "ends": "2026-07-16T20:00:00-04:00"}},
+            {"properties": {"id": "d", "event": "Heat Advisory", "status": "Actual",
+                "messageType": "Cancel", "ends": "2026-07-16T20:00:00-04:00"}},
+            {"properties": {"id": "e", "event": "Heat Advisory", "status": "Actual",
+                "messageType": "Update"}}
+        ]});
+        let feed = nws::parse_alerts(body.to_string().as_bytes()).unwrap();
+        let now = chrono::DateTime::parse_from_rfc3339("2026-07-15T18:00:00-04:00")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+        let current: Vec<&str> = feed
+            .alerts
+            .iter()
+            .filter(|a| alert_is_current(a, now))
+            .map(|a| a.id.as_str())
+            .collect();
+        // "a" ends later today; "b" expired yesterday; "c" is a test message;
+        // "d" is a cancellation; "e" has no end time and is kept.
+        assert_eq!(current, vec!["a", "e"]);
     }
 
     #[test]

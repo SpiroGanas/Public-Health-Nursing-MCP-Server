@@ -85,6 +85,61 @@ fn parse_count(s: &str) -> std::result::Result<Option<u64>, String> {
     }
 }
 
+/// Header words of columns that label rows even when their values are numbers.
+fn is_label_header(h: &str) -> bool {
+    phn_core::text::normalize(h).split(' ').any(|t| {
+        matches!(
+            t,
+            "grade"
+                | "age"
+                | "year"
+                | "yr"
+                | "week"
+                | "wk"
+                | "mmwr"
+                | "month"
+                | "quarter"
+                | "period"
+                | "day"
+                | "date"
+                | "zip"
+                | "zipcode"
+                | "fips"
+                | "code"
+                | "id"
+                | "cluster"
+                | "group"
+                | "level"
+                | "class"
+                | "district"
+                | "region"
+                | "tract"
+        )
+    })
+}
+
+/// True when, for every row with all values present, the columns `from` up to
+/// the last one sum to the last column.
+fn row_sums_match(table: &Table, from: usize, ncols: usize) -> bool {
+    let mut checked = 0;
+    for row in &table.rows {
+        let vals: Option<Vec<u64>> = (from..ncols)
+            .map(|c| {
+                parse_count(row.get(c).map(String::as_str).unwrap_or(""))
+                    .ok()
+                    .flatten()
+            })
+            .collect();
+        let Some(vals) = vals else { continue };
+        let (total, parts) = vals.split_last().expect("at least two columns");
+        if parts.iter().sum::<u64>() != *total {
+            return false;
+        }
+        checked += 1;
+    }
+    checked > 0
+}
+
 fn is_total(s: &str) -> bool {
     let n = s.trim().to_ascii_lowercase();
     n == "total" || n == "totals" || n.starts_with("total ") || n == "all" || n.ends_with(" total")
@@ -125,10 +180,11 @@ pub fn apply_small_cell_suppression(
     if table.rows.len() > 5_000 {
         return Err(PhnError::InvalidInput("this looks like record-level data (over 5,000 rows); summarize it first with profile_local_dataset".into()));
     }
-    // Guard: refuse record-level data.
+    // Guard: refuse record-level data. Free-text columns are refused too:
+    // label columns are returned as they are, and notes are not labels.
     let direct: Vec<String> = phi::scan_table(&table)
         .into_iter()
-        .filter(|f| f.kind.is_direct() && f.kind != phi::Identifier::FreeText)
+        .filter(|f| f.kind.is_direct())
         .map(|f| format!("{} ({})", f.column, f.kind.label()))
         .collect();
     if !direct.is_empty() {
@@ -142,9 +198,30 @@ pub fn apply_small_cell_suppression(
     let ncols = table.headers.len();
     let label_cols = args.label_columns.unwrap_or_else(|| {
         // Leading columns where any cell is non-numeric are labels.
-        (0..ncols)
+        let mut k = (0..ncols)
             .take_while(|&c| table.column(c).any(|v| parse_count(v).is_err()))
-            .count()
+            .count();
+        // Numeric label columns ("Grade", "Age", "Week", "ZIP") are labels too:
+        // treating them as counts would hide a label instead of a second count
+        // and let a suppressed count be worked out from the row total.
+        // At most one such column, and not when the next column is named the
+        // same way ("Week 1", "Week 2", … are counts by week).
+        if k + 1 < ncols
+            && is_label_header(&table.headers[k])
+            && !is_label_header(&table.headers[k + 1])
+        {
+            k += 1;
+        }
+        // With a total column, a leading numeric column that is not part of
+        // the row sum is a label.
+        if k + 2 < ncols
+            && table.headers.last().is_some_and(|h| is_total(h))
+            && !row_sums_match(&table, k, ncols)
+            && row_sums_match(&table, k + 1, ncols)
+        {
+            k += 1;
+        }
+        k
     });
     if label_cols >= ncols {
         return Err(PhnError::InvalidInput(
@@ -159,17 +236,29 @@ pub fn apply_small_cell_suppression(
             let v = row.get(c).map(String::as_str).unwrap_or("");
             match parse_count(v) {
                 Ok(n) => out.push(n),
-                Err(s) => {
-                    bad.push(format!(
-                        "row {} column '{}': '{s}'",
-                        r + 1,
-                        table.headers[c]
-                    ));
+                // The cell text is not quoted: it may be a value from the file.
+                Err(_) => {
+                    bad.push(format!("row {} column '{}'", r + 1, table.headers[c]));
                     out.push(None);
                 }
             }
         }
         cells.push(out);
+    }
+    // Labels are returned as they are, so they must be short category names
+    // without identifiers (a name or phone number in a label column would be
+    // returned otherwise).
+    let suspicious_label = table.rows.iter().any(|row| {
+        row.iter()
+            .take(label_cols)
+            .any(|v| v.chars().count() > 80 || phi::scan_text(v).iter().any(|f| f.kind.is_direct()))
+    });
+    if suspicious_label {
+        return Err(PhnError::Privacy(
+            "label cells look like free text or contain possible identifiers (names, phone \
+             numbers, addresses); suppression applies to tables of counts by category"
+                .into(),
+        ));
     }
     if !bad.is_empty() {
         return Err(PhnError::InvalidInput(format!(
@@ -300,4 +389,109 @@ pub fn apply_small_cell_suppression(
     .sources(sources)
     .caveats(caveats)
     .privacy(privacy))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn ctx() -> (tempfile::TempDir, Context) {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        (dir, ctx)
+    }
+
+    fn inline(columns: &[&str], rows: &[&[&str]]) -> SuppressionArgs {
+        SuppressionArgs {
+            table: Some(InlineTable {
+                columns: columns.iter().map(|c| c.to_string()).collect(),
+                rows: rows
+                    .iter()
+                    .map(|r| r.iter().map(|v| serde_json::Value::from(*v)).collect())
+                    .collect(),
+            }),
+            threshold: Some(5),
+            ..SuppressionArgs::default()
+        }
+    }
+
+    #[test]
+    fn numeric_label_columns_are_not_counts() {
+        let (_d, ctx) = ctx();
+        // A grade column must not count as one of the two hidden cells in a row.
+        let env = apply_small_cell_suppression(
+            &ctx,
+            inline(
+                &["Grade", "Vaccinated", "Exempt", "Total"],
+                &[&["3", "45", "2", "47"], &["4", "50", "9", "59"]],
+            ),
+        )
+        .unwrap();
+        let rows = &env.data.rows;
+        assert_eq!(rows[0][0], "3");
+        assert_eq!(rows[0][2], "*");
+        // The row total cannot reveal the hidden count: a second cell is hidden.
+        assert_eq!(rows[0].iter().filter(|c| *c == "*").count(), 2, "{rows:?}");
+
+        // Same without a label word, found from the row total.
+        let env = apply_small_cell_suppression(
+            &ctx,
+            inline(
+                &["Cohort", "Vaccinated", "Exempt", "Total"],
+                &[&["3", "45", "2", "47"], &["4", "50", "9", "59"]],
+            ),
+        )
+        .unwrap();
+        assert_eq!(env.data.rows[0][0], "3");
+        assert_eq!(env.data.rows[0].iter().filter(|c| *c == "*").count(), 2);
+    }
+
+    #[test]
+    fn notes_and_identifiers_in_labels_are_refused_without_echoing_values() {
+        let (_d, ctx) = ctx();
+        let e = apply_small_cell_suppression(
+            &ctx,
+            inline(
+                &["Town", "Notes", "Cases"],
+                &[
+                    &[
+                        "Amherst",
+                        "Spoke with daughter Carmen about the exposure at school today",
+                        "3",
+                    ],
+                    &[
+                        "Hadley",
+                        "Household contacts were identified and notified by phone call",
+                        "8",
+                    ],
+                    &[
+                        "Pelham",
+                        "Mother reports two siblings with the same cough since Monday",
+                        "6",
+                    ],
+                ],
+            ),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(!e.contains("Carmen"), "{e}");
+        let e = apply_small_cell_suppression(
+            &ctx,
+            inline(
+                &["Contact", "Cases"],
+                &[&["call 413-555-0101", "3"], &["Amherst", "8"]],
+            ),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(!e.contains("555-0101"), "{e}");
+        let e = apply_small_cell_suppression(
+            &ctx,
+            inline(&["Town", "Cases"], &[&["Amherst", "3.5"], &["Hadley", "8"]]),
+        )
+        .unwrap_err()
+        .to_string();
+        assert!(!e.contains("3.5"), "{e}");
+    }
 }

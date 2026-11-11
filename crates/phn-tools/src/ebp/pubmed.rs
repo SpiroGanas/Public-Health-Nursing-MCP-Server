@@ -138,13 +138,16 @@ fn quote(term: &str) -> String {
     format!("\"{}\"", term.trim().replace('"', ""))
 }
 
-/// The OR-clause for one concept.
+/// The OR-clause for one concept (empty when the concept has no terms).
 pub fn concept_clause(mesh: &[String], free_text: &[String]) -> String {
     let mut parts: Vec<String> = mesh
         .iter()
         .map(|m| format!("{}[MeSH Terms]", quote(m)))
         .collect();
     parts.extend(free_text.iter().map(|t| format!("{}[tiab]", quote(t))));
+    if parts.is_empty() {
+        return String::new();
+    }
     format!("({})", parts.join(" OR "))
 }
 
@@ -320,7 +323,14 @@ pub async fn search_pubmed(
                 mesh_rejected.join(", ")
             ));
         }
-        clauses.push(clause.clone());
+        if clause.is_empty() {
+            // Every MeSH heading was rejected and no phrase or synonym was given.
+            warnings.push(format!(
+                "{name}: no usable search terms were left, so this element is not in the query"
+            ));
+        } else {
+            clauses.push(clause.clone());
+        }
         concepts.push(ConceptReport {
             element: name.to_string(),
             mesh_used,
@@ -331,6 +341,13 @@ pub async fn search_pubmed(
     }
     if let Some(q) = raw {
         clauses.push(format!("({q})"));
+    }
+    if clauses.is_empty() {
+        return Err(PhnError::InvalidInput(format!(
+            "no search terms are left: {}. Give a phrase or synonyms for at least one PICO \
+             element, or a query",
+            warnings.join("; ")
+        )));
     }
     let filters = args.filters.clone().unwrap_or_default();
     let languages = args.languages.clone().unwrap_or_default();
@@ -471,6 +488,8 @@ mod tests {
             c,
             "(\"Whooping Cough\"[MeSH Terms] OR \"pertussis\"[tiab] OR \"vaccin*\"[tiab])"
         );
+        // A concept with no terms (every MeSH heading rejected) gives no clause, not "()".
+        assert_eq!(concept_clause(&[], &[]), "");
         let f = filter_clauses(
             &[PubmedFilter::SystematicReview, PubmedFilter::Guideline],
             &["English".into()],

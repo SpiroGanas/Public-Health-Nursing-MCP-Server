@@ -124,6 +124,25 @@ pub struct Settings {
     pub vaccine_recommendation_basis: Option<VaccineRecommendationBasis>,
 }
 
+impl Settings {
+    /// Problems with values in the settings file that the server corrects by
+    /// falling back to a default. Shown on stderr at startup and by `check`.
+    pub fn warnings(&self) -> Vec<String> {
+        let mut out = Vec::new();
+        if let Some(t) = self.suppression_threshold
+            && validate_threshold(t).is_err()
+        {
+            out.push(format!(
+                "the settings file has suppression_threshold = {t}, which is outside \
+                 {MIN_SUPPRESSION_THRESHOLD}-{MAX_SUPPRESSION_THRESHOLD}; it is ignored and the \
+                 default of {DEFAULT_SUPPRESSION_THRESHOLD} is used unless \
+                 PHN_SUPPRESSION_THRESHOLD is set"
+            ));
+        }
+        out
+    }
+}
+
 /// Order of precedence used to pick the "basis" recommendation when federal
 /// (CDC/ACIP) vaccine guidance differs from Massachusetts DPH and the
 /// professional societies (AAP, ACOG, AAFP).
@@ -256,7 +275,10 @@ impl Config {
             .map(PathBuf::from)
             .unwrap_or_else(|| paths.cache_dir.join("phn-settings.toml"));
 
-        let offline = get("PHN_OFFLINE").is_some_and(|v| parse_bool(&v));
+        let offline = get("PHN_OFFLINE")
+            .map(|v| parse_bool("PHN_OFFLINE", &v))
+            .transpose()?
+            .unwrap_or(false);
         let ca_bundle = get("PHN_CA_BUNDLE").map(PathBuf::from);
         let http_timeout = match get("PHN_HTTP_TIMEOUT_SECS") {
             Some(v) => Duration::from_secs(v.parse::<u64>().map_err(|_| {
@@ -271,7 +293,18 @@ impl Config {
             .map(|p| p.parse::<Profile>().map_err(PhnError::Config))
             .transpose()?;
         let env_toolsets = get("PHN_TOOLSETS")
-            .map(|t| toolsets::parse_toolset_list(&t).map_err(PhnError::Config))
+            .map(|t| -> Result<BTreeSet<Toolset>> {
+                let set = toolsets::parse_toolset_list(&t).map_err(PhnError::Config)?;
+                // A list with no names (for example ",") would otherwise count as a
+                // pin while enabling every toolset.
+                if set.is_empty() {
+                    return Err(PhnError::Config(format!(
+                        "PHN_TOOLSETS names no toolsets, got '{t}'. List toolsets separated by \
+                         commas (for example cd,epi), use 'all', or remove the variable."
+                    )));
+                }
+                Ok(set)
+            })
             .transpose()?;
         let env_suppression_threshold = get("PHN_SUPPRESSION_THRESHOLD")
             .map(|v| {
@@ -345,9 +378,15 @@ impl Config {
     }
 
     /// The suppression threshold in force.
+    ///
+    /// A value in the settings file outside the accepted range (for example
+    /// after a hand edit) is ignored, so the file cannot switch suppression
+    /// off; [`Settings::warnings`] reports it.
     pub fn suppression_threshold(&self, settings: &Settings) -> u32 {
         self.env_suppression_threshold
-            .or(settings.suppression_threshold)
+            .or(settings
+                .suppression_threshold
+                .filter(|t| validate_threshold(*t).is_ok()))
             .unwrap_or(DEFAULT_SUPPRESSION_THRESHOLD)
     }
 
@@ -391,8 +430,16 @@ pub fn validate_threshold(t: u32) -> Result<u32> {
     }
 }
 
-fn parse_bool(v: &str) -> bool {
-    matches!(v.to_ascii_lowercase().as_str(), "1" | "true" | "yes" | "on")
+/// Parse an on/off environment variable. Anything unrecognized is an error, so
+/// a typo cannot silently leave a switch such as `PHN_OFFLINE` off.
+fn parse_bool(name: &str, v: &str) -> Result<bool> {
+    match v.to_ascii_lowercase().as_str() {
+        "1" | "true" | "yes" | "on" => Ok(true),
+        "0" | "false" | "no" | "off" => Ok(false),
+        _ => Err(PhnError::Config(format!(
+            "{name} must be 1, true, yes, or on (or 0, false, no, or off), got '{v}'"
+        ))),
+    }
 }
 
 #[cfg(test)]
@@ -445,6 +492,59 @@ mod tests {
         assert!(Config::from_lookup(lookup(&[("PHN_PROFILE", "wizard")])).is_err());
         assert!(Config::from_lookup(lookup(&[("PHN_SUPPRESSION_THRESHOLD", "1")])).is_err());
         assert!(Config::from_lookup(lookup(&[("PHN_TOOLSETS", "cd,nope")])).is_err());
+    }
+
+    #[test]
+    fn rejects_unrecognized_offline_values_and_empty_toolset_lists() {
+        // A typo must not silently leave offline mode off.
+        for bad in ["y", "enabled", "offline"] {
+            assert!(
+                Config::from_lookup(lookup(&[("PHN_OFFLINE", bad)])).is_err(),
+                "PHN_OFFLINE={bad} should be rejected"
+            );
+        }
+        for (v, expect) in [("1", true), ("TRUE", true), ("on", true), ("0", false)] {
+            let c = Config::from_lookup(lookup(&[("PHN_OFFLINE", v)])).unwrap();
+            assert_eq!(c.offline, expect, "PHN_OFFLINE={v}");
+        }
+        assert!(
+            !Config::from_lookup(lookup(&[("PHN_OFFLINE", "off")]))
+                .unwrap()
+                .offline
+        );
+        // An unset or blank variable still means "not offline".
+        assert!(
+            !Config::from_lookup(lookup(&[("PHN_OFFLINE", " ")]))
+                .unwrap()
+                .offline
+        );
+        // A list with no names is not a pin on every toolset.
+        assert!(Config::from_lookup(lookup(&[("PHN_TOOLSETS", ",")])).is_err());
+        assert!(Config::from_lookup(lookup(&[("PHN_TOOLSETS", " , ,")])).is_err());
+        let c = Config::from_lookup(lookup(&[("PHN_TOOLSETS", "all")])).unwrap();
+        assert_eq!(c.env_toolsets.unwrap().len(), Toolset::ALL.len());
+    }
+
+    #[test]
+    fn out_of_range_threshold_in_the_settings_file_is_ignored() {
+        let c = Config::from_lookup(lookup(&[])).unwrap();
+        for bad in ["0", "1", "31", "1000"] {
+            let s: Settings = toml::from_str(&format!("suppression_threshold = {bad}\n")).unwrap();
+            assert_eq!(
+                c.suppression_threshold(&s),
+                DEFAULT_SUPPRESSION_THRESHOLD,
+                "threshold {bad} from the settings file must not be used"
+            );
+            assert_eq!(s.warnings().len(), 1, "threshold {bad} should be reported");
+        }
+        let ok: Settings = toml::from_str("suppression_threshold = 11\n").unwrap();
+        assert_eq!(c.suppression_threshold(&ok), 11);
+        assert!(ok.warnings().is_empty());
+        assert!(Settings::default().warnings().is_empty());
+        // The environment variable still wins over a bad file value.
+        let pinned = Config::from_lookup(lookup(&[("PHN_SUPPRESSION_THRESHOLD", "10")])).unwrap();
+        let bad: Settings = toml::from_str("suppression_threshold = 1\n").unwrap();
+        assert_eq!(pinned.suppression_threshold(&bad), 10);
     }
 
     #[test]

@@ -386,12 +386,39 @@ pub fn output_folder(ctx: &Context, name: &str) -> Result<(PathBuf, String)> {
     Ok((dir, shown))
 }
 
-/// Write bytes to a file in a folder and return its display path.
+/// Write bytes to a new file in a folder and return its display path. An
+/// existing file is never overwritten: a numeric suffix is added instead
+/// ("letters_spanish-2.docx"), as the sandbox does for other output files.
 pub fn write_in(ctx: &Context, dir: &Path, file: &str, bytes: &[u8]) -> Result<String> {
+    use std::io::Write;
     let sandbox = ctx.sandbox()?;
-    let p = dir.join(phn_local::sandbox::sanitize_file_name(file));
-    std::fs::write(&p, bytes)?;
-    Ok(sandbox.display_path(&p))
+    let clean = phn_local::sandbox::sanitize_file_name(file);
+    let (stem, ext) = match clean.rsplit_once('.') {
+        Some((s, e)) => (s.to_string(), format!(".{e}")),
+        None => (clean.clone(), String::new()),
+    };
+    for n in 1..10_000 {
+        let p = if n == 1 {
+            dir.join(&clean)
+        } else {
+            dir.join(format!("{stem}-{n}{ext}"))
+        };
+        match std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&p)
+        {
+            Ok(mut f) => {
+                f.write_all(bytes)?;
+                return Ok(sandbox.display_path(&p));
+            }
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(e) => return Err(e.into()),
+        }
+    }
+    Err(PhnError::Internal(
+        "too many files with the same name".into(),
+    ))
 }
 
 /// Count of letters by language, with whether an agency translation was used.
@@ -426,6 +453,22 @@ mod tests {
         assert!(is_english("English") && is_english("") && is_english("en-US"));
         assert_eq!(language_label("pt-BR"), "Portuguese");
         assert_eq!(language_label("Klingon"), "Klingon");
+    }
+
+    #[test]
+    fn write_in_never_overwrites() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
+        let (out, _) = output_folder(&ctx, "letters").unwrap();
+        let a = write_in(&ctx, &out, "letters_hmong.docx", b"first").unwrap();
+        let b = write_in(&ctx, &out, "letters_hmong.docx", b"second").unwrap();
+        assert_ne!(a, b);
+        assert!(b.ends_with("letters_hmong-2.docx"), "{b}");
+        assert_eq!(
+            std::fs::read(out.join("letters_hmong.docx")).unwrap(),
+            b"first"
+        );
     }
 
     #[test]

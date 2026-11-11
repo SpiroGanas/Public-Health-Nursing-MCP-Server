@@ -2,14 +2,15 @@
 //! drug shortages), DailyMed (Structured Product Labels), and RxNorm (RxNav).
 //!
 //! These are URL builders and response parsers; the tool layer runs the
-//! requests through [`crate::fetch::fetch_with_fallback`] so answers come from
-//! the live API or the local cache, and says which. There is no bundled
-//! snapshot: medication labels change too often for one to be useful, so
-//! offline answers say what could not be checked.
+//! requests through [`crate::apifetch`] so answers come from the live API or
+//! the local cache, and says which. There is no bundled snapshot: medication
+//! labels change too often for one to be useful, so offline answers say what
+//! could not be checked.
 //!
 //! An optional openFDA key (`PHN_OPENFDA_API_KEY`) raises openFDA's rate
-//! limit; everything works without it. The key is appended to the request URL
-//! and never returned in any response.
+//! limit; everything works without it. The URL builders append the key;
+//! [`split_api_key`] takes it off again so the caller can send it with the
+//! request only. It is never stored in the cache or returned in a response.
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -49,6 +50,38 @@ fn with_key(mut url: String, api_key: Option<&str>) -> String {
         url.push_str(&encode(k.trim()));
     }
     url
+}
+
+/// Split a URL built by [`Endpoints`] into its key-free form and the openFDA
+/// key it carries (decoded), if any. The key-free URL is the cache key and
+/// the only form that may be cited; the key goes with the request alone.
+pub fn split_api_key(url: &str) -> (&str, Option<String>) {
+    match url.rsplit_once("&api_key=") {
+        Some((public, key)) if !key.is_empty() && !key.contains('&') => {
+            (public, Some(percent_decode(key)))
+        }
+        _ => (url, None),
+    }
+}
+
+/// Undo [`encode`].
+fn percent_decode(s: &str) -> String {
+    let bytes = s.as_bytes();
+    let mut out = Vec::with_capacity(bytes.len());
+    let mut i = 0;
+    while i < bytes.len() {
+        if bytes[i] == b'%'
+            && let Some(hex) = s.get(i + 1..i + 3)
+            && let Ok(v) = u8::from_str_radix(hex, 16)
+        {
+            out.push(v);
+            i += 3;
+        } else {
+            out.push(bytes[i]);
+            i += 1;
+        }
+    }
+    String::from_utf8_lossy(&out).into_owned()
 }
 
 impl Endpoints {
@@ -433,6 +466,13 @@ mod tests {
         assert!(u.contains("limit=2"));
         let k = e.openfda_recalls("amoxicillin", 3, Some("abc 123"));
         assert!(k.ends_with("&api_key=abc%20123"));
+        // The key comes off again for the cache key and citations.
+        let (public, key) = split_api_key(&k);
+        assert_eq!(public, e.openfda_recalls("amoxicillin", 3, None));
+        assert_eq!(key.as_deref(), Some("abc 123"));
+        assert!(!public.contains("api_key"));
+        assert_eq!(split_api_key(&u), (u.as_str(), None));
+        assert_eq!(percent_decode("a%2Bb%zz%4"), "a+b%zz%4");
         assert!(e.rxnav_related("723").contains("/rxcui/723/related.json"));
         assert!(
             e.dailymed_spls("fluzone high-dose", 5)

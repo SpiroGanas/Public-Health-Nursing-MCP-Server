@@ -462,6 +462,30 @@ mod tests {
     }
 
     #[test]
+    fn as_of_counts_exclusions_that_end_hours_after_treatment() {
+        let (_d, c) = ctx();
+        let args = |as_of: &str| IsolationArgs {
+            disease: "strep throat".into(),
+            settings: Some(vec![Setting::School]),
+            treatment_start_date: Some("2026-11-09".into()),
+            as_of: Some(as_of.into()),
+            ..IsolationArgs::default()
+        };
+        // The day treatment starts: still excluded (back 24 hours later).
+        let env = calculate_isolation_and_exclusion(&c, args("2026-11-09")).unwrap();
+        assert_eq!(
+            env.data.rules[0].earliest_return_date.as_deref(),
+            Some("2026-11-10")
+        );
+        let a = env.data.as_of.unwrap();
+        assert!(!a.excluded_under.is_empty(), "{}", a.status);
+        assert!(a.status.contains("still excluded"));
+        // The next day the date-based exclusion is over.
+        let env = calculate_isolation_and_exclusion(&c, args("2026-11-10")).unwrap();
+        assert!(env.data.as_of.unwrap().excluded_under.is_empty());
+    }
+
+    #[test]
     fn unknown_disease_suggests() {
         let (_d, c) = ctx();
         let e = calculate_isolation_and_exclusion(

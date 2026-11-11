@@ -12,11 +12,13 @@ fn sheet_name(base: &str, used: &mut Vec<String>) -> String {
         .chars()
         .filter(|c| !matches!(c, '[' | ']' | ':' | '*' | '?' | '/' | '\\'))
         .collect();
-    clean = clean.trim_matches('\'').trim().to_string();
+    let edge = |c: char| c == '\'' || c.is_whitespace();
+    // Excel's limit is 31 characters (not bytes); 28 leaves room for " 99".
+    clean = clean.trim_matches(edge).chars().take(28).collect();
+    clean = clean.trim_matches(edge).to_string();
     if clean.is_empty() {
         clean = "Sheet".into();
     }
-    clean.truncate(28);
     let mut name = clean.clone();
     let mut n = 2;
     while used.iter().any(|u| u.eq_ignore_ascii_case(&name)) {
@@ -25,6 +27,51 @@ fn sheet_name(base: &str, used: &mut Vec<String>) -> String {
     }
     used.push(name.clone());
     name
+}
+
+/// Excel tables need column names that differ (ignoring case), so repeated
+/// headers such as "n", "%", "n", "%" get a number: "n (2)", "% (2)".
+fn unique_headers(headers: &mut [String]) {
+    let mut seen: Vec<String> = Vec::new();
+    for h in headers.iter_mut() {
+        let base = h.clone();
+        let mut n = 2;
+        while seen.contains(&h.to_lowercase()) {
+            *h = format!("{base} ({n})");
+            n += 1;
+        }
+        seen.push(h.to_lowercase());
+    }
+}
+
+/// The number a cell holds, when its text is a plain number: digits with an
+/// optional minus sign, decimal part, and thousands separators. Codes stay
+/// text: leading zeros (ZIP codes), lists such as "1,2", exponent forms such
+/// as "1E5", and identifiers longer than 15 digits.
+fn as_number(v: &str) -> Option<f64> {
+    let body = v.strip_prefix('-').unwrap_or(v);
+    let (int, frac) = match body.split_once('.') {
+        Some((i, f)) => (i, Some(f)),
+        None => (body, None),
+    };
+    let all_digits = |s: &str| !s.is_empty() && s.bytes().all(|b| b.is_ascii_digit());
+    let int_ok = if int.is_empty() {
+        frac.is_some()
+    } else if int.contains(',') {
+        let mut groups = int.split(',');
+        let first = groups.next().unwrap_or("");
+        all_digits(first) && first.len() <= 3 && groups.all(|g| g.len() == 3 && all_digits(g))
+    } else {
+        all_digits(int)
+    };
+    if !int_ok || frac.is_some_and(|f| !all_digits(f)) {
+        return None;
+    }
+    let digits = int.bytes().filter(|b| b.is_ascii_digit()).count() + frac.map_or(0, str::len);
+    if digits > 15 || (int.len() > 1 && int.starts_with('0')) {
+        return None;
+    }
+    v.replace(',', "").parse::<f64>().ok()
 }
 
 fn xerr(e: rust_xlsxwriter::XlsxError) -> PhnError {
@@ -74,7 +121,7 @@ pub fn to_xlsx(doc: &Document) -> Result<Vec<u8>> {
             .len()
             .max(t.rows.iter().map(Vec::len).max().unwrap_or(0))
             .max(1);
-        let headers: Vec<String> = (0..cols)
+        let mut headers: Vec<String> = (0..cols)
             .map(|c| {
                 t.headers
                     .get(c)
@@ -83,6 +130,7 @@ pub fn to_xlsx(doc: &Document) -> Result<Vec<u8>> {
                     .unwrap_or_else(|| format!("Column {}", c + 1))
             })
             .collect();
+        unique_headers(&mut headers);
         for (c, h) in headers.iter().enumerate() {
             ws.write_string(0, c as u16, h).map_err(xerr)?;
         }
@@ -90,13 +138,13 @@ pub fn to_xlsx(doc: &Document) -> Result<Vec<u8>> {
             for c in 0..cols {
                 let v = row.get(c).map(String::as_str).unwrap_or("");
                 let rr = (r + 1) as u32;
-                // Write numbers as numbers (but keep codes like ZIPs with
-                // leading zeros as text).
-                match v.replace(',', "").parse::<f64>() {
-                    Ok(n) if !v.starts_with('0') || v == "0" || v.starts_with("0.") => {
+                // Write plain numbers as numbers (but keep codes like ZIPs
+                // with leading zeros, lists, and long identifiers as text).
+                match as_number(v) {
+                    Some(n) => {
                         ws.write_number(rr, c as u16, n).map_err(xerr)?;
                     }
-                    _ => {
+                    None => {
                         ws.write_string_with_format(rr, c as u16, v, &wrap)
                             .map_err(xerr)?;
                     }
@@ -180,5 +228,74 @@ mod tests {
         assert_eq!(t.headers, vec!["Town", "Cases", "ZIP"]);
         assert_eq!(t.rows[0], vec!["Amherst", "3", "01002"]);
         assert!(phn_local::table::read_table(&p, Some("Notes")).is_ok());
+    }
+
+    #[test]
+    fn sheet_names_are_cut_by_characters_not_bytes() {
+        let mut used = Vec::new();
+        // Byte 28 of each caption falls inside the dash.
+        for caption in [
+            "Immunization rates by town — 2025",
+            "Cases by school and grade — fall 2025",
+        ] {
+            let name = sheet_name(caption, &mut used);
+            assert!(name.chars().count() <= 31, "{name}");
+            assert!(!name.ends_with(' ') && !name.ends_with('\''));
+        }
+        assert_eq!(sheet_name("'Quoted' ", &mut used), "Quoted");
+    }
+
+    #[test]
+    fn repeated_headers_are_numbered() {
+        let mut h: Vec<String> = ["Town", "n", "%", "N", "%"]
+            .iter()
+            .map(|s| s.to_string())
+            .collect();
+        unique_headers(&mut h);
+        assert_eq!(h, vec!["Town", "n", "%", "N (2)", "% (2)"]);
+        let doc = Document {
+            title: "Cases".into(),
+            subtitle: None,
+            language: "en-US".into(),
+            author: None,
+            letterhead: None,
+            logo: None,
+            blocks: from_markdown(
+                "| Town | n | % | n | % |\n|---|---|---|---|---|\n| Amherst | 3 | 1.5 | 4 | 2.0 |\n",
+            ),
+        };
+        assert!(to_xlsx(&doc).is_ok());
+    }
+
+    #[test]
+    fn only_plain_numbers_become_numbers() {
+        for (text, number) in [
+            ("3", 3.0),
+            ("-5", -5.0),
+            ("0", 0.0),
+            ("0.5", 0.5),
+            (".5", 0.5),
+            ("1,234", 1234.0),
+            ("-1,234,567.5", -1_234_567.5),
+        ] {
+            assert_eq!(as_number(text), Some(number), "{text}");
+        }
+        for text in [
+            "",
+            "-",
+            "01002",
+            "1,2",
+            "5,10",
+            "1E5",
+            "12e3",
+            "NaN",
+            "inf",
+            "+15085550100",
+            "12.5%",
+            "1234567890123456",
+            "2026-11-08",
+        ] {
+            assert_eq!(as_number(text), None, "{text}");
+        }
     }
 }

@@ -61,5 +61,6 @@ cited sources, then set `meta.review` (see `CONTRIBUTING.md`):
 The server ships English family sheets only. To use the agency's approved translations, save
 them in the data folder as `templates/<language>/lead_family_teaching.docx` (or `.md`) and
 `templates/<language>/newborn_postpartum_teaching.docx` (or `.md`), where `<language>` is a folder
-name such as `spanish`, `es`, `portuguese`, or `haitian_creole`. When a family's language has no
-agency file, the English sheet is written and the answer says so.
+name such as `spanish`, `es`, `portuguese`, or, for a language with two words, `haitian_creole`
+(recommended), `haitian-creole`, or `ht`. When a family's language has no agency file, the
+English sheet is written and the answer says so.

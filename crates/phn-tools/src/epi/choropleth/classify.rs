@@ -34,6 +34,9 @@ impl Method {
     }
 }
 
+/// Values closer than this are treated as the same value.
+const SAME_VALUE: f64 = 1e-12;
+
 /// Upper bounds of each class (ascending; the last is the maximum).
 pub fn breaks(values: &[f64], k: usize, method: Method) -> Vec<f64> {
     let mut v: Vec<f64> = values.iter().copied().filter(|x| x.is_finite()).collect();
@@ -51,7 +54,9 @@ pub fn breaks(values: &[f64], k: usize, method: Method) -> Vec<f64> {
         Method::Quantile => quantile_breaks(&v, k),
         Method::NaturalBreaks => fisher_breaks(&v, k),
     };
-    b.dedup_by(|a, b| (*a - *b).abs() < f64::EPSILON);
+    // The same tolerance as `class_of`, so that no class is left empty when
+    // two values differ only by floating-point noise.
+    b.dedup_by(|a, b| (*a - *b).abs() <= SAME_VALUE);
     if let Some(last) = b.last_mut() {
         *last = *v.last().expect("non-empty");
     }
@@ -120,7 +125,7 @@ fn fisher_breaks(sorted: &[f64], k: usize) -> Vec<f64> {
 pub fn class_of(value: f64, breaks: &[f64]) -> usize {
     breaks
         .iter()
-        .position(|b| value <= *b + 1e-12)
+        .position(|b| value <= *b + SAME_VALUE)
         .unwrap_or(breaks.len().saturating_sub(1))
 }
 
@@ -193,6 +198,21 @@ mod tests {
             .map(|v| v.as_f64().unwrap())
             .collect();
         assert_eq!(b, fixture);
+    }
+
+    #[test]
+    fn values_that_differ_by_rounding_noise_share_a_class() {
+        let a = 100.1_f64;
+        let b = f64::from_bits(a.to_bits() + 1); // one step above `a`
+        let v = [a, b, 200.0];
+        for method in [Method::Quantile, Method::NaturalBreaks] {
+            let br = breaks(&v, 3, method);
+            assert_eq!(br, vec![a, 200.0], "{method:?}");
+            // Every class has at least one member.
+            for c in 0..br.len() {
+                assert!(v.iter().any(|x| class_of(*x, &br) == c), "{method:?} {c}");
+            }
+        }
     }
 
     #[test]

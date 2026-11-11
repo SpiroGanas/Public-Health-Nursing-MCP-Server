@@ -199,7 +199,10 @@ pub struct ProtectiveResult {
     /// Why these pathways were chosen.
     pub routing: String,
     pub emergency_steps: Vec<CitedOut>,
-    /// Whether the reporter's role is a mandated reporter (null if no role given).
+    /// True when the reporter's role matches the statutory mandated reporter
+    /// list for the chosen pathway. Null when no role was given, when the role
+    /// was not found on that list (check the statute; nothing is asserted), or
+    /// for the facility (DPH) pathway.
     pub mandated_reporter: Option<bool>,
     pub mandated_reporter_lists: Vec<CitedOut>,
     pub duties: Vec<CitedOut>,
@@ -248,39 +251,84 @@ fn concern_kind(s: &str) -> Option<&'static str> {
     )
 }
 
-fn is_mandated(role: &str) -> Option<bool> {
-    let n = phn_core::text::normalize(role);
-    if n.is_empty() {
+/// Words that carry no meaning when a role is compared with a list entry.
+const ROLE_STOP_WORDS: [&str; 12] = [
+    "a",
+    "an",
+    "of",
+    "the",
+    "or",
+    "and",
+    "by",
+    "licensed",
+    "registered",
+    "public",
+    "private",
+    "employed",
+];
+
+/// One-word roles too vague to match a longer entry ("worker" is not "social worker").
+const VAGUE_ROLE_WORDS: [&str; 18] = [
+    "worker",
+    "officer",
+    "director",
+    "manager",
+    "person",
+    "intern",
+    "personnel",
+    "assistant",
+    "care",
+    "treatment",
+    "health",
+    "medical",
+    "social",
+    "family",
+    "school",
+    "home",
+    "service",
+    "agency",
+];
+
+fn role_words(s: &str) -> Vec<String> {
+    phn_core::text::normalize(s)
+        .split(' ')
+        .filter(|w| !w.is_empty() && !ROLE_STOP_WORDS.contains(w))
+        .map(str::to_string)
+        .collect()
+}
+
+/// The entry of a statutory mandated reporter list (the content's wording)
+/// that the given role matches, if any. Only the first sentence of the list
+/// names roles. A role matches an entry when every word of the entry is in
+/// the role ("public health nurse" matches "nurse"), or every word of the
+/// role is in a short entry ("teacher" matches "public or private school
+/// teacher"). This is a word match, not a legal determination.
+fn matched_list_entry(role: &str, list: &str) -> Option<String> {
+    let role = role_words(role);
+    if role.is_empty() {
         return None;
     }
-    let roles = [
-        "nurse",
-        "physician",
-        "doctor",
-        "physician assistant",
-        "social worker",
-        "police",
-        "firefighter",
-        "emt",
-        "emergency medical",
-        "psychologist",
-        "dentist",
-        "podiatrist",
-        "osteopath",
-        "physical therapist",
-        "occupational therapist",
-        "coroner",
-        "council on aging",
-        "outreach worker",
-        "probation",
-        "family counselor",
-        "medical intern",
-        "home health",
-        "homemaker",
-        "assisted living",
-        "animal control",
-    ];
-    Some(roles.iter().any(|r| n.contains(r)))
+    let vague = role.len() == 1 && VAGUE_ROLE_WORDS.contains(&role[0].as_str());
+    let first_sentence = list.split(". ").next().unwrap_or(list);
+    first_sentence
+        .split(',')
+        .map(|e| e.split_whitespace().collect::<Vec<_>>().join(" "))
+        .map(|e| e.trim_end_matches('.').to_string())
+        .find(|e| {
+            let entry = role_words(e);
+            if entry.is_empty() {
+                return false;
+            }
+            let entry_in_role = entry.iter().all(|w| role.contains(w));
+            let role_in_entry =
+                !vague && entry.len() <= 5 && role.iter().all(|w| entry.contains(w));
+            entry_in_role || role_in_entry
+        })
+        .map(|e| {
+            e.trim_start_matches("or ")
+                .trim_start_matches("a ")
+                .to_string()
+        })
 }
 
 fn template_document(title: &str, sections: &[TemplateSection]) -> Document {
@@ -381,7 +429,36 @@ pub fn elder_protective_services_guide(
         .collect();
     let elder = ids.contains(&"elder_aps");
     let dppc = ids.contains(&"dppc");
-    let mandated = args.reporter_role.as_deref().and_then(is_mandated);
+    // Compare the reporter's role with the statutory list for the chosen
+    // pathway (from the content). Nothing is asserted when the role is not
+    // found there, or when the only pathway is the facility (DPH) one.
+    let role = args
+        .reporter_role
+        .as_deref()
+        .map(str::trim)
+        .filter(|r| !r.is_empty());
+    let mut role_matches: Vec<String> = Vec::new();
+    if let Some(r) = role {
+        if elder && let Some(e) = matched_list_entry(r, &c.mandated_reporters.elder.list) {
+            role_matches.push(format!(
+                "\"{e}\" on the list for adults 60 and older ({})",
+                cite(
+                    &c.mandated_reporters.elder.source,
+                    &c.mandated_reporters.elder.section
+                )
+            ));
+        }
+        if dppc && let Some(e) = matched_list_entry(r, &c.mandated_reporters.disabled.list) {
+            role_matches.push(format!(
+                "\"{e}\" on the list for adults 18-59 with disabilities ({})",
+                cite(
+                    &c.mandated_reporters.disabled.source,
+                    &c.mandated_reporters.disabled.section
+                )
+            ));
+        }
+    }
+    let mandated = (!role_matches.is_empty()).then_some(true);
     let mut lists = Vec::new();
     if elder || ids.len() > 1 {
         lists.push(CitedOut {
@@ -530,10 +607,22 @@ pub fn elder_protective_services_guide(
             p.name, p.hotline, p.hours, p.how
         ));
     }
-    match mandated {
-        Some(true) => s.push_str(&format!("\nAs a {} you are a **mandated reporter**: report immediately by phone (or online for elder reports), and in writing within 48 hours.\n", args.reporter_role.as_deref().unwrap_or("professional"))),
-        Some(false) => s.push_str("\nThat role is not on the statutory mandated reporter lists, but anyone may report; check the lists below and your employer's policy.\n"),
-        None => {}
+    if let Some(r) = role {
+        if !role_matches.is_empty() {
+            s.push_str(&format!(
+                "\nThe role \"{}\" matches {}, so you are a **mandated reporter** for that pathway: report immediately by phone (or online for elder reports), and in writing within 48 hours. This is a word match with the list; confirm it against the statute's wording.\n",
+                md::cell(r),
+                role_matches.join(" and ")
+            ));
+        } else if elder || dppc {
+            s.push_str(&format!(
+                "\nThis tool could not match the role \"{}\" to the statutory mandated reporter list for this pathway. That does not settle it: read the list below against the statute and your employer's policy. Anyone may report.\n",
+                md::cell(r)
+            ));
+        }
+        if (!elder && !dppc) || args.setting == Some(CareSetting::Facility) {
+            s.push_str("\nReports about abuse by staff of a nursing home, rest home, or hospital go to DPH under its own reporting law; this tool has no mandated reporter list for that pathway, so check that law and your employer's policy.\n");
+        }
     }
     s.push('\n');
     s.push_str(&md::table(
@@ -777,6 +866,10 @@ mod tests {
         )
         .unwrap();
         assert_eq!(r.data.mandated_reporter, Some(true));
+        assert!(
+            r.summary
+                .contains("\"nurse\" on the list for adults 60 and older")
+        );
         assert!(!r.data.self_neglect.is_empty());
         assert!(r.data.timelines.iter().any(|t| t.when.contains("48 hours")));
         assert!(
@@ -809,5 +902,54 @@ mod tests {
         assert_eq!(o.documents_written, 1);
         assert!(o.fields_left_blank.contains(&"Caretaker Name".to_string()));
         assert_eq!(r.privacy.files_written.len(), 1);
+    }
+
+    #[test]
+    fn mandated_reporter_follows_the_pathway_list() {
+        let c = &*CONTENT;
+        let elder = &c.mandated_reporters.elder.list;
+        let disabled = &c.mandated_reporters.disabled.list;
+        // Teachers are on the c.19C list only; firefighters on the c.19A list only.
+        assert!(matched_list_entry("school teacher", disabled).is_some());
+        assert!(matched_list_entry("school teacher", elder).is_none());
+        assert!(matched_list_entry("firefighter", elder).is_some());
+        assert!(matched_list_entry("firefighter", disabled).is_none());
+        assert!(matched_list_entry("public health nurse", elder).is_some());
+        assert!(matched_list_entry("day care worker", disabled).is_some());
+        // Vague or unlisted roles are not matched.
+        assert!(matched_list_entry("worker", elder).is_none());
+        assert!(matched_list_entry("librarian", disabled).is_none());
+        // The sentence about internal procedures does not name mandated reporters.
+        assert!(matched_list_entry("aides", elder).is_none());
+
+        let (_d, ctx) = ctx();
+        let run = |age: Option<u32>, setting: Option<CareSetting>, role: &str| {
+            elder_protective_services_guide(
+                &ctx,
+                ProtectiveArgs {
+                    age_years: age,
+                    has_disability: Some(true),
+                    setting,
+                    reporter_role: Some(role.into()),
+                    ..Default::default()
+                },
+            )
+            .unwrap()
+        };
+        let r = run(Some(30), None, "school teacher");
+        assert_eq!(r.data.mandated_reporter, Some(true));
+        assert!(!r.summary.contains("not on the statutory"));
+        // Not on the DPPC list: nothing is asserted either way.
+        let r = run(Some(30), None, "firefighter");
+        assert_eq!(r.data.mandated_reporter, None);
+        assert!(r.summary.contains("could not match the role"));
+        assert!(!r.summary.contains("you are a **mandated reporter**"));
+        // Facility (DPH) pathway for an older adult: no list, so no assertion.
+        let r = run(Some(80), Some(CareSetting::Facility), "nurse");
+        assert_eq!(r.data.mandated_reporter, None);
+        assert!(
+            r.summary
+                .contains("no mandated reporter list for that pathway")
+        );
     }
 }

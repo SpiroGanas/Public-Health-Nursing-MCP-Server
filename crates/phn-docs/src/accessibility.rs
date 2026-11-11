@@ -92,10 +92,29 @@ impl Check {
     }
 }
 
+/// A short excerpt of document text for the report.
+///
+/// The report is returned to the AI model, so possible identifiers (names,
+/// phone numbers, addresses, dates, record numbers) are replaced with
+/// `[REDACTED: kind]` first, and only then is the excerpt cut: a cut can
+/// never leave part of an identifier behind.
 fn short(s: &str) -> String {
-    let s = s.trim();
+    let redacted =
+        phn_local::phi::redact_text(s.trim(), phn_local::phi::RedactionLevel::Strict).text;
+    let s = redacted.trim();
     if s.chars().count() > 50 {
-        format!("{}…", s.chars().take(50).collect::<String>())
+        let mut cut: String = s.chars().take(50).collect();
+        // Do not leave half a replacement marker at the cut.
+        if let Some(open) = cut.rfind('[') {
+            let tail = &cut[open..];
+            if !tail.contains(']')
+                && ("[REDACTED".starts_with(tail) || tail.starts_with("[REDACTED"))
+            {
+                cut.truncate(open);
+                cut.push_str("[REDACTED]");
+            }
+        }
+        format!("{cut}…")
     } else {
         s.to_string()
     }
@@ -391,7 +410,12 @@ pub fn check_docx(doc: &DocxDocument) -> Report {
     let missing: Vec<String> = images
         .iter()
         .filter(|d| d.alt_text.is_none())
-        .map(|d| d.name.clone().unwrap_or_else(|| "unnamed image".into()))
+        .map(|d| {
+            d.name
+                .as_deref()
+                .map(short)
+                .unwrap_or_else(|| "unnamed image".into())
+        })
         .collect();
     checks.push(if images.is_empty() {
         check("alt_text", NON_TEXT, Status::NotApplicable, "No images.")
@@ -907,6 +931,20 @@ pub fn check_pdf(info: &PdfInfo) -> Report {
             "The PDF is encrypted; security settings can block screen readers.",
         ));
     }
+    // What the DOCX and HTML checks cover but the PDF check cannot yet see.
+    checks.push(
+        check(
+            "pdf_structure_not_checked",
+            INFO_REL,
+            Status::Manual,
+            "Not checked automatically for PDF files: headings and their order, table header \
+             cells, color contrast, and link text.",
+        )
+        .fix(
+            "Check the source document (Word or HTML) with this tool, or run Acrobat's \
+             accessibility checker on the PDF.",
+        ),
+    );
     checks.extend(manual_checks());
     Report::new("pdf", checks)
 }
@@ -939,6 +977,20 @@ mod tests {
     }
 
     #[test]
+    fn excerpts_are_redacted_before_they_are_cut() {
+        let s = short("Call Maria Garcia at 413-555-0100 about the clinic next week, please");
+        assert!(s.contains("[REDACTED"), "{s}");
+        assert!(!s.contains("Garcia") && !s.contains("555"), "{s}");
+        // A marker that would be cut in half is replaced whole.
+        let long = format!("{} Maria Garcia", "x".repeat(44));
+        let s = short(&long);
+        assert!(!s.contains("Garcia") && !s.contains("Maria"), "{s}");
+        assert!(s.ends_with("[REDACTED]…"), "{s}");
+        // Text without identifiers is unchanged.
+        assert_eq!(short("  Situation update  "), "Situation update");
+    }
+
+    #[test]
     fn exported_docx_passes_its_own_checks() {
         let doc = crate::docx::tests_support::sample();
         let bytes = crate::docx::to_docx(&doc).unwrap();
@@ -964,6 +1016,14 @@ mod tests {
             .filter(|c| c.status == Status::Fail || c.status == Status::Warning)
             .collect();
         assert!(problems.is_empty(), "{problems:#?}");
+        // The report says what the PDF check does not cover.
+        let gap = report
+            .checks
+            .iter()
+            .find(|c| c.id == "pdf_structure_not_checked")
+            .expect("PDF coverage note");
+        assert_eq!(gap.status, Status::Manual);
+        assert_eq!(report.manual, 4);
     }
 
     #[test]

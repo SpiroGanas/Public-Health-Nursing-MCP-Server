@@ -11,7 +11,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use crate::ContentMeta;
-use crate::reportable::Confidence;
+use crate::reportable::{self, Confidence};
 
 /// A setting the rules distinguish.
 #[derive(
@@ -469,10 +469,28 @@ pub fn find(query: &str) -> Vec<DiseaseMatch<'static>> {
             let nn = text::normalize(n);
             let s = if nn == q {
                 1.0
-            } else if !q.is_empty() && (nn.starts_with(&q) || q.starts_with(&nn)) && nn.len() >= 3 {
-                0.9
+            } else if ["non", "not", "no"]
+                .iter()
+                .any(|w| reportable::contains_phrase(&nn, &format!("{w} {q}")))
+            {
+                // The name mentions the query only to exclude it ("non-cholera Vibrio").
+                0.0
             } else {
-                text::similarity(&q, &nn)
+                // A prefix counts only at a word boundary ("strep" for "strep
+                // throat"), never inside a word ("GAS" in "gastroenteritis").
+                let raw = if q.len() >= 3
+                    && nn.len() >= 3
+                    && (nn.starts_with(&format!("{q} ")) || q.starts_with(&format!("{nn} ")))
+                {
+                    0.9
+                } else {
+                    text::similarity(&q, &nn)
+                };
+                if reportable::short_key_in_longer_query(&q, &nn) {
+                    raw.min(0.75)
+                } else {
+                    raw
+                }
             };
             best = best.max(s);
         }
@@ -487,13 +505,28 @@ pub fn find(query: &str) -> Vec<DiseaseMatch<'static>> {
     out
 }
 
-/// Look up a disease; `None` when nothing matches well.
+/// Look up a disease; `None` when nothing matches well or the match is
+/// ambiguous. An exact id, name, or alias always wins. Otherwise the best
+/// match must score at least 0.8, the query must not be very short or made
+/// only of generic words ("gastroenteritis", "fever"), and no other disease
+/// may score within [`reportable::TIE_MARGIN`] of it ("hepatitis").
 pub fn lookup(query: &str) -> Option<&'static Disease> {
-    find(query)
-        .into_iter()
-        .next()
-        .filter(|m| m.score >= 0.8)
-        .map(|m| m.disease)
+    let q = text::normalize(query);
+    let matches = find(query);
+    let top = matches.first()?;
+    if top.score >= 0.999 {
+        return Some(top.disease);
+    }
+    if top.score < 0.8 || q.len() < 4 || reportable::is_generic_query(&q) {
+        return None;
+    }
+    if matches
+        .get(1)
+        .is_some_and(|m| m.score >= top.score - reportable::TIE_MARGIN)
+    {
+        return None;
+    }
+    Some(top.disease)
 }
 
 #[cfg(test)]
@@ -545,6 +578,43 @@ mod tests {
         assert_eq!(lookup("Salmonella").unwrap().id, "salmonellosis");
         assert_eq!(lookup("norovirus").unwrap().id, "norovirus");
         assert!(lookup("zzzz unknown").is_none());
+    }
+
+    #[test]
+    fn ambiguous_generic_and_partial_queries_do_not_match() {
+        let id = |q: &str| lookup(q).map(|d| d.id.as_str());
+        // "GAS" is not a prefix of "gastroenteritis"; a syndrome is not one disease.
+        assert_eq!(id("gastroenteritis"), None);
+        // "flu" inside a longer phrase is not seasonal influenza.
+        assert_eq!(id("h flu"), None);
+        assert_ne!(id("stomach flu"), Some("influenza"));
+        // "non-cholera Vibrio" does not make cholera vibriosis.
+        assert_eq!(id("cholera"), None);
+        // Ties and near-ties between diseases.
+        for q in ["hepatitis", "hep", "hepatitis E"] {
+            assert_eq!(id(q), None, "{q}");
+        }
+        // Generic words and very short queries.
+        for q in ["meningitis", "fever", "tick bite", "h", "s"] {
+            assert_eq!(id(q), None, "{q}");
+        }
+        // The candidates are still ranked for "did you mean".
+        assert!(find("hepatitis").len() >= 3);
+        // Exact names and legitimate fuzzy matches still work.
+        assert_eq!(id("hepatitis B"), Some("hepatitis_b"));
+        assert_eq!(id("flu"), Some("influenza"));
+        assert_eq!(id("Hib"), Some("haemophilus_influenzae_type_b"));
+        assert_eq!(id("viral gastroenteritis"), Some("norovirus"));
+        assert_eq!(id("strep"), Some("group_a_streptococcus"));
+        assert_eq!(id("e coli"), Some("stec"));
+        assert_eq!(id("pertusis"), Some("pertussis"));
+        assert_eq!(id("measels"), Some("measles"));
+        assert_eq!(id("salmonela"), Some("salmonellosis"));
+        for d in &content().diseases {
+            for key in std::iter::once(&d.name).chain(&d.aliases) {
+                assert_eq!(id(key), Some(d.id.as_str()), "{key}");
+            }
+        }
     }
 
     #[test]

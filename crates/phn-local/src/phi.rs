@@ -283,7 +283,9 @@ pub fn is_surname(word: &str) -> bool {
 // Patterns
 // ---------------------------------------------------------------------------
 
-static RE_SSN: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{3}-\d{2}-\d{4}$").unwrap());
+static RE_SSN: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^\d{3}[- ]\d{2}[- ]\d{4}$").unwrap());
+static RE_LOCAL_PHONE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{3}-\d{4}$").unwrap());
 static RE_SSN_BARE: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^\d{9}$").unwrap());
 static RE_PHONE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}(?:\s*(?:x|ext\.?)\s*\d+)?$")
@@ -303,9 +305,29 @@ static RE_ID_CODE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"^[A-Za-z]{0,4}[-#]?\d{4,14}[A-Za-z]{0,2}$").unwrap());
 
 // Free-text patterns.
-static T_SSN: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\b\d{3}-\d{2}-\d{4}\b").unwrap());
+static T_SSN: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\b\d{3}[- ]\d{2}[- ]\d{4}\b").unwrap());
+/// A labeled SSN in any common layout ("SSN 123 45 6789", "SSN: 123456789").
+static T_SSN_LABELED: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?i)\b(?:SSN|SS#|social security(?: number| no\.?| #)?)[\s:#]*\d{3}[-. ]?\d{2}[-. ]?\d{4}\b",
+    )
+    .unwrap()
+});
 static T_PHONE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?:\+?1[\s.-]?)?(?:\(\d{3}\)|\b\d{3})[\s.-]?\d{3}[\s.-]\d{4}\b").unwrap()
+});
+/// Ten digits with no separators, in the North American numbering plan (area
+/// code and exchange start with 2–9), optionally after a leading 1.
+static T_PHONE_BARE: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\b1?[2-9]\d{2}[2-9]\d{6}\b").unwrap());
+/// A seven-digit local number, only right after a phone word ("call 555-0101"),
+/// so ranges of counts such as "500-1000" are not flagged. Group 1 is the number.
+static T_PHONE_LOCAL: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(
+        r"(?i)\b(?:call|phone|tel|telephone|cell|mobile|fax|ph|text|pager)\b\.?(?:\s+(?:number|no\.?|is|at))*[\s:#-]*(\d{3}-\d{4})\b",
+    )
+    .unwrap()
 });
 static T_EMAIL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b").unwrap());
@@ -313,17 +335,23 @@ static T_URL: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r#"(?i)\b(?:https?://|www\.)[^\s<>"')]+"#).unwrap());
 static T_IP: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b(?:\d{1,3}\.){3}\d{1,3}\b").unwrap());
-const DATE_PAT: &str = r"(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4})";
+const DATE_PAT: &str = r"(?:\d{1,2}[/-]\d{1,2}[/-]\d{2,4}|\d{4}-\d{2}-\d{2}|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?\s+\d{1,2},?\s+\d{4}|\d{1,2}\.\d{1,2}\.\d{4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\.?,?\s+\d{4})";
+/// A compact date (YYYYMMDD) is accepted only right after a birth-date label.
+const COMPACT_DATE_PAT: &str = r"(?:19|20)\d\d[01]\d[0-3]\d\b";
 static T_DOB: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(&format!(
-        r"(?i)\b(?:DOB|D\.O\.B\.?|date of birth|birth\s?date|born(?: on)?)\s*[:#-]?\s*{DATE_PAT}"
+        r"(?i)\b(?:DOB|D\.O\.B\.?|date of birth|birth\s?date|birthday|born(?: on)?)\s*[:#-]?\s*(?:{DATE_PAT}|{COMPACT_DATE_PAT})"
     ))
     .unwrap()
 });
 static T_DATE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(&format!(r"(?i)\b{DATE_PAT}\b")).unwrap());
 static T_LABELED_ID: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?i)\b(MRN|medical record(?: number| no\.?| #)?|patient id|client id|case (?:id|number|no\.?|#)|SASID|chart (?:number|no\.?|#)|member id|medicaid(?: id| number)?|masshealth(?: id| number)?|medicare(?: id| number)?|account (?:number|no\.?|#)|acct\.? ?#?|license (?:number|no\.?|#)|SSN|social security(?: number| no\.?)?)\s*[:#]?\s*([A-Z0-9][A-Z0-9-]{3,})\b")
+    // The value (group 2) must contain a digit and be at least four characters,
+    // so ordinary words after a label ("patient identified", "Medicare
+    // enrollment") are not treated as record numbers. Any mix of spaces, ":"
+    // and "#" may separate the label from the value ("MRN: #12345").
+    Regex::new(r"(?i)\b(MRN|medical record(?: number| no\.?| #)?|patient id|client id|case (?:id|number|no\.?|#)|SASID|chart (?:number|no\.?|#)|member id|medicaid(?: id| number)?|masshealth(?: id| number)?|medicare(?: id| number)?|account (?:number|no\.?|#)|acct\.? ?#?|license (?:number|no\.?|#)|SSN|social security(?: number| no\.?)?)(?:\s+(?:number|num|no\.?))?[\s:#]*(\d[A-Z0-9-]{3,}|[A-Z]\d[A-Z0-9-]{2,}|[A-Z][A-Z-]\d[A-Z0-9-]+|[A-Z][A-Z-]{2,5}\d[A-Z0-9-]*)\b")
         .unwrap()
 });
 static T_STREET: LazyLock<Regex> = LazyLock::new(|| {
@@ -373,17 +401,61 @@ const RELATION_CUES: [&str; 24] = [
 // Dates
 // ---------------------------------------------------------------------------
 
-/// Parse common date formats (ISO, US slash, Excel-style datetime, month names).
+/// Parse common date formats (ISO, US slash, dotted, compact YYYYMMDD,
+/// Excel-style datetime, month names, and month-year as the first of the
+/// month).
+///
+/// A result is accepted only when its year is from 1900 to 2100. chrono's
+/// `%Y` reads one to four digits, so "3/5/21" would otherwise parse as the
+/// year 21; such values fall through to the two-digit-year formats instead.
+/// Two-digit years that would land more than a year in the future are read as
+/// the previous century ("3/7/45" is 1945).
 pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
+    use chrono::{Datelike, NaiveDate};
     let s = s.trim();
     if s.len() < 6 || s.len() > 30 {
         return None;
     }
+    let plausible = |d: NaiveDate| (1900..=2100).contains(&d.year()).then_some(d);
     let head = s.split(['T', ' ']).next().unwrap_or(s);
+    if head.len() == 8
+        && head.bytes().all(|b| b.is_ascii_digit())
+        && let Some(d) = NaiveDate::parse_from_str(head, "%Y%m%d")
+            .ok()
+            .and_then(plausible)
+    {
+        return Some(d);
+    }
     for fmt in [
-        "%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%m/%d/%y", "%d-%b-%Y", "%d-%b-%y",
+        "%Y-%m-%d", "%m/%d/%Y", "%m-%d-%Y", "%Y/%m/%d", "%d-%b-%Y", "%m.%d.%Y",
     ] {
-        if let Ok(d) = chrono::NaiveDate::parse_from_str(head, fmt) {
+        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+            .ok()
+            .and_then(plausible)
+        {
+            return Some(d);
+        }
+    }
+    for fmt in ["%m/%d/%y", "%m-%d-%y", "%d-%b-%y", "%m.%d.%y"] {
+        if let Ok(d) = NaiveDate::parse_from_str(head, fmt) {
+            let limit = chrono::Local::now().date_naive() + chrono::Duration::days(366);
+            let d = if d > limit {
+                d.with_year(d.year() - 100).unwrap_or(d)
+            } else {
+                d
+            };
+            if let Some(d) = plausible(d) {
+                return Some(d);
+            }
+        }
+    }
+    // Day-first dates are tried last, so they only apply when the first
+    // number cannot be a month ("13/03/2015").
+    for fmt in ["%d/%m/%Y", "%d-%m-%Y", "%d.%m.%Y"] {
+        if let Some(d) = NaiveDate::parse_from_str(head, fmt)
+            .ok()
+            .and_then(plausible)
+        {
             return Some(d);
         }
     }
@@ -395,11 +467,40 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
         "%d %B %Y",
         "%d %b %Y",
     ] {
-        if let Ok(d) = chrono::NaiveDate::parse_from_str(s, fmt) {
+        if let Some(d) = NaiveDate::parse_from_str(s, fmt).ok().and_then(plausible) {
             return Some(d);
         }
     }
+    // Month and year only ("March 2015"): the first of that month.
+    if s.starts_with(|c: char| c.is_ascii_alphabetic())
+        && let Some(d) = NaiveDate::parse_from_str(&format!("1 {s}"), "%d %B %Y")
+            .ok()
+            .and_then(plausible)
+    {
+        return Some(d);
+    }
     None
+}
+
+/// A bare four-digit year from 1900 to 2100 ("2024"), which is not an
+/// identifier under Safe Harbor and may be kept as it is.
+pub fn plain_year(s: &str) -> Option<i32> {
+    let s = s.trim();
+    if s.len() != 4 || !s.bytes().all(|b| b.is_ascii_digit()) {
+        return None;
+    }
+    s.parse::<i32>().ok().filter(|y| (1900..=2100).contains(y))
+}
+
+/// False when an age column's header says the unit is months, weeks, or days,
+/// so the "over 89" rule (which is about years) does not apply to it.
+pub fn age_header_is_years(header: &str) -> bool {
+    !tokens(header).iter().any(|t| {
+        matches!(
+            t.as_str(),
+            "month" | "months" | "mo" | "mos" | "week" | "weeks" | "wk" | "wks" | "day" | "days"
+        )
+    })
 }
 
 // ---------------------------------------------------------------------------
@@ -407,7 +508,8 @@ pub fn parse_date(s: &str) -> Option<chrono::NaiveDate> {
 // ---------------------------------------------------------------------------
 
 fn tokens(header: &str) -> Vec<String> {
-    phn_core::text::normalize(header)
+    // "#" in a header means "number" ("Case #", "Record #").
+    phn_core::text::normalize(&header.replace('#', " number "))
         .split(' ')
         .filter(|t| !t.is_empty())
         .map(str::to_string)
@@ -601,11 +703,24 @@ fn header_kind(header: &str) -> Option<(Identifier, Confidence)> {
     if has_any(&["sasid", "lasid", "nhi", "maven"]) {
         return Some((OtherIdNumber, High));
     }
+    // "Number of patient visits" is a count, not an ID.
     if (has("id") || has("identifier") || has("number") || has("no") || has("num"))
+        && !has("of")
         && (person_hint
             || has_any(&[
                 "case", "record", "student", "patient", "client", "member", "event",
             ]))
+    {
+        return Some((OtherIdNumber, High));
+    }
+    // A column headed just "ID", "ID number", or "Identifier".
+    if (has("id") || has("identifier"))
+        && t.iter().all(|x| {
+            matches!(
+                x.as_str(),
+                "id" | "identifier" | "number" | "no" | "num" | "code"
+            )
+        })
     {
         return Some((OtherIdNumber, High));
     }
@@ -621,6 +736,95 @@ fn share(values: &[&str], pred: impl Fn(&str) -> bool) -> f64 {
         return 0.0;
     }
     values.iter().filter(|v| pred(v)).count() as f64 / values.len() as f64
+}
+
+/// Words that make up a person's name when they are the whole header.
+const NAME_PART_HEADERS: [&str; 10] = [
+    "first", "last", "middle", "given", "family", "maiden", "nickname", "alias", "aka", "mi",
+];
+
+/// Header words that point at a person ("Student", "Guardian", "Contact").
+const PERSON_HEADERS: [&str; 10] = [
+    "guardian", "parent", "mother", "father", "spouse", "patient", "client", "student", "child",
+    "contact",
+];
+
+/// Header words that show a "person" header is about something else
+/// ("Student grade", "Contact type", "Patient status").
+const NOT_PERSON_HEADERS: [&str; 22] = [
+    "type",
+    "status",
+    "grade",
+    "age",
+    "sex",
+    "gender",
+    "race",
+    "ethnicity",
+    "language",
+    "count",
+    "total",
+    "school",
+    "town",
+    "city",
+    "relationship",
+    "result",
+    "category",
+    "group",
+    "setting",
+    "method",
+    "level",
+    "risk",
+];
+
+/// True when every word of the header is a name part ("First", "Last, First").
+fn name_part_header(tokens: &[String]) -> bool {
+    !tokens.is_empty()
+        && tokens
+            .iter()
+            .all(|t| NAME_PART_HEADERS.contains(&t.as_str()))
+}
+
+/// True when the header points at a person and not at an attribute of one.
+fn person_header(tokens: &[String]) -> bool {
+    tokens.iter().any(|t| PERSON_HEADERS.contains(&t.as_str()))
+        && !tokens
+            .iter()
+            .any(|t| NOT_PERSON_HEADERS.contains(&t.as_str()))
+}
+
+/// True for text shaped like a name: one to five alphabetic words, and not a
+/// yes/no or "unknown" style answer.
+fn name_shaped(v: &str) -> bool {
+    let words: Vec<&str> = v
+        .split([' ', ','])
+        .map(str::trim)
+        .filter(|w| !w.is_empty())
+        .collect();
+    if words.is_empty() || words.len() > 5 {
+        return false;
+    }
+    if !words.iter().all(|w| {
+        w.chars()
+            .all(|c| c.is_alphabetic() || matches!(c, '-' | '\'' | '.' | '’'))
+    }) {
+        return false;
+    }
+    !matches!(
+        v.trim().to_ascii_lowercase().as_str(),
+        "yes"
+            | "no"
+            | "y"
+            | "n"
+            | "true"
+            | "false"
+            | "t"
+            | "f"
+            | "unknown"
+            | "unk"
+            | "other"
+            | "none"
+            | "self"
+    )
 }
 
 fn name_like(v: &str) -> bool {
@@ -698,9 +902,25 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
         ));
     }
 
+    // Nine-digit numbers under a "Social …" header are SSNs without hyphens.
+    let header_tokens = tokens(header);
+    if header_tokens.iter().any(|t| t == "social") {
+        let bare = share(values, |v| RE_SSN_BARE.is_match(v));
+        if bare >= 0.5 {
+            return Some(make(
+                Identifier::Ssn,
+                Confidence::High,
+                format!(
+                    "column name mentions 'social' and {} of values are nine-digit numbers",
+                    pct(bare)
+                ),
+            ));
+        }
+    }
+
     let by_header = header_kind(header);
     if let Some((kind, conf)) = by_header {
-        // Date headers need date values; other header hits stand on their own.
+        // Date headers need date-like values; other header hits stand on their own.
         if kind == Identifier::Date {
             let d = share(values, |v| parse_date(v).is_some());
             if d >= 0.6 {
@@ -709,6 +929,21 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
                     Confidence::High,
                     format!(
                         "column name suggests a date; {} of values are dates",
+                        pct(d)
+                    ),
+                ));
+            }
+            // Values with digits that were not recognized as dates are still
+            // treated as dates (and blanked or masked downstream), so an
+            // unfamiliar date format is never passed through as it is. Yes/no
+            // columns such as "Up to date" are left alone.
+            let digits = share(values, |v| v.chars().any(|c| c.is_ascii_digit()));
+            if digits >= 0.6 {
+                return Some(make(
+                    kind,
+                    conf,
+                    format!(
+                        "column name suggests a date; only {} of values were recognized as dates",
                         pct(d)
                     ),
                 ));
@@ -732,6 +967,42 @@ fn classify_column(header: &str, index: usize, values: &[&str]) -> Option<Column
                 conf,
                 format!("column name '{header}' suggests {}", kind.label()),
             ));
+        }
+    }
+
+    // Headers that point at a person without saying "name": "First", "Last",
+    // "Student", "Guardian". The values decide: text shaped like names is
+    // flagged even when the names are not on the public name lists.
+    if by_header.is_none() && !values.is_empty() {
+        let shaped = share(values, name_shaped);
+        if shaped >= 0.6 && name_part_header(&header_tokens) {
+            return Some(make(
+                Identifier::Name,
+                Confidence::Medium,
+                format!("column name '{header}' suggests part of a person's name"),
+            ));
+        }
+        if shaped >= 0.6 && person_header(&header_tokens) {
+            let listed = share(values, name_like);
+            let multiword = share(values, |v| v.split_whitespace().count() >= 2);
+            // Names are capitalized; categories such as "Sent home" are not.
+            let capitalized = share(values, |v| {
+                v.split_whitespace()
+                    .all(|w| w.chars().next().is_some_and(char::is_uppercase))
+            });
+            if capitalized >= 0.6
+                && (listed >= 0.3
+                    || multiword >= 0.5
+                    || (distinct.len() >= 3 && distinct_ratio > 0.5))
+            {
+                return Some(make(
+                    Identifier::Name,
+                    Confidence::Medium,
+                    format!(
+                        "column name '{header}' suggests a person and the values look like names"
+                    ),
+                ));
+            }
         }
     }
 
@@ -832,6 +1103,77 @@ pub fn is_missing(v: &str) -> bool {
     )
 }
 
+/// How a header cell or a sheet name looks when it is checked for content
+/// that is data about a person and not a label. Used to keep the first record
+/// of a file without a header row, or names used as column headers, out of
+/// tool results (column names are always returned).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HeaderLook {
+    /// An ordinary label.
+    Label,
+    /// A number or a date; real headers can be these ("2024", "9/14/2026").
+    DataLike,
+    /// A person's full name ("Maria Garcia", "Garcia, Maria").
+    Name,
+    /// An identifier value: SSN, phone number, email or street address, web
+    /// address, a long ID code, or a labeled date of birth.
+    Identifier,
+}
+
+/// Classify one header cell or sheet name. See [`HeaderLook`].
+pub fn header_look(cell: &str) -> HeaderLook {
+    let v = cell.trim();
+    if v.is_empty() {
+        return HeaderLook::Label;
+    }
+    let digits = v.chars().filter(char::is_ascii_digit).count();
+    let all_digits = digits == v.chars().count();
+    if RE_SSN.is_match(v)
+        || RE_EMAIL.is_match(v)
+        || RE_URL.is_match(v)
+        || RE_IP.is_match(v)
+        || RE_STREET.is_match(v)
+        || RE_LOCAL_PHONE.is_match(v)
+        || (RE_PHONE.is_match(v) && digits >= 10)
+        || (RE_ID_CODE.is_match(v) && digits >= if all_digits { 7 } else { 6 })
+    {
+        return HeaderLook::Identifier;
+    }
+    if scan_text(v).iter().any(|f| {
+        matches!(
+            f.kind,
+            Identifier::Ssn
+                | Identifier::BirthDate
+                | Identifier::Email
+                | Identifier::Phone
+                | Identifier::StreetAddress
+        )
+    }) {
+        return HeaderLook::Identifier;
+    }
+    let words: Vec<&str> = v
+        .split([' ', ','])
+        .map(str::trim)
+        .filter(|w| !w.is_empty())
+        .collect();
+    let alphabetic = |w: &str| {
+        w.chars()
+            .all(|c| c.is_alphabetic() || matches!(c, '-' | '\'' | '.'))
+    };
+    if (2..=3).contains(&words.len()) && words.iter().copied().all(alphabetic) {
+        let forward =
+            !v.contains(',') && is_first_name(words[0]) && is_surname(words[words.len() - 1]);
+        let reversed = v.contains(',') && is_surname(words[0]) && is_first_name(words[1]);
+        if forward || reversed {
+            return HeaderLook::Name;
+        }
+    }
+    if v.replace(',', "").parse::<f64>().is_ok() || parse_date(v).is_some() || is_missing(v) {
+        return HeaderLook::DataLike;
+    }
+    HeaderLook::Label
+}
+
 // ---------------------------------------------------------------------------
 // Free text
 // ---------------------------------------------------------------------------
@@ -859,6 +1201,7 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
         }
     };
     push(&T_SSN, Identifier::Ssn, Confidence::High);
+    push(&T_SSN_LABELED, Identifier::Ssn, Confidence::High);
     push(&T_DOB, Identifier::BirthDate, Confidence::High);
     push(&T_EMAIL, Identifier::Email, Confidence::High);
     push(&T_URL, Identifier::Url, Confidence::High);
@@ -916,6 +1259,23 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
             confidence: Confidence::Medium,
         });
     }
+    for m in T_PHONE_BARE.find_iter(text) {
+        f.push(TextFinding {
+            kind: Identifier::Phone,
+            start: m.start(),
+            end: m.end(),
+            confidence: Confidence::Medium,
+        });
+    }
+    for c in T_PHONE_LOCAL.captures_iter(text) {
+        let m = c.get(1).expect("number group");
+        f.push(TextFinding {
+            kind: Identifier::Phone,
+            start: m.start(),
+            end: m.end(),
+            confidence: Confidence::Medium,
+        });
+    }
     for m in T_IP.find_iter(text) {
         f.push(TextFinding {
             kind: Identifier::IpAddress,
@@ -945,8 +1305,9 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
         let a = words[i];
         let a_l = a.as_str().to_ascii_lowercase();
         let next = words.get(i + 1).filter(|b| adjacent(&a, b));
-        // Relationship cue: "Daughter Carmen [Delgado]".
-        let preceded_by_cue = i > 0 && {
+        // Relationship cue: "Daughter Carmen [Delgado]". The cue word may be
+        // lower case, so it is looked for even before the first capitalized word.
+        let preceded_by_cue = {
             let prev = &text[..a.start()];
             let cue = prev
                 .trim_end()
@@ -1007,18 +1368,28 @@ pub fn scan_text(text: &str) -> Vec<TextFinding> {
             });
         }
     }
-    // Keep the first, longest, highest-confidence finding for overlapping spans.
+    // Overlapping spans are merged into one finding that covers all of them,
+    // so the tail of a later finding (for example the number in "Mrs. Delgado
+    // Medicaid ID: 100234567", where the name span reaches "Medicaid") is never
+    // left outside a redaction. The merged finding takes the kind that standard
+    // redaction removes when either span has one.
     f.sort_by(|a, b| {
         a.start
             .cmp(&b.start)
             .then(b.confidence.cmp(&a.confidence))
             .then((b.end - b.start).cmp(&(a.end - a.start)))
     });
+    let rank = |x: &TextFinding| (redacted_by(RedactionLevel::Standard, x), x.confidence);
     let mut out: Vec<TextFinding> = Vec::new();
     for x in f {
-        if let Some(last) = out.last()
+        if let Some(last) = out.last_mut()
             && x.start < last.end
         {
+            if rank(&x) > rank(last) {
+                last.kind = x.kind;
+                last.confidence = x.confidence;
+            }
+            last.end = last.end.max(x.end);
             continue;
         }
         out.push(x);
@@ -1215,6 +1586,130 @@ mod tests {
         assert!(!standard.text.contains("00451234"));
         assert!(standard.text.contains("413-555-0101")); // phone kept, but counted
         assert!(standard.detected_only.contains_key(&Identifier::Phone));
+    }
+
+    #[test]
+    fn overlapping_findings_are_merged_not_dropped() {
+        // The titled-name span reaches "Medicaid"; the number must still go.
+        for (text, secret) in [
+            ("Mrs. Delgado\nMedicaid ID: 100234567", "100234567"),
+            ("Carmen\nCase number: 2024-0118", "2024-0118"),
+            (
+                "Client: Mrs. Delgado\nDate of Birth: 04/17/1958",
+                "04/17/1958",
+            ),
+        ] {
+            for level in [RedactionLevel::Standard, RedactionLevel::Strict] {
+                let r = redact_text(text, level);
+                assert!(!r.text.contains(secret), "{secret} survived: {}", r.text);
+            }
+        }
+        // The merged span is counted under the kind standard redaction removes.
+        let r = redact_text(
+            "Client: Mrs. Delgado\nDate of Birth: 04/17/1958",
+            RedactionLevel::Standard,
+        );
+        assert!(r.redacted.contains_key(&Identifier::BirthDate));
+    }
+
+    #[test]
+    fn common_identifier_formats_are_found() {
+        let strict = |t: &str| redact_text(t, RedactionLevel::Strict).text;
+        assert!(!strict("SSN 123 45 6789 on file").contains("6789"));
+        assert!(!strict("SSN: 123456789").contains("123456789"));
+        assert!(!strict("MRN: #12345 and MRN#: 99887").contains("12345"));
+        assert!(!strict("MRN: #12345 and MRN#: 99887").contains("99887"));
+        assert!(!strict("call 555-0101 today").contains("555-0101"));
+        assert!(!strict("cell 4135550101").contains("4135550101"));
+        assert!(!strict("DOB 20150307").contains("20150307"));
+        assert!(!strict("born 7 March 2015").contains("March"));
+        assert!(!strict("DOB: 03.07.2015").contains("03.07"));
+        assert!(!strict("spoke with daughter Carmen today").contains("Carmen"));
+        // Ordinary words after a label, ranges of counts, and ZIP+4 are left alone.
+        for plain in [
+            "Patient identified by medicare enrollment",
+            "serving 500-1000 residents",
+            "ZIP 01002-1234",
+            "school year 2024-2025",
+        ] {
+            assert!(
+                scan_text(plain).is_empty(),
+                "{plain}: {:?}",
+                scan_text(plain)
+            );
+        }
+    }
+
+    #[test]
+    fn person_and_id_headers_are_flagged_in_small_files() {
+        let t = table(
+            &[
+                "First",
+                "Last",
+                "ID",
+                "Case #",
+                "Student",
+                "Up to date",
+                "MI",
+            ],
+            &[
+                &["Thuy", "Okafor", "104", "7", "Ngoc Adeyemi", "Y", "N"],
+                &["Abdi", "Mohamud", "105", "8", "Linh Abdi", "N", "Y"],
+                &["Thuy", "Okafor", "104", "9", "Ngoc Adeyemi", "Y", "N"],
+            ],
+        );
+        let f = scan_table(&t);
+        let kind = |c: &str| f.iter().find(|x| x.column == c).map(|x| x.kind);
+        assert_eq!(kind("First"), Some(Identifier::Name));
+        assert_eq!(kind("Last"), Some(Identifier::Name));
+        assert_eq!(kind("Student"), Some(Identifier::Name));
+        assert_eq!(kind("ID"), Some(Identifier::OtherIdNumber));
+        assert_eq!(kind("Case #"), Some(Identifier::OtherIdNumber));
+        // Yes/no columns are not names or dates.
+        assert_eq!(kind("Up to date"), None);
+        assert_eq!(kind("MI"), None);
+        // A date header with an unfamiliar format is still treated as a date.
+        let t = table(&["Onset Date"], &[&["2024.W03-2"], &["2024.W04-5"]]);
+        assert_eq!(scan_table(&t)[0].kind, Identifier::Date);
+    }
+
+    #[test]
+    fn header_cells_that_are_data_are_recognized() {
+        assert_eq!(header_look("413-555-0101"), HeaderLook::Identifier);
+        assert_eq!(header_look("maria@example.org"), HeaderLook::Identifier);
+        assert_eq!(header_look("12 Elm St"), HeaderLook::Identifier);
+        assert_eq!(header_look("C-20260001"), HeaderLook::Identifier);
+        assert_eq!(header_look("Maria Garcia"), HeaderLook::Name);
+        assert_eq!(header_look("Garcia, Maria"), HeaderLook::Name);
+        assert_eq!(header_look("2024"), HeaderLook::DataLike);
+        assert_eq!(header_look("3/7/2015"), HeaderLook::DataLike);
+        for label in [
+            "Town",
+            "Onset Date",
+            "Student Name",
+            "MRN Number",
+            "FY2024",
+            "Total",
+        ] {
+            assert_eq!(header_look(label), HeaderLook::Label, "{label}");
+        }
+    }
+
+    #[test]
+    fn two_digit_years_and_other_formats_parse() {
+        let d = |y, m, day| chrono::NaiveDate::from_ymd_opt(y, m, day);
+        assert_eq!(parse_date("3/5/21"), d(2021, 3, 5));
+        assert_eq!(parse_date("3/7/45"), d(1945, 3, 7));
+        assert_eq!(parse_date("20150307"), d(2015, 3, 7));
+        assert_eq!(parse_date("03.07.2015"), d(2015, 3, 7));
+        assert_eq!(parse_date("13/03/2015"), d(2015, 3, 13));
+        assert_eq!(parse_date("7 March 2015"), d(2015, 3, 7));
+        assert_eq!(parse_date("March 2015"), d(2015, 3, 1));
+        assert!(parse_date("3/7/0015").is_none());
+        assert!(parse_date("12345678").is_none());
+        assert_eq!(plain_year("2024"), Some(2024));
+        assert_eq!(plain_year("0015"), None);
+        assert!(!age_header_is_years("Age (months)") && age_header_is_years("Age"));
     }
 
     #[test]

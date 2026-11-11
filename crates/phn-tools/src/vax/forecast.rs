@@ -353,7 +353,14 @@ pub struct FileForecastSummary {
     /// File read (relative to /data).
     pub file: String,
     pub persons: usize,
+    /// Dose rows evaluated (dated from the date of birth through the assessment date).
     pub dose_rows: usize,
+    /// Dose rows left out because the date given is before the person's date of birth or after the assessment date (listed in the dose-evaluation file).
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub dose_rows_outside_dates: usize,
+    /// People whose rows give more than one date of birth; the first was used (listed in the dose-evaluation file).
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub persons_with_conflicting_birth_dates: usize,
     /// Rows without a usable person ID, date of birth, or date given.
     pub rows_skipped: usize,
     /// Rows whose vaccine could not be matched to a CVX code (details in the output file).
@@ -382,18 +389,16 @@ pub struct ForecastImmunizationsResult {
 
 // ----------------------------------------------------------------- helpers
 
+/// Parse a date with the shared parser (ISO, US with four- or two-digit
+/// years, ISO date-time, Excel serial; years outside 1900-2100 are rejected).
 fn parse_date(field: &str, s: &str) -> Result<NaiveDate> {
-    let t = s.trim();
-    let t = t
-        .get(..10)
-        .filter(|p| p.len() == 10 && p.as_bytes()[4] == b'-')
-        .unwrap_or(t);
-    NaiveDate::parse_from_str(t, "%Y-%m-%d")
-        .or_else(|_| NaiveDate::parse_from_str(t, "%m/%d/%Y"))
-        .or_else(|_| NaiveDate::parse_from_str(t, "%m-%d-%Y"))
-        .map_err(|_| {
-            PhnError::InvalidInput(format!("{field} must be a date (YYYY-MM-DD), got '{s}'"))
-        })
+    crate::vax::dates::parse_date(s).ok_or_else(|| {
+        PhnError::InvalidInput(format!("{field} must be a date (YYYY-MM-DD), got '{s}'"))
+    })
+}
+
+fn is_zero(n: &usize) -> bool {
+    *n == 0
 }
 
 fn parse_sex(s: Option<&str>) -> Gender {
@@ -1435,6 +1440,8 @@ fn file_mode(
         dob: Option<NaiveDate>,
         sex: Gender,
         doses: Vec<(NaiveDate, String, String)>,
+        /// Another row for this person gives a different date of birth.
+        dob_conflict: bool,
     }
     let mut persons: BTreeMap<String, Person> = BTreeMap::new();
     let mut rows_skipped = 0usize;
@@ -1461,7 +1468,11 @@ fn file_mode(
             dob,
             sex: Gender::Unknown,
             doses: Vec::new(),
+            dob_conflict: false,
         });
+        if p.dob != dob {
+            p.dob_conflict = true;
+        }
         if let Some(c) = sex_col {
             let g = parse_sex(Some(&cell(row, c)));
             if g != Gender::Unknown {
@@ -1491,8 +1502,43 @@ fn file_mode(
     let mut season_ended = false;
     let mut forecast_rows: Vec<Vec<String>> = Vec::new();
     let mut dose_rows: Vec<Vec<String>> = Vec::new();
+    let mut doses_evaluated = 0usize;
+    let mut doses_outside_dates = 0usize;
+    let mut dob_conflicts = 0usize;
     for (id, p) in &persons {
         let Some(dob) = p.dob else { continue };
+        // Doses dated before birth or after the assessment date cannot be
+        // evaluated. They are counted and listed, never dropped silently.
+        for (d, cvx, entered) in p.doses.iter().filter(|(d, _, _)| *d > assess || *d < dob) {
+            doses_outside_dates += 1;
+            dose_rows.push(vec![
+                id.clone(),
+                String::new(),
+                String::new(),
+                d.to_string(),
+                entered.clone(),
+                cvx.clone(),
+                "Not evaluated".into(),
+                if *d < dob {
+                    "dated before the date of birth; check the dates".into()
+                } else {
+                    "dated after the assessment date".into()
+                },
+            ]);
+        }
+        if p.dob_conflict {
+            dob_conflicts += 1;
+            dose_rows.push(vec![
+                id.clone(),
+                String::new(),
+                String::new(),
+                String::new(),
+                String::new(),
+                String::new(),
+                "Check record".into(),
+                "rows for this person give different dates of birth; the first was used".into(),
+            ]);
+        }
         let input = PatientInput {
             dob,
             gender: p.sex,
@@ -1511,6 +1557,7 @@ fn file_mode(
             .iter()
             .filter(|(d, _, _)| *d <= assess && *d >= dob)
             .collect();
+        doses_evaluated += kept.len();
         let r = phn_cdsi::run(&input);
         for g in &groups {
             let Some(f) = primary(&r, g, dob) else {
@@ -1661,7 +1708,7 @@ fn file_mode(
             ]
         })
         .collect();
-    let dose_count: usize = persons.values().map(|p| p.doses.len()).sum();
+    let dose_count = doses_evaluated;
     let mut s = format!(
         "**Immunization forecasts for {} people** from {label} (CDC CDSi, ACIP schedule), \
          assessed {assess}. {dose_count} dose rows evaluated.\n\n",
@@ -1686,6 +1733,20 @@ fn file_mode(
         caveats.push(format!(
             "{unrecognized_rows} row(s) had a vaccine that could not be matched to a CVX code \
              and were not evaluated; the dose-evaluation file lists them. Use CVX codes."
+        ));
+    }
+    if doses_outside_dates > 0 {
+        caveats.push(format!(
+            "{doses_outside_dates} dose row(s) were not evaluated because the date given is \
+             before the person's date of birth or after the assessment date, so those people \
+             may be counted as overdue in error. The dose-evaluation file lists them; check the \
+             dates of birth and dose dates."
+        ));
+    }
+    if dob_conflicts > 0 {
+        caveats.push(format!(
+            "{dob_conflicts} person(s) have rows with different dates of birth; the first date \
+             was used. The dose-evaluation file lists them; correct the file and run it again."
         ));
     }
     if !observations.is_empty() {
@@ -1719,6 +1780,8 @@ fn file_mode(
                 file: label.clone(),
                 persons: persons.len(),
                 dose_rows: dose_count,
+                dose_rows_outside_dates: doses_outside_dates,
+                persons_with_conflicting_birth_dates: dob_conflicts,
                 rows_skipped,
                 unrecognized_vaccine_rows: unrecognized_rows,
                 columns,
@@ -1782,5 +1845,66 @@ mod tests {
         assert_eq!(resolve_condition("7").unwrap().0, "007");
         assert_eq!(resolve_condition("pregnant").unwrap().0, "007");
         assert!(resolve_condition("zzzz").is_err());
+    }
+
+    #[test]
+    fn dates_with_two_digit_years_and_implausible_dates() {
+        let d = |s: &str| NaiveDate::parse_from_str(s, "%Y-%m-%d").unwrap();
+        assert_eq!(parse_date("dob", "10/15/26").unwrap(), d("2026-10-15"));
+        assert_eq!(parse_date("dob", "3/4/15").unwrap(), d("2015-03-04"));
+        assert_eq!(parse_date("dob", "2015-03-04").unwrap(), d("2015-03-04"));
+        assert_eq!(
+            parse_date("dob", "2015-03-04T00:00:00").unwrap(),
+            d("2015-03-04")
+        );
+        assert!(parse_date("dob", "9/3/2024–10/1/2024").is_err());
+        assert!(parse_date("dob", "+262143-12-31").is_err());
+        assert!(parse_date("dob", "2020-13-40").is_err());
+    }
+
+    /// Doses dated before birth or after the assessment date, and rows that
+    /// disagree about a date of birth, are counted and reported.
+    #[test]
+    fn file_mode_reports_doses_outside_dates_and_birth_date_conflicts() {
+        let dir = tempfile::tempdir().unwrap();
+        std::fs::create_dir_all(dir.path().join("data")).unwrap();
+        std::fs::write(
+            dir.path().join("data").join("iz.csv"),
+            "person_id,dob,cvx,date_given\n\
+             P-1,2020-01-01,110,2020-03-01\n\
+             P-1,2020-01-01,110,2019-12-01\n\
+             P-1,2020-01-01,110,2030-01-01\n\
+             P-2,2021-05-05,110,2021-07-05\n\
+             P-2,2021-06-06,110,2021-09-05\n",
+        )
+        .unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = true;
+        let ctx = Context::new(config).unwrap();
+        let env = forecast_immunizations_due(
+            &ctx,
+            ForecastImmunizationsArgs {
+                file: Some("iz.csv".into()),
+                assessment_date: Some("2026-11-01".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let f = env.data.file.unwrap();
+        assert_eq!(f.persons, 2);
+        assert_eq!(f.dose_rows, 3);
+        assert_eq!(f.dose_rows_outside_dates, 2);
+        assert_eq!(f.persons_with_conflicting_birth_dates, 1);
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("2 dose row(s) were not evaluated"))
+        );
+        assert!(
+            env.caveats
+                .iter()
+                .any(|c| c.contains("different dates of birth"))
+        );
+        assert!(env.summary.contains("3 dose rows evaluated"));
     }
 }

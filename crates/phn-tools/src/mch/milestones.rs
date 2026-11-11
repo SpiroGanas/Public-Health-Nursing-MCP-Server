@@ -269,6 +269,7 @@ pub fn check_developmental_milestones(
         ));
     };
     let checklist = build(a, &args.not_yet);
+    let mut corrected_below_first = false;
     let corrected = match args.gestational_age_weeks {
         Some(ga) if !(22..=44).contains(&ga) => {
             return Err(PhnError::InvalidInput(
@@ -277,7 +278,9 @@ pub fn check_developmental_milestones(
         }
         Some(ga) if ga < 37 && age < 24.0 => {
             let corr = age - f64::from(40 - ga) * 7.0 / 30.4375;
-            checklist_for(corr)
+            let found = checklist_for(corr);
+            corrected_below_first = found.is_none();
+            found
                 .filter(|b| b.age_months != a.age_months)
                 .map(|b| build(b, &args.not_yet))
         }
@@ -295,7 +298,13 @@ pub fn check_developmental_milestones(
         .filter(|x| !known.iter().any(|k| k.eq_ignore_ascii_case(x)))
         .cloned()
         .collect();
-    let not_yet_count = checklist.milestones.iter().filter(|m| m.not_yet).count();
+    // Count "not yet" items on both checklists: an item marked on the corrected-age
+    // checklist is a reason to act early too.
+    let corrected_not_yet = corrected
+        .as_ref()
+        .map_or(0, |k| k.milestones.iter().filter(|m| m.not_yet).count());
+    let not_yet_count =
+        checklist.milestones.iter().filter(|m| m.not_yet).count() + corrected_not_yet;
     let act_early = not_yet_count > 0 || args.lost_skills || args.concern;
     let next = c
         .ages
@@ -453,6 +462,20 @@ pub fn check_developmental_milestones(
     }
 
     let mut caveats = vec![mc::review_caveat(&c.meta, "developmental milestones")];
+    if corrected_not_yet > 0 {
+        caveats.push(format!(
+            "{corrected_not_yet} of the milestone(s) marked not yet are on the corrected-age \
+             checklist; they are counted and the act-early steps are shown."
+        ));
+    }
+    if corrected_below_first {
+        caveats.push(
+            "The child was born early and the corrected age is under 2 months, before CDC's \
+             first checklist, so only the checklist for the chronological age is shown. Decide \
+             with the child's provider which age to use."
+                .into(),
+        );
+    }
     caveats.push(format!(
         "{} Milestones describe what 75% or more of children do by that age; a missed milestone \
          is a reason to act early, not a diagnosis.",
@@ -602,5 +625,44 @@ mod tests {
         )
         .unwrap_err();
         assert!(e.to_string().contains("2 months"));
+    }
+
+    #[test]
+    fn not_yet_on_the_corrected_age_checklist_counts() {
+        let (_d, c) = ctx();
+        // 9.5 months, born at 30 weeks: corrected age about 7 months (6-month checklist).
+        let env = check_developmental_milestones(
+            &c,
+            MilestoneArgs {
+                age_months: 9.5,
+                gestational_age_weeks: Some(30),
+                not_yet: vec!["6m-language-1".into()],
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            env.data
+                .corrected_age_checklist
+                .as_ref()
+                .unwrap()
+                .age_months,
+            6
+        );
+        assert!(env.data.act_early);
+        assert_eq!(env.data.not_yet_count, 1);
+        assert!(env.data.unknown_ids.is_empty());
+        // 3 months, born at 28 weeks: the corrected age is before CDC's first checklist.
+        let env = check_developmental_milestones(
+            &c,
+            MilestoneArgs {
+                age_months: 3.0,
+                gestational_age_weeks: Some(28),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(env.data.corrected_age_checklist.is_none());
+        assert!(env.caveats.iter().any(|x| x.contains("under 2 months")));
     }
 }

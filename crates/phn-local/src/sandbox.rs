@@ -155,7 +155,17 @@ pub fn sanitize_file_name(name: &str) -> String {
         out.remove(0);
     }
     if out.len() > 120 {
-        out.truncate(120);
+        // Shorten the stem on a character boundary and keep the extension
+        // (truncating bytes would panic inside a multi-byte character).
+        let (stem, ext) = match out.rsplit_once('.') {
+            Some((s, e)) if !s.is_empty() && e.len() <= 10 => (s.to_string(), format!(".{e}")),
+            _ => (out.clone(), String::new()),
+        };
+        let mut keep = 120usize.saturating_sub(ext.len());
+        while !stem.is_char_boundary(keep.min(stem.len())) {
+            keep -= 1;
+        }
+        out = format!("{}{ext}", &stem[..keep.min(stem.len())]);
     }
     if out.is_empty() { "output".into() } else { out }
 }
@@ -221,5 +231,9 @@ mod tests {
         assert!(b.ends_with("report-2.docx"));
         assert_eq!(sanitize_file_name("../../etc/passwd"), "passwd");
         assert_eq!(sanitize_file_name(".hidden name.csv"), "hidden_name.csv");
+        // Long names with accented letters keep their extension and do not panic.
+        let long = format!("{}.docx", "Notificación de exclusión ".repeat(10));
+        let clean = sanitize_file_name(&long);
+        assert!(clean.len() <= 120 && clean.ends_with(".docx"), "{clean}");
     }
 }

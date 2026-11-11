@@ -186,13 +186,17 @@ fn assess_immunity(a: &MeaslesExposureArgs, group: ImmunityGroup) -> ImmunityAss
         .expect("measles content has evidence-of-immunity criteria");
     let mut reasoning = Vec::new();
     let mut status = None;
+    // Doses before the first birthday do not count, so a dose count cannot
+    // make an infant under 12 months immune.
+    let infant = a.age_months.is_some_and(|m| m < 12);
     if a.lab_confirmed_measles == Some(true) {
         reasoning.push("Laboratory confirmation of past measles is evidence of immunity.".into());
         status = Some(ImmunityStatus::EvidenceOfImmunity);
     } else if a.positive_measles_igg == Some(true) {
         reasoning.push("A positive measles IgG is laboratory evidence of immunity.".into());
         status = Some(ImmunityStatus::EvidenceOfImmunity);
-    } else if let Some(n) = a.documented_mmr_doses
+    } else if !infant
+        && let Some(n) = a.documented_mmr_doses
         && n >= crit.doses_required
     {
         reasoning.push(format!(
@@ -210,13 +214,18 @@ fn assess_immunity(a: &MeaslesExposureArgs, group: ImmunityGroup) -> ImmunityAss
         status = Some(ImmunityStatus::EvidenceOfImmunity);
     }
     if status.is_none() {
-        let infant = a.age_months.is_some_and(|m| m < 12);
         if infant {
             reasoning.push(
                 "Infants under 12 months have no evidence of immunity (doses before the first \
                  birthday do not count)."
                     .into(),
             );
+            if let Some(n) = a.documented_mmr_doses.filter(|n| *n > 0) {
+                reasoning.push(format!(
+                    "The {n} dose(s) reported were given before the first birthday and were not \
+                     counted."
+                ));
+            }
             status = Some(ImmunityStatus::NoEvidenceOfImmunity);
         } else if let Some(n) = a.documented_mmr_doses {
             reasoning.push(format!(
@@ -289,8 +298,23 @@ pub fn assess_measles_exposure(
         ..DateFacts::default()
     };
     dates.validate()?;
-    let first_exp: NaiveDate = first.or(last).expect("checked above");
-    let last_exp: NaiveDate = last.or(first).expect("checked above");
+    let raw_first: NaiveDate = first.or(last).expect("checked above");
+    let raw_last: NaiveDate = last.or(first).expect("checked above");
+    // Only exposure during the case's infectious period (4 days before through
+    // 4 days after rash onset) counts: PEP windows, exclusion, and monitoring
+    // are counted from the exposure dates clamped to that period.
+    let infectious = case_onset.map(|o| (add(o, -4), add(o, 4)));
+    let clamped = infectious
+        .is_some_and(|(s, e)| raw_last >= s && raw_first <= e && (raw_first < s || raw_last > e));
+    let (first_exp, last_exp) = match infectious {
+        Some((s, e)) if clamped => (raw_first.max(s), raw_last.min(e)),
+        _ => (raw_first, raw_last),
+    };
+    let dates = DateFacts {
+        first_exposure: Some(first_exp),
+        last_exposure: Some(last_exp),
+        ..dates
+    };
     let setting = args.setting.unwrap_or(Setting::Other);
     if setting == Setting::All {
         return Err(PhnError::InvalidInput(
@@ -502,6 +526,24 @@ pub fn assess_measles_exposure(
              through 4 days after rash onset). Confirm the dates; this may not be an exposure.\n\n",
         );
     }
+    let clamp_note = match infectious {
+        Some((ps, pe)) if clamped => Some(format!(
+            "The exposure dates given ({} to {}) extend outside the case's infectious period ({} \
+             through {}: 4 days before through 4 days after rash onset on {}). PEP deadlines, \
+             exclusion, and monitoring are counted from exposure within that period: {} to {}.",
+            fmt(raw_first),
+            fmt(raw_last),
+            fmt(ps),
+            fmt(pe),
+            case_onset.map(fmt).unwrap_or_default(),
+            fmt(first_exp),
+            fmt(last_exp)
+        )),
+        _ => None,
+    };
+    if let Some(n) = &clamp_note {
+        s.push_str(&format!("{n}\n\n"));
+    }
     s.push_str(&format!(
         "**Evidence of immunity: {}** ({})\n\n",
         match immunity.status {
@@ -626,7 +668,7 @@ pub fn assess_measles_exposure(
         })
         .collect();
     sources.sort_by(|a, b| a.title.cmp(&b.title));
-    let caveats = vec![
+    let mut caveats = vec![
         format!(
             "REVIEW STATUS: the measles exposure content is a PENDING-REVIEW draft (version {}, \
              prepared {}); the ACIP statement is from 2013. {}",
@@ -641,6 +683,9 @@ pub fn assess_measles_exposure(
          IG supply, and exclusion decisions with DPH epidemiology."
             .into(),
     ];
+    if let Some(n) = clamp_note {
+        caveats.push(n);
+    }
     let data = MeaslesExposureResult {
         as_of: fmt(as_of),
         immunity,
@@ -699,6 +744,76 @@ mod tests {
         assert_eq!(ex.last_excluded_date.as_deref(), Some("2026-03-23"));
         assert_eq!(d.monitor_symptoms_through.as_deref(), Some("2026-03-23"));
         assert!(env.notice.is_some());
+    }
+
+    #[test]
+    fn infant_with_a_dose_before_the_first_birthday_is_not_immune() {
+        let (_d, c) = ctx();
+        let env = assess_measles_exposure(
+            &c,
+            MeaslesExposureArgs {
+                first_exposure_date: Some("2026-03-02".into()),
+                age_months: Some(9),
+                documented_mmr_doses: Some(1),
+                setting: Some(Setting::ChildCare),
+                as_of: Some("2026-03-03".into()),
+                ..MeaslesExposureArgs::default()
+            },
+        )
+        .unwrap();
+        let d = &env.data;
+        assert_eq!(d.immunity.status, ImmunityStatus::NoEvidenceOfImmunity);
+        assert!(
+            d.immunity
+                .reasoning
+                .iter()
+                .any(|r| r.contains("before the first birthday"))
+        );
+        // Immune globulin is indicated and the exclusion applies.
+        assert_eq!(d.pep[1].indicated, Some(true));
+        assert!(
+            d.exclusion
+                .iter()
+                .any(|r| r.action == phn_content::disease_rules::Action::Exclude)
+        );
+    }
+
+    #[test]
+    fn exposure_before_the_infectious_period_does_not_start_the_clocks() {
+        let (_d, c) = ctx();
+        // Household contact: together since March 1; the case's rash began
+        // March 10, so the infectious period is March 6 to 14.
+        let env = assess_measles_exposure(
+            &c,
+            MeaslesExposureArgs {
+                first_exposure_date: Some("2026-03-01".into()),
+                last_exposure_date: Some("2026-03-12".into()),
+                case_rash_onset_date: Some("2026-03-10".into()),
+                setting: Some(Setting::School),
+                documented_mmr_doses: Some(0),
+                age_months: Some(120),
+                pregnant: Some(false),
+                severely_immunocompromised: Some(false),
+                as_of: Some("2026-03-08".into()),
+                ..MeaslesExposureArgs::default()
+            },
+        )
+        .unwrap();
+        let d = &env.data;
+        assert_eq!(d.exposure_in_infectious_period, Some(true));
+        assert_eq!(d.pep[0].deadline, "2026-03-09");
+        assert!(d.pep[0].open);
+        assert_eq!(d.pep[1].deadline, "2026-03-12");
+        assert!(d.pep[1].open);
+        let ex = d
+            .exclusion
+            .iter()
+            .find(|r| r.rule_id == "contact_susceptible")
+            .unwrap();
+        assert_eq!(ex.start_date.as_deref(), Some("2026-03-11"));
+        assert_eq!(ex.last_excluded_date.as_deref(), Some("2026-04-02"));
+        assert!(env.summary.contains("2026-03-06 to 2026-03-12"));
+        assert!(env.caveats.iter().any(|c| c.contains("infectious period")));
     }
 
     #[test]

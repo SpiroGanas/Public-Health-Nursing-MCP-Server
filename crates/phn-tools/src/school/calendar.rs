@@ -162,7 +162,11 @@ pub fn add_business_days(d: NaiveDate, n: u32) -> NaiveDate {
     let mut out = d;
     let mut left = n;
     while left > 0 {
-        out = out.succ_opt().expect("date in range");
+        // At the end of the calendar's range there is no next day: stop there.
+        let Some(next) = out.succ_opt() else {
+            break;
+        };
+        out = next;
         if !matches!(out.weekday(), Weekday::Sat | Weekday::Sun) {
             left -= 1;
         }
@@ -174,7 +178,10 @@ pub fn add_business_days(d: NaiveDate, n: u32) -> NaiveDate {
 pub fn next_weekday(d: NaiveDate) -> NaiveDate {
     let mut out = d;
     while matches!(out.weekday(), Weekday::Sat | Weekday::Sun) {
-        out = out.succ_opt().expect("date in range");
+        let Some(next) = out.succ_opt() else {
+            break;
+        };
+        out = next;
     }
     out
 }

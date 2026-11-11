@@ -123,6 +123,25 @@ pub fn content() -> &'static InfectionControl {
     &CONTENT
 }
 
+/// Minimum score for [`find`] to count as a match.
+pub const MATCH_THRESHOLD: f64 = 0.85;
+
+/// The pathogen `query` names, if one matches well: an exact id, name, or
+/// alias, or a close match (score of [`MATCH_THRESHOLD`] or more) for a query
+/// that is not very short or made only of generic words. `None` for
+/// pathogens the content does not cover ("ebola", "legionella").
+pub fn best_match(query: &str) -> Option<&'static Pathogen> {
+    let q = text::normalize(query);
+    let (p, score) = find(query).into_iter().next()?;
+    if score >= 0.999 {
+        return Some(p);
+    }
+    if score < MATCH_THRESHOLD || q.len() < 4 || crate::reportable::is_generic_query(&q) {
+        return None;
+    }
+    Some(p)
+}
+
 /// Find a pathogen by id, name, or alias; best match first with its score.
 pub fn find(query: &str) -> Vec<(&'static Pathogen, f64)> {
     let q = text::normalize(query);
@@ -138,10 +157,23 @@ pub fn find(query: &str) -> Vec<(&'static Pathogen, f64)> {
                     let nn = text::normalize(n);
                     if nn == q {
                         1.0
-                    } else if nn.len() >= 3 && (q.contains(&nn) || nn.starts_with(&q)) {
-                        0.9
                     } else {
-                        text::similarity(&q, &nn)
+                        // Whole-word containment only ("norovirus outbreak"),
+                        // never inside a word or for one-letter queries.
+                        let raw = if q.len() >= 3
+                            && nn.len() >= 3
+                            && (crate::reportable::contains_phrase(&q, &nn)
+                                || nn.starts_with(&format!("{q} ")))
+                        {
+                            0.9
+                        } else {
+                            text::similarity(&q, &nn)
+                        };
+                        if crate::reportable::short_key_in_longer_query(&q, &nn) {
+                            raw.min(0.75)
+                        } else {
+                            raw
+                        }
                     }
                 })
                 .fold(0.0, f64::max);
@@ -185,5 +217,31 @@ mod tests {
         assert_eq!(find("norovirus")[0].0.id, "norovirus");
         assert_eq!(find("C. diff")[0].0.id, "c_difficile");
         assert_eq!(find("shigella")[0].0.id, "enteric_bacteria");
+    }
+
+    #[test]
+    fn pathogens_not_covered_do_not_match_a_similar_spelling() {
+        let id = |q: &str| best_match(q).map(|p| p.id.as_str());
+        for q in [
+            "ebola",
+            "CRE",
+            "impetigo",
+            "bed bugs",
+            "legionella",
+            "mpox",
+            "rotavirus",
+            "stomach flu",
+            "gastroenteritis",
+            "s",
+        ] {
+            assert_eq!(id(q), None, "{q}");
+        }
+        assert_eq!(id("norovirus"), Some("norovirus"));
+        assert_eq!(id("C. diff"), Some("c_difficile"));
+        assert_eq!(id("head lice"), Some("head_lice"));
+        assert_eq!(id("norovirus outbreak"), Some("norovirus"));
+        assert_eq!(id("norovirs"), Some("norovirus"));
+        assert_eq!(id("salmonela"), Some("enteric_bacteria"));
+        assert_eq!(id("flu"), Some("influenza"));
     }
 }

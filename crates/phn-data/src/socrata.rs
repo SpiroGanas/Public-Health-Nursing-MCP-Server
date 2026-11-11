@@ -3,8 +3,10 @@
 //! CDC publishes NNDSS tables, PLACES, respiratory surveillance, and NWSS
 //! wastewater data through Socrata. A [`SocrataQuery`] builds a SoQL URL
 //! (`$select`, `$where`, `$group`, `$order`, `$limit`, `$offset`), and
-//! [`query`] runs it through the live → cache → snapshot chain in
-//! [`crate::fetch`], so every result says where its rows came from.
+//! [`query`] runs it through the live → cache → snapshot chain, so every
+//! result says where its rows came from. A response that is not a list of
+//! rows (an HTML block page, a Socrata error object) is never cached; the
+//! cached copy or the snapshot is used instead.
 //!
 //! Socrata returns every value as a string (numbers included); use
 //! [`num`] and [`text`] to read fields.
@@ -12,8 +14,9 @@
 use phn_core::{PhnError, Result, Source, SourceMode};
 use serde_json::{Map, Value};
 
+use crate::apifetch::fetch_validated;
 use crate::cache::Cache;
-use crate::fetch::{SnapshotFallback, fetch_with_fallback};
+use crate::fetch::{SnapshotFallback, local_date};
 use crate::http::HttpClient;
 
 /// The CDC open-data portal.
@@ -185,7 +188,7 @@ impl SocrataRows {
             publisher: publisher.into(),
             url: Some(self.url.clone()),
             effective_date: None,
-            retrieved: Some(self.as_of.chars().take(10).collect()),
+            retrieved: Some(local_date(&self.as_of)),
             mode: self.mode,
         }
     }
@@ -203,7 +206,17 @@ pub async fn query(
     snapshot: Option<SnapshotFallback>,
 ) -> Result<SocrataRows> {
     let url = q.url();
-    let fetched = fetch_with_fallback(http, cache, &url, ttl_secs, snapshot).await?;
+    // Only a body that parses as rows is cached or returned as live data.
+    let fetched = fetch_validated(
+        http,
+        cache,
+        &url,
+        None,
+        ttl_secs,
+        &|b: &[u8]| parse_rows(b).map(|_| ()),
+        snapshot,
+    )
+    .await?;
     let rows = parse_rows(&fetched.body)?;
     let truncated = rows.len() as u32 >= q.limit;
     Ok(SocrataRows {
@@ -297,6 +310,27 @@ mod tests {
             parse_rows(br#"{"message":"bad column","errorCode":"query.soql.no-such-column"}"#)
                 .is_err()
         );
+    }
+
+    #[tokio::test]
+    async fn a_cached_block_page_is_ignored_and_the_snapshot_is_used() {
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let q = SocrataQuery::cdc("abcd-1234").limit(10);
+        // A proxy's HTML page stored by an earlier version, still "fresh".
+        let cache = Cache::in_memory().unwrap();
+        cache
+            .put(&q.url(), b"<html>Access blocked</html>", 3600)
+            .unwrap();
+        let snap: SnapshotFallback =
+            Box::new(|| Some((br#"[{"a":"1"}]"#.to_vec(), "2026-01-01".to_string())));
+        let r = query(&http, Some(&cache), &q, 3600, Some(snap))
+            .await
+            .unwrap();
+        assert_eq!(r.mode, SourceMode::Snapshot);
+        assert_eq!(r.rows.len(), 1);
+        // Without a snapshot the query fails rather than returning the page.
+        assert!(query(&http, Some(&cache), &q, 3600, None).await.is_err());
     }
 
     #[tokio::test]

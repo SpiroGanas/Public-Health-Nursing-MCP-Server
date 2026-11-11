@@ -188,6 +188,10 @@ const PAD: f32 = 20.0;
 /// Validate a spec and render it.
 pub fn render(spec: &ChartSpec) -> Result<Rendered> {
     validate(spec)?;
+    // A suppressed point never contributes its value or its confidence limits
+    // to the image, the axis, the alt text, or the table.
+    let masked = mask_suppressed(spec);
+    let spec = &masked;
     let decimals = spec.decimals.unwrap_or_else(|| auto_decimals(spec));
     let alt_text = alt_text(spec, decimals);
     let (table_headers, table_rows) = table(spec, decimals);
@@ -198,6 +202,26 @@ pub fn render(spec: &ChartSpec) -> Result<Rendered> {
         table_headers,
         table_rows,
     })
+}
+
+/// A copy of the spec in which suppressed points have no value and no limits.
+fn mask_suppressed(spec: &ChartSpec) -> ChartSpec {
+    let mut out = spec.clone();
+    for s in &mut out.series {
+        let hidden: Vec<usize> = (0..s.values.len())
+            .filter(|i| s.suppressed.get(*i).copied().unwrap_or(false))
+            .collect();
+        for i in hidden {
+            s.values[i] = None;
+            if let Some(l) = s.lower.as_mut() {
+                l[i] = None;
+            }
+            if let Some(u) = s.upper.as_mut() {
+                u[i] = None;
+            }
+        }
+    }
+    out
 }
 
 fn validate(spec: &ChartSpec) -> Result<()> {
@@ -254,6 +278,18 @@ fn validate(spec: &ChartSpec) -> Result<()> {
                 r.label
             )));
         }
+    }
+    if spec.log_scale
+        && matches!(
+            spec.kind,
+            ChartKind::Bar | ChartKind::StackedBar | ChartKind::Histogram
+        )
+    {
+        return Err(PhnError::InvalidInput(
+            "bars are measured from zero, which a log scale cannot show; use a dot or line chart \
+             for a log scale"
+                .into(),
+        ));
     }
     if spec.log_scale && all_values(spec).any(|v| v <= 0.0) {
         return Err(PhnError::InvalidInput(
@@ -653,7 +689,10 @@ fn value_axis(spec: &ChartSpec) -> Axis {
         lo = lo.min(0.0);
         hi = hi.max(0.0);
     }
-    if (hi - lo).abs() < 1e-12 {
+    // Values that differ only by floating-point noise count as one value: a
+    // step smaller than the spacing between adjacent numbers would never
+    // advance along the axis.
+    if (hi - lo).abs() < 1e-12 || (hi - lo).abs() <= 1e-9 * hi.abs().max(lo.abs()) {
         hi = lo + if lo == 0.0 { 1.0 } else { lo.abs() * 0.1 };
     }
     let step = nice_step(hi - lo, 5);
@@ -662,12 +701,16 @@ fn value_axis(spec: &ChartSpec) -> Axis {
     if max <= hi && !include_zero {
         max += step;
     }
-    let mut ticks = Vec::new();
-    let mut t = min;
-    while t <= max + step * 1e-6 {
-        ticks.push((t / step).round() * step);
-        t += step;
-    }
+    // Ticks are counted, not accumulated, so the loop always ends.
+    let span = (max - min) / step;
+    let ticks: Vec<f64> = if span.is_finite() {
+        let n = (span.round() as usize).min(200);
+        (0..=n)
+            .map(|i| ((min + i as f64 * step) / step).round() * step)
+            .collect()
+    } else {
+        Vec::new()
+    };
     Axis {
         min,
         max,
@@ -1828,6 +1871,52 @@ mod tests {
         assert!(r.svg.contains(palette::ALERT));
         assert!(r.alt_text.contains("Week 3 (above upper limit)"));
         assert_eq!(r.table_headers.last().unwrap(), "Upper limit");
+    }
+
+    #[test]
+    fn suppressed_points_hide_their_limits_too() {
+        let mut spec = ChartSpec::new(
+            ChartKind::Dot,
+            "Rates by town",
+            vec!["A".into(), "B".into()],
+        );
+        let mut s = series("Rate", &[3.0, 40.0]);
+        s.lower = Some(vec![Some(1.0), Some(30.0)]);
+        s.upper = Some(vec![Some(7.0), Some(50.0)]);
+        s.suppressed = vec![true, false];
+        spec.series = vec![s];
+        let r = render(&spec).unwrap();
+        assert_eq!(r.table_rows[0], vec!["A", "suppressed", "", ""]);
+        assert_eq!(r.table_rows[1], vec!["B", "40", "30", "50"]);
+        // The hidden value is not named as the lowest value either.
+        assert!(r.alt_text.contains("lowest B (40)"), "{}", r.alt_text);
+    }
+
+    #[test]
+    fn near_identical_values_do_not_hang_the_axis() {
+        // The two values differ by floating-point noise only.
+        let mut spec = ChartSpec::new(ChartKind::Line, "Rate", cats(2));
+        spec.series = vec![series("Rate", &[98765.4, 98765.39999999998])];
+        let r = render(&spec).unwrap();
+        assert!(r.svg.starts_with("<svg"));
+        let mut constant = ChartSpec::new(ChartKind::Line, "Rate", cats(13));
+        constant.series = vec![series("Rate", &[12345.6; 13])];
+        constant.ref_lines = vec![RefLine {
+            label: "Mean".into(),
+            values: vec![Some(12345.600000000002)],
+            dashed: false,
+        }];
+        assert!(render(&constant).is_ok());
+    }
+
+    #[test]
+    fn log_scale_is_refused_for_bars() {
+        for kind in [ChartKind::Bar, ChartKind::StackedBar, ChartKind::Histogram] {
+            let mut spec = ChartSpec::new(kind, "x", cats(2));
+            spec.log_scale = true;
+            spec.series = vec![series("a", &[1.0, 2.0])];
+            assert!(render(&spec).is_err(), "{kind:?}");
+        }
     }
 
     #[test]

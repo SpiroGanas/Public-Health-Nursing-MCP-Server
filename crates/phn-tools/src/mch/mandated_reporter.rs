@@ -569,11 +569,10 @@ pub fn mandated_reporter_51a_guide(
             .ok_or_else(|| {
                 PhnError::InvalidInput("oral_report_time should look like 2026-11-08 14:30".into())
             })?;
-            Some(
-                (parsed + Duration::hours(48))
-                    .format("%Y-%m-%d %H:%M")
-                    .to_string(),
-            )
+            let due = parsed
+                .checked_add_signed(Duration::hours(48))
+                .ok_or_else(|| PhnError::InvalidInput("oral_report_time is out of range".into()))?;
+            Some(due.format("%Y-%m-%d %H:%M").to_string())
         }
         None => None,
     };

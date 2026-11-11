@@ -5,7 +5,9 @@
 //!   limit from 3 to 10 requests per second; it is never cached or cited.
 //! * Requests are spaced at least 350 ms apart (110 ms with a key), which
 //!   keeps the server under NCBI's limits even when several calls run at once.
-//! * Responses are cached for one day.
+//! * Responses are cached for one day. A response that carries an
+//!   `<ERROR>` element (NCBI answers some backend failures with HTTP 200) is
+//!   treated as a failed request and is never cached.
 //!
 //! Endpoints: `esearch` (PubMed search and automatic term mapping, MeSH
 //! heading checks) and `efetch` (PubMed records as XML), documented in
@@ -129,7 +131,7 @@ impl Eutils {
         if let Some(c) = cache
             && let Ok(Some(hit)) = c.get(url)
             && hit.fresh
-            && expect_xml(&hit.body).is_ok()
+            && expect_eutils(&hit.body).is_ok()
         {
             return Ok((
                 hit.body,
@@ -150,8 +152,8 @@ impl Eutils {
             *last = Some(Instant::now());
         }
         let key = self.key.as_deref().map(|k| ("api_key", k));
-        let f =
-            apifetch::fetch_validated(http, cache, url, key, TTL_SECS, &expect_xml, None).await?;
+        let f = apifetch::fetch_validated(http, cache, url, key, TTL_SECS, &expect_eutils, None)
+            .await?;
         Ok((
             f.body,
             Provenance {
@@ -241,6 +243,27 @@ impl Eutils {
         // Keep the search order.
         articles.sort_by_key(|a| ids.iter().position(|i| *i == a.pmid).unwrap_or(usize::MAX));
         Ok((articles, prov))
+    }
+}
+
+/// The text of an `<ERROR>` element in an E-utilities response, if any.
+pub fn eutils_error(body: &[u8]) -> Option<String> {
+    let text = String::from_utf8_lossy(body);
+    let start = text.find("<ERROR>")? + "<ERROR>".len();
+    let end = text[start..]
+        .find("</ERROR>")
+        .map_or(text.len(), |i| start + i);
+    Some(text[start..end].trim().chars().take(200).collect())
+}
+
+/// Validator: an XML document that is not an E-utilities error report.
+pub fn expect_eutils(body: &[u8]) -> Result<()> {
+    expect_xml(body)?;
+    match eutils_error(body) {
+        Some(message) => Err(PhnError::Network(format!(
+            "NCBI E-utilities reported an error ({message})"
+        ))),
+        None => Ok(()),
     }
 }
 
@@ -531,6 +554,52 @@ mod tests {
                 .any(|p| p.contains("Meta-Analysis") || p.contains("Systematic Review")),
             "{:?}",
             first.publication_types
+        );
+    }
+
+    #[tokio::test]
+    async fn error_reports_are_rejected_and_not_served_from_the_cache() {
+        let error = br#"<?xml version="1.0" encoding="UTF-8" ?>
+<eSearchResult><ERROR>Search Backend failed: read request has timed out</ERROR></eSearchResult>"#;
+        assert_eq!(
+            eutils_error(error).as_deref(),
+            Some("Search Backend failed: read request has timed out")
+        );
+        assert!(expect_eutils(error).is_err());
+        // A search with no matches is a real answer, not an error report.
+        let empty = br#"<?xml version="1.0" encoding="UTF-8" ?>
+<eSearchResult><Count>0</Count><IdList/><ErrorList><PhraseNotFound>zzzz</PhraseNotFound></ErrorList></eSearchResult>"#;
+        assert!(expect_eutils(empty).is_ok());
+        assert!(
+            expect_eutils(include_bytes!(
+                "../tests/fixtures/phase4/pubmed_esearch.xml"
+            ))
+            .is_ok()
+        );
+        assert!(
+            expect_eutils(include_bytes!("../tests/fixtures/phase4/pubmed_efetch.xml")).is_ok()
+        );
+
+        // An error report cached by an earlier version is not used.
+        let dir = tempfile::tempdir().unwrap();
+        let http = HttpClient::new(&phn_core::Config::for_root(dir.path())).unwrap();
+        let cache = Cache::in_memory().unwrap();
+        let url = Eutils::url(
+            "esearch",
+            &[
+                ("db", "pubmed"),
+                ("term", "pertussis"),
+                ("retmax", "5"),
+                ("sort", "relevance"),
+            ],
+        );
+        cache.put(&url, error, TTL_SECS).unwrap();
+        let eutils = Eutils { key: None };
+        assert!(
+            eutils
+                .search(&http, Some(&cache), "pertussis", 5, "relevance")
+                .await
+                .is_err()
         );
     }
 

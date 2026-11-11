@@ -13,8 +13,9 @@
 //! * p (proportions, varying denominators), u (rates per unit, varying
 //!   exposure), and c (counts, constant opportunity) with 3-sigma limits;
 //! * special-cause rules: (1) a point outside the limits; (2) eight or more
-//!   consecutive points on one side of the center line; (3) six consecutive
-//!   points all increasing or all decreasing; (4) two of three consecutive
+//!   consecutive points on one side of the center line (points on the line
+//!   are skipped); (3) six consecutive points all increasing or all
+//!   decreasing (repeated values are skipped); (4) two of three consecutive
 //!   points in the outer third (beyond 2σ) on the same side; (5) fifteen
 //!   consecutive points in the inner third (within 1σ).
 //!
@@ -428,7 +429,8 @@ fn apply_rules(p: &mut [Point], sigma: &[f64]) {
             p[i].signals.push(Rule::OutsideLimits);
         }
     }
-    // 2. Shift: 8+ on one side (points on the center line break the run).
+    // 2. Shift: 8+ on one side. A point exactly on the center line neither
+    // counts toward a run nor breaks it (Provost & Murray).
     let side: Vec<i8> = p
         .iter()
         .map(|q| {
@@ -441,29 +443,52 @@ fn apply_rules(p: &mut [Point], sigma: &[f64]) {
             }
         })
         .collect();
-    let mut i = 0;
-    while i < n {
-        let mut j = i;
-        while j < n && side[j] != 0 && side[j] == side[i] {
-            j += 1;
+    let off_center: Vec<usize> = (0..n).filter(|i| side[*i] != 0).collect();
+    let mut a = 0;
+    while a < off_center.len() {
+        let mut b = a;
+        while b < off_center.len() && side[off_center[b]] == side[off_center[a]] {
+            b += 1;
         }
-        if side[i] != 0 && j - i >= 8 {
-            mark(p, i..j, Rule::Shift);
+        if b - a >= 8 {
+            mark(p, off_center[a]..off_center[b - 1] + 1, Rule::Shift);
         }
-        i = if j > i { j } else { i + 1 };
+        a = b;
     }
-    // 3. Trend: 6 consecutive increasing or decreasing (5 successive differences).
-    let mut i = 0;
-    while i + 1 < n {
-        let dir = (p[i + 1].value - p[i].value).signum();
-        let mut j = i + 1;
-        while dir != 0.0 && j + 1 < n && (p[j + 1].value - p[j].value).signum() == dir {
-            j += 1;
+    // 3. Trend: 6 consecutive points all increasing or all decreasing (5
+    // successive differences in one direction). Repeated values neither make
+    // nor break a trend: a point equal to the one before it is ignored when
+    // counting (Provost & Murray), so a flat series is never a trend.
+    let mut distinct: Vec<usize> = Vec::with_capacity(n);
+    for i in 0..n {
+        if distinct.last().is_none_or(|k| p[*k].value != p[i].value) {
+            distinct.push(i);
         }
-        if dir != 0.0 && j - i + 1 >= 6 {
-            mark(p, i..j + 1, Rule::Trend);
+    }
+    let direction = |from: usize, to: usize| -> i8 {
+        if p[to].value > p[from].value {
+            1
+        } else if p[to].value < p[from].value {
+            -1
+        } else {
+            0
         }
-        i = if j > i + 1 { j } else { i + 1 };
+    };
+    let mut runs: Vec<(usize, usize)> = Vec::new();
+    let mut a = 0;
+    while a + 1 < distinct.len() {
+        let dir = direction(distinct[a], distinct[a + 1]);
+        let mut b = a + 1;
+        while b + 1 < distinct.len() && direction(distinct[b], distinct[b + 1]) == dir {
+            b += 1;
+        }
+        if dir != 0 && b - a + 1 >= 6 {
+            runs.push((distinct[a], distinct[b]));
+        }
+        a = b;
+    }
+    for (from, to) in runs {
+        mark(p, from..to + 1, Rule::Trend);
     }
     // 4. Two of three beyond 2σ on the same side.
     for i in 0..n.saturating_sub(2) {
@@ -562,5 +587,62 @@ mod tests {
                 .iter()
                 .all(|p| p.signals.contains(&Rule::LongRun))
         );
+    }
+
+    fn control_chart(chart: ChartType, values: &[f64], baseline: Option<usize>) -> Chart {
+        super::chart(&Input {
+            chart,
+            values: values.to_vec(),
+            denominators: None,
+            phase_starts: vec![],
+            baseline,
+        })
+        .unwrap()
+    }
+
+    fn has(c: &Chart, i: usize, rule: Rule) -> bool {
+        c.points[i].signals.contains(&rule)
+    }
+
+    #[test]
+    fn repeated_values_are_not_a_trend() {
+        // Six periods with no events used to be flagged as a trend
+        // (f64::signum(0.0) is 1.0).
+        let zeros = control_chart(ChartType::C, &[0.0; 6], None);
+        assert!(
+            (0..6).all(|i| zeros.points[i].signals.is_empty()),
+            "{zeros:?}"
+        );
+        // Only three distinct values: not six points moving one way.
+        let steps = control_chart(ChartType::Xmr, &[3.0, 3.0, 4.0, 4.0, 5.0, 5.0], None);
+        assert!((0..6).all(|i| !has(&steps, i, Rule::Trend)));
+        // Five distinct rising values with repeats: still not six.
+        let five = control_chart(ChartType::Xmr, &[1.0, 2.0, 2.0, 3.0, 4.0, 4.0, 5.0], None);
+        assert!((0..7).all(|i| !has(&five, i, Rule::Trend)));
+        // Six distinct rising values with a repeat inside: a trend; the
+        // repeated point sits inside the run and is marked with it.
+        let rise = control_chart(ChartType::Xmr, &[1.0, 2.0, 2.0, 3.0, 4.0, 5.0, 6.0], None);
+        assert!((0..7).all(|i| has(&rise, i, Rule::Trend)), "{rise:?}");
+        // Six falling values, then a rise: the falling six are marked.
+        let fall = control_chart(ChartType::Xmr, &[9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 6.0], None);
+        assert!((0..6).all(|i| has(&fall, i, Rule::Trend)));
+        assert!(!has(&fall, 6, Rule::Trend));
+    }
+
+    #[test]
+    fn a_point_on_the_center_line_neither_counts_nor_breaks_a_shift() {
+        // Baseline 10, 12, 8, 10: center line exactly 10.
+        let mut v = vec![10.0, 12.0, 8.0, 10.0];
+        // Four above, one on the line, four above: eight above in all.
+        v.extend([11.0, 11.0, 11.0, 11.0, 10.0, 11.0, 11.0, 11.0, 11.0]);
+        let c = control_chart(ChartType::Xmr, &v, Some(4));
+        assert_eq!(c.phases[0].center, 10.0);
+        assert!((4..=12).all(|i| has(&c, i, Rule::Shift)), "{c:?}");
+        assert!((0..4).all(|i| !has(&c, i, Rule::Shift)));
+        // Seven above plus the point on the line is not a shift.
+        let mut v = vec![10.0, 12.0, 8.0, 10.0];
+        v.extend([11.0, 11.0, 11.0, 11.0, 10.0, 11.0, 11.0, 11.0]);
+        let c = control_chart(ChartType::Xmr, &v, Some(4));
+        assert!((0..v.len()).all(|i| !has(&c, i, Rule::Shift)));
     }
 }

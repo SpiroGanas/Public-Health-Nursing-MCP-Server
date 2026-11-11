@@ -25,6 +25,9 @@ pub fn p_normal_two_sided(zstat: f64) -> f64 {
 
 /// Upper-tail p-value of a chi-square statistic.
 pub fn p_chi_square(stat: f64, df: f64) -> f64 {
+    if stat == f64::INFINITY && df > 0.0 {
+        return 0.0;
+    }
     if !(stat.is_finite()) || stat < 0.0 || df <= 0.0 {
         return f64::NAN;
     }
@@ -40,6 +43,11 @@ pub fn chi_square_quantile(p: f64, df: f64) -> f64 {
 
 /// Two-sided p-value for a t statistic.
 pub fn p_t_two_sided(t: f64, df: f64) -> f64 {
+    // An infinite statistic (a perfect correlation, or groups that differ
+    // with no variation inside them) has p = 0, not "undefined".
+    if t.is_infinite() && df > 0.0 {
+        return 0.0;
+    }
     if !t.is_finite() || df <= 0.0 {
         return f64::NAN;
     }
@@ -57,6 +65,9 @@ pub fn t_quantile(p: f64, df: f64) -> f64 {
 
 /// Upper-tail p-value of an F statistic.
 pub fn p_f(f: f64, df1: f64, df2: f64) -> f64 {
+    if f == f64::INFINITY && df1 > 0.0 && df2 > 0.0 {
+        return 0.0;
+    }
     if !f.is_finite() || f < 0.0 || df1 <= 0.0 || df2 <= 0.0 {
         return f64::NAN;
     }
@@ -109,5 +120,17 @@ mod tests {
         let r = bisect(0.0, 3.0, |x| x * x - 2.0).unwrap();
         assert!((r - 2f64.sqrt()).abs() < 1e-10);
         assert!((p_t_two_sided(2.228_138_85, 10.0) - 0.05).abs() < 1e-7);
+    }
+
+    #[test]
+    fn infinite_statistics_have_p_zero_and_undefined_ones_stay_nan() {
+        assert_eq!(p_t_two_sided(f64::INFINITY, 4.0), 0.0);
+        assert_eq!(p_t_two_sided(f64::NEG_INFINITY, 4.0), 0.0);
+        assert_eq!(p_f(f64::INFINITY, 2.0, 6.0), 0.0);
+        assert_eq!(p_chi_square(f64::INFINITY, 1.0), 0.0);
+        assert!(p_t_two_sided(f64::NAN, 4.0).is_nan());
+        assert!(p_t_two_sided(f64::INFINITY, 0.0).is_nan());
+        assert!(p_f(f64::NAN, 2.0, 6.0).is_nan());
+        assert!(p_chi_square(f64::INFINITY, 0.0).is_nan());
     }
 }

@@ -34,6 +34,41 @@ pub const ICS_CONTENT: &str = "epr-ics-forms";
 /// Shown in a blank cell or line of a form to be completed by hand.
 const BLANK: &str = "________________";
 
+/// Argument fields not scanned for typed-in contact details: file paths, dates and
+/// times, form, incident, and request numbers, radio frequencies and tones, and the
+/// places and facility numbers that belong on the forms (the whole medical plan).
+const CONTACT_SCAN_SKIP: &[&str] = &[
+    "forms",
+    "format",
+    "incident_type",
+    "incident_number",
+    "request_number",
+    "period_start",
+    "period_end",
+    "initiated",
+    "prepared_at",
+    "date_time",
+    "time",
+    "ordered",
+    "eta",
+    "requested_arrival",
+    "quantity",
+    "zone_group",
+    "channel_number",
+    "rx_freq",
+    "rx_tone",
+    "tx_freq",
+    "tx_tone",
+    "mode",
+    "medical_plan",
+    "site_safety_plan_location",
+    "delivery_location",
+    "staging_area",
+    "map_path",
+    "roster_path",
+    "roster_sheet",
+];
+
 // ---------------------------------------------------------------- content
 
 #[derive(Debug, Clone, Deserialize)]
@@ -679,13 +714,14 @@ impl<'r> People<'r> {
             name.map(|n| n.to_lowercase()).unwrap_or_default(),
             position.map(canon).unwrap_or_default()
         );
-        *self.cache.entry(key).or_insert_with(|| {
-            r.find(name, None).or_else(|| {
-                position.and_then(|p| {
-                    let c = canon(p);
-                    r.entries.iter().find(|e| canon(&e.position) == c)
-                })
-            })
+        // A name that is not on the roster gets no contact (never the position holder's);
+        // the position is looked up only when no name was given.
+        *self.cache.entry(key).or_insert_with(|| match name {
+            Some(_) => r.find(name, None),
+            None => position.and_then(|p| {
+                let c = canon(p);
+                r.entries.iter().find(|e| canon(&e.position) == c)
+            }),
         })
     }
 
@@ -1770,21 +1806,64 @@ fn form_207(inc: &Incident, blank: bool) -> Built {
         let k = canon(label);
         used.insert(k.clone());
         rows.push((format!("{}{label}", "— ".repeat(*depth)), inc.names_for(&k)));
+        // A deputy reports to the position it deputizes for.
+        let dk = format!("deputy {k}");
+        if inc.holders.iter().any(|h| h.key == dk) {
+            rows.push((
+                format!("{}Deputy", "— ".repeat(*depth + 1)),
+                inc.names_for(&dk),
+            ));
+            used.insert(dk);
+        }
         if *label == "Staging Area Manager" {
+            // Operations: Branch Directors, then their Divisions and Groups; Divisions and
+            // Groups without a Branch report to the Operations Section Chief.
+            let mut branches: Vec<(String, Vec<&DivisionAssignment>)> = Vec::new();
             for a in &inc.args.assignments {
-                let l = div_label(a);
-                rows.push((
-                    format!("— — Division/Group: {l}"),
-                    opt(&a.supervisor).unwrap_or("").to_string(),
-                ));
+                let br = opt(&a.branch).unwrap_or("").to_string();
+                match branches.iter_mut().find(|(b, _)| *b == br) {
+                    Some((_, v)) => v.push(a),
+                    None => branches.push((br, vec![a])),
+                }
+            }
+            for (br, divs) in &branches {
+                let div_depth = if br.is_empty() {
+                    2
+                } else {
+                    let dir = divs
+                        .iter()
+                        .filter_map(|d| opt(&d.branch_director))
+                        .collect::<BTreeSet<_>>()
+                        .into_iter()
+                        .collect::<Vec<_>>()
+                        .join(" / ");
+                    rows.push((format!("— — Branch Director: {br}"), dir));
+                    3
+                };
+                for a in divs {
+                    rows.push((
+                        format!("{}Division/Group: {}", "— ".repeat(div_depth), div_label(a)),
+                        opt(&a.supervisor).unwrap_or("").to_string(),
+                    ));
+                }
             }
         }
     }
+    // Positions that are not on FEMA's chart: listed apart, because their reporting line
+    // is not known (an indented row would read as reporting to the Incident Commander).
+    let mut others: Vec<(String, String)> = Vec::new();
     for h in &inc.holders {
         if !used.contains(&h.key) {
             used.insert(h.key.clone());
-            rows.push((format!("— {} (added)", h.position), inc.names_for(&h.key)));
+            others.push((h.position.clone(), inc.names_for(&h.key)));
         }
+    }
+    if !others.is_empty() {
+        rows.push((
+            "Other assigned positions (reporting line not shown; adapted addition)".into(),
+            String::new(),
+        ));
+        rows.extend(others);
     }
     b.positions("3", rows);
     b.row("4", inc.prepared_row(true), &[0, 1]);
@@ -2286,52 +2365,31 @@ pub fn generate_ics_forms(ctx: &Context, args: IcsArgs) -> Result<Envelope<IcsRe
         map,
     };
 
-    // Contact details or client identifiers typed into the request.
-    let mut texts: Vec<&str> = Vec::new();
-    for s in [
-        &args.situation_summary,
-        &args.command_emphasis,
-        &args.situational_awareness,
-        &args.safety_message,
-        &args.radio_instructions,
-    ]
-    .into_iter()
-    .flatten()
-    {
-        texts.push(s);
-    }
-    texts.extend(args.objectives.iter().map(String::as_str));
-    texts.extend(args.actions.iter().map(|a| a.text.as_str()));
-    for m in &args.messages {
-        texts.push(&m.message);
-        texts.push(&m.subject);
-    }
-    for l in &args.activity_logs {
-        texts.extend(l.entries.iter().map(|e| e.text.as_str()));
-    }
-    for a in &args.assignments {
-        texts.extend(a.work_assignments.iter().map(String::as_str));
-        if let Some(s) = &a.special_instructions {
-            texts.push(s);
-        }
-        texts.extend(a.communications.iter().filter_map(|c| c.channel.as_deref()));
-        texts.extend(a.resources.iter().filter_map(|r| r.notes.as_deref()));
-    }
-    for o in &args.organization {
-        texts.push(&o.position);
-        if let Some(n) = &o.name {
-            texts.push(n);
-        }
-    }
-    let flagged = roster::contacts_in_arguments(texts);
+    // Contact details or client identifiers typed anywhere in the request (every text
+    // field: people's names, leaders, message recipients, notes), except file paths, dates
+    // and times, form and request numbers, radio frequencies, and the facility numbers and
+    // addresses of the medical plan.
+    let texts = roster::argument_strings(&args, CONTACT_SCAN_SKIP);
+    let flagged = roster::contacts_in_arguments(texts.iter().map(String::as_str));
 
-    // Output folder.
+    // Output folder: a plain ASCII slug of the incident name, so a slash or a long
+    // accented name cannot change or break the folder name.
+    let slug: String = inc
+        .name
+        .to_lowercase()
+        .chars()
+        .map(|c| if c.is_ascii_alphanumeric() { c } else { '_' })
+        .collect::<String>()
+        .split('_')
+        .filter(|s| !s.is_empty())
+        .collect::<Vec<_>>()
+        .join("_");
     let folder_name = format!(
         "ics_forms_{}",
-        if inc.name.is_empty() {
+        if slug.is_empty() {
             "incident".to_string()
         } else {
-            inc.name.clone()
+            slug.chars().take(80).collect()
         }
     );
     let (dir, shown_dir) = output_folder(ctx, &folder_name)?;
@@ -3081,6 +3139,167 @@ mod tests {
                 .any(|n| n.contains("roster file in /data"))
         );
         assert!(r.data.iap.is_none());
+    }
+
+    #[test]
+    fn a_name_not_on_the_roster_gets_no_contact() {
+        let (d, ctx) = ctx();
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["205A".into()],
+                incident_name: Some("Roster Check".into()),
+                organization: vec![PositionAssignment {
+                    position: "Safety Officer".into(),
+                    name: Some("A. Rivera".into()),
+                    agency: None,
+                }],
+                roster_path: Some("roster.csv".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let rs = r.data.roster.as_ref().unwrap();
+        assert_eq!((rs.matched, rs.unmatched), (0, 1), "{rs:?}");
+        let folder = d.path().join("data").join(&r.data.output_folder);
+        let t = docx_text(&folder.join("ICS_205A_Communications_List.docx"));
+        assert!(t.contains("A. Rivera"), "{t}");
+        // The roster's Safety Officer is someone else: none of that person's details appear.
+        assert!(
+            !t.contains("508-555-0103") && !t.contains("cy@example.org"),
+            "{t}"
+        );
+        assert!(!t.contains("Cy Dunmore"), "{t}");
+    }
+
+    #[test]
+    fn contacts_typed_into_any_field_are_flagged() {
+        let (_d, ctx) = ctx();
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["204".into()],
+                assignments: vec![DivisionAssignment {
+                    division: Some("Gym Clinic".into()),
+                    supervisor: Some("Dana Lee 617-555-0123".into()),
+                    ..Default::default()
+                }],
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(
+            r.privacy
+                .identifiers_detected
+                .iter()
+                .any(|k| k.contains("phone")),
+            "{:?}",
+            r.privacy.identifiers_detected
+        );
+        // Facility numbers in the medical plan belong on the ICS 206 and are not flagged.
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["206".into()],
+                medical_plan: MedicalPlan {
+                    hospitals: vec![Hospital {
+                        name: "Regional Medical Center".into(),
+                        contact: Some("617-555-0100".into()),
+                        ..Default::default()
+                    }],
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(r.privacy.identifiers_detected.is_empty());
+    }
+
+    #[test]
+    fn output_folder_is_a_slug_of_the_incident_name() {
+        let (_d, ctx) = ctx();
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["213".into()],
+                incident_name: Some("Measles 11/09".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(
+            r.data.output_folder.ends_with("ics_forms_measles_11_09"),
+            "{}",
+            r.data.output_folder
+        );
+        // A long name with accented letters is shortened without failing.
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["213".into()],
+                incident_name: Some("Brote de sarampión en la escuela ".repeat(6)),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(r.data.output_folder.contains("ics_forms_brote_de_sarampi"));
+    }
+
+    #[test]
+    fn org_chart_shows_branches_deputies_and_other_positions() {
+        let (d, ctx) = ctx();
+        let r = generate_ics_forms(
+            &ctx,
+            IcsArgs {
+                forms: vec!["207".into()],
+                incident_name: Some("Chart Check".into()),
+                organization: vec![
+                    PositionAssignment {
+                        position: "Incident Commander".into(),
+                        name: Some("G. Lead".into()),
+                        agency: None,
+                    },
+                    PositionAssignment {
+                        position: "Deputy Incident Commander".into(),
+                        name: Some("H. Second".into()),
+                        agency: None,
+                    },
+                    PositionAssignment {
+                        position: "Public Health Nurse".into(),
+                        name: Some("F. Nurse".into()),
+                        agency: None,
+                    },
+                ],
+                assignments: vec![
+                    DivisionAssignment {
+                        branch: Some("Clinic Branch".into()),
+                        division: Some("Gym Clinic".into()),
+                        branch_director: Some("J. Director".into()),
+                        supervisor: Some("K. Super".into()),
+                        ..Default::default()
+                    },
+                    DivisionAssignment {
+                        group: Some("Contact Tracing Group".into()),
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        let folder = d.path().join("data").join(&r.data.output_folder);
+        let t = docx_text(&folder.join("ICS_207_Incident_Organization_Chart.docx"));
+        assert!(t.contains("— — Branch Director: Clinic Branch"), "{t}");
+        assert!(t.contains("J. Director"), "{t}");
+        assert!(t.contains("— — — Division/Group: Gym Clinic"), "{t}");
+        assert!(
+            t.contains("— — Division/Group: Contact Tracing Group"),
+            "{t}"
+        );
+        assert!(t.contains("— Deputy") && t.contains("H. Second"), "{t}");
+        assert!(t.contains("Other assigned positions"), "{t}");
+        assert!(!t.contains("(added)"), "{t}");
     }
 
     #[test]

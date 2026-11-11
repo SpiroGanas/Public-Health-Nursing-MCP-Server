@@ -8,7 +8,7 @@
 //! "H hours after" with dates only gives the earliest calendar date on which
 //! the hours could have passed (anchor + ⌊H/24⌋ days).
 
-use chrono::{Days, NaiveDate};
+use chrono::{Datelike, Days, NaiveDate};
 use phn_content::disease_rules::{
     self, Action, Anchor, DayRef, Disease, DiseaseRules, Role, Rule, Setting, StoolSpecimens, When,
 };
@@ -34,11 +34,19 @@ pub struct DateFacts {
 pub fn parse_date_arg(name: &str, v: &Option<String>) -> Result<Option<NaiveDate>> {
     match v.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
         None => Ok(None),
-        Some(s) => NaiveDate::parse_from_str(s, "%Y-%m-%d")
-            .map(Some)
-            .map_err(|_| {
+        Some(s) => {
+            let d = NaiveDate::parse_from_str(s, "%Y-%m-%d").map_err(|_| {
                 PhnError::InvalidInput(format!("{name} '{s}' is not a date (YYYY-MM-DD)"))
-            }),
+            })?;
+            // "%Y" also reads "26" as the year 26 and signed years far outside
+            // the calendar; date arithmetic on those can overflow.
+            if !(1900..=2100).contains(&d.year()) {
+                return Err(PhnError::InvalidInput(format!(
+                    "{name} '{s}' must be a date between 1900 and 2100 (YYYY-MM-DD, four-digit year)"
+                )));
+            }
+            Ok(Some(d))
+        }
     }
 }
 
@@ -149,7 +157,7 @@ impl Facts {
     }
 }
 
-fn condition_label(name: &str, value: bool) -> String {
+pub(crate) fn condition_label(name: &str, value: bool) -> String {
     let (yes, no) = match name {
         "symptomatic" => ("has symptoms", "has no symptoms"),
         "susceptible" => ("lacks evidence of immunity", "has evidence of immunity"),
@@ -386,6 +394,14 @@ pub fn evaluate(
             }
         }
     }
+    // Hours-based criteria set (or delay) the earliest return date; keep the
+    // last excluded day in step with it so "still excluded on a date" checks work.
+    if let Some(r) = earliest_return {
+        let day_before = add(r, -1);
+        if last_excluded.is_none_or(|l| l < day_before) {
+            last_excluded = Some(day_before);
+        }
+    }
     let mut typical = None;
     if let Some(t) = &end.typical_through {
         let mut m2 = Vec::new();
@@ -550,7 +566,11 @@ pub fn find_disease(query: &str) -> Result<&'static Disease> {
         if suggestions.is_empty() {
             String::new()
         } else {
-            format!(" Did you mean: {}?", suggestions.join(", "))
+            format!(
+                " Did you mean: {}? Give the specific disease name: general terms, and names \
+                 that fit more than one disease, are not matched.",
+                suggestions.join(", ")
+            )
         },
         all.join(", ")
     )))
@@ -701,6 +721,55 @@ mod tests {
                 .iter()
                 .all(|(r, _)| r.when.susceptible != Some(true))
         );
+    }
+
+    #[test]
+    fn hours_based_rules_set_the_last_excluded_day() {
+        // Strep throat: back 24 hours after treatment starts, so still
+        // excluded on the day treatment starts.
+        let g = find_disease("strep throat").unwrap();
+        let rules = applicable_rules(g, Role::Case, &[Setting::School], &Facts::default());
+        let (r, s) = &rules[0];
+        let dates = DateFacts {
+            treatment_start: d("2026-11-09"),
+            ..DateFacts::default()
+        };
+        let res = evaluate(r, s.clone(), &Facts::default(), &dates);
+        assert_eq!(res.earliest_return_date.as_deref(), Some("2026-11-10"));
+        assert_eq!(res.last_excluded_date.as_deref(), Some("2026-11-09"));
+        // Without the date, nothing is computed and the date is asked for.
+        let res = evaluate(r, s.clone(), &Facts::default(), &DateFacts::default());
+        assert!(res.last_excluded_date.is_none());
+        assert_eq!(res.missing_dates, vec!["treatment_start_date".to_string()]);
+    }
+
+    #[test]
+    fn ambiguous_or_general_disease_names_are_not_matched() {
+        for q in ["gastroenteritis", "h flu", "cholera", "hepatitis", "hep"] {
+            let e = find_disease(q).unwrap_err().to_string();
+            assert!(e.contains("Diseases covered"), "{q}: {e}");
+        }
+        assert!(
+            find_disease("hepatitis")
+                .unwrap_err()
+                .to_string()
+                .contains("Hepatitis B")
+        );
+        assert_eq!(
+            find_disease("viral gastroenteritis").unwrap().id,
+            "norovirus"
+        );
+    }
+
+    #[test]
+    fn date_arguments_must_have_a_plausible_four_digit_year() {
+        assert!(parse_date_arg("onset_date", &Some("2026-03-02".into())).is_ok());
+        for bad in ["26-03-02", "+262142-12-31", "0026-05-03", "2101-01-01"] {
+            assert!(
+                parse_date_arg("onset_date", &Some(bad.into())).is_err(),
+                "{bad}"
+            );
+        }
     }
 
     #[test]

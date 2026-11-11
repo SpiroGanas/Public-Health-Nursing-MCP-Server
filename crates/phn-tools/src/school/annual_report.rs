@@ -49,9 +49,10 @@ pub struct AnnualReportArgs {
     /// Screening roster with results (the same file track_school_screenings reads).
     pub screening_path: Option<String>,
     pub screening_sheet: Option<String>,
-    /// School year, e.g. "2025-2026" (default: the school year that ended most
-    /// recently on or before as_of, or the current one if as_of is in it and
-    /// the log has dates in it).
+    /// School year, e.g. "2025-2026" (July 1 to June 30). Default: the school
+    /// year that contains as_of; but when a visit log or medication log is
+    /// given and neither has a row dated in that year, the school year before
+    /// it (the one that ended most recently).
     pub school_year: Option<String>,
     /// Evaluation date (default today).
     pub as_of: Option<String>,
@@ -160,12 +161,18 @@ enum Disposition {
     Unknown,
 }
 
+/// True when the normalized text has one of the keywords as a whole word (keywords of up
+/// to 3 letters), at the start of a word (longer keywords, so "injur" matches "injury"),
+/// or as a phrase starting at a word. Matching inside a word is not allowed: "distress"
+/// is not "stress" and "heartburn" is not "burn".
 fn has(t: &str, words: &[&str]) -> bool {
     words.iter().any(|w| {
-        if w.len() <= 3 {
+        if w.contains(' ') {
+            format!(" {t}").contains(&format!(" {w}"))
+        } else if w.len() <= 3 {
             t.split_whitespace().any(|x| x == *w)
         } else {
-            t.contains(w)
+            t.split_whitespace().any(|x| x.starts_with(*w))
         }
     })
 }
@@ -185,6 +192,8 @@ fn category(reason: &str) -> Category {
             "sprain",
             "bump",
             "bleed",
+            "nosebleed",
+            "sunburn",
             "scrape",
             "laceration",
             "splinter",
@@ -270,7 +279,7 @@ fn disposition(s: &str) -> Disposition {
         &[
             "dismiss",
             "sent home",
-            "home",
+            "went home",
             "picked up",
             "early release",
             "left school",
@@ -278,7 +287,10 @@ fn disposition(s: &str) -> Disposition {
     ) {
         Disposition::Dismissed
     } else if has(&t, &["class", "returned", "rtc", "back to class"]) {
+        // Checked before a bare "home": "called home; returned to class" is a return.
         Disposition::Returned
+    } else if t.split_whitespace().any(|x| x == "home") {
+        Disposition::Dismissed
     } else {
         Disposition::Other
     }
@@ -302,6 +314,10 @@ fn cellv(row: &[String], i: Option<usize>) -> &str {
 
 const MONTH_FIELDS: usize = 13;
 
+/// Month columns that add up (total first): encounters = the four categories, and
+/// encounters = the dispositions when every visit has one.
+const MONTH_GROUPS: [&[usize]; 2] = [&[0, 1, 2, 3, 4], &[0, 5, 6, 7, 8, 9, 10]];
+
 struct VisitStats {
     by_month: BTreeMap<(i32, u32), [u64; MONTH_FIELDS]>,
     distinct_students: Option<usize>,
@@ -309,6 +325,26 @@ struct VisitStats {
     identifiers: Vec<String>,
     undated: usize,
     unknown_disposition: u64,
+    /// 911 calls sorted by the visit reason because no 911 type was recorded.
+    ems_type_inferred: u64,
+}
+
+/// True when a log has at least one row dated in the school year (used to choose the
+/// default school year).
+fn has_rows_in_year(
+    ctx: &Context,
+    path: &str,
+    sheet: Option<&str>,
+    date_names: &[&str],
+    year: SchoolYear,
+) -> Result<bool> {
+    let lt = localdata::load(ctx, path, sheet)?;
+    let Some(date) = col(&lt.table.headers, date_names) else {
+        return Ok(false);
+    };
+    Ok(lt.table.rows.iter().any(|row| {
+        crate::vax::dates::parse_date(cellv(row, Some(date))).is_some_and(|d| year.contains(d))
+    }))
 }
 
 fn read_visits(
@@ -355,6 +391,7 @@ fn read_visits(
     let mut ids = BTreeSet::new();
     let mut undated = 0usize;
     let mut unknown = 0u64;
+    let mut ems_type_inferred = 0u64;
     for row in &lt.table.rows {
         if row.iter().all(|c| c.trim().is_empty()) {
             continue;
@@ -395,6 +432,9 @@ fn read_visits(
                 }
             }
             Disposition::Ems => {
+                if ems_type.is_none() {
+                    ems_type_inferred += 1;
+                }
                 let behavioral = ems_type
                     .map(|i| phn_core::text::normalize(cellv(row, Some(i))))
                     .map(|t| t.contains("behav") || t.contains("mental") || t.contains("psych"))
@@ -429,6 +469,7 @@ fn read_visits(
         identifiers: lt.identifier_categories(),
         undated,
         unknown_disposition: unknown,
+        ems_type_inferred,
     })
 }
 
@@ -506,18 +547,55 @@ pub fn build_school_health_annual_report(
         Some(s) => crate::vax::dates::require_date("as_of", s)?,
         None => chrono::Local::now().date_naive(),
     };
+    let mut year_note: Option<String> = None;
     let year = match &args.school_year {
         Some(s) => SchoolYear::parse(s).ok_or_else(|| {
             PhnError::InvalidInput(format!(
                 "school_year '{s}' is not recognized; use e.g. 2025-2026"
             ))
         })?,
-        None => SchoolYear::of(as_of),
+        None => {
+            // Year-end reports are written in July and August, when the new school year
+            // has no visits yet: fall back to the year that just ended.
+            let current = SchoolYear::of(as_of);
+            let mut dated_logs = false;
+            let mut found = false;
+            for (path, sheet, names) in [
+                (
+                    &args.visit_log_path,
+                    &args.visit_log_sheet,
+                    &["date", "visit date", "encounter date"][..],
+                ),
+                (
+                    &args.medication_log_path,
+                    &args.medication_log_sheet,
+                    &["date", "date given", "administration date"][..],
+                ),
+            ] {
+                if let Some(p) = path {
+                    dated_logs = true;
+                    found |= has_rows_in_year(ctx, p, sheet.as_deref(), names, current)?;
+                }
+            }
+            if dated_logs && !found {
+                let previous = current.minus(1);
+                year_note = Some(format!(
+                    "No visit or medication rows are dated in the {} school year, so this report \
+                     covers {}. Give school_year to choose another year.",
+                    current.label(),
+                    previous.label()
+                ));
+                previous
+            } else {
+                current
+            }
+        }
     };
     let threshold = ctx.suppression_threshold();
     let mut sources = Vec::new();
     let mut identifiers: BTreeSet<String> = BTreeSet::new();
     let mut notes = Vec::new();
+    notes.extend(year_note);
     let mut any_suppressed = false;
 
     // ---- Visits
@@ -550,12 +628,20 @@ pub fn build_school_health_annual_report(
                 ..SuppressionOptions::default()
             },
         );
-        any_suppressed |= sup.primary + sup.complementary > 0;
+        let mut hidden: Vec<Vec<bool>> = matrix
+            .iter()
+            .enumerate()
+            .map(|(r, row)| (0..row.len()).map(|c| sup.is_hidden(r, c)).collect())
+            .collect();
+        // Encounters are the sum of the four categories and (when every visit has a
+        // disposition) of the dispositions, so protect each sum against subtraction.
+        screenings::protect_additive_groups(&matrix, &mut hidden, &MONTH_GROUPS, true);
+        any_suppressed |= hidden.iter().flatten().any(|h| *h);
         let mut labels: Vec<String> = keys.iter().map(|(y, m)| month_label(*y, *m)).collect();
         labels.push("Year".into());
         for (ri, label) in labels.iter().enumerate() {
             let s = |ci: usize| {
-                if sup.is_hidden(ri, ci) {
+                if hidden[ri][ci] {
                     "*".to_string()
                 } else {
                     matrix[ri][ci].unwrap_or(0).to_string()
@@ -584,12 +670,27 @@ pub fn build_school_health_annual_report(
         let assessed = tot[5] + tot[6] + tot[7] + tot[8] + tot[9] + tot[10];
         let dismissed = tot[6] + tot[7];
         let n_months = keys.len().max(1) as f64;
+        // A year percentage is left out when a count it is built from is hidden in the
+        // Year row, or when its numerator or the rest of its denominator is a small count.
+        let year_hidden = &hidden[hidden.len() - 1];
+        let small = |n: u64| n > 0 && n < u64::from(threshold);
+        let returned_ok =
+            !(year_hidden[0] || year_hidden[5]) && !small(tot[5]) && !small(assessed - tot[5]);
+        let dismissal_ok = !(year_hidden[6] || year_hidden[7])
+            && !small(dismissed)
+            && !small(assessed - dismissed);
+        let illness_share_ok = !(year_hidden[6] || year_hidden[7]);
+        if !(returned_ok && dismissal_ok && illness_share_ok) {
+            notes.push(
+                "A year percentage was left out because a count behind it is suppressed.".into(),
+            );
+        }
         totals = Some(YearTotals {
             student_encounters: tot[0],
             staff_encounters: tot[12],
-            returned_to_class_pct: pct(tot[5], assessed),
-            dismissal_pct: pct(dismissed, assessed),
-            dismissals_for_illness_pct: pct(tot[6], dismissed),
+            returned_to_class_pct: pct(tot[5], assessed).filter(|_| returned_ok),
+            dismissal_pct: pct(dismissed, assessed).filter(|_| dismissal_ok),
+            dismissals_for_illness_pct: pct(tot[6], dismissed).filter(|_| illness_share_ok),
             students_visiting_pct: match (v.distinct_students, args.enrollment) {
                 (Some(n), Some(e)) if e > 0 => pct(n as u64, u64::from(e)),
                 _ => None,
@@ -611,6 +712,13 @@ pub fn build_school_health_annual_report(
                 "{} student visit(s) had no disposition and are left out of the returned-to-class rate.",
                 v.unknown_disposition
             ));
+        }
+        if v.ems_type_inferred > 0 {
+            notes.push(
+                "The visit log has no '911 Type' column, so 911 calls were sorted as medical or \
+                 behavioral health from the visit reason; add the column to record the type."
+                    .into(),
+            );
         }
         if tot[0] < u64::from(threshold) * 4 {
             notes.push("Few visits were found for this school year; check the school_year and the dates in the log.".into());
@@ -1259,6 +1367,58 @@ mod tests {
         assert_eq!(disposition("sent home"), Disposition::Dismissed);
         assert_eq!(disposition("911"), Disposition::Ems);
         assert_eq!(disposition("stayed in health office"), Disposition::Other);
+        // Keywords match whole words or the start of a word, never the inside of one.
+        assert_eq!(
+            category("asthma - respiratory distress"),
+            Category::HealthMaintenance
+        );
+        assert_eq!(category("heartburn"), Category::Misc);
+        assert_eq!(category("nosebleed"), Category::Injury);
+        assert_eq!(category("stress"), Category::Mental);
+        // A call home is not a dismissal; a bare "home" still is.
+        assert_eq!(
+            disposition("Called home; returned to class"),
+            Disposition::Returned
+        );
+        assert_eq!(disposition("Returned to homeroom"), Disposition::Returned);
+        assert_eq!(disposition("home"), Disposition::Dismissed);
+        assert_eq!(disposition("dismissed from class"), Disposition::Dismissed);
+    }
+
+    #[test]
+    fn default_school_year_is_the_one_just_ended_when_the_new_year_has_no_rows() {
+        let (d, c) = ctx();
+        let mut body = String::from("Date,Reason,Disposition\n");
+        for i in 0..30 {
+            let day = NaiveDate::from_ymd_opt(2025, 9, 2).unwrap() + chrono::Duration::days(i * 7);
+            writeln!(body, "{day},headache,returned to class").unwrap();
+        }
+        std::fs::write(d.path().join("data/visits.csv"), body).unwrap();
+        // July 15, 2026 is in the 2026-2027 school year, which has no visits yet.
+        let e = build_school_health_annual_report(
+            &c,
+            AnnualReportArgs {
+                visit_log_path: Some("visits.csv".into()),
+                as_of: Some("2026-07-15".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(e.data.school_year, "2025-2026");
+        assert_eq!(e.data.totals.as_ref().unwrap().student_encounters, 30);
+        assert!(e.data.notes.iter().any(|n| n.contains("covers 2025-2026")));
+        // During the year the current school year is used.
+        let e = build_school_health_annual_report(
+            &c,
+            AnnualReportArgs {
+                visit_log_path: Some("visits.csv".into()),
+                as_of: Some("2026-03-02".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(e.data.school_year, "2025-2026");
+        assert!(!e.data.notes.iter().any(|n| n.contains("covers")));
     }
 
     #[test]
@@ -1308,6 +1468,13 @@ mod tests {
         );
         assert_eq!(t.students_visiting_pct, Some(10.3));
         assert!(e.data.months.iter().any(|m| m.month == "Year"));
+        // One 911 call in the year: encounters = returned + dismissed + 911, so a second
+        // disposition is hidden with it and the dismissal percentage is left out.
+        let y = e.data.months.iter().find(|m| m.month == "Year").unwrap();
+        assert_eq!(y.emergency_911_medical, "*");
+        assert_eq!(y.dismissed_illness, "*");
+        assert_ne!(y.returned_to_class, "*");
+        assert!(t.dismissal_pct.is_none() && t.dismissals_for_illness_pct.is_none());
         let all = serde_json::to_string(&e).unwrap();
         assert!(!all.contains("Quorra") && !all.contains("9300001"));
         assert!(d.path().join("data").join(&e.data.workbook).exists());

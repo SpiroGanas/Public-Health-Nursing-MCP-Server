@@ -7,6 +7,11 @@
 //!
 //! Every result says which mode was used and how old the data is, so the
 //! response envelope can cite it.
+//!
+//! [`fetch_with_fallback`] stores whatever the server returns. Adapters that
+//! parse the body use [`crate::apifetch::fetch_validated`] instead, so a body
+//! the parser rejects (an HTML block page from a proxy, for example) is not
+//! cached and the chain falls back to the cached copy or the snapshot.
 
 use phn_core::{PhnError, Result, SourceMode};
 
@@ -27,6 +32,17 @@ pub struct Fetched {
 /// A bundled fallback: body and its snapshot date.
 pub type SnapshotFallback = Box<dyn FnOnce() -> Option<(Vec<u8>, String)> + Send>;
 
+/// The calendar date to cite as "retrieved" for an `as_of` value: the local
+/// date of an RFC 3339 time (cache and live times are recorded in UTC, which
+/// is already tomorrow during a Massachusetts evening), or the leading
+/// `YYYY-MM-DD` of anything else (snapshot dates).
+pub fn local_date(as_of: &str) -> String {
+    match chrono::DateTime::parse_from_rfc3339(as_of) {
+        Ok(t) => t.with_timezone(&chrono::Local).date_naive().to_string(),
+        Err(_) => as_of.chars().take(10).collect(),
+    }
+}
+
 /// Fetch `url` with the fallback chain described in the module docs.
 pub async fn fetch_with_fallback(
     http: &HttpClient,
@@ -35,10 +51,8 @@ pub async fn fetch_with_fallback(
     ttl_secs: u64,
     snapshot: Option<SnapshotFallback>,
 ) -> Result<Fetched> {
-    let cached = match cache {
-        Some(c) => c.get(url)?,
-        None => None,
-    };
+    // A cache read error is a miss, not a failure.
+    let cached = cache.and_then(|c| c.get_or_miss(url));
     if let Some(hit) = &cached
         && hit.fresh
     {
@@ -140,6 +154,21 @@ mod tests {
         assert!(second.fallback_reason.is_none());
     }
 
+    #[test]
+    fn retrieved_dates_use_the_local_calendar() {
+        use chrono::TimeZone;
+        // 11:30 pm local time is the next day in UTC for Massachusetts.
+        let late = chrono::Local
+            .with_ymd_and_hms(2026, 11, 10, 23, 30, 0)
+            .single()
+            .unwrap();
+        let as_of = late.with_timezone(&chrono::Utc).to_rfc3339();
+        assert_eq!(local_date(&as_of), "2026-11-10");
+        // Snapshot dates pass through.
+        assert_eq!(local_date("2026-01-01"), "2026-01-01");
+        assert_eq!(local_date("2026-11"), "2026-11");
+    }
+
     #[tokio::test]
     async fn offline_uses_stale_cache_then_snapshot() {
         let http = client(true);
@@ -167,5 +196,13 @@ mod tests {
 
         let err = fetch_with_fallback(&http, None, "https://example.org/c", 1, None).await;
         assert!(err.is_err());
+
+        // A cache that cannot be read is a miss: the snapshot is still used.
+        cache.damage_for_tests();
+        let snap: SnapshotFallback = Box::new(|| Some((b"snap".to_vec(), "2026-01-01".into())));
+        let r = fetch_with_fallback(&http, Some(&cache), "https://example.org/a", 1, Some(snap))
+            .await
+            .unwrap();
+        assert_eq!(r.mode, SourceMode::Snapshot);
     }
 }

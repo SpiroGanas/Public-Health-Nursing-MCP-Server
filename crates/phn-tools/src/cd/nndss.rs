@@ -360,6 +360,9 @@ fn ytd(s: &Series, y: i32, w: u32) -> std::result::Result<f64, String> {
 }
 
 fn last4(s: &Series, y: i32, w: u32) -> std::result::Result<f64, String> {
+    // Week 53 is week 52 in a 52-week year; clamp before subtracting so the
+    // window is 4 weeks long in every year (not 3 in a baseline year).
+    let w = w.min(mmwr_weeks_in_year(y));
     if w <= 4 {
         return ytd(s, y, w);
     }
@@ -1288,5 +1291,24 @@ mod tests {
             "Rhode Island"
         );
         assert!(resolve_area("x'); drop").is_err());
+    }
+
+    #[test]
+    fn last_four_weeks_is_four_weeks_in_a_52_week_baseline_year() {
+        // 2025 has 53 MMWR weeks; 2024 has 52. YTD rises by 10 a week.
+        let mut s: Series = BTreeMap::new();
+        for w in 40..=52 {
+            s.insert(
+                (2024, w),
+                (
+                    Cell::Num(10.0),
+                    Cell::Num(10.0 * f64::from(w)),
+                    Cell::Missing,
+                ),
+            );
+        }
+        // Current week 53 of 2025, read for 2024 as week 52: weeks 49-52.
+        assert_eq!(last4(&s, 2024, 53), Ok(40.0));
+        assert_eq!(last4(&s, 2024, 52), Ok(40.0));
     }
 }
