@@ -1,0 +1,459 @@
+# Community water fluoridation: standards, each body's current position, evidence summaries,
+# Massachusetts law, and board of health discussion points, for community_water_fluoridation_status
+# (CHR-07). Positions are shown side by side with their dates; the tool never picks one (ADR 0007
+# pattern).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/chronic_fluoridation.schema.json
+meta:
+  id: chronic-fluoridation
+  title: Community water fluoridation - positions, evidence, Massachusetts law, and board of health discussion points
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: Community Water Fluoridation Status
+    publisher: Massachusetts Department of Public Health, Office of Oral Health
+    url: https://www.mass.gov/info-details/community-water-fluoridation-status
+  related_sources:
+    - title: General Laws, Part I, Title XVI, Chapter 111, Section 8C
+      publisher: The General Court of the Commonwealth of Massachusetts
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section8C
+    - title: Community Water Fluoridation Recommendations; CDC Scientific Statement on Community Water Fluoridation
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/fluoridation/about/community-water-fluoridation-recommendations.html
+    - title: Fluoride in Drinking Water
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/sdwa/fluoride-drinking-water
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Positions and findings are transcribed or closely paraphrased from each body's own page or the
+    PubMed record of the publication, retrieved 2026-11-11, with the date each source carries (high
+    confidence unless marked). The Community Preventive Services Task Force entry is CDC's
+    description of it (medium): thecommunityguide.org could not be reached. Positions of the
+    American Dental Association, ASTDD, the American Academy of Pediatric Dentistry, WHO, and any
+    2025-2026 HHS announcement are NOT included because their sites could not be reached (ada.org,
+    astdd.org, aapd.org, who.int, and hhs.gov were blocked). This is a contested, changing area:
+    the CDC pages are dated May 15, 2024, before the 2025-2026 FDA and EPA actions listed here;
+    re-check every source before a board of health meeting. The board of health discussion points
+    are THIS PROJECT'S DRAFT (medium confidence) built from the cited sources.
+
+sources:
+  dph-status:
+    title: Community Water Fluoridation Status (with the 2023 list of cities and towns)
+    publisher: Massachusetts Department of Public Health, Office of Oral Health
+    url: https://www.mass.gov/info-details/community-water-fluoridation-status
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-statement:
+    title: DPH Community Water Fluoridation Statement
+    publisher: Massachusetts Department of Public Health, Office of Oral Health
+    url: https://www.mass.gov/info-details/dph-community-water-fluoridation-statement
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-boh:
+    title: Oral Health information for Local Boards of Health (fluoridation toolkit)
+    publisher: Massachusetts Department of Public Health, Office of Oral Health
+    url: https://www.mass.gov/lists/oral-health-information-for-local-boards-of-health
+    effective_date: null
+    retrieved: 2026-11-11
+  mgl-111-8c:
+    title: "M.G.L. c. 111, § 8C: Fluoridation of public water supplies by local boards; advice of commissioner; election; discontinuance"
+    publisher: The General Court of the Commonwealth of Massachusetts
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section8C
+    effective_date: null
+    retrieved: 2026-11-11
+  cdc-recommendations:
+    title: Community Water Fluoridation Recommendations
+    publisher: Centers for Disease Control and Prevention, Division of Oral Health
+    url: https://www.cdc.gov/fluoridation/about/community-water-fluoridation-recommendations.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-11
+  cdc-statement:
+    title: CDC Scientific Statement on Community Water Fluoridation
+    publisher: Centers for Disease Control and Prevention, Division of Oral Health
+    url: https://www.cdc.gov/fluoridation/about/statement-on-the-evidence-supporting-the-safety-and-effectiveness-of-community-water-fluoridation.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-11
+  cdc-statistics-2022:
+    title: 2022 Water Fluoridation Statistics
+    publisher: Centers for Disease Control and Prevention, Division of Oral Health
+    url: https://www.cdc.gov/fluoridation/php/statistics/2022-water-fluoridation-statistics.html
+    effective_date: 2024-06-06
+    retrieved: 2026-11-11
+  cdc-mwf:
+    title: About My Water's Fluoride; State Fluoridation Reports (Massachusetts)
+    publisher: Centers for Disease Control and Prevention, Division of Oral Health
+    url: https://nccd.cdc.gov/doh_mwf/Default/AboutMWF.aspx
+    effective_date: null
+    retrieved: 2026-11-11
+  epa-fluoride:
+    title: Fluoride in Drinking Water
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sdwa/fluoride-drinking-water
+    effective_date: 2026-08-03
+    retrieved: 2026-11-11
+  epa-fluoride-release:
+    title: EPA Hits Key Milestone in Expedited Review of Fluoride under the Safe Drinking Water Act
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/newsreleases/epa-hits-key-milestone-expedited-review-fluoride-under-safe-drinking-water-act
+    effective_date: 2026-08-02
+    retrieved: 2026-11-11
+  epa-npdwr:
+    title: National Primary Drinking Water Regulations
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/ground-water-and-drinking-water/national-primary-drinking-water-regulations
+    effective_date: 2026-08-31
+    retrieved: 2026-11-11
+  epa-smcl:
+    title: "Secondary Drinking Water Standards: Guidance for Nuisance Chemicals"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/sdwa/secondary-drinking-water-standards-guidance-nuisance-chemicals
+    effective_date: 2026-05-26
+    retrieved: 2026-11-11
+  fda-2025-10:
+    title: FDA Acts to Protect Children from Unapproved Fluoride Drug Products
+    publisher: U.S. Food and Drug Administration
+    url: https://www.fda.gov/news-events/press-announcements/fda-acts-protect-children-unapproved-fluoride-drug-products
+    effective_date: 2025-10-31
+    retrieved: 2026-11-11
+  fda-ingestible:
+    title: FDA Recommendations on Ingestible Fluoride Prescription Drug Products
+    publisher: U.S. Food and Drug Administration
+    url: https://www.fda.gov/news-events/public-health-focus/ingestible-fluoride-drug-products
+    effective_date: 2025-10-31
+    retrieved: 2026-11-11
+  aap-factcheck:
+    title: "Fact Checked: Fluoride is a Powerful Tool for Preventing Tooth Decay"
+    publisher: American Academy of Pediatrics
+    url: https://www.aap.org/en/news-room/fact-checked/fact-checked-fluoride-is-a-powerful-tool-for-preventing-tooth-decay/
+    effective_date: 2025-11-03
+    retrieved: 2026-11-11
+  ntp-2024:
+    title: "NTP monograph on the state of the science concerning fluoride exposure and neurodevelopment and cognition: a systematic review (NTP Monograph 08; PubMed 39172715)"
+    publisher: National Toxicology Program, NIEHS
+    url: https://pubmed.ncbi.nlm.nih.gov/39172715/
+    effective_date: 2024-08-01
+    retrieved: 2026-11-11
+  cochrane-2024:
+    title: "Water fluoridation for the prevention of dental caries (Cochrane Database Syst Rev 2024;10:CD010856; PubMed 39362658)"
+    publisher: Cochrane (Iheozor-Ejiofor Z, et al.)
+    url: https://pubmed.ncbi.nlm.nih.gov/39362658/
+    effective_date: 2024-10-04
+    retrieved: 2026-11-11
+  jama-2025:
+    title: "Fluoride Exposure and Children's IQ Scores: A Systematic Review and Meta-Analysis (JAMA Pediatr 2025;179(3):282-292; PubMed 39761023)"
+    publisher: JAMA Pediatrics (Taylor KW, et al., NIEHS)
+    url: https://pubmed.ncbi.nlm.nih.gov/39761023/
+    effective_date: 2025-03-01
+    retrieved: 2026-11-11
+
+# Concentrations and standards.
+standards:
+  - text: >-
+      U.S. Public Health Service recommendation (2015): 0.7 mg/L fluoride in community water,
+      the concentration its panel judged to maximize oral health benefits while minimizing harms
+      such as dental fluorosis, considering all sources of fluoride intake.
+    source: cdc-recommendations
+    section: U.S. Public Health Service
+    confidence: high
+  - text: >-
+      EPA enforceable maximum contaminant level (MCL) for fluoride: 4.0 mg/L, set in 1986 and
+      most recently reviewed in 2024. It applies whether fluoride occurs naturally or is added.
+    source: epa-fluoride-release
+    section: Background
+    confidence: high
+  - text: >-
+      EPA secondary standard: 2.0 mg/L (dental fluorosis: tooth discoloration and pitting). It is
+      not enforceable, but community systems above 2.0 mg/L and at or below 4.0 mg/L must notify
+      the people they serve within 12 months (40 CFR 141.208).
+    source: epa-smcl
+    section: Secondary standards; fluoride notice
+    confidence: high
+  - text: >-
+      My Water's Fluoride values are reported by the state and may be targets the system adjusts
+      toward rather than test results; the best source for the fluoride level of a community's
+      water is the local water system.
+    source: cdc-mwf
+    section: About the MWF Web Application
+    confidence: high
+
+# How CDC counts systems (used to explain the status labels).
+status_definitions:
+  - text: >-
+      Adjusted: the system adds fluoride to reach the recommended level. Consecutive: the system
+      buys water from an adjusting system or from a system with naturally occurring fluoride at or
+      above the optimal level. Natural: fluoride occurs naturally at or above the optimal level.
+      Non-adjusted: the system does not add fluoride.
+    source: cdc-statistics-2022
+    section: 2022 National Water Fluoridation Statistics (system categories)
+    confidence: medium
+  - text: >-
+      CDC's Natural Systems Report lists community systems with a fluoridation status of Natural
+      or Variable and a natural fluoride concentration of at least 0.6 mg/L.
+    source: cdc-mwf
+    section: State Fluoridation Reports, Natural Systems Report
+    confidence: high
+
+# Each body's current position, side by side. Order is not a ranking.
+positions:
+  - body: Massachusetts Department of Public Health
+    kind: state agency
+    date: undated web page (statement first issued 2015); retrieved 2026-11-11
+    position: >-
+      Strongly supports community water fluoridation as a safe, cost-effective, and proven
+      practice; describes 0.7 ppm as the optimal level recommended by the U.S. Public Health
+      Service.
+    source: dph-statement
+    section: Fluoridation Statement
+    confidence: high
+  - body: Centers for Disease Control and Prevention
+    kind: federal agency
+    date: pages dated 2024-05-15; still posted 2026-11-11
+    position: >-
+      Continues to recommend community water fluoridation at the concentration recommended by
+      the PHS guidelines as a cornerstone strategy for preventing tooth decay; its scientific
+      statement describes fluoridation as safe, effective, and cost-saving, with documented risk
+      limited to dental fluorosis.
+    source: cdc-recommendations
+    section: Science
+    confidence: high
+  - body: Community Preventive Services Task Force
+    kind: federal advisory panel
+    date: 2013 (as described by CDC)
+    position: >-
+      Reaffirmed in 2013 its recommendation for community water fluoridation, based on strong
+      evidence of effectiveness in reducing tooth decay (first recommended in 2001).
+    source: cdc-recommendations
+    section: Community Preventive Services Task Force
+    confidence: medium
+  - body: U.S. Environmental Protection Agency
+    kind: federal regulator
+    date: 2026-08-03
+    position: >-
+      Sets the limits (MCL 4.0 mg/L; secondary 2.0 mg/L) but does not recommend whether to add
+      fluoride; that decision is made at the state or local level. EPA is conducting an
+      expedited review of fluoride under the Safe Drinking Water Act: a preliminary assessment
+      plan (January 22, 2026) and a protocol (August 3, 2026) for a human health toxicity
+      assessment of neurodevelopmental effects in children and dental fluorosis; the draft
+      assessment will be open for public comment and may inform revisions to the regulations.
+    source: epa-fluoride
+    section: Fluoride in Drinking Water; Background
+    confidence: high
+  - body: U.S. Food and Drug Administration
+    kind: federal regulator
+    date: 2025-10-31
+    position: >-
+      Concluded that unapproved ingestible fluoride prescription products (tablets, drops)
+      should not be used in children under 3 or in older children who are not at high risk of
+      tooth decay, recommends limiting them to children 3 and older at high risk (for example,
+      a history of tooth decay and no access to fluoridated water), and announced intended
+      compliance action against products labeled otherwise. This concerns supplements, not
+      community water fluoridation.
+    source: fda-ingestible
+    section: FDA's Intent to Take Compliance Action; Background
+    confidence: high
+  - body: American Academy of Pediatrics
+    kind: professional society
+    date: 2025-11-03
+    position: >-
+      Supports community water fluoridation at the U.S. Public Health Service level of 0.7 mg/L;
+      states that evidence does not support detrimental neurocognitive effects at that level;
+      states that fluoride supplements are recommended for young children in non-fluoridated
+      communities and that restricting access to them increases public health risk.
+    source: aap-factcheck
+    section: Fact Checked page
+    confidence: high
+
+# Evidence reviews, with their own wording on certainty.
+evidence:
+  - review: NTP Monograph 08 (National Toxicology Program, August 2024)
+    finding: >-
+      Moderate confidence that higher estimated fluoride exposures (for example, drinking water
+      above the WHO guideline of 1.5 mg/L) are consistently associated with lower IQ in
+      children; more studies are needed to understand whether lower exposures affect IQ; low
+      confidence for effects on adult cognition. The monograph did not address oral health
+      benefits.
+    source: ntp-2024
+    section: Discussion; Methods
+    confidence: high
+  - review: Taylor et al., JAMA Pediatrics, March 2025 (systematic review and meta-analysis, 74 studies)
+    finding: >-
+      Found inverse associations between fluoride exposure and children's IQ, including a
+      decrease of 1.63 IQ points per 1 mg/L increase in urinary fluoride (1.14 in low risk-of-bias
+      studies); data were limited and the dose-response uncertain when exposure was estimated
+      from drinking water alone below 1.5 mg/L.
+    source: jama-2025
+    section: Results; Conclusions and Relevance
+    confidence: high
+  - review: Cochrane review update (Iheozor-Ejiofor et al., October 2024, 157 non-randomized studies)
+    finding: >-
+      In contemporary studies (after 1975), starting fluoridation may lead to a slightly greater
+      reduction in decayed, missing, or filled baby teeth (about one quarter of a tooth;
+      low-certainty evidence, with a confidence interval that includes no benefit) and a slightly
+      larger share of caries-free children; there was insufficient evidence on stopping
+      fluoridation, on socioeconomic disparities, and no eligible studies of adults. At 0.7 ppm
+      about 12% of people had dental fluorosis of aesthetic concern and about 40% any fluorosis
+      (from the review's earlier version).
+    source: cochrane-2024
+    section: Main results; Authors' conclusions
+    confidence: high
+  - review: CDC Scientific Statement (May 2024)
+    finding: >-
+      CDC cites evidence that fluoridation reduces tooth decay by about 25% in children and
+      adults, that schoolchildren in fluoridated communities have on average 2.25 fewer decayed
+      teeth, and savings of about $20 per dollar invested in communities of 1,000 or more.
+    source: cdc-statement
+    section: An Effective Intervention; A Cost-Saving Intervention
+    confidence: high
+
+# Where the bodies differ.
+divergences:
+  - text: >-
+      Fluoride supplements: DPH's clinical recommendations say to consider prescribing oral
+      fluoride supplements in non-fluoridated communities starting at 6 months (continuing until
+      age 16 or a change in the town's fluoridation status) and to apply fluoride varnish from 6
+      months up to every 3 months until at least age 5; the FDA (October 31, 2025) says
+      ingestible fluoride products should not be used under age 3 or in older children not at
+      high risk; the AAP (November 2025) supports supplements for young children in
+      non-fluoridated communities.
+    source: dph-status
+    section: For Healthcare Providers (compare FDA and AAP entries)
+    confidence: high
+  - text: >-
+      Safety at 0.7 mg/L: CDC (2024), DPH, and the AAP state that evidence does not show harm at
+      the recommended level; the NTP (2024) and the 2025 JAMA Pediatrics meta-analysis found
+      consistent associations with lower IQ at higher exposures (above 1.5 mg/L) and uncertainty
+      below that; EPA's review (2026) is assessing neurodevelopmental effects and fluorosis.
+    source: ntp-2024
+    section: Compare the positions and evidence entries
+    confidence: high
+  - text: >-
+      Size of the benefit: CDC cites about a 25% reduction in tooth decay; the 2024 Cochrane
+      update found smaller, low-certainty effects in studies since 1975 (about a quarter of a
+      tooth in children's baby teeth).
+    source: cochrane-2024
+    section: Compare the CDC statement and Cochrane entries
+    confidence: high
+
+# M.G.L. c. 111, § 8C, in plain language (read the statute for exact text).
+ma_law:
+  - text: >-
+      DPH, in looking after the dental health of the Commonwealth, recommends methods to reduce
+      tooth decay. If the Commissioner finds that the fluoride content of a city's, town's, or
+      district's public water supply is not at the optimum level for dental health, the
+      Commissioner notifies the local board of health.
+    source: mgl-111-8c
+    section: First paragraph
+    confidence: high
+  - text: >-
+      The board of health, after any inquiry it chooses (including DPH consultation), may order
+      the upward adjustment of fluoride in the water supply if it considers doing so in the best
+      interest of the inhabitants. The order takes effect 90 days after it is published in a
+      newspaper of general circulation, or after a favorable vote under the section, whichever
+      is later.
+    source: mgl-111-8c
+    section: First paragraph
+    confidence: high
+  - text: >-
+      The section does not apply when two or more cities or towns share a source that cannot be
+      treated separately for each and a majority of their boards of health vote not to accept the
+      recommendation; a town that wants fluoridation may still comply by installing equipment
+      that does not interfere with the other towns' supply.
+    source: mgl-111-8c
+    section: Second paragraph
+    confidence: high
+  - text: >-
+      Within 90 days of the order's publication, a petition by 10% of registered voters filed with
+      the city or town clerk puts the question "Shall the public water supply for domestic use in
+      (this city) (this town) be fluoridated?" on the ballot at the next regular city election,
+      annual town election, or biennial state election (whichever comes first, at least 60 days
+      after filing); in a district, the question goes to the next annual district meeting.
+    source: mgl-111-8c
+    section: Third paragraph
+    confidence: high
+  - text: >-
+      If the majority votes no, the supply is not fluoridated and the board of health may not
+      order fluoridation again for at least two years from the vote.
+    source: mgl-111-8c
+    section: Third paragraph
+    confidence: high
+
+# Discussion points for a board of health. THIS PROJECT'S DRAFT built from the sources above.
+discussion_points:
+  - text: >-
+      Start from facts about this town: which systems serve it, whether each adds fluoride, buys
+      fluoridated water, or has natural fluoride, how many residents are on private wells, and
+      the average fluoride level the water system reports. Ask the water system to confirm, since
+      state lists can lag (DPH notes temporary suspensions).
+    source: dph-status
+    section: Search by City or Town Name (notes)
+    confidence: medium
+  - text: >-
+      Know who decides and how: under M.G.L. c. 111, § 8C the board of health orders fluoridation
+      after inquiry, the order takes effect 90 days after newspaper publication (or a favorable
+      vote), 10% of registered voters can force a ballot question, and a no vote bars a new order
+      for two years. The section does not apply where towns share a supply that cannot be
+      treated separately and a majority of their boards of health vote not to accept.
+    source: mgl-111-8c
+    section: Whole section
+    confidence: medium
+  - text: >-
+      Present every body's current position with its date, side by side (DPH, CDC, CPSTF, EPA,
+      FDA, AAP), and the evidence reviews (NTP 2024, JAMA Pediatrics 2025, Cochrane 2024, CDC 2024),
+      including where they disagree; the federal picture changed in 2025-2026 and may change
+      again before a vote.
+    source: epa-fluoride
+    section: Fluoride in Drinking Water
+    confidence: medium
+  - text: >-
+      Compare the concentrations in the studies with this town's water: the NTP's moderate-confidence
+      finding concerns exposures above 1.5 mg/L; Massachusetts adjusted systems target 0.7 mg/L,
+      and CDC's state report lists each adjusting system's reported monthly averages.
+    source: ntp-2024
+    section: Discussion
+    confidence: medium
+  - text: >-
+      Discuss who benefits and who carries risk: DPH and CDC describe fluoridation as reaching
+      every resident regardless of income or insurance; the 2024 Cochrane update found too little
+      evidence to say whether it changes socioeconomic disparities; dental fluorosis is the
+      documented effect at recommended levels.
+    source: dph-statement
+    section: Fluoridation Statement (compare Cochrane)
+    confidence: medium
+  - text: >-
+      If the water is not fluoridated, plan other prevention with local clinicians and dentists:
+      DPH's provider recommendations (dental home, risk assessment, fluoride varnish) and the
+      differing DPH, FDA, and AAP advice on prescribed supplements.
+    source: dph-status
+    section: For Healthcare Providers
+    confidence: medium
+  - text: >-
+      Ask the water supplier practical questions: cost of equipment and chemicals, operator
+      monitoring and reporting to DPH, supply reliability (DPH lists Fall River's interim
+      suspension since December 2018 for supply chain and equipment reasons), and how residents
+      will be told of changes. DPH's Office of Oral Health offers a fluoridation toolkit for
+      boards of health.
+    source: dph-boh
+    section: Fluoridation Toolkit
+    confidence: medium
+
+# Bodies whose positions are not included, and why.
+not_included:
+  - American Dental Association (ada.org could not be reached)
+  - Association of State and Territorial Dental Directors (astdd.org could not be reached)
+  - American Academy of Pediatric Dentistry (aapd.org could not be reached)
+  - World Health Organization (who.int could not be reached)
+  - Community Preventive Services Task Force's own page (thecommunityguide.org could not be reached; CDC's description is shown)
+  - Any 2025-2026 statement by the U.S. Department of Health and Human Services (hhs.gov could not be reached)
+
+links:
+  - {label: DPH Community Water Fluoridation Status (search by city or town), url: "https://www.mass.gov/info-details/community-water-fluoridation-status"}
+  - {label: CDC My Water's Fluoride (Massachusetts), url: "https://nccd.cdc.gov/doh_mwf/Default/CountyList.aspx?state=Massachusetts&stateid=25&stateabbr=MA&reportLevel=4"}
+  - {label: DPH Oral Health information for Local Boards of Health, url: "https://www.mass.gov/lists/oral-health-information-for-local-boards-of-health"}
+  - {label: "M.G.L. c. 111, § 8C", url: "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section8C"}
+  - {label: EPA Fluoride in Drinking Water, url: "https://www.epa.gov/sdwa/fluoride-drinking-water"}
