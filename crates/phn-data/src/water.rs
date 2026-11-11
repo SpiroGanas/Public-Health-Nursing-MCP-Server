@@ -645,13 +645,23 @@ pub async fn fetch_town(
         dmap_url("lcr_sample_result", &prefixes),
         dmap_url("lcr_sample", &prefixes),
     ];
+    let since = (chrono::Local::now().date_naive() - chrono::Duration::days(PFAS_DAYS)).to_string();
+    let pfas_url = eea_pfas_url(town, &since);
+    // The five requests run at the same time (each Envirofacts query takes a
+    // few seconds).
+    let (a, b, c, d, pfas_live) = tokio::join!(
+        live(http, cache, &urls[0], &expect_rows),
+        live(http, cache, &urls[1], &expect_rows),
+        live(http, cache, &urls[2], &expect_rows),
+        live(http, cache, &urls[3], &expect_rows),
+        live(http, cache, &pfas_url, &expect_eea),
+    );
     let mut bodies = Vec::new();
-    for u in &urls {
-        match live(http, cache, u, &expect_rows).await {
+    for r in [a, b, c, d] {
+        match r {
             Ok(b) => bodies.push(b),
             Err(e) => {
-                sdwis_error = Some(e);
-                break;
+                sdwis_error.get_or_insert(e);
             }
         }
     }
@@ -732,9 +742,7 @@ pub async fn fetch_town(
     };
 
     // PFAS6.
-    let since = (chrono::Local::now().date_naive() - chrono::Duration::days(PFAS_DAYS)).to_string();
-    let pfas_url = eea_pfas_url(town, &since);
-    let (pfas, pfas_status) = match live(http, cache, &pfas_url, &expect_eea).await {
+    let (pfas, pfas_status) = match pfas_live {
         Ok((body, mode, as_of, note)) => (
             parse_live_pfas(&body)?,
             DatasetStatus { mode, as_of, note },
@@ -1101,5 +1109,34 @@ mod tests {
         // Aquinnah's tribal system (EPA Region 1 primacy) comes from the snapshot.
         let a = fetch_town(&http, None, &store, 104, "Aquinnah").await.unwrap();
         assert!(a.systems.iter().any(|s| s.pwsid == "010307001"));
+    }
+}
+
+#[cfg(test)]
+mod live_tests {
+    use super::*;
+
+    /// Run with `cargo test -p phn-data --lib water::live_tests -- --ignored`
+    /// (needs data.epa.gov and eeaonline.eea.state.ma.us).
+    #[tokio::test]
+    #[ignore]
+    async fn live_town_lookup() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = false;
+        let http = HttpClient::new(&config).unwrap();
+        let store = SnapshotStore::bundled();
+        let t = fetch_town(&http, None, &store, 2, "Acton").await.unwrap();
+        assert_eq!(t.sdwis.mode, SourceMode::Live, "{:?}", t.sdwis.note);
+        assert_eq!(t.pfas_status.mode, SourceMode::Live, "{:?}", t.pfas_status.note);
+        assert!(t.systems.iter().any(|s| s.pwsid == "MA2002000"));
+        assert!(!t.pfas.is_empty());
+        eprintln!(
+            "{} systems, {} violations, {} lead/copper, {} PFAS6",
+            t.systems.len(),
+            t.violations.len(),
+            t.lead_copper.len(),
+            t.pfas.len()
+        );
     }
 }
