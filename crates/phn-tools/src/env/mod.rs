@@ -22,6 +22,11 @@ pub use climate_profile::{
 pub use ej_screen::{EjScreenArgs, EjScreenResult, environmental_justice_screen};
 // End of Phase 14 ejclimate.
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
+pub mod housing;
+pub mod vector_borne;
+
+pub use housing::{HousingGuideArgs, HousingGuideResult, housing_conditions_health_guide};
+pub use vector_borne::{VectorRiskArgs, VectorRiskResult, vector_borne_disease_risk};
 // End of Phase 14 vectorhousing.
 // Phase 14 Chemicals and food (ENV-08, CHR-06).
 pub mod chemical;

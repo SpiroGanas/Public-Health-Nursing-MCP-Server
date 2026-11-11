@@ -3440,6 +3440,68 @@ const toolChapters = [
       },
       // End of Phase 14 ejclimate tools.
       // Phase 14 Vectors and housing (ENV-06, ENV-07) tools.
+      {
+        id: 'vector_borne_disease_risk',
+        title: 'Check mosquito- and tick-borne disease risk',
+        toolset: 'env',
+        internet: 'optional',
+        files: 'optional, a one-page notice in your output folder',
+        does: 'Shows the Massachusetts Department of Public Health (DPH) risk level for Eastern equine encephalitis (EEE) and West Nile virus in your town, county, or the whole state, what the level means, what residents can do, and what DPH’s Arbovirus Surveillance and Response Plan recommends at that level. It adds Lyme disease, babesiosis, and anaplasmosis cases and rates for your county from DPH’s yearly reports, emergency department visits for tick-borne disease, and prevention messages for families, schools, camps, and outdoor workers.',
+        when: [
+          'During mosquito season (June to October), when DPH raises a town’s risk level.',
+          'Planning tick and mosquito messages for schools, camps, or outdoor workers.',
+          'Preparing a board of health update or a community health assessment.',
+        ],
+        provide: [
+          'A town or county (or your saved town), and who the messages are for.',
+          'Optionally a past season (2022 or later), or ask for a one-page notice.',
+        ],
+        examples: [
+          'What is the EEE and West Nile virus risk in Middleborough right now?',
+          'Which towns in Plymouth County were at high EEE risk in 2024?',
+          'How common is babesiosis in Barnstable County, and what should camps do about ticks?',
+          'Make a one-page mosquito and tick notice for our schools.',
+        ],
+        returns: [
+          'Risk levels with the date DPH last updated them, what each level means and the actions for it, positive mosquito and animal findings, human cases by county, earlier seasons, tick-borne disease counts and rates by county with the state rate, emergency department visits, and cited prevention messages.',
+        ],
+        notes: [
+          'Outside June to October, or when DPH’s page cannot be reached, it shows DPH’s last levels with their date and says clearly that they are not current risk.',
+          'DPH publishes tick-borne disease cases by county, not town, and reports Dukes and Nantucket together. Counts under 20 are marked unstable.',
+          'Lyme disease counts changed in 2022 when the case definition changed, so they cannot be compared with earlier years.',
+          'The recommended cancellation times for evening activities are DPH’s 2026 schedule; DPH publishes a new one each season.',
+        ],
+      },
+      {
+        id: 'housing_conditions_health_guide',
+        title: 'Explain unhealthy housing conditions and how to get an inspection',
+        toolset: 'env',
+        internet: 'no',
+        files: 'yes, tenant teaching sheets (and letters, if you give a household file) in your output folder',
+        does: 'Explains what the State Sanitary Code (105 CMR 410.000) requires for mold and leaks, pests, heat, hot water and utilities, lead paint, smoke and carbon monoxide alarms, and trash: who must fix what (owner or tenant), the health effects and who is most at risk, which problems are urgent, how to get a free board of health inspection and how fast it must happen, and tenant protections. It writes plain-language tenant teaching sheets checked for reading level, and can fill inspection request and repair request letters from your own household list.',
+        when: [
+          'A family on your caseload has mold, pests, no heat, or peeling paint.',
+          'Teaching a tenant how to ask for repairs or an inspection.',
+          'Preparing handouts for a clinic, shelter, or community event.',
+        ],
+        provide: [
+          'The problems in the family’s own words (for example “roaches and a leak”), or leave it blank for all.',
+          'Optionally the languages you need (only your agency’s approved translations are used) and a household file in your data folder for the letters.',
+        ],
+        examples: [
+          'A family in Holyoke has no heat and mice. What does the sanitary code require, and how do they get an inspection?',
+          'Make teaching sheets about mold and lead paint in English and Spanish.',
+          'Fill inspection request letters from housing_requests.csv.',
+        ],
+        returns: [
+          'Code sections and requirements, owner and tenant duties, health effects, inspection and hearing timelines, tenant protections, local housing facts, the teaching sheets with their reading grade, and the letter templates.',
+        ],
+        notes: [
+          'Tenant protections are general information, not legal advice. Refer families to legal aid (masslrf.org) before they withhold rent or make repairs themselves.',
+          'Names, addresses, and phone numbers from your household file go only into the letters in your output folder; they are never shown in the chat.',
+          'Save your board of health phone number (configure_jurisdiction) so it prints on the sheets.',
+        ],
+      },
       // End of Phase 14 vectorhousing tools.
       // Phase 14 Chemicals and food (ENV-08, CHR-06) tools.
       {

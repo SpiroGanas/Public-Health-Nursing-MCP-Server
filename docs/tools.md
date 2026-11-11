@@ -2689,6 +2689,90 @@ CDC's Tracking Network were blocked); mass.gov does not list designated MVP comm
 
 <!-- Phase 14 Vectors and housing (ENV-06, ENV-07). -->
 
+### `vector_borne_disease_risk` (ENV-06, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | Town, county, or the state. |
+| `season` | current season (June–October), else the latest | 2022 to the latest DPH workbook. |
+| `audiences` | all | `public`, `schools`, `camps`, `outdoor_workers`, or `all`. |
+| `notice` | false | One-page DOCX notice in `/data/output` (first audience given). |
+
+**Output.** EEE and West Nile virus risk levels for the town (or the number of towns at each
+level and the towns at EEE moderate or higher or WNV high or higher, for a county or the state),
+with the date DPH last updated them and whether they are current; for the highest level in the
+area, what it means, what residents can do (DPH's dashboard text), and what DPH's 2026 Arbovirus
+Surveillance and Response Plan recommends (Tables 1 and 2, shortened); positive mosquito
+samples and animal cases (town or county) and human cases (county of residence only, counts);
+the area's final levels in earlier seasons; DPH's recommended cancellation window for evening
+activities when EEE is high or critical during the season (2026 schedule, Appendix 2); Lyme
+disease (probable), babesiosis, and anaplasmosis (confirmed and probable) cases and DPH
+incidence rates per 100,000 by county, 2022–2025, with the Massachusetts rate, the change from
+the previous year, and the ratio to the state, and DPH's ten-year statewide totals; emergency
+department visits with a tick-borne disease diagnosis by county (DPH syndromic surveillance,
+2021 to the current year); current-year babesiosis and anaplasmosis counts for Massachusetts from
+NNDSS (via `get_notifiable_disease_trends`); and cited prevention messages for each audience.
+
+**Sources.** Live: DPH's Massachusetts arbovirus update page and the season's "EEE and WNV risk
+level and data" workbook it links (cached 6 hours in season, 7 days outside it), parsed with the
+server's spreadsheet reader. Snapshots: `dph-arbovirus-risk` (2022–2026 workbooks) and
+`dph-tickborne-surveillance` (DPH Tick-borne Disease Surveillance Summaries 2022–2025 and the
+syndromic reports), built by `xtask/scripts/build_vectorhousing_snapshots.py`. Content:
+`content/env/vector_borne.yaml` (DPH, CDC, NIOSH, 105 CMR 430.000).
+
+**Season handling.** From June through October the tool tries the live workbook; levels are
+called current only when they come live or from the cache for this year's season. Outside the
+season (and when the live page cannot be reached) it shows DPH's last levels with their date and
+says plainly that the season is over (or has not started) and that the levels are not current
+risk. During the season, a bundled copy is labeled as possibly out of date.
+
+**Privacy.** Public data only. Human cases are counted by county as DPH publishes them; their
+age, sex, and clinical presentation are not kept.
+
+**Limits.** DPH sets risk for focal areas, so a town can be at moderate or high risk without its
+own positive finding. DPH publishes tick-borne disease cases by county only (town figures are
+maps); Dukes and Nantucket are combined. Lyme counts from 2022 on follow the new case definition
+and cannot be compared with earlier years. Rates are DPH's as published; counts under 20 are
+flagged as unstable. NNDSS had no 2025–2026 Massachusetts babesiosis or anaplasmosis rows when
+checked, so the current-year line may say so. The cancellation schedule covers the 2026 season;
+DPH issues a new one each year.
+
+### `housing_conditions_health_guide` (ENV-07, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `conditions` | all | Names or the tenant's words: mold, leak, pests, roaches, bed bugs, no heat, hot water, lead paint, smoke or carbon monoxide alarms, trash. Matched on whole words. |
+| `area` | saved town | Town or county for local housing facts (ACS). |
+| `teaching_sheets` | true | Plain-language tenant sheets in `/data/output`. |
+| `format` | docx | `docx` or `pdf`. |
+| `languages` | | Agency-approved translations from `/data/templates/<language>/housing_<sheet>.md`; no machine translation. |
+| `households_path` | | CSV/XLSX in `/data`, one row per household (name, address, unit, town, phone, owner, problems, date noticed, language). |
+| `letters` | both | `inspection_request`, `repair_request`, or `both` (needs `households_path`). |
+
+**Output.** For each condition: the 105 CMR 410.000 sections and what they require (moisture and
+mold 410.500, 410.420, 410.220, 410.620(E); pests 410.550, 410.540; heat 410.160, 410.180; hot
+water and utilities 410.150, 410.130, 410.003(C); lead 410.470 and M.G.L. c. 111, § 197; smoke and
+carbon monoxide alarms 410.330, 410.170; trash 410.560, 410.570), owner and occupant
+responsibilities, whether 410.630(A) always deems it a condition that may endanger health, health
+effects and who is most at risk (CDC, EPA), and practical advice. Then the inspection process
+(410.600–410.680: how to ask, 1 or 5 business days, comprehensive inspection, orders within 12
+hours or 7 days, correction within 24 hours or 30 days, reinspection, hearings 410.800–410.860),
+the 18 conditions always deemed to endanger health, the saved board of health phone, tenant
+protections (M.G.L. c. 186, § 18; c. 239, § 8A; c. 111, § 127L; DPH's Notice of Occupants' Legal
+Rights and Responsibilities) with a not-legal-advice notice, and local housing facts (built
+before 1980 and 1950, renters, cost burden, crowding). Teaching sheets (one on getting an
+inspection, one per condition) are scored with the COMM-01 readability engine (median grade;
+target 8). The two letter templates are returned for review.
+
+**Privacy.** The letters follow ADR 0008: the AI sees only the templates; household details are
+read from the local file and written only to `/data/output`; the response has counts (households,
+letters, blank fields, languages) and file names. The board of health phone and town come from
+saved settings.
+
+**Limits.** Content is drafted from the regulation published in Mass. Register #1498 (6/23/2023)
+and pending review. The tenant protections summarize the statutes and DPH's notice and leave out
+conditions; refer tenants to legal aid. Local and city housing codes may add requirements.
+
 <!-- End of Phase 14 vectorhousing. -->
 
 <!-- Phase 14 Chemicals and food (ENV-08, CHR-06). -->

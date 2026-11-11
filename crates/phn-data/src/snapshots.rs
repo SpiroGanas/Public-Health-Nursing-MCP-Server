@@ -350,6 +350,22 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     ),
     // End of Phase 14 ejclimate.
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
+    (
+        "ma_arbovirus_risk.csv",
+        include_str!("../../../snapshots/ma_arbovirus_risk.csv"),
+    ),
+    (
+        "ma_arbovirus_positives.csv",
+        include_str!("../../../snapshots/ma_arbovirus_positives.csv"),
+    ),
+    (
+        "ma_tickborne_cases.csv",
+        include_str!("../../../snapshots/ma_tickborne_cases.csv"),
+    ),
+    (
+        "ma_tickborne_ed_visits.csv",
+        include_str!("../../../snapshots/ma_tickborne_ed_visits.csv"),
+    ),
     // End of Phase 14 vectorhousing.
     // Phase 14 Chemicals and food (ENV-08, CHR-06).
     (

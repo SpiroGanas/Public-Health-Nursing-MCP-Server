@@ -536,6 +536,20 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 14 ejclimate.
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
+    ContentItem {
+        id: "env-vector-borne",
+        path: "content/env/vector_borne.yaml",
+        resource_uri: "phn://content/env-vector-borne",
+        yaml: include_str!("../../../content/env/vector_borne.yaml"),
+        schema: include_str!("../../../content/schemas/env_vector_borne.schema.json"),
+    },
+    ContentItem {
+        id: "env-housing-conditions",
+        path: "content/env/housing_conditions.yaml",
+        resource_uri: "phn://content/env-housing-conditions",
+        yaml: include_str!("../../../content/env/housing_conditions.yaml"),
+        schema: include_str!("../../../content/schemas/env_housing_conditions.schema.json"),
+    },
     // End of Phase 14 vectorhousing.
     // Phase 14 Chemicals and food (ENV-08, CHR-06).
     ContentItem {

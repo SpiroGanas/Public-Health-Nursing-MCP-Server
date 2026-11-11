@@ -1290,6 +1290,70 @@ sources:
       - The flagging rules are tool defaults with no published source.
   # End of Phase 14 ejclimate.
   # Phase 14 Vectors and housing (ENV-06, ENV-07).
+  - id: dph-arbovirus-update
+    name: DPH Massachusetts arbovirus update (EEE and WNV risk level by city/town workbook)
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    kind: live
+    status: active
+    homepage: https://www.mass.gov/info-details/massachusetts-arbovirus-update
+    probe_url: https://www.mass.gov/info-details/massachusetts-arbovirus-update
+    used_by: [vector_borne_disease_risk]
+    caveats:
+      - >-
+        The page links one XLSX workbook per season ("Risk by Town" and "Positive Samples and
+        Cases" sheets), updated at least weekly from June to October. The tool finds the link
+        on the page; a change in DPH's file naming or sheet layout would make it fall back to
+        the bundled snapshot and say so. The interactive dashboard (publicdashboardtoken.mass.gov)
+        is not read.
+  - id: dph-arbovirus-risk
+    name: DPH EEE and WNV risk levels by town and positive findings, 2022-2026 seasons (snapshot)
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: dph-arbovirus-risk
+    homepage: https://www.mass.gov/info-details/massachusetts-arbovirus-update
+    probe_url: https://www.mass.gov/doc/2026-eee-and-wnv-risk-level-and-data/download
+    used_by: [vector_borne_disease_risk]
+    caveats:
+      - The 2026 levels were last updated 2026-11-04, after the season; human cases are kept as county counts only.
+  - id: dph-tickborne-surveillance
+    name: DPH tick-borne disease surveillance summaries (cases and rates by county) and syndromic ED reports (snapshot)
+    publisher: Massachusetts Department of Public Health
+    kind: snapshot
+    status: active
+    snapshot_id: dph-tickborne-surveillance
+    homepage: https://www.mass.gov/lists/tick-borne-disease-surveillance-summaries-and-data
+    probe_url: https://www.mass.gov/lists/monthly-tick-borne-disease-reports
+    used_by: [vector_borne_disease_risk]
+    caveats:
+      - >-
+        Annual summaries 2022-2025 (county tables) and ED reports 2021 to September 2026. DPH
+        publishes the summaries once a year; rerun xtask/scripts/build_vectorhousing_snapshots.py
+        when a new one appears. CDC's county Lyme datasets on data.cdc.gov (2022-2023) were
+        checked but not used, because DPH's summaries are newer and include babesiosis and
+        anaplasmosis.
+  - id: env-vector-borne-content
+    name: Mosquito- and tick-borne disease risk levels, DPH recommended actions, and prevention messages
+    publisher: DPH, CDC, NIOSH, Commonwealth of Massachusetts (drafted by this project)
+    kind: content
+    status: active
+    content_id: env-vector-borne
+    homepage: https://www.mass.gov/lists/arbovirus-surveillance-plan-and-historical-data
+    probe_url: https://www.mass.gov/doc/2026-arbovirus-surveillance-and-response-plan/download
+    used_by: [vector_borne_disease_risk]
+    caveats:
+      - Drafted 2026-11-11 from DPH's 2026 Arbovirus Surveillance and Response Plan and risk workbook, DPH and CDC prevention pages, NIOSH, and 105 CMR 430.000; pending review. The cancellation times are the 2026 schedule.
+  - id: env-housing-conditions-content
+    name: Housing conditions and health under 105 CMR 410.000, inspection process, and tenant protections
+    publisher: DPH, Massachusetts Legislature, CDC, EPA (drafted by this project)
+    kind: content
+    status: active
+    content_id: env-housing-conditions
+    homepage: https://www.mass.gov/regulations/105-CMR-41000-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii
+    probe_url: https://www.mass.gov/doc/105-cmr-410-minimum-standards-of-fitness-for-human-habitation-state-sanitary-code-chapter-ii/download
+    used_by: [housing_conditions_health_guide]
+    caveats:
+      - Drafted 2026-11-11 from 105 CMR 410.000 (Mass. Register #1498, 6/23/2023), DPH's Notice of Occupants' Legal Rights and Responsibilities, and the statutes on malegislature.gov; pending review. Tenant protections are decision support, not legal advice; the teaching sheets and letters are this project's drafts.
   # End of Phase 14 vectorhousing.
   # Phase 14 Chemicals and food (ENV-08, CHR-06).
   - id: niosh-pocket-guide

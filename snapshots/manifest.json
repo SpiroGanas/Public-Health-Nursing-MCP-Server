@@ -1688,6 +1688,95 @@
           "rows": 1613
         }
       ]
+    },
+    {
+      "id": "dph-arbovirus-risk",
+      "title": "EEE and West Nile virus risk levels by city and town, and positive mosquito, animal, and human findings, Massachusetts, 2022-2026 seasons",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences (Arbovirus Surveillance Program)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/massachusetts-arbovirus-update",
+        "https://www.mass.gov/doc/2026-eee-and-wnv-risk-level-and-data/download",
+        "https://www.mass.gov/doc/2025-eee-and-wnv-risk-level-and-data-final/download",
+        "https://www.mass.gov/doc/2024-eee-and-wnv-risk-level-and-data-final-0/download",
+        "https://www.mass.gov/doc/2023-eee-and-wnv-risk-level-and-data-final/download",
+        "https://www.mass.gov/doc/2022-eee-and-wnv-risk-level-and-data-final/download"
+      ],
+      "source_sha256": {
+        "2022-eee-and-wnv-risk-level-and-data.xlsx": "c9391194042736347aa1c1b75d80c802e5da6919163ae6aad6bcdcf15036c706",
+        "2023-eee-and-wnv-risk-level-and-data.xlsx": "9444683dac6c94efb20cc87db7edcb376efd78fb101136486234f8ac21f4f41b",
+        "2024-eee-and-wnv-risk-level-and-data.xlsx": "97c8d2a92b29673415784a7f215d6048cbcdd880426ff2673e6f08beccb16dac",
+        "2025-eee-and-wnv-risk-level-and-data.xlsx": "9d982463e72e4d71dc4d870e0fd00e901828c42c80dcdde5de2fc1094bf15488",
+        "2026-eee-and-wnv-risk-level-and-data.xlsx": "247276b2aed42b989e6931f056b868ee49266358fdecda625e6b4fa2a1588d5f"
+      },
+      "source_vintage": "2026 season, risk levels last updated 2026-11-04 (after the June-October season); final levels for 2022-2025",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts DPH public data.",
+      "derivation": "xtask/scripts/build_vectorhousing_snapshots.py reads each season's 'EEE and WNV risk level and data' workbook linked from the arbovirus update page: the 'Risk by Town' sheet (town, county, EEE and WNV risk level, last updated) and the 'Positive Samples and Cases' sheet, counted by season, virus, sample type, county, and town with the latest collection or onset date. Human cases are counted by county only, with no date, age, sex, or clinical presentation. Levels are trimmed and title-cased; town names follow MassGIS (Manchester = Manchester-by-the-Sea; Mattapoissett = Mattapoisett; Boston neighborhoods = Boston); 'Devens' is kept as reported.",
+      "caveats": [
+        "The season runs June to October; levels after October are DPH's last levels of the season, not current risk. Risk for mosquito-borne disease is virtually eliminated by the first local hard frost (DPH 2026 plan).",
+        "DPH assigns risk to focal areas that usually include neighboring towns, so a town can be at moderate or high risk with no positive finding of its own."
+      ],
+      "files": [
+        {
+          "path": "ma_arbovirus_risk.csv",
+          "sha256": "1874f957d52d721ba27dcd9326bb88d6c13fc23216bc726359b791a4f5a95ed9",
+          "bytes": 81250,
+          "rows": 1755
+        },
+        {
+          "path": "ma_arbovirus_positives.csv",
+          "sha256": "44034e37fb0f26ced5901360aa5b4c8a70d7f084b8af266fd1036d70a90cebb2",
+          "bytes": 28056,
+          "rows": 580
+        }
+      ]
+    },
+    {
+      "id": "dph-tickborne-surveillance",
+      "title": "Tick-borne disease cases and incidence by county (Lyme disease, babesiosis, anaplasmosis), 2022-2025, and emergency department visits for tick-borne disease by county, 2021-2026, Massachusetts",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences",
+      "source_urls": [
+        "https://www.mass.gov/lists/tick-borne-disease-surveillance-summaries-and-data",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2025/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2024/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2023/download",
+        "https://www.mass.gov/doc/tickborne-disease-surveillance-report-2022/download",
+        "https://www.mass.gov/lists/monthly-tick-borne-disease-reports"
+      ],
+      "source_sha256": {
+        "tickborne-disease-surveillance-report-2022.docx": "ab4d4a9c7b3c32ec7b7bbe023ab46898cd88d7f7119c26ce01c0eb9defb2daf8",
+        "tickborne-disease-surveillance-report-2023.docx": "6b363623b8a11049adc5c93d94486b7e2acb66e351635d7dc675a956c53cfc01",
+        "tickborne-disease-surveillance-report-2024.docx": "1b2c69675b999fe1b72d232697b15ca7a0a2b521511c6d931bf7cfa55a813d62",
+        "tickborne-disease-surveillance-report-2025.docx": "afb8ceda1011388791ce33bb930815d1c115f7089abc9449af46e3b3bf481d54",
+        "tick-syndromic-report-2021-12.docx": "d9fe0a6843a5b6cdee0cb3f1f33575f242a41bf1ba066ded54b3e5831f500fe3",
+        "tick-syndromic-report-2022-12.docx": "061f3a3196b4dd1d2aa5a7e9c4bbb8c54d24b136c58489a25e4577916fdbb221",
+        "tick-syndromic-report-2023-12.docx": "9420e4ce7b6a70132b47a0c721ed522200d63ff0d68c7ec5387d4ad3aa6299bf",
+        "tick-syndromic-report-2024-12.docx": "71a6f20cc3cc1d889a34c87ff0cfd241003255fade0a3539e2b013245f4014f2",
+        "tick-syndromic-report-2025-12.docx": "4ad9f5e552ea0ed9774b4e56dbbf49951a42d23b733e5caa305641bd0edf16df",
+        "tick-syndromic-report-2026-09.docx": "d381e814459100a00a718eb3e384e728ff85a2b1db7ac816ec1215c44a3b6065"
+      },
+      "source_vintage": "Case summaries for calendar years 2022-2025 (ten-year table 2016-2025); emergency department reports January-December 2021-2025 and January-September 2026",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts DPH public reports.",
+      "derivation": "xtask/scripts/build_vectorhousing_snapshots.py reads Tables 1-3 (Lyme disease probable cases; babesiosis and HGA confirmed and probable cases; cases and DPH incidence rates per 100,000 by county of residence) of each annual Tick-borne Disease Surveillance Summary, the ten-year totals table of the latest summary, and Table 1 (emergency department visits, tick-borne disease visits, and rate per 10,000 ED visits by county) of the latest Tick Exposure and Tick-borne Disease Syndromic Surveillance Report for each year. Values are copied as printed; Dukes and Nantucket are combined as DPH reports them.",
+      "caveats": [
+        "In 2022 the Lyme disease case definition changed: high-incidence states count probable cases from laboratory evidence alone. County Lyme counts from 2022 on are probable cases and cannot be compared with earlier years; the ten-year table counts confirmed, probable, and suspect cases.",
+        "Emergency department visits show only people seen in an ED; the rate is per 10,000 ED visits by county residents, not per population. Visits with a missing or out-of-state county are not shown."
+      ],
+      "files": [
+        {
+          "path": "ma_tickborne_cases.csv",
+          "sha256": "b92cbce97ac9ca86434911bdbcf745d5c33bc43783c1b5fd8c16ae8ca9aa1d38",
+          "bytes": 22151,
+          "rows": 198
+        },
+        {
+          "path": "ma_tickborne_ed_visits.csv",
+          "sha256": "dce597c9656065938591e2f764dd55bb590ac1e5ee299c9ce6d57711fa7b2bd7",
+          "bytes": 3049,
+          "rows": 78
+        }
+      ]
     }
   ]
 }

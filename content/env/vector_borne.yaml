@@ -1,0 +1,512 @@
+# Mosquito- and tick-borne disease: DPH arbovirus risk levels and recommended actions, the
+# arbovirus season, tick-borne disease data notes, and prevention messages for the public,
+# schools, camps, and outdoor workers, for vector_borne_disease_risk (ENV-06).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/env_vector_borne.schema.json
+meta:
+  id: env-vector-borne
+  title: Mosquito- and tick-borne disease risk levels, recommended actions, and prevention messages (Massachusetts)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: 2026 Massachusetts Arbovirus Surveillance and Response Plan
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    url: https://www.mass.gov/doc/2026-arbovirus-surveillance-and-response-plan/download
+  related_sources:
+    - title: Massachusetts arbovirus update (EEE and WNV risk levels by city/town)
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/massachusetts-arbovirus-update
+    - title: Tick-borne disease prevention
+      publisher: Massachusetts Department of Public Health
+      url: https://www.mass.gov/info-details/tick-borne-disease-prevention
+    - title: Preventing Tick Bites; Preventing Mosquito Bites
+      publisher: CDC
+      url: https://www.cdc.gov/ticks/prevention/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Risk level meanings, map colors, and public actions are transcribed from the "EEE Risk
+    Levels" and "WNV Risk Levels" tabs of DPH's 2026 risk workbook (the same text the dashboard
+    shows; DPH's "ususally" is corrected to "usually"). DPH's recommended response at each level
+    is a shortened transcription of Tables 1 and 2 of the 2026 Arbovirus Surveillance and
+    Response Plan (high confidence; the full tables also list mosquito control district actions).
+    The plan's WNV Critical row says "Response as in category 4"; it is read here as "in addition
+    to the High-level response" (category 3), which the table's numbering implies (medium
+    confidence). The 2026 recommended cancellation times for outdoor activities (Appendix 2) are
+    transcribed from calendar images in the plan (medium confidence: read from images; DPH
+    issues a new schedule each season). Prevention messages are transcribed or closely
+    summarized from DPH, CDC, and NIOSH pages and DPH's 2021 school repellent guidance (high
+    confidence; the school guidance was written for the 2021 EEE season and is the latest DPH
+    school guidance found). Camp requirements are quoted from 105 CMR 430.159(B)(4) and
+    430.401(A) (high).
+
+sources:
+  dph-arbo-update:
+    title: Massachusetts arbovirus update
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/massachusetts-arbovirus-update
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-arbo-workbook:
+    title: 2026 EEE and WNV risk level and data (workbook; EEE Risk Levels, WNV Risk Levels, and Data Dictionary tabs)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/2026-eee-and-wnv-risk-level-and-data/download
+    effective_date: 2026-11-04
+    retrieved: 2026-11-11
+  dph-arbo-plan:
+    title: 2026 Massachusetts Arbovirus Surveillance and Response Plan
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    url: https://www.mass.gov/doc/2026-arbovirus-surveillance-and-response-plan/download
+    effective_date: "2026"
+    retrieved: 2026-11-11
+  dph-mosquito-prevention:
+    title: Mosquito-borne disease prevention
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/mosquito-borne-disease-prevention
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-repellents:
+    title: Mosquito Repellents (fact sheet)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/mosquito-repellents
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-school-repellent:
+    title: "Reducing Risk of Mosquito-borne Illness While Outdoors. Guidance for School Staff: Applying EPA-Approved Mosquito Repellent to Prevent EEE"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/mosquito-repellent-guidance-for-school-staff/download
+    effective_date: "2021"
+    retrieved: 2026-11-11
+  dph-tick-prevention:
+    title: Tick-borne disease prevention
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/tick-borne-disease-prevention
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-tick-diseases:
+    title: Tick-borne Diseases
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/tick-borne-diseases
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-tbd-summary:
+    title: Tick-borne Disease Surveillance Summary, 2025
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    url: https://www.mass.gov/doc/tickborne-disease-surveillance-report-2025/download
+    effective_date: "2025"
+    retrieved: 2026-11-11
+  dph-tick-ed:
+    title: Tick Exposure and Tick-borne Disease Syndromic Surveillance Report, September 2026
+    publisher: Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences
+    url: https://www.mass.gov/doc/tick-exposure-and-tickborne-disease-syndromic-surveillance-report-september-2026/download
+    effective_date: 2026-09
+    retrieved: 2026-11-11
+  cdc-tick-prevention:
+    title: Preventing Tick Bites
+    publisher: CDC
+    url: https://www.cdc.gov/ticks/prevention/index.html
+    effective_date: 2024-08-28
+    retrieved: 2026-11-11
+  cdc-mosquito-prevention:
+    title: Preventing Mosquito Bites
+    publisher: CDC
+    url: https://www.cdc.gov/mosquitoes/prevention/index.html
+    effective_date: 2024-08-28
+    retrieved: 2026-11-11
+  niosh-ticks:
+    title: "Outdoor Workers: Tickborne Diseases"
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/outdoor-workers/about/tick-borne-diseases.html
+    effective_date: 2026-10-02
+    retrieved: 2026-11-11
+  cmr430:
+    title: "105 CMR 430.000: Minimum Standards for Recreational Camps for Children (State Sanitary Code, Chapter IV) (Mass. Register #1516, 3/1/2024)"
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/105-cmr-430-minimum-standards-for-recreational-camps-for-children-state-sanitary-code-chapter-iv/download
+    effective_date: 2024-03-01
+    retrieved: 2026-11-11
+
+season:
+  first_month: 6
+  last_month: 10
+  description:
+    text: >-
+      DPH tests mosquitoes and posts EEE and West Nile virus risk levels by city and town during
+      the arbovirus season, June to October. Risk levels are updated at least once a week during
+      the season.
+    source: dph-arbo-workbook
+    section: Data Dictionary tab (Risk by Town; update frequency)
+    confidence: high
+  hard_frost:
+    text: >-
+      Risk for mosquito-borne disease is virtually eliminated by the first local hard frost,
+      which kills most remaining adult mosquitoes; because Culex mosquitoes overwinter in warm,
+      protected places, isolated West Nile virus cases may rarely occur even after a hard frost.
+    source: dph-arbo-plan
+    section: VII.A Risk Assessment
+    confidence: high
+  peak:
+    text: >-
+      Human cases of EEE and West Nile virus occur mainly in August and September; only 2 of 47
+      human EEE cases since 2000 had onset after September 15.
+    source: dph-arbo-plan
+    section: VII.A Risk Assessment
+    confidence: high
+  focal_areas:
+    text: >-
+      DPH sets risk levels for "focal areas" that often include several towns: in general the
+      highest-risk municipalities are identified and the surrounding municipalities are set at
+      the next highest level. A town can therefore be at moderate or high risk without a positive
+      finding of its own.
+    source: dph-arbo-plan
+    section: VII.A Risk Assessment
+    confidence: high
+
+eee_levels:
+  - level: Remote
+    rank: 1
+    color: Dark blue
+    meaning: EEE is not usually found in your area.
+    definition: >-
+      No EEE activity in the municipality or focal area for at least 10 years, no current EEE in
+      mosquitoes, and no animal or human EEE cases.
+    public_actions:
+      - Know your risk; check DPH's arbovirus update page regularly.
+      - Repair window screens.
+    dph_response:
+      - DPH provides educational materials and specimen submission protocols to local boards of health, physicians, veterinarians, animal control officers, and stable owners.
+      - Education for the public on personal prevention and source reduction, particularly for people at higher risk of severe disease (for example, children and older adults).
+      - Emphasize that schools must comply with Massachusetts requirements for filing outdoor integrated pest management (IPM) plans.
+  - level: Low
+    rank: 2
+    color: Light blue
+    meaning: EEE may occur in your area.
+    definition: >-
+      Any EEE activity in the last 10 years, or sporadic EEE in bird-biting (Culiseta melanura)
+      mosquitoes this year with no confirmed animal or human cases.
+    public_actions:
+      - Know your risk; check DPH's arbovirus update page regularly.
+      - Repair window screens.
+      - Wear mosquito repellent between dusk and dawn.
+      - Wear long sleeves and long pants from dusk to dawn.
+      - Use mosquito netting on baby carriages and playpens.
+    dph_response:
+      - "Everything at the Remote level, plus: expand municipal outreach and public education, especially for high-risk groups, on personal protection and source reduction."
+      - DPH sends a public health alert after the first EEE-positive mosquito sample of the season.
+  - level: Moderate
+    rank: 3
+    color: Light orange
+    meaning: EEE occurred in your area within the last year and/or there is EEE in mosquitoes in your area now.
+    definition: >-
+      Last year: sustained EEE in bird-biting mosquitoes, EEE in mammal-biting mosquitoes, or a
+      human or animal case; or this year: sustained EEE in Cs. melanura above mean infection
+      rates, a single EEE isolate from mammal-biting (bridge vector) mosquitoes, or a
+      combination of factors pointing to rising risk, with no animal or human case this year.
+    public_actions:
+      - Know your risk; check DPH's arbovirus update page regularly.
+      - Repair window screens.
+      - Wear mosquito repellent between dusk and dawn.
+      - Wear long sleeves and long pants from dusk to dawn.
+      - Use mosquito netting on baby carriages and playpens.
+      - Wear mosquito repellent when outdoors, especially between dusk and dawn.
+      - Avoid outside areas with obvious mosquito activity.
+    dph_response:
+      - "Everything at the Low level, plus: intensify outreach and public education, including media alerts as needed."
+      - DPH notifies local boards of health of any EEE-positive specimen (HHAN alert or phone call) and advises health care facilities of the increased risk and the need to send specimens to the State Public Health Laboratory.
+      - Supplemental mosquito trapping and testing in areas with positive findings if DPH resources allow.
+      - Where a mosquito control district operates, targeted ground adulticiding should be considered where surveillance shows human risk.
+  - level: High
+    rank: 4
+    color: Medium orange
+    meaning: Conditions likely to lead to infection of a person with EEE are occurring in your area.
+    definition: >-
+      Sustained or increasing EEE in Cs. melanura above mean infection rates, two or more EEE
+      isolates in mammal-biting mosquitoes from two trap sites in the same week, or a confirmed
+      animal case this year, together with factors indicating persistent or increasing risk.
+    public_actions:
+      - Know your risk; check DPH's arbovirus update page regularly.
+      - Repair window screens.
+      - Wear mosquito repellent between dusk and dawn.
+      - Wear long sleeves and long pants from dusk to dawn.
+      - Use mosquito netting on baby carriages and playpens.
+      - Wear mosquito repellent when outdoors, especially between dusk and dawn.
+      - Avoid outside areas with obvious mosquito activity.
+      - Adjust outdoor activity to avoid peak mosquito hours (from dusk to dawn).
+      - Avoid overnight camping, particularly near freshwater swamps where EEE activity is most likely.
+    dph_response:
+      - "Everything at the Moderate level, plus: intensify public education on avoiding outdoor activity during peak mosquito hours, clothing, repellents, and source reduction, using multimedia messages."
+      - Local boards of health are encouraged to seek out high-risk groups (nursing homes, schools, workers in outdoor occupations) and educate them on personal protection.
+      - Towns and schools are urged to move practices, games, and other outdoor activities held between dusk and dawn to places outside the area of risk, or else reschedule evening events to avoid dusk to dawn, focusing on children and older adults (see DPH's recommended cancellation times).
+      - Active surveillance for human cases is intensified; local officials may consider focal aerial adulticiding, and DPH may discuss state-funded aerial application with the State Reclamation and Mosquito Control Board and mosquito control districts.
+  - level: Critical
+    rank: 5
+    color: Dark orange
+    meaning: Excessive risk from EEE virus exists; a person with EEE infection has been identified in your area.
+    definition: >-
+      Multiple measures indicating critical risk (sustained high mosquito infection rates and
+      conditions favoring further amplification) with a confirmed human EEE case before late
+      August, or multiple animal cases clustered in time and space.
+    public_actions:
+      - Know your risk; check DPH's arbovirus update page regularly.
+      - Repair window screens.
+      - Wear mosquito repellent between dusk and dawn.
+      - Wear long sleeves and long pants from dusk to dawn.
+      - Use mosquito netting on baby carriages and playpens.
+      - Wear mosquito repellent when outdoors, especially between dusk and dawn.
+      - Avoid outside areas with obvious mosquito activity.
+      - Adjust outdoor activity to avoid peak mosquito hours (from dusk to dawn).
+      - Avoid overnight camping, particularly near freshwater swamps where EEE activity is most likely.
+      - Cancel or reschedule outdoor gatherings, organized sporting events, and similar activities to avoid peak mosquito hours (dusk to dawn).
+    dph_response:
+      - "Everything at the High level, plus: continued, highly intensified outreach on personal protection, frequent media updates, and a strong recommendation to reschedule outdoor evening events."
+      - DPH strongly recommends restricting all group outdoor activities during peak mosquito hours (dusk to dawn) in areas of intensive virus activity.
+      - DPH may designate high-risk areas where individual no-spray requests can be preempted, and confers on intensive mosquito control, which may include state-funded aerial adulticide.
+      - DPH communicates with health care providers in the area and encourages prompt specimen submission from all clinically suspect cases.
+eee_source: dph-arbo-workbook
+eee_section: EEE Risk Levels tab
+eee_response_source: dph-arbo-plan
+eee_response_section: Table 2, Guidelines for Phased Response to EEE Surveillance Data
+
+wnv_levels:
+  - level: Low
+    rank: 1
+    color: Light orange/yellow
+    meaning: Infection with WNV is unlikely.
+    definition: >-
+      All localities begin the year at Low: no or sporadic West Nile virus in mosquitoes in the
+      focal area and no animal or human cases.
+    public_actions:
+      - "Be prepared: know your risk (check DPH's arbovirus update page regularly), repair screens, clean up to get rid of mosquito breeding sites, be aware of stagnant water on private property (for example, unused swimming pools), and consult the local board of health."
+      - Wear mosquito repellent between dusk and dawn.
+      - Wear long sleeves and long pants from dusk to dawn.
+      - Use mosquito netting on baby carriages and playpens.
+    dph_response:
+      - DPH provides educational materials and specimen submission protocols to local boards of health, physicians, veterinarians, animal control officers, and stable owners.
+      - Education for the public on personal prevention and source reduction, particularly for people at higher risk of severe disease (for example, older adults).
+      - DPH sends a public health alert after the first WNV-positive mosquito sample of the season.
+      - Emphasize that schools must comply with Massachusetts requirements for filing outdoor integrated pest management (IPM) plans.
+  - level: Moderate
+    rank: 2
+    color: Light orange
+    meaning: Infection with WNV is likely or has already occurred.
+    definition: >-
+      Sustained or increasing West Nile virus in mosquitoes in the focal area, one confirmed
+      human case, or at least one animal case with conditions suggesting risk will rise.
+    public_actions:
+      - "Be prepared: know your risk (check DPH's arbovirus update page regularly), repair screens, clean up to get rid of mosquito breeding sites, be aware of stagnant water on private property (for example, unused swimming pools), and consult the local board of health."
+      - Wear long sleeves and long pants from dusk to dawn when weather permits.
+      - Use mosquito netting on baby carriages and playpens.
+      - Wear mosquito repellent when outdoors, especially between dusk and dawn.
+      - Dump standing water twice weekly.
+    dph_response:
+      - "Everything at the Low level, plus: expand municipal outreach and public education, particularly among high-risk groups, on personal protection and source reduction."
+      - DPH contacts local boards of health by phone or HHAN when West Nile virus is confirmed in any specimen and advises health care facilities to send specimens to the State Public Health Laboratory.
+      - Supplemental mosquito trapping and testing may be done in areas with positive findings; where a mosquito control district operates, larval control and source reduction increase and targeted ground adulticiding may be considered.
+  - level: High
+    rank: 3
+    color: Orange-red
+    meaning: More people may get infected with WNV in your area.
+    definition: >-
+      Sustained or increasing West Nile virus in mosquitoes followed by multiple isolations in
+      the same week, or two or more confirmed human cases clustered in time, together with
+      factors indicating persistent or increasing risk (time left in the season, hot and dry
+      weather, large Culex populations).
+    public_actions:
+      - "Be prepared: know your risk (check DPH's arbovirus update page regularly), repair screens, clean up to get rid of mosquito breeding sites, be aware of stagnant water on private property (for example, unused swimming pools), and consult the local board of health."
+      - Wear long sleeves and long pants from dusk to dawn when weather permits.
+      - Use mosquito netting on baby carriages and playpens.
+      - Wear mosquito repellent when outdoors, especially between dusk and dawn.
+      - Dump standing water twice weekly.
+      - People over 50 or those who are immune compromised should adjust outdoor activity to avoid peak mosquito hours (from dusk to dawn).
+    dph_response:
+      - "Everything at the Moderate level, plus: intensify public education on avoiding outdoor activity during peak mosquito hours, clothing, repellents, and source reduction, using multimedia messages."
+      - Local boards of health are encouraged to seek out high-risk groups (for example, nursing homes) and educate them on personal protection and avoiding outdoor evening events.
+      - Active surveillance for human cases is intensified and expanded.
+  - level: Critical
+    rank: 4
+    color: Dark red
+    meaning: An unusually high risk from WNV exists in your area.
+    definition: >-
+      More than 5 human cases with exposures clustered in time and space, together with factors
+      indicating persistent or increasing risk.
+    public_actions:
+      - Situation-specific recommendations will be made, in addition to all the actions for the High level.
+    dph_response:
+      - "In addition to the High-level response: DPH confers with local boards of health, the State Reclamation and Mosquito Control Board, and mosquito control districts on additional interventions."
+      - DPH recommends reducing outdoor activities during peak mosquito hours, especially by older adults and others at higher risk of severe disease, in areas of intensive virus activity.
+wnv_source: dph-arbo-workbook
+wnv_section: WNV Risk Levels tab
+wnv_response_source: dph-arbo-plan
+wnv_response_section: Table 1, Guidelines for Phased Response to WNV Surveillance Data
+
+cancellation_times:
+  season: 2026
+  source: dph-arbo-plan
+  section: Appendix 2, Recommended Cancellation Times for Outdoor Activities in Areas of High Risk for EEE (calendar images)
+  confidence: medium
+  note: >-
+    Based on the approximate time of civil twilight. It does not eliminate risk and does not
+    replace repellent or protective clothing. DPH publishes a new schedule each season.
+  weeks:
+    - {from: 2026-07-01, to: 2026-07-04, start: "8:30 PM", end: "5:15 AM"}
+    - {from: 2026-07-05, to: 2026-07-11, start: "8:15 PM", end: "5:15 AM"}
+    - {from: 2026-07-12, to: 2026-07-18, start: "8:15 PM", end: "5:15 AM"}
+    - {from: 2026-07-19, to: 2026-07-25, start: "8:15 PM", end: "5:30 AM"}
+    - {from: 2026-07-26, to: 2026-08-01, start: "8:00 PM", end: "5:30 AM"}
+    - {from: 2026-08-02, to: 2026-08-08, start: "8:00 PM", end: "5:45 AM"}
+    - {from: 2026-08-09, to: 2026-08-15, start: "7:45 PM", end: "5:45 AM"}
+    - {from: 2026-08-16, to: 2026-08-22, start: "7:45 PM", end: "6:00 AM"}
+    - {from: 2026-08-23, to: 2026-08-29, start: "7:30 PM", end: "6:00 AM"}
+    - {from: 2026-08-30, to: 2026-09-05, start: "7:15 PM", end: "6:15 AM"}
+    - {from: 2026-09-06, to: 2026-09-12, start: "7:00 PM", end: "6:15 AM"}
+    - {from: 2026-09-13, to: 2026-09-19, start: "6:45 PM", end: "6:30 AM"}
+    - {from: 2026-09-20, to: 2026-09-26, start: "6:45 PM", end: "6:30 AM"}
+    - {from: 2026-09-27, to: 2026-10-03, start: "6:30 PM", end: "6:45 AM"}
+    - {from: 2026-10-04, to: 2026-10-10, start: "6:15 PM", end: "6:45 AM"}
+    - {from: 2026-10-11, to: 2026-10-17, start: "6:00 PM", end: "7:00 AM"}
+    - {from: 2026-10-18, to: 2026-10-24, start: "5:45 PM", end: "7:00 AM"}
+    - {from: 2026-10-25, to: 2026-10-31, start: "5:45 PM", end: "7:15 AM"}
+
+prevention:
+  public:
+    - text: Use insect repellent any time you are outdoors, wear long-sleeved clothing, schedule outdoor activities to avoid the hours from dusk to dawn during peak mosquito season, repair damaged window and door screens, and remove standing water around your home.
+      source: dph-mosquito-prevention
+      section: Prevention tips
+      confidence: high
+    - text: Repellents with DEET, permethrin, IR3535, or picaridin protect against mosquitoes; oil of lemon eucalyptus has given as much protection as low concentrations of DEET. Permethrin is for clothing, shoes, bed nets, and camping gear, not skin.
+      source: dph-repellents
+      section: Which repellent should I use?
+      confidence: high
+    - text: Do not use DEET on infants under 2 months; children older than 2 months should use products with 30% DEET or less. Do not use oil of lemon eucalyptus on children under 3. For infants, use mosquito netting on carriages and playpens and avoid outdoor activity from dusk to dawn.
+      source: dph-repellents
+      section: Which repellent should I use?; protecting infants
+      confidence: high
+    - text: Do not apply repellent under clothing, on cuts or irritated skin, or near the mouth or eyes; put it on your hands first, then on a child (never on a child's hands); wash it off skin and clothes when you come inside.
+      source: dph-repellents
+      section: Always Use Repellents Safely
+      confidence: high
+    - text: Check yourself, your children, and your pets for ticks once a day, especially inside and behind the ears, along the hairline, back of the neck, armpits, groin, legs, behind the knees, and between the toes. Ticks are tiny, so look for new "freckles."
+      source: dph-tick-prevention
+      section: Personal protection against ticks
+      confidence: high
+    - text: Remove an attached tick as soon as possible with fine-point tweezers, gripping close to the skin and pulling straight out with steady pressure; do not use kerosene, petroleum jelly, nail polish, or a hot match. Note the date and where on the body it was.
+      source: dph-tick-prevention
+      section: Personal protection against ticks
+      confidence: high
+    - text: In tick areas, stick to the center of trails; wear a light-colored, long-sleeved shirt and long pants tucked into socks; use DEET on exposed skin and permethrin on clothes (DPH advises no more than 30-35% DEET for adults and 10-15% for children, and no repellent on infants).
+      source: dph-tick-prevention
+      section: When going outside to an area likely to have ticks
+      confidence: high
+    - text: After being outdoors, check clothing and gear, tumble dry clothes on high heat for 10 minutes to kill ticks, and shower within two hours of coming indoors.
+      source: cdc-tick-prevention
+      section: After you come indoors
+      confidence: high
+    - text: Call a health care provider for a rash where you were bitten or symptoms such as fever, headache, fatigue, or sore and aching muscles after a tick bite, or for hives, face or tongue swelling, or stomach symptoms within hours of eating meat or dairy (possible alpha-gal syndrome).
+      source: dph-tick-prevention
+      section: Talk to your doctor if
+      confidence: high
+  schools:
+    - text: Children can keep spending time outdoors for recess and other daytime activities with repellent, long sleeves, long pants, and socks when possible; avoid outdoor activities between dusk and dawn, when mosquitoes are most active. People under 15 are at particular risk of EEE.
+      source: dph-school-repellent
+      section: Introduction
+      confidence: high
+    - text: Repellents are not a drug or medication, so they are not subject to 105 CMR 210.000 and need not be applied only by staff the school nurse authorizes to give medication. Schools should identify staff who can follow the guidance, read the label, communicate with students, and watch for reactions such as a rash.
+      source: dph-school-repellent
+      section: Within the context of a school setting
+      confidence: high
+    - text: Notify parents and caregivers of any school-supplied repellent and let them opt out; parents may send their own repellent if they tell the school, so staff can label and lock it up. Staff wash their hands before and after each application (no gloves).
+      source: dph-school-repellent
+      section: Within the context of a school setting
+      confidence: high
+    - text: Do not let children handle repellent; apply it from your own hands to the child's arms, legs, neck, and face, never on hands, under clothing or face masks, near the mouth or eyes, or on cuts; if a rash develops, stop, wash with soap and water, and call a provider or poison control (send the product along).
+      source: dph-school-repellent
+      section: Using Repellents Safely
+      confidence: high
+    - text: At high EEE risk, DPH urges towns and schools to move practices, games, and other outdoor activities held between dusk and dawn out of the area of risk or reschedule them; at critical risk it strongly recommends restricting group outdoor activities from dusk to dawn.
+      source: dph-arbo-plan
+      section: Table 2 (EEE High and Critical) and Appendix 2
+      confidence: high
+    - text: Schools must comply with Massachusetts requirements for filing outdoor integrated pest management (IPM) plans; DPH emphasizes this at every risk level.
+      source: dph-arbo-plan
+      section: Tables 1 and 2 (category 1 response)
+      confidence: high
+  camps:
+    - text: "Every recreational camp's written health care policy must include procedures for using insect repellent and conducting tick checks (105 CMR 430.159(B)(4))."
+      source: cmr430
+      section: 430.159(B)(4)
+      confidence: high
+    - text: "Brush, weeds, grass, and plants must be controlled in central camp areas to minimize harborage of ticks, chiggers, and other insects (105 CMR 430.401(A)), and camp buildings kept free of insect and rodent infestation (430.400)."
+      source: cmr430
+      section: 430.400(A); 430.401(A)
+      confidence: high
+    - text: At high or critical EEE risk, DPH advises avoiding overnight camping, particularly near freshwater swamps, and closing campgrounds between dusk and dawn may be recommended in areas at highest risk.
+      source: dph-arbo-plan
+      section: VII.B Rescheduling of Outdoor Community Activities; EEE risk level actions
+      confidence: high
+    - text: CDC advises checking clothing, gear, and the whole body for ticks after time outdoors and showering within two hours of coming indoors; camps can build both into the daily schedule (this project's suggestion for camps).
+      source: cdc-tick-prevention
+      section: After you come indoors
+      confidence: medium
+  outdoor_workers:
+    - text: Workers in construction, farming, forestry, land surveying, landscaping, park or wildlife management, railroad, and utility line work, and indoor workers next to wooded areas, are at higher risk of tickborne disease.
+      source: niosh-ticks
+      section: Who is at risk
+      confidence: high
+    - text: "Employers: train workers on how tickborne diseases spread and how to protect themselves; provide EPA-registered repellents (DEET, picaridin, IR3535, oil of lemon eucalyptus, PMD, or 2-undecanone) and permethrin for clothing; offer long-sleeved uniforms; and clear leaf litter, tall grass, and brush where work cannot avoid them."
+      source: niosh-ticks
+      section: Recommendations for employers
+      confidence: high
+    - text: "Workers: wear a hat and light-colored long sleeves and long pants tucked into boots or socks, check skin and clothes for ticks every day, shower as soon as possible, remove ticks right away with fine-tipped tweezers, and dry work clothes in a hot dryer. Tell your provider that you work outdoors if you become ill."
+      source: niosh-ticks
+      section: Recommendations for workers; When to seek medical attention
+      confidence: high
+    - text: At high West Nile virus risk, people over 50 or with weakened immune systems should adjust outdoor activity to avoid dusk to dawn; at high EEE risk, local boards of health are encouraged to educate workers in outdoor occupations on personal protection.
+      source: dph-arbo-plan
+      section: Tables 1 and 2 (High); WNV Risk Levels tab
+      confidence: high
+
+disease_notes:
+  - text: EEE is rare but serious, with 30-50% mortality and lifelong neurologic disability in many survivors; there is no treatment. Massachusetts had 47 EEE cases from 2000 to 2025, 23 of them fatal.
+    source: dph-arbo-plan
+    section: II.A Eastern Equine Encephalitis Virus
+    confidence: high
+  - text: About 80% of people infected with West Nile virus have no symptoms and fewer than 1% develop encephalitis or meningitis; people over 50 have a higher risk of severe illness. All of Massachusetts's at least 17 West Nile virus deaths (2002-2025) were in people over 60.
+    source: dph-arbo-plan
+    section: II.B West Nile Virus
+    confidence: high
+  - text: Lyme disease, babesiosis, and anaplasmosis are the most common tick-borne diseases in Massachusetts and are all spread by the black-legged (deer) tick, so co-infection is possible; most infections occur in spring and summer when nymphs are active.
+    source: dph-tbd-summary
+    section: Introduction
+    confidence: high
+  - text: In 2025 babesiosis and anaplasmosis cases were mostly older adults (mean age 62 and 63); about a quarter of each were hospitalized. Children ages 5-14, especially boys, also have high Lyme disease rates but are often diagnosed without laboratory testing, so surveillance undercounts them.
+    source: dph-tbd-summary
+    section: Lyme disease; Babesiosis; Human Granulocytic Anaplasmosis
+    confidence: high
+
+data_notes:
+  - text: >-
+      In 2022 the national Lyme disease case definition changed so that high-incidence states,
+      including Massachusetts, count probable cases from laboratory evidence alone. County Lyme
+      counts from 2022 on cannot be compared with earlier years.
+    source: dph-tbd-summary
+    section: Lyme disease; Additional information about Lyme disease surveillance
+    confidence: high
+  - text: >-
+      DPH's tick-borne disease emergency department data count visits with a Lyme disease,
+      babesiosis, anaplasmosis, or other tick-borne disease diagnosis among the first three
+      codes; not everyone with a tick-borne disease is seen in an emergency department. The rate
+      is per 10,000 emergency department visits by county residents.
+    source: dph-tick-ed
+    section: About the data; Visit Definitions
+    confidence: high
+  - text: >-
+      DPH publishes tick-borne disease cases by county of residence; its town-level figures are
+      maps only. Dukes and Nantucket counties are reported together.
+    source: dph-tbd-summary
+    section: Tables 1-3 and Figures 2, 7, 12
+    confidence: high
