@@ -352,6 +352,26 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
     // End of Phase 14 vectorhousing.
     // Phase 14 Chemicals and food (ENV-08, CHR-06).
+    (
+        "niosh_npg.csv",
+        include_str!("../../../snapshots/niosh_npg.csv"),
+    ),
+    (
+        "niosh_idlh.csv",
+        include_str!("../../../snapshots/niosh_idlh.csv"),
+    ),
+    (
+        "atsdr_mrls.csv",
+        include_str!("../../../snapshots/atsdr_mrls.csv"),
+    ),
+    (
+        "atsdr_toxfaqs.csv",
+        include_str!("../../../snapshots/atsdr_toxfaqs.csv"),
+    ),
+    (
+        "usda_food_access_ma.csv",
+        include_str!("../../../snapshots/usda_food_access_ma.csv"),
+    ),
     // End of Phase 14 chemfood.
     // End of Phase 14 snapshot files.
 ];

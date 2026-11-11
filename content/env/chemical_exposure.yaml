@@ -1,0 +1,512 @@
+# Chemical exposure reference: how to read NIOSH occupational limits and ATSDR minimal risk
+# levels for community questions, scenario notes, and whom to call in Massachusetts, for
+# chemical_exposure_reference (ENV-08). The chemical data themselves (NIOSH Pocket Guide
+# entries, the NIOSH IDLH table, ATSDR MRLs, and the ToxFAQs index) are snapshots built by
+# xtask/scripts/build_chemfood_snapshots.py.
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/env_chemical_exposure.schema.json
+meta:
+  id: env-chemical-exposure
+  title: Chemical exposure reference (occupational limits, minimal risk levels, scenarios, contacts)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: NIOSH Pocket Guide to Chemical Hazards
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/npg/
+  related_sources:
+    - title: Minimal Risk Levels (MRLs) for Hazardous Substances; About Minimal Risk Levels
+      publisher: Agency for Toxic Substances and Disease Registry
+      url: https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx
+    - title: ToxFAQs
+      publisher: Agency for Toxic Substances and Disease Registry
+      url: https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx
+    - title: Report a spill or environmental emergency
+      publisher: Massachusetts Department of Environmental Protection
+      url: https://www.mass.gov/how-to/report-a-spill-or-environmental-emergency
+    - title: Division of Environmental Toxicology, Hazard Assessment and Prevention
+      publisher: Massachusetts Department of Public Health, Bureau of Climate and Environmental Health
+      url: https://www.mass.gov/orgs/division-of-environmental-toxicology-hazard-assessment-and-prevention
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Definitions of RELs, PELs, STELs, ceilings, the Ca notation, and IDLH values are
+    transcribed from the NIOSH Pocket Guide introduction and the NIOSH IDLH page (high
+    confidence). MRL meaning, durations, units, and limits are transcribed from ATSDR's MRL
+    pages and the MRL table footnotes; the comparison-value warning is from ATSDR's Public
+    Health Assessment Guidance Manual (high). AEGLs are described from EPA's AEGL page (high).
+    Every phone number was read from the official page cited on 2026-11-11: 911 and the
+    MassDEP 24-hour line (MassDEP spill page), Poison Control and the National Pesticide
+    Information Center (EPA pesticide first aid page), the National Response Center (EPA spill
+    reporting page), DPH's toxicology and indoor air programs (DPH pages), and MassDEP's main
+    office (MassDEP contaminated property page). Two statements are THIS PROJECT'S
+    INTERPRETATION of those sources (medium confidence): that occupational limits are not safe
+    levels for community or residential exposure, and that an MRL is not a diagnostic
+    threshold for one person. The search aliases are navigation aids, not chemical facts.
+    OSHA's own pages (osha.gov) could not be reached, so OSHA is named only through the
+    Department of Labor Standards page.
+
+sources:
+  niosh-npg:
+    title: NIOSH Pocket Guide to Chemical Hazards
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/npg/
+    effective_date: 2020-02-18
+    retrieved: 2026-11-11
+  niosh-npg-intro:
+    title: Pocket Guide to Chemical Hazards Introduction
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/npg/pgintrod.html
+    effective_date: 2016-03-07
+    retrieved: 2026-11-11
+  niosh-idlh:
+    title: Immediately Dangerous To Life or Health (IDLH) Values
+    publisher: CDC National Institute for Occupational Safety and Health
+    url: https://www.cdc.gov/niosh/idlh/default.html
+    effective_date: 2026-04-01
+    retrieved: 2026-11-11
+  atsdr-mrl-list:
+    title: Minimal Risk Levels (MRLs) for Hazardous Substances (October 2026 table)
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://wwwn.cdc.gov/TSP/MRLS/mrlsListing.aspx
+    effective_date: 2026-10
+    retrieved: 2026-11-11
+  atsdr-mrl-php:
+    title: About Minimal Risk Levels (for public health professionals)
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://www.atsdr.cdc.gov/minimal-risk-levels/php/about/index.html
+    effective_date: 2024-11-12
+    retrieved: 2026-11-11
+  atsdr-mrl-public:
+    title: Minimal Risk Levels (for everyone)
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://www.atsdr.cdc.gov/minimal-risk-levels/about/index.html
+    effective_date: 2024-11-12
+    retrieved: 2026-11-11
+  atsdr-pha-screening:
+    title: Screening Levels Used by ATSDR (Public Health Assessment Guidance Manual)
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://www.atsdr.cdc.gov/pha-guidance/conducting_scientific_evaluations/screening_analysis/screening_levels_used_by_ATSDR.html
+    effective_date: 2024-01-11
+    retrieved: 2026-11-11
+  atsdr-toxfaqs:
+    title: ToxFAQs
+    publisher: Agency for Toxic Substances and Disease Registry
+    url: https://wwwn.cdc.gov/TSP/ToxFAQs/ToxFAQsLanding.aspx
+    effective_date: 2021-02-10
+    retrieved: 2026-11-11
+  epa-aegl:
+    title: About Acute Exposure Guideline Levels (AEGLs)
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/aegl/about-acute-exposure-guideline-levels-aegls
+    effective_date: 2026-05-05
+    retrieved: 2026-11-11
+  epa-first-aid:
+    title: First Aid in Case of Pesticide Exposure
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/pesticide-incidents/first-aid-case-pesticide-exposure
+    effective_date: 2025-12-22
+    retrieved: 2026-11-11
+  epa-report-spills:
+    title: How to Report Spills and Environmental Violations
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/pesticide-incidents/how-report-spills-and-environmental-violations
+    effective_date: 2026-07-23
+    retrieved: 2026-11-11
+  massdep-spill:
+    title: Report a spill or environmental emergency
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/how-to/report-a-spill-or-environmental-emergency
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-contaminated:
+    title: Find Out About a Contaminated Property
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/find-out-about-a-contaminated-property
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-drinking-water:
+    title: Drinking Water Health & Safety
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/drinking-water-health-safety
+    effective_date: null
+    retrieved: 2026-11-11
+  massdep-wells:
+    title: Private Wells
+    publisher: Massachusetts Department of Environmental Protection
+    url: https://www.mass.gov/private-wells
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-tox:
+    title: Division of Environmental Toxicology, Hazard Assessment and Prevention (TOX)
+    publisher: Massachusetts Department of Public Health, Bureau of Climate and Environmental Health
+    url: https://www.mass.gov/orgs/division-of-environmental-toxicology-hazard-assessment-and-prevention
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-iaq:
+    title: Indoor Air Quality - Facts and Resources
+    publisher: Massachusetts Department of Public Health, Indoor Air Quality Outreach and Education Unit
+    url: https://www.mass.gov/indoor-air-quality-facts-and-resources
+    effective_date: null
+    retrieved: 2026-11-11
+  ma-dls:
+    title: Department of Labor Standards (DLS)
+    publisher: Massachusetts Department of Labor Standards
+    url: https://www.mass.gov/orgs/department-of-labor-standards
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-ohsp:
+    title: Occupational Health Surveillance Program
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/orgs/occupational-health-surveillance-program
+    effective_date: null
+    retrieved: 2026-11-11
+
+# How to read the NIOSH Pocket Guide's limits, and why they are not community limits.
+occupational_limits:
+  - text: >-
+      NIOSH wrote the Pocket Guide as general industrial hygiene information for workers,
+      employers, and occupational health professionals, to help them recognize and control
+      workplace chemical hazards.
+    source: niosh-npg-intro
+    section: Introduction
+    confidence: high
+  - text: >-
+      NIOSH REL: "TWA" is a time-weighted average for up to a 10-hour workday during a 40-hour
+      workweek; "ST" is a 15-minute short-term limit not to be exceeded at any time during a
+      workday; "C" is a ceiling not to be exceeded at any time; "Ca" marks a substance NIOSH
+      considers a potential occupational carcinogen.
+    source: niosh-npg-intro
+    section: Exposure Limits
+    confidence: high
+  - text: >-
+      OSHA PEL: the enforceable limits of OSHA's General Industry Air Contaminants Standard
+      (29 CFR 1910.1000); a PEL TWA must not be exceeded during any 8-hour work shift of a
+      40-hour workweek.
+    source: niosh-npg-intro
+    section: Exposure Limits
+    confidence: high
+  - text: >-
+      IDLH: set so that a worker could escape a contaminated area without injury if respiratory
+      protection failed, and the level above which only highly reliable breathing apparatus is
+      permitted; values rest on effects that might follow a 30-minute exposure. IDLH values are
+      used to select respirators.
+    source: niosh-idlh
+    section: Overview; Pocket Guide introduction (IDLH)
+    confidence: high
+  - text: >-
+      For accidental releases of chemicals into the air, emergency planners use EPA's Acute
+      Exposure Guideline Levels (AEGLs) for exposures of 10 minutes to 8 hours; AEGLs are
+      designed to protect the general population, including the elderly, children, and other
+      susceptible people.
+    source: epa-aegl
+    section: Overview
+    confidence: high
+  - text: >-
+      Occupational limits (REL, PEL, IDLH) describe air concentrations for adult workers during
+      a work shift. They are not safe levels for residents, children, older adults, pregnant
+      people, or anyone exposed around the clock, and must not be used to tell a community
+      that an exposure is safe.
+    source: niosh-npg-intro
+    section: This project's interpretation of the NIOSH limit definitions and EPA's AEGL page
+    confidence: medium
+
+# How to read ATSDR minimal risk levels.
+mrls:
+  - text: >-
+      An MRL is an estimate of the daily human exposure to a hazardous substance that is likely
+      to be without appreciable risk of adverse non-cancer health effects over a specified
+      duration of exposure. MRLs are based on non-cancer effects only.
+    source: atsdr-mrl-php
+    section: Background; Our approach
+    confidence: high
+  - text: >-
+      MRLs are a screening tool to help public health professionals decide where to look more
+      closely. They are not intended to define cleanup or action levels for ATSDR or other
+      agencies.
+    source: atsdr-mrl-php
+    section: MRL intent
+    confidence: high
+  - text: >-
+      Exposure to a level above the MRL does not mean that adverse health effects will occur.
+    source: atsdr-mrl-php
+    section: Exposure durations
+    confidence: high
+  - text: >-
+      Durations: acute 1 to 14 days, intermediate 15 to 364 days, chronic 1 year or longer.
+      Inhalation MRLs are air concentrations (ppm, or mg/m3 for particles); oral MRLs are daily
+      doses (mg/kg/day), not concentrations in water or soil. ATSDR does not derive dermal MRLs.
+    source: atsdr-mrl-php
+    section: Units; Exposure durations
+    confidence: high
+  - text: >-
+      ATSDR's comparison values are not thresholds of toxicity and should not be used to
+      predict harmful health effects.
+    source: atsdr-pha-screening
+    section: How Are ATSDR CVs Used?
+    confidence: high
+  - text: >-
+      MRLs in draft toxicological profiles are provisional.
+    source: atsdr-mrl-list
+    section: Table heading
+    confidence: high
+  - text: >-
+      An MRL is not a diagnostic threshold for one person: for symptoms or a possible
+      poisoning, call Poison Control.
+    source: atsdr-pha-screening
+    section: This project's interpretation of ATSDR's comparison-value guidance
+    confidence: medium
+
+# About ToxFAQs (linked, not copied).
+toxfaqs:
+  - text: >-
+      ToxFAQs are short summaries excerpted from ATSDR Toxicological Profiles that answer the
+      most frequently asked questions about exposure to hazardous substances found around
+      hazardous waste sites; each is a web page and a two-page PDF for community meetings, and
+      is updated only when its profile is revised.
+    source: atsdr-toxfaqs
+    section: ToxFAQs
+    confidence: high
+
+# Whom to call. Organizations and main lines only; every number was read from the cited page.
+contacts:
+  - id: emergency_911
+    name: Local fire department (emergency)
+    phone: "911"
+    when: >-
+      Call the local fire department first for any spill or release of oil or hazardous
+      material.
+    source: massdep-spill
+    section: How to report
+    confidence: high
+  - id: poison_control
+    name: Poison Control
+    phone: 1-800-222-1222
+    when: >-
+      Someone swallowed or breathed in a chemical or got it on the skin or in the eyes: help
+      with first aid. Call 911 instead if the person is unconscious, having trouble breathing,
+      or having convulsions.
+    source: epa-first-aid
+    section: Human Exposure
+    confidence: high
+  - id: massdep_spill
+    name: MassDEP Emergency Response (24-hour spill and emergency line)
+    phone: 1-888-304-1133
+    when: >-
+      After calling the fire department: spills or releases of oil or hazardous material,
+      contamination of drinking water, and other environmental emergencies, which must be
+      reported immediately.
+    source: massdep-spill
+    section: What you need; How to report
+    confidence: high
+  - id: national_response_center
+    name: National Response Center
+    phone: 1-800-424-8802
+    when: >-
+      Oil or chemical spills, radiation emergencies, and other environmental emergencies that
+      pose a sudden threat to public health.
+    source: epa-report-spills
+    section: Report an oil or chemical spill or other environmental emergency
+    confidence: high
+  - id: pesticide_information
+    name: National Pesticide Information Center
+    phone: (800) 858-7378
+    when: Information about pesticide products and their toxicity.
+    source: epa-first-aid
+    section: Human Exposure
+    confidence: high
+  - id: dph_toxicology
+    name: >-
+      DPH Division of Environmental Toxicology, Hazard Assessment and Prevention (Bureau of
+      Climate and Environmental Health)
+    phone: (617) 624-5757
+    when: >-
+      Health questions about chemicals in air, water, soil, or the body: exposure assessment
+      and consultation for boards of health, agencies, and the public.
+    source: dph-tox
+    section: Contact Us; Who we serve
+    confidence: high
+  - id: dph_indoor_air
+    name: DPH Indoor Air Quality Outreach and Education Unit
+    phone: (617) 624-5757
+    when: Indoor air quality in schools and other public buildings.
+    source: dph-iaq
+    section: Contact Information
+    confidence: high
+  - id: massdep_main
+    name: MassDEP main office (ask for the Waste Site Cleanup program)
+    phone: 617-292-5500
+    when: >-
+      General questions about waste site cleanup, weekdays; use the 24-hour line for an
+      active spill.
+    source: massdep-contaminated
+    section: Contact Information
+    confidence: high
+  - id: local_board_of_health
+    name: Your city or town board of health
+    phone: null
+    when: >-
+      Private wells (MassDEP does not regulate private wells; the local board of health or
+      health department does), and the local public health response.
+    source: massdep-wells
+    section: Private Wells
+    confidence: high
+
+# Exposure scenarios: notes and whom to call.
+scenarios:
+  - id: spill_or_release
+    label: Spill or chemical release
+    notes:
+      - text: >-
+          Immediately call the local fire department (911), then MassDEP's Emergency Response
+          line. Oil spills and leaks, releases of hazardous materials, and contamination of
+          drinking water are environmental emergencies that must be reported immediately.
+        source: massdep-spill
+        section: How to report
+        confidence: high
+      - text: >-
+          For any chemical there is a reportable quantity or concentration that triggers
+          notifying MassDEP; they are published in the Massachusetts Oil and Hazardous
+          Material List.
+        source: massdep-spill
+        section: More info
+        confidence: high
+      - text: >-
+          For public protective action after an airborne release, compare air levels with
+          EPA's AEGLs (built for the general public, including susceptible people), not with
+          occupational limits.
+        source: epa-aegl
+        section: Overview (the contrast with occupational limits is this project's)
+        confidence: medium
+    contacts: [emergency_911, massdep_spill, national_response_center, poison_control, dph_toxicology]
+    links:
+      - label: MassDEP — report a spill or environmental emergency
+        url: https://www.mass.gov/how-to/report-a-spill-or-environmental-emergency
+      - label: EPA — About Acute Exposure Guideline Levels (AEGLs)
+        url: https://www.epa.gov/aegl/about-acute-exposure-guideline-levels-aegls
+  - id: indoor_air
+    label: Indoor air (home, school, or public building)
+    notes:
+      - text: >-
+          DPH's Indoor Air Quality unit publishes indoor air quality reports for public
+          buildings, indoor air quality guidelines for public buildings, and the Massachusetts
+          School Checklist.
+        source: dph-iaq
+        section: Indoor Air Quality - Facts and Resources
+        confidence: high
+      - text: >-
+          Inhalation MRLs are air concentrations for a given duration (acute, intermediate,
+          chronic) and are screening levels, not cleanup or action levels.
+        source: atsdr-mrl-php
+        section: Units; MRL intent
+        confidence: high
+    contacts: [poison_control, dph_indoor_air, dph_toxicology, local_board_of_health]
+    links:
+      - label: DPH — Indoor Air Quality, facts and resources
+        url: https://www.mass.gov/indoor-air-quality-facts-and-resources
+  - id: contaminated_site
+    label: Contaminated site or soil
+    notes:
+      - text: >-
+          Massachusetts has over 44,000 hazardous waste sites, from fuel oil delivery spills to
+          Superfund sites; MassDEP's Waste Site and Reportable Release lookup finds sites by
+          address or town and links to the chemicals spilled and the cleanup done.
+        source: massdep-contaminated
+        section: Find Out About a Contaminated Property
+        confidence: high
+      - text: >-
+          DPH's toxicology division assesses human exposure to contaminants found in
+          environmental and biological media and gives quantitative health risk evaluations
+          through consultation and technical assistance.
+        source: dph-tox
+        section: Who we serve
+        confidence: high
+      - text: >-
+          ATSDR develops MRLs to help identify chemicals that may pose health concerns at
+          hazardous waste sites.
+        source: atsdr-mrl-public
+        section: Minimal Risk Levels (MRLs)
+        confidence: high
+      - text: >-
+          ATSDR's comparison values are concentrations in a medium (air, soil, water), while
+          its health guidelines such as oral MRLs are generally doses; a soil or water result
+          is compared with a comparison value, or turned into an estimated dose by a health
+          assessor, not compared directly with an oral MRL.
+        source: atsdr-pha-screening
+        section: How ATSDR Develops CVs
+        confidence: high
+    contacts: [dph_toxicology, massdep_main, massdep_spill, local_board_of_health]
+    links:
+      - label: MassDEP — find out about a contaminated property
+        url: https://www.mass.gov/find-out-about-a-contaminated-property
+  - id: drinking_water
+    label: Drinking water
+    notes:
+      - text: >-
+          Contamination of drinking water is an environmental emergency to report to MassDEP
+          immediately.
+        source: massdep-spill
+        section: What you need
+        confidence: high
+      - text: >-
+          MassDEP does not regulate private wells; the local board of health or health
+          department does. MassDEP lists certified laboratories for water testing.
+        source: massdep-wells
+        section: Private Wells
+        confidence: high
+      - text: >-
+          Oral MRLs are daily doses (mg/kg/day), not drinking water standards; use the
+          drinking_water_quality_lookup tool and MassDEP's drinking water pages for standards
+          and public water system results.
+        source: atsdr-mrl-php
+        section: Units
+        confidence: high
+    contacts: [local_board_of_health, dph_toxicology, massdep_spill, poison_control]
+    links:
+      - label: MassDEP — Drinking Water Health & Safety
+        url: https://www.mass.gov/drinking-water-health-safety
+      - label: MassDEP — Private Wells
+        url: https://www.mass.gov/private-wells
+  - id: workplace
+    label: Workplace
+    notes:
+      - text: >-
+          This is where NIOSH RELs and OSHA PELs apply: they are workplace air limits over a
+          10-hour (REL) or 8-hour (PEL) shift.
+        source: niosh-npg-intro
+        section: Exposure Limits
+        confidence: high
+      - text: >-
+          Public-sector workers can report a safety concern to the Massachusetts Department of
+          Labor Standards; private-sector workers file workplace safety and health complaints
+          with OSHA.
+        source: ma-dls
+        section: Workplace safety and health resources
+        confidence: high
+      - text: >-
+          Health care providers and workers can report a work-related illness or injury to
+          DPH's Occupational Health Surveillance Program.
+        source: dph-ohsp
+        section: Report a work-related illness or injury
+        confidence: high
+    contacts: [emergency_911, poison_control]
+    links:
+      - label: Massachusetts Department of Labor Standards
+        url: https://www.mass.gov/orgs/department-of-labor-standards
+      - label: DPH Occupational Health Surveillance Program
+        url: https://www.mass.gov/orgs/occupational-health-surveillance-program
+
+# Search aliases (navigation only): the name a nurse may type, and the snapshot name it
+# should find. Each target is a ToxFAQs title or Pocket Guide name.
+aliases:
+  - alias: PFAS
+    target: Perfluoroalkyls
+    source: massdep-drinking-water
+  - alias: per- and polyfluoroalkyl substances
+    target: Perfluoroalkyls
+    source: massdep-drinking-water

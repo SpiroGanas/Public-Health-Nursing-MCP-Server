@@ -67,5 +67,7 @@ pub mod ejclimate;
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
 // End of Phase 14 vectorhousing.
 // Phase 14 Chemicals and food (ENV-08, CHR-06).
+pub mod chemicals;
+pub mod food_access;
 // End of Phase 14 chemfood.
 // End of Phase 14 adapters.

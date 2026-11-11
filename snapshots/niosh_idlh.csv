@@ -1,0 +1,404 @@
+substance,cas,idlh,documentation_url
+Acetaldehyde,75-07-0,"2,000 ppm",https://www.cdc.gov/niosh/idlh/75070.html
+Acetic acid,64-19-7,50 ppm,https://www.cdc.gov/niosh/idlh/64197.html
+Acetic anhydride,108-24-7,200 ppm,https://www.cdc.gov/niosh/idlh/108247.html
+Acetone,67-64-1,"2,500 ppm",https://www.cdc.gov/niosh/idlh/67641.html
+Acetonitrile,75-05-8,137 ppm,https://www.cdc.gov/niosh/docs/2017-203/default.html
+Acetylene tetrabromide,79-27-6,8 ppm,https://www.cdc.gov/niosh/idlh/79276.html
+Acrolein,107-02-8,2 ppm,https://www.cdc.gov/niosh/idlh/107028.html
+Acrylamide,79-06-1,60 mg/m3,https://www.cdc.gov/niosh/idlh/79061.html
+Acrylonitrile,107-13-1,60 ppm,https://www.cdc.gov/niosh/docs/2016-167/default.html
+Aldrin,309-00-2,25 mg/m3,https://www.cdc.gov/niosh/idlh/309002.html
+Allyl alcohol,107-18-6,20 ppm,https://www.cdc.gov/niosh/idlh/107186.html
+Allyl chloride,107-05-1,250 ppm,https://www.cdc.gov/niosh/idlh/107051.html
+Allyl glycidyl ether,106-92-3,50 ppm,https://www.cdc.gov/niosh/idlh/106923.html
+2 Aminopyridine,504-29-0,5 ppm,https://www.cdc.gov/niosh/idlh/504290.html
+Ammonia,7664-41-7,300 ppm,https://www.cdc.gov/niosh/idlh/7664417.html
+Ammonium sulfamate,7773-06-0,"1,500 mg/m3",https://www.cdc.gov/niosh/idlh/7773060.html
+n-Amyl acetate,628-63-7,"1,000 ppm",https://www.cdc.gov/niosh/idlh/628637.html
+sec-Amyl acetate,626-38-0,"1,000 ppm",https://www.cdc.gov/niosh/idlh/626380.html
+Aniline,62-53-3,100 ppm,https://www.cdc.gov/niosh/idlh/62533.html
+o-Anisidine,90-04-0,50 mg/m3,https://www.cdc.gov/niosh/idlh/90040.html
+p-Anisidine,104-94-9,50 mg/m3,https://www.cdc.gov/niosh/idlh/104949.html
+Antimony compounds (as Sb),7440-36-0,50 mg Sb/m3,https://www.cdc.gov/niosh/idlh/7440360.html
+ANTU,86-88-4,100 mg/m3,https://www.cdc.gov/niosh/idlh/86884.html
+"Arsenic (inorganic compounds, as As)",7440-38-2 (metal),5 mg As/m3,https://www.cdc.gov/niosh/idlh/7440382.html
+Arsine,7784-42-1,3 ppm,https://www.cdc.gov/niosh/idlh/7784421.html
+Azinphosmethyl,86-50-0,10 mg/m3,https://www.cdc.gov/niosh/idlh/86500.html
+"Barium (soluble compounds, as Ba)",7440-39-3,50 mg Ba/m3,https://www.cdc.gov/niosh/idlh/7440393.html
+Benzene,71-43-2,500 ppm,https://www.cdc.gov/niosh/idlh/71432.html
+Benzonitrile,,14 ppm (66 mg/m3),https://www.cdc.gov/niosh/docs/2017-104/
+Benzoyl peroxide,94-36-0,"1,500 mg/m3",https://www.cdc.gov/niosh/idlh/94360.html
+Benzyl chloride,100-44-7,10 ppm,https://www.cdc.gov/niosh/idlh/100447.html
+Beryllium compounds (as Be),7440-41-7 (metal),4 mg Be/m3,https://www.cdc.gov/niosh/idlh/7440417.html
+Boron oxide,1303-86-2,"2,000 mg/m3",https://www.cdc.gov/niosh/idlh/1303862.html
+Boron trifluoride,7637-07-2,25 ppm,https://www.cdc.gov/niosh/idlh/7637072.html
+Bromine,7726-95-6,3 ppm,https://www.cdc.gov/niosh/idlh/7726956.html
+Bromine Pentafluoride,,,
+Bromine trifluoride,7787-71-5,,
+Bromoform,75-25-2,850 ppm,https://www.cdc.gov/niosh/idlh/75252.html
+Butane,106-97-8,,
+"1,3-Butadiene",106-99-0,"2,000 ppm",
+2-Butanone,78-93-3,"3,000 ppm",https://www.cdc.gov/niosh/idlh/78933.html
+2-Butoxyethanol,111-76-2,700 ppm,https://www.cdc.gov/niosh/idlh/111762.html
+n-Butyl acetate,123-86-4,"1,700 ppm",https://www.cdc.gov/niosh/idlh/123864.html
+sec-Butyl acetate,105-46-4,"1,700 ppm",https://www.cdc.gov/niosh/idlh/105464.html
+tert-Butyl acetate,540-88-5,"1,500 ppm",https://www.cdc.gov/niosh/idlh/540885.html
+n-Butyl alcohol,71-36-3,"1,400 ppm",https://www.cdc.gov/niosh/idlh/71363.html
+sec-Butyl alcohol,78-92-2,"2,000 ppm",https://www.cdc.gov/niosh/idlh/78922.html
+tert-Butyl alcohol,75-65-0,"1,600 ppm",https://www.cdc.gov/niosh/idlh/75650.html
+n-Butylamine,109-73-9,300 ppm,https://www.cdc.gov/niosh/idlh/109739.html
+tert-Butyl chromate,1189-85-1,15 mg Cr(VI)/m3,https://www.cdc.gov/niosh/idlh/1189851.html
+n-Butyl Acrylate,141-32-2,,
+n-Butyl glycidyl ether,2426-08-6,250 ppm,https://www.cdc.gov/niosh/idlh/2426086.html
+n-Butyl mercaptan,109-79-5,500 ppm,https://www.cdc.gov/niosh/idlh/109795.html
+p-tert-Butyltoluene,98-51-1,100 ppm,https://www.cdc.gov/niosh/idlh/98511.html
+Cadmium dust (as Cd),7440-43-9 (metal),9 mg Cd/m3,https://www.cdc.gov/niosh/idlh/7440439.html
+Cadmium fume (as Cd),1306-19-0 (CdO),9 mg Cd/m3[Unc h],https://www.cdc.gov/niosh/idlh/7440439.html
+Calcium arsenate (as As),7778-44-1,5 mg As/m3,https://www.cdc.gov/niosh/idlh/7778441.html
+Calcium oxide,1305-78-8,25 mg/m3,https://www.cdc.gov/niosh/idlh/1305788.html
+Camphor (synthetic),76-22-2,200 mg/m3,https://www.cdc.gov/niosh/idlh/76222.html
+Carbaryl,63-25-2,100 mg/m3,https://www.cdc.gov/niosh/idlh/63252.html
+Carbon black,1333-86-4,"1,750 mg/m3",https://www.cdc.gov/niosh/idlh/1333864.html
+Carbon dioxide,124-38-9,"40,000 ppm",https://www.cdc.gov/niosh/idlh/124389.html
+Carbon disulfide,75-15-0,500 ppm,https://www.cdc.gov/niosh/idlh/75150.html
+Carbon monoxide,630-08-0,"1,200 ppm",https://www.cdc.gov/niosh/idlh/630080.html
+Carbon tetrachloride,56-23-5,200 ppm,https://www.cdc.gov/niosh/idlh/56235.html
+Chlordane,57-74-9,100 mg/m3,https://www.cdc.gov/niosh/idlh/57749.html
+Chlorinated camphene,8001-35-2,200 mg/m3,https://www.cdc.gov/niosh/idlh/8001352.html
+Chlorinated diphenyl oxide,n/a,5 mg/m3,https://www.cdc.gov/niosh/idlh/31242930.html
+Chlorine,7782-50-5,10 ppm,https://www.cdc.gov/niosh/idlh/7782505.html
+Chlorine dioxide,10049-04-4,5 ppm,https://www.cdc.gov/niosh/idlh/10049044.html
+Chlorine Pentafluoride,13637-63-3,1.7 ppm,https://www.cdc.gov/niosh/docs/2016-170/
+Chlorine Trifluoride,7790-91-2,12 ppm (45 mg/m3),https://www.cdc.gov/niosh/docs/2020-124
+Chloroacetaldehyde,107-20-0,45 ppm,https://www.cdc.gov/niosh/idlh/107200.html
+Chloroacetonitrile,107-14-2,14 ppm,https://www.cdc.gov/niosh/docs/2017-201/
+alpha-Chloroacetophenone,532-27-4,15 mg/m3,https://www.cdc.gov/niosh/idlh/532274.html
+Chlorobenzene,108-90-7,"1,000 ppm",https://www.cdc.gov/niosh/idlh/108907.html
+o-Chlorobenzylidene malononitrile,2698-41-1,2 mg/m3,https://www.cdc.gov/niosh/idlh/2698411.html
+Chlorobromomethane,74-97-5,"2,000 ppm",https://www.cdc.gov/niosh/idlh/74975.html
+Chlorodiphenyl (42% chlorine),53469-21-9,5 mg/m3,https://www.cdc.gov/niosh/idlh/53469219.html
+Chlorodiphenyl (54% chlorine),11097-69-1,5 mg/m3,https://www.cdc.gov/niosh/idlh/53469219.html
+Chloroform,67-66-3,500 ppm,https://www.cdc.gov/niosh/idlh/67663.html
+1-Chloro-1-nitropropane,600-25-9,100 ppm,https://www.cdc.gov/niosh/idlh/600259.html
+Chloroacetyl Chloride,79-04-9,1.3 ppm (6 mg/m3),https://www.cdc.gov/niosh/docs/2016-169/
+Chloropicrin,76-06-2,2 ppm,https://www.cdc.gov/niosh/idlh/76062.html
+beta-Chloroprene,126-99-8,300 ppm,https://www.cdc.gov/niosh/idlh/126998.html
+Chromic acid and chromates,1333-82-0 (CrO3),15 mg Cr(VI)/m3,https://www.cdc.gov/niosh/idlh/1333820.html
+Chromium (II) compounds [as Cr(II)],n/a,250 mg Cr(II)/m3,https://www.cdc.gov/niosh/idlh/cr2m3.html
+Chromium (III) compounds [as Cr(III)],n/a,25 mg Cr(III)/m3,https://www.cdc.gov/niosh/idlh/cr3m3.html
+Chromium metal (as Cr),7440-47-3,250 mg Cr/m3,https://www.cdc.gov/niosh/idlh/7440473.html
+Coal tar pitch volatiles,65996-93-2,80 mg/m3,https://www.cdc.gov/niosh/idlh/65996932.html
+"Cobalt metal, dust and fume (as Co)",7440-48-4,20 mg Co/m3,https://www.cdc.gov/niosh/idlh/7440484.html
+"Copper (dusts and mists, as Cu)",7440-50-8,100 mg Cu/m3,https://www.cdc.gov/niosh/idlh/7440508.html
+Copper fume (as Cu),1317-38-0 (CuO),100 mg Cu/m3,https://www.cdc.gov/niosh/idlh/1317380.html
+Cotton dust (raw),n/a,100 mg/m3,https://www.cdc.gov/niosh/idlh/cotdust.html
+Crag (r) herbicide,136-78-7,500 mg/m3,https://www.cdc.gov/niosh/idlh/136787.html
+"Cresol (o, m, p isomers)",95-48-7,250 ppm,https://www.cdc.gov/niosh/idlh/cresol.html
+Crotonaldehyde,4170-30-3,50 ppm,https://www.cdc.gov/niosh/idlh/123739.html
+Cumene,98-82-8,900 ppm [10% LEL],https://www.cdc.gov/niosh/idlh/98828.html
+Cyanides (as CN),n/a,25 mg/m3(as CN),https://www.cdc.gov/niosh/idlh/cyanides.html
+Cyclohexane,110-82-7,"1,300 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/110827.html
+Cyclohexanol,108-93-0,400 ppm,https://www.cdc.gov/niosh/idlh/108930.html
+Cyclohexanone,108-94-1,700 ppm,https://www.cdc.gov/niosh/idlh/108941.html
+Cyclohexene,110-83-8,"2,000 ppm",https://www.cdc.gov/niosh/idlh/110838.html
+Cyclopentadiene,542-92-7,750 ppm,https://www.cdc.gov/niosh/idlh/542927.html
+"2,4-D",94-75-7,100 mg/m3,https://www.cdc.gov/niosh/idlh/94757.html
+DDT,50-29-3,500 mg/m3,https://www.cdc.gov/niosh/idlh/50293.html
+Decaborane,17702-41-9,15 mg/m3,https://www.cdc.gov/niosh/idlh/17702419.html
+Demeton,8065-48-3,10 mg/m3,https://www.cdc.gov/niosh/idlh/8065483.html
+Diacetone alcohol,123-42-2,"1,800 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/123422.html
+Diazomethane,334-88-3,2 ppm,https://www.cdc.gov/niosh/idlh/334883.html
+Diborane,19287-45-7,15 ppm,https://www.cdc.gov/niosh/idlh/19287457.html
+Dibutyl phosphate,107-66-4,30 ppm,https://www.cdc.gov/niosh/idlh/107664.html
+Dibutyl phthalate,84-74-2,"4,000 mg/m3",https://www.cdc.gov/niosh/idlh/84742.html
+o-Dichlorobenzene,95-50-1,200 ppm,https://www.cdc.gov/niosh/idlh/95501.html
+p-Dichlorobenzene,106-46-7,150 ppm,https://www.cdc.gov/niosh/idlh/106467.html
+Dichlorodifluoromethane,75-71-8,"15,000 ppm",https://www.cdc.gov/niosh/idlh/75718.html
+"1,3-Dichloro 5,5-dimethylhydantoin",118-52-5,5 mg/m3,https://www.cdc.gov/niosh/idlh/118525.html
+"1,1-Dichloroethane",75-34-3,"3,000 ppm",https://www.cdc.gov/niosh/idlh/75343.html
+"1,2-Dichloroethylene",540-59-0,"1,000 ppm",https://www.cdc.gov/niosh/idlh/540590.html
+Dichloroethyl ether,111-44-4,100 ppm,https://www.cdc.gov/niosh/idlh/111444.html
+Dichloromonofluoromethane,75-43-4,"5,000 ppm",https://www.cdc.gov/niosh/idlh/75434.html
+"1,1-Dichloro-1-Fluoroethane (HCFC-141b)",1717-00-6,"1,700 ppm (8,245 mg/m3)",https://www.cdc.gov/niosh/docs/2016-168/
+"1,1-Dichloro 1-nitroethane",594-72-9,25 ppm,https://www.cdc.gov/niosh/idlh/594729.html
+Dichlorotetrafluoroethane,76-14-2,"15,000 ppm",https://www.cdc.gov/niosh/idlh/76142.html
+Dichlorvos,62-73-7,100 mg/m3,https://www.cdc.gov/niosh/idlh/62737.html
+Dieldrin,60-57-1,50 mg/m3,https://www.cdc.gov/niosh/idlh/60571.html
+Diethylamine,109-89-7,200 ppm,https://www.cdc.gov/niosh/idlh/109897.html
+2-Diethylaminoethanol,100-37-8,100 ppm,https://www.cdc.gov/niosh/idlh/100378.html
+Difluorodibromomethane,75-61-6,"2,000 ppm",https://www.cdc.gov/niosh/idlh/75616.html
+Diglycidyl ether,2238-07-5,10 ppm,https://www.cdc.gov/niosh/idlh/2238075.html
+Diisobutyl ketone,108-83-8,500 ppm,https://www.cdc.gov/niosh/idlh/108838.html
+Diisopropylamine,108-18-9,200 ppm,https://www.cdc.gov/niosh/idlh/108189.html
+Diketene,,7.6 ppm,https://www.cdc.gov/niosh/docs/2017-108/
+Dimethyl acetamide,127-19-5,300 ppm,https://www.cdc.gov/niosh/idlh/127195.html
+Dimethylamine,124-40-3,500 ppm,https://www.cdc.gov/niosh/idlh/124403.html
+"N,N-Dimethylaniline",121-69-7,100 ppm,https://www.cdc.gov/niosh/idlh/121697.html
+"Dimethyl 1,2-dibromo 2,2-dichlorethyl phosphate",300-76-5,200 mg/m3,https://www.cdc.gov/niosh/idlh/300765.html
+Dimethylformamide,68-12-2,500 ppm,https://www.cdc.gov/niosh/idlh/68122.html
+"1,1-Dimethylhydrazine",57-14-7,15 ppm,https://www.cdc.gov/niosh/idlh/57147.html
+Dimethylphthalate,131-11-3,"2,000 mg/m3",https://www.cdc.gov/niosh/idlh/131113.html
+Dimethyl sulfate,77-78-1,7 ppm,https://www.cdc.gov/niosh/idlh/77781.html
+"Dinitrobenzene (o, m, p isomers)",528-29-0,50 mg/m3,https://www.cdc.gov/niosh/idlh/528290.html
+Dinitroocresol,534-52-1,5 mg/m3,https://www.cdc.gov/niosh/idlh/534521.html
+Dinitrotoluene,25321-14-6,50 mg/m3,https://www.cdc.gov/niosh/idlh/25321146.html
+Di sec-octyl phthalate,117-81-7,"5,000 mg/m3",https://www.cdc.gov/niosh/idlh/117817.html
+Dioxane,123-91-1,500 ppm,https://www.cdc.gov/niosh/idlh/123911.html
+Diphenyl,92-52-4,100 mg/m3,https://www.cdc.gov/niosh/idlh/92524.html
+Dipropylene glycol methyl ether,34590-94-8,600 ppm,https://www.cdc.gov/niosh/idlh/34590948.html
+Endrin,72-20-8,2 mg/m3,https://www.cdc.gov/niosh/idlh/72208.html
+Epichlorohydrin,106-89-8,75 ppm,https://www.cdc.gov/niosh/idlh/106898.html
+EPN,2104-64-5,5 mg/m3,https://www.cdc.gov/niosh/idlh/2104645.html
+Ethanolamine,141-43-5,30 ppm,https://www.cdc.gov/niosh/idlh/141435.html
+2-Ethoxyethanol,110-80-5,500 ppm,https://www.cdc.gov/niosh/idlh/110805.html
+2-Ethoxyethyl acetate,111-15-9,500 ppm,https://www.cdc.gov/niosh/idlh/111159.html
+Ethyl acetate,141-78-6,"2,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/141786.html
+Ethyl acrylate,140-88-5,300 ppm,https://www.cdc.gov/niosh/idlh/140885.html
+Ethyl alcohol,64-17-5,"3,300 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/64175.html
+Ethylamine,75-04-7,600 ppm,https://www.cdc.gov/niosh/idlh/75047.html
+Ethyl benzene,100-41-4,800 ppm [10% LEL],https://www.cdc.gov/niosh/idlh/100414.html
+Ethyl bromide,74-96-4,"2,000 ppm",https://www.cdc.gov/niosh/idlh/74964.html
+Ethyl butyl ketone,106-35-4,"1,000 ppm",https://www.cdc.gov/niosh/idlh/106354.html
+Ethyl chloride,75-00-3,"3,800 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/75003.html
+Ethylene chlorohydrin,107-07-3,7 ppm,https://www.cdc.gov/niosh/idlh/107073.html
+Ethylenediamine,107-15-3,"1,000 ppm",https://www.cdc.gov/niosh/idlh/107153.html
+Ethylene Dibromide,106-93-4,46 ppm (354 mg/m3),https://www.cdc.gov/niosh/docs/2020-125
+Ethylene dichloride,107-06-2,50 ppm,https://www.cdc.gov/niosh/idlh/107062.html
+Ethylene glycol dinitrate,628-96-6,75 mg/m3,https://www.cdc.gov/niosh/idlh/628966.html
+Ethyleneimine,151-56-4,100 ppm,https://www.cdc.gov/niosh/idlh/151564.html
+Ethylene oxide,75-21-8,800 ppm,https://www.cdc.gov/niosh/idlh/75218.html
+Ethyl ether,60-29-7,"1,900 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/60297.html
+Ethyl formate,109-94-4,"1,500 ppm",https://www.cdc.gov/niosh/idlh/109944.html
+Ethyl mercaptan,75-08-1,500 ppm,https://www.cdc.gov/niosh/idlh/75081.html
+N-Ethylmorpholine,100-74-3,100 ppm,https://www.cdc.gov/niosh/idlh/100743.html
+Ethyl silicate,78-10-4,700 ppm,https://www.cdc.gov/niosh/idlh/78104.html
+Ferbam,14484-64-1,800 mg/m3,https://www.cdc.gov/niosh/idlh/14484641.html
+Ferrovanadium dust,12604-58-9,500 mg/m3,https://www.cdc.gov/niosh/idlh/12604589.html
+Fluorides (as F),n/a,250 mg F/m3,https://www.cdc.gov/niosh/idlh/fluoride.html
+Fluorine,7782-41-4,25 ppm,https://www.cdc.gov/niosh/idlh/7782414.html
+Fluorotrichloromethane,75-69-4,"2,000 ppm",https://www.cdc.gov/niosh/idlh/75694.html
+Formaldehyde,50-00-0,20 ppm,https://www.cdc.gov/niosh/idlh/50000.html
+Formic acid,64-18-6,30 ppm,https://www.cdc.gov/niosh/idlh/64186.html
+Furan,110-00-9,13 ppm (35.1 mg/m3),https://www.cdc.gov/niosh/docs/2016-171/
+Furfural,98-01-1,100 ppm,https://www.cdc.gov/niosh/idlh/98011.html
+Furfuryl alcohol,98-00-0,75 ppm,https://www.cdc.gov/niosh/idlh/98000.html
+Glycidol,556-52-5,150 ppm,https://www.cdc.gov/niosh/idlh/556525.html
+Graphite (natural),7782-42-5,"1,250 mg/m3",https://www.cdc.gov/niosh/idlh/7782425.html
+Hafnium compounds (as Hf),7440-58-6,50 mg Hf/m3,https://www.cdc.gov/niosh/idlh/7440586.html
+Heptachlor,76-44-8,35 mg/m3,https://www.cdc.gov/niosh/idlh/76448.html
+n-Heptane,142-82-5,750 ppm,https://www.cdc.gov/niosh/idlh/142825.html
+Hexachloroethane,67-72-1,300 ppm,https://www.cdc.gov/niosh/idlh/67721.html
+Hexachloronaphthalene,1335-87-1,2 mg/m3,https://www.cdc.gov/niosh/idlh/1335871.html
+Hexafluoroactone,684-16-2,9 ppm (61 mg/m3),https://www.cdc.gov/niosh/docs/2016-172/
+n-Hexane,110-54-3,"1,100 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/110543.html
+2-Hexanone,591-78-6,"1,600 ppm",https://www.cdc.gov/niosh/idlh/591786.html
+Hexone,108-10-1,500 ppm,https://www.cdc.gov/niosh/idlh/108101.html
+sec Hexyl acetate,108-84-9,500 ppm,https://www.cdc.gov/niosh/idlh/108849.html
+Hydrazine,302-01-2,50 ppm,https://www.cdc.gov/niosh/idlh/302012.html
+Hydrogen bromide,10035-10-6,35 ppm 116 mg/m3,https://www.cdc.gov/niosh/docs/2025-108/pdfs/2025-108revised062025.pdf
+Hydrogen chloride,7647-01-0,45 ppm 67 mg/m3,https://www.cdc.gov/niosh/docs/2025-110/pdfs/2025-110revised062025.pdf
+Hydrogen cyanide,74-90-8,50 ppm,https://www.cdc.gov/niosh/idlh/74908.html
+Hydrogen fluoride (as F),7664-39-3,30 ppm,https://www.cdc.gov/niosh/idlh/7664393.html
+Hydrogen Iodide,,45 ppm 70 mg/m3,https://www.cdc.gov/niosh/docs/2025-109/pdfs/2025-109revised062025.pdf
+Hydrogen peroxide,7722-84-1,75 ppm,https://www.cdc.gov/niosh/idlh/772841.html
+Hydrogen selenide (as Se),7783-07-5,1 ppm,https://www.cdc.gov/niosh/idlh/7783075.html
+Hydrogen sulfide,7783-06-4,100 ppm,https://www.cdc.gov/niosh/idlh/7783064.html
+Hydroquinone,123-31-9,50 mg/m3,https://www.cdc.gov/niosh/idlh/123319.html
+Iodine,7553-56-2,2 ppm,https://www.cdc.gov/niosh/idlh/7553562.html
+Iron oxide dust and fume (as Fe),1309-37-1,"2,500 mg Fe/m3",https://www.cdc.gov/niosh/idlh/1309371.html
+Iron Pentacarbonyl,13463-40-6,0.4 ppm,https://www.cdc.gov/niosh/docs/2016-166/
+Isoamyl acetate,123-92-2,"1,000 ppm",https://www.cdc.gov/niosh/idlh/123922.html
+Isoamyl alcohol (primary and secondary),123-51-3,500 ppm,https://www.cdc.gov/niosh/idlh/123513.html
+Isobutyl acetate,110-19-0,"1,300 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/110190.html
+Isobutyl alcohol,78-83-1,"1,600 ppm",https://www.cdc.gov/niosh/idlh/78831.html
+Isophorone,78-59-1,200 ppm,https://www.cdc.gov/niosh/idlh/78591.html
+Isopropyl acetate,108-21-4,"1,800 ppm",https://www.cdc.gov/niosh/idlh/108214.html
+Isopropyl alcohol,67-63-0,"2,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/67630.html
+Isopropylamine,75-31-0,750 ppm,https://www.cdc.gov/niosh/idlh/75310.html
+Isopropyl ether,108-20-3,"1,400 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/108203.html
+Isopropyl glycidyl ether,4016-14-2,400 ppm,https://www.cdc.gov/niosh/idlh/4016142.html
+Ketene,463-51-4,5 ppm,https://www.cdc.gov/niosh/idlh/463514.html
+Lead compounds (as Pb),7439-92-1,100 mg Pb/m3,https://www.cdc.gov/niosh/idlh/7439921.html
+Lindane,58-89-9,50 mg/m3,https://www.cdc.gov/niosh/idlh/58899.html
+Lithium hydride,7580-67-8,0.5 mg/m3,https://www.cdc.gov/niosh/idlh/7580678.html
+L.P.G.,68476-85-7,"2,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/68476857.html
+Magnesium oxide fume,1309-48-4,750 mg/m3,https://www.cdc.gov/niosh/idlh/1309484.html
+Malathion,121-75-5,250 mg/m3,https://www.cdc.gov/niosh/idlh/121755.html
+Maleic anhydride,108-31-6,10 mg/m3,https://www.cdc.gov/niosh/idlh/108316.html
+Manganese compounds (as Mn),7439-96-5 (metal),500 mg Mn/m3,https://www.cdc.gov/niosh/idlh/7439965.html
+"Mercury compounds [except (organo) alkyls, as Hg]",7439-97-6 (metal),10 mg Hg/m3,https://www.cdc.gov/niosh/idlh/7439976.html
+Mercury (organo) alkyl compounds(as Hg),n/a,2 mg Hg/m3,https://www.cdc.gov/niosh/idlh/merc-hg.html
+Mesityl oxide,141-79-7,"1,400 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/141797.html
+Methacrylonitrile,126-98-7,4.0 ppm,https://www.cdc.gov/niosh/docs/2017-204/
+Methoxychlor,72-43-5,"5,000 mg/m3",https://www.cdc.gov/niosh/idlh/72435.html
+Methyl acetate,79-20-9,"3,100 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/79209.html
+Methyl acetylene,74-99-7,"1,700 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/74997.html
+Methyl acetylenepropadiene mixture,59355-75-8,"3,400 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/59355758.html
+Methyl acrylate,96-33-3,250 ppm,https://www.cdc.gov/niosh/idlh/96333.html
+Methylal,109-87-5,"2,200 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/109875.html
+Methyl alcohol,67-56-1,"6,000 ppm",https://www.cdc.gov/niosh/idlh/67561.html
+Methylamine,74-89-5,100 ppm,https://www.cdc.gov/niosh/idlh/74895.html
+Methyl (namyl) ketone,110-43-0,800 ppm,https://www.cdc.gov/niosh/idlh/110430.html
+Methyl bromide,74-83-9,250 ppm,https://www.cdc.gov/niosh/idlh/74839.html
+Methyl Cellosolve (r),109-86-4,200 ppm,https://www.cdc.gov/niosh/idlh/109864.html
+Methyl Cellosolve (r) acetate,110-49-6,200 ppm,https://www.cdc.gov/niosh/idlh/110496.html
+Methyl chloride,74-87-3,"2,000 ppm",https://www.cdc.gov/niosh/idlh/74873.html
+Methyl chloroform,71-55-6,700 ppm,https://www.cdc.gov/niosh/idlh/71556.html
+Methylcyclohexane,108-87-2,"1,200 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/108872.html
+Methylcyclohexanol,25639-42-3,500 ppm,https://www.cdc.gov/niosh/idlh/25639423.html
+o-Methylcyclohexanone,583-60-8,600 ppm,https://www.cdc.gov/niosh/idlh/583608.html
+Methylene bisphenyl isocyanate,101-68-8,75 mg/m3,https://www.cdc.gov/niosh/idlh/101688.html
+Methylene chloride,75-09-2,"2,300 ppm",https://www.cdc.gov/niosh/idlh/75092.html
+Methyl formate,107-31-3,"4,500 ppm",https://www.cdc.gov/niosh/idlh/107313.html
+5-Methyl 3-heptanone,541-85-5,100 ppm,https://www.cdc.gov/niosh/idlh/541855.html
+Methyl hydrazine,60-34-4,20 ppm,https://www.cdc.gov/niosh/idlh/60344.html
+Methyl iodide,74-88-4,100 ppm,https://www.cdc.gov/niosh/idlh/74884.html
+Methyl isobutyl carbinol,108-11-2,400 ppm,https://www.cdc.gov/niosh/idlh/108112.html
+Methyl isocyanate,624-83-9,0.12 ppm (0.28 mg/m3),https://www.cdc.gov/niosh/docs/2017-105/
+Methyl mercaptan,74-93-1,150 ppm,https://www.cdc.gov/niosh/idlh/74931.html
+Methyl methacrylate,80-62-6,"1,000 ppm",https://www.cdc.gov/niosh/idlh/80626.html
+Methyl styrene,98-83-9,700 ppm,https://www.cdc.gov/niosh/idlh/98839.html
+Mica,12001-26-2,"1,500 mg/m3",https://www.cdc.gov/niosh/idlh/12001262.html
+"Molybdenum (insoluble compounds, as Mo)",n/a,"5,000 mg Mo/m3",https://www.cdc.gov/niosh/idlh/7439987.html
+"Molybdenum (soluble compounds, as Mo)",n/a,"1,000 mg Mo/m3",https://www.cdc.gov/niosh/idlh/moly-mo.html
+Monomethyl aniline,100-61-8,100 ppm,https://www.cdc.gov/niosh/idlh/100618.html
+Morpholine,110-91-8,"1,400 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/110918.html
+Naphtha (coal tar),8030-30-6,"1,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/8030306.html
+Naphthalene,91-20-3,250 ppm,https://www.cdc.gov/niosh/idlh/91203.html
+Nickel carbonyl (as Ni),13463-39-3,2 ppm,https://www.cdc.gov/niosh/idlh/13463393.html
+Nickel metal and other compounds (as Ni),7440-02-0 (Metal),10 mg Ni/m3,https://www.cdc.gov/niosh/idlh/7440020.html
+Nicotine,54-11-5,5 mg/m3,https://www.cdc.gov/niosh/idlh/54115.html
+Nitric acid,7697-37-2,25 ppm,https://www.cdc.gov/niosh/idlh/7697372.html
+Nitric oxide,10102-43-9,100 ppm,https://www.cdc.gov/niosh/idlh/10102439.html
+p-Nitroaniline,100-01-6,300 mg/m3,https://www.cdc.gov/niosh/idlh/100016.html
+Nitrobenzene,98-95-3,200 ppm,https://www.cdc.gov/niosh/idlh/98953.html
+p-Nitrochlorobenzene,100-00-5,100 mg/m3,https://www.cdc.gov/niosh/idlh/100005.html
+Nitroethane,79-24-3,"1,000 ppm",https://www.cdc.gov/niosh/idlh/79243.html
+Nitrogen dioxide,10102-44-0,13 ppm,https://www.cdc.gov/niosh/docs/2017-202/
+Nitrogen trifluoride,7783-54-2,"1,000 ppm",https://www.cdc.gov/niosh/idlh/7783542.html
+Nitroglycerine,55-63-0,75 mg/m3,https://www.cdc.gov/niosh/idlh/55630.html
+Nitromethane,75-52-5,750 ppm,https://www.cdc.gov/niosh/idlh/75525.html
+1-Nitropropane,108-03-2,"1,000 ppm",https://www.cdc.gov/niosh/idlh/108032.html
+2-Nitropropane,79-46-9,100 ppm,https://www.cdc.gov/niosh/idlh/79469.html
+"Nitrotoluene (o, m, p isomers)",88-72-2,200 ppm,https://www.cdc.gov/niosh/idlh/88722.html
+Octachloronaphthalene,2234-13-1,Unknown,https://www.cdc.gov/niosh/idlh/2234131.html
+Octane,111-65-9,"1,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/111659.html
+Oil mist (mineral),8012-95-1,"2,500 mg/m3",https://www.cdc.gov/niosh/idlh/8012951.html
+Osmium tetroxide (as Os),20816-12-0,1 mg Os/m3,https://www.cdc.gov/niosh/idlh/20816120.html
+Oxalic acid,144-62-7,500 mg/m3,https://www.cdc.gov/niosh/idlh/144627.html
+Oxygen difluoride,7783-41-7,0.5 ppm,https://www.cdc.gov/niosh/idlh/7783417.html
+Ozone,10028-15-6,5 ppm,https://www.cdc.gov/niosh/idlh/10028156.html
+Paraquat,1910-42-5,1 mg/m3,https://www.cdc.gov/niosh/idlh/1910425.html
+Parathion,56-38-2,10 mg/m3,https://www.cdc.gov/niosh/idlh/56382.html
+Pentaborane,19624-22-7,1 ppm,https://www.cdc.gov/niosh/idlh/19624227.html
+Pentachloronaphthalene,1321-64-8,Unknown,https://www.cdc.gov/niosh/idlh/1321648.html
+Pentachlorophenol,87-86-5,2.5 mg/m3,https://www.cdc.gov/niosh/idlh/87865.html
+n-Pentane,109-66-0,"1,500 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/109660.html
+2-Pentanone,107-87-9,"1,500 ppm",https://www.cdc.gov/niosh/idlh/107879.html
+Perchloromethyl mercaptan,594-42-3,10 ppm,https://www.cdc.gov/niosh/idlh/594423.html
+Perchloryl fluoride,7616-94-6,100 ppm,https://www.cdc.gov/niosh/idlh/7616946.html
+Petroleum distillates (naphtha),8002-05-9,"1,100 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/8002059.html
+Phenol,108-95-2,250 ppm,https://www.cdc.gov/niosh/idlh/108952.html
+p-Phenylene diamine,106-50-3,25 mg/m3,https://www.cdc.gov/niosh/idlh/106503.html
+Phenyl ether (vapor),101-84-8,100 ppm,https://www.cdc.gov/niosh/idlh/101848.html
+Phenyl etherbiphenyl mixture (vapor),8004-13-5,10 ppm,https://www.cdc.gov/niosh/idlh/8004135.html
+Phenyl glycidyl ether,122-60-1,100 ppm,https://www.cdc.gov/niosh/idlh/122601.html
+Phenylhydrazine,100-63-0,15 ppm,https://www.cdc.gov/niosh/idlh/100630.html
+Phosdrin,7786-34-7,4 ppm,https://www.cdc.gov/niosh/idlh/7786347.html
+Phosgene,75-44-5,2 ppm,https://www.cdc.gov/niosh/idlh/75445.html
+Phosphine,7803-51-2,50 ppm,https://www.cdc.gov/niosh/idlh/7803512.html
+Phosphoric acid,7664-38-2,"1,000 mg/m3",https://www.cdc.gov/niosh/idlh/7664382.html
+Phosphorus (yellow),7723-14-0,5 mg/m3,https://www.cdc.gov/niosh/idlh/7723140.html
+Phosphorus pentachloride,10026-13-8,70 mg/m3,https://www.cdc.gov/niosh/idlh/10026138.html
+Phosphorus pentasulfide,1314-80-3,250 mg/m3,https://www.cdc.gov/niosh/idlh/1314803.html
+Phosphorus trichloride,7719-12-2,25 ppm,https://www.cdc.gov/niosh/idlh/7719122.html
+Phthalic anhydride,85-44-9,60 mg/m3,https://www.cdc.gov/niosh/idlh/85449.html
+Picric acid,88-89-1,75 mg/m3,https://www.cdc.gov/niosh/idlh/88891.html
+Pindone,83-26-1,100 mg/m3,https://www.cdc.gov/niosh/idlh/83261.html
+"Platinum (soluble salts, as Pt)",n/a,4 mg Pt/m3,https://www.cdc.gov/niosh/idlh/platinum.html
+Portland cement,65997-15-1,"5,000 mg/m3",https://www.cdc.gov/niosh/idlh/65997151.html
+Propane,74-98-6,"2,100 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/74986.html
+n-Propyl acetate,109-60-4,"1,700 ppm",https://www.cdc.gov/niosh/idlh/109604.html
+n-Propyl alcohol,71-23-8,800 ppm,https://www.cdc.gov/niosh/idlh/71238.html
+Propylene dichloride,78-87-5,400 ppm,https://www.cdc.gov/niosh/idlh/78875.html
+Propylene imine,75-55-8,100 ppm,https://www.cdc.gov/niosh/idlh/75558.html
+Propylene oxide,75-56-9,400 ppm,https://www.cdc.gov/niosh/idlh/75569.html
+n-Propyl nitrate,627-13-4,500 ppm,https://www.cdc.gov/niosh/idlh/627134.html
+Pyrethrum,8003-34-7,"5,000 mg/m3",https://www.cdc.gov/niosh/idlh/8003347.html
+Pyridine,110-86-1,"1,000 ppm",https://www.cdc.gov/niosh/idlh/110861.html
+Quinone,106-51-4,100 mg/m3,https://www.cdc.gov/niosh/idlh/106514.html
+"Rhodium (metal fume and insoluble compounds, as Rh)",7440-16-6 (metal),100 mg Rh/m3,https://www.cdc.gov/niosh/idlh/7440166.html
+"Rhodium (soluble compounds, as Rh)",n/a,2 mg Rh/m3,https://www.cdc.gov/niosh/idlh/rhodium.html
+Ronnel,299-84-3,300 mg/m3,https://www.cdc.gov/niosh/idlh/299843.html
+Rotenone,83-79-4,"2,500 mg/m3",https://www.cdc.gov/niosh/idlh/83794.html
+Selenium compounds (as Se),7782-49-2,1 mg Se/m3,https://www.cdc.gov/niosh/idlh/7782492.html
+Selenium hexafluoride,7783-79-1,2 ppm,https://www.cdc.gov/niosh/idlh/7783791.html
+"Silica, amorphous",7631-86-9,"3,000 mg/m3",https://www.cdc.gov/niosh/idlh/7631869.html
+"Silica, crystalline (respirable dust)",14808-60-7,,
+cristobalite/tridymite,14808-60-7,25 mg/m3,https://www.cdc.gov/niosh/idlh/14808607.html
+quartz/tripoli,14808-60-7,50 mg/m3,https://www.cdc.gov/niosh/idlh/14808607.html
+"Silver (metal dust and soluble compounds, as Ag)",7440-22-4 (metal),10 mg Ag/m3,https://www.cdc.gov/niosh/idlh/7440224.html
+Soapstone,n/a,"3,000 mg/m3",https://www.cdc.gov/niosh/idlh/soapston.html
+Sodium fluoroacetate,62-74-8,2.5 mg/m3,https://www.cdc.gov/niosh/idlh/62748.html
+Sodium hydroxide,1310-73-2,10 mg/m3,https://www.cdc.gov/niosh/idlh/1310732.html
+Stibine,7803-52-3,5 ppm,https://www.cdc.gov/niosh/idlh/7803523.html
+Stoddard solvent,8052-41-3,"20,000 mg/m3",https://www.cdc.gov/niosh/idlh/8052413.html
+Strychnine,57-24-9,3 mg/m3,https://www.cdc.gov/niosh/idlh/57249.html
+Styrene,100-42-5,700 ppm,https://www.cdc.gov/niosh/idlh/100425.html
+Sulfur dioxide,7446-09-5,100 ppm,https://www.cdc.gov/niosh/idlh/7446095.html
+Sulfuric acid,7664-93-9,15 mg/m3,https://www.cdc.gov/niosh/idlh/7664939.html
+Sulfur monochloride,10025-67-9,5 ppm,https://www.cdc.gov/niosh/idlh/10025679.html
+Sulfur pentafluoride,5714-22-7,1 ppm,https://www.cdc.gov/niosh/idlh/5714227.html
+Sulfuryl fluoride,2699-79-8,200 ppm,https://www.cdc.gov/niosh/idlh/2699798.html
+"2,4,5-T",93-76-5,250 mg/m3,https://www.cdc.gov/niosh/idlh/93765.html
+Talc,14807-96-6,"1,000 mg/m3",https://www.cdc.gov/niosh/idlh/14807966.html
+"Tantalum (metal and oxide dust, as Ta)",7440-25-7 (metal),"2,500 mg Ta/m3",https://www.cdc.gov/niosh/idlh/7440257.html
+TEDP,3689-24-5,10 mg/m3,https://www.cdc.gov/niosh/idlh/3689245.html
+Tellurium compounds (as Te),13494-80-9,25 mg Te/m3,https://www.cdc.gov/niosh/idlh/13494809.html
+Tellurium hexafluoride,7783-80-4,1 ppm,https://www.cdc.gov/niosh/idlh/7783804.html
+TEPP,107-49-3,5 mg/m3,https://www.cdc.gov/niosh/idlh/107493.html
+"Terphenyl (o, m, p isomers)",84-15-1,500 mg/m3,https://www.cdc.gov/niosh/idlh/26140603.html
+"1,1,1,2-Tetrachloro 2,2-difluoroethane",76-11-9,"2,000 ppm",https://www.cdc.gov/niosh/idlh/76119.html
+"1,1,2,2-Tetrachloro 1,2-difluoroethane",76-12-0,"2,000 ppm",https://www.cdc.gov/niosh/idlh/76120.html
+"1,1,2,2-Tetrachloroethane",79-34-5,100 ppm,https://www.cdc.gov/niosh/idlh/79345.html
+Tetrachloroethylene,127-18-4,150 ppm,https://www.cdc.gov/niosh/idlh/127184.html
+Tetrachloronaphthalene,1335-88-2,Unknown,https://www.cdc.gov/niosh/idlh/1335882.html
+Tetraethyl lead (as Pb),78-00-2,40 mg Pb/m3,https://www.cdc.gov/niosh/idlh/78002.html
+Tetrahydrofuran,109-99-9,"2,000 ppm [10% LEL]",https://www.cdc.gov/niosh/idlh/109999.html
+Tetramethyl lead (as Pb),75-74-1,40 mg Pb/m3,https://www.cdc.gov/niosh/idlh/75741.html
+Tetramethyl succinonitrile,3333-52-6,5 ppm,https://www.cdc.gov/niosh/idlh/3333526.html
+Tetranitromethane,509-14-8,4 ppm,https://www.cdc.gov/niosh/idlh/509148.html
+Tetryl,479-45-8,750 mg/m3,https://www.cdc.gov/niosh/idlh/479458.html
+"Thallium (soluble compounds, as Tl)",n/a,15 mg Tl/m3,https://www.cdc.gov/niosh/idlh/thallium.html
+Thiram,137-26-8,100 mg/m3,https://www.cdc.gov/niosh/idlh/137268.html
+"Tin (inorganic compounds, as Sn)",n/a,100 mg Sn/m3,https://www.cdc.gov/niosh/idlh/7440315.html
+"Tin (organic compounds, as Sn)",n/a,25 mg Sn/m3,https://www.cdc.gov/niosh/idlh/tin-org.html
+Titanium dioxide,13463-67-7,"5,000 mg/m3",https://www.cdc.gov/niosh/idlh/13463677.html
+Toluene,108-88-3,500 ppm,https://www.cdc.gov/niosh/idlh/108883.html
+"Toluene 2,4-diisocyanate",584-84-9,2.5 ppm,https://www.cdc.gov/niosh/idlh/584849.html
+o-Toluidine,95-53-4,50 ppm,https://www.cdc.gov/niosh/idlh/95534.html
+Tributyl phosphate,126-73-8,30 ppm,https://www.cdc.gov/niosh/idlh/126738.html
+"1,1,2-Trichloroethane",79-00-5,100 ppm,https://www.cdc.gov/niosh/idlh/79005.html
+Trichloroethylene,79-01-6,"1,000 ppm",https://www.cdc.gov/niosh/idlh/79016.html
+Trichloronaphthalene,1321-65-9,Unknown,https://www.cdc.gov/niosh/idlh/1321659.html
+"1,2,3-Trichloropropane",96-18-4,100 ppm,https://www.cdc.gov/niosh/idlh/96184.html
+"1,1,2-Trichloro 1,2,2-trifluoroethane",76-13-1,"2,000 ppm",https://www.cdc.gov/niosh/idlh/76131.html
+Triethylamine,121-44-8,200 ppm,https://www.cdc.gov/niosh/idlh/121448.html
+Trifluorobromomethane,75-63-8,"40,000 ppm",https://www.cdc.gov/niosh/idlh/75638.html
+"2,4,6-Trinitrotoluene",118-96-7,500 mg/m3,https://www.cdc.gov/niosh/idlh/118967.html
+Triorthocresyl phosphate,78-30-8,40 mg/m3,https://www.cdc.gov/niosh/idlh/78308.html
+Triphenyl phosphate,115-86-6,"1,000 mg/m3",https://www.cdc.gov/niosh/idlh/115866.html
+Turpentine,8006-64-2,800 ppm,https://www.cdc.gov/niosh/idlh/8006642.html
+"Uranium (insoluble compounds, as U)",7440-61-1 (metal),10 mg U/m3,https://www.cdc.gov/niosh/idlh/7440611.html
+"Uranium (soluble compounds, as U)",n/a,10 mg U/m3,https://www.cdc.gov/niosh/idlh/uranium.html
+Vanadium dust,1314-62-1,35 mg V/m3,https://www.cdc.gov/niosh/idlh/vandust.html
+Vanadium fume,1314-62-1,35 mg V/m3,https://www.cdc.gov/niosh/idlh/vanfume.html
+Vinyl toluene,25013-15-4 (inhibited),400 ppm,https://www.cdc.gov/niosh/idlh/25013154.html
+Warfarin,81-81-2,100 mg/m3,https://www.cdc.gov/niosh/idlh/81812.html
+"Xylene (o, m, p isomers)",95-47-6,900 ppm,https://www.cdc.gov/niosh/idlh/95476.html
+Xylidine,1300-73-8,50 ppm,https://www.cdc.gov/niosh/idlh/1300738.html
+Yttrium compounds (as Y),7440-65-5,500 mg Y/m3,https://www.cdc.gov/niosh/idlh/7440655.html
+Zinc chloride fume,7646-85-7,50 mg/m3,https://www.cdc.gov/niosh/idlh/7646857.html
+Zinc oxide,1314-13-2,500 mg/m3,https://www.cdc.gov/niosh/idlh/1314132.html
+Zirconium compounds (as Zr),7440-67-7 (Metal),25 mg Zr/m3,https://www.cdc.gov/niosh/idlh/7440677.html

@@ -200,6 +200,8 @@ output folder instead of being sent to the AI model.
 |---|---|---|---|
 | `environmental_justice_screen` | ENV-04 | env | Massachusetts 2020 EJ block groups by criterion for a town, county, or the state, people living in them, English isolation and language access, SVI context, what designation means (MEPA, DPH vulnerable health criteria), optional archived EJScreen summary, map, and table. |
 | `climate_health_vulnerability_profile` | ENV-05 | env | Town profile for MVP and hazard mitigation planning: heat days, tree canopy, impervious surface, NFIP flood claims, social vulnerability, climate-sensitive health, MVP and FEMA plan status, and the most important vulnerabilities, with a DOCX option. |
+| `chemical_exposure_reference` | ENV-08 | env | NIOSH Pocket Guide entry, current IDLH, ATSDR minimal risk levels, and ToxFAQs links for a chemical (name, synonym, or CAS number), with scenario notes and Massachusetts contacts; always says occupational limits are not community limits and MRLs are screening levels. |
+| `food_access_mapper` | CHR-06 | chronic | USDA Food Access Research Atlas low-income/low-access tracts (four definitions, straight-line or driving) for a town, county, or the state, with people affected, vehicle and SNAP context, HIP and SNAP information, counts of your pantries, SNAP retailers, and HIP vendors by town, a tract map, and a resource list. |
 <!-- Phase 14 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

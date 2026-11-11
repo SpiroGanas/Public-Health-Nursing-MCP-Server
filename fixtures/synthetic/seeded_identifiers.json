@@ -8941,6 +8941,102 @@
    "kind": "email",
    "file": "data/ejscreen_ma_extract.csv",
    "column": "Reviewer Email"
+  },
+  {
+   "value": "Philomena",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Grisewood",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0180",
+   "kind": "phone",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "philomena.grisewood@example.org",
+   "kind": "email",
+   "file": "data/food_pantries.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Thaddeus",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Wrenfield",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0181",
+   "kind": "phone",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "thaddeus.wrenfield@example.org",
+   "kind": "email",
+   "file": "data/food_pantries.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Cordelia",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Ashbury-Vane",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0182",
+   "kind": "phone",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "cordelia.ashbury-vane@example.org",
+   "kind": "email",
+   "file": "data/food_pantries.csv",
+   "column": "Notes"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Pellowe",
+   "kind": "name",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0183",
+   "kind": "phone",
+   "file": "data/food_pantries.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "ignatius.pellowe@example.org",
+   "kind": "email",
+   "file": "data/food_pantries.csv",
+   "column": "Notes"
   }
  ]
 }
