@@ -11,10 +11,10 @@ use std::collections::BTreeMap;
 
 use phn_content::ContentMeta;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
+use phn_data::census::GeoLevel;
 use phn_data::ejclimate::{
     self, EjLayer, HhiSnapshot, MitigationPlan, MvpSnapshot, NfipClaimsSnapshot, NfipCommunity,
 };
-use phn_data::census::GeoLevel;
 use phn_data::geography::MaGeographies;
 use phn_docs::model::{Block, Document, Inline, TableBlock};
 use schemars::JsonSchema;
@@ -354,8 +354,8 @@ fn months_until(today: chrono::NaiveDate, date: &str) -> Option<i64> {
     if !(1900..=2100).contains(&d.year()) {
         return None;
     }
-    let mut m = (d.year() as i64 - today.year() as i64) * 12 + d.month() as i64
-        - today.month() as i64;
+    let mut m =
+        (d.year() as i64 - today.year() as i64) * 12 + d.month() as i64 - today.month() as i64;
     if d >= today && d.day() < today.day() {
         m -= 1;
     } else if d < today && d.day() > today.day() {
@@ -369,6 +369,9 @@ fn fmt_value(v: Option<f64>, unit: &str) -> String {
         None => "—".into(),
         Some(x) if unit == "percent" || unit == "%" => format!("{}%", md::num(x, 1)),
         Some(x) if unit == "dollars" => format!("${}", md::num(x, 0)),
+        Some(x) if unit == "claims" => md::num(x, 0),
+        // Counts such as "of 9 tracts".
+        Some(x) if unit.starts_with("of ") => format!("{} {unit}", md::num(x, 0)),
         Some(x) => md::num(x, 1),
     }
 }
@@ -426,7 +429,8 @@ pub async fn climate_health_vulnerability_profile(
         (
             "extreme_heat_days",
             "days a year",
-            (|z: &ejclimate::HhiZcta| z.extreme_heat_days) as fn(&ejclimate::HhiZcta) -> Option<f64>,
+            (|z: &ejclimate::HhiZcta| z.extreme_heat_days)
+                as fn(&ejclimate::HhiZcta) -> Option<f64>,
         ),
         ("tree_canopy_pct", "percent", |z| z.pct_tree_canopy),
         ("impervious_pct", "percent", |z| z.pct_impervious),
@@ -727,7 +731,11 @@ pub async fn climate_health_vulnerability_profile(
     let r = &c.rules;
     let mut flags: Vec<Vulnerability> = Vec::new();
     let pct = |v: f64| format!("{}%", md::num(v, 1));
-    for i in population.demographics.iter().chain(population.health.iter()) {
+    for i in population
+        .demographics
+        .iter()
+        .chain(population.health.iter())
+    {
         if i.unreliable {
             continue;
         }
@@ -933,7 +941,9 @@ pub async fn climate_health_vulnerability_profile(
     if let Some(p) = population.population {
         s.push_str(&format!("Population {}. ", md::num(p, 0)));
     }
-    s.push_str("For MVP and hazard mitigation planning; every value is compared with Massachusetts.\n\n");
+    s.push_str(
+        "For MVP and hazard mitigation planning; every value is compared with Massachusetts.\n\n",
+    );
     s.push_str("**Most important vulnerabilities** (tool-default rules; see `rules`)\n\n");
     if flags.is_empty() {
         s.push_str(
@@ -952,7 +962,10 @@ pub async fn climate_health_vulnerability_profile(
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["#", "Vulnerability", town.as_str(), "Massachusetts"], &rows));
+        s.push_str(&md::table(
+            &["#", "Vulnerability", town.as_str(), "Massachusetts"],
+            &rows,
+        ));
         if flagged_total > flags.len() {
             s.push_str(&format!(
                 "\n{} more indicator(s) met a rule; see the tables below.\n",
@@ -1011,10 +1024,7 @@ pub async fn climate_health_vulnerability_profile(
             f.recent_from,
             f.recent_to,
             f.peak_year
-                .map(|y| format!(
-                    "; most claims in {y} ({})",
-                    f.peak_year_claims.unwrap_or(0)
-                ))
+                .map(|y| format!("; most claims in {y} ({})", f.peak_year_claims.unwrap_or(0)))
                 .unwrap_or_default(),
             fmt_value(f.claims_per_1000_housing_units, ""),
             fmt_value(f.massachusetts_claims_per_1000_housing_units, "")
@@ -1055,7 +1065,7 @@ pub async fn climate_health_vulnerability_profile(
             "MVP: {}{}{}{}.\n",
             m.region
                 .as_deref()
-                .map(|r| format!("{r}"))
+                .map(|r| r.to_string())
                 .unwrap_or_else(|| "region not listed".into()),
             if m.planning_reports.is_empty() {
                 "; no MVP planning report is posted on mass.gov".to_string()
@@ -1098,7 +1108,10 @@ pub async fn climate_health_vulnerability_profile(
             "FEMA hazard mitigation plans ({}):\n\n",
             planning.plans_mode
         ));
-        s.push_str(&md::table(&["Plan", "Status", "Approved", "Expires"], &rows));
+        s.push_str(&md::table(
+            &["Plan", "Status", "Approved", "Expires"],
+            &rows,
+        ));
     }
     for f in &planning.flags {
         s.push_str(&format!("\n- **Planning flag:** {f}"));
@@ -1136,8 +1149,7 @@ pub async fn climate_health_vulnerability_profile(
                 }
             })
             .collect();
-        let path =
-            sandbox.new_output_file(&format!("climate_health_vulnerability_{slug}.docx"))?;
+        let path = sandbox.new_output_file(&format!("climate_health_vulnerability_{slug}.docx"))?;
         std::fs::write(&path, bytes)?;
         let disp = sandbox.display_path(&path);
         s.push_str(&format!("\nProfile written to `{disp}`.\n"));
@@ -1174,7 +1186,10 @@ pub async fn climate_health_vulnerability_profile(
                 .into(),
         );
     }
-    caveats.extend(content::review_caveats(&[CLIMATE_CONTENT, content::HAZARDS]));
+    caveats.extend(content::review_caveats(&[
+        CLIMATE_CONTENT,
+        content::HAZARDS,
+    ]));
     let mut keys: Vec<&str> = c.indicators.iter().map(|d| d.source.as_str()).collect();
     keys.extend(c.planning.iter().map(|p| p.source.as_str()));
     sources.extend(content::sources_for(keys, &c.sources));
@@ -1357,9 +1372,15 @@ fn profile_document(
     blocks.push(ind_table("Social vulnerability", social));
     blocks.push(Block::Table(TableBlock {
         caption: Some(format!("People and climate-sensitive health, {town}")),
-        headers: ["Indicator", "Percent", "About how many people", "Massachusetts", "Source"]
-            .map(String::from)
-            .to_vec(),
+        headers: [
+            "Indicator",
+            "Percent",
+            "About how many people",
+            "Massachusetts",
+            "Source",
+        ]
+        .map(String::from)
+        .to_vec(),
         rows: population
             .demographics
             .iter()
@@ -1538,7 +1559,11 @@ mod tests {
                 .any(|v| v.indicator == "nfip_claims")
         );
         assert_eq!(d.heat.len(), 3);
-        assert!(d.heat.iter().all(|h| h.value.is_some() && h.massachusetts.is_some()));
+        assert!(
+            d.heat
+                .iter()
+                .all(|h| h.value.is_some() && h.massachusetts.is_some())
+        );
         assert!(!d.heat_zips.is_empty());
         // Offline: plans and the Community Status Book come from the snapshot.
         assert_eq!(d.planning.plans_mode, "snapshot");
@@ -1546,7 +1571,13 @@ mod tests {
         let n = d.planning.nfip.as_ref().unwrap();
         assert!(n.participating);
         assert_eq!(n.mode, "snapshot");
-        assert!(d.planning.mvp.as_ref().unwrap().designated_through_prior_work);
+        assert!(
+            d.planning
+                .mvp
+                .as_ref()
+                .unwrap()
+                .designated_through_prior_work
+        );
         assert!(d.population.health.iter().any(|h| h.id == "CASTHMA"));
         assert_eq!(d.hazard_health.len(), 2);
         let file = d.document_file.as_ref().unwrap();
@@ -1607,8 +1638,8 @@ mod tests {
         let (_d, c) = ctx();
         let communities: BTreeMap<String, String> =
             [("250133".to_string(), "Agawam".to_string())].into();
-        let plan = |cid: Option<&str>, place: Option<&str>, title: &str, county: &str| {
-            MitigationPlan {
+        let plan =
+            |cid: Option<&str>, place: Option<&str>, title: &str, county: &str| MitigationPlan {
                 plan_id: "1".into(),
                 geoid: None,
                 place_name: place.map(String::from),
@@ -1622,21 +1653,34 @@ mod tests {
                 approval_date: None,
                 expiration_date: None,
                 adoption_date: None,
-            }
-        };
+            };
         assert_eq!(
-            plan_town(&c, &plan(Some("250133"), None, "x", "Hampden"), &communities).as_deref(),
+            plan_town(
+                &c,
+                &plan(Some("250133"), None, "x", "Hampden"),
+                &communities
+            )
+            .as_deref(),
             Some("Agawam")
         );
         assert_eq!(
-            plan_town(&c, &plan(None, Some("Amesbury Town city"), "x", "Essex"), &communities)
-                .as_deref(),
+            plan_town(
+                &c,
+                &plan(None, Some("Amesbury Town city"), "x", "Essex"),
+                &communities
+            )
+            .as_deref(),
             Some("Amesbury")
         );
         assert_eq!(
             plan_town(
                 &c,
-                &plan(None, None, "The Town of Amherst Hazard Mitigation Plan", "Hampshire"),
+                &plan(
+                    None,
+                    None,
+                    "The Town of Amherst Hazard Mitigation Plan",
+                    "Hampshire"
+                ),
                 &communities
             )
             .as_deref(),

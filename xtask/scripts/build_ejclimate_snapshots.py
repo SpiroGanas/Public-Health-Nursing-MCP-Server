@@ -52,11 +52,13 @@ import csv
 import datetime
 import hashlib
 import html
+import http.client
 import io
 import json
 import re
 import struct
 import sys
+import time
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -92,10 +94,18 @@ REGION_ALIASES = {"Manchester": "Manchester-by-the-Sea"}
 
 # ----------------------------------------------------------------- helpers
 
-def get(url):
+def get(url, attempts=3):
     # mass.gov refuses some custom user agents; the urllib default works everywhere used here.
-    with urllib.request.urlopen(urllib.request.Request(url), timeout=600) as r:
-        return r.read()
+    # Large downloads are retried when a transfer is cut off.
+    for i in range(attempts):
+        try:
+            with urllib.request.urlopen(urllib.request.Request(url), timeout=600) as r:
+                return r.read()
+        except (http.client.IncompleteRead, ConnectionError, TimeoutError) as e:
+            if i + 1 == attempts:
+                raise
+            print(f"retrying {url} after {e!r}", file=sys.stderr)
+            time.sleep(5 * (i + 1))
 
 
 def save(work, name, data):

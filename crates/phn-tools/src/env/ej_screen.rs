@@ -348,6 +348,16 @@ fn combination_label(code: &str) -> String {
     }
 }
 
+/// The text with its first letter in lower case ("English" stays capitalized
+/// later in the text).
+fn lower_first(s: &str) -> String {
+    let mut c = s.chars();
+    match c.next() {
+        Some(f) => f.to_lowercase().collect::<String>() + c.as_str(),
+        None => String::new(),
+    }
+}
+
 /// The block groups of an area. A town keeps every polygon in it (split block
 /// groups count fully, as EEA counts them); a county or the state counts each
 /// block group once.
@@ -446,7 +456,9 @@ fn is_block_group_code(v: &str, geos: &MaGeographies) -> bool {
     v.len() == 12
         && v.starts_with("25")
         && v.bytes().all(|b| b.is_ascii_digit())
-        && geos.get(&v[..11]).is_some_and(|g| g.level == GeoLevel::Tract)
+        && geos
+            .get(&v[..11])
+            .is_some_and(|g| g.level == GeoLevel::Tract)
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -669,10 +681,8 @@ fn write_map(
     let pad = ((bbox.2 - bbox.0).max(bbox.3 - bbox.1) * 0.04).max(500.0);
     let extent = (bbox.0 - pad, bbox.1 - pad, bbox.2 + pad, bbox.3 + pad);
     let colors = phn_docs::palette::sequential_steps(3);
-    let mut features: Vec<(&Feature, Fill)> = town_features
-        .iter()
-        .map(|f| (*f, Fill::Context))
-        .collect();
+    let mut features: Vec<(&Feature, Fill)> =
+        town_features.iter().map(|f| (*f, Fill::Context)).collect();
     for (f, n) in &ej_features {
         features.push((f, Fill::Class(n.clamp(&1, &3) - 1)));
     }
@@ -743,10 +753,8 @@ fn write_map(
     let sandbox = ctx.sandbox()?;
     let dir = sandbox.output_dir()?.join("maps");
     std::fs::create_dir_all(&dir)?;
-    let stem = phn_local::sandbox::sanitize_file_name(&format!(
-        "ej_block_groups_{}",
-        slug(&area.name)
-    ));
+    let stem =
+        phn_local::sandbox::sanitize_file_name(&format!("ej_block_groups_{}", slug(&area.name)));
     let mut n = 1;
     let (svg_path, png_path) = loop {
         let s = if n == 1 {
@@ -879,7 +887,13 @@ pub fn environmental_justice_screen(
             o.percent_population_in_ej_block_groups,
             o.total_block_groups,
         ),
-        (AreaLevel::Town, None) => (0.0, Some(0.0), None),
+        // No EEA statistics: the layer's figures (zero for most such towns).
+        (AreaLevel::Town, None) => (
+            layer_people,
+            (population_2020 > 0.0)
+                .then(|| round1((layer_people / population_2020 * 100.0).min(100.0))),
+            None,
+        ),
         (level, _) => (
             layer_people,
             (population_2020 > 0.0).then(|| round1(layer_people / population_2020 * 100.0)),
@@ -891,8 +905,7 @@ pub fn environmental_justice_screen(
     {
         let n_layer = bgs.len() as u32;
         if o.ej_block_groups != Some(n_layer)
-            || o
-                .population_in_ej_block_groups
+            || o.population_in_ej_block_groups
                 .is_some_and(|p| (p - layer_people).abs() > 0.5)
         {
             caveats.push(format!(
@@ -930,9 +943,15 @@ pub fn environmental_justice_screen(
     // By criterion and combination.
     let mut by_criterion = Vec::new();
     for (code, label, f) in [
-        ("M", "Minority", (|b: &EjBlockGroup| b.minority) as fn(&EjBlockGroup) -> bool),
+        (
+            "M",
+            "Minority",
+            (|b: &EjBlockGroup| b.minority) as fn(&EjBlockGroup) -> bool,
+        ),
         ("I", "Income", |b: &EjBlockGroup| b.income),
-        ("E", "English isolation", |b: &EjBlockGroup| b.english_isolation),
+        ("E", "English isolation", |b: &EjBlockGroup| {
+            b.english_isolation
+        }),
     ] {
         let sel: Vec<&&EjBlockGroup> = bgs.iter().filter(|b| f(b)).collect();
         by_criterion.push(CriteriaCount {
@@ -1025,7 +1044,11 @@ pub fn environmental_justice_screen(
     let mut town_rows: Vec<TownEj> = Vec::new();
     if area.level != AreaLevel::Town {
         let mut agg: BTreeMap<&str, (u32, f64, BTreeSet<char>)> = BTreeMap::new();
-        for b in layer.block_groups.iter().filter(|b| towns.contains(&b.town)) {
+        for b in layer
+            .block_groups
+            .iter()
+            .filter(|b| towns.contains(&b.town))
+        {
             let e = agg.entry(b.town.as_str()).or_default();
             e.0 += 1;
             e.1 += b.population;
@@ -1218,7 +1241,11 @@ pub fn environmental_justice_screen(
         _ => s.push_str(&format!(
             "**{} EJ block group{}**{} — about **{} people** ({}{}) live in them.{}\n\n",
             summary.ej_block_groups,
-            if summary.ej_block_groups == 1 { "" } else { "s" },
+            if summary.ej_block_groups == 1 {
+                ""
+            } else {
+                "s"
+            },
             summary
                 .total_block_groups
                 .map(|t| format!(" of {t}"))
@@ -1261,7 +1288,7 @@ pub fn environmental_justice_screen(
             "\nBy combination: {}.\n\n",
             by_combination
                 .iter()
-                .map(|k| format!("{} {}", k.label.to_lowercase(), k.block_groups))
+                .map(|k| format!("{} {}", lower_first(&k.label), k.block_groups))
                 .collect::<Vec<_>>()
                 .join("; ")
         ));
@@ -1405,10 +1432,10 @@ pub fn environmental_justice_screen(
         ));
         s.push('\n');
     } else {
-        s.push_str(&format!(
+        s.push_str(
             "**EJScreen:** not bundled (EPA removed it in 2025). Save an archived EJScreen 2.3 \
              block group CSV in /data and pass `ejscreen_path` to add environmental indicators.\n\n"
-        ));
+        );
     }
     s.push_str("**What an EJ designation changes**\n");
     for w in what.iter().take(2) {
@@ -1720,6 +1747,10 @@ mod tests {
     #[test]
     fn combination_labels_read_naturally() {
         assert_eq!(combination_label("M"), "Minority");
+        assert_eq!(
+            lower_first(&combination_label("ME")),
+            "minority and English isolation"
+        );
         assert_eq!(combination_label("MI"), "Minority and income");
         assert_eq!(
             combination_label("MIE"),

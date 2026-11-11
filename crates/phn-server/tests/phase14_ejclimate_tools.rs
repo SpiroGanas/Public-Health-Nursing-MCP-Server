@@ -71,10 +71,24 @@ async fn ej_screen_reports_a_town_county_and_the_state_offline() {
     let d = &s["data"];
     assert_eq!(d["summary"]["ej_block_groups"], 77);
     assert_eq!(d["summary"]["total_block_groups"], 81);
-    assert_eq!(d["official_statistics"]["percent_population_in_ej_block_groups"], 96.1);
+    assert_eq!(
+        d["official_statistics"]["percent_population_in_ej_block_groups"],
+        96.1
+    );
     assert!(d["english_isolation"]["block_groups"].as_u64().unwrap() > 0);
-    assert!(!d["english_isolation"]["top_languages"].as_array().unwrap().is_empty());
-    assert_eq!(d["dph_vulnerable_health_criteria"].as_array().unwrap().len(), 4);
+    assert!(
+        !d["english_isolation"]["top_languages"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    assert_eq!(
+        d["dph_vulnerable_health_criteria"]
+            .as_array()
+            .unwrap()
+            .len(),
+        4
+    );
     assert!(s["summary"].as_str().unwrap().contains("Language access"));
     assert!(s["notice"].is_string());
     assert!(pending(&s));

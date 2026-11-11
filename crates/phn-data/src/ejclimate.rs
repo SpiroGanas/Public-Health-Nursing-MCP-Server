@@ -45,7 +45,8 @@ pub const HHI_URL: &str = "https://www.atsdr.cdc.gov/place-health/php/hhi/index.
 pub const NFIP_SNAPSHOT_ID: &str = "fema-nfip-ma";
 pub const NFIP_COMMUNITIES_FILE: &str = "fema_nfip_community_status_ma.csv";
 pub const NFIP_CLAIMS_FILE: &str = "fema_nfip_claims_ma_towns.csv";
-pub const NFIP_CLAIMS_PAGE: &str = "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3";
+pub const NFIP_CLAIMS_PAGE: &str =
+    "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3";
 pub const NFIP_COMMUNITIES_PAGE: &str =
     "https://www.fema.gov/openfema-data-page/nfip-community-status-book-v1";
 
@@ -202,7 +203,22 @@ impl EjLayer {
         let f = EJ_BLOCK_GROUPS_FILE;
         let (h, data) = rows(&text, f)?;
         let c = |n: &str| col(&h, n, f);
-        let (geoid, town, split, pop, minority, hh, leh, lep, mhhi, mhhi_pct, from19, town_pct, crit, geom) = (
+        let (
+            geoid,
+            town,
+            split,
+            pop,
+            minority,
+            hh,
+            leh,
+            lep,
+            mhhi,
+            mhhi_pct,
+            from19,
+            town_pct,
+            crit,
+            geom,
+        ) = (
             c("geoid")?,
             c("town")?,
             c("split_for_town")?,
@@ -848,6 +864,9 @@ mod tests {
         assert!(p.iter().any(|x| x.plan_status == "Approved"));
         assert!(validator("HazardMitigationPlanStatuses")(&json).is_ok());
         assert!(validator("HazardMitigationPlanStatuses")(b"<html></html>").is_err());
-        assert!(validator("HazardMitigationPlanStatuses")(b"{\"HazardMitigationPlanStatuses\":[]}").is_err());
+        assert!(
+            validator("HazardMitigationPlanStatuses")(b"{\"HazardMitigationPlanStatuses\":[]}")
+                .is_err()
+        );
     }
 }
