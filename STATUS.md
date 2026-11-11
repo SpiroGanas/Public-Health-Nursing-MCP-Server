@@ -380,10 +380,12 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
    tag `v0.15.0` after PR #8 merges, to run `.github/workflows/release.yml`
    (it now scans a local image with Trivy before pushing, builds the SBOM from the source tree,
    then pushes the multi-architecture image, signs it with cosign, and attaches offline
-   tarballs). The first `v0.15.0` run failed at once because the Trivy action was pinned as
-   `0.28.0`; its tags start with `v`, so it is now `v0.28.0`. Delete and re-push the tag after
-   this fix merges (the tag points at the old commit), set the GHCR package to public, and watch
-   the later steps (SBOM, signing, tarballs), which have still never run. The CI smoke test now checks that the image reports Eastern time; if it fails,
+   tarballs). The first two `v0.15.0` runs failed while resolving actions: `trivy-action@0.28.0` has no
+   such tag, and `@v0.28.0` needs `setup-trivy@v0.2.1`, which no longer exists. The workflow now
+   uses `trivy-action@master` (always current; pin a tag or SHA if upstream breaks a release).
+   Delete and re-push the tag after the fix merges (the tag points at the old commit), set the
+   GHCR package to public, and watch the later steps (SBOM, signing, tarballs), which have
+   still never run. The CI smoke test now checks that the image reports Eastern time; if it fails,
    copy `/usr/share/zoneinfo` from the builder stage into the runtime image.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
    from some networks), `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` (the
@@ -743,7 +745,8 @@ MSRV is 1.88.
 | 2026-11-09 | Phase 13: 5 tools (ICS forms and IAP, COOP, HSEEP exercise design, after-action report, CERC), `plan_tabletop_exercise` prompt, staff roster module and ADR 0009; version 0.14.0; user guide rebuilt (124 pages) | #6 |
 | 2026-11-11 | Peer review of Phases 0–13: about 170 fixes (privacy leaks, wrong clinical and statistical results, panics, stale data shown as current), plan and documentation corrected, ADR 0010, Docker time zone, release workflow reordered; version 0.14.1; 822 tests | #7 |
 | 2026-11-11 | Phase 14: 8 tools (drinking water, fluoridation, EJ screen, climate and health vulnerability, vector-borne disease, housing conditions, chemical exposure, food access), 16 snapshots with four builders, population count bases fixed; version 0.15.0; user guide rebuilt (135 pages); 895 tests | #8 |
-| 2026-11-11 | Release workflow: Trivy action tag `0.28.0` corrected to `v0.28.0` (first release run failed) | this PR |
+| 2026-11-11 | Release workflow: Trivy action tag `0.28.0` corrected to `v0.28.0` (first release run failed) | #9 |
+| 2026-11-11 | Release workflow: Trivy action now `@master` (pinned `v0.28.0` depended on a deleted `setup-trivy` tag; second release run failed) | #10 |
 
 ## Keeping this file current
 
