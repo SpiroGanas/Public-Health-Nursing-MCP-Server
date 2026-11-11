@@ -257,10 +257,15 @@ public_water_actions:
     confidence: high
   - text: >-
       MassDEP's PFAS results for every public water system are on the EEA Data Portal (search the
-      contaminant group "PFAS" or the chemical name "PFAS6"); for questions about your water,
-      contact your water system.
+      contaminant group "PFAS" or the chemical name "PFAS6").
     source: massdep-pfas
     section: PFAS testing data
+    confidence: high
+  - text: >-
+      People on a public water system should contact the system for information about
+      contaminants in their water.
+    source: massdep-pfas-consumer
+    section: "Question 5"
     confidence: high
 
 pfas_actions:
