@@ -190,7 +190,7 @@ pub fn workbook_links(html: &str) -> Vec<(i32, String)> {
             out.push((season, url));
         }
     }
-    out.sort_by(|a, b| b.0.cmp(&a.0));
+    out.sort_by_key(|l| std::cmp::Reverse(l.0));
     out
 }
 

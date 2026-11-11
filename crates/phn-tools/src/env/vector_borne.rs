@@ -340,7 +340,12 @@ struct ArboSeason {
     source: Source,
 }
 
-fn cell<'a>(row: &'a [String], i: Option<usize>) -> &'a str {
+/// (virus, sample type, county, town) of a positive finding.
+type PositiveKey = (String, String, String, Option<String>);
+/// Count, towns, and latest date of positive findings.
+type PositiveGroup = (u32, BTreeSet<String>, Option<String>);
+
+fn cell(row: &[String], i: Option<usize>) -> &str {
     i.and_then(|i| row.get(i)).map(|s| s.trim()).unwrap_or("")
 }
 
@@ -415,8 +420,7 @@ fn parse_workbook(
         .into_iter()
         .rfind(|d| !d.is_empty())
         .ok_or_else(|| bad("no update date"))?;
-    let mut positives: BTreeMap<(String, String, String, Option<String>), (u32, Option<String>)> =
-        BTreeMap::new();
+    let mut positives: BTreeMap<PositiveKey, (u32, Option<String>)> = BTreeMap::new();
     if let Some(ps) = tables.iter().find(|t| {
         find_col(&t.headers, &["virus"]).is_some()
             && find_col(&t.headers, &["sample type"]).is_some()
@@ -1086,8 +1090,7 @@ async fn run(
         AreaLevel::State => BTreeSet::new(),
         _ => area.county.iter().cloned().collect(),
     };
-    let mut groups: BTreeMap<(String, String), (u32, BTreeSet<String>, Option<String>)> =
-        BTreeMap::new();
+    let mut groups: BTreeMap<(String, String), PositiveGroup> = BTreeMap::new();
     for p in &data.positives {
         let human = p.sample_type == "Human";
         let inside = match area.level {
