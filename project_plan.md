@@ -48,7 +48,7 @@ A tool goes to **Appendix A** if it cannot be built without one of the following
 
 ## 5. Architecture
 
-This section describes the architecture as built through Phase 13 (version 0.14.0). Where the build departed from the original plan, the architecture decision record (ADR) in [`docs/adr/`](docs/adr/) that made the change is named. [`STATUS.md`](STATUS.md) has the current state of the work.
+This section describes the architecture as built through Phase 14 (version 0.15.0). Where the build departed from the original plan, the architecture decision record (ADR) in [`docs/adr/`](docs/adr/) that made the change is named. [`STATUS.md`](STATUS.md) has the current state of the work.
 
 ### 5.1 Cargo workspace
 

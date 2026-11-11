@@ -9,9 +9,9 @@
 
 'use strict';
 
-const VERSION = '0.14.1';
+const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 102;
+const TOOL_COUNT = 110;
 
 const TOOLSETS = {
   core: 'core (always on)',

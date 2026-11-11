@@ -4,7 +4,7 @@
 public health nurses: an executive summary of what the server offers, how it works and protects
 privacy, how to get started, and, for every implemented tool, what it does, when to use it, how
 to ask for it, what it returns, and what to keep in mind. It covers only tools that are
-implemented and registered in the server (102 in version 0.14.1).
+implemented and registered in the server (110 in version 0.15.0).
 
 ## Files
 

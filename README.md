@@ -10,12 +10,13 @@ the nurse's own files in a folder mounted into the container. **Files never leav
 container**, tools return aggregates by default, and anything identifiable is written to an
 output folder instead of being sent to the AI model.
 
-> **Status: v0.14.1 — Phases 0 to 13 of the [project plan](project_plan.md), with the fixes from a
-> peer review of those phases (see [CHANGELOG.md](CHANGELOG.md)).** 102 of the 148
+> **Status: v0.15.0 — Phases 0 to 14 of the [project plan](project_plan.md) (see
+> [CHANGELOG.md](CHANGELOG.md)).** 110 of the 148
 > planned tools are available. Bundled reference content (reportable conditions, disease rules,
 > immunization schedules and school requirements, school health and maternal-child health rules,
 > screening instruments, aging and preparedness guidance, ICS forms, COOP, HSEEP, and CERC
-> material, and the other items listed by `get_data_source_status`) is a **draft pending
+> material, environmental health and housing guidance, and the other items listed by
+> `get_data_source_status`) is a **draft pending
 > review** by the subject matter expert; every answer from it says so. All clinical and legal output is decision support only.
 
 ## Tools
@@ -227,16 +228,16 @@ department which runtime is approved before installing.
 Once a release is published:
 
 ```sh
-docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
+docker pull ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
 ```
 
-On networks that block GHCR, download `phn-mcp-server-v0.14.1-amd64.tar.gz` (or `-arm64` for
+On networks that block GHCR, download `phn-mcp-server-v0.15.0-amd64.tar.gz` (or `-arm64` for
 Apple silicon) from the GitHub release. Load it, then give the image the name the configuration
 below uses:
 
 ```sh
-docker load -i phn-mcp-server-v0.14.1-amd64.tar.gz
-docker tag phn-mcp-server:v0.14.1-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1
+docker load -i phn-mcp-server-v0.15.0-amd64.tar.gz
+docker tag phn-mcp-server:v0.15.0-amd64 ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0
 ```
 
 (Use `arm64` in both commands on Apple silicon.) Without the second command Docker does not find
@@ -245,7 +246,7 @@ the image under that name and tries to download it from GHCR.
 To build it yourself from this repository:
 
 ```sh
-docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 .
+docker build -t ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 .
 ```
 
 ### 3. Create your data folder
@@ -270,7 +271,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "/Users/YOUR-NAME/PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=cd_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
       ]
     }
   }
@@ -289,7 +290,7 @@ Open Claude Desktop → Settings → Developer → Edit Config, and add the serv
         "-v", "C:\\Users\\YOUR-NAME\\PHN-Data:/data",
         "-v", "phn-cache:/cache",
         "-e", "PHN_PROFILE=school_nurse",
-        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1"
+        "ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0"
       ]
     }
   }
@@ -318,7 +319,7 @@ Then try, for example:
 File names are relative to your data folder: say `line_list.csv` or `rosters/kindergarten.xlsx`,
 not `PHN-Data/line_list.csv`.
 
-`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.14.1 check` prints the
+`docker run --rm ghcr.io/spiroganas/public-health-nursing-mcp-server:0.15.0 check` prints the
 configuration and verifies the bundled data, which helps when troubleshooting with IT.
 
 ## Configuration

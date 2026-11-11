@@ -10,6 +10,82 @@ it was merged to `main` (Eastern time).
 
 ## [Unreleased]
 
+## [0.15.0] — 2026-11-11 (not yet tagged) — Phase 14: environmental health and climate
+
+### Added
+
+- Environmental health tools (toolset `env`):
+  - `drinking_water_quality_lookup` (ENV-03): the public water systems for a town from EPA
+    SDWIS (live through Envirofacts, with a bundled snapshot): health-based violations, other
+    violations by category, the latest lead and copper 90th percentiles against the action
+    levels, MassDEP PFAS6 results for treated water (EEA Data Portal), what residents can do,
+    the Massachusetts and federal PFAS and lead standards, and private well testing guidance
+    when community systems do not serve most of the town.
+  - `environmental_justice_screen` (ENV-04): Massachusetts 2020 environmental justice block
+    groups for a town, county, or the state, by criterion and combination, with the people
+    living in them (EEA's municipal statistics for towns), English-isolation block groups and
+    the largest limited-English language groups, SVI context, what designation changes (MEPA,
+    translation and interpretation, EEA policy, DPH's vulnerable health criteria), an optional
+    map and table, and an optional summary of an archived EJScreen 2.3 file saved in `/data`
+    (averages and counts only).
+  - `climate_health_vulnerability_profile` (ENV-05): a town profile for MVP and hazard
+    mitigation planning: extreme heat days, tree canopy, and impervious surface (CDC/ATSDR Heat
+    and Health Index), NFIP flood claims and Community Rating System status, social
+    vulnerability and climate-sensitive health, MVP region and plan status, FEMA hazard
+    mitigation plan status (live from OpenFEMA, with a snapshot), and the most important
+    vulnerabilities by labeled tool-default rules, with a Word option.
+  - `vector_borne_disease_risk` (ENV-06): DPH's EEE and West Nile virus risk levels by town
+    (live in season; otherwise the dated last levels, clearly not current risk) with DPH's
+    response for each level, positive mosquito and animal findings, tick-borne disease cases
+    and rates by county (2022–2025) and emergency department visits, and prevention messages
+    for the public, schools, camps, and outdoor workers, with an optional one-page notice.
+  - `housing_conditions_health_guide` (ENV-07): the State Sanitary Code (105 CMR 410.000) for
+    moisture and mold, pests, heat, hot water and utilities, lead, smoke and CO alarms, and
+    trash: code sections, owner and occupant duties, conditions always deemed to endanger
+    health, health effects, the inspection process and timelines, tenant protections (with a
+    not-legal-advice notice), tenant teaching sheets at or below grade 8 (agency translations
+    only), and inspection and repair request letters filled locally into `/data/output`.
+  - `chemical_exposure_reference` (ENV-08): the NIOSH Pocket Guide entry and current IDLH,
+    ATSDR minimal risk levels, and ToxFAQs links for a chemical by name, synonym, or CAS number
+    (ambiguous names are refused with the candidates), with notes and contacts for spills,
+    indoor air, contaminated sites, drinking water, and workplaces. Every answer starts by
+    saying that occupational limits are not community limits and that MRLs are screening
+    levels.
+- Chronic disease tools (toolset `chronic`):
+  - `food_access_mapper` (CHR-06): USDA Food Access Research Atlas low-income, low-access
+    tracts under all four definitions (the 2025 map, which counts any SNAP store, and the 2019
+    supermarket map carried to 2020 tracts) for a town, county, or the state, with the people
+    affected, vehicle and SNAP context, HIP and SNAP facts, counts by town from your pantry,
+    SNAP retailer, and HIP vendor files, a tract map, a Word resource list, and an Excel
+    workbook. Site names and addresses go only into the output files.
+  - `community_water_fluoridation_status` (CHR-07): a town's fluoridation status from DPH's
+    2023 list and CDC's 2025 My Water's Fluoride report with the systems behind it, a statewide
+    summary, the standards, each body's current position and the recent evidence reviews side
+    by side with their dates, M.G.L. c. 111, § 8C in plain language, and an optional board of
+    health brief.
+- Content drafted from EPA, MassDEP, DPH, EEA, MEPA, CDC, ATSDR, NIOSH, FEMA, USDA, and DTA
+  sources and the statutes and regulations they cite, all pending review:
+  `content/env/drinking_water.yaml`, `environmental_justice.yaml`, `climate_vulnerability.yaml`,
+  `vector_borne.yaml`, `housing_conditions.yaml`, `chemical_exposure.yaml`, and
+  `content/chronic/fluoridation.yaml` and `food_access.yaml`, with schemas.
+- Snapshots, each with a builder in `xtask/scripts/` that has a `--check` mode: EPA SDWIS and
+  MassDEP PFAS6, CDC My Water's Fluoride and DPH's fluoridation list, the 2020 EJ block groups
+  and town statistics, the Heat and Health Index, NFIP claims and community status, FEMA hazard
+  mitigation plans, MVP communities, DPH arbovirus risk levels and positives, DPH tick-borne
+  disease cases and ED visits, the NIOSH Pocket Guide and IDLH table, ATSDR MRLs and ToxFAQs,
+  and the USDA Food Access Research Atlas.
+- Synthetic fixtures with seeded identifiers (an EJScreen extract, housing requests, a pantry
+  list); every new data tool is in the leak test.
+- Acceptance script `docs/acceptance/phase-14.md`; user guide chapter 17 and a rebuilt guide
+  for 110 tools.
+
+### Fixed
+
+- `heat_health_action_planner` (and the new climate profile): the population table's "about how
+  many people" multiplied every percent by the total population, so a town could show more adults 65+ with a disability than adults 65+. Each count
+  now uses the indicator's own base (adults 65+, people age 5+, or households), and tables show
+  the unit when it is not people.
+
 ## [0.14.1] — 2026-11-11 (not yet tagged) — Peer review of Phases 0–13
 
 A review of the code and documentation for Phases 0–13 found errors in calculations, places where
