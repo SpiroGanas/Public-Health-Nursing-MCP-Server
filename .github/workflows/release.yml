@@ -49,6 +49,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: phn-mcp-server:scan
+          trivyignores: .trivyignore
           severity: CRITICAL,HIGH
           ignore-unfixed: true
           exit-code: "1"

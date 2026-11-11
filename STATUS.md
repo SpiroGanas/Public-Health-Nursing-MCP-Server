@@ -385,7 +385,9 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
    uses `trivy-action@master` (always current; pin a tag or SHA if upstream breaks a release).
    Delete and re-push the tag after the fix merges (the tag points at the old commit), set the
    GHCR package to public, and watch the later steps (SBOM, signing, tarballs), which have
-   still never run. The CI smoke test now checks that the image reports Eastern time; if it fails,
+   still never run. The scan then blocked on CVE-2026-84782 (libssl3 in the distroless base,
+   unpatched upstream on 2026-11-11); `.trivyignore` excuses it until 2026-12-11. Remove the
+   entry once distroless ships libssl3 3.0.22-1~deb12u2 or later. The CI smoke test now checks that the image reports Eastern time; if it fails,
    copy `/usr/share/zoneinfo` from the builder stage into the runtime image.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
    from some networks), `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` (the
@@ -747,6 +749,7 @@ MSRV is 1.88.
 | 2026-11-11 | Phase 14: 8 tools (drinking water, fluoridation, EJ screen, climate and health vulnerability, vector-borne disease, housing conditions, chemical exposure, food access), 16 snapshots with four builders, population count bases fixed; version 0.15.0; user guide rebuilt (135 pages); 895 tests | #8 |
 | 2026-11-11 | Release workflow: Trivy action tag `0.28.0` corrected to `v0.28.0` (first release run failed) | #9 |
 | 2026-11-11 | Release workflow: Trivy action now `@master` (pinned `v0.28.0` depended on a deleted `setup-trivy` tag; second release run failed) | #10 |
+| 2026-11-11 | Release scan blocked on CVE-2026-84782 (libssl3 in the distroless base, no patched base yet; server uses rustls): added `.trivyignore` entry that expires 2026-12-11 | #11 |
 
 ## Keeping this file current
 
