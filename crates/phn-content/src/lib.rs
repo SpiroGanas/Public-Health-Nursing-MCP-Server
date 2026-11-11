@@ -520,6 +520,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 14 Water (ENV-03, CHR-07).
     // End of Phase 14 water.
     // Phase 14 EJ and climate (ENV-04, ENV-05).
+    ContentItem {
+        id: "env-environmental-justice",
+        path: "content/env/environmental_justice.yaml",
+        resource_uri: "phn://content/env-environmental-justice",
+        yaml: include_str!("../../../content/env/environmental_justice.yaml"),
+        schema: include_str!("../../../content/schemas/env_environmental_justice.schema.json"),
+    },
+    ContentItem {
+        id: "env-climate-vulnerability",
+        path: "content/env/climate_vulnerability.yaml",
+        resource_uri: "phn://content/env-climate-vulnerability",
+        yaml: include_str!("../../../content/env/climate_vulnerability.yaml"),
+        schema: include_str!("../../../content/schemas/env_climate_vulnerability.schema.json"),
+    },
     // End of Phase 14 ejclimate.
     // Phase 14 Vectors and housing (ENV-06, ENV-07).
     // End of Phase 14 vectorhousing.

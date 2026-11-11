@@ -13,6 +13,13 @@ pub use heat::{HeatPlanArgs, HeatPlanResult, heat_health_action_planner};
 // Phase 14 Water (ENV-03, CHR-07).
 // End of Phase 14 water.
 // Phase 14 EJ and climate (ENV-04, ENV-05).
+pub mod climate_profile;
+pub mod ej_screen;
+
+pub use climate_profile::{
+    ClimateProfileArgs, ClimateProfileResult, climate_health_vulnerability_profile,
+};
+pub use ej_screen::{EjScreenArgs, EjScreenResult, environmental_justice_screen};
 // End of Phase 14 ejclimate.
 // Phase 14 Vectors and housing (ENV-06, ENV-07).
 // End of Phase 14 vectorhousing.

@@ -929,6 +929,19 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 14 Water (ENV-03, CHR-07).
         // ---- End of Phase 14 water.
         // ---- Phase 14 EJ and climate (ENV-04, ENV-05).
+        // ENV-04: an EJScreen-shaped file returns only averages and counts; the reviewer
+        // names and emails in it never appear.
+        (
+            "environmental_justice_screen",
+            json!({"area": "Lowell", "ejscreen_path": "ejscreen_ma_extract.csv", "table": true}),
+            "data/ejscreen_ma_extract.csv",
+        ),
+        // A line list given as the EJScreen file is refused without echoing values.
+        (
+            "environmental_justice_screen",
+            json!({"area": "Lowell", "ejscreen_path": "line_list.csv"}),
+            ll,
+        ),
         // ---- End of Phase 14 ejclimate.
         // ---- Phase 14 Vectors and housing (ENV-06, ENV-07).
         // ---- End of Phase 14 vectorhousing.

@@ -198,6 +198,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `environmental_justice_screen` | ENV-04 | env | Massachusetts 2020 EJ block groups by criterion for a town, county, or the state, people living in them, English isolation and language access, SVI context, what designation means (MEPA, DPH vulnerable health criteria), optional archived EJScreen summary, map, and table. |
+| `climate_health_vulnerability_profile` | ENV-05 | env | Town profile for MVP and hazard mitigation planning: heat days, tree canopy, impervious surface, NFIP flood claims, social vulnerability, climate-sensitive health, MVP and FEMA plan status, and the most important vulnerabilities, with a DOCX option. |
 <!-- Phase 14 rows go above this line. -->
 
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.

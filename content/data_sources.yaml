@@ -1187,6 +1187,107 @@ sources:
   # Phase 14 Water (ENV-03, CHR-07).
   # End of Phase 14 water.
   # Phase 14 EJ and climate (ENV-04, ENV-05).
+  - id: ma-ej-populations-2020
+    name: Massachusetts 2020 Environmental Justice Population block groups and municipal EJ statistics
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs (EEA GIS) via MassGIS
+    kind: snapshot
+    status: active
+    snapshot_id: ma-ej-2020
+    homepage: https://www.mass.gov/info-details/massgis-data-2020-environmental-justice-populations
+    probe_url: https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/ej2020.zip
+    used_by: [environmental_justice_screen, climate_health_vulnerability_profile]
+    caveats:
+      - >-
+        2020 Census block groups with ACS 2016–2020 income and language (EEA update of November
+        2022; one block group corrected June 2024). Rebuild with
+        xtask/scripts/build_ejclimate_snapshots.py when EEA updates the layer. arcgis.com and
+        gis.data.mass.gov (EEA's map viewers) are blocked from the build network; the MassGIS
+        download bucket works.
+  - id: ma-environmental-justice-content
+    name: Massachusetts EJ criteria, MEPA EJ protocols, EEA EJ Policy, DPH vulnerable health EJ criteria, and EJScreen columns
+    publisher: Massachusetts General Court, EEA, MEPA Office, and DPH; U.S. EPA (drafted by this project)
+    kind: content
+    status: active
+    content_id: env-environmental-justice
+    homepage: https://www.mass.gov/info-details/environmental-justice-populations-in-massachusetts
+    probe_url: https://www.mass.gov/guides/environmental-justice-protocols-and-resources
+    used_by: [environmental_justice_screen]
+    caveats:
+      - >-
+        EPA removed EJScreen in 2025; its download host (gaftp.epa.gov) and the public
+        archives (zenodo.org, dataverse.harvard.edu, screening-tools.com) are blocked from the
+        build network, so EJScreen is read only from a file the nurse saves in /data.
+      - >-
+        The CDC/ATSDR Environmental Justice Index download (eji.cdc.gov) is blocked; it is
+        described and linked but not bundled.
+  - id: cdc-heat-health-index
+    name: CDC/ATSDR Heat and Health Index (HHI) 2024, Massachusetts ZIP Code Tabulation Areas
+    publisher: Centers for Disease Control and Prevention / ATSDR
+    kind: snapshot
+    status: active
+    snapshot_id: cdc-heat-health-index-2024-ma
+    homepage: https://www.atsdr.cdc.gov/place-health/php/hhi/index.html
+    probe_url: https://www.atsdr.cdc.gov/place-health/media/files/2024/08/HHI_Data.zip
+    used_by: [climate_health_vulnerability_profile]
+    caveats:
+      - >-
+        2024 release: extreme heat days 2018–2022 (relative to each ZCTA's own 1991–2020
+        temperatures), NLCD 2021 tree canopy and impervious surface, national percentile ranks.
+        Town values are land-area-weighted averages of ZCTA values (this project's method).
+        CDC's Heat and Health Tracker (ephtracking.cdc.gov) is blocked from the build network.
+  - id: openfema-nfip
+    name: OpenFEMA NFIP Redacted Claims (by town) and NFIP Community Status Book (Massachusetts)
+    publisher: Federal Emergency Management Agency
+    kind: live
+    status: active
+    snapshot_id: fema-nfip-ma
+    homepage: https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3
+    probe_url: https://www.fema.gov/api/open/v1/NfipCommunityStatusBook?$filter=state%20eq%20%27MA%27&$top=1
+    used_by: [climate_health_vulnerability_profile]
+    caveats:
+      - >-
+        The Community Status Book is fetched live (cached a day) with the bundled copy as the
+        fallback; claims are summed by town in the snapshot (35,375 Massachusetts claims; 64 could
+        not be placed in a town). Claims show insured losses, not flood risk. The FEMA National
+        Flood Hazard Layer (msc.fema.gov, MassGIS nfhl.zip) was not summarized by town.
+  - id: openfema-hazard-mitigation-plans
+    name: OpenFEMA Hazard Mitigation Plan Statuses (Massachusetts)
+    publisher: Federal Emergency Management Agency
+    kind: live
+    status: active
+    snapshot_id: fema-hazard-mitigation-plans-ma
+    homepage: https://www.fema.gov/openfema-data-page/hazard-mitigation-plan-statuses-v1
+    probe_url: https://www.fema.gov/api/open/v1/HazardMitigationPlanStatuses?$filter=stateAbbreviation%20eq%20%27MA%27&$top=1
+    used_by: [climate_health_vulnerability_profile]
+    caveats:
+      - >-
+        Fetched live (cached a day) with the bundled copy as the fallback. Plans are matched to
+        towns by NFIP community number, Census place name, or the town name in the plan title.
+  - id: ma-mvp-program
+    name: Massachusetts Municipal Vulnerability Preparedness (MVP) regions, planning reports, and MVP 2.0 pilot list
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs
+    kind: snapshot
+    status: active
+    snapshot_id: ma-mvp-communities
+    homepage: https://www.mass.gov/municipal-vulnerability-preparedness-mvp-program
+    probe_url: https://www.mass.gov/info-details/municipal-vulnerability-preparedness-mvp-program-planning-reports
+    used_by: [climate_health_vulnerability_profile]
+    caveats:
+      - >-
+        mass.gov does not publish a list of designated MVP communities; the snapshot records the
+        posted planning reports and the "designated through prior work" note. ResilientMass
+        (resilientma.mass.gov) is blocked from the build network.
+  - id: ma-climate-vulnerability-content
+    name: Climate and health vulnerability indicator definitions, flagging rules (tool defaults), and MVP and hazard mitigation planning facts
+    publisher: CDC/ATSDR, FEMA, EEA, and eCFR (drafted by this project)
+    kind: content
+    status: active
+    content_id: env-climate-vulnerability
+    homepage: https://www.mass.gov/municipal-vulnerability-preparedness-mvp-program
+    probe_url: https://www.atsdr.cdc.gov/place-health/php/hhi/index.html
+    used_by: [climate_health_vulnerability_profile]
+    caveats:
+      - The flagging rules are tool defaults with no published source.
   # End of Phase 14 ejclimate.
   # Phase 14 Vectors and housing (ENV-06, ENV-07).
   # End of Phase 14 vectorhousing.

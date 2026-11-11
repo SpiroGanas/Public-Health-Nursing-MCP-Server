@@ -2596,6 +2596,95 @@ off.
 
 <!-- Phase 14 EJ and climate (ENV-04, ENV-05). -->
 
+### `environmental_justice_screen` (ENV-04, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town, else Massachusetts | City or town, county, or the state. |
+| `ejscreen_path` | | An archived EPA EJScreen 2.3 (2024) block group CSV in `/data` (Massachusetts rows, or the national file under 150 MB). |
+| `map` | false | Map of the EJ block groups (SVG and PNG) in `/data/output/maps`. |
+| `table` | false | The area's EJ block groups (XLSX) in `/data/output`. |
+
+**Output:** the area's 2020 Environmental Justice block groups (EEA layer, 2020 Census and ACS
+2016–2020, updated November 2022, corrected June 2024) by criterion (minority, income, English
+isolation) and by combination, with their 2020 Census population; for a town, EEA's official
+municipal statistics (EJ and total block groups, people in EJ block groups, percent of residents),
+with a caveat when the newer layer differs (Chelmsford); for a county or the state, the towns
+ranked by people in EJ block groups (25 listed statewide). English isolation: the block groups
+meeting that criterion, their limited-English households, the area's ACS limited-English
+household percent, and the three largest language groups among residents with limited English.
+SVI context: high-SVI tracts (top quarter in Massachusetts) and the EJ block groups in them. The
+statutory criteria (St. 2021, c. 8, § 56), what a designation changes (MEPA designated geographic
+area of 1 or 5 miles, EIR, advance notice, translation at 5% and interpreters above 10% of
+limited-English residents, consulting Boards of Health on languages; EEA agency public
+participation), DPH's four vulnerable health EJ criteria (heart attack, childhood blood lead,
+low birth weight, childhood asthma at 110% or more of the state rate), and how to use them.
+
+**Counting:** a block group split at a town line counts fully in each town it touches, as EEA
+counts it; county and state totals count each block group once (2,599 block groups and 3,482,860
+people statewide; EEA's published 2,604 and 3,487,681 count the split ones per town). State share
+uses the 2020 Census population (7,029,917) and EEA's 4,985 block groups.
+
+**EJScreen file:** read with the local-file guardrails. The `ID` column must hold 12-digit block
+group codes (a column the identifier scan flags is accepted only when its values are
+Massachusetts block group codes in known tracts; anything else is refused). For each `P_`
+percentile column (13 environmental indicators, 13 EJ Indexes, demographic index, low income,
+limited English) it returns the population-weighted average percentile (`ACSTOTPOP`) for all,
+EJ, and other block groups in the area and the number at or above the 80th and 90th percentile,
+plus the block groups with any EJ Index at or above the 80th percentile (EPA's former starting
+point for review, not a designation). Block groups are placed in towns by their tract's main
+town. Rows and individual values are never returned. State or national percentiles are read from
+the file name (`StatePct`).
+
+**Sources:** EEA/MassGIS 2020 EJ layer and municipal statistics; MassGIS 2020 Census towns; EEA EJ
+Policy (2021); MEPA EJ protocols guide; DPH EJ Tool; EPA EJScreen 2.3 technical documentation and
+column list; CDC/ATSDR SVI 2022; ACS 2020–2024. **Privacy:** public aggregate data; the optional
+EJScreen file gives averages and counts only; files go to `/data/output`. **Limits:** EPA's EJScreen
+archive and the CDC/ATSDR Environmental Justice Index download (eji.cdc.gov) could not be reached
+when this was built, so neither is bundled; the map polygons are simplified (15 m).
+
+### `climate_health_vulnerability_profile` (ENV-05, toolset `env`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | One city or town (counties and the state are refused). |
+| `document` | false | Word (DOCX) profile in `/data/output`. |
+
+**Output** (each indicator with value, Massachusetts value, ratio, source, and vintage):
+
+- Heat: extreme heat days a year (2018–2022), tree canopy, and impervious surface (NLCD 2021)
+  from the CDC/ATSDR Heat and Health Index 2024. HHI publishes ZIP Code Tabulation Area values;
+  town values are averages weighted by each ZCTA's land area in the town, and the state value
+  weights every ZCTA by land area. The ZCTAs with their HHI national ranks are listed.
+- Flooding: NFIP claims since 1978 (count, paid, dollars, peak year), claims in the last ten
+  complete years, claims per 1,000 2020 Census housing units vs the state rate; NFIP
+  participation, current flood map date, Community Rating System class and discount (Community
+  Status Book).
+- Social vulnerability: percent of residents in EJ block groups (EEA) and high-SVI tracts; ACS
+  older adults, young children, disability, poverty, no vehicle, limited English, no internet,
+  renters; PLACES asthma, COPD, coronary heart disease, diabetes, obesity, disability types,
+  loneliness, utility shutoff threat; HHS emPOWER electricity-dependent beneficiaries.
+- Planning: MVP region, MVP planning reports posted on mass.gov, designated through prior work,
+  FY24 MVP 2.0 pilot; FEMA hazard mitigation plans for the town (status, approval, expiration).
+- Most important vulnerabilities (at most 8), ranked by distance from the state value, by
+  **tool-default rules** stated in the output: percent indicators at least 1.2 times the state
+  value (unreliable ACS estimates skipped), heat days 1.1 times, tree canopy 0.75 times or less,
+  impervious 1.5 times, NFIP claims rate 2 times or 25+ recent claims, any top-quarter SVI tract,
+  50% or more of residents in EJ block groups, emPOWER rate 1.2 times. A planning flag is raised
+  when no approved plan is listed or the plan has expired or expires within 12 months
+  (44 CFR 201.6(d)(3): revise and resubmit within 5 years).
+- Health effects of extreme heat and flooding, and who is at risk (shared hazard content).
+
+**Live data:** the NFIP Community Status Book and FEMA hazard mitigation plan statuses (OpenFEMA,
+cached a day, bundled fallback); emPOWER as in `get_electricity_dependent_population`. Everything
+else is bundled, so the profile works offline. **Sources:** CDC/ATSDR HHI 2024 (data and
+technical documentation), OpenFEMA NfipClaims v3, NfipCommunityStatusBook, and
+HazardMitigationPlanStatuses, mass.gov MVP pages, eCFR 44 CFR 201.6, EEA EJ layer, SVI 2022, ACS,
+PLACES 2025, emPOWER. **Privacy:** public aggregate data only; the DOCX goes to `/data/output`.
+**Limits:** NFIP claims count insured losses only and are not a flood-risk map; FEMA NFHL flood
+zone areas by town and a verified town temperature series were not available (ResilientMass and
+CDC's Tracking Network were blocked); mass.gov does not list designated MVP communities.
+
 <!-- End of Phase 14 ejclimate. -->
 
 <!-- Phase 14 Vectors and housing (ENV-06, ENV-07). -->

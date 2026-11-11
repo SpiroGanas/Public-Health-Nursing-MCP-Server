@@ -8905,6 +8905,42 @@
    "value": "413-555-0143",
    "kind": "phone",
    "file": "data/client_letter.html"
+  },
+  {
+   "value": "Odalys",
+   "kind": "name",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer"
+  },
+  {
+   "value": "Quintrell",
+   "kind": "name",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer"
+  },
+  {
+   "value": "Benedek",
+   "kind": "name",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer"
+  },
+  {
+   "value": "Marchetti-Vale",
+   "kind": "name",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer"
+  },
+  {
+   "value": "odalys.quintrell@example.org",
+   "kind": "email",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer Email"
+  },
+  {
+   "value": "benedek.marchettivale@example.org",
+   "kind": "email",
+   "file": "data/ejscreen_ma_extract.csv",
+   "column": "Reviewer Email"
   }
  ]
 }

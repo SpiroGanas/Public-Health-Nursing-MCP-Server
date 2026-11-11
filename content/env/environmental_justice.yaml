@@ -1,0 +1,389 @@
+# Massachusetts Environmental Justice (EJ) populations: the legal criteria, what an EJ designation
+# changes (MEPA review, language access, EEA policy), DPH's vulnerable health EJ criteria, and how
+# to read archived EPA EJScreen data, for environmental_justice_screen (ENV-04).
+#
+# REVIEW STATUS: pending. Drafted from the fetched sources below (retrieved 2026-11-11).
+# Schema: content/schemas/env_environmental_justice.schema.json
+meta:
+  id: env-environmental-justice
+  title: Massachusetts environmental justice populations (criteria, MEPA and language access, DPH vulnerable health criteria, EJScreen)
+  version: 0.1.0
+  prepared: 2026-11-11
+  effective_date: null
+  source:
+    title: Environmental Justice Populations in Massachusetts
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs (EEA), Office of Environmental Justice and Equity
+    url: https://www.mass.gov/info-details/environmental-justice-populations-in-massachusetts
+  related_sources:
+    - title: An Act Creating a Next-Generation Roadmap for Massachusetts Climate Policy (St. 2021, c. 8), section 56
+      publisher: Massachusetts General Court
+      url: https://malegislature.gov/Laws/SessionLaws/Acts/2021/Chapter8
+    - title: MassGIS Data, 2020 Environmental Justice Populations
+      publisher: MassGIS (Bureau of Geographic Information)
+      url: https://www.mass.gov/info-details/massgis-data-2020-environmental-justice-populations
+    - title: Environmental Justice Protocols and Resources (MEPA)
+      publisher: Massachusetts Environmental Policy Act Office
+      url: https://www.mass.gov/guides/environmental-justice-protocols-and-resources
+    - title: DPH Environmental Justice Tool
+      publisher: Massachusetts Department of Public Health, Bureau of Climate and Environmental Health
+      url: https://www.mass.gov/info-details/dph-environmental-justice-tool
+    - title: EJScreen Technical Documentation for Version 2.3
+      publisher: U.S. Environmental Protection Agency
+      url: https://www.epa.gov/system/files/documents/2024-07/ejscreen-tech-doc-version-2-3.pdf
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The four EJ criteria and the definition of a neighborhood are transcribed from St. 2021, c. 8,
+    section 56 and match the EEA and MassGIS pages (high confidence). Data sources and processing of
+    the 2020 layer are transcribed from the MassGIS page (last updated June 6, 2024) and the layer
+    metadata (high). MEPA's designated geographic area, EIR, advance notification, and language
+    rules are transcribed from the MEPA "Environmental Justice Protocols and Resources" guide page
+    (high); the guide summarizes 301 CMR 11.00 and the two MEPA EJ protocols, which were not
+    fetched (the protocols are PDF downloads), so read them before relying on a threshold. EEA
+    agency public participation items come from the June 24, 2021 EEA EJ Policy (high). The four
+    DPH vulnerable health EJ criteria are transcribed from the DPH EJ Tool page (high); the
+    tool's town data (dphanalytics.hhs.mass.gov) were not fetched. EJScreen column names come from
+    EPA's column list for the 2024 (version 2.3) state-percentile file, as copied in the EJAM
+    repository on GitHub, because EPA's own download host (gaftp.epa.gov) is blocked from this
+    network (medium confidence for the column list; high for the 80th percentile filter text from
+    EPA's technical documentation). The CDC/ATSDR Environmental Justice Index download
+    (eji.cdc.gov) could not be reached; only its description is included. The nursing uses listed
+    under how_to_use are this project's drafts (medium).
+
+sources:
+  eea-ej-populations:
+    title: Environmental Justice Populations in Massachusetts
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs
+    url: https://www.mass.gov/info-details/environmental-justice-populations-in-massachusetts
+    effective_date: null
+    retrieved: 2026-11-11
+  climate-roadmap-act:
+    title: St. 2021, c. 8 (An Act Creating a Next-Generation Roadmap for Massachusetts Climate Policy), section 56
+    publisher: Massachusetts General Court
+    url: https://malegislature.gov/Laws/SessionLaws/Acts/2021/Chapter8
+    effective_date: 2021-03-26
+    retrieved: 2026-11-11
+  massgis-ej-2020:
+    title: MassGIS Data, 2020 Environmental Justice Populations
+    publisher: MassGIS (Bureau of Geographic Information)
+    url: https://www.mass.gov/info-details/massgis-data-2020-environmental-justice-populations
+    effective_date: 2024-06-06
+    retrieved: 2026-11-11
+  eea-ej-faq-2022:
+    title: Environmental Justice Maps Update 2022, Frequently Asked Questions
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs
+    url: https://www.mass.gov/doc/environmental-justice-maps-update-2022-frequently-asked-questions/download
+    effective_date: null
+    retrieved: 2026-11-11
+  eea-ej-policy-2021:
+    title: Environmental Justice Policy of the Executive Office of Energy and Environmental Affairs (updated June 24, 2021)
+    publisher: Massachusetts Executive Office of Energy and Environmental Affairs
+    url: https://www.mass.gov/doc/environmental-justice-policy6242021-update/download
+    effective_date: 2021-06-24
+    retrieved: 2026-11-11
+  mepa-ej-guide:
+    title: Environmental Justice Protocols and Resources
+    publisher: Massachusetts Environmental Policy Act (MEPA) Office
+    url: https://www.mass.gov/guides/environmental-justice-protocols-and-resources
+    effective_date: null
+    retrieved: 2026-11-11
+  dph-ej-tool:
+    title: DPH Environmental Justice Tool
+    publisher: Massachusetts Department of Public Health, Bureau of Climate and Environmental Health
+    url: https://www.mass.gov/info-details/dph-environmental-justice-tool
+    effective_date: null
+    retrieved: 2026-11-11
+  ejscreen-techdoc:
+    title: EJScreen Technical Documentation for Version 2.3 (revised July 31, 2024)
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/system/files/documents/2024-07/ejscreen-tech-doc-version-2-3.pdf
+    effective_date: 2024-07-31
+    retrieved: 2026-11-11
+  ejscreen-columns:
+    title: EJScreen 2024 block group state percentiles, column names and descriptions (EPA file, as copied in the EJAM repository)
+    publisher: U.S. Environmental Protection Agency (copy kept by the EJAM project on GitHub)
+    url: https://raw.githubusercontent.com/ejanalysis/EJAM/main/data-raw/datafile_EJScreen_2024_BG_State_Percentiles_Columns.xlsx
+    effective_date: null
+    retrieved: 2026-11-11
+  cdc-eji:
+    title: Environmental Justice Index
+    publisher: Centers for Disease Control and Prevention / Agency for Toxic Substances and Disease Registry
+    url: https://www.atsdr.cdc.gov/place-health/php/eji/index.html
+    effective_date: 2024-12-02
+    retrieved: 2026-11-11
+
+criteria:
+  - code: M
+    label: Minority
+    statute: >-
+      (ii) minorities comprise 40 per cent or more of the population; or (iv) minorities comprise
+      25 per cent or more of the population and the annual median household income of the
+      municipality in which the neighborhood is located does not exceed 150 per cent of the
+      statewide annual median household income.
+    data: >-
+      Percent of residents other than non-Hispanic White alone, from the 2020 Census redistricting
+      data (table P2); the town's median household income from ACS 2016–2020 (table B19013).
+    note: >-
+      DPH's EJ Tool calls block groups that meet this criterion "communities of color" (C).
+  - code: I
+    label: Income
+    statute: >-
+      (i) the annual median household income is not more than 65 per cent of the statewide annual
+      median household income.
+    data: >-
+      Block group median household income, ACS 2016–2020 (table B19013, 2020 dollars); where the
+      2016–2020 estimate was blank, EEA used the 2015–2019 block group and state values.
+    note: >-
+      16 block groups with no income estimate could not be tested for this criterion and are not
+      designated for income (layer metadata).
+  - code: E
+    label: English isolation
+    statute: (iii) 25 per cent or more of households lack English language proficiency.
+    data: >-
+      Limited English speaking households (no member 14 or older speaks only English or speaks
+      English "very well"), ACS 2016–2020 (table C16002).
+    note: >-
+      These block groups are where translated materials and interpreters matter most for
+      outreach.
+
+criteria_source: climate-roadmap-act
+criteria_section: Section 56 (definitions added to M.G.L. c. 30, section 62)
+
+neighborhood_definition:
+  text: >-
+    A neighborhood is a census block group, excluding people who live in college dormitories and
+    people who are under formally authorized, supervised care or custody, including federal, state
+    or county prisons.
+  source: climate-roadmap-act
+  section: Section 56, "Neighborhood"
+  confidence: high
+
+secretary_designation:
+  text: >-
+    For a neighborhood that does not meet the criteria, the EEA Secretary may designate a geographic
+    portion that meets at least one criterion as an EJ population on the petition of at least 10
+    residents, and may decline to designate a neighborhood whose median household income is above
+    125 percent of the state median, where most adults 25 and older have a college education, that
+    does not bear an unfair burden of environmental pollution, and that has more than limited
+    access to natural resources.
+  source: climate-roadmap-act
+  section: Section 56, "Environmental justice population"
+  confidence: high
+
+layer_facts:
+  - text: >-
+      The 2020 EJ layer marks 2020 Census block groups that meet one or more criteria. It was built
+      from the 2020 Census (race and ethnicity) and ACS 2016–2020 (income and language) and released
+      in November 2022; block groups with fewer than 50 people were removed.
+    source: massgis-ej-2020
+    section: Production; Additional data adjustments
+    confidence: high
+  - text: >-
+      EEA says the layer should be used at the block group level so that environmental planning and
+      decision-making happen at the right geographic scale.
+    source: massgis-ej-2020
+    section: Overview
+    confidence: high
+  - text: >-
+      Block groups that cross a town line were split along it, and each part carries the whole
+      block group's attributes (coded split_for_muni = Y), so EEA's town statistics count the whole
+      block group's population in each town.
+    source: massgis-ej-2020
+    section: Production
+    confidence: high
+  - text: >-
+      The 2022 update raised the count of EJ block groups from 2,316 (46 percent) to 2,604 (51
+      percent of 4,985 block groups) and the people living in them from 3,100,468 to 3,487,681, in
+      187 municipalities.
+    source: eea-ej-faq-2022
+    section: What changes appear in the updated maps?
+    confidence: high
+  - text: >-
+      In June 2024 EEA GIS corrected one block group in Lowell that had been listed as in
+      Chelmsford.
+    source: massgis-ej-2020
+    section: Maintenance
+    confidence: high
+
+state_block_groups:
+  count: 4985
+  source: eea-ej-faq-2022
+  section: What changes appear in the updated maps? (total block groups in Massachusetts)
+
+what_designation_means:
+  - text: >-
+      MEPA's guidance says that, under the Climate Roadmap Act, a project with an EJ population (in
+      whole or in part) within its designated geographic area must submit an Environmental Impact
+      Report in accordance with 301 CMR 11.06(7)(b). The area is usually a 1-mile radius of the
+      project site, and a 5-mile radius for projects expected to exceed the review thresholds at
+      301 CMR 11.03(8)(a)-(b) or to generate 150 or more new average daily trips of diesel vehicle
+      traffic for a year or more. Read 301 CMR 11.06(7)(b) for which projects this covers.
+    source: mepa-ej-guide
+    section: EIR Requirement
+    confidence: medium
+  - text: >-
+      Such projects must also promote meaningful community outreach and engagement with EJ
+      populations, and projects at or above mandatory EIR thresholds (or seeking expedited review)
+      must send advance notice 45 to 90 days before filing to community-based organizations, tribes,
+      and indigenous organizations on MEPA's EJ Reference List. MEPA lists community health centers
+      among the local contacts proponents are encouraged to add.
+    source: mepa-ej-guide
+    section: EJ Outreach and Engagement; Advanced Notification
+    confidence: high
+  - text: >-
+      Projects that must file an EIR because of nearby EJ populations must assess climate change
+      effects on those populations. A project asking for a single or "rollover" EIR must include a
+      baseline assessment of existing conditions in the EJ populations, and MEPA names the DPH EJ
+      Tool and EPA EJScreen as resources for that baseline.
+    source: mepa-ej-guide
+    section: EIR Requirement; Climate Change
+    confidence: high
+  - text: >-
+      EEA agencies must run public participation programs for key actions that may affect EJ
+      populations, including translating public notices and key documents in areas with people of
+      limited English proficiency and offering interpreters at public meetings.
+    source: eea-ej-policy-2021
+    section: Enhancing Public Participation, item 15
+    confidence: high
+
+language_access:
+  - text: >-
+      For MEPA outreach, languages are first identified with EEA's Languages Spoken in MA map: at a
+      minimum, any language spoken by 5 percent or more of residents who do not speak English "very
+      well" in each census tract within the designated geographic area (MEPA still uses the 2015
+      ACS layer). When a language is spoken by more than 10 percent of limited-English residents in
+      a tract, MEPA recommends an oral interpreter at the meeting without advance request.
+    source: mepa-ej-guide
+    section: Language Translation and Interpretation
+    confidence: high
+  - text: >-
+      Because the maps cannot capture language at the block group level, MEPA asks proponents, as a
+      best practice, to consult local Boards of Health and school districts to identify additional
+      languages, such as Cape Verdean Creole (Portuguese Creole in Census data) and Haitian Creole
+      (French Creole in Census data).
+    source: mepa-ej-guide
+    section: Language Translation and Interpretation
+    confidence: high
+
+dph_vulnerable_health:
+  intro: >-
+    DPH's Vulnerable Health EJ Criteria identify EJ neighborhoods with evidence of higher-than-average
+    rates of environmentally related health outcomes. An EJ neighborhood is a vulnerable health EJ
+    neighborhood if it meets any one of the four criteria; the DPH EJ Tool shows the town rates.
+  criteria:
+    - name: Heart attack
+      criterion: >-
+        5-year average age-adjusted rate of hospitalizations for myocardial infarction equal to or
+        greater than 110 percent of the state rate.
+    - name: Childhood blood lead
+      criterion: >-
+        5-year average prevalence of elevated childhood blood lead levels (5 µg/dL or more,
+        estimated confirmed; ages 9 to 47 months) equal to or greater than 110 percent of the state
+        prevalence.
+    - name: Low birth weight
+      criterion: >-
+        5-year average low birth weight rate among full-term births equal to or greater than 110
+        percent of the state rate.
+    - name: Childhood asthma
+      criterion: >-
+        5-year average rate of emergency department visits for asthma among children 5 to 14 years
+        old equal to or greater than 110 percent of the state rate.
+  source: dph-ej-tool
+  section: Vulnerable health EJ criteria
+  confidence: high
+
+how_to_use:
+  - text: >-
+      Use the EJ block groups and their criteria to decide where to focus outreach, which languages
+      to plan for, and where cumulative environmental burdens deserve a closer look; DPH describes
+      its EJ Tool for identifying communities vulnerable to environmental health inequities and
+      guiding outreach.
+    source: dph-ej-tool
+    section: Introduction
+    confidence: medium
+  - text: >-
+      When a MEPA project is proposed near an EJ population, the local board of health can supply
+      local knowledge for the baseline public health assessment and help identify languages for
+      notices and meetings.
+    source: mepa-ej-guide
+    section: Language Translation and Interpretation; EIR Requirement
+    confidence: medium
+
+ejscreen:
+  status: >-
+    EPA removed EJScreen from its website in 2025 (www.epa.gov/ejscreen no longer answers) and no
+    longer maintains it. This server
+    does not bundle EJScreen data: EPA's download site and the public archives that hold copies
+    could not be reached from the build network. If you have an archived copy of the EJScreen 2.3
+    (2024) block group CSV, save it (or just the Massachusetts rows) in /data and pass it as
+    ejscreen_path.
+  status_confidence: medium
+  where_to_get: >-
+    Archived copies of the 2024 (version 2.3) block group files, such as
+    EJScreen_2024_BG_StatePct_with_AS_CNMI_GU_VI.csv (state percentiles) or
+    EJScreen_2024_BG_with_AS_CNMI_GU_VI.csv (national percentiles), are kept by public data
+    archives (for example the Public Environmental Data Partners and university data
+    repositories). Keep the Massachusetts rows (ID starting with 25 or ST_ABBREV = MA) to make
+    the file small.
+  id_column: ID
+  population_column: ACSTOTPOP
+  indicators:
+    - {column: P_PM25, label: Particulate matter 2.5, kind: environmental}
+    - {column: P_OZONE, label: Ozone, kind: environmental}
+    - {column: P_NO2, label: Nitrogen dioxide (NO2), kind: environmental}
+    - {column: P_DSLPM, label: Diesel particulate matter, kind: environmental}
+    - {column: P_RSEI_AIR, label: Toxic releases to air, kind: environmental}
+    - {column: P_PTRAF, label: Traffic proximity, kind: environmental}
+    - {column: P_LDPNT, label: Lead paint (housing built before 1960), kind: environmental}
+    - {column: P_PNPL, label: Superfund proximity, kind: environmental}
+    - {column: P_PRMP, label: RMP facility proximity, kind: environmental}
+    - {column: P_PTSDF, label: Hazardous waste proximity, kind: environmental}
+    - {column: P_UST, label: Underground storage tanks, kind: environmental}
+    - {column: P_PWDIS, label: Wastewater discharge, kind: environmental}
+    - {column: P_DWATER, label: Drinking water non-compliance, kind: environmental}
+    - {column: P_D2_PM25, label: Particulate matter 2.5 EJ Index, kind: ej_index}
+    - {column: P_D2_OZONE, label: Ozone EJ Index, kind: ej_index}
+    - {column: P_D2_NO2, label: Nitrogen dioxide EJ Index, kind: ej_index}
+    - {column: P_D2_DSLPM, label: Diesel particulate matter EJ Index, kind: ej_index}
+    - {column: P_D2_RSEI_AIR, label: Toxic releases to air EJ Index, kind: ej_index}
+    - {column: P_D2_PTRAF, label: Traffic proximity EJ Index, kind: ej_index}
+    - {column: P_D2_LDPNT, label: Lead paint EJ Index, kind: ej_index}
+    - {column: P_D2_PNPL, label: Superfund proximity EJ Index, kind: ej_index}
+    - {column: P_D2_PRMP, label: RMP facility proximity EJ Index, kind: ej_index}
+    - {column: P_D2_PTSDF, label: Hazardous waste proximity EJ Index, kind: ej_index}
+    - {column: P_D2_UST, label: Underground storage tanks EJ Index, kind: ej_index}
+    - {column: P_D2_PWDIS, label: Wastewater discharge EJ Index, kind: ej_index}
+    - {column: P_D2_DWATER, label: Drinking water non-compliance EJ Index, kind: ej_index}
+    - {column: P_DEMOGIDX_2, label: Demographic Index, kind: demographic}
+    - {column: P_LOWINCPCT, label: Percent low income, kind: demographic}
+    - {column: P_LINGISOPCT, label: Percent limited English speaking households, kind: demographic}
+  indicators_source: ejscreen-columns
+  filter:
+    text: >-
+      EPA's suggested starting point for screening was any of the 13 EJ Indexes at or above the 80th
+      percentile nationally, as a candidate for further review. EPA states that the filter does not
+      designate an area as an "EJ community" and that EJScreen gives screening-level indicators,
+      not a determination of environmental justice concerns.
+    source: ejscreen-techdoc
+    section: Initial Filter Approach for Screening
+    confidence: high
+  percentile_note:
+    text: >-
+      A high percentile means a value is relatively uncommon; it is not necessarily a real concern
+      from a health or legal perspective.
+    source: ejscreen-techdoc
+    section: Color-coded High Percentile Bins
+    confidence: high
+
+eji:
+  text: >-
+    The CDC/ATSDR Environmental Justice Index ranks every census tract on 36 environmental, social,
+    and health factors grouped into three modules and ten domains to measure the cumulative impacts
+    of environmental burden on health. Its data download (eji.cdc.gov) could not be reached from
+    the build network, so it is not bundled; use the EJI Explorer or download it from the EJI page.
+  source: cdc-eji
+  section: At a glance; Overview
+  confidence: high

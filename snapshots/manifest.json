@@ -1380,6 +1380,173 @@
           "rows": 341
         }
       ]
+    },
+    {
+      "id": "ma-ej-2020",
+      "title": "Massachusetts 2020 Environmental Justice Population block groups, municipal EJ statistics, and 2020 Census town population",
+      "publisher": "Massachusetts Executive Office of Energy and Environmental Affairs (EEA GIS) via MassGIS; U.S. Census Bureau 2020 Census town counts via MassGIS",
+      "source_urls": [
+        "https://www.mass.gov/info-details/massgis-data-2020-environmental-justice-populations",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/ej2020.zip",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/EJ%202020%20updated%20municipal%20statistics%20Nov2022..xlsx",
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/census2020/CENSUS2020TOWNS_SHP.zip"
+      ],
+      "source_sha256": {
+        "ej2020.zip": "22b46b021a10cf7bc5e20333a6191be3343260e61480a7ebcb978ea449ec8275",
+        "CENSUS2020TOWNS_SHP.zip": "b3432e042edd71a718241bab36907c5893480b94ec1ac327b1e84159cec28876",
+        "EJ 2020 updated municipal statistics Nov2022..xlsx": "9c2e75d563b32ec8d49da2001f7356c1fcd977cd8d84c6fa8895e9709d92061f"
+      },
+      "source_vintage": "EJ layer: 2020 Census (race and ethnicity, table P2) and ACS 2016–2020 (income B19013, limited English households C16002), EEA update released November 2022; MassGIS page last updated June 6, 2024 (one Lowell/Chelmsford block group fix). Municipal statistics: November 2022 update. Town population: 2020 Census.",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts state government data (MassGIS public download); U.S. Census Bureau data (public domain).",
+      "derivation": "EJ_POLY.dbf/.shp from ej2020.zip: every polygon (2,604; three block groups split at town lines appear once per town with the whole block group's attributes, as in the source). Kept: GEOID, municipality, split flag, total population, percent minority, households, limited English households and percent, block group median household income and its percent of the state median, the 2019-income flag, the town's median income as a percent of the state's, and the criteria code (M, I, E). Geometry projected as published (NAD83 / Massachusetts Mainland, EPSG:26986), simplified with Douglas–Peucker (15 m, each polygon on its own), quantized to 10 m, and delta-encoded like ma_boundaries_*.csv. Towns: every city and town with its 2020 Census population and housing units (CENSUS2020TOWNS_POLY POP2020, HOUSING20) and EEA's municipal statistics (criteria, EJ and total block groups, population in EJ block groups, total population, percent) for the 187 towns with EJ block groups. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Block groups are 2020 Census geography; income and language come from ACS 2016–2020 estimates, which have sampling error. EJ designation can change when EEA updates the layer.",
+        "Polygons are simplified for town-scale maps; adjacent block groups can show small gaps or overlaps. Use the EEA EJ Maps Viewer for parcel-level questions.",
+        "The layer has Chelmsford with 6 EJ block groups (9,220 people); EEA's municipal statistics table lists 5 (8,362). The layer is the newer file (June 2024).",
+        "EEA's 'total population' in the municipal statistics differs slightly from the 2020 Census town count for some towns."
+      ],
+      "files": [
+        {
+          "path": "ma_ej_2020_block_groups.csv",
+          "sha256": "b474cb9af4feb85394ee8adf3732997def5f8b902b274c4e28a056e767c22c2f",
+          "bytes": 429601,
+          "rows": 2604
+        },
+        {
+          "path": "ma_ej_2020_towns.csv",
+          "sha256": "e6ec87deaf149695298d50bfdac4fb7c245148ab0f81a1cc0818abf04f7c2a41",
+          "bytes": 19464,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "cdc-heat-health-index-2024-ma",
+      "title": "CDC/ATSDR Heat and Health Index (HHI) 2024, Massachusetts ZIP Code Tabulation Areas",
+      "publisher": "Centers for Disease Control and Prevention / Agency for Toxic Substances and Disease Registry, with HHS Office of Climate Change and Health Equity",
+      "source_urls": [
+        "https://www.atsdr.cdc.gov/place-health/php/hhi/index.html",
+        "https://www.atsdr.cdc.gov/place-health/media/files/2024/08/HHI_Data.zip",
+        "https://www.atsdr.cdc.gov/place-health/media/pdfs/2024/07/HHI-2024-Release-Technical-Documentation-508.pdf"
+      ],
+      "source_sha256": {
+        "HHI_Data.zip": "5a5d37be873a741f2096c93a6793688496b063f3dd1ad45c25cf4d420767e4f1"
+      },
+      "source_vintage": "HHI 2024 release (data file dated June 2024): extreme heat days 2018–2022 (NLDAS-2 via the Tracking Network), heat-related EMS activations 2020–2022 (NEMSIS), PLACES 2023, ACS 2015–2019, NLCD 2021 impervious surface and tree canopy, 2010 ZCTAs.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government work (public domain).",
+      "derivation": "Rows of 'HHI Data 2024 United States.xlsx' with STATEFP10 = 25 (533 ZCTAs). Kept: ZCTA, population, P_NEHD (5-year average number of extreme heat days, days above the ZCTA's 95th percentile of 1991–2020 temperatures), PR_NEHD, PR_HRI, the four module ranks and OVERALL_RANK (national percentile ranks, 0–1), P_IMPERV and PR_IMPERV, P_TREEC and PR_TREEC (tree canopy ranked so that less canopy ranks higher). -999 (no data) is stored as blank. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Extreme heat days are relative to each ZCTA's own temperature history and come from modeled (NLDAS-2) temperatures, not weather stations.",
+        "Values are for ZIP Code Tabulation Areas, not towns; town values in this server are land-area-weighted averages of the ZCTAs that overlap the town.",
+        "Percentile ranks are national; they show relative, not absolute, heat vulnerability."
+      ],
+      "files": [
+        {
+          "path": "ma_heat_health_index_2024.csv",
+          "sha256": "8335c7e316d591cc9d195ad3a10295e2bf744238f9a25a2f2cfab2c7efd08811",
+          "bytes": 44842,
+          "rows": 533
+        }
+      ]
+    },
+    {
+      "id": "fema-nfip-ma",
+      "title": "National Flood Insurance Program (NFIP): Massachusetts claims by city or town and the Community Status Book",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v3/NfipClaims?$filter=state%20eq%20%27MA%27",
+        "https://www.fema.gov/api/open/v1/NfipCommunityStatusBook?$filter=state%20eq%20%27MA%27&$top=1000",
+        "https://www.fema.gov/openfema-data-page/nfip-redacted-claims-v3",
+        "https://www.fema.gov/openfema-data-page/nfip-community-status-book-v1"
+      ],
+      "source_sha256": {
+        "NfipCommunityStatusBook (MA, JSON)": "be204d3bb7b168fd53530421e973c652e44e23922afc7f42a18db74af8680ddc",
+        "NfipClaims v3 (MA, JSON pages)": "3b49e5f6275b3ce3094fd25002efd9488349946d72c84b7e8f263bc59bea84ee"
+      },
+      "source_vintage": "OpenFEMA NfipClaims v3 (as of 2026-09-08 in the data; claims with years of loss 1978–2026) and NfipCommunityStatusBook v1 (refreshed 2026-08-25), as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (OpenFEMA; FEMA asks that it not be presented as FEMA-endorsed).",
+      "derivation": "Claims: every Massachusetts row of NfipClaims v3 (35375 claims). Each claim is assigned to a city or town by its NFIP rated community number matched to the Community Status Book (35150), else by the tract of its census block group (161); 64 could not be placed. Per town: claims, claims with any payment, total paid (building + contents + increased cost of compliance, nominal dollars), claims and payments with year of loss in the last ten complete years (recent_from–recent_to), first year of loss, and the year with the most claims. Community Status Book: every Massachusetts community as published (participation, current effective map date, Community Rating System class and discount, sanction). Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "Claims count insured flood losses only; places with few flood insurance policies can have real flood damage and few claims.",
+        "Dollar amounts are not adjusted for inflation.",
+        "The Community Status Book is fetched live by the tool when OpenFEMA can be reached; this copy is the fallback."
+      ],
+      "files": [
+        {
+          "path": "fema_nfip_community_status_ma.csv",
+          "sha256": "52a3be45c14793d4ddc4cb45c374467d50a6afc5bc35e004dd2426fa7c489205",
+          "bytes": 29363,
+          "rows": 350
+        },
+        {
+          "path": "fema_nfip_claims_ma_towns.csv",
+          "sha256": "c9fd2214347f4bfbb970e889c1a8312fe6d5082c2719fab09fad28ca924d73d7",
+          "bytes": 17084,
+          "rows": 351
+        }
+      ]
+    },
+    {
+      "id": "fema-hazard-mitigation-plans-ma",
+      "title": "FEMA hazard mitigation plan statuses for Massachusetts jurisdictions",
+      "publisher": "Federal Emergency Management Agency (OpenFEMA)",
+      "source_urls": [
+        "https://www.fema.gov/api/open/v1/HazardMitigationPlanStatuses?$filter=stateAbbreviation%20eq%20%27MA%27&$top=1000",
+        "https://www.fema.gov/openfema-data-page/hazard-mitigation-plan-statuses-v1"
+      ],
+      "source_sha256": {
+        "HazardMitigationPlanStatuses (MA, JSON)": "651fd6638f0bbc97d9da7c7d47dc9258ff2bdfdcaafba023b7660fac97a5b48d"
+      },
+      "source_vintage": "OpenFEMA HazardMitigationPlanStatuses v1 as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (OpenFEMA; FEMA asks that it not be presented as FEMA-endorsed).",
+      "derivation": "Every Massachusetts row (one per plan and jurisdiction): plan id, jurisdiction GEOID, place name, county, jurisdiction type, NFIP community number, plan title and type, plan and jurisdiction status, approval, expiration, adoption, and jurisdiction approval dates (YYYY-MM-DD). Columns keep the OpenFEMA field names so the tool reads this copy and the live API the same way. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "The tool fetches this dataset live when OpenFEMA can be reached; this copy is the fallback and can be out of date.",
+        "A town can appear in several plans (its own and regional or county plans)."
+      ],
+      "files": [
+        {
+          "path": "fema_hazard_mitigation_plans_ma.csv",
+          "sha256": "e46cb83a328fe6c868c5c6b24e594b92708bb7f0b415cf52f7b1d44f4f70d7c8",
+          "bytes": 86811,
+          "rows": 470
+        }
+      ]
+    },
+    {
+      "id": "ma-mvp-communities",
+      "title": "Massachusetts Municipal Vulnerability Preparedness (MVP) program: regions, planning reports, and MVP 2.0 pilot communities",
+      "publisher": "Massachusetts Executive Office of Energy and Environmental Affairs (mass.gov)",
+      "source_urls": [
+        "https://www.mass.gov/info-details/contact-your-mvp-regional-coordinator",
+        "https://www.mass.gov/info-details/municipal-vulnerability-preparedness-mvp-program-planning-reports",
+        "https://www.mass.gov/lists/mvp-community-snapshots"
+      ],
+      "source_sha256": {
+        "contact-your-mvp-regional-coordinator.html": "f7fb2d968dca54ba880ac639716a50e893692d53181e349970287e3b62f8edc4",
+        "municipal-vulnerability-preparedness-mvp-program-planning-reports.html": "ebdaf07c19d1cabcb106b7efc3b65a3c6ec625159353c5c0b5f7a49b3618fd04",
+        "mvp-community-snapshots.html": "bc0c634ee1aa6dd8b05b8dd8b7f35e42ce8c63ae51496fc72bd9b43667274187"
+      },
+      "source_vintage": "mass.gov pages as served 2026-11-11.",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts state government web content.",
+      "derivation": "Region: the town lists under 'Cities and Towns in the ... Region' on the regional coordinator page ('Manchester' read as Manchester-by-the-Sea; Chester and Warwick are not listed). Planning reports: titles of the report links on the planning reports page that name the town as a whole word (appendices and later parts of multi-part reports skipped); 'designated through prior work' is the page's asterisk note. MVP 2.0 pilot: towns on the MVP Community Snapshots list (FY24 MVP 2.0 Action Grant pilot round). Coordinator names and contact details are not kept. Builder: xtask/scripts/build_ejclimate_snapshots.py.",
+      "caveats": [
+        "mass.gov does not publish a list of designated MVP communities; a missing planning report does not mean a town is not an MVP community. Confirm with your MVP regional coordinator (mvp@mass.gov).",
+        "Titles are matched by town name; joint and regional reports are listed for each town they name."
+      ],
+      "files": [
+        {
+          "path": "ma_mvp_communities.csv",
+          "sha256": "603710f4e56c89fa7947352e1089d9a7f822892e95a44b4ede9bc3be16819050",
+          "bytes": 22367,
+          "rows": 351
+        }
+      ]
     }
   ]
 }
