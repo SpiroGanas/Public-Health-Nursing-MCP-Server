@@ -41,8 +41,12 @@ jobs:
           cache-to: type=gha,mode=max
       # Scan that local image. A critical or high finding with a fix available
       # stops the release here, before the registry is touched.
+      # Deliberately unpinned (master): old trivy-action tags break when the
+      # actions they depend on are retagged (v0.28.0 needed setup-trivy@v0.2.1,
+      # which no longer exists). Pin a tag or commit SHA if a change upstream
+      # ever breaks a release.
       - name: Vulnerability scan (local image)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: phn-mcp-server:scan
           severity: CRITICAL,HIGH
