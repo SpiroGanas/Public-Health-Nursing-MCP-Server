@@ -1380,6 +1380,157 @@
           "rows": 341
         }
       ]
+    },
+    {
+      "id": "epa-sdwis-ma",
+      "title": "EPA Safe Drinking Water Information System (SDWIS/Fed): Massachusetts public water systems, violations, and lead and copper 90th percentiles",
+      "publisher": "U.S. Environmental Protection Agency (Envirofacts SDWIS data service); data reported by MassDEP",
+      "source_urls": [
+        "https://data.epa.gov/efservice/WATER_SYSTEM/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/VIOLATION/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/LCR_SAMPLE_RESULT/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/LCR_SAMPLE/PRIMACY_AGENCY_CODE/MA/CSV",
+        "https://data.epa.gov/efservice/WATER_SYSTEM/PRIMACY_AGENCY_CODE/01/CSV",
+        "https://data.epa.gov/dmapservice/sdwis.ref_code_value/CSV",
+        "https://www.epa.gov/enviro/envirofacts-data-service-api"
+      ],
+      "source_sha256": {
+        "water_system_ma.csv": "f5df3021034f47fc49e095127b0f4c0fd18b9492854402fead4e194de965fc54",
+        "water_system_01.csv": "b99334b442337e9455861219c4121677519ef1410a4b60cea6fae1ef9449855e",
+        "violation_ma.csv": "ec886c0a673059a0bff31213c91b0fd03d05ae6a6f6ac0ae93313938e3c1e1bc",
+        "violation_010307001.csv": "4946b8306f07b52bdcf5379a5894935da06dacfec9caf0b8e183f02a837a3618",
+        "lcr_sample_result_ma.csv": "713f0d3e99cf874f7507e7e75c1295057d46ace16e0e61b833ad0575a6e51f36",
+        "lcr_sample_ma.csv": "1c01a73fee855140ccd1c70e3c0e8039dba4d8c97dcf948e5365df3310f8ce80",
+        "lcr_sample_result_010307001.csv": "4d2544a606253fb194359edf94d0a1579dbfaf6697a75d7ac901f7e11eb3605c",
+        "lcr_sample_010307001.csv": "aea4465c49ecb46659e81b371b6fb63d2b2d4f8ce35d5b742d383a7680ee911d",
+        "ref_code_value.csv": "91574fff73a03b6df753617570d21d7ba8ad07e0a3346efeb1c9732e2a07ecea"
+      },
+      "source_vintage": "SDWIS/Fed as served by Envirofacts on 2026-11-11 (quarterly federal data; latest violation compliance periods in 2026)",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (public domain).",
+      "derivation": "Active systems with primacy agency MA, plus tribal systems in Massachusetts (primacy EPA Region 1; one: the Aquinnah Wampanoag system, assigned to Aquinnah from its name). Town = alphabetical MassGIS town number in PWSID digits 4-6 (matches SDWIS city served for every active system; Manchester is Manchester-by-the-Sea). Kept: PWSID, system name, type, town, population served, service connections, primary source, owner type, wholesaler and school/child care flags. Operator names, emails, phone numbers, and addresses are not kept. Violations: compliance periods beginning 2016-01-01 or later. Lead and copper: PB90/CU90 results joined to their monitoring period by PWSID and sample id, periods ending 2016-01-01 or later. Codes: violation, category, contaminant, rule, source, type, owner, and compliance status code descriptions. Builder: xtask/scripts/build_water_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "SDWIS/Fed is updated quarterly from state reports; recent violations and results can be missing or revised. MassDEP is the authority for current compliance.",
+        "Population served is reported by each system and can include seasonal or non-resident populations, or be out of date.",
+        "A system is listed under the town in its PWSID; a system can also serve parts of neighboring towns."
+      ],
+      "files": [
+        {
+          "path": "ma_water_systems.csv",
+          "sha256": "3a492b048750359dc73d45f2aca630f9b8fa10dd003c7f96e688642ca9446ce8",
+          "bytes": 109887,
+          "rows": 1613
+        },
+        {
+          "path": "ma_water_violations.csv",
+          "sha256": "4af0d09b773890c47e5ece2573834c42be7850a524dbcb00b25597517f76e6de",
+          "bytes": 409934,
+          "rows": 6903
+        },
+        {
+          "path": "ma_water_lead_copper.csv",
+          "sha256": "5880ee6d10f0a6512276444636661b7eb098e4fd0a29ef1c55c8502851d92aa4",
+          "bytes": 224490,
+          "rows": 5262
+        },
+        {
+          "path": "sdwis_codes.csv",
+          "sha256": "de5f4e6456c7e6d5b17adba02d679ae5e66ea9bda2739353185dac5d40a7c595",
+          "bytes": 33999,
+          "rows": 878
+        }
+      ]
+    },
+    {
+      "id": "massdep-pfas6-ma",
+      "title": "MassDEP PFAS6 results for finished drinking water, public water systems (EEA Data Portal)",
+      "publisher": "Massachusetts Department of Environmental Protection, Drinking Water Program (Executive Office of Energy and Environmental Affairs Data Portal)",
+      "source_urls": [
+        "https://eeaonline.eea.state.ma.us/EEA/DataLake/V1.0/DataLakeAPI/drinkingWater?ChemicalName=PFAS6&RaworFinished=F&FromCollectedDate=2024-11-11",
+        "https://eeaonline.eea.state.ma.us/portal#!/search/drinking-water"
+      ],
+      "source_sha256": {
+        "pfas6_0.json": "f63dbf0816c00adaad7b158079e71826831cbc0f9500481b43a2bf7b79630ac7",
+        "pfas6_5000.json": "209cafeaf2db39515f277cb43861e041607ca0bc7331d63257c3aa0cfea8a2f7"
+      },
+      "source_vintage": "finished-water PFAS6 results collected 2024-11-11 to 2026-11-11, as posted on 2026-11-11",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts public records (EEA Data Portal).",
+      "derivation": "Every PFAS6 result for finished (treated) water collected in the 24 months before the build date. Kept: PWSID (with MA prefix), collection date, sampling location code and name, result in ng/L or ND. Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "Single results are not compliance determinations: MassDEP computes PFAS6 compliance from the average of monthly samples over a quarter at each sampling location (310 CMR 22.07G).",
+        "Consecutive systems that buy water may have no results of their own; the seller's results apply to the purchased water."
+      ],
+      "files": [
+        {
+          "path": "ma_water_pfas6.csv",
+          "sha256": "b4b7ba0a5633681e116b7b8c206e934a3f1639941e21c43e4296b69263fe2efd",
+          "bytes": 290275,
+          "rows": 5123
+        }
+      ]
+    },
+    {
+      "id": "cdc-mwf-ma",
+      "title": "CDC My Water's Fluoride: Massachusetts Fluoridation Status Report (2025), Average Fluoride Levels by Month (2025), and Monthly Summary Report (November 2025)",
+      "publisher": "Centers for Disease Control and Prevention, Division of Oral Health (Water Fluoridation Reporting System); data reported by the Massachusetts Department of Public Health",
+      "source_urls": [
+        "https://nccd.cdc.gov/doh_mwf/Reports/FlStatus_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Reports/AvgFlLevel_Month_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Reports/Summary_Rpt.aspx",
+        "https://nccd.cdc.gov/doh_mwf/Default/Default.aspx"
+      ],
+      "source_sha256": {},
+      "source_vintage": "Fluoridation Status Report for 2025 and Monthly Summary Report for November 2025, as served on 2026-11-11",
+      "retrieved": "2026-11-11",
+      "license": "U.S. federal government data (public domain).",
+      "derivation": "Fluoridation Status Report (all water systems, optional columns Status and Water Source) for the latest year: every community water system with population served, fluoridated (Yes/No), status (Adjusted, Consecutive, Natural, Non-Adjusted), and water source. Each record is matched to an active SDWIS system (same PWSID; same digits with a different region digit and a similar name; or the same name) and a town (the matched system's town; for a record naming part of a town, that town; else a town named in the record or the PWSID town number). Where two records match one SDWIS system, the one whose PWSID differs is labeled a duplicate. Annual average fluoride level (mg/L) from the Average Fluoride Levels by Month report for adjusted systems. Monthly summary: systems and population by status. Source checksums are not recorded: the pages embed a per-session form state. Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "My Water's Fluoride is state-reported, not real time; values may be targets rather than test results. Some records carry outdated PWSIDs or duplicate a system with a different status.",
+        "The best source of the current fluoride level is the local water system."
+      ],
+      "files": [
+        {
+          "path": "ma_fluoridation_systems.csv",
+          "sha256": "52c456fb17f7805fa98bdd5db56c63258b8503126db6a42f26a979c572ef7394",
+          "bytes": 63203,
+          "rows": 575
+        },
+        {
+          "path": "ma_fluoridation_summary.csv",
+          "sha256": "417f333c76529ba5f0d301f4640e9bb41817bbeb61fa9af0ba077acbdd62fd39",
+          "bytes": 508,
+          "rows": 14
+        }
+      ]
+    },
+    {
+      "id": "dph-fluoridation-towns",
+      "title": "2023 List of Massachusetts Cities/Towns by Community Water Fluoridation Status",
+      "publisher": "Massachusetts Department of Public Health, Office of Oral Health",
+      "source_urls": [
+        "https://www.mass.gov/files/csv/2024-01/cities-and-towns-fluoride-population-2023-update%20-%20Copy.csv",
+        "https://www.mass.gov/info-details/community-water-fluoridation-status"
+      ],
+      "source_sha256": {
+        "dph_fluoridation_2023.csv": "e9d9cda99415eb0271e07e2e3d788c5a72206eea624bdfca2137fe427612d8f7"
+      },
+      "source_vintage": "2023 water fluoridation status (CSV posted January 2024); populations are 2016-2020 ACS estimates",
+      "retrieved": "2026-11-11",
+      "license": "Massachusetts public records (mass.gov).",
+      "derivation": "The DPH CSV as published: town (asterisk = receives fluoridated water from the MWRA, kept as mwra = Y), status (Fully Fluoridated, Partially Fluoridated, Non-Fluoridated), population, year fluoridation began, and DPH's additional information. Ten towns have two rows (a partially fluoridated part and the rest of the town). Builder: xtask/scripts/build_water_snapshots.py.",
+      "caveats": [
+        "DPH notes that the current status of some fluoridated communities may differ because of a temporary suspension of fluoridation.",
+        "The list reflects 2023; towns that changed status since then are not shown as changed."
+      ],
+      "files": [
+        {
+          "path": "ma_fluoridation_towns.csv",
+          "sha256": "8319e07961a0e37625340c751ded16caf720966c573e3bb65ddd02074562048b",
+          "bytes": 29451,
+          "rows": 361
+        }
+      ]
     }
   ]
 }
