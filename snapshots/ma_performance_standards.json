@@ -777,7 +777,7 @@
   },
   {
    "id": "WF-POS-02",
-   "position": "Management / Agent",
+   "position": "Management / agent",
    "required_at_hire": [
     "Registered Sanitarian (RS) or equivalent eligible"
    ],
@@ -793,7 +793,7 @@
   },
   {
    "id": "WF-POS-03",
-   "position": "Inspector / Environmental Health Specialist",
+   "position": "Inspector / environmental health specialist",
    "required_at_hire": [
     "High School Diploma or equivalent"
    ],
@@ -809,7 +809,7 @@
   },
   {
    "id": "WF-POS-04",
-   "position": "Public Health Nurse",
+   "position": "Public health nurse",
    "required_at_hire": [
     "Bachelor of Science in Nursing (BSN)",
     "Registered Nurse (RN), current MA license"
@@ -824,7 +824,7 @@
   },
   {
    "id": "WF-POS-05",
-   "position": "Clerical Staff",
+   "position": "Clerical staff",
    "required_at_hire": [
     "Microsoft Office (or similar) applications"
    ],
@@ -837,7 +837,7 @@
   },
   {
    "id": "WF-POS-06",
-   "position": "Board Of Health Member **",
+   "position": "Board of health member",
    "required_at_hire": [],
    "required_after_hire": [],
    "recommended_after_hire": [

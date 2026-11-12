@@ -1,0 +1,7 @@
+ID,Standard,Status,Delivered by,Priority,Lead Person,Lead Phone,Lead Email,Notes
+PS-ADM-001,Submit annual report to city council,met,own,,Ignatius Faircloth,413-555-0146,ignatius.faircloth@example.org,Report filed each spring
+PS-DIS-002,Use powers and duties of boards of health to control cases of infectious diseases,partial,shared,high,Marguerite Oyelowo-Brandt,413-555-0147,marguerite.oyelowobrandt@example.org,Nurse covers two days a week
+PS-DIS-003,Warrants to remove persons infected with dangerous disease,not_met,,,Ignatius Faircloth,413-555-0146,ignatius.faircloth@example.org,No written procedure yet
+FPHS-01.01,Develop and maintain an assessment and analysis infrastructure,not_met,shared,,Marguerite Oyelowo-Brandt,413-555-0147,marguerite.oyelowobrandt@example.org,Ask the district epidemiologist
+WF-POS-04,Public Health Nurse: required credentials and training,met,own,,Ignatius Faircloth,413-555-0146,ignatius.faircloth@example.org,
+STAT-10,Public health nursing services,partial,own,medium,Marguerite Oyelowo-Brandt,413-555-0147,marguerite.oyelowobrandt@example.org,One nurse for three towns

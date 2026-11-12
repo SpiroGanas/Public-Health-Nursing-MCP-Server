@@ -142,12 +142,14 @@ phab:
       confidence: low
   match_rules:
     strong: "Two or more different cues in one section of one document, or cues in three or more different sections or documents."
-    some: "One cue in a section, or two cues in different documents."
+    some: "At least one cue found in a section of a document, or a file name that names the kind of document (for example Strategic Plan)."
     none: "No cue found in the indexed documents."
     note: >-
       The index holds the first sections of each document as text (PDF pages, DOCX or Markdown
       headings). Matches are a starting point for the person who knows the documents: confirm each
       against the PHAB measure's documentation requirements and the document's date and approval.
+      Passages are not shown from a document that holds phone numbers, email addresses, or street
+      addresses, and files that look like client records or interview transcripts are not used.
 
 domains:
   - id: 1

@@ -11502,6 +11502,42 @@
    "kind": "email",
    "file": "data/program_outcomes_long.csv",
    "column": "Reporter Email"
+  },
+  {
+   "value": "Ignatius Faircloth",
+   "kind": "name",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Person"
+  },
+  {
+   "value": "Marguerite Oyelowo-Brandt",
+   "kind": "name",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Person"
+  },
+  {
+   "value": "413-555-0146",
+   "kind": "phone",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Phone"
+  },
+  {
+   "value": "413-555-0147",
+   "kind": "phone",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Phone"
+  },
+  {
+   "value": "ignatius.faircloth@example.org",
+   "kind": "email",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Email"
+  },
+  {
+   "value": "marguerite.oyelowobrandt@example.org",
+   "kind": "email",
+   "file": "data/fphs_assessment.csv",
+   "column": "Lead Email"
   }
  ]
 }

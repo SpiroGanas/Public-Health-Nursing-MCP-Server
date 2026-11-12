@@ -171,6 +171,16 @@ def mandates(rows, code):
     return out
 
 
+def position_name(a):
+    """Position label without footnote asterisks; all-capital labels in sentence case."""
+    a = a.strip("* ").strip()
+    if a.isupper():
+        a = a.capitalize()
+    elif a.endswith("Member") or a.isupper():
+        pass
+    return a
+
+
 def bullets(s):
     items = []
     for line in re.split(r"\n", s or ""):
@@ -210,7 +220,7 @@ def workforce(rows):
             positions.append(
                 {
                     "id": f"WF-POS-{n:02d}",
-                    "position": a_c.title() if a_c.isupper() else a_c,
+                    "position": position_name(a_c),
                     "required_at_hire": bullets(b),
                     "required_after_hire": bullets(c),
                     "recommended_after_hire": bullets(d),

@@ -259,6 +259,9 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `assess_foundational_public_health_services` | LEAD-03 | leadership | Gap analysis against the Massachusetts local public health standards (G.L. c. 111, s. 27D; DPH's Performance Standards, workforce standards) and the Foundational Public Health Services framework: you record each status, it returns the gap table, a three-tier priority view, and shared-service options (including your town's DPH-listed arrangement), and writes a worksheet and report (DOCX/XLSX). |
+| `phab_accreditation_crosswalk` | LEAD-04 | leadership | Maps your own policies, plans, and reports to the 20 standards in 10 domains of PHAB Version 2022 with the document index: strong, some, or no evidence per standard, 20-word passages, gaps, optional measure-level mapping from your own list; client files are never used. DOCX/XLSX crosswalk. |
+| `build_strategic_plan` | LEAD-05 | leadership | Scaffolds a strategic plan from your content: SWOT or SOAR, an accessible stakeholder power and interest grid, priorities, goals, objectives, and strategies linked to your CHIP, blank checks, and a draft DOCX; PHAB requirements are reported as unverified. |
 <!-- Phase 18 strategy rows go above this line. -->
 <!-- Phase 18 workforce rows go above this line. -->
 <!-- Phase 18 ethics rows go above this line. -->
