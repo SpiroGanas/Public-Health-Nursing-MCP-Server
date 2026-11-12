@@ -109,13 +109,13 @@ pub struct SpcResult {
     pub display_scale: f64,
 }
 
-struct Prepared {
-    labels: Vec<String>,
-    values: Vec<f64>,
-    denominators: Option<Vec<f64>>,
+pub(crate) struct Prepared {
+    pub(crate) labels: Vec<String>,
+    pub(crate) values: Vec<f64>,
+    pub(crate) denominators: Option<Vec<f64>>,
     /// Per-period flag: hide this value in the response (small numbers from local data).
-    hide: Vec<bool>,
-    local: Option<localdata::LocalTable>,
+    pub(crate) hide: Vec<bool>,
+    pub(crate) local: Option<localdata::LocalTable>,
 }
 
 fn period_key(d: NaiveDate, p: Period) -> (i32, u32) {
@@ -150,7 +150,7 @@ fn key_label(k: (i32, u32), p: Period) -> String {
     }
 }
 
-fn prepare_file(
+pub(crate) fn prepare_file(
     ctx: &Context,
     a: &SpcArgs,
     measure: FileMeasure,

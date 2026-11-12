@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 120;
+const TOOL_COUNT = 121;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3985,6 +3985,39 @@ const toolChapters = [
       },
       // End of Phase 16 appraise tools.
       // Phase 16 qi (EBP-05) tools.
+      {
+        id: 'plan_quality_improvement',
+        title: 'Plan a quality improvement project',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, a plan (Word), a tracker (Excel), diagrams, and a chart in your output folder; reads your measure file if you give one',
+        does: 'Walks you through a quality improvement project with the Model for Improvement. It turns what you tell it into an aim statement (how much, for whom, by when) with checks, a set of outcome, process, and balancing measures, a driver diagram, a cause-and-effect (fishbone) diagram, a process map, PDSA cycle plans, and a checklist for writing it up with the SQUIRE 2.0 guideline. If you give it your measure numbers, it draws a run chart or control chart and tells you whether the pattern looks like real change, using the rules taught by IHI and a second rule set that did better in published testing. It writes a Word plan and an Excel tracker whose formulas keep checking the rules as you add each month.',
+        when: [
+          'Starting a quality improvement project for a clinic, school health office, or program (a capstone or practicum project, for example).',
+          'Checking whether a change you made moved your measure, from monthly numbers.',
+          'Preparing to write up an improvement project for a journal or a meeting.',
+        ],
+        provide: [
+          'Whatever you have: the aim (what is changing, for whom, from what number to what number, by when), your measures, the drivers and change ideas your team came up with, the steps of the process, and the small tests you plan. Leave anything out and the tool gives you a blank scaffold and tells you what is missing.',
+          'Optionally your measure data: numbers typed in, a file with one row per visit or event and a date column, or a file with one row per month.',
+        ],
+        examples: [
+          'Help me plan a project to raise on-time vaccination at our clinic from 68 percent to 80 percent by June 2027.',
+          'Here are our monthly counts, with the reminder letters starting in October. Did anything change?',
+          'Make a driver diagram and a fishbone for late immunization records, and give me the SQUIRE checklist.',
+        ],
+        returns: [
+          'The aim statement and what is still missing from it, the measures, the three diagrams (as Mermaid text, pictures with descriptions, and outlines), the PDSA plans with checks, the SQUIRE items, and any run chart or control chart signals with a plain-language reading.',
+          'A Word plan, an Excel tracker, the diagrams, and the chart in your output folder.',
+        ],
+        notes: [
+          'Only totals by month or week are shown. Counts under your suppression threshold are hidden, and then the median and limits are hidden too, because they would give the hidden number away. Your output folder keeps everything.',
+          'A signal means the pattern is unlikely to be chance, not why it happened. The tool shows both rule sets because the IHI rules (6 in a row on one side, 5 in a row going one way) give more false alarms than the other set; follow your course or agency if it names a rule set.',
+          'Use roles, not names, for who owns a measure, and keep names and record numbers out of the tracker.',
+          'The wording comes from open-access articles; IHI\'s own pages could not be reached, and the SQUIRE guideline is copyrighted (the tool paraphrases and links to it). The content is waiting for your review.',
+          'It does not decide whether a project is quality improvement or research. Ask your agency or IRB.',
+        ],
+      },
       // End of Phase 16 qi tools.
     ],
   },

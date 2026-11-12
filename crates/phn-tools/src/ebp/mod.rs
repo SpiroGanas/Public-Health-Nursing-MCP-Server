@@ -24,6 +24,8 @@ pub use synthesis::{SynthesisArgs, SynthesisResult, build_evidence_synthesis_tab
 // End of Phase 16 appraise.
 
 // Phase 16 qi (EBP-05): add `pub mod` and `pub use` lines below.
+pub mod qi;
+pub use qi::{QiPlanArgs, QiPlanResult, plan_quality_improvement};
 // End of Phase 16 qi.
 
 // Phase 18 ethics (EBP-07): add `pub mod` and `pub use` lines below.

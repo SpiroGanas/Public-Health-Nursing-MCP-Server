@@ -236,6 +236,7 @@ output folder instead of being sent to the AI model.
 | `appraise_evidence` | EBP-03 | ebp | Guided critical appraisal of a study you describe or supply: suggests the design, lists that design's appraisal questions (Cochrane 2011 risk-of-bias domains, ROBINS-I, STROBE, AMSTAR 2, qualitative, SQUIRE 2.0) from open-access sources, records your answers, applies each instrument's own overall rating rule, structures a GRADE or GRADE-CERQual certainty judgment, optional Crossref citation lookup, and a Word record. Never answers a question for you. |
 | `build_evidence_synthesis_table` | EBP-04 | ebp | Builds a synthesis table (Word and Excel with live summary formulas) from the studies you appraised and a PRISMA 2020 flow diagram (Mermaid, accessible SVG, text alternative) from counts you enter, with every arithmetic error reported. |
 <!-- Phase 16 appraise rows go above this line. -->
+| `plan_quality_improvement` | EBP-05 | ebp | Guided QI project planning with the Model for Improvement: aim statement, outcome/process/balancing measures, driver diagram, fishbone diagram, process map (Mermaid, accessible SVG with text alternatives), PDSA cycle plans, and a SQUIRE 2.0 checklist; run charts (IHI/Perla and Anhøj rules) and control charts from your measure data with small counts hidden; writes a DOCX plan and an XLSX tracker with live formulas. |
 <!-- Phase 16 qi rows go above this line. -->
 <!-- Phase 16 rows go above this line. -->
 

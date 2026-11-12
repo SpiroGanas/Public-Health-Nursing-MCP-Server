@@ -11334,6 +11334,42 @@
    "value": "413-555-0191",
    "kind": "phone",
    "file": "data/study_abstract.txt"
+  },
+  {
+   "value": "Odalys Fennimore-Vance",
+   "kind": "name",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0188",
+   "kind": "phone",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "odalys.fennimorevance@example.org",
+   "kind": "email",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "Torvald Pemberwick",
+   "kind": "name",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0189",
+   "kind": "phone",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "torvald.pemberwick@example.org",
+   "kind": "email",
+   "file": "data/qi_clinic_measure.csv",
+   "column": "Contact Email"
   }
  ]
 }
