@@ -118,10 +118,23 @@ async fn former_smoker_gets_dated_graded_recommendations_offline() {
         let grade = r["grade"].as_str().unwrap();
         assert!(grade == "A" || grade == "B", "{r}");
         let date = r["published"].as_str().unwrap();
-        assert!(date.len() == 10 && date >= "2016-01-01" && date <= "2026-12-31", "{date}");
-        assert!(r["recommendation"].as_str().unwrap().contains("recommendation)"));
+        assert!(
+            date.len() == 10 && ("2016-01-01"..="2026-12-31").contains(&date),
+            "{date}"
+        );
+        assert!(
+            r["recommendation"]
+                .as_str()
+                .unwrap()
+                .contains("recommendation)")
+        );
         assert!(!r["client_summary"].as_str().unwrap().is_empty());
-        assert!(r["url"].as_str().unwrap().starts_with("https://doi.org/10."));
+        assert!(
+            r["url"]
+                .as_str()
+                .unwrap()
+                .starts_with("https://doi.org/10.")
+        );
         assert!(!r["confirm"].as_str().unwrap().is_empty());
     }
     let lung = d["applies"]
@@ -164,7 +177,12 @@ async fn former_smoker_gets_dated_graded_recommendations_offline() {
         .iter()
         .find(|p| p["id"] == "mbccp")
         .unwrap();
-    assert!(mbccp["contact"].as_str().unwrap().contains("(877) 414-4447"));
+    assert!(
+        mbccp["contact"]
+            .as_str()
+            .unwrap()
+            .contains("(877) 414-4447")
+    );
     assert!(mbccp["eligibility"].as_str().unwrap().contains("250%"));
     // Offline: MyHealthfinder was not asked, and the answer says so.
     assert!(d["myhealthfinder"].is_null());
@@ -181,7 +199,10 @@ async fn former_smoker_gets_dated_graded_recommendations_offline() {
             && x["retrieved"].as_str().is_some()
     }));
     assert_eq!(s["privacy"]["row_level_data"], false);
-    assert!(s["privacy"]["files_written"].is_null() || s["privacy"]["files_written"].as_array().unwrap().is_empty());
+    assert!(
+        s["privacy"]["files_written"].is_null()
+            || s["privacy"]["files_written"].as_array().unwrap().is_empty()
+    );
 }
 
 #[tokio::test]
@@ -211,12 +232,25 @@ async fn pregnancy_status_decides_the_pregnancy_recommendations() {
     assert!(!a.contains(&"tobacco_cessation_adults".to_string()));
     assert!(!a.contains(&"prediabetes_diabetes_screening".to_string()));
     assert_eq!(s["data"]["person"]["pregnancy"], "pregnant");
-    assert!(s["data"]["pregnancy_specific_not_evaluated"].as_array().unwrap().is_empty());
+    assert!(
+        s["data"]["pregnancy_specific_not_evaluated"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
 
     // Pregnancy status left out: treated as not pregnant, and the tool says how many pregnancy
     // recommendations it did not evaluate.
-    let s = call_ok(&h, LOOKUP, json!({"age_years": 29, "sex_at_birth": "female"})).await;
-    let n = s["data"]["pregnancy_specific_not_evaluated"].as_array().unwrap().len();
+    let s = call_ok(
+        &h,
+        LOOKUP,
+        json!({"age_years": 29, "sex_at_birth": "female"}),
+    )
+    .await;
+    let n = s["data"]["pregnancy_specific_not_evaluated"]
+        .as_array()
+        .unwrap()
+        .len();
     assert!(n >= 8, "{n}");
     assert!(caveats(&s).contains("Pregnancy status was not given"));
     assert!(
@@ -233,7 +267,11 @@ async fn missing_risk_factors_move_a_recommendation_to_needs_review_never_drop_i
     let s = call_ok(&h, LOOKUP, json!({"age_years": 70, "sex_at_birth": "male"})).await;
     let d = &s["data"];
     let review = ids(&d["needs_review"]);
-    for want in ["lung_cancer_screening", "aaa_screening_men_65_75_ever_smoked", "falls_prevention_exercise"] {
+    for want in [
+        "lung_cancer_screening",
+        "aaa_screening_men_65_75_ever_smoked",
+        "falls_prevention_exercise",
+    ] {
         assert!(review.contains(&want.to_string()), "{want} in {review:?}");
     }
     // Saying he never smoked removes lung and AAA screening (not matched), not falls.
@@ -271,7 +309,14 @@ async fn handout_is_written_without_identifiers_and_checked_for_reading_grade() 
     assert!(text.contains("A and B recommendations"));
     assert!(d["handout_reading_grade"].as_f64().unwrap() > 0.0);
     assert_eq!(s["privacy"]["files_written"].as_array().unwrap().len(), 1);
-    let found = leaks(&everything(&h.call(LOOKUP, json!({"age_years": 47, "sex_at_birth": "female"})).await), "data/line_list.csv", None);
+    let found = leaks(
+        &everything(
+            &h.call(LOOKUP, json!({"age_years": 47, "sex_at_birth": "female"}))
+                .await,
+        ),
+        "data/line_list.csv",
+        None,
+    );
     assert!(found.is_empty(), "{found:?}");
 }
 
@@ -282,7 +327,12 @@ async fn preventive_lookup_input_errors_are_tool_errors() {
     assert!(e.contains("age_years"), "{e}");
     let e = call_err(&h, LOOKUP, json!({"age_years": 40})).await;
     assert!(e.contains("sex_at_birth"), "{e}");
-    let e = call_err(&h, LOOKUP, json!({"age_years": 130, "sex_at_birth": "male"})).await;
+    let e = call_err(
+        &h,
+        LOOKUP,
+        json!({"age_years": 130, "sex_at_birth": "male"}),
+    )
+    .await;
     assert!(e.contains("age_years"), "{e}");
     let e = call_err(
         &h,
@@ -323,7 +373,10 @@ async fn asthma_checklist_points_at_the_housing_content_and_writes_blank_forms()
     assert_eq!(modules, vec!["core", "dust_mites", "mold_moisture"]);
     // The 105 CMR 410 sections come from the Phase 14 housing content.
     let refs = d["housing_reference"].as_array().unwrap();
-    let mold = refs.iter().find(|r| r["condition_id"] == "moisture_mold").unwrap();
+    let mold = refs
+        .iter()
+        .find(|r| r["condition_id"] == "moisture_mold")
+        .unwrap();
     assert!(
         mold["code"]
             .as_array()
@@ -339,7 +392,12 @@ async fn asthma_checklist_points_at_the_housing_content_and_writes_blank_forms()
     assert!(c.contains("Housing conditions and health"));
     assert!(pending(&s));
     // The ACT is not reproduced and the response says why.
-    assert!(d["control"]["act_note"].as_str().unwrap().contains("licensed"));
+    assert!(
+        d["control"]["act_note"]
+            .as_str()
+            .unwrap()
+            .contains("licensed")
+    );
     assert!(c.contains("Asthma Control Test is licensed"));
     // Blank forms in the output folder.
     let docs: Vec<&str> = d["documents"]
@@ -360,7 +418,10 @@ async fn asthma_checklist_points_at_the_housing_content_and_writes_blank_forms()
     assert!(!plan.to_lowercase().contains("albuterol"));
     // Sources are dated.
     assert!(s["sources"].as_array().unwrap().iter().any(|x| {
-        x["title"].as_str().unwrap().contains("Checklist for Home Visitors")
+        x["title"]
+            .as_str()
+            .unwrap()
+            .contains("Checklist for Home Visitors")
             && x["effective_date"] == "2018-06-01"
             && x["retrieved"] == "2026-11-12"
     }));
@@ -373,8 +434,18 @@ async fn asthma_checklist_points_at_the_housing_content_and_writes_blank_forms()
     assert_eq!(programs[0]["fit_for_town"], "names your town");
     assert_eq!(programs[1]["name"], "Caring Health Center");
     assert_eq!(programs[1]["fit_for_town"], "located in your town");
-    assert!(programs.last().unwrap()["fit_for_town"].as_str().unwrap().starts_with("regional"));
-    assert!(v["directory_updated_by_dph"].as_str().unwrap().contains("2025"));
+    assert!(
+        programs.last().unwrap()["fit_for_town"]
+            .as_str()
+            .unwrap()
+            .starts_with("regional")
+    );
+    assert!(
+        v["directory_updated_by_dph"]
+            .as_str()
+            .unwrap()
+            .contains("2025")
+    );
     assert!(!v["not_verified"].as_array().unwrap().is_empty());
 }
 
@@ -392,8 +463,20 @@ async fn asthma_control_answers_are_classified_by_the_most_severe_item() {
     let k = &s["data"]["control"]["classification"];
     assert_eq!(k["overall"], "not well controlled");
     assert_eq!(k["items"].as_array().unwrap().len(), 3);
-    assert!(k["not_answered"].as_array().unwrap().iter().any(|x| x == "interference"));
-    assert!(k["notes"].as_array().unwrap().iter().any(|n| n.as_str().unwrap().contains("under 12")));
+    assert!(
+        k["not_answered"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|x| x == "interference")
+    );
+    assert!(
+        k["notes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|n| n.as_str().unwrap().contains("under 12"))
+    );
     assert!(s["data"]["checklist"].is_null());
     assert!(s["data"]["documents"].as_array().unwrap().is_empty());
     let s = call_ok(
@@ -403,7 +486,10 @@ async fn asthma_control_answers_are_classified_by_the_most_severe_item() {
                "control_answers": {"nights_waking_past_30": 13}}),
     )
     .await;
-    assert_eq!(s["data"]["control"]["classification"]["overall"], "very poorly controlled");
+    assert_eq!(
+        s["data"]["control"]["classification"]["overall"],
+        "very poorly controlled"
+    );
 }
 
 #[tokio::test]
@@ -411,17 +497,50 @@ async fn asthma_input_errors_are_tool_errors() {
     let h = start(|c| c.offline = true).await;
     let e = call_err(&h, ASTHMA, json!({"town": "Springfeld"})).await;
     assert!(e.contains("Springfield"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["checklist"], "control_answers": {"symptom_days_past_30": 3}})).await;
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["checklist"], "control_answers": {"symptom_days_past_30": 3}}),
+    )
+    .await;
     assert!(e.contains("control"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["control"], "control_answers": {}})).await;
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["control"], "control_answers": {}}),
+    )
+    .await;
     assert!(e.contains("no answers"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["control"], "control_answers": {"symptom_days_past_30": 40}})).await;
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["control"], "control_answers": {"symptom_days_past_30": 40}}),
+    )
+    .await;
     assert!(e.contains("between 0 and 30"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["services"], "clients_path": "asthma_plans.csv"})).await;
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["services"], "clients_path": "asthma_plans.csv"}),
+    )
+    .await;
     assert!(e.contains("action_plan"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["action_plan"], "clients_path": "counts_by_town.csv"})).await;
-    assert!(e.contains("no column the asthma action plan can use"), "{e}");
-    let e = call_err(&h, ASTHMA, json!({"sections": ["action_plan"], "clients_path": "no_such_file.csv"})).await;
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["action_plan"], "clients_path": "counts_by_town.csv"}),
+    )
+    .await;
+    assert!(
+        e.contains("no column the asthma action plan can use"),
+        "{e}"
+    );
+    let e = call_err(
+        &h,
+        ASTHMA,
+        json!({"sections": ["action_plan"], "clients_path": "no_such_file.csv"}),
+    )
+    .await;
     assert!(!e.is_empty());
 }
 
@@ -442,8 +561,19 @@ async fn action_plans_are_filled_locally_and_never_returned() {
     let p = &s["data"]["filled_plans"];
     assert_eq!(p["people"], 3);
     assert!(p["blank_fields"].as_u64().unwrap() > 0);
-    assert!(p["fields_found"].as_array().unwrap().iter().any(|f| f == "best_peak_flow"));
-    assert!(s["privacy"]["identifiers_detected"].as_array().map(|a| !a.is_empty()).unwrap_or(false));
+    assert!(
+        p["fields_found"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|f| f == "best_peak_flow")
+    );
+    assert!(
+        s["privacy"]["identifiers_detected"]
+            .as_array()
+            .map(|a| !a.is_empty())
+            .unwrap_or(false)
+    );
     assert_eq!(s["privacy"]["row_level_data"], false);
     // The plans are in the output folder with the details from the file, the peak flow zones
     // worked out with NHLBI's percentages, and a blank where the file had no value.

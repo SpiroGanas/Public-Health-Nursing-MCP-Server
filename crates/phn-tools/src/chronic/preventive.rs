@@ -157,7 +157,9 @@ pub enum CardiovascularFactor {
 
 /// Areas of "increased risk" the USPSTF statements use. The clinician decides who is at
 /// increased risk, using the statement's own risk descriptions.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum RiskArea {
     Hiv,
@@ -287,6 +289,9 @@ pub struct RecommendationOut {
     pub population: Option<String>,
     /// The Task Force's recommendation sentence, as in the statement's abstract.
     pub recommendation: String,
+    /// Text the statement's abstract gives after its graded sentences (scope notes), when there
+    /// is any.
+    pub statement_notes: Option<String>,
     /// What the tool could not check: apply it yourself.
     pub confirm: String,
     /// Where the tool chose an age range the statement does not give.
@@ -438,8 +443,12 @@ fn flag(name: &str, rf: &RiskFactors) -> Tri {
         // syndrome, or a 10-year risk of 7.5% or more.
         "cvd_factor_counseling" => {
             use CardiovascularFactor::*;
-            if cvd_has(&[Hypertension, ElevatedBloodPressure, Dyslipidemia, MetabolicSyndrome])
-                || rf.ten_year_cvd_risk_percent.is_some_and(|r| r >= 7.5)
+            if cvd_has(&[
+                Hypertension,
+                ElevatedBloodPressure,
+                Dyslipidemia,
+                MetabolicSyndrome,
+            ]) || rf.ten_year_cvd_risk_percent.is_some_and(|r| r >= 7.5)
             {
                 Tri::Yes
             } else if rf.cardiovascular_risk_factors.is_some()
@@ -457,7 +466,11 @@ fn flag(name: &str, rf: &RiskFactors) -> Tri {
         other => {
             if rf.increased_risk_for.iter().any(|a| a.flag() == other) {
                 Tri::Yes
-            } else if rf.not_at_increased_risk_for.iter().any(|a| a.flag() == other) {
+            } else if rf
+                .not_at_increased_risk_for
+                .iter()
+                .any(|a| a.flag() == other)
+            {
                 Tri::No
             } else {
                 Tri::Unknown
@@ -470,13 +483,17 @@ fn flag(name: &str, rf: &RiskFactors) -> Tri {
 fn flag_hint(name: &str) -> String {
     match name {
         "tobacco_current" | "ever_smoked" => "tobacco_use".into(),
-        "tobacco_current_or_quit_15y" => "tobacco_use (and years_since_quit for a former smoker)".into(),
+        "tobacco_current_or_quit_15y" => {
+            "tobacco_use (and years_since_quit for a former smoker)".into()
+        }
         "pack_years_20" => "pack_years".into(),
         "bmi_25" | "bmi_30" => "bmi".into(),
         "bmi_percentile_95" => "bmi_percentile".into(),
         "cvd_risk_10pct" => "ten_year_cvd_risk_percent".into(),
         "cvd_factor_statin" => "cardiovascular_risk_factors and tobacco_use".into(),
-        "cvd_factor_counseling" => "cardiovascular_risk_factors or ten_year_cvd_risk_percent".into(),
+        "cvd_factor_counseling" => {
+            "cardiovascular_risk_factors or ten_year_cvd_risk_percent".into()
+        }
         "sexually_active" => "sexually_active".into(),
         "postmenopausal" => "postmenopausal".into(),
         "fair_skin" => "fair_skin".into(),
@@ -522,10 +539,8 @@ fn check_alt(
             Some(PregnancyStatus::NotPregnant) => return AltResult::NoMatch,
             None => return AltResult::PregnancyNotGiven,
         },
-        "not_pregnant" => {
-            if pregnancy == Some(PregnancyStatus::Pregnant) {
-                return AltResult::NoMatch;
-            }
+        "not_pregnant" if pregnancy == Some(PregnancyStatus::Pregnant) => {
+            return AltResult::NoMatch;
         }
         _ => {}
     }
@@ -634,9 +649,9 @@ fn check_number(name: &str, v: Option<f64>, lo: f64, hi: f64) -> Result<()> {
 }
 
 fn validate(args: &PreventiveArgs) -> Result<(u32, SexAtBirth)> {
-    let age = args
-        .age_years
-        .ok_or_else(|| PhnError::InvalidInput("age_years is required (whole years, 0 to 120)".into()))?;
+    let age = args.age_years.ok_or_else(|| {
+        PhnError::InvalidInput("age_years is required (whole years, 0 to 120)".into())
+    })?;
     if age > 120 {
         return Err(PhnError::InvalidInput(
             "age_years must be between 0 and 120".into(),
@@ -666,7 +681,12 @@ fn validate(args: &PreventiveArgs) -> Result<(u32, SexAtBirth)> {
     check_number("years_since_quit", rf.years_since_quit, 0.0, 100.0)?;
     check_number("bmi", rf.bmi, 8.0, 100.0)?;
     check_number("bmi_percentile", rf.bmi_percentile, 0.0, 100.0)?;
-    check_number("ten_year_cvd_risk_percent", rf.ten_year_cvd_risk_percent, 0.0, 100.0)?;
+    check_number(
+        "ten_year_cvd_risk_percent",
+        rf.ten_year_cvd_risk_percent,
+        0.0,
+        100.0,
+    )?;
     for a in &rf.increased_risk_for {
         if rf.not_at_increased_risk_for.contains(a) {
             return Err(PhnError::InvalidInput(format!(
@@ -719,10 +739,16 @@ fn risk_factors_given(rf: &RiskFactors) -> Vec<String> {
         }
     }
     for a in &rf.increased_risk_for {
-        v.push(format!("increased risk: {}", a.flag().trim_start_matches("risk_")));
+        v.push(format!(
+            "increased risk: {}",
+            a.flag().trim_start_matches("risk_")
+        ));
     }
     for a in &rf.not_at_increased_risk_for {
-        v.push(format!("not at increased risk: {}", a.flag().trim_start_matches("risk_")));
+        v.push(format!(
+            "not at increased risk: {}",
+            a.flag().trim_start_matches("risk_")
+        ));
     }
     v
 }
@@ -746,6 +772,7 @@ fn out_rec(
         url: st.url.clone(),
         population: st.population.clone(),
         recommendation: rec.recommendation.clone(),
+        statement_notes: st.additional_text.clone(),
         confirm: def.confirm.clone(),
         assumption: def.assumption.clone(),
         client_summary: def.client_summary.clone(),
@@ -827,7 +854,11 @@ pub async fn preventive_services_lookup(
                     name: p.name.clone(),
                     offered_by: p.offered_by.clone(),
                     summary: p.summary.split_whitespace().collect::<Vec<_>>().join(" "),
-                    eligibility: p.eligibility.split_whitespace().collect::<Vec<_>>().join(" "),
+                    eligibility: p
+                        .eligibility
+                        .split_whitespace()
+                        .collect::<Vec<_>>()
+                        .join(" "),
                     contact: p.contact.clone(),
                     sites: p.sites.clone(),
                     url: p.url.clone(),
@@ -882,19 +913,14 @@ pub async fn preventive_services_lookup(
             );
         } else {
             let pregnant = pregnancy == Some(PregnancyStatus::Pregnant);
-            match preventive::fetch_myhf(
-                &ctx.http,
-                ctx.cache.as_ref(),
-                age,
-                sex.label(),
-                pregnant,
-            )
-            .await
+            match preventive::fetch_myhf(&ctx.http, ctx.cache.as_ref(), age, sex.label(), pregnant)
+                .await
             {
                 Ok((topics, fetched)) => {
                     let as_of = phn_data::fetch::local_date(&fetched.as_of);
                     sources.push(Source {
-                        title: "MyHealthfinder: preventive services by age, sex, and pregnancy".into(),
+                        title: "MyHealthfinder: preventive services by age, sex, and pregnancy"
+                            .into(),
                         publisher: "Office of Disease Prevention and Health Promotion (ODPHP), HHS"
                             .into(),
                         url: Some(preventive::MYHF_HOME.into()),
@@ -1027,7 +1053,12 @@ pub async fn preventive_services_lookup(
         }
         let format = args.format.unwrap_or_default();
         let (dir, _) = templates::output_folder(ctx, "preventive_services_handout")?;
-        let doc = templates::document(ctx, &md, "en-US", "Preventive health services to talk about");
+        let doc = templates::document(
+            ctx,
+            &md,
+            "en-US",
+            "Preventive health services to talk about",
+        );
         let f = templates::write_in(
             ctx,
             &dir,
@@ -1152,17 +1183,29 @@ fn summary(r: &PreventiveResult) -> String {
                 ]
             })
             .collect();
-        md::table(&["Grade", "Service", "USPSTF statement date", "For the client / needs"], &rows)
+        md::table(
+            &[
+                "Grade",
+                "Service",
+                "USPSTF statement date",
+                "For the client / needs",
+            ],
+            &rows,
+        )
     };
     if r.applies.is_empty() {
         s.push_str("No recommendation matched on the information given.\n\n");
     } else {
-        s.push_str("**Applies (apply each 'confirm' note and the USPSTF population yourself):**\n\n");
+        s.push_str(
+            "**Applies (apply each 'confirm' note and the USPSTF population yourself):**\n\n",
+        );
         s.push_str(&table(&r.applies));
         s.push('\n');
     }
     if !r.needs_review.is_empty() {
-        s.push_str("**Needs review (fits on age, sex, and pregnancy; a risk factor was not given):**\n\n");
+        s.push_str(
+            "**Needs review (fits on age, sex, and pregnancy; a risk factor was not given):**\n\n",
+        );
         s.push_str(&table(&r.needs_review));
         s.push('\n');
     }
@@ -1257,12 +1300,12 @@ mod tests {
         let (c, s) = defs();
         for d in &c.recommendations {
             let rec = s.recommendations.iter().find(|r| r.id == d.id).unwrap();
+            let st = s.statement(rec).unwrap();
             let text = format!(
-                "{} {}",
+                "{} {} {}",
                 rec.recommendation,
-                s.statement(rec)
-                    .and_then(|x| x.population.clone())
-                    .unwrap_or_default()
+                st.population.clone().unwrap_or_default(),
+                st.additional_text.clone().unwrap_or_default()
             );
             if d.assumption.is_some() {
                 continue;
@@ -1270,7 +1313,13 @@ mod tests {
             for cr in &d.criteria {
                 for (bound, v) in [("age_min", cr.age_min), ("age_max", cr.age_max)] {
                     // Zero stands for newborns and infants, which the text gives in words or months.
-                    let Some(v) = v.filter(|v| *v > 0) else { continue };
+                    let Some(v) = v.filter(|v| *v > 0) else {
+                        continue;
+                    };
+                    // "Adults" means 18 and older.
+                    if bound == "age_min" && v == 18 && text.contains("adults") {
+                        continue;
+                    }
                     // The text writes the bound, or one past it ("younger than 5", "24 or younger").
                     let found = [v, v + 1, v - 1].iter().any(|n| {
                         text.split(|c: char| !c.is_ascii_digit())
@@ -1357,13 +1406,23 @@ mod tests {
             assert!(a.contains(&want.to_string()), "{want}");
         }
         // Not pregnant: none of them, but folic acid still applies.
-        let (a, _) = ids(28, SexAtBirth::Female, Some(PregnancyStatus::NotPregnant), &rf);
+        let (a, _) = ids(
+            28,
+            SexAtBirth::Female,
+            Some(PregnancyStatus::NotPregnant),
+            &rf,
+        );
         assert!(!a.contains(&"syphilis_screening_pregnancy".to_string()));
         assert!(a.contains(&"folic_acid_supplementation".to_string()));
         assert!(!a.contains(&"prediabetes_diabetes_screening".to_string()));
         // Postpartum: breastfeeding support and depression prevention (if at risk) but not
         // gestational diabetes.
-        let (a, _) = ids(28, SexAtBirth::Female, Some(PregnancyStatus::Postpartum), &rf);
+        let (a, _) = ids(
+            28,
+            SexAtBirth::Female,
+            Some(PregnancyStatus::Postpartum),
+            &rf,
+        );
         assert!(a.contains(&"breastfeeding_support".to_string()));
         assert!(!a.contains(&"gestational_diabetes_screening".to_string()));
         // Not given: pregnancy recommendations are not evaluated.
@@ -1421,13 +1480,23 @@ mod tests {
         assert!(validate(&ok).is_ok());
         let mut bad = ok.clone();
         bad.age_years = None;
-        assert!(validate(&bad).unwrap_err().to_string().contains("age_years"));
+        assert!(
+            validate(&bad)
+                .unwrap_err()
+                .to_string()
+                .contains("age_years")
+        );
         let mut bad = ok.clone();
         bad.age_years = Some(121);
         assert!(validate(&bad).is_err());
         let mut bad = ok.clone();
         bad.sex_at_birth = None;
-        assert!(validate(&bad).unwrap_err().to_string().contains("sex_at_birth"));
+        assert!(
+            validate(&bad)
+                .unwrap_err()
+                .to_string()
+                .contains("sex_at_birth")
+        );
         let mut bad = ok.clone();
         bad.sex_at_birth = Some(SexAtBirth::Male);
         bad.pregnancy_status = Some(PregnancyStatus::Pregnant);

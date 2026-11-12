@@ -185,7 +185,9 @@ pub struct AsthmaContent {
 // ---------------------------------------------------------------- arguments and results
 
 /// A part of the assessment.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum AsthmaSection {
     /// The home asthma trigger checklist (CDC, EPA, HUD).
@@ -649,7 +651,10 @@ fn find_column(headers: &[String], aliases: &[String], field: &str) -> Option<us
 /// Peak flow lines from the best peak flow (percentages are NHLBI's: 80 and 50).
 pub fn peak_flow_lines(best: Option<&str>, p: &PeakFlowDef) -> (String, String, String) {
     let blank = (
-        format!("Peak flow: more than {BLANK} ({} percent or more of my best peak flow)", p.green_percent_of_best),
+        format!(
+            "Peak flow: more than {BLANK} ({} percent or more of my best peak flow)",
+            p.green_percent_of_best
+        ),
         format!(
             "Peak flow: {BLANK} to {BLANK} ({} to {} percent of my best peak flow)",
             p.yellow_low_percent_of_best,
@@ -709,7 +714,7 @@ fn checklist_markdown(c: &ChecklistDef) -> String {
                 if !i.options.is_empty() {
                     md.push_str(&format!(" Options: {}.", i.options.join("; ")));
                 }
-                md.push_str("\n");
+                md.push('\n');
                 for a in &i.actions {
                     md.push_str(&format!("  - Action: {a}\n"));
                 }
@@ -851,15 +856,28 @@ pub fn asthma_home_assessment(
                 label: cond.label.clone(),
                 relates_to: c.housing_links.get(&id).cloned().unwrap_or_default(),
                 urgent: cond.urgent,
-                urgent_note: cond.urgent_note.split_whitespace().collect::<Vec<_>>().join(" "),
+                urgent_note: cond
+                    .urgent_note
+                    .split_whitespace()
+                    .collect::<Vec<_>>()
+                    .join(" "),
                 code: cond.code.clone(),
             });
         }
         caveats.extend(content::review_caveats(&[HOUSING_CONDITIONS]));
         checklist_out = Some(ChecklistOut {
             title: c.checklist.title.clone(),
-            how_to_use: c.checklist.how_to_use.split_whitespace().collect::<Vec<_>>().join(" "),
-            source: c.sources.get("checklist").map(|s| s.title.clone()).unwrap_or_default(),
+            how_to_use: c
+                .checklist
+                .how_to_use
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
+            source: c
+                .sources
+                .get("checklist")
+                .map(|s| s.title.clone())
+                .unwrap_or_default(),
             glossary: c.checklist.glossary.clone(),
             modules: c
                 .checklist
@@ -887,7 +905,12 @@ pub fn asthma_home_assessment(
                 })
                 .collect(),
             epa_trigger_actions: c.checklist.epa_trigger_actions.clone(),
-            evidence_note: c.checklist.evidence_note.split_whitespace().collect::<Vec<_>>().join(" "),
+            evidence_note: c
+                .checklist
+                .evidence_note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
         });
         caveats.push(
             "The checklist questions and action steps are shortened from the CDC/EPA/HUD \
@@ -911,7 +934,12 @@ pub fn asthma_home_assessment(
         );
         Some(ControlOut {
             title: c.control.title.clone(),
-            basis: c.control.basis.split_whitespace().collect::<Vec<_>>().join(" "),
+            basis: c
+                .control
+                .basis
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             table: c
                 .control
                 .variables
@@ -926,7 +954,12 @@ pub fn asthma_home_assessment(
                 })
                 .collect(),
             limits: c.control.limits.clone(),
-            act_note: c.control.act_note.split_whitespace().collect::<Vec<_>>().join(" "),
+            act_note: c
+                .control
+                .act_note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             act_url: c.control.act_url.clone(),
             classification: classification.clone(),
         })
@@ -995,14 +1028,21 @@ pub fn asthma_home_assessment(
                 if v.get("plan_date").is_none_or(|d| d.is_empty()) {
                     v.insert("plan_date".into(), today.clone());
                 }
-                let (g, y, r) =
-                    peak_flow_lines(v.get("best_peak_flow").map(String::as_str), &c.action_plan.peak_flow);
+                let (g, y, r) = peak_flow_lines(
+                    v.get("best_peak_flow").map(String::as_str),
+                    &c.action_plan.peak_flow,
+                );
                 v.insert("green_peak_flow".into(), g);
                 v.insert("yellow_peak_flow".into(), y);
                 v.insert("red_peak_flow".into(), r);
                 let (filled, unk) = templates::fill(&c.action_plan.markdown, &v, BLANK);
                 unknown.extend(unk);
-                docs.push(templates::document(ctx, &filled, "en-US", &c.action_plan.title));
+                docs.push(templates::document(
+                    ctx,
+                    &filled,
+                    "en-US",
+                    &c.action_plan.title,
+                ));
             }
             if docs.is_empty() {
                 return Err(PhnError::InvalidInput(format!(
@@ -1032,7 +1072,12 @@ pub fn asthma_home_assessment(
         }
         Some(ActionPlanOut {
             title: c.action_plan.title.clone(),
-            source_note: c.action_plan.source_note.split_whitespace().collect::<Vec<_>>().join(" "),
+            source_note: c
+                .action_plan
+                .source_note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             peak_flow_note: c.action_plan.peak_flow.note.clone(),
             fields: c.action_plan.fields.clone(),
             template_markdown: c.action_plan.markdown.clone(),
@@ -1043,7 +1088,12 @@ pub fn asthma_home_assessment(
 
     // Services.
     let services_out = if has(AsthmaSection::Services) {
-        keys.extend(["dph-chw-visiting", "dph-asthma-programs", "dph-asthma-resources", "dph-apcp"]);
+        keys.extend([
+            "dph-chw-visiting",
+            "dph-asthma-programs",
+            "dph-asthma-resources",
+            "dph-apcp",
+        ]);
         let norm = |s: &str| phn_core::text::normalize(s);
         let mut programs: Vec<(u8, ProgramOut)> = c
             .services
@@ -1052,9 +1102,7 @@ pub fn asthma_home_assessment(
             .iter()
             .map(|p| {
                 let (rankv, fit) = match &town {
-                    Some(t)
-                        if p.towns_served.iter().any(|x| norm(x) == norm(t)) =>
-                    {
+                    Some(t) if p.towns_served.iter().any(|x| norm(x) == norm(t)) => {
                         (0, "names your town".to_string())
                     }
                     Some(t)
@@ -1090,9 +1138,8 @@ pub fn asthma_home_assessment(
             c.services.directory.last_updated_by_dph
         ));
         if town.is_none() {
-            caveats.push(
-                "No town was given or saved, so programs are not matched to a town.".into(),
-            );
+            caveats
+                .push("No town was given or saved, so programs are not matched to a town.".into());
         }
         Some(ServicesOut {
             directory_title: c.services.directory.title.clone(),
@@ -1101,8 +1148,19 @@ pub fn asthma_home_assessment(
             directory_url: c.services.directory.url.clone(),
             town: town.clone(),
             programs: programs.into_iter().map(|(_, p)| p).collect(),
-            directory_note: c.services.directory.note.split_whitespace().collect::<Vec<_>>().join(" "),
-            model_note: c.services.model_note.split_whitespace().collect::<Vec<_>>().join(" "),
+            directory_note: c
+                .services
+                .directory
+                .note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
+            model_note: c
+                .services
+                .model_note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             other_resources: c.services.other.clone(),
             not_verified: c.services.not_verified.clone(),
         })
@@ -1184,7 +1242,8 @@ pub fn asthma_home_assessment(
             documents,
             filled_plans: plans_written,
             related_tools: vec![
-                "housing_conditions_health_guide (105 CMR 410 sections, inspection requests)".into(),
+                "housing_conditions_health_guide (105 CMR 410 sections, inspection requests)"
+                    .into(),
                 "air_quality_protective_guidance (outdoor air and asthma)".into(),
             ],
         },
@@ -1228,7 +1287,16 @@ fn summary(
                 "  - Housing code (from housing_conditions_health_guide content): {}.\n",
                 housing
                     .iter()
-                    .map(|h| format!("{} ({})", h.label, h.code.iter().map(|x| x.section.as_str()).take(3).collect::<Vec<_>>().join(", ")))
+                    .map(|h| format!(
+                        "{} ({})",
+                        h.label,
+                        h.code
+                            .iter()
+                            .map(|x| x.section.as_str())
+                            .take(3)
+                            .collect::<Vec<_>>()
+                            .join(", ")
+                    ))
                     .collect::<Vec<_>>()
                     .join("; ")
             ));
@@ -1248,9 +1316,20 @@ fn summary(
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["Item", "Well controlled", "Not well controlled", "Very poorly controlled"], &rows));
+        s.push_str(&md::table(
+            &[
+                "Item",
+                "Well controlled",
+                "Not well controlled",
+                "Very poorly controlled",
+            ],
+            &rows,
+        ));
         if let Some(k) = &c.classification {
-            s.push_str(&format!("\n  Classification of the answers given: **{}**", k.overall));
+            s.push_str(&format!(
+                "\n  Classification of the answers given: **{}**",
+                k.overall
+            ));
             for i in &k.items {
                 s.push_str(&format!("; {}: {} ({})", i.id, i.category, i.answer));
             }
@@ -1341,7 +1420,11 @@ mod tests {
             .unwrap()
             .yaml
             .to_lowercase();
-        assert!(!yaml.contains("how much of the time did your asthma keep you from getting as much done"));
+        assert!(
+            !yaml.contains(
+                "how much of the time did your asthma keep you from getting as much done"
+            )
+        );
     }
 
     #[test]
@@ -1368,11 +1451,17 @@ mod tests {
         let cat = |a: ControlAnswers| classify(&c, &a).unwrap().overall;
         // Symptom days: 8 is the last well-controlled value, 9 is not well controlled.
         assert_eq!(
-            cat(ControlAnswers { symptom_days_past_30: Some(8), ..Default::default() }),
+            cat(ControlAnswers {
+                symptom_days_past_30: Some(8),
+                ..Default::default()
+            }),
             "well controlled"
         );
         assert_eq!(
-            cat(ControlAnswers { symptom_days_past_30: Some(9), ..Default::default() }),
+            cat(ControlAnswers {
+                symptom_days_past_30: Some(9),
+                ..Default::default()
+            }),
             "not well controlled"
         );
         assert_eq!(
@@ -1392,13 +1481,23 @@ mod tests {
             "not well controlled"
         );
         // Nights: 2, 3, 12, 13.
-        let nights = |n| cat(ControlAnswers { nights_waking_past_30: Some(n), ..Default::default() });
+        let nights = |n| {
+            cat(ControlAnswers {
+                nights_waking_past_30: Some(n),
+                ..Default::default()
+            })
+        };
         assert_eq!(nights(2), "well controlled");
         assert_eq!(nights(3), "not well controlled");
         assert_eq!(nights(12), "not well controlled");
         assert_eq!(nights(13), "very poorly controlled");
         // Rescue use; the table's ranges meet at 0.29 and 1.00 and the more severe is used.
-        let saba = |r| cat(ControlAnswers { rescue_uses_per_day: Some(r), ..Default::default() });
+        let saba = |r| {
+            cat(ControlAnswers {
+                rescue_uses_per_day: Some(r),
+                ..Default::default()
+            })
+        };
         assert_eq!(saba(0.28), "well controlled");
         assert_eq!(saba(0.29), "not well controlled");
         assert_eq!(saba(0.99), "not well controlled");
@@ -1440,18 +1539,47 @@ mod tests {
     fn classification_rejects_bad_input() {
         let c = content().control;
         assert!(classify(&c, &ControlAnswers::default()).is_err());
-        assert!(classify(&c, &ControlAnswers { symptom_days_past_30: Some(31), ..Default::default() }).is_err());
-        assert!(classify(&c, &ControlAnswers { nights_waking_past_30: Some(40), ..Default::default() }).is_err());
-        assert!(classify(&c, &ControlAnswers { rescue_uses_per_day: Some(f64::NAN), ..Default::default() }).is_err());
-        assert!(classify(
-            &c,
-            &ControlAnswers {
-                no_inhaler_medicine_past_3_months: Some(true),
-                rescue_uses_per_day: Some(2.0),
-                ..Default::default()
-            }
-        )
-        .is_err());
+        assert!(
+            classify(
+                &c,
+                &ControlAnswers {
+                    symptom_days_past_30: Some(31),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
+        assert!(
+            classify(
+                &c,
+                &ControlAnswers {
+                    nights_waking_past_30: Some(40),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
+        assert!(
+            classify(
+                &c,
+                &ControlAnswers {
+                    rescue_uses_per_day: Some(f64::NAN),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
+        assert!(
+            classify(
+                &c,
+                &ControlAnswers {
+                    no_inhaler_medicine_past_3_months: Some(true),
+                    rescue_uses_per_day: Some(2.0),
+                    ..Default::default()
+                }
+            )
+            .is_err()
+        );
     }
 
     #[test]
@@ -1464,7 +1592,14 @@ mod tests {
         // Units and commas are tolerated; nonsense and out-of-range values leave blanks.
         let (g, _, _) = peak_flow_lines(Some("450 L/min"), &p);
         assert!(g.contains("360 or more"), "{g}");
-        for bad in [None, Some(""), Some("abc"), Some("-5"), Some("0"), Some("5000")] {
+        for bad in [
+            None,
+            Some(""),
+            Some("abc"),
+            Some("-5"),
+            Some("0"),
+            Some("5000"),
+        ] {
             let (g, _, _) = peak_flow_lines(bad, &p);
             assert!(g.contains(BLANK), "{bad:?}");
         }
@@ -1485,10 +1620,18 @@ mod tests {
     fn directory_matches_what_dph_lists() {
         let c = content().services.directory;
         assert_eq!(c.programs.len(), 7);
-        let rev = c.programs.iter().find(|p| p.id == "revitalize_cdc").unwrap();
+        let rev = c
+            .programs
+            .iter()
+            .find(|p| p.id == "revitalize_cdc")
+            .unwrap();
         assert_eq!(rev.towns_served, vec!["Springfield", "Holyoke", "Chicopee"]);
         assert!(rev.pediatric && rev.adult && rev.older_adult);
-        let bch = c.programs.iter().find(|p| p.id == "boston_childrens").unwrap();
+        let bch = c
+            .programs
+            .iter()
+            .find(|p| p.id == "boston_childrens")
+            .unwrap();
         assert!(bch.pediatric && !bch.adult);
     }
 }

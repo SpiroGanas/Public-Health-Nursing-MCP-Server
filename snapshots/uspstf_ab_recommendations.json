@@ -15,6 +15,7 @@
    "published": "2017-09-05",
    "doi": "10.1001/jama.2017.11260",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2017.11260",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28873168/"
   },
@@ -25,6 +26,7 @@
    "published": "2018-03-20",
    "doi": "10.1001/jama.2018.1623",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2018.1623",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/29558558/"
   },
@@ -35,6 +37,7 @@
    "published": "2018-08-21",
    "doi": "10.1001/jama.2018.10897",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2018.10897",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30140884/"
   },
@@ -45,6 +48,7 @@
    "published": "2018-09-18",
    "doi": "10.1001/jama.2018.13022",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2018.13022",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30326502/"
   },
@@ -55,6 +59,7 @@
    "published": "2018-11-13",
    "doi": "10.1001/jama.2018.16789",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2018.16789",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30422199/"
   },
@@ -65,6 +70,7 @@
    "published": "2019-01-29",
    "doi": "10.1001/jama.2018.21367",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2018.21367",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30694327/"
   },
@@ -75,6 +81,7 @@
    "published": "2019-02-12",
    "doi": "10.1001/jama.2019.0007",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.0007",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30747971/"
   },
@@ -85,6 +92,7 @@
    "published": "2019-06-18",
    "doi": "10.1001/jama.2019.6587",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.6587",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31184701/"
   },
@@ -95,6 +103,7 @@
    "published": "2019-07-23",
    "doi": "10.1001/jama.2019.9365",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.9365",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31334800/"
   },
@@ -105,6 +114,7 @@
    "published": "2019-08-20",
    "doi": "10.1001/jama.2019.10987",
    "population": null,
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.10987",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31429903/"
   },
@@ -115,6 +125,7 @@
    "published": "2019-09-03",
    "doi": "10.1001/jama.2019.11885",
    "population": null,
+   "additional_text": "This recommendation applies to asymptomatic women 35 years and older, including women with previous benign breast lesions on biopsy (such as atypical ductal or lobular hyperplasia and lobular carcinoma in situ). This recommendation does not apply to women who have a current or previous diagnosis of breast cancer or ductal carcinoma in situ.",
    "url": "https://doi.org/10.1001/jama.2019.11885",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31479144/"
   },
@@ -125,6 +136,7 @@
    "published": "2019-09-24",
    "doi": "10.1001/jama.2019.13069",
    "population": "This recommendation applies to community-dwelling adults 18 years and older and pregnant persons of any age without signs and symptoms of a urinary tract infection.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.13069",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31550038/"
   },
@@ -135,6 +147,7 @@
    "published": "2019-12-10",
    "doi": "10.1001/jama.2019.18928",
    "population": "This recommendation applies to asymptomatic adults 50 years or older. However, the randomized trial evidence focuses almost entirely on men aged 65 to 75 years.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2019.18928",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31821437/"
   },
@@ -145,6 +158,7 @@
    "published": "2020-03-10",
    "doi": "10.1001/jama.2020.1123",
    "population": "This recommendation applies to all asymptomatic adults aged 18 to 79 years without known liver disease.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.1123",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32119076/"
   },
@@ -155,6 +169,7 @@
    "published": "2020-04-28",
    "doi": "10.1001/jama.2020.4679",
    "population": "This recommendation applies to school-aged children and adolescents younger than 18 years.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.4679",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32343336/"
   },
@@ -165,6 +180,7 @@
    "published": "2020-06-09",
    "doi": "10.1001/jama.2020.8020",
    "population": "This recommendation statement applies to adults 18 years or older, including pregnant and postpartum persons, and adolescents aged 12 to 17 years in primary care settings. This statement does not apply to adolescents or adults who have a currently diagnosed drug use disorder or are currently undergoing or have been referred for drug use treatment. This statement applies to settings and populations for which services for accurate diagnosis, effective treatment, and appropriate care can be offered or referred.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.8020",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32515821/"
   },
@@ -175,6 +191,7 @@
    "published": "2020-08-18",
    "doi": "10.1001/jama.2020.13095",
    "population": "This recommendation statement applies to all sexually active adolescents and to adults at increased risk for STIs.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.13095",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32809008/"
   },
@@ -185,6 +202,7 @@
    "published": "2020-11-24",
    "doi": "10.1001/jama.2020.21749",
    "population": "This recommendation statement applies to adults 18 years or older with known hypertension or elevated blood pressure, those with dyslipidemia, or those who have mixed or multiple risk factors such as metabolic syndrome or an estimated 10-year CVD risk of 7.5% or greater. Adults with other known modifiable cardiovascular risk factors such as abnormal blood glucose levels, obesity, and smoking are not included in this recommendation.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.21749",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33231670/"
   },
@@ -195,6 +213,7 @@
    "published": "2020-12-15",
    "doi": "10.1001/jama.2020.22980",
    "population": "This recommendation statement applies to asymptomatic, nonpregnant adolescents and adults at increased risk for HBV infection, including those who were vaccinated before being screened for HBV infection.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.22980",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33320230/"
   },
@@ -205,6 +224,7 @@
    "published": "2021-01-19",
    "doi": "10.1001/jama.2020.25019",
    "population": "This recommendation statement applies to adults 18 years or older, including pregnant persons.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2020.25019",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33464343/"
   },
@@ -215,6 +235,7 @@
    "published": "2021-03-09",
    "doi": "10.1001/jama.2021.1117",
    "population": "This recommendation statement applies to adults aged 50 to 80 years who have a 20 pack-year smoking history and currently smoke or have quit within the past 15 years.",
+   "additional_text": "This recommendation replaces the 2013 USPSTF statement that recommended annual screening for lung cancer with LDCT in adults aged 55 to 80 years who have a 30 pack-year smoking history and currently smoke or have quit within the past 15 years.",
    "url": "https://doi.org/10.1001/jama.2021.1117",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33687470/"
   },
@@ -225,6 +246,7 @@
    "published": "2021-04-27",
    "doi": "10.1001/jama.2021.4987",
    "population": "Adults 18 years or older without known hypertension.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.4987",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33904861/"
   },
@@ -235,6 +257,7 @@
    "published": "2021-05-18",
    "doi": "10.1001/jama.2021.6238",
    "population": "Asymptomatic adults 45 years or older at average risk of colorectal cancer (ie, no prior diagnosis of colorectal cancer, adenomatous polyps, or inflammatory bowel disease; no personal diagnosis or family history of known genetic disorders that predispose them to a high lifetime risk of colorectal cancer [such as Lynch syndrome or familial adenomatous polyposis]).",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.6238",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34003218/"
   },
@@ -245,6 +268,7 @@
    "published": "2021-05-25",
    "doi": "10.1001/jama.2021.6949",
    "population": "Pregnant adolescents and adults in primary care settings.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.6949",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34032823/"
   },
@@ -255,6 +279,7 @@
    "published": "2021-08-10",
    "doi": "10.1001/jama.2021.11922",
    "population": "Pregnant persons who have not been previously diagnosed with type 1 or type 2 diabetes.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.11922",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34374716/"
   },
@@ -265,6 +290,7 @@
    "published": "2021-08-24",
    "doi": "10.1001/jama.2021.12531",
    "population": "Nonpregnant adults aged 35 to 70 years seen in primary care settings who have overweight or obesity (defined as a body mass index ≥25 and ≥30, respectively) and no symptoms of diabetes.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.12531",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34427594/"
   },
@@ -275,6 +301,7 @@
    "published": "2021-09-14",
    "doi": "10.1001/jama.2021.14081",
    "population": "Asymptomatic, sexually active adolescents and adults, including pregnant persons.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.14081",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34519796/"
   },
@@ -285,6 +312,7 @@
    "published": "2021-09-28",
    "doi": "10.1001/jama.2021.14781",
    "population": "Pregnant persons at high risk for preeclampsia who have no prior adverse effects with or contraindications to low-dose aspirin.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.14781",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34581729/"
   },
@@ -295,6 +323,7 @@
    "published": "2021-12-07",
    "doi": "10.1001/jama.2021.20007",
    "population": "Asymptomatic children younger than 5 years.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2021.20007",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34874412/"
   },
@@ -305,6 +334,7 @@
    "published": "2022-08-23",
    "doi": "10.1001/jama.2022.13044",
    "population": "Adults 40 years or older without a history of known CVD and who do not have signs and symptoms of CVD.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2022.13044",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/35997723/"
   },
@@ -315,6 +345,7 @@
    "published": "2022-09-27",
    "doi": "10.1001/jama.2022.15322",
    "population": "Asymptomatic, nonpregnant adolescents and adults who have ever been sexually active and are at increased risk for syphilis infection.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2022.15322",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36166020/"
   },
@@ -325,6 +356,7 @@
    "published": "2022-10-11",
    "doi": "10.1001/jama.2022.16936",
    "population": "Children and adolescents 18 years or younger who do not have a diagnosed anxiety disorder or are not showing recognized signs or symptoms of anxiety.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2022.16936",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36219403/"
   },
@@ -335,6 +367,7 @@
    "published": "2022-10-18",
    "doi": "10.1001/jama.2022.16946",
    "population": "Children and adolescents who do not have a diagnosed mental health condition or are not showing recognized signs or symptoms of depression or suicide risk.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2022.16946",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36219440/"
   },
@@ -345,6 +378,7 @@
    "published": "2023-05-02",
    "doi": "10.1001/jama.2023.4899",
    "population": "Asymptomatic adults 18 years or older at increased risk for tuberculosis.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.4899",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37129649/"
   },
@@ -355,6 +389,7 @@
    "published": "2023-06-27",
    "doi": "10.1001/jama.2023.9301",
    "population": "Asymptomatic adults 19 years or older, including pregnant and postpartum persons. Older adults are defined as those 65 years or older.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.9301",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37338866/"
   },
@@ -365,6 +400,7 @@
    "published": "2023-06-20",
    "doi": "10.1001/jama.2023.9297",
    "population": "Asymptomatic adults 19 years or older, including pregnant and postpartum persons. Older adults are defined as those 65 years or older.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.9297",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37338872/"
   },
@@ -375,6 +411,7 @@
    "published": "2023-08-01",
    "doi": "10.1001/jama.2023.12876",
    "population": "Persons who are planning to or could become pregnant.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.12876",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37526713/"
   },
@@ -385,6 +422,7 @@
    "published": "2023-08-22",
    "doi": "10.1001/jama.2023.14461",
    "population": "Adolescents and adults who do not have HIV and are at increased risk of HIV.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.14461",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37606666/"
   },
@@ -395,6 +433,7 @@
    "published": "2023-09-19",
    "doi": "10.1001/jama.2023.16991",
    "population": "Pregnant persons without a known diagnosis of a hypertensive disorder of pregnancy or chronic hypertension.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2023.16991",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37721605/"
   },
@@ -405,6 +444,7 @@
    "published": "2024-06-11",
    "doi": "10.1001/jama.2024.5534",
    "population": "Cisgender women and all other persons assigned female at birth aged 40 years or older at average risk of breast cancer.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2024.5534",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38687503/"
   },
@@ -415,6 +455,7 @@
    "published": "2024-07-02",
    "doi": "10.1001/jama.2024.8481",
    "population": "Community-dwelling adults 65 years or older at increased risk of falls.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2024.8481",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38833246/"
   },
@@ -425,6 +466,7 @@
    "published": "2024-07-16",
    "doi": "10.1001/jama.2024.11146",
    "population": "Children and adolescents 6 years or older.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2024.11146",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38888912/"
   },
@@ -435,6 +477,7 @@
    "published": "2025-02-11",
    "doi": "10.1001/jama.2024.27154",
    "population": "Adults 40 years or older without known osteoporosis or history of fragility fractures.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2024.27154",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39808425/"
   },
@@ -445,6 +488,7 @@
    "published": "2025-05-06",
    "doi": "10.1001/jama.2025.3650",
    "population": "Adolescents and adults who are pregnant or postpartum, and their infants and children.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2025.3650",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40198087/"
   },
@@ -455,6 +499,7 @@
    "published": "2025-06-10",
    "doi": "10.1001/jama.2025.5009",
    "population": "Adolescents and adults who are pregnant.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2025.5009",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40358930/"
   },
@@ -465,6 +510,7 @@
    "published": "2025-07-22",
    "doi": "10.1001/jama.2025.9009",
    "population": "The recommendation on screening for IPV applies to adolescents and adults who are pregnant or postpartum, and women of reproductive age. The recommendation on screening in older and vulnerable adults applies to persons without recognized signs and symptoms of abuse or neglect.",
+   "additional_text": null,
    "url": "https://doi.org/10.1001/jama.2025.9009",
    "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40553450/"
   }

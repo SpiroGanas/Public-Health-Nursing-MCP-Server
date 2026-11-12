@@ -41,6 +41,10 @@ pub struct Statement {
     pub doi: String,
     /// The statement's population text, when its abstract has one.
     pub population: Option<String>,
+    /// Text that follows the last graded sentence in the abstract (some statements put their
+    /// scope there; the lung cancer statement notes the recommendation it replaces).
+    #[serde(default)]
+    pub additional_text: Option<String>,
     pub url: String,
     pub pubmed_url: String,
 }
@@ -71,7 +75,9 @@ pub struct UspstfSnapshot {
 impl UspstfSnapshot {
     /// The statement behind a recommendation.
     pub fn statement(&self, rec: &Recommendation) -> Option<&Statement> {
-        self.statements.iter().find(|s| s.pmid == rec.statement_pmid)
+        self.statements
+            .iter()
+            .find(|s| s.pmid == rec.statement_pmid)
     }
 }
 
@@ -129,10 +135,7 @@ fn sex_param(sex: &str) -> &'static str {
 
 /// The request URL for an age (years), sex ("female" or "male"), and pregnancy.
 pub fn myhf_url(age_years: u32, sex: &str, pregnant: bool) -> String {
-    let mut url = format!(
-        "{MYHF_BASE}?lang=en&age={age_years}&sex={}",
-        sex_param(sex)
-    );
+    let mut url = format!("{MYHF_BASE}?lang=en&age={age_years}&sex={}", sex_param(sex));
     if pregnant {
         url.push_str("&pregnant=yes");
     }
@@ -205,16 +208,8 @@ pub async fn fetch_myhf(
     pregnant: bool,
 ) -> Result<(Vec<MyHfTopic>, Fetched)> {
     let url = myhf_url(age_years, sex, pregnant);
-    let fetched = fetch_validated(
-        http,
-        cache,
-        &url,
-        None,
-        MYHF_TTL_SECS,
-        &expect_myhf,
-        None,
-    )
-    .await?;
+    let fetched =
+        fetch_validated(http, cache, &url, None, MYHF_TTL_SECS, &expect_myhf, None).await?;
     let topics = parse_myhf(&fetched.body)?;
     Ok((topics, fetched))
 }
@@ -231,7 +226,12 @@ mod tests {
         // Every grade tag in the sentence agrees with the grade field.
         for r in &snap.recommendations {
             let tag = format!("({} recommendation)", r.grade);
-            assert!(r.recommendation.contains(&tag), "{}: {}", r.id, r.recommendation);
+            assert!(
+                r.recommendation.contains(&tag),
+                "{}: {}",
+                r.id,
+                r.recommendation
+            );
             let s = snap.statement(r).unwrap();
             assert!(s.published.as_str() >= "2016-01-01", "{}", r.id);
             assert!(s.url.starts_with("https://doi.org/10."));
@@ -279,7 +279,12 @@ mod tests {
         assert_eq!(t.len(), 2);
         assert_eq!(t[0].short_title, "Colorectal cancer screening");
         assert_eq!(t[0].last_update.as_deref(), Some("2026-07-07"));
-        assert!(t[0].url.as_deref().unwrap().starts_with("https://odphp.health.gov/"));
+        assert!(
+            t[0].url
+                .as_deref()
+                .unwrap()
+                .starts_with("https://odphp.health.gov/")
+        );
         // A link outside ODPHP is not passed on.
         assert_eq!(t[1].url, None);
         assert_eq!(t[1].last_update, None);

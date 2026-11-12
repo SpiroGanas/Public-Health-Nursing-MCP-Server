@@ -171,12 +171,15 @@ def parse(xml):
 
 
 def graded_sentences(text):
-    """Split recommendation text at each grade tag: [(sentence text, grade letter)]."""
+    """Split recommendation text at each grade tag: ([(sentence text, grade letter)], trailing text).
+
+    The trailing text is whatever follows the last tag (older statements put the scope there, for
+    example "This recommendation applies to asymptomatic women 35 years and older ...")."""
     out, pos = [], 0
     for m in TAG.finditer(text):
         out.append((clean(text[pos:m.end()]), m.group(1) or m.group(2)))
         pos = m.end()
-    return out
+    return out, clean(text[pos:])
 
 
 def build():
@@ -192,7 +195,7 @@ def build():
         s = st[pmid]
         if not s["published"] or not s["doi"]:
             sys.exit(f"{pmid}: no date or DOI")
-        sents = graded_sentences(s["recommendation_text"])
+        sents, trailing = graded_sentences(s["recommendation_text"])
         hits = [(t, g) for t, g in sents if phrase.lower() in t.lower()]
         if len(hits) != 1:
             sys.exit(f"{rid}: phrase {phrase!r} matched {len(hits)} sentences in {pmid}")
@@ -202,6 +205,7 @@ def build():
         statements[pmid] = {
             "pmid": pmid, "title": s["title"], "journal": s["journal"], "published": s["published"],
             "doi": s["doi"], "population": s["population"],
+            "additional_text": trailing or None,
             "url": f"https://doi.org/{s['doi']}",
             "pubmed_url": f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/",
         }
