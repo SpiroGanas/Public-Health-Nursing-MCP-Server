@@ -1134,6 +1134,46 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 15 data tools.
         // ---- Phase 16 data tools go below this line.
         // ---- Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+        // PLAN-01 and PLAN-02 take no file arguments: they work only from the program
+        // description in the request and return no client data.
+        (
+            "build_logic_model",
+            json!({"program_name": "Leak test program", "activities": ["Provide home visits"],
+                   "short_term_outcomes": ["Increase knowledge of warning signs"]}),
+            ll,
+        ),
+        (
+            "write_smartie_objectives",
+            json!({"objectives": [{"measure": "screening rate", "direction": "increase"}],
+                   "healthy_people_queries": ["diabetes"], "refresh_live": false}),
+            ll,
+        ),
+        // PLAN-05 reads a staff roster only to put names beside roles in the plan file. A
+        // roster with contact people is accepted (names and contacts stay in the file); a client
+        // line list and a shelter registration file are refused or ignored without echoing any
+        // value.
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "stage": "implementation",
+                   "roles": ["Incident Commander"], "roster_path": "staff_roster.csv",
+                   "logic_model": {"activities": ["Provide home visits"],
+                                   "short_term_outcomes": ["Increase knowledge"]}}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "roster_path": "line_list.csv",
+                   "write_document": false,
+                   "logic_model": {"activities": ["Provide home visits"]}}),
+            ll,
+        ),
+        (
+            "build_evaluation_plan",
+            json!({"program_name": "Leak test program", "roster_path": "shelter_registrations.csv",
+                   "write_document": false,
+                   "logic_model": {"activities": ["Provide home visits"]}}),
+            "data/shelter_registrations.csv",
+        ),
         // ---- End of Phase 16 design.
         // ---- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
         // ---- End of Phase 16 interventions.

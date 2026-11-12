@@ -161,10 +161,40 @@ pub fn normalize_id(s: &str) -> String {
 }
 
 const STOP: &[&str] = &[
-    "the", "and", "for", "who", "that", "with", "from", "have", "has", "are", "was", "among",
-    "their", "they", "this", "increase", "reduce", "proportion", "people", "persons", "adults",
-    "number", "rate", "percent", "health", "get", "use", "more", "less", "than", "all", "any",
-    "each", "per",
+    "the",
+    "and",
+    "for",
+    "who",
+    "that",
+    "with",
+    "from",
+    "have",
+    "has",
+    "are",
+    "was",
+    "among",
+    "their",
+    "they",
+    "this",
+    "increase",
+    "reduce",
+    "proportion",
+    "people",
+    "persons",
+    "adults",
+    "number",
+    "rate",
+    "percent",
+    "health",
+    "get",
+    "use",
+    "more",
+    "less",
+    "than",
+    "all",
+    "any",
+    "each",
+    "per",
 ];
 
 fn tokens(s: &str) -> Vec<String> {
@@ -188,9 +218,7 @@ impl HpSnapshot {
     /// An objective by ID (any common spelling of the ID).
     pub fn by_id(&self, id: &str) -> Option<&Objective> {
         let want = normalize_id(id);
-        self.objectives
-            .iter()
-            .find(|o| normalize_id(&o.id) == want)
+        self.objectives.iter().find(|o| normalize_id(&o.id) == want)
     }
 
     /// Objectives matching a topic or keywords, best first. An exact ID is the only match for
@@ -367,7 +395,11 @@ fn first_number(s: &str) -> Option<f64> {
     let mut i = 0;
     while i < chars.len() {
         if chars[i].is_ascii_digit() {
-            let start = if i > 0 && chars[i - 1] == '-' { i - 1 } else { i };
+            let start = if i > 0 && chars[i - 1] == '-' {
+                i - 1
+            } else {
+                i
+            };
             let mut j = i;
             while j < chars.len() && (chars[j].is_ascii_digit() || chars[j] == ',') {
                 j += 1;
@@ -501,7 +533,8 @@ fn year_at_end(s: &str) -> Option<String> {
 
 /// Parse one Healthy People 2030 objective page.
 pub fn parse_objective_page(page: &str, url: &str) -> Result<Objective> {
-    let bad = |why: &str| PhnError::Network(format!("Healthy People page is not an objective: {why}"));
+    let bad =
+        |why: &str| PhnError::Network(format!("Healthy People page is not an objective: {why}"));
     let h1_start = page
         .find("<h1 class=\"page-title\">")
         .ok_or_else(|| bad("no title"))?;
@@ -660,7 +693,10 @@ mod tests {
         assert_eq!(live.baseline_year.as_deref(), Some("2019"));
         assert_eq!(live.most_recent_period.as_deref(), Some("2023"));
         assert!(live.age_adjusted);
-        assert_eq!(live.revised, vec!["baseline has been revised", "target has been revised"]);
+        assert_eq!(
+            live.revised,
+            vec!["baseline has been revised", "target has been revised"]
+        );
     }
 
     #[test]
@@ -684,7 +720,11 @@ mod tests {
             .filter(|o| o.objective_type == "core")
             .count();
         assert!(core >= 340);
-        for o in snap.objectives.iter().filter(|o| o.objective_type == "core") {
+        for o in snap
+            .objectives
+            .iter()
+            .filter(|o| o.objective_type == "core")
+        {
             assert!(o.target_value.is_some(), "{} has no target", o.id);
             assert!(o.baseline_value.is_some(), "{} has no baseline", o.id);
             assert!(o.desired_direction.is_some(), "{}", o.id);
@@ -718,7 +758,12 @@ mod tests {
     fn keyword_search_finds_the_diabetes_eye_exam() {
         let snap = snapshot();
         let hits = snap.search("diabetes eye exam", 5);
-        assert_eq!(hits[0].objective.id, "D-04", "{:?}", hits.iter().map(|h| &h.objective.id).collect::<Vec<_>>());
+        assert_eq!(
+            hits[0].objective.id,
+            "D-04",
+            "{:?}",
+            hits.iter().map(|h| &h.objective.id).collect::<Vec<_>>()
+        );
         let hits = snap.search("flu vaccine every year", 3);
         assert_eq!(hits[0].objective.id, "IID-09");
         assert!(snap.search("zzzz qqqq", 5).is_empty());
@@ -735,6 +780,31 @@ mod tests {
         assert!(!is_objective_url(&format!("{D04_URL}?x=1")));
         for o in &snapshot().objectives {
             assert!(is_objective_url(&o.url), "{}", o.url);
+        }
+    }
+
+    /// Reads three live objective pages and checks they parse and agree with the snapshot on
+    /// identity. Run with `cargo test -p phn-data --lib healthy_people -- --ignored`
+    /// (needs odphp.health.gov).
+    #[tokio::test]
+    #[ignore]
+    async fn live_objective_pages_parse() {
+        let dir = tempfile::tempdir().unwrap();
+        let mut config = phn_core::Config::for_root(dir.path());
+        config.offline = false;
+        let http = HttpClient::new(&config).unwrap();
+        let snap = snapshot();
+        for id in ["D-04", "IID-09", "HC/HIT-02"] {
+            let snap_obj = snap.by_id(id).unwrap();
+            let (live, fetched) = fetch_objective(&http, None, &snap_obj.url).await.unwrap();
+            assert_eq!(fetched.mode, phn_core::SourceMode::Live);
+            assert_eq!(live.id, snap_obj.id);
+            assert_eq!(live.title, snap_obj.title);
+            assert_eq!(live.objective_type, "core");
+            assert!(
+                live.target_value.is_some() && live.baseline_value.is_some(),
+                "{id}"
+            );
         }
     }
 }

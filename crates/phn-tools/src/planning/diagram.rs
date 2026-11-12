@@ -302,7 +302,11 @@ impl Diagram {
         ));
         for (ci, c) in self.columns.iter().enumerate() {
             let cid = format!("c{ci}_{}", id_safe(&c.id));
-            let class = if c.tone == Tone::Work { "work" } else { "result" };
+            let class = if c.tone == Tone::Work {
+                "work"
+            } else {
+                "result"
+            };
             let mut nodes: Vec<String> = (0..c.items.len()).map(|i| format!("{cid}_{i}")).collect();
             if c.items.is_empty() {
                 nodes.push(format!("{cid}_none"));
@@ -441,7 +445,11 @@ impl Diagram {
         svg.push_str(&format!(
             "<title id=\"diagram-title\">{}</title>\n<desc id=\"diagram-desc\">{}</desc>\n",
             esc(&self.title),
-            esc(&format!("{} {}", self.alt_text(), self.text_description().replace('\n', " ")))
+            esc(&format!(
+                "{} {}",
+                self.alt_text(),
+                self.text_description().replace('\n', " ")
+            ))
         ));
         svg.push_str(&format!(
             "<defs><marker id=\"arrowhead\" viewBox=\"0 0 10 10\" refX=\"9\" refY=\"5\" markerWidth=\"8\" markerHeight=\"8\" orient=\"auto\"><path d=\"M0,0 L10,5 L0,10 z\" fill=\"{INK_SECONDARY}\"/></marker></defs>\n"
@@ -742,14 +750,21 @@ mod tests {
 
     #[test]
     fn long_words_are_split_and_boxes_hold_their_text() {
-        let lines = wrap("Extraordinarilylongwordwithoutanyspacesthatcannotfit", 120.0, 12.0);
+        let lines = wrap(
+            "Extraordinarilylongwordwithoutanyspacesthatcannotfit",
+            120.0,
+            12.0,
+        );
         assert!(lines.len() > 1);
         for l in &lines {
             assert!(text_width(l, 12.0) <= 125.0, "{l}");
         }
         // Wrapping keeps every character.
         let joined: String = lines.concat().replace('-', "");
-        assert_eq!(joined, "Extraordinarilylongwordwithoutanyspacesthatcannotfit");
+        assert_eq!(
+            joined,
+            "Extraordinarilylongwordwithoutanyspacesthatcannotfit"
+        );
     }
 
     #[test]

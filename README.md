@@ -226,6 +226,9 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `build_logic_model` | PLAN-01 | planning | Builds a program logic model (inputs, activities, outputs, short-term, intermediate, and long-term outcomes, assumptions, external factors) following CDC's Program Evaluation Framework, checks it, reads it as if-then statements, and draws it as Mermaid text and an accessible SVG, with a one-page Word table. |
+| `write_smartie_objectives` | PLAN-02 | planning | Assembles and checks SMARTIE objectives (flags a missing baseline, target, date, population, data source, or equity dimension) and looks up Healthy People 2030 objectives with national baselines and targets, live or from a dated snapshot. |
+| `build_evaluation_plan` | PLAN-05 | planning | Drafts an evaluation plan on CDC's six steps: questions, indicators, data sources, methods, timing, responsible roles, process, outcome, and impact types, a timeline, and an optional RE-AIM lens, as a Word plan with blanks. |
 <!-- Phase 16 design rows go above this line. -->
 <!-- Phase 16 interventions rows go above this line. -->
 <!-- Phase 16 appraise rows go above this line. -->

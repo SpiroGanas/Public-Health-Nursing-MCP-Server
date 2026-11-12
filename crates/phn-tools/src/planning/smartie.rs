@@ -12,7 +12,7 @@
 
 use std::collections::BTreeMap;
 
-use chrono::NaiveDate;
+use chrono::{Datelike, NaiveDate};
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_data::healthy_people::{self, HpSnapshot, Objective};
 use schemars::JsonSchema;
@@ -378,6 +378,20 @@ fn check_len(what: &str, s: &Option<String>) -> Result<()> {
     Ok(())
 }
 
+/// Read a start date: like [`read_date`], but a year alone is January 1 and a month is its
+/// first day (a project that starts in 2027 starts at the beginning of the period).
+pub fn read_start_date(s: &str) -> Option<NaiveDate> {
+    let t = s.trim();
+    let parts: Vec<&str> = t.split('-').collect();
+    match parts.as_slice() {
+        [y] if y.len() == 4 => NaiveDate::from_ymd_opt(y.parse().ok()?, 1, 1)
+            .filter(|d| (1900..=2100).contains(&d.year())),
+        [y, m] if y.len() == 4 => NaiveDate::from_ymd_opt(y.parse().ok()?, m.parse().ok()?, 1)
+            .filter(|d| (1900..=2100).contains(&d.year())),
+        _ => read_date(t),
+    }
+}
+
 /// Read a date written YYYY-MM-DD, YYYY-MM, YYYY, or M/D/YYYY (four-digit year). A year alone
 /// is read as December 31 and a month as its last day. Years outside 1900-2100 are refused.
 pub fn read_date(s: &str) -> Option<NaiveDate> {
@@ -416,7 +430,8 @@ pub fn read_date(s: &str) -> Option<NaiveDate> {
             if let [m, d, y] = sl.as_slice()
                 && y.len() == 4
             {
-                let (m, d, y): (u32, u32, i32) = (m.parse().ok()?, d.parse().ok()?, y.parse().ok()?);
+                let (m, d, y): (u32, u32, i32) =
+                    (m.parse().ok()?, d.parse().ok()?, y.parse().ok()?);
                 if !ok_year(y) {
                     return None;
                 }
@@ -470,7 +485,13 @@ fn with_unit(v: f64, unit: Option<&str>) -> String {
     }
 }
 
-fn hp_out(o: &Objective, mode: &str, as_of: &str, changed: Vec<String>, lhi: bool) -> HpObjectiveOut {
+fn hp_out(
+    o: &Objective,
+    mode: &str,
+    as_of: &str,
+    changed: Vec<String>,
+    lhi: bool,
+) -> HpObjectiveOut {
     HpObjectiveOut {
         id: o.id.clone(),
         title: o.title.clone(),
@@ -566,7 +587,10 @@ impl<'a> HpReader<'a> {
                         );
                         self.live_reads += 1;
                         self.sources.push(Source {
-                            title: format!("Healthy People 2030 objective {}: {}", live.id, live.title),
+                            title: format!(
+                                "Healthy People 2030 objective {}: {}",
+                                live.id, live.title
+                            ),
                             publisher:
                                 "Office of Disease Prevention and Health Promotion (ODPHP), HHS"
                                     .into(),
@@ -623,13 +647,25 @@ fn hp_link(o: &ObjectiveInput, hp: HpObjectiveOut, dir: Option<Direction>) -> Hp
     ) {
         let (mine, theirs) = (unit_class(unit), unit_class(htext));
         if mine == theirs && mine != UnitClass::Other {
-            let hd = hp.desired_direction.clone().unwrap_or_default().to_lowercase();
+            let hd = hp
+                .desired_direction
+                .clone()
+                .unwrap_or_default()
+                .to_lowercase();
             let rel = if (t - ht).abs() < 1e-9 {
                 "equal to"
             } else if hd.starts_with("decrease") {
-                if t < ht { "better than (lower than)" } else { "short of (higher than)" }
+                if t < ht {
+                    "better than (lower than)"
+                } else {
+                    "short of (higher than)"
+                }
             } else if hd.starts_with("increase") {
-                if t > ht { "better than (higher than)" } else { "short of (lower than)" }
+                if t > ht {
+                    "better than (higher than)"
+                } else {
+                    "short of (lower than)"
+                }
             } else if t > ht {
                 "higher than"
             } else {
@@ -666,13 +702,13 @@ struct Checked {
 }
 
 #[allow(clippy::too_many_lines)]
-fn check_objective(
-    c: &SmartieContent,
-    n: usize,
-    o: &ObjectiveInput,
-    today: NaiveDate,
-) -> Checked {
-    let msg = |k: &str| c.check_messages.get(k).cloned().unwrap_or_else(|| k.to_string());
+fn check_objective(c: &SmartieContent, n: usize, o: &ObjectiveInput, today: NaiveDate) -> Checked {
+    let msg = |k: &str| {
+        c.check_messages
+            .get(k)
+            .cloned()
+            .unwrap_or_else(|| k.to_string())
+    };
     let measure = tidy(&o.measure);
     let population = tidy(&o.population);
     let geography = tidy(&o.geography);
@@ -689,7 +725,7 @@ fn check_objective(
     let target_date_raw = tidy(&o.target_date);
     let start_raw = tidy(&o.start_date);
     let target_date = target_date_raw.as_deref().and_then(read_date);
-    let start_date = start_raw.as_deref().and_then(read_date);
+    let start_date = start_raw.as_deref().and_then(read_start_date);
 
     // Element notes and fields.
     let mut results: Vec<ElementResult> = Vec::new();
@@ -854,7 +890,10 @@ fn check_objective(
             status,
             notes,
             missing_fields: missing,
-            question: e.generalized.clone().unwrap_or_else(|| e.cdc_question.clone()),
+            question: e
+                .generalized
+                .clone()
+                .unwrap_or_else(|| e.cdc_question.clone()),
         });
     }
 
@@ -865,7 +904,8 @@ fn check_objective(
             flag("statement_has_no_number");
         }
         let lower = st.to_lowercase();
-        let has_by = lower.contains("by ") || lower.contains("before ") || lower.contains("within ");
+        let has_by =
+            lower.contains("by ") || lower.contains("before ") || lower.contains("within ");
         if !has_by {
             flag("statement_has_no_deadline_words");
         }
@@ -883,7 +923,10 @@ fn check_objective(
         target_date.map(|d| d.format("%B %-d, %Y").to_string()),
         "target date",
     );
-    let verb = part(o.direction.map(|d| d.verb().to_string()), "increase, decrease, or maintain");
+    let verb = part(
+        o.direction.map(|d| d.verb().to_string()),
+        "increase, decrease, or maintain",
+    );
     let measure_txt = part(measure.clone(), "what is measured");
     let pop_txt = {
         let p = part(population.clone(), "population of focus");
@@ -903,9 +946,13 @@ fn check_objective(
     let target_txt = part(o.target.map(|t| with_unit(t, unit.as_deref())), "target");
     let source_txt = part(data_source.clone(), "data source");
     let drafted = if o.direction == Some(Direction::Maintain) {
-        format!("By {date_txt}, maintain {measure_txt} among {pop_txt} at {target_txt} (baseline {base_txt}), measured by {source_txt}.")
+        format!(
+            "By {date_txt}, maintain {measure_txt} among {pop_txt} at {target_txt} (baseline {base_txt}), measured by {source_txt}."
+        )
     } else {
-        format!("By {date_txt}, {verb} {measure_txt} among {pop_txt} from {base_txt} to {target_txt}, measured by {source_txt}.")
+        format!(
+            "By {date_txt}, {verb} {measure_txt} among {pop_txt} from {base_txt} to {target_txt}, measured by {source_txt}."
+        )
     };
     let drafted = {
         let mut cs = drafted.chars();
@@ -976,7 +1023,11 @@ pub async fn write_smartie_objectives(
     args: SmartieArgs,
 ) -> Result<Envelope<SmartieResult>> {
     let c: SmartieContent = content::load(SMARTIE)?;
-    if args.objectives.is_empty() && args.healthy_people_queries.iter().all(|q| q.trim().is_empty())
+    if args.objectives.is_empty()
+        && args
+            .healthy_people_queries
+            .iter()
+            .all(|q| q.trim().is_empty())
     {
         return Err(PhnError::InvalidInput(
             "give at least one objective (objectives) to check or a Healthy People 2030 topic or objective ID (healthy_people_queries)"
@@ -1148,7 +1199,11 @@ pub async fn write_smartie_objectives(
     let changed: Vec<String> = lookups
         .iter()
         .flat_map(|l| l.matches.iter())
-        .chain(checks.iter().filter_map(|k| k.healthy_people.as_ref().map(|h| &h.objective)))
+        .chain(
+            checks
+                .iter()
+                .filter_map(|k| k.healthy_people.as_ref().map(|h| &h.objective)),
+        )
         .filter(|m| !m.changed_since_snapshot.is_empty())
         .map(|m| format!("{}: {}", m.id, m.changed_since_snapshot.join("; ")))
         .collect();
@@ -1233,7 +1288,10 @@ pub async fn write_smartie_objectives(
                 h.objective.title,
                 h.objective.national_baseline.as_deref().unwrap_or("none"),
                 h.objective.national_target.as_deref().unwrap_or("none"),
-                h.comparison.as_deref().map(|x| format!(" {x}")).unwrap_or_default()
+                h.comparison
+                    .as_deref()
+                    .map(|x| format!(" {x}"))
+                    .unwrap_or_default()
             ));
         }
         s.push('\n');
@@ -1249,9 +1307,17 @@ pub async fn write_smartie_objectives(
             .iter()
             .map(|m| {
                 vec![
-                    format!("{} {}", m.id, if m.leading_health_indicator { "(LHI)" } else { "" })
-                        .trim()
-                        .to_string(),
+                    format!(
+                        "{} {}",
+                        m.id,
+                        if m.leading_health_indicator {
+                            "(LHI)"
+                        } else {
+                            ""
+                        }
+                    )
+                    .trim()
+                    .to_string(),
                     m.title.clone(),
                     m.national_baseline.clone().unwrap_or_else(|| "none".into()),
                     m.national_target.clone().unwrap_or_else(|| "none".into()),
@@ -1261,7 +1327,14 @@ pub async fn write_smartie_objectives(
             })
             .collect();
         s.push_str(&md::table(
-            &["ID", "Objective", "National baseline", "National target", "Direction", "Data"],
+            &[
+                "ID",
+                "Objective",
+                "National baseline",
+                "National target",
+                "Direction",
+                "Data",
+            ],
             &rows,
         ));
         if let Some(n) = &l.note {
@@ -1283,7 +1356,14 @@ pub async fn write_smartie_objectives(
     );
     let texts = roster::argument_strings(
         &args,
-        &["refresh_live", "write_document", "format", "max_matches", "target_date", "start_date"],
+        &[
+            "refresh_live",
+            "write_document",
+            "format",
+            "max_matches",
+            "target_date",
+            "start_date",
+        ],
     );
     let found = roster::contacts_in_arguments(texts.iter().map(String::as_str));
     if !found.is_empty() {
@@ -1315,7 +1395,10 @@ pub async fn write_smartie_objectives(
                 letter: e.letter.clone(),
                 label: e.label.clone(),
                 cdc_name: e.cdc_name.clone(),
-                question: e.generalized.clone().unwrap_or_else(|| e.cdc_question.clone()),
+                question: e
+                    .generalized
+                    .clone()
+                    .unwrap_or_else(|| e.cdc_question.clone()),
             })
             .collect(),
         equity_dimension_prompts: c.equity_prompts.dimensions.clone(),
@@ -1349,7 +1432,10 @@ fn document_markdown(c: &SmartieContent, goal: Option<&str>, checks: &[Objective
     }
     m.push_str("Draft for review with partners and the population of focus. Source: CDC, Writing Effective Objectives (SMARTIE).\n\n");
     for k in checks {
-        m.push_str(&format!("## Objective {}\n\n{}\n\n", k.number, k.drafted_statement));
+        m.push_str(&format!(
+            "## Objective {}\n\n{}\n\n",
+            k.number, k.drafted_statement
+        ));
         let rows: Vec<Vec<String>> = k
             .elements
             .iter()
@@ -1370,7 +1456,10 @@ fn document_markdown(c: &SmartieContent, goal: Option<&str>, checks: &[Objective
                 ]
             })
             .collect();
-        m.push_str(&format!("Table: Objective {} checked against the seven SMARTIE elements\n\n", k.number));
+        m.push_str(&format!(
+            "Table: Objective {} checked against the seven SMARTIE elements\n\n",
+            k.number
+        ));
         m.push_str(&md::table(&["Element", "Status", "Notes"], &rows));
         if let Some(h) = &k.healthy_people {
             m.push_str(&format!(
@@ -1411,9 +1500,14 @@ mod tests {
         ObjectiveInput {
             statement: Some("By December 2027, raise postpartum visit attendance to 85%".into()),
             objective_type: Some(ObjectiveKind::Outcome),
-            measure: Some("proportion of first-time parents who attend a postpartum visit within 14 days".into()),
+            measure: Some(
+                "proportion of first-time parents who attend a postpartum visit within 14 days"
+                    .into(),
+            ),
             direction: Some(Direction::Increase),
-            population: Some("first-time parents who deliver at the town's partner hospital".into()),
+            population: Some(
+                "first-time parents who deliver at the town's partner hospital".into(),
+            ),
             geography: None,
             baseline: Some(62.0),
             baseline_period: Some("2025".into()),
@@ -1525,7 +1619,11 @@ mod tests {
         let mut o = full();
         o.target = Some(62.0);
         let r = write_smartie_objectives(&ctx, args(o)).await.unwrap();
-        assert!(r.data.objectives[0].flags.contains(&"target_equals_baseline".into()));
+        assert!(
+            r.data.objectives[0]
+                .flags
+                .contains(&"target_equals_baseline".into())
+        );
     }
 
     #[test]
@@ -1537,7 +1635,22 @@ mod tests {
         assert_eq!(d("2027").as_deref(), Some("2027-12-31"));
         assert_eq!(d("3/5/2027").as_deref(), Some("2027-03-05"));
         assert_eq!(d("2027-12").as_deref(), Some("2027-12-31"));
-        for bad in ["3/5/27", "0021-05-01", "2101", "1899-12-31", "2027-13", "2027-02-30", "soon", ""] {
+        let st = |s: &str| read_start_date(s).map(|d| d.to_string());
+        assert_eq!(st("2027").as_deref(), Some("2027-01-01"));
+        assert_eq!(st("2027-07").as_deref(), Some("2027-07-01"));
+        assert_eq!(st("2027-07-15").as_deref(), Some("2027-07-15"));
+        assert_eq!(st("2101"), None);
+        assert_eq!(st("2027-13"), None);
+        for bad in [
+            "3/5/27",
+            "0021-05-01",
+            "2101",
+            "1899-12-31",
+            "2027-13",
+            "2027-02-30",
+            "soon",
+            "",
+        ] {
             assert_eq!(d(bad), None, "{bad}");
         }
     }
@@ -1548,7 +1661,11 @@ mod tests {
         let r = write_smartie_objectives(
             &ctx,
             SmartieArgs {
-                healthy_people_queries: vec!["diabetes yearly eye exam".into(), "D-04".into(), "zzzz qqqq".into()],
+                healthy_people_queries: vec![
+                    "diabetes yearly eye exam".into(),
+                    "D-04".into(),
+                    "zzzz qqqq".into(),
+                ],
                 refresh_live: Some(false),
                 ..SmartieArgs::default()
             },
@@ -1578,7 +1695,9 @@ mod tests {
         o.direction = Some(Direction::Increase);
         o.target = Some(75.0);
         o.baseline = Some(60.0);
-        let r = write_smartie_objectives(&ctx, args(o.clone())).await.unwrap();
+        let r = write_smartie_objectives(&ctx, args(o.clone()))
+            .await
+            .unwrap();
         let h = r.data.objectives[0].healthy_people.as_ref().unwrap();
         let cmp = h.comparison.as_deref().unwrap();
         assert!(cmp.contains("better than (higher than)"), "{cmp}");
@@ -1586,7 +1705,9 @@ mod tests {
         assert!(h.notes.iter().any(|n| n.contains("age-adjusted")));
         // A rate unit does not compare with a percent target.
         o.unit = Some("per 100,000".into());
-        let r = write_smartie_objectives(&ctx, args(o.clone())).await.unwrap();
+        let r = write_smartie_objectives(&ctx, args(o.clone()))
+            .await
+            .unwrap();
         let h = r.data.objectives[0].healthy_people.as_ref().unwrap();
         assert!(h.comparison.is_none());
         assert!(h.notes.iter().any(|n| n.contains("not the same kind")));
@@ -1607,7 +1728,9 @@ mod tests {
         let r = write_smartie_objectives(&ctx, args(o)).await.unwrap();
         assert!(r.data.objectives[0].healthy_people.is_none());
         assert!(r.caveats.iter().any(|c| c.contains("ZZ-99")));
-        let e = write_smartie_objectives(&ctx, SmartieArgs::default()).await.unwrap_err();
+        let e = write_smartie_objectives(&ctx, SmartieArgs::default())
+            .await
+            .unwrap_err();
         assert!(e.to_string().contains("at least one objective"));
         let e = write_smartie_objectives(
             &ctx,
@@ -1674,10 +1797,16 @@ mod tests {
         let (_d, ctx) = ctx();
         let r = write_smartie_objectives(&ctx, args(full())).await.unwrap();
         assert_eq!(r.data.elements.len(), 7);
-        assert!(r.data.elements[2].cdc_name == "Attainable" && r.data.elements[2].label == "Achievable");
+        assert!(
+            r.data.elements[2].cdc_name == "Attainable" && r.data.elements[2].label == "Achievable"
+        );
         assert!(r.data.elements[6].question.contains("health disparities"));
         assert_eq!(r.data.cdc_examples.len(), 3);
         assert!(r.caveats.iter().any(|c| c.contains("attainable")));
-        assert!(r.caveats.iter().any(|c| c.to_lowercase().contains("review")));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.to_lowercase().contains("review"))
+        );
     }
 }

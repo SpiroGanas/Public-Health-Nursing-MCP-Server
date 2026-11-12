@@ -3134,6 +3134,120 @@ terms are unverified (credit MassGIS).
 
 <!-- Phase 16 design (PLAN-01, PLAN-02, PLAN-05). -->
 
+### `build_logic_model` (PLAN-01, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name` | required | Title of the model. |
+| `population`, `need`, `stage` | | Who the program serves, the need (narrative only), and `planning`, `implementation`, or `maintenance` (CDC's stages of development). |
+| `inputs`, `activities`, `outputs` | | Short phrases, one per box (at most 30 each; 6 or fewer reads best). |
+| `short_term_outcomes`, `intermediate_outcomes`, `long_term_outcomes` | | Who or what changes, in time order. |
+| `assumptions`, `external_factors` | | Why the team expects the activities to work, and conditions outside the program (CDC: contextual factors). |
+| `write_documents` | true | Word table, SVG, PNG, and Mermaid text in `/data/output/logic_model_<name>/`. |
+| `format` | docx | `docx` or `pdf` for the table. |
+| `include_svg` | true | Return the SVG source in the result. |
+
+**Output.** The model's columns with CDC's definition of each, the model read as if-then statements
+(CDC's way of reading a logic model), findings, the narrative scaffold CDC pairs with the model
+(need, inputs, activities, outcomes, contextual factors, stage of development), and the diagram as
+Mermaid `flowchart LR` text and a self-contained SVG (`role="img"`, `<title>`, `<desc>` with every
+box's text, dark text on light fills, no scripts or external files) plus short alt text and a full
+text description. The Word table carries the same content and fits one portrait page; the diagram
+files are for a slide or a landscape page. The diagram code is `crates/phn-tools/src/planning/diagram.rs`
+(columns, groups, bands, Mermaid and SVG), written to be reused by other planning tools.
+
+**Checks** (rules in `content/planning/logic_model.yaml`): no activities or outcomes (needs work);
+no inputs, outputs, assumptions, external factors, stage, or population; outcomes not sequenced
+(missing short-term, intermediate, or long-term); an outcome that reads like an activity ("Provide
+..."); an outcome that does not say what changes; an activity that does not start with an action
+word; more than six boxes in a column; a box over 25 words; duplicates. The word lists and limits
+are this project's heuristics, not CDC rules.
+
+**Privacy.** The tool takes no file arguments and reads nothing from `/data`. Contact details or
+addresses typed into the description are reported by category in the privacy block (never echoed).
+
+**Limits.** The model is drafted by the AI from the nurse's description; the tool structures and
+checks it but cannot judge whether the program logic is sound. The W.K. Kellogg Foundation's Logic
+Model Development Guide could not be fetched, so the Outputs column and the term "assumptions" are
+used as common practice and the content says so; CDC treats outputs as indicators that belong with
+the evaluation measures. Mermaid output has arrows between columns, not between single boxes.
+Content is pending review.
+
+### `write_smartie_objectives` (PLAN-02, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `objectives` | | Up to 20. Each: `statement`, `objective_type` (`process` or `outcome`), `measure`, `direction` (`increase`, `decrease`, `maintain`), `population`, `geography`, `baseline`, `baseline_period`, `target`, `unit`, `target_date`, `start_date`, `review_points`, `data_source`, `achievability_basis`, `relevance`, `inclusion`, `equity_dimension`, `breakdown_by`, `healthy_people_id`, `responsible`. |
+| `goal` | | The broader goal, for the worksheet. |
+| `healthy_people_queries` | | Up to 6 topics, keywords, or objective IDs ("diabetes eye exam", "D-04"). |
+| `max_matches` | 5 | Matches per lookup, at most 10. |
+| `refresh_live` | true | Re-read each matched objective's page on odphp.health.gov; falls back to the snapshot. |
+| `write_document`, `format` | false, docx | Objectives worksheet in `/data/output/smartie_objectives/`. |
+
+**Output.** For each objective: a statement assembled from the parts (bracketed placeholders for
+what is missing), the seven SMARTIE elements each marked met, given for your judgment, missing, or
+check (with notes and CDC's question), flags (`missing_baseline`, `missing_target`, `missing_date`,
+`missing_population`, `missing_data_source`, `missing_equity_dimension`, `direction_mismatch`,
+`date_unreadable`, `date_before_start`, `no_review_points`, and others), the change from baseline to
+target (absolute, percentage points when the unit is percent, and percent of baseline), and the
+date as read (`YYYY-MM-DD`, `YYYY-MM`, a year, or `M/D/YYYY`; 1900-2100 only). Counts of each gap
+across the objectives. CDC's seven questions and three traditional-versus-SMARTIE examples.
+
+**Healthy People 2030.** Each lookup returns the closest objectives with national baseline (with
+its year), national target, desired direction, status, most recent value, data source,
+target-setting method, Leading Health Indicator flag, and revision notes. Values are read live from
+the objective's own ODPHP page when reachable, else from the bundled snapshot
+(`snapshots/healthy_people_2030_objectives.json`, 507 objectives read 2026-11-12: 356 core, 110
+developmental, 40 research, 1 unclassified), and each answer says which. A linked objective's
+target is compared with yours only when both are in the same kind of unit (percent, per 100,000,
+per 10,000, per 1,000) and the objective is core. Rebuild with
+`python3 -I xtask/scripts/build_design_snapshots.py` (`--check` compares).
+
+**Privacy.** No file arguments. Contact details in the text are reported by category.
+
+**Limits.** ODPHP has no public JSON API for the objectives that could be found, so the adapter
+parses the objective pages; a page redesign breaks live reads (the snapshot still works) and
+`parse_objective_page` has a fixture test. Subpopulation and state data are not included. The site
+shows a court-ordered restoration notice and may change. The checker counts what is present;
+achievable, relevant, inclusive, and equitable are judgments for the nurse and the community.
+CDC's sheet writes "attainable" and "time-based"; its Action Guide writes "achievable" and
+"timebound". Content is pending review.
+
+### `build_evaluation_plan` (PLAN-05, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name` | required | |
+| `population`, `stage`, `purpose`, `intended_users`, `intended_uses` | | CDC Step 3 purpose statement, users, and uses. |
+| `evaluation_types` | from stage | `formative`, `process`, `outcome`, `impact`, `economic`. No stage: process and outcome. |
+| `logic_model` | | `inputs`, `activities`, `outputs`, `short_term_outcomes`, `intermediate_outcomes`, `long_term_outcomes`; questions and indicators are drafted from it. |
+| `rows` | | Your own questions: `focus`, `evaluation_type`, `question`, `indicator`, `measure`, `baseline`, `data_sources`, `method`, `timing`, `responsible`, `analysis`. |
+| `lenses` | | `re_aim`. |
+| `disaggregate_by`, `roles` | | Groups to break results down by; roles on the team. |
+| `start_date`, `end_date` | weeks | Dated timeline (at most 10 years); a start alone runs 52 weeks. |
+| `roster_path`, `roster_sheet` | | Staff roster CSV/XLSX in `/data`; names beside matching roles in the file only. |
+| `write_document`, `format` | true, docx | Plan in `/data/output/evaluation_plan/`. |
+
+**Output.** Evaluation types with CDC's description, when to use each, and a suggested design; the
+evaluation matrix in CDC's order (focus area, type, question, indicator, measure, baseline, data
+source, method, timing, responsible) with the origin of each question ("CDC example question" for
+MMWR Table 5 wording used word for word, "drafted from your logic model", "your question") and a
+`suggested` list of the cells the tool filled; findings (no purpose, users, uses, stage, groups, or
+dates; question too short or too long; yes/no questions; missing indicator or data source; impact
+evaluation without a comparison; a planned type with no question); the six-step timeline; CDC's
+steps with their key products, cross-cutting actions, standards, data collection methods, and
+data-quality dimensions; the RE-AIM table when requested. The Word plan follows the six steps and
+has blanks for interest holders, baselines, analysis, due dates, and the dissemination plan.
+
+**Privacy.** The roster is read only to match positions; with one holder of a role, the name goes
+beside the role in the plan file. Phone numbers and emails are never copied. The response has
+counts only. Free text is scanned for contact details (reported by category).
+
+**Limits.** Question templates, suggested indicators, data sources, methods, timing, role names,
+stage-to-type mapping, and timeline shares are this project's defaults where CDC gives none (marked
+in the content and in each row). RE-AIM definitions are paraphrased from a 2019 open-access review;
+re-aim.org could not be reached. Content is pending review.
+
 <!-- End of Phase 16 design. -->
 
 <!-- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11). -->

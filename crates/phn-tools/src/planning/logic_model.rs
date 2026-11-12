@@ -323,9 +323,16 @@ fn lower_first(s: &str) -> String {
 // ---------------------------------------------------------------- the tool
 
 /// Build a logic model.
-pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope<LogicModelResult>> {
+pub fn build_logic_model(
+    ctx: &Context,
+    args: LogicModelArgs,
+) -> Result<Envelope<LogicModelResult>> {
     let c: LogicModelContent = content::load(LOGIC_MODEL)?;
-    let name = args.program_name.split_whitespace().collect::<Vec<_>>().join(" ");
+    let name = args
+        .program_name
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     if name.is_empty() {
         return Err(PhnError::InvalidInput(
             "give the program's name (program_name)".into(),
@@ -480,7 +487,10 @@ pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope
                             ("word", first.clone()),
                         ],
                     );
-                } else if !words_of(it).iter().any(|w| defaults.change_verbs.contains(w)) {
+                } else if !words_of(it)
+                    .iter()
+                    .any(|w| defaults.change_verbs.contains(w))
+                {
                     add(
                         "outcome_without_change",
                         &[
@@ -605,7 +615,9 @@ pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope
     let mut narrative: Vec<NarrativeSection> = Vec::new();
     for h in &c.narrative_headings {
         let text = match h.as_str() {
-            "Need" => need.clone().unwrap_or_else(|| blank("the need or problem the program addresses")),
+            "Need" => need
+                .clone()
+                .unwrap_or_else(|| blank("the need or problem the program addresses")),
             "Inputs" => list_text(&cols, &["inputs"], "the inputs"),
             "Activities" => list_text(&cols, &["activities"], "the activities"),
             "Outcomes" => list_text(
@@ -629,7 +641,9 @@ pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope
                         d.map(|d| d.definition.as_str()).unwrap_or("")
                     )
                 }
-                None => blank("the stage of development (planning, implementation, or maintenance)"),
+                None => {
+                    blank("the stage of development (planning, implementation, or maintenance)")
+                }
             },
             _ => String::new(),
         };
@@ -678,7 +692,12 @@ pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope
             &phn_docs::svg::svg_to_png(&svg, 2.0)?,
         )?;
         let mmd = templates::write_in(ctx, &dir, "logic_model.mmd", mermaid.as_bytes())?;
-        files_written.extend([document.clone(), svg_file.clone(), png_file.clone(), mmd.clone()]);
+        files_written.extend([
+            document.clone(),
+            svg_file.clone(),
+            png_file.clone(),
+            mmd.clone(),
+        ]);
         files = Some(LogicModelFiles {
             folder: shown,
             document: Some(document),
@@ -807,7 +826,12 @@ pub fn build_logic_model(ctx: &Context, args: LogicModelArgs) -> Result<Envelope
         ));
     }
     caveats.extend(content::review_caveats(&[LOGIC_MODEL]));
-    let src_keys = ["cdc-action-guide", "cdc-step2", "cdc-step2-checklist", "cdc-mmwr-2024"];
+    let src_keys = [
+        "cdc-action-guide",
+        "cdc-step2",
+        "cdc-step2-checklist",
+        "cdc-mmwr-2024",
+    ];
     let sources = content::sources_for(src_keys.iter().copied(), &c.sources);
     let mut notes = Vec::new();
     if write {
@@ -951,7 +975,9 @@ fn document_markdown(
     for q in review_questions {
         m.push_str(&format!("- {q}\n"));
     }
-    m.push_str("\nSource: CDC Program Evaluation Framework Action Guide (Step 2, Describe the program).\n");
+    m.push_str(
+        "\nSource: CDC Program Evaluation Framework Action Guide (Step 2, Describe the program).\n",
+    );
     m
 }
 
@@ -985,9 +1011,13 @@ mod tests {
                 "Hospital staff trained".into(),
             ],
             short_term_outcomes: vec!["Parents know the warning signs after birth".into()],
-            intermediate_outcomes: vec!["Increase the share of parents who attend the postpartum visit".into()],
+            intermediate_outcomes: vec![
+                "Increase the share of parents who attend the postpartum visit".into(),
+            ],
             long_term_outcomes: vec!["Reduce preventable postpartum emergency visits".into()],
-            assumptions: vec!["Parents accept a home visit when a hospital nurse recommends it".into()],
+            assumptions: vec![
+                "Parents accept a home visit when a hospital nurse recommends it".into(),
+            ],
             external_factors: vec!["Changes in state home visiting funding".into()],
             write_documents: Some(false),
             ..LogicModelArgs::default()
@@ -1002,7 +1032,14 @@ mod tests {
         assert!(r.data.if_then.len() >= 5, "{:?}", r.data.if_then);
         assert!(r.data.if_then[0].starts_with("If inputs (Two public health nurses"));
         assert!(r.data.diagram.mermaid.starts_with("flowchart LR"));
-        assert!(r.data.diagram.svg.as_deref().unwrap().contains("role=\"img\""));
+        assert!(
+            r.data
+                .diagram
+                .svg
+                .as_deref()
+                .unwrap()
+                .contains("role=\"img\"")
+        );
         assert!(r.data.diagram.alt_text.contains("6 columns"));
         assert!(r.summary.contains("```mermaid"));
         assert!(r.data.files.is_none());
@@ -1048,7 +1085,10 @@ mod tests {
             .iter()
             .find(|f| f.id == "outcome_sequence")
             .unwrap();
-        assert!(seq.message.contains("intermediate outcomes and long-term outcomes were"));
+        assert!(
+            seq.message
+                .contains("intermediate outcomes and long-term outcomes were")
+        );
     }
 
     #[test]
@@ -1092,7 +1132,8 @@ mod tests {
         let (_d, ctx) = ctx();
         let mut a = good();
         a.inputs = (1..=8).map(|i| format!("Resource {i}")).collect();
-        a.activities.push("Provide a nurse home visit within 14 days of discharge".into());
+        a.activities
+            .push("Provide a nurse home visit within 14 days of discharge".into());
         let r = build_logic_model(&ctx, a).unwrap();
         let ids: Vec<&str> = r.data.findings.iter().map(|f| f.id.as_str()).collect();
         assert!(ids.contains(&"too_many_items"));
@@ -1111,9 +1152,11 @@ mod tests {
             let rel = rel.as_ref().unwrap();
             assert!(dir.path().join("data").join(rel).is_file(), "{rel}");
         }
-        let docx = std::fs::read(dir.path().join("data").join(f.document.as_ref().unwrap())).unwrap();
+        let docx =
+            std::fs::read(dir.path().join("data").join(f.document.as_ref().unwrap())).unwrap();
         assert!(docx.starts_with(b"PK"));
-        let svg = std::fs::read_to_string(dir.path().join("data").join(f.svg.as_ref().unwrap())).unwrap();
+        let svg =
+            std::fs::read_to_string(dir.path().join("data").join(f.svg.as_ref().unwrap())).unwrap();
         assert!(svg.contains("Postpartum home visiting program"));
         let png = std::fs::read(dir.path().join("data").join(f.png.as_ref().unwrap())).unwrap();
         assert!(png.starts_with(&[0x89, b'P', b'N', b'G']));
@@ -1152,7 +1195,11 @@ mod tests {
         let r = build_logic_model(&ctx, a).unwrap();
         let p = r.data.files.unwrap().document.unwrap();
         assert!(p.ends_with(".pdf"));
-        assert!(std::fs::read(dir.path().join("data").join(p)).unwrap().starts_with(b"%PDF"));
+        assert!(
+            std::fs::read(dir.path().join("data").join(p))
+                .unwrap()
+                .starts_with(b"%PDF")
+        );
     }
 
     #[test]
@@ -1162,7 +1209,11 @@ mod tests {
         a.need = Some("Call the family at 617-555-0142 about visits".into());
         let r = build_logic_model(&ctx, a).unwrap();
         assert!(!r.privacy.identifiers_detected.is_empty());
-        assert!(r.caveats.iter().any(|c| c.contains("remove personal details")));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("remove personal details"))
+        );
         // The caveat names the category, never the value.
         assert!(!r.caveats.iter().any(|c| c.contains("555-0142")));
     }
@@ -1172,9 +1223,9 @@ mod tests {
         let (_d, ctx) = ctx();
         let r = build_logic_model(&ctx, good()).unwrap();
         assert!(
-            r.caveats
-                .iter()
-                .any(|c| c.to_lowercase().contains("pending") || c.to_lowercase().contains("review"))
+            r.caveats.iter().any(
+                |c| c.to_lowercase().contains("pending") || c.to_lowercase().contains("review")
+            )
         );
     }
 }

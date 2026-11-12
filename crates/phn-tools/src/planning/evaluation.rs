@@ -19,7 +19,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
 use super::logic_model::Stage;
-use super::smartie::read_date;
+use super::smartie::{read_date, read_start_date};
 use crate::context::Context;
 use crate::epr::content::{self, DocSource};
 use crate::epr::roster::{self, Roster, RosterSummary, RosterTally};
@@ -191,7 +191,9 @@ struct EvalContent {
 // ---------------------------------------------------------------- arguments and results
 
 /// Types of evaluation (CDC).
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum EvalType {
     /// Is the program feasible, appropriate, and acceptable before full implementation?
@@ -597,9 +599,24 @@ fn seeds_from_logic_model(
     }
     if want(EvalType::Outcome) || want(EvalType::Impact) {
         let groups: [(&Vec<String>, &str, &'static str, &str); 3] = [
-            (&lm.short_term_outcomes, "Short-term outcome", "short_term", "short_term_question"),
-            (&lm.intermediate_outcomes, "Intermediate outcome", "intermediate", "intermediate_question"),
-            (&lm.long_term_outcomes, "Long-term outcome", "long_term", "long_term_question"),
+            (
+                &lm.short_term_outcomes,
+                "Short-term outcome",
+                "short_term",
+                "short_term_question",
+            ),
+            (
+                &lm.intermediate_outcomes,
+                "Intermediate outcome",
+                "intermediate",
+                "intermediate_question",
+            ),
+            (
+                &lm.long_term_outcomes,
+                "Long-term outcome",
+                "long_term",
+                "long_term_question",
+            ),
         ];
         for (items, label, key, qk) in groups {
             for it in items {
@@ -786,7 +803,10 @@ pub fn build_evaluation_plan(
     }
     let population = tidy_opt(&args.population);
     let purpose = tidy_opt(&args.purpose);
-    if purpose.as_deref().is_some_and(|p| p.chars().count() > MAX_TEXT_CHARS) {
+    if purpose
+        .as_deref()
+        .is_some_and(|p| p.chars().count() > MAX_TEXT_CHARS)
+    {
         return Err(PhnError::InvalidInput(format!(
             "purpose is longer than {MAX_TEXT_CHARS} characters; use one or two sentences"
         )));
@@ -806,8 +826,14 @@ pub fn build_evaluation_plan(
             inputs: tidy_list(&l.inputs, "logic_model.inputs")?,
             activities: tidy_list(&l.activities, "logic_model.activities")?,
             outputs: tidy_list(&l.outputs, "logic_model.outputs")?,
-            short_term_outcomes: tidy_list(&l.short_term_outcomes, "logic_model.short_term_outcomes")?,
-            intermediate_outcomes: tidy_list(&l.intermediate_outcomes, "logic_model.intermediate_outcomes")?,
+            short_term_outcomes: tidy_list(
+                &l.short_term_outcomes,
+                "logic_model.short_term_outcomes",
+            )?,
+            intermediate_outcomes: tidy_list(
+                &l.intermediate_outcomes,
+                "logic_model.intermediate_outcomes",
+            )?,
             long_term_outcomes: tidy_list(&l.long_term_outcomes, "logic_model.long_term_outcomes")?,
         }),
         None => None,
@@ -828,7 +854,7 @@ pub fn build_evaluation_plan(
 
     // ---- dates
     let start = match tidy_opt(&args.start_date) {
-        Some(s) => Some(read_date(&s).ok_or_else(|| {
+        Some(s) => Some(read_start_date(&s).ok_or_else(|| {
             PhnError::InvalidInput(
                 "start_date could not be read; use YYYY-MM-DD, YYYY-MM, or a four-digit year (1900-2100)".into(),
             )
@@ -844,9 +870,7 @@ pub fn build_evaluation_plan(
         None => None,
     };
     if end.is_some() && start.is_none() {
-        return Err(PhnError::InvalidInput(
-            "end_date needs a start_date".into(),
-        ));
+        return Err(PhnError::InvalidInput("end_date needs a start_date".into()));
     }
     if let (Some(s), Some(e)) = (start, end) {
         if e <= s {
@@ -856,7 +880,8 @@ pub fn build_evaluation_plan(
         }
         if (e - s).num_days() > 3660 {
             return Err(PhnError::InvalidInput(
-                "the evaluation period is longer than 10 years; plan a shorter period and renew it".into(),
+                "the evaluation period is longer than 10 years; plan a shorter period and renew it"
+                    .into(),
             ));
         }
     }
@@ -901,13 +926,19 @@ pub fn build_evaluation_plan(
         .filter_map(|t| {
             let d = c.evaluation_types.items.iter().find(|x| x.id == t.id())?;
             let design_id = c.design_by_type.get(t.id()).cloned().unwrap_or_default();
-            let design = c.designs.items.iter().find(|x| x.id == design_id || x.id.replace('_', "-") == design_id);
+            let design = c
+                .designs
+                .items
+                .iter()
+                .find(|x| x.id == design_id || x.id.replace('_', "-") == design_id);
             Some(TypeOut {
                 evaluation_type: *t,
                 label: d.label.clone(),
                 shows: d.shows.clone(),
                 when_to_use: d.when.clone(),
-                suggested_design: design.map(|x| x.label.clone()).unwrap_or_else(|| design_id.clone()),
+                suggested_design: design
+                    .map(|x| x.label.clone())
+                    .unwrap_or_else(|| design_id.clone()),
                 design_note: design.map(|x| x.text.clone()).unwrap_or_default(),
             })
         })
@@ -956,12 +987,21 @@ pub fn build_evaluation_plan(
     let timing_for = |kind: EvalType| c.timing_by_type.get(kind.id()).cloned().unwrap_or_default();
     let mut matrix: Vec<MatrixRow> = Vec::new();
     for sd in seeds {
-        let mut suggested = vec!["indicator".to_string(), "measure".to_string(), "baseline".to_string(), "timing".to_string()];
+        let mut suggested = vec![
+            "indicator".to_string(),
+            "measure".to_string(),
+            "baseline".to_string(),
+            "timing".to_string(),
+        ];
         let sources = suggestions_for(&c, sd.focus_key);
         if !sources.is_empty() {
             suggested.push("data_sources".into());
         }
-        let method_id = c.method_by_focus.get(sd.focus_key).cloned().unwrap_or_else(|| "record_review".into());
+        let method_id = c
+            .method_by_focus
+            .get(sd.focus_key)
+            .cloned()
+            .unwrap_or_else(|| "record_review".into());
         suggested.push("method".into());
         suggested.push("responsible".into());
         matrix.push(MatrixRow {
@@ -970,15 +1010,25 @@ pub fn build_evaluation_plan(
             evaluation_type: sd.kind,
             question: sd.question,
             indicator: sd.indicator,
-            measure: c.templates.get("measure_placeholder").cloned().unwrap_or_default(),
-            baseline: c.templates.get("baseline_placeholder").cloned().unwrap_or_default(),
+            measure: c
+                .templates
+                .get("measure_placeholder")
+                .cloned()
+                .unwrap_or_default(),
+            baseline: c
+                .templates
+                .get("baseline_placeholder")
+                .cloned()
+                .unwrap_or_default(),
             data_sources: sources,
             method: method_label(&c, &method_id),
             timing: timing_for(sd.kind),
             responsible: default_resp(sd.kind),
             question_origin: sd.origin,
             suggested,
-            disaggregate_by: if matches!(sd.kind, EvalType::Outcome | EvalType::Impact) || sd.focus_key == "activities" {
+            disaggregate_by: if matches!(sd.kind, EvalType::Outcome | EvalType::Impact)
+                || sd.focus_key == "activities"
+            {
                 disagg.clone()
             } else {
                 Vec::new()
@@ -1003,11 +1053,17 @@ pub fn build_evaluation_plan(
         };
         let measure = tidy_opt(&r.measure).unwrap_or_else(|| {
             suggested.push("measure".into());
-            c.templates.get("measure_placeholder").cloned().unwrap_or_default()
+            c.templates
+                .get("measure_placeholder")
+                .cloned()
+                .unwrap_or_default()
         });
         let baseline = tidy_opt(&r.baseline).unwrap_or_else(|| {
             suggested.push("baseline".into());
-            c.templates.get("baseline_placeholder").cloned().unwrap_or_default()
+            c.templates
+                .get("baseline_placeholder")
+                .cloned()
+                .unwrap_or_default()
         });
         let given_sources = tidy_list(&r.data_sources, "data_sources")?;
         let data_sources = if given_sources.is_empty() {
@@ -1020,7 +1076,13 @@ pub fn build_evaluation_plan(
             Some(m) => method_label(&c, &m),
             None => {
                 suggested.push("method".into());
-                method_label(&c, c.method_by_focus.get(key).map(String::as_str).unwrap_or("record_review"))
+                method_label(
+                    &c,
+                    c.method_by_focus
+                        .get(key)
+                        .map(String::as_str)
+                        .unwrap_or("record_review"),
+                )
             }
         };
         let timing = tidy_opt(&r.timing).unwrap_or_else(|| {
@@ -1054,7 +1116,12 @@ pub fn build_evaluation_plan(
     }
     // ---- findings
     let mut findings: Vec<PlanFinding> = Vec::new();
-    let mut find = |id: &str, m: String| findings.push(PlanFinding { id: id.into(), message: m });
+    let mut find = |id: &str, m: String| {
+        findings.push(PlanFinding {
+            id: id.into(),
+            message: m,
+        })
+    };
     if purpose.is_none() {
         find("no_purpose", "No purpose statement was given. CDC's Step 3 asks for why the evaluation is being done, how the findings will be used, and who will use them.".into());
     }
@@ -1065,7 +1132,11 @@ pub fn build_evaluation_plan(
         find("no_intended_uses", "No intended uses were given. Name what decision or action the findings should inform and when they are needed.".into());
     }
     if args.stage.is_none() {
-        find("no_stage", "No stage of development was given; CDC uses it to choose the type of evaluation.".into());
+        find(
+            "no_stage",
+            "No stage of development was given; CDC uses it to choose the type of evaluation."
+                .into(),
+        );
     }
     if disagg.is_empty() {
         find("no_disaggregation", "No groups to break results down by were given. CDC's cross-cutting action on fair and just evaluation asks for questions that provide insight into health equity: name the groups (for example race and ethnicity, language, age) and check each has enough data.".into());
@@ -1077,27 +1148,60 @@ pub fn build_evaluation_plan(
         let words = r.question.split_whitespace().count();
         let lower = r.question.to_lowercase();
         if words < 5 {
-            find("question_too_short", format!("Question {} is only {words} words; CDC advises specific questions that say what will be investigated.", r.number));
+            find(
+                "question_too_short",
+                format!(
+                    "Question {} is only {words} words; CDC advises specific questions that say what will be investigated.",
+                    r.number
+                ),
+            );
         } else if words > 45 {
-            find("question_too_long", format!("Question {} is {words} words; split it so each question investigates one thing.", r.number));
+            find(
+                "question_too_long",
+                format!(
+                    "Question {} is {words} words; split it so each question investigates one thing.",
+                    r.number
+                ),
+            );
         }
-        if ["did ", "is ", "are ", "do ", "does ", "was ", "were ", "have ", "has "].iter().any(|p| lower.starts_with(p))
+        if [
+            "did ", "is ", "are ", "do ", "does ", "was ", "were ", "have ", "has ",
+        ]
+        .iter()
+        .any(|p| lower.starts_with(p))
             && !lower.contains("to what extent")
             && !lower.contains(" how ")
             && !lower.contains("why")
         {
-            find("yes_no_question", format!("Question {} can be answered yes or no. CDC describes evaluation questions as usually broad and open-ended: consider \"To what extent...\" or \"How...\".", r.number));
+            find(
+                "yes_no_question",
+                format!(
+                    "Question {} can be answered yes or no. CDC describes evaluation questions as usually broad and open-ended: consider \"To what extent...\" or \"How...\".",
+                    r.number
+                ),
+            );
         }
         if r.indicator.starts_with('[') {
-            find("missing_indicator", format!("Question {} has no indicator yet.", r.number));
+            find(
+                "missing_indicator",
+                format!("Question {} has no indicator yet.", r.number),
+            );
         }
         if r.data_sources.is_empty() {
-            find("missing_data_source", format!("Question {} has no data source.", r.number));
+            find(
+                "missing_data_source",
+                format!("Question {} has no data source.", r.number),
+            );
         }
     }
     let n_suggested = matrix.iter().filter(|r| !r.suggested.is_empty()).count();
     if n_suggested > 0 {
-        find("suggestions_to_confirm", format!("{n_suggested} row(s) carry suggested indicators, measures, baselines, data sources, methods, timing, or roles written by this tool (listed in each row's suggested field). They are starting points: confirm each with the program team and interest holders."));
+        find(
+            "suggestions_to_confirm",
+            format!(
+                "{n_suggested} row(s) carry suggested indicators, measures, baselines, data sources, methods, timing, or roles written by this tool (listed in each row's suggested field). They are starting points: confirm each with the program team and interest holders."
+            ),
+        );
     }
     let types_in_matrix: Vec<EvalType> = {
         let mut v: Vec<EvalType> = matrix.iter().map(|r| r.evaluation_type).collect();
@@ -1107,7 +1211,13 @@ pub fn build_evaluation_plan(
     };
     for t in &types {
         if !types_in_matrix.contains(t) {
-            find("type_without_questions", format!("{} evaluation is planned but no question covers it yet.", type_label(*t)));
+            find(
+                "type_without_questions",
+                format!(
+                    "{} evaluation is planned but no question covers it yet.",
+                    type_label(*t)
+                ),
+            );
         }
     }
     if types.contains(&EvalType::Impact) {
@@ -1116,7 +1226,9 @@ pub fn build_evaluation_plan(
 
     // ---- RE-AIM
     let reaim: Option<Vec<ReAimOut>> = args.lenses.contains(&Lens::ReAim).then(|| {
-        let pop = population.clone().unwrap_or_else(|| "the intended population".into());
+        let pop = population
+            .clone()
+            .unwrap_or_else(|| "the intended population".into());
         c.reaim
             .dimensions
             .iter()
@@ -1126,7 +1238,10 @@ pub fn build_evaluation_plan(
                 level: d.level.clone(),
                 definition: d.definition.clone(),
                 evaluation_type: d.dtype.clone(),
-                question: d.question.replace("{program}", &name).replace("{population}", &pop),
+                question: d
+                    .question
+                    .replace("{program}", &name)
+                    .replace("{population}", &pop),
                 indicator: d.indicator.clone(),
                 data_sources: d.data_sources.clone(),
             })
@@ -1135,7 +1250,11 @@ pub fn build_evaluation_plan(
 
     // ---- roster (names only, into the file)
     let roster_loaded = match tidy_opt(&args.roster_path) {
-        Some(p) => Some(Roster::load(ctx, &p, tidy_opt(&args.roster_sheet).as_deref())?),
+        Some(p) => Some(Roster::load(
+            ctx,
+            &p,
+            tidy_opt(&args.roster_sheet).as_deref(),
+        )?),
         None => None,
     };
     let mut tally = RosterTally::default();
@@ -1239,7 +1358,11 @@ pub fn build_evaluation_plan(
     }
     s.push_str(&format!(
         "Types: {}. {type_basis}\n\n",
-        type_out.iter().map(|t| t.label.as_str()).collect::<Vec<_>>().join("; ")
+        type_out
+            .iter()
+            .map(|t| t.label.as_str())
+            .collect::<Vec<_>>()
+            .join("; ")
     ));
     let rows: Vec<Vec<String>> = matrix
         .iter()
@@ -1256,7 +1379,15 @@ pub fn build_evaluation_plan(
         })
         .collect();
     s.push_str(&md::table(
-        &["#", "Type", "Question", "Indicator", "Data source", "Method", "Responsible"],
+        &[
+            "#",
+            "Type",
+            "Question",
+            "Indicator",
+            "Data source",
+            "Method",
+            "Responsible",
+        ],
         &rows,
     ));
     s.push_str("\n**Timeline**\n\n");
@@ -1266,7 +1397,10 @@ pub fn build_evaluation_plan(
     if let Some(r) = &reaim {
         s.push_str("\n**RE-AIM lens**\n\n");
         for d in r {
-            s.push_str(&format!("- **{} ({}).** {}\n", d.label, d.letter, d.question));
+            s.push_str(&format!(
+                "- **{} ({}).** {}\n",
+                d.label, d.letter, d.question
+            ));
         }
     }
     if !findings.is_empty() {
@@ -1282,7 +1416,14 @@ pub fn build_evaluation_plan(
     // ---- caveats and privacy
     let texts = roster::argument_strings(
         &args,
-        &["roster_path", "roster_sheet", "write_document", "format", "start_date", "end_date"],
+        &[
+            "roster_path",
+            "roster_sheet",
+            "write_document",
+            "format",
+            "start_date",
+            "end_date",
+        ],
     );
     let found = roster::contacts_in_arguments(texts.iter().map(String::as_str));
     let mut caveats: Vec<String> = vec![
@@ -1309,7 +1450,13 @@ pub fn build_evaluation_plan(
         ));
     }
     caveats.extend(content::review_caveats(&[EVALUATION_FRAMEWORK]));
-    let mut keys: Vec<&str> = vec!["cdc-mmwr-2024", "cdc-framework", "cdc-action-guide", "cdc-step3", "cdc-step4"];
+    let mut keys: Vec<&str> = vec![
+        "cdc-mmwr-2024",
+        "cdc-framework",
+        "cdc-action-guide",
+        "cdc-step3",
+        "cdc-step4",
+    ];
     if reaim.is_some() {
         keys.extend(["reaim-2019", "reaim-1999"]);
     }
@@ -1398,27 +1545,40 @@ fn document_markdown(
         }
     };
     let list = |v: &[String], ph: &str| -> String {
-        if v.is_empty() { format!("[{ph}]") } else { v.join("; ") }
+        if v.is_empty() {
+            format!("[{ph}]")
+        } else {
+            v.join("; ")
+        }
     };
     let mut m = format!("# Evaluation plan: {name}\n\n");
-    m.push_str(&format!(
-        "Draft for review with interest holders. Follows the six steps of the CDC Program Evaluation Framework (2024). Items in [brackets] are for the program team to fill in.\n\n"
-    ));
+    m.push_str("Draft for review with interest holders. Follows the six steps of the CDC Program Evaluation Framework (2024). Items in [brackets] are for the program team to fill in.\n\n");
     // Step 1.
     m.push_str("## Step 1. Assess the context\n\n");
     m.push_str(&format!(
         "**Program:** {name}. **Population:** {}. **Stage:** {}.\n\n",
         population.unwrap_or("[population]"),
-        stage.map(|s| s.id()).unwrap_or("[planning, implementation, or maintenance]")
+        stage
+            .map(|s| s.id())
+            .unwrap_or("[planning, implementation, or maintenance]")
     ));
     m.push_str("Table: Interest holders (CDC's four types)\n\n");
     let ih: Vec<Vec<String>> = c
         .interest_holder_types
         .items
         .iter()
-        .map(|t| vec![t.clone(), "[names or groups]".into(), "[what they need from the evaluation]".into()])
+        .map(|t| {
+            vec![
+                t.clone(),
+                "[names or groups]".into(),
+                "[what they need from the evaluation]".into(),
+            ]
+        })
         .collect();
-    m.push_str(&md::table(&["Interest holder type", "Who", "What they need to know"], &ih));
+    m.push_str(&md::table(
+        &["Interest holder type", "Who", "What they need to know"],
+        &ih,
+    ));
     m.push_str("\n[Evaluation capacity: staff time, skills, budget, and data systems available. Evaluability: is the program logic clear, and are the needed data accessible?]\n\n");
     // Step 2.
     m.push_str("## Step 2. Describe the program\n\n");
@@ -1442,8 +1602,15 @@ fn document_markdown(
     }
     // Step 3.
     m.push_str("\n## Step 3. Focus the evaluation questions and design\n\n");
-    m.push_str(&format!("**Purpose:** {}\n\n", purpose.unwrap_or("[why the evaluation is being done and what decision it informs]")));
-    m.push_str(&format!("**Intended users:** {}\n\n**Intended uses:** {}\n\n", list(users, "who will use the findings"), list(uses, "how they will use them")));
+    m.push_str(&format!(
+        "**Purpose:** {}\n\n",
+        purpose.unwrap_or("[why the evaluation is being done and what decision it informs]")
+    ));
+    m.push_str(&format!(
+        "**Intended users:** {}\n\n**Intended uses:** {}\n\n",
+        list(users, "who will use the findings"),
+        list(uses, "how they will use them")
+    ));
     m.push_str(&format!("**Evaluation types.** {type_basis}\n\n"));
     for t in types {
         m.push_str(&format!(
@@ -1457,26 +1624,49 @@ fn document_markdown(
         m.push_str(&format!("### Question {}: {}\n\n", r.number, r.question));
         let mut rows: Vec<Vec<String>> = vec![
             vec!["Focus area".into(), r.focus.clone()],
-            vec!["Evaluation type".into(), type_label(r.evaluation_type).into()],
+            vec![
+                "Evaluation type".into(),
+                type_label(r.evaluation_type).into(),
+            ],
             vec!["Indicator".into(), r.indicator.clone()],
             vec!["Measure or metric".into(), r.measure.clone()],
             vec!["Baseline".into(), r.baseline.clone()],
-            vec!["Data source".into(), if r.data_sources.is_empty() { "[data source]".into() } else { r.data_sources.join("; ") }],
+            vec![
+                "Data source".into(),
+                if r.data_sources.is_empty() {
+                    "[data source]".into()
+                } else {
+                    r.data_sources.join("; ")
+                },
+            ],
             vec!["Data collection method".into(), r.method.clone()],
             vec!["Timing".into(), r.timing.clone()],
             vec!["Responsible".into(), who(&r.responsible)],
         ];
         if !r.disaggregate_by.is_empty() {
-            rows.push(vec!["Results broken down by".into(), r.disaggregate_by.join("; ")]);
+            rows.push(vec![
+                "Results broken down by".into(),
+                r.disaggregate_by.join("; "),
+            ]);
         }
         if !r.suggested.is_empty() {
-            rows.push(vec!["Suggested by the tool (confirm)".into(), r.suggested.join(", ")]);
+            rows.push(vec![
+                "Suggested by the tool (confirm)".into(),
+                r.suggested.join(", "),
+            ]);
         }
         m.push_str(&md::table(&["Item", "Plan"], &rows));
         m.push('\n');
     }
     m.push_str("**Data quality checks (CDC).** ");
-    m.push_str(&c.data_quality.dimensions.iter().map(|d| d.label.clone()).collect::<Vec<_>>().join(", "));
+    m.push_str(
+        &c.data_quality
+            .dimensions
+            .iter()
+            .map(|d| d.label.clone())
+            .collect::<Vec<_>>()
+            .join(", "),
+    );
     m.push_str(".\n\n");
     m.push_str(&format!(
         "**Small numbers.** Suppress cells below {threshold} when reporting results by group. {}\n\n",
@@ -1487,22 +1677,46 @@ fn document_markdown(
     m.push_str("Table: Data analysis plan\n\n");
     let ap: Vec<Vec<String>> = matrix
         .iter()
-        .map(|r| vec![format!("Q{}", r.number), "[analysis to be performed]".into(), who(&r.responsible), "[due date]".into()])
+        .map(|r| {
+            vec![
+                format!("Q{}", r.number),
+                "[analysis to be performed]".into(),
+                who(&r.responsible),
+                "[due date]".into(),
+            ]
+        })
         .collect();
-    m.push_str(&md::table(&["Question", "Analysis", "Responsible", "Due date"], &ap));
+    m.push_str(&md::table(
+        &["Question", "Analysis", "Responsible", "Due date"],
+        &ap,
+    ));
     m.push_str("\n[Agree the analysis plan with interest holders before data collection. Compare findings with the expectations for success set in Step 4. Plan how interest holders will help interpret the results.]\n\n");
     // Step 6.
     m.push_str("## Step 6. Act on findings\n\n");
     m.push_str("Table: Use and dissemination plan\n\n");
     m.push_str(&md::table(
         &["Audience", "What they need", "Format and channel", "When"],
-        &[vec!["[audience]".into(), "[findings and recommendations]".into(), "[report, brief, presentation]".into(), "[date]".into()]],
+        &[vec![
+            "[audience]".into(),
+            "[findings and recommendations]".into(),
+            "[report, brief, presentation]".into(),
+            "[date]".into(),
+        ]],
     ));
     m.push_str("\n[Name who will champion the findings and recommendations, and how you will know afterwards whether the evaluation was used as intended.]\n\n");
     // Timeline.
     m.push_str("## Timeline\n\n");
     m.push_str(&format!("{timeline_basis}\n\n"));
-    let tl: Vec<Vec<String>> = timeline.iter().map(|p| vec![format!("Step {}", p.step), p.label.clone(), p.window.clone()]).collect();
+    let tl: Vec<Vec<String>> = timeline
+        .iter()
+        .map(|p| {
+            vec![
+                format!("Step {}", p.step),
+                p.label.clone(),
+                p.window.clone(),
+            ]
+        })
+        .collect();
     m.push_str("Table: Evaluation timeline\n\n");
     m.push_str(&md::table(&["Step", "Work", "When"], &tl));
     // RE-AIM.
@@ -1510,9 +1724,19 @@ fn document_markdown(
         m.push_str("\n## RE-AIM lens\n\n");
         let rows: Vec<Vec<String>> = r
             .iter()
-            .map(|d| vec![format!("{} ({})", d.label, d.letter), d.question.clone(), d.indicator.clone(), d.data_sources.join("; ")])
+            .map(|d| {
+                vec![
+                    format!("{} ({})", d.label, d.letter),
+                    d.question.clone(),
+                    d.indicator.clone(),
+                    d.data_sources.join("; "),
+                ]
+            })
             .collect();
-        m.push_str(&md::table(&["Dimension", "Question", "Indicator", "Data sources"], &rows));
+        m.push_str(&md::table(
+            &["Dimension", "Question", "Indicator", "Data sources"],
+            &rows,
+        ));
     }
     // Standards.
     m.push_str("\n## Cross-cutting actions and standards (CDC)\n\n");
@@ -1551,7 +1775,9 @@ mod tests {
             ],
             outputs: vec!["Home visits completed".into()],
             short_term_outcomes: vec!["Parents know the warning signs after birth".into()],
-            intermediate_outcomes: vec!["Increase the share of parents who attend the postpartum visit".into()],
+            intermediate_outcomes: vec![
+                "Increase the share of parents who attend the postpartum visit".into(),
+            ],
             long_term_outcomes: vec!["Reduce preventable postpartum emergency visits".into()],
         }
     }
@@ -1577,19 +1803,53 @@ mod tests {
     fn drafts_rows_from_the_logic_model_by_stage() {
         let (_d, ctx) = ctx();
         let r = build_evaluation_plan(&ctx, base()).unwrap();
-        let types: Vec<EvalType> = r.data.evaluation_types.iter().map(|t| t.evaluation_type).collect();
+        let types: Vec<EvalType> = r
+            .data
+            .evaluation_types
+            .iter()
+            .map(|t| t.evaluation_type)
+            .collect();
         assert_eq!(types, vec![EvalType::Process, EvalType::Formative]);
         assert!(r.data.type_basis.contains("implementation"));
         // Process: 1 input row + 2 activity + 1 output + equity + reach; formative: 2 activities.
-        let p = r.data.matrix.iter().filter(|m| m.evaluation_type == EvalType::Process).count();
-        let f = r.data.matrix.iter().filter(|m| m.evaluation_type == EvalType::Formative).count();
+        let p = r
+            .data
+            .matrix
+            .iter()
+            .filter(|m| m.evaluation_type == EvalType::Process)
+            .count();
+        let f = r
+            .data
+            .matrix
+            .iter()
+            .filter(|m| m.evaluation_type == EvalType::Formative)
+            .count();
         assert_eq!((p, f), (6, 2));
-        assert!(r.data.matrix.iter().all(|m| !m.indicator.is_empty() && !m.data_sources.is_empty()));
+        assert!(
+            r.data
+                .matrix
+                .iter()
+                .all(|m| !m.indicator.is_empty() && !m.data_sources.is_empty())
+        );
         // CDC's own example question is used word for word and labeled.
-        let q = r.data.matrix.iter().find(|m| m.question.starts_with("To what extent are the program resources sufficient")).unwrap();
+        let q = r
+            .data
+            .matrix
+            .iter()
+            .find(|m| {
+                m.question
+                    .starts_with("To what extent are the program resources sufficient")
+            })
+            .unwrap();
         assert_eq!(q.question_origin, "CDC example question");
         assert_eq!(r.data.matrix[0].number, 1);
-        assert!(r.data.matrix.iter().enumerate().all(|(i, m)| m.number == i + 1));
+        assert!(
+            r.data
+                .matrix
+                .iter()
+                .enumerate()
+                .all(|(i, m)| m.number == i + 1)
+        );
         assert_eq!(r.data.framework_steps.len(), 6);
         assert_eq!(r.data.matrix_columns[2], "Evaluation question");
     }
@@ -1602,11 +1862,27 @@ mod tests {
         let r = build_evaluation_plan(&ctx, a).unwrap();
         let kinds: Vec<EvalType> = r.data.matrix.iter().map(|m| m.evaluation_type).collect();
         assert!(kinds.contains(&EvalType::Outcome) && kinds.contains(&EvalType::Impact));
-        let imp = r.data.matrix.iter().find(|m| m.evaluation_type == EvalType::Impact).unwrap();
+        let imp = r
+            .data
+            .matrix
+            .iter()
+            .find(|m| m.evaluation_type == EvalType::Impact)
+            .unwrap();
         assert!(imp.focus.starts_with("Long-term outcome"));
-        assert!(r.data.findings.iter().any(|f| f.id == "impact_needs_comparison"));
+        assert!(
+            r.data
+                .findings
+                .iter()
+                .any(|f| f.id == "impact_needs_comparison")
+        );
         // Outcome rows carry the breakdown groups.
-        assert!(r.data.matrix.iter().filter(|m| m.evaluation_type == EvalType::Outcome).all(|m| m.disaggregate_by == vec!["language"]));
+        assert!(
+            r.data
+                .matrix
+                .iter()
+                .filter(|m| m.evaluation_type == EvalType::Outcome)
+                .all(|m| m.disaggregate_by == vec!["language"])
+        );
     }
 
     #[test]
@@ -1650,10 +1926,25 @@ mod tests {
         assert!(b.indicator.starts_with('['));
         assert!(b.suggested.contains(&"indicator".to_string()));
         let ids: Vec<&str> = r.data.findings.iter().map(|f| f.id.as_str()).collect();
-        for w in ["question_too_short", "missing_indicator", "yes_no_question", "no_purpose", "no_intended_users", "no_disaggregation", "no_dates", "no_stage", "suggestions_to_confirm"] {
+        for w in [
+            "question_too_short",
+            "missing_indicator",
+            "yes_no_question",
+            "no_purpose",
+            "no_intended_users",
+            "no_disaggregation",
+            "no_dates",
+            "no_stage",
+            "suggestions_to_confirm",
+        ] {
             assert!(ids.contains(&w), "{w} not in {ids:?}");
         }
-        assert!(!r.data.findings.iter().any(|f| f.id == "yes_no_question" && f.message.contains("Question 1 ")));
+        assert!(
+            !r.data
+                .findings
+                .iter()
+                .any(|f| f.id == "yes_no_question" && f.message.contains("Question 1 "))
+        );
     }
 
     #[test]
@@ -1673,13 +1964,20 @@ mod tests {
         a.start_date = None;
         a.end_date = None;
         let r = build_evaluation_plan(&ctx, a).unwrap();
-        assert!(r.data.timeline[0].window.starts_with("Weeks 1-") || r.data.timeline[0].window.starts_with("Week 1"));
+        assert!(
+            r.data.timeline[0].window.starts_with("Weeks 1-")
+                || r.data.timeline[0].window.starts_with("Week 1")
+        );
         assert!(r.data.timeline[5].window.ends_with("-52"));
         assert!(r.data.findings.iter().any(|f| f.id == "no_dates"));
         let mut a = base();
         a.end_date = None;
         let r = build_evaluation_plan(&ctx, a).unwrap();
-        assert!(r.data.timeline[5].window.ends_with("2027-06-30"), "{:?}", r.data.timeline[5]);
+        assert!(
+            r.data.timeline[5].window.ends_with("2027-06-30"),
+            "{:?}",
+            r.data.timeline[5]
+        );
     }
 
     #[test]
@@ -1687,7 +1985,13 @@ mod tests {
         let (_d, ctx) = ctx();
         let e = |a: EvaluationPlanArgs| build_evaluation_plan(&ctx, a).unwrap_err().to_string();
         assert!(e(EvaluationPlanArgs::default()).contains("program's name"));
-        assert!(e(EvaluationPlanArgs { program_name: "X".into(), ..Default::default() }).contains("logic model"));
+        assert!(
+            e(EvaluationPlanArgs {
+                program_name: "X".into(),
+                ..Default::default()
+            })
+            .contains("logic model")
+        );
         let mut a = base();
         a.end_date = Some("2026-01-01".into());
         assert!(e(a).contains("after start_date"));
@@ -1702,7 +2006,13 @@ mod tests {
         a.end_date = Some("2030-01-01".into());
         assert!(e(a).contains("10 years"));
         let mut a = base();
-        a.rows = vec![PlanRowInput { question: "Q".into(), ..Default::default() }; 61];
+        a.rows = vec![
+            PlanRowInput {
+                question: "Q".into(),
+                ..Default::default()
+            };
+            61
+        ];
         assert!(e(a).contains("rows given"));
         let mut a = base();
         a.logic_model.as_mut().unwrap().activities = vec!["Provide x".into(); 31];
@@ -1753,8 +2063,14 @@ mod tests {
         // The file has the name (docx is a zip: check the XML inside).
         let bytes = std::fs::read(dir.path().join("data").join(&f)).unwrap();
         let zip = zip_text(&bytes);
-        assert!(zip.contains("Data manager (Pat Quill)"), "name not in the plan file");
-        assert!(!zip.contains("617-555"), "contact details must not be copied");
+        assert!(
+            zip.contains("Data manager (Pat Quill)"),
+            "name not in the plan file"
+        );
+        assert!(
+            !zip.contains("617-555"),
+            "contact details must not be copied"
+        );
         assert!(zip.contains("[analysis to be performed]"));
         assert!(zip.contains("Step 4. Gather credible evidence"));
         assert!(zip.contains("RE-AIM lens"));
@@ -1779,7 +2095,11 @@ mod tests {
         let (_d, ctx) = ctx();
         let r = build_evaluation_plan(&ctx, base()).unwrap();
         assert!(r.caveats.iter().any(|c| c.contains("Small numbers")));
-        assert!(r.caveats.iter().any(|c| c.to_lowercase().contains("review")));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.to_lowercase().contains("review"))
+        );
         assert!(r.sources.iter().all(|s| s.retrieved.is_some()));
     }
 }
