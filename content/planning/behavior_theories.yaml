@@ -216,7 +216,7 @@ theories:
         name: Cues to action
         definition: Triggers that prompt a person to act (a reminder, a message, a recommendation from someone they trust, a visible event).
         confidence: high
-        signals: [forget, reminder, remind, nobody told me, never asked, not recommended, no one recommended, didn't know when, prompt, invitation, recall]
+        signals: [forget, forgot, forgotten, reminder, remind, nobody told me, never asked, not recommended, no one recommended, didn't know when, prompt, invitation, recall]
         strategies:
           - text: Send reminders or invitations through the channel the community uses (text, phone, mail, trusted messenger) close to the time to act.
             basis: authored

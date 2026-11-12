@@ -125,7 +125,7 @@ async fn a_rating_is_shown_only_when_the_paper_gives_it() {
     let s = call_ok(
         &h,
         "find_evidence_based_interventions",
-        json!({"topic": "health", "max_results": 20, "include_live": false}),
+        json!({"topic": "alcohol", "max_results": 20, "include_live": false}),
     )
     .await;
     let mut with_words = 0;
@@ -503,15 +503,15 @@ async fn performance_writes_a_report_a_workbook_with_live_formulas_and_charts() 
     let xml = String::from_utf8_lossy(&sheet1.stdout).to_string();
     assert!(xml.contains("<f>SUM(Data!B$2:B$101)</f>"), "{}", &xml[..xml.len().min(2000)]);
     assert!(xml.contains("COUNT(Data!B$2:B$101)"));
-    assert!(xml.contains("&quot;On track&quot;") || xml.contains("\"On track\""));
+    assert!(xml.contains("\"On track\""));
     let sheet2 = std::process::Command::new("unzip")
         .args(["-p", book.to_str().unwrap(), "xl/worksheets/sheet2.xml"])
         .output()
         .expect("unzip");
     let xml2 = String::from_utf8_lossy(&sheet2.stdout).to_string();
     // The percent column is a formula down to row 101, and the data are numbers.
-    assert!(xml2.contains("<f>IF(OR(E2=&quot;&quot;,E2=0),&quot;&quot;,D2/E2*100)</f>"), "{}", &xml2[..xml2.len().min(2500)]);
-    assert!(xml2.contains("<f>IF(OR(E101=&quot;&quot;"));
+    assert!(xml2.contains("<f>IF(OR(D2=\"\",D2=0),\"\",C2/D2*100)</f>"), "{}", &xml2[..xml2.len().min(2500)]);
+    assert!(xml2.contains("<f>IF(OR(D101=\"\""));
     // The report has the full values, including the counts the response hides.
     let doc = std::process::Command::new("unzip")
         .args(["-p", report.to_str().unwrap(), "word/document.xml"])
