@@ -1,0 +1,1183 @@
+{
+ "list_title": "New Bids Available (COMMBUYS weekly list)",
+ "list_date": "2026-11-09",
+ "source_url": "https://www.mass.gov/doc/commbuys-home-page-bid-count/download",
+ "bids": [
+  {
+   "org_id": "1669",
+   "organization": "Town of Tolland",
+   "bid_date": "2026-11-12",
+   "bid_time": "9:00 AM",
+   "description": "Forming and Pouring a concrete pad at the Tolland Transfer Station",
+   "bid_number": "BD-27-1669-A1-A1-134841"
+  },
+  {
+   "org_id": "1666",
+   "organization": "Town of Sandisfield",
+   "bid_date": "2026-11-12",
+   "bid_time": "2:00 PM",
+   "description": "S. Beech Plain - E3400",
+   "bid_number": "BD-27-1666-TSTH-TSTH-135057"
+  },
+  {
+   "org_id": "1009",
+   "organization": "Bureau of the State House",
+   "bid_date": "2026-11-13",
+   "bid_time": "5:00 PM",
+   "description": "Bureau of the State House - Accessible NFC-Based Object Identification System and Mobile App",
+   "bid_number": "BD-27-1009-BSH01-BSH01-135115"
+  },
+  {
+   "org_id": "1213",
+   "organization": "MassHousing",
+   "bid_date": "2026-11-16",
+   "bid_time": "5:00 PM",
+   "description": "AI Adoption & Microsoft Copilot Enablement Services",
+   "bid_number": "BD-23-1213-MA001-MA001-135020"
+  },
+  {
+   "org_id": "1412",
+   "organization": "City of Lawrence",
+   "bid_date": "2026-11-17",
+   "bid_time": "11:00 AM",
+   "description": "Building Automation System Diagnostic Maintenance Services",
+   "bid_number": "BD-27-1412-LAW02-LAW03-134999"
+  },
+  {
+   "org_id": "1103",
+   "organization": "Salem State University",
+   "bid_date": "2026-11-17",
+   "bid_time": "11:00 AM",
+   "description": "RFP SSU 2027-02 Tradesperson Electrical, Drain Cleaning, HVAC-R Installation, Repair and Maintenance",
+   "bid_number": "BD-27-1103-1103C-SSU-135040"
+  },
+  {
+   "org_id": "1098",
+   "organization": "Suffolk Sheriff's Department",
+   "bid_date": "2026-11-17",
+   "bid_time": "1:00 PM",
+   "description": "DUE DILIGENCE POSTING OF NOTICE OF INTENT TO Security doors re[airs at NSJ",
+   "bid_number": "BD-27-1098-NSJ-SDS03-135048"
+  },
+  {
+   "org_id": "1020",
+   "organization": "Department of Conservation and Recreation",
+   "bid_date": "2026-11-17",
+   "bid_time": "5:00 PM",
+   "description": "PRF86 Conference Room Space for DCR Leadership Academy",
+   "bid_number": "BD-27-1020-DCRFS-DC367-135073"
+  },
+  {
+   "org_id": "1069",
+   "organization": "Military Division",
+   "bid_date": "2026-11-18",
+   "bid_time": "10:00 AM",
+   "description": "ITB 250597 RE-BID Remove and Replace Munitions Impacted Soils on the India Range Berm",
+   "bid_number": "BD-27-1069-MILDV-30000-135116"
+  },
+  {
+   "org_id": "1243",
+   "organization": "Town of Barnstable",
+   "bid_date": "2026-11-18",
+   "bid_time": "12:00 PM",
+   "description": "LEGAL AD ONLY Request for Quote Cape Cod Gateway Airport ARFF/SRF Garage Door Replacement",
+   "bid_number": "BD-24-1243-PUR01-PUR01-135071"
+  },
+  {
+   "org_id": "1455",
+   "organization": "Town of Mashpee",
+   "bid_date": "2026-11-18",
+   "bid_time": "2:00 PM",
+   "description": "Rental of Portable Toilets",
+   "bid_number": "BD-27-1455-DPW03-DPW03-135046"
+  },
+  {
+   "org_id": "1455",
+   "organization": "Town of Mashpee",
+   "bid_date": "2026-11-18",
+   "bid_time": "2:00 PM",
+   "description": "Annual Contract for Trash & Recycling Container Service",
+   "bid_number": "BD-27-1455-DPW03-DPW03-135045"
+  },
+  {
+   "org_id": "1693",
+   "organization": "Town of Acton",
+   "bid_date": "2026-11-18",
+   "bid_time": "2:00 PM",
+   "description": "ARBORETUM TRAIL RESURFACTING",
+   "bid_number": "BD-27-1693-180LU-180LD-134852"
+  },
+  {
+   "org_id": "1167",
+   "organization": "City of Springfield",
+   "bid_date": "2026-11-18",
+   "bid_time": "2:00 PM",
+   "description": "Bid No. 27-066 Four 2026 Harley-Davidson FLTRXP Road Glide Police Motorcycles",
+   "bid_number": "BD-27-1167-PUR02-PUR01-135008"
+  },
+  {
+   "org_id": "1166",
+   "organization": "City of Somerville",
+   "bid_date": "2026-11-18",
+   "bid_time": "2:00 PM",
+   "description": "Request for Quotes 2027-17 WSNS Basketball Court & Playground Sealcoat Graphics",
+   "bid_number": "BD-27-1166-COS01-COS01-135106"
+  },
+  {
+   "org_id": "1688",
+   "organization": "Town of Wendell",
+   "bid_date": "2026-11-18",
+   "bid_time": "5:00 PM",
+   "description": "Mold Remediation at the Town Hall",
+   "bid_number": "BD-24-1688-TOW94-TOW-135194"
+  },
+  {
+   "org_id": "1158",
+   "organization": "City of Newburyport",
+   "bid_date": "2026-11-19",
+   "bid_time": "11:00 AM",
+   "description": "REBID IFB No. 27-08 Bedrock Well Construction & Development",
+   "bid_number": "BD-27-1158-NBPT3-NBPT3-135098"
+  },
+  {
+   "org_id": "1145",
+   "organization": "City of Chelsea",
+   "bid_date": "2026-11-19",
+   "bid_time": "11:30 AM",
+   "description": "RFP 2027-282 CSO Monitoring and Measurement",
+   "bid_number": "BD-26-1145-1145C-1145L-135145"
+  },
+  {
+   "org_id": "1138",
+   "organization": "Chelmsford Housing Authority",
+   "bid_date": "2026-11-19",
+   "bid_time": "2:00 PM",
+   "description": "Fire Alarm",
+   "bid_number": "BD-27-1138-CHAAD-02-135147"
+  },
+  {
+   "org_id": "1336",
+   "organization": "Town of Tewksbury",
+   "bid_date": "2026-11-19",
+   "bid_time": "2:00 PM",
+   "description": "PW-27-04 - STORM DRAIN PIPELINE AND STRUCTURE CLEANING AND CCTV INSPECTION",
+   "bid_number": "BD-27-1336-TKDPW-TKENG-135016"
+  },
+  {
+   "org_id": "1969",
+   "organization": "Stoughton Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "10:00 AM",
+   "description": "IFB #110426-S Electrical Services",
+   "bid_number": "BD-18-1969-SHAU2-SHAU2-135131"
+  },
+  {
+   "org_id": "1799",
+   "organization": "Taunton Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "10:00 AM",
+   "description": "IFB #110426-T Electrical Services",
+   "bid_number": "BD-25-1799-THA02-THA02-135130"
+  },
+  {
+   "org_id": "1155",
+   "organization": "City of Melrose",
+   "bid_date": "2026-11-20",
+   "bid_time": "10:00 AM",
+   "description": "Annual Service Contract for Traffic Signal, EV Charger and Street Light Maintenance and Repairs",
+   "bid_number": "BD-27-1155-COM01-COMCH-135019"
+  },
+  {
+   "org_id": "1550",
+   "organization": "Bridgewater Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "10:00 AM",
+   "description": "IFB #110426-B Electrical Services",
+   "bid_number": "BD-17-1550-BHA10-BHA10-135132"
+  },
+  {
+   "org_id": "2006",
+   "organization": "Avon Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "10:00 AM",
+   "description": "IFB #110426 Electrical Services",
+   "bid_number": "BD-20-2006-ED003-ED003-135133"
+  },
+  {
+   "org_id": "1046",
+   "organization": "Department of Fish and Game",
+   "bid_date": "2026-11-20",
+   "bid_time": "12:00 PM",
+   "description": "Cat Cove Pollinator Habitat Restoration and Enhancement Project",
+   "bid_number": "BD-27-1046-DMF-MF214-135082"
+  },
+  {
+   "org_id": "1331",
+   "organization": "Town of Sudbury",
+   "bid_date": "2026-11-20",
+   "bid_time": "12:00 PM",
+   "description": "Contracted Cleaning and Light Maintenance Service- Fairbank Community Center",
+   "bid_number": "BD-27-1331-FACIL-FACIL-134996"
+  },
+  {
+   "org_id": "1795",
+   "organization": "Methuen Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "2:00 PM",
+   "description": "FISH 181183",
+   "bid_number": "BD-27-1795-MHA03-MHA03-135128"
+  },
+  {
+   "org_id": "1353",
+   "organization": "Town of Wilmington",
+   "bid_date": "2026-11-20",
+   "bid_time": "2:00 PM",
+   "description": "RFB Trade Contractor Services WECC",
+   "bid_number": "BD-22-1353-WILMT-WILMT-135188"
+  },
+  {
+   "org_id": "1133",
+   "organization": "Brookline Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "2:00 PM",
+   "description": "11 Harris St Replacement of the rear decking and the bulkhead to the rear of the property",
+   "bid_number": "BD-27-1133-1133C-1133L-135093"
+  },
+  {
+   "org_id": "1022",
+   "organization": "Department of Mental Health",
+   "bid_date": "2026-11-20",
+   "bid_time": "2:00 PM",
+   "description": "2027-018A - Fire Escape Replacement CHPT 149",
+   "bid_number": "BD-27-1022-DMH08-8210C-135077"
+  },
+  {
+   "org_id": "1941",
+   "organization": "Dracut Housing Authority",
+   "bid_date": "2026-11-20",
+   "bid_time": "2:00 PM",
+   "description": "FISH 079121",
+   "bid_number": "BD-27-1941-DRA43-DRA43-135126"
+  },
+  {
+   "org_id": "1312",
+   "organization": "Town of Orleans",
+   "bid_date": "2026-11-20",
+   "bid_time": "3:00 PM",
+   "description": "asbestos abatement, demolition, and remediation",
+   "bid_number": "BD-24-1312-TAO01-TAO01-135119"
+  },
+  {
+   "org_id": "1348",
+   "organization": "Town of Westborough",
+   "bid_date": "2026-11-23",
+   "bid_time": "9:00 AM",
+   "description": "Legal Notice - Public Auction of Ambulance",
+   "bid_number": "BD-27-1348-TA000-TA000-135111"
+  },
+  {
+   "org_id": "1169",
+   "organization": "City of Waltham",
+   "bid_date": "2026-11-23",
+   "bid_time": "10:00 AM",
+   "description": "Bituminous Concrete, Winter Mix, Picked up by the City, 2026-27",
+   "bid_number": "BD-24-1169-WLTHM-WLTHM-135065"
+  },
+  {
+   "org_id": "1282",
+   "organization": "Town of Hopkinton",
+   "bid_date": "2026-11-23",
+   "bid_time": "10:00 AM",
+   "description": "Request for Quote: PUBLIC SAFETY ASSESSMENT SERVICES REBID",
+   "bid_number": "BD-27-1282-HOPKI-PROCR-135092"
+  },
+  {
+   "org_id": "1113",
+   "organization": "Worcester State University",
+   "bid_date": "2026-11-23",
+   "bid_time": "2:00 PM",
+   "description": "27-04 Carpentry Services",
+   "bid_number": "BD-27-1113-1113C-1113L-135226"
+  },
+  {
+   "org_id": "1654",
+   "organization": "Town of Belchertown",
+   "bid_date": "2026-11-23",
+   "bid_time": "4:00 PM",
+   "description": "Cultural District Manager Consulting services",
+   "bid_number": "BD-24-1654-ACCTP-ACCTP-135195"
+  },
+  {
+   "org_id": "2045",
+   "organization": "MetroWest Regional Transit Authority",
+   "bid_date": "2026-11-24",
+   "bid_time": "10:00 AM",
+   "description": "METROWEST REGIONAL TRANSIT AUTHORITY COMPRESSED NATURAL GAS COMPRESSOR",
+   "bid_number": "BD-24-2045-MWRTA-MWRTA-134953"
+  },
+  {
+   "org_id": "1046",
+   "organization": "Department of Fish and Game",
+   "bid_date": "2026-11-24",
+   "bid_time": "10:00 AM",
+   "description": "DFW-2027-038 Firebreak Improvement and Construction at the ACOE Birch Hill Dam",
+   "bid_number": "BD-27-1046-DFW-FW104-134966"
+  },
+  {
+   "org_id": "1288",
+   "organization": "Town of Longmeadow",
+   "bid_date": "2026-11-24",
+   "bid_time": "11:00 AM",
+   "description": "IFB - ON-CALL HVAC PREVENTIVE MAINTENANCE & REPAIR",
+   "bid_number": "BD-27-1288-LMPD-LMPD-135176"
+  },
+  {
+   "org_id": "1372",
+   "organization": "City of Gloucester",
+   "bid_date": "2026-11-24",
+   "bid_time": "11:00 AM",
+   "description": "27058 On Call Roof Repairs, Maintenance & Installation Services",
+   "bid_number": "BD-27-1372-COG00-COG00-135029"
+  },
+  {
+   "org_id": "1023",
+   "organization": "Department of Developmental Services",
+   "bid_date": "2026-11-24",
+   "bid_time": "1:00 PM",
+   "description": "DDS 27-08 HVAC Controls Upgrade",
+   "bid_number": "BD-27-1023-DMR10-DMRCO-135096"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "616457 DISTRICT 3 Scheduled and Emergency Facility and Salt Shed Repairs and Improvements at Vario",
+   "bid_number": "BD-27-1030-0H100-0H002-135017"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "616402 DISTRICT 5 Scheduled and Emergency Traffic Management at Various Locations (Excluding the I",
+   "bid_number": "BD-27-1030-0H100-0H002-135011"
+  },
+  {
+   "org_id": "1148",
+   "organization": "City of Fall River",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "RFP 27-09 Enforcement Management System & Meter Management and Mobile Payments",
+   "bid_number": "BD-27-1148-F0138-F0138-135108"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "616382 DISTRICT 1 Scheduled & Emergency Fabrication & Installation of Overhead and Ground Mounted",
+   "bid_number": "BD-27-1030-0H100-0H002-135009"
+  },
+  {
+   "org_id": "1301",
+   "organization": "Town of Nantucket",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "RFQ - Purchase and Install Two (2) Oil-Fired Heating Units",
+   "bid_number": "BD-27-1301-2-2-135165"
+  },
+  {
+   "org_id": "1109",
+   "organization": "University of Massachusetts System",
+   "bid_date": "2026-11-24",
+   "bid_time": "2:00 PM",
+   "description": "AMHATH-2027-1176 Amherst Athletics Hockey Equipment",
+   "bid_number": "BD-27-1109-UMAMH-AMH-135097"
+  },
+  {
+   "org_id": "1774",
+   "organization": "Weston Public Schools",
+   "bid_date": "2026-11-25",
+   "bid_time": "12:00 AM",
+   "description": "IFB for vendors to supply supplemental school bus maintenance services",
+   "bid_number": "BD-27-1774-WPSBO-WPSCH-135124"
+  },
+  {
+   "org_id": "1269",
+   "organization": "Town of Foxborough",
+   "bid_date": "2026-11-25",
+   "bid_time": "9:00 AM",
+   "description": "North Street and Chestnut Street Traffic Circle Stamped Concrete Installation",
+   "bid_number": "BD-27-1269-1269C-1269L-135185"
+  },
+  {
+   "org_id": "1172",
+   "organization": "City of Worcester",
+   "bid_date": "2026-11-25",
+   "bid_time": "10:00 AM",
+   "description": "IP PA, Clock & Network Cabling Retrofit - Phase 1 / WPS",
+   "bid_number": "BD-23-1172-PUR00-PUR01-135025"
+  },
+  {
+   "org_id": "1279",
+   "organization": "City of Haverhill",
+   "bid_date": "2026-11-25",
+   "bid_time": "10:00 AM",
+   "description": "Raw Water Transition Main Ã?Â¢Ã?Â?Ã?Â? Phase 1",
+   "bid_number": "BD-27-1279-1279C-COH01-135192"
+  },
+  {
+   "org_id": "1501",
+   "organization": "Leominster Housing Authority",
+   "bid_date": "2026-11-25",
+   "bid_time": "10:00 AM",
+   "description": "On-Call Painting",
+   "bid_number": "BD-16-1501-LHAMA-LHAMA-135217"
+  },
+  {
+   "org_id": "1172",
+   "organization": "City of Worcester",
+   "bid_date": "2026-11-25",
+   "bid_time": "10:00 AM",
+   "description": "CR-8861-M7 Guardrail Repairs & Installation / DPW",
+   "bid_number": "BD-23-1172-PUR00-PUR01-135136"
+  },
+  {
+   "org_id": "1141",
+   "organization": "City of Beverly",
+   "bid_date": "2026-11-25",
+   "bid_time": "11:00 AM",
+   "description": "PROGRAM AUDIT Ã?Â¢Ã?Â?Ã?Â? SPECIAL EDUCATION, STUDENT STUDY TEAMS, MTSS/ BPS",
+   "bid_number": "BD-27-1141-BEVLY-BEVLY-135113"
+  },
+  {
+   "org_id": "1158",
+   "organization": "City of Newburyport",
+   "bid_date": "2026-11-25",
+   "bid_time": "11:00 AM",
+   "description": "IFB No. 27-15: Water Meter Installation Project",
+   "bid_number": "BD-27-1158-NBPT3-NBPT3-135094"
+  },
+  {
+   "org_id": "1152",
+   "organization": "City of Lynn",
+   "bid_date": "2026-11-25",
+   "bid_time": "11:00 AM",
+   "description": "IFB-RFP Health Insurance Administration Services",
+   "bid_number": "BD-20-1152-LYNN0-LYN1-135139"
+  },
+  {
+   "org_id": "1166",
+   "organization": "City of Somerville",
+   "bid_date": "2026-11-25",
+   "bid_time": "2:00 PM",
+   "description": "RFP 27-26 TMS & CAT Platform",
+   "bid_number": "BD-27-1166-COS01-COS01-134928"
+  },
+  {
+   "org_id": "1429",
+   "organization": "Town of Medway",
+   "bid_date": "2026-11-30",
+   "bid_time": "10:00 AM",
+   "description": "Field Lighting Services - Town of Medway",
+   "bid_number": "BD-27-1429-TABOS-TABOS-135155"
+  },
+  {
+   "org_id": "1347",
+   "organization": "Town of West Springfield",
+   "bid_date": "2026-11-30",
+   "bid_time": "10:00 AM",
+   "description": "FY27 On-Call Snow Hauling",
+   "bid_number": "BD-27-1347-WS122-WS122-135033"
+  },
+  {
+   "org_id": "1156",
+   "organization": "City of Methuen",
+   "bid_date": "2026-11-30",
+   "bid_time": "11:00 AM",
+   "description": "professional grant writing and government outreach services for the City of Methuen",
+   "bid_number": "BD-27-1156-00001-00001-135112"
+  },
+  {
+   "org_id": "1412",
+   "organization": "City of Lawrence",
+   "bid_date": "2026-11-30",
+   "bid_time": "11:00 AM",
+   "description": "Bill Printing and Mailing Services RFP",
+   "bid_number": "BD-27-1412-LAW15-LAW12-135138"
+  },
+  {
+   "org_id": "1151",
+   "organization": "City of Lowell",
+   "bid_date": "2026-11-30",
+   "bid_time": "11:00 AM",
+   "description": "Lower Locks Cement",
+   "bid_number": "BD-20-1151-PCH01-PCH01-135074"
+  },
+  {
+   "org_id": "1322",
+   "organization": "Town of Saugus",
+   "bid_date": "2026-11-30",
+   "bid_time": "11:00 AM",
+   "description": "Invitation for Bid Hamilton St Bridge Preservation",
+   "bid_number": "BD-26-1322-DPW08-DPW08-135086"
+  },
+  {
+   "org_id": "1255",
+   "organization": "Town of Concord",
+   "bid_date": "2026-11-30",
+   "bid_time": "12:00 PM",
+   "description": "RFP #27-2034 Warner's Pond Adaptive Management Plan",
+   "bid_number": "BD-27-1255-NR171-KR141-135202"
+  },
+  {
+   "org_id": "1162",
+   "organization": "City of Pittsfield",
+   "bid_date": "2026-11-30",
+   "bid_time": "2:00 PM",
+   "description": "Demolition",
+   "bid_number": "BD-26-1162-PRC00-PRC00-135169"
+  },
+  {
+   "org_id": "1046",
+   "organization": "Department of Fish and Game",
+   "bid_date": "2026-11-30",
+   "bid_time": "2:00 PM",
+   "description": "DFW-2027-039 Mashpee Pine Barrens WMA Tree Thinning",
+   "bid_number": "BD-27-1046-DFW-FW104-135135"
+  },
+  {
+   "org_id": "1154",
+   "organization": "City of Medford",
+   "bid_date": "2026-12-01",
+   "bid_time": "9:00 AM",
+   "description": "IFB 27-0248 Brooks School Walk-In Fridge/Freezer Compressor/Evaporator Replacement",
+   "bid_number": "BD-27-1154-PUCH1-PUCH1-134909"
+  },
+  {
+   "org_id": "1353",
+   "organization": "Town of Wilmington",
+   "bid_date": "2026-12-01",
+   "bid_time": "10:00 AM",
+   "description": "REDEVELOPMENT, SURGING AND CHEMICAL TREATMENT OF GRAVEL PACKED WELLS AT BROWNâ??S CROSSING WELLFIELD",
+   "bid_number": "BD-22-1353-WILMT-WILMT-135110"
+  },
+  {
+   "org_id": "1856",
+   "organization": "Lawrence Housing Authority",
+   "bid_date": "2026-12-01",
+   "bid_time": "10:00 AM",
+   "description": "Gas and Electric Ranges; Energy Star, ADA compliant Refrigerators",
+   "bid_number": "BD-20-1856-LHA00-LHA00-135149"
+  },
+  {
+   "org_id": "1372",
+   "organization": "City of Gloucester",
+   "bid_date": "2026-12-01",
+   "bid_time": "11:00 AM",
+   "description": "27064 Electrical Repair Services for Water & Sewer",
+   "bid_number": "BD-27-1372-COG00-COG00-135157"
+  },
+  {
+   "org_id": "1938",
+   "organization": "Whitman Housing Authority",
+   "bid_date": "2026-12-01",
+   "bid_time": "11:00 AM",
+   "description": "Tree Trim and Removal",
+   "bid_number": "BD-19-1938-WTMAN-WTMAN-135142"
+  },
+  {
+   "org_id": "1019",
+   "organization": "Division of Capital Asset Management and Maintenance",
+   "bid_date": "2026-12-01",
+   "bid_time": "12:00 PM",
+   "description": "TRC1909 RFQ for Fifteen (15) Trade Packages for Renovation/Stabilization of Lynn Courthouse, Lynn MA",
+   "bid_number": "BD-27-1019-DCP04-BID01-135056"
+  },
+  {
+   "org_id": "1572",
+   "organization": "Town of Montague",
+   "bid_date": "2026-12-01",
+   "bid_time": "1:00 PM",
+   "description": "Shea Theater RTU Replacement",
+   "bid_number": "BD-22-1572-MTGUE-MTGUE-135022"
+  },
+  {
+   "org_id": "1303",
+   "organization": "Town of Needham",
+   "bid_date": "2026-12-01",
+   "bid_time": "1:30 PM",
+   "description": "27DPW140B On-Call Electrical Services",
+   "bid_number": "BD-27-1303-NEE08-NDM51-135125"
+  },
+  {
+   "org_id": "1167",
+   "organization": "City of Springfield",
+   "bid_date": "2026-12-01",
+   "bid_time": "2:00 PM",
+   "description": "Bid No. 27-068 Price Agreement for Authorized Ford Motor Parts and Service for DPW",
+   "bid_number": "BD-27-1167-PUR02-PUR01-135028"
+  },
+  {
+   "org_id": "1206",
+   "organization": "Massachusetts Bay Transportation Authority",
+   "bid_date": "2026-12-01",
+   "bid_time": "2:00 PM",
+   "description": "IFB 152C-26 Switch point stock Rail and Frogs",
+   "bid_number": "BD-27-1206-40000-40000-135159"
+  },
+  {
+   "org_id": "1172",
+   "organization": "City of Worcester",
+   "bid_date": "2026-12-02",
+   "bid_time": "10:00 AM",
+   "description": "Travel Agency Services / WPS",
+   "bid_number": "BD-23-1172-PUR00-PUR01-135104"
+  },
+  {
+   "org_id": "1349",
+   "organization": "Town of Westford",
+   "bid_date": "2026-12-02",
+   "bid_time": "10:00 AM",
+   "description": "Town of Westford is seeking RFQ for Town Hall and Museum",
+   "bid_number": "BD-26-1349-TOWFA-TF-134716"
+  },
+  {
+   "org_id": "1121",
+   "organization": "Assabet Valley Regional Vocational School District",
+   "bid_date": "2026-12-02",
+   "bid_time": "10:00 AM",
+   "description": "Request for Quotes RFQ 632: Fire Alarm Inspections, Maintenance and Repairs",
+   "bid_number": "BD-27-1121-AVRTV-AVRTV-135035"
+  },
+  {
+   "org_id": "1212",
+   "organization": "Massachusetts Water Resources Authority",
+   "bid_date": "2026-12-02",
+   "bid_time": "10:00 AM",
+   "description": "MWRA Contract No. 8194 Alford Street Facility Seawall Repair",
+   "bid_number": "BD-19-1212-MWRA-DITP-135121"
+  },
+  {
+   "org_id": "1172",
+   "organization": "City of Worcester",
+   "bid_date": "2026-12-02",
+   "bid_time": "10:00 AM",
+   "description": "DX AHU Replacement - Sullivan Middle School / WPS",
+   "bid_number": "BD-23-1172-PUR00-PUR01-135218"
+  },
+  {
+   "org_id": "1158",
+   "organization": "City of Newburyport",
+   "bid_date": "2026-12-02",
+   "bid_time": "11:00 AM",
+   "description": "RFQ No. 27-16: On-Call Owner's Project Management Services for Multiple School Capital Projects",
+   "bid_number": "BD-27-1158-NBPT3-NBPT3-135183"
+  },
+  {
+   "org_id": "1708",
+   "organization": "Town of Dennis",
+   "bid_date": "2026-12-02",
+   "bid_time": "11:00 AM",
+   "description": "Town of Dennis Stair replacement",
+   "bid_number": "BD-27-1708-422-422-135072"
+  },
+  {
+   "org_id": "1372",
+   "organization": "City of Gloucester",
+   "bid_date": "2026-12-02",
+   "bid_time": "11:00 AM",
+   "description": "27066 Construction Equipment Rental and Services as Needed",
+   "bid_number": "BD-27-1372-COG00-COG00-135175"
+  },
+  {
+   "org_id": "1151",
+   "organization": "City of Lowell",
+   "bid_date": "2026-12-02",
+   "bid_time": "11:00 AM",
+   "description": "Design Services for 40 Market Street",
+   "bid_number": "BD-20-1151-PCH01-PCH01-135163"
+  },
+  {
+   "org_id": "1142",
+   "organization": "City of Boston",
+   "bid_date": "2026-12-02",
+   "bid_time": "12:00 PM",
+   "description": "Full Electric Cargo Van (PWD)",
+   "bid_number": "BD-27-1142-143-143-135186"
+  },
+  {
+   "org_id": "1281",
+   "organization": "Town of Holden",
+   "bid_date": "2026-12-02",
+   "bid_time": "2:00 PM",
+   "description": "RFP HOL-27-01 - Cloud-Hosted Phone System (UCaaS)",
+   "bid_number": "BD-25-1281-HOLDN-HOLDN-135152"
+  },
+  {
+   "org_id": "1109",
+   "organization": "University of Massachusetts System",
+   "bid_date": "2026-12-02",
+   "bid_time": "2:00 PM",
+   "description": "UMLOW-2027-1160 GPS Disability Services Relocation",
+   "bid_number": "BD-27-1109-UMLOW-LOW-135061"
+  },
+  {
+   "org_id": "1955",
+   "organization": "Beverly Housing Authority",
+   "bid_date": "2026-12-02",
+   "bid_time": "2:00 PM",
+   "description": "Beverly Housing Authority Annual Manual Snow Removal Services IFB",
+   "bid_number": "BD-27-1955-BHA11-BHA11-135201"
+  },
+  {
+   "org_id": "1987",
+   "organization": "Town of Templeton",
+   "bid_date": "2026-12-03",
+   "bid_time": "10:00 AM",
+   "description": "HEROES Park Monuments",
+   "bid_number": "BD-27-1987-DPW20-DPW-135190"
+  },
+  {
+   "org_id": "1121",
+   "organization": "Assabet Valley Regional Vocational School District",
+   "bid_date": "2026-12-03",
+   "bid_time": "10:00 AM",
+   "description": "Request for Quotes 633: Elevator and Chair Lift Inspections, Repairs and Maintenance.",
+   "bid_number": "BD-27-1121-AVRTV-AVRTV-135036"
+  },
+  {
+   "org_id": "1145",
+   "organization": "City of Chelsea",
+   "bid_date": "2026-12-03",
+   "bid_time": "10:30 AM",
+   "description": "RFP 2027-283 PHARMACY BENEFIT CONSULTING SERVICES",
+   "bid_number": "BD-26-1145-1145C-1145L-135168"
+  },
+  {
+   "org_id": "1144",
+   "organization": "City of Cambridge",
+   "bid_date": "2026-12-03",
+   "bid_time": "11:00 AM",
+   "description": "31285-Winchester Ammunition for CPD",
+   "bid_number": "BD-27-1144-CAMBR-CAMBR-135068"
+  },
+  {
+   "org_id": "1280",
+   "organization": "Town of Hingham",
+   "bid_date": "2026-12-03",
+   "bid_time": "11:00 AM",
+   "description": "Hingham Town Meeting: Electronic Voting Device and Services, Request For Proposals",
+   "bid_number": "BD-25-1280-TOHH1-TOHH1-135031"
+  },
+  {
+   "org_id": "1306",
+   "organization": "Town of North Attleboro",
+   "bid_date": "2026-12-03",
+   "bid_time": "11:00 AM",
+   "description": "Adamsdale Well GAC Media Replacement and Disposal",
+   "bid_number": "BD-26-1306-NADPW-NADPW-135199"
+  },
+  {
+   "org_id": "1145",
+   "organization": "City of Chelsea",
+   "bid_date": "2026-12-03",
+   "bid_time": "11:00 AM",
+   "description": "IFB 2027-277 CENTRAL FIRE STATION APPARATUS FLOOR REPLACEMENT PHASE 1",
+   "bid_number": "BD-26-1145-1145C-1145L-135148"
+  },
+  {
+   "org_id": "1142",
+   "organization": "City of Boston",
+   "bid_date": "2026-12-03",
+   "bid_time": "12:00 PM",
+   "description": "IFB - MALCOLM X PARK LANDSCAPE MAINTENANCE SERVICES",
+   "bid_number": "BD-27-1142-30000-300-135053"
+  },
+  {
+   "org_id": "1154",
+   "organization": "City of Medford",
+   "bid_date": "2026-12-03",
+   "bid_time": "2:00 PM",
+   "description": "27-0161 Request for Quotes for Brooks Estate Neighborhood Historic Properties Survey",
+   "bid_number": "BD-27-1154-PUCH1-PUCH1-134793"
+  },
+  {
+   "org_id": "1490",
+   "organization": "Town of Eastham",
+   "bid_date": "2026-12-03",
+   "bid_time": "2:00 PM",
+   "description": "RFP - Eastham Housing Production Plan Update",
+   "bid_number": "BD-21-1490-TOE01-TOE01-135010"
+  },
+  {
+   "org_id": "1301",
+   "organization": "Town of Nantucket",
+   "bid_date": "2026-12-03",
+   "bid_time": "2:00 PM",
+   "description": "RFP - Administrator for Homeowner Rental Incentive Program FY27",
+   "bid_number": "BD-27-1301-2-2-135058"
+  },
+  {
+   "org_id": "1144",
+   "organization": "City of Cambridge",
+   "bid_date": "2026-12-03",
+   "bid_time": "2:00 PM",
+   "description": "COC-RWR-FY27-31100A: REBID: Sink Undercoating Abatement",
+   "bid_number": "BD-27-1144-CAMBR-CAMBR-135164"
+  },
+  {
+   "org_id": "1923",
+   "organization": "Sandwich Housing Authority",
+   "bid_date": "2026-12-03",
+   "bid_time": "2:00 PM",
+   "description": "Plumbing and HVAC Maintenance and Repairs Service Contract",
+   "bid_number": "BD-26-1923-SHA00-SHA00-135158"
+  },
+  {
+   "org_id": "1627",
+   "organization": "Town of Holliston",
+   "bid_date": "2026-12-04",
+   "bid_time": "10:00 AM",
+   "description": "Holliston Fire Station Window Replacement",
+   "bid_number": "BD-27-1627-BOS17-BOS17-135107"
+  },
+  {
+   "org_id": "1940",
+   "organization": "Great Barrington Housing Authority",
+   "bid_date": "2026-12-04",
+   "bid_time": "2:00 PM",
+   "description": "#116123: 705 storm doors-Rebid",
+   "bid_number": "BD-17-1940-HA116-HA116-135187"
+  },
+  {
+   "org_id": "1278",
+   "organization": "Town of Hanover",
+   "bid_date": "2026-12-04",
+   "bid_time": "4:00 PM",
+   "description": "PFAS Water Treatment Plant Upgrades",
+   "bid_number": "BD-25-1278-DPW15-DPW1-135141"
+  },
+  {
+   "org_id": "1206",
+   "organization": "Massachusetts Bay Transportation Authority",
+   "bid_date": "2026-12-07",
+   "bid_time": "12:00 AM",
+   "description": "R16CN02 CMAR Permanent Employee Facilities RFQ Trade Package 1",
+   "bid_number": "BD-27-1206-31100-31102-135101"
+  },
+  {
+   "org_id": "1373",
+   "organization": "Cape Cod Community College",
+   "bid_date": "2026-12-07",
+   "bid_time": "11:00 AM",
+   "description": "27-05 Replacement of Duplex Sewerage Ejector System",
+   "bid_number": "BD-27-1373-1373C-1373L-135205"
+  },
+  {
+   "org_id": "1020",
+   "organization": "Department of Conservation and Recreation",
+   "bid_date": "2026-12-07",
+   "bid_time": "2:00 PM",
+   "description": "DCR 999 Otis Reservoir Hydraulic and Mechanical Gate Systems Maintenance Service",
+   "bid_number": "BD-27-1020-DCRCU-DC250-134936"
+  },
+  {
+   "org_id": "2129",
+   "organization": "Martin Luther King, Jr. Charter School of Excellence",
+   "bid_date": "2026-12-07",
+   "bid_time": "4:00 PM",
+   "description": "New PA System, School",
+   "bid_number": "BD-27-2129-MLKJR-MLKJR-135026"
+  },
+  {
+   "org_id": "1100",
+   "organization": "Executive Office of Economic Development",
+   "bid_date": "2026-12-07",
+   "bid_time": "11:59 PM",
+   "description": "EOED FY27 Social Enterprise Operating Grant Program RFP",
+   "bid_number": "BD-27-1100-EED01-EED01-135118"
+  },
+  {
+   "org_id": "1237",
+   "organization": "Town of Dracut",
+   "bid_date": "2026-12-08",
+   "bid_time": "11:00 AM",
+   "description": "RFQ 2027-2 Engineering Services PD",
+   "bid_number": "BD-27-1237-DTH00-DT001-135043"
+  },
+  {
+   "org_id": "1784",
+   "organization": "Lynn Water & Sewer Commission",
+   "bid_date": "2026-12-08",
+   "bid_time": "11:00 AM",
+   "description": "fire hydrant replacement",
+   "bid_number": "BD-27-1784-LWS1-LWS1-135120"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-12-08",
+   "bid_time": "2:00 PM",
+   "description": "616504 MEDFORD-EVERETT-CHELSEA-REVERE Roadside Maintenance on Route 16",
+   "bid_number": "BD-27-1030-0H100-0H002-135015"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-12-08",
+   "bid_time": "2:00 PM",
+   "description": "612089 DUDLEY SOUTHBRIDGE FAP No. NHP(NHS)- 004S(028)X Resurfacing and Related Work on Route 131",
+   "bid_number": "BD-27-1030-0H100-0H002-135013"
+  },
+  {
+   "org_id": "1030",
+   "organization": "Department of Transportation",
+   "bid_date": "2026-12-08",
+   "bid_time": "2:00 PM",
+   "description": "616511 DISTRICT 6 Scheduled & Emergency Structural & Substructure Repairs at Various Locations",
+   "bid_number": "BD-27-1030-0H100-0H002-135012"
+  },
+  {
+   "org_id": "1637",
+   "organization": "Town of Littleton",
+   "bid_date": "2026-12-09",
+   "bid_time": "11:00 AM",
+   "description": "King Street Commons Public Infrastructure Project",
+   "bid_number": "BD-25-1637-TH190-TH190-135197"
+  },
+  {
+   "org_id": "1741",
+   "organization": "Town of Becket",
+   "bid_date": "2026-12-09",
+   "bid_time": "1:00 PM",
+   "description": "Leonhardt Road Improvements Project",
+   "bid_number": "BD-27-1741-01421-01421-135129"
+  },
+  {
+   "org_id": "1109",
+   "organization": "University of Massachusetts System",
+   "bid_date": "2026-12-09",
+   "bid_time": "2:00 PM",
+   "description": "Healey Lower Level Improvements |",
+   "bid_number": "BD-27-1109-UMBOS-BOS-135146"
+  },
+  {
+   "org_id": "1160",
+   "organization": "City of Northampton",
+   "bid_date": "2026-12-09",
+   "bid_time": "2:00 PM",
+   "description": "Northampton DPW_ Contracts 2026 Mill and Overlay",
+   "bid_number": "BD-26-1160-02-02-135189"
+  },
+  {
+   "org_id": "1741",
+   "organization": "Town of Becket",
+   "bid_date": "2026-12-09",
+   "bid_time": "2:00 PM",
+   "description": "Road and Drainage Improvements",
+   "bid_number": "BD-27-1741-01421-01421-135127"
+  },
+  {
+   "org_id": "1143",
+   "organization": "City of Brockton",
+   "bid_date": "2026-12-09",
+   "bid_time": "4:00 PM",
+   "description": "RFP for: OPERATION OF LUNCHROOM AND BAR CONCESSION AT THE D.W. FIELD GOLF COURSE",
+   "bid_number": "BD-27-1143-PRO15-PRO15-134679"
+  },
+  {
+   "org_id": "1347",
+   "organization": "Town of West Springfield",
+   "bid_date": "2026-12-10",
+   "bid_time": "10:00 AM",
+   "description": "Rogers Avenue Water Storage Tank Bypass Provisions",
+   "bid_number": "BD-27-1347-WS400-WS400-135160"
+  },
+  {
+   "org_id": "1142",
+   "organization": "City of Boston",
+   "bid_date": "2026-12-10",
+   "bid_time": "12:00 PM",
+   "description": "IFB - TOBIN CONFERENCE ROOM IMPROVEMENTS",
+   "bid_number": "BD-27-1142-180-180-135055"
+  },
+  {
+   "org_id": "1411",
+   "organization": "Massachusetts Port Authority (Massport)",
+   "bid_date": "2026-12-10",
+   "bid_time": "12:00 PM",
+   "description": "L1630-C2 DP1 BRAINTREE LOGAN EXPRESS GARAGE AND REMOTE TERMINAL",
+   "bid_number": "BD-19-1411-CAPPR-LOC1-135041"
+  },
+  {
+   "org_id": "1735",
+   "organization": "Town of Winchendon",
+   "bid_date": "2026-12-10",
+   "bid_time": "2:00 PM",
+   "description": "Invitation to Bid Toy Town Elementary School Building Updates",
+   "bid_number": "BD-25-1735-TM002-TM002-135083"
+  },
+  {
+   "org_id": "1347",
+   "organization": "Town of West Springfield",
+   "bid_date": "2026-12-11",
+   "bid_time": "10:00 AM",
+   "description": "On-Call Emergency Construction Work",
+   "bid_number": "BD-27-1347-WS400-WS400-135219"
+  },
+  {
+   "org_id": "1039",
+   "organization": "Executive Office of Health and Human Services",
+   "bid_date": "2026-12-11",
+   "bid_time": "5:00 PM",
+   "description": "27EHSPCAIDCARDPM: RFR for Personal Care Attendant Identification Card Services",
+   "bid_number": "BD-27-1039-EHS01-ASHWA-135088"
+  },
+  {
+   "org_id": "1046",
+   "organization": "Department of Fish and Game",
+   "bid_date": "2026-12-12",
+   "bid_time": "6:00 PM",
+   "description": "Biodiversity TV Series",
+   "bid_number": "BD-27-1046-COM-COM1-134957"
+  },
+  {
+   "org_id": "1639",
+   "organization": "Town of Mattapoisett",
+   "bid_date": "2026-12-14",
+   "bid_time": "12:00 PM",
+   "description": "2027 On-Call Tree Services",
+   "bid_number": "BD-27-1639-06168-06168-135220"
+  },
+  {
+   "org_id": "1068",
+   "organization": "Massachusetts Gaming Commission",
+   "bid_date": "2026-12-15",
+   "bid_time": "2:00 PM",
+   "description": "Underage Access To Sports Wagering Platforms Research Services",
+   "bid_number": "BD-27-1068-1700-1-135084"
+  },
+  {
+   "org_id": "1411",
+   "organization": "Massachusetts Port Authority (Massport)",
+   "bid_date": "2026-12-16",
+   "bid_time": "11:00 AM",
+   "description": "M454-C1, NEW BLUE TECH SPACE FIT-OUT, 212 NORTHERN AVE, BOSTON, MASSACHUSETTS",
+   "bid_number": "BD-19-1411-CAPPR-LOC1-135042"
+  },
+  {
+   "org_id": "1188",
+   "organization": "Franklin Regional Council of Governments",
+   "bid_date": "2026-12-16",
+   "bid_time": "2:00 PM",
+   "description": "RFP 2026-2200",
+   "bid_number": "BD-27-1188-PURCH-PURCH-135174"
+  },
+  {
+   "org_id": "1142",
+   "organization": "City of Boston",
+   "bid_date": "2026-12-17",
+   "bid_time": "12:00 PM",
+   "description": "IFB-RAYMOND L. FLYNN MARINE PARK (\"RLFMP\") STREETSCAPE IMPROVEMENTS CONSTRUCTION",
+   "bid_number": "BD-27-1142-143-143-135051"
+  },
+  {
+   "org_id": "1019",
+   "organization": "Division of Capital Asset Management and Maintenance",
+   "bid_date": "2026-12-17",
+   "bid_time": "2:00 PM",
+   "description": "AD Project #202611000 Roxbury Community College, Roxbury",
+   "bid_number": "BD-27-1019-DCP06-OOL01-135039"
+  },
+  {
+   "org_id": "1605",
+   "organization": "Town of Bolton",
+   "bid_date": "2026-12-17",
+   "bid_time": "2:00 PM",
+   "description": "Town of Bolton, Forbush Mill Road over Still River Culvert #1 Proposed Bridge",
+   "bid_number": "BD-27-1605-TH01-TH01-135150"
+  },
+  {
+   "org_id": "1144",
+   "organization": "City of Cambridge",
+   "bid_date": "2026-12-17",
+   "bid_time": "2:00 PM",
+   "description": "COC-CIFB-FY27-31292: 51 Inman Fire Protection Sprinkler Modifications and Related Improvements",
+   "bid_number": "BD-27-1144-CAMBR-CAMBR-135161"
+  },
+  {
+   "org_id": "1019",
+   "organization": "Division of Capital Asset Management and Maintenance",
+   "bid_date": "2026-12-17",
+   "bid_time": "2:00 PM",
+   "description": "AD Project #202608500 Committee for Public Counsel Services, Lawrence",
+   "bid_number": "BD-27-1019-DCP06-OOL01-135030"
+  },
+  {
+   "org_id": "1071",
+   "organization": "MassAbility",
+   "bid_date": "2026-12-17",
+   "bid_time": "4:00 PM",
+   "description": "VEHICLE DONATION PROGRAM FOR MASSABILITY CAREER SERVICES PARTICIPANTS",
+   "bid_number": "BD-27-1071-VR-VR10-135037"
+  },
+  {
+   "org_id": "1109",
+   "organization": "University of Massachusetts System",
+   "bid_date": "2026-12-18",
+   "bid_time": "2:00 PM",
+   "description": "7th Floor BSL3 Basic Wing",
+   "bid_number": "BD-27-1109-UMMS-UMMS-135102"
+  },
+  {
+   "org_id": "1558",
+   "organization": "Town of Chatham",
+   "bid_date": "2027-01-07",
+   "bid_time": "2:00 PM",
+   "description": "Affordable and Attainable Housing Development at 127 Old Harbor Road",
+   "bid_number": "BD-26-1558-TMS01-TMS01-135117"
+  },
+  {
+   "org_id": "1208",
+   "organization": "Massachusetts Convention Center Authority",
+   "bid_date": "2027-01-11",
+   "bid_time": "12:00 PM",
+   "description": "Master Planner and Feasibility Services",
+   "bid_number": "BD-27-1208-1208C-1208L-134564"
+  },
+  {
+   "org_id": "1020",
+   "organization": "Department of Conservation and Recreation",
+   "bid_date": "2027-02-01",
+   "bid_time": "11:59 PM",
+   "description": "2027 Mass Trails Grants",
+   "bid_number": "BD-27-1020-DCRCU-DC250-135070"
+  },
+  {
+   "org_id": "1076",
+   "organization": "Executive Office of Housing & Livable Communities",
+   "bid_date": "2027-02-25",
+   "bid_time": "5:00 PM",
+   "description": "Supportive Housing for Vulnerable Populations NOFA",
+   "bid_number": "BD-27-1076-OCDDE-HD006-135032"
+  },
+  {
+   "org_id": "1084",
+   "organization": "Department of State Police",
+   "bid_date": "2034-09-30",
+   "bid_time": "11:00 PM",
+   "description": "SP27-Air Wing-U02 Aircraft commodities and services",
+   "bid_number": "BD-27-1084-POLAI-AW1-134935"
+  },
+  {
+   "org_id": "1102",
+   "organization": "State Reclamation Board",
+   "bid_date": "2036-03-01",
+   "bid_time": "12:00 AM",
+   "description": "FY27- SRB Departmental RFR- Aerial/Ground Insecticide Application for Mosquito Control",
+   "bid_number": "BD-27-1102-SRB00-001-135014"
+  }
+ ]
+}

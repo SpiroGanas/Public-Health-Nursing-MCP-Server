@@ -131,6 +131,50 @@ impl HttpClient {
             })
     }
 
+    /// POST a JSON body with extra request headers (for example an API key) and
+    /// return the response body. Used by APIs whose search is a POST (Phase 17
+    /// grants). The headers are never included in an error message.
+    pub async fn post_json_bytes(
+        &self,
+        url: &str,
+        json_body: &[u8],
+        headers: &[(&str, &str)],
+    ) -> std::result::Result<Vec<u8>, HttpFailure> {
+        if self.offline {
+            return Err(HttpFailure {
+                status: None,
+                message: "offline mode is on (PHN_OFFLINE)".into(),
+            });
+        }
+        let mut req = self
+            .inner
+            .post(url)
+            .header("Content-Type", "application/json")
+            .header("Accept", "application/json")
+            .body(json_body.to_vec());
+        for (k, v) in headers {
+            req = req.header(*k, *v);
+        }
+        let resp = req.send().await.map_err(|e| HttpFailure {
+            status: None,
+            message: format!("POST {url}: {}", describe_error(&e)),
+        })?;
+        let status = resp.status();
+        if !status.is_success() {
+            return Err(HttpFailure {
+                status: Some(status.as_u16()),
+                message: format!("POST {url}: HTTP {status}"),
+            });
+        }
+        resp.bytes()
+            .await
+            .map(|b| b.to_vec())
+            .map_err(|e| HttpFailure {
+                status: None,
+                message: format!("POST {url}: {e}"),
+            })
+    }
+
     /// Check whether a URL is reachable. Tries `HEAD`, then a `GET` when the
     /// server rejects `HEAD`. Never returns an error; failures are reported in
     /// the result.

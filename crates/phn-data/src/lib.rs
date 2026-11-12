@@ -99,6 +99,7 @@ pub mod crossref;
 // End of Phase 16 adapters.
 // Phase 17 adapters go below this line.
 // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+pub mod grants;
 // End of Phase 17 grants.
 // Phase 17 budget (PLAN-09, PLAN-10).
 // End of Phase 17 budget.

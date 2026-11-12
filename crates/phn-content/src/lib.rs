@@ -681,6 +681,27 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 16 content items.
     // Phase 17 content items go below this line.
     // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+    ContentItem {
+        id: "planning-grant-sources",
+        path: "content/planning/grant_sources.yaml",
+        resource_uri: "phn://content/planning-grant-sources",
+        yaml: include_str!("../../../content/planning/grant_sources.yaml"),
+        schema: include_str!("../../../content/schemas/planning_grant_sources.schema.json"),
+    },
+    ContentItem {
+        id: "planning-announcement-patterns",
+        path: "content/planning/announcement_patterns.yaml",
+        resource_uri: "phn://content/planning-announcement-patterns",
+        yaml: include_str!("../../../content/planning/announcement_patterns.yaml"),
+        schema: include_str!("../../../content/schemas/planning_announcement_patterns.schema.json"),
+    },
+    ContentItem {
+        id: "planning-narrative-templates",
+        path: "content/planning/narrative_templates.yaml",
+        resource_uri: "phn://content/planning-narrative-templates",
+        yaml: include_str!("../../../content/planning/narrative_templates.yaml"),
+        schema: include_str!("../../../content/schemas/planning_narrative_templates.schema.json"),
+    },
     // End of Phase 17 grants.
     // Phase 17 budget (PLAN-09, PLAN-10).
     // End of Phase 17 budget.

@@ -464,6 +464,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 16 snapshot files.
     // Phase 17 snapshot files go below this line.
     // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+    (
+        "commbuys_weekly_bids.json",
+        include_str!("../../../snapshots/commbuys_weekly_bids.json"),
+    ),
     // End of Phase 17 grants.
     // Phase 17 budget (PLAN-09, PLAN-10).
     // End of Phase 17 budget.
