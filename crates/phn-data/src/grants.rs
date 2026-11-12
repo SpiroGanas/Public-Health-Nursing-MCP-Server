@@ -35,7 +35,8 @@ pub const SEARCH_URL: &str = "https://api.simpler.grants.gov/v1/opportunities/se
 pub const COMMBUYS_SNAPSHOT_ID: &str = "commbuys-weekly-bids";
 pub const COMMBUYS_FILE: &str = "commbuys_weekly_bids.json";
 /// The live location of the weekly list (a PDF).
-pub const COMMBUYS_LIST_URL: &str = "https://www.mass.gov/doc/commbuys-home-page-bid-count/download";
+pub const COMMBUYS_LIST_URL: &str =
+    "https://www.mass.gov/doc/commbuys-home-page-bid-count/download";
 /// Longest topic query the API accepts (characters).
 pub const MAX_QUERY_CHARS: usize = 100;
 
@@ -208,9 +209,10 @@ pub fn plain_summary(text: &str, max: usize) -> String {
 pub fn parse_response(body: &[u8]) -> Result<FederalResults> {
     let v: Value = serde_json::from_slice(body)
         .map_err(|e| PhnError::Network(format!("the grants search did not return JSON: {e}")))?;
-    let data = v.get("data").and_then(Value::as_array).ok_or_else(|| {
-        PhnError::Network("the grants search response has no 'data' list".into())
-    })?;
+    let data = v
+        .get("data")
+        .and_then(Value::as_array)
+        .ok_or_else(|| PhnError::Network("the grants search response has no 'data' list".into()))?;
     let mut out = Vec::new();
     for item in data {
         let sum = item.get("summary").cloned().unwrap_or(Value::Null);
@@ -305,13 +307,7 @@ pub async fn search_federal_at(
 /// Run a live federal search with the key from the environment.
 pub async fn search_federal(http: &HttpClient, q: &FederalQuery) -> FederalOutcome {
     let key = api_key(KEY_ENV);
-    search_federal_at(
-        http,
-        "https://api.simpler.grants.gov",
-        key.as_deref(),
-        q,
-    )
-    .await
+    search_federal_at(http, "https://api.simpler.grants.gov", key.as_deref(), q).await
 }
 
 /// Citation for a live federal search.
@@ -435,7 +431,6 @@ mod tests {
         assert_eq!(b2["pagination"]["sort_order"][0]["order_by"], "close_date");
     }
 
-
     #[test]
     fn the_committed_commbuys_snapshot_loads() {
         let store = SnapshotStore::bundled();
@@ -447,7 +442,10 @@ mod tests {
         assert!(list.bids.iter().all(|b| b.bid_date.is_some()));
     }
 
-    async fn serve_once(status: &'static str, body: &'static str) -> (String, tokio::task::JoinHandle<String>) {
+    async fn serve_once(
+        status: &'static str,
+        body: &'static str,
+    ) -> (String, tokio::task::JoinHandle<String>) {
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = listener.local_addr().unwrap();
         let h = tokio::spawn(async move {
@@ -461,7 +459,11 @@ mod tests {
                 if let Some(i) = text.find("\r\n\r\n") {
                     let len = text
                         .lines()
-                        .find_map(|l| l.to_ascii_lowercase().strip_prefix("content-length:").map(|v| v.trim().parse::<usize>().unwrap_or(0)))
+                        .find_map(|l| {
+                            l.to_ascii_lowercase()
+                                .strip_prefix("content-length:")
+                                .map(|v| v.trim().parse::<usize>().unwrap_or(0))
+                        })
                         .unwrap_or(0);
                     if got.len() >= i + 4 + len {
                         break;
@@ -509,10 +511,22 @@ mod tests {
 
     #[tokio::test]
     async fn no_key_sends_nothing_and_errors_are_scrubbed() {
-        let out = search_federal_at(&client(), "http://127.0.0.1:9", None, &FederalQuery::default()).await;
+        let out = search_federal_at(
+            &client(),
+            "http://127.0.0.1:9",
+            None,
+            &FederalQuery::default(),
+        )
+        .await;
         assert_eq!(out, FederalOutcome::NoKey);
         let (base, _h) = serve_once("401 Unauthorized", "{\"message\":\"no\"}").await;
-        let out = search_federal_at(&client(), &base, Some("SECRETKEY123"), &FederalQuery::default()).await;
+        let out = search_federal_at(
+            &client(),
+            &base,
+            Some("SECRETKEY123"),
+            &FederalQuery::default(),
+        )
+        .await;
         let FederalOutcome::Failed(m) = out else {
             panic!("{out:?}")
         };

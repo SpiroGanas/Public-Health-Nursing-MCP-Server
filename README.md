@@ -244,6 +244,9 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `search_grant_opportunities` | PLAN-06 | planning | Open funding opportunities for a health agency: federal (Simpler.Grants.gov, with your own API key; says when it is in snapshot mode) and the Massachusetts COMMBUYS weekly bid list, filtered by topic, eligibility, closing dates, and award size, with where else to look and DPH procurement facts. |
+| `analyze_funding_announcement` | PLAN-07 | planning | Reads a NOFO or Massachusetts RFR you saved (PDF or Word) into a compliance checklist: eligibility, deadlines, page limits, required attachments, scoring criteria with points, and a response outline; says what it could not find; writes DOCX and XLSX checklists. |
+| `draft_grant_narrative` | PLAN-08 | planning | Drafts a needs statement, project narrative, and sustainability section from templates and the facts and cited statistics you supply, organized by the scoring criteria, with [NURSE: ...] placeholders and no invented data; writes a DOCX. |
 <!-- Phase 17 grants rows go above this line. -->
 <!-- Phase 17 budget rows go above this line. -->
 <!-- Phase 17 finance rows go above this line. -->

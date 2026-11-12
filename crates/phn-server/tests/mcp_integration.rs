@@ -1472,6 +1472,57 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 16 data tools.
         // ---- Phase 17 data tools go below this line.
         // ---- Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+        // Announcements that legitimately name procurement and program contacts (names, phones,
+        // emails): only structure, dates, and short labels may come back.
+        (
+            "analyze_funding_announcement",
+            json!({"path": "synthetic_nofo.docx"}),
+            "data/synthetic_nofo.docx",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "synthetic_rfr.pdf"}),
+            "data/synthetic_rfr.pdf",
+        ),
+        // Client files given as the announcement: a data file is refused as not a document, and
+        // free-text client notes and letters are read for structure only (no label may quote them).
+        (
+            "analyze_funding_announcement",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "51a_notes.txt"}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "analyze_funding_announcement",
+            json!({"path": "client_letter.html"}),
+            "data/client_letter.html",
+        ),
+        // A client file or a staff roster given as the checklist file.
+        (
+            "draft_grant_narrative",
+            json!({"criteria_file": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "draft_grant_narrative",
+            json!({"criteria_file": "staff_roster.csv"}),
+            "data/staff_roster.csv",
+        ),
+        // The search reads no local files; nothing seeded may appear.
+        (
+            "search_grant_opportunities",
+            json!({"topic": "immunization", "source": "commbuys"}),
+            ll,
+        ),
         // ---- End of Phase 17 grants.
         // ---- Phase 17 budget (PLAN-09, PLAN-10).
         // ---- End of Phase 17 budget.

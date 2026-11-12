@@ -30,7 +30,9 @@ const MAX_FIELD_CHARS: usize = 4000;
 const MAX_LABEL_CHARS: usize = 120;
 
 /// A section the tool can draft.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum NarrativeSection {
     /// The health problem, who is affected, cited data, and the service gap.
@@ -168,6 +170,7 @@ pub struct NarrativeArgs {
 // ---------------------------------------------------------------- content
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 struct SlotDef {
     id: String,
     heading: String,
@@ -177,6 +180,7 @@ struct SlotDef {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 struct SectionDef {
     id: String,
     heading: String,
@@ -338,7 +342,11 @@ fn read_criteria_file(ctx: &Context, path: &str) -> Result<Vec<CriterionInput>> 
                 "'{label}' has no \"Scoring criteria\" sheet: use the checklist written by analyze_funding_announcement, or type the criteria"
             ))
         })?;
-    let col = |name: &str| t.headers.iter().position(|h| h.to_lowercase().contains(name));
+    let col = |name: &str| {
+        t.headers
+            .iter()
+            .position(|h| h.to_lowercase().contains(name))
+    };
     let (Some(lc), pc) = (col("criterion"), col("points")) else {
         return Err(PhnError::InvalidInput(format!(
             "the \"Scoring criteria\" sheet in '{label}' has no Criterion column"
@@ -353,8 +361,13 @@ fn read_criteria_file(ctx: &Context, path: &str) -> Result<Vec<CriterionInput>> 
         }
         out.push(CriterionInput {
             label: clip(l, MAX_LABEL_CHARS),
-            points: pc.and_then(|c| r.get(c)).and_then(|p| p.trim().parse::<f64>().ok()).filter(|p| (0.0..=1000.0).contains(p)),
-            section: sc.and_then(|c| r.get(c)).and_then(|s| NarrativeSection::from_id(s.trim())),
+            points: pc
+                .and_then(|c| r.get(c))
+                .and_then(|p| p.trim().parse::<f64>().ok())
+                .filter(|p| (0.0..=1000.0).contains(p)),
+            section: sc
+                .and_then(|c| r.get(c))
+                .and_then(|s| NarrativeSection::from_id(s.trim())),
         });
     }
     if out.is_empty() {
@@ -372,7 +385,12 @@ fn placeholder(text: &str, community: &str) -> String {
 }
 
 fn data_line(d: &DataPoint, community: &str, missing: &mut usize) -> (String, Option<String>) {
-    let geo = d.geography.as_deref().map(str::trim).filter(|s| !s.is_empty()).unwrap_or(community);
+    let geo = d
+        .geography
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .unwrap_or(community);
     let src = d.source.as_deref().map(str::trim).filter(|s| !s.is_empty());
     let when = d.as_of.as_deref().map(str::trim).filter(|s| !s.is_empty());
     if src.is_none() || when.is_none() {
@@ -386,14 +404,20 @@ fn data_line(d: &DataPoint, community: &str, missing: &mut usize) -> (String, Op
         (None, Some(w)) => format!("[NURSE: add the source], {w}"),
         (None, None) => "[NURSE: add the source and year]".into(),
     });
-    let cmp = d
+    if let Some(c) = d
         .comparison
         .as_deref()
         .map(str::trim)
         .filter(|s| !s.is_empty())
-        .map(|c| format!("; comparison: {c}"))
-        .unwrap_or_default();
-    let line = format!("**{}:** {} ({}){}", d.label.trim(), d.value.trim(), cite.join("; "), cmp);
+    {
+        cite.push(format!("comparison: {c}"));
+    }
+    let line = format!(
+        "**{}:** {} ({})",
+        d.label.trim(),
+        d.value.trim(),
+        cite.join("; ")
+    );
     let reference = match (src, when) {
         (Some(s), Some(w)) => Some(format!("{s}, {w}")),
         _ => None,
@@ -446,7 +470,10 @@ fn facts_of(f: &ProgramFacts) -> Result<Facts> {
 }
 
 /// Draft a grant narrative.
-pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envelope<NarrativeResult>> {
+pub fn draft_grant_narrative(
+    ctx: &Context,
+    args: NarrativeArgs,
+) -> Result<Envelope<NarrativeResult>> {
     let templates: Templates = content::load(TEMPLATES)?;
     let types: Vec<CriterionType> = criterion_types()?;
 
@@ -460,10 +487,13 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
         .or_else(|| settings.jurisdiction.town.clone())
         .unwrap_or_else(|| "your community".to_string());
     let facts = facts_of(&args.facts.clone().unwrap_or_default())?;
-    let mut sections: Vec<NarrativeSection> = args
-        .sections
-        .clone()
-        .unwrap_or_else(|| vec![NarrativeSection::NeedsStatement, NarrativeSection::ProjectNarrative, NarrativeSection::Sustainability]);
+    let mut sections: Vec<NarrativeSection> = args.sections.clone().unwrap_or_else(|| {
+        vec![
+            NarrativeSection::NeedsStatement,
+            NarrativeSection::ProjectNarrative,
+            NarrativeSection::Sustainability,
+        ]
+    });
     sections.sort();
     sections.dedup();
     if sections.is_empty() {
@@ -471,28 +501,43 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
     }
     let data_points = args.data_points.clone().unwrap_or_default();
     if data_points.len() > MAX_DATA_POINTS {
-        return Err(PhnError::InvalidInput(format!("at most {MAX_DATA_POINTS} data_points")));
+        return Err(PhnError::InvalidInput(format!(
+            "at most {MAX_DATA_POINTS} data_points"
+        )));
     }
     for d in &data_points {
         if d.label.trim().is_empty() || d.value.trim().is_empty() {
-            return Err(PhnError::InvalidInput("every data point needs a label and a value".into()));
+            return Err(PhnError::InvalidInput(
+                "every data point needs a label and a value".into(),
+            ));
         }
-        for (f, v) in [("data_points label", d.label.as_str()), ("data_points value", d.value.as_str())] {
+        for (f, v) in [
+            ("data_points label", d.label.as_str()),
+            ("data_points value", d.value.as_str()),
+        ] {
             check_text(f, v)?;
         }
-        for (f, v) in [("data_points geography", &d.geography), ("data_points source", &d.source), ("data_points as_of", &d.as_of), ("data_points comparison", &d.comparison)] {
+        for (f, v) in [
+            ("data_points geography", &d.geography),
+            ("data_points source", &d.source),
+            ("data_points as_of", &d.as_of),
+            ("data_points comparison", &d.comparison),
+        ] {
             opt(f, v)?;
         }
     }
 
     // Criteria: typed, or from the checklist file.
-    let (inputs, criteria_from): (Vec<CriterionInput>, &str) = match (&args.criteria, &args.criteria_file) {
-        (Some(c), _) if !c.is_empty() => (c.clone(), "typed"),
-        (_, Some(p)) if !p.trim().is_empty() => (read_criteria_file(ctx, p)?, "checklist_file"),
-        _ => (Vec::new(), "none"),
-    };
+    let (inputs, criteria_from): (Vec<CriterionInput>, &str) =
+        match (&args.criteria, &args.criteria_file) {
+            (Some(c), _) if !c.is_empty() => (c.clone(), "typed"),
+            (_, Some(p)) if !p.trim().is_empty() => (read_criteria_file(ctx, p)?, "checklist_file"),
+            _ => (Vec::new(), "none"),
+        };
     if inputs.len() > MAX_CRITERIA {
-        return Err(PhnError::InvalidInput(format!("at most {MAX_CRITERIA} criteria")));
+        return Err(PhnError::InvalidInput(format!(
+            "at most {MAX_CRITERIA} criteria"
+        )));
     }
     let mut criteria: Vec<CriterionOut> = Vec::new();
     let mut by_section: BTreeMap<NarrativeSection, Vec<usize>> = BTreeMap::new();
@@ -506,30 +551,48 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
         if let Some(p) = c.points
             && !(0.0..=1000.0).contains(&p)
         {
-            return Err(PhnError::InvalidInput(format!("points for '{label}' must be between 0 and 1000")));
+            return Err(PhnError::InvalidInput(format!(
+                "points for '{label}' must be between 0 and 1000"
+            )));
         }
         let t = type_for(&label, &types);
-        let section = c.section.or_else(|| t.and_then(|t| NarrativeSection::from_id(&t.narrative_section)));
+        let section = c
+            .section
+            .or_else(|| t.and_then(|t| NarrativeSection::from_id(&t.narrative_section)));
         let answered_in = match section {
             Some(s) if sections.contains(&s) => {
                 by_section.entry(s).or_default().push(criteria.len());
                 s.id().to_string()
             }
             Some(s) => {
-                not_drafted.push(format!("{label}: answered in the {} section, which you did not ask for.", s.id().replace('_', " ")));
+                not_drafted.push(format!(
+                    "{label}: answered in the {} section, which you did not ask for.",
+                    s.id().replace('_', " ")
+                ));
                 "other".into()
             }
             None => {
                 let what = match t.map(|t| t.id.as_str()) {
-                    Some("budget") => "build the budget and budget narrative with build_program_budget",
-                    Some("cover") => "complete the forms, letters, and attachments the announcement lists",
-                    _ => "this project could not tell which narrative section it belongs to; assign it with the section field",
+                    Some("budget") => {
+                        "build the budget and budget narrative with build_program_budget"
+                    }
+                    Some("cover") => {
+                        "complete the forms, letters, and attachments the announcement lists"
+                    }
+                    _ => {
+                        "this project could not tell which narrative section it belongs to; assign it with the section field"
+                    }
                 };
                 not_drafted.push(format!("{label}: {what}."));
                 "other".into()
             }
         };
-        criteria.push(CriterionOut { label, points: c.points, criterion_type: t.map(|t| t.id.clone()), answered_in });
+        criteria.push(CriterionOut {
+            label,
+            points: c.points,
+            criterion_type: t.map(|t| t.id.clone()),
+            answered_in,
+        });
     }
 
     // Draft each section.
@@ -549,7 +612,11 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
             .map(|i| {
                 let c = &criteria[*i];
                 match c.points {
-                    Some(p) => format!("{} ({} points)", c.label, md::num(p, if p.fract() == 0.0 { 0 } else { 1 })),
+                    Some(p) => format!(
+                        "{} ({} points)",
+                        c.label,
+                        md::num(p, if p.fract() == 0.0 { 0 } else { 1 })
+                    ),
                     None => c.label.clone(),
                 }
             })
@@ -559,10 +626,17 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
             for l in &crit_labels {
                 text.push_str(&format!("- {l}\n"));
             }
-            let mut ids: Vec<&str> = crit_idx.iter().filter_map(|i| criteria[*i].criterion_type.as_deref()).collect();
+            let mut ids: Vec<&str> = crit_idx
+                .iter()
+                .filter_map(|i| criteria[*i].criterion_type.as_deref())
+                .collect();
             ids.sort();
             ids.dedup();
-            let prompts: Vec<&String> = ids.iter().filter_map(|id| templates.criterion_prompts.get(*id)).flatten().collect();
+            let prompts: Vec<&String> = ids
+                .iter()
+                .filter_map(|id| templates.criterion_prompts.get(*id))
+                .flatten()
+                .collect();
             if !prompts.is_empty() {
                 text.push_str("\n_What reviewers look for (this project's writing prompts, not the funder's words):_\n\n");
                 for p in prompts {
@@ -593,7 +667,12 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
                     }
                 }
                 "list" => {
-                    let items = slot.fact.as_deref().and_then(|k| facts.lists.get(k)).cloned().unwrap_or_default();
+                    let items = slot
+                        .fact
+                        .as_deref()
+                        .and_then(|k| facts.lists.get(k))
+                        .cloned()
+                        .unwrap_or_default();
                     if items.is_empty() {
                         text.push_str(&placeholder(&slot.placeholder, &community));
                         text.push_str("\n\n");
@@ -617,7 +696,10 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
                     }
                 },
             }
-            slot_out.push(SlotOut { heading: slot.heading.clone(), filled });
+            slot_out.push(SlotOut {
+                heading: slot.heading.clone(),
+                filled,
+            });
         }
         if !references.is_empty() {
             text.push_str("### Data sources\n\n");
@@ -647,12 +729,24 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
     if let Some(p) = args.page_limit
         && !(1..=500).contains(&p)
     {
-        return Err(PhnError::InvalidInput("page_limit must be between 1 and 500".into()));
+        return Err(PhnError::InvalidInput(
+            "page_limit must be between 1 and 500".into(),
+        ));
     }
 
     let mut files = Vec::new();
     if args.write_document.unwrap_or(true) {
-        let doc = narrative_document(ctx, &project_title, &funder, &applicant, &community, &criteria, &drafts, &page_limit_note, placeholder_count);
+        let doc = narrative_document(
+            ctx,
+            &project_title,
+            &funder,
+            &applicant,
+            &community,
+            &criteria,
+            &drafts,
+            &page_limit_note,
+            placeholder_count,
+        );
         let sandbox = ctx.sandbox()?;
         let stem = args
             .output_name
@@ -660,7 +754,12 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
             .map(str::trim)
             .filter(|s| !s.is_empty())
             .map(str::to_string)
-            .unwrap_or_else(|| format!("grant_narrative_{}", slug(project_title.as_deref().unwrap_or("draft"))));
+            .unwrap_or_else(|| {
+                format!(
+                    "grant_narrative_{}",
+                    slug(project_title.as_deref().unwrap_or("draft"))
+                )
+            });
         let docx = sandbox.new_output_file(&format!("{}.docx", stem.trim_end_matches(".docx")))?;
         std::fs::write(&docx, phn_docs::docx::to_docx(&doc)?)?;
         files.push(sandbox.display_path(&docx));
@@ -673,8 +772,16 @@ pub fn draft_grant_narrative(ctx: &Context, args: NarrativeArgs) -> Result<Envel
         criteria,
         criteria_not_drafted: not_drafted,
         sections: drafts,
-        data_points_used: if sections.contains(&NarrativeSection::NeedsStatement) { data_points.len() } else { 0 },
-        data_points_missing_citation: if sections.contains(&NarrativeSection::NeedsStatement) { missing_cite } else { 0 },
+        data_points_used: if sections.contains(&NarrativeSection::NeedsStatement) {
+            data_points.len()
+        } else {
+            0
+        },
+        data_points_missing_citation: if sections.contains(&NarrativeSection::NeedsStatement) {
+            missing_cite
+        } else {
+            0
+        },
         placeholder_count,
         words: total_words,
         page_limit_note,
@@ -739,8 +846,13 @@ fn narrative_document(
         p(&format!(
             "Draft prepared {} for {}{}. Community: {}. Replace every [NURSE: ...] placeholder with your own text (or delete the paragraph) and delete the italic prompts before you submit. Nothing in this draft was invented: the statistics and program facts are the ones you supplied.",
             chrono::Local::now().date_naive(),
-            applicant.clone().unwrap_or_else(|| "[NURSE: applicant agency]".into()),
-            funder.as_ref().map(|f| format!(" in response to {f}")).unwrap_or_default(),
+            applicant
+                .clone()
+                .unwrap_or_else(|| "[NURSE: applicant agency]".into()),
+            funder
+                .as_ref()
+                .map(|f| format!(" in response to {f}"))
+                .unwrap_or_default(),
             community
         )),
         p(&format!("{placeholders} placeholder(s) to complete.")),
@@ -749,22 +861,41 @@ fn narrative_document(
         blocks.push(p(n));
     }
     if !criteria.is_empty() {
-        blocks.push(Block::Heading { level: 2, text: "Scoring criteria and where each is answered".into() });
+        blocks.push(Block::Heading {
+            level: 2,
+            text: "Scoring criteria and where each is answered".into(),
+        });
         blocks.push(Block::Table(TableBlock {
             caption: Some("Criteria".into()),
             headers: vec!["Criterion".into(), "Points".into(), "Answered in".into()],
             rows: criteria
                 .iter()
-                .map(|c| vec![c.label.clone(), c.points.map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 })).unwrap_or_default(), c.answered_in.replace('_', " ")])
+                .map(|c| {
+                    vec![
+                        c.label.clone(),
+                        c.points
+                            .map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 }))
+                            .unwrap_or_default(),
+                        c.answered_in.replace('_', " "),
+                    ]
+                })
                 .collect(),
         }));
     }
     for d in drafts {
-        blocks.push(Block::Heading { level: 1, text: d.heading.clone() });
+        blocks.push(Block::Heading {
+            level: 1,
+            text: d.heading.clone(),
+        });
         blocks.extend(phn_docs::model::from_markdown(&d.text));
     }
     Document {
-        title: format!("Grant application draft — {}", title.clone().unwrap_or_else(|| "[NURSE: project title]".into())),
+        title: format!(
+            "Grant application draft — {}",
+            title
+                .clone()
+                .unwrap_or_else(|| "[NURSE: project title]".into())
+        ),
         subtitle: Some("Needs statement, project narrative, and sustainability (draft)".into()),
         language: "en-US".into(),
         author: None,
@@ -777,16 +908,29 @@ fn narrative_document(
 fn summary_markdown(r: &NarrativeResult) -> String {
     let mut s = format!(
         "**Grant narrative draft{}**\n\n",
-        r.project_title.as_ref().map(|t| format!(": {t}")).unwrap_or_default()
+        r.project_title
+            .as_ref()
+            .map(|t| format!(": {t}"))
+            .unwrap_or_default()
     );
     s.push_str(&md::table(
-        &["Section", "Parts filled", "Placeholders", "Words", "Criteria answered"],
+        &[
+            "Section",
+            "Parts filled",
+            "Placeholders",
+            "Words",
+            "Criteria answered",
+        ],
         &r.sections
             .iter()
             .map(|d| {
                 vec![
                     d.heading.clone(),
-                    format!("{} of {}", d.slots.iter().filter(|x| x.filled).count(), d.slots.len()),
+                    format!(
+                        "{} of {}",
+                        d.slots.iter().filter(|x| x.filled).count(),
+                        d.slots.len()
+                    ),
                     d.placeholders.to_string(),
                     d.words.to_string(),
                     d.criteria.len().to_string(),
@@ -801,7 +945,10 @@ fn summary_markdown(r: &NarrativeResult) -> String {
     if r.criteria_from == "none" {
         s.push_str("\nNo scoring criteria were given, so the draft follows a generic skeleton: pass criteria (typed, or from the checklist file) to organize it around what the funder scores.\n");
     } else {
-        s.push_str(&format!("\nCriteria came from {}.\n", r.criteria_from.replace('_', " ")));
+        s.push_str(&format!(
+            "\nCriteria came from {}.\n",
+            r.criteria_from.replace('_', " ")
+        ));
     }
     for n in &r.criteria_not_drafted {
         s.push_str(&format!("- Not drafted here: {n}\n"));
@@ -828,7 +975,11 @@ mod tests {
     }
 
     fn crit(label: &str, points: f64) -> CriterionInput {
-        CriterionInput { label: label.into(), points: Some(points), section: None }
+        CriterionInput {
+            label: label.into(),
+            points: Some(points),
+            section: None,
+        }
     }
 
     #[test]
@@ -840,7 +991,11 @@ mod tests {
             assert!(s.slots.iter().all(|x| x.kind == "data" || x.fact.is_some()));
         }
         for ty in criterion_types().unwrap() {
-            assert!(t.criterion_prompts.contains_key(&ty.id), "no prompts for {}", ty.id);
+            assert!(
+                t.criterion_prompts.contains_key(&ty.id),
+                "no prompts for {}",
+                ty.id
+            );
         }
     }
 
@@ -852,10 +1007,30 @@ mod tests {
             funder: Some("Example Foundation".into()),
             applicant: Some("Test Town Health Department".into()),
             community: Some("Test Town".into()),
-            criteria: Some(vec![crit("Statement of Need", 20.0), crit("Approach", 30.0), crit("Sustainability", 10.0), crit("Budget", 15.0), crit("Cover Letter and Forms", 0.0)]),
+            criteria: Some(vec![
+                crit("Statement of Need", 20.0),
+                crit("Approach", 30.0),
+                crit("Sustainability", 10.0),
+                crit("Budget", 15.0),
+                crit("Cover Letter and Forms", 0.0),
+            ]),
             data_points: Some(vec![
-                DataPoint { label: "Children with asthma".into(), value: "11.4%".into(), geography: Some("Test Town".into()), source: Some("School nurse survey".into()), as_of: Some("2025".into()), comparison: Some("state 9.1%".into()) },
-                DataPoint { label: "Households below the poverty line".into(), value: "18%".into(), geography: None, source: None, as_of: None, comparison: None },
+                DataPoint {
+                    label: "Children with asthma".into(),
+                    value: "11.4%".into(),
+                    geography: Some("Test Town".into()),
+                    source: Some("School nurse survey".into()),
+                    as_of: Some("2025".into()),
+                    comparison: Some("state 9.1%".into()),
+                },
+                DataPoint {
+                    label: "Households below the poverty line".into(),
+                    value: "18%".into(),
+                    geography: None,
+                    source: None,
+                    as_of: None,
+                    comparison: None,
+                },
             ]),
             facts: Some(ProgramFacts {
                 health_problem: Some("Asthma sends children to the emergency department.".into()),
@@ -870,11 +1045,20 @@ mod tests {
         assert_eq!(d3.sections.len(), 3);
         assert_eq!(d3.criteria_from, "typed");
         let needs = &d3.sections[0];
-        assert!(needs.text.contains("Asthma sends children to the emergency department."));
+        assert!(
+            needs
+                .text
+                .contains("Asthma sends children to the emergency department.")
+        );
         assert!(needs.text.contains("**Children with asthma:** 11.4% (Test Town; School nurse survey, 2025; comparison: state 9.1%)"));
         assert!(needs.text.contains("[NURSE: add the source and year]"));
         assert!(needs.text.contains("Test Town")); // geography default for the second point
-        assert!(needs.criteria.iter().any(|x| x.starts_with("Statement of Need (20 points)")));
+        assert!(
+            needs
+                .criteria
+                .iter()
+                .any(|x| x.starts_with("Statement of Need (20 points)"))
+        );
         assert_eq!(d3.data_points_used, 2);
         assert_eq!(d3.data_points_missing_citation, 1);
         // A placeholder appears for the missing facts, never an invented one.
@@ -882,8 +1066,16 @@ mod tests {
         let project = &d3.sections[1];
         assert!(project.text.contains("- Visit 40 homes by June 2027"));
         assert!(project.text.contains("[NURSE: List each activity"));
-        assert!(d3.criteria_not_drafted.iter().any(|n| n.starts_with("Budget") && n.contains("build_program_budget")));
-        assert!(d3.criteria_not_drafted.iter().any(|n| n.starts_with("Cover Letter")));
+        assert!(
+            d3.criteria_not_drafted
+                .iter()
+                .any(|n| n.starts_with("Budget") && n.contains("build_program_budget"))
+        );
+        assert!(
+            d3.criteria_not_drafted
+                .iter()
+                .any(|n| n.starts_with("Cover Letter"))
+        );
         assert!(d3.placeholder_count > 10);
         assert!(d3.page_limit_note.as_deref().unwrap().contains("12 pages"));
         // The DOCX exists and has the placeholder text.
@@ -894,10 +1086,21 @@ mod tests {
         assert!(doc.plain_text().contains("[NURSE:"));
         // Nothing in the draft names a number that was not supplied.
         for n in ["11.4%", "18%", "40 homes"] {
-            assert!(r.summary.contains("placeholder") && (needs.text.contains(n) || project.text.contains(n)));
+            assert!(
+                r.summary.contains("placeholder")
+                    && (needs.text.contains(n) || project.text.contains(n))
+            );
         }
-        assert!(r.caveats.iter().any(|c| c.contains("lack a source or year")));
-        assert!(r.caveats.iter().any(|c| c.contains("not yet been reviewed")));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("lack a source or year"))
+        );
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("not yet been reviewed"))
+        );
     }
 
     #[test]
@@ -913,14 +1116,45 @@ mod tests {
             logo: None,
             blocks: vec![Block::Table(TableBlock {
                 caption: Some("Scoring criteria".into()),
-                headers: ["#", "Criterion", "Points", "Type", "Narrative section", "Where"].map(String::from).to_vec(),
+                headers: [
+                    "#",
+                    "Criterion",
+                    "Points",
+                    "Type",
+                    "Narrative section",
+                    "Where",
+                ]
+                .map(String::from)
+                .to_vec(),
                 rows: vec![
-                    ["1", "Statement of Need", "20", "need", "needs_statement", "p1"].map(String::from).to_vec(),
-                    ["2", "Evaluation Plan", "25", "evaluation", "project_narrative", "p2"].map(String::from).to_vec(),
+                    [
+                        "1",
+                        "Statement of Need",
+                        "20",
+                        "need",
+                        "needs_statement",
+                        "p1",
+                    ]
+                    .map(String::from)
+                    .to_vec(),
+                    [
+                        "2",
+                        "Evaluation Plan",
+                        "25",
+                        "evaluation",
+                        "project_narrative",
+                        "p2",
+                    ]
+                    .map(String::from)
+                    .to_vec(),
                 ],
             })],
         };
-        std::fs::write(d.path().join("data/output/checklist.xlsx"), phn_docs::xlsx::to_xlsx(&doc).unwrap()).unwrap();
+        std::fs::write(
+            d.path().join("data/output/checklist.xlsx"),
+            phn_docs::xlsx::to_xlsx(&doc).unwrap(),
+        )
+        .unwrap();
         let r = draft_grant_narrative(
             &c,
             NarrativeArgs {
@@ -935,11 +1169,23 @@ mod tests {
         assert_eq!(r.data.criteria.len(), 2);
         assert_eq!(r.data.criteria[0].points, Some(20.0));
         // The evaluation criterion belongs to a section that was not requested.
-        assert!(r.data.criteria_not_drafted.iter().any(|n| n.starts_with("Evaluation Plan")));
+        assert!(
+            r.data
+                .criteria_not_drafted
+                .iter()
+                .any(|n| n.starts_with("Evaluation Plan"))
+        );
         assert!(r.data.files.is_empty());
         // A missing sheet or wrong type is a clear error.
         std::fs::write(d.path().join("data/plain.csv"), "a,b\n1,2\n").unwrap();
-        let e = draft_grant_narrative(&c, NarrativeArgs { criteria_file: Some("plain.csv".into()), ..Default::default() }).unwrap_err();
+        let e = draft_grant_narrative(
+            &c,
+            NarrativeArgs {
+                criteria_file: Some("plain.csv".into()),
+                ..Default::default()
+            },
+        )
+        .unwrap_err();
         assert!(e.to_string().contains("not a spreadsheet"));
     }
 
@@ -949,25 +1195,55 @@ mod tests {
         let e = draft_grant_narrative(
             &c,
             NarrativeArgs {
-                facts: Some(ProgramFacts { health_problem: Some("Case: SSN 123-45-6789 had asthma".into()), ..Default::default() }),
+                facts: Some(ProgramFacts {
+                    health_problem: Some("Case: SSN 123-45-6789 had asthma".into()),
+                    ..Default::default()
+                }),
                 ..Default::default()
             },
         )
         .unwrap_err();
         assert!(e.to_string().contains("health_problem") && !e.to_string().contains("123-45"));
-        let e = draft_grant_narrative(&c, NarrativeArgs { sections: Some(vec![]), ..Default::default() }).unwrap_err();
+        let e = draft_grant_narrative(
+            &c,
+            NarrativeArgs {
+                sections: Some(vec![]),
+                ..Default::default()
+            },
+        )
+        .unwrap_err();
         assert!(e.to_string().contains("sections"));
-        let e = draft_grant_narrative(&c, NarrativeArgs { page_limit: Some(0), write_document: Some(false), ..Default::default() }).unwrap_err();
+        let e = draft_grant_narrative(
+            &c,
+            NarrativeArgs {
+                page_limit: Some(0),
+                write_document: Some(false),
+                ..Default::default()
+            },
+        )
+        .unwrap_err();
         assert!(e.to_string().contains("page_limit"));
         let e = draft_grant_narrative(
             &c,
-            NarrativeArgs { data_points: Some(vec![DataPoint { label: "x".into(), ..Default::default() }]), ..Default::default() },
+            NarrativeArgs {
+                data_points: Some(vec![DataPoint {
+                    label: "x".into(),
+                    ..Default::default()
+                }]),
+                ..Default::default()
+            },
         )
         .unwrap_err();
         assert!(e.to_string().contains("label and a value"));
         let e = draft_grant_narrative(
             &c,
-            NarrativeArgs { facts: Some(ProgramFacts { goal: Some("g".repeat(5000)), ..Default::default() }), ..Default::default() },
+            NarrativeArgs {
+                facts: Some(ProgramFacts {
+                    goal: Some("g".repeat(5000)),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            },
         )
         .unwrap_err();
         assert!(e.to_string().contains("4000"));
@@ -976,10 +1252,21 @@ mod tests {
     #[test]
     fn no_criteria_gives_a_generic_skeleton() {
         let (_d, c) = ctx();
-        let r = draft_grant_narrative(&c, NarrativeArgs { write_document: Some(false), ..Default::default() }).unwrap();
+        let r = draft_grant_narrative(
+            &c,
+            NarrativeArgs {
+                write_document: Some(false),
+                ..Default::default()
+            },
+        )
+        .unwrap();
         assert_eq!(r.data.criteria_from, "none");
         assert!(r.summary.contains("generic skeleton"));
         assert!(r.data.sections.iter().all(|s| s.criteria.is_empty()));
-        assert!(r.data.sections[0].text.contains("[NURSE: Add three to five cited statistics for your community"));
+        assert!(
+            r.data.sections[0]
+                .text
+                .contains("[NURSE: Add three to five cited statistics for your community")
+        );
     }
 }

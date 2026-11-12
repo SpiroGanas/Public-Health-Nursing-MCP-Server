@@ -126,6 +126,7 @@ struct TopicDef {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 struct DirectoryDef {
     id: String,
     name: String,
@@ -427,9 +428,13 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
                     Some(y) => Some(y.as_str().to_string()),
                     None => {
                         // A row split by a page break can carry its year after the organization.
-                        let tail = org.rsplit_once(' ').map(|(h, t)| (h.to_string(), t.to_string()));
+                        let tail = org
+                            .rsplit_once(' ')
+                            .map(|(h, t)| (h.to_string(), t.to_string()));
                         match tail {
-                            Some((head, t)) if t.len() == 4 && t.chars().all(|ch| ch.is_ascii_digit()) => {
+                            Some((head, t))
+                                if t.len() == 4 && t.chars().all(|ch| ch.is_ascii_digit()) =>
+                            {
                                 org = head;
                                 Some(t)
                             }
@@ -466,7 +471,6 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
         ))),
     }
 }
-
 
 /// The weekly list as read by `phn_local::pdf` (live or cached), or the bundled copy.
 struct CommbuysRead {
@@ -567,7 +571,12 @@ fn free_topic_matches(text_padded: &str, topic: &str) -> bool {
     !words.is_empty() && words.iter().all(|w| has_phrase(text_padded, w))
 }
 
-fn federal_row(o: &FederalOpportunity, today: NaiveDate, stated: bool, topics: Vec<String>) -> GrantOpportunity {
+fn federal_row(
+    o: &FederalOpportunity,
+    today: NaiveDate,
+    stated: bool,
+    topics: Vec<String>,
+) -> GrantOpportunity {
     let mut notes = Vec::new();
     if o.status == "forecasted" {
         notes.push("Forecasted: not yet posted; dates and amounts can change.".into());
@@ -762,7 +771,12 @@ pub async fn search_at(
         let q = FederalQuery {
             query: topic_kws.as_ref().map(|k| {
                 if topic_def.is_some() {
-                    k.iter().skip(1).take(4).cloned().collect::<Vec<_>>().join(" ")
+                    k.iter()
+                        .skip(1)
+                        .take(4)
+                        .cloned()
+                        .collect::<Vec<_>>()
+                        .join(" ")
                 } else {
                     k[0].clone()
                 }
@@ -781,7 +795,11 @@ pub async fn search_at(
             } else {
                 vec!["posted".into()]
             },
-            close_from: if include_forecasted { None } else { Some(after) },
+            close_from: if include_forecasted {
+                None
+            } else {
+                Some(after)
+            },
             close_to: if include_forecasted { None } else { before },
             award_ceiling_min: args.min_award,
             award_floor_max: args.max_award,
@@ -801,7 +819,11 @@ pub async fn search_at(
                     if o.status != "posted" && !(include_forecasted && o.status == "forecasted") {
                         continue;
                     }
-                    if let Some(d) = o.close_date.as_deref().and_then(|d| NaiveDate::parse_from_str(d, "%Y-%m-%d").ok()) {
+                    if let Some(d) = o
+                        .close_date
+                        .as_deref()
+                        .and_then(|d| NaiveDate::parse_from_str(d, "%Y-%m-%d").ok())
+                    {
                         if d < after || before.is_some_and(|b| d > b) {
                             continue;
                         }
@@ -836,7 +858,8 @@ pub async fn search_at(
                     rows.push(federal_row(o, today, stated, topics_of(&text, &c.topics)));
                 }
                 rows.sort_by(|a, b| {
-                    (a.closes.is_none(), a.closes.clone()).cmp(&(b.closes.is_none(), b.closes.clone()))
+                    (a.closes.is_none(), a.closes.clone())
+                        .cmp(&(b.closes.is_none(), b.closes.clone()))
                 });
                 federal_status = Some(SourceStatus {
                     source: "federal".into(),
@@ -950,13 +973,20 @@ pub async fn search_at(
             filters_not_applied.push("Award amount: COMMBUYS listings state no amount; they are shown unfiltered and flagged.".into());
         }
     }
-    if !elig_def.note.is_empty() && source != GrantSource::Commbuys && elig != GrantEligibility::Any {
-        caveats.push(format!("Eligibility mapping for {}: {}", elig_def.label, elig_def.note));
+    if !elig_def.note.is_empty() && source != GrantSource::Commbuys && elig != GrantEligibility::Any
+    {
+        caveats.push(format!(
+            "Eligibility mapping for {}: {}",
+            elig_def.label, elig_def.note
+        ));
     }
 
     opportunities.sort_by(|a, b| {
-        (a.closes.is_none(), a.closes.clone(), a.id.clone())
-            .cmp(&(b.closes.is_none(), b.closes.clone(), b.id.clone()))
+        (a.closes.is_none(), a.closes.clone(), a.id.clone()).cmp(&(
+            b.closes.is_none(),
+            b.closes.clone(),
+            b.id.clone(),
+        ))
     });
     let matched_total = opportunities.len();
     let more_matches = matched_total.saturating_sub(limit);
@@ -990,7 +1020,11 @@ pub async fn search_at(
         opportunities,
         more_matches,
         already_closed,
-        topics_available: c.topics.iter().map(|t| format!("{} ({})", t.id, t.label)).collect(),
+        topics_available: c
+            .topics
+            .iter()
+            .map(|t| format!("{} ({})", t.id, t.label))
+            .collect(),
         where_to_look: directory,
         how_to_search: c.how_to_search.clone(),
         massachusetts_notes: notes_out,
@@ -1144,15 +1178,20 @@ mod tests {
             "Forming and Pouring a concrete pad at the Tolland Transfer Station"
         );
         assert_eq!(list.bids[1].bid_number, "BD-27-1666-TSTH-TSTH-135057");
-        assert_eq!(list.bids[2].organization, "Department of Conservation and Recreation");
+        assert_eq!(
+            list.bids[2].organization,
+            "Department of Conservation and Recreation"
+        );
         assert_eq!(list.bids[3].bid_date.as_deref(), Some("2027-01-11"));
-        assert_eq!(list.bids[3].organization, "Massachusetts Convention Center Authority");
+        assert_eq!(
+            list.bids[3].organization,
+            "Massachusetts Convention Center Authority"
+        );
         // A page that is not the list is rejected, not guessed at.
         assert!(parse_weekly_text("<html>Access denied</html>").is_err());
         let broken = text.replace("November 17,", "Nov. 17");
         assert!(parse_weekly_text(&broken).is_err());
     }
-
 
     #[test]
     fn content_loads() {
@@ -1167,11 +1206,19 @@ mod tests {
     #[tokio::test]
     async fn offline_search_uses_both_snapshots_and_says_so() {
         let (_d, c) = offline_ctx();
-        let r = search_at(&c, GrantSearchArgs::default(), day()).await.unwrap();
+        let r = search_at(&c, GrantSearchArgs::default(), day())
+            .await
+            .unwrap();
         let fed = r.data.federal.as_ref().unwrap();
         assert_eq!(fed.mode, "snapshot");
         assert_eq!(fed.matched, 0);
-        assert!(fed.reason.as_deref().unwrap().contains("PHN_GRANTS_GOV_API_KEY") || fed.reason.as_deref().unwrap().contains("offline"));
+        assert!(
+            fed.reason
+                .as_deref()
+                .unwrap()
+                .contains("PHN_GRANTS_GOV_API_KEY")
+                || fed.reason.as_deref().unwrap().contains("offline")
+        );
         let cb = r.data.commbuys.as_ref().unwrap();
         assert_eq!(cb.mode, "snapshot");
         assert!(r.summary.contains("mode snapshot"));
@@ -1187,13 +1234,30 @@ mod tests {
         assert_eq!(rfr.kind, "response_request");
         assert!(!rfr.eligibility_stated);
         // Soonest first.
-        let dates: Vec<_> = r.data.opportunities.iter().filter_map(|o| o.closes.clone()).collect();
+        let dates: Vec<_> = r
+            .data
+            .opportunities
+            .iter()
+            .filter_map(|o| o.closes.clone())
+            .collect();
         let mut sorted = dates.clone();
         sorted.sort();
         assert_eq!(dates, sorted);
-        assert!(r.caveats.iter().any(|x| x.contains("bundled copy dated 2026-11-09")));
-        assert!(r.caveats.iter().any(|x| x.contains("not yet been reviewed")));
-        assert!(r.sources.iter().any(|s| s.title.contains("COMMBUYS") && s.mode == SourceMode::Snapshot));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|x| x.contains("bundled copy dated 2026-11-09"))
+        );
+        assert!(
+            r.caveats
+                .iter()
+                .any(|x| x.contains("not yet been reviewed"))
+        );
+        assert!(
+            r.sources
+                .iter()
+                .any(|s| s.title.contains("COMMBUYS") && s.mode == SourceMode::Snapshot)
+        );
     }
 
     #[tokio::test]
@@ -1206,7 +1270,12 @@ mod tests {
         };
         let r = search_at(&c, a, day()).await.unwrap();
         assert!(!r.data.opportunities.is_empty());
-        assert!(r.data.opportunities.iter().all(|o| o.kind == "grant_or_funding"));
+        assert!(
+            r.data
+                .opportunities
+                .iter()
+                .all(|o| o.kind == "grant_or_funding")
+        );
         // A closing window.
         let a = GrantSearchArgs {
             source: Some(GrantSource::Commbuys),
@@ -1236,7 +1305,12 @@ mod tests {
             ..Default::default()
         };
         let r = search_at(&c, a, day()).await.unwrap();
-        assert!(r.data.filters_not_applied.iter().any(|f| f.contains("Award amount")));
+        assert!(
+            r.data
+                .filters_not_applied
+                .iter()
+                .any(|f| f.contains("Award amount"))
+        );
         assert!(r.data.federal.is_none());
     }
 
@@ -1247,12 +1321,53 @@ mod tests {
             let c = &c;
             async move { search_at(c, a, day()).await.unwrap_err().to_string() }
         };
-        assert!(bad(GrantSearchArgs { closes_after: Some("13/45/2026".into()), ..Default::default() }).await.contains("closes_after"));
-        assert!(bad(GrantSearchArgs { closes_after: Some("1850-01-01".into()), ..Default::default() }).await.contains("1900"));
-        assert!(bad(GrantSearchArgs { closes_after: Some("2027-01-01".into()), closes_before: Some("2026-12-01".into()), ..Default::default() }).await.contains("ends before"));
-        assert!(bad(GrantSearchArgs { min_award: Some(10), max_award: Some(5), ..Default::default() }).await.contains("min_award"));
-        assert!(bad(GrantSearchArgs { topic: Some("x".repeat(101)), ..Default::default() }).await.contains("100"));
-        let e = bad(GrantSearchArgs { topic: Some("diabetes for SSN 123-45-6789".into()), ..Default::default() }).await;
+        assert!(
+            bad(GrantSearchArgs {
+                closes_after: Some("13/45/2026".into()),
+                ..Default::default()
+            })
+            .await
+            .contains("closes_after")
+        );
+        assert!(
+            bad(GrantSearchArgs {
+                closes_after: Some("1850-01-01".into()),
+                ..Default::default()
+            })
+            .await
+            .contains("1900")
+        );
+        assert!(
+            bad(GrantSearchArgs {
+                closes_after: Some("2027-01-01".into()),
+                closes_before: Some("2026-12-01".into()),
+                ..Default::default()
+            })
+            .await
+            .contains("ends before")
+        );
+        assert!(
+            bad(GrantSearchArgs {
+                min_award: Some(10),
+                max_award: Some(5),
+                ..Default::default()
+            })
+            .await
+            .contains("min_award")
+        );
+        assert!(
+            bad(GrantSearchArgs {
+                topic: Some("x".repeat(101)),
+                ..Default::default()
+            })
+            .await
+            .contains("100")
+        );
+        let e = bad(GrantSearchArgs {
+            topic: Some("diabetes for SSN 123-45-6789".into()),
+            ..Default::default()
+        })
+        .await;
         assert!(e.contains("identifier") && !e.contains("123-45"));
     }
 

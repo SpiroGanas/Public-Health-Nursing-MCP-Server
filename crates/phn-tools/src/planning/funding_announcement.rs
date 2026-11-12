@@ -91,6 +91,7 @@ struct DeadlineCues {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 struct Category {
     id: String,
     label: String,
@@ -98,6 +99,7 @@ struct Category {
 }
 
 #[derive(Debug, Clone, Deserialize)]
+#[allow(dead_code)]
 pub(crate) struct CriterionType {
     pub id: String,
     pub label: String,
@@ -116,7 +118,6 @@ struct OutlineDef {
 struct Patterns {
     kind_cues: KindCues,
     deadline_cues: DeadlineCues,
-    limit_cues: Vec<String>,
     format_cues: Vec<String>,
     eligibility_cues: Vec<String>,
     eligibility_categories: Vec<Category>,
@@ -333,10 +334,7 @@ fn is_heading(line: &str) -> bool {
         return true;
     }
     let letters: Vec<char> = t.chars().filter(|c| c.is_alphabetic()).collect();
-    letters.len() >= 4
-        && letters.iter().all(|c| c.is_uppercase())
-        && !t.ends_with('.')
-        && n <= 70
+    letters.len() >= 4 && letters.iter().all(|c| c.is_uppercase()) && !t.ends_with('.') && n <= 70
 }
 
 fn clip(s: &str, max: usize) -> String {
@@ -364,6 +362,8 @@ fn build_pages(ex: &Extracted) -> Vec<PageText> {
         }
     }
     let mut pages = Vec::new();
+    // A heading carries over only in text with real headings (Word); a PDF's text has no reliable
+    // headings, so a stale one is worse than none.
     let mut carry = String::new();
     for (page, lead, text) in parts {
         let mut p = PageText {
@@ -371,7 +371,11 @@ fn build_pages(ex: &Extracted) -> Vec<PageText> {
             lines: Vec::new(),
             flat: String::new(),
             headings: Vec::new(),
-            lead_heading: if lead.is_empty() { carry.clone() } else { lead.clone() },
+            lead_heading: if page.is_some() || !lead.is_empty() {
+                lead.clone()
+            } else {
+                carry.clone()
+            },
         };
         if !lead.is_empty() {
             p.headings.push((0, lead.clone()));
@@ -382,9 +386,18 @@ fn build_pages(ex: &Extracted) -> Vec<PageText> {
             if line.is_empty() {
                 continue;
             }
+            // A PDF reader can split "10/20/2025" into "10/", "20", "/2025": join pieces around a slash.
+            let glue = p.flat.ends_with('/') || line.starts_with('/');
+            if glue && let Some(last) = p.lines.last_mut() {
+                last.push_str(&line);
+                p.flat.push_str(&line);
+                continue;
+            }
             if is_heading(&line) {
                 p.headings.push((p.flat.len(), clip(&line, 80)));
-                carry = clip(&line, 80);
+                if page.is_none() {
+                    carry = clip(&line, 80);
+                }
             }
             if !p.flat.is_empty() {
                 p.flat.push(' ');
@@ -489,7 +502,11 @@ fn slug(s: &str) -> String {
     }
     let t = out.trim_matches('-').to_string();
     let t: String = t.chars().take(40).collect();
-    if t.is_empty() { "announcement".into() } else { t }
+    if t.is_empty() {
+        "announcement".into()
+    } else {
+        t
+    }
 }
 
 // ---------------------------------------------------------------- dates
@@ -498,7 +515,7 @@ const MONTH_NAMES: &str = "January|February|March|April|May|June|July|August|Sep
 
 static DATE_TEXT: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(&format!(
-        r"(?i)\b(?P<m>{MONTH_NAMES})\.?\s+(?P<d>\d{{1,2}})(?:st|nd|rd|th)?(?:,?\s*(?P<y>\d{{4}}))?"
+        r"(?i)\b(?P<m>{MONTH_NAMES})\.?\s+(?P<d>\d{{1,2}})(?:st|nd|rd|th)?\b(?:,?\s*(?P<y>\d{{4}}))?"
     ))
     .unwrap()
 });
@@ -513,10 +530,12 @@ static TIME: LazyLock<Regex> = LazyLock::new(|| {
 fn month_from_name(s: &str) -> Option<u32> {
     let l = s.to_ascii_lowercase();
     let pre: String = l.chars().take(3).collect();
-    ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
-        .iter()
-        .position(|m| *m == pre)
-        .map(|i| i as u32 + 1)
+    [
+        "jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec",
+    ]
+    .iter()
+    .position(|m| *m == pre)
+    .map(|i| i as u32 + 1)
 }
 
 struct FoundDate {
@@ -534,7 +553,9 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
         let day = c["d"].parse::<u32>().ok();
         let year = c.name("y").and_then(|y| y.as_str().parse::<i32>().ok());
         let date = match (month, day, year) {
-            (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => NaiveDate::from_ymd_opt(y, m, d),
+            (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => {
+                NaiveDate::from_ymd_opt(y, m, d)
+            }
             _ => None,
         };
         // A month word followed by a day that is not a day ("May 2026") is not a date.
@@ -556,21 +577,37 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
             y = y.map(|v| 2000 + v);
         }
         let date = match (m, d, y) {
-            (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => NaiveDate::from_ymd_opt(y, m, d),
+            (Some(m), Some(d), Some(y)) if (1900..=2100).contains(&y) => {
+                NaiveDate::from_ymd_opt(y, m, d)
+            }
             _ => None,
         };
         if date.is_some() {
-            out.push(FoundDate { start: all.start(), end: all.end(), date, text: all.as_str().into() });
+            out.push(FoundDate {
+                start: all.start(),
+                end: all.end(),
+                date,
+                text: all.as_str().into(),
+            });
         }
     }
     for c in DATE_ISO.captures_iter(line) {
         let all = c.get(0).unwrap();
-        let date = match (c["y"].parse::<i32>(), c["m"].parse::<u32>(), c["d"].parse::<u32>()) {
+        let date = match (
+            c["y"].parse::<i32>(),
+            c["m"].parse::<u32>(),
+            c["d"].parse::<u32>(),
+        ) {
             (Ok(y), Ok(m), Ok(d)) if (1900..=2100).contains(&y) => NaiveDate::from_ymd_opt(y, m, d),
             _ => None,
         };
         if date.is_some() {
-            out.push(FoundDate { start: all.start(), end: all.end(), date, text: all.as_str().into() });
+            out.push(FoundDate {
+                start: all.start(),
+                end: all.end(),
+                date,
+                text: all.as_str().into(),
+            });
         }
     }
     out.sort_by_key(|d| d.start);
@@ -580,14 +617,14 @@ fn find_dates(line: &str) -> Vec<FoundDate> {
 fn find_time(line: &str) -> Option<String> {
     let c = TIME.captures(line)?;
     let h: u32 = c["h"].parse().ok()?;
-    let min: u32 = c.name("min").map(|m| m.as_str().parse().unwrap_or(0)).unwrap_or(0);
+    let min: u32 = c
+        .name("min")
+        .map(|m| m.as_str().parse().unwrap_or(0))
+        .unwrap_or(0);
     if !(1..=12).contains(&h) || min > 59 {
         return None;
     }
-    Some(format!(
-        "{h}:{min:02} {}M",
-        c["ap"].to_ascii_uppercase()
-    ))
+    Some(format!("{h}:{min:02} {}M", c["ap"].to_ascii_uppercase()))
 }
 
 fn deadline_kind(lower_padded: &str, cues: &DeadlineCues) -> Option<&'static str> {
@@ -607,6 +644,24 @@ fn deadline_kind(lower_padded: &str, cues: &DeadlineCues) -> Option<&'static str
     None
 }
 
+fn tail_chars(s: &str, n: usize) -> &str {
+    let start = s
+        .char_indices()
+        .rev()
+        .nth(n.saturating_sub(1))
+        .map(|(i, _)| i)
+        .unwrap_or(0);
+    &s[start..]
+}
+
+fn head_chars(s: &str, n: usize) -> &str {
+    let end = s.char_indices().nth(n).map(|(i, _)| i).unwrap_or(s.len());
+    &s[..end]
+}
+
+/// Dates with a deadline cue, found in two passes: line by line (clean text, where a row of a table
+/// is one line) and then over the whole page text (a PDF reader that splits a row into pieces). A
+/// date the first pass found is not reported again by the second.
 fn extract_deadlines(
     pages: &[PageText],
     pat: &Patterns,
@@ -615,60 +670,217 @@ fn extract_deadlines(
 ) -> Vec<DeadlineFinding> {
     let mut out: Vec<DeadlineFinding> = Vec::new();
     let mut seen: BTreeSet<String> = BTreeSet::new();
-    let generic = ["due", "deadline", "no later than", "must be received", "by"]
-        .map(String::from)
-        .to_vec();
-    for p in pages {
-        for (i, line) in p.lines.iter().enumerate() {
-            let dates = find_dates(line);
-            if dates.is_empty() {
-                continue;
-            }
-            let prev = if i > 0 { p.lines[i - 1].as_str() } else { "" };
-            let own = padded(line);
-            let kind = deadline_kind(&own, &pat.deadline_cues)
-                .or_else(|| deadline_kind(&padded(prev), &pat.deadline_cues));
-            let generic_cue = any_phrase(&own, &generic);
-            let Some(kind) = kind.or(if generic_cue { Some("other") } else { None }) else {
-                continue;
+    // Dates the line-by-line pass found: the whole-page pass does not report them again.
+    let mut seen_dates: BTreeSet<String> = BTreeSet::new();
+    let generic = [
+        "due",
+        "deadline",
+        "no later than",
+        "must be received",
+        "due date",
+    ]
+    .map(String::from)
+    .to_vec();
+    let recent = |d: NaiveDate| (d - today).num_days() >= -366 && (d - today).num_days() <= 3660;
+    for pass in 0..2 {
+        for p in pages {
+            let units: Vec<(usize, &str)> = if pass == 0 {
+                p.lines.iter().map(String::as_str).enumerate().collect()
+            } else {
+                vec![(usize::MAX, p.flat.as_str())]
             };
-            let time = find_time(line);
-            for d in &dates {
-                let mut label = format!("{} {}", &line[..d.start], &line[d.end..]);
-                if let Some(t) = TIME.find(&label) {
-                    label.replace_range(t.range(), " ");
+            for (i, text) in units {
+                let dates = find_dates(text);
+                if dates.is_empty() {
+                    continue;
                 }
-                for x in find_dates(&label) {
-                    label.replace_range(x.start..x.end, " ");
-                    break;
-                }
-                let label = clip(label.trim_matches(|c: char| !c.is_alphanumeric()), 80);
-                let label = if label.chars().count() < 4 {
-                    // A table cell: the label is on the line before.
-                    clip(prev.trim_matches(|c: char| !c.is_alphanumeric()), 80)
+                let prev = if pass == 0 && i > 0 && i != usize::MAX {
+                    p.lines[i - 1].as_str()
                 } else {
-                    label
+                    ""
                 };
-                let Some(label) = clean(&label, withheld) else {
-                    continue;
-                };
-                let key = format!("{kind}|{}|{}", d.date.map(|x| x.to_string()).unwrap_or_else(|| d.text.clone()), time.clone().unwrap_or_default());
-                if !seen.insert(key) {
-                    continue;
+                let mut prev_end = 0usize;
+                for (di, d) in dates.iter().enumerate() {
+                    let seg_start = prev_end.min(d.start);
+                    let before_full = &text[seg_start..d.start];
+                    // On a whole page the words before a date can be many sentences long.
+                    let before = if pass == 1 {
+                        tail_chars(before_full, 110)
+                    } else {
+                        before_full
+                    };
+                    let after_end = dates.get(di + 1).map(|n| n.start).unwrap_or(text.len());
+                    let after_full = &text[d.end.min(after_end)..after_end];
+                    let after = head_chars(after_full, if pass == 1 { 30 } else { 400 });
+                    prev_end = d.end;
+                    let typed = deadline_kind(&padded(before), &pat.deadline_cues)
+                        .or_else(|| {
+                            if pass == 0 {
+                                deadline_kind(&padded(after), &pat.deadline_cues)
+                            } else {
+                                None
+                            }
+                        })
+                        .or_else(|| deadline_kind(&padded(prev), &pat.deadline_cues));
+                    let kind = typed.or(
+                        if pass == 0
+                            && d.date.is_some_and(recent)
+                            && (any_phrase(&padded(before), &generic)
+                                || any_phrase(&padded(after), &generic))
+                        {
+                            Some("other")
+                        } else {
+                            None
+                        },
+                    );
+                    let Some(kind) = kind else {
+                        continue;
+                    };
+                    let iso = d.date.map(|x| x.to_string());
+                    if pass == 1 && iso.as_ref().is_some_and(|x| seen_dates.contains(x)) {
+                        continue;
+                    }
+                    let time = find_time(head_chars(after_full, if pass == 1 { 25 } else { 400 }))
+                        .or_else(|| if pass == 0 { find_time(text) } else { None });
+                    // The label: the words before the date (or, in a one-line table row, the whole
+                    // line without the date and time).
+                    let mut label = if pass == 0 {
+                        format!("{} {}", &text[..d.start], &text[d.end..])
+                    } else {
+                        tail_chars(before_full, 80).to_string()
+                    };
+                    if let Some(t) = TIME.find(&label) {
+                        label.replace_range(t.range(), " ");
+                    }
+                    if let Some(x) = find_dates(&label).into_iter().next() {
+                        label.replace_range(x.start..x.end, " ");
+                    }
+                    let mut label = clip(label.trim_matches(|c: char| !c.is_alphanumeric()), 80);
+                    if label.chars().count() < 4 {
+                        label = clip(prev.trim_matches(|c: char| !c.is_alphanumeric()), 80);
+                    }
+                    let Some(label) = clean(&label, withheld) else {
+                        continue;
+                    };
+                    let key = format!(
+                        "{kind}|{}|{}",
+                        iso.clone().unwrap_or_else(|| d.text.clone()),
+                        time.clone().unwrap_or_default()
+                    );
+                    if !seen.insert(key) {
+                        continue;
+                    }
+                    if pass == 0
+                        && let Some(x) = &iso
+                    {
+                        seen_dates.insert(x.clone());
+                    }
+                    out.push(DeadlineFinding {
+                        kind: kind.to_string(),
+                        date: iso,
+                        date_text: d.text.clone(),
+                        time,
+                        days_from_today: d.date.map(|x| (x - today).num_days()),
+                        label,
+                        location: if i == usize::MAX {
+                            p.location(d.start)
+                        } else {
+                            p.line_location(i)
+                        },
+                    });
                 }
-                out.push(DeadlineFinding {
-                    kind: kind.to_string(),
-                    date: d.date.map(|x| x.to_string()),
-                    date_text: d.text.clone(),
-                    time: time.clone(),
-                    days_from_today: d.date.map(|x| (x - today).num_days()),
-                    label,
-                    location: p.line_location(i),
-                });
             }
         }
     }
     out.truncate(MAX_DEADLINES);
+    out
+}
+
+// ---------------------------------------------------------------- labels in running text
+
+/// Words that start the sentence after a heading, so a label read from running text stops there.
+const SENTENCE_STARTERS: [&str; 24] = [
+    "The",
+    "This",
+    "These",
+    "Each",
+    "All",
+    "Bidders",
+    "Bidder",
+    "Applicants",
+    "Applicant",
+    "Responses",
+    "Proposals",
+    "A",
+    "An",
+    "In",
+    "It",
+    "Please",
+    "Note",
+    "Criteria",
+    "Criterion",
+    "Appendix",
+    "Attachment",
+    "Exhibit",
+    "Reviewers",
+    "Applications",
+];
+
+/// A short label from the start of `text`: up to `max_words` words, stopping before a word that
+/// starts a sentence, at a URL, or after a word that ends a sentence.
+fn label_from(text: &str, max_words: usize) -> Option<String> {
+    let mut words: Vec<&str> = Vec::new();
+    for w in text.split_whitespace() {
+        let bare = w.trim_matches(|c: char| !c.is_alphanumeric());
+        if w.starts_with("http") || w.starts_with("www.") {
+            break;
+        }
+        if !words.is_empty() && SENTENCE_STARTERS.contains(&bare) {
+            break;
+        }
+        words.push(w);
+        if words.len() >= max_words || w.ends_with(['.', ':', ';', '!', '?']) {
+            break;
+        }
+    }
+    let label = words
+        .join(" ")
+        .trim_matches(|c: char| {
+            matches!(
+                c,
+                '.' | ':' | ';' | ',' | '-' | '\u{2013}' | '\u{2014}' | ' '
+            )
+        })
+        .to_string();
+    // A closing parenthesis with no opening one belongs to the sentence around the label.
+    let label = if label.contains(')') && !label.contains('(') {
+        label.trim_end_matches(')').trim().to_string()
+    } else {
+        label
+    };
+    (label.chars().count() >= 3).then(|| clip(&label, MAX_LABEL))
+}
+
+/// A numbered component such as "Criteria 2: Experience and Qualifications Narrative".
+struct Component {
+    offset: usize,
+    label: String,
+}
+
+static COMPONENT: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?:Criteria|Criterion|CRITERIA|CRITERION|Component|COMPONENT)\s+\d{1,2}\s*[:.\-\u2013\u2014]\s*").unwrap()
+});
+
+fn components(p: &PageText) -> Vec<Component> {
+    let mut out = Vec::new();
+    for m in COMPONENT.find_iter(&p.flat) {
+        if let Some(label) = label_from(&p.flat[m.end()..], 8) {
+            out.push(Component {
+                offset: m.start(),
+                label,
+            });
+        }
+    }
     out
 }
 
@@ -698,54 +910,111 @@ fn unit_of(s: &str) -> &'static str {
     }
 }
 
-fn extract_limits(pages: &[PageText], pat: &Patterns, withheld: &mut usize) -> (Vec<LimitFinding>, Vec<String>) {
+fn extract_limits(
+    pages: &[PageText],
+    pat: &Patterns,
+    withheld: &mut usize,
+) -> (Vec<LimitFinding>, Vec<String>) {
     let mut out: Vec<LimitFinding> = Vec::new();
     let mut seen: BTreeSet<String> = BTreeSet::new();
     let mut rules: Vec<String> = Vec::new();
     let mut rule_seen: BTreeSet<String> = BTreeSet::new();
+    let mut carried: Option<String> = None;
     for p in pages {
+        let comps = components(p);
         for re in [&*LIMIT_A, &*LIMIT_B, &*LIMIT_C, &*LIMIT_D] {
             for c in re.captures_iter(&p.flat) {
                 let all = c.get(0).unwrap();
-                let Some(n) = c["n"].replace(',', "").parse::<u32>().ok().filter(|n| *n > 0) else {
+                let Some(n) = c["n"]
+                    .replace(',', "")
+                    .parse::<u32>()
+                    .ok()
+                    .filter(|n| *n > 0)
+                else {
                     continue;
                 };
                 let unit = c.name("u").map(|u| unit_of(u.as_str())).unwrap_or("pages");
-                // A "(8) double spaced pages" repeats a limit already read with its words.
-                let applies = {
-                    let h = p.heading_at(all.start());
-                    if h.is_empty() { "not tied to a heading".to_string() } else { h }
+                // What the limit applies to: the nearest heading or numbered component before it.
+                let head = p.headings.iter().rev().find(|(o, _)| *o <= all.start());
+                let comp = comps.iter().rev().find(|x| x.offset <= all.start());
+                let applies = match (head, comp) {
+                    (Some((ho, h)), Some(cp)) => {
+                        if cp.offset > *ho {
+                            cp.label.clone()
+                        } else {
+                            h.clone()
+                        }
+                    }
+                    (Some((_, h)), None) => h.clone(),
+                    (None, Some(cp)) => cp.label.clone(),
+                    (None, None) => carried
+                        .clone()
+                        .or_else(|| (!p.lead_heading.is_empty()).then(|| p.lead_heading.clone()))
+                        .unwrap_or_else(|| "not tied to a heading".to_string()),
                 };
                 let key = format!("{applies}|{n}|{unit}");
                 if !seen.insert(key) {
                     continue;
                 }
                 if let Some(applies) = clean(&applies, withheld) {
-                    out.push(LimitFinding { applies_to: applies, limit: n, unit: unit.into(), location: p.location(all.start()) });
+                    out.push(LimitFinding {
+                        applies_to: applies,
+                        limit: n,
+                        unit: unit.into(),
+                        location: p.location(all.start()),
+                    });
                 }
             }
         }
-        // Format rules: short snippets around a cue.
-        let lower = p.flat.to_lowercase();
+        if let Some(last) = comps.last() {
+            carried = Some(last.label.clone());
+        }
+        // Format rules: a short snippet around each cue, at most one per cue and none near another.
+        // ASCII lower-casing keeps byte offsets the same as in `flat` (UTF-8 safe slicing below).
+        let lower = p.flat.to_ascii_lowercase();
+        let mut kept_at: Vec<usize> = Vec::new();
         for cue in &pat.format_cues {
-            let cl = cue.to_lowercase();
+            let cl = cue.to_ascii_lowercase();
             let mut from = 0usize;
             while let Some(i) = lower[from..].find(&cl) {
                 let at = from + i;
                 from = at + cl.len();
                 // Whole-word check (the cue must not sit inside a longer word).
-                let before_ok = lower[..at].chars().next_back().is_none_or(|c| !c.is_alphanumeric());
-                let after_ok = lower[from..].chars().next().is_none_or(|c| !c.is_alphanumeric());
-                if !before_ok || !after_ok {
+                let before_ok = lower[..at]
+                    .chars()
+                    .next_back()
+                    .is_none_or(|c| !c.is_alphanumeric());
+                let after_ok = lower[from..]
+                    .chars()
+                    .next()
+                    .is_none_or(|c| !c.is_alphanumeric());
+                if !before_ok || !after_ok || kept_at.iter().any(|k| k.abs_diff(at) < 80) {
                     continue;
                 }
-                let start = p.flat[..at].char_indices().rev().nth(40).map(|(i, _)| i).unwrap_or(0);
-                let end = p.flat[from..].char_indices().nth(50).map(|(i, _)| from + i).unwrap_or(p.flat.len());
-                let snippet = clip(&p.flat[start..end], 100);
-                if rule_seen.insert(cl.clone()) && rules.len() < 8
+                let mut start = p.flat[..at]
+                    .char_indices()
+                    .rev()
+                    .nth(30)
+                    .map(|(i, _)| i)
+                    .unwrap_or(0);
+                // Begin at a word boundary.
+                if start > 0
+                    && let Some(sp) = p.flat[start..].find(' ')
+                {
+                    start += sp + 1;
+                }
+                let end = p.flat[from..]
+                    .char_indices()
+                    .nth(40)
+                    .map(|(i, _)| from + i)
+                    .unwrap_or(p.flat.len());
+                let snippet = clip(&p.flat[start..end], 90);
+                if rule_seen.insert(cl.clone())
+                    && rules.len() < 6
                     && let Some(s) = clean(&snippet, withheld)
                 {
                     rules.push(s);
+                    kept_at.push(at);
                 }
                 break;
             }
@@ -762,6 +1031,9 @@ static ATTACHMENT_LINE: LazyLock<Regex> = LazyLock::new(|| {
 });
 static ATTACHMENT_BARE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^(?P<k>(?i:appendix|attachment|exhibit|enclosure|schedule))\s+(?P<id>[A-Z0-9]{1,3})\s*[:.\-–—]?$").unwrap()
+});
+static ATTACHMENT_FLAT: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"\b(?P<k>Appendix|Attachment|Exhibit|Enclosure|Schedule|APPENDIX|ATTACHMENT|EXHIBIT)\s+(?P<id>[A-Z0-9]{1,3})\s*[:.\-\u2013\u2014]\s*").unwrap()
 });
 static FORM_TOKEN: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b(?:SF[- ]?\d{3}[A-Z]?|SF-LLL)\b").unwrap());
@@ -794,7 +1066,13 @@ fn extract_attachments(
     let mut item_seen: BTreeSet<String> = BTreeSet::new();
     for p in pages {
         for m in FORM_TOKEN.find_iter(&p.flat) {
-            forms.insert(m.as_str().replace(' ', "-").to_uppercase().replacen("SF", "SF-", 1).replace("SF--", "SF-"));
+            forms.insert(
+                m.as_str()
+                    .replace(' ', "-")
+                    .to_uppercase()
+                    .replacen("SF", "SF-", 1)
+                    .replace("SF--", "SF-"),
+            );
         }
         let mut i = 0;
         while i < p.lines.len() {
@@ -803,7 +1081,12 @@ fn extract_attachments(
             if let Some(c) = ATTACHMENT_LINE.captures(line) {
                 label = Some((
                     c["k"].to_lowercase(),
-                    format!("{} {}: {}", capitalize(&c["k"]), &c["id"], clip(&c["t"], 80)),
+                    format!(
+                        "{} {}: {}",
+                        capitalize(&c["k"]),
+                        &c["id"],
+                        clip(&c["t"], 80)
+                    ),
                 ));
             } else if let Some(c) = ATTACHMENT_BARE.captures(line)
                 && let Some(next) = p.lines.get(i + 1)
@@ -867,6 +1150,53 @@ fn extract_attachments(
             i += 1;
         }
     }
+    // Whole-page pass for text a PDF reader has broken into pieces: "Appendix B: Title ..." anywhere.
+    let mut keys: BTreeSet<String> = atts
+        .iter()
+        .filter_map(|a| a.label.split(':').next().map(|k| k.to_lowercase()))
+        .collect();
+    for p in pages {
+        for m in ATTACHMENT_FLAT.captures_iter(&p.flat) {
+            let all = m.get(0).unwrap();
+            let kind = m["k"].to_lowercase();
+            let key = format!("{} {}", kind, m["id"].to_lowercase());
+            if keys.contains(&key) || atts.len() >= MAX_ATTACHMENTS {
+                continue;
+            }
+            let Some(title) = label_from(&p.flat[all.end()..], 10) else {
+                continue;
+            };
+            let label = format!("{} {}: {}", capitalize(&m["k"]), &m["id"], title);
+            keys.insert(key);
+            if let Some(label) = clean(&label, withheld) {
+                atts.push(AttachmentFinding {
+                    required: required_flag(&label),
+                    label,
+                    kind,
+                    location: p.location(all.start()),
+                });
+            }
+        }
+        // Bullets inside running text after "must include ...".
+        let lower = p.flat.to_ascii_lowercase();
+        for cue in &pat.required_list_cues {
+            let Some(at) = lower.find(&cue.to_ascii_lowercase()) else {
+                continue;
+            };
+            let tail = head_chars(&p.flat[at..], 1500);
+            for piece in tail.split('\u{2022}').skip(1).take(15) {
+                let first = piece.split(['.', ';']).next().unwrap_or("").trim();
+                if first.split_whitespace().count() <= 14
+                    && first.chars().count() >= 3
+                    && item_seen.insert(first.to_lowercase())
+                    && items.len() < 30
+                    && let Some(t) = clean(&clip(first, MAX_LABEL), withheld)
+                {
+                    items.push(t);
+                }
+            }
+        }
+    }
     (atts, forms.into_iter().collect(), items)
 }
 
@@ -887,16 +1217,26 @@ static POINTS_TAIL: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^[\s\u{2022}\-*\d.)]*(?P<l>[A-Za-z][^:]{2,90}?)\s*(?:[:\-–—]|\s)\s*(?i:up\s+to\s+|maximum\s+of\s+)?(?P<p>\d{1,3}(?:\.\d)?)\s*(?i:points?|pts\.?)\s*[.;]?\s*$").unwrap()
 });
 static POINTS_ONLY: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"^\(?\s*(?i:up\s+to\s+)?(?P<p>\d{1,3}(?:\.\d)?)\s*(?i:points?|pts\.?)\s*\)?$").unwrap()
+    Regex::new(r"^\(?\s*(?i:up\s+to\s+)?(?P<p>\d{1,3}(?:\.\d)?)\s*(?i:points?|pts\.?)\s*\)?$")
+        .unwrap()
 });
 static TOTAL_POINTS: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?i)\b(?:total(?:\s+of)?|maximum(?:\s+total)?|out\s+of)\s*(?:score\s*)?[:\-]?\s*(?P<p>\d{1,4})\s*(?:total\s+)?points?\b|(?P<q>\d{1,4})\s*points?\s+(?:total|possible|maximum)").unwrap()
+    Regex::new(r"(?i)\b(?:maximum(?:\s+total)?(?:\s+score)?|total(?:\s+of)?(?:\s+score)?|out\s+of)\s*(?:is|of|=|:|-)?\s*(?P<p>\d{1,4})\s*(?:total\s+)?points?\b|(?P<q>\d{1,4})\s*points?\s+(?:total|possible|maximum)").unwrap()
 });
 
 fn clean_label(s: &str) -> String {
-    let mut t = s.trim().trim_matches(|c: char| matches!(c, ':' | '-' | '\u{2013}' | '\u{2014}' | '(' | ')' | '.' | ' ')).to_string();
+    let mut t = s
+        .trim()
+        .trim_matches(|c: char| {
+            matches!(
+                c,
+                ':' | '-' | '\u{2013}' | '\u{2014}' | '(' | ')' | '.' | ' '
+            )
+        })
+        .to_string();
     // A leading "A." or "1)" numbering.
-    static LEAD: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"^(?:\d{1,2}|[A-Za-z])[.)]\s+").unwrap());
+    static LEAD: LazyLock<Regex> =
+        LazyLock::new(|| Regex::new(r"^(?:\d{1,2}|[A-Za-z])[.)]\s+").unwrap());
     t = LEAD.replace(&t, "").to_string();
     clip(&t, MAX_LABEL)
 }
@@ -907,11 +1247,55 @@ struct CriteriaScan {
     rating_scale: Vec<String>,
 }
 
-fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld: &mut usize) -> CriteriaScan {
+/// A points marker in running text: "(20 points)", ": 20 points", "- up to 20 points".
+static POINTS_ANY: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?:\(\s*|[:\-\u2013\u2014]\s*)(?:(?i:up\s+to|maximum\s+of)\s+)?(?P<p>\d{1,3}(?:\.\d)?)\s*(?i:points?|pts\.?)\b\s*\)?").unwrap()
+});
+
+/// The label before a points marker: the last few words after the previous sentence break, starting
+/// at a capitalized word.
+fn label_before(text: &str) -> Option<String> {
+    let tail = tail_chars(text, 120);
+    let cut = tail.rfind(['.', ';', '!', '?']).map(|i| i + 1).unwrap_or(0);
+    let part = &tail[cut..];
+    let part = part
+        .rsplit_once(':')
+        .map(|(_, r)| r)
+        .filter(|r| r.trim().chars().count() >= 3)
+        .unwrap_or(part);
+    let words: Vec<&str> = part.split_whitespace().collect();
+    let take = words.len().min(7);
+    let mut w = &words[words.len() - take..];
+    while let Some(f) = w.first() {
+        let bare = f.trim_matches(|c: char| !c.is_alphanumeric());
+        if bare
+            .chars()
+            .next()
+            .is_some_and(|c| c.is_uppercase() || c.is_ascii_digit())
+            && !["And", "Or", "Of"].contains(&bare)
+        {
+            break;
+        }
+        w = &w[1..];
+    }
+    let label = clean_label(&w.join(" "));
+    (label.chars().count() >= 3).then_some(label)
+}
+
+fn extract_criteria(
+    pages: &[PageText],
+    ex: &Extracted,
+    pat: &Patterns,
+    withheld: &mut usize,
+) -> CriteriaScan {
     let mut crit: Vec<(String, Option<f64>, String)> = Vec::new();
     let mut seen: BTreeSet<String> = BTreeSet::new();
     let mut total_stated = None;
-    let mut add = |label: String, pts: Option<f64>, loc: String, withheld: &mut usize, crit: &mut Vec<(String, Option<f64>, String)>| {
+    let mut add = |label: String,
+                   pts: Option<f64>,
+                   loc: String,
+                   withheld: &mut usize,
+                   crit: &mut Vec<(String, Option<f64>, String)>| {
         let l = label.to_lowercase();
         if l.starts_with("total") || l.chars().count() < 3 || crit.len() >= MAX_CRITERIA {
             return;
@@ -925,7 +1309,10 @@ fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld
     };
     for p in pages {
         if let Some(c) = TOTAL_POINTS.captures(&p.flat) {
-            let v = c.name("p").or(c.name("q")).and_then(|m| m.as_str().parse::<f64>().ok());
+            let v = c
+                .name("p")
+                .or(c.name("q"))
+                .and_then(|m| m.as_str().parse::<f64>().ok());
             if total_stated.is_none() {
                 total_stated = v;
             }
@@ -933,21 +1320,37 @@ fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld
         let mut i = 0;
         while i < p.lines.len() {
             let line = &p.lines[i];
-            let next_pts = p.lines.get(i + 1).and_then(|n| POINTS_ONLY.captures(n)).and_then(|c| c["p"].parse::<f64>().ok());
+            let next_pts = p
+                .lines
+                .get(i + 1)
+                .and_then(|n| POINTS_ONLY.captures(n))
+                .and_then(|c| c["p"].parse::<f64>().ok());
             let hit = POINTS_PAREN
                 .captures(line)
                 .or_else(|| POINTS_TAIL.captures(line))
                 .and_then(|c| Some((c["l"].to_string(), c["p"].parse::<f64>().ok()?)));
             if let Some((l, pts)) = hit {
                 if pts <= 1000.0 {
-                    add(clean_label(&l), Some(pts), p.line_location(i), withheld, &mut crit);
+                    add(
+                        clean_label(&l),
+                        Some(pts),
+                        p.line_location(i),
+                        withheld,
+                        &mut crit,
+                    );
                 }
             } else if let Some(pts) = next_pts
                 && !POINTS_ONLY.is_match(line)
                 && line.chars().count() <= 90
                 && line.chars().next().is_some_and(|c| c.is_alphabetic())
             {
-                add(clean_label(line), Some(pts), p.line_location(i), withheld, &mut crit);
+                add(
+                    clean_label(line),
+                    Some(pts),
+                    p.line_location(i),
+                    withheld,
+                    &mut crit,
+                );
                 i += 1;
             }
             i += 1;
@@ -956,26 +1359,68 @@ fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld
     // DOCX tables with a points column.
     for t in &ex.tables {
         let headers: Vec<String> = t.headers.iter().map(|h| h.to_lowercase()).collect();
-        let pcol = headers.iter().position(|h| h.contains("point") || h.contains("score") || h.contains("weight"));
-        let lcol = headers.iter().position(|h| h.contains("criteri") || h.contains("section") || h.contains("component") || h.contains("factor"));
+        let pcol = headers
+            .iter()
+            .position(|h| h.contains("point") || h.contains("score") || h.contains("weight"));
+        let lcol = headers.iter().position(|h| {
+            h.contains("criteri")
+                || h.contains("section")
+                || h.contains("component")
+                || h.contains("factor")
+        });
         if let (Some(pc), Some(lc)) = (pcol, lcol) {
             for r in &t.rows {
-                let pts = r.get(pc).and_then(|c| c.trim().trim_end_matches(" points").parse::<f64>().ok());
+                let pts = r
+                    .get(pc)
+                    .and_then(|c| c.trim().trim_end_matches(" points").parse::<f64>().ok());
                 if let (Some(label), Some(pts)) = (r.get(lc), pts) {
-                    add(clean_label(label), Some(pts), format!("table \"{}\"", clip(&t.name, 40)), withheld, &mut crit);
+                    add(
+                        clean_label(label),
+                        Some(pts),
+                        format!("table \"{}\"", clip(&t.name, 40)),
+                        withheld,
+                        &mut crit,
+                    );
                 }
             }
         }
     }
-    // No points: "Criteria N: label" components and bullet lists under an evaluation heading.
+    // Running text (a PDF reader's output has no reliable lines): a points marker with the words before it.
+    if crit.iter().filter(|c| c.1.is_some()).count() < 2 {
+        for p in pages {
+            let mut prev_end = 0usize;
+            for m in POINTS_ANY.captures_iter(&p.flat) {
+                let all = m.get(0).unwrap();
+                let from = prev_end.min(all.start());
+                let before = &p.flat[from..all.start()];
+                prev_end = all.end();
+                let (Some(pts), Some(label)) = (
+                    m["p"].parse::<f64>().ok().filter(|v| *v <= 1000.0),
+                    label_before(before),
+                ) else {
+                    continue;
+                };
+                add(
+                    label,
+                    Some(pts),
+                    p.location(all.start()),
+                    withheld,
+                    &mut crit,
+                );
+            }
+        }
+    }
+    // No points: numbered components ("Criteria 2: ...") and bullet lists under an evaluation heading.
     if crit.is_empty() {
         for p in pages {
-            for (i, line) in p.lines.iter().enumerate() {
-                if CRITERIA_HEADING.is_match(line)
-                    && let Some((_, rest)) = line.split_once([':', '\u{2013}', '\u{2014}'])
-                {
-                    add(clean_label(rest), None, p.line_location(i), withheld, &mut crit);
-                }
+            for c in components(p) {
+                add(
+                    clean_label(&c.label),
+                    None,
+                    p.location(c.offset),
+                    withheld,
+                    &mut crit,
+                );
             }
         }
     }
@@ -983,11 +1428,21 @@ fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld
         for p in pages {
             for (i, line) in p.lines.iter().enumerate() {
                 let h = p.line_heading(i).to_lowercase();
-                if (h.contains("evaluation criteria") || h.contains("scoring criteria") || h.contains("review criteria") || h.contains("selection criteria") || h.contains("merit review"))
+                if (h.contains("evaluation criteria")
+                    || h.contains("scoring criteria")
+                    || h.contains("review criteria")
+                    || h.contains("selection criteria")
+                    || h.contains("merit review"))
                     && let Some(c) = BULLET.captures(line)
                     && c["t"].split_whitespace().count() <= 14
                 {
-                    add(clean_label(&c["t"]), None, p.line_location(i), withheld, &mut crit);
+                    add(
+                        clean_label(&c["t"]),
+                        None,
+                        p.line_location(i),
+                        withheld,
+                        &mut crit,
+                    );
                 }
             }
         }
@@ -1000,7 +1455,11 @@ fn extract_criteria(pages: &[PageText], ex: &Extracted, pat: &Patterns, withheld
             rating_scale.push(capitalize_words(cue));
         }
     }
-    CriteriaScan { criteria: crit, total_stated, rating_scale }
+    CriteriaScan {
+        criteria: crit,
+        total_stated,
+        rating_scale,
+    }
 }
 
 fn capitalize_words(s: &str) -> String {
@@ -1019,7 +1478,9 @@ fn sentences(flat: &str) -> Vec<(usize, String)> {
     let mut start = 0usize;
     let chars: Vec<(usize, char)> = flat.char_indices().collect();
     for (k, (i, c)) in chars.iter().enumerate() {
-        if matches!(c, '.' | ';' | '!' | '?') && chars.get(k + 1).is_none_or(|(_, n)| n.is_whitespace()) {
+        if matches!(c, '.' | ';' | '!' | '?')
+            && chars.get(k + 1).is_none_or(|(_, n)| n.is_whitespace())
+        {
             out.push((start, flat[start..=*i].trim().to_string()));
             start = i + c.len_utf8();
         }
@@ -1030,7 +1491,11 @@ fn sentences(flat: &str) -> Vec<(usize, String)> {
     out
 }
 
-fn extract_eligibility(pages: &[PageText], pat: &Patterns, withheld: &mut usize) -> Vec<EligibilityInternal> {
+fn extract_eligibility(
+    pages: &[PageText],
+    pat: &Patterns,
+    withheld: &mut usize,
+) -> Vec<EligibilityInternal> {
     let mut out: Vec<EligibilityInternal> = Vec::new();
     let mut seen: BTreeSet<String> = BTreeSet::new();
     let cue_re: Vec<Regex> = pat
@@ -1058,9 +1523,17 @@ fn extract_eligibility(pages: &[PageText], pat: &Patterns, withheld: &mut usize)
                 continue;
             }
             let l = s.to_lowercase();
-            let excludes = ["not eligible", "ineligible", "may not apply", "cannot apply", "are excluded", "is excluded", "not be eligible"]
-                .iter()
-                .any(|x| l.contains(x));
+            let excludes = [
+                "not eligible",
+                "ineligible",
+                "may not apply",
+                "cannot apply",
+                "are excluded",
+                "is excluded",
+                "not be eligible",
+            ]
+            .iter()
+            .any(|x| l.contains(x));
             if !seen.insert(l) || out.len() >= MAX_ELIGIBILITY {
                 continue;
             }
@@ -1069,7 +1542,11 @@ fn extract_eligibility(pages: &[PageText], pat: &Patterns, withheld: &mut usize)
                 None => "[excerpt withheld: it contained a possible personal identifier]".into(),
             };
             out.push(EligibilityInternal {
-                finding: EligibilityFinding { location: p.location(off), categories, excludes },
+                finding: EligibilityFinding {
+                    location: p.location(off),
+                    categories,
+                    excludes,
+                },
                 excerpt,
             });
         }
@@ -1078,7 +1555,10 @@ fn extract_eligibility(pages: &[PageText], pat: &Patterns, withheld: &mut usize)
 }
 
 static MONEY: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"\$\s?(?P<n>\d[\d,]*(?:\.\d+)?)(?:\s?(?P<u>(?i:million|billion|thousand)|[MKmk]\b))?").unwrap()
+    Regex::new(
+        r"\$\s?(?P<n>\d[\d,]*(?:\.\d+)?)(?:\s?(?P<u>(?i:million|billion|thousand)|[MKmk]\b))?",
+    )
+    .unwrap()
 });
 
 fn extract_amounts(pages: &[PageText], pat: &Patterns) -> Vec<AmountFinding> {
@@ -1091,7 +1571,9 @@ fn extract_amounts(pages: &[PageText], pat: &Patterns) -> Vec<AmountFinding> {
                 continue;
             };
             for m in MONEY.captures_iter(line) {
-                let Some(base) = m["n"].replace(',', "").parse::<f64>().ok() else { continue };
+                let Some(base) = m["n"].replace(',', "").parse::<f64>().ok() else {
+                    continue;
+                };
                 let mult = match m.name("u").map(|u| u.as_str().to_lowercase()) {
                     Some(u) if u == "million" || u == "m" => 1e6,
                     Some(u) if u == "billion" => 1e9,
@@ -1103,7 +1585,11 @@ fn extract_amounts(pages: &[PageText], pat: &Patterns) -> Vec<AmountFinding> {
                     continue;
                 }
                 if seen.insert(format!("{v}|{ctx}")) && out.len() < MAX_AMOUNTS {
-                    out.push(AmountFinding { amount_usd: v, context: ctx.clone(), location: p.line_location(i) });
+                    out.push(AmountFinding {
+                        amount_usd: v,
+                        context: ctx.clone(),
+                        location: p.line_location(i),
+                    });
                 }
             }
         }
@@ -1111,19 +1597,36 @@ fn extract_amounts(pages: &[PageText], pat: &Patterns) -> Vec<AmountFinding> {
     out
 }
 
-static TERM: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"(?i)(?P<cue>period of performance|project period|budget period|contract term|term of the contract|initial term|performance period|grant period|award period)[^.;]{0,100}?\b(?P<n>\d{1,3}|one|two|three|four|five|six|twelve|eighteen|twenty[- ]four|thirty[- ]six)\s*(?:\(\d+\)\s*)?(?P<u>month|year)s?\b").unwrap()
-});
+const NUMBER_WORD: &str =
+    r"\d{1,3}|one|two|three|four|five|six|twelve|eighteen|twenty[- ]four|thirty[- ]six";
 
-fn extract_terms(pages: &[PageText], withheld: &mut usize) -> Vec<String> {
+fn term_regexes(pat: &Patterns) -> Vec<Regex> {
+    let cues: Vec<String> = pat.term_cues.iter().map(|c| regex::escape(c)).collect();
+    if cues.is_empty() {
+        return Vec::new();
+    }
+    let cue = cues.join("|");
+    [
+        format!(r"(?i)\b(?:{cue})\b[^.;]{{0,100}}?\b(?:{NUMBER_WORD})\s*(?:\(\d+\)\s*)?[- ]?(?:month|year)s?\b"),
+        format!(r"(?i)\b(?:{NUMBER_WORD})\s*(?:\(\d+\)\s*)?[- ]?(?:month|year)s?[- ]+(?:{cue})\b"),
+    ]
+    .iter()
+    .filter_map(|r| Regex::new(r).ok())
+    .collect()
+}
+
+fn extract_terms(pages: &[PageText], pat: &Patterns, withheld: &mut usize) -> Vec<String> {
+    let res = term_regexes(pat);
     let mut out: Vec<String> = Vec::new();
     for p in pages {
-        for m in TERM.find_iter(&p.flat) {
-            if let Some(t) = clean(&clip(m.as_str(), 110), withheld)
-                && !out.contains(&t)
-                && out.len() < 5
-            {
-                out.push(t);
+        for re in &res {
+            for m in re.find_iter(&p.flat) {
+                if let Some(t) = clean(&clip(m.as_str(), 110), withheld)
+                    && !out.contains(&t)
+                    && out.len() < 5
+                {
+                    out.push(t);
+                }
             }
         }
     }
@@ -1157,7 +1660,16 @@ fn extract_identifiers(pages: &[PageText]) -> Vec<String> {
 
 fn guess_title(pages: &[PageText], withheld: &mut usize) -> Option<String> {
     let first = pages.first()?;
-    let skip = ["commonwealth of", "executive office", "department of", "this is a single", "page ", "please note", "division of", "office of"];
+    let skip = [
+        "commonwealth of",
+        "executive office",
+        "department of",
+        "this is a single",
+        "page ",
+        "please note",
+        "division of",
+        "office of",
+    ];
     let lead: Vec<&String> = first.lines.iter().take(14).collect();
     let is_skip = |l: &str| {
         let low = l.to_lowercase();
@@ -1167,7 +1679,13 @@ fn guess_title(pages: &[PageText], withheld: &mut usize) -> Option<String> {
     let mut title: Option<String> = None;
     for (i, l) in lead.iter().enumerate() {
         if type_re.is_match(l) {
-            let next = lead.get(i + 1).filter(|n| !is_skip(n) && !type_re.is_match(n));
+            // "Notice of Funding Opportunity: Title" carries its own title; otherwise the next line is it.
+            let own = l
+                .split_once(':')
+                .is_some_and(|(_, t)| t.trim().chars().count() >= 10);
+            let next = lead
+                .get(i + 1)
+                .filter(|n| !own && !is_skip(n) && !type_re.is_match(n));
             title = Some(match next {
                 Some(n) => format!("{} {}", l, n),
                 None => (*l).clone(),
@@ -1234,7 +1752,7 @@ fn analyze(
     let scan = extract_criteria(&pages, ex, pat, &mut withheld);
     let elig = extract_eligibility(&pages, pat, &mut withheld);
     let amounts = extract_amounts(&pages, pat);
-    let terms = extract_terms(&pages, &mut withheld);
+    let terms = extract_terms(&pages, pat, &mut withheld);
     let all_pad: String = pages.iter().map(|p| padded(&p.flat)).collect();
     let methods: Vec<String> = pat
         .submission_methods
@@ -1274,7 +1792,10 @@ fn analyze(
 
     // Outline.
     let single_limit = {
-        let mut u: Vec<String> = limits.iter().map(|l| format!("{} {}", l.limit, l.unit)).collect();
+        let mut u: Vec<String> = limits
+            .iter()
+            .map(|l| format!("{} {}", l.limit, l.unit))
+            .collect();
         u.sort();
         u.dedup();
         (u.len() == 1).then(|| u[0].clone())
@@ -1291,13 +1812,24 @@ fn analyze(
             .map(|l| format!("{} {}", l.limit, l.unit))
     };
     if !criteria.is_empty() {
-        let basis = if criteria.iter().any(|c| c.points.is_some()) { "scoring criterion" } else { "submission component" };
+        let basis = if criteria.iter().any(|c| c.points.is_some()) {
+            "scoring criterion"
+        } else {
+            "submission component"
+        };
         for c in &criteria {
             let t = type_for(&c.label, types);
             let purpose = t
-                .and_then(|t| pat.default_outline.iter().find(|d| d.criterion_type == t.id))
+                .and_then(|t| {
+                    pat.default_outline
+                        .iter()
+                        .find(|d| d.criterion_type == t.id)
+                })
                 .map(|d| d.purpose.clone())
-                .unwrap_or_else(|| "Answer this criterion directly and in the order the announcement lists it.".into());
+                .unwrap_or_else(|| {
+                    "Answer this criterion directly and in the order the announcement lists it."
+                        .into()
+                });
             outline.push(OutlineRow {
                 order: outline.len() + 1,
                 heading: c.label.clone(),
@@ -1310,7 +1842,10 @@ fn analyze(
         }
     } else {
         for d in &pat.default_outline {
-            let t = pat.criterion_types.iter().find(|t| t.id == d.criterion_type);
+            let t = pat
+                .criterion_types
+                .iter()
+                .find(|t| t.id == d.criterion_type);
             outline.push(OutlineRow {
                 order: outline.len() + 1,
                 heading: d.label.clone(),
@@ -1323,13 +1858,17 @@ fn analyze(
         }
     }
     if let Some(l) = &single_limit
-        && let Some(first) = outline.iter_mut().find(|r| r.page_limit.is_none() && r.narrative_section.as_deref() != Some("other"))
+        && let Some(first) = outline
+            .iter_mut()
+            .find(|r| r.page_limit.is_none() && r.narrative_section.as_deref() != Some("other"))
         && criteria.is_empty()
     {
         first.page_limit = Some(format!("{l} (the only limit found; check what it covers)"));
     }
     if (!attachments.is_empty() || !items.is_empty() || !forms.is_empty())
-        && !outline.iter().any(|r| r.heading.to_lowercase().contains("attachment"))
+        && !outline
+            .iter()
+            .any(|r| r.heading.to_lowercase().contains("attachment"))
     {
         outline.push(OutlineRow {
             order: outline.len() + 1,
@@ -1375,7 +1914,9 @@ fn analyze(
         not_found.push("No project period or contract term was found.".into());
     }
     if methods.is_empty() {
-        not_found.push("No submission method (portal, email, COMMBUYS, Grants.gov) was recognized.".into());
+        not_found.push(
+            "No submission method (portal, email, COMMBUYS, Grants.gov) was recognized.".into(),
+        );
     }
 
     let words = ex.text.split_whitespace().count();
@@ -1437,9 +1978,16 @@ fn tick() -> String {
     "[ ]".into()
 }
 
-fn checklist_document(ctx: &Context, a: &AnnouncementAnalysis, elig: &[EligibilityInternal]) -> Document {
+fn checklist_document(
+    ctx: &Context,
+    a: &AnnouncementAnalysis,
+    elig: &[EligibilityInternal],
+) -> Document {
     let p = |t: &str| Block::Paragraph(vec![Inline::plain(t)]);
-    let h = |t: &str| Block::Heading { level: 2, text: t.to_string() };
+    let h = |t: &str| Block::Heading {
+        level: 2,
+        text: t.to_string(),
+    };
     let table = |caption: &str, headers: &[&str], rows: Vec<Vec<String>>| {
         Block::Table(TableBlock {
             caption: Some(caption.to_string()),
@@ -1456,18 +2004,51 @@ fn checklist_document(ctx: &Context, a: &AnnouncementAnalysis, elig: &[Eligibili
     ))];
     blocks.push(h("Summary"));
     let mut summary = vec![
-        vec!["Kind".into(), a.kind.replace('_', " "), a.kind_basis.clone()],
-        vec!["Title (guess)".into(), a.title_guess.clone().unwrap_or_else(|| "not found".into()), String::new()],
-        vec!["Numbers".into(), if a.identifiers.is_empty() { "not found".into() } else { a.identifiers.join(", ") }, String::new()],
+        vec![
+            "Kind".into(),
+            a.kind.replace('_', " "),
+            a.kind_basis.clone(),
+        ],
+        vec![
+            "Title (guess)".into(),
+            a.title_guess.clone().unwrap_or_else(|| "not found".into()),
+            String::new(),
+        ],
+        vec![
+            "Numbers".into(),
+            if a.identifiers.is_empty() {
+                "not found".into()
+            } else {
+                a.identifiers.join(", ")
+            },
+            String::new(),
+        ],
         vec![
             "Submission deadline".into(),
             a.primary_deadline
                 .as_ref()
-                .map(|d| format!("{}{}", d.date.clone().unwrap_or_default(), d.time.as_ref().map(|t| format!(" {t}")).unwrap_or_default()))
+                .map(|d| {
+                    format!(
+                        "{}{}",
+                        d.date.clone().unwrap_or_default(),
+                        d.time.as_ref().map(|t| format!(" {t}")).unwrap_or_default()
+                    )
+                })
                 .unwrap_or_else(|| "not found".into()),
-            a.primary_deadline.as_ref().map(|d| d.location.clone()).unwrap_or_default(),
+            a.primary_deadline
+                .as_ref()
+                .map(|d| d.location.clone())
+                .unwrap_or_default(),
         ],
-        vec!["Submission method".into(), if a.submission_methods.is_empty() { "not found".into() } else { a.submission_methods.join("; ") }, String::new()],
+        vec![
+            "Submission method".into(),
+            if a.submission_methods.is_empty() {
+                "not found".into()
+            } else {
+                a.submission_methods.join("; ")
+            },
+            String::new(),
+        ],
         vec![
             "Points".into(),
             match (a.points_total, a.points_total_stated) {
@@ -1475,73 +2056,208 @@ fn checklist_document(ctx: &Context, a: &AnnouncementAnalysis, elig: &[Eligibili
                 (Some(t), None) => format!("{t} found"),
                 (None, _) => "no point values found".into(),
             },
-            if a.rating_scale.is_empty() { String::new() } else { format!("Rating words: {}", a.rating_scale.join(", ")) },
+            if a.rating_scale.is_empty() {
+                String::new()
+            } else {
+                format!("Rating words: {}", a.rating_scale.join(", "))
+            },
         ],
     ];
     if a.cost_sharing_mentioned {
-        summary.push(vec!["Cost sharing or match".into(), "mentioned".into(), "Read the passage: it may be a requirement.".into()]);
+        summary.push(vec![
+            "Cost sharing or match".into(),
+            "mentioned".into(),
+            "Read the passage: it may be a requirement.".into(),
+        ]);
     }
     blocks.push(table("Summary", &["Item", "Found", "Notes"], summary));
     blocks.push(h("Deadlines"));
     blocks.push(table(
         "Deadlines",
-        &["Done", "Type", "Date", "Time", "Days from today", "Label", "Where"],
+        &[
+            "Done",
+            "Type",
+            "Date",
+            "Time",
+            "Days from today",
+            "Label",
+            "Where",
+        ],
         a.deadlines
             .iter()
-            .map(|d| vec![tick(), d.kind.clone(), d.date.clone().unwrap_or_else(|| d.date_text.clone()), d.time.clone().unwrap_or_default(), d.days_from_today.map(|n| n.to_string()).unwrap_or_default(), d.label.clone(), d.location.clone()])
+            .map(|d| {
+                vec![
+                    tick(),
+                    d.kind.clone(),
+                    d.date.clone().unwrap_or_else(|| d.date_text.clone()),
+                    d.time.clone().unwrap_or_default(),
+                    d.days_from_today.map(|n| n.to_string()).unwrap_or_default(),
+                    d.label.clone(),
+                    d.location.clone(),
+                ]
+            })
             .collect(),
     ));
     blocks.push(h("Eligibility"));
     blocks.push(table(
         "Eligibility",
-        &["Confirmed", "Applicant types mentioned", "Excludes", "Where", "Excerpt (first 300 characters)"],
+        &[
+            "Confirmed",
+            "Applicant types mentioned",
+            "Excludes",
+            "Where",
+            "Excerpt (first 300 characters)",
+        ],
         elig.iter()
-            .map(|e| vec![tick(), e.finding.categories.join("; "), if e.finding.excludes { "yes".into() } else { String::new() }, e.finding.location.clone(), e.excerpt.clone()])
+            .map(|e| {
+                vec![
+                    tick(),
+                    e.finding.categories.join("; "),
+                    if e.finding.excludes {
+                        "yes".into()
+                    } else {
+                        String::new()
+                    },
+                    e.finding.location.clone(),
+                    e.excerpt.clone(),
+                ]
+            })
             .collect(),
     ));
     blocks.push(h("Page limits and format"));
     blocks.push(table(
         "Page limits",
         &["Done", "Applies to", "Limit", "Unit", "Where"],
-        a.page_limits.iter().map(|l| vec![tick(), l.applies_to.clone(), l.limit.to_string(), l.unit.clone(), l.location.clone()]).collect(),
+        a.page_limits
+            .iter()
+            .map(|l| {
+                vec![
+                    tick(),
+                    l.applies_to.clone(),
+                    l.limit.to_string(),
+                    l.unit.clone(),
+                    l.location.clone(),
+                ]
+            })
+            .collect(),
     ));
     if !a.format_rules.is_empty() {
-        blocks.push(Block::List { ordered: false, items: a.format_rules.iter().map(|r| vec![Inline::plain(format!("Format: {r}"))]).collect() });
+        blocks.push(Block::List {
+            ordered: false,
+            items: a
+                .format_rules
+                .iter()
+                .map(|r| vec![Inline::plain(format!("Format: {r}"))])
+                .collect(),
+        });
     }
     blocks.push(h("Required forms and attachments"));
     let mut att_rows: Vec<Vec<String>> = a
         .attachments
         .iter()
-        .map(|x| vec![tick(), x.label.clone(), match x.required { Some(true) => "required".into(), Some(false) => "optional".into(), None => "not stated".into() }, x.location.clone()])
+        .map(|x| {
+            vec![
+                tick(),
+                x.label.clone(),
+                match x.required {
+                    Some(true) => "required".into(),
+                    Some(false) => "optional".into(),
+                    None => "not stated".into(),
+                },
+                x.location.clone(),
+            ]
+        })
         .collect();
     for f in &a.forms_named {
-        att_rows.push(vec![tick(), format!("Form {f} (named in the text)"), "check".into(), String::new()]);
+        att_rows.push(vec![
+            tick(),
+            format!("Form {f} (named in the text)"),
+            "check".into(),
+            String::new(),
+        ]);
     }
     for i in &a.submission_items {
-        att_rows.push(vec![tick(), i.clone(), "listed as something to include".into(), String::new()]);
+        att_rows.push(vec![
+            tick(),
+            i.clone(),
+            "listed as something to include".into(),
+            String::new(),
+        ]);
     }
-    blocks.push(table("Attachments", &["Done", "Item", "Required", "Where"], att_rows));
+    blocks.push(table(
+        "Attachments",
+        &["Done", "Item", "Required", "Where"],
+        att_rows,
+    ));
     blocks.push(h("Scoring criteria"));
     blocks.push(table(
         "Scoring criteria",
-        &["#", "Criterion", "Points", "Type", "Narrative section", "Where"],
+        &[
+            "#",
+            "Criterion",
+            "Points",
+            "Type",
+            "Narrative section",
+            "Where",
+        ],
         a.criteria
             .iter()
-            .map(|c| vec![c.order.to_string(), c.label.clone(), c.points.map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 })).unwrap_or_default(), c.criterion_type.clone().unwrap_or_default(), c.narrative_section.clone().unwrap_or_default(), c.location.clone()])
+            .map(|c| {
+                vec![
+                    c.order.to_string(),
+                    c.label.clone(),
+                    c.points
+                        .map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 }))
+                        .unwrap_or_default(),
+                    c.criterion_type.clone().unwrap_or_default(),
+                    c.narrative_section.clone().unwrap_or_default(),
+                    c.location.clone(),
+                ]
+            })
             .collect(),
     ));
     blocks.push(h("Response outline"));
     blocks.push(table(
         "Response outline",
-        &["Order", "Section", "Points", "Page limit", "Basis", "What to include", "Done"],
+        &[
+            "Order",
+            "Section",
+            "Points",
+            "Page limit",
+            "Basis",
+            "What to include",
+            "Done",
+        ],
         a.outline
             .iter()
-            .map(|r| vec![r.order.to_string(), r.heading.clone(), r.points.map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 })).unwrap_or_default(), r.page_limit.clone().unwrap_or_default(), r.basis.clone(), r.purpose.clone(), tick()])
+            .map(|r| {
+                vec![
+                    r.order.to_string(),
+                    r.heading.clone(),
+                    r.points
+                        .map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 }))
+                        .unwrap_or_default(),
+                    r.page_limit.clone().unwrap_or_default(),
+                    r.basis.clone(),
+                    r.purpose.clone(),
+                    tick(),
+                ]
+            })
             .collect(),
     ));
     if !a.amounts.is_empty() || !a.terms.is_empty() {
         blocks.push(h("Funding and period"));
-        let mut rows: Vec<Vec<String>> = a.amounts.iter().map(|x| vec![format!("${}", md::num(x.amount_usd, 0)), x.context.clone(), x.location.clone()]).collect();
+        let mut rows: Vec<Vec<String>> = a
+            .amounts
+            .iter()
+            .map(|x| {
+                vec![
+                    format!("${}", md::num(x.amount_usd, 0)),
+                    x.context.clone(),
+                    x.location.clone(),
+                ]
+            })
+            .collect();
         for t in &a.terms {
             rows.push(vec![String::new(), t.clone(), String::new()]);
         }
@@ -1549,12 +2265,24 @@ fn checklist_document(ctx: &Context, a: &AnnouncementAnalysis, elig: &[Eligibili
     }
     blocks.push(h("Not found"));
     if a.not_found.is_empty() {
-        blocks.push(p("Every item the reader looks for was found; still check each against the announcement."));
+        blocks.push(p(
+            "Every item the reader looks for was found; still check each against the announcement.",
+        ));
     } else {
-        blocks.push(Block::List { ordered: false, items: a.not_found.iter().map(|n| vec![Inline::plain(n.clone())]).collect() });
+        blocks.push(Block::List {
+            ordered: false,
+            items: a
+                .not_found
+                .iter()
+                .map(|n| vec![Inline::plain(n.clone())])
+                .collect(),
+        });
     }
     Document {
-        title: format!("Funding announcement checklist — {}", a.title_guess.clone().unwrap_or_else(|| a.file.clone())),
+        title: format!(
+            "Funding announcement checklist — {}",
+            a.title_guess.clone().unwrap_or_else(|| a.file.clone())
+        ),
         subtitle: Some("Compliance checklist and response outline".into()),
         language: "en-US".into(),
         author: None,
@@ -1571,16 +2299,31 @@ fn summary_markdown(a: &AnnouncementAnalysis) -> String {
         a.kind.replace('_', " "),
         a.kind_basis,
         a.counts.words,
-        a.counts.pages.map(|p| format!(", {p} pages")).unwrap_or_default()
+        a.counts
+            .pages
+            .map(|p| format!(", {p} pages"))
+            .unwrap_or_default()
     );
     s.push_str(&md::table(
         &["Found", "Count"],
         &[
             vec!["Dates".into(), a.counts.deadlines.to_string()],
-            vec!["Eligibility passages".into(), a.counts.eligibility_passages.to_string()],
-            vec!["Page, word, or character limits".into(), a.counts.page_limits.to_string()],
-            vec!["Attachments and forms".into(), (a.counts.attachments + a.counts.forms_named).to_string()],
-            vec!["Scoring criteria (with points)".into(), format!("{} ({})", a.counts.criteria, a.counts.criteria_with_points)],
+            vec![
+                "Eligibility passages".into(),
+                a.counts.eligibility_passages.to_string(),
+            ],
+            vec![
+                "Page, word, or character limits".into(),
+                a.counts.page_limits.to_string(),
+            ],
+            vec![
+                "Attachments and forms".into(),
+                (a.counts.attachments + a.counts.forms_named).to_string(),
+            ],
+            vec![
+                "Scoring criteria (with points)".into(),
+                format!("{} ({})", a.counts.criteria, a.counts.criteria_with_points),
+            ],
             vec!["Dollar amounts".into(), a.counts.amounts.to_string()],
         ],
     ));
@@ -1589,8 +2332,13 @@ fn summary_markdown(a: &AnnouncementAnalysis) -> String {
         Some(d) => s.push_str(&format!(
             "\nSubmission deadline found: **{}**{} ({}).\n",
             d.date.clone().unwrap_or_default(),
-            d.time.as_ref().map(|t| format!(" at {t}")).unwrap_or_default(),
-            d.days_from_today.map(|n| format!("{n} days from today")).unwrap_or_default()
+            d.time
+                .as_ref()
+                .map(|t| format!(" at {t}"))
+                .unwrap_or_default(),
+            d.days_from_today
+                .map(|n| format!("{n} days from today"))
+                .unwrap_or_default()
         )),
         None => s.push_str("\nNo submission deadline with a full date was found.\n"),
     }
@@ -1600,14 +2348,29 @@ fn summary_markdown(a: &AnnouncementAnalysis) -> String {
             &["#", "Criterion", "Points", "Narrative section"],
             &a.criteria
                 .iter()
-                .map(|c| vec![c.order.to_string(), md::cell(&c.label), c.points.map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 })).unwrap_or_else(|| "n/a".into()), c.narrative_section.clone().unwrap_or_default()])
+                .map(|c| {
+                    vec![
+                        c.order.to_string(),
+                        md::cell(&c.label),
+                        c.points
+                            .map(|x| md::num(x, if x.fract() == 0.0 { 0 } else { 1 }))
+                            .unwrap_or_else(|| "n/a".into()),
+                        c.narrative_section.clone().unwrap_or_default(),
+                    ]
+                })
                 .collect::<Vec<_>>(),
         ));
         s.push('\n');
     }
     if !a.page_limits.is_empty() {
         s.push_str("\n**Limits found:** ");
-        s.push_str(&a.page_limits.iter().map(|l| format!("{} {} ({})", l.limit, l.unit, md::cell(&l.applies_to))).collect::<Vec<_>>().join("; "));
+        s.push_str(
+            &a.page_limits
+                .iter()
+                .map(|l| format!("{} {} ({})", l.limit, l.unit, md::cell(&l.applies_to)))
+                .collect::<Vec<_>>()
+                .join("; "),
+        );
         s.push('\n');
     }
     if !a.not_found.is_empty() {
@@ -1617,7 +2380,10 @@ fn summary_markdown(a: &AnnouncementAnalysis) -> String {
         }
     }
     if !a.checklist_files.is_empty() {
-        s.push_str(&format!("\nChecklist written to {}.\n", a.checklist_files.join(" and ")));
+        s.push_str(&format!(
+            "\nChecklist written to {}.\n",
+            a.checklist_files.join(" and ")
+        ));
     }
     s
 }
@@ -1672,7 +2438,15 @@ pub fn analyze_at(
     let mut files_written = Vec::new();
     if args.write_checklist.unwrap_or(true) {
         let doc = checklist_document(ctx, &analysis, &elig);
-        let stem = format!("funding_checklist_{}", slug(&analysis.title_guess.clone().unwrap_or_else(|| label.clone())));
+        let stem = format!(
+            "funding_checklist_{}",
+            slug(
+                &analysis
+                    .title_guess
+                    .clone()
+                    .unwrap_or_else(|| label.clone())
+            )
+        );
         let docx = sandbox.new_output_file(&format!("{stem}.docx"))?;
         std::fs::write(&docx, phn_docs::docx::to_docx(&doc)?)?;
         let xlsx = sandbox.new_output_file(&format!("{stem}.xlsx"))?;
@@ -1704,7 +2478,10 @@ pub fn analyze_at(
     let summary = summary_markdown(&analysis);
     let sources = vec![
         Source::local_file(label.clone()),
-        Source::computed("Pattern-based reading of the announcement", "PHN MCP server"),
+        Source::computed(
+            "Pattern-based reading of the announcement",
+            "PHN MCP server",
+        ),
     ];
     Ok(Envelope::new(summary, analysis)
         .sources(sources)
@@ -1727,7 +2504,12 @@ mod tests {
         Extracted {
             kind: FileKind::Text,
             text: text.to_string(),
-            sections: vec![Section { heading: String::new(), level: 0, page: Some(1), text: text.to_string() }],
+            sections: vec![Section {
+                heading: String::new(),
+                level: 0,
+                page: Some(1),
+                text: text.to_string(),
+            }],
             tables: Vec::new(),
             pages: Some(1),
             notes: Vec::new(),
@@ -1753,68 +2535,163 @@ Awards of up to $250,000 per year for a 3 year period of performance. Cost shari
 
     #[test]
     fn finds_deadlines_limits_attachments_and_criteria() {
-        let (a, elig) = analyze("sample.txt", &ex_from(SAMPLE), &pat(), AnnouncementKind::Auto, today()).unwrap();
+        let (a, elig) = analyze(
+            "sample.txt",
+            &ex_from(SAMPLE),
+            &pat(),
+            AnnouncementKind::Auto,
+            today(),
+        )
+        .unwrap();
         assert_eq!(a.kind, "federal_nofo");
         assert_eq!(a.identifiers, vec!["PHX-2027-014"]);
         let due = a.primary_deadline.as_ref().unwrap();
         assert_eq!(due.date.as_deref(), Some("2027-02-12"));
         assert_eq!(due.time.as_deref(), Some("5:00 PM"));
         assert_eq!(due.days_from_today, Some(92));
-        assert!(a.deadlines.iter().any(|d| d.kind == "intent" && d.date.as_deref() == Some("2027-01-08")));
-        assert!(a.deadlines.iter().any(|d| d.kind == "conference" && d.date.as_deref() == Some("2026-12-09")));
-        assert!(a.deadlines.iter().any(|d| d.kind == "award" && d.date.as_deref() == Some("2027-04-01")));
-        assert!(a.page_limits.iter().any(|l| l.limit == 10 && l.unit == "pages"));
-        assert!(a.format_rules.iter().any(|r| r.to_lowercase().contains("times new roman") || r.to_lowercase().contains("margin")));
-        assert!(a.attachments.iter().any(|x| x.label.starts_with("Attachment A: Work Plan")));
-        let b = a.attachments.iter().find(|x| x.label.starts_with("Attachment B")).unwrap();
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "intent" && d.date.as_deref() == Some("2027-01-08"))
+        );
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "conference" && d.date.as_deref() == Some("2026-12-09"))
+        );
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "award" && d.date.as_deref() == Some("2027-04-01"))
+        );
+        assert!(
+            a.page_limits
+                .iter()
+                .any(|l| l.limit == 10 && l.unit == "pages")
+        );
+        assert!(
+            a.format_rules
+                .iter()
+                .any(|r| r.to_lowercase().contains("times new roman")
+                    || r.to_lowercase().contains("margin"))
+        );
+        assert!(
+            a.attachments
+                .iter()
+                .any(|x| x.label.starts_with("Attachment A: Work Plan"))
+        );
+        let b = a
+            .attachments
+            .iter()
+            .find(|x| x.label.starts_with("Attachment B"))
+            .unwrap();
         assert_eq!(b.required, Some(false));
         assert_eq!(a.forms_named, vec!["SF-424"]);
-        assert!(a.submission_items.iter().any(|i| i.contains("Budget narrative")));
+        assert!(
+            a.submission_items
+                .iter()
+                .any(|i| i.contains("Budget narrative"))
+        );
         assert_eq!(a.criteria.len(), 5);
         assert_eq!(a.criteria[0].label, "Statement of Need");
         assert_eq!(a.criteria[0].points, Some(20.0));
-        assert_eq!(a.criteria[0].narrative_section.as_deref(), Some("needs_statement"));
-        assert_eq!(a.criteria[4].narrative_section.as_deref(), Some("sustainability"));
+        assert_eq!(
+            a.criteria[0].narrative_section.as_deref(),
+            Some("needs_statement")
+        );
+        assert_eq!(
+            a.criteria[4].narrative_section.as_deref(),
+            Some("sustainability")
+        );
         assert_eq!(a.points_total, Some(100.0));
         assert_eq!(a.points_total_stated, Some(100.0));
         assert!(a.amounts.iter().any(|m| m.amount_usd == 250000.0));
         assert!(a.terms.iter().any(|t| t.contains("period of performance")));
-        assert!(a.submission_methods.iter().any(|m| m.contains("Grants.gov")));
+        assert!(
+            a.submission_methods
+                .iter()
+                .any(|m| m.contains("Grants.gov"))
+        );
         assert!(a.cost_sharing_mentioned);
-        assert_eq!(a.outline.len(), 6, "{:?}", a.outline.iter().map(|r| &r.heading).collect::<Vec<_>>());
+        assert_eq!(
+            a.outline.len(),
+            6,
+            "{:?}",
+            a.outline.iter().map(|r| &r.heading).collect::<Vec<_>>()
+        );
         assert_eq!(a.outline[1].points, Some(30.0));
         // Eligibility: municipalities are named, individuals are excluded.
-        assert!(a.applicant_categories.iter().any(|c| c.contains("Municipality")));
+        assert!(
+            a.applicant_categories
+                .iter()
+                .any(|c| c.contains("Municipality"))
+        );
         assert!(elig.iter().any(|e| e.finding.excludes));
-        assert!(a.not_found.iter().all(|n| !n.contains("deadline") && !n.contains("scoring")));
+        assert!(
+            a.not_found
+                .iter()
+                .all(|n| !n.contains("deadline") && !n.contains("scoring"))
+        );
     }
 
     #[test]
     fn says_what_it_could_not_find() {
         let text = "This is a short letter about a community program. ".repeat(10);
-        let (a, _) = analyze("x.txt", &ex_from(&text), &pat(), AnnouncementKind::Auto, today()).unwrap();
+        let (a, _) = analyze(
+            "x.txt",
+            &ex_from(&text),
+            &pat(),
+            AnnouncementKind::Auto,
+            today(),
+        )
+        .unwrap();
         assert_eq!(a.kind, "unclear");
         assert!(a.primary_deadline.is_none());
         assert!(a.criteria.is_empty());
-        assert!(a.not_found.iter().any(|n| n.contains("submission deadline")));
+        assert!(
+            a.not_found
+                .iter()
+                .any(|n| n.contains("submission deadline"))
+        );
         assert!(a.not_found.iter().any(|n| n.contains("scoring criteria")));
         // Without criteria the outline is the generic default and says so.
-        assert!(a.outline.iter().all(|r| r.basis.contains("default outline")));
+        assert!(
+            a.outline
+                .iter()
+                .all(|r| r.basis.contains("default outline"))
+        );
     }
 
     #[test]
     fn criteria_without_points_use_components_and_rating_words() {
         let text = "REQUEST FOR RESPONSES (RFR)\nHealth Outreach Services\nCriteria 1: Cover Letter\nCriteria 2: Experience and Qualifications Narrative\nThe narrative must not exceed eight (8) double spaced pages.\nCriteria 3: Fee Proposal\nResponses are evaluated as Highly Advantageous, Advantageous, or Not Advantageous. Responses are submitted through COMMBUYS. Bidder questions due 10/3/2026. Bidder RFR responses due 10/20/2026 5:00 PM bidders commonwealth of massachusetts rfr ".repeat(1);
-        let (a, _) = analyze("rfr.txt", &ex_from(&text), &pat(), AnnouncementKind::Auto, today()).unwrap();
+        let (a, _) = analyze(
+            "rfr.txt",
+            &ex_from(&text),
+            &pat(),
+            AnnouncementKind::Auto,
+            today(),
+        )
+        .unwrap();
         assert_eq!(a.kind, "ma_rfr");
         assert_eq!(a.criteria.len(), 3);
         assert!(a.criteria.iter().all(|c| c.points.is_none()));
-        assert_eq!(a.criteria[1].label, "Experience and Qualifications Narrative");
-        assert_eq!(a.criteria[1].narrative_section.as_deref(), Some("project_narrative"));
+        assert_eq!(
+            a.criteria[1].label,
+            "Experience and Qualifications Narrative"
+        );
+        assert_eq!(
+            a.criteria[1].narrative_section.as_deref(),
+            Some("project_narrative")
+        );
         assert_eq!(a.outline[0].basis, "submission component");
         assert!(a.rating_scale.iter().any(|r| r == "Highly Advantageous"));
         assert!(a.page_limits.iter().any(|l| l.limit == 8));
-        assert!(a.deadlines.iter().any(|d| d.kind == "questions" && d.date.as_deref() == Some("2026-10-03")));
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "questions" && d.date.as_deref() == Some("2026-10-03"))
+        );
         let due = a.primary_deadline.as_ref().unwrap();
         assert_eq!(due.date.as_deref(), Some("2026-10-20"));
         assert_eq!(due.days_from_today, Some(-23));
@@ -1823,11 +2700,91 @@ Awards of up to $250,000 per year for a 3 year period of performance. Cost shari
     }
 
     #[test]
+    fn text_a_pdf_reader_breaks_into_pieces_is_still_read() {
+        // Shaped like the server's PDF text for a Massachusetts RFR: table cells and dates arrive as
+        // separate short lines, and a paragraph arrives as one long line.
+        let text = "COMMBUYS posting \n \n9/\n19\n/2025 \n \nBidder \n \nquestions due (all questions must be submitted \nthrough \nCOMMBUYS) \n \n10/3\n/2025 \n \n\
+EOHLC responses posted to COMMBUYS \n10/10\n/2025 \n \nBidder RFR responses \n \ndue\n \n10/20\n/2025 \n \n5:00 PM \n \nEvaluative Meetings to be scheduled with \nBidders \n10/\n20\n/2025  \n\u{2013}\n12/2\n/2025 \n\
+In addition, the response must include the following:   \u{2022} Bidder\u{2019}s legal name and address.   \u{2022} A cover letter.   \u{2022} Two references.   Criteria 2:  Experience  and  Qualifications  Narrative   The narrative must not exceed eight (8) double spaced pages in size 12 Times New Roman font.   Criteria 3:  Fee  Proposal   The Compensation portion of the RFR limits the cost.   \
+Appendix A: Required Specifications https://www.mass.gov/doc/rfr-required-specifications   Appendix B: Electronic Quote Submission Instructions   Merit review: Need (20 points) Approach (30 points) Evaluation Plan (25 points) Capacity (25 points)\n";
+        let (a, _) = analyze(
+            "pieces.pdf",
+            &ex_from(text),
+            &pat(),
+            AnnouncementKind::Auto,
+            today(),
+        )
+        .unwrap();
+        let due = a.primary_deadline.as_ref().expect("submission deadline");
+        assert_eq!(due.date.as_deref(), Some("2025-10-20"));
+        assert_eq!(due.time.as_deref(), Some("5:00 PM"));
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "questions" && d.date.as_deref() == Some("2025-10-03")),
+            "{:?}",
+            a.deadlines
+        );
+        // A date with no cue (the posting date) is not reported as a deadline.
+        assert!(
+            !a.deadlines
+                .iter()
+                .any(|d| d.date.as_deref() == Some("2025-09-19"))
+        );
+        assert!(
+            a.deadlines
+                .iter()
+                .any(|d| d.kind == "award" && d.date.as_deref() == Some("2025-10-20")),
+            "{:?}",
+            a.deadlines
+        );
+        // The limit is tied to the numbered component, not to a stale heading.
+        let lim = a.page_limits.iter().find(|l| l.limit == 8).unwrap();
+        assert_eq!(lim.applies_to, "Experience and Qualifications Narrative");
+        // Components, appendices, bulleted items, and points are read from running text.
+        let labels: Vec<&str> = a.criteria.iter().map(|c| c.label.as_str()).collect();
+        assert!(
+            labels.contains(&"Need") || labels.iter().any(|l| l.ends_with("Need")),
+            "{labels:?}"
+        );
+        assert_eq!(
+            a.criteria.iter().filter_map(|c| c.points).sum::<f64>(),
+            100.0,
+            "{labels:?}"
+        );
+        assert!(
+            a.attachments
+                .iter()
+                .any(|x| x.label == "Appendix A: Required Specifications"),
+            "{:?}",
+            a.attachments
+        );
+        assert!(a.attachments.iter().any(|x| {
+            x.label
+                .starts_with("Appendix B: Electronic Quote Submission")
+        }));
+        assert!(
+            a.submission_items
+                .iter()
+                .any(|i| i.contains("cover letter") || i.contains("A cover letter")),
+            "{:?}",
+            a.submission_items
+        );
+    }
+
+    #[test]
     fn contact_people_are_not_returned() {
         let text = format!(
             "{SAMPLE}\nQuestions due January 5, 2027 to Veronika Haldane at veronika.haldane@example.org or 413-555-0142.\n"
         );
-        let (a, _) = analyze("c.txt", &ex_from(&text), &pat(), AnnouncementKind::Auto, today()).unwrap();
+        let (a, _) = analyze(
+            "c.txt",
+            &ex_from(&text),
+            &pat(),
+            AnnouncementKind::Auto,
+            today(),
+        )
+        .unwrap();
         let json = serde_json::to_string(&a).unwrap();
         for needle in ["Haldane", "veronika", "555-0142"] {
             assert!(!json.contains(needle), "{needle} leaked");
@@ -1854,16 +2811,108 @@ Awards of up to $250,000 per year for a 3 year period of performance. Cost shari
         assert!(c.ends_with("..."));
     }
 
+    /// Calibration check against real announcements (not bundled): set PHN_REAL_ANNOUNCEMENTS to
+    /// PDF or DOCX paths separated by ':' and run `cargo test -p phn-tools real_announcements --
+    /// --ignored --nocapture`. It prints the counts and what was not found.
+    #[test]
+    #[ignore]
+    fn real_announcements() {
+        let Ok(paths) = std::env::var("PHN_REAL_ANNOUNCEMENTS") else {
+            return;
+        };
+        for p in paths.split(':').filter(|p| !p.is_empty()) {
+            let ex = extract(std::path::Path::new(p)).unwrap();
+            if let Ok(g) = std::env::var("PHN_DUMP_GREP") {
+                for (n, l) in ex.text.lines().enumerate() {
+                    if l.to_lowercase().contains(&g.to_lowercase()) {
+                        println!("  RAW {n}: {l:?}");
+                    }
+                }
+            }
+            let (a, _) = analyze(p, &ex, &pat(), AnnouncementKind::Auto, today()).unwrap();
+            println!("=== {p}");
+            println!("kind {} ({})", a.kind, a.kind_basis);
+            println!("title {:?}; ids {:?}", a.title_guess, a.identifiers);
+            println!("counts {:?}", a.counts);
+            println!(
+                "primary {:?}",
+                a.primary_deadline
+                    .as_ref()
+                    .map(|d| (&d.date, &d.time, &d.label))
+            );
+            for d in &a.deadlines {
+                println!(
+                    "  deadline {} {:?} {:?} | {} | {}",
+                    d.kind, d.date, d.time, d.label, d.location
+                );
+            }
+            for l in &a.page_limits {
+                println!(
+                    "  limit {} {} | {} | {}",
+                    l.limit, l.unit, l.applies_to, l.location
+                );
+            }
+            for x in &a.attachments {
+                println!(
+                    "  attachment {} | {:?} | {}",
+                    x.label, x.required, x.location
+                );
+            }
+            for c in &a.criteria {
+                println!(
+                    "  criterion {} {:?} {:?} | {}",
+                    c.label, c.points, c.narrative_section, c.location
+                );
+            }
+            println!(
+                "  rating {:?}; total {:?}/{:?}",
+                a.rating_scale, a.points_total, a.points_total_stated
+            );
+            for e in &a.eligibility {
+                println!(
+                    "  eligibility {:?} excl {} | {}",
+                    e.categories, e.excludes, e.location
+                );
+            }
+            println!(
+                "  amounts {:?}",
+                a.amounts
+                    .iter()
+                    .map(|m| (m.amount_usd, &m.context))
+                    .collect::<Vec<_>>()
+            );
+            println!(
+                "  terms {:?}; methods {:?}; forms {:?}",
+                a.terms, a.submission_methods, a.forms_named
+            );
+            println!("  items {:?}", a.submission_items);
+            println!("  format {:?}", a.format_rules);
+            for n in &a.not_found {
+                println!("  NOT FOUND: {n}");
+            }
+            println!("  withheld {}", a.items_withheld);
+        }
+    }
+
     #[test]
     fn criterion_types_follow_file_order() {
         let types = criterion_types().unwrap();
         let t = |l: &str| type_for(l, &types).map(|t| t.id.clone());
         assert_eq!(t("Sustainability Plan").as_deref(), Some("sustainability"));
         assert_eq!(t("Statement of Need").as_deref(), Some("need"));
-        assert_eq!(t("Project Approach and Work Plan").as_deref(), Some("approach"));
+        assert_eq!(
+            t("Project Approach and Work Plan").as_deref(),
+            Some("approach")
+        );
         assert_eq!(t("Evaluation Plan").as_deref(), Some("evaluation"));
-        assert_eq!(t("Budget and Budget Justification").as_deref(), Some("budget"));
-        assert_eq!(t("Past Performance and Experience").as_deref(), Some("capacity"));
+        assert_eq!(
+            t("Budget and Budget Justification").as_deref(),
+            Some("budget")
+        );
+        assert_eq!(
+            t("Past Performance and Experience").as_deref(),
+            Some("capacity")
+        );
         assert_eq!(t("Zebra"), None);
     }
 }

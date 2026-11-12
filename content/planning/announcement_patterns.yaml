@@ -62,7 +62,7 @@ deadline_cues:
   questions: [questions due, bidder questions, written questions, questions must, inquiries, q&a, question deadline]
   conference: [bidders conference, bidders' conference, applicants conference, applicant conference, pre-application, pre-bid, information session, webinar, technical assistance call, conference call]
   intent: [notice of intent, letter of intent, intent to apply, intent to respond, letter of inquiry]
-  award: [award notification, notice of award, anticipated award, awards announced, notification of award, evaluative meeting, selection, contract start, negotiation]
+  award: [award notification, notice of award, anticipated award, awards announced, notification of award, evaluative meeting, evaluative meetings, selection, contract start, negotiation]
   start: [project start, period of performance begins, start date, anticipated start, contract term begins, project period]
 
 # Phrases that introduce a page, word, or character limit, and style rules to report.
@@ -74,13 +74,13 @@ eligibility_cues: [eligible applicant, eligible applicants, eligibility, who may
 eligibility_categories:
   - id: municipality
     label: Municipality (city or town)
-    keywords: [municipality, municipalities, city, cities, town, towns, local government, local governments, board of health, local health department, local health departments, health department]
+    keywords: [municipality, municipalities, municipal, city, cities, town, towns, local government, local governments, board of health, boards of health, local health department, local health departments, health department, health departments]
   - id: county
     label: County government
     keywords: [county, counties, county government]
   - id: regional
     label: Regional agency or district
-    keywords: [regional planning, regional health, health district, special district, council of governments, regional collaborative]
+    keywords: [regional planning, regional health, health district, health districts, public health district, public health districts, special district, council of governments, regional collaborative, regional collaboratives]
   - id: state_agency
     label: State agency
     keywords: [state agency, state agencies, state government, state governments, commonwealth agency, executive office]
@@ -104,7 +104,7 @@ eligibility_categories:
     keywords: [for-profit, for profit, business, businesses, vendor, vendors, small business, sbpp]
   - id: individual
     label: Individuals
-    keywords: [individual, individuals, sole proprietor]
+    keywords: [individuals, sole proprietor, sole proprietors, individual consultant]
 
 # How the announcement says it is submitted.
 submission_methods:

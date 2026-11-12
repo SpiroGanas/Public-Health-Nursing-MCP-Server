@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 121;
+const TOOL_COUNT = 124;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4028,6 +4028,93 @@ const toolChapters = [
     intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
     tools: [
       // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08) tools.
+      {
+        id: 'search_grant_opportunities',
+        title: 'Search for grants and bids',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'no',
+        does: 'Looks for funding a health department could apply for. For federal grants it searches Simpler.Grants.gov, which needs a free key that you set once; without it the tool says it is in snapshot mode and has no federal listings. For Massachusetts it reads the state’s weekly list of new COMMBUYS bids (or a dated copy), tags each by topic, and tells you whether the title looks like a grant, a request for response, or a purchase. You can filter by topic, who may apply, closing dates, and award size. It also lists where else to look and what DPH says about how it buys programs.',
+        when: [
+          'Looking for money for a new program or a gap in your budget.',
+          'Checking what Massachusetts agencies have posted that could fit a board of health.',
+          'Deciding whether an opportunity is worth an application.',
+        ],
+        provide: [
+          'A topic in plain words, such as immunization or overdose prevention. Never a client or a case.',
+          'Optionally who you are (local health department, state agency, tribal health), a closing-date window, and an award size.',
+        ],
+        examples: [
+          'What grants could a board of health apply for on overdose prevention that close in the next 60 days?',
+          'Show Massachusetts bids from health and human services agencies that close before December 20.',
+          'Which open opportunities are only for state agencies?',
+        ],
+        returns: [
+          'For each source, whether it was live or a snapshot and its date; the opportunities soonest closing first with number, agency, closing date, days left, and award range; where else to look; and Massachusetts procurement facts.',
+        ],
+        notes: [
+          'The Massachusetts list shows only the bid’s title, agency, closing time, and bid number: read the solicitation on COMMBUYS for who may respond and how much it is worth.',
+          'Grants.gov and COMMBUYS could not be reached when the server was built, so the federal search was never tested against the real service and the Massachusetts list is a weekly copy.',
+          'A match is a lead, not a decision about whether your agency is eligible. The topic words and filters are all that leave your computer.',
+        ],
+      },
+      {
+        id: 'analyze_funding_announcement',
+        title: 'Turn a funding announcement into a checklist',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word and an Excel checklist in your output folder',
+        does: 'Reads a notice of funding opportunity or a Massachusetts request for response that you saved in your data folder and pulls out what you must do: who may apply, every date, page limits and format rules, required forms and attachments, and the scoring criteria with their points. It matches each criterion to the narrative section that answers it and suggests a response outline in the order the funder scores. It works by pattern matching, so it also tells you what it could not find.',
+        when: [
+          'You have a NOFO or RFR and need to know what the application must contain.',
+          'Planning your time before a deadline.',
+          'Starting to write: you want the scoring criteria in a list.',
+        ],
+        provide: [
+          'The announcement as a PDF or Word file in your data folder (not a scanned image).',
+        ],
+        examples: [
+          'Analyze funding/nofo.pdf and make me a checklist.',
+          'What is the deadline, the page limit, and the scoring in this RFR?',
+          'List every attachment this announcement requires.',
+        ],
+        returns: [
+          'Counts, the submission deadline, all dates, limits, attachments, criteria with points, applicant types named, dollar amounts, the outline, and a list of what was not found. Word and Excel checklists go to your output folder.',
+        ],
+        notes: [
+          'Check every row against the announcement and its amendments: the tool can miss items in tables or images and can misread a sentence.',
+          'It returns short labels and counts, not the announcement’s text, and never the contact people named in it.',
+          'It was tried on made-up announcements and public Massachusetts ones, not on a real federal NOFO.',
+        ],
+      },
+      {
+        id: 'draft_grant_narrative',
+        title: 'Draft a grant narrative',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word draft in your output folder',
+        does: 'Builds a first draft of the needs statement, project narrative, and sustainability section around the funder’s scoring criteria. It fills the draft only with the facts and statistics you give it, each statistic shown with its place, source, and year. Anything you have not given it becomes a [NURSE: ...] placeholder that says what to add. It never invents a number, a program detail, or a citation.',
+        when: [
+          'You have the scoring criteria (from the checklist tool, or typed) and need a skeleton to fill.',
+          'Turning your community data and program plan into the sections reviewers score.',
+        ],
+        provide: [
+          'The scoring criteria and points, or the checklist file the announcement tool wrote.',
+          'Your statistics with their sources and years, and the facts about the project: the problem, the people, the activities, the partners, the evaluation, and how it will continue.',
+        ],
+        examples: [
+          'Draft the needs statement and sustainability section using my checklist and these asthma numbers.',
+          'Make a project narrative skeleton for a 12-page limit with these five criteria.',
+        ],
+        returns: [
+          'The draft text by section, which parts are filled and which are placeholders, how each criterion is answered, and a Word file in your output folder.',
+        ],
+        notes: [
+          'The draft is a scaffold: you replace every placeholder with your own words.',
+          'Budget and form criteria are not drafted here; use the budget tool and the checklist’s attachments.',
+          'A number without a source and year gets a placeholder. Client identifiers in your input are refused.',
+        ],
+      },
       // End of Phase 17 grants tools.
       // Phase 17 budget (PLAN-09, PLAN-10) tools.
       // End of Phase 17 budget tools.
