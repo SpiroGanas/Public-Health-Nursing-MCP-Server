@@ -6,9 +6,7 @@ use chrono::{Datelike as _, NaiveDate};
 use phn_core::{PhnError, Result};
 use rust_xlsxwriter::{ExcelDateTime, Format, Formula, Workbook, XlsxError};
 
-use super::budget::{
-    BudgetResult, CategoryLine, OutputInputs, Totals, round2,
-};
+use super::budget::{BudgetResult, CategoryLine, OutputInputs, Totals, round2};
 use crate::context::Context;
 use crate::md;
 use crate::school::templates::{self, DocFormat};
@@ -30,7 +28,12 @@ fn category_table(lines: &[CategoryLine], expense: bool, monthly: bool) -> Strin
     if expense {
         heads.push("Encumbered");
     }
-    heads.extend(["% of budget", "vs. pace (pts)", "Status", "Year-end, straight line"]);
+    heads.extend([
+        "% of budget",
+        "vs. pace (pts)",
+        "Status",
+        "Year-end, straight line",
+    ]);
     if monthly {
         heads.push("Year-end, run rate");
     }
@@ -42,10 +45,7 @@ fn category_table(lines: &[CategoryLine], expense: bool, monthly: bool) -> Strin
                 r.push(money(l.encumbered));
             }
             r.push(pct(l.percent_of_budget));
-            r.push(
-                l.points_vs_pace
-                    .map_or("-".into(), |p| format!("{p:+.1}")),
-            );
+            r.push(l.points_vs_pace.map_or("-".into(), |p| format!("{p:+.1}")));
             r.push(l.status.clone().unwrap_or_default());
             r.push(forecast(l.forecast_straight_line));
             if monthly {
@@ -69,8 +69,10 @@ fn totals_line(label: &str, t: &Totals) -> String {
         md::num(t.actual, 0),
         pct(t.percent_of_budget),
         forecast(t.forecast_straight_line),
-        t.forecast_run_rate
-            .map_or(String::new(), |r| format!(", run-rate year-end {}", md::num(r, 0)))
+        t.forecast_run_rate.map_or(String::new(), |r| format!(
+            ", run-rate year-end {}",
+            md::num(r, 0)
+        ))
     )
 }
 
@@ -194,15 +196,15 @@ pub fn summary(r: &BudgetResult) -> String {
         }
         s.push('\n');
     }
-    s.push_str(
-        "Forecasts: straight line (year to date divided by the share of the year passed)",
-    );
+    s.push_str("Forecasts: straight line (year to date divided by the share of the year passed)");
     if monthly {
         s.push_str(" and run rate (recent monthly average carried forward)");
     }
     s.push_str(". See the assumptions in the data.\n");
     if let (Some(b), Some(d)) = (&r.workbook_file, &r.report_file) {
-        s.push_str(&format!("\nWorkbook with live formulas: {b}. Report: {d}.\n"));
+        s.push_str(&format!(
+            "\nWorkbook with live formulas: {b}. Report: {d}.\n"
+        ));
     } else if let Some(b) = &r.workbook_file {
         s.push_str(&format!("\nWorkbook with live formulas: {b}.\n"));
     } else if let Some(d) = &r.report_file {
@@ -359,7 +361,11 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ),
             &st.bold,
         )?;
-        ws.write_string(1, 0, "Yellow cells are inputs: change them and the sheets recalculate.")?;
+        ws.write_string(
+            1,
+            0,
+            "Yellow cells are inputs: change them and the sheets recalculate.",
+        )?;
         ws.write_string(2, 0, "Fiscal year starts")?;
         ws.write_datetime_with_format(2, 1, excel_date(i.fy_start)?, &st.date)?;
         ws.write_string(3, 0, "As-of date")?;
@@ -370,7 +376,11 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             1,
             Formula::new("=EDATE(B3,12)-B3").set_result(format!("{}", r.fiscal_year.days_in_year)),
         )?;
-        ws.write_string(5, 0, "Share of the year that has passed (as-of date counted)")?;
+        ws.write_string(
+            5,
+            0,
+            "Share of the year that has passed (as-of date counted)",
+        )?;
         ws.write_formula_with_format(
             5,
             1,
@@ -439,7 +449,7 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_number_with_format(row, 2, round2(a.actual), &st.money)?;
             ws.write_number_with_format(row, 3, round2(a.enc), &st.money)?;
             if let Some(avg) = i.expense_avgs[k] {
-                ws.write_number_with_format(row, 11, round2(avg), &st.input)?;
+                ws.write_number_with_format(row, 11, avg, &st.input)?;
             }
             expense_formulas(ws, row, xr, l, i.expense_avgs[k].is_some(), &st)?;
         }
@@ -452,49 +462,35 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         };
         ws.write_string_with_format(tr, 0, label, &st.bold)?;
         if let Some(t) = &r.expense_totals {
-            for (c, cached) in [(1u16, t.budgeted), (2, t.actual), (3, t.encumbered.unwrap_or(0.0))] {
+            for (c, cached) in [
+                (1u16, t.budgeted),
+                (2, t.actual),
+                (3, t.encumbered.unwrap_or(0.0)),
+            ] {
                 ws.write_formula_with_format(
                     tr,
                     c,
-                    Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c))).set_result(num_s(Some(cached))),
+                    Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c)))
+                        .set_result(num_s(Some(cached))),
                     &st.money,
                 )?;
             }
-            let fake = CategoryLine {
-                category: "Total".into(),
-                is_personnel: false,
-                hidden: false,
-                budgeted: Some(t.budgeted),
-                actual: Some(t.actual),
-                encumbered: t.encumbered,
-                remaining: Some(t.remaining),
-                percent_of_budget: t.percent_of_budget,
-                expected_by_pace: Some(round2(t.budgeted * i.elapsed)),
-                variance_vs_pace: Some(t.variance_vs_pace),
-                points_vs_pace: t
-                    .percent_of_budget
-                    .map(|p| round2(p - i.elapsed * 100.0)),
-                status: None,
-                forecast_straight_line: t.forecast_straight_line,
-                forecast_run_rate: t.forecast_run_rate,
-                projected_vs_budget_straight_line: t
-                    .forecast_straight_line
-                    .map(|f| round2(t.budgeted - f)),
-                projected_vs_budget_run_rate: None,
-            };
+            let fake = total_line(t, false);
             expense_formulas(ws, tr, txr, &fake, false, &st)?;
             // Totals: the run rate and straight line are sums of the lines'.
             ws.write_formula_with_format(
                 tr,
                 10,
-                Formula::new(format!("=SUM(K{first}:K{last})")).set_result(num_s(t.forecast_straight_line)),
+                Formula::new(format!("=SUM(K{first}:K{last})"))
+                    .set_result(num_s(t.forecast_straight_line)),
                 &st.money,
             )?;
             if t.forecast_run_rate.is_some() {
                 ws.write_formula_with_format(
                     tr,
                     12,
-                    Formula::new(format!("=SUM(M{first}:M{last})")).set_result(num_s(t.forecast_run_rate)),
+                    Formula::new(format!("=SUM(M{first}:M{last})"))
+                        .set_result(num_s(t.forecast_run_rate)),
                     &st.money,
                 )?;
             }
@@ -541,7 +537,7 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_number_with_format(row, 1, round2(a.budget), &st.money)?;
             ws.write_number_with_format(row, 2, round2(a.actual), &st.money)?;
             if let Some(avg) = i.revenue_avgs[k] {
-                ws.write_number_with_format(row, 10, round2(avg), &st.input)?;
+                ws.write_number_with_format(row, 10, avg, &st.input)?;
             }
             revenue_formulas(ws, row, row + 1, l, i.revenue_avgs[k].is_some(), &st)?;
         }
@@ -553,44 +549,26 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 ws.write_formula_with_format(
                     tr,
                     c,
-                    Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c))).set_result(num_s(Some(cached))),
+                    Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c)))
+                        .set_result(num_s(Some(cached))),
                     &st.money,
                 )?;
             }
-            let fake = CategoryLine {
-                category: "Total".into(),
-                is_personnel: false,
-                hidden: false,
-                budgeted: Some(t.budgeted),
-                actual: Some(t.actual),
-                encumbered: None,
-                remaining: Some(t.remaining),
-                percent_of_budget: t.percent_of_budget,
-                expected_by_pace: Some(round2(t.budgeted * i.elapsed)),
-                variance_vs_pace: Some(t.variance_vs_pace),
-                points_vs_pace: t
-                    .percent_of_budget
-                    .map(|p| round2(p - i.elapsed * 100.0)),
-                status: None,
-                forecast_straight_line: t.forecast_straight_line,
-                forecast_run_rate: t.forecast_run_rate,
-                projected_vs_budget_straight_line: t
-                    .forecast_straight_line
-                    .map(|f| round2(f - t.budgeted)),
-                projected_vs_budget_run_rate: None,
-            };
+            let fake = total_line(t, true);
             revenue_formulas(ws, tr, tr + 1, &fake, false, &st)?;
             ws.write_formula_with_format(
                 tr,
                 9,
-                Formula::new(format!("=SUM(J{first}:J{last})")).set_result(num_s(t.forecast_straight_line)),
+                Formula::new(format!("=SUM(J{first}:J{last})"))
+                    .set_result(num_s(t.forecast_straight_line)),
                 &st.money,
             )?;
             if t.forecast_run_rate.is_some() {
                 ws.write_formula_with_format(
                     tr,
                     11,
-                    Formula::new(format!("=SUM(L{first}:L{last})")).set_result(num_s(t.forecast_run_rate)),
+                    Formula::new(format!("=SUM(L{first}:L{last})"))
+                        .set_result(num_s(t.forecast_run_rate)),
                     &st.money,
                 )?;
             }
@@ -603,9 +581,15 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         let ws = wb.add_worksheet();
         ws.set_name("Revenue mix")?;
         ws.write_string_with_format(0, 0, "Revenue mix", &st.bold)?;
-        for (c, h) in ["Revenue group", "Budgeted", "% of budgeted", "Year to date", "% of year to date"]
-            .iter()
-            .enumerate()
+        for (c, h) in [
+            "Revenue group",
+            "Budgeted",
+            "% of budgeted",
+            "Year to date",
+            "% of year to date",
+        ]
+        .iter()
+        .enumerate()
         {
             ws.write_string_with_format(3, c as u16, *h, &st.head)?;
             ws.set_column_width(c as u16, if c == 0 { 50 } else { 16 })?;
@@ -626,16 +610,26 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 row,
                 2,
-                Formula::new(format!("=IF(B${tr}=0,\"\",B{xr}/B${tr})", tr = last + 1))
-                    .set_result(if tb == 0.0 { String::new() } else { format!("{}", b / tb) }),
+                Formula::new(format!("=IF(B${tr}=0,\"\",B{xr}/B${tr})", tr = last + 1)).set_result(
+                    if tb == 0.0 {
+                        String::new()
+                    } else {
+                        format!("{}", b / tb)
+                    },
+                ),
                 &st.pct,
             )?;
             ws.write_number_with_format(row, 3, round2(*a), &st.money)?;
             ws.write_formula_with_format(
                 row,
                 4,
-                Formula::new(format!("=IF(D${tr}=0,\"\",D{xr}/D${tr})", tr = last + 1))
-                    .set_result(if ta == 0.0 { String::new() } else { format!("{}", a / ta) }),
+                Formula::new(format!("=IF(D${tr}=0,\"\",D{xr}/D${tr})", tr = last + 1)).set_result(
+                    if ta == 0.0 {
+                        String::new()
+                    } else {
+                        format!("{}", a / ta)
+                    },
+                ),
                 &st.pct,
             )?;
         }
@@ -645,7 +639,8 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 tr,
                 c,
-                Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c))).set_result(num_s(Some(cached))),
+                Formula::new(format!("=SUM({0}{first}:{0}{last})", col(c)))
+                    .set_result(num_s(Some(cached))),
                 &st.money,
             )?;
         }
@@ -654,8 +649,10 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 tr + 2,
                 1,
-                Formula::new(format!("=IF(Assumptions!B10=\"\",\"\",B{mr}/Assumptions!B10)"))
-                    .set_result(num_s(pc.municipal_appropriation_budget_per_resident)),
+                Formula::new(format!(
+                    "=IF(Assumptions!B10=\"\",\"\",B{mr}/Assumptions!B10)"
+                ))
+                .set_result(num_s(pc.municipal_appropriation_budget_per_resident)),
                 &st.one,
             )?;
         }
@@ -701,13 +698,15 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 row,
                 3,
-                Formula::new(format!("=C{xr}*(1+{A_INDIRECT}/100)")).set_result(num_s(sv.total_cost)),
+                Formula::new(format!("=C{xr}*(1+{A_INDIRECT}/100)"))
+                    .set_result(num_s(sv.total_cost)),
                 &st.money,
             )?;
             ws.write_formula_with_format(
                 row,
                 4,
-                Formula::new(format!("=IF(B{xr}=0,\"\",D{xr}/B{xr})")).set_result(num_s(sv.cost_per_unit)),
+                Formula::new(format!("=IF(B{xr}=0,\"\",D{xr}/B{xr})"))
+                    .set_result(num_s(sv.cost_per_unit)),
                 &st.money,
             )?;
             if let (Some(p), Some(b)) = (s.planned_volume, s.budget_cost) {
@@ -716,14 +715,38 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 ws.write_formula_with_format(
                     row,
                     7,
-                    Formula::new(format!("=IF(F{xr}=0,\"\",G{xr}*(1+{A_INDIRECT}/100)/F{xr})"))
-                        .set_result(num_s(sv.budgeted_cost_per_unit)),
+                    Formula::new(format!(
+                        "=IF(F{xr}=0,\"\",G{xr}*(1+{A_INDIRECT}/100)/F{xr})"
+                    ))
+                    .set_result(num_s(sv.budgeted_cost_per_unit)),
                     &st.money,
                 )?;
             }
         }
     }
     wb.save_to_buffer()
+}
+
+/// A category line made from totals (for the workbook's total row formulas' cached values).
+fn total_line(t: &Totals, revenue: bool) -> CategoryLine {
+    CategoryLine {
+        category: "Total".into(),
+        is_personnel: false,
+        hidden: false,
+        budgeted: Some(t.budgeted),
+        actual: Some(t.actual),
+        encumbered: (!revenue).then_some(t.encumbered.unwrap_or(0.0)),
+        remaining: Some(t.remaining),
+        percent_of_budget: t.percent_of_budget,
+        expected_by_pace: Some(t.expected_by_pace),
+        variance_vs_pace: Some(t.variance_vs_pace),
+        points_vs_pace: t.points_vs_pace,
+        status: None,
+        forecast_straight_line: t.forecast_straight_line,
+        forecast_run_rate: t.forecast_run_rate,
+        projected_vs_budget_straight_line: t.projected_vs_budget_straight_line,
+        projected_vs_budget_run_rate: t.projected_vs_budget_run_rate,
+    }
 }
 
 fn expense_formulas(
@@ -746,7 +769,8 @@ fn expense_formulas(
         5,
         f(
             format!("=IF(B{xr}=0,\"\",C{xr}/B{xr})"),
-            l.percent_of_budget.map_or(String::new(), |p| format!("{}", p / 100.0)),
+            l.percent_of_budget
+                .map_or(String::new(), |p| format!("{}", p / 100.0)),
         ),
         &st.pct,
     )?;
@@ -835,7 +859,8 @@ fn revenue_formulas(
         4,
         f(
             format!("=IF(B{xr}=0,\"\",C{xr}/B{xr})"),
-            l.percent_of_budget.map_or(String::new(), |p| format!("{}", p / 100.0)),
+            l.percent_of_budget
+                .map_or(String::new(), |p| format!("{}", p / 100.0)),
         ),
         &st.pct,
     )?;
@@ -917,7 +942,12 @@ pub(crate) fn write_files(
     let mut report = None;
     if want_book {
         let bytes = build_workbook(i).map_err(|e| PhnError::Internal(format!("XLSX: {e}")))?;
-        book = Some(templates::write_in(ctx, dir, "department_budget.xlsx", &bytes)?);
+        book = Some(templates::write_in(
+            ctx,
+            dir,
+            "department_budget.xlsx",
+            &bytes,
+        )?);
     }
     if want_report {
         let md = report_markdown(i.result);

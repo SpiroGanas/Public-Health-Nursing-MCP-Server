@@ -75,7 +75,10 @@ fn hours_table(r: &StaffingResult) -> String {
     ]);
     rows.push(vec![
         "**Productive hours per FTE**".into(),
-        format!("**{}**", md::num(r.productive_hours.productive_hours_per_fte, 1)),
+        format!(
+            "**{}**",
+            md::num(r.productive_hours.productive_hours_per_fte, 1)
+        ),
         "calculated".into(),
     ]);
     md::table(&["Input", "Value", "Where it came from"], &rows)
@@ -97,7 +100,13 @@ fn services_table(r: &StaffingResult) -> String {
         })
         .collect();
     md::table(
-        &["Service", "Units per year", "Minutes per unit", "Hours of work", "Share of hours"],
+        &[
+            "Service",
+            "Units per year",
+            "Minutes per unit",
+            "Hours of work",
+            "Share of hours",
+        ],
         &rows,
     )
 }
@@ -170,7 +179,9 @@ pub fn summary(r: &StaffingResult) -> String {
         "\nNo public health nurse staffing benchmark is bundled: none could be read from a source this server could fetch. Minutes per unit and the placeholder leave and training hours are yours to set.\n",
     );
     if let (Some(b), Some(d)) = (&r.workbook_file, &r.report_file) {
-        s.push_str(&format!("\nWorkbook with live formulas: {b}. Report: {d}.\n"));
+        s.push_str(&format!(
+            "\nWorkbook with live formulas: {b}. Report: {d}.\n"
+        ));
     } else if let Some(b) = &r.workbook_file {
         s.push_str(&format!("\nWorkbook with live formulas: {b}.\n"));
     } else if let Some(d) = &r.report_file {
@@ -259,13 +270,37 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ),
             &bold,
         )?;
-        ws.write_string(1, 0, "Yellow cells are inputs; change them and every sheet recalculates.")?;
+        ws.write_string(
+            1,
+            0,
+            "Yellow cells are inputs; change them and every sheet recalculates.",
+        )?;
         let rows: [(&str, f64, &str); 6] = [
-            ("Paid hours per year", i.paid, &r.productive_hours.inputs[0].basis),
-            ("Holiday hours", i.holiday, &r.productive_hours.inputs[1].basis),
-            ("Vacation hours", i.vacation, &r.productive_hours.inputs[2].basis),
-            ("Sick and personal hours", i.sick, &r.productive_hours.inputs[3].basis),
-            ("Training hours", i.training, &r.productive_hours.inputs[4].basis),
+            (
+                "Paid hours per year",
+                i.paid,
+                &r.productive_hours.inputs[0].basis,
+            ),
+            (
+                "Holiday hours",
+                i.holiday,
+                &r.productive_hours.inputs[1].basis,
+            ),
+            (
+                "Vacation hours",
+                i.vacation,
+                &r.productive_hours.inputs[2].basis,
+            ),
+            (
+                "Sick and personal hours",
+                i.sick,
+                &r.productive_hours.inputs[3].basis,
+            ),
+            (
+                "Training hours",
+                i.training,
+                &r.productive_hours.inputs[4].basis,
+            ),
             (
                 "Share of remaining hours that is not direct service (%)",
                 i.non_service,
@@ -313,9 +348,15 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         let ws = wb.add_worksheet();
         ws.set_name("Services")?;
         ws.write_string_with_format(0, 0, "Hours of work by service (baseline)", &bold)?;
-        for (c, h) in ["Service", "Units per year", "Minutes per unit", "Hours of work", "Share of hours"]
-            .iter()
-            .enumerate()
+        for (c, h) in [
+            "Service",
+            "Units per year",
+            "Minutes per unit",
+            "Hours of work",
+            "Share of hours",
+        ]
+        .iter()
+        .enumerate()
         {
             ws.write_string_with_format(3, c as u16, *h, &head)?;
             ws.set_column_width(c as u16, if c == 0 { 44 } else { 16 })?;
@@ -407,7 +448,8 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 row,
                 4,
-                Formula::new(format!("=D{xr}-D$5")).set_result(num_s(s.change_in_hours_vs_baseline)),
+                Formula::new(format!("=D{xr}-D$5"))
+                    .set_result(num_s(s.change_in_hours_vs_baseline)),
                 &whole,
             )?;
             ws.write_formula_with_format(
@@ -428,8 +470,10 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 row,
                 7,
-                Formula::new(format!("=IF(Assumptions!$B$11=\"\",\"\",G{xr}-Assumptions!$B$11)"))
-                    .set_result(s.gap_vs_current_fte.map_or(String::new(), num_s)),
+                Formula::new(format!(
+                    "=IF(Assumptions!$B$11=\"\",\"\",G{xr}-Assumptions!$B$11)"
+                ))
+                .set_result(s.gap_vs_current_fte.map_or(String::new(), num_s)),
                 &two,
             )?;
             ws.write_formula_with_format(
@@ -451,10 +495,21 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 &whole,
             )?;
         }
-        ws.write_string_with_format(added_head_row, 0, "Added services (scenario name must match a scenario above)", &bold)?;
-        for (c, h) in ["Scenario", "Service", "Units per year", "Minutes per unit", "Hours of work"]
-            .iter()
-            .enumerate()
+        ws.write_string_with_format(
+            added_head_row,
+            0,
+            "Added services (scenario name must match a scenario above)",
+            &bold,
+        )?;
+        for (c, h) in [
+            "Scenario",
+            "Service",
+            "Units per year",
+            "Minutes per unit",
+            "Hours of work",
+        ]
+        .iter()
+        .enumerate()
         {
             ws.write_string_with_format(added_head_row + 1, c as u16, *h, &head)?;
         }
@@ -493,7 +548,12 @@ pub(crate) fn write_files(
     let mut report = None;
     if want_book {
         let bytes = build_workbook(i).map_err(|e| PhnError::Internal(format!("XLSX: {e}")))?;
-        book = Some(templates::write_in(ctx, dir, "staffing_model.xlsx", &bytes)?);
+        book = Some(templates::write_in(
+            ctx,
+            dir,
+            "staffing_model.xlsx",
+            &bytes,
+        )?);
     }
     if want_report {
         let md = report_markdown(i.result);

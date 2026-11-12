@@ -210,10 +210,16 @@ pub struct Totals {
     pub encumbered: Option<f64>,
     pub remaining: f64,
     pub percent_of_budget: Option<f64>,
+    pub expected_by_pace: f64,
     pub variance_vs_pace: f64,
+    pub points_vs_pace: Option<f64>,
+    pub status: String,
     pub forecast_straight_line: Option<f64>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub forecast_run_rate: Option<f64>,
+    pub projected_vs_budget_straight_line: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub projected_vs_budget_run_rate: Option<f64>,
 }
 
 /// How the personnel group was handled.
@@ -387,7 +393,8 @@ const MONTH_NAMES: [&str; 12] = [
 /// The (year, month) of a month cell: a date, "2026-07", "2026/7", "Jul 2026", or "July 2026".
 fn parse_month(s: &str) -> Option<(i32, u32)> {
     let t = s.trim();
-    let ok = |y: i32, m: u32| ((1900..=2100).contains(&y) && (1..=12).contains(&m)).then_some((y, m));
+    let ok =
+        |y: i32, m: u32| ((1900..=2100).contains(&y) && (1..=12).contains(&m)).then_some((y, m));
     let parts: Vec<&str> = t.split(['-', '/']).collect();
     if parts.len() == 2
         && parts[0].len() == 4
@@ -428,6 +435,29 @@ fn clean_label(what: &str, s: &str) -> Result<String> {
     Ok(t)
 }
 
+/// A column through `localdata`, except that a header flagged only because it says "account"
+/// (a general ledger's account code or account category, not a person's account number) is
+/// accepted. Its values are still checked for identifiers by the callers, and account codes are
+/// never returned. Any other finding still refuses the column.
+fn ledger_column(lt: &LocalTable, name: &str) -> Result<usize> {
+    match lt.column(name) {
+        Err(PhnError::Privacy(m)) => {
+            if let Some(i) = lt.table.column_index(name) {
+                let mine: Vec<_> = lt.findings.iter().filter(|f| f.index == i).collect();
+                if !mine.is_empty()
+                    && mine
+                        .iter()
+                        .all(|f| f.kind == phi::Identifier::AccountNumber)
+                {
+                    return Ok(i);
+                }
+            }
+            Err(PhnError::Privacy(m))
+        }
+        other => other,
+    }
+}
+
 /// Resolve a column: refuse person-like headers, use the named column, or find one by alias.
 fn resolve(
     lt: &LocalTable,
@@ -444,12 +474,12 @@ fn resolve(
                  Use the category, amount, and account columns instead."
             )));
         }
-        return lt.column(name).map(Some);
+        return ledger_column(lt, name).map(Some);
     }
     for a in aliases {
         let want = padded(a);
         for (i, h) in lt.table.headers.iter().enumerate() {
-            if padded(h) == want && !has_any(h, blocked) && lt.column(h).is_ok() {
+            if padded(h) == want && !has_any(h, blocked) && ledger_column(lt, h).is_ok() {
                 return Ok(Some(i));
             }
         }
@@ -535,16 +565,27 @@ fn load(
     }
     let type_i = find(&args.type_column, "type", "type_column")?;
     let src_i = find(&args.source_column, "source", "source_column")?;
-    let enc_i = find(&args.encumbrance_column, "encumbrance", "encumbrance_column")?;
+    let enc_i = find(
+        &args.encumbrance_column,
+        "encumbrance",
+        "encumbrance_column",
+    )?;
     let acct_i = find(&args.account_column, "account", "account_column")?;
     let per_i = find(&args.period_column, "period", "period_column")?;
     let pos_i = find(&args.positions_column, "positions", "positions_column")?;
     // A period or account column found only by its alias must not be mistaken for the
     // category or amounts.
-    let distinct: BTreeSet<usize> = [Some(cat_i), Some(budget_i), Some(actual_i), type_i, src_i, enc_i]
-        .into_iter()
-        .flatten()
-        .collect();
+    let distinct: BTreeSet<usize> = [
+        Some(cat_i),
+        Some(budget_i),
+        Some(actual_i),
+        type_i,
+        src_i,
+        enc_i,
+    ]
+    .into_iter()
+    .flatten()
+    .collect();
     let used = 3 + [type_i, src_i, enc_i].iter().flatten().count();
     if distinct.len() != used {
         return Err(PhnError::InvalidInput(
@@ -602,8 +643,26 @@ fn load(
         }
         None => None,
     };
-    let accts: Option<Vec<String>> =
-        acct_i.map(|i| lt.table.column(i).map(|s| s.trim().to_string()).collect());
+    let accts: Option<Vec<String>> = match acct_i {
+        Some(i) => {
+            // Account codes are only counted and matched, never returned; a column whose cells
+            // look like people's identifiers is still refused.
+            if lt
+                .table
+                .column(i)
+                .take(2000)
+                .any(|v| !phi::scan_text(v).is_empty())
+            {
+                return Err(PhnError::Privacy(format!(
+                    "column '{}' holds values that look like identifiers, so it cannot be used as \
+                     the account column",
+                    lt.table.headers[i]
+                )));
+            }
+            Some(lt.table.column(i).map(|s| s.trim().to_string()).collect())
+        }
+        None => None,
+    };
 
     // Monthly ledgers.
     let months: Option<Vec<Option<(i32, u32)>>> = match per_i {
@@ -747,7 +806,7 @@ fn usable_headers(lt: &LocalTable, blocked: &[String]) -> String {
     lt.table
         .headers
         .iter()
-        .filter(|h| !has_any(h, blocked) && lt.column(h).is_ok())
+        .filter(|h| !has_any(h, blocked) && ledger_column(lt, h).is_ok())
         .cloned()
         .collect::<Vec<_>>()
         .join(", ")
@@ -904,9 +963,14 @@ fn totals(kind: Kind, aggs: &[&Agg], k: &LineCalc, excludes_personnel: bool) -> 
         encumbered: (kind == Kind::Expense).then(|| round2(t.enc)),
         remaining: l.remaining.unwrap_or(0.0),
         percent_of_budget: l.percent_of_budget,
+        expected_by_pace: l.expected_by_pace.unwrap_or(0.0),
         variance_vs_pace: l.variance_vs_pace.unwrap_or(0.0),
+        points_vs_pace: l.points_vs_pace,
+        status: l.status.unwrap_or_default(),
         forecast_straight_line: l.forecast_straight_line,
         forecast_run_rate: l.forecast_run_rate,
+        projected_vs_budget_straight_line: l.projected_vs_budget_straight_line,
+        projected_vs_budget_run_rate: l.projected_vs_budget_run_rate,
     }
 }
 
@@ -1067,9 +1131,8 @@ fn compute(
         .flatten()
         .map(|s| norm_name(s))
         .collect();
-    let is_personnel = |cat: &str| {
-        has_any(cat, &c.personnel_words) || extra.iter().any(|e| *e == norm_name(cat))
-    };
+    let is_personnel =
+        |cat: &str| has_any(cat, &c.personnel_words) || extra.iter().any(|e| *e == norm_name(cat));
 
     // Expense aggregates by category; personnel combined.
     let mut exp: BTreeMap<String, Agg> = BTreeMap::new();
@@ -1116,11 +1179,8 @@ fn compute(
                 let (g, matched) =
                     revenue_group(c, &overrides, l.source_label.as_deref(), &l.category);
                 if !matched {
-                    unclassified.insert(
-                        l.source_label
-                            .clone()
-                            .unwrap_or_else(|| l.category.clone()),
-                    );
+                    unclassified
+                        .insert(l.source_label.clone().unwrap_or_else(|| l.category.clone()));
                 }
                 mix.entry(g).or_default().add(l);
             }
@@ -1133,16 +1193,22 @@ fn compute(
     }
 
     // Is the personnel group big enough to show?
-    let (positions, basis) = if loaded.positions_column && pers_positions_any {
-        (pers_positions, "positions column")
-    } else if let Some(h) = args.personnel_headcount {
-        (f64::from(h), "headcount you gave")
-    } else {
-        (
+    // The smallest count the nurse's own figures give; only without any, the number of salary
+    // accounts in the file (a proxy that can overstate it).
+    let mut counts: Vec<(f64, &str)> = Vec::new();
+    if loaded.positions_column && pers_positions_any {
+        counts.push((pers_positions, "positions column"));
+    }
+    if let Some(h) = args.personnel_headcount {
+        counts.push((f64::from(h), "headcount you gave"));
+    }
+    let (positions, basis) = counts
+        .into_iter()
+        .min_by(|a, b| a.0.total_cmp(&b.0))
+        .unwrap_or((
             pers_accounts.len() as f64,
             "salary lines in the file (a proxy)",
-        )
-    };
+        ));
     let shown = pers.lines == 0 || positions >= min_group;
     let personnel = PersonnelInfo {
         present: pers.lines > 0,
@@ -1174,13 +1240,7 @@ fn compute(
     }
     if pers.lines > 0 {
         if shown {
-            expenses.push(calc_line(
-                Kind::Expense,
-                PERSONNEL_LABEL,
-                &pers,
-                &k,
-                true,
-            ));
+            expenses.push(calc_line(Kind::Expense, PERSONNEL_LABEL, &pers, &k, true));
             expense_aggs.push(Some(pers.clone()));
             expense_avgs.push(avg_of(&pers));
         } else {
@@ -1225,7 +1285,8 @@ fn compute(
         revenue_avgs.push(avg_of(a));
     }
     let rev_refs: Vec<&Agg> = rev.values().collect();
-    let revenue_totals = (!rev_refs.is_empty()).then(|| totals(Kind::Revenue, &rev_refs, &k, false));
+    let revenue_totals =
+        (!rev_refs.is_empty()).then(|| totals(Kind::Revenue, &rev_refs, &k, false));
 
     // Revenue mix.
     let total_b: f64 = mix.values().map(|a| a.budget).sum();
@@ -1239,8 +1300,10 @@ fn compute(
                 group: g.label.clone(),
                 budgeted: round2(a.budget),
                 actual: round2(a.actual),
-                percent_of_budgeted_revenue: (total_b != 0.0).then(|| round2(a.budget / total_b * 100.0)),
-                percent_of_actual_revenue: (total_a != 0.0).then(|| round2(a.actual / total_a * 100.0)),
+                percent_of_budgeted_revenue: (total_b != 0.0)
+                    .then(|| round2(a.budget / total_b * 100.0)),
+                percent_of_actual_revenue: (total_a != 0.0)
+                    .then(|| round2(a.actual / total_a * 100.0)),
             });
             mix_aggs.push((g.label.clone(), a.clone()));
         }
@@ -1346,7 +1409,11 @@ fn compute(
                     return Err(PhnError::InvalidInput(format!(
                         "service '{name}': no expense category named '{}'. Categories: {}{}",
                         cc.category,
-                        known.iter().map(|s| s.as_str()).collect::<Vec<_>>().join(", "),
+                        known
+                            .iter()
+                            .map(|s| s.as_str())
+                            .collect::<Vec<_>>()
+                            .join(", "),
                         if pers.lines > 0 { ", Personnel" } else { "" }
                     )));
                 }
@@ -1393,7 +1460,9 @@ fn compute(
                     dollars_per_resident: b.value,
                     citation: format!(
                         "{}, {}",
-                        c.sources.get(&b.source).map_or(b.source.as_str(), |s| s.title.as_str()),
+                        c.sources
+                            .get(&b.source)
+                            .map_or(b.source.as_str(), |s| s.title.as_str()),
                         b.section
                     ),
                     confidence: format!("{:?}", b.confidence).to_ascii_lowercase(),
@@ -1546,7 +1615,9 @@ fn parse_date(s: &str) -> Result<NaiveDate> {
         .ok()
         .filter(|d| (1900..=2100).contains(&d.year()))
         .ok_or_else(|| {
-            PhnError::InvalidInput("as_of_date must be a date like 2026-10-31 (year 1900 to 2100)".into())
+            PhnError::InvalidInput(
+                "as_of_date must be a date like 2026-10-31 (year 1900 to 2100)".into(),
+            )
         })
 }
 
@@ -1854,19 +1925,37 @@ mod tests {
     #[test]
     fn status_rules() {
         use Kind::*;
-        assert_eq!(status(Expense, 100.0, 60.0, 50.0, Some(0.0), 10.0), "Over budget");
-        assert_eq!(status(Expense, 100.0, 50.0, 0.0, Some(15.0), 10.0), "Ahead of pace");
-        assert_eq!(status(Expense, 100.0, 20.0, 0.0, Some(-15.0), 10.0), "Behind pace");
-        assert_eq!(status(Expense, 100.0, 35.0, 0.0, Some(5.0), 10.0), "On pace");
+        assert_eq!(
+            status(Expense, 100.0, 60.0, 50.0, Some(0.0), 10.0),
+            "Over budget"
+        );
+        assert_eq!(
+            status(Expense, 100.0, 50.0, 0.0, Some(15.0), 10.0),
+            "Ahead of pace"
+        );
+        assert_eq!(
+            status(Expense, 100.0, 20.0, 0.0, Some(-15.0), 10.0),
+            "Behind pace"
+        );
+        assert_eq!(
+            status(Expense, 100.0, 35.0, 0.0, Some(5.0), 10.0),
+            "On pace"
+        );
         assert_eq!(status(Expense, 0.0, 5.0, 0.0, None, 10.0), "No budget");
-        assert_eq!(status(Revenue, 100.0, 120.0, 0.0, Some(-30.0), 10.0), "Behind pace");
+        assert_eq!(
+            status(Revenue, 100.0, 120.0, 0.0, Some(-30.0), 10.0),
+            "Behind pace"
+        );
     }
 
     #[test]
     fn revenue_labels_go_to_groups_and_phe_comes_first() {
         let c = FinanceContent::load().unwrap();
         let g = |s: &str, cat: &str| revenue_group(&c, &[], Some(s), cat).0;
-        assert_eq!(g("State Public Health Excellence (PHE) Grant", "State Grants"), "phe");
+        assert_eq!(
+            g("State Public Health Excellence (PHE) Grant", "State Grants"),
+            "phe"
+        );
         assert_eq!(g("SAPHE shared services", "Grants"), "phe");
         assert_eq!(g("CDC PHEP (federal)", "Federal Grants"), "federal");
         assert_eq!(g("DPH Immunization Grant", "State Grants"), "state_other");
@@ -1875,6 +1964,9 @@ mod tests {
         assert_eq!(g("Community Foundation grant", "Gifts"), "other_grants");
         assert_eq!(g("Sale of publications", "Miscellaneous"), "other");
         let ov = vec![("sale of publications".to_string(), "fees".to_string())];
-        assert_eq!(revenue_group(&c, &ov, Some("Sale of Publications"), "x").0, "fees");
+        assert_eq!(
+            revenue_group(&c, &ov, Some("Sale of Publications"), "x").0,
+            "fees"
+        );
     }
 }

@@ -3651,6 +3651,134 @@ help with that determination).
 
 <!-- Phase 17 finance (LEAD-01, LEAD-02). -->
 
+### `analyze_health_department_budget` (LEAD-01, toolset `leadership`)
+
+Analyzes a budget or ledger file in `/data` and returns category totals only. It compares what
+each category has spent or collected with the share of the fiscal year that has passed, splits
+revenue into groups, costs services from volumes you supply, and forecasts the year end two ways.
+Decision support: the figures come from your file and are not checked against the general ledger.
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | CSV or XLSX. One row per account line (budget and year-to-date actual), or one row per account line per month (give `period_column` and `account_column`). |
+| `category_column` | found by name | Category, Account Category, Object Class, and similar. |
+| `type_column` | found by name | Revenue or Expense. Without it every row is an expense and the revenue mix is skipped. |
+| `source_column` | found by name | Fund or revenue source; sorts revenue into groups. |
+| `budget_column`, `actual_column` | found by name | The annual budget; year-to-date actual (or each month's actual in a monthly ledger). |
+| `encumbrance_column` | found by name | Money reserved for open orders and contracts. |
+| `account_column`, `period_column` | found by name | The account code (never returned) and the month (`2026-07`, `Jul 2026`, or a date). A period column turns on the run-rate forecast. |
+| `positions_column`, `personnel_headcount`, `personnel_categories` | | How many positions stand behind the salary lines, and extra category names to treat as salary categories. |
+| `as_of_date` | today | `YYYY-MM-DD`. |
+| `fiscal_year_start_month` | 7 | July 1 is the Massachusetts municipal year (G.L. c. 44, section 56). Use 10 for a federal year, 1 for a calendar-year grant. |
+| `pace_tolerance_points` | 10 | Percentage points ahead of or behind pace that raise a flag. This tool's convention. |
+| `run_rate_months` | 3 | Complete months averaged for the run-rate forecast. |
+| `revenue_group_overrides` | | `label` and `group` (phe, federal, state_other, fees, municipal, other_grants, other) for labels the word lists do not place. |
+| `services` | | `name`, `volume` (units so far), `costs` (`category`, `share_percent`), `planned_annual_volume`. |
+| `indirect_rate_percent`, `population`, `department_name` | | An indirect rate to add to cost per service; population for budget per resident; a title. |
+| `write_workbook`, `write_report`, `format` | true, true, docx | The workbook with live formulas and the summary report (`docx` or `pdf`) go to `/data/output`. |
+
+**Method.** The fiscal year is the 12 months starting on the chosen month that contain the as-of
+date; elapsed share = (as-of date - start + 1) / days in the year. For each category: remaining =
+budget - actual - encumbrances; percent of budget = actual / budget; expected by pace = budget x
+elapsed share; points versus pace = percent of budget - percent of year elapsed. Status: *Over
+budget* (actual + encumbrances above the budget), *No budget*, *Ahead of pace* or *Behind pace*
+(beyond the tolerance), else *On pace*. Forecasts: **straight line** = actual / elapsed share;
+**run rate** = actual + average monthly actual of the last N complete months in the file x 12 x
+(1 - elapsed share), available only for monthly ledgers. Both are labelled in the output and are
+projections of a pattern, not predictions. In a monthly ledger each account's annual budget is
+taken once (from its latest month with a budget), encumbrances from its latest month, and actuals
+are summed from the start of the fiscal year through the as-of month. Cost per service = the sum
+of (category year-to-date actual x your share) x (1 + indirect rate) / units. The reference values
+for these formulas come from an independent Python computation
+(`crates/phn-server/tests/fixtures/phase17_finance/generate_expected.py`), and the workbook's
+formulas were recalculated in LibreOffice.
+
+**Revenue groups.** Fees, permits, licenses, and revolving funds; municipal appropriation (general
+fund); State Public Health Excellence (PHE) grants; other state funds; federal funds; other grants
+and gifts; other or not classified. A label is placed by whole words in the fund or source label
+(`content/leadership/department_finance.yaml`, tool defaults, not DPH or DLS classifications);
+labels that match nothing are listed so you can place them with `revenue_group_overrides`. The PHE
+group is a label match (PHE, SAPHE, public health excellence, shared services), not a check against
+DPH's award records.
+
+**Public Health Excellence.** Cited statements from DPH's PHE page (the program, FY2027 funding of
+up to $26.6 million in state and federal funds through the Office of Local and Regional Health, the
+FY2026 positions it funds including 46 public health nurses, shared service arrangements, and the
+2020 renaming from the Municipal Public Health Shared Services program to SAPHE), from the SAPHE
+2.0 guidance, and from DPH's 2022-2023 capacity assessment. **Not read:** the request for
+responses and the award contract, so the tool does not say which costs PHE may pay or how awards are
+reported. DPH's page gives different counts of grantees (54, 56, and 57), so none is bundled.
+
+**Per resident.** With `population`, the municipal appropriation budget and the total revenue
+budget per resident are shown beside DPH's published figures (2022-2023 capacity assessment): an
+average municipal budget of $17.56 per capita across shared services arrangements (high), an average
+combined municipal and grant funding of $26.61 (high), and an estimate of $36.98 as the municipal
+budget needed for basic capacities, from research the report does not name (medium confidence).
+These are budgets of arrangements, not of one town.
+
+**Privacy.** Only the category, type, source, amount, account, month, and position columns are read.
+Columns whose header looks like names of people or vendors, contact details, or identifiers (name,
+employee, vendor, payee, supplier, staff, contact, SSN, email, phone, address, invoice, check
+number) are refused when named and never chosen automatically; columns the PHI detector flags are
+refused by the local-data guardrails; category values that look like identifiers are refused. No
+account code, vendor, employee, or row is returned or written. All salary and wage categories
+(salary, wage, payroll, personnel, personal services, stipend, compensation, overtime, longevity, per
+diem, fringe, employee benefits, or named in `personnel_categories`) are combined into one row. If
+the combined group has fewer than 3 positions, its amounts are hidden in the response, the workbook,
+and the report; expense totals and revenue minus expenses leave it out or are withheld; and a
+service cost that includes it is withheld. The position count is the smaller of the figures you
+give (the sum of `positions_column`, or `personnel_headcount`); with neither, the number of salary
+accounts in the file is used as a proxy that can overstate it. The output files hold the same
+category totals as the response.
+
+A column header that the PHI detector flags only because it says "account" (a general ledger's
+Account or Account Category) is accepted, since every ledger has one; any other finding still
+refuses the column, the values are still scanned for identifiers (a column whose cells look like
+people's identifiers is refused), and account codes are only counted and matched, never returned.
+
+**Limits.** No reconciliation with the general ledger; straight-line pace ignores seasonality; a
+monthly ledger needs one account column and whole months; revenue groups depend on label wording;
+files with more rows than the reader's limit are refused. Content is pending review.
+
+### `model_staffing_needs` (LEAD-02, toolset `leadership`)
+
+Estimates public health nurse full-time equivalents (FTE) from service volumes and time standards
+that you supply. Decision support for workforce planning, not a staffing determination.
+
+| Argument | Default | |
+|---|---|---|
+| `services` | | Up to 20: `name`, `annual_volume`, `minutes_per_unit`. Give these or `volumes_path`. |
+| `volumes_path`, `sheet`, `service_column`, `volume_column`, `minutes_column` | | A CSV/XLSX with one row per service. Only those three columns are read. |
+| `paid_hours_per_year`, `holiday_hours`, `vacation_hours`, `sick_personal_hours`, `training_hours`, `non_service_percent` | 2080, 88, 120, 64, 24, 20 | The productive-hours inputs. **Only 2,080 (40 x 52) is arithmetic; the rest are placeholders with no published source**, labelled "tool default" in the output. |
+| `current_fte`, `population`, `clients` | | For the gap to current staffing, residents per nurse FTE, and clients per nurse FTE. |
+| `scenarios` | | Up to 8: `name`, `volume_growth_percent` (applied to every baseline service), `added_services` (own volumes and minutes, not grown). "Baseline" is always included. |
+| `benchmark` | none | A benchmark you supply: `label`, `source` (yours), `population_per_fte` and/or `clients_per_fte`. Compared and labelled as yours; not verified. |
+| `rounding_step_fte` | 0.1 | FTE are rounded up to this step (0.5 for half-time positions). |
+| `program_name`, `write_workbook`, `write_report`, `format` | | Title; workbook with live formulas and summary report (`docx` or `pdf`) go to `/data/output`. |
+
+**Method.** Hours of work = sum of volume x minutes per unit / 60. Productive hours per FTE =
+(paid - holiday - vacation - sick and personal - training) x (1 - non-service share). FTE needed =
+hours of work / productive hours; rounded up to the step. A scenario's hours = baseline hours x
+(1 + growth) + hours of added services. Reference values come from an independent Python
+computation (`crates/phn-server/tests/fixtures/phase17_finance/generate_expected.py`); the
+workbook's formulas were recalculated in LibreOffice.
+
+**Benchmarks: none are bundled.** Looked for and not used (also returned in
+`benchmarks_not_bundled`): a public health nurse to population ratio (a search result attributed 1
+per 5,000 to a 2022 American Journal of Public Health article, whose text could not be read and
+whose abstract does not give it); NACCHO's local public health workforce staffing benchmarks and the
+PHAB workforce calculator (hosts blocked); Massachusetts SAPHE 2.0 and Performance Standards (the
+guidance and DPH's capacity assessment set workforce education, training, and credential standards
+and report budgets and shared-staff FTE, not a nurse ratio); published time standards (none found).
+DPH reported 46 PHE-funded public health nurses in FY2026, a count and not a benchmark.
+
+**Privacy.** Services are typed in or read from a file through the local-data guardrails (identifier
+columns refused; only three columns read; names in a service label are refused). No client or staff
+data is read, and nothing but the figures you supply is returned or written.
+
+**Limits.** Scenarios change volumes or add services, not minutes per unit or productive hours; no
+hiring time, leave coverage, or skill mix. Content is pending review.
+
 <!-- End of Phase 17 finance. -->
 
 <!-- End of Phase 17 tools. -->

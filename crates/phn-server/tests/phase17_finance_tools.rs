@@ -153,7 +153,10 @@ async fn budget_matches_the_independent_reference_values() {
     assert_eq!(d["fiscal_year"]["label"], "FY2027");
     assert_eq!(d["fiscal_year"]["start"], e["fiscal_year"]["start"]);
     assert_eq!(d["fiscal_year"]["end"], e["fiscal_year"]["end"]);
-    assert_eq!(d["fiscal_year"]["days_elapsed"], e["fiscal_year"]["days_elapsed"]);
+    assert_eq!(
+        d["fiscal_year"]["days_elapsed"],
+        e["fiscal_year"]["days_elapsed"]
+    );
     assert_eq!(d["fiscal_year"]["days_in_year"], 365);
     close(
         &d["fiscal_year"]["percent_elapsed"],
@@ -237,7 +240,10 @@ async fn budget_matches_the_independent_reference_values() {
         "municipal per resident",
     );
     let pubs = pc["published"].as_array().unwrap();
-    assert!(pubs.iter().any(|p| p["dollars_per_resident"] == 36.98 && p["confidence"] == "medium"));
+    assert!(
+        pubs.iter()
+            .any(|p| p["dollars_per_resident"] == 36.98 && p["confidence"] == "medium")
+    );
     assert!(pubs.iter().any(|p| p["dollars_per_resident"] == 17.56));
     // No month column: no run rate, said plainly.
     assert!(d["expenses"][0].get("forecast_run_rate").is_none());
@@ -250,8 +256,14 @@ async fn budget_matches_the_independent_reference_values() {
     );
     // PHE content is cited and pending review.
     let phe = d["public_health_excellence"].as_array().unwrap();
-    assert!(phe.iter().any(|p| p["text"].as_str().unwrap().contains("26.6 million")));
-    assert!(phe.iter().all(|p| p["citation"].as_str().unwrap().contains(',')));
+    assert!(
+        phe.iter()
+            .any(|p| p["text"].as_str().unwrap().contains("26.6 million"))
+    );
+    assert!(
+        phe.iter()
+            .all(|p| p["citation"].as_str().unwrap().contains(','))
+    );
     assert!(pending(&s));
     assert!(s["notice"].is_string(), "decision support notice");
     let src: Vec<&str> = s["sources"]
@@ -310,7 +322,10 @@ async fn a_monthly_ledger_gives_the_run_rate_forecast() {
         }
         // The annual budget is counted once per account, not once per month.
         assert_eq!(line(&s, "expenses", "Supplies")["budgeted"], 12000.0);
-        assert_eq!(line(&s, "expenses", "Contracted Services")["budgeted"], 30000.0);
+        assert_eq!(
+            line(&s, "expenses", "Contracted Services")["budgeted"],
+            30000.0
+        );
         let everything = everything_text(&s);
         for f in SEEDS {
             assert!(leaks(&everything, f, None).is_empty(), "{key}: {f}");
@@ -377,7 +392,12 @@ async fn a_personnel_group_with_fewer_than_three_positions_is_hidden_everywhere(
     // A service that depends on the hidden pool is withheld.
     let sv = &d["services"][0];
     assert!(sv["cost_per_unit"].is_null());
-    assert!(sv["withheld_reason"].as_str().unwrap().contains("personnel"));
+    assert!(
+        sv["withheld_reason"]
+            .as_str()
+            .unwrap()
+            .contains("personnel")
+    );
     assert_eq!(s["privacy"]["suppression_applied"], true);
     assert_eq!(s["privacy"]["row_level_data"], false);
     assert!(
@@ -389,7 +409,9 @@ async fn a_personnel_group_with_fewer_than_three_positions_is_hidden_everywhere(
     );
     // No salary figure appears in the response, the workbook, or the report: not the lines
     // (101,000; 64,000; 33,900; 21,300) and not the pool (165,000 budgeted; 55,200 spent).
-    let secrets = ["101000", "64000", "33900", "21300", "165000", "55200", "101,000", "165,000", "55,200"];
+    let secrets = [
+        "101000", "64000", "33900", "21300", "165000", "55200", "101,000", "165,000", "55,200",
+    ];
     let all = everything_text(&s);
     for x in secrets {
         assert!(!all.contains(x), "response shows {x}");
@@ -399,7 +421,11 @@ async fn a_personnel_group_with_fewer_than_three_positions_is_hidden_everywhere(
         let path = h.data().join(d[f].as_str().unwrap());
         assert!(path.exists(), "{f}");
         let parts = if f == "workbook_file" {
-            vec!["xl/worksheets/sheet2.xml", "xl/worksheets/sheet1.xml", "xl/sharedStrings.xml"]
+            vec![
+                "xl/worksheets/sheet2.xml",
+                "xl/worksheets/sheet1.xml",
+                "xl/sharedStrings.xml",
+            ]
         } else {
             vec!["word/document.xml"]
         };
@@ -422,22 +448,50 @@ async fn a_personnel_group_with_fewer_than_three_positions_is_hidden_everywhere(
 }
 
 #[tokio::test]
-async fn without_a_position_count_salary_accounts_are_a_labelled_proxy() {
+async fn without_a_position_count_salary_lines_are_a_labelled_proxy_and_the_smaller_count_wins() {
     let h = start(|c| c.offline = true).await;
-    // The big file has four salary and overtime accounts; with no positions column the count
-    // of accounts is the proxy, and the response says so.
+    // No positions column: the number of salary lines is the proxy, and the response says so.
+    let three = "Category,Type,Budgeted,YTD Actual\nSalaries,Expense,100,40\nWages,Expense,90,30\nStipends,Expense,50,20\nSupplies,Expense,10,3\n";
+    let two = "Category,Type,Budgeted,YTD Actual\nSalaries,Expense,100,40\nWages,Expense,90,30\nSupplies,Expense,10,3\n";
+    std::fs::write(h.data().join("three_salary_lines.csv"), three).unwrap();
+    std::fs::write(h.data().join("two_salary_lines.csv"), two).unwrap();
+    let run = |path: &'static str| {
+        json!({"path": path, "as_of_date": "2026-10-31",
+               "write_workbook": false, "write_report": false})
+    };
     let s = call_ok(
         &h,
         "analyze_health_department_budget",
-        json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
-               "account_column": "Account", "write_workbook": false, "write_report": false}),
+        run("three_salary_lines.csv"),
     )
     .await;
     let p = &s["data"]["personnel"];
     assert_eq!(p["amounts_shown"], true);
-    assert!(p["position_count_basis"].as_str().unwrap().contains("proxy"));
+    assert!(
+        p["position_count_basis"]
+            .as_str()
+            .unwrap()
+            .contains("proxy")
+    );
     assert!(caveats(&s).contains("can overstate it"));
-    // The nurse's own headcount overrides the proxy.
+    let s = call_ok(
+        &h,
+        "analyze_health_department_budget",
+        run("two_salary_lines.csv"),
+    )
+    .await;
+    assert_eq!(s["data"]["personnel"]["amounts_shown"], false);
+    assert!(personnel(&s)["budgeted"].is_null());
+    // The nurse's own headcount replaces the proxy, and the smaller of her count and the
+    // positions column wins.
+    let mut args = run("three_salary_lines.csv");
+    args["personnel_headcount"] = json!(2);
+    let s = call_ok(&h, "analyze_health_department_budget", args).await;
+    assert_eq!(s["data"]["personnel"]["amounts_shown"], false);
+    assert_eq!(
+        s["data"]["personnel"]["position_count_basis"],
+        "headcount you gave"
+    );
     let s = call_ok(
         &h,
         "analyze_health_department_budget",
@@ -445,8 +499,22 @@ async fn without_a_position_count_salary_accounts_are_a_labelled_proxy() {
                "personnel_headcount": 2, "write_workbook": false, "write_report": false}),
     )
     .await;
-    assert_eq!(s["data"]["personnel"]["amounts_shown"], false);
-    assert_eq!(s["data"]["personnel"]["position_count_basis"], "headcount you gave");
+    assert_eq!(
+        s["data"]["personnel"]["amounts_shown"], false,
+        "3 positions in the file, 2 given"
+    );
+    let s = call_ok(
+        &h,
+        "analyze_health_department_budget",
+        json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+               "personnel_headcount": 9, "write_workbook": false, "write_report": false}),
+    )
+    .await;
+    assert_eq!(
+        s["data"]["personnel"]["position_count_basis"],
+        "positions column"
+    );
+    assert_eq!(s["data"]["personnel"]["amounts_shown"], true);
 }
 
 #[tokio::test]
@@ -463,14 +531,22 @@ async fn budget_writes_a_workbook_with_live_formulas_and_a_summary_report() {
     assert_eq!(s["privacy"]["files_written"].as_array().unwrap().len(), 2);
     let sheet = |n: u8| {
         let o = std::process::Command::new("unzip")
-            .args(["-p", book.to_str().unwrap(), &format!("xl/worksheets/sheet{n}.xml")])
+            .args([
+                "-p",
+                book.to_str().unwrap(),
+                &format!("xl/worksheets/sheet{n}.xml"),
+            ])
             .output()
             .expect("unzip");
         String::from_utf8_lossy(&o.stdout).to_string()
     };
     // Assumptions: the share of year elapsed is a formula on dates.
     let a = sheet(1);
-    assert!(a.contains("<f>EDATE(B3,12)-B3</f>"), "{}", &a[..a.len().min(1500)]);
+    assert!(
+        a.contains("<f>EDATE(B3,12)-B3</f>"),
+        "{}",
+        &a[..a.len().min(1500)]
+    );
     assert!(a.contains("<f>MIN(1,(B4-B3+1)/B5)</f>"));
     // Expenses: variance, pace, status, and forecast are formulas over the inputs.
     let x = sheet(2);
@@ -478,8 +554,10 @@ async fn budget_writes_a_workbook_with_live_formulas_and_a_summary_report() {
     assert!(x.contains("<f>B5*Assumptions!$B$6</f>"));
     assert!(x.contains("Assumptions!$B$7"));
     assert!(x.contains("\"Over budget\""));
-    assert!(x.contains("<f>IF(Assumptions!$B$6=0,&quot;&quot;,C5/Assumptions!$B$6)</f>")
-        || x.contains("C5/Assumptions!$B$6"));
+    assert!(
+        x.contains("<f>IF(Assumptions!$B$6=0,&quot;&quot;,C5/Assumptions!$B$6)</f>")
+            || x.contains("C5/Assumptions!$B$6")
+    );
     assert!(x.contains("SUM(B5:B"), "totals are SUM formulas");
     assert!(sheet(3).contains("Assumptions!$B$6"));
     assert!(sheet(4).contains("SUM(B5:B"));
@@ -523,7 +601,10 @@ async fn budget_refuses_vendor_employee_and_identifier_columns_without_echoing_v
             e.contains("never reads") || e.contains("cannot be analyzed"),
             "{col}: {e}"
         );
-        assert!(leaks(&e, "data/health_dept_budget.csv", None).is_empty(), "{col}: {e}");
+        assert!(
+            leaks(&e, "data/health_dept_budget.csv", None).is_empty(),
+            "{col}: {e}"
+        );
     }
     // A client line list is not a budget: its identifier columns are refused when named, and the
     // error never shows a value.
@@ -561,19 +642,34 @@ async fn budget_explains_problems_the_nurse_can_fix() {
         (json!({}), "path is required"),
         (with("as_of_date", json!("10/31/2026")), "as_of_date"),
         (with("as_of_date", json!("3026-10-31")), "as_of_date"),
-        (with("fiscal_year_start_month", json!(13)), "fiscal_year_start_month"),
-        (with("pace_tolerance_points", json!(-1)), "pace_tolerance_points"),
+        (
+            with("fiscal_year_start_month", json!(13)),
+            "fiscal_year_start_month",
+        ),
+        (
+            with("pace_tolerance_points", json!(-1)),
+            "pace_tolerance_points",
+        ),
         (with("run_rate_months", json!(0)), "run_rate_months"),
         (with("population", json!(0)), "population"),
         (with("budget_column", json!("Nope")), "no column named"),
         (with("period_column", json!("Account")), "are not months"),
-        (with("indirect_rate_percent", json!(500)), "indirect_rate_percent"),
         (
-            with("services", json!([{"name": "X", "volume": 10, "costs": [{"category": "Nope"}]}])),
+            with("indirect_rate_percent", json!(500)),
+            "indirect_rate_percent",
+        ),
+        (
+            with(
+                "services",
+                json!([{"name": "X", "volume": 10, "costs": [{"category": "Nope"}]}]),
+            ),
             "Categories:",
         ),
         (
-            with("services", json!([{"name": "X", "volume": 0, "costs": [{"category": "Supplies"}]}])),
+            with(
+                "services",
+                json!([{"name": "X", "volume": 0, "costs": [{"category": "Supplies"}]}]),
+            ),
             "volume must be more than 0",
         ),
         (
@@ -581,17 +677,26 @@ async fn budget_explains_problems_the_nurse_can_fix() {
             "at least one cost category",
         ),
         (
-            with("services", json!([{"name": "X", "volume": 5, "costs": [
-                {"category": "Salaries and Wages"}, {"category": "Overtime"}]}])),
+            with(
+                "services",
+                json!([{"name": "X", "volume": 5, "costs": [
+                {"category": "Salaries and Wages"}, {"category": "Overtime"}]}]),
+            ),
             "one combined pool",
         ),
         (
-            with("revenue_group_overrides", json!([{"label": "x", "group": "bogus"}])),
+            with(
+                "revenue_group_overrides",
+                json!([{"label": "x", "group": "bogus"}]),
+            ),
             "is not one of",
         ),
         (
-            with("services", json!([{"name": "Call 413-555-0199", "volume": 5,
-                                     "costs": [{"category": "Supplies"}]}])),
+            with(
+                "services",
+                json!([{"name": "Call 413-555-0199", "volume": 5,
+                                     "costs": [{"category": "Supplies"}]}]),
+            ),
             "identifier",
         ),
         (with("path", json!("../etc/passwd")), ""),
@@ -616,19 +721,29 @@ async fn revenue_groups_can_be_placed_by_hand_and_a_file_without_types_skips_rev
                "write_workbook": false, "write_report": false}),
     )
     .await;
-    assert!(s["data"]["unclassified_revenue_labels"].as_array().unwrap().is_empty());
+    assert!(
+        s["data"]["unclassified_revenue_labels"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
     let fees = s["data"]["revenue_mix"]
         .as_array()
         .unwrap()
         .iter()
         .find(|m| m["group_id"] == "fees")
         .unwrap();
-    close(&fees["budgeted"], &json!(42000.0 + 8000.0 + 1000.0), "fees with the override");
+    close(
+        &fees["budgeted"],
+        &json!(42000.0 + 8000.0 + 1000.0),
+        "fees with the override",
+    );
     // A type column that is not revenue or expense is explained.
     let e = call_err(
         &h,
         "analyze_health_department_budget",
-        json!({"path": "health_dept_budget.csv", "type_column": "Fund/Source"}),
+        json!({"path": "health_dept_budget.csv", "type_column": "Fund/Source",
+               "source_column": "Positions"}),
     )
     .await;
     assert!(e.contains("not revenue or expense"), "{e}");
@@ -660,8 +775,16 @@ fn staff_args() -> Value {
 
 fn compare_staffing(s: &Value, e: &Value, what: &str) {
     let d = &s["data"];
-    close(&d["productive_hours"]["productive_hours_per_fte"], &e["productive_hours_per_fte"], what);
-    close(&d["productive_hours"]["available_hours"], &e["available_hours"], what);
+    close(
+        &d["productive_hours"]["productive_hours_per_fte"],
+        &e["productive_hours_per_fte"],
+        what,
+    );
+    close(
+        &d["productive_hours"]["available_hours"],
+        &e["available_hours"],
+        what,
+    );
     close(&d["baseline_hours"], &e["baseline_hours"], what);
     for (name, want) in e["services"].as_object().unwrap() {
         let got = d["services"]
@@ -720,7 +843,10 @@ async fn staffing_matches_the_independent_reference_values() {
         .map(|i| i["basis"].as_str().unwrap())
         .collect();
     assert!(basis[0].contains("arithmetic"));
-    assert!(basis[1..].iter().all(|b| b.contains("tool default")), "{basis:?}");
+    assert!(
+        basis[1..].iter().all(|b| b.contains("tool default")),
+        "{basis:?}"
+    );
     // Custom hours and a half-FTE rounding step.
     let mut args = staff_args();
     args["paid_hours_per_year"] = json!(1950);
@@ -793,7 +919,11 @@ async fn staffing_writes_a_workbook_with_live_formulas_and_a_report() {
     assert!(book.exists() && report.exists());
     let sheet = |n: u8| {
         let o = std::process::Command::new("unzip")
-            .args(["-p", book.to_str().unwrap(), &format!("xl/worksheets/sheet{n}.xml")])
+            .args([
+                "-p",
+                book.to_str().unwrap(),
+                &format!("xl/worksheets/sheet{n}.xml"),
+            ])
             .output()
             .expect("unzip");
         String::from_utf8_lossy(&o.stdout).to_string()
@@ -801,7 +931,11 @@ async fn staffing_writes_a_workbook_with_live_formulas_and_a_report() {
     assert!(sheet(1).contains("<f>(B3-B4-B5-B6-B7)*(1-B8/100)</f>"));
     assert!(sheet(2).contains("<f>B5*C5/60</f>"));
     let sc = sheet(3);
-    assert!(sc.contains("Services!$D$9*(1+B5/100)+C5"), "{}", &sc[..sc.len().min(3000)]);
+    assert!(
+        sc.contains("Services!$D$9*(1+B5/100)+C5"),
+        "{}",
+        &sc[..sc.len().min(3000)]
+    );
     assert!(sc.contains("D5/Assumptions!$B$9"));
     assert!(sc.contains("ROUNDUP(ROUND(F5/Assumptions!$B$10,6),0)*Assumptions!$B$10"));
     assert!(sc.contains("SUMIF("));
@@ -835,7 +969,10 @@ async fn staffing_reads_volumes_from_a_file_with_contact_people_without_returnin
     .await;
     compare_staffing(&s, &exp["staffing_default"], "file");
     let all = format!("{s}");
-    assert!(leaks(&all, "data/staffing_volumes.csv", None).is_empty(), "{all}");
+    assert!(
+        leaks(&all, "data/staffing_volumes.csv", None).is_empty(),
+        "{all}"
+    );
     assert!(
         s["privacy"]["notes"]
             .to_string()
@@ -850,7 +987,10 @@ async fn staffing_reads_volumes_from_a_file_with_contact_people_without_returnin
             json!({"volumes_path": "staffing_volumes.csv", "service_column": col}),
         )
         .await;
-        assert!(leaks(&e, "data/staffing_volumes.csv", None).is_empty(), "{e}");
+        assert!(
+            leaks(&e, "data/staffing_volumes.csv", None).is_empty(),
+            "{e}"
+        );
     }
 }
 
@@ -886,17 +1026,32 @@ async fn staffing_explains_problems_the_nurse_can_fix() {
             "identifier",
         ),
         (with("paid_hours_per_year", json!(0)), "paid_hours_per_year"),
-        (with("vacation_hours", json!(5000)), "add up to all of the paid hours"),
-        (with("non_service_percent", json!(100)), "non_service_percent"),
+        (
+            with("vacation_hours", json!(5000)),
+            "add up to all of the paid hours",
+        ),
+        (
+            with("non_service_percent", json!(100)),
+            "non_service_percent",
+        ),
         (with("rounding_step_fte", json!(2)), "rounding_step_fte"),
         (with("current_fte", json!(-1)), "current_fte"),
         (
-            with("scenarios", json!([{"name": "Baseline", "volume_growth_percent": 5}])),
+            with(
+                "scenarios",
+                json!([{"name": "Baseline", "volume_growth_percent": 5}]),
+            ),
             "repeats a name",
         ),
-        (with("scenarios", json!([{"name": "Nothing"}])), "changes nothing"),
         (
-            with("scenarios", json!([{"name": "x", "volume_growth_percent": -150}])),
+            with("scenarios", json!([{"name": "Nothing"}])),
+            "changes nothing",
+        ),
+        (
+            with(
+                "scenarios",
+                json!([{"name": "x", "volume_growth_percent": -150}]),
+            ),
             "volume_growth_percent",
         ),
         (with("volumes_path", json!("line_list.csv")), "not both"),

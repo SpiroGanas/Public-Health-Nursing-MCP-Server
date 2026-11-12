@@ -211,9 +211,11 @@ mod tests {
         assert!(c.benchmarks.is_empty());
         assert!(!c.not_bundled.is_empty());
         assert_eq!(c.default_value("paid_hours_per_year").unwrap(), 2080.0);
-        assert!(c.productive_hours_defaults.iter().all(|a| {
-            a.basis == "tool_default" || a.basis == "computed" || a.source.is_some()
-        }));
+        assert!(
+            c.productive_hours_defaults.iter().all(|a| {
+                a.basis == "tool_default" || a.basis == "computed" || a.source.is_some()
+            })
+        );
     }
 
     #[test]

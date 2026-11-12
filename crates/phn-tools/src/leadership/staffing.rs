@@ -258,7 +258,8 @@ fn check_service(s: &StaffingServiceArg, what: &str) -> Result<(String, f64, f64
             "{what} '{name}': annual_volume must be between 0 and 1,000,000,000"
         )));
     }
-    if !(s.minutes_per_unit.is_finite() && s.minutes_per_unit > 0.0 && s.minutes_per_unit <= 1440.0) {
+    if !(s.minutes_per_unit.is_finite() && s.minutes_per_unit > 0.0 && s.minutes_per_unit <= 1440.0)
+    {
         return Err(PhnError::InvalidInput(format!(
             "{what} '{name}': minutes_per_unit must be more than 0 and at most 1,440"
         )));
@@ -270,12 +271,16 @@ fn hours_of(volume: f64, minutes: f64) -> f64 {
     volume * minutes / 60.0
 }
 
+/// Services read from a file, with the citation and privacy facts.
+struct FileServices {
+    services: Vec<StaffingServiceArg>,
+    source: Source,
+    notes: Vec<String>,
+    identifier_categories: Vec<String>,
+}
+
 /// Services from a CSV/XLSX of volumes.
-fn read_services(
-    ctx: &Context,
-    args: &StaffingArgs,
-    path: &str,
-) -> Result<(Vec<StaffingServiceArg>, Source, Vec<String>, Vec<String>)> {
+fn read_services(ctx: &Context, args: &StaffingArgs, path: &str) -> Result<FileServices> {
     let lt = localdata::load(ctx, path, args.sheet.as_deref())?;
     if lt.table.truncated {
         return Err(PhnError::InvalidInput(
@@ -306,15 +311,30 @@ fn read_services(
                 .join(", ")
         )))
     };
-    let si = find(&args.service_column, &["service", "program", "activity", "service name"], "service")?;
+    let si = find(
+        &args.service_column,
+        &["service", "program", "activity", "service name"],
+        "service",
+    )?;
     let vi = find(
         &args.volume_column,
-        &["annual volume", "volume", "units", "units per year", "annual units"],
+        &[
+            "annual volume",
+            "volume",
+            "units",
+            "units per year",
+            "annual units",
+        ],
         "volume",
     )?;
     let mi = find(
         &args.minutes_column,
-        &["minutes per unit", "minutes", "minutes per visit", "time standard"],
+        &[
+            "minutes per unit",
+            "minutes",
+            "minutes per visit",
+            "time standard",
+        ],
         "minutes",
     )?;
     if si == vi || si == mi || vi == mi {
@@ -359,7 +379,12 @@ fn read_services(
             "{skipped} row(s) were skipped because a service, volume, or minutes value was missing."
         ));
     }
-    Ok((out, lt.source(), notes, lt.identifier_categories()))
+    Ok(FileServices {
+        services: out,
+        source: lt.source(),
+        notes,
+        identifier_categories: lt.identifier_categories(),
+    })
 }
 
 #[allow(clippy::too_many_lines)]
@@ -382,11 +407,11 @@ pub fn model_staffing_needs(ctx: &Context, args: StaffingArgs) -> Result<Envelop
         }
         (Some(s), None) if !s.is_empty() => s.clone(),
         (None, Some(p)) if !p.trim().is_empty() => {
-            let (s, src, n, ids) = read_services(ctx, &args, p)?;
-            sources.push(src);
-            notes.extend(n);
-            identifier_categories = ids;
-            s
+            let f = read_services(ctx, &args, p)?;
+            sources.push(f.source);
+            notes.extend(f.notes);
+            identifier_categories = f.identifier_categories;
+            f.services
         }
         _ => {
             return Err(PhnError::InvalidInput(
@@ -527,16 +552,13 @@ pub fn model_staffing_needs(ctx: &Context, args: StaffingArgs) -> Result<Envelop
                 annual_volume: s.1,
                 minutes_per_unit: s.2,
                 hours: round2(h),
-                percent_of_hours: (baseline_hours > 0.0).then(|| round2(h / baseline_hours * 100.0)),
+                percent_of_hours: (baseline_hours > 0.0)
+                    .then(|| round2(h / baseline_hours * 100.0)),
             }
         })
         .collect();
 
-    let scenario = |name: String,
-                    description: String,
-                    growth: f64,
-                    added: f64|
-     -> ScenarioResult {
+    let scenario = |name: String, description: String, growth: f64, added: f64| -> ScenarioResult {
         let total = baseline_hours * (1.0 + growth / 100.0) + added;
         let fte = total / productive;
         let rounded = round_up(fte, step);
@@ -583,7 +605,10 @@ pub fn model_staffing_needs(ctx: &Context, args: StaffingArgs) -> Result<Envelop
         }
         let mut added = Vec::new();
         for a in sp.added_services.iter().flatten() {
-            added.push(check_service(a, &format!("scenario '{name}' added service"))?);
+            added.push(check_service(
+                a,
+                &format!("scenario '{name}' added service"),
+            )?);
         }
         if growth == 0.0 && added.is_empty() {
             return Err(PhnError::InvalidInput(format!(
@@ -621,7 +646,10 @@ pub fn model_staffing_needs(ctx: &Context, args: StaffingArgs) -> Result<Envelop
         Some(b) => {
             let label = clean("benchmark label", &b.label)?;
             let src = clean("benchmark source", &b.source)?;
-            for (n, v) in [("population_per_fte", b.population_per_fte), ("clients_per_fte", b.clients_per_fte)] {
+            for (n, v) in [
+                ("population_per_fte", b.population_per_fte),
+                ("clients_per_fte", b.clients_per_fte),
+            ] {
                 if let Some(x) = v
                     && !(x.is_finite() && x > 0.0)
                 {
@@ -798,7 +826,8 @@ mod tests {
             - c.default_value("sick_personal_hours").unwrap()
             - c.default_value("training_hours").unwrap();
         assert!((available - 1784.0).abs() < 1e-9);
-        let productive = available * (1.0 - c.default_value("non_service_percent").unwrap() / 100.0);
+        let productive =
+            available * (1.0 - c.default_value("non_service_percent").unwrap() / 100.0);
         assert!((productive - 1427.2).abs() < 1e-9);
     }
 }
