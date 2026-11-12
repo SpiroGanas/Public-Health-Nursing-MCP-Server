@@ -152,7 +152,7 @@ pub fn metrics(m: &Model) -> Metrics {
     let benefit_stream: Vec<f64> = (0..n).map(|i| outcomes[i] * bpo + other[i]).collect();
     let total_benefits: f64 = benefit_stream.iter().sum();
     let pv_benefits = present_value(&benefit_stream, m.rate, fy);
-    let net_benefit = has_benefits.then(|| pv_benefits - pv_cost);
+    let net_benefit = has_benefits.then_some(pv_benefits - pv_cost);
     let bcr = if has_benefits {
         div(pv_benefits, pv_cost)
     } else {

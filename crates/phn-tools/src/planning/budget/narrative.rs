@@ -114,10 +114,12 @@ pub fn markdown(inp: &NarrativeInput) -> String {
     out.push_str("\n\n");
 
     out.push_str(&format!("## {}\n\n", t(m, "summary_heading")));
+    out.push_str("Table: Federal request by object class and year\n\n");
     out.push_str(&summary_table("Federal request", &inp.computed.federal, n));
     let has_share = inp.lines.iter().any(|l| l.funding == Funding::CostShare);
     if has_share {
         out.push('\n');
+        out.push_str("Table: Cost share by object class and year\n\n");
         out.push_str(&summary_table("Cost share", &inp.computed.cost_share, n));
     }
     out.push('\n');

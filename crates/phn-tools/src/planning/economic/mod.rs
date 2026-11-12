@@ -642,11 +642,11 @@ pub fn economic_evaluation_calculator(
         let rows = one_way(&model, metric, &tuples);
         let mut no_effect: Vec<String> = rows
             .iter()
-            .filter(|r| r.swing == 0.0)
+            .filter(|r| r.swing <= 1e-9)
             .map(|r| r.parameter.label().to_string())
             .collect();
         no_effect.sort();
-        let rows: Vec<SensRow> = rows.into_iter().filter(|r| r.swing > 0.0).collect();
+        let rows: Vec<SensRow> = rows.into_iter().filter(|r| r.swing > 1e-9).collect();
         defaulted = ranges
             .iter()
             .any(|(p, _, _, dflt)| *dflt && rows.iter().any(|r| r.parameter == *p));
@@ -759,7 +759,7 @@ pub fn economic_evaluation_calculator(
         .cloned()
         .unwrap_or_else(|| c.perspectives[0].clone());
     reading.push(format!(
-        "Perspective: {} {}",
+        "Perspective: {}. {}",
         persp.label,
         fill(&persp.text)
     ));
@@ -923,40 +923,38 @@ pub fn economic_evaluation_calculator(
     for r in &reading {
         s.push_str(&format!("- {r}\n"));
     }
-    if let Some(so) = &sensitivity_out {
-        if !so.tornado.is_empty() {
-            s.push_str(&format!(
-                "\nTornado table ({}), largest swing first:\n\n",
-                so.metric
-            ));
-            let rows: Vec<Vec<String>> = so
-                .tornado
-                .iter()
-                .map(|t| {
-                    vec![
-                        t.parameter.clone(),
-                        format!("{} to {}", ratio(t.low_value), ratio(t.high_value)),
-                        t.result_at_low.map(ratio).unwrap_or_else(|| "n/a".into()),
-                        t.result_at_high.map(ratio).unwrap_or_else(|| "n/a".into()),
-                        if t.changes_conclusion {
-                            "yes".into()
-                        } else {
-                            "no".into()
-                        },
-                    ]
-                })
-                .collect();
-            s.push_str(&md::table(
-                &[
-                    "Number varied",
-                    "Range",
-                    "Result at low",
-                    "Result at high",
-                    "Changes conclusion",
-                ],
-                &rows,
-            ));
-        }
+    if let Some(so) = sensitivity_out.as_ref().filter(|so| !so.tornado.is_empty()) {
+        s.push_str(&format!(
+            "\nTornado table ({}), largest swing first:\n\n",
+            so.metric
+        ));
+        let rows: Vec<Vec<String>> = so
+            .tornado
+            .iter()
+            .map(|t| {
+                vec![
+                    t.parameter.clone(),
+                    format!("{} to {}", ratio(t.low_value), ratio(t.high_value)),
+                    t.result_at_low.map(ratio).unwrap_or_else(|| "n/a".into()),
+                    t.result_at_high.map(ratio).unwrap_or_else(|| "n/a".into()),
+                    if t.changes_conclusion {
+                        "yes".into()
+                    } else {
+                        "no".into()
+                    },
+                ]
+            })
+            .collect();
+        s.push_str(&md::table(
+            &[
+                "Number varied",
+                "Range",
+                "Result at low",
+                "Result at high",
+                "Changes conclusion",
+            ],
+            &rows,
+        ));
     }
 
     let mut keys: Vec<&str> = vec!["tool-definition", "ajpm-2018", "jama-2016"];

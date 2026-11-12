@@ -366,10 +366,10 @@ pub fn from_file(
             })
         };
         let mut effort = num(c_eff, "effort percent")?;
-        if effort.is_none() {
-            if let Some(f) = num(c_fte, "FTE")? {
-                effort = Some(f * 100.0);
-            }
+        if effort.is_none()
+            && let Some(f) = num(c_fte, "FTE")?
+        {
+            effort = Some(f * 100.0);
         }
         let exclusion = {
             let t = cell(row, c_ex);
