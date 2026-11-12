@@ -34,7 +34,19 @@ pub const FORMAT_VERSION: u32 = 1;
 const OFFSET_M: f64 = 15.0;
 
 /// How precisely an address was placed.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, Serialize, Deserialize, schemars::JsonSchema)]
+#[derive(
+    Debug,
+    Clone,
+    Copy,
+    PartialEq,
+    Eq,
+    Hash,
+    PartialOrd,
+    Ord,
+    Serialize,
+    Deserialize,
+    schemars::JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum MatchLevel {
     /// The house number was found among the town's address points (MassGIS).
@@ -187,21 +199,46 @@ impl TownIndex {
             if line.starts_with('#') {
                 continue;
             }
-            let t = current.as_mut().ok_or_else(|| bad(ln, "data before a #PHNGEO header"))?;
+            let t = current
+                .as_mut()
+                .ok_or_else(|| bad(ln, "data before a #PHNGEO header"))?;
             let mut f = line.split('\t');
             match f.next() {
                 Some("T") => {
-                    t.id = f.next().and_then(|v| v.parse().ok()).ok_or_else(|| bad(ln, "town id"))?;
+                    t.id = f
+                        .next()
+                        .and_then(|v| v.parse().ok())
+                        .ok_or_else(|| bad(ln, "town id"))?;
                     t.name = f.next().unwrap_or("").to_string();
                     t.county = f.next().unwrap_or("").to_string();
                 }
-                Some("B") => t.block_groups = f.next().unwrap_or("").split(' ').filter(|s| !s.is_empty()).map(str::to_string).collect(),
-                Some("Z") => t.zips = f.next().unwrap_or("").split(' ').filter(|s| !s.is_empty()).map(str::to_string).collect(),
+                Some("B") => {
+                    t.block_groups = f
+                        .next()
+                        .unwrap_or("")
+                        .split(' ')
+                        .filter(|s| !s.is_empty())
+                        .map(str::to_string)
+                        .collect()
+                }
+                Some("Z") => {
+                    t.zips = f
+                        .next()
+                        .unwrap_or("")
+                        .split(' ')
+                        .filter(|s| !s.is_empty())
+                        .map(str::to_string)
+                        .collect()
+                }
                 Some("S") => {
                     let key = f.next().ok_or_else(|| bad(ln, "street key"))?.to_string();
                     let points = parse_points(f.next().unwrap_or(""), ln)?;
                     let ranges = parse_ranges(f.next().unwrap_or(""), ln)?;
-                    t.streets.push(Street { key, points, ranges });
+                    t.streets.push(Street {
+                        key,
+                        points,
+                        ranges,
+                    });
                 }
                 _ => return Err(bad(ln, "unknown record")),
             }
@@ -272,7 +309,12 @@ impl TownIndex {
             .points
             .iter()
             .find(|p| p.num == n && p.sfx == a.suffix)
-            .or_else(|| street.points.iter().find(|p| p.num == n && p.sfx.is_empty()))
+            .or_else(|| {
+                street
+                    .points
+                    .iter()
+                    .find(|p| p.num == n && p.sfx.is_empty())
+            })
             .or_else(|| street.points.iter().find(|p| p.num == n));
         if let Some(p) = exact {
             return Some(Located {
@@ -284,8 +326,18 @@ impl TownIndex {
         }
         // 2. Between the nearest address points of the same parity that share a block group.
         let same_parity = |p: &&Point| p.num % 2 == n % 2;
-        let lower = street.points.iter().filter(same_parity).filter(|p| p.num < n).max_by_key(|p| p.num);
-        let upper = street.points.iter().filter(same_parity).filter(|p| p.num > n).min_by_key(|p| p.num);
+        let lower = street
+            .points
+            .iter()
+            .filter(same_parity)
+            .filter(|p| p.num < n)
+            .max_by_key(|p| p.num);
+        let upper = street
+            .points
+            .iter()
+            .filter(same_parity)
+            .filter(|p| p.num > n)
+            .min_by_key(|p| p.num);
         if let (Some(lo), Some(hi)) = (lower, upper)
             && lo.bg.is_some()
             && lo.bg == hi.bg
@@ -371,7 +423,14 @@ fn parse_points(field: &str, ln: usize) -> Result<Vec<Point>> {
         let zip = idx(f.next().ok_or_else(|| bad(ln, "point"))?, ln)?;
         x += int(f.next().ok_or_else(|| bad(ln, "point"))?, ln)?;
         y += int(f.next().ok_or_else(|| bad(ln, "point"))?, ln)?;
-        out.push(Point { num, sfx: sfx.to_string(), bg, zip, x, y });
+        out.push(Point {
+            num,
+            sfx: sfx.to_string(),
+            bg,
+            zip,
+            x,
+            y,
+        });
     }
     Ok(out)
 }
@@ -528,7 +587,12 @@ impl IndexSet {
 
     /// The street index of a town (MassGIS town id), from the installed index, else the sample.
     pub fn town(&self, id: u16) -> Option<Arc<TownIndex>> {
-        if let Some(hit) = self.cache.lock().unwrap_or_else(|p| p.into_inner()).get(&id) {
+        if let Some(hit) = self
+            .cache
+            .lock()
+            .unwrap_or_else(|p| p.into_inner())
+            .get(&id)
+        {
             return hit.clone();
         }
         let loaded = self.load(id);
@@ -545,7 +609,9 @@ impl IndexSet {
         {
             let path = inst.dir.join(&t.file);
             if t.file.contains('/') || t.file.contains('\\') || t.file.contains("..") {
-                self.warn(format!("the geocoder index lists an unsafe file name for town {id}"));
+                self.warn(format!(
+                    "the geocoder index lists an unsafe file name for town {id}"
+                ));
             } else {
                 match std::fs::read(&path) {
                     Ok(bytes) if sha256_hex(&bytes) == t.sha256 => {
@@ -598,7 +664,11 @@ impl IndexSet {
 
     /// Where the lookups came from.
     pub fn info(&self) -> IndexInfo {
-        let warnings = self.warnings.lock().unwrap_or_else(|p| p.into_inner()).clone();
+        let warnings = self
+            .warnings
+            .lock()
+            .unwrap_or_else(|p| p.into_inner())
+            .clone();
         if let Some(inst) = &self.installed {
             return IndexInfo {
                 kind: "installed".into(),
@@ -610,7 +680,11 @@ impl IndexSet {
         }
         let towns = self.sample_towns().len();
         IndexInfo {
-            kind: if towns > 0 { "sample".into() } else { "none".into() },
+            kind: if towns > 0 {
+                "sample".into()
+            } else {
+                "none".into()
+            },
             location: None,
             built: None,
             towns_covered: towns,

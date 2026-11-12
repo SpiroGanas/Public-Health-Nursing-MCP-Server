@@ -47,7 +47,9 @@ impl Crosswalk {
             let r = rec.map_err(|e| PhnError::Internal(format!("geocoder crosswalk: {e}")))?;
             let g = |i: usize| r.get(i).unwrap_or_default();
             let entry = ZipTown {
-                town_id: g(2).parse().map_err(|_| PhnError::Internal("geocoder crosswalk town id".into()))?,
+                town_id: g(2)
+                    .parse()
+                    .map_err(|_| PhnError::Internal("geocoder crosswalk town id".into()))?,
                 town: g(3).to_string(),
                 addresses: g(4).parse().unwrap_or(0),
                 share: g(5).parse().unwrap_or(0.0),

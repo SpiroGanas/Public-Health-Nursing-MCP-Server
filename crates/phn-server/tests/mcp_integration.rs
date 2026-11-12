@@ -1048,6 +1048,47 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 15 cha (EQ-08, EQ-09, EQ-10).
         // ---- End of Phase 15 cha.
         // ---- Phase 15 geo (EPI-13).
+        // A client list (it has a street address, town, and ZIP column next to names, phones, and
+        // IDs): counts by town only, and the other columns are never read.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "write_matched_file": true}),
+            ll,
+        ),
+        // A file of contact people (names, phones, emails, street addresses).
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        // The seeded fictional address list, with the output file requested.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "address_list.csv", "write_matched_file": true, "level": "block_group"}),
+            "data/address_list.csv",
+        ),
+        // Identifier columns named as the address, town, or ZIP column are refused without
+        // echoing a value, and files without address columns fail without echoing any.
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "address_column": "Last Name"}),
+            ll,
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "line_list.csv", "zip_column": "Phone"}),
+            ll,
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "church_supper_outbreak.csv"}),
+            "data/church_supper_outbreak.csv",
+        ),
+        (
+            "geocode_and_aggregate_addresses",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
         // ---- End of Phase 15 geo.
         // ---- End of Phase 15 data tools.
         // ---- Phase 16 data tools go below this line.

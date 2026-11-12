@@ -216,6 +216,7 @@ output folder instead of being sent to the AI model.
 <!-- Phase 15 screen rows go above this line. -->
 <!-- Phase 15 prevent rows go above this line. -->
 <!-- Phase 15 cha rows go above this line. -->
+| `geocode_and_aggregate_addresses` | EPI-13 | epi | Locates the addresses in your own file offline (MassGIS address points and Census TIGER address ranges; an optional full street index, a four-town sample bundled) and returns only counts by town, census tract, or block group with small counts suppressed; reports how many addresses matched at each precision (exact point, interpolated, street only, ZIP only); never returns an address. |
 <!-- Phase 15 geo rows go above this line. -->
 <!-- Phase 15 rows go above this line. -->
 

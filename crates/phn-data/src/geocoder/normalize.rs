@@ -183,11 +183,20 @@ fn is_zip(t: &str) -> Option<String> {
 }
 
 /// Plain-text form of a city, town, or place name for matching: upper case, no periods,
-/// "Town of"/"City of" dropped, and a leading N/S/E/W/Mt spelled out ("S. Hadley").
+/// "Town of"/"City of" and a trailing state ("MA") dropped, and a leading N/S/E/W/Mt spelled
+/// out ("S. Hadley").
 pub fn normalize_place(text: &str) -> String {
     let mut t = words(text);
-    while t.first().is_some_and(|w| w == "TOWN" || w == "CITY") && t.get(1).is_some_and(|w| w == "OF") {
+    while t.first().is_some_and(|w| w == "TOWN" || w == "CITY")
+        && t.get(1).is_some_and(|w| w == "OF")
+    {
         t.drain(..2);
+    }
+    while t.len() > 1
+        && t.last()
+            .is_some_and(|w| VOCAB.state_words.contains(w.as_str()))
+    {
+        t.pop(); // "Amherst, MA"
     }
     if t.len() > 1 {
         let full = match t[0].as_str() {
@@ -315,7 +324,8 @@ pub fn parse_address(raw: &str, is_place: &dyn Fn(&str) -> bool) -> ParsedAddres
             } else if let Some(r2) = rest.strip_prefix('-') {
                 let d2: String = r2.chars().take_while(char::is_ascii_digit).collect();
                 let tail = &r2[d2.len()..];
-                if d2.is_empty() || tail.len() > 1 || !tail.chars().all(|c| c.is_ascii_uppercase()) {
+                if d2.is_empty() || tail.len() > 1 || !tail.chars().all(|c| c.is_ascii_uppercase())
+                {
                     ok = tail.is_empty() && !d2.is_empty();
                 } else {
                     suffix = tail.to_string();
@@ -368,9 +378,10 @@ mod tests {
     /// The vectors shared with the Python index builder.
     #[test]
     fn normalizer_matches_the_shared_cases() {
-        let cases: Cases =
-            serde_json::from_str(include_str!("../../../../xtask/scripts/geocoder_normalizer_cases.json"))
-                .unwrap();
+        let cases: Cases = serde_json::from_str(include_str!(
+            "../../../../xtask/scripts/geocoder_normalizer_cases.json"
+        ))
+        .unwrap();
         assert!(cases.cases.len() >= 40);
         for c in &cases.cases {
             assert_eq!(normalize_street(&c.input), c.key, "input {:?}", c.input);
@@ -391,15 +402,24 @@ mod tests {
     #[test]
     fn splits_number_street_and_unit() {
         let a = parse("837 Elm Street");
-        assert_eq!((a.number, a.suffix.as_str(), a.street_key.as_str()), (Some(837), "", "ELM ST"));
+        assert_eq!(
+            (a.number, a.suffix.as_str(), a.street_key.as_str()),
+            (Some(837), "", "ELM ST")
+        );
         let a = parse("24A Forbes Ave");
-        assert_eq!((a.number, a.suffix.as_str(), a.street_key.as_str()), (Some(24), "A", "FORBES AVE"));
+        assert_eq!(
+            (a.number, a.suffix.as_str(), a.street_key.as_str()),
+            (Some(24), "A", "FORBES AVE")
+        );
         let a = parse("80-82 Williams St");
         assert_eq!((a.number, a.suffix.as_str()), (Some(80), ""));
         let a = parse("105-105A Main Street");
         assert_eq!((a.number, a.suffix.as_str()), (Some(105), "A"));
         let a = parse("94 1/2 Coleman Street");
-        assert_eq!((a.number, a.suffix.as_str(), a.street_key.as_str()), (Some(94), "1/2", "COLEMAN ST"));
+        assert_eq!(
+            (a.number, a.suffix.as_str(), a.street_key.as_str()),
+            (Some(94), "1/2", "COLEMAN ST")
+        );
         let a = parse("268 Rear Tremont St");
         assert_eq!((a.number, a.street_key.as_str()), (Some(268), "TREMONT ST"));
         let a = parse("1297RR Washington Street");
@@ -407,11 +427,17 @@ mod tests {
         let a = parse("12 Elm St Apt 3B");
         assert_eq!((a.number, a.street_key.as_str()), (Some(12), "ELM ST"));
         let a = parse("12 Elm St, Apt 3B");
-        assert_eq!((a.number, a.street_key.as_str(), a.town), (Some(12), "ELM ST", None));
+        assert_eq!(
+            (a.number, a.street_key.as_str(), a.town),
+            (Some(12), "ELM ST", None)
+        );
         let a = parse("Apt 3B, 12 Elm St");
         assert_eq!((a.number, a.street_key.as_str()), (Some(12), "ELM ST"));
         let a = parse("12 N. Pleasant St. #4");
-        assert_eq!((a.number, a.street_key.as_str()), (Some(12), "N PLEASANT ST"));
+        assert_eq!(
+            (a.number, a.street_key.as_str()),
+            (Some(12), "N PLEASANT ST")
+        );
         let a = parse("Main Street");
         assert_eq!((a.number, a.street_key.as_str()), (None, "MAIN ST"));
         let a = parse("0 Pond Rd");
@@ -425,11 +451,20 @@ mod tests {
         assert_eq!(a.zip.as_deref(), Some("01002"));
         assert_eq!(a.street_key, "ELM ST");
         let a = parse("12 Elm St, Amherst MA 01002-1234");
-        assert_eq!((a.town.as_deref(), a.zip.as_deref()), (Some("AMHERST"), Some("01002")));
+        assert_eq!(
+            (a.town.as_deref(), a.zip.as_deref()),
+            (Some("AMHERST"), Some("01002"))
+        );
         let a = parse("12 Elm St Amherst MA 01002");
-        assert_eq!((a.town.as_deref(), a.zip.as_deref(), a.street_key.as_str()), (Some("AMHERST"), Some("01002"), "ELM ST"));
+        assert_eq!(
+            (a.town.as_deref(), a.zip.as_deref(), a.street_key.as_str()),
+            (Some("AMHERST"), Some("01002"), "ELM ST")
+        );
         let a = parse("5 Main St North Adams Massachusetts 01247");
-        assert_eq!((a.town.as_deref(), a.street_key.as_str()), (Some("NORTH ADAMS"), "MAIN ST"));
+        assert_eq!(
+            (a.town.as_deref(), a.street_key.as_str()),
+            (Some("NORTH ADAMS"), "MAIN ST")
+        );
         let a = parse("5 Main St, S. Hadley, MA");
         assert_eq!(a.town.as_deref(), Some("SOUTH HADLEY"));
         // A street named like a town is not mistaken for the city without a ZIP or state.
@@ -443,20 +478,41 @@ mod tests {
 
     #[test]
     fn recognizes_po_boxes() {
-        for s in ["PO Box 12", "P.O. Box 12, Pelham, MA 01002", "P O Box 7", "Post Office Box 3", "Box 14"] {
+        for s in [
+            "PO Box 12",
+            "P.O. Box 12, Pelham, MA 01002",
+            "P O Box 7",
+            "Post Office Box 3",
+            "Box 14",
+        ] {
             assert!(parse(s).po_box, "{s}");
         }
         assert!(!parse("12 Box Road").po_box);
         assert!(!parse("Boxwood Lane").po_box);
-        assert_eq!(parse("PO Box 12, Pelham, MA 01002").town.as_deref(), Some("PELHAM"));
+        assert_eq!(
+            parse("PO Box 12, Pelham, MA 01002").town.as_deref(),
+            Some("PELHAM")
+        );
     }
 
     #[test]
     fn relaxed_keys_drop_type_and_direction() {
-        assert_eq!(relaxed_keys("N PLEASANT ST"), ("N PLEASANT".into(), "PLEASANT".into()));
-        assert_eq!(relaxed_keys("WASHINGTON ST EXT"), ("WASHINGTON".into(), "WASHINGTON".into()));
-        assert_eq!(relaxed_keys("PLEASANT ST N"), ("PLEASANT".into(), "PLEASANT".into()));
-        assert_eq!(relaxed_keys("ST JAMES AVE"), ("ST JAMES".into(), "ST JAMES".into()));
+        assert_eq!(
+            relaxed_keys("N PLEASANT ST"),
+            ("N PLEASANT".into(), "PLEASANT".into())
+        );
+        assert_eq!(
+            relaxed_keys("WASHINGTON ST EXT"),
+            ("WASHINGTON".into(), "WASHINGTON".into())
+        );
+        assert_eq!(
+            relaxed_keys("PLEASANT ST N"),
+            ("PLEASANT".into(), "PLEASANT".into())
+        );
+        assert_eq!(
+            relaxed_keys("ST JAMES AVE"),
+            ("ST JAMES".into(), "ST JAMES".into())
+        );
         assert_eq!(relaxed_keys("RT 9"), ("RT 9".into(), "RT 9".into()));
         assert_eq!(relaxed_keys("ELM"), ("ELM".into(), "ELM".into()));
     }
@@ -467,6 +523,11 @@ mod tests {
         assert_eq!(normalize_place("S. Hadley"), "SOUTH HADLEY");
         assert_eq!(normalize_place("N Adams"), "NORTH ADAMS");
         assert_eq!(normalize_place("Mt. Washington"), "MOUNT WASHINGTON");
-        assert_eq!(normalize_place("Manchester-by-the-Sea"), "MANCHESTER BY THE SEA");
+        assert_eq!(
+            normalize_place("Manchester-by-the-Sea"),
+            "MANCHESTER BY THE SEA"
+        );
+        assert_eq!(normalize_place("Amherst, MA"), "AMHERST");
+        assert_eq!(normalize_place("Northampton Massachusetts"), "NORTHAMPTON");
     }
 }

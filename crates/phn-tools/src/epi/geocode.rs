@@ -9,15 +9,17 @@
 //! the file. Positions with coordinates are written to `/data/output` only when
 //! the nurse asks, as an identifiable local file.
 
-use std::collections::{BTreeMap, HashMap};
+use std::collections::BTreeMap;
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_data::geocoder::index::search_dirs;
-use phn_data::geocoder::{Crosswalk, IndexSet, Located, MatchLevel, normalize_place, parse_address};
+use phn_data::geocoder::{
+    Crosswalk, IndexSet, Located, MatchLevel, normalize_place, parse_address,
+};
 use phn_data::geography::MaGeographies;
 use phn_data::projection;
 use phn_epi::suppression::{SuppressionOptions, suppress};
-use phn_local::phi::{self, Identifier};
+use phn_local::phi::Identifier;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
@@ -165,7 +167,9 @@ impl Reason {
     fn label(self) -> &'static str {
         match self {
             Self::NoAddress => "No usable address, town, or ZIP code in the row",
-            Self::ZipSpansTowns => "ZIP code reaches several towns and no street match decided between them",
+            Self::ZipSpansTowns => {
+                "ZIP code reaches several towns and no street match decided between them"
+            }
             Self::NotMassachusetts => "Town or ZIP code not recognized as Massachusetts",
             Self::Other => "Other",
         }
@@ -213,7 +217,15 @@ const TOWN_HEADERS: &[&str] = &[
     "city of residence",
     "community",
 ];
-const ZIP_HEADERS: &[&str] = &["zip", "zip code", "zipcode", "zip5", "postal code", "postcode", "zip code 5"];
+const ZIP_HEADERS: &[&str] = &[
+    "zip",
+    "zip code",
+    "zipcode",
+    "zip5",
+    "postal code",
+    "postcode",
+    "zip code 5",
+];
 
 /// Find a column by its header among `names` (best first). `Ok(None)` when there is none;
 /// an error when two columns match the same best name.
@@ -339,13 +351,22 @@ impl Matcher<'_> {
                     reason: None,
                 };
             }
-            return RowResult { level: MatchLevel::TownOnly, town, bg: None, xy: None, reason: None };
+            return RowResult {
+                level: MatchLevel::TownOnly,
+                town,
+                bg: None,
+                xy: None,
+                reason: None,
+            };
         }
 
         // 2. A ZIP code.
         if let Some(z) = zip.as_deref() {
             let towns = self.crosswalk.zip_towns(z);
-            let candidates: Vec<_> = towns.iter().filter(|t| t.share >= ZIP_SEARCH_MIN_SHARE).collect();
+            let candidates: Vec<_> = towns
+                .iter()
+                .filter(|t| t.share >= ZIP_SEARCH_MIN_SHARE)
+                .collect();
             if candidates.is_empty() {
                 return RowResult {
                     level: MatchLevel::Unmatched,
@@ -462,6 +483,14 @@ fn suppressed_table(
     (out, res.primary, res.complementary)
 }
 
+/// The snake_case name of a match level, as in the structured result.
+fn level_name(l: MatchLevel) -> String {
+    serde_json::to_value(l)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_string))
+        .unwrap_or_default()
+}
+
 fn cell_text(row: &[String], idx: Option<usize>) -> &str {
     idx.and_then(|i| row.get(i)).map_or("", |s| s.trim())
 }
@@ -515,7 +544,11 @@ pub fn geocode_and_aggregate_addresses(
         "ZIP code",
         &[Identifier::ZipCode, Identifier::Geography],
     )?;
-    let default_town = args.town.as_deref().map(str::trim).filter(|t| !t.is_empty());
+    let default_town = args
+        .town
+        .as_deref()
+        .map(str::trim)
+        .filter(|t| !t.is_empty());
     if addr_i.is_none() && town_i.is_none() && zip_i.is_none() && default_town.is_none() {
         return Err(PhnError::InvalidInput(format!(
             "no address, town, or ZIP column was found in '{}'. Name them with address_column, \
@@ -533,7 +566,13 @@ pub fn geocode_and_aggregate_addresses(
                     if s.is_empty() {
                         String::new()
                     } else {
-                        format!(". Did you mean {}?", s.iter().map(|m| m.name.as_str()).collect::<Vec<_>>().join(", "))
+                        format!(
+                            ". Did you mean {}?",
+                            s.iter()
+                                .map(|m| m.name.as_str())
+                                .collect::<Vec<_>>()
+                                .join(", ")
+                        )
                     }
                 ))
             })?;
@@ -553,7 +592,11 @@ pub fn geocode_and_aggregate_addresses(
         &search_dirs(&ctx.config.paths.data_dir, &ctx.config.paths.cache_dir),
         &ctx.snapshots,
     );
-    let matcher = Matcher { index: &index, crosswalk: &crosswalk, zip_min_share: share };
+    let matcher = Matcher {
+        index: &index,
+        crosswalk: &crosswalk,
+        zip_min_share: share,
+    };
 
     // ---- Locate every row.
     let mut results: Vec<RowResult> = Vec::with_capacity(lt.table.rows.len());
@@ -574,7 +617,13 @@ pub fn geocode_and_aggregate_addresses(
     }
     let level_rows: Vec<(String, Option<String>, u64)> = MatchLevel::ALL
         .iter()
-        .map(|l| (l.label().to_string(), None, by_level.get(l).copied().unwrap_or(0)))
+        .map(|l| {
+            (
+                l.label().to_string(),
+                None,
+                by_level.get(l).copied().unwrap_or(0),
+            )
+        })
         .collect();
     let (level_tab, _, _) = suppressed_table(&level_rows, threshold);
     let match_levels: Vec<LevelCount> = MatchLevel::ALL
@@ -592,9 +641,14 @@ pub fn geocode_and_aggregate_addresses(
         })
         .collect();
     let positioned = by_level.get(&MatchLevel::ExactPoint).copied().unwrap_or(0)
-        + by_level.get(&MatchLevel::Interpolated).copied().unwrap_or(0);
+        + by_level
+            .get(&MatchLevel::Interpolated)
+            .copied()
+            .unwrap_or(0);
     let t = u64::from(threshold);
-    let positioned_percent = (positioned >= t && (n_rows as u64).saturating_sub(positioned) >= t)
+    let rest = (n_rows as u64).saturating_sub(positioned);
+    let not_small = |n: u64| n == 0 || n >= t;
+    let positioned_percent = (n_rows > 0 && not_small(positioned) && not_small(rest))
         .then(|| ((positioned as f64) * 100.0 / n_rows as f64).round() as u32);
 
     // ---- Level of the counts.
@@ -653,10 +707,9 @@ pub fn geocode_and_aggregate_addresses(
                         (g, l)
                     } else {
                         let t = tract_of(bg);
-                        let tn = geos.and_then(|g2| g2.get(t)).map_or_else(
-                            || "Census tract".to_string(),
-                            |x| x.census_name.clone(),
-                        );
+                        let tn = geos
+                            .and_then(|g2| g2.get(t))
+                            .map_or_else(|| "Census tract".to_string(), |x| x.census_name.clone());
                         let bgn = bg.get(11..).unwrap_or("");
                         (bg.clone(), format!("Block Group {bgn}, {tn}"))
                     };
@@ -672,13 +725,18 @@ pub fn geocode_and_aggregate_addresses(
     let mut area_rows: Vec<(String, Option<String>, u64)> = named
         .into_iter()
         .map(|(k, (g, n))| {
-            let name = k.split_once('\u{0}').map_or(k.clone(), |(_, l)| l.to_string());
+            let name = k
+                .split_once('\u{0}')
+                .map_or(k.clone(), |(_, l)| l.to_string());
             (name, g, n)
         })
         .collect();
     if not_at_level > 0 {
         area_rows.push((
-            format!("Counted in a town only (no {} for these addresses)", level.label()),
+            format!(
+                "Counted in a town only (no {} for these addresses)",
+                level.label()
+            ),
             None,
             not_at_level,
         ));
@@ -717,17 +775,18 @@ pub fn geocode_and_aggregate_addresses(
             .unwrap_or_else(|| "addresses".into());
         let mut rows_out: Vec<Vec<String>> = Vec::with_capacity(n_rows);
         for (i, (r, src)) in results.iter().zip(lt.table.rows.iter()).enumerate() {
-            let (lat, lon) = r
-                .xy
-                .map(|(x, y)| projection::from_mass_mainland(x, y))
-                .map(|(a, b)| (format!("{a:.6}"), format!("{b:.6}")))
-                .unwrap_or_default();
+            let (lat, lon) =
+                r.xy.map(|(x, y)| projection::from_mass_mainland(x, y))
+                    .map(|(a, b)| (format!("{a:.6}"), format!("{b:.6}")))
+                    .unwrap_or_default();
             rows_out.push(vec![
                 (i + 1).to_string(),
                 cell_text(src, addr_i).to_string(),
-                format!("{:?}", r.level).to_lowercase(),
+                level_name(r.level),
                 r.town.as_ref().map(|t| t.1.clone()).unwrap_or_default(),
-                r.bg.as_deref().map(|b| tract_of(b).to_string()).unwrap_or_default(),
+                r.bg.as_deref()
+                    .map(|b| tract_of(b).to_string())
+                    .unwrap_or_default(),
                 r.bg.clone().unwrap_or_default(),
                 lat,
                 lon,
@@ -736,8 +795,14 @@ pub fn geocode_and_aggregate_addresses(
         let block = phn_docs::model::TableBlock {
             caption: None,
             headers: [
-                "row", "address", "match_level", "town", "tract_geoid", "block_group_geoid",
-                "latitude", "longitude",
+                "row",
+                "address",
+                "match_level",
+                "town",
+                "tract_geoid",
+                "block_group_geoid",
+                "latitude",
+                "longitude",
             ]
             .iter()
             .map(|s| s.to_string())
@@ -757,9 +822,7 @@ pub fn geocode_and_aggregate_addresses(
             info.towns_covered,
             info.built.as_deref().unwrap_or("date not recorded")
         ),
-        "sample" => format!(
-            "bundled four-town sample index (Alford, Amherst, Northampton, Pelham); other towns are counted by town only"
-        ),
+        "sample" => "bundled four-town sample index (Alford, Amherst, Northampton, Pelham); other towns are counted by town only".to_string(),
         _ => "no street index; counts by town or ZIP code only".to_string(),
     };
     let mut summary = format!(
@@ -857,7 +920,10 @@ pub fn geocode_and_aggregate_addresses(
         }
         _ => {}
     }
-    if let Some((e, _)) = ctx.snapshots.entry(phn_data::geocoder::crosswalk::SNAPSHOT_ID) {
+    if let Some((e, _)) = ctx
+        .snapshots
+        .entry(phn_data::geocoder::crosswalk::SNAPSHOT_ID)
+    {
         sources.push(e.to_source());
     }
     sources.push(
@@ -892,7 +958,6 @@ pub fn geocode_and_aggregate_addresses(
         kinds.push(Identifier::StreetAddress.label().to_string());
         kinds.sort();
     }
-    let _ = phi::is_missing; // keep the detector import used by tests
     let privacy = Privacy {
         row_level_data: false,
         suppression_applied: true,
@@ -914,7 +979,6 @@ pub fn geocode_and_aggregate_addresses(
         town: town_i.map(|i| lt.table.headers[i].clone()),
         zip: zip_i.map(|i| lt.table.headers[i].clone()),
     };
-    let _: HashMap<(), ()> = HashMap::new();
     Ok(Envelope::new(
         summary,
         GeocodeResult {
@@ -937,4 +1001,69 @@ pub fn geocode_and_aggregate_addresses(
     .sources(sources)
     .caveats(caveats)
     .privacy(privacy))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn zip_codes_are_read_from_cells() {
+        for (cell, zip) in [
+            ("01002", Some("01002")),
+            (" 01002-1234 ", Some("01002")),
+            ("1002", Some("01002")),
+            ("1002.0", Some("01002")),
+            ("602", Some("00602")),
+            ("", None),
+            ("abc", None),
+            ("123456", None),
+            ("12", None),
+        ] {
+            assert_eq!(zip_from_cell(cell).as_deref(), zip, "{cell:?}");
+        }
+    }
+
+    #[test]
+    fn tract_is_the_first_eleven_digits() {
+        assert_eq!(tract_of("250158205003"), "25015820500");
+        assert_eq!(tract_of("2501"), "2501");
+    }
+
+    #[test]
+    fn a_hidden_cell_is_never_alone() {
+        // Every combination of small counts in a table of up to six rows: either nothing is
+        // hidden or at least two cells (counting the total) are.
+        for a in 0..8u64 {
+            for b in 0..8u64 {
+                for c in 0..8u64 {
+                    let rows = vec![
+                        ("a".to_string(), None, a),
+                        ("b".to_string(), None, b),
+                        ("c".to_string(), None, c),
+                        ("d".to_string(), None, 40),
+                    ];
+                    let (t, _, _) = suppressed_table(&rows, 5);
+                    let hidden = t.iter().filter(|x| x.suppressed).count();
+                    assert_ne!(hidden, 1, "{a} {b} {c}");
+                    for (r, x) in rows.iter().zip(&t) {
+                        assert_eq!(x.count.is_some(), !x.suppressed);
+                        if (1..5).contains(&r.2) {
+                            assert!(x.suppressed, "{} must be hidden", r.2);
+                        }
+                        if let Some(n) = x.count {
+                            assert_eq!(n, r.2);
+                        }
+                    }
+                    assert_eq!(t.last().unwrap().area, "Total rows");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn level_names_are_snake_case() {
+        assert_eq!(level_name(MatchLevel::ExactPoint), "exact_point");
+        assert_eq!(level_name(MatchLevel::ZipOnly), "zip_only");
+    }
 }

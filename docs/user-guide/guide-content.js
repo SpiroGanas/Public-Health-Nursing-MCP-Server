@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 110;
+const TOOL_COUNT = 111;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3644,6 +3644,39 @@ const toolChapters = [
       // Phase 15 cha (EQ-08, EQ-09, EQ-10) tools.
       // End of Phase 15 cha tools.
       // Phase 15 geo (EPI-13) tools.
+      {
+        id: 'geocode_and_aggregate_addresses',
+        title: 'Count addresses by town or census tract',
+        toolset: 'epi',
+        internet: 'no',
+        files: 'optional, a file of each row with its location in your output folder',
+        does: 'Finds where the addresses in your own list are, without sending them anywhere, and gives you only counts: by town, by census tract, or by block group. It matches each address to MassGIS address points and Census street ranges inside the server, tells you how many addresses it could place exactly, by interpolation, by street only, or by ZIP code only, and hides small counts. The assistant never sees an address.',
+        when: [
+          'Mapping where cases, clients, or program participants live for a community health assessment or a grant.',
+          'Checking whether a cluster of cases falls in one neighborhood before you ask for more data.',
+          'Turning a list of home addresses into counts by census tract so you can match them to census or social vulnerability data.',
+        ],
+        provide: [
+          'A spreadsheet or CSV in your data folder with an address column (and a town and ZIP column if you have them). Other columns such as names or phone numbers can stay in the file; they are not read.',
+          'Optionally the level you want (town, tract, or block group) and whether you want a file with each row\'s location saved to your output folder.',
+        ],
+        examples: [
+          'Count the addresses in pertussis_cases.csv by census tract.',
+          'Which towns do the clients in my program list live in? Use the ZIP column if there is no town column.',
+          'Geocode the home visiting list and save the locations to a file for my own mapping, but only show me counts.',
+        ],
+        returns: [
+          'How many addresses were located at each level of precision and the match rate, then counts by town, tract, or block group with small counts shown as *.',
+          'Optionally a file in your output folder with each row\'s match level, town, tract, block group, and latitude and longitude. That file contains addresses, so it stays in your secure folder.',
+        ],
+        notes: [
+          'It works without the full street index: it counts by town from a town column, a town written in the address, or a ZIP code. Street-level matching and tract counts need the full index (about 35 MB, built once from MassGIS and Census files; see the technical notes), and four towns (Alford, Amherst, Northampton, and Pelham) are included as a sample.',
+          'ZIP codes cross town lines, so counts from ZIP codes alone are approximate. The tool only assigns a ZIP code to a town when that town holds at least 90 percent of the ZIP code\'s addresses.',
+          'Boston addresses are placed from Census street ranges only because MassGIS does not publish Boston\'s address points.',
+          'A column of names, birth dates, phone numbers, or ID numbers will not be used as the address column, and nothing from your file is repeated back.',
+          'Counts are numbers of addresses, not people or households. Divide by a population from the census to get rates.',
+        ],
+      },
       // End of Phase 15 geo tools.
     ],
   },
