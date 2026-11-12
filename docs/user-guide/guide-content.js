@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 127;
+const TOOL_COUNT = 130;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4245,6 +4245,98 @@ const toolChapters = [
       // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08) tools.
       // End of Phase 18 workforce tools.
       // Phase 18 ethics (EBP-07, POL-05, POL-06) tools.
+      {
+        id: 'qi_vs_research_determination',
+        title: 'Decide whether a project is QI, evaluation, or research',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, a draft IRB determination request in your output folder',
+        does: 'Helps you sort a project into quality improvement, program evaluation, public health practice or surveillance, or possible human subjects research. You answer short questions (yes, no, or unsure) and it shows, for each one, why it matters and where the rule comes from: the federal definitions of research and human subject (45 CFR 46.102), CDC’s guidelines for public health research versus non-research, and two sources from the quality improvement ethics literature. It gives a provisional reading only when the key questions are answered, flags overlap and unsure answers, and drafts a project description and IRB determination request with blanks for you to fill.',
+        when: [
+          'You are starting a project and are not sure whether it needs IRB review.',
+          'Your team wants to publish a program evaluation or a quality improvement project.',
+          'A funder, a partner, or a journal asks for a determination.',
+        ],
+        provide: [
+          'A short project title and a few sentences about the purpose, setting, and activities (describe groups, not individual people).',
+          'Your answers to the questions. Call the tool with no answers first to see the questions.',
+          'Optionally the name of your IRB or human research protection office.',
+        ],
+        examples: [
+          'We want to review how many children in our clinic are up to date on immunizations and change our reminder process. Is that QI or research?',
+          'We are piloting a new home visiting approach and will compare it with usual visits. Does that need IRB review?',
+          'Walk me through the questions for an outbreak investigation by our board of health.',
+        ],
+        returns: [
+          'The questions with their sources, your answers, a provisional reading with the reasoning, cautions, next steps, the definitions quoted briefly, and a draft Word document for your IRB.',
+        ],
+        notes: [
+          'This is a screening aid, not a determination. Your institution’s IRB decides whether a project is research, whether it involves human subjects, and whether it is exempt.',
+          'No Massachusetts institution’s IRB policy or forms were reviewed. Many institutions want their own form or a written confirmation even for QI.',
+          'The federal OHRP decision charts could not be read, so this follows the regulation text, CDC’s 1999 guidelines, and the published QI ethics sources instead. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'public_health_ethics_analysis',
+        title: 'Work through the ethics of a public health decision',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'yes, a worksheet in your output folder',
+        does: 'Structures an ethics analysis of a decision such as quarantine or isolation, excluding children from school, or allocating a scarce resource like vaccine or shelter space. It gives you the six questions of the Kass framework with prompts and facts to gather, the kinds of burden to look for (privacy, liberty, justice), a table of options from least to most restrictive for you to assess, a justification checklist, and the core values of the APHA Public Health Code of Ethics, then puts it in a Word worksheet. You supply the facts and do the weighing.',
+        when: [
+          'A board of health or health department is deciding on exclusion, quarantine, or isolation.',
+          'Allocating limited vaccine, antivirals, or shelter space.',
+          'Preparing for an ethics consultation or a public explanation of a hard decision.',
+        ],
+        provide: [
+          'The kind of decision and the decision itself in a sentence.',
+          'The facts you have, and your responses to any of the six questions you have already worked through.',
+          'Any options you are considering, in any order.',
+        ],
+        examples: [
+          'Our board of health is considering excluding unimmunized students for a measles outbreak. Structure the ethics analysis.',
+          'We have 400 doses and about 2,000 eligible people. Help us think through allocation fairly.',
+          'Start a worksheet for a decision about isolating exposed contacts at a shelter.',
+        ],
+        returns: [
+          'The six questions with prompts, what is still open, the burden categories and balancing criteria, a least restrictive alternatives table, a justification checklist, the APHA values with prompts, and the Word worksheet.',
+        ],
+        notes: [
+          'It never recommends a decision, and it does not cover Massachusetts law on quarantine, isolation, or school exclusion; ask counsel and use the communicable disease tools for the rules.',
+          'The APHA code and Kass’s full article could not be read; the frameworks come from an abstract and open-access papers that describe them, and each item shows its confidence. The options in the table are drafting aids, not a list of what is legally allowed.',
+          'The sources are copyrighted and paraphrased; read the originals for the authors’ reasoning. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'nursing_scope_of_practice_guide',
+        title: 'Look up nursing scope of practice and delegation rules',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Finds the Massachusetts rules that bear on a scope of practice, delegation, or standing order question: sections of the Board of Registration in Nursing regulations (244 CMR), the nurse practice act (M.G.L. c. 112, section 80B), and the Board’s advisory rulings. Each comes with its citation, a short quotation, and a plain summary, along with the Board’s own six decision questions. It does not tell you that a particular act is within your scope; it shows you the rules and the questions and points you to the Board.',
+        when: [
+          'Writing or checking a standing order for a vaccine clinic or a school.',
+          'Deciding what you may delegate to a community health worker or health aide.',
+          'Checking RN and LPN roles in a program, or whether a new procedure needs added competence.',
+        ],
+        provide: [
+          'Your question in your own words, or a topic name (delegation, standing orders, vaccines, harm reduction, APRN, and others).',
+          'Optionally your role (RN, LPN, or APRN).',
+        ],
+        examples: [
+          'Can an LPN give flu vaccines at a community clinic under a standing order?',
+          'What must I do before I delegate a task to an unlicensed health aide?',
+          'What do the Board’s rules say about naloxone standing orders for nurses?',
+        ],
+        returns: [
+          'The matching provisions with citations and short quotations, the Board’s decision questions and flow chart, the advisory rulings cited, what was and was not read, and how to contact the Board.',
+        ],
+        notes: [
+          'This is a partial snapshot taken on 2026-11-12: some regulations and most advisory rulings were not read, and the coverage is shown every time. Rulings change; check the Board’s page.',
+          'It is not legal advice. The Board decides questions about its rules, and your employer’s policies and other laws also apply. The regulation copies on mass.gov are not the official text.',
+          'The content is waiting for review.',
+        ],
+      },
       // End of Phase 18 ethics tools.
     ],
   },

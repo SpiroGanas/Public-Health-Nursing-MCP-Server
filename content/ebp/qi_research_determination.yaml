@@ -1,0 +1,616 @@
+# Decision logic and document template for qi_vs_research_determination (EBP-07): is a project
+# quality improvement, program evaluation, public health practice or surveillance, or possible
+# human subjects research? Screening questions with their sources, category descriptions, and the
+# project description / IRB determination request template.
+#
+# REVIEW STATUS: pending. Drafted from the sources below, all read on 2026-11-12 (OHRP's own QI
+# FAQ pages on hhs.gov and the CDC and PubMed web pages for the Hastings Center framework could not
+# be read; see verification_note). This is decision support: the institution's IRB decides.
+# Schema: content/schemas/ebp_qi_research_determination.schema.json
+meta:
+  id: ebp-qi-research-determination
+  title: QI versus research determination (45 CFR 46, CDC guidelines, QI ethics literature)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2018-07-19
+  source:
+    title: "45 CFR 46.102 Definitions for purposes of this policy (Common Rule, 2018 requirements)"
+    publisher: U.S. Department of Health and Human Services, Office for Human Research Protections (text from the eCFR)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.102
+  related_sources:
+    - title: Guidelines for Defining Public Health Research and Public Health Non-Research (revised October 4, 1999)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/scientific-integrity/media/pdfs/2024/10/defining-public-health-research-non-research-1999.pdf
+    - title: The ethics of using quality improvement methods in health care (Ann Intern Med 2007;146:666-73), abstract
+      publisher: National Library of Medicine (PubMed)
+      url: https://pubmed.ncbi.nlm.nih.gov/17438310/
+    - title: Determining when quality improvement initiatives should be considered research (JAMA 2000;283:2275-80), abstract
+      publisher: National Library of Medicine (PubMed)
+      url: https://pubmed.ncbi.nlm.nih.gov/10807388/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The regulatory definitions (45 CFR 46.101, .102, .104, .109, current eCFR text, last amended
+    2018-07-19) and the CDC guidelines (the 1999 revision, the version CDC still posts; it was
+    written under the 1991 Common Rule, before the 2018 public health surveillance exclusion) were
+    read in full (high confidence for what they say). The Hastings Center framework (Ann Intern Med
+    2007) and the JAMA 2000 criteria were read as PubMed abstracts only, because the full texts are
+    not open (medium confidence; the tool does not reproduce either framework's detailed
+    characteristics). OHRP's quality improvement FAQ pages (hhs.gov) could not be read (blocked), so
+    OHRP guidance beyond the regulation text is not summarized. The screening questions and the
+    rules that turn answers into a provisional category are THIS PROJECT'S synthesis of those
+    sources (medium confidence); they are not an OHRP decision chart. Nothing here describes any
+    Massachusetts institution's IRB policy, forms, or categories.
+
+sources:
+  cfr46_102:
+    title: "45 CFR 46.102 Definitions for purposes of this policy"
+    publisher: U.S. Department of Health and Human Services (eCFR)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.102
+    effective_date: "2018-07-19"
+    retrieved: "2026-11-12"
+  cfr46_101:
+    title: "45 CFR 46.101 To what does this policy apply?"
+    publisher: U.S. Department of Health and Human Services (eCFR)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.101
+    effective_date: "2018-07-19"
+    retrieved: "2026-11-12"
+  cfr46_104:
+    title: "45 CFR 46.104 Exempt research"
+    publisher: U.S. Department of Health and Human Services (eCFR)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.104
+    effective_date: "2018-07-19"
+    retrieved: "2026-11-12"
+  cfr46_109:
+    title: "45 CFR 46.109 IRB review of research"
+    publisher: U.S. Department of Health and Human Services (eCFR)
+    url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.109
+    effective_date: "2018-07-19"
+    retrieved: "2026-11-12"
+  cdc1999:
+    title: Guidelines for Defining Public Health Research and Public Health Non-Research (revised October 4, 1999)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/scientific-integrity/media/pdfs/2024/10/defining-public-health-research-non-research-1999.pdf
+    effective_date: "1999-10-04"
+    retrieved: "2026-11-12"
+  lynn2007:
+    title: The ethics of using quality improvement methods in health care (Ann Intern Med 2007;146:666-73), abstract
+    publisher: National Library of Medicine (PubMed); journal article by a Hastings Center working group
+    url: https://pubmed.ncbi.nlm.nih.gov/17438310/
+    effective_date: "2007-05-01"
+    retrieved: "2026-11-12"
+  casarett2000:
+    title: Determining when quality improvement initiatives should be considered research (JAMA 2000;283:2275-80), abstract
+    publisher: National Library of Medicine (PubMed)
+    url: https://pubmed.ncbi.nlm.nih.gov/10807388/
+    effective_date: "2000-05-03"
+    retrieved: "2026-11-12"
+  cmr244_9:
+    title: "244 CMR 9.00: Standards of conduct for nurses (Mass. Register 6/11/21)"
+    publisher: Massachusetts Board of Registration in Nursing (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/244-cmr-9-standards-of-conduct-for-nurses/download
+    effective_date: "2021-06-11"
+    retrieved: "2026-11-12"
+  mgl112_80b:
+    title: "M.G.L. c. 112, section 80B (nursing practice)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section80B
+    effective_date: null
+    retrieved: "2026-11-12"
+
+definitions:
+  - id: research
+    term: Research (45 CFR 46.102(l))
+    quote: a systematic investigation, including research development, testing, and evaluation, designed to develop or contribute to generalizable knowledge
+    paraphrase: >-
+      Both parts must be true: the activity is a systematic investigation, and it is designed to
+      develop or contribute to generalizable knowledge. The rule says an activity can be research
+      even inside a program that is not called research, for example a service program that also
+      includes a research activity.
+    source: cfr46_102
+    section: 46.102(l)
+    confidence: high
+  - id: surveillance_exclusion
+    term: Public health surveillance excluded from "research" (45 CFR 46.102(l)(2))
+    quote: conducted, supported, requested, ordered, required, or authorized by a public health authority
+    paraphrase: >-
+      Public health surveillance activities, including collecting and testing information or
+      biospecimens, are deemed not to be research when a public health authority conducts,
+      supports, requests, orders, requires, or authorizes them, and when they are limited to what
+      the authority needs to identify, monitor, assess, or investigate public health signals,
+      disease outbreaks, or conditions of public health importance (including timely situational
+      awareness during an event or crisis).
+    source: cfr46_102
+    section: 46.102(l)(2)
+    confidence: high
+  - id: human_subject
+    term: Human subject (45 CFR 46.102(e)(1))
+    quote: a living individual about whom an investigator (whether professional or student) conducting research
+    paraphrase: >-
+      A person becomes a human subject of research in either of two ways: the investigator
+      obtains information or biospecimens through intervention or interaction with the person and
+      uses, studies, or analyzes them, or the investigator obtains, uses, studies, analyzes, or
+      generates identifiable private information or identifiable biospecimens.
+    source: cfr46_102
+    section: 46.102(e)(1)
+    confidence: high
+  - id: intervention_interaction
+    term: Intervention and interaction (45 CFR 46.102(e)(2) and (3))
+    quote: Interaction includes communication or interpersonal contact between investigator and subject.
+    paraphrase: >-
+      Intervention covers physical procedures that gather information or biospecimens (for example
+      venipuncture) and manipulations of the person or their environment done for research
+      purposes. Interaction covers communication or interpersonal contact, so interviews and
+      surveys that you administer count.
+    source: cfr46_102
+    section: 46.102(e)(2)-(3)
+    confidence: high
+  - id: identifiable_private_information
+    term: Identifiable private information (45 CFR 46.102(e)(4) and (5))
+    quote: private information for which the identity of the subject is or may readily be ascertained by the investigator or associated with the information
+    paraphrase: >-
+      Private information includes information a person can reasonably expect is not observed or
+      recorded, and information given for a specific purpose that the person can reasonably expect
+      will not be made public (the rule's example is a medical record). It is identifiable when the
+      investigator can readily tell, or readily link, who the information is about.
+    source: cfr46_102
+    section: 46.102(e)(4)-(5)
+    confidence: high
+  - id: irb_authority
+    term: IRB review (45 CFR 46.109(a)) and exemptions (46.104)
+    quote: An IRB shall review and have authority to approve, require modifications in (to secure approval), or disapprove all research activities
+    paraphrase: >-
+      Once an activity is research involving human subjects, the IRB reviews it, including some
+      exempt categories that need limited IRB review. Exemptions are defined in 46.104 and apply
+      only when the only involvement of human subjects falls in the listed categories. Which
+      office applies an exemption, and how it documents the decision, is set by the institution;
+      this tool does not decide exemptions.
+    source: cfr46_109
+    section: 46.109(a); 46.104(a)
+    confidence: high
+  - id: cdc_intent
+    term: Primary intent (CDC guidelines)
+    quote: The primary intent of research is to generate or contribute to generalizable knowledge.
+    paraphrase: >-
+      CDC says the key word in the definition is "designed": the line between research and
+      non-research public health work is the primary intent. Non-research public health work aims
+      to prevent or control disease or injury, or to improve a public health program or service.
+      The methods used do not separate them, because both use systematic scientific methods.
+    source: cdc1999
+    section: Background; Policy
+    confidence: high
+  - id: cdc_generalizable
+    term: Generalizable knowledge (CDC guidelines)
+    quote: Generalizable knowledge means new information that has relevance beyond the population or program from which it was collected
+    paraphrase: >-
+      CDC adds that generalizable, for this purpose, does not mean the statistical idea of
+      estimating a population from a sample, or the traditional public health practice of sampling
+      to understand the population the sample came from.
+    source: cdc1999
+    section: Guidance for Compliance, I
+    confidence: high
+  - id: cdc_case_by_case
+    term: Case-by-case review (CDC guidelines)
+    quote: no one criterion can be applied universally
+    paraphrase: >-
+      CDC states that some surveillance, emergency response, and evaluation projects are research
+      and others are not, that each project is reviewed case by case, and that a non-research
+      project becomes research if its primary intent changes to generating generalizable knowledge.
+      Attributes such as publication, statutory authority, design, selection of participants, and
+      hypothesis testing do not by themselves separate research from non-research.
+    source: cdc1999
+    section: Policy; Guidance for Compliance, I
+    confidence: high
+  - id: lynn_qi
+    term: Quality improvement (Hastings Center group, 2007)
+    quote: systematic, data-guided activities designed to bring about immediate improvements in health care delivery in particular settings
+    paraphrase: >-
+      The group concluded that quality improvement is an intrinsic part of normal health care
+      operations, that most QI is not human subjects research and should not go to an IRB, and
+      that QI should instead have supervision calibrated to the project as part of professional
+      supervision. They proposed using key characteristics of a project and its context to sort
+      it as QI, human subjects research, or both, with a possible customized IRB process for the
+      overlap. Only the abstract was read.
+    source: lynn2007
+    section: Abstract
+    confidence: medium
+  - id: casarett_criteria
+    term: Two criteria for when QI should be reviewed as research (JAMA 2000)
+    quote: the majority of patients involved are not expected to benefit directly from the knowledge to be gained
+    paraphrase: >-
+      The authors proposed that a QI initiative be reviewed and regulated as research if the
+      majority of the people involved are not expected to benefit directly from the knowledge to
+      be gained, or if additional risks or burdens are imposed to make the results generalizable.
+      Only the abstract was read.
+    source: casarett2000
+    section: Abstract
+    confidence: medium
+  - id: nurse_conduct_research
+    term: Duty of a Massachusetts nurse who enrolls subjects or conducts a study (244 CMR 9.03(18))
+    quote: has approved the study in accordance with accepted standards for the protection of human subjects
+    paraphrase: >-
+      A nurse licensed in Massachusetts who enrolls subjects in a research study or conducts one
+      must verify that a board, committee, or other group designated by an institution to protect
+      human subjects has approved the study. Nursing practice under M.G.L. c. 112, section 80B,
+      includes participation in research that contributes to the expansion of nursing knowledge.
+    source: cmr244_9
+    section: 9.03(18)
+    confidence: high
+
+categories:
+  - id: qi
+    label: Quality improvement (likely not research)
+    summary: >-
+      Systematic, data-guided work to improve care, services, or processes in your own setting,
+      applied to that setting now, with no intent to produce knowledge for use elsewhere.
+    typical_features:
+      - text: Improves care or a process in a particular setting, with changes applied as you learn.
+        source: lynn2007
+        section: Abstract
+        confidence: medium
+      - text: Not testing an untested intervention and imposing no added burden on participants.
+        source: casarett2000
+        section: Abstract
+        confidence: medium
+    irb_note: >-
+      Many institutions still want their IRB or human research protection office to confirm a QI
+      determination in writing, especially if you may publish. Follow your institution's policy;
+      it is not described here.
+  - id: program_evaluation
+    label: Program evaluation (likely not research)
+    summary: >-
+      Assessing how well an established program or service is meeting its objectives in a
+      specific population, with results fed back to the program as a management tool.
+    typical_features:
+      - text: >-
+          The program or intervention is established and known (from evidence or consensus) to be
+          effective; the evaluation is often part of the regular, ongoing program and benefits
+          the program and its clients right away.
+        source: cdc1999
+        section: Guidance for Compliance, II.C
+        confidence: high
+      - text: >-
+          Evaluation that tests a new, modified, or previously untested intervention, or
+          compares interventions in an experimental-type design, is research.
+        source: cdc1999
+        section: Guidance for Compliance, II.C
+        confidence: high
+    irb_note: >-
+      CDC treats program evaluations as almost never research, but says that if data from
+      routine evaluation are later reused to generate generalizable knowledge, the later use may
+      be research.
+  - id: public_health_practice
+    label: Public health practice or surveillance (likely not research)
+    summary: >-
+      Work done under public health authority to identify, monitor, assess, or investigate
+      disease, outbreaks, or conditions of public health importance, or to prevent or control a
+      health problem in a defined population.
+    typical_features:
+      - text: >-
+          Lawful disease reporting and routine surveillance limited to the specific condition,
+          demographics, and accepted risk factors in the reporting rules are not research.
+        source: cdc1999
+        section: Guidance for Compliance, II.A
+        confidence: high
+      - text: >-
+          Most emergency responses are non-research, but become research if specimens are stored
+          for future studies or extra analyses go beyond solving the immediate problem.
+        source: cdc1999
+        section: Guidance for Compliance, II.B
+        confidence: high
+      - text: >-
+          Under the 2018 rule, public health surveillance by or for a public health authority,
+          limited to what the authority needs, is deemed not to be research.
+        source: cfr46_102
+        section: 46.102(l)(2)
+        confidence: high
+    irb_note: >-
+      Whether your agency or institution counts as a public health authority for this purpose is
+      a question for the IRB or counsel; this tool cannot decide it.
+  - id: possible_research
+    label: Possible human subjects research (ask the IRB)
+    summary: >-
+      At least one answer points to research, so a determination is needed from your IRB or
+      human research protection office before you treat the project as non-research.
+    typical_features:
+      - text: >-
+          Intent to produce knowledge for use beyond your setting; testing a new or untested
+          intervention; extra risk or burden for participants; most participants not benefiting
+          directly from what is learned.
+        source: cdc1999
+        section: Guidance for Compliance; Appendix
+        confidence: high
+    irb_note: >-
+      If it is research, a second question is whether it involves human subjects (46.102(e)),
+      and a third is whether it qualifies for exemption (46.104). The IRB or the office it
+      designates answers those.
+  - id: undetermined
+    label: Not enough information to place the project
+    summary: >-
+      The answers given do not point to a category. Describe the main purpose of the project and
+      answer the remaining questions.
+    typical_features: []
+    irb_note: When in doubt, ask the IRB; asking costs less than a project that cannot be used.
+
+questions:
+  - id: local_improvement
+    stage: purpose
+    prompt: Is the main purpose to improve care, services, or outcomes in your own setting (clinic, school, agency, program), applying what you learn there as you go?
+    help: Answer yes when the changes are meant to help the people you serve now, and nothing is being held back or randomized to learn what works.
+    yes_means: non_research
+    no_means: none
+    needed: recommended
+    basis:
+      - text: QI is defined as data-guided activity to bring about immediate improvement in particular settings.
+        source: lynn2007
+        section: Abstract
+        confidence: medium
+  - id: generalizable_intent
+    stage: purpose
+    prompt: Is the main intent to produce knowledge that applies beyond your own setting or program (for example, knowledge to add to the scientific literature or to apply at other sites)?
+    help: This is the central question. Intent is judged at the start of the project and can change. Estimating a community's rate from a sample, to understand that community, is not "generalizable" in this sense.
+    yes_means: research
+    no_means: non_research
+    needed: required
+    basis:
+      - text: Research is designed to develop or contribute to generalizable knowledge; the primary intent separates it from public health non-research.
+        source: cfr46_102
+        section: 46.102(l)
+        confidence: high
+      - text: CDC defines generalizable knowledge as new information relevant beyond the population or program it came from.
+        source: cdc1999
+        section: Guidance for Compliance, I
+        confidence: high
+  - id: new_intervention
+    stage: purpose
+    prompt: Are you testing a new, modified, or previously untested intervention, or systematically comparing interventions (for example by randomizing or assigning groups) to learn which works better?
+    help: Answer no when you are delivering or tailoring an intervention already known to be effective. A pilot of something new that you will evaluate for effectiveness is a yes.
+    yes_means: research
+    no_means: non_research
+    needed: required
+    basis:
+      - text: CDC says evaluation of a new, modified, or untested intervention, or a systematic comparison in an experimental-type design, is research.
+        source: cdc1999
+        section: Guidance for Compliance, II.C
+        confidence: high
+      - text: The Hastings Center group sorted projects by key characteristics, with an overlap category for projects that are both.
+        source: lynn2007
+        section: Abstract
+        confidence: medium
+  - id: established_program
+    stage: purpose
+    prompt: Are you assessing how well an established program or service, one already known to be effective, is meeting its objectives in a specific population, with the results going back to that program?
+    help: Answer yes for routine monitoring and feedback on a program that already runs. Answer no for a new program or untested approach.
+    yes_means: non_research
+    no_means: none
+    needed: recommended
+    basis:
+      - text: CDC treats assessment of an established program's success for feedback to that program as non-research program evaluation.
+        source: cdc1999
+        section: Guidance for Compliance, II.C
+        confidence: high
+  - id: extra_burden
+    stage: burden
+    prompt: Will participants face added risk or burden only because of the project, such as extra procedures, visits, questions, specimens, or being assigned to care they would not otherwise get?
+    help: Compare with what they would receive or be asked anyway as part of the program or their care.
+    yes_means: research
+    no_means: non_research
+    needed: required
+    basis:
+      - text: One proposed criterion for reviewing QI as research is that additional risks or burdens are imposed to make the results generalizable.
+        source: casarett2000
+        section: Abstract
+        confidence: medium
+      - text: CDC lists "data collected exceed requirements for care of the study participants or extend beyond the scope of the activity" as an attribute of research.
+        source: cdc1999
+        section: Guidance for Compliance, I
+        confidence: high
+  - id: participant_benefit
+    stage: burden
+    prompt: Will most of the people whose information you use directly benefit from what you learn (for example, their own care or the services they receive improve)?
+    help: Answer no if the benefit goes mainly to other people or to science.
+    yes_means: non_research
+    no_means: research
+    needed: recommended
+    basis:
+      - text: One proposed criterion for reviewing QI as research is that most participants are not expected to benefit directly from the knowledge gained.
+        source: casarett2000
+        section: Abstract
+        confidence: medium
+      - text: CDC says the intended benefits of non-research are primarily or exclusively for the participants or their community; research benefits extend beyond participants.
+        source: cdc1999
+        section: Guidance for Compliance, I
+        confidence: high
+  - id: public_health_authority
+    stage: authority
+    prompt: Is the activity conducted, requested, ordered, required, or authorized by a public health authority, and limited to identifying, monitoring, assessing, or investigating public health signals, outbreaks, or conditions of public health importance (for example lawful disease reporting, routine surveillance, an outbreak investigation)?
+    help: Answer no if you are not sure your agency counts as a public health authority for this purpose; ask the IRB or counsel.
+    yes_means: non_research
+    no_means: none
+    needed: recommended
+    basis:
+      - text: Public health surveillance by or for a public health authority, limited to what it needs, is deemed not to be research.
+        source: cfr46_102
+        section: 46.102(l)(2)
+        confidence: high
+      - text: Lawful state disease reporting and other data collection under statute or recognized public health authority are generally non-research.
+        source: cdc1999
+        section: Guidance for Compliance, II.A
+        confidence: high
+  - id: beyond_reporting
+    stage: authority
+    prompt: Does the project collect or keep more than the reporting rules or the outbreak response need, for example extra risk-factor questions to test hypotheses for other populations, or specimens or records stored for later studies?
+    help: Answer no if you collect only what the response or the reporting rule requires.
+    yes_means: research
+    no_means: none
+    needed: recommended
+    basis:
+      - text: CDC says collecting data that would allow etiologic analysis, or storing samples for future use, is likely research.
+        source: cdc1999
+        section: Guidance for Compliance, II.A and II.B
+        confidence: high
+  - id: research_component
+    stage: authority
+    prompt: Does the project have several components, and is at least one of them designed to produce generalizable knowledge?
+    help: Example, a service you already provide plus an added study of whether a new approach works. Say whether the parts can be separated.
+    yes_means: research
+    no_means: none
+    needed: optional
+    basis:
+      - text: CDC says if at least one component is designed to generate generalizable knowledge, the whole project is classified as research unless the components are separable.
+        source: cdc1999
+        section: Guidance for Compliance, I
+        confidence: high
+  - id: interaction_or_intervention
+    stage: human_subjects
+    prompt: Will you (or others on the project) obtain information or biospecimens through intervention or interaction with living people, for example by interviewing, surveying, observing, or taking specimens?
+    help: Only answer this if the project could be research. A survey you administer is interaction.
+    yes_means: human_subject
+    no_means: none
+    needed: optional
+    basis:
+      - text: A human subject is someone about whom an investigator obtains information or biospecimens through intervention or interaction.
+        source: cfr46_102
+        section: 46.102(e)(1)(i)
+        confidence: high
+  - id: identifiable_private_information
+    stage: human_subjects
+    prompt: Will you obtain, use, study, analyze, or generate identifiable private information or identifiable biospecimens, for example client records, charts, or case files where you can readily tell who each record is about?
+    help: De-identified or aggregate data that you cannot link back to people usually fall outside this question; the IRB decides.
+    yes_means: human_subject
+    no_means: none
+    needed: optional
+    basis:
+      - text: A human subject is also someone about whom an investigator uses, studies, or generates identifiable private information or biospecimens.
+        source: cfr46_102
+        section: 46.102(e)(1)(ii)
+        confidence: high
+  - id: publication_plan
+    stage: context
+    prompt: Do you plan to publish or present the results outside your organization (a journal, a conference, a poster)?
+    help: Publication alone does not make a project research, and it does not make it non-research. It is a prompt to re-check your intent.
+    yes_means: info
+    no_means: none
+    needed: optional
+    basis:
+      - text: CDC says publication of findings does not necessarily differentiate research from non-research.
+        source: cdc1999
+        section: Guidance for Compliance, I
+        confidence: high
+  - id: federal_or_assurance
+    stage: context
+    prompt: Is the project federally funded or supported, or does your institution apply its human subjects assurance to all research regardless of funding?
+    help: Whether 45 CFR 46 applies, and which office reviews, depends on funding and on the institution's assurance. Ask your IRB.
+    yes_means: info
+    no_means: none
+    needed: optional
+    basis:
+      - text: The policy applies to research conducted, supported, or otherwise subject to regulation by a Federal department or agency that has adopted it; institutions and IRBs reviewing such research must comply.
+        source: cfr46_101
+        section: 46.101(a)
+        confidence: high
+  - id: student_or_partner
+    stage: context
+    prompt: Is a student, or a university or other outside partner, involved in designing, conducting, or analyzing the project?
+    help: The definition of human subject covers investigators who are professionals or students. A partner's IRB may need to be involved.
+    yes_means: info
+    no_means: none
+    needed: optional
+    basis:
+      - text: The human subject definition refers to an investigator "whether professional or student".
+        source: cfr46_102
+        section: 46.102(e)(1)
+        confidence: high
+
+what_irb_decides: >-
+  This tool sorts your own answers into a provisional category and shows the reasoning. It does
+  not make a determination. Your institution's IRB (or the human research protection office it
+  designates) decides whether a project is research, whether it involves human subjects, and
+  whether it is exempt. Institutions differ in what they ask for and who may decide, and this
+  project has not verified the policy of any Massachusetts institution.
+
+next_steps:
+  possible_research:
+    - Send the project description to your IRB or human research protection office for a determination before you begin collecting data for the project.
+    - Ask the IRB whether the project involves human subjects (46.102(e)) and, separately, whether any exemption applies (46.104); the IRB or its designee decides both.
+    - Under 244 CMR 9.03(18), a Massachusetts licensed nurse who enrolls subjects in a study or conducts one must verify that the institution's human subjects protection body has approved it.
+    - If part of the project is service delivery and part is a study, say which parts can be separated (CDC guidelines).
+  qi:
+    - Write a short rationale that records your answers and the date; update it if the purpose changes.
+    - Ask whether your institution wants a written QI or "not research" confirmation, especially if you may publish.
+    - If you later decide to analyze the data to produce generalizable knowledge, ask the IRB first; CDC says analysis of identifiable private information for that purpose is human subjects research that requires IRB review.
+  program_evaluation:
+    - Keep a short rationale that records why this is evaluation of an established program, not a test of a new intervention.
+    - If evaluation data will later be pooled or reused to generate generalizable knowledge, ask the IRB before that use (CDC guidelines).
+  public_health_practice:
+    - Confirm with the IRB or counsel that your agency's role counts as public health authority for 46.102(l)(2) if this is not routine, legally required reporting.
+    - Keep data collection limited to what the response or reporting rule needs; extra data for future studies can make the work research (CDC guidelines).
+  undetermined:
+    - Describe the main purpose of the project in one sentence and answer the questions marked required.
+
+document:
+  title: Project description and request for IRB determination (draft)
+  filename: qi_research_determination_request
+  intro: >-
+    Draft prepared with the qi_vs_research_determination tool for review and completion by the
+    project lead. Replace every [NURSE: ...] placeholder, delete this paragraph, and transfer the
+    content to your institution's own form if it has one. This draft is not a determination and
+    does not describe any institution's policy.
+  placeholders:
+    - "[NURSE: project title]"
+    - "[NURSE: your name, credentials, role, and contact]"
+    - "[NURSE: IRB or human research protection office that will review this]"
+  sections:
+    - heading: 1. Project and contact
+      prompts:
+        - "Project title: [NURSE: project title]"
+        - "Project lead and credentials: [NURSE: your name, credentials, role, and contact]"
+        - "Other team members and their roles: [NURSE: names and roles; note any student or outside partner]"
+        - "Organization or program: [NURSE: agency, clinic, school, or program]"
+        - "Submitted to: [NURSE: IRB or human research protection office that will review this]"
+        - "Date: [NURSE: date]"
+    - heading: 2. Purpose and background
+      prompts:
+        - "Problem or question the project addresses: [NURSE: one or two sentences]"
+        - "Main purpose, in one sentence (improve care or a program here, evaluate an established program, respond to a public health event, or learn something to apply elsewhere): [NURSE: main purpose]"
+        - "Who will use the results, and for what decision: [NURSE: audience and decision]"
+    - heading: 3. What you will do
+      prompts:
+        - "Setting and population (describe groups, not individuals): [NURSE: setting, who is included, approximate numbers]"
+        - "Activities and procedures, step by step: [NURSE: what participants or records are involved, and when]"
+        - "Is any intervention new or untested, or are groups compared? [NURSE: describe, or write none]"
+        - "What happens for participants beyond usual care or program activities: [NURSE: extra visits, questions, specimens, assignment, or none]"
+    - heading: 4. Data
+      prompts:
+        - "Data sources (records, surveys, interviews, existing reports): [NURSE: sources]"
+        - "Identifiers collected or accessed, who can see them, and where they are kept: [NURSE: identifiers and storage, or none]"
+        - "Will identifiable private information or identifiable biospecimens be obtained, used, or analyzed by the project team? [NURSE: yes or no, and why]"
+        - "How long data are kept and how they are destroyed: [NURSE: retention plan]"
+    - heading: 5. Benefits, risks, and burdens
+      prompts:
+        - "Who is expected to benefit and how: [NURSE: participants, the program, the community, others]"
+        - "Risks and burdens to participants beyond usual care, including privacy risks, and how they are reduced: [NURSE: risks and safeguards]"
+    - heading: 6. Sharing the results
+      prompts:
+        - "Planned audiences (internal report, board of health, funder, conference, publication): [NURSE: audiences]"
+        - "Funding or support, including any federal funds: [NURSE: source and whether federal]"
+    - heading: 7. Request
+      prompts:
+        - "Requested determination: [NURSE: use your IRB's own wording and categories, for example whether the project is research, whether it involves human subjects, and whether an exemption applies]"
+        - "Signature and date: [NURSE: signature] [NURSE: date]"
+  answers_heading: 8. Screening answers and provisional reading (from the qi_vs_research_determination tool)
+  answers_note: >-
+    These are the project lead's answers to screening questions drawn from 45 CFR 46.102, CDC's
+    guidelines for defining public health research and non-research, and the quality improvement
+    ethics literature. The provisional reading is the tool's, shown so the reviewer can see the
+    reasoning; the IRB makes the determination.
+
+limits:
+  - OHRP's own decision charts and its quality improvement FAQ on hhs.gov could not be read (hhs.gov returns 403 here); this tool follows the regulation text, the CDC guidelines, and the published QI ethics literature instead and does not reproduce OHRP's charts.
+  - The CDC guidelines were written in 1999 under the 1991 Common Rule; the 2018 rule's explicit public health surveillance exclusion (46.102(l)(2)) is applied from the eCFR text. CDC's guidelines still govern CDC staff and are guidance for its partners, not for every institution.
+  - The Hastings Center framework (2007) and the JAMA 2000 criteria were read as abstracts only.
+  - Exemption categories under 46.104 are not evaluated; the IRB or its designee decides exemptions.
+  - Massachusetts institutions and health departments set their own IRB policies, forms, and who may make a not-research determination; none were reviewed.

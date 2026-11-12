@@ -728,6 +728,27 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
     // End of Phase 18 workforce.
     // Phase 18 ethics (EBP-07, POL-05, POL-06).
+    ContentItem {
+        id: "ebp-qi-research-determination",
+        path: "content/ebp/qi_research_determination.yaml",
+        resource_uri: "phn://content/ebp-qi-research-determination",
+        yaml: include_str!("../../../content/ebp/qi_research_determination.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_qi_research_determination.schema.json"),
+    },
+    ContentItem {
+        id: "policy-public-health-ethics",
+        path: "content/policy/public_health_ethics.yaml",
+        resource_uri: "phn://content/policy-public-health-ethics",
+        yaml: include_str!("../../../content/policy/public_health_ethics.yaml"),
+        schema: include_str!("../../../content/schemas/policy_public_health_ethics.schema.json"),
+    },
+    ContentItem {
+        id: "policy-nursing-scope-of-practice",
+        path: "content/policy/nursing_scope_of_practice.yaml",
+        resource_uri: "phn://content/policy-nursing-scope-of-practice",
+        yaml: include_str!("../../../content/policy/nursing_scope_of_practice.yaml"),
+        schema: include_str!("../../../content/schemas/policy_nursing_scope_of_practice.schema.json"),
+    },
     // End of Phase 18 ethics.
     // End of Phase 18 content items.
     // Phase 19 content items go below this line.

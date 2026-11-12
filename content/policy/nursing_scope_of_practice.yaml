@@ -1,0 +1,1130 @@
+# Snapshot of the Massachusetts nursing scope-of-practice sources that could be read on 2026-11-12,
+# for nursing_scope_of_practice_guide (POL-06): sections of 244 CMR (Board of Registration in
+# Nursing) and M.G.L. c. 112, section 80B, the Board's scope-of-practice decision guidelines, and
+# the text of Board advisory rulings, each with a citation, a short quotation (25 words or fewer),
+# and a paraphrase. PARTIAL: only the provisions listed in `read_scope` were read; other advisory
+# rulings are listed by title only.
+#
+# REVIEW STATUS: pending. mass.gov carries unofficial copies of the regulations; the official text
+# is published by the Secretary of the Commonwealth.
+# Schema: content/schemas/policy_nursing_scope_of_practice.schema.json
+meta:
+  id: policy-nursing-scope-of-practice
+  title: Massachusetts nursing scope of practice (244 CMR; Board advisory rulings) - partial snapshot
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2021-06-11
+  source:
+    title: Laws and regulations for the Board of Registration in Nursing (244 CMR 3.00, 4.00, 9.00, 10.00)
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/info-details/laws-and-regulations-for-the-board-of-registration-in-nursing
+  related_sources:
+    - title: Learn about the nursing scope of practice (decision making guidelines)
+      publisher: Massachusetts Board of Registration in Nursing
+      url: https://www.mass.gov/info-details/learn-about-the-nursing-scope-of-practice
+    - title: Advisory rulings for the Board of Registration in Nursing
+      publisher: Massachusetts Board of Registration in Nursing
+      url: https://www.mass.gov/lists/advisory-rulings-for-the-board-of-registration-in-nursing
+    - title: "M.G.L. c. 112, section 80B"
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section80B
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    PARTIAL SNAPSHOT. Read in full on 2026-11-12 from mass.gov and malegislature.gov: 244 CMR 3.00
+    (registered nurse and licensed practical nurse, including delegation, 3.05), 244 CMR 9.00
+    (standards of conduct), 244 CMR 10.00 (definitions), M.G.L. c. 112 section 80B, the Board's
+    scope-of-practice decision guidelines and framework, and eleven advisory rulings (9324, 9804,
+    9803, 25-01, 92-05, 9401, 20-01, 24-01, 98-02, 1801, 23-03). 244 CMR 4.00 (advanced practice) was
+    read in part (4.03, 4.04, 4.06 for CNPs, 4.07). 244 CMR 5.00 to 8.00 and the rest of M.G.L. c.
+    112 sections 74 to 81C were not read, and the other advisory rulings on the Board's list (23) are listed by title only. Quotations were checked against the fetched text. The mass.gov
+    PDFs have layout problems (noted where they affect a section). The regulations on mass.gov are
+    marked by the Board as not the official version; the official text is published by the
+    Secretary of the Commonwealth. Advisory rulings are the Board's guidance and are revised from
+    time to time (dates shown); this guide cannot say that any specific act is within a nurse's
+    scope of practice.
+
+sources:
+  born_scope_page:
+    title: Learn about the nursing scope of practice
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/info-details/learn-about-the-nursing-scope-of-practice
+    effective_date: null
+    retrieved: "2026-11-12"
+  born_framework:
+    title: Framework for decision making nursing practice activities (flow chart)
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/framework-for-decision-making-nursing-practice-activities/download
+    effective_date: null
+    retrieved: "2026-11-12"
+  born_case_study:
+    title: Case Study - Legal Scope of Practice Decision Making Guideline
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/case-study-decision-making-guidelines/download
+    effective_date: null
+    retrieved: "2026-11-12"
+  born_ar_list:
+    title: Advisory rulings for the Board of Registration in Nursing (list page)
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/lists/advisory-rulings-for-the-board-of-registration-in-nursing
+    effective_date: null
+    retrieved: "2026-11-12"
+  born_laws_page:
+    title: Laws and regulations for the Board of Registration in Nursing
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/info-details/laws-and-regulations-for-the-board-of-registration-in-nursing
+    effective_date: null
+    retrieved: "2026-11-12"
+  cmr3:
+    title: "244 CMR 3.00: Registered nurse and licensed practical nurse (Mass. Register 6/11/21)"
+    publisher: Massachusetts Board of Registration in Nursing (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/244-cmr-3-registered-nurse-and-licensed-practical-nurse/download
+    effective_date: "2021-06-11"
+    retrieved: "2026-11-12"
+  cmr4:
+    title: "244 CMR 4.00: Advanced practice registered nursing (Mass. Register 6/11/21), read in part"
+    publisher: Massachusetts Board of Registration in Nursing (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/244-cmr-4-advanced-practice-registered-nursing/download
+    effective_date: "2021-06-11"
+    retrieved: "2026-11-12"
+  cmr9:
+    title: "244 CMR 9.00: Standards of conduct for nurses (Mass. Register 6/11/21)"
+    publisher: Massachusetts Board of Registration in Nursing (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/244-cmr-9-standards-of-conduct-for-nurses/download
+    effective_date: "2021-06-11"
+    retrieved: "2026-11-12"
+  cmr10:
+    title: "244 CMR 10.00: Definitions and severability (Mass. Register 6/11/21)"
+    publisher: Massachusetts Board of Registration in Nursing (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/244-cmr-1000-definitions-and-severability/download
+    effective_date: "2021-06-11"
+    retrieved: "2026-11-12"
+  mgl112_80b:
+    title: "M.G.L. c. 112, section 80B: Nursing practice; advanced practice; licensed practical nurses"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section80B
+    effective_date: null
+    retrieved: "2026-11-12"
+  ar9324:
+    title: "Advisory Ruling 9324: Accepting, Verifying, Transcribing and Implementing Prescriber Orders (revised April 11, 2018)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+    effective_date: "2018-04-11"
+    retrieved: "2026-11-12"
+  ar9804:
+    title: "Advisory Ruling 9804: Administration of Immunizing Agents and Vaccines (revised September 9, 2015)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9804-administration-of-immunizing-agents-and-vaccines/download
+    effective_date: "2015-09-09"
+    retrieved: "2026-11-12"
+  ar9803:
+    title: "Advisory Ruling 9803: Delegation to Unlicensed Assistive Personnel (adopted November 3, 1998)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9803-delegation-to-uap/download
+    effective_date: "1998-11-03"
+    retrieved: "2026-11-12"
+  ar2501:
+    title: "Advisory Ruling 25-01: Registered Nurse and Licensed Practical Nurse Scope of Practice (issued February 12, 2025)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-25-01-rn-and-lpn-scope-of-practice-pdf/download
+    effective_date: "2025-02-12"
+    retrieved: "2026-11-12"
+  ar9205:
+    title: "Advisory Ruling 92-05: Medication Administration of Over the Counter Drugs (revised September 8, 2021)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/medication-administration-of-over-the-counter-drugs-0/download
+    effective_date: "2021-09-08"
+    retrieved: "2026-11-12"
+  ar9401:
+    title: "Advisory Ruling 9401: The Role of the Licensed Nurse in the Department of Public Health Medication Administration Program (revised July 8, 2020)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9401-the-role-of-the-licensed-nurse-in-the-department-of-public-health-medication-administration-program/download
+    effective_date: "2020-07-08"
+    retrieved: "2026-11-12"
+  ar2001:
+    title: "Advisory Ruling 20-01: Advanced Practice Registered Nurse Delegation of the Administration of Immunizations to Certified Medical Assistants (issued November 9, 2020)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-2001-advanced-practice-registered-nurse-delegation-of-the-administration-of-immunizations-to-certified-medical-assistants/download
+    effective_date: "2020-11-09"
+    retrieved: "2026-11-12"
+  ar2401:
+    title: "Advisory Ruling 24-01: The Role of Nursing in Harm Reduction (issued July 10, 2024)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-24-01-the-role-of-nursing-in-harm-reduction-pdf/download
+    effective_date: "2024-07-10"
+    retrieved: "2026-11-12"
+  ar9802:
+    title: "Advisory Ruling 98-02: The Licensed Practical Nurse in the Charge or Supervisor Nurse Role (revised May 11, 2022)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-9802-the-lpn-in-charge-or-nurse-supervisor-role-0/download
+    effective_date: "2022-05-11"
+    retrieved: "2026-11-12"
+  ar1801:
+    title: "Advisory Ruling 1801: Licensure Required to Practice Nursing (revised April 14, 2021)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-1801-licensure-required-to-practice-nursing-1/download
+    effective_date: "2021-04-14"
+    retrieved: "2026-11-12"
+  ar2303:
+    title: "Advisory Ruling 23-03: Registered Nurses Performing Long-Acting Reversible Contraception (LARC) Procedures (issued November 8, 2023)"
+    publisher: Massachusetts Board of Registration in Nursing
+    url: https://www.mass.gov/doc/ar-23-03-registered-nurses-performing-long-acting-reversible-contraception-larc-procedures-pdf/download
+    effective_date: "2023-11-08"
+    retrieved: "2026-11-12"
+
+read_scope:
+  read_in_full:
+    - 244 CMR 3.00 (3.01 to 3.05)
+    - 244 CMR 9.00 (9.01 to 9.04)
+    - 244 CMR 10.00 (definitions)
+    - "M.G.L. c. 112, section 80B"
+    - The Board's scope of practice decision making guidelines, framework flow chart, and case study
+    - "Advisory rulings 9324, 9804, 9803, 25-01, 92-05, 9401, 20-01, 24-01, 98-02, 1801, and 23-03"
+  read_in_part:
+    - "244 CMR 4.00: 4.03 (categories), 4.04 (use of the title), 4.06 (CNP scope), and 4.07 (prescriptive practice) only"
+  not_read:
+    - 244 CMR 5.00 (continuing education), 6.00 (education programs), 7.00 (investigations, complaints and board actions), 8.00 (licensure requirements)
+    - "M.G.L. c. 112, sections 74 to 81C except 80B, and M.G.L. c. 13, sections 13 to 15D"
+    - "The other advisory rulings listed by the Board (titles only below), including AR 0201, 0801, 0802, 0901, 1001, 1002, 1301, 2101, 2102, 9101, 9204, 9301, 9305, 9801, 9901, 9902, 23-01, 23-02, 24-02, 25-02, 25-03, 25-04, and 26-01"
+    - The Board's Nursing Practice Advisory Panel pages and the Five Rights of Delegation news page
+    - "Advisory ruling memos (the list page links a 'View Advisory Ruling memos' page that was not opened)"
+
+decision_guidelines:
+  intro:
+    text: To evaluate a certain nursing practice or activity as within the scope of practice for an LPN, RN or APRN, the Board's guidelines have the nurse describe the activity, check whether a statute or regulation specifically permits or prohibits it, and then answer six questions.
+    source: born_scope_page
+    section: Decision making guidelines
+    confidence: high
+  questions:
+    - number: 1
+      question: Does the basic educational preparation of the nurse provide the necessary knowledge base and skills to engage in the practice or perform the activity?
+      if_yes: The activity may be within the scope of practice of the RN or LPN.
+      if_no: Documentation of additional educational preparation, training and experience may be required, or it may be an act within the scope of a nurse authorized to practice in an advanced role.
+      source: born_scope_page
+      section: Decision making guidelines, question 1
+      confidence: high
+    - number: 2
+      question: Is the act or practice consistent with the scope of practice based on one of the listed factors? (The factors are not legible in the page text that was read; the flow chart words this as consistency with the scope of practice in the nursing literature and research.)
+      if_yes: Continue.
+      if_no: It is not within the nurse's scope of practice (or scope within a particular facility).
+      source: born_scope_page
+      section: Decision making guidelines, question 2
+      confidence: medium
+    - number: 3
+      question: Does the nurse have documented evidence of knowledge and competence, including continued competence, to perform the activity?
+      if_yes: Continue.
+      if_no: It is not within the nurse's scope of practice.
+      source: born_scope_page
+      section: Decision making guidelines, question 3
+      confidence: high
+    - number: 4
+      question: Is the practice within an accepted standard of care that a reasonable and prudent nurse with similar education and experience would provide?
+      if_yes: Continue.
+      if_no: It is not within the nurse's scope of practice.
+      source: born_scope_page
+      section: Decision making guidelines, question 4
+      confidence: high
+    - number: 5
+      question: Does the nurse have the ability and resources to respond to complications so that patient safety and quality of care are assured?
+      if_yes: Continue.
+      if_no: It is not within the nurse's scope of practice and may place both the patient and the nurse at risk.
+      source: born_scope_page
+      section: Decision making guidelines, question 5
+      confidence: high
+    - number: 6
+      question: Is the nurse prepared to accept the consequences of performing the activity?
+      if_yes: The nurse may perform the activity, based on a valid order when required, and in accordance with established policies, procedures and standards of care.
+      if_no: It is not within the nurse's scope of practice.
+      source: born_scope_page
+      section: Decision making guidelines, question 6
+      confidence: high
+  framework_steps:
+    - Describe the nursing practice or activity.
+    - Check the Nurse Practice Act and Board regulations (permitted, unsure or not clear, or prohibited; prohibited means stop).
+    - Does basic educational preparation provide the necessary knowledge, skills and abilities? (If not, additional education is required, or it may be advanced practice.)
+    - Is it consistent with the scope of practice in nursing literature and research?
+    - Is there documented evidence of experience and of initial and continued competence?
+    - Is the practice within the standards of care for a reasonable and prudent nurse?
+    - Is patient safety assured?
+    - Is the nurse prepared to accept accountability for performing the activity?
+  framework_source: born_framework
+  framework_note: The flow chart has eight numbered boxes (the first describes the activity); the nurse may perform the activity only after a yes at each step.
+
+referral:
+  text: Questions about whether a specific act is within scope go to the Board of Registration in Nursing, which issues advisory rulings and has the final word on the practice of nursing it licenses. M.G.L. c. 30A, section 8 authorizes the Board to issue advisory rulings on the applicability of statutes and regulations it enforces.
+  contacts:
+    - "BHPL Help Line (Board of Registration in Nursing): (617) 973-0800; alternate (617) 973-0900; hours 9 a.m. to 4:30 p.m., Monday to Friday"
+    - "Email: nursing.admin@state.ma.us"
+    - "Mail: Board of Registration in Nursing, 100 Cambridge St., 19th Floor, Boston, MA 02114-2509"
+  source: born_scope_page
+  contact_source: born_laws_page
+  retrieved: "2026-11-12"
+
+topics:
+  - id: scope_framework
+    label: How to decide whether an activity is within scope
+    keywords: [scope, scope of practice, within scope, outside scope, decision, decision making, framework, guideline, guidelines, new procedure, new skill, competence, competency, can a nurse, can i]
+  - id: rn_lpn
+    label: RN and LPN roles and differences
+    keywords: [rn, lpn, practical nurse, registered nurse, licensed practical nurse, assessment, systematic assessment, plan of care, care plan, group, groups, population, supervise lpn]
+  - id: delegation
+    label: Delegation to unlicensed persons and supervision
+    keywords: [delegation, delegate, delegating, unlicensed, uap, unlicensed assistive personnel, assistant, aide, community health worker, health aide, supervision, supervise, five rights]
+  - id: delegation_medication
+    label: Delegating medication administration
+    keywords: [delegate medication, medication delegation, medication administration, give medication, administer medication, school medication, medications school]
+  - id: standing_orders
+    label: Standing orders, protocols, and accepting orders
+    keywords: [standing order, standing orders, protocol, protocols, order, orders, verbal order, telephone order, range order, prescriber, prescribe, prescribing, write orders, pre-printed]
+  - id: vaccines
+    label: Immunizations and vaccines
+    keywords: [vaccine, vaccines, vaccination, immunization, immunizations, immunize, flu clinic, miis, vis, immunizing agent, clinic]
+  - id: otc_school
+    label: Over-the-counter medications and school nursing
+    keywords: [otc, over the counter, over-the-counter, school nurse, school, acetaminophen, ibuprofen, camp, day care]
+  - id: harm_reduction
+    label: Harm reduction, naloxone, and fentanyl test strips
+    keywords: [harm reduction, naloxone, narcan, opioid antagonist, fentanyl, test strips, syringe, overdose, needle exchange, syringe services]
+  - id: aprn
+    label: Advanced practice registered nurses (APRN)
+    keywords: [aprn, np, nurse practitioner, cnp, cns, crna, cnm, advanced practice, prescriptive, prescriptive authority, collaboration, supervised practice]
+  - id: research
+    label: Participating in research
+    keywords: [research, study, irb, human subjects, institutional review board, quality improvement, enroll, enrolling]
+  - id: licensure
+    label: Licensure, unlicensed practice, and telehealth
+    keywords: [license, licensure, licensed, unlicensed practice, expired license, telehealth, telemedicine, telecommunications, another state, out of state, compact, verify license]
+  - id: management_charge
+    label: Management, charge and supervisor roles, and assignments
+    keywords: [management, manager, supervisor, charge nurse, nurse in charge, assignment, assign, director, nurse leader, administrative]
+  - id: conduct_reporting
+    label: Standards of conduct, confidentiality, documentation, and reporting duties
+    keywords: [conduct, confidentiality, confidential, privacy, documentation, document, report, reporting, mandated reporter, mandated reporting, abuse, 51a, duty to report, disclosure, discipline]
+  - id: map_program
+    label: DPH Medication Administration Program (community programs)
+    keywords: [map, medication administration program, community program, dds, dmh, group home]
+  - id: new_procedures
+    label: Procedures and techniques requiring added training
+    keywords: [procedure, procedures, technique, techniques, larc, iud, implant, contraception, training, education, competency validation]
+
+entries:
+  - id: mgl80b_accountability
+    topics: [scope_framework, rn_lpn]
+    citation: "M.G.L. c. 112, section 80B"
+    source: mgl112_80b
+    section: 80B
+    applies_to: [rn, lpn, aprn]
+    quote: Each individual licensed to practice nursing in the commonwealth shall be directly accountable for safety of nursing care he delivers.
+    paraphrase: The statute defines the practice of nursing (clinical decision making, a strategy of care, medication and treatments prescribed by authorized prescribers, evaluating responses, health counseling and teaching, collaboration, teaching and supervising others, and participating in research that adds to nursing knowledge) and makes each licensed nurse directly accountable for the safety of the care he or she delivers.
+    confidence: high
+  - id: mgl80b_delegation
+    topics: [delegation, rn_lpn]
+    citation: "M.G.L. c. 112, section 80B (RN and LPN practice)"
+    source: mgl112_80b
+    section: 80B
+    applies_to: [rn, lpn]
+    quote: including the delegation of selected activities to unlicensed assistive personnel
+    paraphrase: The statute lists management, direction, and supervision of nursing practice, including delegation of selected activities to unlicensed assistive personnel, within the practice of both registered nurses and licensed practical nurses. For RNs it also lists applying nursing theory to plans of care for individuals, families, and communities.
+    confidence: high
+  - id: mgl80b_research
+    topics: [research]
+    citation: "M.G.L. c. 112, section 80B"
+    source: mgl112_80b
+    section: 80B
+    applies_to: [rn, lpn, aprn]
+    quote: participation in research which contributes to the expansion of nursing knowledge
+    paraphrase: Participation in research that contributes to nursing knowledge is within the statutory definition of nursing practice. Whether a particular project is research, and what review it needs, is a separate question (see qi_vs_research_determination).
+    confidence: high
+  - id: guideline_statute_check
+    topics: [scope_framework]
+    citation: Board decision making guidelines, step 2
+    source: born_scope_page
+    section: Decision making guidelines
+    applies_to: [rn, lpn, aprn]
+    quote: Is this practice specifically permitted or prohibited in any existing statute or regulation?
+    paraphrase: The Board's guidelines start by checking whether a statute or regulation specifically permits or prohibits the activity; if permitted or unclear, the nurse answers six further questions on education, consistency with scope, competence, standard of care, resources for complications, and accountability.
+    confidence: high
+  - id: cmr9_10_scope
+    topics: [scope_framework, rn_lpn]
+    citation: 244 CMR 9.03(10)
+    source: cmr9
+    section: 9.03(10)
+    applies_to: [rn, lpn, aprn]
+    quote: shall only perform acts within the scope of nursing practice as defined in M.G.L. c. 112, § 80B
+    paraphrase: A nurse with a valid license who practices in Massachusetts may perform only acts within the scope of nursing practice as defined in M.G.L. c. 112, section 80B, and 244 CMR 3.00.
+    confidence: high
+  - id: cmr9_11_techniques
+    topics: [scope_framework, new_procedures]
+    citation: 244 CMR 9.03(11)
+    source: cmr9
+    section: 9.03(11)
+    applies_to: [rn, lpn, aprn]
+    quote: shall perform nursing techniques and procedures only after appropriate education and demonstrated clinical competency
+    paraphrase: A nurse performs techniques and procedures only after appropriate education and demonstrated clinical competency.
+    confidence: high
+  - id: cmr9_12_competency
+    topics: [scope_framework, new_procedures]
+    citation: 244 CMR 9.03(12)
+    source: cmr9
+    section: 9.03(12)
+    applies_to: [rn, lpn, aprn]
+    quote: shall only assume those duties and responsibilities within his or her scope of practice
+    paraphrase: A nurse assumes only duties and responsibilities within his or her scope of practice for which he or she has acquired and maintained the necessary knowledge, skills, and abilities.
+    confidence: high
+  - id: cmr9_9_accountability
+    topics: [scope_framework]
+    citation: 244 CMR 9.03(9)
+    source: cmr9
+    section: 9.03(9)
+    applies_to: [rn, lpn, aprn]
+    quote: shall be responsible and accountable for his or her nursing judgments, actions, and competency
+    paraphrase: Each licensed nurse is responsible and accountable for his or her nursing judgments, actions, and competency.
+    confidence: high
+  - id: cmr9_38_drugs
+    topics: [standing_orders, vaccines]
+    citation: 244 CMR 9.03(38)
+    source: cmr9
+    section: 9.03(38)
+    applies_to: [rn, lpn]
+    quote: except as directed by an authorized prescriber
+    paraphrase: A nurse may not administer a prescription or non-prescription drug to any person in the course of nursing practice except as directed by an authorized prescriber (with an exception for nurse anesthetists working under protocols). Read the full provision before relying on this summary.
+    confidence: high
+  - id: cmr9_18_research
+    topics: [research]
+    citation: 244 CMR 9.03(18)
+    source: cmr9
+    section: 9.03(18)
+    applies_to: [rn, lpn, aprn]
+    quote: has approved the study in accordance with accepted standards for the protection of human subjects
+    paraphrase: A nurse who enrolls subjects in a research study or conducts one must verify that a board, committee, or other group designated by an institution to protect human subjects has approved the study.
+    confidence: high
+  - id: cmr9_4_telecom
+    topics: [licensure]
+    citation: 244 CMR 9.03(4)
+    source: cmr9
+    section: 9.03(4)
+    applies_to: [rn, lpn, aprn]
+    quote: shall also be governed by the licensure and practice laws and regulations of the state or jurisdiction
+    paraphrase: A Massachusetts-licensed nurse who is in Massachusetts and provides a nursing service by telecommunications to a person located outside Massachusetts is also governed by the licensure and practice laws and regulations of the state or jurisdiction where the recipient is located. Section 10.00 also treats a service provided into Massachusetts from outside the state as the practice of nursing.
+    confidence: high
+  - id: cmr9_1_license
+    topics: [licensure]
+    citation: 244 CMR 9.03(1) to (3)
+    source: cmr9
+    section: 9.03(1)-(3)
+    applies_to: [rn, lpn, aprn]
+    quote: a nurse shall only engage in the practice of nursing in Massachusetts with a valid license
+    paraphrase: Practice requires a valid license (with the exceptions in M.G.L. c. 112, sections 80, 80A and 81); practice after expiration, surrender, suspension, or revocation is the unlicensed practice of nursing. An RN may practice as an APRN only with the Board's written authorization.
+    confidence: high
+  - id: cmr9_6_laws
+    topics: [conduct_reporting]
+    citation: 244 CMR 9.03(6)(a)
+    source: cmr9
+    section: 9.03(6)(a)
+    applies_to: [rn, lpn, aprn]
+    quote: obligation to report child abuse
+    paraphrase: A nurse must comply with M.G.L. c. 112, sections 74 to 81C and other laws related to licensure and practice. The regulation lists examples, among them reports of elder abuse (c. 19A, section 15), abuse of a disabled person (c. 19C, section 10), child abuse (c. 119, section 51A), abuse of a patient or resident (c. 111, section 72G), and lead poisoning (c. 111, section 191), and the controlled substances act (c. 94C).
+    confidence: high
+  - id: cmr9_16_confidential
+    topics: [conduct_reporting]
+    citation: 244 CMR 9.03(16)
+    source: cmr9
+    section: 9.03(16)
+    applies_to: [rn, lpn, aprn]
+    quote: shall share appropriate information only as required by law or for the protection of the patient
+    paraphrase: A nurse safeguards patient information from any person or entity not entitled to it and shares appropriate information only as required by law or for the protection of the patient.
+    confidence: high
+  - id: cmr9_26_report_nurse
+    topics: [conduct_reporting]
+    citation: 244 CMR 9.03(26)
+    source: cmr9
+    section: 9.03(26)
+    applies_to: [rn, lpn, aprn]
+    quote: directly observes another nurse engaged in any of the following shall report that nurse to the Board
+    paraphrase: A nurse who directly observes another nurse abusing a patient, practicing while impaired by substance misuse, or diverting controlled substances must report that nurse to the Board in accordance with Board guidelines.
+    confidence: high
+  - id: cmr9_44_documentation
+    topics: [conduct_reporting]
+    citation: 244 CMR 9.03(44)
+    source: cmr9
+    section: 9.03(44)
+    applies_to: [rn, lpn, aprn]
+    quote: shall make complete, accurate, and legible entries in all records
+    paraphrase: A nurse makes complete, accurate, and legible entries in all records required by law and accepted standards of nursing practice, and signs his or her name as it appears on the license.
+    confidence: high
+  - id: cmr9_46_management
+    topics: [management_charge]
+    citation: 244 CMR 9.03(46)
+    source: cmr9
+    section: 9.03(46)
+    applies_to: [rn, lpn]
+    quote: shall adhere to accepted standards of practice for that role
+    paraphrase: A nurse in a nursing management role must adhere to accepted standards of practice for that role, which include developing and implementing the measures needed to promote and manage the delivery of safe nursing care.
+    confidence: high
+  - id: cmr9_04_aprn
+    topics: [aprn]
+    citation: 244 CMR 9.04(1) and (5)
+    source: cmr9
+    section: "9.04"
+    applies_to: [aprn]
+    quote: shall practice only in the category of advanced practice registered nursing for which the Board has authorized him or her
+    paraphrase: An APRN practices only in the authorized category and in areas where he or she has formal advanced education and documented competency. When proposing a diagnostic or therapeutic intervention beyond the scope of generic nursing practice, an APRN fully discloses the risks, benefits, and alternatives to the patient and documents the disclosure.
+    confidence: high
+  - id: cmr3_02_rn
+    topics: [rn_lpn]
+    citation: 244 CMR 3.02(2)
+    source: cmr3
+    section: 3.02(2)
+    applies_to: [rn]
+    quote: shall act, within his or her generic and continuing education and experience
+    paraphrase: A registered nurse acts, within generic and continuing education and experience, to assess the health status of individuals and groups, analyze and interpret the data, plan and implement nursing interventions including prescribed regimens, provide and coordinate health teaching, evaluate outcomes, collaborate with other providers, and serve as patient advocate within the limits of the law.
+    confidence: high
+  - id: cmr3_04_lpn
+    topics: [rn_lpn]
+    citation: 244 CMR 3.04(2)
+    source: cmr3
+    section: 3.04(2)
+    applies_to: [lpn]
+    quote: A licensed practical nurse participates in direct and indirect nursing care
+    paraphrase: A licensed practical nurse assesses an individual's basic health status, participates in analyzing data, planning, and implementing care, incorporates the prescribed medical regimen, participates in health teaching, evaluates outcomes of basic nursing intervention, and collaborates, within generic and continuing education and experience.
+    confidence: high
+  - id: cmr3_05_preamble
+    topics: [delegation]
+    citation: 244 CMR 3.05 (introduction)
+    source: cmr3
+    section: "3.05"
+    applies_to: [rn, lpn]
+    quote: such persons cannot be used as a substitute for the licensed nurse
+    paraphrase: Assessment, planning, implementation, and evaluation of the nursing plan of care are essential functions of the licensed nurse. Unlicensed persons may complement, but not substitute for, the licensed nurse.
+    confidence: high
+  - id: cmr3_05_2_b
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(a) and (b)
+    source: cmr3
+    section: 3.05(2)(a)-(b)
+    applies_to: [rn, lpn]
+    quote: The final decision as to what can be safely delegated in any specific situation is within the scope of the delegating nurse's judgment.
+    paraphrase: The delegating nurse is directly responsible for the nature and quality of the care given under his or her direction (but not for the outcome if a qualified unlicensed person deviates from the instructions or plan of care).
+    confidence: high
+  - id: cmr3_05_2_c
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(c)
+    source: cmr3
+    section: 3.05(2)(c)
+    applies_to: [rn, lpn]
+    quote: must make an assessment of the patient's nursing care needs and care delivery setting
+    paraphrase: Before delegating, the nurse assesses the patient's nursing care needs and the care delivery setting to be sure the activity can be safely delegated.
+    confidence: high
+  - id: cmr3_05_2_d
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(d)
+    source: cmr3
+    section: 3.05(2)(d)
+    applies_to: [rn, lpn]
+    quote: can be properly performed by the unlicensed person without jeopardizing the patient's safety and welfare
+    paraphrase: The activity must be one a reasonable and prudent nurse would judge delegable, that does not require the unlicensed person to systematically assess, analyze, interpret, plan, or evaluate patient data, and that the unlicensed person can properly perform safely.
+    confidence: high
+    note: The mass.gov PDF text for this paragraph has spacing errors; the paraphrase follows the page image.
+  - id: cmr3_05_2_e
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(e)
+    source: cmr3
+    section: 3.05(2)(e)
+    applies_to: [rn, lpn]
+    quote: Employer policy or contractual language can not mandate the licensed nurse to delegate
+    paraphrase: Delegation must fall within the unlicensed person's job description and the employer's policies and procedures, which must acknowledge that only the delegating nurse makes the final decision to delegate.
+    confidence: high
+  - id: cmr3_05_2_f
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(f) and (g)
+    source: cmr3
+    section: 3.05(2)(f)-(g)
+    applies_to: [rn, lpn]
+    quote: must have on file within the employing agency current documentation of the unlicensed person's competencies
+    paraphrase: The employing agency keeps current, periodically validated documentation of the unlicensed person's competencies for each nursing activity in the job description, and a designated nurse communicates them to the delegating nurse. Uniform training and certification may be used to presume baseline competencies. Other competencies to consider include collaboration and communication.
+    confidence: high
+  - id: cmr3_05_2_h
+    topics: [delegation]
+    citation: 244 CMR 3.05(2)(h) to (j)
+    source: cmr3
+    section: 3.05(2)(h)-(j)
+    applies_to: [rn, lpn]
+    quote: adverse side effects to be reported to the appropriate licensed nurse
+    paraphrase: The delegating nurse gives the unlicensed person a nursing plan of care (desired effect, sequence of steps, adverse effects to report, what to report if the activity does not work), adequately supervises, and may decide at any time that the activity can no longer be delegated.
+    confidence: high
+  - id: cmr3_05_3_supervision
+    topics: [delegation]
+    citation: 244 CMR 3.05(3)
+    source: cmr3
+    section: 3.05(3)
+    applies_to: [rn, lpn]
+    quote: The delegating nurse must provide adequate supervision of all nursing activities delegated to unlicensed persons
+    paraphrase: The nurse decides the degree of supervision after weighing the stability of the patient's condition, the unlicensed person's training and demonstrated competency, the complexity of the activity, the nurse's proximity and availability (which may include telephone or other telecommunication), and the availability of other personnel and written employer policies, which must set out channels of communication and a way to report deviations from the plan of care.
+    confidence: high
+  - id: cmr3_05_4_delegable
+    topics: [delegation]
+    citation: 244 CMR 3.05(4)
+    source: cmr3
+    section: 3.05(4)
+    applies_to: [rn, lpn]
+    quote: can be performed according to an established sequence of steps leading to a predictable outcome
+    paraphrase: Examples of activities usually considered delegable (when 3.05(2) is met) include those that follow an established sequence with a predictable outcome, need no nursing assessment and judgment during implementation, or involve no modification; collecting, reporting, and documenting simple data; and activities that meet basic human needs such as nutrition, hydration, mobility, comfort, elimination, socialization, rest, and hygiene.
+    confidence: high
+  - id: cmr3_05_5_not_delegable
+    topics: [delegation]
+    citation: 244 CMR 3.05(5)
+    source: cmr3
+    section: 3.05(5)
+    applies_to: [rn, lpn]
+    quote: Formulation of the nursing plan of care or evaluation of the patient's response to the care provided, or both
+    paraphrase: Examples of activities that are not within sound nursing judgment to delegate include those that require nursing assessment, analysis, planning, and evaluation leading to a clinical conclusion, may lead to an unpredictable outcome, or involve anticipated modification; physical, psychological, and social assessment requiring nursing judgment; and formulating the plan of care or evaluating the response to it.
+    confidence: high
+  - id: cmr3_05_5_medication
+    topics: [delegation, delegation_medication, otc_school]
+    citation: 244 CMR 3.05(5)(d) and the numbered requirements printed with it
+    source: cmr3
+    section: 3.05(5)(d)
+    applies_to: [rn, lpn]
+    quote: Administration of medications except as permitted in M.G.L. 94C, and 105 CMR 700.000
+    paraphrase: Administering medications is listed as not delegable except as M.G.L. c. 94C and 105 CMR 700.000 permit. Delegation of medication to an unlicensed person must also meet seven listed requirements (validated medication competencies on file, a valid prescriber order and a properly labeled medication, regular assessment of the patient and review of medication records, a plan of care that states the desired effect, dose, route, frequency and adverse effects to report, and, before delegating, checks that nursing resources are reachable, emergency instructions exist, and storage instructions are given), and, for a school nurse, 105 CMR 210.000.
+    confidence: medium
+    note: In the mass.gov PDF the numbered list of seven requirements is printed on the page before the 3.05(5)(d) lead-in and without its own lead-in, so its exact place in the section structure could not be confirmed; check the official text.
+  - id: cmr3_05_6_teaching
+    topics: [delegation]
+    citation: Advisory Ruling 9803
+    source: ar9803
+    section: Advisory Ruling
+    applies_to: [rn, lpn]
+    quote: Health teaching and health counseling, as it relates to nursing and nursing services, may not be delegated.
+    paraphrase: The Board's advisory ruling on delegation says health teaching and counseling that relate to nursing may not be delegated, and that Board regulations prohibit delegating activities that need ongoing nursing assessment and judgment (244 CMR 3.05(6) places ultimate responsibility for patient teaching and counseling with the licensed nurse).
+    confidence: high
+    note: AR 9803 (1998) quotes an earlier wording of 244 CMR 3.05 with different paragraph letters than the 2021 text; use the regulation for citations.
+  - id: ar9803_five_rights
+    topics: [delegation]
+    citation: Advisory Ruling 9803 (Five Rights of Delegation)
+    source: ar9803
+    section: Five Rights of Delegation
+    applies_to: [rn, lpn]
+    quote: the right task; the right circumstances; the right person; the right direction/communication; and the right supervision and evaluation
+    paraphrase: The Board's framework for delegation decisions and accountability has five key elements, applied by nursing service administrators and staff nurses. A licensed nurse remains accountable for all aspects of the delegation decision, its implementation, supervision, and evaluation, and the final decision on what to delegate is the nurse's professional judgment.
+    confidence: high
+  - id: ar9803_assess
+    topics: [delegation]
+    citation: Advisory Ruling 9803
+    source: ar9803
+    section: Advisory Ruling
+    applies_to: [rn, lpn]
+    quote: A nurse must assess a patient's nursing care needs prior to his/her delegation of any nursing activity.
+    paraphrase: Before delegating, the nurse assesses the patient's needs; unlicensed assistive personnel have no nursing knowledge base for nursing judgments; the nurse must determine that the person has documented competency and set the degree of supervision.
+    confidence: high
+  - id: cmr10_delegation_defs
+    topics: [delegation]
+    citation: 244 CMR 10.01 (definitions of delegation, supervision, unlicensed person)
+    source: cmr10
+    section: "10.01"
+    applies_to: [rn, lpn]
+    quote: The authorization by a licensed nurse to an unlicensed person to provide selected nursing activities.
+    paraphrase: 244 CMR 10.01 defines delegation as that authorization; supervision (for 244 CMR 3.00) as the delegating nurse's guidance with initial direction and periodic inspection of the activity; and an unlicensed person as a qualified, responsible individual with documented initial and ongoing competencies who functions in a complementary or assistive role and is employed by an entity other than the patient.
+    confidence: high
+  - id: ar2501_rn_lpn
+    topics: [rn_lpn, scope_framework]
+    citation: Advisory Ruling 25-01
+    source: ar2501
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: There is no regulatory requirement for RNs to supervise LPNs.
+    paraphrase: RNs and LPNs are each responsible and accountable for their own scope; neither may perform activities outside it; authorized prescribers may not delegate activities outside a nurse's scope even if the prescriber is on site; RNs may not delegate to LPNs, and neither delegates to other licensed nurses.
+    confidence: high
+  - id: ar2501_assessment
+    topics: [rn_lpn]
+    citation: Advisory Ruling 25-01
+    source: ar2501
+    section: Definitions; comparison table
+    applies_to: [rn, lpn]
+    quote: RNs are responsible for completing the systematic patient assessment and developing the nursing plan of care
+    paraphrase: LPNs perform basic, focused assessments and may contribute to the systematic assessment, but completing a systematic assessment is not within an LPN's scope; an RN may review an LPN's assessment data to determine needs and develop the plan of care. LPNs evaluate outcomes of basic nursing interventions; RNs coordinate the teaching plan, which LPNs may help implement.
+    confidence: high
+  - id: ar2501_groups
+    topics: [rn_lpn]
+    citation: Advisory Ruling 25-01
+    source: ar2501
+    section: Definitions (Groups)
+    applies_to: [rn, lpn]
+    quote: only RNs may provide care to groups
+    paraphrase: The ruling defines groups as specific patient populations in specific settings (for example transitions in chronic disease, communicable disease care, and maternity care at various levels of the health system) and says only RNs may provide care to groups, citing the RN functions in 244 CMR 3.02. Check the ruling's wording before applying it to a public health role.
+    confidence: medium
+    note: The ruling's footnote cites a scoping review for the definition of groups, not a regulation; how it applies to population-level public health work is a question for the Board.
+  - id: ar2501_supervision_nonnurse
+    topics: [rn_lpn, management_charge]
+    citation: Advisory Ruling 25-01 (Supervision; Dual Licensure)
+    source: ar2501
+    section: Supervision
+    applies_to: [rn, lpn]
+    quote: non-nurses may not evaluate nursing practice but can supervise basic employment issues
+    paraphrase: Non-nurses may supervise employment matters such as human resources and administration but may not evaluate nursing practice. Both RNs and LPNs may assign nursing care within licensed nurses' scope and delegate nursing tasks to unlicensed personnel. A dual-licensed nurse is held to the standard of the highest nursing credential held.
+    confidence: high
+  - id: ar9802_charge
+    topics: [management_charge]
+    citation: Advisory Ruling 98-02
+    source: ar9802
+    section: Advisory
+    applies_to: [lpn, rn]
+    quote: It is within LPN scope of practice to function in the charge or supervisor nurse role.
+    paraphrase: The charge or supervisor role is administrative (assignments, schedules, evaluations, budgets, teaching policy). Making a patient care assignment differs from delegation, which is the clinical authorization to an unlicensed person; an assignment must be consistent with the assignee's scope of practice, competency, job description, and the agency's policies.
+    confidence: high
+  - id: ar9324_prescriber
+    topics: [standing_orders]
+    citation: Advisory Ruling 9324
+    source: ar9324
+    section: Purpose
+    applies_to: [rn, lpn]
+    quote: duly authorized prescriber (i.e., Advanced Practice Registered Nurses with prescriptive authority, Physician Assistants, and Physicians)
+    paraphrase: The ruling guides RNs and LPNs in accepting, verifying, transcribing, and implementing patient care orders from a duly authorized prescriber. The nurse must make sure a proper order exists before administering any prescription or non-prescription medication or an activity that requires an order.
+    confidence: high
+  - id: ar9324_question
+    topics: [standing_orders]
+    citation: Advisory Ruling 9324
+    source: ar9324
+    section: Nurse's Responsibility and Accountability
+    applies_to: [rn, lpn]
+    quote: It is the responsibility and the obligation of a nurse to question a patient care order that is deemed inappropriate
+    paraphrase: If an order is unclear, or the nurse questions its appropriateness, accuracy, or completeness, the nurse may not implement it until it is verified with a duly authorized prescriber. Altering the directions in an order, or prescribing, renewing, refilling, or extending a prescription, is outside RN and LPN scope.
+    confidence: high
+  - id: ar9324_standing_elements
+    topics: [standing_orders]
+    citation: Advisory Ruling 9324 (Standing Order / Protocol)
+    source: ar9324
+    section: Standing Order / Protocol
+    applies_to: [rn, lpn]
+    quote: either directly on the standing order/protocol or on file with the facility/agency/program employing the nurse
+    paraphrase: "The ruling lists what every standing order or protocol must include: the name of the substance or activity; the route and specific dose for a substance; inclusion and exclusion criteria the nurse assesses first; the signature or approval of a duly authorized prescriber (on the order or on file with the employing facility, agency, or program); the details of patient presentation; when it is to be given, including dosing tied to objective parameters and follow-up; when to seek emergency help; record keeping; regular review by medical, pharmacy, and nursing staff; and authentication by a prescriber within the required time frame."
+    confidence: high
+  - id: ar9324_standing_limits
+    topics: [standing_orders]
+    citation: Advisory Ruling 9324 (Standing Order / Protocol)
+    source: ar9324
+    section: Standing Order / Protocol
+    applies_to: [rn, lpn]
+    quote: determine choice of intervention based upon a menu of medications, dosing instructions or actions
+    paraphrase: Standing orders and protocols cannot authorize the nurse to change the order once started (for example to start a new medication on his or her own), to choose among a menu of medications, doses, or actions, or to prescribe, renew, refill, or extend a prescription.
+    confidence: high
+  - id: ar9324_range
+    topics: [standing_orders]
+    citation: Advisory Ruling 9324 (Range Orders)
+    source: ar9324
+    section: Range Orders
+    applies_to: [rn, lpn]
+    quote: Range orders require specific, objective measures that must be collected and assessed prior to administering the correct dosing.
+    paraphrase: A range order without specific objective measures (such as blood pressure, pulse, lab values, or oxygen saturation) would involve diagnosing and prescribing and be outside RN and LPN practice.
+    confidence: high
+  - id: ar9324_container
+    topics: [standing_orders, otc_school]
+    citation: Advisory Ruling 9324 (Pharmacy labeled container)
+    source: ar9324
+    section: Pharmacy labeled container
+    applies_to: [rn, lpn]
+    quote: it is within the licensed nurse's discretion to accept an original pharmacy labeled container in lieu of an order
+    paraphrase: In certain limited settings (the ruling names schools, adult and pediatric day care, and summer camp) a nurse may accept an intact, legibly labeled original pharmacy container instead of a separate prescriber order if the setting has a policy, the medication is not expired, consent is obtained when indicated, allergies are checked, and the label has the information needed to give the medication safely.
+    confidence: high
+  - id: ar9324_management
+    topics: [standing_orders, management_charge]
+    citation: Advisory Ruling 9324 (Role of the Nurse in a Management Role)
+    source: ar9324
+    section: Role of the Nurse in a Management Role
+    applies_to: [rn, lpn]
+    quote: Licensed nurses in a management role must ensure an infrastructure is in place
+    paraphrase: Nurses in management roles must define acceptable order methods in the practice setting, when each can be used, how competency is determined, and safety measures such as read-back for verbal orders, authentication time frames, abbreviation policies, and limits on substances unsafe to order verbally.
+    confidence: high
+  - id: ar9804_scope
+    topics: [vaccines, standing_orders]
+    citation: Advisory Ruling 9804
+    source: ar9804
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: It is within the scope of the Registered Nurse and Licensed Practical Nurse to administer immunizing agents and vaccines.
+    paraphrase: The Board says RNs and LPNs may administer immunizing agents and vaccines to any member of the public in any setting after acquiring and maintaining knowledge and skills (storage, handling, administration, contraindications and precautions, managing reactions, adverse event reporting, documentation), and only as directed by an authorized prescriber.
+    confidence: high
+  - id: ar9804_standing_order
+    topics: [vaccines, standing_orders]
+    citation: Advisory Ruling 9804
+    source: ar9804
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: A nurse may administer an immunizing agent and vaccine from a Standing Order Protocol
+    paraphrase: A vaccine standing order protocol must include the vaccine names, dose, route or method, inclusion and exclusion criteria (indications, contraindications, precautions), and the signature or approval of a duly authorized prescriber on the order or on file with the facility, agency, or program that provides individual or mass immunization. The ruling points to DPH Immunization Program and Immunization Action Coalition model standing orders and to Advisory Ruling 9324.
+    confidence: high
+  - id: ar9804_steps
+    topics: [vaccines]
+    citation: Advisory Ruling 9804
+    source: ar9804
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: Complete an assessment of the patient, including an allergy history
+    paraphrase: Before giving a vaccine the nurse assesses the patient (with an allergy history), verifies the order, educates the patient or parent or guardian about the risks and benefits of accepting or refusing, obtains parental or guardian permission for a child as required, gives the federal Vaccine Information Statement, and complies with Massachusetts Immunization Information System reporting (M.G.L. c. 111, section 24M). Required documentation includes the VIS edition and date given, the office address and the name and title of the person who administers the vaccine, the date, and the manufacturer, lot number, and expiration date. Nurses in management roles must make sure resources (policies on consent, competency, VIS, MIIS reporting, errors, and emergencies) are in place.
+    confidence: high
+  - id: ar2001_cma
+    topics: [vaccines, aprn, delegation]
+    citation: Advisory Ruling 20-01
+    source: ar2001
+    section: Advisory
+    applies_to: [aprn]
+    quote: to delegate the administration of immunizations to a CMA
+    paraphrase: For this ruling, "primary care provider" means an APRN. The Board's position is that an APRN acting as a primary care provider under M.G.L. c. 112, section 265 may delegate administering immunizations to a qualified certified medical assistant (CMA) who works in a health facility or a licensed primary care provider's practice, with the APRN present in the facility and immediately available (not necessarily in the room). Before delegating, the APRN assesses the CMA's training or certification and validates competency by observation, and reports immunizations to the MIIS. The ruling is about APRNs, not RNs or LPNs.
+    confidence: high
+  - id: ar9205_otc
+    topics: [otc_school, standing_orders]
+    citation: Advisory Ruling 92-05
+    source: ar9205
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: School Nurses may develop protocols for the administration of OTC medications
+    paraphrase: School nurses may develop over-the-counter medication protocols that meet the standing order criteria in Advisory Ruling 9324. Licensed nurses may administer OTCs based on individual orders or on protocols with written authorization by an authorized prescriber. School nurses also follow 105 CMR 210, the DPH SHIELD training objectives, and 603 CMR 7.00.
+    confidence: high
+  - id: ar2401_harm_reduction
+    topics: [harm_reduction, standing_orders]
+    citation: Advisory Ruling 24-01
+    source: ar2401
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: Licensed nurses shall not be subject to professional disciplinary action solely for the provision of harm reduction supplies or services
+    paraphrase: The Board's position is that nursing practice consistent with harm reduction, including providing opioid antagonists, fentanyl test strips, sterile pipes, and sterile syringes, does not violate the 9.03(7) standard on aiding unlawful acts as long as the nurse follows organizational policies and procedures. The ruling notes a DPH statewide naloxone standing order for pharmacists under M.G.L. c. 94C, section 19B, that DPH recommends prescribers issue standing orders for naloxone in their facility or practice setting, and that licensed nurses may use standing orders and protocols under Advisory Ruling 9324.
+    confidence: high
+    note: The ruling cites Advisory Ruling 9324 as "92-34" and "93-24" in places; the ruling on the Board's list is numbered 9324.
+  - id: ar9401_map
+    topics: [map_program, delegation_medication]
+    citation: Advisory Ruling 9401
+    source: ar9401
+    section: Advisory
+    applies_to: [rn, lpn]
+    quote: It is not within the scope of practice of the RN or LPN to implement recommendations
+    paraphrase: The ruling covers licensed nurses who train, consult, or monitor in the DPH Medication Administration Program (MAP) for community programs funded, operated, or licensed by DMH, DDS, MRC, or DCF. Those nurses do not bear responsibility for the medication practice of MAP-certified staff they trained but remain accountable for the content they taught, and may not implement recommendations such as ordering labs, hospitalization, or medication changes before a duly authorized prescriber confirms them. The ruling does not apply to programs outside those agencies.
+    confidence: high
+  - id: ar1801_licensure
+    topics: [licensure, management_charge]
+    citation: Advisory Ruling 1801
+    source: ar1801
+    section: Advisory
+    applies_to: [rn, lpn, aprn]
+    quote: Unless an individual possesses a current MA nursing license, that individual cannot hold a position
+    paraphrase: A position that requires an LPN or RN license or APRN authorization to perform nursing activities that cannot be delegated (activities needing nursing assessment and judgment, physical, psychological, and social assessment needing nursing judgment, forming the plan of care and evaluating the response, and giving medication except as M.G.L. c. 94C permits) requires a current Massachusetts license. Administrative supervision of clinical components of nursing care also requires a current Massachusetts license.
+    confidence: high
+  - id: ar2303_larc
+    topics: [new_procedures]
+    citation: Advisory Ruling 23-03
+    source: ar2303
+    section: Advisory
+    applies_to: [rn]
+    quote: may perform procedures associated with LARC, including removal
+    paraphrase: An RN with the required knowledge and competencies, on the order of an authorized prescriber and consistent with organizational policies, may perform long-acting reversible contraception procedures (implants and intrauterine devices, including removal). Shown as an example of how an advisory ruling pairs a scope statement with competence and order requirements.
+    confidence: high
+  - id: cmr4_titles
+    topics: [aprn]
+    citation: 244 CMR 4.03 and 4.04
+    source: cmr4
+    section: 4.03-4.04
+    applies_to: [aprn]
+    quote: No person shall announce or represent to the public that such person is an APRN
+    paraphrase: The Board recognizes APRN clinical categories of certified registered nurse anesthetist, certified nurse midwife, certified nurse practitioner, clinical nurse specialist, and psychiatric nurse mental health clinical specialist. No one may represent himself or herself as an APRN or use a category title without Board authorization.
+    confidence: medium
+    note: 244 CMR 4.00 was read in part; the 4.03 list in the mass.gov PDF text is garbled, so the category list should be checked against the regulation.
+  - id: cmr4_cnp_scope
+    topics: [aprn]
+    citation: 244 CMR 4.06 (CNP scope)
+    source: cmr4
+    section: "4.06"
+    applies_to: [aprn]
+    quote: including health promotion, disease prevention, health education
+    paraphrase: The scope of certified nurse practitioner practice is described as health care services in diverse settings to individuals across the lifespan, including health promotion, disease prevention, health education, counseling and referral, and diagnosis and management of acute and chronic illness. Each APRN is responsible and accountable for their nursing judgments, actions, and competency, and practices in the clinical categories for which he or she is certified.
+    confidence: medium
+  - id: cmr4_prescribing
+    topics: [aprn, standing_orders]
+    citation: 244 CMR 4.07
+    source: cmr4
+    section: "4.07"
+    applies_to: [aprn]
+    quote: may engage in prescriptive practice with supervision by a Qualified Healthcare Professional
+    paraphrase: CRNAs, CNPs, and PNMHCSs with at least two years of supervised practice may prescribe without supervision after submitting an attestation to the Board; those with less supervised experience prescribe with supervision by a Qualified Healthcare Professional under written guidelines (kept on file; signed for CNPs and PNMHCSs) that cover who supervises, when consultation or referral is required, and conformity to M.G.L. c. 94C and 105 CMR 700.000. The Board may ask to review the guidelines. Only part of 4.07 was read.
+    confidence: medium
+
+advisory_rulings:
+  - number: AR 9324
+    title: Accepting, Verifying, Transcribing and Implementing Prescriber Orders
+    area: nursing practice
+    issued: "1993-09-22"
+    last_revised: "2018-04-11"
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+    read: true
+  - number: AR 9804
+    title: Administration of Immunizing Agents and Vaccines
+    area: nursing practice
+    issued: "1998-05-13"
+    last_revised: "2015-09-09"
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-9804-administration-of-immunizing-agents-and-vaccines/download
+    read: true
+  - number: AR 9803
+    title: Delegation to UAP
+    area: nursing practice
+    issued: "1998-11-03"
+    last_revised: null
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-9803-delegation-to-uap/download
+    read: true
+  - number: AR 25-01
+    title: RN and LPN Scope of Practice
+    area: nursing practice
+    issued: "2025-02-12"
+    last_revised: null
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-25-01-rn-and-lpn-scope-of-practice-pdf/download
+    read: true
+  - number: AR 92-05
+    title: Medication Administration of Over the Counter Drugs
+    area: nursing practice
+    issued: "1992-06-13"
+    last_revised: "2021-09-08"
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/medication-administration-of-over-the-counter-drugs-0/download
+    read: true
+  - number: AR 9401
+    title: The Role of the Licensed Nurse in the Department of Public Health Medication Administration Program
+    area: nursing practice
+    issued: "1994-02-16"
+    last_revised: "2020-07-08"
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-9401-the-role-of-the-licensed-nurse-in-the-department-of-public-health-medication-administration-program/download
+    read: true
+  - number: AR 2001
+    title: Advanced Practice Registered Nurse Delegation of the Administration of Immunizations to Certified Medical Assistants
+    area: nursing practice
+    issued: "2020-11-09"
+    last_revised: null
+    scope: APRN
+    url: https://www.mass.gov/doc/ar-2001-advanced-practice-registered-nurse-delegation-of-the-administration-of-immunizations-to-certified-medical-assistants/download
+    read: true
+  - number: AR 24-01
+    title: The Role of Nursing in Harm Reduction
+    area: nursing practice
+    issued: "2024-07-10"
+    last_revised: null
+    scope: RN, LPN
+    url: https://www.mass.gov/doc/ar-24-01-the-role-of-nursing-in-harm-reduction-pdf/download
+    read: true
+  - number: AR 9802
+    title: The LPN in Charge or Nurse Supervisor Role
+    area: nursing practice
+    issued: "1997-11-12"
+    last_revised: "2022-05-11"
+    scope: LPN
+    url: https://www.mass.gov/doc/ar-9802-the-lpn-in-charge-or-nurse-supervisor-role-0/download
+    read: true
+  - number: "AR 1801"
+    title: "Licensure Required to Practice Nursing"
+    area: nursing practice
+    issued: "2018-02-14"
+    last_revised: "2021-04-14"
+    scope: LPN, RN, APRN
+    url: https://www.mass.gov/doc/ar-1801-licensure-required-to-practice-nursing-1/download
+    read: true
+  - number: AR 23-03
+    title: Registered Nurses Performing Long-Acting Reversible Contraception (LARC) Procedures
+    area: nursing practice
+    issued: "2023-11-08"
+    last_revised: null
+    scope: RN
+    url: https://www.mass.gov/doc/ar-23-03-registered-nurses-performing-long-acting-reversible-contraception-larc-procedures-pdf/download
+    read: true
+  - number: AR 0201
+    title: NP as First Assistant in Cardiac Catheterization
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-0201-np-as-first-assistant-in-cardiac-catheterization/download
+    read: false
+  - number: AR 0801
+    title: Nursing Practice and Cardiopulmonary Resuscitation
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-0801-nursing-practice-and-cardiopulmonary-resuscitation/download
+    read: false
+  - number: AR 0802
+    title: The Use of a Vagal Nerve Stimulator Magnet
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-0802-the-use-of-a-vagal-nerve-stimulator-magnet/download
+    read: false
+  - number: AR 0901
+    title: Management of Pain
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-0901-management-of-pain/download
+    read: false
+  - number: AR 1001
+    title: Analgesia by Catheter Techniques
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-1001-analgesia-by-catheter-techniques/download
+    read: false
+  - number: AR 1002
+    title: APRN Prescriptive Authority in Federal Entities
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-1002-aprn-prescriptive-authority-in-federal-entities/download
+    read: false
+  - number: AR 1301
+    title: Cosmetic and Dermatologic Procedures
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-1301-cosmetic-and-dermatologic-procedures-pdf/download
+    read: false
+  - number: AR 2101
+    title: "Certified Nurse Midwives: Care of Transgender and Gender Diverse Individuals"
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-2101-certified-nurse-midwives-care-of-transgender-and-gender-diverse-individuals/download
+    read: false
+  - number: AR 2102
+    title: Certified Nurse Midwives and Certified Nurse Practitioners as Providers of Abortion for Pregnancies of Less Than 24 Weeks
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar2102-certified-nurse-midwives-and-certifed-nurse-practitioners-as-providers-of-abortion-for-pregnancies-of-less-than-24-weeks/download
+    read: false
+  - number: AR 9101
+    title: Administration of Medications for Sedation-Analgesia
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9101-administration-of-medications-for-sedation-analgesia/download
+    read: false
+  - number: AR 9204
+    title: Infusion Therapy
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9204-infusion-therapy-pdf/download
+    read: false
+  - number: AR 9301
+    title: Peripherally Inserted Central Catheters (PICC)
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9301-peripherally-inserted-central-catheters-picc/download
+    read: false
+  - number: AR 9305
+    title: Foot Care
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9305-foot-care/download
+    read: false
+  - number: AR 9801
+    title: Holistic Nursing and Complementary Integrative Health Approaches
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9801-holistic-nursing-and-complementary-integrative-health-approaches/download
+    read: false
+  - number: AR 9901
+    title: RN as First Assistants at Surgery
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9901-rn-as-first-assistants-at-surgery/download
+    read: false
+  - number: AR 9902
+    title: APRN as First Assist at Surgical Procedures
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-9902-aprn-as-first-assist-at-surgical-procedures/download
+    read: false
+  - number: AR 23-01
+    title: The Registered Nurse's Role in Assisting with Peripheral Nerve Block Placement
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-23-01-the-registered-nurses-role-in-assisting-with-peripheral-nerve-block-placement/download
+    read: false
+  - number: AR 24-02
+    title: Invoking a Health Care Proxy by APRNs
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-24-02-invoking-a-health-care-proxy-by-aprns-pdf/download
+    read: false
+  - number: AR 26-01
+    title: Certified Nurse Practitioners as Providers of Vasectomies
+    area: nursing practice
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-26-01-certified-nurse-practitioners-as-providers-of-vasectomies/download
+    read: false
+  - number: AR 23-02
+    title: Educational Requirements for Licensure Applicants Educated in an Out of State Nursing Program
+    area: nursing education
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-23-02-educational-requirements-for-licensure-applicants-educated-in-an-out-of-state-nursing-program/download
+    read: false
+  - number: AR 25-02
+    title: Guidelines to Ensure Clear, Concise, and Non-Discriminatory Language as directed under 244 CMR 6.04(3)(b) Within Nursing Program Written Policies
+    area: nursing education
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-25-02-guidelines-to-ensure-clear-concise-and-non-discriminatory-language-as-directed-under-244-cmr-6043b-within-nursing-program-written-policies-pdf/download
+    read: false
+  - number: AR 25-03
+    title: Clarification on Nursing Faculty and Nursing Preceptor Qualifications as outlined in 244 CMR 6.04(2)(b) and (c)
+    area: nursing education
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-25-03-clarification-on-nursing-faculty-and-nursing-preceptor-qualifications-as-outlined-in-244-cmr-6042b-and-c-pdf/download
+    read: false
+  - number: AR 25-04
+    title: Full-Time Program Administrator Oversight of Nursing Education Programs
+    area: nursing education
+    issued: null
+    last_revised: null
+    scope: null
+    url: https://www.mass.gov/doc/ar-25-04-full-time-program-administrator-oversight-of-nursing-education-programs-pdf/download
+    read: false
+
+limits:
+  - This guide returns citations, short quotations, summaries, and decision questions. It does not say that any specific act is within a particular nurse's scope of practice; that depends on the nurse's education and competence, the order or protocol, the setting, and the facts, and the Board decides questions about its own rules.
+  - It is a partial snapshot (see read_scope). Provisions and advisory rulings that were not read are not covered, and rulings are revised over time.
+  - The mass.gov copies of the regulations are not the official text; the Secretary of the Commonwealth publishes the official Code of Massachusetts Regulations.
+  - It is not legal advice. Employer policy, other state and federal law (for example M.G.L. c. 94C, 105 CMR 700.000, and DPH rules for school and public health programs), and licensing of other professions also apply.
