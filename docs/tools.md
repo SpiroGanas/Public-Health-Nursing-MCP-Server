@@ -2951,6 +2951,108 @@ appropriate food).
 
 <!-- Phase 15 prevent (CHR-04, CHR-05). -->
 
+### `preventive_services_lookup` (CHR-04, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `age_years` | required | Whole years, 0 to 120. No names or other identifiers. |
+| `sex_at_birth` | required | `female` or `male` (the recommendations are keyed to sex at birth or organs present). |
+| `pregnancy_status` | not given | `not_pregnant`, `pregnant`, or `postpartum`. When left out the person is treated as not pregnant and the pregnancy-specific recommendations are not evaluated (the response counts and names them). |
+| `risk_factors` | none | `tobacco_use` (current, former, never), `pack_years`, `years_since_quit`, `bmi`, `bmi_percentile`, `cardiovascular_risk_factors` (hypertension, elevated blood pressure, dyslipidemia, diabetes, metabolic syndrome; an empty list means none), `ten_year_cvd_risk_percent`, `sexually_active`, `postmenopausal`, `fair_skin`, `home_water_low_in_fluoride`, and `increased_risk_for` / `not_at_increased_risk_for` lists (HIV, hepatitis B, syphilis, STIs, chlamydia and gonorrhea, TB, falls, breast cancer, BRCA-related cancer, preeclampsia, perinatal depression, osteoporotic fracture). |
+| `include_myhealthfinder` | true | Ask ODPHP's MyHealthfinder (live, no key) for its list for the same age, sex, and pregnancy; skipped offline. |
+| `write_handout` | false | Plain-language client handout (DOCX or PDF, reading grade checked) with no name or identifier, to `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Data: the bundled `uspstf-ab-recommendations` snapshot, built by
+`xtask/scripts/build_prevent_snapshots.py` from the Task Force's published recommendation
+statements (the latest statement per topic, 2016 on; 53 grade A or B recommendations from 46
+statements), read as PubMed abstracts through the E-utilities because the USPSTF web site and API
+(`www.` and `data.uspreventiveservicestaskforce.org`) were blocked from the build network. Grade,
+population wording, and recommendation sentence are copied from the abstract, and the builder
+refuses to write a grade that the text does not show. Dates are journal publication dates. The
+project's layer (`content/chronic/preventive_services.yaml`) adds the age, sex, pregnancy, and
+risk-factor criteria the tool can apply, the plain-language client summaries, and the
+Massachusetts program options.
+
+How it decides: each recommendation has one or more alternatives (age range, sex at birth,
+pregnancy status, and required risk-factor flags). It goes under `applies` when an alternative is
+fully met, under `needs_review` when it fits on age, sex, and pregnancy but a required risk
+factor was not given (the response says which input is missing), and is counted in
+`not_matched_count` when age, sex, pregnancy, or a risk factor you gave rules it out. Leaving a
+risk factor out never removes a recommendation. Everything else in the published population
+("average risk", "no known disease", "asymptomatic") is shown as the Task Force's own wording plus
+a `confirm` note for the nurse to apply. Where a statement gives no age range (for example "women
+of reproductive age" or "adolescents") the tool chose one and says so in `assumption`.
+
+Output: for each recommendation the USPSTF grade, the statement date and DOI link, the Task
+Force's population and recommendation text, the `confirm` note, a client summary, and related
+Massachusetts programs; the Massachusetts options (the Massachusetts Breast and Cervical Cancer
+Program with its eligibility as DPH lists it, sites, and toll-free number; the MA Colorectal
+Cancer Control Program; 1-800-QUIT-NOW); MyHealthfinder's topics for the same person when online;
+and what is not covered. It is the grade A and B list only (not ACIP vaccines, HRSA lists, or
+grade C).
+
+Privacy: the request has only age, sex at birth, pregnancy status, and risk factors; no local
+files are read. When MyHealthfinder is used, age, sex, and pregnancy status (no identifier) go to
+odphp.health.gov.
+
+Limits: no USPSTF API adapter (the API was unreachable and its response format could not be
+checked; no `PHN_USPSTF_API_KEY` exists), so a statement updated after the snapshot date is not
+seen: the answer says to check the Task Force's page. Statements before 2015 (2008 newborn
+screening statements) are not included. MyHealthfinder has no offline copy. The content is
+`status: pending` until the nurse reviews it.
+
+### `asthma_home_assessment` (CHR-05, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `sections` | all | Any of `checklist`, `control`, `action_plan`, `services`. |
+| `town` | saved town | Massachusetts city or town, to mark home visiting programs that name or are located in it. |
+| `control_answers` | | Counts to classify (needs `control`): `symptom_days_past_30`, `symptoms_throughout_the_day`, `nights_waking_past_30`, `rescue_uses_per_day` or `no_inhaler_medicine_past_3_months`, `activity_limitation_past_12_months`, `age_years`. |
+| `write_documents` | true | Blank home visit checklist and blank asthma action plan to `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+| `clients_path` | | CSV/XLSX in `/data`, one row per person, with the prescriber's plan details: name, doctor, doctor phone, hospital phone, plan date, best peak flow, daily medicine, dose and timing, before-exercise medicine, quick-relief medicine and puffs, repeat minutes, maximum doses, oral steroid, mg and days, call hours, red-zone puffs, ambulance phone, triggers (needs `action_plan`). |
+
+Data: `content/chronic/asthma_home.yaml` (status pending), built from the CDC, EPA, and HUD
+"Home Characteristics and Asthma Triggers: Checklist for Home Visitors" (June 2018) and EPA's
+"Asthma Triggers: Gain Control"; NHLBI's Asthma Action Plan (NIH Publication No. 20-HL-5251,
+February 2021); the control table DPH prints in "Factors Associated with Asthma Management in
+Massachusetts" (2022), which adapts NHLBI's EPR-3 for the CDC Asthma Call-back Survey; and DPH's
+Massachusetts Asthma Home Visiting Program Directory (last updated by DPH in March 2025). Housing
+code facts are not repeated: each checklist section names a condition in the Phase 14 housing
+content (`env-housing-conditions`: moisture and mold, pests, heat, smoke and CO alarms) and the
+tool reads its 105 CMR 410 sections from there at run time.
+
+Control: the table has four items (symptom days in the past 30 days, nights waking, rescue
+inhaler uses per day, limits on usual activities in the past 12 months), each with well controlled,
+not well controlled, and very poorly controlled criteria as DPH prints them; the classification is
+the most severe item answered. Where the table's ranges meet (0.29 and 1.00 uses a day) the more
+severe category is used. It is a screening classification: no lung function or exacerbation
+criteria, DPH applied the age 12 and older cut points to children, and EPR-3 itself (NCBI
+Bookshelf, nhlbi.nih.gov) and GINA could not be reached, so the clinical grids are not bundled. The
+Asthma Control Test is licensed (QualityMetric) and is not reproduced; the response says so and
+gives the ACT and ACQ cut scores NHLBI's 2020 update prints.
+
+Action plan: the NHLBI zones (green, yellow, red, danger signs) as a template with
+`{{placeholders}}`; peak flow zones are worked out from a best peak flow with NHLBI's percentages
+(80 percent or more; 50 to 79; under 50). Template + local fill (ADR 0008): the filled plans for
+the people in `clients_path` go to `/data/output` only, medicines and doses appear only if they are
+in the file, and the response has counts and the file name.
+
+Services: DPH's seven-program directory (organization, location, regions served, and pediatric,
+adult, and older adult programs), with the town-fit label, DPH's description of the CHW-led
+model, and other DPH-listed resources (APCP email, MAAP, Massachusetts Breathing Better, the IPM
+toolkit, the Health Promotion Clearinghouse action plans). DPH lists regions, not towns, and no
+phone numbers.
+
+Privacy: local files go through `phn_tools::localdata`; person details in the file are written
+into the action plan file only. Control answers are counts typed in the request.
+
+Limits: MassHealth coverage of asthma home visits, local board of health or housing programs, and
+program phone numbers were not checked; the Massachusetts Health Promotion Clearinghouse (the
+DPH action plan forms) and nhlbi.nih.gov were blocked; the checklist is shortened from the
+original.
+
 <!-- End of Phase 15 prevent. -->
 
 <!-- Phase 15 cha (EQ-08, EQ-09, EQ-10). -->

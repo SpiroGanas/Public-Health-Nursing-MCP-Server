@@ -26,4 +26,9 @@ pub use food_access::{FoodAccessArgs, FoodAccessResult, food_access_mapper};
 // End of Phase 15 screen.
 
 // Phase 15 prevent (CHR-04, CHR-05): add `pub mod` and `pub use` lines below.
+pub mod asthma_home;
+pub mod preventive;
+
+pub use asthma_home::{AsthmaHomeArgs, AsthmaHomeResult, asthma_home_assessment};
+pub use preventive::{PreventiveArgs, PreventiveResult, preventive_services_lookup};
 // End of Phase 15 prevent.

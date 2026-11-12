@@ -1,0 +1,426 @@
+# Asthma home assessment: the CDC/EPA/HUD home asthma trigger checklist for home visitors, the
+# asthma control categories (as DPH adapts NHLBI's EPR-3 in its asthma surveillance report), the
+# NHLBI asthma action plan template, and Massachusetts home-based asthma services, for
+# asthma_home_assessment (CHR-05). Housing-code facts (105 CMR 410.000 for mold, moisture,
+# ventilation, pests, and heat) are NOT repeated here: each checklist section points at a
+# condition in content/env/housing_conditions.yaml (env-housing-conditions) and the tool reads
+# them from there.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12 from the sources below (all fetched that day).
+# Schema: content/schemas/chronic_asthma_home.schema.json
+meta:
+  id: chronic-asthma-home
+  title: Asthma home assessment (trigger checklist, control categories, action plan template, Massachusetts home visiting)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Home Characteristics and Asthma Triggers - Checklist for Home Visitors (June 2018)
+    publisher: CDC, EPA, and HUD
+    url: https://www.epa.gov/sites/default/files/2018-05/documents/asthma_home_environment_checklist.pdf
+  related_sources:
+    - title: Asthma Action Plan (NIH Publication No. 20-HL-5251, February 2021)
+      publisher: National Heart, Lung, and Blood Institute (hosted by EPA)
+      url: https://www.epa.gov/system/files/documents/2023-04/Asthma-Action-Plan-2020_rev_508.pdf
+    - title: Factors Associated with Asthma Management in Massachusetts (2022)
+      publisher: Massachusetts Department of Public Health, Asthma Prevention and Control Program
+      url: https://www.mass.gov/doc/factors-associated-with-asthma-management-in-massachusetts-pdf/download
+    - title: Community Health Worker-led asthma home visiting (Massachusetts Asthma Home Visiting Program Directory, last updated March 2025)
+      publisher: Massachusetts Department of Public Health, Asthma Prevention and Control Program
+      url: https://www.mass.gov/info-details/community-health-worker-led-asthma-home-visiting
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Checklist questions, options, and action steps are condensed from the CDC/EPA/HUD checklist
+    PDF (June 2018) and the EPA "Asthma Triggers: Gain Control" page, both read 2026-11-12 (high
+    confidence for what they say; the wording is shortened, so check the original before quoting).
+    The asthma action plan zones, percentages, and fields follow the NHLBI form (NIH Publication
+    No. 20-HL-5251) as hosted by EPA (high). The control categories are the table DPH prints in
+    its 2022 asthma management report, where DPH adapts NHLBI's EPR-3 for the CDC Asthma Call-back
+    Survey (30-day recall, adult cut points applied to all ages); EPR-3 itself (NCBI Bookshelf,
+    nhlbi.nih.gov) and GINA were NOT reachable from here, so the clinical EPR-3 grid (weekly
+    measures, age-specific columns, lung function, exacerbation risk) is not bundled and the
+    categories are screening-level (medium confidence). The Asthma Control Test is licensed
+    (QualityMetric) and is not reproduced. Services are DPH's directory as read (last updated by
+    DPH in March 2025); DPH lists regions served, not towns, and the Boston Public Health Commission
+    link in the directory points to a Boston Children's Hospital page, which is repeated as listed.
+    MassHealth coverage of asthma home visits, flexible services, and local board of health or
+    housing programs were not checked and no phone numbers are bundled beyond DPH's published
+    email address.
+
+sources:
+  checklist:
+    title: Home Characteristics and Asthma Triggers - Checklist for Home Visitors
+    publisher: CDC, EPA, and HUD (publication date June 2018)
+    url: https://www.epa.gov/sites/default/files/2018-05/documents/asthma_home_environment_checklist.pdf
+    effective_date: 2018-06-01
+    retrieved: 2026-11-12
+  epa-triggers:
+    title: "Asthma Triggers: Gain Control"
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/asthma/asthma-triggers-gain-control
+    effective_date: null
+    retrieved: 2026-11-12
+  nhlbi-plan:
+    title: Asthma Action Plan (NIH Publication No. 20-HL-5251)
+    publisher: National Heart, Lung, and Blood Institute; hosted by the U.S. Environmental Protection Agency
+    url: https://www.epa.gov/system/files/documents/2023-04/Asthma-Action-Plan-2020_rev_508.pdf
+    effective_date: 2021-02-01
+    retrieved: 2026-11-12
+  epa-plan-page:
+    title: Asthma Action Plan
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/asthma/asthma-action-plan
+    effective_date: 2026-02-17
+    retrieved: 2026-11-12
+  dph-asthma-mgmt:
+    title: Factors Associated with Asthma Management in Massachusetts (2022)
+    publisher: Massachusetts Department of Public Health, Asthma Prevention and Control Program
+    url: https://www.mass.gov/doc/factors-associated-with-asthma-management-in-massachusetts-pdf/download
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-chw-visiting:
+    title: Community Health Worker-led asthma home visiting
+    publisher: Massachusetts Department of Public Health, Asthma Prevention and Control Program
+    url: https://www.mass.gov/info-details/community-health-worker-led-asthma-home-visiting
+    effective_date: 2025-03
+    retrieved: 2026-11-12
+  dph-asthma-programs:
+    title: Asthma related programs and information
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/asthma-related-programs-and-information
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-asthma-resources:
+    title: Asthma resources
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/asthma-resources
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-apcp:
+    title: Asthma Prevention and Control
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/orgs/asthma-prevention-and-control
+    effective_date: null
+    retrieved: 2026-11-12
+  nhlbi-2020-update:
+    title: 2020 Focused Updates to the Asthma Management Guidelines (NAEPP Coordinating Committee Expert Panel Working Group)
+    publisher: National Heart, Lung, and Blood Institute (published in J Allergy Clin Immunol, PubMed Central PMC7924476)
+    url: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7924476/
+    effective_date: 2020-12-01
+    retrieved: 2026-11-12
+
+# Checklist sections that point at the Phase 14 housing content (condition ids in
+# content/env/housing_conditions.yaml). The tool reads the 105 CMR 410 sections from there.
+housing_links:
+  moisture_mold: Moisture, leaks, ventilation, and mold (105 CMR 410.500, 410.220, 410.170)
+  pests: Pests (105 CMR 410.550)
+  heat: Heating and space heaters
+  smoke_co: Smoke and carbon monoxide alarms
+
+checklist:
+  title: Home asthma trigger checklist for home visitors
+  how_to_use: >-
+    A trained home visitor goes through the Core Assessment in any kind of home. If dust mites or
+    mold and moisture are suspected, add the dust mite or mold and moisture module. Each answer
+    that points to a trigger comes with low-cost action steps to talk through with the household.
+    Removing triggers in the home, together with proper medical care, can improve health.
+  glossary:
+    - {trigger: Combustion by-products, found: "Gas cooking appliances, fireplaces, wood stoves, candles, incense, cigarettes, and unvented kerosene and gas space heaters."}
+    - {trigger: Dust mites, found: "Mattresses, bedding, carpeting, curtains, upholstered furniture, and stuffed toys; too small to see; they prefer high humidity."}
+    - {trigger: Mold, found: "Kitchens, bathrooms, basements, and places with water damage."}
+    - {trigger: Pests, found: "Cockroach body parts and droppings, and rodent fur, skin flakes, and urine, in areas with food and water such as kitchens, bathrooms, and basements."}
+    - {trigger: Pets with fur, found: "Throughout the home (fur, skin flakes, and saliva)."}
+    - {trigger: Secondhand smoke, found: "Anywhere smoking is allowed."}
+    - {trigger: Volatile organic compounds (VOCs), found: "Cleaning agents, deodorizers, air fresheners, perfumes, paints, nail polish, and nail polish remover."}
+  modules:
+    - id: core
+      label: Core assessment
+      sections:
+        - id: building
+          label: Building
+          housing: null
+          items:
+            - {id: building_type, question: "What kind of building is the home (one-unit detached, one-unit attached, two or more apartments, manufactured or mobile home)?", options: [one-unit detached, one-unit attached, two or more apartments, manufactured or mobile home], actions: []}
+            - {id: tenure, question: "Is the home owned, rented, or occupied without payment of rent?", options: [owned, rented, occupied without rent], actions: ["Renters may need the owner's permission for changes, even minor repairs, and are often protected by tenant rights laws. Refer to local social services if help is needed."]}
+            - {id: stories, question: "How many stories does the home have, including attics and basements?", options: [], actions: []}
+        - id: heating_cooling
+          label: Heating and cooling
+          housing: heat
+          items:
+            - {id: main_heat, question: "What is the main way the home is heated in winter (radiators, baseboard, forced hot air, space heater, fireplace or wood stove, other)?", options: [radiators, baseboard heater, forced hot air, space heater, fireplace or wood stove, other], actions: ["Ventilate the room where a fuel-burning appliance is used, and prefer appliances vented outside.", "Never use a gas cooking appliance as a heat source.", "Fireplaces must be properly vented; wood stoves need tight-fitting doors and aged or cured wood, used as the maker directs.", "Unvented kerosene or gas space heaters: use the proper fuel and keep the heater adjusted as the maker directs."]}
+            - {id: other_heat, question: "Is any other source of heat used besides the main one?", options: ["yes", "no"], actions: []}
+            - {id: cooling, question: "How is the home cooled (central A/C, window or portable A/C, fans, evaporative cooler, other)?", options: [central A/C, window or portable A/C, fans, evaporative cooler, other], actions: ["Central A/C: replace filters about every 3 months or as the maker says; consider higher-efficiency pleated filters if the system allows; have a professional inspect it each year; repair damaged parts promptly.", "Window A/C: keep drip pans clean and drain lines flowing; clean or replace filters as the maker directs.", "Evaporative coolers: clean as the maker directs."]}
+        - id: cooking
+          label: Cooking
+          housing: smoke_co
+          items:
+            - {id: stove, question: "Is the stove gas or electric?", options: [gas, electric], actions: []}
+            - {id: exhaust_fan_use, question: "Is an exhaust fan used when cooking, and does it vent outdoors?", options: [yes and outdoors, yes but not outdoors, "no", do not know], actions: ["Use the exhaust fan if it vents outside, or open a window when cooking."]}
+        - id: smoking
+          label: Smoking and vaping
+          housing: null
+          items:
+            - {id: smoke_inside, question: "Does any household member or visitor smoke tobacco inside the home?", options: ["yes", "no"], actions: ["Make the home a smoke-free zone.", "Encourage household members to stop smoking."]}
+            - {id: smoke_drift, question: "In the last 12 months, how often has secondhand smoke come in from somewhere else in or around the building (daily, weekly, monthly, a few times a year, never)?", options: [daily, weekly, monthly, a few times a year, never], actions: ["Work with the building owner or manager and other occupants on a smoke-free policy for the whole building.", "Use a portable air cleaner rated to remove tobacco smoke."]}
+            - {id: ecig_note, question: "Note: e-cigarette vapor can still contain toxic chemicals, and secondhand vapor might trigger asthma symptoms.", options: [], actions: []}
+        - id: pets
+          label: Pets
+          housing: null
+          items:
+            - {id: pets, question: "Are there pets in the home (cats, dogs, birds, other furry pets such as rabbits, guinea pigs, hamsters, or mice, other non-furry pets)?", options: [cats, dogs, birds, other furry pets, other non-furry pets, none], actions: ["Ask the health care provider whether allergy testing for the pets would help.", "If allergic, the best way to reduce symptoms is to remove the pet and clean all surfaces thoroughly.", "If the pet stays, do all of these: keep it out of the bedroom, wash furry pets, use an air cleaner with a HEPA filter, and use allergen-proof mattress and pillow covers (this may not be enough)."]}
+        - id: pests
+          label: Pests
+          housing: pests
+          items:
+            - {id: roaches_seen, question: "In the last 12 months, have cockroaches been seen in the home, and how often (daily, weekly, monthly, a few times a year)?", options: ["yes", "no", do not know], actions: ["Use integrated pest management (IPM); avoid sprays and foggers for people with asthma.", "Keep counters, sinks, tables, and floors clean and clutter-free; clean dishes, crumbs, and spills right away.", "Store food, including pet food, in airtight containers; keep trash in a closed container.", "Seal cracks and openings in cabinets, walls, baseboards, and around plumbing.", "Use pesticide baits and traps away from children and pets, as the label directs."]}
+            - {id: pest_control_roaches, question: "In the last 12 months, were pest control measures (pesticides, traps) used for cockroaches or for other insects, by the household or an exterminator?", options: ["yes", "no", do not know], actions: ["Use IPM as described above."]}
+            - {id: rodents_seen, question: "In the last 12 months, has there been evidence of mice or rats, and how often? Were pest control measures used for them?", options: ["yes", "no", do not know], actions: ["Use IPM methods as described above.", "Use snap traps away from children and pets."]}
+        - id: moisture_mold
+          label: Moisture and mold
+          housing: moisture_mold
+          items:
+            - {id: water_damage, question: "Is there evidence of water damage, moisture, or leaks (such as damp carpet or leaking plumbing)?", options: ["yes", "no", do not know], actions: ["Dry damp or wet items within 24 to 48 hours.", "Fix water leaks as soon as possible.", "Replace absorbent materials such as ceiling tiles and carpet if mold is present."]}
+            - {id: musty_smell, question: "In the last 12 months, how often has a moldy or musty smell been noticed (daily, weekly, monthly, a few times a year)?", options: [daily, weekly, monthly, a few times a year, never], actions: ["Use an air conditioner or dehumidifier to keep indoor humidity low (30 to 50% relative humidity).", "Scrub mold off hard surfaces with detergent and water and dry completely."]}
+            - {id: mold_area, question: "In the last 12 months, was mold covering an area as large as an 8 by 11 inch sheet of paper or larger?", options: ["yes", "no", do not know], actions: ["Empty and clean refrigerator and air conditioner drip pans regularly.", "Run the bathroom exhaust fan or open the window when showering."]}
+            - {id: dehumidifier, question: "Is a dehumidifier or a humidifier used?", options: [dehumidifier, humidifier, neither], actions: ["Keep relative humidity around 30 to 50%.", "Clean these devices as the maker directs to prevent mold growth."]}
+      key_points:
+        - "Volatile organic compounds (cleaning products, perfumes, paints, and similar household items) can harm all people with asthma: use fewer products, use them when the person with asthma is not present, try alternatives, follow the label, and ventilate."
+        - "Outdoor air pollutants and pollen can enter through open doors, windows, and cracks. Check outdoor air quality at airnow.gov."
+        - "Smoke and carbon monoxide can be deadly: use smoke detectors and carbon monoxide alarms and follow the maker's instructions."
+    - id: dust_mites
+      label: Dust mite module (add when dust mites are suspected)
+      how_to_read: >-
+        Yes answers to these questions are associated with dust mites; the more Yes answers, the more
+        likely dust mite levels are high.
+      sections:
+        - id: dust_mite_questions
+          label: Dust mite questions
+          housing: null
+          items:
+            - {id: dm_windows, question: "Building: are all windows sealed shut or unable to open?", options: ["yes", "no"], actions: []}
+            - {id: dm_below_ground, question: "Is any living area below ground level, and if so does it get wet or stay wet for more than a week?", options: ["yes", "no"], actions: []}
+            - {id: dm_cold_walls, question: "During winter, are some outside walls cold?", options: ["yes", "no", do not know], actions: []}
+            - {id: dm_ac_leak, question: "Does an air conditioner ever leak water onto walls or carpet?", options: ["yes", "no", no A/C], actions: []}
+            - {id: dm_stuffy, question: "Does the home sometimes smell stuffy, stale, or musty?", options: ["yes", "no", do not know], actions: []}
+            - {id: dm_bedroom, question: "Is there upholstered furniture in the bedroom of the person with asthma, or stuffed animals and toys in the room?", options: ["yes", "no"], actions: []}
+            - {id: dm_reservoirs, question: "Are there cloth sofas or chairs, cloth curtains, visible dust or dirt, wall-to-wall carpet in more than half the rooms or in the kitchen or bathrooms, or vacuuming less than once a week?", options: ["yes", "no"], actions: []}
+            - {id: dm_dampness, question: "In the last 12 months, was there condensation on windows (and does moisture build up regularly on windows or walls), any water leaks, or regular use of a dehumidifier (which can mean the home is humid)?", options: ["yes", "no", do not know], actions: []}
+      actions:
+        - Ask the health care provider whether testing for dust mite allergy would help.
+        - "If allergic to dust mites: measure humidity and keep it around 30 to 50%; use washable bedding and wash it weekly and dry it completely; cover mattresses and pillows in allergen-proof covers; vacuum carpets, rugs, and floors regularly, with the person with asthma out of the room while it is vacuumed, swept, or dusted."
+    - id: mold_moisture
+      label: Mold and moisture module (add when mold or moisture is suspected)
+      how_to_read: >-
+        The checklist marks some answers as higher, medium, or lower concern for moisture and mold;
+        more higher-concern answers make mold and moisture more likely.
+      sections:
+        - id: mold_questions
+          label: Mold and moisture questions
+          housing: moisture_mold
+          items:
+            - {id: mm_crawlspace, question: "Is there a crawlspace under the building, or are any bedrooms in the basement? (Many crawl spaces and basements are damp and may have mold that enters the home.)", options: ["yes", "no", do not know], actions: []}
+            - {id: mm_bath_fan, question: "Does the bathroom exhaust fan work, and how often is it used when showering or bathing (never, sometimes, all the time)?", options: [never, sometimes, all the time, no fan], actions: ["Properly maintained exhaust fans that vent outdoors reduce humidity."]}
+            - {id: mm_kitchen_dryer, question: "Does the kitchen vent exhaust outdoors, and does the clothes dryer exhaust outdoors?", options: ["yes", "no", do not know], actions: ["Without working fans that vent outside, humidity can build up and lead to mold."]}
+            - {id: mm_carpet, question: "Is there wall-to-wall carpet in the kitchen or bathrooms, and what covers the bedroom floor (wall-to-wall carpet, some carpet, all smooth floor)?", options: [wall-to-wall carpet, some carpet, all smooth floor], actions: ["Carpet in areas prone to spills is hard to dry; damp carpet can grow mold and shelter dust mites."]}
+            - {id: mm_condensation, question: "In the last 12 months, has condensation been noticed on windows? (Water droplets mean moisture you cannot see may be forming on other surfaces.)", options: ["yes", "no"], actions: []}
+            - {id: mm_belongings, question: "Have any furnishings, clothes, or belongings been in a building that had water damage? (They could carry mold into the new home.)", options: ["yes", "no", do not know], actions: []}
+      actions:
+        - "Dry damp or wet items within 24 to 48 hours; fix leaks quickly; replace absorbent materials such as ceiling tiles and carpet if mold is present."
+        - "Use an air conditioner or dehumidifier to keep indoor humidity at 30 to 50%."
+        - "Scrub mold off hard surfaces with detergent and water and dry completely; empty and clean refrigerator and air conditioner drip pans regularly; use the bathroom fan or open the window when showering."
+  epa_trigger_actions:
+    - {trigger: Secondhand smoke, actions: ["Do not let anyone smoke near the child.", "If you smoke, until you can quit, do not smoke in the home or car."]}
+    - {trigger: Dust mites, actions: ["Wash bedding in hot water once a week and dry completely.", "Use dust-proof covers on pillows and mattresses.", "Vacuum carpets and furniture every week, with a HEPA-filter vacuum; the person with asthma should leave the area.", "Choose washable stuffed toys and wash them in hot water.", "Dust often with a damp cloth."]}
+    - {trigger: Mold, actions: ["Clean mold on hard surfaces with soap and water and let the area dry completely.", "Use exhaust fans or open a window in bathrooms and kitchens when showering, cooking, or washing dishes.", "Fix leaks as soon as possible.", "Dry damp or wet things completely within one to two days.", "Keep indoor relative humidity between 30 and 50%."]}
+    - {trigger: Cockroaches and pests, actions: ["Use lower-risk pest management; pesticides can harm people too.", "Keep counters, sinks, tables, and floors clean and free of clutter.", "Clean dishes, crumbs, and spills right away.", "Store food in airtight containers.", "Seal cracks or openings around or inside cabinets."]}
+    - {trigger: Pets, actions: ["The most effective way to control animal allergens is to not have animals in the home.", "If a pet must stay inside, keep it out of the bedroom of the person with asthma and off furniture, and use a HEPA air cleaner.", "Vacuum when the person with asthma is not around."]}
+    - {trigger: Nitrogen dioxide, actions: ["Make sure fuel-burning appliances are properly installed, used, and maintained, and vented outside where possible.", "Gas stoves: use an exhaust fan vented outdoors; never use the stove to heat the home.", "Unvented heaters: use the proper fuel, keep the heater adjusted, and open a window when using it."]}
+    - {trigger: Outdoor air pollution, actions: ["Check the Air Quality Index (airnow.gov) and plan outdoor activity for times when air quality is better.", "Stay inside with windows closed on high pollen days and when pollutants are high.", "Use a portable air cleaner or a high-efficiency HVAC system to reduce fine particles indoors."]}
+    - {trigger: Chemical irritants, actions: ["If a product makes asthma worse, try a different product; if it must be used, keep the person with asthma away, open windows or use an exhaust fan, and follow the label."]}
+    - {trigger: Wood smoke, actions: ["Burn dry wood that has been split, stacked, covered, and stored for at least 6 months.", "Have the stove and chimney inspected every year by a certified professional.", "If possible, replace an old wood stove with an EPA-certified appliance."]}
+  evidence_note: >-
+    The NHLBI 2020 Focused Updates to the Asthma Management Guidelines (PMC7924476) address
+    allergen mitigation for people with asthma who are sensitized to indoor allergens; read the
+    update before telling a household that a single measure will work, because the evidence it
+    reviewed supports combinations of measures matched to the person's allergens.
+
+control:
+  title: Asthma control (screening-level categories)
+  basis: >-
+    Massachusetts DPH classified asthma control for the CDC Asthma Call-back Survey with the
+    categories of NHLBI's Expert Panel Report 3 (EPR-3): daily asthma symptoms, nighttime
+    awakenings, frequency of use of rescue medicine, lung function, interference with normal
+    activity, and exacerbations needing oral corticosteroids. The survey could measure the four
+    items below; the table is DPH's printed version. The control category is the most severe level
+    across the items answered.
+  variables:
+    - id: symptoms
+      label: Days with asthma symptoms in the past 30 days
+      question: "During the past 30 days, on how many days did you have any symptoms of asthma? Do you have symptoms all the time?"
+      well: "0 to 8 days"
+      not_well: "9 to 29 days, or all 30 days but not throughout the day"
+      very_poorly: "All 30 days and throughout the day"
+    - id: nights
+      label: Nights asthma made it hard to stay asleep in the past 30 days
+      question: "During the past 30 days, on how many days did symptoms of asthma make it difficult for you to stay asleep?"
+      well: "0 to 2 nights"
+      not_well: "3 to 12 nights"
+      very_poorly: "13 to 30 nights"
+    - id: saba
+      label: Inhaled short-acting beta agonist (rescue inhaler) uses per day
+      question: "In the past three months, how many times per day or per week do you use your rescue (short-acting) inhaler?"
+      well: "No asthma inhaler medicine in the past 3 months, or no rescue inhaler use, or 0.29 uses per day or fewer"
+      not_well: "More than 0.29 up to 1.00 use per day"
+      very_poorly: "1.00 use per day or more"
+    - id: interference
+      label: Limits on usual activities because of asthma in the past 12 months
+      question: "During the past 12 months, would you say you limited your usual activities due to asthma not at all, a little, a moderate amount, or a lot?"
+      well: "Not at all (or no symptoms in the past year)"
+      not_well: "A little or a moderate amount"
+      very_poorly: "A lot"
+  limits:
+    - The 30-day symptom cut point comes from converting EPR-3's "2 or fewer days a week" to about 8 days a month; EPR-3 itself asks about days per week.
+    - DPH applied the age 12 and older cut points to children 0 to 4 and 5 to 11 years; EPR-3's categories differ for those ages, so use this table for ages 12 and older and use EPR-3 (not bundled) for children.
+    - The table has no lung function (FEV1 or peak flow) and no exacerbation criteria; ask about oral steroid courses and emergency or urgent visits in the past year separately, and treat a recent exacerbation or hospital stay as a reason to review control whatever the answers above show.
+    - It is a screening classification from a population survey, not a clinical assessment or a treatment step decision.
+  act_note: >-
+    The Asthma Control Test (ACT) is a licensed instrument (QualityMetric); its questions and
+    scoring are not reproduced here. If your agency has a license, use it alongside this table.
+    The NHLBI 2020 Focused Updates (PMC7924476) list ACT scores of 20 or more as well controlled
+    and 19 or less as not well controlled, and Asthma Control Questionnaire scores under 0.75 as
+    well controlled and 1.5 or more as uncontrolled (ACQ-5, -6, and -7), in a table of minimal
+    important differences. The link was not opened from the build network.
+  act_url: https://www.asthmacontroltest.com/
+
+action_plan:
+  title: Asthma action plan
+  source_note: >-
+    Zones, percentages, and fields follow NHLBI's Asthma Action Plan (NIH Publication No.
+    20-HL-5251, February 2021), a U.S. government form that EPA lists as an example of commonly
+    used plans. The plan is completed by the person's prescriber with the person (or caregiver);
+    medicines and doses are never filled in by this server except from a local file you supply.
+    A school or camp may need its own medication authorization form. Plans should be updated at
+    least once a year (EPA).
+  peak_flow:
+    green_percent_of_best: 80
+    yellow_low_percent_of_best: 50
+    note: "Green zone: 80 percent or more of the person's best peak flow. Yellow: 50 to 79 percent. Red: under 50 percent."
+  fields:
+    - {field: client_name, label: "For (name)", aliases: [name, client name, patient name, child name, student name, full name]}
+    - {field: doctor, label: Doctor, aliases: [doctor, provider, clinician, prescriber, doctor name]}
+    - {field: doctor_phone, label: "Doctor's phone number", aliases: [doctor phone, provider phone, clinician phone, doctor phone number, prescriber phone]}
+    - {field: hospital_phone, label: "Hospital or emergency department phone number", aliases: [hospital phone, ed phone, emergency department phone, hospital phone number]}
+    - {field: plan_date, label: Date, aliases: [plan date, date, date of plan]}
+    - {field: best_peak_flow, label: Best peak flow, aliases: [best peak flow, personal best peak flow, peak flow, best pef]}
+    - {field: daily_medicine, label: Daily medicine, aliases: [daily medicine, controller, controller medicine, daily medication, controller medication]}
+    - {field: daily_dose, label: How much to take (daily medicine), aliases: [daily dose, controller dose, daily medicine dose, daily how much]}
+    - {field: daily_when, label: When to take it (daily medicine), aliases: [daily when, controller when, daily medicine when, daily schedule]}
+    - {field: exercise_medicine, label: Before exercise, aliases: [exercise medicine, before exercise, pre exercise medicine, exercise medication]}
+    - {field: quick_relief_medicine, label: Quick-relief medicine, aliases: [quick relief medicine, rescue medicine, rescue inhaler, reliever, quick relief, quick relief medication]}
+    - {field: quick_relief_puffs, label: Number of puffs (yellow zone), aliases: [quick relief puffs, rescue puffs, yellow zone puffs, puffs]}
+    - {field: repeat_minutes, label: Can repeat every (minutes), aliases: [repeat minutes, repeat every minutes, repeat every]}
+    - {field: max_doses, label: Up to a maximum of (doses), aliases: [max doses, maximum doses]}
+    - {field: oral_steroid, label: Oral steroid, aliases: [oral steroid, steroid, oral steroid name, oral corticosteroid]}
+    - {field: oral_steroid_mg, label: Oral steroid mg per day, aliases: [oral steroid mg, steroid mg, steroid dose, oral steroid dose]}
+    - {field: oral_steroid_days, label: Oral steroid number of days, aliases: [oral steroid days, steroid days]}
+    - {field: call_hours, label: Call the doctor within (hours) of starting the oral steroid, aliases: [call hours, call doctor hours]}
+    - {field: red_puffs, label: Number of puffs (red zone), aliases: [red zone puffs, red puffs, emergency puffs]}
+    - {field: emergency_phone, label: Phone for an ambulance, aliases: [emergency phone, ambulance phone]}
+    - {field: triggers, label: Known triggers, aliases: [triggers, asthma triggers, known triggers]}
+  markdown: |
+    # Asthma action plan
+
+    For: {{client_name}}    Date: {{plan_date}}
+
+    Doctor: {{doctor}}    Doctor's phone number: {{doctor_phone}}
+
+    Hospital or emergency department phone number: {{hospital_phone}}
+
+    My best peak flow is: {{best_peak_flow}}
+
+    ## Green zone: doing well
+
+    - No cough, wheeze, chest tightness, or shortness of breath during the day or night.
+    - I can do my usual activities.
+    - If I use a peak flow meter: {{green_peak_flow}}
+
+    Daily medicine: {{daily_medicine}}. How much to take: {{daily_dose}}. When to take it: {{daily_when}}.
+
+    Before exercise: {{exercise_medicine}}
+
+    ## Yellow zone: asthma is getting worse
+
+    - Cough, wheeze, chest tightness, or shortness of breath, or
+    - Waking at night because of asthma, or
+    - I can do some, but not all, usual activities, or
+    - If I use a peak flow meter: {{yellow_peak_flow}}
+
+    1. Add quick-relief medicine and keep taking my green zone medicine: {{quick_relief_medicine}}, {{quick_relief_puffs}} puffs. I can repeat every {{repeat_minutes}} minutes, up to a maximum of {{max_doses}} doses.
+    2. If my symptoms (and peak flow, if used) return to the green zone after 1 hour of this treatment, I keep watching to be sure I stay in the green zone.
+    3. If my symptoms (and peak flow, if used) do not return to the green zone after 1 hour: take {{quick_relief_medicine}}, {{quick_relief_puffs}} puffs, and add the oral steroid {{oral_steroid}}, {{oral_steroid_mg}} mg per day for {{oral_steroid_days}} days. Call the doctor before or within {{call_hours}} hours after taking the oral steroid.
+
+    ## Red zone: medical alert
+
+    - I am very short of breath, or
+    - My quick-relief medicines have not helped, or
+    - I cannot do my usual activities, or
+    - My symptoms are the same or get worse after 24 hours in the yellow zone, or
+    - If I use a peak flow meter: {{red_peak_flow}}
+
+    Take this medicine now: {{quick_relief_medicine}}, {{red_puffs}} puffs, and the oral steroid {{oral_steroid}}, {{oral_steroid_mg}} mg. Then call my doctor NOW. Go to the hospital or call an ambulance if I am still in the red zone after 15 minutes and I have not reached my doctor.
+
+    **Danger signs:** trouble walking and talking because of shortness of breath, or blue lips or fingernails. Take {{red_puffs}} puffs of {{quick_relief_medicine}} and go to the hospital or call for an ambulance ({{emergency_phone}}) NOW.
+
+    ## Things that make my asthma worse
+
+    My known triggers: {{triggers}}
+
+    Ask the doctor to help find other triggers. Controlling an allergen usually takes a combination of steps, and reducing allergens is only one part of asthma care. See the home trigger checklist for steps for dust mites, pests, mold, pets, smoke, and strong odors.
+
+    This plan is completed with the person's doctor. Update it at least once a year.
+  trigger_guidance_source: nhlbi-plan
+
+services:
+  directory:
+    title: Massachusetts Asthma Home Visiting Program Directory
+    publisher: Massachusetts Department of Public Health, Asthma Prevention and Control Program (APCP)
+    last_updated_by_dph: 2025-03
+    retrieved: 2026-11-12
+    url: https://www.mass.gov/info-details/community-health-worker-led-asthma-home-visiting
+    note: >-
+      DPH lists the organization, where it is located, and the primary areas it serves (regions,
+      not towns), and says eligibility for home visiting may vary by program. DPH asks programs to
+      report changes to DPH-Asthma@mass.gov. The directory has no phone numbers; the program
+      websites are as DPH listed them.
+    programs:
+      - {id: boston_childrens, name: Boston Children's Hospital (Community Asthma Initiative), location: Boston, areas: [Metro Boston], towns_served: [], pediatric: true, adult: false, older_adult: false, url: "https://www.childrenshospital.org/programs/community-asthma-initiative"}
+      - {id: bphc, name: Boston Public Health Commission, location: Boston, areas: [Metro Boston], towns_served: [], pediatric: true, adult: true, older_adult: true, url: "https://www.boston.gov/government/cabinets/boston-public-health-commission", url_note: "DPH's directory links this entry to a Boston Children's Hospital page (https://www.childrenshospital.org/services/community-asthma-initiative); the Boston Public Health Commission's own home page is shown here from DPH's 'Other key Massachusetts asthma resources' list."}
+      - {id: caring_health, name: Caring Health Center, location: Springfield, areas: [Western], towns_served: [], pediatric: true, adult: false, older_adult: false, url: "https://www.caringhealth.org/"}
+      - {id: neighborhealth, name: NeighborHealth, location: East Boston, areas: [Western, Central, Northeastern, Metro West, Southeast, Metro Boston], towns_served: [], pediatric: true, adult: false, older_adult: false, url: "https://www.ebnhc.org/"}
+      - {id: ppo_childrens, name: "Pediatric Physician's Organization at Children's", location: Wellesley, areas: [Western, Central, Northeastern, Metro West, Southeast, Metro Boston], towns_served: [], pediatric: true, adult: false, older_adult: false, url: "https://www.ppochildrens.org/"}
+      - {id: revitalize_cdc, name: Revitalize CDC, location: Springfield, areas: [Western, Central], towns_served: [Springfield, Holyoke, Chicopee], pediatric: true, adult: true, older_adult: true, url: "https://www.revitalizecdc.com/dashhprogram"}
+      - {id: umass_memorial, name: UMass Memorial Health, location: Worcester, areas: [Central], towns_served: [], pediatric: true, adult: false, older_adult: false, url: "https://www.ummhealth.org/about-us/community-benefits-program/umass-memorial-medical-center-community-benefits-program/home-asthma-program"}
+  model_note: >-
+    DPH describes the CHW-led asthma home visiting model as evidence-based and designed for
+    high-risk pediatric patients with uncontrolled or poorly controlled asthma and a recent history
+    of emergency room use: a series of home visits by a trained community health worker who
+    provides asthma self-management education, helps with understanding and using medicines,
+    reinforces the asthma action plan from the clinical team, and helps identify and reduce triggers
+    in the home (advocating for owner action and connecting households with low-cost supplies such
+    as mattress covers and HEPA vacuums where available).
+  other:
+    - {name: Massachusetts DPH Asthma Prevention and Control Program (APCP), what: "State program that supports asthma home visiting and publishes asthma data and resources; DPH offers one-on-one support to home visiting programs.", contact: "DPH-Asthma@mass.gov (email, as published by DPH)", url: "https://www.mass.gov/orgs/asthma-prevention-and-control", source: dph-apcp}
+    - {name: Asthma Home Visiting Trainings and Resources for Community Health Workers (DPH), what: "Training and resources page for CHWs doing asthma home visits.", contact: "See the DPH page", url: "https://www.mass.gov/info-details/asthma-home-visiting-trainings-resources-for-community-health-workers", source: dph-chw-visiting}
+    - {name: Massachusetts Asthma Action Partnership (MAAP), what: "Brings together state agencies, local health and human service organizations, health care providers, and housing and education stakeholders on asthma; keeps a school toolkit (Clearing the Air).", contact: "See maasthma.org", url: "https://www.maasthma.org/", source: dph-asthma-resources}
+    - {name: Massachusetts Breathing Better, what: "Listed by DPH among other key Massachusetts asthma resources (not described further on the page read).", contact: "See mabetterbreathing.org", url: "https://mabetterbreathing.org/", source: dph-asthma-programs}
+    - {name: DPH Integrated Pest Management (IPM) Toolkit, what: "Toolkit for starting or improving integrated pest management programs in buildings.", contact: "Download from the DPH asthma resources page", url: "https://www.mass.gov/info-details/asthma-resources", source: dph-asthma-resources}
+    - {name: "Adult and Child Asthma Action Plans (Massachusetts Health Promotion Clearinghouse)", what: "DPH lists adult and child asthma action plans, including a student medication administration authorization, for order or download from the Massachusetts Health Promotion Clearinghouse. That site could not be opened from here, so its form is not bundled.", contact: "massclearinghouse.ehs.state.ma.us", url: "https://massclearinghouse.ehs.state.ma.us/", source: dph-asthma-resources}
+  not_verified:
+    - MassHealth coverage of asthma home visits or community health worker services.
+    - Local board of health, city housing, or healthy homes programs that fix asthma triggers.
+    - Phone numbers for any listed program (DPH's directory does not give them).
+    - Which towns each regional program serves (DPH lists regions, not towns).

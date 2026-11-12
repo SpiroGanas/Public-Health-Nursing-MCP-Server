@@ -1999,6 +1999,37 @@
           "rows": 662
         }
       ]
+    },
+    {
+      "id": "uspstf-ab-recommendations",
+      "title": "USPSTF A and B recommendations (from the Task Force's published recommendation statements)",
+      "publisher": "U.S. Preventive Services Task Force (statements published in JAMA and other journals; read through the National Library of Medicine's PubMed E-utilities)",
+      "source_urls": [
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed (one request for all PubMed IDs in the builder script)",
+        "https://www.uspreventiveservicestaskforce.org/"
+      ],
+      "source_sha256": {
+        "pubmed_efetch_response.xml": "dfe078286638d8f880aa030c1526757ab1af0eb996761d611f5ea01d4d7c49c9"
+      },
+      "source_vintage": "statements published 2017-09-05 to 2025-07-22",
+      "retrieved": "2026-11-12",
+      "license": "USPSTF recommendations are U.S. government work; the abstracts are quoted briefly with attribution. Check each journal's terms before reproducing more.",
+      "derivation": "Final recommendation statements (latest per topic, 2016 on) fetched as PubMed abstracts for the PubMed IDs listed in xtask/scripts/build_prevent_snapshots.py; for each A or B recommendation the builder copies the graded sentence and the statement's population text, and refuses to write the file if the grade in the text differs from the grade in the script. Dates are the journal publication dates. Builder: xtask/scripts/build_prevent_snapshots.py (Python 3 standard library). The USPSTF web site and API could not be reached from the build network.",
+      "caveats": [
+        "Dates are journal publication dates; the Task Force's own posting date can differ by days.",
+        "The abstract's recommendation wording omits details on the Task Force's own pages (for example screening intervals and tests). Always check the full statement.",
+        "Statements published before 2015 (for example, 2008 statements on newborn screening for hearing loss, phenylketonuria, congenital hypothyroidism, and sickle cell disease) are not included because their current USPSTF status could not be checked from here.",
+        "Any statement PubMed does not return for the Corporate Author 'US Preventive Services Task Force', and anything published after the retrieval date, is not included.",
+        "Grades C, D, and I are not listed. Recommendations the Task Force has archived or is updating (draft statements) are not reflected."
+      ],
+      "files": [
+        {
+          "path": "uspstf_ab_recommendations.json",
+          "sha256": "85411c19eccdb572650fcefd78c1ea09f6853e4cc957b7a0b64d0b665c1e7e09",
+          "bytes": 46193,
+          "rows": 53
+        }
+      ]
     }
   ]
 }

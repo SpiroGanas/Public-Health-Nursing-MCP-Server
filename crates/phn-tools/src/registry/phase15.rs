@@ -15,6 +15,18 @@ pub(super) const SCREEN: &[ToolMeta] = &[
 /// Preventive services and asthma: CHR-04, CHR-05.
 pub(super) const PREVENT: &[ToolMeta] = &[
     // Phase 15 prevent entries go below this line.
+    ToolMeta {
+        name: "preventive_services_lookup",
+        plan_id: "CHR-04",
+        toolset: Toolset::Chronic,
+        phase: 15,
+    },
+    ToolMeta {
+        name: "asthma_home_assessment",
+        plan_id: "CHR-05",
+        toolset: Toolset::Chronic,
+        phase: 15,
+    },
     // End of Phase 15 prevent entries.
 ];
 

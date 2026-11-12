@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 111;
+const TOOL_COUNT = 113;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3640,6 +3640,76 @@ const toolChapters = [
       // Phase 15 screen (CHR-02, CHR-03) tools.
       // End of Phase 15 screen tools.
       // Phase 15 prevent (CHR-04, CHR-05) tools.
+      {
+        id: 'preventive_services_lookup',
+        title: 'Look up recommended preventive services',
+        toolset: 'chronic',
+        internet: 'optional',
+        files: 'optional, a plain-language client handout in your output folder',
+        does: 'Lists the U.S. Preventive Services Task Force (USPSTF) grade A and B recommendations that fit a person’s age, sex at birth, pregnancy status, and risk factors. Each one shows its grade, the date of the Task Force statement, the Task Force’s own wording of who it is for, what you still need to check, and a plain-language summary you can use with the client. It also shows Massachusetts options: the Massachusetts Breast and Cervical Cancer Program, the colorectal cancer program, and the 1-800-QUIT-NOW quit line.',
+        when: [
+          'Planning a screening conversation or a well-person visit.',
+          'Finding out what a client in a certain age group may be due for.',
+          'Looking for a free or low-cost breast or cervical cancer screening program for an uninsured client.',
+        ],
+        provide: [
+          'Age in years and sex assigned at birth. Never a name, date of birth, or other identifier.',
+          'Pregnancy status (pregnant, postpartum, or not pregnant), if it applies.',
+          'Any risk factors you know: tobacco use and pack-years, BMI, blood pressure or cholesterol problems, 10-year heart disease risk, and where you judge the person to be at higher risk (for example HIV, hepatitis B, or TB).',
+        ],
+        examples: [
+          'What USPSTF A and B screenings apply to a 52-year-old woman who smoked 25 pack-years and quit 8 years ago?',
+          'A 29-year-old woman is 20 weeks pregnant. Which recommended preventive services should I cover, and give me client summaries.',
+          'My client is 47, has no health insurance, and needs a mammogram. What programs in Massachusetts can help?',
+        ],
+        returns: [
+          'Recommendations that apply, and a separate list of those that depend on a risk factor you did not give, with the grade, the statement date, the Task Force’s wording, a client summary, and links.',
+          'Massachusetts program options with how DPH describes who can use them, and, when you are online, the federal MyHealthfinder list for the same age and sex.',
+        ],
+        notes: [
+          'This is the grade A and B list only. It is not the full list of recommended services: vaccines (CDC’s immunization schedule) and grade C recommendations are separate.',
+          'The recommendations were read from the Task Force’s published statements because its web site could not be reached; the answer shows each statement’s date, and you should check the Task Force’s page for any newer version.',
+          'The tool checks only age, sex, pregnancy, and the risk factors you give. The rest of each recommendation’s population (for example “average risk”) is shown for you to apply.',
+          'The content is a draft that the subject matter expert has not yet reviewed.',
+        ],
+      },
+      {
+        id: 'asthma_home_assessment',
+        title: 'Plan an asthma home visit',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, blank forms and filled asthma action plans in your output folder',
+        does: 'Gives you what you need for a home-based asthma visit: the CDC, EPA, and HUD home asthma trigger checklist with an action step for each answer, DPH’s asthma control categories (and it can sort the answers you give into well controlled, not well controlled, or very poorly controlled), the NHLBI asthma action plan form, and the home asthma visiting programs DPH lists in Massachusetts. For mold, moisture, pests, and heat it points you to the state housing code sections already in the housing tool.',
+        when: [
+          'Preparing for a home visit with a child or adult whose asthma is not controlled.',
+          'Helping a family ask a landlord for repairs that affect asthma.',
+          'Finding a community health worker asthma home visiting program to refer to.',
+          'Making asthma action plans for a school or clinic from your own list.',
+        ],
+        provide: [
+          'Which parts you want (checklist, control, action plan, services). The default is all four.',
+          'For services: the town.',
+          'For the control categories: counts only, such as days with symptoms in the past 30 days, nights woken, rescue inhaler uses per day, and how much asthma limited activities. No names.',
+          'To fill action plans: a spreadsheet in your data folder with one row per person and the prescriber’s plan details (the doctor, phone numbers, best peak flow, medicines and doses).',
+        ],
+        examples: [
+          'Give me the home asthma trigger checklist and a blank asthma action plan.',
+          'A 9-year-old had symptoms on 12 of the last 30 days and woke 4 nights. What control category is that?',
+          'What asthma home visiting programs are there near Springfield?',
+          'Fill asthma action plans from my asthma_plans.xlsx file.',
+        ],
+        returns: [
+          'The checklist by section, the control table and the category of your answers, the action plan template with peak flow zones, and the home visiting programs with how each fits your town.',
+          'A blank checklist and a blank action plan as Word files, and filled plans in one file in your output folder.',
+        ],
+        notes: [
+          'The control categories are a screening table from the Massachusetts DPH adapted from NHLBI’s national guidelines (the guidelines themselves could not be reached). They are not a treatment decision. For children under 12 they are only a rough screen.',
+          'The Asthma Control Test is a licensed form and is not reproduced.',
+          'The tool never chooses medicines or doses. They appear in a filled plan only if they are in your file, and the prescriber should check the plan.',
+          'DPH’s program directory lists regions, not towns, and no phone numbers; call the program to confirm who it serves.',
+          'Names and details from your file go only into the plans in your output folder; the chat sees counts.',
+        ],
+      },
       // End of Phase 15 prevent tools.
       // Phase 15 cha (EQ-08, EQ-09, EQ-10) tools.
       // End of Phase 15 cha tools.
