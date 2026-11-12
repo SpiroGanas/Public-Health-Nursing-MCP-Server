@@ -81,6 +81,7 @@ pub mod food_access;
 // Phase 15 cha (EQ-08, EQ-09, EQ-10).
 // End of Phase 15 cha.
 // Phase 15 geo (EPI-13).
+pub mod geocoder;
 // End of Phase 15 geo.
 // End of Phase 15 adapters.
 // Phase 16 adapters go below this line.

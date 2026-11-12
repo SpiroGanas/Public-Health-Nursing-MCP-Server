@@ -27,5 +27,11 @@ pub(super) const CHA: &[ToolMeta] = &[
 /// Offline geocoder: EPI-13.
 pub(super) const GEO: &[ToolMeta] = &[
     // Phase 15 geo entries go below this line.
+    ToolMeta {
+        name: "geocode_and_aggregate_addresses",
+        plan_id: "EPI-13",
+        toolset: Toolset::Epi,
+        phase: 15,
+    },
     // End of Phase 15 geo entries.
 ];

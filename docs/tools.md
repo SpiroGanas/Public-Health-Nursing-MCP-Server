@@ -2959,6 +2959,69 @@ appropriate food).
 
 <!-- Phase 15 geo (EPI-13). -->
 
+### `geocode_and_aggregate_addresses` (EPI-13, toolset `epi`)
+
+| Argument | Default | |
+|---|---|---|
+| `path` | (required) | CSV or spreadsheet in `/data`, one address per row. |
+| `sheet` | first | Sheet of a workbook. |
+| `address_column` | found from the headers (`Street Address`, `Address`, `Home Address`, `Street`, ...) | The street address, or the whole address in one cell (`12 Elm St, Amherst, MA 01002`). |
+| `town_column` | found from the headers (`Town`, `City`, `Municipality`, ...) | City or town. |
+| `zip_column` | found from the headers (`ZIP`, `ZIP Code`, `Postal Code`, ...) | ZIP code (a spreadsheet's four-digit `1002` is read as `01002`). |
+| `town` | none | One Massachusetts town for every row without a town value. |
+| `level` | finest possible | `town`, `tract`, or `block_group`. Falls back to town, and says why, when no address could be placed on a street. |
+| `zip_min_share` | 0.9 | A row that has only a ZIP code is counted in a town when that town holds at least this share of the ZIP code's addresses (0.5 to 1). |
+| `write_matched_file` | false | Also write `/data/output/<file>_geocoded.csv` (row number, the address as written, match level, town, tract, block group, latitude, longitude). Identifiable; only its name is returned. |
+
+Locates the addresses **offline**, inside the container, against MassGIS Master Address Data
+points and Census TIGER address ranges (ADR 0011), and returns only counts. Nothing is sent to a
+geocoding service and nothing from the file (no address, coordinate, name, or row) is returned.
+It reads three columns: address, town, and ZIP code. A column the PHI detector takes for a name,
+date of birth, phone number, SSN, ID number, or free text is refused when it is named as one of
+the three (the message names the column and the kind, never a value); the file's other columns
+are not read, so a client list can be used as it is.
+
+Address handling: case-insensitive; USPS street-type abbreviations (`St`, `Street`, `Str`, `Ave`,
+`Rd`, ...), directions (`N`, `North`), ordinals (`First`, `1st`), `Saint`/`St`, `Mount`/`Mt`, route
+numbers (`Route 9`, `State Rte 9`), unit designators (`Apt 3B`, `Unit 2`, `#4`, `2nd Floor`, `Rear`)
+removed, house-number suffixes (`12A`, `12 1/2`) and ranges (`12-14`), a city, state, and ZIP
+written after the street, PO boxes (no street position claimed), and village names (Florence,
+Hyannis, Indian Orchard). A street typed without its type or with the wrong one is accepted when
+only one street in the town has that name.
+
+How precisely each row was located, best first: **exact address point** (a MassGIS point for the
+house number); **interpolated** (between neighboring points in the same block group, or along a
+TIGER address range); **street only** (the street, not the number; the block group is reported
+only when the whole street is in one); **ZIP code only** (one town holds at least `zip_min_share`
+of the ZIP code; approximate, because ZIP codes cross town lines); **town only** (from a town
+column or the address); **not located** (with the reason). The response gives the count at each
+level, the match rate to a street position, and the counts by town, 2020 census tract (with its
+name and GEOID), or block group. Rows that could only be counted in a town appear as one line
+at tract and block group level.
+
+Privacy: counts below the suppression threshold (default 5, your setting) are hidden in every
+table, with complementary suppression because a total is shown, and areas are listed by name so
+the order reveals nothing. The match rate is omitted when one of its counts is small. Counts are
+rows, not people or households; divide by a population from ACS for rates.
+
+Data: the **full street index is optional** (35.5 MB, 351 towns, 2.2 million address points,
+built in about two minutes by `xtask/scripts/build_geocoder_index.py --full OUT_DIR` and installed
+in `/data/geocoder/` or `/cache/geocoder/`; see ADR 0011). To install it, on any computer with Python 3.10 and numpy run `python3 -I xtask/scripts/build_geocoder_index.py WORK_DIR --full OUT_DIR` (it downloads about 350 MB from MassGIS and the Census Bureau into WORK_DIR), then put the OUT_DIR folder where the container sees it: inside your mounted data folder as `geocoder/`, or mount it at `/cache/geocoder` (`-v /path/to/OUT_DIR:/cache/geocoder:ro`). Without it the bundled sample index
+(Alford, Amherst, Northampton, and Pelham; real data) places addresses in those four towns and
+every other row is counted by town (town column, a town written in the address, or the bundled
+ZIP-code and village-name crosswalk). An installed index is checked against its manifest
+checksums; a mismatch is reported and the sample used.
+
+Limits: Boston has no MassGIS address-point download, so its addresses are placed from TIGER
+ranges only (interpolated or street only). Interpolated positions assume numbers are evenly spaced
+on a straight segment, and a point is usually a building or parcel center, so it can lie in a
+different block group than the front door; where a town has two streets with the same name (villages) and the same house number, the index keeps one point (23 of 20,328 test addresses). No intersections, named places, or spelling correction
+of street names; PO box ZIP codes are not in the ZIP crosswalk. At most 500,000 rows. Sources:
+MassGIS Master Address Data (town exports of 2026-11-09), TIGER/Line 2025 (address ranges and
+2020 block groups), `ma_geocoder_sample.idx`, `ma_geocoder_crosswalk.csv`
+(`xtask/scripts/build_geocoder_index.py`); MassGIS's data disclaimer could not be retrieved, so its
+terms are unverified (credit MassGIS).
+
 <!-- End of Phase 15 geo. -->
 
 <!-- End of Phase 15 tools. -->

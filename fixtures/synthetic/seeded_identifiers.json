@@ -9109,6 +9109,900 @@
    "kind": "phone",
    "file": "data/housing_requests.csv",
    "column": "Phone"
+  },
+  {
+   "value": "Abernathy-Cole",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Aldous",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0150",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "4 Boltwood Avenue",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7100",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Brandvold",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Brisa",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0151",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "4 BOLTWOOD AVE.",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7101",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Castellanos-Reyes",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Cormac",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0152",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "4 Boltwood Ave, Apt 2",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7102",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Dunleavy",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Delphine",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0153",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "43 Amity Street",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7103",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Eisenhardt",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Evander",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0154",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "43 amity st #3",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7104",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Fairweather",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Fenella",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0155",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "43 Amity St.",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7105",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Gutierrez-Moll",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Gideon",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0156",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "210 Main Street",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7106",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Hawthornthwaite",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Halima",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0157",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "210 Main St., Unit 3",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7107",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Idowu",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0158",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "20 West Street",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7108",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Jankowiak",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Jovanka",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0159",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "20 W St",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7109",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Kellermann",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Kestrel",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0160",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "20 West St. Apt 4B",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7110",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Lovelock",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Lorcan",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0161",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "210 MAIN STREET",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7111",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Mwangi-Frost",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Maelys",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0162",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "210 Main St, Northampton, MA 01060",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7112",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Nordstrom-Hale",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Nerys",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0163",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "4 Boltwood Ave Amherst MA 01002",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7113",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Oyelaran",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Osric",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0164",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7114",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Pennywhistle",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Perpetua",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0165",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "16 Boltwood Ave",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7115",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Quinlivan",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Quentin",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0166",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "24 Boltwood Ave",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7116",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Rutherford-Bell",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Rosalind",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0167",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "17 Windridge St",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7117",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Sandoval-Reid",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Soren",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0168",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "900 Boltwood Avenue",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7118",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Tamsin",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0169",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "5 Nonesuch Lane",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7119",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Underhill-Ng",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Ulrich",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0170",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "351 Amherst Road",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7120",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Vanterpool",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Vesna",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0171",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "351 Amherst Rd",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7121",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Wojciechowski",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0172",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "5 Alford Center Road",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7122",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Yarborough-Lee",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Xanthe",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0173",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "PO Box 42",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7123",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Zielinski-Park",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Yoriko",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0174",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "100 Russell Street",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7124",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Ashdown",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Zdenek",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0175",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7125",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Bellweather",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Amadou",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0176",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7126",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Crabtree-Osei",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Bronagh",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0177",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7127",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Drummond-Vega",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Casimir",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0178",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "12 Main Street",
+   "kind": "street_address",
+   "file": "data/address_list.csv",
+   "column": "Home Address"
+  },
+  {
+   "value": "GEO-7128",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Ellsworth-Tran",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Dilys",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0179",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7129",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
+  },
+  {
+   "value": "Fitzhugh",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "Last Name"
+  },
+  {
+   "value": "Emeric",
+   "kind": "name",
+   "file": "data/address_list.csv",
+   "column": "First Name"
+  },
+  {
+   "value": "413-555-0180",
+   "kind": "phone",
+   "file": "data/address_list.csv",
+   "column": "Phone"
+  },
+  {
+   "value": "GEO-7130",
+   "kind": "other_id_number",
+   "file": "data/address_list.csv",
+   "column": "Client ID"
   }
  ]
 }

@@ -430,6 +430,14 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // Phase 15 cha (EQ-08, EQ-09, EQ-10).
     // End of Phase 15 cha.
     // Phase 15 geo (EPI-13).
+    (
+        "ma_geocoder_sample.idx",
+        include_str!("../../../snapshots/ma_geocoder_sample.idx"),
+    ),
+    (
+        "ma_geocoder_crosswalk.csv",
+        include_str!("../../../snapshots/ma_geocoder_crosswalk.csv"),
+    ),
     // End of Phase 15 geo.
     // End of Phase 15 snapshot files.
     // Phase 16 snapshot files go below this line.
