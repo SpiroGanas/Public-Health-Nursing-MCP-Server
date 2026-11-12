@@ -1,0 +1,74 @@
+municipality,county,listed_place,site_name,street,city,state,zip,org_phone,org_email,has_named_contact
+Andover,Essex,Andover,Andover YMCA,165 Haverhill St.,Andover,MA,01810,,,yes
+Athol,Worcester,Athol,Athol YMCA,545 Main St.,Athol,MA,01331,,,yes
+Athol,Worcester,Athol,Athol Library,568 Main St.,Athol,MA,01331,,,yes
+Attleboro,Bristol,Attleboro,Downtown Attleboro YMCA,63 North Main St.,Attleboro,MA,02703,,,yes
+Attleboro,Bristol,Attleboro,Shipshape Fitness,53 Vincent Dr.,Attleboro,MA,02703,(774) 641-5180,,no
+Beverly,Essex,Beverly,Cabot Street YMCA,245 Cabot St.,Beverly,MA,01915,,,yes
+Beverly,Essex,Beverly,Greater Beverly YMCA,254 Essex St.,Beverly,MA,01915,,,yes
+Boston,Suffolk,Boston - Chinatown,Wang YMCA,8 Oak St. West,Boston,MA,02116,,,yes
+Boston,Suffolk,Boston - Dorchester,Bowdoin Street Health Center,230 Bowdoin St.,Dorchester,MA,02122,(617) 754-0100,,no
+Boston,Suffolk,Boston - Dorchester,EthnoHealth,1452 Dorchester Ave.,Dorchester,MA,02122,(781) 762-1231,,no
+Boston,Suffolk,Boston - Dorchester,Dorchester YMCA,776 Washington St.,Dorchester,MA,02124,,,yes
+Boston,Suffolk,Boston - Dorchester,Harvard Street Neighborhood Health Center,632 Blue Hill Ave.,Dorchester,MA,02121,(617) 825-3400,,no
+Boston,Suffolk,Boston - Downtown,Enhance Asian Community Health,"1 Franklin St., Unit 1207",Boston,MA,02110,(857) 472-3224,,no
+Boston,Suffolk,Boston - East Boston,East Boston YMCA,215 Bremen St.,East Boston,MA,02128,,,yes
+Boston,Suffolk,Boston - Hyde Park,Menino YMCA,1137 River St.,Hyde Park,MA,02136,,,yes
+Boston,Suffolk,Boston - Roxbury,Roxbury YMCA,285 Martin Luther King Blvd.,Roxbury,MA,02119,,,yes
+Brockton,Plymouth,Brockton,Brockton Council on Aging,10 Father Kenney Way,Brockton,MA,02301,,,yes
+Brockton,Plymouth,Brockton,Central Brockton YMCA,320 Main St.,Brockton,MA,02301,,,yes
+Chelmsford,Middlesex,Chelmsford,Clinical Rehab Specialists,"9 Acton Rd., Ste 16",Chelmsford,MA,01824,,,yes
+Dartmouth,Bristol,Dartmouth,Dartmouth YMCA,276 Gulf Rd.,Dartmouth,MA,02748,,,yes
+East Bridgewater,Plymouth,East Bridgewater,East Bridgewater YMCA,635 Plymouth St.,East Bridgewater,MA,02333,,,yes
+Easton,Bristol,Easton,Easton YMCA,25 Elm St.,Easton,MA,02356,,,yes
+Everett,Middlesex,Everett,Face of Hope International,"6 Victoria St., Ste 202",Everett,MA,02149,(617) 440-8030,fhi-dpmp@fhi-usa.org,no
+Fall River,Bristol,Fall River,Health First,"387 Quarry St., Ste.100",Fall River,MA,02723,,,yes
+Fall River,Bristol,Fall River,Family Services Association,101 Rock St.,Fall River,MA,02720,,,yes
+Fall River,Bristol,Fall River,People Incorporated,4 South Main St.,Fall River,MA,02721,,,yes
+Fall River,Bristol,Fall River,Fall River YMCA,199 North Main St.,Fall River,MA,02720,,,yes
+Falmouth,Barnstable,Falmouth,Falmouth Service Center,611 Gifford St.,Falmouth,MA,02540,,,yes
+Foxborough,Norfolk,Foxboro,Foxboro YMCA,67 Mechanic St.,Foxboro,MA,02035,,,yes
+Framingham,Middlesex,Framingham,The Latino Health Insurance Program,"88 Waverly St., Ste. 150",Framingham,MA,01702,(508) 875-1237,,no
+Framingham,Middlesex,Framingham,Metrowest YMCA,280 Old Connecticut Path,Framingham,MA,01701,,,yes
+Franklin,Norfolk,Franklin,Franklin YMCA,45 Forge Hill Rd.,Franklin,MA,02038,,,yes
+Gloucester,Essex,Gloucester,Cape Ann YMCA,71 Middle St.,Gloucester,MA,01930,,,yes
+Greenfield,Franklin,Greenfield,Greenfield YMCA,451 Main St.,Greenfield,MA,01301,,,yes
+Hanover,Plymouth,Hanover,Emilson YMCA,75 Mill St.,Hanover,MA,02339,,,yes
+Haverhill,Essex,Haverhill,Haverhill YMCA,81 Winter St.,Haverhill,MA,01830,,,yes
+Holyoke,Hampden,Holyoke,Holyoke YMCA,171 Pine St.,Holyoke,MA,01040,,,yes
+Barnstable,Barnstable,Hyannis,Duffy Health,94 Main St.,Hyannis,MA,02601,,,yes
+Barnstable,Barnstable,Hyannis,Harbor Health Services,735 Attucks Ln.,Hyannis,MA,02601,,,yes
+Ipswich,Essex,Ipswich,Ipswich Family YMCA,110 County Rd.,Ipswich,MA,01938,,,yes
+Lanesborough,Berkshire,Lanesborough,Ashcroft Wellness,61 Greylock Estates Rd.,Lanesborough,MA,02137,(978) 424-7296,,no
+Lawrence,Essex,Lawrence,Lawrence YMCA,40 Lawrence St.,Lawrence,MA,01840,,,yes
+Lowell,Middlesex,Lowell,Lowell General Hospital - Diabetes Management Center,295 Varnum Ave.,Lowell,MA,01854,(978) 446-2740,,no
+Malden,Middlesex,Malden,Malden YMCA,99 Dartmouth St.,Malden,MA,02148,,,yes
+Marblehead,Essex,Marblehead,Lynch/van Oterloo YMCA,40 Leggs Hill Rd.,Marblehead,MA,01945,,,yes
+Mashpee,Barnstable,Mashpee,Community Health Center of Cape Cod,107 Commercial St.,Mashpee,MA,02649,,,yes
+Medford,Middlesex,Medford,Face of Hope International,"407R Mystic Ave, Ste. 21",Medford,MA,02155,(617) 440-8030,fhi-dpmp@fhi-usa.org,no
+Methuen,Essex,Methuen,Methuen YMCA,129 Haverhill St.,Methuen,MA,01844,,,yes
+Middleborough,Plymouth,Middleboro,Middleboro YMCA,61 East Grove St.,Middleboro,MA,02346,,,yes
+Milford,Worcester,Milford,Edward M Kennedy Health Center,42 Cape Rd.,Milford,MA,01757,,,yes
+Needham,Norfolk,Needham,Beth Israel Deaconess Healthcare,"464 Hillside Ave., Ste. 304",Needham,MA,02494,(617) 754-0725,,no
+New Bedford,Bristol,New Bedford,New Bedford YMCA,25 S Water St.,New Bedford,MA,02740,,,yes
+New Bedford,Bristol,New Bedford,Greater New Bedford Community Health Center,874 Purchase St.,New Bedford,MA,02740,,,yes
+Newton,Middlesex,Newtonville,Face of Hope International,161 North St.,Newtonville,MA,02460,(617) 440-8030,fhi-dpmp@fhi-usa.org,no
+North Attleborough,Bristol,North Attleboro,North Attleboro YMCA,54 Amvet Blvd.,North Attleboro,MA,02760,,,yes
+Northampton,Hampshire,Northampton,Hampshire Regional YMCA,286 Prospect St.,Northampton,MA,01060,,,yes
+Pittsfield,Berkshire,Pittsfield,Berkshire Health Systems,165 Tor Ct.,Pittsfield,MA,01201,(413) 445-9232,,no
+,,"Plaistow, NH",Plaistow Community YMCA,175 Plaistow Rd.,Plaistow,NH,03865,,,yes
+Plymouth,Plymouth,Plymouth,Plymouth YMCA,200 Hedges Pond Rd.,Plymouth,MA,02360,,,yes
+Quincy,Norfolk,Quincy,Quincy YMCA,79 Coddington St.,Quincy,MA,02169,,,yes
+Salem,Essex,Salem,Salem YMCA,1 Sewall St.,Salem,MA,01970,,,yes
+Somerville,Middlesex,Somerville,Somerville-Cambridge Elder Services,61 Medford St.,Somerville,MA,02143,,,yes
+Springfield,Hampden,Springfield,International Health Solutions,260 Cottage St.,Springfield,MA,01104,"(413) 734-5200, Ext. 106",,no
+Springfield,Hampden,Springfield,Springfield YMCA,275 Chestnut St.,Springfield,MA,01104,(413) 739-6951,,no
+Stoughton,Norfolk,Stoughton,Stoughton YMCA,445 Central St.,Stoughton,MA,02072,,,yes
+Swansea,Bristol,Swansea,Stoico/First Fed YMCA,271 Sharps Lot Rd.,Swansea,MA,02777,,,yes
+Taunton,Bristol,Taunton,Taunton YMCA,71 Cohannet St.,Taunton,MA,02780,,,yes
+Wareham,Plymouth,Wareham,Gleason YMCA,33 Charge Pond Rd.,Wareham,MA,02571,,,yes
+Barnstable,Barnstable,West Barnstable,YMCA of Cape Cod,2245 Iyannough Rd.,West Barnstable,MA,02668,,,yes
+Woburn,Middlesex,Woburn,Face of Hope International,300 Wildwood Ave.,Woburn,MA,01801,(617) 440-8030,fhi-dpmp@fhi-usa.org,no
+Worcester,Worcester,Worcester,Reliant Medical Group,630 Plantation St.,Worcester,MA,01605,(508) 425-5880,,no
+Worcester,Worcester,Worcester,UMMHC Diabetes Center of Excellence DPP,55 Lake Avenue North,Worcester,MA,01655,,,yes
+Worthington,Hampshire,Worthington,Hilltown Community Health Center,58 Old North Rd.,Worthington,MA,01098,,,yes

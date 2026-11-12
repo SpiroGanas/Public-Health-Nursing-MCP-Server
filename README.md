@@ -213,6 +213,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `community_bp_screening_toolkit` | CHR-02 | chronic | Community blood pressure screening kit for adults: measurement technique checklist, the current ACC/AHA categories (with the sources' wording and confidence), severe-range wording and referral tiers marked as tool defaults pending review, a screening log template, follow-up letters filled locally, and a plain-language handout; a screening log is summarized only as suppressed counts. |
+| `diabetes_prevention_finder` | CHR-03 | chronic | Scores the CDC Prediabetes Risk Test, checks CDC's eligibility rules for the National Diabetes Prevention Program, lists the Massachusetts program sites DPH publishes (not CDC's registry, which could not be reached), explains delivery modes and Medicare's program, and writes a plain-language handout. |
 <!-- Phase 15 screen rows go above this line. -->
 | `preventive_services_lookup` | CHR-04 | chronic | USPSTF grade A and B recommendations for a person's age, sex at birth, pregnancy status, and risk factors, each with its grade, statement date, the Task Force's population wording, what to confirm, a plain-language client summary, and a handout option; Massachusetts options (MBCCP, the colorectal program, 1-800-QUIT-NOW) and MyHealthfinder's live list. |
 | `asthma_home_assessment` | CHR-05 | chronic | CDC/EPA/HUD home asthma trigger checklist (pointing at the housing code content), DPH's asthma control categories with a classifier, the NHLBI asthma action plan template with peak flow zones, Massachusetts home-based asthma services from DPH's directory, and action plans filled from a local file. |

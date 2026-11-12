@@ -23,6 +23,14 @@ pub use food_access::{FoodAccessArgs, FoodAccessResult, food_access_mapper};
 // End of Phase 14 modules (CHR-06, CHR-07).
 
 // Phase 15 screen (CHR-02, CHR-03): add `pub mod` and `pub use` lines below.
+pub mod bp_screening;
+pub mod diabetes_prevention;
+pub mod screen_common;
+
+pub use bp_screening::{BpToolkitArgs, BpToolkitResult, community_bp_screening_toolkit};
+pub use diabetes_prevention::{
+    DiabetesPreventionArgs, DiabetesPreventionResult, diabetes_prevention_finder,
+};
 // End of Phase 15 screen.
 
 // Phase 15 prevent (CHR-04, CHR-05): add `pub mod` and `pub use` lines below.

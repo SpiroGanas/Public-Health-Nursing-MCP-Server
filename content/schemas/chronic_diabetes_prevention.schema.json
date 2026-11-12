@@ -1,0 +1,545 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/chronic_diabetes_prevention.schema.json",
+  "title": "Diabetes prevention finder content",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "risk_test",
+    "eligibility",
+    "program",
+    "medicare",
+    "masshealth",
+    "handout",
+    "notices"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "chronic-diabetes-prevention"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "confidence": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "letter": {
+      "type": "object",
+      "required": [
+        "kind",
+        "description",
+        "markdown"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "markdown": {
+          "type": "string",
+          "minLength": 50
+        }
+      }
+    },
+    "handout": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "sources",
+        "markdown"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "markdown": {
+          "type": "string",
+          "minLength": 50
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "risk_test": {
+      "type": "object",
+      "required": [
+        "name",
+        "high_risk_at",
+        "maximum",
+        "scoring_note",
+        "source",
+        "items",
+        "bmi",
+        "ethnicity_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "high_risk_at": {
+          "type": "integer"
+        },
+        "maximum": {
+          "type": "integer"
+        },
+        "scoring_note": {
+          "type": "string",
+          "minLength": 20
+        },
+        "source": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 6,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "question",
+              "points"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "enum": [
+                  "age",
+                  "sex",
+                  "family_history",
+                  "high_blood_pressure",
+                  "physical_activity",
+                  "bmi"
+                ]
+              },
+              "label": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string",
+                "minLength": 10
+              },
+              "points": {
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "when",
+                    "points"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "when": {
+                      "type": "string"
+                    },
+                    "points": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "bmi": {
+          "type": "object",
+          "required": [
+            "formula",
+            "example",
+            "overweight_from",
+            "asian_overweight_from",
+            "obese_from",
+            "severe_from"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "formula": {
+              "type": "string"
+            },
+            "example": {
+              "type": "string"
+            },
+            "overweight_from": {
+              "type": "number"
+            },
+            "asian_overweight_from": {
+              "type": "number"
+            },
+            "obese_from": {
+              "type": "number"
+            },
+            "severe_from": {
+              "type": "number"
+            }
+          }
+        },
+        "ethnicity_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "eligibility": {
+      "type": "object",
+      "required": [
+        "source",
+        "must_meet_all",
+        "must_meet_one",
+        "medicare_note",
+        "a1c_range",
+        "fasting_range",
+        "two_hour_range"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "must_meet_all": {
+          "type": "array",
+          "minItems": 4,
+          "items": {
+            "type": "string"
+          }
+        },
+        "must_meet_one": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "string"
+          }
+        },
+        "medicare_note": {
+          "type": "string"
+        },
+        "a1c_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "fasting_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "two_hour_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "program": {
+      "type": "object",
+      "required": [
+        "source",
+        "facts",
+        "delivery_modes",
+        "registry_gap"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "delivery_modes": {
+          "type": "object",
+          "required": [
+            "source",
+            "text",
+            "how_to_filter"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string",
+              "minLength": 20
+            },
+            "how_to_filter": {
+              "type": "string",
+              "minLength": 20
+            }
+          }
+        },
+        "registry_gap": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "medicare": {
+      "type": "object",
+      "required": [
+        "source",
+        "facts",
+        "finder",
+        "eligibility_gap"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "facts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "finder": {
+          "type": "string"
+        },
+        "eligibility_gap": {
+          "type": "string"
+        }
+      }
+    },
+    "masshealth": {
+      "type": "object",
+      "required": [
+        "statement",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "statement": {
+          "type": "string",
+          "minLength": 20
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        }
+      }
+    },
+    "handout": {
+      "$ref": "#/$defs/handout"
+    },
+    "notices": {
+      "type": "object",
+      "required": [
+        "decision_support",
+        "copyright"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "decision_support": {
+          "type": "string",
+          "minLength": 20
+        },
+        "copyright": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    }
+  }
+}

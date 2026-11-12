@@ -1042,6 +1042,61 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 14 data tools.
         // ---- Phase 15 data tools go below this line.
         // ---- Phase 15 screen (CHR-02, CHR-03).
+        // Client files given as the screening log: a line list and other client files have no
+        // blood pressure columns (a tool error that must not echo values); the fictional
+        // screening log has names, addresses, and phone numbers that may go only into letters
+        // in /data/output.
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "shelter_registrations.csv", "write_letters": true}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "bp_screening_log.csv"}),
+            "data/bp_screening_log.csv",
+        ),
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "bp_screening_log.csv", "write_letters": true}),
+            "data/bp_screening_log.csv",
+        ),
+        // An organization list with contact people given as the log.
+        (
+            "community_bp_screening_toolkit",
+            json!({"log_path": "food_pantries.csv", "write_letters": true}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "growth_measurements.csv"}),
+            "data/growth_measurements.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "prediabetes_responses.csv", "handout": true}),
+            "data/prediabetes_responses.csv",
+        ),
+        (
+            "diabetes_prevention_finder",
+            json!({"area": "Holyoke", "responses_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
         // ---- End of Phase 15 screen.
         // ---- Phase 15 prevent (CHR-04, CHR-05).
         // CHR-04 takes only age, sex at birth, pregnancy status, and risk factors (no file

@@ -2947,6 +2947,93 @@ appropriate food).
 
 <!-- Phase 15 screen (CHR-02, CHR-03). -->
 
+### `community_bp_screening_toolkit` (CHR-02, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `readings` | | Readings to classify, each `{systolic, diastolic}` (numbers only). Two or more are averaged (rounded to whole mm Hg); a single reading above 180 or above 120 makes the result severe range (tool default). |
+| `age` | | Age of the person the readings are from: under 18 is refused (the categories are for adults). |
+| `pregnant` | false | Uses CDC's pregnancy thresholds (140/90 high; 160/110 severe) instead of the adult categories. |
+| `symptoms` | false | Changes the severe-range referral tier from same day to emergency services (tool default). |
+| `log_path` | | Screening log CSV/XLSX in `/data` (age; systolic and diastolic readings in columns such as `Systolic 1`, `Diastolic 1`, `Systolic 2`, `Diastolic 2`, or `Blood pressure` written 128/82; referral status). |
+| `sheet` | first sheet | Sheet name for an XLSX log. |
+| `write_letters` | false | Fill follow-up letters from the log's rows (needs a name or address column) into `/data/output`. |
+| `write_documents` | true when no `readings` or `log_path` | Write the blank kit to `/data/output/bp_screening_kit`. |
+| `format` | `docx` | `docx` or `pdf` for the checklist, reference card, letters, and handout. |
+
+Content: `content/chronic/bp_screening.yaml` (status `pending`, review due 2027-02-01). **Which
+guideline:** the 2025 AHA/ACC high blood pressure guideline retires and replaces the 2017 one
+(stated in its PubMed abstract), so the categories are the 2025 ones, which keep the 2017
+categories. Its full text could not be read (ahajournals.org, professional.heart.org, acc.org,
+heart.org, nhlbi.nih.gov, and PMC web pages were blocked), so each item carries its confidence:
+normal below 120/80, elevated 120-129 and below 80, and high at 130/80 or above are from CDC's pages
+(updated 2026-10-13, high confidence); the stage 1 (130-139 or 80-89) and stage 2 (140 or higher, or
+90 or higher) ranges and the severe range (above 180 or above 120, "severe hypertension" replacing
+"hypertensive urgency") are from peer-reviewed open-access papers that state the 2025 guideline
+(medium confidence); the pregnancy thresholds (140/90 with two readings at least 4 hours apart;
+160/110 severe, needing prompt medical attention) are from CDC (high). Corrections to the
+guideline were published in 2026 and were not reviewed.
+
+Output: the categories with the sources' wording and confidence; the severe-range wording; the
+measurement technique checklist (CDC's steps; two steps that are standard practice but were not found
+at a source are marked "(not verified)", low confidence); referral tiers (emergency, same day,
+routine referral, advise, inform) labelled **"tool default, pending review"**, because the
+guideline sources give no community screening referral timing (the tool leaves timing to the
+agency's standing orders and medical director); the classification of typed readings; the log
+template columns and referral status words; three follow-up letter templates (normal or elevated,
+stage 1 or 2 range, severe range) and a client handout, each checked for reading grade with the
+COMM-01 engine; and the files written.
+
+Privacy: the log goes through `phn_tools::localdata` (identifier columns that are read are
+refused). Only suppressed one-way count tables are returned (blood pressure category worked out from
+the readings, age group, referral status, and number of readings); no table crosses two variables,
+so a small cell cannot be recovered from another table. Names and addresses go only into the
+letters in `/data/output` (one combined file); the response has the number of letters and file
+names. Letters are English only.
+
+Limits: the category comes from the numbers (a category column in the file is ignored); pregnancy
+is not recognized in a log; ages under 18 are counted separately; letters are English only.
+
+### `diabetes_prevention_finder` (CHR-03, toolset `chronic`)
+
+| Argument | Default | |
+|---|---|---|
+| `age`, `sex`, `family_history`, `high_blood_pressure`, `physically_active` | | The answers CDC's Prediabetes Risk Test scores. `sex` is `man` or `woman`; adults only. |
+| `height_inches`, `weight_pounds` or `bmi` | | BMI for the test (703 x pounds / inches squared). |
+| `gestational_diabetes` | no (and the result says so) | A woman who has had it: 1 point and an eligibility route. |
+| `asian_american` | false (and the result says so) | CDC's lower BMI cut point (23 instead of 25). |
+| `diabetes_diagnosis`, `pregnant` | | Eligibility exclusions. |
+| `a1c_percent`, `fasting_glucose_mg_dl`, `two_hour_glucose_mg_dl` | | Blood test results from the past year (an eligibility route). |
+| `area` | saved town, else Massachusetts | Town (and its county), county, or the state for program sites. |
+| `responses_path`, `sheet` | | Screening-event file in `/data`: age, sex, family history, high blood pressure, physically active, and BMI or height and weight. |
+| `handout` | false | Client handout (reading grade 8 or lower, checked) to `/data/output`, with the score filled in when one was worked out. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Content: `content/chronic/diabetes_prevention.yaml` (status `pending`, review due 2027-02-01) and the
+bundled snapshot `ma-dpp-programs` (`snapshots/ma_dpp_programs.csv`; builder
+`xtask/scripts/build_screen_snapshots.py`, `--check` mode; retrieved 2026-11-12). **Verified from
+CDC and CMS pages (2026-11-12):** the Prediabetes Risk Test points (family history 1, high blood
+pressure 1, age 0/1/2/3 for under 40/40-49/50-59/60 or older, no physical activity 1, man 1, woman
+with gestational diabetes 1, BMI 0/1/2/3 with 23 as the first cut point for Asian American people),
+5 or higher of 10 is high risk, CDC's BMI example (5 feet 3 inches, 120 pounds, BMI 21), the program
+eligibility rules, the program's length and schedule, the delivery modes, and the Medicare Diabetes
+Prevention Program facts. CDC says most of its web content is public domain; the test was developed
+with the American Diabetes Association, so only CDC's points and cut-offs are kept and the
+questions are paraphrased.
+
+**What could not be verified:** CDC's registry of recognized organizations (`dprp.cdc.gov`) and
+program locator (`dprpdataportal.cdc.gov`) were blocked, and the older `nccd.cdc.gov/DDT_DPRP`
+pages return 404, so there is no CDC-recognized list. The bundled sites are the 73 rows of DPH's
+"Active MA DPPs" table: DPH shows no update date, does not say which sites are CDC-recognized, and
+gives no delivery mode, so the tool says so and lists no online or distance-learning providers
+(it explains the delivery modes and how to filter on CDC's page). DPH's contact column holds
+program coordinators' names and emails, so only organization phone numbers and emails (17 sites)
+are kept; individual names are not. No source was found for MassHealth coverage of the program, so
+none is stated. MDPP eligibility criteria differ from CDC's and were not read.
+
+Privacy: a responses file goes through `phn_tools::localdata`; only suppressed one-way counts by
+result and age group are returned.
+
 <!-- End of Phase 15 screen. -->
 
 <!-- Phase 15 prevent (CHR-04, CHR-05). -->

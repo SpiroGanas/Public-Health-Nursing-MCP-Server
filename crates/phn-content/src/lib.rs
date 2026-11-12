@@ -584,6 +584,20 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 14 content items.
     // Phase 15 content items go below this line.
     // Phase 15 screen (CHR-02, CHR-03).
+    ContentItem {
+        id: "chronic-bp-screening",
+        path: "content/chronic/bp_screening.yaml",
+        resource_uri: "phn://content/chronic-bp-screening",
+        yaml: include_str!("../../../content/chronic/bp_screening.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_bp_screening.schema.json"),
+    },
+    ContentItem {
+        id: "chronic-diabetes-prevention",
+        path: "content/chronic/diabetes_prevention.yaml",
+        resource_uri: "phn://content/chronic-diabetes-prevention",
+        yaml: include_str!("../../../content/chronic/diabetes_prevention.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_diabetes_prevention.schema.json"),
+    },
     // End of Phase 15 screen.
     // Phase 15 prevent (CHR-04, CHR-05).
     ContentItem {

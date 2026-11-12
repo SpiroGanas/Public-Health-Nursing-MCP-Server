@@ -75,6 +75,7 @@ pub mod food_access;
 // End of Phase 14 adapters.
 // Phase 15 adapters go below this line.
 // Phase 15 screen (CHR-02, CHR-03).
+pub mod dpp;
 // End of Phase 15 screen.
 // Phase 15 prevent (CHR-04, CHR-05).
 pub mod preventive;
