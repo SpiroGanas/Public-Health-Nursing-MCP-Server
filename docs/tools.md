@@ -3548,6 +3548,91 @@ help with that determination).
 
 <!-- Phase 17 budget (PLAN-09, PLAN-10). -->
 
+### `build_program_budget` (PLAN-09, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `project_name`, `organization` | "Program budget", your letterhead's agency name | Name the files and head the justification. |
+| `years` | the last year any line names, or 1 | 1 to 5 budget years. |
+| `line_items` | | Costs typed into the request (up to 150): `category` (`personnel`, `travel`, `equipment`, `supplies`, `contractual`, `other`), `item` (a role or description, never a name), `funding` (`federal` or `cost_share`). Personnel: `annual_salary` and `effort_percent`, optional `fringe_rate_percent`. Others: `unit_cost`, `quantity` (default 1), `unit`. Optional `escalate`, `first_year`, `last_year`, `subaward` (contractual), `exclude_from_mtdc` (`participant_support`, `rental`, `patient_care`, `tuition_or_scholarship`, `capital_expenditure`). |
+| `line_items_path`, `sheet` | | A CSV/XLSX in `/data` with one row per cost (columns `category`, `item`, and `annual salary` and `effort percent` or `fte`, or `quantity` and `unit cost`; optional `funding`, `unit`, `fringe rate`, `escalate`, `first year`, `last year`, `subaward`, `exclude from mtdc`). Read locally. A file with a name, phone, email, or other identifier column is refused. |
+| `fringe_rate_percent` | required with personnel lines | Percent of salary (25 for 25 percent). |
+| `salary_escalation_percent`, `other_escalation_percent` | 0 | Yearly increase for personnel lines and for other lines that escalate (equipment does not by default). Year k = year 1 x (1 + rate)^(k - 1). |
+| `indirect` | de minimis, 15 percent of MTDC | `method` (`de_minimis`, `negotiated`, `none`), `rate_percent`, `base` (`mtdc`, `total_direct`, `salaries_and_wages`, `salaries_and_fringe`), `charge_on_cost_share`. A de minimis rate above 15 percent, or on another base, is refused. |
+| `required_cost_share` | | `percent` and `basis` (`total_project` or `federal_request`): checks the cost share lines against the requirement. |
+| `write_workbook`, `write_justification` | true | XLSX and DOCX in `/data/output`. With no line items the tool writes a blank workbook (spare rows with live formulas). |
+
+**What it computes.** Each line's amount by year (rounded to the cent), fringe on personnel lines,
+direct costs by object class (personnel, fringe, travel, equipment, supplies, contractual, other),
+the modified total direct cost (MTDC) base, indirect costs on the chosen base, the cost share, and the
+match check. MTDC follows 2 CFR 200.1: salaries and fringe, supplies, services, travel, and the first
+$50,000 of each subaward over the whole award; it leaves out equipment, capital expenditures, patient
+care, rental costs, tuition remission and scholarships, participant support costs, and the part of a
+subaward above $50,000. The de minimis rate is up to 15 percent of MTDC (2 CFR 200.414(f), eCFR
+current through 2026-11-09; it was 10 percent before the October 1, 2024 revision). The response also
+reports that an independent re-addition of every line agreed with the category totals.
+
+**Files.** The workbook has Read me, Inputs (yellow cells with drop-downs), Line items (formulas for each
+year's amount, fringe, and MTDC base, with spare rows), and Budget summary (SUMIFS by object class for the
+federal request, the cost share, and the project total; indirect costs by `CHOOSE` on the base; the match
+check; an arithmetic check). Changing a rate or a line recalculates everything in Excel or LibreOffice.
+The DOCX justification is drafted from the line items with template text and `[NURSE: ...]` placeholders
+for what only you know (duties, how rates were set, partners, sources of cost share). The formulas were
+recalculated in LibreOffice and matched an independent Python computation to the cent
+(`crates/phn-tools/tests/fixtures/generators/check_budget_workbook.py`).
+
+**Privacy.** The response returns category totals by year, rates, structure, and the cited rules: never
+individual salaries, lines, or staff names. Salaries and lines go only into the two files in
+`/data/output`. Figures typed into the request were seen by the AI assistant, so put salaries in a file and
+use `line_items_path` to keep them local. A personnel total for one position equals that position's
+cost: the response says so.
+
+**Sources and limits.** Content is `content/planning/budget_reference.yaml` (pending review). The rules
+are quoted from the eCFR text of 2 CFR 200.1, 200.306, 200.414, 200.431, and 200.456. The SF-424A line
+letters (6a to 6k) could not be checked against the form or its instructions (grants.gov was blocked) and
+are low confidence. Your funder's notice controls: it may cap indirect costs or define cost share
+differently. Construction (SF-424A line 6g) is not built. No salary caps, regional rates, or mileage rates
+are applied; no federal rate is invented. Decision support, not a certified budget.
+
+### `economic_evaluation_calculator` (PLAN-10, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `program_name`, `perspective` | "Program", `program` | `program`, `payer`, or `societal`: whose costs and benefits are counted. |
+| `program_cost` or `costs_by_year` | required | Total cost (year 1) or a list by year; the longest list sets the horizon (up to 30 years). |
+| `participants` | | Gives cost per participant. |
+| `outcomes` or `outcomes_by_year` | | Outcomes achieved (cases averted, people who quit). Gives cost per outcome. |
+| `benefit_per_outcome`, `other_benefits` or `other_benefits_by_year` | | Dollar value of one outcome (cite where it comes from) and other savings or revenue. Gives net benefit, benefit-cost ratio, return on investment, payback, and break-even. |
+| `comparator` | | `cost` or `costs_by_year`, and `outcomes` or `outcomes_by_year` (0 for "no program"). Gives the incremental cost-effectiveness ratio. |
+| `discount_rate_percent` | 3 | Costs and dollar benefits; `outcome_discount_rate_percent` (default the same) for outcomes. `first_year_discounted` (default false) discounts year 1 too. |
+| `willingness_to_pay` | none | Used only if you give it (net monetary benefit). The tool applies no threshold of its own. |
+| `sensitivity`, `sensitivity_metric` | defaults | List of `parameter` (`program_cost`, `participants`, `outcomes`, `benefit_per_outcome`, `other_benefits`, `comparator_cost`, `comparator_outcomes`, `discount_rate`), `low`, `high`. Numbers with no range get 20 percent either way (0 to 7 percent for the discount rate). Metric: `benefit_cost_ratio`, `return_on_investment`, `net_benefit`, `cost_per_outcome`, `cost_per_participant`, `icer`. |
+| `run_sensitivity`, `write_chart`, `chart_format` | true, true, both | The tornado chart goes to `/data/output/charts` as SVG and PNG. |
+
+**What it computes.** Present values (year 1 at the start of the program and not discounted unless you ask;
+year t divided by (1 + rate)^(t - 1)); cost per participant; the average cost per outcome (against doing
+nothing); the ICER with a classification (dominant, dominated, more costly and more effective, less costly
+and less effective, no difference: a ratio is reported only for the two middle cases); net benefit,
+benefit-cost ratio, and return on investment (net benefit over cost); payback year; and break-even (the
+value per outcome, and the share of expected outcomes, at which benefits equal cost). The one-way analysis
+varies each number alone, sorts by swing, and says when the conclusion changes inside a range. The chart is
+a dot-and-range plot with a title, a description, a data table, and a text alternative in the response.
+
+**Interpretation guards.** The plain-language reading says that the numbers are your inputs and do not show
+causation; that an average cost per outcome is not an incremental ratio; that a benefit-cost ratio below 1
+leaves out benefits you did not value in dollars; that a dominant program has no meaningful ratio; that no
+cost-effectiveness threshold fits every decision; and that costs and benefits should be counted from one
+stated perspective.
+
+**Sources and limits.** Content is `content/planning/economic_evaluation.yaml` (pending review). The 3 percent
+default discount rate rests on CDC's MMWR 2024;73(31), which discounted at 3 percent as the Second Panel on
+Cost-Effectiveness in Health and Medicine recommends; the Panel's report itself and OMB Circular A-94 could not
+be read (hosts blocked), so the rate is medium confidence and Circular A-94's rates are not used. The default
+sensitivity ranges (20 percent; 0 to 7 percent) are this tool's choices. The golden tests reproduce the
+benefit-cost results in that MMWR report (Table 2) and compare the rest with an independent exact-fraction
+computation (`crates/phn-tools/tests/fixtures/generators/economic_golden.py`). **Privacy.** No file is read and
+nothing identifiable is involved. Decision support only.
+
 <!-- End of Phase 17 budget. -->
 
 <!-- Phase 17 finance (LEAD-01, LEAD-02). -->

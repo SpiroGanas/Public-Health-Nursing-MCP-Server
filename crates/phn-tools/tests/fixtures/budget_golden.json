@@ -1,0 +1,825 @@
+{
+ "generated_by": "budget_golden.py",
+ "cases": [
+  {
+   "name": "one_year_basic",
+   "years": 1,
+   "salary_escalation": 0,
+   "other_escalation": 0,
+   "fringe": 0.25,
+   "indirect_rate": 0.15,
+   "indirect_base": "mtdc",
+   "indirect_on_cost_share": false,
+   "subaward_cap": 50000,
+   "required_match": null,
+   "lines": [
+    {
+     "category": "personnel",
+     "item": "Public health nurse",
+     "funding": "federal",
+     "quantity": 0.5,
+     "unit_cost": 80000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "equipment",
+     "item": "Vaccine refrigerator",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 12000,
+     "fringe": null,
+     "escalate": false,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Excluded"
+    },
+    {
+     "category": "supplies",
+     "item": "Clinic supplies",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 3000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    }
+   ],
+   "expected": {
+    "federal": {
+     "personnel": [
+      "40000.00"
+     ],
+     "travel": [
+      "0"
+     ],
+     "equipment": [
+      "12000.00"
+     ],
+     "supplies": [
+      "3000.00"
+     ],
+     "contractual": [
+      "0"
+     ],
+     "other": [
+      "0"
+     ],
+     "fringe": [
+      "10000.00"
+     ],
+     "direct": [
+      "65000.00"
+     ],
+     "indirect_base": [
+      "53000.00"
+     ],
+     "indirect": [
+      "7950.00"
+     ],
+     "total": [
+      "72950.00"
+     ]
+    },
+    "cost_share": {
+     "personnel": [
+      "0"
+     ],
+     "travel": [
+      "0"
+     ],
+     "equipment": [
+      "0"
+     ],
+     "supplies": [
+      "0"
+     ],
+     "contractual": [
+      "0"
+     ],
+     "other": [
+      "0"
+     ],
+     "fringe": [
+      "0"
+     ],
+     "direct": [
+      "0"
+     ],
+     "indirect_base": [
+      "0"
+     ],
+     "indirect": [
+      "0"
+     ],
+     "total": [
+      "0"
+     ]
+    }
+   }
+  },
+  {
+   "name": "three_year_escalation_subaward_cost_share",
+   "years": 3,
+   "salary_escalation": 0.03,
+   "other_escalation": 0.02,
+   "fringe": 0.28,
+   "indirect_rate": 0.15,
+   "indirect_base": "mtdc",
+   "indirect_on_cost_share": false,
+   "subaward_cap": 50000,
+   "required_match": [
+    20,
+    "total_project"
+   ],
+   "lines": [
+    {
+     "category": "personnel",
+     "item": "Program coordinator",
+     "funding": "federal",
+     "quantity": 1.0,
+     "unit_cost": 61234.56,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "personnel",
+     "item": "Public health nurse",
+     "funding": "federal",
+     "quantity": 0.2,
+     "unit_cost": 95000,
+     "fringe": 0.3,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "travel",
+     "item": "Local mileage",
+     "funding": "federal",
+     "quantity": 4,
+     "unit_cost": 350,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "equipment",
+     "item": "Laptop cart",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 10500,
+     "fringe": null,
+     "escalate": false,
+     "first_year": 1,
+     "last_year": 1,
+     "treatment": "Excluded"
+    },
+    {
+     "category": "contractual",
+     "item": "Community partner subaward",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 30000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Subaward"
+    },
+    {
+     "category": "contractual",
+     "item": "Evaluation contractor",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 12000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 2,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "other",
+     "item": "Participant incentives",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 5000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Excluded"
+    },
+    {
+     "category": "personnel",
+     "item": "Nurse supervisor (match)",
+     "funding": "cost_share",
+     "quantity": 0.1,
+     "unit_cost": 100000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    },
+    {
+     "category": "supplies",
+     "item": "Donated space supplies",
+     "funding": "cost_share",
+     "quantity": 12,
+     "unit_cost": 85.5,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": null,
+     "treatment": "Included"
+    }
+   ],
+   "expected": {
+    "federal": {
+     "personnel": [
+      "80234.56",
+      "82641.60",
+      "85120.84"
+     ],
+     "travel": [
+      "1400.00",
+      "1428.00",
+      "1456.56"
+     ],
+     "equipment": [
+      "10500.00",
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "0",
+      "0",
+      "0"
+     ],
+     "contractual": [
+      "30000.00",
+      "42840.00",
+      "43696.80"
+     ],
+     "other": [
+      "5000.00",
+      "5100.00",
+      "5202.00"
+     ],
+     "fringe": [
+      "22845.68",
+      "23531.05",
+      "24236.98"
+     ],
+     "direct": [
+      "149980.24",
+      "155540.65",
+      "159713.18"
+     ],
+     "indirect_base": [
+      "134480.24",
+      "139840.65",
+      "123299.18"
+     ],
+     "indirect": [
+      "20172.04",
+      "20976.10",
+      "18494.88"
+     ],
+     "total": [
+      "170152.28",
+      "176516.75",
+      "178208.06"
+     ]
+    },
+    "cost_share": {
+     "personnel": [
+      "10000.00",
+      "10300.00",
+      "10609.00"
+     ],
+     "travel": [
+      "0",
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "0",
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "1026.00",
+      "1046.52",
+      "1067.45"
+     ],
+     "contractual": [
+      "0",
+      "0",
+      "0"
+     ],
+     "other": [
+      "0",
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "2800.00",
+      "2884.00",
+      "2970.52"
+     ],
+     "direct": [
+      "13826.00",
+      "14230.52",
+      "14646.97"
+     ],
+     "indirect_base": [
+      "13826.00",
+      "14230.52",
+      "14646.97"
+     ],
+     "indirect": [
+      "0",
+      "0",
+      "0"
+     ],
+     "total": [
+      "13826.00",
+      "14230.52",
+      "14646.97"
+     ]
+    },
+    "match": {
+     "required": "113516.12",
+     "budgeted": "42703.49",
+     "shortfall": "70812.63"
+    }
+   }
+  },
+  {
+   "name": "negotiated_total_direct_cost_share_indirect",
+   "years": 2,
+   "salary_escalation": 0.0,
+   "other_escalation": 0.015,
+   "fringe": 0.31,
+   "indirect_rate": 0.125,
+   "indirect_base": "total_direct",
+   "indirect_on_cost_share": true,
+   "subaward_cap": 50000,
+   "required_match": [
+    25,
+    "federal_request"
+   ],
+   "lines": [
+    {
+     "category": "personnel",
+     "item": "Community health worker",
+     "funding": "federal",
+     "quantity": 0.75,
+     "unit_cost": 48000.55,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "equipment",
+     "item": "Blood pressure monitors",
+     "funding": "federal",
+     "quantity": 20,
+     "unit_cost": 450,
+     "fringe": null,
+     "escalate": false,
+     "first_year": 1,
+     "last_year": 1,
+     "treatment": "Excluded"
+    },
+    {
+     "category": "supplies",
+     "item": "Teaching materials",
+     "funding": "federal",
+     "quantity": 2,
+     "unit_cost": 1111.11,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "other",
+     "item": "Interpreter services",
+     "funding": "federal",
+     "quantity": 15,
+     "unit_cost": 62.5,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "supplies",
+     "item": "In-kind printing",
+     "funding": "cost_share",
+     "quantity": 1,
+     "unit_cost": 2500,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    }
+   ],
+   "expected": {
+    "federal": {
+     "personnel": [
+      "36000.41",
+      "36000.41"
+     ],
+     "travel": [
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "9000.00",
+      "0"
+     ],
+     "supplies": [
+      "2222.22",
+      "2255.55"
+     ],
+     "contractual": [
+      "0",
+      "0"
+     ],
+     "other": [
+      "937.50",
+      "951.56"
+     ],
+     "fringe": [
+      "11160.13",
+      "11160.13"
+     ],
+     "direct": [
+      "59320.26",
+      "50367.65"
+     ],
+     "indirect_base": [
+      "59320.26",
+      "50367.65"
+     ],
+     "indirect": [
+      "7415.03",
+      "6295.96"
+     ],
+     "total": [
+      "66735.29",
+      "56663.61"
+     ]
+    },
+    "cost_share": {
+     "personnel": [
+      "0",
+      "0"
+     ],
+     "travel": [
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "2500.00",
+      "2537.50"
+     ],
+     "contractual": [
+      "0",
+      "0"
+     ],
+     "other": [
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "0",
+      "0"
+     ],
+     "direct": [
+      "2500.00",
+      "2537.50"
+     ],
+     "indirect_base": [
+      "2500.00",
+      "2537.50"
+     ],
+     "indirect": [
+      "312.50",
+      "317.19"
+     ],
+     "total": [
+      "2812.50",
+      "2854.69"
+     ]
+    },
+    "match": {
+     "required": "30849.73",
+     "budgeted": "5667.19",
+     "shortfall": "25182.54"
+    }
+   }
+  },
+  {
+   "name": "negotiated_salaries_base",
+   "years": 2,
+   "salary_escalation": 0.025,
+   "other_escalation": 0.0,
+   "fringe": 0.22,
+   "indirect_rate": 0.4,
+   "indirect_base": "salaries_and_wages",
+   "indirect_on_cost_share": false,
+   "subaward_cap": 50000,
+   "required_match": null,
+   "lines": [
+    {
+     "category": "personnel",
+     "item": "Epidemiologist",
+     "funding": "federal",
+     "quantity": 0.4,
+     "unit_cost": 90125,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "travel",
+     "item": "Conference travel",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 1800,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "contractual",
+     "item": "Data vendor",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 7000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    }
+   ],
+   "expected": {
+    "federal": {
+     "personnel": [
+      "36050.00",
+      "36951.25"
+     ],
+     "travel": [
+      "1800.00",
+      "1800.00"
+     ],
+     "equipment": [
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "0",
+      "0"
+     ],
+     "contractual": [
+      "7000.00",
+      "7000.00"
+     ],
+     "other": [
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "7931.00",
+      "8129.28"
+     ],
+     "direct": [
+      "52781.00",
+      "53880.53"
+     ],
+     "indirect_base": [
+      "36050.00",
+      "36951.25"
+     ],
+     "indirect": [
+      "14420.00",
+      "14780.50"
+     ],
+     "total": [
+      "67201.00",
+      "68661.03"
+     ]
+    },
+    "cost_share": {
+     "personnel": [
+      "0",
+      "0"
+     ],
+     "travel": [
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "0",
+      "0"
+     ],
+     "contractual": [
+      "0",
+      "0"
+     ],
+     "other": [
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "0",
+      "0"
+     ],
+     "direct": [
+      "0",
+      "0"
+     ],
+     "indirect_base": [
+      "0",
+      "0"
+     ],
+     "indirect": [
+      "0",
+      "0"
+     ],
+     "total": [
+      "0",
+      "0"
+     ]
+    }
+   }
+  },
+  {
+   "name": "negotiated_salaries_and_fringe_base",
+   "years": 2,
+   "salary_escalation": 0.03,
+   "other_escalation": 0.0,
+   "fringe": 0.27,
+   "indirect_rate": 0.3,
+   "indirect_base": "salaries_and_fringe",
+   "indirect_on_cost_share": false,
+   "subaward_cap": 50000,
+   "required_match": null,
+   "lines": [
+    {
+     "category": "personnel",
+     "item": "School nurse leader",
+     "funding": "federal",
+     "quantity": 0.5,
+     "unit_cost": 70000.5,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    },
+    {
+     "category": "supplies",
+     "item": "Screening supplies",
+     "funding": "federal",
+     "quantity": 1,
+     "unit_cost": 4000,
+     "fringe": null,
+     "escalate": true,
+     "first_year": 1,
+     "last_year": 2,
+     "treatment": "Included"
+    }
+   ],
+   "expected": {
+    "federal": {
+     "personnel": [
+      "35000.25",
+      "36050.26"
+     ],
+     "travel": [
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "4000.00",
+      "4000.00"
+     ],
+     "contractual": [
+      "0",
+      "0"
+     ],
+     "other": [
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "9450.07",
+      "9733.57"
+     ],
+     "direct": [
+      "48450.32",
+      "49783.83"
+     ],
+     "indirect_base": [
+      "44450.32",
+      "45783.83"
+     ],
+     "indirect": [
+      "13335.10",
+      "13735.15"
+     ],
+     "total": [
+      "61785.42",
+      "63518.98"
+     ]
+    },
+    "cost_share": {
+     "personnel": [
+      "0",
+      "0"
+     ],
+     "travel": [
+      "0",
+      "0"
+     ],
+     "equipment": [
+      "0",
+      "0"
+     ],
+     "supplies": [
+      "0",
+      "0"
+     ],
+     "contractual": [
+      "0",
+      "0"
+     ],
+     "other": [
+      "0",
+      "0"
+     ],
+     "fringe": [
+      "0",
+      "0"
+     ],
+     "direct": [
+      "0",
+      "0"
+     ],
+     "indirect_base": [
+      "0",
+      "0"
+     ],
+     "indirect": [
+      "0",
+      "0"
+     ],
+     "total": [
+      "0",
+      "0"
+     ]
+    }
+   }
+  }
+ ]
+}

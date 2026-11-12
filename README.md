@@ -245,6 +245,8 @@ output folder instead of being sent to the AI model.
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 <!-- Phase 17 grants rows go above this line. -->
+| `build_program_budget` | PLAN-09 | planning | Builds a line-item program budget in federal object classes (personnel, fringe, travel, equipment, supplies, contractual, other, indirect) with multi-year escalation, cost share and a match check, and indirect costs on the right base (the de minimis rate of up to 15 percent of MTDC per 2 CFR 200.414(f), or a negotiated rate); salary figures can stay in a local file (files with identifier columns are refused). Writes an XLSX workbook with live formulas and a DOCX budget justification with `[NURSE: ...]` placeholders to `/data/output`; the response has category totals only. |
+| `economic_evaluation_calculator` | PLAN-10 | planning | Cost per participant and per outcome, cost-effectiveness ratio and ICER (with dominance), net benefit, benefit-cost ratio, return on investment, payback, and break-even, with multi-year discounting (default 3 percent) and one-way sensitivity analysis (tornado table and an accessible chart with a text alternative); the plain-language reading is guarded against over-claiming. |
 <!-- Phase 17 budget rows go above this line. -->
 <!-- Phase 17 finance rows go above this line. -->
 <!-- Phase 17 rows go above this line. -->

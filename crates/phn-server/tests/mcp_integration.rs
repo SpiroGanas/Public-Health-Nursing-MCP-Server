@@ -1474,6 +1474,51 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
         // ---- End of Phase 17 grants.
         // ---- Phase 17 budget (PLAN-09, PLAN-10).
+        // PLAN-09 reads a costs file locally. A file that legitimately holds salaries (roles and
+        // costs only) never has them returned; a line list, a staff roster with names and
+        // contacts, a shelter roster, and an organization list with contact people are refused
+        // without echoing a value.
+        (
+            "build_program_budget",
+            json!({"line_items_path": "program_budget_lines.csv", "fringe_rate_percent": 24.5,
+                   "years": 3, "salary_escalation_percent": 2}),
+            "data/program_budget_lines.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "program_budget_lines.csv", "fringe_rate_percent": 24.5,
+                   "years": 3, "indirect": {"method": "negotiated", "rate_percent": 30},
+                   "required_cost_share": {"percent": 20, "basis": "total_project"},
+                   "write_workbook": false, "write_justification": false}),
+            "data/program_budget_lines.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "line_list.csv", "fringe_rate_percent": 20}),
+            ll,
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "staff_roster.csv", "fringe_rate_percent": 20}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "shelter_registrations.csv", "fringe_rate_percent": 20}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "build_program_budget",
+            json!({"line_items_path": "food_pantries.csv", "fringe_rate_percent": 20}),
+            "data/food_pantries.csv",
+        ),
+        // PLAN-10 reads no file; typed numbers only.
+        (
+            "economic_evaluation_calculator",
+            json!({"program_cost": 100000, "participants": 400, "outcomes": 25,
+                   "benefit_per_outcome": 5000, "write_chart": false}),
+            ll,
+        ),
         // ---- End of Phase 17 budget.
         // ---- Phase 17 finance (LEAD-01, LEAD-02).
         // ---- End of Phase 17 finance.

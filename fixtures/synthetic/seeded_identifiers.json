@@ -11370,6 +11370,24 @@
    "kind": "email",
    "file": "data/qi_clinic_measure.csv",
    "column": "Contact Email"
+  },
+  {
+   "value": "84500",
+   "kind": "salary",
+   "file": "data/program_budget_lines.csv",
+   "column": "annual salary"
+  },
+  {
+   "value": "52750",
+   "kind": "salary",
+   "file": "data/program_budget_lines.csv",
+   "column": "annual salary"
+  },
+  {
+   "value": "97250",
+   "kind": "salary",
+   "file": "data/program_budget_lines.csv",
+   "column": "annual salary"
   }
  ]
 }

@@ -15,6 +15,18 @@ pub(super) const GRANTS: &[ToolMeta] = &[
 /// Budgets and economic evaluation: PLAN-09, PLAN-10.
 pub(super) const BUDGET: &[ToolMeta] = &[
     // Phase 17 budget entries go below this line.
+    ToolMeta {
+        name: "build_program_budget",
+        plan_id: "PLAN-09",
+        toolset: Toolset::Planning,
+        phase: 17,
+    },
+    ToolMeta {
+        name: "economic_evaluation_calculator",
+        plan_id: "PLAN-10",
+        toolset: Toolset::Planning,
+        phase: 17,
+    },
     // End of Phase 17 budget entries.
 ];
 
