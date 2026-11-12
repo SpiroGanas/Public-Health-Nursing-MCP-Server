@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 135;
+const TOOL_COUNT = 137;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4229,6 +4229,75 @@ const toolChapters = [
       // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08) tools.
       // End of Phase 17 grants tools.
       // Phase 17 budget (PLAN-09, PLAN-10) tools.
+      {
+        id: 'build_program_budget',
+        title: 'Build a program budget',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, writes an Excel budget and a Word budget justification to your output folder; reads a costs file if you give one',
+        does: 'Builds a line-item budget for a grant application, sorted into the usual federal cost categories (personnel, fringe benefits, travel, equipment, supplies, contractual, other, and indirect costs). It handles several years with yearly raises, a cost share or match, and indirect costs on the right base. For an organization without a negotiated rate, it uses the de minimis rate (up to 15 percent of modified total direct costs, which excludes equipment, participant support, rental, and anything over $50,000 of each subaward). It writes an Excel workbook with live formulas, so changing a rate or a line recalculates everything, and a Word justification drafted from your lines with bracketed notes for what only you know.',
+        when: [
+          'Pricing out a grant or contract proposal for a nursing program.',
+          'Checking whether a budget meets a required match.',
+          'Turning a list of costs into the budget justification the funder asks for.',
+        ],
+        provide: [
+          'Your costs: for each staff role the annual salary and percent of time, and for everything else the item, number, and cost each. Say which costs are cost share (your match).',
+          'Your fringe rate (from your finance office), any yearly raise, and the indirect rate if you have a negotiated one. Leave the indirect rate out to use the de minimis rate.',
+          'To keep salaries off the AI, put the costs in a spreadsheet in your data folder and give the file name. Use job titles, not names; a file with names or contact details is refused.',
+        ],
+        examples: [
+          'Build a 3-year budget for our immunization outreach grant from budget_lines.csv, fringe 28 percent, 3 percent raises, and check it against a 20 percent match.',
+          'Make a one-year budget: half-time nurse at $80,000, a $12,000 vaccine refrigerator, $3,000 supplies, 25 percent fringe.',
+          'Start me a blank budget workbook for a 2-year project.',
+        ],
+        returns: [
+          'The totals by cost category and year (no individual salaries), the indirect base and amount, the match check, the rules used with where they come from, and what to check with the funder.',
+          'An Excel workbook with live formulas and a Word justification with placeholders to fill in, in your output folder.',
+        ],
+        notes: [
+          'The funder\'s announcement controls. It may cap indirect costs, limit salaries, or count cost share differently. Check it before you submit.',
+          'The de minimis rate was 10 percent before October 2024 and is up to 15 percent now; older templates may still say 10.',
+          'The line letters on the federal budget form (6a to 6k) could not be checked against the form itself. Check them against the form your funder uses.',
+          'Salaries you type into the chat are seen by the AI. Salaries in a file stay on your computer and go only into the two files in your output folder.',
+          'The content is waiting for your review.',
+        ],
+      },
+      {
+        id: 'economic_evaluation_calculator',
+        title: 'Economic evaluation calculator',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, writes a sensitivity chart (picture and SVG) to your output folder',
+        does: 'Works out what a program costs and what it returns from numbers you type in: cost per participant, cost per outcome (for example per case averted), the extra cost for each extra outcome compared with another option (the ICER), net benefit, benefit-cost ratio, return on investment, how long until it pays back, and the break-even point. It can spread costs and benefits over several years and discount them (3 percent a year unless you say otherwise). It then changes each number one at a time to show which ones matter most (a tornado table and chart) and tells you in plain language what the results do and do not show.',
+        when: [
+          'Making the case for a program to a board, a funder, or a course instructor.',
+          'Comparing a new program with what you do now.',
+          'Checking how sensitive a cost-benefit result is to your assumptions.',
+        ],
+        provide: [
+          'The program cost (a total, or a list by year), the number of participants, and the outcomes (a total, or by year).',
+          'If you want benefit measures: the dollar value of one outcome (with where it comes from) or other savings.',
+          'If you want a comparison: the cost and outcomes of the alternative (use 0 outcomes for "no program").',
+          'Optional: your discount rate, the ranges to test, and a willingness to pay per outcome if your funder or course names one.',
+        ],
+        examples: [
+          'Our program costs $100,000 a year for 3 years, serves 600 people, and averts 40 cases a year worth $3,500 each. What are the benefit-cost ratio and break-even value?',
+          'Compare a $120,000 outreach program that prevents 30 cases with a $40,000 usual-care program that prevents 10.',
+          'Which of my assumptions matters most? Show a tornado chart.',
+        ],
+        returns: [
+          'The costs, outcomes, and benefits (before and after discounting), the ratios, the break-even values, the comparison, the tornado table, and a plain-language reading.',
+          'A tornado chart as a picture and SVG with a description, in your output folder.',
+        ],
+        notes: [
+          'These are calculations from your numbers. They do not show that the program caused the outcomes, and benefits you did not put a dollar value on are left out.',
+          'If one option costs less and achieves more, the tool says so instead of giving a ratio, because the size of a negative ratio does not mean anything.',
+          'The tool does not decide what counts as cost-effective. Enter a willingness to pay only if someone with authority gave you one.',
+          'The 3 percent discount rate follows how CDC applied the Second Panel on Cost-Effectiveness; the Panel report and the federal guidance on discount rates could not be read. Use the rate your funder requires. The default test ranges (20 percent either way) are the tool\'s own.',
+          'The content is waiting for your review.',
+        ],
+      },
       // End of Phase 17 budget tools.
       // Phase 17 finance (LEAD-01, LEAD-02) tools.
       {

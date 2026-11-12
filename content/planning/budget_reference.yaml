@@ -1,0 +1,332 @@
+# Federal budget object classes, the modified total direct cost (MTDC) base, the de minimis
+# indirect rate, cost sharing rules, and the budget justification templates for
+# build_program_budget (PLAN-09).
+#
+# REVIEW STATUS: pending. Drafted from the 2 CFR 200 text on eCFR (retrieved 2026-11-12, current
+# through 2026-11-09, sections last amended 2024-10-01). The SF-424A line layout could NOT be read
+# from Grants.gov (host blocked in the build environment) and is marked low confidence.
+# Schema: content/schemas/planning_budget_reference.schema.json
+meta:
+  id: planning-budget-reference
+  title: Federal budget object classes, MTDC, de minimis indirect rate, cost sharing, and justification templates (2 CFR 200)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2024-10-01
+  source:
+    title: "2 CFR 200.414 Indirect costs; 200.1 Definitions; 200.306 Cost sharing; 200.431 Compensation, fringe benefits; 200.456 Participant support costs"
+    publisher: U.S. Office of Management and Budget (Uniform Guidance), as published in the eCFR
+    url: https://www.ecfr.gov/current/title-2/part-200
+  related_sources:
+    - title: SF-424A Budget Information - Non-Construction Programs (OMB 4040-0006) and its instructions
+      publisher: Grants.gov
+      url: null
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The text of 2 CFR 200.1 (MTDC, equipment, participant support costs, cost sharing, subaward),
+    200.306, 200.414, 200.431 and 200.456 was read from the eCFR versioner API (full text of each
+    section as of 2026-11-09; every section's latest substantive amendment is dated 2024-10-01).
+    The de minimis rate (up to 15 percent of MTDC), the $50,000 subaward cap in MTDC, and the
+    $10,000 equipment threshold are quoted from that text (high confidence). The SF-424A object
+    class list (lines 6a to 6k) is NOT from the form or its instructions, which could not be
+    fetched (grants.gov and every mirror were blocked); it comes from a web-search summary of copies
+    of the form and is low confidence. The narrative templates are this project's drafts. Funders
+    can add their own limits (an indirect cap, salary caps, allowable items): the notice of funding
+    opportunity controls.
+
+sources:
+  ecfr-200-1:
+    title: "2 CFR 200.1 Definitions (Modified Total Direct Cost, Equipment, Participant support costs, Cost sharing, Subaward)"
+    publisher: U.S. Office of Management and Budget, via the eCFR
+    url: https://www.ecfr.gov/current/title-2/section-200.1
+    effective_date: 2024-10-01
+    retrieved: 2026-11-12
+  ecfr-200-414:
+    title: "2 CFR 200.414 Indirect costs"
+    publisher: U.S. Office of Management and Budget, via the eCFR
+    url: https://www.ecfr.gov/current/title-2/section-200.414
+    effective_date: 2024-10-01
+    retrieved: 2026-11-12
+  ecfr-200-306:
+    title: "2 CFR 200.306 Cost sharing"
+    publisher: U.S. Office of Management and Budget, via the eCFR
+    url: https://www.ecfr.gov/current/title-2/section-200.306
+    effective_date: 2024-10-01
+    retrieved: 2026-11-12
+  ecfr-200-431:
+    title: "2 CFR 200.431 Compensation - fringe benefits"
+    publisher: U.S. Office of Management and Budget, via the eCFR
+    url: https://www.ecfr.gov/current/title-2/section-200.431
+    effective_date: 2024-10-01
+    retrieved: 2026-11-12
+  ecfr-200-456:
+    title: "2 CFR 200.456 Participant support costs"
+    publisher: U.S. Office of Management and Budget, via the eCFR
+    url: https://www.ecfr.gov/current/title-2/section-200.456
+    effective_date: 2024-10-01
+    retrieved: 2026-11-12
+  sf424a:
+    title: "SF-424A Budget Information - Non-Construction Programs, Section B (object class categories)"
+    publisher: "Grants.gov (not fetched; summary of copies of the form from a web search)"
+    url: https://www.grants.gov/
+    effective_date: null
+    retrieved: 2026-11-12
+
+# The federal rules this tool applies, with the numbers it uses.
+rules:
+  de_minimis:
+    rate_percent: 15
+    base: mtdc
+    text: >-
+      Recipients and subrecipients without a current federal negotiated indirect cost rate
+      (including a provisional rate) may elect a de minimis rate of up to 15 percent of modified
+      total direct costs (MTDC). The recipient chooses the rate up to that limit; no documentation
+      is needed to justify it; it may be used indefinitely; costs must be consistently charged as
+      direct or indirect and never both. It must not be applied to cost reimbursement contracts
+      issued directly by the Federal Government under the FAR.
+    source: ecfr-200-414
+    section: 200.414(f)
+    confidence: high
+    note: >-
+      Before the October 1, 2024 revision the de minimis rate was 10 percent. Older notices of
+      funding opportunity and older templates may still say 10 percent.
+  subaward_cap_in_mtdc: 50000
+  equipment_threshold: 10000
+  mtdc:
+    text: >-
+      MTDC means all direct salaries and wages, applicable fringe benefits, materials and
+      supplies, services, travel, and up to the first $50,000 of each subaward (regardless of the
+      period of performance of the subawards under the award). MTDC excludes equipment, capital
+      expenditures, charges for patient care, rental costs, tuition remission, scholarships and
+      fellowships, participant support costs, and the portion of each subaward in excess of
+      $50,000. Other items may be excluded only to avoid a serious inequity and with the cognizant
+      agency's approval.
+    source: ecfr-200-1
+    section: 200.1 (Modified Total Direct Cost)
+    confidence: high
+  equipment:
+    text: >-
+      Equipment is tangible personal property (including information technology systems) with a
+      useful life of more than one year and a per-unit acquisition cost that equals or exceeds the
+      lesser of the recipient's capitalization level or $10,000. Items below that level are
+      supplies.
+    source: ecfr-200-1
+    section: 200.1 (Equipment)
+    confidence: high
+  participant_support:
+    text: >-
+      Participant support costs are direct costs that support participants and their involvement
+      in a federal award, such as stipends, subsistence allowances, travel allowances,
+      registration fees, temporary dependent care, and per diem paid directly to or on behalf of
+      participants. They are excluded from MTDC. The classification must be documented in the
+      recipient's written policies and applied consistently across federal awards.
+    source: ecfr-200-1
+    section: 200.1 (Participant support costs); 200.456
+    confidence: high
+  subaward_vs_contract:
+    text: >-
+      A subaward is an award from a pass-through entity to a subrecipient to carry out part of
+      the federal award; it does not include payments to a contractor, beneficiary, or
+      participant. Only subawards are subject to the $50,000 MTDC limit: payments to contractors
+      for services are in the MTDC base. The label is decided by the substance of the
+      relationship, not by the name of the agreement.
+    source: ecfr-200-1
+    section: 200.1 (Subaward, Contractor, Subrecipient)
+    confidence: high
+  fringe:
+    text: >-
+      Fringe benefits are allowances and services employers provide to employees as compensation
+      in addition to regular salaries and wages, such as leave, employee insurance, pensions, and
+      unemployment benefits. They are allowable when reasonable and required by law, an
+      organization-employee agreement, or established policy. Leave must be provided under
+      established written policies and equitably allocated.
+    source: ecfr-200-431
+    section: 200.431(a)-(b)
+    confidence: high
+  cost_sharing:
+    - text: >-
+        Cost sharing is the portion of project costs not paid by federal funds (unless authorized
+        by federal statute); matching means a required level of cost share. Funds count when they
+        are verifiable in your records, not counted for any other federal award, necessary and
+        reasonable, allowable under the cost principles, not paid by another federal award
+        (unless the program's statute allows it), and in the approved budget when the agency
+        requires it.
+      source: ecfr-200-306
+      section: 200.306(b); 200.1 (Cost sharing)
+      confidence: high
+    - text: >-
+        Unrecovered indirect costs, including indirect costs on cost sharing, may count as cost
+        sharing only with the prior approval of the federal agency or pass-through entity.
+      source: ecfr-200-306
+      section: 200.306(c)
+      confidence: high
+    - text: >-
+        Volunteer services are valued at rates consistent with those paid for similar work; donated
+        property is valued at no more than its fair market value; third-party in-kind
+        contributions need documented fair market value.
+      source: ecfr-200-306
+      section: 200.306(d)-(j)
+      confidence: high
+
+# SF-424A Section B object class lines, as the budget summary labels them.
+object_classes:
+  - id: personnel
+    label: Personnel
+    sf424a_line: 6a
+    what: Salaries and wages of employees working on the project, by position and percent effort.
+    source: sf424a
+    section: Section B
+    confidence: low
+  - id: fringe
+    label: Fringe benefits
+    sf424a_line: 6b
+    what: Employer-paid benefits on those salaries, as a rate times salary (calculated by this tool from the personnel lines).
+    source: ecfr-200-431
+    section: "200.431"
+    confidence: low
+  - id: travel
+    label: Travel
+    sf424a_line: 6c
+    what: Staff travel for the project (local mileage, trips to required meetings), with the basis for each rate.
+    source: sf424a
+    section: Section B
+    confidence: low
+  - id: equipment
+    label: Equipment
+    sf424a_line: 6d
+    what: Items that meet the equipment definition (unit cost at or above the threshold below); not in the MTDC base.
+    source: ecfr-200-1
+    section: 200.1 (Equipment)
+    confidence: low
+  - id: supplies
+    label: Supplies
+    sf424a_line: 6e
+    what: Materials and items below the equipment threshold, including computing devices below it.
+    source: sf424a
+    section: Section B
+    confidence: low
+  - id: contractual
+    label: Contractual
+    sf424a_line: 6f
+    what: Contracts for services and subawards. Subawards count toward MTDC only for the first $50,000 of each.
+    source: ecfr-200-1
+    section: 200.1 (Subaward, MTDC)
+    confidence: low
+  - id: other
+    label: Other
+    sf424a_line: 6h
+    what: Direct costs that fit no other class (printing, interpreter services, participant support costs, rental of space).
+    source: sf424a
+    section: Section B
+    confidence: low
+  - id: indirect
+    label: Indirect charges
+    sf424a_line: 6j
+    what: Indirect costs at your negotiated rate or the de minimis rate, on the right base.
+    source: ecfr-200-414
+    section: "200.414"
+    confidence: low
+  - id: construction
+    label: Construction
+    sf424a_line: 6g
+    what: Not built by this tool (a nursing program rarely has it); enter 0 on the form unless the notice allows construction.
+    source: sf424a
+    section: Section B
+    confidence: low
+
+# Things to check with the funder before you submit (reminders, not rules).
+funder_checks:
+  - text: Look for an indirect cost cap, a required rate, or a different base in the notice of funding opportunity; the notice controls over the general rule.
+    source: ecfr-200-414
+    section: 200.414(c)(4)
+    confidence: high
+  - text: Look for a cost share or match requirement, how it is measured (percent of total project or of the federal request), and whether cash and in-kind both count.
+    source: ecfr-200-306
+    section: "200.306"
+    confidence: high
+  - text: Look for a salary limitation or a cap on the percent of effort, and for page limits on the budget justification.
+    source: sf424a
+    section: not read
+    confidence: low
+  - text: Confirm the budget period lengths and whether the notice expects annual amounts to change (escalation) or to stay level.
+    source: sf424a
+    section: not read
+    confidence: low
+  - text: Confirm your fringe rate and any leave or benefits policies in writing (the cost principles require written policies for leave).
+    source: ecfr-200-431
+    section: 200.431(b)
+    confidence: high
+
+# Budget justification narrative. {name} fields are filled from your line items; [NURSE: ...]
+# marks facts the tool cannot know. Nothing here is invented regulatory content: the only rules
+# quoted are the ones above.
+narrative:
+  title: Budget justification
+  intro: >-
+    This budget justification explains each cost in the budget for {project} over {years_text}.
+    All amounts are in U.S. dollars. [NURSE: add the organization's name, the funder, and the
+    funding opportunity number.]
+  personnel_heading: Personnel
+  personnel_intro: >-
+    Salaries are the base salary times the percent of time on this project.{escalation_sentence}
+  personnel_line: >-
+    {item}: {effort} of time. Base salary {salary} a year; year 1 cost {y1}. [NURSE: duties on
+    this project; filled, vacant, or to be hired; and how the salary was set.]
+  fringe_heading: Fringe benefits
+  fringe_text: >-
+    Fringe benefits are budgeted at {rates_text} of salaries. [NURSE: list what the rate covers
+    (for example payroll taxes, retirement, health insurance, leave), who set it, and the document
+    that shows it.]
+  travel_heading: Travel
+  travel_line: >-
+    {item}: {quantity} {unit} at {unit_cost}, {years_text_line}. [NURSE: purpose, destination, and
+    how the rate was set (agency policy or the federal rate).]
+  equipment_heading: Equipment
+  equipment_line: >-
+    {item}: {quantity} at {unit_cost} each, {years_text_line}. [NURSE: why this item is needed
+    for the project and how the price was found.]
+  equipment_none: No equipment is requested.
+  supplies_heading: Supplies
+  supplies_line: >-
+    {item}: {quantity} {unit} at {unit_cost}, {years_text_line}. [NURSE: what the supply is used
+    for and how the price was estimated.]
+  contractual_heading: Contractual
+  contract_line: >-
+    {item} (contract for services): {quantity} {unit} at {unit_cost}, {years_text_line}. [NURSE:
+    scope of work, how the vendor is or will be selected (competition or sole source with
+    reasons), and the basis for the price.]
+  subaward_line: >-
+    {item} (subaward): {quantity} {unit} at {unit_cost}, {years_text_line}. Only the first $50,000
+    of a subaward is in the base for indirect costs. [NURSE: the partner, its role and scope, and
+    whether the partner has its own negotiated indirect rate.]
+  other_heading: Other direct costs
+  other_line: >-
+    {item}: {quantity} {unit} at {unit_cost}, {years_text_line}.{exclusion_sentence} [NURSE:
+    purpose and how the amount was estimated.]
+  indirect_heading: Indirect costs
+  indirect_de_minimis: >-
+    Indirect costs are requested at the de minimis rate of {rate} of modified total direct costs
+    (2 CFR 200.414(f)). The base excludes equipment, participant support costs, rental costs, and
+    the portion of each subaward above $50,000. [NURSE: confirm the organization has no current
+    federally negotiated indirect cost rate, and that no item is charged as both a direct and an
+    indirect cost.]
+  indirect_negotiated: >-
+    Indirect costs are requested at the negotiated rate of {rate} applied to {base}. [NURSE: name
+    the cognizant agency, the agreement date, and its expiration; attach the agreement.]
+  indirect_none: >-
+    No indirect costs are requested. [NURSE: say why (for example the funder does not allow them,
+    or they are provided as cost share).]
+  cost_share_heading: Cost share
+  cost_share_text: >-
+    The organization will provide {cost_share} over the project as cost share. [NURSE: the source
+    of each part (cash or in-kind, which department or partner), how in-kind items are valued, and
+    attach commitment letters. State that the contribution is not counted toward any other federal
+    award.]
+  cost_share_none: No cost share is budgeted.
+  summary_heading: Budget summary
+  closing: >-
+    [NURSE: check every figure against your own records and the notice of funding opportunity
+    before you submit. This draft is decision support, not a certified budget.]

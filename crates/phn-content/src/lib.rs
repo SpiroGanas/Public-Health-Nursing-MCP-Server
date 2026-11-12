@@ -718,6 +718,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
     // End of Phase 17 grants.
     // Phase 17 budget (PLAN-09, PLAN-10).
+    ContentItem {
+        id: "planning-budget-reference",
+        path: "content/planning/budget_reference.yaml",
+        resource_uri: "phn://content/planning-budget-reference",
+        yaml: include_str!("../../../content/planning/budget_reference.yaml"),
+        schema: include_str!("../../../content/schemas/planning_budget_reference.schema.json"),
+    },
+    ContentItem {
+        id: "planning-economic-evaluation",
+        path: "content/planning/economic_evaluation.yaml",
+        resource_uri: "phn://content/planning-economic-evaluation",
+        yaml: include_str!("../../../content/planning/economic_evaluation.yaml"),
+        schema: include_str!("../../../content/schemas/planning_economic_evaluation.schema.json"),
+    },
     // End of Phase 17 budget.
     // Phase 17 finance (LEAD-01, LEAD-02).
     ContentItem {

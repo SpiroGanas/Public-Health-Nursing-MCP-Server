@@ -1,0 +1,9 @@
+category,item,funding,annual salary,effort percent,quantity,unit cost,unit,first year,last year,subaward
+personnel,Public health nurse,federal,84500,50,,,,1,3,
+personnel,Community health worker,federal,52750,100,,,,1,3,
+personnel,Nurse supervisor,cost share,97250,10,,,,1,3,
+travel,Local mileage,federal,,,1200,0.70,miles,1,3,
+equipment,Blood pressure monitors,federal,,,20,450,each,1,1,
+supplies,Teaching materials,federal,,,3,1500,sets,1,3,
+contractual,Community partner,federal,,,1,30000,subaward,1,3,yes
+other,Participant incentives,federal,,,200,25,cards,1,3,

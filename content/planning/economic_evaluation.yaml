@@ -1,0 +1,236 @@
+# Definitions, default settings, and plain-language interpretation rules for
+# economic_evaluation_calculator (PLAN-10): cost per participant and per outcome, cost-effectiveness
+# ratio and ICER, net benefit, benefit-cost ratio, return on investment, break-even, discounting,
+# and one-way sensitivity analysis.
+#
+# REVIEW STATUS: pending. Drafted from pages read on 2026-11-12 (CDC MMWR 2024, a CDC commentary
+# on the Second Panel, and the PubMed record of the Second Panel's report). The Second Panel report
+# itself and OMB Circular A-94 could not be read (publisher and White House hosts blocked), so the
+# 3 percent default discount rate rests on how CDC applied the Panel, and every item that depends
+# on the Panel's own text or on Circular A-94 is marked low confidence.
+# Schema: content/schemas/planning_economic_evaluation.schema.json
+meta:
+  id: planning-economic-evaluation
+  title: Economic evaluation definitions, default discount rate, sensitivity defaults, and interpretation rules
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: "Health and Economic Benefits of Routine Childhood Immunizations in the Era of the Vaccines for Children Program, United States, 1994-2023 (MMWR 2024;73(31))"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/73/wr/mm7331a2.htm
+  related_sources:
+    - title: "Recommendations of the Second Panel on Cost Effectiveness in Health and Medicine: A Reference, Not a Rule Book (Am J Prev Med 2018;54(4):600-602)"
+      publisher: Centers for Disease Control and Prevention authors; HHS Public Access manuscript
+      url: https://stacks.cdc.gov/view/cdc/56871/cdc_56871_DS1.pdf
+    - title: "Recommendations for Conduct, Methodological Practices, and Reporting of Cost-effectiveness Analyses: Second Panel on Cost-Effectiveness in Health and Medicine (JAMA 2016;316(10):1093-1103), PubMed record 27623463"
+      publisher: JAMA; National Library of Medicine
+      url: https://pubmed.ncbi.nlm.nih.gov/27623463/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The benefit-cost ratio and net savings definitions, the 3 percent annual discounting, and the
+    payer and societal perspectives are read from the CDC MMWR report (high confidence for what the
+    report did; the values in its Table 2 are the tool's golden test). The statements about
+    dominant strategies, the choice of outcome, and the perspective come from the CDC commentary
+    on the Second Panel (high). The JAMA abstract was read but not the report, so the Panel's own
+    wording (reference case, impact inventory) is cited from the abstract only. The formulas for
+    the average cost-effectiveness ratio, ICER, and return on investment are standard textbook
+    definitions that no fetched page spells out; they are marked medium. OMB Circular A-94 (the
+    federal benefit-cost guidance and its discount rates) could not be read: nothing from it is
+    used. The default sensitivity ranges are this tool's illustrative choices, not published
+    standards (low).
+
+sources:
+  mmwr-2024:
+    title: "Health and Economic Benefits of Routine Childhood Immunizations in the Era of the Vaccines for Children Program, United States, 1994-2023 (MMWR 2024;73(31))"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/73/wr/mm7331a2.htm
+    effective_date: 2024-08-08
+    retrieved: 2026-11-12
+  ajpm-2018:
+    title: "Recommendations of the Second Panel on Cost Effectiveness in Health and Medicine: A Reference, Not a Rule Book (Am J Prev Med 2018;54(4):600-602)"
+    publisher: Centers for Disease Control and Prevention authors; HHS Public Access manuscript
+    url: https://stacks.cdc.gov/view/cdc/56871/cdc_56871_DS1.pdf
+    effective_date: 2018-04-01
+    retrieved: 2026-11-12
+  jama-2016:
+    title: "Recommendations for Conduct, Methodological Practices, and Reporting of Cost-effectiveness Analyses: Second Panel on Cost-Effectiveness in Health and Medicine (JAMA 2016;316(10):1093-1103); abstract only"
+    publisher: JAMA; National Library of Medicine (PubMed 27623463)
+    url: https://pubmed.ncbi.nlm.nih.gov/27623463/
+    effective_date: 2016-09-13
+    retrieved: 2026-11-12
+  tool-definition:
+    title: Standard economic evaluation definitions as implemented in this tool (not read from a fetched page)
+    publisher: This project
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    effective_date: null
+    retrieved: 2026-11-12
+
+# Defaults. Every one can be overridden in the request.
+defaults:
+  discount_rate_percent: 3
+  discount_rate_source: mmwr-2024
+  discount_rate_section: Methods (all future benefits and costs discounted annually at 3 percent, as recommended by the Second Panel)
+  discount_rate_confidence: medium
+  discount_rate_note: >-
+    CDC's 2024 immunization analysis discounted at 3 percent a year and cites the Second Panel for
+    it. The Panel's report itself was not read. Some funders or federal guidance use other rates
+    (OMB Circular A-94 was not read): use the rate your funder or course requires.
+  discount_rate_sensitivity_low_percent: 0
+  discount_rate_sensitivity_high_percent: 7
+  discount_rate_sensitivity_note: >-
+    0 and 7 percent are common sensitivity values in published analyses; this tool's choice, not
+    read from a fetched source.
+  sensitivity_swing_percent: 20
+  sensitivity_swing_note: >-
+    When you give no range for a number, the tool varies it by 20 percent up and down so you can
+    see which inputs matter most. That range is illustrative: replace it with a range your data or
+    literature supports.
+  first_year_discounted: false
+  timing_note: >-
+    Year 1 amounts are treated as occurring at the start of the program and are not discounted;
+    year 2 is discounted one year, and so on. Say so if you report the result.
+
+# Definitions as the tool computes them.
+definitions:
+  - id: cost_per_participant
+    label: Cost per participant
+    formula: total cost / number of participants
+    text: What the program spends for each person it serves. It is an average, and says nothing about whether anyone benefited.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: cost_per_outcome
+    label: Average cost per outcome (average cost-effectiveness ratio)
+    formula: total cost / number of outcomes achieved
+    text: Cost for each outcome you counted (a case averted, a person who quit smoking). It compares the program with doing nothing and is not an incremental ratio.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: icer
+    label: Incremental cost-effectiveness ratio (ICER)
+    formula: (cost of the program - cost of the comparator) / (outcomes of the program - outcomes of the comparator)
+    text: Extra cost for each extra outcome gained by choosing the program over the comparator.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: net_benefit
+    label: Net benefit (net savings)
+    formula: benefits - costs
+    text: Benefits minus the program costs, both in present value.
+    source: mmwr-2024
+    section: Methods (Outcomes Estimated and Calculations)
+    confidence: high
+  - id: bcr
+    label: Benefit-cost ratio
+    formula: benefits / costs
+    text: Dollars of benefits per dollar of program cost, both in present value.
+    source: mmwr-2024
+    section: Methods (Outcomes Estimated and Calculations)
+    confidence: high
+  - id: roi
+    label: Return on investment
+    formula: (benefits - costs) / costs
+    text: Net benefit as a share of cost. It equals the benefit-cost ratio minus 1.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: break_even
+    label: Break-even
+    formula: value per outcome = present-value cost / present-value outcomes; outcomes needed = present-value cost / value per outcome
+    text: The value of one outcome, or the number of outcomes, at which the benefits exactly equal the cost (benefit-cost ratio of 1).
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: discounting
+    label: Present value
+    formula: amount in year t / (1 + rate)^(t - 1), year 1 undiscounted
+    text: Puts costs and benefits that occur in different years on a common footing.
+    source: mmwr-2024
+    section: Methods (discounting)
+    confidence: medium
+
+perspectives:
+  - id: program
+    label: Program (the budget you manage)
+    text: Counts only what the program spends and the savings or revenue it brings in. This is the usual view for a grant-funded program.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  - id: payer
+    label: Payer or health care sector
+    text: Includes health care spending by all payers, whether public, private, or individual.
+    source: ajpm-2018
+    section: Recommendations (perspective)
+    confidence: high
+  - id: societal
+    label: Societal
+    text: Includes all costs and health benefits regardless of who incurs the costs or receives the benefits, including costs outside health care such as criminal justice and environmental effects.
+    source: ajpm-2018
+    section: Recommendations (perspective)
+    confidence: high
+
+# Plain-language reading rules. {name} fields are filled by the tool.
+interpretation:
+  always:
+    - text: This is a calculation from the numbers you entered. It does not check that the program caused the outcomes, that the outcome counts are right, or that the dollar value of an outcome is right.
+      source: tool-definition
+      section: general
+      confidence: medium
+    - text: The Second Panel recommendations are a reference, not a rule book; choose the outcome and the perspective to fit the question and the audience.
+      source: ajpm-2018
+      section: Conclusions
+      confidence: high
+    - text: Costs and benefits should be counted from one stated perspective. Do not mix a program's costs with societal benefits unless you say that is what you did.
+      source: ajpm-2018
+      section: Recommendations (perspective)
+      confidence: high
+  no_comparator:
+    text: Cost per outcome is an average against doing nothing. It does not show the program is better than another way to reach the same outcome; add a comparator to get an incremental ratio.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  dominant:
+    text: The program costs less and achieves more than the comparator (it dominates it). A ratio is not meaningful in that case because the magnitude of a negative ratio does not mean anything; report the cost savings and the outcomes instead.
+    source: ajpm-2018
+    section: Recommendations (outcome measure)
+    confidence: high
+  dominated:
+    text: The program costs more and achieves less than the comparator (it is dominated). A ratio is not meaningful.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  smaller_cheaper:
+    text: The program costs less but also achieves less than the comparator. The ratio is the money saved for each outcome given up; whether that trade is acceptable is a judgment for decision makers.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  no_difference:
+    text: The program and the comparator have the same outcomes, so an incremental ratio cannot be calculated; compare costs only.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  bcr_below_one:
+    text: A benefit-cost ratio below 1 means the benefits you counted are smaller than the cost. Benefits you did not or could not put a dollar value on are not in the ratio.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  threshold_none:
+    text: No willingness-to-pay threshold was applied. There is no single threshold that fits every program or decision; if your funder or course names one, enter it.
+    source: ajpm-2018
+    section: Conclusions (one size does not fit all)
+    confidence: medium
+  sensitivity_flip:
+    text: The conclusion changes within the ranges you tested for {parameters}; treat it as uncertain until those numbers are better known.
+    source: tool-definition
+    section: definition
+    confidence: medium
+  sensitivity_robust:
+    text: The conclusion did not change within the ranges tested, one number at a time. Changing several at once could still change it.
+    source: tool-definition
+    section: definition
+    confidence: medium

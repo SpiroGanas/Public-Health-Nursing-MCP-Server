@@ -26,4 +26,8 @@ pub use theory::{TheoryArgs, TheoryResult, apply_behavior_change_theory};
 // End of Phase 17 grants.
 
 // Phase 17 budget (PLAN-09, PLAN-10): add `pub mod` and `pub use` lines below.
+pub mod budget;
+pub mod economic;
+pub use budget::{BudgetResult, BuildBudgetArgs, build_program_budget};
+pub use economic::{EconomicArgs, EconomicResult, economic_evaluation_calculator};
 // End of Phase 17 budget.

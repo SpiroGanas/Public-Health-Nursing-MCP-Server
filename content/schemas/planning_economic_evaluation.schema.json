@@ -1,0 +1,398 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/planning_economic_evaluation.schema.json",
+  "title": "Economic evaluation definitions, defaults, and interpretation rules",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "defaults",
+    "definitions",
+    "perspectives",
+    "interpretation"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "planning-economic-evaluation"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "required": [
+        "discount_rate_percent",
+        "discount_rate_source",
+        "discount_rate_section",
+        "discount_rate_confidence",
+        "discount_rate_note",
+        "discount_rate_sensitivity_low_percent",
+        "discount_rate_sensitivity_high_percent",
+        "discount_rate_sensitivity_note",
+        "sensitivity_swing_percent",
+        "sensitivity_swing_note",
+        "first_year_discounted",
+        "timing_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "discount_rate_percent": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "discount_rate_source": {
+          "type": "string"
+        },
+        "discount_rate_section": {
+          "type": "string"
+        },
+        "discount_rate_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        "discount_rate_note": {
+          "type": "string"
+        },
+        "discount_rate_sensitivity_low_percent": {
+          "type": "number",
+          "minimum": 0
+        },
+        "discount_rate_sensitivity_high_percent": {
+          "type": "number",
+          "minimum": 0
+        },
+        "discount_rate_sensitivity_note": {
+          "type": "string"
+        },
+        "sensitivity_swing_percent": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100
+        },
+        "sensitivity_swing_note": {
+          "type": "string"
+        },
+        "first_year_discounted": {
+          "type": "boolean"
+        },
+        "timing_note": {
+          "type": "string"
+        }
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "formula",
+          "text",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "formula": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "perspectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "text",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "required": [
+        "always",
+        "no_comparator",
+        "dominant",
+        "dominated",
+        "smaller_cheaper",
+        "no_difference",
+        "bcr_below_one",
+        "threshold_none",
+        "sensitivity_flip",
+        "sensitivity_robust"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "always": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "no_comparator": {
+          "$ref": "#/$defs/cited"
+        },
+        "dominant": {
+          "$ref": "#/$defs/cited"
+        },
+        "dominated": {
+          "$ref": "#/$defs/cited"
+        },
+        "smaller_cheaper": {
+          "$ref": "#/$defs/cited"
+        },
+        "no_difference": {
+          "$ref": "#/$defs/cited"
+        },
+        "bcr_below_one": {
+          "$ref": "#/$defs/cited"
+        },
+        "threshold_none": {
+          "$ref": "#/$defs/cited"
+        },
+        "sensitivity_flip": {
+          "$ref": "#/$defs/cited"
+        },
+        "sensitivity_robust": {
+          "$ref": "#/$defs/cited"
+        }
+      }
+    }
+  }
+}
