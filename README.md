@@ -209,6 +209,52 @@ output folder instead of being sent to the AI model.
 | `food_access_mapper` | CHR-06 | chronic | USDA Food Access Research Atlas low-income/low-access tracts (four definitions, straight-line or driving) for a town, county, or the state, with people affected, vehicle and SNAP context, HIP and SNAP information, counts of your pantries, SNAP retailers, and HIP vendors by town, a tract map, and a resource list. |
 <!-- Phase 14 rows go above this line. -->
 
+### Phase 15: chronic disease prevention and community assessment
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 15 screen rows go above this line. -->
+<!-- Phase 15 prevent rows go above this line. -->
+<!-- Phase 15 cha rows go above this line. -->
+<!-- Phase 15 geo rows go above this line. -->
+<!-- Phase 15 rows go above this line. -->
+
+### Phase 16: program planning, evaluation, and evidence
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 16 design rows go above this line. -->
+<!-- Phase 16 interventions rows go above this line. -->
+<!-- Phase 16 appraise rows go above this line. -->
+<!-- Phase 16 qi rows go above this line. -->
+<!-- Phase 16 rows go above this line. -->
+
+### Phase 17: grants and finance
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 17 grants rows go above this line. -->
+<!-- Phase 17 budget rows go above this line. -->
+<!-- Phase 17 finance rows go above this line. -->
+<!-- Phase 17 rows go above this line. -->
+
+### Phase 18: leadership, accreditation, and professional practice
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 18 strategy rows go above this line. -->
+<!-- Phase 18 workforce rows go above this line. -->
+<!-- Phase 18 ethics rows go above this line. -->
+<!-- Phase 18 rows go above this line. -->
+
+### Phase 19: policy and law
+
+| Tool | Plan ID | Toolset | What it does |
+|---|---|---|---|
+<!-- Phase 19 tracking rows go above this line. -->
+<!-- Phase 19 law rows go above this line. -->
+<!-- Phase 19 rows go above this line. -->
+
 See [docs/tools.md](docs/tools.md) for arguments, outputs, and privacy behavior of each tool.
 For nurses, the [user guide](docs/user-guide/PHN-MCP-Server-User-Guide.docx) (Word) explains
 what each tool is for, when to use it, and how to ask for it.

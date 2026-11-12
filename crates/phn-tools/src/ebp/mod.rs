@@ -10,3 +10,12 @@ pub mod pubmed;
 
 pub use cdc_guidance::{CdcGuidanceArgs, CdcGuidanceResult, search_cdc_guidance};
 pub use pubmed::{PubmedResult, SearchPubmedArgs, search_pubmed};
+
+// Phase 16 appraise (EBP-03, EBP-04): add `pub mod` and `pub use` lines below.
+// End of Phase 16 appraise.
+
+// Phase 16 qi (EBP-05): add `pub mod` and `pub use` lines below.
+// End of Phase 16 qi.
+
+// Phase 18 ethics (EBP-07): add `pub mod` and `pub use` lines below.
+// End of Phase 18 ethics.

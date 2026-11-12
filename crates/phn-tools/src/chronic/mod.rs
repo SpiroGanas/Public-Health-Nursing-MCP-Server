@@ -21,3 +21,9 @@ pub mod food_access;
 pub use food_access::{FoodAccessArgs, FoodAccessResult, food_access_mapper};
 // End of Phase 14 chemfood.
 // End of Phase 14 modules (CHR-06, CHR-07).
+
+// Phase 15 screen (CHR-02, CHR-03): add `pub mod` and `pub use` lines below.
+// End of Phase 15 screen.
+
+// Phase 15 prevent (CHR-04, CHR-05): add `pub mod` and `pub use` lines below.
+// End of Phase 15 prevent.

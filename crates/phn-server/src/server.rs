@@ -133,6 +133,22 @@ impl PhnServer {
         tool_router.merge(Self::phase14_ejclimate_router());
         tool_router.merge(Self::phase14_vectorhousing_router());
         tool_router.merge(Self::phase14_chemfood_router());
+        tool_router.merge(Self::phase15_screen_router());
+        tool_router.merge(Self::phase15_prevent_router());
+        tool_router.merge(Self::phase15_cha_router());
+        tool_router.merge(Self::phase15_geo_router());
+        tool_router.merge(Self::phase16_design_router());
+        tool_router.merge(Self::phase16_interventions_router());
+        tool_router.merge(Self::phase16_appraise_router());
+        tool_router.merge(Self::phase16_qi_router());
+        tool_router.merge(Self::phase17_grants_router());
+        tool_router.merge(Self::phase17_budget_router());
+        tool_router.merge(Self::phase17_finance_router());
+        tool_router.merge(Self::phase18_strategy_router());
+        tool_router.merge(Self::phase18_workforce_router());
+        tool_router.merge(Self::phase18_ethics_router());
+        tool_router.merge(Self::phase19_tracking_router());
+        tool_router.merge(Self::phase19_law_router());
         Self { ctx, tool_router }
     }
 

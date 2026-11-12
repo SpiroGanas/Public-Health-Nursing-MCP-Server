@@ -3632,6 +3632,78 @@ const toolChapters = [
     ],
   },
   // End of Phase 14 chapter.
+  // Phase 15 chapter goes below this line.
+  {
+    title: 'Chronic disease prevention and community assessment',
+    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    tools: [
+      // Phase 15 screen (CHR-02, CHR-03) tools.
+      // End of Phase 15 screen tools.
+      // Phase 15 prevent (CHR-04, CHR-05) tools.
+      // End of Phase 15 prevent tools.
+      // Phase 15 cha (EQ-08, EQ-09, EQ-10) tools.
+      // End of Phase 15 cha tools.
+      // Phase 15 geo (EPI-13) tools.
+      // End of Phase 15 geo tools.
+    ],
+  },
+  // End of Phase 15 chapter.
+  // Phase 16 chapter goes below this line.
+  {
+    title: 'Program planning, evaluation, and evidence',
+    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    tools: [
+      // Phase 16 design (PLAN-01, PLAN-02, PLAN-05) tools.
+      // End of Phase 16 design tools.
+      // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11) tools.
+      // End of Phase 16 interventions tools.
+      // Phase 16 appraise (EBP-03, EBP-04) tools.
+      // End of Phase 16 appraise tools.
+      // Phase 16 qi (EBP-05) tools.
+      // End of Phase 16 qi tools.
+    ],
+  },
+  // End of Phase 16 chapter.
+  // Phase 17 chapter goes below this line.
+  {
+    title: 'Grants and finance',
+    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    tools: [
+      // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08) tools.
+      // End of Phase 17 grants tools.
+      // Phase 17 budget (PLAN-09, PLAN-10) tools.
+      // End of Phase 17 budget tools.
+      // Phase 17 finance (LEAD-01, LEAD-02) tools.
+      // End of Phase 17 finance tools.
+    ],
+  },
+  // End of Phase 17 chapter.
+  // Phase 18 chapter goes below this line.
+  {
+    title: 'Leadership, accreditation, and professional practice',
+    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    tools: [
+      // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05) tools.
+      // End of Phase 18 strategy tools.
+      // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08) tools.
+      // End of Phase 18 workforce tools.
+      // Phase 18 ethics (EBP-07, POL-05, POL-06) tools.
+      // End of Phase 18 ethics tools.
+    ],
+  },
+  // End of Phase 18 chapter.
+  // Phase 19 chapter goes below this line.
+  {
+    title: 'Policy and law',
+    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    tools: [
+      // Phase 19 tracking (POL-01, POL-03) tools.
+      // End of Phase 19 tracking tools.
+      // Phase 19 law (POL-02, POL-04, POL-07) tools.
+      // End of Phase 19 law tools.
+    ],
+  },
+  // End of Phase 19 chapter.
 ];
 
 // ---------------------------------------------------------------------------------------
