@@ -1,0 +1,787 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/ebp_quality_improvement.schema.json",
+  "title": "Quality improvement planning (EBP-05)",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "model_for_improvement",
+    "aim",
+    "measure_types",
+    "operational_definition_fields",
+    "operational_definition_note",
+    "driver_diagram",
+    "fishbone",
+    "process_map",
+    "pdsa",
+    "run_chart",
+    "control_charts",
+    "squire"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ebp-quality-improvement"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "model_for_improvement": {
+      "type": "object",
+      "required": [
+        "summary",
+        "questions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "summary": {
+          "$ref": "#/$defs/cited"
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "number",
+              "question",
+              "how_the_tool_helps",
+              "source",
+              "section",
+              "confidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "number": {
+                "type": "integer"
+              },
+              "question": {
+                "type": "string"
+              },
+              "how_the_tool_helps": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "aim": {
+      "type": "object",
+      "required": [
+        "attributes",
+        "template",
+        "examples",
+        "sub_aims_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "note",
+              "source",
+              "section",
+              "confidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "note": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "template": {
+          "type": "string"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "sub_aims_note": {
+          "$ref": "#/$defs/cited"
+        }
+      }
+    },
+    "measure_types": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "plain",
+          "prompts",
+          "example",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "plain": {
+            "type": "string"
+          },
+          "prompts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "example": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      }
+    },
+    "operational_definition_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "prompt"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "operational_definition_note": {
+      "$ref": "#/$defs/cited"
+    },
+    "driver_diagram": {
+      "type": "object",
+      "required": [
+        "description",
+        "columns",
+        "reading_tip",
+        "change_package_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reading_tip": {
+          "$ref": "#/$defs/cited"
+        },
+        "change_package_note": {
+          "$ref": "#/$defs/cited"
+        }
+      }
+    },
+    "fishbone": {
+      "type": "object",
+      "required": [
+        "description",
+        "default_categories",
+        "category_note",
+        "steps",
+        "caution"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "default_categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "prompt"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "prompt": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "category_note": {
+          "$ref": "#/$defs/cited"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "caution": {
+          "$ref": "#/$defs/cited"
+        }
+      }
+    },
+    "process_map": {
+      "type": "object",
+      "required": [
+        "description",
+        "tips",
+        "tips_source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "tips": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tips_source": {
+          "type": "string"
+        }
+      }
+    },
+    "pdsa": {
+      "type": "object",
+      "required": [
+        "description",
+        "stages",
+        "act_options",
+        "quality_checks"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "questions",
+              "source",
+              "section",
+              "confidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "act_options": {
+          "$ref": "#/$defs/cited"
+        },
+        "quality_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "source",
+              "section",
+              "confidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "run_chart": {
+      "type": "object",
+      "required": [
+        "description",
+        "steps",
+        "rule_sets",
+        "comparison_note",
+        "signal_note",
+        "minimum_points",
+        "preferred_points"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "rule_sets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "rules"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "rules": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "label",
+                    "text",
+                    "source",
+                    "section",
+                    "confidence"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "source": {
+                      "type": "string"
+                    },
+                    "section": {
+                      "type": "string"
+                    },
+                    "confidence": {
+                      "enum": [
+                        "high",
+                        "medium",
+                        "low"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "comparison_note": {
+          "$ref": "#/$defs/cited"
+        },
+        "signal_note": {
+          "$ref": "#/$defs/cited"
+        },
+        "minimum_points": {
+          "type": "integer"
+        },
+        "preferred_points": {
+          "type": "integer"
+        }
+      }
+    },
+    "control_charts": {
+      "type": "object",
+      "required": [
+        "description",
+        "types",
+        "limits_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "$ref": "#/$defs/cited"
+        },
+        "types": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "use"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "use": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "limits_note": {
+          "type": "string"
+        }
+      }
+    },
+    "squire": {
+      "type": "object",
+      "required": [
+        "url",
+        "license_note",
+        "cite_as",
+        "note_to_authors",
+        "items"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "license_note": {
+          "type": "string",
+          "minLength": 40
+        },
+        "cite_as": {
+          "type": "string"
+        },
+        "note_to_authors": {
+          "$ref": "#/$defs/cited"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "number",
+              "name",
+              "section",
+              "purpose",
+              "ask",
+              "tool_section"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "number": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 18
+              },
+              "name": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "ask": {
+                "type": "string"
+              },
+              "tool_section": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

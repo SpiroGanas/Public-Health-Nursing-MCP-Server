@@ -15,6 +15,7 @@ pub use pubmed::{PubmedResult, SearchPubmedArgs, search_pubmed};
 // End of Phase 16 appraise.
 
 // Phase 16 qi (EBP-05): add `pub mod` and `pub use` lines below.
+pub mod qi;
 // End of Phase 16 qi.
 
 // Phase 18 ethics (EBP-07): add `pub mod` and `pub use` lines below.

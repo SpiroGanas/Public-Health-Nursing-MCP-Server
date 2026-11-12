@@ -628,6 +628,13 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 16 appraise (EBP-03, EBP-04).
     // End of Phase 16 appraise.
     // Phase 16 qi (EBP-05).
+    ContentItem {
+        id: "ebp-quality-improvement",
+        path: "content/ebp/quality_improvement.yaml",
+        resource_uri: "phn://content/ebp-quality-improvement",
+        yaml: include_str!("../../../content/ebp/quality_improvement.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_quality_improvement.schema.json"),
+    },
     // End of Phase 16 qi.
     // End of Phase 16 content items.
     // Phase 17 content items go below this line.

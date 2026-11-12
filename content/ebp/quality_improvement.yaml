@@ -1,0 +1,630 @@
+# Quality improvement planning content for plan_quality_improvement (EBP-05): the Model for
+# Improvement and its three questions, aim statements, outcome/process/balancing measures,
+# driver diagrams, fishbone diagrams, process maps, PDSA cycles, run chart and control chart
+# rules, and the SQUIRE 2.0 reporting checklist (paraphrased).
+#
+# REVIEW STATUS: pending. Drafted from the open-access articles listed under `sources`, which
+# were read in full through NCBI E-utilities on 2026-11-12. IHI's own pages (ihi.org) and
+# squire-statement.org were NOT reachable from the build environment, so nothing here was read
+# from IHI or the SQUIRE website; items that rest on general knowledge of the IHI approach are
+# marked confidence: low. Schema: content/schemas/ebp_quality_improvement.schema.json
+meta:
+  id: ebp-quality-improvement
+  title: Quality improvement planning (Model for Improvement, PDSA, run charts, SQUIRE 2.0)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: "SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence): revised publication guidelines from a detailed consensus process. BMJ Qual Saf 2016;25:986-992"
+    publisher: BMJ Publishing Group (article open access, CC BY-NC 4.0 per PubMed Central)
+    url: https://doi.org/10.1136/bmjqs-2015-004411
+  related_sources:
+    - title: "Integrating theory and practice: the core components guide for rigorous quality improvement design. Front Health Serv 2026;6:1751580"
+      publisher: Frontiers Media (CC BY 4.0)
+      url: https://doi.org/10.3389/frhs.2026.1751580
+    - title: "Run charts revisited: a simulation study of run chart rules for detection of non-random variation in health care processes. PLoS One 2014;9:e113825"
+      publisher: Public Library of Science (CC BY 4.0)
+      url: https://doi.org/10.1371/journal.pone.0113825
+    - title: "Systematic review of the application of the plan-do-study-act method to improve quality in healthcare. BMJ Qual Saf 2014;23:290-298"
+      publisher: BMJ Publishing Group (CC BY-NC 3.0)
+      url: https://doi.org/10.1136/bmjqs-2013-001862
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Read in full on 2026-11-12 through NCBI E-utilities (PubMed Central full text): the SQUIRE 2.0
+    article (all 18 items), the core components guide for QI design (Model for Improvement
+    questions, aim attributes, measure families, driver diagrams), two run chart papers (shift,
+    trend, and too-few-runs rules; the published prediction-limit table), the PDSA systematic
+    review (stages and application criteria), a fishbone diagram primer, and two QI methods
+    articles (balancing measures; flowcharts and cause-and-effect diagrams). Not fetched: IHI's
+    pages (blocked), the SQUIRE website and its permissions text (blocked), the full text of the
+    Perla 2011 run chart paper (BMJ site blocked; only its abstract was read), and The Improvement
+    Guide. The too-many/too-few-runs limits and the astronomical-point screen are computed or
+    defined by this tool and were not compared with Perla's own table or wording.
+
+sources:
+  core-components:
+    title: "Integrating theory and practice: the core components guide for rigorous quality improvement design (Frontiers in Health Services, 2026;6:1751580)"
+    publisher: Frontiers Media; open access, CC BY 4.0
+    url: https://doi.org/10.3389/frhs.2026.1751580
+    effective_date: 2026-03-25
+    retrieved: 2026-11-12
+  squire2:
+    title: "SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence): revised publication guidelines from a detailed consensus process (BMJ Quality & Safety 2016;25:986-992)"
+    publisher: BMJ Publishing Group; open access, CC BY-NC 4.0 (PubMed Central)
+    url: https://doi.org/10.1136/bmjqs-2015-004411
+    effective_date: 2016-12-01
+    retrieved: 2026-11-12
+  run-charts-2014:
+    title: "Run charts revisited: a simulation study of run chart rules for detection of non-random variation in health care processes (PLoS One 2014;9:e113825)"
+    publisher: Public Library of Science; open access, CC BY 4.0
+    url: https://doi.org/10.1371/journal.pone.0113825
+    effective_date: 2014-11-25
+    retrieved: 2026-11-12
+  run-charts-2015:
+    title: "Diagnostic value of run chart analysis: using likelihood ratios to compare run chart rules on simulated data series (PLoS One 2015;10:e0121349)"
+    publisher: Public Library of Science; open access, CC BY 4.0
+    url: https://doi.org/10.1371/journal.pone.0121349
+    effective_date: 2015-03-23
+    retrieved: 2026-11-12
+  run-chart-2011:
+    title: "The run chart: a simple analytical tool for learning from variation in healthcare processes (BMJ Quality & Safety 2011;20:46-51). Abstract only; full text was not reachable"
+    publisher: BMJ Publishing Group
+    url: https://doi.org/10.1136/bmjqs.2009.037895
+    effective_date: 2011-01-01
+    retrieved: 2026-11-12
+  pdsa-review:
+    title: "Systematic review of the application of the plan-do-study-act method to improve quality in healthcare (BMJ Quality & Safety 2014;23:290-298)"
+    publisher: BMJ Publishing Group; open access, CC BY-NC 3.0 (PubMed Central)
+    url: https://doi.org/10.1136/bmjqs-2013-001862
+    effective_date: 2014-04-01
+    retrieved: 2026-11-12
+  fishbone-primer:
+    title: "Cause-and-effect (fishbone) diagram: a tool for generating and organizing quality improvement ideas (Global Journal on Quality and Safety in Healthcare 2024;7:85)"
+    publisher: Innovative Healthcare Institute; open access, CC BY-NC-ND 4.0
+    url: https://doi.org/10.36401/JQSH-23-42
+    effective_date: 2024-05-02
+    retrieved: 2026-11-12
+  process-improvement-methods:
+    title: "Applying process improvement methods to clinical and translational research: conceptual framework and case examples (Clinical and Translational Science 2015;8:779)"
+    publisher: Wiley; open access, CC BY-NC 4.0 (PubMed Central)
+    url: https://doi.org/10.1111/cts.12326
+    effective_date: 2015-12-01
+    retrieved: 2026-11-12
+  learning-health-system:
+    title: "The learning health system for pediatric nephrology: building better systems to improve health (Pediatric Nephrology 2023;38:35)"
+    publisher: Springer Nature; open access (PubMed Central open access subset)
+    url: https://doi.org/10.1007/s00467-022-05526-0
+    effective_date: 2022-04-20
+    retrieved: 2026-11-12
+  ihi:
+    title: "Institute for Healthcare Improvement: Model for Improvement, PDSA worksheet, driver diagram, and run chart tools (ihi.org). Link only: the site was blocked from the build environment and nothing was read from it"
+    publisher: Institute for Healthcare Improvement
+    url: https://www.ihi.org/
+    effective_date: null
+    retrieved: 2026-11-12
+
+model_for_improvement:
+  summary:
+    text: >-
+      The Model for Improvement asks three questions and then tests changes with PDSA cycles. It
+      sits on top of knowing your system, understanding variation, and learning from small tests.
+    source: core-components
+    section: Underpinning frameworks
+    confidence: high
+  questions:
+    - id: aim
+      number: 1
+      question: What are we trying to accomplish?
+      how_the_tool_helps: "Aim statement: how much improvement, for whom, by when."
+      source: core-components
+      section: Underpinning frameworks; Improvement Aim
+      confidence: high
+    - id: measures
+      number: 2
+      question: How will we know that a change is an improvement?
+      how_the_tool_helps: "A family of outcome, process, and balancing measures with operational definitions, plotted over time on a run chart or control chart."
+      source: core-components
+      section: Underpinning frameworks; Measurement, evaluation, and learning
+      confidence: high
+    - id: changes
+      number: 3
+      question: What changes can we make that will result in improvement?
+      how_the_tool_helps: "Driver diagram (primary drivers, secondary drivers, change ideas), fishbone diagram and process map to find causes, then PDSA cycles to test each change."
+      source: core-components
+      section: Underpinning frameworks; Content theory
+      confidence: high
+
+aim:
+  attributes:
+    - id: population
+      label: Names who the improvement is for (the population and setting)
+      note: The question to answer is "for whom?". A named population keeps the aim from drifting.
+      source: core-components
+      section: Improvement Aim (what are we trying to accomplish? How much improvement? For whom? By when?)
+      confidence: high
+    - id: numeric
+      label: Gives a baseline and a goal as numbers
+      note: An aim describes the gap between current and desired performance, and is specific and numeric.
+      source: core-components
+      section: Improvement Aim
+      confidence: high
+    - id: time_bound
+      label: Says by when
+      note: An aim is time-bound.
+      source: core-components
+      section: Improvement Aim
+      confidence: high
+    - id: direction
+      label: The goal moves in the direction named (increase or reduce)
+      note: A consistency check by this tool, not a rule from the sources.
+      source: core-components
+      section: Improvement Aim
+      confidence: medium
+    - id: feasible
+      label: Ambitious yet feasible
+      note: "Judgment call for your team; the sources ask for an aim that is ambitious yet reflects an understanding of the system. This tool cannot check it."
+      source: core-components
+      section: Improvement Aim
+      confidence: high
+  template: "We will {direction} {what} for {population} from {baseline} to {goal} by {by}."
+  examples:
+    - text: Decrease average hemoglobin A1C for the outpatient type 2 diabetes population from 8.5% to 6.5% over 18 months.
+      source: core-components
+      section: Improvement Aim
+      confidence: high
+    - text: Improve reliability of annual hemoglobin A1C screening for all returning type 2 diabetes patients from 60% to 95% in 6 months.
+      source: core-components
+      section: Improvement Aim
+      confidence: high
+  sub_aims_note:
+    text: A project can have one aim for the whole effort and sub-aims for targeted processes in the system of care.
+    source: core-components
+    section: Improvement Aim
+    confidence: high
+
+measure_types:
+  - id: outcome
+    label: Outcome measure
+    plain: Whether the thing the aim is about has changed for the people you serve.
+    prompts:
+      - What result would the people you serve notice?
+      - Is it the same measure your aim names?
+    example: Percent of two-year-olds up to date on recommended vaccines (public health clinic).
+    source: learning-health-system
+    section: Focus on what matters most; Measuring impact (measures centered on improved patient outcomes)
+    confidence: medium
+  - id: process
+    label: Process measure
+    plain: Whether the steps you changed are being done, and done reliably.
+    prompts:
+      - Which step in the process do your change ideas touch?
+      - Can you count it every week or month without extra work?
+    example: Percent of clinic visits where the immunization record was reviewed (public health clinic).
+    source: learning-health-system
+    section: Measuring impact (each outcome has process measures that affect it)
+    confidence: medium
+  - id: balancing
+    label: Balancing measure
+    plain: Whether fixing one thing is making something else worse, for patients, staff, or another part of the system.
+    prompts:
+      - What could get worse because of this change (time, cost, workload, another service)?
+      - Who would notice first?
+    example: Nurse minutes per visit, or wait time for the next appointment.
+    source: process-improvement-methods
+    section: Process Improvement and QI Principles, Methods, and Tools (measures to detect inadvertent negative consequences of changes)
+    confidence: medium
+  family_note:
+    text: A robust measurement strategy uses a family of outcome, process, and balancing measures, with clear operational definitions, a feasible data collection plan, and a way to view the data over time (run charts or control charts).
+    source: core-components
+    section: Measurement, evaluation, and learning
+    confidence: high
+
+operational_definition_fields:
+  - id: numerator
+    label: Numerator
+    prompt: Exactly what is counted (and what is excluded).
+  - id: denominator
+    label: Denominator
+    prompt: Who or what is in the group measured (leave blank for a count or an average).
+  - id: data_source
+    label: Data source
+    prompt: Where the data come from (registry, EHR report, log, survey) and who pulls them.
+  - id: frequency
+    label: Frequency
+    prompt: How often it is measured and plotted (weekly or monthly gives enough points for a run chart).
+  - id: sampling
+    label: Sampling
+    prompt: All cases, or a sample (say how it is chosen).
+  - id: owner
+    label: Owner
+    prompt: Who collects and enters the data.
+operational_definition_note:
+  text: The sources call for clear operational definitions; the six fields above are this tool's checklist for writing one, not a published standard.
+  source: core-components
+  section: Measurement, evaluation, and learning
+  confidence: medium
+
+driver_diagram:
+  description:
+    text: A driver diagram shows the theory of change. It starts with the aim, then primary drivers (the main levers that influence the aim), secondary drivers (the parts of the system that influence each primary driver), and change ideas to test for each secondary driver.
+    source: core-components
+    section: Content theory
+    confidence: high
+  columns: [Aim, Primary drivers, Secondary drivers, Change ideas]
+  reading_tip:
+    text: Read it right to left as a set of predictions; if these changes are made, these secondary drivers will move, these primary drivers will move, and the aim will be met. PDSA cycles test those predictions.
+    source: learning-health-system
+    section: Integrating activities with a structured theory (a driver diagram displays the theory for improvement)
+    confidence: medium
+  change_package_note:
+    text: A change package is a set of specific, actionable changes, often organized under the driver diagram, that teams test and then build into everyday practice.
+    source: core-components
+    section: Content theory
+    confidence: high
+
+fishbone:
+  description:
+    text: A cause-and-effect (fishbone or Ishikawa) diagram puts the problem at the head and groups possible causes on the bones, so the team can see the causes behind the symptom. It is often paired with the five whys.
+    source: fishbone-primer
+    section: Introduction
+    confidence: high
+  default_categories:
+    - name: People
+      prompt: Skills, staffing, training, communication, client or family factors.
+    - name: Methods
+      prompt: Procedures, workflow, protocols, handoffs, scheduling.
+    - name: Materials
+      prompt: Forms, supplies, vaccines or medications, handouts, information.
+    - name: Equipment
+      prompt: Computers, EHR or registry functions, devices, space.
+    - name: Environment
+      prompt: Setting, location, time of day, community or policy conditions.
+  category_note:
+    text: The primer suggests grouping causes under materials, methods, equipment, environment, and people. Rename or add categories to fit your problem.
+    source: fishbone-primer
+    section: Steps to drawing a fishbone diagram
+    confidence: high
+  steps:
+    - text: Put the specific problem in the head, and draw the bones with room to add detail later.
+      source: fishbone-primer
+      section: Fishbone diagram structure and process
+      confidence: high
+    - text: Have everyone on the team write causes on sticky notes, in rounds, until ideas run out, then sort them under the categories.
+      source: fishbone-primer
+      section: Steps to drawing a fishbone diagram
+      confidence: high
+    - text: Use multi-voting (each person marks the top three causes the team could act on) to choose which causes to test.
+      source: fishbone-primer
+      section: Steps to drawing a fishbone diagram
+      confidence: high
+  caution:
+    text: A fishbone can produce irrelevant causes along with relevant ones; check the likely root causes against data before building change ideas on them.
+    source: fishbone-primer
+    section: Steps to drawing a fishbone diagram
+    confidence: high
+
+process_map:
+  description:
+    text: A process flowchart (map) lays out the steps people actually take, which helps a team find delays, rework, and handoff problems before choosing changes.
+    source: process-improvement-methods
+    section: Process Improvement and QI Principles, Methods, and Tools (flowcharts help identify inefficient and ineffective activities)
+    confidence: medium
+  tips:
+    - Map what really happens today, with the people who do the work, not what the policy says.
+    - Mark each decision (a diamond) and where a "no" sends the person.
+    - Mark pain points (delays, rework, drop-offs) and add a process measure for the worst one.
+  tips_source: This tool's drafting guidance (not quoted from a source); the idea of a flowchart to find inefficiency is from the cited article.
+
+pdsa:
+  description:
+    text: In a PDSA cycle you plan a change aimed at improvement, do (test) it, study how it worked, and act on what you learned to shape the next cycle. A test is made on a small scale, with a prediction, and measured over time.
+    source: pdsa-review
+    section: The origins and theory of PDSA cycles
+    confidence: high
+  stages:
+    - id: plan
+      label: Plan
+      questions:
+        - What is the objective of this test, and what change will you test?
+        - What do you predict will happen (written down before you start)?
+        - Who will do what, when, and where?
+        - What data will you collect to compare against the prediction?
+      source: pdsa-review
+      section: Use of PDSA cycles in healthcare (Table 1)
+      confidence: high
+    - id: do
+      label: Do
+      questions:
+        - Carry out the test as planned.
+        - Write down problems and anything unexpected.
+        - Start looking at the data.
+      source: pdsa-review
+      section: Use of PDSA cycles in healthcare (Table 1)
+      confidence: high
+    - id: study
+      label: Study
+      questions:
+        - Complete the analysis and compare the data with your prediction.
+        - Summarize what you learned.
+      source: pdsa-review
+      section: Use of PDSA cycles in healthcare (Table 1)
+      confidence: high
+    - id: act
+      label: Act
+      questions:
+        - What changes will you make based on the test?
+        - What will the next cycle be?
+      source: pdsa-review
+      section: Use of PDSA cycles in healthcare (Table 1)
+      confidence: high
+  act_options:
+    text: Many teams describe the Act step as deciding to adopt, adapt, or abandon the change.
+    source: ihi
+    section: Not read; general knowledge of the IHI approach
+    confidence: low
+  quality_checks:
+    - id: prediction
+      label: Each test states a prediction before it starts
+      source: pdsa-review
+      section: Theoretical framework (Table 2); Prediction-based testing of change
+      confidence: high
+    - id: small_scale
+      label: Each test is small (state how many people, visits, or days)
+      source: pdsa-review
+      section: Theoretical framework (Table 2); Small-scale testing
+      confidence: high
+    - id: data_over_time
+      label: Data are collected over time, not once
+      source: pdsa-review
+      section: Theoretical framework (Table 2); Data over time
+      confidence: high
+    - id: linked_cycles
+      label: Later cycles build on earlier ones (the Act of one informs the Plan of the next)
+      source: pdsa-review
+      section: Theoretical framework (Table 2); Iterative cycles
+      confidence: high
+    - id: scale_up
+      label: Sequential cycles increase in scale as confidence grows
+      source: pdsa-review
+      section: Theoretical framework (Table 2)
+      confidence: high
+    - id: one_change
+      label: One change is tested per cycle where possible
+      source: pdsa-review
+      section: Theoretical framework (Table 2; number of changes tested per cycle)
+      confidence: medium
+    - id: documented
+      label: Every stage of each cycle is documented
+      source: pdsa-review
+      section: Theoretical framework (Table 2); Documentation
+      confidence: high
+
+run_chart:
+  description:
+    text: A run chart is a line graph of a measure over time with the median as a horizontal line. Its purpose is to show non-random patterns around the median, which suggest improvement or deterioration.
+    source: run-charts-2014
+    section: Run Chart
+    confidence: high
+  steps:
+    - text: Plot the measure in time order and connect the points.
+      source: run-charts-2014
+      section: Guidelines for Using and Interpreting Run Charts
+      confidence: high
+    - text: Add the median after at least 12 points, preferably 20 or more.
+      source: run-charts-2014
+      section: Guidelines for Using and Interpreting Run Charts
+      confidence: high
+    - text: Points on the median are not counted; they neither add to a run nor break it.
+      source: run-charts-2014
+      section: Guidelines for Using and Interpreting Run Charts
+      confidence: high
+    - text: If only random variation remains after at least 20 points, lock the median and keep plotting while you improve the process; recalculate the median once the target is reached.
+      source: run-charts-2014
+      section: Guidelines for Using and Interpreting Run Charts
+      confidence: high
+  rule_sets:
+    - id: ihi
+      label: IHI/Perla rules
+      rules:
+        - id: shift
+          label: Shift
+          text: Six or more consecutive points all above or all below the median (points on the median are skipped).
+          source: run-charts-2014
+          section: Run Chart (Perla defines a shift as six or more consecutive points on the same side of the median)
+          confidence: medium
+        - id: trend
+          label: Trend
+          text: Five or more consecutive points all going up or all going down (a repeated value counts once).
+          source: run-charts-2015
+          section: Results (example: longest trend greater than 4; repeating values count as one)
+          confidence: medium
+        - id: runs
+          label: Too few or too many runs
+          text: A run is a stretch of consecutive points on one side of the median. Fewer runs than expected, or more, from random data suggests non-random variation. This tool computes the limits from the exact distribution of the number of runs (2.5% in each tail, using the observed numbers of points above and below the median). Perla's own table was not retrieved to compare.
+          source: run-charts-2015
+          section: Introduction (the Perla and Carey rule sets include a test for unusually many and unusually few runs)
+          confidence: medium
+        - id: astronomical
+          label: Astronomical point
+          text: A point that is obviously different from the rest. Perla treats it as a matter of judgment. This tool screens for candidates (a point outside natural limits computed from the other points) and leaves the call to you.
+          source: run-chart-2011
+          section: Not read (abstract only); the screen is this tool's own operationalization
+          confidence: low
+    - id: anhoj
+      label: Anhøj rules
+      rules:
+        - id: long_run
+          label: Unusually long run
+          text: The longest run on one side of the median is longer than round(log2(n) + 3), where n is the number of points not on the median.
+          source: run-charts-2014
+          section: Prediction limits for longest run and number of crossings (Table 1)
+          confidence: high
+        - id: crossings
+          label: Too few crossings
+          text: The line crosses the median fewer times than the 5th percentile of a binomial distribution with n - 1 trials and probability 0.5.
+          source: run-charts-2014
+          section: Prediction limits for longest run and number of crossings (Table 1)
+          confidence: high
+  comparison_note:
+    text: In a simulation study the Anhøj rules had better diagnostic properties than the Perla rules, which gave many false positive signals; the trend test and the too-many-runs test were judged not useful for detecting shifts due to improvement. By default this tool shows both sets side by side so you can see where they disagree, and labels the Anhøj result as the better-validated one. Follow your agency's or course's required rule set when it names one.
+    source: run-charts-2015
+    section: Discussion; Conclusions
+    confidence: high
+  signal_note:
+    text: A signal says the pattern is unlikely to be random, not why. Check for causes with the people doing the work, and do not take a few high or low points as proof of improvement.
+    source: run-charts-2014
+    section: Guidelines for Using and Interpreting Run Charts (be careful not to confuse random high or low points with true outliers; if in doubt use a control chart)
+    confidence: high
+  minimum_points: 12
+  preferred_points: 20
+
+control_charts:
+  description:
+    text: Control charts show common-cause variation (inherent in the system) versus special-cause variation (not part of the system). They are used when a process is to be held at a good level, or when a run chart leaves doubt.
+    source: learning-health-system
+    section: Measuring impact (run charts and statistical process control charts)
+    confidence: medium
+  types:
+    - id: xmr
+      label: XmR (individuals)
+      use: One value per period, such as an average or a rate you already calculated.
+    - id: p
+      label: p chart
+      use: A proportion with a different denominator each period, such as percent of visits with a documented screening.
+    - id: u
+      label: u chart
+      use: Events per unit of exposure, such as falls per 1,000 patient-days.
+    - id: c
+      label: c chart
+      use: A count with the same opportunity every period.
+  limits_note: Center lines and 3-sigma limits are computed by the project's SPC engine (limits checked against R's qcc in its own golden tests).
+
+squire:
+  url: https://www.squire-statement.org/
+  license_note: >-
+    SQUIRE is a copyrighted publication guideline. The SQUIRE 2.0 article is open access under
+    CC BY-NC 4.0 according to PubMed Central; the SQUIRE website's own terms were not reachable from
+    the build environment and were not read. This checklist gives only the item numbers and names
+    and its own short paraphrases, not the guideline's wording. The guideline asks authors to
+    consider every item, says not every element fits every manuscript, and asks authors to cite
+    SQUIRE when they use it. Read the full guideline and the explanation-and-elaboration document
+    before you write, and check the site's permissions before you reproduce any of its text.
+  cite_as: "Ogrinc G, Davies L, Goodman D, Batalden P, Davidoff F, Stevens D. SQUIRE 2.0 (Standards for QUality Improvement Reporting Excellence): revised publication guidelines from a detailed consensus process. BMJ Qual Saf 2016;25:986-992. doi:10.1136/bmjqs-2015-004411"
+  note_to_authors:
+    text: SQUIRE is meant for reports of system-level work to improve the quality, safety, and value of care. Consider every item, but not every element will fit every report, and items need not appear in this order. Pair it with other reporting guidelines that match your study method.
+    source: squire2
+    section: Notes to authors; SQUIRE 2.0
+    confidence: high
+  items:
+    - number: 1
+      name: Title
+      section: Title and abstract
+      purpose: Make the title show that this is a report of work to improve care.
+      ask: Does the title say what you improved and that it was an improvement project?
+      tool_section: aim
+    - number: 2
+      name: Abstract
+      section: Title and abstract
+      purpose: Give a short structured summary that helps people find the report and covers every section.
+      ask: Can you summarize the problem, methods, changes, results, and conclusions in the journal's abstract format?
+      tool_section: aim
+    - number: 3
+      name: Problem description
+      section: Introduction
+      purpose: Say what the local problem is and why it matters.
+      ask: What is the problem in your setting, and what numbers show its size?
+      tool_section: fishbone
+    - number: 4
+      name: Available knowledge
+      section: Introduction
+      purpose: Summarize what is already known, including earlier studies.
+      ask: What does the literature say about this problem and about changes that worked elsewhere? (search_pubmed can help)
+      tool_section: drivers
+    - number: 5
+      name: Rationale
+      section: Introduction
+      purpose: Explain the frameworks, theory, and assumptions behind your changes and why you expected them to work.
+      ask: What is your theory of change (the driver diagram) and why should these changes move the drivers?
+      tool_section: drivers
+    - number: 6
+      name: Specific aims
+      section: Introduction
+      purpose: State the purpose of the project and of the report.
+      ask: What is the aim statement, and what is the aim of the write-up?
+      tool_section: aim
+    - number: 7
+      name: Context
+      section: Methods
+      purpose: Describe the setting factors you judged important when you started.
+      ask: Which features of your agency, community, staffing, and timing could affect results?
+      tool_section: process_map
+    - number: 8
+      name: Intervention(s)
+      section: Methods
+      purpose: Describe what you did in enough detail that others could repeat it, and who was on the team.
+      ask: What was each change, who delivered it, and who was on the improvement team?
+      tool_section: pdsa
+    - number: 9
+      name: Study of the intervention(s)
+      section: Methods
+      purpose: Explain how you judged the effect of the changes and how you decided whether the changes caused the results.
+      ask: How did you judge impact, and how did you rule out other explanations (for example, a comparison group, timing of changes against the run chart)?
+      tool_section: analysis
+    - number: 10
+      name: Measures
+      section: Methods
+      purpose: Define the process and outcome measures, why you chose them, how reliable and valid they are, and how complete the data were.
+      ask: Does each measure have an operational definition, and how did you check data completeness and accuracy?
+      tool_section: measures
+    - number: 11
+      name: Analysis
+      section: Methods
+      purpose: Describe how you drew conclusions from the data, including how you handled variation and time.
+      ask: Which charts and rules did you use (run chart rules, control chart), and what baseline period?
+      tool_section: analysis
+    - number: 12
+      name: Ethical considerations
+      section: Methods
+      purpose: Describe ethical aspects of doing and studying the work, including any ethics review and conflicts of interest.
+      ask: Who decided whether this needed ethics (IRB) review, and what conflicts of interest exist?
+      tool_section: aim
+    - number: 13
+      name: Results
+      section: Results
+      purpose: Report how the work unfolded, the measure results, how context interacted, unintended effects, and missing data.
+      ask: What happened at each PDSA cycle, what do the charts show, and what went wrong or unexpectedly well?
+      tool_section: analysis
+    - number: 14
+      name: Summary
+      section: Discussion
+      purpose: Give the key findings and the strengths of the project.
+      ask: What were the main findings relative to the aim?
+      tool_section: analysis
+    - number: 15
+      name: Interpretation
+      section: Discussion
+      purpose: Explain how the changes relate to the outcomes, compare with other work, and discuss impact, costs, and trade-offs.
+      ask: Why do you think it worked or did not, compared with other reports, and at what cost?
+      tool_section: analysis
+    - number: 16
+      name: Limitations
+      section: Discussion
+      purpose: Describe limits on how far the results apply and threats to internal validity, and what you did about them.
+      ask: What could bias or confuse the results, and how generalizable are they?
+      tool_section: analysis
+    - number: 17
+      name: Conclusions
+      section: Discussion
+      purpose: Say how useful the work is, whether it can be sustained or spread, and what to do next.
+      ask: Will the change last, can it spread, and what happens next?
+      tool_section: pdsa
+    - number: 18
+      name: Funding
+      section: Other information
+      purpose: Name the funders and say what role, if any, they had.
+      ask: Who paid for the work, and did the funder influence its design or reporting?
+      tool_section: aim
