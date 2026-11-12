@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 124;
+const TOOL_COUNT = 126;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4136,6 +4136,70 @@ const toolChapters = [
       // Phase 17 budget (PLAN-09, PLAN-10) tools.
       // End of Phase 17 budget tools.
       // Phase 17 finance (LEAD-01, LEAD-02) tools.
+      {
+        id: 'analyze_health_department_budget',
+        title: 'Analyze the health department budget',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads your budget or ledger file; writes a workbook with live formulas and a summary report (Word) to your output folder',
+        does: 'Reads your budget or ledger file and shows where the year stands. For each budget category it compares what has been spent or collected with the share of the fiscal year that has passed (July 1 start by default, the Massachusetts municipal year), subtracts encumbrances, and flags lines that are over budget or well ahead of or behind pace. It splits revenue into fees and revolving funds, municipal appropriation, state Public Health Excellence (PHE) grants, other state funds, federal funds, and other grants. It works out cost per service from the volumes you give it, and forecasts the year end two ways, straight line and (if the file has months) recent run rate, each with its assumptions spelled out. Only category totals come back: it never reads vendor, employee, or payee columns, and all salary and wage lines are combined into one row that is hidden when fewer than three positions stand behind it.',
+        when: [
+          'Checking the budget before a board of health or finance committee meeting.',
+          'Finding out whether grant revenue and fees are keeping pace, and what share of revenue comes from the town, the state PHE grants, and fees.',
+          'Working out what an immunization clinic or an inspection actually costs per unit.',
+          'Seeing where the year will end if spending continues as it has.',
+        ],
+        provide: [
+          'A CSV or Excel file in your data folder with one row per account line: a category, whether it is revenue or expense, the fund or source, the budgeted amount, the year-to-date actual, and (if you track them) encumbrances. A monthly ledger works too, with a month column and an account column.',
+          'Optionally: the date to analyze as of, the month your fiscal year starts if it is not July, the number of positions on each salary line, the volumes for the services you want costed, and the population you serve.',
+        ],
+        examples: [
+          'Analyze health_budget_FY27.xlsx as of October 31 and tell me where we are ahead of or behind pace.',
+          'What share of our revenue is PHE grant money, and what is the cost per flu clinic dose if we gave 640 doses and 25 percent of nursing time went to it?',
+          'Using the monthly ledger, where will supplies and contracted services end the year at the recent run rate?',
+        ],
+        returns: [
+          'Totals and a table by category (budgeted, spent, encumbered, percent used, points ahead or behind pace, status, year-end forecasts), the revenue mix, cost per service, budget per resident beside the figures DPH published, and a list of flags.',
+          'A workbook with live formulas (change the as-of date, tolerance, or an input and everything recalculates) and a Word summary in your output folder.',
+        ],
+        notes: [
+          'The figures come from your file as it is; the tool cannot check them against the general ledger. Pace is a straight-line yardstick: payroll is even, but vaccine orders and grant payments are not.',
+          'If the salary and wage lines have fewer than three positions (from a positions column, a headcount you give, or, failing both, the number of salary accounts, which can overstate it), their amounts are hidden in the answer, the workbook, and the report, and totals leave them out.',
+          'The PHE description comes from DPH\'s public pages and is waiting for your review. The award contract was not read, so the tool does not say which costs PHE may pay. The revenue groups come from words in your fund labels; check them, and place any label it could not classify.',
+          'DPH\'s published budget per resident figures are for shared services arrangements in 2022-2023, and the $36.98 estimate comes from research DPH does not name. Treat them as context.',
+        ],
+      },
+      {
+        id: 'model_staffing_needs',
+        title: 'Model nurse staffing needs',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, writes a workbook with live formulas and a summary report (Word) to your output folder; can read a file of service volumes',
+        does: 'Estimates how many full-time public health nurses your services need. You give it each service, how many units you deliver in a year, and how many nurse minutes each unit takes. It turns that into hours of work, works out how many productive hours one full-time nurse really has (paid hours minus holidays, vacation, sick and personal time, and training, less the share spent on meetings, supervision, and travel), and divides. It compares scenarios (your current volumes, growth, added services), shows the gap to your current staff, and shows residents and clients per nurse.',
+        when: [
+          'Making the case for another nurse, or for part-time hours, in a budget request.',
+          'Testing what a new program (a diabetes prevention series, school screenings) does to the workload.',
+          'Checking whether current staffing fits the volumes in your annual report.',
+        ],
+        provide: [
+          'Your services with annual volumes and minutes per unit, typed in or in a file with one row per service.',
+          'Optionally your own figures for leave, training, and non-service time (the defaults are placeholders), your current FTE, the population served and active clients, scenarios, and a benchmark you want to compare with.',
+        ],
+        examples: [
+          'We do 1,200 home visits at 45 minutes, 3,000 clinic doses at 6 minutes, and 150 case investigations at an hour. How many nurses is that?',
+          'What happens to our FTE need if volumes grow 10 percent, or if we add a 120-session diabetes prevention series at 90 minutes each?',
+          'We have 1.5 FTE for 24,000 residents. How does the workload compare with our capacity?',
+        ],
+        returns: [
+          'The productive-hours calculation with where each number came from, hours and share of hours by service, and FTE needed (and rounded up) for each scenario, with the gap to your current staff and residents and clients per nurse.',
+          'A workbook with live formulas and a Word summary in your output folder.',
+        ],
+        notes: [
+          'The answer is only as good as your minutes per unit; a time study or agency productivity data beats an estimate. The leave and training defaults are placeholders with no published source: replace them with your contract and policy.',
+          'No public health nurse staffing benchmark is bundled. None could be read from a source this server could fetch (NACCHO and PHAB pages were blocked, and DPH\'s capacity assessment and the SAPHE 2.0 guidance give no nurse ratio). If you have a benchmark, give it with its source and the tool compares with it without vouching for it.',
+          'Scenarios change volumes or add services; they do not model hiring time or coverage for leave. Staffing decisions also depend on skill mix, licensure, and budget.',
+        ],
+      },
       // End of Phase 17 finance tools.
     ],
   },

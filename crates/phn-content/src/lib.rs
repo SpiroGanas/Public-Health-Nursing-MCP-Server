@@ -699,6 +699,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 17 budget (PLAN-09, PLAN-10).
     // End of Phase 17 budget.
     // Phase 17 finance (LEAD-01, LEAD-02).
+    ContentItem {
+        id: "leadership-department-finance",
+        path: "content/leadership/department_finance.yaml",
+        resource_uri: "phn://content/leadership-department-finance",
+        yaml: include_str!("../../../content/leadership/department_finance.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_department_finance.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-staffing-model",
+        path: "content/leadership/staffing_model.yaml",
+        resource_uri: "phn://content/leadership-staffing-model",
+        yaml: include_str!("../../../content/leadership/staffing_model.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_staffing_model.schema.json"),
+    },
     // End of Phase 17 finance.
     // End of Phase 17 content items.
     // Phase 18 content items go below this line.

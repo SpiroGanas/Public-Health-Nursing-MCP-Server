@@ -249,6 +249,8 @@ output folder instead of being sent to the AI model.
 |---|---|---|---|
 <!-- Phase 17 grants rows go above this line. -->
 <!-- Phase 17 budget rows go above this line. -->
+| `analyze_health_department_budget` | LEAD-01 | leadership | Analyzes your budget or ledger file (a local file) and returns category totals only: year-to-date variance against the share of the fiscal year passed (July 1 start by default), revenue mix (fees, municipal appropriation, state Public Health Excellence grants, other state, federal), cost per service from volumes you give, and straight-line and run-rate year-end forecasts. Vendor and employee columns are never read, and salary lines are combined and hidden below three positions. Writes a workbook with live formulas and a Word summary. |
+| `model_staffing_needs` | LEAD-02 | leadership | Estimates public health nurse FTE from service volumes and minutes per unit that you supply, with an adjustable productive-hours calculation, scenarios (growth, added services), the gap to current staffing, and residents or clients per nurse. No staffing benchmark is bundled (none could be read from a fetchable source); it compares only with one you give. Writes a workbook with live formulas and a Word summary. |
 <!-- Phase 17 finance rows go above this line. -->
 <!-- Phase 17 rows go above this line. -->
 
