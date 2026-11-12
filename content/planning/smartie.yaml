@@ -1,0 +1,327 @@
+# SMARTIE objective elements, the structured checker's rules, and Healthy People 2030 notes for
+# write_smartie_objectives (PLAN-02).
+#
+# REVIEW STATUS: pending. The SMARTIE questions are quoted from CDC's National Breast and Cervical
+# Cancer Early Detection Program document "Writing Effective Objectives" (CDC Stacks 251674,
+# 2021-09-23); the SMART list is from CDC's Program Evaluation Framework Action Guide. Healthy
+# People 2030 definitions are from ODPHP's pages. The checker's rules (which fields each element
+# needs) are this project's own reading of those questions (confidence medium).
+# Schema: content/schemas/planning_smartie.schema.json
+meta:
+  id: planning-smartie
+  title: SMARTIE objectives (CDC) and Healthy People 2030 notes
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2021-09-23
+  source:
+    title: "National Breast and Cervical Cancer Early Detection Program: Writing Effective Objectives (SMARTIE objectives)"
+    publisher: Centers for Disease Control and Prevention, National Center for Chronic Disease Prevention and Health Promotion
+    url: https://stacks.cdc.gov/view/cdc/251674
+  related_sources:
+    - title: CDC Program Evaluation Framework Action Guide, Step 4 (SMART indicators)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-4-gather-credible-evidence.html
+    - title: Healthy People 2030 About the Objectives
+      publisher: Office of Disease Prevention and Health Promotion, HHS
+      url: https://odphp.health.gov/healthypeople/objectives-and-data/about-objectives
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The seven SMARTIE questions and the three traditional-versus-SMARTIE example pairs are copied
+    from the CDC document (a U.S. government work) read on 2026-11-12 (high confidence). CDC's
+    sheet names the letters Specific, Measurable, Attainable, Relevant, Time-based, Inclusive,
+    and Equitable; the same agency's Action Guide writes Specific, Measurable, Achievable,
+    Relevant, and Timebound for SMART, so this tool uses "achievable" and "time-bound" and notes
+    CDC's variants. The CDC sheet's equity question ends with "cancer screening disparities"
+    because it was written for the cancer screening program; the tool generalizes it to "health
+    disparities" and says so. Who first coined SMART or SMARTIE was not established: CDC's
+    sheet credits no originator and points to other organizations' pages that were not read
+    (The Management Center, Massachusetts DPH's Racial Equity Data Road Map pages 52-53). The
+    Doran 1981 article often cited for SMART could not be checked from here and is not cited.
+    Which fields each element needs, the date formats, and the equity-dimension prompts are this
+    project's own (medium to low confidence). Healthy People 2030 core, developmental, and
+    research definitions and status meanings are quoted from ODPHP's About the Objectives page
+    read 2026-11-12 (high confidence).
+
+sources:
+  cdc-smartie:
+    title: "National Breast and Cervical Cancer Early Detection Program: Writing Effective Objectives"
+    publisher: Centers for Disease Control and Prevention
+    url: https://stacks.cdc.gov/view/cdc/251674
+    effective_date: 2021-09-23
+    retrieved: 2026-11-12
+  cdc-action-guide-step4:
+    title: "Step 4: Gather Credible Evidence (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-4-gather-credible-evidence.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-action-guide-step3:
+    title: "Step 3: Focus the Evaluation Questions and Design (CDC Program Evaluation Framework Action Guide)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-3-focus-the-evaluation-questions-and-design.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  hp2030-about:
+    title: Healthy People 2030 About the Objectives
+    publisher: Office of Disease Prevention and Health Promotion, HHS
+    url: https://odphp.health.gov/healthypeople/objectives-and-data/about-objectives
+    effective_date: null
+    retrieved: 2026-11-12
+  hp2030-disparities:
+    title: Healthy People 2030 About Disparities Data
+    publisher: Office of Disease Prevention and Health Promotion, HHS
+    url: https://odphp.health.gov/healthypeople/objectives-and-data/about-disparities-data
+    effective_date: null
+    retrieved: 2026-11-12
+  hp2030-snapshot:
+    title: "Healthy People 2030 objectives (bundled snapshot of ODPHP's objective pages)"
+    publisher: Office of Disease Prevention and Health Promotion, HHS
+    url: https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives
+    effective_date: null
+    retrieved: 2026-11-12
+
+smart_definition:
+  text: "Use Specific, Measurable, Achievable, Relevant, and Timebound (SMART) criteria to develop the indicator and ensure there is sufficient specificity and detail to facilitate accurate data collection."
+  source: cdc-action-guide-step4
+  section: Step 4, "Developing Indicators"
+
+# The seven elements. `cdc_question` is CDC's wording; `generalized` replaces a cancer-specific tail.
+elements:
+  - id: specific
+    letter: S
+    label: Specific
+    cdc_name: Specific
+    cdc_question: "Does the objective state the outcome that you aim to accomplish? Among what population, by when, and by how much?"
+    generalized: null
+    fields: [measure, direction, population]
+    judgment: false
+  - id: measurable
+    letter: M
+    label: Measurable
+    cdc_name: Measurable
+    cdc_question: "How will you track your progress and know when milestones have been reached and the objective achieved?"
+    generalized: null
+    fields: [baseline, target, data_source]
+    judgment: false
+  - id: achievable
+    letter: A
+    label: Achievable
+    cdc_name: Attainable
+    cdc_question: "Is the objective challenging but achievable within the capabilities of your program and the community being served? Do you have enough resources?"
+    generalized: null
+    fields: [achievability_basis]
+    judgment: true
+  - id: relevant
+    letter: R
+    label: Relevant
+    cdc_name: Relevant
+    cdc_question: "Is the objective aligned with the priorities of your program and Notice of Funding Opportunity (NOFO) requirements? Is it meaningful to the population of focus and community being served?"
+    generalized: null
+    fields: [relevance]
+    judgment: true
+  - id: time_bound
+    letter: T
+    label: Time-bound
+    cdc_name: Time-Based
+    cdc_question: "Is there a deadline to achieve the objective? Are there review points to assess progress?"
+    generalized: null
+    fields: [target_date]
+    judgment: false
+  - id: inclusive
+    letter: I
+    label: Inclusive
+    cdc_name: Inclusive
+    cdc_question: "Have you invited, considered, and incorporated input from the population of focus and your community partners where appropriate?"
+    generalized: null
+    fields: [inclusion]
+    judgment: true
+  - id: equitable
+    letter: E
+    label: Equitable
+    cdc_name: Equitable
+    cdc_question: "Does the objective address the unique needs and circumstances of different populations, increase quality services where needed, and seek to address cancer screening disparities?"
+    generalized: "Does the objective address the unique needs and circumstances of different populations, increase quality services where needed, and seek to address health disparities?"
+    fields: [equity_dimension]
+    judgment: true
+elements_source: cdc-smartie
+elements_section: "Is Your Objective a SMARTIE Objective?"
+
+# How CDC introduces SMARTIE (quoted).
+cdc_intro:
+  text: "This document expands on that concept by introducing two new elements - inclusive and equitable - to form a SMART-IE objective."
+  guidance:
+    - "Who are the populations of focus in your program?"
+    - "What are their needs and barriers to screening?"
+    - "Where do they live?"
+    - "What community organizations serve them and have their trust?"
+    - "Which strategies are appropriate and likely to increase screening among people with the most need?"
+    - "Ask your populations of focus and your partners for input on your objectives. Ask them what interventions they recommend and how they define success."
+  source: cdc-smartie
+
+# What each structured field means to the checker.
+fields:
+  - id: measure
+    label: What is measured
+    asks: What is being changed or counted (for example "proportion of adults aged 50-75 up to date on colorectal cancer screening")?
+    element: specific
+  - id: direction
+    label: Direction of change
+    asks: Increase, decrease, or maintain.
+    element: specific
+    allowed: [increase, decrease, maintain]
+  - id: population
+    label: Population of focus
+    asks: Who the objective is about (age, place, group, setting).
+    element: specific
+  - id: baseline
+    label: Baseline
+    asks: The starting value, with its period and source. Without a baseline, a target cannot be judged.
+    element: measurable
+  - id: target
+    label: Target
+    asks: The value to reach, and the unit (percent, rate per 100,000, number).
+    element: measurable
+  - id: data_source
+    label: Data source
+    asks: Where the baseline and later values come from (program records, a survey, a surveillance system, a registry).
+    element: measurable
+  - id: target_date
+    label: Target date
+    asks: The date the target should be reached (YYYY-MM-DD, YYYY-MM, or a year). CDC also asks for review points to assess progress.
+    element: time_bound
+  - id: achievability_basis
+    label: Why this is achievable
+    asks: The resources, past results, or evidence that make the target reachable.
+    element: achievable
+  - id: relevance
+    label: Why this is relevant
+    asks: The priority, funder requirement, community assessment finding, or Healthy People objective it supports.
+    element: relevant
+  - id: inclusion
+    label: How the population gave input
+    asks: How people in the population of focus and community partners helped set or review the objective.
+    element: inclusive
+  - id: equity_dimension
+    label: Equity dimension
+    asks: The group or gap the objective is meant to narrow (for example a group with a higher rate or less access), and how results will be broken down by that group.
+    element: equitable
+fields_provenance: tool default
+fields_confidence: medium
+
+# Template for assembling a statement from the fields.
+statement_template: "By {target_date}, {direction} {measure} among {population} from {baseline} to {target}, measured by {data_source}."
+statement_source: cdc-smartie
+statement_note: >-
+  Follows the pattern of CDC's SMARTIE examples ("By 6/29/2023, increase screening among
+  <population of focus> by 20% by the end of Program Year 2"): a date, a verb, a measure, a
+  population, and an amount.
+
+# Equity-dimension prompts. Examples only; the community assessment decides which apply.
+equity_prompts:
+  provenance: tool default
+  confidence: low
+  note: >-
+    Healthy People 2030 reports disparities between demographic groups of the same measure
+    ("race and ethnicity or age" are its examples) and needs at least two subgroups for the same
+    period. Which groups matter locally comes from your community health assessment.
+  source: hp2030-disparities
+  dimensions:
+    - Race and ethnicity
+    - Language preference or limited English proficiency
+    - Age group
+    - Disability
+    - Income or insurance status
+    - Neighborhood or town
+    - Sex and gender identity
+    - Sexual orientation
+    - Immigration or refugee status
+    - Housing status
+
+# Process versus outcome objectives (CDC Step 3 evaluation types).
+objective_types:
+  - id: process
+    label: Process objective
+    text: About how well the program is implemented as planned (for example reach, participation, quality of services).
+  - id: outcome
+    label: Outcome objective
+    text: About the degree to which the intended outcomes are achieved (for example changes in knowledge, behavior, or health status).
+objective_types_source: cdc-action-guide-step3
+
+# The traditional-versus-SMARTIE pairs from the CDC document, as written (placeholders in angle brackets).
+cdc_examples:
+  source: cdc-smartie
+  section: "Traditional Objective / SMARTIE Objective table"
+  pairs:
+    - strategy: "Strategy 3: Support partnerships for cancer control and prevention"
+      traditional: "By 6/29/2023, participate in all <jurisdiction> cancer coalition meetings."
+      smartie: "By 12/1/2022, work within the <jurisdiction> cancer coalition to recruit <number> community members from <the prioritized population of focus> to help identify strategies to increase and improve cancer screening in their communities."
+    - strategy: "Strategy 4: Deliver screening and implement evidence-based interventions (EBIs)"
+      traditional: "By 11/1/2022, execute a memorandum of understanding with <Clinic A>, <Clinic B>, and <Clinic C> to select, adapt, and implement EBIs."
+      smartie: "By 12/1/2022, recruit <number> new health care providers and clinics close to <the prioritized populations of focus> to provide screening services."
+    - strategy: "Strategy 5: Conduct program monitoring and evaluation"
+      traditional: "By 12/30/2022, develop and submit a program evaluation plan that assesses program planning processes and outcomes, using high-quality data."
+      smartie: "By 12/30/2022, develop a program evaluation plan that specifies the measures, sources of data or data collection planned, and methods of analysis to assess the achievement of breast and cervical cancer screening and other targets for <each population of focus>."
+
+# Healthy People 2030 notes.
+healthy_people:
+  objective_types:
+    - id: core
+      label: Core
+      text: "Core objectives have valid, reliable, nationally representative data, including baseline data from no earlier than 2015. They are associated with targets for the decade and with evidence-based interventions."
+    - id: developmental
+      label: Developmental
+      text: "Developmental objectives represent high-priority public health issues that are associated with evidence-based interventions but don't yet have reliable baseline data."
+    - id: research
+      label: Research
+      text: "Research objectives represent public health issues with a high health or economic burden or significant disparities between population groups, but they aren't yet associated with evidence-based interventions."
+  status_meanings:
+    - status: Baseline only
+      text: "We don't yet have data beyond the initial baseline data, so we don't know if we've made progress."
+    - status: Target met or exceeded
+      text: "We've achieved the target we set at the beginning of the decade."
+    - status: Improving
+      text: "We're making progress toward meeting our target."
+    - status: Little or no detectable change
+      text: "We haven't made progress or lost ground."
+    - status: Getting worse
+      text: "We're farther from meeting our target than we were at the beginning of the decade."
+  source: hp2030-about
+  use_notes:
+    - text: Healthy People targets and baselines are national. A local objective needs a local baseline from a local source; the national target is a reference point, not a local target.
+      provenance: tool default
+      confidence: medium
+    - text: Compare your target with a Healthy People target only when you measure the same thing in the same population and the same unit; Healthy People values may be age-adjusted to the year 2000 standard population.
+      provenance: tool default
+      confidence: medium
+    - text: ODPHP revises baselines and targets ("Baseline has been revised"); check the objective page before citing a figure in a grant or report.
+      provenance: tool default
+      confidence: medium
+  comparison_default:
+    # How a local target is described against a national target (this project's wording).
+    provenance: tool default
+    confidence: low
+    unit_classes: [percent, per_100000, per_1000, per_10000, other]
+
+check_messages:
+  specific_missing_measure: What is being measured is not stated.
+  specific_missing_direction: The direction of change (increase, decrease, or maintain) is not stated.
+  specific_missing_population: The population of focus is not stated.
+  measurable_missing_baseline: No baseline is given, so progress cannot be measured against a starting point.
+  measurable_missing_target: No target value is given.
+  measurable_missing_data_source: No data source is named, so it is not clear how progress will be tracked.
+  measurable_missing_unit: The target has no unit (percent, rate per 100,000, number).
+  time_bound_missing_date: No target date is given.
+  time_bound_date_unreadable: The target date could not be read; use YYYY-MM-DD, YYYY-MM, or a four-digit year.
+  time_bound_date_before_start: The target date is not after the start date.
+  time_bound_no_review_points: No review points are given; CDC asks whether there are review points to assess progress.
+  direction_mismatch: The target moves the wrong way for the stated direction.
+  target_equals_baseline: The target equals the baseline.
+  achievable_missing: No basis for achievability is given (resources, past results, or evidence). This one needs your judgment.
+  relevant_missing: No link to a priority, funder requirement, assessment finding, or Healthy People objective is given.
+  inclusive_missing: No description of how the population of focus and partners gave input is given.
+  equitable_missing: No equity dimension is given (the group or gap the objective is meant to narrow).
+  equitable_no_breakdown: The objective names an equity dimension but not the groups results will be broken down by.

@@ -454,6 +454,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 15 snapshot files.
     // Phase 16 snapshot files go below this line.
     // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+    (
+        "healthy_people_2030_objectives.json",
+        include_str!("../../../snapshots/healthy_people_2030_objectives.json"),
+    ),
     // End of Phase 16 design.
     // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
     (

@@ -1,0 +1,466 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/planning_logic_model.schema.json",
+ "title": "Logic model components and checks",
+ "type": "object",
+ "required": [
+  "meta",
+  "sources",
+  "not_fetched",
+  "components",
+  "context_rows",
+  "stages",
+  "stage_source",
+  "visualization_tips",
+  "tips_source",
+  "if_then",
+  "check_defaults",
+  "checks",
+  "review_questions",
+  "review_questions_source",
+  "narrative_headings",
+  "narrative_source"
+ ],
+ "additionalProperties": false,
+ "$defs": {
+  "citation": {
+   "type": "object",
+   "required": [
+    "title",
+    "publisher",
+    "url"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "publisher": {
+     "type": "string"
+    },
+    "url": {
+     "type": [
+      "string",
+      "null"
+     ]
+    }
+   }
+  },
+  "meta": {
+   "type": "object",
+   "required": [
+    "id",
+    "title",
+    "version",
+    "prepared",
+    "effective_date",
+    "source",
+    "related_sources",
+    "review",
+    "verification_note"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "const": "planning-logic-model"
+    },
+    "title": {
+     "type": "string"
+    },
+    "version": {
+     "type": "string",
+     "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "prepared": {
+     "type": "string"
+    },
+    "effective_date": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "source": {
+     "$ref": "#/$defs/citation"
+    },
+    "related_sources": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/citation"
+     }
+    },
+    "review": {
+     "type": "object",
+     "required": [
+      "status",
+      "reviewed_by",
+      "reviewed_on",
+      "review_due"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "status": {
+       "enum": [
+        "pending",
+        "reviewed"
+       ]
+      },
+      "reviewed_by": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "reviewed_on": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "review_due": {
+       "type": "string",
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      }
+     }
+    },
+    "verification_note": {
+     "type": "string",
+     "minLength": 20
+    }
+   }
+  },
+  "source": {
+   "type": "object",
+   "required": [
+    "title",
+    "publisher",
+    "url",
+    "effective_date",
+    "retrieved"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "publisher": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "effective_date": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "retrieved": {
+     "type": "string"
+    }
+   }
+  },
+  "conf": {
+   "enum": [
+    "high",
+    "medium",
+    "low"
+   ]
+  }
+ },
+ "properties": {
+  "meta": {
+   "$ref": "#/$defs/meta"
+  },
+  "sources": {
+   "type": "object",
+   "additionalProperties": {
+    "$ref": "#/$defs/source"
+   }
+  },
+  "not_fetched": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "title",
+     "why"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "title": {
+      "type": "string"
+     },
+     "why": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "components": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "side",
+     "definition",
+     "cdc_term",
+     "source",
+     "section",
+     "confidence",
+     "prompts"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "side": {
+      "enum": [
+       "left",
+       "middle",
+       "right"
+      ]
+     },
+     "definition": {
+      "type": "string"
+     },
+     "cdc_term": {
+      "type": "string"
+     },
+     "source": {
+      "type": "string"
+     },
+     "section": {
+      "type": "string"
+     },
+     "confidence": {
+      "$ref": "#/$defs/conf"
+     },
+     "prompts": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "context_rows": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "definition",
+     "source",
+     "section",
+     "confidence",
+     "prompts"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "definition": {
+      "type": "string"
+     },
+     "source": {
+      "type": "string"
+     },
+     "section": {
+      "type": "string"
+     },
+     "confidence": {
+      "$ref": "#/$defs/conf"
+     },
+     "note": {
+      "type": "string"
+     },
+     "prompts": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "stages": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "definition"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "definition": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "stage_source": {
+   "type": "string"
+  },
+  "visualization_tips": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "tip",
+     "how_applied"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "tip": {
+      "type": "string"
+     },
+     "how_applied": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "tips_source": {
+   "type": "string"
+  },
+  "if_then": {
+   "type": "object",
+   "required": [
+    "source",
+    "section",
+    "pattern",
+    "order"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "source": {
+     "type": "string"
+    },
+    "section": {
+     "type": "string"
+    },
+    "pattern": {
+     "type": "string"
+    },
+    "order": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "check_defaults": {
+   "type": "object",
+   "required": [
+    "provenance",
+    "confidence",
+    "max_items_per_column",
+    "max_item_words",
+    "change_verbs",
+    "activity_verbs",
+    "activity_like_outcome_starts"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "provenance": {
+     "type": "string"
+    },
+    "confidence": {
+     "$ref": "#/$defs/conf"
+    },
+    "max_items_per_column": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "max_item_words": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "change_verbs": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "activity_verbs": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "activity_like_outcome_starts": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "checks": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "severity",
+     "message"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "severity": {
+      "enum": [
+       "needs_work",
+       "consider"
+      ]
+     },
+     "message": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "review_questions": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "review_questions_source": {
+   "type": "string"
+  },
+  "narrative_headings": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "narrative_source": {
+   "type": "string"
+  }
+ }
+}

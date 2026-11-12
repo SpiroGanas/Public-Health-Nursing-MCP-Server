@@ -2121,6 +2121,34 @@
           "rows": 145
         }
       ]
+    },
+    {
+      "id": "healthy-people-2030-objectives",
+      "title": "Healthy People 2030 objectives: national status, most recent data, target, and baseline",
+      "publisher": "U.S. Department of Health and Human Services, Office of Disease Prevention and Health Promotion (ODPHP), Healthy People 2030",
+      "source_urls": [
+        "https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives",
+        "https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives/<topic>/<objective> (one page per objective; the builder lists them from the topic pages)",
+        "https://odphp.health.gov/healthypeople/objectives-and-data/leading-health-indicators"
+      ],
+      "source_sha256": {},
+      "source_vintage": "pages read 2026-11-12; most recent data years as shown on each page",
+      "retrieved": "2026-11-12",
+      "license": "Healthy People 2030 content is a U.S. government work (public domain); cite ODPHP.",
+      "derivation": "Server-rendered objective pages on odphp.health.gov read by xtask/scripts/build_design_snapshots.py (Python 3 standard library): the browse index and topic pages give the objective links; each objective page gives the id, title, status, most recent data, national target, desired direction, national baseline (with its year), target-setting method, data source, topics, and workgroup, copied as text with numbers parsed from the same text. No JSON API for Healthy People 2030 could be found (odphp.health.gov/healthypeople/api returns 404 and health.gov is blocked from the build network).",
+      "caveats": [
+        "Objectives that no topic page lists are not included; the number found is in the file.",
+        "Subpopulation (disparities) data, state data, and the data tables and charts behind each objective are not included: only the national status, most recent value, target, baseline, and data source from each objective page.",
+        "Values are as shown on the page on the retrieval date. ODPHP revises baselines and targets and adds data through the year; check the objective page before you cite a figure in a grant or a report."
+      ],
+      "files": [
+        {
+          "path": "healthy_people_2030_objectives.json",
+          "sha256": "842a6c8ce7f52c2b7f1b3578f67a62f9d15bd174604986fa7e071c97fb61e11d",
+          "bytes": 619692,
+          "rows": 507
+        }
+      ]
     }
   ]
 }

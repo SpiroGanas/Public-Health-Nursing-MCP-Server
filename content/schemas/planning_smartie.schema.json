@@ -1,0 +1,539 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/planning_smartie.schema.json",
+ "title": "SMARTIE objectives",
+ "type": "object",
+ "required": [
+  "meta",
+  "sources",
+  "smart_definition",
+  "elements",
+  "elements_source",
+  "elements_section",
+  "cdc_intro",
+  "fields",
+  "fields_provenance",
+  "fields_confidence",
+  "statement_template",
+  "statement_source",
+  "statement_note",
+  "equity_prompts",
+  "objective_types",
+  "objective_types_source",
+  "cdc_examples",
+  "healthy_people",
+  "check_messages"
+ ],
+ "additionalProperties": false,
+ "$defs": {
+  "citation": {
+   "type": "object",
+   "required": [
+    "title",
+    "publisher",
+    "url"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "publisher": {
+     "type": "string"
+    },
+    "url": {
+     "type": [
+      "string",
+      "null"
+     ]
+    }
+   }
+  },
+  "meta": {
+   "type": "object",
+   "required": [
+    "id",
+    "title",
+    "version",
+    "prepared",
+    "effective_date",
+    "source",
+    "related_sources",
+    "review",
+    "verification_note"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "const": "planning-smartie"
+    },
+    "title": {
+     "type": "string"
+    },
+    "version": {
+     "type": "string",
+     "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "prepared": {
+     "type": "string"
+    },
+    "effective_date": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "source": {
+     "$ref": "#/$defs/citation"
+    },
+    "related_sources": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/citation"
+     }
+    },
+    "review": {
+     "type": "object",
+     "required": [
+      "status",
+      "reviewed_by",
+      "reviewed_on",
+      "review_due"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "status": {
+       "enum": [
+        "pending",
+        "reviewed"
+       ]
+      },
+      "reviewed_by": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "reviewed_on": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "review_due": {
+       "type": "string",
+       "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+      }
+     }
+    },
+    "verification_note": {
+     "type": "string",
+     "minLength": 20
+    }
+   }
+  },
+  "source": {
+   "type": "object",
+   "required": [
+    "title",
+    "publisher",
+    "url",
+    "effective_date",
+    "retrieved"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "publisher": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "effective_date": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "retrieved": {
+     "type": "string"
+    }
+   }
+  },
+  "conf": {
+   "enum": [
+    "high",
+    "medium",
+    "low"
+   ]
+  }
+ },
+ "properties": {
+  "meta": {
+   "$ref": "#/$defs/meta"
+  },
+  "sources": {
+   "type": "object",
+   "additionalProperties": {
+    "$ref": "#/$defs/source"
+   }
+  },
+  "smart_definition": {
+   "type": "object",
+   "required": [
+    "text",
+    "source",
+    "section"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "type": "string"
+    },
+    "source": {
+     "type": "string"
+    },
+    "section": {
+     "type": "string"
+    }
+   }
+  },
+  "elements": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "letter",
+     "label",
+     "cdc_name",
+     "cdc_question",
+     "generalized",
+     "fields",
+     "judgment"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "letter": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "cdc_name": {
+      "type": "string"
+     },
+     "cdc_question": {
+      "type": "string"
+     },
+     "generalized": {
+      "type": [
+       "string",
+       "null"
+      ]
+     },
+     "fields": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     },
+     "judgment": {
+      "type": "boolean"
+     }
+    }
+   }
+  },
+  "elements_source": {
+   "type": "string"
+  },
+  "elements_section": {
+   "type": "string"
+  },
+  "cdc_intro": {
+   "type": "object",
+   "required": [
+    "text",
+    "guidance",
+    "source"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "text": {
+     "type": "string"
+    },
+    "guidance": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "source": {
+     "type": "string"
+    }
+   }
+  },
+  "fields": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "asks",
+     "element"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "asks": {
+      "type": "string"
+     },
+     "element": {
+      "type": "string"
+     },
+     "allowed": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "fields_provenance": {
+   "type": "string"
+  },
+  "fields_confidence": {
+   "$ref": "#/$defs/conf"
+  },
+  "statement_template": {
+   "type": "string"
+  },
+  "statement_source": {
+   "type": "string"
+  },
+  "statement_note": {
+   "type": "string"
+  },
+  "equity_prompts": {
+   "type": "object",
+   "required": [
+    "provenance",
+    "confidence",
+    "note",
+    "source",
+    "dimensions"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "provenance": {
+     "type": "string"
+    },
+    "confidence": {
+     "$ref": "#/$defs/conf"
+    },
+    "note": {
+     "type": "string"
+    },
+    "source": {
+     "type": "string"
+    },
+    "dimensions": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "objective_types": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "required": [
+     "id",
+     "label",
+     "text"
+    ],
+    "additionalProperties": false,
+    "properties": {
+     "id": {
+      "type": "string"
+     },
+     "label": {
+      "type": "string"
+     },
+     "text": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "objective_types_source": {
+   "type": "string"
+  },
+  "cdc_examples": {
+   "type": "object",
+   "required": [
+    "source",
+    "section",
+    "pairs"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "source": {
+     "type": "string"
+    },
+    "section": {
+     "type": "string"
+    },
+    "pairs": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "strategy",
+       "traditional",
+       "smartie"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "strategy": {
+        "type": "string"
+       },
+       "traditional": {
+        "type": "string"
+       },
+       "smartie": {
+        "type": "string"
+       }
+      }
+     }
+    }
+   }
+  },
+  "healthy_people": {
+   "type": "object",
+   "required": [
+    "objective_types",
+    "status_meanings",
+    "source",
+    "use_notes",
+    "comparison_default"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "objective_types": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id",
+       "label",
+       "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "type": "string"
+       },
+       "label": {
+        "type": "string"
+       },
+       "text": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "status_meanings": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "status",
+       "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "status": {
+        "type": "string"
+       },
+       "text": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "source": {
+     "type": "string"
+    },
+    "use_notes": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "text",
+       "provenance",
+       "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "text": {
+        "type": "string"
+       },
+       "provenance": {
+        "type": "string"
+       },
+       "confidence": {
+        "$ref": "#/$defs/conf"
+       }
+      }
+     }
+    },
+    "comparison_default": {
+     "type": "object",
+     "required": [
+      "provenance",
+      "confidence",
+      "unit_classes"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "provenance": {
+       "type": "string"
+      },
+      "confidence": {
+       "$ref": "#/$defs/conf"
+      },
+      "unit_classes": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      }
+     }
+    }
+   }
+  },
+  "check_messages": {
+   "type": "object",
+   "additionalProperties": {
+    "type": "string"
+   },
+   "minProperties": 10
+  }
+ }
+}

@@ -1,0 +1,289 @@
+# Logic model components, wording checks, and diagram notes for build_logic_model (PLAN-01).
+#
+# REVIEW STATUS: pending. Component definitions are taken from the CDC Program Evaluation
+# Framework Action Guide (fetched 2026-11-12). The W.K. Kellogg Foundation Logic Model
+# Development Guide could not be fetched (wkkf.org, EPA's and NACCHO's copies are unreachable
+# from the build network), so nothing here is attributed to it. The word lists the wording
+# checks use are this project's own heuristics (provenance: tool default).
+# Schema: content/schemas/planning_logic_model.schema.json
+meta:
+  id: planning-logic-model
+  title: Logic model components, checks, and diagram notes (CDC Program Evaluation Framework, Step 2)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2025-12-16
+  source:
+    title: CDC Program Evaluation Framework Action Guide (Step 2 Describe the program; PDF dated December 2025)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+  related_sources:
+    - title: "CDC Program Evaluation Framework, 2024 (MMWR Recommendations and Reports 2024;73(RR-6))"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+    - title: "Step 2 Checklist: Describe the Program"
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-2-checklist.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Component definitions (activities, outcomes, inputs, contextual factors, outputs), the stage
+    of development definitions, the "if-then" reading of a logic model, and the visualization
+    tips are quoted or closely paraphrased from the CDC Action Guide PDF and its Step 2 web page
+    and checklist, read on 2026-11-12 (high confidence). The CDC guide treats outputs as products
+    of activities that "fit best in the narrative section that describes the evaluation measures",
+    so the model shows them in their own column only because the nurse asked for one (a
+    Kellogg-style layout); the CDC Step 2 checklist asks for inputs, activities, and outcomes. The
+    word "assumptions" is not a CDC logic model term: the CDC checklist asks for "a rationale for
+    why interest holders expect certain components to lead to desired outcomes (the theory of
+    change)", and the model uses that as its basis for the assumptions row (medium confidence).
+    The Kellogg guide was not read. The wording-check word lists, the limit of six boxes per
+    column, and the prompts are this project's own defaults (low confidence).
+
+sources:
+  cdc-action-guide:
+    title: CDC Program Evaluation Framework Action Guide (PDF, December 2025), Step 2 Describe the Program
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+    effective_date: 2025-12-16
+    retrieved: 2026-11-12
+  cdc-step2:
+    title: "Step 2: Describe the Program (CDC Program Evaluation Framework Action Guide web page)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-2-describe-the-program.html
+    effective_date: 2024-08-18
+    retrieved: 2026-11-12
+  cdc-step2-checklist:
+    title: "Step 2 Checklist: Describe the Program"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/evaluation/php/evaluation-framework-action-guide/step-2-checklist.html
+    effective_date: 2026-06-01
+    retrieved: 2026-11-12
+  cdc-mmwr-2024:
+    title: "CDC Program Evaluation Framework, 2024 (MMWR Recommendations and Reports 2024;73(RR-6):1-37)"
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+    effective_date: 2024-09-26
+    retrieved: 2026-11-12
+
+# What was asked for and could not be read.
+not_fetched:
+  - title: W.K. Kellogg Foundation Logic Model Development Guide (2004)
+    why: wkkf.org, the EPA archive copy, and the NACCHO copy are outside the network this server was built on. The Kellogg layout (inputs, activities, outputs, outcomes, impact) is widely used, but its definitions and suggested time frames are not copied here.
+
+# The columns, left to right. `tool_default` marks wording that is this project's own.
+components:
+  - id: inputs
+    label: Inputs
+    side: left
+    definition: >-
+      Resources needed for program activities, such as personnel, partners, materials, funding,
+      equipment, data and surveillance, and the existing evidence base.
+    cdc_term: Inputs
+    source: cdc-action-guide
+    section: Step 2, "Logic models differ widely..."
+    confidence: high
+    prompts:
+      - Who works on the program, and how much of their time does it take?
+      - Which partners, funders, and community organizations contribute?
+      - What data, materials, space, equipment, or evidence base does the program rely on?
+  - id: activities
+    label: Activities
+    side: left
+    definition: >-
+      Strategies the program implements to effect change and achieve intended outcomes (what the
+      program does with its resources).
+    cdc_term: Activities
+    source: cdc-action-guide
+    section: Step 2, "Logic models differ widely..."
+    confidence: high
+    prompts:
+      - What will the program staff and partners do, for whom, and how often?
+      - Which activities come from an evidence-based intervention, and which are new?
+  - id: outputs
+    label: Outputs
+    side: middle
+    definition: >-
+      The products of program activities (for example sessions held, people reached, materials
+      distributed). CDC notes that outputs are an indicator of the activities and fit best in the
+      narrative that describes the evaluation measures.
+    cdc_term: Outputs
+    source: cdc-action-guide
+    section: Step 2, "Additional terms you may see in logic models"
+    confidence: high
+    prompts:
+      - What is the direct, countable product of each activity?
+  - id: short_term
+    label: Short-term outcomes
+    side: right
+    definition: >-
+      Who or what is expected to change because of the program's efforts, first. Outcomes are
+      sequenced in time, with shorter-term (often more specific) outcomes leading to
+      intermediate and then longer-term (broader) outcomes.
+    cdc_term: Short-term outcomes
+    source: cdc-action-guide
+    section: Step 2, "Logic models differ widely..."
+    confidence: high
+    prompts:
+      - What changes first in the people, settings, or systems the program reaches (knowledge, access, skills, policies)?
+  - id: intermediate
+    label: Intermediate outcomes
+    side: right
+    definition: Outcomes that follow the short-term outcomes and lead to the long-term outcomes.
+    cdc_term: Intermediate outcomes
+    source: cdc-action-guide
+    section: Step 2, "Logic models differ widely..."
+    confidence: high
+    prompts:
+      - What behavior, practice, or service use is expected to change once the short-term outcomes occur?
+  - id: long_term
+    label: Long-term outcomes
+    side: right
+    definition: The broadest, longest-term changes the program contributes to.
+    cdc_term: Long-term outcomes
+    source: cdc-action-guide
+    section: Step 2, "Logic models differ widely..."
+    confidence: high
+    prompts:
+      - What population-level or health status change does the program contribute to, and for whom?
+
+# Rows shown under the columns.
+context_rows:
+  - id: assumptions
+    label: Assumptions
+    definition: >-
+      Why the program team expects the activities to lead to the outcomes (the theory of change
+      behind the arrows), with evidence cited where available.
+    source: cdc-step2-checklist
+    section: "Develop a narrative description (rationale ... the theory of change)"
+    confidence: medium
+    note: The CDC checklist asks for the rationale and its evidence; "assumptions" is this tool's label for it.
+    prompts:
+      - What must be true for each activity to produce its outcome?
+      - What evidence supports the link between the activity and the change?
+  - id: external_factors
+    label: External (contextual) factors
+    definition: >-
+      Factors outside the program that might affect achieving the desired outcomes. CDC's term is
+      contextual factors; they can help or hinder the program.
+    source: cdc-action-guide
+    section: Step 2, "Identifying and Describing the Contextual Factors"
+    confidence: high
+    prompts:
+      - Which policies, funding conditions, community history, or other programs help or hinder the work?
+      - Which conditions could change the outcomes whatever the program does?
+
+# Stage of development (CDC).
+stages:
+  - id: planning
+    label: Planning
+    definition: The program is early in its development and its activities have likely not been implemented or tested yet. Some piloting may be or have been occurring.
+  - id: implementation
+    label: Implementation
+    definition: The program and its activities are already being implemented at the time of evaluation.
+  - id: maintenance
+    label: Maintenance
+    definition: The program is more mature, having been implemented for an extended period. The program or the component being evaluated has produced some if not most of the intended likely outcomes.
+stage_source: cdc-action-guide
+
+# CDC's visualization tips (quoted) and how the diagram follows them.
+visualization_tips:
+  - tip: Visualize relationships between and among groups using arrows.
+    how_applied: Arrows run from each column to the next. They show the if-then flow between columns, not links between single boxes.
+  - tip: Use space and color to signal clear groupings of logic model components.
+    how_applied: Each column has its own light fill and a heading; the context rows sit under the columns.
+  - tip: Be careful when putting text on colored spaces.
+    how_applied: Text is dark on light fills (contrast checked in the tests) and never rests on a saturated color.
+  - tip: Fit the logic model on a single page (not including the narrative).
+    how_applied: The diagram is one image; the tool warns when a column has more boxes than the limit below.
+tips_source: cdc-action-guide
+
+# CDC's example of reading a logic model as if-then statements.
+if_then:
+  source: cdc-action-guide
+  section: Step 2, case example (Colorectal Cancer Control Program)
+  pattern: If {from}, then {to}.
+  order: [inputs, activities, outputs, short_term, intermediate, long_term]
+
+# Limits and wording lists used by the checker. All of these are this project's own defaults.
+check_defaults:
+  provenance: tool default
+  confidence: low
+  max_items_per_column: 6
+  max_item_words: 25
+  # An outcome describes a change; these words usually signal one.
+  change_verbs: [increase, increased, increases, decrease, decreased, decreases, reduce, reduced, reduces, improve, improved, improves, improvement, gain, gains, higher, lower, fewer, more, greater, better, adopt, adopted, adoption, establish, established, strengthen, strengthened, expand, expanded, maintain, maintained, sustain, sustained, prevent, prevented, delay, delayed, change, changed, shift, shifted, become, becomes, receive, receives, receiving, use, uses, access, accesses, know, knows, understand, understands, report, reports, achieve, achieves, complete, completes, complete, completed, screened, vaccinated, enrolled, linked, connected, referred, trained, aware, knowledge, skills]
+  # An activity is something the program does; these verbs usually start one.
+  activity_verbs: [provide, provides, conduct, conducts, offer, offers, deliver, delivers, hold, holds, host, hosts, train, trains, recruit, recruits, screen, screens, refer, refers, link, links, educate, educates, distribute, distributes, partner, partners, develop, develops, implement, implements, coordinate, coordinates, visit, visits, outreach, assess, assesses, counsel, counsels, vaccinate, vaccinates, enroll, enrolls, facilitate, facilitates, convene, convenes, collect, collects, monitor, monitors, evaluate, evaluates, survey, surveys, publish, publishes, create, creates, establish, establishes, plan, plans, run, runs, support, supports, schedule, schedules, follow, follows, deploy, deploys, install, installs, inspect, inspects, review, reviews, assign, assigns, maintain, maintains]
+  # Outcomes that start with one of these are probably activities written as outcomes.
+  activity_like_outcome_starts: [provide, conduct, offer, deliver, hold, host, train, recruit, distribute, develop, implement, coordinate, visit, facilitate, convene, collect, create, run, schedule, deploy, install]
+
+# Messages the checker uses. {x} marks a value filled in by the tool.
+checks:
+  - id: missing_activities
+    severity: needs_work
+    message: No activities were given. Activities and outcomes are the two core elements of every logic model (CDC).
+  - id: missing_outcomes
+    severity: needs_work
+    message: No outcomes were given. Activities and outcomes are the two core elements of every logic model (CDC).
+  - id: missing_inputs
+    severity: consider
+    message: No inputs were given. CDC lists inputs as an additional term; without them the model cannot show what the program needs.
+  - id: outcome_sequence
+    severity: consider
+    message: "Outcomes are not sequenced: {missing} not given. CDC sequences outcomes from short-term through intermediate to long-term."
+  - id: no_outputs
+    severity: consider
+    message: No outputs were given. CDC treats outputs as indicators of the activities and places them with the evaluation measures; add them if you want the diagram to show them.
+  - id: fewer_outputs_than_activities
+    severity: consider
+    message: There are fewer outputs ({outputs}) than activities ({activities}). Each activity usually has a countable product.
+  - id: too_many_items
+    severity: consider
+    message: "{column} has {count} boxes (limit {limit}). CDC advises fitting the logic model on one page; combine or drop boxes."
+  - id: long_item
+    severity: consider
+    message: "{column} item {number} is {words} words (limit {limit}); shorter boxes are easier to read on one page."
+  - id: outcome_is_activity
+    severity: needs_work
+    message: "{column} item {number} reads like an activity (it starts with '{word}'). Outcomes describe who or what changes, not what the program does."
+  - id: outcome_without_change
+    severity: consider
+    message: "{column} item {number} does not say what changes. Say who or what changes and in which direction (for example increase, reduce, improve)."
+  - id: activity_not_action
+    severity: consider
+    message: "Activities item {number} does not start with an action word. Activities are what the program does (for example provide, train, screen)."
+  - id: no_assumptions
+    severity: consider
+    message: No assumptions were given. CDC asks for the rationale for why each activity is expected to lead to the outcomes, with evidence where available.
+  - id: no_external_factors
+    severity: consider
+    message: No external factors were given. CDC treats contextual factors as essential to interpreting an evaluation.
+  - id: no_stage
+    severity: consider
+    message: The stage of development (planning, implementation, or maintenance) is not given. CDC uses it to choose the type of evaluation.
+  - id: no_population
+    severity: consider
+    message: The population the program serves is not named. Naming the priority population keeps the model specific and supports equity-focused evaluation.
+  - id: duplicate_item
+    severity: consider
+    message: "{column} lists the same text twice: '{text}'."
+
+# Cross-checks CDC suggests asking of a draft (Step 2 checklist), shown as review questions.
+review_questions:
+  - Is the program logic clear, rational, and understandable? Are there any apparent gaps?
+  - Are the activities aligned with the outcomes? Are the outcomes aligned with the program goals?
+  - How do the activities lead to the outcomes?
+  - Did interest holders (people served, people who run the program, people who will use the findings, and people who are skeptical) see the draft before it was finalized?
+review_questions_source: cdc-step2-checklist
+
+narrative_headings:
+  - Need
+  - Inputs
+  - Activities
+  - Outcomes
+  - Contextual factors
+  - Stage of development
+narrative_source: cdc-step2

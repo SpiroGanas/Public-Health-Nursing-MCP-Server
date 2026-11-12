@@ -88,6 +88,7 @@ pub mod geocoder;
 // End of Phase 15 adapters.
 // Phase 16 adapters go below this line.
 // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+pub mod healthy_people;
 // End of Phase 16 design.
 // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
 pub mod cpstf;

@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 124;
+const TOOL_COUNT = 127;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3915,6 +3915,101 @@ const toolChapters = [
     intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
     tools: [
       // Phase 16 design (PLAN-01, PLAN-02, PLAN-05) tools.
+      {
+        id: 'build_logic_model',
+        title: 'Build a program logic model',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word table, a diagram (SVG and PNG), and Mermaid text in your output folder',
+        does: 'Turns your description of a program into a logic model: inputs, activities, outputs, short-term, intermediate, and long-term outcomes, assumptions, and outside factors, laid out the way CDC’s Program Evaluation Framework describes. It checks the draft (outcomes written as activities, missing outcomes or context, too many boxes), reads it as if-then statements, and draws it as a diagram with arrows plus a one-page table you can edit in Word.',
+        when: [
+          'Starting a program plan or grant application and you need a logic model.',
+          'Checking whether an existing program description hangs together.',
+          'Preparing a slide or handout that shows how activities lead to outcomes.',
+        ],
+        provide: [
+          'The program’s name and who it serves.',
+          'Its inputs, activities, outputs, and short-term, intermediate, and long-term outcomes, in your own words (the assistant will help you draft them).',
+          'Assumptions and outside factors, if you know them, and the stage: planning, implementation, or maintenance.',
+        ],
+        examples: [
+          'Build a logic model for our postpartum home visiting program for first-time parents in Springfield. We have two nurses, a hospital referral partnership, and plan to visit within 14 days of discharge.',
+          'Here is our falls prevention program description. Turn it into a logic model and tell me what is missing.',
+        ],
+        returns: [
+          'The model by column, the if-then statements, a list of things to fix or consider, a narrative outline, the diagram as Mermaid text and as an accessible image with alt text, and the files.',
+        ],
+        notes: [
+          'The assistant drafts the boxes from what you tell it; the tool checks the structure and wording but cannot tell you whether the program logic is sound. Show the draft to the people served, your staff, and your partners.',
+          'The diagram is wide. Use the image on a slide or a landscape page; the Word table has the same content on one portrait page.',
+          'The wording checks are this project’s rules of thumb, not CDC rules. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'write_smartie_objectives',
+        title: 'Write and check SMARTIE objectives',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'optional, a Word worksheet in your output folder',
+        does: 'Helps you write objectives that are specific, measurable, achievable, relevant, time-bound, inclusive, and equitable (the SMARTIE questions CDC uses). You give the parts, such as the measure, population, baseline, target, date, data source, and the group the objective is meant to reach. It writes the objective as a sentence, shows what is missing, catches a target that moves the wrong way, and works out the change from baseline to target. It can also look up Healthy People 2030 objectives and show their national baselines and targets.',
+        when: [
+          'Writing objectives for a grant, a community health improvement plan, or a program evaluation.',
+          'Checking draft objectives before sending them to a funder.',
+          'Finding the Healthy People 2030 objective that matches your topic.',
+        ],
+        provide: [
+          'Each objective in parts: what is measured, increase or decrease, who, the baseline and target with the unit, the date, and where the data come from.',
+          'If you can: why it is achievable and relevant, how the community gave input, and which group or gap the objective addresses.',
+          'Optionally a Healthy People topic or objective ID (for example D-04).',
+        ],
+        examples: [
+          'Check this objective: by December 2027, raise postpartum visit attendance from 62% to 85% for first-time parents.',
+          'Find the Healthy People 2030 objectives for adult flu vaccination and tell me the national target.',
+          'Turn these three goals into SMARTIE objectives and list what I still need to find out.',
+        ],
+        returns: [
+          'The objective as a sentence with bracketed blanks, a checklist of the seven elements, the gaps, the change from baseline to target, Healthy People objectives with national baseline, target, and data source, and CDC’s examples.',
+        ],
+        notes: [
+          'The tool counts what is there. Whether a target is achievable, relevant, inclusive, or equitable is a judgment for you, your partners, and the people the objective serves.',
+          'Healthy People targets are national. A local objective needs a local baseline; compare targets only when you measure the same thing in the same unit (some national values are age-adjusted).',
+          'Healthy People values come from the objective’s own web page when the internet is available, and from a dated copy otherwise. Every answer says which. Check the page before citing a figure.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'build_evaluation_plan',
+        title: 'Draft a program evaluation plan',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a Word plan in your output folder',
+        does: 'Drafts an evaluation plan on the six steps of CDC’s Program Evaluation Framework: the purpose, who will use the findings, the kinds of evaluation that fit the program’s stage (formative, process, outcome, impact, economic), an evaluation matrix of questions, indicators, data sources, methods, timing, and responsible roles, a timeline, and how findings will be used. It can draft questions from your logic model, using CDC’s own example questions where they fit, and can add the RE-AIM lens (reach, effectiveness, adoption, implementation, maintenance).',
+        when: [
+          'A funder asks for an evaluation plan with your grant application.',
+          'Planning how you will show whether a program works and for whom.',
+          'Turning a logic model into questions and measures.',
+        ],
+        provide: [
+          'The program name, population, and stage, and the logic model or your own evaluation questions.',
+          'Why you are evaluating and who will use the results.',
+          'The groups you want results broken down by, start and end dates, and, if you want, a staff roster in your data folder so names appear beside roles in the plan.',
+        ],
+        examples: [
+          'Draft an evaluation plan for our postpartum home visiting program, using this logic model. We need it for a state grant.',
+          'Add a RE-AIM section to the plan and break outcomes down by language.',
+          'Here are three evaluation questions I wrote. Fill in indicators, data sources, and methods.',
+        ],
+        returns: [
+          'The evaluation types and designs that fit, the matrix, a list of gaps (for example a yes/no question, no data source, no groups to break results down by), a timeline, the CDC steps with their key products, and the Word plan with blanks to fill in.',
+        ],
+        notes: [
+          'Indicators, data sources, methods, timing, and roles the tool suggests are starting points and are marked as suggestions in each row. Confirm them with your partners and the people the program serves.',
+          'Impact evaluation needs a comparison group or period. Without one, report outcomes only.',
+          'A staff roster adds names to the plan file only; phone numbers and emails are never copied, and nothing from the roster is shown in the chat.',
+          'When you report results by group, hide small counts (the server’s suppression threshold applies).',
+          'The content is waiting for review.',
+        ],
+      },
       // End of Phase 16 design tools.
       // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11) tools.
       {
