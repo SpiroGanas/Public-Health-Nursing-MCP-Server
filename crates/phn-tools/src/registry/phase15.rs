@@ -9,6 +9,18 @@ use phn_core::Toolset;
 /// BP screening and diabetes prevention: CHR-02, CHR-03.
 pub(super) const SCREEN: &[ToolMeta] = &[
     // Phase 15 screen entries go below this line.
+    ToolMeta {
+        name: "community_bp_screening_toolkit",
+        plan_id: "CHR-02",
+        toolset: Toolset::Chronic,
+        phase: 15,
+    },
+    ToolMeta {
+        name: "diabetes_prevention_finder",
+        plan_id: "CHR-03",
+        toolset: Toolset::Chronic,
+        phase: 15,
+    },
     // End of Phase 15 screen entries.
 ];
 

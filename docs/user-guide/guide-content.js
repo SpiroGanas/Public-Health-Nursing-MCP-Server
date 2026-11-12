@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 110;
+const TOOL_COUNT = 112;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3638,6 +3638,67 @@ const toolChapters = [
     intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
     tools: [
       // Phase 15 screen (CHR-02, CHR-03) tools.
+      {
+        id: 'community_bp_screening_toolkit',
+        title: 'Run a community blood pressure screening',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a blank screening kit in your output folder (and follow-up letters, if you give a screening log)',
+        does: 'Gives you a ready kit for a community blood pressure screening: a checklist for taking an accurate reading, the current ACC/AHA blood pressure categories for adults, the wording for a severe-range reading, referral tiers, a screening log template, follow-up letters, and a plain-language handout checked for reading level. It can sort readings you type in, add up a screening log you keep, and fill follow-up letters from that log. Each category shows where it came from and how sure the tool is. The referral tiers are the project’s own defaults and are marked “tool default, pending review.”',
+        when: [
+          'Planning a screening at a church, senior center, or health fair.',
+          'Checking what category a set of readings falls in.',
+          'Summing up a screening event, or sending follow-up letters to people with high readings.',
+        ],
+        provide: [
+          'Nothing to get the blank kit. For one person, the readings (numbers only), and whether the person is pregnant or has symptoms.',
+          'For a whole event, a screening log in your data folder with age, the systolic and diastolic numbers, and a referral status. A name and address column is needed only for letters.',
+        ],
+        examples: [
+          'Make a blood pressure screening kit for our health fair.',
+          'Two readings were 146/92 and 142/90. What category is that, and what should I do?',
+          'Summarize bp_screening_log.csv and write the follow-up letters.',
+        ],
+        returns: [
+          'The categories, the severe-range wording, the technique checklist, the referral tiers (marked as defaults to review), the log template columns, the letter templates, the files written, and, for a log, counts by category, age group, and referral status with small counts hidden.',
+        ],
+        notes: [
+          'The 2025 AHA/ACC guideline replaced the 2017 one. The tool could not read its full text: normal, elevated, and the 130/80 cut-off come from CDC’s pages, and the stage 1, stage 2, and severe-range numbers come from published papers that report the guideline. Each item shows its confidence.',
+          'Referral timing is for your agency’s standing orders and medical director. The tool’s tiers are drafts. This is decision support, not medical advice.',
+          'Names and addresses from your log go only into the letters in your output folder; they are never shown in the chat.',
+        ],
+      },
+      {
+        id: 'diabetes_prevention_finder',
+        title: 'Score the prediabetes risk test and find a diabetes prevention program',
+        toolset: 'chronic',
+        internet: 'no',
+        files: 'yes, a client handout in your output folder (if you ask for one)',
+        does: 'Scores the CDC Prediabetes Risk Test, checks whether the person meets CDC’s rules for the National Diabetes Prevention Program lifestyle change program, and lists the Massachusetts program sites that the Department of Public Health publishes for a town, county, or the whole state. It explains in-person, live online, and on-demand programs, and Medicare’s diabetes prevention program. It can write a plain-language handout for the client. It is honest about what it could not check: CDC’s national registry could not be reached, so it does not say which sites are CDC-recognized or how each one is delivered, and it does not list online providers. It points you to CDC’s finder for those.',
+        when: [
+          'Screening at a health fair or senior center.',
+          'A client has a high-risk result or prediabetes and wants a program near home.',
+          'Counting how many people at an event scored high risk.',
+        ],
+        provide: [
+          'For a score: age, sex (man or woman), family history, high blood pressure, whether the person is physically active, and height and weight (or BMI). For eligibility, also whether the person has diabetes or is pregnant, and any blood test result.',
+          'A town or county for the program list. Optionally a screening-event file in your data folder.',
+        ],
+        examples: [
+          'A 54-year-old man, 5 feet 10 and 240 pounds, has a family history, high blood pressure, and is not active. What is his risk test score, and are there programs in Fall River?',
+          'Is a 45-year-old Asian American woman with a BMI of 24 and a past gestational diabetes diagnosis eligible for the lifestyle change program?',
+          'Count how many people scored high risk in health_fair_responses.csv.',
+        ],
+        returns: [
+          'The score with points for each factor, the eligibility check (met, not met, or unknown for each rule), program sites near the area with address and organization phone, how to find online and distance options, Medicare program facts, a statement on MassHealth, and an optional handout with its reading grade.',
+        ],
+        notes: [
+          'A risk score is not a diagnosis: only a blood test can diagnose prediabetes.',
+          'The site list is DPH’s and shows no date, so call a site before you refer. Names of coordinators are not kept, only organization phone numbers where DPH lists them.',
+          'No source was found for MassHealth coverage of the program, so the tool makes no statement about it. Ask MassHealth or the member’s plan.',
+          'A screening-event file is summarized as counts only, with small counts hidden.',
+        ],
+      },
       // End of Phase 15 screen tools.
       // Phase 15 prevent (CHR-04, CHR-05) tools.
       // End of Phase 15 prevent tools.

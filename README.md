@@ -213,6 +213,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `community_bp_screening_toolkit` | CHR-02 | chronic | Community blood pressure screening kit for adults: measurement technique checklist, the current ACC/AHA categories (with the sources' wording and confidence), severe-range wording and referral tiers marked as tool defaults pending review, a screening log template, follow-up letters filled locally, and a plain-language handout; a screening log is summarized only as suppressed counts. |
+| `diabetes_prevention_finder` | CHR-03 | chronic | Scores the CDC Prediabetes Risk Test, checks CDC's eligibility rules for the National Diabetes Prevention Program, lists the Massachusetts program sites DPH publishes (not CDC's registry, which could not be reached), explains delivery modes and Medicare's program, and writes a plain-language handout. |
 <!-- Phase 15 screen rows go above this line. -->
 <!-- Phase 15 prevent rows go above this line. -->
 <!-- Phase 15 cha rows go above this line. -->

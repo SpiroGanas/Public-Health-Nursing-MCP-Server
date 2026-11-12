@@ -264,6 +264,7 @@
         "required": [
           "id",
           "label",
+          "letter_label",
           "systolic",
           "diastolic",
           "meaning",
@@ -308,6 +309,9 @@
           },
           "confidence": {
             "$ref": "#/$defs/confidence"
+          },
+          "letter_label": {
+            "type": "string"
           }
         }
       }

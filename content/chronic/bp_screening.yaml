@@ -110,6 +110,7 @@ guideline_note: >-
 categories:
   - id: normal
     label: Normal
+    letter_label: normal
     systolic: below 120
     diastolic: below 80
     meaning: Below 120 over 80 is normal blood pressure.
@@ -119,6 +120,7 @@ categories:
     confidence: high
   - id: elevated
     label: Elevated
+    letter_label: a little above normal
     systolic: 120 to 129
     diastolic: below 80
     meaning: Systolic 120-129 and diastolic below 80. CDC lists elevated blood pressure (120-129 over below 80) as a condition that can increase the risk of developing high blood pressure.
@@ -128,6 +130,7 @@ categories:
     confidence: high
   - id: stage1
     label: Stage 1 hypertension range
+    letter_label: higher than normal (stage 1 range)
     systolic: 130 to 139
     diastolic: 80 to 89 (either number puts the reading in this range)
     meaning: Systolic 130-139 or diastolic 80-89. CDC says high blood pressure is consistently at or above 130/80. A screening reading cannot diagnose it.
@@ -137,6 +140,7 @@ categories:
     confidence: medium
   - id: stage2
     label: Stage 2 hypertension range
+    letter_label: high (stage 2 range)
     systolic: 140 or higher
     diastolic: 90 or higher (either number puts the reading in this range)
     meaning: Systolic 140 or higher, or diastolic 90 or higher.
@@ -146,6 +150,7 @@ categories:
     confidence: medium
   - id: severe
     label: Severe range
+    letter_label: very high
     systolic: above 180
     diastolic: above 120 (either number puts the reading in this range)
     meaning: The 2025 guideline replaced the term hypertensive urgency with severe hypertension, for blood pressure above 180 systolic or above 120 diastolic without acute target organ damage. This kit labels any reading above 180 or above 120 as severe range.
@@ -375,7 +380,7 @@ letters:
 
       Thank you for having your blood pressure checked on {{screening_date}} at {{site}}.
 
-      Your blood pressure was {{systolic}} over {{diastolic}}. This is in the group called "{{category_label}}".
+      Your blood pressure was {{systolic}} over {{diastolic}}. That is {{category_label}}.
 
       {{category_plain}}
 
@@ -408,7 +413,7 @@ letters:
 
       Thank you for having your blood pressure checked on {{screening_date}} at {{site}}.
 
-      Your blood pressure was {{systolic}} over {{diastolic}}. This is in the group called "{{category_label}}".
+      Your blood pressure was {{systolic}} over {{diastolic}}. That is {{category_label}}.
 
       {{category_plain}}
 
