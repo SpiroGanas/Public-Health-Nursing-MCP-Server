@@ -155,7 +155,7 @@ theories:
       serious, that the action would help, and that the benefits outweigh the costs; cues and
       confidence make acting easier.
     best_for:
-      - One-time or repeated preventive actions: screening, vaccination, medication adherence, and home safety steps.
+      - One-time or repeated preventive actions such as screening, vaccination, medication adherence, and home safety steps.
       - Messages and education where the main gap is what people believe about risk and benefit.
     limits:
       - It centers on beliefs and says little about money, access, or social context; pair it with the Socio-Ecological Model when barriers are structural.
@@ -247,7 +247,7 @@ theories:
       behavior itself. Knowledge, confidence, expected results, goals, and support or barriers in
       the person's surroundings all matter, and a person's own confidence influences the rest.
     best_for:
-      - Skill-based programs: self-management, parenting, physical activity, nutrition, and chronic disease coaching.
+      - Skill-based programs such as self-management, parenting, physical activity, nutrition, and chronic disease coaching.
       - Programs that can change the person's surroundings (peers, family, setting) as well as the person.
     limits:
       - It names many influences, so choose a few to target and measure; a program cannot move all of them.
@@ -363,7 +363,7 @@ theories:
       behavior, the felt expectations of important people, and perceived control over doing it.
     best_for:
       - Behaviors a person chooses, such as diet, physical activity, and condom or helmet use, when you want to know what shapes the intention.
-      - Formative research: a short survey of attitude, norm, and control tells you which to target.
+      - Formative research, where a short survey of attitude, norm, and control tells you which to target.
     limits:
       - A meta-analysis cited in a 2014 review found that attitude, norms, and perceived control accounted for about 39% of the variance in intention, and intention for about 25% of the variance in behavior, so most of the variation is left unexplained.
       - Subjective norms are generally the weakest predictor, which that review attributes partly to how it is measured.
@@ -440,7 +440,7 @@ theories:
       maintenance), can go back, and need different help at each stage. Movement is influenced by
       the processes of change, the balance of pros and cons, and self-efficacy.
     best_for:
-      - Behaviors with ongoing change over time: tobacco, physical activity, nutrition, weight, and substance use.
+      - Behaviors with ongoing change over time, such as tobacco, physical activity, nutrition, weight, and substance use.
       - One-to-one or small-group counseling where the person's readiness can be assessed.
     limits:
       - The 2019 systematic review found most studies used only the stages and a few reported weak results (smoking cessation, diet in people with diabetes, and physical activity in young people).
@@ -549,7 +549,7 @@ theories:
       - Population-level and equity-focused programs where the barriers are structural (access, norms, policy).
       - Building a program that combines individual services with setting, community, and policy action.
     limits:
-      - It is a framework: it tells you where to look, not which strategy will work, and it has few testable constructs of its own.
+      - It is a framework, so it tells you where to look, not which strategy will work, and it has few testable constructs of its own.
       - Versions differ. The reviews read here use five levels (individual, interpersonal, organizational, community, public policy); CDC's violence prevention page uses four (individual, relationship, community, societal).
     sources: [hiv-theory-2012, covid-theories-2023, cdc-sem]
     constructs:
@@ -623,7 +623,7 @@ theories:
       who might adopt it) and the people who carry it between groups affect how fast it is adopted.
     best_for:
       - Introducing a new practice, tool, or program into agencies, clinics, schools, or communities and asking why it is or is not taken up.
-      - Planning who should carry a message: champions, community leaders, and gatekeepers.
+      - Planning who should carry a message, such as champions, community leaders, and gatekeepers.
     limits:
       - It describes adoption of an innovation; it does not explain an individual's health behavior.
       - Only the innovation attributes and the intermediary roles were taken from the review read; Rogers' other concepts (such as adopter categories) were not in a source read here and are not included.

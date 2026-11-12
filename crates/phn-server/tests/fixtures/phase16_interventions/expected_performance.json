@@ -1,0 +1,65 @@
+{
+ "threshold": 5,
+ "periods_in_program": 12,
+ "measures": {
+  "Clients enrolled": {
+   "periods": 12,
+   "current": 340.0,
+   "progress_percent": 85.0,
+   "expected_by_now": 400.0,
+   "status": "Behind",
+   "hidden_periods": [],
+   "run_chart": {
+    "useful": 12,
+    "longest_run": 5,
+    "longest_run_limit": 7,
+    "crossings": 3,
+    "crossings_limit": 3,
+    "signal": false
+   }
+  },
+  "Participants screened": {
+   "periods": 12,
+   "current": 76.82,
+   "progress_percent": 96.02,
+   "status": "Below target",
+   "mean_of_period_percentages": 76.15,
+   "hidden_periods": [],
+   "run_chart": {
+    "useful": 12,
+    "longest_run": 5,
+    "longest_run_limit": 7,
+    "crossings": 3,
+    "crossings_limit": 3,
+    "signal": false
+   }
+  },
+  "Sessions held": {
+   "periods": 12,
+   "current": 120.0,
+   "hidden_periods": [],
+   "withheld": false,
+   "run_chart": {
+    "useful": 9,
+    "longest_run": 5,
+    "longest_run_limit": 6,
+    "crossings": 1,
+    "crossings_limit": 2,
+    "signal": true
+   },
+   "status": "On track"
+  },
+  "Housing referrals": {
+   "periods": 12,
+   "current": 62.0,
+   "hidden_periods": [
+    0,
+    1,
+    2,
+    5,
+    6
+   ],
+   "withheld": true
+  }
+ }
+}

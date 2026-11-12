@@ -227,6 +227,9 @@ output folder instead of being sent to the AI model.
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 <!-- Phase 16 design rows go above this line. -->
+| `find_evidence_based_interventions` | PLAN-03 | planning | Finds Community Guide systematic reviews, economic reviews, and Task Force recommendation statements for a health topic from a bundled PubMed snapshot (with an optional live PubMed search for newer papers): the evidence wording each abstract uses (never inferred), source, date, short excerpts, and implementation notes; says plainly that the Community Guide's own list and What Works for Health could not be read. |
+| `apply_behavior_change_theory` | PLAN-04 | planning | Maps a program's problem, barriers, and planned components onto the constructs of eight behavior change theories and frameworks (Health Belief Model, Social Cognitive Theory, Theory of Planned Behavior, Transtheoretical Model, Socio-Ecological Model, Diffusion of Innovations, COM-B, Self-Determination Theory), with strategies (marked as from a source or this tool's suggestion) and measure ideas. |
+| `track_program_performance` | PLAN-11 | planning | Compares your program's results by period (a local file) with your targets: progress, pace, and run-chart or p-chart trend flags; returns only counts with small cells suppressed, and writes a dashboard report, a workbook with live formulas, and charts to the output folder. |
 <!-- Phase 16 interventions rows go above this line. -->
 <!-- Phase 16 appraise rows go above this line. -->
 <!-- Phase 16 qi rows go above this line. -->

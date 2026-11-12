@@ -15,6 +15,24 @@ pub(super) const DESIGN: &[ToolMeta] = &[
 /// Interventions, theory, performance tracking: PLAN-03, PLAN-04, PLAN-11.
 pub(super) const INTERVENTIONS: &[ToolMeta] = &[
     // Phase 16 interventions entries go below this line.
+    ToolMeta {
+        name: "find_evidence_based_interventions",
+        plan_id: "PLAN-03",
+        toolset: Toolset::Planning,
+        phase: 16,
+    },
+    ToolMeta {
+        name: "apply_behavior_change_theory",
+        plan_id: "PLAN-04",
+        toolset: Toolset::Planning,
+        phase: 16,
+    },
+    ToolMeta {
+        name: "track_program_performance",
+        plan_id: "PLAN-11",
+        toolset: Toolset::Planning,
+        phase: 16,
+    },
     // End of Phase 16 interventions entries.
 ];
 
