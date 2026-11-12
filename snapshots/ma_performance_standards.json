@@ -1,0 +1,940 @@
+{
+ "format_version": 1,
+ "description": "Massachusetts Performance Standards for Local Public Health: the mandated local responsibilities and the workforce standards, as listed in DPH's Excel workbook (Office of Local and Regional Health, published 2023-10-11).",
+ "retrieved": "2026-11-12",
+ "source_last_modified": "Mon, 15 Jul 2024 13:51:24 GMT",
+ "not_included": [
+  "Only the four mandate sheets and the Workforce Standards sheet are read. The workbook's 'Frequently Used' sheet (discretionary board of health powers, such as appointing agents), 'Resources', and 'Keywords' sheets are not included.",
+  "The workbook lists responsibilities as DPH summarizes them; the statute or regulation citation controls. A footnote in the workbook says OLRH has received comments that the standards marked * are outdated.",
+  "The workbook has no status, due dates, or scoring: those are for each department to record. The next version of the Performance Standards is expected to include the Foundational Public Health Services framework (DPH's FPHS page).",
+  "State program contact phone numbers and email addresses are not copied; the program names are kept."
+ ],
+ "mandates": [
+  {
+   "id": "PS-ADM-001",
+   "area": "Administrative",
+   "citation": "M.G.L. c. 111, s. 28",
+   "summary": "Submit annual report to city council (city boards of health only)",
+   "state_program": "",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-002",
+   "area": "Administrative",
+   "citation": "M.G.L. c. 111, s. 31",
+   "summary": "Submit [hard] copies of all board of health regulations adopted and any amendments to the Department of Environmental Protection, 100 Cambridge Street 8th Floor Boston, MA 02114. Senders should address to “Municipal Sanitary Code Update”",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-003",
+   "area": "Administrative",
+   "citation": "M.G.L. c. 111, s. 31",
+   "summary": "Solicit and consider comments from the municipal agricultural commission on regulations that have an impact on farming or agriculture",
+   "state_program": "",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-004",
+   "area": "Community Planning",
+   "citation": "M.G.L. c. 41, s. 81S",
+   "summary": "Review and approve or disapprove preliminary and definitive plans for residential and nonresidential subdivisions",
+   "state_program": "",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-005",
+   "area": "Industrial Establishment Violations",
+   "citation": "M.G.L. c. 149, s.136",
+   "summary": "Investigate complaints at industrial establishments as requested",
+   "state_program": "Department of Labor Standards",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-006",
+   "area": "Organization",
+   "citation": "M.G.L. c. 111, s. 26",
+   "summary": "Ensure appointment of three persons to the board of health. In cities, one member shall be a physician",
+   "state_program": "",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-007",
+   "area": "Organization",
+   "citation": "M.G.L. c. 111, s. 27",
+   "summary": "Organize annually and elect a Chair",
+   "state_program": "",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ADM-008",
+   "area": "Preventing Gas and Electric Shutoff",
+   "citation": "M.G.L. c. 164, s.124A",
+   "summary": "Provide letters to gas and electric companies where a serious illness exists to avoid shut off",
+   "state_program": "Department of Public Utilities",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-001",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 81A",
+   "summary": "Prohibit enacting local health regulation to require chest x-ray exam to show freedom from tuberculosis in a communicable form except in certain conditions",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-002",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 95",
+   "summary": "Use powers and duties of boards of health to control cases of infectious diseases",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-003",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 96",
+   "summary": "Warrants to remove persons infected with dangerous disease under the direction of the Board of Health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-004",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 96A",
+   "summary": "Seek or give permission to transport person infected with dangerous disease to another municipality (excluding to a medical facility)",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-005",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 97",
+   "summary": "Coordinate removal of patient from a living situation where the patient cannot be properly isolated",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-006",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s.99",
+   "summary": "Warrants to remove baggage, clothing, or goods infected with any disease dangerous to the public health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-007",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s.100",
+   "summary": "Warrants to take houses for safe keeping of infected baggage, clothing, or goods",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-008",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 104",
+   "summary": "Use all possible care to prevent the spread of the infection",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-009",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s.109",
+   "summary": "Supervise or carry out the disinfection of dwellings which have housed a person who has suffered from or died of a disease dangerous to the public health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-DIS-010",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s.110",
+   "summary": "Receive reports of any inflammation, swelling, redness, or unnatural discharge from the eyes of an infant less than two weeks old, and take immediate action to prevent blindness",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-DIS-011",
+   "area": "Disease Control",
+   "citation": "M.G.L. c. 111, s. 181",
+   "summary": "Facilitate administration and pay for any vaccines required by the board of health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-012",
+   "area": "Disease Control",
+   "citation": "M.G.L. c.140, s.145A",
+   "summary": "Provide anti-rabic vaccine and treatment",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-013",
+   "area": "Disease Control",
+   "citation": "105 CMR 300",
+   "summary": "Enforce applicable sections of 105 CMR 300: Reportable Diseases, Surveillance, and Isolation and Quarantine Requirements",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-014",
+   "area": "Disease Control",
+   "citation": "105 CMR 335",
+   "summary": "Enforce 105 CMR 335: Treatment of Persons Exposed to Rabies",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-015",
+   "area": "Disease Control",
+   "citation": "105 CMR 365",
+   "summary": "Enforce 105 CMR 365: Standards for Management of Tuberculosis Outside Hospitals",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-016",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s. 7",
+   "summary": "If requested, provide notice of cases to the Department of Public Health of any disease declared to be dangerous to the public health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-017",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s. 29",
+   "summary": "Provide reports of death from dangerous diseases to the Department of Public Health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-DIS-018",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s.94A-94C",
+   "summary": "Report residents with active tuberculosis who are unwilling or unable to accept proper medical treatment and pose a threat to public health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-019",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s. 111",
+   "summary": "Receive and provide notice of persons infected with dangerous diseases where required",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-DIS-020",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s. 111A",
+   "summary": "Annually submit cases of cerebral palsy to the Department of Public Health",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-DIS-021",
+   "area": "Disease Reporting",
+   "citation": "M.G.L. c. 111, s. 112",
+   "summary": "Report cases of dangerous diseases to the Department of Public Health within twenty-four hours",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-001",
+   "area": "Air Pollution Control",
+   "citation": "310 CMR 7",
+   "summary": "Enforce applicable sections of the Air Pollution Control Regulation, including noise and idling",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-002",
+   "area": "Air Pollution Control",
+   "citation": "M.G.L. c. 111, s. 31C",
+   "summary": "Regulate and control atmospheric pollution",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-003",
+   "area": "Asbestos",
+   "citation": "310 CMR 7",
+   "summary": "Enforce asbestos disposal regulations and abatement notification",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-004",
+   "area": "Bathing Beaches",
+   "citation": "105 CMR 445",
+   "summary": "Enforce State Sanitary Code Chapter VII: Minimum Standards for Bathing Beaches",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Environmental Toxicology Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-005",
+   "area": "Bathing Beaches",
+   "citation": "M.G.L. c. 111, s. 5S",
+   "summary": "",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Environmental Toxicology Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-006",
+   "area": "Beavers",
+   "citation": "M.G.L. c.131, s. 80A",
+   "summary": "Issue emergency permits to trap beavers, and/or to breach beaver dams, if a threat to life or safety exists",
+   "state_program": "Division of Fisheries and Wildlife",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-007",
+   "area": "Burials",
+   "citation": "M.G.L. c. 46, s. 11",
+   "summary": "Receive death certificates",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-008",
+   "area": "Burials",
+   "citation": "M.G.L. c. 114, s. 34",
+   "summary": "Approve new cemeteries and expand existing cemeteries",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-009",
+   "area": "Burials",
+   "citation": "M.G.L. c. 114, s. 45",
+   "summary": "Provide burial permits and permits for the removal of bodies",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-010",
+   "area": "Burials",
+   "citation": "M.G.L. c. 114, s. 49",
+   "summary": "License funeral directors",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-011",
+   "area": "Control of Radiation",
+   "citation": "105 CMR 120",
+   "summary": "Use the authority granted in 105 CMR 120.831 (L): The Control of Radiation on environmental monitoring programs",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-012",
+   "area": "Control of Radiation",
+   "citation": "105 CMR 123",
+   "summary": "Enforce 105 CMR 123: Tanning Facilities",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Radiation Control Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-013",
+   "area": "Family Type Campgrounds",
+   "citation": "105 CMR 440",
+   "summary": "Enforce State Sanitary Code Chapter VI: Minimum Standards for Developed Family Type Campgrounds",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-014",
+   "area": "Farm Labor Camps",
+   "citation": "M.G.L. c. 111, s. 128G",
+   "summary": "Enforce State Sanitary Code Chapter III: Farm Labor Camps, if directed by the Department of Public Health",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-015",
+   "area": "Farm Labor Camps",
+   "citation": "105 CMR 420",
+   "summary": "",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-016",
+   "area": "Food Protection",
+   "citation": "105 CMR 500",
+   "summary": "Enforce 105 CMR 500: Good Manufacturing Practices for Food",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-017",
+   "area": "Food Protection",
+   "citation": "105 CMR 590",
+   "summary": "Enforce State Sanitary Code Chapter X: Minimum Sanitation Standards for Food Establishments",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-018",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s. 10A",
+   "summary": "Permit facilities that are manufacturing or bottling carbonated non-alcoholic beverages or water, both carbonated and noncarbonated, for human consumption",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-019",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s.33",
+   "summary": "Appoint an inspector of milk in cities",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-ENV-020",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s. 40-42",
+   "summary": "Permit anyone who wishes to sell milk in cities or towns where an inspector of milk is appointed",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-ENV-021",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s. 48A",
+   "summary": "License and inspect establishments for the pasteurization of milk",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-022",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s. 65H",
+   "summary": "License all frozen dessert manufacturers",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-023",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s. 67",
+   "summary": "Inspect all cold storage or refrigerating warehouses",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-024",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s.89",
+   "summary": "Issue a license for the breaking and canning of eggs in communities over 5,000 residents",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": true
+  },
+  {
+   "id": "PS-ENV-025",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 94, s.186-195",
+   "summary": "Enforce statutes and regulations relative to the adulteration and misbranding of food [Please note: referenced citations should be taken as a set to understand full intent]",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-026",
+   "area": "Food Protection",
+   "citation": "M.G.L. c. 130, s. 80-81",
+   "summary": "Enforce prohibition of importation of shellfish which have not been certified by a United States or foreign shellfish regulating agency",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-027",
+   "area": "Hazardous Waste",
+   "citation": "M.G.L. c. 111, s. 150B",
+   "summary": "Assign sites for storage, treatment, or disposal of hazardous waste",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-028",
+   "area": "Housing",
+   "citation": "M.G.L. c. 140, s. 32B",
+   "summary": "License and inspect all recreational camps for children, family style campgrounds, motels, mobile home parks, and cabins; and annually issue licenses for these facilities",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-029",
+   "area": "Housing",
+   "citation": "M.G.L. c. 140, s. 32C",
+   "summary": "",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-030",
+   "area": "Housing",
+   "citation": "M.G.L. c. 140, s. 36",
+   "summary": "Inspect public boarding houses prior to licensing to certify the building is provided with a sufficient number of water closets and urinals and with good and sufficient means of ventilation",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-031",
+   "area": "Housing",
+   "citation": "105 CMR 410",
+   "summary": "Enforce State Sanitary Code II: Minimum Standards for Human Habitation",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-032",
+   "area": "Indoor Ice Skating Rinks",
+   "citation": "105 CMR 675",
+   "summary": "Enforce State Sanitary Code XI: Requirements to Maintain Air Quality in Indoor Ice Skating Rinks",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-033",
+   "area": "Landfills",
+   "citation": "M.G.L. c. 111, s. 150A",
+   "summary": "Enforce 310 CMR 16: Site Assignments for Solid Waste Facilities",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-034",
+   "area": "Landfills",
+   "citation": "310 CMR 16",
+   "summary": "",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-035",
+   "area": "Lead Poisoning Prevention and Control",
+   "citation": "105 CMR 460",
+   "summary": "Enforce 105 CMR 460: Lead Poisoning Prevention and Control",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Childhood Lead Poisoning Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-036",
+   "area": "Lead Poisoning Prevention and Control",
+   "citation": "M.G.L. c.111, s.198",
+   "summary": "",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Childhood Lead Poisoning Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-037",
+   "area": "Lead Poisoning Prevention and Control",
+   "citation": "454 CMR 22",
+   "summary": "Receive notifications of lead abatement as described in 454 CMR 22",
+   "state_program": "Department of Labor Standards / Asbestos / Lead Safety Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-038",
+   "area": "Management of Medical or Biological Waste",
+   "citation": "105 CMR 480",
+   "summary": "Enforce Sanitary Code Chapter VIII: Minimum Requirements for the Management of Medical or Biological Waste",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-039",
+   "area": "Nuisances",
+   "citation": "M.G.L. c. 111, s. 122",
+   "summary": "Examine all nuisances, sources of filth, and causes of sickness",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-040",
+   "area": "Nuisances",
+   "citation": "M.G.L. c. 111, s. 123",
+   "summary": "Order abatement of any nuisance, source of filth, or cause of sickness",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-041",
+   "area": "Recreational Camps for Children",
+   "citation": "105 CMR 430",
+   "summary": "Enforce State Sanitary Code IV: Minimum Standards for Recreational Camps for Children",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-042",
+   "area": "Recreational Camps for Children",
+   "citation": "M.G.L. c. 111, s. 127A½",
+   "summary": "Enforce 105 CMR 432: Minimum Requirements for Personal Flotation Devices for Minor Children at Municipal and Recreational Programs and Camps",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-043",
+   "area": "Recreational Camps for Children",
+   "citation": "105 CMR 432",
+   "summary": "",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-044",
+   "area": "Sanitary Sewer Outbreak",
+   "citation": "314 CMR 16",
+   "summary": "Conduct notification requirements of sewage pollution",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-045",
+   "area": "Slaughterhouses and Noisome Trade",
+   "citation": "M.G.L. c. 111, s. 143",
+   "summary": "Assign location for slaughterhouses or other noxious or offensive trade",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-046",
+   "area": "Slaughterhouses and Noisome Trade",
+   "citation": "M.G.L. c.111 s.151",
+   "summary": "Provide written consent for slaughterhouses and other noisome trades in towns of more than 5,000 people",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Food Protection Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-047",
+   "area": "Solid Waste",
+   "citation": "310 CMR 19",
+   "summary": "Enforce 310 CMR 19: Solid Waste Management Facility Regulations",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-048",
+   "area": "Stables",
+   "citation": "M.G.L. c. 111, s. 155",
+   "summary": "License stables in communities of more than 5,000 residents",
+   "state_program": "Department of Agricultural Resources  or",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-049",
+   "area": "State Sanitary Codes",
+   "citation": "105 CMR 400",
+   "summary": "Enforce State Sanitary Code I: General Administrative Procedures",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-050",
+   "area": "State Sanitary Codes",
+   "citation": "M.G.L. c. 111, s. 127A",
+   "summary": "Enforce State Sanitary Code",
+   "state_program": "Department of Public Health / Bureau of Infectious Disease and Laboratory Sciences",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-051",
+   "area": "Swimming Pools",
+   "citation": "105 CMR 435",
+   "summary": "Enforce State Sanitary Code V: Sanitary Standards for Swimming Pools",
+   "state_program": "Department of Public Health / Bureau of Climate and Environmental Health / Community Sanitation Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-052",
+   "area": "Title 5",
+   "citation": "310 CMR 15",
+   "summary": "Enforce State Environmental Code Title 5: Standard Requirements for the Siting, Construction, Inspection, Upgrade and Expansion of On-Site Sewage Treatment and Disposal Systems and for the Transport and Disposal of Septage",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-053",
+   "area": "Transportation of Waste",
+   "citation": "M.G.L. c. 111, s.31A",
+   "summary": "Issue permits for the removal or transportation of garbage, offal, or offensive substances when such refuse has been collected in the city or town. Keep registry of all transporters of refuse through the city or town",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-054",
+   "area": "Transportation of Waste",
+   "citation": "M.G.L. c. 111, s.31B",
+   "summary": "Make rules and regulations for the removal, transportation and disposal of garbage, offal and other offensive substances",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-055",
+   "area": "Water Fluoridation",
+   "citation": "M.G.L. c. 111, s. 8C",
+   "summary": "At the request of the Commissioner, boards of health shall investigate water fluoridation levels and increase as necessary",
+   "state_program": "Department of Public Health / Office of Oral Health",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-056",
+   "area": "Water Pollution",
+   "citation": "314 CMR 16",
+   "summary": "Issue public health warnings and post signage as indicated in 314 CMR 16: Notification Requirements to Promote Public Awareness of Sewage Pollution, as needed",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-ENV-057",
+   "area": "Water Supply",
+   "citation": "M.G.L. c. 111, s. 26F",
+   "summary": "Annually publish a list of hazardous chemicals which are present in the municipal water supply in concentrations greater than fifty percent of the suggested action guidelines",
+   "state_program": "Department of Environmental Protection",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-001",
+   "area": "Tobacco Use Prevention",
+   "citation": "105 CMR 665",
+   "summary": "Enforce 105 CMR 665: Minimum Standards for Retail Sale of Tobacco and Electronic Nicotine Delivery Systems",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-002",
+   "area": "Tobacco Use Prevention",
+   "citation": "Chapter 133 of the Acts of 2019",
+   "summary": "Enforce the applicable sections of An Act Modernizing Tobacco Control, including the prohibition on the sale of all flavored tobacco products, including menthol, mint, and wintergreen",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-003",
+   "area": "Tobacco Use Prevention",
+   "citation": "M.G.L. c. 270, s. 22",
+   "summary": "Enforce the Smoke Free Workplace Law",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-004",
+   "area": "Tobacco Use Prevention",
+   "citation": "105 CMR 661",
+   "summary": "Enforce 105 CMR 661: Regulation Implementing M.G.L. c. 270, s.22",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-005",
+   "area": "Tobacco Use Prevention",
+   "citation": "M.G.L. c. 270, s. 27",
+   "summary": "Enforce use of child restraint packaging for liquid or gel substances containing nicotine",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-006",
+   "area": "Tobacco Use Prevention",
+   "citation": "M.G.L. 270, s. 6A",
+   "summary": "Enforce the prohibition of selling tobacco rolling papers to those under 21",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  },
+  {
+   "id": "PS-TOB-007",
+   "area": "Tobacco Use Prevention",
+   "citation": "Chapter 157 of the Acts of 2018",
+   "summary": "Enforce the applicable sections of An Act Protecting Youth From the Health Risks of Tobacco and Nicotine Addiction: ban on tobacco sales to a person under 21 years of age",
+   "state_program": "Department of Public Health / Bureau of Community Health and Prevention / Massachusetts Tobacco Cessation and Prevention Program",
+   "marked_outdated": false
+  }
+ ],
+ "workforce_positions": [
+  {
+   "id": "WF-POS-01",
+   "position": "MANAGEMENT (Director, Assistant Director, Deputy Director - positions not conducting inspections but supervising those that do)",
+   "required_at_hire": [
+    "Registered Sanitarian (RS) or equivalent eligible*",
+    "Master’s in relevant field or BA/BS with 5 years of relevant experience"
+   ],
+   "required_after_hire": [
+    "RS or equivalent within 1 year of hire*",
+    "Foundations for Local Public Health Practice (“Foundations”) course within 1 year of hire",
+    "Certified Health Officer (CHO) within 3 years of hire",
+    "Complete Master’s within 5 years of hire"
+   ],
+   "recommended_after_hire": [
+    "Health Association membership",
+    "Three years of experience in local or state public health",
+    "MAVEN training within 1 year of hire"
+   ]
+  },
+  {
+   "id": "WF-POS-02",
+   "position": "Management / Agent",
+   "required_at_hire": [
+    "Registered Sanitarian (RS) or equivalent eligible"
+   ],
+   "required_after_hire": [
+    "Foundations course within 18 months of hire",
+    "RS within 18 months of hire",
+    "Specific certifications for inspections performed, such as soil evaluator, system inspector, food inspector training, housing inspection training, certified pool operator/certified pool inspector, lead determinator within 1 year of hire"
+   ],
+   "recommended_after_hire": [
+    "Health Association membership",
+    "CHO within 3 years of hire"
+   ]
+  },
+  {
+   "id": "WF-POS-03",
+   "position": "Inspector / Environmental Health Specialist",
+   "required_at_hire": [
+    "High School Diploma or equivalent"
+   ],
+   "required_after_hire": [
+    "RS within 6 years of hire",
+    "Foundations course within 18 months of hire",
+    "Specific certifications for inspections performed, such as soil evaluator, system inspector, food inspector training, housing inspection training, certified pool operator/certified pool inspector, lead determinator within 1 year of hire"
+   ],
+   "recommended_after_hire": [
+    "Health Association membership",
+    "Associate's degree in science or public health, at hire."
+   ]
+  },
+  {
+   "id": "WF-POS-04",
+   "position": "Public Health Nurse",
+   "required_at_hire": [
+    "Bachelor of Science in Nursing (BSN)",
+    "Registered Nurse (RN), current MA license"
+   ],
+   "required_after_hire": [
+    "MAVEN-trained within 6 months of hire",
+    "Foundations course within 1 year of hire"
+   ],
+   "recommended_after_hire": [
+    "MA Association of Public Health Nurses (MAPHN) Membership"
+   ]
+  },
+  {
+   "id": "WF-POS-05",
+   "position": "Clerical Staff",
+   "required_at_hire": [
+    "Microsoft Office (or similar) applications"
+   ],
+   "required_after_hire": [
+    "Modified Foundations course (Foundations course for Clerical Workers) within 1 year of hire"
+   ],
+   "recommended_after_hire": [
+    "On-line permitting"
+   ]
+  },
+  {
+   "id": "WF-POS-06",
+   "position": "Board Of Health Member **",
+   "required_at_hire": [],
+   "required_after_hire": [],
+   "recommended_after_hire": [
+    "Orientation to Public Health within 3 months of hire",
+    "Foundations course within 1 year of hire"
+   ]
+  }
+ ],
+ "workforce_inspection_types": [
+  {
+   "id": "WF-INS-01",
+   "inspection_type": "Food Protection",
+   "required": [
+    "ServSafe or similar",
+    "Local Public Health Intensive Training (LPHIT) Food Inspection Class",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Food and Drug Administration / Office of Regulatory Affairs - University (ORAU)"
+   ]
+  },
+  {
+   "id": "WF-INS-02",
+   "inspection_type": "Housing",
+   "required": [
+    "LPHIT Housing Class",
+    "Housing Court Training***",
+    "Lead Determinator",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  },
+  {
+   "id": "WF-INS-03",
+   "inspection_type": "Title 5",
+   "required": [
+    "Soil Evaluator",
+    "System Inspector",
+    "LPHIT Wastewater***",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  },
+  {
+   "id": "WF-INS-04",
+   "inspection_type": "Pools",
+   "required": [
+    "Certified Pool Operator or Certified Pool Operator with Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  },
+  {
+   "id": "WF-INS-05",
+   "inspection_type": "Recreational Camps",
+   "required": [
+    "LPHIT Camps***",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  },
+  {
+   "id": "WF-INS-06",
+   "inspection_type": "Tanning / Body Art",
+   "required": [
+    "LPHIT Tanning / Body Art***",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  },
+  {
+   "id": "WF-INS-07",
+   "inspection_type": "Nuisances",
+   "required": [
+    "LPHIT Nuisances***",
+    "Applied Practice Component"
+   ],
+   "recommended": [
+    "Relevant TRAIN MA Modules"
+   ]
+  }
+ ],
+ "workforce_notes": [
+  "**Board members performing inspections must meet the requirements under \"Inspector/Environmental Health Specialist\"",
+  "*Management positions should meet the requirements as set forth in this document for the position. However, a request may be submitted by the board of health to waive the Registered Sanitarian (RS) requirement if: 1) the Health Department has a management position and a separate full-time Environmental Health Director and; 2) the Environmental Health Director has an RS, oversees the inspectors, and reports directly to the management position.",
+  "• All personnel should have at least ICS 100/NIMS 700 within 1 year of hire. Those who might have a leadership role should have ICS 200 and above.",
+  "• Boards of health may have stricter requirements, but they must meet these requirements.",
+  "• Boards of health with current staff who have worked for local or state public health for at least 7 years, but who do not meet these requirements, may request a waiver except for inspectional trainings.",
+  "• Membership in professional organizations is deemed as critical for professional development, for leadership and mentoring opportunities, and for opportunities for sharing best practices. This is recommended, but not required."
+ ]
+}

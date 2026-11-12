@@ -480,6 +480,14 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 17 snapshot files.
     // Phase 18 snapshot files go below this line.
     // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+    (
+        "ma_performance_standards.json",
+        include_str!("../../../snapshots/ma_performance_standards.json"),
+    ),
+    (
+        "ma_shared_service_arrangements.csv",
+        include_str!("../../../snapshots/ma_shared_service_arrangements.csv"),
+    ),
     // End of Phase 18 strategy.
     // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
     // End of Phase 18 workforce.

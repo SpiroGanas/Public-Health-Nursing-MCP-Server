@@ -109,6 +109,7 @@ pub mod crossref;
 // End of Phase 17 adapters.
 // Phase 18 adapters go below this line.
 // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+pub mod strategy;
 // End of Phase 18 strategy.
 // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
 // End of Phase 18 workforce.

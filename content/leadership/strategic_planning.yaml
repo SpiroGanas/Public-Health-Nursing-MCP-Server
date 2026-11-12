@@ -1,0 +1,355 @@
+# Strategic planning scaffolding for build_strategic_plan (LEAD-05): SWOT and SOAR prompts, the
+# stakeholder power/interest grid, the plan structure (priorities, goals, objectives, strategies),
+# and the link to the community health improvement plan (CHIP).
+#
+# REVIEW STATUS: pending. PHAB's own Standards & Measures (phaboard.org) could not be reached from
+# the build network, so PHAB's requirements for a health department strategic plan are NOT
+# verified here: phab_requirements.status is "unverified". What was read: CDC's 2023 crosswalk
+# toolkit (Standard 10.1 and Standard 5.2 descriptions), CDC's Drivers page, and a 2025 open
+# access study of strategic plans, community health improvement plans, and quality improvement
+# plans from PHAB-accredited local health departments. The SWOT, SOAR, and stakeholder-grid
+# prompts, the plan outline, and the checks are this project's drafts built on those readings and
+# on two published method papers; each says how well it is supported. The tool writes no facts:
+# every priority, goal, objective, and strategy comes from the nurse. Retrieved 2026-11-12.
+# Schema: content/schemas/leadership_strategic_planning.schema.json
+meta:
+  id: leadership-strategic-planning
+  title: Strategic planning scaffolding (SWOT or SOAR, stakeholder grid, plan structure, CHIP link)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: HAI/AR and Accreditation Crosswalk Toolkit (Standards 10.1 and 5.2 in PHAB Version 2022)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+  related_sources:
+    - title: Strategic and Performance Planning in US Local Health Departments (J Public Health Manag Pract, 2025)
+      publisher: Journal of Public Health Management and Practice
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12527733/
+    - title: Stakeholder analysis, a review (Health Policy and Planning, 2000)
+      publisher: Health Policy and Planning (Oxford University Press)
+      url: https://pubmed.ncbi.nlm.nih.gov/11012397/
+    - title: SOARing Into Strategic Planning, Engaging Nurses to Achieve Significant Outcomes (Nursing Administration Quarterly, 2016)
+      publisher: Nursing Administration Quarterly
+      url: https://pubmed.ncbi.nlm.nih.gov/27584888/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    PHAB's requirements for a health department strategic plan could not be verified (phaboard.org
+    was not reachable); only CDC's one-sentence description of Standard 10.1 and a 2025 study of
+    what accredited departments' plans contain were read. The SWOT, SOAR, and stakeholder prompts,
+    the plan outline, and the draft checks are this project's drafts (medium or low confidence).
+    Check the plan against PHAB's Version 2022 measures for Standard 10.1 and Standard 5.2 before
+    you call it "PHAB-ready".
+
+sources:
+  cdc-crosswalk:
+    title: HAI/AR and Accreditation Crosswalk Toolkit (2023 update; uses the PHAB Version 2022 Standards and Measures)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    effective_date: "2024-04-15"
+    retrieved: 2026-11-12
+  cdc-drivers:
+    title: Community Health Assessment, Drivers
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/infrastructure/public-health-systems-emerging-practices/drivers.html
+    effective_date: null
+    retrieved: 2026-11-12
+  jphmp-2025-plans:
+    title: Strategic and Performance Planning in US Local Health Departments (J Public Health Manag Pract, 2025)
+    publisher: Journal of Public Health Management and Practice
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12527733/
+    effective_date: "2025-09-01"
+    retrieved: 2026-11-12
+  stakeholder-review-2000:
+    title: Stakeholder analysis, a review (Health Policy and Planning, 2000)
+    publisher: Health Policy and Planning (Oxford University Press)
+    url: https://pubmed.ncbi.nlm.nih.gov/11012397/
+    effective_date: "2000-09-01"
+    retrieved: 2026-11-12
+  soar-nurs-2016:
+    title: SOARing Into Strategic Planning, Engaging Nurses to Achieve Significant Outcomes (Nursing Administration Quarterly, 2016)
+    publisher: Nursing Administration Quarterly
+    url: https://pubmed.ncbi.nlm.nih.gov/27584888/
+    effective_date: "2016-10-01"
+    retrieved: 2026-11-12
+  cha-framework:
+    title: Community health assessment framework (MAPP 2.0) and hospital CHNA guidance (this server's content item equity-cha-framework)
+    publisher: Public Health Nursing MCP Server
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    effective_date: null
+    retrieved: 2026-11-12
+
+phab_requirements:
+  status: unverified
+  statement: >-
+    PHAB's Version 2022 measures for Standard 10.1 (strategic planning) and Standard 5.2 (community
+    health improvement strategies) were not read, so this tool cannot tell you whether a plan meets
+    them. It does not say "meets PHAB requirements".
+  read_in_sources:
+    - text: >-
+        A health department strategic plan defines the organization's roles, goals, objectives, and
+        priorities for a specific period. There may be program-specific strategic plans that
+        complement and enhance an overall health department plan.
+      source: cdc-crosswalk
+      section: Standard 10.1 (Domain 10), context in accreditation
+      confidence: medium
+    - text: >-
+        For Standard 5.2, a health department must show evidence of a collaboratively developed and
+        comprehensive community health improvement plan (CHIP), and show how it incorporates health
+        equity into programs and addresses factors behind higher health risks in specific populations.
+      source: cdc-crosswalk
+      section: Standard 5.2 (Domain 5), context in accreditation
+      confidence: medium
+    - text: >-
+        A documented community health assessment and improvement plan, developed collaboratively and
+        dated within the last five years, are required for accreditation.
+      source: cdc-drivers
+      section: Summary
+      confidence: high
+    - text: >-
+        In a 2025 study of plans from PHAB-accredited local health departments, strategic plans
+        described goals, priorities, and strategies, and both strategic plans and community health
+        improvement plans described indicators, measurement approaches, timelines, tracking
+        mechanisms, and reporting. Strategic plans focused more on the department's operations
+        (data systems, audits, staff training, accreditation); community health improvement plans
+        used community health assessment data. None of the plan types is meant to stand alone.
+      source: jphmp-2025-plans
+      section: Introduction and Results
+      confidence: medium
+  to_check_in_phab_document:
+    - Which documents PHAB requires for Standard 10.1 and the required content of each (for example whether a mission, vision, values, a link to the CHIP and quality improvement plan, and an annual review are required).
+    - How recent the plan must be, how it must be adopted or approved, and how progress reporting is judged.
+    - Whether a program-specific plan or a regional or shared services plan can count.
+    - The reaccreditation requirements, which differ from initial accreditation.
+
+swot:
+  description: >-
+    SWOT asks what the department does well and badly (inside) and what is happening around it
+    (outside). It is a common scan used before setting priorities.
+  support: >-
+    The framework is a widely used planning tool. No source about SWOT in public health planning
+    was read for this file, so the prompts are this project's (low confidence).
+  support_confidence: low
+  quadrants:
+    - id: strengths
+      label: Strengths
+      location: inside the department
+      prompts:
+        - Programs, services, or partnerships that work well and that you could build on.
+        - Skills, credentials, and relationships on your team.
+        - Data, systems, or funding you can count on.
+    - id: weaknesses
+      label: Weaknesses
+      location: inside the department
+      prompts:
+        - Required services you cannot yet deliver or document (see the foundational public health services gap analysis).
+        - Gaps in staffing, credentials, data, or equipment.
+        - Processes that slow you down or depend on one person.
+    - id: opportunities
+      label: Opportunities
+      location: outside the department
+      prompts:
+        - Funding, shared service arrangements, or technical assistance you could use.
+        - Partners, coalitions, or community assets you could work with.
+        - Policy, regulatory, or community changes that favor your priorities.
+    - id: threats
+      label: Threats
+      location: outside the department
+      prompts:
+        - Funding that may end or shrink.
+        - Demographic, environmental, or emergency risks that outpace your capacity.
+        - Policy or community changes that make your work harder.
+  tows_prompts:
+    - id: SO
+      label: Strengths with opportunities (use)
+      prompt: Which strengths would help you take advantage of which opportunities?
+    - id: WO
+      label: Weaknesses with opportunities (improve)
+      prompt: Which opportunities could help you overcome which weaknesses?
+    - id: ST
+      label: Strengths with threats (guard)
+      prompt: Which strengths could reduce the effect of which threats?
+    - id: WT
+      label: Weaknesses with threats (avoid)
+      prompt: Which weaknesses leave you most exposed to which threats, and what is the minimum you must fix?
+  tows_note: The pairing of strengths, weaknesses, opportunities, and threats into four strategy prompts is a common extension; this project's wording (low confidence).
+
+soar:
+  description: >-
+    SOAR (strengths, opportunities, aspirations, results) starts from what is working and what the
+    people involved want to achieve, in the style of appreciative inquiry. A published nursing
+    example used it to engage staff in strategic planning and goal setting.
+  support: >-
+    The abstract of a 2016 Nursing Administration Quarterly paper describes using strengths,
+    opportunities, aspirations, and results with an appreciative inquiry process to engage nurses in
+    strategic planning (read through PubMed; the full text was not read). The prompts below are
+    this project's.
+  support_confidence: medium
+  quadrants:
+    - id: strengths
+      label: Strengths
+      prompts:
+        - What are we proudest of in our work for the community?
+        - What do partners and residents say we do best?
+        - Which resources and skills should we build on?
+    - id: opportunities
+      label: Opportunities
+      prompts:
+        - What changes, partners, or funding could help us do more of what matters?
+        - What unmet community needs fit our strengths?
+    - id: aspirations
+      label: Aspirations
+      prompts:
+        - What do we want the health of this community to look like in five years?
+        - What do we want to be known for?
+    - id: results
+      label: Results
+      prompts:
+        - How will we know we are succeeding (measures, targets, dates)?
+        - What would residents, staff, and partners notice?
+
+stakeholder:
+  support: >-
+    A published review describes stakeholder analysis as a systematic tool for understanding the
+    actors, their interests, and the influence they bring to decisions, so that strategies can be
+    developed to manage them (Health Policy and Planning, 2000; abstract read through PubMed). The
+    power and interest grid and its four labels are a common convention that this project writes up
+    in its own words (low confidence).
+  support_confidence: low
+  scale: Rate power (ability to help or block your plan) and interest (how much the plan matters to them) from 1 (lowest) to 5 (highest).
+  high_threshold: 3
+  threshold_note: A rating above 3 counts as high; 3 or below counts as low.
+  quadrants:
+    - id: manage_closely
+      label: Manage closely
+      power: high
+      interest: high
+      approach: Involve them in decisions. Give them a seat on the planning group, share drafts early, and agree what you need from them.
+    - id: keep_satisfied
+      label: Keep satisfied
+      power: high
+      interest: low
+      approach: Keep them informed at the level they want, and check before decisions that could affect them. Look for ways their interest could grow.
+    - id: keep_informed
+      label: Keep informed
+      power: low
+      interest: high
+      approach: Share progress and ask for their input. They can be strong allies and sources of local knowledge.
+    - id: monitor
+      label: Monitor
+      power: low
+      interest: low
+      approach: Keep them on your list, send general updates, and watch for changes in their power or interest.
+  columns:
+    - Stakeholder
+    - Power (1-5)
+    - Interest (1-5)
+    - Group
+    - Current engagement
+    - Desired engagement
+    - What you need from them
+    - Who on your team owns the relationship
+
+plan:
+  hierarchy_note: >-
+    The words priority, goal, objective, and strategy are used in different ways by different
+    planning guides. This tool uses the layers below so the plan reads top down; PHAB's own terms
+    were not verified (see phab_requirements). A SMART objective names what will change, by how
+    much, for whom, and by when; the SMART-IE objective writer (write_smartie_objectives) can help
+    word them.
+  layers:
+    - id: priority
+      label: Strategic priority
+      definition: A broad area the department will focus on for the planning period.
+    - id: goal
+      label: Goal
+      definition: What the department wants to achieve within a priority (usually several years).
+    - id: objective
+      label: Objective
+      definition: A specific, measurable, time-bound result that shows progress toward a goal.
+    - id: strategy
+      label: Strategy
+      definition: How you will reach the objective (the approach, with who is responsible and when).
+  sections:
+    - id: purpose
+      label: Purpose, period, and how the plan was developed
+      guidance: Who the plan is for, the years it covers, who took part, and when it was adopted.
+      basis: this project
+      confidence: low
+    - id: mission_vision_values
+      label: Mission, vision, and values
+      guidance: Your own words. Many plans include them (not verified as a PHAB requirement).
+      basis: this project
+      confidence: low
+    - id: assessment
+      label: Where we are now (SWOT or SOAR, community health assessment findings, stakeholders)
+      guidance: Summarize the analysis and the community health assessment findings that shape your priorities.
+      basis: cdc-drivers
+      confidence: medium
+    - id: priorities
+      label: Strategic priorities, goals, objectives, and strategies
+      guidance: The core of the plan. Each objective needs a measure, a target, and a date.
+      basis: cdc-crosswalk
+      confidence: medium
+    - id: chip_link
+      label: Link to the community health improvement plan (CHIP)
+      guidance: Show which strategic priorities support or depend on each CHIP priority.
+      basis: jphmp-2025-plans
+      confidence: medium
+    - id: monitoring
+      label: How progress will be tracked and reported
+      guidance: Indicators, data sources, who reports, how often, and to whom (for example your board of health).
+      basis: jphmp-2025-plans
+      confidence: medium
+    - id: related_plans
+      label: Related plans (quality improvement, workforce development, emergency operations)
+      guidance: Name the related plans and how the strategic plan connects to them.
+      basis: jphmp-2025-plans
+      confidence: medium
+
+chip_link:
+  description: >-
+    A CHIP comes out of a community health assessment and is developed with the community; the
+    strategic plan sets the department's own direction and should support it. List your CHIP priorities,
+    and the tool shows which strategic priorities you have linked to each, and which CHIP priorities
+    have no linked strategic priority.
+  cha_content_id: equity-cha-framework
+  where_chip_falls_note: >-
+    Where the CHIP falls in MAPP 2.0 was not verified (see the community health assessment
+    framework content). Use the community_health_assessment_builder tool for the assessment itself.
+
+checks:
+  - id: needs_priority
+    text: The plan has no strategic priority yet.
+  - id: needs_goal
+    text: A strategic priority has no goal.
+  - id: needs_objective
+    text: A goal has no objective.
+  - id: objective_not_smart
+    text: An objective is missing a measure, a target, or a date.
+  - id: objective_no_strategy
+    text: A goal has no strategy.
+  - id: strategy_no_owner
+    text: A strategy has no responsible person or role.
+  - id: no_assessment
+    text: No SWOT or SOAR entries were given, so the plan has no analysis behind it.
+  - id: stakeholder_gap
+    text: A high-power, high-interest stakeholder is not mentioned in any strategy.
+  - id: chip_unlinked
+    text: A CHIP priority is not linked to any strategic priority.
+  - id: no_chip
+    text: No CHIP priorities were given, so the link section is blank.
+  - id: dates_out_of_period
+    text: An objective date is outside the planning period.
+checks_note: >-
+  The checks look only for blanks and for dates outside the period. They do not judge quality and
+  are not PHAB's criteria.
+
+not_verified:
+  - PHAB's requirements for a strategic plan (measures under Standard 10.1 and Standard 5.2) were not read.
+  - The SWOT and stakeholder-grid conventions were not checked against a primary source; only a review of stakeholder analysis and a SOAR example (abstracts) were read.
+  - Whether PHAB expects a mission, vision, values, annual review, or a particular link to the CHIP and quality improvement plan.
