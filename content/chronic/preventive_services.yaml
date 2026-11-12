@@ -129,7 +129,7 @@ programs:
       - {name: Cambridge Health Alliance, place: Somerville, phone: "(617) 591-6923"}
       - {name: Caring Health Center, place: Springfield, phone: "(413) 739-1100"}
       - {name: Family Health Center of Worcester, place: Worcester, phone: "(508) 860-7700 extension 1407"}
-      - {name: Healthfirst Family Care Center, Inc., place: Fall River, phone: "(508) 679-8111"}
+      - {name: "Healthfirst Family Care Center, Inc.", place: Fall River, phone: "(508) 679-8111"}
       - {name: "Making Opportunity Count, Inc.", place: Fitchburg, phone: "(978) 345-7040"}
       - {name: The Latino Health Insurance Program, place: Framingham, phone: "(508) 875-1237"}
       - {name: "Worcester RISE for Health (Refugee and Immigrant Support and Empowerment)", place: Worcester, phone: "(774) 417-1756"}
@@ -182,7 +182,7 @@ recommendations:
     label: Blood pressure screening
     criteria: [{age_min: 18, sex: any, pregnancy: any}]
     confirm: Adults without known hypertension. Confirm high readings with blood pressure measured outside the clinic before treatment.
-    client_summary: Everyone 18 and older should have their blood pressure checked. High blood pressure often has no symptoms, and treating it prevents strokes and heart attacks.
+    client_summary: Everyone 18 and older should have their blood pressure checked. High blood pressure raises the risk of stroke and heart attack.
     programs: []
   - id: breast_cancer_screening
     category: cancer
@@ -268,7 +268,7 @@ recommendations:
     label: Blood sugar test for prediabetes and type 2 diabetes
     criteria: [{age_min: 35, age_max: 70, sex: any, pregnancy: not_pregnant, all_of: [bmi_25]}]
     confirm: Adults seen in primary care without symptoms of diabetes. People with prediabetes should be offered or referred to prevention programs.
-    client_summary: If you are 35 to 70 and carry extra weight, a simple blood test can show if your blood sugar is high. Finding it early lets you act to prevent diabetes.
+    client_summary: If you are 35 to 70 and carry extra weight, a simple blood test can show whether your blood sugar is high. If it is, you can be offered or referred to programs that help prevent diabetes.
     programs: []
   - id: cvd_diet_activity_counseling
     category: heart_metabolic
@@ -282,7 +282,7 @@ recommendations:
     label: Cholesterol medicine (statin) to prevent a first heart attack or stroke
     criteria: [{age_min: 40, age_max: 75, sex: any, pregnancy: any, all_of: [cvd_factor_statin, cvd_risk_10pct]}]
     confirm: Adults without known heart or blood vessel disease and without symptoms, with at least one risk factor (high cholesterol, diabetes, high blood pressure, or smoking) and a calculated 10-year risk of 10% or more.
-    client_summary: A daily statin can lower your chance of a first heart attack or stroke when your risk is higher. Talk with your clinician about whether it is right for you.
+    client_summary: A daily statin may lower your chance of a first heart attack or stroke when your risk is higher. Talk with your clinician about whether it is right for you.
     programs: []
   - id: obesity_behavioral_intervention_adults
     category: heart_metabolic
@@ -303,7 +303,7 @@ recommendations:
     label: Bone density screening for women 65 and older
     criteria: [{age_min: 65, sex: female, pregnancy: any}]
     confirm: Adults without known osteoporosis or a fragility fracture. The USPSTF found not enough evidence for screening men.
-    client_summary: Women 65 and older should have a bone density test to check for thinning bones, so treatment can prevent broken bones.
+    client_summary: Women 65 and older should have a bone density test to check bone strength and the risk of broken bones.
     programs: []
   - id: osteoporosis_screening_postmenopausal_under_65
     category: older_adults
@@ -332,28 +332,28 @@ recommendations:
     label: Hepatitis B test at the first prenatal visit
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: At the first prenatal visit.
-    client_summary: Every pregnant person should have a hepatitis B blood test at the first prenatal visit, so the baby can be protected if needed.
+    client_summary: Every pregnant person should have a hepatitis B blood test at the first prenatal visit.
     programs: []
   - id: hepatitis_c_screening
     category: infectious
     label: Hepatitis C test
     criteria: [{age_min: 18, age_max: 79, sex: any, pregnancy: any}]
     confirm: Adults without symptoms and without known liver disease.
-    client_summary: Everyone 18 to 79 should have a one-time hepatitis C blood test. Hepatitis C can be cured, and many people do not know they have it.
+    client_summary: Adults 18 to 79 should have a hepatitis C blood test. Ask your clinician about it.
     programs: []
   - id: hiv_screening_15_65
     category: infectious
     label: HIV test
     criteria: [{age_min: 15, age_max: 65, sex: any, pregnancy: any}]
     confirm: Younger adolescents and older adults at increased risk should also be screened.
-    client_summary: Everyone 15 to 65 should be tested for HIV at least once. Treatment works very well, and knowing your status protects you and your partners.
+    client_summary: People 15 to 65 should be tested for HIV. Younger people and older adults at higher risk should be tested too.
     programs: []
   - id: hiv_screening_pregnancy
     category: pregnancy
     label: HIV test in pregnancy
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: All pregnant persons, including those in labor or at delivery whose HIV status is not known.
-    client_summary: Every pregnant person should be tested for HIV. Treatment during pregnancy can keep the baby from getting HIV.
+    client_summary: Every pregnant person should be tested for HIV, including at delivery if their HIV status is not known.
     programs: []
   - id: hiv_prep
     category: infectious
@@ -376,7 +376,7 @@ recommendations:
     label: Syphilis test in pregnancy
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: Early in pregnancy for everyone; if not done early, at the first chance.
-    client_summary: Every pregnant person should have a syphilis blood test early in pregnancy. Treating it protects the baby.
+    client_summary: Every pregnant person should have a syphilis blood test early in pregnancy.
     programs: []
   - id: chlamydia_screening_women
     category: infectious
@@ -385,7 +385,7 @@ recommendations:
       - {age_max: 24, sex: female, pregnancy: any, all_of: [sexually_active]}
       - {age_min: 25, sex: female, pregnancy: any, all_of: [sexually_active, risk_chlamydia_gonorrhea]}
     confirm: Sexually active women 24 and younger, and women 25 and older who are at increased risk. The USPSTF found not enough evidence for men.
-    client_summary: If you are sexually active and 24 or younger, get tested for chlamydia. Older women should be tested if they are at higher risk. It is easy to treat when found.
+    client_summary: If you are sexually active and 24 or younger, get tested for chlamydia. Older women should be tested if they are at higher risk.
     programs: []
   - id: gonorrhea_screening_women
     category: infectious
@@ -411,35 +411,35 @@ recommendations:
     label: Test for latent tuberculosis infection
     criteria: [{age_min: 18, sex: any, pregnancy: any, all_of: [risk_tuberculosis]}]
     confirm: Asymptomatic adults at increased risk of tuberculosis; the clinician decides who is at increased risk.
-    client_summary: A TB skin or blood test can show if you carry TB germs that are asleep. It is recommended if you are at higher risk, and treatment can keep you from getting sick.
+    client_summary: A TB skin or blood test can show whether you have latent TB infection (TB germs in the body that are not making you sick). It is recommended if you are at higher risk.
     programs: []
   - id: depression_screening_adults
     category: mental_health
     label: Depression screening
     criteria: [{age_min: 19, sex: any, pregnancy: any}]
     confirm: Adults without symptoms, including pregnant and postpartum persons and older adults. The USPSTF found not enough evidence for screening for suicide risk.
-    client_summary: Depression is common and treatable. Adults should be asked about their mood at checkups, including during and after pregnancy.
+    client_summary: Adults should be asked about their mood at checkups, including during and after pregnancy.
     programs: []
   - id: anxiety_screening_adults
     category: mental_health
     label: Anxiety screening
     criteria: [{age_min: 19, age_max: 64, sex: any, pregnancy: any}]
     confirm: Adults without symptoms, including pregnant and postpartum persons. The USPSTF found not enough evidence for adults 65 and older.
-    client_summary: Anxiety is common and treatable. Adults under 65 should be asked about worry and anxiety at checkups.
+    client_summary: Adults under 65 should be asked about worry and anxiety at checkups, including during and after pregnancy.
     programs: []
   - id: depression_screening_adolescents
     category: mental_health
     label: Depression screening for teens 12 to 18
     criteria: [{age_min: 12, age_max: 18, sex: any, pregnancy: any}]
     confirm: Adolescents without a diagnosed mental health condition or recognized signs of depression. The USPSTF found not enough evidence for children 11 and younger, or for suicide risk screening.
-    client_summary: Teens 12 to 18 should be asked about their mood at checkups. Depression is common in teens and it can be treated.
+    client_summary: Teens 12 to 18 should be asked about their mood at checkups.
     programs: []
   - id: anxiety_screening_children_adolescents
     category: mental_health
     label: Anxiety screening for children and teens 8 to 18
     criteria: [{age_min: 8, age_max: 18, sex: any, pregnancy: any}]
     confirm: Children and adolescents without a diagnosed anxiety disorder or recognized signs of anxiety. The USPSTF found not enough evidence for children 7 and younger.
-    client_summary: Children and teens 8 to 18 should be asked about worry and anxiety at checkups. Anxiety can be treated.
+    client_summary: Children and teens 8 to 18 should be asked about worry and anxiety at checkups.
     programs: []
   - id: perinatal_depression_prevention
     category: pregnancy
@@ -480,7 +480,7 @@ recommendations:
       - {sex: female, pregnancy: pregnant}
     assumption: The statement says "persons who are planning to or could become pregnant" without an age range; the tool uses 15 to 49 (a project choice, not from the USPSTF), and any age when pregnant.
     confirm: Everyone who is planning a pregnancy or could become pregnant. Daily supplement with 0.4 to 0.8 mg (400 to 800 micrograms) of folic acid.
-    client_summary: If you could become pregnant, take a daily vitamin with 400 to 800 micrograms of folic acid. It helps prevent serious birth defects of the brain and spine.
+    client_summary: If you could become pregnant, take a daily vitamin with 400 to 800 micrograms of folic acid. It helps prevent neural tube defects, which are serious birth defects of the brain and spine.
     programs: []
   - id: preeclampsia_aspirin
     category: pregnancy
@@ -494,14 +494,14 @@ recommendations:
     label: Blood pressure checks throughout pregnancy
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: Pregnant persons without known chronic hypertension or a hypertensive disorder of pregnancy.
-    client_summary: Your blood pressure should be checked at every prenatal visit. High blood pressure in pregnancy can be serious and treatment helps.
+    client_summary: Your blood pressure should be checked throughout your pregnancy, at your prenatal visits.
     programs: []
   - id: gestational_diabetes_screening
     category: pregnancy
     label: Gestational diabetes screening
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: At 24 weeks of pregnancy or later, for those without diabetes before pregnancy. The USPSTF found not enough evidence for screening before 24 weeks.
-    client_summary: Pregnant people should have a blood sugar test at or after 24 weeks to check for gestational diabetes. Treatment keeps you and your baby healthy.
+    client_summary: Pregnant people should have a blood sugar test at 24 weeks or later to check for gestational diabetes.
     programs: []
   - id: gestational_weight_gain_counseling
     category: pregnancy
@@ -522,7 +522,7 @@ recommendations:
     label: Urine culture for bacteria in pregnancy
     criteria: [{sex: female, pregnancy: pregnant}]
     confirm: Pregnant persons without symptoms of a urinary tract infection (urine culture).
-    client_summary: Pregnant people should have a urine test for bacteria, even without symptoms, because a hidden infection can cause problems for the pregnancy.
+    client_summary: Pregnant people should have a urine culture to check for bacteria, even without symptoms.
     programs: []
   - id: ocular_prophylaxis_newborns
     category: children

@@ -214,6 +214,8 @@ output folder instead of being sent to the AI model.
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 <!-- Phase 15 screen rows go above this line. -->
+| `preventive_services_lookup` | CHR-04 | chronic | USPSTF grade A and B recommendations for a person's age, sex at birth, pregnancy status, and risk factors, each with its grade, statement date, the Task Force's population wording, what to confirm, a plain-language client summary, and a handout option; Massachusetts options (MBCCP, the colorectal program, 1-800-QUIT-NOW) and MyHealthfinder's live list. |
+| `asthma_home_assessment` | CHR-05 | chronic | CDC/EPA/HUD home asthma trigger checklist (pointing at the housing code content), DPH's asthma control categories with a classifier, the NHLBI asthma action plan template with peak flow zones, Massachusetts home-based asthma services from DPH's directory, and action plans filled from a local file. |
 <!-- Phase 15 prevent rows go above this line. -->
 <!-- Phase 15 cha rows go above this line. -->
 <!-- Phase 15 geo rows go above this line. -->

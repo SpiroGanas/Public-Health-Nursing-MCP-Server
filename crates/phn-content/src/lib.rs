@@ -593,6 +593,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/chronic/preventive_services.yaml"),
         schema: include_str!("../../../content/schemas/chronic_preventive_services.schema.json"),
     },
+    ContentItem {
+        id: "chronic-asthma-home",
+        path: "content/chronic/asthma_home.yaml",
+        resource_uri: "phn://content/chronic-asthma-home",
+        yaml: include_str!("../../../content/chronic/asthma_home.yaml"),
+        schema: include_str!("../../../content/schemas/chronic_asthma_home.schema.json"),
+    },
     // End of Phase 15 prevent.
     // Phase 15 cha (EQ-08, EQ-09, EQ-10).
     // End of Phase 15 cha.

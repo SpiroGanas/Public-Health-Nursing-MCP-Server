@@ -1,0 +1,622 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/chronic_asthma_home.schema.json",
+  "title": "Asthma home assessment content",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "housing_links",
+    "checklist",
+    "control",
+    "action_plan",
+    "services"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "chronic-asthma-home"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": [
+        "id",
+        "question",
+        "options",
+        "actions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "question": {
+          "type": "string"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "section": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "housing",
+        "items"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "housing": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/item"
+          }
+        }
+      }
+    },
+    "module": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "sections"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "how_to_read": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/section"
+          }
+        },
+        "key_points": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "housing_links": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "checklist": {
+      "type": "object",
+      "required": [
+        "title",
+        "how_to_use",
+        "glossary",
+        "modules",
+        "epa_trigger_actions",
+        "evidence_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "how_to_use": {
+          "type": "string"
+        },
+        "glossary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "trigger",
+              "found"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "trigger": {
+                "type": "string"
+              },
+              "found": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/module"
+          }
+        },
+        "epa_trigger_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "trigger",
+              "actions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "trigger": {
+                "type": "string"
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "evidence_note": {
+          "type": "string"
+        }
+      }
+    },
+    "control": {
+      "type": "object",
+      "required": [
+        "title",
+        "basis",
+        "variables",
+        "limits",
+        "act_note",
+        "act_url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "basis": {
+          "type": "string"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "question",
+              "well",
+              "not_well",
+              "very_poorly"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "question": {
+                "type": "string"
+              },
+              "well": {
+                "type": "string"
+              },
+              "not_well": {
+                "type": "string"
+              },
+              "very_poorly": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "limits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "act_note": {
+          "type": "string"
+        },
+        "act_url": {
+          "type": "string"
+        }
+      }
+    },
+    "action_plan": {
+      "type": "object",
+      "required": [
+        "title",
+        "source_note",
+        "peak_flow",
+        "fields",
+        "markdown",
+        "trigger_guidance_source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "source_note": {
+          "type": "string"
+        },
+        "peak_flow": {
+          "type": "object",
+          "required": [
+            "green_percent_of_best",
+            "yellow_low_percent_of_best",
+            "note"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "green_percent_of_best": {
+              "type": "integer"
+            },
+            "yellow_low_percent_of_best": {
+              "type": "integer"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "label",
+              "aliases"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "aliases": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "markdown": {
+          "type": "string"
+        },
+        "trigger_guidance_source": {
+          "type": "string"
+        }
+      }
+    },
+    "services": {
+      "type": "object",
+      "required": [
+        "directory",
+        "model_note",
+        "other",
+        "not_verified"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "directory": {
+          "type": "object",
+          "required": [
+            "title",
+            "publisher",
+            "last_updated_by_dph",
+            "retrieved",
+            "url",
+            "note",
+            "programs"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "publisher": {
+              "type": "string"
+            },
+            "last_updated_by_dph": {
+              "type": "string"
+            },
+            "retrieved": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "programs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "location",
+                  "areas",
+                  "towns_served",
+                  "pediatric",
+                  "adult",
+                  "older_adult",
+                  "url"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  },
+                  "areas": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "towns_served": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "pediatric": {
+                    "type": "boolean"
+                  },
+                  "adult": {
+                    "type": "boolean"
+                  },
+                  "older_adult": {
+                    "type": "boolean"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "url_note": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "model_note": {
+          "type": "string"
+        },
+        "other": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "what",
+              "contact",
+              "url",
+              "source"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "what": {
+                "type": "string"
+              },
+              "contact": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "not_verified": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1044,6 +1044,47 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 15 screen (CHR-02, CHR-03).
         // ---- End of Phase 15 screen.
         // ---- Phase 15 prevent (CHR-04, CHR-05).
+        // CHR-04 takes only age, sex at birth, pregnancy status, and risk factors (no file
+        // arguments); the handout has no name or identifier.
+        (
+            "preventive_services_lookup",
+            json!({"age_years": 47, "sex_at_birth": "female", "write_handout": true,
+                   "include_myhealthfinder": false}),
+            ll,
+        ),
+        // CHR-05 fills action plans from a client file into /data/output only. A person file
+        // that legitimately has the plan details, an identifiable line list, a shelter roster,
+        // and an organization list with contact people are all accepted or refused without
+        // echoing a value.
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "asthma_plans.csv"}),
+            "data/asthma_plans.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "line_list.csv",
+                   "write_documents": false}),
+            ll,
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "shelter_registrations.csv",
+                   "write_documents": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["action_plan"], "clients_path": "cooling_centers.csv",
+                   "write_documents": false}),
+            "data/cooling_centers.csv",
+        ),
+        (
+            "asthma_home_assessment",
+            json!({"sections": ["checklist", "control", "services"], "town": "Springfield",
+                   "control_answers": {"symptom_days_past_30": 12, "nights_waking_past_30": 4}}),
+            ll,
+        ),
         // ---- End of Phase 15 prevent.
         // ---- Phase 15 cha (EQ-08, EQ-09, EQ-10).
         // ---- End of Phase 15 cha.

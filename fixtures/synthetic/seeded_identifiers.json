@@ -9109,6 +9109,108 @@
    "kind": "phone",
    "file": "data/housing_requests.csv",
    "column": "Phone"
+  },
+  {
+   "value": "Odalys",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Fenwickle",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "2016-04-09",
+   "kind": "birth_date",
+   "file": "data/asthma_plans.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor"
+  },
+  {
+   "value": "Marlowe",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor"
+  },
+  {
+   "value": "413-555-0188",
+   "kind": "phone",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor Phone"
+  },
+  {
+   "value": "413-555-0199",
+   "kind": "phone",
+   "file": "data/asthma_plans.csv",
+   "column": "Hospital Phone"
+  },
+  {
+   "value": "Barnaby",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Quillfeather",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "2012-11-30",
+   "kind": "birth_date",
+   "file": "data/asthma_plans.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Tamsin",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "Rookwood",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Name"
+  },
+  {
+   "value": "1981-02-17",
+   "kind": "birth_date",
+   "file": "data/asthma_plans.csv",
+   "column": "Date of Birth"
+  },
+  {
+   "value": "Persephone",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor"
+  },
+  {
+   "value": "Lindqvist",
+   "kind": "name",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor"
+  },
+  {
+   "value": "617-555-0142",
+   "kind": "phone",
+   "file": "data/asthma_plans.csv",
+   "column": "Doctor Phone"
+  },
+  {
+   "value": "617-555-0143",
+   "kind": "phone",
+   "file": "data/asthma_plans.csv",
+   "column": "Hospital Phone"
   }
  ]
 }
