@@ -266,7 +266,7 @@ referral:
 topics:
   - id: scope_framework
     label: How to decide whether an activity is within scope
-    keywords: [scope, scope of practice, within scope, outside scope, decision, decision making, framework, guideline, guidelines, new procedure, new skill, competence, competency, can a nurse, can i]
+    keywords: [scope, scope of practice, within scope, outside scope, decision making, framework, guideline, guidelines, new procedure, new skill, competence, competency]
   - id: rn_lpn
     label: RN and LPN roles and differences
     keywords: [rn, lpn, practical nurse, registered nurse, licensed practical nurse, assessment, systematic assessment, plan of care, care plan, group, groups, population, supervise lpn]
@@ -284,7 +284,7 @@ topics:
     keywords: [vaccine, vaccines, vaccination, immunization, immunizations, immunize, flu clinic, miis, vis, immunizing agent, clinic]
   - id: otc_school
     label: Over-the-counter medications and school nursing
-    keywords: [otc, over the counter, over-the-counter, school nurse, school, acetaminophen, ibuprofen, camp, day care]
+    keywords: [otc, over the counter, over-the-counter, school nurse, school nursing, acetaminophen, ibuprofen, camp, day care]
   - id: harm_reduction
     label: Harm reduction, naloxone, and fentanyl test strips
     keywords: [harm reduction, naloxone, narcan, opioid antagonist, fentanyl, test strips, syringe, overdose, needle exchange, syringe services]
@@ -302,10 +302,10 @@ topics:
     keywords: [management, manager, supervisor, charge nurse, nurse in charge, assignment, assign, director, nurse leader, administrative]
   - id: conduct_reporting
     label: Standards of conduct, confidentiality, documentation, and reporting duties
-    keywords: [conduct, confidentiality, confidential, privacy, documentation, document, report, reporting, mandated reporter, mandated reporting, abuse, 51a, duty to report, disclosure, discipline]
+    keywords: [conduct, confidentiality, confidential, privacy, documentation, reporting, mandated reporter, mandated reporting, abuse, 51a, duty to report, disclosure, discipline]
   - id: map_program
     label: DPH Medication Administration Program (community programs)
-    keywords: [map, medication administration program, community program, dds, dmh, group home]
+    keywords: [map program, medication administration program, community program, dds, dmh, group home]
   - id: new_procedures
     label: Procedures and techniques requiring added training
     keywords: [procedure, procedures, technique, techniques, larc, iud, implant, contraception, training, education, competency validation]

@@ -374,13 +374,14 @@ pub fn read_answers(questions: &[QuestionDef], answers: &BTreeMap<String, Answer
 
     if !r.research_signals.is_empty() {
         r.category = "possible_research";
-        r.human_subjects = if yes("interaction_or_intervention") || yes("identifiable_private_information") {
-            "likely"
-        } else if no("interaction_or_intervention") && no("identifiable_private_information") {
-            "unlikely"
-        } else {
-            "unknown"
-        };
+        r.human_subjects =
+            if yes("interaction_or_intervention") || yes("identifiable_private_information") {
+                "likely"
+            } else if no("interaction_or_intervention") && no("identifiable_private_information") {
+                "unlikely"
+            } else {
+                "unknown"
+            };
         if yes("local_improvement") && yes("generalizable_intent") {
             r.cautions.push(
                 "Your answers fit both quality improvement and research. The Hastings Center group \
@@ -433,8 +434,7 @@ pub fn read_answers(questions: &[QuestionDef], answers: &BTreeMap<String, Answer
         let risky: Vec<String> = questions
             .iter()
             .filter(|q| {
-                q.yes_means == Signal::Research
-                    && get(&q.id) == Some(Answer::Unsure)
+                q.yes_means == Signal::Research && get(&q.id) == Some(Answer::Unsure)
                     || q.no_means == Signal::Research && get(&q.id) == Some(Answer::Unsure)
             })
             .map(|q| q.id.clone())
@@ -476,7 +476,9 @@ fn human_subjects_note(status: &str) -> &'static str {
             "Answer the two human subject questions (interaction or intervention; identifiable \
              private information) to see whether the project would involve human subjects."
         }
-        _ => "The answers do not point to research, so the human subject question does not arise now.",
+        _ => {
+            "The answers do not point to research, so the human subject question does not arise now."
+        }
     }
 }
 
@@ -518,11 +520,18 @@ fn document_markdown(
             out = out.replace("[NURSE: project title]", t);
         }
         if let Some(o) = office {
-            out = out.replace("[NURSE: IRB or human research protection office that will review this]", o);
+            out = out.replace(
+                "[NURSE: IRB or human research protection office that will review this]",
+                o,
+            );
         }
         out
     };
-    let mut m = format!("# {}\n\n{}\n\n", d.title, d.intro.split_whitespace().collect::<Vec<_>>().join(" "));
+    let mut m = format!(
+        "# {}\n\n{}\n\n",
+        d.title,
+        d.intro.split_whitespace().collect::<Vec<_>>().join(" ")
+    );
     for s in &d.sections {
         m.push_str(&format!("## {}\n\n", s.heading));
         for p in &s.prompts {
@@ -531,14 +540,19 @@ fn document_markdown(
         if s.heading.starts_with("2.")
             && let Some(desc) = description
         {
-            m.push_str(&format!("- Project description (from the project lead): {desc}\n"));
+            m.push_str(&format!(
+                "- Project description (from the project lead): {desc}\n"
+            ));
         }
         m.push('\n');
     }
     m.push_str(&format!("## {}\n\n", d.answers_heading));
     m.push_str(&format!(
         "{}\n\n",
-        d.answers_note.split_whitespace().collect::<Vec<_>>().join(" ")
+        d.answers_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
     ));
     let rows: Vec<Vec<String>> = reasoning
         .iter()
@@ -573,7 +587,13 @@ fn document_markdown(
             "Provisional reading: not yet available; required questions still need answers.\n\n",
         ),
     }
-    m.push_str(&format!("_{}_\n", c.what_irb_decides.split_whitespace().collect::<Vec<_>>().join(" ")));
+    m.push_str(&format!(
+        "_{}_\n",
+        c.what_irb_decides
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    ));
     m
 }
 
@@ -649,7 +669,10 @@ pub fn qi_vs_research_determination(
             summary: cat.summary.split_whitespace().collect::<Vec<_>>().join(" "),
             human_subjects: HumanSubjectsReading {
                 status: reading.human_subjects.to_string(),
-                note: human_subjects_note(reading.human_subjects).split_whitespace().collect::<Vec<_>>().join(" "),
+                note: human_subjects_note(reading.human_subjects)
+                    .split_whitespace()
+                    .collect::<Vec<_>>()
+                    .join(" "),
             },
             research_signals: reading.research_signals.clone(),
             non_research_signals: reading.non_research_signals.clone(),
@@ -688,7 +711,11 @@ pub fn qi_vs_research_determination(
         .map(|d| DefinitionOut {
             term: d.term.clone(),
             quote: d.quote.clone(),
-            paraphrase: d.paraphrase.split_whitespace().collect::<Vec<_>>().join(" "),
+            paraphrase: d
+                .paraphrase
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             citation: format!(
                 "{}, {}",
                 c.sources
@@ -705,14 +732,33 @@ pub fn qi_vs_research_determination(
     let mut files_written = Vec::new();
     let mut document_file = None;
     if args.write_document.unwrap_or(true) {
-        let md = document_markdown(&c, &title, &description, &office, &reasoning, &classification);
+        let md = document_markdown(
+            &c,
+            &title,
+            &description,
+            &office,
+            &reasoning,
+            &classification,
+        );
         let f = write_docx(ctx, &c.document.filename, &c.document.title, &md)?;
         files_written.push(f.clone());
         document_file = Some(f);
     }
 
-    let what = c.what_irb_decides.split_whitespace().collect::<Vec<_>>().join(" ");
-    let summary = summary_text(&c, status, &classification, &reasoning, &reading, &next_steps, &document_file);
+    let what = c
+        .what_irb_decides
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    let summary = summary_text(
+        &c,
+        status,
+        &classification,
+        &reasoning,
+        &reading,
+        &next_steps,
+        &document_file,
+    );
 
     // Sources: everything cited by the questions shown, the definitions, and the categories.
     let mut keys: Vec<&str> = Vec::new();
@@ -771,7 +817,9 @@ fn summary_text(
     next_steps: &[String],
     document: &Option<String>,
 ) -> String {
-    let mut s = String::from("**QI, program evaluation, or research? A screening aid (the IRB decides)**\n\n");
+    let mut s = String::from(
+        "**QI, program evaluation, or research? A screening aid (the IRB decides)**\n\n",
+    );
     match status {
         Status::QuestionsOnly => {
             s.push_str(
@@ -814,7 +862,9 @@ fn summary_text(
                     Needed::Optional => "optional",
                 }
                 .to_string(),
-                q.answer.map(|a| a.label().to_string()).unwrap_or_else(|| "-".into()),
+                q.answer
+                    .map(|a| a.label().to_string())
+                    .unwrap_or_else(|| "-".into()),
                 effect_word(q.effect).to_string(),
                 q.basis
                     .first()
@@ -824,7 +874,14 @@ fn summary_text(
         })
         .collect();
     s.push_str(&md::table(
-        &["Id", "Question", "Needed", "Answer", "Reading", "Main source"],
+        &[
+            "Id",
+            "Question",
+            "Needed",
+            "Answer",
+            "Reading",
+            "Main source",
+        ],
         &rows,
     ));
     s.push_str("\n**Next steps**\n\n");
@@ -833,7 +890,10 @@ fn summary_text(
     }
     s.push_str(&format!(
         "\n_{}_\n",
-        c.what_irb_decides.split_whitespace().collect::<Vec<_>>().join(" ")
+        c.what_irb_decides
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
     ));
     if let Some(d) = document {
         s.push_str(&format!(
@@ -873,14 +933,25 @@ mod tests {
         assert_eq!(ids.len(), c.questions.len(), "duplicate question ids");
         for q in &c.questions {
             for b in &q.basis {
-                assert!(c.sources.contains_key(&b.source), "{} -> {}", q.id, b.source);
+                assert!(
+                    c.sources.contains_key(&b.source),
+                    "{} -> {}",
+                    q.id,
+                    b.source
+                );
             }
         }
         for d in &c.definitions {
             assert!(c.sources.contains_key(&d.source));
             assert!(d.quote.split_whitespace().count() <= 25, "{}", d.id);
         }
-        for cat in ["possible_research", "qi", "program_evaluation", "public_health_practice", "undetermined"] {
+        for cat in [
+            "possible_research",
+            "qi",
+            "program_evaluation",
+            "public_health_practice",
+            "undetermined",
+        ] {
             assert!(c.categories.iter().any(|x| x.id == cat), "{cat}");
         }
         assert_eq!(
@@ -905,7 +976,11 @@ mod tests {
         // Unsure counts as not answered for a required question.
         let r = read_answers(
             &c.questions,
-            &answers(&[("generalizable_intent", Unsure), ("new_intervention", No), ("extra_burden", No)]),
+            &answers(&[
+                ("generalizable_intent", Unsure),
+                ("new_intervention", No),
+                ("extra_burden", No),
+            ]),
         );
         assert_eq!(r.status, Status::NeedsAnswers);
         assert_eq!(r.needs_answers, vec!["generalizable_intent"]);
@@ -954,10 +1029,8 @@ mod tests {
             ("new_intervention", Yes),
             ("extra_burden", Yes),
         ] {
-            let mut a: Vec<(&str, Answer)> = base_no()
-                .into_iter()
-                .filter(|(k, _)| *k != id)
-                .collect();
+            let mut a: Vec<(&str, Answer)> =
+                base_no().into_iter().filter(|(k, _)| *k != id).collect();
             a.push((id, v));
             a.push(("local_improvement", Yes));
             let r = read_answers(&c.questions, &answers(&a));
@@ -967,11 +1040,17 @@ mod tests {
         // Participants not benefiting, and extra data beyond reporting, also point to research.
         let mut a = base_no();
         a.push(("participant_benefit", No));
-        assert_eq!(read_answers(&c.questions, &answers(&a)).category, "possible_research");
+        assert_eq!(
+            read_answers(&c.questions, &answers(&a)).category,
+            "possible_research"
+        );
         let mut a = base_no();
         a.push(("public_health_authority", Yes));
         a.push(("beyond_reporting", Yes));
-        assert_eq!(read_answers(&c.questions, &answers(&a)).category, "possible_research");
+        assert_eq!(
+            read_answers(&c.questions, &answers(&a)).category,
+            "possible_research"
+        );
     }
 
     #[test]
@@ -1000,9 +1079,18 @@ mod tests {
             read_answers(&c.questions, &answers(&a)).human_subjects
         };
         assert_eq!(hs(&[("interaction_or_intervention", Yes)]), "likely");
-        assert_eq!(hs(&[("identifiable_private_information", Yes), ("interaction_or_intervention", No)]), "likely");
         assert_eq!(
-            hs(&[("interaction_or_intervention", No), ("identifiable_private_information", No)]),
+            hs(&[
+                ("identifiable_private_information", Yes),
+                ("interaction_or_intervention", No)
+            ]),
+            "likely"
+        );
+        assert_eq!(
+            hs(&[
+                ("interaction_or_intervention", No),
+                ("identifiable_private_information", No)
+            ]),
             "unlikely"
         );
         assert_eq!(hs(&[("interaction_or_intervention", No)]), "unknown");

@@ -311,6 +311,7 @@ fn flatten(s: &str) -> String {
     s.split_whitespace().collect::<Vec<_>>().join(" ")
 }
 
+#[allow(clippy::too_many_arguments)]
 fn document_markdown(
     c: &EthicsContent,
     decision: &Option<String>,
@@ -325,7 +326,10 @@ fn document_markdown(
     let fill = |s: &str| -> String {
         let mut out = s.to_string();
         if let Some(x) = decision {
-            out = out.replace("[NURSE: the action under consideration, in one sentence]", x);
+            out = out.replace(
+                "[NURSE: the action under consideration, in one sentence]",
+                x,
+            );
         }
         out
     };
@@ -339,7 +343,9 @@ fn document_markdown(
         if s.heading.contains("Facts")
             && let Some(sit) = situation
         {
-            m.push_str(&format!("- Situation as described by the preparer: {sit}\n"));
+            m.push_str(&format!(
+                "- Situation as described by the preparer: {sit}\n"
+            ));
         }
         if s.heading.contains("Facts") {
             for f in &profile.facts_to_gather {
@@ -350,7 +356,10 @@ fn document_markdown(
     }
     m.push_str("## 3. Kass framework: six questions\n\n");
     for q in kass {
-        m.push_str(&format!("### Question {}: {}\n\n{}\n\n", q.number, q.topic, q.question));
+        m.push_str(&format!(
+            "### Question {}: {}\n\n{}\n\n",
+            q.number, q.topic, q.question
+        ));
         for p in &q.prompts {
             m.push_str(&format!("- Prompt: {p}\n"));
         }
@@ -370,7 +379,9 @@ fn document_markdown(
         .iter()
         .map(|r| {
             let mut v = vec![
-                r.level.map(|l| l.to_string()).unwrap_or_else(|| "[NURSE: rank]".into()),
+                r.level
+                    .map(|l| l.to_string())
+                    .unwrap_or_else(|| "[NURSE: rank]".into()),
                 r.option.clone(),
                 r.burden_prompts.clone(),
             ];
@@ -402,11 +413,20 @@ fn document_markdown(
             ]
         })
         .collect();
-    m.push_str(&md::table(&["Condition", "Question", "Your assessment", "Source"], &rows));
+    m.push_str(&md::table(
+        &["Condition", "Question", "Your assessment", "Source"],
+        &rows,
+    ));
     m.push_str("\n## 6. APHA core values\n\n");
     let rows: Vec<Vec<String>> = values
         .iter()
-        .map(|v| vec![v.label.clone(), v.prompt.clone(), "[NURSE: how the action supports or limits this value]".into()])
+        .map(|v| {
+            vec![
+                v.label.clone(),
+                v.prompt.clone(),
+                "[NURSE: how the action supports or limits this value]".into(),
+            ]
+        })
         .collect();
     m.push_str(&md::table(&["Value", "Prompt", "Your assessment"], &rows));
     m.push('\n');
@@ -421,7 +441,13 @@ fn document_markdown(
     for n in &c.copyright_notes {
         m.push_str(&format!("- {n}\n"));
     }
-    for k in ["kass2001", "overview2010", "apha_values_hpp", "apha_steps_jphp", "cdc_phe"] {
+    for k in [
+        "kass2001",
+        "overview2010",
+        "apha_values_hpp",
+        "apha_steps_jphp",
+        "cdc_phe",
+    ] {
         m.push_str(&format!("- {}\n", cite_title(&c.sources, k)));
     }
     m
@@ -577,7 +603,9 @@ pub fn public_health_ethics_analysis(
     let mut files_written = Vec::new();
     let mut document_file = None;
     if args.write_document.unwrap_or(true) {
-        let md = document_markdown(&c, &decision, &situation, &profile, &kass, &table, &checklist, &values);
+        let md = document_markdown(
+            &c, &decision, &situation, &profile, &kass, &table, &checklist, &values,
+        );
         let f = write_docx(ctx, &c.document.filename, &c.document.title, &md)?;
         files_written.push(f.clone());
         document_file = Some(f);
@@ -594,10 +622,25 @@ pub fn public_health_ethics_analysis(
         .collect();
 
     let summary = summary_text(
-        &decision, &profile, matched, &decision_type, &kass, &table, &checklist, &document_file, &no_rec,
+        &decision,
+        &profile,
+        matched,
+        &decision_type,
+        &kass,
+        &table,
+        &checklist,
+        &document_file,
+        &no_rec,
     );
 
-    let mut keys: Vec<&str> = vec!["kass2001", "overview2010", "apha_values_hpp", "apha_values_emph", "apha_steps_jphp", "cdc_phe"];
+    let mut keys: Vec<&str> = vec![
+        "kass2001",
+        "overview2010",
+        "apha_values_hpp",
+        "apha_values_emph",
+        "apha_steps_jphp",
+        "cdc_phe",
+    ];
     keys.push("project");
     let sources = content::sources_for(keys, &c.sources);
 
@@ -671,14 +714,20 @@ fn summary_text(
     document: &Option<String>,
     no_rec: &str,
 ) -> String {
-    let mut s = String::from("**Public health ethics analysis: Kass framework and APHA Code of Ethics (2019)**\n\n");
+    let mut s = String::from(
+        "**Public health ethics analysis: Kass framework and APHA Code of Ethics (2019)**\n\n",
+    );
     if let Some(d) = decision {
         s.push_str(&format!("Decision: {d}\n\n"));
     }
     s.push_str(&format!(
         "Profile: {}{}.\n\n",
         profile.label,
-        if matched || decision_type.is_none() { "" } else { " (no specific profile matched)" }
+        if matched || decision_type.is_none() {
+            ""
+        } else {
+            " (no specific profile matched)"
+        }
     ));
     if !profile.tensions.is_empty() {
         s.push_str("Tensions to weigh:\n\n");
@@ -694,7 +743,11 @@ fn summary_text(
             vec![
                 q.number.to_string(),
                 q.question.clone(),
-                if q.response.is_some() { "answered".into() } else { "open".into() },
+                if q.response.is_some() {
+                    "answered".into()
+                } else {
+                    "open".into()
+                },
             ]
         })
         .collect();
@@ -740,7 +793,7 @@ mod tests {
         }
         assert_eq!(c.apha_values.len(), 6);
         assert_eq!(c.burden_categories.len(), 3);
-        assert_eq!(c.justification_conditions.len() >= 5, true);
+        assert!(c.justification_conditions.len() >= 5);
         for p in &c.decision_profiles {
             let levels: Vec<u8> = p.options.iter().map(|o| o.level).collect();
             let mut sorted = levels.clone();
@@ -754,11 +807,27 @@ mod tests {
     fn profiles_match_on_decision_words() {
         let c = content();
         for (text, id, matched) in [
-            ("quarantine of exposed contacts", "quarantine_isolation", true),
+            (
+                "quarantine of exposed contacts",
+                "quarantine_isolation",
+                true,
+            ),
             ("Isolation orders", "quarantine_isolation", true),
-            ("exclude unimmunized students from school", "school_exclusion", true),
-            ("allocation of scarce vaccine", "scarce_resource_allocation", true),
-            ("rationing antivirals during a shortage", "scarce_resource_allocation", true),
+            (
+                "exclude unimmunized students from school",
+                "school_exclusion",
+                true,
+            ),
+            (
+                "allocation of scarce vaccine",
+                "scarce_resource_allocation",
+                true,
+            ),
+            (
+                "rationing antivirals during a shortage",
+                "scarce_resource_allocation",
+                true,
+            ),
             ("a mandatory flu shot policy", "general", false),
             ("", "general", false),
         ] {

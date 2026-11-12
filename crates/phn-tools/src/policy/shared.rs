@@ -78,11 +78,9 @@ pub fn write_docx(ctx: &Context, file_stem: &str, title: &str, markdown: &str) -
 pub fn stem_words(text: &str) -> Vec<String> {
     phn_core::text::normalize(text)
         .split_whitespace()
-        .map(|w| {
-            match w.strip_suffix('s') {
-                Some(stem) if w.chars().count() > 3 && !w.ends_with("ss") => stem.to_string(),
-                _ => w.to_string(),
-            }
+        .map(|w| match w.strip_suffix('s') {
+            Some(stem) if w.chars().count() > 3 && !w.ends_with("ss") => stem.to_string(),
+            _ => w.to_string(),
         })
         .collect()
 }
@@ -115,7 +113,10 @@ mod tests {
     fn identifiers_are_refused_without_echo() {
         let e = refuse_identifiers("situation", "call 617-555-0142 about the family").unwrap_err();
         let m = e.to_string();
-        assert!(m.contains("phone") || m.contains("Phone") || m.contains("telephone"), "{m}");
+        assert!(
+            m.contains("phone") || m.contains("Phone") || m.contains("telephone"),
+            "{m}"
+        );
         assert!(!m.contains("617-555-0142"));
         assert!(refuse_identifiers("situation", "an outbreak of measles in a school").is_ok());
     }

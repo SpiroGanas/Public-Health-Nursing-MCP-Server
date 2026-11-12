@@ -279,15 +279,24 @@ fn source_label(c: &ScopeContent, key: &str) -> String {
 }
 
 fn source_url(c: &ScopeContent, key: &str) -> String {
-    c.sources.get(key).map(|s| s.url.clone()).unwrap_or_default()
+    c.sources
+        .get(key)
+        .map(|s| s.url.clone())
+        .unwrap_or_default()
 }
 
 /// Topics matched by a question and by topic arguments. Returns the topic
 /// ids (in content order) with how each matched.
-pub fn match_topics(c: &ScopeContent, question: &str, topic_args: &[String]) -> Vec<(String, &'static str)> {
+pub fn match_topics(
+    c: &ScopeContent,
+    question: &str,
+    topic_args: &[String],
+) -> Vec<(String, &'static str)> {
     let words = stem_words(question);
     let arg_words: Vec<Vec<String>> = topic_args.iter().map(|t| stem_words(t)).collect();
-    let mut out = Vec::new();
+    let mut out: Vec<(String, &'static str)> = Vec::new();
+    // Topics matched only by a role word (rn, lpn, ...) in the question.
+    let mut role_only: Vec<String> = Vec::new();
     for t in &c.topics {
         let by_arg = topic_args.iter().zip(&arg_words).any(|(raw, w)| {
             let norm = phn_core::text::normalize(&raw.replace('_', " "));
@@ -297,25 +306,75 @@ pub fn match_topics(c: &ScopeContent, question: &str, topic_args: &[String]) -> 
         });
         if by_arg {
             out.push((t.id.clone(), "topic argument"));
-        } else if t.keywords.iter().any(|k| contains_phrase(&words, k)) {
+            continue;
+        }
+        let hits: Vec<&String> = t
+            .keywords
+            .iter()
+            .filter(|k| contains_phrase(&words, k))
+            .collect();
+        if hits.is_empty() {
+            continue;
+        }
+        if hits.iter().all(|k| ROLE_WORDS.contains(&k.as_str())) {
+            role_only.push(t.id.clone());
+        } else {
             out.push((t.id.clone(), "question"));
         }
+    }
+    // A role word alone ("Can an LPN ...?") names who is asking, not the topic; it opens the
+    // RN and LPN topic only when nothing else matched.
+    if out.is_empty() {
+        out.extend(role_only.into_iter().map(|id| (id, "question")));
     }
     out
 }
 
+/// Role words that identify the nurse but not the topic.
+const ROLE_WORDS: &[&str] = &[
+    "rn",
+    "lpn",
+    "registered nurse",
+    "practical nurse",
+    "licensed practical nurse",
+];
+
 /// Words too common to match a ruling title on.
 const STOP: &[&str] = &[
-    "nurse", "nursing", "practice", "scope", "board", "role", "licensed", "registered", "advanced",
-    "can", "may", "does", "what", "when", "which", "with", "from", "that", "this", "under", "give",
-    "have", "should", "would", "about", "into", "their", "there", "must",
+    "nurse",
+    "nursing",
+    "practice",
+    "scope",
+    "board",
+    "role",
+    "licensed",
+    "registered",
+    "advanced",
+    "can",
+    "may",
+    "does",
+    "what",
+    "when",
+    "which",
+    "with",
+    "from",
+    "that",
+    "this",
+    "under",
+    "give",
+    "have",
+    "should",
+    "would",
+    "about",
+    "into",
+    "their",
+    "there",
+    "must",
 ];
 
 fn title_matches(title: &str, query_words: &[String]) -> bool {
     stem_words(title).iter().any(|w| {
-        w.chars().count() > 3
-            && !STOP.contains(&w.as_str())
-            && query_words.iter().any(|q| q == w)
+        w.chars().count() > 3 && !STOP.contains(&w.as_str()) && query_words.iter().any(|q| q == w)
     })
 }
 
@@ -356,7 +415,11 @@ pub fn nursing_scope_of_practice_guide(
         .enumerate()
         .filter(|(_, e)| role.is_none_or(|r| e.applies_to.iter().any(|a| a == r)))
         .filter_map(|(i, e)| {
-            let n = e.topics.iter().filter(|t| matched_ids.contains(t.as_str())).count();
+            let n = e
+                .topics
+                .iter()
+                .filter(|t| matched_ids.contains(t.as_str()))
+                .count();
             (n > 0).then_some((n, i, e))
         })
         .collect();
@@ -386,7 +449,9 @@ pub fn nursing_scope_of_practice_guide(
     let rulings: Vec<RulingOut> = c
         .advisory_rulings
         .iter()
-        .filter(|r| all || cited_urls.contains(&r.url) || (!r.read && title_matches(&r.title, &words)))
+        .filter(|r| {
+            all || cited_urls.contains(&r.url) || (!r.read && title_matches(&r.title, &words))
+        })
         .map(|r| RulingOut {
             number: r.number.clone(),
             title: r.title.clone(),
@@ -462,7 +527,17 @@ pub fn nursing_scope_of_practice_guide(
     };
 
     let summary = summary_text(
-        &c, &question, asked, &matched_topics, &provisions, total, &guide, &rulings, &topic_index, &coverage, &referral,
+        &c,
+        &question,
+        asked,
+        &matched_topics,
+        &provisions,
+        total,
+        &guide,
+        &rulings,
+        &topic_index,
+        &coverage,
+        &referral,
     );
 
     let mut keys: Vec<&str> = vec!["born_scope_page", "born_laws_page", "born_ar_list"];
@@ -534,7 +609,9 @@ fn summary_text(
     coverage: &Coverage,
     referral: &Referral,
 ) -> String {
-    let mut s = String::from("**Massachusetts nursing scope of practice: provisions and decision questions (partial snapshot)**\n\n");
+    let mut s = String::from(
+        "**Massachusetts nursing scope of practice: provisions and decision questions (partial snapshot)**\n\n",
+    );
     s.push_str(
         "This guide cites the rules and the Board's guidance; it does not say that a particular \
          act is within anyone's scope of practice. The Board decides that, and the answer depends \
@@ -546,7 +623,11 @@ fn summary_text(
     if !matched.is_empty() {
         s.push_str(&format!(
             "Topics matched: {}.\n\n",
-            matched.iter().map(|t| t.label.as_str()).collect::<Vec<_>>().join("; ")
+            matched
+                .iter()
+                .map(|t| t.label.as_str())
+                .collect::<Vec<_>>()
+                .join("; ")
         ));
     }
     if provisions.is_empty() {
@@ -619,7 +700,11 @@ fn summary_text(
         coverage.rulings_listed,
         coverage.not_read.first().cloned().unwrap_or_default()
     ));
-    s.push_str(&format!("**Ask the Board:** {} {}\n", referral.text, referral.contacts.join("; ")));
+    s.push_str(&format!(
+        "**Ask the Board:** {} {}\n",
+        referral.text,
+        referral.contacts.join("; ")
+    ));
     s
 }
 
@@ -638,14 +723,27 @@ mod tests {
         let ids: BTreeSet<&str> = c.entries.iter().map(|e| e.id.as_str()).collect();
         assert_eq!(ids.len(), c.entries.len(), "duplicate entry ids");
         for e in &c.entries {
-            assert!(c.sources.contains_key(&e.source), "{} -> {}", e.id, e.source);
-            assert!(e.quote.split_whitespace().count() <= 25, "{} quote too long", e.id);
+            assert!(
+                c.sources.contains_key(&e.source),
+                "{} -> {}",
+                e.id,
+                e.source
+            );
+            assert!(
+                e.quote.split_whitespace().count() <= 25,
+                "{} quote too long",
+                e.id
+            );
             assert!(!e.quote.trim().is_empty() && !e.paraphrase.trim().is_empty());
             for t in &e.topics {
                 assert!(topics.contains(t.as_str()), "{} -> topic {t}", e.id);
             }
             for r in &e.applies_to {
-                assert!(["rn", "lpn", "aprn"].contains(&r.as_str()), "{} role {r}", e.id);
+                assert!(
+                    ["rn", "lpn", "aprn"].contains(&r.as_str()),
+                    "{} role {r}",
+                    e.id
+                );
             }
         }
         for t in &c.topics {
@@ -671,16 +769,50 @@ mod tests {
     fn questions_map_to_topics() {
         let c = content();
         let ids = |q: &str| -> Vec<String> {
-            match_topics(&c, q, &[]).into_iter().map(|(i, _)| i).collect()
+            match_topics(&c, q, &[])
+                .into_iter()
+                .map(|(i, _)| i)
+                .collect()
         };
-        assert!(ids("Can an LPN give flu vaccines under a standing order?").contains(&"vaccines".to_string()));
-        assert!(ids("Can an LPN give flu vaccines under a standing order?").contains(&"standing_orders".to_string()));
-        assert!(ids("What must I do before delegating to an unlicensed health aide?").contains(&"delegation".to_string()));
-        assert!(ids("naloxone kits at a syringe services program").contains(&"harm_reduction".to_string()));
+        assert!(
+            ids("Can an LPN give flu vaccines under a standing order?")
+                .contains(&"vaccines".to_string())
+        );
+        assert!(
+            ids("Can an LPN give flu vaccines under a standing order?")
+                .contains(&"standing_orders".to_string())
+        );
+        assert!(
+            ids("What must I do before delegating to an unlicensed health aide?")
+                .contains(&"delegation".to_string())
+        );
+        assert!(
+            ids("naloxone kits at a syringe services program")
+                .contains(&"harm_reduction".to_string())
+        );
         assert!(ids("Is a QI project research?").contains(&"research".to_string()));
         assert!(ids("zebra giraffe").is_empty());
+        // A role word alone does not pick the RN and LPN topic when another topic matched.
+        assert!(
+            !ids("Can an LPN give flu vaccines under a standing order?")
+                .contains(&"rn_lpn".to_string())
+        );
+        assert_eq!(ids("What can an LPN do?"), vec!["rn_lpn".to_string()]);
+        assert!(
+            ids("What is the difference in systematic assessment for an LPN?")
+                .contains(&"rn_lpn".to_string())
+        );
+        // Generic words do not open topics.
+        assert!(ids("Can a nurse do infusion therapy?").is_empty());
         // Topic arguments match by id and by label.
-        let by_arg = match_topics(&c, "", &["standing_orders".to_string(), "Immunizations and vaccines".to_string()]);
+        let by_arg = match_topics(
+            &c,
+            "",
+            &[
+                "standing_orders".to_string(),
+                "Immunizations and vaccines".to_string(),
+            ],
+        );
         assert_eq!(by_arg.len(), 2, "{by_arg:?}");
         assert!(by_arg.iter().all(|(_, how)| *how == "topic argument"));
     }

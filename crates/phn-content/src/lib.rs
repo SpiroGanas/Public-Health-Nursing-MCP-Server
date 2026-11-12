@@ -747,7 +747,9 @@ pub const ITEMS: &[ContentItem] = &[
         path: "content/policy/nursing_scope_of_practice.yaml",
         resource_uri: "phn://content/policy-nursing-scope-of-practice",
         yaml: include_str!("../../../content/policy/nursing_scope_of_practice.yaml"),
-        schema: include_str!("../../../content/schemas/policy_nursing_scope_of_practice.schema.json"),
+        schema: include_str!(
+            "../../../content/schemas/policy_nursing_scope_of_practice.schema.json"
+        ),
     },
     // End of Phase 18 ethics.
     // End of Phase 18 content items.
