@@ -77,6 +77,7 @@ pub mod food_access;
 // Phase 15 screen (CHR-02, CHR-03).
 // End of Phase 15 screen.
 // Phase 15 prevent (CHR-04, CHR-05).
+pub mod preventive;
 // End of Phase 15 prevent.
 // Phase 15 cha (EQ-08, EQ-09, EQ-10).
 // End of Phase 15 cha.
