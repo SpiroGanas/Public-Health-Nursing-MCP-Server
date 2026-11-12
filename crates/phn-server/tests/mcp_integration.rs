@@ -1195,6 +1195,92 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 16 appraise (EBP-03, EBP-04).
         // ---- End of Phase 16 appraise.
         // ---- Phase 16 qi (EBP-05).
+        // The analysis groups a client file's rows into periods and returns only aggregates; the
+        // identifier columns of a line list are never read (a tool error that must not echo a
+        // value).
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "period": "week", "measure_kind": "count"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "measure_kind": "mean", "value_column": "Age", "baseline_points": 2}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Onset Date",
+                   "measure_kind": "proportion", "flag_column": "Hospitalized", "period": "week"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "period_column": "Last Name",
+                   "numerator_column": "Age"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "period_column": "Onset Date",
+                   "numerator_column": "Phone"}),
+            ll,
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "line_list.csv", "date_column": "Street Address",
+                   "measure_kind": "count"}),
+            ll,
+        ),
+        // A measure log that legitimately has contact people (data-entry names, cell phones,
+        // emails): only the period results may come back, and the file's contact columns are
+        // refused when named.
+        (
+            "plan_quality_improvement",
+            json!({"path": "qi_clinic_measure.csv", "period_column": "Month",
+                   "numerator_column": "Children Up To Date", "denominator_column": "Children Seen",
+                   "baseline_points": 9, "phase_starts": ["2025-10"],
+                   "measure_name": "% up to date"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "qi_clinic_measure.csv", "period_column": "Month",
+                   "numerator_column": "Contact Cell"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "qi_clinic_measure.csv",
+                   "period_column": "Contact Person", "numerator_column": "Children Seen"}),
+            "data/qi_clinic_measure.csv",
+        ),
+        // Organization and staff lists with contact people given as the measure file.
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "food_pantries.csv", "period_column": "Town",
+                   "numerator_column": "Contact Person"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "staff_roster.csv", "period_column": "Agency",
+                   "numerator_column": "Radio"}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "shelter_registrations.csv",
+                   "date_column": "Arrival", "measure_kind": "count"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "plan_quality_improvement",
+            json!({"sections": ["analysis"], "path": "client_note.txt", "date_column": "Date"}),
+            "data/client_note.txt",
+        ),
         // ---- End of Phase 16 qi.
         // ---- End of Phase 16 data tools.
         // ---- Phase 17 data tools go below this line.

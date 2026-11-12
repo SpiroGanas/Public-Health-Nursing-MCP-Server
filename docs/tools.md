@@ -3233,6 +3233,74 @@ terms are unverified (credit MassGIS).
 
 <!-- Phase 16 qi (EBP-05). -->
 
+### `plan_quality_improvement` (EBP-05, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `sections` | all | `aim`, `measures`, `drivers`, `fishbone`, `process_map`, `pdsa`, `analysis`, `squire`. The analysis runs only when data are given. |
+| `project_title`, `problem` | | Names the files; the problem heads the fishbone. |
+| `aim` | | `direction` (increase or decrease), `what`, `population`, `baseline`, `goal`, `unit`, `by` (a date or words). Builds "We will ... from ... to ... by ..." and checks it. |
+| `measures` | | List of `name`, `kind` (outcome, process, balancing), `numerator`, `denominator`, `data_source`, `frequency`, `sampling`, `owner`, `goal`. |
+| `drivers` | scaffold | `primary` with `secondary` drivers and their `change_ideas`. |
+| `fishbone` | five empty categories | `problem` and `categories` with `causes` (default categories: people, methods, materials, equipment, environment). |
+| `process_steps` | scaffold | `name`, `kind` (start, step, decision, end), `owner`, `pain_point`, and for a decision `no_goes_to` (step number or name). |
+| `pdsa_cycles` | | `change`, `objective`, `prediction`, `who`, `when`, `where`, `scale`, `data_to_collect`, `builds_on`. |
+| `squire_status` | all to do | `item` (1-18), `status` (todo, in_progress, done, not_applicable), `where_addressed`. |
+| `values`, `labels`, `denominators` | | Measure data typed into the request, in time order (numerators with denominators for a proportion or rate). |
+| `path`, `sheet` | | A CSV/XLSX in `/data`. With `date_column` and `measure_kind` (`count`, `proportion` with `flag_column`, `mean` with `value_column`) and `period` (week, month, quarter): one row per event, grouped by period. With `period_column` and `numerator_column` (and `denominator_column`): one row per period, such as the tracker this tool writes. |
+| `baseline_points`, `phase_starts` | all points, none | Points that give the median or center line; labels of the first period after each documented change (a new median or limits start there). |
+| `chart_type` | `run` | `run`, `xmr`, `p`, `u`, or `c`. |
+| `rule_set` | `both` | For run charts: `ihi`, `anhoej`, or `both`. |
+| `measure_name`, `display_scale`, `format` | | Chart labels; proportions are shown as percent (100); `png`, `svg`, or `both`. |
+| `write_plan`, `write_tracker`, `write_diagrams` | true | DOCX plan, XLSX tracker, and SVG/PNG diagrams in `/data/output`. |
+
+**What it produces.** The three Model for Improvement questions; an aim statement with checks
+(population, numbers, time, direction; "ambitious yet feasible" is left to the team); a measure family with
+operational definition gaps; a **driver diagram**, **fishbone diagram**, and **process map** as
+Mermaid text, accessible SVG and PNG (role, title, description; shapes and labels, not color alone),
+and a text alternative (an outline); PDSA cycle plans with checks drawn from a systematic review of
+PDSA reports (prediction, small scale, data over time, linked cycles, one change, documentation);
+and the SQUIRE 2.0 checklist.
+
+**Data analysis.** Run charts apply the IHI/Perla rules (a shift is 6 or more points on one side of
+the median, a trend is 5 or more points going one way with a repeated value counted once, too few or
+too many runs from the exact distribution of runs at 2.5% in each tail, and a screen for an
+astronomical point: modified z-score above 3.5 against the other points) and the Anhøj rules (the
+longest run longer than round(log2(n)+3), crossings fewer than the 5th percentile of
+Binomial(n-1, 0.5)). Both sets are shown by default; the Anhøj rules performed better in a published
+simulation and the notes say so when only the IHI rules signal. Control charts (XmR, p, u, c) use the
+`phn-epi` SPC engine (3-sigma limits, eight points on one side, six rising or falling, 2 of 3 beyond
+2 sigma, 15 within 1 sigma). A new phase gets its own median or limits.
+
+**Files.** The DOCX plan (diagrams as images with alt text and as outlines, measure and PDSA tables,
+the chart and its signals, the SQUIRE table, an approval table). The XLSX tracker: a Data sheet with
+live formulas (value, median, side, run length, shift, trend, new run, moving range, limits) and
+Settings cells for the baseline and the rule lengths, a Summary sheet that recomputes the signals as
+periods are added (IHI shift, trend, and runs; Anhøj long run and crossings; points outside limits),
+a native chart, and the Measures, PDSA, and SQUIRE sheets with drop-downs. The formulas were
+recalculated in LibreOffice and matched an independent computation
+(`crates/phn-tools/tests/fixtures/generators/check_qi_tracker.py`).
+
+**Privacy.** Files are read through the local-data guardrails: identifier columns are refused,
+rows are grouped into periods, and periods built from fewer records than the suppression threshold
+are hidden. When any period is hidden the median, limits, and phase averages are withheld from the
+response (with the other values they would reveal the hidden number); the chart and tracker in
+`/data/output` carry every value. Period labels that look like identifiers are refused. Text typed
+into the request is scanned for phone numbers, emails, and addresses, which are reported in the
+privacy block. Use roles, not names, for owners.
+
+**Sources and limits.** Content is `content/ebp/quality_improvement.yaml` (pending review),
+drafted from open-access articles read through NCBI E-utilities: the SQUIRE 2.0 article, a core
+components guide for QI design (the Model for Improvement questions, aim attributes, measure
+families, driver diagrams), the two Anhøj run chart papers, a PDSA systematic review, a fishbone
+primer, and two QI methods articles. IHI's own pages, the SQUIRE website, the full text of the Perla
+2011 paper, and *The Improvement Guide* could not be read; items resting on them are marked low
+confidence. SQUIRE is copyrighted: the checklist gives item numbers, names, and its own
+paraphrases and a license note, not the guideline's wording. The astronomical-point screen and the
+runs limits are this tool's computation and were not compared with Perla's wording or table. The
+tool does not decide whether work is quality improvement or research (a planned Phase 18 tool will
+help with that determination).
+
 <!-- End of Phase 16 qi. -->
 
 <!-- End of Phase 16 tools. -->

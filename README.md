@@ -231,6 +231,7 @@ output folder instead of being sent to the AI model.
 <!-- Phase 16 design rows go above this line. -->
 <!-- Phase 16 interventions rows go above this line. -->
 <!-- Phase 16 appraise rows go above this line. -->
+| `plan_quality_improvement` | EBP-05 | ebp | Guided QI project planning with the Model for Improvement: aim statement, outcome/process/balancing measures, driver diagram, fishbone diagram, process map (Mermaid, accessible SVG with text alternatives), PDSA cycle plans, and a SQUIRE 2.0 checklist; run charts (IHI/Perla and Anhøj rules) and control charts from your measure data with small counts hidden; writes a DOCX plan and an XLSX tracker with live formulas. |
 <!-- Phase 16 qi rows go above this line. -->
 <!-- Phase 16 rows go above this line. -->
 

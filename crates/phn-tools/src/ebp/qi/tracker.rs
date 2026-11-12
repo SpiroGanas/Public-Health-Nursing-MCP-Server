@@ -607,3 +607,92 @@ mod tests {
         assert_eq!((row20.1, row20.2), (Some(6), Some(16)));
     }
 }
+
+#[cfg(test)]
+mod golden_workbooks {
+    use super::*;
+
+    /// Writes one workbook per golden series to the folder in `QI_TRACKER_DIR`, for
+    /// `tests/fixtures/generators/check_qi_tracker.py`, which recalculates them in LibreOffice and
+    /// compares the formulas' results with the independent Python computation.
+    /// Run: `QI_TRACKER_DIR=/tmp/qi cargo test -p phn-tools --lib golden_workbooks -- --ignored`
+    #[test]
+    #[ignore = "writes files for an external LibreOffice check"]
+    fn write_golden_trackers() {
+        let Ok(dir) = std::env::var("QI_TRACKER_DIR") else {
+            return;
+        };
+        let fx: serde_json::Value = serde_json::from_str(include_str!(
+            "../../../tests/fixtures/qi_run_chart_golden.json"
+        ))
+        .unwrap();
+        for c in fx["rule_cases"].as_array().unwrap() {
+            let values: Vec<f64> = c["values"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|v| v.as_f64().unwrap())
+                .collect();
+            let labels: Vec<String> = (1..=values.len()).map(|i| format!("P{i}")).collect();
+            let base = c["baseline"].as_u64().map(|b| b as usize).unwrap_or(values.len());
+            let bytes = build(&TrackerInput {
+                title: "Golden",
+                aim: None,
+                measures: &[],
+                labels: &labels,
+                numerators: &values,
+                denominators: None,
+                baseline_points: base,
+                measure_name: None,
+                pdsa: &[],
+                squire: &[],
+                review_note: "test",
+            })
+            .unwrap();
+            std::fs::write(
+                std::path::Path::new(&dir).join(format!("{}.xlsx", c["name"].as_str().unwrap())),
+                bytes,
+            )
+            .unwrap();
+        }
+        // A p-chart workbook from the first control case.
+        let p = &fx["control"]["p"][0];
+        let nums: Vec<f64> = p["numerators"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
+        let dens: Vec<f64> = p["denominators"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
+        let labels: Vec<String> = (1..=nums.len()).map(|i| format!("P{i}")).collect();
+        let bytes = build(&TrackerInput {
+            title: "Golden p",
+            aim: None,
+            measures: &[],
+            labels: &labels,
+            numerators: &nums,
+            denominators: Some(&dens),
+            baseline_points: nums.len(),
+            measure_name: None,
+            pdsa: &[],
+            squire: &[],
+            review_note: "test",
+        })
+        .unwrap();
+        std::fs::write(std::path::Path::new(&dir).join("control_p0.xlsx"), bytes).unwrap();
+        // An XmR workbook from the first control case.
+        let x = &fx["control"]["xmr"][0];
+        let vals: Vec<f64> = x["values"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
+        let labels: Vec<String> = (1..=vals.len()).map(|i| format!("P{i}")).collect();
+        let bytes = build(&TrackerInput {
+            title: "Golden xmr",
+            aim: None,
+            measures: &[],
+            labels: &labels,
+            numerators: &vals,
+            denominators: None,
+            baseline_points: vals.len(),
+            measure_name: None,
+            pdsa: &[],
+            squire: &[],
+            review_note: "test",
+        })
+        .unwrap();
+        std::fs::write(std::path::Path::new(&dir).join("control_xmr0.xlsx"), bytes).unwrap();
+    }
+}
