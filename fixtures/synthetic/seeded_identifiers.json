@@ -9109,6 +9109,171 @@
    "kind": "phone",
    "file": "data/housing_requests.csv",
    "column": "Phone"
+  },
+  {
+   "value": "Odalys",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Thandiwe",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Bao",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Cormac",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Yasmin",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Wilhelmina",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Ferreira-Quill",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Ferreira",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Quill",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Mbeki-Rowe",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Mbeki",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Tranvern",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Delaney-Ashe",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Delaney",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Orlandini",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Pruitt-Oyelaran",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Pruitt",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Oyelaran",
+   "kind": "name",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Brightwater Cannery",
+   "kind": "organization",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Brightwater",
+   "kind": "organization",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "41 Tamarack Lane",
+   "kind": "street_address",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Tamarack",
+   "kind": "street_address",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "413-555-0142",
+   "kind": "phone",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "413-555-0177",
+   "kind": "phone",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "bao.tranvern@example.org",
+   "kind": "email",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "yasmin.orlandini@example.org",
+   "kind": "email",
+   "file": "data/focus_group_transcript.txt"
+  },
+  {
+   "value": "Delphine",
+   "kind": "name",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "Okonkwo-Reyes",
+   "kind": "name",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "Okonkwo",
+   "kind": "name",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "Reyes",
+   "kind": "name",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "Riverbend",
+   "kind": "organization",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "413-555-0166",
+   "kind": "phone",
+   "file": "data/key_informant_interview.txt"
+  },
+  {
+   "value": "delphine.reyes@example.org",
+   "kind": "email",
+   "file": "data/key_informant_interview.txt"
   }
  ]
 }

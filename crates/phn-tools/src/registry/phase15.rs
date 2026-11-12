@@ -22,6 +22,12 @@ pub(super) const PREVENT: &[ToolMeta] = &[
 pub(super) const CHA: &[ToolMeta] = &[
     // Phase 15 cha entries go below this line.
     ToolMeta {
+        name: "community_health_assessment_builder",
+        plan_id: "EQ-08",
+        toolset: Toolset::Equity,
+        phase: 15,
+    },
+    ToolMeta {
         name: "prioritize_health_issues",
         plan_id: "EQ-09",
         toolset: Toolset::Equity,

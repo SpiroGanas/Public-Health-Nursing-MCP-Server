@@ -257,7 +257,7 @@ stopwords:
   - with
   - would
   - yeah
-  - yes
+  - "yes"
   - you
   - your
 
@@ -346,6 +346,6 @@ codes:
     confidence: low
   - code: COMMUNITY_STRENGTHS
     theme: Community strengths
-    definition: What is working: neighbors, faith and cultural groups, volunteers, local organizations, and a sense of community.
+    definition: "What is working: neighbors, faith and cultural groups, volunteers, local organizations, and a sense of community."
     keywords: [neighbor*, church*, mosque*, temple*, volunteer*, "community center", "come together", "look out for", supportive, friends, family, pride, proud, "mutual aid"]
     confidence: low

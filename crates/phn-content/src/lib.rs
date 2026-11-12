@@ -602,6 +602,13 @@ pub const ITEMS: &[ContentItem] = &[
         yaml: include_str!("../../../content/equity/qualitative_codebook.yaml"),
         schema: include_str!("../../../content/schemas/equity_qualitative_codebook.schema.json"),
     },
+    ContentItem {
+        id: "equity-cha-framework",
+        path: "content/equity/cha_framework.yaml",
+        resource_uri: "phn://content/equity-cha-framework",
+        yaml: include_str!("../../../content/equity/cha_framework.yaml"),
+        schema: include_str!("../../../content/schemas/equity_cha_framework.schema.json"),
+    },
     // End of Phase 15 cha.
     // Phase 15 geo (EPI-13).
     // End of Phase 15 geo.

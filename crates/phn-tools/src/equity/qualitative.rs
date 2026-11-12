@@ -25,7 +25,7 @@
 //! supply her own codebook. Read the excerpts before reporting any finding.
 
 use std::collections::{BTreeMap, BTreeSet, HashMap, HashSet};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::LazyLock;
 
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
@@ -390,12 +390,36 @@ fn base_word(w: &str) -> String {
         .to_lowercase()
 }
 
-/// True when the match starts a sentence (start of text, or after . ? ! : or a quote).
+/// Title abbreviations: a period after one does not end a sentence ("Dr. Rivera").
+const TITLES: [&str; 12] = [
+    "dr", "mr", "mrs", "ms", "miss", "mx", "prof", "rev", "fr", "sr", "jr", "st",
+];
+
+/// True when the match starts a sentence (start of text, or after . ? ! or a quote).
 fn at_sentence_start(text: &str, start: usize) -> bool {
     let before = text[..start].trim_end_matches(|c: char| {
         c.is_whitespace() || matches!(c, '"' | '“' | '‘' | '\'' | '(' | '[' | '—' | '–' | '-')
     });
-    before.is_empty() || before.ends_with(['.', '?', '!', ':', '…'])
+    if before.is_empty() {
+        return true;
+    }
+    if let Some(stem) = before.strip_suffix('.') {
+        // The word before the period: a title or an initial is not a sentence end.
+        let word: String = stem
+            .chars()
+            .rev()
+            .take_while(|c| c.is_alphabetic())
+            .collect::<Vec<_>>()
+            .into_iter()
+            .rev()
+            .collect();
+        if word.chars().count() == 1 || TITLES.contains(&word.to_lowercase().as_str()) {
+            return false;
+        }
+        return true;
+    }
+    // A colon is not a sentence end here: a name after "Note taker:" must be removed.
+    before.ends_with(['?', '!', '…'])
 }
 
 /// Pass 1: collect capitalized words that appear in the middle of sentences.
