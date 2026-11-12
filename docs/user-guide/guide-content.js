@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 118;
+const TOOL_COUNT = 120;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3919,6 +3919,70 @@ const toolChapters = [
       // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11) tools.
       // End of Phase 16 interventions tools.
       // Phase 16 appraise (EBP-03, EBP-04) tools.
+      {
+        id: 'appraise_evidence',
+        title: 'Appraise a study',
+        toolset: 'ebp',
+        internet: 'optional',
+        files: 'yes, can read a study file you choose and writes a Word record of your answers to your output folder',
+        does: 'Walks you through a critical appraisal of one study. It suggests the study design from the abstract or methods you paste (you confirm it), then lists the appraisal questions for that design, each with its source: risk-of-bias domains for randomized trials and for non-randomized program evaluations, reporting and bias prompts for cohort, case-control, and cross-sectional studies, the 16 AMSTAR 2 items for systematic reviews, questions for qualitative studies, and prompts for quality improvement reports. You answer the questions; the tool records your answers, points out the ones to look at again, and applies each instrument’s own rule for an overall rating where there is one. For a group of studies on one outcome it adds up your GRADE judgments to a certainty level, or records your GRADE-CERQual judgments for a qualitative finding. If you give a DOI it can fetch the citation from Crossref.',
+        when: [
+          'You are deciding whether a study is good enough to use in a program or a policy.',
+          'You are appraising articles for a project, a journal club, or an evidence review.',
+          'You want a written record of how you judged a study.',
+        ],
+        provide: [
+          'The abstract or methods section pasted in, or a study file in your data folder (not a client record), or the DOI.',
+          'Later, your answers to the questions, using the question names the tool gives you.',
+          'For GRADE: the outcome and your judgment of each domain.',
+        ],
+        examples: [
+          'Here is the abstract of a school asthma trial. What kind of study is it and what should I check?',
+          'Appraise this systematic review. I answered yes to the PICO question, no to the protocol question, and yes to the rest.',
+          'I have four cohort studies on home visiting and low birth weight. Help me rate the certainty with GRADE: serious risk of bias, no other concerns.',
+        ],
+        returns: [
+          'The suggested design with the words that pointed to it, the questions with their sources, your answers, the ones to look at again, the instrument’s overall rating, a GRADE or CERQual summary, a link to CASP, and a Word record.',
+        ],
+        notes: [
+          'The tool never answers a question for you. Appraisal is a judgment, and GRADE ratings are not calculations.',
+          'The questions are not the CASP checklists. They were written from open-access papers; CASP is linked, and its license terms could not be checked, so read them on the checklist you download.',
+          'The design suggestion is a guess from words. Confirm it before relying on the questions.',
+          'A file that looks like a client record (Social Security number, birth date, medical record number) is refused. The study text is never repeated back.',
+          'Offline, the DOI is used as you typed it and the tool says so.',
+          'The content is waiting for your review. Some parts come from journal abstracts only; the notes say which.',
+        ],
+      },
+      {
+        id: 'build_evidence_synthesis_table',
+        title: 'Build an evidence table and PRISMA flow diagram',
+        toolset: 'ebp',
+        internet: 'no',
+        files: 'yes, writes Word and Excel files and the diagram to your output folder',
+        does: 'Turns your list of appraised studies into a synthesis table (study, design, population, sample size, intervention, outcome, effect, quality rating) with a summary of how many studies there are by design and by quality rating. The Excel file has live formulas, so the totals update when you edit the table. From the counts you enter it also draws a PRISMA 2020 flow diagram, as an accessible picture with a written description and as Mermaid text, and it checks that the numbers add up. If they do not, it tells you exactly which do not.',
+        when: [
+          'Writing up an evidence review for a project, a thesis, or a program proposal.',
+          'Keeping a running table of the studies you have appraised.',
+          'You need a PRISMA flow diagram and want the arithmetic checked.',
+        ],
+        provide: [
+          'Your studies: how you cite each one, design, population, sample size, intervention, outcome, effect as reported, and your quality rating and the tool it came from.',
+          'For the diagram: records identified, duplicates removed, records screened and excluded, reports assessed, reports excluded with reasons, and studies included.',
+        ],
+        examples: [
+          'Build a synthesis table from these six studies and give me an Excel version.',
+          'Draw a PRISMA flow diagram: 1,333 records, 241 duplicates removed, 1,092 screened, 1,050 excluded, 42 reports sought, 2 not retrieved, 40 assessed, 34 excluded for the reasons below, 6 included.',
+        ],
+        returns: [
+          'The table, the summary, the checked flow counts, the diagram as text, SVG, and Mermaid, and Word and Excel files in your output folder.',
+        ],
+        notes: [
+          'Everything in the table is what you typed. The tool does not look up, rate, or summarize studies.',
+          'Quality ratings from different tools are counted separately, because “low” means different things in different tools.',
+          'The diagram follows the written PRISMA 2020 guidance, not the official picture, which could not be read. For a publication, use the official template at the PRISMA website.',
+          'The content is waiting for your review.',
+        ],
+      },
       // End of Phase 16 appraise tools.
       // Phase 16 qi (EBP-05) tools.
       // End of Phase 16 qi tools.

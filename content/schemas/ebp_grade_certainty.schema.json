@@ -1,0 +1,459 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/ebp_grade_certainty.schema.json",
+  "title": "GRADE certainty and GRADE-CERQual",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "scope_note",
+    "levels",
+    "starting_levels",
+    "domains",
+    "overall_notes",
+    "cerqual"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ebp-grade-certainty"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "read",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "read": {
+            "type": "string"
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      },
+      "minProperties": 1
+    },
+    "scope_note": {
+      "type": "string"
+    },
+    "levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "rank",
+          "label"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          },
+          "label": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "starting_levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evidence_type",
+          "label",
+          "start",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "evidence_type": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "start": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      },
+      "minItems": 2
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "direction",
+          "max_change",
+          "label",
+          "ask",
+          "consider",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "direction": {
+            "enum": [
+              "down",
+              "up"
+            ]
+          },
+          "max_change": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2
+          },
+          "label": {
+            "type": "string"
+          },
+          "ask": {
+            "type": "string"
+          },
+          "consider": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "text",
+                "source",
+                "section"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                },
+                "section": {
+                  "type": "string"
+                }
+              }
+            },
+            "minItems": 1
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "overall_notes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "source",
+          "section"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cerqual": {
+      "type": "object",
+      "required": [
+        "start",
+        "start_note",
+        "source",
+        "components",
+        "definitions_source",
+        "definitions_section",
+        "concern_levels",
+        "concern_source",
+        "confidence_levels",
+        "confidence_source",
+        "confidence_section",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "start": {
+          "type": "string"
+        },
+        "start_note": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "definition"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              }
+            }
+          },
+          "minItems": 4
+        },
+        "definitions_source": {
+          "type": "string"
+        },
+        "definitions_section": {
+          "type": "string"
+        },
+        "concern_levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "concern_source": {
+          "type": "string"
+        },
+        "confidence_levels": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "definition"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "definition": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "confidence_source": {
+          "type": "string"
+        },
+        "confidence_section": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "text",
+              "source",
+              "section"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/ebp_appraisal_checklists.schema.json",
+  "title": "Critical appraisal questions by study design",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "casp",
+    "scales",
+    "designs",
+    "unsupported_designs",
+    "questions",
+    "overall_methods"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "ebp-appraisal-checklists"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "required": [
+        "phrase",
+        "weight"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "phrase": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "title",
+          "publisher",
+          "url",
+          "licence",
+          "read",
+          "retrieved"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publisher": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "licence": {
+            "type": "string"
+          },
+          "read": {
+            "type": "string"
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          }
+        }
+      },
+      "minProperties": 1
+    },
+    "casp": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "licence_note",
+        "checklists_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "licence_note": {
+          "type": "string"
+        },
+        "checklists_note": {
+          "type": "string"
+        }
+      }
+    },
+    "scales": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "label",
+          "values",
+          "concern",
+          "meaning"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2
+          },
+          "concern": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "meaning": {
+            "type": "string"
+          }
+        }
+      },
+      "minProperties": 1
+    },
+    "designs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "how_to_tell",
+          "instrument",
+          "overall_method",
+          "starts_certainty",
+          "signals"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "how_to_tell": {
+            "type": "string"
+          },
+          "instrument": {
+            "type": "string"
+          },
+          "overall_method": {
+            "enum": [
+              "rob_table3",
+              "robins_table2",
+              "amstar2_box2",
+              "none"
+            ]
+          },
+          "starts_certainty": {
+            "enum": [
+              "high",
+              "low",
+              "none"
+            ]
+          },
+          "signals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/signal"
+            },
+            "minItems": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "unsupported_designs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "signals",
+          "pointer",
+          "source"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "signals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/signal"
+            },
+            "minItems": 1
+          },
+          "pointer": {
+            "type": "string"
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "designs",
+          "domain",
+          "text",
+          "response",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "designs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "domain": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string"
+          },
+          "look_for": {
+            "type": "string"
+          },
+          "response": {
+            "enum": [
+              "yes_no",
+              "yes_partial_no",
+              "risk_3",
+              "risk_4"
+            ]
+          },
+          "in_overall": {
+            "type": "boolean"
+          },
+          "critical": {
+            "type": "boolean"
+          },
+          "na_allowed": {
+            "type": "boolean"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "overall_methods": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "label",
+          "rule",
+          "source",
+          "section",
+          "note"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      },
+      "minProperties": 1
+    }
+  }
+}

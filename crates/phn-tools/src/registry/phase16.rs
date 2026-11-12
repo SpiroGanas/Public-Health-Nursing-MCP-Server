@@ -21,6 +21,18 @@ pub(super) const INTERVENTIONS: &[ToolMeta] = &[
 /// Evidence appraisal and synthesis: EBP-03, EBP-04.
 pub(super) const APPRAISE: &[ToolMeta] = &[
     // Phase 16 appraise entries go below this line.
+    ToolMeta {
+        name: "appraise_evidence",
+        plan_id: "EBP-03",
+        toolset: Toolset::Ebp,
+        phase: 16,
+    },
+    ToolMeta {
+        name: "build_evidence_synthesis_table",
+        plan_id: "EBP-04",
+        toolset: Toolset::Ebp,
+        phase: 16,
+    },
     // End of Phase 16 appraise entries.
 ];
 

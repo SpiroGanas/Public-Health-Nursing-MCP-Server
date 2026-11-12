@@ -647,6 +647,27 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
     // End of Phase 16 interventions.
     // Phase 16 appraise (EBP-03, EBP-04).
+    ContentItem {
+        id: "ebp-appraisal-checklists",
+        path: "content/ebp/appraisal_checklists.yaml",
+        resource_uri: "phn://content/ebp-appraisal-checklists",
+        yaml: include_str!("../../../content/ebp/appraisal_checklists.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_appraisal_checklists.schema.json"),
+    },
+    ContentItem {
+        id: "ebp-grade-certainty",
+        path: "content/ebp/grade_certainty.yaml",
+        resource_uri: "phn://content/ebp-grade-certainty",
+        yaml: include_str!("../../../content/ebp/grade_certainty.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_grade_certainty.schema.json"),
+    },
+    ContentItem {
+        id: "ebp-evidence-synthesis",
+        path: "content/ebp/evidence_synthesis.yaml",
+        resource_uri: "phn://content/ebp-evidence-synthesis",
+        yaml: include_str!("../../../content/ebp/evidence_synthesis.yaml"),
+        schema: include_str!("../../../content/schemas/ebp_evidence_synthesis.schema.json"),
+    },
     // End of Phase 16 appraise.
     // Phase 16 qi (EBP-05).
     // End of Phase 16 qi.

@@ -1,0 +1,11 @@
+Effect of a school-based asthma self-management program on emergency department visits: a cluster randomized controlled trial (SYNTHETIC TEST DATA: a fictional abstract, not a real study)
+
+Background: Asthma is a leading cause of missed school days. We tested whether a nurse-led self-management program reduces emergency department visits among elementary school students.
+
+Methods: In this cluster randomized controlled trial, 24 schools were randomly assigned by a computer-generated sequence, with allocation concealment by a statistician who had no contact with the schools, to the program or to usual care. Outcome assessors reviewing visit records were unaware of the assignment. The primary outcome was emergency department visits per 100 students over 12 months. Analyses followed the original assignment of schools. The trial was registered before enrolment.
+
+Results: 1,208 students with asthma were enrolled (612 in the program, 596 in usual care); 5% were lost to follow-up in each group. Visits per 100 students were 9.1 in the program group and 12.4 in the usual care group (rate ratio 0.73, 95% confidence interval 0.58 to 0.93). No harms were reported.
+
+Conclusions: The program reduced emergency department visits. Results may not apply to schools without a full-time nurse.
+
+Funding: A fictional state health foundation. Correspondence: Dr. Perdita Stonehallow, perdita.stonehallow@example.org, 413-555-0191.
