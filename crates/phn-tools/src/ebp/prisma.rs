@@ -135,10 +135,7 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
     }
     for (name, v) in [
         ("reports_sought", c.reports_sought),
-        (
-            "reports_of_included_studies",
-            c.reports_of_included_studies,
-        ),
+        ("reports_of_included_studies", c.reports_of_included_studies),
     ] {
         if let Some(v) = v {
             ok &= check_range(&mut problems, name, v);
@@ -151,7 +148,11 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             problems.push("every report exclusion needs a reason".into());
             ok = false;
         }
-        ok &= check_range(&mut problems, &format!("reports excluded for '{reason}'"), r.reports);
+        ok &= check_range(
+            &mut problems,
+            &format!("reports excluded for '{reason}'"),
+            r.reports,
+        );
         reasons.push(ExclusionCount {
             reason,
             reports: r.reports,
@@ -164,7 +165,11 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             problems.push("every source in identified_by_source needs a name".into());
             ok = false;
         }
-        ok &= check_range(&mut problems, &format!("records from '{source}'"), s.records);
+        ok &= check_range(
+            &mut problems,
+            &format!("records from '{source}'"),
+            s.records,
+        );
         by_source.push(SourceCount {
             source,
             records: s.records,
@@ -265,7 +270,8 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
                 "studies_included ({}) is more than the {included_reports} reports of included studies (a study has at least one report)",
                 c.studies_included
             ));
-        } else if c.reports_of_included_studies.is_none() && c.studies_included != included_reports {
+        } else if c.reports_of_included_studies.is_none() && c.studies_included != included_reports
+        {
             problems.push(format!(
                 "{} studies but {included_reports} reports of included studies: give \
                  reports_of_included_studies if some studies have more than one report; otherwise \
@@ -306,7 +312,7 @@ fn n(v: i64) -> String {
     let s = v.to_string();
     let mut out = String::new();
     for (i, ch) in s.chars().enumerate() {
-        if i > 0 && (s.len() - i) % 3 == 0 {
+        if i > 0 && (s.len() - i).is_multiple_of(3) {
             out.push(',');
         }
         out.push(ch);
@@ -323,7 +329,10 @@ struct Row {
 }
 
 fn rows(f: &PrismaFlow) -> Vec<Row> {
-    let mut identified = vec![format!("Records identified (n = {})", n(f.records_identified))];
+    let mut identified = vec![format!(
+        "Records identified (n = {})",
+        n(f.records_identified)
+    )];
     for s in &f.identified_by_source {
         identified.push(format!("{} (n = {})", s.source, n(s.records)));
     }
@@ -350,10 +359,7 @@ fn rows(f: &PrismaFlow) -> Vec<Row> {
         Row {
             stage: "Screening",
             main: vec![format!("Records screened (n = {})", n(f.records_screened))],
-            side: vec![format!(
-                "Records excluded (n = {})",
-                n(f.records_excluded)
-            )],
+            side: vec![format!("Records excluded (n = {})", n(f.records_excluded))],
         },
         Row {
             stage: "Screening",
@@ -391,7 +397,10 @@ fn rows(f: &PrismaFlow) -> Vec<Row> {
 /// The diagram as sentences, for people who cannot see it (also the SVG's description).
 pub fn text_alternative(f: &PrismaFlow) -> Vec<String> {
     let mut v = Vec::new();
-    let mut ident = format!("Identification: {} records identified", n(f.records_identified));
+    let mut ident = format!(
+        "Identification: {} records identified",
+        n(f.records_identified)
+    );
     if !f.identified_by_source.is_empty() {
         let parts: Vec<String> = f
             .identified_by_source
@@ -483,7 +492,11 @@ pub fn mermaid(f: &PrismaFlow, title: &str) -> String {
         }
         out.push_str(&format!("        {}[\"{}\"]\n", ids[i], label(&r.main)));
         if !r.side.is_empty() {
-            out.push_str(&format!("        {}[\"{}\"]\n", side_ids[i], label(&r.side)));
+            out.push_str(&format!(
+                "        {}[\"{}\"]\n",
+                side_ids[i],
+                label(&r.side)
+            ));
         }
     }
     out.push_str("    end\n");
@@ -514,12 +527,12 @@ fn xml(s: &str) -> String {
         .collect()
 }
 
-/// Wrap text on spaces to at most `max` characters a line (by characters, never bytes; a word
+/// Wrap text on ASCII spaces (no-break spaces stay inside a word) to at most `max` characters a line (by characters, never bytes; a word
 /// longer than the line is split).
 fn wrap(text: &str, max: usize) -> Vec<String> {
     let mut lines: Vec<String> = Vec::new();
     let mut cur = String::new();
-    for word in text.split_whitespace() {
+    for word in text.split(' ').filter(|w| !w.is_empty()) {
         let mut w: Vec<char> = word.chars().collect();
         while w.len() > max {
             if !cur.is_empty() {
@@ -546,11 +559,11 @@ fn wrap(text: &str, max: usize) -> Vec<String> {
 const FONT: &str = "DejaVu Sans, Arial, Helvetica, sans-serif";
 const LINE_H: i32 = 18;
 const PAD: i32 = 10;
-const COL_W: i32 = 300;
+const COL_W: i32 = 320;
 const MAIN_X: i32 = 70;
-const SIDE_X: i32 = 440;
+const SIDE_X: i32 = 450;
 const GAP: i32 = 38;
-const WRAP_AT: usize = 38;
+const WRAP_AT: usize = 33;
 
 struct Box {
     lines: Vec<String>,
@@ -560,7 +573,8 @@ struct Box {
 fn make_box(lines: &[String]) -> Box {
     let mut wrapped: Vec<String> = Vec::new();
     for l in lines {
-        wrapped.extend(wrap(l, WRAP_AT));
+        // "(n = 42)" must not break across lines: join it with no-break spaces.
+        wrapped.extend(wrap(&l.replace("n = ", "n\u{a0}=\u{a0}"), WRAP_AT));
     }
     let h = wrapped.len() as i32 * LINE_H + 2 * PAD - 4;
     Box { lines: wrapped, h }
@@ -571,7 +585,11 @@ fn draw_box(out: &mut String, x: i32, y: i32, b: &Box, h: i32, first_bold: bool)
         "<rect x=\"{x}\" y=\"{y}\" width=\"{COL_W}\" height=\"{h}\" fill=\"#FFFFFF\" stroke=\"#1F3864\" stroke-width=\"1.5\"/>\n"
     ));
     for (i, l) in b.lines.iter().enumerate() {
-        let weight = if first_bold && i == 0 { "bold" } else { "normal" };
+        let weight = if first_bold && i == 0 {
+            "bold"
+        } else {
+            "normal"
+        };
         out.push_str(&format!(
             "<text x=\"{}\" y=\"{}\" font-family=\"{FONT}\" font-size=\"13\" font-weight=\"{weight}\" fill=\"#111111\">{}</text>\n",
             x + PAD,
@@ -599,7 +617,15 @@ pub fn svg(f: &PrismaFlow, title: &str) -> String {
     for r in &rows {
         let main = make_box(&r.main);
         let side = (!r.side.is_empty()).then(|| make_box(&r.side));
-        let h = main.h.max(side.as_ref().map_or(0, |s| s.h));
+        // A stage band with one row must be tall enough for its rotated label (about 8 pixels
+        // a character plus margins).
+        let alone = rows.iter().filter(|x| x.stage == r.stage).count() == 1;
+        let label_h = if alone {
+            r.stage.chars().count() as i32 * 8 + 24
+        } else {
+            0
+        };
+        let h = main.h.max(side.as_ref().map_or(0, |s| s.h)).max(label_h);
         placed.push(Placed {
             y,
             h,
@@ -615,7 +641,10 @@ pub fn svg(f: &PrismaFlow, title: &str) -> String {
     out.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {width} {height}\" width=\"{width}\" height=\"{height}\" role=\"img\" aria-labelledby=\"prisma-title prisma-desc\" lang=\"en\">\n"
     ));
-    out.push_str(&format!("<title id=\"prisma-title\">{}</title>\n", xml(title)));
+    out.push_str(&format!(
+        "<title id=\"prisma-title\">{}</title>\n",
+        xml(title)
+    ));
     out.push_str(&format!(
         "<desc id=\"prisma-desc\">{}</desc>\n",
         xml(&alt.join(" "))
@@ -648,7 +677,14 @@ pub fn svg(f: &PrismaFlow, title: &str) -> String {
         i = j + 1;
     }
     for (k, p) in placed.iter().enumerate() {
-        draw_box(&mut out, MAIN_X, p.y, &p.main, p.h, k == 0 || k == placed.len() - 1);
+        draw_box(
+            &mut out,
+            MAIN_X,
+            p.y,
+            &p.main,
+            p.h,
+            k == 0 || k == placed.len() - 1,
+        );
         if let Some(s) = &p.side {
             draw_box(&mut out, SIDE_X, p.y, s, p.h, true);
             let ay = p.y + p.h / 2;
@@ -722,7 +758,11 @@ mod tests {
         assert_eq!(f.reports_of_included_studies, 6);
         assert_eq!(f.removed_other_reasons, 0);
         assert!(f.defaults_used.iter().any(|d| d.contains("reports_sought")));
-        assert!(f.defaults_used.iter().any(|d| d.contains("removed_other_reasons")));
+        assert!(
+            f.defaults_used
+                .iter()
+                .any(|d| d.contains("removed_other_reasons"))
+        );
     }
 
     #[test]
@@ -745,26 +785,47 @@ mod tests {
         let mut c = example();
         c.records_excluded = 1100;
         let e = validate(&c).unwrap_err().to_string();
-        assert!(e.contains("records_excluded (1100) is more than records_screened (1092)"), "{e}");
+        assert!(
+            e.contains("records_excluded (1100) is more than records_screened (1092)"),
+            "{e}"
+        );
         assert!(!e.contains("reports_not_retrieved"), "{e}");
         // Each later step is checked on its own.
         let mut c = example();
         c.reports_assessed = 50;
         let e = validate(&c).unwrap_err().to_string();
-        assert!(e.contains("reports_assessed is 50 but 42 sought - 2 not retrieved = 40"), "{e}");
+        assert!(
+            e.contains("reports_assessed is 50 but 42 sought - 2 not retrieved = 40"),
+            "{e}"
+        );
         let mut c = example();
         c.reports_not_retrieved = Some(100);
-        assert!(validate(&c).unwrap_err().to_string().contains("reports_not_retrieved (100) is more than reports_sought (42)"));
+        assert!(
+            validate(&c)
+                .unwrap_err()
+                .to_string()
+                .contains("reports_not_retrieved (100) is more than reports_sought (42)")
+        );
     }
 
     #[test]
     fn negative_empty_and_huge_counts_are_errors() {
         let mut c = example();
         c.duplicates_removed = -1;
-        assert!(validate(&c).unwrap_err().to_string().contains("duplicates_removed is -1"));
+        assert!(
+            validate(&c)
+                .unwrap_err()
+                .to_string()
+                .contains("duplicates_removed is -1")
+        );
         let mut c = example();
         c.reports_excluded[0].reason = "  ".into();
-        assert!(validate(&c).unwrap_err().to_string().contains("needs a reason"));
+        assert!(
+            validate(&c)
+                .unwrap_err()
+                .to_string()
+                .contains("needs a reason")
+        );
         let mut c = example();
         c.records_identified = i64::MAX;
         assert!(validate(&c).is_err());
@@ -781,10 +842,20 @@ mod tests {
         assert_eq!(validate(&c).unwrap().studies_included, 5);
         // More studies than reports is impossible; a wrong report total is caught.
         c.studies_included = 7;
-        assert!(validate(&c).unwrap_err().to_string().contains("more than the 6 reports"));
+        assert!(
+            validate(&c)
+                .unwrap_err()
+                .to_string()
+                .contains("more than the 6 reports")
+        );
         c.studies_included = 5;
         c.reports_of_included_studies = Some(9);
-        assert!(validate(&c).unwrap_err().to_string().contains("reports_of_included_studies is 9"));
+        assert!(
+            validate(&c)
+                .unwrap_err()
+                .to_string()
+                .contains("reports_of_included_studies is 9")
+        );
         // Nothing included is a valid, if sad, review.
         let empty = PrismaCounts {
             records_identified: 10,
@@ -817,21 +888,32 @@ mod tests {
         }
         assert!(m.contains("Wrong 'population' bx/b y z w: n = 20"));
         // Every node that is declared is closed, and subgraphs are balanced.
-        assert_eq!(m.matches("subgraph").count(), m.matches("    end\n").count());
+        assert_eq!(
+            m.matches("subgraph").count(),
+            m.matches("    end\n").count()
+        );
         assert!(!m.contains("<b>"));
     }
 
     #[test]
     fn svg_is_self_contained_accessible_and_escaped() {
         let mut c = example();
-        c.reports_excluded[1].reason = "Used <script>alert(1)</script> & \"quotes\" é ü 研究".into();
+        c.reports_excluded[1].reason =
+            "Used <script>alert(1)</script> & \"quotes\" é ü 研究".into();
         let f = validate(&c).unwrap();
         let s = svg(&f, "PRISMA flow: school asthma programs");
         assert!(s.starts_with("<svg xmlns=\"http://www.w3.org/2000/svg\""));
-        assert!(s.contains("role=\"img\"") && s.contains("aria-labelledby=\"prisma-title prisma-desc\""));
-        assert!(s.contains("<title id=\"prisma-title\">PRISMA flow: school asthma programs</title>"));
+        assert!(
+            s.contains("role=\"img\"")
+                && s.contains("aria-labelledby=\"prisma-title prisma-desc\"")
+        );
+        assert!(
+            s.contains("<title id=\"prisma-title\">PRISMA flow: school asthma programs</title>")
+        );
         assert!(s.contains("<desc id=\"prisma-desc\">Identification: 1,333 records identified"));
-        assert!(!s.contains("<script>") && !s.contains("http://") || s.matches("http://").count() == 1);
+        assert!(
+            !s.contains("<script>") && !s.contains("http://") || s.matches("http://").count() == 1
+        );
         assert!(s.contains("&lt;script&gt;") && s.contains("研究"));
         assert!(!s.contains("href=") && !s.contains("<image"));
         // It parses as XML and renders.
@@ -839,14 +921,26 @@ mod tests {
         assert_eq!(&png[1..4], b"PNG");
         // Every number appears in the text alternative.
         let alt = text_alternative(&f).join(" ");
-        for want in ["1,333", "241", "1,092", "1,050", "42", "40", "34", "6 studies"] {
+        for want in [
+            "1,333",
+            "241",
+            "1,092",
+            "1,050",
+            "42",
+            "40",
+            "34",
+            "6 studies",
+        ] {
             assert!(alt.contains(want), "{want} in {alt}");
         }
     }
 
     #[test]
     fn wrapping_is_by_characters_and_splits_long_words() {
-        let w = wrap("ééééééééééééé ü 研究研究研究研究研究研究研究研究研究研究", 8);
+        let w = wrap(
+            "ééééééééééééé ü 研究研究研究研究研究研究研究研究研究研究",
+            8,
+        );
         assert!(w.iter().all(|l| l.chars().count() <= 8), "{w:?}");
         assert_eq!(wrap("one two three", 7), vec!["one two", "three"]);
         assert!(wrap("", 8).is_empty());

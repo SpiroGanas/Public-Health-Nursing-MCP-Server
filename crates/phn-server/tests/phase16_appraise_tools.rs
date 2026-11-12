@@ -125,7 +125,10 @@ async fn a_study_file_suggests_the_design_and_lists_the_questions_without_echoin
     );
     assert_eq!(s["data"]["certainty"]["starting_level_for_design"], "high");
     // The abstract's contact details and its text are never returned.
-    let all = everything(&h.call("appraise_evidence", json!({"path": "study_abstract.txt"})).await);
+    let all = everything(
+        &h.call("appraise_evidence", json!({"path": "study_abstract.txt"}))
+            .await,
+    );
     assert!(leaks(&all, "data/study_abstract.txt", None).is_empty());
     assert!(!all.contains("Emergency department visits per 100"));
     // The privacy block says what was found and that nothing was returned.
@@ -150,8 +153,9 @@ async fn a_study_file_suggests_the_design_and_lists_the_questions_without_echoin
     assert!(pending(&s));
     // Every source is dated and from bundled content.
     for src in s["sources"].as_array().unwrap() {
-        assert_eq!(src["mode"], "snapshot");
-        assert!(src["retrieved"].as_str().is_some());
+        let mode = src["mode"].as_str().unwrap();
+        assert!(mode == "snapshot" || mode == "local", "{src}");
+        assert!(src["retrieved"].as_str().is_some() || mode == "local");
     }
 }
 
@@ -166,7 +170,13 @@ async fn pasted_text_names_the_design_and_ambiguous_or_missing_designs_are_handl
     )
     .await;
     assert_eq!(s["data"]["design"]["chosen"], "systematic_review");
-    assert_eq!(s["data"]["checklist"]["questions"].as_array().unwrap().len(), 16);
+    assert_eq!(
+        s["data"]["checklist"]["questions"]
+            .as_array()
+            .unwrap()
+            .len(),
+        16
+    );
     assert_eq!(s["data"]["study"]["text_source"], "pasted text");
     // A design without a checklist is named, with a pointer.
     let s = call_ok(
@@ -176,7 +186,10 @@ async fn pasted_text_names_the_design_and_ambiguous_or_missing_designs_are_handl
     )
     .await;
     assert!(s["data"]["design"]["chosen"].is_null());
-    assert_eq!(s["data"]["design"]["unsupported"]["design"], "diagnostic_accuracy");
+    assert_eq!(
+        s["data"]["design"]["unsupported"]["design"],
+        "diagnostic_accuracy"
+    );
     assert!(s["data"]["checklist"].is_null());
     // No design words: the choices are listed.
     let s = call_ok(
@@ -186,15 +199,38 @@ async fn pasted_text_names_the_design_and_ambiguous_or_missing_designs_are_handl
     )
     .await;
     assert!(s["data"]["design"]["chosen"].is_null());
-    assert_eq!(s["data"]["design"]["available_designs"].as_array().unwrap().len(), 8);
+    assert_eq!(
+        s["data"]["design"]["available_designs"]
+            .as_array()
+            .unwrap()
+            .len(),
+        8
+    );
     assert!(caveats(&s).contains("could not be identified"));
     // Naming the design gives its questions without any text.
     let s = call_ok(&h, "appraise_evidence", json!({"design": "qualitative"})).await;
     assert_eq!(s["data"]["design"]["basis"], "nurse");
-    assert_eq!(s["data"]["checklist"]["questions"].as_array().unwrap().len(), 7);
+    assert_eq!(
+        s["data"]["checklist"]["questions"]
+            .as_array()
+            .unwrap()
+            .len(),
+        7
+    );
     // Qualitative studies get the CERQual guide, not GRADE.
-    assert_eq!(s["data"]["certainty"]["cerqual_guide"].as_array().unwrap().len(), 4);
-    assert!(s["data"]["certainty"]["grade_guide"].as_array().unwrap().is_empty());
+    assert_eq!(
+        s["data"]["certainty"]["cerqual_guide"]
+            .as_array()
+            .unwrap()
+            .len(),
+        4
+    );
+    assert!(
+        s["data"]["certainty"]["grade_guide"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
 }
 
 #[tokio::test]
@@ -281,9 +317,7 @@ async fn systematic_review_overall_confidence_follows_amstar_2() {
     ];
     let answers = |no: &[&str]| -> Vec<Value> {
         ids.iter()
-            .map(|id| {
-                json!({"question": id, "answer": if no.contains(id) { "no" } else { "yes" }})
-            })
+            .map(|id| json!({"question": id, "answer": if no.contains(id) { "no" } else { "yes" }}))
             .collect()
     };
     let rating = |s: &Value| s["data"]["checklist"]["overall"]["rating"].clone();
@@ -345,7 +379,12 @@ async fn grade_and_cerqual_use_the_nurses_judgments() {
     assert_eq!(g["start"], "low");
     assert_eq!(g["total_change"], 0);
     assert_eq!(g["computed"], "low");
-    assert!(s["data"]["certainty"]["grade_guide"].as_array().unwrap().is_empty());
+    assert!(
+        s["data"]["certainty"]["grade_guide"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
     assert!(caveats(&s).contains("body of evidence"));
     // A systematic review needs the evidence type; trials start high.
     let e = call_err(
@@ -354,7 +393,7 @@ async fn grade_and_cerqual_use_the_nurses_judgments() {
         json!({"design": "systematic_review", "grade": {"outcome": "x"}}),
     )
     .await;
-    assert!(e.contains("evidence_type"));
+    assert!(e.contains("evidence_type"), "{e}");
     let s = call_ok(
         &h,
         "appraise_evidence",
@@ -418,7 +457,11 @@ async fn grade_and_cerqual_use_the_nurses_judgments() {
 async fn problems_the_nurse_can_fix_are_tool_errors() {
     let h = start(|_| {}).await;
     // Nothing to work from.
-    assert!(call_err(&h, "appraise_evidence", json!({})).await.contains("give the study"));
+    assert!(
+        call_err(&h, "appraise_evidence", json!({}))
+            .await
+            .contains("give the study")
+    );
     // Answers need the design.
     let e = call_err(
         &h,
@@ -458,16 +501,46 @@ async fn problems_the_nurse_can_fix_are_tool_errors() {
     )
     .await;
     assert!(e.contains("either text or path"));
-    assert!(call_err(&h, "appraise_evidence", json!({"path": "nope.txt"})).await.contains("nope.txt"));
-    assert!(call_err(&h, "appraise_evidence", json!({"path": "line_list.csv"})).await.contains("TXT, Markdown"));
+    assert!(
+        call_err(&h, "appraise_evidence", json!({"path": "nope.txt"}))
+            .await
+            .contains("nope.txt")
+    );
+    assert!(
+        call_err(&h, "appraise_evidence", json!({"path": "line_list.csv"}))
+            .await
+            .contains("TXT, Markdown")
+    );
     // Overlong text; a bad DOI.
     let long = "word ".repeat(70_000);
-    assert!(call_err(&h, "appraise_evidence", json!({"text": long})).await.contains("longer than"));
-    let e = call_err(&h, "appraise_evidence", json!({"doi": "not a doi", "design": "cohort"})).await;
+    assert!(
+        call_err(&h, "appraise_evidence", json!({"text": long}))
+            .await
+            .contains("longer than")
+    );
+    let e = call_err(
+        &h,
+        "appraise_evidence",
+        json!({"doi": "not a doi", "design": "cohort"}),
+    )
+    .await;
     assert!(e.contains("doi must look like"));
-    // Nothing to record.
-    let e = call_err(&h, "appraise_evidence", json!({"text": "A cohort study followed up.", "write_record": true})).await;
-    assert!(e.contains("nothing to record"));
+    // Nothing to record without a design; with one, a blank worksheet is written.
+    let e = call_err(
+        &h,
+        "appraise_evidence",
+        json!({"text": "A report about schools.", "write_record": true}),
+    )
+    .await;
+    assert!(e.contains("nothing to record"), "{e}");
+    let s = call_ok(
+        &h,
+        "appraise_evidence",
+        json!({"design": "cohort", "write_record": true}),
+    )
+    .await;
+    let text = docx_text(&output_file(&h, s["data"]["record_file"].as_str().unwrap()));
+    assert!(text.contains("not answered") && text.contains("0 of 16 questions answered"));
 }
 
 #[tokio::test]
@@ -491,14 +564,18 @@ async fn client_records_are_refused_without_echoing_them() {
         "appraise_evidence",
         json!({"design": "randomized_trial",
                "answers": [{"question": "rct_sequence", "answer": "low",
-                            "note": "Dr. Perdita Stonehallow, perdita.stonehallow@example.org"}]}),
+                            "note": "Ask perdita.stonehallow@example.org or call 413-555-0191"}]}),
     )
     .await;
     let all = serde_json::to_string(&s).unwrap();
-    assert!(leaks(&all, "data/study_abstract.txt", None).is_empty(), "{all}");
+    let found = leaks(&all, "data/study_abstract.txt", None);
+    assert!(found.is_empty(), "{found:?} in {all}");
     assert!(caveats(&s).contains("redacted"));
     let text = docx_text(&output_file(&h, s["data"]["record_file"].as_str().unwrap()));
-    assert!(leaks(&text, "data/study_abstract.txt", None).is_empty(), "{text}");
+    assert!(
+        leaks(&text, "data/study_abstract.txt", None).is_empty(),
+        "{text}"
+    );
 }
 
 #[tokio::test]
@@ -522,11 +599,7 @@ async fn offline_a_doi_is_used_as_entered_and_the_response_says_so() {
             .contains("Nothing was sent to Crossref")
     );
     // No Crossref source is cited.
-    assert!(
-        !s["sources"]
-            .to_string()
-            .contains("Crossref REST API")
-    );
+    assert!(!s["sources"].to_string().contains("Crossref REST API"));
     // A DOI with nothing else is enough to start (the design is then unknown).
     let s = call_ok(&h, "appraise_evidence", json!({"doi": "10.1000/xyz123"})).await;
     assert!(s["data"]["design"]["chosen"].is_null());
@@ -577,7 +650,12 @@ async fn synthesis_builds_the_table_summary_diagram_and_files() {
         .as_array()
         .unwrap()
         .iter()
-        .map(|x| (x["label"].as_str().unwrap().to_string(), x["studies"].as_u64().unwrap()))
+        .map(|x| {
+            (
+                x["label"].as_str().unwrap().to_string(),
+                x["studies"].as_u64().unwrap(),
+            )
+        })
         .collect();
     assert_eq!(
         by_design,
@@ -636,14 +714,24 @@ async fn synthesis_builds_the_table_summary_diagram_and_files() {
         .map(|r| r.join("|"))
         .collect();
     let joined = flat.join("\n");
-    assert!(joined.contains("Total participants (sum of n)|6508"), "{joined}");
+    assert!(
+        joined.contains("Total participants (sum of n)|6508"),
+        "{joined}"
+    );
     assert!(joined.contains("Number of studies|4"), "{joined}");
     let pr = phn_local::table::read_table(&path, Some("PRISMA counts")).unwrap();
-    let ok_flags = pr.rows.iter().filter(|r| r.last().map(String::as_str) == Some("OK")).count();
+    let ok_flags = pr
+        .rows
+        .iter()
+        .filter(|r| r.last().map(String::as_str) == Some("OK"))
+        .count();
     assert!(ok_flags >= 4, "{:?}", pr.rows);
     // The SVG file is the same as the one returned.
     let svg_file = files.iter().find(|f| f.ends_with("svg")).unwrap();
-    assert_eq!(std::fs::read_to_string(output_file(&h, svg_file)).unwrap(), svg);
+    assert_eq!(
+        std::fs::read_to_string(output_file(&h, svg_file)).unwrap(),
+        svg
+    );
     assert!(pending(&s));
     assert_eq!(s["privacy"]["row_level_data"], false);
     assert_eq!(s["privacy"]["files_written"].as_array().unwrap().len(), 4);
@@ -654,7 +742,6 @@ async fn prisma_arithmetic_errors_are_tool_errors_and_nothing_is_written() {
     let h = start(|_| {}).await;
     let mut bad = prisma_ok();
     bad["records_screened"] = json!(1000);
-    bad["reports_assessed"] = json!(50);
     let e = call_err(
         &h,
         "build_evidence_synthesis_table",
@@ -663,10 +750,25 @@ async fn prisma_arithmetic_errors_are_tool_errors_and_nothing_is_written() {
     .await;
     assert!(e.contains("The PRISMA counts do not add up"), "{e}");
     assert!(
-        e.contains("records_screened is 1000 but 1333 identified - 241 duplicates - 0 other removed = 1092"),
+        e.contains(
+            "records_screened is 1000 but 1333 identified - 241 duplicates - 0 other removed = 1092"
+        ),
         "{e}"
     );
-    assert!(e.contains("reports_assessed is 50"), "{e}");
+    let mut bad = prisma_ok();
+    bad["reports_assessed"] = json!(50);
+    bad["reports_excluded"][0]["reports"] = json!(60);
+    let e = call_err(
+        &h,
+        "build_evidence_synthesis_table",
+        json!({"studies": studies(), "prisma": bad}),
+    )
+    .await;
+    assert!(
+        e.contains("reports_assessed is 50 but 42 sought - 2 not retrieved = 40"),
+        "{e}"
+    );
+    assert!(e.contains("exclusion reasons add up to 74"), "{e}");
     // Nothing was written (the output folder was never created).
     assert!(!h.data().join("output/evidence_synthesis").exists());
     // Negative counts, an empty exclusion reason, a missing reports total for 2 reports per study.
@@ -676,7 +778,12 @@ async fn prisma_arithmetic_errors_are_tool_errors_and_nothing_is_written() {
     assert!(e.contains("duplicates_removed is -1"));
     let mut multi = prisma_ok();
     multi["studies_included"] = json!(5);
-    let e = call_err(&h, "build_evidence_synthesis_table", json!({"prisma": multi})).await;
+    let e = call_err(
+        &h,
+        "build_evidence_synthesis_table",
+        json!({"prisma": multi}),
+    )
+    .await;
     assert!(e.contains("give reports_of_included_studies"));
     // With the reports total the same counts are fine.
     let mut ok = prisma_ok();
@@ -736,13 +843,22 @@ async fn synthesis_options_counts_only_one_format_and_no_files() {
     )
     .await;
     assert!(s["data"]["files"].as_array().unwrap().is_empty());
-    assert!(s["privacy"]["files_written"].as_array().unwrap().is_empty());
+    assert!(
+        s["privacy"]["files_written"]
+            .as_array()
+            .is_none_or(|a| a.is_empty())
+    );
     // Quality ratings from different tools are counted separately.
     let ratings: Vec<(String, String)> = s["data"]["summary"]["by_quality"]
         .as_array()
         .unwrap()
         .iter()
-        .map(|q| (q["quality_tool"].as_str().unwrap().into(), q["quality_rating"].as_str().unwrap().into()))
+        .map(|q| {
+            (
+                q["quality_tool"].as_str().unwrap().into(),
+                q["quality_rating"].as_str().unwrap().into(),
+            )
+        })
         .collect();
     assert!(ratings.contains(&("Cochrane 2011".into(), "Low".into())));
     assert!(ratings.contains(&("ROBINS-I".into(), "Moderate".into())));

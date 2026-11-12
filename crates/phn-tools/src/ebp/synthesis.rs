@@ -324,11 +324,13 @@ fn summarize(rows: &[TableRow]) -> SynthesisSummary {
     let mut quality: Vec<(String, String, usize)> = Vec::new();
     for r in rows {
         let tool = r.quality_tool.clone().unwrap_or_else(|| NOT_STATED.into());
-        let rating = r.quality_rating.clone().unwrap_or_else(|| NOT_STATED.into());
-        match quality
-            .iter_mut()
-            .find(|(t, g, _)| t.to_lowercase() == tool.to_lowercase() && g.to_lowercase() == rating.to_lowercase())
-        {
+        let rating = r
+            .quality_rating
+            .clone()
+            .unwrap_or_else(|| NOT_STATED.into());
+        match quality.iter_mut().find(|(t, g, _)| {
+            t.to_lowercase() == tool.to_lowercase() && g.to_lowercase() == rating.to_lowercase()
+        }) {
             Some(e) => e.2 += 1,
             None => quality.push((tool, rating, 1)),
         }
@@ -367,7 +369,9 @@ fn workbook(
 ) -> Result<Vec<u8>> {
     let mut wb = Workbook::new();
     let bold = Format::new().set_bold();
-    let wrap = Format::new().set_text_wrap().set_align(rust_xlsxwriter::FormatAlign::Top);
+    let wrap = Format::new()
+        .set_text_wrap()
+        .set_align(rust_xlsxwriter::FormatAlign::Top);
     let pct = Format::new().set_num_format("0.0%");
     let last = rows.len().max(1) + 1; // last data row (1-based) on the table sheet
 
@@ -394,19 +398,22 @@ fn workbook(
         let ws = wb.add_worksheet();
         ws.set_name("Synthesis table").map_err(xerr)?;
         for (c, h) in headers.iter().enumerate() {
-            ws.write_string_with_format(0, c as u16, *h, &bold).map_err(xerr)?;
+            ws.write_string_with_format(0, c as u16, *h, &bold)
+                .map_err(xerr)?;
         }
         let total: i64 = rows.iter().filter_map(|r| r.sample_size).sum();
         for (i, r) in rows.iter().enumerate() {
             let rr = (i + 1) as u32;
             let excel_row = i + 2;
-            ws.write_string_with_format(rr, 0, &r.citation, &wrap).map_err(xerr)?;
-            let opt = |ws: &mut rust_xlsxwriter::Worksheet, c: u16, v: &Option<String>| -> Result<()> {
-                if let Some(v) = v {
-                    ws.write_string_with_format(rr, c, v, &wrap).map_err(xerr)?;
-                }
-                Ok(())
-            };
+            ws.write_string_with_format(rr, 0, &r.citation, &wrap)
+                .map_err(xerr)?;
+            let opt =
+                |ws: &mut rust_xlsxwriter::Worksheet, c: u16, v: &Option<String>| -> Result<()> {
+                    if let Some(v) = v {
+                        ws.write_string_with_format(rr, c, v, &wrap).map_err(xerr)?;
+                    }
+                    Ok(())
+                };
             opt(ws, 1, &r.design)?;
             opt(ws, 2, &r.population)?;
             if let Some(n) = r.sample_size {
@@ -423,14 +430,15 @@ fn workbook(
                 _ => 0.0,
             };
             let f = Formula::new(format!(
-                "=IF(OR(D{excel_row}=\"\",SUM($D$2:$D${last})=0),\"\",D{excel_row}/SUM($D$2:$D${last}))"
+                "=IF(OR(D{excel_row}=\"\",SUM($D$2:$D${last})=0),\"n/a\",D{excel_row}/SUM($D$2:$D${last}))"
             ));
             let f = if r.sample_size.is_some() && total > 0 {
                 f.set_result(format!("{share}"))
             } else {
-                f.set_result("")
+                f.set_result("n/a")
             };
-            ws.write_formula_with_format(rr, 10, f, &pct).map_err(xerr)?;
+            ws.write_formula_with_format(rr, 10, f, &pct)
+                .map_err(xerr)?;
             if let Some(y) = r.year {
                 ws.write_number(rr, 11, y as f64).map_err(xerr)?;
             }
@@ -440,7 +448,10 @@ fn workbook(
         ws.set_freeze_panes(1, 1).map_err(xerr)?;
         ws.autofilter(0, 0, rows.len().max(1) as u32, (headers.len() - 1) as u16)
             .map_err(xerr)?;
-        for (c, w) in [28, 20, 32, 12, 32, 22, 28, 32, 18, 22, 12, 8, 22, 36].iter().enumerate() {
+        for (c, w) in [28, 20, 32, 12, 32, 22, 28, 32, 18, 22, 12, 8, 22, 36]
+            .iter()
+            .enumerate()
+        {
             ws.set_column_width(c as u16, *w as f64).map_err(xerr)?;
         }
     }
@@ -449,7 +460,13 @@ fn workbook(
     if !rows.is_empty() {
         let ws = wb.add_worksheet();
         ws.set_name("Summary").map_err(xerr)?;
-        ws.write_string_with_format(0, 0, "Summary (formulas read the Synthesis table sheet)", &bold).map_err(xerr)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            "Summary (formulas read the Synthesis table sheet)",
+            &bold,
+        )
+        .map_err(xerr)?;
         let t = "'Synthesis table'";
         let figures: [(&str, String, String); 4] = [
             (
@@ -469,18 +486,24 @@ fn workbook(
             ),
             (
                 "Median sample size",
-                format!("=IF(COUNT({t}!D2:D{last})=0,\"\",MEDIAN({t}!D2:D{last}))"),
-                summary.median_sample_size.map(|m| format!("{m}")).unwrap_or_default(),
+                format!("=IF(COUNT({t}!D2:D{last})=0,\"n/a\",MEDIAN({t}!D2:D{last}))"),
+                summary
+                    .median_sample_size
+                    .map(|m| format!("{m}"))
+                    .unwrap_or_else(|| "n/a".into()),
             ),
         ];
         for (i, (label, f, result)) in figures.iter().enumerate() {
             let r = (i + 2) as u32;
             ws.write_string(r, 0, *label).map_err(xerr)?;
-            ws.write_formula(r, 1, Formula::new(f.clone()).set_result(result.clone())).map_err(xerr)?;
+            ws.write_formula(r, 1, Formula::new(f.clone()).set_result(result.clone()))
+                .map_err(xerr)?;
         }
         let mut r = 7u32;
-        ws.write_string_with_format(r, 0, "Studies by design", &bold).map_err(xerr)?;
-        ws.write_string_with_format(r, 1, "Studies", &bold).map_err(xerr)?;
+        ws.write_string_with_format(r, 0, "Studies by design", &bold)
+            .map_err(xerr)?;
+        ws.write_string_with_format(r, 1, "Studies", &bold)
+            .map_err(xerr)?;
         for d in &summary.by_design {
             r += 1;
             ws.write_string(r, 0, &d.label).map_err(xerr)?;
@@ -496,9 +519,12 @@ fn workbook(
             .map_err(xerr)?;
         }
         r += 2;
-        ws.write_string_with_format(r, 0, "Rating tool", &bold).map_err(xerr)?;
-        ws.write_string_with_format(r, 1, "Quality rating", &bold).map_err(xerr)?;
-        ws.write_string_with_format(r, 2, "Studies", &bold).map_err(xerr)?;
+        ws.write_string_with_format(r, 0, "Rating tool", &bold)
+            .map_err(xerr)?;
+        ws.write_string_with_format(r, 1, "Quality rating", &bold)
+            .map_err(xerr)?;
+        ws.write_string_with_format(r, 2, "Studies", &bold)
+            .map_err(xerr)?;
         for qc in &summary.by_quality {
             r += 1;
             ws.write_string(r, 0, &qc.quality_tool).map_err(xerr)?;
@@ -523,21 +549,31 @@ fn workbook(
     if let Some(f) = flow {
         let ws = wb.add_worksheet();
         ws.set_name("PRISMA counts").map_err(xerr)?;
-        for (c, h) in ["Count", "Entered (edit these)", "Calculated from the counts above", "Check"].iter().enumerate() {
-            ws.write_string_with_format(0, c as u16, *h, &bold).map_err(xerr)?;
+        for (c, h) in [
+            "Count",
+            "Entered (edit these)",
+            "Calculated from the counts above",
+            "Check",
+        ]
+        .iter()
+        .enumerate()
+        {
+            ws.write_string_with_format(0, c as u16, *h, &bold)
+                .map_err(xerr)?;
         }
         // Row numbers are 1-based Excel rows.
         let put = |ws: &mut rust_xlsxwriter::Worksheet,
-                       row: u32,
-                       label: &str,
-                       entered: i64,
-                       calc: Option<(String, i64)>|
+                   row: u32,
+                   label: &str,
+                   entered: i64,
+                   calc: Option<(String, i64)>|
          -> Result<()> {
             ws.write_string(row, 0, label).map_err(xerr)?;
             ws.write_number(row, 1, entered as f64).map_err(xerr)?;
             if let Some((formula, result)) = calc {
                 let e = row + 1;
-                ws.write_formula(row, 2, Formula::new(formula).set_result(result.to_string())).map_err(xerr)?;
+                ws.write_formula(row, 2, Formula::new(formula).set_result(result.to_string()))
+                    .map_err(xerr)?;
                 ws.write_formula(
                     row,
                     3,
@@ -549,16 +585,53 @@ fn workbook(
         };
         put(ws, 1, "Records identified", f.records_identified, None)?;
         put(ws, 2, "Duplicates removed", f.duplicates_removed, None)?;
-        put(ws, 3, "Removed for other reasons", f.removed_other_reasons, None)?;
-        put(ws, 4, "Records screened", f.records_screened, Some(("=B2-B3-B4".into(), f.records_screened)))?;
-        put(ws, 5, "Records excluded after screening", f.records_excluded, None)?;
-        put(ws, 6, "Reports sought for retrieval", f.reports_sought, Some(("=B5-B6".into(), f.reports_sought)))?;
-        put(ws, 7, "Reports not retrieved", f.reports_not_retrieved, None)?;
-        put(ws, 8, "Reports assessed for eligibility", f.reports_assessed, Some(("=B7-B8".into(), f.reports_assessed)))?;
+        put(
+            ws,
+            3,
+            "Removed for other reasons",
+            f.removed_other_reasons,
+            None,
+        )?;
+        put(
+            ws,
+            4,
+            "Records screened",
+            f.records_screened,
+            Some(("=B2-B3-B4".into(), f.records_screened)),
+        )?;
+        put(
+            ws,
+            5,
+            "Records excluded after screening",
+            f.records_excluded,
+            None,
+        )?;
+        put(
+            ws,
+            6,
+            "Reports sought for retrieval",
+            f.reports_sought,
+            Some(("=B5-B6".into(), f.reports_sought)),
+        )?;
+        put(
+            ws,
+            7,
+            "Reports not retrieved",
+            f.reports_not_retrieved,
+            None,
+        )?;
+        put(
+            ws,
+            8,
+            "Reports assessed for eligibility",
+            f.reports_assessed,
+            Some(("=B7-B8".into(), f.reports_assessed)),
+        )?;
         let mut row = 9u32;
         let first_reason = row + 1;
         for r in &f.reports_excluded {
-            ws.write_string(row, 0, format!("Excluded: {}", r.reason)).map_err(xerr)?;
+            ws.write_string(row, 0, format!("Excluded: {}", r.reason))
+                .map_err(xerr)?;
             ws.write_number(row, 1, r.reports as f64).map_err(xerr)?;
             row += 1;
         }
@@ -568,8 +641,14 @@ fn workbook(
         } else {
             format!("=SUM(B{first_reason}:B{last_reason})")
         };
-        ws.write_string(row, 0, "Reports excluded (total)").map_err(xerr)?;
-        ws.write_formula(row, 1, Formula::new(sum_f).set_result(f.reports_excluded_total.to_string())).map_err(xerr)?;
+        ws.write_string(row, 0, "Reports excluded (total)")
+            .map_err(xerr)?;
+        ws.write_formula(
+            row,
+            1,
+            Formula::new(sum_f).set_result(f.reports_excluded_total.to_string()),
+        )
+        .map_err(xerr)?;
         let total_row = row + 1;
         row += 1;
         put(
@@ -582,12 +661,16 @@ fn workbook(
         let reports_row = row + 1;
         row += 1;
         ws.write_string(row, 0, "Studies included").map_err(xerr)?;
-        ws.write_number(row, 1, f.studies_included as f64).map_err(xerr)?;
+        ws.write_number(row, 1, f.studies_included as f64)
+            .map_err(xerr)?;
         let e = row + 1;
         ws.write_formula(
             row,
             3,
-            Formula::new(format!("=IF(AND(B{e}>=0,B{e}<=B{reports_row}),\"OK\",\"CHECK\")")).set_result("OK"),
+            Formula::new(format!(
+                "=IF(AND(B{e}>=0,B{e}<=B{reports_row}),\"OK\",\"CHECK\")"
+            ))
+            .set_result("OK"),
         )
         .map_err(xerr)?;
         ws.set_column_width(0, 40).map_err(xerr)?;
@@ -600,9 +683,16 @@ fn workbook(
     {
         let ws = wb.add_worksheet();
         ws.set_name("Notes").map_err(xerr)?;
-        ws.write_string_with_format(0, 0, question.as_deref().unwrap_or("Evidence synthesis table"), &bold).map_err(xerr)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            question.as_deref().unwrap_or("Evidence synthesis table"),
+            &bold,
+        )
+        .map_err(xerr)?;
         for (i, n) in notes.iter().enumerate() {
-            ws.write_string_with_format((i + 2) as u32, 0, n, &wrap).map_err(xerr)?;
+            ws.write_string_with_format((i + 2) as u32, 0, n, &wrap)
+                .map_err(xerr)?;
         }
         ws.set_column_width(0, 110).map_err(xerr)?;
     }
@@ -652,7 +742,10 @@ fn word_document(
         });
         blocks.push(Block::List {
             ordered: false,
-            items: text_alt.iter().map(|t| vec![Inline::plain(t.clone())]).collect(),
+            items: text_alt
+                .iter()
+                .map(|t| vec![Inline::plain(t.clone())])
+                .collect(),
         });
     }
     if !rows.is_empty() {
@@ -676,7 +769,9 @@ fn word_document(
                 .iter()
                 .map(|r| {
                     let study = match r.year {
-                        Some(y) if !r.citation.contains(&y.to_string()) => format!("{} ({y})", r.citation),
+                        Some(y) if !r.citation.contains(&y.to_string()) => {
+                            format!("{} ({y})", r.citation)
+                        }
                         _ => r.citation.clone(),
                     };
                     let n = r.sample_size.map(|n| format!("n = {n}"));
@@ -733,7 +828,11 @@ fn word_document(
         }));
         blocks.push(Block::Table(TableBlock {
             caption: Some("Studies by quality rating and rating tool".into()),
-            headers: vec!["Rating tool".into(), "Quality rating".into(), "Studies".into()],
+            headers: vec![
+                "Rating tool".into(),
+                "Quality rating".into(),
+                "Studies".into(),
+            ],
             rows: summary
                 .by_quality
                 .iter()
@@ -753,7 +852,10 @@ fn word_document(
     });
     blocks.push(Block::List {
         ordered: false,
-        items: notes.iter().map(|n| vec![Inline::plain(n.clone())]).collect(),
+        items: notes
+            .iter()
+            .map(|n| vec![Inline::plain(n.clone())])
+            .collect(),
     });
     Document {
         title,
@@ -824,7 +926,13 @@ pub fn build_evidence_synthesis_table(
         ));
     }
     if let Some(f) = &flow {
-        let d = |t: &str| c.definitions.iter().find(|d| d.term == t).map(|d| d.text.clone()).unwrap_or_default();
+        let d = |t: &str| {
+            c.definitions
+                .iter()
+                .find(|d| d.term == t)
+                .map(|d| d.text.clone())
+                .unwrap_or_default()
+        };
         notes.push(format!(
             "PRISMA 2020 flow elements: {} (PRISMA 2020 explanation and elaboration, item 16a). Record: {} Report: {} Study: {}",
             c.flow.statement.split_whitespace().collect::<Vec<_>>().join(" "),
@@ -882,13 +990,21 @@ pub fn build_evidence_synthesis_table(
             let empty_summary = summarize(&[]);
             let summary_ref = summary.as_ref().unwrap_or(&empty_summary);
             let bytes = workbook(&question, &rows, summary_ref, &flow, &notes)?;
-            files.push(templates::write_in(ctx, &dir, "synthesis_table.xlsx", &bytes)?);
+            files.push(templates::write_in(
+                ctx,
+                &dir,
+                "synthesis_table.xlsx",
+                &bytes,
+            )?);
         }
         if matches!(format, SynthesisFormat::Both | SynthesisFormat::Docx) {
             let empty_summary = summarize(&[]);
             let summary_ref = summary.as_ref().unwrap_or(&empty_summary);
             let png = match &flow {
-                Some(f) => Some(phn_docs::svg::svg_to_png(&prisma::svg(f, &diagram_title), 2.0)?),
+                Some(f) => Some(phn_docs::svg::svg_to_png(
+                    &prisma::svg(f, &diagram_title),
+                    2.0,
+                )?),
                 None => None,
             };
             let prisma_doc = match (&flow, png, &prisma_out) {
@@ -899,18 +1015,35 @@ pub fn build_evidence_synthesis_table(
             };
             let doc = word_document(ctx, &question, &rows, summary_ref, &prisma_doc, &notes);
             let bytes = phn_docs::docx::to_docx(&doc)?;
-            files.push(templates::write_in(ctx, &dir, "synthesis_table.docx", &bytes)?);
+            files.push(templates::write_in(
+                ctx,
+                &dir,
+                "synthesis_table.docx",
+                &bytes,
+            )?);
         }
         if let Some(po) = &prisma_out {
-            files.push(templates::write_in(ctx, &dir, "prisma_flow.svg", po.svg.as_bytes())?);
-            files.push(templates::write_in(ctx, &dir, "prisma_flow.mmd", po.mermaid.as_bytes())?);
+            files.push(templates::write_in(
+                ctx,
+                &dir,
+                "prisma_flow.svg",
+                po.svg.as_bytes(),
+            )?);
+            files.push(templates::write_in(
+                ctx,
+                &dir,
+                "prisma_flow.mmd",
+                po.mermaid.as_bytes(),
+            )?);
         }
     }
 
     // Summary text.
     let mut s = format!(
         "**{}**\n\n",
-        question.clone().unwrap_or_else(|| "Evidence synthesis".into())
+        question
+            .clone()
+            .unwrap_or_else(|| "Evidence synthesis".into())
     );
     if let Some(sm) = &summary {
         s.push_str(&format!(
@@ -1012,8 +1145,20 @@ mod tests {
     #[test]
     fn summary_matches_independent_arithmetic() {
         let rows = clean_rows(&[
-            study("A 2019", "Randomized trial", Some(120), "Low", "Cochrane 2011"),
-            study("B 2020", "randomized trial", Some(80), "Unclear", "Cochrane 2011"),
+            study(
+                "A 2019",
+                "Randomized trial",
+                Some(120),
+                "Low",
+                "Cochrane 2011",
+            ),
+            study(
+                "B 2020",
+                "randomized trial",
+                Some(80),
+                "Unclear",
+                "Cochrane 2011",
+            ),
             study("C 2021", "Cohort", Some(1000), "Moderate", "ROBINS-I"),
             study("D 2022", "Cohort", None, "moderate", "robins-i"),
             SynthesisStudy {
@@ -1031,22 +1176,37 @@ mod tests {
         assert_eq!(
             s.by_design,
             vec![
-                LabelCount { label: "Randomized trial".into(), studies: 2 },
-                LabelCount { label: "Cohort".into(), studies: 2 },
-                LabelCount { label: NOT_STATED.into(), studies: 1 },
+                LabelCount {
+                    label: "Randomized trial".into(),
+                    studies: 2
+                },
+                LabelCount {
+                    label: "Cohort".into(),
+                    studies: 2
+                },
+                LabelCount {
+                    label: NOT_STATED.into(),
+                    studies: 1
+                },
             ]
         );
         assert_eq!(s.by_quality.len(), 4);
-        assert_eq!(s.by_quality[2], QualityCount {
-            quality_tool: "ROBINS-I".into(),
-            quality_rating: "Moderate".into(),
-            studies: 2
-        });
+        assert_eq!(
+            s.by_quality[2],
+            QualityCount {
+                quality_tool: "ROBINS-I".into(),
+                quality_rating: "Moderate".into(),
+                studies: 2
+            }
+        );
         // The median of an even count is the mean of the middle two.
-        let even = summarize(&clean_rows(&[
-            study("A", "x", Some(10), "a", "t"),
-            study("B", "x", Some(20), "a", "t"),
-        ]).unwrap());
+        let even = summarize(
+            &clean_rows(&[
+                study("A", "x", Some(10), "a", "t"),
+                study("B", "x", Some(20), "a", "t"),
+            ])
+            .unwrap(),
+        );
         assert_eq!(even.median_sample_size, Some(15.0));
         assert_eq!(summarize(&[]).median_sample_size, None);
     }
@@ -1056,14 +1216,24 @@ mod tests {
         let mut bad = study("", "x", Some(-5), "a", "t");
         bad.year = Some(1850);
         let e = clean_rows(&[bad]).unwrap_err().to_string();
-        assert!(e.contains("needs a citation") && e.contains("1850") && e.contains("sample_size -5"), "{e}");
+        assert!(
+            e.contains("needs a citation") && e.contains("1850") && e.contains("sample_size -5"),
+            "{e}"
+        );
         let long = SynthesisStudy {
             citation: "A".into(),
             effect: Some("x".repeat(601)),
             ..SynthesisStudy::default()
         };
-        assert!(clean_rows(&[long]).unwrap_err().to_string().contains("effect is longer"));
-        let many: Vec<SynthesisStudy> = (0..301).map(|i| study(&format!("S{i}"), "x", None, "a", "t")).collect();
+        assert!(
+            clean_rows(&[long])
+                .unwrap_err()
+                .to_string()
+                .contains("effect is longer")
+        );
+        let many: Vec<SynthesisStudy> = (0..301)
+            .map(|i| study(&format!("S{i}"), "x", None, "a", "t"))
+            .collect();
         assert!(clean_rows(&many).is_err());
     }
 }

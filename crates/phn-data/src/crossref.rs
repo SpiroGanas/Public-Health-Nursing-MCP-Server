@@ -24,7 +24,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
-use crate::apifetch::{self, fetch_with_options, FetchOptions};
+use crate::apifetch::{self, FetchOptions, fetch_with_options};
 use crate::cache::Cache;
 use crate::http::HttpClient;
 
@@ -91,7 +91,9 @@ pub fn normalize_doi(input: &str) -> Option<String> {
     let reg_ok = (4..=9).contains(&reg.len()) && reg.bytes().all(|b| b.is_ascii_digit());
     let suffix_ok = !suffix.is_empty()
         && suffix.len() <= 200
-        && suffix.chars().all(|c| !c.is_whitespace() && !c.is_control());
+        && suffix
+            .chars()
+            .all(|c| !c.is_whitespace() && !c.is_control());
     (reg_ok && suffix_ok).then_some(s)
 }
 
@@ -153,8 +155,9 @@ fn year_of(m: &Value) -> Option<i32> {
 
 /// Parse a Crossref works response body.
 pub fn parse_work(body: &[u8]) -> Result<Work> {
-    let v: Value = serde_json::from_slice(body)
-        .map_err(|e| PhnError::Network(format!("Crossref sent a response that is not JSON ({e})")))?;
+    let v: Value = serde_json::from_slice(body).map_err(|e| {
+        PhnError::Network(format!("Crossref sent a response that is not JSON ({e})"))
+    })?;
     if v.get("status").and_then(Value::as_str) != Some("ok") {
         return Err(PhnError::Network(
             "Crossref did not answer with a work record".into(),
@@ -272,8 +275,14 @@ mod tests {
     fn dois_are_normalized() {
         for (input, want) in [
             ("10.1136/bmj.n71", Some("10.1136/bmj.n71")),
-            (" https://doi.org/10.1136/bmj.n71. ", Some("10.1136/bmj.n71")),
-            ("DOI:10.1016/j.jclinepi.2010.07.015", Some("10.1016/j.jclinepi.2010.07.015")),
+            (
+                " https://doi.org/10.1136/bmj.n71. ",
+                Some("10.1136/bmj.n71"),
+            ),
+            (
+                "DOI:10.1016/j.jclinepi.2010.07.015",
+                Some("10.1016/j.jclinepi.2010.07.015"),
+            ),
             ("doi.org/10.1000/xyz123", Some("10.1000/xyz123")),
             ("11.1136/bmj.n71", None),
             ("10.12/short", None),
@@ -288,7 +297,10 @@ mod tests {
     #[test]
     fn url_keeps_slashes_and_encodes_the_rest() {
         assert_eq!(
-            works_url(BASE, "10.1002/(SICI)1097-0258(19980430)17:8<873::AID-SIM1>3.0.CO;2-I"),
+            works_url(
+                BASE,
+                "10.1002/(SICI)1097-0258(19980430)17:8<873::AID-SIM1>3.0.CO;2-I"
+            ),
             "https://api.crossref.org/works/10.1002/%28SICI%291097-0258%2819980430%2917%3A8%3C873%3A%3AAID-SIM1%3E3.0.CO%3B2-I"
         );
     }
@@ -348,9 +360,14 @@ mod tests {
         let (_d, http) = client();
         let cache = Cache::in_memory().unwrap();
         let base = serve("200 OK", SAMPLE, 1).await;
-        let a = lookup_at(&http, Some(&cache), &base, "https://doi.org/10.1234/example.5")
-            .await
-            .unwrap();
+        let a = lookup_at(
+            &http,
+            Some(&cache),
+            &base,
+            "https://doi.org/10.1234/example.5",
+        )
+        .await
+        .unwrap();
         assert_eq!(a.mode, SourceMode::Live);
         assert_eq!(a.work.year, Some(2021));
         // The server answered once; the second lookup must come from the cache.
@@ -369,7 +386,11 @@ mod tests {
             .unwrap_err();
         assert!(matches!(e, PhnError::NotFound(_)), "{e}");
         let base = serve("200 OK", "<html>blocked</html>", 1).await;
-        assert!(lookup_at(&http, None, &base, "10.1234/example.5").await.is_err());
+        assert!(
+            lookup_at(&http, None, &base, "10.1234/example.5")
+                .await
+                .is_err()
+        );
         assert!(matches!(
             lookup_at(&http, None, BASE, "nonsense").await.unwrap_err(),
             PhnError::InvalidInput(_)

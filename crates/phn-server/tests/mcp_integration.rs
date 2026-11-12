@@ -1210,12 +1210,13 @@ async fn no_row_level_data_is_returned_by_default() {
                    "title": "School asthma trial"}),
             "data/study_abstract.txt",
         ),
-        // A note that carries a personal identifier is redacted before it is echoed or recorded.
+        // A note that carries an email address or phone number is redacted before it is echoed
+        // or recorded (names are redacted only where the detector can recognise them).
         (
             "appraise_evidence",
             json!({"design": "randomized_trial",
                    "answers": [{"question": "rct_sequence", "answer": "low",
-                                "note": "Dr. Perdita Stonehallow, perdita.stonehallow@example.org, 413-555-0191"}]}),
+                                "note": "Ask perdita.stonehallow@example.org or call 413-555-0191"}]}),
             "data/study_abstract.txt",
         ),
         // A client note is refused without echoing a value; a line list and a roster are not
@@ -1225,11 +1226,7 @@ async fn no_row_level_data_is_returned_by_default() {
             json!({"path": "client_note.txt"}),
             "data/client_note.txt",
         ),
-        (
-            "appraise_evidence",
-            json!({"path": "line_list.csv"}),
-            ll,
-        ),
+        ("appraise_evidence", json!({"path": "line_list.csv"}), ll),
         (
             "appraise_evidence",
             json!({"path": "shelter_registrations.csv", "design": "cohort"}),

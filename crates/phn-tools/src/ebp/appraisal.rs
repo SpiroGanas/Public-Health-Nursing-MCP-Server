@@ -544,7 +544,11 @@ pub fn apply_answers(
                 ids.join(", ")
             )));
         };
-        let value = a.answer.trim().to_lowercase().replace([' ', '-', '\''], "_");
+        let value = a
+            .answer
+            .trim()
+            .to_lowercase()
+            .replace([' ', '-', '\''], "_");
         let value = match value.as_str() {
             "cant_tell" | "cannot_tell" | "can_t_tell" | "cant tell" => "cant_tell".to_string(),
             "not_applicable" | "n/a" | "na" => "not_applicable".to_string(),
@@ -696,8 +700,10 @@ pub fn overall_rating(
             let keys: Vec<&QuestionOut> = if key_domains.is_empty() {
                 feeding.clone()
             } else {
-                let wanted: BTreeSet<String> =
-                    key_domains.iter().map(|k| k.trim().to_lowercase()).collect();
+                let wanted: BTreeSet<String> = key_domains
+                    .iter()
+                    .map(|k| k.trim().to_lowercase())
+                    .collect();
                 for k in &wanted {
                     if !feeding.iter().any(|q| &q.id == k) {
                         let ids: Vec<&str> = feeding.iter().map(|q| q.id.as_str()).collect();
@@ -707,10 +713,18 @@ pub fn overall_rating(
                         )));
                     }
                 }
-                feeding.iter().filter(|q| wanted.contains(&q.id)).copied().collect()
+                feeding
+                    .iter()
+                    .filter(|q| wanted.contains(&q.id))
+                    .copied()
+                    .collect()
             };
             let answered: Vec<&str> = keys.iter().filter_map(|q| q.answer.as_deref()).collect();
-            let missing: Vec<&QuestionOut> = keys.iter().filter(|q| q.answer.is_none()).copied().collect();
+            let missing: Vec<&QuestionOut> = keys
+                .iter()
+                .filter(|q| q.answer.is_none())
+                .copied()
+                .collect();
             out.unanswered = question_ids(&missing);
             out.complete = missing.is_empty();
             let high = answered.iter().filter(|a| **a == "high").count();
@@ -738,7 +752,11 @@ pub fn overall_rating(
         }
         "robins_table2" => {
             let answered: Vec<&str> = feeding.iter().filter_map(|q| q.answer.as_deref()).collect();
-            let missing: Vec<&QuestionOut> = feeding.iter().filter(|q| q.answer.is_none()).copied().collect();
+            let missing: Vec<&QuestionOut> = feeding
+                .iter()
+                .filter(|q| q.answer.is_none())
+                .copied()
+                .collect();
             out.unanswered = question_ids(&missing);
             out.complete = missing.is_empty();
             let count = |v: &str| answered.iter().filter(|a| **a == v).count();
@@ -772,14 +790,19 @@ pub fn overall_rating(
                 );
             } else if moderate > 0 {
                 out.rating = Some("moderate".into());
-                out.basis = format!("Every domain is low or moderate ({moderate} moderate, {low} low).");
+                out.basis =
+                    format!("Every domain is low or moderate ({moderate} moderate, {low} low).");
             } else {
                 out.rating = Some("low".into());
                 out.basis = "Every domain is low risk of bias.".into();
             }
         }
         "amstar2_box2" => {
-            let missing: Vec<&QuestionOut> = feeding.iter().filter(|q| q.answer.is_none()).copied().collect();
+            let missing: Vec<&QuestionOut> = feeding
+                .iter()
+                .filter(|q| q.answer.is_none())
+                .copied()
+                .collect();
             out.unanswered = question_ids(&missing);
             out.complete = missing.is_empty();
             let no = |q: &&&QuestionOut| q.answer.as_deref() == Some("no");
@@ -806,10 +829,12 @@ pub fn overall_rating(
                 out.basis = format!("One critical flaw: {counts}.");
             } else if weaknesses <= 1 {
                 out.rating = Some("high".into());
-                out.basis = format!("No critical flaw and at most one non-critical weakness: {counts}.");
+                out.basis =
+                    format!("No critical flaw and at most one non-critical weakness: {counts}.");
             } else {
                 out.rating = Some("moderate".into());
-                out.basis = format!("No critical flaw but more than one non-critical weakness: {counts}.");
+                out.basis =
+                    format!("No critical flaw but more than one non-critical weakness: {counts}.");
             }
         }
         _ => return Ok(None),
@@ -834,6 +859,7 @@ pub struct GradeJudgmentIn {
 
 /// Input for a GRADE certainty rating of a body of evidence for one outcome.
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize, JsonSchema)]
+#[serde(default)]
 pub struct GradeIn {
     /// The outcome the rating is for (for example "hospital admissions at 12 months").
     pub outcome: String,
@@ -888,7 +914,11 @@ pub fn grade_rating(
     input: &GradeIn,
     design_start: Option<&str>,
 ) -> Result<GradeOut> {
-    let outcome = input.outcome.split_whitespace().collect::<Vec<_>>().join(" ");
+    let outcome = input
+        .outcome
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     if outcome.is_empty() {
         return Err(PhnError::InvalidInput(
             "grade needs the outcome the rating is for".into(),
@@ -923,10 +953,7 @@ pub fn grade_rating(
                 .iter()
                 .map(|s| s.evidence_type.as_str())
                 .collect();
-            PhnError::InvalidInput(format!(
-                "evidence_type must be one of: {}",
-                ids.join(", ")
-            ))
+            PhnError::InvalidInput(format!("evidence_type must be one of: {}", ids.join(", ")))
         })?;
     let start_level = g
         .level(&start_def.start)
@@ -1016,7 +1043,13 @@ pub fn grade_rating(
         .iter()
         .map(|n| format!("{} ({}, {})", n.text, g.title(&n.source), n.section))
         .collect();
-    notes.insert(0, g.scope_note.split_whitespace().collect::<Vec<_>>().join(" "));
+    notes.insert(
+        0,
+        g.scope_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     Ok(GradeOut {
         outcome,
         evidence_type,
@@ -1049,6 +1082,7 @@ pub struct CerqualConcernIn {
 
 /// Input for a GRADE-CERQual assessment of one finding from a synthesis of qualitative studies.
 #[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize, JsonSchema)]
+#[serde(default)]
 pub struct CerqualIn {
     /// The review finding being assessed (a short statement).
     pub finding: String,
@@ -1250,7 +1284,9 @@ mod tests {
         // Every design has questions, and a defined overall method when it names one.
         for d in &c.designs {
             assert!(!c.questions_for(&d.id).is_empty(), "{}", d.id);
-            assert!(d.overall_method == "none" || c.overall_methods.contains_key(&d.overall_method));
+            assert!(
+                d.overall_method == "none" || c.overall_methods.contains_key(&d.overall_method)
+            );
         }
         // Question ids are unique.
         let ids: BTreeSet<&str> = c.questions.iter().map(|q| q.id.as_str()).collect();
@@ -1315,7 +1351,11 @@ mod tests {
         );
         assert_eq!(rct[0].design, "randomized_trial");
         assert_eq!(identification_strength(&rct), "likely");
-        assert!(rct[0].matched_words.contains(&"randomly assigned".to_string()));
+        assert!(
+            rct[0]
+                .matched_words
+                .contains(&"randomly assigned".to_string())
+        );
         let nrsi = identify_design(
             &c,
             "A non-randomized, quasi-experimental pre-post study with a comparison group.",
@@ -1332,7 +1372,10 @@ mod tests {
             "Semi-structured interviews and focus groups; thematic analysis until saturation.",
         );
         assert_eq!(qual[0].design, "qualitative");
-        let dx = identify_design(&c, "Sensitivity and specificity against a reference standard.");
+        let dx = identify_design(
+            &c,
+            "Sensitivity and specificity against a reference standard.",
+        );
         assert_eq!(dx[0].design, "diagnostic_accuracy");
         assert!(!dx[0].has_checklist);
         assert!(identify_design(&c, "Nothing here says what kind of study it is.").is_empty());
@@ -1349,11 +1392,41 @@ mod tests {
             &no_redact,
         )
         .unwrap();
-        assert_eq!(q.iter().find(|x| x.id == "rct_sequence").unwrap().answer.as_deref(), Some("low"));
-        assert_eq!(q.iter().find(|x| x.id == "rct_harms").unwrap().answer.as_deref(), Some("cant_tell"));
+        assert_eq!(
+            q.iter()
+                .find(|x| x.id == "rct_sequence")
+                .unwrap()
+                .answer
+                .as_deref(),
+            Some("low")
+        );
+        assert_eq!(
+            q.iter()
+                .find(|x| x.id == "rct_harms")
+                .unwrap()
+                .answer
+                .as_deref(),
+            Some("cant_tell")
+        );
         // Wrong scale value, unknown question, duplicate.
-        assert!(apply_answers(&c, "randomized_trial", &[ans("rct_sequence", "yes")], &no_redact).is_err());
-        assert!(apply_answers(&c, "randomized_trial", &[ans("obs_bias", "yes")], &no_redact).is_err());
+        assert!(
+            apply_answers(
+                &c,
+                "randomized_trial",
+                &[ans("rct_sequence", "yes")],
+                &no_redact
+            )
+            .is_err()
+        );
+        assert!(
+            apply_answers(
+                &c,
+                "randomized_trial",
+                &[ans("obs_bias", "yes")],
+                &no_redact
+            )
+            .is_err()
+        );
         assert!(
             apply_answers(
                 &c,
@@ -1364,8 +1437,24 @@ mod tests {
             .is_err()
         );
         // not_applicable only where a meta-analysis is needed.
-        assert!(apply_answers(&c, "systematic_review", &[ans("sr_11_meta", "not_applicable")], &no_redact).is_ok());
-        assert!(apply_answers(&c, "systematic_review", &[ans("sr_04_search", "not_applicable")], &no_redact).is_err());
+        assert!(
+            apply_answers(
+                &c,
+                "systematic_review",
+                &[ans("sr_11_meta", "not_applicable")],
+                &no_redact
+            )
+            .is_ok()
+        );
+        assert!(
+            apply_answers(
+                &c,
+                "systematic_review",
+                &[ans("sr_04_search", "not_applicable")],
+                &no_redact
+            )
+            .is_err()
+        );
         let t = tally(&q);
         assert_eq!((t.answered, t.unanswered), (2, t.questions - 2));
         let cs = concerns(&c, &q);
@@ -1390,7 +1479,12 @@ mod tests {
             let keys: Vec<String> = keys.iter().map(|s| s.to_string()).collect();
             overall_rating(&c, d, &q, &keys).unwrap().unwrap()
         };
-        assert_eq!(run(all_answers(&c, "randomized_trial", "low"), &[]).rating.as_deref(), Some("low"));
+        assert_eq!(
+            run(all_answers(&c, "randomized_trial", "low"), &[])
+                .rating
+                .as_deref(),
+            Some("low")
+        );
         let mut a = all_answers(&c, "randomized_trial", "low");
         a[1] = ans("rct_concealment", "unclear");
         assert_eq!(run(a.clone(), &[]).rating.as_deref(), Some("unclear"));
@@ -1431,16 +1525,42 @@ mod tests {
         };
         let low = || all_answers(&c, "non_randomized_intervention", "low");
         assert_eq!(run(low(), &[]).rating.as_deref(), Some("low"));
-        assert_eq!(run(low(), &[("nrsi_confounding", "moderate")]).rating.as_deref(), Some("moderate"));
         assert_eq!(
-            run(low(), &[("nrsi_confounding", "serious"), ("nrsi_missing", "moderate")]).rating.as_deref(),
+            run(low(), &[("nrsi_confounding", "moderate")])
+                .rating
+                .as_deref(),
+            Some("moderate")
+        );
+        assert_eq!(
+            run(
+                low(),
+                &[
+                    ("nrsi_confounding", "serious"),
+                    ("nrsi_missing", "moderate")
+                ]
+            )
+            .rating
+            .as_deref(),
             Some("serious")
         );
         assert_eq!(
-            run(low(), &[("nrsi_confounding", "serious"), ("nrsi_missing", "critical")]).rating.as_deref(),
+            run(
+                low(),
+                &[
+                    ("nrsi_confounding", "serious"),
+                    ("nrsi_missing", "critical")
+                ]
+            )
+            .rating
+            .as_deref(),
             Some("critical")
         );
-        assert_eq!(run(low(), &[("nrsi_missing", "no_information")]).rating.as_deref(), Some("no_information"));
+        assert_eq!(
+            run(low(), &[("nrsi_missing", "no_information")])
+                .rating
+                .as_deref(),
+            Some("no_information")
+        );
         let r = run(vec![ans("nrsi_confounding", "serious")], &[]);
         assert_eq!(r.rating.as_deref(), Some("serious"));
         assert!(r.provisional);
@@ -1460,24 +1580,41 @@ mod tests {
         };
         assert_eq!(run(&[]).rating.as_deref(), Some("high"));
         // One non-critical weakness is still high; two make it moderate.
-        assert_eq!(run(&[("sr_05_selection", "no")]).rating.as_deref(), Some("high"));
         assert_eq!(
-            run(&[("sr_05_selection", "no"), ("sr_06_extraction", "no")]).rating.as_deref(),
+            run(&[("sr_05_selection", "no")]).rating.as_deref(),
+            Some("high")
+        );
+        assert_eq!(
+            run(&[("sr_05_selection", "no"), ("sr_06_extraction", "no")])
+                .rating
+                .as_deref(),
             Some("moderate")
         );
         // A partial yes is listed but not counted.
-        let partial = run(&[("sr_05_selection", "partial_yes"), ("sr_06_extraction", "partial_yes")]);
+        let partial = run(&[
+            ("sr_05_selection", "partial_yes"),
+            ("sr_06_extraction", "partial_yes"),
+        ]);
         assert_eq!(partial.rating.as_deref(), Some("high"));
         assert!(partial.basis.contains("2 partial yes"));
-        assert_eq!(run(&[("sr_04_search", "no")]).rating.as_deref(), Some("low"));
         assert_eq!(
-            run(&[("sr_04_search", "no"), ("sr_02_protocol", "no")]).rating.as_deref(),
+            run(&[("sr_04_search", "no")]).rating.as_deref(),
+            Some("low")
+        );
+        assert_eq!(
+            run(&[("sr_04_search", "no"), ("sr_02_protocol", "no")])
+                .rating
+                .as_deref(),
             Some("critically_low")
         );
         assert_eq!(
-            run(&[("sr_11_meta", "not_applicable"), ("sr_12_meta_rob", "not_applicable"), ("sr_15_publication_bias", "not_applicable")])
-                .rating
-                .as_deref(),
+            run(&[
+                ("sr_11_meta", "not_applicable"),
+                ("sr_12_meta_rob", "not_applicable"),
+                ("sr_15_publication_bias", "not_applicable")
+            ])
+            .rating
+            .as_deref(),
             Some("high")
         );
         // Incomplete answers: two critical flaws already settle it, one does not.
@@ -1491,8 +1628,17 @@ mod tests {
         let r = overall_rating(&c, d, &q, &[]).unwrap().unwrap();
         assert_eq!(r.rating.as_deref(), Some("critically_low"));
         assert!(r.provisional && !r.complete);
-        let q = apply_answers(&c, "systematic_review", &[ans("sr_04_search", "no")], &no_redact).unwrap();
-        assert_eq!(overall_rating(&c, d, &q, &[]).unwrap().unwrap().rating, None);
+        let q = apply_answers(
+            &c,
+            "systematic_review",
+            &[ans("sr_04_search", "no")],
+            &no_redact,
+        )
+        .unwrap();
+        assert_eq!(
+            overall_rating(&c, d, &q, &[]).unwrap().unwrap().rating,
+            None
+        );
         // Designs without a rule have no overall rating.
         let cohort = c.design("cohort").unwrap();
         let q = apply_answers(&c, "cohort", &[], &no_redact).unwrap();
@@ -1517,7 +1663,10 @@ mod tests {
             ..GradeIn::default()
         };
         let out = grade_rating(&g, &input, None).unwrap();
-        assert_eq!((out.start.as_str(), out.total_change, out.computed.as_str()), ("high", -2, "low"));
+        assert_eq!(
+            (out.start.as_str(), out.total_change, out.computed.as_str()),
+            ("high", -2, "low")
+        );
         // Observational studies start low; a large effect raises them.
         let input = GradeIn {
             outcome: "Admissions".into(),
@@ -1525,7 +1674,10 @@ mod tests {
             ..GradeIn::default()
         };
         let out = grade_rating(&g, &input, Some("low")).unwrap();
-        assert_eq!((out.start.as_str(), out.computed.as_str()), ("low", "moderate"));
+        assert_eq!(
+            (out.start.as_str(), out.computed.as_str()),
+            ("low", "moderate")
+        );
         // The sum is held between very low and high.
         let input = GradeIn {
             outcome: "x".into(),
@@ -1556,7 +1708,14 @@ mod tests {
         assert!(grade_rating(&g, &with(vec![j("risk_of_bias", -3)]), None).is_err());
         assert!(grade_rating(&g, &with(vec![j("dose_response", 2)]), None).is_err());
         assert!(grade_rating(&g, &with(vec![j("vibes", -1)]), None).is_err());
-        assert!(grade_rating(&g, &with(vec![j("risk_of_bias", -1), j("risk_of_bias", -1)]), None).is_err());
+        assert!(
+            grade_rating(
+                &g,
+                &with(vec![j("risk_of_bias", -1), j("risk_of_bias", -1)]),
+                None
+            )
+            .is_err()
+        );
         // No outcome; no way to know the starting level.
         assert!(grade_rating(&g, &GradeIn::default(), None).is_err());
         let no_type = GradeIn {

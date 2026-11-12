@@ -253,7 +253,10 @@ pub async fn lookup_doi(ctx: &Context, doi: Option<&str>) -> Result<Option<DoiOu
     let r = crossref::lookup(&ctx.http, ctx.cache.as_ref(), &norm)
         .await
         .map_err(|e| e.to_string());
-    Ok(Some(DoiOutcome { doi: norm, lookup: r }))
+    Ok(Some(DoiOutcome {
+        doi: norm,
+        lookup: r,
+    }))
 }
 
 fn doi_info(o: &DoiOutcome) -> DoiInfo {
@@ -290,8 +293,16 @@ struct StudyText {
 }
 
 fn read_study_text(ctx: &Context, args: &AppraiseEvidenceArgs) -> Result<Option<StudyText>> {
-    let text = args.text.as_deref().map(str::trim).filter(|t| !t.is_empty());
-    let path = args.path.as_deref().map(str::trim).filter(|p| !p.is_empty());
+    let text = args
+        .text
+        .as_deref()
+        .map(str::trim)
+        .filter(|t| !t.is_empty());
+    let path = args
+        .path
+        .as_deref()
+        .map(str::trim)
+        .filter(|p| !p.is_empty());
     match (text, path) {
         (Some(_), Some(_)) => Err(PhnError::InvalidInput(
             "give either text or path, not both".into(),
@@ -316,7 +327,11 @@ fn read_study_text(ctx: &Context, args: &AppraiseEvidenceArgs) -> Result<Option<
             let kind = FileKind::of(&file);
             if !matches!(
                 kind,
-                FileKind::Text | FileKind::Markdown | FileKind::Docx | FileKind::Pdf | FileKind::Html
+                FileKind::Text
+                    | FileKind::Markdown
+                    | FileKind::Docx
+                    | FileKind::Pdf
+                    | FileKind::Html
             ) {
                 return Err(PhnError::Unsupported(
                     "appraise_evidence reads TXT, Markdown, DOCX, PDF, and HTML files".into(),
@@ -369,7 +384,10 @@ fn scan_study_text(text: &str, label: &str) -> Result<Vec<String>> {
             record_like.into_iter().collect::<Vec<_>>().join(", ")
         )));
     }
-    let mut cats: Vec<String> = findings.iter().map(|f| f.kind.label().to_string()).collect();
+    let mut cats: Vec<String> = findings
+        .iter()
+        .map(|f| f.kind.label().to_string())
+        .collect();
     cats.sort();
     cats.dedup();
     Ok(cats)
@@ -477,7 +495,11 @@ fn record_document(
                     cite.push(format!(
                         "{}{}",
                         w.authors.join(", "),
-                        if w.author_count > w.authors.len() { ", et al." } else { "" }
+                        if w.author_count > w.authors.len() {
+                            ", et al."
+                        } else {
+                            ""
+                        }
                     ));
                 }
                 if let Some(j) = &w.container_title {
@@ -500,7 +522,10 @@ fn record_document(
     blocks.push(heading(2, "Design"));
     blocks.push(para(match (&design.label, design.basis.as_str()) {
         (Some(l), "nurse") => format!("{l} (chosen by the appraiser)."),
-        (Some(l), _) => format!("{l} (suggested from the text; strength {}; confirm it).", design.strength),
+        (Some(l), _) => format!(
+            "{l} (suggested from the text; strength {}; confirm it).",
+            design.strength
+        ),
         _ => "Design not determined.".to_string(),
     }));
     if let Some(c) = checklist {
@@ -518,7 +543,10 @@ fn record_document(
                     vec![
                         q.domain.clone(),
                         q.text.clone(),
-                        q.answer.as_deref().map(answer_label).unwrap_or_else(|| "not answered".into()),
+                        q.answer
+                            .as_deref()
+                            .map(answer_label)
+                            .unwrap_or_else(|| "not answered".into()),
                         q.note.clone().unwrap_or_default(),
                         q.citation.clone(),
                     ]
@@ -542,7 +570,12 @@ fn record_document(
             blocks.push(heading(3, &o.method));
             blocks.push(para(format!("Rule: {}", o.rule)));
             blocks.push(para(match (&o.rating, o.provisional) {
-                (Some(r), true) => format!("Rating so far: {} (provisional; {} unanswered). {}", answer_label(r), o.unanswered.len(), o.basis),
+                (Some(r), true) => format!(
+                    "Rating so far: {} (provisional; {} unanswered). {}",
+                    answer_label(r),
+                    o.unanswered.len(),
+                    o.basis
+                ),
                 (Some(r), false) => format!("Rating: {}. {}", answer_label(r), o.basis),
                 (None, _) => format!("No rating yet. {}", o.basis),
             }));
@@ -560,7 +593,11 @@ fn record_document(
                 g.total_change,
                 g.computed_label,
                 if g.final_differs {
-                    format!(" The appraiser's final rating is {} ({}).", answer_label(&g.final_rating), g.final_reason.clone().unwrap_or_default())
+                    format!(
+                        " The appraiser's final rating is {} ({}).",
+                        answer_label(&g.final_rating),
+                        g.final_reason.clone().unwrap_or_default()
+                    )
                 } else {
                     String::new()
                 }
@@ -568,35 +605,53 @@ fn record_document(
             if !g.domains.is_empty() {
                 blocks.push(Block::Table(TableBlock {
                     caption: Some("GRADE domain judgments".into()),
-                    headers: ["Domain", "Change (levels)", "Reason"].map(String::from).to_vec(),
+                    headers: ["Domain", "Change (levels)", "Reason"]
+                        .map(String::from)
+                        .to_vec(),
                     rows: g
                         .domains
                         .iter()
-                        .map(|d| vec![d.label.clone(), format!("{:+}", d.change), d.reason.clone().unwrap_or_default()])
+                        .map(|d| {
+                            vec![
+                                d.label.clone(),
+                                format!("{:+}", d.change),
+                                d.reason.clone().unwrap_or_default(),
+                            ]
+                        })
                         .collect(),
                 }));
             }
         }
         if let Some(c) = &ct.cerqual {
-            blocks.push(heading(2, "GRADE-CERQual confidence in a qualitative finding"));
+            blocks.push(heading(
+                2,
+                "GRADE-CERQual confidence in a qualitative finding",
+            ));
             blocks.push(para(format!("Finding: {}", c.finding)));
             blocks.push(Block::Table(TableBlock {
                 caption: Some("CERQual components".into()),
-                headers: ["Component", "Concern", "Reason"].map(String::from).to_vec(),
+                headers: ["Component", "Concern", "Reason"]
+                    .map(String::from)
+                    .to_vec(),
                 rows: c
                     .components
                     .iter()
                     .map(|k| {
                         vec![
                             k.label.clone(),
-                            k.concern_label.clone().unwrap_or_else(|| "not assessed".into()),
+                            k.concern_label
+                                .clone()
+                                .unwrap_or_else(|| "not assessed".into()),
                             k.reason.clone().unwrap_or_default(),
                         ]
                     })
                     .collect(),
             }));
             blocks.push(para(match &c.overall_confidence {
-                Some(o) => format!("Overall: {o}. {}", c.overall_definition.clone().unwrap_or_default()),
+                Some(o) => format!(
+                    "Overall: {o}. {}",
+                    c.overall_definition.clone().unwrap_or_default()
+                ),
                 None => "Overall confidence: not yet judged.".into(),
             }));
         }
@@ -662,7 +717,10 @@ pub fn appraise_evidence(
     let doi_out = doi.as_ref().map(doi_info);
     if let Some(Ok(l)) = doi.as_ref().map(|o| &o.lookup) {
         // Public metadata: the title helps identify the design.
-        for t in [&l.work.title, &l.work.container_title].into_iter().flatten() {
+        for t in [&l.work.title, &l.work.container_title]
+            .into_iter()
+            .flatten()
+        {
             analysis_text.push('\n');
             analysis_text.push_str(t);
         }
@@ -699,7 +757,11 @@ pub fn appraise_evidence(
         chosen: chosen.clone(),
         label: def.map(|d| d.label.clone()),
         basis: basis.to_string(),
-        strength: if basis == "nurse" { "confirmed by you".into() } else { strength.clone() },
+        strength: if basis == "nurse" {
+            "confirmed by you".into()
+        } else {
+            strength.clone()
+        },
         how_to_tell: def.map(|d| d.how_to_tell.clone()),
         instrument: def.map(|d| d.instrument.clone()),
         candidates: std::mem::take(&mut candidates),
@@ -756,7 +818,9 @@ pub fn appraise_evidence(
 
     // Certainty.
     let qualitative = chosen.as_deref() == Some("qualitative");
-    let start_for_design = def.map(|d| d.starts_certainty.as_str()).filter(|s| *s != "none");
+    let start_for_design = def
+        .map(|d| d.starts_certainty.as_str())
+        .filter(|s| *s != "none");
     let certainty = if chosen.is_none() && !has_certainty {
         None
     } else {
@@ -769,7 +833,11 @@ pub fn appraise_evidence(
             None => None,
         };
         Some(CertaintyOut {
-            scope_note: g.scope_note.split_whitespace().collect::<Vec<_>>().join(" "),
+            scope_note: g
+                .scope_note
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
             starting_level_for_design: start_for_design.map(str::to_string),
             grade_guide: if args.grade.is_none() && args.cerqual.is_none() && !qualitative {
                 grade_guide(&g)
@@ -800,20 +868,24 @@ pub fn appraise_evidence(
                 .and_then(|l| l.work.title.clone())
         })
         .or_else(|| {
-            study_text.as_ref().filter(|t| t.from_file).map(|t| {
-                t.label.rsplit('/').next().unwrap_or(&t.label).to_string()
-            })
+            study_text
+                .as_ref()
+                .filter(|t| t.from_file)
+                .map(|t| t.label.rsplit('/').next().unwrap_or(&t.label).to_string())
         })
         .unwrap_or_else(|| "Study being appraised".into());
     let study = StudyInfo {
         label,
         text_source: study_text.as_ref().map(|t| t.label.clone()),
-        words: study_text.as_ref().map(|t| t.text.split_whitespace().count()),
+        words: study_text
+            .as_ref()
+            .map(|t| t.text.split_whitespace().count()),
         doi: doi_out,
     };
 
     // Caveats.
-    let mut caveats: Vec<String> = vec![
+    let mut caveats: Vec<String> =
+        vec![
         "This tool supports your own critical appraisal. It records your answers and applies each \
          instrument's published rule; it never answers a question for you, and appraisal \
          judgments (including GRADE) are not calculations."
@@ -847,7 +919,10 @@ pub fn appraise_evidence(
             ),
             _ => {}
         }
-        if matches!(d.id.as_str(), "cohort" | "case_control" | "cross_sectional" | "quality_improvement") {
+        if matches!(
+            d.id.as_str(),
+            "cohort" | "case_control" | "cross_sectional" | "quality_improvement"
+        ) {
             caveats.push(
                 "STROBE and SQUIRE 2.0 are reporting guidelines; their authors say they are not \
                  quality scores. The answers show what the report tells you and what you must \
@@ -886,7 +961,10 @@ pub fn appraise_evidence(
                 d.fallback_reason.clone().unwrap_or_default()
             ));
         } else if let Some(r) = &d.fallback_reason {
-            caveats.push(format!("Crossref details came from {}: {r}.", d.data_mode.clone().unwrap_or_default()));
+            caveats.push(format!(
+                "Crossref details came from {}: {r}.",
+                d.data_mode.clone().unwrap_or_default()
+            ));
         }
     }
     if certainty.as_ref().is_some_and(|c| c.grade.is_some()) {
@@ -907,14 +985,27 @@ pub fn appraise_evidence(
     if let Some(t) = &study_text {
         caveats.extend(t.notes.iter().cloned());
     }
-    caveats.extend(content::review_caveats(&[appraisal::CHECKLISTS, appraisal::GRADE]));
+    caveats.extend(content::review_caveats(&[
+        appraisal::CHECKLISTS,
+        appraisal::GRADE,
+    ]));
 
     // Record file.
     let casp = CaspOut {
         title: c.casp.title.clone(),
         url: c.casp.url.clone(),
-        licence_note: c.casp.licence_note.split_whitespace().collect::<Vec<_>>().join(" "),
-        checklists_note: c.casp.checklists_note.split_whitespace().collect::<Vec<_>>().join(" "),
+        licence_note: c
+            .casp
+            .licence_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+        checklists_note: c
+            .casp
+            .checklists_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
     };
     let write = args.write_record.unwrap_or(has_answers || has_certainty);
     let mut files_written = Vec::new();
@@ -925,7 +1016,15 @@ pub fn appraise_evidence(
                 "there is nothing to record yet: choose a design and give answers".into(),
             ));
         }
-        let doc = record_document(ctx, &study, &design_out, &checklist, &certainty, &caveats, &casp);
+        let doc = record_document(
+            ctx,
+            &study,
+            &design_out,
+            &checklist,
+            &certainty,
+            &caveats,
+            &casp,
+        );
         let (dir, _) = templates::output_folder(ctx, "evidence_appraisal")?;
         let bytes = phn_docs::docx::to_docx(&doc)?;
         let f = templates::write_in(ctx, &dir, "appraisal_record.docx", &bytes)?;
@@ -1009,11 +1108,16 @@ pub fn appraise_evidence(
                 vec![
                     q.id.clone(),
                     q.text.clone(),
-                    q.answer.as_deref().map(answer_label).unwrap_or_else(|| format!("({})", q.allowed_answers.join(" / ").replace('_', " "))),
+                    q.answer.as_deref().map(answer_label).unwrap_or_else(|| {
+                        format!("({})", q.allowed_answers.join(" / ").replace('_', " "))
+                    }),
                 ]
             })
             .collect();
-        s.push_str(&md::table(&["Question id", "Question", "Your answer"], &rows));
+        s.push_str(&md::table(
+            &["Question id", "Question", "Your answer"],
+            &rows,
+        ));
         if !cl.concerns.is_empty() {
             s.push_str("\n**Look again at:** ");
             s.push_str(
@@ -1028,7 +1132,11 @@ pub fn appraise_evidence(
         if let Some(o) = &cl.overall {
             s.push_str(&format!("\n**{}:** ", o.method));
             match (&o.rating, o.provisional) {
-                (Some(r), true) => s.push_str(&format!("{} so far (provisional). {}", answer_label(r), o.basis)),
+                (Some(r), true) => s.push_str(&format!(
+                    "{} so far (provisional). {}",
+                    answer_label(r),
+                    o.basis
+                )),
                 (Some(r), false) => s.push_str(&format!("**{}**. {}", answer_label(r), o.basis)),
                 (None, _) => s.push_str(&format!("not yet. {}", o.basis)),
             }
@@ -1063,7 +1171,9 @@ pub fn appraise_evidence(
         if let Some(co) = &ct.cerqual {
             s.push_str(&format!(
                 "\n**GRADE-CERQual for the finding:** {}.\n",
-                co.overall_confidence.clone().unwrap_or_else(|| "overall confidence not yet judged".into())
+                co.overall_confidence
+                    .clone()
+                    .unwrap_or_else(|| "overall confidence not yet judged".into())
             ));
         } else if !ct.cerqual_guide.is_empty() {
             s.push_str("\n**GRADE-CERQual (for findings from a synthesis of qualitative studies):** judge methodological_limitations, coherence, adequacy, and relevance, then pass `cerqual`.\n");
@@ -1151,7 +1261,11 @@ pub fn appraise_evidence(
         privacy.notes.push(format!(
             "The text from {} was analysed in memory to suggest the design; none of it is returned \
              (only words from the tool's fixed design word list).",
-            if t.from_file { "the file" } else { "the pasted text" }
+            if t.from_file {
+                "the file"
+            } else {
+                "the pasted text"
+            }
         ));
     }
     if !identifiers.is_empty() {
