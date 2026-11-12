@@ -588,6 +588,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 15 prevent (CHR-04, CHR-05).
     // End of Phase 15 prevent.
     // Phase 15 cha (EQ-08, EQ-09, EQ-10).
+    ContentItem {
+        id: "equity-prioritization",
+        path: "content/equity/prioritization.yaml",
+        resource_uri: "phn://content/equity-prioritization",
+        yaml: include_str!("../../../content/equity/prioritization.yaml"),
+        schema: include_str!("../../../content/schemas/equity_prioritization.schema.json"),
+    },
+    ContentItem {
+        id: "equity-qualitative-codebook",
+        path: "content/equity/qualitative_codebook.yaml",
+        resource_uri: "phn://content/equity-qualitative-codebook",
+        yaml: include_str!("../../../content/equity/qualitative_codebook.yaml"),
+        schema: include_str!("../../../content/schemas/equity_qualitative_codebook.schema.json"),
+    },
     // End of Phase 15 cha.
     // Phase 15 geo (EPI-13).
     // End of Phase 15 geo.

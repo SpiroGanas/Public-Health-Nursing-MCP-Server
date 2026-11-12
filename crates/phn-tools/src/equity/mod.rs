@@ -29,4 +29,9 @@ pub use resources::{ResourceSearchArgs, ResourceSearchResult, find_community_res
 // End of Phase 9 modules.
 
 // Phase 15 cha (EQ-08, EQ-09, EQ-10): add `pub mod` and `pub use` lines below.
+pub mod prioritize;
+pub mod qualitative;
+
+pub use prioritize::{PrioritizeArgs, PrioritizeResult, prioritize_health_issues};
+pub use qualitative::{QualitativeArgs, QualitativeResult, analyze_qualitative_data};
 // End of Phase 15 cha.

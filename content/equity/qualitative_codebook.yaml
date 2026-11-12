@@ -1,0 +1,351 @@
+# Starter codebook and de-identification settings for analyze_qualitative_data (EQ-10).
+#
+# The codes below are THIS PROJECT'S OWN DRAFT: a starter list of themes that commonly come up when
+# community members and key informants talk about health, with plain keywords for the tool's
+# keyword matching. No published codebook was copied or used. Keyword matching is a heuristic (it
+# finds words, not meaning; it cannot tell "I can't afford it" from "it is not a problem of
+# affording it"). Replace it with your own codebook (a CSV or YAML file in /data) before any
+# findings are reported, and read the coded excerpts yourself.
+#
+# REVIEW STATUS: pending. Every code is low confidence (not checked against any source).
+# Schema: content/schemas/equity_qualitative_codebook.schema.json
+meta:
+  id: equity-qualitative-codebook
+  title: Starter codebook and de-identification settings for qualitative analysis (project draft)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Starter codebook drafted for this project (not from a published instrument)
+    publisher: Public Health Nursing MCP Server contributors
+    url: null
+  related_sources:
+    - title: Community context assessment (qualitative data) in MAPP 2.0, as described by Front Public Health 2025;13:1601406
+      publisher: Frontiers in Public Health
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12283569/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The codes and keywords are this project's own draft and were not checked against any published
+    codebook or tested on real transcripts (low confidence). The rare-theme rule (a theme is
+    reported only when at least three different participants raised it) is a disclosure-control
+    choice made for this tool, not a published standard. The facilitator labels and the words the
+    name scrubber leaves alone are tool defaults. De-identification by pattern, name lists, and
+    capitalization is a heuristic: read the de-identified output before sharing it.
+
+# The smallest number of different participants that may raise a theme before its counts are shown.
+min_voices_floor: 3
+# Longest excerpt, in characters, written to the coded excerpt matrix.
+excerpt_max_chars: 320
+
+# Speaker labels treated as the facilitator or interviewer (their turns are not coded). Matched
+# without case, ignoring a trailing number.
+facilitator_labels:
+  - interviewer
+  - facilitator
+  - moderator
+  - note taker
+  - notetaker
+  - researcher
+  - host
+  - int
+  - fac
+  - mod
+  - q
+  - question
+
+# Labels that are not speakers even though they are followed by a colon.
+non_speaker_labels:
+  - note
+  - notes
+  - date
+  - time
+  - location
+  - place
+  - topic
+  - summary
+  - agenda
+  - transcript
+  - group
+  - focus group
+  - interview
+  - participants
+  - present
+  - attendees
+  - session
+  - recording
+  - duration
+  - purpose
+  - context
+
+# Capitalized words the name scrubber leaves alone (months, days, languages and ethnic or
+# national labels, common program and platform names). Towns and counties are read from the
+# server's Massachusetts list.
+keep_capitalized:
+  - january
+  - february
+  - march
+  - april
+  - may
+  - june
+  - july
+  - august
+  - september
+  - october
+  - november
+  - december
+  - monday
+  - tuesday
+  - wednesday
+  - thursday
+  - friday
+  - saturday
+  - sunday
+  - english
+  - spanish
+  - portuguese
+  - haitian
+  - creole
+  - chinese
+  - vietnamese
+  - cape
+  - verdean
+  - arabic
+  - russian
+  - khmer
+  - cambodian
+  - american
+  - african
+  - asian
+  - black
+  - white
+  - latino
+  - latina
+  - latinx
+  - hispanic
+  - brazilian
+  - medicaid
+  - medicare
+  - masshealth
+  - covid
+  - massachusetts
+  - christmas
+  - thanksgiving
+  - ramadan
+  - easter
+
+# Words that are not reported as candidate new codes.
+stopwords:
+  - about
+  - after
+  - again
+  - all
+  - also
+  - always
+  - because
+  - been
+  - before
+  - being
+  - between
+  - both
+  - came
+  - come
+  - could
+  - did
+  - does
+  - doing
+  - done
+  - dont
+  - down
+  - each
+  - even
+  - ever
+  - every
+  - from
+  - gave
+  - get
+  - gets
+  - getting
+  - give
+  - going
+  - gone
+  - good
+  - got
+  - great
+  - have
+  - having
+  - here
+  - how
+  - into
+  - just
+  - kind
+  - know
+  - like
+  - little
+  - lot
+  - lots
+  - made
+  - make
+  - many
+  - maybe
+  - more
+  - most
+  - much
+  - need
+  - never
+  - not
+  - now
+  - okay
+  - only
+  - other
+  - others
+  - our
+  - out
+  - over
+  - people
+  - really
+  - right
+  - said
+  - same
+  - say
+  - see
+  - she
+  - should
+  - some
+  - something
+  - sometimes
+  - still
+  - sure
+  - take
+  - than
+  - that
+  - their
+  - them
+  - then
+  - there
+  - these
+  - they
+  - thing
+  - things
+  - think
+  - this
+  - those
+  - though
+  - thought
+  - through
+  - time
+  - times
+  - too
+  - very
+  - want
+  - wanted
+  - was
+  - way
+  - well
+  - went
+  - were
+  - what
+  - when
+  - where
+  - which
+  - while
+  - who
+  - will
+  - with
+  - would
+  - yeah
+  - yes
+  - you
+  - your
+
+# Starter codes. Keywords are whole words, matched without case; a trailing * matches any ending
+# (transport* matches transportation); a keyword with a space matches that phrase.
+codes:
+  - code: ACCESS_CARE
+    theme: Health care access
+    definition: Getting (or not getting) medical, dental, or behavioral health care, including appointments, wait times, insurance, and where to go.
+    keywords: [doctor*, clinic*, appointment*, insurance, uninsured, masshealth, medicaid, "primary care", specialist*, pharmacy, prescription*, copay*, emergency room, "health center"]
+    confidence: low
+  - code: COST
+    theme: Cost and money
+    definition: Cost of care, medicine, food, or living; bills, debt, and not having enough money.
+    keywords: [afford*, cost*, expensive, bill*, debt, pay, paying, paycheck, income, poor, poverty, "can't pay", wage*]
+    confidence: low
+  - code: HOUSING
+    theme: Housing
+    definition: Rent, housing quality and stability, eviction, homelessness, and crowding.
+    keywords: [housing, rent, rents, landlord*, evict*, homeless*, apartment*, mold, shelter, lease, mortgage, crowded]
+    confidence: low
+  - code: FOOD
+    theme: Food
+    definition: Having, affording, or reaching healthy food; hunger; food programs.
+    keywords: [food, hungry, hunger, grocer*, snap, pantry, pantries, meal*, nutrition, "fresh produce", "food stamps"]
+    confidence: low
+  - code: TRANSPORT
+    theme: Transportation
+    definition: Getting to care, work, school, or stores; buses, rides, cars, and distance.
+    keywords: [transport*, bus, buses, ride*, "no car", parking, commute*, "public transit", walkable]
+    confidence: low
+  - code: MENTAL_HEALTH
+    theme: Mental health
+    definition: Stress, anxiety, depression, loneliness, trauma, and getting help for them.
+    keywords: [stress*, anxi*, depress*, "mental health", lonely, loneliness, isolat*, trauma*, counsel*, therap*, worry, worried, overwhelmed, "burned out"]
+    confidence: low
+  - code: SUBSTANCE_USE
+    theme: Substance use
+    definition: Alcohol, opioids, other drugs, vaping and tobacco, overdose, and recovery.
+    keywords: [opioid*, overdos*, alcohol*, drug*, addict*, recovery, fentanyl, vap*, smok*, tobacco, narcan, naloxone, sober*]
+    confidence: low
+  - code: SAFETY
+    theme: Safety and violence
+    definition: Feeling safe at home, at school, or in the neighborhood; crime, violence, and abuse.
+    keywords: [safe, safety, unsafe, violence, violent, crime*, gun*, shooting*, abuse*, assault*, "domestic violence", bully*]
+    confidence: low
+  - code: DISCRIMINATION_TRUST
+    theme: Discrimination and trust
+    definition: Racism, bias, stigma, being treated differently, and trust or distrust of institutions and providers.
+    keywords: [discriminat*, racis*, racial, bias*, stigma*, respect*, trust*, distrust*, "treated differently", disrespect*, immigration, deport*]
+    confidence: low
+  - code: LANGUAGE_CULTURE
+    theme: Language and culture
+    definition: Language barriers, interpreters, translated materials, and culturally fitting services.
+    keywords: [language*, interpret*, translat*, bilingual, "speak english", cultur*, "plain language"]
+    confidence: low
+  - code: CHILDREN_SCHOOL
+    theme: Children, child care, and school
+    definition: Child care, school, youth, and parenting.
+    keywords: ["child care", childcare, daycare, school*, teacher*, student*, teen*, youth, parent*, kids, children]
+    confidence: low
+  - code: WORK
+    theme: Work and income
+    definition: Jobs, hours, benefits, unemployment, and the effect of work on health and time.
+    keywords: [job, jobs, work, working, employ*, unemploy*, shift*, schedule*, "paid leave", "sick leave", "sick days", overtime]
+    confidence: low
+  - code: CHRONIC_DISEASE
+    theme: Chronic disease
+    definition: Diabetes, heart disease, high blood pressure, cancer, asthma, obesity, and managing them.
+    keywords: [diabet*, "blood pressure", hypertension, heart, cancer, asthma, obes*, cholesterol, "chronic disease", stroke]
+    confidence: low
+  - code: OLDER_ADULTS_CAREGIVING
+    theme: Older adults and caregiving
+    definition: Aging in place, dementia, home care, and caring for a family member.
+    keywords: [caregiv*, elder*, senior*, dementia, alzheimer*, "home care", "nursing home", "aging in place", "falls"]
+    confidence: low
+  - code: ENVIRONMENT
+    theme: Neighborhood and environment
+    definition: Parks, sidewalks, air, water, noise, heat, and the built environment.
+    keywords: [park, parks, sidewalk*, "air quality", pollution, polluted, noise, noisy, "green space", heat, flood*, "drinking water", lead]
+    confidence: low
+  - code: INFORMATION_NAVIGATION
+    theme: Information and navigation
+    definition: Knowing what services exist, how to sign up, paperwork, phone trees, and who to call.
+    keywords: [information, resources, navigat*, "don't know where", "hard to find", paperwork, forms, application*, referral*, website, "phone calls"]
+    confidence: low
+  - code: COMMUNITY_STRENGTHS
+    theme: Community strengths
+    definition: What is working: neighbors, faith and cultural groups, volunteers, local organizations, and a sense of community.
+    keywords: [neighbor*, church*, mosque*, temple*, volunteer*, "community center", "come together", "look out for", supportive, friends, family, pride, proud, "mutual aid"]
+    confidence: low
