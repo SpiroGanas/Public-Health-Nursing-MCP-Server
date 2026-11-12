@@ -347,7 +347,11 @@ fn resolve<'a>(c: &'a TheoryContent, wanted: &[String]) -> Result<Vec<&'a Theory
     Ok(out)
 }
 
-fn out_construct(c: &ConstructDef, matched: Vec<String>, sources: &BTreeMap<String, DocSource>) -> ConstructOut {
+fn out_construct(
+    c: &ConstructDef,
+    matched: Vec<String>,
+    sources: &BTreeMap<String, DocSource>,
+) -> ConstructOut {
     ConstructOut {
         id: c.id.clone(),
         name: c.name.clone(),
@@ -437,7 +441,7 @@ pub fn apply_behavior_change_theory(
         } else {
             let mut scored: Vec<(&TheoryDef, usize)> =
                 c.theories.iter().map(|t| (t, hits(t))).collect();
-            scored.sort_by(|a, b| b.1.cmp(&a.1));
+            scored.sort_by_key(|a| std::cmp::Reverse(a.1));
             let top: Vec<(&TheoryDef, usize)> = scored
                 .into_iter()
                 .filter(|(_, h)| *h > 0)
@@ -474,7 +478,9 @@ pub fn apply_behavior_change_theory(
                     .map(|(t, h)| {
                         (
                             t.id.clone(),
-                            format!("{h} word(s) or phrase(s) in your description match its constructs"),
+                            format!(
+                                "{h} word(s) or phrase(s) in your description match its constructs"
+                            ),
                         )
                     })
                     .collect();
@@ -517,7 +523,7 @@ pub fn apply_behavior_change_theory(
             .collect();
         let matched_count = cons.iter().filter(|(n, _)| *n > 0).count();
         // Matched first (most matches first), the rest in the library's order.
-        cons.sort_by(|a, b| b.0.cmp(&a.0));
+        cons.sort_by_key(|a| std::cmp::Reverse(a.0));
         theories_out.push(TheoryOut {
             id: t.id.clone(),
             name: t.name.clone(),
@@ -554,7 +560,7 @@ pub fn apply_behavior_change_theory(
                 }
             }
         }
-        refs.sort_by(|a, b| b.signals.len().cmp(&a.signals.len()));
+        refs.sort_by_key(|a| std::cmp::Reverse(a.signals.len()));
         refs.truncate(6);
         barrier_map.push(BarrierRow {
             barrier: b.clone(),
@@ -584,7 +590,7 @@ pub fn apply_behavior_change_theory(
                 }
             }
         }
-        fits.sort_by(|a, b| b.shared_words.len().cmp(&a.shared_words.len()));
+        fits.sort_by_key(|a| std::cmp::Reverse(a.shared_words.len()));
         fits.truncate(5);
         component_map.push(ComponentRow {
             component: comp.clone(),
@@ -845,7 +851,9 @@ fn summary(r: &TheoryResult) -> String {
         s.push('\n');
     }
     if !r.component_map.is_empty() {
-        s.push_str("**Your planned components and strategies they may fit (shared words only):**\n\n");
+        s.push_str(
+            "**Your planned components and strategies they may fit (shared words only):**\n\n",
+        );
         let rows: Vec<Vec<String>> = r
             .component_map
             .iter()
@@ -894,7 +902,12 @@ mod tests {
             }
             let mut kids = std::collections::BTreeSet::new();
             for k in &t.constructs {
-                assert!(kids.insert(k.id.clone()), "{}: duplicate construct {}", t.id, k.id);
+                assert!(
+                    kids.insert(k.id.clone()),
+                    "{}: duplicate construct {}",
+                    t.id,
+                    k.id
+                );
                 assert!(k.signals.len() >= 3, "{} {}", t.id, k.id);
                 for st in &k.strategies {
                     match st.basis.as_str() {
@@ -938,8 +951,19 @@ mod tests {
     #[test]
     fn resolve_accepts_ids_abbreviations_and_names() {
         let c = content();
-        let v = resolve(&c, &["HBM".into(), "social cognitive theory".into(), "com-b".into()]).unwrap();
-        assert_eq!(v.iter().map(|t| t.id.as_str()).collect::<Vec<_>>(), vec!["hbm", "sct", "comb"]);
+        let v = resolve(
+            &c,
+            &[
+                "HBM".into(),
+                "social cognitive theory".into(),
+                "com-b".into(),
+            ],
+        )
+        .unwrap();
+        assert_eq!(
+            v.iter().map(|t| t.id.as_str()).collect::<Vec<_>>(),
+            vec!["hbm", "sct", "comb"]
+        );
         assert_eq!(resolve(&c, &["all".into()]).unwrap().len(), 8);
         let e = resolve(&c, &["magic".into()]).unwrap_err().to_string();
         assert!(e.contains("hbm"), "{e}");
@@ -958,7 +982,11 @@ mod tests {
     fn strategy_sources_come_from_the_paper() {
         let c = content();
         let sct = c.theories.iter().find(|t| t.id == "sct").unwrap();
-        let k = sct.constructs.iter().find(|k| k.id == "self_efficacy").unwrap();
+        let k = sct
+            .constructs
+            .iter()
+            .find(|k| k.id == "self_efficacy")
+            .unwrap();
         assert!(k.strategies.iter().all(|s| s.basis == "source"));
     }
 }

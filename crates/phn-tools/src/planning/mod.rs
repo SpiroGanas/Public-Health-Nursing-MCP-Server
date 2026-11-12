@@ -9,9 +9,7 @@ pub mod performance;
 pub mod textmatch;
 pub mod theory;
 
-pub use interventions::{
-    EvidenceArgs, EvidenceResult, find_evidence_based_interventions,
-};
+pub use interventions::{EvidenceArgs, EvidenceResult, find_evidence_based_interventions};
 pub use performance::{PerformanceArgs, PerformanceResult, track_program_performance};
 pub use theory::{TheoryArgs, TheoryResult, apply_behavior_change_theory};
 // End of Phase 16 interventions.

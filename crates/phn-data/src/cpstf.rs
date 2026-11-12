@@ -45,7 +45,9 @@ impl RecordKind {
 }
 
 /// Rating words found in an abstract.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum RatingTerm {
     StrongEvidence,
@@ -160,7 +162,12 @@ pub fn load_snapshot(store: &SnapshotStore) -> Result<(CpstfSnapshot, SnapshotEn
 
 /// Split text into sentences at ". ", "? " or "! " followed by a capital, digit, or "(".
 pub fn sentences(text: &str) -> Vec<String> {
-    let chars: Vec<char> = text.split_whitespace().collect::<Vec<_>>().join(" ").chars().collect();
+    let chars: Vec<char> = text
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .chars()
+        .collect();
     let mut out = Vec::new();
     let mut start = 0usize;
     let mut i = 0usize;
@@ -260,9 +267,14 @@ pub fn rating_terms(abstract_text: &str) -> (Vec<RatingTerm>, Vec<String>) {
 /// which are not bundled). `None` for a paper that is not a review or recommendation.
 pub fn kind_of(title: &str) -> Option<RecordKind> {
     let t = title.to_lowercase();
-    if ["methods for", "community guide methods", "model for linking", "priority topics"]
-        .iter()
-        .any(|p| t.contains(p))
+    if [
+        "methods for",
+        "community guide methods",
+        "model for linking",
+        "priority topics",
+    ]
+    .iter()
+    .any(|p| t.contains(p))
     {
         return None;
     }
@@ -305,7 +317,9 @@ mod tests {
     use super::*;
 
     fn snap() -> CpstfSnapshot {
-        let (text, _, _) = SnapshotStore::bundled().file_text(SNAPSHOT_ID, FILE).unwrap();
+        let (text, _, _) = SnapshotStore::bundled()
+            .file_text(SNAPSHOT_ID, FILE)
+            .unwrap();
         parse_snapshot(&text).unwrap()
     }
 

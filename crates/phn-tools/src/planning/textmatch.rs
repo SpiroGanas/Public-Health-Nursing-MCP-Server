@@ -7,10 +7,10 @@ use std::collections::BTreeSet;
 
 /// Words that carry no meaning for matching.
 const STOP: &[&str] = &[
-    "a", "about", "an", "and", "are", "as", "at", "be", "been", "by", "for", "from", "has",
-    "have", "in", "is", "it", "its", "of", "on", "or", "our", "that", "the", "their", "them",
-    "they", "this", "to", "was", "we", "were", "which", "with", "who", "people", "program",
-    "programs", "health", "increase", "improve", "reduce", "use",
+    "a", "about", "an", "and", "are", "as", "at", "be", "been", "by", "for", "from", "has", "have",
+    "in", "is", "it", "its", "of", "on", "or", "our", "that", "the", "their", "them", "they",
+    "this", "to", "was", "we", "were", "which", "with", "who", "people", "program", "programs",
+    "health", "increase", "improve", "reduce", "use",
 ];
 
 /// Lower-case words (letters and digits; apostrophes kept inside words).
@@ -19,7 +19,10 @@ pub fn words(text: &str) -> Vec<String> {
     let mut cur = String::new();
     for c in text.chars() {
         if c.is_alphanumeric() || c == '\'' || c == '\u{2019}' {
-            cur.extend(c.to_lowercase().map(|x| if x == '\u{2019}' { '\'' } else { x }));
+            cur.extend(
+                c.to_lowercase()
+                    .map(|x| if x == '\u{2019}' { '\'' } else { x }),
+            );
         } else if !cur.is_empty() {
             out.push(std::mem::take(&mut cur));
         }

@@ -87,8 +87,8 @@
   titles, journals, dates, DOIs, and MeSH headings are PubMed's. Check: open five papers on
   PubMed and compare the rating sentences and the finding, conclusion, and implementation
   excerpts with the abstract; check the 51 papers typed "recommendation" from their titles (a few
-  are combined reports, not Task Force statements) and the four that carry a "title signal" of
-  recommended or recommended against; and compare a handful of the Task Force's current findings
+  are combined reports, not Task Force statements) and the six that carry a "title signal" of
+  recommended or recommended against (five and one); and compare a handful of the Task Force's current findings
   on the Community Guide site, because a paper can be older than the current recommendation. The
   snapshot is not the Community Guide's list; many recommendations have no journal paper. Abstract
   excerpts are short quotations; abstracts can be copyrighted by the journal.
@@ -105,7 +105,8 @@
   PMC, Crossref, and doi.org are not reachable; NCBI E-utilities (PubMed and PMC full text for
   open-access papers) are, and were the way to read theory papers.
 - **Evidence tool limits.** Ratings are per paper, not per intervention, and appear only when the
-  abstract says them (about a third of papers do). A paper can be updated or archived after
+  abstract (or, for six, the title) says them: 49 of 145 papers have rating words in the abstract
+  and 41 have no abstract in PubMed. A paper can be updated or archived after
   publication, and recommendations with no journal paper are missing. The live search only finds
   papers PubMed attributes to the Task Force by Corporate Author, and live records carry no MeSH
   headings, so they rank on title and abstract words only. The snapshot should be rebuilt

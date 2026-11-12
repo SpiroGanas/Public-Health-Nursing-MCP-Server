@@ -81,21 +81,33 @@ async fn evidence_search_uses_the_snapshot_offline_and_cites_it() {
     assert!(d["matched_total"].as_u64().unwrap() as usize >= matches.len());
     assert_eq!(d["live"]["attempted"], false);
     assert!(d["live"]["status"].as_str().unwrap().contains("offline"));
-    assert!(d["snapshot"]["retrieved"].as_str().unwrap().starts_with("2026-"));
+    assert!(
+        d["snapshot"]["retrieved"]
+            .as_str()
+            .unwrap()
+            .starts_with("2026-")
+    );
     assert!(d["snapshot"]["records"].as_u64().unwrap() > 100);
     for m in matches {
-        assert!(m["pubmed_url"].as_str().unwrap().starts_with("https://pubmed.ncbi.nlm.nih.gov/"));
+        assert!(
+            m["pubmed_url"]
+                .as_str()
+                .unwrap()
+                .starts_with("https://pubmed.ncbi.nlm.nih.gov/")
+        );
         assert_eq!(m["source_mode"], "snapshot");
         let year: i32 = m["published"].as_str().unwrap()[..4].parse().unwrap();
         assert!((1900..=2100).contains(&year));
         assert!(!m["evidence_rating"].as_str().unwrap().is_empty());
     }
     // The colorectal screening papers are in the snapshot.
-    assert!(
-        matches
-            .iter()
-            .any(|m| m["title"].as_str().unwrap().to_lowercase().contains("colorectal"))
-    );
+    assert!(matches.iter().any(|m| {
+        m["title"]
+            .as_str()
+            .unwrap()
+            .to_lowercase()
+            .contains("colorectal")
+    }));
     // Both sites that could not be read are named with what to check.
     let not_read: Vec<&str> = d["not_read"]
         .as_array()
@@ -114,7 +126,8 @@ async fn evidence_search_uses_the_snapshot_offline_and_cites_it() {
             .as_array()
             .unwrap()
             .iter()
-            .any(|x| x["mode"] == "snapshot" && x["retrieved"].as_str().unwrap().starts_with("2026-"))
+            .any(|x| x["mode"] == "snapshot"
+                && x["retrieved"].as_str().unwrap().starts_with("2026-"))
     );
     assert_eq!(s["privacy"]["row_level_data"], false);
 }
@@ -139,7 +152,12 @@ async fn a_rating_is_shown_only_when_the_paper_gives_it() {
             }
             "not in the PubMed record" => {
                 assert!(terms.is_empty());
-                assert!(m["evidence_rating"].as_str().unwrap().contains("Community Guide page"));
+                assert!(
+                    m["evidence_rating"]
+                        .as_str()
+                        .unwrap()
+                        .contains("Community Guide page")
+                );
             }
             "title wording" => assert!(terms.is_empty()),
             other => panic!("unknown basis {other}"),
@@ -157,9 +175,15 @@ async fn a_rating_is_shown_only_when_the_paper_gives_it() {
     let list = strong["data"]["matches"].as_array().unwrap();
     assert!(!list.is_empty());
     for m in list {
-        let t: Vec<&str> = m["rating_terms"].as_array().unwrap().iter().map(|x| x.as_str().unwrap()).collect();
+        let t: Vec<&str> = m["rating_terms"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|x| x.as_str().unwrap())
+            .collect();
         assert!(
-            t.iter().any(|x| ["strong_evidence", "sufficient_evidence", "recommended"].contains(x)),
+            t.iter()
+                .any(|x| ["strong_evidence", "sufficient_evidence", "recommended"].contains(x)),
             "{m}"
         );
     }
@@ -170,7 +194,11 @@ async fn a_rating_is_shown_only_when_the_paper_gives_it() {
     )
     .await;
     for m in ins["data"]["matches"].as_array().unwrap() {
-        assert!(m["rating_terms"].to_string().contains("insufficient_evidence"));
+        assert!(
+            m["rating_terms"]
+                .to_string()
+                .contains("insufficient_evidence")
+        );
     }
 }
 
@@ -183,15 +211,23 @@ async fn related_words_and_kind_filters_work() {
         json!({"topic": "smoking", "include_live": false, "max_results": 20}),
     )
     .await;
-    assert!(s["data"]["topics_recognized"].to_string().contains("Tobacco"));
     assert!(
-        s["data"]["matches"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|m| m["title"].as_str().unwrap().to_lowercase().contains("tobacco")
-                || m["title"].as_str().unwrap().to_lowercase().contains("smoke"))
+        s["data"]["topics_recognized"]
+            .to_string()
+            .contains("Tobacco")
     );
+    assert!(s["data"]["matches"].as_array().unwrap().iter().any(|m| {
+        m["title"]
+            .as_str()
+            .unwrap()
+            .to_lowercase()
+            .contains("tobacco")
+            || m["title"]
+                .as_str()
+                .unwrap()
+                .to_lowercase()
+                .contains("smoke")
+    }));
     let e = call_ok(
         &h,
         "find_evidence_based_interventions",
@@ -208,13 +244,11 @@ async fn related_words_and_kind_filters_work() {
         json!({"topic": "alcohol sales", "include_live": false, "max_results": 20}),
     )
     .await;
-    assert!(
-        old["data"]["matches"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|m| m["update_check"].as_str().is_some_and(|u| u.contains("updated or archived")))
-    );
+    assert!(old["data"]["matches"].as_array().unwrap().iter().any(|m| {
+        m["update_check"]
+            .as_str()
+            .is_some_and(|u| u.contains("updated or archived"))
+    }));
     // A topic with no words in the snapshot says so and points to the sites.
     let none = call_ok(
         &h,
@@ -229,7 +263,12 @@ async fn related_words_and_kind_filters_work() {
 #[tokio::test]
 async fn evidence_search_errors_are_helpful() {
     let h = start(|c| c.offline = true).await;
-    let e = call_err(&h, "find_evidence_based_interventions", json!({"topic": "  "})).await;
+    let e = call_err(
+        &h,
+        "find_evidence_based_interventions",
+        json!({"topic": "  "}),
+    )
+    .await;
     assert!(e.contains("topic is required"), "{e}");
     let e = call_err(
         &h,
@@ -269,7 +308,11 @@ async fn theory_maps_barriers_and_components_and_labels_every_strategy() {
     let theories = d["theories"].as_array().unwrap();
     assert!((2..=4).contains(&theories.len()), "{}", theories.len());
     // Some theory looks beyond the individual.
-    assert!(theories.iter().any(|t| t["level"].as_str().unwrap().contains("multilevel")));
+    assert!(
+        theories
+            .iter()
+            .any(|t| t["level"].as_str().unwrap().contains("multilevel"))
+    );
     for t in theories {
         assert!(!t["sources"].as_array().unwrap().is_empty());
         for k in t["constructs"].as_array().unwrap() {
@@ -345,7 +388,12 @@ async fn theory_choice_all_unknown_and_defaults() {
         json!({"problem": "Participation is low"}),
     )
     .await;
-    assert!(d["data"]["selection"].as_str().unwrap().contains("not a recommendation"));
+    assert!(
+        d["data"]["selection"]
+            .as_str()
+            .unwrap()
+            .contains("not a recommendation")
+    );
     assert!(caveats(&d).contains("No theory was chosen"));
     let e = call_err(
         &h,
@@ -420,8 +468,14 @@ async fn performance_matches_the_independent_reference_values() {
     // Cumulative count: total, progress, pace, status.
     let m = measure(&s, "Clients enrolled");
     assert_eq!(m["current"], e("Clients enrolled")["current"]);
-    assert_eq!(m["progress_percent"], e("Clients enrolled")["progress_percent"]);
-    assert_eq!(m["expected_by_now"], e("Clients enrolled")["expected_by_now"]);
+    assert_eq!(
+        m["progress_percent"],
+        e("Clients enrolled")["progress_percent"]
+    );
+    assert_eq!(
+        m["expected_by_now"],
+        e("Clients enrolled")["expected_by_now"]
+    );
     assert_eq!(m["status"], e("Clients enrolled")["status"]);
     assert!(m["trend"]["signals"].as_array().unwrap().is_empty());
     assert_eq!(e("Clients enrolled")["run_chart"]["signal"], false);
@@ -429,8 +483,16 @@ async fn performance_matches_the_independent_reference_values() {
     let m = measure(&s, "Participants screened");
     let pooled = e("Participants screened")["current"].as_f64().unwrap();
     assert_eq!(m["current"].as_f64().unwrap(), pooled);
-    assert_ne!(pooled, e("Participants screened")["mean_of_period_percentages"].as_f64().unwrap());
-    assert_eq!(m["progress_percent"], e("Participants screened")["progress_percent"]);
+    assert_ne!(
+        pooled,
+        e("Participants screened")["mean_of_period_percentages"]
+            .as_f64()
+            .unwrap()
+    );
+    assert_eq!(
+        m["progress_percent"],
+        e("Participants screened")["progress_percent"]
+    );
     assert_eq!(m["status"], e("Participants screened")["status"]);
     assert_eq!(m["trend"]["chart"], "p chart");
     // A steady rise is flagged by the run-chart rules, as the reference computes.
@@ -468,8 +530,14 @@ async fn performance_matches_the_independent_reference_values() {
     assert_eq!(s["privacy"]["suppression_threshold"], exp["threshold"]);
     assert_eq!(s["privacy"]["row_level_data"], false);
     // Nothing from the unread contact columns.
-    let all = everything(&h.call("track_program_performance", json!({"path": "program_metrics.csv",
-        "period_column": "Month", "targets": targets()})).await);
+    let all = everything(
+        &h.call(
+            "track_program_performance",
+            json!({"path": "program_metrics.csv",
+        "period_column": "Month", "targets": targets()}),
+        )
+        .await,
+    );
     assert!(leaks(&all, "data/program_metrics.csv", None).is_empty());
 }
 
@@ -501,7 +569,11 @@ async fn performance_writes_a_report_a_workbook_with_live_formulas_and_charts() 
         .output()
         .expect("unzip");
     let xml = String::from_utf8_lossy(&sheet1.stdout).to_string();
-    assert!(xml.contains("<f>SUM(Data!B$2:B$101)</f>"), "{}", &xml[..xml.len().min(2000)]);
+    assert!(
+        xml.contains("<f>SUM(Data!B$2:B$101)</f>"),
+        "{}",
+        &xml[..xml.len().min(2000)]
+    );
     assert!(xml.contains("COUNT(Data!B$2:B$101)"));
     assert!(xml.contains("\"On track\""));
     let sheet2 = std::process::Command::new("unzip")
@@ -510,7 +582,11 @@ async fn performance_writes_a_report_a_workbook_with_live_formulas_and_charts() 
         .expect("unzip");
     let xml2 = String::from_utf8_lossy(&sheet2.stdout).to_string();
     // The percent column is a formula down to row 101, and the data are numbers.
-    assert!(xml2.contains("<f>IF(OR(D2=\"\",D2=0),\"\",C2/D2*100)</f>"), "{}", &xml2[..xml2.len().min(2500)]);
+    assert!(
+        xml2.contains("<f>IF(OR(D2=\"\",D2=0),\"\",C2/D2*100)</f>"),
+        "{}",
+        &xml2[..xml2.len().min(2500)]
+    );
     assert!(xml2.contains("<f>IF(OR(D101=\"\""));
     // The report has the full values, including the counts the response hides.
     let doc = std::process::Command::new("unzip")
@@ -555,7 +631,10 @@ async fn performance_without_a_year_length_does_not_assess_pace_and_reads_long_f
     assert_eq!(l["data"]["last_period"], "2026 Q2");
     let bp = measure(&l, "Adults with controlled blood pressure");
     let pooled = (38.0 + 41.0 + 47.0 + 52.0) / (60.0 + 62.0 + 65.0 + 66.0) * 100.0;
-    assert!((bp["current"].as_f64().unwrap() - pooled).abs() < 0.006, "{bp}");
+    assert!(
+        (bp["current"].as_f64().unwrap() - pooled).abs() < 0.006,
+        "{bp}"
+    );
     assert_eq!(bp["status"], "Met");
     // 215 visits against a pace of 240 is 89.6%, just under the 90% rule.
     let hv = measure(&l, "Home visits completed");
@@ -565,9 +644,15 @@ async fn performance_without_a_year_length_does_not_assess_pace_and_reads_long_f
     let falls = measure(&l, "Falls prevention class graduates");
     assert_eq!(falls["withheld"], true);
     assert!(falls["current"].is_null());
-    let all = everything(&h.call("track_program_performance", json!({"path": "program_outcomes_long.csv",
+    let all = everything(
+        &h.call(
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv",
         "period_column": "Quarter", "measure_column": "Outcome", "value_column": "Value",
-        "targets": [{"measure": "Home visits completed", "target": 240}]})).await);
+        "targets": [{"measure": "Home visits completed", "target": 240}]}),
+        )
+        .await,
+    );
     assert!(leaks(&all, "data/program_outcomes_long.csv", None).is_empty());
 }
 
@@ -590,9 +675,15 @@ async fn performance_counts_records_by_month_and_never_returns_a_row() {
         let label = p["period"].as_str().unwrap();
         assert!(label.len() == 7 && label.as_bytes()[4] == b'-', "{label}");
     }
-    let all = everything(&h.call("track_program_performance", json!({"path": "line_list.csv",
+    let all = everything(
+        &h.call(
+            "track_program_performance",
+            json!({"path": "line_list.csv",
         "period_column": "Onset Date", "count_rows": true,
-        "targets": [{"measure": "Records", "target": 50}]})).await);
+        "targets": [{"measure": "Records", "target": 50}]}),
+        )
+        .await,
+    );
     assert!(leaks(&all, "data/line_list.csv", None).is_empty());
     assert!(!all.contains("C-2026"));
     assert!(caveats(&s).contains("Rows were counted per period"));

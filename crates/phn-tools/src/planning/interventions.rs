@@ -38,7 +38,9 @@ const MAX_TOPIC: usize = 200;
 /// Papers older than this many years get a note to check for updates.
 const OLD_YEARS: i32 = 8;
 /// A paper must score at least this on the topic words to be listed.
-const MIN_SCORE: u32 = 2;
+const MIN_SCORE: u32 = 3;
+/// A word the nurse typed counts this many times as a synonym the tool added.
+const OWN_WORD_WEIGHT: u32 = 3;
 const LIVE_SEARCH_MAX: u32 = 20;
 const LIVE_FETCH_MAX: usize = 12;
 
@@ -223,6 +225,8 @@ pub struct EvidenceResult {
 struct Query {
     /// Stemmed words of the topic and the synonyms of recognized topics.
     topic_stems: BTreeSet<String>,
+    /// The stemmed words the nurse typed (weighted more than the synonyms).
+    own_stems: BTreeSet<String>,
     /// Phrases for the live search.
     phrases: Vec<String>,
     topics_recognized: Vec<String>,
@@ -245,7 +249,8 @@ fn build_query(
     population: Option<&str>,
     setting: Option<&str>,
 ) -> Query {
-    let mut topic_stems = stems(topic);
+    let own_stems = stems(topic);
+    let mut topic_stems = own_stems.clone();
     let mut phrases = vec![topic.to_string()];
     let mut recognized = Vec::new();
     for t in &c.topics {
@@ -281,6 +286,7 @@ fn build_query(
     boost.retain(|b| !topic_stems.contains(b));
     Query {
         topic_stems,
+        own_stems,
         phrases,
         topics_recognized: recognized,
         boost_stems: boost,
@@ -305,7 +311,12 @@ fn score(q: &Query, title: &str, mesh: &[String], text: &str) -> (u32, Vec<Strin
             0
         };
         if pts > 0 {
-            base += pts;
+            base += pts
+                * if q.own_stems.contains(p) {
+                    OWN_WORD_WEIGHT
+                } else {
+                    1
+                };
             matched.push(p.clone());
         }
     }
@@ -381,7 +392,9 @@ fn passes_evidence(terms: &[RatingTerm], f: EvidenceFilter) -> bool {
         EvidenceFilter::StrongOrRecommended => terms.iter().any(|t| {
             matches!(
                 t,
-                RatingTerm::StrongEvidence | RatingTerm::SufficientEvidence | RatingTerm::Recommended
+                RatingTerm::StrongEvidence
+                    | RatingTerm::SufficientEvidence
+                    | RatingTerm::Recommended
             )
         }),
         EvidenceFilter::Insufficient => terms.contains(&RatingTerm::InsufficientEvidence),
@@ -598,7 +611,13 @@ pub async fn find_evidence_based_interventions(
             let eu = Eutils::new();
             let outcome = async {
                 let (found, prov, _) = eu
-                    .search(&ctx.http, ctx.cache.as_ref(), &query, LIVE_SEARCH_MAX, "pub_date")
+                    .search(
+                        &ctx.http,
+                        ctx.cache.as_ref(),
+                        &query,
+                        LIVE_SEARCH_MAX,
+                        "pub_date",
+                    )
                     .await?;
                 let new_ids: Vec<String> = found
                     .ids
@@ -785,15 +804,17 @@ pub async fn find_evidence_based_interventions(
         .caveats(caveats)
         .privacy(Privacy {
             row_level_data: false,
-            notes: vec![if args.include_live.unwrap_or(true) && !ctx.http.is_offline() {
-                "Only the topic words you gave were sent to PubMed for the live search; no \
+            notes: vec![
+                if args.include_live.unwrap_or(true) && !ctx.http.is_offline() {
+                    "Only the topic words you gave were sent to PubMed for the live search; no \
                  local files were read."
-                    .to_string()
-            } else {
-                "The search ran on the bundled snapshot; nothing was sent anywhere and no \
+                        .to_string()
+                } else {
+                    "The search ran on the bundled snapshot; nothing was sent anywhere and no \
                  local files were read."
-                    .to_string()
-            }],
+                        .to_string()
+                },
+            ],
             ..Privacy::none()
         }))
 }
@@ -829,13 +850,22 @@ fn summary(r: &EvidenceResult) -> String {
                         "{}, {}{}",
                         m.journal.as_deref().unwrap_or("-"),
                         m.published,
-                        if m.source_mode == "live" { " (new in PubMed)" } else { "" }
+                        if m.source_mode == "live" {
+                            " (new in PubMed)"
+                        } else {
+                            ""
+                        }
                     ),
                 ]
             })
             .collect();
         s.push_str(&md::table(
-            &["Evidence wording (from the paper)", "Paper", "Kind", "Journal, date"],
+            &[
+                "Evidence wording (from the paper)",
+                "Paper",
+                "Kind",
+                "Journal, date",
+            ],
             &rows,
         ));
         s.push('\n');
@@ -879,10 +909,18 @@ mod tests {
     fn topic_synonyms_are_recognized() {
         let c = content();
         let q = build_query(&c, "reduce smoking", None, None);
-        assert!(q.topics_recognized.iter().any(|t| t.contains("Tobacco")), "{:?}", q.topics_recognized);
+        assert!(
+            q.topics_recognized.iter().any(|t| t.contains("Tobacco")),
+            "{:?}",
+            q.topics_recognized
+        );
         assert!(q.topic_stems.contains("tobacco"));
         let q = build_query(&c, "kids who drink", Some("adolescents"), Some("school"));
-        assert!(q.topics_recognized.iter().any(|t| t == "Alcohol"), "{:?}", q.topics_recognized);
+        assert!(
+            q.topics_recognized.iter().any(|t| t == "Alcohol"),
+            "{:?}",
+            q.topics_recognized
+        );
         assert!(q.boost_stems.contains("adolescent") || q.boost_stems.contains("school"));
     }
 
@@ -926,9 +964,18 @@ mod tests {
 
     #[test]
     fn evidence_filters() {
-        assert!(passes_evidence(&[RatingTerm::StrongEvidence], EvidenceFilter::StrongOrRecommended));
-        assert!(!passes_evidence(&[RatingTerm::InsufficientEvidence], EvidenceFilter::StrongOrRecommended));
-        assert!(passes_evidence(&[RatingTerm::InsufficientEvidence], EvidenceFilter::Insufficient));
+        assert!(passes_evidence(
+            &[RatingTerm::StrongEvidence],
+            EvidenceFilter::StrongOrRecommended
+        ));
+        assert!(!passes_evidence(
+            &[RatingTerm::InsufficientEvidence],
+            EvidenceFilter::StrongOrRecommended
+        ));
+        assert!(passes_evidence(
+            &[RatingTerm::InsufficientEvidence],
+            EvidenceFilter::Insufficient
+        ));
         assert!(passes_evidence(&[], EvidenceFilter::Any));
         assert!(!passes_evidence(&[], EvidenceFilter::Insufficient));
     }

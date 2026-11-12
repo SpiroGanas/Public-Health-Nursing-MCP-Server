@@ -297,7 +297,11 @@ fn next_key(k: (i32, u32), p: Period) -> (i32, u32) {
         Period::Month => 12,
         Period::Quarter => 4,
     };
-    if k.1 >= max { (k.0 + 1, 1) } else { (k.0, k.1 + 1) }
+    if k.1 >= max {
+        (k.0 + 1, 1)
+    } else {
+        (k.0, k.1 + 1)
+    }
 }
 
 const MONTHS: [&str; 12] = [
@@ -311,11 +315,11 @@ pub(crate) fn text_period_key(label: &str) -> Option<(i32, u32)> {
     let mut ord: Option<u32> = None;
     for t in &toks {
         let t = t.as_str();
-        if let Some(rest) = t.strip_prefix("fy") {
-            if let Ok(n) = rest.parse::<i32>() {
-                year = Some(if n < 100 { 2000 + n } else { n });
-                continue;
-            }
+        if let Some(rest) = t.strip_prefix("fy")
+            && let Ok(n) = rest.parse::<i32>()
+        {
+            year = Some(if n < 100 { 2000 + n } else { n });
+            continue;
         }
         if let Ok(n) = t.parse::<i32>() {
             if (1900..=2100).contains(&n) {
@@ -327,13 +331,13 @@ pub(crate) fn text_period_key(label: &str) -> Option<(i32, u32)> {
                 continue;
             }
         }
-        if t.len() == 2 && t.starts_with('q') {
-            if let Ok(q) = t[1..].parse::<u32>() {
-                if (1..=4).contains(&q) {
-                    ord = Some(q);
-                    continue;
-                }
-            }
+        if t.len() == 2
+            && t.starts_with('q')
+            && let Ok(q) = t[1..].parse::<u32>()
+            && (1..=4).contains(&q)
+        {
+            ord = Some(q);
+            continue;
         }
         if t.len() >= 3
             && let Some(i) = MONTHS.iter().position(|m| t.starts_with(m))
@@ -384,7 +388,11 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
         )));
     }
     // Dates are rolled up; other labels are used as written.
-    let dates: Vec<Option<NaiveDate>> = lt.table.column(pi).map(phn_local::phi::parse_date).collect();
+    let dates: Vec<Option<NaiveDate>> = lt
+        .table
+        .column(pi)
+        .map(phn_local::phi::parse_date)
+        .collect();
     let date_count = dates.iter().flatten().count();
     let date_mode = date_count * 10 >= present * 8;
     let dp = args.date_period.unwrap_or_default();
@@ -477,7 +485,11 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
     if order.is_empty() {
         return Err(PhnError::InvalidInput("no periods could be read".into()));
     }
-    let pos: BTreeMap<&str, usize> = order.iter().enumerate().map(|(i, l)| (l.as_str(), i)).collect();
+    let pos: BTreeMap<&str, usize> = order
+        .iter()
+        .enumerate()
+        .map(|(i, l)| (l.as_str(), i))
+        .collect();
     let np = order.len();
     let mut series: BTreeMap<String, Series2> = BTreeMap::new();
     let new = || Series2 {
@@ -549,7 +561,11 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
             }
         }
     } else {
-        layout = if count_rows_mode { "records counted" } else { "wide" };
+        layout = if count_rows_mode {
+            "records counted"
+        } else {
+            "wide"
+        };
         for sp in specs {
             let s = series.entry(sp.measure.clone()).or_insert_with(new);
             if count_rows_mode && sp.measure.eq_ignore_ascii_case("records") {
@@ -572,7 +588,9 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
             };
             for r in 0..n_rows {
                 let Some(l) = &labels[r] else { continue };
-                let Some(&i) = pos.get(l.as_str()) else { continue };
+                let Some(&i) = pos.get(l.as_str()) else {
+                    continue;
+                };
                 if let Some(x) = v[r] {
                     add(&mut s.num, i, x);
                 }
@@ -642,17 +660,17 @@ fn compute(
                 }
             }
             MeasureKind::Percent => {
-                if let (Some(num), Some(den)) = (s.num[i], s.den[i]) {
-                    if den > 0.0 {
-                        if num > den {
-                            return Err(PhnError::InvalidInput(format!(
-                                "measure '{}': a numerator is larger than its denominator",
-                                spec.measure
-                            )));
-                        }
-                        values[i] = Some(num / den * 100.0);
-                        hide[i] = small(num) || small(den) || small(den - num);
+                if let (Some(num), Some(den)) = (s.num[i], s.den[i])
+                    && den > 0.0
+                {
+                    if num > den {
+                        return Err(PhnError::InvalidInput(format!(
+                            "measure '{}': a numerator is larger than its denominator",
+                            spec.measure
+                        )));
                     }
+                    values[i] = Some(num / den * 100.0);
+                    hide[i] = small(num) || small(den) || small(den - num);
                 }
             }
         }
@@ -696,7 +714,11 @@ fn compute(
                     } else if let Some(total) = periods_in_program.filter(|p| *p > 0) {
                         let e = target * reported as f64 / f64::from(total);
                         expected = Some(e);
-                        if v >= on_track * e { "On track".into() } else { "Behind".into() }
+                        if v >= on_track * e {
+                            "On track".into()
+                        } else {
+                            "Behind".into()
+                        }
                     } else {
                         "Not yet met".into()
                     }
@@ -797,13 +819,18 @@ fn to_result(c: &Computed, periods: &[String], chart: Option<ChartFiles>) -> Mea
         for (k, p) in t.points.iter().enumerate() {
             if !p.signals.is_empty() {
                 let pi = c.trend_labels[k];
-                let rules: Vec<String> = p.signals.iter().map(|r| r.describe().to_string()).collect();
+                let rules: Vec<String> =
+                    p.signals.iter().map(|r| r.describe().to_string()).collect();
                 signals_text.push(format!("{}: {}", periods[pi], rules.join("; ")));
                 sig_by_period.insert(pi, rules);
             }
         }
     }
-    let center = c.trend.as_ref().and_then(|t| t.points.last()).map(|p| p.center);
+    let center = c
+        .trend
+        .as_ref()
+        .and_then(|t| t.points.last())
+        .map(|p| p.center);
     let latest_vs = match (center, c.trend.as_ref().and_then(|t| t.points.last())) {
         (Some(ce), Some(p)) => Some(
             if (p.value - ce).abs() < 1e-12 {
@@ -822,7 +849,11 @@ fn to_result(c: &Computed, periods: &[String], chart: Option<ChartFiles>) -> Mea
         .enumerate()
         .map(|(i, p)| PeriodRow {
             period: p.clone(),
-            value: if c.hide[i] { None } else { c.values[i].map(round2) },
+            value: if c.hide[i] {
+                None
+            } else {
+                c.values[i].map(round2)
+            },
             numerator: if c.spec.kind == MeasureKind::Percent && !c.hide[i] {
                 c.nums.get(i).copied().flatten()
             } else {
@@ -853,14 +884,33 @@ fn to_result(c: &Computed, periods: &[String], chart: Option<ChartFiles>) -> Mea
         baseline: c.spec.baseline,
         periods: rows,
         periods_reported: c.reported,
-        current: if withheld { None } else { c.current.map(round2) },
-        latest: if c.hide.iter().rev().zip(c.values.iter().rev()).find(|(_, v)| v.is_some()).is_some_and(|(h, _)| *h) {
+        current: if withheld {
+            None
+        } else {
+            c.current.map(round2)
+        },
+        latest: if c
+            .hide
+            .iter()
+            .rev()
+            .zip(c.values.iter().rev())
+            .find(|(_, v)| v.is_some())
+            .is_some_and(|(h, _)| *h)
+        {
             None
         } else {
             c.latest.map(round2)
         },
-        progress_percent: if withheld { None } else { c.progress.map(round2) },
-        expected_by_now: if withheld { None } else { c.expected.map(round2) },
+        progress_percent: if withheld {
+            None
+        } else {
+            c.progress.map(round2)
+        },
+        expected_by_now: if withheld {
+            None
+        } else {
+            c.expected.map(round2)
+        },
         status: if withheld {
             "Not shown: a small count in this measure is suppressed (the report and workbook in the output folder have the values)".into()
         } else {
@@ -908,7 +958,10 @@ fn build_specs(args: &PerformanceArgs) -> Result<Vec<Spec>> {
     let mut specs: Vec<Spec> = Vec::new();
     for t in &args.targets {
         let measure = clean_name("measure", &t.measure)?;
-        if specs.iter().any(|s| s.measure.eq_ignore_ascii_case(&measure)) {
+        if specs
+            .iter()
+            .any(|s| s.measure.eq_ignore_ascii_case(&measure))
+        {
             return Err(PhnError::InvalidInput(format!(
                 "measure '{measure}' is listed twice"
             )));
@@ -940,7 +993,9 @@ fn build_specs(args: &PerformanceArgs) -> Result<Vec<Spec>> {
             }
             (None, _) => None,
         };
-        if kind == MeasureKind::Percent && denominator.is_none() && args.denominator_column.is_none()
+        if kind == MeasureKind::Percent
+            && denominator.is_none()
+            && args.denominator_column.is_none()
         {
             return Err(PhnError::InvalidInput(format!(
                 "'{measure}' is a percent measure and needs a denominator: give `denominator` \
@@ -955,7 +1010,11 @@ fn build_specs(args: &PerformanceArgs) -> Result<Vec<Spec>> {
             denominator,
             basis: t.basis.unwrap_or_default(),
             baseline: t.baseline,
-            unit: t.unit.as_ref().map(|u| u.trim().to_string()).filter(|u| !u.is_empty()),
+            unit: t
+                .unit
+                .as_ref()
+                .map(|u| u.trim().to_string())
+                .filter(|u| !u.is_empty()),
         });
     }
     Ok(specs)
@@ -999,7 +1058,9 @@ pub fn track_program_performance(
     };
     if args.count_rows.unwrap_or(false)
         && args.measure_column.is_none()
-        && !specs.iter().any(|s| s.measure.eq_ignore_ascii_case("records"))
+        && !specs
+            .iter()
+            .any(|s| s.measure.eq_ignore_ascii_case("records"))
     {
         return Err(PhnError::InvalidInput(
             "with count_rows, give a target for the measure \"Records\"".into(),
@@ -1020,7 +1081,13 @@ pub fn track_program_performance(
         } else {
             s
         };
-        computed.push(compute(sp, &s, threshold, args.periods_in_program, on_track)?);
+        computed.push(compute(
+            sp,
+            &s,
+            threshold,
+            args.periods_in_program,
+            on_track,
+        )?);
     }
 
     // Charts (full values; written to the output folder).
@@ -1033,7 +1100,10 @@ pub fn track_program_performance(
             }
             let title = format!(
                 "{}{}",
-                program.as_ref().map(|p| format!("{p}: ")).unwrap_or_default(),
+                program
+                    .as_ref()
+                    .map(|p| format!("{p}: "))
+                    .unwrap_or_default(),
                 c.spec.measure
             );
             let mut spec = ChartSpec::new(ChartKind::Line, title, periods.clone());
@@ -1069,7 +1139,12 @@ pub fn track_program_performance(
                     .map(|(k, p)| Flag {
                         series: 0,
                         index: c.trend_labels[k],
-                        label: p.signals.iter().map(|r| r.describe()).collect::<Vec<_>>().join("; "),
+                        label: p
+                            .signals
+                            .iter()
+                            .map(|r| r.describe())
+                            .collect::<Vec<_>>()
+                            .join("; "),
                     })
                     .collect();
             }
@@ -1163,7 +1238,9 @@ pub fn track_program_performance(
          together with the visible numbers they would reveal it."
             .into(),
     ];
-    if loaded.layout == "records counted" || args.measure_column.is_some() && args.value_column.is_none() {
+    if loaded.layout == "records counted"
+        || args.measure_column.is_some() && args.value_column.is_none()
+    {
         caveats.push(
             "Rows were counted per period; one row is assumed to be one record. Dates were rolled \
              up to periods, and only counts are returned."
@@ -1213,13 +1290,18 @@ pub fn track_program_performance(
 // ---------------------------------------------------------------- report
 
 fn fmt(x: Option<f64>) -> String {
-    x.map_or("-".into(), |v| md::num(v, if (v - v.round()).abs() < 1e-9 { 0 } else { 1 }))
+    x.map_or("-".into(), |v| {
+        md::num(v, if (v - v.round()).abs() < 1e-9 { 0 } else { 1 })
+    })
 }
 
 fn summary(r: &PerformanceResult) -> String {
     let mut s = format!(
         "**Program performance{}**: {} to {} ({} periods).\n\n",
-        r.program.as_ref().map(|p| format!(" for {p}")).unwrap_or_default(),
+        r.program
+            .as_ref()
+            .map(|p| format!(" for {p}"))
+            .unwrap_or_default(),
         r.first_period,
         r.last_period,
         r.periods
@@ -1232,10 +1314,14 @@ fn summary(r: &PerformanceResult) -> String {
                 m.measure.clone(),
                 fmt(m.target),
                 fmt(m.current),
-                fmt(m.progress_percent).replace('-', "-"),
+                fmt(m.progress_percent),
                 m.status.clone(),
                 if m.trend.signals.is_empty() {
-                    if m.trend.points == 0 { "not assessed".into() } else { "no signal".into() }
+                    if m.trend.points == 0 {
+                        "not assessed".into()
+                    } else {
+                        "no signal".into()
+                    }
                 } else {
                     format!("{} signal(s)", m.trend.signals.len())
                 },
@@ -1243,13 +1329,23 @@ fn summary(r: &PerformanceResult) -> String {
         })
         .collect();
     s.push_str(&md::table(
-        &["Measure", "Target", "Current", "Progress (%)", "Status", "Trend"],
+        &[
+            "Measure",
+            "Target",
+            "Current",
+            "Progress (%)",
+            "Status",
+            "Trend",
+        ],
         &rows,
     ));
     s.push('\n');
     for m in &r.measures {
         if !m.trend.signals.is_empty() {
-            s.push_str(&format!("**{}** trend signals ({}):\n", m.measure, m.trend.chart));
+            s.push_str(&format!(
+                "**{}** trend signals ({}):\n",
+                m.measure, m.trend.chart
+            ));
             for x in &m.trend.signals {
                 s.push_str(&format!("- {x}\n"));
             }
@@ -1274,7 +1370,10 @@ fn summary(r: &PerformanceResult) -> String {
 fn report_markdown(r: &PerformanceResult, computed: &[Computed], periods: &[String]) -> String {
     let mut m = format!(
         "# Program performance report{}\n\n",
-        r.program.as_ref().map(|p| format!(": {p}")).unwrap_or_default()
+        r.program
+            .as_ref()
+            .map(|p| format!(": {p}"))
+            .unwrap_or_default()
     );
     m.push_str(&format!(
         "Reporting periods: {} to {} ({} periods).\n\n",
@@ -1289,7 +1388,7 @@ fn report_markdown(r: &PerformanceResult, computed: &[Computed], periods: &[Stri
                 fmt(c.spec.target),
                 fmt(c.current.map(round2)),
                 fmt(c.progress.map(round2)),
-                if c.status == "No target given" { c.status.clone() } else { c.status.clone() },
+                c.status.clone(),
             ]
         })
         .collect();
@@ -1391,8 +1490,20 @@ fn build_workbook(
         ),
         &bold,
     )?;
-    summary.write_string(1, 0, format!("Periods in the file: {} to {}", r.first_period, r.last_period))?;
-    summary.write_string_with_format(2, 0, "Periods in the program year (for pace; leave blank for none)", &bold)?;
+    summary.write_string(
+        1,
+        0,
+        format!(
+            "Periods in the file: {} to {}",
+            r.first_period, r.last_period
+        ),
+    )?;
+    summary.write_string_with_format(
+        2,
+        0,
+        "Periods in the program year (for pace; leave blank for none)",
+        &bold,
+    )?;
     if let Some(p) = r.periods_in_program {
         summary.write_number(2, 1, f64::from(p))?;
     }
@@ -1513,7 +1624,8 @@ fn build_workbook(
         summary.write_formula(
             row,
             9,
-            Formula::new(format!("=IF(ISNUMBER(G{xr}),{status},\"\")")).set_result(c.status.clone()),
+            Formula::new(format!("=IF(ISNUMBER(G{xr}),{status},\"\")"))
+                .set_result(c.status.clone()),
         )?;
         summary.write_formula_with_format(
             row,
@@ -1547,7 +1659,12 @@ fn build_workbook(
                 data.set_column_width(c1, 18)?;
             }
             MeasureKind::Percent => {
-                data.write_string_with_format(0, c1, format!("{} numerator", c.spec.measure), &head)?;
+                data.write_string_with_format(
+                    0,
+                    c1,
+                    format!("{} numerator", c.spec.measure),
+                    &head,
+                )?;
                 data.write_string_with_format(
                     0,
                     c2.unwrap_or(c1 + 1),
@@ -1586,19 +1703,26 @@ fn build_workbook(
                 let xr = row + 1;
                 let n = col_name(c1);
                 let d = col_name(c2);
-                let cached = c.values.get(i_of(row)).copied().flatten().map_or(String::new(), |x| format!("{}", round2(x)));
+                let cached = c
+                    .values
+                    .get(i_of(row))
+                    .copied()
+                    .flatten()
+                    .map_or(String::new(), |x| format!("{}", round2(x)));
                 data.write_formula_with_format(
                     row,
                     c3,
-                    Formula::new(format!("=IF(OR({d}{xr}=\"\",{d}{xr}=0),\"\",{n}{xr}/{d}{xr}*100)"))
-                        .set_result(cached),
+                    Formula::new(format!(
+                        "=IF(OR({d}{xr}=\"\",{d}{xr}=0),\"\",{n}{xr}/{d}{xr}*100)"
+                    ))
+                    .set_result(cached),
                     &one,
                 )?;
             }
         }
     }
     data.set_freeze_panes(1, 1)?;
-    Ok(wb.save_to_buffer()?)
+    wb.save_to_buffer()
 }
 
 fn i_of(row: u32) -> usize {
@@ -1632,16 +1756,44 @@ mod tests {
     #[test]
     fn cumulative_count_progress_and_pace() {
         // 3 of 4 quarters reported, 270 of 400 clients: pace needed 300, 270 is 90% of it.
-        let c = compute(&spec(MeasureKind::Count, 400.0), &series(&[90.0, 100.0, 80.0], &[]), 5, Some(4), 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 400.0),
+            &series(&[90.0, 100.0, 80.0], &[]),
+            5,
+            Some(4),
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.current, Some(270.0));
         assert!((c.progress.unwrap() - 67.5).abs() < 1e-9);
         assert!((c.expected.unwrap() - 300.0).abs() < 1e-9);
         assert_eq!(c.status, "On track");
-        let c = compute(&spec(MeasureKind::Count, 400.0), &series(&[60.0, 100.0, 80.0], &[]), 5, Some(4), 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 400.0),
+            &series(&[60.0, 100.0, 80.0], &[]),
+            5,
+            Some(4),
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.status, "Behind");
-        let c = compute(&spec(MeasureKind::Count, 200.0), &series(&[60.0, 100.0, 80.0], &[]), 5, Some(4), 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 200.0),
+            &series(&[60.0, 100.0, 80.0], &[]),
+            5,
+            Some(4),
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.status, "Met");
-        let c = compute(&spec(MeasureKind::Count, 400.0), &series(&[60.0, 100.0], &[]), 5, None, 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 400.0),
+            &series(&[60.0, 100.0], &[]),
+            5,
+            None,
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.status, "Not yet met");
     }
 
@@ -1658,13 +1810,34 @@ mod tests {
 
     #[test]
     fn small_cells_are_hidden_with_their_complements() {
-        let c = compute(&spec(MeasureKind::Count, 100.0), &series(&[20.0, 3.0, 30.0], &[]), 5, None, 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 100.0),
+            &series(&[20.0, 3.0, 30.0], &[]),
+            5,
+            None,
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.hide, vec![false, true, false]);
         // A percent whose numerator is large but whose remainder is small is hidden too.
-        let c = compute(&spec(MeasureKind::Percent, 90.0), &series(&[47.0, 20.0], &[50.0, 40.0]), 5, None, 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Percent, 90.0),
+            &series(&[47.0, 20.0], &[50.0, 40.0]),
+            5,
+            None,
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.hide, vec![true, false]);
         // Zero is not small.
-        let c = compute(&spec(MeasureKind::Count, 10.0), &series(&[0.0, 12.0], &[]), 5, None, 0.9).unwrap();
+        let c = compute(
+            &spec(MeasureKind::Count, 10.0),
+            &series(&[0.0, 12.0], &[]),
+            5,
+            None,
+            0.9,
+        )
+        .unwrap();
         assert_eq!(c.hide, vec![false, false]);
     }
 
@@ -1694,8 +1867,17 @@ mod tests {
     fn run_chart_flags_a_sustained_shift() {
         // Median 20; the two points on it are ignored. Five low points then five high ones
         // cross it once, fewer than the 5th percentile of Binomial(9, 0.5), which is 2.
-        let nums: Vec<f64> = vec![10.0, 12.0, 9.0, 11.0, 10.0, 20.0, 21.0, 22.0, 20.0, 21.0, 23.0, 24.0];
-        let c = compute(&spec(MeasureKind::Count, 100.0), &series(&nums, &[]), 5, None, 0.9).unwrap();
+        let nums: Vec<f64> = vec![
+            10.0, 12.0, 9.0, 11.0, 10.0, 20.0, 21.0, 22.0, 20.0, 21.0, 23.0, 24.0,
+        ];
+        let c = compute(
+            &spec(MeasureKind::Count, 100.0),
+            &series(&nums, &[]),
+            5,
+            None,
+            0.9,
+        )
+        .unwrap();
         let t = c.trend.as_ref().unwrap();
         assert!(t.points.iter().any(|p| !p.signals.is_empty()));
         assert_eq!(c.chart_type, Some(ChartType::Run));
@@ -1729,18 +1911,38 @@ mod tests {
             period_column: "Month".into(),
             ..Default::default()
         };
-        assert!(build_specs(&a).unwrap_err().to_string().contains("at least one target"));
+        assert!(
+            build_specs(&a)
+                .unwrap_err()
+                .to_string()
+                .contains("at least one target")
+        );
         a.targets = vec![TargetArg {
             measure: "Clients".into(),
             target: None,
             ..Default::default()
         }];
-        assert!(build_specs(&a).unwrap_err().to_string().contains("needs a target"));
+        assert!(
+            build_specs(&a)
+                .unwrap_err()
+                .to_string()
+                .contains("needs a target")
+        );
         a.targets[0].target = Some(10.0);
         a.targets[0].kind = Some(MeasureKind::Percent);
-        assert!(build_specs(&a).unwrap_err().to_string().contains("denominator"));
+        assert!(
+            build_specs(&a)
+                .unwrap_err()
+                .to_string()
+                .contains("denominator")
+        );
         a.targets[0].kind = Some(MeasureKind::Count);
         a.targets[0].denominator = Some("Eligible".into());
-        assert!(build_specs(&a).unwrap_err().to_string().contains("set kind to percent"));
+        assert!(
+            build_specs(&a)
+                .unwrap_err()
+                .to_string()
+                .contains("set kind to percent")
+        );
     }
 }
