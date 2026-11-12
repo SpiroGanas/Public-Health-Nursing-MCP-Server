@@ -608,6 +608,27 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 15 content items.
     // Phase 16 content items go below this line.
     // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+    ContentItem {
+        id: "planning-logic-model",
+        path: "content/planning/logic_model.yaml",
+        resource_uri: "phn://content/planning-logic-model",
+        yaml: include_str!("../../../content/planning/logic_model.yaml"),
+        schema: include_str!("../../../content/schemas/planning_logic_model.schema.json"),
+    },
+    ContentItem {
+        id: "planning-smartie",
+        path: "content/planning/smartie.yaml",
+        resource_uri: "phn://content/planning-smartie",
+        yaml: include_str!("../../../content/planning/smartie.yaml"),
+        schema: include_str!("../../../content/schemas/planning_smartie.schema.json"),
+    },
+    ContentItem {
+        id: "planning-evaluation-framework",
+        path: "content/planning/evaluation_framework.yaml",
+        resource_uri: "phn://content/planning-evaluation-framework",
+        yaml: include_str!("../../../content/planning/evaluation_framework.yaml"),
+        schema: include_str!("../../../content/schemas/planning_evaluation_framework.schema.json"),
+    },
     // End of Phase 16 design.
     // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
     // End of Phase 16 interventions.
