@@ -111,10 +111,7 @@ pub const AGE_MISSING: &str = "Age not recorded";
 /// The identifier guardrail still applies, with one exception: a header such as "Family
 /// history" is flagged as free text by name alone, so such a column is accepted only when every
 /// answer in it is a yes or no (anything else is refused without echoing a value).
-pub fn yes_no_column(
-    lt: &crate::localdata::LocalTable,
-    idx: usize,
-) -> Result<Vec<Option<bool>>> {
+pub fn yes_no_column(lt: &crate::localdata::LocalTable, idx: usize) -> Result<Vec<Option<bool>>> {
     let name = &lt.table.headers[idx];
     if let Some(f) = lt.findings.iter().find(|f| f.index == idx) {
         let aggregate_ok = matches!(

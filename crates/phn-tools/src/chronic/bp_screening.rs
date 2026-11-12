@@ -407,7 +407,7 @@ fn plausible(c: &BpContent, sys: f64, dia: f64) -> bool {
         && dia < sys
 }
 
-fn cat_def<'a>(c: &'a BpContent, cat: Cat) -> &'a CategoryDef {
+fn cat_def(c: &BpContent, cat: Cat) -> &CategoryDef {
     c.categories
         .iter()
         .find(|d| d.id == cat.id())
@@ -434,7 +434,7 @@ fn tier_out(t: &TierDef) -> TierOut {
 }
 
 /// Referral tier for an adult category (symptoms change only the severe range).
-fn adult_tier<'a>(c: &'a BpContent, cat: Cat, symptoms: bool) -> &'a TierDef {
+fn adult_tier(c: &BpContent, cat: Cat, symptoms: bool) -> &TierDef {
     tier_def(
         c,
         match cat {
@@ -625,7 +625,13 @@ const BP1: &[&str] = &[
     "reading 1",
     "blood pressure 1",
 ];
-const BP2: &[&str] = &["bp 2", "bp2", "reading 2", "blood pressure 2", "second reading"];
+const BP2: &[&str] = &[
+    "bp 2",
+    "bp2",
+    "reading 2",
+    "blood pressure 2",
+    "second reading",
+];
 const AGE: &[&str] = &["age", "age years", "age in years"];
 const REFERRAL: &[&str] = &[
     "referral status",
@@ -686,7 +692,10 @@ fn row_bp(
         candidates.push((sys2[row], dia2[row]));
     }
     for idx in [cols.bp1, cols.bp2].into_iter().flatten() {
-        let cell = lt.table.rows[row].get(idx).map(String::as_str).unwrap_or("");
+        let cell = lt.table.rows[row]
+            .get(idx)
+            .map(String::as_str)
+            .unwrap_or("");
         if cell.trim().is_empty() {
             continue;
         }
@@ -995,7 +1004,11 @@ fn technique_markdown(c: &BpContent) -> String {
 fn reference_document(c: &BpContent, ctx: &Context) -> Document {
     let mut blocks: Vec<Block> = Vec::new();
     blocks.push(Block::Paragraph(vec![Inline::plain(
-        c.notices.decision_support.split_whitespace().collect::<Vec<_>>().join(" "),
+        c.notices
+            .decision_support
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
     )]));
     blocks.push(Block::Heading {
         level: 2,
@@ -1023,7 +1036,10 @@ fn reference_document(c: &BpContent, ctx: &Context) -> Document {
             .collect(),
     }));
     blocks.push(Block::Paragraph(vec![Inline::plain(
-        c.guideline_note.split_whitespace().collect::<Vec<_>>().join(" "),
+        c.guideline_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
     )]));
     blocks.push(Block::Heading {
         level: 2,
@@ -1039,7 +1055,11 @@ fn reference_document(c: &BpContent, ctx: &Context) -> Document {
             .collect(),
     }));
     blocks.push(Block::Paragraph(vec![Inline::plain(
-        c.pregnancy.note.split_whitespace().collect::<Vec<_>>().join(" "),
+        c.pregnancy
+            .note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
     )]));
     Document {
         title: "Blood pressure screening reference card".into(),
@@ -1181,15 +1201,22 @@ fn write_kit(
     );
     // Letter templates (blank fields) and the handout.
     let mut values = sample_values();
-    let blank_values: BTreeMap<String, String> = values
-        .keys()
-        .map(|k| (k.clone(), String::new()))
-        .collect();
+    let blank_values: BTreeMap<String, String> =
+        values.keys().map(|k| (k.clone(), String::new())).collect();
     let phone = boh_phone.clone().unwrap_or_default();
     for (what, def) in [
-        ("Follow-up letter template: normal or elevated", &c.letters.routine),
-        ("Follow-up letter template: stage 1 or stage 2 range", &c.letters.refer),
-        ("Follow-up letter template: severe range (tool default)", &c.letters.urgent),
+        (
+            "Follow-up letter template: normal or elevated",
+            &c.letters.routine,
+        ),
+        (
+            "Follow-up letter template: stage 1 or stage 2 range",
+            &c.letters.refer,
+        ),
+        (
+            "Follow-up letter template: severe range (tool default)",
+            &c.letters.urgent,
+        ),
     ] {
         values.insert("program_phone".into(), "413-555-0100".into());
         let (sample, _) = templates::fill(&def.markdown, &values, BLANK);
@@ -1381,7 +1408,9 @@ pub fn community_bp_screening_toolkit(
             "sheet is used with log_path (an XLSX workbook in /data)".into(),
         ));
     }
-    if args.readings.is_empty() && (args.age.is_some() || args.symptoms.is_some() || args.pregnant.is_some()) {
+    if args.readings.is_empty()
+        && (args.age.is_some() || args.symptoms.is_some() || args.pregnant.is_some())
+    {
         return Err(PhnError::InvalidInput(
             "age, pregnant, and symptoms describe the readings: give readings as well".into(),
         ));
@@ -1496,7 +1525,12 @@ pub fn community_bp_screening_toolkit(
             c.reading_rules.average_note
         ),
         source_wording: content::cite_all(&c.severe_range_wording, &c.sources),
-        pregnancy: c.pregnancy.note.split_whitespace().collect::<Vec<_>>().join(" "),
+        pregnancy: c
+            .pregnancy
+            .note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
     };
     let log_template = LogTemplateOut {
         title: c.log_template.title.clone(),
@@ -1504,15 +1538,16 @@ pub fn community_bp_screening_toolkit(
         columns: c.log_template.columns.clone(),
         referral_status_values: c.referral_status_values.clone(),
     };
-    let letter_templates: Vec<LetterTemplateOut> = [&c.letters.routine, &c.letters.refer, &c.letters.urgent]
-        .iter()
-        .map(|l| LetterTemplateOut {
-            kind: l.kind.clone(),
-            description: l.description.clone(),
-            placeholders: c.letters.placeholders.clone(),
-            markdown: l.markdown.clone(),
-        })
-        .collect();
+    let letter_templates: Vec<LetterTemplateOut> =
+        [&c.letters.routine, &c.letters.refer, &c.letters.urgent]
+            .iter()
+            .map(|l| LetterTemplateOut {
+                kind: l.kind.clone(),
+                description: l.description.clone(),
+                placeholders: c.letters.placeholders.clone(),
+                markdown: l.markdown.clone(),
+            })
+            .collect();
     let guideline = format!(
         "{} {}",
         c.meta.source.title,
@@ -1536,8 +1571,20 @@ pub fn community_bp_screening_toolkit(
         &files,
     );
 
-    caveats.push(c.notices.decision_support.split_whitespace().collect::<Vec<_>>().join(" "));
-    caveats.push(c.notices.copyright.split_whitespace().collect::<Vec<_>>().join(" "));
+    caveats.push(
+        c.notices
+            .decision_support
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
+    caveats.push(
+        c.notices
+            .copyright
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     caveats.push(
         "Referral tiers and timing are this project's defaults (tool default, pending review) \
          and the guideline sources do not give community screening referral timing: follow your \
@@ -1551,7 +1598,15 @@ pub fn community_bp_screening_toolkit(
     );
     caveats.extend(content::review_caveats(&[BP_SCREENING]));
 
-    let mut keys: Vec<&str> = vec!["aha-acc-2025", "cdc-hbp-about", "cdc-hbp-measure", "cdc-hbp-pregnancy", "review-2025-guideline", "papers-2025-categories", "cdc-copyright"];
+    let mut keys: Vec<&str> = vec![
+        "aha-acc-2025",
+        "cdc-hbp-about",
+        "cdc-hbp-measure",
+        "cdc-hbp-pregnancy",
+        "review-2025-guideline",
+        "papers-2025-categories",
+        "cdc-copyright",
+    ];
     keys.dedup();
     let mut sources: Vec<Source> = content::sources_for(keys, &c.sources);
     if let Some(ls) = local_source {
@@ -1572,7 +1627,11 @@ pub fn community_bp_screening_toolkit(
                 .into(),
         );
     }
-    let identifiers: Vec<String> = identifiers.into_iter().collect::<BTreeSet<_>>().into_iter().collect();
+    let identifiers: Vec<String> = identifiers
+        .into_iter()
+        .collect::<BTreeSet<_>>()
+        .into_iter()
+        .collect();
     Ok(Envelope::new(
         summary,
         BpToolkitResult {
@@ -1589,7 +1648,12 @@ pub fn community_bp_screening_toolkit(
             letters,
             kit_folder,
             files,
-            decision_support_notice: c.notices.decision_support.split_whitespace().collect::<Vec<_>>().join(" "),
+            decision_support_notice: c
+                .notices
+                .decision_support
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
         },
     )
     .sources(sources)
@@ -1618,7 +1682,8 @@ fn summary_text(
     kit_folder: &Option<String>,
     files: &[KitFile],
 ) -> String {
-    let mut s = String::from("**Community blood pressure screening kit** (adults; decision support)\n\n");
+    let mut s =
+        String::from("**Community blood pressure screening kit** (adults; decision support)\n\n");
     if let Some(r) = reading {
         s.push_str(&format!(
             "**Reading:** average {} from {} reading(s): **{}**.{}\n\nReferral (tool default, pending review): {} {}\n\n",
@@ -1654,7 +1719,13 @@ fn summary_text(
         &["Category", "Systolic", "Diastolic", "Confidence"],
         &rows,
     ));
-    s.push_str(&format!("\n{}\n\n", c.guideline_note.split_whitespace().collect::<Vec<_>>().join(" ")));
+    s.push_str(&format!(
+        "\n{}\n\n",
+        c.guideline_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    ));
     s.push_str("**Severe range, in the sources' words**\n\n");
     for w in &severe.source_wording {
         s.push_str(&content::bullet(w));
@@ -1740,7 +1811,13 @@ mod tests {
     #[test]
     fn content_is_complete_and_cites_known_sources() {
         let c = content();
-        for cat in [Cat::Normal, Cat::Elevated, Cat::Stage1, Cat::Stage2, Cat::Severe] {
+        for cat in [
+            Cat::Normal,
+            Cat::Elevated,
+            Cat::Stage1,
+            Cat::Stage2,
+            Cat::Severe,
+        ] {
             assert!(c.categories.iter().any(|d| d.id == cat.id()), "{cat:?}");
         }
         for id in ["emergency", "same_day", "refer", "advise", "inform"] {
@@ -1796,8 +1873,14 @@ mod tests {
         let c = content();
         let args = BpToolkitArgs {
             readings: vec![
-                BpReading { systolic: 128.0, diastolic: 78.0 },
-                BpReading { systolic: 132.0, diastolic: 82.0 },
+                BpReading {
+                    systolic: 128.0,
+                    diastolic: 78.0,
+                },
+                BpReading {
+                    systolic: 132.0,
+                    diastolic: 82.0,
+                },
             ],
             ..Default::default()
         };
@@ -1808,8 +1891,14 @@ mod tests {
         // One reading above 180 makes the result severe even when the average is lower.
         let args = BpToolkitArgs {
             readings: vec![
-                BpReading { systolic: 184.0, diastolic: 100.0 },
-                BpReading { systolic: 150.0, diastolic: 92.0 },
+                BpReading {
+                    systolic: 184.0,
+                    diastolic: 100.0,
+                },
+                BpReading {
+                    systolic: 150.0,
+                    diastolic: 92.0,
+                },
             ],
             symptoms: Some(true),
             ..Default::default()
@@ -1824,7 +1913,10 @@ mod tests {
     fn pregnancy_uses_cdc_thresholds_and_children_are_refused() {
         let c = content();
         let mk = |s: f64, d: f64| BpToolkitArgs {
-            readings: vec![BpReading { systolic: s, diastolic: d }],
+            readings: vec![BpReading {
+                systolic: s,
+                diastolic: d,
+            }],
             pregnant: Some(true),
             ..Default::default()
         };
@@ -1840,13 +1932,19 @@ mod tests {
         assert_eq!(r.category_id, "pregnancy_severe");
         assert_eq!(r.referral.id, "same_day");
         let kid = BpToolkitArgs {
-            readings: vec![BpReading { systolic: 100.0, diastolic: 60.0 }],
+            readings: vec![BpReading {
+                systolic: 100.0,
+                diastolic: 60.0,
+            }],
             age: Some(12.0),
             ..Default::default()
         };
         assert!(classify_readings(&c, &kid).is_err());
         let bad = BpToolkitArgs {
-            readings: vec![BpReading { systolic: 80.0, diastolic: 120.0 }],
+            readings: vec![BpReading {
+                systolic: 80.0,
+                diastolic: 120.0,
+            }],
             ..Default::default()
         };
         assert!(classify_readings(&c, &bad).is_err());
@@ -1899,7 +1997,10 @@ mod tests {
             ));
         }
         // Two severe-range participants: small, so suppressed.
-        rows.push("R1,66,190,110,186,108,Referred same day,Cornelius Ashgrove,5 Elm Street,Holyoke".into());
+        rows.push(
+            "R1,66,190,110,186,108,Referred same day,Cornelius Ashgrove,5 Elm Street,Holyoke"
+                .into(),
+        );
         rows.push("R2,16,150,95,,,Not referred,Young Person,7 Oak Street,Holyoke".into());
         let refs: Vec<&str> = rows.iter().map(String::as_str).collect();
         write_log(&dir, &refs);
@@ -1913,7 +2014,14 @@ mod tests {
         .unwrap();
         let log = env.data.log_summary.as_ref().unwrap();
         let cat = &log.tables[0];
-        let get = |l: &str| cat.rows.iter().find(|r| r.label.starts_with(l)).unwrap().count.clone();
+        let get = |l: &str| {
+            cat.rows
+                .iter()
+                .find(|r| r.label.starts_with(l))
+                .unwrap()
+                .count
+                .clone()
+        };
         assert_eq!(get("Normal"), "14");
         assert_eq!(get("Stage 2"), "8");
         // Small cells are hidden, with at least one more hidden cell.
@@ -1922,7 +2030,15 @@ mod tests {
         assert!(env.privacy.suppression_applied);
         assert!(!env.privacy.row_level_data);
         let json = serde_json::to_string(&env).unwrap();
-        for secret in ["Ottilie", "Fernsby", "Larkspur", "Quince", "Juniper", "Ashgrove", "Young Person"] {
+        for secret in [
+            "Ottilie",
+            "Fernsby",
+            "Larkspur",
+            "Quince",
+            "Juniper",
+            "Ashgrove",
+            "Young Person",
+        ] {
             assert!(!json.contains(secret), "{secret} leaked");
         }
         // The kit is not written when a log is summarized.
@@ -1954,11 +2070,24 @@ mod tests {
         assert_eq!(l.letters, 3);
         assert_eq!(l.rows_without_letter, "fewer than 5");
         let json = serde_json::to_string(&env).unwrap();
-        for secret in ["Ottilie", "Fernsby", "Larkspur", "Quince", "Juniper", "Ashgrove", "Child Example"] {
+        for secret in [
+            "Ottilie",
+            "Fernsby",
+            "Larkspur",
+            "Quince",
+            "Juniper",
+            "Ashgrove",
+            "Child Example",
+        ] {
             assert!(!json.contains(secret), "{secret} leaked");
         }
         assert!(!env.privacy.files_written.is_empty());
-        assert!(env.privacy.files_written.iter().all(|f| f.contains("output")));
+        assert!(
+            env.privacy
+                .files_written
+                .iter()
+                .all(|f| f.contains("output"))
+        );
     }
 
     #[test]
@@ -1989,5 +2118,20 @@ mod tests {
             }
         }
         assert!(env.caveats.iter().any(|x| x.contains("tool default")));
+    }
+
+    #[test]
+    fn the_kit_can_be_written_as_pdf() {
+        let (_dir, ctx) = ctx();
+        let env = community_bp_screening_toolkit(
+            &ctx,
+            BpToolkitArgs {
+                format: Some(DocFormat::Pdf),
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert!(env.data.files.iter().any(|f| f.file.ends_with(".pdf")));
+        assert!(env.data.files.iter().any(|f| f.file.ends_with(".xlsx")));
     }
 }

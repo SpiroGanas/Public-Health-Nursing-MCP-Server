@@ -77,8 +77,11 @@ impl DppPrograms {
         );
         let (i_street, i_city, i_state, i_zip) =
             (col("street")?, col("city")?, col("state")?, col("zip")?);
-        let (i_phone, i_email, i_named) =
-            (col("org_phone")?, col("org_email")?, col("has_named_contact")?);
+        let (i_phone, i_email, i_named) = (
+            col("org_phone")?,
+            col("org_email")?,
+            col("has_named_contact")?,
+        );
         let mut sites = Vec::new();
         for rec in rdr.records() {
             let r = rec.map_err(|e| PhnError::Internal(format!("DPP snapshot: {e}")))?;

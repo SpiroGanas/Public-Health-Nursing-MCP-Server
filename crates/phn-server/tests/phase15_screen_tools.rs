@@ -76,14 +76,22 @@ async fn bp_kit_is_labelled_dated_and_written_to_the_output_folder() {
     let h = start(|c| c.offline = true).await;
     let s = call_ok(&h, "community_bp_screening_toolkit", json!({})).await;
     let d = &s["data"];
-    assert!(d["guideline"].as_str().unwrap().contains("retires and replaces"));
+    assert!(
+        d["guideline"]
+            .as_str()
+            .unwrap()
+            .contains("retires and replaces")
+    );
     let cats: Vec<&str> = d["categories"]
         .as_array()
         .unwrap()
         .iter()
         .map(|c| c["id"].as_str().unwrap())
         .collect();
-    assert_eq!(cats, vec!["normal", "elevated", "stage1", "stage2", "severe"]);
+    assert_eq!(
+        cats,
+        vec!["normal", "elevated", "stage1", "stage2", "severe"]
+    );
     // Every category states its confidence; stage ranges are medium, CDC's are high.
     let conf = |id: &str| {
         d["categories"]
@@ -99,7 +107,11 @@ async fn bp_kit_is_labelled_dated_and_written_to_the_output_folder() {
     // Referral tiers are the project's defaults, never presented as guideline text.
     let tiers = d["referral_tiers"].as_array().unwrap();
     assert_eq!(tiers.len(), 5);
-    assert!(tiers.iter().all(|t| t["status"] == "tool default, pending review"));
+    assert!(
+        tiers
+            .iter()
+            .all(|t| t["status"] == "tool default, pending review")
+    );
     // Technique steps that were not found at a source say so.
     let tech = d["technique"].as_array().unwrap();
     assert!(tech.iter().any(|t| t["verified"] == false));
@@ -120,14 +132,13 @@ async fn bp_kit_is_labelled_dated_and_written_to_the_output_folder() {
             assert!(ok, "{f}");
         }
     }
-    assert!(
-        s["sources"]
-            .as_array()
+    assert!(s["sources"].as_array().unwrap().iter().any(|x| {
+        x["publisher"]
+            .as_str()
             .unwrap()
-            .iter()
-            .any(|x| x["publisher"].as_str().unwrap().contains("Centers for Disease Control")
-                && x["effective_date"].is_string())
-    );
+            .contains("Centers for Disease Control")
+            && x["effective_date"].is_string()
+    }));
     assert_eq!(s["privacy"]["row_level_data"], false);
 }
 
@@ -153,7 +164,12 @@ async fn bp_readings_are_classified_and_bad_input_is_a_tool_error() {
     )
     .await;
     assert_eq!(s["data"]["reading"]["referral"]["id"], "emergency");
-    assert!(s["data"]["reading"]["note"].as_str().unwrap().contains("Only one reading"));
+    assert!(
+        s["data"]["reading"]["note"]
+            .as_str()
+            .unwrap()
+            .contains("Only one reading")
+    );
     let s = call_ok(
         &h,
         "community_bp_screening_toolkit",
@@ -238,9 +254,19 @@ async fn diabetes_risk_test_is_scored_with_cdcs_points() {
     assert!(pending(&s));
     // CDC and CMS sources are dated; DPH's list is a snapshot.
     let sources = s["sources"].as_array().unwrap();
-    assert!(sources.iter().any(|x| x["publisher"].as_str().unwrap().contains("Centers for Medicare")));
-    assert!(sources.iter().any(|x| x["mode"] == "snapshot"
-        && x["publisher"].as_str().unwrap().contains("Department of Public Health")));
+    assert!(sources.iter().any(|x| {
+        x["publisher"]
+            .as_str()
+            .unwrap()
+            .contains("Centers for Medicare")
+    }));
+    assert!(sources.iter().any(|x| {
+        x["mode"] == "snapshot"
+            && x["publisher"]
+                .as_str()
+                .unwrap()
+                .contains("Department of Public Health")
+    }));
     // An Asian American woman with BMI 24 and gestational diabetes.
     let s = call_ok(
         &h,
@@ -280,8 +306,18 @@ async fn diabetes_programs_are_listed_honestly_and_without_individual_contacts()
     assert_eq!(p["in_area"].as_array().unwrap().len(), 4);
     assert!(!p["same_county"].as_array().unwrap().is_empty());
     assert_eq!(p["sites_listed_statewide"], 73);
-    assert!(p["source_note"].as_str().unwrap().contains("no update date"));
-    assert!(p["registry_gap"].as_str().unwrap().contains("could not be read"));
+    assert!(
+        p["source_note"]
+            .as_str()
+            .unwrap()
+            .contains("no update date")
+    );
+    assert!(
+        p["registry_gap"]
+            .as_str()
+            .unwrap()
+            .contains("could not be read")
+    );
     let text = caveats(&s);
     assert!(text.contains("CDC") && text.contains("registry"));
     // No person's name or email from DPH's contact column.
@@ -290,7 +326,12 @@ async fn diabetes_programs_are_listed_honestly_and_without_individual_contacts()
         assert!(!all.contains(who), "{who}");
     }
     // Statements that could not be sourced are stated as such.
-    assert!(s["data"]["masshealth"].as_str().unwrap().contains("No source was found"));
+    assert!(
+        s["data"]["masshealth"]
+            .as_str()
+            .unwrap()
+            .contains("No source was found")
+    );
     assert!(
         s["data"]["medicare"]["facts"]
             .as_array()
@@ -304,8 +345,19 @@ async fn diabetes_programs_are_listed_honestly_and_without_individual_contacts()
     assert_eq!(hd["meets_target"], true);
     assert!(output_file(&h, hd["file"].as_str().unwrap()).exists());
     // Statewide: the New Hampshire site is listed separately.
-    let s = call_ok(&h, "diabetes_prevention_finder", json!({"area": "Massachusetts"})).await;
-    assert_eq!(s["data"]["programs"]["outside_massachusetts"].as_array().unwrap().len(), 1);
+    let s = call_ok(
+        &h,
+        "diabetes_prevention_finder",
+        json!({"area": "Massachusetts"}),
+    )
+    .await;
+    assert_eq!(
+        s["data"]["programs"]["outside_massachusetts"]
+            .as_array()
+            .unwrap()
+            .len(),
+        1
+    );
 }
 
 #[tokio::test]

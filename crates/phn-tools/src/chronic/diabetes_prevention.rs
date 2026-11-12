@@ -615,9 +615,9 @@ fn eligibility(
     }
     let e = &c.eligibility;
     let age_ok = args.age.map(|a| a >= 18.0);
-    let bmi_ok = scored.as_ref().map(|s| {
-        s.result.bmi >= if s.inputs.asian_american { 23.0 } else { 25.0 }
-    });
+    let bmi_ok = scored
+        .as_ref()
+        .map(|s| s.result.bmi >= if s.inputs.asian_american { 23.0 } else { 25.0 });
     let dx_ok = args.diabetes_diagnosis.map(|d| !d);
     let preg_ok = args.pregnant.map(|p| !p);
     let all_of = vec![
@@ -661,8 +661,16 @@ fn eligibility(
     // One-of routes.
     let tests: Vec<(&str, f64, [f64; 2])> = [
         ("A1C", args.a1c_percent, e.a1c_range),
-        ("fasting plasma glucose", args.fasting_glucose_mg_dl, e.fasting_range),
-        ("2-hour plasma glucose", args.two_hour_glucose_mg_dl, e.two_hour_range),
+        (
+            "fasting plasma glucose",
+            args.fasting_glucose_mg_dl,
+            e.fasting_range,
+        ),
+        (
+            "2-hour plasma glucose",
+            args.two_hour_glucose_mg_dl,
+            e.two_hour_range,
+        ),
     ]
     .into_iter()
     .filter_map(|(n, v, r)| v.filter(|x| x.is_finite()).map(|v| (n, v, r)))
@@ -831,11 +839,25 @@ fn programs_for(
              schedule: call a site before referring.",
             data.vintage
         ),
-        registry_gap: c.program.registry_gap.split_whitespace().collect::<Vec<_>>().join(" "),
+        registry_gap: c
+            .program
+            .registry_gap
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
         verify_links: vec![
-            format!("DPH list of programs (with contacts): {}", dpp::DPH_LIST_URL),
-            format!("CDC registry of recognized organizations: {}", dpp::CDC_REGISTRY_URL),
-            format!("CDC Find a Lifestyle Change Program (filters by delivery mode and language): {}", dpp::CDC_FIND_URL),
+            format!(
+                "DPH list of programs (with contacts): {}",
+                dpp::DPH_LIST_URL
+            ),
+            format!(
+                "CDC registry of recognized organizations: {}",
+                dpp::CDC_REGISTRY_URL
+            ),
+            format!(
+                "CDC Find a Lifestyle Change Program (filters by delivery mode and language): {}",
+                dpp::CDC_FIND_URL
+            ),
         ],
     };
     Ok((out, data.source))
@@ -858,11 +880,26 @@ const HBP: &[&str] = &[
     "high bp",
     "diagnosed high blood pressure",
 ];
-const ACTIVE: &[&str] = &["physically active", "physical activity", "active", "exercise"];
+const ACTIVE: &[&str] = &[
+    "physically active",
+    "physical activity",
+    "active",
+    "exercise",
+];
 const HEIGHT: &[&str] = &["height inches", "height in", "height", "height in inches"];
-const WEIGHT: &[&str] = &["weight pounds", "weight lbs", "weight lb", "weight", "weight in pounds"];
+const WEIGHT: &[&str] = &[
+    "weight pounds",
+    "weight lbs",
+    "weight lb",
+    "weight",
+    "weight in pounds",
+];
 const BMI: &[&str] = &["bmi", "body mass index"];
-const GDM: &[&str] = &["gestational diabetes", "gdm", "history of gestational diabetes"];
+const GDM: &[&str] = &[
+    "gestational diabetes",
+    "gdm",
+    "history of gestational diabetes",
+];
 const ASIAN: &[&str] = &["asian american", "asian", "asian american race"];
 
 fn summarize_responses(
@@ -896,7 +933,13 @@ fn summarize_responses(
     let (gdm, gdm_v) = yes_no(GDM)?;
     let (asian, asian_v) = yes_no(ASIAN)?;
     let has_bmi = bmi.is_some() || (height.is_some() && weight.is_some());
-    if age.is_none() || sex.is_none() || fam.is_none() || hbp.is_none() || active.is_none() || !has_bmi {
+    if age.is_none()
+        || sex.is_none()
+        || fam.is_none()
+        || hbp.is_none()
+        || active.is_none()
+        || !has_bmi
+    {
         return Err(PhnError::InvalidInput(format!(
             "'{}' does not have every column the Prediabetes Risk Test needs: age, sex, family \
              history, high blood pressure, physically active, and either BMI or height (inches) \
@@ -1025,7 +1068,9 @@ fn summarize_responses(
         notes.push("No gestational diabetes column: scored as no for women.".into());
     }
     if asian.is_none() {
-        notes.push("No Asian American column: the BMI cut points for other groups were used.".into());
+        notes.push(
+            "No Asian American column: the BMI cut points for other groups were used.".into(),
+        );
     }
     Ok(ResponsesSummary {
         source_file: lt.label.clone(),
@@ -1040,12 +1085,18 @@ fn summarize_responses(
 
 fn handout_values(score: Option<i64>, phone: &Option<String>) -> BTreeMap<String, String> {
     let mut v = BTreeMap::new();
-    v.insert("date".to_string(), chrono::Local::now().date_naive().to_string());
+    v.insert(
+        "date".to_string(),
+        chrono::Local::now().date_naive().to_string(),
+    );
     v.insert(
         "score".to_string(),
         score.map(|s| s.to_string()).unwrap_or_default(),
     );
-    v.insert("program_phone".to_string(), phone.clone().unwrap_or_default());
+    v.insert(
+        "program_phone".to_string(),
+        phone.clone().unwrap_or_default(),
+    );
     v
 }
 
@@ -1108,8 +1159,18 @@ pub fn diabetes_prevention_finder(
     }
     for (name, v, lo, hi) in [
         ("a1c_percent", args.a1c_percent, 3.0, 20.0),
-        ("fasting_glucose_mg_dl", args.fasting_glucose_mg_dl, 30.0, 700.0),
-        ("two_hour_glucose_mg_dl", args.two_hour_glucose_mg_dl, 30.0, 1000.0),
+        (
+            "fasting_glucose_mg_dl",
+            args.fasting_glucose_mg_dl,
+            30.0,
+            700.0,
+        ),
+        (
+            "two_hour_glucose_mg_dl",
+            args.two_hour_glucose_mg_dl,
+            30.0,
+            1000.0,
+        ),
     ] {
         if let Some(x) = v
             && (!x.is_finite() || !(lo..=hi).contains(&x))
@@ -1195,15 +1256,40 @@ pub fn diabetes_prevention_finder(
         finder: c.medicare.finder.clone(),
         eligibility_gap: c.medicare.eligibility_gap.clone(),
     };
-    let masshealth = c.masshealth.statement.split_whitespace().collect::<Vec<_>>().join(" ");
+    let masshealth = c
+        .masshealth
+        .statement
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
 
     let summary = summary_text(
-        &c, &scored, &elig, &programs, &program_facts, &delivery, &medicare, &masshealth,
-        &responses, &handout,
+        &c,
+        &scored,
+        &elig,
+        &programs,
+        &program_facts,
+        &delivery,
+        &medicare,
+        &masshealth,
+        &responses,
+        &handout,
     );
 
-    caveats.push(c.notices.decision_support.split_whitespace().collect::<Vec<_>>().join(" "));
-    caveats.push(c.notices.copyright.split_whitespace().collect::<Vec<_>>().join(" "));
+    caveats.push(
+        c.notices
+            .decision_support
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
+    caveats.push(
+        c.notices
+            .copyright
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
+    );
     caveats.push(programs.registry_gap.clone());
     caveats.push(
         "Each program site on DPH's list is shown as listed: DPH's contact column names \
@@ -1256,7 +1342,12 @@ pub fn diabetes_prevention_finder(
             masshealth,
             responses: responses.clone(),
             handout,
-            decision_support_notice: c.notices.decision_support.split_whitespace().collect::<Vec<_>>().join(" "),
+            decision_support_notice: c
+                .notices
+                .decision_support
+                .split_whitespace()
+                .collect::<Vec<_>>()
+                .join(" "),
         },
     )
     .sources(sources)
@@ -1285,7 +1376,9 @@ fn summary_text(
     responses: &Option<ResponsesSummary>,
     handout: &Option<HandoutOut>,
 ) -> String {
-    let mut s = String::from("**Diabetes prevention finder** (CDC Prediabetes Risk Test and National DPP; decision support)\n\n");
+    let mut s = String::from(
+        "**Diabetes prevention finder** (CDC Prediabetes Risk Test and National DPP; decision support)\n\n",
+    );
     if let Some(sc) = scored {
         let r = &sc.result;
         let rows: Vec<Vec<String>> = r
@@ -1297,7 +1390,11 @@ fn summary_text(
             "**Prediabetes Risk Test: {} of {}** ({})\n\n",
             r.score,
             r.maximum,
-            if r.high_risk { "high risk" } else { "below the high-risk cut-off" }
+            if r.high_risk {
+                "high risk"
+            } else {
+                "below the high-risk cut-off"
+            }
         ));
         s.push_str(&md::table(&["Factor", "Answer", "Points"], &rows));
         s.push_str(&format!("\n{}\n\n", r.interpretation));
@@ -1313,9 +1410,19 @@ fn summary_text(
             .iter()
             .map(|r| ("All of", r))
             .chain(e.one_of.iter().map(|r| ("One of", r)))
-            .map(|(g, r)| vec![g.to_string(), r.requirement.clone(), r.status.clone(), r.detail.clone()])
+            .map(|(g, r)| {
+                vec![
+                    g.to_string(),
+                    r.requirement.clone(),
+                    r.status.clone(),
+                    r.detail.clone(),
+                ]
+            })
             .collect();
-        s.push_str(&md::table(&["Rule", "Requirement", "Status", "Detail"], &rows));
+        s.push_str(&md::table(
+            &["Rule", "Requirement", "Status", "Detail"],
+            &rows,
+        ));
         s.push_str(&format!("\n{}\n\n", e.medicare_note));
     }
     s.push_str(&format!(
@@ -1330,7 +1437,9 @@ fn summary_text(
                 vec![
                     x.site_name.clone(),
                     x.address.clone(),
-                    x.organization_phone.clone().unwrap_or_else(|| "see DPH list".into()),
+                    x.organization_phone
+                        .clone()
+                        .unwrap_or_else(|| "see DPH list".into()),
                 ]
             })
             .collect()
@@ -1341,15 +1450,24 @@ fn summary_text(
             programs.area
         ));
     } else {
-        s.push_str(&md::table(&["Site", "Address", "Organization phone"], &site_rows(&programs.in_area)));
+        s.push_str(&md::table(
+            &["Site", "Address", "Organization phone"],
+            &site_rows(&programs.in_area),
+        ));
         s.push('\n');
     }
     if !programs.same_county.is_empty() {
         s.push_str("Other sites in the same county:\n\n");
-        s.push_str(&md::table(&["Site", "Address", "Organization phone"], &site_rows(&programs.same_county)));
+        s.push_str(&md::table(
+            &["Site", "Address", "Organization phone"],
+            &site_rows(&programs.same_county),
+        ));
         s.push('\n');
     }
-    s.push_str(&format!("{}\n\n{}\n\n", programs.source_note, programs.registry_gap));
+    s.push_str(&format!(
+        "{}\n\n{}\n\n",
+        programs.source_note, programs.registry_gap
+    ));
     s.push_str("**The program (CDC)**\n\n");
     for f in facts {
         s.push_str(&content::bullet(f));
@@ -1362,7 +1480,10 @@ fn summary_text(
     for f in &medicare.facts {
         s.push_str(&content::bullet(f));
     }
-    s.push_str(&format!("\n{} {}\n\n", medicare.finder, medicare.eligibility_gap));
+    s.push_str(&format!(
+        "\n{} {}\n\n",
+        medicare.finder, medicare.eligibility_gap
+    ));
     s.push_str(&format!("**MassHealth:** {masshealth}\n\n"));
     if let Some(r) = responses {
         s.push_str(&format!(
@@ -1464,7 +1585,15 @@ mod tests {
     #[test]
     fn points_follow_cdcs_table() {
         let mut i = inputs();
-        for (age, want) in [(39.0, 0), (40.0, 1), (49.0, 1), (50.0, 2), (59.0, 2), (60.0, 3), (85.0, 3)] {
+        for (age, want) in [
+            (39.0, 0),
+            (40.0, 1),
+            (49.0, 1),
+            (50.0, 2),
+            (59.0, 2),
+            (60.0, 3),
+            (85.0, 3),
+        ] {
             i.age = age;
             assert_eq!(score(&i).1[0].points, want, "age {age}");
         }
@@ -1534,7 +1663,11 @@ mod tests {
         .err()
         .unwrap();
         assert!(err.to_string().contains("adults"));
-        assert!(score_args(&c, &DiabetesPreventionArgs::default()).unwrap().is_none());
+        assert!(
+            score_args(&c, &DiabetesPreventionArgs::default())
+                .unwrap()
+                .is_none()
+        );
         assert!(parse_sex("nonbinary").is_err());
     }
 
@@ -1568,11 +1701,17 @@ mod tests {
             ..full(52.0, 31.0)
         };
         let sc = score_args(&c, &args).unwrap();
-        assert_eq!(eligibility(&c, &args, &sc).unwrap().overall, "Does not meet CDC eligibility");
+        assert_eq!(
+            eligibility(&c, &args, &sc).unwrap().overall,
+            "Does not meet CDC eligibility"
+        );
         // Nothing known about diabetes or pregnancy: cannot tell.
         let args = full(52.0, 31.0);
         let sc = score_args(&c, &args).unwrap();
-        assert_eq!(eligibility(&c, &args, &sc).unwrap().overall, "Cannot tell from what was given");
+        assert_eq!(
+            eligibility(&c, &args, &sc).unwrap().overall,
+            "Cannot tell from what was given"
+        );
         // BMI 24 is below 25 (but meets 23 for an Asian American person).
         let mut low = DiabetesPreventionArgs {
             diabetes_diagnosis: Some(false),
@@ -1581,10 +1720,16 @@ mod tests {
             ..full(52.0, 24.0)
         };
         let sc = score_args(&c, &low).unwrap();
-        assert_eq!(eligibility(&c, &low, &sc).unwrap().overall, "Does not meet CDC eligibility");
+        assert_eq!(
+            eligibility(&c, &low, &sc).unwrap().overall,
+            "Does not meet CDC eligibility"
+        );
         low.asian_american = Some(true);
         let sc = score_args(&c, &low).unwrap();
-        assert_eq!(eligibility(&c, &low, &sc).unwrap().overall, "Meets CDC eligibility");
+        assert_eq!(
+            eligibility(&c, &low, &sc).unwrap().overall,
+            "Meets CDC eligibility"
+        );
         // A blood test outside the prediabetes range, a low score, and no gestational history.
         let args = DiabetesPreventionArgs {
             age: Some(30.0),
@@ -1600,7 +1745,10 @@ mod tests {
             ..Default::default()
         };
         let sc = score_args(&c, &args).unwrap();
-        assert_eq!(eligibility(&c, &args, &sc).unwrap().overall, "Does not meet CDC eligibility");
+        assert_eq!(
+            eligibility(&c, &args, &sc).unwrap().overall,
+            "Does not meet CDC eligibility"
+        );
     }
 
     #[test]
@@ -1610,11 +1758,23 @@ mod tests {
         let (p, _) = programs_for(&ctx, &c, Some("Fall River")).unwrap();
         assert_eq!(p.area_level, "town");
         assert_eq!(p.in_area.len(), 4);
-        assert!(p.same_county.iter().any(|s| s.site_name.contains("Attleboro") || s.municipality.as_deref() == Some("Taunton")));
+        assert!(
+            p.same_county
+                .iter()
+                .any(|s| s.site_name.contains("Attleboro")
+                    || s.municipality.as_deref() == Some("Taunton"))
+        );
         assert!(p.source_note.contains("no update date"));
         // No person's name or personal email is kept.
         let json = serde_json::to_string(&p).unwrap();
-        for who in ["Bermudez", "Potvin", "Charleus", "Souza", "@frfsa.org", "@ymcasc.org"] {
+        for who in [
+            "Bermudez",
+            "Potvin",
+            "Charleus",
+            "Souza",
+            "@frfsa.org",
+            "@ymcasc.org",
+        ] {
             assert!(!json.contains(who), "{who}");
         }
         let (p, _) = programs_for(&ctx, &c, Some("Massachusetts")).unwrap();
@@ -1622,7 +1782,11 @@ mod tests {
         assert_eq!(p.in_area.len() + p.outside_massachusetts.len(), 73);
         assert_eq!(p.outside_massachusetts.len(), 1);
         let (p, _) = programs_for(&ctx, &c, Some("Berkshire County")).unwrap();
-        assert!(p.in_area.iter().all(|s| s.county.as_deref() == Some("Berkshire")));
+        assert!(
+            p.in_area
+                .iter()
+                .all(|s| s.county.as_deref() == Some("Berkshire"))
+        );
     }
 
     #[test]
@@ -1639,12 +1803,20 @@ mod tests {
     #[test]
     fn responses_are_counted_with_suppression() {
         let (dir, ctx) = ctx();
-        let mut s = String::from("Name,Age,Sex,Family history,High blood pressure,Physically active,Height,Weight\n");
+        let mut s = String::from(
+            "Name,Age,Sex,Family history,High blood pressure,Physically active,Height,Weight\n",
+        );
         for i in 0..12 {
-            s.push_str(&format!("Ottilie Fernsby,{},woman,no,no,yes,64,130\n", 25 + i));
+            s.push_str(&format!(
+                "Ottilie Fernsby,{},woman,no,no,yes,64,130\n",
+                25 + i
+            ));
         }
         for i in 0..8 {
-            s.push_str(&format!("Bartholomew Quince,{},man,yes,yes,no,70,260\n", 55 + i));
+            s.push_str(&format!(
+                "Bartholomew Quince,{},man,yes,yes,no,70,260\n",
+                55 + i
+            ));
         }
         s.push_str("Cornelius Ashgrove,50,man,yes,no,yes,,\n");
         std::fs::write(dir.path().join("data/events.csv"), s).unwrap();
@@ -1660,7 +1832,14 @@ mod tests {
         let env = env.unwrap();
         let r = env.data.responses.as_ref().unwrap();
         let t = &r.tables[0];
-        let get = |p: &str| t.rows.iter().find(|x| x.label.starts_with(p)).unwrap().count.clone();
+        let get = |p: &str| {
+            t.rows
+                .iter()
+                .find(|x| x.label.starts_with(p))
+                .unwrap()
+                .count
+                .clone()
+        };
         assert_eq!(get("Not high risk"), "12");
         // One row could not be scored: that count is hidden, and the smallest other count is
         // hidden with it so the pair cannot be recovered from the total.
@@ -1690,6 +1869,9 @@ mod tests {
         assert!(env.data.risk_test.is_none());
         assert!(env.data.handout.as_ref().unwrap().meets_target);
         assert!(env.data.masshealth.contains("No source was found"));
-        assert!(env.data.programs.registry_gap.contains("could not be read") || env.data.programs.registry_gap.contains("could"));
+        assert!(
+            env.data.programs.registry_gap.contains("could not be read")
+                || env.data.programs.registry_gap.contains("could")
+        );
     }
 }
