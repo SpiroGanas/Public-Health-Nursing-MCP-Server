@@ -1928,6 +1928,77 @@
           "rows": 361
         }
       ]
+    },
+    {
+      "id": "ma-geocoder-sample",
+      "title": "Offline geocoder index for four Massachusetts towns (Alford, Amherst, Northampton, Pelham): MassGIS address points and TIGER address ranges, with 2020 block groups",
+      "publisher": "MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and U.S. Census Bureau; index built by this project",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/mad/town_exports/addr_pts/AddressPts_M###.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/ADDRFEAT/tl_2025_25{county}_addrfeat.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/BG/tl_2025_25_bg.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/COUSUB/tl_2025_25_cousub.zip",
+        "https://www.mass.gov/info-details/massgis-data-master-address-data"
+      ],
+      "source_sha256": {
+        "AddressPts_M006.zip": "8c954d9eb4a9264e07db6367b06bd2ecf64ead774a9e9c002bce12302f74362b",
+        "AddressPts_M008.zip": "5259ee94344e0c60e6a5e050b3f1154cec7e36d8a60d9f2fb9b641164f675623",
+        "AddressPts_M214.zip": "16ed366566ab38c681f9538625bd07c117356e6f658bf11aaf90c319aaffd718",
+        "AddressPts_M230.zip": "2e4f0822340cce6b88a9fe778efc6a9d927137d8947291059c30eb2c262734f3",
+        "tl_2025_25003_addrfeat.zip": "23984db71ede616ef440936cc8e287bb08c9bb96e2c601adc0e692f045577e4b",
+        "tl_2025_25015_addrfeat.zip": "5861b9acd302a9a668610a5cd8ebbd5848d5b962094ffbd855e082d44b447a8a",
+        "tl_2025_25_bg.zip": "a2e5c76a1915f214881230cb99c3e883ad5630cff65db37aaae3435ca9cd4cfd",
+        "tl_2025_25_cousub.zip": "495c0f1c8690c518842f5351e6186a1408a277f21990cb64d4553e90051a4910"
+      },
+      "source_vintage": "MassGIS Master Address Data town exports last modified 2026-11-09; TIGER/Line 2025 (address ranges; 2020 Census block groups)",
+      "retrieved": "2026-11-12",
+      "license": "MassGIS data are published on mass.gov for public use; the download page and the data's metadata state no license or use limitation, but the MassGIS data disclaimer page could not be retrieved, so its terms are unverified: credit MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and check its current terms. U.S. Census Bureau TIGER/Line files are in the public domain.",
+      "derivation": "xtask/scripts/build_geocoder_index.py --sample reads the four towns' MassGIS address points (one point per house number and street, the best-ranked point where several exist), assigns each to a 2020 census block group by point-in-polygon against TIGER/Line block groups, and adds every TIGER address range whose street side lies in the town (side placed 15 m from the street centre line and assigned a block group and town by point-in-polygon). Street names are normalized with the vocabulary in crates/phn-data/data/geocoder_vocab.json. Format: docs/adr/0011-offline-geocoder.md. Coordinates are NAD83 / Massachusetts Mainland (EPSG:26986) metres rounded to 1 m.",
+      "caveats": [
+        "This is a four-town sample for tests and demonstrations. Addresses in other towns need the full index (see docs/adr/0011-offline-geocoder.md) and are otherwise counted by town or ZIP code only.",
+        "MassGIS address points mostly mark building centroids and sometimes assessor parcel centroids, so a point can lie in a different block group than the front door; TIGER address ranges are interpolated on a straight line between the segment's end points."
+      ],
+      "files": [
+        {
+          "path": "ma_geocoder_sample.idx",
+          "sha256": "b970bf889f30404853ffed1533e0ad3fd22495d364250a702a497e30b5a7ba9f",
+          "bytes": 417632,
+          "rows": 951
+        }
+      ]
+    },
+    {
+      "id": "ma-geocoder-crosswalk",
+      "title": "Massachusetts ZIP code to town and place name to town crosswalk from MassGIS address points",
+      "publisher": "MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and U.S. Census Bureau; crosswalk built by this project",
+      "source_urls": [
+        "https://s3.us-east-1.amazonaws.com/download.massgis.digital.mass.gov/shapefiles/mad/town_exports/addr_pts/AddressPts_M###.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/ADDRFEAT/tl_2025_25025_addrfeat.zip",
+        "https://www2.census.gov/geo/tiger/TIGER2025/COUSUB/tl_2025_25_cousub.zip",
+        "https://www.mass.gov/info-details/massgis-data-master-address-data"
+      ],
+      "source_sha256": {
+        "tl_2025_25025_addrfeat.zip": "f4e8372cd4257b03e6177c3c50a8344515d823c299641c1fd07f1ea1383ad1a2",
+        "tl_2025_25_cousub.zip": "495c0f1c8690c518842f5351e6186a1408a277f21990cb64d4553e90051a4910",
+        "AddressPts_M###.zip (combined digest of 350 files)": "4494ea23a24ddf68ef023535109fd5a7a0fe56a5cca59f53b12a954cc74e0fb2"
+      },
+      "source_vintage": "MassGIS Master Address Data town exports last modified 2026-11-09 (350 towns); TIGER/Line 2025 address ranges for Boston, which has no MassGIS export",
+      "retrieved": "2026-11-12",
+      "license": "MassGIS data are published on mass.gov for public use; the download page and the data's metadata state no license or use limitation, but the MassGIS data disclaimer page could not be retrieved, so its terms are unverified: credit MassGIS (Bureau of Geographic Information, Commonwealth of Massachusetts) and check its current terms. U.S. Census Bureau TIGER/Line files are in the public domain.",
+      "derivation": "xtask/scripts/build_geocoder_index.py --crosswalk counts the MassGIS address points of every ZIP code in each town, and the community names (villages and post-office names such as Florence or Hyannis) that differ from the town name; each row's share is its fraction of the ZIP code's or name's addresses. Rows with fewer than 10 addresses or under 1 percent are dropped. Boston's rows come from TIGER address ranges weighted by the addresses they imply; its 18 neighborhood names are listed in the builder script and were not verified against a source.",
+      "caveats": [
+        "ZIP codes cross town lines: 75 of the 517 ZIP codes reach more than one town. A ZIP-only assignment is an approximation unless one town holds nearly all of the ZIP code's addresses (the share column).",
+        "PO box ZIP codes and ZIP codes without street addresses are not in the table.",
+        "Boston's neighborhood names are listed from general knowledge and are not verified against a source."
+      ],
+      "files": [
+        {
+          "path": "ma_geocoder_crosswalk.csv",
+          "sha256": "70c799da125ee56cf2f29a0c3dec2e10ad81b331cca1853e8ac985f637a17a87",
+          "bytes": 30648,
+          "rows": 662
+        }
+      ]
     }
   ]
 }
