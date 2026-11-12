@@ -39,5 +39,23 @@ pub(super) const WORKFORCE: &[ToolMeta] = &[
 /// QI vs research, ethics, scope of practice: EBP-07, POL-05, POL-06.
 pub(super) const ETHICS: &[ToolMeta] = &[
     // Phase 18 ethics entries go below this line.
+    ToolMeta {
+        name: "qi_vs_research_determination",
+        plan_id: "EBP-07",
+        toolset: Toolset::Ebp,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "public_health_ethics_analysis",
+        plan_id: "POL-05",
+        toolset: Toolset::Policy,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "nursing_scope_of_practice_guide",
+        plan_id: "POL-06",
+        toolset: Toolset::Policy,
+        phase: 18,
+    },
     // End of Phase 18 ethics entries.
 ];

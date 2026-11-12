@@ -4029,6 +4029,104 @@ nursing administration, 2016; a stakeholder analysis review, 2000). Content is p
 
 <!-- Phase 18 ethics (EBP-07, POL-05, POL-06). -->
 
+### `qi_vs_research_determination` (EBP-07, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `answers` | none | Your answers to the screening questions: `question_id`, `answer` (`yes`, `no`, or `unsure`), and an optional short `note`. With no answers the tool lists the 14 questions with their sources. |
+| `project_title` | placeholder | Short title for the draft document (no names of people). |
+| `description` | none | A few sentences describing the project; placed in the draft document only. |
+| `reviewing_office` | placeholder | The IRB or human research protection office, as your institution names it. |
+| `write_document` | true | Draft project description and IRB determination request (DOCX) in `/data/output`. |
+
+A screening aid. It never answers for you and never decides: the institution's IRB does. The
+questions come from the definitions of research and human subject in 45 CFR 46.102 (including the
+2018 exclusion of public health surveillance, 46.102(l)(2)), CDC's Guidelines for Defining Public
+Health Research and Public Health Non-Research (1999 revision: primary intent, new or untested
+interventions, program evaluation, surveillance, emergency response, separable components), and two
+quality improvement sources read as abstracts (a Hastings Center group, Ann Intern Med 2007; two
+criteria proposed in JAMA 2000). Each question shows why it matters, with citations.
+
+**Output.** `status` is `questions_only` (no answers yet), `needs_answers` (the three required
+questions, intent to produce generalizable knowledge, a new or untested intervention, and extra
+burden for participants, need a yes or no; `unsure` does not count), or `provisional`. A provisional
+reading is one of: quality improvement, program evaluation, public health practice or surveillance,
+possible human subjects research, or undetermined. Any answer that points to research gives
+"possible research" (with a reading of whether the project would involve human subjects under
+46.102(e): interaction or intervention, or identifiable private information); otherwise authority for
+surveillance gives practice, an established program gives evaluation, and local improvement gives QI.
+Cautions are listed for overlap (QI and research), authority plus intent to generalize, a research
+component, publication plans, and unsure answers that could change the reading. Next steps depend on
+the reading, including 244 CMR 9.03(18) (a Massachusetts nurse who conducts or enrolls subjects in a
+study must verify IRB-type approval). The draft document has the project description headings with
+`[NURSE: ...]` placeholders and a table of your answers.
+
+**Privacy.** No local files are read. Text you type is refused if it looks like a person's
+identifier, and appears only in the document in `/data/output`.
+
+**Limits.** OHRP's own QI FAQ pages (hhs.gov) could not be read, so OHRP's charts are not
+reproduced. The CDC guidelines predate the 2018 rule. The Hastings Center and JAMA sources were read
+as abstracts. Exemptions (46.104) are not evaluated. No Massachusetts institution's IRB policy was
+reviewed. Content is pending review.
+
+### `public_health_ethics_analysis` (POL-05, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `decision_type` | general profile | `quarantine`, `isolation`, `exclusion from school`, `allocation of scarce resources`, or your own words. |
+| `decision` | none | The decision in one or two sentences (no names of people). |
+| `situation` | none | A short description of the facts you have (disease, setting, numbers, timeline). |
+| `responses` | none | Your responses to Kass's six questions (`question` 1 to 6 or id, and `response`). |
+| `alternatives` | none | Options you are considering, added to the table for you to rank and assess. |
+| `write_document` | true | Worksheet (DOCX) in `/data/output`. |
+
+Structures an ethics analysis; it never recommends a decision and does not cover Massachusetts law
+on quarantine, isolation, or exclusion. **Output:** Kass's six questions (goals, effectiveness,
+burdens, minimizing burdens and alternatives, fair implementation, balancing) with prompts and the
+facts to gather, and which are still open; her three burden categories (privacy and
+confidentiality, liberty and self-determination, justice) and balancing criteria; CDC's three
+functions of ethics inquiry; a table of options from least to most restrictive (a drafting aid for
+the decision type, plus your options, with columns to assess liberty, privacy, justice, and
+evidence); a justification checklist (effectiveness, proportionality, necessity, least infringement,
+public justification, fair procedure, responsible use of scarce resources); the six core values of
+the APHA Public Health Code of Ethics (2019) with prompts and its four-step analysis approach; and
+a worksheet with `[NURSE: ...]` placeholders. Source texts are paraphrased and cited, with
+copyright noted.
+
+**Limits.** The APHA code itself (apha.org) and Kass's full article could not be read; the
+frameworks are known from the PubMed abstract and from open-access papers that describe them
+(medium to low confidence, shown per item). The decision profiles and options are this project's
+drafting aids (low confidence). Content is pending review.
+
+### `nursing_scope_of_practice_guide` (POL-06, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | none | Your question in your own words ("Can an LPN give flu vaccines under a standing order?"). |
+| `topics` | none | Topic ids or names: `scope_framework`, `rn_lpn`, `delegation`, `delegation_medication`, `standing_orders`, `vaccines`, `otc_school`, `harm_reduction`, `aprn`, `research`, `licensure`, `management_charge`, `conduct_reporting`, `map_program`, `new_procedures`. Leave both empty for the index. |
+| `role` | any | `rn`, `lpn`, `aprn`, or `any`. |
+| `max_results` | 12 | At most 40 provisions. |
+| `list_all_rulings` | false | List every advisory ruling on the Board's list. |
+
+Finds the provisions that bear on a scope, delegation, or standing-order question in a partial
+snapshot (2026-11-12) of 244 CMR 3.00, 9.00, and 10.00, parts of 244 CMR 4.00, M.G.L. c. 112, section
+80B, and eleven Board of Registration in Nursing advisory rulings (9324 orders and standing orders,
+9804 vaccines, 9803 delegation to unlicensed assistive personnel, 25-01 RN and LPN scope, 92-05 OTC
+medications in schools, 9401 the DPH Medication Administration Program, 20-01 APRN delegation of
+immunizations, 24-01 harm reduction, 98-02 the LPN in charge, 1801 licensure, 23-03 LARC). **Output:**
+each provision with its citation, a quotation of 25 words or fewer, the guide's paraphrase, the roles
+it applies to, and its confidence; the Board's six decision-making questions and eight-box flow chart;
+the advisory rulings cited, or listed by title when the title matches your words; the coverage (what
+was read in full, in part, and not read); and how to reach the Board.
+
+It never says that a specific act is within a nurse's scope. Answers depend on education, competence,
+orders or protocols, the setting, and the facts, and the Board decides its own rules. Decision support,
+not legal advice.
+
+**Limits.** Partial: 244 CMR 5.00 to 8.00 and 23 listed advisory rulings were not read (titles only).
+The mass.gov copies of the regulations are not the official text, and its PDF text for 244 CMR 3.05(5)(d)
+has a layout problem (flagged on the provision). Content is pending review.
+
 <!-- End of Phase 18 ethics. -->
 
 <!-- End of Phase 18 tools. -->

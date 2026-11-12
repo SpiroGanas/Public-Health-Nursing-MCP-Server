@@ -266,6 +266,9 @@ output folder instead of being sent to the AI model.
 | `build_strategic_plan` | LEAD-05 | leadership | Scaffolds a strategic plan from your content: SWOT or SOAR, an accessible stakeholder power and interest grid, priorities, goals, objectives, and strategies linked to your CHIP, blank checks, and a draft DOCX; PHAB requirements are reported as unverified. |
 <!-- Phase 18 strategy rows go above this line. -->
 <!-- Phase 18 workforce rows go above this line. -->
+| `qi_vs_research_determination` | EBP-07 | ebp | Screening aid for sorting a project into quality improvement, program evaluation, public health practice or surveillance, or possible human subjects research, from your answers and 45 CFR 46.102 and CDC's guidelines, with the reasoning for each question and a draft IRB determination request (the IRB decides). |
+| `public_health_ethics_analysis` | POL-05 | policy | Structures an ethics analysis of quarantine, school exclusion, scarce-resource allocation, or another decision with Kass's six questions and the APHA Public Health Code of Ethics: prompts, a least restrictive alternatives table, a justification checklist, and a worksheet. It never recommends a decision. |
+| `nursing_scope_of_practice_guide` | POL-06 | policy | Finds the 244 CMR, M.G.L. c. 112 section 80B, and Board of Registration in Nursing advisory ruling provisions that bear on scope, delegation, and standing-order questions, with citations, short quotations, and the Board's decision questions. A partial snapshot; it never says an act is in scope. |
 <!-- Phase 18 ethics rows go above this line. -->
 <!-- Phase 18 rows go above this line. -->
 

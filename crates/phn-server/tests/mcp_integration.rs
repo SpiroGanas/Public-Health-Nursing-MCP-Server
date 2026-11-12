@@ -1863,6 +1863,74 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
         // ---- End of Phase 18 workforce.
         // ---- Phase 18 ethics (EBP-07, POL-05, POL-06).
+        // These tools read no files. Free-text arguments that carry a client's identifiers (a
+        // seeded phone number, street address, SSN, or e-mail) must be refused without echoing
+        // them, and ordinary calls must return nothing from client or contact files.
+        (
+            "qi_vs_research_determination",
+            json!({"description": "Clients at 837 Elm Street, phone 413-555-0100", "write_document": true}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"project_title": "Chart review for 929-87-6117", "write_document": true}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"answers": [{"question_id": "extra_burden", "answer": "no",
+                                "note": "ask maria.garcia@example.org"}]}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"project_title": "Clinic reminder process", "description": "Reminder calls for a clinic",
+                   "answers": [
+                       {"question_id": "generalizable_intent", "answer": "no"},
+                       {"question_id": "new_intervention", "answer": "no"},
+                       {"question_id": "extra_burden", "answer": "no"},
+                       {"question_id": "local_improvement", "answer": "yes"}]}),
+            ll,
+        ),
+        (
+            "qi_vs_research_determination",
+            json!({"answers": [{"question_id": "generalizable_intent", "answer": "yes"}],
+                   "write_document": true}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "quarantine", "situation": "The family at 837 Elm Street, 413-555-0100"}),
+            ll,
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "school exclusion", "decision": "Whether to exclude unimmunized students",
+                   "responses": [{"question": "burdens", "response": "Lost school days; families without childcare"}],
+                   "alternatives": ["Vaccination clinic first"]}),
+            ll,
+        ),
+        (
+            "public_health_ethics_analysis",
+            json!({"decision_type": "allocation of scarce resources",
+                   "responses": [{"question": "1", "response": "Call 413-555-0100"}]}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"question": "Can the nurse who saw 837 Elm Street delegate? Phone 413-555-0100"}),
+            ll,
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"question": "What must a delegating nurse do before delegating to an unlicensed aide?"}),
+            ll,
+        ),
+        (
+            "nursing_scope_of_practice_guide",
+            json!({"topics": ["standing_orders", "vaccines"], "list_all_rulings": true}),
+            "data/shelter_registrations.csv",
+        ),
         // ---- End of Phase 18 ethics.
         // ---- End of Phase 18 data tools.
         // ---- Phase 19 data tools go below this line.

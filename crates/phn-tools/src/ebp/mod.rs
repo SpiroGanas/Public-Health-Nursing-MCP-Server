@@ -29,4 +29,6 @@ pub use qi::{QiPlanArgs, QiPlanResult, plan_quality_improvement};
 // End of Phase 16 qi.
 
 // Phase 18 ethics (EBP-07): add `pub mod` and `pub use` lines below.
+pub mod qi_research;
+pub use qi_research::{QiResearchArgs, QiResearchResult, qi_vs_research_determination};
 // End of Phase 18 ethics.

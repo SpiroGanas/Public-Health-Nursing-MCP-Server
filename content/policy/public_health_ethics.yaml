@@ -1,0 +1,496 @@
+# Structure for public_health_ethics_analysis (POL-05): Kass's six-question framework, the
+# justification conditions of Childress and colleagues, the six core values and analysis steps of the
+# APHA Public Health Code of Ethics (2019), and decision profiles with least-restrictive-alternative
+# options for quarantine and isolation, school exclusion, and scarce-resource allocation.
+#
+# REVIEW STATUS: pending. IMPORTANT: the APHA code itself (apha.org) and the full text of Kass's
+# 2001 article (publisher full text not open; PMC web pages blocked) could NOT be read. The
+# framework content below comes from the PubMed abstract of Kass's article and from open-access
+# papers that describe the frameworks (read 2026-11-12). The decision profiles and the sub-prompts
+# are this project's drafting aids, not source text (confidence low).
+# Schema: content/schemas/policy_public_health_ethics.schema.json
+meta:
+  id: policy-public-health-ethics
+  title: Public health ethics analysis structure (Kass framework; APHA Public Health Code of Ethics 2019)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2019-11-05
+  source:
+    title: An ethics framework for public health (Am J Public Health 2001;91:1776-82), abstract; and an open-access overview of ethical frameworks that tabulates its six questions (BMC Public Health 2010;10:638)
+    publisher: American Public Health Association (journal); National Library of Medicine; BioMed Central
+    url: https://pubmed.ncbi.nlm.nih.gov/11684600/
+  related_sources:
+    - title: Public Health Code of Ethics (2019), described in open-access papers (the code itself was not read)
+      publisher: American Public Health Association
+      url: https://www.apha.org/codeofethics/
+    - title: Public Health Ethics (page)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/scientific-integrity/php/public-health-ethics/index.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The six Kass questions, her three categories of ethical burden, and her balancing criteria are
+    taken from an open-access overview (BMC Public Health 2010, CC BY) and from the PubMed abstract
+    of the 2001 article, not from the article's full text (medium confidence; the wording is
+    paraphrased). The five justification conditions are Childress and colleagues' (2002) as
+    described in the same overview (medium). The APHA code's six core values come from two
+    open-access papers that quote the 2019 code (medium); the four-part analysis approach and the
+    list of additional considerations come from one such paper (low to medium); the code's own
+    text, section structure, and definitions were not read (apha.org was blocked), so verify them
+    against the official PDF before relying on this content. The decision profiles (what burdens to
+    look for, the ordered options) are this project's drafting aids for structuring a discussion,
+    not sourced content (low confidence); they say nothing about Massachusetts law, which applies
+    to quarantine, isolation, and school exclusion and is not covered here. All source texts are
+    copyrighted by their owners and are paraphrased; see the copyright notes.
+
+sources:
+  kass2001:
+    title: "An ethics framework for public health (Am J Public Health 2001;91(11):1776-82), abstract"
+    publisher: American Public Health Association (journal); National Library of Medicine (PubMed)
+    url: https://pubmed.ncbi.nlm.nih.gov/11684600/
+    effective_date: "2001-11-01"
+    retrieved: "2026-11-12"
+  overview2010:
+    title: "An overview of ethical frameworks in public health: can they be supportive in the evaluation of programs to prevent overweight? (BMC Public Health 2010;10:638; open access, CC BY 2.0)"
+    publisher: BioMed Central
+    url: https://doi.org/10.1186/1471-2458-10-638
+    effective_date: "2010-10-22"
+    retrieved: "2026-11-12"
+  apha_values_hpp:
+    title: "Local Health Department Values and Organizational Authorities Guiding Cross-Sector Work During COVID-19 (Health Promot Pract 2024;25:589; open access, CC BY-NC 4.0)"
+    publisher: SAGE Publications
+    url: https://doi.org/10.1177/15248399231192989
+    effective_date: "2024-07-01"
+    retrieved: "2026-11-12"
+  apha_values_emph:
+    title: "Covid-19 vaccine dissemination: A public health ethical evaluation of Pennsylvania's plan during Phase 1A (Ethics Med Public Health 2022;24:100815)"
+    publisher: Elsevier
+    url: https://doi.org/10.1016/j.jemep.2022.100815
+    effective_date: "2022-10-01"
+    retrieved: "2026-11-12"
+  apha_steps_jphp:
+    title: "Ethical considerations for mandating food worker vaccination during outbreaks: an analysis of hepatitis A vaccine (J Public Health Policy 2021;42:465)"
+    publisher: Springer Nature
+    url: https://doi.org/10.1057/s41271-021-00293-y
+    effective_date: "2021-06-29"
+    retrieved: "2026-11-12"
+  cdc_phe:
+    title: Public Health Ethics (CDC Scientific Integrity, page dated July 28, 2025)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/scientific-integrity/php/public-health-ethics/index.html
+    effective_date: "2025-07-28"
+    retrieved: "2026-11-12"
+  project:
+    title: This project's drafting aid (not from a published source)
+    publisher: Public Health Nursing MCP Server
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    effective_date: null
+    retrieved: "2026-11-12"
+
+unread_sources:
+  - title: Public Health Code of Ethics (2019), official PDF and web page
+    url: https://www.apha.org/codeofethics/
+    reason: apha.org is blocked from this environment; the code's own wording, definitions, and section structure were not read.
+  - title: "Kass NE. An ethics framework for public health. Am J Public Health 2001 (full text)"
+    url: https://doi.org/10.2105/ajph.91.11.1776
+    reason: The full text is not available through the open E-utilities and the PMC and journal web pages are blocked; only the abstract and a secondary description were read.
+  - title: "Childress JF et al. Public health ethics: mapping the terrain. J Law Med Ethics 2002"
+    url: https://doi.org/10.1111/j.1748-720X.2002.tb00384.x
+    reason: Not read; its justification conditions are known only from the 2010 overview.
+  - title: Principles of the Ethical Practice of Public Health (Public Health Leadership Society, 2002; replaced by the 2019 APHA code)
+    url: https://www.phls.org/
+    reason: phls.org is blocked.
+
+process_steps:
+  - text: Identify and clarify the ethical dilemma.
+    source: cdc_phe
+    section: CDC and public health ethics
+    confidence: high
+  - text: Analyze it in terms of the alternative courses of action and their consequences.
+    source: cdc_phe
+    section: CDC and public health ethics
+    confidence: high
+  - text: Resolve it by deciding which course of action best incorporates and balances the guiding principles and values.
+    source: cdc_phe
+    section: CDC and public health ethics
+    confidence: high
+
+kass_questions:
+  - number: 1
+    id: goals
+    topic: Goals
+    question: What are the public health goals of the proposed program or action?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - What harm to health is the action meant to reduce, and for whom (which people, how many)?
+      - Is the goal stated in terms of illness or death prevented, not only a process measure?
+      - Who defined the goal, and does the community agree it matters?
+    facts_to_gather:
+      - The health problem, its size, and the population affected.
+      - The decision-maker and the legal authority they are acting under.
+  - number: 2
+    id: effectiveness
+    topic: Effectiveness
+    question: How effective is the program in achieving its stated goals?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - What evidence shows that the action reduces illness or death, and how strong is it?
+      - How well does the evidence apply to this population and setting?
+      - What would happen with no action, and how soon would you see an effect?
+    facts_to_gather:
+      - Published evidence or agency guidance for this action (search_pubmed, search_cdc_guidance, appraise_evidence can help).
+      - Local data on the problem (disease counts, rates, trends).
+  - number: 3
+    id: burdens
+    topic: Known or potential burdens
+    question: What are the known or potential burdens of the program (risks to privacy and confidentiality, to liberty and self-determination, and to justice)?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - What information about people will be collected, shared, or disclosed, and who sees it?
+      - What choices or movements will be limited, for whom, and for how long?
+      - Who bears the costs (lost wages, caregiving, housing, stigma), and are some groups affected more than others?
+    facts_to_gather:
+      - The groups affected and what the action asks of each.
+      - Practical costs and supports (income, childcare, housing, language, disability).
+  - number: 4
+    id: minimize_burdens
+    topic: Minimizing burdens; alternatives
+    question: Can the burdens be minimized? Are there alternative approaches?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - Is there a less restrictive or less intrusive option that would reach the same goal?
+      - Can the action be narrower in scope, shorter, or targeted to those at highest risk?
+      - What supports would reduce the burden on those affected?
+    facts_to_gather:
+      - A list of options from least to most restrictive (see the table in this result).
+      - Evidence on how well each option works.
+  - number: 5
+    id: fairness
+    topic: Fair implementation
+    question: Is the program implemented fairly?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - Are benefits and burdens shared fairly across groups, or do some groups carry more?
+      - Does the action reduce, or risk deepening, existing social and health inequities?
+    facts_to_gather:
+      - Who is included, who is excluded, and who decides.
+      - Equity data for the affected community (build_community_health_profile, measure_health_disparities).
+  - number: 6
+    id: balance
+    topic: Balancing benefits and burdens
+    question: How can the benefits and burdens of the program be fairly balanced?
+    source: overview2010
+    section: Table 2
+    confidence: medium
+    prompts:
+      - Is the expected public health benefit large enough to justify the burden, especially a burden that is uneven across groups or that uses coercion?
+      - What fair process (including hearing from those affected and from minority views) will be used to decide which burdens are acceptable?
+    facts_to_gather:
+      - Who was consulted and how, and what they said.
+      - How the decision will be explained to the public and reviewed later.
+
+burden_categories:
+  - id: privacy
+    label: Privacy and confidentiality
+    note: Risks from collecting, using, or disclosing information about people.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+  - id: liberty
+    label: Liberty and self-determination
+    note: Risks to people's freedom to choose and move, including coercion and penalties for non-compliance.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+  - id: justice
+    label: Justice
+    note: Risks that burdens fall unevenly or deepen existing injustice.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+
+balancing_criteria:
+  - text: The greater a program's ethical burden, the greater its expected public health benefit must be.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+  - text: The more unevenly benefits and burdens are divided between groups, the greater the expected benefit must be.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+  - text: Coercive programs should be kept to a minimum.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+  - text: Disagreements about balancing are expected in a pluralistic society and should be settled through fair procedures, including a democratic process with public hearings that consider minority views.
+    source: overview2010
+    section: Kass framework description
+    confidence: medium
+
+justification_conditions:
+  - id: effectiveness
+    label: Effectiveness
+    question: Is there good reason to think the action will protect public health?
+    text: The program is effective in protecting public health.
+    source: overview2010
+    section: Childress et al. description
+    confidence: medium
+  - id: proportionality
+    label: Proportionality
+    question: Do the expected public health benefits outweigh the moral considerations the action infringes (liberty, privacy, justice)?
+    text: The probable public health benefits outweigh the infringed moral considerations.
+    source: overview2010
+    section: Childress et al. description
+    confidence: medium
+  - id: necessity
+    label: Necessity
+    question: Is there no alternative that is less morally troubling and still reaches the goal?
+    text: There is no alternative program that is less morally troubling.
+    source: overview2010
+    section: Childress et al. description
+    confidence: medium
+  - id: least_infringement
+    label: Least infringement
+    question: Is the action designed to infringe as little as possible?
+    text: The degree of infringement is minimized.
+    source: overview2010
+    section: Childress et al. description
+    confidence: medium
+  - id: public_justification
+    label: Public justification
+    question: Can you explain and justify the action to the people affected, and has the process been open and transparent?
+    text: Public health agents should explain and justify the infringement, and the process should be transparent.
+    source: overview2010
+    section: Childress et al. description
+    confidence: medium
+  - id: fair_process
+    label: Fair procedure (Kass)
+    question: Was there a fair process, including a chance for the people affected to be heard?
+    text: Disagreements about acceptable burdens are settled through fair procedures such as public hearings.
+    source: kass2001
+    section: Abstract
+    confidence: medium
+  - id: scarce_resources
+    label: Responsible use of scarce resources (APHA code, as described)
+    question: Is the use of limited resources justified and accountable?
+    text: The APHA code is described as advising consideration of effectiveness, responsible use of scarce resources, proportionality, accountability, and public engagement.
+    source: apha_steps_jphp
+    section: Core values discussion
+    confidence: low
+
+apha_values:
+  - id: professionalism_trust
+    label: Professionalism and trust
+    prompt: Is the action honest, transparent, and likely to keep or build the public's trust?
+    source: apha_values_hpp
+    section: Introduction; Table 1
+    confidence: medium
+  - id: health_safety
+    label: Health and safety
+    prompt: How does the action protect the health and safety of the community, and of those carrying it out?
+    source: apha_values_hpp
+    section: Introduction
+    confidence: medium
+  - id: health_justice_equity
+    label: Health justice and equity
+    prompt: Does the action reduce, hold constant, or widen inequities in health or in who bears burdens?
+    source: apha_values_emph
+    section: Introduction
+    confidence: medium
+  - id: interdependence_solidarity
+    label: Interdependence and solidarity
+    prompt: Does the action recognize that people's health depends on each other, and share the effort fairly?
+    source: apha_values_emph
+    section: Introduction
+    confidence: medium
+  - id: rights_liberties
+    label: Human rights and civil liberties
+    prompt: What rights and liberties are limited, how much, for how long, and is each limit necessary?
+    source: apha_values_emph
+    section: Introduction
+    confidence: medium
+  - id: inclusivity_engagement
+    label: Inclusivity and engagement
+    prompt: Who was included in deciding, and who still needs to be heard (including people most affected)?
+    source: apha_values_hpp
+    section: Introduction
+    confidence: medium
+
+apha_analysis_steps:
+  - text: Identify the public health goals.
+    source: apha_steps_jphp
+    section: Core values of public health
+    confidence: low
+  - text: Identify the ethically relevant facts.
+    source: apha_steps_jphp
+    section: Core values of public health
+    confidence: low
+  - text: Analyze the implications for the health and rights of all stakeholders.
+    source: apha_steps_jphp
+    section: Core values of public health
+    confidence: low
+  - text: Determine whether the action fits with the core values of public health.
+    source: apha_steps_jphp
+    section: Core values of public health
+    confidence: low
+
+decision_profiles:
+  - id: quarantine_isolation
+    label: Quarantine or isolation (limiting the movement of exposed or ill people)
+    keywords: [quarantine, isolation, isolate, movement, stay home, confinement, exclusion from work, contact]
+    tensions:
+      - Liberty and self-determination (movement, work, family contact) against protecting others.
+      - Privacy (monitoring, contact tracing, sharing who is affected).
+      - Justice (people without paid leave, caregivers, crowded or unstable housing carry more of the burden).
+    facts_to_gather:
+      - How the disease spreads, when a person is infectious, and how long restriction would last (use calculate_isolation_and_exclusion and search_ma_disease_control_guide for the Massachusetts specifics).
+      - The people affected, what supports they need, and what they would lose.
+      - The legal authority and process; ask the board of health attorney or DPH (this tool does not cover Massachusetts law).
+    options:
+      - level: 1
+        option: Information and advice (symptoms to watch for, hygiene, when to call)
+        burden_prompts: Low on liberty; check that messages reach everyone (language, literacy, disability).
+      - level: 2
+        option: Voluntary self-monitoring or self-isolation with practical support (food, work letters, a contact person)
+        burden_prompts: Check whether people can afford to comply; who is left out of the support.
+      - level: 3
+        option: Active monitoring by the health department without limits on movement
+        burden_prompts: Privacy of monitoring data; how often and by whom; how long data are kept.
+      - level: 4
+        option: Targeted or conditional restrictions (limits only in high-risk settings or roles, masking, testing)
+        burden_prompts: Narrow scope and end date; criteria for release; who decides exceptions.
+      - level: 5
+        option: Order for home quarantine or isolation, with supports
+        burden_prompts: Liberty burden; uneven economic burden; appeal or review process; enforcement and its fairness.
+      - level: 6
+        option: Supervised or facility-based isolation (last resort)
+        burden_prompts: Highest liberty burden; fair procedures, conditions, and regular review are essential.
+  - id: school_exclusion
+    label: Exclusion from school (illness, outbreak, or missing immunizations)
+    keywords: [school, exclusion, exclude, student, children, child care, daycare, outbreak, unvaccinated, immunization]
+    tensions:
+      - A child's education and the family's circumstances against protecting classmates and staff.
+      - Privacy (identifying a child as ill or unimmunized to staff or other families).
+      - Justice (families without childcare or paid leave, children with medical or religious exemptions, children who lose learning time).
+    facts_to_gather:
+      - The disease, the exclusion period the Massachusetts rules or DPH guidance set, and the criteria for return (calculate_isolation_and_exclusion, search_ma_disease_control_guide, check_ma_school_immunization_requirements).
+      - How many children and staff are affected and how many days of school would be lost.
+      - "What the school can offer: make-up work, remote learning, meal access, health room support."
+    options:
+      - level: 1
+        option: Notices and education to families and staff (symptoms, when to stay home, vaccination clinics)
+        burden_prompts: Low burden; check language access and reach.
+      - level: 2
+        option: Strengthened routine measures (hygiene, cleaning, ventilation, vaccination clinics at school)
+        burden_prompts: Resource cost; whether the measures reach all classrooms equally.
+      - level: 3
+        option: Targeted measures (cohorting, masking, seating, activity limits) for the affected group
+        burden_prompts: Stigma of being singled out; fairness of who is targeted.
+      - level: 4
+        option: Conditional attendance (return after treatment, clearance, or a defined period)
+        burden_prompts: Access to care and documentation for families; how quickly clearance can be obtained.
+      - level: 5
+        option: Exclusion of affected or unimmunized children for the period the rules require
+        burden_prompts: Education and family burden; support to keep learning; review of exemptions and fair process.
+      - level: 6
+        option: Closure of a classroom or school (last resort)
+        burden_prompts: Broadest burden on children and families; evidence that closure adds benefit beyond narrower steps.
+  - id: scarce_resource_allocation
+    label: Allocation of scarce resources (vaccine, antivirals, shelter space, staff, supplies)
+    keywords: [scarce, allocation, allocate, rationing, priority, prioritize, limited supply, shortage, triage, vaccine supply]
+    tensions:
+      - Benefit to the most people against fairness to individuals and groups.
+      - Equity (people with the greatest need or least access) against efficiency.
+      - Transparency and public trust against speed in an emergency.
+    facts_to_gather:
+      - How much of the resource there is, how fast it is arriving, and who could use it (counts and groups).
+      - What the resource does for each group (expected benefit) and who is at highest risk.
+      - Any state or federal allocation guidance that already applies (search_cdc_guidance; DPH notices); this tool does not summarize it.
+    options:
+      - level: 1
+        option: Increase supply or capacity, conserve, or substitute (so fewer people go without)
+        burden_prompts: Cost and time; who still goes without during the shortfall.
+      - level: 2
+        option: Voluntary conservation and guidance on who should seek the resource first
+        burden_prompts: People with less information or access may not benefit; check reach.
+      - level: 3
+        option: Allocation by clear, published criteria chosen for fairness (for example need, risk, expected benefit)
+        burden_prompts: Whether criteria are justified and applied equally; appeal path; effect on historically disadvantaged groups.
+      - level: 4
+        option: Random selection (lottery or queue) among equally eligible people
+        burden_prompts: Fair for equal claims; check it does not ignore large differences in need.
+      - level: 5
+        option: Reallocation of resources already in use or promised (most burdensome)
+        burden_prompts: Highest burden on those who lose access; strongest justification and process required.
+  - id: general
+    label: Other public health action (general ladder)
+    keywords: []
+    tensions:
+      - The population's health against individual liberty, privacy, and fairness.
+    facts_to_gather:
+      - The goal, the evidence, who is affected, and the legal authority.
+    options:
+      - level: 1
+        option: Information, education, and persuasion
+        burden_prompts: Check that messages are not manipulative or stigmatizing.
+      - level: 2
+        option: Voluntary programs, services, and incentives
+        burden_prompts: Check that incentives do not unfairly pressure people with fewer options.
+      - level: 3
+        option: Recommendations, guidance, or conditions for access to a service
+        burden_prompts: Who is shut out by the condition?
+      - level: 4
+        option: Requirements with exemptions and review
+        burden_prompts: Liberty burden; fair exemptions and process.
+      - level: 5
+        option: Requirements with penalties or enforcement (most coercive)
+        burden_prompts: Strongest justification and fair procedure required.
+
+profile_origin_note: >-
+  The tensions, facts to gather, and ordered options in each decision profile are this project's
+  drafting aids for structuring a discussion. They are not from the cited frameworks, do not state
+  Massachusetts law or DPH policy, and are not a list of the options legally available. Edit them
+  for your situation.
+
+copyright_notes:
+  - Kass's framework and the APHA Public Health Code of Ethics are copyrighted works of their publishers; this tool paraphrases and cites them and does not reproduce their text. Read the originals for the authors' full wording and reasoning.
+  - The overview paper used to read Kass's six questions is open access under a Creative Commons Attribution license; its description is paraphrased here.
+
+document:
+  title: Public health ethics analysis worksheet (draft)
+  filename: public_health_ethics_analysis
+  intro: >-
+    Worksheet for the person or group making the decision, structured with Kass's framework and the
+    APHA Public Health Code of Ethics. It organizes questions and facts; it does not recommend a
+    decision, and the decision belongs to the authorized decision-maker. Replace each [NURSE: ...]
+    placeholder and delete this paragraph.
+  sections_before:
+    - heading: 1. The decision
+      prompts:
+        - "Decision to be made: [NURSE: the action under consideration, in one sentence]"
+        - "Decision-maker and legal authority: [NURSE: who decides and under what authority]"
+        - "Timeline and urgency: [NURSE: when a decision is needed]"
+    - heading: 2. Facts
+      prompts:
+        - "Health facts (disease, risk, evidence): [NURSE: facts and sources]"
+        - "People affected and what the action asks of each: [NURSE: groups and effects]"
+        - "Facts still missing and how you will get them: [NURSE: gaps]"
+  sections_after:
+    - heading: 7. Process and record
+      prompts:
+        - "Who was consulted (including people most affected) and what they said: [NURSE: consultation]"
+        - "How the decision will be explained to the public, and when it will be reviewed: [NURSE: communication and review date]"
+        - "Decision and rationale, recorded by the decision-maker: [NURSE: decision and rationale]"

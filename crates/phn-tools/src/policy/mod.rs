@@ -1,6 +1,11 @@
 //! Policy, law, and ethics tools (toolset `policy`).
 
 // Phase 18 ethics (POL-05, POL-06): add `pub mod` and `pub use` lines below.
+pub mod ethics;
+pub mod scope;
+pub mod shared;
+pub use ethics::{EthicsArgs, EthicsResult, public_health_ethics_analysis};
+pub use scope::{ScopeArgs, ScopeResult, nursing_scope_of_practice_guide};
 // End of Phase 18 ethics.
 
 // Phase 19 tracking (POL-01, POL-03): add `pub mod` and `pub use` lines below.
