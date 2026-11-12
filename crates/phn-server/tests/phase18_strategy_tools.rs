@@ -530,7 +530,10 @@ async fn the_word_files_pass_the_servers_accessibility_check() {
     write_policies(&h);
     let mut docs: Vec<String> = Vec::new();
     for (name, args) in [
-        (FPHS, json!({"statuses": [{"standard_id": "PS-DIS-002", "status": "not_met"}]})),
+        (
+            FPHS,
+            json!({"statuses": [{"standard_id": "PS-DIS-002", "status": "not_met"}]}),
+        ),
         (PHAB, json!({"folder": "policies"})),
         (PLAN, plan_args()),
     ] {
@@ -556,6 +559,9 @@ async fn the_word_files_pass_the_servers_accessibility_check() {
             .filter(|c| c["status"] == "fail")
             .map(|c| c["id"].as_str().unwrap().to_string())
             .collect();
-        assert!(failed.is_empty(), "{path}: accessibility failures {failed:?}");
+        assert!(
+            failed.is_empty(),
+            "{path}: accessibility failures {failed:?}"
+        );
     }
 }
