@@ -230,6 +230,8 @@ output folder instead of being sent to the AI model.
 |---|---|---|---|
 <!-- Phase 16 design rows go above this line. -->
 <!-- Phase 16 interventions rows go above this line. -->
+| `appraise_evidence` | EBP-03 | ebp | Guided critical appraisal of a study you describe or supply: suggests the design, lists that design's appraisal questions (Cochrane 2011 risk-of-bias domains, ROBINS-I, STROBE, AMSTAR 2, qualitative, SQUIRE 2.0) from open-access sources, records your answers, applies each instrument's own overall rating rule, structures a GRADE or GRADE-CERQual certainty judgment, optional Crossref citation lookup, and a Word record. Never answers a question for you. |
+| `build_evidence_synthesis_table` | EBP-04 | ebp | Builds a synthesis table (Word and Excel with live summary formulas) from the studies you appraised and a PRISMA 2020 flow diagram (Mermaid, accessible SVG, text alternative) from counts you enter, with every arithmetic error reported. |
 <!-- Phase 16 appraise rows go above this line. -->
 <!-- Phase 16 qi rows go above this line. -->
 <!-- Phase 16 rows go above this line. -->

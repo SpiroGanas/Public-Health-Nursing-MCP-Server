@@ -11149,6 +11149,26 @@
    "kind": "phone",
    "file": "data/prediabetes_responses.csv",
    "column": "Phone"
+  },
+  {
+   "value": "Perdita Stonehallow",
+   "kind": "name",
+   "file": "data/study_abstract.txt"
+  },
+  {
+   "value": "Stonehallow",
+   "kind": "name",
+   "file": "data/study_abstract.txt"
+  },
+  {
+   "value": "perdita.stonehallow@example.org",
+   "kind": "email",
+   "file": "data/study_abstract.txt"
+  },
+  {
+   "value": "413-555-0191",
+   "kind": "phone",
+   "file": "data/study_abstract.txt"
   }
  ]
 }

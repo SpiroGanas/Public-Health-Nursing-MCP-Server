@@ -1193,6 +1193,67 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
         // ---- End of Phase 16 interventions.
         // ---- Phase 16 appraise (EBP-03, EBP-04).
+        // EBP-03 reads a published study. A fictional abstract legitimately has a corresponding
+        // author (name, email, phone): the design words and the answers come back, never the
+        // text, and the contact details are never repeated.
+        (
+            "appraise_evidence",
+            json!({"path": "study_abstract.txt"}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "study_abstract.txt", "design": "randomized_trial",
+                   "answers": [{"question": "rct_sequence", "answer": "low", "note": "Computer-generated sequence"},
+                               {"question": "rct_concealment", "answer": "low"}],
+                   "grade": {"outcome": "Emergency visits", "judgments": [{"domain": "imprecision", "change": -1}]},
+                   "title": "School asthma trial"}),
+            "data/study_abstract.txt",
+        ),
+        // A note that carries a personal identifier is redacted before it is echoed or recorded.
+        (
+            "appraise_evidence",
+            json!({"design": "randomized_trial",
+                   "answers": [{"question": "rct_sequence", "answer": "low",
+                                "note": "Dr. Perdita Stonehallow, perdita.stonehallow@example.org, 413-555-0191"}]}),
+            "data/study_abstract.txt",
+        ),
+        // A client note is refused without echoing a value; a line list and a roster are not
+        // study documents.
+        (
+            "appraise_evidence",
+            json!({"path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "shelter_registrations.csv", "design": "cohort"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "appraise_evidence",
+            json!({"path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        // EBP-04 has no file arguments (the studies and counts are typed in); its output and
+        // files hold only what was typed.
+        (
+            "build_evidence_synthesis_table",
+            json!({"question": "School asthma programs",
+                   "studies": [{"citation": "Fictional trial 2020", "design": "randomized trial",
+                                "sample_size": 1208, "outcome": "ED visits", "effect": "RR 0.73",
+                                "quality_rating": "low risk of bias", "quality_tool": "Cochrane 2011"}],
+                   "prisma": {"records_identified": 100, "duplicates_removed": 10, "records_screened": 90,
+                              "records_excluded": 80, "reports_assessed": 10,
+                              "reports_excluded": [{"reason": "Wrong population", "reports": 9}],
+                              "studies_included": 1}}),
+            "data/study_abstract.txt",
+        ),
         // ---- End of Phase 16 appraise.
         // ---- Phase 16 qi (EBP-05).
         // ---- End of Phase 16 qi.

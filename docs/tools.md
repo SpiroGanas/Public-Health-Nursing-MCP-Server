@@ -3229,6 +3229,102 @@ terms are unverified (credit MassGIS).
 
 <!-- Phase 16 appraise (EBP-03, EBP-04). -->
 
+### `appraise_evidence` (EBP-03, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `text` | | A pasted abstract, methods section, or full text. Used only to suggest the design; analysed in memory and never returned. |
+| `path` | | A TXT, Markdown, DOCX, PDF, or HTML file in `/data`, used like `text`. Refused if it holds a Social Security number, date of birth, or medical record number. |
+| `title` | DOI title, file name | A label for the study in your record. |
+| `doi` | | 10.xxxx/... Looked up in Crossref when online (only the DOI is sent); otherwise the DOI is used as entered and the response says which. |
+| `design` | suggested from the text | `randomized_trial`, `non_randomized_intervention`, `cohort`, `case_control`, `cross_sectional`, `systematic_review`, `qualitative`, or `quality_improvement`. Required with `answers`. |
+| `answers` | | `[{question, answer, note}]`: your answers, using the question ids returned the first time. |
+| `key_domains` | all seven | Randomized trials: the risk-of-bias questions you treat as key domains for the summary rating. |
+| `grade` | | `{outcome, evidence_type, judgments: [{domain, change, reason}], final_rating, final_reason}`: your GRADE judgments for a body of evidence on one outcome. |
+| `cerqual` | | `{finding, concerns: [{component, level, reason}], overall_confidence}`: your GRADE-CERQual judgments for a qualitative finding. |
+| `write_record` | true with answers or a certainty judgment | A Word record of your answers in `/data/output`. |
+
+**How it works.** Call it first with the text (or a DOI, or just the design) to get the design
+suggestion and the design's questions; read the study; call it again with `design` and `answers`.
+It checks each answer against the question's scale, lists the answers that deserve a second look,
+and, where the instrument defines an overall rating, applies that rule: the 2011 Cochrane
+risk-of-bias summary for trials (low if every key domain is low, high if any is high, otherwise
+unclear), ROBINS-I's overall judgment (table 2), and AMSTAR 2's overall confidence (box 2: seven
+critical domains; high, moderate, low, critically low). It never answers a question, and an
+instrument that is a reporting guideline (STROBE, SQUIRE 2.0) gets no total. With `grade` it adds
+your rating changes (0 to -2 for risk of bias, inconsistency, indirectness, imprecision, and
+publication bias; 0 to +2 for a large effect, +1 for a dose-response gradient or opposing plausible
+confounding) to the starting level (high for randomized trials, low for observational studies) and
+holds the result between very low and high; a final rating that differs from the sum needs a
+reason. With `cerqual` it records the four components' concern levels and your overall confidence
+with its definition; CERQual has no arithmetic rule, so the tool does not compute one.
+
+**Design identification.** Words in the text (and the DOI's title) are matched against a fixed list
+(for example "randomly assigned", "cohort", "thematic analysis", "plan-do-study-act"); the matched
+words and a strength (likely, possible) come back, never excerpts of the text. Diagnostic accuracy,
+case series, economic evaluations, and guidelines are recognised but have no questions (a pointer
+is returned).
+
+**Sources.** Questions are the project's own wording of items from open-access papers read in full
+on 2026-11-12: the 2011 Cochrane risk-of-bias tool and CONSORT 2010 (trials), ROBINS-I (non-randomized
+studies), STROBE (observational), AMSTAR 2 (reviews), a health-education guide to appraising
+qualitative research, and SQUIRE 2.0. GRADE content is from PubMed abstracts of the GRADE guidelines
+series (2011-2013) and Core GRADE (BMJ 2025), GRADE guidance 24, and the GRADE-CERQual series
+(full text). Every question and domain cites its source and section.
+
+**CASP.** The questions are not CASP's. CASP is linked, not copied; CASP's licence is believed to be
+Creative Commons Attribution-NonCommercial-ShareAlike, which could not be verified (the site was
+blocked), so read the licence on the checklist you download.
+
+**Privacy.** The study text is scanned with the PHI detector and analysed in memory; the response
+has the matched design words, identifier categories (never values), and counts. Your notes are
+redacted if they contain a personal identifier. The Word record has only your answers, notes, and
+label.
+
+**Limits.** The trial questions use the 2011 Cochrane tool (RoB 2 was not read); the ROBINS-I
+questions are the seven domains, not its signalling questions; how AMSTAR 2 counts a "partial yes"
+was not verified (partial yes answers are listed, not counted); the qualitative questions follow one
+guide, not a published instrument. GRADE details come from abstracts (the levels for rating up a
+dose-response gradient or opposing confounding are marked low confidence); GRADE rates a body of
+evidence, not one study. Crossref's response format was written from its documentation and tested
+against a local server (the host was blocked). Content is pending review.
+
+### `build_evidence_synthesis_table` (EBP-04, toolset `ebp`)
+
+| Argument | Default | |
+|---|---|---|
+| `question` | | The review question; used as the title. |
+| `studies` | | Up to 300: `{citation (required), year, design, population, sample_size, intervention, comparator, outcome, effect, quality_rating, quality_tool, identifier, notes}`. |
+| `prisma` | | PRISMA 2020 counts: `records_identified`, `identified_by_source` [{source, records}], `duplicates_removed`, `removed_other_reasons` (0), `records_screened`, `records_excluded`, `reports_sought` (derived), `reports_not_retrieved` (0), `reports_assessed`, `reports_excluded` [{reason, reports}], `studies_included`, `reports_of_included_studies`. |
+| `format` | both | `both`, `docx`, or `xlsx`. |
+| `write_files` | true | false for the response only. |
+
+**Output.** The table as you entered it, a summary (studies, studies with a sample size, total
+participants, median sample size, studies by design, studies by quality rating and tool), and, from
+the counts, the PRISMA 2020 flow: the checked numbers (with any derived or defaulted ones listed),
+Mermaid flowchart text, a self-contained accessible SVG (title, description, no scripts or external
+files), and the flow in sentences. Files in `/data/output/evidence_synthesis/`: `synthesis_table.docx`
+(the diagram as an image with its text alternative, the table, the summary), `synthesis_table.xlsx`
+(the table with a live "share of total n" formula, a Summary sheet with live COUNTA, COUNT, SUM,
+MEDIAN, and SUMPRODUCT formulas, a PRISMA counts sheet whose derived counts are live formulas with
+OK or CHECK flags, and notes), `prisma_flow.svg`, and `prisma_flow.mmd`.
+
+**Arithmetic checks.** All errors are reported at once, as a tool error, and nothing is written:
+sources must add up to the records identified; screened = identified - duplicates - other removed;
+sought = screened - excluded; assessed = sought - not retrieved; reports of included studies =
+assessed - the sum of exclusion reasons; studies included cannot exceed those reports (give
+`reports_of_included_studies` when a study has more than one report). Counts must be whole numbers
+from 0 to 1,000,000,000.
+
+**Sources.** The flow elements follow the "essential elements" of PRISMA 2020 explanation and
+elaboration item 16a (read in full); the figure itself is an image and could not be read, so the
+layout is this project's, not the official template (the "other methods" column and the box for
+earlier versions of an updated review are not drawn). Ratings from different tools are counted
+separately because "low" means different things in different tools.
+
+**Privacy.** No local file is read and no network call is made; the tables hold only what you
+typed. Content is pending review.
+
 <!-- End of Phase 16 appraise. -->
 
 <!-- Phase 16 qi (EBP-05). -->

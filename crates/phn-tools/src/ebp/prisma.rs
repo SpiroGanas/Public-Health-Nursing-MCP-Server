@@ -96,21 +96,22 @@ fn clean_label(s: &str, max: usize) -> String {
         .collect()
 }
 
+fn check_range(problems: &mut Vec<String>, name: &str, v: i64) -> bool {
+    if (0..=MAX_COUNT).contains(&v) {
+        true
+    } else {
+        problems.push(format!(
+            "{name} is {v}; counts must be whole numbers from 0 to {MAX_COUNT}"
+        ));
+        false
+    }
+}
+
 /// Check the counts add up. Every problem is reported at once, as a tool error the nurse can
 /// fix.
 pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
     let mut problems: Vec<String> = Vec::new();
     let mut defaults: Vec<String> = Vec::new();
-    let mut check_range = |name: &str, v: i64| {
-        if !(0..=MAX_COUNT).contains(&v) {
-            problems.push(format!(
-                "{name} is {v}; counts must be whole numbers from 0 to {MAX_COUNT}"
-            ));
-            false
-        } else {
-            true
-        }
-    };
     let other = c.removed_other_reasons.unwrap_or_else(|| {
         defaults.push("removed_other_reasons = 0".into());
         0
@@ -130,7 +131,7 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
         ("reports_assessed", c.reports_assessed),
         ("studies_included", c.studies_included),
     ] {
-        ok &= check_range(name, v);
+        ok &= check_range(&mut problems, name, v);
     }
     for (name, v) in [
         ("reports_sought", c.reports_sought),
@@ -140,7 +141,7 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
         ),
     ] {
         if let Some(v) = v {
-            ok &= check_range(name, v);
+            ok &= check_range(&mut problems, name, v);
         }
     }
     let mut reasons: Vec<ExclusionCount> = Vec::new();
@@ -150,7 +151,7 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             problems.push("every report exclusion needs a reason".into());
             ok = false;
         }
-        ok &= check_range(&format!("reports excluded for '{reason}'"), r.reports);
+        ok &= check_range(&mut problems, &format!("reports excluded for '{reason}'"), r.reports);
         reasons.push(ExclusionCount {
             reason,
             reports: r.reports,
@@ -163,7 +164,7 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             problems.push("every source in identified_by_source needs a name".into());
             ok = false;
         }
-        ok &= check_range(&format!("records from '{source}'"), s.records);
+        ok &= check_range(&mut problems, &format!("records from '{source}'"), s.records);
         by_source.push(SourceCount {
             source,
             records: s.records,
@@ -206,10 +207,11 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             c.records_excluded, c.records_screened
         ));
     }
+    let screened_ok = c.records_excluded <= c.records_screened;
     let sought_expected = c.records_screened - c.records_excluded;
     let sought = match c.reports_sought {
         Some(s) => {
-            if c.records_excluded <= c.records_screened && s != sought_expected {
+            if screened_ok && s != sought_expected {
                 problems.push(format!(
                     "reports_sought is {s} but {} screened - {} excluded = {sought_expected}",
                     c.records_screened, c.records_excluded
@@ -217,23 +219,27 @@ pub fn validate(c: &PrismaCounts) -> Result<PrismaFlow> {
             }
             s
         }
-        None => {
+        None if screened_ok => {
             defaults.push(format!(
                 "reports_sought = records screened - records excluded = {sought_expected}"
             ));
             sought_expected
         }
+        // The screening numbers are already wrong; later steps would only echo that error.
+        None => 0,
     };
-    if not_retrieved > sought {
-        problems.push(format!(
-            "reports_not_retrieved ({not_retrieved}) is more than reports_sought ({sought})"
-        ));
-    } else if c.reports_assessed != sought - not_retrieved {
-        problems.push(format!(
-            "reports_assessed is {} but {sought} sought - {not_retrieved} not retrieved = {}",
-            c.reports_assessed,
-            sought - not_retrieved
-        ));
+    if screened_ok {
+        if not_retrieved > sought {
+            problems.push(format!(
+                "reports_not_retrieved ({not_retrieved}) is more than reports_sought ({sought})"
+            ));
+        } else if c.reports_assessed != sought - not_retrieved {
+            problems.push(format!(
+                "reports_assessed is {} but {sought} sought - {not_retrieved} not retrieved = {}",
+                c.reports_assessed,
+                sought - not_retrieved
+            ));
+        }
     }
     let excluded_total: i64 = reasons.iter().map(|r| r.reports).sum();
     let mut included_reports = 0;
@@ -723,7 +729,6 @@ mod tests {
     fn every_arithmetic_error_is_reported() {
         let mut c = example();
         c.records_screened = 1000; // should be 1092
-        c.records_excluded = 1100; // more than screened
         c.reports_assessed = 50; // should be sought - not retrieved
         c.reports_excluded[0].reports = 60; // more than assessed
         c.identified_by_source[0].records = 700; // sources no longer add up
@@ -731,12 +736,25 @@ mod tests {
         for want in [
             "sources add up to 1233",
             "records_screened is 1000 but 1333 identified - 241 duplicates - 0 other removed = 1092",
-            "records_excluded (1100) is more than records_screened (1000)",
-            "reports_assessed is 50",
+            "records_excluded (1050) is more than records_screened (1000)",
             "exclusion reasons add up to 74",
         ] {
             assert!(e.contains(want), "missing '{want}' in:\n{e}");
         }
+        // Screening numbers that cannot be right do not cascade into nonsense later.
+        let mut c = example();
+        c.records_excluded = 1100;
+        let e = validate(&c).unwrap_err().to_string();
+        assert!(e.contains("records_excluded (1100) is more than records_screened (1092)"), "{e}");
+        assert!(!e.contains("reports_not_retrieved"), "{e}");
+        // Each later step is checked on its own.
+        let mut c = example();
+        c.reports_assessed = 50;
+        let e = validate(&c).unwrap_err().to_string();
+        assert!(e.contains("reports_assessed is 50 but 42 sought - 2 not retrieved = 40"), "{e}");
+        let mut c = example();
+        c.reports_not_retrieved = Some(100);
+        assert!(validate(&c).unwrap_err().to_string().contains("reports_not_retrieved (100) is more than reports_sought (42)"));
     }
 
     #[test]
