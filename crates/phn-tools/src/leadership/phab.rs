@@ -17,7 +17,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
-use phn_content::ContentMeta;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source, SourceMode};
 use phn_local::extract::{FileKind, extract};
 use phn_local::phi::{Identifier, RedactionLevel, redact_text, scan_text};
@@ -29,7 +28,7 @@ use super::strategy_docs::{
     DocBuilder, OutFormat, clip, formats_or_default, tidy, tidy_opt, write_documents,
 };
 use crate::context::Context;
-use crate::epr::content::{self, Confidence, DocSource};
+use crate::epr::content::{self, DocSource};
 use crate::md;
 
 /// Content id of `content/leadership/phab_standards.yaml`.
@@ -55,9 +54,6 @@ struct DocType {
     id: String,
     label: String,
     cues: Vec<String>,
-    standards: Vec<String>,
-    source: String,
-    confidence: Confidence,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -98,7 +94,6 @@ struct DomainDef {
 
 #[derive(Debug, Clone, Deserialize)]
 struct PhabContent {
-    meta: ContentMeta,
     sources: BTreeMap<String, DocSource>,
     phab: PhabInfo,
     domains: Vec<DomainDef>,
@@ -134,7 +129,9 @@ pub struct PhabArgs {
 }
 
 /// How much evidence the documents give for a standard.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema,
+)]
 #[serde(rename_all = "snake_case")]
 pub enum Evidence {
     /// No cue was found in any indexed document.
@@ -306,9 +303,18 @@ fn has_record_labels(text: &str) -> bool {
         };
         let words: Vec<&str> = head.split_whitespace().collect();
         words.len() <= 4
-            && words
-                .iter()
-                .any(|w| matches!(*w, "client" | "patient" | "child" | "student" | "resident" | "member" | "caregiver"))
+            && words.iter().any(|w| {
+                matches!(
+                    *w,
+                    "client"
+                        | "patient"
+                        | "child"
+                        | "student"
+                        | "resident"
+                        | "member"
+                        | "caregiver"
+                )
+            })
             && words.contains(&"name")
     })
 }
@@ -377,36 +383,31 @@ fn shown_name(rel: &str) -> String {
     }
 }
 
-/// Supported document files under `root`, relative paths with forward slashes.
-fn walk(root: &Path) -> Vec<String> {
-    let mut out = Vec::new();
-    for e in walkdir::WalkDir::new(root)
-        .follow_links(false)
+/// Supported document files under the folder, as paths relative to it (forward slashes).
+fn walk(sandbox: &phn_local::Sandbox, folder_label: &str) -> Result<Vec<String>> {
+    let (entries, _) = phn_local::extract::list_files(sandbox, folder_label, true, MAX_FILES)?;
+    let prefix = if folder_label.is_empty() || folder_label == "." {
+        String::new()
+    } else {
+        format!("{}/", folder_label.trim_end_matches('/'))
+    };
+    let mut out: Vec<String> = entries
         .into_iter()
-        .filter_entry(|e| !e.file_name().to_string_lossy().starts_with('.'))
-        .flatten()
-    {
-        if !e.file_type().is_file() {
-            continue;
-        }
-        if matches!(
-            FileKind::of(e.path()),
-            FileKind::Pdf | FileKind::Docx | FileKind::Markdown | FileKind::Text | FileKind::Html
-        ) {
-            let rel = e
-                .path()
-                .strip_prefix(root)
-                .unwrap_or(e.path())
-                .to_string_lossy()
-                .replace('\\', "/");
-            out.push(rel);
-        }
-        if out.len() >= MAX_FILES {
-            break;
-        }
-    }
+        .filter(|e| !e.is_dir)
+        .filter(|e| {
+            matches!(
+                e.kind,
+                FileKind::Pdf
+                    | FileKind::Docx
+                    | FileKind::Markdown
+                    | FileKind::Text
+                    | FileKind::Html
+            )
+        })
+        .map(|e| e.path.strip_prefix(&prefix).unwrap_or(&e.path).to_string())
+        .collect();
     out.sort();
-    out
+    Ok(out)
 }
 
 fn name_words(rel: &str) -> String {
@@ -523,9 +524,35 @@ struct MeasureIn {
 }
 
 const STOP: &[&str] = &[
-    "the", "and", "for", "that", "with", "from", "this", "are", "has", "have", "into", "their",
-    "its", "all", "any", "use", "used", "using", "health", "public", "department", "population",
-    "measure", "document", "documentation", "program", "programs", "services", "service",
+    "the",
+    "and",
+    "for",
+    "that",
+    "with",
+    "from",
+    "this",
+    "are",
+    "has",
+    "have",
+    "into",
+    "their",
+    "its",
+    "all",
+    "any",
+    "use",
+    "used",
+    "using",
+    "health",
+    "public",
+    "department",
+    "population",
+    "measure",
+    "document",
+    "documentation",
+    "program",
+    "programs",
+    "services",
+    "service",
 ];
 
 fn read_measures(
@@ -537,7 +564,11 @@ fn read_measures(
     let lt = crate::localdata::load(ctx, path, sheet)?;
     let t = &lt.table;
     let norm = |s: &str| s.trim().to_lowercase();
-    let find = |names: &[&str]| t.headers.iter().position(|h| names.contains(&norm(h).as_str()));
+    let find = |names: &[&str]| {
+        t.headers
+            .iter()
+            .position(|h| names.contains(&norm(h).as_str()))
+    };
     let id_names = [norm(&cols.id), "id".to_string(), "measure".to_string()];
     let id_refs: Vec<&str> = id_names.iter().map(String::as_str).collect();
     let title_names = [norm(&cols.title), "title".to_string()];
@@ -551,7 +582,10 @@ fn read_measures(
         )));
     };
     let kw_col = find(&kw_refs);
-    for idx in [Some(id_col), Some(title_col), kw_col].into_iter().flatten() {
+    for idx in [Some(id_col), Some(title_col), kw_col]
+        .into_iter()
+        .flatten()
+    {
         if let Some(f) = lt.findings.iter().find(|f| f.index == idx) {
             return Err(PhnError::Privacy(format!(
                 "column '{}' appears to contain {}: this does not look like a list of PHAB \
@@ -610,7 +644,11 @@ fn standard_of(measure_id: &str) -> Option<String> {
     let mut parts = measure_id.split(|c: char| c == '.' || c.is_whitespace());
     let a = parts.next()?;
     let b = parts.next()?;
-    if a.chars().all(|c| c.is_ascii_digit()) && !a.is_empty() && b.chars().all(|c| c.is_ascii_digit()) && !b.is_empty() {
+    if a.chars().all(|c| c.is_ascii_digit())
+        && !a.is_empty()
+        && b.chars().all(|c| c.is_ascii_digit())
+        && !b.is_empty()
+    {
         Some(format!("{a}.{b}"))
     } else {
         None
@@ -620,10 +658,7 @@ fn standard_of(measure_id: &str) -> Option<String> {
 // ---------------------------------------------------------------- the tool
 
 /// Crosswalk the documents in a folder to the PHAB standards.
-pub fn phab_accreditation_crosswalk(
-    ctx: &Context,
-    args: PhabArgs,
-) -> Result<Envelope<PhabResult>> {
+pub fn phab_accreditation_crosswalk(ctx: &Context, args: PhabArgs) -> Result<Envelope<PhabResult>> {
     let c: PhabContent = content::load(PHAB_STANDARDS)?;
     for d in &args.domains {
         if !(1..=10).contains(d) {
@@ -651,7 +686,11 @@ pub fn phab_accreditation_crosswalk(
             let label = sandbox.display_path(&p);
             (
                 p,
-                if label.is_empty() { "policies".into() } else { label },
+                if label.is_empty() {
+                    "policies".into()
+                } else {
+                    label
+                },
                 "policies".to_string(),
             )
         }
@@ -661,7 +700,7 @@ pub fn phab_accreditation_crosswalk(
     let index = PolicyIndex::open_or_build(&folder_path, writable.then_some(index_dir.as_path()))?;
 
     // ---- which files may be used
-    let files = walk(&folder_path);
+    let files = walk(&sandbox, &folder_label)?;
     let mut usable: BTreeSet<String> = BTreeSet::new();
     let mut left_client = 0usize;
     let mut left_transcript = 0usize;
@@ -762,15 +801,16 @@ pub fn phab_accreditation_crosswalk(
                 .collect();
             docs.sort_by(|a, b| {
                 (b.cues.len() + b.sections_matched + usize::from(b.file_name_suggests.is_some()))
-                    .cmp(&(a.cues.len() + a.sections_matched + usize::from(a.file_name_suggests.is_some())))
+                    .cmp(
+                        &(a.cues.len()
+                            + a.sections_matched
+                            + usize::from(a.file_name_suggests.is_some())),
+                    )
                     .then(a.file.cmp(&b.file))
             });
             let total = docs.len();
             for f in acc.all_files() {
-                by_file
-                    .entry(f.clone())
-                    .or_default()
-                    .insert(s.id.clone());
+                by_file.entry(f.clone()).or_default().insert(s.id.clone());
             }
             let cues_matched: Vec<String> = acc
                 .files
@@ -867,7 +907,12 @@ pub fn phab_accreditation_crosswalk(
             standards: st.into_iter().collect(),
         })
         .collect();
-    documents.sort_by(|a, b| b.standards.len().cmp(&a.standards.len()).then(a.file.cmp(&b.file)));
+    documents.sort_by(|a, b| {
+        b.standards
+            .len()
+            .cmp(&a.standards.len())
+            .then(a.file.cmp(&b.file))
+    });
 
     // ---- documents
     let write = args.write_documents.unwrap_or(true);
@@ -933,7 +978,10 @@ pub fn phab_accreditation_crosswalk(
             ]
         })
         .collect();
-    s.push_str(&md::table(&["Standard", "Title", "Evidence", "Documents"], &rows));
+    s.push_str(&md::table(
+        &["Standard", "Title", "Evidence", "Documents"],
+        &rows,
+    ));
     if !gaps.is_empty() {
         s.push_str(&format!("\nGaps (no cue found): {}.\n", gaps.join(", ")));
     }
@@ -976,7 +1024,8 @@ pub fn phab_accreditation_crosswalk(
     caveats.extend(content::review_caveats(&[PHAB_STANDARDS]));
     caveats.extend(c.not_verified.iter().map(|x| format!("Not verified: {x}")));
 
-    let mut srcs = content::sources_for(["cdc-crosswalk", "cdc-drivers", "phab-sm-2022"], &c.sources);
+    let mut srcs =
+        content::sources_for(["cdc-crosswalk", "cdc-drivers", "phab-sm-2022"], &c.sources);
     srcs.push(Source {
         title: format!("Documents in /data/{folder_label} (your own)"),
         publisher: "Your agency's documents (/data)".into(),
@@ -1139,7 +1188,13 @@ fn build_document(
         b.heading(1, "Measures from your own list");
         b.table(
             "Measures",
-            &["Measure ID", "Short title", "Standard", "Evidence", "Documents"],
+            &[
+                "Measure ID",
+                "Short title",
+                "Standard",
+                "Evidence",
+                "Documents",
+            ],
             m.results
                 .iter()
                 .map(|r| {
@@ -1171,7 +1226,10 @@ fn build_document(
     b.finish(
         ctx,
         "PHAB accreditation document crosswalk",
-        Some(format!("{}; draft for the nurse's review", c.phab.version_label)),
+        Some(format!(
+            "{}; draft for the nurse's review",
+            c.phab.version_label
+        )),
     )
 }
 
@@ -1195,7 +1253,8 @@ mod tests {
 
     const CHA: &str = "# Community Health Assessment 2024\nThis community health assessment used a community survey and focus group sessions.\n\
         ## Data sources\nVital statistics and a data dashboard informed the health assessment.\n";
-    const PLAN: &str = "# Strategic plan 2025-2029\nOur mission and vision guide the strategic priorities.\n";
+    const PLAN: &str =
+        "# Strategic plan 2025-2029\nOur mission and vision guide the strategic priorities.\n";
 
     #[test]
     fn finds_evidence_and_gaps_with_short_passages() {
@@ -1256,7 +1315,14 @@ mod tests {
         assert_eq!(r.data.index.left_out_client_like, 1);
         assert_eq!(r.data.index.left_out_transcripts, 1);
         let all = serde_json::to_string(&r).unwrap();
-        for secret in ["Delgado", "00451234", "Odalys", "Thandiwe", "note.txt", "focus.txt"] {
+        for secret in [
+            "Delgado",
+            "00451234",
+            "Odalys",
+            "Thandiwe",
+            "note.txt",
+            "focus.txt",
+        ] {
             assert!(!all.contains(secret), "{secret} leaked");
         }
         let s11 = r.data.standards.iter().find(|s| s.id == "1.1").unwrap();

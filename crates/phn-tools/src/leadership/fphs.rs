@@ -19,7 +19,6 @@
 
 use std::collections::{BTreeMap, BTreeSet};
 
-use phn_content::ContentMeta;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_data::strategy::{self, PerformanceStandards, SsaRow};
 use schemars::JsonSchema;
@@ -75,14 +74,12 @@ struct AreaDef {
 
 #[derive(Debug, Clone, Deserialize)]
 struct FrameworkDef {
-    summary: String,
     community_specific_note: String,
     areas: Vec<AreaDef>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 struct ModelDef {
-    id: String,
     label: String,
     description: String,
     source: String,
@@ -125,7 +122,6 @@ struct PriorityRuleDef {
 
 #[derive(Debug, Clone, Deserialize)]
 struct FphsContent {
-    meta: ContentMeta,
     sources: BTreeMap<String, DocSource>,
     law: Law,
     framework: FrameworkDef,
@@ -666,10 +662,7 @@ fn read_worksheet(
     let lt = crate::localdata::load(ctx, path, sheet)?;
     let t = &lt.table;
     let find = |names: &[&str]| t.headers.iter().position(|h| header_is(h, names));
-    let (Some(id_col), Some(status_col)) = (
-        find(&["id", "standard id"]),
-        find(&["status"]),
-    ) else {
+    let (Some(id_col), Some(status_col)) = (find(&["id", "standard id"]), find(&["status"])) else {
         return Err(PhnError::InvalidInput(
             "that file is not the self-assessment worksheet: it needs a column named ID (the \
              standard's ID, such as PS-ENV-012 or FPHS-01.03) and a column named Status. Run this \
@@ -690,7 +683,12 @@ fn read_worksheet(
         .filter_map(|r| r.get(id_col))
         .map(|v| v.trim())
         .filter(|v| !v.is_empty())
-        .all(|v| known.contains(v) || ["PS-", "WF-", "FPHS-", "STAT-"].iter().any(|p| v.starts_with(p)));
+        .all(|v| {
+            known.contains(v)
+                || ["PS-", "WF-", "FPHS-", "STAT-"]
+                    .iter()
+                    .any(|p| v.starts_with(p))
+        });
     for idx in [Some(id_col), Some(status_col), delivery_col, priority_col]
         .into_iter()
         .flatten()
@@ -791,7 +789,8 @@ pub fn assess_foundational_public_health_services(
     let mut sources: Vec<Source> = Vec::new();
     let mut assessment_file = None;
     if let Some(p) = tidy_opt(&args.assessment_path) {
-        let (r, f, s) = read_worksheet(ctx, &p, tidy_opt(&args.assessment_sheet).as_deref(), &known)?;
+        let (r, f, s) =
+            read_worksheet(ctx, &p, tidy_opt(&args.assessment_sheet).as_deref(), &known)?;
         ratings = r;
         assessment_file = Some(f);
         sources.extend(s);
@@ -1167,7 +1166,11 @@ pub fn assess_foundational_public_health_services(
         .iter()
         .map(|r| format!("Tier {} ({}): {} {}", r.tier, r.label, r.rule, r.rationale))
         .collect();
-    let top: Vec<Gap> = gaps.iter().take(PRIORITY_LIST_IN_RESPONSE).cloned().collect();
+    let top: Vec<Gap> = gaps
+        .iter()
+        .take(PRIORITY_LIST_IN_RESPONSE)
+        .cloned()
+        .collect();
     Ok(Envelope::new(
         s,
         FphsResult {
@@ -1202,9 +1205,9 @@ pub fn assess_foundational_public_health_services(
 
 fn source_label(set: StdSet, c: &FphsContent, perf_retrieved: &str) -> String {
     match set {
-        StdSet::Performance | StdSet::Workforce => format!(
-            "DPH Performance Standards workbook (snapshot read {perf_retrieved})"
-        ),
+        StdSet::Performance | StdSet::Workforce => {
+            format!("DPH Performance Standards workbook (snapshot read {perf_retrieved})")
+        }
         StdSet::Fphs => c
             .sources
             .get("fphs-opdefs")
@@ -1259,7 +1262,15 @@ fn shared_out(c: &FphsContent, ssa: &[SsaRow], town: Option<&str>) -> SharedOut 
             ),
         },
     };
-    let cite = |source: &str, section: &str| format!("{}, {section}", c.sources.get(source).map(|s| s.title.as_str()).unwrap_or(source));
+    let cite = |source: &str, section: &str| {
+        format!(
+            "{}, {section}",
+            c.sources
+                .get(source)
+                .map(|s| s.title.as_str())
+                .unwrap_or(source)
+        )
+    };
     SharedOut {
         intro: tidy(&c.shared_services.intro),
         town: town.map(str::to_string),
@@ -1613,7 +1624,12 @@ mod tests {
         assert_eq!(r.data.mode, "worksheet");
         assert_eq!(r.data.standards_in_scope, 166);
         assert_eq!(r.data.total_gaps, 0);
-        assert!(r.data.sets.iter().all(|s| s.counts.not_rated == s.counts.standards));
+        assert!(
+            r.data
+                .sets
+                .iter()
+                .all(|s| s.counts.not_rated == s.counts.standards)
+        );
         let a = r.data.shared_services.arrangement.as_ref().unwrap();
         assert_eq!(a.town, "Amherst");
         let f = r.data.files.unwrap();
@@ -1646,7 +1662,7 @@ mod tests {
                         standard_id: "FPHS-01.01".into(),
                         status: "partial".into(),
                         priority: Some("high".into()),
-                        note: Some("Plan to hire an epidemiologist".into()),
+                        note: Some("Zebrafinch private note".into()),
                         ..StatusEntry::default()
                     },
                 ],
@@ -1664,7 +1680,12 @@ mod tests {
             .find(|s| s.set == StdSet::Performance)
             .unwrap();
         assert_eq!(
-            (perf.counts.met, perf.counts.partial, perf.counts.not_met, perf.counts.not_applicable),
+            (
+                perf.counts.met,
+                perf.counts.partial,
+                perf.counts.not_met,
+                perf.counts.not_applicable
+            ),
             (1, 1, 1, 1)
         );
         // 1 of 3 rated and applicable.
@@ -1677,7 +1698,10 @@ mod tests {
             .filter(|g| g.tier == 1)
             .map(|g| g.id.as_str())
             .collect();
-        assert!(t1.contains(&"PS-DIS-002") && t1.contains(&"FPHS-01.01"), "{t1:?}");
+        assert!(
+            t1.contains(&"PS-DIS-002") && t1.contains(&"FPHS-01.01"),
+            "{t1:?}"
+        );
         let g = r
             .data
             .priority_gaps
@@ -1686,12 +1710,19 @@ mod tests {
             .unwrap();
         assert_eq!(g.tier_from, "your priority");
         // Capability not met = tier 2, area not met = tier 3.
-        let tier_of = |id: &str| r.data.priority_gaps.iter().find(|g| g.id == id).unwrap().tier;
+        let tier_of = |id: &str| {
+            r.data
+                .priority_gaps
+                .iter()
+                .find(|g| g.id == id)
+                .unwrap()
+                .tier
+        };
         assert_eq!(tier_of("FPHS-09.01"), 3);
         assert_eq!(tier_of("PS-DIS-003"), 2);
         // The note is not in the response.
         let all = serde_json::to_string(&r).unwrap();
-        assert!(!all.contains("epidemiologist"), "note leaked");
+        assert!(!all.contains("Zebrafinch"), "note leaked");
     }
 
     #[test]
@@ -1713,9 +1744,15 @@ mod tests {
         )
         .unwrap();
         let f = r.data.assessment_file.as_ref().unwrap();
-        assert_eq!((f.rows_read, f.rows_with_status, f.unrecognized_id_rows), (4, 2, 1));
+        assert_eq!(
+            (f.rows_read, f.rows_with_status, f.unrecognized_id_rows),
+            (4, 2, 1)
+        );
         assert_eq!(r.data.total_gaps, 1);
-        assert_eq!(r.data.priority_gaps[0].delivered_by.as_deref(), Some("shared"));
+        assert_eq!(
+            r.data.priority_gaps[0].delivered_by.as_deref(),
+            Some("shared")
+        );
         assert_eq!(r.data.delivered_by.len(), 2);
     }
 

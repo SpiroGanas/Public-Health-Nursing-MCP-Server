@@ -9,7 +9,6 @@
 
 use std::collections::BTreeMap;
 
-use phn_content::ContentMeta;
 use phn_core::{Envelope, PhnError, Privacy, Result, Source};
 use phn_docs::model::{Block, ImageBlock};
 use phn_docs::palette::{AXIS, CATEGORICAL, GRID, INK, INK_SECONDARY, SURFACE, label_on};
@@ -97,7 +96,6 @@ struct StakeholderDef {
     high_threshold: f64,
     threshold_note: String,
     quadrants: Vec<StakeQuadrant>,
-    columns: Vec<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -136,7 +134,6 @@ struct CheckDef {
 
 #[derive(Debug, Clone, Deserialize)]
 struct StrategicContent {
-    meta: ContentMeta,
     sources: BTreeMap<String, DocSource>,
     phab_requirements: PhabRequirements,
     swot: Swot,
@@ -506,8 +503,16 @@ fn esc(s: &str) -> String {
 }
 
 fn quadrant_of(def: &StakeholderDef, power: f64, interest: f64) -> &StakeQuadrant {
-    let hp = if power > def.high_threshold { "high" } else { "low" };
-    let hi = if interest > def.high_threshold { "high" } else { "low" };
+    let hp = if power > def.high_threshold {
+        "high"
+    } else {
+        "low"
+    };
+    let hi = if interest > def.high_threshold {
+        "high"
+    } else {
+        "low"
+    };
     def.quadrants
         .iter()
         .find(|q| q.power == hp && q.interest == hi)
@@ -517,10 +522,34 @@ fn quadrant_of(def: &StakeholderDef, power: f64, interest: f64) -> &StakeQuadran
 /// Marker drawn for a quadrant (shape is a second cue besides color and the number).
 fn marker_svg(kind: usize, cx: f32, cy: f32, fill: &str) -> String {
     match kind % 4 {
-        0 => format!("<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"11\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>"),
-        1 => format!("<rect x=\"{:.1}\" y=\"{:.1}\" width=\"22\" height=\"22\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>", cx - 11.0, cy - 11.0),
-        2 => format!("<polygon points=\"{:.1},{:.1} {:.1},{:.1} {:.1},{:.1}\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>", cx, cy - 13.0, cx - 12.0, cy + 10.0, cx + 12.0, cy + 10.0),
-        _ => format!("<polygon points=\"{:.1},{:.1} {:.1},{:.1} {:.1},{:.1} {:.1},{:.1}\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>", cx, cy - 13.0, cx + 13.0, cy, cx, cy + 13.0, cx - 13.0, cy),
+        0 => format!(
+            "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"11\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>"
+        ),
+        1 => format!(
+            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"22\" height=\"22\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>",
+            cx - 11.0,
+            cy - 11.0
+        ),
+        2 => format!(
+            "<polygon points=\"{:.1},{:.1} {:.1},{:.1} {:.1},{:.1}\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>",
+            cx,
+            cy - 13.0,
+            cx - 12.0,
+            cy + 10.0,
+            cx + 12.0,
+            cy + 10.0
+        ),
+        _ => format!(
+            "<polygon points=\"{:.1},{:.1} {:.1},{:.1} {:.1},{:.1} {:.1},{:.1}\" fill=\"{fill}\" stroke=\"{INK}\" stroke-width=\"1\"/>",
+            cx,
+            cy - 13.0,
+            cx + 13.0,
+            cy,
+            cx,
+            cy + 13.0,
+            cx - 13.0,
+            cy
+        ),
     }
 }
 
@@ -557,10 +586,34 @@ fn grid_svg(
     let tints = ["#f4f8fd", "#fdf6f1", "#f1f8f5", "#f6f4fb"];
     // top-right: manage closely (index by definition order is not assumed; find by power/interest)
     let quads: [(&str, &str, f32, f32, f32, f32, &str); 4] = [
-        ("high", "high", mid_x, PY, PX + PW - mid_x, mid_y - PY, tints[0]),
+        (
+            "high",
+            "high",
+            mid_x,
+            PY,
+            PX + PW - mid_x,
+            mid_y - PY,
+            tints[0],
+        ),
         ("high", "low", PX, PY, mid_x - PX, mid_y - PY, tints[1]),
-        ("low", "high", mid_x, mid_y, PX + PW - mid_x, PY + PH - mid_y, tints[2]),
-        ("low", "low", PX, mid_y, mid_x - PX, PY + PH - mid_y, tints[3]),
+        (
+            "low",
+            "high",
+            mid_x,
+            mid_y,
+            PX + PW - mid_x,
+            PY + PH - mid_y,
+            tints[2],
+        ),
+        (
+            "low",
+            "low",
+            PX,
+            mid_y,
+            mid_x - PX,
+            PY + PH - mid_y,
+            tints[3],
+        ),
     ];
     for (p, i, x, y, w, h, tint) in quads {
         let label = def
@@ -682,7 +735,8 @@ pub fn build_strategic_plan(
         }
         if e - s > 15 {
             return Err(PhnError::InvalidInput(
-                "a strategic plan period longer than 15 years is not a plan; use 3 to 5 years".into(),
+                "a strategic plan period longer than 15 years is not a plan; use 3 to 5 years"
+                    .into(),
             ));
         }
     }
@@ -714,7 +768,10 @@ pub fn build_strategic_plan(
             BTreeMap::from([
                 ("strengths", list_in("swot.strengths", &s.strengths)?),
                 ("weaknesses", list_in("swot.weaknesses", &s.weaknesses)?),
-                ("opportunities", list_in("swot.opportunities", &s.opportunities)?),
+                (
+                    "opportunities",
+                    list_in("swot.opportunities", &s.opportunities)?,
+                ),
                 ("threats", list_in("swot.threats", &s.threats)?),
             ])
         }
@@ -722,7 +779,10 @@ pub fn build_strategic_plan(
             let s = args.soar.clone().unwrap_or_default();
             BTreeMap::from([
                 ("strengths", list_in("soar.strengths", &s.strengths)?),
-                ("opportunities", list_in("soar.opportunities", &s.opportunities)?),
+                (
+                    "opportunities",
+                    list_in("soar.opportunities", &s.opportunities)?,
+                ),
                 ("aspirations", list_in("soar.aspirations", &s.aspirations)?),
                 ("results", list_in("soar.results", &s.results)?),
             ])
@@ -742,31 +802,36 @@ pub fn build_strategic_plan(
     }
 
     // ---- analysis scaffold
-    let (quads, desc, support, support_conf, tows): (Vec<&Quadrant>, &str, &str, Confidence, Vec<TowsOut>) =
-        match method {
-            AnalysisMethod::Swot => (
-                c.swot.quadrants.iter().collect(),
-                c.swot.description.as_str(),
-                c.swot.support.as_str(),
-                c.swot.support_confidence,
-                c.swot
-                    .tows_prompts
-                    .iter()
-                    .map(|t| TowsOut {
-                        id: t.id.clone(),
-                        label: t.label.clone(),
-                        prompt: t.prompt.clone(),
-                    })
-                    .collect(),
-            ),
-            AnalysisMethod::Soar => (
-                c.soar.quadrants.iter().collect(),
-                c.soar.description.as_str(),
-                c.soar.support.as_str(),
-                c.soar.support_confidence,
-                Vec::new(),
-            ),
-        };
+    let (quads, desc, support, support_conf, tows): (
+        Vec<&Quadrant>,
+        &str,
+        &str,
+        Confidence,
+        Vec<TowsOut>,
+    ) = match method {
+        AnalysisMethod::Swot => (
+            c.swot.quadrants.iter().collect(),
+            c.swot.description.as_str(),
+            c.swot.support.as_str(),
+            c.swot.support_confidence,
+            c.swot
+                .tows_prompts
+                .iter()
+                .map(|t| TowsOut {
+                    id: t.id.clone(),
+                    label: t.label.clone(),
+                    prompt: t.prompt.clone(),
+                })
+                .collect(),
+        ),
+        AnalysisMethod::Soar => (
+            c.soar.quadrants.iter().collect(),
+            c.soar.description.as_str(),
+            c.soar.support.as_str(),
+            c.soar.support_confidence,
+            Vec::new(),
+        ),
+    };
     let quadrants: Vec<QuadrantOut> = quads
         .iter()
         .map(|q| QuadrantOut {
@@ -807,7 +872,8 @@ pub fn build_strategic_plan(
             }
             _ => (
                 "Not rated".to_string(),
-                "Rate power and interest (1 to 5) to place this stakeholder on the grid.".to_string(),
+                "Rate power and interest (1 to 5) to place this stakeholder on the grid."
+                    .to_string(),
             ),
         };
         rows.push(StakeholderRow {
@@ -828,7 +894,12 @@ pub fn build_strategic_plan(
         .stakeholder
         .quadrants
         .iter()
-        .map(|q| (q.label.clone(), rows.iter().filter(|r| r.quadrant == q.label).count()))
+        .map(|q| {
+            (
+                q.label.clone(),
+                rows.iter().filter(|r| r.quadrant == q.label).count(),
+            )
+        })
         .chain(std::iter::once((
             "Not rated".to_string(),
             rows.iter().filter(|r| r.quadrant == "Not rated").count(),
@@ -946,7 +1017,11 @@ pub fn build_strategic_plan(
             chip_priority: cp.clone(),
             linked_strategic_priorities: priorities
                 .iter()
-                .filter(|p| p.chip_priority.as_deref().is_some_and(|x| norm(x) == norm(cp)))
+                .filter(|p| {
+                    p.chip_priority
+                        .as_deref()
+                        .is_some_and(|x| norm(x) == norm(cp))
+                })
                 .map(|p| format!("{}: {}", p.code, p.title))
                 .collect(),
         })
@@ -1014,14 +1089,22 @@ pub fn build_strategic_plan(
     }
     for p in &priorities {
         if p.goals.is_empty() {
-            find("needs_goal", "needs_work", format!("({}: {})", p.code, clip(&p.title, 60)));
+            find(
+                "needs_goal",
+                "needs_work",
+                format!("({}: {})", p.code, clip(&p.title, 60)),
+            );
         }
         for g in &p.goals {
             if g.objectives.is_empty() {
                 find("needs_objective", "needs_work", format!("({})", g.code));
             }
             if g.strategies.is_empty() {
-                find("objective_no_strategy", "needs_work", format!("({})", g.code));
+                find(
+                    "objective_no_strategy",
+                    "needs_work",
+                    format!("({})", g.code),
+                );
             }
             for o in &g.objectives {
                 let mut missing = Vec::new();
@@ -1041,7 +1124,9 @@ pub fn build_strategic_plan(
                         format!("({}: no {})", o.code, missing.join(", no ")),
                     );
                 }
-                if let (Some(d), Some(s), Some(e)) = (o.due.as_deref().and_then(read_date), start, end) {
+                if let (Some(d), Some(s), Some(e)) =
+                    (o.due.as_deref().and_then(read_date), start, end)
+                {
                     use chrono::Datelike;
                     if d.year() < s || d.year() > e {
                         find("dates_out_of_period", "consider", format!("({})", o.code));
@@ -1079,7 +1164,11 @@ pub fn build_strategic_plan(
             && i > c.stakeholder.high_threshold
             && !strategy_text.contains(&norm(&r.name))
         {
-            find("stakeholder_gap", "consider", format!("({})", clip(&r.name, 60)));
+            find(
+                "stakeholder_gap",
+                "consider",
+                format!("({})", clip(&r.name, 60)),
+            );
         }
     }
     if chip_priorities.is_empty() {
@@ -1087,7 +1176,11 @@ pub fn build_strategic_plan(
     }
     for r in &chip.rows {
         if r.linked_strategic_priorities.is_empty() {
-            find("chip_unlinked", "consider", format!("({})", clip(&r.chip_priority, 60)));
+            find(
+                "chip_unlinked",
+                "consider",
+                format!("({})", clip(&r.chip_priority, 60)),
+            );
         }
     }
     let findings_out = findings;
@@ -1169,8 +1262,14 @@ pub fn build_strategic_plan(
     // ---- response
     let mut s = format!(
         "**Strategic plan scaffold{}{}.** {} analysis with {} entries, {} stakeholders, {} priorities, {} finding(s).\n\n",
-        department.as_deref().map(|d| format!(": {d}")).unwrap_or_default(),
-        period.as_deref().map(|p| format!(" ({p})")).unwrap_or_default(),
+        department
+            .as_deref()
+            .map(|d| format!(": {d}"))
+            .unwrap_or_default(),
+        period
+            .as_deref()
+            .map(|p| format!(" ({p})"))
+            .unwrap_or_default(),
         match method {
             AnalysisMethod::Swot => "SWOT",
             AnalysisMethod::Soar => "SOAR",
@@ -1190,7 +1289,12 @@ pub fn build_strategic_plan(
         .map(|o| {
             vec![
                 o.label.clone(),
-                if o.has_content { "has content" } else { "blank" }.to_string(),
+                if o.has_content {
+                    "has content"
+                } else {
+                    "blank"
+                }
+                .to_string(),
             ]
         })
         .collect();
@@ -1213,7 +1317,10 @@ pub fn build_strategic_plan(
             s.push_str(&format!("- {}\n", f.message));
         }
         if findings_out.len() > 12 {
-            s.push_str(&format!("- ... and {} more in the response data\n", findings_out.len() - 12));
+            s.push_str(&format!(
+                "- ... and {} more in the response data\n",
+                findings_out.len() - 12
+            ));
         }
     }
     if let Some(f) = &files {
@@ -1223,7 +1330,13 @@ pub fn build_strategic_plan(
     // ---- caveats and privacy
     let texts = roster::argument_strings(
         &args,
-        &["period_start", "period_end", "method", "write_document", "include_svg"],
+        &[
+            "period_start",
+            "period_end",
+            "method",
+            "write_document",
+            "include_svg",
+        ],
     );
     let found = roster::contacts_in_arguments(texts.iter().map(String::as_str));
     let mut caveats = vec![
@@ -1299,7 +1412,9 @@ pub fn build_strategic_plan(
         row_level_data: false,
         identifiers_detected: found,
         files_written,
-        notes: vec!["Nothing was read from your files; the draft contains only what you typed.".into()],
+        notes: vec![
+            "Nothing was read from your files; the draft contains only what you typed.".into(),
+        ],
         ..Privacy::none()
     }))
 }
@@ -1330,7 +1445,11 @@ fn build_document(
     );
     b.labeled(
         "PHAB requirements:",
-        format!("{} {}", c.phab_requirements.status, tidy(&c.phab_requirements.statement)),
+        format!(
+            "{} {}",
+            c.phab_requirements.status,
+            tidy(&c.phab_requirements.statement)
+        ),
     );
     b.heading(1, "1. Purpose, period, and how the plan was developed");
     b.labeled("Department:", department.unwrap_or(blank).to_string());
@@ -1346,10 +1465,13 @@ fn build_document(
         b.list(values);
     }
     b.heading(1, "3. Where we are now");
-    b.heading(2, match analysis.method {
-        AnalysisMethod::Swot => "SWOT analysis",
-        AnalysisMethod::Soar => "SOAR analysis",
-    });
+    b.heading(
+        2,
+        match analysis.method {
+            AnalysisMethod::Swot => "SWOT analysis",
+            AnalysisMethod::Soar => "SOAR analysis",
+        },
+    );
     b.para(analysis.description.clone());
     let qrows: Vec<Vec<String>> = analysis
         .quadrants
@@ -1423,12 +1545,22 @@ fn build_document(
                 .collect(),
         );
     }
-    b.heading(1, "4. Strategic priorities, goals, objectives, and strategies");
+    b.heading(
+        1,
+        "4. Strategic priorities, goals, objectives, and strategies",
+    );
     if priorities.is_empty() {
         b.para(blank);
     }
     for p in priorities {
-        b.heading(2, format!("{} {}", p.code, if p.title.is_empty() { blank } else { &p.title }));
+        b.heading(
+            2,
+            format!(
+                "{} {}",
+                p.code,
+                if p.title.is_empty() { blank } else { &p.title }
+            ),
+        );
         if let Some(r) = &p.rationale {
             b.labeled("Why this is a priority:", r.clone());
         }
@@ -1436,7 +1568,18 @@ fn build_document(
             b.labeled("Supports CHIP priority:", cp.clone());
         }
         for g in &p.goals {
-            b.heading(3, format!("{} {}", g.code, if g.statement.is_empty() { blank } else { &g.statement }));
+            b.heading(
+                3,
+                format!(
+                    "{} {}",
+                    g.code,
+                    if g.statement.is_empty() {
+                        blank
+                    } else {
+                        &g.statement
+                    }
+                ),
+            );
             if !g.objectives.is_empty() {
                 b.table(
                     &format!("{} objectives", g.code),
@@ -1479,7 +1622,10 @@ fn build_document(
         }
     }
     b.heading(1, "5. Link to the community health improvement plan");
-    b.labeled("CHIP:", chip.title.clone().unwrap_or_else(|| blank.to_string()));
+    b.labeled(
+        "CHIP:",
+        chip.title.clone().unwrap_or_else(|| blank.to_string()),
+    );
     if chip.rows.is_empty() {
         b.para(blank);
     } else {
@@ -1510,7 +1656,12 @@ fn build_document(
     if findings.is_empty() {
         b.para("No blanks were found. This is not a quality review.");
     } else {
-        b.list(&findings.iter().map(|f| f.message.clone()).collect::<Vec<_>>());
+        b.list(
+            &findings
+                .iter()
+                .map(|f| f.message.clone())
+                .collect::<Vec<_>>(),
+        );
     }
     b.heading(1, "Plan outline and what each section rests on");
     b.table(
@@ -1522,7 +1673,12 @@ fn build_document(
                 vec![
                     o.label.clone(),
                     o.guidance.clone(),
-                    if o.has_content { "has content" } else { "blank" }.into(),
+                    if o.has_content {
+                        "has content"
+                    } else {
+                        "blank"
+                    }
+                    .into(),
                     o.basis.clone(),
                     format!("{:?}", o.confidence).to_lowercase(),
                 ]
@@ -1610,7 +1766,11 @@ mod tests {
         assert!(svg.contains("role=\"img\"") && svg.contains("<title") && svg.contains("<desc"));
         // Straight apostrophes are escaped, and no script or external reference is present.
         assert!(!svg.contains("<script") && !svg.contains("href="));
-        assert!(svg.contains("Residents&#39; group") || svg.contains("Residents' group") || svg.contains("Residents&apos; group"));
+        assert!(
+            svg.contains("Residents&#39; group")
+                || svg.contains("Residents' group")
+                || svg.contains("Residents&apos; group")
+        );
         // Unrated stakeholders are listed in the key but not drawn.
         assert!(svg.contains("not rated, not drawn"));
     }
@@ -1629,6 +1789,7 @@ mod tests {
                     PriorityIn {
                         title: "Strengthen the workforce".into(),
                         chip_priority: Some("behavioral health".into()),
+                        rationale: None,
                         goals: vec![GoalIn {
                             statement: "Fill vacant positions".into(),
                             objectives: vec![ObjectiveIn {
@@ -1703,51 +1864,64 @@ mod tests {
     #[test]
     fn inputs_are_checked() {
         let (_d, ctx) = ctx();
-        let bad = |args: StrategicPlanArgs| build_strategic_plan(&ctx, args).unwrap_err().to_string();
-        assert!(bad(StrategicPlanArgs {
-            period_start: Some(1850),
-            ..StrategicPlanArgs::default()
-        })
-        .contains("1900-2100"));
-        assert!(bad(StrategicPlanArgs {
-            period_start: Some(2030),
-            period_end: Some(2027),
-            ..StrategicPlanArgs::default()
-        })
-        .contains("before"));
-        assert!(bad(StrategicPlanArgs {
-            stakeholders: vec![st("X", 9.0, 1.0)],
-            ..StrategicPlanArgs::default()
-        })
-        .contains("1 to 5"));
-        assert!(bad(StrategicPlanArgs {
-            swot: Some(SwotInput::default()),
-            soar: Some(SoarInput::default()),
-            ..StrategicPlanArgs::default()
-        })
-        .contains("choose one"));
-        assert!(bad(StrategicPlanArgs {
-            priorities: vec![PriorityIn {
-                title: "P".into(),
-                goals: vec![GoalIn {
-                    statement: "G".into(),
-                    objectives: vec![ObjectiveIn {
-                        statement: "O".into(),
-                        due: Some("soon".into()),
-                        ..ObjectiveIn::default()
+        let bad =
+            |args: StrategicPlanArgs| build_strategic_plan(&ctx, args).unwrap_err().to_string();
+        assert!(
+            bad(StrategicPlanArgs {
+                period_start: Some(1850),
+                ..StrategicPlanArgs::default()
+            })
+            .contains("1900-2100")
+        );
+        assert!(
+            bad(StrategicPlanArgs {
+                period_start: Some(2030),
+                period_end: Some(2027),
+                ..StrategicPlanArgs::default()
+            })
+            .contains("before")
+        );
+        assert!(
+            bad(StrategicPlanArgs {
+                stakeholders: vec![st("X", 9.0, 1.0)],
+                ..StrategicPlanArgs::default()
+            })
+            .contains("1 to 5")
+        );
+        assert!(
+            bad(StrategicPlanArgs {
+                swot: Some(SwotInput::default()),
+                soar: Some(SoarInput::default()),
+                ..StrategicPlanArgs::default()
+            })
+            .contains("choose one")
+        );
+        assert!(
+            bad(StrategicPlanArgs {
+                priorities: vec![PriorityIn {
+                    title: "P".into(),
+                    goals: vec![GoalIn {
+                        statement: "G".into(),
+                        objectives: vec![ObjectiveIn {
+                            statement: "O".into(),
+                            due: Some("soon".into()),
+                            ..ObjectiveIn::default()
+                        }],
+                        strategies: vec![],
                     }],
-                    strategies: vec![],
+                    ..PriorityIn::default()
                 }],
-                ..PriorityIn::default()
-            }],
-            ..StrategicPlanArgs::default()
-        })
-        .contains("due date"));
-        assert!(bad(StrategicPlanArgs {
-            mission: Some("x".repeat(700)),
-            ..StrategicPlanArgs::default()
-        })
-        .contains("600 characters"));
+                ..StrategicPlanArgs::default()
+            })
+            .contains("due date")
+        );
+        assert!(
+            bad(StrategicPlanArgs {
+                mission: Some("x".repeat(700)),
+                ..StrategicPlanArgs::default()
+            })
+            .contains("600 characters")
+        );
     }
 
     #[test]
@@ -1768,6 +1942,11 @@ mod tests {
             },
         )
         .unwrap();
-        assert!(r.privacy.identifiers_detected.iter().any(|k| k.to_lowercase().contains("phone")));
+        assert!(
+            r.privacy
+                .identifiers_detected
+                .iter()
+                .any(|k| k.to_lowercase().contains("phone"))
+        );
     }
 }

@@ -111,9 +111,9 @@ pub fn parse_ssa(text: &str) -> Result<Vec<SsaRow>> {
     let mut rdr = csv::Reader::from_reader(text.as_bytes());
     let mut out = Vec::new();
     for rec in rdr.deserialize::<SsaRow>() {
-        out.push(
-            rec.map_err(|e| PhnError::Internal(format!("shared service arrangement snapshot: {e}")))?,
-        );
+        out.push(rec.map_err(|e| {
+            PhnError::Internal(format!("shared service arrangement snapshot: {e}"))
+        })?);
     }
     if out.is_empty() {
         return Err(PhnError::Internal(

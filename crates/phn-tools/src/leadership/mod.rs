@@ -9,7 +9,8 @@ pub mod phab;
 pub mod strategic_plan;
 pub mod strategy_docs;
 pub use fphs::{
-    FPHS_FRAMEWORK, FphsArgs, FphsResult, StatusEntry, StdSet, assess_foundational_public_health_services,
+    FPHS_FRAMEWORK, FphsArgs, FphsResult, StatusEntry, StdSet,
+    assess_foundational_public_health_services,
 };
 pub use phab::{PHAB_STANDARDS, PhabArgs, PhabResult, phab_accreditation_crosswalk};
 pub use strategic_plan::{

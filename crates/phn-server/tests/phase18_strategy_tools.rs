@@ -128,7 +128,11 @@ async fn fphs_writes_a_worksheet_first_and_never_rates_anything() {
     let status = wb[0].column_index("Status").unwrap();
     assert!(wb[0].column(status).all(|v| v.trim().is_empty()));
     let docx = files.iter().find(|f| f.ends_with(".docx")).unwrap();
-    assert!(docx_text(&h, docx).contains("never fills") || docx_text(&h, docx).contains("does not fill") || docx_text(&h, docx).contains("only organizes"));
+    assert!(
+        docx_text(&h, docx).contains("never fills")
+            || docx_text(&h, docx).contains("does not fill")
+            || docx_text(&h, docx).contains("only organizes")
+    );
 }
 
 #[tokio::test]
@@ -178,7 +182,14 @@ async fn fphs_gap_analysis_from_typed_statuses_and_a_filled_worksheet() {
     let f = &s["data"]["assessment_file"];
     assert_eq!(f["rows_with_status"], 6, "{f}");
     assert_eq!(s["data"]["total_gaps"], 4);
-    let found = leaks(&everything(&h.call(FPHS, json!({"assessment_path": "fphs_assessment.csv"})).await), "data/fphs_assessment.csv", None);
+    let found = leaks(
+        &everything(
+            &h.call(FPHS, json!({"assessment_path": "fphs_assessment.csv"}))
+                .await,
+        ),
+        "data/fphs_assessment.csv",
+        None,
+    );
     assert!(found.is_empty(), "{found:?}");
     // The delivered-by choices were read.
     assert!(s["data"]["delivered_by"].as_array().unwrap().len() >= 2);
@@ -239,13 +250,7 @@ async fn phab_crosswalk_finds_evidence_and_gaps_and_writes_files() {
         s11["documents"][0]["file"],
         "community_health_assessment_2024.md"
     );
-    assert!(
-        d["gaps"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .any(|g| g == "2.2")
-    );
+    assert!(d["gaps"].as_array().unwrap().iter().any(|g| g == "2.2"));
     for st in standards {
         for doc in st["documents"].as_array().unwrap() {
             if let Some(p) = doc["passage"].as_str() {
@@ -258,7 +263,13 @@ async fn phab_crosswalk_finds_evidence_and_gaps_and_writes_files() {
     assert!(c.contains("copyrighted") && c.contains("could not"), "{c}");
     assert!(d["license_note"].as_str().unwrap().contains("copyrighted"));
     // Local source mode and the file names only.
-    assert!(s["sources"].as_array().unwrap().iter().any(|x| x["mode"] == "local"));
+    assert!(
+        s["sources"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|x| x["mode"] == "local")
+    );
     let files: Vec<String> = d["files"]["files"]
         .as_array()
         .unwrap()
@@ -268,7 +279,10 @@ async fn phab_crosswalk_finds_evidence_and_gaps_and_writes_files() {
     assert_eq!(files.len(), 2);
     let docx = files.iter().find(|f| f.ends_with(".docx")).unwrap();
     let text = docx_text(&h, docx);
-    assert!(text.contains("copyrighted") && text.contains("Gaps"), "{text}");
+    assert!(
+        text.contains("copyrighted") && text.contains("Gaps"),
+        "{text}"
+    );
     let xlsx = files.iter().find(|f| f.ends_with(".xlsx")).unwrap();
     let wb = phn_local::table::read_tables(&h.data().join(xlsx)).unwrap();
     assert_eq!(wb[0].name, "Crosswalk");
@@ -298,7 +312,11 @@ async fn phab_crosswalk_leaves_out_client_files_and_transcripts() {
         assert!(found.is_empty(), "{file}: {found:?}");
     }
     // Their file names are not listed in the response either.
-    for name in ["client_note.txt", "51a_notes.txt", "focus_group_transcript.txt"] {
+    for name in [
+        "client_note.txt",
+        "51a_notes.txt",
+        "focus_group_transcript.txt",
+    ] {
         assert!(!all.contains(name), "{name} named in the response");
     }
 }
@@ -389,7 +407,10 @@ async fn strategic_plan_builds_the_scaffold_grid_and_draft() {
     let d = &s["data"];
     assert_eq!(d["analysis"]["method"], "swot");
     assert_eq!(d["analysis"]["entries_total"], 4);
-    assert_eq!(d["analysis"]["strategy_prompts"].as_array().unwrap().len(), 4);
+    assert_eq!(
+        d["analysis"]["strategy_prompts"].as_array().unwrap().len(),
+        4
+    );
     let q: Vec<(String, String)> = d["stakeholders"]["rows"]
         .as_array()
         .unwrap()
@@ -408,9 +429,18 @@ async fn strategic_plan_builds_the_scaffold_grid_and_draft() {
     let svg = d["stakeholders"]["svg"].as_str().unwrap();
     assert!(svg.contains("role=\"img\"") && svg.contains("<title") && svg.contains("<desc"));
     assert!(!svg.contains("<script"));
-    assert_eq!(d["priorities"][0]["goals"][0]["objectives"][0]["code"], "O1.1.1");
+    assert_eq!(
+        d["priorities"][0]["goals"][0]["objectives"][0]["code"],
+        "O1.1.1"
+    );
     // CHIP: Housing has nothing behind it.
-    assert_eq!(d["chip"]["rows"][0]["linked_strategic_priorities"].as_array().unwrap().len(), 1);
+    assert_eq!(
+        d["chip"]["rows"][0]["linked_strategic_priorities"]
+            .as_array()
+            .unwrap()
+            .len(),
+        1
+    );
     let ids: Vec<&str> = d["findings"]
         .as_array()
         .unwrap()
@@ -423,12 +453,24 @@ async fn strategic_plan_builds_the_scaffold_grid_and_draft() {
     assert_eq!(d["phab"]["status"], "unverified");
     let c = caveats(&s);
     assert!(c.contains("unverified"), "{c}");
-    assert!(!summary(&h.call(PLAN, plan_args()).await).to_lowercase().contains("meets phab"));
+    // The summary leads with the unverified status; the tool never calls a plan "PHAB-ready".
+    let text = summary(&h.call(PLAN, plan_args()).await).to_lowercase();
+    assert!(text.contains("phab requirements: unverified"), "{text}");
+    assert!(
+        !s["summary"]
+            .as_str()
+            .unwrap()
+            .to_lowercase()
+            .contains("phab-ready")
+    );
     assert!(pending(&s));
     // Files: the draft plan and the grid as SVG and PNG.
     let f = &d["files"];
     let doc = docx_text(&h, f["document"].as_str().unwrap());
-    assert!(doc.contains("Example Health Department") && doc.contains("[to be completed]"), "{doc}");
+    assert!(
+        doc.contains("Example Health Department") && doc.contains("[to be completed]"),
+        "{doc}"
+    );
     assert!(doc.contains("O1.1.1"));
     for k in ["svg", "png"] {
         assert!(h.data().join(f[k].as_str().unwrap()).exists());
@@ -472,5 +514,48 @@ async fn contact_details_typed_into_the_plan_are_reported() {
         .await;
     assert_eq!(r.is_error, Some(false), "{}", everything(&r));
     let s = r.structured_content.unwrap();
-    assert!(!s["privacy"]["identifiers_detected"].as_array().unwrap().is_empty());
+    assert!(
+        !s["privacy"]["identifiers_detected"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+}
+
+/// The Word files pass the server's own accessibility check (headings in order, table headers
+/// and captions, alt text on the grid image).
+#[tokio::test]
+async fn the_word_files_pass_the_servers_accessibility_check() {
+    let h = start(|c| c.offline = true).await;
+    write_policies(&h);
+    let mut docs: Vec<String> = Vec::new();
+    for (name, args) in [
+        (FPHS, json!({"statuses": [{"standard_id": "PS-DIS-002", "status": "not_met"}]})),
+        (PHAB, json!({"folder": "policies"})),
+        (PLAN, plan_args()),
+    ] {
+        let s = call_ok(&h, name, args).await;
+        let d = &s["data"]["files"];
+        let list: Vec<String> = match d["files"].as_array() {
+            Some(a) => a.iter().map(|f| f.as_str().unwrap().to_string()).collect(),
+            None => vec![d["document"].as_str().unwrap().to_string()],
+        };
+        docs.extend(list.into_iter().filter(|f| f.ends_with(".docx")));
+    }
+    assert_eq!(docs.len(), 3);
+    for path in docs {
+        let r = h
+            .call("check_document_accessibility", json!({"path": path}))
+            .await;
+        assert_eq!(r.is_error, Some(false), "{path}: {}", everything(&r));
+        let report = r.structured_content.unwrap();
+        let failed: Vec<String> = report["data"]["report"]["checks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|c| c["status"] == "fail")
+            .map(|c| c["id"].as_str().unwrap().to_string())
+            .collect();
+        assert!(failed.is_empty(), "{path}: accessibility failures {failed:?}");
+    }
 }
