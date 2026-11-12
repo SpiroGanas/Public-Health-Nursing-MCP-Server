@@ -90,6 +90,7 @@ pub mod geocoder;
 // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
 // End of Phase 16 design.
 // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+pub mod cpstf;
 // End of Phase 16 interventions.
 // Phase 16 appraise (EBP-03, EBP-04).
 pub mod crossref;

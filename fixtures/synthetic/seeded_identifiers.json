@@ -11370,6 +11370,138 @@
    "kind": "email",
    "file": "data/qi_clinic_measure.csv",
    "column": "Contact Email"
+  },
+  {
+   "value": "Marguerite",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Oldfield",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0190",
+   "kind": "phone",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "marguerite.oldfield@example.org",
+   "kind": "email",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "Barnaby",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Quillfeather",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0191",
+   "kind": "phone",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "barnaby.quillfeather@example.org",
+   "kind": "email",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "Odalys",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Hartwellman",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0192",
+   "kind": "phone",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "odalys.hartwellman@example.org",
+   "kind": "email",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "Leopold",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Fenwickham",
+   "kind": "name",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "413-555-0193",
+   "kind": "phone",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Cell"
+  },
+  {
+   "value": "leopold.fenwickham@example.org",
+   "kind": "email",
+   "file": "data/program_metrics.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "Evangeline",
+   "kind": "name",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reported By"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reported By"
+  },
+  {
+   "value": "evangeline.thistlewood@example.org",
+   "kind": "email",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reporter Email"
+  },
+  {
+   "value": "Peregrine",
+   "kind": "name",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reported By"
+  },
+  {
+   "value": "Ashcombe",
+   "kind": "name",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reported By"
+  },
+  {
+   "value": "peregrine.ashcombe@example.org",
+   "kind": "email",
+   "file": "data/program_outcomes_long.csv",
+   "column": "Reporter Email"
   }
  ]
 }

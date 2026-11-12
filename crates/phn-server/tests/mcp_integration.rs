@@ -1320,6 +1320,130 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
         // ---- End of Phase 16 design.
         // ---- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+        // PLAN-03 and PLAN-04 take only typed text (no file arguments). Identifier-like text in
+        // a description is refused without being repeated.
+        (
+            "find_evidence_based_interventions",
+            json!({"topic": "colorectal cancer screening", "population": "adults over 50",
+                   "include_live": false}),
+            ll,
+        ),
+        (
+            "find_evidence_based_interventions",
+            json!({"topic": "Maria Garcia 413-555-0100", "include_live": false}),
+            ll,
+        ),
+        (
+            "apply_behavior_change_theory",
+            json!({"problem": "Low screening among women over 50",
+                   "barriers": ["cost", "no ride", "forgot to book"],
+                   "program_components": ["text message reminders"], "write_document": true}),
+            ll,
+        ),
+        (
+            "apply_behavior_change_theory",
+            json!({"problem": "Maria Garcia, 837 Elm Street, skips visits",
+                   "barriers": ["call 413-555-0100"]}),
+            ll,
+        ),
+        // PLAN-11 reads a results file by period. A file that legitimately has partner contact
+        // people and a staff column are accepted, and only the named columns are read.
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Month",
+                   "periods_in_program": 12,
+                   "targets": [{"measure": "Clients enrolled", "target": 400},
+                               {"measure": "Participants screened", "kind": "percent",
+                                "denominator": "Participants eligible", "target": 80},
+                               {"measure": "Housing referrals", "target": 60}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Quarter",
+                   "measure_column": "Outcome", "value_column": "Value",
+                   "denominator_column": "Denominator",
+                   "targets": [{"measure": "Adults with controlled blood pressure",
+                                "kind": "percent", "target": 70},
+                               {"measure": "Home visits completed", "target": 240}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        // The contact columns of the results file are named as the period, measure, value, or
+        // denominator column: refused without echoing a value.
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Contact Person",
+                   "targets": [{"measure": "Clients enrolled", "target": 400}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_metrics.csv", "period_column": "Month",
+                   "targets": [{"measure": "Contact Cell", "target": 1}]}),
+            "data/program_metrics.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Quarter",
+                   "measure_column": "Reported By", "value_column": "Value",
+                   "targets": [{"measure": "Cases", "target": 1}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        // An identifiable line list: rows counted by month (counts only), and every identifier
+        // column refused as period, measure, value, or denominator.
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 20}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "measure_column": "Diagnosis",
+                   "targets": [{"measure": "Pertussis", "target": 10}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "measure_column": "Last Name", "targets": [{"measure": "Cases", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Last Name", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "targets": [{"measure": "Phone", "target": 1}]}),
+            ll,
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "line_list.csv", "period_column": "Onset Date",
+                   "targets": [{"measure": "SSN", "kind": "percent", "denominator": "MRN",
+                                "target": 1}]}),
+            ll,
+        ),
+        // Staff names under a header the detector does not know, used as the period column,
+        // and an organization list with contact people used as the results file: refused
+        // without echoing a value.
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Reported By",
+                   "count_rows": true, "targets": [{"measure": "Records", "target": 5}]}),
+            "data/program_outcomes_long.csv",
+        ),
+        (
+            "track_program_performance",
+            json!({"path": "food_pantries.csv", "period_column": "Type", "count_rows": true,
+                   "targets": [{"measure": "Records", "target": 5}]}),
+            "data/food_pantries.csv",
+        ),
         // ---- End of Phase 16 interventions.
         // ---- Phase 16 appraise (EBP-03, EBP-04).
         // EBP-03 reads a published study. A fictional abstract legitimately has a corresponding

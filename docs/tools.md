@@ -3362,6 +3362,105 @@ terms are unverified (credit MassGIS).
 
 <!-- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11). -->
 
+### `find_evidence_based_interventions` (PLAN-03, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | required | Health topic or problem, for example "childhood obesity" or "colorectal cancer screening". Related words are searched too (smoking and tobacco, drinking and alcohol, and so on; 26 topic groups). |
+| `population` | | For example "adolescents" or "older adults". Used to rank, not to exclude. |
+| `setting` | | For example "school", "worksite", "health care", "community", "home". Used to rank. |
+| `kinds` | all | `recommendation`, `systematic_review`, `economic_review`. |
+| `evidence` | `any` | `any`, `strong_or_recommended` (abstract says strong or sufficient evidence, or that the Task Force recommends), or `insufficient`. |
+| `max_results` | 8 | 1 to 20. |
+| `include_live` | true | Also search PubMed for newer papers (only the topic words are sent); skipped offline, and any failure leaves the snapshot answer standing. |
+
+Data: the bundled `cpstf-publications` snapshot, built by
+`xtask/scripts/build_interventions_snapshots.py` (with `--check`) from PubMed: the 157 journal
+papers indexed under the Corporate Author "Community Preventive Services Task Force" (or its
+earlier name, "Task Force on Community Preventive Services"), of which 145 are bundled (eight
+methods papers and four other items are left out). Each record keeps what PubMed shows (title,
+journal, publication year and month, DOI, MeSH headings, the paper's kind from its title) and,
+from the abstract, the sentences that use rating words ("strong evidence", "sufficient
+evidence", "insufficient evidence", "recommends", "recommends against") and one short excerpt
+each of the findings, the conclusion, and any implementation, barrier, or cost sentence. A rating
+appears only when those words are in the abstract (or, for a few recommendation titles, in the
+title); otherwise the result says the PubMed record gives none. The Rust rule that reads rating
+words is tested against every sentence the builder stored. The Community Guide
+(`www.thecommunityguide.org`) and What Works for Health (`www.countyhealthrankings.org`) both
+answered the build network's connection request with HTTP 403, so neither site nor its terms of
+use was read and What Works for Health has no data here; the result lists what to check on each
+site. `content/planning/evidence_sources.yaml` holds the rating key, the topic synonyms, and
+those notes.
+
+Output: matches ranked by topic words in the title, MeSH headings, and abstract excerpts; for
+each, the evidence wording, quotations, finding, conclusion, implementation notes, a reminder to
+check for updates when the paper is eight or more years old, and links. Privacy: no local files;
+the topic words go to PubMed only for the live search.
+
+Limits: this is not the Community Guide's list of recommendations (its pages, and ratings that
+have no journal paper, are missing), and a paper can be updated or archived after it was
+published. Ratings are per paper, and a paper can cover several interventions.
+
+### `apply_behavior_change_theory` (PLAN-04, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `problem` | required | The health problem or behavior and what is going wrong. Describe a population, never a person (identifier-like text is refused). |
+| `population`, `setting` | | Who the program serves and where it runs. |
+| `barriers` | none | Barriers and facilitators in your own words, one per entry (up to 15). Each is matched to constructs. |
+| `program_components` | none | Planned activities, one per entry (up to 15). Each is matched to strategies that share a word. |
+| `theories` | auto | Ids, abbreviations, or names (`hbm`, `sct`, `tpb`, `ttm`, `sem`, `doi`, `comb`, `sdt`), or `all`. Auto picks up to three whose constructs match your words and adds the Socio-Ecological Model when none looks beyond the individual. |
+| `write_document` | false | Word or PDF worksheet in `/data/output`. |
+| `format` | `docx` | `docx` or `pdf`. |
+
+Data: `content/planning/behavior_theories.yaml` (schema
+`content/schemas/planning_behavior_theories.schema.json`): eight theories and frameworks, 48
+constructs. Construct names and definitions are paraphrased from nine open-access papers (full
+text read through PubMed Central) and CDC's social-ecological model page; the National Cancer
+Institute's Theory at a Glance was blocked and the original theory papers were not read. Each
+strategy is marked `source` (the Social Cognitive Theory strategies come from a published
+construct-to-behavior-change-technique table, the COM-B strategies from the Behaviour Change
+Wheel's published links, the Socio-Ecological Model examples from CDC) or `authored` (this
+project's suggestion). Measure ideas are what to count or ask, not validated instruments; no
+survey instrument is copied. Output: the theories shown with why, constructs (the ones whose
+signal words match your description first, with the words that matched), strategies and
+measures, a barrier-to-construct table, a component-to-strategy table, and notes on choosing
+among theories. Matches are leads, not a diagnosis.
+
+### `track_program_performance` (PLAN-11, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `path`, `sheet` | required | CSV/XLSX in `/data`: one row per period (wide), one row per period and measure (long), or one row per record (`count_rows`). |
+| `period_column` | required | A date, "2025-Q1", "Jan 2025", "FY26 Q2", or any label. Dates roll up to `date_period` (`month` default, `quarter`, `week`); text periods sort by year and quarter or month when every label has one, otherwise by first appearance. |
+| `measure_column`, `value_column`, `denominator_column` | | Long layout: the measure name, the value (a count or a numerator), and the denominator for percentages. Without `value_column`, rows are counted per period and measure. |
+| `count_rows` | false | Count the rows per period as the measure "Records" (give it a target). |
+| `targets` | required | Up to 12: `measure`, `target`, `direction` (`higher_is_better` default or `lower_is_better`), `kind` (`count` default or `percent`), `denominator` (wide layout column), `basis` (`cumulative` default or `each_period`), `baseline`, `unit`. |
+| `periods_in_program` | | Periods in the program or grant year, for pace (4 quarters, 12 months). |
+| `on_track_fraction` | 0.9 | A cumulative count is "on track" at this share of the pace needed (this tool's convention; use your funder's rule). |
+| `write_report`, `write_workbook`, `write_charts` | true | Report (`format`: `docx` or `pdf`), workbook, and one PNG chart per measure in `/data/output`. |
+
+Method: a cumulative count adds the periods; a cumulative percentage pools numerators and
+denominators (not the mean of period percentages). Progress for a count is total / target; for a
+percentage with a baseline it is (current - baseline) / (target - baseline); without a baseline
+it is current / target for higher-is-better and not computed for lower-is-better. Pace for a
+cumulative higher-is-better count: expected = target x periods reported / `periods_in_program`;
+Met at or above target, On track at or above `on_track_fraction` x expected, otherwise Behind.
+Trend flags run on the periods with data: a run chart (the median and the Anhoej run and
+crossing rules, `phn_epi::spc`) or, for percentages with at least eight periods, a p chart; fewer
+than six periods get no flags, and fewer than ten are flagged as weak. The workbook has a Summary
+sheet (targets, Current, Progress, Expected, Status, and Latest as live formulas) and a Data sheet
+(numerators, denominators, and percent formulas down to row 101), so next quarter's row can be
+typed in.
+
+Privacy: the file is read through `phn_tools::localdata`, and only the named columns are read;
+identifier columns are refused, other columns (including contact people) are never read or
+returned. Period labels must be dates, labels with a number (2025-Q1, Cohort 3), or month or season names, so a column of names the identifier detector does not recognize is refused as a period column, and the values of the measure column are never listed in an error. Only counts by period are
+returned: a count from 1 to the threshold minus 1 (or, for a percentage, a numerator, a
+denominator, or the remainder that small) is hidden, and the measure's totals, progress, center
+line, and status are then withheld because they would reveal it. The report, workbook, and charts
+in `/data/output` hold the full values from the nurse's file.
+
 <!-- End of Phase 16 interventions. -->
 
 <!-- Phase 16 appraise (EBP-03, EBP-04). -->

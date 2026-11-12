@@ -2088,6 +2088,39 @@
           "rows": 84
         }
       ]
+    },
+    {
+      "id": "cpstf-publications",
+      "title": "Community Guide systematic reviews, economic reviews, and Task Force recommendation statements (journal papers indexed in PubMed)",
+      "publisher": "Community Preventive Services Task Force and CDC Community Guide staff (papers in the American Journal of Preventive Medicine and other journals; records read through the National Library of Medicine's PubMed E-utilities)",
+      "source_urls": [
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed (Corporate Author query in xtask/scripts/build_interventions_snapshots.py)",
+        "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed (all PubMed IDs the query returns, one request)",
+        "https://www.thecommunityguide.org/ (not reachable from the build network; linked for the nurse)"
+      ],
+      "source_sha256": {
+        "pubmed_efetch_response.xml": "0a22c30e335bd0ba51dd7407636e252ca4ffd66a4aa409650a71d9ac481da3b3"
+      },
+      "source_vintage": "papers published 2000-11 to 2026-05",
+      "retrieved": "2026-11-12",
+      "license": "Titles, dates, and MeSH headings are PubMed bibliographic data. Abstract excerpts are short quotations with attribution; abstracts can be copyrighted by the journal, so check the journal's terms before reproducing more. The Community Guide's own terms of use and the National Library of Medicine's PubMed data policy pages could not be read (blocked from the build network).",
+      "derivation": "PubMed esearch for the Corporate Author 'Community Preventive Services Task Force' or 'Task Force on Community Preventive Services', then one efetch for every PubMed ID returned. The builder classifies each paper's kind from its title, copies rating words ('strong evidence', 'sufficient evidence', 'insufficient evidence', 'recommends', 'recommends against') only when the abstract contains them, and keeps one short excerpt each of the findings, the conclusion, and any implementation or barrier sentence. Nothing about a rating comes from memory. Builder: xtask/scripts/build_interventions_snapshots.py (Python 3 standard library).",
+      "caveats": [
+        "Publication dates are journal dates (year, and month when PubMed has it); the Community Guide's own posting date can differ.",
+        "This is not the Community Guide's list of recommendations. It holds the journal papers PubMed attributes to the Community Preventive Services Task Force (and its earlier name), so a recommendation or review that was posted only on thecommunityguide.org, or whose paper PubMed does not attribute to the Task Force, is missing.",
+        "Papers about methods, and news items, are left out. Recommendation statements are kept even when PubMed has no abstract for them; their rating is then not in this snapshot.",
+        "A rating appears only when the abstract's own words give it. Many abstracts report the review's findings and not the Task Force's rating, and some papers cover several interventions with different ratings.",
+        "Recommendations can be updated or archived after the paper was published. Check the Community Guide page before relying on an older record.",
+        "What Works for Health (County Health Rankings) has no data here: its site could not be reached from the build network."
+      ],
+      "files": [
+        {
+          "path": "cpstf_publications.json",
+          "sha256": "381371dfd4d063bfba657ba1583ff6d19d00e254bfb1c91f04fac0a1f959aeaa",
+          "bytes": 157656,
+          "rows": 145
+        }
+      ]
     }
   ]
 }

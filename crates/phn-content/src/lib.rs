@@ -645,6 +645,20 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
     // End of Phase 16 design.
     // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+    ContentItem {
+        id: "planning-behavior-theories",
+        path: "content/planning/behavior_theories.yaml",
+        resource_uri: "phn://content/planning-behavior-theories",
+        yaml: include_str!("../../../content/planning/behavior_theories.yaml"),
+        schema: include_str!("../../../content/schemas/planning_behavior_theories.schema.json"),
+    },
+    ContentItem {
+        id: "planning-evidence-sources",
+        path: "content/planning/evidence_sources.yaml",
+        resource_uri: "phn://content/planning-evidence-sources",
+        yaml: include_str!("../../../content/planning/evidence_sources.yaml"),
+        schema: include_str!("../../../content/schemas/planning_evidence_sources.schema.json"),
+    },
     // End of Phase 16 interventions.
     // Phase 16 appraise (EBP-03, EBP-04).
     ContentItem {

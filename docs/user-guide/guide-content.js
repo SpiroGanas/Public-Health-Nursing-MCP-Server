@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 121;
+const TOOL_COUNT = 124;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3917,6 +3917,110 @@ const toolChapters = [
       // Phase 16 design (PLAN-01, PLAN-02, PLAN-05) tools.
       // End of Phase 16 design tools.
       // Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11) tools.
+      {
+        id: 'find_evidence_based_interventions',
+        title: 'Find evidence-based interventions for a health topic',
+        toolset: 'planning',
+        internet: 'optional',
+        files: 'no',
+        does: 'Looks up Community Guide evidence for a health topic: the systematic reviews, economic reviews, and Task Force recommendation statements published in journals by the Community Preventive Services Task Force. For each paper it shows the date and journal, what kind of paper it is, the evidence wording the abstract itself uses (strong evidence, sufficient evidence, insufficient evidence, the Task Force recommends), short quotations, a short excerpt of the findings, and any sentence about barriers, cost, or implementation. It never guesses a rating: when the record gives none, it says so.',
+        when: [
+          'Choosing what to put in a program plan or a grant: what does the evidence say works for your topic?',
+          'Checking whether an intervention you are considering has a Community Guide review behind it.',
+          'Finding out what is not yet established, with the insufficient-evidence filter.',
+        ],
+        provide: [
+          'A health topic in your own words, such as childhood obesity, smoking, or colorectal cancer screening. Related words are searched too.',
+          'Optionally a population (adolescents, older adults), a setting (school, worksite, health care, community, home), the kinds of paper you want, and how many to list.',
+        ],
+        examples: [
+          'What does the Community Guide say works to increase colorectal cancer screening?',
+          'Find evidence-based interventions to reduce tobacco use in schools.',
+          'Which interventions for falls or injury have strong evidence?',
+          'What do we not know yet about interventions for adolescent mental health? Show papers with insufficient evidence.',
+        ],
+        returns: [
+          'A table of papers with the evidence wording from the abstract, the journal and date, and links, then notes from the abstracts on implementation, barriers, and cost.',
+          'A plain statement of what the tool could not read and where to check it.',
+        ],
+        notes: [
+          'This is not the Community Guide’s own list of recommendations. It holds the journal papers PubMed attributes to the Task Force (a snapshot, with a live search for newer papers when you are online). A recommendation that has no journal paper is missing, and no match does not mean no recommendation exists.',
+          'What Works for Health (County Health Rankings) is not included. Its site and the Community Guide site could not be reached when the tool was built, so open each site and search your topic before you rely on a result.',
+          'A paper can be updated or archived after it was published. Papers eight or more years old carry a reminder to check.',
+          'Insufficient evidence means not enough studies to decide. It does not mean the intervention does not work.',
+          'Only your topic words are sent to PubMed, and only for the live search. Nothing from your files is used.',
+        ],
+      },
+      {
+        id: 'apply_behavior_change_theory',
+        title: 'Apply behavior change theory to a program',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'optional, a Word or PDF worksheet in your output folder',
+        does: 'Helps you ground a program in theory. You describe the problem, the population, and what you have found in the way (barriers) or planned to do (components). The tool shows the constructs of up to three theories that fit your words, what each construct means, strategies that target it, and ideas for measuring it. It draws on the Health Belief Model, Social Cognitive Theory, the Theory of Planned Behavior, the Transtheoretical Model (stages of change), the Socio-Ecological Model, Diffusion of Innovations, COM-B with the Behaviour Change Wheel, and Self-Determination Theory.',
+        when: [
+          'Writing the theory section of a program plan, grant, or evaluation.',
+          'Working out why people are not doing a behavior and what kind of intervention matches.',
+          'Deciding what to measure so your evaluation tests the theory you used.',
+        ],
+        provide: [
+          'The problem or behavior in a sentence or two, and who the program serves.',
+          'Optionally the setting, the barriers you found (one per line, in your own words), and the activities you plan.',
+          'Optionally the theories you want, by name. Otherwise the tool picks.',
+        ],
+        examples: [
+          'Apply behavior change theory to low mammography screening among Portuguese-speaking women over 50. Barriers: cost, no transportation, family does not talk about it, forgot to book.',
+          'Show me the Socio-Ecological Model and COM-B for a school vaping prevention program.',
+          'Which constructs does a peer navigator program for diabetes prevention target? Components: peer navigators, text reminders, cooking classes.',
+          'Make a worksheet of the Health Belief Model for our flu vaccine clinic plan.',
+        ],
+        returns: [
+          'The theories shown and why, each with its constructs (the ones that match your words first), strategies marked as taken from a published source or as the tool’s own suggestion, and measure ideas.',
+          'A table of your barriers and the constructs they point to, a table of your components and the strategies they may fit, and short notes on choosing among theories.',
+          'Optionally a worksheet in your output folder.',
+        ],
+        notes: [
+          'A theory describes how change may work. It is not proof that an intervention works; for that, use the evidence tool.',
+          'The constructs were written from open-access reviews and a CDC page that were read. The National Cancer Institute’s Theory at a Glance and the original theory papers could not be reached, so check a definition in its source before you quote it.',
+          'Strategies marked as the tool’s suggestion are drafts for you to judge. Measure ideas are not validated instruments; use validated items where they exist and check their licenses.',
+          'Barriers are matched by the words you use, so a match is a lead and a barrier with no match may still fit a construct.',
+          'Describe a population, never a person. Text that looks like a name, phone number, or address is refused.',
+        ],
+      },
+      {
+        id: 'track_program_performance',
+        title: 'Track program performance against targets',
+        toolset: 'planning',
+        internet: 'no',
+        files: 'yes, a spreadsheet of results by period; writes a report, a workbook, and charts to your output folder',
+        does: 'Reads your program’s results by period (a CSV or Excel file) and compares them with your targets. For each measure it shows the totals, progress to target, whether you are on pace for the year, and whether run chart or control chart rules flag a pattern (an unusually long run on one side of the median, a shift, a point outside the limits). It writes a dashboard report, an Excel workbook with live formulas so you can add next quarter’s row, and a chart for each measure. The assistant sees only counts by period, with small counts hidden.',
+        when: [
+          'Preparing a quarterly or annual progress report for a funder.',
+          'Checking whether you are on pace to reach a target such as 400 clients served or 80 percent screened.',
+          'Looking for a real shift in a monthly number rather than chance variation.',
+        ],
+        provide: [
+          'A spreadsheet in your data folder with one row per period (a column for each measure), or one row per period and measure, or one row per service or person to count by period.',
+          'The name of the period column and, for each measure, its target, whether higher or lower is better, and whether it is a count or a percentage (a percentage needs a denominator column).',
+          'Optionally how many periods the program year has (4 quarters, 12 months) so the tool can check your pace.',
+        ],
+        examples: [
+          'Track my program in program_metrics.csv. Period column is Month, 12 months in the year. Clients enrolled target 400. Screening rate: Participants screened over Participants eligible, target 80 percent.',
+          'Compare program_outcomes_long.csv with these targets: controlled blood pressure 70 percent, home visits 240. The period column is Quarter and the outcome column is Outcome.',
+          'Count the visits in my visit log by month and tell me whether the monthly numbers show a shift.',
+        ],
+        returns: [
+          'A table of measures with target, current, progress, status (Met, On track, Behind), and any trend signals, then the period values with small counts hidden.',
+          'A Word or PDF report, an Excel workbook (Summary and Data sheets), and charts in your output folder. These hold the full numbers from your file.',
+        ],
+        notes: [
+          'A percentage is pooled across periods (all numerators over all denominators), not an average of period percentages.',
+          '"On track" means reaching at least 90 percent of the pace needed to hit the target by the end of the program. That is this tool’s rule; change it if your funder has its own.',
+          'Trend rules need about 10 periods to be reliable, and a flag says the pattern is unlikely to be chance, not why it happened.',
+          'A count from 1 to 4 is hidden (or whatever your suppression threshold is). When one is hidden, the totals and progress for that measure are also withheld from the chat, because they would reveal it; the report and workbook still have them.',
+          'Only the columns you name are read. Other columns, such as partner contact people, are not read or shown. A column of names, phone numbers, or ID numbers cannot be used.',
+        ],
+      },
       // End of Phase 16 interventions tools.
       // Phase 16 appraise (EBP-03, EBP-04) tools.
       {
