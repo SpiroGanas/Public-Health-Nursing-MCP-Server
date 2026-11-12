@@ -29,6 +29,14 @@ const TABLETOP_TOOLSETS: &[Toolset] = &[
     Toolset::Vax,
 ];
 
+// Phase 15 cha prompt (community_health_assessment) constants go below this line.
+/// Name of the MAPP 2.0 community health assessment prompt (Phase 15).
+pub(crate) const COMMUNITY_HEALTH_ASSESSMENT: &str = "community_health_assessment";
+
+/// Tool groups the community health assessment prompt's tools belong to (`core` is always on).
+const CHA_TOOLSETS: &[Toolset] = &[Toolset::Equity, Toolset::Chronic, Toolset::Env];
+// End of Phase 15 cha prompt constants.
+
 /// Tells the model which tool groups a workflow uses and what to do when one
 /// of them is off (prompts are listed whatever toolsets are enabled).
 fn toolset_note(needed: &[Toolset]) -> String {
@@ -161,7 +169,11 @@ pub(crate) fn list() -> Vec<Prompt> {
         ]),
     );
     t.title = Some("Plan a tabletop exercise".into());
-    vec![p, t]
+    let mut all = vec![p, t];
+    // Phase 15 cha prompts go below this line.
+    all.push(community_health_assessment_prompt());
+    // End of Phase 15 cha prompts.
+    all
 }
 
 fn arg(args: &Option<JsonObject>, name: &str) -> Option<String> {
@@ -193,10 +205,13 @@ pub(crate) fn get(name: &str, args: &Option<JsonObject>) -> Result<GetPromptResu
     match name {
         INVESTIGATE_OUTBREAK => outbreak(args),
         PLAN_TABLETOP_EXERCISE => tabletop(args),
+        // Phase 15 cha prompt arm goes below this line.
+        COMMUNITY_HEALTH_ASSESSMENT => community_health_assessment(args),
+        // End of Phase 15 cha prompt arm.
         _ => Err(ErrorData::invalid_params(
             format!(
                 "unknown prompt '{name}'; available: {INVESTIGATE_OUTBREAK}, \
-                 {PLAN_TABLETOP_EXERCISE}"
+                 {PLAN_TABLETOP_EXERCISE}, {COMMUNITY_HEALTH_ASSESSMENT}"
             ),
             None,
         )),
@@ -453,6 +468,167 @@ Begin with step 1 and ask me for what you need."
     )
 }
 
+// Phase 15 cha prompt (community_health_assessment) goes below this line.
+/// The prompt's listing: a MAPP 2.0 community health assessment workflow.
+fn community_health_assessment_prompt() -> Prompt {
+    let mut p = Prompt::new(
+        COMMUNITY_HEALTH_ASSESSMENT,
+        Some(
+            "A MAPP 2.0 community health assessment for a Massachusetts town or county: build the \
+             foundation and partner list, assemble the community status data (profile, social \
+             vulnerability, language, chronic disease, disparities, environment, food, water), \
+             add the community context from focus groups and interviews (names removed locally), \
+             bring in nearby hospitals' CHNAs, then rank the issues with the Hanlon method, PEARL, \
+             and a nominal group vote. Uses the equity toolset; chronic and env tools add data when \
+             enabled.",
+        ),
+        Some(vec![
+            PromptArgument::new("area")
+                .with_title("Town or county")
+                .with_description("The Massachusetts city, town, or county to assess.")
+                .with_required(false),
+            PromptArgument::new("partners_path")
+                .with_title("Partner roster file")
+                .with_description(
+                    "A CSV or XLSX in the data folder with one partner organization per row \
+                     (organization name and sector). Contact people are never read.",
+                )
+                .with_required(false),
+            PromptArgument::new("chna_folder")
+                .with_title("Folder of hospital CHNAs")
+                .with_description(
+                    "A folder in the data folder with nearby hospitals' community health needs \
+                     assessment reports (PDF or Word).",
+                )
+                .with_required(false),
+            PromptArgument::new("transcripts_folder")
+                .with_title("Folder of focus group and interview transcripts")
+                .with_description(
+                    "A folder in the data folder with transcripts. They are read only on this \
+                     machine; only theme counts come back.",
+                )
+                .with_required(false),
+        ]),
+    );
+    p.title = Some("MAPP 2.0 community health assessment".into());
+    p
+}
+
+fn community_health_assessment(args: &Option<JsonObject>) -> Result<GetPromptResult, ErrorData> {
+    let area = arg(args, "area");
+    let partners = arg(args, "partners_path");
+    let chna = arg(args, "chna_folder");
+    let transcripts = arg(args, "transcripts_folder");
+    check_lengths(&[
+        ("area", &area),
+        ("partners_path", &partners),
+        ("chna_folder", &chna),
+        ("transcripts_folder", &transcripts),
+    ])?;
+    let ar = area
+        .clone()
+        .unwrap_or_else(|| "my saved town (ask me if none is saved)".into());
+    let area_arg = area
+        .as_ref()
+        .map(|a| format!("area \"{a}\""))
+        .unwrap_or_else(|| "the area".into());
+    let partners_arg = partners
+        .as_ref()
+        .map(|p| format!(", partners_path \"{p}\""))
+        .unwrap_or_default();
+    let chna_arg = chna
+        .as_ref()
+        .map(|c| format!(", chna_paths [\"{c}\"]"))
+        .unwrap_or_default();
+    let chna_text = match &chna {
+        Some(c) => format!("Pass chna_paths [\"{c}\"] so the tool reads the priority lists."),
+        None => "Ask me to save each nearby hospital's CHNA (PDF or Word) in a folder in the data \
+folder, such as /data/chna, and then call it again with chna_paths."
+            .into(),
+    };
+    let transcripts_text = match &transcripts {
+        Some(t) => {
+            format!("Call analyze_qualitative_data (EQ-10) with transcript_paths [\"{t}\"].")
+        }
+        None => "If I have focus group or interview transcripts, ask me to save them in a folder \
+in the data folder and call analyze_qualitative_data (EQ-10) with transcript_paths."
+            .into(),
+    };
+    let toolsets = toolset_note(CHA_TOOLSETS);
+
+    let text = format!(
+        "Help me carry out a community health assessment as a Massachusetts local public health \
+nurse, following MAPP 2.0 (Mobilizing for Action through Planning and Partnerships, NACCHO). \
+Area: {ar}.
+
+At each step, call the tool named, show me the key result with its source and date, and tell me \
+what you need from me next. Treat the results as decision support: I decide with my partners. \
+Be plain about what the tools could not verify: MAPP 2.0 was checked against journal articles \
+and not NACCHO's own handbook, so tell me to check NACCHO's materials before citing a phase or \
+tool as NACCHO's wording.
+
+Privacy rules for the whole assessment: never ask me to paste transcripts, names, or client \
+details into the chat. Transcripts and client files stay in files in the data folder; the tools \
+read them locally and return counts, with small counts withheld, and write anything detailed \
+only to the output folder.
+
+{toolsets}
+
+1. Build the foundation (MAPP 2.0 Phase 1). Ask who leads the assessment, who the partners are, \
+and who is missing. Call community_health_assessment_builder (EQ-08) with {area_arg}{partners_arg}{chna_arg} \
+to get the three phases and three assessments, the partner sector checklist, nearby hospitals, \
+and the first data sections. Ask me to save a partner roster (organization and sector) in the \
+data folder if I have none. Call find_community_resources (EQ-07) to inventory local services \
+and note the gaps.
+
+2. Community status assessment (quantitative data). Go through the data sections the builder \
+returned and call the underlying tools when I want more detail: build_community_health_profile \
+(EQ-01), get_social_vulnerability_index (EQ-02), language_access_profile (EQ-03), \
+get_places_estimates (CHR-01) for chronic disease, environmental_justice_screen, \
+climate_health_vulnerability_profile, food_access_mapper, drinking_water_quality_lookup, and \
+community_water_fluoridation_status. If I have a table of counts by race, ethnicity, language, \
+or income, call measure_health_disparities (EQ-04); ask me to save it in the data folder. If I \
+have a screening file of health-related social needs, call screen_health_related_social_needs \
+(EQ-05) for aggregates only. Use estimate_benefit_eligibility (EQ-06) only for teaching \
+examples of which programs residents may qualify for, not for individual clients. Flag small \
+numbers, unreliable estimates, and data older than five years.
+
+3. Community context assessment (qualitative data). Review the focus group and interview \
+prompts the builder returned. {transcripts_text} Report the themes it returns (participant \
+counts only) and remind me that keyword coding is a heuristic: I should read the coded excerpts \
+in the output folder myself before reporting a finding.
+
+4. Hospital CHNAs. Show the hospitals near the area and the links to find their community \
+health needs assessments (the Attorney General's community benefits reports). {chna_text} \
+Compare the hospitals' priorities with the data and the context themes: where do they agree, \
+and what is missing?
+
+5. Bring the story together. Help me list the themes that appear across the status data, the \
+context assessment, the partner assessment, and the CHNAs. Propose a list of candidate health \
+issues (do not rank them yet) and ask me to confirm it.
+
+6. Prioritize. For the confirmed issues, walk me through the Hanlon method and call \
+prioritize_health_issues (EQ-09): ask me for each issue's size (0-10, from the data), \
+seriousness (0-20), effectiveness of an available intervention (0-10), and the five PEARL \
+answers (propriety, economics, acceptability, resources, legality), and write down the \
+rationale for each. If my partners held a nominal group vote, enter the totals only (how many \
+participants gave each issue each rank), never names. Show the ranking, the ties, the close \
+calls, and the strategy grid; do not break ties for me.
+
+7. Report. Write the draft sections with community_health_assessment_builder (the document goes \
+to the output folder), then list what is still missing (data gaps, partners, voices) and what \
+should be collected next. The next phase of the work, planning and evaluation, follows from \
+the priorities.
+
+Begin with step 1 and ask me for what you need."
+    );
+    Ok(
+        GetPromptResult::new(vec![PromptMessage::new_text(Role::User, text)])
+            .with_description(format!("MAPP 2.0 community health assessment for {ar}.")),
+    )
+}
+// End of Phase 15 cha prompt.
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -460,7 +636,7 @@ mod tests {
     #[test]
     fn prompt_lists_and_renders_with_arguments() {
         let l = list();
-        assert_eq!(l.len(), 2);
+        assert!(l.len() >= 2, "later phases add prompts");
         assert_eq!(l[0].name, INVESTIGATE_OUTBREAK);
         assert_eq!(l[1].name, PLAN_TABLETOP_EXERCISE);
         let mut a = JsonObject::new();
@@ -630,4 +806,76 @@ mod tests {
         let tabletop = render(PLAN_TABLETOP_EXERCISE, &[]);
         assert!(tabletop.contains("the preparedness profile does not include vax"));
     }
+    // Phase 15 cha prompt tests go below this line.
+    #[test]
+    fn community_health_assessment_prompt_chains_the_equity_tools() {
+        assert!(list().iter().any(|p| p.name == COMMUNITY_HEALTH_ASSESSMENT));
+        let text = render(
+            COMMUNITY_HEALTH_ASSESSMENT,
+            &[
+                ("area", "Lowell"),
+                ("chna_folder", "chna"),
+                ("transcripts_folder", "focus_groups"),
+                ("partners_path", "partners.csv"),
+            ],
+        );
+        for tool in [
+            "community_health_assessment_builder",
+            "build_community_health_profile",
+            "get_social_vulnerability_index",
+            "language_access_profile",
+            "measure_health_disparities",
+            "screen_health_related_social_needs",
+            "estimate_benefit_eligibility",
+            "find_community_resources",
+            "analyze_qualitative_data",
+            "prioritize_health_issues",
+            "get_places_estimates",
+        ] {
+            assert!(text.contains(tool), "{tool}");
+        }
+        // EQ-01 to EQ-10 are all named.
+        for id in [
+            "EQ-01", "EQ-02", "EQ-03", "EQ-04", "EQ-05", "EQ-06", "EQ-07", "EQ-08", "EQ-09",
+            "EQ-10",
+        ] {
+            assert!(text.contains(id), "{id}");
+        }
+        assert!(
+            text.contains("area \"Lowell\"") && text.contains("partners_path \"partners.csv\"")
+        );
+        assert!(text.contains("chna_paths [\"chna\"]"));
+        assert!(text.contains("transcript_paths [\"focus_groups\"]"));
+        assert!(text.contains("not NACCHO's own handbook") || text.contains("not NACCHO's own"));
+        // Every tool named is registered and in core or a declared toolset.
+        let mut named = 0;
+        for t in phn_tools::registry::tools() {
+            if text.contains(t.name) {
+                named += 1;
+                assert!(
+                    t.toolset == Toolset::Core || CHA_TOOLSETS.contains(&t.toolset),
+                    "{} ({}) is not in the declared toolsets",
+                    t.name,
+                    t.toolset
+                );
+            }
+        }
+        assert!(named >= 10, "{named}");
+        for ts in CHA_TOOLSETS {
+            assert!(
+                phn_tools::registry::tools().any(|t| t.toolset == *ts && text.contains(t.name)),
+                "{ts} is declared but no tool from it is named"
+            );
+        }
+        assert!(text.contains(&toolset_note(CHA_TOOLSETS)));
+        // Without arguments it asks for what it needs.
+        let bare = render(COMMUNITY_HEALTH_ASSESSMENT, &[]);
+        assert!(
+            bare.contains("my saved town") && bare.contains("save each nearby hospital's CHNA")
+        );
+        let mut long = JsonObject::new();
+        long.insert("area".into(), "x".repeat(301).into());
+        assert!(get(COMMUNITY_HEALTH_ASSESSMENT, &Some(long)).is_err());
+    }
+    // End of Phase 15 cha prompt tests.
 }

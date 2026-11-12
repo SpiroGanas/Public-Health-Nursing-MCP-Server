@@ -1142,6 +1142,135 @@ async fn no_row_level_data_is_returned_by_default() {
         ),
         // ---- End of Phase 15 prevent.
         // ---- Phase 15 cha (EQ-08, EQ-09, EQ-10).
+        // EQ-10 reads transcripts with seeded participant names, phone numbers, emails, an
+        // address, and an employer. Only counts may come back, with or without a names file
+        // and a codebook, and with the de-identified files written.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"]}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "participant_names.txt",
+                   "write_deidentified_transcripts": true}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["key_informant_interview.txt"],
+                   "names_path": "participant_names.txt"}),
+            "data/key_informant_interview.txt",
+        ),
+        // Both transcripts together, and a names file that is a client list.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt", "key_informant_interview.txt"]}),
+            "data/key_informant_interview.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "line_list.csv"}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "names_path": "line_list.csv"}),
+            ll,
+        ),
+        // A line list given as a transcript, and as the codebook.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["line_list.csv"]}),
+            ll,
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"],
+                   "codebook_path": "line_list.csv"}),
+            ll,
+        ),
+        // A client note given as a transcript: read locally, nothing returned.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["client_note.txt"]}),
+            "data/client_note.txt",
+        ),
+        // A person-level file given as the codebook or the names file.
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["client_note.txt"], "codebook_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "analyze_qualitative_data",
+            json!({"transcript_paths": ["focus_group_transcript.txt"], "names_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        // EQ-08: client files given as CHNA reports and partner rosters are refused without
+        // echoing values; a partner roster with contact people is counted and the contacts
+        // never returned.
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["client_note.txt"],
+                   "write_document": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["line_list.csv"]}),
+            ll,
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "chna_paths": ["51a_notes.txt"]}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "hrsn_screenings.csv"}),
+            "data/hrsn_screenings.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "shelter_registrations.csv"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"], "partners_path": "cooling_centers.csv"}),
+            "data/cooling_centers.csv",
+        ),
+        // A transcript given as a CHNA report is a document, so it is read for priority lines.
+        (
+            "community_health_assessment_builder",
+            json!({"area": "Springfield", "sections": ["fluoridation"],
+                   "chna_paths": ["focus_group_transcript.txt"]}),
+            "data/focus_group_transcript.txt",
+        ),
+        // EQ-09 reads no files; one case checks that nothing seeded appears.
+        (
+            "prioritize_health_issues",
+            json!({"issues": [
+                {"name": "Housing cost burden", "size": 7, "seriousness": 12, "effectiveness": 5,
+                 "pearl": {"propriety": true, "economics": true, "acceptability": true, "resources": true, "legality": true}},
+                {"name": "Food insecurity", "size": 5, "seriousness": 9, "effectiveness": 6}],
+                "write_document": false}),
+            ll,
+        ),
         // ---- End of Phase 15 cha.
         // ---- Phase 15 geo (EPI-13).
         // A client list (it has a street address, town, and ZIP column next to names, phones, and

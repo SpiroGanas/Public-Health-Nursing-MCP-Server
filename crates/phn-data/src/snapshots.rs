@@ -436,6 +436,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     ),
     // End of Phase 15 prevent.
     // Phase 15 cha (EQ-08, EQ-09, EQ-10).
+    (
+        "ma_hospitals.csv",
+        include_str!("../../../snapshots/ma_hospitals.csv"),
+    ),
     // End of Phase 15 cha.
     // Phase 15 geo (EPI-13).
     (

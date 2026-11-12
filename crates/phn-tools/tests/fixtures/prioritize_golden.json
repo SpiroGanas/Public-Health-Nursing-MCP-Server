@@ -1,0 +1,1734 @@
+{
+ "description": "Golden values for EQ-09 prioritize_health_issues, computed in exact rational arithmetic by crates/phn-tools/tests/fixtures/generators/prioritize_golden.py from the equation BPR = ((A + B) x C / 3) x D (Hanlon and Pickett 1984, as quoted in Rev Panam Salud Publica 2019;43:e61).",
+ "hanlon": [
+  {
+   "a": 8,
+   "b": 14,
+   "c": 6,
+   "bpr": 44.0,
+   "bpr_exact": "44/1"
+  },
+  {
+   "a": 10,
+   "b": 20,
+   "c": 10,
+   "bpr": 100.0,
+   "bpr_exact": "100/1"
+  },
+  {
+   "a": 0,
+   "b": 0,
+   "c": 10,
+   "bpr": 0.0,
+   "bpr_exact": "0/1"
+  },
+  {
+   "a": 6.5,
+   "b": 12,
+   "c": 4,
+   "bpr": 24.666666666666668,
+   "bpr_exact": "74/3"
+  },
+  {
+   "a": 5,
+   "b": 10,
+   "c": 5,
+   "bpr": 25.0,
+   "bpr_exact": "25/1"
+  },
+  {
+   "a": 1,
+   "b": 1,
+   "c": 1,
+   "bpr": 0.6666666666666666,
+   "bpr_exact": "2/3"
+  },
+  {
+   "a": 9.5,
+   "b": 3,
+   "c": 7.25,
+   "bpr": 30.208333333333332,
+   "bpr_exact": "725/24"
+  },
+  {
+   "a": 2,
+   "b": 19.5,
+   "c": 0.5,
+   "bpr": 3.5833333333333335,
+   "bpr_exact": "43/12"
+  },
+  {
+   "a": 10,
+   "b": 0,
+   "c": 10,
+   "bpr": 33.333333333333336,
+   "bpr_exact": "100/3"
+  },
+  {
+   "a": 3,
+   "b": 17,
+   "c": 7,
+   "bpr": 46.666666666666664,
+   "bpr_exact": "140/3"
+  }
+ ],
+ "rankings": [
+  {
+   "mode": "multiply",
+   "issues": [
+    {
+     "name": "Issue 0-0",
+     "a": 0,
+     "b": 16,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-1",
+     "a": 0,
+     "b": 16,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-2",
+     "a": 3,
+     "b": 11,
+     "c": 5,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-3",
+     "a": 6,
+     "b": 15,
+     "c": 1,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 0-0",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 0-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 0-2",
+     "score": 23.333333333333332,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 0-3",
+     "score": 7.0,
+     "status": "ranked",
+     "rank": 2
+    }
+   ]
+  },
+  {
+   "mode": "multiply",
+   "issues": [
+    {
+     "name": "Issue 1-0",
+     "a": 6,
+     "b": 2,
+     "c": 7,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-1",
+     "a": 0,
+     "b": 9,
+     "c": 8,
+     "pearl": [
+      true,
+      true,
+      false,
+      false,
+      false
+     ]
+    },
+    {
+     "name": "Issue 1-2",
+     "a": 7,
+     "b": 17,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-3",
+     "a": 3,
+     "b": 9,
+     "c": 4,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-4",
+     "a": 1,
+     "b": 8,
+     "c": 7,
+     "pearl": [
+      false,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-5",
+     "a": 1,
+     "b": 9,
+     "c": 1,
+     "pearl": [
+      false,
+      true,
+      true,
+      false,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 1-0",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-2",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-3",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-4",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-5",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 1
+    }
+   ]
+  },
+  {
+   "mode": "multiply",
+   "issues": [
+    {
+     "name": "Issue 2-0",
+     "a": 7,
+     "b": 1,
+     "c": 8,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-1",
+     "a": 9,
+     "b": 14,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-2",
+     "a": 6,
+     "b": 11,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-3",
+     "a": 6,
+     "b": 12,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      false
+     ]
+    },
+    {
+     "name": "Issue 2-4",
+     "a": 4,
+     "b": 7,
+     "c": 7,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-5",
+     "a": 5,
+     "b": 0,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 2-0",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-2",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-3",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-4",
+     "score": 25.666666666666668,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 2-5",
+     "score": 15.0,
+     "status": "ranked",
+     "rank": 2
+    }
+   ]
+  },
+  {
+   "mode": "multiply",
+   "issues": [
+    {
+     "name": "Issue 3-0",
+     "a": 1,
+     "b": 18,
+     "c": 6,
+     "pearl": [
+      true,
+      true,
+      false,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-1",
+     "a": 9,
+     "b": 17,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      false
+     ]
+    },
+    {
+     "name": "Issue 3-2",
+     "a": 2,
+     "b": 20,
+     "c": 7,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-3",
+     "a": 5,
+     "b": 12,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-4",
+     "a": 9,
+     "b": 5,
+     "c": 10,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-5",
+     "a": 6,
+     "b": 0,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-6",
+     "a": 9,
+     "b": 6,
+     "c": 1,
+     "pearl": [
+      false,
+      true,
+      true,
+      false,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 3-0",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 3-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 3-2",
+     "score": 51.333333333333336,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 3-3",
+     "score": 17.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 3-4",
+     "score": 46.666666666666664,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 3-5",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 3-6",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 4
+    }
+   ]
+  },
+  {
+   "mode": "prescreen",
+   "issues": [
+    {
+     "name": "Issue 0-0",
+     "a": 8,
+     "b": 5,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-1",
+     "a": 8,
+     "b": 5,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-2",
+     "a": 2,
+     "b": 13,
+     "c": 1,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-3",
+     "a": 0,
+     "b": 14,
+     "c": 5,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      false
+     ]
+    },
+    {
+     "name": "Issue 0-4",
+     "a": 10,
+     "b": 14,
+     "c": 7,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-5",
+     "a": 7,
+     "b": 12,
+     "c": 10,
+     "pearl": [
+      true,
+      false,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 0-0",
+     "score": 13.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 0-1",
+     "score": 13.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 0-2",
+     "score": 5.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 0-3",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 0-4",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 0-5",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "mode": "prescreen",
+   "issues": [
+    {
+     "name": "Issue 1-0",
+     "a": 9,
+     "b": 14,
+     "c": 8,
+     "pearl": [
+      false,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-1",
+     "a": 1,
+     "b": 12,
+     "c": 10,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-2",
+     "a": 4,
+     "b": 13,
+     "c": 1,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-3",
+     "a": 4,
+     "b": 4,
+     "c": 7,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-4",
+     "a": 10,
+     "b": 7,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 1-0",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 1-1",
+     "score": 43.333333333333336,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-2",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 1-3",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 1-4",
+     "score": 17.0,
+     "status": "ranked",
+     "rank": 2
+    }
+   ]
+  },
+  {
+   "mode": "prescreen",
+   "issues": [
+    {
+     "name": "Issue 2-0",
+     "a": 10,
+     "b": 20,
+     "c": 10,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-1",
+     "a": 6,
+     "b": 11,
+     "c": 5,
+     "pearl": [
+      true,
+      true,
+      false,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-2",
+     "a": 10,
+     "b": 7,
+     "c": 9,
+     "pearl": [
+      true,
+      false,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-3",
+     "a": 3,
+     "b": 15,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-4",
+     "a": 5,
+     "b": 5,
+     "c": 8,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-5",
+     "a": 10,
+     "b": 10,
+     "c": 9,
+     "pearl": [
+      false,
+      true,
+      true,
+      false,
+      false
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 2-0",
+     "score": 100.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 2-1",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 2-2",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 2-3",
+     "score": 24.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-4",
+     "score": 26.666666666666668,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 2-5",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "mode": "prescreen",
+   "issues": [
+    {
+     "name": "Issue 3-0",
+     "a": 5,
+     "b": 16,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-1",
+     "a": 10,
+     "b": 12,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-2",
+     "a": 1,
+     "b": 5,
+     "c": 6,
+     "pearl": [
+      false,
+      false,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-3",
+     "a": 8,
+     "b": 13,
+     "c": 5,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-4",
+     "a": 0,
+     "b": 11,
+     "c": 8,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-5",
+     "a": 2,
+     "b": 0,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      false
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 3-0",
+     "score": 28.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 3-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 3-2",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 3-3",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 3-4",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    },
+    {
+     "name": "Issue 3-5",
+     "score": null,
+     "status": "screened_out",
+     "rank": null
+    }
+   ]
+  },
+  {
+   "mode": "off",
+   "issues": [
+    {
+     "name": "Issue 0-0",
+     "a": 6,
+     "b": 7,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-1",
+     "a": 6,
+     "b": 7,
+     "c": 3,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-2",
+     "a": 5,
+     "b": 20,
+     "c": 1,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-3",
+     "a": 2,
+     "b": 12,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-4",
+     "a": 0,
+     "b": 15,
+     "c": 9,
+     "pearl": [
+      true,
+      false,
+      false,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-5",
+     "a": 10,
+     "b": 5,
+     "c": 3,
+     "pearl": [
+      false,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 0-6",
+     "a": 0,
+     "b": 4,
+     "c": 8,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 0-0",
+     "score": 13.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 0-1",
+     "score": 13.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 0-2",
+     "score": 8.333333333333334,
+     "status": "ranked",
+     "rank": 7
+    },
+    {
+     "name": "Issue 0-3",
+     "score": 18.666666666666668,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 0-4",
+     "score": 45.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 0-5",
+     "score": 15.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 0-6",
+     "score": 10.666666666666666,
+     "status": "ranked",
+     "rank": 6
+    }
+   ]
+  },
+  {
+   "mode": "off",
+   "issues": [
+    {
+     "name": "Issue 1-0",
+     "a": 6,
+     "b": 2,
+     "c": 7,
+     "pearl": [
+      true,
+      false,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-1",
+     "a": 10,
+     "b": 14,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-2",
+     "a": 5,
+     "b": 14,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-3",
+     "a": 2,
+     "b": 8,
+     "c": 10,
+     "pearl": [
+      true,
+      true,
+      false,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 1-4",
+     "a": 3,
+     "b": 10,
+     "c": 1,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      false
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 1-0",
+     "score": 18.666666666666668,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 1-1",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 5
+    },
+    {
+     "name": "Issue 1-2",
+     "score": 57.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 1-3",
+     "score": 33.333333333333336,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 1-4",
+     "score": 4.333333333333333,
+     "status": "ranked",
+     "rank": 4
+    }
+   ]
+  },
+  {
+   "mode": "off",
+   "issues": [
+    {
+     "name": "Issue 2-0",
+     "a": 6,
+     "b": 0,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-1",
+     "a": 7,
+     "b": 10,
+     "c": 2,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-2",
+     "a": 1,
+     "b": 12,
+     "c": 2,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-3",
+     "a": 4,
+     "b": 10,
+     "c": 5,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-4",
+     "a": 4,
+     "b": 12,
+     "c": 5,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-5",
+     "a": 4,
+     "b": 7,
+     "c": 0,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 2-6",
+     "a": 4,
+     "b": 2,
+     "c": 0,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 2-0",
+     "score": 18.0,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 2-1",
+     "score": 11.333333333333334,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 2-2",
+     "score": 8.666666666666666,
+     "status": "ranked",
+     "rank": 5
+    },
+    {
+     "name": "Issue 2-3",
+     "score": 23.333333333333332,
+     "status": "ranked",
+     "rank": 2
+    },
+    {
+     "name": "Issue 2-4",
+     "score": 26.666666666666668,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 2-5",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 6
+    },
+    {
+     "name": "Issue 2-6",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 6
+    }
+   ]
+  },
+  {
+   "mode": "off",
+   "issues": [
+    {
+     "name": "Issue 3-0",
+     "a": 3,
+     "b": 9,
+     "c": 0,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      false
+     ]
+    },
+    {
+     "name": "Issue 3-1",
+     "a": 10,
+     "b": 19,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-2",
+     "a": 10,
+     "b": 8,
+     "c": 9,
+     "pearl": [
+      true,
+      true,
+      true,
+      false,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-3",
+     "a": 3,
+     "b": 19,
+     "c": 8,
+     "pearl": [
+      true,
+      false,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-4",
+     "a": 3,
+     "b": 13,
+     "c": 4,
+     "pearl": [
+      true,
+      true,
+      false,
+      true,
+      true
+     ]
+    },
+    {
+     "name": "Issue 3-5",
+     "a": 9,
+     "b": 16,
+     "c": 0,
+     "pearl": [
+      false,
+      false,
+      true,
+      true,
+      false
+     ]
+    },
+    {
+     "name": "Issue 3-6",
+     "a": 5,
+     "b": 17,
+     "c": 9,
+     "pearl": [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    }
+   ],
+   "expected": [
+    {
+     "name": "Issue 3-0",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 6
+    },
+    {
+     "name": "Issue 3-1",
+     "score": 87.0,
+     "status": "ranked",
+     "rank": 1
+    },
+    {
+     "name": "Issue 3-2",
+     "score": 54.0,
+     "status": "ranked",
+     "rank": 4
+    },
+    {
+     "name": "Issue 3-3",
+     "score": 58.666666666666664,
+     "status": "ranked",
+     "rank": 3
+    },
+    {
+     "name": "Issue 3-4",
+     "score": 21.333333333333332,
+     "status": "ranked",
+     "rank": 5
+    },
+    {
+     "name": "Issue 3-5",
+     "score": 0.0,
+     "status": "ranked",
+     "rank": 6
+    },
+    {
+     "name": "Issue 3-6",
+     "score": 66.0,
+     "status": "ranked",
+     "rank": 2
+    }
+   ]
+  }
+ ],
+ "nominal": [
+  {
+   "participants": 6,
+   "ranks_per_participant": 3,
+   "counts": {
+    "Topic 0": [
+     2,
+     1,
+     2
+    ],
+    "Topic 1": [
+     1,
+     0,
+     2
+    ],
+    "Topic 2": [
+     1,
+     3,
+     1
+    ],
+    "Topic 3": [
+     2,
+     2,
+     1
+    ]
+   },
+   "points": {
+    "Topic 0": 10,
+    "Topic 1": 5,
+    "Topic 2": 10,
+    "Topic 3": 11
+   },
+   "ranks": {
+    "Topic 0": 2,
+    "Topic 1": 4,
+    "Topic 2": 2,
+    "Topic 3": 1
+   }
+  },
+  {
+   "participants": 9,
+   "ranks_per_participant": 5,
+   "counts": {
+    "Topic 0": [
+     0,
+     2,
+     1,
+     1,
+     5
+    ],
+    "Topic 1": [
+     2,
+     2,
+     4,
+     1,
+     0
+    ],
+    "Topic 2": [
+     3,
+     1,
+     2,
+     1,
+     2
+    ],
+    "Topic 3": [
+     2,
+     2,
+     1,
+     2,
+     2
+    ],
+    "Topic 4": [
+     2,
+     2,
+     1,
+     4,
+     0
+    ]
+   },
+   "points": {
+    "Topic 0": 18,
+    "Topic 1": 32,
+    "Topic 2": 29,
+    "Topic 3": 27,
+    "Topic 4": 29
+   },
+   "ranks": {
+    "Topic 0": 5,
+    "Topic 1": 1,
+    "Topic 2": 2,
+    "Topic 3": 4,
+    "Topic 4": 2
+   }
+  },
+  {
+   "participants": 13,
+   "ranks_per_participant": 3,
+   "counts": {
+    "Topic 0": [
+     2,
+     0,
+     5
+    ],
+    "Topic 1": [
+     3,
+     5,
+     0
+    ],
+    "Topic 2": [
+     3,
+     3,
+     3
+    ],
+    "Topic 3": [
+     2,
+     5,
+     2
+    ],
+    "Topic 4": [
+     3,
+     0,
+     3
+    ]
+   },
+   "points": {
+    "Topic 0": 11,
+    "Topic 1": 19,
+    "Topic 2": 18,
+    "Topic 3": 18,
+    "Topic 4": 12
+   },
+   "ranks": {
+    "Topic 0": 5,
+    "Topic 1": 1,
+    "Topic 2": 2,
+    "Topic 3": 2,
+    "Topic 4": 4
+   }
+  },
+  {
+   "participants": 14,
+   "ranks_per_participant": 2,
+   "counts": {
+    "Topic 0": [
+     4,
+     4
+    ],
+    "Topic 1": [
+     3,
+     4
+    ],
+    "Topic 2": [
+     4,
+     1
+    ],
+    "Topic 3": [
+     3,
+     5
+    ]
+   },
+   "points": {
+    "Topic 0": 12,
+    "Topic 1": 10,
+    "Topic 2": 9,
+    "Topic 3": 11
+   },
+   "ranks": {
+    "Topic 0": 1,
+    "Topic 1": 3,
+    "Topic 2": 4,
+    "Topic 3": 2
+   }
+  },
+  {
+   "participants": 7,
+   "ranks_per_participant": 3,
+   "counts": {
+    "Topic 0": [
+     2,
+     4,
+     1
+    ],
+    "Topic 1": [
+     3,
+     0,
+     4
+    ],
+    "Topic 2": [
+     2,
+     3,
+     2
+    ]
+   },
+   "points": {
+    "Topic 0": 15,
+    "Topic 1": 13,
+    "Topic 2": 14
+   },
+   "ranks": {
+    "Topic 0": 1,
+    "Topic 1": 3,
+    "Topic 2": 2
+   }
+  }
+ ]
+}

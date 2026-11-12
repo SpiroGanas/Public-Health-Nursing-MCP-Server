@@ -2059,6 +2059,35 @@
           "rows": 73
         }
       ]
+    },
+    {
+      "id": "cms-ma-hospitals",
+      "title": "Massachusetts hospitals (CMS Hospital General Information, directory fields)",
+      "publisher": "Centers for Medicare & Medicaid Services, Provider Data Catalog (Care Compare)",
+      "source_urls": [
+        "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0",
+        "https://data.cms.gov/provider-data/dataset/xubh-q36u"
+      ],
+      "source_sha256": {
+        "hospital_general_information_ma.json": "13a3c58d29ddcc66cabc16a399e3d329dfa24d5f644dca7fdff027a895262b1c"
+      },
+      "source_vintage": "CMS Hospital General Information as served on 2026-11-12 (84 Massachusetts rows)",
+      "retrieved": "2026-11-12",
+      "license": "CMS open data (public domain).",
+      "derivation": "Directory fields only (CMS certification number, name, address, town, ZIP code, county, hospital type, ownership, emergency services); names and towns are title-cased and CMS postal cities that are Boston neighborhoods or villages are mapped to the municipality (Boston, Northampton, Concord, Bourne, Attleboro). Quality ratings are not kept. Builder: xtask/scripts/build_cha_snapshots.py.",
+      "caveats": [
+        "CMS lists hospital facilities, not health systems: a community health needs assessment may cover several facilities.",
+        "Ownership is CMS's field; only non-profit acute care hospitals file community benefits reports with the Massachusetts Attorney General.",
+        "CMS may be behind recent openings, closures, and renamings."
+      ],
+      "files": [
+        {
+          "path": "ma_hospitals.csv",
+          "sha256": "b37e06fae868bad70e959aa67be3f8d27c4a04edb0708eaf4aa227edd5b6621e",
+          "bytes": 10815,
+          "rows": 84
+        }
+      ]
     }
   ]
 }

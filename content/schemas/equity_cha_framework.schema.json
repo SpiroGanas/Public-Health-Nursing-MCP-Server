@@ -1,0 +1,513 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/equity_cha_framework.schema.json",
+  "title": "Community health assessment framework and hospital CHNA guidance",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "framework",
+    "partner_sectors",
+    "context_prompts",
+    "context_how_to",
+    "chna",
+    "report_outline",
+    "not_verified"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "equity-cha-framework"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "cited": {
+      "type": "object",
+      "required": [
+        "text",
+        "source",
+        "section",
+        "confidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "sources": {
+      "$ref": "#/$defs/sources"
+    },
+    "framework": {
+      "type": "object",
+      "required": [
+        "name",
+        "owner",
+        "released",
+        "released_source",
+        "source_status",
+        "phases",
+        "assessments",
+        "partner_assessment_facts",
+        "equity_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "released": {
+          "type": "string"
+        },
+        "released_source": {
+          "type": "string"
+        },
+        "source_status": {
+          "type": "string"
+        },
+        "phases": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "number",
+              "name",
+              "summary",
+              "activities",
+              "confidence",
+              "source"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "number": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "activities": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/cited"
+                }
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "source": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "assessments": {
+          "type": "array",
+          "minItems": 3,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "name",
+              "data",
+              "purpose",
+              "server_tools",
+              "source",
+              "section",
+              "confidence"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "data": {
+                "type": "string"
+              },
+              "purpose": {
+                "type": "string"
+              },
+              "server_tools": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source": {
+                "type": "string"
+              },
+              "section": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              }
+            }
+          }
+        },
+        "partner_assessment_facts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "equity_note": {
+          "$ref": "#/$defs/cited"
+        }
+      }
+    },
+    "partner_sectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "keywords",
+          "why"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "why": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "context_prompts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "context_how_to": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/cited"
+      }
+    },
+    "chna": {
+      "type": "object",
+      "required": [
+        "federal",
+        "massachusetts",
+        "elements",
+        "directory",
+        "how_to_collect",
+        "theme_vocabulary"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "federal": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "massachusetts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/cited"
+          }
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "directory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "title",
+              "url",
+              "what",
+              "source",
+              "confidence",
+              "note"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string",
+                "pattern": "^https://"
+              },
+              "what": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              },
+              "confidence": {
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "how_to_collect": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "theme_vocabulary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "label",
+              "keywords"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "keywords": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "report_outline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "guidance"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "guidance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "not_verified": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
