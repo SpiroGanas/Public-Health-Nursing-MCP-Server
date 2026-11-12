@@ -64,16 +64,39 @@ async fn a_blank_request_returns_scaffolds_checklist_and_files() {
     let s = call_ok(&h, "plan_quality_improvement", json!({})).await;
     let d = &s["data"];
     assert_eq!(d["questions"].as_array().unwrap().len(), 3);
-    assert_eq!(d["questions"][1]["question"], "How will we know that a change is an improvement?");
+    assert_eq!(
+        d["questions"][1]["question"],
+        "How will we know that a change is an improvement?"
+    );
     assert_eq!(d["driver_diagram"]["is_scaffold"], true);
     assert_eq!(d["fishbone"]["is_scaffold"], true);
     assert_eq!(d["process_map"]["is_scaffold"], true);
-    assert!(d["driver_diagram"]["mermaid"].as_str().unwrap().starts_with("flowchart LR"));
-    assert!(d["fishbone"]["mermaid"].as_str().unwrap().starts_with("mindmap"));
+    assert!(
+        d["driver_diagram"]["mermaid"]
+            .as_str()
+            .unwrap()
+            .starts_with("flowchart LR")
+    );
+    assert!(
+        d["fishbone"]["mermaid"]
+            .as_str()
+            .unwrap()
+            .starts_with("mindmap")
+    );
     assert_eq!(d["squire"]["items"].as_array().unwrap().len(), 18);
-    assert!(d["squire"]["license_note"].as_str().unwrap().contains("copyrighted"));
+    assert!(
+        d["squire"]["license_note"]
+            .as_str()
+            .unwrap()
+            .contains("copyrighted")
+    );
     assert!(d["analysis"].is_null());
-    let files: Vec<&str> = d["files"].as_array().unwrap().iter().map(|f| f.as_str().unwrap()).collect();
+    let files: Vec<&str> = d["files"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|f| f.as_str().unwrap())
+        .collect();
     assert!(files.iter().any(|f| f.ends_with("_plan.docx")));
     assert!(files.iter().any(|f| f.ends_with("_tracker.xlsx")));
     for f in &files {
@@ -81,7 +104,10 @@ async fn a_blank_request_returns_scaffolds_checklist_and_files() {
         assert!(file(&h, f).exists(), "{f}");
     }
     // The SVGs are accessible: role, a title, and a description.
-    let svg_path = files.iter().find(|f| f.ends_with("driver_diagram.svg")).unwrap();
+    let svg_path = files
+        .iter()
+        .find(|f| f.ends_with("driver_diagram.svg"))
+        .unwrap();
     let svg = std::fs::read_to_string(file(&h, svg_path)).unwrap();
     assert!(svg.contains("role=\"img\"") && svg.contains("<title") && svg.contains("<desc"));
     assert!(pending(&s));
@@ -130,27 +156,73 @@ async fn a_full_plan_builds_the_aim_diagrams_and_pdsa_checks() {
         "We will increase the share of two-year-olds up to date for children 24-35 months at the Elm Street clinic from 68% to 80% by June 30, 2027."
     );
     assert_eq!(d["driver_diagram"]["is_scaffold"], false);
-    assert!(d["driver_diagram"]["mermaid"].as_str().unwrap().contains("Verify phone numbers"));
-    assert!(d["fishbone"]["outline"].as_array().unwrap().iter().any(|l| l.as_str().unwrap().contains("Staff unsure")));
+    assert!(
+        d["driver_diagram"]["mermaid"]
+            .as_str()
+            .unwrap()
+            .contains("Verify phone numbers")
+    );
+    assert!(
+        d["fishbone"]["outline"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|l| l.as_str().unwrap().contains("Staff unsure"))
+    );
     let pm = d["process_map"]["mermaid"].as_str().unwrap();
     assert!(pm.contains("N2 -->|No| N1") && pm.contains("class N2 pain"));
     let checks = d["pdsa"]["checks"].as_array().unwrap();
-    let status = |id: &str| checks.iter().find(|c| c["id"] == id).unwrap()["status"].as_str().unwrap().to_string();
+    let status = |id: &str| {
+        checks.iter().find(|c| c["id"] == id).unwrap()["status"]
+            .as_str()
+            .unwrap()
+            .to_string()
+    };
     assert_eq!(status("prediction"), "met");
     assert_eq!(status("small_scale"), "met");
     assert_eq!(status("linked_cycles"), "judgment");
     assert_eq!(d["squire"]["done"], 1);
     assert_eq!(d["squire"]["items"][5]["status"], "done");
-    assert!(d["measures"]["checks"].as_array().unwrap().iter().all(|c| c["status"] != "missing"));
-    assert!(!d["measures"]["measures"][1]["missing"].as_array().unwrap().is_empty());
+    assert!(
+        d["measures"]["checks"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|c| c["status"] != "missing")
+    );
+    assert!(
+        !d["measures"]["measures"][1]["missing"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
     // Files carry the project name.
-    assert!(d["files"].as_array().unwrap().iter().all(|f| f.as_str().unwrap().contains("Vaccine_reminders")));
+    assert!(
+        d["files"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|f| f.as_str().unwrap().contains("Vaccine_reminders"))
+    );
     // The DOCX passes the server's own accessibility check (headings in order, alt text, headers).
-    let plan = d["files"].as_array().unwrap().iter().find(|f| f.as_str().unwrap().ends_with("_plan.docx")).unwrap().as_str().unwrap().to_string();
-    let r = h.call("check_document_accessibility", json!({"path": plan})).await;
+    let plan = d["files"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|f| f.as_str().unwrap().ends_with("_plan.docx"))
+        .unwrap()
+        .as_str()
+        .unwrap()
+        .to_string();
+    let r = h
+        .call("check_document_accessibility", json!({"path": plan}))
+        .await;
     assert_eq!(r.is_error, Some(false), "{}", everything(&r));
     let report = r.structured_content.unwrap();
-    let failed: Vec<String> = report["data"]["report"]["checks"].as_array().unwrap().iter()
+    let failed: Vec<String> = report["data"]["report"]["checks"]
+        .as_array()
+        .unwrap()
+        .iter()
         .filter(|c| c["status"] == "fail")
         .map(|c| c["id"].as_str().unwrap().to_string())
         .collect();
@@ -172,18 +244,42 @@ async fn an_inline_run_chart_finds_a_planted_shift_with_both_rule_sets() {
     .await;
     let a = &s["data"]["analysis"];
     let findings = a["findings"].as_array().unwrap();
-    assert!(findings.iter().any(|f| f["rule_set"] == "ihi" && f["rule"] == "shift" && f["periods"] == "M13 to M20"));
-    assert!(findings.iter().any(|f| f["rule_set"] == "anhoej" && f["rule"] == "unusually long run"));
+    assert!(
+        findings.iter().any(|f| f["rule_set"] == "ihi"
+            && f["rule"] == "shift"
+            && f["periods"] == "M13 to M20")
+    );
+    assert!(
+        findings
+            .iter()
+            .any(|f| f["rule_set"] == "anhoej" && f["rule"] == "unusually long run")
+    );
     assert_eq!(a["phases"][0]["center"], 5.0);
-    assert!(a["text_alternative"].as_str().unwrap().contains("Run chart: Reminder calls per week"));
+    assert!(
+        a["text_alternative"]
+            .as_str()
+            .unwrap()
+            .contains("Run chart: Reminder calls per week")
+    );
     let chart = &a["chart"];
     let svg = std::fs::read_to_string(file(&h, chart["svg"].as_str().unwrap())).unwrap();
     assert!(svg.contains("<title") && svg.contains("<desc"));
     assert!(file(&h, chart["png"].as_str().unwrap()).exists());
-    assert!(a["mermaid_chart"].as_str().unwrap().starts_with("xychart-beta"));
+    assert!(
+        a["mermaid_chart"]
+            .as_str()
+            .unwrap()
+            .starts_with("xychart-beta")
+    );
     // The IHI rules and the Anhøj rules are described, with their caveat about the Perla rules.
     assert!(caveats(&s).contains("Perla"));
-    assert!(s["sources"].as_array().unwrap().iter().any(|x| x["mode"] == "computed"));
+    assert!(
+        s["sources"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|x| x["mode"] == "computed")
+    );
     // A control chart from the same series is a different chart type with limits.
     let s = call_ok(
         &h,
@@ -211,20 +307,45 @@ async fn a_measure_file_returns_only_period_results_and_hides_small_counts() {
     .await;
     let a = &s["data"]["analysis"];
     assert_eq!(a["periods"], 20);
-    let april = a["rows"].as_array().unwrap().iter().find(|r| r["label"] == "2026-04").unwrap();
+    let april = a["rows"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|r| r["label"] == "2026-04")
+        .unwrap();
     assert_eq!(april["suppressed"], true);
     assert!(april["value"].is_null());
     assert_eq!(a["values_withheld"], true);
-    assert!(a["rows"].as_array().unwrap().iter().all(|r| r.get("center").is_none()));
-    assert!(a["phases"].as_array().unwrap().iter().all(|p| p.get("center").is_none()));
+    assert!(
+        a["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|r| r.get("center").is_none())
+    );
+    assert!(
+        a["phases"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|p| p.get("center").is_none())
+    );
     assert!(a["mermaid_chart"].is_null());
     assert_eq!(s["privacy"]["suppression_applied"], true);
     assert_eq!(s["privacy"]["suppression_threshold"], 5);
-    assert!(!s["privacy"]["identifiers_detected"].as_array().unwrap().is_empty());
+    assert!(
+        !s["privacy"]["identifiers_detected"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
     let all = everything(&h.call("plan_quality_improvement",
         json!({"sections": ["analysis"], "path": "qi_clinic_measure.csv", "period_column": "Month",
                "numerator_column": "Children Up To Date", "denominator_column": "Children Seen"})).await);
-    assert!(leaks(&all, "data/qi_clinic_measure.csv", None).is_empty(), "{all}");
+    assert!(
+        leaks(&all, "data/qi_clinic_measure.csv", None).is_empty(),
+        "{all}"
+    );
     // An event file groups rows by date: weekly counts of a line list, small counts hidden, and
     // nothing from the identifier columns returned.
     let r = h
@@ -262,9 +383,17 @@ async fn identifier_columns_and_bad_input_are_tool_errors() {
                    "numerator_column": col}),
         )
         .await;
-        assert!(leaks(&e, "data/qi_clinic_measure.csv", None).is_empty(), "{e}");
+        assert!(
+            leaks(&e, "data/qi_clinic_measure.csv", None).is_empty(),
+            "{e}"
+        );
     }
-    let e = call_err(&h, "plan_quality_improvement", json!({"sections": ["analysis"]})).await;
+    let e = call_err(
+        &h,
+        "plan_quality_improvement",
+        json!({"sections": ["analysis"]}),
+    )
+    .await;
     assert!(e.contains("needs your measure data"));
     let e = call_err(
         &h,
@@ -273,9 +402,19 @@ async fn identifier_columns_and_bad_input_are_tool_errors() {
     )
     .await;
     assert!(e.contains("not a step number"));
-    let e = call_err(&h, "plan_quality_improvement", json!({"squire_status": [{"item": 0}]})).await;
+    let e = call_err(
+        &h,
+        "plan_quality_improvement",
+        json!({"squire_status": [{"item": 0}]}),
+    )
+    .await;
     assert!(e.contains("between 1 and 18"));
-    let e = call_err(&h, "plan_quality_improvement", json!({"aim": {"by": "1850-01-01"}})).await;
+    let e = call_err(
+        &h,
+        "plan_quality_improvement",
+        json!({"aim": {"by": "1850-01-01"}}),
+    )
+    .await;
     assert!(e.contains("1900 and 2100"));
     let e = call_err(
         &h,
@@ -303,15 +442,29 @@ async fn contact_details_typed_into_the_request_are_flagged() {
                "measures": [{"name": "Percent up to date", "kind": "outcome", "owner": "Call Pat at 413-555-0199"}]}),
     )
     .await;
-    assert!(!s["privacy"]["identifiers_detected"].as_array().unwrap().is_empty());
-    assert!(s["privacy"]["notes"].as_array().unwrap().iter().any(|n| n.as_str().unwrap().contains("roles")));
+    assert!(
+        !s["privacy"]["identifiers_detected"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
+    assert!(
+        s["privacy"]["notes"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|n| n.as_str().unwrap().contains("roles"))
+    );
 }
 
 #[tokio::test]
 async fn the_tool_is_in_the_ebp_toolset_and_is_not_open_world() {
     let h = start(|c| c.offline = true).await;
     let tools = h.client.list_all_tools().await.unwrap();
-    let t = tools.iter().find(|t| t.name == "plan_quality_improvement").unwrap();
+    let t = tools
+        .iter()
+        .find(|t| t.name == "plan_quality_improvement")
+        .unwrap();
     let ann = t.annotations.as_ref().unwrap();
     assert_eq!(ann.open_world_hint, Some(false));
     assert_eq!(ann.read_only_hint, Some(false));

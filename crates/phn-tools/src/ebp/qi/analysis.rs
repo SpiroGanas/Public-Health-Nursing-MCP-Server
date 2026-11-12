@@ -13,9 +13,7 @@ use phn_epi::spc::{self, ChartType, Input, Rule};
 
 use super::content::QiContent;
 use super::rules::{self, Perla, SHIFT_LEN, TREND_LEN};
-use super::types::{
-    AnalysisOut, AnalysisRow, Direction, Finding, PhaseOut, QiPlanArgs, RuleSet,
-};
+use super::types::{AnalysisOut, AnalysisRow, Direction, Finding, PhaseOut, QiPlanArgs, RuleSet};
 use crate::charts::{ChartFormat, write_chart};
 use crate::context::Context;
 use crate::ebp::spc::{FileMeasure, Prepared, SpcArgs, prepare_file};
@@ -117,7 +115,10 @@ pub(super) fn prepare(ctx: &Context, a: &QiPlanArgs) -> Result<Prep> {
 fn prepare_period_file(ctx: &Context, a: &QiPlanArgs, path: &str, threshold: u32) -> Result<Prep> {
     let lt = localdata::load(ctx, path, a.sheet.as_deref())?;
     let pi = lt.column(arg(&a.period_column, "period_column")?)?;
-    let ni = lt.column(arg(&a.numerator_column, "numerator_column (the count or value)")?)?;
+    let ni = lt.column(arg(
+        &a.numerator_column,
+        "numerator_column (the count or value)",
+    )?)?;
     let n = lt.table.rows.len();
     if !(2..=600).contains(&n) {
         return Err(PhnError::InvalidInput(
@@ -267,8 +268,7 @@ pub(super) fn analyze(
     }
     if chart_type == ChartType::U && prep.local.is_some() {
         return Err(PhnError::InvalidInput(
-            "u charts need an exposure for each period; give inline values and denominators"
-                .into(),
+            "u charts need an exposure for each period; give inline values and denominators".into(),
         ));
     }
     let mut phase_starts = Vec::new();
@@ -411,23 +411,27 @@ pub(super) fn analyze(
                     ),
                 });
             }
-            if !ph.astronomical.is_empty() {
-                let which: Vec<&str> = ph
-                    .astronomical
-                    .iter()
-                    .take(5)
-                    .map(|i| labels[*i].as_str())
-                    .collect();
+            // A hidden period is never named as an extreme point in the response.
+            let shown: Vec<usize> = ph
+                .astronomical
+                .iter()
+                .copied()
+                .filter(|i| !prep.hide[*i])
+                .collect();
+            if !shown.is_empty() {
+                let which: Vec<&str> = shown.iter().take(5).map(|i| labels[*i].as_str()).collect();
                 findings.push(Finding {
                     rule_set: "ihi".into(),
                     rule: "astronomical point (candidate)".into(),
                     periods: which.join(", "),
                     meaning: "A point far from the others by a screening rule (modified z-score above 3.5 against the other points). Perla treats an astronomical point as a judgment call: look at the chart and ask what happened that period.".into(),
                 });
-                for i in &ph.astronomical {
+                for i in &shown {
                     tags[*i].push("astronomical?".into());
-                    flags.push((*i, "Astronomical point (candidate)".into()));
                 }
+            }
+            for i in &ph.astronomical {
+                flags.push((*i, "Astronomical point (candidate)".into()));
             }
         }
     }
@@ -456,8 +460,8 @@ pub(super) fn analyze(
                         ph.useful_observations.unwrap_or(0)
                     ),
                 });
-                if let Some(first) = (ph.start..=ph.end)
-                    .find(|i| chart.points[*i].signals.contains(&Rule::LongRun))
+                if let Some(first) =
+                    (ph.start..=ph.end).find(|i| chart.points[*i].signals.contains(&Rule::LongRun))
                 {
                     flags.push((first, "Unusually long run (Anhøj)".into()));
                 }
@@ -499,7 +503,9 @@ pub(super) fn analyze(
                     idx.len(),
                     if idx.len() == 1 { "" } else { "s" }
                 ),
-                meaning: "Special-cause signal: the process is not stable here. Look for what changed.".into(),
+                meaning:
+                    "Special-cause signal: the process is not stable here. Look for what changed."
+                        .into(),
             });
         }
     }
@@ -554,7 +560,11 @@ pub(super) fn analyze(
             center: (!withhold).then_some(p.center * scale),
             lcl: p.lcl.filter(|_| !withhold).map(|v| v * scale),
             ucl: p.ucl.filter(|_| !withhold).map(|v| v * scale),
-            signals: tags[i].clone(),
+            signals: if prep.hide[i] {
+                Vec::new()
+            } else {
+                tags[i].clone()
+            },
             suppressed: prep.hide[i],
         })
         .collect();
@@ -611,18 +621,30 @@ pub(super) fn analyze(
         } else {
             "Center line".into()
         },
-        values: chart.points.iter().map(|p| Some(p.center * scale)).collect(),
+        values: chart
+            .points
+            .iter()
+            .map(|p| Some(p.center * scale))
+            .collect(),
         dashed: false,
     });
     if chart_type != ChartType::Run {
         spec.ref_lines.push(RefLine {
             label: "Upper control limit".into(),
-            values: chart.points.iter().map(|p| p.ucl.map(|v| v * scale)).collect(),
+            values: chart
+                .points
+                .iter()
+                .map(|p| p.ucl.map(|v| v * scale))
+                .collect(),
             dashed: true,
         });
         spec.ref_lines.push(RefLine {
             label: "Lower control limit".into(),
-            values: chart.points.iter().map(|p| p.lcl.map(|v| v * scale)).collect(),
+            values: chart
+                .points
+                .iter()
+                .map(|p| p.lcl.map(|v| v * scale))
+                .collect(),
             dashed: true,
         });
     }
@@ -659,21 +681,22 @@ pub(super) fn analyze(
         },
         title.chars().take(30).collect::<String>()
     );
-    let mut chart_files = match write_chart(ctx, &spec, &stem, a.format.unwrap_or(ChartFormat::Both)) {
-        Ok((f, rendered)) => {
-            png = phn_docs::svg::svg_to_png(&rendered.svg, 2.0).ok();
-            png_path = f.png.clone().or_else(|| f.svg.clone());
-            files.extend(f.png.iter().chain(f.svg.iter()).cloned());
-            Some(f)
-        }
-        Err(e) => {
-            caveats.push(format!(
-                "The chart file was not written: {}",
-                crate::context::error_message(&e)
-            ));
-            None
-        }
-    };
+    let mut chart_files =
+        match write_chart(ctx, &spec, &stem, a.format.unwrap_or(ChartFormat::Both)) {
+            Ok((f, rendered)) => {
+                png = phn_docs::svg::svg_to_png(&rendered.svg, 2.0).ok();
+                png_path = f.png.clone().or_else(|| f.svg.clone());
+                files.extend(f.png.iter().chain(f.svg.iter()).cloned());
+                Some(f)
+            }
+            Err(e) => {
+                caveats.push(format!(
+                    "The chart file was not written: {}",
+                    crate::context::error_message(&e)
+                ));
+                None
+            }
+        };
 
     // ---- text alternative
     let first = &labels[0];

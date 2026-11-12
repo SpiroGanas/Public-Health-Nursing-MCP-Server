@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::charts::{ChartFiles, ChartFormat};
 use crate::ebp::spc::{FileMeasure, Period};
-use crate::epr::content::{Confidence, CitedOut};
+use crate::epr::content::{CitedOut, Confidence};
 
 /// Parts of the plan. Default: all of them (the data analysis only when data are given).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize, JsonSchema)]

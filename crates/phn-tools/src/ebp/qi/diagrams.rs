@@ -77,7 +77,12 @@ fn rect(x: f32, y: f32, w: f32, h: f32, stroke: &str, dashed: bool, rx: f32) -> 
 fn arrow_path(points: &[(f32, f32)]) -> String {
     let mut d = String::new();
     for (i, (x, y)) in points.iter().enumerate() {
-        d.push_str(&format!("{}{:.1} {:.1} ", if i == 0 { "M" } else { "L" }, x, y));
+        d.push_str(&format!(
+            "{}{:.1} {:.1} ",
+            if i == 0 { "M" } else { "L" },
+            x,
+            y
+        ));
     }
     format!(
         r#"<path d="{d}" fill="none" stroke="{INK_SECONDARY}" stroke-width="1.5" marker-end="url(#arrow)"/>"#
@@ -217,7 +222,12 @@ pub fn driver_diagram(aim: &str, drivers: &[PrimaryDriver]) -> Diagram {
     for (i, p) in drivers.iter().enumerate() {
         outline.push(format!("Primary driver {}: {}", i + 1, p.name));
         for (j, s) in p.secondary.iter().enumerate() {
-            outline.push(format!("  Secondary driver {}.{}: {}", i + 1, j + 1, s.name));
+            outline.push(format!(
+                "  Secondary driver {}.{}: {}",
+                i + 1,
+                j + 1,
+                s.name
+            ));
             for c in &s.change_ideas {
                 outline.push(format!("    Change idea: {c}"));
             }
@@ -244,7 +254,14 @@ pub fn driver_diagram(aim: &str, drivers: &[PrimaryDriver]) -> Diagram {
         (x_s, "Secondary drivers"),
         (x_c, "Change ideas to test"),
     ] {
-        svg.push_str(&lines_svg(x, MARGIN - 6.0, &[label.to_string()], "start", FS, true));
+        svg.push_str(&lines_svg(
+            x,
+            MARGIN - 6.0,
+            &[label.to_string()],
+            "start",
+            FS,
+            true,
+        ));
     }
     let aim_mid = aim_y + aim_h / 2.0;
     let elbow = |x1: f32, y1: f32, x2: f32, y2: f32| {
@@ -260,17 +277,61 @@ pub fn driver_diagram(aim: &str, drivers: &[PrimaryDriver]) -> Diagram {
             }
         }
     }
-    svg.push_str(&rect(x_aim, aim_y, w_aim, aim_h, categorical(0), false, 6.0));
-    svg.push_str(&lines_svg(x_aim + PAD, aim_y + PAD, &aim_lines, "start", FS, true));
+    svg.push_str(&rect(
+        x_aim,
+        aim_y,
+        w_aim,
+        aim_h,
+        categorical(0),
+        false,
+        6.0,
+    ));
+    svg.push_str(&lines_svg(
+        x_aim + PAD,
+        aim_y + PAD,
+        &aim_lines,
+        "start",
+        FS,
+        true,
+    ));
     for p in &prims {
         svg.push_str(&rect(x_p, p.y, w_p, p.h, categorical(1), false, 6.0));
-        svg.push_str(&lines_svg(x_p + PAD, p.y + PAD, &p.lines, "start", FS, true));
+        svg.push_str(&lines_svg(
+            x_p + PAD,
+            p.y + PAD,
+            &p.lines,
+            "start",
+            FS,
+            true,
+        ));
         for s in &p.secs {
             svg.push_str(&rect(x_s, s.y, w_s, s.h, categorical(2), false, 6.0));
-            svg.push_str(&lines_svg(x_s + PAD, s.y + PAD, &s.lines, "start", FS, false));
+            svg.push_str(&lines_svg(
+                x_s + PAD,
+                s.y + PAD,
+                &s.lines,
+                "start",
+                FS,
+                false,
+            ));
             for c in &s.changes {
-                svg.push_str(&rect(x_c, c.y, w_c, c.h, categorical(6), c.placeholder, 6.0));
-                svg.push_str(&lines_svg(x_c + PAD, c.y + PAD, &c.lines, "start", FS, false));
+                svg.push_str(&rect(
+                    x_c,
+                    c.y,
+                    w_c,
+                    c.h,
+                    categorical(6),
+                    c.placeholder,
+                    6.0,
+                ));
+                svg.push_str(&lines_svg(
+                    x_c + PAD,
+                    c.y + PAD,
+                    &c.lines,
+                    "start",
+                    FS,
+                    false,
+                ));
             }
         }
     }
@@ -281,13 +342,22 @@ pub fn driver_diagram(aim: &str, drivers: &[PrimaryDriver]) -> Diagram {
     m.push_str(&format!("  A[\"Aim: {}\"]\n", mermaid_label(&aim_text)));
     for (i, p) in drivers.iter().enumerate() {
         let pid = format!("P{}", i + 1);
-        m.push_str(&format!("  {pid}[\"{}\"]\n  A --> {pid}\n", mermaid_label(&p.name)));
+        m.push_str(&format!(
+            "  {pid}[\"{}\"]\n  A --> {pid}\n",
+            mermaid_label(&p.name)
+        ));
         for (j, s) in p.secondary.iter().enumerate() {
             let sid = format!("{pid}S{}", j + 1);
-            m.push_str(&format!("  {sid}[\"{}\"]\n  {pid} --> {sid}\n", mermaid_label(&s.name)));
+            m.push_str(&format!(
+                "  {sid}[\"{}\"]\n  {pid} --> {sid}\n",
+                mermaid_label(&s.name)
+            ));
             for (k, c) in s.change_ideas.iter().enumerate() {
                 let cid = format!("{sid}C{}", k + 1);
-                m.push_str(&format!("  {cid}([\"{}\"])\n  {sid} --> {cid}\n", mermaid_label(c)));
+                m.push_str(&format!(
+                    "  {cid}([\"{}\"])\n  {sid} --> {cid}\n",
+                    mermaid_label(c)
+                ));
             }
         }
     }
@@ -329,16 +399,15 @@ pub fn fishbone(effect: &str, categories: &[CauseCategory]) -> Diagram {
             } else {
                 c.causes.clone()
             };
-            causes.iter().map(|t| wrap(t, false, size, text_w)).collect()
+            causes
+                .iter()
+                .map(|t| wrap(t, false, size, text_w))
+                .collect()
         })
         .collect();
     let need: f32 = cause_lines
         .iter()
-        .map(|cs| {
-            cs.iter()
-                .map(|l| l.len() as f32 * lh + 8.0)
-                .sum::<f32>()
-        })
+        .map(|cs| cs.iter().map(|l| l.len() as f32 * lh + 8.0).sum::<f32>())
         .fold(0.0, f32::max);
     let arm = need + 36.0;
     let label_h = 26.0f32;
@@ -377,8 +446,16 @@ pub fn fishbone(effect: &str, categories: &[CauseCategory]) -> Diagram {
             .join(", ")
     );
 
-    let mut svg = header(total_w, total_h, "Fishbone (cause-and-effect) diagram", &alt);
-    svg.push_str(&arrow_path(&[(MARGIN, spine_y), (spine_end + 0.0, spine_y)]));
+    let mut svg = header(
+        total_w,
+        total_h,
+        "Fishbone (cause-and-effect) diagram",
+        &alt,
+    );
+    svg.push_str(&arrow_path(&[
+        (MARGIN, spine_y),
+        (spine_end + 0.0, spine_y),
+    ]));
     svg.push_str(&rect(
         spine_end,
         spine_y - head_h / 2.0,
@@ -401,24 +478,39 @@ pub fn fishbone(effect: &str, categories: &[CauseCategory]) -> Diagram {
         let slot = i / 2;
         let xo = MARGIN + slot as f32 * slot_w + 36.0;
         let xi = xo + 70.0;
-        let yo = if top {
-            spine_y - arm
-        } else {
-            spine_y + arm
-        };
+        let yo = if top { spine_y - arm } else { spine_y + arm };
         svg.push_str(&format!(
             r#"<line x1="{xo:.1}" y1="{yo:.1}" x2="{xi:.1}" y2="{spine_y:.1}" stroke="{INK_SECONDARY}" stroke-width="2"/>"#
         ));
         // Category label at the outer end of the bone.
         let label_w = (phn_docs::fonts::text_width(&c.name, true, FS) + 2.0 * PAD).max(70.0);
         let ly = if top { yo - label_h } else { yo };
-        svg.push_str(&rect(xo - label_w / 2.0, ly, label_w, label_h, categorical(0), false, 5.0));
-        svg.push_str(&lines_svg(xo, ly + 5.0, &[c.name.clone()], "middle", FS, true));
+        svg.push_str(&rect(
+            xo - label_w / 2.0,
+            ly,
+            label_w,
+            label_h,
+            categorical(0),
+            false,
+            5.0,
+        ));
+        svg.push_str(&lines_svg(
+            xo,
+            ly + 5.0,
+            std::slice::from_ref(&c.name),
+            "middle",
+            FS,
+            true,
+        ));
         // Causes, from the outer end toward the spine.
         let mut offset = 12.0f32;
         for lines in &cause_lines[i] {
             let h = lines.len() as f32 * lh + 8.0;
-            let yc = if top { yo + offset + h / 2.0 } else { yo - offset - h / 2.0 };
+            let yc = if top {
+                yo + offset + h / 2.0
+            } else {
+                yo - offset - h / 2.0
+            };
             let frac = (yc - yo) / (spine_y - yo);
             let xb = xo + (xi - xo) * frac;
             svg.push_str(&format!(
@@ -439,11 +531,20 @@ pub fn fishbone(effect: &str, categories: &[CauseCategory]) -> Diagram {
     svg.push_str("</svg>");
 
     let mut m = String::from("mindmap\n");
-    m.push_str(&format!("  root(({}))\n", mermaid_label(&effect_text).replace(['(', ')'], " ")));
+    m.push_str(&format!(
+        "  root(({}))\n",
+        mermaid_label(&effect_text).replace(['(', ')'], " ")
+    ));
     for c in categories {
-        m.push_str(&format!("    {}\n", mermaid_label(&c.name).replace(['(', ')'], " ")));
+        m.push_str(&format!(
+            "    {}\n",
+            mermaid_label(&c.name).replace(['(', ')'], " ")
+        ));
         for x in &c.causes {
-            m.push_str(&format!("      {}\n", mermaid_label(x).replace(['(', ')'], " ")));
+            m.push_str(&format!(
+                "      {}\n",
+                mermaid_label(x).replace(['(', ')'], " ")
+            ));
         }
     }
     Diagram {
@@ -563,9 +664,11 @@ pub fn process_map(steps: &[MapStep]) -> Diagram {
         }
         if s.kind == StepKind::Decision {
             match s.no_goes_to {
-                Some(t) if t < steps.len() => {
-                    line.push_str(&format!(". If yes, continue to step {}; if no, go to step {}", i + 2, t + 1))
-                }
+                Some(t) if t < steps.len() => line.push_str(&format!(
+                    ". If yes, continue to step {}; if no, go to step {}",
+                    i + 2,
+                    t + 1
+                )),
                 _ => line.push_str(". If yes, continue; if no, the path is not drawn"),
             }
         }
@@ -603,12 +706,22 @@ pub fn process_map(steps: &[MapStep]) -> Diagram {
         let b = &laid[i + 1];
         svg.push_str(&arrow_path(&[(cx, a.y + a.h), (cx, b.y)]));
         if steps[i].kind == StepKind::Decision {
-            svg.push_str(&lines_svg(cx + 6.0, a.y + a.h + 2.0, &["Yes".to_string()], "start", 11.0, true));
+            svg.push_str(&lines_svg(
+                cx + 6.0,
+                a.y + a.h + 2.0,
+                &["Yes".to_string()],
+                "start",
+                11.0,
+                true,
+            ));
         }
     }
     let mut branch_n = 0.0f32;
     for (i, s) in steps.iter().enumerate() {
-        if let Some(t) = s.no_goes_to.filter(|t| *t < steps.len() && s.kind == StepKind::Decision) {
+        if let Some(t) = s
+            .no_goes_to
+            .filter(|t| *t < steps.len() && s.kind == StepKind::Decision)
+        {
             let a = &laid[i];
             let b = &laid[t];
             let x_r = cx + w / 2.0 + 26.0 + 16.0 * branch_n;
@@ -651,12 +764,29 @@ pub fn process_map(steps: &[MapStep]) -> Diagram {
                 ));
             }
             StepKind::Start | StepKind::End => {
-                svg.push_str(&rect(cx - w / 2.0, l.y, w, l.h, stroke, s.pain_point, l.h / 2.0));
+                svg.push_str(&rect(
+                    cx - w / 2.0,
+                    l.y,
+                    w,
+                    l.h,
+                    stroke,
+                    s.pain_point,
+                    l.h / 2.0,
+                ));
             }
-            StepKind::Step => svg.push_str(&rect(cx - w / 2.0, l.y, w, l.h, stroke, s.pain_point, 6.0)),
+            StepKind::Step => {
+                svg.push_str(&rect(cx - w / 2.0, l.y, w, l.h, stroke, s.pain_point, 6.0))
+            }
         }
         let text_h = l.lines.len() as f32 * LH;
-        svg.push_str(&lines_svg(cx, l.y + (l.h - text_h) / 2.0, &l.lines, "middle", FS, false));
+        svg.push_str(&lines_svg(
+            cx,
+            l.y + (l.h - text_h) / 2.0,
+            &l.lines,
+            "middle",
+            FS,
+            false,
+        ));
         if s.pain_point {
             let (px, py) = (cx - w / 2.0 + 4.0, l.y + 4.0);
             svg.push_str(&format!(
@@ -698,7 +828,10 @@ pub fn process_map(steps: &[MapStep]) -> Diagram {
                 m.push_str(&format!("  N{} --> N{}\n", i + 1, i + 2));
             }
         }
-        if let Some(t) = s.no_goes_to.filter(|t| *t < steps.len() && s.kind == StepKind::Decision) {
+        if let Some(t) = s
+            .no_goes_to
+            .filter(|t| *t < steps.len() && s.kind == StepKind::Decision)
+        {
             m.push_str(&format!("  N{} -->|No| N{}\n", i + 1, t + 1));
         }
     }
@@ -748,13 +881,26 @@ mod tests {
 
     #[test]
     fn driver_diagram_has_all_forms_and_renders() {
-        let d = driver_diagram("Raise on-time vaccination from 70% to 85% by June 2027", &drivers());
+        let d = driver_diagram(
+            "Raise on-time vaccination from 70% to 85% by June 2027",
+            &drivers(),
+        );
         assert!(d.mermaid.starts_with("flowchart LR"));
         assert!(d.mermaid.contains("P1S1C2") && d.mermaid.contains("#lt;to#gt;"));
-        assert!(d.outline.iter().any(|l| l.contains("Change idea: Clean the registry")));
-        assert!(d.svg.contains("<title id=\"diagram-title\">Driver diagram</title>"));
+        assert!(
+            d.outline
+                .iter()
+                .any(|l| l.contains("Change idea: Clean the registry"))
+        );
+        assert!(
+            d.svg
+                .contains("<title id=\"diagram-title\">Driver diagram</title>")
+        );
         assert!(d.svg.contains("&amp;"));
-        assert!(d.alt_text.contains("2 primary driver(s), 2 secondary driver(s), and 2 change idea(s)"));
+        assert!(
+            d.alt_text
+                .contains("2 primary driver(s), 2 secondary driver(s), and 2 change idea(s)")
+        );
         let png = svg_to_png(&d.svg, 1.0).unwrap();
         assert!(png.starts_with(&[0x89, b'P', b'N', b'G']));
     }
@@ -778,7 +924,10 @@ mod tests {
         let cats = vec![
             CauseCategory {
                 name: "People".into(),
-                causes: vec!["Staff unsure who owns reminders".into(), "New hires not trained".into()],
+                causes: vec![
+                    "Staff unsure who owns reminders".into(),
+                    "New hires not trained".into(),
+                ],
             },
             CauseCategory {
                 name: "Methods".into(),
@@ -791,7 +940,13 @@ mod tests {
         ];
         let f = fishbone("Many two-year-olds are behind on vaccines", &cats);
         assert!(f.mermaid.starts_with("mindmap"));
-        assert_eq!(f.outline.iter().filter(|l| l.starts_with("Category:")).count(), 3);
+        assert_eq!(
+            f.outline
+                .iter()
+                .filter(|l| l.starts_with("Category:"))
+                .count(),
+            3
+        );
         svg_to_png(&f.svg, 1.0).unwrap();
         let steps = vec![
             MapStep {
@@ -818,7 +973,9 @@ mod tests {
         ];
         let p = process_map(&steps);
         assert!(p.mermaid.contains("N2 -->|No| N1") && p.mermaid.contains("class N2 pain"));
-        assert!(p.outline[1].contains("if no, go to step 1") && p.outline[1].contains("[pain point]"));
+        assert!(
+            p.outline[1].contains("if no, go to step 1") && p.outline[1].contains("[pain point]")
+        );
         assert!(p.alt_text.contains("Pain points at step(s) 2"));
         svg_to_png(&p.svg, 1.0).unwrap();
     }

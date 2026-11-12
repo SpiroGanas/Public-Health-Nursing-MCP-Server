@@ -2,9 +2,7 @@
 
 use phn_docs::model::{Block, ImageBlock, Inline, TableBlock};
 
-use super::types::{
-    CheckStatus, QiPlanResult, SquireState,
-};
+use super::types::{CheckStatus, QiPlanResult, SquireState};
 
 /// An image for the plan: PNG bytes, the output path shown in the file, and alt text.
 pub(super) struct PlanImage {
@@ -92,19 +90,30 @@ pub(super) fn blocks(
     if let Some(a) = &r.aim {
         match &a.statement {
             Some(s) => b.push(para(format!("Aim: {s}"))),
-            None => b.push(para("[Write the aim: how much improvement, for whom, by when.]")),
+            None => b.push(para(
+                "[Write the aim: how much improvement, for whom, by when.]",
+            )),
         }
         b.push(table(
             "Aim checks",
             &["Check", "Status", "Note"],
             a.checks
                 .iter()
-                .map(|c| vec![c.label.clone(), status_word(c.status).into(), c.note.clone()])
+                .map(|c| {
+                    vec![
+                        c.label.clone(),
+                        status_word(c.status).into(),
+                        c.note.clone(),
+                    ]
+                })
                 .collect(),
         ));
     }
 
-    b.push(heading(1, "2. How will we know a change is an improvement? (measures)"));
+    b.push(heading(
+        1,
+        "2. How will we know a change is an improvement? (measures)",
+    ));
     if let Some(m) = &r.measures {
         if m.measures.is_empty() {
             b.push(para(
@@ -153,7 +162,10 @@ pub(super) fn blocks(
         })));
     }
 
-    b.push(heading(1, "3. What changes can we make? (theory of change)"));
+    b.push(heading(
+        1,
+        "3. What changes can we make? (theory of change)",
+    ));
     if let Some(d) = &r.driver_diagram {
         b.push(heading(2, "Driver diagram"));
         match &images.driver {
@@ -192,7 +204,10 @@ pub(super) fn blocks(
                 &["Item", "Plan"],
                 vec![
                     vec!["Objective".into(), dash(&c.objective)],
-                    vec!["Prediction (written before the test)".into(), dash(&c.prediction)],
+                    vec![
+                        "Prediction (written before the test)".into(),
+                        dash(&c.prediction),
+                    ],
                     vec!["Who".into(), dash(&c.who)],
                     vec!["When".into(), dash(&c.when)],
                     vec!["Where".into(), dash(&c.where_)],
@@ -210,7 +225,13 @@ pub(super) fn blocks(
             &["Check", "Status", "Note"],
             p.checks
                 .iter()
-                .map(|c| vec![c.label.clone(), status_word(c.status).into(), c.note.clone()])
+                .map(|c| {
+                    vec![
+                        c.label.clone(),
+                        status_word(c.status).into(),
+                        c.note.clone(),
+                    ]
+                })
                 .collect(),
         ));
     }
@@ -255,7 +276,13 @@ pub(super) fn blocks(
         b.push(para(format!("Cite as: {}", s.cite_as)));
         b.push(table(
             "SQUIRE 2.0 items",
-            &["#", "Item", "What it asks (paraphrase)", "Draws on", "Status"],
+            &[
+                "#",
+                "Item",
+                "What it asks (paraphrase)",
+                "Draws on",
+                "Status",
+            ],
             s.items
                 .iter()
                 .map(|i| {
@@ -274,7 +301,12 @@ pub(super) fn blocks(
     b.push(heading(1, "Review and approval"));
     b.push(table(
         "Approval",
-        &["Date", "Change or review", "By (name and title)", "Signature"],
+        &[
+            "Date",
+            "Change or review",
+            "By (name and title)",
+            "Signature",
+        ],
         vec![vec![String::new(); 4]],
     ));
     b.push(heading(1, "Sources"));

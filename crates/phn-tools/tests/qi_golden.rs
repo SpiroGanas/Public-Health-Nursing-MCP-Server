@@ -200,10 +200,10 @@ fn anhoj_prediction_limits_match_the_published_table() {
         let n = r["n"].as_u64().unwrap() as usize;
         // n points off the median (below, above) and one or two on it, so the median is exact.
         let mut values: Vec<f64> = Vec::new();
-        let (below, above, on) = if n % 2 == 0 {
+        let (below, above, on) = if n.is_multiple_of(2) {
             (n / 2, n / 2, 1)
         } else {
-            ((n - 1) / 2, (n + 1) / 2, 2)
+            ((n - 1) / 2, n.div_ceil(2), 2)
         };
         for i in 0..below.max(above) {
             if i < above {
@@ -213,9 +213,7 @@ fn anhoj_prediction_limits_match_the_published_table() {
                 values.push(10.0 - 1.0 - i as f64);
             }
         }
-        for _ in 0..on {
-            values.push(10.0);
-        }
+        values.extend(std::iter::repeat_n(10.0, on));
         let chart = spc::chart(&Input {
             chart: ChartType::Run,
             values,

@@ -8,9 +8,8 @@
 
 use phn_core::{PhnError, Result};
 use rust_xlsxwriter::{
-    Chart, ChartLine, ChartMarker, ChartMarkerType, ChartType, DataValidation,
-    DataValidationRule, Format, FormatAlign, FormatBorder, Formula, Workbook, Worksheet,
-    XlsxError,
+    Chart, ChartLine, ChartMarker, ChartMarkerType, ChartType, DataValidation, DataValidationRule,
+    Format, FormatAlign, FormatBorder, Formula, Workbook, Worksheet, XlsxError,
 };
 
 use super::rules::{self, SHIFT_LEN, TREND_LEN};
@@ -34,6 +33,9 @@ pub(super) struct TrackerInput<'a> {
     pub squire: &'a [SquireItemOut],
     pub review_note: &'a str,
 }
+
+/// One row of the Settings sheet: row, label, input value, formula, note.
+type SettingRow<'a> = (u32, &'a str, Option<f64>, Option<String>, &'a str);
 
 /// Rows 2..=last of the Data sheet carry formulas.
 fn last_row(n: usize) -> u32 {
@@ -78,9 +80,7 @@ pub(super) fn row_formulas(r: u32, proportion: bool) -> RowFormulas {
         median: format!(r#"=IF(D{r}="","",Settings!$B$5)"#),
         side: format!(r#"=IF(D{r}="","",IF(D{r}>E{r},1,IF(D{r}<E{r},-1,0)))"#),
         last_side: format!(r#"=IF(F{r}="","",IF(F{r}<>0,F{r},N(G{p})))"#),
-        run_len: format!(
-            r#"=IF(F{r}="","",IF(F{r}=0,N(H{p}),IF(F{r}=N(G{p}),N(H{p})+1,1)))"#
-        ),
+        run_len: format!(r#"=IF(F{r}="","",IF(F{r}=0,N(H{p}),IF(F{r}=N(G{p}),N(H{p})+1,1)))"#),
         shift: format!(r#"=IF(F{r}="","",IF(AND(F{r}<>0,H{r}>=Settings!$B$3),"Shift",""))"#),
         trend_len: if first {
             format!(r#"=IF(D{r}="","",1)"#)
@@ -96,8 +96,7 @@ pub(super) fn row_formulas(r: u32, proportion: bool) -> RowFormulas {
         },
         trend: format!(r#"=IF(D{r}="","",IF(J{r}>=Settings!$B$4,"Trend",""))"#),
         new_run: format!(r#"=IF(F{r}="","",IF(AND(F{r}<>0,F{r}<>N(G{p})),1,0))"#),
-        moving_range: (!first)
-            .then(|| format!(r#"=IF(OR(D{r}="",D{p}=""),"",ABS(D{r}-D{p}))"#)),
+        moving_range: (!first).then(|| format!(r#"=IF(OR(D{r}="",D{p}=""),"",ABS(D{r}-D{p}))"#)),
         center: format!(r#"=IF(D{r}="","",Settings!$B$7)"#),
         lcl: if proportion {
             format!(
@@ -155,8 +154,13 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
         let ws = wb.add_worksheet();
         ws.set_name("Read me").map_err(xe)?;
         ws.set_column_width(0, 110).map_err(xe)?;
-        ws.write_string_with_format(0, 0, format!("{}: measurement tracker", t.title), &title_fmt)
-            .map_err(xe)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            format!("{}: measurement tracker", t.title),
+            &title_fmt,
+        )
+        .map_err(xe)?;
         let lines = [
             "How to use this workbook",
             "1. Data sheet: type or paste one row per period (a month, a week) in time order, with no blank rows in the middle. Column B is the number for the period (a count, an average, or the numerator). Column C is the denominator only if the measure is a proportion. Yellow cells are for you; everything else is a formula.",
@@ -175,12 +179,16 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             "Status",
         ];
         for (i, l) in lines.iter().enumerate() {
-            let f = if matches!(*l, "How to use this workbook" | "What the rules mean" | "Privacy" | "Status") {
+            let f = if matches!(
+                *l,
+                "How to use this workbook" | "What the rules mean" | "Privacy" | "Status"
+            ) {
                 &bold
             } else {
                 &wrap
             };
-            ws.write_string_with_format(2 + i as u32, 0, *l, f).map_err(xe)?;
+            ws.write_string_with_format(2 + i as u32, 0, *l, f)
+                .map_err(xe)?;
         }
         ws.write_string_with_format(2 + lines.len() as u32, 0, t.review_note, &wrap)
             .map_err(xe)?;
@@ -190,11 +198,13 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
     {
         let ws = wb.add_worksheet();
         ws.set_name("Measures").map_err(xe)?;
-        ws.write_string_with_format(0, 0, "Aim", &bold).map_err(xe)?;
+        ws.write_string_with_format(0, 0, "Aim", &bold)
+            .map_err(xe)?;
         ws.write_string_with_format(
             0,
             1,
-            t.aim.unwrap_or("[Write the aim: how much improvement, for whom, by when]"),
+            t.aim
+                .unwrap_or("[Write the aim: how much improvement, for whom, by when]"),
             &wrap,
         )
         .map_err(xe)?;
@@ -210,7 +220,8 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             "Goal",
         ];
         for (c, h) in heads.iter().enumerate() {
-            ws.write_string_with_format(2, c as u16, *h, &head).map_err(xe)?;
+            ws.write_string_with_format(2, c as u16, *h, &head)
+                .map_err(xe)?;
             ws.set_column_width(c as u16, if c == 0 { 36.0 } else { 22.0 })
                 .map_err(xe)?;
         }
@@ -231,7 +242,8 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             .iter()
             .enumerate()
             {
-                ws.write_string_with_format(r, c as u16, *v, &wrap).map_err(xe)?;
+                ws.write_string_with_format(r, c as u16, *v, &wrap)
+                    .map_err(xe)?;
             }
         }
         let dv = DataValidation::new()
@@ -254,7 +266,11 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
         ws.set_name("Data").map_err(xe)?;
         let heads = [
             "Period",
-            if proportion { "Numerator" } else { "Count or value" },
+            if proportion {
+                "Numerator"
+            } else {
+                "Count or value"
+            },
             "Denominator (proportions only)",
             "Value",
             "Median (baseline)",
@@ -267,13 +283,18 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             "Trend signal",
             "New run (1 = yes)",
             "Moving range",
-            if proportion { "Center line (p-bar)" } else { "Center line (mean)" },
+            if proportion {
+                "Center line (p-bar)"
+            } else {
+                "Center line (mean)"
+            },
             "Lower control limit",
             "Upper control limit",
             "Outside limits",
         ];
         for (c, h) in heads.iter().enumerate() {
-            ws.write_string_with_format(0, c as u16, *h, &head).map_err(xe)?;
+            ws.write_string_with_format(0, c as u16, *h, &head)
+                .map_err(xe)?;
             ws.set_column_width(c as u16, if c == 0 { 14.0 } else { 15.0 })
                 .map_err(xe)?;
         }
@@ -284,11 +305,13 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             let f = row_formulas(r, proportion);
             let row = r - 1;
             if i < n {
-                ws.write_string_with_format(row, 0, &t.labels[i], &input_fmt).map_err(xe)?;
+                ws.write_string_with_format(row, 0, &t.labels[i], &input_fmt)
+                    .map_err(xe)?;
                 ws.write_number_with_format(row, 1, t.numerators[i], &input_fmt)
                     .map_err(xe)?;
                 if let Some(d) = t.denominators {
-                    ws.write_number_with_format(row, 2, d[i], &input_fmt).map_err(xe)?;
+                    ws.write_number_with_format(row, 2, d[i], &input_fmt)
+                        .map_err(xe)?;
                 }
             } else {
                 ws.write_blank(row, 0, &input_fmt).map_err(xe)?;
@@ -339,29 +362,97 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
         let dl = last;
         let rng = |c: &str| format!("Data!${c}$2:${c}${dl}");
         let base = format!("INDEX({},1):INDEX({},Settings!$B$2)", rng("D"), rng("D"));
-        let rows: [(u32, &str, Option<f64>, Option<String>, &str); 8] = [
-            (1, "Baseline points (the first points used for the median or center line)", Some(t.baseline_points.max(2) as f64), None, "Use 12 to 20 points when you have them. Change it after a documented process change only to start a new baseline."),
-            (2, "Shift: consecutive points on one side of the median", Some(SHIFT_LEN as f64), None, "IHI/Perla rule: 6 or more."),
-            (3, "Trend: consecutive points going one way", Some(TREND_LEN as f64), None, "IHI/Perla rule: 5 or more; a repeated value counts once."),
-            (4, "Median of the baseline points", None, Some(format!(r#"=IFERROR(MEDIAN({base}),"")"#)), "Points on the median are skipped by the run rules."),
-            (5, "Control chart type", None, Some(if proportion { r#"="p chart""# } else { r#"="XmR (individuals)""# }.to_string()), "p chart when there is a denominator each period; otherwise XmR."),
-            (6, if proportion { "Center line (p-bar: baseline numerators / baseline denominators)" } else { "Center line (mean of the baseline points)" }, None,
+        let rows: [SettingRow; 8] = [
+            (
+                1,
+                "Baseline points (the first points used for the median or center line)",
+                Some(t.baseline_points.max(2) as f64),
+                None,
+                "Use 12 to 20 points when you have them. Change it after a documented process change only to start a new baseline.",
+            ),
+            (
+                2,
+                "Shift: consecutive points on one side of the median",
+                Some(SHIFT_LEN as f64),
+                None,
+                "IHI/Perla rule: 6 or more.",
+            ),
+            (
+                3,
+                "Trend: consecutive points going one way",
+                Some(TREND_LEN as f64),
+                None,
+                "IHI/Perla rule: 5 or more; a repeated value counts once.",
+            ),
+            (
+                4,
+                "Median of the baseline points",
+                None,
+                Some(format!(r#"=IFERROR(MEDIAN({base}),"")"#)),
+                "Points on the median are skipped by the run rules.",
+            ),
+            (
+                5,
+                "Control chart type",
+                None,
+                Some(
+                    if proportion {
+                        r#"="p chart""#
+                    } else {
+                        r#"="XmR (individuals)""#
+                    }
+                    .to_string(),
+                ),
+                "p chart when there is a denominator each period; otherwise XmR.",
+            ),
+            (
+                6,
+                if proportion {
+                    "Center line (p-bar: baseline numerators / baseline denominators)"
+                } else {
+                    "Center line (mean of the baseline points)"
+                },
+                None,
                 Some(if proportion {
-                    format!(r#"=IFERROR(SUM(INDEX({n},1):INDEX({n},Settings!$B$2))/SUM(INDEX({d},1):INDEX({d},Settings!$B$2)),"")"#, n = rng("B"), d = rng("C"))
+                    format!(
+                        r#"=IFERROR(SUM(INDEX({n},1):INDEX({n},Settings!$B$2))/SUM(INDEX({d},1):INDEX({d},Settings!$B$2)),"")"#,
+                        n = rng("B"),
+                        d = rng("C")
+                    )
                 } else {
                     format!(r#"=IFERROR(AVERAGE({base}),"")"#)
-                }), "Limits are 3 sigma from the center line."),
-            (7, "Average moving range of the baseline (XmR only)", None,
-                Some(if proportion { r#"="n/a""#.to_string() } else {
-                    format!(r#"=IFERROR(AVERAGE(INDEX({m},2):INDEX({m},Settings!$B$2)),"")"#, m = rng("N"))
-                }), "XmR sigma = average moving range / 1.128."),
-            (8, "d2 constant for moving ranges of 2", Some(1.128), None, "3 / 1.128 = 2.66 times the average moving range."),
+                }),
+                "Limits are 3 sigma from the center line.",
+            ),
+            (
+                7,
+                "Average moving range of the baseline (XmR only)",
+                None,
+                Some(if proportion {
+                    r#"="n/a""#.to_string()
+                } else {
+                    format!(
+                        r#"=IFERROR(AVERAGE(INDEX({m},2):INDEX({m},Settings!$B$2)),"")"#,
+                        m = rng("N")
+                    )
+                }),
+                "XmR sigma = average moving range / 1.128.",
+            ),
+            (
+                8,
+                "d2 constant for moving ranges of 2",
+                Some(1.128),
+                None,
+                "3 / 1.128 = 2.66 times the average moving range.",
+            ),
         ];
         for (r, label, val, formula, note) in rows {
-            ws.write_string_with_format(r, 0, label, &wrap).map_err(xe)?;
+            ws.write_string_with_format(r, 0, label, &wrap)
+                .map_err(xe)?;
             match (val, formula) {
                 (Some(v), _) => {
-                    ws.write_number_with_format(r, 1, v, &input_fmt).map_err(xe)?;
+                    ws.write_number_with_format(r, 1, v, &input_fmt)
+                        .map_err(xe)?;
                 }
                 (None, Some(f)) => {
                     ws.write_formula(r, 1, Formula::new(f)).map_err(xe)?;
@@ -376,12 +467,18 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             .map_err(xe)?;
         ws.add_data_validation(1, 1, 3, 1, &dv).map_err(xe)?;
         // Runs-limit table (columns E to G, from row 2 down).
-        ws.write_string_with_format(0, 4, "IHI runs test limits", &bold).map_err(xe)?;
-        for (c, h) in ["Points off the median", "Too few runs if at most", "Too many runs if at least"]
-            .iter()
-            .enumerate()
+        ws.write_string_with_format(0, 4, "IHI runs test limits", &bold)
+            .map_err(xe)?;
+        for (c, h) in [
+            "Points off the median",
+            "Too few runs if at most",
+            "Too many runs if at least",
+        ]
+        .iter()
+        .enumerate()
         {
-            ws.write_string_with_format(1, 4 + c as u16, *h, &head).map_err(xe)?;
+            ws.write_string_with_format(1, 4 + c as u16, *h, &head)
+                .map_err(xe)?;
         }
         for (i, (n, few, many)) in runs_table().into_iter().enumerate() {
             let r = 2 + i as u32;
@@ -445,7 +542,8 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
                 continue;
             }
             ws.write_string(r, 0, *label).map_err(xe)?;
-            ws.write_formula(r, 1, Formula::new(f.as_str())).map_err(xe)?;
+            ws.write_formula(r, 1, Formula::new(f.as_str()))
+                .map_err(xe)?;
         }
         ws.write_string_with_format(
             2 + items.len() as u32 + 1,
@@ -463,13 +561,19 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
                 .set_name(name)
                 .set_categories(("Data", 1, 0, n as u32, 0))
                 .set_values(("Data", 1, 3, n as u32, 3))
-                .set_marker(&ChartMarker::new().set_type(ChartMarkerType::Circle).set_size(6));
+                .set_marker(
+                    ChartMarker::new()
+                        .set_type(ChartMarkerType::Circle)
+                        .set_size(6),
+                );
             chart
                 .add_series()
                 .set_name("Median (baseline)")
                 .set_categories(("Data", 1, 0, n as u32, 0))
                 .set_values(("Data", 1, 4, n as u32, 4))
-                .set_format(ChartLine::new().set_dash_type(rust_xlsxwriter::ChartLineDashType::Dash));
+                .set_format(
+                    ChartLine::new().set_dash_type(rust_xlsxwriter::ChartLineDashType::Dash),
+                );
             chart.title().set_name(&format!("{}: run chart", t.title));
             chart.x_axis().set_name("Period");
             chart.y_axis().set_name(name);
@@ -502,8 +606,10 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             "Decision and next cycle (Act)",
         ];
         for (c, h) in heads.iter().enumerate() {
-            ws.write_string_with_format(0, c as u16, *h, &head).map_err(xe)?;
-            ws.set_column_width(c as u16, if c == 0 { 8.0 } else { 28.0 }).map_err(xe)?;
+            ws.write_string_with_format(0, c as u16, *h, &head)
+                .map_err(xe)?;
+            ws.set_column_width(c as u16, if c == 0 { 8.0 } else { 28.0 })
+                .map_err(xe)?;
         }
         let total = t.pdsa.len().max(8);
         for i in 0..total {
@@ -524,7 +630,8 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
                 .iter()
                 .enumerate()
                 {
-                    ws.write_string_with_format(r, 1 + col as u16, *v, &wrap).map_err(xe)?;
+                    ws.write_string_with_format(r, 1 + col as u16, *v, &wrap)
+                        .map_err(xe)?;
                 }
             }
         }
@@ -535,9 +642,17 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
     {
         let ws = wb.add_worksheet();
         ws.set_name("SQUIRE").map_err(xe)?;
-        let heads = ["#", "Item", "Section", "What it asks (this tool's paraphrase)", "Status", "Where addressed in your draft"];
+        let heads = [
+            "#",
+            "Item",
+            "Section",
+            "What it asks (this tool's paraphrase)",
+            "Status",
+            "Where addressed in your draft",
+        ];
         for (c, h) in heads.iter().enumerate() {
-            ws.write_string_with_format(0, c as u16, *h, &head).map_err(xe)?;
+            ws.write_string_with_format(0, c as u16, *h, &head)
+                .map_err(xe)?;
         }
         for (c, w) in [5.0, 28.0, 18.0, 70.0, 16.0, 40.0].iter().enumerate() {
             ws.set_column_width(c as u16, *w).map_err(xe)?;
@@ -547,9 +662,12 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             ws.write_number(r, 0, f64::from(it.number)).map_err(xe)?;
             ws.write_string(r, 1, &it.name).map_err(xe)?;
             ws.write_string(r, 2, &it.section).map_err(xe)?;
-            ws.write_string_with_format(r, 3, &it.purpose, &wrap).map_err(xe)?;
-            ws.write_string_with_format(r, 4, state_label(it.status), &input_fmt).map_err(xe)?;
-            ws.write_string_with_format(r, 5, opt(&it.where_addressed), &input_fmt).map_err(xe)?;
+            ws.write_string_with_format(r, 3, &it.purpose, &wrap)
+                .map_err(xe)?;
+            ws.write_string_with_format(r, 4, state_label(it.status), &input_fmt)
+                .map_err(xe)?;
+            ws.write_string_with_format(r, 5, opt(&it.where_addressed), &input_fmt)
+                .map_err(xe)?;
         }
         let k = t.squire.len() as u32;
         let dv = DataValidation::new()
@@ -557,9 +675,14 @@ pub(super) fn build(t: &TrackerInput) -> Result<Vec<u8>> {
             .map_err(xe)?;
         ws.add_data_validation(1, 4, k.max(1), 4, &dv).map_err(xe)?;
         ws.write_string(k + 2, 3, "Done").map_err(xe)?;
-        ws.write_formula(k + 2, 4, Formula::new(format!(r#"=COUNTIF(E2:E{},"done")"#, k + 1)))
+        ws.write_formula(
+            k + 2,
+            4,
+            Formula::new(format!(r#"=COUNTIF(E2:E{},"done")"#, k + 1)),
+        )
+        .map_err(xe)?;
+        ws.write_string(k + 3, 3, "Remaining (to do or in progress)")
             .map_err(xe)?;
-        ws.write_string(k + 3, 3, "Remaining (to do or in progress)").map_err(xe)?;
         ws.write_formula(
             k + 3,
             4,
@@ -634,7 +757,10 @@ mod golden_workbooks {
                 .map(|v| v.as_f64().unwrap())
                 .collect();
             let labels: Vec<String> = (1..=values.len()).map(|i| format!("P{i}")).collect();
-            let base = c["baseline"].as_u64().map(|b| b as usize).unwrap_or(values.len());
+            let base = c["baseline"]
+                .as_u64()
+                .map(|b| b as usize)
+                .unwrap_or(values.len());
             let bytes = build(&TrackerInput {
                 title: "Golden",
                 aim: None,
@@ -657,8 +783,18 @@ mod golden_workbooks {
         }
         // A p-chart workbook from the first control case.
         let p = &fx["control"]["p"][0];
-        let nums: Vec<f64> = p["numerators"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
-        let dens: Vec<f64> = p["denominators"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
+        let nums: Vec<f64> = p["numerators"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_f64().unwrap())
+            .collect();
+        let dens: Vec<f64> = p["denominators"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_f64().unwrap())
+            .collect();
         let labels: Vec<String> = (1..=nums.len()).map(|i| format!("P{i}")).collect();
         let bytes = build(&TrackerInput {
             title: "Golden p",
@@ -677,7 +813,12 @@ mod golden_workbooks {
         std::fs::write(std::path::Path::new(&dir).join("control_p0.xlsx"), bytes).unwrap();
         // An XmR workbook from the first control case.
         let x = &fx["control"]["xmr"][0];
-        let vals: Vec<f64> = x["values"].as_array().unwrap().iter().map(|v| v.as_f64().unwrap()).collect();
+        let vals: Vec<f64> = x["values"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_f64().unwrap())
+            .collect();
         let labels: Vec<String> = (1..=vals.len()).map(|i| format!("P{i}")).collect();
         let bytes = build(&TrackerInput {
             title: "Golden xmr",

@@ -187,9 +187,10 @@ fn build_aim(c: &QiContent, a: &AimInput) -> Result<AimOut> {
                     CheckStatus::Missing,
                     "Say whether you want the measure to increase or decrease.".into(),
                 ),
-                (Some(_), Some(b), Some(g)) if (g - b).abs() < f64::EPSILON => {
-                    (CheckStatus::Attention, "The goal equals the baseline.".into())
-                }
+                (Some(_), Some(b), Some(g)) if (g - b).abs() < f64::EPSILON => (
+                    CheckStatus::Attention,
+                    "The goal equals the baseline.".into(),
+                ),
                 (Some(Direction::Increase), Some(b), Some(g)) if g < b => (
                     CheckStatus::Attention,
                     "You chose increase, but the goal is below the baseline.".into(),
@@ -964,7 +965,8 @@ pub fn plan_quality_improvement(ctx: &Context, args: QiPlanArgs) -> Result<Envel
         )
     });
     let map_out = map_d.as_ref().map(|d| {
-        let mut g = econtent::cite_all(std::slice::from_ref(&c.process_map.description), &c.sources);
+        let mut g =
+            econtent::cite_all(std::slice::from_ref(&c.process_map.description), &c.sources);
         g.extend(c.process_map.tips.iter().map(|t| CitedOut {
             text: t.clone(),
             citation: "Drafting guidance by this tool (not quoted from a source)".into(),
@@ -1074,7 +1076,10 @@ pub fn plan_quality_improvement(ctx: &Context, args: QiPlanArgs) -> Result<Envel
                 .and_then(|bytes| write_bytes(sb, &format!("{stem}_plan.docx"), &bytes))
             {
                 Ok(p) => files.push(p),
-                Err(e) => caveats.push(format!("The DOCX plan was not written: {}", error_message(&e))),
+                Err(e) => caveats.push(format!(
+                    "The DOCX plan was not written: {}",
+                    error_message(&e)
+                )),
             }
         }
         if write_tracker {
@@ -1084,7 +1089,9 @@ pub fn plan_quality_improvement(ctx: &Context, args: QiPlanArgs) -> Result<Envel
                         a.labels.clone(),
                         a.numerators.clone(),
                         a.denominators.clone(),
-                        a.baseline_points.unwrap_or(a.labels.len()).max(12.min(a.labels.len())),
+                        a.baseline_points
+                            .unwrap_or(a.labels.len())
+                            .max(12.min(a.labels.len())),
                     ),
                     None => (
                         Vec::new(),
@@ -1146,8 +1153,15 @@ pub fn plan_quality_improvement(ctx: &Context, args: QiPlanArgs) -> Result<Envel
     {
         next.push("Add the missing measure types (outcome, process, balancing) with operational definitions.".into());
     }
-    if result.driver_diagram.as_ref().is_some_and(|d| d.is_scaffold) {
-        next.push("Build the driver diagram with your team, then re-run with the drivers filled in.".into());
+    if result
+        .driver_diagram
+        .as_ref()
+        .is_some_and(|d| d.is_scaffold)
+    {
+        next.push(
+            "Build the driver diagram with your team, then re-run with the drivers filled in."
+                .into(),
+        );
     }
     if result.pdsa.as_ref().is_some_and(|p| p.cycles.is_empty()) {
         next.push("Plan the first small PDSA test, with a prediction.".into());
@@ -1268,7 +1282,10 @@ fn summary_markdown(c: &QiContent, r: &QiPlanResult, title: &str, files: &[Strin
         s.push_str("**Measures** (outcome, process, balancing)\n\n");
         if m.measures.is_empty() {
             for t in &m.types {
-                s.push_str(&format!("- {}: {} Example: {}\n", t.label, t.plain, t.example));
+                s.push_str(&format!(
+                    "- {}: {} Example: {}\n",
+                    t.label, t.plain, t.example
+                ));
             }
         } else {
             let rows: Vec<Vec<String>> = m
@@ -1316,7 +1333,10 @@ fn summary_markdown(c: &QiContent, r: &QiPlanResult, title: &str, files: &[Strin
                     ""
                 }
             ));
-            s.push_str(&format!("{}\n\n```mermaid\n{}```\n\n", d.alt_text, d.mermaid));
+            s.push_str(&format!(
+                "{}\n\n```mermaid\n{}```\n\n",
+                d.alt_text, d.mermaid
+            ));
         }
     }
     if let Some(p) = &r.pdsa {
@@ -1340,7 +1360,13 @@ fn summary_markdown(c: &QiContent, r: &QiPlanResult, title: &str, files: &[Strin
                 })
                 .collect();
             s.push_str(&md::table(
-                &["Cycle", "Change tested", "Prediction", "Scale", "Still missing"],
+                &[
+                    "Cycle",
+                    "Change tested",
+                    "Prediction",
+                    "Scale",
+                    "Still missing",
+                ],
                 &rows,
             ));
         }
@@ -1450,7 +1476,8 @@ fn summary_markdown(c: &QiContent, r: &QiPlanResult, title: &str, files: &[Strin
 mod tests {
     use super::*;
 
-    const CLINIC: &str = include_str!("../../../../../fixtures/synthetic/data/qi_clinic_measure.csv");
+    const CLINIC: &str =
+        include_str!("../../../../../fixtures/synthetic/data/qi_clinic_measure.csv");
 
     fn ctx() -> (tempfile::TempDir, Context) {
         let dir = tempfile::tempdir().unwrap();
@@ -1557,7 +1584,11 @@ mod tests {
         assert_eq!(d.questions.len(), 3);
         let a = d.aim.as_ref().unwrap();
         assert!(a.statement.is_none());
-        assert!(a.checks.iter().any(|c| c.id == "population" && c.status == CheckStatus::Missing));
+        assert!(
+            a.checks
+                .iter()
+                .any(|c| c.id == "population" && c.status == CheckStatus::Missing)
+        );
         assert!(d.driver_diagram.as_ref().unwrap().is_scaffold);
         assert!(d.fishbone.as_ref().unwrap().is_scaffold);
         assert!(d.process_map.as_ref().unwrap().is_scaffold);
@@ -1569,7 +1600,11 @@ mod tests {
         for f in &d.files {
             assert!(dir.path().join("data").join(f).exists(), "{f}");
         }
-        assert!(r.caveats.iter().any(|c| c.contains("has not yet been reviewed")));
+        assert!(
+            r.caveats
+                .iter()
+                .any(|c| c.contains("has not yet been reviewed"))
+        );
         assert!(r.notice.is_some());
         assert!(!r.privacy.row_level_data);
     }
@@ -1582,12 +1617,26 @@ mod tests {
         let a = d.aim.as_ref().unwrap();
         assert_eq!(
             a.statement.as_deref(),
-            Some("We will increase the share of two-year-olds up to date on recommended vaccines for children 24-35 months at the Elm Street clinic from 68% to 80% by June 30, 2027.")
+            Some(
+                "We will increase the share of two-year-olds up to date on recommended vaccines for children 24-35 months at the Elm Street clinic from 68% to 80% by June 30, 2027."
+            )
         );
-        assert!(a.checks.iter().filter(|c| c.id != "feasible").all(|c| c.status == CheckStatus::Met));
+        assert!(
+            a.checks
+                .iter()
+                .filter(|c| c.id != "feasible")
+                .all(|c| c.status == CheckStatus::Met)
+        );
         let m = d.measures.as_ref().unwrap();
-        assert!(m.checks.iter().any(|c| c.id == "balancing" && c.status == CheckStatus::Missing));
-        assert_eq!(m.measures[1].missing, vec!["numerator", "data source", "frequency", "owner"]);
+        assert!(
+            m.checks
+                .iter()
+                .any(|c| c.id == "balancing" && c.status == CheckStatus::Missing)
+        );
+        assert_eq!(
+            m.measures[1].missing,
+            vec!["numerator", "data source", "frequency", "owner"]
+        );
         let p = d.pdsa.as_ref().unwrap();
         assert_eq!(p.cycles.len(), 2);
         assert!(p.cycles[1].missing.contains(&"builds on".to_string()));
@@ -1609,21 +1658,46 @@ mod tests {
         let (_d, ctx) = ctx();
         let mut a = full_args();
         a.pdsa_cycles[0].change = "  ".into();
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("needs the change"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("needs the change")
+        );
         let mut a = full_args();
         a.process_steps[1].no_goes_to = Some("Nowhere".into());
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("not a step number"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("not a step number")
+        );
         let mut a = full_args();
         a.squire_status[0].item = 19;
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("between 1 and 18"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("between 1 and 18")
+        );
         let mut a = full_args();
         a.aim.as_mut().unwrap().by = Some("1850-01-01".into());
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("1900 and 2100"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("1900 and 2100")
+        );
         let a = QiPlanArgs {
             sections: vec![Section::Analysis],
             ..Default::default()
         };
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("needs your measure data"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("needs your measure data")
+        );
         let a = QiPlanArgs {
             values: Some(vec![1.0, 2.0]),
             path: Some("qi_clinic_measure.csv".into()),
@@ -1635,7 +1709,12 @@ mod tests {
             chart_type: Some(phn_epi::spc::ChartType::P),
             ..Default::default()
         };
-        assert!(plan_quality_improvement(&ctx, a).unwrap_err().to_string().contains("denominator"));
+        assert!(
+            plan_quality_improvement(&ctx, a)
+                .unwrap_err()
+                .to_string()
+                .contains("denominator")
+        );
     }
 
     fn step_series() -> QiPlanArgs {
@@ -1661,15 +1740,35 @@ mod tests {
         let r = plan_quality_improvement(&ctx, step_series()).unwrap();
         let a = r.data.analysis.as_ref().unwrap();
         assert_eq!(a.periods, 20);
-        assert!(a.findings.iter().any(|f| f.rule_set == "ihi" && f.rule == "shift" && f.periods == "M13 to M20"));
-        assert!(a.findings.iter().any(|f| f.rule_set == "anhoej" && f.rule == "unusually long run"));
-        assert!(a.findings.iter().any(|f| f.meaning.contains("direction your aim wants")));
+        assert!(
+            a.findings
+                .iter()
+                .any(|f| f.rule_set == "ihi" && f.rule == "shift" && f.periods == "M13 to M20")
+        );
+        assert!(
+            a.findings
+                .iter()
+                .any(|f| f.rule_set == "anhoej" && f.rule == "unusually long run")
+        );
+        assert!(
+            a.findings
+                .iter()
+                .any(|f| f.meaning.contains("direction your aim wants"))
+        );
         assert!(a.rows[15].signals.contains(&"shift".to_string()));
         assert_eq!(a.phases.len(), 1);
         assert_eq!(a.phases[0].center, Some(5.0));
         assert_eq!(a.phases[0].longest_run_limit, Some(7));
-        assert!(a.mermaid_chart.as_ref().unwrap().starts_with("xychart-beta"));
-        assert!(a.text_alternative.contains("Run chart: Reminder calls per week"));
+        assert!(
+            a.mermaid_chart
+                .as_ref()
+                .unwrap()
+                .starts_with("xychart-beta")
+        );
+        assert!(
+            a.text_alternative
+                .contains("Run chart: Reminder calls per week")
+        );
         assert!(!a.values_withheld);
         // chart png + svg, plan, tracker (diagrams not requested by `sections`).
         assert_eq!(r.data.files.len(), 4, "{:?}", r.data.files);
@@ -1707,8 +1806,12 @@ mod tests {
     fn control_charts_use_the_spc_engine() {
         let (_d, ctx) = ctx();
         let a = QiPlanArgs {
-            values: Some(vec![33., 41., 32., 30., 30., 35., 36., 37., 28., 39., 43., 39.]),
-            denominators: Some(vec![50., 60., 47., 43., 46., 54., 54., 57., 43., 47., 53., 49.]),
+            values: Some(vec![
+                33., 41., 32., 30., 30., 35., 36., 37., 28., 39., 43., 39.,
+            ]),
+            denominators: Some(vec![
+                50., 60., 47., 43., 46., 54., 54., 57., 43., 47., 53., 49.,
+            ]),
             chart_type: Some(phn_epi::spc::ChartType::P),
             sections: vec![Section::Analysis],
             write_plan: Some(false),
@@ -1752,10 +1855,21 @@ mod tests {
         assert!(an.chart.as_ref().unwrap().alt_text.contains("chart file"));
         // Identifiers in the file are reported, but nothing from them is returned.
         let all = serde_json::to_string(&r).unwrap() + &r.summary;
-        for s in ["Odalys", "Fennimore", "Pemberwick", "413-555-0188", "example.org"] {
+        for s in [
+            "Odalys",
+            "Fennimore",
+            "Pemberwick",
+            "413-555-0188",
+            "example.org",
+        ] {
             assert!(!all.contains(s), "{s} leaked");
         }
-        assert!(r.privacy.identifiers_detected.iter().any(|k| k.to_lowercase().contains("phone")));
+        assert!(
+            r.privacy
+                .identifiers_detected
+                .iter()
+                .any(|k| k.to_lowercase().contains("phone"))
+        );
         // The tracker and chart are written, and the DOCX omits the chart image.
         assert!(r.data.files.iter().any(|f| f.ends_with(".xlsx")));
         assert!(r.data.files.iter().any(|f| f.ends_with(".docx")));
@@ -1794,7 +1908,12 @@ mod tests {
         let mut a = full_args();
         a.measures[0].owner = Some("Call Pat at 413-555-0199".into());
         let r = plan_quality_improvement(&ctx, a).unwrap();
-        assert!(r.privacy.identifiers_detected.iter().any(|k| k.to_lowercase().contains("phone")));
+        assert!(
+            r.privacy
+                .identifiers_detected
+                .iter()
+                .any(|k| k.to_lowercase().contains("phone"))
+        );
         assert!(r.privacy.notes.iter().any(|n| n.contains("roles")));
     }
 }

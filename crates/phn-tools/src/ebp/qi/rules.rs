@@ -305,7 +305,10 @@ fn analyze_one(values: &[f64], baseline: Option<usize>) -> PerlaPhase {
             let distinct = members.len();
             longest_trend = longest_trend.max(distinct);
             if distinct >= TREND_LEN {
-                let idx: Vec<usize> = members.iter().flat_map(|(_, i)| i.iter().copied()).collect();
+                let idx: Vec<usize> = members
+                    .iter()
+                    .flat_map(|(_, i)| i.iter().copied())
+                    .collect();
                 trends.push(Span {
                     first: idx[0],
                     last: idx[idx.len() - 1],
