@@ -9,6 +9,7 @@
     "model_for_improvement",
     "aim",
     "measure_types",
+    "measure_family_note",
     "operational_definition_fields",
     "operational_definition_note",
     "driver_diagram",
@@ -782,6 +783,9 @@
           }
         }
       }
+    },
+    "measure_family_note": {
+      "$ref": "#/$defs/cited"
     }
   }
 }

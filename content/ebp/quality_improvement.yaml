@@ -217,11 +217,11 @@ measure_types:
     source: process-improvement-methods
     section: Process Improvement and QI Principles, Methods, and Tools (measures to detect inadvertent negative consequences of changes)
     confidence: medium
-  family_note:
-    text: A robust measurement strategy uses a family of outcome, process, and balancing measures, with clear operational definitions, a feasible data collection plan, and a way to view the data over time (run charts or control charts).
-    source: core-components
-    section: Measurement, evaluation, and learning
-    confidence: high
+measure_family_note:
+  text: A robust measurement strategy uses a family of outcome, process, and balancing measures, with clear operational definitions, a feasible data collection plan, and a way to view the data over time (run charts or control charts).
+  source: core-components
+  section: Measurement, evaluation, and learning
+  confidence: high
 
 operational_definition_fields:
   - id: numerator
@@ -440,7 +440,7 @@ run_chart:
           label: Trend
           text: Five or more consecutive points all going up or all going down (a repeated value counts once).
           source: run-charts-2015
-          section: Results (example: longest trend greater than 4; repeating values count as one)
+          section: "Results (example: longest trend greater than 4; repeating values count as one)"
           confidence: medium
         - id: runs
           label: Too few or too many runs

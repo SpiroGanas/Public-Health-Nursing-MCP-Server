@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 115;
+const TOOL_COUNT = 116;
 
 const TOOLSETS = {
   core: 'core (always on)',

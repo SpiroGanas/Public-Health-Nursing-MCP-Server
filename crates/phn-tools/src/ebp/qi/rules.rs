@@ -43,6 +43,9 @@ pub struct Span {
     /// Every point in the stretch (series indices); not part of the response.
     #[serde(skip)]
     pub indices: Vec<usize>,
+    /// The point where the stretch first reaches the rule's length (where a chart marks it).
+    #[serde(skip)]
+    pub signal_at: usize,
 }
 
 /// The runs test.
@@ -268,6 +271,7 @@ fn analyze_one(values: &[f64], baseline: Option<usize>) -> PerlaPhase {
             last: i[i.len() - 1],
             length: i.len(),
             direction: if *s > 0 { "above" } else { "below" }.into(),
+            signal_at: i[SHIFT_LEN - 1],
             indices: i.clone(),
         })
         .collect();
@@ -307,6 +311,7 @@ fn analyze_one(values: &[f64], baseline: Option<usize>) -> PerlaPhase {
                     last: idx[idx.len() - 1],
                     length: distinct,
                     direction: if dir[a] > 0 { "up" } else { "down" }.into(),
+                    signal_at: members[TREND_LEN - 1].1[0],
                     indices: idx,
                 });
             }
@@ -377,6 +382,7 @@ pub fn analyze(
         for s in p.shifts.iter_mut().chain(p.trends.iter_mut()) {
             s.first += a;
             s.last += a;
+            s.signal_at += a;
             for i in s.indices.iter_mut() {
                 *i += a;
             }

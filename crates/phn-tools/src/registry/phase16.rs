@@ -27,5 +27,11 @@ pub(super) const APPRAISE: &[ToolMeta] = &[
 /// Quality improvement planning: EBP-05.
 pub(super) const QI: &[ToolMeta] = &[
     // Phase 16 qi entries go below this line.
+    ToolMeta {
+        name: "plan_quality_improvement",
+        plan_id: "EBP-05",
+        toolset: Toolset::Ebp,
+        phase: 16,
+    },
     // End of Phase 16 qi entries.
 ];
