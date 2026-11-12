@@ -1,0 +1,569 @@
+# Preventive services lookup: how the tool applies each USPSTF A or B recommendation (the simple,
+# verifiable parts of the published population), plain-language client summaries, and the
+# Massachusetts cancer screening and tobacco cessation program options, for
+# preventive_services_lookup (CHR-04). The recommendations themselves (grade, date, population,
+# wording) are in the uspstf-ab-recommendations snapshot built by
+# xtask/scripts/build_prevent_snapshots.py; this file only adds the criteria and summaries.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12 from the sources below.
+# Schema: content/schemas/chronic_preventive_services.schema.json
+meta:
+  id: chronic-preventive-services
+  title: Preventive services lookup (criteria, client summaries, Massachusetts program options)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: USPSTF recommendation statements (A and B grades) read through PubMed
+    publisher: U.S. Preventive Services Task Force
+    url: https://www.uspreventiveservicestaskforce.org/
+  related_sources:
+    - title: Massachusetts Breast and Cervical Cancer Program (MBCCP) resources for patients
+      publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+      url: https://www.mass.gov/info-details/massachusetts-breast-and-cervical-cancer-program-resources-for-patients
+    - title: MA Colorectal Cancer Control Program (MCRCCP)
+      publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+      url: https://www.mass.gov/ma-colorectal-cancer-control-program-mcrccp
+    - title: MyHealthfinder (preventive services by age, sex, and pregnancy)
+      publisher: Office of Disease Prevention and Health Promotion (ODPHP), HHS
+      url: https://odphp.health.gov/myhealthfinder
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The USPSTF web site and API were blocked from the build network, so every grade, date,
+    population, and recommendation sentence comes from the Task Force's published statements as
+    PubMed abstracts (see the snapshot), and the builder refuses to write a grade that the text
+    does not show. THIS FILE is the project's own layer on top: the age, sex, pregnancy, and
+    risk-factor criteria are transcribed from the population wording the abstracts give
+    (medium confidence; where an abstract gives no age range, the criteria block says so in
+    'assumption' and the tool says so), and the client summaries are the project's plain-language
+    drafts (medium confidence). The Massachusetts program entries are what the DPH pages said
+    on 2026-11-12 (high confidence for what the page says; the pages show no last-updated date).
+    Not verified: whether any USPSTF statement has been updated after the PubMed record, current
+    USPSTF web page wording, and whether MBCCP, MCRCCP, or the quit line have changed since the
+    pages were read. Massachusetts programs for lung, prostate, hepatitis, or HIV screening were
+    not found on the pages read and are not listed.
+
+sources:
+  mbccp-patients:
+    title: Massachusetts Breast and Cervical Cancer Program resources for patients
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/massachusetts-breast-and-cervical-cancer-program-resources-for-patients
+    effective_date: null
+    retrieved: 2026-11-12
+  mbccp-sites:
+    title: Massachusetts Breast and Cervical Cancer Program (MBCCP) screening sites
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/massachusetts-breast-and-cervical-cancer-program-mbccp-screening-sites
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-breast:
+    title: Getting screened for breast cancer
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/getting-screened-for-breast-cancer
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-cervical:
+    title: Getting screened for cervical cancer
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/getting-screened-for-cervical-cancer
+    effective_date: null
+    retrieved: 2026-11-12
+  mcrccp:
+    title: MA Colorectal Cancer Control Program (MCRCCP)
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/ma-colorectal-cancer-control-program-mcrccp
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-colon:
+    title: Colon Cancer Screening Saves Lives
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/colon-cancer-screening-saves-lives
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-colon-providers:
+    title: "Information for Providers: Advancing Colorectal Cancer Screening"
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/info-details/information-for-providers-advancing-colorectal-cancer-screening
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-prostate:
+    title: Prostate cancer screening information for providers
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/prostate-cancer-screening-information-for-providers
+    effective_date: null
+    retrieved: 2026-11-12
+  mtcp-quit:
+    title: Take the First Step (quit smoking, vaping, and other tobacco or nicotine use)
+    publisher: Massachusetts Department of Public Health, Massachusetts Tobacco Cessation and Prevention Program
+    url: https://www.mass.gov/take-the-first-step-toward-a-nicotine-free-life
+    effective_date: null
+    retrieved: 2026-11-12
+
+general_notes:
+  - The tool lists USPSTF grade A and B recommendations only. Grade C, D, and I statements, the ACIP immunization schedule, and the HRSA women's and children's preventive services lists are separate; MyHealthfinder (shown when online) draws on all of them.
+  - The tool applies only the age, sex at birth, pregnancy status, and the few risk factors it can check from simple inputs. Everything else in the published population (for example "average risk", "no known disease", "asymptomatic") is shown for the nurse to apply.
+  - USPSTF recommendations are written for people by sex assigned at birth or by organs present. For transgender and nonbinary clients, apply each recommendation to the organs and risks the person has. Massachusetts DPH says the same for breast cancer screening.
+
+programs:
+  - id: mbccp
+    name: Massachusetts Breast and Cervical Cancer Program (MBCCP)
+    offered_by: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    summary: >-
+      Education, patient navigation, and help for low-income, uninsured or underinsured people
+      in Massachusetts to get free breast and cervical cancer screening and diagnostic services:
+      scheduling mammograms and Pap tests, finding transportation or childcare, understanding
+      results, and connecting to community resources.
+    eligibility: >-
+      As DPH lists it: no health insurance, or insurance that does not cover the full cost of
+      screening and diagnostic tests; a Massachusetts resident; yearly income at or below 250%
+      of the Federal Poverty Level; breast cancer screening ages 40 to 64; cervical cancer
+      screening ages 30 to 64. DPH also says breast and cervical cancer screenings are now
+      covered by all types of insurance with no co-pay. The program's age ranges are narrower than
+      USPSTF's (cervical screening starts at 21 in the USPSTF recommendation).
+    contact: "Toll-free (877) 414-4447 (help in English, Spanish, Portuguese, Vietnamese, and Haitian Creole)"
+    sites:
+      - {name: Cambridge Health Alliance, place: Somerville, phone: "(617) 591-6923"}
+      - {name: Caring Health Center, place: Springfield, phone: "(413) 739-1100"}
+      - {name: Family Health Center of Worcester, place: Worcester, phone: "(508) 860-7700 extension 1407"}
+      - {name: Healthfirst Family Care Center, Inc., place: Fall River, phone: "(508) 679-8111"}
+      - {name: "Making Opportunity Count, Inc.", place: Fitchburg, phone: "(978) 345-7040"}
+      - {name: The Latino Health Insurance Program, place: Framingham, phone: "(508) 875-1237"}
+      - {name: "Worcester RISE for Health (Refugee and Immigrant Support and Empowerment)", place: Worcester, phone: "(774) 417-1756"}
+    url: https://www.mass.gov/info-details/massachusetts-breast-and-cervical-cancer-program-resources-for-patients
+    sources: [mbccp-patients, mbccp-sites, dph-breast, dph-cervical]
+    confidence: high
+  - id: mcrccp
+    name: MA Colorectal Cancer Control Program (MCRCCP)
+    offered_by: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    summary: >-
+      Works to increase and improve the quality of colorectal cancer screening in federally
+      qualified health centers (a learning collaborative with the health centers); it is aimed
+      at providers and health centers, not a program that pays for a client's test. DPH's patient
+      page says to be screened between ages 45 and 75 (older than 75: talk to your doctor), names
+      a yearly at-home stool test or a colonoscopy as the two main options, and offers a free
+      patient brochure on at-home screening through the Massachusetts Health Promotion
+      Clearinghouse. DPH's provider page lists the USPSTF options for average-risk adults
+      45 to 75: yearly stool tests (FIT or high-sensitivity gFOBT), flexible sigmoidoscopy every
+      5 years, or colonoscopy every 10 years.
+    eligibility: "No patient eligibility rules or cost information were on the pages read; ask the health center or DPH."
+    contact: "See the DPH page (no phone number was listed on the pages read)"
+    sites: []
+    url: https://www.mass.gov/ma-colorectal-cancer-control-program-mcrccp
+    sources: [mcrccp, dph-colon, dph-colon-providers]
+    confidence: high
+  - id: mtcp_quitline
+    name: 1-800-QUIT-NOW (Massachusetts Tobacco Cessation and Prevention Program)
+    offered_by: Massachusetts Department of Public Health, Massachusetts Tobacco Cessation and Prevention Program (MTCP)
+    summary: >-
+      A free trained quit coach by phone or online, with strategies for cravings, stress, and
+      relapse; DPH also has pages on quit medicines and insurance coverage, help for family and
+      friends, information for providers, and a quit-vaping page for young adults.
+    eligibility: "None were stated on the page read."
+    contact: "1-800-QUIT-NOW"
+    sites: []
+    url: https://www.mass.gov/take-the-first-step-toward-a-nicotine-free-life
+    sources: [mtcp-quit]
+    confidence: high
+
+# One entry per recommendation id in the snapshot (a test checks both lists match).
+# criteria: alternatives; the recommendation applies when any alternative is satisfied.
+#   age_min / age_max: whole years, inclusive. sex: any | female | male (sex at birth).
+#   pregnancy: any | pregnant | pregnant_or_postpartum | not_pregnant.
+#   all_of: flags that must all be true (see the tool for how each is worked out).
+# assumption: shown when the published wording gives no age range and the tool chose one.
+# confirm: the part of the published population the tool cannot check, for the nurse to apply.
+recommendations:
+  - id: hypertension_screening_adults
+    category: heart_metabolic
+    label: Blood pressure screening
+    criteria: [{age_min: 18, sex: any, pregnancy: any}]
+    confirm: Adults without known hypertension. Confirm high readings with blood pressure measured outside the clinic before treatment.
+    client_summary: Everyone 18 and older should have their blood pressure checked. High blood pressure often has no symptoms, and treating it prevents strokes and heart attacks.
+    programs: []
+  - id: breast_cancer_screening
+    category: cancer
+    label: Mammogram (breast cancer screening)
+    criteria: [{age_min: 40, age_max: 74, sex: female, pregnancy: any}]
+    confirm: People at average risk of breast cancer (assigned female at birth, including transgender men and nonbinary people with breast tissue). The USPSTF found not enough evidence for age 75 and older.
+    client_summary: A mammogram every two years from age 40 to 74 can find breast cancer early, when it is easiest to treat. Ask your clinician if you should start sooner or go more often because of your family history.
+    programs: [mbccp]
+  - id: breast_cancer_risk_reducing_medication
+    category: cancer
+    label: Medicines to lower breast cancer risk
+    criteria: [{age_min: 35, sex: female, pregnancy: any, all_of: [risk_breast_cancer]}]
+    confirm: Women 35 and older without symptoms who are at increased risk of breast cancer and at low risk of medicine side effects; not for current or past breast cancer or DCIS. The clinician decides who is at increased risk.
+    client_summary: If your chance of breast cancer is higher than average, there are medicines that can lower it. Talk with your clinician about the benefits and the side effects.
+    programs: []
+  - id: brca_risk_assessment
+    category: cancer
+    label: Family cancer history check for BRCA gene changes
+    criteria: [{age_min: 18, sex: female, pregnancy: any, all_of: [risk_brca]}]
+    assumption: The abstract gives no age range; the tool lists this for adults 18 and older.
+    confirm: Women with a personal or family history of breast, ovarian, tubal, or peritoneal cancer, or ancestry associated with BRCA1/2 changes. Use a brief family risk tool; genetic counseling follows a positive result. The USPSTF recommends against routine assessment for women without these histories.
+    client_summary: If breast, ovarian, tubal, or peritoneal cancer runs in your family, a short questionnaire can show whether genetic counseling is worth it for you.
+    programs: []
+  - id: cervical_cancer_screening_21_29
+    category: cancer
+    label: Pap test (cervical cancer screening), ages 21 to 29
+    criteria: [{age_min: 21, age_max: 29, sex: female, pregnancy: any}]
+    confirm: Anyone with a cervix. Not for people whose cervix was removed with a hysterectomy and who have no history of a high-grade lesion or cervical cancer. USPSTF wording for this age is a Pap test (cytology) every 3 years.
+    client_summary: If you have a cervix, a Pap test every 3 years from age 21 to 29 finds changes early, before they turn into cancer.
+    programs: [mbccp]
+  - id: cervical_cancer_screening_30_65
+    category: cancer
+    label: Cervical cancer screening, ages 30 to 65
+    criteria: [{age_min: 30, age_max: 65, sex: female, pregnancy: any}]
+    confirm: Anyone with a cervix. Not for people whose cervix was removed with a hysterectomy and who have no history of a high-grade lesion or cervical cancer. USPSTF options at this age are a Pap test every 3 years, an HPV test every 5 years, or both together every 5 years.
+    client_summary: If you have a cervix, get screened every 3 to 5 years from age 30 to 65, with a Pap test, an HPV test, or both. Your clinician can tell you which fits you.
+    programs: [mbccp]
+  - id: colorectal_cancer_screening_50_75
+    category: cancer
+    label: Colorectal cancer screening, ages 50 to 75
+    criteria: [{age_min: 50, age_max: 75, sex: any, pregnancy: any}]
+    confirm: Asymptomatic adults at average risk (no prior colorectal cancer, adenomatous polyps, or inflammatory bowel disease, and no known high-risk genetic disorder or family history). The test options and intervals are in the full statement.
+    client_summary: Screening for colon and rectal cancer from age 50 to 75 saves lives. There are several tests, including a stool test you do at home, and the best test is the one you will actually do.
+    programs: [mcrccp]
+  - id: colorectal_cancer_screening_45_49
+    category: cancer
+    label: Colorectal cancer screening, ages 45 to 49
+    criteria: [{age_min: 45, age_max: 49, sex: any, pregnancy: any}]
+    confirm: Asymptomatic adults at average risk (no prior colorectal cancer, adenomatous polyps, or inflammatory bowel disease, and no known high-risk genetic disorder or family history).
+    client_summary: Screening for colon and rectal cancer now starts at age 45. There are several tests, including a stool test you do at home.
+    programs: [mcrccp]
+  - id: lung_cancer_screening
+    category: cancer
+    label: Lung cancer screening with low-dose CT
+    criteria: [{age_min: 50, age_max: 80, sex: any, pregnancy: any, all_of: [pack_years_20, tobacco_current_or_quit_15y]}]
+    confirm: Stop screening once the person has not smoked for 15 years or has a health problem that limits life expectancy or the ability or willingness to have lung surgery.
+    client_summary: If you are 50 to 80, have smoked a lot over the years, and still smoke or quit in the last 15 years, a yearly low-dose CT scan can find lung cancer early. Quitting smoking is still the best thing you can do.
+    programs: [mtcp_quitline]
+  - id: tobacco_cessation_adults
+    category: tobacco
+    label: Help to quit tobacco (adults who are not pregnant)
+    criteria: [{age_min: 18, sex: any, pregnancy: not_pregnant, all_of: [tobacco_current]}]
+    confirm: Ask all adults about tobacco use and advise them to quit. Offer behavioral support and FDA-approved medicines. The USPSTF found not enough evidence on e-cigarettes for quitting.
+    client_summary: Quitting tobacco is the best thing you can do for your health. With planning and support you can double your chances of quitting, and quit medicines such as patches or gum can help. Free help is available at 1-800-QUIT-NOW.
+    programs: [mtcp_quitline]
+  - id: tobacco_cessation_pregnancy
+    category: tobacco
+    label: Help to quit tobacco in pregnancy
+    criteria: [{sex: female, pregnancy: pregnant, all_of: [tobacco_current]}]
+    confirm: Behavioral support is recommended; the USPSTF found not enough evidence on quit medicines or e-cigarettes in pregnancy.
+    client_summary: Quitting tobacco protects you and your baby. Counseling helps, and free coaching is available at 1-800-QUIT-NOW. Ask your prenatal clinician before using any quit medicine.
+    programs: [mtcp_quitline]
+  - id: tobacco_prevention_youth
+    category: children
+    label: Preventing tobacco use in children and teens
+    criteria: [{age_min: 5, age_max: 17, sex: any, pregnancy: any}]
+    assumption: The statement says "school-aged children and adolescents younger than 18"; the tool uses ages 5 to 17.
+    confirm: Education or brief counseling in primary care to prevent starting tobacco use. The USPSTF found not enough evidence for quitting help in this age group.
+    client_summary: Talk with your child or teen about not starting tobacco, vaping, or nicotine. A short talk with their clinician at checkups helps.
+    programs: [mtcp_quitline]
+  - id: prediabetes_diabetes_screening
+    category: heart_metabolic
+    label: Blood sugar test for prediabetes and type 2 diabetes
+    criteria: [{age_min: 35, age_max: 70, sex: any, pregnancy: not_pregnant, all_of: [bmi_25]}]
+    confirm: Adults seen in primary care without symptoms of diabetes. People with prediabetes should be offered or referred to prevention programs.
+    client_summary: If you are 35 to 70 and carry extra weight, a simple blood test can show if your blood sugar is high. Finding it early lets you act to prevent diabetes.
+    programs: []
+  - id: cvd_diet_activity_counseling
+    category: heart_metabolic
+    label: Counseling on healthy eating and activity for heart health
+    criteria: [{age_min: 18, sex: any, pregnancy: any, all_of: [cvd_factor_counseling]}]
+    confirm: Adults with known high or elevated blood pressure, high cholesterol, or several risk factors such as metabolic syndrome or a 10-year heart disease risk of 7.5% or more. The statement does not cover adults whose only risk factors are abnormal blood sugar, obesity, or smoking.
+    client_summary: Because of your heart disease risk, working with a clinician or a program on healthy eating and regular activity can lower your risk. Ask for a referral.
+    programs: []
+  - id: statin_primary_prevention
+    category: heart_metabolic
+    label: Cholesterol medicine (statin) to prevent a first heart attack or stroke
+    criteria: [{age_min: 40, age_max: 75, sex: any, pregnancy: any, all_of: [cvd_factor_statin, cvd_risk_10pct]}]
+    confirm: Adults without known heart or blood vessel disease and without symptoms, with at least one risk factor (high cholesterol, diabetes, high blood pressure, or smoking) and a calculated 10-year risk of 10% or more.
+    client_summary: A daily statin can lower your chance of a first heart attack or stroke when your risk is higher. Talk with your clinician about whether it is right for you.
+    programs: []
+  - id: obesity_behavioral_intervention_adults
+    category: heart_metabolic
+    label: Weight management program for adults with obesity
+    criteria: [{age_min: 18, sex: any, pregnancy: any, all_of: [bmi_30]}]
+    confirm: Intensive, multicomponent behavioral programs (diet, activity, support). Ask your clinician about local programs.
+    client_summary: A structured program with coaching on eating, activity, and support can help adults with obesity lose weight and lower their risk of other diseases.
+    programs: []
+  - id: falls_prevention_exercise
+    category: older_adults
+    label: Exercise programs to prevent falls
+    criteria: [{age_min: 65, sex: any, pregnancy: any, all_of: [risk_falls]}]
+    confirm: Adults 65 and older living in the community who are at increased risk of falls. Multifactorial interventions are grade C (individualize), and are not listed here.
+    client_summary: If you are 65 or older and at risk of falling, exercise programs that build strength and balance can help you stay on your feet.
+    programs: []
+  - id: osteoporosis_screening_women_65_plus
+    category: older_adults
+    label: Bone density screening for women 65 and older
+    criteria: [{age_min: 65, sex: female, pregnancy: any}]
+    confirm: Adults without known osteoporosis or a fragility fracture. The USPSTF found not enough evidence for screening men.
+    client_summary: Women 65 and older should have a bone density test to check for thinning bones, so treatment can prevent broken bones.
+    programs: []
+  - id: osteoporosis_screening_postmenopausal_under_65
+    category: older_adults
+    label: Bone density screening for postmenopausal women under 65 at higher risk
+    criteria: [{age_min: 40, age_max: 64, sex: female, pregnancy: any, all_of: [postmenopausal, risk_osteoporotic_fracture]}]
+    confirm: Higher risk is estimated by a clinical risk assessment tool. Adults without known osteoporosis or a fragility fracture.
+    client_summary: If you have gone through menopause and your risk of broken bones is higher, a bone density test before age 65 can help.
+    programs: []
+  - id: aaa_screening_men_65_75_ever_smoked
+    category: older_adults
+    label: One-time ultrasound for abdominal aortic aneurysm (men who have ever smoked)
+    criteria: [{age_min: 65, age_max: 75, sex: male, pregnancy: any, all_of: [ever_smoked]}]
+    confirm: One-time screening. (Grade C for men this age who never smoked; not enough evidence for women who have smoked or have a family history.)
+    client_summary: Men 65 to 75 who have ever smoked should have a one-time ultrasound to check for a weak, bulging spot in the main blood vessel of the belly.
+    programs: []
+  - id: hepatitis_b_screening_increased_risk
+    category: infectious
+    label: Hepatitis B test for people at higher risk
+    criteria: [{age_min: 12, sex: any, pregnancy: not_pregnant, all_of: [risk_hepatitis_b]}]
+    assumption: The abstract says "adolescents and adults"; the tool uses age 12 and older.
+    confirm: Adolescents and adults without symptoms who are not pregnant and are at increased risk of hepatitis B, including those already vaccinated. The clinician decides who is at increased risk.
+    client_summary: A simple blood test can show whether you have hepatitis B. It is recommended for people at higher risk, even if you have had the vaccine.
+    programs: []
+  - id: hepatitis_b_screening_pregnancy
+    category: pregnancy
+    label: Hepatitis B test at the first prenatal visit
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: At the first prenatal visit.
+    client_summary: Every pregnant person should have a hepatitis B blood test at the first prenatal visit, so the baby can be protected if needed.
+    programs: []
+  - id: hepatitis_c_screening
+    category: infectious
+    label: Hepatitis C test
+    criteria: [{age_min: 18, age_max: 79, sex: any, pregnancy: any}]
+    confirm: Adults without symptoms and without known liver disease.
+    client_summary: Everyone 18 to 79 should have a one-time hepatitis C blood test. Hepatitis C can be cured, and many people do not know they have it.
+    programs: []
+  - id: hiv_screening_15_65
+    category: infectious
+    label: HIV test
+    criteria: [{age_min: 15, age_max: 65, sex: any, pregnancy: any}]
+    confirm: Younger adolescents and older adults at increased risk should also be screened.
+    client_summary: Everyone 15 to 65 should be tested for HIV at least once. Treatment works very well, and knowing your status protects you and your partners.
+    programs: []
+  - id: hiv_screening_pregnancy
+    category: pregnancy
+    label: HIV test in pregnancy
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: All pregnant persons, including those in labor or at delivery whose HIV status is not known.
+    client_summary: Every pregnant person should be tested for HIV. Treatment during pregnancy can keep the baby from getting HIV.
+    programs: []
+  - id: hiv_prep
+    category: infectious
+    label: Medicine to prevent HIV (PrEP)
+    criteria: [{age_min: 12, sex: any, pregnancy: any, all_of: [risk_hiv]}]
+    assumption: The abstract says "adolescents and adults"; the tool uses age 12 and older.
+    confirm: Adolescents and adults who do not have HIV and are at increased risk of getting it.
+    client_summary: If you are at higher risk for HIV, an effective HIV medicine taken to prevent infection can lower your chance of getting it. Ask your clinician about PrEP.
+    programs: []
+  - id: syphilis_screening_nonpregnant
+    category: infectious
+    label: Syphilis test for people at higher risk
+    criteria: [{age_min: 12, sex: any, pregnancy: not_pregnant, all_of: [risk_syphilis]}]
+    assumption: The abstract says "adolescents and adults"; the tool uses age 12 and older.
+    confirm: People who have ever been sexually active, are not pregnant, have no symptoms, and are at increased risk of syphilis.
+    client_summary: A blood test can find syphilis early, when it is easy to treat. It is recommended if you are at higher risk.
+    programs: []
+  - id: syphilis_screening_pregnancy
+    category: pregnancy
+    label: Syphilis test in pregnancy
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: Early in pregnancy for everyone; if not done early, at the first chance.
+    client_summary: Every pregnant person should have a syphilis blood test early in pregnancy. Treating it protects the baby.
+    programs: []
+  - id: chlamydia_screening_women
+    category: infectious
+    label: Chlamydia test for sexually active women
+    criteria:
+      - {age_max: 24, sex: female, pregnancy: any, all_of: [sexually_active]}
+      - {age_min: 25, sex: female, pregnancy: any, all_of: [sexually_active, risk_chlamydia_gonorrhea]}
+    confirm: Sexually active women 24 and younger, and women 25 and older who are at increased risk. The USPSTF found not enough evidence for men.
+    client_summary: If you are sexually active and 24 or younger, get tested for chlamydia. Older women should be tested if they are at higher risk. It is easy to treat when found.
+    programs: []
+  - id: gonorrhea_screening_women
+    category: infectious
+    label: Gonorrhea test for sexually active women
+    criteria:
+      - {age_max: 24, sex: female, pregnancy: any, all_of: [sexually_active]}
+      - {age_min: 25, sex: female, pregnancy: any, all_of: [sexually_active, risk_chlamydia_gonorrhea]}
+    confirm: Sexually active women 24 and younger, and women 25 and older who are at increased risk. The USPSTF found not enough evidence for men.
+    client_summary: If you are sexually active and 24 or younger, get tested for gonorrhea along with chlamydia. Older women should be tested if they are at higher risk.
+    programs: []
+  - id: sti_behavioral_counseling
+    category: infectious
+    label: Counseling to prevent sexually transmitted infections
+    criteria:
+      - {age_min: 12, age_max: 17, sex: any, pregnancy: any, all_of: [sexually_active]}
+      - {age_min: 18, sex: any, pregnancy: any, all_of: [risk_sti]}
+    assumption: The statement says "sexually active adolescents"; the tool uses ages 12 to 17.
+    confirm: All sexually active adolescents, and adults at increased risk of STIs.
+    client_summary: Talking with a clinician about condoms, testing, and ways to lower your risk of infections is recommended if you are a sexually active teen or an adult at higher risk.
+    programs: []
+  - id: latent_tb_screening
+    category: infectious
+    label: Test for latent tuberculosis infection
+    criteria: [{age_min: 18, sex: any, pregnancy: any, all_of: [risk_tuberculosis]}]
+    confirm: Asymptomatic adults at increased risk of tuberculosis; the clinician decides who is at increased risk.
+    client_summary: A TB skin or blood test can show if you carry TB germs that are asleep. It is recommended if you are at higher risk, and treatment can keep you from getting sick.
+    programs: []
+  - id: depression_screening_adults
+    category: mental_health
+    label: Depression screening
+    criteria: [{age_min: 19, sex: any, pregnancy: any}]
+    confirm: Adults without symptoms, including pregnant and postpartum persons and older adults. The USPSTF found not enough evidence for screening for suicide risk.
+    client_summary: Depression is common and treatable. Adults should be asked about their mood at checkups, including during and after pregnancy.
+    programs: []
+  - id: anxiety_screening_adults
+    category: mental_health
+    label: Anxiety screening
+    criteria: [{age_min: 19, age_max: 64, sex: any, pregnancy: any}]
+    confirm: Adults without symptoms, including pregnant and postpartum persons. The USPSTF found not enough evidence for adults 65 and older.
+    client_summary: Anxiety is common and treatable. Adults under 65 should be asked about worry and anxiety at checkups.
+    programs: []
+  - id: depression_screening_adolescents
+    category: mental_health
+    label: Depression screening for teens 12 to 18
+    criteria: [{age_min: 12, age_max: 18, sex: any, pregnancy: any}]
+    confirm: Adolescents without a diagnosed mental health condition or recognized signs of depression. The USPSTF found not enough evidence for children 11 and younger, or for suicide risk screening.
+    client_summary: Teens 12 to 18 should be asked about their mood at checkups. Depression is common in teens and it can be treated.
+    programs: []
+  - id: anxiety_screening_children_adolescents
+    category: mental_health
+    label: Anxiety screening for children and teens 8 to 18
+    criteria: [{age_min: 8, age_max: 18, sex: any, pregnancy: any}]
+    confirm: Children and adolescents without a diagnosed anxiety disorder or recognized signs of anxiety. The USPSTF found not enough evidence for children 7 and younger.
+    client_summary: Children and teens 8 to 18 should be asked about worry and anxiety at checkups. Anxiety can be treated.
+    programs: []
+  - id: perinatal_depression_prevention
+    category: pregnancy
+    label: Counseling to prevent depression during and after pregnancy
+    criteria: [{sex: female, pregnancy: pregnant_or_postpartum, all_of: [risk_perinatal_depression]}]
+    confirm: Pregnant and postpartum persons at increased risk of perinatal depression (the clinician decides who is at increased risk).
+    client_summary: If you are at higher risk for depression during or after pregnancy, counseling can help prevent it. Ask your clinician for a referral.
+    programs: []
+  - id: unhealthy_alcohol_screening
+    category: mental_health
+    label: Alcohol use screening and brief counseling
+    criteria: [{age_min: 18, sex: any, pregnancy: any}]
+    confirm: Adults 18 and older, including pregnant women; brief counseling for those who drink in risky or hazardous ways. The USPSTF found not enough evidence for ages 12 to 17.
+    client_summary: Adults should be asked about how much they drink at checkups. A short talk can help people cut back to safer levels.
+    programs: []
+  - id: unhealthy_drug_use_screening
+    category: mental_health
+    label: Drug use screening
+    criteria: [{age_min: 18, sex: any, pregnancy: any}]
+    confirm: Asking questions (not testing specimens) when services for diagnosis, treatment, and care can be offered or referred. Not for people already diagnosed or in treatment. The USPSTF found not enough evidence for adolescents.
+    client_summary: Adults should be asked about drug use, including misuse of prescription medicines, at checkups. If it is a problem, help is available.
+    programs: []
+  - id: intimate_partner_violence_screening
+    category: injury_violence
+    label: Screening for intimate partner violence
+    criteria:
+      - {age_min: 15, age_max: 49, sex: female, pregnancy: any}
+      - {sex: female, pregnancy: pregnant_or_postpartum}
+    assumption: The statement says "women of reproductive age" without an age range; the tool uses 15 to 49 (a project choice, not from the USPSTF), and any age when pregnant or postpartum.
+    confirm: Women of reproductive age, including those who are pregnant or postpartum. The USPSTF found not enough evidence for screening for abuse of older or vulnerable adults.
+    client_summary: Clinicians should ask women about safety at home. If you are being hurt or you are afraid, help is available.
+    programs: []
+  - id: folic_acid_supplementation
+    category: pregnancy
+    label: Folic acid before and during pregnancy
+    criteria:
+      - {age_min: 15, age_max: 49, sex: female, pregnancy: any}
+      - {sex: female, pregnancy: pregnant}
+    assumption: The statement says "persons who are planning to or could become pregnant" without an age range; the tool uses 15 to 49 (a project choice, not from the USPSTF), and any age when pregnant.
+    confirm: Everyone who is planning a pregnancy or could become pregnant. Daily supplement with 0.4 to 0.8 mg (400 to 800 micrograms) of folic acid.
+    client_summary: If you could become pregnant, take a daily vitamin with 400 to 800 micrograms of folic acid. It helps prevent serious birth defects of the brain and spine.
+    programs: []
+  - id: preeclampsia_aspirin
+    category: pregnancy
+    label: Low-dose aspirin to prevent preeclampsia
+    criteria: [{sex: female, pregnancy: pregnant, all_of: [risk_preeclampsia]}]
+    confirm: Pregnant persons at high risk of preeclampsia with no earlier bad reaction to or reason to avoid low-dose aspirin. Start after 12 weeks of pregnancy (81 mg a day).
+    client_summary: If your risk of preeclampsia (high blood pressure in pregnancy) is high, a daily low-dose aspirin started after 12 weeks can lower it. Only take it if your prenatal clinician says so.
+    programs: []
+  - id: hypertensive_disorders_pregnancy_screening
+    category: pregnancy
+    label: Blood pressure checks throughout pregnancy
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: Pregnant persons without known chronic hypertension or a hypertensive disorder of pregnancy.
+    client_summary: Your blood pressure should be checked at every prenatal visit. High blood pressure in pregnancy can be serious and treatment helps.
+    programs: []
+  - id: gestational_diabetes_screening
+    category: pregnancy
+    label: Gestational diabetes screening
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: At 24 weeks of pregnancy or later, for those without diabetes before pregnancy. The USPSTF found not enough evidence for screening before 24 weeks.
+    client_summary: Pregnant people should have a blood sugar test at or after 24 weeks to check for gestational diabetes. Treatment keeps you and your baby healthy.
+    programs: []
+  - id: gestational_weight_gain_counseling
+    category: pregnancy
+    label: Counseling on healthy weight gain in pregnancy
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: Pregnant adolescents and adults in primary care.
+    client_summary: Your clinician can help you with healthy eating and activity to gain a healthy amount of weight in pregnancy.
+    programs: []
+  - id: breastfeeding_support
+    category: pregnancy
+    label: Breastfeeding support
+    criteria: [{sex: female, pregnancy: pregnant_or_postpartum}]
+    confirm: Interventions or referrals during pregnancy and after birth.
+    client_summary: If you plan to breastfeed, ask about breastfeeding classes, lactation help, and support groups during pregnancy and after your baby is born.
+    programs: []
+  - id: asymptomatic_bacteriuria_pregnancy
+    category: pregnancy
+    label: Urine culture for bacteria in pregnancy
+    criteria: [{sex: female, pregnancy: pregnant}]
+    confirm: Pregnant persons without symptoms of a urinary tract infection (urine culture).
+    client_summary: Pregnant people should have a urine test for bacteria, even without symptoms, because a hidden infection can cause problems for the pregnancy.
+    programs: []
+  - id: ocular_prophylaxis_newborns
+    category: children
+    label: Eye medicine for newborns
+    criteria: [{age_min: 0, age_max: 0, sex: any, pregnancy: not_pregnant}]
+    confirm: Applies to newborns (the tool cannot tell a newborn from an older infant).
+    client_summary: Newborns get eye medicine soon after birth to prevent a serious eye infection.
+    programs: []
+  - id: fluoride_supplementation_children
+    category: children
+    label: Fluoride drops or tablets for children whose water has too little fluoride
+    criteria: [{age_min: 0, age_max: 4, sex: any, pregnancy: not_pregnant, all_of: [low_fluoride_water]}]
+    confirm: Starting at age 6 months for children whose water supply is low in fluoride. Check the water supply (see community_water_fluoridation_status).
+    client_summary: If your home water does not have enough fluoride, your child's clinician can prescribe fluoride drops or tablets from age 6 months to protect their teeth.
+    programs: []
+  - id: fluoride_varnish_children
+    category: children
+    label: Fluoride varnish on baby teeth
+    criteria: [{age_min: 0, age_max: 4, sex: any, pregnancy: not_pregnant}]
+    confirm: Starting when the first tooth comes in, through age 5.
+    client_summary: A clinician can paint fluoride varnish on your child's baby teeth at checkups starting when the first tooth comes in. It helps prevent cavities.
+    programs: []
+  - id: vision_screening_children_3_5
+    category: children
+    label: Vision screening for children 3 to 5
+    criteria: [{age_min: 3, age_max: 5, sex: any, pregnancy: not_pregnant}]
+    confirm: At least once. The USPSTF found not enough evidence for children younger than 3.
+    client_summary: Children should have their eyesight checked at least once between ages 3 and 5, to find a "lazy eye" or other problems early.
+    programs: []
+  - id: high_bmi_children_interventions
+    category: children
+    label: Family-based weight management program for children and teens with obesity
+    criteria: [{age_min: 6, age_max: 17, sex: any, pregnancy: any, all_of: [bmi_percentile_95]}]
+    assumption: The statement says "children and adolescents 6 years or older"; the tool uses ages 6 to 17 (adults are covered by the adult obesity recommendation).
+    confirm: BMI at or above the 95th percentile for age and sex. Comprehensive, intensive behavioral programs.
+    client_summary: If your child's weight is well above the healthy range for their age, a program with coaching for the whole family on eating and activity can help.
+    programs: []
+  - id: skin_cancer_counseling_young
+    category: children
+    label: Sun protection counseling for fair-skinned children and young adults
+    criteria: [{age_min: 0, age_max: 24, sex: any, pregnancy: any, all_of: [fair_skin]}]
+    confirm: Persons aged 6 months to 24 years with fair skin types, and parents of young children. (Grade C, individualize, for adults older than 24.)
+    client_summary: If you or your child burns easily, use shade, long sleeves, a hat, and sunscreen to lower the chance of skin cancer later in life.
+    programs: []
