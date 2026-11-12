@@ -1,0 +1,143 @@
+# Reference content for model_staffing_needs (LEAD-02): the productive-hours defaults, the method,
+# and the staffing benchmarks that were looked for and NOT bundled.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12.
+# Schema: content/schemas/leadership_staffing_model.schema.json
+# Every number in productive_hours is a tool default (basis: tool_default), a starting point
+# for the nurse's own agency policy, union contract, and time study. Nothing here is a
+# published staffing standard, and no staffing benchmark is bundled.
+meta:
+  id: leadership-staffing-model
+  title: Public health nurse staffing model (productive hours, method, benchmarks not bundled)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: 2022-2023 Capacity Assessment Summary Report
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+  related_sources:
+    - title: SAPHE 2.0 Guidance Document
+      publisher: Massachusetts Association of Health Boards
+      url: https://www.mass.gov/doc/saphe-20-guidance-document/download
+    - title: Public Health Excellence Grant Program
+      publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+      url: https://www.mass.gov/info-details/public-health-shared-services
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    No published public health nurse staffing ratio or time standard could be read on 2026-11-12,
+    so none is bundled. Read and searched: DPH's 2022-2023 Capacity Assessment (it reports budgets
+    and shared staff FTE, not a nurse-to-population ratio), the SAPHE 2.0 guidance (workforce
+    standards cover education, training, and credentials, not staffing levels), and DPH's PHE page.
+    Blocked on the build network: NACCHO's local public health workforce staffing benchmarks, the
+    PHAB workforce calculator, PubMed Central article pages, OPM, and BLS. Every productive-hours
+    default is an editable starting value with no source; 2,080 is 40 hours times 52 weeks.
+
+sources:
+  capacity_assessment:
+    title: 2022-2023 Capacity Assessment Summary Report
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+    effective_date: null
+    retrieved: 2026-11-12
+  saphe2_guidance:
+    title: SAPHE 2.0 Guidance Document
+    publisher: Massachusetts Association of Health Boards
+    url: https://www.mass.gov/doc/saphe-20-guidance-document/download
+    effective_date: null
+    retrieved: 2026-11-12
+
+method:
+  - text: >-
+      Hours of work needed = for each service, annual volume times minutes per unit divided by 60,
+      added up. Full-time equivalents (FTE) needed = hours of work needed divided by the productive
+      hours one FTE has available in a year.
+    source: null
+    section: null
+    confidence: high
+  - text: >-
+      Productive hours per FTE = (paid hours per year - holiday - vacation - sick and personal -
+      training hours) x (1 - the share of the remaining time that is not direct service, such as
+      meetings, supervision, documentation not counted in the time standards, and travel).
+    source: null
+    section: null
+    confidence: high
+  - text: >-
+      Scenarios change the volumes (a percentage growth applied to every service) or add services.
+      Minutes per unit are not changed unless you change them, so a scenario shows the effect of
+      more work, not of faster or slower work.
+    source: null
+    section: null
+    confidence: high
+
+productive_hours_defaults:
+  - id: paid_hours_per_year
+    label: Paid hours per full-time employee per year
+    value: 2080
+    unit: hours
+    basis: computed
+    source: null
+    note: 40 hours times 52 weeks. Use your agency's standard if it differs (a 35-hour week is 1,820).
+  - id: holiday_hours
+    label: Paid holiday hours
+    value: 88
+    unit: hours
+    basis: tool_default
+    source: null
+    note: Eleven 8-hour days as a placeholder. Replace with your contract's holidays.
+  - id: vacation_hours
+    label: Vacation hours taken per year
+    value: 120
+    unit: hours
+    basis: tool_default
+    source: null
+    note: Fifteen 8-hour days as a placeholder. Replace with an average for your staff.
+  - id: sick_personal_hours
+    label: Sick and personal hours taken per year
+    value: 64
+    unit: hours
+    basis: tool_default
+    source: null
+    note: Eight 8-hour days as a placeholder. Replace with your agency's average.
+  - id: training_hours
+    label: Required training and continuing education hours per year
+    value: 24
+    unit: hours
+    basis: tool_default
+    source: null
+    note: Placeholder. Replace with your agency's and your license's requirements.
+  - id: non_service_percent
+    label: Share of the remaining hours that is not direct service (meetings, supervision, documentation, travel)
+    value: 20
+    unit: percent
+    basis: tool_default
+    source: null
+    note: >-
+      Placeholder. If your minutes per unit already include documentation and travel, lower it. A
+      time study or an agency productivity report is the better source.
+
+benchmarks: []
+
+not_bundled:
+  - item: A public health nurse to population ratio
+    detail: >-
+      A search result attributed a 1 nurse to 5,000 people figure to a 2022 American Journal of
+      Public Health article about counting public health nurses, but the article's text could not
+      be read (PubMed Central pages were blocked and its abstract does not give the figure), and
+      the standard it refers to was not identified. It is not used.
+  - item: NACCHO local public health workforce staffing benchmarks
+    detail: The NACCHO host was blocked on 2026-11-12, so the document was not read.
+  - item: PHAB public health workforce calculator
+    detail: The PHAB host was blocked on 2026-11-12.
+  - item: Massachusetts SAPHE 2.0 and Performance Standards staffing levels
+    detail: >-
+      The SAPHE 2.0 guidance sets workforce education, training, and credential standards and DPH's
+      capacity assessment reports budgets and shared staff FTE; neither gives a nurse FTE per
+      population level. DPH reported 46 public health nurses funded by PHE grants in FY2026
+      (Public Health Excellence page), which is a count, not a benchmark.
+  - item: Published time standards (minutes per visit or service) for public health nursing
+    detail: None were found, so minutes per unit are always supplied by the nurse.

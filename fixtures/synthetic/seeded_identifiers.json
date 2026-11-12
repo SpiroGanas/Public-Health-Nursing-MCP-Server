@@ -11502,6 +11502,270 @@
    "kind": "email",
    "file": "data/program_outcomes_long.csv",
    "column": "Reporter Email"
+  },
+  {
+   "value": "Winifred",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Larkspur",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Tobias",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Marchbanks",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Ottoline",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Vandersloot",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Percival",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Thistlewood",
+   "kind": "name",
+   "file": "data/health_dept_budget.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Brindlemoor",
+   "kind": "organization",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Fernwick",
+   "kind": "organization",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Quillon",
+   "kind": "organization",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Gossamer",
+   "kind": "organization",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "orders@brindlemoor.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "billing@fernwick.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "ar@quillon.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "accounts@gossamer.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "413-555-0301",
+   "kind": "phone",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "413-555-0302",
+   "kind": "phone",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "413-555-0303",
+   "kind": "phone",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "413-555-0304",
+   "kind": "phone",
+   "file": "data/health_dept_budget.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "Cordelia",
+   "kind": "name",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Wrenfield",
+   "kind": "name",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Evander",
+   "kind": "name",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Pellworth",
+   "kind": "name",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Brindlemoor",
+   "kind": "organization",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Quillon",
+   "kind": "organization",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "orders@brindlemoor.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "ar@quillon.example.org",
+   "kind": "email",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor Contact Email"
+  },
+  {
+   "value": "413-555-0301",
+   "kind": "phone",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "413-555-0303",
+   "kind": "phone",
+   "file": "data/health_dept_budget_small.csv",
+   "column": "Vendor Phone"
+  },
+  {
+   "value": "Marisol",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Quenby",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Barnaby",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Quillfeather",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Ottoline",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Vandersloot",
+   "kind": "name",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Employee"
+  },
+  {
+   "value": "Brindlemoor",
+   "kind": "organization",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Quillon",
+   "kind": "organization",
+   "file": "data/health_dept_ledger_monthly.csv",
+   "column": "Vendor"
+  },
+  {
+   "value": "Ignatius",
+   "kind": "name",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Thornquist",
+   "kind": "name",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Philippa",
+   "kind": "name",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "Dunmore-Vale",
+   "kind": "name",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Person"
+  },
+  {
+   "value": "ignatius.thornquist@example.org",
+   "kind": "email",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Email"
+  },
+  {
+   "value": "philippa.dunmorevale@example.org",
+   "kind": "email",
+   "file": "data/staffing_volumes.csv",
+   "column": "Contact Email"
   }
  ]
 }

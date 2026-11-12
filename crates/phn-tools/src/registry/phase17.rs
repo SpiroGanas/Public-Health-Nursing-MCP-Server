@@ -21,5 +21,17 @@ pub(super) const BUDGET: &[ToolMeta] = &[
 /// Department budget and staffing: LEAD-01, LEAD-02.
 pub(super) const FINANCE: &[ToolMeta] = &[
     // Phase 17 finance entries go below this line.
+    ToolMeta {
+        name: "analyze_health_department_budget",
+        plan_id: "LEAD-01",
+        toolset: Toolset::Leadership,
+        phase: 17,
+    },
+    ToolMeta {
+        name: "model_staffing_needs",
+        plan_id: "LEAD-02",
+        toolset: Toolset::Leadership,
+        phase: 17,
+    },
     // End of Phase 17 finance entries.
 ];

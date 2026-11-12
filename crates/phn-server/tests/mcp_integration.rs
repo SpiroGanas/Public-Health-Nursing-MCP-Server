@@ -1640,6 +1640,108 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 17 budget (PLAN-09, PLAN-10).
         // ---- End of Phase 17 budget.
         // ---- Phase 17 finance (LEAD-01, LEAD-02).
+        // A client line list given as the budget: identifier columns are refused when named and
+        // no budget column can be found without a name; no value may appear in either case.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Last Name", "budget_column": "Age",
+                   "actual_column": "Age"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Town", "budget_column": "Age",
+                   "actual_column": "Phone"}),
+            ll,
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "line_list.csv", "category_column": "Town", "budget_column": "Age",
+                   "actual_column": "Age", "account_column": "SSN", "positions_column": "Age"}),
+            ll,
+        ),
+        // A real budget file that legitimately holds vendor names, vendor contacts, and employee
+        // names: only category totals may come back, and the vendor and employee columns are
+        // refused when named.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "positions_column": "Positions",
+                   "services": [{"name": "Clinics", "volume": 100,
+                                 "costs": [{"category": "Supplies"}, {"category": "Personnel"}]}]}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "category_column": "Vendor"}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "category_column": "Employee"}),
+            "data/health_dept_budget.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget.csv", "as_of_date": "2026-10-31",
+                   "account_column": "Vendor Contact Email", "source_column": "Vendor Phone"}),
+            "data/health_dept_budget.csv",
+        ),
+        // One-person salary lines must not come back as numbers.
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_budget_small.csv", "as_of_date": "2026-10-31",
+                   "positions_column": "Positions"}),
+            "data/health_dept_budget_small.csv",
+        ),
+        (
+            "analyze_health_department_budget",
+            json!({"path": "health_dept_ledger_monthly.csv", "as_of_date": "2026-10-31",
+                   "period_column": "Month", "account_column": "Account",
+                   "positions_column": "Positions"}),
+            "data/health_dept_ledger_monthly.csv",
+        ),
+        // Staffing: a client file as the volumes file, and a volumes file with contact people.
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv", "service_column": "Last Name",
+                   "volume_column": "Age", "minutes_column": "Age"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "line_list.csv", "service_column": "Town",
+                   "volume_column": "Age", "minutes_column": "Phone"}),
+            ll,
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "current_fte": 1.5,
+                   "population": 24000}),
+            "data/staffing_volumes.csv",
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "service_column": "Contact Person"}),
+            "data/staffing_volumes.csv",
+        ),
+        (
+            "model_staffing_needs",
+            json!({"volumes_path": "staffing_volumes.csv", "volume_column": "Contact Email"}),
+            "data/staffing_volumes.csv",
+        ),
         // ---- End of Phase 17 finance.
         // ---- End of Phase 17 data tools.
         // ---- Phase 18 data tools go below this line.

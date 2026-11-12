@@ -1,0 +1,18 @@
+Account,Category,Type,Fund/Source,Budgeted,YTD Actual,Encumbrances,Positions,Vendor,Employee,Vendor Contact Email,Vendor Phone
+5110,Salaries and Wages,Expense,General Fund,118000,40100,0,1,,Winifred Larkspur,,
+5111,Salaries and Wages,Expense,General Fund,96000,32400,0,1,,Tobias Marchbanks,,
+5112,Salaries and Wages,Expense,PHE Grant,88000,29800,0,1,,Ottoline Vandersloot,,
+5113,Overtime,Expense,General Fund,6000,1200,0,0,,Percival Thistlewood,,
+5200,Supplies,Expense,General Fund,14000,6200,800,,Brindlemoor Janitorial Supply,,orders@brindlemoor.example.org,413-555-0301
+5210,Vaccines and Medical Supplies,Expense,State Funds,22000,9900,1500,,Fernwick Laboratories,,billing@fernwick.example.org,413-555-0302
+5300,Contracted Services,Expense,PHE Grant,36000,11000,12000,,Quillon Office Systems,,ar@quillon.example.org,413-555-0303
+5400,Travel and Training,Expense,General Fund,5000,900,0,,,,,
+5500,Software and Licenses,Expense,General Fund,7500,7600,0,,Gossamer Print Works,,accounts@gossamer.example.org,413-555-0304
+4100,Inspection Fees,Revenue,Revolving Fund - Permits,42000,16500,,,,,,
+4110,Vaccine Administration Fees,Revenue,Fee for service,8000,2100,,,,,,
+4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,150000,75000,,,,,,
+4210,State Grants,Revenue,DPH Immunization Grant,20000,9000,,,,,,
+4300,Federal Grants,Revenue,CDC PHEP (federal),30000,12000,,,,,,
+4400,Municipal Appropriation,Revenue,General Fund,160000,80000,,,,,,
+4500,Gifts and Donations,Revenue,Community Foundation grant,5000,5000,,,,,,
+4600,Miscellaneous Revenue,Revenue,Sale of publications,1000,300,,,,,,

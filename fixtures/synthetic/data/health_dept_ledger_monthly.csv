@@ -1,0 +1,33 @@
+Month,Account,Category,Type,Fund/Source,Budgeted,Actual,Encumbrances,Positions,Vendor,Employee
+2026-07,5110,Salaries and Wages,Expense,General Fund,120000,10000,0,1,,Marisol Quenby
+2026-07,5111,Salaries and Wages,Expense,General Fund,96000,8000,0,1,,Barnaby Quillfeather
+2026-07,5112,Salaries and Wages,Expense,PHE Grant,84000,7000,0,1,,Ottoline Vandersloot
+2026-07,5200,Supplies,Expense,General Fund,12000,500,200,,Brindlemoor Janitorial Supply,
+2026-07,5300,Contracted Services,Expense,PHE Grant,30000,2000,0,,Quillon Office Systems,
+2026-07,4100,Inspection Fees,Revenue,Revolving Fund - Permits,36000,2000,0,,,
+2026-07,4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,120000,0,0,,,
+2026-07,4400,Municipal Appropriation,Revenue,General Fund,180000,15000,0,,,
+2026-08,5110,Salaries and Wages,Expense,General Fund,120000,10000,0,1,,Marisol Quenby
+2026-08,5111,Salaries and Wages,Expense,General Fund,,8000,0,1,,Barnaby Quillfeather
+2026-08,5112,Salaries and Wages,Expense,PHE Grant,84000,7000,0,1,,Ottoline Vandersloot
+2026-08,5200,Supplies,Expense,General Fund,12000,520,300,,Brindlemoor Janitorial Supply,
+2026-08,5300,Contracted Services,Expense,PHE Grant,,2000,0,,Quillon Office Systems,
+2026-08,4100,Inspection Fees,Revenue,Revolving Fund - Permits,36000,5000,0,,,
+2026-08,4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,,0,0,,,
+2026-08,4400,Municipal Appropriation,Revenue,General Fund,180000,15000,0,,,
+2026-09,5110,Salaries and Wages,Expense,General Fund,120000,10000,0,1,,Marisol Quenby
+2026-09,5111,Salaries and Wages,Expense,General Fund,,8000,0,1,,Barnaby Quillfeather
+2026-09,5112,Salaries and Wages,Expense,PHE Grant,84000,7000,0,1,,Ottoline Vandersloot
+2026-09,5200,Supplies,Expense,General Fund,12000,480,250,,Brindlemoor Janitorial Supply,
+2026-09,5300,Contracted Services,Expense,PHE Grant,,3500,0,,Quillon Office Systems,
+2026-09,4100,Inspection Fees,Revenue,Revolving Fund - Permits,36000,4000,0,,,
+2026-09,4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,,60000,0,,,
+2026-09,4400,Municipal Appropriation,Revenue,General Fund,180000,15000,0,,,
+2026-10,5110,Salaries and Wages,Expense,General Fund,120000,10000,0,1,,Marisol Quenby
+2026-10,5111,Salaries and Wages,Expense,General Fund,,8000,0,1,,Barnaby Quillfeather
+2026-10,5112,Salaries and Wages,Expense,PHE Grant,84000,7000,0,1,,Ottoline Vandersloot
+2026-10,5200,Supplies,Expense,General Fund,12000,900,400,,Brindlemoor Janitorial Supply,
+2026-10,5300,Contracted Services,Expense,PHE Grant,,3500,6000,,Quillon Office Systems,
+2026-10,4100,Inspection Fees,Revenue,Revolving Fund - Permits,36000,6500,0,,,
+2026-10,4200,State Grants,Revenue,State Public Health Excellence (PHE) Grant,,0,0,,,
+2026-10,4400,Municipal Appropriation,Revenue,General Fund,180000,15000,0,,,
