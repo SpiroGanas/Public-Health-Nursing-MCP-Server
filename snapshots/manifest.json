@@ -2149,6 +2149,64 @@
           "rows": 507
         }
       ]
+    },
+    {
+      "id": "ma-performance-standards",
+      "title": "Massachusetts Performance Standards for Local Public Health (mandated local responsibilities and workforce standards)",
+      "publisher": "Massachusetts Department of Public Health, Office of Local and Regional Health",
+      "source_urls": [
+        "https://www.mass.gov/doc/performance-standards/download",
+        "https://www.mass.gov/resource/performance-standards-for-local-public-health"
+      ],
+      "source_sha256": {
+        "performance-standards.xlsx": "50e15ef6780f355d7ee1f3219ec71b1fef37cb6a600d1dc2c788503a097c7401"
+      },
+      "source_vintage": "published 2023-10-11; workbook last modified Mon, 15 Jul 2024 13:51:24 GMT",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government publication. mass.gov's site policies were not read (the page was not fetched), so check them before republishing the workbook; the snapshot reuses citations and DPH's one-line summaries and drops phone numbers and email addresses.",
+      "derivation": "xtask/scripts/build_strategy_snapshots.py reads the Administration, Disease Control And Prevention, Environmental Health, and Tobacco Use Prevention sheets (topic area, citation, summary, state program) and the Workforce Standards sheet, row by row, with the Python standard library. Blank topic-area and contact cells carry down from the row above, as the workbook's merged cells intend. IDs (PS-ADM-001 and so on) are assigned in sheet order by this project and are not DPH identifiers.",
+      "caveats": [
+        "Only the four mandate sheets and the Workforce Standards sheet are read. The workbook's 'Frequently Used' sheet (discretionary board of health powers, such as appointing agents), 'Resources', and 'Keywords' sheets are not included.",
+        "The workbook lists responsibilities as DPH summarizes them; the statute or regulation citation controls. A footnote in the workbook says OLRH has received comments that the standards marked * are outdated.",
+        "The workbook has no status, due dates, or scoring: those are for each department to record. The next version of the Performance Standards is expected to include the Foundational Public Health Services framework (DPH's FPHS page).",
+        "State program contact phone numbers and email addresses are not copied; the program names are kept."
+      ],
+      "files": [
+        {
+          "path": "ma_performance_standards.json",
+          "sha256": "09700f8d0922d2a385c5923d778d4bca24c902eafbc47029895b33ac68bcf8ac",
+          "bytes": 39027,
+          "rows": 93
+        }
+      ]
+    },
+    {
+      "id": "ma-shared-service-arrangements",
+      "title": "Massachusetts shared public health service arrangements, by municipality",
+      "publisher": "Massachusetts Department of Public Health, Office of Local and Regional Health (Public Health Excellence Grant Program)",
+      "source_urls": [
+        "https://www.mass.gov/doc/shared-service-arrangements/download",
+        "https://www.mass.gov/info-details/public-health-excellence-grant-program"
+      ],
+      "source_sha256": {
+        "shared-service-arrangements.xlsx": "0ea54321073793f38e9eca8b25e8c211eeb45edd20b0eb19efd9e1c6efe31fa2"
+      },
+      "source_vintage": "list updated April 2026; workbook last modified Thu, 16 Apr 2026 14:39:09 GMT",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government publication; mass.gov's site policies were not read.",
+      "derivation": "xtask/scripts/build_strategy_snapshots.py reads the workbook's only sheet (cached values of its link formulas), maps the workbook's N/A markers to blank, and sorts by municipality.",
+      "caveats": [
+        "A blank arrangement means the list shows no shared service arrangement for the municipality (it may be a standalone grantee, such as Boston, Springfield, or Worcester, or not funded). Two rows are labeled 'PHE: Capacity Building Grantee' by DPH.",
+        "Membership changes with each grant year. Confirm with the Office of Local and Regional Health before relying on the list."
+      ],
+      "files": [
+        {
+          "path": "ma_shared_service_arrangements.csv",
+          "sha256": "22043d43e606795660c46bdadb57ba053aded6dce746809cef9f5b626e218880",
+          "bytes": 36715,
+          "rows": 351
+        }
+      ]
     }
   ]
 }

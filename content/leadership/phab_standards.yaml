@@ -1,0 +1,310 @@
+# PHAB Standards & Measures Version 2022 (initial accreditation): domain and standard structure and this
+# project's own keyword cues, for phab_accreditation_crosswalk (LEAD-04).
+#
+# REVIEW STATUS: pending. PHAB's own document (phaboard.org, "Standards & Measures for Initial
+# Accreditation Version 2022") could NOT be reached from the build network (the proxy refused
+# phaboard.org and every mirror tried), so measure numbers and measure titles are NOT bundled. What is
+# here was read in CDC's "HAI/AR and Accreditation Crosswalk Toolkit" (2023 update, which uses Version
+# 2022): the 10 domain names and the 20 standard numbers and titles, plus CDC statements on the
+# community health assessment, the improvement plan, and the strategic plan. The keyword cues are this
+# project's own words (they are not PHAB text). Retrieved 2026-11-12.
+# PHAB's standards and measures are PHAB's copyrighted work: this file keeps only domain names,
+# standard numbers, and short standard titles, and links to PHAB for the text. Check PHAB's terms.
+# Schema: content/schemas/leadership_phab_standards.schema.json
+meta:
+  id: leadership-phab-standards
+  title: PHAB Standards & Measures Version 2022 (structure and keyword cues for the document crosswalk)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: HAI/AR and Accreditation Crosswalk Toolkit (uses the PHAB Version 2022 Standards and Measures)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+  related_sources:
+    - title: PHAB Standards & Measures for Initial Accreditation Version 2022 (not reachable from the build network)
+      publisher: Public Health Accreditation Board
+      url: https://phaboard.org/wp-content/uploads/Standards-Measures-Initial-Accreditation-Version-2022.pdf
+    - title: Community Health Assessment, Drivers (CDC Public Health Infrastructure Center)
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/infrastructure/public-health-systems-emerging-practices/drivers.html
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The 10 domains and 20 standards (numbers and titles) were read in CDC's 2023 crosswalk toolkit
+    (medium confidence: a secondary source for PHAB's wording, which can differ slightly). PHAB's own
+    document could not be fetched, so NO measure IDs or measure titles are bundled and nothing about
+    the documentation each measure requires is stated; use the PHAB document (and the optional
+    measures_path file) for that. The keyword cues, document types, and the match rules are this
+    project's drafts (low confidence): a keyword match shows a document mentions a topic, not that it
+    meets a PHAB measure.
+
+sources:
+  cdc-crosswalk:
+    title: HAI/AR and Accreditation Crosswalk Toolkit (2023 update; uses the PHAB Version 2022 Standards and Measures)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    effective_date: "2024-04-15"
+    retrieved: 2026-11-12
+  cdc-drivers:
+    title: Community Health Assessment, Drivers
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/infrastructure/public-health-systems-emerging-practices/drivers.html
+    effective_date: null
+    retrieved: 2026-11-12
+  jphmp-2025-plans:
+    title: Strategic and Performance Planning in US Local Health Departments (J Public Health Manag Pract, 2025)
+    publisher: Journal of Public Health Management and Practice
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12527733/
+    effective_date: "2025-09-01"
+    retrieved: 2026-11-12
+  phab-sm-2022:
+    title: Standards & Measures for Initial Accreditation, Version 2022
+    publisher: Public Health Accreditation Board
+    url: https://phaboard.org/wp-content/uploads/Standards-Measures-Initial-Accreditation-Version-2022.pdf
+    effective_date: "2022-02-01"
+    retrieved: 2026-11-12
+  dph-accreditation:
+    title: Public Health Accreditation (Massachusetts DPH)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/public-health-accreditation
+    effective_date: null
+    retrieved: 2026-11-12
+
+phab:
+  version_label: "Version 2022"
+  version_check: >-
+    CDC's 2023 toolkit and DPH's accreditation page both refer to the Version 2022 Standards and
+    Measures (10 domains). The month PHAB adopted Version 2022 (February 2022) came from a web
+    search summary, not a page that could be opened: low confidence.
+  version_check_confidence: low
+  license_note: >-
+    PHAB's Standards & Measures are PHAB's copyrighted work. This tool bundles only domain names,
+    standard numbers, and short standard titles (as shown in CDC's toolkit) and keyword cues written
+    for this project. It never copies PHAB's measure text. Read the document on PHAB's site and check
+    PHAB's terms before copying any of it into your own files.
+  link: https://phaboard.org/standards-and-measures-for-initial-accreditation/
+  link_note: The PHAB page itself could not be opened to confirm this link; the PDF address is the one CDC's toolkit cites.
+  measures_note: >-
+    Measure IDs and titles (for example "1.1.1") are not bundled because PHAB's document could not be
+    read. If you hold PHAB's document, give measures_path a CSV or workbook in /data with the columns
+    "Measure ID", "Short title", and optionally "Keywords"; the tool then crosswalks those measures
+    too, and the measure list stays in your files (the response shows IDs and evidence levels only).
+  measure_columns:
+    id: Measure ID
+    title: Short title
+    keywords: Keywords
+  document_types_note: >-
+    CDC says a documented community health assessment and improvement plan, developed
+    collaboratively and dated within the last five years, are required for accreditation (CDC,
+    Drivers). A 2025 study of plans from PHAB-accredited local health departments says strategic
+    plans, community health improvement plans, and quality improvement plans align with accreditation
+    requirements and that workforce development plans are also required.
+  document_types:
+    - id: cha
+      label: Community health assessment (CHA)
+      cues: ["community health assessment", "community health needs assessment", "cha"]
+      standards: ["1.1"]
+      source: cdc-drivers
+      confidence: high
+    - id: chip
+      label: Community health improvement plan (CHIP)
+      cues: ["community health improvement plan", "health improvement plan", "chip"]
+      standards: ["5.2"]
+      source: cdc-drivers
+      confidence: high
+    - id: strategic_plan
+      label: Health department strategic plan
+      cues: ["strategic plan", "strategic priorities", "strategic planning"]
+      standards: ["10.1"]
+      source: cdc-crosswalk
+      confidence: medium
+    - id: qi_plan
+      label: Quality improvement plan
+      cues: ["quality improvement plan", "qi plan", "performance management"]
+      standards: ["9.1"]
+      source: jphmp-2025-plans
+      confidence: medium
+    - id: workforce_plan
+      label: Workforce development plan
+      cues: ["workforce development plan", "training plan", "core competencies"]
+      standards: ["8.2"]
+      source: jphmp-2025-plans
+      confidence: medium
+    - id: emergency_plan
+      label: Emergency operations or preparedness plan
+      cues: ["emergency operations plan", "emergency preparedness", "continuity of operations"]
+      standards: ["2.2"]
+      source: cdc-crosswalk
+      confidence: low
+  match_rules:
+    strong: "Two or more different cues in one section of one document, or cues in three or more different sections or documents."
+    some: "At least one cue found in a section of a document, or a file name that names the kind of document (for example Strategic Plan)."
+    none: "No cue found in the indexed documents."
+    note: >-
+      The index holds the first sections of each document as text (PDF pages, DOCX or Markdown
+      headings). Matches are a starting point for the person who knows the documents: confirm each
+      against the PHAB measure's documentation requirements and the document's date and approval.
+      Passages are not shown from a document that holds phone numbers, email addresses, or street
+      addresses, and files that look like client records or interview transcripts are not used.
+
+domains:
+  - id: 1
+    name: "Assess and monitor population health status, factors that influence health, and community needs and assets"
+    standards:
+      - id: "1.1"
+        title: "Participate in or lead a shared process resulting in a comprehensive community health assessment (CHA)"
+        cues: ["community health assessment", "community health needs assessment", "community health profile", "health assessment", "key informant", "focus group", "community survey", "needs assessment"]
+        document_types: ["cha"]
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "1.2"
+        title: "Collect and share data that provides information on conditions of public health importance and on the health status of the population"
+        cues: ["surveillance", "data sharing", "data use agreement", "vital statistics", "health data", "data dashboard", "reportable disease", "data source"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "1.3"
+        title: "Analyze public health data, share findings, and use results to improve population health"
+        cues: ["data analysis", "epidemiologic", "health disparities", "data brief", "health status report", "analyze data", "trend analysis", "health equity data"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 2
+    name: "Investigate, diagnose, and address health problems and hazards affecting the population"
+    standards:
+      - id: "2.1"
+        title: "Anticipate, prevent, and mitigate health threats through surveillance and investigation of health problems and environmental hazards"
+        cues: ["outbreak investigation", "communicable disease", "case investigation", "contact tracing", "complaint investigation", "environmental hazard", "inspection", "surveillance"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "2.2"
+        title: "Prepare for and respond to emergencies"
+        cues: ["emergency operations plan", "emergency preparedness", "continuity of operations", "after action report", "incident command", "tabletop exercise", "public health emergency", "emergency response"]
+        document_types: ["emergency_plan"]
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 3
+    name: "Communicate effectively to inform and educate people about health, factors that influence it, and how to improve it"
+    standards:
+      - id: "3.1"
+        title: "Provide information on public health issues and public health functions through multiple methods to a variety of audiences"
+        cues: ["public information", "health alert", "press release", "social media", "newsletter", "website", "risk communication", "communications plan"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "3.2"
+        title: "Use health communication strategies to support prevention, health, and well-being"
+        cues: ["health communication", "health education", "campaign", "social marketing", "health literacy", "messaging", "language access", "plain language"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 4
+    name: "Strengthen, support, and mobilize communities and partnerships to improve health"
+    standards:
+      - id: "4.1"
+        title: "Engage with the public health system and the community in promoting health through collaborative processes"
+        cues: ["community engagement", "coalition", "partnership", "memorandum of understanding", "advisory committee", "stakeholder", "community partners", "collaborative"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 5
+    name: "Create, champion, and implement policies, plans, and laws that impact health"
+    standards:
+      - id: "5.1"
+        title: "Serve as a primary and expert resource for establishing and maintaining health policies and laws"
+        cues: ["policy", "regulation", "board of health regulation", "testimony", "policy brief", "ordinance", "bylaw", "health in all policies"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "5.2"
+        title: "Develop and implement community health improvement strategies collaboratively"
+        cues: ["community health improvement plan", "health improvement plan", "improvement strategies", "priority", "action plan", "objectives", "implementation plan", "chip"]
+        document_types: ["chip"]
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 6
+    name: "Utilize legal and regulatory actions designed to improve and protect the public's health"
+    standards:
+      - id: "6.1"
+        title: "Promote compliance with public health laws"
+        cues: ["enforcement", "compliance", "inspection", "permit", "violation", "licensing", "enforcement procedure", "sanitary code"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 7
+    name: "Contribute to an effective system that enables equitable access to the individual services and care needed to be healthy"
+    standards:
+      - id: "7.1"
+        title: "Engage with partners in the health care system to assess and improve health service availability"
+        cues: ["access to care", "health care partners", "hospital", "community health center", "service gaps", "clinical care", "health care system", "provider network"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "7.2"
+        title: "Connect the population to services that support the whole person"
+        cues: ["referral", "social services", "community resource", "care coordination", "community health worker", "linkage", "social needs", "resource directory"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 8
+    name: "Build and support a diverse and skilled public health workforce"
+    standards:
+      - id: "8.1"
+        title: "Encourage the development and recruitment of qualified public health workers"
+        cues: ["recruitment", "job description", "hiring", "internship", "student placement", "pipeline", "workforce", "position description"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "8.2"
+        title: "Build a competent public health workforce and leadership that practices cultural humility"
+        cues: ["workforce development plan", "training plan", "core competencies", "orientation", "cultural humility", "continuing education", "performance review", "equity training"]
+        document_types: ["workforce_plan"]
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 9
+    name: "Improve and innovate public health functions through ongoing evaluation, research, and continuous quality improvement"
+    standards:
+      - id: "9.1"
+        title: "Build and foster a culture of quality"
+        cues: ["quality improvement", "qi plan", "performance management", "performance measures", "pdsa", "performance dashboard", "performance standards", "qi project"]
+        document_types: ["qi_plan"]
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "9.2"
+        title: "Use and contribute to developing research, evidence, practice-based insights, and other forms of information for decision making"
+        cues: ["evidence-based", "best practice", "research", "literature review", "pilot", "evaluation", "academic partner", "institutional review"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+  - id: 10
+    name: "Build and maintain a strong organizational infrastructure for public health"
+    standards:
+      - id: "10.1"
+        title: "Employ strategic planning skills"
+        cues: ["strategic plan", "mission", "vision", "strategic priorities", "goals and objectives", "swot", "strategic direction", "strategic planning"]
+        document_types: ["strategic_plan"]
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "10.2"
+        title: "Manage financial, information management, and human resources effectively"
+        cues: ["budget", "financial management", "personnel policy", "information technology", "procurement", "grant", "cybersecurity", "records retention"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+      - id: "10.3"
+        title: "Foster accountability and transparency within the organizational infrastructure to support ethical practice, decision-making, and governance"
+        cues: ["board of health", "code of ethics", "conflict of interest", "open meeting law", "governance", "bylaws", "meeting minutes", "public records"]
+        document_types: []
+        source: cdc-crosswalk
+        confidence: medium
+
+not_verified:
+  - PHAB's Version 2022 document could not be read, so measure IDs and titles, documentation requirements, and the reaccreditation measure differences are not included.
+  - The standard titles come from CDC's toolkit and may differ slightly from PHAB's wording.
+  - The domain and standard numbering applies to Version 2022 (initial accreditation); check PHAB for reaccreditation, Pathways, and any newer version.
+  - The month PHAB adopted Version 2022 (February 2022) is from a search summary only.

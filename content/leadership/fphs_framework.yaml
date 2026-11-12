@@ -1,0 +1,591 @@
+# Foundational Public Health Services (FPHS) framework, Massachusetts' statute on the State Action for
+# Public Health Excellence program (G.L. c. 111, s. 27D), and shared-service options, for
+# assess_foundational_public_health_services (LEAD-03). The Performance Standards (mandated local
+# responsibilities) and the Workforce Standards are in the snapshot ma-performance-standards; the
+# shared service arrangement list is in the snapshot ma-shared-service-arrangements.
+#
+# REVIEW STATUS: pending. Every FPHS line below is a Headline Responsibility copied from the
+# "FPHS Operational Definitions" file that DPH's Office of Local and Regional Health hosts
+# (Word file last modified 2024-11-05). The statute text was read in full on malegislature.gov.
+# The plan and the request that started this work said the law is "2020" and "2024 SAPHE 2.0":
+# mass.gov and the statute say 2020 (see law.naming_check); no "SAPHE 2.0" page was found.
+# Retrieved 2026-11-12. Schema: content/schemas/leadership_fphs_framework.schema.json
+meta:
+  id: leadership-fphs-framework
+  title: Foundational Public Health Services framework, G.L. c. 111 s. 27D, and shared-service options (Massachusetts)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Foundational Public Health Services (FPHS) for local public health (Office of Local and Regional Health)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/info-details/foundational-public-health-services-fphs-for-local-public-health
+  related_sources:
+    - title: M.G.L. c. 111, s. 27D (public health excellence program)
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section27D
+    - title: Performance Standards for Local Public Health (Excel workbook and web resource)
+      publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+      url: https://www.mass.gov/resource/performance-standards-for-local-public-health
+    - title: Public Health Excellence Grant Program
+      publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+      url: https://www.mass.gov/info-details/public-health-excellence-grant-program
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The statute (G.L. c. 111, s. 27D) and the DPH pages (FPHS, Performance Standards, SAPHE archive,
+    Public Health Excellence grants) were read on 2026-11-12 (high confidence for what they say).
+    The 56 FPHS Headline Responsibilities are copied from DPH's FPHS Operational Definitions file; the
+    licence of that national framework (PHAB and de Beaumont) was not read, so check it before
+    republishing. The mapping of FPHS areas to the statute's wording, the status scale, the priority
+    tiers, and the shared-service decision questions are this project's drafts (medium or low
+    confidence). DPH has said the next version of its Performance Standards will include the FPHS
+    framework; this tool will need updating then.
+
+sources:
+  statute:
+    title: "M.G.L. c. 111, s. 27D: Public health excellence program; definitions; purpose; grant program; duties"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section27D
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-fphs:
+    title: Foundational Public Health Services (FPHS) for local public health
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/foundational-public-health-services-fphs-for-local-public-health
+    effective_date: null
+    retrieved: 2026-11-12
+  fphs-opdefs:
+    title: Foundational Public Health Services Operational Definitions (Word file hosted by DPH; modified 2024-11-05)
+    publisher: Public Health Accreditation Board and de Beaumont Foundation framework, hosted by the Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/fphs-operational-definitions/download
+    effective_date: "2024-11-05"
+    retrieved: 2026-11-12
+  fphs-factsheet:
+    title: Foundational Public Health Services factsheet (Word file hosted by DPH; modified 2025-01-21)
+    publisher: Public Health Accreditation Board, hosted by the Massachusetts Department of Public Health
+    url: https://www.mass.gov/doc/fphs-factsheet/download
+    effective_date: "2025-01-21"
+    retrieved: 2026-11-12
+  dph-performance-standards:
+    title: Performance Standards for Local Public Health
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/resource/performance-standards-for-local-public-health
+    effective_date: "2023-10-11"
+    retrieved: 2026-11-12
+  dph-press-2023:
+    title: Massachusetts public health officials announce performance standards for local public health (press release, 2023-10-11)
+    publisher: Massachusetts Department of Public Health
+    url: https://www.mass.gov/news/massachusetts-public-health-officials-announce-performance-standards-for-local-public-health
+    effective_date: "2023-10-11"
+    retrieved: 2026-11-12
+  dph-saphe-archive:
+    title: State Action for Public Health Excellence (SAPHE) Program (Archived)
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/state-action-for-public-health-excellence-saphe-program-archived
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-phe-grants:
+    title: Public Health Excellence Grant Program
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/info-details/public-health-excellence-grant-program
+    effective_date: null
+    retrieved: 2026-11-12
+  dph-ssa-list:
+    title: Shared Service Arrangements (Excel list, updated April 2026)
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/shared-service-arrangements/download
+    effective_date: "2026-04-16"
+    retrieved: 2026-11-12
+  dph-workforce:
+    title: Performance Standards workbook, Workforce Standards sheet
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/performance-standards/download
+    effective_date: "2024-07-15"
+    retrieved: 2026-11-12
+
+law:
+  naming_check: >-
+    Checked 2026-11-12. The statute is G.L. c. 111, s. 27D, which establishes the "state action for
+    public health excellence program". DPH's archived program page says the shared services grant
+    program started in January 2020 and was renamed the State Action for Public Health Excellence
+    (SAPHE) Grant Program in April 2020 "after the passage of the SAPHE Act". DPH's 2023 press
+    release says the Performance Standards were developed under legislation enacted in 2020. So the
+    year is 2020, not 2024. The names "SAPHE 2.0" and a "2024 SAPHE law" were not found on any page
+    read; DPH now runs the grants as the Public Health Excellence (PHE) Grant Program. Ask DPH's
+    Office of Local and Regional Health (LocalRegionalPublicHealth@mass.gov) if you have a source
+    that uses "SAPHE 2.0".
+  provisions:
+    - text: >-
+        DPH must run a state action for public health excellence program to give every resident
+        uniform access to foundational public health services (which must further equity, including
+        for historically underrepresented communities), help boards of health improve efficiency,
+        develop standards for foundational public health services statewide, and provide resources.
+      source: statute
+      section: s. 27D(b)
+      confidence: high
+    - text: >-
+        The standards must include inspections, epidemiology and communicable disease investigation
+        and reporting, permitting, and other local responsibilities required by law or by DPH or
+        DEP regulations; workforce education, training, and credentialing standards; and standards
+        for contributing required data. They must consider applicable national standards.
+      source: statute
+      section: s. 27D(c)
+      confidence: high
+    - text: >-
+        Subject to appropriation, boards of health must implement and comply with the standards,
+        individually or through cross-jurisdictional sharing: comprehensive public health
+        districts, formal shared services, or other arrangements.
+      source: statute
+      section: s. 27D(d)(1)
+      confidence: high
+    - text: >-
+        Each year, not later than August 31, a board of health must report to DPH information
+        showing compliance with the standards during the preceding fiscal year.
+      source: statute
+      section: s. 27D(d)(2)
+      confidence: high
+    - text: >-
+        Subject to appropriation, DPH provides funds for implementation, including competitive
+        grants for shared services across at least 2 municipalities and annual noncompetitive
+        funding distributed by level of implementation of the standards and a formula using
+        population, level of cross-jurisdictional sharing, and sociodemographic data. Grants
+        supplement, and do not replace, existing funding.
+      source: statute
+      section: s. 27D(f)
+      confidence: high
+    - text: >-
+        If DPH or DEP determines that failure to meet the standards in the required timeframe is a
+        threat to public health, they notify the board of health in writing and may restrict future
+        noncompetitive funding if the response is not sufficient.
+      source: statute
+      section: s. 27D(k)
+      confidence: high
+    - text: >-
+        DPH and DEP provide core public health training and technical assistance free of charge,
+        subject to appropriation, to help staff obtain the credentials and foundational capabilities
+        the standards require.
+      source: statute
+      section: s. 27D(e)
+      confidence: high
+  statute_terms:
+    - id: "STAT-01"
+      kind: capability
+      name: "assessment and surveillance"
+      fphs_area: "01"
+      own_item: false
+    - id: "STAT-02"
+      kind: capability
+      name: "emergency preparedness and response"
+      fphs_area: "07"
+      own_item: false
+    - id: "STAT-03"
+      kind: capability
+      name: "policy development"
+      fphs_area: "05"
+      own_item: false
+    - id: "STAT-04"
+      kind: capability
+      name: "communications"
+      fphs_area: "08"
+      own_item: false
+    - id: "STAT-05"
+      kind: capability
+      name: "community partnership development"
+      fphs_area: "02"
+      own_item: false
+    - id: "STAT-06"
+      kind: capability
+      name: "organizational administrative competences"
+      fphs_area: "04"
+      own_item: false
+    - id: "STAT-07"
+      kind: capability
+      name: "data-driven interventions"
+      fphs_area: null
+      own_item: true
+    - id: "STAT-08"
+      kind: capability
+      name: "accountability and performance management"
+      fphs_area: "06"
+      own_item: false
+    - id: "STAT-09"
+      kind: program
+      name: "communicable disease control"
+      fphs_area: "09"
+      own_item: false
+    - id: "STAT-10"
+      kind: program
+      name: "public health nursing services"
+      fphs_area: null
+      own_item: true
+    - id: "STAT-11"
+      kind: program
+      name: "epidemiology"
+      fphs_area: "01"
+      own_item: true
+    - id: "STAT-12"
+      kind: program
+      name: "food and water protection"
+      fphs_area: "11"
+      own_item: true
+    - id: "STAT-13"
+      kind: program
+      name: "chronic disease and injury prevention"
+      fphs_area: "10"
+      own_item: false
+    - id: "STAT-14"
+      kind: program
+      name: "environmental public health"
+      fphs_area: "11"
+      own_item: false
+    - id: "STAT-15"
+      kind: program
+      name: "maternal, child and family health"
+      fphs_area: "12"
+      own_item: false
+    - id: "STAT-16"
+      kind: program
+      name: "access to and linkage with clinical care"
+      fphs_area: "13"
+      own_item: false
+  statute_terms_note: >-
+    The statute's definitions list foundational capabilities and public health programs (s. 27D(a),
+    "including, but not limited to"). Terms with a national FPHS counterpart are assessed under that
+    FPHS area (fphs_area). The four terms marked own_item have no single FPHS counterpart (the
+    national framework folds epidemiology into Assessment & Surveillance, and has no separate
+    public health nursing, food and water, or data-driven interventions headings), so the tool
+    asks about them separately. The counterpart mapping is this project's reading (medium
+    confidence).
+
+framework:
+  name: Foundational Public Health Services (FPHS)
+  summary: >-
+    A national framework from the Public Health Accreditation Board and the de Beaumont Foundation
+    that defines the minimum package of public health services that should be available in every
+    community: eight Foundational Capabilities (cross-cutting skills) and five Foundational Areas
+    (topic programs), with equity as an overarching theme and community-specific services on top.
+    DPH's Office of Local and Regional Health is adopting it for Massachusetts local public health
+    under the SAPHE program and says the next version of the Performance Standards will include it.
+  community_specific_note: >-
+    The operational definitions also list "community-specific services" (14.xx: other clinical
+    health care, other social services, other governmental services). They vary by community and are
+    not rated here; add your own items in the notes column if you track them.
+  source: fphs-opdefs
+  areas:
+    - id: "01"
+      kind: capability
+      name: "Assessment & Surveillance"
+      statute_terms: ["assessment and surveillance", "data-driven interventions"]
+      headline_responsibilities:
+        - id: "FPHS-01.01"
+          text: "Develop and maintain an assessment and analysis infrastructure."
+        - id: "FPHS-01.02"
+          text: "Use collaborative processes to assess community health and identify health priorities."
+        - id: "FPHS-01.03"
+          text: "Develop and maintain a surveillance and epidemiology infrastructure."
+        - id: "FPHS-01.04"
+          text: "Develop and maintain a vital records infrastructure."
+        - id: "FPHS-01.05"
+          text: "Develop and maintain a public health laboratory infrastructure."
+    - id: "02"
+      kind: capability
+      name: "Community Partnership Development"
+      statute_terms: ["community partnership development"]
+      headline_responsibilities:
+        - id: "FPHS-02.01"
+          text: "Develop and maintain capabilities to cultivate relationships and convene partners."
+        - id: "FPHS-02.02"
+          text: "Develop and maintain strategic partnerships with governmental and non-governmental partners."
+        - id: "FPHS-02.03"
+          text: "Develop and maintain trusted relationships with communities."
+        - id: "FPHS-02.04"
+          text: "Use collaborative processes to develop health improvement plans to address identified priorities."
+    - id: "03"
+      kind: capability
+      name: "Equity"
+      statute_terms: []
+      headline_responsibilities:
+        - id: "FPHS-03.01"
+          text: "Develop and demonstrate agency commitment to equity."
+        - id: "FPHS-03.02"
+          text: "Inform and influence public and external organizational policies to advance equity."
+    - id: "04"
+      kind: capability
+      name: "Organizational Competencies"
+      statute_terms: ["organizational administrative competences"]
+      headline_responsibilities:
+        - id: "FPHS-04.01"
+          text: "Maintain a governance structure and establish the strategic direction for public health."
+        - id: "FPHS-04.02"
+          text: "Provide or access services for information technology, privacy, and security."
+        - id: "FPHS-04.03"
+          text: "Provide or access human resources services and develop and maintain a competent workforce."
+        - id: "FPHS-04.04"
+          text: "Provide or access financial management services and facilitate contracting, procurement, and maintenance of facilities and operations."
+        - id: "FPHS-04.05"
+          text: "Access public health legal services and analysis."
+    - id: "05"
+      kind: capability
+      name: "Policy Development & Support"
+      statute_terms: ["policy development"]
+      headline_responsibilities:
+        - id: "FPHS-05.01"
+          text: "Develop, amend, and enact public health policies in collaboration with partners, policymakers, and community members."
+        - id: "FPHS-05.02"
+          text: "Participate in policy development initiatives being considered by partners that affect the public's health."
+        - id: "FPHS-05.03"
+          text: "Implement and support enacted public health policies."
+    - id: "06"
+      kind: capability
+      name: "Accountability & Performance Management"
+      statute_terms: ["accountability and performance management"]
+      headline_responsibilities:
+        - id: "FPHS-06.01"
+          text: "Maintain accountability according to accepted business practices, applicable policies, and public health accreditation."
+        - id: "FPHS-06.02"
+          text: "Maintain a performance management structure and establish appropriate quality improvement initiatives."
+    - id: "07"
+      kind: capability
+      name: "Emergency Preparedness & Response"
+      statute_terms: ["emergency preparedness and response"]
+      headline_responsibilities:
+        - id: "FPHS-07.01"
+          text: "Establish governmental public health’s role in preparedness and response to incidents."
+        - id: "FPHS-07.02"
+          text: "Develop, exercise, and maintain preparedness and response plans."
+        - id: "FPHS-07.03"
+          text: "Assure public health continuity of operations."
+        - id: "FPHS-07.04"
+          text: "Respond to incidents."
+        - id: "FPHS-07.05"
+          text: "Recover from incidents."
+    - id: "08"
+      kind: capability
+      name: "Communications"
+      statute_terms: ["communications"]
+      headline_responsibilities:
+        - id: "FPHS-08.01"
+          text: "Develop and maintain a public communications infrastructure."
+        - id: "FPHS-08.02"
+          text: "Develop and maintain public health education and risk communication capabilities."
+    - id: "09"
+      kind: area
+      name: "Communicable Disease Control"
+      statute_terms: ["communicable disease control", "public health nursing services", "epidemiology"]
+      headline_responsibilities:
+        - id: "FPHS-09.01"
+          text: "Develop a communicable disease prevention plan, as well as plans for the prevention and control of specific communicable diseases."
+        - id: "FPHS-09.02"
+          text: "Provide timely, scientifically accurate, and locally relevant information on communicable diseases and their control."
+        - id: "FPHS-09.03"
+          text: "Implement population-based communicable disease prevention and control programs and strategies."
+        - id: "FPHS-09.04"
+          text: "Inform, communicate, work cooperatively with, and influence others on policy, system, and programmatic changes for communicable disease prevention and control."
+        - id: "FPHS-09.05"
+          text: "Conduct disease investigations and respond to communicable disease outbreaks."
+        - id: "FPHS-09.06"
+          text: "Enforce public health laws to prevent and control communicable diseases."
+        - id: "FPHS-09.07"
+          text: "Maintain or participate in a statewide immunization program and assure the availability of immunizations to the public."
+    - id: "10"
+      kind: area
+      name: "Chronic Disease & Injury Prevention"
+      statute_terms: ["chronic disease and injury prevention", "public health nursing services"]
+      headline_responsibilities:
+        - id: "FPHS-10.01"
+          text: "Develop a chronic disease and injury prevention plan, as well as plans for the prevention and control of specific chronic diseases or sources of injury."
+        - id: "FPHS-10.02"
+          text: "Provide timely, scientifically accurate, and locally relevant information on chronic diseases and injury prevention."
+        - id: "FPHS-10.03"
+          text: "Implement population-based strategies to address issues related to chronic disease and injury."
+        - id: "FPHS-10.04"
+          text: "Inform, communicate, work cooperatively with, and influence others on policy, system, and environmental changes that will prevent harm and improve health related to chronic disease and injury."
+    - id: "11"
+      kind: area
+      name: "Environmental Public Health"
+      statute_terms: ["environmental public health", "food and water protection"]
+      headline_responsibilities:
+        - id: "FPHS-11.01"
+          text: "Develop a plan to promote environmental health."
+        - id: "FPHS-11.02"
+          text: "Provide timely, scientifically accurate, and locally relevant information on the environment and environmental threats and their control."
+        - id: "FPHS-11.03"
+          text: "Implement population-based environmental health programs and strategies."
+        - id: "FPHS-11.04"
+          text: "Inform, communicate, work cooperatively with, and influence others whose work impacts environmental health."
+        - id: "FPHS-11.05"
+          text: "Diagnose, investigate, and respond to environmental threats to the public’s health."
+        - id: "FPHS-11.06"
+          text: "Conduct mandated environmental public health inspections and oversight to protect the public from hazards in accordance with federal, state, and local laws and regulations."
+    - id: "12"
+      kind: area
+      name: "Maternal, Child, & Family Health"
+      statute_terms: ["maternal, child and family health", "public health nursing services"]
+      headline_responsibilities:
+        - id: "FPHS-12.01"
+          text: "Develop a maternal and child health plan, as well as plans for addressing specific maternal, child, and family health issues."
+        - id: "FPHS-12.02"
+          text: "Provide timely, scientifically accurate, and locally relevant information on maternal, child, and family health."
+        - id: "FPHS-12.03"
+          text: "Implement population-based strategies to address issues related to maternal, child, and family health."
+        - id: "FPHS-12.04"
+          text: "Inform, communicate, work cooperatively with, and influence others on policy, system, and environmental changes that will prevent harm and improve maternal, child, and family health."
+        - id: "FPHS-12.05"
+          text: "Assure provision of mandated newborn screenings and follow-ups according to state or federal mandates."
+    - id: "13"
+      kind: area
+      name: "Access to & Linkage with Clinical Care"
+      statute_terms: ["access to and linkage with clinical care"]
+      headline_responsibilities:
+        - id: "FPHS-13.01"
+          text: "Develop a plan to address gaps and barriers and assure access to clinical care services."
+        - id: "FPHS-13.02"
+          text: "Provide timely, scientifically accurate, and locally relevant information on the importance, impact, and accessibility of the healthcare system, including barriers to care."
+        - id: "FPHS-13.03"
+          text: "Implement population-based strategies to improve barriers to accessing clinical care."
+        - id: "FPHS-13.04"
+          text: "Inform, communicate, work cooperatively with, and influence others on policy, system, and programmatic changes to facilitate access to health services."
+        - id: "FPHS-13.05"
+          text: "Examine and monitor the quality, effectiveness, and cost-efficiency of clinical care."
+        - id: "FPHS-13.06"
+          text: "Ensure licensed health care facilities and providers comply with laws and rules as appropriate."
+
+shared_services:
+  intro: >-
+    The statute lets a board of health meet the standards "individually or through cross-jurisdictional
+    sharing", and DPH's FPHS page says the framework sets a minimum that each community may provide
+    directly or through other groups. Use these options to decide, for each gap, who delivers it.
+  models:
+    - id: own
+      label: Your own department
+      description: The board of health or health department delivers the service with its own staff.
+      source: dph-fphs
+      section: A national Framework tailored for every municipality
+      confidence: high
+    - id: district
+      label: Comprehensive public health district or regional health district
+      description: >-
+        A regional health district established under G.L. c. 111, s. 27B, or another comprehensive
+        district, named in s. 27D(a) and s. 27D(d)(1).
+      source: statute
+      section: s. 27D(a), (d)(1)
+      confidence: high
+    - id: formal_shared
+      label: Formal shared services between boards of health
+      description: >-
+        Boards of health that share services under G.L. c. 40, s. 4A (inter-municipal agreements),
+        named in s. 27D(a). DPH funds shared service arrangements (SSAs) through the Public Health
+        Excellence grants; the snapshot lists which SSA each municipality is in.
+      source: statute
+      section: s. 27D(a), (d)(1), (f)(2)(ii)
+      confidence: high
+    - id: other_arrangement
+      label: Other arrangements for sharing public health programs
+      description: Any other cross-jurisdictional arrangement for sharing programs, such as a contract with a neighboring town or agency.
+      source: statute
+      section: s. 27D(d)(1)
+      confidence: high
+    - id: state
+      label: Provided by a state program
+      description: >-
+        Some Performance Standards name a state program that supports the topic (for example DPH
+        bureaus or DEP). The workbook says the state program "may provide technical support" but
+        is not necessarily responsible for the board of health standard.
+      source: dph-performance-standards
+      section: Footnote to the standards table
+      confidence: high
+  supports:
+    - name: Public Health Excellence (PHE) grants
+      description: >-
+        State and federal funding through the Office of Local and Regional Health for local public
+        health workforce, shared services, and capacity building. The program page says FY2027
+        awards of up to $26.6 million, with 54 shared service arrangements covering 322
+        municipalities and three standalone grantees (Boston, Springfield, Worcester).
+      source: dph-phe-grants
+      section: Public Health Excellence Grant Program
+      confidence: high
+    - name: Technical assistance from OLRH
+      description: >-
+        Customized technical assistance listed on the program page: organizational competencies,
+        workforce development and training, grant management and sustainability, environmental
+        health enforcement support, community partnership development, racial and health equity
+        initiatives, data analysis, the Local Public Health Nurse Consultant Program, FPHS
+        support, legal technical assistance, and local communications support.
+      source: dph-phe-grants
+      section: Technical support for grantees
+      confidence: high
+    - name: Regional public health training hubs
+      description: >-
+        DPH's 2023 press release describes 10 field training hubs (about $5.5 million) for hands-on
+        proficiency training, for example for restaurant, housing, pool, and camp inspectors.
+        The SSA list names each municipality's hub.
+      source: dph-press-2023
+      section: Press release, paragraph on training hubs
+      confidence: high
+    - name: Performance Standards questions and feedback
+      description: "performancestandards@mass.gov (questions about the Performance Standards workbook)."
+      source: dph-performance-standards
+      section: Performance Standards for Local Public Health
+      confidence: high
+  decision_questions:
+    - Does the service need a licensed or credentialed person you cannot hire full time (for example a Registered Sanitarian or an epidemiologist)?
+    - Is the volume of work too small to justify a full-time position but real enough to need dependable coverage?
+    - Does a neighboring board of health, district, or shared service arrangement already deliver it, and would they take your town on?
+    - What would a shared or contracted arrangement cost, and can PHE grant funds or other grants pay for it?
+    - Who is accountable to your board of health, and how will you document compliance for the annual report due August 31?
+
+status_scale:
+  - id: met
+    label: Met
+    definition: The service or requirement is in place and you can show it (a document, a record, a trained person).
+  - id: partial
+    label: Partly met
+    definition: Some of it is in place, or it is in place for part of the work, part of the year, or part of the population.
+  - id: not_met
+    label: Not met
+    definition: It is not in place, or no one is assigned to it.
+  - id: not_applicable
+    label: Not applicable
+    definition: The standard does not apply to your board of health (for example, city-only duties for a town). Say why in the notes.
+status_scale_note: >-
+  These four values and their wording are this project's, not DPH's: the Performance Standards
+  workbook has no scoring. Rate your own department; the tool never fills a status in for you.
+
+delivered_by_options:
+  - id: own
+    label: Own department
+  - id: shared
+    label: Shared service arrangement or district
+  - id: contract
+    label: Contract or agreement with another agency
+  - id: state
+    label: State program
+  - id: not_delivered
+    label: Not delivered
+
+priority_rules:
+  - tier: 1
+    label: Address first
+    rule: A mandated local responsibility from the Performance Standards (statute or regulation) that is not met.
+    rationale: These are legal duties of boards of health; the statute says boards of health must comply with the standards, subject to appropriation.
+  - tier: 2
+    label: Address next
+    rule: A mandated responsibility that is partly met; a workforce standard or statute-listed program that is not met; or an FPHS Foundational Capability that is not met.
+    rationale: Workforce standards are part of the standards the statute requires (s. 27D(c)(ii)); capabilities support every program.
+  - tier: 3
+    label: Plan for
+    rule: Any other gap (partly met items from the workforce, statute, and FPHS sets, and not-met FPHS area items).
+    rationale: Important, but the framework is not yet a legal requirement in the Performance Standards.
+priority_note: >-
+  The tiers are this project's way to start a conversation, not DPH's ranking. You can override any
+  item by giving it a priority of high, medium, or low; your priority is then used instead.
+
+not_verified:
+  - The licence terms for the FPHS framework text (PHAB and de Beaumont) and for mass.gov documents were not read.
+  - The PHAB and de Beaumont FPHS pages (phaboard.org) could not be reached from the build network; the framework was read through DPH's copy of the operational definitions.
+  - '"SAPHE 2.0" and a 2024 date: no source was found (see law.naming_check).'
+  - The mapping from the statute's terms to FPHS areas is this project's reading.

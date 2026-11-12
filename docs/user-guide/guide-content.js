@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 129;
+const TOOL_COUNT = 132;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4305,6 +4305,103 @@ const toolChapters = [
     intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
     tools: [
       // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05) tools.
+      {
+        id: 'assess_foundational_public_health_services',
+        title: 'Check your department against the state local public health standards',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, a self-assessment worksheet and a gap analysis (Word and Excel) in your output folder; optionally reads the worksheet you filled in',
+        does: 'Helps you find the gaps between what your health department does and what Massachusetts expects: the mandated local responsibilities in DPH’s Performance Standards, DPH’s workforce standards, the Foundational Public Health Services framework, and the programs named in the State Action for Public Health Excellence law (G.L. c. 111, s. 27D). You rate each standard yourself (met, partly met, not met, not applicable). The tool never fills in an answer. It then totals your ratings, lists the gaps in priority order (legal mandates first), and shows shared-service options, including the shared service arrangement DPH lists for your town.',
+        when: [
+          'Preparing your annual compliance report to DPH, due August 31.',
+          'Deciding where to ask for staff, grant funds, or a shared service.',
+          'Briefing your board of health or town leaders on gaps.',
+        ],
+        provide: [
+          'The first time, nothing: the tool writes a worksheet listing every standard.',
+          'Then the worksheet with its Status column filled in (met, partial, not_met, not_applicable), saved as CSV or Excel in your data folder. You can also type a few statuses in the chat.',
+          'Optionally your town, who delivers each service (own, shared, contract, state), and your own priority for any item.',
+        ],
+        examples: [
+          'Make me a self-assessment worksheet for our local public health standards.',
+          'Here is my filled worksheet (fphs_self_assessment.xlsx). Show the gaps and what to do first.',
+          'Which shared service arrangement is Amherst in, and what could it cover for us?',
+        ],
+        returns: [
+          'Counts by set and area, the percent met, a gap table, a priority view in three tiers with the rules shown, shared-service options with their legal basis, and the files.',
+        ],
+        notes: [
+          'This is decision support, not a compliance finding. DPH’s workbook has no scoring; the statuses, tiers, and priorities are yours and this tool’s, not DPH’s.',
+          'The law is the 2020 SAPHE law, G.L. c. 111, s. 27D. A “2024 SAPHE 2.0” law was not found on any DPH page; ask the Office of Local and Regional Health if you have a source.',
+          'Your notes stay in the files in your output folder; the chat sees counts and the public standard IDs.',
+          'The content is a draft waiting for review. Some standards are marked as possibly outdated in DPH’s workbook.',
+        ],
+      },
+      {
+        id: 'phab_accreditation_crosswalk',
+        title: 'Match your documents to the PHAB accreditation standards',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads a folder of your documents; writes a crosswalk (Word and Excel) to your output folder',
+        does: 'Looks through the policies, plans, reports, and minutes in a folder you choose and shows which of the 20 Public Health Accreditation Board (PHAB) standards in Version 2022 your documents appear to support, and which have no evidence yet. For each standard you see the documents (by your own file names), the words that matched, and a short passage of up to 20 words. Files that look like client records or interview transcripts are never used.',
+        when: [
+          'Starting or updating an accreditation readiness review.',
+          'Finding out which plan or policy is missing before a PHAB site visit.',
+          'Showing the board of health what you already have.',
+        ],
+        provide: [
+          'The folder of documents in your data folder (the default is your policies folder).',
+          'Optionally a list of PHAB measures from your own copy of the PHAB document (Measure ID, Short title, Keywords) to map measures too.',
+        ],
+        examples: [
+          'Which PHAB standards are covered by the documents in our accreditation folder?',
+          'Which domains have no documents at all?',
+          'Use my measures list (phab_measures.xlsx) and show which measures have evidence.',
+        ],
+        returns: [
+          'Strong, some, or no evidence for each standard, the documents and words behind it, the gaps, and a Word and Excel crosswalk.',
+        ],
+        notes: [
+          'A match means a document mentions the topic. It does not mean the document meets a PHAB measure; PHAB’s own rules on dates, approval, and content decide.',
+          'PHAB’s measures are PHAB’s copyrighted text. The tool could not read them, so it does not include measure numbers or text; use your own copy and check PHAB’s terms.',
+          'Scanned documents with no text are not read.',
+          'The standard titles come from a CDC toolkit and the keywords are this project’s; the content is waiting for review.',
+        ],
+      },
+      {
+        id: 'build_strategic_plan',
+        title: 'Draft a strategic plan with a stakeholder grid',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, a draft plan (Word) and the stakeholder grid (picture files) in your output folder',
+        does: 'Gives your planning team a structure for a health department strategic plan and fills it only with what you provide. It lays out a SWOT or SOAR analysis, places your stakeholders on a power and interest grid (a picture with a text key, and a table), organizes strategic priorities with goals, objectives, and strategies, links them to your community health improvement plan (CHIP), and points out blanks.',
+        when: [
+          'Starting a new three to five year strategic plan.',
+          'Preparing a planning retreat with the board of health.',
+          'Checking that every CHIP priority has something in the strategic plan behind it.',
+        ],
+        provide: [
+          'Your mission, vision, and values, and the years of the plan.',
+          'Short SWOT or SOAR entries from your team.',
+          'Stakeholders with power and interest rated from 1 to 5.',
+          'Priorities, goals, objectives (measure, target, due date), and strategies (who is responsible), as far as you have them.',
+          'Your CHIP priorities.',
+        ],
+        examples: [
+          'Help me start a 2027 to 2031 strategic plan for our board of health. Here are our strengths and weaknesses.',
+          'Place these eight stakeholders on a power and interest grid.',
+          'We have three priorities and a CHIP with four priorities. Which CHIP priorities have nothing behind them?',
+        ],
+        returns: [
+          'The analysis scaffold, the stakeholder table and grid, coded priorities, goals, objectives, and strategies, the CHIP link, a list of blanks to fill, and a draft Word plan.',
+        ],
+        notes: [
+          'The tool adds no facts and does not judge quality. Every priority, objective, and rating comes from you.',
+          'PHAB’s strategic plan requirements could not be checked, so the result says they are unverified and lists what to look up in PHAB’s document. It never says a plan meets PHAB requirements.',
+          'Use roles and organization names for stakeholders. Phone numbers and other personal details in your answers are flagged.',
+          'The SWOT, SOAR, and grid wording is a draft waiting for review.',
+        ],
+      },
       // End of Phase 18 strategy tools.
       // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08) tools.
       // End of Phase 18 workforce tools.

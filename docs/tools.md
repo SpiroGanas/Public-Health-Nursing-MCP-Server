@@ -3903,6 +3903,124 @@ hiring time, leave coverage, or skill mix. Content is pending review.
 
 <!-- Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05). -->
 
+### `assess_foundational_public_health_services` (LEAD-03, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `town` | saved town | City or town, to show the shared service arrangement DPH lists for it (arrangement, lead entity, training hub, member towns). |
+| `sets` | all four | `performance` (mandated local responsibilities), `workforce`, `statute` (program terms in G.L. c. 111, s. 27D(a) with no single FPHS twin), `fphs` (the 56 FPHS Headline Responsibilities). |
+| `statuses` | | Statuses you record: `standard_id`, `status` (`met`, `partial`, `not_met`, `not_applicable`; also yes, no, partly met, n/a), optional `delivered_by` (`own`, `shared`, `contract`, `state`, `not_delivered`), `priority` (`high`, `medium`, `low`), `note`. At most 400. |
+| `assessment_path` / `assessment_sheet` | | The self-assessment worksheet this tool wrote, with its Status (and optionally Delivered by, Priority, Notes) columns filled in, as CSV/XLSX in `/data`. Typed `statuses` override it. |
+| `write_documents` | true | Worksheet or gap analysis in `/data/output`. |
+| `formats` | `docx`, `xlsx` | Either or both. |
+
+**What it does.** Without statuses it writes a self-assessment worksheet (XLSX: ID, set, area,
+standard, citation, Status, Delivered by, Priority, Notes) and a guide (DOCX), and returns the
+number of standards by set. With statuses (typed or from the filled worksheet) it returns counts
+by set and area, the percent met of rated standards, a gap table, and a **priority view**: tier 1
+mandated responsibilities not met; tier 2 mandates partly met, plus workforce, statute, and FPHS
+capability items not met; tier 3 everything else (the rules are returned; your own priority
+replaces the tier for that item). Shared-service options come from the statute (comprehensive
+districts, G.L. c. 40, s. 4A formal shared services, other arrangements), DPH's Public Health
+Excellence grants, technical assistance and training hubs, and DPH's April 2026 list of shared
+service arrangements. The files hold every gap with your notes.
+
+**Sources.** G.L. c. 111, s. 27D (read in full on malegislature.gov); DPH's Performance
+Standards workbook (published 2023-10-11, file last modified 2024-07-15; snapshot
+`ma-performance-standards`: 93 mandates and 13 workforce standards); DPH's FPHS operational
+definitions (Word file modified 2024-11-05; 56 Headline Responsibilities); DPH's shared service
+arrangement list (April 2026; snapshot `ma-shared-service-arrangements`, 351 municipalities).
+
+**Law and name.** The plan and the request that started this work said "2020" and "2024 SAPHE
+2.0". mass.gov and the statute say the State Action for Public Health Excellence (SAPHE) program
+came from legislation enacted in 2020 (the grant program was renamed in April 2020) and is now run
+as the Public Health Excellence (PHE) grants. No page read used the name "SAPHE 2.0". Each board of
+health reports compliance to DPH by August 31 (s. 27D(d)(2)).
+
+**Privacy.** Only the ID, Status, Delivered by, Priority, and Notes columns of your worksheet are
+read; a file with identifier columns in those, or with no ID column, is refused without echoing a
+value. The response has counts and public standard IDs; notes are written only to `/data/output`.
+
+**Limits.** Content is a draft pending expert review (`review_due` 2027-02-01). The status scale,
+tiers, and the mapping of statute terms to FPHS areas are this project's; DPH's workbook has no
+scoring. The workbook's one-line summaries are shortened (the citation controls); some standards
+are marked * as possibly outdated. The licence terms of the FPHS framework and of mass.gov
+documents were not read. PHAB's and de Beaumont's FPHS pages (phaboard.org) were not reachable.
+
+
+### `phab_accreditation_crosswalk` (LEAD-04, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `folder` | policy folder | Folder under `/data` with your documents (PDF, DOCX, Markdown, text, HTML; subfolders included). |
+| `domains` | all | PHAB domains 1 to 10 to include. |
+| `measures_path` / `measures_sheet` | | A CSV/XLSX in `/data` from your own copy of PHAB's document: `Measure ID`, `Short title`, optional `Keywords` (semicolon separated). |
+| `max_documents_per_standard` | 5 | 1 to 10. |
+| `write_documents`, `formats` | true; both | Crosswalk in `/data/output` (DOCX and XLSX). |
+
+**What it does.** Searches the Phase 1 document index (the one `search_agency_policies` uses) for
+this project's keyword cues for each of the 20 PHAB Version 2022 standards (10 domains), and
+reports evidence as **strong** (two or more cues in one section, or cues in three or more
+sections), **some** (at least one cue, or a file name such as "Strategic Plan"), or **none
+found** (a gap). For each standard it lists the documents (your file names), the cues matched,
+and a passage of at most 20 words with names and contact details redacted. The XLSX has the
+crosswalk, domain summary, a document view, the measures you supplied, and the files left out.
+
+**Privacy.** A file that looks like a client record (labeled birth date, record or health plan
+number, two or more street addresses, "Client name:" style labels) or an interview or meeting
+transcript is left out, counted, and named only in the output file. Passages are redacted at the
+strict level. The response never holds more than file names, cue words, evidence levels, and the
+short passages.
+
+**PHAB content and licence.** PHAB's Standards & Measures are PHAB's copyrighted work. PHAB's
+document (phaboard.org) could not be reached from the build network, so this tool bundles only
+the domain names, standard numbers, and short standard titles as CDC's 2023 crosswalk toolkit
+shows them, plus keyword cues written for this project. **Measure IDs and titles are not
+bundled**; use `measures_path` with a list from your own PHAB copy, and check PHAB's terms.
+
+**Limits.** A keyword match is not a finding that a measure is met: document dates, approval,
+and PHAB's documentation requirements are not checked. Scanned images are not read (no OCR).
+Content is a draft pending review.
+
+
+### `build_strategic_plan` (LEAD-05, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `department`, `period_start`, `period_end` | | Name and years (1900 to 2100, at most 15 years). |
+| `mission`, `vision`, `values` | | Your own words. |
+| `method`, `swot`, `soar` | SWOT, or whichever you filled | Entries for each quadrant (short phrases, at most 20 each). |
+| `stakeholders` | | Name (organization, group, or role), `power` and `interest` from 1 to 5, optional group, engagement now and desired, what you need, owner. At most 40. |
+| `priorities` | | Each with `title`, `rationale`, `chip_priority`, and `goals` (each with `objectives`: statement, measure, baseline, target, due; and `strategies`: statement, responsible, timeline, resources). |
+| `chip_title`, `chip_priorities` | | Your community health improvement plan and its priorities. |
+| `write_document` | true | Draft plan (DOCX) plus the grid as SVG and PNG in `/data/output`. |
+| `include_svg` | false | Return the SVG text in the response. |
+
+**What it does.** Scaffolds a SWOT or SOAR analysis (your entries beside prompts; SWOT adds the
+four strategy-pairing prompts), places stakeholders on a power and interest grid (above 3 counts as
+high: Manage closely, Keep satisfied, Keep informed, Monitor) as an accessible SVG with a
+title, description, numbered shapes, and a key, plus a table; numbers priorities, goals,
+objectives, and strategies (P1, G1.1, O1.1.1, S1.1.1); links them to your CHIP priorities;
+and checks for blanks (objective without measure, target, or date; goal without objective or
+strategy; strategy without owner; CHIP priority with nothing linked; dates outside the period;
+a high power and high interest stakeholder in no strategy). The Phase 15 community health
+assessment framework supplies the MAPP 2.0 phase names for the assessment link.
+
+**PHAB.** PHAB's requirements for a strategic plan (Standards 10.1 and 5.2) could not be read
+(phaboard.org was blocked), so the result says `unverified` and lists what to check in PHAB's
+document. What was read: CDC's description of Standard 10.1 (a plan defines roles, goals,
+objectives, and priorities for a specific period) and Standard 5.2 (a collaboratively developed
+CHIP), CDC's statement that a documented CHA and CHIP dated within five years are required, and
+a 2025 study of what accredited departments' plans contain.
+
+**Privacy.** Nothing is read from your files; the draft contains only what you type. Phone
+numbers, emails, and similar details in inputs are reported in the privacy block.
+
+**Limits.** The tool adds no facts and judges no quality. The SWOT, SOAR, and stakeholder-grid
+prompts and quadrant names are this project's drafts built on two journal abstracts (SOAR in
+nursing administration, 2016; a stakeholder analysis review, 2000). Content is pending review.
+
+
 <!-- End of Phase 18 strategy. -->
 
 <!-- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08). -->

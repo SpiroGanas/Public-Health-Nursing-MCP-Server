@@ -738,6 +738,27 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 17 content items.
     // Phase 18 content items go below this line.
     // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+    ContentItem {
+        id: "leadership-fphs-framework",
+        path: "content/leadership/fphs_framework.yaml",
+        resource_uri: "phn://content/leadership-fphs-framework",
+        yaml: include_str!("../../../content/leadership/fphs_framework.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_fphs_framework.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-phab-standards",
+        path: "content/leadership/phab_standards.yaml",
+        resource_uri: "phn://content/leadership-phab-standards",
+        yaml: include_str!("../../../content/leadership/phab_standards.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_phab_standards.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-strategic-planning",
+        path: "content/leadership/strategic_planning.yaml",
+        resource_uri: "phn://content/leadership-strategic-planning",
+        yaml: include_str!("../../../content/leadership/strategic_planning.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_strategic_planning.schema.json"),
+    },
     // End of Phase 18 strategy.
     // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
     // End of Phase 18 workforce.

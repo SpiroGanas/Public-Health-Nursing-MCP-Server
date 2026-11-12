@@ -9,6 +9,24 @@ use phn_core::Toolset;
 /// FPHS, PHAB, strategic planning: LEAD-03, LEAD-04, LEAD-05.
 pub(super) const STRATEGY: &[ToolMeta] = &[
     // Phase 18 strategy entries go below this line.
+    ToolMeta {
+        name: "assess_foundational_public_health_services",
+        plan_id: "LEAD-03",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "phab_accreditation_crosswalk",
+        plan_id: "LEAD-04",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "build_strategic_plan",
+        plan_id: "LEAD-05",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
     // End of Phase 18 strategy entries.
 ];
 

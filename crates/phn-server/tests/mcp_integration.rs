@@ -1746,6 +1746,119 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 17 data tools.
         // ---- Phase 18 data tools go below this line.
         // ---- Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+        // LEAD-03 reads only the ID, Status, Delivered by, Priority, and Notes columns of a
+        // self-assessment worksheet. A worksheet whose other columns hold contact people (names,
+        // phones, emails) is accepted and none of them comes back; a client line list, a
+        // shelter file, a roster, and a client note are refused or ignored without echoing a value.
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "fphs_assessment.csv", "write_documents": false}),
+            "data/fphs_assessment.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "fphs_assessment.csv"}),
+            "data/fphs_assessment.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "shelter_registrations.csv", "write_documents": false}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "staff_roster.csv", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"assessment_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "assess_foundational_public_health_services",
+            json!({"statuses": [{"standard_id": "PS-ADM-001", "status": "met",
+                                 "note": "Ask perdita.stonehallow@example.org or call 413-555-0191"}],
+                   "write_documents": false}),
+            "data/study_abstract.txt",
+        ),
+        // LEAD-04 indexes a folder of the nurse's documents. Pointed at the whole data folder
+        // it meets every client file and transcript in the corpus: each is left out (client
+        // records and transcripts) or its passages are redacted (the study abstract, whose
+        // contact details never come back).
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/client_letter.html",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "."}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/key_informant_interview.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": ".", "write_documents": false}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "write_documents": false}),
+            "data/policies/needlestick_exposure.md",
+        ),
+        // The measures list given as a line list, a roster, a pantry list, and a client note.
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "staff_roster.csv", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "food_pantries.csv", "write_documents": false}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "phab_accreditation_crosswalk",
+            json!({"folder": "policies", "measures_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        // LEAD-05 has no file arguments: the plan holds only what was typed. Contact details in
+        // a typed field are reported, not repeated as findings.
+        (
+            "build_strategic_plan",
+            json!({"department": "Leak test department", "period_start": 2027, "period_end": 2031,
+                   "swot": {"strengths": ["Trusted nurses"]},
+                   "stakeholders": [{"name": "Board of health", "power": 5, "interest": 4,
+                                     "owner": "Director"}],
+                   "priorities": [{"title": "Workforce", "goals": [{"statement": "Fill positions"}]}],
+                   "chip_priorities": ["Behavioral health"], "write_document": false}),
+            ll,
+        ),
         // ---- End of Phase 18 strategy.
         // ---- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
         // ---- End of Phase 18 workforce.
