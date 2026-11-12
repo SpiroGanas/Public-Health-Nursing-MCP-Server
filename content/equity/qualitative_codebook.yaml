@@ -18,7 +18,7 @@ meta:
   source:
     title: Starter codebook drafted for this project (not from a published instrument)
     publisher: Public Health Nursing MCP Server contributors
-    url: null
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/equity/qualitative_codebook.yaml
   related_sources:
     - title: Community context assessment (qualitative data) in MAPP 2.0, as described by Front Public Health 2025;13:1601406
       publisher: Frontiers in Public Health

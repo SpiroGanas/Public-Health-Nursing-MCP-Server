@@ -100,7 +100,12 @@ async fn assessment_for_a_town_offline_lists_the_framework_data_and_hospitals() 
     let sections = d["status_assessment"]["sections"].as_array().unwrap();
     assert_eq!(sections.len(), 8);
     let by = |id: &str| sections.iter().find(|s| s["id"] == id).unwrap();
-    for id in ["profile", "language", "social_vulnerability", "environmental_justice"] {
+    for id in [
+        "profile",
+        "language",
+        "social_vulnerability",
+        "environmental_justice",
+    ] {
         assert_eq!(by(id)["status"], "included", "{id}: {}", by(id)["detail"]);
     }
     for sec in sections {
@@ -134,10 +139,18 @@ async fn assessment_for_a_town_offline_lists_the_framework_data_and_hospitals() 
             .unwrap()
             .contains("1.501(r)-3")
     );
-    assert!(d["hospital_chnas"]["reports_read"].as_array().unwrap().is_empty());
+    assert!(
+        d["hospital_chnas"]["reports_read"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
     // The draft report is in the output folder.
     let doc = d["document"].as_str().unwrap();
-    assert!(doc.starts_with("output/community_health_assessment"), "{doc}");
+    assert!(
+        doc.starts_with("output/community_health_assessment"),
+        "{doc}"
+    );
     assert!(h.data().join(doc).exists());
     assert_eq!(s["privacy"]["row_level_data"], false);
     assert_eq!(s["privacy"]["files_written"].as_array().unwrap().len(), 1);
@@ -152,14 +165,13 @@ async fn assessment_for_a_town_offline_lists_the_framework_data_and_hospitals() 
             .iter()
             .any(|x| x["title"].as_str().unwrap().contains("1.501(r)-3"))
     );
-    assert!(
-        s["sources"]
-            .as_array()
+    assert!(s["sources"].as_array().unwrap().iter().any(|x| {
+        x["title"]
+            .as_str()
             .unwrap()
-            .iter()
-            .any(|x| x["title"].as_str().unwrap().contains("Hospital General Information")
-                && x["mode"] == "snapshot")
-    );
+            .contains("Hospital General Information")
+            && x["mode"] == "snapshot"
+    }));
 }
 
 #[tokio::test]
@@ -172,7 +184,9 @@ async fn assessment_for_a_county_skips_town_sections_and_bad_input_is_an_error()
                "write_document": false}),
     )
     .await;
-    let sections = s["data"]["status_assessment"]["sections"].as_array().unwrap();
+    let sections = s["data"]["status_assessment"]["sections"]
+        .as_array()
+        .unwrap();
     for id in ["drinking_water", "fluoridation"] {
         let sec = sections.iter().find(|x| x["id"] == id).unwrap();
         assert_eq!(sec["status"], "not for this level");
@@ -200,7 +214,10 @@ async fn assessment_for_a_county_skips_town_sections_and_bad_input_is_an_error()
     .await;
     assert!(e.contains("Lowell"), "{e}");
     let e = call_err(&h, "community_health_assessment_builder", json!({})).await;
-    assert!(e.contains("name a Massachusetts") || e.contains("not found"), "{e}");
+    assert!(
+        e.contains("name a Massachusetts") || e.contains("not found"),
+        "{e}"
+    );
 }
 
 #[tokio::test]
@@ -248,7 +265,9 @@ async fn assessment_reads_a_pdf_chna_and_cites_the_page() {
                "hospitals": ["Example General Hospital"]}),
     )
     .await;
-    let reports = s["data"]["hospital_chnas"]["reports_read"].as_array().unwrap();
+    let reports = s["data"]["hospital_chnas"]["reports_read"]
+        .as_array()
+        .unwrap();
     assert_eq!(reports.len(), 1);
     let r = &reports[0];
     assert_eq!(r["pages"], 3);
@@ -529,7 +548,12 @@ async fn qualitative_analysis_returns_counts_only_and_withholds_rare_themes() {
     let housing = theme("HOUSING").expect("housing reported");
     assert!(housing["participants"].as_u64().unwrap() >= 4);
     assert_eq!(housing["transcripts"], 1);
-    assert!(housing["summary"].as_str().unwrap().contains("participants raised this"));
+    assert!(
+        housing["summary"]
+            .as_str()
+            .unwrap()
+            .contains("participants raised this")
+    );
     // Transportation: three or more.
     assert!(theme("TRANSPORT").is_some());
     // Substance use was raised by one participant only: no row, no counts, no label.
@@ -544,14 +568,18 @@ async fn qualitative_analysis_returns_counts_only_and_withholds_rare_themes() {
     assert_eq!(s["privacy"]["row_level_data"], false);
     // The scrub report has counts by kind and no values.
     assert!(d["scrub"]["total_removed"].as_u64().unwrap() >= 20);
-    assert_eq!(d["scrub"]["names_from_file"].as_u64().unwrap() >= 7, true);
+    assert!(d["scrub"]["names_from_file"].as_u64().unwrap() >= 7);
     // Nothing identifiable and no sentence from the transcript is returned.
     let all = everything(&h.call(
         "analyze_qualitative_data",
         json!({"transcript_paths": ["focus_group_transcript.txt"], "names_path": "participant_names.txt"}),
     )
     .await);
-    assert!(leaks(&all, FG, None).is_empty(), "{:?}", leaks(&all, FG, None));
+    assert!(
+        leaks(&all, FG, None).is_empty(),
+        "{:?}",
+        leaks(&all, FG, None)
+    );
     for sentence in [
         "The bus does not come after nine",
         "I have been in recovery for three years",
@@ -576,7 +604,11 @@ async fn qualitative_analysis_returns_counts_only_and_withholds_rare_themes() {
         assert!(h.data().join(f).exists());
     }
     let deid = std::fs::read_to_string(h.data().join(&files[2])).unwrap();
-    assert!(leaks(&deid, FG, None).is_empty(), "{:?}\n{deid}", leaks(&deid, FG, None));
+    assert!(
+        leaks(&deid, FG, None).is_empty(),
+        "{:?}\n{deid}",
+        leaks(&deid, FG, None)
+    );
     assert!(deid.contains("P1:") && deid.contains("P5:"));
     assert_eq!(s["privacy"]["files_written"].as_array().unwrap().len(), 3);
     assert!(caveats(&s).contains("heuristic"));
@@ -599,13 +631,25 @@ async fn qualitative_analysis_removes_names_even_without_a_names_file() {
         json!({"transcript_paths": ["focus_group_transcript.txt", "key_informant_interview.txt"]}),
     )
     .await);
-    assert!(leaks(&all, FG, None).is_empty(), "{:?}", leaks(&all, FG, None));
-    assert!(leaks(&all, KII, None).is_empty(), "{:?}", leaks(&all, KII, None));
+    assert!(
+        leaks(&all, FG, None).is_empty(),
+        "{:?}",
+        leaks(&all, FG, None)
+    );
+    assert!(
+        leaks(&all, KII, None).is_empty(),
+        "{:?}",
+        leaks(&all, KII, None)
+    );
     // The files hold no seeded identifier either (names come from the speaker labels, from
     // capitalization inside sentences, and from the identifier detector).
     for f in s["data"]["files"].as_array().unwrap().iter().skip(2) {
         let text = std::fs::read_to_string(h.data().join(f.as_str().unwrap())).unwrap();
-        let file = if text.contains("Facilitator:") { FG } else { KII };
+        let file = if text.contains("Facilitator:") {
+            FG
+        } else {
+            KII
+        };
         let found = leaks(&text, file, None);
         assert!(found.is_empty(), "{f}: {found:?}\n{text}");
     }
@@ -631,8 +675,18 @@ async fn qualitative_analysis_uses_your_codebook_and_guards_its_inputs() {
     .await;
     let d = &s["data"];
     assert_eq!(d["codebook"]["codes"].as_array().unwrap().len(), 2);
-    assert!(d["codebook"]["source"].as_str().unwrap().contains("your codebook"));
-    let rent = d["themes"].as_array().unwrap().iter().find(|t| t["code"] == "RENT").unwrap();
+    assert!(
+        d["codebook"]["source"]
+            .as_str()
+            .unwrap()
+            .contains("your codebook")
+    );
+    let rent = d["themes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|t| t["code"] == "RENT")
+        .unwrap();
     assert!(rent["participants"].as_u64().unwrap() >= 4);
     assert!(d["files"].as_array().unwrap().is_empty());
     assert!(!caveats(&s).contains("starter codebook"));
@@ -681,7 +735,10 @@ async fn qualitative_analysis_of_a_client_note_returns_no_identifier() {
         )
         .await;
     let all = everything(&r);
-    assert!(leaks(&all, "data/client_note.txt", None).is_empty(), "{all}");
+    assert!(
+        leaks(&all, "data/client_note.txt", None).is_empty(),
+        "{all}"
+    );
 }
 
 // ---------------------------------------------------------------- documents

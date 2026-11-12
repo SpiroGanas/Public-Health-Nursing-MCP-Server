@@ -547,7 +547,9 @@ folder, such as /data/chna, and then call it again with chna_paths."
             .into(),
     };
     let transcripts_text = match &transcripts {
-        Some(t) => format!("Call analyze_qualitative_data (EQ-10) with transcript_paths [\"{t}\"]."),
+        Some(t) => {
+            format!("Call analyze_qualitative_data (EQ-10) with transcript_paths [\"{t}\"].")
+        }
         None => "If I have focus group or interview transcripts, ask me to save them in a folder \
 in the data folder and call analyze_qualitative_data (EQ-10) with transcript_paths."
             .into(),
@@ -833,10 +835,15 @@ mod tests {
             assert!(text.contains(tool), "{tool}");
         }
         // EQ-01 to EQ-10 are all named.
-        for id in ["EQ-01", "EQ-02", "EQ-03", "EQ-04", "EQ-05", "EQ-06", "EQ-07", "EQ-08", "EQ-09", "EQ-10"] {
+        for id in [
+            "EQ-01", "EQ-02", "EQ-03", "EQ-04", "EQ-05", "EQ-06", "EQ-07", "EQ-08", "EQ-09",
+            "EQ-10",
+        ] {
             assert!(text.contains(id), "{id}");
         }
-        assert!(text.contains("area \"Lowell\"") && text.contains("partners_path \"partners.csv\""));
+        assert!(
+            text.contains("area \"Lowell\"") && text.contains("partners_path \"partners.csv\"")
+        );
         assert!(text.contains("chna_paths [\"chna\"]"));
         assert!(text.contains("transcript_paths [\"focus_groups\"]"));
         assert!(text.contains("not NACCHO's own handbook") || text.contains("not NACCHO's own"));
@@ -863,7 +870,9 @@ mod tests {
         assert!(text.contains(&toolset_note(CHA_TOOLSETS)));
         // Without arguments it asks for what it needs.
         let bare = render(COMMUNITY_HEALTH_ASSESSMENT, &[]);
-        assert!(bare.contains("my saved town") && bare.contains("save each nearby hospital's CHNA"));
+        assert!(
+            bare.contains("my saved town") && bare.contains("save each nearby hospital's CHNA")
+        );
         let mut long = JsonObject::new();
         long.insert("area".into(), "x".repeat(301).into());
         assert!(get(COMMUNITY_HEALTH_ASSESSMENT, &Some(long)).is_err());

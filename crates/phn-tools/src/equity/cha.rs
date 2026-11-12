@@ -28,8 +28,8 @@ use serde::{Deserialize, Serialize};
 use super::language::{LanguageAccessArgs, LanguageAccessResult, language_access_profile};
 use super::profile::{ProfileArgs, ProfileResult, build_community_health_profile};
 use super::svi::{SviArgs, SviResult, get_social_vulnerability_index};
-use crate::chronic::food_access::{FoodAccessArgs, food_access_mapper};
 use crate::chronic::fluoridation::{FluoridationArgs, community_water_fluoridation_status};
+use crate::chronic::food_access::{FoodAccessArgs, food_access_mapper};
 use crate::context::Context;
 use crate::env::climate_profile::{
     ClimateProfileArgs, ClimateProfileResult, climate_health_vulnerability_profile,
@@ -556,9 +556,8 @@ static BULLET: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^\s*(?:[•●▪◦○·*\-–—]|\d{1,2}[.)]|[A-Za-z][.)])\s+(?P<t>\S.*)$").unwrap()
 });
 /// A bullet or number alone on a line (PDF text often puts the mark and the item on two lines).
-static LONE_BULLET: LazyLock<Regex> = LazyLock::new(|| {
-    Regex::new(r"^\s*(?:[•●▪◦○·*\-–—]|\d{1,2}[.)]|[A-Za-z][.)])\s*$").unwrap()
-});
+static LONE_BULLET: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"^\s*(?:[•●▪◦○·*\-–—]|\d{1,2}[.)]|[A-Za-z][.)])\s*$").unwrap());
 /// A page footer such as "Page 2 of 10".
 static PAGE_FOOTER: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"(?i)^\s*page\s+\d+(?:\s+of\s+\d+)?\s*$").unwrap());
@@ -618,7 +617,9 @@ fn extract_priorities(sections: &[Section], vocab: &[ThemeDef]) -> (Vec<Priority
                     .filter(|p| !p.is_empty())
                     .collect();
                 if (2..=10).contains(&parts.len())
-                    && parts.iter().all(|p| word_count(p) <= 10 && p.chars().count() <= 90)
+                    && parts
+                        .iter()
+                        .all(|p| word_count(p) <= 10 && p.chars().count() <= 90)
                 {
                     found.extend(parts);
                 }
@@ -947,7 +948,13 @@ fn load_roster(ctx: &Context, path: &str) -> Result<Roster> {
         "partner organization",
     ])
     .or_else(|| find(&["name"]));
-    let sector = find(&["sector", "type", "category", "organization type", "service type"]);
+    let sector = find(&[
+        "sector",
+        "type",
+        "category",
+        "organization type",
+        "service type",
+    ]);
     let (Some(org), Some(sector)) = (org, sector) else {
         return Err(PhnError::InvalidInput(format!(
             "'{label}' needs an organization name column and a sector or type column. Columns \
@@ -966,7 +973,11 @@ fn load_roster(ctx: &Context, path: &str) -> Result<Roster> {
         .map(|r| {
             (
                 r.get(org).cloned().unwrap_or_default().trim().to_string(),
-                r.get(sector).cloned().unwrap_or_default().trim().to_string(),
+                r.get(sector)
+                    .cloned()
+                    .unwrap_or_default()
+                    .trim()
+                    .to_string(),
             )
         })
         .filter(|(o, _)| !o.is_empty())
@@ -1001,7 +1012,9 @@ fn hospital_rows(
     area: &Area,
     named: &[String],
 ) -> Result<(Vec<HospitalRow>, Source)> {
-    let (text, entry, _origin) = ctx.snapshots.file_text(HOSPITALS_SNAPSHOT, HOSPITALS_FILE)?;
+    let (text, entry, _origin) = ctx
+        .snapshots
+        .file_text(HOSPITALS_SNAPSHOT, HOSPITALS_FILE)?;
     let mut rdr = csv::Reader::from_reader(text.as_bytes());
     #[derive(Deserialize)]
     struct Row {
@@ -1304,10 +1317,19 @@ pub fn assemble(
                 .iter()
                 .filter(|g| g.lep.value > 0.0)
                 .take(3)
-                .map(|g| format!("{} ({} with limited English)", g.language_group, md::num(g.lep.value, 0)))
+                .map(|g| {
+                    format!(
+                        "{} ({} with limited English)",
+                        g.language_group,
+                        md::num(g.lep.value, 0)
+                    )
+                })
                 .collect();
             if !top.is_empty() {
-                h.push(format!("Largest language groups with limited English: {}", top.join("; ")));
+                h.push(format!(
+                    "Largest language groups with limited English: {}",
+                    top.join("; ")
+                ));
             }
             h
         },
@@ -1379,7 +1401,12 @@ pub fn assemble(
             r.most_important
                 .iter()
                 .take(3)
-                .map(|v| format!("{}: {} (Massachusetts {})", v.label, v.town, v.massachusetts))
+                .map(|v| {
+                    format!(
+                        "{}: {} (Massachusetts {})",
+                        v.label, v.town, v.massachusetts
+                    )
+                })
                 .collect()
         },
     ));
@@ -1451,10 +1478,7 @@ pub fn assemble(
     let cite = |src: &str, section: &str| {
         format!(
             "{}, {}",
-            c.sources
-                .get(src)
-                .map(|s| s.title.as_str())
-                .unwrap_or(src),
+            c.sources.get(src).map(|s| s.title.as_str()).unwrap_or(src),
             section
         )
     };
@@ -1462,7 +1486,11 @@ pub fn assemble(
         name: fw.name.clone(),
         owner: fw.owner.clone(),
         released: fw.released.clone(),
-        source_status: fw.source_status.split_whitespace().collect::<Vec<_>>().join(" "),
+        source_status: fw
+            .source_status
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
         phases: fw
             .phases
             .iter()
@@ -1486,8 +1514,7 @@ pub fn assemble(
                 citation: cite(&a.source, &a.section),
             })
             .collect(),
-        equity_note: content::cite_all(std::slice::from_ref(&fw.equity_note), &c.sources)
-            .remove(0),
+        equity_note: content::cite_all(std::slice::from_ref(&fw.equity_note), &c.sources).remove(0),
     };
 
     // ---- Partner assessment.
@@ -1844,7 +1871,11 @@ fn summary_text(r: &CommunityAssessmentResult) -> String {
     s.push_str(&format!(
         "{} hospitals in or near the area: {}.\n",
         r.hospital_chnas.hospitals.len(),
-        if hs.is_empty() { "none listed".to_string() } else { hs.join("; ") }
+        if hs.is_empty() {
+            "none listed".to_string()
+        } else {
+            hs.join("; ")
+        }
     ));
     if r.hospital_chnas.reports_read.is_empty() {
         s.push_str(
@@ -1857,9 +1888,7 @@ fn summary_text(r: &CommunityAssessmentResult) -> String {
                 "- {} ({}{}): {} priority lines; themes: {}\n",
                 rep.id,
                 rep.file,
-                rep.year_seen
-                    .map(|y| format!(", {y}"))
-                    .unwrap_or_default(),
+                rep.year_seen.map(|y| format!(", {y}")).unwrap_or_default(),
                 rep.priorities.len(),
                 if rep.themes.is_empty() {
                     "none recognized".to_string()
@@ -1923,9 +1952,14 @@ fn document_markdown(
         r.framework.name, r.framework.owner, r.framework.released, r.framework.source_status
     ));
     for p in &r.framework.phases {
-        m.push_str(&format!("- **Phase {}: {}.** {}\n", p.number, p.name, p.summary));
+        m.push_str(&format!(
+            "- **Phase {}: {}.** {}\n",
+            p.number, p.name, p.summary
+        ));
     }
-    m.push_str("\n[Lead agency, partners at the table, dates, and how residents were involved.]\n\n");
+    m.push_str(
+        "\n[Lead agency, partners at the table, dates, and how residents were involved.]\n\n",
+    );
     let (t, g) = outline("community");
     m.push_str(&format!("## 2. {t}\n\n_{g}_\n\n"));
     if indicators.is_empty() {
@@ -1937,11 +1971,15 @@ fn document_markdown(
                 vec![
                     label.clone(),
                     v.map(|x| format!("{x:.1}")).unwrap_or_else(|| "n/a".into()),
-                    ma.map(|x| format!("{x:.1}")).unwrap_or_else(|| "n/a".into()),
+                    ma.map(|x| format!("{x:.1}"))
+                        .unwrap_or_else(|| "n/a".into()),
                 ]
             })
             .collect();
-        m.push_str(&md::table(&["Indicator", &r.area.name, "Massachusetts"], &rows));
+        m.push_str(&md::table(
+            &["Indicator", &r.area.name, "Massachusetts"],
+            &rows,
+        ));
         m.push('\n');
     }
     let (t, g) = outline("status");
@@ -1954,13 +1992,19 @@ fn document_markdown(
                 vec![
                     label.clone(),
                     format!("{v:.1}"),
-                    ma.map(|x| format!("{x:.1}")).unwrap_or_else(|| "n/a".into()),
+                    ma.map(|x| format!("{x:.1}"))
+                        .unwrap_or_else(|| "n/a".into()),
                     vs.clone().unwrap_or_default(),
                 ]
             })
             .collect();
         m.push_str(&md::table(
-            &["Measure (adults, %)", &r.area.name, "Massachusetts", "Compared with Massachusetts"],
+            &[
+                "Measure (adults, %)",
+                &r.area.name,
+                "Massachusetts",
+                "Compared with Massachusetts",
+            ],
             &rows,
         ));
         m.push('\n');
@@ -2002,7 +2046,9 @@ fn document_markdown(
     let (t, g) = outline("context");
     m.push_str(&format!("## 4. {t}\n\n_{g}_\n\n"));
     m.push_str(&format!("{}\n\n", r.context_assessment.purpose));
-    m.push_str("Questions for focus groups and key informant interviews (this project's drafts):\n\n");
+    m.push_str(
+        "Questions for focus groups and key informant interviews (this project's drafts):\n\n",
+    );
     for p in &r.context_assessment.prompts {
         m.push_str(&format!("- {p}\n"));
     }
@@ -2024,10 +2070,7 @@ fn document_markdown(
                 s.partners
                     .map(|n| n.to_string())
                     .unwrap_or_else(|| "[ ]".into()),
-                roster_orgs
-                    .get(i)
-                    .map(|v| v.join("; "))
-                    .unwrap_or_default(),
+                roster_orgs.get(i).map(|v| v.join("; ")).unwrap_or_default(),
                 s.why.clone(),
             ]
         })
@@ -2069,7 +2112,10 @@ fn document_markdown(
     }
     m.push_str("### Where to find CHNAs\n\n");
     for d in &r.hospital_chnas.directory {
-        m.push_str(&format!("- {} ({}): {} {}\n", d.title, d.url, d.what, d.note));
+        m.push_str(&format!(
+            "- {} ({}): {} {}\n",
+            d.title, d.url, d.what, d.note
+        ));
     }
     m.push('\n');
     if r.hospital_chnas.reports_read.is_empty() {
@@ -2082,7 +2128,9 @@ fn document_markdown(
                 rep.id,
                 rep.file,
                 rep.year_seen.map(|y| format!(", {y}")).unwrap_or_default(),
-                rep.pages.map(|p| p.to_string()).unwrap_or_else(|| "?".into())
+                rep.pages
+                    .map(|p| p.to_string())
+                    .unwrap_or_else(|| "?".into())
             ));
             if rep.priorities.is_empty() {
                 m.push_str(&format!("{}\n\n", rep.note));
@@ -2125,7 +2173,13 @@ fn document_markdown(
             s.mode.label()
         ));
     }
-    for k in ["mapp-frontiers-2025", "mapp-inquiry-2025", "cfr-501r3", "ag-guidelines", "ag-cb-page"] {
+    for k in [
+        "mapp-frontiers-2025",
+        "mapp-inquiry-2025",
+        "cfr-501r3",
+        "ag-guidelines",
+        "ag-cb-page",
+    ] {
         if let Some(s) = c.sources.get(k) {
             m.push_str(&format!("- {} ({}), {}\n", s.title, s.publisher, s.url));
         }
@@ -2158,7 +2212,12 @@ mod tests {
         assert_eq!(c.framework.assessments.len(), 3);
         assert!(c.partner_sectors.len() >= 10);
         assert!(c.chna.theme_vocabulary.len() >= 10);
-        assert!(c.chna.directory.iter().all(|d| d.url.starts_with("https://")));
+        assert!(
+            c.chna
+                .directory
+                .iter()
+                .all(|d| d.url.starts_with("https://"))
+        );
     }
 
     #[test]
@@ -2178,10 +2237,16 @@ mod tests {
         let (found, anchors) = extract_priorities(&secs, &vocab());
         assert_eq!(anchors, 2);
         let texts: Vec<&str> = found.iter().map(|p| p.text.as_str()).collect();
-        assert!(texts.contains(&"Mental health and substance use"), "{texts:?}");
+        assert!(
+            texts.contains(&"Mental health and substance use"),
+            "{texts:?}"
+        );
         assert!(texts.contains(&"Housing stability"));
         assert!(texts.contains(&"chronic disease"));
-        let mh = found.iter().find(|p| p.text.starts_with("Mental health")).unwrap();
+        let mh = found
+            .iter()
+            .find(|p| p.text.starts_with("Mental health"))
+            .unwrap();
         assert_eq!(mh.location, "page 3");
         assert!(mh.themes.contains(&"Mental health".to_string()));
         assert!(mh.themes.contains(&"Substance use".to_string()));
@@ -2219,7 +2284,10 @@ mod tests {
         let (found, anchors) = extract_priorities(&secs, &vocab());
         assert_eq!(anchors, 1);
         let texts: Vec<&str> = found.iter().map(|p| p.text.as_str()).collect();
-        assert_eq!(texts, vec!["Mental health and substance use", "Housing stability"]);
+        assert_eq!(
+            texts,
+            vec!["Mental health and substance use", "Housing stability"]
+        );
         assert_eq!(found[0].location, "page 2");
     }
 
@@ -2231,7 +2299,11 @@ mod tests {
             "Priority contacts:\n• Call 413-555-0100 for housing\n• Housing stability\n",
         )];
         let (found, _) = extract_priorities(&secs, &vocab());
-        let all: String = found.iter().map(|p| p.text.clone()).collect::<Vec<_>>().join("|");
+        let all: String = found
+            .iter()
+            .map(|p| p.text.clone())
+            .collect::<Vec<_>>()
+            .join("|");
         assert!(!all.contains("555"), "{all}");
         assert!(all.contains("Housing stability"));
     }
@@ -2251,12 +2323,18 @@ mod tests {
         assert!(e.contains("client record"), "{e}");
         assert!(!e.contains("1958") && !e.contains("0193"));
         // A public report with a phone number is fine.
-        assert!(refuse_if_client_record("Call the community benefits office at 617-555-0100.").is_ok());
+        assert!(
+            refuse_if_client_record("Call the community benefits office at 617-555-0100.").is_ok()
+        );
     }
 
     #[test]
     fn markdown_is_trimmed_at_block_boundaries() {
-        let md = format!("{}\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n{}", "x".repeat(50), "y".repeat(2000));
+        let md = format!(
+            "{}\n\n| a | b |\n|---|---|\n| 1 | 2 |\n\n{}",
+            "x".repeat(50),
+            "y".repeat(2000)
+        );
         let t = trim_markdown(&md, 120);
         assert!(t.contains("| 1 | 2 |"));
         assert!(!t.contains("yyyy"));
@@ -2306,7 +2384,11 @@ mod tests {
             &ctx,
             CommunityAssessmentArgs {
                 area: Some("Lowell".into()),
-                sections: vec!["profile".into(), "social_vulnerability".into(), "fluoridation".into()],
+                sections: vec![
+                    "profile".into(),
+                    "social_vulnerability".into(),
+                    "fluoridation".into(),
+                ],
                 ..Default::default()
             },
         )
@@ -2315,20 +2397,39 @@ mod tests {
         let r = &env.data;
         assert_eq!(r.area.name, "Lowell");
         assert_eq!(r.framework.phases.len(), 3);
-        let by = |id: &str| r.status_assessment.sections.iter().find(|s| s.id == id).unwrap();
-        assert_eq!(by("profile").status, "included", "{:?}", by("profile").detail);
+        let by = |id: &str| {
+            r.status_assessment
+                .sections
+                .iter()
+                .find(|s| s.id == id)
+                .unwrap()
+        };
+        assert_eq!(
+            by("profile").status,
+            "included",
+            "{:?}",
+            by("profile").detail
+        );
         assert_eq!(by("social_vulnerability").status, "included");
         assert_eq!(by("language").status, "not requested");
         assert!(!by("profile").headline.is_empty());
         // Lowell General is in the CMS list.
         assert!(
-            r.hospital_chnas.hospitals.iter().any(|h| h.name.contains("Lowell General") && h.relation == "in the town"),
+            r.hospital_chnas
+                .hospitals
+                .iter()
+                .any(|h| h.name.contains("Lowell General") && h.relation == "in the town"),
             "{:?}",
-            r.hospital_chnas.hospitals.iter().map(|h| h.name.clone()).collect::<Vec<_>>()
+            r.hospital_chnas
+                .hospitals
+                .iter()
+                .map(|h| h.name.clone())
+                .collect::<Vec<_>>()
         );
         assert!(r.document.as_deref().is_some_and(|d| d.ends_with(".docx")));
         assert!(!env.privacy.row_level_data);
-        let text = std::fs::read(dir.path().join("data").join(r.document.as_ref().unwrap())).unwrap();
+        let text =
+            std::fs::read(dir.path().join("data").join(r.document.as_ref().unwrap())).unwrap();
         assert!(text.len() > 5000);
         assert!(env.to_markdown().contains("MAPP 2.0"));
     }
@@ -2354,7 +2455,13 @@ mod tests {
                 assert_eq!(s.status, "not for this level");
             }
         }
-        assert!(env.data.hospital_chnas.hospitals.iter().any(|h| h.relation == "in the county"));
+        assert!(
+            env.data
+                .hospital_chnas
+                .hospitals
+                .iter()
+                .any(|h| h.relation == "in the county")
+        );
         let e = community_health_assessment_builder(
             &ctx,
             CommunityAssessmentArgs {
@@ -2363,16 +2470,17 @@ mod tests {
             },
         )
         .await
-        .err()
-        .expect("error")
+        .expect_err("error")
         .to_string();
         assert!(e.contains("not a Massachusetts"), "{e}");
         let e = community_health_assessment_builder(&ctx, CommunityAssessmentArgs::default())
             .await
-            .err()
-            .expect("error")
+            .expect_err("error")
             .to_string();
-        assert!(e.contains("name a Massachusetts") || e.contains("not found"), "{e}");
+        assert!(
+            e.contains("name a Massachusetts") || e.contains("not found"),
+            "{e}"
+        );
     }
 
     #[tokio::test]
@@ -2414,14 +2522,26 @@ mod tests {
         let rep = &r.hospital_chnas.reports_read[0];
         assert_eq!(rep.year_seen, Some(2025));
         assert_eq!(rep.priorities.len(), 3, "{:?}", rep.priorities);
-        assert!(r.hospital_chnas.common_themes.iter().any(|t| t.theme == "Mental health" && t.reports == 1));
+        assert!(
+            r.hospital_chnas
+                .common_themes
+                .iter()
+                .any(|t| t.theme == "Mental health" && t.reports == 1)
+        );
         let ro = r.partner_assessment.roster.as_ref().unwrap();
         assert_eq!(ro.organizations, 2);
         assert!(ro.sectors_covered >= 2);
         // Contacts never appear.
         let all = serde_json::to_string(&env).unwrap() + &env.to_markdown();
-        assert!(!all.contains("Pat Example") && !all.contains("0101") && !all.contains("Sam Example"));
-        assert!(r.hospital_chnas.hospitals.iter().any(|h| h.name == "Example General Hospital"));
+        assert!(
+            !all.contains("Pat Example") && !all.contains("0101") && !all.contains("Sam Example")
+        );
+        assert!(
+            r.hospital_chnas
+                .hospitals
+                .iter()
+                .any(|h| h.name == "Example General Hospital")
+        );
         // A client list is refused.
         let e = community_health_assessment_builder(
             &ctx,
@@ -2434,8 +2554,7 @@ mod tests {
             },
         )
         .await
-        .err()
-        .expect("error")
+        .expect_err("error")
         .to_string();
         assert!(e.contains("list of people"), "{e}");
         // A spreadsheet is not a CHNA.
@@ -2450,8 +2569,7 @@ mod tests {
             },
         )
         .await
-        .err()
-        .expect("error")
+        .expect_err("error")
         .to_string();
         assert!(e.contains("not a document"), "{e}");
     }

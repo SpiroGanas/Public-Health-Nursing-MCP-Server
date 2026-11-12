@@ -400,10 +400,7 @@ fn seriousness(i: &IssueInput) -> Result<(Option<f64>, Vec<String>)> {
     let total = check_range(name, "seriousness", i.seriousness, 20.0)?;
     let factors = [
         ("urgency", check_range(name, "urgency", i.urgency, 5.0)?),
-        (
-            "severity",
-            check_range(name, "severity", i.severity, 5.0)?,
-        ),
+        ("severity", check_range(name, "severity", i.severity, 5.0)?),
         (
             "economic loss",
             check_range(name, "economic_loss", i.economic_loss, 5.0)?,
@@ -802,7 +799,10 @@ pub fn prioritize_health_issues(
     };
     let mut issues: Vec<IssueResult> = drafts.into_iter().map(|d| d.r).collect();
     issues.sort_by_key(order_key); // stable: ties keep the order they were entered
-    let ranked_count = issues.iter().filter(|i| i.hanlon_status == "ranked").count();
+    let ranked_count = issues
+        .iter()
+        .filter(|i| i.hanlon_status == "ranked")
+        .count();
     let screened_out_count = issues
         .iter()
         .filter(|i| i.hanlon_status == "screened_out")
@@ -895,7 +895,12 @@ pub fn prioritize_health_issues(
             kinds.iter().cloned().collect::<Vec<_>>().join(", ")
         ));
     }
-    let divisor = c.hanlon.divisor_note.split_whitespace().collect::<Vec<_>>().join(" ");
+    let divisor = c
+        .hanlon
+        .divisor_note
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     caveats.push(divisor);
     caveats.push(
         "Ratings are judgments: record how each was decided. NACCHO's own Hanlon worksheet could \
@@ -920,7 +925,11 @@ pub fn prioritize_health_issues(
     };
     let grid_note = format!(
         "{} Threshold {:.2} on both axes. {}",
-        c.strategy_grid.text.split_whitespace().collect::<Vec<_>>().join(" "),
+        c.strategy_grid
+            .text
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" "),
         threshold,
         "This grid is this project's own (low confidence): the published sources name strategy \
          grids but do not describe one."
@@ -950,8 +959,14 @@ pub fn prioritize_health_issues(
     if args.write_document.unwrap_or(true) {
         match ctx.sandbox() {
             Ok(_) => {
-                let md_text = document_markdown(&result, &c, args.area.as_deref(), nominal.as_ref());
-                let title = match args.area.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+                let md_text =
+                    document_markdown(&result, &c, args.area.as_deref(), nominal.as_ref());
+                let title = match args
+                    .area
+                    .as_deref()
+                    .map(str::trim)
+                    .filter(|s| !s.is_empty())
+                {
                     Some(a) => format!("Health issue priorities: {a}"),
                     None => "Health issue priorities".to_string(),
                 };
@@ -978,10 +993,8 @@ pub fn prioritize_health_issues(
     }
 
     let summary = summary(&result, &c);
-    let mut sources: Vec<Source> = content::sources_for(
-        ["rpsp-2019", "rsp-2017", "jphmp-2026"],
-        &c.sources,
-    );
+    let mut sources: Vec<Source> =
+        content::sources_for(["rpsp-2019", "rsp-2017", "jphmp-2026"], &c.sources);
     sources.push(Source::computed(
         "Hanlon basic priority rating, PEARL test, strategy grid, and nominal group scoring",
         "Calculated by this server from the ratings you gave",
@@ -1125,7 +1138,11 @@ fn document_markdown(
          test: 1 when propriety, economics, acceptability, resources, and legality are all yes, 0 \
          otherwise). {}\n\n",
         c.hanlon.formula,
-        c.hanlon.divisor_note.split_whitespace().collect::<Vec<_>>().join(" ")
+        c.hanlon
+            .divisor_note
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
     ));
     m.push_str(&format!(
         "PEARL mode: {}.\n\n",
@@ -1163,7 +1180,11 @@ fn document_markdown(
         &rows,
     ));
     m.push('\n');
-    let failed: Vec<&IssueResult> = r.issues.iter().filter(|i| !i.pearl_failed.is_empty()).collect();
+    let failed: Vec<&IssueResult> = r
+        .issues
+        .iter()
+        .filter(|i| !i.pearl_failed.is_empty())
+        .collect();
     if !failed.is_empty() {
         m.push_str("## PEARL results\n\n");
         for i in failed {
@@ -1216,7 +1237,13 @@ fn document_markdown(
         .collect();
     if !grid_rows.is_empty() {
         m.push_str(&md::table(
-            &["Issue", "Importance", "Feasibility", "Quadrant", "What it suggests"],
+            &[
+                "Issue",
+                "Importance",
+                "Feasibility",
+                "Quadrant",
+                "What it suggests",
+            ],
             &grid_rows,
         ));
         m.push('\n');
@@ -1249,7 +1276,13 @@ fn document_markdown(
             })
             .collect();
         m.push_str(&md::table(
-            &["Rank", "Issue", "Points", "First choices", "Participants ranking it"],
+            &[
+                "Rank",
+                "Issue",
+                "Points",
+                "First choices",
+                "Participants ranking it",
+            ],
             &rows,
         ));
         m.push('\n');
@@ -1369,7 +1402,10 @@ mod tests {
 
     #[test]
     fn competition_ranks_share_ties() {
-        assert_eq!(competition_ranks(&[44.0, 30.0, 30.0, 10.0]), vec![1, 2, 2, 4]);
+        assert_eq!(
+            competition_ranks(&[44.0, 30.0, 30.0, 10.0]),
+            vec![1, 2, 2, 4]
+        );
         assert_eq!(competition_ranks(&[5.0, 5.0, 5.0]), vec![1, 1, 1]);
         assert_eq!(competition_ranks(&[1.0, 3.0, 2.0]), vec![3, 1, 2]);
         // floating point noise is not a difference: 0.1 + 0.2 vs 0.3
@@ -1380,8 +1416,8 @@ mod tests {
     fn ranks_issues_and_shares_ties() {
         let r = run(PrioritizeArgs {
             issues: vec![
-                issue("Low", 2.0, 4.0, 3.0),     // (2+4)x3/3 = 6
-                issue("High", 8.0, 14.0, 6.0),   // 44
+                issue("Low", 2.0, 4.0, 3.0),       // (2+4)x3/3 = 6
+                issue("High", 8.0, 14.0, 6.0),     // 44
                 issue("Middle A", 5.0, 10.0, 6.0), // (5+10)x6/3 = 30
                 issue("Middle B", 6.0, 9.0, 6.0),  // (6+9)x6/3 = 30
             ],
@@ -1395,7 +1431,10 @@ mod tests {
         assert_eq!(by("Middle B").hanlon_rank, Some(2));
         assert_eq!(by("Middle A").tied_with, vec!["Middle B".to_string()]);
         assert_eq!(by("Low").hanlon_rank, Some(4));
-        assert_eq!(r.ties, vec![vec!["Middle A".to_string(), "Middle B".to_string()]]);
+        assert_eq!(
+            r.ties,
+            vec![vec!["Middle A".to_string(), "Middle B".to_string()]]
+        );
         assert!(r.tie_guidance.is_some());
         // Order: rank order; tied issues keep the order entered.
         let names: Vec<&str> = r.issues.iter().map(|i| i.name.as_str()).collect();
@@ -1415,7 +1454,11 @@ mod tests {
             ..Default::default()
         };
         let multiply = run(args(PearlMode::Multiply));
-        let nf = multiply.issues.iter().find(|i| i.name == "Not feasible").unwrap();
+        let nf = multiply
+            .issues
+            .iter()
+            .find(|i| i.name == "Not feasible")
+            .unwrap();
         assert_eq!(nf.basic_priority_rating, Some(81.0));
         assert_eq!(nf.priority_score, Some(0.0));
         assert_eq!(nf.hanlon_rank, Some(2));
@@ -1423,14 +1466,22 @@ mod tests {
         assert_eq!(multiply.issues[0].name, "Feasible");
 
         let prescreen = run(args(PearlMode::Prescreen));
-        let nf = prescreen.issues.iter().find(|i| i.name == "Not feasible").unwrap();
+        let nf = prescreen
+            .issues
+            .iter()
+            .find(|i| i.name == "Not feasible")
+            .unwrap();
         assert_eq!(nf.hanlon_status, "screened_out");
         assert_eq!(nf.hanlon_rank, None);
         assert_eq!(prescreen.ranked_count, 1);
         assert_eq!(prescreen.screened_out_count, 1);
 
         let off = run(args(PearlMode::Off));
-        let nf = off.issues.iter().find(|i| i.name == "Not feasible").unwrap();
+        let nf = off
+            .issues
+            .iter()
+            .find(|i| i.name == "Not feasible")
+            .unwrap();
         assert_eq!(nf.priority_score, Some(81.0));
         assert_eq!(nf.hanlon_rank, Some(1));
         assert_eq!(nf.pearl_status, "not used");
@@ -1504,7 +1555,10 @@ mod tests {
         });
         let f = r.issues.iter().find(|x| x.name == "Factors").unwrap();
         assert_eq!(f.hanlon_status, "incomplete");
-        assert_eq!(f.missing, vec!["seriousness factor: effect on others".to_string()]);
+        assert_eq!(
+            f.missing,
+            vec!["seriousness factor: effect on others".to_string()]
+        );
     }
 
     #[test]
@@ -1569,10 +1623,10 @@ mod tests {
         };
         let r = run(PrioritizeArgs {
             issues: vec![
-                mk("A", Some(vec![2, 0])),     // 2 x 2 = 4
-                mk("B", Some(vec![0, 4])),     // 4 x 1 = 4
-                mk("C", Some(vec![])),         // 0 votes: ranked last at 0
-                mk("D", None),                 // not in the vote
+                mk("A", Some(vec![2, 0])), // 2 x 2 = 4
+                mk("B", Some(vec![0, 4])), // 4 x 1 = 4
+                mk("C", Some(vec![])),     // 0 votes: ranked last at 0
+                mk("D", None),             // not in the vote
             ],
             nominal_group: Some(NominalGroup {
                 participants: 4,
@@ -1616,10 +1670,10 @@ mod tests {
     fn grid_quadrants_follow_the_threshold() {
         let r = run(PrioritizeArgs {
             issues: vec![
-                issue("Big and doable", 8.0, 16.0, 8.0),  // importance 0.80, feasibility 0.8
-                issue("Big and hard", 8.0, 16.0, 2.0),    // 0.80, 0.2
+                issue("Big and doable", 8.0, 16.0, 8.0), // importance 0.80, feasibility 0.8
+                issue("Big and hard", 8.0, 16.0, 2.0),   // 0.80, 0.2
                 issue("Small and doable", 1.0, 3.0, 9.0), // 0.13, 0.9
-                issue("Small and hard", 1.0, 3.0, 1.0),   // 0.13, 0.1
+                issue("Small and hard", 1.0, 3.0, 1.0),  // 0.13, 0.1
             ],
             ..Default::default()
         });
@@ -1644,8 +1698,8 @@ mod tests {
     fn close_calls_are_flagged() {
         let r = run(PrioritizeArgs {
             issues: vec![
-                issue("One", 8.0, 14.0, 6.0), // 44
-                issue("Two", 8.0, 14.0, 5.9), // 22 x 5.9 / 3 = 43.2666...
+                issue("One", 8.0, 14.0, 6.0),  // 44
+                issue("Two", 8.0, 14.0, 5.9),  // 22 x 5.9 / 3 = 43.2666...
                 issue("Three", 2.0, 2.0, 2.0), // 2.666...
             ],
             ..Default::default()
@@ -1670,16 +1724,32 @@ mod tests {
             .to_string()
         };
         assert!(call(vec![issue("Only one", 1.0, 1.0, 1.0)]).contains("at least two"));
-        assert!(call(vec![issue("Same", 1.0, 1.0, 1.0), issue("  same ", 2.0, 2.0, 2.0)])
-            .contains("two issues are named"));
-        assert!(call(vec![issue("A", 11.0, 1.0, 1.0), issue("B", 1.0, 1.0, 1.0)])
-            .contains("size is 11"));
-        assert!(call(vec![issue("A", 1.0, 21.0, 1.0), issue("B", 1.0, 1.0, 1.0)])
-            .contains("seriousness is 21"));
-        assert!(call(vec![issue("A", 1.0, 1.0, -1.0), issue("B", 1.0, 1.0, 1.0)])
-            .contains("effectiveness is -1"));
-        assert!(call(vec![issue("A", f64::NAN, 1.0, 1.0), issue("B", 1.0, 1.0, 1.0)])
-            .contains("must be a number"));
+        assert!(
+            call(vec![
+                issue("Same", 1.0, 1.0, 1.0),
+                issue("  same ", 2.0, 2.0, 2.0)
+            ])
+            .contains("two issues are named")
+        );
+        assert!(
+            call(vec![issue("A", 11.0, 1.0, 1.0), issue("B", 1.0, 1.0, 1.0)])
+                .contains("size is 11")
+        );
+        assert!(
+            call(vec![issue("A", 1.0, 21.0, 1.0), issue("B", 1.0, 1.0, 1.0)])
+                .contains("seriousness is 21")
+        );
+        assert!(
+            call(vec![issue("A", 1.0, 1.0, -1.0), issue("B", 1.0, 1.0, 1.0)])
+                .contains("effectiveness is -1")
+        );
+        assert!(
+            call(vec![
+                issue("A", f64::NAN, 1.0, 1.0),
+                issue("B", 1.0, 1.0, 1.0)
+            ])
+            .contains("must be a number")
+        );
         let mut both = issue("A", 1.0, 1.0, 1.0);
         both.urgency = Some(1.0);
         assert!(call(vec![both, issue("B", 1.0, 1.0, 1.0)]).contains("not both"));

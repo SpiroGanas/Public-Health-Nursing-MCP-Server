@@ -106,13 +106,24 @@ fn rankings_match_for_every_pearl_mode() {
                 .iter()
                 .find(|i| i.name == e["name"].as_str().unwrap())
                 .unwrap();
-            assert_eq!(got.hanlon_status, e["status"].as_str().unwrap(), "case {n} {e}");
+            assert_eq!(
+                got.hanlon_status,
+                e["status"].as_str().unwrap(),
+                "case {n} {e}"
+            );
             match e["score"].as_f64() {
                 Some(want) => {
                     // The tool rounds scores to two decimals.
                     let got_score = got.priority_score.unwrap();
-                    assert!((got_score - want).abs() < 0.0051, "case {n} {e}: {got_score}");
-                    assert_eq!(got.hanlon_rank, e["rank"].as_u64().map(|x| x as u32), "case {n} {e}");
+                    assert!(
+                        (got_score - want).abs() < 0.0051,
+                        "case {n} {e}: {got_score}"
+                    );
+                    assert_eq!(
+                        got.hanlon_rank,
+                        e["rank"].as_u64().map(|x| x as u32),
+                        "case {n} {e}"
+                    );
                 }
                 None => assert_eq!(got.priority_score, None, "case {n} {e}"),
             }
@@ -128,7 +139,12 @@ fn nominal_group_points_and_ranks_match() {
         let ranks_pp = case["ranks_per_participant"].as_u64().unwrap() as u32;
         let counts = case["counts"].as_object().unwrap();
         for (topic, cs) in counts {
-            let v: Vec<u32> = cs.as_array().unwrap().iter().map(|x| x.as_u64().unwrap() as u32).collect();
+            let v: Vec<u32> = cs
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|x| x.as_u64().unwrap() as u32)
+                .collect();
             assert_eq!(
                 nominal_points(&v, ranks_pp),
                 case["points"][topic].as_u64().unwrap(),
@@ -139,7 +155,13 @@ fn nominal_group_points_and_ranks_match() {
             .iter()
             .map(|(topic, cs)| IssueInput {
                 name: topic.clone(),
-                rank_counts: Some(cs.as_array().unwrap().iter().map(|x| x.as_u64().unwrap() as u32).collect()),
+                rank_counts: Some(
+                    cs.as_array()
+                        .unwrap()
+                        .iter()
+                        .map(|x| x.as_u64().unwrap() as u32)
+                        .collect(),
+                ),
                 ..Default::default()
             })
             .collect();
@@ -159,7 +181,11 @@ fn nominal_group_points_and_ranks_match() {
         .data;
         for (topic, want) in case["ranks"].as_object().unwrap() {
             let got = r.issues.iter().find(|i| &i.name == topic).unwrap();
-            assert_eq!(got.nominal_rank, Some(want.as_u64().unwrap() as u32), "case {n} {topic}");
+            assert_eq!(
+                got.nominal_rank,
+                Some(want.as_u64().unwrap() as u32),
+                "case {n} {topic}"
+            );
         }
     }
 }

@@ -226,7 +226,8 @@ pub struct QualitativeResult {
     pub min_voices: u32,
     pub themes: Vec<ThemeCount>,
     pub theme_groups: Vec<ThemeGroup>,
-    /// Themes withheld because too few participants raised them (their labels are not shown).
+    /// Codes left out because fewer than `min_voices` different participants raised them,
+    /// including codes no one raised (their labels and counts are not shown).
     pub themes_withheld: usize,
     /// Words used by at least `min_voices` participants that no code matched, as ideas for new
     /// codes (lower-case words only; names are excluded).
@@ -245,7 +246,8 @@ static LABEL_LINE: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"^\s*(?P<label>[^:\n]{1,40}?)\s*:\s*(?P<text>.*)$").unwrap());
 static CAP_WORD: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"\b\p{Lu}\p{Ll}+(?:['’\-]\p{L}+)*\b").unwrap());
-static MARKER: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\[(?:REDACTED: [a-z /-]+|NAME)\]").unwrap());
+static MARKER: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"\[(?:REDACTED: [a-z /-]+|NAME)\]").unwrap());
 
 /// One speaker turn before scrubbing.
 #[derive(Debug, Clone, PartialEq)]
@@ -384,10 +386,7 @@ impl ScrubTally {
 }
 
 fn base_word(w: &str) -> String {
-    w.split(['\'', '’', '-'])
-        .next()
-        .unwrap_or(w)
-        .to_lowercase()
+    w.split(['\'', '’', '-']).next().unwrap_or(w).to_lowercase()
 }
 
 /// Title abbreviations: a period after one does not end a sentence ("Dr. Rivera").
@@ -469,11 +468,7 @@ fn scrub_names(
 }
 
 /// Replace known names that the capitalization pass cannot see (lower case, upper case).
-fn scrub_known_any_case(
-    text: &str,
-    known_re: Option<&Regex>,
-    tally: &mut ScrubTally,
-) -> String {
+fn scrub_known_any_case(text: &str, known_re: Option<&Regex>, tally: &mut ScrubTally) -> String {
     match known_re {
         Some(re) => {
             let n = re.find_iter(text).count();
@@ -767,10 +762,7 @@ fn load_codebook(ctx: &Context, path: &str, c: &QualContent) -> Result<(Vec<Code
                 confidence: Confidence::Medium,
             });
         }
-    } else if matches!(
-        FileKind::of(&p),
-        FileKind::Csv | FileKind::Spreadsheet
-    ) {
+    } else if matches!(FileKind::of(&p), FileKind::Csv | FileKind::Spreadsheet) {
         let t = phn_local::table::read_table(&p, None)?;
         let norm = |s: &str| phn_core::text::normalize(s);
         let find = |names: &[&str]| -> Option<usize> {
@@ -1005,6 +997,9 @@ struct Segment {
     codes: BTreeMap<usize, usize>,
 }
 
+/// Codes of one theme and the participants who raised any of them.
+type ThemeAgg = (Vec<usize>, HashSet<(usize, usize)>);
+
 #[derive(Default)]
 struct CodeAgg {
     voices: HashSet<(usize, usize)>,
@@ -1055,7 +1050,11 @@ fn analyze(
         })
         .collect();
     let settings = ScrubSettings {
-        keep: cfg.keep_capitalized.iter().map(|s| s.to_lowercase()).collect(),
+        keep: cfg
+            .keep_capitalized
+            .iter()
+            .map(|s| s.to_lowercase())
+            .collect(),
         towns,
     };
     let stop: HashSet<&str> = cfg.stopwords.iter().map(String::as_str).collect();
@@ -1279,7 +1278,14 @@ pub fn analyze_qualitative_data(
                 .collect::<Vec<_>>()
         })
         .collect();
-    let a = analyze(&texts, &codes, &cfg, &args.facilitator_labels, &names, towns);
+    let a = analyze(
+        &texts,
+        &codes,
+        &cfg,
+        &args.facilitator_labels,
+        &names,
+        towns,
+    );
     if a.segments.is_empty() {
         return Err(PhnError::InvalidInput(
             "no participant text was found to code. Transcripts need speaker turns written as \
@@ -1292,30 +1298,12 @@ pub fn analyze_qualitative_data(
     // Counts and suppression.
     let mut themes: Vec<ThemeCount> = Vec::new();
     let mut withheld = 0usize;
-    let mut by_theme: BTreeMap<String, (Vec<usize>, HashSet<(usize, usize)>)> = BTreeMap::new();
+    let mut by_theme: BTreeMap<String, ThemeAgg> = BTreeMap::new();
     for (ci, code) in codes.iter().enumerate() {
         let agg = &a.aggs[ci];
         let entry = by_theme.entry(code.theme.clone()).or_default();
         entry.0.push(ci);
         entry.1.extend(agg.voices.iter().copied());
-        if agg.segments == 0 {
-            // A code nobody raised: not a rare theme, simply absent; say 0 participants only
-            // when no participant raised it (disclosure-safe).
-            themes.push(ThemeCount {
-                code: code.code.clone(),
-                theme: code.theme.clone(),
-                reported: true,
-                participants: Some(0),
-                transcripts: Some(0),
-                segments: Some(0),
-                keywords_matched: Vec::new(),
-                summary: format!(
-                    "No participant's words matched this code's keywords ({}).",
-                    code.definition.trim_end_matches('.')
-                ),
-            });
-            continue;
-        }
         if (agg.voices.len() as u32) < min_voices {
             withheld += 1;
             continue;
@@ -1398,7 +1386,9 @@ pub fn analyze_qualitative_data(
         .filter(|(w, v)| {
             v.len() as u32 >= min_voices
                 && !coded_tokens.contains(w.as_str())
-                && !coded_tokens.iter().any(|k| w.starts_with(k.as_str()) && k.len() >= 5)
+                && !coded_tokens
+                    .iter()
+                    .any(|k| w.starts_with(k.as_str()) && k.len() >= 5)
                 && !a.names_seen.contains(w.as_str())
         })
         .map(|(w, v)| CandidateTerm {
@@ -1406,7 +1396,11 @@ pub fn analyze_qualitative_data(
             participants: v.len(),
         })
         .collect();
-    cand.sort_by(|x, y| y.participants.cmp(&x.participants).then(x.term.cmp(&y.term)));
+    cand.sort_by(|x, y| {
+        y.participants
+            .cmp(&x.participants)
+            .then(x.term.cmp(&y.term))
+    });
     cand.truncate(MAX_CANDIDATES);
 
     // Scrub report.
@@ -1433,13 +1427,14 @@ pub fn analyze_qualitative_data(
         total_removed,
         second_pass_removed: a.tally.second_pass,
         removed,
-        method: "Speaker labels became P1, P2, ...; names from the labels and your names file were \
+        method:
+            "Speaker labels became P1, P2, ...; names from the labels and your names file were \
                  removed everywhere; capitalized words inside sentences that are not Massachusetts \
                  towns or common labels (names, organizations, places) became [NAME]; phone \
                  numbers, email and street addresses, dates, ZIP codes, record numbers, and titled \
                  names were removed with the server's identifier detector; the result was \
                  scanned again."
-            .into(),
+                .into(),
     };
 
     let mut transcripts_out = a.transcripts.clone();
@@ -1539,11 +1534,11 @@ pub fn analyze_qualitative_data(
             .into(),
     );
     caveats.push(format!(
-        "A theme is shown only when at least {min_voices} different participants raised it; {} \
-         {} withheld. Counts are participants across transcripts: a person who spoke in two \
-         transcripts counts twice.",
-        withheld,
-        if withheld == 1 { "theme was" } else { "themes were" }
+        "A code is shown only when at least {min_voices} different participants raised it; {withheld} \
+         of the {} codes {} left out (raised by fewer participants, or by no one). Counts are \
+         participants across transcripts: a person who spoke in two transcripts counts twice.",
+        codes.len(),
+        if withheld == 1 { "was" } else { "were" }
     ));
     if codebook_source.starts_with("the project's") {
         caveats.push(
@@ -1617,7 +1612,10 @@ fn summary_text(r: &QualitativeResult) -> String {
     s.push_str(&format!(
         "{} participant segments, {} coded; {} facilitator turns left out. Scrubbing removed {} \
          identifiers (names, organizations, places, phone numbers, dates, and similar).\n\n",
-        r.participant_segments, r.coded_segments, r.facilitator_turns_excluded, r.scrub.total_removed
+        r.participant_segments,
+        r.coded_segments,
+        r.facilitator_turns_excluded,
+        r.scrub.total_removed
     ));
     let rows: Vec<Vec<String>> = r
         .themes
@@ -1642,7 +1640,7 @@ fn summary_text(r: &QualitativeResult) -> String {
         ));
     }
     s.push_str(&format!(
-        "\n{} theme(s) withheld because fewer than {} different participants raised them.\n",
+        "\n{} code(s) left out because fewer than {} different participants raised them (or no one did).\n",
         r.themes_withheld, r.min_voices
     ));
     if !r.candidate_terms.is_empty() {
@@ -1842,7 +1840,10 @@ fn summary_document(
     md_text.push_str("## Themes\n\n");
     let coder = Coder::new(codes);
     for t in themes.iter().filter(|t| t.participants.unwrap_or(0) > 0) {
-        md_text.push_str(&format!("### {} ({})\n\n{}\n\n", t.code, t.theme, t.summary));
+        md_text.push_str(&format!(
+            "### {} ({})\n\n{}\n\n",
+            t.code, t.theme, t.summary
+        ));
         // Up to three example excerpts, each from a different participant.
         let ci = codes.iter().position(|c| c.code == t.code);
         if let Some(ci) = ci {
@@ -1883,14 +1884,23 @@ fn summary_document(
             })
             .collect::<Vec<_>>(),
     ));
-    templates::document(ctx, &md_text, "en-US", "Qualitative analysis: theme summary")
+    templates::document(
+        ctx,
+        &md_text,
+        "en-US",
+        "Qualitative analysis: theme summary",
+    )
 }
 
 /// Used by tests: the speaker-turn parser.
 #[cfg(test)]
 fn turns_for_test(text: &str) -> (Vec<(Option<String>, String)>, bool) {
     let cfg: QualContent = content::load(QUALITATIVE_CODEBOOK).unwrap();
-    let ns: HashSet<String> = cfg.non_speaker_labels.iter().map(|s| words_of(s).join(" ")).collect();
+    let ns: HashSet<String> = cfg
+        .non_speaker_labels
+        .iter()
+        .map(|s| words_of(s).join(" "))
+        .collect();
     let (t, l) = parse_turns(text, &ns);
     (t.into_iter().map(|x| (x.label, x.text)).collect(), l)
 }
@@ -1907,7 +1917,14 @@ mod tests {
         let c = cfg();
         let texts: Vec<String> = texts.iter().map(|s| s.to_string()).collect();
         let names: HashSet<String> = names.iter().map(|s| s.to_lowercase()).collect();
-        analyze(&texts, &c.codes, &c, &[], &names, ["springfield".to_string()].into())
+        analyze(
+            &texts,
+            &c.codes,
+            &c,
+            &[],
+            &names,
+            ["springfield".to_string()].into(),
+        )
     }
 
     #[test]
@@ -1918,7 +1935,10 @@ mod tests {
         let coder = Coder::new(&c.codes);
         for code in &c.codes {
             assert!(
-                coder.keywords.iter().any(|k| c.codes[k.code].code == code.code),
+                coder
+                    .keywords
+                    .iter()
+                    .any(|k| c.codes[k.code].code == code.code),
                 "{} has no usable keyword",
                 code.code
             );
@@ -1933,35 +1953,56 @@ mod tests {
         assert!(labeled);
         assert_eq!(turns[0], (None, "Focus group notes".to_string()));
         assert_eq!(turns[1].0.as_deref(), Some("Interviewer"));
-        assert_eq!(turns[2], (Some("Maria".to_string()), "The bus is slow and late.".to_string()));
+        assert_eq!(
+            turns[2],
+            (
+                Some("Maria".to_string()),
+                "The bus is slow and late.".to_string()
+            )
+        );
         assert_eq!(turns[3].0.as_deref(), Some("James"));
         // One "Label:" line is not a transcript structure; sentences with a colon stay text.
-        let (turns, labeled) = turns_for_test("Another thing: the bus is late.\n\nSecond paragraph here.");
+        let (turns, labeled) =
+            turns_for_test("Another thing: the bus is late.\n\nSecond paragraph here.");
         assert!(!labeled);
         assert_eq!(turns.len(), 2);
         // Timestamps before labels are ignored.
-        let (turns, _) = turns_for_test("[00:01:02] Rosa: hello there friend\n[00:01:09] Ana: hi\n");
+        let (turns, _) =
+            turns_for_test("[00:01:02] Rosa: hello there friend\n[00:01:09] Ana: hi\n");
         assert_eq!(turns[0].0.as_deref(), Some("Rosa"));
         // Lines like "Note:" are not speakers.
         let (turns, _) = turns_for_test("Note: recorded on tape\nRosa: hi\nAna: hello\n");
-        assert_eq!(turns.iter().filter(|t| t.0.as_deref() == Some("Note")).count(), 0);
+        assert_eq!(
+            turns
+                .iter()
+                .filter(|t| t.0.as_deref() == Some("Note"))
+                .count(),
+            0
+        );
     }
 
     #[test]
     fn names_are_removed_from_text_labels_and_the_names_list() {
         let a = run(
-            &[
-                "Facilitator: What helps your family?\n\
+            &["Facilitator: What helps your family?\n\
                  Rosa: My neighbor Ana Garcia drove me to the clinic. Rosa is what everyone calls me. Call 413-555-0188 or write rosa.test@example.org.\n\
                  Priya: Thanks to Mr. Okafor at Lowell General we could afford the bus. Dr. Nguyen helped too.\n\
-                 Rosa: Rosa said the rent is too high on 12 Elm Street, MA 01101.",
-            ],
+                 Rosa: Rosa said the rent is too high on 12 Elm Street, MA 01101."],
             &["Okafor"],
         );
         let all = a.deidentified.join("\n");
         for leaked in [
-            "Rosa", "Priya", "Garcia", "Ana", "Okafor", "Nguyen", "413-555-0188", "example.org",
-            "Elm Street", "01101", "rosa.test",
+            "Rosa",
+            "Priya",
+            "Garcia",
+            "Ana",
+            "Okafor",
+            "Nguyen",
+            "413-555-0188",
+            "example.org",
+            "Elm Street",
+            "01101",
+            "rosa.test",
         ] {
             assert!(!all.contains(leaked), "{leaked} leaked: {all}");
         }
@@ -1979,17 +2020,24 @@ mod tests {
     #[test]
     fn towns_months_and_languages_are_kept() {
         let a = run(
-            &["P1: I live in Springfield and speak Spanish at home. We moved in March.\nP2: Yes, in Springfield too."],
+            &[
+                "P1: I live in Springfield and speak Spanish at home. We moved in March.\nP2: Yes, in Springfield too.",
+            ],
             &[],
         );
         let all = a.deidentified.join("\n");
-        assert!(all.contains("Springfield") && all.contains("Spanish") && all.contains("March"), "{all}");
+        assert!(
+            all.contains("Springfield") && all.contains("Spanish") && all.contains("March"),
+            "{all}"
+        );
     }
 
     #[test]
     fn mid_sentence_names_are_propagated_to_sentence_starts() {
         let a = run(
-            &["P1: I asked my friend Zoltan about it.\nP2: Zoltan told me something else.\nP1: Zoltan is kind."],
+            &[
+                "P1: I asked my friend Zoltan about it.\nP2: Zoltan told me something else.\nP1: Zoltan is kind.",
+            ],
             &[],
         );
         let all = a.deidentified.join("\n");
@@ -2043,7 +2091,11 @@ mod tests {
         let parts = split_segment(&text);
         assert!(parts.len() > 1);
         for p in &parts {
-            assert!(p.chars().count() <= SEGMENT_TARGET + 80, "{}", p.chars().count());
+            assert!(
+                p.chars().count() <= SEGMENT_TARGET + 80,
+                "{}",
+                p.chars().count()
+            );
             assert!(p.ends_with('.'));
         }
         assert_eq!(shorten("héllo wörld ünicode", 8), "héllo…");
@@ -2107,7 +2159,11 @@ mod tests {
              Marisol: Housing is the main thing for me.\n",
         )
         .unwrap();
-        std::fs::write(data.join("names.txt"), "Marisol Quintero\nChandra Patel\nDmitri Volkov\n").unwrap();
+        std::fs::write(
+            data.join("names.txt"),
+            "Marisol Quintero\nChandra Patel\nDmitri Volkov\n",
+        )
+        .unwrap();
         let ctx = Context::new(phn_core::Config::for_root(dir.path())).unwrap();
         let env = analyze_qualitative_data(
             &ctx,
@@ -2132,7 +2188,15 @@ mod tests {
         assert!(theme("COST").is_none());
         // Nothing from the transcript is in the response.
         let text = serde_json::to_string(&env).unwrap() + &env.to_markdown();
-        for leaked in ["Marisol", "Chandra", "Dmitri", "Quintero", "Patel", "Volkov", "landlord ignores"] {
+        for leaked in [
+            "Marisol",
+            "Chandra",
+            "Dmitri",
+            "Quintero",
+            "Patel",
+            "Volkov",
+            "landlord ignores",
+        ] {
             assert!(!text.contains(leaked), "{leaked} in the response");
         }
         assert!(!text.contains("fg1.txt") || env.sources.iter().any(|s| s.title == "fg1.txt"));
@@ -2174,7 +2238,12 @@ mod tests {
         assert_eq!(env.data.codebook.codes.len(), 1);
         assert_eq!(env.data.codebook.codes[0].code, "PARKING");
         // One participant: the theme is present but below three, so withheld.
-        assert!(env.data.themes.iter().all(|t| t.code != "PARKING" || t.participants == Some(0)));
+        assert!(
+            env.data
+                .themes
+                .iter()
+                .all(|t| t.code != "PARKING" || t.participants == Some(0))
+        );
         assert_eq!(env.data.themes_withheld, 1);
         assert!(env.data.files.is_empty());
     }
