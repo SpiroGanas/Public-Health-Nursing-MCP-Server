@@ -1,0 +1,3794 @@
+{
+ "format_version": 1,
+ "description": "Journal papers PubMed attributes to the Community Preventive Services Task Force (Community Guide systematic reviews, economic reviews, and Task Force recommendation statements). Titles, dates, and rating language are as PubMed shows them; excerpts are short quotations from the abstracts.",
+ "retrieved": "2026-11-12",
+ "query": "\"Community Preventive Services Task Force\"[Corporate Author] OR \"Task Force on Community Preventive Services\"[Corporate Author]",
+ "pubmed_count": 157,
+ "left_out": {
+  "methods": 8,
+  "other": 4
+ },
+ "not_included": [
+  "This is not the Community Guide's list of recommendations. It holds the journal papers PubMed attributes to the Community Preventive Services Task Force (and its earlier name), so a recommendation or review that was posted only on thecommunityguide.org, or whose paper PubMed does not attribute to the Task Force, is missing.",
+  "Papers about methods, and news items, are left out. Recommendation statements are kept even when PubMed has no abstract for them; their rating is then not in this snapshot.",
+  "A rating appears only when the abstract's own words give it. Many abstracts report the review's findings and not the Task Force's rating, and some papers cover several interventions with different ratings.",
+  "Recommendations can be updated or archived after the paper was published. Check the Community Guide page before relying on an older record.",
+  "What Works for Health (County Health Rankings) has no data here: its site could not be reached from the build network."
+ ],
+ "records": [
+  {
+   "pmid": "41456618",
+   "title": "Increasing Colorectal Cancer Screening: A Systematic Economic Review of Patient Navigation Services.",
+   "journal": "Am J Prev Med",
+   "published": "2026-05",
+   "doi": "10.1016/j.amepre.2025.108255",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Colorectal Neoplasms",
+    "Patient Navigation",
+    "Early Detection of Cancer",
+    "Colonoscopy",
+    "Mass Screening",
+    "Quality-Adjusted Life Years"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The search yielded 17 studies with 16 studies from the U.S. and 1 study from France. The median intervention cost per person from 16 studies was $150 (interquartile interval=$58, $340). The median intervention cost per additional person screened from 17 studies was $663 (interquartile interval=$185; $1,730).",
+   "conclusion": null,
+   "implementation": "Economic evidence demonstrates that patient navigation services aimed at increasing colorectal cancer screenings are cost-effective on the basis of a conservative threshold of $50,000 per quality-adjusted life year gained."
+  },
+  {
+   "pmid": "40252864",
+   "title": "Family-Based Interventions to Prevent Substance Use Among Youth: Community Guide Systematic Economic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2025-07",
+   "doi": "10.1016/j.amepre.2025.04.009",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Substance-Related Disorders",
+    "Adolescent",
+    "Family"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force determined that cost-benefit evidence across the 3 sources showed that societal benefits exceeded cost of family-based interventions to prevent substance use among youth.",
+    "The Task Force determined that there were not enough studies to reach a conclusion about cost-effectiveness."
+   ],
+   "finding": "The search yielded 11 peer-reviewed studies and 2 government reports: 1 from the Washington State Institute for Public Policy that evaluated 14 programs and 1 from the Substance Abuse and Mental Health Administration that evaluated 8 programs.",
+   "conclusion": null,
+   "implementation": "The Community Preventive Services Task Force determined that cost-benefit evidence across the 3 sources showed that societal benefits exceeded cost of family-based interventions to prevent substance use among youth. The Task Force determined that there were not enough studies to reach a conclusion about cost-effectiveness."
+  },
+  {
+   "pmid": "40221004",
+   "title": "Effectiveness of School Fluoride Delivery Programs: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2025-07",
+   "doi": "10.1016/j.amepre.2025.04.003",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Dental Caries",
+    "Fluorides, Topical",
+    "Child",
+    "School Health Services",
+    "Child, Preschool",
+    "Schools",
+    "Cariostatic Agents",
+    "Adolescent",
+    "Randomized Controlled Trials as Topic"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Of 31 included studies with 60,780 students, 25 were randomized controlled trials-20 with good quality of execution. Most studies were conducted in low socioeconomic status areas among students at elevated caries risk.",
+   "conclusion": null,
+   "implementation": "Possible barriers to implementation include that Medicaid in some states only reimburses dental and medical professionals and does not reimburse non-dental providers for flouride varnish delivered to children older than age 6 years."
+  },
+  {
+   "pmid": "39631447",
+   "title": "Impact of Fruit and Vegetable Incentive Programs on Food Insecurity, Fruit and Vegetable Consumption, and Health Outcomes: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2025-03",
+   "doi": "10.1016/j.amepre.2024.11.016",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Vegetables",
+    "Fruit",
+    "Food Insecurity",
+    "Motivation",
+    "Poverty",
+    "Diet",
+    "Food Supply"
+   ],
+   "rating_terms": [
+    "recommended"
+   ],
+   "rating_sentences": [
+    "Based on the review findings, the Community Preventive Services Task Force recommends Fruit and Vegetable Incentive programs for populations with lower incomes to reduce household food insecurity, increase household fruit and vegetable consumption, and improve blood glucose levels in participants at risk for or with diet-related health conditions."
+   ],
+   "finding": "This review included 30 studies. Thirteen of 14 datapoints from 12 studies indicated FVI programs reduced household food insecurity. Twenty-one of 29 datapoints from 23 studies showed increased FV consumption. Programs providing incentives to participants at risk for or with diet-related health conditions improved blood glucose levels by a median of 0.64 percentage points.",
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "38876292",
+   "title": "Breast and Cervical Cancer Screenings: A Systematic Economic Review of Patient Navigation Services.",
+   "journal": "Am J Prev Med",
+   "published": "2024-10",
+   "doi": "10.1016/j.amepre.2024.06.005",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Breast Neoplasms",
+    "Early Detection of Cancer",
+    "Patient Navigation",
+    "Quality-Adjusted Life Years",
+    "Uterine Cervical Neoplasms",
+    "Cost-Effectiveness Analysis"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The search yielded 3 breast cancer, 2 cervical cancer, and 2 multiple cancer studies that combined breast and cervical cancer with other cancer screenings. For breast cancer screening, the intervention cost per person ranged from $109 to $10,245. Two studies reported $154 and $740 as intervention cost per additional person screened.",
+   "conclusion": null,
+   "implementation": "All estimates of cost per QALY/LY saved for breast cancer screening were below a conservative threshold of $50,000 indicating that patient navigation services for breast cancer screening were cost-effective. There is limited evidence to determine cost-effectiveness of patient navigation services for cervical cancer screening."
+  },
+  {
+   "pmid": "38367928",
+   "title": "A Community Guide Systematic Review: Digital HIV Pre-Exposure Prophylaxis Interventions.",
+   "journal": "Am J Prev Med",
+   "published": "2024-08",
+   "doi": "10.1016/j.amepre.2024.02.009",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "HIV Infections",
+    "Pre-Exposure Prophylaxis",
+    "Anti-HIV Agents",
+    "Sexual and Gender Minorities",
+    "Homosexuality, Male",
+    "Drug Monitoring"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [
+    "Findings from this review served as the basis for the Community Preventive Services Task Force recommendation to use these interventions to increase PrEP adherence to prevent HIV infection."
+   ],
+   "finding": "Nine studies were included and all focused on gay, bisexual, and other men who have sex with men. Eight studies were U.S.-based while the other was conducted in the Netherlands. Five were randomized control trials and four were pre-/post studies. All studies showed improved adherence in the intervention arms compared with comparison groups or preintervention data.",
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "37121447",
+   "title": "Economics of Team-Based Care for Blood Pressure Control: Updated Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2023-10",
+   "doi": "10.1016/j.amepre.2023.04.013",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Benchmarking",
+    "Blood Pressure",
+    "Health Care Costs",
+    "Hypertension"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The median intervention cost per patient per year was $438 for U.S. studies and $299 for all studies. The median change in healthcare cost per patient per year after the intervention was -$140 for both U.S. studies and for all studies. The median net cost per patient per year was $439 for U.S. studies and $133 for all studies.",
+   "conclusion": null,
+   "implementation": "Intervention cost and net cost were higher in the U.S. than in other high-income countries. Healthcare cost averted did not exceed intervention cost in most studies."
+  },
+  {
+   "pmid": "36543699",
+   "title": "Community Health Workers to Increase Cancer Screening: 3 Community Guide Systematic Reviews.",
+   "journal": "Am J Prev Med",
+   "published": "2023-04",
+   "doi": "10.1016/j.amepre.2022.10.016",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Early Detection of Cancer",
+    "Community Health Workers",
+    "Preventive Health Services",
+    "Income",
+    "Neoplasms"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The review included 76 studies. Interventions engaging community health workers increased screening use for breast (median increase=11.5 percentage points, interquartile interval=5.5‒23.5), cervical (median increase=12.8 percentage points, interquartile interval=6.4‒21.0), and colorectal cancers (median increase=10.5 percentage points, interquartile interval=4.5‒17.5).",
+   "conclusion": null,
+   "implementation": "These interventions are typically implemented in communities where people are underserved to improve health and can enhance health equity."
+  },
+  {
+   "pmid": "36496280",
+   "title": "A Community Guide Systematic Review: School Dietary and Physical Activity Interventions.",
+   "journal": "Am J Prev Med",
+   "published": "2023-03",
+   "doi": "10.1016/j.amepre.2022.10.003",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Overweight",
+    "Diet",
+    "Exercise",
+    "Schools",
+    "Fruit",
+    "Vegetables",
+    "Obesity"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Interventions (n=24 studies) were considered effective for increasing physical activity (median increase=21.8 minutes/day; interquartile interval= -0.8 to 27.4 minutes/day), modestly increasing fruit and vegetable intake (median relative increase=12.1%; interquartile interval= -4.6%, 73.4%), and decreasing the prevalence of overweight and obesity (median decrease=2.5...",
+   "conclusion": "School meal or fruit and vegetable snack interventions combined with physical activity were effective in increasing physical activity, with modest effects for improving fruit and vegetable consumption and reducing the prevalence of overweight and obesity among elementary students.",
+   "implementation": null
+  },
+  {
+   "pmid": "34876318",
+   "title": "Pharmacist Interventions for Medication Adherence: Community Guide Economic Reviews for Cardiovascular Disease.",
+   "journal": "Am J Prev Med",
+   "published": "2022-03",
+   "doi": "10.1016/j.amepre.2021.08.021",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Cardiovascular Diseases",
+    "Medication Adherence",
+    "Pharmacists",
+    "Quality-Adjusted Life Years"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The median intervention cost per patient per year was $246 for cardiovascular disease prevention and $292 for cardiovascular disease management. The median change in healthcare cost per person per year due to the intervention was -$355 for cardiovascular disease prevention and -$2,430 for cardiovascular disease management.",
+   "conclusion": null,
+   "implementation": "The evidence shows that tailored pharmacy-based interventions to improve medication adherence are cost effective for cardiovascular disease prevention. For cardiovascular disease management, healthcare cost averted exceeds the cost of implementation for a favorable return on investment from a healthcare systems perspective."
+  },
+  {
+   "pmid": "34772564",
+   "title": "Intimate Partner and Sexual Violence Prevention Among Youth: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2022-01",
+   "doi": "10.1016/j.amepre.2021.06.021",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Crime Victims",
+    "Intimate Partner Violence",
+    "Sex Offenses",
+    "Sexual Behavior",
+    "Sexual Partners"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "A total of 28 studies (32 arms) met inclusion and quality of execution criteria. Interventions used combinations of teaching healthy relationship skills, promoting social norms to protect against violence, or creating protective environments.",
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "36194822",
+   "title": "Tenant-Based Housing Voucher Programs: A Community Guide Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2022",
+   "doi": "10.1097/PHH.0000000000001588",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Child",
+    "Child, Preschool",
+    "Ill-Housed Persons",
+    "Housing",
+    "Income",
+    "Poverty",
+    "Residence Characteristics"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Seven studies met inclusion criteria.",
+   "conclusion": "Voucher programs improved health and several health-related outcomes for voucher-using households, particularly young children. Research is still needed to better understand household's experiences and contextual factors that influence achievement of desired outcomes.",
+   "implementation": null
+  },
+  {
+   "pmid": "33309455",
+   "title": "Engaging Community Health Workers to Increase Cancer Screening: A Community Guide Systematic Economic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2021-04",
+   "doi": "10.1016/j.amepre.2020.08.011",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Colorectal Neoplasms",
+    "Community Health Workers",
+    "Early Detection of Cancer",
+    "Mass Screening",
+    "Quality-Adjusted Life Years",
+    "Uterine Cervical Neoplasms"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommends engaging community health workers to increase breast, cervical, and colorectal cancer screenings on the basis of strong evidence of effectiveness."
+   ],
+   "finding": "A total of 19 studies were included in the final analysis with 3 on breast cancer, 5 on cervical cancer, 9 on colorectal cancer, and 2 that combined costs for breast and cervical cancers and for breast, cervical, and colorectal cancers. For cervical cancer screening, 2 U.S. studies reported incremental cost per quality-adjusted life year saved of $762 and $34,405.",
+   "conclusion": "Engaging community health workers to increase cervical and colorectal cancer screenings is cost effective on the basis of estimated incremental cost-effectiveness ratios that were less than the conservative $50,000 per quality-adjusted life year threshold.",
+   "implementation": null
+  },
+  {
+   "pmid": "33341185",
+   "title": "Economics of Interventions to Increase Active Travel to School: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2021-01",
+   "doi": "10.1016/j.amepre.2020.08.002",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "New York City",
+    "Schools",
+    "United Kingdom"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "All the studies reported cost, 6 studies reported cost benefit, and 2 studies reported cost effectiveness. The cost-effectiveness estimates were excluded on the basis of quality assessment. Cost of interventions ranged widely, with higher cost reported for the infrastructure-heavy projects from the U.S.",
+   "conclusion": "The evidence indicates that interventions that improve infrastructure and enhance the safety and ease of active travel to schools generate societal economic benefits that exceed the societal cost.",
+   "implementation": null
+  },
+  {
+   "pmid": "32564807",
+   "title": "Healthier Food and Beverage Interventions in Schools: Four Community Guide Systematic Reviews.",
+   "journal": "Am J Prev Med",
+   "published": "2020-07",
+   "doi": "10.1016/j.amepre.2020.01.011",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Beverages",
+    "Child",
+    "Feeding Behavior",
+    "Food Services",
+    "Fruit",
+    "Schools",
+    "Vegetables"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "There is insufficient evidence to determine the effectiveness of interventions to increase water access because only 2 studies met inclusion criteria."
+   ],
+   "finding": "Interventions improving school meals or offering fruits and vegetables (n=27 studies) are considered effective. Evidence is insufficient to determine the effectiveness of interventions supporting healthier snack foods and beverages outside of school meal programs given inconsistent findings (n=13 studies).",
+   "conclusion": "A total of 2 school-based dietary interventions have favorable effects for improving dietary habits and modest effects for improving or maintaining weight. More evidence is needed regarding interventions with insufficient findings. These reviews may inform researchers and school administrators about healthy eating and obesity prevention interventions.",
+   "implementation": null
+  },
+  {
+   "pmid": "32564806",
+   "title": "Healthier Food and Beverage Interventions in Schools: Recommendation of the Community Preventive Services Task Force.",
+   "journal": "Am J Prev Med",
+   "published": "2020-07",
+   "doi": "10.1016/j.amepre.2020.01.014",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Beverages",
+    "Food Services",
+    "Preventive Health Services",
+    "Schools"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "32732712",
+   "title": "Permanent Supportive Housing With Housing First to Reduce Homelessness and Promote Health Among Homeless Populations With Disability: A Community Guide Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2020",
+   "doi": "10.1097/PHH.0000000000001219",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Persons with Disabilities",
+    "HIV Infections",
+    "Health Promotion",
+    "Ill-Housed Persons",
+    "Housing"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Twenty-six studies in the United States and Canada met inclusion criteria. Compared with Treatment First, Housing First programs decreased homelessness by 88% and improved housing stability by 41%.",
+   "conclusion": "Housing First programs improved housing stability and reduced homelessness more effectively than Treatment First programs. In addition, Housing First programs showed health benefits and reduced health services use. Health care systems that serve homeless patients may promote their health and well-being by linking them with effective housing services.",
+   "implementation": null
+  },
+  {
+   "pmid": "31477431",
+   "title": "Economics of Multicomponent Interventions to Increase Breast, Cervical, and Colorectal Cancer Screening: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2019-10",
+   "doi": "10.1016/j.amepre.2019.03.006",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Breast Neoplasms",
+    "Colorectal Neoplasms",
+    "Early Detection of Cancer",
+    "Health Care Costs",
+    "Preventive Health Services",
+    "Quality-Adjusted Life Years",
+    "Uterine Cervical Neoplasms"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recently recommended multicomponent interventions to increase breast, cervical, and colorectal cancer screening based on strong evidence of effectiveness."
+   ],
+   "finding": "Fifty-three studies were included in the body of evidence from a literature search yield of 8,568 total articles.",
+   "conclusion": "Multicomponent interventions to increase cervical and colorectal cancer screening were cost effective based on a very conservative threshold. Additionally, multicomponent interventions for colorectal cancer screening demonstrated net cost savings.",
+   "implementation": null
+  },
+  {
+   "pmid": "31227070",
+   "title": "Team-Based Care to Improve Type 2 Diabetes Management: Recommendation of the Community Preventive Services Task Force.",
+   "journal": "Am J Prev Med",
+   "published": "2019-07",
+   "doi": "10.1016/j.amepre.2019.02.006",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Clinical Protocols",
+    "Diabetes Mellitus, Type 2",
+    "Disease Management",
+    "Middle Aged",
+    "Patient Care Team",
+    "Preventive Health Services"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "31227069",
+   "title": "Team-Based Care to Improve Diabetes Management: A Community Guide Meta-analysis.",
+   "journal": "Am J Prev Med",
+   "published": "2019-07",
+   "doi": "10.1016/j.amepre.2019.02.005",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Blood Glucose",
+    "Chronic Disease",
+    "Diabetes Mellitus, Type 2",
+    "Disease Management",
+    "Patient Care Team",
+    "Quality Improvement",
+    "Randomized Controlled Trials as Topic"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Thirty-five studies were included in the current review; a majority focused on patients with Type 2 diabetes. Teams included patients, their primary care providers, and one or two additional healthcare professionals (most often nurses or pharmacists).",
+   "conclusion": "For patients with Type 2 diabetes, team-based care improves blood glucose, blood pressure, and lipid levels.",
+   "implementation": null
+  },
+  {
+   "pmid": "30325796",
+   "title": "Examining the Effectiveness of Year-Round School Calendars on Improving Educational Attainment Outcomes Within the Context of Advancement of Health Equity: A Community Guide Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2019",
+   "doi": "10.1097/PHH.0000000000000860",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Education",
+    "Educational Status",
+    "Health Equity",
+    "Schools"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Lack of clarity about the role of intersessions as simple school breaks or as additional schooling opportunities in YRSCs leaves the evidence on single-track programs insufficient. Evidence on multi-track YRSCs is also insufficient.",
+   "implementation": null
+  },
+  {
+   "pmid": "30204626",
+   "title": "Expanded In-School Instructional Time and the Advancement of Health Equity: A Community Guide Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2019",
+   "doi": "10.1097/PHH.0000000000000834",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Education",
+    "Health Equity",
+    "Poverty",
+    "Schools",
+    "Socioeconomic Factors"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "Given the small effect sizes and a lack of information about the use of added time, there is insufficient evidence to determine the effectiveness of EISIT on academic achievement and thus health equity."
+   ],
+   "finding": null,
+   "conclusion": "Remaining studies were inconclusive. Given the small effect sizes and a lack of information about the use of added time, there is insufficient evidence to determine the effectiveness of EISIT on academic achievement and thus health equity.",
+   "implementation": null
+  },
+  {
+   "pmid": "28257407",
+   "title": "Early Childhood Education to Promote Health Equity: A Community Guide Economic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2018",
+   "doi": "10.1097/PHH.0000000000000557",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Curriculum",
+    "Economics",
+    "Education",
+    "Health Equity",
+    "School Teachers",
+    "Washington"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The median benefit-to-cost ratio from 11 estimates of earnings gains, the major benefit driver for 3 types of ECE programs (ie, state and district, federal Head Start, and model programs), was 3.39:1 (interquartile interval [IQI] = 2.48-4.39).",
+   "conclusion": "ECE programs promote both equity and economic efficiency. Evidence indicates there is positive social return on investment in ECE irrespective of the type of ECE program. The adoption of a societal perspective is crucial to understand all costs and benefits of ECE programs regardless of who pays for the costs or receives the benefits.",
+   "implementation": null
+  },
+  {
+   "pmid": "29153116",
+   "title": "Community Guide Cardiovascular Disease Economic Reviews: Tailoring Methods to Ensure Utility of Findings.",
+   "journal": "Am J Prev Med",
+   "published": "2017-12",
+   "doi": "10.1016/j.amepre.2017.06.012",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Blood Pressure Monitoring, Ambulatory",
+    "Cardiovascular Diseases",
+    "Centers for Disease Control and Prevention, U.S.",
+    "Community Health Workers",
+    "Decision Making",
+    "Decision Support Systems, Clinical",
+    "Health Expenditures",
+    "Health Policy",
+    "Practice Guidelines as Topic",
+    "Program Evaluation",
+    "Quality-Adjusted Life Years"
+   ],
+   "rating_terms": [
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommended five interventions for cardiovascular disease prevention between 2012 and 2015."
+   ],
+   "finding": null,
+   "conclusion": "Lack of enough data or incomplete information made it difficult to reach an overall economic finding for the other interventions. The Community Guide methods discussed here may help others conducting systematic economic reviews of public health interventions to respond to challenges with the synthesis of evidence and provide useful findings for public health decision makers.",
+   "implementation": null
+  },
+  {
+   "pmid": "28818277",
+   "title": "Economics of Self-Measured Blood Pressure Monitoring: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2017-09",
+   "doi": "10.1016/j.amepre.2017.03.002",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Blood Pressure Monitoring, Ambulatory",
+    "Cost of Illness",
+    "Health Care Costs",
+    "Hypertension",
+    "Models, Economic",
+    "Patient Care Team",
+    "Quality-Adjusted Life Years",
+    "Stroke"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Median costs of intervention were $60 and $174 per person for SMBP alone and SMBP with additional support, respectively, and $732 per person per year for SMBP within TBC. SMBP alone and SMBP with additional support reduced healthcare cost per person per year from outpatient visits and medication (medians $148 and $3, respectively; median follow-up, 12-13 months).",
+   "conclusion": "SMBP monitoring interventions with additional support or within TBC are cost effective. Cost effectiveness of SMBP used alone could not be determined.",
+   "implementation": null
+  },
+  {
+   "pmid": "28526357",
+   "title": "Universal Motorcycle Helmet Laws to Reduce Injuries: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2017-06",
+   "doi": "10.1016/j.amepre.2016.11.030",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Craniocerebral Trauma",
+    "Databases, Factual",
+    "Head Protective Devices",
+    "Motorcycles"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "A total of 60 U.S. studies qualified for inclusion in the review. Implementing universal helmet laws increased helmet use (median, 47 percentage points); reduced total deaths (median, -32%) and deaths per registered motorcycle (median, -29%); and reduced total injuries (median, -32%) and injuries per registered motorcycle (median, -24%).",
+   "conclusion": "Universal helmet laws are effective in increasing motorcycle helmet use and reducing deaths and injuries. These laws are effective for motorcyclists of all ages, including younger operators and passengers who would have already been covered by partial helmet laws. Repealing universal helmet laws decreased helmet use and increased deaths and injuries.",
+   "implementation": null
+  },
+  {
+   "pmid": "28526356",
+   "title": "Motorcycle Helmet Laws Prevent Injury and Save Lives: Recommendation of the Community Preventive Services Task Force.",
+   "journal": "Am J Prev Med",
+   "published": "2017-06",
+   "doi": "10.1016/j.amepre.2016.12.023",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Craniocerebral Trauma",
+    "Head Protective Devices",
+    "Motorcycles"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "27865653",
+   "title": "Evaluation of School-Based Dental Sealant Programs: An Updated Community Guide Systematic Economic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2017-03",
+   "doi": "10.1016/j.amepre.2016.10.004",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Dental Caries",
+    "Medicaid",
+    "Models, Economic",
+    "Pit and Fissure Sealants",
+    "School Dentistry"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "A recently updated Community Guide systematic review of the effectiveness of school sealant programs (SSPs) still found strong evidence that SSPs reduced dental caries among schoolchildren."
+   ],
+   "finding": "The median one-time SSP cost per tooth sealed was $11.64. Labor accounted for two thirds of costs, and time to provide sealants was a major cost driver. The median annual economic benefit was $6.29, suggesting that over 4 years the SSP benefit ($23.37 at a 3% discount rate) would exceed costs by $11.73 per sealed tooth.",
+   "conclusion": "Recent evidence indicates the benefits of SSPs exceed their costs when SSPs target schools attended by a large number of high-risk children.",
+   "implementation": null
+  },
+  {
+   "pmid": "27745678",
+   "title": "Alcohol Electronic Screening and Brief Intervention: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-11",
+   "doi": "10.1016/j.amepre.2016.04.013",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol-Related Disorders",
+    "Mass Screening",
+    "Telecommunications"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Twenty-four studies (28 study arms) provided results for excessive drinkers only and seven studies (eight study arms) reported results for all drinkers.",
+   "conclusion": "According to Community Guide rules of evidence, e-SBI is an effective method for reducing excessive alcohol consumption and related harms among intervention participants.",
+   "implementation": null
+  },
+  {
+   "pmid": "27647054",
+   "title": "Community-wide Interventions to Prevent Skin Cancer: Recommendation of the Community Preventive Services Task Force.",
+   "journal": "Am J Prev Med",
+   "published": "2016-10",
+   "doi": "10.1016/j.amepre.2016.03.019",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Skin Neoplasms"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "27647053",
+   "title": "Community-wide Interventions to Prevent Skin Cancer: Two Community Guide Systematic Reviews.",
+   "journal": "Am J Prev Med",
+   "published": "2016-10",
+   "doi": "10.1016/j.amepre.2016.03.020",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Education",
+    "Skin Neoplasms"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "There was, however, insufficient evidence to determine the effectiveness of mass media interventions alone in reducing ultraviolet radiation exposure and increasing ultraviolet protection behaviors, indicating a continuing need for more research in this field to improve assessment of effectiveness."
+   ],
+   "finding": "Seven studies evaluating the effectiveness of multicomponent community-wide interventions showed a median increase in sunscreen use of 10.8 (interquartile interval=7.3, 23.2) percentage points, a small decrease in ultraviolet radiation exposure, a decrease in indoor tanning device use of 4.0 (95% CI=2.5, 5.5) percentage points, and mixed results for other protective behaviors.",
+   "conclusion": "The available evidence showed that multicomponent community-wide interventions are effective in reducing the deleterious effects of ultraviolet radiation exposure by increasing sunscreen use.",
+   "implementation": null
+  },
+  {
+   "pmid": "27320217",
+   "title": "Economic Evaluation of School-Based Health Centers: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-07",
+   "doi": "10.1016/j.amepre.2016.01.017",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Medicaid",
+    "School Health Services"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Analyses were conducted in 2014. Intervention cost had two main components: start-up cost and operating cost. All but two of the cost studies reported operating cost only (ranging from $16,322 to $659,684 per SBHC annually). Benefits included healthcare cost averted and productivity and other loss averted.",
+   "conclusion": "The economic benefit of SBHCs exceeds the intervention operating cost. Further, SBHCs result in net savings to Medicaid.",
+   "implementation": null
+  },
+  {
+   "pmid": "27320215",
+   "title": "School-Based Health Centers to Advance Health Equity: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-07",
+   "doi": "10.1016/j.amepre.2016.01.009",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Educational Status",
+    "Health Equity",
+    "Health Services Accessibility",
+    "Minority Groups",
+    "Outcome Assessment, Health Care",
+    "Poverty",
+    "School Health Services"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Most of the 46 studies included in the review evaluated onsite clinics serving urban, low-income, and racial or ethnic minority high school students.",
+   "conclusion": "Because SBHCs improve educational and health-related outcomes in disadvantaged students, they can be effective in advancing health equity.",
+   "implementation": null
+  },
+  {
+   "pmid": "26847663",
+   "title": "Increasing Coverage of Appropriate Vaccinations: A Community Guide Systematic Economic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-06",
+   "doi": "10.1016/j.amepre.2015.11.003",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "House Calls",
+    "Immunization",
+    "Immunization Programs",
+    "Reminder Systems",
+    "Vaccination"
+   ],
+   "rating_terms": [
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recently recommended several interventions to increase vaccination coverage based on systematic reviews of the evaluation literature."
+   ],
+   "finding": "Reminder systems, whether for clients or providers, were among the lowest-cost strategies to implement and the most cost effective in terms of additional people vaccinated. Strategies involving home visits and combination strategies in community settings were both costly and less cost effective.",
+   "conclusion": "The interventions recommended by the Task Force differed in reach, cost, and cost effectiveness. This systematic review presents the economic information for 12 effective strategies to increase vaccination coverage that can guide implementers in their choice of interventions to fit their local needs, available resources, and budget.",
+   "implementation": null
+  },
+  {
+   "pmid": "26776927",
+   "title": "Economic Evaluation of Community Water Fluoridation: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-06",
+   "doi": "10.1016/j.amepre.2015.10.014",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Dental Caries",
+    "Fluoridation",
+    "Models, Economic",
+    "Residence Characteristics"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The analysis was conducted in 2014. The benefit-only studies used regression analysis, showing that different measures of dental costs were always lower in communities with water fluoridation.",
+   "conclusion": "Recent evidence continues to indicate that the economic benefit of community water fluoridation exceeds the intervention cost. Further, the benefit-cost ratio increases with the community population size.",
+   "implementation": null
+  },
+  {
+   "pmid": "26897342",
+   "title": "Reducing Recreational Sedentary Screen Time: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2016-03",
+   "doi": "10.1016/j.amepre.2015.09.030",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Behavior Therapy",
+    "Child",
+    "Community Health Services",
+    "Exercise",
+    "Obesity",
+    "Recreation",
+    "Schools",
+    "Sedentary Behavior",
+    "Television",
+    "Time Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The review included 49 studies. Two types of behavioral interventions were evaluated that either (1) focus on reducing recreational sedentary screen time only (12 studies); or (2) focus equally on reducing recreational sedentary screen time and improving physical activity or diet (37 studies). Most studies targeted children aged ≤13 years.",
+   "conclusion": "Among children, these interventions demonstrated reduced screen time, increased physical activity, and improved diet- and weight-related outcomes. More research is needed among adolescents and adults.",
+   "implementation": null
+  },
+  {
+   "pmid": "26672408",
+   "title": "Recommendation for Center-Based Early Childhood Education to Promote Health Equity.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2016",
+   "doi": "10.1097/PHH.0000000000000354",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child, Preschool",
+    "Education",
+    "Educational Status",
+    "Health Equity",
+    "Health Promotion",
+    "Minority Groups",
+    "Poverty",
+    "Socioeconomic Factors",
+    "Students"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "sufficient_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommends early childhood education programs based on strong evidence of effectiveness in improving educational outcomes associated with long-term health and sufficient evidence of effectiveness in improving social- and health-related outcomes."
+   ],
+   "finding": null,
+   "conclusion": "The Community Preventive Services Task Force recommends early childhood education programs based on strong evidence of effectiveness in improving educational outcomes associated with long-term health and sufficient evidence of effectiveness in improving social- and health-related outcomes.",
+   "implementation": null
+  },
+  {
+   "pmid": "26672406",
+   "title": "Early Childhood Education to Promote Health Equity: A Community Guide Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2016",
+   "doi": "10.1097/PHH.0000000000000378",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child, Preschool",
+    "Health Education",
+    "Health Equity",
+    "Health Promotion",
+    "Income",
+    "Minority Groups",
+    "Racial Groups",
+    "Risk Factors",
+    "Students"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "There were increases in intervention compared with control children in standardized test scores (median = 0.29 SD) and high school graduation (median = 0.20 SD) and decreases in grade retention (median = 0.23 SD) and special education assignment (median = 0.28 SD).",
+   "conclusion": "Because many programs are designed to increase enrollment for high-risk students and communities, they are likely to advance health equity.",
+   "implementation": null
+  },
+  {
+   "pmid": "26203586",
+   "title": "High School Completion Programs: A Community Guide Systematic Economic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2016",
+   "doi": "10.1097/PHH.0000000000000286",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Education",
+    "Educational Status",
+    "Health Equity",
+    "Health Expenditures",
+    "Risk Factors",
+    "Socioeconomic Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Thirty-seven studies provided estimates of incremental cost per additional high school graduate, with a median cost for HSC programs of $69 800 (interquartile interval = $35 900-$130 300). Cost-effectiveness ratios varied depending on intervention type, study settings, student populations, and costing methodologies.",
+   "conclusion": "Interventions to increase HSC rates produce substantial economic benefits to government and society including averted health care costs. From a societal perspective, the benefits also exceed costs, implying a positive rate of return from investment in HSC programs.",
+   "implementation": null
+  },
+  {
+   "pmid": "26605709",
+   "title": "Recommendation to Reduce Patients' Blood Pressure and Cholesterol Medication Costs.",
+   "journal": "Prev Chronic Dis",
+   "published": "2015-11",
+   "doi": "10.5888/pcd12.150253",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Blood Pressure",
+    "Cholesterol",
+    "Health Expenditures",
+    "Hyperlipidemias",
+    "Hypertension",
+    "Drug Monitoring"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "26605708",
+   "title": "Reducing Medication Costs to Prevent Cardiovascular Disease: A Community Guide Systematic Review.",
+   "journal": "Prev Chronic Dis",
+   "published": "2015-11",
+   "doi": "10.5888/pcd12.150242",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Blood Pressure",
+    "Cholesterol",
+    "Health Expenditures",
+    "Hyperlipidemias",
+    "Hypertension",
+    "Residence Characteristics",
+    "Drug Monitoring"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Eighteen studies were included in the analysis. ROPC interventions resulted in increased medication adherence for patients taking blood pressure and cholesterol medications by a median of 3.0 percentage points; proportion achieving 80% adherence to medication increased by 5.1 percentage points. Blood pressure and cholesterol outcomes also improved.",
+   "conclusion": "ROPC for medications to treat hypertension and hyperlipidemia is effective in increasing medication adherence, and, thus, improving blood pressure and cholesterol outcomes. Most ROPC interventions are implemented in combination with evidence-based health care interventions such as team-based care with medication counseling.",
+   "implementation": null
+  },
+  {
+   "pmid": "26477806",
+   "title": "Clinical Decision Support Systems Recommended to Prevent Cardiovascular Disease.",
+   "journal": "Am J Prev Med",
+   "published": "2015-11",
+   "doi": "10.1016/j.amepre.2015.03.041",
+   "kind": "recommendation",
+   "title_signal": "recommended",
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Cardiovascular Diseases",
+    "Decision Support Systems, Clinical",
+    "Primary Health Care"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "26477805",
+   "title": "Clinical Decision Support Systems and Prevention: A Community Guide Cardiovascular Disease Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2015-11",
+   "doi": "10.1016/j.amepre.2015.04.006",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Cardiovascular Diseases",
+    "Decision Support Systems, Clinical",
+    "Glycated Hemoglobin",
+    "Lipoproteins, LDL",
+    "Risk Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "A total of 45 studies qualified for inclusion in the review. Improvements were seen for recommended screening and other preventive care services completed by clinicians, recommended clinical tests completed by clinicians, and recommended treatments prescribed by clinicians (median increases of 3.8, 4.0, and 2.0 percentage points, respectively).",
+   "conclusion": "CDSSs are effective in improving clinician practices related to screening and other preventive care services, clinical tests, and treatments. However, more evidence is needed from implementation of CDSSs within the broad context of comprehensive service delivery aimed at reducing CVD risk and CVD-related morbidity and mortality.",
+   "implementation": null
+  },
+  {
+   "pmid": "26477804",
+   "title": "Economics of Team-based Care in Controlling Blood Pressure: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2015-11",
+   "doi": "10.1016/j.amepre.2015.04.003",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Care Costs",
+    "Hypertension",
+    "Patient-Centered Care",
+    "Quality-Adjusted Life Years"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "A recent Community Guide systematic review found strong evidence of effectiveness of team-based care in improving blood pressure control."
+   ],
+   "finding": "In analyses conducted in 2012, intervention cost, healthcare cost averted, benefit-to-cost ratios, and cost effectiveness were abstracted from the studies.",
+   "conclusion": "Team-based care to improve blood pressure control is cost effective based on evidence that 26 of 28 estimates of $/QALY gained from ten studies were below a conservative threshold of $50,000. This finding is salient to recent U.S. healthcare reforms and coordinated patient-centered care through formation of Accountable Care Organizations.",
+   "implementation": null
+  },
+  {
+   "pmid": "26188686",
+   "title": "Economic Impact of Tobacco Price Increases Through Taxation: A Community Guide Systematic Review.",
+   "journal": "Am J Prev Med",
+   "published": "2015-11",
+   "doi": "10.1016/j.amepre.2015.04.026",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Advisory Committees",
+    "Cost Savings",
+    "Public Health",
+    "Taxes",
+    "Tobacco Industry",
+    "Tobacco Use"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The review included eight modeling studies, with seven providing estimates of the impact on healthcare costs and three providing estimates of the value of productivity gains. Only one study provided an estimate of intervention costs.",
+   "conclusion": "The evidence indicates that interventions that raise the unit price of tobacco products through taxes generate substantial healthcare cost savings and can generate additional gains from improved productivity in the workplace.",
+   "implementation": null
+  },
+  {
+   "pmid": "26168073",
+   "title": "Combined Diet and Physical Activity Promotion Programs for Prevention of Diabetes: Community Preventive Services Task Force Recommendation Statement.",
+   "journal": "Ann Intern Med",
+   "published": "2015-09",
+   "doi": "10.7326/M15-1029",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Counseling",
+    "Diabetes Mellitus, Type 2",
+    "Diet, Reducing",
+    "Evidence-Based Medicine",
+    "Exercise",
+    "Health Promotion",
+    "Risk Factors"
+   ],
+   "rating_terms": [
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Task Force recommends the use of combined diet and physical activity promotion programs by health care systems, communities, and other implementers to provide counseling and support to clients identified as being at increased risk for type 2 diabetes."
+   ],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "25998927",
+   "title": "Recommendation for mental health benefits legislation.",
+   "journal": "Am J Prev Med",
+   "published": "2015-06",
+   "doi": "10.1016/j.amepre.2015.01.018",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Health Services Accessibility",
+    "Mental Disorders",
+    "Mental Health Services"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "25998926",
+   "title": "Effects of mental health benefits legislation: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2015-06",
+   "doi": "10.1016/j.amepre.2015.01.022",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Community Health Services",
+    "Health Expenditures",
+    "Health Services Accessibility",
+    "Insurance, Health",
+    "Mental Disorders",
+    "Mental Health Services",
+    "Pregnancy",
+    "Quality of Health Care"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Thirty eligible studies were identified in 37 papers. Implementation of mental health benefits legislation was associated with financial protection (decreased out-of-pocket costs) and appropriate utilization of services.",
+   "conclusion": "Evidence indicates that mental health benefits legislation, particularly comprehensive parity legislation, is effective in improving financial protection and increasing appropriate utilization of mental health services for people with mental health conditions. Evidence was limited for other mental health outcomes.",
+   "implementation": null
+  },
+  {
+   "pmid": "25819669",
+   "title": "High school completion programs recommended to improve health equity.",
+   "journal": "Am J Prev Med",
+   "published": "2015-05",
+   "doi": "10.1016/j.amepre.2015.01.001",
+   "kind": "recommendation",
+   "title_signal": "recommended",
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Educational Status",
+    "Health Equity",
+    "Schools",
+    "Young Adult"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "25818117",
+   "title": "Programs to increase high school completion: a community guide systematic health equity review.",
+   "journal": "Am J Prev Med",
+   "published": "2015-05",
+   "doi": "10.1016/j.amepre.2014.12.005",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Educational Status",
+    "Health Equity",
+    "Schools"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "There is strong evidence that a variety of HSC programs can improve high school or GED completion rates."
+   ],
+   "finding": "The review focused on the meta-analysis. Program effectiveness was measured as the increased rate of HSC (or GED receipt) by the intervention group compared with controls.",
+   "conclusion": "There is strong evidence that a variety of HSC programs can improve high school or GED completion rates. Because many programs are targeted to high-risk students and communities, they are likely to advance health equity.",
+   "implementation": null
+  },
+  {
+   "pmid": "25862203",
+   "title": "Legislations and policies to expand mental health and substance abuse benefits in health insurance plans: a community guide systematic economic review.",
+   "journal": "J Ment Health Policy Econ",
+   "published": "2015-03",
+   "doi": null,
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Insurance Coverage",
+    "Insurance, Health",
+    "Insurance, Psychiatric",
+    "Mental Health",
+    "Mental Health Services",
+    "Policy",
+    "Substance-Related Disorders"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "There was insufficient evidence to determine if the intervention was cost-effective or cost-saving."
+   ],
+   "finding": "The economic review included 12 studies: eleven provided evidence on cost impact to health plans, and one estimated the effect on suicides. There was insufficient evidence to determine if the intervention was cost-effective or cost-saving.",
+   "conclusion": null,
+   "implementation": "This review is unable to determine the overall economic value of policies that expanded MH/SA insurance benefits due to lack of cost-effectiveness and cost-benefit studies, predominantly due to the lack of evaluations of morbidity and mortality outcomes."
+  },
+  {
+   "pmid": "26079658",
+   "title": "Out-of-School-Time Academic Programs Are Recommended to Improve Academic Achievement and Health Equity.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2015",
+   "doi": "10.1097/PHH.0000000000000288",
+   "kind": "recommendation",
+   "title_signal": "recommended",
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Child, Preschool",
+    "Educational Status",
+    "Health Equity",
+    "Schools",
+    "Students",
+    "Teaching",
+    "Time Factors"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended",
+    "sufficient_evidence",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force makes several recommendations for academically at-risk students: reading-focused out-of-school-time academic programs are recommended on the basis of strong evidence of effectiveness in improving the reading achievement of students in grade levels K-3.",
+    "Mathematics-focused out-of-school-time academic programs are recommended on the basis of sufficient evidence of effectiveness in improving mathematics achievement.",
+    "General out-of-school-time academic programs that do not focus on one specific subject are recommended on the basis of sufficient evidence of effectiveness in improving the reading and mathematics achievement."
+   ],
+   "finding": null,
+   "conclusion": "Out-of-school-time academic programs with minimal academic content have insufficient evidence to determine the effectiveness of these programs.",
+   "implementation": null
+  },
+  {
+   "pmid": "26062096",
+   "title": "Out-of-School-Time Academic Programs to Improve School Achievement: A Community Guide Health Equity Systematic Review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2015",
+   "doi": "10.1097/PHH.0000000000000268",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Child, Preschool",
+    "Educational Status",
+    "Learning",
+    "Schools",
+    "Students",
+    "Teaching",
+    "Time Factors"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "There was insufficient evidence to determine effectiveness on behavioral outcomes and longer-term academic outcomes."
+   ],
+   "finding": "Thirty-two studies from the existing review and 25 studies from the update were combined and stratified by program focus (ie, reading-focused, math-focused, general academic programs, and programs with minimal academic focus). Focused programs were more effective than general or minimal academic programs. Reading-focused programs were effective only for students in grades K-3.",
+   "conclusion": "OSTA programs, particularly focused programs, are effective in increasing academic achievement for at-risk students. Ongoing school and social environments that support learning and development may be essential to ensure the longer-term benefits of OSTA programs.",
+   "implementation": null
+  },
+  {
+   "pmid": "24912083",
+   "title": "Recommendation for use of immunization information systems to increase vaccination rates.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2015",
+   "doi": "10.1097/PHH.0000000000000092",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Immunization Programs",
+    "Information Systems",
+    "Mass Vaccination",
+    "Public Health",
+    "Vaccines"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "Based on findings of a systematic review, the Community Preventive Services Task Force recommends immunization information systems on the basis of strong evidence of effectiveness in increasing vaccination rates."
+   ],
+   "finding": null,
+   "conclusion": "Based on findings of a systematic review, the Community Preventive Services Task Force recommends immunization information systems on the basis of strong evidence of effectiveness in increasing vaccination rates.",
+   "implementation": null
+  },
+  {
+   "pmid": "24912082",
+   "title": "Immunization information systems to increase vaccination rates: a community guide systematic review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2015",
+   "doi": "10.1097/PHH.0000000000000069",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Immunization Programs",
+    "Information Systems",
+    "Mass Vaccination",
+    "Public Health",
+    "Vaccines"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Studies described or evaluated IIS capabilities to (1) create or support effective interventions to increase vaccination rates, such as client reminder and recall, provider assessment and feedback, and provider reminders; (2) determine client vaccination status to inform decisions by clinicians, health care systems, and schools; (3) guide public health responses to outbreaks...",
+   "conclusion": "Findings from 240 articles and abstracts demonstrate IIS capabilities and actions in increasing vaccination rates with the goal of reducing vaccine-preventable disease.",
+   "implementation": null
+  },
+  {
+   "pmid": "24912081",
+   "title": "Economic review of immunization information systems to increase vaccination rates: a community guide systematic review.",
+   "journal": "J Public Health Manag Pract",
+   "published": "2015",
+   "doi": "10.1097/PHH.0000000000000100",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Immunization Programs",
+    "Information Systems",
+    "Mass Vaccination",
+    "Public Health",
+    "Vaccines"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Most studies involving cost data evaluated (1) system costs of building an IIS and (2) cost of exchanging immunization data; most economic benefits focused on administrative efficiency.",
+   "conclusion": "A major challenge to evaluating a technology-based intervention is the evolution that comes with technology improvements and advancements.",
+   "implementation": null
+  },
+  {
+   "pmid": "25145621",
+   "title": "Combination of mass media health campaigns and health-related product distribution is recommended to improve healthy behaviors.",
+   "journal": "Am J Prev Med",
+   "published": "2014-09",
+   "doi": "10.1016/j.amepre.2014.05.032",
+   "kind": "recommendation",
+   "title_signal": "recommended",
+   "has_abstract": false,
+   "mesh": [
+    "Health Behavior",
+    "Health Communication",
+    "Health Promotion",
+    "Mass Media"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "25145620",
+   "title": "Mass media health communication campaigns combined with health-related product distribution: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2014-09",
+   "doi": "10.1016/j.amepre.2014.05.034",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Condoms",
+    "Health Behavior",
+    "Health Communication",
+    "Health Promotion",
+    "Mass Media",
+    "Smoking Cessation",
+    "Smoking Prevention",
+    "Social Marketing"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Twenty-two studies that met Community Guide quality criteria were analyzed in 2010. Most studies showed favorable behavior change effects on health-related product use (a median increase of 8.4 percentage points).",
+   "conclusion": "Health communication campaigns that combine mass media and other communication channels with distribution of free or reduced-price health-related products are effective in improving healthy behaviors. This intervention is expected to be applicable across U.S. demographic groups, with appropriate population targeting.",
+   "implementation": null
+  },
+  {
+   "pmid": "25145619",
+   "title": "Economics of mass media health campaigns with health-related product distribution: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2014-09",
+   "doi": "10.1016/j.amepre.2014.05.031",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Behavior",
+    "Health Communication",
+    "Health Promotion",
+    "Mass Media",
+    "Public Health"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "The economic evidence was grouped and assessed by type of product distributed and health risk addressed. A total of 15 evaluation studies were included in the economic review, involving campaigns promoting the use of child car seats or booster seats, pedometers, condoms, recreational safety helmets, and nicotine replacement therapy.",
+   "conclusion": "Economic merits of the intervention could not be determined for health communication campaigns associated with use of recreational helmets, child car seats, and pedometers, primarily because available economic information and analyses were incomplete.",
+   "implementation": null
+  },
+  {
+   "pmid": "24933494",
+   "title": "Team-based care and improved blood pressure control: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2014-07",
+   "doi": "10.1016/j.amepre.2014.03.004",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Blood Pressure",
+    "Cardiovascular Diseases",
+    "Hypertension",
+    "Nurses",
+    "Patient Care Team",
+    "Pharmacists",
+    "Quality of Health Care",
+    "Risk Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Twenty-eight studies in the prior review (1980-2003) and an additional 52 studies from the Community Guide update (2003-2012) qualified for inclusion. Results from both bodies of evidence suggest that team-based care is effective in improving BP outcomes.",
+   "conclusion": "Team-based care increased the proportion of people with controlled BP and reduced both systolic and diastolic BP, especially when pharmacists and nurses were part of the team. Findings are applicable to a range of U.S. settings and population groups.",
+   "implementation": null
+  },
+  {
+   "pmid": "24745644",
+   "title": "Publicized sobriety checkpoint programs: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2014-05",
+   "doi": "10.1016/j.amepre.2014.01.018",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcoholic Intoxication",
+    "Automobile Driving",
+    "Breath Tests",
+    "Residence Characteristics",
+    "Risk Factors"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "Sobriety checkpoints were recommended in 2001 by the Community Preventive Services Task Force for reducing alcohol-impaired driving, based on strong evidence of effectiveness.",
+    "The number of studies, magnitude of effect, and consistency of findings indicate strong evidence of the effectiveness of publicized sobriety checkpoint programs in reducing alcohol-involved crash fatalities."
+   ],
+   "finding": "Fourteen evaluations of selective breath testing and one of random breath testing checkpoints met the inclusion criteria for the systematic review, conducted in 2012. Ten evaluations assessed the effects of publicized sobriety checkpoint programs on alcohol-involved crash fatalities, finding a median reduction of 8.9% in this crash type (interquartile interval=-16.5%, -3.5%).",
+   "conclusion": "The number of studies, magnitude of effect, and consistency of findings indicate strong evidence of the effectiveness of publicized sobriety checkpoint programs in reducing alcohol-involved crash fatalities. Economic evidence shows that these programs also have the potential for substantial cost savings.",
+   "implementation": null
+  },
+  {
+   "pmid": "24512872",
+   "title": "Effects of full-day kindergarten on the long-term health prospects of children in low-income and racial/ethnic-minority populations: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2014-03",
+   "doi": "10.1016/j.amepre.2013.12.003",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Education",
+    "Educational Status",
+    "Health Status",
+    "Health Status Disparities",
+    "Minority Groups",
+    "Poverty",
+    "Schools",
+    "Socioeconomic Factors",
+    "Time Factors"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "There is strong evidence that FDK improves academic achievement, a predictor of longer-term health benefits."
+   ],
+   "finding": "FDK improved academic achievement by an average of 0.35 SDs (Cohen's d; 95% CI=0.23, 0.46). The effect on verbal achievement was 0.46 (Cohen's d; 95% CI=0.32, 0.61) and that on math achievement was 0.24 (Cohen's d; 95% CI=0.06, 0.43).",
+   "conclusion": "There is strong evidence that FDK improves academic achievement, a predictor of longer-term health benefits. To sustain early benefits, intensive elementary school education is needed. If targeted to low-income and minority communities, FDK can advance health equity.",
+   "implementation": null
+  },
+  {
+   "pmid": "23079180",
+   "title": "Stand-alone mass media campaigns to increase physical activity: a Community Guide updated review.",
+   "journal": "Am J Prev Med",
+   "published": "2012-11",
+   "doi": "10.1016/j.amepre.2012.07.035",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Promotion",
+    "Mass Media",
+    "Motor Activity",
+    "Outcome Assessment, Health Care",
+    "Public Health",
+    "Self Report",
+    "Time Factors",
+    "Weight Loss"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "These findings did not lead the Task Force to change its earlier conclusion of insufficient evidence to determine the effectiveness of stand-alone mass media campaigns to increase physical activity.",
+    "Finally, studies published between 2009 and 2011, after the Task Force finding was reached, and briefly summarized here, are shown to support that finding."
+   ],
+   "finding": "Physical activity outcomes were assessed using a variety of self-report measures with duration intervals ranging from 6 weeks to 4 years.",
+   "conclusion": "The findings of this updated systematic review show that intervention effects, based wholly on self-reported measures, were modest and inconsistent. These findings did not lead the Task Force to change its earlier conclusion of insufficient evidence to determine the effectiveness of stand-alone mass media campaigns to increase physical activity.",
+   "implementation": null
+  },
+  {
+   "pmid": "22704754",
+   "title": "Effectiveness of interventions to increase screening for breast, cervical, and colorectal cancers: nine updated systematic reviews for the guide to community preventive services.",
+   "journal": "Am J Prev Med",
+   "published": "2012-07",
+   "doi": "10.1016/j.amepre.2012.04.009",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Breast Neoplasms",
+    "Colorectal Neoplasms",
+    "Financing, Personal",
+    "Health Promotion",
+    "Mass Screening",
+    "Preventive Health Services",
+    "Uterine Cervical Neoplasms",
+    "Young Adult"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Recommendations were added for one-on-one education to increase screening with fecal occult blood testing (FOBT) and group education to increase mammography screening. Strength of evidence for client reminder interventions to increase FOBT screening was upgraded from sufficient to strong.",
+   "conclusion": "Findings indicate new and reaffirmed interventions effective in promoting recommended cancer screening, including colorectal cancer screening. Findings can be used in community and healthcare settings to promote recommended care. Important research gaps also are described.",
+   "implementation": null
+  },
+  {
+   "pmid": "22704753",
+   "title": "Updated recommendations for client- and provider-oriented interventions to increase breast, cervical, and colorectal cancer screening.",
+   "journal": "Am J Prev Med",
+   "published": "2012-07",
+   "doi": "10.1016/j.amepre.2012.04.008",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Advisory Committees",
+    "Breast Neoplasms",
+    "Colorectal Neoplasms",
+    "Health Planning Guidelines",
+    "Health Promotion",
+    "Mass Screening",
+    "Uterine Cervical Neoplasms"
+   ],
+   "rating_terms": [
+    "recommended",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force (Task Force) recommends increasing screening for breast cancer through use of group education, one-on-one education, client reminders, reducing client out-of-pocket costs, and provider assessment and feedback; increasing screening for cervical cancer through use of one-on-one education, client reminders, and provider assessment and...",
+    "The Task Force found insufficient evidence to determine the effectiveness of increasing screening for breast cancer through use of client incentives, mass media, or provider incentives; for cervical cancer screening through use of group education, client incentives, mass media, reducing client out-of-pocket costs, reducing structural barriers, or provider incentives; and for..."
+   ],
+   "finding": null,
+   "conclusion": "The Task Force found insufficient evidence to determine the effectiveness of increasing screening for breast cancer through use of client incentives, mass media, or provider incentives; for cervical cancer screening through use of group education, client incentives, mass media, reducing client out-of-pocket costs, reducing structural barriers, or provider incentives; and for...",
+   "implementation": null
+  },
+  {
+   "pmid": "22516496",
+   "title": "Economics of collaborative care for management of depressive disorders: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2012-05",
+   "doi": "10.1016/j.amepre.2012.01.011",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Age Factors",
+    "Community Health Services",
+    "Cooperative Behavior",
+    "Depressive Disorder",
+    "Patient Care Management",
+    "Patient Compliance",
+    "Patient Satisfaction",
+    "Primary Health Care",
+    "Quality of Life",
+    "Sex Factors",
+    "Socioeconomic Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "In addition to the eight RCTs included in the earlier review, 22 more studies of collaborative care that provided estimates for economic outcomes were identified, 20 of which were evaluations of actual interventions and two of which were based on models.",
+   "conclusion": "The evidence indicates that collaborative care for management of depressive disorders provides good economic value.",
+   "implementation": null
+  },
+  {
+   "pmid": "22516495",
+   "title": "Collaborative care to improve the management of depressive disorders: a community guide systematic review and meta-analysis.",
+   "journal": "Am J Prev Med",
+   "published": "2012-05",
+   "doi": "10.1016/j.amepre.2012.01.019",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Age Factors",
+    "Community Health Services",
+    "Cooperative Behavior",
+    "Depressive Disorder",
+    "Patient Care Management",
+    "Patient Care Team",
+    "Patient Compliance",
+    "Patient Satisfaction",
+    "Primary Health Care",
+    "Quality of Life",
+    "Sex Factors",
+    "Socioeconomic Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "An earlier systematic review with 37 RCTs of collaborative care studies published through 2004 found evidence of effectiveness of these models in improving depression outcomes. An additional 32 studies of collaborative care models conducted between 2004 and 2009 were found for this current review and analyzed.",
+   "conclusion": "Collaborative care models are effective in achieving clinically meaningful improvements in depression outcomes and public health benefits in a wide range of populations, settings, and organizations. Collaborative care interventions provide a supportive network of professionals and peers for patients with depression, especially at the primary care level.",
+   "implementation": null
+  },
+  {
+   "pmid": "22516494",
+   "title": "Recommendation from the community preventive services task force for use of collaborative care for the management of depressive disorders.",
+   "journal": "Am J Prev Med",
+   "published": "2012-05",
+   "doi": "10.1016/j.amepre.2012.01.010",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Community Health Services",
+    "Cooperative Behavior",
+    "Depressive Disorder",
+    "Patient Care Management",
+    "Patient Care Team",
+    "Patient Compliance",
+    "Primary Health Care"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommends collaborative care for management of depressive disorders, based on strong evidence of effectiveness in improving depression symptoms, adherence to treatment, response to treatment, and remission and recovery from depression."
+   ],
+   "finding": null,
+   "conclusion": "The Community Preventive Services Task Force recommends collaborative care for management of depressive disorders, based on strong evidence of effectiveness in improving depression symptoms, adherence to treatment, response to treatment, and remission and recovery from depression.",
+   "implementation": null
+  },
+  {
+   "pmid": "22424257",
+   "title": "Recommendations on privatization of alcohol retail sales and prevention of excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2012-04",
+   "doi": "10.1016/j.amepre.2011.12.006",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Commerce",
+    "Privatization"
+   ],
+   "rating_terms": [
+    "recommended_against",
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommends against privatization of alcohol retail sales in settings with current government control of retail sales, based on strong evidence that privatization results in increased per capita consumption of alcoholic beverages, a well-established proxy for excessive consumption and related harms."
+   ],
+   "finding": null,
+   "conclusion": "The Community Preventive Services Task Force recommends against privatization of alcohol retail sales in settings with current government control of retail sales, based on strong evidence that privatization results in increased per capita consumption of alcoholic beverages, a well-established proxy for excessive consumption and related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "22424256",
+   "title": "Effects of alcohol retail privatization on excessive alcohol consumption and related harms: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2012-04",
+   "doi": "10.1016/j.amepre.2012.01.002",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Commerce",
+    "Finland",
+    "Privatization",
+    "Sweden"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, there is strong evidence that privatization of retail alcohol sales leads to increases in excessive alcohol consumption."
+   ],
+   "finding": "A total of 17 studies assessed the impact of privatizing retail alcohol sales on the per capita alcohol consumption, a well-established proxy for excessive alcohol consumption; 9 of these studies also examined the effects of privatization on the per capita consumption of alcoholic beverages that were not privatized.",
+   "conclusion": "According to Community Guide rules of evidence, there is strong evidence that privatization of retail alcohol sales leads to increases in excessive alcohol consumption.",
+   "implementation": null
+  },
+  {
+   "pmid": "22341171",
+   "title": "Improving adolescent health through interventions targeted to parents and other caregivers: a recommendation.",
+   "journal": "Am J Prev Med",
+   "published": "2012-03",
+   "doi": "10.1016/j.amepre.2011.11.009",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adolescent Behavior",
+    "Caregivers",
+    "Community Health Services",
+    "Parenting",
+    "Parents",
+    "Preventive Health Services",
+    "Risk-Taking"
+   ],
+   "rating_terms": [
+    "sufficient_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Community Preventive Services Task Force recommends person-to-person interventions intended to modify adolescents' risk and protective behaviors by improving their caregivers' parenting skills, on the basis of sufficient evidence of effectiveness in reducing adolescent risk behaviors."
+   ],
+   "finding": null,
+   "conclusion": "The Community Preventive Services Task Force recommends person-to-person interventions intended to modify adolescents' risk and protective behaviors by improving their caregivers' parenting skills, on the basis of sufficient evidence of effectiveness in reducing adolescent risk behaviors.",
+   "implementation": null
+  },
+  {
+   "pmid": "22341170",
+   "title": "Person-to-person interventions targeted to parents and other caregivers to improve adolescent health: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2012-03",
+   "doi": "10.1016/j.amepre.2011.12.001",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adolescent Behavior",
+    "Caregivers",
+    "Community Health Services",
+    "Health Behavior",
+    "Outcome Assessment, Health Care",
+    "Parenting",
+    "Parents",
+    "Preventive Health Services",
+    "Risk-Taking"
+   ],
+   "rating_terms": [
+    "sufficient_evidence"
+   ],
+   "rating_sentences": [
+    "Results from qualifying studies provided sufficient evidence that interventions delivered person-to-person (i.e., through some form of direct contact rather than through other forms of contact such as Internet or paper) and designed to modify parenting skills by targeting parents and other caregivers are effective in improving adolescent health."
+   ],
+   "finding": "Effectiveness was assessed based on changes in whether or not adolescents engaged in specified risk and protective behaviors; frequency of risk and protective behaviors, and health outcomes, also informed the results.",
+   "conclusion": "Interventions delivered to parents and other caregivers affect a cross-cutting array of adolescent risk and protective behaviors to yield improvements in adolescent health. Analysis from this review forms the basis of the recommendation by the Community Preventive Services Task Force presented elsewhere in this issue.",
+   "implementation": null
+  },
+  {
+   "pmid": "22341166",
+   "title": "Recommendations for group-based behavioral interventions to prevent adolescent pregnancy, human immunodeficiency virus, and other sexually transmitted infections: comprehensive risk reduction and abstinence education.",
+   "journal": "Am J Prev Med",
+   "published": "2012-03",
+   "doi": "10.1016/j.amepre.2011.11.003",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Community Health Services",
+    "HIV Infections",
+    "Health Behavior",
+    "Patient Education as Topic",
+    "Pregnancy",
+    "Pregnancy in Adolescence",
+    "Preventive Health Services",
+    "Risk Reduction Behavior",
+    "Sexually Transmitted Diseases"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "22341164",
+   "title": "The effectiveness of group-based comprehensive risk-reduction and abstinence education interventions to prevent or reduce the risk of adolescent pregnancy, human immunodeficiency virus, and sexually transmitted infections: two systematic reviews for the Guide to Community Preventive Services.",
+   "journal": "Am J Prev Med",
+   "published": "2012-03",
+   "doi": "10.1016/j.amepre.2011.11.006",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Community Health Services",
+    "HIV Infections",
+    "Patient Education as Topic",
+    "Pregnancy",
+    "Pregnancy in Adolescence",
+    "Preventive Health Services",
+    "Risk Reduction Behavior",
+    "Risk-Taking",
+    "Sexually Transmitted Diseases"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Meta-analyses were conducted for each strategy on the seven key outcomes identified by the coordination team-current sexual activity; frequency of sexual activity; number of sex partners; frequency of unprotected sexual activity; use of protection (condoms and/or hormonal contraception); pregnancy; and STIs.",
+   "conclusion": "Based on these findings, group-based comprehensive risk reduction was found to be an effective strategy to reduce adolescent pregnancy, HIV, and STIs. No conclusions could be drawn on the effectiveness of group-based abstinence education.",
+   "implementation": null
+  },
+  {
+   "pmid": "21855750",
+   "title": "Recommendations on dram shop liability and overservice law enforcement initiatives to prevent excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2011-09",
+   "doi": "10.1016/j.amepre.2011.05.024",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Alcoholic Intoxication",
+    "Commerce",
+    "Harm Reduction",
+    "Healthy People Programs",
+    "Liability, Legal"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The Task Force on Community Preventive Services recommends the use of dram shop liability laws, on the basis of strong evidence of effectiveness in preventing and reducing alcohol-related harms.",
+    "The Task Force found insufficient evidence to determine the effectiveness of overservice law enforcement initiatives as a means to reduce excessive alcohol consumption and related harms, because too few studies were identified and findings were inconsistent."
+   ],
+   "finding": null,
+   "conclusion": "The Task Force on Community Preventive Services recommends the use of dram shop liability laws, on the basis of strong evidence of effectiveness in preventing and reducing alcohol-related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "21855749",
+   "title": "Effects of dram shop liability and enhanced overservice law enforcement initiatives on excessive alcohol consumption and related harms: Two community guide systematic reviews.",
+   "journal": "Am J Prev Med",
+   "published": "2011-09",
+   "doi": "10.1016/j.amepre.2011.06.027",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol Drinking",
+    "Alcoholic Beverages",
+    "Alcoholic Intoxication",
+    "Commerce",
+    "Liability, Legal",
+    "Restaurants"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, the number and consistency of findings indicate strong evidence of the effectiveness of dram shop laws in reducing alcohol-related harms."
+   ],
+   "finding": "Eleven studies assessed the association of state dram shop liability with various outcomes, including all-cause motor vehicle crash deaths, alcohol-related motor vehicle crash deaths (the most common outcome assessed in the studies reviewed), alcohol consumption, and other alcohol-related harms.",
+   "conclusion": "According to Community Guide rules of evidence, the number and consistency of findings indicate strong evidence of the effectiveness of dram shop laws in reducing alcohol-related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "21767736",
+   "title": "Effectiveness of home-based, multi-trigger, multicomponent interventions with an environmental focus for reducing asthma morbidity: a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2011-08",
+   "doi": "10.1016/j.amepre.2011.05.012",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Allergens",
+    "Asthma",
+    "Child",
+    "Efficiency",
+    "Environmental Exposure",
+    "Environmental Restoration and Remediation",
+    "Home Care Services",
+    "House Calls",
+    "Housing",
+    "Quality of Life"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "In the 20 studies targeting children and adolescents, the number of days with asthma symptoms (symptom-days) was reduced by 0.8 days per 2 weeks, which is equivalent to 21.0 symptom-days per year (range of values: reduction of 0.6 to 2.3 days per year); school days missed were reduced by 12.3 days per year (range of values: reduction of 3.4 to 31.2 days per year); and the...",
+   "conclusion": "Home-based, multi-trigger, multicomponent interventions with an environmental focus are effective in improving overall quality of life and productivity in children and adolescents with asthma. The effectiveness of these interventions in adults is inconclusive due to the small number of studies and inconsistent results.",
+   "implementation": null
+  },
+  {
+   "pmid": "21767734",
+   "title": "Economic value of home-based, multi-trigger, multicomponent interventions with an environmental focus for reducing asthma morbidity a community guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2011-08",
+   "doi": "10.1016/j.amepre.2011.05.011",
+   "kind": "economic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Asthma",
+    "Child",
+    "Environmental Exposure",
+    "Environmental Restoration and Remediation",
+    "Home Care Services",
+    "House Calls",
+    "Housing"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Program costs per participant per year ranged from $231-$14,858 (in 2007 U.S.$).",
+   "conclusion": "The benefits from home-based, multi-trigger, multicomponent interventions with an environmental focus can match or even exceed their program costs. Based on cost-benefit and cost-effectiveness studies, the results of this review show that these programs provide a good value for dollars spent on the interventions.",
+   "implementation": null
+  },
+  {
+   "pmid": "21767733",
+   "title": "Recommendations from the Task Force on Community Preventive Services to decrease asthma morbidity through home-based, multi-trigger, multicomponent interventions.",
+   "journal": "Am J Prev Med",
+   "published": "2011-08",
+   "doi": "10.1016/j.amepre.2011.04.011",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adult",
+    "Asthma",
+    "Child",
+    "Community Health Services",
+    "Environmental Exposure",
+    "Environmental Restoration and Remediation",
+    "Healthy People Programs",
+    "Home Care Services",
+    "House Calls",
+    "Housing",
+    "Preventive Health Services"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "21335271",
+   "title": "Recommendations on the effectiveness of ignition interlocks for preventing alcohol-impaired driving and alcohol-related crashes.",
+   "journal": "Am J Prev Med",
+   "published": "2011-03",
+   "doi": "10.1016/j.amepre.2010.11.013",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcoholic Intoxication",
+    "Automobile Driving",
+    "Automobiles",
+    "Equipment Design",
+    "Protective Devices"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "21335270",
+   "title": "Effectiveness of ignition interlocks for preventing alcohol-impaired driving and alcohol-related crashes: a Community Guide systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2011-03",
+   "doi": "10.1016/j.amepre.2010.11.012",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcoholic Intoxication",
+    "Automobile Driving",
+    "Automobiles",
+    "Equipment Design",
+    "Protective Devices"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, these findings provide strong evidence that interlocks, while they are in use in offenders' vehicles, are effective in reducing re-arrest rates."
+   ],
+   "finding": null,
+   "conclusion": "However, the potential for interlock programs to reduce alcohol-related crashes is currently limited by the small proportion of offenders who participate in the programs and the lack of a persistent beneficial effect once the interlock is removed. Suggestions for facilitating more widespread and sustained use of ignition interlocks are provided.",
+   "implementation": null
+  },
+  {
+   "pmid": "21084081",
+   "title": "Recommendations on maintaining limits on days and hours of sale of alcoholic beverages to prevent excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2010-12",
+   "doi": "10.1016/j.amepre.2010.09.014",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Commerce",
+    "Government Regulation",
+    "Time Factors"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "21084080",
+   "title": "Effectiveness of policies restricting hours of alcohol sales in preventing excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2010-12",
+   "doi": "10.1016/j.amepre.2010.09.016",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Commerce",
+    "Government Regulation",
+    "Time Factors"
+   ],
+   "rating_terms": [
+    "sufficient_evidence"
+   ],
+   "rating_sentences": [
+    "There was sufficient evidence in ten qualifying studies to conclude that increasing hours of sale by 2 or more hours increases alcohol-related harms."
+   ],
+   "finding": null,
+   "conclusion": "Thus, disallowing extensions of hours of alcohol sales by 2 or more should be expected to prevent alcohol-related harms, while policies decreasing hours of sale by 2 hours or more at on-premises alcohol outlets may be an effective strategy for preventing alcohol-related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "21084079",
+   "title": "Effectiveness of policies maintaining or restricting days of alcohol sales on excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2010-12",
+   "doi": "10.1016/j.amepre.2010.09.015",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcohol Drinking",
+    "Alcohol-Related Disorders",
+    "Alcoholic Beverages",
+    "Commerce",
+    "Government Regulation",
+    "Time Factors",
+    "Violence"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "The evidence from these studies indicated that increasing days of sale leads to increases in excessive alcohol consumption and alcohol-related harms and that reducing the number of days that alcoholic beverages are sold generally decreases alcohol-related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117614",
+   "title": "Point-of-decision prompts to increase stair use. A systematic review update.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.028",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Decision Making",
+    "Elevators and Escalators",
+    "Exercise",
+    "Health Promotion",
+    "Obesity",
+    "Overweight",
+    "Walking"
+   ],
+   "rating_terms": [
+    "sufficient_evidence",
+    "strong_evidence",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "This approach was found to be effective based on sufficient evidence.",
+    "According to the Community Guide rules of evidence, there is strong evidence that point-of-decision prompts are effective in increasing the use of stairs.",
+    "There is insufficient evidence, due to an inadequate number of studies, to determine whether or not enhancements to stairs or stairwells are an effective addition to point-of-decision prompts."
+   ],
+   "finding": null,
+   "conclusion": "This article describes the rationale for these systematic reviews, along with information about the review process and the resulting conclusions. Additional information about applicability, other effects, and barriers to implementation is also provided.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117613",
+   "title": "Recommendation for use of point-of-decision prompts to increase stair use in communities.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.031",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Decision Making",
+    "Elevators and Escalators",
+    "Energy Metabolism",
+    "Exercise",
+    "Health Promotion",
+    "Obesity",
+    "Overweight",
+    "Walking"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "20117612",
+   "title": "Smokefree policies to reduce tobacco use. A systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.029",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Promotion",
+    "Organizational Policy",
+    "Smoking",
+    "Smoking Cessation",
+    "Smoking Prevention",
+    "Workplace"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "sufficient_evidence"
+   ],
+   "rating_sentences": [
+    "In 2001, a systematic review for the Guide to Community Preventive Services identified strong evidence of effectiveness of smoking bans and restrictions in reducing exposure to environmental (secondhand) tobacco smoke.",
+    "The qualifying studies provided sufficient evidence that smokefree policies reduce tobacco use among workers when implemented in worksites or by communities."
+   ],
+   "finding": null,
+   "conclusion": "Finally, a systematic economic review identified four studies that, overall, demonstrated economic benefits from a smokefree workplace policy. Additional research is needed to more fully evaluate the total economic effects of these policies.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117611",
+   "title": "Worksite-based incentives and competitions to reduce tobacco use. A systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.034",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Cost Savings",
+    "Health Education",
+    "Health Promotion",
+    "Motivation",
+    "Occupational Health",
+    "Occupational Health Services",
+    "Reward",
+    "Smoking Cessation",
+    "Smoking Prevention",
+    "Workplace"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "However, the qualifying studies provide strong evidence, according to Community Guide rules, that worksite-based incentives and competitions in combination with additional interventions are effective in increasing the number of workers who quit using tobacco."
+   ],
+   "finding": null,
+   "conclusion": "A concurrent systematic review identified four studies with economic evidence. Two of these studies provided evidence of net cost savings to employers when program costs are adjusted for averted healthcare expenses and productivity losses, based on referenced secondary estimates.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117610",
+   "title": "A systematic review of selected interventions for worksite health promotion. The assessment of health risks with feedback.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.030",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Efficiency",
+    "Feedback",
+    "Health Behavior",
+    "Health Education",
+    "Health Promotion",
+    "Occupational Health",
+    "Occupational Health Services",
+    "Risk Assessment",
+    "Workplace"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "sufficient_evidence",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The review team identified strong evidence of effectiveness of AHRF when used with health education with or without other intervention components for five outcomes.",
+    "There is sufficient evidence of effectiveness for four additional outcomes assessed.",
+    "There is insufficient evidence to determine effectiveness for others such as changes in body composition and fruit and vegetable intake."
+   ],
+   "finding": "The review team identified strong evidence of effectiveness of AHRF when used with health education with or without other intervention components for five outcomes. There is sufficient evidence of effectiveness for four additional outcomes assessed.",
+   "conclusion": "The results of these reviews indicate that AHRF is useful as a gateway intervention to a broader worksite health promotion program that includes health education lasting > or =1 hour or repeating multiple times during 1 year, and that may include an array of health promotion activities.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117609",
+   "title": "Recommendations for worksite-based interventions to improve workers' health.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.10.033",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Health Education",
+    "Health Promotion",
+    "Occupational Health",
+    "Occupational Health Services",
+    "Smoking Cessation",
+    "Smoking Prevention",
+    "Workplace"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "20117580",
+   "title": "Increasing alcoholic beverage taxes is recommended to reduce excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.11.002",
+   "kind": "recommendation",
+   "title_signal": "recommended",
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Alcoholic Beverages",
+    "Alcoholic Intoxication",
+    "Policy Making",
+    "Risk Reduction Behavior",
+    "Taxes"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "20117579",
+   "title": "The effectiveness of tax policy interventions for reducing excessive alcohol consumption and related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2010-02",
+   "doi": "10.1016/j.amepre.2009.11.005",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Adolescent",
+    "Alcohol Drinking",
+    "Alcoholic Beverages",
+    "Alcoholic Intoxication",
+    "Policy Making",
+    "Program Evaluation",
+    "Risk Assessment",
+    "Risk Reduction Behavior",
+    "Taxes",
+    "Young Adult"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, these results constitute strong evidence that raising alcohol excise taxes is an effective strategy for reducing excessive alcohol consumption and related harms."
+   ],
+   "finding": null,
+   "conclusion": "According to Community Guide rules of evidence, these results constitute strong evidence that raising alcohol excise taxes is an effective strategy for reducing excessive alcohol consumption and related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "20117566",
+   "title": "Intervention to increase recommendation and delivery of screening for breast, cervical, and colorectal cancers by healthcare providers a systematic review of provider reminders.",
+   "journal": "Am J Prev Med",
+   "published": "2010-01",
+   "doi": "10.1016/j.amepre.2009.09.031",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Aged",
+    "Breast Neoplasms",
+    "Colorectal Neoplasms",
+    "Health Personnel",
+    "Mass Screening",
+    "Middle Aged",
+    "Patient Acceptance of Health Care",
+    "Reminder Systems",
+    "Uterine Cervical Neoplasms"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Additional research is needed to determine if provider reminder/recall systems are effective in increasing colorectal cancer screening by colonoscopy. Specific areas for further research are also suggested.",
+   "implementation": null
+  },
+  {
+   "pmid": "19944926",
+   "title": "Recommendations for reducing excessive alcohol consumption and alcohol-related harms by limiting alcohol outlet density.",
+   "journal": "Am J Prev Med",
+   "published": "2009-12",
+   "doi": "10.1016/j.amepre.2009.09.021",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Alcoholic Beverages",
+    "Alcoholism",
+    "Commerce",
+    "Government Regulation"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "19944925",
+   "title": "The effectiveness of limiting alcohol outlet density as a means of reducing excessive alcohol consumption and alcohol-related harms.",
+   "journal": "Am J Prev Med",
+   "published": "2009-12",
+   "doi": "10.1016/j.amepre.2009.09.028",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Alcoholic Beverages",
+    "Alcoholic Intoxication",
+    "Alcoholism",
+    "Commerce",
+    "Government Regulation"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Primary evidence was supported by secondary evidence from correlational studies. The regulation of alcohol outlet density may be a useful public health tool for the reduction of excessive alcohol consumption and related harms.",
+   "implementation": null
+  },
+  {
+   "pmid": "19765509",
+   "title": "Effectiveness of multicomponent programs with community mobilization for reducing alcohol-impaired driving.",
+   "journal": "Am J Prev Med",
+   "published": "2009-10",
+   "doi": "10.1016/j.amepre.2009.07.005",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcoholic Intoxication",
+    "Automobile Driving",
+    "Community Health Services",
+    "Outcome Assessment, Health Care",
+    "Program Evaluation"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, the studies reviewed here provided strong evidence that carefully planned, well-executed multicomponent programs, when implemented in conjunction with community mobilization efforts, are effective in reducing alcohol-related crashes."
+   ],
+   "finding": null,
+   "conclusion": "Three studies reported economic evidence that suggests that such programs produce cost savings.",
+   "implementation": null
+  },
+  {
+   "pmid": "19765508",
+   "title": "A recommendation to improve employee weight status through worksite health promotion programs targeting nutrition, physical activity, or both.",
+   "journal": "Am J Prev Med",
+   "published": "2009-10",
+   "doi": "10.1016/j.amepre.2009.07.004",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Advisory Committees",
+    "Cost of Illness",
+    "Health Promotion",
+    "Motor Activity",
+    "Nutritional Sciences",
+    "Occupational Health",
+    "Overweight",
+    "Program Evaluation",
+    "Workplace"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "19765507",
+   "title": "The effectiveness of worksite nutrition and physical activity interventions for controlling employee overweight and obesity: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2009-10",
+   "doi": "10.1016/j.amepre.2009.07.003",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adult",
+    "Body Mass Index",
+    "Health Promotion",
+    "Middle Aged",
+    "Nutritional Sciences",
+    "Obesity",
+    "Outcome Assessment, Health Care",
+    "Overweight",
+    "Physical Education and Training",
+    "Randomized Controlled Trials as Topic",
+    "Weight Loss",
+    "Workplace",
+    "Young Adult"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Information about other effects, barriers to implementation, cost and cost effectiveness of interventions, and research gaps are also presented in this article. The findings of this systematic review can help inform decisions of employers, planners, researchers, and other public health decision makers.",
+   "implementation": null
+  },
+  {
+   "pmid": "18692746",
+   "title": "Recommendations to reduce psychological harm from traumatic events among children and adolescents.",
+   "journal": "Am J Prev Med",
+   "published": "2008-09",
+   "doi": "10.1016/j.amepre.2008.06.025",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Age Factors",
+    "Art Therapy",
+    "Child",
+    "Disasters",
+    "Domestic Violence",
+    "Play Therapy",
+    "Practice Guidelines as Topic",
+    "Psychotherapy",
+    "Risk Factors",
+    "Sex Offenses",
+    "Stress Disorders, Post-Traumatic",
+    "Stress, Psychological",
+    "Wounds and Injuries"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "18692745",
+   "title": "The effectiveness of interventions to reduce psychological harm from traumatic events among children and adolescents: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2008-09",
+   "doi": "10.1016/j.amepre.2008.06.024",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Age Factors",
+    "Art Therapy",
+    "Behavior Therapy",
+    "Child",
+    "Cognitive Behavioral Therapy",
+    "Play Therapy",
+    "Program Development",
+    "Program Evaluation",
+    "Stress Disorders, Post-Traumatic",
+    "Stress, Psychological",
+    "Wounds and Injuries"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "Strong evidence (according to Community Guide rules) showed that individual and group cognitive-behavioral therapy can decrease psychological harm among symptomatic children and adolescents exposed to trauma."
+   ],
+   "finding": null,
+   "conclusion": "Interventions should be adapted for use in diverse populations and settings. Research should be pursued on the effectiveness of interventions for which evidence is currently insufficient.",
+   "implementation": null
+  },
+  {
+   "pmid": "18541190",
+   "title": "Interventions to increase recommendation and delivery of screening for breast, cervical, and colorectal cancers by healthcare providers systematic reviews of provider assessment and feedback and provider incentives.",
+   "journal": "Am J Prev Med",
+   "published": "2008-07",
+   "doi": "10.1016/j.amepre.2008.04.008",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Guideline Adherence",
+    "Health Personnel",
+    "Mass Screening",
+    "Neoplasms",
+    "Patient Compliance",
+    "Practice Guidelines as Topic",
+    "Practice Patterns, Physicians'"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Evidence was insufficient to determine the effectiveness of provider incentives in increasing use of any of these tests.",
+   "implementation": null
+  },
+  {
+   "pmid": "18541188",
+   "title": "Client-directed interventions to increase community access to breast, cervical, and colorectal cancer screening a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2008-07",
+   "doi": "10.1016/j.amepre.2008.04.001",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Community Participation",
+    "Health Services Accessibility",
+    "Mass Screening",
+    "Neoplasms"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Additional research is needed to determine whether screening for cervical cancer (by Pap test) can be increased by reducing structural barriers and by reducing out-of-pocket costs, whether screening for colorectal cancer (fecal occult blood test) can be increased by reducing out-of-pocket costs, and whether these interventions are effective in increasing the use of other...",
+   "implementation": null
+  },
+  {
+   "pmid": "18541187",
+   "title": "Client-directed interventions to increase community demand for breast, cervical, and colorectal cancer screening a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2008-07",
+   "doi": "10.1016/j.amepre.2008.04.002",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Clinical Trials as Topic",
+    "Community Participation",
+    "Evidence-Based Medicine",
+    "Health Promotion",
+    "Health Services Needs and Demand",
+    "Mass Screening",
+    "Neoplasms"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Additional research is needed to determine whether client incentives, group education, and mass media are effective in increasing use of any of the three screening tests; whether one-on-one education increases screening for colorectal cancer; and whether any demand-enhancing interventions are effective in increasing the use of other colorectal cancer screening procedures...",
+   "implementation": null
+  },
+  {
+   "pmid": "18541184",
+   "title": "Recommendations for client- and provider-directed interventions to increase breast, cervical, and colorectal cancer screening.",
+   "journal": "Am J Prev Med",
+   "published": "2008-07",
+   "doi": "10.1016/j.amepre.2008.04.004",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adult",
+    "Aged",
+    "Community Health Services",
+    "Health Promotion",
+    "Healthy People Programs",
+    "Mass Screening",
+    "Middle Aged",
+    "Neoplasms",
+    "Practice Guidelines as Topic",
+    "Preventive Health Services",
+    "Review Literature as Topic"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "17687245",
+   "title": "The effectiveness of universal school-based programs for the prevention of violent and aggressive behavior: a report on recommendations of the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2007-08",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Aggression",
+    "Child",
+    "Curriculum",
+    "Program Evaluation",
+    "School Health Services",
+    "Schools",
+    "Social Behavior Disorders",
+    "Violence"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The results of this review provide strong evidence that universal school-based programs decrease rates of violence and aggressive behavior among school-aged children.",
+    "On the basis of strong evidence of effectiveness, the Task Force recommends the use of universal school-based programs to prevent or reduce violent behavior."
+   ],
+   "finding": null,
+   "conclusion": "An independent meta-analysis of school-based programs confirmed and supplemented these findings. On the basis of strong evidence of effectiveness, the Task Force recommends the use of universal school-based programs to prevent or reduce violent behavior.",
+   "implementation": null
+  },
+  {
+   "pmid": "17675018",
+   "title": "Recommendations to increase testing and identification of HIV-positive individuals through partner counseling and referral services.",
+   "journal": "Am J Prev Med",
+   "published": "2007-08",
+   "doi": "10.1016/j.amepre.2007.04.013",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Contact Tracing",
+    "Directive Counseling",
+    "HIV Infections",
+    "HIV Seropositivity",
+    "Preventive Medicine",
+    "Referral and Consultation",
+    "Spouses"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "17675013",
+   "title": "Effectiveness of universal school-based programs to prevent violent and aggressive behavior: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2007-08",
+   "doi": "10.1016/j.amepre.2007.04.012",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Aggression",
+    "Outcome Assessment, Health Care",
+    "Preventive Health Services",
+    "Preventive Medicine",
+    "Program Evaluation",
+    "School Health Services",
+    "Schools",
+    "Social Class",
+    "Students",
+    "Violence"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to the criteria of the systematic review methods developed for the Guide to Community Preventive Services (Community Guide), there is strong evidence that universal, school-based programs decrease rates of violence among school-aged children and youth."
+   ],
+   "finding": null,
+   "conclusion": "Program effects were consistent at all grade levels. An independent, recently updated meta-analysis of school-based programs confirms and supplements the Community Guide findings.",
+   "implementation": null
+  },
+  {
+   "pmid": "17675012",
+   "title": "A recommendation to reduce rates of violence among school-aged children and youth by means of universal school-based violence prevention programs.",
+   "journal": "Am J Prev Med",
+   "published": "2007-08",
+   "doi": "10.1016/j.amepre.2007.04.014",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Adolescent Health Services",
+    "Age Factors",
+    "Child",
+    "Child Health Services",
+    "Educational Status",
+    "School Health Services",
+    "Schools",
+    "Students",
+    "Violence"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "17386336",
+   "title": "The effectiveness of individual-, group-, and community-level HIV behavioral risk-reduction interventions for adult men who have sex with men: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2007-04",
+   "doi": "10.1016/j.amepre.2006.12.006",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adult",
+    "Health Promotion",
+    "Homosexuality, Male",
+    "Program Evaluation",
+    "Risk Reduction Behavior"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [
+    "The Task Force concluded that the findings are applicable to MSM aged 20 years or older, across a range of settings and populations, assuming that interventions are appropriately adapted to the needs and characteristics of the MSM population of interest.",
+    "Based on findings from economic evaluation studies, the Task Force also concluded that group- and community-level HIV behavioral interventions for adult MSM are not only cost effective but also result in actual cost savings."
+   ],
+   "finding": null,
+   "conclusion": "Additional information about other effects, barriers to implementation, and research gaps is provided in this paper. The recommendations based on these systematic reviews are expected to serve the needs of researchers, planners, and other public health decision makers.",
+   "implementation": null
+  },
+  {
+   "pmid": "17386335",
+   "title": "Recommendations for use of behavioral interventions to reduce the risk of sexual transmission of HIV among men who have sex with men.",
+   "journal": "Am J Prev Med",
+   "published": "2007-04",
+   "doi": "10.1016/j.amepre.2006.12.005",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "HIV Infections",
+    "Health Promotion",
+    "Homosexuality, Male",
+    "Risk Reduction Behavior"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "17386331",
+   "title": "Effects on violence of laws and policies facilitating the transfer of juveniles from the juvenile justice system to the adult justice system: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2007-04",
+   "doi": "10.1016/j.amepre.2006.12.003",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Criminal Law",
+    "Prisoners",
+    "Punishment",
+    "Violence"
+   ],
+   "rating_terms": [
+    "recommended_against"
+   ],
+   "rating_sentences": [
+    "Overall, the Task Force recommends against laws or policies facilitating the transfer of juveniles from the juvenile to the adult judicial system for the purpose of reducing violence."
+   ],
+   "finding": null,
+   "conclusion": "Evidence was insufficient for the Task Force on Community Preventive Services to determine the effect of such laws and policies in reducing violent behavior in the overall juvenile population. Overall, the Task Force recommends against laws or policies facilitating the transfer of juveniles from the juvenile to the adult judicial system for the purpose of reducing violence.",
+   "implementation": null
+  },
+  {
+   "pmid": "17386330",
+   "title": "Recommendation against policies facilitating the transfer of juveniles from juvenile to adult justice systems for the purpose of reducing violence.",
+   "journal": "Am J Prev Med",
+   "published": "2007-04",
+   "doi": "10.1016/j.amepre.2006.12.004",
+   "kind": "recommendation",
+   "title_signal": "recommended_against",
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Criminal Law",
+    "Prisoners",
+    "Punishment",
+    "Violence"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "28834525",
+   "title": "The Effectiveness of Urban Design and Land Use and Transport Policies and Practices to Increase Physical Activity: A Systematic Review.",
+   "journal": "J Phys Act Health",
+   "published": "2006-02",
+   "doi": "10.1123/jpah.3.s1.s55",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": "Two interventions were effective in promoting physical activity (community-scale and street-scale urban design and land use policies and practices). Additional information about applicability, other effects, and barriers to implementation are provided for these interventions. Evidence is insufficient to assess transportation policy and practices to promote physical activity.",
+   "conclusion": "Because community- and street-scale urban design and land-use policies and practices met the Community Guide criteria for being effective physical activity interventions, implementing these policies and practices at the community-level should be a priority of public health practitioners and community decision makers.",
+   "implementation": null
+  },
+  {
+   "pmid": "16261131",
+   "title": "Public health strategies for preventing and controlling overweight and obesity in school and worksite settings: a report on recommendations of the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2005-10",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Health Behavior",
+    "Health Promotion",
+    "Motor Activity",
+    "Nutritional Physiological Phenomena",
+    "Obesity",
+    "Schools",
+    "Weight Loss",
+    "Workplace"
+   ],
+   "rating_terms": [
+    "recommended",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The Task Force recommends multicomponent interventions that include nutrition and physical activity (including strategies such as providing nutrition education or dietary prescription, physical activity prescription or group activity, and behavioral skills development and training) to control overweight and obesity among adults in worksite settings.",
+    "The Task Force determined that insufficient evidence existed to determine the effectiveness of combination nutrition and physical activity interventions to prevent or reduce overweight and obesity in school settings because of the limited number of qualifying studies reporting noncomparable outcomes."
+   ],
+   "finding": null,
+   "conclusion": "The Task Force determined that insufficient evidence existed to determine the effectiveness of combination nutrition and physical activity interventions to prevent or reduce overweight and obesity in school settings because of the limited number of qualifying studies reporting noncomparable outcomes.",
+   "implementation": null
+  },
+  {
+   "pmid": "15894162",
+   "title": "Effectiveness of school-based programs for reducing drinking and driving and riding with drinking drivers: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-06",
+   "doi": "10.1016/j.amepre.2005.02.015",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Adolescent",
+    "Alcohol Drinking",
+    "Automobile Driving",
+    "Child",
+    "Health Behavior",
+    "Health Education",
+    "Health Knowledge, Attitudes, Practice",
+    "Healthy People Programs",
+    "Program Evaluation",
+    "School Health Services",
+    "Students"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15894161",
+   "title": "Effectiveness of designated driver programs for reducing alcohol-impaired driving: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-06",
+   "doi": "10.1016/j.amepre.2005.02.013",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcohol Drinking",
+    "Automobile Driving",
+    "Harm Reduction",
+    "Health Behavior",
+    "Health Education",
+    "Health Knowledge, Attitudes, Practice",
+    "Healthy People Programs",
+    "Mass Media",
+    "Motivation",
+    "Persuasive Communication",
+    "Program Evaluation"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15894160",
+   "title": "Interventions to improve influenza, pneumococcal polysaccharide, and hepatitis B vaccination coverage among high-risk adults: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-06",
+   "doi": "10.1016/j.amepre.2005.02.016",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adult",
+    "Aged",
+    "Communicable Disease Control",
+    "Evidence-Based Medicine",
+    "Health Planning Guidelines",
+    "Health Promotion",
+    "Health Services Accessibility",
+    "Hepatitis B Vaccines",
+    "Immunization Programs",
+    "Influenza Vaccines",
+    "Middle Aged",
+    "Pneumococcal Vaccines",
+    "Program Evaluation",
+    "Public Health Administration"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15894158",
+   "title": "Recommendations to improve targeted vaccination coverage among high-risk adults.",
+   "journal": "Am J Prev Med",
+   "published": "2005-06",
+   "doi": "10.1016/j.amepre.2005.02.011",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adult",
+    "Advisory Committees",
+    "Communicable Disease Control",
+    "Communicable Diseases",
+    "Health Knowledge, Attitudes, Practice",
+    "Health Planning Guidelines",
+    "Healthy People Programs",
+    "Immunization Programs",
+    "Middle Aged",
+    "Public Health Administration",
+    "Reminder Systems",
+    "Vaccination"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15800472",
+   "title": "Improving influenza, pneumococcal polysaccharide, and hepatitis B vaccination coverage among adults aged <65 years at high risk: a report on recommendations of the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2005-04",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adult",
+    "Hepatitis B",
+    "Hepatitis B Vaccines",
+    "Influenza Vaccines",
+    "Influenza, Human",
+    "Middle Aged",
+    "Pneumococcal Infections",
+    "Pneumococcal Vaccines",
+    "Risk Factors",
+    "Vaccination"
+   ],
+   "rating_terms": [
+    "recommended"
+   ],
+   "rating_sentences": [
+    "A 1999 report by the Task Force examined the effectiveness of interventions to increase coverage with universally recommended vaccinations (i.e., vaccines recommended for all persons in particular age groups).",
+    "To increase targeted vaccination coverage, the Task Force recommends a combination of interventions that include selected interventions from two or three categories of interventions (i.e., increasing community demand for vaccinations, enhancing access to vaccination services, and provider- or system-based interventions).",
+    "The Task Force also recommends provider reminders, when implemented alone, to improve targeted vaccination coverage."
+   ],
+   "finding": null,
+   "conclusion": "The Task Force also recommends provider reminders, when implemented alone, to improve targeted vaccination coverage.",
+   "implementation": null
+  },
+  {
+   "pmid": "15698748",
+   "title": "The effectiveness of therapeutic foster care for the prevention of violence: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-02",
+   "doi": "10.1016/j.amepre.2004.10.007",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Advisory Committees",
+    "Affective Symptoms",
+    "Child",
+    "Evidence-Based Medicine",
+    "Foster Home Care",
+    "Health Planning Guidelines",
+    "Healthy People Programs",
+    "Juvenile Delinquency",
+    "Outcome and Process Assessment, Health Care",
+    "Violence"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15698747",
+   "title": "Firearms laws and the reduction of violence: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-02",
+   "doi": "10.1016/j.amepre.2004.10.005",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents",
+    "Advisory Committees",
+    "Crime",
+    "Evidence-Based Medicine",
+    "Firearms",
+    "Health Planning Guidelines",
+    "Healthy People Programs",
+    "Outcome Assessment, Health Care",
+    "Schools",
+    "Suicide",
+    "Violence",
+    "Wounds, Gunshot",
+    "Suicide Prevention"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15698746",
+   "title": "The effectiveness of early childhood home visitation in preventing violence: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2005-02",
+   "doi": "10.1016/j.amepre.2004.10.004",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Child Health Services",
+    "Child, Preschool",
+    "Evidence-Based Medicine",
+    "Health Planning Guidelines",
+    "Health Services Accessibility",
+    "Healthy People Programs",
+    "Home Care Services",
+    "Infant",
+    "Infant, Newborn",
+    "Outcome and Process Assessment, Health Care",
+    "Program Evaluation",
+    "Violence"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15698745",
+   "title": "Recommendations to reduce violence through early childhood home visitation, therapeutic foster care, and firearms laws.",
+   "journal": "Am J Prev Med",
+   "published": "2005-02",
+   "doi": "10.1016/j.amepre.2004.10.001",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Advisory Committees",
+    "Aged",
+    "Child",
+    "Child Health Services",
+    "Child, Preschool",
+    "Evidence-Based Medicine",
+    "Firearms",
+    "Foster Home Care",
+    "Health Planning Guidelines",
+    "Home Care Services",
+    "House Calls",
+    "Infant"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15556745",
+   "title": "Recommendations to prevent skin cancer by reducing exposure to ultraviolet radiation.",
+   "journal": "Am J Prev Med",
+   "published": "2004-12",
+   "doi": "10.1016/j.amepre.2004.08.003",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Attitude to Health",
+    "Health Education",
+    "Health Planning Guidelines",
+    "Mass Screening",
+    "Primary Prevention",
+    "Protective Clothing",
+    "Sensitivity and Specificity",
+    "Skin Neoplasms",
+    "Sunscreening Agents",
+    "Ultraviolet Rays"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15229410",
+   "title": "Therapeutic foster care for the prevention of violence: a report on recommendations of the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2004-07",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Child",
+    "Foster Home Care",
+    "Juvenile Delinquency",
+    "Violence"
+   ],
+   "rating_terms": [
+    "insufficient_evidence",
+    "sufficient_evidence",
+    "recommended"
+   ],
+   "rating_sentences": [
+    "The Task Force found insufficient evidence to determine the effectiveness of this intervention in preventing violence.",
+    "On the basis of sufficient evidence of effectiveness, the Task Force recommends this intervention for prevention of violence among adolescents with a history of chronic delinquency."
+   ],
+   "finding": null,
+   "conclusion": "On the basis of sufficient evidence of effectiveness, the Task Force recommends this intervention for prevention of violence among adolescents with a history of chronic delinquency.",
+   "implementation": null
+  },
+  {
+   "pmid": "15212777",
+   "title": "Recommendation for use of mass media campaigns to reduce alcohol-impaired driving.",
+   "journal": "Am J Prev Med",
+   "published": "2004-07",
+   "doi": "10.1016/j.amepre.2004.03.001",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcohol Drinking",
+    "Alcoholic Intoxication",
+    "Health Education",
+    "Mass Media",
+    "Persuasive Communication"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15212776",
+   "title": "Effectiveness of mass media campaigns for reducing drinking and driving and alcohol-involved crashes: a systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2004-07",
+   "doi": "10.1016/j.amepre.2004.03.002",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcoholic Intoxication",
+    "Health Education",
+    "Health Knowledge, Attitudes, Practice",
+    "Mass Media",
+    "Persuasive Communication"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "According to Community Guide rules of evidence, there is strong evidence that, under these conditions, mass media campaigns are effective in reducing AID and alcohol-related crashes."
+   ],
+   "finding": null,
+   "conclusion": "The mass media campaigns reviewed were generally carefully planned, well executed, attained adequate audience exposure, and were implemented in conjunction with other ongoing prevention activities, such as high visibility enforcement.",
+   "implementation": null
+  },
+  {
+   "pmid": "14566221",
+   "title": "First reports evaluating the effectiveness of strategies for preventing violence: firearms laws. Findings from the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2003-10",
+   "doi": null,
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Community Health Services",
+    "Evidence-Based Medicine",
+    "Firearms",
+    "Guidelines as Topic",
+    "Violence"
+   ],
+   "rating_terms": [
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The Task Force found insufficient evidence to determine the effectiveness of any of the firearms laws or combinations of laws reviewed on violent outcomes.",
+    "(Note that insufficient evidence to determine effectiveness should not be interpreted as evidence of ineffectiveness.) This report briefly describes how the reviews were conducted, summarizes the Task Force findings, and provides information regarding needs for future research."
+   ],
+   "finding": null,
+   "conclusion": "The Task Force found insufficient evidence to determine the effectiveness of any of the firearms laws or combinations of laws reviewed on violent outcomes.",
+   "implementation": null
+  },
+  {
+   "pmid": "14566220",
+   "title": "First reports evaluating the effectiveness of strategies for preventing violence: early childhood home visitation. Findings from the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2003-10",
+   "doi": null,
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Child",
+    "Child, Preschool",
+    "Community Health Services",
+    "Evidence-Based Medicine",
+    "Guidelines as Topic",
+    "House Calls",
+    "Infant",
+    "Violence"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "recommended",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "On the basis of strong evidence of effectiveness, the Task Force recommends early childhood home visitation for the prevention of child abuse and neglect.",
+    "The Task Force found insufficient evidence to determine the effectiveness of early childhood home visitation in preventing violence by visited children, violence by visited parents (other than child abuse and neglect), or intimate partner violence in visited families.",
+    "(Note that insufficient evidence to determine effectiveness should not be interpreted as evidence of ineffectiveness.) No studies of home visitation evaluated suicide as an outcome."
+   ],
+   "finding": null,
+   "conclusion": "(Note that insufficient evidence to determine effectiveness should not be interpreted as evidence of ineffectiveness.) No studies of home visitation evaluated suicide as an outcome.",
+   "implementation": null
+  },
+  {
+   "pmid": "12668199",
+   "title": "Culturally competent healthcare systems. A systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2003-04",
+   "doi": "10.1016/s0749-3797(02)00657-8",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Communication Barriers",
+    "Cultural Diversity",
+    "Culture",
+    "Delivery of Health Care",
+    "Health Personnel",
+    "Language",
+    "Outcome and Process Assessment, Health Care",
+    "Quality of Health Care"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "We reviewed five interventions to improve cultural competence in healthcare systems-programs to recruit and retain staff members who reflect the cultural diversity of the community served, use of interpreter services or bilingual providers for clients with limited English proficiency, cultural competency training for healthcare providers, use of linguistically and culturally...",
+   "implementation": null
+  },
+  {
+   "pmid": "12668198",
+   "title": "Providing affordable family housing and reducing residential segregation by income. A systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2003-04",
+   "doi": "10.1016/s0749-3797(02)00656-6",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Family",
+    "Health Promotion",
+    "Housing",
+    "Income",
+    "Prejudice",
+    "Urban Population"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Scientific evidence was sufficient to conclude that rental voucher programs improve household safety as measured by reduced exposure to crimes against person and property and decreased neighborhood social disorder.",
+   "implementation": null
+  },
+  {
+   "pmid": "12668197",
+   "title": "The effectiveness of early childhood development programs. A systematic review.",
+   "journal": "Am J Prev Med",
+   "published": "2003-04",
+   "doi": "10.1016/s0749-3797(02)00655-4",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Child",
+    "Child Development",
+    "Cognition",
+    "Community Health Services",
+    "Early Intervention, Educational",
+    "Health Promotion",
+    "Poverty"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "Programs such as Head Start are designed to close the gap in readiness to learn between poor children and their more economically advantaged peers. Systematic reviews of the scientific literature demonstrate effectiveness of these programs in preventing developmental delay, as assessed by reductions in retention in grade and placement in special education.",
+   "implementation": null
+  },
+  {
+   "pmid": "12668195",
+   "title": "Recommendations to promote healthy social environments.",
+   "journal": "Am J Prev Med",
+   "published": "2003-04",
+   "doi": "10.1016/s0749-3797(02)00653-0",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Child",
+    "Child Development",
+    "Early Intervention, Educational",
+    "Health Promotion",
+    "Housing",
+    "Poverty",
+    "Public Housing",
+    "Social Environment"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "12091093",
+   "title": "Reviews of evidence on interventions to prevent dental caries, oral and pharyngeal cancers, and sports-related craniofacial injuries.",
+   "journal": "Am J Prev Med",
+   "published": "2002-07",
+   "doi": "10.1016/s0749-3797(02)00449-x",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Athletic Injuries",
+    "Dental Caries",
+    "Dental Health Services",
+    "Evidence-Based Medicine",
+    "Facial Injuries",
+    "Fluoridation",
+    "Health Promotion",
+    "Mouth Neoplasms",
+    "Oral Health",
+    "Pharyngeal Neoplasms",
+    "Preventive Dentistry",
+    "Preventive Health Services",
+    "Skull"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "These reviews form the basis of recommendations by the Task Force on Community Preventive Services (the Task Force) about the use of these selected interventions. The Task Force recommendations are presented in this supplement.",
+   "implementation": null
+  },
+  {
+   "pmid": "12091092",
+   "title": "Recommendations on selected interventions to prevent dental caries, oral and pharyngeal cancers, and sports-related craniofacial injuries.",
+   "journal": "Am J Prev Med",
+   "published": "2002-07",
+   "doi": "10.1016/s0749-3797(02)00451-8",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Athletic Injuries",
+    "Dental Caries",
+    "Dental Health Services",
+    "Facial Injuries",
+    "Mouth Neoplasms",
+    "Oral Health",
+    "Pharyngeal Neoplasms",
+    "Pit and Fissure Sealants",
+    "Preventive Dentistry",
+    "Preventive Health Services",
+    "Skull"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "11985935",
+   "title": "Recommendations to increase physical activity in communities.",
+   "journal": "Am J Prev Med",
+   "published": "2002-05",
+   "doi": "10.1016/s0749-3797(02)00433-6",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Exercise",
+    "Health Behavior",
+    "Health Education",
+    "Health Promotion",
+    "Leisure Activities",
+    "Physical Fitness",
+    "Preventive Health Services",
+    "Public Health Practice"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "11985932",
+   "title": "Recommendations for healthcare system and self-management education interventions to reduce morbidity and mortality from diabetes.",
+   "journal": "Am J Prev Med",
+   "published": "2002-05",
+   "doi": "10.1016/s0749-3797(02)00422-1",
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Community Health Services",
+    "Delivery of Health Care",
+    "Diabetes Mellitus",
+    "Evidence-Based Medicine",
+    "Health Education",
+    "Preventive Health Services",
+    "Public Health Practice",
+    "Self Care"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "11691562",
+   "title": "Reviews of evidence regarding interventions to reduce alcohol-impaired driving.",
+   "journal": "Am J Prev Med",
+   "published": "2001-11",
+   "doi": "10.1016/s0749-3797(01)00381-6",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcohol Drinking",
+    "Alcoholic Intoxication",
+    "Automobile Driving",
+    "Police"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "sufficient_evidence"
+   ],
+   "rating_sentences": [
+    "Strong evidence was found for the effectiveness of .08 blood alcohol concentration laws, minimum legal drinking age laws, and sobriety checkpoints.",
+    "Sufficient evidence was found for the effectiveness of lower blood alcohol concentration laws for young and inexperienced drivers and of intervention training programs for servers of alcoholic beverages."
+   ],
+   "finding": "Strong evidence was found for the effectiveness of .08 blood alcohol concentration laws, minimum legal drinking age laws, and sobriety checkpoints. Sufficient evidence was found for the effectiveness of lower blood alcohol concentration laws for young and inexperienced drivers and of intervention training programs for servers of alcoholic beverages.",
+   "conclusion": "These reviews form the basis of the recommendations by the Task Force on Community Preventive Services presented elsewhere in this supplement. They can help decision makers identify and implement effective interventions that fit within an overall strategy to prevent impaired driving.",
+   "implementation": null
+  },
+  {
+   "pmid": "11691561",
+   "title": "Reviews of evidence regarding interventions to increase the use of safety belts.",
+   "journal": "Am J Prev Med",
+   "published": "2001-11",
+   "doi": "10.1016/s0749-3797(01)00378-6",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Accidents, Traffic",
+    "Community Health Services",
+    "Police",
+    "Preventive Health Services",
+    "Seat Belts",
+    "Wounds and Injuries"
+   ],
+   "rating_terms": [
+    "strong_evidence"
+   ],
+   "rating_sentences": [
+    "Strong evidence was found for the effectiveness of safety belt laws in general and for the incremental effectiveness of primary safety belt laws relative to secondary laws.",
+    "Strong evidence for the effectiveness of enhanced enforcement programs for safety belt laws was also found."
+   ],
+   "finding": "Strong evidence was found for the effectiveness of safety belt laws in general and for the incremental effectiveness of primary safety belt laws relative to secondary laws. Strong evidence for the effectiveness of enhanced enforcement programs for safety belt laws was also found.",
+   "conclusion": "These reviews form the basis of the recommendations by the Task Force on Community Preventive Services presented elsewhere in this supplement. They can help decision makers identify and implement effective interventions that fit within an overall strategy to increase safety belt use.",
+   "implementation": null
+  },
+  {
+   "pmid": "11691560",
+   "title": "Reviews of evidence regarding interventions to increase use of child safety seats.",
+   "journal": "Am J Prev Med",
+   "published": "2001-11",
+   "doi": "10.1016/s0749-3797(01)00377-4",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Automobile Driving",
+    "Community Health Services",
+    "Health Education",
+    "Infant",
+    "Infant Equipment",
+    "Preventive Health Services"
+   ],
+   "rating_terms": [
+    "strong_evidence",
+    "sufficient_evidence",
+    "insufficient_evidence"
+   ],
+   "rating_sentences": [
+    "The systematic review process identified strong evidence of effectiveness for child safety seat laws and distribution plus education programs.",
+    "In addition, community-wide information plus enhanced enforcement campaigns and incentive plus education programs had sufficient evidence of effectiveness.",
+    "Insufficient evidence was identified for education-only programs aimed at parents, young children, healthcare professionals, or law enforcement personnel."
+   ],
+   "finding": "The systematic review process identified strong evidence of effectiveness for child safety seat laws and distribution plus education programs. In addition, community-wide information plus enhanced enforcement campaigns and incentive plus education programs had sufficient evidence of effectiveness.",
+   "conclusion": "Evidence is available about the effectiveness of four of the five interventions we reviewed. This scientific evidence, along with the accompanying recommendations of the Task Force elsewhere in this supplement, can be a powerful tool for securing the resources and commitment required to implement these strategies.",
+   "implementation": null
+  },
+  {
+   "pmid": "11691558",
+   "title": "Recommendations to reduce injuries to motor vehicle occupants: increasing child safety seat use, increasing safety belt use, and reducing alcohol-impaired driving.",
+   "journal": "Am J Prev Med",
+   "published": "2001-11",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Alcohol Drinking",
+    "Automobile Driving",
+    "Community Health Services",
+    "Infant",
+    "Infant Equipment",
+    "Preventive Health Services",
+    "Seat Belts",
+    "Wounds and Injuries"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "11691552",
+   "title": "The guide to community prevention services. Reducing injuries to motor vehicle occupants. Systematic reviews of evidence, recommendations from the Task Force on Community Prevention Services, and expert commentary.",
+   "journal": "Am J Prev Med",
+   "published": "2001-11",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Accidents, Traffic",
+    "Automobile Driving",
+    "Automobiles",
+    "Protective Devices",
+    "Wounds and Injuries"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "11173215",
+   "title": "Reviews of evidence regarding interventions to reduce tobacco use and exposure to environmental tobacco smoke.",
+   "journal": "Am J Prev Med",
+   "published": "2001-02",
+   "doi": "10.1016/s0749-3797(00)00297-x",
+   "kind": "systematic_review",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Adolescent",
+    "Adult",
+    "Community Health Services",
+    "Evidence-Based Medicine",
+    "Practice Guidelines as Topic",
+    "Preventive Health Services",
+    "Smoking Cessation",
+    "Tobacco Smoke Pollution"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "These reviews form the basis of recommendations by the Task Force on Community Preventive Services (TFCPS) regarding the use of these selected interventions. The TFCPS recommendations are presented on page 67 of this supplement.",
+   "implementation": null
+  },
+  {
+   "pmid": "11173214",
+   "title": "Recommendations regarding interventions to reduce tobacco use and exposure to environmental tobacco smoke.",
+   "journal": "Am J Prev Med",
+   "published": "2001-02",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": false,
+   "mesh": [
+    "Community Health Services",
+    "Decision Making",
+    "Evidence-Based Medicine",
+    "Tobacco Smoke Pollution",
+    "Tobacco Use Cessation"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": null,
+   "implementation": null
+  },
+  {
+   "pmid": "15580784",
+   "title": "Strategies for reducing exposure to environmental tobacco smoke, increasing tobacco-use cessation, and reducing initiation in communities and health-care systems. A report on recommendations of the Task Force on Community Preventive Services.",
+   "journal": "MMWR Recomm Rep",
+   "published": "2000-11",
+   "doi": null,
+   "kind": "recommendation",
+   "title_signal": null,
+   "has_abstract": true,
+   "mesh": [
+    "Guidelines as Topic",
+    "Smoking Cessation",
+    "Smoking Prevention",
+    "Tobacco Smoke Pollution"
+   ],
+   "rating_terms": [],
+   "rating_sentences": [],
+   "finding": null,
+   "conclusion": "The Task Force on Community Preventive Services has conducted systematic reviews on 14 selected interventions, which are appropriate for communities and health-care systems, and has made recommendations regarding use of these interventions.",
+   "implementation": null
+  }
+ ]
+}

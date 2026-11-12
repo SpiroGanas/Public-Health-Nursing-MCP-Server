@@ -1,0 +1,870 @@
+# A library of health behavior and behavior change theories for apply_behavior_change_theory
+# (PLAN-04): each theory's constructs, what each construct means, intervention strategies that
+# target it, and measure ideas, so a nurse can map a program's problem, population, and planned
+# components onto theory.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12 from the open-access sources listed below.
+# Schema: content/schemas/planning_behavior_theories.schema.json
+#
+# HOW EACH ENTRY WAS MADE
+# * Construct names and definitions are paraphrased from the open-access reviews and the CDC page
+#   in `sources`, which the author read in full text on 2026-11-12. The original theory papers
+#   and books (for example by Rosenstock, Ajzen, Bandura, Prochaska, Rogers, and McLeroy) were NOT
+#   available and were NOT read; the reviews summarize them.
+# * A strategy with basis "source" comes from a table in one of those papers (the Social
+#   Cognitive Theory strategies from a published construct-to-behavior-change-technique mapping,
+#   the COM-B strategies from the Behaviour Change Wheel's published links, the Socio-Ecological
+#   Model examples from CDC's violence prevention page). A strategy with basis "authored" is this
+#   project's own suggestion, written in plain language for the nurse to judge; no source linked
+#   it to the construct.
+# * Measures are indicator IDEAS (what to count or ask), not validated instruments. No survey
+#   instrument is copied. Use validated items from the literature where they exist, and check
+#   each instrument's license.
+# * "signals" are words a nurse might use to describe a problem; the tool uses them to suggest
+#   which constructs a described barrier points to. They are this project's matching aid.
+meta:
+  id: planning-behavior-theories
+  title: Health behavior and behavior change theories (constructs, strategies, and measures)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Open-access reviews of behavior change theories (see sources)
+    publisher: Various journals (PubMed Central open-access subset); CDC
+    url: https://www.cdc.gov/violence-prevention/about/index.html
+  related_sources: []
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The National Cancer Institute's Theory at a Glance (cancercontrol.cancer.gov) and similar
+    primary-source pages were blocked from the build network, so constructs are taken from
+    open-access systematic and scoping reviews (full text read through PubMed Central) and from
+    the CDC's social-ecological model page. Construct names are the same across the sources that
+    cover a theory (high confidence); definitions are paraphrases of what those reviews say
+    (medium to high). The primary theory papers were not read; check a definition there before
+    quoting it in a grant or paper. Strategies marked authored and all measure ideas are this
+    project's drafts (medium to low confidence) and need your judgment. Not covered: the Health
+    Action Process Approach, the Information-Motivation-Behavioral Skills model, the Extended
+    Parallel Process Model, social marketing, community readiness, and intervention mapping (no
+    source was read for them).
+
+sources:
+  hiv-theory-2012:
+    title: "Nothing as Practical as a Good Theory? The Theoretical Basis of HIV Prevention Interventions for Young People in Sub-Saharan Africa: A Systematic Review"
+    publisher: AIDS Research and Treatment (2012), PubMed Central PMC3415137, CC BY 3.0
+    url: https://doi.org/10.1155/2012/345327
+    effective_date: "2012"
+    retrieved: 2026-11-12
+  covid-theories-2023:
+    title: "Application of behavioral change theory and models on COVID-19 preventive behaviors, worldwide: A systematic review"
+    publisher: SAGE Open Medicine (2023), PubMed Central PMC10067469, CC BY-NC 4.0
+    url: https://doi.org/10.1177/20503121231159750
+    effective_date: "2023"
+    retrieved: 2026-11-12
+  tpb-diet-2014:
+    title: "Theory of reasoned action and theory of planned behavior-based dietary interventions in adolescents and young adults: a systematic review"
+    publisher: Adolescent Health, Medicine and Therapeutics (2014), PubMed Central PMC4057331, CC BY-NC 3.0
+    url: https://doi.org/10.2147/AHMT.S56207
+    effective_date: "2014"
+    retrieved: 2026-11-12
+  ttm-review-2019:
+    title: "Transtheoretical Model of Health Behavioral Change: A Systematic Review"
+    publisher: Iranian Journal of Nursing and Midwifery Research (2019), PubMed Central PMC6390443, CC BY-NC-SA 4.0
+    url: https://doi.org/10.4103/ijnmr.IJNMR_94_17
+    effective_date: "2019"
+    retrieved: 2026-11-12
+  sct-cancer-2015:
+    title: "A systematic review and meta-analysis of social cognitive theory-based physical activity and/or nutrition behavior change interventions for cancer survivors"
+    publisher: Journal of Cancer Survivorship (2015), PubMed Central PMC4441740, CC BY 4.0
+    url: https://doi.org/10.1007/s11764-014-0413-z
+    effective_date: "2015"
+    retrieved: 2026-11-12
+  implementation-theories-2015:
+    title: Making sense of implementation theories, models and frameworks
+    publisher: Implementation Science (2015), PubMed Central PMC4406164, CC BY 4.0
+    url: https://doi.org/10.1186/s13012-015-0242-0
+    effective_date: "2015"
+    retrieved: 2026-11-12
+  bcw-2011:
+    title: "The behaviour change wheel: a new method for characterising and designing behaviour change interventions"
+    publisher: Implementation Science (2011), PubMed Central PMC3096582, CC BY 2.0
+    url: https://doi.org/10.1186/1748-5908-6-42
+    effective_date: "2011"
+    retrieved: 2026-11-12
+  sdt-exercise-2012:
+    title: "Exercise, physical activity, and self-determination theory: a systematic review"
+    publisher: International Journal of Behavioral Nutrition and Physical Activity (2012), PubMed Central PMC3441783, CC BY 2.0
+    url: https://doi.org/10.1186/1479-5868-9-78
+    effective_date: "2012"
+    retrieved: 2026-11-12
+  vaccine-social-2022:
+    title: "Vaccine hesitancy and behavior change theory-based social media interventions: a systematic review"
+    publisher: Translational Behavioral Medicine (2022), PubMed Central PMC8848992, CC BY 4.0
+    url: https://doi.org/10.1093/tbm/ibab148
+    effective_date: "2022"
+    retrieved: 2026-11-12
+  theory-scoping-2015:
+    title: "Theories of behaviour and behaviour change across the social and behavioural sciences: a scoping review"
+    publisher: Health Psychology Review (2015), PubMed Central PMC4566873
+    url: https://doi.org/10.1080/17437199.2014.941722
+    effective_date: "2015"
+    retrieved: 2026-11-12
+  cdc-sem:
+    title: About Violence Prevention (the social-ecological model)
+    publisher: CDC, National Center for Injury Prevention and Control (page dated 2025-07-21)
+    url: https://www.cdc.gov/violence-prevention/about/index.html
+    effective_date: 2025-07-21
+    retrieved: 2026-11-12
+
+how_to_choose:
+  - text: >-
+      A scoping review of 82 theories used in public health found that four accounted for 63% of
+      the articles: the Transtheoretical Model (33%), the Theory of Planned Behaviour (13%),
+      Social Cognitive Theory (11%), and the Information-Motivation-Behavioural-Skills model
+      (7%). How often a theory is used says nothing about how well it works for your population.
+    source: theory-scoping-2015
+  - text: >-
+      The Health Belief Model and the Theory of Planned Behavior explain behavior at the level of
+      the individual. Social Cognitive Theory and the Socio-Ecological Model add the interpersonal
+      and environmental levels. The Stages of Change are a theory of how people change, not of why
+      a behavior occurs.
+    source: hiv-theory-2012
+  - text: >-
+      Theories and frameworks differ: a theory explains how things relate and lets you predict an
+      outcome; a framework organizes what to consider. The Socio-Ecological Model and COM-B are
+      used here as frameworks for deciding where to act, the others as theories to test.
+    source: theory-scoping-2015
+  - text: >-
+      You do not need one theory. Programs often combine a person-level theory (what moves one
+      person) with the Socio-Ecological Model (what the setting, community, and policy need to
+      change). Pick constructs you can actually change and measure.
+    source: null
+
+theories:
+  # ------------------------------------------------------------------------------------------
+  - id: hbm
+    name: Health Belief Model
+    abbreviation: HBM
+    level: individual
+    kind: explanatory theory
+    summary: >-
+      A person takes a health action when they believe they are at risk, that the condition is
+      serious, that the action would help, and that the benefits outweigh the costs; cues and
+      confidence make acting easier.
+    best_for:
+      - One-time or repeated preventive actions: screening, vaccination, medication adherence, and home safety steps.
+      - Messages and education where the main gap is what people believe about risk and benefit.
+    limits:
+      - It centers on beliefs and says little about money, access, or social context; pair it with the Socio-Ecological Model when barriers are structural.
+      - A 2022 review of social media vaccine interventions found cues to action the least developed and least researched element, especially external cues, so the strategies for it here are the least tested.
+    sources: [hiv-theory-2012, covid-theories-2023, vaccine-social-2022]
+    constructs:
+      - id: perceived_susceptibility
+        name: Perceived susceptibility
+        definition: The person's belief that they could get the condition.
+        confidence: high
+        signals: [not at risk, think it won't happen, won't happen to me, don't think i could get, low risk, risk perception, healthy so, invulnerable, doesn't apply to me]
+        strategies:
+          - text: Give personalized or group-specific risk information (for example local rates for people like them) in plain language.
+            basis: authored
+          - text: Use stories from peers in the same community who were affected.
+            basis: authored
+        measures:
+          - text: "Share of participants who say they could get the condition (agree on a short belief item you write for your audience)."
+            type: belief
+      - id: perceived_severity
+        name: Perceived severity
+        definition: The person's belief that the condition has serious consequences.
+        confidence: high
+        signals: [not serious, mild, no big deal, just a cold, don't think it is serious, minimize, downplay]
+        strategies:
+          - text: Explain the realistic consequences for the person and family (missed work, complications), without fear-only messaging.
+            basis: authored
+        measures:
+          - text: "Share who rate the condition as serious (belief item)."
+            type: belief
+      - id: perceived_benefits
+        name: Perceived benefits
+        definition: The person's belief that taking the action would reduce their susceptibility to the condition or its severity.
+        confidence: high
+        signals: [doesn't work, no point, won't help, why bother, ineffective, don't see the benefit, not worth it, don't believe it works]
+        strategies:
+          - text: State plainly what the action does and how well, and show it with a clear, honest number or example.
+            basis: authored
+        measures:
+          - text: "Share who agree the action would protect them or their family (belief item)."
+            type: belief
+      - id: perceived_barriers
+        name: Perceived barriers
+        definition: The costs of acting (time, money, discomfort, worry, effort); in the model, action is more likely when the benefits are seen to outweigh them.
+        confidence: high
+        signals: [cost, can't afford, afford, no time, transportation, no ride, far, inconvenient, hours, childcare, child care, afraid, fear of, painful, embarrassed, side effects, language, insurance, copay, can't get off work, wait]
+        strategies:
+          - text: Reduce the practical barrier you can control (hours, location, cost, transportation, interpreter, reminders) and say that you did.
+            basis: authored
+          - text: Address worries directly (for example discomfort or side effects) with accurate, specific information.
+            basis: authored
+        measures:
+          - text: "Share who name each barrier, tracked over time (checklist of barriers you have identified)."
+            type: belief
+          - text: "Number of the program's access barriers removed (process count)."
+            type: process
+      - id: cues_to_action
+        name: Cues to action
+        definition: Triggers that prompt a person to act (a reminder, a message, a recommendation from someone they trust, a visible event).
+        confidence: high
+        signals: [forget, reminder, remind, nobody told me, never asked, not recommended, no one recommended, didn't know when, prompt, invitation, recall]
+        strategies:
+          - text: Send reminders or invitations through the channel the community uses (text, phone, mail, trusted messenger) close to the time to act.
+            basis: authored
+          - text: Build a recommendation from a trusted provider or community member into the visit or event.
+            basis: authored
+        measures:
+          - text: "Number of reminders or invitations sent, and share of those reached who then acted (process and outcome)."
+            type: process
+      - id: self_efficacy
+        name: Self-efficacy
+        definition: The person's confidence that they can successfully carry out the action.
+        confidence: high
+        signals: [don't know how, not sure how, can't do it, overwhelmed, confused, complicated, nervous, hard to, confidence, don't know where to go]
+        strategies:
+          - text: Teach the steps, let people practice (demonstrate, then have them do it), and simplify the process.
+            basis: authored
+        measures:
+          - text: "Share who say they are confident they could do the action (confidence item, for example 0 to 10)."
+            type: belief
+  # ------------------------------------------------------------------------------------------
+  - id: sct
+    name: Social Cognitive Theory
+    abbreviation: SCT
+    level: individual and interpersonal
+    kind: explanatory theory
+    summary: >-
+      Behavior comes from a continuing interaction among the person, the environment, and the
+      behavior itself. Knowledge, confidence, expected results, goals, and support or barriers in
+      the person's surroundings all matter, and a person's own confidence influences the rest.
+    best_for:
+      - Skill-based programs: self-management, parenting, physical activity, nutrition, and chronic disease coaching.
+      - Programs that can change the person's surroundings (peers, family, setting) as well as the person.
+    limits:
+      - It names many influences, so choose a few to target and measure; a program cannot move all of them.
+    sources: [sct-cancer-2015, hiv-theory-2012]
+    constructs:
+      - id: knowledge
+        name: Knowledge of health risks and benefits
+        definition: Knowing the risks and benefits of the behavior. It sets the stage for change, but on its own it is usually not enough.
+        confidence: high
+        signals: [don't know, unaware, no information, misinformation, myth, education, not told, literacy, health literacy]
+        strategies:
+          - text: Provide information on the consequences of the behavior in general.
+            basis: source
+            source: sct-cancer-2015
+          - text: Provide information on the consequences of the behavior to the individual.
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Share answering key knowledge questions correctly (a short quiz you write; avoid testing trivia)."
+            type: knowledge
+      - id: self_efficacy
+        name: Self-efficacy
+        definition: The person's confidence that they can control their own health habits and carry out the behavior.
+        confidence: high
+        signals: [can't do it, don't know how, confidence, overwhelmed, hard to stick, relapse, give up, skill]
+        strategies:
+          - text: Prompt self-monitoring of the behavior and of its results.
+            basis: source
+            source: sct-cancer-2015
+          - text: Provide instruction on how to perform the behavior, and model or demonstrate it.
+            basis: source
+            source: sct-cancer-2015
+          - text: Prompt practice, and use follow-up prompts.
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Mean confidence rating (for example 0 to 10) that the person can do the behavior in a named hard situation."
+            type: belief
+      - id: outcome_expectations
+        name: Outcome expectations
+        definition: What the person expects will happen if they act, the expected costs and benefits.
+        confidence: high
+        signals: [what's in it for me, won't help, no benefit, costs, expect, results, worth it]
+        strategies:
+          - text: Prompt self-monitoring of behavior and its results, so the person sees what changes.
+            basis: source
+            source: sct-cancer-2015
+          - text: Plan social support or social change, and facilitate social comparison.
+            basis: source
+            source: sct-cancer-2015
+          - text: Teach the person to use prompts and cues, restructure the environment, and prompt anticipated regret.
+            basis: source
+            source: sct-cancer-2015
+          - text: Plan for relapse prevention and coping.
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Share who say the behavior will bring a specific benefit they care about (belief item)."
+            type: belief
+      - id: goals
+        name: Health goals
+        definition: The person's near-term and longer-term intentions to carry out the behavior.
+        confidence: high
+        signals: [no plan, no goal, intention, plan to, want to but, motivation, set a goal]
+        strategies:
+          - text: Set goals for the behavior and for the outcome, make an action plan, and review the goals.
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Share with a written goal and action plan; share who met their goal at follow-up."
+            type: behavior
+      - id: facilitators_support
+        name: Perceived facilitators and social support
+        definition: What in the person's surroundings makes the behavior easier, including support from family, friends, and others.
+        confidence: high
+        signals: [family, friends, peers, support, alone, isolated, social, spouse, partner, household, community, group, buddy]
+        strategies:
+          - text: Plan social support or social change.
+            basis: source
+            source: sct-cancer-2015
+          - text: Use barrier identification and problem solving to find facilitators.
+            basis: source
+            source: sct-cancer-2015
+          - text: Prompt focus on past success.
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Share who name at least one person or resource that helps them (item), and share in peer or group activities (process)."
+            type: process
+      - id: barriers
+        name: Barriers to change
+        definition: What stands in the way of the behavior (cost, time, setting, competing demands).
+        confidence: high
+        signals: [barrier, cost, afford, time, transportation, access, can't get to, no safe place, no equipment, competing, stress, work schedule]
+        strategies:
+          - text: Use barrier identification and problem solving with the person.
+            basis: source
+            source: sct-cancer-2015
+          - text: Change the environment so the behavior is easier (environmental restructuring).
+            basis: source
+            source: sct-cancer-2015
+        measures:
+          - text: "Share who report each barrier at baseline and follow-up (checklist)."
+            type: belief
+  # ------------------------------------------------------------------------------------------
+  - id: tpb
+    name: Theory of Planned Behavior
+    abbreviation: TPB
+    level: individual
+    kind: explanatory theory
+    summary: >-
+      Behavior follows from the intention to act, and intention comes from attitude toward the
+      behavior, the felt expectations of important people, and perceived control over doing it.
+    best_for:
+      - Behaviors a person chooses, such as diet, physical activity, and condom or helmet use, when you want to know what shapes the intention.
+      - Formative research: a short survey of attitude, norm, and control tells you which to target.
+    limits:
+      - A meta-analysis cited in a 2014 review found that attitude, norms, and perceived control accounted for about 39% of the variance in intention, and intention for about 25% of the variance in behavior, so most of the variation is left unexplained.
+      - Subjective norms are generally the weakest predictor, which that review attributes partly to how it is measured.
+      - Intention does not help if the person has no real control (no access, no money).
+    sources: [tpb-diet-2014, hiv-theory-2012]
+    constructs:
+      - id: attitude
+        name: Attitude toward the behavior
+        definition: Whether the person holds a positive or negative view of doing the behavior, built from beliefs, knowledge, and values about the outcomes.
+        confidence: high
+        signals: [don't like, dislike, hate, think it is bad, value, taste, not important, don't want to, enjoy, boring]
+        strategies:
+          - text: Share and discuss the outcomes people care about, and link them to what the audience values.
+            basis: authored
+          - text: Use credible messengers who show the behavior as positive and doable.
+            basis: authored
+        measures:
+          - text: "Share rating the behavior positively (semantic-differential style item you write)."
+            type: belief
+      - id: subjective_norm
+        name: Subjective norm
+        definition: Perceived social pressure to do the behavior, that is, whether important others would approve, and how motivated the person is to comply.
+        confidence: high
+        signals: [family disapproves, peers, friends do, everyone around, culture, community expects, tradition, my mother, elders, faith leader, pressure, stigma, what others think]
+        strategies:
+          - text: Make the behavior visible as a community norm (peer or elder champions, group participation).
+            basis: authored
+          - text: Involve the important others (family, faith leaders) in planning and messaging.
+            basis: authored
+        measures:
+          - text: "Share who believe most people important to them approve of the behavior (belief item)."
+            type: belief
+      - id: perceived_behavioral_control
+        name: Perceived behavioral control
+        definition: How much control the person feels they have over doing the behavior.
+        confidence: high
+        signals: [can't, not in my control, no choice, don't have access, can't get, too hard, no way to, depends on others, someone else decides]
+        strategies:
+          - text: Build skills and remove obstacles that make the person feel unable.
+            basis: authored
+        measures:
+          - text: "Share who say it would be easy for them to do the behavior (control item)."
+            type: belief
+      - id: actual_control
+        name: Actual behavioral control
+        definition: Whether the person really can do the behavior, for example whether the food or service is available to them; it affects behavior directly and shapes how far intention leads to action.
+        confidence: medium
+        signals: [food desert, no access, not available, no insurance, can't afford, no transportation, closed, waitlist, no appointments, not offered]
+        strategies:
+          - text: Change the real conditions (availability, cost, location) rather than only persuading.
+            basis: authored
+        measures:
+          - text: "Availability measure for your setting (for example number of sites or hours offered, or share within a set travel time)."
+            type: environment
+      - id: intention
+        name: Behavioral intention
+        definition: The person's stated plan to do the behavior; the strongest predictor of behavior within the model.
+        confidence: high
+        signals: [plan to, intend, going to, want to, thinking about, maybe, not sure if i will]
+        strategies:
+          - text: Ask for a specific plan (when, where, how) and follow up.
+            basis: authored
+        measures:
+          - text: "Share who say they intend to do the behavior in the next month, then share who did (intention to action gap)."
+            type: behavior
+  # ------------------------------------------------------------------------------------------
+  - id: ttm
+    name: Transtheoretical Model (Stages of Change)
+    abbreviation: TTM
+    level: individual
+    kind: change theory
+    summary: >-
+      People move through stages (precontemplation, contemplation, preparation, action,
+      maintenance), can go back, and need different help at each stage. Movement is influenced by
+      the processes of change, the balance of pros and cons, and self-efficacy.
+    best_for:
+      - Behaviors with ongoing change over time: tobacco, physical activity, nutrition, weight, and substance use.
+      - One-to-one or small-group counseling where the person's readiness can be assessed.
+    limits:
+      - The 2019 systematic review found most studies used only the stages and a few reported weak results (smoking cessation, diet in people with diabetes, and physical activity in young people).
+      - Staging describes readiness; it does not say what will work for a given stage, so strategies here are suggestions.
+    sources: [ttm-review-2019, hiv-theory-2012, sct-cancer-2015]
+    constructs:
+      - id: precontemplation
+        name: Precontemplation
+        definition: Not considering the change.
+        confidence: high
+        signals: [not interested, not ready, refuse, no plans, doesn't see a problem, precontemplation, in denial, don't want to change]
+        strategies:
+          - text: Raise awareness gently and ask permission; do not push for action.
+            basis: authored
+        measures:
+          - text: "Share in each stage at enrollment and follow-up (stage question you write for the behavior)."
+            type: behavior
+      - id: contemplation
+        name: Contemplation
+        definition: Thinking about changing, but not yet decided.
+        confidence: high
+        signals: [thinking about, considering, maybe, on the fence, ambivalent, contemplating, might]
+        strategies:
+          - text: Explore the pros and cons together and respond to concerns.
+            basis: authored
+        measures:
+          - text: "Share moving from contemplation to preparation or beyond."
+            type: behavior
+      - id: preparation
+        name: Preparation
+        definition: Getting ready to act, often with small steps taken.
+        confidence: high
+        signals: [getting ready, plan, preparing, signed up, preparation, soon, next month, want help starting]
+        strategies:
+          - text: Help the person set a specific plan, date, and first step.
+            basis: authored
+        measures:
+          - text: "Share with a plan and first step completed."
+            type: behavior
+      - id: action
+        name: Action
+        definition: Actively doing the new behavior.
+        confidence: high
+        signals: [started, just started, trying, doing it now, in the program, new habit, early days]
+        strategies:
+          - text: Support early success and problem-solve slips; arrange regular contact.
+            basis: authored
+        measures:
+          - text: "Share still doing the behavior at 30, 90, and 180 days (as your data allow)."
+            type: behavior
+      - id: maintenance
+        name: Maintenance
+        definition: Keeping the new behavior going over time; the model allows return to an earlier stage.
+        confidence: high
+        signals: [keep it up, sustain, long term, relapse, slip, backslide, maintain, stick with it, drop out, dropout]
+        strategies:
+          - text: Plan for relapse and high-risk situations, and keep a low-intensity contact going.
+            basis: authored
+        measures:
+          - text: "Share still doing the behavior at 6 and 12 months; share who relapsed and returned."
+            type: behavior
+      - id: processes_of_change
+        name: Processes of change
+        definition: The strategies and experiences people use to move between stages (the model treats these as one of the factors that control movement between stages).
+        confidence: medium
+        signals: [what helps, strategies people use, coping, how people change, support, rewards]
+        strategies:
+          - text: Match the activity to the stage (information and reflection early, planning and support later).
+            basis: authored
+        measures:
+          - text: "Number of participants offered a stage-matched activity (process)."
+            type: process
+      - id: decisional_balance
+        name: Decisional balance (pros and cons)
+        definition: How the person weighs the advantages and disadvantages of changing; one of the three factors the review names as controlling movement between stages.
+        confidence: high
+        signals: [pros and cons, weigh, mixed feelings, ambivalent, benefits and drawbacks, worth the trouble]
+        strategies:
+          - text: Use a pros and cons conversation; raise the person's own reasons for change.
+            basis: authored
+        measures:
+          - text: "Change in how participants rate pros and cons of the behavior (short item set you write)."
+            type: belief
+      - id: self_efficacy_ttm
+        name: Self-efficacy
+        definition: Confidence to do the behavior in tempting or hard situations; the third factor controlling movement between stages.
+        confidence: high
+        signals: [confidence, can't resist, tempted, hard situations, urges, stress eating, cravings]
+        strategies:
+          - text: Build skills for tempting situations through practice and past-success review.
+            basis: authored
+        measures:
+          - text: "Mean confidence rating for the hardest situation."
+            type: belief
+  # ------------------------------------------------------------------------------------------
+  - id: sem
+    name: Socio-Ecological Model
+    abbreviation: SEM
+    level: multilevel
+    kind: framework
+    summary: >-
+      Behavior and health are shaped by several nested levels: the person, close relationships,
+      organizations and settings, the community, and public policy. Lasting change usually needs
+      action at more than one level.
+    best_for:
+      - Population-level and equity-focused programs where the barriers are structural (access, norms, policy).
+      - Building a program that combines individual services with setting, community, and policy action.
+    limits:
+      - It is a framework: it tells you where to look, not which strategy will work, and it has few testable constructs of its own.
+      - Versions differ. The reviews read here use five levels (individual, interpersonal, organizational, community, public policy); CDC's violence prevention page uses four (individual, relationship, community, societal).
+    sources: [hiv-theory-2012, covid-theories-2023, cdc-sem]
+    constructs:
+      - id: individual
+        name: Individual (intrapersonal)
+        definition: The person's knowledge, attitudes, skills, and personal history. In CDC's version, biological and personal history factors.
+        confidence: high
+        signals: [knowledge, attitude, skills, history, age, education, income, substance use, personal]
+        strategies:
+          - text: Promote attitudes, beliefs, and behaviors that protect; for example life skills and conflict resolution training or social-emotional learning (CDC's violence prevention examples).
+            basis: source
+            source: cdc-sem
+        measures:
+          - text: "Share of participants completing the skills program and reporting a change in a skill or attitude."
+            type: knowledge
+      - id: interpersonal
+        name: Interpersonal (relationships)
+        definition: Close relationships with family, partners, and peers that influence behavior.
+        confidence: high
+        signals: [family, parents, partner, spouse, peers, friends, mentor, household, caregiver, relationship, neighbors]
+        strategies:
+          - text: Parenting or family-focused programs and mentoring or peer programs that strengthen communication, positive peer norms, and problem solving (CDC's violence prevention examples).
+            basis: source
+            source: cdc-sem
+        measures:
+          - text: "Share of participants whose family members or peers also took part, and share reporting support from them."
+            type: process
+      - id: organizational
+        name: Organizational
+        definition: The organizations and settings (schools, workplaces, clinics, agencies) where people spend time, and their rules and practices.
+        confidence: medium
+        signals: [school, workplace, clinic, hospital, agency, employer, church, program policy, hours, staff training, procedures, policy at, institution]
+        strategies:
+          - text: Change the setting's practices or policies (hours, staff training, referral routines) so the healthy choice is the default.
+            basis: authored
+        measures:
+          - text: "Number of settings adopting the practice or policy, and share of the target population those settings reach."
+            type: environment
+      - id: community
+        name: Community
+        definition: Neighborhoods and community relationships and conditions; in CDC's version, improving the physical and social environment of the places where people live, learn, work, and play.
+        confidence: high
+        signals: [neighborhood, community, norms, safe places, built environment, housing, density, segregation, poverty, walkability, parks, outlets, social cohesion, trust]
+        strategies:
+          - text: Improve the physical and social environment of the places where people live, learn, work, and play, and address community conditions such as neighborhood poverty or the density of alcohol outlets (CDC's violence prevention examples).
+            basis: source
+            source: cdc-sem
+        measures:
+          - text: "A community condition you target (for example number of safe play spaces or outlets per 1,000 residents) at baseline and follow-up."
+            type: environment
+      - id: public_policy
+        name: Public policy (societal)
+        definition: Laws, policies, and broad social and cultural norms. CDC describes societal norms that support or discourage a behavior and policies that maintain social or economic inequality.
+        confidence: high
+        signals: [policy, law, ordinance, regulation, funding, tax, mandate, legislation, norms, systemic, structural, racism, inequity, medicaid, state]
+        strategies:
+          - text: Promote protective societal norms and strengthen household financial security, education, and employment opportunities and other policies that affect structural determinants of health (CDC's violence prevention examples).
+            basis: source
+            source: cdc-sem
+        measures:
+          - text: "Policies adopted or changed (count, with dates) and the population they cover."
+            type: environment
+  # ------------------------------------------------------------------------------------------
+  - id: doi
+    name: Diffusion of Innovations
+    abbreviation: DOI
+    level: organization and community
+    kind: framework
+    summary: >-
+      How new practices spread. The characteristics of the innovation (how it is seen by those
+      who might adopt it) and the people who carry it between groups affect how fast it is adopted.
+    best_for:
+      - Introducing a new practice, tool, or program into agencies, clinics, schools, or communities and asking why it is or is not taken up.
+      - Planning who should carry a message: champions, community leaders, and gatekeepers.
+    limits:
+      - It describes adoption of an innovation; it does not explain an individual's health behavior.
+      - Only the innovation attributes and the intermediary roles were taken from the review read; Rogers' other concepts (such as adopter categories) were not in a source read here and are not included.
+    sources: [implementation-theories-2015]
+    constructs:
+      - id: relative_advantage
+        name: Relative advantage
+        definition: How much better the innovation is seen to be than what it replaces.
+        confidence: high
+        signals: [better than, why change, current way works, no advantage, already do this, same as before, not better]
+        strategies:
+          - text: Show, with local data or a pilot, what the new practice does better.
+            basis: authored
+        measures:
+          - text: "Share of target adopters who rate the practice better than current practice (item)."
+            type: belief
+      - id: compatibility
+        name: Compatibility
+        definition: How well the innovation fits with existing values, routines, and needs.
+        confidence: high
+        signals: [doesn't fit, workflow, culture, values, routine, our way, not how we do, conflicts with, fit]
+        strategies:
+          - text: Adapt the practice to existing workflow and cultural norms with the people who will use it.
+            basis: authored
+        measures:
+          - text: "Share of adopters who say it fits their workflow or community values (item)."
+            type: belief
+      - id: complexity
+        name: Complexity
+        definition: How difficult the innovation is to understand and use.
+        confidence: high
+        signals: [too complicated, complex, hard to use, too many steps, confusing, burden, paperwork, training needed]
+        strategies:
+          - text: Simplify steps, provide job aids and training, and remove unnecessary requirements.
+            basis: authored
+        measures:
+          - text: "Time or steps needed to complete the practice; share completing it correctly."
+            type: process
+      - id: trialability
+        name: Trialability
+        definition: Whether the innovation can be tried on a small scale before committing.
+        confidence: high
+        signals: [pilot, trial, try it first, small scale, test, commitment, risk of trying]
+        strategies:
+          - text: Offer a time-limited or small-scale trial before full adoption.
+            basis: authored
+        measures:
+          - text: "Share of those who tried it who adopted it fully."
+            type: behavior
+      - id: observability
+        name: Observability
+        definition: How visible the results of the innovation are to others.
+        confidence: high
+        signals: [can't see results, no one sees, visible, results unclear, show results, word of mouth, nobody knows it works]
+        strategies:
+          - text: Share results where potential adopters can see them (data dashboards, site visits, stories).
+            basis: authored
+        measures:
+          - text: "Number of sites or leaders who saw the results (process), and adoption afterwards."
+            type: process
+      - id: intermediary_actors
+        name: Intermediary actors (opinion leaders, change agents, gatekeepers)
+        definition: The review notes that Diffusion of Innovations highlights opinion leaders, change agents, and gatekeepers as important for successful adoption.
+        confidence: high
+        signals: [leader, champion, trusted, gatekeeper, referral source, influencer, respected, community health worker, lay leader, change agent, opinion leader]
+        strategies:
+          - text: Identify and recruit trusted champions and the people who control access (gatekeepers) early, and give them what they need to carry the message.
+            basis: authored
+        measures:
+          - text: "Number of champions recruited and active; adoption among the groups they reach."
+            type: process
+  # ------------------------------------------------------------------------------------------
+  - id: comb
+    name: COM-B and the Behaviour Change Wheel
+    abbreviation: COM-B
+    level: individual and environment
+    kind: framework
+    summary: >-
+      Behavior arises from capability, opportunity, and motivation interacting. Once you know
+      which of these is missing, the Behaviour Change Wheel links each to the types of
+      intervention (and the policy options) that can change it.
+    best_for:
+      - Diagnosing why a behavior is not happening and choosing the kinds of intervention to match, especially across levels from services to policy.
+    limits:
+      - The authors describe their framework as one of many possible ways to classify interventions, and that it will likely be superseded; it was tested for reliability in two public health areas (tobacco control and obesity guidance).
+      - It tells you the intervention types, not the content, so you still design the activity.
+    sources: [bcw-2011]
+    constructs:
+      - id: physical_capability
+        name: Physical capability
+        definition: The person's physical capacity (strength, stamina, skill) to do the behavior.
+        confidence: high
+        signals: [can't physically, mobility, disability, strength, pain, dexterity, injury, frail, vision, hearing, physical skill]
+        strategies:
+          - text: "Training (imparting skills), and enablement (increasing means or reducing barriers)."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Share able to carry out the physical task (observed or self-reported), at baseline and follow-up."
+            type: behavior
+      - id: psychological_capability
+        name: Psychological capability
+        definition: The person's capacity for the thought processes the behavior needs, such as knowledge, understanding, and reasoning.
+        confidence: high
+        signals: [don't understand, knowledge, health literacy, confused, don't know what to do, skills, memory, language, comprehension, instructions]
+        strategies:
+          - text: "Education (increasing knowledge or understanding), training, and enablement."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Share who can explain the key steps or answer key knowledge items correctly."
+            type: knowledge
+      - id: physical_opportunity
+        name: Physical opportunity
+        definition: Opportunity provided by the physical environment (what is available, accessible, and affordable).
+        confidence: high
+        signals: [no access, not available, transportation, location, cost, afford, equipment, time, hours, no clinic, space, supplies, housing, food]
+        strategies:
+          - text: "Restriction (using rules to reduce competing options), environmental restructuring (changing the physical or social context), and enablement."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Availability or access measure in your setting (sites, hours, travel time, cost)."
+            type: environment
+      - id: social_opportunity
+        name: Social opportunity
+        definition: Opportunity provided by the cultural and social setting, including what is normal and acceptable in the person's group.
+        confidence: high
+        signals: [culture, norms, stigma, family, peers, community, expected, acceptable, shame, taboo, social pressure, language]
+        strategies:
+          - text: "Restriction, environmental restructuring, and enablement."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Share reporting that people important to them support the behavior."
+            type: belief
+      - id: reflective_motivation
+        name: Reflective motivation
+        definition: Motivation that comes from evaluations and plans (conscious thinking about whether to act).
+        confidence: high
+        signals: [don't see the point, not important, no reason, beliefs, plans, intentions, goals, evaluate, decide]
+        strategies:
+          - text: "Education, persuasion (using communication to induce feelings or stimulate action), incentivisation (creating an expectation of reward), and coercion (creating an expectation of cost or punishment)."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Share with a stated intention or plan, and share who followed it."
+            type: behavior
+      - id: automatic_motivation
+        name: Automatic motivation
+        definition: Motivation that comes from emotions, impulses, and habits formed through associative learning.
+        confidence: high
+        signals: [habit, impulse, craving, emotional, automatic, cue, routine, comfort, stress, trigger, addiction]
+        strategies:
+          - text: "Persuasion, incentivisation, coercion, modelling (providing an example to aspire to or imitate), environmental restructuring, and enablement."
+            basis: source
+            source: bcw-2011
+        measures:
+          - text: "Share who report the habit or trigger less often (tracking item), at baseline and follow-up."
+            type: behavior
+  # ------------------------------------------------------------------------------------------
+  - id: sdt
+    name: Self-Determination Theory
+    abbreviation: SDT
+    level: individual
+    kind: explanatory theory
+    summary: >-
+      Lasting behavior change is more likely when motivation is autonomous (the person values or
+      enjoys the behavior) than controlled (done for reward, punishment, or approval), and when
+      three basic psychological needs are met: autonomy, competence, and relatedness.
+    best_for:
+      - Long-term behaviors such as physical activity, where keeping motivation matters more than starting.
+      - Programs that use incentives or rules and want to avoid undermining people's own reasons.
+    limits:
+      - The review read applies SDT to exercise; its use for other health behaviors was not examined here.
+      - Controlled forms of motivation may drive short-term behavior but are not expected to sustain it, so an incentive-only design is a risk for maintenance.
+    sources: [sdt-exercise-2012]
+    constructs:
+      - id: autonomy
+        name: Autonomy
+        definition: A basic need to feel that one's actions are self-chosen and self-endorsed.
+        confidence: high
+        signals: [forced, mandated, told to, pressured, no choice, no say, controlling, nagging, compliance, required]
+        strategies:
+          - text: Offer real choices, explain the reasons, and ask for the person's goals instead of assigning them.
+            basis: authored
+        measures:
+          - text: "Share who report choosing their own goals or activities (item)."
+            type: belief
+      - id: competence
+        name: Competence
+        definition: A basic need to feel effective and capable; it varies with success or failure at challenging tasks and with feedback.
+        confidence: high
+        signals: [fail, failure, can't do, discouraged, too hard, incompetent, not good at, no progress, feedback]
+        strategies:
+          - text: Set achievable steps and give specific, supportive feedback on progress.
+            basis: authored
+        measures:
+          - text: "Share reaching each step goal; participants' rating of how well they are doing."
+            type: behavior
+      - id: relatedness
+        name: Relatedness
+        definition: A basic need for personal connection with others in the activity.
+        confidence: high
+        signals: [alone, isolated, lonely, no one to, connection, belonging, group, buddy, welcome, included, excluded]
+        strategies:
+          - text: Build in group or buddy activities and a welcoming, inclusive climate.
+            basis: authored
+        measures:
+          - text: "Share who report feeling connected to others in the program (item), and attendance at group sessions."
+            type: process
+      - id: intrinsic_motivation
+        name: Intrinsic motivation
+        definition: Doing the activity because it is inherently satisfying (enjoyment, skill use, accomplishment).
+        confidence: high
+        signals: [enjoy, fun, boring, like it, interest, love, dread, chore]
+        strategies:
+          - text: Choose activities people enjoy and make the experience itself rewarding.
+            basis: authored
+        measures:
+          - text: "Share who say they enjoy the activity (item)."
+            type: belief
+      - id: controlled_motivation
+        name: Controlled extrinsic motivation
+        definition: Doing it to comply with outside rewards or punishments (external regulation) or for self-approval (introjected regulation); expected to drive short-term behavior but not long-term maintenance.
+        confidence: high
+        signals: [incentive, reward, prize, gift card, penalty, required, compliance, guilt, to please, because I have to, points]
+        strategies:
+          - text: Use incentives cautiously and pair them with support for the person's own reasons, so behavior can continue when the incentive ends.
+            basis: authored
+        measures:
+          - text: "Share still doing the behavior after the incentive stopped (follow-up)."
+            type: behavior
+      - id: autonomous_extrinsic
+        name: Autonomous extrinsic motivation
+        definition: Doing the activity because the person values its results and chooses it (identified or integrated regulation), for example exercising to stay healthy.
+        confidence: high
+        signals: [values, important to me, my health, for my family, wants to be healthy, personal goal, meaningful]
+        strategies:
+          - text: Help the person connect the behavior to what they value (a personal reason) through a goal conversation.
+            basis: authored
+        measures:
+          - text: "Share who give a personal reason for the behavior (open item coded into categories)."
+            type: belief
