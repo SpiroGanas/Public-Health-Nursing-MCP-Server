@@ -46,7 +46,10 @@ meta:
     cover a theory (high confidence); definitions are paraphrases of what those reviews say
     (medium to high). The primary theory papers were not read; check a definition there before
     quoting it in a grant or paper. Strategies marked authored and all measure ideas are this
-    project's drafts (medium to low confidence) and need your judgment. Not covered: the Health
+    project's drafts (medium to low confidence) and need your judgment. The sources name the five
+    Transtheoretical Model stages and the five Diffusion of Innovations attributes but do not
+    define them, so those short descriptions are the project's own wording (medium confidence),
+    and 'processes of change' has no description from the sources (low confidence). Not covered: the Health
     Action Process Approach, the Information-Motivation-Behavioral Skills model, the Extended
     Parallel Process Model, social marketing, community readiness, and intervention mapping (no
     source was read for them).
@@ -134,8 +137,9 @@ how_to_choose:
     source: hiv-theory-2012
   - text: >-
       Theories and frameworks differ: a theory explains how things relate and lets you predict an
-      outcome; a framework organizes what to consider. The Socio-Ecological Model and COM-B are
-      used here as frameworks for deciding where to act, the others as theories to test.
+      outcome; a framework organizes what to consider. This project treats the Socio-Ecological
+      Model, Diffusion of Innovations, and COM-B as frameworks for deciding where to act, and the
+      others as theories to test (the project's own classification).
     source: theory-scoping-2015
   - text: >-
       You do not need one theory. Programs often combine a person-level theory (what moves one
@@ -347,8 +351,7 @@ theories:
             basis: source
             source: sct-cancer-2015
           - text: Change the environment so the behavior is easier (environmental restructuring).
-            basis: source
-            source: sct-cancer-2015
+            basis: authored
         measures:
           - text: "Share who report each barrier at baseline and follow-up (checklist)."
             type: belief
@@ -366,7 +369,7 @@ theories:
       - Formative research, where a short survey of attitude, norm, and control tells you which to target.
     limits:
       - A meta-analysis cited in a 2014 review found that attitude, norms, and perceived control accounted for about 39% of the variance in intention, and intention for about 25% of the variance in behavior, so most of the variation is left unexplained.
-      - Subjective norms are generally the weakest predictor, which that review attributes partly to how it is measured.
+      - That review calls subjective norm generally a poor predictor, possibly because of how it is measured.
       - Intention does not help if the person has no real control (no access, no money).
     sources: [tpb-diet-2014, hiv-theory-2012]
     constructs:
@@ -443,14 +446,14 @@ theories:
       - Behaviors with ongoing change over time, such as tobacco, physical activity, nutrition, weight, and substance use.
       - One-to-one or small-group counseling where the person's readiness can be assessed.
     limits:
-      - The 2019 systematic review found most studies used only the stages and a few reported weak results (smoking cessation, diet in people with diabetes, and physical activity in young people).
+      - The 2019 systematic review found most studies examined only the stages of change, and a few reported weak results (smoking cessation, diet in people with diabetes, and physical activity in young people).
       - Staging describes readiness; it does not say what will work for a given stage, so strategies here are suggestions.
     sources: [ttm-review-2019, hiv-theory-2012, sct-cancer-2015]
     constructs:
       - id: precontemplation
         name: Precontemplation
-        definition: Not considering the change.
-        confidence: high
+        definition: Not considering the change. (The review names this stage; the description is the project's wording.)
+        confidence: medium
         signals: [not interested, not ready, refuse, no plans, doesn't see a problem, precontemplation, in denial, don't want to change]
         strategies:
           - text: Raise awareness gently and ask permission; do not push for action.
@@ -460,8 +463,8 @@ theories:
             type: behavior
       - id: contemplation
         name: Contemplation
-        definition: Thinking about changing, but not yet decided.
-        confidence: high
+        definition: Thinking about changing, but not yet decided. (The review names this stage; the description is the project's wording.)
+        confidence: medium
         signals: [thinking about, considering, maybe, on the fence, ambivalent, contemplating, might]
         strategies:
           - text: Explore the pros and cons together and respond to concerns.
@@ -471,8 +474,8 @@ theories:
             type: behavior
       - id: preparation
         name: Preparation
-        definition: Getting ready to act, often with small steps taken.
-        confidence: high
+        definition: Getting ready to act, often with small steps taken. (The review names this stage; the description is the project's wording.)
+        confidence: medium
         signals: [getting ready, plan, preparing, signed up, preparation, soon, next month, want help starting]
         strategies:
           - text: Help the person set a specific plan, date, and first step.
@@ -482,8 +485,8 @@ theories:
             type: behavior
       - id: action
         name: Action
-        definition: Actively doing the new behavior.
-        confidence: high
+        definition: Actively doing the new behavior. (The review names this stage; the description is the project's wording.)
+        confidence: medium
         signals: [started, just started, trying, doing it now, in the program, new habit, early days]
         strategies:
           - text: Support early success and problem-solve slips; arrange regular contact.
@@ -493,8 +496,8 @@ theories:
             type: behavior
       - id: maintenance
         name: Maintenance
-        definition: Keeping the new behavior going over time; the model allows return to an earlier stage.
-        confidence: high
+        definition: Keeping the new behavior going over time; the model allows return to an earlier stage. (The review names this stage; the description is the project's wording.)
+        confidence: medium
         signals: [keep it up, sustain, long term, relapse, slip, backslide, maintain, stick with it, drop out, dropout]
         strategies:
           - text: Plan for relapse and high-risk situations, and keep a low-intensity contact going.
@@ -504,8 +507,8 @@ theories:
             type: behavior
       - id: processes_of_change
         name: Processes of change
-        definition: The strategies and experiences people use to move between stages (the model treats these as one of the factors that control movement between stages).
-        confidence: medium
+        definition: One of the three factors the review names as controlling movement between stages, with decisional balance and self-efficacy. The review does not define it further, so no description from the model's authors was read.
+        confidence: low
         signals: [what helps, strategies people use, coping, how people change, support, rewards]
         strategies:
           - text: Match the activity to the stage (information and reflection early, planning and support later).
@@ -631,8 +634,8 @@ theories:
     constructs:
       - id: relative_advantage
         name: Relative advantage
-        definition: How much better the innovation is seen to be than what it replaces.
-        confidence: high
+        definition: How much better the innovation is seen to be than what it replaces. (The review names this attribute; the description is the project's wording.)
+        confidence: medium
         signals: [better than, why change, current way works, no advantage, already do this, same as before, not better]
         strategies:
           - text: Show, with local data or a pilot, what the new practice does better.
@@ -642,8 +645,8 @@ theories:
             type: belief
       - id: compatibility
         name: Compatibility
-        definition: How well the innovation fits with existing values, routines, and needs.
-        confidence: high
+        definition: How well the innovation fits with existing values, routines, and needs. (The review names this attribute; the description is the project's wording.)
+        confidence: medium
         signals: [doesn't fit, workflow, culture, values, routine, our way, not how we do, conflicts with, fit]
         strategies:
           - text: Adapt the practice to existing workflow and cultural norms with the people who will use it.
@@ -653,8 +656,8 @@ theories:
             type: belief
       - id: complexity
         name: Complexity
-        definition: How difficult the innovation is to understand and use.
-        confidence: high
+        definition: How difficult the innovation is to understand and use. (The review names this attribute; the description is the project's wording.)
+        confidence: medium
         signals: [too complicated, complex, hard to use, too many steps, confusing, burden, paperwork, training needed]
         strategies:
           - text: Simplify steps, provide job aids and training, and remove unnecessary requirements.
@@ -664,8 +667,8 @@ theories:
             type: process
       - id: trialability
         name: Trialability
-        definition: Whether the innovation can be tried on a small scale before committing.
-        confidence: high
+        definition: Whether the innovation can be tried on a small scale before committing. (The review names this attribute; the description is the project's wording.)
+        confidence: medium
         signals: [pilot, trial, try it first, small scale, test, commitment, risk of trying]
         strategies:
           - text: Offer a time-limited or small-scale trial before full adoption.
@@ -675,8 +678,8 @@ theories:
             type: behavior
       - id: observability
         name: Observability
-        definition: How visible the results of the innovation are to others.
-        confidence: high
+        definition: How visible the results of the innovation are to others. (The review names this attribute; the description is the project's wording.)
+        confidence: medium
         signals: [can't see results, no one sees, visible, results unclear, show results, word of mouth, nobody knows it works]
         strategies:
           - text: Share results where potential adopters can see them (data dashboards, site visits, stories).

@@ -1245,7 +1245,15 @@ async fn no_row_level_data_is_returned_by_default() {
                                 "target": 1}]}),
             ll,
         ),
-        // An organization list with contact people used as the results file.
+        // Staff names under a header the detector does not know, used as the period column,
+        // and an organization list with contact people used as the results file: refused
+        // without echoing a value.
+        (
+            "track_program_performance",
+            json!({"path": "program_outcomes_long.csv", "period_column": "Reported By",
+                   "count_rows": true, "targets": [{"measure": "Records", "target": 5}]}),
+            "data/program_outcomes_long.csv",
+        ),
         (
             "track_program_performance",
             json!({"path": "food_pantries.csv", "period_column": "Type", "count_rows": true,

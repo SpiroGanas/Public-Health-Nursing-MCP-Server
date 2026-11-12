@@ -22,7 +22,7 @@
   Socio-Ecological Model, Diffusion of Innovations, COM-B with the Behaviour Change Wheel, and
   Self-Determination Theory), with the strategy and measure ideas for each construct. Constructs
   are paraphrased from nine open-access papers read through PubMed Central and CDC's
-  social-ecological model page; 25 of the 62 strategies come from a published table (the Social
+  social-ecological model page; 24 of the 62 strategies come from a published table (the Social
   Cognitive Theory construct-to-technique table, the Behaviour Change Wheel's links, CDC's
   examples) and the rest are marked as the project's own suggestions. Barriers are matched to
   constructs by whole-word signals and planned components to strategies that share a word; the
@@ -56,7 +56,7 @@
 | 10 | "Track my program in program_metrics.csv. Period column Month, 12 months in the year. Clients enrolled target 400; screening rate is Participants screened over Participants eligible, target 80 percent; sessions held target 130; housing referrals target 60." | `track_program_performance` | Clients enrolled 340 of 400 (85.0 percent, expected 400 by now, Behind); screening 76.8 percent pooled (not 76.2, the mean of months), Below target; sessions held 120 of 130, On track, with a run-chart signal for the steady rise; housing referrals "Not shown" because five months have counts under 5, with totals withheld. No contact person, phone, or email appears in the chat. Open the workbook in Excel and check the Summary formulas recalculate when you add a row to Data, and that the report shows the hidden counts. |
 | 11 | "Compare program_outcomes_long.csv with targets: controlled blood pressure 70 percent, home visits 240. Quarters in the year: 4. Period column Quarter, outcome column Outcome, value column Value, denominator column Denominator." | `track_program_performance` | Quarters sort 2025 Q3 to 2026 Q2; blood pressure 70.4 percent pooled, Met; home visits 215 of 240, Behind (215 is just under 90 percent of the pace needed). Staff names and emails in the unread columns do not appear. |
 | 12 | "Count the cases in line_list.csv by month and tell me whether there is a shift." | `track_program_performance` (`count_rows`) | Counts by month only (no dates, names, or case IDs); small counts hidden; with under six months, no trend rules and a note saying so. |
-| 13 | "Track line_list.csv by Last Name." | `track_program_performance` | Refused: the column cannot be analyzed; no name appears. |
+| 13 | "Track line_list.csv by Last Name." Then: "Use program_outcomes_long.csv with Reported By as the period column." | `track_program_performance` | Both refused without echoing a value: the first because the column holds names, the second because its values do not look like reporting periods (dates, a number, or a month or season name). |
 
 ## Content review
 
@@ -69,9 +69,12 @@
   reviews use five, CDC's page four, and the file uses the five with CDC's examples on four of
   them); (2) the Diffusion of Innovations entry (only the five innovation attributes and the
   opinion leader, change agent, and gatekeeper roles were in a source read; Rogers' adopter
-  categories are not included); (3) the 37 strategies marked "authored" (this project's plain
+  categories are not included); (3) the 38 strategies marked "authored" (this project's plain
   language suggestions, medium to low confidence, for example the stage-matched strategies for the
-  Transtheoretical Model, which no source linked to stages); (4) every measure idea (indicator
+  Transtheoretical Model, which no source linked to stages); (3b) the Transtheoretical Model
+  stage descriptions and the Diffusion of Innovations attribute descriptions (medium: the sources
+  name them but do not define them, so the wording is the project's) and "processes of change"
+  (low: no description was read); (4) every measure idea (indicator
   ideas, not validated instruments; no survey instrument is copied); (5) the "signals" lists that
   match a nurse's words to constructs (a matching aid; add the words your barriers use). Not
   covered because no source was read: the Health Action Process Approach, the
@@ -104,6 +107,12 @@
   `www.cdc.gov` pages for HI-5 are gone (404 or 403), and www.ncbi.nlm.nih.gov web pages, Europe
   PMC, Crossref, and doi.org are not reachable; NCBI E-utilities (PubMed and PMC full text for
   open-access papers) are, and were the way to read theory papers.
+- **Terms of use not read.** The Community Guide's and County Health Rankings' terms of use, and
+  the National Library of Medicine's PubMed data policy pages (`www.nlm.nih.gov` and
+  `www.ncbi.nlm.nih.gov` are not reachable), could not be read. The snapshot keeps to PubMed
+  bibliographic data plus short abstract quotations with attribution (as the USPSTF snapshot does)
+  and links to the sources; the nurse or the project owner should confirm that is acceptable
+  before the snapshot is published in an image.
 - **Evidence tool limits.** Ratings are per paper, not per intervention, and appear only when the
   abstract (or, for six, the title) says them: 49 of 145 papers have rating words in the abstract
   and 41 have no abstract in PubMed. A paper can be updated or archived after

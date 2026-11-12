@@ -249,6 +249,24 @@ async fn related_words_and_kind_filters_work() {
             .as_str()
             .is_some_and(|u| u.contains("updated or archived"))
     }));
+    // The words the nurse typed count more than the synonyms the tool adds: a search for
+    // fluoride varnish finds the 2025 school fluoride review in the first three.
+    let fv = call_ok(
+        &h,
+        "find_evidence_based_interventions",
+        json!({"topic": "fluoride varnish", "include_live": false}),
+    )
+    .await;
+    assert!(
+        fv["data"]["matches"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .take(3)
+            .any(|m| m["published"].as_str().unwrap().starts_with("2025")),
+        "{}",
+        fv["data"]["matches"]
+    );
     // A topic with no words in the snapshot says so and points to the sites.
     let none = call_ok(
         &h,
@@ -763,7 +781,26 @@ async fn performance_refuses_identifier_columns_and_explains_problems() {
                "targets": [{"measure": "Missing outcome", "target": 5}]}),
     )
     .await;
-    assert!(e.contains("Measures in that column"), "{e}");
+    assert!(e.contains("Check the spelling"), "{e}");
+    // The values of the column are never listed (they could be names).
+    assert!(
+        !e.contains("Home visits completed") && !e.contains("Adults with"),
+        "{e}"
+    );
+    // A column that is not a period (here, a column of staff names the detector does not
+    // recognize) is refused without echoing a value.
+    let e = call_err(
+        &h,
+        "track_program_performance",
+        json!({"path": "program_outcomes_long.csv", "period_column": "Reported By",
+               "count_rows": true, "targets": [{"measure": "Records", "target": 5}]}),
+    )
+    .await;
+    assert!(e.contains("do not look like reporting periods"), "{e}");
+    assert!(
+        leaks(&e, "data/program_outcomes_long.csv", None).is_empty(),
+        "{e}"
+    );
     let e = call_err(
         &h,
         "track_program_performance",

@@ -3231,7 +3231,7 @@ typed in.
 
 Privacy: the file is read through `phn_tools::localdata`, and only the named columns are read;
 identifier columns are refused, other columns (including contact people) are never read or
-returned, and period labels that look like identifiers are refused. Only counts by period are
+returned. Period labels must be dates, labels with a number (2025-Q1, Cohort 3), or month or season names, so a column of names the identifier detector does not recognize is refused as a period column, and the values of the measure column are never listed in an error. Only counts by period are
 returned: a count from 1 to the threshold minus 1 (or, for a percentage, a numerator, a
 denominator, or the remainder that small) is hidden, and the measure's totals, progress, center
 line, and status are then withheld because they would reveal it. The report, workbook, and charts

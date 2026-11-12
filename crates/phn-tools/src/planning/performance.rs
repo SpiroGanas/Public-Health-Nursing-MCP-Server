@@ -349,6 +349,21 @@ pub(crate) fn text_period_key(label: &str) -> Option<(i32, u32)> {
     Some((year?, ord.unwrap_or(0)))
 }
 
+/// True when a text label looks like a period: it contains a digit, or every word is a month or
+/// season name.
+pub(crate) fn period_like(label: &str) -> bool {
+    if label.chars().any(|c| c.is_ascii_digit()) {
+        return true;
+    }
+    const SEASONS: [&str; 5] = ["spring", "summer", "fall", "autumn", "winter"];
+    let w = words(label);
+    !w.is_empty()
+        && w.iter().all(|t| {
+            SEASONS.contains(&t.as_str())
+                || (t.len() >= 3 && t.len() <= 9 && MONTHS.iter().any(|m| t.starts_with(m)))
+        })
+}
+
 fn numeric_column(lt: &LocalTable, name: &str) -> Result<Vec<Option<f64>>> {
     let idx = lt.column(name)?;
     let (v, share) = lt.numeric(idx);
@@ -440,6 +455,17 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
             return Err(PhnError::Privacy(format!(
                 "values in column '{}' look like identifiers, so it cannot be used as the period \
                  column",
+                args.period_column
+            )));
+        }
+        // A period label must look like a period: it has a number (2025-Q1, Cohort 3, Week 12) or
+        // is a month or season name. This keeps a column of names that the identifier detector
+        // does not recognize from being echoed back as "periods".
+        if uniq.iter().any(|l| !period_like(l)) {
+            return Err(PhnError::InvalidInput(format!(
+                "values in column '{}' do not look like reporting periods. Use a column with dates \
+                 or period labels that include a number or a month, such as 2025-Q1, Jan 2025, \
+                 FY26 Q2, or Cohort 3",
                 args.period_column
             )));
         }
@@ -542,13 +568,17 @@ fn load(ctx: &Context, args: &PerformanceArgs, specs: &[Spec]) -> Result<Loaded>
         }
         for sp in specs {
             if !found.contains(&sp.measure) {
-                let mut names: Vec<String> = cats.iter().flatten().cloned().collect();
-                names.sort();
-                names.dedup();
+                // The values in the column are not listed: if it is the wrong column they could
+                // be names the identifier detector does not recognize.
+                let mut levels: Vec<&String> = cats.iter().flatten().collect();
+                levels.sort();
+                levels.dedup();
                 return Err(PhnError::InvalidInput(format!(
-                    "no rows have the measure '{}' in column '{mc}'. Measures in that column: {}",
+                    "no rows have the measure '{}' in column '{mc}' (that column has {} different \
+                     values). Check the spelling against that column in your file (capitals do \
+                     not matter), or the column name",
                     sp.measure,
-                    names.join(", ")
+                    levels.len()
                 )));
             }
         }
@@ -1902,6 +1932,24 @@ mod tests {
         m.sort_by_key(|l| text_period_key(l).unwrap());
         assert_eq!(m, vec!["2025-12", "January 2026", "Mar 2026"]);
         assert_eq!(text_period_key("Spring cohort"), None);
+    }
+
+    #[test]
+    fn only_period_like_labels_are_accepted() {
+        for ok in [
+            "2025-07", "Q3 2025", "FY26 Q2", "Cohort 3", "Week 12", "January", "Spring", "Jan-Feb",
+        ] {
+            assert!(period_like(ok), "{ok}");
+        }
+        for bad in [
+            "Evangeline Thistlewood",
+            "Food pantry",
+            "North site",
+            "Marcus Hale",
+            "",
+        ] {
+            assert!(!period_like(bad), "{bad}");
+        }
     }
 
     #[test]
