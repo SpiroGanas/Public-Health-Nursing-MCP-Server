@@ -1,0 +1,845 @@
+{
+ "format_version": 1,
+ "description": "USPSTF A and B recommendations read from the Task Force's published recommendation statements (abstracts, via PubMed). Grade, population, and recommendation wording are copied from the abstracts.",
+ "retrieved": "2026-11-12",
+ "not_included": [
+  "Statements published before 2015 (for example, 2008 statements on newborn screening for hearing loss, phenylketonuria, congenital hypothyroidism, and sickle cell disease) are not included because their current USPSTF status could not be checked from here.",
+  "Any statement PubMed does not return for the Corporate Author 'US Preventive Services Task Force', and anything published after the retrieval date, is not included.",
+  "Grades C, D, and I are not listed. Recommendations the Task Force has archived or is updating (draft statements) are not reflected."
+ ],
+ "statements": [
+  {
+   "pmid": "28873168",
+   "title": "Vision Screening in Children Aged 6 Months to 5 Years: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2017-09-05",
+   "doi": "10.1001/jama.2017.11260",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2017.11260",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28873168/"
+  },
+  {
+   "pmid": "29558558",
+   "title": "Behavioral Counseling to Prevent Skin Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2018-03-20",
+   "doi": "10.1001/jama.2018.1623",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2018.1623",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/29558558/"
+  },
+  {
+   "pmid": "30140884",
+   "title": "Screening for Cervical Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2018-08-21",
+   "doi": "10.1001/jama.2018.10897",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2018.10897",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30140884/"
+  },
+  {
+   "pmid": "30326502",
+   "title": "Behavioral Weight Loss Interventions to Prevent Obesity-Related Morbidity and Mortality in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2018-09-18",
+   "doi": "10.1001/jama.2018.13022",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2018.13022",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30326502/"
+  },
+  {
+   "pmid": "30422199",
+   "title": "Screening and Behavioral Counseling Interventions to Reduce Unhealthy Alcohol Use in Adolescents and Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2018-11-13",
+   "doi": "10.1001/jama.2018.16789",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2018.16789",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30422199/"
+  },
+  {
+   "pmid": "30694327",
+   "title": "Ocular Prophylaxis for Gonococcal Ophthalmia Neonatorum: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-01-29",
+   "doi": "10.1001/jama.2018.21367",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2018.21367",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30694327/"
+  },
+  {
+   "pmid": "30747971",
+   "title": "Interventions to Prevent Perinatal Depression: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-02-12",
+   "doi": "10.1001/jama.2019.0007",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2019.0007",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/30747971/"
+  },
+  {
+   "pmid": "31184701",
+   "title": "Screening for HIV Infection: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-06-18",
+   "doi": "10.1001/jama.2019.6587",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2019.6587",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31184701/"
+  },
+  {
+   "pmid": "31334800",
+   "title": "Screening for Hepatitis B Virus Infection in Pregnant Women: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-07-23",
+   "doi": "10.1001/jama.2019.9365",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2019.9365",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31334800/"
+  },
+  {
+   "pmid": "31429903",
+   "title": "Risk Assessment, Genetic Counseling, and Genetic Testing for BRCA-Related Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-08-20",
+   "doi": "10.1001/jama.2019.10987",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2019.10987",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31429903/"
+  },
+  {
+   "pmid": "31479144",
+   "title": "Medication Use to Reduce Risk of Breast Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-09-03",
+   "doi": "10.1001/jama.2019.11885",
+   "population": null,
+   "url": "https://doi.org/10.1001/jama.2019.11885",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31479144/"
+  },
+  {
+   "pmid": "31550038",
+   "title": "Screening for Asymptomatic Bacteriuria in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-09-24",
+   "doi": "10.1001/jama.2019.13069",
+   "population": "This recommendation applies to community-dwelling adults 18 years and older and pregnant persons of any age without signs and symptoms of a urinary tract infection.",
+   "url": "https://doi.org/10.1001/jama.2019.13069",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31550038/"
+  },
+  {
+   "pmid": "31821437",
+   "title": "Screening for Abdominal Aortic Aneurysm: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2019-12-10",
+   "doi": "10.1001/jama.2019.18928",
+   "population": "This recommendation applies to asymptomatic adults 50 years or older. However, the randomized trial evidence focuses almost entirely on men aged 65 to 75 years.",
+   "url": "https://doi.org/10.1001/jama.2019.18928",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31821437/"
+  },
+  {
+   "pmid": "32119076",
+   "title": "Screening for Hepatitis C Virus Infection in Adolescents and Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-03-10",
+   "doi": "10.1001/jama.2020.1123",
+   "population": "This recommendation applies to all asymptomatic adults aged 18 to 79 years without known liver disease.",
+   "url": "https://doi.org/10.1001/jama.2020.1123",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32119076/"
+  },
+  {
+   "pmid": "32343336",
+   "title": "Primary Care Interventions for Prevention and Cessation of Tobacco Use in Children and Adolescents: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-04-28",
+   "doi": "10.1001/jama.2020.4679",
+   "population": "This recommendation applies to school-aged children and adolescents younger than 18 years.",
+   "url": "https://doi.org/10.1001/jama.2020.4679",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32343336/"
+  },
+  {
+   "pmid": "32515821",
+   "title": "Screening for Unhealthy Drug Use: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-06-09",
+   "doi": "10.1001/jama.2020.8020",
+   "population": "This recommendation statement applies to adults 18 years or older, including pregnant and postpartum persons, and adolescents aged 12 to 17 years in primary care settings. This statement does not apply to adolescents or adults who have a currently diagnosed drug use disorder or are currently undergoing or have been referred for drug use treatment. This statement applies to settings and populations for which services for accurate diagnosis, effective treatment, and appropriate care can be offered or referred.",
+   "url": "https://doi.org/10.1001/jama.2020.8020",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32515821/"
+  },
+  {
+   "pmid": "32809008",
+   "title": "Behavioral Counseling Interventions to Prevent Sexually Transmitted Infections: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-08-18",
+   "doi": "10.1001/jama.2020.13095",
+   "population": "This recommendation statement applies to all sexually active adolescents and to adults at increased risk for STIs.",
+   "url": "https://doi.org/10.1001/jama.2020.13095",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32809008/"
+  },
+  {
+   "pmid": "33231670",
+   "title": "Behavioral Counseling Interventions to Promote a Healthy Diet and Physical Activity for Cardiovascular Disease Prevention in Adults With Cardiovascular Risk Factors: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-11-24",
+   "doi": "10.1001/jama.2020.21749",
+   "population": "This recommendation statement applies to adults 18 years or older with known hypertension or elevated blood pressure, those with dyslipidemia, or those who have mixed or multiple risk factors such as metabolic syndrome or an estimated 10-year CVD risk of 7.5% or greater. Adults with other known modifiable cardiovascular risk factors such as abnormal blood glucose levels, obesity, and smoking are not included in this recommendation.",
+   "url": "https://doi.org/10.1001/jama.2020.21749",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33231670/"
+  },
+  {
+   "pmid": "33320230",
+   "title": "Screening for Hepatitis B Virus Infection in Adolescents and Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2020-12-15",
+   "doi": "10.1001/jama.2020.22980",
+   "population": "This recommendation statement applies to asymptomatic, nonpregnant adolescents and adults at increased risk for HBV infection, including those who were vaccinated before being screened for HBV infection.",
+   "url": "https://doi.org/10.1001/jama.2020.22980",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33320230/"
+  },
+  {
+   "pmid": "33464343",
+   "title": "Interventions for Tobacco Smoking Cessation in Adults, Including Pregnant Persons: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-01-19",
+   "doi": "10.1001/jama.2020.25019",
+   "population": "This recommendation statement applies to adults 18 years or older, including pregnant persons.",
+   "url": "https://doi.org/10.1001/jama.2020.25019",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33464343/"
+  },
+  {
+   "pmid": "33687470",
+   "title": "Screening for Lung Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-03-09",
+   "doi": "10.1001/jama.2021.1117",
+   "population": "This recommendation statement applies to adults aged 50 to 80 years who have a 20 pack-year smoking history and currently smoke or have quit within the past 15 years.",
+   "url": "https://doi.org/10.1001/jama.2021.1117",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33687470/"
+  },
+  {
+   "pmid": "33904861",
+   "title": "Screening for Hypertension in Adults: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-04-27",
+   "doi": "10.1001/jama.2021.4987",
+   "population": "Adults 18 years or older without known hypertension.",
+   "url": "https://doi.org/10.1001/jama.2021.4987",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33904861/"
+  },
+  {
+   "pmid": "34003218",
+   "title": "Screening for Colorectal Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-05-18",
+   "doi": "10.1001/jama.2021.6238",
+   "population": "Asymptomatic adults 45 years or older at average risk of colorectal cancer (ie, no prior diagnosis of colorectal cancer, adenomatous polyps, or inflammatory bowel disease; no personal diagnosis or family history of known genetic disorders that predispose them to a high lifetime risk of colorectal cancer [such as Lynch syndrome or familial adenomatous polyposis]).",
+   "url": "https://doi.org/10.1001/jama.2021.6238",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34003218/"
+  },
+  {
+   "pmid": "34032823",
+   "title": "Behavioral Counseling Interventions for Healthy Weight and Weight Gain in Pregnancy: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-05-25",
+   "doi": "10.1001/jama.2021.6949",
+   "population": "Pregnant adolescents and adults in primary care settings.",
+   "url": "https://doi.org/10.1001/jama.2021.6949",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34032823/"
+  },
+  {
+   "pmid": "34374716",
+   "title": "Screening for Gestational Diabetes: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-08-10",
+   "doi": "10.1001/jama.2021.11922",
+   "population": "Pregnant persons who have not been previously diagnosed with type 1 or type 2 diabetes.",
+   "url": "https://doi.org/10.1001/jama.2021.11922",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34374716/"
+  },
+  {
+   "pmid": "34427594",
+   "title": "Screening for Prediabetes and Type 2 Diabetes: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-08-24",
+   "doi": "10.1001/jama.2021.12531",
+   "population": "Nonpregnant adults aged 35 to 70 years seen in primary care settings who have overweight or obesity (defined as a body mass index ≥25 and ≥30, respectively) and no symptoms of diabetes.",
+   "url": "https://doi.org/10.1001/jama.2021.12531",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34427594/"
+  },
+  {
+   "pmid": "34519796",
+   "title": "Screening for Chlamydia and Gonorrhea: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-09-14",
+   "doi": "10.1001/jama.2021.14081",
+   "population": "Asymptomatic, sexually active adolescents and adults, including pregnant persons.",
+   "url": "https://doi.org/10.1001/jama.2021.14081",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34519796/"
+  },
+  {
+   "pmid": "34581729",
+   "title": "Aspirin Use to Prevent Preeclampsia and Related Morbidity and Mortality: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-09-28",
+   "doi": "10.1001/jama.2021.14781",
+   "population": "Pregnant persons at high risk for preeclampsia who have no prior adverse effects with or contraindications to low-dose aspirin.",
+   "url": "https://doi.org/10.1001/jama.2021.14781",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34581729/"
+  },
+  {
+   "pmid": "34874412",
+   "title": "Screening and Interventions to Prevent Dental Caries in Children Younger Than 5 Years: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2021-12-07",
+   "doi": "10.1001/jama.2021.20007",
+   "population": "Asymptomatic children younger than 5 years.",
+   "url": "https://doi.org/10.1001/jama.2021.20007",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34874412/"
+  },
+  {
+   "pmid": "35997723",
+   "title": "Statin Use for the Primary Prevention of Cardiovascular Disease in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2022-08-23",
+   "doi": "10.1001/jama.2022.13044",
+   "population": "Adults 40 years or older without a history of known CVD and who do not have signs and symptoms of CVD.",
+   "url": "https://doi.org/10.1001/jama.2022.13044",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/35997723/"
+  },
+  {
+   "pmid": "36166020",
+   "title": "Screening for Syphilis Infection in Nonpregnant Adolescents and Adults: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2022-09-27",
+   "doi": "10.1001/jama.2022.15322",
+   "population": "Asymptomatic, nonpregnant adolescents and adults who have ever been sexually active and are at increased risk for syphilis infection.",
+   "url": "https://doi.org/10.1001/jama.2022.15322",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36166020/"
+  },
+  {
+   "pmid": "36219403",
+   "title": "Screening for Anxiety in Children and Adolescents: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2022-10-11",
+   "doi": "10.1001/jama.2022.16936",
+   "population": "Children and adolescents 18 years or younger who do not have a diagnosed anxiety disorder or are not showing recognized signs or symptoms of anxiety.",
+   "url": "https://doi.org/10.1001/jama.2022.16936",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36219403/"
+  },
+  {
+   "pmid": "36219440",
+   "title": "Screening for Depression and Suicide Risk in Children and Adolescents: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2022-10-18",
+   "doi": "10.1001/jama.2022.16946",
+   "population": "Children and adolescents who do not have a diagnosed mental health condition or are not showing recognized signs or symptoms of depression or suicide risk.",
+   "url": "https://doi.org/10.1001/jama.2022.16946",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36219440/"
+  },
+  {
+   "pmid": "37129649",
+   "title": "Screening for Latent Tuberculosis Infection in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-05-02",
+   "doi": "10.1001/jama.2023.4899",
+   "population": "Asymptomatic adults 18 years or older at increased risk for tuberculosis.",
+   "url": "https://doi.org/10.1001/jama.2023.4899",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37129649/"
+  },
+  {
+   "pmid": "37338866",
+   "title": "Screening for Anxiety Disorders in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-06-27",
+   "doi": "10.1001/jama.2023.9301",
+   "population": "Asymptomatic adults 19 years or older, including pregnant and postpartum persons. Older adults are defined as those 65 years or older.",
+   "url": "https://doi.org/10.1001/jama.2023.9301",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37338866/"
+  },
+  {
+   "pmid": "37338872",
+   "title": "Screening for Depression and Suicide Risk in Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-06-20",
+   "doi": "10.1001/jama.2023.9297",
+   "population": "Asymptomatic adults 19 years or older, including pregnant and postpartum persons. Older adults are defined as those 65 years or older.",
+   "url": "https://doi.org/10.1001/jama.2023.9297",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37338872/"
+  },
+  {
+   "pmid": "37526713",
+   "title": "Folic Acid Supplementation to Prevent Neural Tube Defects: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-08-01",
+   "doi": "10.1001/jama.2023.12876",
+   "population": "Persons who are planning to or could become pregnant.",
+   "url": "https://doi.org/10.1001/jama.2023.12876",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37526713/"
+  },
+  {
+   "pmid": "37606666",
+   "title": "Preexposure Prophylaxis to Prevent Acquisition of HIV: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-08-22",
+   "doi": "10.1001/jama.2023.14461",
+   "population": "Adolescents and adults who do not have HIV and are at increased risk of HIV.",
+   "url": "https://doi.org/10.1001/jama.2023.14461",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37606666/"
+  },
+  {
+   "pmid": "37721605",
+   "title": "Screening for Hypertensive Disorders of Pregnancy: US Preventive Services Task Force Final Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2023-09-19",
+   "doi": "10.1001/jama.2023.16991",
+   "population": "Pregnant persons without a known diagnosis of a hypertensive disorder of pregnancy or chronic hypertension.",
+   "url": "https://doi.org/10.1001/jama.2023.16991",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37721605/"
+  },
+  {
+   "pmid": "38687503",
+   "title": "Screening for Breast Cancer: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2024-06-11",
+   "doi": "10.1001/jama.2024.5534",
+   "population": "Cisgender women and all other persons assigned female at birth aged 40 years or older at average risk of breast cancer.",
+   "url": "https://doi.org/10.1001/jama.2024.5534",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38687503/"
+  },
+  {
+   "pmid": "38833246",
+   "title": "Interventions to Prevent Falls in Community-Dwelling Older Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2024-07-02",
+   "doi": "10.1001/jama.2024.8481",
+   "population": "Community-dwelling adults 65 years or older at increased risk of falls.",
+   "url": "https://doi.org/10.1001/jama.2024.8481",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38833246/"
+  },
+  {
+   "pmid": "38888912",
+   "title": "Interventions for High Body Mass Index in Children and Adolescents: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2024-07-16",
+   "doi": "10.1001/jama.2024.11146",
+   "population": "Children and adolescents 6 years or older.",
+   "url": "https://doi.org/10.1001/jama.2024.11146",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38888912/"
+  },
+  {
+   "pmid": "39808425",
+   "title": "Screening for Osteoporosis to Prevent Fractures: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2025-02-11",
+   "doi": "10.1001/jama.2024.27154",
+   "population": "Adults 40 years or older without known osteoporosis or history of fragility fractures.",
+   "url": "https://doi.org/10.1001/jama.2024.27154",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39808425/"
+  },
+  {
+   "pmid": "40198087",
+   "title": "Primary Care Behavioral Counseling Interventions to Support Breastfeeding: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2025-05-06",
+   "doi": "10.1001/jama.2025.3650",
+   "population": "Adolescents and adults who are pregnant or postpartum, and their infants and children.",
+   "url": "https://doi.org/10.1001/jama.2025.3650",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40198087/"
+  },
+  {
+   "pmid": "40358930",
+   "title": "Screening for Syphilis Infection During Pregnancy: US Preventive Services Task Force Reaffirmation Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2025-06-10",
+   "doi": "10.1001/jama.2025.5009",
+   "population": "Adolescents and adults who are pregnant.",
+   "url": "https://doi.org/10.1001/jama.2025.5009",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40358930/"
+  },
+  {
+   "pmid": "40553450",
+   "title": "Screening for Intimate Partner Violence and Caregiver Abuse of Older or Vulnerable Adults: US Preventive Services Task Force Recommendation Statement.",
+   "journal": "JAMA",
+   "published": "2025-07-22",
+   "doi": "10.1001/jama.2025.9009",
+   "population": "The recommendation on screening for IPV applies to adolescents and adults who are pregnant or postpartum, and women of reproductive age. The recommendation on screening in older and vulnerable adults applies to persons without recognized signs and symptoms of abuse or neglect.",
+   "url": "https://doi.org/10.1001/jama.2025.9009",
+   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40553450/"
+  }
+ ],
+ "recommendations": [
+  {
+   "id": "hypertension_screening_adults",
+   "topic": "Hypertension in adults: screening",
+   "grade": "A",
+   "statement_pmid": "33904861",
+   "recommendation": "The USPSTF recommends screening for hypertension in adults 18 years or older with office blood pressure measurement. The USPSTF recommends obtaining blood pressure measurements outside of the clinical setting for diagnostic confirmation before starting treatment. (A recommendation)."
+  },
+  {
+   "id": "breast_cancer_screening",
+   "topic": "Breast cancer: screening",
+   "grade": "B",
+   "statement_pmid": "38687503",
+   "recommendation": "The USPSTF recommends biennial screening mammography for women aged 40 to 74 years. (B recommendation)"
+  },
+  {
+   "id": "breast_cancer_risk_reducing_medication",
+   "topic": "Breast cancer: medication use to reduce risk",
+   "grade": "B",
+   "statement_pmid": "31479144",
+   "recommendation": "The USPSTF recommends that clinicians offer to prescribe risk-reducing medications, such as tamoxifen, raloxifene, or aromatase inhibitors, to women who are at increased risk for breast cancer and at low risk for adverse medication effects. (B recommendation)"
+  },
+  {
+   "id": "brca_risk_assessment",
+   "topic": "BRCA-related cancer: risk assessment, genetic counseling, and genetic testing",
+   "grade": "B",
+   "statement_pmid": "31429903",
+   "recommendation": "The USPSTF recommends that primary care clinicians assess women with a personal or family history of breast, ovarian, tubal, or peritoneal cancer or who have an ancestry associated with BRCA1/2 gene mutations with an appropriate brief familial risk assessment tool. Women with a positive result on the risk assessment tool should receive genetic counseling and, if indicated after counseling, genetic testing. (B recommendation)"
+  },
+  {
+   "id": "cervical_cancer_screening_21_29",
+   "topic": "Cervical cancer: screening, ages 21 to 29",
+   "grade": "A",
+   "statement_pmid": "30140884",
+   "recommendation": "The USPSTF recommends screening for cervical cancer every 3 years with cervical cytology alone in women aged 21 to 29 years. (A recommendation)"
+  },
+  {
+   "id": "cervical_cancer_screening_30_65",
+   "topic": "Cervical cancer: screening, ages 30 to 65",
+   "grade": "A",
+   "statement_pmid": "30140884",
+   "recommendation": "The USPSTF recommends screening every 3 years with cervical cytology alone, every 5 years with hrHPV testing alone, or every 5 years with hrHPV testing in combination with cytology (cotesting) in women aged 30 to 65 years. (A recommendation)"
+  },
+  {
+   "id": "colorectal_cancer_screening_50_75",
+   "topic": "Colorectal cancer: screening, ages 50 to 75",
+   "grade": "A",
+   "statement_pmid": "34003218",
+   "recommendation": "The USPSTF recommends screening for colorectal cancer in all adults aged 50 to 75 years. (A recommendation)"
+  },
+  {
+   "id": "colorectal_cancer_screening_45_49",
+   "topic": "Colorectal cancer: screening, ages 45 to 49",
+   "grade": "B",
+   "statement_pmid": "34003218",
+   "recommendation": "The USPSTF recommends screening for colorectal cancer in adults aged 45 to 49 years. (B recommendation)"
+  },
+  {
+   "id": "lung_cancer_screening",
+   "topic": "Lung cancer: screening",
+   "grade": "B",
+   "statement_pmid": "33687470",
+   "recommendation": "The USPSTF recommends annual screening for lung cancer with LDCT in adults aged 50 to 80 years who have a 20 pack-year smoking history and currently smoke or have quit within the past 15 years. Screening should be discontinued once a person has not smoked for 15 years or develops a health problem that substantially limits life expectancy or the ability or willingness to have curative lung surgery. (B recommendation)"
+  },
+  {
+   "id": "tobacco_cessation_adults",
+   "topic": "Tobacco smoking cessation in adults (not pregnant)",
+   "grade": "A",
+   "statement_pmid": "33464343",
+   "recommendation": "The USPSTF recommends that clinicians ask all adults about tobacco use, advise them to stop using tobacco, and provide behavioral interventions and FDA-approved pharmacotherapy for cessation to nonpregnant adults who use tobacco. (A recommendation)"
+  },
+  {
+   "id": "tobacco_cessation_pregnancy",
+   "topic": "Tobacco smoking cessation in pregnant persons",
+   "grade": "A",
+   "statement_pmid": "33464343",
+   "recommendation": "The USPSTF recommends that clinicians ask all pregnant persons about tobacco use, advise them to stop using tobacco, and provide behavioral interventions for cessation to pregnant persons who use tobacco. (A recommendation)"
+  },
+  {
+   "id": "tobacco_prevention_youth",
+   "topic": "Tobacco use in children and adolescents: prevention",
+   "grade": "B",
+   "statement_pmid": "32343336",
+   "recommendation": "The USPSTF recommends that primary care clinicians provide interventions, including education or brief counseling, to prevent initiation of tobacco use among school-aged children and adolescents. (B recommendation)"
+  },
+  {
+   "id": "prediabetes_diabetes_screening",
+   "topic": "Prediabetes and type 2 diabetes: screening",
+   "grade": "B",
+   "statement_pmid": "34427594",
+   "recommendation": "The USPSTF recommends screening for prediabetes and type 2 diabetes in adults aged 35 to 70 years who have overweight or obesity. Clinicians should offer or refer patients with prediabetes to effective preventive interventions. (B recommendation)."
+  },
+  {
+   "id": "cvd_diet_activity_counseling",
+   "topic": "Healthy diet and physical activity for CVD prevention in adults with CVD risk factors: behavioral counseling",
+   "grade": "B",
+   "statement_pmid": "33231670",
+   "recommendation": "The USPSTF recommends offering or referring adults with CVD risk factors to behavioral counseling interventions to promote a healthy diet and physical activity. (B recommendation)."
+  },
+  {
+   "id": "statin_primary_prevention",
+   "topic": "Statin use for primary prevention of CVD in adults",
+   "grade": "B",
+   "statement_pmid": "35997723",
+   "recommendation": "The USPSTF recommends that clinicians prescribe a statin for the primary prevention of CVD for adults aged 40 to 75 years who have 1 or more CVD risk factors (ie, dyslipidemia, diabetes, hypertension, or smoking) and an estimated 10-year CVD risk of 10% or greater. (B recommendation)"
+  },
+  {
+   "id": "obesity_behavioral_intervention_adults",
+   "topic": "Weight loss to prevent obesity-related morbidity and mortality in adults: behavioral interventions",
+   "grade": "B",
+   "statement_pmid": "30326502",
+   "recommendation": "The USPSTF recommends that clinicians offer or refer adults with a body mass index of 30 or higher to intensive, multicomponent behavioral interventions. (B recommendation)."
+  },
+  {
+   "id": "falls_prevention_exercise",
+   "topic": "Falls prevention in community-dwelling older adults: exercise interventions",
+   "grade": "B",
+   "statement_pmid": "38833246",
+   "recommendation": "The USPSTF recommends exercise interventions to prevent falls in community-dwelling adults 65 years or older who are at increased risk for falls. (B recommendation)"
+  },
+  {
+   "id": "osteoporosis_screening_women_65_plus",
+   "topic": "Osteoporosis: screening in women 65 and older",
+   "grade": "B",
+   "statement_pmid": "39808425",
+   "recommendation": "The USPSTF recommends screening for osteoporosis to prevent osteoporotic fractures in women 65 years or older. (B recommendation)"
+  },
+  {
+   "id": "osteoporosis_screening_postmenopausal_under_65",
+   "topic": "Osteoporosis: screening in postmenopausal women under 65 at increased risk",
+   "grade": "B",
+   "statement_pmid": "39808425",
+   "recommendation": "The USPSTF recommends screening for osteoporosis to prevent osteoporotic fractures in postmenopausal women younger than 65 years who are at increased risk for an osteoporotic fracture as estimated by clinical risk assessment. (B recommendation)"
+  },
+  {
+   "id": "aaa_screening_men_65_75_ever_smoked",
+   "topic": "Abdominal aortic aneurysm: screening in men 65 to 75 who have ever smoked",
+   "grade": "B",
+   "statement_pmid": "31821437",
+   "recommendation": "The USPSTF recommends 1-time screening for AAA with ultrasonography in men aged 65 to 75 years who have ever smoked. (B recommendation)"
+  },
+  {
+   "id": "hepatitis_b_screening_increased_risk",
+   "topic": "Hepatitis B virus infection in adolescents and adults: screening",
+   "grade": "B",
+   "statement_pmid": "33320230",
+   "recommendation": "The USPSTF recommends screening for HBV infection in adolescents and adults at increased risk for infection. (B recommendation)."
+  },
+  {
+   "id": "hepatitis_b_screening_pregnancy",
+   "topic": "Hepatitis B virus infection in pregnant women: screening",
+   "grade": "A",
+   "statement_pmid": "31334800",
+   "recommendation": "The USPSTF recommends screening for HBV infection in pregnant women at their first prenatal visit. (A recommendation)."
+  },
+  {
+   "id": "hepatitis_c_screening",
+   "topic": "Hepatitis C virus infection in adolescents and adults: screening",
+   "grade": "B",
+   "statement_pmid": "32119076",
+   "recommendation": "The USPSTF recommends screening for HCV infection in adults aged 18 to 79 years. (B recommendation)."
+  },
+  {
+   "id": "hiv_screening_15_65",
+   "topic": "HIV infection: screening, ages 15 to 65 (and others at increased risk)",
+   "grade": "A",
+   "statement_pmid": "31184701",
+   "recommendation": "The USPSTF recommends screening for HIV infection in adolescents and adults aged 15 to 65 years. Younger adolescents and older adults who are at increased risk of infection should also be screened. (A recommendation)"
+  },
+  {
+   "id": "hiv_screening_pregnancy",
+   "topic": "HIV infection: screening in pregnant persons",
+   "grade": "A",
+   "statement_pmid": "31184701",
+   "recommendation": "The USPSTF recommends screening for HIV infection in all pregnant persons, including those who present in labor or at delivery whose HIV status is unknown. (A recommendation)."
+  },
+  {
+   "id": "hiv_prep",
+   "topic": "HIV: preexposure prophylaxis",
+   "grade": "A",
+   "statement_pmid": "37606666",
+   "recommendation": "The USPSTF recommends that clinicians prescribe preexposure prophylaxis using effective antiretroviral therapy to persons at increased risk of HIV acquisition to decrease the risk of acquiring HIV. (A recommendation)."
+  },
+  {
+   "id": "syphilis_screening_nonpregnant",
+   "topic": "Syphilis infection in nonpregnant adolescents and adults: screening",
+   "grade": "A",
+   "statement_pmid": "36166020",
+   "recommendation": "The USPSTF recommends screening for syphilis infection in persons who are at increased risk for infection. (A recommendation)."
+  },
+  {
+   "id": "syphilis_screening_pregnancy",
+   "topic": "Syphilis infection in pregnancy: screening",
+   "grade": "A",
+   "statement_pmid": "40358930",
+   "recommendation": "The USPSTF recommends early, universal screening for syphilis infection during pregnancy; if an individual is not screened early in pregnancy, the USPSTF recommends screening at the first available opportunity. (A recommendation)."
+  },
+  {
+   "id": "chlamydia_screening_women",
+   "topic": "Chlamydia: screening in sexually active women",
+   "grade": "B",
+   "statement_pmid": "34519796",
+   "recommendation": "The USPSTF recommends screening for chlamydia in all sexually active women 24 years or younger and in women 25 years or older who are at increased risk for infection. (B recommendation)"
+  },
+  {
+   "id": "gonorrhea_screening_women",
+   "topic": "Gonorrhea: screening in sexually active women",
+   "grade": "B",
+   "statement_pmid": "34519796",
+   "recommendation": "The USPSTF recommends screening for gonorrhea in all sexually active women 24 years or younger and in women 25 years or older who are at increased risk for infection. (B recommendation)"
+  },
+  {
+   "id": "sti_behavioral_counseling",
+   "topic": "Sexually transmitted infections: behavioral counseling",
+   "grade": "B",
+   "statement_pmid": "32809008",
+   "recommendation": "The USPSTF recommends behavioral counseling for all sexually active adolescents and for adults at increased risk for STIs. (B recommendation)."
+  },
+  {
+   "id": "latent_tb_screening",
+   "topic": "Latent tuberculosis infection in adults: screening",
+   "grade": "B",
+   "statement_pmid": "37129649",
+   "recommendation": "The USPSTF recommends screening for LTBI in populations at increased risk. (B recommendation)."
+  },
+  {
+   "id": "depression_screening_adults",
+   "topic": "Depression in adults (including pregnant and postpartum persons): screening",
+   "grade": "B",
+   "statement_pmid": "37338872",
+   "recommendation": "The USPSTF recommends screening for depression in the adult population, including pregnant and postpartum persons and older adults. (B recommendation)"
+  },
+  {
+   "id": "anxiety_screening_adults",
+   "topic": "Anxiety disorders in adults: screening",
+   "grade": "B",
+   "statement_pmid": "37338866",
+   "recommendation": "The USPSTF recommends screening for anxiety disorders in adults, including pregnant and postpartum persons. (B recommendation)"
+  },
+  {
+   "id": "depression_screening_adolescents",
+   "topic": "Major depressive disorder in adolescents 12 to 18: screening",
+   "grade": "B",
+   "statement_pmid": "36219440",
+   "recommendation": "The USPSTF recommends screening for MDD in adolescents aged 12 to 18 years. (B recommendation)"
+  },
+  {
+   "id": "anxiety_screening_children_adolescents",
+   "topic": "Anxiety in children and adolescents 8 to 18: screening",
+   "grade": "B",
+   "statement_pmid": "36219403",
+   "recommendation": "The USPSTF recommends screening for anxiety in children and adolescents aged 8 to 18 years. (B recommendation)"
+  },
+  {
+   "id": "perinatal_depression_prevention",
+   "topic": "Perinatal depression: preventive counseling interventions",
+   "grade": "B",
+   "statement_pmid": "30747971",
+   "recommendation": "The USPSTF recommends that clinicians provide or refer pregnant and postpartum persons who are at increased risk of perinatal depression to counseling interventions. (B recommendation)."
+  },
+  {
+   "id": "unhealthy_alcohol_screening",
+   "topic": "Unhealthy alcohol use in adults: screening and brief counseling",
+   "grade": "B",
+   "statement_pmid": "30422199",
+   "recommendation": "The USPSTF recommends screening for unhealthy alcohol use in primary care settings in adults 18 years or older, including pregnant women, and providing persons engaged in risky or hazardous drinking with brief behavioral counseling interventions to reduce unhealthy alcohol use. (B recommendation)"
+  },
+  {
+   "id": "unhealthy_drug_use_screening",
+   "topic": "Unhealthy drug use in adults: screening",
+   "grade": "B",
+   "statement_pmid": "32515821",
+   "recommendation": "The USPSTF recommends screening by asking questions about unhealthy drug use in adults 18 years or older. Screening should be implemented when services for accurate diagnosis, effective treatment, and appropriate care can be offered or referred. (Screening refers to asking questions about unhealthy drug use, not testing biological specimens.) (B recommendation)"
+  },
+  {
+   "id": "intimate_partner_violence_screening",
+   "topic": "Intimate partner violence: screening in women of reproductive age",
+   "grade": "B",
+   "statement_pmid": "40553450",
+   "recommendation": "The USPSTF recommends that clinicians screen for IPV in women of reproductive age, including those who are pregnant and postpartum. (B recommendation)"
+  },
+  {
+   "id": "folic_acid_supplementation",
+   "topic": "Folic acid supplementation to prevent neural tube defects",
+   "grade": "A",
+   "statement_pmid": "37526713",
+   "recommendation": "The USPSTF recommends that all persons planning to or who could become pregnant take a daily supplement containing 0.4 to 0.8 mg (400 to 800 μg) of folic acid. (A recommendation)."
+  },
+  {
+   "id": "preeclampsia_aspirin",
+   "topic": "Preeclampsia: low-dose aspirin for prevention",
+   "grade": "B",
+   "statement_pmid": "34581729",
+   "recommendation": "The USPSTF recommends the use of low-dose aspirin (81 mg/d) as preventive medication for preeclampsia after 12 weeks of gestation in persons who are at high risk for preeclampsia. (B recommendation)."
+  },
+  {
+   "id": "hypertensive_disorders_pregnancy_screening",
+   "topic": "Hypertensive disorders of pregnancy: screening",
+   "grade": "B",
+   "statement_pmid": "37721605",
+   "recommendation": "The USPSTF recommends screening for hypertensive disorders in pregnant persons with blood pressure measurements throughout pregnancy. (B recommendation)."
+  },
+  {
+   "id": "gestational_diabetes_screening",
+   "topic": "Gestational diabetes: screening at 24 weeks or later",
+   "grade": "B",
+   "statement_pmid": "34374716",
+   "recommendation": "The USPSTF recommends screening for gestational diabetes in asymptomatic pregnant persons at 24 weeks of gestation or after. (B recommendation)"
+  },
+  {
+   "id": "gestational_weight_gain_counseling",
+   "topic": "Healthy weight and weight gain in pregnancy: behavioral counseling",
+   "grade": "B",
+   "statement_pmid": "34032823",
+   "recommendation": "The USPSTF recommends that clinicians offer pregnant persons effective behavioral counseling interventions aimed at promoting healthy weight gain and preventing excess gestational weight gain in pregnancy. (B recommendation)."
+  },
+  {
+   "id": "breastfeeding_support",
+   "topic": "Breastfeeding: primary care behavioral counseling and support",
+   "grade": "B",
+   "statement_pmid": "40198087",
+   "recommendation": "The USPSTF recommends providing interventions or referrals, during pregnancy and after birth, to support breastfeeding. (B recommendation)."
+  },
+  {
+   "id": "asymptomatic_bacteriuria_pregnancy",
+   "topic": "Asymptomatic bacteriuria: screening in pregnant persons",
+   "grade": "B",
+   "statement_pmid": "31550038",
+   "recommendation": "The USPSTF recommends screening pregnant persons for asymptomatic bacteriuria using urine culture. (B recommendation)"
+  },
+  {
+   "id": "ocular_prophylaxis_newborns",
+   "topic": "Gonococcal ophthalmia neonatorum: ocular prophylaxis for newborns",
+   "grade": "A",
+   "statement_pmid": "30694327",
+   "recommendation": "The USPSTF recommends prophylactic ocular topical medication for all newborns to prevent gonococcal ophthalmia neonatorum. (A recommendation)."
+  },
+  {
+   "id": "fluoride_supplementation_children",
+   "topic": "Dental caries in children younger than 5: oral fluoride supplementation",
+   "grade": "B",
+   "statement_pmid": "34874412",
+   "recommendation": "The USPSTF recommends that primary care clinicians prescribe oral fluoride supplementation starting at age 6 months for children whose water supply is deficient in fluoride. (B recommendation)"
+  },
+  {
+   "id": "fluoride_varnish_children",
+   "topic": "Dental caries in children younger than 5: fluoride varnish",
+   "grade": "B",
+   "statement_pmid": "34874412",
+   "recommendation": "The USPSTF recommends that primary care clinicians apply fluoride varnish to the primary teeth of all infants and children starting at the age of primary tooth eruption. (B recommendation)"
+  },
+  {
+   "id": "vision_screening_children_3_5",
+   "topic": "Vision screening in children aged 3 to 5",
+   "grade": "B",
+   "statement_pmid": "28873168",
+   "recommendation": "The USPSTF recommends vision screening at least once in all children aged 3 to 5 years to detect amblyopia or its risk factors. (B recommendation)"
+  },
+  {
+   "id": "high_bmi_children_interventions",
+   "topic": "High body mass index in children and adolescents 6 and older: behavioral interventions",
+   "grade": "B",
+   "statement_pmid": "38888912",
+   "recommendation": "The USPSTF recommends that clinicians provide or refer children and adolescents 6 years or older with a high BMI (≥95th percentile for age and sex) to comprehensive, intensive behavioral interventions. (B recommendation)."
+  },
+  {
+   "id": "skin_cancer_counseling_young",
+   "topic": "Skin cancer: behavioral counseling for ages 6 months to 24 years with fair skin",
+   "grade": "B",
+   "statement_pmid": "29558558",
+   "recommendation": "The USPSTF recommends counseling young adults, adolescents, children, and parents of young children about minimizing exposure to UV radiation for persons aged 6 months to 24 years with fair skin types to reduce their risk of skin cancer. (B recommendation)"
+  }
+ ]
+}
