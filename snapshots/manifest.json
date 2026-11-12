@@ -1928,6 +1928,35 @@
           "rows": 361
         }
       ]
+    },
+    {
+      "id": "ma-dpp-programs",
+      "title": "Diabetes Prevention Programs in Massachusetts: DPH's list of active program sites",
+      "publisher": "Massachusetts Department of Public Health, Bureau of Community Health and Prevention",
+      "source_urls": [
+        "https://www.mass.gov/service-details/diabetes-prevention-programs-in-massachusetts"
+      ],
+      "source_sha256": {
+        "dph_dpp_page.html": "09cb4de721602344086b36cb4df1fe4157cceaeb1fa4dd584e66746b28f8eacb"
+      },
+      "source_vintage": "DPH page 'Diabetes Prevention Programs in Massachusetts', table 'Active MA DPPs' as retrieved 2026-11-12; the page shows no publication or update date",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts state government web content, bundled here as a short factual list (site names, addresses, organization phone numbers) with attribution; works of state governments may be protected by copyright, so confirm reuse terms with DPH before redistributing the file.",
+      "derivation": "The 73 rows of the 'Active MA DPPs' table (city/town, location, address, contact) of DPH's page. Each address was split into street, city, state, and ZIP; the city was resolved to one of the 351 municipalities (villages and neighborhoods such as Dorchester, Hyannis, Newtonville, and the spelling variants Foxboro, Middleboro, and North Attleboro were mapped by hand) and its county; one site is in New Hampshire (no municipality). DPH's contact column holds named program coordinators with personal work emails for 56 sites: names, emails, and phone numbers of named people are NOT kept (has_named_contact = yes). A phone number or email address is kept only for the 17 sites whose contact cell names no person. The page does not say which sites are CDC-recognized, the delivery mode (in person, online), the recognition status, or the date of the list; those columns do not exist. Builder: xtask/scripts/build_screen_snapshots.py (Python 3 standard library; --check mode).",
+      "caveats": [
+        "This is DPH's list, not the CDC Diabetes Prevention Recognition Program registry (dprp.cdc.gov and dprpdataportal.cdc.gov were not reachable from the build environment). CDC recognition status of each site was not verified.",
+        "The page shows no date; sites may have closed or changed. Call a site before referring.",
+        "Delivery mode is not stated. A site listed here is a place with a program, not proof of an in-person class today.",
+        "One ZIP code (Lanesborough, 02137) looks wrong on DPH's page and is kept as published."
+      ],
+      "files": [
+        {
+          "path": "ma_dpp_programs.csv",
+          "sha256": "74bab296c7196148a6e916ce8927d236834957486b57c22bd2516f057d8d8137",
+          "bytes": 7129,
+          "rows": 73
+        }
+      ]
     }
   ]
 }

@@ -1,0 +1,296 @@
+# CDC Prediabetes Risk Test scoring, National DPP lifestyle change program eligibility and
+# delivery modes, Medicare Diabetes Prevention Program coverage, and a plain-language client
+# handout, for diabetes_prevention_finder (CHR-03). The Massachusetts program sites are in the
+# snapshot ma-dpp-programs (snapshots/ma_dpp_programs.csv), not in this file.
+#
+# REVIEW STATUS: pending. Drafted from the CDC and CMS pages below, retrieved 2026-11-12.
+# Schema: content/schemas/chronic_diabetes_prevention.schema.json
+meta:
+  id: chronic-diabetes-prevention
+  title: Prediabetes Risk Test scoring, National DPP eligibility, delivery modes, and Medicare DPP coverage
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2024-05-15
+  source:
+    title: How Your Test is Scored (CDC Prediabetes Risk Test)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/widgets/risktest/how-your-test-is-scored.html
+  related_sources:
+    - title: Are You Eligible to Join the National DPP Lifestyle Change Program?
+      publisher: Centers for Disease Control and Prevention
+      url: https://www.cdc.gov/diabetes-prevention/eligible-lifestyle-change-program/index.html
+    - title: Medicare Diabetes Prevention Program (MDPP) Expanded Model
+      publisher: Centers for Medicare and Medicaid Services
+      url: https://www.cms.gov/priorities/innovation/innovation-models/medicare-diabetes-prevention-program
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The risk test points, the cut-off of 5 or higher (maximum 10), the BMI points (lower cut
+    point for Asian American people), the CDC example of BMI 21 for 5 feet 3 inches and 120
+    pounds, the program eligibility rules, the delivery modes, the program length, and the
+    Medicare program facts were read on CDC and CMS pages on 2026-11-12 (high confidence). CDC
+    says most of its web content is public domain; the test was developed with the American
+    Diabetes Association, so this file keeps only CDC's points and cut-offs and paraphrases the
+    questions rather than copying them. The tool computes BMI from height and weight with the
+    standard formula and applies CDC's BMI cut points; CDC's online test may use a height and
+    weight table, so a score at a BMI cut point can differ by a pound or two (not verified).
+    CDC's registry of recognized organizations (dprp.cdc.gov and dprpdataportal.cdc.gov) could
+    NOT be reached, so no program's CDC recognition status or delivery mode is bundled. No
+    source was found for MassHealth coverage of the lifestyle change program, so none is
+    stated. The handout is THIS PROJECT'S DRAFT in plain language (medium confidence).
+
+sources:
+  cdc-test-scoring:
+    title: How Your Test is Scored (Prediabetes Risk Test)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/widgets/risktest/how-your-test-is-scored.html
+    effective_date: null
+    retrieved: 2026-11-12
+  cdc-test-pdf:
+    title: Prediabetes Risk Test Results (CDC publication CS320610-A, December 2020)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes/widgets/risktest/pdf/prediabetes7of10.pdf
+    effective_date: 2020-12-17
+    retrieved: 2026-11-12
+  cdc-test-about:
+    title: About the Prediabetes Risk Test (last reviewed April 13, 2021)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/prediabetes/risktest/about-the-test.html
+    effective_date: 2021-04-13
+    retrieved: 2026-11-12
+  cdc-dpp-eligibility:
+    title: Are You Eligible to Join the National DPP Lifestyle Change Program? (May 15, 2024)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes-prevention/eligible-lifestyle-change-program/index.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-12
+  cdc-dpp-details:
+    title: About the Lifestyle Change Program (May 15, 2024)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes-prevention/lifestyle-change-program/lifestyle-change-program-details.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-12
+  cdc-dpp-find:
+    title: Find a Lifestyle Change Program (May 15, 2024)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes-prevention/lifestyle-change-program/find-a-program.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-12
+  cdc-dpp-overview:
+    title: Preventing Type 2 Diabetes with the Lifestyle Change Program (May 15, 2024)
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/diabetes-prevention/lifestyle-change-program/index.html
+    effective_date: 2024-05-15
+    retrieved: 2026-11-12
+  cms-mdpp:
+    title: Medicare Diabetes Prevention Program (MDPP) Expanded Model (page last modified October 29, 2026)
+    publisher: Centers for Medicare and Medicaid Services
+    url: https://www.cms.gov/priorities/innovation/innovation-models/medicare-diabetes-prevention-program
+    effective_date: 2026-10-29
+    retrieved: 2026-11-12
+  dph-dpp:
+    title: Diabetes Prevention Program (DPP) (Massachusetts DPH)
+    publisher: Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    url: https://www.mass.gov/service-details/diabetes-prevention-program-dpp
+    effective_date: null
+    retrieved: 2026-11-12
+  cdc-copyright:
+    title: CDC and ATSDR copyright and agency materials policy
+    publisher: Centers for Disease Control and Prevention
+    url: https://www.cdc.gov/other/agencymaterials.html
+    effective_date: 2026-10-28
+    retrieved: 2026-11-12
+
+risk_test:
+  name: CDC Prediabetes Risk Test
+  high_risk_at: 5
+  maximum: 10
+  scoring_note: >-
+    Points for each risk factor are added. A total of 5 points or higher is considered high
+    risk for having prediabetes. The test estimates risk only: only a blood test can diagnose
+    prediabetes (CDC).
+  source: cdc-test-scoring
+  items:
+    - id: age
+      label: Age
+      question: How old are you?
+      points:
+        - {when: under 40 years, points: 0}
+        - {when: 40 to 49 years, points: 1}
+        - {when: 50 to 59 years, points: 2}
+        - {when: 60 years or older, points: 3}
+    - id: sex
+      label: Sex
+      question: Are you a man or a woman? (Women are also asked if they ever had gestational diabetes.)
+      points:
+        - {when: man, points: 1}
+        - {when: woman, points: 0}
+        - {when: woman who has had gestational diabetes, points: 1}
+    - id: family_history
+      label: Family history
+      question: Do you have a mother, father, sister, or brother with diabetes?
+      points:
+        - {when: "yes", points: 1}
+        - {when: "no", points: 0}
+    - id: high_blood_pressure
+      label: High blood pressure
+      question: Have you ever been diagnosed with high blood pressure?
+      points:
+        - {when: "yes", points: 1}
+        - {when: "no", points: 0}
+    - id: physical_activity
+      label: Physical activity
+      question: Are you physically active?
+      points:
+        - {when: "yes", points: 0}
+        - {when: "no", points: 1}
+    - id: bmi
+      label: Body mass index (BMI)
+      question: What are your height and weight (the test turns them into a BMI)?
+      points:
+        - {when: below 25 (below 23 if Asian American), points: 0}
+        - {when: 25 to 29 (23 to 29 if Asian American), points: 1}
+        - {when: 30 to 39, points: 2}
+        - {when: 40 or higher, points: 3}
+  bmi:
+    formula: weight in pounds x 703 / (height in inches squared)
+    example: "CDC's example: a person 5 feet 3 inches tall who weighs 120 pounds has a BMI of 21, the normal range (18.5 to 24.9)."
+    overweight_from: 25
+    asian_overweight_from: 23
+    obese_from: 30
+    severe_from: 40
+  ethnicity_note: >-
+    CDC lists ethnicities at higher risk (African American, Hispanic/Latino, American Indian,
+    Asian American, and Pacific Islander people) but says the test uses ethnicity only to set
+    the BMI cut point for Asian American people.
+
+eligibility:
+  source: cdc-dpp-eligibility
+  must_meet_all:
+    - Be 18 years or older.
+    - Have a body mass index (BMI) of 25 or higher (23 or higher if you are an Asian American person).
+    - Not be previously diagnosed with type 1 or type 2 diabetes.
+    - Not be pregnant.
+  must_meet_one:
+    - "A blood test result in the prediabetes range within the past year: hemoglobin A1C 5.7% to 6.4%, fasting plasma glucose 100 to 125 mg/dL, or 2-hour plasma glucose (after a 75 g glucose load) 140 to 199 mg/dL."
+    - A previous diagnosis of gestational diabetes.
+    - A high-risk result (score of 5 or higher) on the Prediabetes Risk Test.
+  medicare_note: If you are enrolling in the Medicare Diabetes Prevention Program, different criteria apply (CDC). The tool does not apply them; see the CMS page.
+  a1c_range: [5.7, 6.4]
+  fasting_range: [100, 125]
+  two_hour_range: [140, 199]
+
+program:
+  source: cdc-dpp-details
+  facts:
+    - text: The program runs for 1 year. In the first 6 months participants meet about once a week; in the second 6 months, once or twice a month.
+      source: cdc-dpp-details
+      section: Time commitment
+      confidence: high
+    - text: A trained Lifestyle Coach leads a group that follows a CDC-approved curriculum. All offerings discuss the same topics over the year, and there is a Spanish-language curriculum, so some programs are offered completely in Spanish.
+      source: cdc-dpp-details
+      section: Key components; What you'll learn
+      confidence: high
+    - text: CDC says people who make certain lifestyle changes can cut their risk of type 2 diabetes in half. It is designed for people who have prediabetes or are at risk for type 2 diabetes but do not already have diabetes.
+      source: cdc-dpp-overview
+      section: Key points; Overview
+      confidence: high
+    - text: Massachusetts DPH describes groups of 8 to 15 people led by a trained Lifestyle Coach, and says the cost is set by each program and location, so ask the program coordinator.
+      source: dph-dpp
+      section: About DPP; Is there a fee?
+      confidence: medium
+  delivery_modes:
+    source: cdc-dpp-find
+    text: CDC says programs are offered through a variety of languages and modalities - in person sessions, live virtual sessions, non-live (on-demand) virtual sessions, or a combination. For the in-person option, the Lifestyle Coach and participants meet in a classroom or classroom-like setting. For the virtual options, participants can choose live, interactive group sessions by phone or video (for example Zoom) or on-demand sessions on a smartphone, tablet, or computer.
+    how_to_filter: CDC's Find a Lifestyle Change Program page lets a person enter a city, state, or ZIP code and choose a delivery mode and a preferred language, and marks organizations that are Medicare Diabetes Prevention Program (MDPP) suppliers. CDC's national registry lists the contact information and recognition status of all CDC-recognized organizations.
+  registry_gap: >-
+    CDC's registry (dprp.cdc.gov/Registry) and program locator (dprpdataportal.cdc.gov) could
+    not be read when this tool was built, so this tool cannot list online or distance-learning
+    providers, and cannot say which Massachusetts sites are CDC-recognized or how each is
+    delivered. Use the CDC page to find those and to check recognition status.
+
+medicare:
+  source: cms-mdpp
+  facts:
+    - text: The Medicare Diabetes Prevention Program (MDPP) is covered under Medicare Part B as a preventive service.
+      source: cms-mdpp
+      section: Overview
+      confidence: high
+    - text: MDPP is 16 weekly core sessions of the CDC-approved curriculum followed by 6 monthly follow-up sessions; Medicare pays for up to 22 sessions per eligible person.
+      source: cms-mdpp
+      section: Model details; Design
+      confidence: high
+    - text: Suppliers deliver the sessions in a group classroom setting, in a live virtual distance learning setting, or in a fully asynchronous online format.
+      source: cms-mdpp
+      section: Design
+      confidence: high
+    - text: The calendar year 2026 physician fee schedule final rule added coverage for asynchronous (online) delivery through December 31, 2029, and suppliers no longer need to keep in-person delivery sites to deliver the program online (through December 31, 2029). Weight can be self-reported.
+      source: cms-mdpp
+      section: Background
+      confidence: high
+  finder: CMS has an MDPP Supplier Finder (location and class type); CDC's locator also marks MDPP suppliers.
+  eligibility_gap: The MDPP eligibility criteria differ from the CDC program and were not read, so the tool does not check them. Check the CMS page.
+
+masshealth:
+  statement: >-
+    No source was found that says whether MassHealth covers the lifestyle change program, so
+    this tool makes no statement about MassHealth coverage. Ask MassHealth or the member's
+    plan.
+  confidence: low
+
+handout:
+  id: dpp_handout
+  title: Prediabetes risk and the lifestyle change program
+  sources: [cdc-test-scoring, cdc-dpp-details, cdc-dpp-overview]
+  markdown: |
+    # Prediabetes Risk And The Lifestyle Change Program
+
+    Date: {{date}}
+
+    Your risk test score: {{score}} out of 10
+
+    ## What your score means
+
+    A score of 5 or more means you may be at high risk for prediabetes. Prediabetes means your blood sugar is higher than normal but not high enough to be called diabetes. Most people with prediabetes do not know they have it.
+
+    A risk test is not a diagnosis. Only a blood test can tell you for sure. Please ask your doctor or nurse for a blood sugar test.
+
+    ## What you can do
+
+    Making healthy changes can cut your risk of type 2 diabetes in half. The lifestyle change program can help.
+
+    - It lasts 1 year.
+    - You meet in a group with a trained coach.
+    - You meet about once a week for the first 6 months.
+    - You meet once or twice a month for the next 6 months.
+    - You learn to eat healthy, be more active, and deal with stress.
+
+    ## Who can join
+
+    You can join if you are 18 or older, are not pregnant, and have not been told you have diabetes. Your body mass index must be 25 or higher. It must be 23 or higher if you are Asian American. You also need one of these:
+
+    - A blood test in the prediabetes range in the past year.
+    - Diabetes during a past pregnancy.
+    - A risk test score of 5 or more.
+
+    ## Where to find a program
+
+    Programs may be in person or online. Ask your nurse for programs near you.
+
+    For help, call: {{program_phone}}
+
+notices:
+  decision_support: >-
+    This tool scores a risk test and lists program sites as decision support. A risk score is
+    not a diagnosis. Confirm each program's current schedule, delivery mode, cost, and CDC
+    recognition status with the program or on CDC's registry before referring.
+  copyright: >-
+    CDC material is generally in the public domain; the CDC and ATSDR policy page asks for
+    attribution, a no-endorsement disclaimer, and no change to substantive content. The
+    Prediabetes Risk Test was developed with the American Diabetes Association; this tool
+    reproduces only CDC's published points and cut-offs, with its own paraphrased questions.
+    Confirm reuse terms for the full test with CDC. This is not an endorsement by CDC, CMS,
+    HHS, or the ADA.

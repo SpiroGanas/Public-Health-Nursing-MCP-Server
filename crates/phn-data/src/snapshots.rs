@@ -424,6 +424,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 14 snapshot files.
     // Phase 15 snapshot files go below this line.
     // Phase 15 screen (CHR-02, CHR-03).
+    (
+        "ma_dpp_programs.csv",
+        include_str!("../../../snapshots/ma_dpp_programs.csv"),
+    ),
     // End of Phase 15 screen.
     // Phase 15 prevent (CHR-04, CHR-05).
     // End of Phase 15 prevent.
