@@ -1,0 +1,128 @@
+# PRISMA 2020 flow diagram elements and the synthesis table layout for
+# build_evidence_synthesis_table (EBP-04). The flow elements and the definitions of "record",
+# "report", and "study" are taken from the PRISMA 2020 statement and its explanation and
+# elaboration (open access, CC BY 4.0). The table columns are THIS PROJECT'S layout for a
+# synthesis matrix; they are not a published standard.
+#
+# REVIEW STATUS: pending. Drafted 2026-11-12 from the PRISMA 2020 full texts retrieved through
+# the NCBI E-utilities (PubMed Central). Schema: content/schemas/ebp_evidence_synthesis.schema.json
+meta:
+  id: ebp-evidence-synthesis
+  title: PRISMA 2020 flow diagram elements and evidence synthesis table layout
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: 2021-03-29
+  source:
+    title: The PRISMA 2020 statement, an updated guideline for reporting systematic reviews (BMJ 2021)
+    publisher: BMJ
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005924/
+  related_sources:
+    - title: PRISMA 2020 explanation and elaboration, item 16a (BMJ 2021)
+      publisher: BMJ
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005925/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The list of flow diagram elements is quoted in meaning from PRISMA 2020 explanation and
+    elaboration item 16a (essential elements), which was read in full (high confidence). The
+    figure itself (a picture in the paper) could not be read, so the box layout and wording
+    drawn by this tool follow the text of item 16a, not the official template; the official
+    editable template is on the PRISMA statement website (prisma-statement.org, not reachable
+    from the build environment). The template's separate "other methods" column (websites,
+    organisations, citation searching) and the "previous studies" box for updated reviews are
+    not drawn (listed in the tool's notes). The synthesis table layout and the sheet formulas
+    are this project's design (confidence medium).
+
+sources:
+  prisma_2020:
+    title: The PRISMA 2020 statement, an updated guideline for reporting systematic reviews
+    publisher: BMJ (2021), doi 10.1136/bmj.n71
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005924/
+    licence: Creative Commons Attribution 4.0
+    effective_date: 2021-03-29
+    retrieved: 2026-11-12
+  prisma_ee:
+    title: PRISMA 2020 explanation and elaboration, updated guidance and exemplars for reporting systematic reviews
+    publisher: BMJ (2021), doi 10.1136/bmj.n160
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005925/
+    licence: Creative Commons Attribution 4.0
+    effective_date: 2021-03-29
+    retrieved: 2026-11-12
+
+# Definitions from PRISMA 2020 (statement, box of key terms).
+definitions:
+  - term: Record
+    text: "The title or abstract (or both) of a report indexed in a database or website. Records that refer to the same report are duplicates; records for merely similar reports are unique."
+    source: prisma_2020
+  - term: Report
+    text: "A document supplying information about a study: a journal article, preprint, conference abstract, study register entry, clinical study report, dissertation, unpublished manuscript, government report, or any other document with relevant information."
+    source: prisma_2020
+  - term: Study
+    text: "An investigation with a defined group of participants and one or more interventions and outcomes. A study can have several reports."
+    source: prisma_2020
+
+# The flow of counts from search to inclusion (item 16a, essential elements).
+flow:
+  statement: >-
+    Report, ideally using a flow diagram, the number of records identified; records excluded
+    before screening (for example duplicates or records deemed ineligible by machine classifiers);
+    records screened; records excluded after screening titles or abstracts; reports retrieved for
+    detailed evaluation; potentially eligible reports that were not retrievable; retrieved reports
+    that did not meet inclusion criteria and the primary reasons for exclusion; and the number of
+    studies and reports included.
+  source: prisma_ee
+  section: "Item 16a, essential elements"
+  steps:
+    - {id: identified, stage: Identification, label: "Records identified"}
+    - {id: duplicates, stage: Identification, label: "Records removed before screening: duplicates"}
+    - {id: other_removed, stage: Identification, label: "Records removed before screening: other reasons (for example marked ineligible by automation tools)"}
+    - {id: screened, stage: Screening, label: "Records screened"}
+    - {id: excluded, stage: Screening, label: "Records excluded after screening titles or abstracts"}
+    - {id: sought, stage: Screening, label: "Reports sought for retrieval"}
+    - {id: not_retrieved, stage: Screening, label: "Reports not retrieved"}
+    - {id: assessed, stage: Screening, label: "Reports assessed for eligibility"}
+    - {id: reasons, stage: Screening, label: "Reports excluded, with the main reason for each exclusion"}
+    - {id: included_studies, stage: Included, label: "Studies included in the review"}
+    - {id: included_reports, stage: Included, label: "Reports of included studies"}
+  arithmetic:
+    - "Records screened = records identified - duplicates removed - records removed for other reasons"
+    - "Reports sought = records screened - records excluded at screening"
+    - "Reports assessed = reports sought - reports not retrieved"
+    - "Reports of included studies = reports assessed - the sum of reports excluded with reasons"
+    - "Studies included cannot exceed reports of included studies (a study can have several reports)"
+  not_drawn:
+    - "The template's separate column for other methods (websites, organisations, citation searching)"
+    - "The box for studies included in the previous version of an updated review"
+    - "Ongoing studies and their reports"
+
+# Columns of the synthesis table. `field` names the input property; `formula` columns are live
+# formulas in the XLSX.
+table:
+  columns:
+    - {id: citation, header: "Study", field: citation, note: "As you cite it (the tool does not look up or format references)"}
+    - {id: design, header: "Design", field: design}
+    - {id: population, header: "Population and setting", field: population}
+    - {id: "n", header: "Sample size (n)", field: sample_size}
+    - {id: intervention, header: "Intervention or exposure (comparator)", field: intervention}
+    - {id: outcome, header: "Outcome", field: outcome}
+    - {id: effect, header: "Effect as reported", field: effect}
+    - {id: quality, header: "Quality rating", field: quality_rating}
+    - {id: tool, header: "Rating tool", field: quality_tool}
+    - {id: share, header: "Share of total n", formula: "n / sum of n"}
+  summary_rows:
+    - "Number of studies"
+    - "Studies reporting a sample size"
+    - "Total participants (sum of n)"
+    - "Median sample size"
+    - "Studies by design (COUNTIF)"
+    - "Studies by quality rating and rating tool (COUNTIF)"
+  quality_scales_note: >-
+    Quality ratings from different tools are not comparable (a "low" in the 2011 Cochrane tool
+    means low risk of bias; a "low" in GRADE means low certainty). The summary therefore counts
+    each rating together with the tool you name. Scales used by this project's appraisal tool:
+    Cochrane 2011 (low, unclear, high risk of bias); ROBINS-I (low, moderate, serious, critical,
+    no information); AMSTAR 2 (high, moderate, low, critically low confidence); GRADE (high,
+    moderate, low, very low certainty); GRADE-CERQual (high, moderate, low, very low confidence).
