@@ -215,6 +215,9 @@ output folder instead of being sent to the AI model.
 |---|---|---|---|
 <!-- Phase 15 screen rows go above this line. -->
 <!-- Phase 15 prevent rows go above this line. -->
+| `community_health_assessment_builder` | EQ-08 | equity | MAPP 2.0 community health assessment: the three phases and assessments, community status data assembled from the profile, PLACES, SVI, language, environmental justice, climate, food, and water tools, a partner sector checklist (your roster counted by sector), nearby hospitals with the federal and Massachusetts CHNA rules and links to find each CHNA, priority lists read from CHNA reports you save, and draft report sections in DOCX. |
+| `prioritize_health_issues` | EQ-09 | equity | Ranks community health issues with the Hanlon method (BPR = ((A + B) x C / 3) x D) and the PEARL test, a strategy grid, and nominal group scoring from vote totals; ties and missing ratings are explicit; writes the method and rationale to DOCX or PDF. |
+| `analyze_qualitative_data` | EQ-10 | equity | Reads focus group and interview transcripts locally, removes names and other identifiers, codes them with your codebook (or a draft starter), and returns theme counts only (a theme raised by fewer than three participants is withheld); the de-identified coded excerpt matrix and theme summary go to the output folder. |
 <!-- Phase 15 cha rows go above this line. -->
 <!-- Phase 15 geo rows go above this line. -->
 <!-- Phase 15 rows go above this line. -->

@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 110;
+const TOOL_COUNT = 113;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -3642,6 +3642,103 @@ const toolChapters = [
       // Phase 15 prevent (CHR-04, CHR-05) tools.
       // End of Phase 15 prevent tools.
       // Phase 15 cha (EQ-08, EQ-09, EQ-10) tools.
+      {
+        id: 'community_health_assessment_builder',
+        title: 'Build a community health assessment (MAPP 2.0)',
+        toolset: 'equity',
+        internet: 'optional',
+        files: 'yes, a draft report in your output folder; reads hospital CHNA reports and a partner list from your data folder if you give them',
+        does: 'Guides a community health assessment the way MAPP 2.0 (from NACCHO) lays it out, for a town or county. It gathers the numbers for the community status assessment (the community profile with CDC chronic disease estimates and social vulnerability, language access, environmental justice, climate, food access, and water), gives you a checklist of partner sectors to cover and prompts for the community context assessment, and lists the hospitals near you with the rules for their community health needs assessments (CHNAs) and where to find them. If you save hospitals’ CHNA reports in your data folder, it pulls out each report’s priority list with the page number. It drafts report sections as a Word document.',
+        when: [
+          'Starting or updating your town’s community health assessment.',
+          'You want to know what nearby hospitals found and prioritized in their CHNAs.',
+          'Checking whether your partner list covers the sectors that matter.',
+        ],
+        provide: [
+          'The town or county.',
+          'Optionally the hospitals you want to follow, a folder of their CHNA reports (PDF or Word) in your data folder, and a partner list (a spreadsheet with organization and sector).',
+        ],
+        examples: [
+          'Start a community health assessment for Lowell.',
+          'Read the CHNAs in /data/chna and tell me what Lowell General and Lawrence General prioritized.',
+          'Count my partner list by sector and tell me who is missing.',
+        ],
+        returns: [
+          'The MAPP 2.0 phases and assessments, the data sections (each with its sources and any section that could not be built), the partner checklist, hospitals with CMS type and ownership, the federal and Massachusetts CHNA rules, links to find CHNAs, the priorities found in your CHNA files with page numbers and shared themes, next steps, and a draft report in your output folder.',
+        ],
+        notes: [
+          'MAPP 2.0 was checked against journal articles because NACCHO’s own pages could not be opened. Check NACCHO’s handbook before you cite a phase or tool by name.',
+          'This is a draft from public data. It does not replace what your partners and residents tell you.',
+          'Priority lists are found by pattern and can be incomplete. Check each against the report.',
+          'Only organization names are read from a partner list; contact people are never read. A list of clients is refused, and so is a CHNA file that looks like client records.',
+          'The content is waiting for your review.',
+        ],
+      },
+      {
+        id: 'prioritize_health_issues',
+        title: 'Rank community health issues (Hanlon, PEARL, nominal group)',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'yes, a record of the method and rationale in your output folder',
+        does: 'Ranks the community health issues you give it. For each issue you rate the size of the problem, how serious it is, and how effective an intervention could be, and answer the five PEARL questions (propriety, economics, acceptability, resources, legality). The tool does the arithmetic with the Hanlon method, shows ties and missing ratings openly instead of hiding them, places each issue on a grid of importance and feasibility, and can score a group vote from totals. It writes the method, the scores, and your reasons to a document.',
+        when: [
+          'Your partners need to narrow a long list of health issues to a few priorities.',
+          'You want a record of how priorities were chosen, for the assessment report or a hospital partner.',
+          'Scoring a nominal group or multivoting session.',
+        ],
+        provide: [
+          'The issues (community issues, not people) with size 0 to 10, seriousness 0 to 20 (or urgency, severity, economic loss, and effect on others, 0 to 5 each), effectiveness 0 to 10, and the five PEARL answers.',
+          'Your reasons for each rating, so the record shows how it was decided.',
+          'Optionally the vote totals: how many people gave each issue first, second, third place (never names).',
+        ],
+        examples: [
+          'Rank these five issues for our community: housing cost, food insecurity, transportation, opioid overdose, and dental care. Here are my ratings.',
+          'We held a nominal group with 12 people who each ranked their top 3. Score the vote.',
+          'Screen out any issue that fails PEARL before ranking.',
+        ],
+        returns: [
+          'The ranking with scores, ties, issues still missing ratings, close calls, the strategy grid, the vote scores if given, and a document with the method and your reasons.',
+        ],
+        notes: [
+          'The scores are only as good as the ratings. Rate size from your data and write down why.',
+          'Ties share a rank and are not broken for you. Missing ratings are not counted as zero.',
+          'The Hanlon formula comes from published papers; NACCHO’s own worksheet could not be opened, so check it matches the worksheet your partners use.',
+          'The importance and feasibility grid is this project’s own design.',
+          'Type community issues, not names: everything you type goes to the AI service.',
+        ],
+      },
+      {
+        id: 'analyze_qualitative_data',
+        title: 'Analyze focus group and interview transcripts',
+        toolset: 'equity',
+        internet: 'no',
+        files: 'yes, reads transcripts and writes de-identified results to your output folder',
+        does: 'Helps you analyze focus groups and key informant interviews you have saved as transcripts. It reads them only on your computer, removes names, organizations, places, phone numbers, addresses, dates, and similar details (speakers become P1, P2, and so on), and codes what people said with the codes you supply or a draft starter list. What comes back to the chat is counts only: how many different people raised each theme. A theme that fewer than three people raised is held back so no one can be picked out. The de-identified excerpts under each code and a theme summary go to your output folder.',
+        when: [
+          'You held focus groups or interviews for a community assessment and need the themes.',
+          'You want a coded table of excerpts you can read, check, and recode.',
+          'You need to share findings without sharing what any one person said.',
+        ],
+        provide: [
+          'The transcript files (or a folder of them) in your data folder, with speaker turns written as “Name: what they said”.',
+          'Optionally your own codebook (a spreadsheet with code, definition, and keywords) and a list of the names that appear, so they are removed everywhere.',
+        ],
+        examples: [
+          'Analyze the transcripts in /data/focus_groups with my codebook.',
+          'What themes came up in the two interviews? Remove the names first.',
+          'Make a coded excerpt table I can use for my report.',
+        ],
+        returns: [
+          'A count of what was removed, the codebook, for each theme how many participants raised it and in how many transcripts, words that came up often but fit no code, and the files in your output folder.',
+        ],
+        notes: [
+          'Nothing a person said, no speaker name, and no file name comes back to the chat.',
+          'Coding by keyword is a rough first pass: it finds words, not meaning. Read the excerpts yourself and recode by hand before you report a finding.',
+          'Removing names by pattern is not perfect. Read the de-identified files before you share them; they can still hold a detail that points to someone.',
+          'The starter codebook is a draft written for this tool. Use your own for a real analysis.',
+          'Scanned PDFs have no text the tool can read.',
+        ],
+      },
       // End of Phase 15 cha tools.
       // Phase 15 geo (EPI-13) tools.
       // End of Phase 15 geo tools.

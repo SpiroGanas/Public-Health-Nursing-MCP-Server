@@ -555,6 +555,13 @@ static PRIORITY_ANCHOR: LazyLock<Regex> = LazyLock::new(|| {
 static BULLET: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"^\s*(?:[•●▪◦○·*\-–—]|\d{1,2}[.)]|[A-Za-z][.)])\s+(?P<t>\S.*)$").unwrap()
 });
+/// A bullet or number alone on a line (PDF text often puts the mark and the item on two lines).
+static LONE_BULLET: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"^\s*(?:[•●▪◦○·*\-–—]|\d{1,2}[.)]|[A-Za-z][.)])\s*$").unwrap()
+});
+/// A page footer such as "Page 2 of 10".
+static PAGE_FOOTER: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"(?i)^\s*page\s+\d+(?:\s+of\s+\d+)?\s*$").unwrap());
 static YEAR: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"\b(20[12]\d|2030)\b").unwrap());
 
 fn word_count(s: &str) -> usize {
@@ -619,8 +626,27 @@ fn extract_priorities(sections: &[Section], vocab: &[ThemeDef]) -> (Vec<Priority
             let mut j = i + 1;
             let mut bullets = 0usize;
             let mut gap = 0usize;
+            let mut lone_bullet = false;
             while j < lines.len() && found.len() < MAX_PRIORITIES && j < i + 40 {
                 let l = lines[j].trim();
+                if PAGE_FOOTER.is_match(l) {
+                    break;
+                }
+                if LONE_BULLET.is_match(l) {
+                    lone_bullet = true;
+                    j += 1;
+                    continue;
+                }
+                if lone_bullet && !l.is_empty() {
+                    lone_bullet = false;
+                    if word_count(l) <= 14 {
+                        found.push(l.trim_end_matches([';', '.']).to_string());
+                        bullets += 1;
+                        j += 1;
+                        continue;
+                    }
+                    break;
+                }
                 if l.is_empty() {
                     gap += 1;
                     if gap > 1 && bullets > 0 {
@@ -2181,6 +2207,20 @@ mod tests {
         )];
         let (found, _) = extract_priorities(&secs, &vocab());
         assert_eq!(found.len(), 3, "{found:?}");
+    }
+
+    #[test]
+    fn bullets_on_their_own_line_as_in_pdf_text_are_read() {
+        let secs = vec![section(
+            "Page 2",
+            Some(2),
+            "Significant health needs\n•\nMental health and substance use\n•\nHousing stability\nPage 2 of 3",
+        )];
+        let (found, anchors) = extract_priorities(&secs, &vocab());
+        assert_eq!(anchors, 1);
+        let texts: Vec<&str> = found.iter().map(|p| p.text.as_str()).collect();
+        assert_eq!(texts, vec!["Mental health and substance use", "Housing stability"]);
+        assert_eq!(found[0].location, "page 2");
     }
 
     #[test]

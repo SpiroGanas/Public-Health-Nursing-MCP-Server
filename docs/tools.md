@@ -2955,6 +2955,143 @@ appropriate food).
 
 <!-- Phase 15 cha (EQ-08, EQ-09, EQ-10). -->
 
+### `community_health_assessment_builder` (EQ-08, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `area` | saved town | A Massachusetts city or town, or a county (a county skips the drinking water and fluoridation sections, which are by town). |
+| `sections` | all | Any of `profile`, `language`, `social_vulnerability`, `environmental_justice`, `climate`, `food_access`, `drinking_water`, `fluoridation`. |
+| `hospitals` | | Names of hospitals that serve the community, added to the CMS list of hospitals in the town and county. |
+| `chna_paths` | | Hospital CHNA reports saved in `/data` (PDF, DOCX, HTML, TXT, or a folder of them; at most 20). |
+| `partners_path` | | A CSV/XLSX with one partner organization per row (name and sector or type). |
+| `write_document` | true | Draft report sections in `/data/output`. |
+| `format` | docx | `docx` or `pdf`. |
+
+Guides a community health assessment with MAPP 2.0 and drafts report sections. It lays out the three
+phases (Build the Community Health Improvement Foundation, Tell the Community Story, Continuously
+Improve the Community) and the three assessments (community status, community context, community
+partner) with their data types and purposes. **Community status:** calls this server's own tools as
+library functions (EQ-01 community profile with CDC PLACES and the Social Vulnerability Index, EQ-03
+language access, EQ-02, ENV-04 environmental justice, ENV-05 climate, CHR-06 food access, ENV-03
+drinking water, CHR-07 fluoridation), live then cache then snapshot; a section that fails is reported
+with its reason and the rest are returned, and the report carries each tool's caveats and sources.
+The measure that needs your own data (EQ-04 disparities) is pointed to, not run. **Partners:** a
+13-sector checklist (this project's own list); a roster file is counted by sector (organizations
+only; contact people, phones, and emails are never read), and a client or patient list is refused.
+**Context:** focus group and interview prompts, with EQ-10 for the transcripts. **Hospital CHNAs:**
+the hospitals in and near the area from the CMS Hospital General Information snapshot (84
+Massachusetts hospitals; non-profit acute care, critical access, and children's hospitals are
+flagged as likely community benefits filers), the federal rule (26 CFR 1.501(r)-3: every three
+years, a written report on the hospital's website, input from at least one public health
+department, a prioritized list of significant needs) and the Attorney General's Community Benefits
+Guidelines (four statewide focus issues, six DPH priorities), links to find each hospital's CHNA
+(the Attorney General's reports site), and, for CHNA files you save, the priority lists found in
+them with a page or heading citation, the report year, and themes that recur across reports.
+
+**Privacy.** CHNA reports are public documents; only priority lines (identifiers removed) and page
+numbers are taken from them, and a file that holds several record numbers, social security numbers,
+or birth dates is refused as a client record. The draft report holds public data, counts, and the
+names of partner organizations, and goes only to `/data/output`.
+
+**Limits.** MAPP 2.0 was verified against two 2025 journal articles, not NACCHO's pages (naccho.org
+was unreachable): the phases and assessments are confirmed (medium confidence), what each phase
+contains beyond that and NACCHO's own tools were not verified (low confidence), and the mapping of
+this server's tools to the assessments is this project's. Hospital websites and the Attorney
+General's reports site could not be opened, so no per-hospital CHNA link is bundled. Priority lines
+are found by pattern (bullets, numbered lists, short heading lines, or an inline list after
+"priorities:") and can be incomplete; the theme words are this project's list.
+
+### `prioritize_health_issues` (EQ-09, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `issues` | (required) | 2 to 60 issues, each with `name` and any of `size` (A, 0-10), `seriousness` (B, 0-20) or `urgency`, `severity`, `economic_loss`, `impact_on_others` (0-5 each), `effectiveness` (C, 0-10), `pearl` (five yes/no answers), `rank_counts`, `description`, `rationale`. |
+| `pearl_mode` | `multiply` | `multiply` (a failed PEARL scores 0 and ranks last), `prescreen` (failed issues are screened out, not ranked), or `off`. |
+| `nominal_group` | | `participants` and `ranks_per_participant`; required when any issue has `rank_counts`. |
+| `grid_threshold` | 0.5 | Where the strategy grid splits importance and feasibility (0.1-0.9). |
+| `area` | | For the document title. |
+| `write_document` / `format` | true / docx | Method, results, and rationale to `/data/output`. |
+
+Hanlon method: **BPR = ((A + B) x C / 3) x D**, with A size of the problem (0-10), B seriousness
+(0-20, or the sum of four 0-5 factors), C effectiveness of the intervention (0-10), and D from the
+PEARL test (propriety, economics, acceptability, resources, legality; 1 only when all five are yes).
+Dividing by 3 puts the score on 0-100 and does not change the order. Worked example: A = 8, B = 14,
+C = 6, PEARL all yes gives (8 + 14) x 6 / 3 = 44. The strategy grid places each issue by importance
+((A + B) / 30) and feasibility (C / 10) into act now, important but hard, quick win, or revisit
+later. The nominal group score gives rank 1 as many points as ranks per participant, and one point
+for the last rank, summed over the counts (4 first-place, 3 second-place, and 1 third-place counts
+with three ranks score 4 x 3 + 3 x 2 + 1 x 1 = 19); the counts for any rank cannot exceed the number
+of participants. **Ties** share a rank (1, 2, 2, 4) and are listed with guidance, not broken.
+**Missing ratings** make an issue "incomplete" (listed with what it still needs, not scored as 0).
+Scores that differ by under 5% are flagged as close calls; where the Hanlon and nominal group ranks
+differ by three or more places both are shown, not blended.
+
+**Privacy.** Reads no files. Votes are aggregate counts, never names; an issue name or rationale that
+looks like it contains an identifier gets a caveat, because everything typed is sent to the AI service.
+
+**Limits.** The formula is the original equation as quoted in a 2019 PAHO paper (Rev Panam Salud
+Publica), checked against a 2017 case study and a 2026 review of prioritization methods; NACCHO's own
+worksheet could not be read. Variants (the Illinois 0.5-1.5 effectiveness scale, a benefit-cost
+ratio, PAHO's inequity component) are not implemented. No scoring anchors are bundled: none were
+found in a readable source. The strategy grid and the nominal group point rule are this project's
+own (low and medium confidence).
+
+### `analyze_qualitative_data` (EQ-10, toolset `equity`)
+
+| Argument | Default | |
+|---|---|---|
+| `transcript_paths` | (required) | TXT, MD, DOCX, text PDF, or HTML transcripts, or a folder of them, in `/data` (at most 60 files, 10 MB each). |
+| `codebook_path` | starter codebook | Your CSV, XLSX, or YAML codebook: `code`, `definition`, `keywords` (semicolons; a trailing `*` matches any ending), optional `theme`. |
+| `names_path` | | A TXT/CSV/XLSX/DOCX list of the participants and staff named in the transcripts, to remove wherever they appear. |
+| `facilitator_labels` | | Extra speaker labels to leave uncoded (`Interviewer`, `Facilitator`, `Moderator`, and `Q` are built in). |
+| `min_voices` | 3 | Fewest different participants for a theme to be shown; 3 is the minimum. |
+| `write_outputs` | true | Coded excerpt matrix (XLSX) and theme summary (DOCX) in `/data/output`. |
+| `write_deidentified_transcripts` | false | Also each de-identified transcript as text in `/data/output`. |
+
+Reads transcripts only on this machine and returns **counts only**: the scrub report (identifiers
+removed, by kind), the codebook, and for each code the number of different participants who raised
+it, the transcripts it appeared in, and the coded segments, with a one-sentence summary built from
+those counts. A code raised by fewer than three different participants is withheld entirely (no
+counts, no label), so one person cannot be picked out from a rare theme. Words used by three or more
+participants that no code matched are offered as candidate new codes (lower-case words only; names
+excluded). No transcript sentence, speaker label, or file name is returned, and there is no option to
+return one. **Scrubbing:** speaker labels ("Name:" at the start of a turn, with at least two such
+lines) become P1, P2, ...; the facilitator's turns are not coded; names from the labels and the names
+file are removed everywhere; capitalized words inside sentences that are not Massachusetts towns,
+counties, months, languages, or common labels (names, organizations, places) become `[NAME]`; the
+server's identifier detector removes phone numbers, email and street addresses, dates, ZIP codes,
+record numbers, and titled names; and the result is scanned again. **Coding:** keyword matching on
+whole words, with `*` prefixes and multiword phrases, applied to each speaker turn (long turns are
+split at sentence ends). The coded excerpt matrix, with one row per segment and code, holds
+de-identified excerpts (the sentences with a matched keyword), a code-by-transcript table, the
+codebook, and a transcript key; the theme summary adds up to three excerpts from different
+participants per reported theme. Read them before quoting any.
+
+**Privacy.** Output files are de-identified but are written only to `/data/output`; the transcript
+key (which file is T1) is in the matrix only. A person who spoke in two transcripts counts twice.
+
+**Limits.** Keyword coding is a heuristic: it finds words, not meaning, and cannot read negation or
+sarcasm. De-identification by pattern, name list, and capitalization can miss details that point to a
+person (a unique job, a rare event, a nickname, a place written in lower case) and over-removes
+organization and place names. The starter codebook is this project's own draft (low confidence).
+Scanned PDFs have no text (no OCR). Transcripts without "Name:" turns are read as one speaker.
+
+### MCP prompt: `community_health_assessment`
+
+Arguments (all optional): `area`, `partners_path`, `chna_folder`, `transcripts_folder`. Returns one
+message that walks the model through a MAPP 2.0 community health assessment for a Massachusetts
+local public health nurse: build the foundation and partner list
+(`community_health_assessment_builder`, `find_community_resources`), assemble the community status
+assessment (`build_community_health_profile`, `get_social_vulnerability_index`,
+`language_access_profile`, `get_places_estimates`, `measure_health_disparities`,
+`screen_health_related_social_needs`, `estimate_benefit_eligibility`, and the environmental,
+climate, food, and water tools), add the community context (`analyze_qualitative_data`), bring in
+nearby hospitals' CHNAs, list candidate issues, rank them with `prioritize_health_issues` (Hanlon
+method, PEARL, strategy grid, nominal group totals), and write the draft report. Transcripts and
+client files stay in the data folder; the message tells the model to say that MAPP 2.0 was checked
+against journal articles and not NACCHO's handbook. It names the toolsets the workflow uses
+(`equity`, `chronic`, `env`) and tells the model to report, not retry, a tool whose toolset is off.
+
 <!-- End of Phase 15 cha. -->
 
 <!-- Phase 15 geo (EPI-13). -->
