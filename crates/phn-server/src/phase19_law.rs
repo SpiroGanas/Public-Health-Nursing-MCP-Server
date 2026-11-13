@@ -1,7 +1,9 @@
 //! Phase 19 tools (Law search, policy briefs, information sharing): POL-02, POL-04, POL-07.
 
 use phn_core::Envelope;
-use phn_tools::policy::{BriefArgs, BriefResult, LawResult, LawSearchArgs, SharingArgs, SharingResult};
+use phn_tools::policy::{
+    BriefArgs, BriefResult, LawResult, LawSearchArgs, SharingArgs, SharingResult,
+};
 use rmcp::handler::server::common::schema_for_output;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::CallToolResult;
@@ -74,10 +76,7 @@ impl PhnServer {
         ),
         output_schema = schema_for_output::<Envelope<BriefResult>>()
     )]
-    async fn draft_policy_brief(
-        &self,
-        Parameters(args): Parameters<BriefArgs>,
-    ) -> CallToolResult {
+    async fn draft_policy_brief(&self, Parameters(args): Parameters<BriefArgs>) -> CallToolResult {
         blocking(&self.ctx, move |ctx| {
             phn_tools::policy::draft_policy_brief(ctx, args)
         })
@@ -97,7 +96,7 @@ impl PhnServer {
             records law (M.G.L. c. 66 section 10, c. 4 section 7), 105 CMR 300.000 and the \
             Massachusetts statutes on HIV test results, venereal disease records, immunization \
             registry data, and patient access. Call with no answers to get the questions. It \
-            NEVER says that a disclosure is or is not permitted: it is decision support, not \
+            NEVER gives a yes or no on whether a disclosure is allowed: it is decision support, not \
             legal advice, and refers you to agency counsel. Partial snapshot (coverage in every \
             result): the FERPA statute, the HHS and Education joint guidance, and 603 CMR 23.00 \
             could not be read. Content pending review.",

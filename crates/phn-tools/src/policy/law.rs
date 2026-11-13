@@ -88,10 +88,13 @@ pub struct LawContent {
 #[serde(rename_all = "snake_case")]
 pub enum LawSource {
     /// M.G.L. chapter 111 (Public Health).
+    #[serde(rename = "mgl_c111")]
     MglC111,
     /// 105 CMR (Department of Public Health regulations).
+    #[serde(rename = "cmr_105")]
     Cmr105,
     /// 244 CMR (Board of Registration in Nursing regulations).
+    #[serde(rename = "cmr_244")]
     Cmr244,
     /// Your board of health's regulations in your local folder.
     Local,
@@ -231,10 +234,53 @@ fn flatten(s: &str) -> String {
 
 /// Words too common to search on.
 const STOP: &[&str] = &[
-    "a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "is", "are", "be", "by", "with",
-    "can", "may", "must", "does", "do", "what", "which", "who", "when", "how", "if", "any", "that",
-    "this", "under", "from", "about", "there", "their", "it", "as", "at", "shall", "law", "rule",
-    "regulation", "section", "state", "massachusetts", "cmr", "mgl", "gl",
+    "a",
+    "an",
+    "the",
+    "of",
+    "to",
+    "in",
+    "on",
+    "for",
+    "and",
+    "or",
+    "is",
+    "are",
+    "be",
+    "by",
+    "with",
+    "can",
+    "may",
+    "must",
+    "does",
+    "do",
+    "what",
+    "which",
+    "who",
+    "when",
+    "how",
+    "if",
+    "any",
+    "that",
+    "this",
+    "under",
+    "from",
+    "about",
+    "there",
+    "their",
+    "it",
+    "as",
+    "at",
+    "shall",
+    "law",
+    "rule",
+    "regulation",
+    "section",
+    "state",
+    "massachusetts",
+    "cmr",
+    "mgl",
+    "gl",
 ];
 
 /// Lower-case alphanumeric tokens with a trailing plural "s" removed.
@@ -269,7 +315,10 @@ fn query_terms(q: &str) -> Vec<String> {
     let mut seen = HashSet::new();
     tokens(q)
         .into_iter()
-        .filter(|t| !STOP.contains(&t.as_str()) && (t.chars().count() > 1 || t.chars().all(|c| c.is_ascii_digit())))
+        .filter(|t| {
+            !STOP.contains(&t.as_str())
+                && (t.chars().count() > 1 || t.chars().all(|c| c.is_ascii_digit()))
+        })
         .filter(|t| seen.insert(t.clone()))
         .collect()
 }
@@ -308,13 +357,14 @@ pub fn excerpt(text: &str, terms: &[String], max_words: usize) -> String {
         }
     }
     // Back the window up so the first matched word is a few words in, not at the edge.
-    if best_n > 0 && best > 0 {
-        if let Some(first) = (best..best + max_words).find(|&i| hit[i]) {
-            let lead = first - best;
-            if lead > 4 {
-                let shift = (lead - 3).min(words.len() - max_words - best);
-                best += shift;
-            }
+    if best_n > 0
+        && best > 0
+        && let Some(first) = (best..best + max_words).find(|&i| hit[i])
+    {
+        let lead = first - best;
+        if lead > 4 {
+            let shift = (lead - 3).min(words.len() - max_words - best);
+            best += shift;
         }
     }
     let end = best + max_words;
@@ -344,7 +394,10 @@ pub enum Cite {
 }
 
 fn section_key(s: &str) -> String {
-    s.chars().filter(|c| !c.is_whitespace()).collect::<String>().to_lowercase()
+    s.chars()
+        .filter(|c| !c.is_whitespace())
+        .collect::<String>()
+        .to_lowercase()
 }
 
 /// Find a citation in a query.
@@ -453,19 +506,19 @@ fn hit_from(
         _ => ("index_only", None),
     };
     let mut related = Vec::new();
-    if l.source == "cmr_244" {
-        if let Some(s) = scope {
-            let n = s
-                .entries
-                .iter()
-                .filter(|e| e.citation == p.c || e.citation.starts_with(&format!("{}(", p.c)))
-                .count();
-            if n > 0 {
-                related.push(format!(
-                    "nursing_scope_of_practice_guide (POL-06) summarizes {n} provision(s) of {} with Board advisory rulings",
-                    p.c
-                ));
-            }
+    if l.source == "cmr_244"
+        && let Some(s) = scope
+    {
+        let n = s
+            .entries
+            .iter()
+            .filter(|e| e.citation == p.c || e.citation.starts_with(&format!("{}(", p.c)))
+            .count();
+        if n > 0 {
+            related.push(format!(
+                "nursing_scope_of_practice_guide (POL-06) summarizes {n} provision(s) of {} with Board advisory rulings",
+                p.c
+            ));
         }
     }
     LawHit {
@@ -514,7 +567,11 @@ fn keyword_search(
         chapter_hits: HashSet<usize>,
         phrase: f64,
     }
-    let idx_of: HashMap<&str, usize> = terms.iter().enumerate().map(|(i, t)| (t.as_str(), i)).collect();
+    let idx_of: HashMap<&str, usize> = terms
+        .iter()
+        .enumerate()
+        .map(|(i, t)| (t.as_str(), i))
+        .collect();
     let mut rows: Vec<Row> = Vec::new();
     let mut total = 0usize;
     for (li, l) in loaded.iter().enumerate() {
@@ -560,7 +617,10 @@ fn keyword_search(
                 phrase += 8.0;
             }
             let chapter_hits = if p.x.is_none() {
-                chapter_tokens.get(p.ch.as_str()).cloned().unwrap_or_default()
+                chapter_tokens
+                    .get(p.ch.as_str())
+                    .cloned()
+                    .unwrap_or_default()
             } else {
                 HashSet::new()
             };
@@ -581,7 +641,10 @@ fn keyword_search(
     let mut df = vec![0usize; terms.len()];
     for r in &rows {
         for i in 0..terms.len() {
-            if r.title_hits.contains(&i) || r.text_tf.contains_key(&i) || r.chapter_hits.contains(&i) {
+            if r.title_hits.contains(&i)
+                || r.text_tf.contains_key(&i)
+                || r.chapter_hits.contains(&i)
+            {
                 df[i] += 1;
             }
         }
@@ -740,6 +803,7 @@ struct LocalHits {
     hits: Vec<LawHit>,
 }
 
+#[allow(clippy::too_many_arguments)]
 fn search_local(
     ctx: &Context,
     folder_arg: &Option<String>,
@@ -801,7 +865,12 @@ fn search_local(
         .chars()
         .map(|c| if c.is_ascii_alphanumeric() { c } else { '_' })
         .collect();
-    let index_dir = ctx.config.paths.cache_dir.join("index").join(format!("law-{key}"));
+    let index_dir = ctx
+        .config
+        .paths
+        .cache_dir
+        .join("index")
+        .join(format!("law-{key}"));
     let writable = std::fs::create_dir_all(&index_dir).is_ok();
     let index = PolicyIndex::open_or_build(&path, writable.then_some(index_dir.as_path()))?;
     let raw = index.search(query, (max * 3).clamp(5, 50))?;
@@ -831,8 +900,9 @@ fn search_local(
         });
     }
     let mut note = format!(
-        "{} document(s) indexed in your container from {}.",
-        index.stats.files_indexed, label
+        "{} document(s) searched in your container from {}.",
+        index.stats.files_indexed.saturating_sub(refused.len()),
+        label
     );
     if !refused.is_empty() {
         note.push_str(&format!(
@@ -844,7 +914,7 @@ fn search_local(
         out: LocalOut {
             searched: true,
             folder: Some(label),
-            files_indexed: index.stats.files_indexed,
+            files_indexed: index.stats.files_indexed.saturating_sub(refused.len()),
             sections_indexed: index.stats.sections_indexed,
             refused_client_like_files: refused.len(),
             tables_ignored: tables,
@@ -857,10 +927,7 @@ fn search_local(
 // ---------------------------------------------------------------- the tool
 
 /// Run the search.
-pub fn search_public_health_law(
-    ctx: &Context,
-    args: LawSearchArgs,
-) -> Result<Envelope<LawResult>> {
+pub fn search_public_health_law(ctx: &Context, args: LawSearchArgs) -> Result<Envelope<LawResult>> {
     let c: LawContent = content::load(LAW)?;
     let query = clean_text("query", &args.query, MAX_QUERY)?;
     if query.is_empty() {
@@ -879,7 +946,9 @@ pub fn search_public_health_law(
     let selected: BTreeSet<&str> = if explicit_sources {
         args.sources.iter().map(|s| s.key()).collect()
     } else {
-        ["mgl_c111", "cmr_105", "cmr_244", "local"].into_iter().collect()
+        ["mgl_c111", "cmr_105", "cmr_244", "local"]
+            .into_iter()
+            .collect()
     };
     let full_only = args.full_text_only.unwrap_or(false);
 
@@ -935,7 +1004,10 @@ pub fn search_public_health_law(
         }
         Some(Cite::Mgl111 { section }) => {
             interpretation = "citation lookup".into();
-            let l = loaded.iter().find(|l| l.source == "mgl_c111").expect("loaded");
+            let l = loaded
+                .iter()
+                .find(|l| l.source == "mgl_c111")
+                .expect("loaded");
             let want = section_key(section);
             for p in l
                 .corpus
@@ -953,7 +1025,14 @@ pub fn search_public_health_law(
             for s in scored.iter().take(max) {
                 let l = &loaded[s.li];
                 let p = &l.corpus.provisions[s.pi];
-                hits.push(hit_from(l, p, &s.matched, "keywords", max_words, scope.as_ref()));
+                hits.push(hit_from(
+                    l,
+                    p,
+                    &s.matched,
+                    "keywords",
+                    max_words,
+                    scope.as_ref(),
+                ));
             }
         }
     }
@@ -1053,7 +1132,15 @@ pub fn search_public_health_law(
         })
         .collect();
 
-    let summary = summary_text(&query, &interpretation, &hits, more, &topics, &local.out, &coverage);
+    let summary = summary_text(
+        &query,
+        &interpretation,
+        &hits,
+        more,
+        &topics,
+        &local.out,
+        &coverage,
+    );
 
     let mut sources: Vec<Source> = Vec::new();
     for l in &loaded {
@@ -1085,10 +1172,10 @@ pub fn search_public_health_law(
     if sources.is_empty() {
         // Searched but found nothing: still say what was searched.
         for l in &loaded {
-            if selected.contains(l.source) {
-                if let Some(e) = &l.entry {
-                    sources.push(e.to_source());
-                }
+            if selected.contains(l.source)
+                && let Some(e) = &l.entry
+            {
+                sources.push(e.to_source());
             }
         }
     }
@@ -1202,7 +1289,10 @@ fn summary_text(
                 }
                 s.push('\n');
             } else if let Some(u) = &h.url {
-                s.push_str(&format!("- **{}** (title and link only): {u}\n", h.citation));
+                s.push_str(&format!(
+                    "- **{}** (title and link only): {u}\n",
+                    h.citation
+                ));
             }
         }
         if more > 0 {
@@ -1295,7 +1385,13 @@ mod tests {
     #[test]
     fn excerpts_never_exceed_the_word_limit() {
         let text = (1..=200)
-            .map(|i| if i == 120 { "quarantine".to_string() } else { format!("word{i}") })
+            .map(|i| {
+                if i == 120 {
+                    "quarantine".to_string()
+                } else {
+                    format!("word{i}")
+                }
+            })
             .collect::<Vec<_>>()
             .join(" ");
         let e = excerpt(&text, &["quarantine".to_string()], 25);
@@ -1318,8 +1414,13 @@ mod tests {
 
     #[test]
     fn contact_details_are_masked() {
-        let r = redact_contacts("Call the clerk at 413-555-0142 or clerk@town.example.org about the permit.");
-        assert!(!r.contains("413-555-0142") && !r.contains("clerk@town"), "{r}");
+        let r = redact_contacts(
+            "Call the clerk at 413-555-0142 or clerk@town.example.org about the permit.",
+        );
+        assert!(
+            !r.contains("413-555-0142") && !r.contains("clerk@town"),
+            "{r}"
+        );
         assert!(r.contains("permit"));
     }
 }

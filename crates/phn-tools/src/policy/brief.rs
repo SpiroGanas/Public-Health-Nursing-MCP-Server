@@ -492,12 +492,19 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
                         .into(),
                 )
             })?;
-        cells.insert((oi, ci), (r.rating, text("rating reason", &r.reason, MAX_SHORT)?));
+        cells.insert(
+            (oi, ci),
+            (r.rating, text("rating reason", &r.reason, MAX_SHORT)?),
+        );
     }
 
     // ---- sections
     let one_page = length == BriefLength::OnePage;
-    let defs: Vec<&SectionDef> = c.sections.iter().filter(|s| !one_page || s.one_page).collect();
+    let defs: Vec<&SectionDef> = c
+        .sections
+        .iter()
+        .filter(|s| !one_page || s.one_page)
+        .collect();
     let mut md_doc = String::new();
     md_doc.push_str(&format!("# {title}\n\n"));
     md_doc.push_str(&format!(
@@ -523,13 +530,19 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
                     body.push_str(&format!("**Decision requested:** {}\n\n", ended(r)));
                     supplied += 1;
                 } else {
-                    body.push_str("**Decision requested:** [NURSE: the decision you are asking for]\n\n");
+                    body.push_str(
+                        "**Decision requested:** [NURSE: the decision you are asking for]\n\n",
+                    );
                 }
                 if let Some(r) = &recommendation {
                     body.push_str(&format!("**Recommendation:** {}\n\n", ended(r)));
                     supplied += 1;
                 }
-                status = if supplied >= 2 { "partly supplied" } else { "placeholder" };
+                status = if supplied >= 2 {
+                    "partly supplied"
+                } else {
+                    "placeholder"
+                };
                 if supplied == 0 {
                     body.push_str(&format!("{}\n\n", s.placeholder));
                 }
@@ -566,7 +579,11 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
                         body.push('\n');
                     }
                     body.push('\n');
-                    status = if missing { "partly supplied" } else { "supplied" };
+                    status = if missing {
+                        "partly supplied"
+                    } else {
+                        "supplied"
+                    };
                 }
             }
             "options" => {
@@ -578,20 +595,33 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
                     let mut missing = false;
                     for (i, (n, d)) in options.iter().enumerate() {
                         match d {
-                            Some(d) => body.push_str(&format!("{}. **{}**: {}\n", i + 1, n, ended(d))),
+                            Some(d) => {
+                                body.push_str(&format!("{}. **{}**: {}\n", i + 1, n, ended(d)))
+                            }
                             None => {
-                                body.push_str(&format!("{}. **{}**: [NURSE: describe this option]\n", i + 1, n));
+                                body.push_str(&format!(
+                                    "{}. **{}**: [NURSE: describe this option]\n",
+                                    i + 1,
+                                    n
+                                ));
                                 missing = true;
                             }
                         }
                     }
                     body.push('\n');
-                    status = if missing { "partly supplied" } else { "supplied" };
+                    status = if missing {
+                        "partly supplied"
+                    } else {
+                        "supplied"
+                    };
                 }
             }
             "criteria" => {
                 for k in &criteria {
-                    body.push_str(&format!("- **{}**: {} _({})_\n", k.name, k.prompt, k.origin));
+                    body.push_str(&format!(
+                        "- **{}**: {} _({})_\n",
+                        k.name, k.prompt, k.origin
+                    ));
                 }
                 body.push_str(&format!("\n{}\n\n", s.placeholder));
                 status = "partly supplied";
@@ -653,7 +683,11 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
                 if !any {
                     body.push_str(&format!("{}\n\n", s.placeholder));
                 }
-                status = if any { "partly supplied" } else { "placeholder" };
+                status = if any {
+                    "partly supplied"
+                } else {
+                    "placeholder"
+                };
             }
             _ => {
                 body.push_str(&format!("{}\n\n_Prompt: {}_\n\n", s.placeholder, s.prompt));
@@ -695,7 +729,10 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
 
     // ---- readability of the prose the nurse supplied (placeholders and tables left out)
     let mut prose: Vec<String> = Vec::new();
-    for t in [&problem, &request, &tradeoffs, &recommendation].into_iter().flatten() {
+    for t in [&problem, &request, &tradeoffs, &recommendation]
+        .into_iter()
+        .flatten()
+    {
         prose.push(ended(t));
     }
     for (f, _, _) in &evidence {
@@ -706,7 +743,7 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
             prose.push(ended(d));
         }
     }
-    for (_, (_, r)) in &cells {
+    for (_, r) in cells.values() {
         if let Some(r) = r {
             prose.push(ended(r));
         }
@@ -730,7 +767,11 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
         .iter()
         .filter(|q| matches!(q.id.as_str(), "steps_1_4" | "steps_5_8" | "outcomes_matrix"))
         .map(|q| {
-            let t = c.sources.get(&q.source).map(|s| s.title.as_str()).unwrap_or("");
+            let t = c
+                .sources
+                .get(&q.source)
+                .map(|s| s.title.as_str())
+                .unwrap_or("");
             format!("\"{}\" ({t})", q.quote)
         })
         .collect();
@@ -748,7 +789,12 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
     );
 
     let mut sources = content::sources_for(
-        ["namibia_2018", "fluoride_2026", "collins_2005", "skiff_2020"],
+        [
+            "namibia_2018",
+            "fluoride_2026",
+            "collins_2005",
+            "skiff_2020",
+        ],
         &c.sources,
     );
     sources.truncate(4);
@@ -761,7 +807,10 @@ pub fn draft_policy_brief(ctx: &Context, args: BriefArgs) -> Result<Envelope<Bri
             .to_string(),
     ];
     if criteria.iter().any(|k| k.origin.contains("suggestion")) {
-        caveats.push("One or more criteria are this project's drafting suggestions, not from a source read.".into());
+        caveats.push(
+            "One or more criteria are this project's drafting suggestions, not from a source read."
+                .into(),
+        );
     }
     caveats.extend(content::review_caveats(&[BRIEF]));
 
@@ -925,7 +974,10 @@ fn summary_text(
             ]
         })
         .collect();
-    s.push_str(&md::table(&["Step", "Eightfold Path step", "Brief section", "Status"], &rows));
+    s.push_str(&md::table(
+        &["Step", "Eightfold Path step", "Brief section", "Status"],
+        &rows,
+    ));
     s.push('\n');
     s.push_str(&format!(
         "Sections: {}. Placeholders left: {placeholders}. Comparison table: {} option(s) by {} criteria.\n\n",
@@ -958,7 +1010,11 @@ mod tests {
         assert_eq!(c.steps.len(), 8);
         for (i, s) in c.steps.iter().enumerate() {
             assert_eq!(s.number as usize, i + 1);
-            assert!(c.sections.iter().any(|x| x.id == s.brief_section), "{}", s.name);
+            assert!(
+                c.sections.iter().any(|x| x.id == s.brief_section),
+                "{}",
+                s.name
+            );
             assert!(c.sources.contains_key(&s.source));
         }
         for q in &c.evidence_quotes {
@@ -979,7 +1035,12 @@ mod tests {
         let c: BriefContent = content::load(BRIEF).unwrap();
         let r = resolve_criteria(
             &c,
-            &["health_impact".into(), "Equity".into(), "Community trust".into(), "equity".into()],
+            &[
+                "health_impact".into(),
+                "Equity".into(),
+                "Community trust".into(),
+                "equity".into(),
+            ],
         )
         .unwrap();
         assert_eq!(r.len(), 3);

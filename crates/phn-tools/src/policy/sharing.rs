@@ -4,7 +4,7 @@
 //! and returns the regimes that may govern (HIPAA, FERPA, 42 CFR Part 2, the Massachusetts public
 //! records law, 105 CMR 300.000 and the Massachusetts health confidentiality statutes, the
 //! Massachusetts student records provisions), each with provisions, short quotations, cautions, and
-//! facts to confirm. It never says that a disclosure is or is not permitted.
+//! facts to confirm. It never gives a yes or no on whether a disclosure is allowed.
 
 use std::collections::BTreeMap;
 
@@ -380,8 +380,8 @@ pub struct CrossRuleOut {
 /// Result of `health_information_sharing_guide`.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, JsonSchema)]
 pub struct SharingResult {
-    /// Always "governing_rules_and_cautions": the guide never says a disclosure is or is not
-    /// permitted.
+    /// Always "governing_rules_and_cautions": the guide gives no yes or no on whether a
+    /// disclosure is allowed.
     pub answer_type: String,
     /// "needs_answers" (holder_role or record_type missing), "partial" (recipient or purpose
     /// missing), or "rules_identified".
@@ -441,7 +441,12 @@ impl Bears {
 
 /// Decide how a regime bears on the holder and record type, with a plain reason. This is a
 /// screening of which rules to read, not a conclusion about a disclosure.
-pub fn bears(regime: &str, holder: HolderRole, record: RecordType, recipient: Option<Recipient>) -> (Bears, String) {
+pub fn bears(
+    regime: &str,
+    holder: HolderRole,
+    record: RecordType,
+    recipient: Option<Recipient>,
+) -> (Bears, String) {
     use HolderRole as H;
     use RecordType as R;
     match regime {
@@ -597,14 +602,15 @@ fn pick<'a>(
         let n = usize::from(pk.is_some_and(|k| p.purposes.iter().any(|x| x == k)))
             + usize::from(ck.is_some_and(|k| p.recipients.iter().any(|x| x == k)))
             + usize::from(rk.is_some_and(|k| p.record_types.iter().any(|x| x == k)));
-        let untagged = p.purposes.is_empty() && p.recipients.is_empty() && p.record_types.is_empty();
+        let untagged =
+            p.purposes.is_empty() && p.recipients.is_empty() && p.record_types.is_empty();
         if n > 0 {
             tagged.push((n, p));
         } else if untagged {
             general.push(p);
         }
     }
-    tagged.sort_by(|a, b| b.0.cmp(&a.0));
+    tagged.sort_by_key(|t| std::cmp::Reverse(t.0));
     tagged
         .into_iter()
         .map(|(_, p)| p)
@@ -613,19 +619,17 @@ fn pick<'a>(
         .collect()
 }
 
-fn cautions(
-    regime: &str,
-    a: &SharingArgs,
-    bears: Bears,
-) -> Vec<String> {
+fn cautions(regime: &str, a: &SharingArgs, bears: Bears) -> Vec<String> {
     let mut v = Vec::new();
     if bears == Bears::NotIndicated {
         return v;
     }
     match regime {
         "hipaa" => {
-            if matches!(a.purpose, Some(Purpose::PublicHealthReporting | Purpose::DiseaseInvestigation))
-                && a.recipient != Some(Recipient::PublicHealthAuthority)
+            if matches!(
+                a.purpose,
+                Some(Purpose::PublicHealthReporting | Purpose::DiseaseInvestigation)
+            ) && a.recipient != Some(Recipient::PublicHealthAuthority)
                 && a.recipient.is_some()
             {
                 v.push("HIPAA's public health permission is for disclosures to a public health authority (or a person at risk of exposure when authorized by law); check that your recipient is one (45 CFR 164.501, 164.512(b)).".into());
@@ -647,19 +651,32 @@ fn cautions(
             }
         }
         "part2" => {
-            if matches!(a.consent, Some(Consent::Verbal | Consent::None | Consent::Unknown)) {
+            if matches!(
+                a.consent,
+                Some(Consent::Verbal | Consent::None | Consent::Unknown)
+            ) {
                 v.push("Disclosures with consent need written consent that meets 42 CFR 2.31 (not read here) and carry the notice in 2.32; a verbal agreement is not consent under 2.33.".into());
             }
-            if a.purpose == Some(Purpose::LegalProcess) || a.recipient == Some(Recipient::LawEnforcementOrCourt) {
+            if a.purpose == Some(Purpose::LegalProcess)
+                || a.recipient == Some(Recipient::LawEnforcementOrCourt)
+            {
                 v.push("Part 2 restrictions apply even when the requester has a subpoena or is a government official (42 CFR 2.13(b)). Court orders are in subpart E, which was not read; ask counsel.".into());
             }
-            if matches!(a.purpose, Some(Purpose::PublicHealthReporting | Purpose::DiseaseInvestigation)) {
+            if matches!(
+                a.purpose,
+                Some(Purpose::PublicHealthReporting | Purpose::DiseaseInvestigation)
+            ) {
                 v.push("The public health provision (42 CFR 2.54) allows disclosure to a public health authority only of de-identified records.".into());
             }
-            v.push("The 2024 final rule's compliance dates and any court rulings were not verified.".into());
+            v.push(
+                "The 2024 final rule's compliance dates and any court rulings were not verified."
+                    .into(),
+            );
         }
         "ma_public_records" => {
-            if a.recipient == Some(Recipient::PublicRequester) || a.purpose == Some(Purpose::PublicRecordsRequest) {
+            if a.recipient == Some(Recipient::PublicRequester)
+                || a.purpose == Some(Purpose::PublicRecordsRequest)
+            {
                 v.push("The agency's records access officer answers the request in writing within 10 business days (c. 66, section 10); if the agency will not provide a record it must say so in writing, and the requester may appeal (section 10A). Ask your records access officer and counsel about exemptions.".into());
             }
         }
@@ -668,14 +685,17 @@ fn cautions(
                 v.push("HIV test results and the identity of the person tested need the subject's written informed consent under c. 111, section 70F, with a form that states the purpose and is separate from other releases. A signed general release may not satisfy it.".into());
             }
             if a.record_type == Some(RecordType::CommunicableDiseaseReport)
-                && (a.recipient == Some(Recipient::PublicRequester) || a.purpose == Some(Purpose::PublicRecordsRequest))
+                && (a.recipient == Some(Recipient::PublicRequester)
+                    || a.purpose == Some(Purpose::PublicRecordsRequest))
             {
                 v.push("105 CMR 300.120 treats personally identifying disease report information as confidential; do not release it in response to a public records request without counsel's review.".into());
             }
         }
         _ => {}
     }
-    if a.subject_is_minor == Some(true) && matches!(regime, "hipaa" | "ferpa" | "ma_student_records") {
+    if a.subject_is_minor == Some(true)
+        && matches!(regime, "hipaa" | "ferpa" | "ma_student_records")
+    {
         v.push("The person is a minor: check who may exercise the rights (a parent or guardian, the minor, or both). 45 CFR 164.502(g) covers personal representatives and c. 71, section 34E covers school records; Massachusetts law on minors' consent to their own care was not read.".into());
     }
     v
@@ -711,7 +731,11 @@ pub fn health_information_sharing_guide(
                 .iter()
                 .map(|x| format!("{}: {}", x.value, x.label))
                 .collect(),
-            answer: answers.get(q.id.as_str()).copied().flatten().map(String::from),
+            answer: answers
+                .get(q.id.as_str())
+                .copied()
+                .flatten()
+                .map(String::from),
         })
         .collect();
 
@@ -729,7 +753,8 @@ pub fn health_information_sharing_guide(
     let mut regimes: Vec<RegimeOut> = Vec::new();
     let mut facts: Vec<String> = Vec::new();
     for r in &c.regimes {
-        let (bears_label, why, provisions, cautions_v) = match (args.holder_role, args.record_type) {
+        let (bears_label, why, provisions, cautions_v) = match (args.holder_role, args.record_type)
+        {
             (Some(h), Some(rt)) => {
                 let (b, why) = bears(&r.id, h, rt, args.recipient);
                 let provs: Vec<&ProvisionDef> = if b == Bears::NotIndicated {
@@ -796,13 +821,23 @@ pub fn health_information_sharing_guide(
 
     let shown_ids: Vec<&str> = regimes
         .iter()
-        .filter(|r| r.bears_on_your_situation != "not_indicated" && r.bears_on_your_situation != "unassessed")
+        .filter(|r| {
+            r.bears_on_your_situation != "not_indicated"
+                && r.bears_on_your_situation != "unassessed"
+        })
         .map(|r| r.id.as_str())
         .collect();
     let cross: Vec<CrossRuleOut> = c
         .cross_rules
         .iter()
-        .filter(|x| shown_ids.is_empty() || x.regimes.iter().filter(|g| shown_ids.contains(&g.as_str())).count() >= 1)
+        .filter(|x| {
+            shown_ids.is_empty()
+                || x.regimes
+                    .iter()
+                    .filter(|g| shown_ids.contains(&g.as_str()))
+                    .count()
+                    >= 1
+        })
         .map(|x| CrossRuleOut {
             text: flatten(&x.text),
             confidence: x.confidence,
@@ -820,7 +855,15 @@ pub fn health_information_sharing_guide(
         contacts: c.referral.contacts.clone(),
     };
 
-    let summary = summary_text(&args, status, &questions, &regimes, &facts, situation.as_deref(), &referral);
+    let summary = summary_text(
+        &args,
+        status,
+        &questions,
+        &regimes,
+        &facts,
+        situation.as_deref(),
+        &referral,
+    );
 
     let mut keys: Vec<&str> = Vec::new();
     for r in &regimes {
@@ -831,12 +874,18 @@ pub fn health_information_sharing_guide(
         }
     }
     if keys.is_empty() {
-        keys.extend(["ecfr_160_103", "ecfr_99_3", "ecfr_part2_12", "mgl_4_7", "cmr_300"]);
+        keys.extend([
+            "ecfr_160_103",
+            "ecfr_99_3",
+            "ecfr_part2_12",
+            "mgl_4_7",
+            "cmr_300",
+        ]);
     }
     let sources = content::sources_for(keys, &c.sources);
 
     let mut caveats = vec![
-        "Decision support, not legal advice. This guide lists the rules that may govern a record and the questions that decide whether it can be shared; it never says that a disclosure is or is not permitted. Take the decision to your agency's counsel or privacy officer."
+        "Decision support, not legal advice. This guide lists the rules that may govern a record and the questions that decide whether it can be shared; it never gives a yes or no on whether a disclosure is allowed. Take the decision to your agency's counsel or privacy officer."
             .to_string(),
         "PARTIAL snapshot: the FERPA statute, the HHS and Department of Education joint guidance, 603 CMR 23.00 (student records), 42 CFR Part 2 subpart E, and several Massachusetts confidentiality statutes were not read (see coverage)."
             .to_string(),
@@ -881,10 +930,11 @@ fn summary_text(
     situation: Option<&str>,
     referral: &Referral,
 ) -> String {
-    let mut s = String::from("**Which rules govern this health information? (decision guide)**\n\n");
+    let mut s =
+        String::from("**Which rules govern this health information? (decision guide)**\n\n");
     s.push_str(
         "This lists rules that may govern the record and the questions that decide the matter. It \
-         does not say whether sharing is or is not permitted: that depends on facts and on \
+         does not give a yes or no on whether sharing is allowed: that depends on facts and on \
          counsel's reading.\n\n",
     );
     if let Some(t) = situation {
@@ -899,7 +949,13 @@ fn summary_text(
             }
         }
         s.push_str("\nThe regimes this guide covers: ");
-        s.push_str(&regimes.iter().map(|r| r.name.as_str()).collect::<Vec<_>>().join("; "));
+        s.push_str(
+            &regimes
+                .iter()
+                .map(|r| r.name.as_str())
+                .collect::<Vec<_>>()
+                .join("; "),
+        );
         s.push_str(".\n");
         return s;
     }
@@ -959,7 +1015,12 @@ pub fn answer_keys() -> Result<BTreeMap<String, Vec<String>>> {
     let c: SharingContent = content::load(SHARING)?;
     Ok(c.questions
         .iter()
-        .map(|q| (q.id.clone(), q.choices.iter().map(|x| x.value.clone()).collect()))
+        .map(|q| {
+            (
+                q.id.clone(),
+                q.choices.iter().map(|x| x.value.clone()).collect(),
+            )
+        })
         .collect())
 }
 
@@ -1039,11 +1100,26 @@ mod tests {
 
     #[test]
     fn school_health_records_fall_outside_hipaa_and_inside_ferpa() {
-        let (h, _) = bears("hipaa", HolderRole::SchoolNursePublic, RecordType::SchoolHealthRecord, None);
+        let (h, _) = bears(
+            "hipaa",
+            HolderRole::SchoolNursePublic,
+            RecordType::SchoolHealthRecord,
+            None,
+        );
         assert_eq!(h, Bears::NotIndicated);
-        let (f, _) = bears("ferpa", HolderRole::SchoolNursePublic, RecordType::SchoolHealthRecord, None);
+        let (f, _) = bears(
+            "ferpa",
+            HolderRole::SchoolNursePublic,
+            RecordType::SchoolHealthRecord,
+            None,
+        );
         assert_eq!(f, Bears::LikelyGoverns);
-        let (f, _) = bears("ferpa", HolderRole::SchoolNursePrivate, RecordType::SchoolHealthRecord, None);
+        let (f, _) = bears(
+            "ferpa",
+            HolderRole::SchoolNursePrivate,
+            RecordType::SchoolHealthRecord,
+            None,
+        );
         assert_eq!(f, Bears::MayApply);
     }
 
@@ -1054,7 +1130,11 @@ mod tests {
         for p in &c.provisions {
             assert!(regimes.contains(&p.regime.as_str()), "{}", p.id);
             assert!(c.sources.contains_key(&p.source), "{}", p.id);
-            assert!(p.quote.split_whitespace().count() <= 25, "{} quote too long", p.id);
+            assert!(
+                p.quote.split_whitespace().count() <= 25,
+                "{} quote too long",
+                p.id
+            );
         }
     }
 }

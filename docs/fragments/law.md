@@ -44,7 +44,7 @@
   164.512), FERPA (34 CFR 99.1, 99.3, 99.30, 99.31, 99.36), 42 CFR Part 2 (2.11 to 2.13, 2.32, 2.33, 2.51,
   2.54, as amended in 2024), the Massachusetts public records law (c. 66 section 10, c. 4 section 7 clause
   twenty-sixth), 105 CMR 300.120 and 300.191, c. 111 sections 24M, 70F, 111, 119, c. 112 section 12CC, and
-  c. 71 sections 34D and 34E. It never says a disclosure is or is not permitted (`answer_type`
+  c. 71 sections 34D and 34E. It never gives a yes or no on whether a disclosure is allowed (`answer_type`
   `governing_rules_and_cautions`) and refers to agency counsel. Content
   `content/policy/information_sharing.yaml` (`status: pending`, `review_due: 2027-02-01`).
 

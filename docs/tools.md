@@ -4337,7 +4337,7 @@ organization you must confirm:
   immunization records; M.G.L. c. 111 sections 24M, 70F, 111, 119; c. 112 section 12CC);
 - **Massachusetts student records** (M.G.L. c. 71, sections 34D and 34E).
 
-It **never says that a disclosure is or is not permitted** (`answer_type` is `governing_rules_and_cautions`).
+It **never gives a yes or no on whether a disclosure is allowed** (`answer_type` is `governing_rules_and_cautions`).
 Federal texts are the eCFR text as of 2026-11-10, read through the eCFR API; Massachusetts texts are from
 malegislature.gov and mass.gov. **Not read:** the FERPA statute, the HHS and Education joint guidance
 (hhs.gov is blocked), 603 CMR 23.00 (the mass.gov page is marked unpublished), 42 CFR Part 2 subpart E and the

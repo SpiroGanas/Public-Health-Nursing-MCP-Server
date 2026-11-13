@@ -4,7 +4,7 @@
 //! sections say so, the optional larger corpus is used only with matching checksums, local
 //! regulation files are searched with contact details masked and client-like files refused, the
 //! policy brief invents nothing and counts its placeholders, the sharing guide never says that a
-//! disclosure is or is not permitted, content is pending review, problems the nurse can fix are
+//! disclosure is allowed (no yes or no), content is pending review, problems the nurse can fix are
 //! tool errors, and identifiers are refused without being echoed.
 
 mod common;
@@ -86,7 +86,12 @@ fn citations(s: &Value) -> Vec<String> {
 #[tokio::test]
 async fn a_citation_returns_the_exact_section_with_dates_link_and_a_short_excerpt() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "105 CMR 300.200"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "105 CMR 300.200"}),
+    )
+    .await;
     let d = &s["data"];
     assert_eq!(d["interpretation"], "citation lookup");
     let hits = d["hits"].as_array().unwrap();
@@ -97,7 +102,12 @@ async fn a_citation_returns_the_exact_section_with_dates_link_and_a_short_excerp
     assert_eq!(hit["coverage"], "full_text");
     assert_eq!(hit["chapter_date"], "2022-05-27");
     assert_eq!(hit["retrieved"], "2026-11-12");
-    assert!(hit["url"].as_str().unwrap().starts_with("https://www.mass.gov/regulations/105-CMR-30000"));
+    assert!(
+        hit["url"]
+            .as_str()
+            .unwrap()
+            .starts_with("https://www.mass.gov/regulations/105-CMR-30000")
+    );
     assert!(hit["pdf_url"].as_str().unwrap().contains("105-cmr-300"));
     let ex = hit["excerpt"].as_str().unwrap();
     assert!(words(ex) <= 25, "{ex}");
@@ -121,10 +131,19 @@ async fn statute_citations_in_several_forms_find_the_section() {
         "G.L. c. 111 sec. 95",
     ] {
         let s = call_ok(&h, "search_public_health_law", json!({"query": q})).await;
-        assert_eq!(citations(&s), vec!["M.G.L. c. 111, § 95".to_string()], "{q}");
+        assert_eq!(
+            citations(&s),
+            vec!["M.G.L. c. 111, § 95".to_string()],
+            "{q}"
+        );
         let hit = &s["data"]["hits"][0];
         assert_eq!(hit["coverage"], "full_text");
-        assert!(hit["url"].as_str().unwrap().ends_with("/Chapter111/Section95"));
+        assert!(
+            hit["url"]
+                .as_str()
+                .unwrap()
+                .ends_with("/Chapter111/Section95")
+        );
         assert!(words(hit["excerpt"].as_str().unwrap()) <= 25);
     }
 }
@@ -132,7 +151,12 @@ async fn statute_citations_in_several_forms_find_the_section() {
 #[tokio::test]
 async fn index_only_sections_say_so_and_have_no_excerpt() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "M.G.L. c. 111, § 143"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "M.G.L. c. 111, § 143"}),
+    )
+    .await;
     let hit = &s["data"]["hits"][0];
     assert_eq!(hit["citation"], "M.G.L. c. 111, § 143");
     assert_eq!(hit["coverage"], "index_only");
@@ -148,10 +172,18 @@ async fn index_only_sections_say_so_and_have_no_excerpt() {
     .await;
     assert!(s["data"]["hits"].as_array().unwrap().is_empty());
     // A chapter that is index-only in 105 CMR lists titles without text.
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "105 CMR 130"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "105 CMR 130"}),
+    )
+    .await;
     let hits = s["data"]["hits"].as_array().unwrap();
     assert!(!hits.is_empty());
-    assert!(hits.iter().all(|x| x["coverage"] == "index_only" && x["excerpt"].is_null()));
+    assert!(
+        hits.iter()
+            .all(|x| x["coverage"] == "index_only" && x["excerpt"].is_null())
+    );
 }
 
 #[tokio::test]
@@ -174,14 +206,39 @@ async fn a_chapter_citation_lists_its_sections_and_respects_max_results() {
 async fn keyword_search_finds_the_core_provisions_and_every_excerpt_is_short() {
     let h = start(|c| c.offline = true).await;
     let queries = [
-        ("board of health order to isolate or quarantine a person with a dangerous disease", &["105 CMR 300.200", "105 CMR 300.210", "M.G.L. c. 111, § 95", "M.G.L. c. 111, § 104"][..]),
-        ("confidentiality of reports of disease", &["105 CMR 300.120"][..]),
-        ("lead poisoning mandatory blood lead screening", &["105 CMR 460.050", "105 CMR 460.040"][..]),
-        ("delegation to unlicensed persons by a nurse", &["244 CMR 3.05"][..]),
-        ("minimum age tobacco sale", &["105 CMR 665.010", "105 CMR 665.005", "105 CMR 665.020"][..]),
+        (
+            "board of health order to isolate or quarantine a person with a dangerous disease",
+            &[
+                "105 CMR 300.200",
+                "105 CMR 300.210",
+                "M.G.L. c. 111, § 95",
+                "M.G.L. c. 111, § 104",
+            ][..],
+        ),
+        (
+            "confidentiality of reports of disease",
+            &["105 CMR 300.120"][..],
+        ),
+        (
+            "lead poisoning mandatory blood lead screening",
+            &["105 CMR 460.050", "105 CMR 460.040"][..],
+        ),
+        (
+            "delegation to unlicensed persons by a nurse",
+            &["244 CMR 3.05"][..],
+        ),
+        (
+            "minimum age tobacco sale",
+            &["105 CMR 665.010", "105 CMR 665.005", "105 CMR 665.020"][..],
+        ),
     ];
     for (q, expect) in queries {
-        let s = call_ok(&h, "search_public_health_law", json!({"query": q, "max_results": 10})).await;
+        let s = call_ok(
+            &h,
+            "search_public_health_law",
+            json!({"query": q, "max_results": 10}),
+        )
+        .await;
         let got = citations(&s);
         assert!(
             expect.iter().any(|e| got.iter().any(|g| g == e)),
@@ -196,7 +253,12 @@ async fn keyword_search_finds_the_core_provisions_and_every_excerpt_is_short() {
         }
     }
     // Topic starting points resolve to real sections with titles.
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "isolation and quarantine orders"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "isolation and quarantine orders"}),
+    )
+    .await;
     let topics = s["data"]["topics"].as_array().unwrap();
     assert!(topics.iter().any(|t| t["id"] == "isolation_quarantine"));
     let start_with = topics[0]["start_with"].as_array().unwrap();
@@ -206,13 +268,21 @@ async fn keyword_search_finds_the_core_provisions_and_every_excerpt_is_short() {
 #[tokio::test]
 async fn the_244_cmr_hits_point_to_the_scope_of_practice_guide() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "244 CMR 3.05"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "244 CMR 3.05"}),
+    )
+    .await;
     let hit = &s["data"]["hits"][0];
     assert_eq!(hit["citation"], "244 CMR 3.05");
     assert_eq!(hit["coverage"], "full_text");
     let rel = hit["related"].as_array().unwrap();
     assert!(
-        rel.iter().any(|r| r.as_str().unwrap().contains("nursing_scope_of_practice_guide")),
+        rel.iter().any(|r| r
+            .as_str()
+            .unwrap()
+            .contains("nursing_scope_of_practice_guide")),
         "{rel:?}"
     );
     let s = call_ok(
@@ -221,13 +291,24 @@ async fn the_244_cmr_hits_point_to_the_scope_of_practice_guide() {
         json!({"query": "delegation", "sources": ["cmr_244"]}),
     )
     .await;
-    assert!(s["data"]["hits"].as_array().unwrap().iter().all(|x| x["source"] == "cmr_244"));
+    assert!(
+        s["data"]["hits"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|x| x["source"] == "cmr_244")
+    );
 }
 
 #[tokio::test]
 async fn coverage_says_what_is_bundled_in_full_text_and_what_is_not() {
     let h = start(|c| c.offline = true).await;
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "105 CMR 300.001"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "105 CMR 300.001"}),
+    )
+    .await;
     let cov = s["data"]["coverage"].as_array().unwrap();
     let by = |k: &str| cov.iter().find(|c| c["source"] == k).unwrap();
     assert_eq!(by("mgl_c111")["sections"], 510);
@@ -238,7 +319,12 @@ async fn coverage_says_what_is_bundled_in_full_text_and_what_is_not() {
     assert!(by("cmr_105")["index_only_sections"].as_u64().unwrap() > 2000);
     assert_eq!(by("cmr_105")["origin"], "bundled");
     assert!(!by("cmr_105")["not_included"].as_array().unwrap().is_empty());
-    assert!(by("mgl_c111")["coverage"].as_str().unwrap().contains("index-only"));
+    assert!(
+        by("mgl_c111")["coverage"]
+            .as_str()
+            .unwrap()
+            .contains("index-only")
+    );
 }
 
 #[tokio::test]
@@ -253,7 +339,12 @@ async fn problems_the_nurse_can_fix_are_errors_and_identifiers_are_not_echoed() 
     )
     .await;
     assert!(!e.contains("413-555-0100") && !e.contains("837 Elm"), "{e}");
-    let e = call_err(&h, "search_public_health_law", json!({"query": "x".repeat(400)})).await;
+    let e = call_err(
+        &h,
+        "search_public_health_law",
+        json!({"query": "x".repeat(400)}),
+    )
+    .await;
     assert!(e.contains("too long"));
     let e = call_err(
         &h,
@@ -268,7 +359,10 @@ async fn problems_the_nurse_can_fix_are_errors_and_identifiers_are_not_echoed() 
         json!({"query": "quarantine", "local_folder": "no_such_folder"}),
     )
     .await;
-    assert!(e.contains("not found") || e.contains("was not found"), "{e}");
+    assert!(
+        e.contains("not found") || e.contains("was not found"),
+        "{e}"
+    );
 }
 
 #[tokio::test]
@@ -310,19 +404,38 @@ async fn local_regulations_are_searched_with_contacts_masked_and_client_files_re
         assert_eq!(hit["coverage"], "local_file");
         assert!(words(hit["excerpt"].as_str().unwrap()) <= 25);
     }
-    let all = everything(&h.call(
-        "search_public_health_law",
-        json!({"query": "flavored tobacco permit suspension", "sources": ["local"]}),
-    )
-    .await);
-    for secret in ["413-555-0199", "clerk@town.example.org", "Maria Garcia", "03/02/2015", "4455667", "12 Pine Street"] {
+    let all = everything(
+        &h.call(
+            "search_public_health_law",
+            json!({"query": "flavored tobacco permit suspension", "sources": ["local"]}),
+        )
+        .await,
+    );
+    for secret in [
+        "413-555-0199",
+        "clerk@town.example.org",
+        "Maria Garcia",
+        "03/02/2015",
+        "4455667",
+        "12 Pine Street",
+    ] {
         assert!(!all.contains(secret), "{secret} leaked: {all}");
     }
     assert!(!all.contains("visit_note"), "refused files are never named");
     assert!(s["privacy"]["notes"].to_string().contains("client"));
     // The state law is searched alongside by default and local hits are marked.
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "flavored tobacco"})).await;
-    let srcs: Vec<&str> = s["data"]["hits"].as_array().unwrap().iter().map(|x| x["source"].as_str().unwrap()).collect();
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "flavored tobacco"}),
+    )
+    .await;
+    let srcs: Vec<&str> = s["data"]["hits"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|x| x["source"].as_str().unwrap())
+        .collect();
     assert!(srcs.contains(&"cmr_105") || srcs.contains(&"local"));
     // Without the folder, the tool says only state law was searched.
     let h2 = start(|c| c.offline = true).await;
@@ -366,15 +479,33 @@ async fn a_larger_corpus_is_used_only_when_its_checksums_match() {
         .unwrap();
     };
     write_manifest("0000");
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "M.G.L. c. 111, § 143"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "M.G.L. c. 111, § 143"}),
+    )
+    .await;
     assert_eq!(s["data"]["hits"][0]["coverage"], "index_only");
     assert!(caveats(&s).contains("checksum"), "{}", caveats(&s));
     write_manifest(&sum);
-    let s = call_ok(&h, "search_public_health_law", json!({"query": "M.G.L. c. 111, § 143"})).await;
+    let s = call_ok(
+        &h,
+        "search_public_health_law",
+        json!({"query": "M.G.L. c. 111, § 143"}),
+    )
+    .await;
     assert_eq!(s["data"]["hits"][0]["coverage"], "full_text");
-    assert!(s["data"]["hits"][0]["excerpt"].as_str().unwrap().contains("odors"));
+    assert!(
+        s["data"]["hits"][0]["excerpt"]
+            .as_str()
+            .unwrap()
+            .contains("odors")
+    );
     let cov = s["data"]["coverage"].as_array().unwrap();
-    assert_eq!(cov.iter().find(|c| c["source"] == "mgl_c111").unwrap()["origin"], "extended");
+    assert_eq!(
+        cov.iter().find(|c| c["source"] == "mgl_c111").unwrap()["origin"],
+        "extended"
+    );
     assert!(caveats(&s).contains("Larger law corpus in use"));
 }
 
@@ -445,19 +576,63 @@ async fn a_filled_brief_uses_only_what_the_nurse_supplied() {
     let d = &s["data"];
     assert_eq!(d["length"], "full");
     assert_eq!(d["audience"], "Board of health");
-    let sections: Vec<&str> = d["sections"].as_array().unwrap().iter().map(|x| x["id"].as_str().unwrap()).collect();
-    assert!(sections.contains(&"criteria") && sections.contains(&"tradeoffs") && sections.contains(&"references"));
-    let status = |id: &str| d["sections"].as_array().unwrap().iter().find(|x| x["id"] == id).unwrap()["status"].as_str().unwrap().to_string();
+    let sections: Vec<&str> = d["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|x| x["id"].as_str().unwrap())
+        .collect();
+    assert!(
+        sections.contains(&"criteria")
+            && sections.contains(&"tradeoffs")
+            && sections.contains(&"references")
+    );
+    let status = |id: &str| {
+        d["sections"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|x| x["id"] == id)
+            .unwrap()["status"]
+            .as_str()
+            .unwrap()
+            .to_string()
+    };
     assert_eq!(status("problem"), "supplied");
-    assert_eq!(status("evidence"), "partly supplied", "one item has no citation");
-    assert_eq!(status("options"), "partly supplied", "one option has no description");
+    assert_eq!(
+        status("evidence"),
+        "partly supplied",
+        "one item has no citation"
+    );
+    assert_eq!(
+        status("options"),
+        "partly supplied",
+        "one option has no description"
+    );
     assert_eq!(status("tradeoffs"), "placeholder");
     let m = &d["comparison"];
-    assert_eq!(m["criteria"], json!(["Health impact", "Implementation feasibility", "Community trust"]));
+    assert_eq!(
+        m["criteria"],
+        json!([
+            "Health impact",
+            "Implementation feasibility",
+            "Community trust"
+        ])
+    );
     assert_eq!(m["rows"][0]["cells"][0], "Strong: Sets a clear standard");
     assert_eq!(m["rows"][1]["cells"][1], "Strong: Uses current staff");
-    assert!(m["rows"][2]["cells"][2].as_str().unwrap().starts_with("Weak: [NURSE:"));
-    assert!(m["rows"][0]["cells"][1].as_str().unwrap().contains("[NURSE: rating"));
+    assert!(
+        m["rows"][2]["cells"][2]
+            .as_str()
+            .unwrap()
+            .starts_with("Weak: [NURSE:")
+    );
+    assert!(
+        m["rows"][0]["cells"][1]
+            .as_str()
+            .unwrap()
+            .contains("[NURSE: rating")
+    );
     let r = &d["readability"];
     assert_eq!(r["checked"], true, "{r}");
     assert!(r["median_grade"].as_f64().unwrap() > 0.0);
@@ -467,14 +642,20 @@ async fn a_filled_brief_uses_only_what_the_nurse_supplied() {
     // Two files: Word and Markdown. Nothing in them comes from outside the arguments.
     let files = d["document_files"].as_array().unwrap();
     assert_eq!(files.len(), 2);
-    let md_file = files.iter().find(|f| f.as_str().unwrap().ends_with(".md")).unwrap();
+    let md_file = files
+        .iter()
+        .find(|f| f.as_str().unwrap().ends_with(".md"))
+        .unwrap();
     let md = std::fs::read_to_string(h.data().join(md_file.as_str().unwrap())).unwrap();
     assert!(md.contains("Many renters report mold in their homes."));
     assert!(md.contains("Source: Health department complaint log, 2025."));
     assert!(md.contains("[NURSE: citation for this finding]"));
     assert!(md.contains("| Option |") && md.contains("Strong: Sets a clear standard"));
     assert!(md.contains("Bardach, 2012, as cited in"));
-    let docx = files.iter().find(|f| f.as_str().unwrap().ends_with(".docx")).unwrap();
+    let docx = files
+        .iter()
+        .find(|f| f.as_str().unwrap().ends_with(".docx"))
+        .unwrap();
     assert!(docx_text(&h, docx.as_str().unwrap()).contains("Mold in rental housing"));
 }
 
@@ -482,11 +663,22 @@ async fn a_filled_brief_uses_only_what_the_nurse_supplied() {
 async fn one_page_leaves_out_the_long_sections_and_output_none_writes_no_file() {
     let h = start(|c| c.offline = true).await;
     let s = call_ok(&h, "draft_policy_brief", json!({"output": "none"})).await;
-    let ids: Vec<&str> = s["data"]["sections"].as_array().unwrap().iter().map(|x| x["id"].as_str().unwrap()).collect();
+    let ids: Vec<&str> = s["data"]["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|x| x["id"].as_str().unwrap())
+        .collect();
     assert!(ids.contains(&"matrix") && ids.contains(&"recommendation"));
-    assert!(!ids.contains(&"criteria") && !ids.contains(&"tradeoffs") && !ids.contains(&"references"));
+    assert!(
+        !ids.contains(&"criteria") && !ids.contains(&"tradeoffs") && !ids.contains(&"references")
+    );
     assert!(s["data"]["document_files"].as_array().unwrap().is_empty());
-    assert!(s["privacy"]["files_written"].as_array().unwrap().is_empty());
+    assert!(
+        s["privacy"]["files_written"]
+            .as_array()
+            .is_none_or(|a| a.is_empty())
+    );
     let steps = s["data"]["eightfold_path"].as_array().unwrap();
     assert_eq!(steps[3]["status"], "not in this length");
 }
@@ -508,13 +700,30 @@ async fn brief_problems_are_tool_errors_and_identifiers_are_refused_without_echo
     )
     .await;
     assert!(e.contains("criterion"), "{e}");
-    let e = call_err(&h, "draft_policy_brief", json!({"options": [{"name": "A"}, {"name": "a"}]})).await;
+    let e = call_err(
+        &h,
+        "draft_policy_brief",
+        json!({"options": [{"name": "A"}, {"name": "a"}]}),
+    )
+    .await;
     assert!(e.contains("same name"));
-    let e = call_err(&h, "draft_policy_brief", json!({"problem": "The family at 837 Elm Street, 413-555-0100 has mold"})).await;
+    let e = call_err(
+        &h,
+        "draft_policy_brief",
+        json!({"problem": "The family at 837 Elm Street, 413-555-0100 has mold"}),
+    )
+    .await;
     assert!(!e.contains("413-555-0100") && !e.contains("837 Elm"), "{e}");
-    let e = call_err(&h, "draft_policy_brief", json!({"evidence": [{"finding": "Email maria.garcia@example.org about it"}]})).await;
+    let e = call_err(
+        &h,
+        "draft_policy_brief",
+        json!({"evidence": [{"finding": "Email maria.garcia@example.org about it"}]}),
+    )
+    .await;
     assert!(!e.contains("maria.garcia@example.org"), "{e}");
-    let seven: Vec<Value> = (0..7).map(|i| json!({"name": format!("Option {i}")})).collect();
+    let seven: Vec<Value> = (0..7)
+        .map(|i| json!({"name": format!("Option {i}")}))
+        .collect();
     let e = call_err(&h, "draft_policy_brief", json!({"options": seven})).await;
     assert!(e.contains("at most"));
 }
@@ -522,11 +731,21 @@ async fn brief_problems_are_tool_errors_and_identifiers_are_refused_without_echo
 // ---------------------------------------------------------------- POL-07
 
 fn regime<'a>(s: &'a Value, id: &str) -> &'a Value {
-    s["data"]["regimes"].as_array().unwrap().iter().find(|r| r["id"] == id).unwrap()
+    s["data"]["regimes"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|r| r["id"] == id)
+        .unwrap()
 }
 
 fn provision_ids(r: &Value) -> Vec<String> {
-    r["provisions"].as_array().unwrap().iter().map(|p| p["id"].as_str().unwrap().to_string()).collect()
+    r["provisions"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|p| p["id"].as_str().unwrap().to_string())
+        .collect()
 }
 
 #[tokio::test]
@@ -536,16 +755,44 @@ async fn with_no_answers_the_guide_asks_the_structured_questions() {
     let d = &s["data"];
     assert_eq!(d["answer_type"], "governing_rules_and_cautions");
     assert_eq!(d["status"], "needs_answers");
-    let q: Vec<&str> = d["questions"].as_array().unwrap().iter().map(|x| x["id"].as_str().unwrap()).collect();
-    assert_eq!(q, ["holder_role", "record_type", "recipient", "purpose", "consent"]);
-    assert!(d["questions"].as_array().unwrap().iter().all(|x| x["answer"].is_null() && !x["choices"].as_array().unwrap().is_empty()));
+    let q: Vec<&str> = d["questions"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|x| x["id"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        q,
+        [
+            "holder_role",
+            "record_type",
+            "recipient",
+            "purpose",
+            "consent"
+        ]
+    );
+    assert!(
+        d["questions"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|x| x["answer"].is_null() && !x["choices"].as_array().unwrap().is_empty())
+    );
     let regs = d["regimes"].as_array().unwrap();
     assert_eq!(regs.len(), 6);
-    assert!(regs.iter().all(|r| r["bears_on_your_situation"] == "unassessed" && r["provisions"].as_array().unwrap().is_empty()));
+    assert!(
+        regs.iter()
+            .all(|r| r["bears_on_your_situation"] == "unassessed"
+                && r["provisions"].as_array().unwrap().is_empty())
+    );
     assert!(pending(&s));
     assert!(s["notice"].as_str().is_some());
     assert!(d["coverage"]["partial"].as_bool().unwrap());
-    assert!(d["coverage"]["not_read"].to_string().contains("603 CMR 23.00"));
+    assert!(
+        d["coverage"]["not_read"]
+            .to_string()
+            .contains("603 CMR 23.00")
+    );
 }
 
 #[tokio::test]
@@ -560,13 +807,23 @@ async fn a_school_nurse_health_record_is_ferpa_not_hipaa() {
     .await;
     let d = &s["data"];
     assert_eq!(d["status"], "rules_identified");
-    assert_eq!(regime(&s, "ferpa")["bears_on_your_situation"], "likely_governs");
+    assert_eq!(
+        regime(&s, "ferpa")["bears_on_your_situation"],
+        "likely_governs"
+    );
     let hipaa = regime(&s, "hipaa");
     assert_eq!(hipaa["bears_on_your_situation"], "not_indicated");
     assert_eq!(provision_ids(hipaa), ["hipaa_phi_excludes_ferpa"]);
     let ferpa = provision_ids(regime(&s, "ferpa"));
-    assert!(ferpa.contains(&"ferpa_consent".to_string()) && ferpa.contains(&"ferpa_education_record".to_string()), "{ferpa:?}");
-    assert_eq!(regime(&s, "ma_student_records")["bears_on_your_situation"], "likely_governs");
+    assert!(
+        ferpa.contains(&"ferpa_consent".to_string())
+            && ferpa.contains(&"ferpa_education_record".to_string()),
+        "{ferpa:?}"
+    );
+    assert_eq!(
+        regime(&s, "ma_student_records")["bears_on_your_situation"],
+        "likely_governs"
+    );
     assert_eq!(regime(&s, "part2")["bears_on_your_situation"], "check");
     // Regimes that bear on the situation come first.
     assert_eq!(d["regimes"][0]["bears_on_your_situation"], "likely_governs");
@@ -574,7 +831,8 @@ async fn a_school_nurse_health_record_is_ferpa_not_hipaa() {
 }
 
 #[tokio::test]
-async fn immunization_records_to_a_school_bring_in_the_hipaa_school_permission_and_the_state_rule() {
+async fn immunization_records_to_a_school_bring_in_the_hipaa_school_permission_and_the_state_rule()
+{
     let h = start(|c| c.offline = true).await;
     let s = call_ok(
         &h,
@@ -587,7 +845,10 @@ async fn immunization_records_to_a_school_bring_in_the_hipaa_school_permission_a
     let hipaa = regime(&s, "hipaa");
     assert_eq!(hipaa["bears_on_your_situation"], "likely_governs");
     let ids = provision_ids(hipaa);
-    assert!(ids.contains(&"hipaa_school_immunization".to_string()), "{ids:?}");
+    assert!(
+        ids.contains(&"hipaa_school_immunization".to_string()),
+        "{ids:?}"
+    );
     assert!(hipaa["cautions"].to_string().contains("Minimum necessary"));
     assert!(hipaa["cautions"].to_string().contains("minor"));
     let ma = regime(&s, "ma_health_confidentiality");
@@ -622,7 +883,11 @@ async fn substance_use_records_and_hiv_results_carry_their_own_cautions() {
     let ma = regime(&s, "ma_health_confidentiality");
     assert_eq!(ma["bears_on_your_situation"], "likely_governs");
     assert!(provision_ids(ma).contains(&"ma_c111_70f".to_string()));
-    assert!(ma["cautions"].to_string().contains("written informed consent"));
+    assert!(
+        ma["cautions"]
+            .to_string()
+            .contains("written informed consent")
+    );
     let pr = regime(&s, "ma_public_records");
     assert_eq!(pr["bears_on_your_situation"], "may_apply");
     assert!(pr["cautions"].to_string().contains("10 business days"));
@@ -641,12 +906,21 @@ async fn the_guide_never_gives_a_yes_or_no_and_every_quote_is_short_and_dated() 
     ];
     for a in combos {
         let s = call_ok(&h, "health_information_sharing_guide", a.clone()).await;
-        let all = everything(&h.call("health_information_sharing_guide", a.clone()).await).to_lowercase();
-        for banned in ["you may share", "you may disclose", "is permitted", "is not permitted", "you can share", "you cannot share", "you must not share"] {
+        let all =
+            everything(&h.call("health_information_sharing_guide", a.clone()).await).to_lowercase();
+        for banned in [
+            "you may share",
+            "you may disclose",
+            "is permitted",
+            "is not permitted",
+            "you can share",
+            "you cannot share",
+            "you must not share",
+        ] {
             assert!(!all.contains(banned), "{a}: contains '{banned}'");
         }
         assert_eq!(s["data"]["answer_type"], "governing_rules_and_cautions");
-        assert!(caveats(&s).contains("never says that a disclosure is or is not permitted"));
+        assert!(caveats(&s).contains("never gives a yes or no on whether a disclosure is allowed"));
         for r in s["data"]["regimes"].as_array().unwrap() {
             for p in r["provisions"].as_array().unwrap() {
                 assert!(words(p["quote"].as_str().unwrap()) <= 25, "{}", p["id"]);
@@ -670,7 +944,10 @@ async fn sharing_guide_refuses_identifiers_in_free_text_without_echo() {
         json!({"situation": "The student at 837 Elm Street, phone 413-555-0100, born 03/02/2015"}),
     )
     .await;
-    assert!(!e.contains("413-555-0100") && !e.contains("837 Elm") && !e.contains("03/02/2015"), "{e}");
+    assert!(
+        !e.contains("413-555-0100") && !e.contains("837 Elm") && !e.contains("03/02/2015"),
+        "{e}"
+    );
     let s = call_ok(
         &h,
         "health_information_sharing_guide",

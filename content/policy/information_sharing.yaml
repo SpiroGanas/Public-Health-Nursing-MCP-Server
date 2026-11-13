@@ -7,7 +7,7 @@
 #
 # REVIEW STATUS: pending. The federal texts are the eCFR (versioner API) texts "up to date as of
 # 2026-11-10"; the Massachusetts statutes are from malegislature.gov and the regulations from
-# mass.gov (unofficial copies). The tool never says that a disclosure is or is not permitted.
+# mass.gov (unofficial copies). The tool never gives a yes or no on whether a disclosure is allowed.
 # Schema: content/schemas/policy_information_sharing.schema.json
 meta:
   id: policy-information-sharing
@@ -1010,7 +1010,7 @@ referral:
 
 limits:
   - "Partial snapshot: see read_scope for what was and was not read. A regime that is not listed (for example mental health records under c. 123, genetic information, or the Massachusetts data privacy and breach laws) can still apply."
-  - "The guide never says that a disclosure is or is not permitted; it lists rules that may apply, their conditions, and cautions. The answer depends on facts it does not know."
+  - "The guide never gives a yes or no on whether a disclosure is allowed; it lists rules that may apply, their conditions, and cautions. The answer depends on facts it does not know."
   - "Whether HIPAA applies to a health department, whether a school receives federal funds, and whether a program is federally assisted are facts about your organization that you must confirm."
   - "The 2024 amendments to 42 CFR Part 2 and to the HIPAA Privacy Rule are in the text read, but their compliance dates and any court rulings were not verified."
   - "Excerpts of 25 words or fewer are quoted; the paraphrases are this project's summaries. Read the source before relying on a provision."

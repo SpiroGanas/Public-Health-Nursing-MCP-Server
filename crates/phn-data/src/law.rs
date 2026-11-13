@@ -226,8 +226,8 @@ fn read_extended(dir: &Path) -> std::result::Result<(Vec<Corpus>, String), Strin
         if f.path.contains('/') || f.path.contains('\\') || f.path.starts_with('.') {
             return Err("a file name in the manifest is not a plain file name".into());
         }
-        let bytes = std::fs::read(dir.join(&f.path))
-            .map_err(|_| format!("{} is missing", f.path))?;
+        let bytes =
+            std::fs::read(dir.join(&f.path)).map_err(|_| format!("{} is missing", f.path))?;
         let sum = hex(&Sha256::digest(&bytes));
         if !sum.eq_ignore_ascii_case(&f.sha256) {
             return Err(format!("{} does not match its checksum", f.path));
@@ -297,16 +297,28 @@ mod tests {
                 .iter()
                 .map(|p| p.x.as_deref().map(str::len).unwrap_or(0))
                 .sum();
-            assert!(bytes < 1_000_000, "{} text is {bytes} bytes", l.corpus.source_id);
+            assert!(
+                bytes < 1_000_000,
+                "{} text is {bytes} bytes",
+                l.corpus.source_id
+            );
             assert!(!l.corpus.chapters.is_empty());
             assert_eq!(l.origin, "bundled");
         }
         let mgl = &all[0].corpus;
         assert!(mgl.provisions.len() > 400 && mgl.full_text_count() == 45);
-        assert!(mgl.provisions.iter().any(|p| p.c == "M.G.L. c. 111, § 95" && p.x.is_some()));
+        assert!(
+            mgl.provisions
+                .iter()
+                .any(|p| p.c == "M.G.L. c. 111, § 95" && p.x.is_some())
+        );
         let c105 = &all[1].corpus;
         assert!(c105.chapters.len() >= 85);
-        assert!(c105.provisions.iter().any(|p| p.c == "105 CMR 300.200" && p.x.is_some()));
+        assert!(
+            c105.provisions
+                .iter()
+                .any(|p| p.c == "105 CMR 300.200" && p.x.is_some())
+        );
         // a chapter that is index-only has titles and no text
         assert!(
             c105.provisions
@@ -340,7 +352,11 @@ mod tests {
         };
         std::fs::write(law.join("manifest.json"), manifest("00")).unwrap();
         let bad = load_extended(std::slice::from_ref(&root));
-        assert!(bad.corpora.is_empty() && bad.notes[0].contains("checksum"), "{:?}", bad.notes);
+        assert!(
+            bad.corpora.is_empty() && bad.notes[0].contains("checksum"),
+            "{:?}",
+            bad.notes
+        );
         std::fs::write(law.join("manifest.json"), manifest(&sum)).unwrap();
         let ok = load_extended(&[root]);
         assert_eq!(ok.corpora.len(), 1);
