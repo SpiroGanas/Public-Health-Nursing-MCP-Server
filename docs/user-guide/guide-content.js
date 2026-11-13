@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 137;
+const TOOL_COUNT = 140;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4579,6 +4579,94 @@ const toolChapters = [
       // Phase 19 tracking (POL-01, POL-03) tools.
       // End of Phase 19 tracking tools.
       // Phase 19 law (POL-02, POL-04, POL-07) tools.
+      {
+        id: 'search_public_health_law',
+        title: 'Search Massachusetts public health law',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'optional',
+        does: 'Searches a bundled copy of Massachusetts public health law and answers with citations: M.G.L. chapter 111 (Public Health), the Department of Public Health regulations (105 CMR), and the nursing regulations (244 CMR). If you keep your board of health’s own regulations in a folder, it searches those too. Each answer gives the section number, title, a link, the dates, and a short excerpt of 25 words or fewer; it never returns long passages. It says plainly which sections it has in full text and which it only has as a title and link.',
+        when: [
+          'Finding the section that gives a board of health authority to issue an isolation or quarantine order.',
+          'Looking up what 105 CMR 300.000 or the lead or sanitary code regulations say about a topic before you read the full text.',
+          'Checking your town’s own regulation next to the state rule.',
+        ],
+        provide: [
+          'A citation (for example 105 CMR 300.200 or M.G.L. c. 111, section 95) or words describing the question.',
+          'Optionally the folder under your data folder that holds your board of health’s regulations (by default a folder named local_regulations).',
+        ],
+        examples: [
+          'Which sections of M.G.L. c. 111 cover a board of health order to isolate a person with a dangerous disease?',
+          'What does 105 CMR 300.120 say about confidentiality?',
+          'Search our town’s tobacco regulation and the state tobacco rules for the minimum age to buy.',
+        ],
+        returns: [
+          'The matching sections with citations, links, chapter dates, short excerpts, topic starting points, and what the bundled copy covers.',
+        ],
+        notes: [
+          'The bundled copy is partial and dated 2026-11-12: some sections are in full text and the rest are a title and link only; each result says which. Not finding a section does not mean no rule applies.',
+          'The regulation copies on mass.gov are not the official text, and the text came from PDFs, so tables and forms may be missing. Read the section at its link and ask your agency’s counsel; this is not legal advice.',
+          'Files in your regulations folder that look like client records are refused. An optional larger copy can be installed by your administrator.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'draft_policy_brief',
+        title: 'Draft a policy brief',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Drafts a one-page or longer policy brief as a Word document or Markdown file, in the order of the Eightfold Path of policy analysis: the problem, the evidence, the options, the criteria, a table that compares each option against each criterion, the trade-offs, and your recommendation. It is a template that you fill in: it uses only what you give it, and everything else is a marked placeholder. It does not make up facts, numbers, or citations. It also checks how easy your own wording is to read.',
+        when: [
+          'Preparing a short brief for the board of health, the select board, or the school committee.',
+          'Laying out two or three options side by side with the same criteria before a decision.',
+        ],
+        provide: [
+          'The problem in your words, the evidence you have with its sources, and the options to compare.',
+          'Optionally the criteria, your ratings of each option, the trade-offs, and your recommendation.',
+        ],
+        examples: [
+          'Draft a one-page brief for the board of health on adopting a rule on mold in rental housing, comparing a new rule, an education program, and doing nothing.',
+          'Make a full brief with a comparison table using health impact, equity, cost, and feasibility.',
+        ],
+        returns: [
+          'A draft document in your output folder, the status of each step, the comparison table, how many placeholders remain, and a readability check with plain-language suggestions.',
+        ],
+        notes: [
+          'The tool does not research the problem or check your evidence. Every number and citation must come from you.',
+          'The method is described from open-access articles and abstracts; the textbook it comes from was not read. Two of the suggested criteria are this project’s own suggestions and are marked.',
+          'The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'health_information_sharing_guide',
+        title: 'Work out which rules govern sharing a health record',
+        toolset: 'policy',
+        internet: 'no',
+        files: 'no',
+        does: 'Asks who holds a record, what kind of record it is, who wants it, and why, and then lists the rules that may govern it: HIPAA, FERPA (school health records), the federal rules for substance use disorder records (42 CFR Part 2), the Massachusetts public records law, the confidentiality section of 105 CMR 300.000, and Massachusetts statutes on HIV test results, venereal disease records, and the immunization registry. Each rule comes with its citation, a short quotation, a plain summary, and cautions. It never tells you that sharing is or is not allowed.',
+        when: [
+          'A school asks for a child’s clinic immunization record, or a school nurse is asked to share a health office record.',
+          'A reporter or resident files a public records request that touches health information held by the health department.',
+          'You hold substance use treatment or HIV information and someone asks for it.',
+        ],
+        provide: [
+          'Who holds the record and in what role, and the kind of record.',
+          'Who wants it, the purpose, whether there is signed consent, and whether the person is a minor.',
+        ],
+        examples: [
+          'I am a school nurse in a public school. A parent’s doctor sent an immunization record. Who may I share it with and what governs it?',
+          'Our board of health got a public records request for a disease investigation file. Which rules apply?',
+        ],
+        returns: [
+          'The questions if you have not answered them yet; otherwise the rules that likely govern, may apply, or need checking, with citations and cautions, and the facts about your organization that you must confirm.',
+        ],
+        notes: [
+          'It is not legal advice and never gives a yes or no. Take the decision to your agency’s counsel or privacy officer.',
+          'It is a partial snapshot: the FERPA statute, federal guidance on HIPAA and FERPA, and the Massachusetts student records regulation could not be read, and some rules were amended recently. Each result lists what was and was not read.',
+          'The content is waiting for review.',
+        ],
+      },
       // End of Phase 19 law tools.
     ],
   },

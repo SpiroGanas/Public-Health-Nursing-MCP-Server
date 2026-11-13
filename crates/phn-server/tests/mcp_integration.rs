@@ -1982,6 +1982,95 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- Phase 19 tracking (POL-01, POL-03).
         // ---- End of Phase 19 tracking.
         // ---- Phase 19 law (POL-02, POL-04, POL-07).
+        // POL-02 searches a bundled corpus and, optionally, a local folder of documents: free text
+        // with seeded identifiers is refused, a client file given as the folder is an error, and a
+        // folder that holds client documents (the whole synthetic data folder) must return nothing
+        // from them. POL-04 and POL-07 read no files; their free text is checked for identifiers.
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order for the family at 837 Elm Street, phone 413-555-0100"}),
+            ll,
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order", "local_folder": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "quarantine order", "local_folder": "staff_roster.csv"}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/client_note.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "exposure tuberculosis screening report immunization", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/client_letter.html",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "family interview needs transcript participants", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "family interview needs transcript participants", "sources": ["local"], "local_folder": ".", "max_results": 25}),
+            "data/participant_names.txt",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "needlestick exposure reporting tuberculosis", "local_folder": "policies"}),
+            "data/shelter_registrations.csv",
+        ),
+        (
+            "search_public_health_law",
+            json!({"query": "105 CMR 300.200"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"problem": "Clients at 837 Elm Street, phone 413-555-0100 report mold"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"title": "Mold in rental housing", "problem": "Many renters report mold. Mold can make asthma worse.",
+                   "options": [{"name": "Adopt a rule", "description": "Set a repair deadline."}],
+                   "evidence": [{"finding": "Indoor dampness is linked to asthma", "citation": "Journal article, 2020"}],
+                   "output": "both"}),
+            ll,
+        ),
+        (
+            "draft_policy_brief",
+            json!({"evidence": [{"finding": "Email the family at maria.garcia@example.org"}]}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"situation": "The student at 837 Elm Street, phone 413-555-0100, born 03/02/2015"}),
+            ll,
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"holder_role": "school_nurse_public", "record_type": "school_health_record",
+                   "recipient": "public_health_authority", "purpose": "disease_investigation"}),
+            "data/health_office_visits.csv",
+        ),
+        (
+            "health_information_sharing_guide",
+            json!({"holder_role": "substance_use_program", "record_type": "substance_use_treatment_record",
+                   "recipient": "law_enforcement_or_court", "purpose": "legal_process"}),
+            "data/staff_roster.csv",
+        ),
         // ---- End of Phase 19 law.
         // ---- End of Phase 19 data tools.
         // ---- Path arguments that had no row before the peer review.

@@ -279,6 +279,9 @@ output folder instead of being sent to the AI model.
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
 <!-- Phase 19 tracking rows go above this line. -->
+| `search_public_health_law` | POL-02 | policy | Searches M.G.L. c. 111, 105 CMR, 244 CMR (a bundled snapshot with full text for core sections and a title and link index for the rest) and your board of health's regulations in a local folder, and answers with citations, dates, links, and excerpts of 25 words or fewer. |
+| `draft_policy_brief` | POL-04 | policy | Drafts a one-page or longer policy brief in the order of the Eightfold Path (problem, evidence, options, criteria, an accessible options-by-criteria table, trade-offs, recommendation) from what you supply, with `[NURSE: ...]` placeholders and a readability check; it never invents facts. |
+| `health_information_sharing_guide` | POL-07 | policy | Asks who holds a record, what kind it is, who wants it, and why, then lists the rules that may govern it (HIPAA, FERPA, 42 CFR Part 2, the Massachusetts public records law, 105 CMR 300.000 and state confidentiality statutes) with citations and cautions; never a yes or no on sharing. |
 <!-- Phase 19 law rows go above this line. -->
 <!-- Phase 19 rows go above this line. -->
 

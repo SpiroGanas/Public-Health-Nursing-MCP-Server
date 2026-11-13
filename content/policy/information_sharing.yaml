@@ -416,6 +416,20 @@ provisions:
     purposes: [public_health_reporting, disease_investigation, school_immunization, emergency_threat, research, other]
     recipients: []
     record_types: []
+  - id: hipaa_personal_rep
+    regime: hipaa
+    citation: "45 CFR 164.502(g)(1)"
+    source: ecfr_164_502
+    quote: "treat a personal representative as the individual for purposes of this subchapter."
+    paraphrase: >-
+      A covered entity generally treats a personal representative (for an unemancipated minor,
+      usually a parent, guardian, or person acting in loco parentis) as the individual, with
+      exceptions in paragraphs (g)(3) and (g)(5) (not read closely here). Massachusetts law on
+      minors' consent to their own care was not read for this guide.
+    confidence: medium
+    purposes: []
+    recipients: [individual_or_parent]
+    record_types: []
   - id: hipaa_tpo
     regime: hipaa
     citation: "45 CFR 164.506(c)(1) and (c)(2)"
@@ -766,6 +780,21 @@ provisions:
       what to tell the requester if the agency will not provide it or needs more time; section 10A
       covers appeals.
     confidence: high
+    purposes: [public_records_request]
+    recipients: [public_requester]
+    record_types: []
+  - id: ma_pr_definition
+    regime: ma_public_records
+    citation: "M.G.L. c. 4, section 7, clause twenty-sixth (definition)"
+    source: mgl_4_7
+    quote: "made or received by any officer or employee of any agency, executive office, department, board, commission, bureau, division or authority of the commonwealth"
+    paraphrase: >-
+      Public records are materials made or received by officers or employees of state agencies and
+      of political subdivisions (and certain other public bodies), unless an exemption applies. A
+      board of health, a municipal health department, and a public school district are
+      political-subdivision bodies; a private clinic or private school is not described in the
+      definition.
+    confidence: medium
     purposes: [public_records_request]
     recipients: [public_requester]
     record_types: []
