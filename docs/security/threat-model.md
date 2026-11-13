@@ -194,7 +194,7 @@ server as disconnected; no data is lost, but a nurse mid-task loses the session.
 
 ### Low
 
-**F3. CSV formula injection in the legislation watchlist.**
+**F3. CSV formula injection in the legislation watchlist.** *Status: fixed on 2026-11-13 (`save_watchlist` neutralizes cells with `phn_docs::csv_out::neutralize_cell`, and the reader strips the leading apostrophe; test `saved_watchlists_never_hold_cells_a_spreadsheet_would_run_as_formulas`).*
 `save_watchlist`, `crates/phn-tools/src/policy/legislation.rs:1367-1441`, writes with a plain
 `csv::Writer`, bypassing `phn_docs::csv_out::neutralize`. *Input:* `keywords: ["=HYPERLINK(...)"]`
 (model-chosen, lines 758 and 905), or a bill title or last-action text from the Legislature that
@@ -210,7 +210,7 @@ A Rust panic message can contain the data involved (a string slice error quotes 
 `unwrap` on a parse error quotes the input). *Effect:* a client value reaches the vendor. *Fix:*
 return a fixed message, and log only a message count on stderr.
 
-**F5. `Sandbox::new_output_file` is check-then-write.**
+**F5. `Sandbox::new_output_file` is check-then-write.** *Status: the dangling-symbolic-link case is fixed on 2026-11-13 (`symlink_metadata` instead of `exists`; test `a_dangling_symlink_in_the_output_folder_is_never_written_through`). The time-of-check race between two writers remains.*
 `crates/phn-local/src/sandbox.rs:71-95` tests `exists()` and returns a path; callers then call
 `std::fs::write` (for example `policy/legislation.rs:1441`). `exists()` follows symlinks, so a
 dangling symlink named like the target looks free and the write follows it; a file created in
