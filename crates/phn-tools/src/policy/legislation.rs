@@ -817,6 +817,15 @@ struct Candidate {
 
 /// Run the tool.
 pub async fn track_ma_legislation(ctx: &Context, args: TrackArgs) -> Result<Envelope<TrackResult>> {
+    track_ma_legislation_at(ctx, args, malegislature::BASE).await
+}
+
+/// [`track_ma_legislation`] against another API base URL (tests).
+pub async fn track_ma_legislation_at(
+    ctx: &Context,
+    args: TrackArgs,
+    base: &str,
+) -> Result<Envelope<TrackResult>> {
     let c: LegContent = content::load(CONTENT)?;
     let engine = StageEngine::new(&c)?;
     let today = today_from(&args.as_of)?;
@@ -924,7 +933,7 @@ pub async fn track_ma_legislation(ctx: &Context, args: TrackArgs) -> Result<Enve
     let mut failure = String::new();
 
     let listing =
-        malegislature::fetch_listing(&ctx.http, ctx.cache.as_ref(), malegislature::BASE, gc).await;
+        malegislature::fetch_listing(&ctx.http, ctx.cache.as_ref(), base, gc).await;
     match listing {
         Ok(l) => {
             live_ok = true;
@@ -965,7 +974,7 @@ pub async fn track_ma_legislation(ctx: &Context, args: TrackArgs) -> Result<Enve
             let by_number: BTreeMap<&str, &BillListing> =
                 l.bills.iter().map(|b| (b.bill_number.as_str(), b)).collect();
             let snap = load_snapshot(ctx).ok();
-            let fetched = fetch_details(ctx, gc, &order).await;
+            let fetched = fetch_details(ctx, base, gc, &order).await;
             for (n, res) in order.iter().zip(fetched) {
                 match res {
                     Ok((d, h)) => {
@@ -1144,7 +1153,7 @@ pub async fn track_ma_legislation(ctx: &Context, args: TrackArgs) -> Result<Enve
         sources.push(Source {
             title: format!("Massachusetts Legislature public API, {gc}th General Court (bill list, bill records, and histories)"),
             publisher: "Massachusetts Legislature".into(),
-            url: Some(format!("{}/GeneralCourts/{gc}/Documents", malegislature::BASE)),
+            url: Some(format!("{base}/GeneralCourts/{gc}/Documents")),
             effective_date: None,
             retrieved: Some(as_of.clone()),
             mode: if mode == "cache" { SourceMode::Cache } else { SourceMode::Live },
@@ -1268,15 +1277,16 @@ fn bill_sort_key(n: &str) -> (char, u32) {
 type Fetched = Result<(malegislature::BillDetail, Vec<HistoryAction>)>;
 
 /// Fetch details for the bills in order, a few at a time.
-async fn fetch_details(ctx: &Context, gc: u32, numbers: &[String]) -> Vec<Fetched> {
+async fn fetch_details(ctx: &Context, base: &str, gc: u32, numbers: &[String]) -> Vec<Fetched> {
     let mut out: Vec<Fetched> = Vec::with_capacity(numbers.len());
     for chunk in numbers.chunks(DETAIL_BATCH) {
         let mut set = tokio::task::JoinSet::new();
         for (i, n) in chunk.iter().enumerate() {
             let http = ctx.http.clone();
             let n = n.clone();
+            let base = base.to_string();
             set.spawn(async move {
-                (i, malegislature::fetch_bill(&http, malegislature::BASE, gc, &n).await)
+                (i, malegislature::fetch_bill(&http, &base, gc, &n).await)
             });
         }
         let mut part: Vec<Option<Fetched>> = (0..chunk.len()).map(|_| None).collect();

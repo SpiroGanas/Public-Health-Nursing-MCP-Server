@@ -4222,6 +4222,87 @@ has a layout problem (flagged on the provision). Content is pending review.
 
 <!-- Phase 19 tracking (POL-01, POL-03). -->
 
+### `track_ma_legislation` (POL-01, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `topics` | none | Topic ids or names: `vaccines`, `communicable_disease`, `tobacco_nicotine`, `substance_use`, `mental_health`, `maternal_child`, `school_child_care`, `older_adults`, `environmental_health`, `food_nutrition`, `local_public_health`, `nursing_workforce`, `health_equity`, `oral_health`, `emergency_preparedness`, `health_coverage`, `reproductive_sexual_health`, `injury_safety`. With no topics, keywords, bill numbers, or watchlist you get the topic index. |
+| `keywords` | none | Up to 10 extra words to find in bill titles. No names of people. |
+| `bill_numbers` | none | Bills to follow, for example `H3444`, `S 2518`. |
+| `stages` | all | `filed`, `in_committee`, `reported_out`, `floor`, `awaiting_governor`, `enacted`, `study_or_new_draft`. |
+| `only_upcoming_hearings` | false | Only bills whose latest hearing is today or later. |
+| `max_bills` | 15 | At most 40 (in live mode each bill costs two requests; the filters apply to the bills examined). |
+| `include_excerpts` | true | A cited excerpt of 25 words or fewer from each bill's text. |
+| `general_court` | 194 | 189 to 200 live; the offline snapshot covers only the 194th (2025-2026). |
+| `watchlist_path` | none | CSV or XLSX in `/data` with columns `kind` (`topic`, `keyword`, `bill`), `value`, and optionally `note`. Refused if it looks like a list of people. |
+| `save_watchlist` | false | Write the search's topics, keywords, and bills, with each bill's latest stage and last action, to `/data/output/ma_legislation_watchlist.csv` (readable as a watchlist next time). |
+| `as_of` | today | Date for "today" (1900 to 2100). |
+
+Finds Massachusetts bills on public health topics in the Legislature's public API
+(`malegislature.gov/api`, no key; requests carry only a General Court number and bill numbers). The API has
+no search, so the tool downloads the General Court's bill list (about 12 MB, cached for one day), matches
+**titles** against the topic keywords (and yours), then reads each selected bill's record and history.
+**Output:** per bill the number, title, link, cosponsor count, topics, a **stage** (this project's reading of
+the history by rules in the content file), the latest committee referral, hearing lines with the hearing date
+and days until it, the committee's reporting deadline, the last action with its date and days since, the
+committee's recommendation when recorded, and an excerpt of the bill text of 25 words or fewer with its
+citation; the questions to put to any bill (who must act, what changes, money, existing law, evidence,
+equity, positions, timing, your role); and how the data was obtained.
+
+**Modes.** Live (the bill list may be a cached copy no more than a day old, labeled), then the bundled dated
+snapshot (`snapshots/ma_legislation_194.json`, built 2026-11-13 from 822 bills whose titles match the topic
+lists) when the API cannot be reached; the result and every bill say which was used. A snapshot's stage and
+last action are as of its date.
+
+It compiles what the Legislature publishes. It never says what a bill would do or what it means for local
+health, and the stage is a label, not an official status: read the last action and the bill. Sponsor and
+amendment-author names are not returned (they are on the bill page). Decision support, not legal advice.
+
+**Limits.** Bills whose titles do not use a topic keyword are not found. Committee hearing dates are read from
+history lines ("Hearing scheduled for ..."), not from the hearings calendar. Content is pending review.
+
+### `monitor_federal_rules` (POL-03, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `agencies` | cdc, cms, hrsa, epa, usda, hhs | Agency ids (also `fda`, `samhsa`, `acf`, `fns`, `fsis`). |
+| `agency_slugs` | none | Federal Register agency slugs to use too (use if an id finds nothing). |
+| `document_types` | all | `proposed_rule`, `final_rule`, `notice`. |
+| `topic` | none | Words to search for in the documents. |
+| `published_since`, `published_until` | none | `YYYY-MM-DD`. With `open_for_comment_only` false, `published_since` defaults to 30 days ago. |
+| `open_for_comment_only` | true | Only documents whose comment period has not closed. |
+| `max_results` | 15 | At most 50; soonest deadline first. |
+| `document_number` | none | One Federal Register document (for example `2026-12345`). |
+| `check_regulations_gov` | true | Cross-check open comment periods on Regulations.gov (needs `PHN_REGULATIONS_GOV_API_KEY`; skipped without it). |
+| `draft_comment_outline` | false | Write a comment outline (Word) for `document_number`, or for the document you describe. |
+| `document_title`, `comment_deadline`, `docket_id`, `agency_name` | none | Describe the document for the outline (and a countdown) when live data is unavailable. |
+| `fill_path` | none | CSV or XLSX in `/data` with columns `field` and `value` (organization, population, position, reasons, evidence, local_data, cost_estimate, community_effects, department_effects, opposing_view, agency_questions, docket_id, fr_citation). Values go only into the Word file. Refused if it looks like a list of people. |
+| `as_of` | today | Date for "today" (1900 to 2100). |
+
+Lists Federal Register proposed rules, final rules, and notices from the agencies you choose, with each
+**comment deadline counted down against today's date** (calendar days; the close date itself is still open;
+"closing soon" is 7 days or fewer), docket IDs, and links. With a free api.data.gov key in the server's
+environment variable `PHN_REGULATIONS_GOV_API_KEY` it also looks each open document up on Regulations.gov
+(by Federal Register number; up to 10) and shows whether it is open for comment and the end time Regulations.gov
+gives (UTC). The key is added to the request only; it is never cached, cited, or returned.
+
+The outline (`draft_comment_outline`) is a Word file with nine sections (identification, who is commenting,
+position, comments on specific provisions in a table, answers to the agency's questions, evidence and data,
+effects on the community and department, trade-offs and opposing views, closing and submission checklist),
+`[NURSE: ...]` placeholders, and quotations (25 words or fewer) from EPA's published tips for effective comments,
+which it cites. It is a template, not an agency form.
+
+**Live data only.** When the Federal Register cannot be reached (and no cached search from the last two days
+exists) the result says **LIVE DATA UNAVAILABLE**, lists no documents, and gives links to check yourself; it
+never shows old data as current. A cached search used after a failure is labeled with its date. The outline can
+still be drafted from `document_title` and `comment_deadline`.
+
+**Limits.** The Federal Register and Regulations.gov were blocked in the build environment, so the adapters were
+tested against local servers and responses written from the Federal Register's open-source code and recorded
+Regulations.gov responses, not against the live services (live tests exist and are `#[ignore]`d). The slugs for
+CDC, CMS, HRSA, FDA, SAMHSA, ACF, and FSIS are unverified (EPA, HHS, USDA, and FNS are verified). Other agencies
+may ask for a different comment format. Decision support; it does not file comments. Content is pending review.
+
 <!-- End of Phase 19 tracking. -->
 
 <!-- Phase 19 law (POL-02, POL-04, POL-07). -->

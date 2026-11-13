@@ -542,6 +542,18 @@ pub async fn monitor_federal_rules(
     ctx: &Context,
     args: FederalArgs,
 ) -> Result<Envelope<FederalResult>> {
+    monitor_federal_rules_at(ctx, args, fedreg::BASE, fedreg::REGULATIONS_BASE, None).await
+}
+
+/// [`monitor_federal_rules`] against other API base URLs, and with the Regulations.gov key given
+/// instead of read from the environment (tests).
+pub async fn monitor_federal_rules_at(
+    ctx: &Context,
+    args: FederalArgs,
+    fr_base: &str,
+    regs_base: &str,
+    key_override: Option<String>,
+) -> Result<Envelope<FederalResult>> {
     let c: FedContent = content::load(CONTENT)?;
     let today = match &args.as_of {
         Some(s) => parse_date("as_of", s)?,
@@ -677,7 +689,7 @@ pub async fn monitor_federal_rules(
     let mut src_mode = SourceMode::Live;
 
     if let Some(n) = &args.document_number {
-        match fedreg::fetch_document(&ctx.http, ctx.cache.as_ref(), fedreg::BASE, n).await {
+        match fedreg::fetch_document(&ctx.http, ctx.cache.as_ref(), fr_base, n).await {
             Ok((d, mode, at, reason)) => {
                 docs.push(d);
                 total = 1;
@@ -697,7 +709,7 @@ pub async fn monitor_federal_rules(
             accepting_comments: false,
             per_page: max as u32,
         };
-        match fedreg::search(&ctx.http, ctx.cache.as_ref(), fedreg::BASE, &q).await {
+        match fedreg::search(&ctx.http, ctx.cache.as_ref(), fr_base, &q).await {
             Ok(r) => {
                 total = r.page.count;
                 docs = r.page.documents;
@@ -731,7 +743,7 @@ pub async fn monitor_federal_rules(
     docs.truncate(max);
 
     // ---- Regulations.gov cross-check.
-    let key = fedreg::regulations_key();
+    let key = key_override.or_else(fedreg::regulations_key);
     let mut regs: BTreeMap<String, RegsDocument> = BTreeMap::new();
     let mut regs_status = RegsStatus {
         used: false,
@@ -762,7 +774,7 @@ pub async fn monitor_federal_rules(
             match fedreg::regulations_lookup(
                 &ctx.http,
                 ctx.cache.as_ref(),
-                fedreg::REGULATIONS_BASE,
+                regs_base,
                 k,
                 &d.document_number,
             )
@@ -897,7 +909,7 @@ pub async fn monitor_federal_rules(
         sources.push(Source {
             title: "Federal Register API v1 (documents)".into(),
             publisher: "Office of the Federal Register, National Archives".into(),
-            url: Some(format!("{}/documents.json", fedreg::BASE)),
+            url: Some(format!("{fr_base}/documents.json")),
             effective_date: None,
             retrieved: as_of.clone(),
             mode: src_mode,
