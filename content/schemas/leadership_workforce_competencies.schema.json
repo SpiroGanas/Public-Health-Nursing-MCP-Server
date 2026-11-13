@@ -238,7 +238,29 @@
       }
     },
     "tiers": {
-      "type": "object"
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "label",
+          "text",
+          "source",
+          "section",
+          "confidence"
+        ],
+        "properties": {
+          "number": {
+            "type": "integer"
+          },
+          "confidence": {
+            "$ref": "#/$defs/conf"
+          }
+        }
+      }
     },
     "rating_scale": {
       "type": "array",

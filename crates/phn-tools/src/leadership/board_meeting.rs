@@ -1164,9 +1164,8 @@ fn minutes_document(
         b.labeled("Members participating remotely:", join(&p.remote));
         b.para("All votes were taken by roll call because members participated remotely (940 CMR 29.10(7)).");
     }
-    let mut n = 1;
     let mut docs: Vec<String> = Vec::new();
-    for it in &p.items {
+    for (n, it) in (1..).zip(p.items.iter()) {
         b.heading(
             2,
             format!(
@@ -1195,7 +1194,6 @@ fn minutes_document(
             b.list(&it.votes);
         }
         docs.extend(it.documents.iter().cloned());
-        n += 1;
     }
     if p.items.is_empty() {
         b.heading(2, "1. [NURSE: agenda item]");

@@ -947,7 +947,7 @@ fn small(n: usize, min: u32) -> String {
     }
 }
 
-#[allow(clippy::too_many_lines)]
+#[allow(clippy::too_many_lines, clippy::too_many_arguments)]
 fn read_credentials(
     ctx: &Context,
     c: &CompetencyContent,
