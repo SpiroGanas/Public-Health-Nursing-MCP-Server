@@ -1,0 +1,278 @@
+# Reference content for monitor_federal_rules (POL-03): the federal agencies to watch and their
+# Federal Register slugs, the document types, and the structure of a public comment (an outline
+# with [NURSE: ...] placeholders), built from EPA's published "Tips for Effective Comments".
+#
+# REVIEW STATUS: pending. IMPORTANT: federalregister.gov, regulations.gov, and api.regulations.gov were
+# blocked in the build environment (HTTP 403), so the Federal Register and Regulations.gov APIs could not
+# be called. The request filters and response fields come from the Federal Register's own open-source
+# repository (federalregister-api-core, read 2026-11-13) and from Regulations.gov v4 responses recorded in
+# its tests; the agency slugs for EPA, HHS, and USDA are listed in that repository's agency mapping file
+# (verified), and the slugs for CDC, CMS, HRSA and the other agencies are written from memory of
+# federalregister.gov agency page addresses (confidence low: if a slug is wrong the search returns nothing
+# or an error; give `agency_slugs` yourself). The comment structure follows the tips on EPA's web page
+# (read 2026-11-12), which is one agency's guidance; other agencies may ask for other things.
+# Schema: content/schemas/policy_federal_rules_tracking.schema.json
+meta:
+  id: policy-federal-rules-tracking
+  title: Federal rule monitoring (agencies, document types, and public comment structure)
+  version: 0.1.0
+  prepared: 2026-11-13
+  effective_date: null
+  source:
+    title: Commenting on EPA Dockets (Tips for Effective Comments)
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/dockets/commenting-epa-dockets
+  related_sources:
+    - title: "federalregister-api-core (open-source code of the Federal Register API: serializers, search filters, agency mapping)"
+      publisher: Office of the Federal Register, National Archives
+      url: https://github.com/usnationalarchives/federalregister-api-core
+    - title: Regulations.gov Commenting Guidance (named on EPA's page; not read)
+      publisher: General Services Administration
+      url: https://www.regulations.gov/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Read: EPA's page "Commenting on EPA Dockets" (the tips and the rules and restrictions), and the Federal
+    Register's open-source API code. NOT read: the Federal Register API documentation pages, Regulations.gov's
+    commenting guidance, and any other agency's comment guidance (all blocked or not fetched). The API calls
+    were never made against the live service from the build environment; the parsers were tested on responses
+    written from the code and on v4 responses recorded in the Federal Register's tests. The CDC, CMS, HRSA, FDA,
+    SAMHSA, ACF, FNS, and FSIS agency slugs are unverified (low confidence). The outline is this project's
+    arrangement of EPA's tips into a letter structure, not an agency template.
+
+sources:
+  epa_tips:
+    title: Commenting on EPA Dockets (Tips for Effective Comments; Rules and Restrictions)
+    publisher: U.S. Environmental Protection Agency
+    url: https://www.epa.gov/dockets/commenting-epa-dockets
+    effective_date: null
+    retrieved: "2026-11-12"
+  fr_code:
+    title: federalregister-api-core (API fields, search conditions, agency mapping)
+    publisher: Office of the Federal Register, National Archives
+    url: https://github.com/usnationalarchives/federalregister-api-core
+    effective_date: "2025-01-28"
+    retrieved: "2026-11-13"
+  fr_api:
+    title: "Federal Register API v1 (documents search)"
+    publisher: Office of the Federal Register, National Archives
+    url: https://www.federalregister.gov/developers/documentation/api/v1
+    effective_date: null
+    retrieved: "2026-11-13"
+  regulations_api:
+    title: Regulations.gov API v4 (documents lookup by Federal Register number)
+    publisher: General Services Administration
+    url: https://open.gsa.gov/api/regulationsgov/
+    effective_date: null
+    retrieved: "2026-11-13"
+
+agencies:
+  - id: cdc
+    label: Centers for Disease Control and Prevention (CDC)
+    slug: centers-for-disease-control-and-prevention
+    verified: false
+    confidence: low
+  - id: cms
+    label: Centers for Medicare & Medicaid Services (CMS)
+    slug: centers-for-medicare-medicaid-services
+    verified: false
+    confidence: low
+  - id: hrsa
+    label: Health Resources and Services Administration (HRSA)
+    slug: health-resources-and-services-administration
+    verified: false
+    confidence: low
+  - id: epa
+    label: Environmental Protection Agency (EPA)
+    slug: environmental-protection-agency
+    verified: true
+    confidence: high
+  - id: usda
+    label: Department of Agriculture (USDA)
+    slug: agriculture-department
+    verified: true
+    confidence: high
+  - id: hhs
+    label: Department of Health and Human Services (HHS)
+    slug: health-and-human-services-department
+    verified: true
+    confidence: high
+  - id: fda
+    label: Food and Drug Administration (FDA)
+    slug: food-and-drug-administration
+    verified: false
+    confidence: low
+  - id: samhsa
+    label: Substance Abuse and Mental Health Services Administration (SAMHSA)
+    slug: substance-abuse-and-mental-health-services-administration
+    verified: false
+    confidence: low
+  - id: acf
+    label: Administration for Children and Families (ACF)
+    slug: children-and-families-administration
+    verified: false
+    confidence: low
+  - id: fns
+    label: Food and Nutrition Service (FNS, USDA)
+    slug: food-and-nutrition-service
+    verified: true
+    confidence: medium
+  - id: fsis
+    label: Food Safety and Inspection Service (FSIS, USDA)
+    slug: food-safety-and-inspection-service
+    verified: false
+    confidence: low
+default_agencies: [cdc, cms, hrsa, epa, usda, hhs]
+
+document_types:
+  - id: proposed_rule
+    code: PRORULE
+    label: Proposed rule (usually has a comment period)
+  - id: final_rule
+    code: RULE
+    label: Final rule (comments are normally closed)
+  - id: notice
+    code: NOTICE
+    label: Notice (some invite comment, for example on information collections and guidance)
+
+# Short quotations (25 words or fewer) and paraphrases of EPA's tips, keyed for the outline.
+tips:
+  - id: identify
+    quote: "Identify the docket ID number and other identifying information (e.g., subject heading, Federal Register date and page number) in your subject line."
+    paraphrase: Put the docket ID and the Federal Register date and page in the subject line, so the comment is not lost.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: read
+    quote: "Read and understand the document you are commenting on."
+    paraphrase: Read the proposal first; if something is unclear, ask the agency contact named in it and say so in the comment.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: follow
+    quote: "Follow directions provided."
+    paraphrase: Answer any questions the agency asks and organize the comment the way it asks; cite the proposed part and section of the CFR for each provision you address.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: concise
+    quote: "Be concise but support your claims."
+    paraphrase: Say why you agree or disagree, give specific examples, and suggest alternatives and substitute language for changes you request.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: evidence
+    quote: "Base your comments on sound reasoning, scientific evidence, and/or how you will be impacted by the agency's proposal."
+    paraphrase: Describe assumptions and data; if you estimate costs or burdens, explain the method so it can be reproduced.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: tradeoffs
+    quote: "Address trade-offs and opposing views."
+    paraphrase: Acknowledge the other side and explain why your position still holds.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: not_a_vote
+    quote: "The comment process is not a vote"
+    paraphrase: One well-supported comment is often more useful to the agency than many form letters.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: deadline
+    quote: "Make sure to submit your comments by the comment period deadline identified in the Federal Register document."
+    paraphrase: The deadline is the one stated in the Federal Register document.
+    source: epa_tips
+    section: Tips for Effective Comments
+  - id: public
+    quote: "will be posted to Regulations.gov"
+    paraphrase: EPA posts comments, including any personal information in the body, to Regulations.gov; do not put private or confidential information in a comment (EPA's rule; check the agency you are commenting to).
+    source: epa_tips
+    section: Rules and Restrictions
+
+# The comment outline. Each section has guidance and the tips it follows. Placeholders are [NURSE: ...].
+outline:
+  - id: header
+    heading: Subject line and identification
+    tips: [identify]
+    guidance: Put the docket ID, document title, agency, and the Federal Register date, page, or document number in the subject line and at the top of the letter.
+    placeholders:
+      - field: docket_id
+        text: "[NURSE: docket ID]"
+      - field: fr_citation
+        text: "[NURSE: Federal Register document number, date, and page]"
+  - id: who
+    heading: Who is commenting and why it matters to us
+    tips: [not_a_vote]
+    guidance: State your agency or organization, your role, and the community you serve. Comments are usually public, so use only information you are willing to publish.
+    placeholders:
+      - field: organization
+        text: "[NURSE: organization and role]"
+      - field: population
+        text: "[NURSE: population served, in general terms]"
+  - id: position
+    heading: Summary of our position
+    tips: [concise]
+    guidance: In a short paragraph, say whether you support, oppose, or support with changes, and the two or three main reasons.
+    placeholders:
+      - field: position
+        text: "[NURSE: support / oppose / support with changes]"
+      - field: reasons
+        text: "[NURSE: main reasons]"
+  - id: provisions
+    heading: Comments on specific provisions
+    tips: [follow, concise]
+    guidance: One row for each provision you address, with the part and section of the CFR (or the page of the notice), your position, why, and the change or substitute language you ask for.
+    table:
+      columns: [Provision (CFR part and section, or page), Position, Reasons and evidence, Requested change or substitute language]
+      rows: 3
+  - id: agency_questions
+    heading: Answers to the agency's specific questions
+    tips: [follow]
+    guidance: If the document asks for comment on particular questions, answer each one under its own number.
+    placeholders:
+      - field: agency_questions
+        text: "[NURSE: the agency's question, then our answer]"
+  - id: evidence
+    heading: Evidence and data
+    tips: [evidence]
+    guidance: Give the sources, local data, and assumptions behind your position. Use aggregate numbers only; never include information about individuals. If you estimate costs or burdens, show how you calculated them.
+    placeholders:
+      - field: evidence
+        text: "[NURSE: published evidence, with citations]"
+      - field: local_data
+        text: "[NURSE: local data as aggregate numbers, with years and sources]"
+      - field: cost_estimate
+        text: "[NURSE: cost or burden estimate and how it was calculated]"
+  - id: impacts
+    heading: Effects on our community and our department
+    tips: [evidence]
+    guidance: Describe who in your community would be affected and how (benefits, burdens, capacity, timing), and what the department would need to implement it.
+    placeholders:
+      - field: community_effects
+        text: "[NURSE: effects on residents and on groups with greater risk]"
+      - field: department_effects
+        text: "[NURSE: effects on department staffing, funding, and timelines]"
+  - id: tradeoffs
+    heading: Trade-offs and opposing views
+    tips: [tradeoffs]
+    guidance: Name the strongest argument on the other side and explain why your position still holds, or what would change your mind.
+    placeholders:
+      - field: opposing_view
+        text: "[NURSE: opposing view and our response]"
+  - id: closing
+    heading: Closing and submission checklist
+    tips: [deadline, public]
+    guidance: Thank the agency, offer to answer questions, and check the list below before submitting on Regulations.gov or by the method the document gives.
+    checklist:
+      - Docket ID and Federal Register date or page are in the subject line.
+      - The comment is submitted by the deadline in the Federal Register document (check the time of day too).
+      - Every provision you address cites its CFR part and section.
+      - Any estimate shows its method; every number has a source.
+      - No information about individuals, no confidential information, and no profanity or threats.
+      - Attachments are the documents you cite, in an accessible format.
+      - You kept a copy and the confirmation number.
+
+countdown_note: The countdown counts calendar days from today (your computer's local date) to the comment close date that the Federal Register gives; the close date itself counts as open ("closes today"). The Federal Register document's DATES section states the exact deadline and time of day (electronic comments are often due at 11:59 pm Eastern, but check; in one recorded Regulations.gov response the end time was 04:59:59 UTC, which is 11:59:59 pm Eastern standard time the evening before).
+
+limits:
+  - "Live data comes only from the Federal Register API (no key) and, when you set PHN_REGULATIONS_GOV_API_KEY, Regulations.gov. When neither can be reached the tool says so and returns no documents; it never shows old data as current. Cached searches are used for at most two days and are labeled."
+  - "Agency slugs other than EPA, HHS, USDA, and FNS are unverified; use agency_slugs if one finds nothing."
+  - "The outline follows EPA's tips; other agencies, and individual notices, may require a different format or a specific form."
+  - "The tool does not file comments or contact any agency."

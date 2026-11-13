@@ -1,0 +1,334 @@
+# Reference content for track_ma_legislation (POL-01): the topic keyword lists used to find public
+# health bills in the Massachusetts Legislature's public data, the rules that turn a bill's history
+# into a plain "stage", and the structured questions a nurse asks of a bill.
+#
+# REVIEW STATUS: pending. The Legislature's API was read (its Swagger document and live responses,
+# 2026-11-12/13). The topic keyword lists, the stage rules, and the analysis questions are this
+# project's drafting aids (confidence low to medium), not official classifications. Nothing here
+# says what a bill would do; the tool only quotes up to 25 words of bill text and asks questions.
+# Schema: content/schemas/policy_ma_legislation_tracking.schema.json
+meta:
+  id: policy-ma-legislation-tracking
+  title: Massachusetts legislation tracking (topics, stage rules, analysis questions)
+  version: 0.1.0
+  prepared: 2026-11-13
+  effective_date: null
+  source:
+    title: Massachusetts Legislature Public API (Swagger document and live responses)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/api/swagger/v1/swagger.json
+  related_sources:
+    - title: Massachusetts Legislature bill search
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Bills/Search
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The API endpoints, field names, and the 194th General Court (2025-2026) were verified by calling the
+    API on 2026-11-12 and 2026-11-13: /GeneralCourts/194/Documents lists 12,061 documents (9,018 with a bill
+    number), each bill's record has Title, Pinslip, DocumentText and CommitteeRecommendations, and its
+    DocumentHistoryActions list has dated actions. The API has no search parameters, so the tool matches
+    topic keywords against bill TITLES only; a bill whose title does not use a keyword is not found. The topic
+    keyword lists are this project's choices for a public health nursing practice (confidence low: edit them
+    to suit your agency). The stage rules are this project's reading of the action wording seen in 850 bills'
+    histories (medium confidence; the Legislature publishes no official stage field, so always read the last
+    action itself). The analysis questions are drafting aids, not legal or policy advice. The Legislature's
+    terms of use were not found in the API description.
+
+sources:
+  api_swagger:
+    title: Massachusetts Legislature Public API (Swagger document)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/api/swagger/v1/swagger.json
+    effective_date: null
+    retrieved: "2026-11-12"
+  api_documents:
+    title: General Court 194 documents, bill records, and history actions (API responses)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/api/GeneralCourts/194/Documents
+    effective_date: null
+    retrieved: "2026-11-13"
+  bill_search:
+    title: Massachusetts Legislature bill search and bill pages
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Bills/Search
+    effective_date: null
+    retrieved: "2026-11-13"
+
+general_court:
+  number: 194
+  years: "2025-2026"
+  note: The 194th General Court's documents are dated from January 2025. Bills not enacted by the end of the session (January 2027) end; they must be refiled in the 195th General Court.
+
+how_to_search:
+  - "Bill search page: https://malegislature.gov/Bills/Search (keyword, committee, and sponsor filters)."
+  - "A bill's page is https://malegislature.gov/Bills/194/<number>, for example H3444 or S2518."
+  - "Committee hearings are announced on the Legislature's hearings calendar; a bill's history shows 'Hearing scheduled for ...' lines."
+  - "To testify or submit written testimony, use the committee's instructions on the hearing notice (the tool does not submit anything)."
+
+topics:
+  - id: vaccines
+    label: "Vaccines and immunization"
+    keywords:
+      - "vaccine"
+      - "vaccination"
+      - "immunization"
+      - "immunize"
+      - "immunisation"
+  - id: communicable_disease
+    label: "Communicable disease and infection control"
+    keywords:
+      - "communicable disease"
+      - "infectious disease"
+      - "disease control"
+      - "tuberculosis"
+      - "measles"
+      - "sexually transmitted"
+      - "hiv"
+      - "hepatitis"
+      - "outbreak"
+      - "infection control"
+      - "contact tracing"
+  - id: tobacco_nicotine
+    label: "Tobacco, nicotine, and vaping"
+    keywords:
+      - "tobacco"
+      - "nicotine"
+      - "vape"
+      - "vaping"
+      - "e-cigarette"
+      - "electronic cigarette"
+      - "cigarette"
+      - "menthol"
+  - id: substance_use
+    label: "Substance use, overdose, and harm reduction"
+    keywords:
+      - "opioid"
+      - "overdose"
+      - "substance use"
+      - "substance use disorder"
+      - "naloxone"
+      - "narcan"
+      - "harm reduction"
+      - "addiction"
+      - "fentanyl"
+      - "drug checking"
+      - "syringe"
+  - id: mental_health
+    label: "Mental and behavioral health"
+    keywords:
+      - "mental health"
+      - "behavioral health"
+      - "suicide"
+      - "psychiatric"
+      - "crisis response"
+      - "988"
+      - "mental illness"
+  - id: maternal_child
+    label: "Maternal, infant, and child health"
+    keywords:
+      - "maternal"
+      - "postpartum"
+      - "perinatal"
+      - "doula"
+      - "midwife"
+      - "midwives"
+      - "newborn"
+      - "pregnancy"
+      - "pregnant"
+      - "prenatal"
+      - "infant"
+      - "breastfeeding"
+      - "lactation"
+      - "early intervention"
+      - "birth center"
+  - id: school_child_care
+    label: "School health and child care"
+    keywords:
+      - "school nurse"
+      - "school health"
+      - "student health"
+      - "school-based health"
+      - "school based health"
+      - "child care"
+      - "childcare"
+      - "school meals"
+      - "school lunch"
+  - id: older_adults
+    label: "Older adults and long-term care"
+    keywords:
+      - "older adult"
+      - "elder"
+      - "aging"
+      - "nursing home"
+      - "long-term care"
+      - "long term care"
+      - "assisted living"
+      - "dementia"
+      - "alzheimer"
+      - "home care"
+      - "caregiver"
+  - id: environmental_health
+    label: "Environmental health and climate"
+    keywords:
+      - "pfas"
+      - "lead paint"
+      - "lead poisoning"
+      - "lead service"
+      - "drinking water"
+      - "air quality"
+      - "extreme heat"
+      - "heat emergency"
+      - "climate"
+      - "pesticide"
+      - "environmental justice"
+      - "mold"
+      - "sanitary code"
+      - "wastewater"
+  - id: food_nutrition
+    label: "Food security and nutrition"
+    keywords:
+      - "food insecurity"
+      - "nutrition"
+      - "snap"
+      - "hunger"
+      - "food safety"
+      - "food allergy"
+      - "food allergen"
+      - "sugar sweetened"
+      - "school breakfast"
+  - id: local_public_health
+    label: "Local and state public health system"
+    keywords:
+      - "board of health"
+      - "local public health"
+      - "public health nurse"
+      - "public health workforce"
+      - "public health excellence"
+      - "health department"
+      - "department of public health"
+      - "public health emergency"
+      - "public health"
+  - id: nursing_workforce
+    label: "Nursing practice and workforce"
+    keywords:
+      - "nurse"
+      - "nursing"
+      - "nurse staffing"
+      - "nurse licensure"
+      - "nurse practitioner"
+      - "health care workforce"
+      - "community health worker"
+      - "health care worker"
+  - id: health_equity
+    label: "Health equity and language access"
+    keywords:
+      - "health equity"
+      - "language access"
+      - "interpreter"
+      - "health disparities"
+      - "racial disparities"
+      - "immigrant health"
+      - "health care access"
+  - id: oral_health
+    label: "Oral health"
+    keywords:
+      - "dental"
+      - "oral health"
+      - "fluoride"
+      - "fluoridation"
+      - "dentist"
+  - id: emergency_preparedness
+    label: "Emergency preparedness and response"
+    keywords:
+      - "emergency preparedness"
+      - "disaster"
+      - "emergency response"
+      - "pandemic"
+      - "public health emergency"
+      - "emergency medical"
+  - id: health_coverage
+    label: "Health coverage and telehealth"
+    keywords:
+      - "masshealth"
+      - "medicaid"
+      - "health insurance"
+      - "telehealth"
+      - "telemedicine"
+      - "prior authorization"
+      - "health care coverage"
+  - id: reproductive_sexual_health
+    label: "Reproductive and sexual health"
+    keywords:
+      - "contraception"
+      - "contraceptive"
+      - "reproductive health"
+      - "family planning"
+      - "sexual health"
+      - "sex education"
+  - id: injury_safety
+    label: "Injury prevention and safety"
+    keywords:
+      - "injury prevention"
+      - "drowning"
+      - "fall prevention"
+      - "concussion"
+      - "poison control"
+      - "violence prevention"
+
+# Stage rules. The stage of a bill is the stage of its LATEST history action that matches a rule; the
+# first matching rule (in this order) decides a single action. Patterns are case-insensitive regular
+# expressions applied to the action text. Actions that match no rule (for example "Senate concurred",
+# "Rules suspended", amendments) do not change the stage.
+stage_rules:
+  - stage: enacted
+    label: Enacted (signed by the Governor)
+    patterns: ["signed by the governor", "chapter \\d+ of the acts"]
+  - stage: awaiting_governor
+    label: Enacted by the legislature; with the Governor
+    patterns: ["^enacted", "laid before the governor"]
+  - stage: study_or_new_draft
+    label: Sent to study, combined into another bill, or replaced by a new draft (usually the end of this bill)
+    patterns: ["study order", "accompanied a new draft", "^accompanied( by)? [hs]\\d", "ought not to pass", "withdrawn"]
+  - stage: floor
+    label: On the floor of a branch (reading, engrossment, orders of the day)
+    patterns: ["third reading", "engrossed", "read second", "orders of the day", "^read third"]
+  - stage: reported_out
+    label: Reported out of a committee (may go to another committee or the floor)
+    patterns: ["reported favorably", "^reported from the committee", "committee recommended", "committee reported", "^reported,", "reported by committee", "^reported on a part"]
+  - stage: in_committee
+    label: Referred to a committee (not yet reported)
+    patterns: ["^referred", "^discharged", "reporting date extended", "^hearing", "^new draft of"]
+default_stage:
+  stage: filed
+  label: Filed (no committee action recorded yet)
+
+# Structured questions to put to any bill (drafting aids for the nurse's own analysis).
+analysis_questions:
+  - id: who_acts
+    question: "Who would have to do something differently if this became law (the health department, the board of health, schools, providers, employers, residents)?"
+  - id: what_changes
+    question: "What would change in our current duties, authority, forms, or procedures? Which section of the bill says so? (Read that section; the excerpt shown is only a short quotation.)"
+  - id: money
+    question: "Does the bill provide funding, and who would pay (state, municipality, grant, fee)? What would it cost our department in staff time?"
+  - id: existing_law
+    question: "Which existing statute or regulation does it amend or replace? Ask counsel what the cited chapter or section currently requires."
+  - id: evidence
+    question: "What local data and published evidence bear on the problem the bill addresses (for example from the community health profile tools)?"
+  - id: equity
+    question: "Who would benefit or be burdened most, and are there groups in our community the bill leaves out?"
+  - id: positions
+    question: "Who supports or opposes it (professional associations, DPH, the Massachusetts Association of Health Boards), and what do they say?"
+  - id: timing
+    question: "What is the next step and date (committee hearing, reporting deadline, floor session), and when must written testimony be in?"
+  - id: our_role
+    question: "Is our role to inform, testify, or stay neutral, and what do our agency's policies and our employer's rules about lobbying or public statements allow?"
+
+limits:
+  - "Titles only: a bill is found only if its title contains a topic keyword or your keyword."
+  - "The tool shows what the Legislature's public data say; it does not say what a bill would do in practice, and it is not legal advice."
+  - "Bill text is quoted in at most 25 words; the stage label is this project's reading of the history, so read the last action itself."
+  - "Live mode needs access to malegislature.gov. The offline snapshot is dated and its status may be out of date."

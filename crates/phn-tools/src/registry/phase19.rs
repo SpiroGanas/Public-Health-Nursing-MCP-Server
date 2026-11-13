@@ -9,6 +9,18 @@ use phn_core::Toolset;
 /// Legislation and federal rules: POL-01, POL-03.
 pub(super) const TRACKING: &[ToolMeta] = &[
     // Phase 19 tracking entries go below this line.
+    ToolMeta {
+        name: "track_ma_legislation",
+        plan_id: "POL-01",
+        toolset: Toolset::Policy,
+        phase: 19,
+    },
+    ToolMeta {
+        name: "monitor_federal_rules",
+        plan_id: "POL-03",
+        toolset: Toolset::Policy,
+        phase: 19,
+    },
     // End of Phase 19 tracking entries.
 ];
 

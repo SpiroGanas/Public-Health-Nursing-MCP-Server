@@ -1,0 +1,206 @@
+[
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-13",
+  "days": 0,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-14",
+  "days": 1,
+  "weekday": "Saturday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-20",
+  "days": 7,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-21",
+  "days": 8,
+  "weekday": "Saturday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-12-14",
+  "days": 31,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-12-31",
+  "days": 48,
+  "weekday": "Thursday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2027-01-01",
+  "days": 49,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2027-02-28",
+  "days": 107,
+  "weekday": "Sunday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2027-03-01",
+  "days": 108,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-12",
+  "days": -1,
+  "weekday": "Thursday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-11-01",
+  "days": -12,
+  "weekday": "Sunday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2026-10-15",
+  "days": -29,
+  "weekday": "Thursday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2025-12-31",
+  "days": -317,
+  "weekday": "Wednesday"
+ },
+ {
+  "today": "2027-12-30",
+  "close": "2028-02-29",
+  "days": 61,
+  "weekday": "Tuesday"
+ },
+ {
+  "today": "2028-02-28",
+  "close": "2028-02-29",
+  "days": 1,
+  "weekday": "Tuesday"
+ },
+ {
+  "today": "2028-02-29",
+  "close": "2028-03-01",
+  "days": 1,
+  "weekday": "Wednesday"
+ },
+ {
+  "today": "2028-03-01",
+  "close": "2028-02-28",
+  "days": -2,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-03-07",
+  "close": "2026-03-09",
+  "days": 2,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-03-08",
+  "close": "2026-03-09",
+  "days": 1,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-11-01",
+  "close": "2026-11-02",
+  "days": 1,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-12-31",
+  "close": "2027-01-01",
+  "days": 1,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2025-12-31",
+  "close": "2026-01-01",
+  "days": 1,
+  "weekday": "Thursday"
+ },
+ {
+  "today": "2099-12-31",
+  "close": "2100-01-01",
+  "days": 1,
+  "weekday": "Friday"
+ },
+ {
+  "today": "1999-12-31",
+  "close": "2000-02-29",
+  "days": 60,
+  "weekday": "Tuesday"
+ },
+ {
+  "today": "2000-02-29",
+  "close": "2000-03-01",
+  "days": 1,
+  "weekday": "Wednesday"
+ },
+ {
+  "today": "2100-02-28",
+  "close": "2100-03-01",
+  "days": 1,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-01-31",
+  "close": "2026-02-28",
+  "days": 28,
+  "weekday": "Saturday"
+ },
+ {
+  "today": "2026-05-31",
+  "close": "2026-06-30",
+  "days": 30,
+  "weekday": "Tuesday"
+ },
+ {
+  "today": "2026-07-04",
+  "close": "2026-09-07",
+  "days": 65,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2026-11-26",
+  "close": "2026-12-25",
+  "days": 29,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2026-02-01",
+  "close": "2026-11-13",
+  "days": 285,
+  "weekday": "Friday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2027-11-13",
+  "days": 365,
+  "weekday": "Saturday"
+ },
+ {
+  "today": "2026-11-13",
+  "close": "2028-11-13",
+  "days": 731,
+  "weekday": "Monday"
+ },
+ {
+  "today": "2024-02-29",
+  "close": "2025-02-28",
+  "days": 365,
+  "weekday": "Friday"
+ }
+]

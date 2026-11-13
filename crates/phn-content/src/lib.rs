@@ -804,6 +804,22 @@ pub const ITEMS: &[ContentItem] = &[
     // End of Phase 18 content items.
     // Phase 19 content items go below this line.
     // Phase 19 tracking (POL-01, POL-03).
+    ContentItem {
+        id: "policy-ma-legislation-tracking",
+        path: "content/policy/ma_legislation_tracking.yaml",
+        resource_uri: "phn://content/policy-ma-legislation-tracking",
+        yaml: include_str!("../../../content/policy/ma_legislation_tracking.yaml"),
+        schema: include_str!(
+            "../../../content/schemas/policy_ma_legislation_tracking.schema.json"
+        ),
+    },
+    ContentItem {
+        id: "policy-federal-rules-tracking",
+        path: "content/policy/federal_rules_tracking.yaml",
+        resource_uri: "phn://content/policy-federal-rules-tracking",
+        yaml: include_str!("../../../content/policy/federal_rules_tracking.yaml"),
+        schema: include_str!("../../../content/schemas/policy_federal_rules_tracking.schema.json"),
+    },
     // End of Phase 19 tracking.
     // Phase 19 law (POL-02, POL-04, POL-07).
     // End of Phase 19 law.
