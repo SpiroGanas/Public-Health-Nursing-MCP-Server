@@ -623,8 +623,15 @@ async fn the_narrative_follows_the_checklist_and_adds_no_numbers_of_its_own() {
     assert_eq!(d["data_points_missing_citation"], 1);
     assert!(d["placeholder_count"].as_u64().unwrap() > 8);
     assert!(d["page_limit_note"].as_str().unwrap().contains("15 pages"));
-    // The draft contains no digit string that was not in the input (the tool invents no numbers).
-    let input = args.to_string();
+    // The draft contains no digit string that was not in the input or in the checklist file the
+    // criteria came from (the tool invents no numbers).
+    let checklist_points: Vec<String> = a["data"]["criteria"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["points"].to_string())
+        .collect();
+    let input = format!("{} {}", args, checklist_points.join(" "));
     let re = regex::Regex::new(r"\d[\d,.]*%?").unwrap();
     for sec in d["sections"].as_array().unwrap() {
         for m in re.find_iter(sec["text"].as_str().unwrap()) {
@@ -744,4 +751,22 @@ async fn the_grant_tools_are_planning_tools_and_the_prompt_lists() {
             .iter()
             .any(|p| p.name == "prepare_grant_application")
     );
+}
+
+/// Network check, run by hand: `cargo test -p phn-server --test phase17_grants_tools live_ -- --ignored
+/// --nocapture`. The COMMBUYS weekly list is read from mass.gov when it is reachable (the live list
+/// changes every week, so only its shape is checked); the federal search is skipped without a key.
+#[tokio::test]
+#[ignore]
+async fn live_commbuys_list_is_read_when_mass_gov_is_reachable() {
+    let h = start(|c| c.offline = false).await;
+    let s = call_ok(
+        &h,
+        "search_grant_opportunities",
+        json!({"source": "commbuys", "closes_after": "2000-01-01", "limit": 100}),
+    )
+    .await;
+    let cb = &s["data"]["commbuys"];
+    println!("mode {} as_of {} read {} reason {}", cb["mode"], cb["as_of"], cb["read"], cb["reason"]);
+    println!("{}", summary(&h.call("search_grant_opportunities", json!({"source": "commbuys"})).await));
 }

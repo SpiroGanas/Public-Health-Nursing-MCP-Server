@@ -1241,6 +1241,16 @@ fn clean_label(s: &str) -> String {
     clip(&t, MAX_LABEL)
 }
 
+/// A criterion name is a short title, not a sentence that happens to end before a points figure.
+fn plausible_label(label: &str) -> bool {
+    let l = label.to_lowercase();
+    label.split_whitespace().count() <= 9
+        && !label.contains(';')
+        && label.chars().next().is_some_and(|c| c.is_uppercase() || c.is_ascii_digit())
+        && !["maximum total", "total score", "out of", "maximum score"].iter().any(|x| l.contains(x))
+        && !["is", "are", "of", "to", "be", "and", "or"].iter().any(|x| l.ends_with(&format!(" {x}")))
+}
+
 struct CriteriaScan {
     criteria: Vec<(String, Option<f64>, String)>, // label, points, location
     total_stated: Option<f64>,
@@ -1297,7 +1307,11 @@ fn extract_criteria(
                    withheld: &mut usize,
                    crit: &mut Vec<(String, Option<f64>, String)>| {
         let l = label.to_lowercase();
-        if l.starts_with("total") || l.chars().count() < 3 || crit.len() >= MAX_CRITERIA {
+        if l.starts_with("total")
+            || l.chars().count() < 3
+            || crit.len() >= MAX_CRITERIA
+            || !plausible_label(&label)
+        {
             return;
         }
         if !seen.insert(l) {
@@ -2664,10 +2678,10 @@ Awards of up to $250,000 per year for a 3 year period of performance. Cost shari
 
     #[test]
     fn criteria_without_points_use_components_and_rating_words() {
-        let text = "REQUEST FOR RESPONSES (RFR)\nHealth Outreach Services\nCriteria 1: Cover Letter\nCriteria 2: Experience and Qualifications Narrative\nThe narrative must not exceed eight (8) double spaced pages.\nCriteria 3: Fee Proposal\nResponses are evaluated as Highly Advantageous, Advantageous, or Not Advantageous. Responses are submitted through COMMBUYS. Bidder questions due 10/3/2026. Bidder RFR responses due 10/20/2026 5:00 PM bidders commonwealth of massachusetts rfr ".repeat(1);
+        let text = "REQUEST FOR RESPONSES (RFR)\nHealth Outreach Services\nCriteria 1: Cover Letter\nCriteria 2: Experience and Qualifications Narrative\nThe narrative must not exceed eight (8) double spaced pages.\nCriteria 3: Fee Proposal\nResponses are evaluated as Highly Advantageous, Advantageous, or Not Advantageous. Responses are submitted through COMMBUYS. Bidder questions due 10/3/2026. Bidder RFR responses due 10/20/2026 5:00 PM bidders commonwealth of massachusetts rfr ";
         let (a, _) = analyze(
             "rfr.txt",
-            &ex_from(&text),
+            &ex_from(text),
             &pat(),
             AnnouncementKind::Auto,
             today(),

@@ -14,8 +14,9 @@ Writes two fictional announcements, so the tests need no copyrighted text:
 * fixtures/synthetic/data/synthetic_rfr.pdf  a Massachusetts-style request for response ("Healthy
   Communities Outreach Services", COMMBUYS bid BD-27-9999-SYN01-SYN02-900001) with five numbered
   criteria rated Highly Advantageous / Advantageous / Not Advantageous, an 8-page narrative limit,
-  and a procurement calendar. It is made from a DOCX by LibreOffice (`soffice --headless`), which
-  must be installed to regenerate it.
+  and a procurement calendar (a table, whose date cells the server's PDF reader does not extract,
+  and a "Key dates" sentence, which it does). It is made from a DOCX by LibreOffice
+  (`soffice --headless`), which must be installed to regenerate it.
 
 Both name two fictional procurement and program contacts (names, 555 phone numbers, example.org
 emails) that no tool may return. The script adds them to fixtures/synthetic/seeded_identifiers.json
@@ -137,6 +138,7 @@ def rfr(tmp):
                ["Bidder questions due (all questions must be submitted through COMMBUYS)", "12/4/2026", ""],
                ["Bidder RFR responses due", "1/15/2027", "5:00 PM"],
                ["Anticipated contract start", "3/1/2027", ""]]),
+        para("Key dates: Bidder questions due 12/4/2026. Bidder RFR responses due 1/15/2027, 5:00 PM. Anticipated contract start 3/1/2027."),
         para("5. Evaluation Criteria", "Heading1"),
         para("Responses that meet the submission requirements will be rated Highly Advantageous, Advantageous, or Not Advantageous on each of the following criteria."),
         para("Criteria 1: Cover Letter"),

@@ -3627,7 +3627,11 @@ the DOCX and XLSX. A file that looks like a client record (several record number
 birth) is refused. Scanned PDFs without text are rejected with advice.
 
 Limits: pattern matching, not judgment: it can miss items in tables, images, or linked documents and
-can mistake a sentence for a requirement (the checklist says so). It was tried on synthetic notices
+can mistake a sentence for a requirement (the checklist says so). PDF text from the server's reader
+arrives in fragments (cells and even dates such as "10/20/2025" can be split, some words are cut by a
+space, and the cells of some PDF tables are not extracted at all), so for PDFs the reader also
+searches each page as running text, joins split dates, and reads criteria, appendices, and limits
+from sentences; labels read that way can include a stray word. It was tried on synthetic notices
 (`fixtures/synthetic/generators/phase17_grants_fixtures.py`) and on a public Massachusetts RFR and a
 state NOFO, and **not on a real federal NOFO** (Grants.gov and the federal grant sites were
 blocked). Amendments are not read unless saved as part of the file.

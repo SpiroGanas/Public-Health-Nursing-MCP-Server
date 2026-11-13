@@ -101,10 +101,20 @@
   weekly list on mass.gov (`/doc/commbuys-home-page-bid-count/download`, plain curl; browser-like
   agents get 403) is the only Massachusetts source. The live parse reads the PDF with the server's
   own text reader and refuses a layout change (every bid number on the page must produce a row).
-- The announcement reader was tuned on one public Massachusetts RFR (EOHLC, PHN 2025-12) and one state
-  NOFO (DER, FY2027 Transitional Crossings), and on synthetic notices. Real federal NOFOs often put
-  eligibility, key dates, and merit review in tables or in long sections that this reader may miss;
-  scanned PDFs have no text. The reader does not read amendments or linked documents.
+- The announcement reader was tuned on one public Massachusetts RFR (EOHLC, PHN 2025-12, 23-page PDF)
+  and one state NOFO (DER, FY2027 Transitional Crossings, 6-page PDF), and on synthetic notices
+  (not bundled: the generator and the two synthetic files are committed; the two public PDFs were
+  read from mass.gov and are cited, not copied). On the RFR it found the response deadline
+  (2025-10-20 5:00 PM) and questions deadline, the 8-page narrative limit tied to its criterion, five
+  numbered criteria (Cover Letter; Experience and Qualifications Narrative; Fee Proposal; Resumes,
+  References, and License; Experience and Qualifications Evaluative Meeting), and Appendices A to C. It
+  missed the rating words, the 3-year contract term (PDF text had "3 -year"), and the eligibility
+  section. On the NOFO, which has no dates or scoring, it correctly found none and listed what was
+  missing. Real federal NOFOs often put eligibility, key dates, and merit review in tables or long
+  sections that this reader may miss; the server's PDF reader splits words and dates and drops the
+  cells of some tables (the synthetic RFR's calendar table lost its date cells, so the fixture also
+  states the dates in a sentence); scanned PDFs have no text. The reader does not read amendments or
+  linked documents. A federal NOFO test is the first thing to do once Grants.gov is reachable.
 - **Decision for the nurse:** whether the checklist should flag scoring criteria it cannot place in a
   narrative section (it lists them as not drafted here). Also whether to keep excerpts of eligibility
   passages (300 characters) in the DOCX and XLSX; they are written only locally.

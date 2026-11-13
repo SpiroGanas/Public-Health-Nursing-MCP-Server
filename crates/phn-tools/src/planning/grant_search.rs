@@ -313,7 +313,7 @@ fn money(v: u64) -> String {
     let s = v.to_string();
     let mut out = String::new();
     for (i, ch) in s.chars().enumerate() {
-        if i > 0 && (s.len() - i) % 3 == 0 {
+        if i > 0 && (s.len() - i).is_multiple_of(3) {
             out.push(',');
         }
         out.push(ch);
@@ -374,6 +374,11 @@ static LIST_DATE: LazyLock<Regex> = LazyLock::new(|| {
 /// error unless every bid number in the text produced a row, so a changed
 /// layout is reported instead of read wrongly.
 pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
+    parse_weekly_rows(text).0
+}
+
+/// [`parse_weekly_text`] plus the rows that held a bid number but could not be read (for diagnosis).
+fn parse_weekly_rows(text: &str) -> (Result<CommbuysList>, Vec<String>) {
     let collapse = |l: &str| {
         l.split_whitespace()
             .collect::<Vec<_>>()
@@ -396,6 +401,10 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
     let mut list_date = None;
     let mut rows: Vec<CommbuysBid> = Vec::new();
     let mut acc: Option<String> = None;
+    let mut unread: Vec<String> = Vec::new();
+    // Month and day of the last row when its year had not arrived yet.
+    let mut pending_date: Option<(String, String)> = None;
+    let mut desc_lines_left = 0u8;
     for line in &lines {
         if list_date.is_none()
             && let Some(c) = LIST_DATE.captures(line)
@@ -410,6 +419,26 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
             None => {
                 if ROW_START.is_match(line) {
                     acc = Some(line.clone());
+                    pending_date = None;
+                    desc_lines_left = 0;
+                } else if let Some(last) = rows.last_mut() {
+                    // The rest of a row split by a page break arrives after the next page's
+                    // header, in column order: the end of the organization, the year, then the end
+                    // of the description.
+                    if let Some((m, d)) = pending_date.clone() {
+                        if line.len() == 4 && line.chars().all(|c| c.is_ascii_digit()) {
+                            last.bid_date = iso_date(&m, &d, line);
+                            pending_date = None;
+                            desc_lines_left = 2;
+                        } else if last.organization.len() < 200 {
+                            last.organization.push(' ');
+                            last.organization.push_str(line);
+                        }
+                    } else if desc_lines_left > 0 {
+                        last.description.push(' ');
+                        last.description.push_str(line);
+                        desc_lines_left -= 1;
+                    }
                 }
             }
             Some(a) => {
@@ -422,6 +451,9 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
         {
             let joined = a.clone();
             acc = None;
+            if ROW.captures(&joined).is_none() {
+                unread.push(joined.clone());
+            }
             if let Some(c) = ROW.captures(&joined) {
                 let mut org = c["org"].trim().to_string();
                 let year = match c.name("year") {
@@ -446,6 +478,11 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
                     .find(&c["bid"])
                     .map(|m| m.as_str().split_whitespace().collect())
                     .unwrap_or_default();
+                pending_date = if year.is_none() {
+                    Some((c["month"].to_string(), c["day"].to_string()))
+                } else {
+                    None
+                };
                 rows.push(CommbuysBid {
                     org_id: c["id"].to_string(),
                     organization: org,
@@ -459,7 +496,8 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
     }
     let expected = BID_TOKEN.find_iter(&lines.join(" ")).count();
     let complete = rows.iter().filter(|r| r.bid_date.is_some()).count();
-    match list_date {
+    unread.extend(rows.iter().filter(|r| r.bid_date.is_none()).map(|r| format!("no date: {r:?}")));
+    let result = match list_date {
         Some(date) if expected > 0 && complete == expected => Ok(CommbuysList {
             list_title: "New Bids Available (COMMBUYS weekly list)".into(),
             list_date: date,
@@ -469,7 +507,8 @@ pub fn parse_weekly_text(text: &str) -> Result<CommbuysList> {
         _ => Err(PhnError::Network(format!(
             "the COMMBUYS weekly list did not have the expected layout ({complete} of {expected} bids read)"
         ))),
-    }
+    };
+    (result, unread)
 }
 
 /// The weekly list as read by `phn_local::pdf` (live or cached), or the bundled copy.
@@ -1191,6 +1230,37 @@ mod tests {
         assert!(parse_weekly_text("<html>Access denied</html>").is_err());
         let broken = text.replace("November 17,", "Nov. 17");
         assert!(parse_weekly_text(&broken).is_err());
+    }
+
+    /// Parity check, run by hand: `PHN_COMMBUYS_PDF=/path/to/weekly.pdf cargo test -p phn-tools
+    /// weekly_pdf_matches_snapshot -- --ignored --nocapture`. The PDF is the OSD list the bundled
+    /// snapshot was built from; the server's own PDF reader and parser must give the same bids.
+    #[test]
+    #[ignore]
+    fn weekly_pdf_matches_snapshot() {
+        let Ok(path) = std::env::var("PHN_COMMBUYS_PDF") else {
+            return;
+        };
+        let info = phn_local::pdf::read_pdf(std::path::Path::new(&path)).unwrap();
+        let (live, unread) = parse_weekly_rows(&info.text());
+        for u in &unread {
+            println!("UNREAD {u:?}");
+        }
+        let live = live.unwrap();
+        let store = phn_data::SnapshotStore::bundled();
+        let (snap, _) = grants::commbuys_snapshot(&store).unwrap();
+        assert_eq!(live.list_date, snap.list_date);
+        assert_eq!(live.bids.len(), snap.bids.len());
+        let mut diffs = 0;
+        for (a, b) in live.bids.iter().zip(&snap.bids) {
+            if a.bid_number != b.bid_number || a.bid_date != b.bid_date || a.bid_time != b.bid_time || a.organization != b.organization {
+                diffs += 1;
+                println!("DIFF live {a:?}\n     snap {b:?}");
+            } else if a.description != b.description {
+                println!("desc live {:?}\n     snap {:?}", a.description, b.description);
+            }
+        }
+        assert_eq!(diffs, 0);
     }
 
     #[test]
