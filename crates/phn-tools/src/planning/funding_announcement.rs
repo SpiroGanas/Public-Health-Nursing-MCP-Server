@@ -1246,9 +1246,16 @@ fn plausible_label(label: &str) -> bool {
     let l = label.to_lowercase();
     label.split_whitespace().count() <= 9
         && !label.contains(';')
-        && label.chars().next().is_some_and(|c| c.is_uppercase() || c.is_ascii_digit())
-        && !["maximum total", "total score", "out of", "maximum score"].iter().any(|x| l.contains(x))
-        && !["is", "are", "of", "to", "be", "and", "or"].iter().any(|x| l.ends_with(&format!(" {x}")))
+        && label
+            .chars()
+            .next()
+            .is_some_and(|c| c.is_uppercase() || c.is_ascii_digit())
+        && !["maximum total", "total score", "out of", "maximum score"]
+            .iter()
+            .any(|x| l.contains(x))
+        && !["is", "are", "of", "to", "be", "and", "or"]
+            .iter()
+            .any(|x| l.ends_with(&format!(" {x}")))
 }
 
 struct CriteriaScan {

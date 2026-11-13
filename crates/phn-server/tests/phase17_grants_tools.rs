@@ -767,6 +767,15 @@ async fn live_commbuys_list_is_read_when_mass_gov_is_reachable() {
     )
     .await;
     let cb = &s["data"]["commbuys"];
-    println!("mode {} as_of {} read {} reason {}", cb["mode"], cb["as_of"], cb["read"], cb["reason"]);
-    println!("{}", summary(&h.call("search_grant_opportunities", json!({"source": "commbuys"})).await));
+    println!(
+        "mode {} as_of {} read {} reason {}",
+        cb["mode"], cb["as_of"], cb["read"], cb["reason"]
+    );
+    println!(
+        "{}",
+        summary(
+            &h.call("search_grant_opportunities", json!({"source": "commbuys"}))
+                .await
+        )
+    );
 }

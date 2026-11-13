@@ -364,6 +364,8 @@ static ROW: LazyLock<Regex> = LazyLock::new(|| {
     )
     .unwrap()
 });
+/// The PDF reader puts a space before some hyphens inside words ("2027 -282").
+static HYPHEN_GAP: LazyLock<Regex> = LazyLock::new(|| Regex::new(r"(\w) -(\w)").unwrap());
 static LIST_DATE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r"(?i)(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\s*,?\s*(?P<month>[A-Za-z]+)\s+(?P<day>\d{1,2})\s*,\s*(?P<year>\d{4})").unwrap()
 });
@@ -417,7 +419,8 @@ fn parse_weekly_rows(text: &str) -> (Result<CommbuysList>, Vec<String>) {
         }
         match &mut acc {
             None => {
-                if ROW_START.is_match(line) {
+                let is_year = line.len() == 4 && line.chars().all(|c| c.is_ascii_digit());
+                if ROW_START.is_match(line) && !(is_year && pending_date.is_some()) {
                     acc = Some(line.clone());
                     pending_date = None;
                     desc_lines_left = 0;
@@ -488,7 +491,9 @@ fn parse_weekly_rows(text: &str) -> (Result<CommbuysList>, Vec<String>) {
                     organization: org,
                     bid_date: year.and_then(|y| iso_date(&c["month"], &c["day"], &y)),
                     bid_time: c["time"].split_whitespace().collect::<Vec<_>>().join(" "),
-                    description: c["desc"].trim().to_string(),
+                    description: HYPHEN_GAP
+                        .replace_all(c["desc"].trim(), "$1-$2")
+                        .to_string(),
                     bid_number,
                 });
             }
@@ -496,7 +501,11 @@ fn parse_weekly_rows(text: &str) -> (Result<CommbuysList>, Vec<String>) {
     }
     let expected = BID_TOKEN.find_iter(&lines.join(" ")).count();
     let complete = rows.iter().filter(|r| r.bid_date.is_some()).count();
-    unread.extend(rows.iter().filter(|r| r.bid_date.is_none()).map(|r| format!("no date: {r:?}")));
+    unread.extend(
+        rows.iter()
+            .filter(|r| r.bid_date.is_none())
+            .map(|r| format!("no date: {r:?}")),
+    );
     let result = match list_date {
         Some(date) if expected > 0 && complete == expected => Ok(CommbuysList {
             list_title: "New Bids Available (COMMBUYS weekly list)".into(),
@@ -1253,11 +1262,18 @@ mod tests {
         assert_eq!(live.bids.len(), snap.bids.len());
         let mut diffs = 0;
         for (a, b) in live.bids.iter().zip(&snap.bids) {
-            if a.bid_number != b.bid_number || a.bid_date != b.bid_date || a.bid_time != b.bid_time || a.organization != b.organization {
+            if a.bid_number != b.bid_number
+                || a.bid_date != b.bid_date
+                || a.bid_time != b.bid_time
+                || a.organization != b.organization
+            {
                 diffs += 1;
                 println!("DIFF live {a:?}\n     snap {b:?}");
             } else if a.description != b.description {
-                println!("desc live {:?}\n     snap {:?}", a.description, b.description);
+                println!(
+                    "desc live {:?}\n     snap {:?}",
+                    a.description, b.description
+                );
             }
         }
         assert_eq!(diffs, 0);

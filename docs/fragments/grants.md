@@ -100,7 +100,10 @@
 - COMMBUYS (commbuys.com) was blocked: bid type, amount, eligibility, and links are not available. The
   weekly list on mass.gov (`/doc/commbuys-home-page-bid-count/download`, plain curl; browser-like
   agents get 403) is the only Massachusetts source. The live parse reads the PDF with the server's
-  own text reader and refuses a layout change (every bid number on the page must produce a row).
+  own text reader and refuses a layout change (every bid number on the page must produce a row). It
+  was checked against the real 2026-11-09 PDF: all 147 bids matched the snapshot's bid number,
+  date, time, and organization (an ignored parity test, `weekly_pdf_matches_snapshot`), and a live
+  call from the build environment returned `mode: live`.
 - The announcement reader was tuned on one public Massachusetts RFR (EOHLC, PHN 2025-12, 23-page PDF)
   and one state NOFO (DER, FY2027 Transitional Crossings, 6-page PDF), and on synthetic notices
   (not bundled: the generator and the two synthetic files are committed; the two public PDFs were
