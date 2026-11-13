@@ -1,0 +1,987 @@
+# Rules that bear on sharing health information, for health_information_sharing_guide (POL-07):
+# HIPAA (45 CFR 160 and 164), FERPA (34 CFR 99), 42 CFR Part 2, the Massachusetts public records law
+# (M.G.L. c. 66, section 10; c. 4, section 7, clause twenty-sixth), 105 CMR 300.000 and the
+# Massachusetts statutes on confidentiality of health records. Each provision has a citation, a
+# short quotation (25 words or fewer, checked against the fetched text), and a paraphrase. PARTIAL:
+# only the provisions listed in `read_scope` were read.
+#
+# REVIEW STATUS: pending. The federal texts are the eCFR (versioner API) texts "up to date as of
+# 2026-11-10"; the Massachusetts statutes are from malegislature.gov and the regulations from
+# mass.gov (unofficial copies). The tool never says that a disclosure is or is not permitted.
+# Schema: content/schemas/policy_information_sharing.schema.json
+meta:
+  id: policy-information-sharing
+  title: Which rules govern a health record and its sharing (HIPAA, FERPA, 42 CFR Part 2, Massachusetts) - partial snapshot
+  version: 0.1.0
+  prepared: 2026-11-13
+  effective_date: null
+  source:
+    title: Electronic Code of Federal Regulations, titles 34, 42, and 45 (parts 99, 2, 160, 164)
+    publisher: Office of the Federal Register and the Government Publishing Office
+    url: https://www.ecfr.gov/
+  related_sources:
+    - title: Massachusetts General Laws (chapters 4, 66, 71, 111, 112)
+      publisher: Massachusetts Legislature
+      url: https://malegislature.gov/Laws/GeneralLaws
+    - title: 105 CMR 300.000 (reportable diseases, surveillance, and isolation and quarantine requirements)
+      publisher: Massachusetts Department of Public Health (unofficial copy on mass.gov)
+      url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    PARTIAL SNAPSHOT. Read on 2026-11-12 and 2026-11-13: 45 CFR 160.103 (definitions), 164.103,
+    164.105, 164.501 (public health authority), 164.502, 164.506, 164.512 (all paragraphs, with
+    (a), (b), (e), (f), (i), (j) read closely), 164.514 (a and the start of b); 34 CFR 99.1, 99.3,
+    99.30, 99.31, 99.36; 42 CFR 2.11, 2.12, 2.13, 2.32, 2.33, 2.51, 2.54 (2.1 to 2.4, 2.14 to 2.16, 2.22, 2.31, 2.52, and 2.53 were fetched and only skimmed);
+    M.G.L. c. 66 sections 10 and 10A; c. 4 section 7 (clause twenty-sixth); c. 71 sections 34D and
+    34E; c. 111 sections 24M, 70F, 111, and 119; c. 112 section 12CC; and 105 CMR 300.120 and
+    300.191. NOT read: the FERPA statute itself (20 U.S.C. 1232g), the HHS and Department of
+    Education joint guidance on HIPAA and FERPA (hhs.gov is blocked from this environment), 603 CMR
+    23.00 (Massachusetts student records; its mass.gov page is marked unpublished and the DESE site
+    is blocked), 42 CFR Part 2 subpart E (court orders), the rest of 45 CFR 164 (including 164.508
+    authorizations and 164.520 notices), M.G.L. c. 214 section 1B, c. 93H, and the preamble of the
+    2024 Part 2 final rule (the Federal Register is blocked). Quotations were checked against the
+    fetched text. The HIPAA definition of public health (45 CFR 160.103) and parts of 164.502 and
+    164.512 were amended in 2024 and later (the eCFR lists amendments at 89 FR 33062 and 91 FR 14404
+    for 160.103); the text shown is the eCFR text as of 2026-11-10 and its current status should be
+    confirmed with counsel.
+
+sources:
+  ecfr_160_103:
+    title: "45 CFR 160.103 Definitions"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-160.103
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_103:
+    title: "45 CFR 164.103 Definitions"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.103
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_105:
+    title: "45 CFR 164.105 Organizational requirements"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.105
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_501:
+    title: "45 CFR 164.501 Definitions"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.501
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_502:
+    title: "45 CFR 164.502 Uses and disclosures of protected health information: general rules"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.502
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_506:
+    title: "45 CFR 164.506 Uses and disclosures to carry out treatment, payment, or health care operations"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.506
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_512:
+    title: "45 CFR 164.512 Uses and disclosures for which an authorization or opportunity to agree or object is not required"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.512
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_164_514:
+    title: "45 CFR 164.514 Other requirements relating to uses and disclosures of protected health information"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-45/section-164.514
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_99_1:
+    title: "34 CFR 99.1 To which educational agencies or institutions do these regulations apply?"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-34/section-99.1
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_99_3:
+    title: "34 CFR 99.3 What definitions apply to these regulations?"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-34/section-99.3
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_99_30:
+    title: "34 CFR 99.30 Under what conditions is prior consent required to disclose information?"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-34/section-99.30
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_99_31:
+    title: "34 CFR 99.31 Under what conditions is prior consent not required to disclose information?"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-34/section-99.31
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_99_36:
+    title: "34 CFR 99.36 What conditions apply to disclosure of information in health and safety emergencies?"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-34/section-99.36
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_11:
+    title: "42 CFR 2.11 Definitions"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.11
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_12:
+    title: "42 CFR 2.12 Applicability"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.12
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_13:
+    title: "42 CFR 2.13 Confidentiality restrictions and safeguards"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.13
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_32:
+    title: "42 CFR 2.32 Notice and copy of consent to accompany disclosure"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.32
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_33:
+    title: "42 CFR 2.33 Uses and disclosures permitted with written consent"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.33
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_51:
+    title: "42 CFR 2.51 Medical emergencies"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.51
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  ecfr_part2_54:
+    title: "42 CFR 2.54 Disclosures for public health"
+    publisher: Office of the Federal Register (eCFR)
+    url: https://www.ecfr.gov/current/title-42/section-2.54
+    effective_date: "2026-11-10"
+    retrieved: "2026-11-13"
+  mgl_66_10:
+    title: "M.G.L. c. 66, section 10 (public records; inspection and copies)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleX/Chapter66/Section10
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_4_7:
+    title: "M.G.L. c. 4, section 7 (statutory definitions; clause twenty-sixth, public records)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleI/Chapter4/Section7
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_71_34e:
+    title: "M.G.L. c. 71, section 34E (parent and student access to school records)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXII/Chapter71/Section34E
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_111_24m:
+    title: "M.G.L. c. 111, section 24M (computerized immunization registry)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section24M
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_111_70f:
+    title: "M.G.L. c. 111, section 70F (HIV test; informed consent; disclosure of results)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section70F
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_111_111:
+    title: "M.G.L. c. 111, section 111 (notice to board of health that persons are infected with dangerous diseases)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section111
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_111_119:
+    title: "M.G.L. c. 111, section 119 (records pertaining to venereal diseases)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111/Section119
+    effective_date: null
+    retrieved: "2026-11-12"
+  mgl_112_12cc:
+    title: "M.G.L. c. 112, section 12CC (patient access to health care records)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter112/Section12CC
+    effective_date: null
+    retrieved: "2026-11-12"
+  cmr_300:
+    title: "105 CMR 300.000: Reportable diseases, surveillance, and isolation and quarantine requirements (Mass. Register 5/27/22)"
+    publisher: Massachusetts Department of Public Health (unofficial copy on mass.gov)
+    url: https://www.mass.gov/doc/105-cmr-300-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements/download
+    effective_date: "2022-05-27"
+    retrieved: "2026-11-12"
+
+read_scope:
+  read_in_full:
+    - "45 CFR 160.103, 164.103, 164.105, 164.501, 164.502, 164.506, 164.512, 164.514(a) (eCFR text as of 2026-11-10)"
+    - "34 CFR 99.1, 99.3, 99.30, 99.31, 99.36"
+    - "42 CFR 2.11 (program and related definitions), 2.12, 2.13, 2.32, 2.33, 2.51, 2.54"
+    - "M.G.L. c. 66 sections 10 and 10A; c. 71 sections 34D and 34E; c. 111 sections 24M, 70F, 111, 119; c. 112 section 12CC"
+    - "M.G.L. c. 4 section 7, clause twenty-sixth, exemptions (a) and (c) (the rest of the clause and the section skimmed)"
+    - "105 CMR 300.120 and 300.191"
+  read_in_part:
+    - "45 CFR 164.514(b) (start only); 45 CFR 164.512 paragraphs not listed in the provisions below"
+  not_read:
+    - "FERPA statute (20 U.S.C. 1232g) and the HHS and Department of Education joint guidance on HIPAA and FERPA (hhs.gov is blocked)"
+    - "603 CMR 23.00, Massachusetts student records regulations (the mass.gov page is marked unpublished; the DESE site is blocked)"
+    - "42 CFR Part 2 subpart E (court orders), and the preamble and compliance dates of the 2024 final rule (the Federal Register is blocked)"
+    - "45 CFR 164.508 (authorizations), 164.510, 164.520, and the rest of 164"
+    - "M.G.L. c. 214 section 1B (privacy), c. 93H (data breach), c. 123 section 36 (mental health records), c. 111 sections 70E and 70G, and other confidentiality statutes"
+    - "Massachusetts Attorney General or Supervisor of Records guidance on public records requests"
+
+questions:
+  - id: holder_role
+    question: Who holds the record, and in what role are you holding it?
+    why: Which regimes apply depends first on who holds the record. A school nurse, a board of health, a clinic, and a substance use treatment program are bound by different rules.
+    choices:
+      - {value: health_care_provider, label: "A health care provider or health plan that bills or transmits health information electronically (clinic, practice, hospital)"}
+      - {value: local_health_department, label: "A local board of health or health department (municipal agency)"}
+      - {value: school_nurse_public, label: "A school nurse in a public school or school district"}
+      - {value: school_nurse_private, label: "A school nurse in a private or independent school"}
+      - {value: substance_use_program, label: "A program that diagnoses, treats, or refers for substance use disorder (possible 42 CFR Part 2 program)"}
+      - {value: state_agency, label: "A state agency (for example the Department of Public Health)"}
+      - {value: other, label: "Something else or not sure"}
+  - id: record_type
+    question: What kind of record or information is it?
+    why: The type of record can bring in rules of its own (education records, substance use treatment records, HIV test results, disease reports, immunization records).
+    choices:
+      - {value: clinical_record, label: "Clinical or treatment record of a patient or client"}
+      - {value: school_health_record, label: "Student health record kept by a school (health office notes, health plan, screening results)"}
+      - {value: immunization_record, label: "Immunization record or immunization registry information"}
+      - {value: communicable_disease_report, label: "Disease report, case investigation, or contact tracing record"}
+      - {value: hiv_test_result, label: "HIV test result or the identity of the person tested"}
+      - {value: substance_use_treatment_record, label: "Substance use disorder treatment record from a program"}
+      - {value: administrative_record, label: "Agency administrative record (inspection, permit, minutes, correspondence) that may mention people"}
+      - {value: other, label: "Something else or not sure"}
+  - id: recipient
+    question: Who wants or would receive the information?
+    why: Some rules turn on the recipient (a school, a public health authority, a court, an employer, the public).
+    choices:
+      - {value: individual_or_parent, label: "The person the record is about, a parent or guardian, or a personal representative"}
+      - {value: school, label: "A school or school nurse"}
+      - {value: health_care_provider, label: "Another health care provider"}
+      - {value: public_health_authority, label: "The Department of Public Health or a local board of health"}
+      - {value: law_enforcement_or_court, label: "Law enforcement, a court, or a party with a subpoena"}
+      - {value: employer, label: "An employer"}
+      - {value: researcher, label: "A researcher or evaluator"}
+      - {value: public_requester, label: "A member of the public, a reporter, or any requester of public records"}
+      - {value: exposed_person, label: "A person who may have been exposed to a disease (contact notification)"}
+      - {value: other_agency, label: "Another agency or organization"}
+  - id: purpose
+    question: What is the purpose of the sharing?
+    why: Most permissions in HIPAA, FERPA, and Part 2 are tied to a purpose.
+    choices:
+      - {value: treatment_or_care, label: "Treatment or coordination of care"}
+      - {value: public_health_reporting, label: "Required public health reporting"}
+      - {value: disease_investigation, label: "Disease investigation, surveillance, or control"}
+      - {value: school_immunization, label: "Checking school immunization requirements"}
+      - {value: emergency_threat, label: "A health or safety emergency or threat"}
+      - {value: research, label: "Research, evaluation, or a study"}
+      - {value: public_records_request, label: "Responding to a public records request"}
+      - {value: legal_process, label: "A subpoena, court order, or law enforcement request"}
+      - {value: other, label: "Something else or not sure"}
+  - id: consent
+    question: Is there a signed consent or authorization from the person (or parent)?
+    why: Consent changes what is needed under each regime, but a consent form that does not meet the specific requirements of the regime in question may not be enough.
+    choices:
+      - {value: written, label: "Yes, signed and written"}
+      - {value: verbal, label: "Verbal agreement only"}
+      - {value: none, label: "No"}
+      - {value: unknown, label: "Not sure"}
+
+regimes:
+  - id: hipaa
+    name: HIPAA Privacy Rule (45 CFR parts 160 and 164)
+    what_it_is: >-
+      A federal rule that limits use and disclosure of protected health information by covered
+      entities (health plans, clearinghouses, and health care providers that conduct certain
+      electronic transactions) and their business associates. It allows disclosures for public
+      health, to prevent a serious threat, and as required by law, among other purposes.
+    depends_on: Whether the holder is a covered entity (or the health care component of a hybrid entity), and whether the record is an education record.
+  - id: ferpa
+    name: FERPA (20 U.S.C. 1232g; 34 CFR part 99)
+    what_it_is: >-
+      A federal law that protects education records of students at schools that receive funds from
+      the U.S. Department of Education. It gives parents and eligible students access and requires
+      consent for most disclosures, with exceptions such as school officials with legitimate
+      educational interests and health or safety emergencies.
+    depends_on: Whether the school receives funds under a program the Secretary of Education administers (34 CFR 99.1) and whether the record is an education record.
+  - id: part2
+    name: 42 CFR Part 2 (confidentiality of substance use disorder patient records)
+    what_it_is: >-
+      Federal rules that restrict use and disclosure of records that identify a patient as having
+      a substance use disorder, when the records come from a federally assisted program that holds
+      itself out as providing substance use disorder diagnosis, treatment, or referral. The rules
+      were amended by a final rule published in February 2024.
+    depends_on: Whether the holder is a Part 2 program (or a lawful holder who received the records from one), and whether the program is federally assisted.
+  - id: ma_public_records
+    name: Massachusetts public records law (M.G.L. c. 66, section 10; c. 4, section 7, clause twenty-sixth)
+    what_it_is: >-
+      Records made or received by Massachusetts agencies and municipalities are presumed to be
+      public unless an exemption applies (for example a statute that bars disclosure, or the
+      privacy exemption for medical files and data about a named individual).
+    depends_on: Whether the holder is a public agency or municipality and whether the record is a public record as defined in c. 4, section 7.
+  - id: ma_health_confidentiality
+    name: Massachusetts health confidentiality provisions (105 CMR 300.000 and M.G.L. c. 111 and c. 112 sections)
+    what_it_is: >-
+      State rules on disease reports, HIV test results, immunization registry data, and
+      health records, including the confidentiality rule in the reportable disease regulation and
+      the authority for school nurses to obtain immunization records for school admission.
+    depends_on: The type of record (disease report, HIV test, venereal disease record, immunization registry, patient record) and who holds it.
+  - id: ma_student_records
+    name: Massachusetts student record provisions (M.G.L. c. 71, sections 34D and 34E; 603 CMR 23.00)
+    what_it_is: >-
+      State law on parents' and students' access to school records. The student records regulation
+      (603 CMR 23.00) could not be read for this guide.
+    depends_on: Whether the record is a school record of a public school student.
+
+provisions:
+  # ---- HIPAA
+  - id: hipaa_covered_entity
+    regime: hipaa
+    citation: "45 CFR 160.103 (covered entity)"
+    source: ecfr_160_103
+    quote: "A health care provider who transmits any health information in electronic form in connection with a transaction covered by this subchapter."
+    paraphrase: >-
+      HIPAA binds health plans, health care clearinghouses, and health care providers that conduct
+      covered electronic transactions (for example billing insurers electronically). Whether a
+      health department, clinic, or school-based program is covered is a fact question about that
+      organization.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: []
+  - id: hipaa_hybrid
+    regime: hipaa
+    citation: "45 CFR 164.105(a)(1) (health care component)"
+    source: ecfr_164_105
+    quote: "apply only to the health care component(s) of the entity, as specified in this section."
+    paraphrase: >-
+      If a covered entity is a hybrid entity (one legal entity that does covered and non-covered
+      work, as a municipal health department might), the rule applies only to its designated health
+      care component(s). Find out whether your agency has designated one.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: []
+  - id: hipaa_phi_excludes_ferpa
+    regime: hipaa
+    citation: "45 CFR 160.103 (protected health information, paragraph (2)(i))"
+    source: ecfr_160_103
+    quote: "In education records covered by the Family Educational Rights and Privacy Act, as amended, 20 U.S.C. 1232g;"
+    paraphrase: >-
+      Protected health information does not include health information in education records that
+      FERPA covers, so a student health record held by a school generally falls under FERPA, not
+      HIPAA. The definition also excludes employment records held by a covered entity as employer.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [school_health_record, immunization_record]
+  - id: hipaa_general_rule
+    regime: hipaa
+    citation: "45 CFR 164.502(a)"
+    source: ecfr_164_502
+    quote: "may not use or disclose protected health information, except as permitted or required by this subpart"
+    paraphrase: >-
+      The starting point: a covered entity may use or disclose protected health information only
+      when the rule permits or requires it. Each permission below has its own conditions.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: []
+  - id: hipaa_min_necessary
+    regime: hipaa
+    citation: "45 CFR 164.502(b)(1)"
+    source: ecfr_164_502
+    quote: "must make reasonable efforts to limit protected health information to the minimum necessary to accomplish the intended purpose"
+    paraphrase: >-
+      For most disclosures the covered entity must limit the information to the minimum necessary
+      for the purpose. Paragraph (b)(2) lists exceptions (for example disclosures to a provider for
+      treatment); read it with the permission you rely on.
+    confidence: high
+    purposes: [public_health_reporting, disease_investigation, school_immunization, emergency_threat, research, other]
+    recipients: []
+    record_types: []
+  - id: hipaa_tpo
+    regime: hipaa
+    citation: "45 CFR 164.506(c)(1) and (c)(2)"
+    source: ecfr_164_506
+    quote: "may disclose protected health information for treatment activities of a health care provider."
+    paraphrase: >-
+      A covered entity may use and disclose protected health information for its own treatment,
+      payment, and health care operations, and may disclose it for another provider's treatment
+      activities (paragraph (c)(2)).
+    confidence: high
+    purposes: [treatment_or_care]
+    recipients: [health_care_provider]
+    record_types: []
+  - id: hipaa_required_by_law
+    regime: hipaa
+    citation: "45 CFR 164.512(a)(1)"
+    source: ecfr_164_512
+    quote: "may use or disclose protected health information to the extent that such use or disclosure is required by law"
+    paraphrase: >-
+      A covered entity may disclose protected health information to the extent that a law
+      requires it and the disclosure is limited to what that law requires. Paragraph (a)(2) sends
+      some required-by-law disclosures (abuse, judicial and administrative proceedings, law
+      enforcement) through the conditions in paragraphs (c), (e), and (f).
+    confidence: high
+    purposes: [public_health_reporting, legal_process]
+    recipients: [public_health_authority, law_enforcement_or_court]
+    record_types: []
+  - id: hipaa_public_health
+    regime: hipaa
+    citation: "45 CFR 164.512(b)(1)(i)"
+    source: ecfr_164_512
+    quote: "authorized by law to collect or receive such information for the purpose of preventing or controlling disease, injury, or disability"
+    paraphrase: >-
+      A covered entity may disclose protected health information, without authorization, to a
+      public health authority that is authorized by law to collect it to prevent or control
+      disease, injury, or disability, including disease reporting, surveillance, investigations, and
+      interventions. The disclosure must also meet the minimum necessary standard unless an
+      exception applies.
+    confidence: high
+    purposes: [public_health_reporting, disease_investigation]
+    recipients: [public_health_authority]
+    record_types: [communicable_disease_report, clinical_record, immunization_record]
+  - id: hipaa_public_health_authority
+    regime: hipaa
+    citation: "45 CFR 164.501 (public health authority)"
+    source: ecfr_164_501
+    quote: "responsible for public health matters as part of its official mandate."
+    paraphrase: >-
+      A public health authority is an agency or authority of the United States, a State, or a
+      political subdivision (or a person or entity acting under a grant of authority from or
+      contract with one) that is responsible for public health matters as part of its official
+      mandate.
+    confidence: high
+    purposes: [public_health_reporting, disease_investigation, school_immunization]
+    recipients: [public_health_authority, school]
+    record_types: []
+  - id: hipaa_public_health_def
+    regime: hipaa
+    citation: "45 CFR 160.103 (public health, as used in surveillance, investigation, and intervention)"
+    source: ecfr_160_103
+    quote: "population-level activities to prevent disease in and promote the health of populations."
+    paraphrase: >-
+      As of the eCFR text read, "public health" in the terms public health surveillance,
+      investigation, and intervention means population-level activities and excludes activities
+      whose purpose is to investigate or impose liability on a person for the mere act of seeking,
+      obtaining, providing, or facilitating health care. This definition was added in 2024 and the
+      section has been amended since; confirm its current status with counsel.
+    confidence: medium
+    purposes: [public_health_reporting, disease_investigation]
+    recipients: [public_health_authority]
+    record_types: []
+  - id: hipaa_exposed_person
+    regime: hipaa
+    citation: "45 CFR 164.512(b)(1)(iv)"
+    source: ecfr_164_512
+    quote: "may have been exposed to a communicable disease or may otherwise be at risk of contracting or spreading a disease or condition"
+    paraphrase: >-
+      A covered entity may disclose to a person who may have been exposed to a communicable
+      disease or be at risk of spreading it, if the covered entity or public health authority is
+      authorized by law to notify that person as necessary in a public health intervention or
+      investigation.
+    confidence: high
+    purposes: [disease_investigation]
+    recipients: [exposed_person]
+    record_types: [communicable_disease_report]
+  - id: hipaa_school_immunization
+    regime: hipaa
+    citation: "45 CFR 164.512(b)(1)(vi)"
+    source: ecfr_164_512
+    quote: "The protected health information that is disclosed is limited to proof of immunization;"
+    paraphrase: >-
+      A covered entity may disclose proof of immunization to a school about a student or
+      prospective student if the school is required by State or other law to have the proof before
+      admitting the student and the covered entity obtains and documents the agreement of a parent,
+      guardian, or person in loco parentis (or of the adult or emancipated minor). The agreement may
+      be verbal (paragraph (b) of 164.512, introduction).
+    confidence: high
+    purposes: [school_immunization]
+    recipients: [school]
+    record_types: [immunization_record]
+  - id: hipaa_threat
+    regime: hipaa
+    citation: "45 CFR 164.512(j)(1)(i)"
+    source: ecfr_164_512
+    quote: "Is necessary to prevent or lessen a serious and imminent threat to the health or safety of a person or the public"
+    paraphrase: >-
+      A covered entity may, consistent with applicable law and ethical standards, disclose when it
+      believes in good faith that the disclosure is necessary to prevent or lessen a serious and
+      imminent threat and is made to a person reasonably able to prevent or lessen the threat.
+    confidence: high
+    purposes: [emergency_threat]
+    recipients: []
+    record_types: []
+  - id: hipaa_judicial
+    regime: hipaa
+    citation: "45 CFR 164.512(e) and (f)"
+    source: ecfr_164_512
+    quote: "A covered entity may disclose protected health information in the course of any judicial or administrative proceeding:"
+    paraphrase: >-
+      Disclosures for judicial and administrative proceedings (paragraph (e)) and for law
+      enforcement purposes (paragraph (f)) are permitted only when the stated conditions are met;
+      a subpoena alone does not always satisfy them. Read each paragraph's conditions, or ask
+      counsel, before responding to a subpoena, court order, or police request.
+    confidence: medium
+    purposes: [legal_process]
+    recipients: [law_enforcement_or_court]
+    record_types: []
+  - id: hipaa_research
+    regime: hipaa
+    citation: "45 CFR 164.512(i)(1) and 164.514(a)"
+    source: ecfr_164_512
+    quote: "may use or disclose protected health information for research, regardless of the source of funding of the research, provided that:"
+    paraphrase: >-
+      Research disclosures need a board-approved waiver of authorization or another listed
+      pathway; information that has been de-identified under 164.514(a) and (b) is not individually
+      identifiable health information. The conditions in paragraph (i)(1) apply.
+    confidence: medium
+    purposes: [research]
+    recipients: [researcher]
+    record_types: []
+  # ---- FERPA
+  - id: ferpa_applies
+    regime: ferpa
+    citation: "34 CFR 99.1(a)"
+    source: ecfr_99_1
+    quote: "applies to an educational agency or institution to which funds have been made available under any program administered by the Secretary"
+    paraphrase: >-
+      FERPA applies to educational agencies and institutions that receive funds under a program
+      the U.S. Secretary of Education administers. Public schools generally do; a private school
+      may not. Confirm with the school's administration.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: []
+  - id: ferpa_education_record
+    regime: ferpa
+    citation: "34 CFR 99.3 (education records)"
+    source: ecfr_99_3
+    quote: "Maintained by an educational agency or institution or by a party acting for the agency or institution."
+    paraphrase: >-
+      Education records are records directly related to a student and maintained by the school or a
+      party acting for it. School health office records generally meet this description. The
+      definition has exclusions (for example a sole-possession memory aid, and some treatment
+      records of students 18 or older or in postsecondary education).
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [school_health_record, immunization_record]
+  - id: ferpa_treatment_records
+    regime: ferpa
+    citation: "34 CFR 99.3 (education records, paragraph (b)(4))"
+    source: ecfr_99_3
+    quote: "Made, maintained, or used only in connection with treatment of the student;"
+    paraphrase: >-
+      Records of a student who is 18 or older (or in postsecondary education) made by a physician,
+      psychologist, or other recognized professional, used only for treatment and disclosed only to
+      those providing treatment, are excluded from education records. Such records can then fall
+      under HIPAA if the provider is a covered entity.
+    confidence: medium
+    purposes: []
+    recipients: []
+    record_types: [school_health_record, clinical_record]
+  - id: ferpa_consent
+    regime: ferpa
+    citation: "34 CFR 99.30(a)"
+    source: ecfr_99_30
+    quote: "provide a signed and dated written consent before an educational agency or institution discloses personally identifiable information"
+    paraphrase: >-
+      The parent or eligible student must give signed and dated written consent before the school
+      discloses personally identifiable information from education records, except as 99.31
+      allows. Paragraph (b) lists what the consent must say.
+    confidence: high
+    purposes: []
+    recipients: [public_health_authority, health_care_provider, other_agency, employer, researcher]
+    record_types: []
+  - id: ferpa_school_officials
+    regime: ferpa
+    citation: "34 CFR 99.31(a)(1)(i)(A)"
+    source: ecfr_99_31
+    quote: "other school officials, including teachers, within the agency or institution whom the agency or institution has determined to have legitimate educational interests"
+    paraphrase: >-
+      A school may disclose to its own school officials (including teachers) that it has
+      determined have legitimate educational interests, and may extend that status to contractors
+      under paragraph (B) if conditions are met. Paragraph (a)(1)(ii) requires reasonable
+      methods to limit access to those interests.
+    confidence: high
+    purposes: [treatment_or_care, other]
+    recipients: [school]
+    record_types: [school_health_record]
+  - id: ferpa_emergency
+    regime: ferpa
+    citation: "34 CFR 99.36(a) and (c)"
+    source: ecfr_99_36
+    quote: "an articulable and significant threat to the health or safety of a student or other individuals"
+    paraphrase: >-
+      A school may disclose personally identifiable information from an education record to
+      appropriate parties in connection with an emergency if knowing it is necessary to protect the
+      health or safety of the student or others, taking into account the totality of the
+      circumstances. If it determines there is an articulable and significant threat, it may
+      disclose to any person whose knowledge of the information is necessary to protect health or
+      safety.
+    confidence: high
+    purposes: [emergency_threat]
+    recipients: []
+    record_types: [school_health_record, immunization_record]
+  - id: ferpa_studies
+    regime: ferpa
+    citation: "34 CFR 99.31(a)(6)(i)"
+    source: ecfr_99_31
+    quote: "The disclosure is to organizations conducting studies for, or on behalf of, educational agencies or institutions"
+    paraphrase: >-
+      Disclosure without consent is allowed to organizations conducting certain studies for or on
+      behalf of the school (for example to improve instruction), under written agreement and the
+      other conditions of paragraph (a)(6). It is not a general research exception.
+    confidence: medium
+    purposes: [research]
+    recipients: [researcher]
+    record_types: []
+  # ---- Part 2
+  - id: part2_program
+    regime: part2
+    citation: "42 CFR 2.11 (program)"
+    source: ecfr_part2_11
+    quote: "holds itself out as providing, and provides, substance use disorder diagnosis, treatment, or referral for treatment"
+    paraphrase: >-
+      A Part 2 program is a federally assisted program that holds itself out as providing and does
+      provide substance use disorder diagnosis, treatment, or referral. An identified unit in a
+      general medical facility, or staff there whose primary function is substance use disorder
+      care, can also be a program. Ordinary health care that does not hold itself out this way is
+      generally not a Part 2 program.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [substance_use_treatment_record, clinical_record]
+  - id: part2_applicability
+    regime: part2
+    citation: "42 CFR 2.12(a)(1)"
+    source: ecfr_part2_12
+    quote: "Would identify a patient as having or having had a substance use disorder either directly, by reference to publicly available information"
+    paraphrase: >-
+      The restrictions apply to records that would identify a patient as having a substance use
+      disorder and that come from a federally assisted Part 2 program (with the dates in the
+      section). Recipients who get records from a program or another lawful holder can be bound
+      too (paragraph (d)).
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [substance_use_treatment_record]
+  - id: part2_general_rule
+    regime: part2
+    citation: "42 CFR 2.13(a)"
+    source: ecfr_part2_13
+    quote: "may be used or disclosed only as permitted by the regulations in this part"
+    paraphrase: >-
+      Part 2 records may be used or disclosed only as Part 2 permits, and may not otherwise be used
+      or disclosed in civil, criminal, administrative, or legislative proceedings. Any permitted
+      disclosure must be limited to the information necessary for its purpose. Paragraph (b)
+      says the restrictions apply even when the requester has a subpoena or is a government
+      official.
+    confidence: high
+    purposes: [legal_process]
+    recipients: [law_enforcement_or_court]
+    record_types: [substance_use_treatment_record]
+  - id: part2_consent
+    regime: part2
+    citation: "42 CFR 2.33(a)(2) and 2.32"
+    source: ecfr_part2_33
+    quote: "a single consent for all future uses and disclosures for treatment, payment, and health care operations"
+    paraphrase: >-
+      Disclosures with written consent must follow the consent in 2.31 (not read in full here) and
+      be accompanied by the notice in 2.32. A single consent for treatment, payment, and health care
+      operations lets a Part 2 program, covered entity, or business associate use and disclose the
+      records for those purposes as HIPAA permits, until the patient revokes it in writing.
+    confidence: medium
+    purposes: [treatment_or_care]
+    recipients: [health_care_provider, other_agency]
+    record_types: [substance_use_treatment_record]
+  - id: part2_notice
+    regime: part2
+    citation: "42 CFR 2.32(a)"
+    source: ecfr_part2_32
+    quote: "Each disclosure made with the patient's written consent must be accompanied by one of the following written statements"
+    paraphrase: >-
+      A disclosure made with consent must carry a written notice about the restriction on further
+      use and disclosure (one of the statements the section gives).
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [substance_use_treatment_record]
+  - id: part2_emergency
+    regime: part2
+    citation: "42 CFR 2.51(a)(1)"
+    source: ecfr_part2_51
+    quote: "Meet a bona fide medical emergency in which the patient's prior written consent cannot be obtained"
+    paraphrase: >-
+      Patient identifying information may be disclosed to medical personnel to the extent
+      necessary to meet a bona fide medical emergency when prior written consent cannot be
+      obtained, and the program must document the disclosure (paragraph (c)). This is narrower
+      than the HIPAA serious-threat permission.
+    confidence: high
+    purposes: [emergency_threat]
+    recipients: [health_care_provider]
+    record_types: [substance_use_treatment_record]
+  - id: part2_public_health
+    regime: part2
+    citation: "42 CFR 2.54"
+    source: ecfr_part2_54
+    quote: "has been de-identified in accordance with the requirements of 45 CFR 164.514(b)"
+    paraphrase: >-
+      A Part 2 program may disclose records for public health purposes without consent only to a
+      public health authority, and only if the information has been de-identified under 45 CFR
+      164.514(b). Identifiable Part 2 records do not move to a public health authority under this
+      section.
+    confidence: high
+    purposes: [public_health_reporting, disease_investigation]
+    recipients: [public_health_authority]
+    record_types: [substance_use_treatment_record]
+  # ---- Massachusetts public records
+  - id: ma_pr_duty
+    regime: ma_public_records
+    citation: "M.G.L. c. 66, section 10(a)"
+    source: mgl_66_10
+    quote: "permit inspection or furnish a copy of any public record as defined in clause twenty-sixth of section 7 of chapter 4"
+    paraphrase: >-
+      A records access officer must permit inspection or furnish a copy of a public record, or a
+      segregable portion, within 10 business days of a request that reasonably describes it, if the
+      record is in the agency's possession and any reasonable fee is paid. Section 10(b) governs
+      what to tell the requester if the agency will not provide it or needs more time; section 10A
+      covers appeals.
+    confidence: high
+    purposes: [public_records_request]
+    recipients: [public_requester]
+    record_types: []
+  - id: ma_pr_statute_exemption
+    regime: ma_public_records
+    citation: "M.G.L. c. 4, section 7, clause twenty-sixth (a)"
+    source: mgl_4_7
+    quote: "specifically or by necessary implication exempted from disclosure by statute"
+    paraphrase: >-
+      Records are not public records to the extent a statute exempts them from disclosure. Other
+      statutes and regulations in this guide (for example c. 111 section 119 and 105 CMR 300.120)
+      can bring records within this exemption.
+    confidence: high
+    purposes: [public_records_request]
+    recipients: [public_requester]
+    record_types: []
+  - id: ma_pr_privacy_exemption
+    regime: ma_public_records
+    citation: "M.G.L. c. 4, section 7, clause twenty-sixth (c)"
+    source: mgl_4_7
+    quote: "the disclosure of which may constitute an unwarranted invasion of personal privacy"
+    paraphrase: >-
+      The exemption in subclause (c) covers personnel and medical files or information and other
+      materials or data relating to a specifically named individual when disclosure may constitute
+      an unwarranted invasion of personal privacy (with an exception for records related to a law
+      enforcement misconduct investigation). It is a case-by-case judgment about the named person.
+    confidence: high
+    purposes: [public_records_request]
+    recipients: [public_requester]
+    record_types: [administrative_record, clinical_record, school_health_record, communicable_disease_report]
+  # ---- Massachusetts health confidentiality
+  - id: ma_cmr_300_120
+    regime: ma_health_confidentiality
+    citation: "105 CMR 300.120(A)"
+    source: cmr_300
+    quote: "shall not disclose any personally identifying information without the individual's written consent"
+    paraphrase: >-
+      Confidential personally identifying information about an individual that is reported to or
+      collected by the Department or local boards of health under 105 CMR 300.000 must be treated
+      as confidential. The Department and boards of health may not disclose it without the
+      individual's written consent, except when necessary for disease investigation, control,
+      treatment, and prevention, or for studies authorized by the commissioner under c. 111,
+      section 24A. Only staff with a specific need may have access.
+    confidence: high
+    purposes: [disease_investigation, public_health_reporting, public_records_request, legal_process, other]
+    recipients: []
+    record_types: [communicable_disease_report]
+  - id: ma_cmr_300_120_hiv
+    regime: ma_health_confidentiality
+    citation: "105 CMR 300.120(B)"
+    source: cmr_300
+    quote: "the identity of any individual with HIV or AIDS reported to the Department under 105 CMR 300.000"
+    paraphrase: >-
+      Despite paragraph (A), the Department shall not disclose to the federal government, the
+      Commonwealth or its political subdivisions, or their agents or contractors, the identity of an
+      individual with HIV or AIDS reported to it under 105 CMR 300.000.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [hiv_test_result, communicable_disease_report]
+  - id: ma_cmr_300_191
+    regime: ma_health_confidentiality
+    citation: "105 CMR 300.191(A) and (B)"
+    source: cmr_300
+    quote: "school nurses are hereby designated as public health authorities and granted authority to obtain immunization information from health care providers"
+    paraphrase: >-
+      The Department and local boards of health may obtain medical records they deem necessary to
+      investigate and control diseases dangerous to the public health (A). School nurses may obtain
+      the immunization records required for school admission from providers without the parent's
+      authorization, after a good faith effort to get them from the parent or guardian and notice to
+      them (B); for HIPAA purposes the regulation designates school nurses as public health
+      authorities for that purpose.
+    confidence: high
+    purposes: [school_immunization, disease_investigation]
+    recipients: [school, public_health_authority]
+    record_types: [immunization_record, communicable_disease_report]
+  - id: ma_c111_111
+    regime: ma_health_confidentiality
+    citation: "M.G.L. c. 111, section 111"
+    source: mgl_111_111
+    quote: "immediately give written notice thereof, signed by him, to the board of health of the town where the patient is being attended"
+    paraphrase: >-
+      A physician who knows or has cause to believe a patient is infected with a disease dangerous
+      to the public health must immediately give written notice to the board of health of the town
+      where the patient is attended; the section sets how boards of health pass notices to other
+      towns.
+    confidence: high
+    purposes: [public_health_reporting]
+    recipients: [public_health_authority]
+    record_types: [communicable_disease_report]
+  - id: ma_c111_119
+    regime: ma_health_confidentiality
+    citation: "M.G.L. c. 111, section 119"
+    source: mgl_111_119
+    quote: "shall not be public records, and the contents thereof shall not be divulged by any person having charge of or access to the same"
+    paraphrase: >-
+      Hospital, dispensary, laboratory, and morbidity reports and records about venereal diseases
+      (as defined under section six) are not public records and may not be divulged except on proper
+      judicial order or to a person whose official duties, in the commissioner's opinion, entitle
+      him or her to the information.
+    confidence: high
+    purposes: [public_records_request, legal_process, other]
+    recipients: []
+    record_types: [communicable_disease_report, clinical_record]
+  - id: ma_c111_70f
+    regime: ma_health_confidentiality
+    citation: "M.G.L. c. 111, section 70F"
+    source: mgl_111_70f
+    quote: "disclose the results of such test to any person other than the subject of the test without first obtaining the subject's written informed consent"
+    paraphrase: >-
+      A facility, physician, or health care provider may not disclose HIV test results, or identify
+      the subject of the test, to anyone other than the subject without the subject's written
+      informed consent. The consent form must state the purpose of the request and be distinct from
+      consent for release of other medical information. A violation is treated as a violation of
+      c. 93A, section 2.
+    confidence: high
+    purposes: []
+    recipients: []
+    record_types: [hiv_test_result]
+  - id: ma_c111_24m
+    regime: ma_health_confidentiality
+    citation: "M.G.L. c. 111, section 24M"
+    source: mgl_111_24m
+    quote: "shall include appropriate controls to protect the security of the system and the privacy of the information"
+    paraphrase: >-
+      The Department's computerized immunization registry records immunizations with identifying
+      information, must have controls to protect security and privacy, and providers who vaccinate
+      must discuss the registry reporting procedures and advise people of their right to object to
+      disclosure as the section sets out. Read the whole section and 105 CMR 222.000 for who may
+      see registry data.
+    confidence: medium
+    purposes: [school_immunization, public_health_reporting]
+    recipients: [school, public_health_authority]
+    record_types: [immunization_record]
+  - id: ma_c112_12cc
+    regime: ma_health_confidentiality
+    citation: "M.G.L. c. 112, section 12CC"
+    source: mgl_112_12cc
+    quote: "shall permit inspection of such records by such patient or an authorized representative of the patient"
+    paraphrase: >-
+      A health care provider who keeps records for a patient must let the patient or an authorized
+      representative inspect them and furnish a copy on request for a reasonable fee, with the fee
+      and timing rules the section gives for records requested to support certain benefit claims.
+    confidence: high
+    purposes: []
+    recipients: [individual_or_parent]
+    record_types: [clinical_record]
+  # ---- Massachusetts student records
+  - id: ma_c71_34e
+    regime: ma_student_records
+    citation: "M.G.L. c. 71, section 34E"
+    source: mgl_71_34e
+    quote: "allow such parent or guardian to inspect academic, scholastic, or any other records concerning such student"
+    paraphrase: >-
+      A school committee must, at the request of a parent or guardian, allow inspection of
+      academic, scholastic, or other records kept or required to be kept about the student,
+      regardless of the student's age, and must give a student 18 or older complete access to the
+      student's own school records. Section 34D directs the Board of Education to adopt regulations
+      on student records (603 CMR 23.00, not read).
+    confidence: high
+    purposes: []
+    recipients: [individual_or_parent]
+    record_types: [school_health_record, immunization_record]
+
+cross_rules:
+  - id: school_vs_hipaa
+    text: >-
+      A school health record that is an education record is outside HIPAA's definition of
+      protected health information, so a school nurse in a school covered by FERPA asks FERPA's
+      questions, not HIPAA's. A community provider sending information to the school is still bound
+      by HIPAA on its side (for example the immunization permission in 45 CFR 164.512(b)(1)(vi)).
+    regimes: [hipaa, ferpa]
+    sources: [ecfr_160_103, ecfr_164_512]
+    confidence: high
+  - id: nurse_two_hats
+    text: >-
+      A nurse can hold records in more than one role (for example a board of health nurse who also
+      runs a clinic that bills electronically). The rules attach to the record and the entity that
+      holds it, so answer the questions once for each role and for each kind of record.
+    regimes: [hipaa, ma_public_records]
+    sources: [ecfr_164_105]
+    confidence: medium
+  - id: public_records_and_statutes
+    text: >-
+      A public agency's records are presumed public, but statutes and regulations that bar
+      disclosure (c. 111 section 119, 105 CMR 300.120, HIPAA for a covered component, FERPA for
+      education records) can place health records within the statutory exemption, and the privacy
+      exemption covers medical information about a named person. The agency's records access
+      officer and counsel decide.
+    regimes: [ma_public_records, ma_health_confidentiality, hipaa, ferpa]
+    sources: [mgl_4_7, mgl_111_119, cmr_300]
+    confidence: medium
+  - id: strictest_applies
+    text: >-
+      When more than one regime applies to the same record, a disclosure must meet each of them.
+      A permission under one (for example HIPAA's public health permission) does not lift a
+      restriction under another (for example Part 2 or c. 111 section 70F).
+    regimes: [hipaa, part2, ma_health_confidentiality]
+    sources: [ecfr_part2_13, mgl_111_70f]
+    confidence: medium
+
+referral:
+  text: >-
+    This guide lists rules and cautions; it does not tell you whether a particular disclosure is
+    allowed. Take the question to your agency's counsel (town counsel, the school district's
+    counsel, or your employer's privacy officer) before disclosing, especially for a subpoena or
+    police request, a public records request, a substance use disorder record, or an HIV test
+    result.
+  contacts:
+    - "Your agency's counsel or privacy officer"
+    - "The records access officer of your agency or municipality (public records requests)"
+    - "The Massachusetts Department of Public Health, Bureau of Infectious Disease and Laboratory Sciences, for questions about reporting and confidentiality under 105 CMR 300.000"
+
+limits:
+  - "Partial snapshot: see read_scope for what was and was not read. A regime that is not listed (for example mental health records under c. 123, genetic information, or the Massachusetts data privacy and breach laws) can still apply."
+  - "The guide never says that a disclosure is or is not permitted; it lists rules that may apply, their conditions, and cautions. The answer depends on facts it does not know."
+  - "Whether HIPAA applies to a health department, whether a school receives federal funds, and whether a program is federally assisted are facts about your organization that you must confirm."
+  - "The 2024 amendments to 42 CFR Part 2 and to the HIPAA Privacy Rule are in the text read, but their compliance dates and any court rulings were not verified."
+  - "Excerpts of 25 words or fewer are quoted; the paraphrases are this project's summaries. Read the source before relying on a provision."
