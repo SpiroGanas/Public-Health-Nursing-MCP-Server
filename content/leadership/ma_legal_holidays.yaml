@@ -64,7 +64,7 @@ holidays:
     confidence: high
   - date: "2026-01-19"
     weekday: Monday
-    name: "Martin Luther King Day"
+    name: "MLK Day"
     scope: statewide
     rule: "third Monday in January"
     moved_from: null
@@ -176,7 +176,7 @@ holidays:
     confidence: high
   - date: "2027-01-18"
     weekday: Monday
-    name: "Martin Luther King Day"
+    name: "MLK Day"
     scope: statewide
     rule: "third Monday in January"
     moved_from: null
@@ -288,7 +288,7 @@ holidays:
     confidence: medium
   - date: "2028-01-17"
     weekday: Monday
-    name: "Martin Luther King Day"
+    name: "MLK Day"
     scope: statewide
     rule: "third Monday in January"
     moved_from: null

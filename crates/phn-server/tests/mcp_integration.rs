@@ -1861,6 +1861,150 @@ async fn no_row_level_data_is_returned_by_default() {
         ),
         // ---- End of Phase 18 strategy.
         // ---- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+        // LEAD-06 reads only the staff code, tier, domain, and rating columns of a ratings file
+        // (and the code, position, hire date, credential, and completed columns of a credentials
+        // file). A file whose other columns hold contact people (supervisor names, emails,
+        // phones) is accepted and none of them comes back; name, phone, and email columns used as
+        // the staff, domain, or rating column are refused; client files are refused.
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv"}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "staff_column": "Supervisor Name",
+                   "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "workforce_ratings.csv", "rating_column": "Supervisor Email",
+                   "write_documents": false}),
+            "data/workforce_ratings.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "workforce_credentials.csv", "as_of_date": "2026-11-12"}),
+            "data/workforce_credentials.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "workforce_credentials.csv", "cred_staff_column": "Supervisor Phone",
+                   "write_documents": false}),
+            "data/workforce_credentials.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "line_list.csv", "staff_column": "Last Name",
+                   "domain_column": "Town", "rating_column": "Age", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "line_list.csv", "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "line_list.csv", "cred_staff_column": "Case ID",
+                   "cred_position_column": "Last Name", "cred_hire_date_column": "DOB",
+                   "write_documents": false}),
+            ll,
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "staff_roster.csv", "staff_column": "Name",
+                   "domain_column": "ICS Position", "rating_column": "Radio", "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"credentials_path": "staff_roster.csv", "cred_staff_column": "Name",
+                   "cred_position_column": "ICS Position", "cred_hire_date_column": "Radio",
+                   "write_documents": false}),
+            "data/staff_roster.csv",
+        ),
+        (
+            "assess_workforce_competencies",
+            json!({"ratings_path": "client_note.txt", "write_documents": false}),
+            "data/client_note.txt",
+        ),
+        // LEAD-07 reads notes and returns only counts and line numbers. The notes with a
+        // resident's name, address, and phone, client notes, a 51A note, and a transcript are
+        // never echoed; a spreadsheet is refused.
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "board_meeting_notes.txt"}),
+            "data/board_meeting_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "board_meeting_notes.txt", "write_document": false}),
+            "data/board_meeting_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "client_note.txt"}),
+            "data/client_note.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "51a_notes.txt"}),
+            "data/51a_notes.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "focus_group_transcript.txt"}),
+            "data/focus_group_transcript.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "study_abstract.txt"}),
+            "data/study_abstract.txt",
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "minutes", "notes_text": "Item: Complaint\nCall from 837 Elm Street, 413-555-0100, maria.garcia@example.org\nVote: 3-0",
+                   "write_document": false}),
+            ll,
+        ),
+        // Typed topics and report text with identifiers are refused without repeating them.
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "agenda", "meeting_date": "2026-12-07", "meeting_time": "18:00",
+                   "location": "Town Hall", "topics": [{"title": "Hearing for Maria Garcia at 837 Elm Street"}]}),
+            ll,
+        ),
+        (
+            "board_of_health_meeting_assistant",
+            json!({"action": "staff_report", "report_sections": [{"heading": "Findings",
+                   "text": "Maria Garcia, DOB 1953-04-11, MRN400000, 413-555-0100"}]}),
+            ll,
+        ),
+        // LEAD-08 has no file arguments; typed text with identifiers is refused.
+        (
+            "draft_standing_orders",
+            json!({"order_type": "vaccine", "title": "Order for Maria Garcia, 837 Elm Street"}),
+            ll,
+        ),
+        (
+            "draft_standing_orders",
+            json!({"order_type": "activity", "write_document": false,
+                   "sections": [{"section_id": "title_scope",
+                                 "text": "Applies to Maria Garcia, DOB 04/11/1953, 413-555-0100, maria.garcia@example.org"}]}),
+            ll,
+        ),
         // ---- End of Phase 18 workforce.
         // ---- Phase 18 ethics (EBP-07, POL-05, POL-06).
         // These tools read no files. Free-text arguments that carry a client's identifiers (a

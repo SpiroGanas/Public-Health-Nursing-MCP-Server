@@ -181,7 +181,14 @@ pub fn parse_date(what: &str, s: &str) -> Result<NaiveDate> {
 
 /// Parse a time written 18:00, 6:00 pm, or 6 pm.
 pub fn parse_time(what: &str, s: &str) -> Result<NaiveTime> {
-    let t = s.trim().to_ascii_lowercase().replace('.', "");
+    let mut t = s.trim().to_ascii_lowercase().replace('.', "");
+    // "7 pm" has no minutes: chrono needs them.
+    if !t.contains(':')
+        && let Some(pos) = t.find(|c: char| !c.is_ascii_digit())
+        && pos > 0
+    {
+        t.insert_str(pos, ":00");
+    }
     let formats = ["%H:%M", "%I:%M %p", "%I:%M%p", "%I %p", "%I%p"];
     for f in formats {
         if let Ok(v) = NaiveTime::parse_from_str(&t, f) {
@@ -414,7 +421,7 @@ mod tests {
             ] {
                 want.push((sunday_rule(m, day), name.to_string()));
             }
-            want.push((nth(1, Weekday::Mon, 3), "Martin Luther King Day".into()));
+            want.push((nth(1, Weekday::Mon, 3), "MLK Day".into()));
             want.push((nth(2, Weekday::Mon, 3), "Washington's Birthday".into()));
             want.push((nth(4, Weekday::Mon, 3), "Patriots' Day".into()));
             want.push((last_monday_may, "Memorial Day".into()));
@@ -443,7 +450,7 @@ mod tests {
             ("2026-11-26", "Thanksgiving Day"),
             ("2026-12-25", "Christmas Day"),
             ("2027-07-05", "Independence Day"),
-            ("2027-01-18", "Martin Luther King Day"),
+            ("2027-01-18", "MLK Day"),
             ("2027-05-31", "Memorial Day"),
         ] {
             assert_eq!(

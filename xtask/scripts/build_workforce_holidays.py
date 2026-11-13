@@ -23,7 +23,7 @@ YEARS = (2026, 2027, 2028)
 # Trial Court "Court Will Be Closed" dates (None = not closed because the holiday is a Saturday).
 TRIAL_COURT = {
     2026: {
-        "New Year's Day": "2026-01-01", "Martin Luther King Day": "2026-01-19",
+        "New Year's Day": "2026-01-01", "MLK Day": "2026-01-19",
         "Washington's Birthday": "2026-02-16", "Patriots' Day": "2026-04-20",
         "Memorial Day": "2026-05-25", "Juneteenth": "2026-06-19", "Independence Day": None,
         "Labor Day": "2026-09-07", "Columbus Day": "2026-10-12",
@@ -31,7 +31,7 @@ TRIAL_COURT = {
         "Christmas Day": "2026-12-25",
     },
     2027: {
-        "New Year's Day": "2027-01-01", "Martin Luther King Day": "2027-01-18",
+        "New Year's Day": "2027-01-01", "MLK Day": "2027-01-18",
         "Washington's Birthday": "2027-02-15", "Patriots' Day": "2027-04-19",
         "Memorial Day": "2027-05-31", "Juneteenth": None, "Independence Day": "2027-07-05",
         "Labor Day": "2027-09-06", "Columbus Day": "2027-10-11",
@@ -65,7 +65,7 @@ def holidays_for(year):
         d = sunday_rule(d0)
         add(name, d, "fixed date; the day following when it falls on a Sunday",
             moved_from=d0 if d != d0 else None)
-    add("Martin Luther King Day", nth_weekday(year, 1, 0, 3), "third Monday in January")
+    add("MLK Day", nth_weekday(year, 1, 0, 3), "third Monday in January")
     add("Washington's Birthday", nth_weekday(year, 2, 0, 3), "third Monday in February")
     add("Patriots' Day", nth_weekday(year, 4, 0, 3), "third Monday in April")
     add("Memorial Day", nth_weekday(year, 5, 0, -1), "last Monday in May")

@@ -352,7 +352,7 @@ pub fn draft_standing_orders(
         let id = g.section_id.trim();
         let sec = c.section(id).filter(|_| valid.contains(&id)).ok_or_else(|| {
             PhnError::InvalidInput(format!(
-                "'{id}' is not a section of a {} standing order. Sections: {}",
+                "'{id}' is not a section of this {} standing order. Sections: {}",
                 kind.id(),
                 valid.join(", ")
             ))

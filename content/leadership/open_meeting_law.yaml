@@ -296,15 +296,19 @@ chair_duties:
   - text: Announce at the start of any meeting with remote members the name of each member taking part remotely.
     source: ag_chair_checklist
     section: Remote Participation
+    confidence: high
   - text: Tell attendees at the beginning of the meeting about any video or audio recording of the open session.
     source: ag_chair_checklist
     section: Announcement of Meeting Recording
+    confidence: high
   - text: Public comment is at the chair's discretion; the chair may set its procedures and may remove a person who keeps disrupting after a clear warning.
     source: ag_chair_checklist
     section: Public Participation
+    confidence: high
   - text: Open Meeting Law complaints are filed with the chair; within 14 business days the chair gives it to the members and the body meets to review it, takes remedial action if appropriate, and sends the complainant (copy to the Attorney General) a response.
     source: ag_chair_checklist
     section: Open Meeting Law Complaints
+    confidence: high
 
 remote_participation:
   text: >-

@@ -11802,6 +11802,62 @@
    "kind": "email",
    "file": "data/fphs_assessment.csv",
    "column": "Lead Email"
+  },
+  {
+   "value": "Octavian",
+   "kind": "name",
+   "file": "data/workforce_ratings.csv",
+   "column": "Supervisor Name"
+  },
+  {
+   "value": "Pembleton-Rhys",
+   "kind": "name",
+   "file": "data/workforce_ratings.csv",
+   "column": "Supervisor Name"
+  },
+  {
+   "value": "octavian.pembletonrhys@example.org",
+   "kind": "email",
+   "file": "data/workforce_ratings.csv",
+   "column": "Supervisor Email"
+  },
+  {
+   "value": "Octavian",
+   "kind": "name",
+   "file": "data/workforce_credentials.csv",
+   "column": "Supervisor Name"
+  },
+  {
+   "value": "Pembleton-Rhys",
+   "kind": "name",
+   "file": "data/workforce_credentials.csv",
+   "column": "Supervisor Name"
+  },
+  {
+   "value": "413-555-0193",
+   "kind": "phone",
+   "file": "data/workforce_credentials.csv",
+   "column": "Supervisor Phone"
+  },
+  {
+   "value": "Cordelia Featherstonehaugh",
+   "kind": "name",
+   "file": "data/board_meeting_notes.txt"
+  },
+  {
+   "value": "Featherstonehaugh",
+   "kind": "name",
+   "file": "data/board_meeting_notes.txt"
+  },
+  {
+   "value": "12 Larkspur Lane",
+   "kind": "street_address",
+   "file": "data/board_meeting_notes.txt"
+  },
+  {
+   "value": "413-555-0188",
+   "kind": "phone",
+   "file": "data/board_meeting_notes.txt"
   }
  ]
 }
