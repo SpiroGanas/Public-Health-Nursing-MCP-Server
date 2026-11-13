@@ -350,13 +350,16 @@ pub fn draft_standing_orders(
     let mut flags: Vec<WordingFlag> = Vec::new();
     for g in &given {
         let id = g.section_id.trim();
-        let sec = c.section(id).filter(|_| valid.contains(&id)).ok_or_else(|| {
-            PhnError::InvalidInput(format!(
-                "'{id}' is not a section of this {} standing order. Sections: {}",
-                kind.id(),
-                valid.join(", ")
-            ))
-        })?;
+        let sec = c
+            .section(id)
+            .filter(|_| valid.contains(&id))
+            .ok_or_else(|| {
+                PhnError::InvalidInput(format!(
+                    "'{id}' is not a section of this {} standing order. Sections: {}",
+                    kind.id(),
+                    valid.join(", ")
+                ))
+            })?;
         if drafted.contains_key(id) {
             return Err(PhnError::InvalidInput(format!(
                 "section '{id}' is given twice"
@@ -368,7 +371,12 @@ pub fn draft_standing_orders(
             ));
         }
         let text = clean_block(&format!("section '{id}'"), &g.text)?;
-        let source = match g.source_citation.as_deref().map(tidy).filter(|s| !s.is_empty()) {
+        let source = match g
+            .source_citation
+            .as_deref()
+            .map(tidy)
+            .filter(|s| !s.is_empty())
+        {
             Some(s) => Some(clean_line(&format!("source_citation for '{id}'"), &s, 300)?),
             None => None,
         };
@@ -382,11 +390,8 @@ pub fn draft_standing_orders(
     }
 
     // Section statuses in skeleton order.
-    let sections: Vec<&SkeletonSection> = ot
-        .sections
-        .iter()
-        .filter_map(|id| c.section(id))
-        .collect();
+    let sections: Vec<&SkeletonSection> =
+        ot.sections.iter().filter_map(|id| c.section(id)).collect();
     let statuses: Vec<SectionStatus> = sections
         .iter()
         .map(|s| SectionStatus {
@@ -508,9 +513,24 @@ pub fn draft_standing_orders(
 
     let mut files = Vec::new();
     if args.write_document.unwrap_or(true) {
-        let doc = build_document(ctx, &c, kind, &title, agency.as_deref(), &sections, &drafted, &result);
-        let (_, written) =
-            write_documents(ctx, "standing_orders", "standing_order_draft", &doc, &[OutFormat::Docx], None)?;
+        let doc = build_document(
+            ctx,
+            &c,
+            kind,
+            &title,
+            agency.as_deref(),
+            &sections,
+            &drafted,
+            &result,
+        );
+        let (_, written) = write_documents(
+            ctx,
+            "standing_orders",
+            "standing_order_draft",
+            &doc,
+            &[OutFormat::Docx],
+            None,
+        )?;
         if let Some(f) = written.into_iter().next() {
             files.push(f.clone());
             result.document_file = Some(f);
@@ -531,7 +551,13 @@ pub fn draft_standing_orders(
     let mut sources = wc::cite(&["ar9324"], &c.sources);
     if kind == OrderKind::Vaccine {
         sources.extend(wc::cite(
-            &["ar9804", "dph_hub", "dph_lboh_flu", "immunize_template", "immunize_hub"],
+            &[
+                "ar9804",
+                "dph_hub",
+                "dph_lboh_flu",
+                "immunize_template",
+                "immunize_hub",
+            ],
             &c.sources,
         ));
     }
@@ -586,12 +612,23 @@ fn summary_text(r: &StandingOrderResult) -> String {
             ]
         })
         .collect();
-    s.push_str(&md::table(&["Section", "Completed by", "Status", "Source"], &rows));
-    s.push_str("\n**Board of Registration in Nursing required elements (Advisory Ruling 9324)**\n\n");
+    s.push_str(&md::table(
+        &["Section", "Completed by", "Status", "Source"],
+        &rows,
+    ));
+    s.push_str(
+        "\n**Board of Registration in Nursing required elements (Advisory Ruling 9324)**\n\n",
+    );
     let rows: Vec<Vec<String>> = r
         .ar9324_elements
         .iter()
-        .map(|e| vec![e.number.to_string(), e.requirement.clone(), e.status.clone()])
+        .map(|e| {
+            vec![
+                e.number.to_string(),
+                e.requirement.clone(),
+                e.status.clone(),
+            ]
+        })
         .collect();
     s.push_str(&md::table(&["#", "Element", "Status"], &rows));
     if !r.vaccine_elements.is_empty() {
@@ -613,7 +650,9 @@ fn summary_text(r: &StandingOrderResult) -> String {
         s.push_str("\n**Check first:** DPH has signed standing orders for local boards of health for 2026-2027 (influenza, COVID-19, and anaphylaxis medication). Use DPH's order for those vaccines if it fits; the links are in the result.\n");
     }
     if let Some(d) = &r.dates.next_review_due {
-        s.push_str(&format!("\nNext review due {d} (your interval; the medical director confirms).\n"));
+        s.push_str(&format!(
+            "\nNext review due {d} (your interval; the medical director confirms).\n"
+        ));
     }
     if let Some(f) = &r.document_file {
         s.push_str(&format!("\nDraft for the medical director: {f}\n"));
@@ -689,20 +728,38 @@ fn build_document(
         "Authorization",
         &["Item", "Entry"],
         vec![
-            vec!["Medical director (print name)".into(), "[MEDICAL DIRECTOR: name]".into()],
+            vec![
+                "Medical director (print name)".into(),
+                "[MEDICAL DIRECTOR: name]".into(),
+            ],
             vec!["Signature".into(), "[MEDICAL DIRECTOR: signature]".into()],
             vec!["Date".into(), "[MEDICAL DIRECTOR: date]".into()],
-            vec!["Reviewed by nursing (print name and title)".into(), "[NURSE: name and title]".into()],
-            vec!["Reviewed by pharmacy, if required by the agency".into(), "[PHARMACY: name and date]".into()],
+            vec![
+                "Reviewed by nursing (print name and title)".into(),
+                "[NURSE: name and title]".into(),
+            ],
+            vec![
+                "Reviewed by pharmacy, if required by the agency".into(),
+                "[PHARMACY: name and date]".into(),
+            ],
         ],
     );
-    b.heading(2, "Checklist against Board of Registration in Nursing Advisory Ruling 9324");
+    b.heading(
+        2,
+        "Checklist against Board of Registration in Nursing Advisory Ruling 9324",
+    );
     b.table(
         "AR 9324 checklist",
         &["#", "Required element", "Status in this draft"],
         r.ar9324_elements
             .iter()
-            .map(|e| vec![e.number.to_string(), e.requirement.clone(), e.status.clone()])
+            .map(|e| {
+                vec![
+                    e.number.to_string(),
+                    e.requirement.clone(),
+                    e.status.clone(),
+                ]
+            })
             .collect(),
     );
     let limits: Vec<String> = c.limits.iter().map(|l| l.text.clone()).collect();
@@ -755,14 +812,32 @@ mod tests {
     fn menu_wording_is_flagged_and_plain_wording_is_not() {
         let c = StandingOrderContent::load().unwrap();
         assert!(!wording_flags(&c, "x", "The nurse may choose between products.").is_empty());
-        assert!(!wording_flags(&c, "x", "At the nurse\u{2019}s discretion, give a second dose.").is_empty());
+        assert!(
+            !wording_flags(
+                &c,
+                "x",
+                "At the nurse\u{2019}s discretion, give a second dose."
+            )
+            .is_empty()
+        );
         assert!(!wording_flags(&c, "x", "Do not refill or renew.").is_empty());
-        assert!(wording_flags(&c, "x", "Give the dose in the table for the patient's age band.").is_empty());
+        assert!(
+            wording_flags(
+                &c,
+                "x",
+                "Give the dose in the table for the patient's age band."
+            )
+            .is_empty()
+        );
     }
 
     #[test]
     fn every_order_type_has_the_required_elements_and_an_authorization_section() {
-        for k in [OrderKind::Vaccine, OrderKind::Medication, OrderKind::Activity] {
+        for k in [
+            OrderKind::Vaccine,
+            OrderKind::Medication,
+            OrderKind::Activity,
+        ] {
             let ids = section_ids(k).unwrap();
             assert!(ids.contains("authorization"), "{k:?}");
             assert!(ids.contains("review_mechanism"));
@@ -770,7 +845,15 @@ mod tests {
             assert!(ids.contains("inclusion_criteria"));
             assert!(ids.contains("emergency"));
         }
-        assert!(section_ids(OrderKind::Vaccine).unwrap().contains("vis_education_consent"));
-        assert!(!section_ids(OrderKind::Activity).unwrap().contains("dose_route"));
+        assert!(
+            section_ids(OrderKind::Vaccine)
+                .unwrap()
+                .contains("vis_education_consent")
+        );
+        assert!(
+            !section_ids(OrderKind::Activity)
+                .unwrap()
+                .contains("dose_route")
+        );
     }
 }

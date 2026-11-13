@@ -322,7 +322,9 @@ fn exec_purposes(c: &OmlContent, nums: &[u32]) -> Result<Vec<ExecPurpose>> {
             ));
         }
         if !seen.insert(*n) {
-            return Err(PhnError::InvalidInput(format!("purpose {n} is listed twice")));
+            return Err(PhnError::InvalidInput(format!(
+                "purpose {n} is listed twice"
+            )));
         }
         let p = c
             .executive_session
@@ -369,10 +371,9 @@ fn meeting_of(args: &BoardMeetingArgs) -> Result<Meeting> {
     let d = args.meeting_date.as_deref().ok_or_else(|| {
         PhnError::InvalidInput("give meeting_date (YYYY-MM-DD) and meeting_time".into())
     })?;
-    let t = args
-        .meeting_time
-        .as_deref()
-        .ok_or_else(|| PhnError::InvalidInput("give meeting_time, such as 18:00 or 6:00 pm".into()))?;
+    let t = args.meeting_time.as_deref().ok_or_else(|| {
+        PhnError::InvalidInput("give meeting_time, such as 18:00 or 6:00 pm".into())
+    })?;
     let date = oml::parse_date("meeting_date", d)?;
     let time = oml::parse_time("meeting_time", t)?;
     Ok(Meeting {
@@ -384,7 +385,9 @@ fn meeting_of(args: &BoardMeetingArgs) -> Result<Meeting> {
 fn topics_of(args: &BoardMeetingArgs) -> Result<Vec<AgendaTopicArg>> {
     let given = args.topics.clone().unwrap_or_default();
     if given.len() > MAX_TOPICS {
-        return Err(PhnError::InvalidInput(format!("at most {MAX_TOPICS} topics")));
+        return Err(PhnError::InvalidInput(format!(
+            "at most {MAX_TOPICS} topics"
+        )));
     }
     let mut out = Vec::new();
     for t in &given {
@@ -476,8 +479,14 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
         );
     }
     match (&i.args.location, i.args.remote_meeting.unwrap_or(false)) {
-        (Some(l), _) if !l.trim().is_empty() => add("place", "ok", "A meeting place is given.".into()),
-        (_, true) => add("place", "ok", "A fully remote meeting: the notice needs the information to join.".into()),
+        (Some(l), _) if !l.trim().is_empty() => {
+            add("place", "ok", "A meeting place is given.".into())
+        }
+        (_, true) => add(
+            "place",
+            "ok",
+            "A fully remote meeting: the notice needs the information to join.".into(),
+        ),
         _ => add(
             "place",
             "attention",
@@ -485,14 +494,22 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
         ),
     }
     if i.args.remote_meeting.unwrap_or(false) {
-        if i.args.remote_access.as_deref().is_none_or(|s| s.trim().is_empty()) {
+        if i.args
+            .remote_access
+            .as_deref()
+            .is_none_or(|s| s.trim().is_empty())
+        {
             add(
                 "remote_access",
                 "attention",
                 "Remote participation: the notice needs clear information to access the meeting (a link or call-in instructions).".into(),
             );
         } else {
-            add("remote_access", "ok", "Remote access information is given.".into());
+            add(
+                "remote_access",
+                "ok",
+                "Remote access information is given.".into(),
+            );
         }
     }
     if i.topics.is_empty() {
@@ -510,22 +527,40 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
             .map(|(n, _)| n + 1)
             .collect();
         if general.is_empty() {
-            add("topics", "ok", format!("{} topics listed; none looks too general by this tool's word cues.", i.topics.len()));
+            add(
+                "topics",
+                "ok",
+                format!(
+                    "{} topics listed; none looks too general by this tool's word cues.",
+                    i.topics.len()
+                ),
+            );
         } else {
             add(
                 "topics",
                 "attention",
                 format!(
                     "Topic number(s) {} may be too general. Topics need sufficient specificity to reasonably advise the public of the issues (940 CMR 29.03(1)(b)); this check uses word cues only.",
-                    general.iter().map(ToString::to_string).collect::<Vec<_>>().join(", ")
+                    general
+                        .iter()
+                        .map(ToString::to_string)
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 ),
             );
         }
     }
     if !i.exec.is_empty() {
-        let listed = i.topics.iter().any(|t| t.title.to_lowercase().contains("executive session"));
+        let listed = i
+            .topics
+            .iter()
+            .any(|t| t.title.to_lowercase().contains("executive session"));
         if listed {
-            add("executive_session", "ok", "Executive session appears among the topics.".into());
+            add(
+                "executive_session",
+                "ok",
+                "Executive session appears among the topics.".into(),
+            );
         } else {
             add(
                 "executive_session",
@@ -541,7 +576,10 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
                 add(
                     &format!("executive_session_{}", p.number),
                     "attention",
-                    format!("Purpose {}: the chair must declare in open session that an open meeting may have a detrimental effect on the stated position.", p.number),
+                    format!(
+                        "Purpose {}: the chair must declare in open session that an open meeting may have a detrimental effect on the stated position.",
+                        p.number
+                    ),
                 );
             }
         }
@@ -553,7 +591,14 @@ fn notice_result(ctx_note: &str, i: &NoticeInputs, m: &Meeting) -> Result<Notice
     );
     if let Some(p) = &posted_check {
         if p.compliant {
-            add("posted_at", "ok", format!("Posted {}: {} countable hours before the meeting, enough.", p.posted_at, p.countable_hours));
+            add(
+                "posted_at",
+                "ok",
+                format!(
+                    "Posted {}: {} countable hours before the meeting, enough.",
+                    p.posted_at, p.countable_hours
+                ),
+            );
         } else {
             add(
                 "posted_at",
@@ -689,10 +734,19 @@ fn agenda_document(
     }
     b.para(notice.method.clone());
     b.heading(2, "Notice checklist (Attorney General, November 2024)");
-    let contents: Vec<String> = c.notice.contents.iter().map(|x| format!("[ ] {}", x.text)).collect();
+    let contents: Vec<String> = c
+        .notice
+        .contents
+        .iter()
+        .map(|x| format!("[ ] {}", x.text))
+        .collect();
     b.list(&contents);
     b.heading(2, "Chair's responsibilities");
-    let duties: Vec<String> = c.chair_duties.iter().map(|d| format!("[ ] {}", d.text)).collect();
+    let duties: Vec<String> = c
+        .chair_duties
+        .iter()
+        .map(|d| format!("[ ] {}", d.text))
+        .collect();
     b.list(&duties);
     if !exec.is_empty() {
         b.heading(2, "Executive session script");
@@ -719,7 +773,12 @@ fn agenda_document(
             .collect();
         b.table(
             "Executive session purposes",
-            &["Purpose", "What it covers", "Chair declares detrimental effect", "Special requirements"],
+            &[
+                "Purpose",
+                "What it covers",
+                "Chair declares detrimental effect",
+                "Special requirements",
+            ],
             rows,
         );
         b.para(c.executive_session.only_for_listed_purposes.clone());
@@ -744,7 +803,9 @@ fn report_document(
     for s in &given {
         let h = clean("a report section heading", &s.heading, 100)?;
         if !taken.insert(h.to_lowercase()) {
-            return Err(PhnError::InvalidInput(format!("section '{h}' is given twice")));
+            return Err(PhnError::InvalidInput(format!(
+                "section '{h}' is given twice"
+            )));
         }
         let text = s.text.trim();
         if text.is_empty() {
@@ -763,12 +824,30 @@ fn report_document(
         custom.push((h, text.to_string()));
     }
     let defaults: [(&str, &str); 6] = [
-        ("Purpose and action requested", "[NURSE: what the board is asked to do (receive the report, vote on a recommendation, give direction)]"),
-        ("Background", "[NURSE: why the item is before the board; the regulation or program that applies]"),
-        ("Findings and data", "[NURSE: aggregate figures only, with small numbers suppressed; cite the source and date of each figure. Leave out names and anything that could identify a resident or client.]"),
-        ("Options and recommendation", "[NURSE: options considered and the recommendation]"),
-        ("Fiscal and staffing impact", "[NURSE: cost, funding source, and staff time, or write 'none']"),
-        ("Attachments", "[NURSE: list each document the board will use at the meeting. Documents used at a meeting are part of the official record and are listed in the minutes.]"),
+        (
+            "Purpose and action requested",
+            "[NURSE: what the board is asked to do (receive the report, vote on a recommendation, give direction)]",
+        ),
+        (
+            "Background",
+            "[NURSE: why the item is before the board; the regulation or program that applies]",
+        ),
+        (
+            "Findings and data",
+            "[NURSE: aggregate figures only, with small numbers suppressed; cite the source and date of each figure. Leave out names and anything that could identify a resident or client.]",
+        ),
+        (
+            "Options and recommendation",
+            "[NURSE: options considered and the recommendation]",
+        ),
+        (
+            "Fiscal and staffing impact",
+            "[NURSE: cost, funding source, and staff time, or write 'none']",
+        ),
+        (
+            "Attachments",
+            "[NURSE: list each document the board will use at the meeting. Documents used at a meeting are part of the official record and are listed in the minutes.]",
+        ),
     ];
     let mut b = DocBuilder::new();
     b.labeled("To:", body.clone());
@@ -1030,7 +1109,11 @@ fn minutes_document(
             id_lines.iter().map(ToString::to_string).collect::<Vec<_>>().join(", ")
         ));
     }
-    let or = |v: &Option<String>, ph: &str| v.clone().filter(|s| !s.is_empty()).unwrap_or_else(|| ph.to_string());
+    let or = |v: &Option<String>, ph: &str| {
+        v.clone()
+            .filter(|s| !s.is_empty())
+            .unwrap_or_else(|| ph.to_string())
+    };
     let date = match (&args.meeting_date, meeting_date) {
         (_, Some(d)) => oml::show(d.and_hms_opt(0, 0, 0).expect("midnight"))
             .split(" at ")
@@ -1043,9 +1126,7 @@ fn minutes_document(
     b.labeled(
         "Time called to order:",
         or(
-            &p.called
-                .clone()
-                .or_else(|| args.meeting_time.clone()),
+            &p.called.clone().or_else(|| args.meeting_time.clone()),
             "[NURSE: time]",
         ),
     );
@@ -1056,14 +1137,28 @@ fn minutes_document(
             "[NURSE: place]",
         ),
     );
-    let join = |v: &[String]| v.iter().filter(|s| !s.is_empty()).cloned().collect::<Vec<_>>().join("; ");
+    let join = |v: &[String]| {
+        v.iter()
+            .filter(|s| !s.is_empty())
+            .cloned()
+            .collect::<Vec<_>>()
+            .join("; ")
+    };
     b.labeled(
         "Members present:",
-        if p.present.is_empty() { "[NURSE: members present]".into() } else { join(&p.present) },
+        if p.present.is_empty() {
+            "[NURSE: members present]".into()
+        } else {
+            join(&p.present)
+        },
     );
     b.labeled(
         "Members absent:",
-        if p.absent.is_empty() { "[NURSE: members absent, or none]".into() } else { join(&p.absent) },
+        if p.absent.is_empty() {
+            "[NURSE: members absent, or none]".into()
+        } else {
+            join(&p.absent)
+        },
     );
     if !p.remote.is_empty() {
         b.labeled("Members participating remotely:", join(&p.remote));
@@ -1072,7 +1167,15 @@ fn minutes_document(
     let mut n = 1;
     let mut docs: Vec<String> = Vec::new();
     for it in &p.items {
-        b.heading(2, format!("{n}. {}", it.title.clone().unwrap_or_else(|| "[NURSE: agenda item]".into())));
+        b.heading(
+            2,
+            format!(
+                "{n}. {}",
+                it.title
+                    .clone()
+                    .unwrap_or_else(|| "[NURSE: agenda item]".into())
+            ),
+        );
         if it.discussion.is_empty() {
             b.para("[NURSE: summary of the discussion]");
         } else {
@@ -1084,7 +1187,9 @@ fn minutes_document(
             b.list(&it.motions);
         }
         if it.votes.is_empty() {
-            b.para("Vote or action taken: [NURSE: decision, motion, and vote, or write 'no action']");
+            b.para(
+                "Vote or action taken: [NURSE: decision, motion, and vote, or write 'no action']",
+            );
         } else {
             b.para("Votes (record every vote; a roll-call vote is recorded by roll call even when unanimous):");
             b.list(&it.votes);
@@ -1220,13 +1325,17 @@ fn minutes_result(
             remote_members_in_notes: remote,
             parts,
             identifier_categories: {
-                let mut v: Vec<String> = findings.iter().map(|f| f.kind.label().to_string()).collect();
+                let mut v: Vec<String> = findings
+                    .iter()
+                    .map(|f| f.kind.label().to_string())
+                    .collect();
                 v.sort();
                 v.dedup();
                 v
             },
             identifier_lines: id_lines,
-            approve_by_30_days: date.map(|d| (d + Duration::days(c.minutes.approval.days_to_approve)).to_string()),
+            approve_by_30_days: date
+                .map(|d| (d + Duration::days(c.minutes.approval.days_to_approve)).to_string()),
             release_on_request_days: c.minutes.approval.days_to_release_on_request,
         },
         date,
@@ -1258,7 +1367,12 @@ fn guide(c: &OmlContent, h: &HolidayContent) -> OmlGuide {
             })
             .collect(),
         executive_session_steps: c.executive_session.steps.clone(),
-        minutes_required: c.minutes.required_elements.iter().map(|e| e.text.clone()).collect(),
+        minutes_required: c
+            .minutes
+            .required_elements
+            .iter()
+            .map(|e| e.text.clone())
+            .collect(),
         minutes_conditional: c
             .minutes
             .conditional
@@ -1314,7 +1428,10 @@ pub fn board_of_health_meeting_assistant(
         BoardAction::NoticeCheck | BoardAction::Agenda => {
             let m = meeting_of(&args)?;
             let topics = topics_of(&args)?;
-            let exec = exec_purposes(&c, args.executive_session_purposes.as_deref().unwrap_or(&[]))?;
+            let exec = exec_purposes(
+                &c,
+                args.executive_session_purposes.as_deref().unwrap_or(&[]),
+            )?;
             let (suffolk, why) = is_suffolk(ctx, &args)?;
             let inputs = NoticeInputs {
                 args: &args,
@@ -1335,7 +1452,14 @@ pub fn board_of_health_meeting_assistant(
                 });
                 if write {
                     let doc = agenda_document(ctx, &c, &args, &m, &notice, &topics, &exec)?;
-                    let (_, w) = write_documents(ctx, "board_meeting", "board_agenda", &doc, &[OutFormat::Docx], None)?;
+                    let (_, w) = write_documents(
+                        ctx,
+                        "board_meeting",
+                        "board_agenda",
+                        &doc,
+                        &[OutFormat::Docx],
+                        None,
+                    )?;
                     if let Some(f) = w.into_iter().next() {
                         s.push_str(&format!("\nAgenda and notice draft (with staff pages to remove before posting): {f}\n"));
                         files.push(f.clone());
@@ -1346,7 +1470,14 @@ pub fn board_of_health_meeting_assistant(
             summary = s;
             result.notice = Some(notice);
             sources.extend(wc::cite(
-                &["statute_20", "regs_940_cmr_29", "ag_notice_checklist", "ag_faq", "ag_chair_checklist", "ag_exec_checklist"],
+                &[
+                    "statute_20",
+                    "regs_940_cmr_29",
+                    "ag_notice_checklist",
+                    "ag_faq",
+                    "ag_chair_checklist",
+                    "ag_exec_checklist",
+                ],
                 &c.sources,
             ));
             sources.extend(wc::cite(&["statute", "trial_court"], &h.sources));
@@ -1362,7 +1493,14 @@ pub fn board_of_health_meeting_assistant(
                 r.sections_drafted, r.sections_placeholder
             );
             if write {
-                let (_, w) = write_documents(ctx, "board_meeting", "staff_report", &doc, &[OutFormat::Docx], None)?;
+                let (_, w) = write_documents(
+                    ctx,
+                    "board_meeting",
+                    "staff_report",
+                    &doc,
+                    &[OutFormat::Docx],
+                    None,
+                )?;
                 if let Some(f) = w.into_iter().next() {
                     s.push_str(&format!("\nDraft: {f}\n"));
                     files.push(f.clone());
@@ -1372,7 +1510,10 @@ pub fn board_of_health_meeting_assistant(
             summary = s;
             result.staff_report = Some(r);
             sources.extend(wc::cite(&["ag_minutes_checklist"], &c.sources));
-            sources.push(Source::computed("Staff report template", "Prepared by this server from your inputs"));
+            sources.push(Source::computed(
+                "Staff report template",
+                "Prepared by this server from your inputs",
+            ));
         }
         BoardAction::Minutes => {
             let (text, src) = read_notes(ctx, &args)?;
@@ -1390,7 +1531,14 @@ pub fn board_of_health_meeting_assistant(
             let mut s = minutes_summary(&mr);
             if write {
                 let doc = minutes_document(ctx, &args, &parsed, date, &id_lines)?;
-                let (_, w) = write_documents(ctx, "board_meeting", "board_minutes_draft", &doc, &[OutFormat::Docx], None)?;
+                let (_, w) = write_documents(
+                    ctx,
+                    "board_meeting",
+                    "board_minutes_draft",
+                    &doc,
+                    &[OutFormat::Docx],
+                    None,
+                )?;
                 if let Some(f) = w.into_iter().next() {
                     s.push_str(&format!("\nDraft minutes: {f}\n"));
                     files.push(f.clone());
@@ -1401,13 +1549,19 @@ pub fn board_of_health_meeting_assistant(
             summary = s;
             result.minutes = Some(mr);
             sources.extend(wc::cite(
-                &["statute_22", "regs_940_cmr_29", "ag_minutes_checklist", "ag_exec_checklist"],
+                &[
+                    "statute_22",
+                    "regs_940_cmr_29",
+                    "ag_minutes_checklist",
+                    "ag_exec_checklist",
+                ],
                 &c.sources,
             ));
         }
         BoardAction::OmlGuide => {
             let g = guide(&c, &h);
-            let mut s = String::from("**Open Meeting Law requirements for a local board of health**\n\n");
+            let mut s =
+                String::from("**Open Meeting Law requirements for a local board of health**\n\n");
             s.push_str(&format!("- Public body: {}\n", g.public_body));
             s.push_str(&format!("- Notice: {}\n", g.notice_rule));
             s.push_str("\n**Notice contents**\n\n");
@@ -1433,12 +1587,27 @@ pub fn board_of_health_meeting_assistant(
                 let _ = d;
                 let (suffolk, _) = is_suffolk(ctx, &args)?;
                 let (dl, _) = Calendar::load(suffolk)?.posting_deadline(m.dt)?;
-                s.push_str(&format!("\nFor a meeting {}: post notice by {}.\n", oml::show(m.dt), oml::show(dl)));
+                s.push_str(&format!(
+                    "\nFor a meeting {}: post notice by {}.\n",
+                    oml::show(m.dt),
+                    oml::show(dl)
+                ));
             }
             summary = s;
             result.oml_guide = Some(g);
             sources.extend(wc::cite(
-                &["statute_18", "statute_20", "statute_21", "statute_22", "regs_940_cmr_29", "ag_guide", "ag_notice_checklist", "ag_minutes_checklist", "ag_exec_checklist", "ag_chair_checklist"],
+                &[
+                    "statute_18",
+                    "statute_20",
+                    "statute_21",
+                    "statute_22",
+                    "regs_940_cmr_29",
+                    "ag_guide",
+                    "ag_notice_checklist",
+                    "ag_minutes_checklist",
+                    "ag_exec_checklist",
+                    "ag_chair_checklist",
+                ],
                 &c.sources,
             ));
             sources.extend(wc::cite(&["statute", "trial_court"], &h.sources));
@@ -1554,7 +1723,9 @@ mod tests {
     fn general_topics_are_flagged() {
         assert!(topic_is_general("New business"));
         assert!(topic_is_general("Updates"));
-        assert!(!topic_is_general("Seasonal influenza clinic schedule and staffing"));
+        assert!(!topic_is_general(
+            "Seasonal influenza clinic schedule and staffing"
+        ));
     }
 
     #[test]

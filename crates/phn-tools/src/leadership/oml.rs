@@ -106,7 +106,10 @@ impl Calendar {
 
     /// The latest time the notice can be posted (counted from the meeting back over 48
     /// countable hours), and the excluded days passed on the way.
-    pub fn posting_deadline(&self, meeting: NaiveDateTime) -> Result<(NaiveDateTime, Vec<Excluded>)> {
+    pub fn posting_deadline(
+        &self,
+        meeting: NaiveDateTime,
+    ) -> Result<(NaiveDateTime, Vec<Excluded>)> {
         self.check_range(meeting.date())?;
         let mut remaining = REQUIRED_MINUTES;
         let mut date = meeting.date();
@@ -169,7 +172,9 @@ fn minutes_of(t: NaiveTime) -> i64 {
 /// Parse "YYYY-MM-DD" (1900 to 2100).
 pub fn parse_date(what: &str, s: &str) -> Result<NaiveDate> {
     let d = NaiveDate::parse_from_str(s.trim(), "%Y-%m-%d").map_err(|_| {
-        PhnError::InvalidInput(format!("{what} must be a date written YYYY-MM-DD, such as 2026-12-08"))
+        PhnError::InvalidInput(format!(
+            "{what} must be a date written YYYY-MM-DD, such as 2026-12-08"
+        ))
     })?;
     if !(1900..=2100).contains(&d.year()) {
         return Err(PhnError::InvalidInput(format!(
@@ -332,16 +337,19 @@ mod tests {
         let cal = Calendar::load(false).unwrap();
         let meeting = dt("2026-11-16 18:00");
         assert_eq!(
-            cal.countable_minutes(dt("2026-11-12 18:00"), meeting).unwrap(),
+            cal.countable_minutes(dt("2026-11-12 18:00"), meeting)
+                .unwrap(),
             2880
         );
         assert_eq!(
-            cal.countable_minutes(dt("2026-11-12 18:01"), meeting).unwrap(),
+            cal.countable_minutes(dt("2026-11-12 18:01"), meeting)
+                .unwrap(),
             2879
         );
         // Posted on Friday evening for a Monday meeting is only 24 countable hours.
         assert_eq!(
-            cal.countable_minutes(dt("2026-11-13 18:00"), meeting).unwrap(),
+            cal.countable_minutes(dt("2026-11-13 18:00"), meeting)
+                .unwrap(),
             1440
         );
     }

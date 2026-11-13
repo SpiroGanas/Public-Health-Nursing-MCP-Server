@@ -36,8 +36,10 @@ const MAX_STAFF: usize = 500;
 pub enum FrameworkKind {
     /// Council on Linkages Core Competencies for Public Health Professionals, 2021 (default).
     #[default]
+    #[serde(rename = "core_competencies_2021")]
     CoreCompetencies2021,
     /// Quad Council Coalition Community/Public Health Nursing Competencies, 2018.
+    #[serde(rename = "cphn_2018")]
     Cphn2018,
 }
 
@@ -252,10 +254,9 @@ pub(crate) struct CredRow {
 
 fn pick(lt: &LocalTable, explicit: &Option<String>, aliases: &[&str], what: &str) -> Result<usize> {
     if let Some(n) = explicit.as_deref().map(str::trim).filter(|n| !n.is_empty()) {
-        return lt
-            .table
-            .column_index(n)
-            .ok_or_else(|| PhnError::InvalidInput(format!("'{}' has no column named '{n}'", lt.label)));
+        return lt.table.column_index(n).ok_or_else(|| {
+            PhnError::InvalidInput(format!("'{}' has no column named '{n}'", lt.label))
+        });
     }
     for a in aliases {
         let want = padded(a);
@@ -270,7 +271,10 @@ fn pick(lt: &LocalTable, explicit: &Option<String>, aliases: &[&str], what: &str
         lt.table
             .headers
             .iter()
-            .filter(|h| !lt.findings.iter().any(|f| &f.column == *h && f.kind == Identifier::Name))
+            .filter(|h| !lt
+                .findings
+                .iter()
+                .any(|f| &f.column == *h && f.kind == Identifier::Name))
             .cloned()
             .collect::<Vec<_>>()
             .join(", ")
@@ -287,7 +291,15 @@ fn staff_col(lt: &LocalTable, explicit: &Option<String>) -> Result<usize> {
     let idx = pick(
         lt,
         explicit,
-        &["staff code", "staff id", "staff", "employee code", "employee id", "code", "id"],
+        &[
+            "staff code",
+            "staff id",
+            "staff",
+            "employee code",
+            "employee id",
+            "code",
+            "id",
+        ],
         "staff code",
     )?;
     if let Some(f) = lt
@@ -334,7 +346,10 @@ fn find_domain(f: &Framework, cell: &str) -> Option<usize> {
     if let Some(i) = f.domains.iter().position(|d| d.id.eq_ignore_ascii_case(t)) {
         return Some(i);
     }
-    if let Some(n) = up.strip_prefix('D').and_then(|r| r.trim().parse::<usize>().ok()) {
+    if let Some(n) = up
+        .strip_prefix('D')
+        .and_then(|r| r.trim().parse::<usize>().ok())
+    {
         return (1..=f.domains.len()).contains(&n).then(|| n - 1);
     }
     let p = padded(t);
@@ -369,7 +384,11 @@ fn parse_tier(cell: &str) -> Option<u32> {
 
 fn parse_rating(c: &CompetencyContent, cell: &str) -> std::result::Result<Option<f64>, ()> {
     let t = cell.trim();
-    if t.is_empty() || phi::is_missing(t) || t.eq_ignore_ascii_case("n/a") || t.eq_ignore_ascii_case("na") {
+    if t.is_empty()
+        || phi::is_missing(t)
+        || t.eq_ignore_ascii_case("n/a")
+        || t.eq_ignore_ascii_case("na")
+    {
         return Ok(None);
     }
     if let Ok(x) = t.trim_end_matches('.').parse::<f64>() {
@@ -406,17 +425,39 @@ fn read_ratings(
 ) -> Result<Ratings> {
     let lt = localdata::load(ctx, path, args.ratings_sheet.as_deref())?;
     if lt.table.truncated {
-        return Err(PhnError::InvalidInput("the ratings file has more rows than this tool reads".into()));
+        return Err(PhnError::InvalidInput(
+            "the ratings file has more rows than this tool reads".into(),
+        ));
     }
     let si = staff_col(&lt, &args.staff_column)?;
-    let di = safe_col(&lt, pick(&lt, &args.domain_column, &["domain", "competency domain"], "domain")?)?;
-    let ri = safe_col(&lt, pick(&lt, &args.rating_column, &["rating", "score", "level", "self rating"], "rating")?)?;
+    let di = safe_col(
+        &lt,
+        pick(
+            &lt,
+            &args.domain_column,
+            &["domain", "competency domain"],
+            "domain",
+        )?,
+    )?;
+    let ri = safe_col(
+        &lt,
+        pick(
+            &lt,
+            &args.rating_column,
+            &["rating", "score", "level", "self rating"],
+            "rating",
+        )?,
+    )?;
     let ti = match pick(&lt, &args.tier_column, &["tier"], "tier") {
         Ok(i) => Some(safe_col(&lt, i)?),
         Err(_) if args.tier_column.is_none() => None,
         Err(e) => return Err(e),
     };
-    if [Some(si), Some(di), Some(ri), ti].iter().flatten().collect::<BTreeSet<_>>().len()
+    if [Some(si), Some(di), Some(ri), ti]
+        .iter()
+        .flatten()
+        .collect::<BTreeSet<_>>()
+        .len()
         != [Some(si), Some(di), Some(ri), ti].iter().flatten().count()
     {
         return Err(PhnError::InvalidInput(
@@ -425,7 +466,8 @@ fn read_ratings(
     }
     let mut acc: BTreeMap<(String, usize), Vec<f64>> = BTreeMap::new();
     let mut tiers: BTreeMap<String, u32> = BTreeMap::new();
-    let (mut bad_domain, mut bad_rating, mut bad_tier, mut blank) = (0usize, 0usize, 0usize, 0usize);
+    let (mut bad_domain, mut bad_rating, mut bad_tier, mut blank) =
+        (0usize, 0usize, 0usize, 0usize);
     for r in &lt.table.rows {
         let staff = r.get(si).map_or("", |s| s.trim()).to_string();
         if staff.is_empty() {
@@ -483,10 +525,14 @@ fn read_ratings(
     }
     let staff: BTreeSet<&String> = acc.keys().map(|(s, _)| s).collect();
     if staff.is_empty() {
-        return Err(PhnError::InvalidInput("no row had a staff code, a domain, and a rating".into()));
+        return Err(PhnError::InvalidInput(
+            "no row had a staff code, a domain, and a rating".into(),
+        ));
     }
     if staff.len() > MAX_STAFF {
-        return Err(PhnError::InvalidInput(format!("more than {MAX_STAFF} staff codes")));
+        return Err(PhnError::InvalidInput(format!(
+            "more than {MAX_STAFF} staff codes"
+        )));
     }
     let rows: Vec<StaffDomain> = acc
         .into_iter()
@@ -534,7 +580,11 @@ fn aggregate(
     let mut domains = Vec::new();
     let small_team = n < min_group;
     for (i, d) in f.domains.iter().enumerate() {
-        let vals: Vec<f64> = rows.iter().filter(|r| r.domain == i).map(|r| r.rating).collect();
+        let vals: Vec<f64> = rows
+            .iter()
+            .filter(|r| r.domain == i)
+            .map(|r| r.rating)
+            .collect();
         let raters = vals.len() as u32;
         let hide = small_team || raters < min_group;
         let mut res = DomainResult {
@@ -586,7 +636,11 @@ fn aggregate(
             continue;
         }
         let ok = !small_team && in_tier.len() as u32 >= min_group;
-        let vals: Vec<f64> = rows.iter().filter(|r| r.tier == Some(t.number)).map(|r| r.rating).collect();
+        let vals: Vec<f64> = rows
+            .iter()
+            .filter(|r| r.tier == Some(t.number))
+            .map(|r| r.rating)
+            .collect();
         tiers_hidden |= !ok;
         tiers_out.push(TierResult {
             tier: t.number,
@@ -608,10 +662,17 @@ fn aggregate(
             let all: Vec<f64> = rows.iter().map(|r| r.rating).collect();
             (
                 Some(r2(mean(&all))),
-                format!("A team of fewer than {min_group}: one total only (all ratings combined); no result by domain, tier, or person."),
+                format!(
+                    "A team of fewer than {min_group}: one total only (all ratings combined); no result by domain, tier, or person."
+                ),
             )
         } else {
-            (None, format!("A team of one cannot be summarized: fewer than {min_group} people. Use the individual self-assessment in your own files."))
+            (
+                None,
+                format!(
+                    "A team of one cannot be summarized: fewer than {min_group} people. Use the individual self-assessment in your own files."
+                ),
+            )
         }
     } else if shown.is_empty() {
         (None, "No domain had enough raters.".to_string())
@@ -637,7 +698,9 @@ fn aggregate(
         } else {
             n.to_string()
         },
-        small_group_rule_applied: small_team || domains.iter().any(|d| d.suppressed) || tiers_hidden,
+        small_group_rule_applied: small_team
+            || domains.iter().any(|d| d.suppressed)
+            || tiers_hidden,
         overall_mean_rating: overall,
         overall_basis: basis,
         domains,
@@ -653,7 +716,11 @@ fn training_plan(c: &CompetencyContent, team: &TeamResults, target: f64) -> Vec<
         .iter()
         .filter_map(|d| d.gap_to_target.map(|g| (g, d.domain.clone())))
         .collect();
-    rows.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal).then(a.1.cmp(&b.1)));
+    rows.sort_by(|a, b| {
+        b.0.partial_cmp(&a.0)
+            .unwrap_or(std::cmp::Ordering::Equal)
+            .then(a.1.cmp(&b.1))
+    });
     let _ = target;
     rows.into_iter()
         .enumerate()
@@ -686,11 +753,13 @@ fn deadline_months(text: &str) -> Option<u32> {
     let re = regex::Regex::new(r"(?i)within\s+(\d+)\s+(month|months|year|years)\b").ok()?;
     let c = re.captures(text)?;
     let n: u32 = c.get(1)?.as_str().parse().ok()?;
-    Some(if c.get(2)?.as_str().to_ascii_lowercase().starts_with("year") {
-        n * 12
-    } else {
-        n
-    })
+    Some(
+        if c.get(2)?.as_str().to_ascii_lowercase().starts_with("year") {
+            n * 12
+        } else {
+            n
+        },
+    )
 }
 
 fn requirement_label(text: &str) -> String {
@@ -754,8 +823,26 @@ fn match_keys(label: &str) -> Vec<String> {
     }
     if keys.is_empty() {
         let stop = [
-            "course", "training", "trained", "of", "the", "and", "or", "in", "a", "for", "to", "complete",
-            "certified", "membership", "association", "specific", "relevant", "local", "public", "health",
+            "course",
+            "training",
+            "trained",
+            "of",
+            "the",
+            "and",
+            "or",
+            "in",
+            "a",
+            "for",
+            "to",
+            "complete",
+            "certified",
+            "membership",
+            "association",
+            "specific",
+            "relevant",
+            "local",
+            "public",
+            "health",
         ];
         for w in padded(label).split_whitespace() {
             if w.chars().count() >= 4 && !stop.contains(&w) {
@@ -776,8 +863,13 @@ fn entry_matches(entry: &str, label: &str) -> bool {
     let keys = match_keys(label);
     !keys.is_empty()
         && keys.iter().any(|k| {
-            toks.iter()
-                .any(|t| if k.chars().count() <= 3 { t == k } else { t.starts_with(k.as_str()) })
+            toks.iter().any(|t| {
+                if k.chars().count() <= 3 {
+                    t == k
+                } else {
+                    t.starts_with(k.as_str())
+                }
+            })
         })
 }
 
@@ -868,19 +960,44 @@ fn read_credentials(
 ) -> Result<Creds> {
     let lt = localdata::load(ctx, path, args.credentials_sheet.as_deref())?;
     if lt.table.truncated {
-        return Err(PhnError::InvalidInput("the credentials file has more rows than this tool reads".into()));
+        return Err(PhnError::InvalidInput(
+            "the credentials file has more rows than this tool reads".into(),
+        ));
     }
     let si = staff_col(&lt, &args.cred_staff_column)?;
-    let pi = safe_col(&lt, pick(&lt, &args.cred_position_column, &["position", "title", "job title"], "position")?)?;
-    let hi = pick(&lt, &args.cred_hire_date_column, &["hire date", "date of hire", "start date"], "hire date")?;
+    let pi = safe_col(
+        &lt,
+        pick(
+            &lt,
+            &args.cred_position_column,
+            &["position", "title", "job title"],
+            "position",
+        )?,
+    )?;
+    let hi = pick(
+        &lt,
+        &args.cred_hire_date_column,
+        &["hire date", "date of hire", "start date"],
+        "hire date",
+    )?;
     // A hire date is a date column, which `column` allows; confirm it is not refused.
     let hi = safe_col(&lt, hi)?;
-    let ci = match pick(&lt, &args.cred_credential_column, &["credential", "training", "certification"], "credential") {
+    let ci = match pick(
+        &lt,
+        &args.cred_credential_column,
+        &["credential", "training", "certification"],
+        "credential",
+    ) {
         Ok(i) => Some(safe_col(&lt, i)?),
         Err(_) if args.cred_credential_column.is_none() => None,
         Err(e) => return Err(e),
     };
-    let di = match pick(&lt, &args.cred_completed_column, &["completed", "completed date", "date completed"], "completed date") {
+    let di = match pick(
+        &lt,
+        &args.cred_completed_column,
+        &["completed", "completed date", "date completed"],
+        "completed date",
+    ) {
         Ok(i) => Some(safe_col(&lt, i)?),
         Err(_) if args.cred_completed_column.is_none() => None,
         Err(e) => return Err(e),
@@ -942,7 +1059,9 @@ fn read_credentials(
         return Err(PhnError::InvalidInput("no row had a staff code".into()));
     }
     if staff.len() > MAX_STAFF {
-        return Err(PhnError::InvalidInput(format!("more than {MAX_STAFF} staff codes")));
+        return Err(PhnError::InvalidInput(format!(
+            "more than {MAX_STAFF} staff codes"
+        )));
     }
 
     let by_id: BTreeMap<&str, &WorkforcePosition> = perf
@@ -994,8 +1113,18 @@ fn read_credentials(
             if completed.is_some_and(|d| d > as_of) {
                 completed = None;
             }
-            let status = status_for(&rq.kind, *hire, rq.deadline_months_from_hire, completed, as_of, soon);
-            groups.entry((pid.clone(), ri)).or_default().push(status.clone());
+            let status = status_for(
+                &rq.kind,
+                *hire,
+                rq.deadline_months_from_hire,
+                completed,
+                as_of,
+                soon,
+            );
+            groups
+                .entry((pid.clone(), ri))
+                .or_default()
+                .push(status.clone());
             rows.push(CredRow {
                 staff: code.clone(),
                 position: p.position.clone(),
@@ -1011,15 +1140,25 @@ fn read_credentials(
     // Aggregates with the small-group rule.
     let mut summaries = Vec::new();
     for ((pid, ri), statuses) in &groups {
-        let Some(reqs) = req_cache.get(pid) else { continue };
+        let Some(reqs) = req_cache.get(pid) else {
+            continue;
+        };
         let rq = &reqs[*ri];
         if rq.kind == "required at hire" {
             continue;
         }
-        let Some(p) = by_id.get(pid.as_str()) else { continue };
+        let Some(p) = by_id.get(pid.as_str()) else {
+            continue;
+        };
         let total = statuses.len();
-        let complete = statuses.iter().filter(|s| s.starts_with("complete")).count();
-        let attention = statuses.iter().filter(|s| *s == "overdue" || *s == "due soon").count();
+        let complete = statuses
+            .iter()
+            .filter(|s| s.starts_with("complete"))
+            .count();
+        let attention = statuses
+            .iter()
+            .filter(|s| *s == "overdue" || *s == "due soon")
+            .count();
         let upcoming = statuses.iter().filter(|s| *s == "upcoming").count();
         let hide = (total as u32) < min_group
             || [complete, attention, upcoming]
@@ -1065,11 +1204,17 @@ pub fn assess_workforce_competencies(
     let min_group = c.defaults.minimum_group_size.value as u32;
     let target = args.target_rating.unwrap_or(c.defaults.target_rating.value);
     if !(target.is_finite() && (1.0..=4.0).contains(&target)) {
-        return Err(PhnError::InvalidInput("target_rating must be between 1 and 4".into()));
+        return Err(PhnError::InvalidInput(
+            "target_rating must be between 1 and 4".into(),
+        ));
     }
-    let soon = args.due_soon_days.unwrap_or(c.defaults.due_soon_days.value as u32);
+    let soon = args
+        .due_soon_days
+        .unwrap_or(c.defaults.due_soon_days.value as u32);
     if soon > 730 {
-        return Err(PhnError::InvalidInput("due_soon_days must be 730 or less".into()));
+        return Err(PhnError::InvalidInput(
+            "due_soon_days must be 730 or less".into(),
+        ));
     }
     let as_of = match args.as_of_date.as_deref().filter(|s| !s.trim().is_empty()) {
         Some(s) => super::oml::parse_date("as_of_date", s)?,
@@ -1080,8 +1225,16 @@ pub fn assess_workforce_competencies(
     let mut ident: Vec<String> = Vec::new();
     let mut notes: Vec<String> = Vec::new();
 
-    let ratings_path = args.ratings_path.as_deref().map(str::trim).filter(|s| !s.is_empty());
-    let cred_path = args.credentials_path.as_deref().map(str::trim).filter(|s| !s.is_empty());
+    let ratings_path = args
+        .ratings_path
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
+    let cred_path = args
+        .credentials_path
+        .as_deref()
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
     let want_files = args.write_documents.unwrap_or(true);
 
     let ratings = match ratings_path {
@@ -1133,14 +1286,27 @@ pub fn assess_workforce_competencies(
     });
 
     let mut result = WorkforceResult {
-        mode: if ratings.is_some() || creds.is_some() { "results" } else { "template" }.into(),
+        mode: if ratings.is_some() || creds.is_some() {
+            "results"
+        } else {
+            "template"
+        }
+        .into(),
         framework: f.label.clone(),
-        domains: f.domains.iter().map(|d| format!("{}. {}", d.number, d.name)).collect(),
+        domains: f
+            .domains
+            .iter()
+            .map(|d| format!("{}. {}", d.number, d.name))
+            .collect(),
         tiers: c.tiers.iter().map(|t| t.label.clone()).collect(),
         rating_scale: c
             .rating_scale
             .iter()
-            .map(|l| ScaleLevel { value: l.value, label: l.label.clone(), meaning: l.meaning.clone() })
+            .map(|l| ScaleLevel {
+                value: l.value,
+                label: l.label.clone(),
+                meaning: l.meaning.clone(),
+            })
             .collect(),
         target_rating: target,
         minimum_group_size: min_group,
@@ -1153,7 +1319,10 @@ pub fn assess_workforce_competencies(
         not_verified: c
             .not_verified
             .iter()
-            .map(|n| NotVerifiedOut { item: n.item.clone(), detail: n.detail.clone() })
+            .map(|n| NotVerifiedOut {
+                item: n.item.clone(),
+                detail: n.detail.clone(),
+            })
             .collect(),
     };
 
@@ -1184,7 +1353,14 @@ pub fn assess_workforce_competencies(
     ];
     caveats.extend(wc::caveats(&[wc::COMPETENCIES]));
     sources.extend(wc::cite(
-        &["cdc_competencies", "fphp_2025", "nurse_educ_2025", "phn_2025", "amp_2024", "qcc_2020"],
+        &[
+            "cdc_competencies",
+            "fphp_2025",
+            "nurse_educ_2025",
+            "phn_2025",
+            "amp_2024",
+            "qcc_2020",
+        ],
         &c.sources,
     ));
     sources.push(perf_entry.to_source());
@@ -1231,7 +1407,11 @@ fn summary_text(r: &WorkforceResult) -> String {
                 t.team_size,
                 r.target_rating,
                 match t.overall_mean_rating {
-                    Some(m) => format!("Overall {} on the 1 to 4 scale. {}", md::num(m, 2), t.overall_basis),
+                    Some(m) => format!(
+                        "Overall {} on the 1 to 4 scale. {}",
+                        md::num(m, 2),
+                        t.overall_basis
+                    ),
                     None => t.overall_basis.clone(),
                 }
             ));
@@ -1249,7 +1429,17 @@ fn summary_text(r: &WorkforceResult) -> String {
                     ]
                 })
                 .collect();
-            s.push_str(&md::table(&["Domain", "Raters", "Mean", "Gap to target", "Below target", "Note"], &rows));
+            s.push_str(&md::table(
+                &[
+                    "Domain",
+                    "Raters",
+                    "Mean",
+                    "Gap to target",
+                    "Below target",
+                    "Note",
+                ],
+                &rows,
+            ));
             if !t.tiers.is_empty() {
                 s.push_str("\n**By tier**\n\n");
                 let rows: Vec<Vec<String>> = t
@@ -1273,7 +1463,14 @@ fn summary_text(r: &WorkforceResult) -> String {
                 let rows: Vec<Vec<String>> = r
                     .training_plan
                     .iter()
-                    .map(|p| vec![p.rank.to_string(), p.domain.clone(), p.priority.clone(), md::num(p.gap_to_target, 2)])
+                    .map(|p| {
+                        vec![
+                            p.rank.to_string(),
+                            p.domain.clone(),
+                            p.priority.clone(),
+                            md::num(p.gap_to_target, 2),
+                        ]
+                    })
                     .collect();
                 s.push_str(&md::table(&["#", "Domain", "Priority", "Gap"], &rows));
             }
@@ -1292,7 +1489,9 @@ fn summary_text(r: &WorkforceResult) -> String {
                 .summaries
                 .iter()
                 .map(|x| {
-                    let f = |n: Option<u32>| n.map_or("fewer than 3 or hidden".into(), |v| v.to_string());
+                    let f = |n: Option<u32>| {
+                        n.map_or("fewer than 3 or hidden".into(), |v| v.to_string())
+                    };
                     vec![
                         x.position.clone(),
                         x.requirement.clone(),
@@ -1303,7 +1502,17 @@ fn summary_text(r: &WorkforceResult) -> String {
                     ]
                 })
                 .collect();
-            s.push_str(&md::table(&["Position", "Credential", "Kind", "Complete", "Overdue or due soon", "Upcoming"], &rows));
+            s.push_str(&md::table(
+                &[
+                    "Position",
+                    "Credential",
+                    "Kind",
+                    "Complete",
+                    "Overdue or due soon",
+                    "Upcoming",
+                ],
+                &rows,
+            ));
         }
         s.push_str(&format!(
             "\nStaff with a position not matched: {}; staff with no hire date: {}; credential entries not matched to a requirement: {}.\n",
@@ -1311,7 +1520,9 @@ fn summary_text(r: &WorkforceResult) -> String {
         ));
     }
     if let (Some(b), Some(p)) = (&r.workbook_file, &r.plan_file) {
-        s.push_str(&format!("\nWorkbook with live formulas: {b}. Training plan: {p}.\n"));
+        s.push_str(&format!(
+            "\nWorkbook with live formulas: {b}. Training plan: {p}.\n"
+        ));
     }
     s
 }
@@ -1429,19 +1640,38 @@ mod tests {
 
     #[test]
     fn deadlines_are_read_from_dph_wording() {
-        assert_eq!(deadline_months("MAVEN-trained within 6 months of hire"), Some(6));
-        assert_eq!(deadline_months("Foundations course within 1 year of hire"), Some(12));
+        assert_eq!(
+            deadline_months("MAVEN-trained within 6 months of hire"),
+            Some(6)
+        );
+        assert_eq!(
+            deadline_months("Foundations course within 1 year of hire"),
+            Some(12)
+        );
         assert_eq!(deadline_months("RS within 6 years of hire"), Some(72));
-        assert_eq!(deadline_months("Registered Nurse (RN), current MA license"), None);
-        assert_eq!(requirement_label("MAVEN-trained within 6 months of hire"), "MAVEN-trained");
-        assert_eq!(requirement_label("RS or equivalent within 1 year of hire*"), "RS or equivalent");
+        assert_eq!(
+            deadline_months("Registered Nurse (RN), current MA license"),
+            None
+        );
+        assert_eq!(
+            requirement_label("MAVEN-trained within 6 months of hire"),
+            "MAVEN-trained"
+        );
+        assert_eq!(
+            requirement_label("RS or equivalent within 1 year of hire*"),
+            "RS or equivalent"
+        );
     }
 
     #[test]
     fn the_public_health_nurse_standard_has_two_deadlines() {
         let (c, _) = content();
         let (perf, _) = strategy::load_performance(&phn_data::SnapshotStore::bundled()).unwrap();
-        let p = perf.workforce_positions.iter().find(|p| p.id == "WF-POS-04").unwrap();
+        let p = perf
+            .workforce_positions
+            .iter()
+            .find(|p| p.id == "WF-POS-04")
+            .unwrap();
         let reqs = requirements_of(p, &c.credentials.universal_items);
         let months: Vec<(String, Option<u32>)> = reqs
             .iter()
@@ -1462,22 +1692,63 @@ mod tests {
         let hire = NaiveDate::from_ymd_opt(2026, 1, 15).unwrap();
         let d = |m, day| NaiveDate::from_ymd_opt(2026, m, day).unwrap();
         // MAVEN within 6 months: due 2026-07-15.
-        assert_eq!(status_for("required after hire", hire, Some(6), None, d(11, 12), 90), "overdue");
-        assert_eq!(status_for("required after hire", hire, Some(6), None, d(5, 1), 90), "due soon");
-        assert_eq!(status_for("required after hire", hire, Some(6), None, d(2, 1), 90), "upcoming");
-        assert_eq!(status_for("required after hire", hire, Some(6), Some(d(7, 1)), d(11, 12), 90), "complete");
-        assert_eq!(status_for("required after hire", hire, Some(6), Some(d(8, 1)), d(11, 12), 90), "complete (late)");
-        assert_eq!(status_for("required at hire", hire, None, None, d(11, 12), 90), "confirm at hire");
+        assert_eq!(
+            status_for("required after hire", hire, Some(6), None, d(11, 12), 90),
+            "overdue"
+        );
+        assert_eq!(
+            status_for("required after hire", hire, Some(6), None, d(5, 1), 90),
+            "due soon"
+        );
+        assert_eq!(
+            status_for("required after hire", hire, Some(6), None, d(2, 1), 90),
+            "upcoming"
+        );
+        assert_eq!(
+            status_for(
+                "required after hire",
+                hire,
+                Some(6),
+                Some(d(7, 1)),
+                d(11, 12),
+                90
+            ),
+            "complete"
+        );
+        assert_eq!(
+            status_for(
+                "required after hire",
+                hire,
+                Some(6),
+                Some(d(8, 1)),
+                d(11, 12),
+                90
+            ),
+            "complete (late)"
+        );
+        assert_eq!(
+            status_for("required at hire", hire, None, None, d(11, 12), 90),
+            "confirm at hire"
+        );
     }
 
     #[test]
     fn positions_and_entries_match_by_keyword() {
         let (c, _) = content();
-        assert_eq!(position_of(&c, "Public Health Nurse").as_deref(), Some("WF-POS-04"));
-        assert_eq!(position_of(&c, "Health Director").as_deref(), Some("WF-POS-01"));
+        assert_eq!(
+            position_of(&c, "Public Health Nurse").as_deref(),
+            Some("WF-POS-04")
+        );
+        assert_eq!(
+            position_of(&c, "Health Director").as_deref(),
+            Some("WF-POS-01")
+        );
         assert_eq!(position_of(&c, "Astronaut"), None);
         assert!(entry_matches("MAVEN training", "MAVEN-trained"));
-        assert!(entry_matches("Foundations for Local Public Health Practice", "Foundations course"));
+        assert!(entry_matches(
+            "Foundations for Local Public Health Practice",
+            "Foundations course"
+        ));
         assert!(!entry_matches("CPR", "MAVEN-trained"));
     }
 }

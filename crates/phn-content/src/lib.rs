@@ -766,7 +766,9 @@ pub const ITEMS: &[ContentItem] = &[
         path: "content/leadership/workforce_competencies.yaml",
         resource_uri: "phn://content/leadership-workforce-competencies",
         yaml: include_str!("../../../content/leadership/workforce_competencies.yaml"),
-        schema: include_str!("../../../content/schemas/leadership_workforce_competencies.schema.json"),
+        schema: include_str!(
+            "../../../content/schemas/leadership_workforce_competencies.schema.json"
+        ),
     },
     ContentItem {
         id: "leadership-open-meeting-law",

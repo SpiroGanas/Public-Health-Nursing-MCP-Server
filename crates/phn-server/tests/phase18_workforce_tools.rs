@@ -107,18 +107,36 @@ async fn blank_self_assessment_has_formulas_and_hides_small_groups() {
     assert!(team.contains("suppressed"));
     assert!(team.contains("Assumptions!$B$3"));
     let cred = unzip(&book, "xl/worksheets/sheet6.xml");
-    assert!(cred.contains("EDATE(C5,F5)"), "{}", &cred[..cred.len().min(1500)]);
+    assert!(
+        cred.contains("EDATE(C5,F5)"),
+        "{}",
+        &cred[..cred.len().min(1500)]
+    );
     assert!(cred.contains("overdue"));
     let wbx = unzip(&book, "xl/workbook.xml");
-    for n in ["Ratings", "Team results", "Training plan", "Credentials", "Standards"] {
+    for n in [
+        "Ratings",
+        "Team results",
+        "Training plan",
+        "Credentials",
+        "Standards",
+    ] {
         assert!(wbx.contains(n), "{n}");
     }
     let doc = unzip(&plan, "word/document.xml");
     assert!(doc.contains("Rating scale") && doc.contains("Knowledgeable"));
     // The second framework.
-    let s = call_ok(&h, "assess_workforce_competencies", json!({"framework": "cphn_2018"})).await;
+    let s = call_ok(
+        &h,
+        "assess_workforce_competencies",
+        json!({"framework": "cphn_2018"}),
+    )
+    .await;
     let d = serde_json::to_string(&s["data"]["domains"]).unwrap();
-    assert!(d.contains("Cultural Competency Skills") && d.contains("Financial Planning"), "{d}");
+    assert!(
+        d.contains("Cultural Competency Skills") && d.contains("Financial Planning"),
+        "{d}"
+    );
 }
 
 #[tokio::test]
@@ -146,8 +164,14 @@ async fn team_results_and_credentials_match_the_python_computation() {
             continue;
         }
         assert_eq!(g["raters"], w["raters"], "{g}");
-        assert!((g["mean_rating"].as_f64().unwrap() - w["mean"].as_f64().unwrap()).abs() < 0.006, "{g} {w}");
-        assert!((g["gap_to_target"].as_f64().unwrap() - w["gap"].as_f64().unwrap()).abs() < 0.011, "{g} {w}");
+        assert!(
+            (g["mean_rating"].as_f64().unwrap() - w["mean"].as_f64().unwrap()).abs() < 0.006,
+            "{g} {w}"
+        );
+        assert!(
+            (g["gap_to_target"].as_f64().unwrap() - w["gap"].as_f64().unwrap()).abs() < 0.011,
+            "{g} {w}"
+        );
         assert_eq!(g["staff_below_target"], w["below"], "{g}");
     }
     let overall = t["overall_mean_rating"].as_f64().unwrap();
@@ -156,7 +180,10 @@ async fn team_results_and_credentials_match_the_python_computation() {
     let tiers = t["tiers"].as_array().unwrap();
     let t1 = tiers.iter().find(|x| x["tier"] == 1).unwrap();
     assert_eq!(t1["staff"], want["tiers"]["1"]["staff"]);
-    assert!((t1["mean_rating"].as_f64().unwrap() - want["tiers"]["1"]["mean"].as_f64().unwrap()).abs() < 0.006);
+    assert!(
+        (t1["mean_rating"].as_f64().unwrap() - want["tiers"]["1"]["mean"].as_f64().unwrap()).abs()
+            < 0.006
+    );
     let t2 = tiers.iter().find(|x| x["tier"] == 2).unwrap();
     assert_eq!(t2["suppressed"], true);
     assert!(t2["staff"].is_null() && t2["mean_rating"].is_null());
@@ -167,7 +194,10 @@ async fn team_results_and_credentials_match_the_python_computation() {
     assert!(!plan[0]["suggested_steps"].as_array().unwrap().is_empty());
     // Credentials: MAVEN is shown for 7 nurses; the others hide counts of one or two.
     let sums = s["data"]["credentials"]["summaries"].as_array().unwrap();
-    let maven = sums.iter().find(|x| x["requirement"] == "MAVEN-trained").unwrap();
+    let maven = sums
+        .iter()
+        .find(|x| x["requirement"] == "MAVEN-trained")
+        .unwrap();
     let w = &want["credential_summary"]["MAVEN-trained"];
     assert_eq!(maven["staff"], w["staff"]);
     assert_eq!(maven["complete"], w["complete"]);
@@ -183,12 +213,16 @@ async fn team_results_and_credentials_match_the_python_computation() {
         assert!(x["complete"].is_null() && x["needs_attention"].is_null() && x["staff"].is_null());
     }
     // One inspector: no counts at all.
-    assert!(sums
-        .iter()
-        .filter(|x| x["position"].as_str().unwrap().starts_with("Inspector"))
-        .all(|x| x["suppressed"] == true));
+    assert!(
+        sums.iter()
+            .filter(|x| x["position"].as_str().unwrap().starts_with("Inspector"))
+            .all(|x| x["suppressed"] == true)
+    );
     // One volunteer matched no DPH position (count of one: hidden).
-    assert_eq!(s["data"]["credentials"]["staff_position_not_matched"], "fewer than 3");
+    assert_eq!(
+        s["data"]["credentials"]["staff_position_not_matched"],
+        "fewer than 3"
+    );
     // No code, name, or phone anywhere in the response.
     let all = everything(&h.call("assess_workforce_competencies",
         json!({"ratings_path": "workforce_ratings.csv", "credentials_path": "workforce_credentials.csv",
@@ -200,9 +234,13 @@ async fn team_results_and_credentials_match_the_python_computation() {
     // The workbook has individual rows (codes) and the statuses the reference computed.
     let book = h.data().join(s["data"]["workbook_file"].as_str().unwrap());
     let cred = unzip(&book, "xl/worksheets/sheet6.xml");
-    let n = want["credential_statuses"]["Foundations course"]["N04"].as_str().unwrap();
+    let n = want["credential_statuses"]["Foundations course"]["N04"]
+        .as_str()
+        .unwrap();
     assert_eq!(n, "overdue");
-    assert!(cred.contains("N04") && cred.contains("overdue") && cred.contains("due soon"));
+    assert!(cred.contains("overdue") && cred.contains("due soon"));
+    let strings = unzip(&book, "xl/sharedStrings.xml");
+    assert!(strings.contains("N04"));
     let ratings = unzip(&book, "xl/sharedStrings.xml");
     assert!(ratings.contains("S01"));
     let plan_doc = h.data().join(s["data"]["plan_file"].as_str().unwrap());
@@ -231,12 +269,33 @@ async fn teams_under_three_get_one_total_or_nothing() {
     let t = &s["data"]["team"];
     assert_eq!(t["team_size"], "fewer than 3");
     assert!((t["overall_mean_rating"].as_f64().unwrap() - 3.0).abs() < 1e-9);
-    assert!(t["domains"].as_array().unwrap().iter().all(|d| d["mean_rating"].is_null()));
-    assert!(t["tiers"].as_array().unwrap().iter().all(|d| d["suppressed"] == true));
-    let text = everything(&h.call("assess_workforce_competencies",
-        json!({"ratings_path": "two_staff.csv", "write_documents": false})).await);
+    assert!(
+        t["domains"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|d| d["mean_rating"].is_null())
+    );
+    assert!(
+        t["tiers"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|d| d["suppressed"] == true)
+    );
+    let text = everything(
+        &h.call(
+            "assess_workforce_competencies",
+            json!({"ratings_path": "two_staff.csv", "write_documents": false}),
+        )
+        .await,
+    );
     assert!(!text.contains("A1") && !text.contains("A2"));
-    std::fs::write(h.data().join("one_staff.csv"), "Staff Code,Tier,Domain,Rating\nA1,1,1,2\n").unwrap();
+    std::fs::write(
+        h.data().join("one_staff.csv"),
+        "Staff Code,Tier,Domain,Rating\nA1,1,1,2\n",
+    )
+    .unwrap();
     let s = call_ok(
         &h,
         "assess_workforce_competencies",
@@ -280,23 +339,59 @@ async fn names_and_bad_cells_are_refused_without_echoing_values() {
         json!({"ratings_path": "workforce_ratings.csv", "rating_column": "Supervisor Email"}),
     )
     .await;
-    assert!(leaks(&e, "data/workforce_ratings.csv", None).is_empty(), "{e}");
+    assert!(
+        leaks(&e, "data/workforce_ratings.csv", None).is_empty(),
+        "{e}"
+    );
     // A rating of 7 and a domain that does not exist.
-    std::fs::write(h.data().join("bad_rating.csv"), "Staff Code,Tier,Domain,Rating\nA1,1,1,7\n").unwrap();
-    let e = call_err(&h, "assess_workforce_competencies", json!({"ratings_path": "bad_rating.csv"})).await;
+    std::fs::write(
+        h.data().join("bad_rating.csv"),
+        "Staff Code,Tier,Domain,Rating\nA1,1,1,7\n",
+    )
+    .unwrap();
+    let e = call_err(
+        &h,
+        "assess_workforce_competencies",
+        json!({"ratings_path": "bad_rating.csv"}),
+    )
+    .await;
     assert!(e.contains("not 1 to 4"), "{e}");
-    std::fs::write(h.data().join("bad_domain.csv"), "Staff Code,Tier,Domain,Rating\nA1,1,Astrology,3\n").unwrap();
-    let e = call_err(&h, "assess_workforce_competencies", json!({"ratings_path": "bad_domain.csv"})).await;
+    std::fs::write(
+        h.data().join("bad_domain.csv"),
+        "Staff Code,Tier,Domain,Rating\nA1,1,Astrology,3\n",
+    )
+    .unwrap();
+    let e = call_err(
+        &h,
+        "assess_workforce_competencies",
+        json!({"ratings_path": "bad_domain.csv"}),
+    )
+    .await;
     assert!(e.contains("matches none"), "{e}");
-    call_err(&h, "assess_workforce_competencies", json!({"target_rating": 5})).await;
-    call_err(&h, "assess_workforce_competencies", json!({"ratings_path": "nope.csv"})).await;
+    call_err(
+        &h,
+        "assess_workforce_competencies",
+        json!({"target_rating": 5}),
+    )
+    .await;
+    call_err(
+        &h,
+        "assess_workforce_competencies",
+        json!({"ratings_path": "nope.csv"}),
+    )
+    .await;
     // Credentials with a bad hire date.
     std::fs::write(
         h.data().join("bad_hire.csv"),
         "Staff Code,Position,Hire Date,Credential,Completed Date\nN1,Public health nurse,someday,,\n",
     )
     .unwrap();
-    let e = call_err(&h, "assess_workforce_competencies", json!({"credentials_path": "bad_hire.csv"})).await;
+    let e = call_err(
+        &h,
+        "assess_workforce_competencies",
+        json!({"credentials_path": "bad_hire.csv"}),
+    )
+    .await;
     assert!(e.contains("YYYY-MM-DD"), "{e}");
 }
 
@@ -320,13 +415,28 @@ async fn notice_deadlines_match_the_hand_verified_dates() {
         ("2027-07-06", "17:00", "2027-07-01 17:00"),
         ("2028-06-20", "08:00", "2028-06-15 08:00"),
     ] {
-        let s = call_ok(&h, "board_of_health_meeting_assistant", notice_args(date, time)).await;
+        let s = call_ok(
+            &h,
+            "board_of_health_meeting_assistant",
+            notice_args(date, time),
+        )
+        .await;
         assert_eq!(s["data"]["notice"]["post_by_iso"], post_by, "{date} {time}");
         assert!(pending(&s));
-        assert_eq!(s["notice"].as_str().map(|n| n.starts_with("Decision support")), Some(true));
+        assert_eq!(
+            s["notice"]
+                .as_str()
+                .map(|n| n.starts_with("Decision support")),
+            Some(true)
+        );
     }
     // Veterans Day is listed as a day left out.
-    let s = call_ok(&h, "board_of_health_meeting_assistant", notice_args("2026-11-13", "10:00")).await;
+    let s = call_ok(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2026-11-13", "10:00"),
+    )
+    .await;
     let days = serde_json::to_string(&s["data"]["notice"]["excluded_days_passed"]).unwrap();
     assert!(days.contains("Veterans Day"), "{days}");
     // Suffolk county: Evacuation Day is also left out (Boston), not for Cambridge.
@@ -383,7 +493,12 @@ async fn posting_time_and_notice_contents_are_checked() {
     .await;
     assert!(s["data"]["notice"]["post_by"].is_null());
     // A Sunday meeting is flagged.
-    let s = call_ok(&h, "board_of_health_meeting_assistant", notice_args("2026-11-15", "10:00")).await;
+    let s = call_ok(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2026-11-15", "10:00"),
+    )
+    .await;
     assert_eq!(s["data"]["notice"]["meeting_on_excluded_day"], true);
 }
 
@@ -391,13 +506,38 @@ async fn posting_time_and_notice_contents_are_checked() {
 async fn notice_errors_are_tool_errors() {
     let h = start(|c| c.offline = true).await;
     call_err(&h, "board_of_health_meeting_assistant", json!({})).await;
-    call_err(&h, "board_of_health_meeting_assistant", json!({"action": "notice_check"})).await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        json!({"action": "notice_check"}),
+    )
+    .await;
     // Outside the bundled holiday list.
-    let e = call_err(&h, "board_of_health_meeting_assistant", notice_args("2029-02-06", "18:00")).await;
+    let e = call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2029-02-06", "18:00"),
+    )
+    .await;
     assert!(e.contains("2026-01-01 to 2028-12-31"), "{e}");
-    call_err(&h, "board_of_health_meeting_assistant", notice_args("2026-01-02", "10:00")).await;
-    call_err(&h, "board_of_health_meeting_assistant", notice_args("2026-13-01", "10:00")).await;
-    call_err(&h, "board_of_health_meeting_assistant", notice_args("2026-12-01", "25:00")).await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2026-01-02", "10:00"),
+    )
+    .await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2026-13-01", "10:00"),
+    )
+    .await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        notice_args("2026-12-01", "25:00"),
+    )
+    .await;
     let mut a = notice_args("2026-12-01", "18:00");
     a["town"] = json!("Atlantis");
     call_err(&h, "board_of_health_meeting_assistant", a).await;
@@ -427,7 +567,11 @@ async fn agenda_writes_a_document_with_staff_pages() {
     let file = h.data().join(s["data"]["document_file"].as_str().unwrap());
     assert!(file.exists() && file.extension().unwrap() == "docx");
     let doc = unzip(&file, "word/document.xml");
-    assert!(doc.contains("Post the notice by") && doc.contains("December 3, 2026"), "{}", &doc[..doc.len().min(2000)]);
+    assert!(
+        doc.contains("Post the notice by") && doc.contains("December 3, 2026"),
+        "{}",
+        &doc[..doc.len().min(2000)]
+    );
     assert!(doc.contains("For staff: not for posting"));
     assert!(doc.contains("Executive session script") && doc.contains("roll call"));
     assert!(doc.contains("CLERK: record when the notice is posted"));
@@ -446,7 +590,8 @@ async fn staff_report_template_and_oml_guide() {
     )
     .await;
     assert_eq!(s["data"]["staff_report"]["sections_drafted"], 2);
-    assert_eq!(s["data"]["staff_report"]["sections_placeholder"], 4);
+    // "Fiscal impact" does not match a standard heading, so it is added as a section.
+    assert_eq!(s["data"]["staff_report"]["sections_placeholder"], 5);
     let file = h.data().join(s["data"]["document_file"].as_str().unwrap());
     let doc = unzip(&file, "word/document.xml");
     assert!(doc.contains("The clinics run in October") && doc.contains("[NURSE:"));
@@ -457,12 +602,25 @@ async fn staff_report_template_and_oml_guide() {
                "report_sections": [{"heading": "Findings", "text": "Maria Garcia, DOB 1953-04-11, lives at 837 Elm Street"}]}),
     )
     .await;
-    let s = call_ok(&h, "board_of_health_meeting_assistant", json!({"action": "oml_guide"})).await;
+    let s = call_ok(
+        &h,
+        "board_of_health_meeting_assistant",
+        json!({"action": "oml_guide"}),
+    )
+    .await;
     let g = &s["data"]["oml_guide"];
-    assert_eq!(g["executive_session_purposes"].as_array().unwrap().len(), 10);
+    assert_eq!(
+        g["executive_session_purposes"].as_array().unwrap().len(),
+        10
+    );
     assert!(g["notice_rule"].as_str().unwrap().contains("48 hours"));
     assert!(g["legal_holidays"].as_array().unwrap().len() >= 40);
-    assert!(g["remote_participation"].as_str().unwrap().contains("June 30, 2027"));
+    assert!(
+        g["remote_participation"]
+            .as_str()
+            .unwrap()
+            .contains("June 30, 2027")
+    );
 }
 
 #[tokio::test]
@@ -496,13 +654,23 @@ async fn minutes_are_drafted_from_notes_without_returning_them() {
     assert_eq!(status("Remote members named"), "check");
     assert_eq!(status("Executive session"), "found");
     // The PHI detector saw the resident's line (line 9), and no value came back.
-    assert!(m["identifier_lines"].as_array().unwrap().iter().any(|l| l == 9), "{m}");
+    assert!(
+        m["identifier_lines"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|l| l == 9),
+        "{m}"
+    );
     assert!(!m["identifier_categories"].as_array().unwrap().is_empty());
     let all = everything(&h.call(
         "board_of_health_meeting_assistant",
         json!({"action": "minutes", "notes_path": "board_meeting_notes.txt", "write_document": false}),
     ).await);
-    assert!(leaks(&all, "data/board_meeting_notes.txt", None).is_empty(), "{all}");
+    assert!(
+        leaks(&all, "data/board_meeting_notes.txt", None).is_empty(),
+        "{all}"
+    );
     assert!(!all.contains("three clinic dates") && !all.contains("abutters"));
     // The draft minutes carry the notes and a warning.
     let file = h.data().join(s["data"]["document_file"].as_str().unwrap());
@@ -519,11 +687,24 @@ async fn minutes_are_drafted_from_notes_without_returning_them() {
     )
     .await;
     assert_eq!(s["data"]["minutes"]["items"], 1);
-    call_err(&h, "board_of_health_meeting_assistant",
-        json!({"action": "minutes", "notes_text": "x", "notes_path": "board_meeting_notes.txt"})).await;
-    call_err(&h, "board_of_health_meeting_assistant", json!({"action": "minutes"})).await;
-    call_err(&h, "board_of_health_meeting_assistant",
-        json!({"action": "minutes", "notes_path": "line_list.csv"})).await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        json!({"action": "minutes", "notes_text": "x", "notes_path": "board_meeting_notes.txt"}),
+    )
+    .await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        json!({"action": "minutes"}),
+    )
+    .await;
+    call_err(
+        &h,
+        "board_of_health_meeting_assistant",
+        json!({"action": "minutes", "notes_path": "line_list.csv"}),
+    )
+    .await;
 }
 
 // ---------------------------------------------------------------- LEAD-08
@@ -551,14 +732,29 @@ async fn a_vaccine_order_carries_the_nurses_text_and_signature_placeholders() {
     assert_eq!(d["drafted_sections"], 3);
     assert_eq!(d["dates"]["next_review_due"], "2027-10-01");
     assert!(d["dph_orders_to_check_first"].as_array().unwrap().len() >= 4);
-    let incl = d["sections"].as_array().unwrap().iter().find(|x| x["section_id"] == "inclusion_criteria").unwrap();
+    let incl = d["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|x| x["section_id"] == "inclusion_criteria")
+        .unwrap();
     assert_eq!(incl["status"], "drafted");
     assert_eq!(incl["source_cited"], true);
-    let auth = d["sections"].as_array().unwrap().iter().find(|x| x["section_id"] == "authorization").unwrap();
+    let auth = d["sections"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|x| x["section_id"] == "authorization")
+        .unwrap();
     assert_eq!(auth["completed_by"], "medical_director");
     assert_eq!(auth["status"], "placeholder");
     // Element 4 (the signature) stays open until the medical director signs.
-    let e4 = d["ar9324_elements"].as_array().unwrap().iter().find(|e| e["number"] == 4).unwrap();
+    let e4 = d["ar9324_elements"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|e| e["number"] == 4)
+        .unwrap();
     assert_eq!(e4["status"], "open");
     assert_eq!(d["vaccine_elements"].as_array().unwrap().len(), 9);
     // The response does not echo the nurse's text.
@@ -570,18 +766,40 @@ async fn a_vaccine_order_carries_the_nurses_text_and_signature_placeholders() {
     let doc = unzip(&file, "word/document.xml");
     assert!(doc.contains("Everyone six months of age and older."));
     assert!(doc.contains("Example guideline, 2026-27 edition"));
-    assert!(doc.contains("[MEDICAL DIRECTOR: signature]") && doc.contains("[NURSE: name and title]"));
+    assert!(
+        doc.contains("[MEDICAL DIRECTOR: signature]") && doc.contains("[NURSE: name and title]")
+    );
     assert!(doc.contains("[NURSE: contraindications and precautions"));
     assert!(doc.contains("Immunize.org"));
     // No bundled vaccine or drug names or doses in a draft with no sections.
-    let s = call_ok(&h, "draft_standing_orders", json!({"order_type": "medication"})).await;
+    let s = call_ok(
+        &h,
+        "draft_standing_orders",
+        json!({"order_type": "medication"}),
+    )
+    .await;
     let file = h.data().join(s["data"]["document_file"].as_str().unwrap());
     let doc = unzip(&file, "word/document.xml");
-    for word in ["mg", "mL", "epinephrine", "naloxone", "Fluzone", "intramuscular"] {
+    for word in [
+        "mg",
+        "mL",
+        "epinephrine",
+        "naloxone",
+        "Fluzone",
+        "intramuscular",
+    ] {
         assert!(!doc.contains(word), "{word} appears in an empty draft");
     }
-    assert_eq!(s["data"]["placeholder_sections"], s["data"]["sections"].as_array().unwrap().len());
-    assert!(s["data"]["dph_orders_to_check_first"].as_array().unwrap().is_empty());
+    assert_eq!(
+        s["data"]["placeholder_sections"],
+        s["data"]["sections"].as_array().unwrap().len()
+    );
+    assert!(
+        s["data"]["dph_orders_to_check_first"]
+            .as_array()
+            .unwrap()
+            .is_empty()
+    );
 }
 
 #[tokio::test]
@@ -603,15 +821,28 @@ async fn standing_order_rules_are_enforced() {
         json!({"order_type": "activity", "sections": [{"section_id": "dose_route", "text": "x", "source_citation": "y"}]})).await;
     assert!(e.contains("not a section of this activity"), "{e}");
     call_err(&h, "draft_standing_orders", json!({})).await;
-    call_err(&h, "draft_standing_orders", json!({"order_type": "vaccine", "review_interval_months": 12})).await;
+    call_err(
+        &h,
+        "draft_standing_orders",
+        json!({"order_type": "vaccine", "review_interval_months": 12}),
+    )
+    .await;
     call_err(&h, "draft_standing_orders",
         json!({"order_type": "vaccine", "effective_date": "2026-10-01", "review_interval_months": 99})).await;
-    call_err(&h, "draft_standing_orders",
-        json!({"order_type": "vaccine", "effective_date": "1800-10-01"})).await;
+    call_err(
+        &h,
+        "draft_standing_orders",
+        json!({"order_type": "vaccine", "effective_date": "1800-10-01"}),
+    )
+    .await;
     // Identifiers are refused without being repeated.
-    let e = call_err(&h, "draft_standing_orders",
+    let e = call_err(
+        &h,
+        "draft_standing_orders",
         json!({"order_type": "activity", "sections": [{"section_id": "title_scope",
-               "text": "For Maria Garcia, DOB 04/11/1953, 837 Elm Street, MRN400000"}]})).await;
+               "text": "For Maria Garcia, DOB 04/11/1953, 837 Elm Street, MRN400000"}]}),
+    )
+    .await;
     assert!(!e.contains("837 Elm") && !e.contains("MRN400000"), "{e}");
     // Wording that conflicts with Advisory Ruling 9324's limits is flagged.
     let s = call_ok(
@@ -623,7 +854,12 @@ async fn standing_order_rules_are_enforced() {
                              "source_citation": "Example protocol, 2026"}]}),
     )
     .await;
-    let limits: Vec<&str> = s["data"]["wording_flags"].as_array().unwrap().iter().map(|f| f["limit"].as_str().unwrap()).collect();
+    let limits: Vec<&str> = s["data"]["wording_flags"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|f| f["limit"].as_str().unwrap())
+        .collect();
     for l in ["menu_of_choices", "change_to_the_order", "prescribing"] {
         assert!(limits.contains(&l), "{l} {limits:?}");
     }
@@ -634,11 +870,18 @@ async fn standing_order_rules_are_enforced() {
 async fn schemas_describe_the_three_tools() {
     let h = start(|c| c.offline = true).await;
     let tools = h.client.list_all_tools().await.unwrap();
-    for n in ["assess_workforce_competencies", "board_of_health_meeting_assistant", "draft_standing_orders"] {
+    for n in [
+        "assess_workforce_competencies",
+        "board_of_health_meeting_assistant",
+        "draft_standing_orders",
+    ] {
         let t = tools.iter().find(|t| t.name == n).unwrap();
         assert!(t.output_schema.is_some(), "{n}");
         let desc = t.description.as_deref().unwrap_or_default();
         assert!(desc.contains("pending expert review"), "{n}");
-        assert!(desc.contains("Decision support") || desc.contains("decision support"), "{n}");
+        assert!(
+            desc.contains("Decision support") || desc.contains("decision support"),
+            "{n}"
+        );
     }
 }

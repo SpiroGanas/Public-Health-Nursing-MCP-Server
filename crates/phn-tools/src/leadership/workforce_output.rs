@@ -89,7 +89,12 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         let ws = wb.add_worksheet();
         ws.set_name("Instructions")?;
         ws.set_column_width(0, 110)?;
-        ws.write_string_with_format(0, 0, format!("Workforce self-assessment: {}", f.label), &bold)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            format!("Workforce self-assessment: {}", f.label),
+            &bold,
+        )?;
         let lines = [
             "Yellow cells are inputs. Staff are identified by a code (S01, S02, ...). Do not type names in this workbook's Ratings or Credentials sheets: keep a roster of codes and names in a separate, private file.".to_string(),
             format!("Rating scale: {}", r.rating_scale.iter().map(|l| format!("{} = {} ({})", l.value, l.label, l.meaning)).collect::<Vec<_>>().join("; ")),
@@ -112,13 +117,26 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         ws.set_column_width(0, 58)?;
         ws.set_column_width(1, 16)?;
         ws.set_column_width(2, 60)?;
-        ws.write_string_with_format(0, 0, "Assumptions (change the yellow cells; everything recalculates)", &bold)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            "Assumptions (change the yellow cells; everything recalculates)",
+            &bold,
+        )?;
         ws.write_string(1, 0, "Target rating (1 to 4)")?;
         ws.write_number_with_format(1, 1, r.target_rating, &input2)?;
-        ws.write_string(1, 2, "Tool default of 3 (Knowledgeable); no published source")?;
+        ws.write_string(
+            1,
+            2,
+            "Tool default of 3 (Knowledgeable); no published source",
+        )?;
         ws.write_string(2, 0, "Minimum number of people for any result")?;
         ws.write_number_with_format(2, 1, f64::from(r.minimum_group_size), &input)?;
-        ws.write_string(2, 2, "Project rule: no result for fewer than this many staff")?;
+        ws.write_string(
+            2,
+            2,
+            "Project rule: no result for fewer than this many staff",
+        )?;
         ws.write_string(3, 0, "Measure credential deadlines as of")?;
         ws.write_datetime_with_format(3, 1, xl_date(i.as_of)?, &date_in)?;
         ws.write_string(4, 0, "Days before a deadline to call it due soon")?;
@@ -132,7 +150,16 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         ws.set_name("Ratings")?;
         ws.write_string_with_format(0, 0, "Ratings: one row per staff code and domain", &bold)?;
         ws.write_string(1, 0, "Rating 1 to 4 (blank = not rated). Column E marks the first rated row of each staff code, so the team size counts people once.")?;
-        for (c, h) in ["Staff code", "Tier (1-3)", "Domain", "Rating (1-4)", "Counts as staff"].iter().enumerate() {
+        for (c, h) in [
+            "Staff code",
+            "Tier (1-3)",
+            "Domain",
+            "Rating (1-4)",
+            "Counts as staff",
+        ]
+        .iter()
+        .enumerate()
+        {
             ws.write_string_with_format(FIRST - 2, c as u16, *h, &head)?;
             ws.set_column_width(c as u16, if c == 2 { 46 } else { 16 })?;
         }
@@ -177,7 +204,8 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 .set_result(if counted { "1" } else { "0" }),
             )?;
         }
-        let dv_rating = DataValidation::new().allow_decimal_number(DataValidationRule::Between(1.0, 4.0));
+        let dv_rating =
+            DataValidation::new().allow_decimal_number(DataValidationRule::Between(1.0, 4.0));
         ws.add_data_validation(FIRST - 1, 3, last - 1, 3, &dv_rating)?;
         let dv_tier = DataValidation::new().allow_list_strings(&["1", "2", "3"])?;
         ws.add_data_validation(FIRST - 1, 1, last - 1, 1, &dv_tier)?;
@@ -193,8 +221,22 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.set_column_width(c, 16)?;
         }
         ws.write_string_with_format(0, 0, format!("Team results: {}", f.label), &bold)?;
-        ws.write_string(1, 0, "Results are hidden when fewer than the minimum number of people (Assumptions) rated.")?;
-        for (c, h) in ["Domain", "Staff who rated", "Mean rating", "Gap to target", "Below target", "Priority"].iter().enumerate() {
+        ws.write_string(
+            1,
+            0,
+            "Results are hidden when fewer than the minimum number of people (Assumptions) rated.",
+        )?;
+        for (c, h) in [
+            "Domain",
+            "Staff who rated",
+            "Mean rating",
+            "Gap to target",
+            "Below target",
+            "Priority",
+        ]
+        .iter()
+        .enumerate()
+        {
             ws.write_string_with_format(3, c as u16, *h, &head)?;
         }
         let team = r.team.as_ref();
@@ -222,14 +264,19 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                     rng("C"),
                     rng("D")
                 ))
-                .set_result(dr.and_then(|d| d.mean_rating).map_or("suppressed".to_string(), num_s)),
+                .set_result(
+                    dr.and_then(|d| d.mean_rating)
+                        .map_or("suppressed".to_string(), num_s),
+                ),
                 &two,
             )?;
             ws.write_formula_with_format(
                 row,
                 3,
-                Formula::new(format!("=IF(ISNUMBER(C{x}),Assumptions!$B$2-C{x},\"\")"))
-                    .set_result(dr.and_then(|d| d.gap_to_target).map_or(String::new(), num_s)),
+                Formula::new(format!("=IF(ISNUMBER(C{x}),Assumptions!$B$2-C{x},\"\")")).set_result(
+                    dr.and_then(|d| d.gap_to_target)
+                        .map_or(String::new(), num_s),
+                ),
                 &two,
             )?;
             let below = format!(
@@ -255,7 +302,12 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                 .set_result(dr.and_then(|d| d.gap_to_target).map_or(String::new(), |g| priority(g).to_string())),
             )?;
         }
-        ws.write_string_with_format(size_row - 1, 0, "Team size (staff with at least one rating)", &bold)?;
+        ws.write_string_with_format(
+            size_row - 1,
+            0,
+            "Team size (staff with at least one rating)",
+            &bold,
+        )?;
         let team_n = i
             .staff_domain
             .map(|rows| {
@@ -319,7 +371,10 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
                     rng("B"),
                     rng("D")
                 ))
-                .set_result(tr.and_then(|x| x.mean_rating).map_or("not shown".to_string(), num_s)),
+                .set_result(
+                    tr.and_then(|x| x.mean_rating)
+                        .map_or("not shown".to_string(), num_s),
+                ),
                 &two,
             )?;
         }
@@ -338,16 +393,42 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         ws.set_column_width(6, 14)?;
         ws.write_string_with_format(0, 0, "Team training plan (no individual results)", &bold)?;
         ws.write_string(1, 0, "Domains where the team is below the target are listed with generic steps. Replace them with the training you choose; no course or vendor is recommended by this tool.")?;
-        for (c, h) in ["Domain", "Priority", "Gap to target", "Generic steps to consider", "Your action [NURSE]", "Owner", "Due date"].iter().enumerate() {
+        for (c, h) in [
+            "Domain",
+            "Priority",
+            "Gap to target",
+            "Generic steps to consider",
+            "Your action [NURSE]",
+            "Owner",
+            "Due date",
+        ]
+        .iter()
+        .enumerate()
+        {
             ws.write_string_with_format(3, c as u16, *h, &head)?;
         }
-        let steps = i.content.training_actions.iter().map(|a| a.text.clone()).collect::<Vec<_>>().join(" ");
+        let steps = i
+            .content
+            .training_actions
+            .iter()
+            .map(|a| a.text.clone())
+            .collect::<Vec<_>>()
+            .join(" ");
         for (k, d) in f.domains.iter().enumerate() {
             let row = 4 + k as u32;
             let x = 5 + k as u32;
-            ws.write_formula(row, 0, Formula::new(format!("='Team results'!A{x}")).set_result(d.name.clone()))?;
+            ws.write_formula(
+                row,
+                0,
+                Formula::new(format!("='Team results'!A{x}")).set_result(d.name.clone()),
+            )?;
             ws.write_formula(row, 1, Formula::new(format!("='Team results'!F{x}")))?;
-            ws.write_formula_with_format(row, 2, Formula::new(format!("='Team results'!D{x}")), &two)?;
+            ws.write_formula_with_format(
+                row,
+                2,
+                Formula::new(format!("='Team results'!D{x}")),
+                &two,
+            )?;
             ws.write_formula_with_format(
                 row,
                 3,
@@ -365,11 +446,38 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
     {
         let ws = wb.add_worksheet();
         ws.set_name("Credentials")?;
-        ws.write_string_with_format(0, 0, "Credential tracker: DPH local public health workforce standards", &bold)?;
+        ws.write_string_with_format(
+            0,
+            0,
+            "Credential tracker: DPH local public health workforce standards",
+            &bold,
+        )?;
         ws.write_string(1, 0, "One row per staff code and requirement. Enter the completed date; due dates and status calculate from the hire date and DPH's \"within N months of hire\" wording (Assumptions has the as-of date).")?;
-        for (c, h) in ["Staff code", "Position", "Hire date", "Requirement", "Kind", "Months from hire", "Completed", "Due date", "Status"].iter().enumerate() {
+        for (c, h) in [
+            "Staff code",
+            "Position",
+            "Hire date",
+            "Requirement",
+            "Kind",
+            "Months from hire",
+            "Completed",
+            "Due date",
+            "Status",
+        ]
+        .iter()
+        .enumerate()
+        {
             ws.write_string_with_format(3, c as u16, *h, &head)?;
-            ws.set_column_width(c as u16, if c == 3 { 52 } else if c == 1 { 30 } else { 16 })?;
+            ws.set_column_width(
+                c as u16,
+                if c == 3 {
+                    52
+                } else if c == 1 {
+                    30
+                } else {
+                    16
+                },
+            )?;
         }
         let rows: &[CredRow] = i.cred_rows.unwrap_or(&[]);
         let total = rows.len() as u32 + if rows.is_empty() { 60 } else { 20 };
@@ -402,17 +510,20 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
             ws.write_formula_with_format(
                 row,
                 7,
-                Formula::new(format!("=IF(OR(C{x}=\"\",F{x}=\"\"),\"\",EDATE(C{x},F{x}))"))
-                    .set_result(
-                        cr.and_then(|c| {
-                            c.months.and_then(|m| c.hire.checked_add_months(chrono::Months::new(m)))
-                        })
-                        .map_or(String::new(), |d| {
-                            // Excel serial days since 1899-12-30.
-                            let base = NaiveDate::from_ymd_opt(1899, 12, 30).expect("base");
-                            (d - base).num_days().to_string()
-                        }),
-                    ),
+                Formula::new(format!(
+                    "=IF(OR(C{x}=\"\",F{x}=\"\"),\"\",EDATE(C{x},F{x}))"
+                ))
+                .set_result(
+                    cr.and_then(|c| {
+                        c.months
+                            .and_then(|m| c.hire.checked_add_months(chrono::Months::new(m)))
+                    })
+                    .map_or(String::new(), |d| {
+                        // Excel serial days since 1899-12-30.
+                        let base = NaiveDate::from_ymd_opt(1899, 12, 30).expect("base");
+                        (d - base).num_days().to_string()
+                    }),
+                ),
                 &date,
             )?;
             ws.write_formula(
@@ -437,7 +548,16 @@ fn build_workbook(i: &OutputInputs) -> X<Vec<u8>> {
         ws.set_column_width(3, 14)?;
         ws.set_column_width(4, 70)?;
         ws.write_string_with_format(0, 0, "DPH local public health workforce standards by position (Performance Standards workbook, modified 2024-07-15)", &bold)?;
-        for (c, h) in ["Position", "Requirement", "Kind", "Months from hire", "DPH wording"].iter().enumerate() {
+        for (c, h) in [
+            "Position",
+            "Requirement",
+            "Kind",
+            "Months from hire",
+            "DPH wording",
+        ]
+        .iter()
+        .enumerate()
+        {
             ws.write_string_with_format(2, c as u16, *h, &head)?;
         }
         let mut row = 3;
@@ -463,12 +583,22 @@ fn build_plan(ctx: &Context, i: &OutputInputs) -> phn_docs::model::Document {
     let mut b = DocBuilder::new();
     b.para("Self-assessment of staff competencies and the team training plan. Staff are identified by code in the workbook; no names appear here, and no result is shown for fewer than the minimum number of people.");
     b.labeled("Framework:", r.framework.clone());
-    b.labeled("Target rating:", format!("{} (a tool default with no published source; set your own)", num_s(r.target_rating)));
+    b.labeled(
+        "Target rating:",
+        format!(
+            "{} (a tool default with no published source; set your own)",
+            num_s(r.target_rating)
+        ),
+    );
     if let Some(t) = &r.team {
         b.heading(2, "Team results");
         b.labeled("Team size:", t.team_size.clone());
         b.para(match t.overall_mean_rating {
-            Some(m) => format!("Overall: {} on the 1 to 4 scale. {}", num_s(m), t.overall_basis),
+            Some(m) => format!(
+                "Overall: {} on the 1 to 4 scale. {}",
+                num_s(m),
+                t.overall_basis
+            ),
             None => t.overall_basis.clone(),
         });
         let rows: Vec<Vec<String>> = t
@@ -485,7 +615,18 @@ fn build_plan(ctx: &Context, i: &OutputInputs) -> phn_docs::model::Document {
                 ]
             })
             .collect();
-        b.table("Domain results", &["Domain", "Staff who rated", "Mean", "Gap to target", "Below target", "Note"], rows);
+        b.table(
+            "Domain results",
+            &[
+                "Domain",
+                "Staff who rated",
+                "Mean",
+                "Gap to target",
+                "Below target",
+                "Note",
+            ],
+            rows,
+        );
         b.list(&t.suppression_notes);
         b.heading(2, "Team training plan");
         let rows: Vec<Vec<String>> = r
@@ -503,7 +644,11 @@ fn build_plan(ctx: &Context, i: &OutputInputs) -> phn_docs::model::Document {
                 ]
             })
             .collect();
-        b.table("Training plan", &["#", "Domain", "Priority", "Gap", "Action", "Owner", "Due"], rows);
+        b.table(
+            "Training plan",
+            &["#", "Domain", "Priority", "Gap", "Action", "Owner", "Due"],
+            rows,
+        );
         b.para("Generic steps to consider for each domain below target (no course, vendor, or curriculum is recommended or verified):");
         let steps: Vec<String> = c.training_actions.iter().map(|a| a.text.clone()).collect();
         b.list(&steps);
@@ -528,9 +673,29 @@ fn build_plan(ctx: &Context, i: &OutputInputs) -> phn_docs::model::Document {
         let rows: Vec<Vec<String>> = k
             .summaries
             .iter()
-            .map(|x| vec![x.position.clone(), x.requirement.clone(), x.kind.clone(), f(x.complete), f(x.needs_attention), f(x.upcoming)])
+            .map(|x| {
+                vec![
+                    x.position.clone(),
+                    x.requirement.clone(),
+                    x.kind.clone(),
+                    f(x.complete),
+                    f(x.needs_attention),
+                    f(x.upcoming),
+                ]
+            })
             .collect();
-        b.table("Credential status", &["Position", "Credential", "Kind", "Complete", "Overdue or due soon", "Upcoming"], rows);
+        b.table(
+            "Credential status",
+            &[
+                "Position",
+                "Credential",
+                "Kind",
+                "Complete",
+                "Overdue or due soon",
+                "Upcoming",
+            ],
+            rows,
+        );
         b.para(format!(
             "Staff whose position did not match: {}. Staff with no hire date: {}. Credential entries not matched to a requirement: {}.",
             k.staff_position_not_matched, k.staff_hire_date_missing, k.entries_not_matched
@@ -544,7 +709,11 @@ fn build_plan(ctx: &Context, i: &OutputInputs) -> phn_docs::model::Document {
         "Decision support for workforce planning, not a finding of compliance and not a personnel evaluation. Content is a draft pending review by the subject matter expert.".to_string(),
     ]);
     b.para("Prepared by: [NURSE: name and title]    Date: [NURSE: date]");
-    b.finish(ctx, "Workforce competency assessment and training plan", None)
+    b.finish(
+        ctx,
+        "Workforce competency assessment and training plan",
+        None,
+    )
 }
 
 pub(crate) fn write_files(ctx: &Context, i: &OutputInputs) -> Result<(String, String)> {
