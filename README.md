@@ -284,6 +284,8 @@ output folder instead of being sent to the AI model.
 
 | Tool | Plan ID | Toolset | What it does |
 |---|---|---|---|
+| `track_ma_legislation` | POL-01 | policy | Tracks Massachusetts bills (194th General Court) on public health topics from the Legislature's public data: stage, committee, hearing dates, last action, and a short cited excerpt, with questions for your own analysis and a topic watchlist you can save. It never says what a bill would do. Live, with a dated offline snapshot. |
+| `monitor_federal_rules` | POL-03 | policy | Watches the Federal Register for CDC, CMS, HRSA, EPA, USDA, and HHS proposed rules, final rules, and notices, with comment deadlines counted down against today, an optional Regulations.gov cross-check, and a draft public comment outline (Word) built from EPA's tips. Says plainly when live data is unavailable. |
 <!-- Phase 19 tracking rows go above this line. -->
 | `search_public_health_law` | POL-02 | policy | Searches M.G.L. c. 111, 105 CMR, 244 CMR (a bundled snapshot with full text for core sections and a title and link index for the rest) and your board of health's regulations in a local folder, and answers with citations, dates, links, and excerpts of 25 words or fewer. |
 | `draft_policy_brief` | POL-04 | policy | Drafts a one-page or longer policy brief in the order of the Eightfold Path (problem, evidence, options, criteria, an accessible options-by-criteria table, trade-offs, recommendation) from what you supply, with `[NURSE: ...]` placeholders and a readability check; it never invents facts. |

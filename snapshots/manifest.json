@@ -2320,6 +2320,33 @@
           "rows": 51
         }
       ]
+    },
+    {
+      "id": "ma-legislation-194",
+      "title": "Massachusetts bills of the 194th General Court (2025-2026) whose titles match public health topics",
+      "publisher": "Massachusetts Legislature (public API at malegislature.gov/api)",
+      "source_urls": [
+        "https://malegislature.gov/api/GeneralCourts/194/Documents",
+        "https://malegislature.gov/api/GeneralCourts/194/Documents/{bill}",
+        "https://malegislature.gov/api/GeneralCourts/194/Documents/{bill}/DocumentHistoryActions"
+      ],
+      "source_sha256": {},
+      "source_vintage": "live API responses on 2026-11-13",
+      "retrieved": "2026-11-13",
+      "license": "Public records of the Massachusetts Legislature; the API's terms were not found in its Swagger document. Bill text is not copied except one excerpt of at most 25 words per bill.",
+      "derivation": "xtask/scripts/build_tracking_snapshots.py downloads the 194th General Court document list, keeps bills that have a bill number and whose title matches a keyword of the topic list in the script (the same list as content/policy/ma_legislation_tracking.yaml), then fetches each bill's record and history. Per bill it keeps the number, docket, title, cosponsor count (sponsor names and amendment authors' names are not kept), topics, committee recommendations, the full dated history, and one excerpt of at most 25 words around the first topic keyword in the bill text.",
+      "caveats": [
+        "A bill whose title does not contain a topic keyword is not included, even if its text is about the topic.",
+        "Status is as of the retrieval date; the Legislature updates it daily. Use live mode for current status."
+      ],
+      "files": [
+        {
+          "path": "ma_legislation_194.json",
+          "sha256": "742ea009e5b0aae22cd2f679db07658a701b7ab31a51b2f80bda0880595655de",
+          "bytes": 730178,
+          "rows": 822
+        }
+      ]
     }
   ]
 }

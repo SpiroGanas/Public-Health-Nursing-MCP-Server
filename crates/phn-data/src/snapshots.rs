@@ -500,6 +500,10 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // End of Phase 18 snapshot files.
     // Phase 19 snapshot files go below this line.
     // Phase 19 tracking (POL-01, POL-03).
+    (
+        "ma_legislation_194.json",
+        include_str!("../../../snapshots/ma_legislation_194.json"),
+    ),
     // End of Phase 19 tracking.
     // Phase 19 law (POL-02, POL-04, POL-07).
     (

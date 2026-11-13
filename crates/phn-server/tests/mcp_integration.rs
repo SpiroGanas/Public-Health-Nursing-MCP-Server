@@ -2175,6 +2175,53 @@ async fn no_row_level_data_is_returned_by_default() {
         // ---- End of Phase 18 data tools.
         // ---- Phase 19 data tools go below this line.
         // ---- Phase 19 tracking (POL-01, POL-03).
+        // The offline snapshot and the topic index return nothing from client or contact files;
+        // a client file given as the watchlist or the fill file is refused without its values;
+        // free-text arguments with identifiers are refused without echoing them.
+        (
+            "track_ma_legislation",
+            json!({"topics": ["vaccines", "mental_health"], "max_bills": 10}),
+            ll,
+        ),
+        ("track_ma_legislation", json!({}), ll),
+        (
+            "track_ma_legislation",
+            json!({"topics": ["vaccines"], "watchlist_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "track_ma_legislation",
+            json!({"watchlist_path": "food_pantries.csv", "save_watchlist": true}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "track_ma_legislation",
+            json!({"keywords": ["clinic for 837 Elm Street, phone 413-555-0100"]}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"topic": "family at 837 Elm Street 413-555-0100"}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "fill_path": "line_list.csv"}),
+            ll,
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "comment_deadline": "2026-12-14", "fill_path": "food_pantries.csv"}),
+            "data/food_pantries.csv",
+        ),
+        (
+            "monitor_federal_rules",
+            json!({"draft_comment_outline": true, "document_title": "Proposed rule on school meals",
+                   "comment_deadline": "2026-12-14"}),
+            ll,
+        ),
         // ---- End of Phase 19 tracking.
         // ---- Phase 19 law (POL-02, POL-04, POL-07).
         // POL-02 searches a bundled corpus and, optionally, a local folder of documents: free text

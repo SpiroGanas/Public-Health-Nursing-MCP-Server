@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 146;
+const TOOL_COUNT = 148;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4760,6 +4760,66 @@ const toolChapters = [
     intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
     tools: [
       // Phase 19 tracking (POL-01, POL-03) tools.
+      {
+        id: 'track_ma_legislation',
+        title: 'Follow Massachusetts bills on public health topics',
+        toolset: 'policy',
+        internet: 'optional',
+        files: 'yes, a watchlist you can save and read back',
+        does: 'Finds bills in the Massachusetts Legislature (the 2025-2026 session) on topics such as vaccines, tobacco and vaping, substance use, mental health, maternal and child health, school health, older adults, environmental health, and local public health, or on words or bill numbers you give. For each bill it shows the stage, the committee, hearing dates, the committee’s reporting deadline, the last action, a link, and a short quotation from the bill text, along with questions to ask of any bill. It can read a topic watchlist from your folder and save one. It does not tell you what a bill would do; that is your analysis.',
+        when: [
+          'Checking what is pending on a topic before a board of health meeting or a legislative briefing.',
+          'Finding out when a committee hearing is, so you can submit testimony in time.',
+          'Following the bills you care about from one week to the next.',
+        ],
+        provide: [
+          'Topics (for example vaccines or school health), your own title words, or bill numbers such as H3444.',
+          'Optionally the stage you care about, only upcoming hearings, or a watchlist file.',
+        ],
+        examples: [
+          'Which bills on vaccines are still in committee, and are any hearings coming up?',
+          'Track H3444 and S2518 and save a watchlist for me.',
+          'Find bills with PFAS or lead paint in the title that have been reported out of committee.',
+        ],
+        returns: [
+          'The bills with stage, committee, hearing dates and days until, reporting deadline, last action, link, and a cited excerpt of 25 words or fewer; the questions to ask of a bill; and whether the data was live or from the dated offline copy.',
+        ],
+        notes: [
+          'Bills are found by words in their titles only. A bill on your topic with a different title will not appear; the Legislature’s own search (malegislature.gov/Bills/Search) covers the full text.',
+          'The stage is this project’s reading of the bill’s history, not an official status. Read the last action and the bill itself. Sponsors’ names are on the bill page and are not repeated here.',
+          'Offline, the dated copy (built 2026-11-13) may be out of date. It is not legal advice. The content is waiting for review.',
+        ],
+      },
+      {
+        id: 'monitor_federal_rules',
+        title: 'Watch federal rules and comment deadlines',
+        toolset: 'policy',
+        internet: 'yes',
+        files: 'yes, a comment outline in your output folder',
+        does: 'Watches the Federal Register for proposed rules, final rules, and notices from CDC, CMS, HRSA, EPA, USDA, and HHS (and a few other agencies), filtered by topic and date, and counts down each comment deadline against today’s date. If you have a free Regulations.gov key it also checks the comment period there. It can write a Word outline for a public comment, with placeholders for you to complete, based on the tips EPA publishes for effective comments.',
+        when: [
+          'Seeing which federal proposals are open for comment right now and how many days are left.',
+          'Preparing a comment from your health department on a proposed rule.',
+          'Checking whether a proposed rule on lead, vaccines, or school meals affects your programs.',
+        ],
+        provide: [
+          'Optionally the agencies, a topic, and dates; the document number for a comment outline.',
+          'Optionally a small file in your folder with your organization’s position and evidence to fill into the outline.',
+        ],
+        examples: [
+          'Which CDC, CMS, and HRSA proposals are open for comment, soonest deadline first?',
+          'What EPA proposals on lead in drinking water are open, and how many days are left?',
+          'Draft a comment outline for document 2026-20001, and tell me the deadline.',
+        ],
+        returns: [
+          'The documents with agency, type, dates, comment deadline and days left, docket, and links; the Regulations.gov check when a key is set; a Word outline with placeholders; and a clear statement when live data was unavailable.',
+        ],
+        notes: [
+          'This works only with live data. If the Federal Register cannot be reached, the tool says so and lists nothing; an empty list then does not mean there are no open comment periods.',
+          'The Federal Register document itself states the deadline and its time of day; confirm it there. The tool does not file comments.',
+          'The outline follows one agency’s published tips (EPA); other agencies may want something different. Some agency names (CDC, CMS, HRSA) were not verified against the Federal Register. The content is waiting for review.',
+        ],
+      },
       // End of Phase 19 tracking tools.
       // Phase 19 law (POL-02, POL-04, POL-07) tools.
       {
