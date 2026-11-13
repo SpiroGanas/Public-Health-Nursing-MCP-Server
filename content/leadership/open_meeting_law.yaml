@@ -177,7 +177,7 @@ notice:
       source: ag_faq
       section: FAQ
     - question: The meeting is continued to another day
-      answer: A continued meeting is treated as a new meeting: post a new notice 48 hours ahead (excluding weekends and legal holidays).
+      answer: "A continued meeting is treated as a new meeting: post a new notice 48 hours ahead (excluding weekends and legal holidays)."
       source: ag_faq
       section: FAQ
     - question: A meeting is cancelled
@@ -195,7 +195,6 @@ notice:
         body must re-post notice for another date and time.
       source: regs_940_cmr_29
       section: 940 CMR 29.03(7)
-  confidence: high
 
 executive_session:
   purposes:

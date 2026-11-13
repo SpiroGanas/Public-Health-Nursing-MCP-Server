@@ -18,7 +18,9 @@
     "training_actions",
     "crosswalk",
     "credentials",
-    "not_verified"
+    "not_verified",
+    "training_actions_note",
+    "nursing_tier_note"
   ],
   "additionalProperties": false,
   "$defs": {
@@ -308,6 +310,12 @@
           }
         }
       }
+    },
+    "training_actions_note": {
+      "type": "string"
+    },
+    "nursing_tier_note": {
+      "type": "object"
     }
   }
 }

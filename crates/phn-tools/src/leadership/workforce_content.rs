@@ -94,24 +94,6 @@ pub struct TrainingAction {
 }
 
 #[derive(Debug, Clone, Deserialize)]
-pub struct TrainingActions {
-    pub note: String,
-    #[serde(flatten)]
-    pub rest: BTreeMap<String, serde_yaml_ng_free::Skip>,
-}
-
-/// Placeholder type so `flatten` ignores the list entries; `training_actions` is read as a raw
-/// list below.
-pub mod serde_yaml_ng_free {
-    use serde::Deserialize;
-    #[derive(Debug, Clone, Deserialize)]
-    #[serde(untagged)]
-    pub enum Skip {
-        Any(serde_json::Value),
-    }
-}
-
-#[derive(Debug, Clone, Deserialize)]
 pub struct CrosswalkPair {
     pub core_competencies_2021: u32,
     pub cphn_2018: u32,
@@ -158,7 +140,8 @@ pub struct CompetencyContent {
     pub rating_scale_note: String,
     pub defaults: CompetencyDefaults,
     pub training_use: Vec<Cited>,
-    pub training_actions: Vec<serde_json::Value>,
+    pub training_actions: Vec<TrainingAction>,
+    pub training_actions_note: String,
     pub crosswalk: Crosswalk,
     pub credentials: CredentialRules,
     pub not_verified: Vec<NotVerified>,
@@ -166,11 +149,7 @@ pub struct CompetencyContent {
 
 impl CompetencyContent {
     pub fn load() -> Result<Self> {
-        let mut c: Self = load(COMPETENCIES)?;
-        // `tiers` holds three tier objects and a note object in the YAML; the loader above reads
-        // only what is typed, so the note is not needed here.
-        c.tiers.retain(|t| t.number >= 1);
-        Ok(c)
+        load(COMPETENCIES)
     }
 
     pub fn framework(&self, id: &str) -> Result<&Framework> {
@@ -178,14 +157,6 @@ impl CompetencyContent {
             .iter()
             .find(|f| f.id == id)
             .ok_or_else(|| PhnError::Internal(format!("framework {id} missing")))
-    }
-
-    /// Training step texts (the list items are `{id, text}` maps; the trailing note is skipped).
-    pub fn actions(&self) -> Vec<TrainingAction> {
-        self.training_actions
-            .iter()
-            .filter_map(|v| serde_json::from_value::<TrainingAction>(v.clone()).ok())
-            .collect()
     }
 }
 
@@ -438,7 +409,7 @@ mod tests {
         assert_eq!(c.tiers.len(), 3);
         assert_eq!(c.rating_scale.len(), 4);
         assert_eq!(c.defaults.minimum_group_size.value, 3.0);
-        assert!(!c.actions().is_empty());
+        assert!(!c.training_actions.is_empty());
         assert_eq!(c.crosswalk.pairs.len(), 8);
     }
 

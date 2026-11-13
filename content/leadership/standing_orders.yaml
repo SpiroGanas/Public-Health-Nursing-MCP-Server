@@ -323,7 +323,7 @@ skeleton:
     label: Reporting
     kind: nurse
     clinical: false
-    guidance: Reports the nurse makes: for a vaccine, the immunization registry (MIIS, M.G.L. c. 111, s. 24M) and adverse events (VAERS); other adverse events, errors, and reportable conditions as your agency and the law require.
+    guidance: "Reports the nurse makes: for a vaccine, the immunization registry (MIIS, M.G.L. c. 111, s. 24M) and adverse events (VAERS); other adverse events, errors, and reportable conditions as your agency and the law require."
     placeholder: "[NURSE: reports the nurse makes (MIIS and VAERS for a vaccine) and to whom; adverse events and errors]"
   - id: review_mechanism
     label: Review by medical, pharmacy, and nursing staff

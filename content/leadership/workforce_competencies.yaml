@@ -162,15 +162,15 @@ tiers:
   - id: tier3
     number: 3
     label: Tier 3 (senior management and executive)
-    text: Senior management and executive leadership: setting strategy and vision, working with policymakers, leading organizational efforts toward equity.
+    text: "Senior management and executive leadership: setting strategy and vision, working with policymakers, leading organizational efforts toward equity."
     source: amp_2024
     section: Introduction (tiers of the Core Competencies)
     confidence: medium
-  nursing_tier_note:
-    text: The 2025 Public Health Nursing article says each nursing domain is divided into three tiers (generalist, supervisory management, senior leadership/management), and that Tier 1 defines the generalist public health nurse while Tiers 2 and 3 define advanced practice and leadership skill sets.
-    source: phn_2025
-    section: Competencies for PHN and APHN
-    confidence: medium
+nursing_tier_note:
+  text: The 2025 Public Health Nursing article says each nursing domain is divided into three tiers (generalist, supervisory management, senior leadership/management), and that Tier 1 defines the generalist public health nurse while Tiers 2 and 3 define advanced practice and leadership skill sets.
+  source: phn_2025
+  section: Competencies for PHN and APHN
+  confidence: medium
 
 rating_scale:
   - {value: 1, label: None, meaning: "I am unaware of this skill or know very little about it."}
@@ -223,7 +223,8 @@ training_actions:
     text: Hold a peer session or journal club on the domain at a team meeting.
   - id: plan_entry
     text: Record the gap, the action, an owner, and a due date in the workforce development plan.
-  note: These are generic steps from this project. No specific course, vendor, or curriculum is recommended or verified.
+
+training_actions_note: These are generic steps from this project. No specific course, vendor, or curriculum is recommended or verified.
 
 crosswalk:
   note: >-
