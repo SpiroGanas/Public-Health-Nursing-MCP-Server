@@ -885,6 +885,82 @@ a snapshot or cache fallback unless it says "live only"):
   There are no AEGL or soil screening values. SNAP retailers and HIP vendors are files the nurse
   downloads or builds (the USDA and DTAFinder hosts were blocked), and the retailer file's column
   names could not be checked.
+- **Phase 15 limits:** the geocoder's full street index (35.5 MB, 351 towns) is optional and not
+  shipped; Boston has no MassGIS export and is placed from TIGER ranges only; the index builder
+  needs Python 3.10 and numpy; not done: reverse geocoding, intersections, named places, spelling
+  correction, PO box ZIP codes, ZIP-level output, a progress report (limit 500,000 rows);
+  interpolation assumes an even spread along a straight segment; a MassGIS point is a building or
+  parcel center; unit-only addresses match at street level; the Python builder and the Rust tool
+  share one vocabulary file and 48 test vectors, and the manifest records no vocabulary version.
+  The blood pressure log summary cannot cross two variables (small cells could be recovered between
+  tables), letters are English only (`/data/templates` is not wired in), and a log's category
+  column is ignored. `preventive_services_lookup` has no USPSTF adapter (the A and B list is a
+  snapshot, incomplete before 2015 and for any statement PubMed did not return); it applies only
+  age, sex at birth, pregnancy, and 26 risk-factor flags (no hysterectomy or organ inventory; it
+  does not know weeks postpartum); MyHealthfinder has no offline copy; the tool is one long
+  function and its 53 recommendation ids are duplicated in the snapshot and content file (a test
+  keeps them equal). Asthma control is screening level (no EPR-3 grid, no age-specific classifier),
+  and the home visiting directory is regional with no town mapping or phone numbers. The CHA
+  builder could not reach hospital CHNA links or the Attorney General's reports site, its priority
+  extraction is pattern based, it points to EQ-04 (disparities) without running it, and a live
+  run takes about a minute. Qualitative scrubbing is conservative and heuristic; a person in two
+  transcripts counts twice; a transcript with fewer than three speakers can never report a theme;
+  there is no OCR for scanned PDFs.
+- **Phase 16 limits:** ODPHP has no public Healthy People JSON API that could be found (the adapter
+  and builder read each objective's page; a redesign will break them; the 620 KB snapshot could be
+  trimmed); subpopulation data are not included. PLAN-01 and PLAN-05 take the nurse's drafted
+  components rather than parsing a free-text description, evaluation roles match a roster only
+  when exactly one person holds the position, and the Word logic model is portrait only (the
+  diagram is not embedded). The evidence tool shows ratings per paper, not per intervention (49 of
+  145 papers have rating words; 41 have no abstract), live results carry no MeSH headings, and the
+  snapshot is not covered by the weekly CI check. Theory matching is keyword based. The
+  performance tool takes wide and long layouts and row counts only (no formulas or merged cells; the
+  workbook formulas cover Data rows 2 to 101) and has no seasonal handling. `appraise_evidence`
+  guesses the design from words; other designs (diagnostic accuracy, economic evaluation, case
+  series, guidelines, mixed methods) have no questions, there is no QUADAS 2, RoB 2, or AGREE II,
+  and no Melnyk or Oxford levels; the synthesis table does not read a CSV or XLSX of studies; no APA
+  7 formatting or PMID lookup; the PRISMA diagram omits the "other methods" column and the
+  previous-studies box; no test parses the workbook formula text (`phn-server` has no zip reader in
+  its dev-dependencies). The QI tracker's chart covers only the rows that existed when it was made,
+  its formulas assume no blank rows, shift and trend flags appear from the point a run reaches 6 or
+  5, the astronomical-point rule is not in the sheet, and `check_qi_tracker.py` is an opt-in
+  LibreOffice script; diagrams are laid out from text width with no sub-causes on the fishbone and
+  one "no" branch per decision. All Phase 16 and 17 workbook formulas were checked in LibreOffice
+  only, not Excel.
+- **Phase 17 limits:** the federal grant search never ran live and the opportunity link pattern is
+  unverified; COMMBUYS (commbuys.com) was blocked, so the weekly list has no bid type, amount,
+  eligibility, or link. The announcement reader was tuned on one Massachusetts RFR and one state
+  NOFO; the server's PDF reader splits words and dates and drops some table cells, scanned PDFs
+  have no text, and amendments and linked documents are not read. `draft_grant_narrative` reads no
+  live community data (passing a profile result into `data_points` would be a good follow-up).
+  The budget tool has no salary cap, mileage or per-diem rates, regional cost rates, construction
+  line (SF-424A 6g), or inflation index; at most five years and 150 typed lines; the economic
+  calculator has no XLSX output. `analyze_health_department_budget` ignores seasonality (straight
+  line) and treats a one-time spike as ongoing (run rate), groups revenue by label words (a chart
+  of accounts file would be better), needs a flat table with one header row, and has no chart
+  output.
+- **Phase 18 limits:** PHAB measure text and the competency statements are not bundled; the PHAB
+  crosswalk's evidence is keyword based (it does not read dates, approval, or currency) and its
+  privacy rules are heuristics; worksheet IDs (PS-xxx-nnn) are positional in DPH's workbook; the
+  XLSX worksheet has no drop-downs; the 56 FPHS responsibilities were copied once with no builder or
+  `--check`. Credential matching uses keywords (unmatched entries are counted, not named) and
+  waivers are not modeled. The Open Meeting Law calculator covers meetings from 2026-01-06 to
+  2028-12-31 and does not model remote participation eligibility, the clerk's filing time, other
+  statutes' hearing notices, or complaint processes; minutes parsing is label based. The ethics
+  tool encodes its rules by question id (a question change needs a code change); scope-of-practice
+  matching is keyword based with a trailing-s stem, and its snapshot has no refresh builder. mass.gov's 244 CMR
+  PDFs hold every page twice (use `pdftotext -raw` and check quotations against the page images).
+- **Phase 19 limits:** the Federal Register and Regulations.gov adapters never ran live. Bills are
+  found by title words only; a bill's hearing dates come from history lines, not the hearings
+  calendar; the stage is a heuristic (the Legislature publishes no status field). Sponsor and
+  amendment-author names are not returned because they collide with seeded surnames in the leak
+  test, and the snapshot's dates (2026-03-05, 2026-05-18, 2026-06-11, 2026-07-06) coincide with
+  seeded birth dates of `growth_measurements.csv`, so a later tool that returns Legislature dates
+  next to that file would trip the same match. The law search matches words (plural endings
+  removed), not meaning, and has no phrase search across chapters beyond a bonus for adjacent
+  words; regulation text is PDF extraction (tables, forms, and appendices may be missing);
+  HIPAA and Part 2 were amended in 2024 and later and the sharing guide cannot say what a court
+  has done with the amendments. The law snapshot builder needs `pdftotext` and, for 244 CMR, `pypdf`.
 - **User guide upkeep:** the `.docx` is built by `docs/user-guide/build-user-guide.js` (Node.js
   with the `docx` package, plus LibreOffice and `pdftotext` for contents page numbers); it is not
   part of the Rust build or CI. Every new tool needs an entry in `guide-content.js` (a registry
@@ -903,7 +979,13 @@ crates/
                HRSA, CMS Provider Data, older adults, FindTreatment.gov, NWS, OpenFEMA, emPOWER,
                AirNow files, HeatRisk, census blocks (PL 94-171), SDWIS/PFAS6/fluoridation (water),
                EJ layer/Heat and Health Index/NFIP/hazard mitigation plans/MVP (ejclimate), DPH
-               arbovirus and tick-borne data (vectorborne), NIOSH/ATSDR (chemicals), USDA food access
+               arbovirus and tick-borne data (vectorborne), NIOSH/ATSDR (chemicals), USDA food access,
+               DPH diabetes prevention list (dpp), USPSTF snapshot and MyHealthfinder (preventive),
+               offline geocoder (geocoder, with `data/geocoder_vocab.json`), Healthy People 2030
+               (healthy_people), Community Guide papers (cpstf), Crossref, grants (Simpler.Grants.gov
+               and the COMMBUYS weekly list), DPH performance standards and shared service
+               arrangements (strategy), Massachusetts Legislature (malegislature), Federal Register
+               and Regulations.gov (fedreg), law corpus (law)
   phn-epi      rates, suppression, standardization, 2×2/Mantel–Haenszel, GLMs (IRLS), trends/joinpoint,
                hypothesis tests, SPC, sample size, aberration detection (EARS, CUSUM, Farrington),
                M/M/c queueing (Erlang C), survey estimation with cluster (Taylor) intervals
@@ -912,20 +994,31 @@ crates/
   phn-docs     document model, DOCX/PDF/XLSX/CSV/SVG/PNG writers, mail-merge, a11y checks,
                chart renderer and validated palette (ADR 0006)
   phn-tools    one function per tool, by theme (core, cd, vax, school, mch, aging, bh, epr, env,
-               chronic, equity, epi, comms, ebp); localdata (guardrails for analyzing local files); charts
+               chronic, equity, epi, comms, ebp, planning, leadership, policy); localdata
+               (guardrails for analyzing local files); charts. Phases 15–19 added
+               `planning/` (logic models, objectives, evaluation, interventions, theory,
+               performance, grants, budget, economic evaluation, and the shared diagram module
+               `planning/diagram.rs`), `leadership/` (budget and staffing, FPHS, PHAB, strategic
+               plan, workforce, Open Meeting Law, standing orders), and `policy/` (legislation,
+               federal rules, law search, policy brief, ethics, scope of practice, information
+               sharing), plus `ebp/qi/`, `ebp/appraise.rs`, `ebp/synthesis.rs`, and
+               `ebp/qi_research.rs`
   phn-server   rmcp server: per-phase #[tool] routers, prompts, toolset filtering, resources, main.rs
 content/       reference content (YAML) with review metadata; schemas in content/schemas/
-snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 12 MB, 50 snapshots)
+snapshots/     dated data snapshots + manifest.json with SHA-256 checksums (about 16 MB, 64 snapshots)
 fixtures/      synthetic test corpus, all fictional; seeded_identifiers.json lists every planted identifier
-docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0010),
-               acceptance/ (per phase), cdsi-test-results.md
+docs/          tools.md, user-guide/ (Word guide for nurses + its generator), adr/ (0001–0011),
+               acceptance/ (per phase, 0–19), content-review-sweep.md, security/threat-model.md and
+               admin-guide.md (v1.0 hardening), cdsi-test-results.md
 xtask/         build-snapshots, build-public-snapshots, build-surveillance-snapshots,
                build-guide-corpus, build-name-lists, build-service-directories,
                build-nursing-home-snapshot, build-older-adult-snapshots, validate-content;
-               scripts/ (Python builders for the other snapshots)
+               scripts/ (Python builders for the other snapshots, including the Phase 15–19 ones:
+               build_{screen,prevent,cha,geocoder_index,design,interventions,grants,strategy,
+               tracking,law}_snapshots.py and build_workforce_holidays.py; most have `--check`)
 ```
 
-Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`–`0010`, and
+Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`–`0011`, and
 `CONTRIBUTING.md` (definition of done for a tool). Golden-test fixtures in
 `crates/phn-epi/tests/fixtures/` come with the R/Python scripts that generated them
 (`generators/`); rerun those rather than editing numbers by hand.
@@ -956,7 +1049,8 @@ Read these before changing architecture: `project_plan.md` §5, `docs/adr/0001`�
 ### Commands
 
 ```sh
-cargo test --workspace                                   # 895 tests: unit, golden, CDSi cases, MCP integration
+cargo test --workspace                                   # unit, golden, CDSi cases, MCP integration (895 tests at 0.15.0; the current count was not recorded)
+cargo test -p phn-data -- --ignored                      # live-network tests (run on an open network)
 node docs/user-guide/build-user-guide.js                 # rebuild the Word user guide (see docs/user-guide/README.md)
 cargo +stable clippy --workspace --all-targets -- -D warnings   # match CI's toolchain
 cargo fmt --all
@@ -1077,6 +1171,61 @@ MSRV is 1.88.
   small script that unions the README hunks and merges the JSON lists by key resolved every
   merge; a trial merge of the unfinished branches in a throwaway worktree found the conflicts
   early. Helpers that hit the usage limit had committed WIP at each step and resumed by message.
+- **Network (Phases 15–19).** Reachable (some only with plain `curl` or the server's own agent):
+  www.cdc.gov (many pages, MMWR, Stacks PDFs by id), stacks.cdc.gov, www.cms.gov, data.cms.gov
+  (Provider Data API serves Hospital General Information; use `curl -g` for bracketed
+  conditions), www.epa.gov (not www3.epa.gov; asthma pages and the hosted NHLBI action plan PDF),
+  odphp.health.gov (MyHealthfinder API v4 with no key, and the Healthy People pages), census.gov
+  and www2.census.gov (TIGER2025 `ADDRFEAT`, `BG`, `COUSUB`), the MassGIS S3 bucket (Master
+  Address Data town exports for 350 towns, none for Boston), www.mass.gov (pages and
+  `/doc/<slug>/download` files, including Excel and Word files whose last-modified headers give
+  their dates; the Board's advisory rulings come back as Word files even with a `.pdf` look: check
+  the type before `pdftotext`), malegislature.gov (HTML only for laws; its API has a Swagger
+  document at `/api/swagger/v1/swagger.json`, no search endpoint, and a 12 MB bill list),
+  immunize.org, raw.githubusercontent.com, api.github.com, github.com clones, and NCBI
+  E-utilities. The Census geocoder API (`geocoding.geo.census.gov`) returned nothing. Blocked:
+  ahajournals.org, professional.heart.org, acc.org, heart.org, nhlbi.nih.gov and
+  catalog.nhlbi.nih.gov, medlineplus.gov, europepmc.org, ncbi.nlm.nih.gov and PMC web pages (E-utilities
+  work), doi.org, api.crossref.org, dprp.cdc.gov,
+  dprpdataportal.cdc.gov (and the old nccd.cdc.gov `/DDT_DPRP/` application returns 404),
+  www.uspreventiveservicestaskforce.org and data.uspreventiveservicestaskforce.org, www.ahrq.gov,
+  health.gov, healthfinder.gov, ginasthma.org, massclearinghouse.ehs.state.ma.us, naccho.org,
+  irs.gov, law.cornell.edu, healthypeople.gov, countyhealthrankings.org,
+  cancercontrol.cancer.gov, phf.org and archive.phf.org, quadcouncilphn.org, nursingworld.org,
+  astho.org, apha.org, phls.org, ccnpps-ncchpp.ca, wkkf.org, re-aim.org, oregon.gov,
+  casp-uk.net, www.bmj.com, gdt.gradepro.org, prisma-statement.org, ihi.org, squire-statement.org,
+  bmjqs.bmj.com, journals.plos.org, jamanetwork.com, archive.org, Wikipedia, search.mass.gov,
+  api.simpler.grants.gov, simpler.grants.gov, grants.gov (including apply07 and
+  files.simpler.grants.gov), HRSA, SAMHSA, ACF, NIH, ACL, IHS, SAM.gov, USAspending, commbuys.com,
+  whitehouse.gov, ed.gov, usda.gov, doi.gov, opm.gov, bls.gov, mma.org, phaboard.org,
+  essentialelements.naccho.org, health.mn.gov, slocounty.ca.gov, letsgethealthy.ca.gov,
+  clearimpact.com, www.sec.state.ma.us and eli.sec.state.ma.us, doe.mass.edu, umassd.edu,
+  openstax.org, regulations.gov and api.regulations.gov, and the
+  hospital sites tried for CHNA links (plus `massago.hylandcloud.com`). The Federal Register and
+  govinfo.gov, already listed above, stay blocked for the new adapters. eCFR web pages are blocked
+  but its versioner API works if the request sends `Accept-Encoding: gzip` (`curl --compressed`;
+  without it the API returns 406).
+- **Reading blocked sources through PubMed.** `efetch db=pmc` returns the full text of open-access
+  articles, `db=pubmed` returns abstracts (including USPSTF statements and Community Guide
+  papers), and a `"<organization>"[Corporate Author]` search finds an organization's papers
+  (`db=books` returns only ids; some publishers, such as Kass 2001, refuse downloads). `esearch
+  db=pmc` returns bare numbers (prefix `PMC`). E-utilities return HTTP 429 after a few calls in a
+  row. WebFetch cannot reach hosts that the container proxy blocks.
+- **Content and fixture pitfalls (Phases 15–19).** YAML 1.1 reads a bare `yes`, `no`, or `n` as a
+  boolean and a plain scalar containing `": "` as a mapping; quote them. PyYAML is more forgiving
+  than the Rust loader, so test content through the Rust tests (the schema check catches some of
+  this). Citing sources by author fails the leak test (seeded surnames), and so do dates that
+  coincide with seeded birth dates. mass.gov's 244 CMR PDFs hold two overlapping text layers.
+  `rust_xlsxwriter`'s `Formula::set_result` stores a cached value, so viewers that do not
+  recalculate still show numbers; workbook formulas were verified by recalculating in headless
+  LibreOffice and comparing with an independent computation.
+- **Phase 15–19 parallel work:** fourteen helpers, one per work package, with per-package registry
+  lists, router files, and marker sections limited merge conflicts to shared JSON (the manifest and
+  seeded identifiers), README rows, and `Cargo.lock`. Marker comments inside the README tables
+  split the tables and were removed after merging (remove markers from tables at the end). Eight
+  helpers building at once on four cores made a single `cargo build` take many minutes, and the
+  shared lock on `target/` stalled a second cargo in the same worktree; some helpers ran with
+  `CARGO_BUILD_JOBS=1` and ran the full test suite in pieces.
 - **Library APIs** (read the source in `~/.cargo/registry/src/` before guessing):
   - `rmcp` 3.9: `output_schema = schema_for_output::<Envelope<T>>()`; per-phase
     `#[tool_router(router = phaseN_router, vis = "pub(crate)")]` blocks merged in
@@ -1086,28 +1235,27 @@ MSRV is 1.88.
     `skrifa` as before. rustfmt removes the blank line before a comment marker in `vec!`/array
     literals.
 
-## 5. Suggested next steps (Phase 15: chronic disease prevention and community assessment)
+## 5. Suggested next steps (post-1.0 maintenance)
 
-- Pilot 3: the nurse reviews the Phase 13 content (section 2), picks the scenario, and runs the
-  tabletop with `plan_tabletop_exercise` / `design_hseep_exercise`; feed what the planning team
-  changes back into `content/epr/exercise_scenarios.yaml` and the after-action report into
-  `build_after_action_report`'s acceptance checks.
-- Tag a release (`v0.14.1` now, or `v0.15.0` after PR #8 merges) and watch the first run of the
-  release workflow.
-- Work through the review's open technical debt (section 2, "Open after the peer review") a few
-  items at a time.
-- Phase 15 (`project_plan.md`): CHR-02 `community_bp_screening_toolkit`, CHR-03
-  `diabetes_prevention_finder`, CHR-04 `preventive_services_lookup`, CHR-05
-  `asthma_home_assessment`, EQ-08 `community_health_assessment_builder`, EQ-09
-  `prioritize_health_issues`, EQ-10 `analyze_qualitative_data`, EPI-13
-  `geocode_and_aggregate_addresses`. The offline geocoder (MassGIS address points and TIGER) is
-  the largest item; check image size early. CHR-05 can reuse the Phase 14 housing content
-  (`content/env/housing_conditions.yaml`) and EQ-08 the Phase 14 EJ, climate, and food access
-  tools. Check whether the USPSTF API and the National DPP registry are reachable first.
-- Before Pilots 1 and 2, get the nurse's content reviews and decisions done (section 2). The
-  nurse may also want a role profile for home visiting and community nursing (section 2), and
-  the `env` and `chronic` groups are now large enough that an environmental health profile may
-  help.
+The plan is complete; nothing is scheduled. In rough order:
+
+- **Get the content reviewed and the acceptance scripts run.** The nurse works through the review
+  list in section 2 and `docs/content-review-sweep.md` (low-confidence and blocked-source items
+  first), makes the decisions listed there, and runs `docs/acceptance/phase-*.md`. Review dates
+  are due 2027-02-01 and CI fails after that.
+- **Resolve the coordinator's decisions** (section 2): the name and year of the state public
+  health law, the `ledger_column` exception, personnel totals in the budget tool, and the live
+  tests that never ran.
+- **Release:** bump the workspace version to 1.0.0, rebuild the user guide
+  (`node docs/user-guide/build-user-guide.js`), merge the Phase 15–19 branch, tag `v1.0.0`, and
+  watch the release workflow (section 2, item 4).
+- **Pilots:** Pilots 1, 2, and 3 still wait on content reviews (section 2).
+- **Maintenance** (`project_plan.md` section 8): the annual and periodic refreshes in section 2
+  (item 6), a few items a month from the technical debt list, and a runtime or CI warning for
+  overdue content reviews.
+- **Open product decisions:** an outbound host allowlist in code, role profiles for home visiting
+  and community nursing and for the new toolsets, a nurse-prompt regression set (planned in the
+  plan, not built), and whether to publish an image variant with the full geocoder index.
 
 ## 6. History
 
@@ -1125,6 +1273,23 @@ MSRV is 1.88.
 | 2026-11-11 | Release workflow: Trivy action tag `0.28.0` corrected to `v0.28.0` (first release run failed) | #9 |
 | 2026-11-11 | Release workflow: Trivy action now `@master` (pinned `v0.28.0` depended on a deleted `setup-trivy` tag; second release run failed) | #10 |
 | 2026-11-11 | Release scan blocked on CVE-2026-84782 (libssl3 in the distroless base, no patched base yet; server uses rustls): added `.trivyignore` entry that expires 2026-12-11 | #11 |
+| 2026-11-12 | Phase 15 screen: `community_bp_screening_toolkit`, `diabetes_prevention_finder`; `ma-dpp-programs` snapshot | PR: this branch |
+| 2026-11-12 | Phase 15 prevent: `preventive_services_lookup`, `asthma_home_assessment`; `uspstf-ab-recommendations` snapshot | PR: this branch |
+| 2026-11-12 | Phase 15 cha: `community_health_assessment_builder`, `prioritize_health_issues`, `analyze_qualitative_data`, `community_health_assessment` prompt; `cms-ma-hospitals` snapshot | PR: this branch |
+| 2026-11-12 | Phase 15 geo: `geocode_and_aggregate_addresses`, offline geocoder (ADR 0011), sample index and ZIP crosswalk snapshots | PR: this branch |
+| 2026-11-12 | Phase 16 design: `build_logic_model`, `write_smartie_objectives`, `build_evaluation_plan`; Healthy People 2030 adapter and snapshot | PR: this branch |
+| 2026-11-12 | Phase 16 interventions: `find_evidence_based_interventions`, `apply_behavior_change_theory`, `track_program_performance`; `cpstf-publications` snapshot | PR: this branch |
+| 2026-11-12 | Phase 16 appraise: `appraise_evidence`, `build_evidence_synthesis_table`; Crossref adapter | PR: this branch |
+| 2026-11-12 | Phase 16 qi: `plan_quality_improvement` | PR: this branch |
+| 2026-11-12 | Phase 17 budget: `build_program_budget`, `economic_evaluation_calculator` | PR: this branch |
+| 2026-11-12 | Phase 17 finance: `analyze_health_department_budget`, `model_staffing_needs` | PR: this branch |
+| 2026-11-13 | Phase 17 grants: `search_grant_opportunities`, `analyze_funding_announcement`, `draft_grant_narrative`, `prepare_grant_application` prompt; `commbuys-weekly-bids` snapshot | PR: this branch |
+| 2026-11-12 | Phase 18 strategy: `assess_foundational_public_health_services`, `phab_accreditation_crosswalk`, `build_strategic_plan`; `ma-performance-standards` and `ma-shared-service-arrangements` snapshots | PR: this branch |
+| 2026-11-12 | Phase 18 ethics: `qi_vs_research_determination`, `public_health_ethics_analysis`, `nursing_scope_of_practice_guide` | PR: this branch |
+| 2026-11-13 | Phase 18 workforce: `assess_workforce_competencies`, `board_of_health_meeting_assistant`, `draft_standing_orders` | PR: this branch |
+| 2026-11-13 | Phase 19 law: `search_public_health_law`, `draft_policy_brief`, `health_information_sharing_guide`; three law snapshots | PR: this branch |
+| 2026-11-13 | Phase 19 tracking: `track_ma_legislation`, `monitor_federal_rules`; `ma-legislation-194` snapshot | PR: this branch |
+| 2026-11-13 | Coordinator: prompt-list test asserts the exact list; fragments folded into `CHANGELOG.md` (0.16.0 to 1.0.0), `docs/acceptance/phase-15.md` to `phase-19.md`, this file, the data source registry (0.3.0), and `docs/content-review-sweep.md`; README, project plan, and user guide updated for 148 tools; version 1.0.0 (not yet released) | PR: this branch |
 
 ## Keeping this file current
 
