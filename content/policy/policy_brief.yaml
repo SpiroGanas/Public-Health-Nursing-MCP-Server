@@ -1,0 +1,308 @@
+# Template content for draft_policy_brief (POL-04): the eight steps of Bardach's "Eightfold Path"
+# as described in two open-access articles (CC BY 4.0) and PubMed abstracts that could be read,
+# the criteria those articles used, and the sections of a one-page and a longer policy brief.
+# Bardach's book is copyrighted and was NOT read: the steps are paraphrased from the articles that
+# describe them, and the brief's section prompts are this project's drafting aids (marked as such).
+#
+# REVIEW STATUS: pending. Nothing here is a fact about a policy problem; the tool never invents
+# facts or statistics (every fact in a draft is a [NURSE: ...] placeholder or text the nurse supplies).
+# Schema: content/schemas/policy_policy_brief.schema.json
+meta:
+  id: policy-policy-brief
+  title: Policy brief template and the Eightfold Path of policy analysis (Bardach, as described in open-access articles)
+  version: 0.1.0
+  prepared: 2026-11-13
+  effective_date: null
+  source:
+    title: "Analysing disability policy in Namibia: An occupational justice perspective (African Journal of Disability, 2018; PMC6111379, CC BY 4.0)"
+    publisher: AOSIS (African Journal of Disability)
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6111379/
+  related_sources:
+    - title: "Community water fluoridation policy and population oral health: a policy analysis (Frontiers in Oral Health, 2026; PMC13422374, CC BY 4.0)"
+      publisher: Frontiers Media
+      url: https://pmc.ncbi.nlm.nih.gov/articles/PMC13422374/
+    - title: "Health policy analysis: a simple tool for policy makers (Public Health, 2005; PubMed 15661129, abstract only)"
+      publisher: Public Health (Elsevier), via PubMed
+      url: https://pubmed.ncbi.nlm.nih.gov/15661129/
+    - title: "Improving Breastfeeding in Rural Tanzania Using Eight-Step Policy Analysis Methodology (Policy, Politics, & Nursing Practice, 2020; PubMed 32799754, abstract only)"
+      publisher: Policy, Politics, & Nursing Practice (SAGE), via PubMed
+      url: https://pubmed.ncbi.nlm.nih.gov/32799754/
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    PARTIAL. Read on 2026-11-13 through NCBI E-utilities: the full text of two open-access
+    articles (PMC6111379 and PMC13422374, both CC BY 4.0) that describe and apply the eightfold
+    path, and the PubMed abstracts of a 2005 paper that adapted it for health policy (PubMed
+    15661129) and a 2020 nursing application (PubMed 32799754). NOT read: Bardach's book (a
+    copyrighted work; the Namibia article cites its 4th edition, 2012, and later editions exist),
+    Collins (2005) in full, and any Massachusetts or nursing-specific policy brief guidance. The
+    step names below are this project's short labels for the steps those articles describe. The
+    criteria are the ones the two articles used, plus drafting suggestions marked as this
+    project's own. Reading-level targets come from the check_readability tool's defaults, not from
+    a source on policy briefs.
+
+sources:
+  namibia_2018:
+    title: "Analysing disability policy in Namibia: An occupational justice perspective"
+    publisher: African Journal of Disability (AOSIS), 2018; open access, CC BY 4.0
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6111379/
+    effective_date: "2018"
+    retrieved: "2026-11-13"
+  fluoride_2026:
+    title: "Community water fluoridation policy and population oral health: a policy analysis"
+    publisher: Frontiers in Oral Health, 2026; open access, CC BY 4.0
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC13422374/
+    effective_date: "2026"
+    retrieved: "2026-11-13"
+  collins_2005:
+    title: "Health policy analysis: a simple tool for policy makers (abstract)"
+    publisher: Public Health, 2005; PubMed 15661129
+    url: https://pubmed.ncbi.nlm.nih.gov/15661129/
+    effective_date: "2005"
+    retrieved: "2026-11-13"
+  skiff_2020:
+    title: "Improving Breastfeeding in Rural Tanzania Using Eight-Step Policy Analysis Methodology (abstract)"
+    publisher: Policy, Politics, & Nursing Practice, 2020; PubMed 32799754
+    url: https://pubmed.ncbi.nlm.nih.gov/32799754/
+    effective_date: "2020"
+    retrieved: "2026-11-13"
+  bardach_book:
+    title: "Bardach E. A Practical Guide for Policy Analysis: The Eightfold Path to More Effective Problem Solving. 4th ed. Chatham House Publishers / Seven Bridges Press; 2012 (as cited in the Namibia article; NOT read)"
+    publisher: Chatham House Publishers / Seven Bridges Press (copyrighted)
+    url: null
+    effective_date: "2012"
+    retrieved: "2026-11-13"
+
+read_scope:
+  read_in_full:
+    - "PMC6111379 (full text, CC BY 4.0)"
+    - "PMC13422374 (full text, CC BY 4.0)"
+  read_in_part:
+    - "PubMed abstracts of 15661129 and 32799754"
+  not_read:
+    - "Bardach's book (any edition); Collins (2005) in full text"
+    - "Any guidance specific to Massachusetts legislative or board of health policy briefs"
+
+evidence_quotes:
+  - id: steps_1_4
+    source: namibia_2018
+    quote: "Step 1 defines the problem; Step 2 involves assembling evidence; Step 3 covers constructing alternatives; Step 4 entails selecting criteria;"
+  - id: steps_5_8
+    source: namibia_2018
+    quote: "Step 5 involves projecting the outcomes; Step 6 pertains to confronting trade-offs; Step 7 entails decisions; and Step 8 involves telling one's story."
+  - id: criteria_definition
+    source: namibia_2018
+    quote: "Evaluative criteria are mental standards for evaluating the probable outcomes of identified policy alternatives"
+  - id: outcomes_matrix
+    source: namibia_2018
+    quote: "The matrix shows the suggested policy alternatives in the rows and evaluative criteria in the columns"
+  - id: fluoride_criteria
+    source: fluoride_2026
+    quote: "policy options were evaluated according to health impact, equity, economic impact, safety, and implementation feasibility."
+  - id: fluoride_nonquantitative
+    source: fluoride_2026
+    quote: "rather than a formal quantitative scoring model."
+  - id: collins_adapted
+    source: skiff_2020
+    quote: "Collins adapted Bardach's eightfold path for policy analysis specifically for health policies."
+
+steps:
+  - number: 1
+    name: Define the problem
+    description: State what is wrong, for whom, and how you know, in terms a decision-maker can act on. Avoid hiding a favored solution inside the problem statement.
+    brief_section: problem
+    confidence: high
+    source: namibia_2018
+  - number: 2
+    name: Assemble evidence
+    description: Gather data, research, and the experience of people affected, including what other places did. Record where each piece came from and how strong it is.
+    brief_section: evidence
+    confidence: high
+    source: namibia_2018
+  - number: 3
+    name: Construct the alternatives
+    description: List the realistic options, including doing nothing or continuing the current policy, so the decision-maker can compare them.
+    brief_section: options
+    confidence: high
+    source: namibia_2018
+  - number: 4
+    name: Select the criteria
+    description: Choose the standards you will use to judge the options and say why those standards matter for this decision.
+    brief_section: criteria
+    confidence: high
+    source: namibia_2018
+  - number: 5
+    name: Project the outcomes
+    description: For each option and each criterion, say what is likely to happen and how sure you are. One of the articles does this in an outcomes matrix with options in rows and criteria in columns.
+    brief_section: matrix
+    confidence: high
+    source: namibia_2018
+  - number: 6
+    name: Confront the trade-offs
+    description: Say plainly what each option gains and costs against the criteria, and who bears the costs, rather than adding up scores.
+    brief_section: tradeoffs
+    confidence: high
+    source: namibia_2018
+  - number: 7
+    name: Decide
+    description: State the recommendation, or the decision the reader needs to make, and what would change it.
+    brief_section: recommendation
+    confidence: medium
+    source: namibia_2018
+  - number: 8
+    name: Tell your story
+    description: Communicate the analysis in a form the audience will read (short, plain language, with the decision and evidence up front).
+    brief_section: summary
+    confidence: medium
+    source: namibia_2018
+
+criteria:
+  - id: health_impact
+    name: Health impact
+    prompt: How much would this option reduce the burden of the problem in the population?
+    source: fluoride_2026
+    source_kind: used in a published analysis
+    confidence: high
+  - id: equity
+    name: Equity
+    prompt: Who gains and who bears the burdens, and does the option narrow or widen differences between groups?
+    source: fluoride_2026
+    source_kind: used in a published analysis
+    confidence: high
+  - id: economic_impact
+    name: Economic impact
+    prompt: What does it cost, who pays, and what does it save or avoid?
+    source: fluoride_2026
+    source_kind: used in a published analysis
+    confidence: high
+  - id: safety
+    name: Safety
+    prompt: What harms or risks could the option cause, and for whom?
+    source: fluoride_2026
+    source_kind: used in a published analysis
+    confidence: high
+  - id: feasibility
+    name: Implementation feasibility
+    prompt: Can the agency or partners actually carry it out with the staff, authority, and time available?
+    source: fluoride_2026
+    source_kind: used in a published analysis
+    confidence: high
+  - id: justice_inclusion
+    name: Justice and inclusion
+    prompt: Does the option protect the rights of, and include, the people most affected?
+    source: namibia_2018
+    source_kind: used in a published analysis (as justice and inclusion)
+    confidence: high
+  - id: affordability
+    name: Affordability
+    prompt: Can the jurisdiction or the people affected afford it?
+    source: namibia_2018
+    source_kind: used in a published analysis
+    confidence: high
+  - id: political_acceptability
+    name: Political acceptability
+    prompt: Is there the political will, and how much resistance is likely?
+    source: namibia_2018
+    source_kind: used in a published analysis
+    confidence: high
+  - id: legal_authority
+    name: Legal authority
+    prompt: Does the board, department, or town have the legal authority to adopt the option? (Search the law with search_public_health_law.)
+    source: null
+    source_kind: this project's drafting suggestion (not from the sources read)
+    confidence: low
+  - id: evidence_strength
+    name: Strength of the evidence
+    prompt: How strong is the evidence that the option works, and is it from a setting like yours?
+    source: null
+    source_kind: this project's drafting suggestion (not from the sources read)
+    confidence: low
+
+rating_scale:
+  # A qualitative scale for the matrix cells, so a table can be read without color. The articles
+  # read did not prescribe a scale (one avoided a quantitative scoring model); this is a drafting aid.
+  - {value: strong, label: "Strong: the evidence or reasoning favors this option on this criterion"}
+  - {value: mixed, label: "Mixed: some strengths and some concerns"}
+  - {value: weak, label: "Weak: the evidence or reasoning counts against this option on this criterion"}
+  - {value: unknown, label: "Unknown: no evidence yet; say what would be needed"}
+
+sections:
+  # The brief's sections: this project's drafting aid, ordered to follow the steps above.
+  - id: summary
+    heading: Summary and request
+    step: 8
+    one_page: true
+    prompt: "In two or three sentences: the problem, the option you favor (or the decision needed), and what you ask the reader to do."
+    placeholder: "[NURSE: summary and the decision you are asking for]"
+  - id: problem
+    heading: The problem
+    step: 1
+    one_page: true
+    prompt: "What is happening, who is affected, how many (with the source and year), and why it matters to this audience."
+    placeholder: "[NURSE: problem statement; cite your data source and year for every number]"
+  - id: evidence
+    heading: Evidence
+    step: 2
+    one_page: true
+    prompt: "The strongest evidence on the problem and on what works, each with its source."
+    placeholder: "[NURSE: evidence item 1 with source and year]"
+  - id: options
+    heading: Options
+    step: 3
+    one_page: true
+    prompt: "Two to four realistic options, including continuing the current approach."
+    placeholder: "[NURSE: option description]"
+  - id: criteria
+    heading: Criteria for comparing the options
+    step: 4
+    one_page: false
+    prompt: "The standards used to judge the options, and why they were chosen."
+    placeholder: "[NURSE: why these criteria matter for this decision]"
+  - id: matrix
+    heading: Options compared against the criteria
+    step: 5
+    one_page: true
+    prompt: "A table with the options in rows and the criteria in columns. Use words (strong, mixed, weak, unknown) and a short reason, not color alone."
+    placeholder: "[NURSE: rating and reason]"
+  - id: tradeoffs
+    heading: Trade-offs
+    step: 6
+    one_page: false
+    prompt: "What each option gains and costs, and who bears the costs."
+    placeholder: "[NURSE: trade-offs of each option]"
+  - id: recommendation
+    heading: Recommendation
+    step: 7
+    one_page: true
+    prompt: "The option you recommend (or the decision you need), the first steps, who is responsible, and what would change your recommendation."
+    placeholder: "[NURSE: recommendation, first steps, responsible person]"
+  - id: implementation
+    heading: Implementation and evaluation
+    step: 7
+    one_page: false
+    prompt: "How the option would be carried out and how you will know whether it worked."
+    placeholder: "[NURSE: implementation steps and how success will be measured]"
+  - id: references
+    heading: References
+    step: 2
+    one_page: false
+    prompt: "Every source cited above, in full."
+    placeholder: "[NURSE: reference list]"
+
+audiences:
+  - {value: board_of_health, label: "Board of health"}
+  - {value: select_board_or_council, label: "Select board or city council"}
+  - {value: school_committee, label: "School committee"}
+  - {value: agency_leadership, label: "Agency leadership"}
+  - {value: legislators, label: "Legislators or their staff"}
+  - {value: other, label: "Other"}
+
+limits:
+  - "The tool supplies a structure and prompts. It does not research the problem, write the evidence, or choose the recommendation. Every fact, number, and citation in a draft is a [NURSE: ...] placeholder or text you supplied."
+  - "Bardach's book was not read; the steps are described from two open-access articles and two abstracts. Read the book before citing it for details of the method."
+  - "The criteria drawn from the articles were those the articles used for their own topics. They are a menu, not a required list; choose the ones that matter to your audience."
+  - "The readability check scores only the prose you supply (placeholders and tables are left out) and applies the check_readability tool's formulas and default target."
+  - "A policy brief is advocacy for a decision, not legal advice. If it concerns a Massachusetts rule, check the rule with search_public_health_law and your agency's counsel."
