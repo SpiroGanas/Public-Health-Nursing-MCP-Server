@@ -4,7 +4,7 @@
 meta:
   id: data-source-registry
   title: Data source registry
-  version: 0.2.0
+  version: 0.3.0
   prepared: 2026-11-07
   effective_date: null
   source:
@@ -288,7 +288,7 @@ sources:
     status: active
     homepage: https://www.ncbi.nlm.nih.gov/books/NBK25501/
     probe_url: https://eutils.ncbi.nlm.nih.gov/entrez/eutils/einfo.fcgi
-    used_by: [search_pubmed, search_cdc_guidance]
+    used_by: [search_pubmed, search_cdc_guidance, find_evidence_based_interventions]
     caveats:
       - >-
         Requests identify the tool (tool=public-health-nursing-mcp-server) and never send an
@@ -1580,3 +1580,1072 @@ sources:
       - DTAFinder.com was blocked from the build network and offers no download the server could reach; the nurse builds or requests the list.
   # End of Phase 14 chemfood.
   # End of Phase 14 sources.
+  # Phase 15 screen (CHR-02, CHR-03).
+  - id: chronic-bp-screening-content
+    name: >-
+      Community blood pressure screening content (categories, severe range, technique, letters,
+      handout)
+    publisher: 'AHA/ACC (2025 guideline), CDC (drafted by this project)'
+    kind: content
+    status: active
+    content_id: chronic-bp-screening
+    homepage: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001356
+    probe_url: https://www.ahajournals.org/doi/10.1161/CIR.0000000000001356
+    used_by: [community_bp_screening_toolkit]
+    caveats:
+      - >-
+        Drafted 2026-11-12 and pending review. The 2025 AHA/ACC guideline text could not be read
+        (ahajournals.org, heart.org, acc.org, nhlbi.nih.gov, and PMC web pages were blocked): the stage
+        1, stage 2, and severe-range wording is medium confidence, from open-access papers. Normal,
+        elevated, 130/80, the technique steps, and the pregnancy thresholds come from CDC pages updated
+        2026-10-13 (high). Corrections published in 2026 were not reviewed.
+      - >-
+        The referral tiers, the any-reading severe rule, the emergency symptom list, the log columns,
+        the letters, the handout, and the plausibility limits are this project's drafts (low
+        confidence); the cuff-size and record-keeping steps are marked not verified. Decide timing and
+        symptoms with your medical director or standing orders.
+  - id: chronic-diabetes-prevention-content
+    name: >-
+      Prediabetes Risk Test scoring, National DPP eligibility, delivery modes, and Medicare DPP facts
+    publisher: 'CDC and CMS (drafted by this project)'
+    kind: content
+    status: active
+    content_id: chronic-diabetes-prevention
+    homepage: https://www.cdc.gov/diabetes/widgets/risktest/how-your-test-is-scored.html
+    probe_url: https://www.cdc.gov/diabetes/widgets/risktest/how-your-test-is-scored.html
+    used_by: [diabetes_prevention_finder]
+    caveats:
+      - >-
+        Read on CDC and CMS pages on 2026-11-12 and pending review. The test questions are paraphrased
+        because the test was developed with the American Diabetes Association; confirm reuse terms.
+        CDC's online test may use a height and weight table (unverified). Medicare Diabetes Prevention
+        Program eligibility was not read, and no MassHealth coverage source was found, so none is
+        stated. The handout is a project draft (medium).
+  - id: ma-dpp-programs
+    name: 'DPH list of active Diabetes Prevention Program sites in Massachusetts (snapshot)'
+    publisher: >-
+      Massachusetts Department of Public Health, Bureau of Community Health and Prevention
+    kind: snapshot
+    status: active
+    snapshot_id: ma-dpp-programs
+    homepage: https://www.mass.gov/service-details/diabetes-prevention-programs-in-massachusetts
+    probe_url: https://www.mass.gov/service-details/diabetes-prevention-programs-in-massachusetts
+    used_by: [diabetes_prevention_finder]
+    caveats:
+      - >-
+        This is DPH's "Active MA DPPs" table as retrieved 2026-11-12, not the CDC Diabetes Prevention
+        Recognition Program registry: dprp.cdc.gov and dprpdataportal.cdc.gov were blocked, so CDC
+        recognition status, delivery mode, and online providers are not known. The page shows no date;
+        sites may have closed. Individual contact names, emails, and phone numbers were dropped on
+        purpose; one ZIP code (Lanesborough, 02137) looks wrong on DPH's page and is kept as published.
+        The page's reuse terms were not confirmed.
+  # End of Phase 15 screen (CHR-02, CHR-03).
+  # Phase 15 prevent (CHR-04, CHR-05).
+  - id: uspstf-ab-recommendations
+    name: >-
+      USPSTF grade A and B recommendations (from the published recommendation statements; snapshot)
+    publisher: 'U.S. Preventive Services Task Force (statements read through PubMed)'
+    kind: snapshot
+    status: active
+    snapshot_id: uspstf-ab-recommendations
+    homepage: https://www.uspreventiveservicestaskforce.org/
+    probe_url: https://www.uspreventiveservicestaskforce.org/
+    used_by: [preventive_services_lookup]
+    caveats:
+      - >-
+        Built from the statements' PubMed abstracts (53 recommendations from 46 statements, 2016 on;
+        newest July 2025) because the Task Force's site and API were blocked, so there is no live
+        adapter and no PHN_USPSTF_API_KEY. The list is not complete: statements before 2015 and anything
+        PubMed's Corporate Author search did not return are missing, and grades C, D, and I are not
+        listed. Dates are journal publication dates. Re-run xtask/scripts/build_prevent_snapshots.py
+        --check when the Task Force publishes.
+  - id: odphp-myhealthfinder
+    name: 'ODPHP MyHealthfinder (preventive services by age, sex, and pregnancy)'
+    publisher: 'Office of Disease Prevention and Health Promotion, HHS'
+    kind: live
+    status: active
+    homepage: https://odphp.health.gov/myhealthfinder
+    probe_url: https://odphp.health.gov/myhealthfinder
+    used_by: [preventive_services_lookup]
+    caveats:
+      - >-
+        API v4, no key. Live only: there is no offline copy (one query returns 250 to 460 KB); the
+        response is cached for a week. It sees only age, sex, and pregnancy and also covers vaccines and
+        services that are not USPSTF grade A or B, so it is a cross-check, not a source of grades.
+  - id: chronic-preventive-services-content
+    name: >-
+      Preventive services criteria, client summaries, and Massachusetts program options (MBCCP,
+      MCRCCP, quit line)
+    publisher: 'USPSTF and DPH (drafted by this project)'
+    kind: content
+    status: active
+    content_id: chronic-preventive-services
+    homepage: https://www.uspreventiveservicestaskforce.org/
+    probe_url: https://www.uspreventiveservicestaskforce.org/
+    used_by: [preventive_services_lookup]
+    caveats:
+      - >-
+        Pending review. Criteria are this project's reading of the Task Force's published population
+        wording; ten age ranges the statements do not give were chosen by the tool and are marked as
+        assumptions. The client summaries are plain-language drafts (medium). The Massachusetts programs
+        were read from DPH pages on 2026-11-12 that show no last-updated date; no Massachusetts program
+        for lung, prostate, hepatitis, or HIV screening was found on the pages read.
+  - id: chronic-asthma-home-content
+    name: >-
+      Home asthma trigger checklist, DPH asthma control categories, action plan template, and home
+      visiting directory
+    publisher: 'CDC, EPA, HUD, DPH, NHLBI (drafted by this project)'
+    kind: content
+    status: active
+    content_id: chronic-asthma-home
+    homepage: https://www.epa.gov/sites/default/files/2018-05/documents/asthma_home_environment_checklist.pdf
+    probe_url: https://www.epa.gov/sites/default/files/2018-05/documents/asthma_home_environment_checklist.pdf
+    used_by: [asthma_home_assessment]
+    caveats:
+      - >-
+        Pending review. The control table is the survey adaptation of NHLBI EPR-3 that DPH prints in its
+        2022 asthma management report (screening level, medium confidence); EPR-3 and GINA could not be
+        reached, so no clinical grids are bundled. The directory is DPH's (last updated by DPH in March
+        2025) and lists regions, not towns. The Asthma Control Test is licensed and is not reproduced.
+        MassHealth coverage of asthma home visits was not verified.
+  # End of Phase 15 prevent (CHR-04, CHR-05).
+  # Phase 15 cha (EQ-08, EQ-09, EQ-10).
+  - id: cms-hospital-general-information
+    name: 'Massachusetts hospitals (CMS Hospital General Information; snapshot)'
+    publisher: 'Centers for Medicare & Medicaid Services, Provider Data Catalog'
+    kind: snapshot
+    status: active
+    snapshot_id: cms-ma-hospitals
+    homepage: https://data.cms.gov/provider-data/dataset/xubh-q36u
+    probe_url: https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0
+    used_by: [community_health_assessment_builder]
+    caveats:
+      - >-
+        84 Massachusetts rows as served 2026-11-12; directory fields only. CMS lists facilities, not
+        health systems, and lags recent openings, closures, and renamings. Check the town mapping
+        (Boston neighborhoods and villages). The "likely files a community benefits report" flag is the
+        tool's reading of the ownership and type fields; no list of Attorney General filers is bundled.
+  - id: equity-cha-framework-content
+    name: 'MAPP 2.0 community health assessment framework and hospital CHNA guidance'
+    publisher: >-
+      NACCHO (via open-access articles), IRS rule (26 CFR 1.501(r)-3, eCFR), Massachusetts Attorney
+      General
+    kind: content
+    status: active
+    content_id: equity-cha-framework
+    homepage: https://pmc.ncbi.nlm.nih.gov/articles/PMC12283569/
+    probe_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12283569/
+    used_by: [community_health_assessment_builder, build_strategic_plan]
+    caveats:
+      - >-
+        Pending review. NACCHO's MAPP 2.0 pages and handbook could not be fetched (naccho.org returned a
+        proxy 403), so MAPP 2.0 was verified through two open-access 2025 articles (medium confidence);
+        what Phases 2 and 3 contain is low confidence. The federal CHNA rule and the Attorney General's
+        Community Benefits Guidelines were read in full (high). The Attorney General's reports site and
+        every hospital CHNA site tried could not be opened, so no per-hospital CHNA link is bundled.
+  - id: equity-prioritization-content
+    name: 'Prioritization methods (Hanlon method, PEARL, nominal group, strategy grid)'
+    publisher: >-
+      Open-access journal articles (PAHO, Revista Panamericana de Salud Pública and others); drafted
+      by this project
+    kind: content
+    status: active
+    content_id: equity-prioritization
+    homepage: https://pmc.ncbi.nlm.nih.gov/articles/PMC6611209/
+    probe_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6611209/
+    used_by: [prioritize_health_issues]
+    caveats:
+      - >-
+        Pending review. The Hanlon formula, component ranges, and PEARL questions were read in three
+        open-access papers (high). NACCHO's Hanlon worksheet could not be read, and no scoring anchors
+        are bundled. The strategy grid and the nominal group point rule are this project's own (low to
+        medium).
+  - id: equity-qualitative-codebook-content
+    name: 'Starter codebook and de-identification settings for qualitative analysis'
+    publisher: 'Public Health Nursing MCP Server (draft)'
+    kind: content
+    status: active
+    content_id: equity-qualitative-codebook
+    homepage: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/equity/qualitative_codebook.yaml
+    probe_url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/blob/main/content/equity/qualitative_codebook.yaml
+    used_by: [analyze_qualitative_data]
+    caveats:
+      - >-
+        Pending review. Every code and keyword is a project draft with no source (low confidence); the
+        three-participant floor and the scrubber's word lists are tool defaults. Scrubbing is
+        conservative and heuristic: a name written in lower case, a nickname, or a unique detail can
+        remain.
+  - id: chna-reports-local
+    name: 'Hospital CHNA reports the nurse saves in /data (PDF, DOCX, HTML, or TXT)'
+    publisher: 'Hospitals and health systems'
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [community_health_assessment_builder]
+    caveats:
+      - >-
+        Priority extraction is pattern-based and was tested on synthetic text and one generated PDF, not
+        on real hospital CHNAs; expect misses. Scanned PDFs have no text (no OCR). Staff names and phone
+        numbers are never returned.
+  # End of Phase 15 cha (EQ-08, EQ-09, EQ-10).
+  # Phase 15 geo (EPI-13).
+  - id: ma-geocoder-sample
+    name: >-
+      Offline geocoder index for four towns (Alford, Amherst, Northampton, Pelham): MassGIS address
+      points and Census TIGER ranges (snapshot)
+    publisher: 'MassGIS and U.S. Census Bureau; index built by this project'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-geocoder-sample
+    homepage: https://www.mass.gov/info-details/massgis-data-master-address-data
+    probe_url: https://www.mass.gov/info-details/massgis-data-master-address-data
+    used_by: [geocode_and_aggregate_addresses]
+    caveats:
+      - >-
+        A four-town sample for tests and demonstrations (MassGIS town exports last modified 2026-11-09;
+        TIGER/Line 2025). Addresses in other towns need the full index (docs/adr/0011-offline-
+        geocoder.md) and are otherwise counted by town or ZIP code only. MassGIS's data disclaimer page
+        could not be retrieved, so its terms are unverified.
+  - id: ma-geocoder-crosswalk
+    name: 'Massachusetts ZIP code to town and place name to town crosswalk (snapshot)'
+    publisher: 'MassGIS and U.S. Census Bureau; crosswalk built by this project'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-geocoder-crosswalk
+    homepage: https://www.mass.gov/info-details/massgis-data-master-address-data
+    probe_url: https://www.mass.gov/info-details/massgis-data-master-address-data
+    used_by: [geocode_and_aggregate_addresses]
+    caveats:
+      - >-
+        75 of 517 ZIP codes reach more than one town, so a ZIP-only assignment is an approximation (the
+        tool uses a 90 percent share rule). Boston has no MassGIS export, so its ZIP codes come from
+        TIGER address ranges. The 18 Boston neighborhood names are listed from general knowledge and are
+        not verified (low confidence).
+  - id: geocoder-full-index
+    name: >-
+      Full offline geocoder street index (optional; the nurse or IT builds and installs it)
+    publisher: >-
+      MassGIS and U.S. Census Bureau; built with xtask/scripts/build_geocoder_index.py --full
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [geocode_and_aggregate_addresses]
+    caveats:
+      - >-
+        Not shipped: 35.5 MB for 351 towns, installed in /data/geocoder/ or /cache/geocoder/. Boston is
+        placed from TIGER ranges only (interpolated or street only). Changing the street-type vocabulary
+        means rebuilding every installed index.
+  # End of Phase 15 geo (EPI-13).
+  # Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+  - id: healthy-people-2030
+    name: >-
+      Healthy People 2030 objectives (national baseline, target, status, Leading Health Indicators)
+    publisher: 'Office of Disease Prevention and Health Promotion, HHS'
+    kind: live
+    status: active
+    snapshot_id: healthy-people-2030-objectives
+    homepage: https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives
+    probe_url: https://odphp.health.gov/healthypeople/objectives-and-data/browse-objectives
+    used_by: [write_smartie_objectives]
+    caveats:
+      - >-
+        ODPHP has no public JSON API that could be found, so the adapter reads each objective's server-
+        rendered page (live) or the bundled snapshot of 507 objectives read 2026-11-12. A site redesign
+        will break the live parser and the snapshot builder. ODPHP's site showed a banner that it was
+        restored to its January 29, 2025 version under a court order; check the objective page before
+        citing a figure. Subpopulation and state data are not included.
+  - id: planning-logic-model-content
+    name: >-
+      Logic model components, checks, and diagram notes (CDC Program Evaluation Framework)
+    publisher: 'CDC (drafted by this project)'
+    kind: content
+    status: active
+    content_id: planning-logic-model
+    homepage: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+    probe_url: https://www.cdc.gov/evaluation/media/pdfs/2025/12/CDC-Program-Evaluation-Framework-Action-Guide.pdf
+    used_by: [build_logic_model]
+    caveats:
+      - >-
+        Pending review. Component definitions are quoted from CDC's Step 2 page and Action Guide (high).
+        The W.K. Kellogg Foundation's guide could not be fetched, so nothing is attributed to it. The
+        six boxes per column, 25 words per box, and the wording-check word lists are tool defaults
+        (low).
+  - id: planning-smartie-content
+    name: 'SMARTIE objectives (CDC) and Healthy People 2030 notes'
+    publisher: >-
+      CDC, National Center for Chronic Disease Prevention and Health Promotion (drafted by this
+      project)
+    kind: content
+    status: active
+    content_id: planning-smartie
+    homepage: https://stacks.cdc.gov/view/cdc/251674
+    probe_url: https://stacks.cdc.gov/view/cdc/251674
+    used_by: [write_smartie_objectives]
+    caveats:
+      - >-
+        Pending review. The seven questions and three examples are quoted from CDC's 2021 sheet "Writing
+        Effective Objectives" (high); the tool says achievable and time-bound where CDC says attainable
+        and time-based, and generalizes the equity question. The originator of SMART and SMARTIE was not
+        established. Required fields, date formats, and equity prompts are medium to low confidence.
+  - id: planning-evaluation-framework-content
+    name: >-
+      CDC Program Evaluation Framework (2024): steps, evaluation types, methods, question templates,
+      RE-AIM
+    publisher: 'CDC (drafted by this project)'
+    kind: content
+    status: active
+    content_id: planning-evaluation-framework
+    homepage: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+    probe_url: https://www.cdc.gov/mmwr/volumes/73/rr/rr7306a1.htm
+    used_by: [build_evaluation_plan]
+    caveats:
+      - >-
+        Pending review. Steps, standards, and the MMWR Table 5 questions are from CDC (high). RE-AIM
+        definitions are paraphrased from a 2019 open-access review (re-aim.org was unreachable). The
+        question, indicator, and design templates, data source and method suggestions, timing, default
+        roles, stage-to-type mapping, and timeline shares are tool defaults (low).
+  # End of Phase 16 design (PLAN-01, PLAN-02, PLAN-05).
+  # Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+  - id: cpstf-publications
+    name: >-
+      Community Guide systematic reviews, economic reviews, and Task Force recommendation statements
+      (journal papers; snapshot)
+    publisher: 'Community Preventive Services Task Force (papers read through PubMed)'
+    kind: snapshot
+    status: active
+    snapshot_id: cpstf-publications
+    homepage: https://www.thecommunityguide.org/
+    probe_url: https://www.thecommunityguide.org/
+    used_by: [find_evidence_based_interventions]
+    caveats:
+      - >-
+        145 journal papers (2000-11 to 2026-05) that PubMed attributes to the Task Force, retrieved
+        2026-11-12; this is not the Community Guide's own list of recommendations. A rating appears only
+        when the abstract's words give it (49 of 145 papers). thecommunityguide.org, What Works for
+        Health (County Health Rankings), and NCI's Theory at a Glance were blocked, so What Works for
+        Health has no data and those sites' terms of use were not read. Abstract excerpts are short
+        quotations; check the journal's terms. The live PubMed search uses the ncbi-eutils source.
+  - id: planning-evidence-sources-content
+    name: >-
+      Evidence search aids and source notes (Community Guide papers, What Works for Health)
+    publisher: 'National Library of Medicine (PubMed); Community Preventive Services Task Force'
+    kind: content
+    status: active
+    content_id: planning-evidence-sources
+    homepage: https://pubmed.ncbi.nlm.nih.gov/
+    probe_url: https://pubmed.ncbi.nlm.nih.gov/
+    used_by: [find_evidence_based_interventions]
+    caveats:
+      - >-
+        Pending review. The 26 topic groups with synonyms are this project's search aid; the rating key
+        comes from sentences in abstracts because the Community Guide's own definitions were not read.
+        The Community Guide and County Health Rankings home page addresses were not opened.
+        pubmed.ncbi.nlm.nih.gov web pages were blocked from the build network (E-utilities work).
+  - id: planning-behavior-theories-content
+    name: >-
+      Health behavior and behavior change theories (8 theories, 48 constructs, 62 strategies)
+    publisher: 'Open-access journal articles and CDC (drafted by this project)'
+    kind: content
+    status: active
+    content_id: planning-behavior-theories
+    homepage: https://www.cdc.gov/violence-prevention/about/index.html
+    probe_url: https://www.cdc.gov/violence-prevention/about/index.html
+    used_by: [apply_behavior_change_theory]
+    caveats:
+      - >-
+        Pending review. Constructs are paraphrased from nine open-access reviews and CDC's social-
+        ecological model page; the original theory papers and NCI's Theory at a Glance were not
+        reachable, so check each definition before it goes into a grant or paper. 38 of the 62
+        strategies are this project's own suggestions (medium to low confidence). The signal word lists
+        are a matching aid.
+  # End of Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11).
+  # Phase 16 appraise (EBP-03, EBP-04).
+  - id: crossref-works
+    name: 'Crossref works API (citation lookup by DOI)'
+    publisher: 'Crossref'
+    kind: live
+    status: active
+    homepage: https://api.crossref.org/
+    probe_url: https://api.crossref.org/
+    used_by: [appraise_evidence]
+    caveats:
+      - >-
+        Optional: only the DOI is sent; PHN_CROSSREF_MAILTO (the nurse's own address) joins Crossref's
+        polite pool, and nothing else is ever sent. The adapter follows Crossref's documented response
+        format and was tested only against a local server: api.crossref.org was blocked from the build
+        network, so it has never been reached live. Offline, the DOI as entered is used and the answer
+        says Crossref was not used.
+  - id: ebp-appraisal-checklists-content
+    name: >-
+      Critical appraisal questions by study design (risk of bias, reporting guidelines, AMSTAR 2,
+      qualitative, SQUIRE 2.0)
+    publisher: >-
+      Cochrane/BMJ, CONSORT, ROBINS-I, STROBE, AMSTAR 2, SQUIRE (drafted by this project)
+    kind: content
+    status: active
+    content_id: ebp-appraisal-checklists
+    homepage: https://pmc.ncbi.nlm.nih.gov/articles/PMC3196245/
+    probe_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC3196245/
+    used_by: [appraise_evidence]
+    caveats:
+      - >-
+        Pending review. The questions are this project's wording of items from the published
+        instruments. CASP (casp-uk.net) was blocked, so its license (believed CC BY-NC-SA) and checklist
+        list are low confidence and the tool links to CASP without copying. The 2011 Cochrane tool has
+        been superseded by RoB 2 (not read). How AMSTAR 2 counts a partial yes is unverified, so partial
+        yes is listed and not counted.
+  - id: ebp-grade-certainty-content
+    name: 'GRADE certainty of evidence and GRADE-CERQual confidence in qualitative findings'
+    publisher: >-
+      GRADE Working Group and CERQual (read as PubMed abstracts and open-access full text; drafted by
+      this project)
+    kind: content
+    status: active
+    content_id: ebp-grade-certainty
+    homepage: https://pubmed.ncbi.nlm.nih.gov/21208779/
+    probe_url: https://pubmed.ncbi.nlm.nih.gov/21208779/
+    used_by: [appraise_evidence]
+    caveats:
+      - >-
+        Pending review. The GRADE Handbook and the BMJ Core GRADE pages were blocked; the content comes
+        from PubMed abstracts of the GRADE series (2011-2013) and Core GRADE 1-7 (2025). Low confidence:
+        the levels to rate up for a dose-response gradient and for opposing plausible confounding, the
+        two-level maximum for rating down, and the wording of the four certainty levels.
+  - id: ebp-evidence-synthesis-content
+    name: 'PRISMA 2020 flow diagram elements and evidence synthesis table layout'
+    publisher: 'BMJ (PRISMA 2020 explanation and elaboration; drafted by this project)'
+    kind: content
+    status: active
+    content_id: ebp-evidence-synthesis
+    homepage: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005924/
+    probe_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC8005924/
+    used_by: [build_evidence_synthesis_table]
+    caveats:
+      - >-
+        Pending review. The flow elements and definitions are from PRISMA 2020 (item 16a read in full),
+        but the figure itself could not be read, so the diagram layout is this project's; the "other
+        methods" column and the previous-studies box are not drawn. The table layout and sheet formulas
+        are this project's design.
+  # End of Phase 16 appraise (EBP-03, EBP-04).
+  # Phase 16 qi (EBP-05).
+  - id: ebp-quality-improvement-content
+    name: >-
+      Quality improvement planning (Model for Improvement, PDSA, run charts, SQUIRE 2.0)
+    publisher: >-
+      Open-access journal articles (SQUIRE 2.0 in BMJ Quality and Safety; drafted by this project)
+    kind: content
+    status: active
+    content_id: ebp-quality-improvement
+    homepage: https://doi.org/10.1136/bmjqs-2015-004411
+    probe_url: https://doi.org/10.1136/bmjqs-2015-004411
+    used_by: [plan_quality_improvement]
+    caveats:
+      - >-
+        Pending review. IHI, SQUIRE's website, and the Perla 2011 run chart paper (full text) could not
+        be read; the Model for Improvement wording is from a 2026 open-access guide. The astronomical-
+        point rule is low confidence (the tool's own modified z-score screen). SQUIRE is copyrighted:
+        the tool shows item numbers and names with its own paraphrases and a license note. No
+        Massachusetts DPH QI guidance was read.
+  # End of Phase 16 qi (EBP-05).
+  # Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+  - id: simpler-grants-gov
+    name: 'Simpler.Grants.gov opportunity search API (federal funding opportunities)'
+    publisher: 'U.S. Department of Health and Human Services (Simpler.Grants.gov project)'
+    kind: live
+    status: active
+    homepage: https://simpler.grants.gov/
+    probe_url: https://simpler.grants.gov/
+    used_by: [search_grant_opportunities]
+    caveats:
+      - >-
+        Needs the optional PHN_GRANTS_GOV_API_KEY; without a key, or when the request fails, the answer
+        says snapshot mode and why, and the bundled snapshot has no federal listings. Never run against
+        the real service: Simpler.Grants.gov, Grants.gov, and every other federal grant site tried were
+        blocked from the build environment. The request and response shapes were read from the project's
+        published OpenAPI file and tested against a local stand-in. The opportunity page link pattern
+        was not verified, so results give the opportunity number.
+  - id: commbuys-weekly-bids
+    name: 'COMMBUYS weekly list of new bids (Operational Services Division PDF on mass.gov)'
+    publisher: 'Massachusetts Operational Services Division'
+    kind: live
+    status: active
+    snapshot_id: commbuys-weekly-bids
+    homepage: https://www.mass.gov/learn-about-commbuys-resources
+    probe_url: https://www.mass.gov/doc/commbuys-home-page-bid-count/download
+    used_by: [search_grant_opportunities]
+    caveats:
+      - >-
+        Read live from mass.gov (PDF, cached six hours; a changed layout is rejected, not guessed at) or
+        from the bundled snapshot (147 bids, list dated 2026-11-09). The list is replaced weekly and has
+        no bid type, amount, eligibility, or link; commbuys.com was blocked. Most bids are construction
+        and purchasing bids, topic tags are tool defaults, and the nurse must read the solicitation.
+        mass.gov returns 403 to browser-like user agents.
+  - id: planning-grant-sources-content
+    name: >-
+      Grant and bid sources, topic tags, eligibility mapping, and Massachusetts procurement facts
+    publisher: 'HHS (Simpler.Grants.gov OpenAPI file), DPH, OSD (drafted by this project)'
+    kind: content
+    status: active
+    content_id: planning-grant-sources
+    homepage: https://raw.githubusercontent.com/HHS/simpler-grants-gov/main/api/openapi.generated.yml
+    probe_url: https://raw.githubusercontent.com/HHS/simpler-grants-gov/main/api/openapi.generated.yml
+    used_by: [search_grant_opportunities]
+    caveats:
+      - >-
+        Pending review. The Massachusetts procurement facts (DPH and OSD pages, 2026-11-12) are high
+        confidence. The topic keyword lists, the mapping of "local health agency" to federal applicant
+        types, and which COMMBUYS titles count as grant-like are this project's own (low). The funder
+        directory is not complete (HRSA, SAMHSA, ACF, NIH, and others were blocked). The Office of
+        Behavioral Health Promotion and Prevention round it describes is closed.
+  - id: planning-announcement-patterns-content
+    name: >-
+      Funding announcement reading patterns, criterion types, and default response outline
+    publisher: 'Public Health Nursing MCP Server (draft)'
+    kind: content
+    status: active
+    content_id: planning-announcement-patterns
+    homepage: https://www.mass.gov/doc/phn-2025-12-cafo-request-for-response-rfr/download
+    probe_url: https://www.mass.gov/doc/phn-2025-12-cafo-request-for-response-rfr/download
+    used_by: [analyze_funding_announcement]
+    caveats:
+      - >-
+        Pending review. All word lists are this project's heuristics, tuned on one public Massachusetts
+        RFR, one state NOFO, and synthetic notices: medium confidence for Massachusetts RFRs, low for
+        federal NOFOs. No federal NOFO was tested. The server's PDF reader can split words and dates and
+        drop table cells; scanned PDFs have no text.
+  - id: planning-narrative-templates-content
+    name: 'Grant narrative section skeletons and reviewer prompts'
+    publisher: 'Public Health Nursing MCP Server (draft)'
+    kind: content
+    status: active
+    content_id: planning-narrative-templates
+    homepage: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    probe_url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+    used_by: [draft_grant_narrative]
+    caveats:
+      - >-
+        Pending review. The section skeletons and reviewer prompts are this project's drafting aids, not
+        drawn from a funder's template or a published instrument.
+  # End of Phase 17 grants (PLAN-06, PLAN-07, PLAN-08).
+  # Phase 17 budget (PLAN-09, PLAN-10).
+  - id: planning-budget-reference-content
+    name: >-
+      Federal budget object classes, MTDC, de minimis indirect rate, cost sharing, and justification
+      templates
+    publisher: >-
+      OMB Uniform Guidance (2 CFR 200 as published in the eCFR; drafted by this project)
+    kind: content
+    status: active
+    content_id: planning-budget-reference
+    homepage: https://www.ecfr.gov/current/title-2/part-200
+    probe_url: https://www.ecfr.gov/current/title-2/part-200
+    used_by: [build_program_budget]
+    caveats:
+      - >-
+        Pending review. 2 CFR 200.1, 200.306, 200.414, 200.431, and 200.456 were read from the eCFR
+        versioner API on 2026-11-12 (high); the de minimis rate (up to 15 percent of MTDC), the $50,000
+        subaward limit, and the $10,000 equipment threshold are the October 1, 2024 values. The SF-424A
+        object class lines are low confidence (grants.gov and every mirror were blocked; the list came
+        from a web-search summary of copies of the form). The funder's notice controls.
+  - id: planning-economic-evaluation-content
+    name: >-
+      Economic evaluation definitions, default discount rate, sensitivity defaults, and interpretation
+      rules
+    publisher: >-
+      CDC (MMWR 2024;73(31)) and the Second Panel on Cost-Effectiveness (drafted by this project)
+    kind: content
+    status: active
+    content_id: planning-economic-evaluation
+    homepage: https://www.cdc.gov/mmwr/volumes/73/wr/mm7331a2.htm
+    probe_url: https://www.cdc.gov/mmwr/volumes/73/wr/mm7331a2.htm
+    used_by: [economic_evaluation_calculator]
+    caveats:
+      - >-
+        Pending review. The 3 percent default discount rate is medium confidence (taken from how CDC's
+        MMWR applied the Second Panel; the Panel's report was read as an abstract only, and OMB Circular
+        A-94 was not readable). The standard formulas are not spelled out by a fetched page (medium).
+        The default sensitivity ranges (20 percent either way) are the tool's own (low). No cost-
+        effectiveness threshold is applied.
+  # End of Phase 17 budget (PLAN-09, PLAN-10).
+  # Phase 17 finance (LEAD-01, LEAD-02).
+  - id: leadership-department-finance-content
+    name: >-
+      Health department budget analysis: fiscal year, PHE grants, revenue groups, per capita
+      benchmarks
+    publisher: >-
+      DPH Office of Local and Regional Health, DLS, G.L. c. 44 s. 56 (drafted by this project)
+    kind: content
+    status: active
+    content_id: leadership-department-finance
+    homepage: https://www.mass.gov/info-details/public-health-shared-services
+    probe_url: https://www.mass.gov/info-details/public-health-shared-services
+    used_by: [analyze_health_department_budget]
+    caveats:
+      - >-
+        Pending review. DPH's Public Health Excellence page gives 54, 56, and 57 for grantee and
+        arrangement counts, so none is bundled. The $36.98 per capita estimate is medium confidence (DPH
+        cites unnamed research). The PHE request for responses and award contract (allowable costs,
+        payment and reporting terms) were not read, and the MMA notice host was blocked. The revenue
+        group word lists, the 10-point pace tolerance, the three-position minimum for personnel, and the
+        three-month run rate are tool defaults, not published standards.
+  - id: leadership-staffing-model-content
+    name: >-
+      Public health nurse staffing model (productive hours and method; no benchmark bundled)
+    publisher: 'DPH Office of Local and Regional Health (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-staffing-model
+    homepage: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+    probe_url: https://www.mass.gov/doc/2022-2023-capacity-assessment-summary-report-0/download
+    used_by: [model_staffing_needs]
+    caveats:
+      - >-
+        Pending review. Every productive-hours default except 2,080 (40 x 52) is a placeholder with no
+        source (holiday 88, vacation 120, sick and personal 64, training 24, non-service 20 percent):
+        replace them with agency and contract values. No staffing benchmark is bundled: NACCHO, PHAB,
+        OPM, and BLS pages were not fetched (hosts blocked); a 1 public health nurse per 5,000 residents
+        ratio was seen only in a search result and is not used.
+  # End of Phase 17 finance (LEAD-01, LEAD-02).
+  # Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+  - id: ma-performance-standards
+    name: >-
+      DPH Performance Standards for Local Public Health: mandated responsibilities and workforce
+      standards (snapshot)
+    publisher: 'Massachusetts Department of Public Health, Office of Local and Regional Health'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-performance-standards
+    homepage: https://www.mass.gov/resource/performance-standards-for-local-public-health
+    probe_url: https://www.mass.gov/doc/performance-standards/download
+    used_by: [assess_foundational_public_health_services, assess_workforce_competencies]
+    caveats:
+      - >-
+        From DPH's workbook (published 2023-10-11, modified 2024-07-15, retrieved 2026-11-12): 93
+        mandates and the workforce standards; the Frequently Used, Resources, and Keywords sheets are
+        not read. Standard IDs (for example PS-ENV-012) are this project's, in sheet order, and can
+        change if DPH inserts rows, so an old filled worksheet may map to different standards after a
+        refresh. Seven standards carry DPH's asterisk (possibly outdated). Phone numbers and emails were
+        dropped. The next Performance Standards are expected to include the FPHS framework.
+  - id: ma-shared-service-arrangements
+    name: >-
+      Massachusetts shared public health service arrangements by municipality (snapshot)
+    publisher: 'DPH Office of Local and Regional Health (Public Health Excellence Grant Program)'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-shared-service-arrangements
+    homepage: https://www.mass.gov/info-details/public-health-excellence-grant-program
+    probe_url: https://www.mass.gov/doc/shared-service-arrangements/download
+    used_by: [assess_foundational_public_health_services]
+    caveats:
+      - >-
+        April 2026 list, 351 municipalities, retrieved 2026-11-12. 29 municipalities show no arrangement
+        (including the standalone grantees Boston, Springfield, and Worcester); two rows are labeled
+        "PHE: Capacity Building Grantee". Membership changes each grant year: confirm with the Office of
+        Local and Regional Health.
+  - id: leadership-fphs-framework-content
+    name: >-
+      Foundational Public Health Services framework, G.L. c. 111 s. 27D, and shared-service options
+    publisher: 'DPH (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-fphs-framework
+    homepage: https://www.mass.gov/info-details/foundational-public-health-services-fphs-for-local-public-health
+    probe_url: https://www.mass.gov/info-details/foundational-public-health-services-fphs-for-local-public-health
+    used_by: [assess_foundational_public_health_services]
+    caveats:
+      - >-
+        Pending review. The law is described as the State Action for Public Health Excellence (SAPHE)
+        law enacted in 2020, codified at G.L. c. 111 s. 27D, with grants now called the Public Health
+        Excellence (PHE) program; the project plan's name "2024 SAPHE 2.0" was not found on any page
+        read and needs the nurse's decision. The 56 FPHS Headline Responsibilities were copied from
+        DPH's Word file (modified 2024-11-05); the PHAB and de Beaumont framework's license was not
+        read. The mapping to statute terms, the four-value status scale, the priority tiers, and the
+        decision questions are this project's drafts (medium to low).
+  - id: leadership-phab-standards-content
+    name: >-
+      PHAB Standards & Measures Version 2022 structure and keyword cues for the document crosswalk
+    publisher: 'CDC crosswalk toolkit (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-phab-standards
+    homepage: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    probe_url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    used_by: [phab_accreditation_crosswalk]
+    caveats:
+      - >-
+        Pending review. PHAB's own document could not be fetched (phaboard.org and every mirror tried
+        were blocked): the 10 domains and 20 standards come from CDC's 2023 toolkit (medium). No measure
+        IDs or measure titles are bundled; the nurse can supply a list from her own PHAB copy. The
+        keyword cues and match rules are this project's (low). PHAB's license terms were not read. A
+        keyword match is not a finding that a measure is met.
+  - id: leadership-strategic-planning-content
+    name: >-
+      Strategic planning scaffolding: SWOT or SOAR, stakeholder grid, plan structure, CHIP link
+    publisher: 'CDC and open-access articles (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-strategic-planning
+    homepage: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    probe_url: https://www.cdc.gov/healthcare-associated-infections/media/pdfs/HAI-AR-Accreditation-Crosswalk-508.pdf
+    used_by: [build_strategic_plan]
+    caveats:
+      - >-
+        Pending review. PHAB's strategic plan requirements are unverified (only CDC's description of
+        Standards 10.1 and 5.2 and a 2025 open-access study were read). The SWOT, SOAR, and stakeholder
+        prompts, the four quadrant names, and the plan outline are this project's drafts (SWOT: no
+        source read, low).
+  - id: phab-measures-list-local
+    name: 'The nurse''s PHAB measures list (CSV/XLSX in /data, from her own PHAB copy)'
+    publisher: 'Your agency (from PHAB Standards & Measures Version 2022)'
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [phab_accreditation_crosswalk]
+    caveats:
+      - >-
+        Optional. PHAB's measure text is not bundled (copyright; the PHAB site was unreachable), so
+        measure-level crosswalks need this file. The short titles appear only in the output files. A
+        roster given in its place is refused.
+  # End of Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05).
+  # Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+  - id: leadership-workforce-competencies-content
+    name: >-
+      Public health workforce competency frameworks (domains and tiers only) and credential rules
+    publisher: >-
+      CDC Public Health Infrastructure Center and open-access articles (drafted by this project)
+    kind: content
+    status: active
+    content_id: leadership-workforce-competencies
+    homepage: https://www.cdc.gov/infrastructure/training-professional-development/competencies-for-public-health-professionals.html
+    probe_url: https://www.cdc.gov/infrastructure/training-professional-development/competencies-for-public-health-professionals.html
+    used_by: [assess_workforce_competencies]
+    caveats:
+      - >-
+        Pending review. The numbered competency statements, the frameworks' reuse terms, and the Public
+        Health Foundation's instruments were not read (phf.org, quadcouncilphn.org, and others were
+        blocked), so they are not bundled. Domain and tier names (medium) come from 2025 open-access
+        articles that word one nursing domain differently; the pairing of 2021 and 2018 domains is this
+        project's (low for two pairs). The four-level scale, priority cut-offs, default target, and
+        training steps have no source.
+  - id: leadership-open-meeting-law-content
+    name: >-
+      Massachusetts Open Meeting Law for a local board of health (G.L. c. 30A ss. 18-25; 940 CMR
+      29.00)
+    publisher: 'Massachusetts Legislature and Attorney General (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-open-meeting-law
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section20
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section20
+    used_by: [board_of_health_meeting_assistant]
+    caveats:
+      - >-
+        Pending review. Paraphrases of the statute and the Attorney General's November 2024 checklists
+        read 2026-11-12 (high). The reading that whole Saturdays, Sundays, and holidays are removed from
+        the 48-hour count is medium (no Attorney General worked example found): confirm with the
+        Division of Open Government and the clerk. The remote participation provisions (Chapter 20 of
+        the Acts of 2021) expire June 30, 2027.
+  - id: leadership-ma-legal-holidays-content
+    name: >-
+      Massachusetts legal holidays 2026-2028 (G.L. c. 4 s. 7, clause Eighteenth), generated
+    publisher: >-
+      Massachusetts Legislature (generated by xtask/scripts/build_workforce_holidays.py)
+    kind: content
+    status: active
+    content_id: leadership-ma-legal-holidays
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleI/Chapter4/Section7
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleI/Chapter4/Section7
+    used_by: [board_of_health_meeting_assistant]
+    caveats:
+      - >-
+        Pending review. 2026 and 2027 statewide dates agree with the Trial Court's published closing
+        dates (high); 2028 and the two Suffolk-only days (Evacuation Day, Bunker Hill Day) are computed
+        only (medium). The calculator covers meeting dates 2026-01-06 to 2028-12-31: regenerate the list
+        each year. Whether a Suffolk board of health counts the two Suffolk days is for town counsel.
+  - id: leadership-standing-orders-content
+    name: >-
+      Standing order skeleton (Board of Registration in Nursing Advisory Rulings 9324 and 9804;
+      vaccine order outline)
+    publisher: 'Massachusetts Board of Registration in Nursing (drafted by this project)'
+    kind: content
+    status: active
+    content_id: leadership-standing-orders
+    homepage: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+    probe_url: https://www.mass.gov/doc/ar-9324-accepting-verifying-transcribing-and-implementing-medication-orders/download
+    used_by: [draft_standing_orders]
+    caveats:
+      - >-
+        Pending review. The advisory rulings are paraphrased (high); the vaccine order outline comes
+        from one Immunize.org template and one DPH template (medium); the skeleton's sections and
+        placeholder wording are this project's design. No clinical content is bundled. The Immunize.org
+        permission statement was read in one template only.
+  # End of Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+  # Phase 18 ethics (EBP-07, POL-05, POL-06).
+  - id: ebp-qi-research-determination-content
+    name: >-
+      QI versus research determination (45 CFR 46, CDC guidelines, QI ethics literature)
+    publisher: 'HHS (45 CFR 46.102 as published in the eCFR), CDC (drafted by this project)'
+    kind: content
+    status: active
+    content_id: ebp-qi-research-determination
+    homepage: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.102
+    probe_url: https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46/subpart-A/section-46.102
+    used_by: [qi_vs_research_determination]
+    caveats:
+      - >-
+        Pending review. The regulation definitions and CDC's 1999 guidelines were read in full (high);
+        the Hastings Center and JAMA 2000 points were read as abstracts only (medium). The 14 questions,
+        the category descriptions, and the rules that combine answers are this project's synthesis.
+        OHRP's QI FAQ (hhs.gov blocked) and any Massachusetts institution's IRB policy were not read. A
+        screening aid, not a determination: the IRB decides.
+  - id: policy-public-health-ethics-content
+    name: >-
+      Public health ethics analysis structure (Kass framework, APHA Public Health Code of Ethics,
+      decision profiles)
+    publisher: 'Open-access journal articles and PubMed abstracts (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-public-health-ethics
+    homepage: https://pubmed.ncbi.nlm.nih.gov/11684600/
+    probe_url: https://pubmed.ncbi.nlm.nih.gov/11684600/
+    used_by: [public_health_ethics_analysis]
+    caveats:
+      - >-
+        Pending review. The APHA code (apha.org) and Kass's full article could not be read: the six
+        questions and burden categories come from an open-access overview and the PubMed abstract
+        (medium); the APHA four-step approach comes from one paper (low). The decision profiles,
+        tensions, facts to gather, and ordered options are drafting aids with no source (low). The tool
+        never recommends a decision and does not cover Massachusetts law.
+  - id: policy-nursing-scope-of-practice-content
+    name: >-
+      Massachusetts nursing scope of practice: 244 CMR and Board advisory rulings (partial; 59
+      provisions)
+    publisher: 'Massachusetts Board of Registration in Nursing'
+    kind: content
+    status: active
+    content_id: policy-nursing-scope-of-practice
+    homepage: https://www.mass.gov/info-details/laws-and-regulations-for-the-board-of-registration-in-nursing
+    probe_url: https://www.mass.gov/info-details/laws-and-regulations-for-the-board-of-registration-in-nursing
+    used_by: [nursing_scope_of_practice_guide]
+    caveats:
+      - >-
+        Pending review. A partial snapshot dated 2026-11-12: 244 CMR 3.00, 9.00, and 10.00, parts of
+        4.00, M.G.L. c. 112 s. 80B, the Board's decision-making guidelines, and 11 advisory rulings (23
+        other rulings are listed by title only; 244 CMR 5.00 to 8.00 and most of c. 112 were not read).
+        Every quotation was checked against the fetched text. Medium confidence: the 244 CMR 3.05(5)(d)
+        medication delegation requirements (PDF layout), the 244 CMR 4.00 entries, AR 25-01's definition
+        of groups, and the Board's decision question 2. The tool never says an act is within scope. No
+        refresh builder exists.
+  # End of Phase 18 ethics (EBP-07, POL-05, POL-06).
+  # Phase 19 tracking (POL-01, POL-03).
+  - id: ma-legislature-bills
+    name: >-
+      Massachusetts Legislature public API: bills of the 194th General Court (2025-2026)
+    publisher: 'Massachusetts Legislature'
+    kind: live
+    status: active
+    snapshot_id: ma-legislation-194
+    homepage: https://malegislature.gov/
+    probe_url: https://malegislature.gov/api/swagger/v1/swagger.json
+    used_by: [track_ma_legislation]
+    caveats:
+      - >-
+        No key. The 12 MB bill list is cached for a day and bills are matched by title words only, so a
+        bill that never uses a topic word is missed. The Legislature publishes no status field: the
+        stage is this project's reading of the history. The bundled snapshot has 822 bills (retrieved
+        2026-11-13) and status is as of that date; the answer says whether live or snapshot was used.
+        Sponsor and amendment-author names are not returned. The API's terms were not found.
+  - id: federal-register-api
+    name: 'Federal Register API (proposed rules, final rules, and notices)'
+    publisher: 'Office of the Federal Register, National Archives'
+    kind: live
+    status: active
+    homepage: https://www.federalregister.gov/
+    probe_url: https://www.federalregister.gov/
+    used_by: [monitor_federal_rules]
+    caveats:
+      - >-
+        Live only: when the API cannot be reached the tool says LIVE DATA UNAVAILABLE and lists nothing.
+        federalregister.gov was blocked from the build environment, so the adapter was written from the
+        Federal Register's open-source code and tested against local mock servers, never against the
+        live service; run the ignored live tests once on an open network. Agency slugs for CDC, CMS,
+        HRSA, FDA, SAMHSA, ACF, and FSIS are from memory (low confidence).
+  - id: regulations-gov-api
+    name: 'Regulations.gov API v4 (optional comment-period cross-check)'
+    publisher: 'Regulations.gov (API keys are issued through api.data.gov)'
+    kind: live
+    status: active
+    homepage: https://www.regulations.gov/
+    probe_url: https://www.regulations.gov/
+    used_by: [monitor_federal_rules]
+    caveats:
+      - >-
+        Optional: needs a free api.data.gov key in PHN_REGULATIONS_GOV_API_KEY, which is added to the
+        request URL only and never shown, cached, or cited; without a key the cross-check is skipped and
+        says so. Used only for the documented document-number lookup. regulations.gov and
+        api.regulations.gov were blocked from the build environment, so the adapter was never run
+        against the live service.
+  - id: policy-ma-legislation-tracking-content
+    name: >-
+      Massachusetts legislation tracking: 18 topic keyword lists, stage rules, and analysis questions
+    publisher: 'Massachusetts Legislature (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-ma-legislation-tracking
+    homepage: https://malegislature.gov/api/swagger/v1/swagger.json
+    probe_url: https://malegislature.gov/api/swagger/v1/swagger.json
+    used_by: [track_ma_legislation]
+    caveats:
+      - >-
+        Pending review. The topic keyword lists are this project's choices (low; titles only); the stage
+        rules are this project's reading of 850 bills' history wording (medium). The nine analysis
+        questions are drafting aids.
+  - id: policy-federal-rules-tracking-content
+    name: 'Federal rule monitoring: agencies, document types, and public comment outline'
+    publisher: 'EPA''s tips for effective comments (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-federal-rules-tracking
+    homepage: https://www.epa.gov/dockets/commenting-epa-dockets
+    probe_url: https://www.epa.gov/dockets/commenting-epa-dockets
+    used_by: [monitor_federal_rules]
+    caveats:
+      - >-
+        Pending review. Nothing was verified against the live Federal Register or Regulations.gov APIs.
+        EPA, HHS, and USDA agency slugs come from the Federal Register's open-source agency mapping
+        (verified); the CDC, CMS, HRSA, FDA, SAMHSA, ACF, and FSIS slugs are from memory (low). The
+        comment outline arranges EPA's tips; the 11:59 pm Eastern deadline note is one observation
+        (low).
+  # End of Phase 19 tracking (POL-01, POL-03).
+  # Phase 19 law (POL-02, POL-04, POL-07).
+  - id: ma-law-mgl-c111
+    name: 'M.G.L. c. 111 (Public Health): section index and partial full text (snapshot)'
+    publisher: 'Massachusetts Legislature'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-law-mgl-c111
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Retrieved 2026-11-12: an index of all 510 sections that are not repealed and full text for 45
+        core sections only; other sections give number, title, and link. The Legislature's site gives no
+        per-section effective date. Sections of other chapters are not included. Site terms were not
+        read; the tool returns excerpts of 25 words or fewer. Decision support, not legal advice.
+  - id: ma-law-105-cmr
+    name: >-
+      105 CMR (DPH regulations): chapter and section index and partial full text (snapshot)
+    publisher: 'Massachusetts Department of Public Health (copies on mass.gov)'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-law-105-cmr
+    homepage: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    probe_url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Retrieved 2026-11-12 (chapter dates 1997-10-31 to 2026-11-06): all 89 chapters, a 3,060-section
+        title index read from PDFs, and full text for 20 chapters only. mass.gov's copies are
+        unofficial; PDF extraction can miss tables, forms, and appendices; 105 CMR 63.00 has no section
+        numbers. The snapshot is 966,000 bytes against a 1,000,000 byte cap, so adding a chapter means
+        dropping one.
+  - id: ma-law-244-cmr
+    name: >-
+      244 CMR (Board of Registration in Nursing regulations): full text of all eight chapters
+      (snapshot)
+    publisher: 'Massachusetts Board of Registration in Nursing (copies on mass.gov)'
+    kind: snapshot
+    status: active
+    snapshot_id: ma-law-244-cmr
+    homepage: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    probe_url: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Retrieved 2026-11-12 (chapter dates 2021-06-11 to 2025-04-25), all eight chapters (3.00 to
+        10.00), 51 sections. mass.gov's PDFs hold each page twice and the Board marks the copies as not
+        official. Board advisory rulings are in nursing_scope_of_practice_guide, not here.
+  - id: law-corpus-extended
+    name: >-
+      Extended law corpus (optional: every c. 111 section and every 105 CMR chapter in full text)
+    publisher: >-
+      Massachusetts Legislature and DPH (built by xtask/scripts/build_law_snapshots.py --extended)
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Optional, not shipped: install as law_corpus/ in the data or cache folder. Used only when its
+        manifest and SHA-256 checksums match; otherwise the bundled corpus is used and the answer says
+        the checksum did not match.
+  - id: local-regulations-folder
+    name: >-
+      The board of health's own regulations (folder in /data, default local_regulations)
+    publisher: 'Your board of health'
+    kind: local
+    status: active
+    homepage: null
+    probe_url: null
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Indexed with the Phase 1 policy index; spreadsheets are ignored. Files with a date of birth,
+        record number, or health plan number are refused (counted, never named), and phone numbers,
+        email addresses, and street addresses in excerpts are masked.
+  - id: policy-public-law-search-content
+    name: 'Public health law search: corpus coverage and topic starting points'
+    publisher: 'Massachusetts Legislature and mass.gov (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-public-law-search
+    homepage: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+    probe_url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+    used_by: [search_public_health_law]
+    caveats:
+      - >-
+        Pending review. The 14 topic starting-point lists were selected by this project from section
+        titles and were not checked by a lawyer. The corpus is partial and every result says so;
+        govinfo.gov, the Secretary of the Commonwealth's CMR site, and DESE (603 CMR 23.00) were
+        blocked.
+  - id: policy-policy-brief-content
+    name: 'Policy brief template and the Eightfold Path of policy analysis'
+    publisher: 'Open-access journal articles (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-policy-brief
+    homepage: https://pmc.ncbi.nlm.nih.gov/articles/PMC6111379/
+    probe_url: https://pmc.ncbi.nlm.nih.gov/articles/PMC6111379/
+    used_by: [draft_policy_brief]
+    caveats:
+      - >-
+        Pending review. The eight step names are this project's short labels for steps described by two
+        open-access articles and two PubMed abstracts; Bardach's book was not read. The legal-authority
+        and evidence-strength criteria are low confidence (no source read). The tool never invents
+        facts.
+  - id: policy-information-sharing-content
+    name: >-
+      Which rules govern a health record and its sharing (HIPAA, FERPA, 42 CFR Part 2, Massachusetts
+      law)
+    publisher: 'eCFR, malegislature.gov, and mass.gov (drafted by this project)'
+    kind: content
+    status: active
+    content_id: policy-information-sharing
+    homepage: https://www.ecfr.gov/
+    probe_url: https://www.ecfr.gov/
+    used_by: [health_information_sharing_guide]
+    caveats:
+      - >-
+        Pending review. 43 provisions with machine-checked 25-word quotations; some are medium
+        confidence. The logic that picks which regime to read, and the cautions, are this project's
+        drafting judgment and need review by counsel. Not read: the FERPA statute, HHS and Education
+        joint guidance, 603 CMR 23.00, Part 2 subpart E and the 2024 rule's compliance dates (no
+        compliance date is stated), 45 CFR 164.508 and 164.520, and several Massachusetts statutes.
+        Never a yes or no on sharing.
+  # End of Phase 19 law (POL-02, POL-04, POL-07).
+  # End of Phase 15-19 sources.
