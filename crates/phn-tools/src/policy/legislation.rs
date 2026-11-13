@@ -741,6 +741,11 @@ fn read_watchlist(
             .get(vi)
             .map(|s| s.trim().to_string())
             .unwrap_or_default();
+        // Saved files carry a leading apostrophe on text a spreadsheet would run as a formula.
+        let value = match value.strip_prefix('\'') {
+            Some(rest) if rest.starts_with(['=', '+', '-', '@']) => rest.to_string(),
+            _ => value,
+        };
         if value.is_empty() {
             continue;
         }
@@ -1388,20 +1393,27 @@ fn save_watchlist(
     ];
     w.write_record(header)
         .map_err(|e| PhnError::Internal(e.to_string()))?;
+    // Text from bill titles, keywords, or the model could start with = + - @ and run as a
+    // formula when the file is opened in a spreadsheet, so every cell is made safe.
+    let safe = |r: &[String]| {
+        r.iter()
+            .map(|c| phn_docs::csv_out::neutralize_cell(c))
+            .collect::<Vec<_>>()
+    };
     let checked = today.to_string();
     let blank = |n: usize| vec![String::new(); n];
     for t in &wanted.topics {
         let mut r = vec!["topic".to_string(), t.clone()];
         r.extend(blank(9));
         r[10] = checked.clone();
-        w.write_record(&r)
+        w.write_record(safe(&r))
             .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     for k in &wanted.keywords {
         let mut r = vec!["keyword".to_string(), k.clone()];
         r.extend(blank(9));
         r[10] = checked.clone();
-        w.write_record(&r)
+        w.write_record(safe(&r))
             .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     let mut listed: BTreeSet<&str> = BTreeSet::new();
@@ -1423,7 +1435,7 @@ fn save_watchlist(
             b.url.clone(),
             checked.clone(),
         ];
-        w.write_record(&r)
+        w.write_record(safe(&r))
             .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     for n in &wanted.bills {
@@ -1431,7 +1443,7 @@ fn save_watchlist(
             let mut r = vec!["bill".to_string(), n.clone()];
             r.extend(blank(9));
             r[10] = checked.clone();
-            w.write_record(&r)
+            w.write_record(safe(&r))
                 .map_err(|e| PhnError::Internal(e.to_string()))?;
         }
     }

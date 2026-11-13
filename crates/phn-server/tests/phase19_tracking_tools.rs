@@ -398,3 +398,46 @@ async fn federal_errors_are_tool_errors() {
     .await;
     assert!(e.contains("list of people") && !e.contains("Quiddington"));
 }
+
+#[tokio::test]
+async fn saved_watchlists_never_hold_cells_a_spreadsheet_would_run_as_formulas() {
+    let h = start(|c| c.offline = true).await;
+    std::fs::write(
+        h.data().join("risky_watchlist.csv"),
+        "kind,value,note\nkeyword,=HYPERLINK(\"http://example.org\"),\nkeyword,+cmd,\ntopic,school_child_care,\n",
+    )
+    .unwrap();
+    let s = call_ok(
+        &h,
+        "track_ma_legislation",
+        json!({"watchlist_path": "risky_watchlist.csv", "save_watchlist": true, "max_bills": 3}),
+    )
+    .await;
+    let file = s["data"]["watchlist"]["saved_file"].as_str().unwrap();
+    let text = std::fs::read_to_string(h.data().join(file)).unwrap();
+    for line in text.lines().skip(1) {
+        let first_cells: Vec<&str> = line.split(',').collect();
+        for cell in first_cells {
+            let cell = cell.trim_matches('"');
+            assert!(
+                !cell.starts_with(['=', '+', '-', '@']),
+                "formula-like cell in saved watchlist: {cell}"
+            );
+        }
+    }
+    assert!(text.contains("'=HYPERLINK"), "{text}");
+    // The safe copy still reads back as the same keyword.
+    let again = call_ok(
+        &h,
+        "track_ma_legislation",
+        json!({"watchlist_path": file, "max_bills": 3}),
+    )
+    .await;
+    let kws: Vec<String> = again["data"]["watchlist"]["keywords"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|k| k.as_str().unwrap().to_string())
+        .collect();
+    assert!(kws.iter().any(|k| k.starts_with("=HYPERLINK")), "{kws:?}");
+}

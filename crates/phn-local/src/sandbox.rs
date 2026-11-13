@@ -72,7 +72,9 @@ impl Sandbox {
         let dir = self.output_dir()?;
         let clean = sanitize_file_name(file_name);
         let candidate = dir.join(&clean);
-        if !candidate.exists() {
+        // `symlink_metadata` also sees a dangling symbolic link, which `exists` reports as absent
+        // and which a write would follow to wherever it points.
+        if candidate.symlink_metadata().is_err() {
             return Ok(candidate);
         }
         let (stem, ext) = match clean.rsplit_once('.') {
@@ -81,7 +83,7 @@ impl Sandbox {
         };
         for n in 2..10_000 {
             let p = dir.join(format!("{stem}-{n}{ext}"));
-            if !p.exists() {
+            if p.symlink_metadata().is_err() {
                 return Ok(p);
             }
         }
@@ -219,6 +221,20 @@ mod tests {
                 Err(PhnError::Sandbox(_))
             ));
         }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn a_dangling_symlink_in_the_output_folder_is_never_written_through() {
+        let (d, sb) = setup();
+        let out = sb.output_dir().unwrap();
+        let target = d.path().join("elsewhere.docx");
+        std::os::unix::fs::symlink(&target, out.join("report.docx")).unwrap();
+        // The target does not exist, so `exists()` would call the name free and a write would
+        // create the file outside the output folder.
+        let p = sb.new_output_file("report.docx").unwrap();
+        assert!(p.ends_with("report-2.docx"), "{p:?}");
+        assert!(!target.exists());
     }
 
     #[test]
