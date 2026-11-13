@@ -150,10 +150,16 @@ pub fn search_url(base: &str, q: &Query) -> String {
         parts.push(format!("conditions%5Bterm%5D={}", enc(t)));
     }
     if let Some(d) = &q.published_gte {
-        parts.push(format!("conditions%5Bpublication_date%5D%5Bgte%5D={}", enc(d)));
+        parts.push(format!(
+            "conditions%5Bpublication_date%5D%5Bgte%5D={}",
+            enc(d)
+        ));
     }
     if let Some(d) = &q.published_lte {
-        parts.push(format!("conditions%5Bpublication_date%5D%5Blte%5D={}", enc(d)));
+        parts.push(format!(
+            "conditions%5Bpublication_date%5D%5Blte%5D={}",
+            enc(d)
+        ));
     }
     if let Some(d) = &q.comments_close_gte {
         parts.push(format!("conditions%5Bcomment_date%5D%5Bgte%5D={}", enc(d)));
@@ -178,7 +184,11 @@ pub fn document_url(base: &str, document_number: &str) -> String {
 }
 
 fn text(v: Option<&Value>) -> Option<String> {
-    let t = v?.as_str()?.split_whitespace().collect::<Vec<_>>().join(" ");
+    let t = v?
+        .as_str()?
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     (!t.is_empty()).then_some(t)
 }
 
@@ -251,12 +261,13 @@ fn parse_document(v: &Value) -> Option<Document> {
 /// Parse a `documents.json` response (`count`, `results`).
 pub fn parse_search(body: &[u8]) -> Result<SearchPage> {
     let v: Value = serde_json::from_slice(body).map_err(|e| {
-        PhnError::Network(format!("the Federal Register sent a response that is not JSON ({e})"))
+        PhnError::Network(format!(
+            "the Federal Register sent a response that is not JSON ({e})"
+        ))
     })?;
-    let results = v
-        .get("results")
-        .and_then(Value::as_array)
-        .ok_or_else(|| PhnError::Network("the Federal Register's answer has no results list".into()))?;
+    let results = v.get("results").and_then(Value::as_array).ok_or_else(|| {
+        PhnError::Network("the Federal Register's answer has no results list".into())
+    })?;
     let documents: Vec<Document> = results.iter().filter_map(parse_document).collect();
     let count = v
         .get("count")
@@ -268,7 +279,9 @@ pub fn parse_search(body: &[u8]) -> Result<SearchPage> {
 /// Parse one document's record (`documents/{number}.json`).
 pub fn parse_one(body: &[u8]) -> Result<Document> {
     let v: Value = serde_json::from_slice(body).map_err(|e| {
-        PhnError::Network(format!("the Federal Register sent a response that is not JSON ({e})"))
+        PhnError::Network(format!(
+            "the Federal Register sent a response that is not JSON ({e})"
+        ))
     })?;
     parse_document(&v)
         .ok_or_else(|| PhnError::Network("the Federal Register's answer is not a document".into()))
@@ -323,7 +336,8 @@ pub async fn fetch_document(
     let n = document_number.trim();
     let ok = !n.is_empty()
         && n.len() <= 20
-        && n.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_');
+        && n.chars()
+            .all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_');
     if !ok {
         return Err(PhnError::InvalidInput(format!(
             "'{document_number}' is not a Federal Register document number (for example 2024-12345)"
@@ -333,9 +347,9 @@ pub async fn fetch_document(
     let f = fetch_with_options(http, cache, &url, TTL_SECS, &expect_one, None, options())
         .await
         .map_err(|f| match f.live_status {
-            Some(404) => PhnError::NotFound(format!(
-                "the Federal Register has no document numbered {n}"
-            )),
+            Some(404) => {
+                PhnError::NotFound(format!("the Federal Register has no document numbered {n}"))
+            }
             _ => f.error,
         })?;
     Ok((parse_one(&f.body)?, f.mode, f.as_of, f.fallback_reason))
@@ -362,8 +376,11 @@ pub struct RegsDocument {
 /// Parse a `v4/documents?filter[frDocNum]=...` response. `None` when
 /// Regulations.gov has no matching document.
 pub fn parse_regs(body: &[u8]) -> Result<Option<RegsDocument>> {
-    let v: Value = serde_json::from_slice(body)
-        .map_err(|e| PhnError::Network(format!("Regulations.gov sent a response that is not JSON ({e})")))?;
+    let v: Value = serde_json::from_slice(body).map_err(|e| {
+        PhnError::Network(format!(
+            "Regulations.gov sent a response that is not JSON ({e})"
+        ))
+    })?;
     let data = v
         .get("data")
         .and_then(Value::as_array)
@@ -462,7 +479,9 @@ mod tests {
             ..Query::default()
         };
         let u = search_url(BASE, &q);
-        assert!(u.starts_with("https://www.federalregister.gov/api/v1/documents.json?per_page=50&order=newest"));
+        assert!(u.starts_with(
+            "https://www.federalregister.gov/api/v1/documents.json?per_page=50&order=newest"
+        ));
         assert!(u.contains("conditions%5Bagencies%5D%5B%5D=environmental-protection-agency"));
         assert!(u.contains("conditions%5Btype%5D%5B%5D=PRORULE&conditions%5Btype%5D%5B%5D=NOTICE"));
         assert!(u.contains("conditions%5Bterm%5D=lead%20%26%20copper"));
@@ -476,14 +495,24 @@ mod tests {
     fn parses_search_results_and_drops_bad_dates() {
         let p = parse_search(SEARCH.as_bytes()).unwrap();
         assert_eq!(p.count, 2);
-        assert_eq!(p.documents.len(), 2, "the entry without a number is dropped");
+        assert_eq!(
+            p.documents.len(),
+            2,
+            "the entry without a number is dropped"
+        );
         let d = &p.documents[0];
         assert_eq!(d.title, "Proposed Rule on lead in drinking water");
         assert_eq!(d.abstract_text.as_deref(), Some("EPA proposes changes."));
         assert_eq!(d.comments_close_on.as_deref(), Some("2026-12-14"));
-        assert_eq!(d.agencies[0].slug.as_deref(), Some("environmental-protection-agency"));
+        assert_eq!(
+            d.agencies[0].slug.as_deref(),
+            Some("environmental-protection-agency")
+        );
         assert_eq!(d.docket_ids, vec!["EPA-HQ-OW-2026-0001"]);
-        assert_eq!(p.documents[1].publication_date, None, "year 0026 is rejected");
+        assert_eq!(
+            p.documents[1].publication_date, None,
+            "year 0026 is rejected"
+        );
         assert!(parse_search(b"<html>blocked</html>").is_err());
         assert!(parse_search(br#"{"count":0}"#).is_err());
         assert!(parse_one(br#"{"title":"x"}"#).is_err());
@@ -503,7 +532,9 @@ mod tests {
         assert!(parse_regs(b"<html/>").is_err());
     }
 
-    async fn serve(responses: Vec<(&'static str, &'static str)>) -> (String, std::sync::Arc<std::sync::Mutex<Vec<String>>>) {
+    async fn serve(
+        responses: Vec<(&'static str, &'static str)>,
+    ) -> (String, std::sync::Arc<std::sync::Mutex<Vec<String>>>) {
         let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
         let addr = listener.local_addr().unwrap();
         let seen = std::sync::Arc::new(std::sync::Mutex::new(Vec::new()));
@@ -514,7 +545,10 @@ mod tests {
                 let mut buf = [0u8; 8192];
                 let n = sock.read(&mut buf).await.unwrap_or(0);
                 let req = String::from_utf8_lossy(&buf[..n]).into_owned();
-                seen2.lock().unwrap().push(req.lines().next().unwrap_or("").to_string());
+                seen2
+                    .lock()
+                    .unwrap()
+                    .push(req.lines().next().unwrap_or("").to_string());
                 let (status, body) = responses[i.min(responses.len() - 1)];
                 i += 1;
                 let resp = format!(
@@ -539,7 +573,10 @@ mod tests {
         let (_d, http) = client();
         let cache = Cache::in_memory().unwrap();
         let (base, _) = serve(vec![("200 OK", SEARCH)]).await;
-        let q = Query { per_page: 10, ..Query::default() };
+        let q = Query {
+            per_page: 10,
+            ..Query::default()
+        };
         let a = search(&http, Some(&cache), &base, &q).await.unwrap();
         assert_eq!(a.mode, SourceMode::Live);
         let b = search(&http, Some(&cache), &base, &q).await.unwrap();
@@ -548,10 +585,14 @@ mod tests {
         let (base2, _) = serve(vec![("200 OK", "<html>blocked</html>")]).await;
         assert!(search(&http, None, &base2, &q).await.is_err());
         let (base3, _) = serve(vec![("404 Not Found", "x")]).await;
-        let e = fetch_document(&http, None, &base3, "2026-99999").await.unwrap_err();
+        let e = fetch_document(&http, None, &base3, "2026-99999")
+            .await
+            .unwrap_err();
         assert!(matches!(e, PhnError::NotFound(_)), "{e}");
         assert!(matches!(
-            fetch_document(&http, None, &base3, "../x").await.unwrap_err(),
+            fetch_document(&http, None, &base3, "../x")
+                .await
+                .unwrap_err(),
             PhnError::InvalidInput(_)
         ));
     }
@@ -581,7 +622,19 @@ mod tests {
         let mut cfg = Config::for_root(dir.path());
         cfg.offline = true;
         let http = HttpClient::new(&cfg).unwrap();
-        assert!(search(&http, None, BASE, &Query { per_page: 5, ..Query::default() }).await.is_err());
+        assert!(
+            search(
+                &http,
+                None,
+                BASE,
+                &Query {
+                    per_page: 5,
+                    ..Query::default()
+                }
+            )
+            .await
+            .is_err()
+        );
     }
 
     /// Live check (run with `cargo test -- --ignored`).

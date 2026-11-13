@@ -86,7 +86,10 @@ fn bill_routes() -> Vec<(&'static str, &'static str, String)> {
             "DocumentText":"{text}","CommitteeRecommendations":[{{"Action":"Accompanied","Committee":{{"CommitteeCode":"J24"}}}}]}}"#
         )
     };
-    let long_text = (1..=40).map(|i| format!("w{i}")).collect::<Vec<_>>().join(" ")
+    let long_text = (1..=40)
+        .map(|i| format!("w{i}"))
+        .collect::<Vec<_>>()
+        .join(" ")
         + " the department shall offer each vaccine at no cost to residents and report yearly to the board of health about uptake";
     vec![
         ("/GeneralCourts/194/Documents", "200 OK", list.to_string()),
@@ -129,10 +132,15 @@ async fn legislation_live_then_cache_with_stage_hearing_and_excerpt() {
         topics: vec!["vaccines".into(), "school_child_care".into()],
         ..Default::default()
     });
-    let e = track_ma_legislation_at(&c, args.clone(), &base).await.unwrap();
+    let e = track_ma_legislation_at(&c, args.clone(), &base)
+        .await
+        .unwrap();
     let d = &e.data;
     assert_eq!(d.data_mode, "live");
-    assert_eq!(d.title_matches, 3, "H100, S200, H400 match; highway signs and the docket do not");
+    assert_eq!(
+        d.title_matches, 3,
+        "H100, S200, H400 match; highway signs and the docket do not"
+    );
     let h100 = d.bills.iter().find(|b| b.bill_number == "H100").unwrap();
     assert_eq!(h100.stage, "in_committee");
     assert_eq!(h100.committee.as_deref(), Some("Public Health"));
@@ -141,7 +149,11 @@ async fn legislation_live_then_cache_with_stage_hearing_and_excerpt() {
     assert_eq!(h100.days_until_hearing, Some(18));
     assert_eq!(h100.cosponsors, 2);
     let ex = h100.excerpt.as_ref().unwrap();
-    assert!(ex.text.split_whitespace().filter(|w| *w != "…").count() <= 25, "{}", ex.text);
+    assert!(
+        ex.text.split_whitespace().filter(|w| *w != "…").count() <= 25,
+        "{}",
+        ex.text
+    );
     assert!(ex.text.contains("vaccine") && ex.source.contains("/Bills/194/H100"));
     assert_eq!(h100.url, "https://malegislature.gov/Bills/194/H100");
     // The amendment line's member name is left out.
@@ -155,7 +167,9 @@ async fn legislation_live_then_cache_with_stage_hearing_and_excerpt() {
     assert_eq!(d.bills[0].bill_number, "H100");
     // No sponsor names anywhere in the output.
     let all = serde_json::to_string(&e).unwrap() + &e.summary;
-    assert!(!all.contains("Zed Seeded") && !all.contains("Pat Other") && !all.contains("Pat Member"));
+    assert!(
+        !all.contains("Zed Seeded") && !all.contains("Pat Other") && !all.contains("Pat Member")
+    );
     assert!(e.notice.is_some() && !e.privacy.row_level_data);
     assert!(e.caveats.iter().any(|c| c.contains("TITLES")));
     // A second call reads the bill list from the cache.
@@ -199,16 +213,59 @@ async fn legislation_filters_not_found_and_validation() {
     )
     .await
     .unwrap();
-    assert_eq!(only.data.bills.len(), 1, "only H100 has an upcoming hearing");
+    assert_eq!(
+        only.data.bills.len(),
+        1,
+        "only H100 has an upcoming hearing"
+    );
     for (args, needle) in [
-        (TrackArgs { topics: vec!["nonsense".into()], ..Default::default() }, "not a topic"),
-        (TrackArgs { bill_numbers: vec!["HD2050".into()], ..Default::default() }, "not a bill number"),
-        (TrackArgs { stages: vec!["done".into()], ..Default::default() }, "not a stage"),
-        (TrackArgs { keywords: vec!["call 413-555-0100".into()], ..Default::default() }, "phone"),
-        (TrackArgs { general_court: Some(12), ..Default::default() }, "general_court"),
-        (TrackArgs { as_of: Some("0021-01-01".into()), ..Default::default() }, "1900"),
+        (
+            TrackArgs {
+                topics: vec!["nonsense".into()],
+                ..Default::default()
+            },
+            "not a topic",
+        ),
+        (
+            TrackArgs {
+                bill_numbers: vec!["HD2050".into()],
+                ..Default::default()
+            },
+            "not a bill number",
+        ),
+        (
+            TrackArgs {
+                stages: vec!["done".into()],
+                ..Default::default()
+            },
+            "not a stage",
+        ),
+        (
+            TrackArgs {
+                keywords: vec!["call 413-555-0100".into()],
+                ..Default::default()
+            },
+            "phone",
+        ),
+        (
+            TrackArgs {
+                general_court: Some(12),
+                ..Default::default()
+            },
+            "general_court",
+        ),
+        (
+            TrackArgs {
+                as_of: Some("0021-01-01".into()),
+                ..Default::default()
+            },
+            "1900",
+        ),
     ] {
-        let err = track_ma_legislation_at(&c, args, &base).await.unwrap_err().to_string();
+        let err = track_ma_legislation_at(&c, args, &base)
+            .await
+            .unwrap_err()
+            .to_string();
         assert!(err.to_lowercase().contains(needle), "{err}");
         assert!(!err.contains("413-555-0100"));
     }
@@ -233,7 +290,11 @@ async fn legislation_falls_back_to_the_dated_snapshot_and_says_so() {
     assert!(!e.data.bills.is_empty());
     assert!(e.data.bills.iter().all(|b| b.data_mode == "snapshot"));
     assert!(e.caveats.iter().any(|c| c.contains("SNAPSHOT DATA")));
-    assert!(e.sources.iter().any(|s| s.mode == phn_core::SourceMode::Snapshot));
+    assert!(
+        e.sources
+            .iter()
+            .any(|s| s.mode == phn_core::SourceMode::Snapshot)
+    );
     // Earlier courts have no snapshot.
     let err = track_ma_legislation_at(
         &c,
@@ -249,9 +310,16 @@ async fn legislation_falls_back_to_the_dated_snapshot_and_says_so() {
     .to_string();
     assert!(err.contains("194"), "{err}");
     // The topic index needs no network.
-    let idx = track_ma_legislation_at(&c, track(TrackArgs::default()), &dead).await.unwrap();
+    let idx = track_ma_legislation_at(&c, track(TrackArgs::default()), &dead)
+        .await
+        .unwrap();
     assert!(idx.data.bills.is_empty() && idx.data.topics.len() >= 15);
-    assert!(idx.data.topics.iter().any(|t| t.id == "vaccines" && t.bills_matched > 0));
+    assert!(
+        idx.data
+            .topics
+            .iter()
+            .any(|t| t.id == "vaccines" && t.bills_matched > 0)
+    );
 }
 
 #[tokio::test]
@@ -283,7 +351,11 @@ async fn watchlist_is_read_saved_and_people_lists_are_refused() {
     assert!(e.privacy.files_written.contains(saved));
     let text = std::fs::read_to_string(d.path().join("data").join(saved)).unwrap();
     assert!(text.starts_with("kind,value,note,title,stage"));
-    assert!(text.contains("topic,vaccines") && text.contains("keyword,PFAS") && text.contains("bill,H100"));
+    assert!(
+        text.contains("topic,vaccines")
+            && text.contains("keyword,PFAS")
+            && text.contains("bill,H100")
+    );
     // A client list is refused without echoing a value.
     std::fs::write(
         d.path().join("data/clients.csv"),
@@ -369,7 +441,11 @@ async fn federal_live_countdown_regulations_gov_and_no_key_in_output() {
     assert_eq!(d.data_status, "live");
     assert_eq!(d.documents.len(), 3);
     // Soonest open deadline first; the one without a deadline last.
-    let nums: Vec<&str> = d.documents.iter().map(|x| x.document_number.as_str()).collect();
+    let nums: Vec<&str> = d
+        .documents
+        .iter()
+        .map(|x| x.document_number.as_str())
+        .collect();
     assert_eq!(nums, vec!["2026-30001", "2026-30002", "2026-30003"]);
     assert_eq!(d.documents[0].countdown.days_remaining, Some(3));
     assert_eq!(d.documents[0].countdown.status, "closing_soon");
@@ -380,8 +456,20 @@ async fn federal_live_countdown_regulations_gov_and_no_key_in_output() {
     assert_eq!(r.comment_end_utc.as_deref(), Some("2026-11-17T04:59:59Z"));
     assert!(d.regulations_gov.used);
     // The key reached only Regulations.gov, and no output mentions it.
-    assert!(regs_hits.lock().unwrap().iter().any(|l| l.contains("api_key=SECRETKEY-do-not-leak")));
-    assert!(!fr_hits.lock().unwrap().iter().any(|l| l.contains("SECRETKEY")));
+    assert!(
+        regs_hits
+            .lock()
+            .unwrap()
+            .iter()
+            .any(|l| l.contains("api_key=SECRETKEY-do-not-leak"))
+    );
+    assert!(
+        !fr_hits
+            .lock()
+            .unwrap()
+            .iter()
+            .any(|l| l.contains("SECRETKEY"))
+    );
     let all = serde_json::to_string(&e).unwrap() + &e.summary;
     assert!(!all.contains("SECRETKEY"));
     // The request asked for six default agencies and comment periods open today or later.
@@ -404,7 +492,12 @@ async fn federal_without_a_key_skips_regulations_gov_and_says_so() {
         .await
         .unwrap();
     assert!(!e.data.regulations_gov.used);
-    assert!(e.data.regulations_gov.note.contains("PHN_REGULATIONS_GOV_API_KEY"));
+    assert!(
+        e.data
+            .regulations_gov
+            .note
+            .contains("PHN_REGULATIONS_GOV_API_KEY")
+    );
 }
 
 #[tokio::test]
@@ -418,9 +511,17 @@ async fn federal_says_live_data_is_unavailable_instead_of_listing_old_data() {
     assert!(e.data.documents.is_empty() && e.data.as_of.is_none());
     assert!(e.data.status_note.contains("LIVE DATA UNAVAILABLE"));
     assert!(e.summary.contains("LIVE DATA UNAVAILABLE"));
-    assert!(e.caveats.iter().any(|c| c.contains("no open comment periods")));
+    assert!(
+        e.caveats
+            .iter()
+            .any(|c| c.contains("no open comment periods"))
+    );
     assert!(!e.data.manual_links.is_empty());
-    assert!(e.sources.iter().all(|s| s.mode != phn_core::SourceMode::Live));
+    assert!(
+        e.sources
+            .iter()
+            .all(|s| s.mode != phn_core::SourceMode::Live)
+    );
     // Offline mode behaves the same.
     let (_d2, off) = ctx(true);
     let e = monitor_federal_rules_at(&off, fed(FederalArgs::default()), &dead, &dead, None)
@@ -459,12 +560,18 @@ async fn federal_outline_from_a_live_document_and_from_a_description() {
     assert_eq!(o.fields_filled, 2);
     assert_eq!(o.unrecognized_fields, vec!["astrology"]);
     assert_eq!(o.sections.len(), 9);
-    assert!(o.tips.iter().all(|t| t.quote.split_whitespace().count() <= 25));
+    assert!(
+        o.tips
+            .iter()
+            .all(|t| t.quote.split_whitespace().count() <= 25)
+    );
     assert!(o.file.ends_with(".docx") && d.path().join("data").join(&o.file).exists());
     assert!(e.privacy.files_written.contains(&o.file));
     // The fill values are in the file, not in anything returned.
     let all = serde_json::to_string(&e).unwrap() + &e.summary;
-    assert!(!all.contains("Example Town Health Department") && !all.contains("support with changes"));
+    assert!(
+        !all.contains("Example Town Health Department") && !all.contains("support with changes")
+    );
     // With live data unavailable, the outline can still be drafted from a description.
     let dead = dead_base().await;
     let e = monitor_federal_rules_at(
@@ -526,15 +633,61 @@ async fn federal_refuses_people_lists_and_bad_arguments() {
     .await
     .unwrap_err()
     .to_string();
-    assert!(err.contains("list of people") && !err.contains("Quiddington"), "{err}");
+    assert!(
+        err.contains("list of people") && !err.contains("Quiddington"),
+        "{err}"
+    );
     for (args, needle) in [
-        (FederalArgs { agencies: vec!["navy".into()], ..Default::default() }, "not an agency id"),
-        (FederalArgs { document_types: vec!["memo".into()], ..Default::default() }, "not a document type"),
-        (FederalArgs { agency_slugs: vec!["Bad Slug!".into()], ..Default::default() }, "slug"),
-        (FederalArgs { published_since: Some("2026-12-01".into()), published_until: Some("2026-11-01".into()), ..Default::default() }, "after"),
-        (FederalArgs { topic: Some("call 413-555-0100".into()), ..Default::default() }, "phone"),
-        (FederalArgs { comment_deadline: Some("2026-02-30".into()), ..Default::default() }, "not a date"),
-        (FederalArgs { document_number: Some("../etc".into()), ..Default::default() }, "document number"),
+        (
+            FederalArgs {
+                agencies: vec!["navy".into()],
+                ..Default::default()
+            },
+            "not an agency id",
+        ),
+        (
+            FederalArgs {
+                document_types: vec!["memo".into()],
+                ..Default::default()
+            },
+            "not a document type",
+        ),
+        (
+            FederalArgs {
+                agency_slugs: vec!["Bad Slug!".into()],
+                ..Default::default()
+            },
+            "slug",
+        ),
+        (
+            FederalArgs {
+                published_since: Some("2026-12-01".into()),
+                published_until: Some("2026-11-01".into()),
+                ..Default::default()
+            },
+            "after",
+        ),
+        (
+            FederalArgs {
+                topic: Some("call 413-555-0100".into()),
+                ..Default::default()
+            },
+            "phone",
+        ),
+        (
+            FederalArgs {
+                comment_deadline: Some("2026-02-30".into()),
+                ..Default::default()
+            },
+            "not a date",
+        ),
+        (
+            FederalArgs {
+                document_number: Some("../etc".into()),
+                ..Default::default()
+            },
+            "document number",
+        ),
     ] {
         let err = monitor_federal_rules_at(&c, fed(args), &fr, &fr, None)
             .await

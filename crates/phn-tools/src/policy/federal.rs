@@ -340,7 +340,10 @@ fn doc_out(d: &Document, today: NaiveDate, regs: Option<&RegsDocument>) -> DocOu
         title: d.title.clone(),
         doc_type: d.doc_type.clone(),
         agencies: d.agencies.iter().map(|a| a.name.clone()).collect(),
-        abstract_text: d.abstract_text.as_deref().map(|a| truncate_chars(a, MAX_ABSTRACT_CHARS)),
+        abstract_text: d
+            .abstract_text
+            .as_deref()
+            .map(|a| truncate_chars(a, MAX_ABSTRACT_CHARS)),
         publication_date: d.publication_date.clone(),
         comments_close_on: d.comments_close_on.clone(),
         countdown: countdown(d.comments_close_on.as_deref(), today),
@@ -378,10 +381,12 @@ fn resolve_type<'a>(c: &'a FedContent, raw: &str) -> Option<&'a DocTypeDef> {
 
 fn valid_slug(s: &str) -> bool {
     (3..=80).contains(&s.len())
-        && s.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
+        && s.bytes()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'-')
 }
 
 /// Markdown of the comment outline.
+#[allow(clippy::too_many_arguments)]
 pub fn outline_markdown(
     c: &FedContent,
     title: &str,
@@ -423,7 +428,10 @@ pub fn outline_markdown(
     s.push_str(&format!(
         "| Comment deadline | {} |\n\n",
         match deadline {
-            Some(d) => format!("{d} ({}; check the document's DATES section for the time)", countdown.label),
+            Some(d) => format!(
+                "{d} ({}; check the document's DATES section for the time)",
+                countdown.label
+            ),
             None => "[NURSE: comment deadline from the Federal Register document]".into(),
         }
     ));
@@ -434,13 +442,28 @@ pub fn outline_markdown(
             .tips
             .iter()
             .filter_map(|id| c.tips.iter().find(|t| &t.id == id))
-            .map(|t| format!("\"{}\" ({})", t.quote, c.sources.get(&t.source).map_or("EPA", |x| x.publisher.as_str())))
+            .map(|t| {
+                format!(
+                    "\"{}\" ({})",
+                    t.quote,
+                    c.sources
+                        .get(&t.source)
+                        .map_or("EPA", |x| x.publisher.as_str())
+                )
+            })
             .collect();
         if !tips.is_empty() {
-            s.push_str(&format!("_From EPA's tips for effective comments: {}_\n\n", tips.join("; ")));
+            s.push_str(&format!(
+                "_From EPA's tips for effective comments: {}_\n\n",
+                tips.join("; ")
+            ));
         }
         for p in &sec.placeholders {
-            let text = match fills.get(&p.field).map(|v| v.trim()).filter(|v| !v.is_empty()) {
+            let text = match fills
+                .get(&p.field)
+                .map(|v| v.trim())
+                .filter(|v| !v.is_empty())
+            {
                 Some(v) => v.to_string(),
                 None => p.text.clone(),
             };
@@ -483,8 +506,10 @@ fn read_fill(
         "an outline fill file",
         "A fill file has two columns: field and value.",
     )?;
-    let (Some(fi), Some(vi)) = (lt.table.column_index("field"), lt.table.column_index("value"))
-    else {
+    let (Some(fi), Some(vi)) = (
+        lt.table.column_index("field"),
+        lt.table.column_index("value"),
+    ) else {
         return Err(PhnError::InvalidInput(format!(
             "'{}' needs columns named field and value. Columns found: {}",
             lt.label,
@@ -505,8 +530,14 @@ fn read_fill(
     let mut fills = BTreeMap::new();
     let mut unknown = Vec::new();
     for row in &lt.table.rows {
-        let f = row.get(fi).map(|s| s.trim().to_lowercase().replace(' ', "_")).unwrap_or_default();
-        let v = row.get(vi).map(|s| s.trim().to_string()).unwrap_or_default();
+        let f = row
+            .get(fi)
+            .map(|s| s.trim().to_lowercase().replace(' ', "_"))
+            .unwrap_or_default();
+        let v = row
+            .get(vi)
+            .map(|s| s.trim().to_string())
+            .unwrap_or_default();
         if f.is_empty() || v.is_empty() {
             continue;
         }
@@ -577,7 +608,11 @@ pub async fn monitor_federal_rules_at(
             PhnError::InvalidInput(format!(
                 "'{}' is not an agency id. Ids: {} (or give agency_slugs)",
                 raw.chars().take(40).collect::<String>(),
-                c.agencies.iter().map(|a| a.id.as_str()).collect::<Vec<_>>().join(", ")
+                c.agencies
+                    .iter()
+                    .map(|a| a.id.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
             ))
         })?;
         agencies.push(AgencyOut {
@@ -611,7 +646,11 @@ pub async fn monitor_federal_rules_at(
             PhnError::InvalidInput(format!(
                 "'{}' is not a document type. Types: {}",
                 raw.chars().take(40).collect::<String>(),
-                c.document_types.iter().map(|t| t.id.as_str()).collect::<Vec<_>>().join(", ")
+                c.document_types
+                    .iter()
+                    .map(|t| t.id.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
             ))
         })?;
         if !types.iter().any(|x| x.id == t.id) {
@@ -713,7 +752,8 @@ pub async fn monitor_federal_rules_at(
             Ok(r) => {
                 total = r.page.count;
                 docs = r.page.documents;
-                (status, status_note, as_of, src_mode) = describe(r.mode, &r.as_of, r.fallback_reason);
+                (status, status_note, as_of, src_mode) =
+                    describe(r.mode, &r.as_of, r.fallback_reason);
             }
             Err(e) => failure = Some(e.to_string()),
         }
@@ -816,7 +856,11 @@ pub async fn monitor_federal_rules_at(
         let agency = target
             .and_then(|d| {
                 (!d.agencies.is_empty()).then(|| {
-                    d.agencies.iter().map(|a| a.name.clone()).collect::<Vec<_>>().join("; ")
+                    d.agencies
+                        .iter()
+                        .map(|a| a.name.clone())
+                        .collect::<Vec<_>>()
+                        .join("; ")
                 })
             })
             .or(manual_agency.clone());
@@ -876,7 +920,9 @@ pub async fn monitor_federal_rules_at(
                     paraphrase: t.paraphrase.clone(),
                     citation: format!(
                         "{}, {}",
-                        c.sources.get(&t.source).map_or(t.source.as_str(), |s| s.title.as_str()),
+                        c.sources
+                            .get(&t.source)
+                            .map_or(t.source.as_str(), |s| s.title.as_str()),
                         t.section
                     ),
                 })
@@ -1010,7 +1056,9 @@ fn describe(
         ),
         (_, None) => (
             "cache".into(),
-            format!("A recent search served from the cache (read {date}; searches are cached for 3 hours)."),
+            format!(
+                "A recent search served from the cache (read {date}; searches are cached for 3 hours)."
+            ),
             Some(date),
             SourceMode::Cache,
         ),
@@ -1019,7 +1067,10 @@ fn describe(
 
 fn summary_text(d: &FederalResult) -> String {
     let mut s = String::from("**Federal rules and notices**\n\n");
-    s.push_str(&format!("Data: **{}**. {}\n\n", d.data_status, d.status_note));
+    s.push_str(&format!(
+        "Data: **{}**. {}\n\n",
+        d.data_status, d.status_note
+    ));
     s.push_str(&format!(
         "Agencies: {}. Today is {}.\n\n",
         if d.query.agencies.is_empty() {
@@ -1060,7 +1111,14 @@ fn summary_text(d: &FederalResult) -> String {
             })
             .collect();
         s.push_str(&md::table(
-            &["Document", "Type", "Title", "Agency", "Published", "Comment period"],
+            &[
+                "Document",
+                "Type",
+                "Title",
+                "Agency",
+                "Published",
+                "Comment period",
+            ],
             &rows,
         ));
         s.push('\n');
@@ -1069,8 +1127,11 @@ fn summary_text(d: &FederalResult) -> String {
                 s.push_str(&format!(
                     "- Regulations.gov {}: open for comment {}; ends {} (UTC)\n",
                     r.document_id,
-                    r.open_for_comment.map_or("unknown".to_string(), |b| b.to_string()),
-                    r.comment_end_utc.clone().unwrap_or_else(|| "not stated".into())
+                    r.open_for_comment
+                        .map_or("unknown".to_string(), |b| b.to_string()),
+                    r.comment_end_utc
+                        .clone()
+                        .unwrap_or_else(|| "not stated".into())
                 ));
             }
         }
@@ -1134,10 +1195,19 @@ mod tests {
         assert_eq!(cd("2026-11-20").status, "closing_soon");
         assert_eq!(cd("2026-11-21").status, "open");
         assert_eq!(cd("2026-11-12").status, "closed");
-        assert_eq!(cd("2026-11-12").label, "closed 1 day ago (Thursday, 2026-11-12)");
+        assert_eq!(
+            cd("2026-11-12").label,
+            "closed 1 day ago (Thursday, 2026-11-12)"
+        );
         assert_eq!(countdown(None, today).status, "no_comment_period");
-        assert_eq!(countdown(Some("0026-01-01"), today).status, "no_comment_period");
-        assert_eq!(countdown(Some("garbage"), today).status, "no_comment_period");
+        assert_eq!(
+            countdown(Some("0026-01-01"), today).status,
+            "no_comment_period"
+        );
+        assert_eq!(
+            countdown(Some("garbage"), today).status,
+            "no_comment_period"
+        );
     }
 
     #[derive(Deserialize)]
@@ -1153,7 +1223,8 @@ mod tests {
     #[test]
     fn countdown_matches_independent_date_arithmetic() {
         let cases: Vec<Case> =
-            serde_json::from_str(include_str!("../../tests/fixtures/countdown_golden.json")).unwrap();
+            serde_json::from_str(include_str!("../../tests/fixtures/countdown_golden.json"))
+                .unwrap();
         assert!(cases.len() >= 30);
         for c in cases {
             let today = NaiveDate::parse_from_str(&c.today, "%Y-%m-%d").unwrap();
@@ -1167,7 +1238,10 @@ mod tests {
     fn outline_has_every_section_and_fills_only_known_fields() {
         let c: FedContent = content::load(CONTENT).unwrap();
         let mut fills = BTreeMap::new();
-        fills.insert("organization".to_string(), "Example Health Department".to_string());
+        fills.insert(
+            "organization".to_string(),
+            "Example Health Department".to_string(),
+        );
         let cd = countdown(Some("2026-12-14"), d(2026, 11, 13));
         let md_text = outline_markdown(
             &c,
@@ -1185,7 +1259,10 @@ mod tests {
         assert!(md_text.contains("Example Health Department"));
         assert!(md_text.contains("[NURSE: support / oppose / support with changes]"));
         assert!(md_text.contains("EPA-HQ-OW-2026-0001") && md_text.contains("31 days left"));
-        assert!(!md_text.contains("[NURSE: organization and role]"), "filled field is replaced");
+        assert!(
+            !md_text.contains("[NURSE: organization and role]"),
+            "filled field is replaced"
+        );
     }
 
     #[test]

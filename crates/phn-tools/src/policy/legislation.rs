@@ -342,7 +342,8 @@ pub fn us_date(text: &str) -> Option<NaiveDate> {
 
 /// Hearing lines of a history, oldest first.
 pub fn hearings(history: &[HistoryAction]) -> Vec<HearingOut> {
-    let kind_re = Regex::new(r"(?i)^hearing\s+(scheduled|rescheduled|cancel\w*|postponed)\b").unwrap();
+    let kind_re =
+        Regex::new(r"(?i)^hearing\s+(scheduled|rescheduled|cancel\w*|postponed)\b").unwrap();
     history
         .iter()
         .filter(|a| !a.is_stricken)
@@ -405,16 +406,20 @@ pub fn current_committee(history: &[HistoryAction]) -> Option<String> {
 /// The committee's reporting deadline from the latest "Reporting date extended" line.
 pub fn reporting_deadline(history: &[HistoryAction]) -> Option<String> {
     let re = Regex::new(r"(?i)reporting date extended\s+(?:to|until)\s+(.+?)\s*$").unwrap();
-    history.iter().rev().filter(|a| !a.is_stricken).find_map(|a| {
-        let rest = re.captures(&a.action)?.get(1)?.as_str().to_string();
-        let rest = rest.trim_end_matches('.').replace(',', "");
-        for f in ["%A %B %d %Y", "%B %d %Y"] {
-            if let Ok(d) = NaiveDate::parse_from_str(&rest, f) {
-                return (1900..=2100).contains(&d.year()).then(|| d.to_string());
+    history
+        .iter()
+        .rev()
+        .filter(|a| !a.is_stricken)
+        .find_map(|a| {
+            let rest = re.captures(&a.action)?.get(1)?.as_str().to_string();
+            let rest = rest.trim_end_matches('.').replace(',', "");
+            for f in ["%A %B %d %Y", "%B %d %Y"] {
+                if let Ok(d) = NaiveDate::parse_from_str(&rest, f) {
+                    return (1900..=2100).contains(&d.year()).then(|| d.to_string());
+                }
             }
-        }
-        None
-    })
+            None
+        })
 }
 
 /// At most `MAX_WORDS` words of `text` around the first keyword (`LEAD_WORDS` words of lead-in),
@@ -438,7 +443,10 @@ pub fn excerpt_around(text: &str, keywords: &[String]) -> Option<String> {
         }
     }
     let idx = best.map_or(0, |pos| {
-        flat[..pos].split_whitespace().count().saturating_sub(LEAD_WORDS)
+        flat[..pos]
+            .split_whitespace()
+            .count()
+            .saturating_sub(LEAD_WORDS)
     });
     let end = (idx + MAX_WORDS).min(words.len());
     let mut s = words[idx..end].join(" ");
@@ -542,9 +550,7 @@ fn build_bill(
             branch: a.branch.clone(),
             text: a.action.clone(),
         }),
-        days_since_last_action: last
-            .and_then(|a| days_from(today, &a.date))
-            .map(|n| -n),
+        days_since_last_action: last.and_then(|a| days_from(today, &a.date)).map(|n| -n),
         hearings: hs[start..].to_vec(),
         latest_hearing_date: latest,
         hearing_upcoming: upcoming,
@@ -646,7 +652,11 @@ pub(crate) fn people_guard(
         .filter(|f| {
             matches!(
                 f.kind,
-                I::BirthDate | I::Ssn | I::MedicalRecordNumber | I::HealthPlanNumber | I::AccountNumber
+                I::BirthDate
+                    | I::Ssn
+                    | I::MedicalRecordNumber
+                    | I::HealthPlanNumber
+                    | I::AccountNumber
             )
         })
         .map(|f| f.kind.label())
@@ -656,7 +666,13 @@ pub(crate) fn people_guard(
             for f in phn_local::phi::scan_text(cell) {
                 if matches!(
                     f.kind,
-                    I::Ssn | I::Phone | I::Email | I::StreetAddress | I::MedicalRecordNumber | I::HealthPlanNumber | I::BirthDate
+                    I::Ssn
+                        | I::Phone
+                        | I::Email
+                        | I::StreetAddress
+                        | I::MedicalRecordNumber
+                        | I::HealthPlanNumber
+                        | I::BirthDate
                 ) {
                     kinds.insert(f.kind.label());
                 }
@@ -678,7 +694,10 @@ pub(crate) fn people_guard(
         if kinds.is_empty() {
             String::new()
         } else {
-            format!("; detected {}", kinds.into_iter().collect::<Vec<_>>().join(", "))
+            format!(
+                "; detected {}",
+                kinds.into_iter().collect::<Vec<_>>().join(", ")
+            )
         }
     )))
 }
@@ -695,8 +714,10 @@ fn read_watchlist(
         "a topic watchlist",
         "A watchlist has columns kind (topic, keyword, or bill), value, and note.",
     )?;
-    let (Some(ki), Some(vi)) = (lt.table.column_index("kind"), lt.table.column_index("value"))
-    else {
+    let (Some(ki), Some(vi)) = (
+        lt.table.column_index("kind"),
+        lt.table.column_index("value"),
+    ) else {
         return Err(PhnError::InvalidInput(format!(
             "'{}' needs columns named kind and value (and optionally note). Columns found: {}",
             lt.label,
@@ -712,8 +733,14 @@ fn read_watchlist(
         saved_file: None,
     };
     for row in &lt.table.rows {
-        let kind = row.get(ki).map(|s| s.trim().to_lowercase()).unwrap_or_default();
-        let value = row.get(vi).map(|s| s.trim().to_string()).unwrap_or_default();
+        let kind = row
+            .get(ki)
+            .map(|s| s.trim().to_lowercase())
+            .unwrap_or_default();
+        let value = row
+            .get(vi)
+            .map(|s| s.trim().to_string())
+            .unwrap_or_default();
         if value.is_empty() {
             continue;
         }
@@ -771,7 +798,8 @@ fn load_snapshot(ctx: &Context) -> Result<(SnapFile, phn_data::snapshots::Snapsh
 fn title_score(title_words: &[String], c: &LegContent, wanted: &Wanted) -> usize {
     let mut n = 0;
     for t in &c.topics {
-        if wanted.topics.contains(&t.id) && t.keywords.iter().any(|k| contains_phrase(title_words, k))
+        if wanted.topics.contains(&t.id)
+            && t.keywords.iter().any(|k| contains_phrase(title_words, k))
         {
             n += 1;
         }
@@ -854,7 +882,11 @@ pub async fn track_ma_legislation_at(
                 return Err(PhnError::InvalidInput(format!(
                     "'{}' is not a topic. Topics: {}",
                     short(t),
-                    c.topics.iter().map(|t| t.id.as_str()).collect::<Vec<_>>().join(", ")
+                    c.topics
+                        .iter()
+                        .map(|t| t.id.as_str())
+                        .collect::<Vec<_>>()
+                        .join(", ")
                 )));
             }
         }
@@ -906,7 +938,8 @@ pub async fn track_ma_legislation_at(
     dedup(&mut wanted.keywords);
     dedup(&mut wanted.bills);
 
-    let asked = !(wanted.topics.is_empty() && wanted.keywords.is_empty() && wanted.bills.is_empty());
+    let asked =
+        !(wanted.topics.is_empty() && wanted.keywords.is_empty() && wanted.bills.is_empty());
     let mut excerpt_keywords: Vec<String> = c
         .topics
         .iter()
@@ -932,15 +965,16 @@ pub async fn track_ma_legislation_at(
     let mut live_ok = false;
     let mut failure = String::new();
 
-    let listing =
-        malegislature::fetch_listing(&ctx.http, ctx.cache.as_ref(), base, gc).await;
+    let listing = malegislature::fetch_listing(&ctx.http, ctx.cache.as_ref(), base, gc).await;
     match listing {
         Ok(l) => {
             live_ok = true;
             mode = l.mode.label().to_string();
             as_of = phn_data::fetch::local_date(&l.as_of);
             mode_note = match &l.fallback_reason {
-                Some(r) => format!("{r}. The list was last read on {as_of}; bill details are live."),
+                Some(r) => {
+                    format!("{r}. The list was last read on {as_of}; bill details are live.")
+                }
                 None if l.mode == SourceMode::Cache => format!(
                     "The bill list is a cached copy read on {as_of} (refreshed daily); bill details are live."
                 ),
@@ -953,7 +987,10 @@ pub async fn track_ma_legislation_at(
                     let w = stem_words(&b.title);
                     let s = title_score(&w, &c, &wanted);
                     if s > 0 {
-                        cands.push(Candidate { number: b.bill_number.clone(), score: s });
+                        cands.push(Candidate {
+                            number: b.bill_number.clone(),
+                            score: s,
+                        });
                     }
                 }
             }
@@ -971,8 +1008,11 @@ pub async fn track_ma_legislation_at(
                 }
             }
             order.truncate(wanted.bills.len() + max);
-            let by_number: BTreeMap<&str, &BillListing> =
-                l.bills.iter().map(|b| (b.bill_number.as_str(), b)).collect();
+            let by_number: BTreeMap<&str, &BillListing> = l
+                .bills
+                .iter()
+                .map(|b| (b.bill_number.as_str(), b))
+                .collect();
             let snap = load_snapshot(ctx).ok();
             let fetched = fetch_details(ctx, base, gc, &order).await;
             for (n, res) in order.iter().zip(fetched) {
@@ -985,7 +1025,11 @@ pub async fn track_ma_legislation_at(
                             title: d.title.clone(),
                             cosponsors: by_number.get(n.as_str()).map_or(0, |b| b.cosponsor_count),
                             recommendations: d.committee_actions.clone(),
-                            excerpt_text: if with_excerpt { excerpt_around(ex, &kws) } else { None },
+                            excerpt_text: if with_excerpt {
+                                excerpt_around(ex, &kws)
+                            } else {
+                                None
+                            },
                             history: h.into_iter().map(omit_member).collect(),
                             mode: "live".into(),
                             as_of: as_of.clone(),
@@ -1095,7 +1139,11 @@ pub async fn track_ma_legislation_at(
                 a.latest_hearing_date
                     .as_ref()
                     .filter(|_| a.hearing_upcoming)
-                    .cmp(&b.latest_hearing_date.as_ref().filter(|_| b.hearing_upcoming))
+                    .cmp(
+                        &b.latest_hearing_date
+                            .as_ref()
+                            .filter(|_| b.hearing_upcoming),
+                    )
             })
             .then_with(|| {
                 a.days_since_last_action
@@ -1123,7 +1171,11 @@ pub async fn track_ma_legislation_at(
         });
     }
 
-    let questions: Vec<String> = c.analysis_questions.iter().map(|q| q.question.clone()).collect();
+    let questions: Vec<String> = c
+        .analysis_questions
+        .iter()
+        .map(|q| q.question.clone())
+        .collect();
     let data = TrackResult {
         general_court: gc,
         years: if gc == c.general_court.number {
@@ -1172,7 +1224,11 @@ pub async fn track_ma_legislation_at(
     if mode == "snapshot" {
         caveats.push(format!(
             "SNAPSHOT DATA: status as of {as_of}, not current. {}",
-            if live_ok { "A bill's live record could not be read." } else { "The API could not be reached." }
+            if live_ok {
+                "A bill's live record could not be read."
+            } else {
+                "The API could not be reached."
+            }
         ));
     }
     if examined > 0 && (!stages.is_empty() || only_hearings) {
@@ -1246,14 +1302,21 @@ fn topic_index(
         bills: Vec::new(),
         not_found: Vec::new(),
         watchlist,
-        analysis_questions: c.analysis_questions.iter().map(|q| q.question.clone()).collect(),
+        analysis_questions: c
+            .analysis_questions
+            .iter()
+            .map(|q| q.question.clone())
+            .collect(),
         how_to_search: c.how_to_search.clone(),
         limits: c.limits.clone(),
     };
     let summary = summary_text(&data, c, false);
     let mut caveats = vec![
         "Bills are found by words in their TITLES only; add keywords to find others.".to_string(),
-        format!("Counts are from the snapshot of {} and change daily.", sf.as_of),
+        format!(
+            "Counts are from the snapshot of {} and change daily.",
+            sf.as_of
+        ),
     ];
     caveats.extend(content::review_caveats(&[CONTENT]));
     Ok(Envelope::new(summary, data)
@@ -1285,9 +1348,7 @@ async fn fetch_details(ctx: &Context, base: &str, gc: u32, numbers: &[String]) -
             let http = ctx.http.clone();
             let n = n.clone();
             let base = base.to_string();
-            set.spawn(async move {
-                (i, malegislature::fetch_bill(&http, &base, gc, &n).await)
-            });
+            set.spawn(async move { (i, malegislature::fetch_bill(&http, &base, gc, &n).await) });
         }
         let mut part: Vec<Option<Fetched>> = (0..chunk.len()).map(|_| None).collect();
         while let Some(j) = set.join_next().await {
@@ -1313,23 +1374,35 @@ fn save_watchlist(
     let path = sandbox.new_output_file("ma_legislation_watchlist.csv")?;
     let mut w = csv::Writer::from_writer(Vec::new());
     let header = [
-        "kind", "value", "note", "title", "stage", "last_action_date", "last_action", "committee",
-        "latest_hearing_date", "url", "checked_on",
+        "kind",
+        "value",
+        "note",
+        "title",
+        "stage",
+        "last_action_date",
+        "last_action",
+        "committee",
+        "latest_hearing_date",
+        "url",
+        "checked_on",
     ];
-    w.write_record(header).map_err(|e| PhnError::Internal(e.to_string()))?;
+    w.write_record(header)
+        .map_err(|e| PhnError::Internal(e.to_string()))?;
     let checked = today.to_string();
     let blank = |n: usize| vec![String::new(); n];
     for t in &wanted.topics {
         let mut r = vec!["topic".to_string(), t.clone()];
         r.extend(blank(9));
         r[10] = checked.clone();
-        w.write_record(&r).map_err(|e| PhnError::Internal(e.to_string()))?;
+        w.write_record(&r)
+            .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     for k in &wanted.keywords {
         let mut r = vec!["keyword".to_string(), k.clone()];
         r.extend(blank(9));
         r[10] = checked.clone();
-        w.write_record(&r).map_err(|e| PhnError::Internal(e.to_string()))?;
+        w.write_record(&r)
+            .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     let mut listed: BTreeSet<&str> = BTreeSet::new();
     for b in bills {
@@ -1350,17 +1423,21 @@ fn save_watchlist(
             b.url.clone(),
             checked.clone(),
         ];
-        w.write_record(&r).map_err(|e| PhnError::Internal(e.to_string()))?;
+        w.write_record(&r)
+            .map_err(|e| PhnError::Internal(e.to_string()))?;
     }
     for n in &wanted.bills {
         if !listed.contains(n.as_str()) {
             let mut r = vec!["bill".to_string(), n.clone()];
             r.extend(blank(9));
             r[10] = checked.clone();
-            w.write_record(&r).map_err(|e| PhnError::Internal(e.to_string()))?;
+            w.write_record(&r)
+                .map_err(|e| PhnError::Internal(e.to_string()))?;
         }
     }
-    let bytes = w.into_inner().map_err(|e| PhnError::Internal(e.to_string()))?;
+    let bytes = w
+        .into_inner()
+        .map_err(|e| PhnError::Internal(e.to_string()))?;
     std::fs::write(&path, bytes)?;
     Ok(sandbox.display_path(&path))
 }
@@ -1382,9 +1459,18 @@ fn summary_text(d: &TrackResult, c: &LegContent, asked: bool) -> String {
         let rows: Vec<Vec<String>> = d
             .topics
             .iter()
-            .map(|t| vec![format!("`{}`", t.id), t.label.clone(), t.bills_matched.to_string()])
+            .map(|t| {
+                vec![
+                    format!("`{}`", t.id),
+                    t.label.clone(),
+                    t.bills_matched.to_string(),
+                ]
+            })
             .collect();
-        s.push_str(&md::table(&["Topic id", "Topic", "Bills with matching titles"], &rows));
+        s.push_str(&md::table(
+            &["Topic id", "Topic", "Bills with matching titles"],
+            &rows,
+        ));
         s.push('\n');
         return s;
     }
@@ -1396,10 +1482,7 @@ fn summary_text(d: &TrackResult, c: &LegContent, asked: bool) -> String {
         d.today
     ));
     if !d.not_found.is_empty() {
-        s.push_str(&format!(
-            "Not found: {}.\n\n",
-            d.not_found.join(", ")
-        ));
+        s.push_str(&format!("Not found: {}.\n\n", d.not_found.join(", ")));
     }
     if d.bills.is_empty() {
         s.push_str("No bills to show with these settings. Try other topics or keywords, or remove the stage and hearing filters.\n\n");
@@ -1421,7 +1504,11 @@ fn summary_text(d: &TrackResult, c: &LegContent, asked: bool) -> String {
             s.push_str(&format!(
                 "- **Last action** ({}, {}{}): {}\n",
                 a.date,
-                if a.branch.is_empty() { "branch not stated" } else { a.branch.as_str() },
+                if a.branch.is_empty() {
+                    "branch not stated"
+                } else {
+                    a.branch.as_str()
+                },
                 b.days_since_last_action
                     .map(|n| format!(", {n} days ago"))
                     .unwrap_or_default(),
@@ -1444,9 +1531,15 @@ fn summary_text(d: &TrackResult, c: &LegContent, asked: bool) -> String {
         if let Some(r) = &b.reporting_deadline {
             s.push_str(&format!("- **Committee reporting deadline:** {r}\n"));
         }
-        s.push_str(&format!("- Cosponsors: {} (sponsors are named on the bill page)\n", b.cosponsors));
+        s.push_str(&format!(
+            "- Cosponsors: {} (sponsors are named on the bill page)\n",
+            b.cosponsors
+        ));
         if let Some(e) = &b.excerpt {
-            s.push_str(&format!("- Excerpt of the bill text: \"{}\" _({})_\n", e.text, e.source));
+            s.push_str(&format!(
+                "- Excerpt of the bill text: \"{}\" _({})_\n",
+                e.text, e.source
+            ));
         }
         s.push('\n');
     }
@@ -1455,10 +1548,12 @@ fn summary_text(d: &TrackResult, c: &LegContent, asked: bool) -> String {
         s.push_str(&format!("- {}\n", q.question));
     }
     s.push('\n');
-    if let Some(w) = &d.watchlist {
-        if let Some(f) = &w.saved_file {
-            s.push_str(&format!("Watchlist saved to `{f}` in your output folder.\n"));
-        }
+    if let Some(w) = &d.watchlist
+        && let Some(f) = &w.saved_file
+    {
+        s.push_str(&format!(
+            "Watchlist saved to `{f}` in your output folder.\n"
+        ));
     }
     s
 }
@@ -1496,34 +1591,78 @@ mod tests {
         let st = |v: Vec<HistoryAction>| e.stage_of(&v).0;
         assert_eq!(st(vec![]), "filed");
         let mut hist = vec![
-            h("2025-02-27", "House", "Referred to the committee on Public Health"),
+            h(
+                "2025-02-27",
+                "House",
+                "Referred to the committee on Public Health",
+            ),
             h("2025-02-27", "Senate", "Senate concurred"),
-            h("2025-05-06", "Joint", "Hearing scheduled for 05/06/2025 from 11:00 AM-01:00 PM in A-2"),
+            h(
+                "2025-05-06",
+                "Joint",
+                "Hearing scheduled for 05/06/2025 from 11:00 AM-01:00 PM in A-2",
+            ),
         ];
         assert_eq!(st(hist.clone()), "in_committee");
         hist.push(h("2026-03-01", "House", "Bill reported favorably by committee and referred to the committee on House Ways and Means"));
         assert_eq!(st(hist.clone()), "reported_out");
-        hist.push(h("2026-04-01", "House", "Read second and ordered to a third reading"));
+        hist.push(h(
+            "2026-04-01",
+            "House",
+            "Read second and ordered to a third reading",
+        ));
         assert_eq!(st(hist.clone()), "floor");
-        hist.push(h("2026-04-02", "House", "Amendment 12 (A. Member) rejected"));
-        assert_eq!(st(hist.clone()), "floor", "amendments do not change the stage");
-        hist.push(h("2026-07-30", "Senate", "Enacted and laid before the Governor"));
+        hist.push(h(
+            "2026-04-02",
+            "House",
+            "Amendment 12 (A. Member) rejected",
+        ));
+        assert_eq!(
+            st(hist.clone()),
+            "floor",
+            "amendments do not change the stage"
+        );
+        hist.push(h(
+            "2026-07-30",
+            "Senate",
+            "Enacted and laid before the Governor",
+        ));
         assert_eq!(st(hist.clone()), "awaiting_governor");
-        hist.push(h("2026-08-05", "Executive", "Signed by the Governor, Chapter 120 of the Acts of 2026"));
+        hist.push(h(
+            "2026-08-05",
+            "Executive",
+            "Signed by the Governor, Chapter 120 of the Acts of 2026",
+        ));
         assert_eq!(st(hist.clone()), "enacted");
         assert_eq!(
             st(vec![
-                h("2025-02-27", "House", "Referred to the committee on Public Health"),
-                h("2026-04-06", "House", "Accompanied a study order, see H5323"),
+                h(
+                    "2025-02-27",
+                    "House",
+                    "Referred to the committee on Public Health"
+                ),
+                h(
+                    "2026-04-06",
+                    "House",
+                    "Accompanied a study order, see H5323"
+                ),
             ]),
             "study_or_new_draft"
         );
         // A stricken action is ignored.
-        let mut stricken = h("2026-04-06", "House", "Signed by the Governor, Chapter 1 of the Acts of 2026");
+        let mut stricken = h(
+            "2026-04-06",
+            "House",
+            "Signed by the Governor, Chapter 1 of the Acts of 2026",
+        );
         stricken.is_stricken = true;
         assert_eq!(
             st(vec![
-                h("2025-02-27", "House", "Referred to the committee on Public Health"),
+                h(
+                    "2025-02-27",
+                    "House",
+                    "Referred to the committee on Public Health"
+                ),
                 stricken,
             ]),
             "in_committee"
@@ -1533,9 +1672,21 @@ mod tests {
     #[test]
     fn hearings_dates_and_countdown() {
         let hist = vec![
-            h("2025-04-30", "Joint", "Hearing scheduled for 05/06/2025 from 11:00 AM-01:00 PM in A-2"),
-            h("2025-05-02", "Joint", "Hearing rescheduled to 5/20/2025 from 1:00 PM-3:00 PM in B-1"),
-            h("2025-05-03", "Joint", "Hearing scheduled for 13/45/2025 in A-1"),
+            h(
+                "2025-04-30",
+                "Joint",
+                "Hearing scheduled for 05/06/2025 from 11:00 AM-01:00 PM in A-2",
+            ),
+            h(
+                "2025-05-02",
+                "Joint",
+                "Hearing rescheduled to 5/20/2025 from 1:00 PM-3:00 PM in B-1",
+            ),
+            h(
+                "2025-05-03",
+                "Joint",
+                "Hearing scheduled for 13/45/2025 in A-1",
+            ),
         ];
         let hs = hearings(&hist);
         assert_eq!(hs.len(), 3);
@@ -1545,7 +1696,10 @@ mod tests {
         assert_eq!(hs[2].hearing_date, None, "an impossible date is not read");
         let today = NaiveDate::from_ymd_opt(2025, 5, 10).unwrap();
         let (d, up, days) = latest_hearing(&hs[..2], today);
-        assert_eq!((d.as_deref(), up, days), (Some("2025-05-20"), true, Some(10)));
+        assert_eq!(
+            (d.as_deref(), up, days),
+            (Some("2025-05-20"), true, Some(10))
+        );
         let (_, up, days) = latest_hearing(&hs[..1], today);
         assert_eq!((up, days), (false, Some(-4)));
         let mut cancelled = hs[..2].to_vec();
@@ -1563,9 +1717,21 @@ mod tests {
     #[test]
     fn committee_and_reporting_deadline() {
         let hist = vec![
-            h("2025-02-27", "House", "Referred to the committee on Children, Families and Persons with Disabilities"),
-            h("2025-08-04", "House", "Reporting date extended to Wednesday, December 3, 2025"),
-            h("2025-12-04", "House", "Reporting date extended to Wednesday, March 18, 2026"),
+            h(
+                "2025-02-27",
+                "House",
+                "Referred to the committee on Children, Families and Persons with Disabilities",
+            ),
+            h(
+                "2025-08-04",
+                "House",
+                "Reporting date extended to Wednesday, December 3, 2025",
+            ),
+            h(
+                "2025-12-04",
+                "House",
+                "Reporting date extended to Wednesday, March 18, 2026",
+            ),
         ];
         assert_eq!(
             current_committee(&hist).as_deref(),
@@ -1573,29 +1739,56 @@ mod tests {
         );
         assert_eq!(reporting_deadline(&hist).as_deref(), Some("2026-03-18"));
         let hist = vec![
-            h("2025-02-27", "House", "Referred to the committee on Public Health"),
-            h("2026-03-01", "House", "Reported, referred to the committee on Joint Rules, reported, rules suspended and referred to the committee on House Ways and Means (under JR12)"),
+            h(
+                "2025-02-27",
+                "House",
+                "Referred to the committee on Public Health",
+            ),
+            h(
+                "2026-03-01",
+                "House",
+                "Reported, referred to the committee on Joint Rules, reported, rules suspended and referred to the committee on House Ways and Means (under JR12)",
+            ),
         ];
-        assert_eq!(current_committee(&hist).as_deref(), Some("House Ways and Means"));
         assert_eq!(
-            reporting_deadline(&[h("2025-08-04", "House", "Reporting date extended until Friday, July 31, 2026")]).as_deref(),
+            current_committee(&hist).as_deref(),
+            Some("House Ways and Means")
+        );
+        assert_eq!(
+            reporting_deadline(&[h(
+                "2025-08-04",
+                "House",
+                "Reporting date extended until Friday, July 31, 2026"
+            )])
+            .as_deref(),
             Some("2026-07-31")
         );
         // A weekday that does not match the date is not read.
         assert_eq!(
-            reporting_deadline(&[h("2025-08-04", "House", "Reporting date extended to Monday, December 3, 2025")]),
+            reporting_deadline(&[h(
+                "2025-08-04",
+                "House",
+                "Reporting date extended to Monday, December 3, 2025"
+            )]),
             None
         );
     }
 
     #[test]
     fn excerpts_are_short_and_centered_on_the_keyword() {
-        let text = (1..=60).map(|i| format!("w{i}")).collect::<Vec<_>>().join(" ")
+        let text = (1..=60)
+            .map(|i| format!("w{i}"))
+            .collect::<Vec<_>>()
+            .join(" ")
             + " the vaccine schedule shall be reviewed by the department each year and more words follow here to pass the limit of words";
         let e = excerpt_around(&text, &["vaccine".into()]).unwrap();
         assert!(excerpt_words(&e) <= MAX_WORDS, "{e}");
         assert!(e.contains("vaccine") && e.starts_with("… ") && e.ends_with(" …"));
-        let short = excerpt_around("Section 1. Vaccines shall be available.", &["vaccine".into()]).unwrap();
+        let short = excerpt_around(
+            "Section 1. Vaccines shall be available.",
+            &["vaccine".into()],
+        )
+        .unwrap();
         assert_eq!(short, "Section 1. Vaccines shall be available.");
         let first = excerpt_around(&text, &[]).unwrap();
         assert!(first.starts_with("w1 ") && excerpt_words(&first) == MAX_WORDS);
@@ -1607,9 +1800,74 @@ mod tests {
     #[test]
     fn topic_names_resolve_and_the_snapshot_agrees_with_the_content() {
         let c = content();
-        assert_eq!(resolve_topic(&c, "Vaccines and immunization").as_deref(), Some("vaccines"));
-        assert_eq!(resolve_topic(&c, "mental health").as_deref(), Some("mental_health"));
-        assert_eq!(resolve_topic(&c, "mental_health").as_deref(), Some("mental_health"));
+        assert_eq!(
+            resolve_topic(&c, "Vaccines and immunization").as_deref(),
+            Some("vaccines")
+        );
+        assert_eq!(
+            resolve_topic(&c, "mental health").as_deref(),
+            Some("mental_health")
+        );
+        assert_eq!(
+            resolve_topic(&c, "mental_health").as_deref(),
+            Some("mental_health")
+        );
         assert_eq!(resolve_topic(&c, "nonsense"), None);
+    }
+
+    /// The bundled snapshot agrees with the content (same topic lists), every bill's topics follow
+    /// from its title by the tool's own matching, excerpts are short, histories are dated sensibly,
+    /// and no member names are kept.
+    #[test]
+    fn the_snapshot_agrees_with_the_content_and_the_tool_matching() {
+        let c = content();
+        let ctx = crate::context::Context::new(phn_core::Config::for_root(
+            tempfile::tempdir().unwrap().path(),
+        ))
+        .unwrap();
+        let (sf, entry) = load_snapshot(&ctx).unwrap();
+        assert_eq!(sf.general_court, 194);
+        assert_eq!(entry.retrieved, sf.as_of);
+        assert_eq!(
+            sf.topic_definitions, c.topics,
+            "builder TOPICS and the content differ"
+        );
+        let engine = StageEngine::new(&c).unwrap();
+        let named = Regex::new(r"^Amendment\s+#?\d+[A-Za-z]?\s*\(").unwrap();
+        let mut seen = BTreeSet::new();
+        let mut staged: BTreeMap<String, usize> = BTreeMap::new();
+        for b in &sf.bills {
+            assert!(seen.insert(b.bill.clone()), "duplicate {}", b.bill);
+            let w = stem_words(&b.title);
+            let expect: Vec<String> = c
+                .topics
+                .iter()
+                .filter(|t| t.keywords.iter().any(|k| contains_phrase(&w, k)))
+                .map(|t| t.id.clone())
+                .collect();
+            assert_eq!(b.topics, expect, "{}", b.bill);
+            if let Some(e) = &b.excerpt {
+                assert!(excerpt_words(e) <= MAX_WORDS, "{}", b.bill);
+            }
+            for (d, _, a, _) in &b.history {
+                assert!(
+                    d.as_str() >= "2025-01-01" && d.as_str() <= "2027-01-31",
+                    "{} {d}",
+                    b.bill
+                );
+                assert!(!named.is_match(a) || a.contains("(member omitted)"), "{a}");
+            }
+            let rec = Record::from_snapshot(b, &sf.as_of);
+            *staged.entry(engine.stage_of(&rec.history).0).or_default() += 1;
+        }
+        assert!(sf.bills.len() > 500);
+        assert!(
+            staged.get("in_committee").copied().unwrap_or(0) > 100,
+            "{staged:?}"
+        );
+        assert!(
+            staged.contains_key("enacted") || staged.contains_key("study_or_new_draft"),
+            "{staged:?}"
+        );
     }
 }

@@ -115,7 +115,11 @@ pub fn iso_date(s: &str) -> Option<String> {
 }
 
 fn text(v: Option<&Value>) -> Option<String> {
-    let t = v?.as_str()?.split_whitespace().collect::<Vec<_>>().join(" ");
+    let t = v?
+        .as_str()?
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
     (!t.is_empty()).then_some(t)
 }
 
@@ -140,9 +144,7 @@ pub fn parse_listing(body: &[u8]) -> Result<Vec<BillListing>> {
             bill_number: number,
             docket_number: text(item.get("DocketNumber")),
             title,
-            primary_sponsor: item
-                .get("PrimarySponsor")
-                .and_then(|s| text(s.get("Name"))),
+            primary_sponsor: item.get("PrimarySponsor").and_then(|s| text(s.get("Name"))),
             cosponsor_count: item
                 .get("Cosponsors")
                 .and_then(Value::as_array)
@@ -424,10 +426,14 @@ mod tests {
             ("/Documents/S99", "404 Not Found", "no"),
         ])
         .await;
-        let a = fetch_listing(&http, Some(&cache), &base, 194).await.unwrap();
+        let a = fetch_listing(&http, Some(&cache), &base, 194)
+            .await
+            .unwrap();
         assert_eq!(a.mode, SourceMode::Live);
         assert_eq!(a.bills.len(), 1);
-        let b = fetch_listing(&http, Some(&cache), &base, 194).await.unwrap();
+        let b = fetch_listing(&http, Some(&cache), &base, 194)
+            .await
+            .unwrap();
         assert_eq!(b.mode, SourceMode::Cache);
         let (d, h) = fetch_bill(&http, &base, 194, "s12").await.unwrap();
         assert_eq!(d.bill_number, "S12");

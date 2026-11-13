@@ -39,7 +39,10 @@ impl PhnServer {
         ),
         output_schema = schema_for_output::<Envelope<TrackResult>>()
     )]
-    async fn track_ma_legislation(&self, Parameters(args): Parameters<TrackArgs>) -> CallToolResult {
+    async fn track_ma_legislation(
+        &self,
+        Parameters(args): Parameters<TrackArgs>,
+    ) -> CallToolResult {
         respond(phn_tools::policy::track_ma_legislation(&self.ctx, args).await)
     }
 

@@ -809,9 +809,7 @@ pub const ITEMS: &[ContentItem] = &[
         path: "content/policy/ma_legislation_tracking.yaml",
         resource_uri: "phn://content/policy-ma-legislation-tracking",
         yaml: include_str!("../../../content/policy/ma_legislation_tracking.yaml"),
-        schema: include_str!(
-            "../../../content/schemas/policy_ma_legislation_tracking.schema.json"
-        ),
+        schema: include_str!("../../../content/schemas/policy_ma_legislation_tracking.schema.json"),
     },
     ContentItem {
         id: "policy-federal-rules-tracking",
