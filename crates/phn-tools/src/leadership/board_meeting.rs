@@ -1518,7 +1518,12 @@ pub fn board_of_health_meeting_assistant(
             if let Some(s) = src {
                 sources.push(s);
             }
-            let findings = phi::scan_text(&text);
+            // Meeting dates and town names are normal in minutes; everything else the detector
+            // finds (names, addresses, phone numbers, birth dates, record numbers) is reported.
+            let findings: Vec<phi::TextFinding> = phi::scan_text(&text)
+                .into_iter()
+                .filter(|f| !matches!(f.kind, phi::Identifier::Date | phi::Identifier::Geography))
+                .collect();
             let id_lines = line_numbers(&text, &findings);
             let parsed = parse_notes(&text);
             if parsed.lines == 0 {

@@ -663,6 +663,8 @@ async fn minutes_are_drafted_from_notes_without_returning_them() {
         "{m}"
     );
     assert!(!m["identifier_categories"].as_array().unwrap().is_empty());
+    // Meeting dates and exhibit dates are not reported as identifiers.
+    assert_eq!(m["identifier_lines"], json!([9]), "{m}");
     let all = everything(&h.call(
         "board_of_health_meeting_assistant",
         json!({"action": "minutes", "notes_path": "board_meeting_notes.txt", "write_document": false}),
