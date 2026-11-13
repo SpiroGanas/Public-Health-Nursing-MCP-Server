@@ -2943,9 +2943,7 @@ appropriate food).
 
 ## Phase 15: Chronic disease prevention and community assessment
 
-<!-- Phase 15 tools go below this line. -->
 
-<!-- Phase 15 screen (CHR-02, CHR-03). -->
 
 ### `community_bp_screening_toolkit` (CHR-02, toolset `chronic`)
 
@@ -3034,9 +3032,7 @@ none is stated. MDPP eligibility criteria differ from CDC's and were not read.
 Privacy: a responses file goes through `phn_tools::localdata`; only suppressed one-way counts by
 result and age group are returned.
 
-<!-- End of Phase 15 screen. -->
 
-<!-- Phase 15 prevent (CHR-04, CHR-05). -->
 
 ### `preventive_services_lookup` (CHR-04, toolset `chronic`)
 
@@ -3140,9 +3136,7 @@ program phone numbers were not checked; the Massachusetts Health Promotion Clear
 DPH action plan forms) and nhlbi.nih.gov were blocked; the checklist is shortened from the
 original.
 
-<!-- End of Phase 15 prevent. -->
 
-<!-- Phase 15 cha (EQ-08, EQ-09, EQ-10). -->
 
 ### `community_health_assessment_builder` (EQ-08, toolset `equity`)
 
@@ -3281,9 +3275,7 @@ client files stay in the data folder; the message tells the model to say that MA
 against journal articles and not NACCHO's handbook. It names the toolsets the workflow uses
 (`equity`, `chronic`, `env`) and tells the model to report, not retry, a tool whose toolset is off.
 
-<!-- End of Phase 15 cha. -->
 
-<!-- Phase 15 geo (EPI-13). -->
 
 ### `geocode_and_aggregate_addresses` (EPI-13, toolset `epi`)
 
@@ -3348,15 +3340,11 @@ MassGIS Master Address Data (town exports of 2026-11-09), TIGER/Line 2025 (addre
 (`xtask/scripts/build_geocoder_index.py`); MassGIS's data disclaimer could not be retrieved, so its
 terms are unverified (credit MassGIS).
 
-<!-- End of Phase 15 geo. -->
 
-<!-- End of Phase 15 tools. -->
 
 ## Phase 16: Program planning, evaluation, and evidence
 
-<!-- Phase 16 tools go below this line. -->
 
-<!-- Phase 16 design (PLAN-01, PLAN-02, PLAN-05). -->
 
 ### `build_logic_model` (PLAN-01, toolset `planning`)
 
@@ -3472,9 +3460,7 @@ stage-to-type mapping, and timeline shares are this project's defaults where CDC
 in the content and in each row). RE-AIM definitions are paraphrased from a 2019 open-access review;
 re-aim.org could not be reached. Content is pending review.
 
-<!-- End of Phase 16 design. -->
 
-<!-- Phase 16 interventions (PLAN-03, PLAN-04, PLAN-11). -->
 
 ### `find_evidence_based_interventions` (PLAN-03, toolset `planning`)
 
@@ -3575,9 +3561,7 @@ denominator, or the remainder that small) is hidden, and the measure's totals, p
 line, and status are then withheld because they would reveal it. The report, workbook, and charts
 in `/data/output` hold the full values from the nurse's file.
 
-<!-- End of Phase 16 interventions. -->
 
-<!-- Phase 16 appraise (EBP-03, EBP-04). -->
 
 ### `appraise_evidence` (EBP-03, toolset `ebp`)
 
@@ -3675,9 +3659,7 @@ separately because "low" means different things in different tools.
 **Privacy.** No local file is read and no network call is made; the tables hold only what you
 typed. Content is pending review.
 
-<!-- End of Phase 16 appraise. -->
 
-<!-- Phase 16 qi (EBP-05). -->
 
 ### `plan_quality_improvement` (EBP-05, toolset `ebp`)
 
@@ -3747,15 +3729,11 @@ runs limits are this tool's computation and were not compared with Perla's wordi
 tool does not decide whether work is quality improvement or research (a planned Phase 18 tool will
 help with that determination).
 
-<!-- End of Phase 16 qi. -->
 
-<!-- End of Phase 16 tools. -->
 
 ## Phase 17: Grants and finance
 
-<!-- Phase 17 tools go below this line. -->
 
-<!-- Phase 17 grants (PLAN-06, PLAN-07, PLAN-08). -->
 
 ### `search_grant_opportunities` (PLAN-06, toolset `planning`)
 
@@ -3879,9 +3857,7 @@ local files except the checklist file.
 Limits: the tool does not write prose from memory, so the draft is a scaffold; the writing prompts are
 this project's, not a funder's. English only.
 
-<!-- End of Phase 17 grants. -->
 
-<!-- Phase 17 budget (PLAN-09, PLAN-10). -->
 
 ### `build_program_budget` (PLAN-09, toolset `planning`)
 
@@ -3968,9 +3944,7 @@ benefit-cost results in that MMWR report (Table 2) and compare the rest with an 
 computation (`crates/phn-tools/tests/fixtures/generators/economic_golden.py`). **Privacy.** No file is read and
 nothing identifiable is involved. Decision support only.
 
-<!-- End of Phase 17 budget. -->
 
-<!-- Phase 17 finance (LEAD-01, LEAD-02). -->
 
 ### `analyze_health_department_budget` (LEAD-01, toolset `leadership`)
 
@@ -4100,15 +4074,11 @@ data is read, and nothing but the figures you supply is returned or written.
 **Limits.** Scenarios change volumes or add services, not minutes per unit or productive hours; no
 hiring time, leave coverage, or skill mix. Content is pending review.
 
-<!-- End of Phase 17 finance. -->
 
-<!-- End of Phase 17 tools. -->
 
 ## Phase 18: Leadership, accreditation, and professional practice
 
-<!-- Phase 18 tools go below this line. -->
 
-<!-- Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05). -->
 
 ### `assess_foundational_public_health_services` (LEAD-03, toolset `leadership`)
 
@@ -4228,9 +4198,7 @@ prompts and quadrant names are this project's drafts built on two journal abstra
 nursing administration, 2016; a stakeholder analysis review, 2000). Content is pending review.
 
 
-<!-- End of Phase 18 strategy. -->
 
-<!-- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08). -->
 
 ### `assess_workforce_competencies` (LEAD-06, toolset `leadership`)
 
@@ -4373,9 +4341,7 @@ outline of a vaccine order is read from one Immunize.org and one DPH template. C
 pharmacy, insurer, and other board rules were not read. Clinical decision support only; the medical
 director signs. Content is a draft pending expert review (`review_due` 2027-02-01).
 
-<!-- End of Phase 18 workforce. -->
 
-<!-- Phase 18 ethics (EBP-07, POL-05, POL-06). -->
 
 ### `qi_vs_research_determination` (EBP-07, toolset `ebp`)
 
@@ -4475,15 +4441,11 @@ not legal advice.
 The mass.gov copies of the regulations are not the official text, and its PDF text for 244 CMR 3.05(5)(d)
 has a layout problem (flagged on the provision). Content is pending review.
 
-<!-- End of Phase 18 ethics. -->
 
-<!-- End of Phase 18 tools. -->
 
 ## Phase 19: Policy and law
 
-<!-- Phase 19 tools go below this line. -->
 
-<!-- Phase 19 tracking (POL-01, POL-03). -->
 
 ### `track_ma_legislation` (POL-01, toolset `policy`)
 
@@ -4566,9 +4528,7 @@ Regulations.gov responses, not against the live services (live tests exist and a
 CDC, CMS, HRSA, FDA, SAMHSA, ACF, and FSIS are unverified (EPA, HHS, USDA, and FNS are verified). Other agencies
 may ask for a different comment format. Decision support; it does not file comments. Content is pending review.
 
-<!-- End of Phase 19 tracking. -->
 
-<!-- Phase 19 law (POL-02, POL-04, POL-07). -->
 
 ### `search_public_health_law` (POL-02, toolset `policy`)
 
@@ -4689,6 +4649,4 @@ malegislature.gov and mass.gov. **Not read:** the FERPA statute, the HHS and Edu
 (coverage is in every result). Decision support, not legal advice; take the question to agency counsel.
 Content is pending review.
 
-<!-- End of Phase 19 law. -->
 
-<!-- End of Phase 19 tools. -->
