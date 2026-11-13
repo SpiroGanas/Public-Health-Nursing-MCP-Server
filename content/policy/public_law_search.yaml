@@ -1,0 +1,259 @@
+# Settings and starting points for search_public_health_law (POL-02). The law text itself is in the
+# bundled snapshots (snapshots/ma_law_mgl_c111.json, ma_law_105_cmr.json, ma_law_244_cmr.json,
+# built by xtask/scripts/build_law_snapshots.py from malegislature.gov and mass.gov on 2026-11-12);
+# this file holds the review status, what each source covers, and topic starting points (lists of
+# citations chosen from the section titles in those snapshots; the tool checks that each one exists).
+#
+# REVIEW STATUS: pending. The tool is decision support, not legal advice. Regulations on mass.gov
+# are unofficial copies; the Secretary of the Commonwealth publishes the official text.
+# Schema: content/schemas/policy_public_law_search.schema.json
+meta:
+  id: policy-public-law-search
+  title: Public health law search - corpus coverage and topic starting points (M.G.L. c. 111, 105 CMR, 244 CMR)
+  version: 0.1.0
+  prepared: 2026-11-13
+  effective_date: null
+  source:
+    title: Massachusetts General Laws, chapter 111 (Public Health)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111
+  related_sources:
+    - title: 105 CMR (Department of Public Health regulations), Code of Massachusetts Regulations on mass.gov
+      publisher: Massachusetts Trial Court Law Libraries (mass.gov)
+      url: https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements
+    - title: 244 CMR (Board of Registration in Nursing regulations)
+      publisher: Massachusetts Trial Court Law Libraries (mass.gov)
+      url: https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The corpus was read by script from malegislature.gov and mass.gov on 2026-11-12 (see the
+    snapshot manifest). The topic starting points below were chosen from the section titles in the
+    snapshots on 2026-11-13; their selection is this project's judgment and has not been checked by
+    a lawyer or the subject matter expert. Section text came from PDF and web page text extraction
+    (tables, forms, and appendices are not reliably extracted). The mass.gov copies of regulations
+    are unofficial. The chapter dates are the dates mass.gov shows and may not reflect amendments
+    not yet posted.
+
+corpus:
+  mgl_c111:
+    label: "M.G.L. c. 111 (Public Health)"
+    snapshot_id: ma-law-mgl-c111
+    coverage: >-
+      Index of every section of chapter 111 that is not repealed (number, title, link). Full text
+      is bundled for 45 core sections (the Department's and boards of health's powers, disease
+      reporting, isolation and quarantine, nuisances and the sanitary code, immunization registry,
+      newborn screening, confidentiality of HIV and venereal disease records). Other sections are
+      index-only: the tool gives the title and link but not the text.
+    not_included:
+      - "Repealed sections (listed only as a count)"
+      - "Other chapters of the General Laws, including c. 111D, c. 94C, c. 112, c. 71, c. 66, and c. 4 (the last four are used in the information sharing guide)"
+  cmr_105:
+    label: "105 CMR (Department of Public Health)"
+    snapshot_id: ma-law-105-cmr
+    coverage: >-
+      Every chapter on mass.gov's 105 CMR table of contents with its date and a section number and
+      title index read from each chapter's PDF. Full text is bundled for 20 chapters: 172, 200,
+      201, 210, 220, 221, 222, 223, 270, 271, 300, 335, 360, 365, 400, 410, 460, 590, 661, and 665
+      (reportable diseases, isolation and quarantine, school health and immunization, lead, the
+      housing, food, and general sanitary code chapters, tobacco, rabies, tuberculosis). Other
+      chapters are index-only.
+    not_included:
+      - "Chapters not listed on mass.gov's 105 CMR table of contents on the retrieval date"
+      - "Guidance, policies, and forms of the Department (see search_ma_disease_control_guide)"
+  cmr_244:
+    label: "244 CMR (Board of Registration in Nursing)"
+    snapshot_id: ma-law-244-cmr
+    coverage: >-
+      All eight chapters (3.00 to 10.00) in full text. For advisory rulings and the Board's
+      decision-making guidelines use nursing_scope_of_practice_guide, which cites the provisions
+      that bear on scope and delegation questions.
+    not_included:
+      - "Board advisory rulings and decision guidelines (in nursing_scope_of_practice_guide)"
+
+local:
+  default_folder: local_regulations
+  description: >-
+    Your board of health's own regulations, in a folder under your data folder (default
+    local_regulations; PDF, Word, Markdown, text, or HTML). They are indexed in your container and
+    searched with the same citations as the state texts. Files that look like client records (a
+    date of birth, record number, or health plan number) are refused, not indexed for results.
+
+extended:
+  folders:
+    - law_corpus
+  description: >-
+    An optional larger corpus built by xtask/scripts/build_law_snapshots.py with --extended (every
+    section of chapter 111 and every chapter of 105 CMR in full text) can be installed as
+    law_corpus/ in the data folder or in the cache folder. The tool uses it only when its manifest
+    and file checksums match, and says so.
+
+excerpt_words: 25
+
+topics:
+  - id: reportable_disease
+    label: Reportable diseases and case reports
+    keywords: [reportable, reporting, report a case, case report, dangerous to the public health, notifiable, laboratory report]
+    cites:
+      - "105 CMR 300.100"
+      - "105 CMR 300.110"
+      - "105 CMR 300.160"
+      - "105 CMR 300.170"
+      - "105 CMR 300.180"
+      - "M.G.L. c. 111, § 6"
+      - "M.G.L. c. 111, § 7"
+      - "M.G.L. c. 111, § 111"
+      - "M.G.L. c. 111, § 112"
+    related_tools: [lookup_reportable_condition, calculate_isolation_and_exclusion, health_information_sharing_guide]
+  - id: isolation_quarantine
+    label: Isolation, quarantine, and board of health orders in disease control
+    keywords: [isolation, quarantine, exclusion, infectious, contagious, order, warrant, infected, communicable]
+    cites:
+      - "105 CMR 300.200"
+      - "105 CMR 300.210"
+      - "105 CMR 300.190"
+      - "M.G.L. c. 111, § 95"
+      - "M.G.L. c. 111, § 96"
+      - "M.G.L. c. 111, § 104"
+      - "M.G.L. c. 111, § 105"
+    related_tools: [calculate_isolation_and_exclusion, public_health_ethics_analysis]
+  - id: confidentiality
+    label: Confidentiality of health and disease records
+    keywords: [confidential, confidentiality, privacy, records, disclose, disclosure, release]
+    cites:
+      - "105 CMR 300.120"
+      - "105 CMR 300.191"
+      - "105 CMR 222.205"
+      - "105 CMR 222.206"
+      - "M.G.L. c. 111, § 24M"
+      - "M.G.L. c. 111, § 70F"
+      - "M.G.L. c. 111, § 119"
+    related_tools: [health_information_sharing_guide]
+  - id: immunization
+    label: Immunization requirements and the immunization registry
+    keywords: [immunization, immunizations, vaccine, vaccination, vaccinate, registry, miis, school admission]
+    cites:
+      - "105 CMR 220.300"
+      - "105 CMR 220.500"
+      - "105 CMR 222.100"
+      - "M.G.L. c. 111, § 24I"
+      - "M.G.L. c. 111, § 24M"
+    related_tools: [check_ma_school_immunization_requirements, health_information_sharing_guide]
+  - id: school_health
+    label: School health (physical examinations, medications, concussions)
+    keywords: [school, student, students, school nurse, medication, concussion, physical examination, screening]
+    cites:
+      - "105 CMR 200.100"
+      - "105 CMR 200.400"
+      - "105 CMR 210.003"
+      - "105 CMR 210.009"
+      - "105 CMR 201.006"
+    related_tools: [school_medication_administration_guide, get_ma_school_screening_requirements]
+  - id: lead
+    label: Childhood lead poisoning prevention
+    keywords: [lead, lead paint, blood lead, deleading, abatement]
+    cites:
+      - "105 CMR 460.040"
+      - "105 CMR 460.050"
+      - "105 CMR 460.070"
+      - "105 CMR 460.100"
+    related_tools: [childhood_lead_screening_guide]
+  - id: housing
+    label: Housing conditions (State Sanitary Code, chapter II) and enforcement
+    keywords: [housing, sanitary code, tenant, landlord, habitation, heat, pests, rodents, mold, inspection]
+    cites:
+      - "105 CMR 410.001"
+      - "105 CMR 410.010"
+      - "105 CMR 400.100"
+      - "105 CMR 400.200"
+      - "M.G.L. c. 111, § 127A"
+      - "M.G.L. c. 111, § 127B"
+      - "M.G.L. c. 111, § 127C"
+    related_tools: [housing_conditions_health_guide]
+  - id: food
+    label: Food establishments (State Sanitary Code, chapter X)
+    keywords: [food, restaurant, food establishment, foodborne, permit, embargo, retail]
+    cites:
+      - "105 CMR 590.001"
+      - "105 CMR 590.008"
+      - "105 CMR 590.012"
+      - "105 CMR 590.014"
+      - "105 CMR 300.131"
+    related_tools: []
+  - id: tobacco
+    label: Tobacco and nicotine delivery products
+    keywords: [tobacco, nicotine, vaping, e-cigarette, cigarette, smoking, flavored]
+    cites:
+      - "105 CMR 665.010"
+      - "105 CMR 665.013"
+      - "105 CMR 665.045"
+      - "105 CMR 665.055"
+      - "105 CMR 661.100"
+    related_tools: []
+  - id: board_of_health_powers
+    label: Board of health organization and powers
+    keywords: [board of health, boards of health, health officer, health agent, local regulation, regulations, powers, authority]
+    cites:
+      - "M.G.L. c. 111, § 26"
+      - "M.G.L. c. 111, § 27"
+      - "M.G.L. c. 111, § 30"
+      - "M.G.L. c. 111, § 31"
+      - "M.G.L. c. 111, § 5"
+    related_tools: [assess_foundational_public_health_services]
+  - id: nuisance
+    label: Nuisances and orders to abate
+    keywords: [nuisance, nuisances, abate, abatement, noxious, sanitary condition, complaint]
+    cites:
+      - "M.G.L. c. 111, § 122"
+      - "M.G.L. c. 111, § 123"
+      - "M.G.L. c. 111, § 124"
+      - "M.G.L. c. 111, § 125"
+      - "M.G.L. c. 111, § 130"
+    related_tools: []
+  - id: tuberculosis
+    label: Tuberculosis
+    keywords: [tuberculosis, tb, ltbi, latent]
+    cites:
+      - "105 CMR 365.100"
+      - "105 CMR 365.200"
+      - "105 CMR 360.100"
+      - "M.G.L. c. 111, § 94A"
+      - "M.G.L. c. 111, § 94B"
+    related_tools: [plan_tb_contact_investigation, ltbi_treatment_calendar]
+  - id: rabies
+    label: Rabies exposure
+    keywords: [rabies, animal bite, bite, post-exposure prophylaxis]
+    cites:
+      - "105 CMR 335.100"
+      - "105 CMR 335.300"
+    related_tools: []
+  - id: nursing_practice
+    label: Nursing practice, delegation, and conduct (244 CMR)
+    keywords: [nurse, nursing, delegation, delegate, scope of practice, license, licensed practical nurse, standards of conduct, aprn]
+    cites:
+      - "244 CMR 3.02"
+      - "244 CMR 3.05"
+      - "244 CMR 9.03"
+      - "244 CMR 4.06"
+    related_tools: [nursing_scope_of_practice_guide]
+
+referral:
+  text: >-
+    This tool finds and cites law; it does not interpret it for your situation. Check the cited
+    section on the Legislature's or mass.gov's page (the links are in the results) and ask your
+    agency's counsel or town counsel before relying on it. Regulations are amended; a section's
+    date here is the date shown when the snapshot was built.
+  contacts:
+    - "Your agency's counsel or town counsel"
+    - "The Massachusetts Department of Public Health, Office of Local and Regional Health, for local board of health questions"
+    - "The Trial Court Law Libraries (law librarians answer legal research questions on mass.gov)"
+
+limits:
+  - "Decision support, not legal advice. It lists provisions that match your words and quotes at most 25 words of each; it does not say what the law requires in your case."
+  - "The bundled corpus is partial: see coverage for each source. A search that finds nothing does not mean no law applies. Sections that are index-only are shown by title and link, without text."
+  - "Matching is by words and citations, not by meaning. Use the section numbers and the topic starting points to confirm you have seen the right provisions."
+  - "Regulation text came from PDF extraction; tables, forms, and appendices may be missing or garbled. Read the source."
+  - "Your local regulations are searched only in your container. Files that look like client records are refused. Nothing is written."

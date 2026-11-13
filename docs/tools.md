@@ -4489,6 +4489,125 @@ has a layout problem (flagged on the provision). Content is pending review.
 
 <!-- Phase 19 law (POL-02, POL-04, POL-07). -->
 
+### `search_public_health_law` (POL-02, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `query` | required | A citation (`105 CMR 300.200`, `M.G.L. c. 111, § 95`, `244 CMR 3.05`, `105 CMR 410` for a whole chapter) or words ("board of health order to quarantine"). No names of people; identifiers are refused. |
+| `sources` | all four | `mgl_c111`, `cmr_105`, `cmr_244`, `local`. |
+| `max_results` | 8 | At most 25. |
+| `local_folder` | `local_regulations` | A folder under `/data` with your board of health's regulations (PDF, Word, Markdown, text, HTML). A file instead of a folder is an error. |
+| `full_text_only` | false | Skip sections that are index-only (title and link). |
+
+Searches a bundled corpus of Massachusetts public health law and answers with citations. **What is
+bundled** (snapshots taken 2026-11-12 from malegislature.gov and mass.gov; the builder is
+`xtask/scripts/build_law_snapshots.py`):
+
+- **M.G.L. c. 111** (Public Health): a section index of all 510 sections that are not repealed (number,
+  title, link), with full text for 45 core sections (the Department's and boards of health's powers,
+  disease reporting, isolation and quarantine, nuisances and the sanitary code, the immunization registry,
+  newborn screening, confidentiality of HIV and venereal disease records).
+- **105 CMR**: all 89 chapters on mass.gov's table of contents with their dates and links, and a section
+  number and title index (3,060 sections) read from each chapter's PDF. Full text for 20 chapters: 172,
+  200, 201, 210, 220, 221, 222, 223, 270, 271, 300 (reportable diseases, isolation and quarantine), 335,
+  360, 365, 400 (general sanitary code), 410 (housing), 460 (lead), 590 (food establishments), 661 and 665
+  (tobacco). The other chapters are **index-only**.
+- **244 CMR**: all eight chapters in full text (51 sections).
+
+**Output:** for each hit, the citation, title, link (the section page for statutes, the chapter page and PDF
+for regulations), the date on the chapter's page, the date the snapshot was taken, whether it is `full_text`
+or `index_only`, and an excerpt of **25 words or fewer** (never long text); topic starting points for common
+topics with the section titles; local regulation hits (file and section); and the coverage of each source
+(sections, full-text sections, what is not included). Citation lookups (`105 CMR 300.200`) return the exact
+section; a chapter citation lists its sections. Words are matched on section titles (weighted) and text, with
+plural endings removed; a section must match at least half of the distinct words. For 244 CMR hits the tool
+points to the sections of POL-06's `nursing_scope_of_practice_guide` content for the same provision.
+
+**Optional larger corpus.** `python3 -I xtask/scripts/build_law_snapshots.py --extended OUT_DIR` builds every
+section of c. 111 and every chapter of 105 CMR in full text (the same format, with a manifest of SHA-256
+checksums; about 3 minutes and 400 requests). Install `OUT_DIR` as `law_corpus/` in the data folder or the
+cache folder (or mount it read-only at `/cache/law_corpus`). The tool uses it only when the manifest and every
+checksum match, and says which it used; otherwise it falls back to the bundled corpus and says why. Refresh the
+bundled snapshot with the script (`--check` compares a fresh build with the files on disk).
+
+**Local regulations** go through the Phase 1 policy index in your container (index in `/cache/index`).
+Documents that contain a date of birth, record number, or health plan number are treated as client records
+and refused (counted, never named); phone numbers, e-mail and street addresses in excerpts are masked;
+spreadsheets are ignored. Nothing is written.
+
+It is decision support, not legal advice: it finds and quotes law, and does not say what the law requires in
+your case. **Limits.** Partial coverage (said in every result); regulation text comes from PDF extraction
+(tables, forms, and appendices may be missing); the mass.gov copies of regulations are unofficial; matching is
+by words, not meaning. Content is pending review.
+
+### `draft_policy_brief` (POL-04, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `title`, `audience` | placeholders | The working title; `board_of_health`, `select_board_or_council`, `school_committee`, `agency_leadership`, `legislators`, or your own words. |
+| `length` | `one_page` | `one_page` or `full`. |
+| `problem`, `request`, `tradeoffs`, `recommendation` | placeholders | Your own text (at most 2,000 characters each). |
+| `evidence` | none | Up to 12 items: `finding`, `citation`, `strength`. Copy from `find_evidence_based_interventions` or `build_evidence_synthesis_table` output; the tool does not search or check evidence. |
+| `options` | none | Up to 6 options: `name`, `description`. |
+| `criteria` | health_impact, equity, economic_impact, feasibility | Ids or names from the menu (`health_impact`, `equity`, `economic_impact`, `safety`, `feasibility`, `justice_inclusion`, `affordability`, `political_acceptability`, `legal_authority`, `evidence_strength`) or your own words. |
+| `ratings` | none | Cells of the comparison table: `option`, `criterion`, `rating` (`strong`, `mixed`, `weak`, `unknown`), `reason`. |
+| `output` | `docx` | `docx`, `markdown`, `both`, or `none`. |
+
+Drafts a policy brief in the order of the Eightfold Path of policy analysis: summary and request, the problem,
+evidence, options, criteria (full length), the options compared against the criteria in an **accessible
+table** (options in rows, criteria in columns; each cell is a rating in words plus a reason, so it reads
+without color), trade-offs, recommendation, implementation and evaluation, and references (full length).
+It is **template + local fill**: everything the tool adds is structure and prompts; every fact, number, and
+citation is text you supplied or a `[NURSE: ...]` placeholder. **Output:** the eight steps with their status
+(supplied, partly supplied, placeholder), the sections, the criteria and where each comes from, the comparison
+table, the number of placeholders left, a readability check of the prose you supplied (grade level against the
+`check_readability` target; skipped with a note if under 30 words), the files written to `/data/output`, and
+what the method sources say.
+
+**Sources and limits.** The steps are described from two open-access articles (Namibia disability policy
+2018; community water fluoridation policy analysis 2026; both CC BY 4.0) and two PubMed abstracts (a 2005
+paper that adapted the path for health policy and a 2020 nursing application). **Bardach's book was not read**
+(it is copyrighted; the articles cite its 4th edition, 2012). The criteria are those the articles used, plus
+two marked as this project's suggestions (`legal_authority`, `evidence_strength`, low confidence). It is not
+legal advice. Content is pending review.
+
+### `health_information_sharing_guide` (POL-07, toolset `policy`)
+
+| Argument | Default | |
+|---|---|---|
+| `holder_role` | none | `health_care_provider`, `local_health_department`, `school_nurse_public`, `school_nurse_private`, `substance_use_program`, `state_agency`, `other`. |
+| `record_type` | none | `clinical_record`, `school_health_record`, `immunization_record`, `communicable_disease_report`, `hiv_test_result`, `substance_use_treatment_record`, `administrative_record`, `other`. |
+| `recipient` | none | `individual_or_parent`, `school`, `health_care_provider`, `public_health_authority`, `law_enforcement_or_court`, `employer`, `researcher`, `public_requester`, `exposed_person`, `other_agency`. |
+| `purpose` | none | `treatment_or_care`, `public_health_reporting`, `disease_investigation`, `school_immunization`, `emergency_threat`, `research`, `public_records_request`, `legal_process`, `other`. |
+| `consent` | none | `written`, `verbal`, `none`, `unknown`. |
+| `subject_is_minor` | none | True if the person the record is about is a minor. |
+| `situation` | none | General words only; identifiers are refused. |
+
+A decision guide, not an answer. With no `holder_role` and `record_type` it returns the structured questions.
+With them it returns the regimes that may govern, ordered from "likely governs" through "may apply" and "check"
+to "not indicated", each with the reason, the provisions that bear on your recipient and purpose (citation,
+link, a quotation of 25 words or fewer, a paraphrase, confidence), cautions, and the facts about your
+organization you must confirm:
+
+- **HIPAA** (45 CFR 160.103, 164.105, 164.501, 164.502, 164.506, 164.512 including the public health
+  permission, disclosure of proof of immunization to a school, exposed persons, serious threat, judicial and
+  law enforcement paragraphs, and research);
+- **FERPA** (34 CFR 99.1, 99.3, 99.30, 99.31, 99.36): school health records are education records and outside
+  HIPAA's definition of protected health information;
+- **42 CFR Part 2** (2.11, 2.12, 2.13, 2.32, 2.33, 2.51, 2.54, as amended in 2024);
+- **Massachusetts public records law** (M.G.L. c. 66, section 10; c. 4, section 7, clause twenty-sixth);
+- **Massachusetts health confidentiality** (105 CMR 300.120 and 300.191, including school nurses' access to
+  immunization records; M.G.L. c. 111 sections 24M, 70F, 111, 119; c. 112 section 12CC);
+- **Massachusetts student records** (M.G.L. c. 71, sections 34D and 34E).
+
+It **never gives a yes or no on whether a disclosure is allowed** (`answer_type` is `governing_rules_and_cautions`).
+Federal texts are the eCFR text as of 2026-11-10, read through the eCFR API; Massachusetts texts are from
+malegislature.gov and mass.gov. **Not read:** the FERPA statute, the HHS and Education joint guidance
+(hhs.gov is blocked), 603 CMR 23.00 (the mass.gov page is marked unpublished), 42 CFR Part 2 subpart E and the
+2024 rule's compliance dates, 45 CFR 164.508 and 164.520, and other Massachusetts confidentiality statutes
+(coverage is in every result). Decision support, not legal advice; take the question to agency counsel.
+Content is pending review.
+
 <!-- End of Phase 19 law. -->
 
 <!-- End of Phase 19 tools. -->

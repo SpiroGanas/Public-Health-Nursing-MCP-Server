@@ -121,5 +121,6 @@ pub mod strategy;
 // Phase 19 tracking (POL-01, POL-03).
 // End of Phase 19 tracking.
 // Phase 19 law (POL-02, POL-04, POL-07).
+pub mod law;
 // End of Phase 19 law.
 // End of Phase 19 adapters.

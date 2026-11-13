@@ -12,4 +12,10 @@ pub use scope::{ScopeArgs, ScopeResult, nursing_scope_of_practice_guide};
 // End of Phase 19 tracking.
 
 // Phase 19 law (POL-02, POL-04, POL-07): add `pub mod` and `pub use` lines below.
+pub mod brief;
+pub mod law;
+pub mod sharing;
+pub use brief::{BriefArgs, BriefResult, draft_policy_brief};
+pub use law::{LawResult, LawSearchArgs, search_public_health_law};
+pub use sharing::{SharingArgs, SharingResult, health_information_sharing_guide};
 // End of Phase 19 law.

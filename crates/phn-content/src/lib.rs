@@ -857,6 +857,27 @@ pub const ITEMS: &[ContentItem] = &[
     // Phase 19 tracking (POL-01, POL-03).
     // End of Phase 19 tracking.
     // Phase 19 law (POL-02, POL-04, POL-07).
+    ContentItem {
+        id: "policy-public-law-search",
+        path: "content/policy/public_law_search.yaml",
+        resource_uri: "phn://content/policy-public-law-search",
+        yaml: include_str!("../../../content/policy/public_law_search.yaml"),
+        schema: include_str!("../../../content/schemas/policy_public_law_search.schema.json"),
+    },
+    ContentItem {
+        id: "policy-policy-brief",
+        path: "content/policy/policy_brief.yaml",
+        resource_uri: "phn://content/policy-policy-brief",
+        yaml: include_str!("../../../content/policy/policy_brief.yaml"),
+        schema: include_str!("../../../content/schemas/policy_policy_brief.schema.json"),
+    },
+    ContentItem {
+        id: "policy-information-sharing",
+        path: "content/policy/information_sharing.yaml",
+        resource_uri: "phn://content/policy-information-sharing",
+        yaml: include_str!("../../../content/policy/information_sharing.yaml"),
+        schema: include_str!("../../../content/schemas/policy_information_sharing.schema.json"),
+    },
     // End of Phase 19 law.
     // End of Phase 19 content items.
 ];

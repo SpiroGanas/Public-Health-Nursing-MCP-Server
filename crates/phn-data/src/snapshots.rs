@@ -502,6 +502,18 @@ const BUNDLED_FILES: &[(&str, &str)] = &[
     // Phase 19 tracking (POL-01, POL-03).
     // End of Phase 19 tracking.
     // Phase 19 law (POL-02, POL-04, POL-07).
+    (
+        "ma_law_mgl_c111.json",
+        include_str!("../../../snapshots/ma_law_mgl_c111.json"),
+    ),
+    (
+        "ma_law_105_cmr.json",
+        include_str!("../../../snapshots/ma_law_105_cmr.json"),
+    ),
+    (
+        "ma_law_244_cmr.json",
+        include_str!("../../../snapshots/ma_law_244_cmr.json"),
+    ),
     // End of Phase 19 law.
     // End of Phase 19 snapshot files.
 ];

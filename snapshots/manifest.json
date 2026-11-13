@@ -2236,6 +2236,90 @@
           "rows": 147
         }
       ]
+    },
+    {
+      "id": "ma-law-mgl-c111",
+      "title": "M.G.L. c. 111 (Public Health) - section index and partial full text",
+      "publisher": "Massachusetts Legislature",
+      "source_urls": [
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXVI/Chapter111"
+      ],
+      "source_sha256": {
+        "corpus-input": "0bd5f7416088adaeddda152d26d771b80db1121f4f2efd781cec330d4d83e904"
+      },
+      "source_vintage": "retrieved 2026-11-12",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads the chapter page (section number, title, link) and, for the core sections, each section page, taking the text after the heading and before the page chrome; whitespace is collapsed.",
+      "caveats": [
+        "The index lists every section of c. 111 that is not repealed (the Legislature's chapter page); full text is kept only for the sections named in CORE_C111 of the builder script. For any other section the tool gives the number, title, and link, not the text.",
+        "The Legislature's site gives no per-section effective date: check the section page for amendments made after the retrieval date.",
+        "Repealed sections are not listed. Sections of other chapters (for example c. 111D, c. 94C, c. 112) are not included."
+      ],
+      "files": [
+        {
+          "path": "ma_law_mgl_c111.json",
+          "sha256": "ad7785afdc7e5005128a7b554c7ac8266b71d52712eb1e273c5a952f6c50125a",
+          "bytes": 204930,
+          "rows": 510
+        }
+      ]
+    },
+    {
+      "id": "ma-law-105-cmr",
+      "title": "105 CMR (Department of Public Health regulations) - section index and partial full text",
+      "publisher": "Massachusetts Department of Public Health (copies on mass.gov, Trial Court Law Libraries)",
+      "source_urls": [
+        "https://www.mass.gov/regulations/105-CMR-30000-reportable-diseases-surveillance-and-isolation-and-quarantine-requirements"
+      ],
+      "source_sha256": {
+        "corpus-input": "7256c55732f6603be8829690c3b4269eea22e7962cd1c25917af2f8e46d3ade3"
+      },
+      "source_vintage": "retrieved 2026-11-12; chapter dates 1997-10-31 to 2026-11-06",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads the mass.gov table of contents, each chapter page (date and PDF link), and each PDF with pdftotext -layout. Headings before the first repeated section number are the table of contents; page headers, footers, and 'continued' lines are removed; whitespace is collapsed.",
+      "caveats": [
+        "Every chapter on mass.gov's 105 CMR table of contents is listed; section numbers and titles come from each chapter's PDF. Full text is kept only for the chapters named in FULL_105 of the builder script. Other chapters are index-only.",
+        "mass.gov's copies are unofficial; the official version is published by the Secretary of the Commonwealth. Each chapter's date is the date on its mass.gov page and may be earlier than a later amendment not yet posted.",
+        "Section titles and text are from PDF text extraction; check the PDF for tables, forms, and appendices, which are not reliably extracted."
+      ],
+      "files": [
+        {
+          "path": "ma_law_105_cmr.json",
+          "sha256": "e83341e5cbc2b3a47e516461276ce572d58e4b5970ffef7e1d1be94dd80d7269",
+          "bytes": 966122,
+          "rows": 3060
+        }
+      ]
+    },
+    {
+      "id": "ma-law-244-cmr",
+      "title": "244 CMR (Board of Registration in Nursing regulations) - section index and partial full text",
+      "publisher": "Massachusetts Board of Registration in Nursing (copies on mass.gov, Trial Court Law Libraries)",
+      "source_urls": [
+        "https://www.mass.gov/regulations/244-CMR-900-standards-of-conduct-for-nurses"
+      ],
+      "source_sha256": {
+        "corpus-input": "9daa57cde2d7f2d65db3a62b51214a1417b96d305afe2ccc55be2a51c08b024a"
+      },
+      "source_vintage": "retrieved 2026-11-12; chapter dates 2021-06-11 to 2025-04-25",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts statutes and regulations are public records published by the Commonwealth; mass.gov's and malegislature.gov's site policies were not read, so check them before republishing the text. The snapshot keeps section numbers, titles, and text for search; the tool returns excerpts of 25 words or fewer.",
+      "derivation": "xtask/scripts/build_law_snapshots.py reads each chapter page (date and PDF link) and each PDF with pypdf, keeping the first text layer of each page, then splits sections the same way as for 105 CMR.",
+      "caveats": [
+        "All eight chapters of 244 CMR on mass.gov (3.00 to 10.00) are in full text.",
+        "mass.gov's PDFs hold each page twice; the build keeps the first text layer. The Board marks the mass.gov copies as not official.",
+        "Board advisory rulings are not regulations and are in the scope-of-practice guide (nursing_scope_of_practice_guide), not here."
+      ],
+      "files": [
+        {
+          "path": "ma_law_244_cmr.json",
+          "sha256": "cfb6a6bd56e57e9ca0315700b8a1e524ae128f644a8d0119f2a5154031b3b9f2",
+          "bytes": 157008,
+          "rows": 51
+        }
+      ]
     }
   ]
 }
