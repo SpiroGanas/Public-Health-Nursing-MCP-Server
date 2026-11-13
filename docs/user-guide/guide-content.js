@@ -9,7 +9,7 @@
 
 'use strict';
 
-const VERSION = '0.15.0';
+const VERSION = '1.0.0';
 const GUIDE_DATE = 'November 2026';
 const TOOL_COUNT = 148;
 
@@ -28,6 +28,9 @@ const TOOLSETS = {
   bh: 'bh (mental health and substance use)',
   epr: 'epr (emergency preparedness)',
   env: 'env (environmental health and climate)',
+  planning: 'planning (program planning, evaluation, and grants)',
+  leadership: 'leadership (health department leadership and finance)',
+  policy: 'policy (policy, law, and professional practice)',
 };
 
 const INTERNET = {
@@ -72,7 +75,7 @@ const frontChapters = [
       {
         title: 'What you can do with it',
         blocks: [
-          { p: `The ${TOOL_COUNT} tools fall into 14 work areas. Chapters 4 to 17 describe each tool.` },
+          { p: `The ${TOOL_COUNT} tools fall into 19 work areas. Chapters 4 to 22 describe each tool.` },
           {
             table: {
               caption: 'Table 1. Work areas covered by the server',
@@ -107,6 +110,21 @@ const frontChapters = [
                 // Phase 14 work-area rows go below this line.
                 ['Environmental health and climate (chapter 17)', 'Look up drinking water violations, lead, and PFAS for your town’s water systems; check community water fluoridation; screen environmental justice populations; profile climate and health vulnerability for MVP and hazard mitigation planning; follow mosquito and tick-borne disease risk; explain housing conditions under the State Sanitary Code; look up chemical exposure limits; map food access.', '8'],
                 // End of Phase 14 work-area rows.
+                // Phase 15 work-area rows go below this line.
+                ['Chronic disease prevention and community assessment (chapter 18)', 'Run a community blood pressure screening; score the prediabetes risk test and find a diabetes prevention program; look up recommended preventive services; plan an asthma home visit; build a community health assessment (MAPP 2.0); rank community health issues; analyze focus group transcripts; count addresses by town or census tract without showing any address.', '8'],
+                // End of Phase 15 work-area rows.
+                // Phase 16 work-area rows go below this line.
+                ['Program planning, evaluation, and evidence (chapter 19)', 'Build logic models; write and check SMARTIE objectives with Healthy People 2030 targets; draft evaluation plans; find Community Guide evidence; apply behavior change theory; track program results against targets; appraise a study; build evidence tables and PRISMA diagrams; plan quality improvement projects with run charts.', '9'],
+                // End of Phase 16 work-area rows.
+                // Phase 17 work-area rows go below this line.
+                ['Grants and finance (chapter 20)', 'Search federal grants and Massachusetts bids; turn a funding announcement into a checklist; draft a grant narrative from your facts; build a program budget; compare costs and results; analyze the department budget; estimate nurse staffing needs.', '7'],
+                // End of Phase 17 work-area rows.
+                // Phase 18 work-area rows go below this line.
+                ['Leadership, accreditation, and professional practice (chapter 21)', 'Assess the department against the state local public health standards; map documents to PHAB standards; draft a strategic plan; assess workforce competencies and credentials; run board of health meetings under the Open Meeting Law; draft standing orders; decide whether a project is QI or research; work through public health ethics; look up scope of practice and delegation rules.', '9'],
+                // End of Phase 18 work-area rows.
+                // Phase 19 work-area rows go below this line.
+                ['Policy and law (chapter 22)', 'Follow Massachusetts bills on public health topics; watch federal rules and comment deadlines; search Massachusetts public health law; draft a policy brief; work out which rules govern sharing a health record.', '5'],
+                // End of Phase 19 work-area rows.
               ],
             },
           },
@@ -217,16 +235,16 @@ const frontChapters = [
               widths: [1700, 2500, 2860, 2300],
               header: ['Profile', 'Intended for', 'Tool groups included', 'Not included'],
               rows: [
-                ['school_nurse', 'School nurses', 'core, school, vax, cd, bh, comms, epi', 'mch, aging, epr, env, equity, chronic, ebp'],
-                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'school, mch, aging, bh, epr, env, chronic, ebp'],
-                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, comms, ebp, chronic', 'cd, vax, school, mch, aging, bh, epr, env'],
-                ['preparedness', 'Emergency preparedness coordinators', 'core, epr, env, epi, equity, comms, cd', 'vax, school, mch, aging, bh, chronic, ebp'],
+                ['school_nurse', 'School nurses', 'core, school, vax, cd, bh, comms, epi', 'mch, aging, epr, env, equity, chronic, ebp, planning, leadership, policy'],
+                ['cd_nurse', 'Communicable disease and epidemiology nurses at a board of health', 'core, cd, vax, epi, comms, equity', 'school, mch, aging, bh, epr, env, chronic, ebp, planning, leadership, policy'],
+                ['phn_leader', 'Public health nurse leaders and directors', 'core, epi, equity, planning, leadership, policy, comms, ebp, chronic', 'cd, vax, school, mch, aging, bh, epr, env'],
+                ['preparedness', 'Emergency preparedness coordinators', 'core, epr, env, epi, equity, comms, cd', 'vax, school, mch, aging, bh, chronic, ebp, planning, leadership, policy'],
                 ['(none)', 'Anyone who wants every tool', 'All groups', '—'],
               ],
             },
           },
           {
-            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. The phn_leader profile also switches on three groups reserved for future versions (planning, leadership, and policy); they have no tools yet. The mch and aging groups are not part of any profile: ask Claude to turn them on (for example “Turn on the mch toolset”), or use no profile.',
+            p: 'Each tool description in this guide names its group. If a tool you need is not available, ask Claude to change your profile or turn on the group, for example “Turn on the ebp toolset.” If your profile was set in the Claude Desktop configuration file, that setting takes priority; the tool will say so, and you or IT can change the file. The planning, leadership, and policy groups hold the program planning, grant and budget, leadership, and policy tools (chapters 19 to 22); only the phn_leader profile includes them. The mch and aging groups are not part of any profile: ask Claude to turn them on (for example “Turn on the mch toolset”), or use no profile.',
           },
         ],
       },
@@ -235,9 +253,9 @@ const frontChapters = [
         blocks: [
           {
             bullets: [
-              '**Bundled reference content**, drafted from Massachusetts regulations and laws (105 CMR 300.000 and the school health, lead, and child care regulations cited in each chapter; the Massachusetts General Laws on mandated reporting and health care proxies), DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, EPA, CMS, and FEMA’s incident command and exercise materials, each entry with its citation and a confidence level. All of it is pending expert review.',
-              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, recent CDC surveillance data, CDC and WHO growth charts, DPH lead screening, birth, overdose, and youth survey tables, directories of aging and behavioral health services, CMS nursing home data, FEMA disaster declarations, and HHS emPOWER counts.',
-              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, DailyMed, the National Weather Service, AirNow, OpenFEMA, HHS emPOWER, CMS Provider Data, HRSA, and FindTreatment.gov.',
+              '**Bundled reference content**, drafted from Massachusetts regulations and laws (105 CMR 300.000 and the school health, lead, and child care regulations cited in each chapter; the Massachusetts General Laws on mandated reporting and health care proxies), DPH’s disease guide and guidance, DPH’s school immunization requirements, CDC and ACIP, AAP, ACOG, AAFP, Immunize.org, EPA, CMS, FEMA’s incident command and exercise materials, USPSTF, the Community Guide, CDC’s program evaluation framework, the federal Uniform Guidance for grants, and the Board of Registration in Nursing’s rulings, each entry with its citation and a confidence level. All of it is pending expert review.',
+              '**Dated data snapshots** bundled with the server: American Community Survey estimates, the Social Vulnerability Index, CDC PLACES, map boundaries, DPH’s school immunization survey, CDC immunization coverage estimates, an offline copy of DPH’s disease guide and fact sheets, recent CDC surveillance data, CDC and WHO growth charts, DPH lead screening, birth, overdose, and youth survey tables, directories of aging and behavioral health services, CMS nursing home data, FEMA disaster declarations, HHS emPOWER counts, USPSTF recommendations, DPH’s diabetes prevention program list, Healthy People 2030 objectives, Community Guide papers, DPH’s local public health standards and shared service list, the COMMBUYS weekly bid list, Massachusetts bills, and a partial copy of M.G.L. c. 111, 105 CMR, and 244 CMR.',
+              '**Live public data**, when the internet is available: the Census Bureau, CDC’s data portal (data.cdc.gov), PubMed, CDC’s MMWR and Health Alert Network, RxNorm, openFDA, DailyMed, the National Weather Service, AirNow, OpenFEMA, HHS emPOWER, CMS Provider Data, HRSA, FindTreatment.gov, Healthy People 2030, MyHealthfinder, the Massachusetts Legislature, the Federal Register, Crossref, and, with your own optional key, Simpler.Grants.gov and Regulations.gov.',
               '**Your own files** in the data folder.',
             ],
           },
@@ -302,7 +320,7 @@ const frontChapters = [
 ];
 
 // ---------------------------------------------------------------------------------------
-// Tool chapters: chapters 4–16. One entry per implemented tool.
+// Tool chapters: chapters 4–22. One entry per implemented tool.
 // ---------------------------------------------------------------------------------------
 
 const toolChapters = [
@@ -3635,7 +3653,7 @@ const toolChapters = [
   // Phase 15 chapter goes below this line.
   {
     title: 'Chronic disease prevention and community assessment',
-    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    intro: 'These eight tools support chronic disease prevention and community assessment: a community blood pressure screening kit, the prediabetes risk test and diabetes prevention programs, recommended preventive services, asthma home visits, a MAPP 2.0 community health assessment, ranking health issues, analyzing focus group transcripts, and counting addresses by town or census tract. The first four are in the chronic group (phn_leader profile), the three assessment tools in the equity group, and the address tool in the epi group, which every profile includes. Tools that read your files return only counts or themes, and anything identifiable goes to your output folder. The guidance is a draft from CDC, USPSTF, DPH, EPA, CMS, and open-access sources, pending review; the notes for each tool say which sources could not be read.',
     tools: [
       // Phase 15 screen (CHR-02, CHR-03) tools.
       {
@@ -3912,7 +3930,7 @@ const toolChapters = [
   // Phase 16 chapter goes below this line.
   {
     title: 'Program planning, evaluation, and evidence',
-    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    intro: 'These nine tools support planning, evaluating, and appraising a program: logic models, SMARTIE objectives with Healthy People 2030 targets, evaluation plans, Community Guide evidence, behavior change theory, tracking results against targets, study appraisal, evidence tables with PRISMA diagrams, and quality improvement planning. Six are in the planning group and three in the ebp group; the phn_leader profile includes both. The tools structure and check your own work: you give the program description and the appraisal answers, and they never judge a study or a program for you. The guidance is a draft from CDC, ODPHP, and open-access sources, pending review; the Community Guide’s own site could not be read.',
     tools: [
       // Phase 16 design (PLAN-01, PLAN-02, PLAN-05) tools.
       {
@@ -4224,7 +4242,7 @@ const toolChapters = [
   // Phase 17 chapter goes below this line.
   {
     title: 'Grants and finance',
-    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    intro: 'These seven tools support finding funding, responding to it, and managing the money: grant and bid searches, a checklist from a funding announcement, a grant narrative drafted from your own facts, a program budget, cost and benefit calculations, analysis of the department’s budget, and nurse staffing estimates. Five are in the planning group and two in the leadership group; the phn_leader profile includes both, and a guided “prepare a grant application” prompt uses them in order. Budget files are read in your data folder and only category totals come back, but salaries you type into the chat go to the AI company, so keep them in a file. The federal grant search needs your own API key, and the budget rules and staffing defaults are drafts pending review.',
     tools: [
       // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08) tools.
       {
@@ -4458,7 +4476,7 @@ const toolChapters = [
   // Phase 18 chapter goes below this line.
   {
     title: 'Leadership, accreditation, and professional practice',
-    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    intro: 'These nine tools support running a department and meeting professional standards: a gap analysis against the Massachusetts local public health standards, a crosswalk to PHAB accreditation, strategic plans, workforce competencies, board of health meetings under the Open Meeting Law, standing orders, a QI-or-research screening aid, ethics analysis, and scope of practice rules. Six are in the leadership group, one in ebp, and two in policy; the phn_leader profile includes all three. They produce drafts, checklists, and citations for your decisions; they do not decide, give legal advice, or replace your medical director, town counsel, the Board of Registration in Nursing, or your IRB. The content is a draft pending review, and PHAB’s own standards document could not be read.',
     tools: [
       // Phase 18 strategy (LEAD-03, LEAD-04, LEAD-05) tools.
       {
@@ -4757,7 +4775,7 @@ const toolChapters = [
   // Phase 19 chapter goes below this line.
   {
     title: 'Policy and law',
-    intro: 'TODO: coordinator writes the chapter introduction at the end of the phase.',
+    intro: 'These five tools support policy work and legal questions: Massachusetts bills on public health topics, federal proposed rules and comment deadlines, a search of Massachusetts public health law, policy briefs, and which rules govern sharing a health record. All are in the policy group, which the phn_leader profile includes. The bill and federal rule tools need the internet (the federal tool works only live), and the law search uses a dated, partial copy of M.G.L. c. 111, 105 CMR, and 244 CMR plus any regulations you save in your data folder. None gives legal advice or says what a bill would do; they give citations, short quotations, and cautions, and send you to agency counsel. The content is pending review.',
     tools: [
       // Phase 19 tracking (POL-01, POL-03) tools.
       {
