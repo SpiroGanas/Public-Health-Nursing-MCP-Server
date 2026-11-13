@@ -3,12 +3,16 @@
 A handoff document for whoever picks up this project next, human or AI agent. Read it before
 starting work, and **update it before you finish** (see [Keeping this file current](#keeping-this-file-current)).
 
-- **Last updated:** 2026-11-11
-- **Current version:** 0.15.0 (Phases 0–14 of [`project_plan.md`](project_plan.md), 110 tools);
-  not yet released. PR #8 (branch `ccr-db56717a-c5p1la`) holds Phase 14.
-- **Next:** Phase 15, chronic disease prevention and community assessment. Pilots 1, 2, and 3
-  still wait on the nurse's content reviews; no phase has yet met the plan's definition of done
-  (content reviewed, signed image published, acceptance script run).
+- **Last updated:** 2026-11-13
+- **Current version:** 1.0.0 (all of Phases 0–19 of [`project_plan.md`](project_plan.md), 148 of
+  148 tools); not yet released. Phases 15–19 were built by fourteen helpers and merged on branch
+  `phase-19-docs` (PR: this branch; the number is not known yet). The workspace version in
+  `Cargo.toml` still reads 0.15.0: bump it to 1.0.0 (and regenerate `Cargo.lock`) before tagging.
+- **Next:** none. The plan is complete; what remains is post-1.0 maintenance
+  (`project_plan.md` section 8) and the open items in section 2. No phase has yet met the plan's
+  definition of done (content reviewed, signed image published, acceptance script run). All
+  bundled content is `status: pending` with review due 2027-02-01, and **CI starts failing after
+  that date** until each `meta.review` is updated.
 
 ## 1. Where things stand
 
@@ -30,16 +34,23 @@ starting work, and **update it before you finish** (see [Keeping this file curre
 | 12 | Emergency preparedness I (8 tools) | Merged; content review needed | PR #5 |
 | 13 | Emergency preparedness II: ICS, plans, and exercises (5 tools + tabletop prompt) | Merged; content review needed before Pilot 3 | PR #6 |
 | — | Peer review of Phases 0–13: code, plan, architecture, and documentation | Merged | PR #7 |
-| 14 | Environmental health and climate (8 tools) | Open; content review needed | PR #8 |
-| 15–19 | See the roadmap in `project_plan.md` §6 | Not started | — |
+| 14 | Environmental health and climate (8 tools) | Merged; content review needed | PR #8 |
+| 15 | Chronic disease prevention and community assessment (8 tools + community health assessment prompt) | Merged to this branch; content review needed | PR: this branch |
+| 16 | Program planning, evaluation, and evidence (9 tools) | Merged to this branch; content review needed | PR: this branch |
+| 17 | Grants and finance (7 tools + grant application prompt) | Merged to this branch; content review needed; federal grant search never run live | PR: this branch |
+| 18 | Leadership, accreditation, and professional practice (9 tools) | Merged to this branch; content review needed | PR: this branch |
+| 19 | Policy and law (5 tools); v1.0 hardening | Merged to this branch; content review needed; Federal Register and Regulations.gov adapters never run live | PR: this branch |
 
-PRs #5 (Phases 7–12), #6 (Phase 13), and #7 (the peer review: about 170 of roughly 210 findings
-fixed; the rest are open items in section 2) are merged. PR #8 (branch `ccr-db56717a-c5p1la`)
-holds Phase 14: four helpers built one work package each (water, EJ and climate, vectors and
-housing, chemicals and food) in separate worktrees, and the coordinator merged them. When it
-merges, start new work on a fresh branch from `main`.
+PRs #5 (Phases 7–12), #6 (Phase 13), #7 (the peer review: about 170 of roughly 210 findings
+fixed; the rest are open items in section 2), and #8 (Phase 14) are merged. Phases 15–19 were
+built the same way: fourteen helpers each built one work package in a separate worktree
+(screen, prevent, cha, geo; design, interventions, appraise, qi; grants, budget, finance;
+strategy, workforce, ethics; tracking, law) and wrote a notes file for the coordinator, and the
+coordinator merged them and folded the notes into `CHANGELOG.md`, `docs/acceptance/`, this file,
+and `docs/content-review-sweep.md`. Everything is on branch `phase-19-docs`; when it merges,
+start new work on a fresh branch from `main`.
 
-### Tools implemented (110 of 148)
+### Tools implemented (148 of 148)
 
 | Tool | Plan ID | Toolset | Phase | Code |
 |---|---|---|---|---|
@@ -153,14 +164,103 @@ merges, start new work on a fresh branch from `main`.
 | `housing_conditions_health_guide` | ENV-07 | env | 14 | `crates/phn-tools/src/env/housing.rs` |
 | `chemical_exposure_reference` | ENV-08 | env | 14 | `crates/phn-tools/src/env/chemical.rs` |
 | `food_access_mapper` | CHR-06 | chronic | 14 | `crates/phn-tools/src/chronic/food_access.rs` |
+| `community_bp_screening_toolkit` | CHR-02 | chronic | 15 | `crates/phn-tools/src/chronic/bp_screening.rs` |
+| `diabetes_prevention_finder` | CHR-03 | chronic | 15 | `crates/phn-tools/src/chronic/diabetes_prevention.rs` |
+| `preventive_services_lookup` | CHR-04 | chronic | 15 | `crates/phn-tools/src/chronic/preventive.rs` |
+| `asthma_home_assessment` | CHR-05 | chronic | 15 | `crates/phn-tools/src/chronic/asthma_home.rs` |
+| `community_health_assessment_builder` | EQ-08 | equity | 15 | `crates/phn-tools/src/equity/cha.rs` |
+| `prioritize_health_issues` | EQ-09 | equity | 15 | `crates/phn-tools/src/equity/prioritize.rs` |
+| `analyze_qualitative_data` | EQ-10 | equity | 15 | `crates/phn-tools/src/equity/qualitative.rs` |
+| `geocode_and_aggregate_addresses` | EPI-13 | epi | 15 | `crates/phn-tools/src/epi/geocode.rs` |
+| `build_logic_model` | PLAN-01 | planning | 16 | `crates/phn-tools/src/planning/logic_model.rs` |
+| `write_smartie_objectives` | PLAN-02 | planning | 16 | `crates/phn-tools/src/planning/smartie.rs` |
+| `build_evaluation_plan` | PLAN-05 | planning | 16 | `crates/phn-tools/src/planning/evaluation.rs` |
+| `find_evidence_based_interventions` | PLAN-03 | planning | 16 | `crates/phn-tools/src/planning/interventions.rs` |
+| `apply_behavior_change_theory` | PLAN-04 | planning | 16 | `crates/phn-tools/src/planning/theory.rs` |
+| `track_program_performance` | PLAN-11 | planning | 16 | `crates/phn-tools/src/planning/performance.rs` |
+| `appraise_evidence` | EBP-03 | ebp | 16 | `crates/phn-tools/src/ebp/appraise.rs` |
+| `build_evidence_synthesis_table` | EBP-04 | ebp | 16 | `crates/phn-tools/src/ebp/synthesis.rs` |
+| `plan_quality_improvement` | EBP-05 | ebp | 16 | `crates/phn-tools/src/ebp/qi/mod.rs` |
+| `search_grant_opportunities` | PLAN-06 | planning | 17 | `crates/phn-tools/src/planning/grant_search.rs` |
+| `analyze_funding_announcement` | PLAN-07 | planning | 17 | `crates/phn-tools/src/planning/funding_announcement.rs` |
+| `draft_grant_narrative` | PLAN-08 | planning | 17 | `crates/phn-tools/src/planning/grant_narrative.rs` |
+| `build_program_budget` | PLAN-09 | planning | 17 | `crates/phn-tools/src/planning/budget/mod.rs` |
+| `economic_evaluation_calculator` | PLAN-10 | planning | 17 | `crates/phn-tools/src/planning/economic/mod.rs` |
+| `analyze_health_department_budget` | LEAD-01 | leadership | 17 | `crates/phn-tools/src/leadership/budget.rs` |
+| `model_staffing_needs` | LEAD-02 | leadership | 17 | `crates/phn-tools/src/leadership/staffing.rs` |
+| `assess_foundational_public_health_services` | LEAD-03 | leadership | 18 | `crates/phn-tools/src/leadership/fphs.rs` |
+| `phab_accreditation_crosswalk` | LEAD-04 | leadership | 18 | `crates/phn-tools/src/leadership/phab.rs` |
+| `build_strategic_plan` | LEAD-05 | leadership | 18 | `crates/phn-tools/src/leadership/strategic_plan.rs` |
+| `assess_workforce_competencies` | LEAD-06 | leadership | 18 | `crates/phn-tools/src/leadership/workforce.rs` |
+| `board_of_health_meeting_assistant` | LEAD-07 | leadership | 18 | `crates/phn-tools/src/leadership/board_meeting.rs` |
+| `draft_standing_orders` | LEAD-08 | leadership | 18 | `crates/phn-tools/src/leadership/standing_orders.rs` |
+| `qi_vs_research_determination` | EBP-07 | ebp | 18 | `crates/phn-tools/src/ebp/qi_research.rs` |
+| `public_health_ethics_analysis` | POL-05 | policy | 18 | `crates/phn-tools/src/policy/ethics.rs` |
+| `nursing_scope_of_practice_guide` | POL-06 | policy | 18 | `crates/phn-tools/src/policy/scope.rs` |
+| `track_ma_legislation` | POL-01 | policy | 19 | `crates/phn-tools/src/policy/legislation.rs` |
+| `monitor_federal_rules` | POL-03 | policy | 19 | `crates/phn-tools/src/policy/federal.rs` |
+| `search_public_health_law` | POL-02 | policy | 19 | `crates/phn-tools/src/policy/law.rs` |
+| `draft_policy_brief` | POL-04 | policy | 19 | `crates/phn-tools/src/policy/brief.rs` |
+| `health_information_sharing_guide` | POL-07 | policy | 19 | `crates/phn-tools/src/policy/sharing.rs` |
 
 MCP wrappers live in `crates/phn-server/src/server.rs` (Phase 0), `phase1.rs`–`phase12.rs`,
-`phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`, and
-`phase14_water.rs`, `phase14_ejclimate.rs`, `phase14_vectorhousing.rs`, `phase14_chemfood.rs`; the
-`investigate_outbreak` and `plan_tabletop_exercise` MCP prompts are in `prompts.rs`. The registry
-(tool → plan ID → toolset → phase) is `crates/phn-tools/src/registry/` with one file per phase
-from Phase 2 (Phases 0–1 are in `mod.rs`; Phases 13 and 14 have four lists each; `PHASES` holds (phase, tools) pairs). Phase 13's shared staff
-roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
+`phase13_ics.rs`, `phase13_coop.rs`, `phase13_hseep.rs`, `phase13_cerc.rs`,
+`phase14_water.rs`, `phase14_ejclimate.rs`, `phase14_vectorhousing.rs`, `phase14_chemfood.rs`,
+`phase15_screen.rs`, `phase15_prevent.rs`, `phase15_cha.rs`, `phase15_geo.rs`,
+`phase16_design.rs`, `phase16_interventions.rs`, `phase16_appraise.rs`, `phase16_qi.rs`,
+`phase17_grants.rs`, `phase17_budget.rs`, `phase17_finance.rs`, `phase18_strategy.rs`,
+`phase18_workforce.rs`, `phase18_ethics.rs`, `phase19_tracking.rs`, and `phase19_law.rs`. The four
+MCP prompts (`investigate_outbreak`, `plan_tabletop_exercise`, `community_health_assessment`, and
+`prepare_grant_application`) are in `prompts.rs`; the prompt-list test asserts the exact list. The
+registry (tool → plan ID → toolset → phase) is `crates/phn-tools/src/registry/` with one file per
+phase from Phase 2 (Phases 0–1 are in `mod.rs`; Phases 13 to 19 have one list per work package;
+`PHASES` holds (phase, tools) pairs). Phase 13's shared staff roster code is
+`crates/phn-tools/src/epr/roster.rs` (ADR 0009). The offline geocoder's design is ADR 0011.
+
+**Where the Phase 15–19 tools get their data** (`local` means bundled content or your own files and no
+network; `snapshot` means a dated bundled copy of an external source; `live` means a public API with
+a snapshot or cache fallback unless it says "live only"):
+
+| Tool | Mode |
+|---|---|
+| `community_bp_screening_toolkit` | local |
+| `diabetes_prevention_finder` | snapshot |
+| `preventive_services_lookup` | live and snapshot |
+| `asthma_home_assessment` | local |
+| `community_health_assessment_builder` | live and snapshot |
+| `prioritize_health_issues` | local |
+| `analyze_qualitative_data` | local |
+| `geocode_and_aggregate_addresses` | local |
+| `build_logic_model` | local |
+| `write_smartie_objectives` | live and snapshot |
+| `build_evaluation_plan` | local |
+| `find_evidence_based_interventions` | live and snapshot |
+| `apply_behavior_change_theory` | local |
+| `track_program_performance` | local |
+| `appraise_evidence` | local (optional live DOI lookup) |
+| `build_evidence_synthesis_table` | local |
+| `plan_quality_improvement` | local |
+| `search_grant_opportunities` | live and snapshot |
+| `analyze_funding_announcement` | local |
+| `draft_grant_narrative` | local |
+| `build_program_budget` | local |
+| `economic_evaluation_calculator` | local |
+| `analyze_health_department_budget` | local |
+| `model_staffing_needs` | local |
+| `assess_foundational_public_health_services` | snapshot |
+| `phab_accreditation_crosswalk` | local |
+| `build_strategic_plan` | local |
+| `assess_workforce_competencies` | local and snapshot |
+| `board_of_health_meeting_assistant` | local |
+| `draft_standing_orders` | local |
+| `qi_vs_research_determination` | local |
+| `public_health_ethics_analysis` | local |
+| `nursing_scope_of_practice_guide` | local (bundled partial copy) |
+| `track_ma_legislation` | live and snapshot |
+| `monitor_federal_rules` | live only |
+| `search_public_health_law` | snapshot (plus local folder) |
+| `draft_policy_brief` | local |
+| `health_information_sharing_guide` | local |
 
 ### Exit criteria
 
@@ -179,8 +279,13 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
 | Phase 10: the nurse validates screening cutoffs, safety messages, and instrument license terms, and spot-checks the directories | **Waiting on the nurse** (`docs/acceptance/phase-10.md`) |
 | Phase 13: Pilot 3, a tabletop exercise designed with EPR-08, after the nurse reviews the Phase 13 content | **Waiting on the nurse** (`docs/acceptance/phase-13.md`) |
 | Phase 14: environmental and climate tools work for any town, live and offline, every figure cited | Offline: done (snapshots for every source; automated tests). Live: SDWIS, the EEA PFAS API, OpenFEMA, and DPH's arbovirus workbook were exercised once by ignored live tests or by hand. Content review: **waiting on the nurse** (`docs/acceptance/phase-14.md`) |
+| Phase 15: prevention programs and the full community health assessment workflow (plan goal; the plan also names a MAPP 2.0 prompt, a qualitative pipeline with name scrubbing, and an offline geocoder) | Code and automated tests done, every tool in the leak test. Geocoder: 99.89% of 20,328 real MassGIS addresses fell in the same block group as MassGIS's own layer, and eight public buildings match (golden tests). The plan's USPSTF API adapter and National DPP registry snapshot were **not built** (hosts blocked); the priority extractor for CHNAs was never run on a real CHNA. Content review and acceptance script: **waiting on the nurse** (`docs/acceptance/phase-15.md`) |
+| Phase 16: the planning and evaluation workflow and the evidence-appraisal chain (plan goal) | Code and automated tests done. Run chart rules match an independent Python computation, the Anhøj limits match the published table, and the QI and evidence workbooks' formulas were recalculated in LibreOffice (not in Excel). The Crossref adapter was **never reached live**; the Community Guide and *What Works for Health* could not be read. Content review and acceptance: **waiting on the nurse** (`docs/acceptance/phase-16.md`) |
+| Phase 17: find funding, respond to it, and manage the money (plan goal) | Code and automated tests done. The budget workbook's formulas matched an independent computation (341 cells, 0 differences, LibreOffice); the economic calculator reproduces CDC's MMWR 2024;73(31) Table 2; the COMMBUYS live parse matched all 147 bids of the real 2026-11-09 PDF. **The federal Simpler.Grants.gov search never ran against the live service** and the announcement reader was not tested on a federal NOFO. Content review and acceptance: **waiting on the nurse** (`docs/acceptance/phase-17.md`) |
+| Phase 18: tools for running the department and meeting standards (plan goal) | Code and automated tests done; every quotation in the new policy and scope content is machine-checked against the fetched text. PHAB's own document and the competency statements could not be read. Content review and acceptance: **waiting on the nurse** (`docs/acceptance/phase-18.md`) |
+| Phase 19: policy tools and a production-ready v1.0 (plan goal) | Policy tools: code and automated tests done (countdown golden-tested against Python date arithmetic; quotations machine-checked). **The Federal Register and Regulations.gov adapters were never run live** (tested against mock servers). Hardening: the threat model and administrator guide are in `docs/security/threat-model.md` and `docs/admin-guide.md` (written separately; not re-verified here); the content review sweep is `docs/content-review-sweep.md`; the user guide text covers all 148 tools but the Word file must be rebuilt (`node docs/user-guide/build-user-guide.js`). Whether the dependency and container scans, image size, and startup time checks the plan lists were run is not recorded here. Acceptance (including three hardening checks): **waiting on the nurse** (`docs/acceptance/phase-19.md`) |
 | Phases 7–12: calculators match reference values | Done: CDC 2000 growth percentiles (relative error < 1e-7), CDC extended BMI, WHO monthly tables, screening scores (50 cases), readability formulas, Erlang C, 40 CFR 58 App. G AQI example, CASPER survey intervals (samplics) |
-| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–14) |
+| Every phase: acceptance script run by the nurse | **Waiting on the nurse** (`docs/acceptance/phase-*.md`, Phases 0–19) |
 
 ## 2. Open items
 
@@ -266,6 +371,217 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
        and "an MRL is not a diagnostic threshold" wording is this project's (medium);
        `content/chronic/food_access.yaml`: how to get the SNAP retailer file and the HIP vendor
        list is **low confidence** (the USDA and DTAFinder pages were blocked).
+   - Phases 15–19 (all `status: pending`, review due 2027-02-01; `docs/acceptance/phase-N.md` has
+     the checks and `docs/content-review-sweep.md` lists every file and snapshot with its
+     confidence counts). Items marked **LOW** are low confidence, this project's own drafts, or
+     unverified, and need the most attention. Where a source could not be read, the tool says so.
+     - Phase 15 (chronic disease prevention and community assessment):
+       - `community_bp_screening_toolkit` (`content/chronic/bp_screening.yaml`): **LOW: the five
+         referral tiers, the any-reading severe rule, the emergency symptom list, two technique
+         steps (cuff size and record keeping, marked "not verified"), the log columns, letters,
+         handout, and plausibility limits are this project's drafts**; decide timing and symptoms
+         with the medical director, whether severe range triggers on any reading or the average,
+         and whether letters name the reading. The 2025 AHA/ACC guideline text itself was not
+         read (stage and severe-range wording is medium, from open-access papers; 2026
+         corrections not reviewed).
+       - `diabetes_prevention_finder` (`content/chronic/diabetes_prevention.yaml`, snapshot
+         `ma-dpp-programs`): confirm reuse terms for the paraphrased test; CDC's BMI handling is
+         unverified; Medicare DPP eligibility not read; no MassHealth statement (no source);
+         DPH's list is undated, 56 of 73 contacts were dropped, one ZIP code (Lanesborough,
+         02137) looks wrong; CDC's registry was unreachable (decide whether to unblock it).
+       - `preventive_services_lookup` (`content/chronic/preventive_services.yaml`, snapshot
+         `uspstf-ab-recommendations`): check each recommendation's criteria against the Task
+         Force's pages, especially the ten age ranges marked `assumption` (tobacco prevention in
+         youth, BRCA, hepatitis B, PrEP, syphilis, STI counseling, intimate partner violence,
+         folic acid, children's BMI interventions); the "confirm" notes, the client summaries
+         (medium), and the Massachusetts programs (DPH pages show no date). Unverified: whether any
+         statement changed after the PubMed record; the A and B list is incomplete (nothing
+         before 2015; no C, D, or I).
+       - `asthma_home_assessment` (`content/chronic/asthma_home.yaml`): checklist wording is
+         shortened from the CDC/EPA/HUD sheet; the control table is DPH's survey adaptation of
+         EPR-3 (screening level, medium) and at its boundaries (0.29 and 1.00 rescue uses a day)
+         the tool picks the more severe category, a project decision; a prescriber must complete
+         the action plan. Unverified: MassHealth coverage of asthma home visits, local programs,
+         program phone numbers, the Clearinghouse forms, the ACT link. The nurse may supply
+         NHLBI's EPR-3 table.
+       - `community_health_assessment_builder` (`content/equity/cha_framework.yaml`, snapshot
+         `cms-ma-hospitals`): **LOW: what MAPP 2.0 Phases 2 and 3 contain beyond one line, where
+         prioritization and the CHIP fall, NACCHO's tool names, and that MAPP 2.0 centers equity**
+         (NACCHO's pages were unreachable; verified through two 2025 articles only); the 13
+         sectors, prompts, and outline are drafts. Check the hospital town mapping (Boston
+         neighborhoods and villages), try three or four real CHNAs (the priority extractor has
+         only been run on synthetic text and one generated PDF), and decide whether to build a
+         verified directory of hospital CHNA links and whether to reproduce or only link NACCHO's
+         worksheets (license not read).
+       - `prioritize_health_issues` (`content/equity/prioritization.yaml`): NACCHO's Hanlon
+         worksheet was unreadable (division by 3, seriousness scoring, and anchors are
+         unverified; no anchors bundled); **the strategy grid and the nominal group point rule
+         are this project's own (low to medium)**.
+       - `analyze_qualitative_data` (`content/equity/qualitative_codebook.yaml`): **LOW: every
+         code and keyword (17 entries) is an unsourced draft**; decide whether organization and
+         place names are kept, whether three participants is the right floor for the agency, and
+         whether de-identified transcripts may ever be written by default (off now). Read the
+         de-identified files for remaining identifying detail.
+       - `geocode_and_aggregate_addresses` (snapshots `ma-geocoder-sample`,
+         `ma-geocoder-crosswalk`, `crates/phn-data/data/geocoder_vocab.json`): **LOW: the 18 Boston
+         neighborhood names (from general knowledge) and the extra street-type variants (USPS
+         Publication 28 was not fetched)**; check the 90% ZIP rule (`zip_min_share`); MassGIS's data
+         disclaimer page could not be retrieved, so check its terms before sharing a built index;
+         decide whether to publish an image variant or release asset with the full 35.5 MB index.
+     - Phase 16 (program planning, evaluation, and evidence):
+       - `build_logic_model` (`content/planning/logic_model.yaml`): the Kellogg guide could not
+         be fetched; medium: the label "assumptions" and the Outputs column; **LOW (tool
+         defaults): six boxes per column, 25 words per box, and the wording-check word lists**;
+         decide whether to keep the heuristics and the default Outputs column.
+       - `write_smartie_objectives` (`content/planning/smartie.yaml`, snapshot
+         `healthy-people-2030-objectives`): the tool says "achievable" and "time-bound" where CDC
+         says "attainable" and "time-based" (decide); the originator of SMART was not established;
+         spot-check five objectives (one, PHI-D02, has status unknown); ODPHP's site showed a
+         banner that it was restored to its January 29, 2025 version.
+       - `build_evaluation_plan` (`content/planning/evaluation_framework.yaml`): **LOW (tool
+         defaults, 7 entries): question, indicator, and design templates, data source and method
+         suggestions, timing by type, default roles, the stage-to-type mapping, and the six-step
+         timeline shares**; decide on a 52-week default timeline and on economic questions.
+       - `find_evidence_based_interventions` (`content/planning/evidence_sources.yaml`, snapshot
+         `cpstf-publications`): the rating key comes from abstract sentences; the 26 topic groups
+         are this project's aid; spot-check five papers and the 51 papers typed "recommendation"
+         from their titles; the Community Guide, County Health Rankings, and NLM terms of use were
+         not read (confirm the snapshot is acceptable before publishing it in an image); decide
+         whether to list only explicitly rated papers by default.
+       - `apply_behavior_change_theory` (`content/planning/behavior_theories.yaml`): check each
+         definition against the original papers (not reachable); the Socio-Ecological Model
+         levels (five vs CDC's four); the Diffusion of Innovations entry; **38 "authored"
+         strategies (medium to low), the Transtheoretical stage-matched strategies, and "processes
+         of change" (low: no description read)**; measure ideas are not validated instruments.
+       - `track_program_performance` (no content file): "on track" at 90% of an even pace is this
+         project's convention (`on_track_fraction`); does it match funders' rules? Workbook
+         formulas were checked in LibreOffice only.
+       - `appraise_evidence` (`content/ebp/appraisal_checklists.yaml`, `grade_certainty.yaml`):
+         **LOW: CASP's license and checklist list (site blocked); GRADE rate-up levels for
+         dose-response and opposing confounding, the two-level cap on rating down, and the wording
+         of the four certainty levels**; the 2011 Cochrane tool is superseded by RoB 2 (not read);
+         how AMSTAR 2 counts a "partial yes" is unverified; the qualitative questions follow one
+         guide; decide on CASP bundling and a level-of-evidence hierarchy. Crossref was never
+         reached live (see the decisions below).
+       - `build_evidence_synthesis_table` (`content/ebp/evidence_synthesis.yaml`): the PRISMA
+         figure could not be read, so the diagram layout is this project's: compare with the
+         official template; decide whether to add the "other methods" column and the
+         previous-studies box.
+       - `plan_quality_improvement` (`content/ebp/quality_improvement.yaml`): **LOW: the
+         astronomical-point rule (the tool's own modified z-score screen), "adopt, adapt, or
+         abandon" (general knowledge), and the process-map tips**; medium: shift of 6 and trend of
+         5 (Perla's paper was read as an abstract only) and the measure type definitions. Confirm
+         the SQUIRE paraphrases and license note before handouts. IHI's pages were not read.
+     - Phase 17 (grants and finance):
+       - `search_grant_opportunities` (`content/planning/grant_sources.yaml`, snapshot
+         `commbuys-weekly-bids`): **LOW: the topic keyword lists, the mapping of a local health
+         agency to federal applicant types, and which COMMBUYS titles count as grants**; the funder
+         directory is not complete; **the federal search was never run against the real service:
+         set `PHN_GRANTS_GOV_API_KEY`, try it, and record the first real response**.
+       - `analyze_funding_announcement` (`content/planning/announcement_patterns.yaml`): word
+         lists are heuristics (medium for Massachusetts RFRs, **LOW for federal NOFOs**); it
+         missed the rating words, the 3-year term, and the eligibility section on the one real RFR
+         tried and was never run on a federal NOFO; decide whether to flag criteria it cannot
+         place and whether to keep 300-character eligibility excerpts in the local files.
+       - `draft_grant_narrative` (`content/planning/narrative_templates.yaml`): the skeletons and
+         reviewer prompts are this project's drafting aids; confirm they match what reviewers
+         reward.
+       - `build_program_budget` (`content/planning/budget_reference.yaml`): check the quoted 2 CFR
+         rules (the October 1, 2024 values: 15% de minimis, $50,000 subaward, $10,000 equipment);
+         **LOW: the SF-424A object class lines 6a to 6k (grants.gov blocked; from a search summary
+         of copies) and the funder-check reminders for salary limits, page limits, and escalation**;
+         decide whether escalation should default to a non-zero rate.
+       - `economic_evaluation_calculator` (`content/planning/economic_evaluation.yaml`): the 3%
+         default discount rate is medium (taken from CDC's MMWR 2024;73(31); the Second Panel was
+         read as an abstract, and OMB A-94 was not readable); **LOW: the default sensitivity
+         ranges (20%; discount rate 0 to 7%)**.
+       - `analyze_health_department_budget` (`content/leadership/department_finance.yaml`): medium:
+         the $36.98 per capita estimate; **not read: the PHE request for responses and award
+         contract (allowable costs, payment, and reporting terms) and the MMA notice**; DPH's PHE
+         page gives 54, 56, and 57 for counts, so none is bundled; check the tool defaults (revenue
+         group words, salary words, 10-point pace tolerance, minimum of 3 positions, 3-month run
+         rate) and that the personnel rule meets agency and union expectations.
+       - `model_staffing_needs` (`content/leadership/staffing_model.yaml`): **LOW: every
+         productive-hours default except 2,080 is a placeholder with no source (holiday 88,
+         vacation 120, sick and personal 64, training 24, non-service 20%)**: replace with agency
+         values; no benchmark is bundled (decide whether to supply one).
+     - Phase 18 (leadership, accreditation, and professional practice):
+       - `assess_foundational_public_health_services` (`content/leadership/fphs_framework.yaml`,
+         snapshots `ma-performance-standards`, `ma-shared-service-arrangements`): the **law naming**
+         (decision (a) below); the 56 FPHS Headline Responsibilities were copied from DPH's Word
+         file and the PHAB/de Beaumont license was not read; the mapping to statute terms and the
+         four own items are medium; **the status scale, priority tiers, and shared-service
+         questions are this project's drafts (low to medium)**; standard IDs are positional (they
+         can shift when DPH changes the workbook); decide whether workforce standards count as
+         mandates, whether to add DPH's discretionary board powers as a fifth set, and a "not
+         applicable" default for city-only or town-only mandates.
+       - `phab_accreditation_crosswalk` (`content/leadership/phab_standards.yaml`): **PHAB's own
+         document could not be fetched; the 10 domains and 20 standards come from CDC's 2023
+         toolkit (medium); no measure IDs or titles are bundled; the keyword cues and match rules
+         are LOW; the adoption month (February 2022) is from a search summary (LOW)**; PHAB's
+         license terms were not read. A person must read PHAB's Version 2022 document.
+       - `build_strategic_plan` (`content/leadership/strategic_planning.yaml`): **PHAB's strategic
+         plan requirements are unverified; SWOT has no source (LOW)**; SOAR rests on one abstract
+         and the stakeholder analysis on one review abstract.
+       - `assess_workforce_competencies` (`content/leadership/workforce_competencies.yaml`): the
+         numbered competency statements and reuse terms were not read, so none are bundled; domain
+         names are medium (articles word one nursing domain differently); **LOW: the pairing of
+         Health Equity with Cultural Competency and Community Partnership with Community
+         Dimensions of Practice**; the priority cut-offs, default target of 3, small-group size of
+         3, and training steps have no source; credential matching is keyword based and waivers
+         are not modeled.
+       - `board_of_health_meeting_assistant` (`content/leadership/open_meeting_law.yaml`,
+         `ma_legal_holidays.yaml`): confirm with the Attorney General's Division of Open
+         Government and the clerk that whole Saturdays, Sundays, and holidays are removed from the
+         48-hour count (medium; no worked example found) and that cancellations need no 48 hours;
+         remote participation provisions expire 2027-06-30; 2028 and the two Suffolk-only holidays
+         are computed only (town counsel decides whether a Suffolk board counts them); extend the
+         holiday list each year.
+       - `draft_standing_orders` (`content/leadership/standing_orders.yaml`): the vaccine order
+         outline comes from one Immunize.org and one DPH template (medium); the skeleton and
+         placeholders are this project's design; no clinical content is bundled.
+       - `qi_vs_research_determination` (`content/ebp/qi_research_determination.yaml`): medium: the
+         Hastings Center and JAMA 2000 points (abstracts only); the 14 questions and the rules
+         that combine answers are this project's synthesis; decide whether the three required
+         questions are the right minimum, whether "undetermined" is acceptable, and whether to add
+         OHRP's decision charts and the institution's questions (OHRP's QI FAQ and any
+         Massachusetts IRB policy were not read).
+       - `public_health_ethics_analysis` (`content/policy/public_health_ethics.yaml`): **LOW: the
+         APHA four-step approach and "additional considerations" (one paper) and the decision
+         profiles, tensions, and ordered options (no source; 5 low entries)**; medium: Kass's
+         questions (the full article and the APHA code were not read); check that nothing
+         contradicts 105 CMR 300 or DPH guidance.
+       - `nursing_scope_of_practice_guide` (`content/policy/nursing_scope_of_practice.yaml`):
+         medium: 244 CMR 3.05(5)(d) (PDF layout), the 244 CMR 4.00 entries, AR 25-01's definition
+         of "groups", and the Board's decision question 2; check quotations against the page
+         images; not read: 244 CMR 5.00 to 8.00, M.G.L. c. 112 sections 74 to 81C except 80B, and
+         23 other rulings (listed by title only); decide whether to extend the snapshot (it has no
+         refresh builder).
+     - Phase 19 (policy and law):
+       - `track_ma_legislation` (`content/policy/ma_legislation_tracking.yaml`, snapshot
+         `ma-legislation-194`): **LOW: the 18 topic keyword lists (edit them for the agency; they
+         match titles only)**; the stage rules are this project's reading of 850 bills (medium):
+         confirm against bills you know; the Legislature's terms of use were not found.
+       - `monitor_federal_rules` (`content/policy/federal_rules_tracking.yaml`): **LOW: the CDC,
+         CMS, HRSA, FDA, SAMHSA, ACF, and FSIS agency slugs (from memory) and the 11:59 pm Eastern
+         deadline note**; FNS is medium; the comment outline arranges EPA's tips only; nothing was
+         verified against the live APIs (see decision (d)).
+       - `search_public_health_law` (`content/policy/public_law_search.yaml`, snapshots
+         `ma-law-mgl-c111`, `ma-law-105-cmr`, `ma-law-244-cmr`): spot-check ten sections of each
+         source; confirm the 45 full-text c. 111 sections and 20 full-text 105 CMR chapters are the
+         right core set; a lawyer has not checked the 14 topic starting-point lists; decide which
+         more chapters to bundle (105 CMR snapshot is 966,000 of 1,000,000 bytes), the local
+         regulations folder name, and whether to add 105 CMR 130 to 180 and 603 CMR 23.00.
+       - `draft_policy_brief` (`content/policy/policy_brief.yaml`): **LOW: the criteria
+         `legal_authority` and `evidence_strength` (no source read)**; Bardach's book was not read;
+         check that the default criteria suit board of health audiences.
+       - `health_information_sharing_guide` (`content/policy/information_sharing.yaml`): medium:
+         several provisions (HIPAA public health definition, judicial, research, personal
+         representative; FERPA studies and treatment records; Part 2 consent; c. 111 s. 24M; public
+         records definition); the logic that picks which regime to read and the cautions are drafts
+         for **counsel to review**; not read: the FERPA statute, HHS and Education guidance, 603
+         CMR 23.00, Part 2 subpart E and the 2024 rule's compliance dates (none is stated), 45 CFR
+         164.508 and 164.520, and several Massachusetts statutes.
 2. **Decisions the nurse asked to make** (collected from the phase work):
    - Reportable conditions: should "immediate" follow DPH's call lists or the regulation's
      "immediately, but in no case more than 24 hours"? DPH's lists disagree on LCM, West Nile,
@@ -333,6 +649,51 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
      10–15%, its mosquito fact sheet 30% or less); whether DPH's 2021 school repellent guidance is
      still current; whether to name a regional poison center and which contacts each chemical
      scenario lists; the 50% land-area rule for carrying the 2019 food access map to 2020 tracts.
+   - **Found by the coordinator while folding in Phases 15–19 (2026-11-13), need the nurse:**
+     - (a) **Name and year of the state public health law.** The plan calls it the "2024 SAPHE
+       2.0" law. `content/leadership/fphs_framework.yaml` (strategy package) says mass.gov and
+       G.L. c. 111, s. 27D show the SAPHE Act was enacted in 2020, the grants are now the Public
+       Health Excellence (PHE) program, and no page used "SAPHE 2.0". But
+       `content/leadership/department_finance.yaml` (finance package) cites the Massachusetts
+       Association of Health Boards' "SAPHE 2.0 Guidance Document" on mass.gov and
+       states "The SAPHE 2.0 law (Chapter 238 of the Acts of 2024) requires DPH and DEP to fund
+       boards of health..." (high confidence). The two content files disagree;
+       confirm with DPH's Office of Local and Regional Health and decide what the tools call it.
+       The PHE counts also differ: the strategy content reads 54 arrangements and 322
+       municipalities, while the finance content says DPH's page gives 54, 56, and 57 and bundles none.
+     - (b) **`ledger_column` exception** in `crates/phn-tools/src/leadership/budget.rs`: the PHI
+       detector flags any header containing "account" or "acct", which refused every general
+       ledger's Account columns, so the budget tool accepts a column whose only finding is that
+       header word (values are still scanned; account codes are never returned). Confirm the
+       exception or change the detector's header rule.
+     - (c) **Personnel totals.** `build_program_budget` (PLAN-09) returns category totals, so with
+       one position the personnel total is that person's salary (a caveat says so), while
+       `analyze_health_department_budget` (LEAD-01) hides a personnel row backed by fewer than
+       three positions. Decide whether PLAN-09 should withhold or round a one-position total.
+     - (d) **Live adapters never run.** Grants.gov (Simpler.Grants.gov), the Federal Register, and
+       Regulations.gov were blocked from the build environment, so they were tested only against
+       local stand-ins (Crossref also; see below). From a network that reaches them, run
+       `cargo test -p phn-data -- --ignored` and
+       `cargo test -p phn-tools --test phase19_tracking_mock -- --ignored`, test the grant search
+       with a real `PHN_GRANTS_GOV_API_KEY`, call `appraise_evidence` with a DOI, and fix any field
+       or filter that differs.
+     - (e) **Sources read only as PubMed or PubMed Central abstracts or secondary articles**
+       because the publisher or organization sites were blocked, so check wording against the
+       originals: USPSTF statements (`preventive_services_lookup`); Community Guide papers
+       (`find_evidence_based_interventions`); the 2025 AHA/ACC guideline through open-access
+       papers (`community_bp_screening_toolkit`); MAPP 2.0 and the Hanlon method
+       (`community_health_assessment_builder`, `prioritize_health_issues`); behavior change
+       theories (`apply_behavior_change_theory`); GRADE series, Core GRADE, Cochrane 2011,
+       CONSORT, ROBINS-I, STROBE, AMSTAR 2, and Perla's run chart paper (`appraise_evidence`,
+       `plan_quality_improvement`); the Second Panel on Cost-Effectiveness
+       (`economic_evaluation_calculator`); the competency frameworks
+       (`assess_workforce_competencies`); Kass, the APHA code, and the QI ethics papers
+       (`public_health_ethics_analysis`, `qi_vs_research_determination`); and the Eightfold Path
+       (`draft_policy_brief`).
+   - **Phase 15–19 decisions listed in the per-tool bullets above**, plus: whether to add a role
+     profile for home visiting and community nursing (the `mch` and `aging` toolsets are still in
+     no profile), and whether the new `planning`, `leadership`, and `policy` toolsets belong in
+     more profiles than `phn_leader` (the guide's Table 3 says only `phn_leader` has them).
    - Profiles: the `mch` and `aging` toolsets are in no role profile (they are on when no profile
      is set). Decide whether to add a profile for home visiting and community nursing.
    - **Peer review (2026-11-11).** Decided by the nurse: keep building toward Phase 14 rather than
@@ -373,11 +734,11 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
        profiles (`preparedness` has no `vax`, `school_nurse` has no `mch`); ACS vintage switching
        automatically; a runtime warning for overdue content reviews; how maps distinguish
        suppressed from no data; PDF heading levels under the title.
-3. **Run the acceptance scripts** for Phases 0–14 on Windows and macOS and send the IT request.
+3. **Run the acceptance scripts** for Phases 0–19 on Windows and macOS and send the IT request.
    **Read the user guide** (`docs/user-guide/PHN-MCP-Server-User-Guide.docx`) for accuracy and
    tone before sharing it with other nurses; send corrections as edits to `guide-content.js`.
-4. **Publish a release:** tag `v0.14.1` (PR #7 is merged and CI on `main` passed), or wait and
-   tag `v0.15.0` after PR #8 merges, to run `.github/workflows/release.yml`
+4. **Publish a release:** bump the workspace version in `Cargo.toml` (it still reads 0.15.0) to 1.0.0, regenerate
+   `Cargo.lock`, and tag `v1.0.0` after the Phase 15–19 branch merges, to run `.github/workflows/release.yml`
    (it now scans a local image with Trivy before pushing, builds the SBOM from the source tree,
    then pushes the multi-architecture image, signs it with cosign, and attaches offline
    tarballs). The first two `v0.15.0` runs failed while resolving actions: `trivy-action@0.28.0` has no
@@ -391,8 +752,11 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
    copy `/usr/share/zoneinfo` from the builder stage into the runtime image.
 5. **Optional API keys** for nurses' installations: `PHN_CENSUS_API_KEY` (needed for live ACS
    from some networks), `PHN_NCBI_API_KEY`, `PHN_OPENFDA_API_KEY`, `PHN_AIRNOW_API_KEY` (the
-   AirNow API path is untested: its host was blocked here). Everything works without them
-   (snapshots, public files, or lower rate limits).
+   AirNow API path is untested: its host was blocked here), `PHN_GRANTS_GOV_API_KEY` (federal grant
+   listings; the live path is untested), `PHN_REGULATIONS_GOV_API_KEY` (the Regulations.gov
+   cross-check; untested), and `PHN_CROSSREF_MAILTO` (the nurse's own address for Crossref's polite
+   pool; Crossref was never reached). Everything works without them (snapshots, public files, or
+   lower rate limits).
 6. **Annual and periodic refreshes** added by Phases 7–12: Medicare amounts (each November; 2027
    amounts were not out), poverty guidelines (each March), WIC, SNAP, HEAP, and MassHealth limits,
    DPH's lead high-risk list and report, the EI and aging-service directories, births, deaths, and
@@ -405,7 +769,18 @@ roster code is `crates/phn-tools/src/epr/roster.rs` (ADR 0009).
    (quarterly), CDC My Water's Fluoride (yearly), the ATSDR MRL table and NIOSH IDLH table,
    FEMA hazard mitigation plans and NFIP data, and the USDA Food Access Research Atlas. Each has a
    builder in `xtask/scripts/build_{water,ejclimate,vectorhousing,chemfood}_snapshots.py` with a
-   `--check` mode.
+   `--check` mode. Phases 15–19 add: the DPH diabetes prevention program list (undated; rebuild
+   with `build_screen_snapshots.py`), the USPSTF snapshot (`build_prevent_snapshots.py`, when the
+   Task Force publishes), CMS hospitals (`build_cha_snapshots.py`), Healthy People 2030 objectives
+   (`build_design_snapshots.py`), Community Guide papers (`build_interventions_snapshots.py`; the
+   weekly CI check does not cover it), the COMMBUYS weekly bid list (replaced weekly; the snapshot
+   goes stale quickly; `build_grants_snapshots.py`), DPH's Performance Standards (standard IDs are
+   positional; `build_strategy_snapshots.py`) and shared service arrangements (each grant year), the
+   Massachusetts legal holiday list (extend each year; `build_workforce_holidays.py` and `FIRST_DAY`
+   and `LAST_DAY` in `crates/phn-tools/src/leadership/oml.rs`), the bill snapshot
+   (`build_tracking_snapshots.py`; status is as of 2026-11-13), the three law snapshots
+   (`build_law_snapshots.py`), and the geocoder sample, crosswalk, and any installed full index
+   (`build_geocoder_index.py`; changing its vocabulary means rebuilding every installed index).
 
 ### Known limitations and technical debt
 
