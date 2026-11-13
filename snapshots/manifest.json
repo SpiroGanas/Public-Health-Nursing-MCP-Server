@@ -2207,6 +2207,35 @@
           "rows": 351
         }
       ]
+    },
+    {
+      "id": "commbuys-weekly-bids",
+      "title": "COMMBUYS weekly list of new bids (Massachusetts Operational Services Division)",
+      "publisher": "Massachusetts Operational Services Division (OSD), via mass.gov",
+      "source_urls": [
+        "https://www.mass.gov/doc/commbuys-home-page-bid-count/download",
+        "https://www.mass.gov/learn-about-commbuys-resources"
+      ],
+      "source_sha256": {
+        "weekly_bids.pdf": "5868b5dec371666b5349dbeb314c4b152210079d1721c77166ef8abcadf284c4"
+      },
+      "source_vintage": "Weekly list dated Monday, November 9, 2026 (147 bids; closing dates 2026-11-12 onward)",
+      "retrieved": "2026-11-12",
+      "license": "Massachusetts public record (mass.gov).",
+      "derivation": "The OSD weekly 'New Bids Available' PDF read with pdftotext -layout; each row's organization id, organization, closing date and time, description, and COMMBUYS bid number were kept, and nothing was filtered out. Builder: xtask/scripts/build_grants_snapshots.py (--check).",
+      "caveats": [
+        "COMMBUYS itself (commbuys.com) could not be reached from the build environment: the list has no bid type, amount, eligibility, or link, and it is replaced every week.",
+        "Most bids on the list are construction and purchasing bids; the tool tags topics by keyword (tool defaults) and the nurse must read the solicitation on COMMBUYS before relying on a match.",
+        "A bid is a closing date, not a promise of funding: grants posted as RFRs, NOFAs, or RFAs are mixed with contracts a health department would buy."
+      ],
+      "files": [
+        {
+          "path": "commbuys_weekly_bids.json",
+          "sha256": "89a9b9e0e56defb9c82cd8ac02872ae940372e503a70892312a1e98c51114f69",
+          "bytes": 37879,
+          "rows": 147
+        }
+      ]
     }
   ]
 }

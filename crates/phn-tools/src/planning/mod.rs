@@ -23,6 +23,19 @@ pub use theory::{TheoryArgs, TheoryResult, apply_behavior_change_theory};
 // End of Phase 16 interventions.
 
 // Phase 17 grants (PLAN-06, PLAN-07, PLAN-08): add `pub mod` and `pub use` lines below.
+pub mod grant_search;
+pub use grant_search::{
+    GrantEligibility, GrantSearchArgs, GrantSearchResult, GrantSource, search_grant_opportunities,
+};
+pub mod funding_announcement;
+pub use funding_announcement::{
+    AnalyzeAnnouncementArgs, AnnouncementAnalysis, AnnouncementKind, analyze_funding_announcement,
+};
+pub mod grant_narrative;
+pub use grant_narrative::{
+    CriterionInput, DataPoint, NarrativeArgs, NarrativeResult, NarrativeSection, ProgramFacts,
+    draft_grant_narrative,
+};
 // End of Phase 17 grants.
 
 // Phase 17 budget (PLAN-09, PLAN-10): add `pub mod` and `pub use` lines below.

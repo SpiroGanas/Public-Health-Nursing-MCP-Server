@@ -3757,6 +3757,128 @@ help with that determination).
 
 <!-- Phase 17 grants (PLAN-06, PLAN-07, PLAN-08). -->
 
+### `search_grant_opportunities` (PLAN-06, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `topic` | all health topics | A subject in plain words (at most 100 characters), or one of `public_health`, `behavioral_health`, `maternal_child`, `communicable_disease`, `chronic_disease`, `older_adults`, `environmental_health`, `emergency_preparedness`, `housing_social`, `workforce_capacity`. A topic that looks like a personal identifier is refused. |
+| `eligibility` | `local_health_agency` | `local_health_agency`, `state_agency`, `tribal_health`, or `any`: the federal applicant types to filter by. |
+| `source` | `both` | `both`, `federal`, or `commbuys`. |
+| `closes_after` / `closes_before` / `within_days` | today / none / none | Closing-date window (`YYYY-MM-DD`; years 1900 to 2100). |
+| `min_award` / `max_award` | none | Federal award ceiling of at least, and award floor of at most, this many dollars. |
+| `include_forecasted` | false | Include forecasted (not yet posted) federal opportunities. |
+| `grants_only` | false | COMMBUYS: only titles that look like a grant or funding offer. |
+| `limit` | 25 | At most 100. |
+
+Data: **federal** listings come from the Simpler.Grants.gov search API
+(`POST https://api.simpler.grants.gov/v1/opportunities/search`, request and response read from the
+project's published OpenAPI file) when the optional environment variable `PHN_GRANTS_GOV_API_KEY`
+is set (the key goes in an `X-API-Key` header and is never cached, returned, or put in a message).
+Without a key, or when the request fails, the answer says `mode: snapshot` and why; the bundled
+snapshot holds **no federal listings**, because api.simpler.grants.gov, simpler.grants.gov,
+www.grants.gov, and the other federal grant sites were blocked from the build environment and
+nothing could be fetched. The live path was therefore tested only against a local server answering
+in the specification's shape. **Massachusetts** listings are the Operational Services Division's
+weekly "New Bids Available" PDF on mass.gov, read live when the page is reachable and its layout
+still parses (cached six hours), otherwise the bundled `commbuys-weekly-bids` snapshot (147 bids,
+list dated 2026-11-09; builder `xtask/scripts/build_grants_snapshots.py`). COMMBUYS itself
+(commbuys.com) was blocked. The list gives each bid's organization, closing date and time,
+description, and bid number; the tool adds topic tags and a kind (grant or funding offer, request
+for response or proposal, purchase or contract) from keywords in `content/planning/grant_sources.yaml`
+(tool defaults). Bids that closed before today are counted and left out.
+
+Output: for each source its mode, as-of date, reason when not live, and counts; the filters applied
+and those that could not be (eligibility and amount do not exist on the COMMBUYS list, so those
+bids are kept and flagged); the opportunities soonest closing first (source, id, title, agency,
+kind, closing date and time, days left, award range, applicant types, topics, how to find it);
+where else to look (Simpler.Grants.gov, CDC, EPA, DPH requests for response, COMMBUYS, the OSD
+list, the Office of Behavioral Health Promotion and Prevention, whose fall 2025 round is closed);
+Massachusetts procurement facts from DPH's "Doing business with DPH" page (competitive bids only,
+no unsolicited proposals, RFRs on COMMBUYS, vendor registration for email notices); and what could
+and could not be reached.
+
+Privacy: only topic words and filters are sent to outside services. Nothing is read from local files.
+
+Limits: no federal listing could be fetched here; COMMBUYS bid details (type, amount, eligibility,
+description) were not readable; the topic keywords and the mapping of agency type to federal
+applicant types are this project's own (low confidence). A match is a lead, not a determination of
+eligibility.
+
+### `analyze_funding_announcement` (PLAN-07, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `path` | required | A PDF, DOCX, HTML, TXT, or Markdown announcement in `/data`. |
+| `kind` | `auto` | `auto`, `federal_nofo`, `ma_rfr`, or `other`; only changes how the result labels it. |
+| `write_checklist` | true | DOCX and XLSX checklist in `/data/output`. |
+
+Method: the file's text is read with the Phase 1 extractors (PDF text by page; DOCX headings and
+tables), split into pages or sections, and searched with regular expressions and the word lists in
+`content/planning/announcement_patterns.yaml` (tool defaults). It finds: dates with a deadline cue
+(submission, questions, conference, letter or notice of intent, award, start) and their days from
+today; page, word, and character limits (including "eight (8) double spaced pages") tied to the
+nearest heading, and format rules (font, spacing, margins, file type); attachments, appendices,
+exhibits, SF form numbers, and lists introduced by "must include"; scoring criteria with points
+(`Label (20 points)`, `Label: 20 points`, a points column in a table) or, when there are no points,
+numbered components ("Criteria 2: ...") and rating words (Highly Advantageous, Advantageous); eligibility
+sentences and the applicant types they name (municipality, county, nonprofit, tribal, and so on) and
+whether they exclude; dollar amounts near funding words; project periods; the submission method;
+announcement numbers and COMMBUYS bid numbers; cost-sharing mentions. Each criterion is typed by
+keyword (need, approach, evaluation, capacity, partnerships, equity, sustainability, budget, cover) and mapped to the
+narrative section that answers it. The response outline follows the announcement's own criteria
+in order, or a generic default outline (said so) when none were found.
+
+Output: counts; the primary submission deadline; deadlines, limits, format rules, attachments,
+criteria, eligibility findings (location and categories only), amounts, terms, submission methods;
+the outline; **what could not be found** (always listed); and the checklist files. The XLSX has a
+"Scoring criteria" sheet that `draft_grant_narrative` reads through `criteria_file`.
+
+Privacy: only structure, counts, dates, and labels of at most 100 characters are returned, never long
+passages. Procurement contacts (names, phones, emails) are never returned: any label containing a
+possible identifier is dropped and counted. Eligibility excerpts (300 characters) are written only to
+the DOCX and XLSX. A file that looks like a client record (several record numbers, SSNs, or dates of
+birth) is refused. Scanned PDFs without text are rejected with advice.
+
+Limits: pattern matching, not judgment: it can miss items in tables, images, or linked documents and
+can mistake a sentence for a requirement (the checklist says so). PDF text from the server's reader
+arrives in fragments (cells and even dates such as "10/20/2025" can be split, some words are cut by a
+space, and the cells of some PDF tables are not extracted at all), so for PDFs the reader also
+searches each page as running text, joins split dates, and reads criteria, appendices, and limits
+from sentences; labels read that way can include a stray word. It was tried on synthetic notices
+(`fixtures/synthetic/generators/phase17_grants_fixtures.py`) and on a public Massachusetts RFR and a
+state NOFO, and **not on a real federal NOFO** (Grants.gov and the federal grant sites were
+blocked). Amendments are not read unless saved as part of the file.
+
+### `draft_grant_narrative` (PLAN-08, toolset `planning`)
+
+| Argument | Default | |
+|---|---|---|
+| `project_title`, `funder`, `applicant`, `community` | applicant from letterhead settings, community from the saved town | Names for the draft. |
+| `sections` | all | `needs_statement`, `project_narrative`, `sustainability`. |
+| `criteria` / `criteria_file` | none | Scoring criteria typed in (label, points, optional section), or the XLSX checklist from `analyze_funding_announcement` (its "Scoring criteria" sheet). |
+| `data_points` | none | Statistics you supply: label, value, geography, source, year, comparison. |
+| `facts` | none | Program facts: health problem, population, disparities, current services, gap, goal, objectives, activities, timeline, evidence, staffing, partners, evaluation, capacity, sustainability funding, policy, partners, in-kind support, use of results. |
+| `page_limit` | none | A reminder shown in the draft. |
+| `output_name` / `write_document` | by title / true | DOCX file name stem and whether to write it. |
+
+Method (template plus local fill, ADR 0008): the sections and their parts come from
+`content/planning/narrative_templates.yaml` (this project's own drafting skeletons). Each part is
+filled with the fact you gave (verbatim) or shows `[NURSE: ...]` with what to add. Statistics are
+shown only from `data_points`, as "label: value (geography; source, year; comparison)"; one without a
+source or year shows a placeholder for it. Criteria are typed by keyword and mapped to the section
+that answers them, with writing prompts for each type; budget and form criteria are listed as not
+drafted here (use `build_program_budget`, and the checklist's attachments).
+
+Output: the criteria and where each is answered, the section drafts (text, parts filled, placeholders,
+words), counts of data points and placeholders, and the DOCX in `/data/output`.
+
+Privacy: the draft holds only what you pass and template wording. A client identifier in any input
+(record or social security number, date of birth) is refused without echoing it. Nothing is read from
+local files except the checklist file.
+
+Limits: the tool does not write prose from memory, so the draft is a scaffold; the writing prompts are
+this project's, not a funder's. English only.
+
 <!-- End of Phase 17 grants. -->
 
 <!-- Phase 17 budget (PLAN-09, PLAN-10). -->

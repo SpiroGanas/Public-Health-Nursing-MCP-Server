@@ -9,6 +9,24 @@ use phn_core::Toolset;
 /// Grant search, NOFO analysis, narratives: PLAN-06, PLAN-07, PLAN-08.
 pub(super) const GRANTS: &[ToolMeta] = &[
     // Phase 17 grants entries go below this line.
+    ToolMeta {
+        name: "search_grant_opportunities",
+        plan_id: "PLAN-06",
+        toolset: Toolset::Planning,
+        phase: 17,
+    },
+    ToolMeta {
+        name: "analyze_funding_announcement",
+        plan_id: "PLAN-07",
+        toolset: Toolset::Planning,
+        phase: 17,
+    },
+    ToolMeta {
+        name: "draft_grant_narrative",
+        plan_id: "PLAN-08",
+        toolset: Toolset::Planning,
+        phase: 17,
+    },
     // End of Phase 17 grants entries.
 ];
 

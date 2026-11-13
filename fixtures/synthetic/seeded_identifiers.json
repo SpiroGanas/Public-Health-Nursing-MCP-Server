@@ -11820,6 +11820,78 @@
    "kind": "salary",
    "file": "data/program_budget_lines.csv",
    "column": "annual salary"
+  },
+  {
+   "value": "Veronika Haldane",
+   "kind": "name",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "413-555-0171",
+   "kind": "phone",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "veronika.haldane@example.org",
+   "kind": "email",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "Osric Penhallow",
+   "kind": "name",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "413-555-0172",
+   "kind": "phone",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "osric.penhallow@example.org",
+   "kind": "email",
+   "file": "data/synthetic_nofo.docx",
+   "column": "contact line"
+  },
+  {
+   "value": "Veronika Haldane",
+   "kind": "name",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
+  },
+  {
+   "value": "413-555-0171",
+   "kind": "phone",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
+  },
+  {
+   "value": "veronika.haldane@example.org",
+   "kind": "email",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
+  },
+  {
+   "value": "Osric Penhallow",
+   "kind": "name",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
+  },
+  {
+   "value": "413-555-0172",
+   "kind": "phone",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
+  },
+  {
+   "value": "osric.penhallow@example.org",
+   "kind": "email",
+   "file": "data/synthetic_rfr.pdf",
+   "column": "contact line"
   }
  ]
 }

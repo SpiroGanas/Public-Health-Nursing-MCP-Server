@@ -1,0 +1,176 @@
+# Section skeletons and reviewer prompts for grant narratives, for draft_grant_narrative (PLAN-08).
+# Each slot is filled from facts the nurse supplies, or shows a [NURSE: ...] placeholder; nothing
+# is filled from memory, and no statistic is created. Template + local fill (ADR 0008).
+#
+# REVIEW STATUS: pending. Written by this project as a plain-language drafting aid, not drawn from
+# a published instrument; the prompts are writing directions, not claims of fact.
+# Schema: content/schemas/planning_narrative_templates.schema.json
+meta:
+  id: planning-narrative-templates
+  title: Grant narrative section skeletons and reviewer prompts
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: This project's drafting skeletons (no external source)
+    publisher: Public Health Nursing MCP Server (draft)
+    url: https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server
+  related_sources: []
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The slots and prompts are this project's own drafting guidance (nothing is quoted or adapted
+    from a funder's template or a published grant-writing text). Each funder's announcement
+    decides what reviewers score; the tool follows the criteria you pass in and the slots here
+    only organize your facts. Check the draft against the announcement's page limits, format
+    rules, and scoring criteria before you rely on it.
+
+# Sections the tool can draft. slots run in order; a slot whose fact is missing becomes a
+# placeholder. `fact` names a field of the tool's `facts` input. kind: text (one paragraph) or list.
+sections:
+  - id: needs_statement
+    heading: Statement of need
+    purpose: The health problem, who is affected, and the gap in current services, with cited data.
+    slots:
+      - id: problem
+        heading: The health problem
+        fact: health_problem
+        kind: text
+        placeholder: "Describe the health problem in {community} in one or two sentences and say why it matters now."
+      - id: data
+        heading: Community data
+        fact: null
+        kind: data
+        placeholder: "Add three to five cited statistics for {community} (value, geography, source, and year) with data_points, or use the community profile tools and paste the figures here."
+      - id: population
+        heading: Who is affected
+        fact: population_served
+        kind: text
+        placeholder: "Describe the people most affected (age, place, language, income, or other characteristics your data support)."
+      - id: disparities
+        heading: Disparities and inequities
+        fact: disparities
+        kind: text
+        placeholder: "State which groups carry the greatest burden, using a cited comparison; leave this out if your data do not show a difference."
+      - id: current_services
+        heading: What exists now
+        fact: current_services
+        kind: text
+        placeholder: "List the programs and services that already address this problem in {community}, and who runs them."
+      - id: gap
+        heading: The gap this project fills
+        fact: gap
+        kind: text
+        placeholder: "Say what is missing or out of reach today and how this project closes that gap."
+  - id: project_narrative
+    heading: Project narrative
+    purpose: What you will do, with whom, by when, and how you will know it worked.
+    slots:
+      - id: goal
+        heading: Goal
+        fact: goal
+        kind: text
+        placeholder: "State the goal in one sentence: who will be better off, and how."
+      - id: objectives
+        heading: Objectives
+        fact: objectives
+        kind: list
+        placeholder: "List two to four SMART objectives (see write_smartie_objectives), each with a measure and a date."
+      - id: activities
+        heading: Activities
+        fact: activities
+        kind: list
+        placeholder: "List each activity, who carries it out, and how often or how many."
+      - id: timeline
+        heading: Timeline
+        fact: timeline
+        kind: text
+        placeholder: "Give the project period and the order of activities by quarter or month."
+      - id: evidence
+        heading: Why this approach
+        fact: evidence
+        kind: text
+        placeholder: "Name the evidence for the approach (source and year; see find_evidence_based_interventions) or say it is a new approach and how it will be tested."
+      - id: staffing
+        heading: Staffing
+        fact: staffing
+        kind: text
+        placeholder: "Name the roles (not individuals' private details), their time on the project, and who supervises."
+      - id: partners
+        heading: Partners
+        fact: partners
+        kind: list
+        placeholder: "List each partner organization and what it will do; attach letters of support if the announcement asks for them."
+      - id: evaluation
+        heading: Evaluation
+        fact: evaluation
+        kind: text
+        placeholder: "Describe what you will measure, the data source, who collects it, how often, and how results will be used and reported."
+      - id: capacity
+        heading: Organizational capacity
+        fact: organizational_capacity
+        kind: text
+        placeholder: "Describe your agency's relevant experience, systems, and fiscal management, with dates and amounts only from your own records."
+  - id: sustainability
+    heading: Sustainability plan
+    purpose: How the work continues, and what it costs to continue, after this funding ends.
+    slots:
+      - id: funding
+        heading: Funding after this award
+        fact: sustainability_funding
+        kind: text
+        placeholder: "Name the sources that could pay for the work after this award (budget lines, other grants, reimbursement) and what you have already done to secure them."
+      - id: policy
+        heading: Policies and systems
+        fact: sustainability_policy
+        kind: text
+        placeholder: "Describe any policy, protocol, or system change that keeps the work going without grant funds."
+      - id: partners_continue
+        heading: Partners who continue the work
+        fact: sustainability_partners
+        kind: text
+        placeholder: "Say which partners will carry parts of the work and what they have committed to."
+      - id: in_kind
+        heading: In-kind and local support
+        fact: in_kind
+        kind: text
+        placeholder: "List space, staff time, or other local support your agency or partners contribute, with amounts only from your own records."
+      - id: data_use
+        heading: Using results
+        fact: results_use
+        kind: text
+        placeholder: "Describe how evaluation results will be used to decide what to continue."
+
+# Writing directions shown with each scoring criterion, by criterion type (ids match
+# announcement_patterns.yaml). They are prompts, not claims.
+criterion_prompts:
+  need:
+    - Use data with a source and year for every number; say whether it is local, county, or state.
+    - Name who is most affected and compare with a reference group only when your data show a difference.
+    - End with the gap in services that this project fills.
+  equity:
+    - Say who is reached first and why, using your own data on the groups most affected.
+    - Describe how language, access, and trust barriers will be addressed.
+  approach:
+    - Tie each activity to an objective and each objective to a measure.
+    - Say who does what, how often, and for how many people.
+    - Give a timeline that fits the funder's project period.
+  evaluation:
+    - Name each measure, its data source, and who collects it.
+    - Separate process measures (what you did) from outcome measures (what changed).
+    - Say how results will be used and reported to the funder.
+  capacity:
+    - Describe relevant past projects with dates and results from your own records.
+    - Name the roles and time commitments, and who manages the funds.
+  partnerships:
+    - Name each partner, its role, and what it commits; show how partners were involved in planning.
+  sustainability:
+    - Say what will continue after the award and what it will cost.
+    - Name the funding and policy steps that keep it going, and who is responsible.
+  budget:
+    - Not drafted here; build the budget and budget narrative with build_program_budget and match each line to an activity.
+  cover:
+    - Not drafted here; complete the forms, letters, and attachments the announcement lists.
