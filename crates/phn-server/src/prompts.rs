@@ -224,7 +224,8 @@ pub(crate) fn get(name: &str, args: &Option<JsonObject>) -> Result<GetPromptResu
         _ => Err(ErrorData::invalid_params(
             format!(
                 "unknown prompt '{name}'; available: {INVESTIGATE_OUTBREAK}, \
-                 {PLAN_TABLETOP_EXERCISE}, {COMMUNITY_HEALTH_ASSESSMENT}"
+                 {PLAN_TABLETOP_EXERCISE}, {COMMUNITY_HEALTH_ASSESSMENT}, \
+                 {PREPARE_GRANT_APPLICATION}"
             ),
             None,
         )),
@@ -776,9 +777,17 @@ mod tests {
     #[test]
     fn prompt_lists_and_renders_with_arguments() {
         let l = list();
-        assert!(l.len() >= 2, "later phases add prompts");
-        assert_eq!(l[0].name, INVESTIGATE_OUTBREAK);
-        assert_eq!(l[1].name, PLAN_TABLETOP_EXERCISE);
+        let names: Vec<&str> = l.iter().map(|p| p.name.as_str()).collect();
+        assert_eq!(
+            names,
+            [
+                INVESTIGATE_OUTBREAK,
+                PLAN_TABLETOP_EXERCISE,
+                COMMUNITY_HEALTH_ASSESSMENT,
+                PREPARE_GRANT_APPLICATION
+            ],
+            "the full prompt list, in order"
+        );
         let mut a = JsonObject::new();
         a.insert("disease".into(), "salmonellosis".into());
         a.insert("line_list_path".into(), "supper.csv".into());
