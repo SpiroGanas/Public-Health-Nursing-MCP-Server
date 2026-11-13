@@ -1,0 +1,284 @@
+# Workforce competency frameworks for assess_workforce_competencies (LEAD-06): the eight domains and
+# three tiers of the Council on Linkages Core Competencies for Public Health Professionals (2021) and
+# of the Community/Public Health Nursing Competencies (Quad Council Coalition, 2018), a four-level
+# self-rating scale, and how the Massachusetts workforce standards are tracked.
+#
+# REVIEW STATUS: pending. PARTIAL, and read from SECONDARY sources: the Public Health Foundation
+# (phf.org, archive.phf.org) and the Quad Council site (quadcouncilphn.org) were blocked on the build
+# network, so the competency STATEMENTS (the numbered items in each domain and tier) were not read and are
+# NOT bundled. Domain names, the tier descriptions, and the rating scale were read in open-access articles
+# found through PubMed Central and in CDC's page on competencies (all fetched 2026-11-12); each is marked
+# with where it was read. Nothing here is copied from the frameworks' own text.
+# Schema: content/schemas/leadership_workforce_competencies.schema.json
+meta:
+  id: leadership-workforce-competencies
+  title: Public health workforce competency frameworks (domains and tiers only) and credential tracking rules
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: Competencies for Public Health Professionals
+    publisher: Centers for Disease Control and Prevention, Public Health Infrastructure Center
+    url: https://www.cdc.gov/infrastructure/training-professional-development/competencies-for-public-health-professionals.html
+  related_sources:
+    - title: Core Competencies for Public Health Professionals (2021)
+      publisher: Council on Linkages Between Academia and Public Health Practice, Public Health Foundation
+      url: https://phf.org/programs/core-competencies-for-public-health-professionals/
+    - title: Community/Public Health Nursing Competencies (2018)
+      publisher: Quad Council Coalition of Public Health Nursing Organizations (now the Council of Public Health Nursing Organizations)
+      url: https://quadcouncilphn.org/
+    - title: Performance Standards for Local Public Health, Workforce Standards sheet
+      publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+      url: https://www.mass.gov/doc/performance-standards/download
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    The two frameworks' own documents could not be fetched (phf.org, archive.phf.org, and
+    quadcouncilphn.org were refused by the network), so: (1) NO competency statements or statement IDs
+    are bundled; the tool rates at the domain level (8 domains by 3 tiers) and accepts the nurse's own
+    competency labels (typed from the framework she downloads) without checking them. (2) The domain
+    names of the 2021 Core Competencies were read in one open-access journal article (Front Public Health
+    2025) and the 2018 nursing domain names in another (Nurse Educ 2025); the 2018 names carry slightly
+    different wording in different articles (for example "Assessment Analytic Skills" and "Analytic and
+    Assessment Skills"). CDC's page confirms that the Core Competencies current edition was adopted on
+    October 21, 2021 and that the Community/Public Health Nursing Competencies' latest edition is 2018.
+    (3) The rating scale is the four-level none/aware/knowledgeable/proficient scale described in a 2024
+    journal article that used the Core Competencies assessment; the Public Health Foundation's own
+    wording of its assessment instruments was not read. (4) The copyright and reuse terms of both
+    frameworks were not read: this file keeps only domain names and short tier descriptions in this
+    project's words, and links to the owners. Check the terms before copying their text into your own forms.
+    (5) The Massachusetts credential rules are not copied here; they come from the bundled
+    ma-performance-standards snapshot (DPH's workbook, read for the strategy tools).
+
+sources:
+  cdc_competencies:
+    title: Competencies for Public Health Professionals
+    publisher: Centers for Disease Control and Prevention, Public Health Infrastructure Center
+    url: https://www.cdc.gov/infrastructure/training-professional-development/competencies-for-public-health-professionals.html
+    effective_date: "2026-06-23"
+    retrieved: 2026-11-12
+  fphp_2025:
+    title: "Translating knowledge to practice: application of the public health apprenticeship (Frontiers in Public Health 2025;13:1632118, PMC12230075, open access CC BY)"
+    publisher: Frontiers in Public Health
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12230075/
+    effective_date: "2025-06-23"
+    retrieved: 2026-11-12
+  nurse_educ_2025:
+    title: "Enhancing Public Health Nursing Competencies Through Game-Based Education (Nurse Educator 2025;50:E351-E356, PMC12539500)"
+    publisher: Nurse Educator
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12539500/
+    effective_date: "2025-11"
+    retrieved: 2026-11-12
+  phn_2025:
+    title: "Advanced Practice Public Health Nursing (APHN) in the U.S.: Roles and Education (Public Health Nursing 2025;42:1512-1519, PMC12210796, open access)"
+    publisher: Public Health Nursing
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC12210796/
+    effective_date: "2025-07"
+    retrieved: 2026-11-12
+  amp_2024:
+    title: "Perceived Competencies and Training Needs of Public Health Nurses in the Philippines (Acta Medica Philippina 2024;58:78-85, PMC11272898, open access)"
+    publisher: Acta Medica Philippina
+    url: https://pmc.ncbi.nlm.nih.gov/articles/PMC11272898/
+    effective_date: "2024"
+    retrieved: 2026-11-12
+  qcc_2020:
+    title: "Quad Council Coalition community/public health nursing competencies: Building consensus through collaboration (Public Health Nursing 2020;37(1):96-112; PubMed 31589001, abstract only)"
+    publisher: Public Health Nursing
+    url: https://pubmed.ncbi.nlm.nih.gov/31589001/
+    effective_date: "2020-01"
+    retrieved: 2026-11-12
+  ma_performance_standards:
+    title: Performance Standards workbook, Workforce Standards sheet (bundled snapshot ma-performance-standards)
+    publisher: Massachusetts Department of Public Health, Office of Local and Regional Health
+    url: https://www.mass.gov/doc/performance-standards/download
+    effective_date: "2024-07-15"
+    retrieved: 2026-11-12
+
+frameworks:
+  - id: core_competencies_2021
+    label: Core Competencies for Public Health Professionals (Council on Linkages, 2021)
+    short_label: Core Competencies 2021
+    owner: Council on Linkages Between Academia and Public Health Practice
+    edition: "2021 (adopted October 21, 2021)"
+    edition_source: cdc_competencies
+    edition_section: Core competencies
+    edition_confidence: high
+    domains:
+      - {number: 1, id: CC21-D1, name: Data Analytics and Assessment Skills, aliases: [data analytics, assessment, analytic]}
+      - {number: 2, id: CC21-D2, name: Policy Development and Program Planning Skills, aliases: [policy development, program planning, policy]}
+      - {number: 3, id: CC21-D3, name: Communication Skills, aliases: [communication, communications]}
+      - {number: 4, id: CC21-D4, name: Health Equity Skills, aliases: [health equity, equity]}
+      - {number: 5, id: CC21-D5, name: Community Partnership Skills, aliases: [community partnership, partnership, partnerships]}
+      - {number: 6, id: CC21-D6, name: Public Health Sciences Skills, aliases: [public health sciences, sciences, science]}
+      - {number: 7, id: CC21-D7, name: Management and Finance Skills, aliases: [management and finance, management, finance]}
+      - {number: 8, id: CC21-D8, name: Leadership and Systems Thinking Skills, aliases: [leadership and systems thinking, leadership, systems thinking]}
+    domains_source: fphp_2025
+    domains_section: Introduction (list of the eight 2021 domains)
+    domains_confidence: medium
+  - id: cphn_2018
+    label: Community/Public Health Nursing Competencies (Quad Council Coalition, 2018)
+    short_label: C/PHN Competencies 2018
+    owner: Quad Council Coalition of Public Health Nursing Organizations (now the Council of Public Health Nursing Organizations)
+    edition: "2018 (revision of the 2011 Quad Council competencies)"
+    edition_source: qcc_2020
+    edition_section: Abstract
+    edition_confidence: high
+    domains:
+      - {number: 1, id: QCC18-D1, name: Analytic and Assessment Skills, aliases: [analytic, assessment, assessment analytic, analytic assessment]}
+      - {number: 2, id: QCC18-D2, name: Policy Development and Program Planning Skills, aliases: [policy development, program planning, policy]}
+      - {number: 3, id: QCC18-D3, name: Communication Skills, aliases: [communication, communications]}
+      - {number: 4, id: QCC18-D4, name: Cultural Competency Skills, aliases: [cultural competency, cultural, culture]}
+      - {number: 5, id: QCC18-D5, name: Community Dimensions of Practice Skills, aliases: [community dimensions, community dimensions of practice, community]}
+      - {number: 6, id: QCC18-D6, name: Public Health Sciences Skills, aliases: [public health sciences, sciences, science, basic public health sciences]}
+      - {number: 7, id: QCC18-D7, name: Financial Planning and Management Skills, aliases: [financial planning and management, financial planning, financial, management, finance]}
+      - {number: 8, id: QCC18-D8, name: Leadership and Systems Thinking Skills, aliases: [leadership and systems thinking, leadership, systems thinking]}
+    domains_source: nurse_educ_2025
+    domains_section: Methods (the eight QCC C/PHN competency domains)
+    domains_confidence: medium
+    domains_note: >-
+      Read in a 2025 nursing education article that lists the eight domains (a 2018 student health fair
+      article lists the same eight with the wording "Analytic and Assessment Skills"). Another 2025 article
+      says the nursing competencies are aligned with the eight domains of the 2021 Core Competencies; this
+      tool cannot say whether the 2018 domain names were renamed to match, so it keeps the two lists apart.
+
+tiers:
+  - id: tier1
+    number: 1
+    label: Tier 1 (front-line and program support)
+    text: Front-line staff and program support; in the nursing framework the generalist public health nurse.
+    source: amp_2024
+    section: Introduction (tiers of the Core Competencies)
+    confidence: medium
+  - id: tier2
+    number: 2
+    label: Tier 2 (program management and supervisory)
+    text: Program management and supervisory responsibilities; in the nursing framework, supervisory management (advanced practice nursing and leadership skill sets begin at Tier 2).
+    source: amp_2024
+    section: Introduction (tiers of the Core Competencies)
+    confidence: medium
+  - id: tier3
+    number: 3
+    label: Tier 3 (senior management and executive)
+    text: "Senior management and executive leadership: setting strategy and vision, working with policymakers, leading organizational efforts toward equity."
+    source: amp_2024
+    section: Introduction (tiers of the Core Competencies)
+    confidence: medium
+nursing_tier_note:
+  text: The 2025 Public Health Nursing article says each nursing domain is divided into three tiers (generalist, supervisory management, senior leadership/management), and that Tier 1 defines the generalist public health nurse while Tiers 2 and 3 define advanced practice and leadership skill sets.
+  source: phn_2025
+  section: Competencies for PHN and APHN
+  confidence: medium
+
+rating_scale:
+  - {value: 1, label: None, meaning: "I am unaware of this skill or know very little about it."}
+  - {value: 2, label: Aware, meaning: "I have heard of it but have limited knowledge or ability to apply it."}
+  - {value: 3, label: Knowledgeable, meaning: "I am comfortable with my knowledge and my ability to apply it."}
+  - {value: 4, label: Proficient, meaning: "I am very comfortable; I could teach it to others."}
+rating_scale_source: amp_2024
+rating_scale_section: Methods (the 1-to-4 scale)
+rating_scale_confidence: medium
+rating_scale_note: >-
+  This is the four-level scale described in a 2024 article that used a Core Competencies assessment. The
+  meanings above are this project's short paraphrases. The Public Health Foundation's own assessment
+  instruments and their exact wording were not read. A blank or 0 means not rated and is left out.
+
+defaults:
+  target_rating:
+    value: 3
+    basis: >-
+      A starting target of 3 (Knowledgeable) for every domain. This is a tool default with no published
+      source; set your own target by domain or by tier (for example a higher target for the tier of a
+      supervisor) from your workforce development plan.
+  minimum_group_size:
+    value: 3
+    basis: >-
+      A project rule, not a published standard: no result is shown for fewer than 3 people (the same
+      threshold as the server's small-cell rule for counts), so no individual's rating can be read from
+      team results.
+  due_soon_days:
+    value: 90
+    basis: A tool default for "due soon" in the credential tracker; change it with due_soon_days.
+
+training_use:
+  - text: Agencies use competencies to write job descriptions, assess workforce development needs, inform workforce development plans, find training, coaching, and mentoring needs or gaps, and support accreditation (PHAB Domain 8).
+    source: cdc_competencies
+    section: Background
+    confidence: high
+  - text: TRAIN, the learning platform the Public Health Foundation supports, has a "Competencies and Capabilities" feature to search for trainings by tier or domain of the Core Competencies and some other competency sets.
+    source: cdc_competencies
+    section: Competency-Based Trainings
+    confidence: high
+
+training_actions:
+  - id: search_train
+    text: Search TRAIN (or your agency's learning system) for courses filed under this domain and tier.
+  - id: mentor
+    text: Pair staff who rated themselves lower here with a colleague who rated higher, or with a mentor outside the team.
+  - id: practice_assignment
+    text: Add a project or assignment that uses the skill, with a supervisor to review it.
+  - id: peer_session
+    text: Hold a peer session or journal club on the domain at a team meeting.
+  - id: plan_entry
+    text: Record the gap, the action, an owner, and a due date in the workforce development plan.
+
+training_actions_note: These are generic steps from this project. No specific course, vendor, or curriculum is recommended or verified.
+
+crosswalk:
+  note: >-
+    A rough pairing of the 2021 and 2018 domains by name, for a team that has rated itself against both.
+    It is this project's reading of the names (confidence low); neither framework publishes this pairing in
+    anything that was read. Ask your reviewer to confirm it.
+  pairs:
+    - {core_competencies_2021: 1, cphn_2018: 1, confidence: medium}
+    - {core_competencies_2021: 2, cphn_2018: 2, confidence: medium}
+    - {core_competencies_2021: 3, cphn_2018: 3, confidence: medium}
+    - {core_competencies_2021: 4, cphn_2018: 4, confidence: low}
+    - {core_competencies_2021: 5, cphn_2018: 5, confidence: low}
+    - {core_competencies_2021: 6, cphn_2018: 6, confidence: medium}
+    - {core_competencies_2021: 7, cphn_2018: 7, confidence: medium}
+    - {core_competencies_2021: 8, cphn_2018: 8, confidence: medium}
+
+credentials:
+  snapshot_id: ma-performance-standards
+  note: >-
+    The Massachusetts local public health workforce standards come from the bundled DPH Performance
+    Standards snapshot (positions and inspection types, with required and recommended items, each with a
+    deadline "within N months or years of hire" where DPH gives one). The tool reads the deadline from
+    DPH's wording and adds it to the hire date you give; it does not interpret waivers, prior service,
+    or equivalents (DPH's notes allow a waiver for staff with seven years of service, and for the
+    Registered Sanitarian requirement in some management positions).
+  source: ma_performance_standards
+  section: Workforce Standards
+  confidence: medium
+  position_aliases:
+    - {position_id: WF-POS-04, words: [public health nurse, phn, public health nursing, nurse, community health nurse]}
+    - {position_id: WF-POS-01, words: [director, assistant director, deputy director, health director, management]}
+    - {position_id: WF-POS-02, words: [management agent, health agent, agent, health officer]}
+    - {position_id: WF-POS-03, words: [inspector, environmental health specialist, sanitarian, environmental health]}
+    - {position_id: WF-POS-05, words: [clerical, administrative assistant, clerk, office staff]}
+    - {position_id: WF-POS-06, words: [board of health member, board member]}
+  universal_items:
+    - text: All personnel should have at least ICS 100 and NIMS 700 within 1 year of hire; those who might have a leadership role should have ICS 200 and above.
+      source: ma_performance_standards
+      section: Workforce Standards, notes
+      confidence: medium
+      label: ICS 100 and NIMS 700
+      months_from_hire: 12
+      kind: recommended
+
+not_verified:
+  - item: Competency statements and IDs
+    detail: The numbered competency statements of both frameworks were not read (phf.org and quadcouncilphn.org were blocked). Rate at the domain level, or type your own competency labels from the framework you download; the tool does not check them.
+  - item: Reuse terms of the frameworks
+    detail: Not read. The tool stores only domain names and short tier descriptions in its own words and links to the owners.
+  - item: Public Health Foundation assessment instruments
+    detail: The PHF's assessment instruments, scoring rules, and any recommended proficiency targets were not read.
+  - item: Whether the 2018 nursing domain names changed
+    detail: See the note on the nursing framework; the two lists are kept apart.
+  - item: "Massachusetts credential rules after the workbook date"
+    detail: The workforce standards snapshot is DPH's workbook modified July 15, 2024 (retrieved 2026-11-12); check DPH for newer standards, the Foundations course schedule, and any waiver you hold.
+  - item: Credential equivalents, waivers, and prior service
+    detail: Not modeled.

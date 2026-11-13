@@ -11,7 +11,7 @@
 
 const VERSION = '0.15.0';
 const GUIDE_DATE = 'November 2026';
-const TOOL_COUNT = 140;
+const TOOL_COUNT = 143;
 
 const TOOLSETS = {
   core: 'core (always on)',
@@ -4560,6 +4560,102 @@ const toolChapters = [
       },
       // End of Phase 18 strategy tools.
       // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08) tools.
+      {
+        id: 'assess_workforce_competencies',
+        title: 'Assess your team’s competencies and track required credentials',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, reads a ratings file and a credentials file you keep in your data folder; writes a workbook (Excel, with formulas) and a Word training plan to your output folder',
+        does: 'Helps your team rate itself against the eight domains and three tiers of the national Core Competencies for Public Health Professionals (2021) or the public health nursing competencies (2018). It combines the ratings into team results, ranks the domains where the team falls short of your target, and drafts a team training plan. It can also track the Massachusetts local public health workforce standards (for example, MAVEN training within 6 months and the Foundations course within a year for a public health nurse) from each person’s hire date.',
+        when: [
+          'Writing or updating your workforce development plan.',
+          'Preparing for accreditation, which asks how the agency assesses and develops its workforce.',
+          'Checking who is due for required DPH trainings.',
+        ],
+        provide: [
+          'The first time, nothing: the tool writes a blank self-assessment workbook for staff to fill in.',
+          'Then the filled ratings file (CSV or Excel in your data folder): a staff code, tier, domain, and rating from 1 to 4 for each person. Use codes such as S01, never names.',
+          'Optionally a credentials file: staff code, position, hire date, and each credential completed with its date.',
+          'Optionally your own target rating (the default is 3, “knowledgeable”).',
+        ],
+        examples: [
+          'Make me a self-assessment workbook for our staff using the core competencies.',
+          'Here are our ratings (team_ratings.csv). Which domains need training first?',
+          'Who is overdue for MAVEN training or the Foundations course? The file is staff_credentials.csv.',
+        ],
+        returns: [
+          'Team averages by domain and tier, the gap to your target, a ranked training plan with blanks for the action, owner, and due date, credential status by position, and the workbook and Word plan.',
+        ],
+        notes: [
+          'Privacy: staff are identified by code, never by name. No result is shown for fewer than 3 people, so nobody’s rating can be read from the team results. Individual rows stay in the workbook on your computer.',
+          'The numbered competency statements could not be read from the national sites, so ratings are by domain, not by individual competency. The tool does not copy the frameworks’ text.',
+          'The credential deadlines come from DPH’s workforce standards (July 2024 version). Waivers, prior service, and equivalents are not applied.',
+          'This is workforce planning support, not a personnel evaluation or a finding of compliance. The wording is a draft waiting for review.',
+        ],
+      },
+      {
+        id: 'board_of_health_meeting_assistant',
+        title: 'Run board of health meetings under the Open Meeting Law',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, can read a notes file from your data folder; writes agendas, report templates, and draft minutes (Word) to your output folder',
+        does: 'Works out the latest time you can post a meeting notice so it is out 48 hours ahead, not counting Saturdays, Sundays, and Massachusetts legal holidays (2026 through 2028). It checks a posting time, the notice contents, the topics, and executive session items. It builds the agenda and notice, a staff report template, and draft minutes from your notes, and checks the minutes for the parts the law requires.',
+        when: [
+          'Setting a meeting date and the deadline to give the notice to the town clerk.',
+          'Preparing the agenda, a staff report for the board, or an executive session.',
+          'Turning your meeting notes into draft minutes.',
+        ],
+        provide: [
+          'The meeting date and time, and the place (or how to join if it is remote).',
+          'The topics, as specific as the public will need them to be. Leave out residents’ names.',
+          'For executive session, the purpose numbers (1 to 10) from the law.',
+          'For minutes, a text file of your notes with lines such as Present:, Item:, Motion:, Vote:, and Exhibit:.',
+        ],
+        examples: [
+          'Our board meets Monday, December 7 at 6:30 pm. When must the notice be posted?',
+          'Build the agenda for the December 7 meeting with the flu clinic plan, the budget, and an executive session for litigation strategy.',
+          'Draft minutes from my notes in bohnotes.txt and tell me what is missing.',
+        ],
+        returns: [
+          'The post-by time with the days left out, checks on the notice, an agenda and notice draft with staff pages (chair’s checklist and executive session script), a staff report template, or draft minutes with the required parts checked and a 30-day approval target.',
+        ],
+        notes: [
+          'Your notes are never shown to the assistant. It sees counts, which required parts were found, and the line numbers of anything that looks like an identifier.',
+          'This is not legal advice. How the 48 hours are counted across a weekend is this tool’s reading of the statute; ask your clerk or town counsel. The clerk may need the notice earlier, and other laws may require longer notice.',
+          'Boards in Suffolk county (Boston, Chelsea, Revere, Winthrop) also skip two local holidays. Remote participation rules are not checked.',
+          'The wording is a draft waiting for review.',
+        ],
+      },
+      {
+        id: 'draft_standing_orders',
+        title: 'Draft a standing order for your medical director to sign',
+        toolset: 'leadership',
+        internet: 'no',
+        files: 'yes, writes a Word draft to your output folder',
+        does: 'Builds the skeleton of a standing order or protocol with every section the Board of Registration in Nursing requires (Advisory Ruling 9324, and 9804 for vaccines): the substance or activity, dose and route, who is included and excluded, contraindications and precautions, emergency steps, documentation, reporting, review, authentication, and the medical director’s signature block. You supply the clinical content and the source for it; the tool never invents it. Everything else is a placeholder marked for you or the medical director.',
+        when: [
+          'Setting up a vaccine, naloxone, or other nursing protocol that needs a prescriber’s order.',
+          'Renewing a standing order and checking that each required element is there.',
+        ],
+        provide: [
+          'The type: vaccine, medication, or activity.',
+          'Text for the sections you have drafted, each clinical section with the guideline, package insert, or template you took it from (name, edition, date).',
+          'Optionally the effective date and how often your medical director reviews the order.',
+        ],
+        examples: [
+          'Start a vaccine standing order for the fall flu clinic. I will paste the criteria from the current guidance.',
+          'Check my naloxone standing order against the Board’s required elements.',
+        ],
+        returns: [
+          'A Word draft with placeholders and signature lines, which sections are done, which of the Board’s elements are still open, wording that may conflict with the Board’s limits, and, for vaccines, DPH’s signed standing orders for local boards of health to check first.',
+        ],
+        notes: [
+          'DPH issues signed standing orders for boards of health for influenza, COVID-19, and anaphylaxis medication. Use them if they fit instead of writing your own.',
+          'The tool bundles no clinical content. It cannot say your doses or criteria are right. Check each against the current source.',
+          'Only the medical director can authorize the order. If you adapt an Immunize.org template, acknowledge it as the source.',
+          'The wording is a draft waiting for review.',
+        ],
+      },
       // End of Phase 18 workforce tools.
       // Phase 18 ethics (EBP-07, POL-05, POL-06) tools.
       {

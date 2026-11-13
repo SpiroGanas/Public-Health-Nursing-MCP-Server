@@ -33,6 +33,24 @@ pub(super) const STRATEGY: &[ToolMeta] = &[
 /// Workforce, board of health, standing orders: LEAD-06, LEAD-07, LEAD-08.
 pub(super) const WORKFORCE: &[ToolMeta] = &[
     // Phase 18 workforce entries go below this line.
+    ToolMeta {
+        name: "assess_workforce_competencies",
+        plan_id: "LEAD-06",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "board_of_health_meeting_assistant",
+        plan_id: "LEAD-07",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
+    ToolMeta {
+        name: "draft_standing_orders",
+        plan_id: "LEAD-08",
+        toolset: Toolset::Leadership,
+        phase: 18,
+    },
     // End of Phase 18 workforce entries.
 ];
 

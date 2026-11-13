@@ -4232,6 +4232,147 @@ nursing administration, 2016; a stakeholder analysis review, 2000). Content is p
 
 <!-- Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08). -->
 
+### `assess_workforce_competencies` (LEAD-06, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `framework` | `core_competencies_2021` | Or `cphn_2018` (the Quad Council Community/Public Health Nursing Competencies, 2018). Each has eight domains and three tiers. |
+| `ratings_path` / `ratings_sheet` | | CSV/XLSX in `/data`: one row per staff code and domain (and optionally per competency label you type): staff code, tier (1 to 3), domain (number or name), rating (1 None, 2 Aware, 3 Knowledgeable, 4 Proficient; blank or 0 = not rated). With no file the tool writes a blank self-assessment workbook and guide. |
+| `staff_column`, `tier_column`, `domain_column`, `rating_column` | Staff Code (or Staff ID), Tier, Domain, Rating | Column names. A column of names is refused; staff are identified by a code. |
+| `target_rating` | 3 | Your target for every domain (1 to 4). A tool default with no published source. |
+| `credentials_path` / `credentials_sheet` | | CSV/XLSX: staff code, position, hire date, and one row per credential completed (credential, completed date). |
+| `cred_*_column` | Position, Hire Date, Credential, Completed | Column names for the credentials file. |
+| `as_of_date`, `due_soon_days` | today, 90 | Date to measure deadlines from, and the "due soon" window. |
+| `write_documents` | true | Workbook (live formulas) and DOCX plan in `/data/output`. |
+
+**What it does.** Blank mode writes a workbook with a ratings form (twelve staff codes by eight
+domains), a Team results sheet whose formulas hide any result for fewer than three people, a
+training plan sheet, a credentials tracker, and DPH's standards, plus a Word guide. Results mode
+aggregates each staff member's ratings to the domain (the mean of any competency rows), then
+returns team means by domain, the gap to the target, how many staff are below it, means by tier,
+the overall mean, a training plan ranked by gap (High 1 or more, Medium 0.5 to under 1, Low under
+0.5, Maintain), and, with a credentials file, status (complete, due soon, overdue, upcoming) for
+each DPH requirement by position. The workbook's Ratings and Credentials sheets and the DOCX plan
+are written to `/data/output`.
+
+**Small-group rule.** No result is shown for fewer than three people. A team of fewer than three
+gets one combined total (two people) or nothing (one person), with no domain, tier, or person
+result. A domain rated by fewer than three staff, a tier with fewer than three staff, and a
+count of one or two below the target are hidden; the overall mean then uses only the domains
+shown, so a hidden domain cannot be worked out from the total. Credential counts follow the same
+rule (any count of one or two hides the requirement's counts). The response never contains a
+staff code or name.
+
+**Credentials.** The requirements come from the bundled `ma-performance-standards` snapshot (DPH's
+Performance Standards workbook, Workforce Standards sheet, modified 2024-07-15): required at hire,
+required after hire with "within N months or years of hire", and recommended items, for six
+positions (management, management or agent, inspector, public health nurse, clerical, board of
+health member). A public health nurse has MAVEN training within 6 months and the Foundations
+course within 1 year of hire. The tool adds the deadline to the hire date; it does not apply
+waivers, prior service, or equivalents. ICS 100 and NIMS 700 within a year of hire are DPH's note
+for all staff. Entries in your file are matched to DPH's list by keyword; unmatched entries are
+counted, so check the matches in the workbook.
+
+**Sources.** Domain names, tier descriptions, and the four-level scale come from open-access
+journal articles found through PubMed Central (Frontiers in Public Health 2025; Nurse Educator
+2025; Public Health Nursing 2025; Acta Medica Philippina 2024) and CDC's page on competencies
+(the 2021 edition was adopted on October 21, 2021; the nursing competencies' latest edition is
+2018). The Public Health Foundation and Quad Council sites were blocked, so **no competency
+statements are bundled**, their reuse terms were not read, and the 2018 nursing domain names are
+as one 2025 article lists them (medium confidence). DPH's workforce standards: the bundled snapshot.
+
+**Limits.** Domain-level ratings only; staff-level data never leaves your computer except as the
+aggregates above. The target, the priority cut-offs, the small-group rule, and the generic training
+steps are this project's, not the frameworks'. The pairing of 2021 and 2018 domains is rough (low
+confidence for two pairs). Content is a draft pending expert review (`review_due` 2027-02-01).
+
+### `board_of_health_meeting_assistant` (LEAD-07, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `action` | required | `notice_check`, `agenda`, `staff_report`, `minutes`, or `oml_guide`. |
+| `meeting_date`, `meeting_time` | | `YYYY-MM-DD` (2026-01-06 to 2028-12-31) and a time such as `18:00` or `6:00 pm`. |
+| `town`, `suffolk_county` | saved town | Suffolk county bodies (Boston, Chelsea, Revere, Winthrop) also skip Evacuation Day and Bunker Hill Day. |
+| `location`, `remote_meeting`, `remote_access` | | Place; whether any participation is remote; how to join (for the notice). |
+| `emergency` | false | Emergency notice is "as soon as reasonably possible". |
+| `posted_at` | | `YYYY-MM-DD HH:MM`, to check against the deadline. |
+| `topics` | | Up to 40: `title`, `detail`, `presenter_role`, `minutes`, `action_requested`. No resident names. |
+| `executive_session_purposes` | | Numbers 1 to 10 (c. 30A, s. 21(a)). |
+| `report_title`, `report_sections` | | Staff report: your drafted sections (`heading`, `text`); the rest are placeholders. |
+| `notes_path` / `notes_text` | | A `.txt` or `.md` file in `/data` (or text) with your meeting notes. |
+| `body_name`, `write_document` | Board of Health; true | Heading; write the Word file to `/data/output`. |
+
+**What it does.** `notice_check` returns the latest time to post: 48 hours before the meeting,
+leaving out whole Saturdays, Sundays, and Massachusetts legal holidays (G.L. c. 4, s. 7, clause
+Eighteenth; list for 2026-2028 in `content/leadership/ma_legal_holidays.yaml`). A Monday 6 pm
+meeting needs posting by Thursday 6 pm; the days left out are listed. It checks a `posted_at` time
+(countable hours and shortfall), the meeting place, remote access information, topics (too-general
+topics such as "new business" are flagged by word cues), and executive session items (listed as a
+topic; purpose 1 written notice; the chair's declaration for purposes 3, 6, and 8). `agenda` adds
+a Word agenda and notice draft with the post-by time, the notice checklist, the chair's
+responsibilities, and the executive session steps on staff pages to remove before posting.
+`staff_report` writes a report template. `minutes` sorts your notes into a minutes draft (members
+present and absent, remote members, items with discussion, motions, votes, exhibits, executive
+session, adjournment), then checks the parts G.L. c. 30A, s. 22(a) and 940 CMR 29.10 and 29.11
+require, and reports the 30-day approval target. `oml_guide` returns the requirements with
+sources.
+
+**Privacy.** Notes are read locally and never returned. The result has counts, which required
+parts were found, the PHI detector's categories, and line numbers of possible identifiers (at most
+50); the draft minutes carry a "check before release" note. Typed topics, details, and report text
+that look like identifiers are refused (board materials are public records).
+
+**Sources.** M.G.L. c. 30A, ss. 18, 20, 21, 22 (malegislature.gov); 940 CMR 29.00; the Attorney
+General's Open Meeting Law Guide and November 2024 checklists (notice, minutes, executive session,
+chair); the Attorney General's FAQ and training primer; M.G.L. c. 4, s. 7; the Trial Court's legal
+holiday list for 2026 and 2027 (all statewide dates agree with the computed list).
+
+**Limits.** The method of counting 48 hours across weekends and holidays is this project's reading
+(the Attorney General gives no worked example); the clerk's filing deadline, other notice laws,
+and remote participation (Chapter 20 of the Acts of 2021 expires June 30, 2027 unless extended)
+are not modeled. 2028 and the Suffolk-only days have no second published list. Decision support,
+not legal advice. Content is a draft pending expert review (`review_due` 2027-02-01).
+
+### `draft_standing_orders` (LEAD-08, toolset `leadership`)
+
+| Argument | Default | |
+|---|---|---|
+| `order_type` | required | `vaccine`, `medication`, or `activity`. |
+| `title`, `agency_name` | | For the heading. |
+| `sections` | | Up to 20: `section_id`, `text`, `source_citation`. Clinical sections (dose and route, inclusion and exclusion criteria, contraindications and precautions, presentation, objective measures, procedure, emergency) require a source you cite. The authorization block cannot be filled in: the medical director signs. |
+| `effective_date`, `review_interval_months` | | Dates for the review schedule (the interval needs the effective date). |
+| `write_document` | true | Word draft in `/data/output`. |
+
+**What it does.** Builds a standing order skeleton for the Board of Registration in Nursing's
+Advisory Ruling 9324: the substance or activity; dose and route; inclusion and exclusion criteria;
+the prescriber's signature or approval; patient presentation; objective measures, dosing, and
+follow-up; when to call for emergency help; record keeping; review by medical, pharmacy, and
+nursing staff; and authentication by the prescriber. A vaccine order adds Advisory Ruling 9804's
+elements (VIS, education about risks and benefits, parent or guardian permission, MIIS reporting,
+documentation). Sections you write go in with their cited source; the rest are `[NURSE: ...]` or
+`[MEDICAL DIRECTOR: ...]` placeholders, with signature lines. The result lists each section's
+status, coverage of each element, and word cues that may conflict with the limits (a standing order
+cannot let the nurse choose from a menu, alter the order, or prescribe, renew, refill, or extend).
+For vaccines it points to DPH's signed 2026-2027 standing orders for local boards of health
+(influenza, COVID-19, anaphylaxis medication) to check first, and to Immunize.org's templates.
+
+**No clinical content.** The tool bundles no vaccine, drug, dose, route, criterion, contraindication,
+or precaution, and checks none; what you type goes into the Word file only and is not returned.
+Typed text that looks like an identifier is refused.
+
+**Sources.** Advisory Rulings 9324 (revised April 11, 2018) and 9804 (revised September 9, 2015),
+read in full; Immunize.org's adult influenza standing order (Item P3074, 9/14/2026), which says it
+may be adapted without permission and asks for acknowledgment of Immunize.org (read in that
+template only); DPH's 2026-2027 influenza standing order for local boards of health; DPH's Vaccine
+Model Standing Orders page. The 244 CMR and advisory ruling content is in
+`nursing_scope_of_practice_guide`.
+
+**Limits.** The prescriber authentication time frame and review interval are the medical director's
+(Advisory Ruling 9324 names no interval and refers to federal and state requirements). The
+outline of a vaccine order is read from one Immunize.org and one DPH template. Collaborating
+pharmacy, insurer, and other board rules were not read. Clinical decision support only; the medical
+director signs. Content is a draft pending expert review (`review_due` 2027-02-01).
+
 <!-- End of Phase 18 workforce. -->
 
 <!-- Phase 18 ethics (EBP-07, POL-05, POL-06). -->

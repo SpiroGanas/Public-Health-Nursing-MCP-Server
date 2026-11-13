@@ -796,6 +796,36 @@ pub const ITEMS: &[ContentItem] = &[
     },
     // End of Phase 18 strategy.
     // Phase 18 workforce (LEAD-06, LEAD-07, LEAD-08).
+    ContentItem {
+        id: "leadership-workforce-competencies",
+        path: "content/leadership/workforce_competencies.yaml",
+        resource_uri: "phn://content/leadership-workforce-competencies",
+        yaml: include_str!("../../../content/leadership/workforce_competencies.yaml"),
+        schema: include_str!(
+            "../../../content/schemas/leadership_workforce_competencies.schema.json"
+        ),
+    },
+    ContentItem {
+        id: "leadership-open-meeting-law",
+        path: "content/leadership/open_meeting_law.yaml",
+        resource_uri: "phn://content/leadership-open-meeting-law",
+        yaml: include_str!("../../../content/leadership/open_meeting_law.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_open_meeting_law.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-ma-legal-holidays",
+        path: "content/leadership/ma_legal_holidays.yaml",
+        resource_uri: "phn://content/leadership-ma-legal-holidays",
+        yaml: include_str!("../../../content/leadership/ma_legal_holidays.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_ma_legal_holidays.schema.json"),
+    },
+    ContentItem {
+        id: "leadership-standing-orders",
+        path: "content/leadership/standing_orders.yaml",
+        resource_uri: "phn://content/leadership-standing-orders",
+        yaml: include_str!("../../../content/leadership/standing_orders.yaml"),
+        schema: include_str!("../../../content/schemas/leadership_standing_orders.schema.json"),
+    },
     // End of Phase 18 workforce.
     // Phase 18 ethics (EBP-07, POL-05, POL-06).
     ContentItem {
