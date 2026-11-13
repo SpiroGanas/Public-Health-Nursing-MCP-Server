@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/leadership_standing_orders.schema.json",
+  "title": "Standing order skeleton content",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "required_elements",
+    "required_elements_source",
+    "required_elements_section",
+    "required_elements_confidence",
+    "limits",
+    "limits_source",
+    "limits_section",
+    "limits_confidence",
+    "limits_note",
+    "vaccine_elements",
+    "vaccine_source",
+    "vaccine_section",
+    "vaccine_confidence",
+    "nurse_manager_note",
+    "outline_vaccine",
+    "dph_orders",
+    "order_types",
+    "skeleton",
+    "sectional_checks",
+    "related_tools",
+    "not_verified"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "conf": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "leadership-standing-orders"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "required_elements": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "number",
+          "text",
+          "section_ids"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "number": {
+            "type": "integer"
+          },
+          "text": {
+            "type": "string"
+          },
+          "section_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "required_elements_source": {
+      "type": "string"
+    },
+    "required_elements_section": {
+      "type": "string"
+    },
+    "required_elements_confidence": {
+      "$ref": "#/$defs/conf"
+    },
+    "limits": {
+      "type": "array"
+    },
+    "limits_source": {
+      "type": "string"
+    },
+    "limits_section": {
+      "type": "string"
+    },
+    "limits_confidence": {
+      "$ref": "#/$defs/conf"
+    },
+    "limits_note": {
+      "type": "string"
+    },
+    "vaccine_elements": {
+      "type": "array"
+    },
+    "vaccine_source": {
+      "type": "string"
+    },
+    "vaccine_section": {
+      "type": "string"
+    },
+    "vaccine_confidence": {
+      "$ref": "#/$defs/conf"
+    },
+    "nurse_manager_note": {
+      "type": "string"
+    },
+    "outline_vaccine": {
+      "type": "object"
+    },
+    "dph_orders": {
+      "type": "object"
+    },
+    "order_types": {
+      "type": "array"
+    },
+    "skeleton": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "kind",
+          "clinical",
+          "guidance",
+          "placeholder"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "nurse",
+              "medical_director"
+            ]
+          },
+          "clinical": {
+            "type": "boolean"
+          },
+          "guidance": {
+            "type": "string"
+          },
+          "placeholder": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sectional_checks": {
+      "type": "object"
+    },
+    "related_tools": {
+      "type": "array"
+    },
+    "not_verified": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item",
+          "detail"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

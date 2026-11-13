@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SpiroGanas/Public-Health-Nursing-MCP-Server/content/schemas/leadership_workforce_competencies.schema.json",
+  "title": "Workforce competency frameworks content",
+  "type": "object",
+  "required": [
+    "meta",
+    "sources",
+    "frameworks",
+    "tiers",
+    "rating_scale",
+    "rating_scale_source",
+    "rating_scale_section",
+    "rating_scale_confidence",
+    "rating_scale_note",
+    "defaults",
+    "training_use",
+    "training_actions",
+    "crosswalk",
+    "credentials",
+    "not_verified"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "citation": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "title",
+        "publisher",
+        "url",
+        "effective_date",
+        "retrieved"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "publisher": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "retrieved": {
+          "type": "string"
+        }
+      }
+    },
+    "conf": {
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ]
+    }
+  },
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "version",
+        "prepared",
+        "effective_date",
+        "source",
+        "related_sources",
+        "review",
+        "verification_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "leadership-workforce-competencies"
+        },
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "prepared": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "$ref": "#/$defs/citation"
+        },
+        "related_sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/citation"
+          }
+        },
+        "review": {
+          "type": "object",
+          "required": [
+            "status",
+            "reviewed_by",
+            "reviewed_on",
+            "review_due"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "status": {
+              "enum": [
+                "pending",
+                "reviewed"
+              ]
+            },
+            "reviewed_by": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "reviewed_on": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "review_due": {
+              "type": "string",
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+            }
+          }
+        },
+        "verification_note": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "sources": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "frameworks": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "short_label",
+          "owner",
+          "edition",
+          "edition_source",
+          "edition_section",
+          "edition_confidence",
+          "domains",
+          "domains_source",
+          "domains_section",
+          "domains_confidence"
+        ],
+        "properties": {
+          "domains": {
+            "type": "array",
+            "minItems": 8,
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "required": [
+                "number",
+                "id",
+                "name",
+                "aliases"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "number": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "aliases": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "edition_confidence": {
+            "$ref": "#/$defs/conf"
+          },
+          "domains_confidence": {
+            "$ref": "#/$defs/conf"
+          }
+        }
+      }
+    },
+    "tiers": {
+      "type": "object"
+    },
+    "rating_scale": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "value",
+          "label",
+          "meaning"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "integer"
+          },
+          "label": {
+            "type": "string"
+          },
+          "meaning": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rating_scale_source": {
+      "type": "string"
+    },
+    "rating_scale_section": {
+      "type": "string"
+    },
+    "rating_scale_confidence": {
+      "$ref": "#/$defs/conf"
+    },
+    "rating_scale_note": {
+      "type": "string"
+    },
+    "defaults": {
+      "type": "object"
+    },
+    "training_use": {
+      "type": "array"
+    },
+    "training_actions": {
+      "type": "array"
+    },
+    "crosswalk": {
+      "type": "object"
+    },
+    "credentials": {
+      "type": "object"
+    },
+    "not_verified": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item",
+          "detail"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "item": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

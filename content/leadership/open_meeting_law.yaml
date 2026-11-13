@@ -1,0 +1,337 @@
+# Massachusetts Open Meeting Law (M.G.L. c. 30A, sections 18 to 25; 940 CMR 29.00) as it applies to a
+# local board of health, for board_of_health_meeting_assistant (LEAD-07): the notice rule, notice
+# contents, executive session purposes and steps, minutes contents and approval, and the Attorney
+# General's checklists. Short paraphrases only (the statute and the regulation control).
+#
+# REVIEW STATUS: pending. Read in full on 2026-11-12: c. 30A sections 18 to 25 (malegislature.gov),
+# 940 CMR 29.00 (mass.gov PDF), the Attorney General's Open Meeting Law Guide, and five Division of
+# Open Government checklists (notice, minutes, executive session, chair responsibilities; November
+# 2024) and the Attorney General's FAQ page. The holiday list is in ma_legal_holidays.yaml.
+# Schema: content/schemas/leadership_open_meeting_law.schema.json
+meta:
+  id: leadership-open-meeting-law
+  title: Massachusetts Open Meeting Law for a local board of health (c. 30A ss. 18-25; 940 CMR 29.00)
+  version: 0.1.0
+  prepared: 2026-11-12
+  effective_date: null
+  source:
+    title: M.G.L. c. 30A, sections 18 to 25 (Open Meeting Law)
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section20
+  related_sources:
+    - title: 940 CMR 29.00 Open Meetings (Attorney General regulations)
+      publisher: Massachusetts Office of the Attorney General
+      url: https://www.mass.gov/regulations/940-CMR-2900-open-meetings
+    - title: Open Meeting Law Guide
+      publisher: Massachusetts Office of the Attorney General, Division of Open Government
+      url: https://www.mass.gov/info-details/open-meeting-law-educational-materials
+  review:
+    status: pending
+    reviewed_by: null
+    reviewed_on: null
+    review_due: 2027-02-01
+  verification_note: >-
+    Statute text, regulation text, the Attorney General's Guide and its November 2024 checklists were
+    read on 2026-11-12, so the notice rule, executive session purposes, and minutes elements are
+    high confidence as paraphrases. NOT verified: how the Attorney General counts the 48 hours across a
+    weekend or holiday (no worked example was found; the tool excludes whole excluded days from the
+    count, which is this project's reading, medium confidence); the remote participation rules after
+    June 30, 2027, when Chapter 20 of the Acts of 2021 expires unless extended; local rules in your
+    town (the clerk's required filing time); other laws that need longer notice (for example hearings
+    under a specific statute or regulation); and any Attorney General decision after 2026-11-12.
+    Whether a board of health is a public body is read from the definition in section 18 (a
+    multiple-member board of a city or town); other bodies need their own check.
+
+sources:
+  statute_18:
+    title: "M.G.L. c. 30A, s. 18 (definitions)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section18
+    effective_date: null
+    retrieved: 2026-11-12
+  statute_20:
+    title: "M.G.L. c. 30A, s. 20 (open meetings; notice)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section20
+    effective_date: null
+    retrieved: 2026-11-12
+  statute_21:
+    title: "M.G.L. c. 30A, s. 21 (executive session)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section21
+    effective_date: null
+    retrieved: 2026-11-12
+  statute_22:
+    title: "M.G.L. c. 30A, s. 22 (minutes)"
+    publisher: Massachusetts Legislature
+    url: https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30A/Section22
+    effective_date: null
+    retrieved: 2026-11-12
+  regs_940_cmr_29:
+    title: 940 CMR 29.00 Open Meetings
+    publisher: Massachusetts Office of the Attorney General
+    url: https://www.mass.gov/doc/940-cmr-29-open-meetings/download
+    effective_date: null
+    retrieved: 2026-11-12
+  ag_guide:
+    title: Open Meeting Law Guide
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/open-meeting-law-guide-5/download
+    effective_date: null
+    retrieved: 2026-11-12
+  ag_notice_checklist:
+    title: Public Body Checklist for Meeting Notices (November 2024)
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/11062024-oml-notice-checklist/download
+    effective_date: "2024-11"
+    retrieved: 2026-11-12
+  ag_minutes_checklist:
+    title: Public Body Checklist for Creating and Approving Meeting Minutes (November 2024)
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/110624-oml-minutes-checklist/download
+    effective_date: "2024-11"
+    retrieved: 2026-11-12
+  ag_exec_checklist:
+    title: Public Body Checklist for Entering Executive Session (November 2024)
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/11062024-oml-executive-session-checklist/download
+    effective_date: "2024-11"
+    retrieved: 2026-11-12
+  ag_chair_checklist:
+    title: Special Responsibilities of the Public Body Chair (November 2024)
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/11062024-oml-responsibilities-of-the-chair-checklist/download
+    effective_date: "2024-11"
+    retrieved: 2026-11-12
+  ag_primer:
+    title: Open Meeting Law primer (training slides)
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/doc/open-meeting-law-primer/download
+    effective_date: null
+    retrieved: 2026-11-12
+  ag_faq:
+    title: Frequently Asked Questions about the Open Meeting Law
+    publisher: Massachusetts Office of the Attorney General, Division of Open Government
+    url: https://www.mass.gov/info-details/frequently-asked-questions-about-the-open-meeting-law
+    effective_date: null
+    retrieved: 2026-11-12
+
+public_body:
+  text: >-
+    A public body is a multiple-member board, commission, committee, or subcommittee of a city or town
+    (among others), however created, elected, or appointed, set up to serve a public purpose; a
+    subcommittee includes any multiple-member body created to advise a public body. A local board of
+    health fits that definition. A meeting is a deliberation by a quorum (a simple majority unless
+    another law says otherwise) on public business within the body's jurisdiction, by any medium, email
+    included.
+  source: statute_18
+  section: definitions of "public body", "meeting", "deliberation", "quorum"
+  confidence: high
+
+notice:
+  rule_text: >-
+    Except in an emergency, post notice of every meeting at least 48 hours before the meeting,
+    excluding Saturdays, Sundays, and legal holidays. In an emergency, post as soon as reasonably
+    possible. File the notice with the municipal clerk early enough for the clerk to post it 48 hours
+    ahead (940 CMR 29.03(1)(a)).
+  source: statute_20
+  section: s. 20(b); 940 CMR 29.03(1)(a)
+  confidence: high
+  hours_required: 48
+  contents:
+    - id: date_time_place
+      text: The date, time, and place of the meeting (for a remote meeting, the information needed to join, such as a link or call-in instructions).
+      source: ag_notice_checklist
+      section: Notice Contents
+    - id: topics
+      text: A list of all topics the chair reasonably anticipates will be discussed, specific enough to tell the public what the issues are, including each executive session topic.
+      source: regs_940_cmr_29
+      section: 940 CMR 29.03(1)(b)
+    - id: legible
+      text: Printed or displayed in a legible, easily understandable format.
+      source: statute_20
+      section: s. 20(b)
+    - id: posted_time_recorded
+      text: The date and time the notice was posted are conspicuously recorded on or with it; an amendment within the 48 hours is also dated and timed.
+      source: regs_940_cmr_29
+      section: 940 CMR 29.03(1)(d)
+    - id: joint_meeting
+      text: For a joint meeting of several public bodies, the notice names each body (or each body posts its own).
+      source: ag_notice_checklist
+      section: Notice Contents
+  local_posting:
+    text: >-
+      A local public body's notice is filed with the municipal clerk and posted where it is
+      conspicuously visible to the public at all hours in or on the municipal building that houses the
+      clerk's office, or on the municipal website if the municipality has adopted its website as the one
+      official method. A municipality has one official method for all its public bodies.
+    source: statute_20
+    section: s. 20(c); 940 CMR 29.03(2)
+    confidence: high
+  common_questions:
+    - question: A topic comes up after the notice is posted
+      answer: >-
+        The body may discuss a topic the chair did not reasonably anticipate 48 hours before the
+        meeting. The Attorney General encourages updating the posting and advises postponing
+        controversial topics that were not listed.
+      source: ag_faq
+      section: FAQ
+    - question: The meeting is continued to another day
+      answer: A continued meeting is treated as a new meeting: post a new notice 48 hours ahead (excluding weekends and legal holidays).
+      source: ag_faq
+      section: FAQ
+    - question: A meeting is cancelled
+      answer: The Attorney General's Open Meeting Law primer (training slides) says a cancellation does not need 48 hours' notice.
+      source: ag_primer
+      section: Meeting Notices, Common Concerns
+    - question: A Sunday or holiday meeting
+      answer: The law is silent on meetings on Sundays; the Attorney General says the best practice is not to hold meetings on Sundays or holidays.
+      source: ag_faq
+      section: FAQ
+    - question: The notice website goes down
+      answer: >-
+        If a municipality's notice website becomes inaccessible within the 48 hours, the person
+        responsible must restore it within six business hours of discovering it; if not restored, the
+        body must re-post notice for another date and time.
+      source: regs_940_cmr_29
+      section: 940 CMR 29.03(7)
+  confidence: high
+
+executive_session:
+  purposes:
+    - number: 1
+      summary: Discuss the reputation, character, physical condition, or mental health (not professional competence) of an individual, or the discipline or dismissal of, or complaints against, a public officer, employee, staff member, or individual.
+      chair_declaration_required: false
+      special_requirements: The individual must be notified in writing at least 48 hours ahead (unless waived in writing), may ask for open session, and has rights to be present, to have a representative, to speak, and to make an independent record.
+    - number: 2
+      summary: Strategy sessions in preparation for negotiations with nonunion personnel, or collective bargaining or contract negotiations with nonunion personnel.
+      chair_declaration_required: false
+      special_requirements: The chair usually names the party the body will be negotiating with (AG executive session checklist).
+    - number: 3
+      summary: Strategy for collective bargaining or litigation when an open meeting may have a detrimental effect on the body's bargaining or litigating position.
+      chair_declaration_required: true
+      special_requirements: The chair must declare that an open meeting may have a detrimental effect on the bargaining or litigating position; usually the litigation is named.
+    - number: 4
+      summary: Discuss the deployment of security personnel or devices, or strategies for it.
+      chair_declaration_required: false
+      special_requirements: ""
+    - number: 5
+      summary: Investigate charges of criminal misconduct or consider filing criminal complaints.
+      chair_declaration_required: false
+      special_requirements: ""
+    - number: 6
+      summary: Consider the purchase, exchange, lease, or value of real property when an open meeting may have a detrimental effect on the body's negotiating position.
+      chair_declaration_required: true
+      special_requirements: The chair must declare the detrimental effect on the negotiating position; usually the property is named.
+    - number: 7
+      summary: Comply with, or act under the authority of, a general or special law or federal grant-in-aid requirements.
+      chair_declaration_required: false
+      special_requirements: Cite the specific law or federal grant requirement that the discussion is held under.
+    - number: 8
+      summary: Consider or interview applicants for employment or appointment by a preliminary screening committee when an open meeting will have a detrimental effect in obtaining qualified applicants.
+      chair_declaration_required: true
+      special_requirements: The chair must declare the detrimental effect on obtaining qualified applicants; it does not apply after applicants have passed preliminary screening.
+    - number: 9
+      summary: Meet or confer with a mediator about litigation or a decision involving another party.
+      chair_declaration_required: false
+      special_requirements: The decision to mediate is made in open session, with the parties, issues, and purpose disclosed; no action on the mediated issues without open-session deliberation and approval.
+    - number: 10
+      summary: Trade secrets or competitively sensitive information of a governmental body acting as an energy supplier or municipal aggregator.
+      chair_declaration_required: false
+      special_requirements: Applies only to bodies acting under the utility licenses the statute names; not relevant to most boards of health.
+  source: statute_21
+  section: s. 21(a)
+  confidence: high
+  steps:
+    - Convene in open session first, with executive session listed as a topic on the notice.
+    - The chair states, in open session, the purpose (one or more of the ten) and every subject that can be revealed without defeating that purpose.
+    - A majority of the body votes to go into executive session, and each member's vote is recorded by roll call in the minutes.
+    - The chair publicly announces whether the open session will reconvene afterward.
+    - Accurate records of the executive session are kept, and every vote in executive session is by roll call.
+  steps_source: ag_exec_checklist
+  steps_section: Public Body Checklist for Entering Executive Session
+  only_for_listed_purposes: >-
+    A public body may meet in executive session only for the listed purposes. Pick the purpose first;
+    do not pick a purpose to fit a topic that is not on the list.
+
+minutes:
+  required_elements:
+    - id: date_time_place
+      text: Date, time, and place of the meeting.
+    - id: members
+      text: Members present and absent.
+    - id: discussion_summary
+      text: A summary of the discussion of each subject, enough that someone who was not there can understand what happened and how the body reached its decisions (not a transcript, and not only a statement that a topic was discussed).
+    - id: documents
+      text: A list of the documents and other exhibits used at the meeting (they need not be attached).
+    - id: decisions_votes
+      text: The decisions made and actions taken, including the record of all votes (a roll-call vote is recorded by roll call even when unanimous).
+  source: ag_minutes_checklist
+  section: Checklist; G.L. c. 30A, s. 22(a); 940 CMR 29.11(1)
+  confidence: high
+  conditional:
+    - when: One or more members take part remotely
+      text: The minutes name each member taking part remotely, and every vote is taken by roll call and recorded by roll call, even when unanimous.
+      source: ag_minutes_checklist
+      section: 940 CMR 29.10(7)(b)-(c)
+    - when: The body meets in executive session
+      text: Executive session minutes have the same level of detail, every vote is by roll call, and the minutes are created, maintained, and reviewed at reasonable intervals to decide whether they can be released.
+      source: ag_minutes_checklist
+      section: G.L. c. 30A, s. 22(b), (g)
+  approval:
+    text: >-
+      Open session minutes are created and approved in a timely manner: generally within the next three
+      meetings or 30 days, whichever is later, unless there is good cause for delay (the Attorney
+      General encourages approval at the next meeting). Minutes of an open session, approved or in draft,
+      must be made available to any person who asks within 10 days. The notes, recordings, and other
+      materials used to prepare open session minutes are public records.
+    source: regs_940_cmr_29
+    section: 940 CMR 29.11(2); G.L. c. 30A, s. 22(c), (e)
+    confidence: high
+    days_to_approve: 30
+    days_to_release_on_request: 10
+  no_secret_ballot: No vote at an open session may be by secret ballot.
+  no_secret_ballot_source: statute_22
+
+chair_duties:
+  - text: Announce at the start of any meeting with remote members the name of each member taking part remotely.
+    source: ag_chair_checklist
+    section: Remote Participation
+  - text: Tell attendees at the beginning of the meeting about any video or audio recording of the open session.
+    source: ag_chair_checklist
+    section: Announcement of Meeting Recording
+  - text: Public comment is at the chair's discretion; the chair may set its procedures and may remove a person who keeps disrupting after a clear warning.
+    source: ag_chair_checklist
+    section: Public Participation
+  - text: Open Meeting Law complaints are filed with the chair; within 14 business days the chair gives it to the members and the body meets to review it, takes remedial action if appropriate, and sends the complainant (copy to the Attorney General) a response.
+    source: ag_chair_checklist
+    section: Open Meeting Law Complaints
+
+remote_participation:
+  text: >-
+    The Attorney General's Guide says the Chapter 20 of the Acts of 2021 provisions that let a body offer
+    "adequate, alternative" public access to a meeting (rather than in-person access), and that suspend
+    the quorum-at-the-meeting-location requirement, expire on June 30, 2027 unless extended. The tool does
+    not model remote participation eligibility; check the current Attorney General guidance before you
+    plan a remote meeting.
+  source: ag_guide
+  section: Meetings of Public Bodies; Remote Participation
+  confidence: medium
+
+not_verified:
+  - item: How the 48 hours are counted across a weekend or holiday
+    detail: >-
+      The statute says 48 hours "excluding Saturdays, Sundays and legal holidays". No Attorney General
+      worked example was found. The calculator takes whole Saturdays, Sundays, and legal holidays out of
+      the count (a Monday 6 pm meeting needs posting by Thursday 6 pm). If your clerk or town counsel
+      counts differently, follow them.
+  - item: The municipal clerk's filing deadline
+    detail: The clerk may need the notice earlier than the posting deadline; ask your clerk.
+  - item: Notice required by other laws
+    detail: Hearings and some permits (for example under a specific statute or regulation) can require longer or published notice; the tool checks only the Open Meeting Law.
+  - item: Remote participation after June 30, 2027
+    detail: See remote_participation; not modeled.
+  - item: Attorney General decisions
+    detail: Open Meeting Law determinations after 2026-11-12 and decisions about your own board were not searched.
+  - item: Legal advice
+    detail: This is decision support, not legal advice; ask town counsel or the Attorney General's Division of Open Government (617-963-2540, openmeeting@mass.gov) when in doubt.
